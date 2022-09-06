@@ -3,10 +3,10 @@
 #region using directives
 
 using HarmonyLib;
-using LinqFasterer;
 using System;
 using System.Collections.Generic;
 using System.Reflection;
+using System.Linq;
 
 #endregion using directives
 
@@ -24,10 +24,10 @@ public static class MethodBaseExtensions
         var patches = Harmony.GetPatchInfo(method);
         if (patches is null) yield break;
 
-        foreach (var patch in patches.Prefixes.WhereF(predicate)) yield return patch;
-        foreach (var patch in patches.Postfixes.WhereF(predicate)) yield return patch;
-        foreach (var patch in patches.Transpilers.WhereF(predicate)) yield return patch;
-        foreach (var patch in patches.Finalizers.WhereF(predicate)) yield return patch;
+        foreach (var patch in patches.Prefixes.Where(predicate)) yield return patch;
+        foreach (var patch in patches.Postfixes.Where(predicate)) yield return patch;
+        foreach (var patch in patches.Transpilers.Where(predicate)) yield return patch;
+        foreach (var patch in patches.Finalizers.Where(predicate)) yield return patch;
     }
 
     /// <summary>Get all the transpilers applied to this method and that satisfy a given predicate.</summary>
@@ -38,7 +38,7 @@ public static class MethodBaseExtensions
         var patches = Harmony.GetPatchInfo(method);
         if (patches is null) yield break;
 
-        foreach (var patch in patches.Transpilers.WhereF(predicate)) yield return patch;
+        foreach (var patch in patches.Transpilers.Where(predicate)) yield return patch;
     }
 
     /// <summary>Get the patches applied to this method with the specified unique ID.</summary>

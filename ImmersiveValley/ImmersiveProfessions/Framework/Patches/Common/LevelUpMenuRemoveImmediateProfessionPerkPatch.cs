@@ -5,11 +5,11 @@
 using DaLion.Common;
 using DaLion.Common.Harmony;
 using HarmonyLib;
-using LinqFasterer;
 using StardewValley.Menus;
 using StardewValley.Tools;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
 using Ultimates;
@@ -37,7 +37,7 @@ internal sealed class LevelUpMenuRemoveImmediateProfessionPerkPatch : DaLion.Com
 
         // remove immediate perks
         if (profession == Profession.Aquarist)
-            foreach (var pond in Game1.getFarm().buildings.WhereF(p =>
+            foreach (var pond in Game1.getFarm().buildings.Where(p =>
                          (p.owner.Value == Game1.player.UniqueMultiplayerID || !Context.IsMultiplayer) &&
                          !p.isUnderConstruction() && p.maxOccupants.Value > 10))
             {
@@ -61,9 +61,9 @@ internal sealed class LevelUpMenuRemoveImmediateProfessionPerkPatch : DaLion.Com
         // unregister Ultimate
         if (Game1.player.get_Ultimate()?.Index != (UltimateIndex)whichProfession) return;
 
-        if (Game1.player.professions.AnyF(p => p is >= 26 and < 30))
+        if (Game1.player.professions.Any(p => p is >= 26 and < 30))
         {
-            var firstIndex = (UltimateIndex)Game1.player.professions.FirstF(p => p is >= 26 and < 30);
+            var firstIndex = (UltimateIndex)Game1.player.professions.First(p => p is >= 26 and < 30);
             Game1.player.set_Ultimate(Ultimate.FromIndex(firstIndex));
         }
         else

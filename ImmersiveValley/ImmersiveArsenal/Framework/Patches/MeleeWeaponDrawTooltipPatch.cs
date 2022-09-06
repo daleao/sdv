@@ -5,11 +5,11 @@
 using Common.Extensions.Reflection;
 using Enchantments;
 using HarmonyLib;
-using LinqFasterer;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using StardewValley.Tools;
 using System;
+using System.Linq;
 
 #endregion using directives
 
@@ -54,28 +54,6 @@ internal sealed class MeleeWeaponDrawTooltipPatch : Common.Harmony.HarmonyPatch
                 __instance.maxDamage.Value), font, new(x + 68, y + 28), co * 0.9f * alpha);
         y += (int)Math.Max(font.MeasureString("TT").Y, 48f);
 
-        // write bonus knockback
-        if (Math.Abs(__instance.knockback.Value - __instance.defaultKnockBackForThisType(__instance.type.Value)) >
-            0.01f)
-        {
-            co = Game1.textColor;
-            if (__instance.hasEnchantmentOfType<AmethystEnchantment>()) co = new(0, 120, 120);
-
-            Utility.drawWithShadow(spriteBatch, Game1.mouseCursors, new(x + 20, y + 20), new(70, 428, 10, 10),
-                Color.White, 0f, Vector2.Zero, 4f, false, 1f);
-            Utility.drawTextWithShadow(spriteBatch,
-                Game1.content.LoadString("Strings\\UI:ItemHover_Weight",
-                    (((int)Math.Ceiling(Math.Abs(__instance.knockback.Value -
-                                                 __instance.defaultKnockBackForThisType(__instance.type.Value)) *
-                                        10f) > __instance.defaultKnockBackForThisType(__instance.type.Value))
-                        ? "+"
-                        : "") + (int)Math.Ceiling(Math.Abs(__instance.knockback.Value -
-                                                           __instance.defaultKnockBackForThisType(
-                                                               __instance.type.Value)) * 10f)), font,
-                new(x + 68, y + 28), co * 0.9f * alpha);
-            y += (int)Math.Max(font.MeasureString("TT").Y, 48f);
-        }
-
         // write bonus crit rate
         var effectiveCritChance = __instance.critChance.Value;
         if (__instance.type.Value == 1)
@@ -110,6 +88,28 @@ internal sealed class MeleeWeaponDrawTooltipPatch : Common.Harmony.HarmonyPatch
                 Game1.content.LoadString("Strings\\UI:ItemHover_CritPowerBonus",
                     (int)((__instance.critMultiplier.Value - 3f) / 0.02)), font, new(x + 204, y + 28),
                 co * 0.9f * alpha);
+            y += (int)Math.Max(font.MeasureString("TT").Y, 48f);
+        }
+
+        // write bonus knockback
+        if (Math.Abs(__instance.knockback.Value - __instance.defaultKnockBackForThisType(__instance.type.Value)) >
+            0.01f)
+        {
+            co = Game1.textColor;
+            if (__instance.hasEnchantmentOfType<AmethystEnchantment>()) co = new(0, 120, 120);
+
+            Utility.drawWithShadow(spriteBatch, Game1.mouseCursors, new(x + 20, y + 20), new(70, 428, 10, 10),
+                Color.White, 0f, Vector2.Zero, 4f, false, 1f);
+            Utility.drawTextWithShadow(spriteBatch,
+                Game1.content.LoadString("Strings\\UI:ItemHover_Weight",
+                    (((int)Math.Ceiling(Math.Abs(__instance.knockback.Value -
+                                                 __instance.defaultKnockBackForThisType(__instance.type.Value)) *
+                                        10f) > __instance.defaultKnockBackForThisType(__instance.type.Value))
+                        ? "+"
+                        : "") + (int)Math.Ceiling(Math.Abs(__instance.knockback.Value -
+                                                           __instance.defaultKnockBackForThisType(
+                                                               __instance.type.Value)) * 10f)), font,
+                new(x + 68, y + 28), co * 0.9f * alpha);
             y += (int)Math.Max(font.MeasureString("TT").Y, 48f);
         }
 
@@ -171,7 +171,7 @@ internal sealed class MeleeWeaponDrawTooltipPatch : Common.Harmony.HarmonyPatch
 
         co = new(120, 0, 210);
         // write other enchantments
-        foreach (var enchantment in __instance.enchantments.WhereF(enchantment => enchantment.ShouldBeDisplayed()))
+        foreach (var enchantment in __instance.enchantments.Where(enchantment => enchantment.ShouldBeDisplayed()))
         {
             Utility.drawWithShadow(spriteBatch, Game1.mouseCursors2, new(x + 20, y + 20), new(127, 35, 10, 10),
                 Color.White, 0f, Vector2.Zero, 4f, false, 1f);

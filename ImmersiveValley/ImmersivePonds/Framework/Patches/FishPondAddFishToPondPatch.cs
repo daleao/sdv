@@ -7,9 +7,9 @@ using Common.Extensions;
 using Common.Extensions.Stardew;
 using Extensions;
 using HarmonyLib;
-using LinqFasterer;
 using StardewValley.Buildings;
 using System.IO;
+using System.Linq;
 
 #endregion using directives
 
@@ -36,7 +36,7 @@ internal sealed class FishPondAddFishToPondPatch : Common.Harmony.HarmonyPatch
                     .Read("FamilyQualities", $"{__instance.Read<int>("FamilyLivingHere")},0,0,0")
                     .ParseList<int>();
                 if (familyQualities.Count != 4 ||
-                    familyQualities.SumF() != __instance.Read<int>("FamilyLivingHere"))
+                    familyQualities.Sum() != __instance.Read<int>("FamilyLivingHere"))
                     ThrowHelper.ThrowInvalidDataException("FamilyQualities data had incorrect number of values.");
 
                 ++familyQualities[fish.Quality == 4 ? 3 : fish.Quality];
@@ -63,7 +63,7 @@ internal sealed class FishPondAddFishToPondPatch : Common.Harmony.HarmonyPatch
                 var fishQualities = __instance.Read("FishQualities",
                         $"{__instance.FishCount - __instance.Read<int>("FamilyLivingHere") - 1},0,0,0") // already added at this point, so consider - 1
                     .ParseList<int>();
-                if (fishQualities.Count != 4 || fishQualities.AnyF(q => 0 > q || q > __instance.FishCount - 1))
+                if (fishQualities.Count != 4 || fishQualities.Any(q => 0 > q || q > __instance.FishCount - 1))
                     ThrowHelper.ThrowInvalidDataException("FishQualities data had incorrect number of values.");
 
                 ++fishQualities[fish.Quality == 4 ? 3 : fish.Quality];

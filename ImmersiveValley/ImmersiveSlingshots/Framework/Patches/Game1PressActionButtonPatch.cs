@@ -2,7 +2,6 @@
 
 #region using directives
 
-using Common.Attributes;
 using Extensions;
 using HarmonyLib;
 using StardewValley.Tools;
@@ -10,7 +9,7 @@ using VirtualProperties;
 
 #endregion using directives
 
-[UsedImplicitly, Deprecated]
+[UsedImplicitly]
 internal sealed class Game1PressActionButtonPatch : Common.Harmony.HarmonyPatch
 {
     /// <summary>Construct an instance.</summary>
@@ -25,7 +24,7 @@ internal sealed class Game1PressActionButtonPatch : Common.Harmony.HarmonyPatch
     [HarmonyPostfix]
     private static void Game1PressActionButtonPostfix(ref bool __result)
     {
-        if (!__result || !ModEntry.Config.EnableSlingshotSpecialMove) return;
+        if (!__result || !ModEntry.Config.EnableSlingshotSpecialMove || ModEntry.ProfessionsApi is not null) return;
 
         var player = Game1.player;
         if (player.CurrentTool is not Slingshot slingshot || slingshot.get_IsOnSpecial() || player.usingSlingshot ||

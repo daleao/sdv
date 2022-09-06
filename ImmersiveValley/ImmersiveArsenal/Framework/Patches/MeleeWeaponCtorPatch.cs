@@ -37,12 +37,12 @@ internal sealed class MeleeWeaponCtorPatch : Common.Harmony.HarmonyPatch
         switch (__instance.InitialParentTileIndex)
         {
             case Constants.DARK_SWORD_INDEX_I:
-                __instance.enchantments.Add(new DemonicEnchantment());
+                __instance.enchantments.Add(new CursedEnchantment());
                 __instance.specialItem = true;
                 __instance.Write("EnemiesSlain", 0.ToString());
                 break;
             case Constants.HOLY_BLADE_INDEX_I:
-                __instance.enchantments.Add(new HolyEnchantment());
+                __instance.enchantments.Add(new BlessedEnchantment());
                 __instance.specialItem = true;
                 break;
             case Constants.INFINITY_BLADE_INDEX_I:

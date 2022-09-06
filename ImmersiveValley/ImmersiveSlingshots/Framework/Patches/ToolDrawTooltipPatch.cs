@@ -4,12 +4,12 @@
 
 using Common.Extensions.Reflection;
 using HarmonyLib;
-using LinqFasterer;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using StardewValley.Tools;
 using System;
 using System.Text;
+using System.Linq;
 
 #endregion using directives
 
@@ -51,19 +51,6 @@ internal sealed class ToolDrawTooltipPatch : Common.Harmony.HarmonyPatch
             y += (int)Math.Max(font.MeasureString("TT").Y, 48f);
         }
 
-        // write bonus knockback
-        if (__instance.hasEnchantmentOfType<AmethystEnchantment>())
-        {
-            var amount =
-                $"+{__instance.GetEnchantmentLevel<AmethystEnchantment>() * 1}";
-            co = new(0, 120, 120);
-            Utility.drawWithShadow(spriteBatch, Game1.mouseCursors, new(x + 20, y + 20), new(70, 428, 10, 10),
-                Color.White, 0f, Vector2.Zero, 4f, false, 1f);
-            Utility.drawTextWithShadow(spriteBatch, Game1.content.LoadString("Strings\\UI:ItemHover_Weight", amount),
-                font, new(x + 68, y + 28), co * 0.9f * alpha);
-            y += (int)Math.Max(font.MeasureString("TT").Y, 48f);
-        }
-
         // write bonus crit rate
         if (__instance.hasEnchantmentOfType<AquamarineEnchantment>())
         {
@@ -91,7 +78,20 @@ internal sealed class ToolDrawTooltipPatch : Common.Harmony.HarmonyPatch
             y += (int)Math.Max(font.MeasureString("TT").Y, 48f);
         }
 
-        // write bonus charge speed
+        // write bonus knockback
+        if (__instance.hasEnchantmentOfType<AmethystEnchantment>())
+        {
+            var amount =
+                $"+{__instance.GetEnchantmentLevel<AmethystEnchantment>() * 1}";
+            co = new(0, 120, 120);
+            Utility.drawWithShadow(spriteBatch, Game1.mouseCursors, new(x + 20, y + 20), new(70, 428, 10, 10),
+                Color.White, 0f, Vector2.Zero, 4f, false, 1f);
+            Utility.drawTextWithShadow(spriteBatch, Game1.content.LoadString("Strings\\UI:ItemHover_Weight", amount),
+                font, new(x + 68, y + 28), co * 0.9f * alpha);
+            y += (int)Math.Max(font.MeasureString("TT").Y, 48f);
+        }
+
+        // write bonus fire speed
         if (__instance.hasEnchantmentOfType<EmeraldEnchantment>())
         {
             var amount = $"+{__instance.GetEnchantmentLevel<EmeraldEnchantment>() * 0.1f:p0}";
@@ -104,10 +104,10 @@ internal sealed class ToolDrawTooltipPatch : Common.Harmony.HarmonyPatch
         }
 
         // write bonus cooldown reduction
-        var garnetEnchantments = __instance.enchantments.WhereF(e => e.GetType().Name.Contains("GarnetEnchantment")).ToArrayF();
+        var garnetEnchantments = __instance.enchantments.Where(e => e.GetType().Name.Contains("GarnetEnchantment")).ToArray();
         if (garnetEnchantments.Length > 0)
         {
-            var amount = $"{garnetEnchantments.SumF(e => e.GetLevel()) * 0.1f:p0}";
+            var amount = $"{garnetEnchantments.Sum(e => e.GetLevel()) * 0.1f:p0}";
             co = new(0, 120, 120);
             Utility.drawWithShadow(spriteBatch, Game1.mouseCursors, new(x + 20, y + 20), new(150, 428, 10, 10),
                 Color.White, 0f, Vector2.Zero, 4f, false, 1f);
@@ -144,7 +144,7 @@ internal sealed class ToolDrawTooltipPatch : Common.Harmony.HarmonyPatch
 
         // write other enchantments
         co = new(120, 0, 210);
-        foreach (var enchantment in __instance.enchantments.WhereF(enchantment => enchantment.ShouldBeDisplayed()))
+        foreach (var enchantment in __instance.enchantments.Where(enchantment => enchantment.ShouldBeDisplayed()))
         {
             Utility.drawWithShadow(spriteBatch, Game1.mouseCursors2, new(x + 20, y + 20), new(127, 35, 10, 10),
                 Color.White, 0f, Vector2.Zero, 4f, false, 1f);

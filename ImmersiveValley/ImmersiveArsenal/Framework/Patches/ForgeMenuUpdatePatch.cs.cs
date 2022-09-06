@@ -60,7 +60,7 @@ internal sealed class ForgeMenuUpdatePatch : Common.Harmony.HarmonyPatch
                     new CodeInstruction(OpCodes.Ldloc_S, helper.Locals[9]),
                     new CodeInstruction(OpCodes.Call,
                         typeof(Tool).RequireMethod(nameof(Tool.hasEnchantmentOfType))
-                            .MakeGenericMethod(typeof(HolyEnchantment))),
+                            .MakeGenericMethod(typeof(BlessedEnchantment))),
                     new CodeInstruction(OpCodes.Brfalse_S, vanillaUnforge),
                     new CodeInstruction(OpCodes.Ldarg_0),
                     new CodeInstruction(OpCodes.Ldloc_3, helper.Locals[9]),

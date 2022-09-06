@@ -153,7 +153,32 @@ public static class ThrowHelperExtensions
     /// <param name="value">The unexpected enum value.</param>
     /// <exception cref="NotImplementedException">Thrown with the specified parameters.</exception>
     [DoesNotReturn]
+    public static void ThrowUnexpectedEnumValueException<TEnum>(int value)
+    {
+        throw new UnexpectedEnumValueException<TEnum>(value);
+    }
+
+    /// <summary>
+    /// Throws a new <see cref="UnexpectedEnumValueException{T}"/>.
+    /// </summary>
+    /// <typeparam name="TEnum">The enum type that received an unexpected value.</typeparam>
+    /// <param name="value">The unexpected enum value.</param>
+    /// <exception cref="NotImplementedException">Thrown with the specified parameters.</exception>
+    [DoesNotReturn]
     public static void ThrowUnexpectedEnumValueException<TEnum>(TEnum value)
+    {
+        throw new UnexpectedEnumValueException<TEnum>(value);
+    }
+
+    /// <summary>
+    /// Throws a new <see cref="UnexpectedEnumValueException{T}"/>.
+    /// </summary>
+    /// <typeparam name="TEnum">The enum type that received an unexpected value.</typeparam>
+    /// <typeparam name="TReturn">The return type expected by the method where the exception is thrown.</typeparam>
+    /// <param name="value">The unexpected enum value.</param>
+    /// <exception cref="NotImplementedException">Thrown with the specified parameters.</exception>
+    [DoesNotReturn]
+    public static TReturn ThrowUnexpectedEnumValueException<TEnum, TReturn>(int value)
     {
         throw new UnexpectedEnumValueException<TEnum>(value);
     }

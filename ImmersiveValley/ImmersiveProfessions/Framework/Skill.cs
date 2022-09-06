@@ -3,7 +3,6 @@
 #region using directives
 
 using Ardalis.SmartEnum;
-using LinqFasterer;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -41,7 +40,7 @@ public class Skill : SmartEnum<Skill>, ISkill
     public float BaseExperienceMultiplier => ModEntry.Config.BaseSkillExpMultipliers[Value];
 
     /// <inheritdoc />
-    public IEnumerable<int> NewLevels => Game1.player.newLevels.WhereF(p => p.X == Value).SelectF(p => p.Y);
+    public IEnumerable<int> NewLevels => Game1.player.newLevels.Where(p => p.X == Value).Select(p => p.Y);
 
     /// <inheritdoc />
     public IList<IProfession> Professions { get; } = new List<IProfession>();

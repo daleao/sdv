@@ -6,7 +6,6 @@ using Exceptions;
 using Extensions.Collections;
 using Extensions.Reflection;
 using HarmonyLib;
-using LinqFasterer;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -87,7 +86,7 @@ public class ILHelper
         var reversedInstructions = Instructions.Clone();
         reversedInstructions.Reverse();
 
-        var index = Instructions.Count - reversedInstructions.IndexOf(pattern.ReverseF()) - pattern.Length;
+        var index = Instructions.Count - reversedInstructions.IndexOf(pattern.Reverse().ToArray()) - pattern.Length;
         if (index < 0) ThrowHelperExtensions.ThrowPatternNotFoundException(pattern, Original, Snitch);
 
         _indexStack.Push(index);
@@ -113,7 +112,7 @@ public class ILHelper
         reversedInstructions.Reverse();
 
         var index = Instructions.Count -
-                    reversedInstructions.IndexOf(pattern.ReverseF(), Instructions.Count - CurrentIndex) -
+                    reversedInstructions.IndexOf(pattern.Reverse().ToArray(), Instructions.Count - CurrentIndex) -
                     pattern.Length;
         if (index >= Instructions.Count) ThrowHelperExtensions.ThrowPatternNotFoundException(pattern, Original, Snitch);
 
@@ -288,7 +287,7 @@ public class ILHelper
     /// <summary>Replace the labels of the code instruction at the currently pointed index.</summary>
     public ILHelper SetLabels(params Label[] labels)
     {
-        Instructions[CurrentIndex].labels = labels.ToListF();
+        Instructions[CurrentIndex].labels = labels.ToList();
         return this;
     }
 

@@ -4,7 +4,6 @@ namespace DaLion.Stardew.Professions.Framework.Ultimates;
 #region using directives
 
 using Events.GameLoop;
-using LinqFasterer;
 using Microsoft.Xna.Framework;
 using Netcode;
 using Sounds;
@@ -37,7 +36,7 @@ public sealed class Ambush : Ultimate
 
     /// <summary>Whether the double crit. power buff is active.</summary>
     internal bool IsGrantingCritBuff =>
-        IsActive || Game1.buffsDisplay.otherBuffs.AnyF(b => b.which == BuffId - 4);
+        IsActive || Game1.buffsDisplay.otherBuffs.Any(b => b.which == BuffId - 4);
 
     internal double SecondsOutOfAmbush { get; set; } = double.MaxValue;
 
@@ -78,7 +77,7 @@ public sealed class Ambush : Ultimate
             }
         }
 
-        var critBuff = Game1.buffsDisplay.otherBuffs.FirstOrDefaultF(b => b.which == BuffId - 4);
+        var critBuff = Game1.buffsDisplay.otherBuffs.FirstOrDefault(b => b.which == BuffId - 4);
         var duration = critBuff?.millisecondsDuration ?? MillisecondsDuration;
 
         Game1.buffsDisplay.removeOtherBuff(BuffId - 4);
@@ -106,7 +105,7 @@ public sealed class Ambush : Ultimate
     {
         base.Deactivate();
 
-        var buff = Game1.buffsDisplay.otherBuffs.FirstOrDefaultF(b => b.which == BuffId);
+        var buff = Game1.buffsDisplay.otherBuffs.FirstOrDefault(b => b.which == BuffId);
         var timeLeft = buff?.millisecondsDuration ?? 0;
         Game1.buffsDisplay.removeOtherBuff(BuffId);
         Game1.player.addedSpeed += 2;

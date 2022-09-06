@@ -6,10 +6,10 @@ using Common;
 using Common.Extensions.Reflection;
 using Common.Harmony;
 using HarmonyLib;
-using LinqFasterer;
 using StardewValley.Tools;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
 
@@ -77,7 +77,7 @@ internal sealed class EventSkipEventPatch : Common.Harmony.HarmonyPatch
 
     private static void AddSwordIfNecessary()
     {
-        if (Game1.player.Items.AllF(item => item is not MeleeWeapon weapon || weapon.isScythe()))
+        if (Game1.player.Items.All(item => item is not MeleeWeapon weapon || weapon.isScythe()))
             Game1.player.addItemByMenuIfNecessary(new MeleeWeapon(Constants.WOODEN_BLADE_INDEX_I));
     }
 

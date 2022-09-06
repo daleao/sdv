@@ -5,8 +5,8 @@
 using Common;
 using Common.Commands;
 using Common.Extensions.Stardew;
-using LinqFasterer;
 using StardewValley.Tools;
+using System.Linq;
 
 #endregion using directives
 
@@ -27,7 +27,7 @@ internal sealed class ReadyPurificationCommand : ConsoleCommand
     /// <inheritdoc />
     public override void Callback(string[] args)
     {
-        var darkSword = Game1.player.Items.FirstOrDefaultF(item => item is MeleeWeapon
+        var darkSword = Game1.player.Items.FirstOrDefault(item => item is MeleeWeapon
         {
             InitialParentTileIndex: Constants.DARK_SWORD_INDEX_I
         });

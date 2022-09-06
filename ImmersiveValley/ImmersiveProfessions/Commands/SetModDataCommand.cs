@@ -7,7 +7,7 @@ using Common.Commands;
 using Common.Extensions.Stardew;
 using Extensions;
 using Framework;
-using LinqFasterer;
+using System.Linq;
 
 #endregion using directives
 
@@ -34,7 +34,7 @@ internal sealed class SetModDataCommand : ConsoleCommand
             return;
         }
 
-        var reset = args.AnyF(a => a is "clear" or "reset");
+        var reset = args.Any(a => a is "clear" or "reset");
         if (reset)
         {
             SetEcologistItemsForaged(null);
@@ -110,13 +110,13 @@ internal sealed class SetModDataCommand : ConsoleCommand
 
     private string GetUsage()
     {
-        var result = $"\n\nUsage: {Handler.EntryCommand} {Triggers.FirstF()} <field> <value>";
+        var result = $"\n\nUsage: {Handler.EntryCommand} {Triggers.First()} <field> <value>";
         result += "\n\nParameters:";
         result += "\n\t<field>\t- the name of the field";
         result += "\\n\t<value>\t- the desired new value";
         result += "\n\nExamples:";
-        result += $"\n\t{Handler.EntryCommand} {Triggers.FirstF()} EcologistItemsForaged 100";
-        result += $"\n\t{Handler.EntryCommand} {Triggers.FirstF()} trash 500";
+        result += $"\n\t{Handler.EntryCommand} {Triggers.First()} EcologistItemsForaged 100";
+        result += $"\n\t{Handler.EntryCommand} {Triggers.First()} trash 500";
         result += "\n\nAvailable data fields:";
         result += $"\n\t- EcologistItemsForaged (shortcut 'forages')";
         result += $"\n\t- GemologistMineralsCollected (shortcut 'minerals')";

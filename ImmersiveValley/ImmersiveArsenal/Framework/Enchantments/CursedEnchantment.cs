@@ -10,7 +10,7 @@ using System;
 #endregion using directives
 
 /// <summary>The secondary <see cref="BaseWeaponEnchantment"/> which characterizes the Dark Sword.</summary>
-public class DemonicEnchantment : BaseWeaponEnchantment
+public class CursedEnchantment : BaseWeaponEnchantment
 {
     public override bool IsSecondaryEnchantment() => true;
 
@@ -28,7 +28,7 @@ public class DemonicEnchantment : BaseWeaponEnchantment
     protected override void _OnMonsterSlay(Monster m, GameLocation location, Farmer who)
     {
         var sword = who.CurrentTool as MeleeWeapon;
-        if (sword?.hasEnchantmentOfType<DemonicEnchantment>() != true)
+        if (sword?.hasEnchantmentOfType<CursedEnchantment>() != true)
             ThrowHelper.ThrowInvalidOperationException("Current tool does not have Demonic Enchantment");
 
         sword.Increment("EnemiesSlain");

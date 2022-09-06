@@ -6,7 +6,6 @@ using DaLion.Common;
 using Events.GameLoop;
 using Extensions;
 using HarmonyLib;
-using LinqFasterer;
 using System;
 using System.Linq;
 using System.Reflection;
@@ -61,17 +60,17 @@ internal sealed class GameLocationPerformActionPatch : DaLion.Common.Harmony.Har
                 var options = Array.Empty<Response>();
 
                 if (Game1.player.get_Ultimate() is not null)
-                    options = options.ConcatF(new Response[]
+                    options = options.Concat(new Response[]
                     {
                         new("changeUlt", ModEntry.i18n.Get("prestige.dogstatue.changeult") +
                                          (ModEntry.Config.ChangeUltCost > 0
                                              ? ' ' + ModEntry.i18n.Get("prestige.dogstatue.cost",
                                                  new {cost = ModEntry.Config.ChangeUltCost})
                                              : string.Empty))
-                    }).ToArrayF();
+                    }).ToArray();
 
                 if (Skill.List.Any(s => GameLocation.canRespec(s)))
-                    options = options.ConcatF(new Response[]
+                    options = options.Concat(new Response[]
                     {
                         new("prestigeRespec",
                             ModEntry.i18n.Get("prestige.dogstatue.respec") +
@@ -79,7 +78,7 @@ internal sealed class GameLocationPerformActionPatch : DaLion.Common.Harmony.Har
                                 ? ' ' + ModEntry.i18n.Get("prestige.dogstatue.cost",
                                     new {cost = ModEntry.Config.PrestigeRespecCost})
                                 : string.Empty))
-                    }).ToArrayF();
+                    }).ToArray();
 
                 __instance.createQuestionDialogue(message, options, "dogStatue");
                 return false; // don't run original logic

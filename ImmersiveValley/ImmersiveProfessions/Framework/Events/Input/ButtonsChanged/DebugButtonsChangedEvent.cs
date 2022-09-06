@@ -7,7 +7,6 @@ using Common.Attributes;
 using Common.Events;
 using Common.Extensions;
 using Display;
-using LinqFasterer;
 using StardewModdingAPI.Events;
 using System.Linq;
 
@@ -46,7 +45,7 @@ internal sealed class DebugButtonsChangedEvent : ButtonsChangedEvent
             var component = DebugRenderedActiveMenuEvent.FocusedComponent;
             var name = string.IsNullOrEmpty(component.name) ? "Anon" : component.name;
             var message = $"[{component.myID}]: {name} ({component.GetType().Name})";
-            message = component.GetType().GetFields().WhereF(f => !f.Name.IsIn("myID", "name")).AggregateF(message,
+            message = component.GetType().GetFields().Where(f => !f.Name.IsIn("myID", "name")).Aggregate(message,
                 (current, field) => current + $"\n\t- {field.Name}: {field.GetValue(component)}");
             Log.D(message);
         }
@@ -55,8 +54,8 @@ internal sealed class DebugButtonsChangedEvent : ButtonsChangedEvent
             if (Game1.currentLocation.Objects.TryGetValue(e.Cursor.Tile, out var o))
             {
                 var message = $"[{o.ParentSheetIndex}]: {o.Name} ({o.GetType().Name})";
-                message = o.GetType().GetFields().WhereF(f => !f.Name.IsIn("ParentSheetIndex", "Name"))
-                    .AggregateF(message, (current, field) => current + $"\n\t- {field.Name}: {field.GetValue(o)}");
+                message = o.GetType().GetFields().Where(f => !f.Name.IsIn("ParentSheetIndex", "Name"))
+                    .Aggregate(message, (current, field) => current + $"\n\t- {field.Name}: {field.GetValue(o)}");
                 Log.D(message);
             }
             else

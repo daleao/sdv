@@ -5,10 +5,10 @@ namespace DaLion.Stardew.Ponds.Framework.Patches;
 
 using Common.Extensions.Reflection;
 using HarmonyLib;
-using LinqFasterer;
 using StardewValley.Buildings;
 using StardewValley.GameData.FishPond;
 using System.Collections.Generic;
+using System.Linq;
 
 #endregion using directives
 
@@ -38,7 +38,7 @@ internal sealed class FishPondGetFishPondDataPatch : Common.Harmony.HarmonyPatch
         var fish_item = __instance.GetFishObject();
         foreach (var data_entry in list)
         {
-            if (data_entry.RequiredTags.AnyF(required_tag => !fish_item.HasContextTag(required_tag))) continue;
+            if (data_entry.RequiredTags.Any(required_tag => !fish_item.HasContextTag(required_tag))) continue;
 
             if (data_entry.SpawnTime == -1)
             {

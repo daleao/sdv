@@ -8,9 +8,9 @@ using Common.Extensions;
 using Common.Extensions.Reflection;
 using Common.Harmony;
 using HarmonyLib;
-using LinqFasterer;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
 
@@ -41,7 +41,7 @@ internal sealed class GenericObjectMachinePatches : Common.Harmony.HarmonyPatch
         yield return "Pathoschild.Stardew.Automate.Framework.GenericObjectMachine`1".ToType()
             .MakeGenericType(typeof(SObject))
             .GetMethods(BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.DeclaredOnly)
-            .FirstF(m => m.Name == "GenericPullRecipe" && m.GetParameters().Length == 3);
+            .First(m => m.Name == "GenericPullRecipe" && m.GetParameters().Length == 3);
         yield return "Pathoschild.Stardew.Automate.Framework.Machines.Objects.CheesePressMachine".ToType()
             .RequireMethod("SetInput");
     }

@@ -72,9 +72,15 @@ internal sealed class GenericModConfigMenuIntegrationForImmersiveSlingshots
             )
             .AddCheckbox(
                 () => "Allow Slingshot Special Move",
-                () => "Add a new stunning smack special move for slingshots.",
+                () => "Add a new stunning smack special move for slingshots. This does nothing if Immersive Professions is installed.",
                 config => config.EnableSlingshotSpecialMove,
                 (config, value) => config.EnableSlingshotSpecialMove = value
+            )
+            .AddCheckbox(
+                () => "Face Mouse Cursor",
+                () => "Face the current cursor position before swinging your slingshot special. This does nothing if Immersive Professions is installed.",
+                config => config.FaceMouseCursor,
+                (config, value) => config.FaceMouseCursor = value
             )
             .AddCheckbox(
                 () => "Remove Slingshot Grace Period",

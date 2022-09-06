@@ -7,10 +7,10 @@ using Common.Events;
 using Common.Extensions.SMAPI;
 using Common.Extensions.Stardew;
 using Extensions;
-using LinqFasterer;
 using StardewModdingAPI.Events;
 using System;
 using System.Globalization;
+using System.Linq;
 
 #endregion using directives
 
@@ -29,7 +29,7 @@ internal sealed class TaxDayEndingEvent : DayEndingEvent
         if (Game1.dayOfMonth == 0 && Game1.currentSeason == "spring" && Game1.year == 1)
             player.mailForTomorrow.Add($"{ModEntry.Manifest.UniqueID}/TaxIntro");
 
-        var amountSold = Game1.getFarm().getShippingBin(player).SumF(item =>
+        var amountSold = Game1.getFarm().getShippingBin(player).Sum(item =>
             item is SObject @object ? @object.sellToStorePrice() * @object.Stack : item.salePrice() / 2);
         if (amountSold > 0 && !player.hasOrWillReceiveMail($"{ModEntry.Manifest.UniqueID}/TaxIntro"))
             player.mailForTomorrow.Add($"{ModEntry.Manifest.UniqueID}/TaxIntro");

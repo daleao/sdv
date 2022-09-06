@@ -5,7 +5,7 @@
 using Common;
 using Common.Commands;
 using Framework;
-using LinqFasterer;
+using System.Linq;
 
 #endregion using directives
 
@@ -27,8 +27,8 @@ internal sealed class MaxAnimalFriendshipCommand : ConsoleCommand
     /// <inheritdoc />
     public override void Callback(string[] args)
     {
-        var animals = Game1.getFarm().getAllFarmAnimals().WhereF(a =>
-            a.ownerID.Value == Game1.player.UniqueMultiplayerID || !Context.IsMultiplayer).ToListF();
+        var animals = Game1.getFarm().getAllFarmAnimals().Where(a =>
+            a.ownerID.Value == Game1.player.UniqueMultiplayerID || !Context.IsMultiplayer).ToList();
         var count = animals.Count;
         if (count <= 0)
         {

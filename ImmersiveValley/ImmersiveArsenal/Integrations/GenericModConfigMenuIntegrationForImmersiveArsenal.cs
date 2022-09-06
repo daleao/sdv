@@ -54,16 +54,6 @@ internal sealed class GenericModConfigMenuIntegrationForImmersiveArsenal
 
             .AddSectionTitle(() => "Melee Weapon Settings")
             .AddCheckbox(
-                () => "Rebalanced Weapons",
-                () => "Make weapons more unique and useful.",
-                config => config.RebalancedWeapons,
-                (config, value) =>
-                {
-                    config.RebalancedWeapons = value;
-                    ModEntry.ModHelper.GameContent.InvalidateCacheAndLocalized("Data/weapons");
-                }
-            )
-            .AddCheckbox(
                 () => "Immersive Club Smash",
                 () => "A club smash AoE will inflict guaranteed critical damage on burrowing enemies, but completely miss flying enemies.",
                 config => config.BringBackStabbySwords,
@@ -127,6 +117,18 @@ internal sealed class GenericModConfigMenuIntegrationForImmersiveArsenal
 
 
             .AddSectionTitle(() => "Monster Settings")
+            .AddCheckbox(
+                () => "Improve Enemy Defense",
+                () => "Effectively squares the defense of enemy monsters.",
+                config => config.ImprovedEnemyDefense,
+                (config, value) => config.ImprovedEnemyDefense = value
+            )
+            .AddCheckbox(
+                () => "Crits Ignore Defense",
+                () => "Damage mitigation is skipped for critical hits.",
+                config => config.CritsIgnoreDefense,
+                (config, value) => config.CritsIgnoreDefense = value
+            )
             .AddNumberField(
                 () => "Monster Health Multiplier",
                 () => "Increases the health of all enemies.",
@@ -150,18 +152,6 @@ internal sealed class GenericModConfigMenuIntegrationForImmersiveArsenal
                 (config, value) => config.MonsterDefenseMultiplier = value,
                 1f,
                 3f
-            )
-            .AddCheckbox(
-                () => "Improve Enemy Defense",
-                () => "Effectively squares the defense of enemy monsters.",
-                config => config.ImprovedEnemyDefense,
-                (config, value) => config.ImprovedEnemyDefense = value
-            )
-            .AddCheckbox(
-                () => "Crits Ignore Defense",
-                () => "Damage mitigation is skipped for critical hits.",
-                config => config.CritsIgnoreDefense,
-                (config, value) => config.CritsIgnoreDefense = value
             )
             .AddCheckbox(
                 () => "Varied Monster Stats",

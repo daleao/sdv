@@ -5,7 +5,6 @@
 using Common;
 using Common.Commands;
 using Framework;
-using LinqFasterer;
 using System;
 using System.Linq;
 
@@ -63,7 +62,7 @@ internal sealed class SetSkillLevelsCommand : ConsoleCommand
             }
         }
 
-        var argsList = args.ToListF();
+        var argsList = args.ToList();
         while (argsList.Count > 0)
         {
             if (!int.TryParse(args[1], out var newLevel))
@@ -106,12 +105,12 @@ internal sealed class SetSkillLevelsCommand : ConsoleCommand
 
     private string GetUsage()
     {
-        var result = $"\n\nUsage: {Handler.EntryCommand} {Triggers.FirstF()} <skill1> <newLevel> <skill2> <newLevel> ...";
+        var result = $"\n\nUsage: {Handler.EntryCommand} {Triggers.First()} <skill1> <newLevel> <skill2> <newLevel> ...";
         result += "\n\nParameters:";
         result += "\n\t- <skill>\t- a valid skill name, or 'all'";
         result += "\n\t- <newLevel>\t- a valid integer level";
         result += "\n\nExamples:";
-        result += $"\n\t- {Handler.EntryCommand} {Triggers.FirstF()} farming 5 cooking 10";
+        result += $"\n\t- {Handler.EntryCommand} {Triggers.First()} farming 5 cooking 10";
         return result;
     }
 }

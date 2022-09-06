@@ -1,7 +1,7 @@
 ﻿namespace DaLion.Stardew.Arsenal.Framework.Enchantments;
 
 /// <summary>The secondary <see cref="BaseWeaponEnchantment"/> which characterizes the Holy Blade.</summary>
-public class HolyEnchantment : BaseWeaponEnchantment
+public class BlessedEnchantment : BaseWeaponEnchantment
 {
     public override bool IsSecondaryEnchantment() => true;
 

@@ -4,8 +4,8 @@
 
 using Common;
 using Common.Commands;
-using LinqFasterer;
 using StardewValley.Tools;
+using System.Linq;
 
 #endregion using directives
 
@@ -34,31 +34,31 @@ internal sealed class RemoveEnchantmentsCommand : ConsoleCommand
 
         while (args.Length > 0)
         {
-            var enchantment = slingshot.enchantments.FirstOrDefaultF(e =>
+            var enchantment = slingshot.enchantments.FirstOrDefault(e =>
                 e.GetType().Name.ToLowerInvariant().Contains(args[0].ToLowerInvariant()));
 
             if (enchantment is null)
             {
                 Log.W($"The {slingshot.DisplayName} does not have a {args[0]} enchantment.");
-                args = args.SkipF(1).ToArrayF();
+                args = args.Skip(1).ToArray();
                 continue;
             }
 
             slingshot.RemoveEnchantment(enchantment);
             Log.I($"Removed {enchantment.GetDisplayName()} enchantment from {slingshot.DisplayName}.");
 
-            args = args.SkipF(1).ToArrayF();
+            args = args.Skip(1).ToArray();
         }
     }
 
     /// <summary>Tell the dummies how to use the console command.</summary>
     private string GetUsage()
     {
-        var result = $"\n\nUsage: {Handler.EntryCommand} {Triggers.FirstF()} <enchantment>";
+        var result = $"\n\nUsage: {Handler.EntryCommand} {Triggers.First()} <enchantment>";
         result += "\n\nParameters:";
         result += "\n\t- <enchantment>: a slingshot enchantment";
         result += "\n\nExample:";
-        result += $"\n\t- {Handler.EntryCommand} {Triggers.FirstF()} gatling";
+        result += $"\n\t- {Handler.EntryCommand} {Triggers.First()} gatling";
         return result;
     }
 }

@@ -3,8 +3,8 @@
 #region using directives
 
 using Common.Events;
-using LinqFasterer;
 using StardewModdingAPI.Events;
+using System.Linq;
 
 #endregion using directives
 
@@ -21,7 +21,7 @@ internal sealed class ManualDetonationUpdateTickedEvent : UpdateTickedEvent
     {
         if (ModEntry.Config.ModKey.IsDown()) return;
 
-        foreach (var sprite in Game1.currentLocation.TemporarySprites.WhereF(sprite =>
+        foreach (var sprite in Game1.currentLocation.TemporarySprites.Where(sprite =>
                      sprite.bombRadius > 0 && sprite.totalNumberOfLoops == int.MaxValue))
             sprite.currentNumberOfLoops = sprite.totalNumberOfLoops - 1;
 

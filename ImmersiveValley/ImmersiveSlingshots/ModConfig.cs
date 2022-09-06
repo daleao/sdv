@@ -13,9 +13,11 @@ public class ModConfig
     public bool EnableSlingshotForges { get; set; } = true;
 
     /// <summary>Add new stunning smack special move for slingshots.</summary>
+    /// <remarks>Does not work with Immersive Professions!</remarks>
     public bool EnableSlingshotSpecialMove { get; set; } = true;
 
     /// <summary>Face the current cursor position before swinging your slingshot melee.</summary>
+    /// <remarks>Does not work with Immersive Professions!</remarks>
     public bool FaceMouseCursor { get; set; } = true;
 
     /// <summary>Projectiles should not be useless for the first 100ms.</summary>

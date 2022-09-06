@@ -14,12 +14,20 @@ using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
+using System.Linq;
 
 #endregion using directives
 
 [UsedImplicitly, RequiresMod("spacechase0.SpaceCore")]
 internal sealed class NewForgeMenuUpdatePatch : Common.Harmony.HarmonyPatch
 {
+    private static Lazy<Func<object, ClickableTextureComponent>> GetLeftIngredientSpot = new(() =>
+        "SpaceCore.Interface.NewForgeMenu"
+        .ToType()
+        .RequireField("leftIngredientSpot")
+        .CompileUnboundFieldGetterDelegate<object, ClickableTextureComponent>()
+    );
+
     /// <summary>Construct an instance.</summary>
     internal NewForgeMenuUpdatePatch()
     {
@@ -64,9 +72,9 @@ internal sealed class NewForgeMenuUpdatePatch : Common.Harmony.HarmonyPatch
                     new CodeInstruction(OpCodes.Ldc_I4, Constants.IRIDIUM_BAND_INDEX_I),
                     new CodeInstruction(OpCodes.Bne_Un_S, vanillaUnforge),
                     new CodeInstruction(OpCodes.Ldarg_0),
-                    new CodeInstruction(OpCodes.Ldloc_3, helper.Locals[15]),
+                    new CodeInstruction(OpCodes.Ldloc_S, helper.Locals[15]),
                     new CodeInstruction(OpCodes.Call,
-                        typeof(ForgeMenuUpdatePatch).RequireMethod(nameof(UnforgeIridiumBand))),
+                        typeof(NewForgeMenuUpdatePatch).RequireMethod(nameof(UnforgeIridiumBand))),
                     new CodeInstruction(OpCodes.Br_S, resumeExecution)
                 );
         }
@@ -85,18 +93,18 @@ internal sealed class NewForgeMenuUpdatePatch : Common.Harmony.HarmonyPatch
 
     #region injected subroutines
 
-    private static void UnforgeIridiumBand(ForgeMenu menu, CombinedRing iridiumBand)
+    private static void UnforgeIridiumBand(IClickableMenu menu, CombinedRing iridium)
     {
-        var combinedRings = new List<Ring>(iridiumBand.combinedRings);
-        iridiumBand.combinedRings.Clear();
-        foreach (var ring in combinedRings)
+        var combinedRings = new List<Ring>(iridium.combinedRings);
+        iridium.combinedRings.Clear();
+        foreach (var gemstone in combinedRings.Select(ring => Gemstone.FromRing(ring.ParentSheetIndex)))
         {
-            var gemstone = Utils.GemstoneByRing[ring.ParentSheetIndex];
             StardewValley.Utility.CollectOrDrop(new SObject(gemstone, 1));
             StardewValley.Utility.CollectOrDrop(new SObject(848, 5));
         }
-        StardewValley.Utility.CollectOrDrop(iridiumBand);
-        menu.leftIngredientSpot.item = null;
+
+        StardewValley.Utility.CollectOrDrop(new Ring(Constants.IRIDIUM_BAND_INDEX_I));
+        GetLeftIngredientSpot.Value(menu).item = null;
         Game1.playSound("coin");
     }
 

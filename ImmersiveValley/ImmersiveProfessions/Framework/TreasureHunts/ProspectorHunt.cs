@@ -7,7 +7,6 @@ using Common.Multiplayer;
 using Events.Display;
 using Events.GameLoop;
 using Extensions;
-using LinqFasterer;
 using Microsoft.Xna.Framework;
 using StardewValley.Locations;
 using StardewValley.Tools;
@@ -185,7 +184,7 @@ internal sealed class ProspectorHunt : TreasureHunt
                     if (possibles.Count == 0 || random.NextDouble() < 0.6) possibles.Add(378); // copper ore
 
                     possibles.Add(382); // coal
-                    treasuresAndQuantities.Add(possibles.ElementAtF(random.Next(possibles.Count)),
+                    treasuresAndQuantities.Add(possibles.ElementAt(random.Next(possibles.Count)),
                         random.Next(2, 7) * random.NextDouble() < 0.05 + Game1.player.LuckLevel * 0.015 ? 2 : 1);
                     if (random.NextDouble() < 0.05 + Game1.player.LuckLevel * 0.03)
                     {

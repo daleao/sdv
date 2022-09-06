@@ -4,8 +4,8 @@
 
 using Common;
 using Common.Commands;
-using LinqFasterer;
 using StardewValley.Tools;
+using System.Linq;
 
 #endregion using directives
 
@@ -53,32 +53,32 @@ internal sealed class AddEnchantmentsCommand : ConsoleCommand
             if (enchantment is null)
             {
                 Log.W($"Ignoring unknown enchantment {args[0]}.");
-                args = args.SkipF(1).ToArrayF();
+                args = args.Skip(1).ToArray();
                 continue;
             }
 
             if (!enchantment.CanApplyTo(tool))
             {
                 Log.W($"Cannot apply {enchantment.GetDisplayName()} enchantment to {tool.DisplayName}.");
-                args = args.SkipF(1).ToArrayF();
+                args = args.Skip(1).ToArray();
                 continue;
             }
 
             tool.enchantments.Add(enchantment);
             Log.I($"Applied {enchantment.GetDisplayName()} enchantment to {tool.DisplayName}.");
 
-            args = args.SkipF(1).ToArrayF();
+            args = args.Skip(1).ToArray();
         }
     }
 
     /// <summary>Tell the dummies how to use the console command.</summary>
     private string GetUsage()
     {
-        var result = $"\n\nUsage: {Handler.EntryCommand} {Triggers.FirstF()} <enchantment>";
+        var result = $"\n\nUsage: {Handler.EntryCommand} {Triggers.First()} <enchantment>";
         result += "\n\nParameters:";
         result += "\n\t- <enchantment>: a tool enchantment";
         result += "\n\nExample:";
-        result += $"\n\t- {Handler.EntryCommand} {Triggers.FirstF()} powerful";
+        result += $"\n\t- {Handler.EntryCommand} {Triggers.First()} powerful";
         return result;
     }
 }

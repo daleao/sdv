@@ -30,10 +30,10 @@ internal sealed class ArsenalSavedEvent : SavedEvent
             switch (weapon.InitialParentTileIndex)
             {
                 case Constants.DARK_SWORD_INDEX_I:
-                    weapon.enchantments.Add(new DemonicEnchantment());
+                    weapon.enchantments.Add(new CursedEnchantment());
                     break;
                 case Constants.HOLY_BLADE_INDEX_I:
-                    weapon.enchantments.Add(new HolyEnchantment());
+                    weapon.enchantments.Add(new BlessedEnchantment());
                     break;
                 case Constants.INFINITY_BLADE_INDEX_I:
                 case Constants.INFINITY_DAGGER_INDEX_I:

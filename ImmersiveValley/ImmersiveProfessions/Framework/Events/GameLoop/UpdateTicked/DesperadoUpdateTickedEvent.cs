@@ -6,12 +6,12 @@ using Common.Events;
 using Common.Extensions;
 using Display;
 using Extensions;
-using LinqFasterer;
 using Microsoft.Xna.Framework.Audio;
 using Sounds;
 using StardewModdingAPI.Events;
 using StardewValley.Tools;
 using System;
+using System.Linq;
 
 #endregion using directives
 
@@ -32,7 +32,7 @@ internal sealed class DesperadoUpdateTickedEvent : UpdateTickedEvent
             return;
         }
 
-        var hasQuincyEnchantment = slinghsot.enchantments.FirstOrDefaultF(e =>
+        var hasQuincyEnchantment = slinghsot.enchantments.FirstOrDefault(e =>
             e.GetType().FullName?.ContainsAllOf("ImmersiveSlingshots", "QuincyEnchantment") == true) is not null;
         if ((slinghsot.attachments.Count == 0 || slinghsot.attachments[0] is null) && !hasQuincyEnchantment)
         {

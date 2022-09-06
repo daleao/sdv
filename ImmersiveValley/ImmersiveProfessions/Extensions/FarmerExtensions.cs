@@ -11,7 +11,6 @@ using Framework;
 using Framework.Ultimates;
 using Framework.Utility;
 using Framework.VirtualProperties;
-using LinqFasterer;
 using Microsoft.Xna.Framework;
 using StardewModdingAPI.Utilities;
 using StardewValley.Buildings;
@@ -57,13 +56,13 @@ public static class FarmerExtensions
     /// <param name="skill">The <see cref="ISkill"/> to check.</param>
     /// <returns>The last acquired profession index, or -1 if none was found.</returns>
     public static int GetCurrentBranchForSkill(this Farmer farmer, ISkill skill) =>
-        farmer.professions.WhereF(pid => pid.IsIn(skill.TierOneProfessionIds)).DefaultIfEmptyF(-1).LastF();
+        farmer.professions.Where(pid => pid.IsIn(skill.TierOneProfessionIds)).DefaultIfEmpty(-1).Last();
 
     /// <summary>Get the last level 2nd-tier profession acquired by the farmer in the specified skill branch.</summary>
     /// <param name="branch">The branch (level 5 <see cref="IProfession"/>) to check.</param>
     /// <returns>The last acquired profession index, or -1 if none was found.</returns>
     public static int GetCurrentProfessionForBranch(this Farmer farmer, IProfession branch) =>
-        farmer.professions.WhereF(pid => pid.IsIn(branch.BranchingProfessions)).DefaultIfEmptyF(-1).LastF();
+        farmer.professions.Where(pid => pid.IsIn(branch.BranchingProfessions)).DefaultIfEmpty(-1).Last();
 
     /// <summary>Get all the farmer's professions associated with a specific skill.</summary>
     /// <param name="skill">The <see cref="ISkill"/> to check.</param>
@@ -72,11 +71,11 @@ public static class FarmerExtensions
         bool excludeTierOneProfessions = false)
     {
         return farmer.professions
-            .IntersectF(excludeTierOneProfessions ? skill.TierTwoProfessionIds : skill.ProfessionIds)
-            .SelectF<int, IProfession>(id =>
+            .Intersect(excludeTierOneProfessions ? skill.TierTwoProfessionIds : skill.ProfessionIds)
+            .Select<int, IProfession>(id =>
                 CustomSkill.LoadedSkills.ContainsKey(skill.StringId)
                     ? CustomProfession.LoadedProfessions[id]
-                    : Profession.FromValue(id)).ToArrayF();
+                    : Profession.FromValue(id)).ToArray();
     }
 
     /// <summary>Get the professions which the player is missing in the specified skill.</summary>
@@ -85,8 +84,8 @@ public static class FarmerExtensions
     public static IProfession[] GetMissingProfessionsInSkill(this Farmer farmer, ISkill skill,
         bool excludeTierOneProfessions = false) =>
         excludeTierOneProfessions
-            ? skill.Professions.WhereF(p => p.Level == 10 && !farmer.professions.ContainsF(p.Id)).ToArrayF()
-            : skill.Professions.WhereF(p => !farmer.professions.ContainsF(p.Id)).ToArrayF();
+            ? skill.Professions.Where(p => p.Level == 10 && !farmer.professions.Contains(p.Id)).ToArray()
+            : skill.Professions.Where(p => !farmer.professions.Contains(p.Id)).ToArray();
 
     /// <summary>Get the last acquired profession by the farmer in the specified subset, or simply the last acquired profession if no subset is specified.</summary>
     /// <param name="subset">An array of profession ids.</param>
@@ -94,7 +93,7 @@ public static class FarmerExtensions
     public static int GetMostRecentProfession(this Farmer farmer, IEnumerable<int>? subset = null) =>
         subset is null
             ? farmer.professions[^1]
-            : farmer.professions.WhereF(p => p.IsIn(subset)).DefaultIfEmptyF(-1).LastF();
+            : farmer.professions.Where(p => p.IsIn(subset)).DefaultIfEmpty(-1).Last();
 
     /// <summary>Whether the farmer can reset the specified skill for prestige.</summary>
     /// <param name="skill">The <see cref="ISkill"/> to check.</param>
@@ -187,7 +186,7 @@ public static class FarmerExtensions
                 return;
         }
 
-        var toRemove = farmer.newLevels.WhereF(p => p.X == skill);
+        var toRemove = farmer.newLevels.Where(p => p.X == skill);
         foreach (var item in toRemove) farmer.newLevels.Remove(item);
 
         // reset skill experience
@@ -423,9 +422,9 @@ public static class FarmerExtensions
 
     /// <summary>The price bonus applied to animal produce sold by Producer.</summary>
     public static float GetProducerPriceBonus(this Farmer farmer) =>
-        Game1.getFarm().buildings.WhereF(b =>
+        Game1.getFarm().buildings.Where(b =>
             (b.owner.Value == farmer.UniqueMultiplayerID || !Context.IsMultiplayer) &&
-            b.buildingType.Contains("Deluxe") && ((AnimalHouse)b.indoors.Value).isFull()).SumF(_ => 0.05f);
+            b.buildingType.Contains("Deluxe") && ((AnimalHouse)b.indoors.Value).isFull()).Sum(_ => 0.05f);
 
     /// <summary>The bonus catching bar speed for prestiged Fisher.</summary>
     /// <remarks>UNUSED.</remarks>

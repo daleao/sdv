@@ -7,7 +7,6 @@ using Common.Events;
 using Common.Extensions.Collections;
 using Common.Extensions.Stardew;
 using Extensions;
-using LinqFasterer;
 using StardewModdingAPI.Events;
 using StardewValley.Buildings;
 using System.Linq;
@@ -47,17 +46,17 @@ internal sealed class StaticSaveLoadedEvent : SaveLoadedEvent
         var ultimateIndex = Game1.player.Read("UltimateIndex", UltimateIndex.None);
         switch (ultimateIndex)
         {
-            case UltimateIndex.None when player.professions.AnyF(p => p is >= 26 and < 30):
+            case UltimateIndex.None when player.professions.Any(p => p is >= 26 and < 30):
                 Log.W($"{player.Name} is eligible for an Ultimate but is not currently registered to any. A default one will be chosen.");
-                ultimateIndex = (UltimateIndex)player.professions.FirstF(p => p is >= 26 and < 30);
+                ultimateIndex = (UltimateIndex)player.professions.First(p => p is >= 26 and < 30);
                 Log.W($"{player.Name}'s Ultimate was set to {ultimateIndex}.");
 
                 break;
 
             case > UltimateIndex.None when !player.professions.Contains((int)ultimateIndex):
                 Log.W($"Missing corresponding profession for {ultimateIndex} Ultimate. Resetting to a default value.");
-                if (player.professions.AnyF(p => p is >= 26 and < 30))
-                    ultimateIndex = (UltimateIndex)player.professions.FirstF(p => p is >= 26 and < 30);
+                if (player.professions.Any(p => p is >= 26 and < 30))
+                    ultimateIndex = (UltimateIndex)player.professions.First(p => p is >= 26 and < 30);
                 else
                     ultimateIndex = UltimateIndex.None;
 

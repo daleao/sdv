@@ -44,7 +44,7 @@ internal sealed class ArsenalAssetRequestedEvent : AssetRequestedEvent
         //AssetEditors["Data/Boots"] = (callback: DataBootsEditor, priority: AssetEditPriority.Default);
         AssetEditors["Data/ObjectInformation"] =
             (callback: EditDataObjectInformation, priority: AssetEditPriority.Default);
-        AssetEditors["Data/weapons"] = (callback: EditWeaponsData, priority: AssetEditPriority.Late);
+        //AssetEditors["Data/weapons"] = (callback: EditWeaponsData, priority: AssetEditPriority.Late);
         AssetEditors["Strings/Locations"] = (callback: EditLocationsStrings, priority: AssetEditPriority.Default);
         AssetEditors["Strings/StringsFromCSFiles"] =
             (callback: EditStringsFromCSFilesStrings, priority: AssetEditPriority.Default);
@@ -135,7 +135,7 @@ internal sealed class ArsenalAssetRequestedEvent : AssetRequestedEvent
     /// <summary>Edits weapons data with rebalanced stats.</summary>
     private static void EditWeaponsData(IAssetData asset)
     {
-        if (!ModEntry.Config.RebalancedWeapons) return;
+        //if (!ModEntry.Config.RebalancedWeapons) return;
 
         var data = asset.AsDictionary<int, string>().Data;
         var keys = data.Keys;

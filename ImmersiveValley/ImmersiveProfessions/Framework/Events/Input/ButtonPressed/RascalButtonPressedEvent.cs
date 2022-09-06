@@ -1,12 +1,9 @@
-﻿using DaLion.Common;
-using DaLion.Stardew.Professions.Extensions;
-
-namespace DaLion.Stardew.Professions.Framework.Events.Input;
+﻿namespace DaLion.Stardew.Professions.Framework.Events.Input;
 
 #region using directives
 
+using Common;
 using Common.Events;
-using GameLoop;
 using StardewModdingAPI.Events;
 using StardewValley.Tools;
 

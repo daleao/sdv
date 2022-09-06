@@ -9,13 +9,13 @@ using DaLion.Common.Harmony;
 using Events.GameLoop.DayEnding;
 using Extensions;
 using HarmonyLib;
-using LinqFasterer;
 using Microsoft.Xna.Framework;
 using Sounds;
 using StardewValley.Monsters;
 using StardewValley.Tools;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
 using System.Text;
@@ -280,9 +280,9 @@ internal sealed class GameLocationDamageMonsterPatch : DaLion.Common.Harmony.Har
                 if (!monster.Read<bool>("Stolen") &&
                     Game1.random.NextDouble() < 0.2)
                 {
-                    var drops = monster.objectsToDrop.SelectF(o => new SObject(o, 1) as Item)
-                        .ConcatF(monster.getExtraDropItems()).ToListF();
-                    var itemToSteal = drops.ElementAtOrDefaultF(r.Next(drops.Count))?.getOne();
+                    var drops = monster.objectsToDrop.Select(o => new SObject(o, 1) as Item)
+                        .Concat(monster.getExtraDropItems()).ToList();
+                    var itemToSteal = drops.ElementAtOrDefault(r.Next(drops.Count))?.getOne();
                     if (itemToSteal is not null && !itemToSteal.Name.Contains("Error") &&
                         who.addItemToInventoryBool(itemToSteal))
                     {

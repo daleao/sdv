@@ -8,7 +8,6 @@ using Display;
 using Extensions;
 using GameLoop;
 using Input;
-using LinqFasterer;
 using Player;
 using StardewModdingAPI.Events;
 using System;
@@ -115,6 +114,6 @@ internal class ProfessionEventManager : EventManager
             except.Add(typeof(TrackerButtonsChangedEvent));
 
         Log.D($"[EventManager]: Disabling {profession} events...");
-        Disable(events.ExceptF(except).ToArrayF());
+        Disable(events.Except(except).ToArray());
     }
 }

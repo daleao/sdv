@@ -3,8 +3,8 @@
 #region using directives
 
 using HarmonyLib;
-using LinqFasterer;
 using StardewValley.Tools;
+using System.Linq;
 
 #endregion using directives
 
@@ -28,14 +28,14 @@ internal sealed class EventCtorPatch : Common.Harmony.HarmonyPatch
         if (ModEntry.ModHelper.ModRegistry.IsLoaded("FlashShifter.StardewValleyExpandedCP"))
         {
             eventString = ModEntry.i18n.Get(
-                Game1.player.Items.AnyF(item => item is MeleeWeapon weapon && !weapon.isScythe())
+                Game1.player.Items.Any(item => item is MeleeWeapon weapon && !weapon.isScythe())
                     ? "events.100162.nosword.sve"
                     : "events.100162.sword.sve");
         }
         else
         {
             eventString = ModEntry.i18n.Get(
-                Game1.player.Items.AnyF(item => item is MeleeWeapon weapon && !weapon.isScythe())
+                Game1.player.Items.Any(item => item is MeleeWeapon weapon && !weapon.isScythe())
                     ? "events.100162.nosword"
                     : "events.100162.sword");
         }

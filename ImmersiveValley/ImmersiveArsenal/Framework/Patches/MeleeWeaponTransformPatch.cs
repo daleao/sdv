@@ -31,8 +31,8 @@ internal sealed class MeleeWeaponTransformPatch : Common.Harmony.HarmonyPatch
             // dark sword -> holy blade
             case Constants.HOLY_BLADE_INDEX_I:
                 __instance.Write("EnemiesSlain", null);
-                __instance.enchantments.Remove(__instance.GetEnchantmentOfType<DemonicEnchantment>());
-                __instance.enchantments.Add(new HolyEnchantment());
+                __instance.enchantments.Remove(__instance.GetEnchantmentOfType<CursedEnchantment>());
+                __instance.enchantments.Add(new BlessedEnchantment());
                 break;
             // galaxy -> infinity
             case Constants.INFINITY_BLADE_INDEX_I:

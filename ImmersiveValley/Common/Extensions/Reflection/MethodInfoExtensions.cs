@@ -4,9 +4,9 @@
 
 using FastExpressionCompiler.LightExpression;
 using HarmonyLib;
-using LinqFasterer;
 using System;
 using System.Reflection;
+using System.Linq;
 
 #endregion using directives
 
@@ -25,14 +25,14 @@ public static class MethodInfoExtensions
         if (method.IsStatic) ThrowHelper.ThrowInvalidOperationException("Method cannot be static.");
 
         var delegateInfo = typeof(TDelegate).GetMethodInfoFromDelegateType();
-        var methodParamTypes = method.GetParameters().SelectF(m => m.ParameterType).ToArrayF();
-        var delegateParamTypes = delegateInfo.GetParameters().SelectF(d => d.ParameterType).ToArrayF();
+        var methodParamTypes = method.GetParameters().Select(m => m.ParameterType).ToArray();
+        var delegateParamTypes = delegateInfo.GetParameters().Select(d => d.ParameterType).ToArray();
         if (delegateParamTypes.Length < 1)
             ThrowHelper.ThrowInvalidOperationException(
                 "Delegate type must accept at least the target instance parameter.");
 
         var delegateInstanceType = delegateParamTypes[0];
-        delegateParamTypes = delegateParamTypes.SkipF(1).ToArrayF();
+        delegateParamTypes = delegateParamTypes.Skip(1).ToArray();
         if (delegateParamTypes.Length != methodParamTypes.Length)
             ThrowHelper.ThrowInvalidOperationException(
                 "Mismatched method and delegate parameter count.");
@@ -45,7 +45,7 @@ public static class MethodInfoExtensions
         }
 
         // convert argument types if necessary
-        var args = methodParamTypes.ZipF(delegateParamTypes, (methodParamType, delegateParamType) =>
+        var args = methodParamTypes.Zip(delegateParamTypes, (methodParamType, delegateParamType) =>
         {
             var delegateParamExp = Expression.Parameter(delegateParamType);
             return new
@@ -55,7 +55,7 @@ public static class MethodInfoExtensions
                     ? (Expression)Expression.Convert(delegateParamExp, methodParamType)
                     : delegateParamExp
             };
-        }).ToArrayF();
+        }).ToArray();
 
         // convert instance type if necessary
         var delegateTargetExp = Expression.Parameter(delegateInstanceType);
@@ -64,7 +64,7 @@ public static class MethodInfoExtensions
             : delegateTargetExp;
 
         // create method call
-        var callExp = Expression.Call(convertedTargetExp, method, args.SelectF(a => a.ConvertedParamExp));
+        var callExp = Expression.Call(convertedTargetExp, method, args.Select(a => a.ConvertedParamExp));
 
         // convert return type if necessary
         var convertedCallExp = delegateInfo.ReturnType != method.ReturnType
@@ -73,7 +73,7 @@ public static class MethodInfoExtensions
 
         // collect args and target
         return Expression
-            .Lambda<TDelegate>(convertedCallExp, delegateTargetExp.Collect(args.SelectF(a => a.DelegateParamExp)))
+            .Lambda<TDelegate>(convertedCallExp, delegateTargetExp.Collect(args.Select(a => a.DelegateParamExp)))
             .CompileFast();
     }
 
@@ -84,8 +84,8 @@ public static class MethodInfoExtensions
         if (!method.IsStatic) ThrowHelper.ThrowInvalidOperationException("Method must be static.");
 
         var delegateInfo = typeof(TDelegate).GetMethodInfoFromDelegateType();
-        var methodParamTypes = method.GetParameters().SelectF(m => m.ParameterType).ToArrayF();
-        var delegateParamTypes = delegateInfo.GetParameters().SelectF(d => d.ParameterType).ToArrayF();
+        var methodParamTypes = method.GetParameters().Select(m => m.ParameterType).ToArray();
+        var delegateParamTypes = delegateInfo.GetParameters().Select(d => d.ParameterType).ToArray();
         if (delegateParamTypes.Length != methodParamTypes.Length)
             ThrowHelper.ThrowInvalidOperationException(
                 "Mismatched method and delegate parameter count.");
@@ -98,7 +98,7 @@ public static class MethodInfoExtensions
         }
 
         // convert argument types if necessary
-        var args = methodParamTypes.ZipF(delegateParamTypes, (methodParamType, delegateParamType) =>
+        var args = methodParamTypes.Zip(delegateParamTypes, (methodParamType, delegateParamType) =>
         {
             var delegateParamExp = Expression.Parameter(delegateParamType);
             return new
@@ -108,10 +108,10 @@ public static class MethodInfoExtensions
                     ? (Expression)Expression.Convert(delegateParamExp, methodParamType)
                     : delegateParamExp
             };
-        }).ToArrayF();
+        }).ToArray();
 
         // create method call
-        var callExp = Expression.Call(null, method, args.SelectF(a => a.ConvertedParamExp));
+        var callExp = Expression.Call(null, method, args.Select(a => a.ConvertedParamExp));
 
         // convert return type if necessary
         var convertedCallExp = delegateInfo.ReturnType != method.ReturnType
@@ -119,6 +119,6 @@ public static class MethodInfoExtensions
             : (Expression)callExp;
 
         // collect args and target
-        return Expression.Lambda<TDelegate>(convertedCallExp, args.SelectF(a => a.DelegateParamExp)).CompileFast();
+        return Expression.Lambda<TDelegate>(convertedCallExp, args.Select(a => a.DelegateParamExp)).CompileFast();
     }
 }

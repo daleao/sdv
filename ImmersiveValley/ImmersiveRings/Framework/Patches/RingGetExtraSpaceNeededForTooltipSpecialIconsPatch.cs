@@ -1,4 +1,6 @@
-﻿namespace DaLion.Stardew.Rings.Framework.Patches;
+﻿using DaLion.Stardew.Rings.Extensions;
+
+namespace DaLion.Stardew.Rings.Framework.Patches;
 
 #region using directives
 
@@ -28,12 +30,11 @@ internal sealed class RingGetExtraSpaceNeededForTooltipSpecialIconsPatch : Commo
     [HarmonyPostfix]
     private static void RingGetExtraSpaceNeededForTooltipSpecialIconsPostfix(Ring __instance, ref Point __result, SpriteFont font)
     {
-        if (__instance is not CombinedRing { ParentSheetIndex: Constants.IRIDIUM_BAND_INDEX_I } iridiumBand ||
-            iridiumBand.combinedRings.Count == 0) return;
+        if (!__instance.IsCombinedIridiumBand(out var combined)) return;
 
-        __result.X = Math.Max(__result.X, MaxWidth);
+        __result.X = Math.Max(__result.X, MaxWidth + 86);
         __result.Y += (int)(Math.Max(font.MeasureString("TT").Y, 48f) *
-                             iridiumBand.combinedRings.Select(r => r.ParentSheetIndex).Distinct().Count());
+                             combined.combinedRings.Select(r => r.ParentSheetIndex).Distinct().Count());
     }
 
     #endregion harmony patches

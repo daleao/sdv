@@ -7,10 +7,10 @@ using Common.Extensions;
 using Common.Extensions.Stardew;
 using Extensions;
 using HarmonyLib;
-using LinqFasterer;
 using StardewValley.Buildings;
 using System;
 using System.IO;
+using System.Linq;
 
 #endregion using directives
 
@@ -103,10 +103,10 @@ internal sealed class FishPondSpawnFishPatch : Common.Harmony.HarmonyPatch
                 .Read(forFamily ? "FamilyQualities" : "FishQualities", @default)
                 .ParseList<int>();
             if (qualities.Count != 4 ||
-                qualities.SumF() != (forFamily ? familyCount : __instance.FishCount - familyCount - 1))
+                qualities.Sum() != (forFamily ? familyCount : __instance.FishCount - familyCount - 1))
                 ThrowHelper.ThrowInvalidDataException("Mismatch between FishQualities data and actual population.");
 
-            if (qualities.SumF() == 0)
+            if (qualities.Sum() == 0)
             {
                 ++qualities[0];
                 __instance.Write(forFamily ? "FamilyQualities" : "FishQualities",

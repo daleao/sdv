@@ -4,7 +4,6 @@ namespace DaLion.Stardew.Professions.Framework;
 #region using directives
 
 using Common.Integrations.SpaceCore;
-using LinqFasterer;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -35,7 +34,7 @@ public sealed class CustomSkill : ISkill
 
     /// <inheritdoc />
     public IEnumerable<int> NewLevels => ExtendedSpaceCoreAPI.GetCustomSkillNewLevels.Value()
-        .WhereF(pair => pair.Key == StringId).SelectF(pair => pair.Value);
+        .Where(pair => pair.Key == StringId).Select(pair => pair.Value);
 
     /// <inheritdoc />
     public IList<IProfession> Professions { get; } = new List<IProfession>();

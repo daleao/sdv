@@ -6,11 +6,11 @@ using DaLion.Common.Attributes;
 using DaLion.Common.Extensions;
 using Extensions;
 using HarmonyLib;
-using LinqFasterer;
 using StardewValley.Locations;
 using StardewValley.Monsters;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 #endregion using directives
 
@@ -33,12 +33,12 @@ internal sealed class GreenSlimeGetExtraDropItemsPatch : DaLion.Common.Harmony.H
             !Game1.MasterPlayer.mailReceived.Contains("slimeHutchBuilt")) return;
 
         var slimeCount =
-            Game1.getFarm().buildings.WhereF(b =>
-                    (b.owner.Value.IsIn(pipers.SelectF(p => p.UniqueMultiplayerID)) ||
+            Game1.getFarm().buildings.Where(b =>
+                    (b.owner.Value.IsIn(pipers.Select(p => p.UniqueMultiplayerID)) ||
                      !Context.IsMultiplayer) && b.indoors.Value is SlimeHutch && !b.isUnderConstruction() &&
                     b.indoors.Value.characters.Count > 0)
-                .SumF(b => b.indoors.Value.characters.CountF(npc => npc is GreenSlime)) +
-            Game1.getFarm().characters.CountF(npc => npc is GreenSlime);
+                .Sum(b => b.indoors.Value.characters.Count(npc => npc is GreenSlime)) +
+            Game1.getFarm().characters.Count(npc => npc is GreenSlime);
         if (slimeCount <= 0) return;
 
         var r = new Random(Guid.NewGuid().GetHashCode());

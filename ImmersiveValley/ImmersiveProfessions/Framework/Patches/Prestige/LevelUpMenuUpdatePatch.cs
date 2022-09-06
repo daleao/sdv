@@ -9,12 +9,12 @@ using DaLion.Common.Harmony;
 using Events.GameLoop;
 using Extensions;
 using HarmonyLib;
-using LinqFasterer;
 using Microsoft.Xna.Framework;
 using Netcode;
 using StardewValley.Menus;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
 using Ultimates;
@@ -349,7 +349,7 @@ internal sealed class LevelUpMenuUpdatePatch : DaLion.Common.Harmony.HarmonyPatc
         if (hasAllProfessions) return true;
 
         var missingProfessionNames = string.Join(',',
-            Game1.player.GetMissingProfessionsInSkill(skill).SelectF(p => p.GetDisplayName()));
+            Game1.player.GetMissingProfessionsInSkill(skill).Select(p => p.GetDisplayName()));
         Log.D($"Missing professions: {missingProfessionNames}");
         return false;
     }

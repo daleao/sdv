@@ -7,9 +7,9 @@ using DaLion.Common.Extensions;
 using DaLion.Common.Extensions.Reflection;
 using Extensions;
 using HarmonyLib;
-using LinqFasterer;
 using Microsoft.Xna.Framework;
 using StardewValley.Menus;
+using System.Linq;
 using Textures;
 
 #endregion using directives
@@ -81,8 +81,8 @@ internal sealed class NewSkillsPagePerformHoverActionPatch : DaLion.Common.Harmo
 
             ___hoverText = ModEntry.i18n.Get("prestige.skillpage.tooltip", new { count });
             ___hoverText = professionsForThisSkill
-                .SelectF(p => p.GetDisplayName(Game1.player.IsMale))
-                .AggregateF(___hoverText, (current, name) => current + $"\n• {name}");
+                .Select(p => p.GetDisplayName(Game1.player.IsMale))
+                .Aggregate(___hoverText, (current, name) => current + $"\n• {name}");
         }
 
         if (ModEntry.SpaceCoreApi is null) return;
@@ -103,8 +103,8 @@ internal sealed class NewSkillsPagePerformHoverActionPatch : DaLion.Common.Harmo
 
             ___hoverText = ModEntry.i18n.Get("prestige.skillpage.tooltip", new { count });
             ___hoverText = professionsForThisSkill
-                .SelectF(p => p.GetDisplayName())
-                .AggregateF(___hoverText, (current, name) => current + $"\n• {name}");
+                .Select(p => p.GetDisplayName())
+                .Aggregate(___hoverText, (current, name) => current + $"\n• {name}");
         }
     }
 

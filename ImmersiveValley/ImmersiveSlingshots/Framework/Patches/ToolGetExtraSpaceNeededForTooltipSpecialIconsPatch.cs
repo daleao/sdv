@@ -3,7 +3,6 @@
 #region using directives
 
 using HarmonyLib;
-using LinqFasterer;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using StardewValley.Tools;
@@ -42,7 +41,7 @@ internal sealed class ToolGetExtraSpaceNeededForTooltipSpecialIconsPatch : Commo
                 __result.Y += (int)(Math.Max(font.MeasureString("TT").Y, 48f) * (forgeCount + 1));
             }
 
-            if (slingshot.enchantments.AnyF(e => !e.IsForge())) __result.Y += 12;
+            if (slingshot.enchantments.Any(e => !e.IsForge())) __result.Y += 12;
         }
     }
 

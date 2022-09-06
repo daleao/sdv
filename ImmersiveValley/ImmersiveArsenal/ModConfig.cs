@@ -6,14 +6,10 @@ public class ModConfig
     /// <summary>Face the current cursor position before swinging your arsenal.</summary>
     public bool FaceMouseCursor { get; set; } = true;
 
-
-    /// <summary>Make weapons more unique and useful.</summary>
-    public bool RebalancedWeapons { get; set; } = true;
-
     /// <summary>Enable new enchantments for melee weapons, and rebalance some old ones.</summary>
     public bool NewWeaponEnchants { get; set; } = true;
 
-    /// <summary>Guaranteed smash crit on Duggies. Guaranteed smash miss on flying enemies..</summary>
+    /// <summary>Guaranteed smash crit on Duggies. Guaranteed smash miss on flying enemies.</summary>
     public bool ImmersiveClubSmash { get; set; } = true;
 
     /// <summary>Make parry great again by increasing it's damage by 10% per defense point.</summary>

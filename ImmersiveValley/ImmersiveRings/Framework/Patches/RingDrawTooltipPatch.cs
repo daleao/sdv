@@ -3,6 +3,7 @@
 #region using directives
 
 using Common;
+using Common.Extensions.Collections;
 using Common.Extensions.Reflection;
 using Common.Harmony;
 using Extensions;
@@ -14,6 +15,7 @@ using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
+using VirtualProperties;
 
 #endregion using directives
 
@@ -36,72 +38,13 @@ internal sealed class RingDrawTooltipPatch : Common.Harmony.HarmonyPatch
     private static bool RingDrawTooltipPrefix(Ring __instance, SpriteBatch spriteBatch, ref int x, ref int y,
         SpriteFont font, float alpha)
     {
-        if (__instance is not CombinedRing { ParentSheetIndex: Constants.IRIDIUM_BAND_INDEX_I } iridiumBand ||
-            iridiumBand.combinedRings.Count == 0) return true; // run original logic
+        if (!__instance.IsCombinedIridiumBand(out var combined)) return true; // run original logic
 
-        float addedDamage = 0f, addedCritChance = 0f, addedCritPower = 0f, addedSwingSpeed = 0f, addedKnockback = 0f, addedPrecision = 0f, cdr = 0f;
-        var addedDefense = 0;
-        foreach (var ring in iridiumBand.combinedRings)
-            switch (ring.ParentSheetIndex)
-            {
-                case Constants.RUBY_RING_INDEX_I:
-                    addedDamage += 0.1f;
-                    break;
-                case Constants.AQUAMARINE_RING_INDEX_I:
-                    addedCritChance += 0.1f;
-                    break;
-                case Constants.JADE_RING_INDEX_I:
-                    addedCritPower += ModEntry.Config.RebalancedRings ? 0.5f : 0.1f;
-                    break;
-                case Constants.EMERALD_RING_INDEX_I:
-                    addedSwingSpeed += 0.1f;
-                    break;
-                case Constants.AMETHYST_RING_INDEX_I:
-                    addedKnockback += 0.1f;
-                    break;
-                case Constants.TOPAZ_RING_INDEX_I:
-                    if (ModEntry.Config.RebalancedRings) addedDefense += 3;
-                    else addedPrecision += 0.1f;
-                    break;
-                default:
-                    if (ring.ParentSheetIndex != ModEntry.GarnetRingIndex) break;
+        var modifiers = new StatModifiers();
+        combined.combinedRings.ForEach(r => Gemstone.FromRing(r.ParentSheetIndex).ApplyModifier(ref modifiers));
+        if (!modifiers.Any()) return false; // don't run original logic
 
-                    cdr += 0.1f;
-                    break;
-            }
-
-        var hasGems = addedDamage + addedCritChance + addedCritPower + addedPrecision + addedSwingSpeed +
-            addedKnockback + addedDefense + cdr > 0;
-        if (!hasGems) return false; // don't run original logic
-
-        foreach (var resonance in iridiumBand.CheckResonances())
-            switch (resonance)
-            {
-                case Constants.RUBY_RING_INDEX_I:
-                    addedDamage += 0.01f * resonance.Magnitude;
-                    break;
-                case Constants.AQUAMARINE_RING_INDEX_I:
-                    addedCritChance += 0.01f * resonance.Magnitude;
-                    break;
-                case Constants.JADE_RING_INDEX_I:
-                    addedCritPower += 0.05f * resonance.Magnitude;
-                    break;
-                case Constants.EMERALD_RING_INDEX_I:
-                    addedSwingSpeed += 0.01f * resonance.Magnitude;
-                    break;
-                case Constants.AMETHYST_RING_INDEX_I:
-                    addedKnockback += 0.01f * resonance.Magnitude;
-                    break;
-                case Constants.TOPAZ_RING_INDEX_I:
-                    if (ModEntry.Config.RebalancedRings) addedDefense += (int)(0.5 * resonance.Magnitude);
-                    else addedPrecision += 0.01f * resonance.Magnitude;
-                    break;
-                default:
-                    if (resonance != ModEntry.GarnetRingIndex) break;
-
-                    cdr += 0.01f * resonance.Magnitude;
-                    break;
-            }
+        combined.get_Resonances().ForEach(r => r.Key.ApplyToModifiers(ref modifiers, r.Value));
 
         // write description
         var descriptionWidth = _GetDescriptionWidth.Value(__instance);
@@ -114,9 +57,9 @@ internal sealed class RingDrawTooltipPatch : Common.Harmony.HarmonyPatch
         var maxWidth = 0;
 
         // write bonus damage
-        if (addedDamage > 0)
+        if (modifiers.DamageModifier > 0)
         {
-            var amount = $"{addedDamage:p0}";
+            var amount = $"{modifiers.DamageModifier:p0}";
             co = new(0, 120, 120);
             StardewValley.Utility.drawWithShadow(spriteBatch, Game1.mouseCursors, new(x + 20, y + 20), new(120, 428, 10, 10), Color.White,
                 0f, Vector2.Zero, 4f, false, 1f);
@@ -128,25 +71,10 @@ internal sealed class RingDrawTooltipPatch : Common.Harmony.HarmonyPatch
             y += (int)Math.Max(font.MeasureString("TT").Y, 48f);
         }
 
-        // write bonus knockback
-        if (addedKnockback > 0)
-        {
-            var amount = $"+{addedKnockback:p0}";
-            co = new(0, 120, 120);
-            StardewValley.Utility.drawWithShadow(spriteBatch, Game1.mouseCursors, new(x + 20, y + 20), new(70, 428, 10, 10),
-                Color.White, 0f, Vector2.Zero, 4f, false, 1f);
-
-            var text = Game1.content.LoadString("Strings\\UI:ItemHover_Weight", amount);
-            var width = font.MeasureString(text).X;
-            maxWidth = (int)Math.Max(width, maxWidth);
-            StardewValley.Utility.drawTextWithShadow(spriteBatch, text, font, new(x + 68, y + 28), co * 0.9f * alpha);
-            y += (int)Math.Max(font.MeasureString("TT").Y, 48f);
-        }
-
         // write bonus crit rate
-        if (addedCritChance > 0)
+        if (modifiers.CritChanceModifier > 0)
         {
-            var amount = $"{addedCritChance:p0}";
+            var amount = $"{modifiers.CritChanceModifier:p0}";
             co = new(0, 120, 120);
             StardewValley.Utility.drawWithShadow(spriteBatch, Game1.mouseCursors, new(x + 20, y + 20), new(40, 428, 10, 10),
                 Color.White, 0f, Vector2.Zero, 4f, false, 1f);
@@ -159,9 +87,9 @@ internal sealed class RingDrawTooltipPatch : Common.Harmony.HarmonyPatch
         }
 
         // write crit power
-        if (addedCritPower > 0)
+        if (modifiers.CritPowerModifier > 0)
         {
-            var amount = $"{addedCritPower:p0}";
+            var amount = $"{modifiers.CritPowerModifier:p0}";
             co = new(0, 120, 120);
             StardewValley.Utility.drawWithShadow(spriteBatch, Game1.mouseCursors, new(x + 16, y + 16 + 4),
                 new(160, 428, 10, 10), Color.White, 0f, Vector2.Zero, 4f, false, 1f);
@@ -174,9 +102,9 @@ internal sealed class RingDrawTooltipPatch : Common.Harmony.HarmonyPatch
         }
 
         // write bonus precision
-        if (addedPrecision > 0)
+        if (modifiers.PrecisionModifier > 0)
         {
-            var amount = $"{addedPrecision:p0}";
+            var amount = $"{modifiers.PrecisionModifier:p0}";
             co = new(0, 120, 120);
             StardewValley.Utility.drawWithShadow(spriteBatch, Game1.mouseCursors, new(x + 20, y + 20), new(110, 428, 10, 10),
                 Color.White, 0f, Vector2.Zero, 4f, false, 1f);
@@ -188,10 +116,25 @@ internal sealed class RingDrawTooltipPatch : Common.Harmony.HarmonyPatch
             y += (int)Math.Max(font.MeasureString("TT").Y, 48f);
         }
 
-        // write bonus charge speed
-        if (addedSwingSpeed > 0)
+        // write bonus knockback
+        if (modifiers.KnockbackModifier > 0)
         {
-            var amount = $"+{addedSwingSpeed:p0}";
+            var amount = $"+{modifiers.KnockbackModifier:p0}";
+            co = new(0, 120, 120);
+            StardewValley.Utility.drawWithShadow(spriteBatch, Game1.mouseCursors, new(x + 20, y + 20), new(70, 428, 10, 10),
+                Color.White, 0f, Vector2.Zero, 4f, false, 1f);
+
+            var text = Game1.content.LoadString("Strings\\UI:ItemHover_Weight", amount);
+            var width = font.MeasureString(text).X;
+            maxWidth = (int)Math.Max(width, maxWidth);
+            StardewValley.Utility.drawTextWithShadow(spriteBatch, text, font, new(x + 68, y + 28), co * 0.9f * alpha);
+            y += (int)Math.Max(font.MeasureString("TT").Y, 48f);
+        }
+
+        // write bonus swing speed
+        if (modifiers.SwingSpeedModifier > 0)
+        {
+            var amount = $"+{modifiers.SwingSpeedModifier:p0}";
             co = new(0, 120, 120);
             StardewValley.Utility.drawWithShadow(spriteBatch, Game1.mouseCursors, new(x + 20, y + 20), new(130, 428, 10, 10),
                 Color.White, 0f, Vector2.Zero, 4f, false, 1f);
@@ -204,9 +147,9 @@ internal sealed class RingDrawTooltipPatch : Common.Harmony.HarmonyPatch
         }
 
         // write bonus cooldown reduction
-        if (cdr > 0)
+        if (modifiers.CooldownReduction > 0)
         {
-            var amount = $"{cdr:p0}";
+            var amount = $"{modifiers.CooldownReduction:p0}";
             co = new(0, 120, 120);
             StardewValley.Utility.drawWithShadow(spriteBatch, Game1.mouseCursors, new(x + 20, y + 20), new(150, 428, 10, 10),
                 Color.White, 0f, Vector2.Zero, 4f, false, 1f);
@@ -219,13 +162,13 @@ internal sealed class RingDrawTooltipPatch : Common.Harmony.HarmonyPatch
         }
 
         // write bonus defense
-        if (addedDefense > 0)
+        if (modifiers.AddedDefense > 0)
         {
             co = new(0, 120, 120);
             StardewValley.Utility.drawWithShadow(spriteBatch, Game1.mouseCursors, new(x + 20, y + 20), new(110, 428, 10, 10),
                 Color.White, 0f, Vector2.Zero, 4f, false, 1f);
 
-            var text = Game1.content.LoadString("Strings\\UI:ItemHover_DefenseBonus", addedDefense);
+            var text = Game1.content.LoadString("Strings\\UI:ItemHover_DefenseBonus", modifiers.AddedDefense);
             var width = font.MeasureString(text).X;
             maxWidth = (int)Math.Max(width, maxWidth);
             StardewValley.Utility.drawTextWithShadow(spriteBatch, text, font, new(x + 68, y + 28), co * 0.9f * alpha);

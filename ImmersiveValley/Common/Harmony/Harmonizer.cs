@@ -5,9 +5,9 @@
 using Attributes;
 using Extensions.Reflection;
 using HarmonyLib;
-using LinqFasterer;
 using System;
 using System.Diagnostics;
+using System.Linq;
 using System.Reflection;
 
 #endregion using directives
@@ -37,8 +37,8 @@ internal class Harmonizer
         Log.D("[Harmonizer]: Gathering patches...");
         var patchTypes = AccessTools
             .GetTypesFromAssembly(Assembly.GetAssembly(typeof(IHarmonyPatch)))
-            .WhereF(t => t.IsAssignableTo(typeof(IHarmonyPatch)) && !t.IsAbstract)
-            .ToArrayF();
+            .Where(t => t.IsAssignableTo(typeof(IHarmonyPatch)) && !t.IsAbstract)
+            .ToArray();
 
         Log.D($"[Harmonizer]: Found {patchTypes.Length} patch classes. Applying patches...");
         foreach (var p in patchTypes)
@@ -52,10 +52,10 @@ internal class Harmonizer
 #endif
 
                 var deprecatedAttr =
-                    (DeprecatedAttribute?)p.GetCustomAttributes(typeof(DeprecatedAttribute), false).FirstOrDefaultF();
+                    (DeprecatedAttribute?)p.GetCustomAttributes(typeof(DeprecatedAttribute), false).FirstOrDefault();
                 if (deprecatedAttr is not null) continue;
 
-                var integrationAttr = (RequiresModAttribute?)p.GetCustomAttributes(typeof(RequiresModAttribute), false).FirstOrDefaultF();
+                var integrationAttr = (RequiresModAttribute?)p.GetCustomAttributes(typeof(RequiresModAttribute), false).FirstOrDefault();
                 if (integrationAttr is not null)
                 {
                     if (!_ModRegistry.IsLoaded(integrationAttr.UniqueID))

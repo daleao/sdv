@@ -3,9 +3,9 @@
 #region using directives
 
 using Common.Events;
-using LinqFasterer;
 using StardewModdingAPI.Events;
 using System;
+using System.Linq;
 
 #endregion using directives
 
@@ -29,7 +29,7 @@ internal sealed class DemolitionistUpdateTickedEvent : UpdateTickedEvent
     {
         if (ModEntry.State.DemolitionistExcitedness <= 0) Disable();
 
-        var buff = Game1.buffsDisplay.otherBuffs.FirstOrDefaultF(p => p.which == _buffId);
+        var buff = Game1.buffsDisplay.otherBuffs.FirstOrDefault(p => p.which == _buffId);
         if (buff is not null) return;
 
         Game1.buffsDisplay.addOtherBuff(

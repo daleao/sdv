@@ -6,7 +6,6 @@ using Common;
 using Common.Commands;
 using Common.Extensions;
 using Framework;
-using LinqFasterer;
 using StardewValley.Menus;
 using System;
 using System.Collections.Generic;
@@ -57,9 +56,9 @@ internal sealed class RemoveProfessionsCommand : ConsoleCommand
                 string.Equals(arg, "unknown", StringComparison.InvariantCultureIgnoreCase))
             {
                 var range = Game1.player.professions
-                    .WhereF(pid =>
+                    .Where(pid =>
                         !Profession.TryFromValue(pid, out _) && CustomProfession.LoadedProfessions.Values.All(p => pid != p.Id))
-                    .ToArrayF();
+                    .ToArray();
 
                 professionsToRemove.AddRange(range);
                 Log.I($"Removed unknown professions from {Game1.player.Name}.");
@@ -87,20 +86,20 @@ internal sealed class RemoveProfessionsCommand : ConsoleCommand
             }
         }
 
-        foreach (var pid in professionsToRemove.DistinctF()) GameLocation.RemoveProfession(pid);
+        foreach (var pid in professionsToRemove.Distinct()) GameLocation.RemoveProfession(pid);
 
         LevelUpMenu.RevalidateHealth(Game1.player);
     }
 
     private string GetUsage()
     {
-        var result = $"\n\nUsage: {Handler.EntryCommand} {Triggers.FirstF()} [--prestige] <profession1> <profession2> ... <professionN>";
+        var result = $"\n\nUsage: {Handler.EntryCommand} {Triggers.First()} [--prestige] <profession1> <profession2> ... <professionN>";
         result += "\n\nParameters:";
         result +=
             "\n\t- <profession>\t- a valid profession name, `all` or `unknown`. Use `unknown` to remove rogue professions from uninstalled custom skill mods.";
         result += "\n\nExamples:";
-        result += $"\n\t- {Handler.EntryCommand} {Triggers.FirstF()} artisan brute";
-        result += $"\n\t- {Handler.EntryCommand} {Triggers.FirstF()} -p all";
+        result += $"\n\t- {Handler.EntryCommand} {Triggers.First()} artisan brute";
+        result += $"\n\t- {Handler.EntryCommand} {Triggers.First()} -p all";
         return result;
     }
 }

@@ -2,11 +2,11 @@
 
 #region using directives
 
-using Common.Extensions;
 using Framework;
+using Framework.VirtualProperties;
+using Microsoft.Xna.Framework;
 using StardewValley.Objects;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 
 #endregion using directives
@@ -14,76 +14,89 @@ using System.Linq;
 /// <summary>Extensions for the <see cref="CombinedRing"/> class.</summary>
 public static class CombinedRingExtensions
 {
-    /// <summary>Check the combined ring for any resonances.</summary>
-    public static IEnumerable<Resonance> CheckResonances(this CombinedRing combined)
+    /// <summary>Apply resonant glow to the current location.</summary>
+    /// <param name="location">The current location.</param>
+    /// <param name="who">The wielder.</param>
+    public static void ApplyResonanceGlow(this CombinedRing combined, GameLocation location, Farmer who)
     {
-        var resonances = new Dictionary<int, Resonance>
-        {
-            {Resonance.Amethyst, Resonance.Amethyst},
-            {Resonance.Topaz, Resonance.Topaz},
-            {Resonance.Aquamarine, Resonance.Aquamarine},
-            {Resonance.Jade, Resonance.Jade},
-            {Resonance.Emerald, Resonance.Emerald},
-            {Resonance.Ruby, Resonance.Ruby},
-            {Resonance.Garnet, Resonance.Garnet}
-        };
+        if (combined.ParentSheetIndex != Constants.IRIDIUM_BAND_INDEX_I) return;
 
-        if (combined.ParentSheetIndex != Constants.IRIDIUM_BAND_INDEX_I || combined.combinedRings.Count < 2)
-            return Enumerable.Empty<Resonance>();
+        var phases = combined.get_Phases().ToArray();
+        if (phases.Length <= 0) return;
 
-        var first = combined.combinedRings[0].ParentSheetIndex;
-        var second = combined.combinedRings[1].ParentSheetIndex;
-        if (Resonance.TryFromValue(first, out var r1))
+        for (var i = 0; i < 2; ++i)
         {
-            if (first == second)
+            var ph = phases[i];
+            if (ph is null) continue;
+
+            if (ph.LightSourceId.HasValue)
             {
-                resonances[r1] += 2;
+                location.removeLightSource(ph.LightSourceId.Value);
+                ph.LightSourceId = null;
             }
-            else if (Resonance.TryFromValue(second, out var r2))
-            {
-                if (r2 == r1.GetPair())
-                {
-                    ++resonances[r1];
-                    ++resonances[r2];
-                }
-                else if (r2 == r1.GetAntipair())
-                {
-                    --resonances[r1];
-                    --resonances[r2];
-                }
-            }
+
+            ph.LightSourceId = ModEntry.Manifest.UniqueID.GetHashCode() + combined.GetHashCode() + (int)who.UniqueMultiplayerID;
+            while (location.sharedLights.ContainsKey(ph.LightSourceId!.Value)) ++ph.LightSourceId;
+
+            var factor = (float)(i == 0 ? Math.Sin(Phase.Angle) : Math.Cos(Phase.Angle));
+            var color = factor > 0
+                ? Color.Lerp(ph.Peak.Color, ph.Trough.Color, Math.Abs(factor))
+                : Color.Lerp(ph.Trough.Color, ph.Peak.Color, Math.Abs(factor));
+            var radius = MathHelper.Lerp((float)(3d / 4d) * ph.Intensity, (float)(5d / 4d) * ph.Intensity, Math.Abs(factor));
+            Game1.currentLightSources.Add(new(1, new(who.Position.X + 21f, who.Position.Y + 64f),
+                radius, color, ph.LightSourceId.Value, LightSource.LightContext.None, who.UniqueMultiplayerID));
         }
+    }
 
-        if (combined.combinedRings.Count >= 4)
+    /// <summary>Remove resonant glow from the current location.</summary>
+    /// <param name="location">The current location.</param>
+    public static void UnapplyResonanceGlow(this CombinedRing combined, GameLocation location)
+    {
+        if (combined.ParentSheetIndex != Constants.IRIDIUM_BAND_INDEX_I) return;
+
+        var phases = combined.get_Phases().ToArray();
+        if (phases.Length <= 0) return;
+
+        for (var i = 0; i < 2; ++i)
         {
-            var third = combined.combinedRings[0].ParentSheetIndex;
-            var fourth = combined.combinedRings[1].ParentSheetIndex;
-            if (Resonance.TryFromValue(third, out var r3))
-            {
-                if (third == fourth)
-                {
-                    resonances[r3] += 2;
-                }
-                else if (Resonance.TryFromValue(fourth, out var r4))
-                {
-                    if (r4 == r3.GetPair())
-                    {
-                        ++resonances[r3];
-                        ++resonances[r4];
-                    }
-                    else if (r4 == r3.GetAntipair())
-                    {
-                        --resonances[r3];
-                        --resonances[r4];
-                    }
-                }
-            }
+            var ph = phases[i];
+            if (ph?.LightSourceId.HasValue != true) continue;
 
-            if (first.Collect(second, third, fourth).Distinct().Count() == 1)
-                resonances[first] += 2;
-
+            location.removeLightSource(ph.LightSourceId!.Value);
+            ph.LightSourceId = null;
         }
+    }
 
-        return resonances.Values;
+    /// <summary>Reposition resonant glow and apply phase shifts on update tick.</summary>
+    /// <param name="location">The current location.</param>
+    /// <param name="who">The wielder.</param>
+    public static void UpdateResonanceGlow(this CombinedRing combined, GameLocation location, Farmer who)
+    {
+        if (combined.ParentSheetIndex != Constants.IRIDIUM_BAND_INDEX_I) return;
+
+        var phases = combined.get_Phases().ToArray();
+        if (phases.Length <= 0) return;
+
+        for (var i = 0; i < 2; ++i)
+        {
+            var ph = phases[i];
+            if (ph?.LightSourceId.HasValue != true) continue;
+
+            // reposition
+            var offset = Vector2.Zero;
+            if (who.shouldShadowBeOffset)
+                offset += who.drawOffset.Value;
+
+            location.repositionLightSource(ph.LightSourceId!.Value, new Vector2(who.Position.X + 21f, who.Position.Y) + offset);
+
+            // apply phase shift
+            var factor = (float)(i == 0 ? Math.Sin(Phase.Angle) : Math.Cos(Phase.Angle));
+            var color = factor > 0
+                ? Color.Lerp(ph.Peak.Color, ph.Trough.Color, Math.Abs(factor))
+                : Color.Lerp(ph.Trough.Color, ph.Peak.Color, Math.Abs(factor));
+            var radius = MathHelper.Lerp((float)(3d / 4d) * ph.Intensity, (float)(5d / 4d) * ph.Intensity, Math.Abs(factor));
+            location.sharedLights[ph.LightSourceId.Value].color.Value = color;
+            location.sharedLights[ph.LightSourceId.Value].radius.Value = radius;
+        }
     }
 }

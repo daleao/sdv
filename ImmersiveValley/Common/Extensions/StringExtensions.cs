@@ -2,12 +2,12 @@
 
 #region using directives
 
-using LinqFasterer;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
+using System.Linq;
 using System.Text.RegularExpressions;
 
 #endregion using directives
@@ -20,17 +20,17 @@ public static class StringExtensions
     /// <summary>Determine if the string instance contains any of the specified substrings.</summary>
     /// <param name="candidates">A sequence of strings candidates.</param>
     public static bool ContainsAnyOf(this string s, params string[] candidates) =>
-        candidates.AnyF(s.Contains);
+        candidates.Any(s.Contains);
 
     /// <summary>Determine if the string instance starts with any of the specified substrings.</summary>
     /// <param name="candidates">A sequence of strings candidates.</param>
     public static bool StartsWithAnyOf(this string s, params string[] candidates) =>
-        candidates.AnyF(s.StartsWith);
+        candidates.Any(s.StartsWith);
 
     /// <summary>Determine if the string instance contains all of the specified substrings.</summary>
     /// <param name="candidates">A sequence of strings candidates.</param>
     public static bool ContainsAllOf(this string s, params string[] candidates) =>
-        candidates.AllF(s.Contains);
+        candidates.All(s.Contains);
 
     /// <summary>Capitalize the first character in the string instance.</summary>
     public static string FirstCharToUpper(this string s) =>
@@ -47,7 +47,7 @@ public static class StringExtensions
 
     /// <summary>Split a camelCase or PascalCase string into its constituent words.</summary>
     public static string[] SplitCamelCase(this string s) =>
-        Regex.Split(s, @"([A-Z]+|[A-Z]?[a-z]+)(?=[A-Z]|\b)").WhereF(r => !string.IsNullOrEmpty(r)).ToArrayF();
+        Regex.Split(s, @"([A-Z]+|[A-Z]?[a-z]+)(?=[A-Z]|\b)").Where(r => !string.IsNullOrEmpty(r)).ToArray();
 
     /// <summary>Trim all whitespace from the string.</summary>
     public static string TrimAll(this string s) =>
@@ -207,7 +207,7 @@ public static class StringExtensions
 
         var pairs = s
             .Split(new[] { pairSeparator }, StringSplitOptions.RemoveEmptyEntries)
-            .SelectF(p => p.Split(new[] { keyValueSeparator }, StringSplitOptions.RemoveEmptyEntries));
+            .Select(p => p.Split(new[] { keyValueSeparator }, StringSplitOptions.RemoveEmptyEntries));
 
         var dict = new Dictionary<TKey, TValue>();
         foreach (var p in pairs)

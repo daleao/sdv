@@ -3,7 +3,6 @@
 #region using directives
 
 using HarmonyLib;
-using LinqFasterer;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -19,12 +18,12 @@ public static class TypeExtensions
     /// <summary>Determines whether the current type can be assigned to a variable of any of the candidate types.</summary>
     /// <param name="candidates">The candidate types.</param>
     public static bool IsAssignableToAnyOf(this Type type, params Type[] candidates) =>
-        candidates.AnyF(type.IsAssignableTo);
+        candidates.Any(type.IsAssignableTo);
 
     /// <summary>Determines whether an instance of any of the candidate types can be assigned to the current type.</summary>
     /// <param name="candidates">The candidate types.</param>
     public static bool IsAssignableFromAnyOf(this Type type, params Type[] candidates) =>
-        candidates.AnyF(type.IsAssignableFrom);
+        candidates.Any(type.IsAssignableFrom);
 
     #region safe reflection
 
@@ -45,7 +44,7 @@ public static class TypeExtensions
     /// <returns>The first constructor that matches the specified parameter count.</returns>
     /// <remarks>Useful when there's no compile-time access to one or more parameter types.</remarks>
     public static ConstructorInfo RequireConstructor(this Type type, int parameterCount) =>
-        AccessTools.GetDeclaredConstructors(type).FirstF(c => c.GetParameters().Length == parameterCount);
+        AccessTools.GetDeclaredConstructors(type).First(c => c.GetParameters().Length == parameterCount);
 
     /// <summary>Get a method and assert that it was found.</summary>
     /// <param name="name">The method name.</param>

@@ -2,6 +2,7 @@
 
 #region using directives
 
+using Common.Attributes;
 using Common.Extensions.Stardew;
 using HarmonyLib;
 using Microsoft.Xna.Framework;
@@ -10,7 +11,7 @@ using System;
 
 #endregion using directives
 
-[UsedImplicitly]
+[UsedImplicitly, Deprecated]
 internal sealed class GameLocationPerformActionPatch : Common.Harmony.HarmonyPatch
 {
     /// <summary>Construct an instance.</summary>

@@ -2,9 +2,9 @@
 
 #region using directives
 
-using LinqFasterer;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 #endregion using directives
 
@@ -14,13 +14,13 @@ public static class ListExtensions
     /// <summary>Find the index of the highest-valued item in the list.</summary>
     public static int IndexOfMax<T>(this IList<T> list) where T : IComparable
     {
-        return list.IndexOf(list.MaxF()!);
+        return list.IndexOf(list.Max()!);
     }
 
     /// <summary>Find the index of the lowest-valued item in the list.</summary>
     public static int IndexOfMin<T>(this IList<T> list) where T : IComparable
     {
-        return list.IndexOf(list.MinF()!);
+        return list.IndexOf(list.Min()!);
     }
 
     /// <summary>Move the item at position <paramref name="oldIndex"/> to position <paramref name="newIndex"/>.</summary>
@@ -58,7 +58,7 @@ public static class ListExtensions
     /// <returns><see langword="true"/> if a matching item was moved, otherwise <see langword="false"/>.</returns>
     public static bool Move<T>(this IList<T> list, Func<T, bool> predicate, int newIndex)
     {
-        var toBeMoved = list.FirstOrDefaultF(predicate);
+        var toBeMoved = list.FirstOrDefault(predicate);
         return toBeMoved is not null && list.Move(toBeMoved, newIndex);
     }
 

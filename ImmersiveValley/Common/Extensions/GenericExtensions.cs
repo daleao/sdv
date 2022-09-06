@@ -1,10 +1,8 @@
-﻿using System;
-
-namespace DaLion.Common.Extensions;
+﻿namespace DaLion.Common.Extensions;
 
 #region using directives
 
-using LinqFasterer;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -21,7 +19,7 @@ public static class GenericExtensions
     /// <summary>Determine if the instance is contained by the collection.</summary>
     /// <param name="items">A sequence of <typeparamref name="T"/> objects to check.</param>
     public static bool IsIn<T>(this T item, params T[] items) =>
-        items.ContainsF(item);
+        items.Contains(item);
 
     /// <summary>Determine if the instance is contained by the collection.</summary>
     /// <param name="collection">A sequence of <typeparamref name="T"/> objects to check.</param>

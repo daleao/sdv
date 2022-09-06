@@ -58,7 +58,6 @@
 		<PackageReference Include="FastExpressionCompiler.LightExpression" Version="3.3.3" />
 		<PackageReference Include="JetBrains.Annotations" Version="2022.1.0" />
 		<PackageReference Include="Leclair.Stardew.ModManifestBuilder" Version="1.0.3" />
-		<PackageReference Include="LinqFasterer" Version="2.1.0" />
 		<PackageReference Include="Microsoft.Toolkit.Diagnostics" Version="7.1.2" />
 		<PackageReference Include="Microsoft.Win32.Registry" Version="5.0.0" ExcludeAssets="all" />
 		<PackageReference Include="NetEscapades.EnumGenerators" Version="1.0.0-beta04" PrivateAssets="all" ExcludeAssets="compile;runtime" />

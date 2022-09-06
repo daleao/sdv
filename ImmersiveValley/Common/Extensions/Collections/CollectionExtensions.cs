@@ -2,7 +2,6 @@
 
 #region using directives
 
-using LinqFasterer;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,7 +14,7 @@ public static class CollectionExtensions
     /// <summary>Determine if a collection contains any of the objects in a sequence.</summary>
     /// <param name="candidates">The objects to search for.</param>
     public static bool ContainsAnyOf<T>(this ICollection<T> collection, params T[] candidates) =>
-        candidates.AnyF(collection.Contains);
+        candidates.Any(collection.Contains);
 
     /// <summary>Determine if a collection contains any of the objects in a sequence.</summary>
     /// <param name="candidates">The objects to search for.</param>
@@ -25,7 +24,7 @@ public static class CollectionExtensions
     /// <summary>Determine if a collection contains all of the objects in a sequence.</summary>
     /// <param name="candidates">The objects to search for.</param>
     public static bool ContainsAllOf<T>(this ICollection<T> collection, params T[] candidates) =>
-        candidates.AllF(collection.Contains);
+        candidates.All(collection.Contains);
 
     /// <summary>Determine if a collection contains all of the objects in a sequence.</summary>
     /// <param name="candidates">The objects to search for.</param>

@@ -22,12 +22,10 @@ using System.Reflection.Emit;
 [UsedImplicitly, RequiresMod("spacechase0.SpaceCore")]
 internal sealed class NewForgeMenuUpdatePatch : Common.Harmony.HarmonyPatch
 {
-    private static readonly Type _NewForgeMenuType = "SpaceCore.Interface.NewForgeMenu".ToType();
-
     /// <summary>Construct an instance.</summary>
     internal NewForgeMenuUpdatePatch()
     {
-        Target = _NewForgeMenuType.RequireMethod("update", new[] { typeof(GameTime) });
+        Target = "SpaceCore.Interface.NewForgeMenu".ToType().RequireMethod("update", new[] { typeof(GameTime) });
     }
 
     #region harmony patches
@@ -70,7 +68,7 @@ internal sealed class NewForgeMenuUpdatePatch : Common.Harmony.HarmonyPatch
                     new CodeInstruction(OpCodes.Ldloc_S, helper.Locals[10]),
                     new CodeInstruction(OpCodes.Call,
                         typeof(Tool).RequireMethod(nameof(Tool.hasEnchantmentOfType))
-                            .MakeGenericMethod(typeof(HolyEnchantment))),
+                            .MakeGenericMethod(typeof(BlessedEnchantment))),
                     new CodeInstruction(OpCodes.Brfalse_S, vanillaUnforge),
                     new CodeInstruction(OpCodes.Ldarg_0),
                     new CodeInstruction(OpCodes.Ldloc_3, helper.Locals[10]),

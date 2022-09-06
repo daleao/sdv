@@ -6,7 +6,6 @@ using Common;
 using Common.Commands;
 using Common.Integrations.SpaceCore;
 using Framework;
-using LinqFasterer;
 using System;
 using System.Linq;
 
@@ -37,7 +36,7 @@ internal sealed class ClearNewLevelsCommand : ConsoleCommand
             {
                 if (Skill.TryFromName(arg, true, out var skill))
                 {
-                    Game1.player.newLevels.Set(Game1.player.newLevels.WhereF(p => p.X != skill).ToListF());
+                    Game1.player.newLevels.Set(Game1.player.newLevels.Where(p => p.X != skill).ToList());
                 }
                 else
                 {
@@ -51,7 +50,7 @@ internal sealed class ClearNewLevelsCommand : ConsoleCommand
 
                     var newLevels = ExtendedSpaceCoreAPI.GetCustomSkillNewLevels.Value();
                     ExtendedSpaceCoreAPI.SetCustomSkillNewLevels.Value(newLevels
-                        .WhereF(pair => pair.Key != customSkill.StringId).ToListF());
+                        .Where(pair => pair.Key != customSkill.StringId).ToList());
                 }
             }
     }
