@@ -3,13 +3,11 @@
 /// <summary>Base implementation of a console command for a mod.</summary>
 internal abstract class ConsoleCommand : IConsoleCommand
 {
-    protected readonly CommandHandler Handler;
-
-    /// <summary>Construct an instance.</summary>
+    /// <summary>Initializes a new instance of the <see cref="ConsoleCommand"/> class.</summary>
     /// <param name="handler">The <see cref="CommandHandler"/> instance that handles this command.</param>
     protected ConsoleCommand(CommandHandler handler)
     {
-        Handler = handler;
+        this.Handler = handler;
     }
 
     /// <inheritdoc />
@@ -17,6 +15,9 @@ internal abstract class ConsoleCommand : IConsoleCommand
 
     /// <inheritdoc />
     public abstract string Documentation { get; }
+
+    /// <summary>Gets the <see cref="CommandHandler"/> instance that handles this command.</summary>
+    protected CommandHandler Handler { get; }
 
     /// <inheritdoc />
     public abstract void Callback(string[] args);

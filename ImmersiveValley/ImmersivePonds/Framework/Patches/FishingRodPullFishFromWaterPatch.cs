@@ -2,47 +2,58 @@
 
 #region using directives
 
-using Common;
-using Common.Extensions;
-using Common.Extensions.Reflection;
-using Common.Extensions.Stardew;
-using Extensions;
-using HarmonyLib;
-using Microsoft.Xna.Framework;
-using StardewValley.Buildings;
-using StardewValley.Tools;
 using System;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using CommunityToolkit.Diagnostics;
+using DaLion.Common;
+using DaLion.Common.Extensions;
+using DaLion.Common.Extensions.Reflection;
+using DaLion.Common.Extensions.Stardew;
+using DaLion.Stardew.Ponds.Extensions;
+using HarmonyLib;
+using Microsoft.Xna.Framework;
+using StardewValley.Buildings;
+using StardewValley.Tools;
+using HarmonyPatch = DaLion.Common.Harmony.HarmonyPatch;
 
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class FishingRodPullFishFromWaterPatch : Common.Harmony.HarmonyPatch
+internal sealed class FishingRodPullFishFromWaterPatch : HarmonyPatch
 {
-    private static readonly Lazy<Func<FishingRod, Vector2>> _CalculateBobberTile = new(() =>
-        typeof(FishingRod).RequireMethod("calculateBobberTile").CompileUnboundDelegate<Func<FishingRod, Vector2>>());
+    private static readonly Lazy<Func<FishingRod, Vector2>> CalculateBobberTile = new(() =>
+        typeof(FishingRod)
+            .RequireMethod("calculateBobberTile")
+            .CompileUnboundDelegate<Func<FishingRod, Vector2>>());
 
-    /// <summary>Construct an instance.</summary>
+    /// <summary>Initializes a new instance of the <see cref="FishingRodPullFishFromWaterPatch"/> class.</summary>
     internal FishingRodPullFishFromWaterPatch()
     {
-        Target = RequireMethod<FishingRod>(nameof(FishingRod.pullFishFromWater));
+        this.Target = this.RequireMethod<FishingRod>(nameof(FishingRod.pullFishFromWater));
     }
 
     #region harmony patches
 
     /// <summary>Decrement total Fish Pond quality ratings.</summary>
     [HarmonyPrefix]
-    private static void FishingRodPullFishFromWaterPrefix(FishingRod __instance, ref int whichFish, ref int fishQuality, bool fromFishPond)
+    private static void FishingRodPullFishFromWaterPrefix(
+        FishingRod __instance, ref int whichFish, ref int fishQuality, bool fromFishPond)
     {
-        if (!fromFishPond || whichFish.IsTrashIndex()) return;
+        if (!fromFishPond || whichFish.IsTrashIndex())
+        {
+            return;
+        }
 
-        var (x, y) = _CalculateBobberTile.Value(__instance);
+        var (x, y) = CalculateBobberTile.Value(__instance);
         var pond = Game1.getFarm().buildings.OfType<FishPond>().FirstOrDefault(p =>
             x > p.tileX.Value && x < p.tileX.Value + p.tilesWide.Value - 1 &&
             y > p.tileY.Value && y < p.tileY.Value + p.tilesHigh.Value - 1);
-        if (pond is null || pond.FishCount < 0) return;
+        if (pond is null || pond.FishCount < 0)
+        {
+            return;
+        }
 
         try
         {
@@ -57,17 +68,17 @@ internal sealed class FishingRodPullFishFromWaterPatch : Common.Harmony.HarmonyP
                 var roll = Game1.random.Next(seaweedCount + greenAlgaeCount + whiteAlgaeCount);
                 if (roll < seaweedCount)
                 {
-                    whichFish = Constants.SEAWEED_INDEX_I;
+                    whichFish = Constants.SeaweedIndex;
                     pond.Write("SeaweedLivingHere", (--seaweedCount).ToString());
                 }
                 else if (roll < seaweedCount + greenAlgaeCount)
                 {
-                    whichFish = Constants.GREEN_ALGAE_INDEX_I;
+                    whichFish = Constants.GreenAlgaeIndex;
                     pond.Write("GreenAlgaeLivingHere", (--greenAlgaeCount).ToString());
                 }
                 else if (roll < seaweedCount + greenAlgaeCount + whiteAlgaeCount)
                 {
-                    whichFish = Constants.WHITE_ALGAE_INDEX_I;
+                    whichFish = Constants.WhiteAlgaeIndex;
                     pond.Write("WhiteAlgaeLivingHere", (--whiteAlgaeCount).ToString());
                 }
 
@@ -75,7 +86,10 @@ internal sealed class FishingRodPullFishFromWaterPatch : Common.Harmony.HarmonyP
                             __instance.Read<int>("GreenAlgaeLivingHere") +
                             __instance.Read<int>("WhiteAlgaeLivingHere");
                 if (total != pond.FishCount)
-                    ThrowHelper.ThrowInvalidDataException("Mismatch between algae population data and actual population.");
+                {
+                    ThrowHelper.ThrowInvalidDataException(
+                        "Mismatch between algae population data and actual population.");
+                }
 
                 return;
             }
@@ -88,10 +102,10 @@ internal sealed class FishingRodPullFishFromWaterPatch : Common.Harmony.HarmonyP
             pond.Write("WhiteAlgaeLivingHere", null);
             var field = pond.fishType.Value switch
             {
-                Constants.SEAWEED_INDEX_I => "SeaweedLivingHere",
-                Constants.GREEN_ALGAE_INDEX_I => "GreenAlgaeLivingHere",
-                Constants.WHITE_ALGAE_INDEX_I => "WhiteAlgaeLivingHere",
-                _ => string.Empty
+                Constants.SeaweedIndex => "SeaweedLivingHere",
+                Constants.GreenAlgaeIndex => "GreenAlgaeLivingHere",
+                Constants.WhiteAlgaeIndex => "WhiteAlgaeLivingHere",
+                _ => string.Empty,
             };
 
             pond.Write(field, pond.FishCount.ToString());
@@ -103,17 +117,20 @@ internal sealed class FishingRodPullFishFromWaterPatch : Common.Harmony.HarmonyP
 
         try
         {
-            var fishQualities = pond.Read("FishQualities",
-                $"{pond.FishCount - pond.Read<int>("FamilyLivingHere")},0,0,0").ParseList<int>();
-            if (fishQualities.Count != 4 || fishQualities.Any(q => 0 > q || q > pond.FishCount + 1)) // FishCount has already been decremented at this point, so we increment 1 to compensate
+            var fishQualities = pond.Read("FishQualities", $"{pond.FishCount - pond.Read<int>("FamilyLivingHere")},0,0,0").ParseList<int>();
+            if (fishQualities.Count != 4 || fishQualities.Any(q => q < 0 || q > pond.FishCount + 1)) // FishCount has already been decremented at this point, so we increment 1 to compensate
+            {
                 ThrowHelper.ThrowInvalidDataException("FishQualities data had incorrect number of values.");
+            }
 
             var lowestFish = fishQualities.FindIndex(i => i > 0);
             if (pond.HasLegendaryFish())
             {
                 var familyCount = pond.Read<int>("FamilyLivingHere");
                 if (fishQualities.Sum() + familyCount != pond.FishCount + 1) // FishCount has already been decremented at this point, so we increment 1 to compensate
+                {
                     ThrowHelper.ThrowInvalidDataException("FamilyLivingHere data is invalid.");
+                }
 
                 if (familyCount > 0)
                 {
@@ -121,10 +138,12 @@ internal sealed class FishingRodPullFishFromWaterPatch : Common.Harmony.HarmonyP
                         pond.Read("FamilyQualities", $"{pond.Read<int>("FamilyLivingHere")},0,0,0")
                             .ParseList<int>();
                     if (familyQualities.Count != 4 || familyQualities.Sum() != familyCount)
+                    {
                         ThrowHelper.ThrowInvalidDataException("FamilyQualities data had incorrect number of values.");
+                    }
 
                     var lowestFamily = familyQualities.FindIndex(i => i > 0);
-                    if (lowestFamily < lowestFish || lowestFamily == lowestFish && Game1.random.NextDouble() < 0.5)
+                    if (lowestFamily < lowestFish || (lowestFamily == lowestFish && Game1.random.NextDouble() < 0.5))
                     {
                         whichFish = Utils.ExtendedFamilyPairs[whichFish];
                         fishQuality = lowestFamily == 3 ? 4 : lowestFamily;

@@ -2,35 +2,37 @@
 
 #region using directives
 
-using Common;
-using Common.Commands;
-using Common.Extensions.Stardew;
-using Extensions;
-using Framework;
 using System.Linq;
+using DaLion.Common;
+using DaLion.Common.Commands;
+using DaLion.Common.Extensions.Stardew;
+using DaLion.Stardew.Professions.Extensions;
+using DaLion.Stardew.Professions.Framework;
 
 #endregion using directives
 
 [UsedImplicitly]
 internal sealed class SetModDataCommand : ConsoleCommand
 {
-    /// <summary>Construct an instance.</summary>
+    /// <summary>Initializes a new instance of the <see cref="SetModDataCommand"/> class.</summary>
     /// <param name="handler">The <see cref="CommandHandler"/> instance that handles this command.</param>
     internal SetModDataCommand(CommandHandler handler)
-        : base(handler) { }
+        : base(handler)
+    {
+    }
 
     /// <inheritdoc />
     public override string[] Triggers { get; } = { "set_data" };
 
     /// <inheritdoc />
-    public override string Documentation => "Set a new value for the specified mod data field." + GetUsage();
+    public override string Documentation => "Set a new value for the specified mod data field." + this.GetUsage();
 
     /// <inheritdoc />
     public override void Callback(string[] args)
     {
         if (args.Length <= 0)
         {
-            Log.W("You must specify a data field and value." + GetUsage());
+            Log.W("You must specify a data field and value." + this.GetUsage());
             return;
         }
 
@@ -48,7 +50,7 @@ internal sealed class SetModDataCommand : ConsoleCommand
 
         if (args.Length % 2 != 0)
         {
-            Log.W("You must specify a data field and value." + GetUsage());
+            Log.W("You must specify a data field and value." + this.GetUsage());
             return;
         }
 
@@ -108,36 +110,6 @@ internal sealed class SetModDataCommand : ConsoleCommand
         }
     }
 
-    private string GetUsage()
-    {
-        var result = $"\n\nUsage: {Handler.EntryCommand} {Triggers.First()} <field> <value>";
-        result += "\n\nParameters:";
-        result += "\n\t<field>\t- the name of the field";
-        result += "\\n\t<value>\t- the desired new value";
-        result += "\n\nExamples:";
-        result += $"\n\t{Handler.EntryCommand} {Triggers.First()} EcologistItemsForaged 100";
-        result += $"\n\t{Handler.EntryCommand} {Triggers.First()} trash 500";
-        result += "\n\nAvailable data fields:";
-        result += $"\n\t- EcologistItemsForaged (shortcut 'forages')";
-        result += $"\n\t- GemologistMineralsCollected (shortcut 'minerals')";
-        result += $"\n\t- ProspectorHuntStreak (shortcut 'phunt')";
-        result += $"\n\t- ScavengerHuntStreak (shortcut 'shunt')";
-        result += $"\n\t- ConservationistTrashCollectedThisSeason (shortcut 'trash')";
-        result += GetAvailableFields();
-        return result;
-    }
-
-    private static string GetAvailableFields()
-    {
-        var result = "\n\nAvailable data fields:";
-        result += $"\n\t- EcologistItemsForaged (shortcut 'forages')";
-        result += $"\n\t- GemologistMineralsCollected (shortcut 'minerals')";
-        result += $"\n\t- ProspectorHuntStreak (shortcut 'phunt')";
-        result += $"\n\t- ScavengerHuntStreak (shortcut 'shunt')";
-        result += $"\n\t- ConservationistTrashCollectedThisSeason (shortcut 'trash')";
-        return result;
-    }
-
     #region data setters
 
     private static void SetEcologistItemsForaged(int? value)
@@ -149,7 +121,10 @@ internal sealed class SetModDataCommand : ConsoleCommand
         }
 
         Game1.player.Write("EcologistItemsForaged", value?.ToString());
-        if (value.HasValue) Log.I($"Items foraged as Ecologist was set to {value}.");
+        if (value.HasValue)
+        {
+            Log.I($"Items foraged as Ecologist was set to {value}.");
+        }
     }
 
     private static void SetGemologistMineralsCollected(int? value)
@@ -161,7 +136,10 @@ internal sealed class SetModDataCommand : ConsoleCommand
         }
 
         Game1.player.Write("GemologistMineralsCollected", value?.ToString());
-        if (value.HasValue) Log.I($"Minerals collected as Gemologist was set to {value}.");
+        if (value.HasValue)
+        {
+            Log.I($"Minerals collected as Gemologist was set to {value}.");
+        }
     }
 
     private static void SetProspectorHuntStreak(int? value)
@@ -173,7 +151,10 @@ internal sealed class SetModDataCommand : ConsoleCommand
         }
 
         Game1.player.Write("ProspectorHuntStreak", value?.ToString());
-        if (value.HasValue) Log.I($"Prospector Hunt was streak set to {value}.");
+        if (value.HasValue)
+        {
+            Log.I($"Prospector Hunt was streak set to {value}.");
+        }
     }
 
     private static void SetScavengerHuntStreak(int? value)
@@ -185,7 +166,10 @@ internal sealed class SetModDataCommand : ConsoleCommand
         }
 
         Game1.player.Write("ScavengerHuntStreak", value?.ToString());
-        if (value.HasValue) Log.I($"Scavenger Hunt streak was set to {value}.");
+        if (value.HasValue)
+        {
+            Log.I($"Scavenger Hunt streak was set to {value}.");
+        }
     }
 
     private static void SetConservationistTrashCollectedThisSeason(int? value)
@@ -197,8 +181,41 @@ internal sealed class SetModDataCommand : ConsoleCommand
         }
 
         Game1.player.Write("ConservationistTrashCollectedThisSeason", value?.ToString());
-        if (value.HasValue) Log.I($"Conservationist trash collected in the current season was set to {value}.");
+        if (value.HasValue)
+        {
+            Log.I($"Conservationist trash collected in the current season was set to {value}.");
+        }
     }
 
     #endregion data setters
+
+    private static string GetAvailableFields()
+    {
+        var result = "\n\nAvailable data fields:";
+        result += "\n\t- EcologistItemsForaged (shortcut 'forages')";
+        result += "\n\t- GemologistMineralsCollected (shortcut 'minerals')";
+        result += "\n\t- ProspectorHuntStreak (shortcut 'phunt')";
+        result += "\n\t- ScavengerHuntStreak (shortcut 'shunt')";
+        result += "\n\t- ConservationistTrashCollectedThisSeason (shortcut 'trash')";
+        return result;
+    }
+
+    private string GetUsage()
+    {
+        var result = $"\n\nUsage: {this.Handler.EntryCommand} {this.Triggers.First()} <field> <value>";
+        result += "\n\nParameters:";
+        result += "\n\t<field>\t- the name of the field";
+        result += "\\n\t<value>\t- the desired new value";
+        result += "\n\nExamples:";
+        result += $"\n\t{this.Handler.EntryCommand} {this.Triggers.First()} EcologistItemsForaged 100";
+        result += $"\n\t{this.Handler.EntryCommand} {this.Triggers.First()} trash 500";
+        result += "\n\nAvailable data fields:";
+        result += "\n\t- EcologistItemsForaged (shortcut 'forages')";
+        result += "\n\t- GemologistMineralsCollected (shortcut 'minerals')";
+        result += "\n\t- ProspectorHuntStreak (shortcut 'phunt')";
+        result += "\n\t- ScavengerHuntStreak (shortcut 'shunt')";
+        result += "\n\t- ConservationistTrashCollectedThisSeason (shortcut 'trash')";
+        result += GetAvailableFields();
+        return result;
+    }
 }

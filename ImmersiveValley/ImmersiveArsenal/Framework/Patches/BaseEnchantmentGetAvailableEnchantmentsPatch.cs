@@ -2,25 +2,26 @@
 
 #region using directives
 
-using Common;
-using Common.Extensions.Reflection;
-using Common.Harmony;
-using Enchantments;
-using HarmonyLib;
-using System.Collections.Generic;
 using System;
+using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
+using DaLion.Common;
+using DaLion.Common.Extensions.Reflection;
+using DaLion.Common.Harmony;
+using DaLion.Stardew.Arsenal.Framework.Enchantments;
+using HarmonyLib;
+using HarmonyPatch = DaLion.Common.Harmony.HarmonyPatch;
 
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class BaseEnchantmentGetAvailableEnchantmentsPatch : Common.Harmony.HarmonyPatch
+internal sealed class BaseEnchantmentGetAvailableEnchantmentsPatch : HarmonyPatch
 {
-    /// <summary>Construct an instance.</summary>
+    /// <summary>Initializes a new instance of the <see cref="BaseEnchantmentGetAvailableEnchantmentsPatch"/> class.</summary>
     internal BaseEnchantmentGetAvailableEnchantmentsPatch()
     {
-        Target = RequireMethod<BaseEnchantment>(nameof(BaseEnchantment.GetAvailableEnchantments));
+        this.Target = this.RequireMethod<BaseEnchantment>(nameof(BaseEnchantment.GetAvailableEnchantments));
     }
 
     #region harmony patches
@@ -30,7 +31,7 @@ internal sealed class BaseEnchantmentGetAvailableEnchantmentsPatch : Common.Harm
     private static IEnumerable<CodeInstruction>? BaseEnchantmentGetAvailableEnchantmentsTranspiler(
         IEnumerable<CodeInstruction> instructions, ILGenerator generator, MethodBase original)
     {
-        var helper = new ILHelper(original, instructions);
+        var helper = new IlHelper(original, instructions);
 
         try
         {
@@ -39,42 +40,45 @@ internal sealed class BaseEnchantmentGetAvailableEnchantmentsPatch : Common.Harm
             helper
                 .GoTo(4)
                 .InsertInstructions(
-                    new(OpCodes.Call, typeof(ModEntry).RequirePropertyGetter(nameof(ModEntry.Config))),
-                    new(OpCodes.Call, typeof(ModConfig).RequirePropertyGetter(nameof(ModConfig.NewWeaponEnchants))),
-                    new(OpCodes.Brtrue_S, newWeaponEnchants)
-                )
+                    new CodeInstruction(OpCodes.Call, typeof(ModEntry).RequirePropertyGetter(nameof(ModEntry.Config))),
+                    new CodeInstruction(
+                        OpCodes.Call,
+                        typeof(ModConfig).RequirePropertyGetter(nameof(ModConfig.NewWeaponEnchants))),
+                    new CodeInstruction(OpCodes.Brtrue_S, newWeaponEnchants))
                 .Advance(12)
-                .InsertInstructions(
-                    new CodeInstruction(OpCodes.Br_S, resumeExecution)
-                )
+                .InsertInstructions(new CodeInstruction(OpCodes.Br_S, resumeExecution))
                 .InsertWithLabels(
                     new[] { newWeaponEnchants },
                     // add cleaving enchant
-                    new(OpCodes.Ldsfld, typeof(BaseEnchantment).RequireField("_enchantments")),
-                    new(OpCodes.Newobj, typeof(CleavingEnchantment).RequireConstructor()),
-                    new(OpCodes.Callvirt,
+                    new CodeInstruction(OpCodes.Ldsfld, typeof(BaseEnchantment).RequireField("_enchantments")),
+                    new CodeInstruction(OpCodes.Newobj, typeof(CleavingEnchantment).RequireConstructor()),
+                    new CodeInstruction(
+                        OpCodes.Callvirt,
                         typeof(List<BaseEnchantment>).RequireMethod(nameof(List<BaseEnchantment>.Add))),
                     // add energized enchant
-                    new(OpCodes.Ldsfld, typeof(BaseEnchantment).RequireField("_enchantments")),
-                    new(OpCodes.Newobj, typeof(EnergizedEnchantment).RequireConstructor()),
-                    new(OpCodes.Callvirt,
+                    new CodeInstruction(OpCodes.Ldsfld, typeof(BaseEnchantment).RequireField("_enchantments")),
+                    new CodeInstruction(OpCodes.Newobj, typeof(EnergizedEnchantment).RequireConstructor()),
+                    new CodeInstruction(
+                        OpCodes.Callvirt,
                         typeof(List<BaseEnchantment>).RequireMethod(nameof(List<BaseEnchantment>.Add))),
                     // add tribute enchant
-                    new(OpCodes.Ldsfld, typeof(BaseEnchantment).RequireField("_enchantments")),
-                    new(OpCodes.Newobj, typeof(TributeEnchantment).RequireConstructor()),
-                    new(OpCodes.Callvirt,
+                    new CodeInstruction(OpCodes.Ldsfld, typeof(BaseEnchantment).RequireField("_enchantments")),
+                    new CodeInstruction(OpCodes.Newobj, typeof(TributeEnchantment).RequireConstructor()),
+                    new CodeInstruction(
+                        OpCodes.Callvirt,
                         typeof(List<BaseEnchantment>).RequireMethod(nameof(List<BaseEnchantment>.Add))),
                     // add reworked vampiric enchant
-                    new(OpCodes.Ldsfld, typeof(BaseEnchantment).RequireField("_enchantments")),
-                    new(OpCodes.Newobj, typeof(VampiricEnchantment).RequireConstructor()),
-                    new(OpCodes.Callvirt,
+                    new CodeInstruction(OpCodes.Ldsfld, typeof(BaseEnchantment).RequireField("_enchantments")),
+                    new CodeInstruction(OpCodes.Newobj, typeof(VampiricEnchantment).RequireConstructor()),
+                    new CodeInstruction(
+                        OpCodes.Callvirt,
                         typeof(List<BaseEnchantment>).RequireMethod(nameof(List<BaseEnchantment>.Add))),
                     // add magic / sunburst enchant
-                    new(OpCodes.Ldsfld, typeof(BaseEnchantment).RequireField("_enchantments")),
-                    new(OpCodes.Newobj, typeof(MagicEnchantment).RequireConstructor()),
-                    new(OpCodes.Callvirt,
-                        typeof(List<BaseEnchantment>).RequireMethod(nameof(List<BaseEnchantment>.Add)))
-                );
+                    new CodeInstruction(OpCodes.Ldsfld, typeof(BaseEnchantment).RequireField("_enchantments")),
+                    new CodeInstruction(OpCodes.Newobj, typeof(MagicEnchantment).RequireConstructor()),
+                    new CodeInstruction(
+                        OpCodes.Callvirt,
+                        typeof(List<BaseEnchantment>).RequireMethod(nameof(List<BaseEnchantment>.Add))));
         }
         catch (Exception ex)
         {

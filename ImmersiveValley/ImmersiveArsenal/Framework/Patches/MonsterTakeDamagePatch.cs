@@ -2,26 +2,28 @@
 
 #region using directives
 
-using Common;
-using Common.Extensions.Reflection;
-using Common.Harmony;
-using HarmonyLib;
-using StardewValley.Monsters;
 using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
-using VirtualProperties;
+using DaLion.Common;
+using DaLion.Common.Extensions.Reflection;
+using DaLion.Common.Harmony;
+using DaLion.Stardew.Arsenal.Framework.VirtualProperties;
+using HarmonyLib;
+using StardewValley.Monsters;
+using HarmonyPatch = DaLion.Common.Harmony.HarmonyPatch;
 
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class MonsterTakeDamagePatch : Common.Harmony.HarmonyPatch
+internal sealed class MonsterTakeDamagePatch : HarmonyPatch
 {
-    /// <summary>Construct an instance.</summary>
+    /// <summary>Initializes a new instance of the <see cref="MonsterTakeDamagePatch"/> class.</summary>
     internal MonsterTakeDamagePatch()
     {
-        Target = RequireMethod<Monster>(nameof(Monster.takeDamage),
+        this.Target = this.RequireMethod<Monster>(
+            nameof(Monster.takeDamage),
             new[] { typeof(int), typeof(int), typeof(int), typeof(bool), typeof(double), typeof(string) });
     }
 
@@ -30,19 +32,18 @@ internal sealed class MonsterTakeDamagePatch : Common.Harmony.HarmonyPatch
     [HarmonyPrefix]
     private static void MonsterTakeDamagePrefix(Monster __instance, int damage)
     {
-        __instance.set_Overkill(Math.Max(damage - __instance.Health, 0));
+        __instance.Set_Overkill(Math.Max(damage - __instance.Health, 0));
     }
 
     /// <summary>Crits ignore defense, which, btw, actually does something.</summary>
     [HarmonyTranspiler]
-    private static IEnumerable<CodeInstruction>? MonsterTakeDamageTranspiler(IEnumerable<CodeInstruction> instructions,
-        ILGenerator generator, MethodBase original)
+    private static IEnumerable<CodeInstruction>? MonsterTakeDamageTranspiler(
+        IEnumerable<CodeInstruction> instructions, ILGenerator generator, MethodBase original)
     {
-        var helper = new ILHelper(original, instructions);
+        var helper = new IlHelper(original, instructions);
 
-        /// From: int actualDamage = Math.Max(1, damage - (int)resilience);
-        /// To: int actualDamage = this.get_GotCrit() && ModEntry.Config.CritsIgnoreDefense ? damage : damage * 10 / (10 + (int)resilience) ;
-
+        // From: int actualDamage = Math.Max(1, damage - (int)resilience);
+        // To: int actualDamage = this.get_GotCrit() && ModEntry.Config.CritsIgnoreDefense ? damage : damage * 10 / (10 + (int)resilience) ;
         var mitigateDamage = generator.DefineLabel();
         var resumeExecution = generator.DefineLabel();
         try
@@ -50,35 +51,33 @@ internal sealed class MonsterTakeDamagePatch : Common.Harmony.HarmonyPatch
             helper
                 .InsertInstructions(
                     new CodeInstruction(OpCodes.Call, typeof(ModEntry).RequirePropertyGetter(nameof(ModEntry.Config))),
-                    new CodeInstruction(OpCodes.Call, typeof(ModConfig).RequirePropertyGetter(nameof(ModConfig.CritsIgnoreDefense))),
+                    new CodeInstruction(
+                        OpCodes.Call,
+                        typeof(ModConfig).RequirePropertyGetter(nameof(ModConfig.CritsIgnoreDefense))),
                     new CodeInstruction(OpCodes.Brfalse_S, mitigateDamage),
                     new CodeInstruction(OpCodes.Ldarg_0),
-                    new CodeInstruction(OpCodes.Call,
-                        typeof(Monster_GotCrit).RequireMethod(nameof(Monster_GotCrit.get_GotCrit))),
+                    new CodeInstruction(
+                        OpCodes.Call,
+                        typeof(Monster_GotCrit).RequireMethod(nameof(Monster_GotCrit.Get_GotCrit))),
                     new CodeInstruction(OpCodes.Brfalse_S, mitigateDamage),
                     new CodeInstruction(OpCodes.Ldarg_1),
                     new CodeInstruction(OpCodes.Stloc_0),
-                    new CodeInstruction(OpCodes.Br_S, resumeExecution)
-                )
+                    new CodeInstruction(OpCodes.Br_S, resumeExecution))
                 .RemoveInstructions()
                 .AddLabels(mitigateDamage)
                 .Advance()
                 .InsertInstructions(
                     new CodeInstruction(OpCodes.Conv_R4),
                     new CodeInstruction(OpCodes.Ldc_R4, 10f),
-                    new CodeInstruction(OpCodes.Ldc_R4, 10f)
-                )
-                .AdvanceUntil(
-                    new CodeInstruction(OpCodes.Sub)
-                )
+                    new CodeInstruction(OpCodes.Ldc_R4, 10f))
+                .AdvanceUntil(new CodeInstruction(OpCodes.Sub))
                 .InsertInstructions(
                     new CodeInstruction(OpCodes.Conv_R4),
                     new CodeInstruction(OpCodes.Add),
-                    new CodeInstruction(OpCodes.Div)
-                )
-                .ReplaceInstructionWith(new(OpCodes.Mul))
+                    new CodeInstruction(OpCodes.Div))
+                .ReplaceInstructionWith(new CodeInstruction(OpCodes.Mul))
                 .Advance()
-                .ReplaceInstructionWith(new(OpCodes.Conv_I4))
+                .ReplaceInstructionWith(new CodeInstruction(OpCodes.Conv_I4))
                 .Advance(2)
                 .AddLabels(resumeExecution);
         }

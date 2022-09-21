@@ -2,30 +2,33 @@
 
 #region using directives
 
-using Common;
-using Enchantments;
-using HarmonyLib;
-using StardewValley.Tools;
 using System;
 using System.Reflection;
+using DaLion.Common;
+using DaLion.Stardew.Slingshots.Framework.Enchantments;
+using HarmonyLib;
+using StardewValley.Tools;
+using HarmonyPatch = DaLion.Common.Harmony.HarmonyPatch;
 
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class SlingshotCanAutoFirePatch : Common.Harmony.HarmonyPatch
+internal sealed class SlingshotCanAutoFirePatch : HarmonyPatch
 {
-    /// <summary>Construct an instance.</summary>
+    /// <summary>Initializes a new instance of the <see cref="SlingshotCanAutoFirePatch"/> class.</summary>
     internal SlingshotCanAutoFirePatch()
     {
-        Target = RequireMethod<Slingshot>(nameof(Slingshot.CanAutoFire));
-        Prefix!.priority = Priority.High;
-        Prefix!.after = new[] { "DaLion.ImmersiveProfessions" };
+        this.Target = this.RequireMethod<Slingshot>(nameof(Slingshot.CanAutoFire));
+        this.Prefix!.priority = Priority.High;
+        this.Prefix!.after = new[] { "DaLion.ImmersiveProfessions" };
     }
 
     #region harmony patches
 
     /// <summary>Implement <see cref="GatlingEnchantment"/> effect.</summary>
-    [HarmonyPrefix, HarmonyPriority(Priority.High), HarmonyAfter("DaLion.ImmersiveProfessions")]
+    [HarmonyPrefix]
+    [HarmonyPriority(Priority.High)]
+    [HarmonyAfter("DaLion.ImmersiveProfessions")]
     private static bool SlingshotCanAutoFirePrefix(Slingshot __instance, ref bool __result)
     {
         try

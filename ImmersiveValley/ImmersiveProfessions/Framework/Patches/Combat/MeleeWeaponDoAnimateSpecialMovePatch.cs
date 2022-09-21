@@ -2,25 +2,26 @@
 
 #region using directives
 
-using DaLion.Common;
-using DaLion.Common.Harmony;
-using Extensions;
-using HarmonyLib;
-using StardewValley.Tools;
 using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
+using DaLion.Common;
+using DaLion.Common.Harmony;
+using DaLion.Stardew.Professions.Extensions;
+using HarmonyLib;
+using StardewValley.Tools;
+using HarmonyPatch = DaLion.Common.Harmony.HarmonyPatch;
 
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class MeleeWeaponDoAnimateSpecialMovePatch : DaLion.Common.Harmony.HarmonyPatch
+internal sealed class MeleeWeaponDoAnimateSpecialMovePatch : HarmonyPatch
 {
-    /// <summary>Construct an instance.</summary>
+    /// <summary>Initializes a new instance of the <see cref="MeleeWeaponDoAnimateSpecialMovePatch"/> class.</summary>
     internal MeleeWeaponDoAnimateSpecialMovePatch()
     {
-        Target = RequireMethod<MeleeWeapon>("doAnimateSpecialMove");
+        this.Target = this.RequireMethod<MeleeWeapon>("doAnimateSpecialMove");
     }
 
     #region harmony patches
@@ -30,26 +31,21 @@ internal sealed class MeleeWeaponDoAnimateSpecialMovePatch : DaLion.Common.Harmo
     private static IEnumerable<CodeInstruction>? MeleeWeaponDoAnimateSpecialMoveTranspiler(
         IEnumerable<CodeInstruction> instructions, MethodBase original)
     {
-        var helper = new ILHelper(original, instructions);
+        var helper = new IlHelper(original, instructions);
 
-        /// Skipped: if (lastUser.professions.Contains(<acrobat_id>) cooldown /= 2
-
+        // Skipped: if (lastUser.professions.Contains(<acrobat_id>) cooldown /= 2
         var i = 0;
-    repeat:
+        repeat:
         try
         {
             helper // find index of acrobat check
                 .FindProfessionCheck(Farmer.acrobat, i != 0)
                 .Retreat(2)
                 .StripLabels(out var labels) // backup and remove branch labels
-                .AdvanceUntil(
-                    new CodeInstruction(OpCodes.Brfalse_S) // the false case branch
-                )
+                .AdvanceUntil(new CodeInstruction(OpCodes.Brfalse_S)) // the false case branch
                 .GetOperand(out var isNotAcrobat) // copy destination
                 .Return()
-                .InsertInstructions( // insert unconditional branch to skip this check
-                    new CodeInstruction(OpCodes.Br_S, (Label)isNotAcrobat)
-                )
+                .InsertInstructions(new CodeInstruction(OpCodes.Br_S, (Label)isNotAcrobat)) // insert unconditional branch to skip this check
                 .Retreat()
                 .AddLabels(labels) // restore bakced-up labels to inserted branch
                 .Advance(3);
@@ -61,7 +57,10 @@ internal sealed class MeleeWeaponDoAnimateSpecialMovePatch : DaLion.Common.Harmo
         }
 
         // repeat injection three times
-        if (++i < 3) goto repeat;
+        if (++i < 3)
+        {
+            goto repeat;
+        }
 
         return helper.Flush();
     }

@@ -2,20 +2,21 @@
 
 #region using directives
 
+using DaLion.Stardew.Professions.Framework.Textures;
 using HarmonyLib;
 using Microsoft.Xna.Framework;
 using StardewValley.Menus;
-using Textures;
+using HarmonyPatch = DaLion.Common.Harmony.HarmonyPatch;
 
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class SkillsPageCtorPatch : DaLion.Common.Harmony.HarmonyPatch
+internal sealed class SkillsPageCtorPatch : HarmonyPatch
 {
-    /// <summary>Construct an instance.</summary>
+    /// <summary>Initializes a new instance of the <see cref="SkillsPageCtorPatch"/> class.</summary>
     internal SkillsPageCtorPatch()
     {
-        Target = RequireConstructor<SkillsPage>(typeof(int), typeof(int), typeof(int), typeof(int));
+        this.Target = this.RequireConstructor<SkillsPage>(typeof(int), typeof(int), typeof(int), typeof(int));
     }
 
     #region harmony patches
@@ -27,10 +28,16 @@ internal sealed class SkillsPageCtorPatch : DaLion.Common.Harmony.HarmonyPatch
     [HarmonyPostfix]
     private static void SkillsPageCtorPostfix(SkillsPage __instance)
     {
-        if (!ModEntry.Config.EnablePrestige) return;
+        if (!ModEntry.Config.EnablePrestige)
+        {
+            return;
+        }
 
         __instance.width += 48;
-        if (ModEntry.Config.PrestigeProgressionStyle == ModConfig.ProgressionStyle.StackedStars) __instance.width += 24;
+        if (ModEntry.Config.PrestigeProgressionStyle == ModConfig.ProgressionStyle.StackedStars)
+        {
+            __instance.width += 24;
+        }
 
         var srcRect = new Rectangle(16, 0, 14, 9);
         foreach (var component in __instance.skillBars)
@@ -46,7 +53,7 @@ internal sealed class SkillsPageCtorPatch : DaLion.Common.Harmony.HarmonyPatch
                     {
                         1 => 3,
                         3 => 1,
-                        _ => skillIndex
+                        _ => skillIndex,
                     };
 
                     if (Game1.player.GetUnmodifiedSkillLevel(skillIndex) >= 15)
@@ -65,7 +72,7 @@ internal sealed class SkillsPageCtorPatch : DaLion.Common.Harmony.HarmonyPatch
                     {
                         1 => 3,
                         3 => 1,
-                        _ => skillIndex
+                        _ => skillIndex,
                     };
 
                     if (Game1.player.GetUnmodifiedSkillLevel(skillIndex) >= 20)

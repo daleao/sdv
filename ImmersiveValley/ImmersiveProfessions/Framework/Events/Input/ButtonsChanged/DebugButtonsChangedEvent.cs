@@ -2,51 +2,70 @@
 
 #region using directives
 
-using Common;
-using Common.Attributes;
-using Common.Events;
-using Common.Extensions;
-using Display;
-using StardewModdingAPI.Events;
 using System.Linq;
+using DaLion.Common;
+using DaLion.Common.Attributes;
+using DaLion.Common.Events;
+using DaLion.Common.Extensions;
+using DaLion.Stardew.Professions.Framework.Events.Display;
+using StardewModdingAPI.Events;
 
 #endregion using directives
 
-[UsedImplicitly, DebugOnly]
+[UsedImplicitly]
+[DebugOnly]
 internal sealed class DebugButtonsChangedEvent : ButtonsChangedEvent
 {
-    /// <summary>Construct an instance.</summary>
+    /// <summary>Initializes a new instance of the <see cref="DebugButtonsChangedEvent"/> class.</summary>
     /// <param name="manager">The <see cref="ProfessionEventManager"/> instance that manages this event.</param>
     internal DebugButtonsChangedEvent(ProfessionEventManager manager)
         : base(manager)
     {
-        AlwaysEnabled = true;
+        this.AlwaysEnabled = true;
     }
 
     /// <inheritdoc />
-    public override bool Enable() => false;
+    public override bool Enable()
+    {
+        return false;
+    }
 
     /// <inheritdoc />
-    public override bool Disable() => false;
+    public override bool Disable()
+    {
+        return false;
+    }
 
     /// <inheritdoc />
     protected override async void OnButtonsChangedImpl(object? sender, ButtonsChangedEventArgs e)
     {
         if (ModEntry.Config.DebugKey.JustPressed())
+        {
             ModEntry.Events.EnableWithAttribute<DebugOnlyAttribute>();
+        }
         else if (ModEntry.Config.DebugKey.GetState() == SButtonState.Released)
+        {
             ModEntry.Events.DisableWithAttribute<DebugOnlyAttribute>();
+        }
 
         if (!ModEntry.Config.DebugKey.IsDown() ||
-            !e.Pressed.Any(b => b is SButton.MouseRight or SButton.MouseLeft)) return;
+            !e.Pressed.Any(b => b is SButton.MouseRight or SButton.MouseLeft))
+        {
+            return;
+        }
 
         if (DebugRenderedActiveMenuEvent.FocusedComponent is not null)
         {
             var component = DebugRenderedActiveMenuEvent.FocusedComponent;
             var name = string.IsNullOrEmpty(component.name) ? "Anon" : component.name;
             var message = $"[{component.myID}]: {name} ({component.GetType().Name})";
-            message = component.GetType().GetFields().Where(f => !f.Name.IsIn("myID", "name")).Aggregate(message,
-                (current, field) => current + $"\n\t- {field.Name}: {field.GetValue(component)}");
+            message = component
+                .GetType()
+                .GetFields()
+                .Where(f => !f.Name.IsAnyOf("myID", "name"))
+                .Aggregate(
+                    message,
+                    (current, field) => current + $"\n\t- {field.Name}: {field.GetValue(component)}");
             Log.D(message);
         }
         else if (Context.IsWorldReady)
@@ -54,8 +73,13 @@ internal sealed class DebugButtonsChangedEvent : ButtonsChangedEvent
             if (Game1.currentLocation.Objects.TryGetValue(e.Cursor.Tile, out var o))
             {
                 var message = $"[{o.ParentSheetIndex}]: {o.Name} ({o.GetType().Name})";
-                message = o.GetType().GetFields().Where(f => !f.Name.IsIn("ParentSheetIndex", "Name"))
-                    .Aggregate(message, (current, field) => current + $"\n\t- {field.Name}: {field.GetValue(o)}");
+                message = o
+                    .GetType()
+                    .GetFields()
+                    .Where(f => !f.Name.IsAnyOf("ParentSheetIndex", "Name"))
+                    .Aggregate(
+                        message,
+                        (current, field) => current + $"\n\t- {field.Name}: {field.GetValue(o)}");
                 Log.D(message);
             }
             else
@@ -63,7 +87,10 @@ internal sealed class DebugButtonsChangedEvent : ButtonsChangedEvent
                 foreach (var c in Game1.currentLocation.characters.Cast<Character>()
                              .Concat(Game1.currentLocation.farmers))
                 {
-                    if (c.getTileLocation() != e.Cursor.Tile) continue;
+                    if (c.getTileLocation() != e.Cursor.Tile)
+                    {
+                        continue;
+                    }
 
                     var message = string.Empty;
                     Farmer? who = null;
@@ -74,8 +101,13 @@ internal sealed class DebugButtonsChangedEvent : ButtonsChangedEvent
                     }
 
                     message += $"{c.Name} ({c.GetType()})";
-                    message = c.GetType().GetFields().Where(f => !f.Name.IsIn("UniqueMultiplayerID", "Name"))
-                        .Aggregate(message, (m, f) => m + $"\n\t- {f.Name}: {f.GetValue(c)}");
+                    message = c
+                        .GetType()
+                        .GetFields()
+                        .Where(f => !f.Name.IsAnyOf("UniqueMultiplayerID", "Name"))
+                        .Aggregate(
+                            message,
+                            (m, f) => m + $"\n\t- {f.Name}: {f.GetValue(c)}");
 
                     message +=
                         $"\n\n\tCurrent location: {c.currentLocation.NameOrUniqueName} ({c.currentLocation.GetType().Name})";
@@ -86,32 +118,38 @@ internal sealed class DebugButtonsChangedEvent : ButtonsChangedEvent
                         message = Game1.MasterPlayer.modData.Pairs
                             .Where(p => p.Key.StartsWith(ModEntry.Manifest.UniqueID) &&
                                         p.Key.Contains(who.UniqueMultiplayerID.ToString()))
-                            .Aggregate(message,
+                            .Aggregate(
+                                message,
                                 (m, p) => m + $"\n\t\t- {p.Key}: {p.Value}");
 
-                        var events = "";
+                        var events = string.Empty;
                         if (who.IsLocalPlayer)
                         {
-                            events = Manager.Enabled.Aggregate("",
+                            events = this.Manager.Enabled.Aggregate(
+                                string.Empty,
                                 (current, next) => current + "\n\t\t- " + next.GetType().Name);
                         }
                         else if (Context.IsMultiplayer && who.isActive())
                         {
                             var peer = ModEntry.ModHelper.Multiplayer.GetConnectedPlayer(who.UniqueMultiplayerID);
-                            if (peer is { IsSplitScreen: true, ScreenID: not null })
-                            {
-                                events = ModEntry.Events.EnabledForScreen(peer.ScreenID.Value).Aggregate("",
-                                    (current, next) => current + "\n\t\t- " + next.GetType().Name);
-                            }
-                            else
-                            {
-                                events = await ModEntry.Broadcaster.RequestAsync("EventsEnabled", "Debug/Request",
+                            events = peer is { IsSplitScreen: true, ScreenID: not null }
+                                ? ModEntry.Events.EnabledForScreen(peer.ScreenID.Value).Aggregate(
+                                    string.Empty,
+                                    (current, next) => current + "\n\t\t- " + next.GetType().Name)
+                                : await ModEntry.Broadcaster.RequestAsync(
+                                    "EventsEnabled",
+                                    "Debug/Request",
                                     who.UniqueMultiplayerID);
-                            }
                         }
 
-                        if (!string.IsNullOrEmpty(events)) message += "\n\n\tEvents:" + events;
-                        else message += "\n\nCouldn't read player's enabled events.";
+                        if (!string.IsNullOrEmpty(events))
+                        {
+                            message += "\n\n\tEvents:" + events;
+                        }
+                        else
+                        {
+                            message += "\n\nCouldn't read player's enabled events.";
+                        }
                     }
 
                     Log.D(message);

@@ -9,19 +9,24 @@ using StardewModdingAPI.Events;
 /// <summary>Wrapper for <see cref="IWorldEvents.TerrainFeatureListChanged"/> allowing dynamic enabling / disabling.</summary>
 internal abstract class TerrainFeatureListChangedEvent : ManagedEvent
 {
-    /// <summary>Construct an instance.</summary>
+    /// <summary>Initializes a new instance of the <see cref="TerrainFeatureListChangedEvent"/> class.</summary>
     /// <param name="manager">The <see cref="EventManager"/> instance that manages this event.</param>
     protected TerrainFeatureListChangedEvent(EventManager manager)
-        : base(manager) { }
+        : base(manager)
+    {
+    }
 
     /// <inheritdoc cref="IWorldEvents.TerrainFeatureListChanged"/>
     /// <param name="sender">The event sender.</param>
     /// <param name="e">The event arguments.</param>
     internal void OnTerrainFeatureListChanged(object? sender, TerrainFeatureListChangedEventArgs e)
     {
-        if (IsEnabled) OnTerrainFeatureListChangedImpl(sender, e);
+        if (this.IsEnabled)
+        {
+            this.OnTerrainFeatureListChangedImpl(sender, e);
+        }
     }
 
-    /// <inheritdoc cref="OnTerrainFeatureListChanged" />
+    /// <inheritdoc cref="OnTerrainFeatureListChanged"/>
     protected abstract void OnTerrainFeatureListChangedImpl(object? sender, TerrainFeatureListChangedEventArgs e);
 }

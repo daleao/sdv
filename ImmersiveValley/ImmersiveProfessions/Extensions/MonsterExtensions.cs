@@ -2,8 +2,7 @@
 
 #region using directives
 
-using Common.Extensions.Stardew;
-using StardewValley;
+using DaLion.Common.Extensions.Stardew;
 using StardewValley.Monsters;
 
 #endregion using directives
@@ -11,20 +10,35 @@ using StardewValley.Monsters;
 /// <summary>Extensions for the <see cref="Monster"/> class.</summary>
 public static class MonsterExtensions
 {
-    /// <summary>Whether the monster is an instance of <see cref="GreenSlime"/> or <see cref="BigSlime"/></summary>
-    public static bool IsSlime(this Monster monster) => monster is GreenSlime or BigSlime;
+    /// <summary>
+    ///     Determines whether the <paramref name="monster"/> is an instance of <see cref="GreenSlime"/> or
+    ///     <see cref="BigSlime"/>.
+    /// </summary>
+    /// <param name="monster">The <see cref="Monster"/>.</param>
+    /// <returns><see langword="true"/> if the <paramref name="monster"/> is a <see cref="GreenSlime"/> or <see cref="BigSlime"/>, otherwise <see langword="false"/>.</returns>
+    public static bool IsSlime(this Monster monster)
+    {
+        return monster is GreenSlime or BigSlime;
+    }
 
-    /// <summary>Whether the monster instance is close enough to see the given player.</summary>
+    /// <summary>Determines whether the <paramref name="monster"/> is close enough to see the given player.</summary>
+    /// <param name="monster">The <see cref="Monster"/>.</param>
     /// <param name="player">The target player.</param>
+    /// <returns><see langword="true"/> if the <paramref name="monster"/>'s distance to the <paramref name="player"/> is less than it's aggro threshold, otherwise <see langword="false"/>.</returns>
     public static bool IsWithinPlayerThreshold(this Monster monster, Farmer? player = null)
     {
         player ??= Game1.player;
         return monster.DistanceTo(player) <= monster.moveTowardPlayerThreshold.Value;
     }
 
-    ///// <summary>Whether the monster can be afflicted with Slow status.</summary>
+    ///// <summary>Determines whether the monster can be afflicted with Fear status.</summary>
     //public static bool CanBeFeared(this Monster monster) => !monster.isInvisible.Value && monster is not (BigSlime or Ghost);
 
-    /// <summary>Whether the monster can be afflicted with Slow status.</summary>
-    public static bool CanBeSlowed(this Monster monster) => !monster.IsSlime() && monster is not Ghost;
+    /// <summary>Determines whether the <paramref name="monster"/> can be afflicted with Slow status.</summary>
+    /// <param name="monster">The <see cref="Monster"/>.</param>
+    /// <returns><see langword="true"/> if the <paramref name="monster"/> is not a <see cref="GreenSlime"/>, <see cref="BigSlime"/> or <see cref="Ghost"/>, otherwise <see langword="false"/>.</returns>
+    public static bool CanBeSlowed(this Monster monster)
+    {
+        return !monster.IsSlime() && monster is not Ghost;
+    }
 }

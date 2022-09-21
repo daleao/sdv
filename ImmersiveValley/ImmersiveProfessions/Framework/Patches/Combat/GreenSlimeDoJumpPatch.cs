@@ -6,16 +6,18 @@ using DaLion.Common.Attributes;
 using DaLion.Common.Extensions.Stardew;
 using HarmonyLib;
 using StardewValley.Monsters;
+using HarmonyPatch = DaLion.Common.Harmony.HarmonyPatch;
 
 #endregion using directives
 
-[UsedImplicitly, Deprecated]
-internal sealed class GreenSlimeDoJumpPatch : DaLion.Common.Harmony.HarmonyPatch
+[UsedImplicitly]
+[Deprecated]
+internal sealed class GreenSlimeDoJumpPatch : HarmonyPatch
 {
-    /// <summary>Construct an instance.</summary>
+    /// <summary>Initializes a new instance of the <see cref="GreenSlimeDoJumpPatch"/> class.</summary>
     internal GreenSlimeDoJumpPatch()
     {
-        Target = RequireMethod<GreenSlime>("doJump");
+        this.Target = this.RequireMethod<GreenSlime>("doJump");
     }
 
     #region harmony patches

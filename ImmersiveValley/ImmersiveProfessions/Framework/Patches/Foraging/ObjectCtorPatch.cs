@@ -2,20 +2,21 @@
 
 #region using directives
 
-using Extensions;
+using DaLion.Stardew.Professions.Extensions;
 using HarmonyLib;
 using Microsoft.Xna.Framework;
+using HarmonyPatch = DaLion.Common.Harmony.HarmonyPatch;
 
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class ObjectCtorPatch : DaLion.Common.Harmony.HarmonyPatch
+internal sealed class ObjectCtorPatch : HarmonyPatch
 {
-    /// <summary>Construct an instance.</summary>
+    /// <summary>Initializes a new instance of the <see cref="ObjectCtorPatch"/> class.</summary>
     internal ObjectCtorPatch()
     {
-        Target = RequireConstructor<SObject>(typeof(Vector2), typeof(int), typeof(string), typeof(bool),
-            typeof(bool), typeof(bool), typeof(bool));
+        this.Target = this.RequireConstructor<SObject>(
+            typeof(Vector2), typeof(int), typeof(string), typeof(bool), typeof(bool), typeof(bool), typeof(bool));
     }
 
     #region harmony patches
@@ -26,8 +27,10 @@ internal sealed class ObjectCtorPatch : DaLion.Common.Harmony.HarmonyPatch
     {
         var owner = Game1.getFarmer(__instance.owner.Value);
         if (__instance.IsWildBerry() && owner.HasProfession(Profession.Ecologist))
+        {
             __instance.Edibility =
                 (int)(__instance.Edibility * (owner.HasProfession(Profession.Ecologist, true) ? 2f : 1.5f));
+        }
     }
 
     #endregion harmony patches

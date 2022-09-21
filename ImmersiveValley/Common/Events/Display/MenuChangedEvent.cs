@@ -9,19 +9,24 @@ using StardewModdingAPI.Events;
 /// <summary>Wrapper for <see cref="IDisplayEvents.MenuChanged"/> allowing dynamic enabling / disabling.</summary>
 internal abstract class MenuChangedEvent : ManagedEvent
 {
-    /// <summary>Construct an instance.</summary>
+    /// <summary>Initializes a new instance of the <see cref="MenuChangedEvent"/> class.</summary>
     /// <param name="manager">The <see cref="EventManager"/> instance that manages this event.</param>
     protected MenuChangedEvent(EventManager manager)
-        : base(manager) { }
+        : base(manager)
+    {
+    }
 
     /// <inheritdoc cref="IDisplayEvents.MenuChanged"/>
     /// <param name="sender">The event sender.</param>
     /// <param name="e">The event arguments.</param>
     internal void OnMenuChanged(object? sender, MenuChangedEventArgs e)
     {
-        if (IsEnabled) OnMenuChangedImpl(sender, e);
+        if (this.IsEnabled)
+        {
+            this.OnMenuChangedImpl(sender, e);
+        }
     }
 
-    /// <inheritdoc cref="OnMenuChanged" />
+    /// <inheritdoc cref="OnMenuChanged"/>
     protected abstract void OnMenuChangedImpl(object? sender, MenuChangedEventArgs e);
 }

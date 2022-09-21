@@ -1,10 +1,10 @@
-namespace DaLion.Stardew.Rings.Integrations;
+﻿namespace DaLion.Stardew.Rings.Integrations;
 
 #region using directives
 
-using Common.Extensions.SMAPI;
-using Common.Integrations.GenericModConfigMenu;
 using System;
+using DaLion.Common.Extensions.SMAPI;
+using DaLion.Common.Integrations.GenericModConfigMenu;
 
 #endregion using directives
 
@@ -14,27 +14,34 @@ internal sealed class GenericModConfigMenuIntegrationForImmersiveRings
     /// <summary>The Generic Mod Config Menu integration.</summary>
     private readonly GenericModConfigMenuIntegration<ModConfig> _configMenu;
 
-    /// <summary>Construct an instance.</summary>
+    /// <summary>Initializes a new instance of the <see cref="GenericModConfigMenuIntegrationForImmersiveRings"/> class.</summary>
     /// <param name="modRegistry">API for fetching metadata about loaded mods.</param>
     /// <param name="manifest">The mod manifest.</param>
     /// <param name="getConfig">Get the current config model.</param>
     /// <param name="reset">Reset the config model to the default values.</param>
     /// <param name="saveAndApply">Save and apply the current config model.</param>
-    public GenericModConfigMenuIntegrationForImmersiveRings(IModRegistry modRegistry, IManifest manifest,
-        Func<ModConfig> getConfig, Action reset, Action saveAndApply)
+    public GenericModConfigMenuIntegrationForImmersiveRings(
+        IModRegistry modRegistry,
+        IManifest manifest,
+        Func<ModConfig> getConfig,
+        Action reset,
+        Action saveAndApply)
     {
-        _configMenu = new(modRegistry, manifest, getConfig, reset, saveAndApply);
+        this._configMenu =
+            new GenericModConfigMenuIntegration<ModConfig>(modRegistry, manifest, getConfig, reset, saveAndApply);
     }
 
     /// <summary>Register the config menu if available.</summary>
     public void Register()
     {
         // get config menu
-        if (!_configMenu.IsLoaded)
+        if (!this._configMenu.IsLoaded)
+        {
             return;
+        }
 
         // register
-        _configMenu
+        this._configMenu
             .Register()
             .AddCheckbox(
                 () => "Rebalanced Rings",
@@ -44,8 +51,7 @@ internal sealed class GenericModConfigMenuIntegrationForImmersiveRings
                 {
                     config.RebalancedRings = value;
                     ModEntry.ModHelper.GameContent.InvalidateCacheAndLocalized("Data/ObjectInformation");
-                }
-            )
+                })
             .AddCheckbox(
                 () => "Craftable Gemstone Rings",
                 () => "Adds new combat recipes for crafting gemstone rings.",
@@ -76,7 +82,7 @@ internal sealed class GenericModConfigMenuIntegrationForImmersiveRings
                 })
             .AddCheckbox(
                 () => "The One Iridium Band",
-                () => "Replaces the iridium band recipe and effect. Adds new forge mechanics.",
+                () => "Replaces the Iridium Band recipe and effect. Adds new forge mechanics.",
                 config => config.TheOneIridiumBand,
                 (config, value) =>
                 {
@@ -84,6 +90,14 @@ internal sealed class GenericModConfigMenuIntegrationForImmersiveRings
                     ModEntry.ModHelper.GameContent.InvalidateCacheAndLocalized("Data/CraftingRecipes");
                     ModEntry.ModHelper.GameContent.InvalidateCacheAndLocalized("Data/ObjectInformation");
                     ModEntry.ModHelper.GameContent.InvalidateCacheAndLocalized("Maps/springobjects");
+                })
+            .AddCheckbox(
+                () => "The One Infinity Band",
+                () => "If The One Iridium Band is enabled, adds additional requirements to obtain the ultimate ring.",
+                config => config.TheOneInfinityBand,
+                (config, value) =>
+                {
+                    config.TheOneInfinityBand = value;
                 });
     }
 }

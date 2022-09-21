@@ -2,25 +2,26 @@
 
 #region using directives
 
+using System;
+using System.Collections.Generic;
+using System.Reflection;
+using System.Reflection.Emit;
 using DaLion.Common;
 using DaLion.Common.Extensions.Reflection;
 using DaLion.Common.Harmony;
 using HarmonyLib;
 using StardewValley.Tools;
-using System;
-using System.Collections.Generic;
-using System.Reflection;
-using System.Reflection.Emit;
+using HarmonyPatch = DaLion.Common.Harmony.HarmonyPatch;
 
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class FishingRodPlayerCaughtFishEndFunctionPatch : DaLion.Common.Harmony.HarmonyPatch
+internal sealed class FishingRodPlayerCaughtFishEndFunctionPatch : HarmonyPatch
 {
-    /// <summary>Construct an instance.</summary>
+    /// <summary>Initializes a new instance of the <see cref="FishingRodPlayerCaughtFishEndFunctionPatch"/> class.</summary>
     internal FishingRodPlayerCaughtFishEndFunctionPatch()
     {
-        Target = RequireMethod<FishingRod>(nameof(FishingRod.playerCaughtFishEndFunction));
+        this.Target = this.RequireMethod<FishingRod>(nameof(FishingRod.playerCaughtFishEndFunction));
     }
 
     #region harmony patches
@@ -30,31 +31,32 @@ internal sealed class FishingRodPlayerCaughtFishEndFunctionPatch : DaLion.Common
     private static IEnumerable<CodeInstruction>? FishingRodPlayerCaughtFishEndFunctionTranspiler(
         IEnumerable<CodeInstruction> instructions, ILGenerator generator, MethodBase original)
     {
-        var helper = new ILHelper(original, instructions);
+        var helper = new IlHelper(original, instructions);
 
-        /// From: if (isFishBossFish(whichFish))
-        /// To: if (isFishBossFish(whichFish) && !this.getLastFarmerToUse().fishCount.ContainsKey(whichFish)
-
+        // From: if (isFishBossFish(whichFish))
+        // To: if (isFishBossFish(whichFish) && !this.getLastFarmerToUse().fishCount.ContainsKey(whichFish)
         try
         {
             helper
                 .FindFirst(
-                    new CodeInstruction(OpCodes.Call, typeof(FishingRod).RequireMethod(nameof(FishingRod.isFishBossFish)))
-                )
+                    new CodeInstruction(
+                        OpCodes.Call,
+                        typeof(FishingRod).RequireMethod(nameof(FishingRod.isFishBossFish))))
                 .Advance()
                 .GetOperand(out var dontShowMessage)
                 .Advance()
                 .InsertInstructions(
                     new CodeInstruction(OpCodes.Ldarg_0),
-                    new CodeInstruction(OpCodes.Call,
+                    new CodeInstruction(
+                        OpCodes.Call,
                         typeof(FishingRod).RequireMethod(nameof(FishingRod.getLastFarmerToUse))),
                     new CodeInstruction(OpCodes.Ldfld, typeof(Farmer).RequireField(nameof(Farmer.fishCaught))),
                     new CodeInstruction(OpCodes.Ldarg_0),
                     new CodeInstruction(OpCodes.Ldfld, typeof(FishingRod).RequireField("whichFish")),
-                    new CodeInstruction(OpCodes.Call,
+                    new CodeInstruction(
+                        OpCodes.Call,
                         typeof(NetIntIntArrayDictionary).RequireMethod(nameof(NetIntIntArrayDictionary.ContainsKey))),
-                    new CodeInstruction(OpCodes.Brtrue_S, dontShowMessage)
-                );
+                    new CodeInstruction(OpCodes.Brtrue_S, dontShowMessage));
         }
         catch (Exception ex)
         {

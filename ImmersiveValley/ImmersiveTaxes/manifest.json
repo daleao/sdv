@@ -1,7 +1,7 @@
 {
   "Name": "Serfdom - Immersive Taxes",
   "Author": "DaLion",
-  "Version": "2.1.1-Debug",
+  "Version": "2.2.0-Debug",
   "Description": "A simple taxation system to add some challenge and immersion.",
   "UniqueID": "DaLion.ImmersiveTaxes",
   "EntryDll": "ImmersiveTaxes.dll",

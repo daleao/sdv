@@ -2,26 +2,30 @@
 
 #region using directives
 
-using DaLion.Common;
-using DaLion.Common.Attributes;
-using DaLion.Common.Extensions.Reflection;
-using DaLion.Common.Harmony;
-using Extensions;
-using HarmonyLib;
 using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
+using DaLion.Common;
+using DaLion.Common.Attributes;
+using DaLion.Common.Extensions.Reflection;
+using DaLion.Common.Harmony;
+using DaLion.Stardew.Professions.Extensions;
+using HarmonyLib;
+using HarmonyPatch = DaLion.Common.Harmony.HarmonyPatch;
 
 #endregion using directives
 
-[UsedImplicitly, RequiresMod("DIGUS.ANIMALHUSBANDRYMOD")]
-internal sealed class InseminationSyringeOverridesDoFunctionPatch : DaLion.Common.Harmony.HarmonyPatch
+[UsedImplicitly]
+[RequiresMod("DIGUS.ANIMALHUSBANDRYMOD")]
+internal sealed class InseminationSyringeOverridesDoFunctionPatch : HarmonyPatch
 {
-    /// <summary>Construct an instance.</summary>
+    /// <summary>Initializes a new instance of the <see cref="InseminationSyringeOverridesDoFunctionPatch"/> class.</summary>
     internal InseminationSyringeOverridesDoFunctionPatch()
     {
-        Target = "AnimalHusbandryMod.tools.InseminationSyringeOverrides".ToType().RequireMethod("DoFunction");
+        this.Target = "AnimalHusbandryMod.tools.InseminationSyringeOverrides"
+            .ToType()
+            .RequireMethod("DoFunction");
     }
 
     #region harmony patches
@@ -31,11 +35,10 @@ internal sealed class InseminationSyringeOverridesDoFunctionPatch : DaLion.Commo
     private static IEnumerable<CodeInstruction>? InseminationSyringeOverridesDoFunctionTranspiler(
         IEnumerable<CodeInstruction> instructions, ILGenerator generator, MethodBase original)
     {
-        var helper = new ILHelper(original, instructions);
+        var helper = new IlHelper(original, instructions);
 
-        /// Injected: if (who.professions.Contains(<breeder_id>)) daysUntilBirth /= who.professions.Contains(<breeder_id> + 100) ? 3.0 : 2.0
-        /// Before: PregnancyController.AddPregnancy(animal, daysUtillBirth);
-
+        // Injected: if (who.professions.Contains(<breeder_id>)) daysUntilBirth /= who.professions.Contains(<breeder_id> + 100) ? 3.0 : 2.0
+        // Before: PregnancyController.AddPregnancy(animal, daysUtillBirth);
         var daysUntilBirth = helper.Locals[5];
         var isNotBreeder = generator.DefineLabel();
         var isNotPrestiged = generator.DefineLabel();
@@ -46,39 +49,34 @@ internal sealed class InseminationSyringeOverridesDoFunctionPatch : DaLion.Commo
                 .FindFirst(
                     new CodeInstruction(OpCodes.Ldloc_1),
                     new CodeInstruction(OpCodes.Ldloc_S, daysUntilBirth),
-                    new CodeInstruction(OpCodes.Call)
-                )
+                    new CodeInstruction(OpCodes.Call))
                 .StripLabels(out var labels)
                 .AddLabels(isNotBreeder)
                 .InsertWithLabels(
                     labels,
-                    new CodeInstruction(OpCodes.Ldarg_S, (byte)5) // arg 5 = Farmer who
-                )
+                    new CodeInstruction(OpCodes.Ldarg_S, (byte)5)) // arg 5 = Farmer who
                 .InsertProfessionCheck(Profession.Breeder.Value, forLocalPlayer: false)
                 .InsertInstructions(
                     new CodeInstruction(OpCodes.Brfalse_S, isNotBreeder),
                     new CodeInstruction(OpCodes.Ldloc_S, daysUntilBirth),
                     new CodeInstruction(OpCodes.Conv_R8),
-                    new CodeInstruction(OpCodes.Ldarg_S, (byte)5)
-                )
+                    new CodeInstruction(OpCodes.Ldarg_S, (byte)5))
                 .InsertProfessionCheck(Profession.Breeder.Value + 100, forLocalPlayer: false)
                 .InsertInstructions(
                     new CodeInstruction(OpCodes.Brfalse_S, isNotPrestiged),
                     new CodeInstruction(OpCodes.Ldc_R8, 3.0),
-                    new CodeInstruction(OpCodes.Br_S, resumeDivision)
-                )
+                    new CodeInstruction(OpCodes.Br_S, resumeDivision))
                 .InsertWithLabels(
                     new[] { isNotPrestiged },
-                    new CodeInstruction(OpCodes.Ldc_R8, 2.0)
-                )
+                    new CodeInstruction(OpCodes.Ldc_R8, 2.0))
                 .InsertWithLabels(
                     new[] { resumeDivision },
                     new CodeInstruction(OpCodes.Div),
-                    new CodeInstruction(OpCodes.Call,
+                    new CodeInstruction(
+                        OpCodes.Call,
                         typeof(Math).RequireMethod(nameof(Math.Round), new[] { typeof(double) })),
                     new CodeInstruction(OpCodes.Conv_I4),
-                    new CodeInstruction(OpCodes.Stloc_S, daysUntilBirth)
-                );
+                    new CodeInstruction(OpCodes.Stloc_S, daysUntilBirth));
         }
         catch (Exception ex)
         {

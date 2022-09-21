@@ -1,55 +1,51 @@
-﻿// ReSharper disable PossibleLossOfFraction
-namespace DaLion.Stardew.Professions.Framework.Ultimates;
+﻿namespace DaLion.Stardew.Professions.Framework.Ultimates;
 
 #region using directives
 
-using Events.GameLoop;
+using System.Linq;
+using DaLion.Stardew.Professions.Framework.Events.GameLoop;
+using DaLion.Stardew.Professions.Framework.Sounds;
 using Microsoft.Xna.Framework;
 using Netcode;
-using Sounds;
 using StardewValley.Monsters;
-using System.Linq;
 
 #endregion using directives
 
 /// <summary>Handles Poacher ultimate activation.</summary>
 public sealed class Ambush : Ultimate
 {
-    /// <summary>Construct an instance.</summary>
+    /// <summary>Initializes a new instance of the <see cref="Ambush"/> class.</summary>
     internal Ambush()
-    : base(UltimateIndex.PoacherAmbush, Color.MediumPurple, Color.MidnightBlue) { }
-
-    #region internal properties
+        : base("Ambush", 27, Color.MediumPurple, Color.MidnightBlue)
+    {
+    }
 
     /// <inheritdoc />
-    internal override int BuffId { get; } = (ModEntry.Manifest.UniqueID + (int)UltimateIndex.PoacherAmbush + 4).GetHashCode();
+    public override string Description =>
+        ModEntry.i18n.Get(this.Name.ToLower() + ".desc." + (this.IsGrantingCritBuff ? "revealed" : "hidden"));
 
     /// <inheritdoc />
     internal override int MillisecondsDuration =>
-        (int)(15000 * ((double)MaxValue / BASE_MAX_VALUE_I) / ModEntry.Config.SpecialDrainFactor);
+        (int)(15000 * ((double)this.MaxValue / BaseMaxValue) / ModEntry.Config.SpecialDrainFactor);
 
     /// <inheritdoc />
-    internal override SFX ActivationSfx => SFX.PoacherAmbush;
+    internal override Sfx ActivationSfx => Sfx.PoacherAmbush;
 
     /// <inheritdoc />
     internal override Color GlowColor => Color.MediumPurple;
 
-    /// <summary>Whether the double crit. power buff is active.</summary>
+    /// <summary>Gets a value indicating whether determines whether the double crit. power buff is active.</summary>
     internal bool IsGrantingCritBuff =>
-        IsActive || Game1.buffsDisplay.otherBuffs.Any(b => b.which == BuffId - 4);
+        this.IsActive || Game1.buffsDisplay.otherBuffs.Any(b => b.which == this.BuffId - 4);
 
     internal double SecondsOutOfAmbush { get; set; } = double.MaxValue;
-
-    #endregion internal properties
-
-    #region internal methods
 
     /// <inheritdoc />
     internal override void Activate()
     {
         base.Activate();
 
-        SecondsOutOfAmbush = 0d;
+        this.SecondsOutOfAmbush = 0d;
 
         foreach (var monster in Game1.currentLocation.characters.OfType<Monster>()
                      .Where(m => m.Player?.IsLocalPlayer == true))
@@ -77,25 +73,36 @@ public sealed class Ambush : Ultimate
             }
         }
 
-        var critBuff = Game1.buffsDisplay.otherBuffs.FirstOrDefault(b => b.which == BuffId - 4);
-        var duration = critBuff?.millisecondsDuration ?? MillisecondsDuration;
+        var critBuff = Game1.buffsDisplay.otherBuffs.FirstOrDefault(b => b.which == this.BuffId - 4);
+        var duration = critBuff?.millisecondsDuration ?? this.MillisecondsDuration;
 
-        Game1.buffsDisplay.removeOtherBuff(BuffId - 4);
-        Game1.buffsDisplay.removeOtherBuff(BuffId);
+        Game1.buffsDisplay.removeOtherBuff(this.BuffId - 4);
+        Game1.buffsDisplay.removeOtherBuff(this.BuffId);
         Game1.player.addedSpeed -= 2;
         Game1.buffsDisplay.addOtherBuff(
-            new(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            new Buff(
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
                 1,
-                GetType().Name,
-                ModEntry.i18n.Get("poacher.ulti.name"))
+                this.GetType().Name,
+                this.DisplayName)
             {
-                which = BuffId,
+                which = this.BuffId,
                 sheetIndex = 49,
-                glow = GlowColor,
+                glow = this.GlowColor,
                 millisecondsDuration = duration,
-                description = ModEntry.i18n.Get("poacher.ulti.desc.hidden")
-            }
-        );
+                description = this.Description,
+            });
 
         ModEntry.Events.Enable<AmbushUpdateTickedEvent>();
     }
@@ -105,33 +112,54 @@ public sealed class Ambush : Ultimate
     {
         base.Deactivate();
 
-        var buff = Game1.buffsDisplay.otherBuffs.FirstOrDefault(b => b.which == BuffId);
+        var buff = Game1.buffsDisplay.otherBuffs.FirstOrDefault(b => b.which == this.BuffId);
         var timeLeft = buff?.millisecondsDuration ?? 0;
-        Game1.buffsDisplay.removeOtherBuff(BuffId);
+        Game1.buffsDisplay.removeOtherBuff(this.BuffId);
         Game1.player.addedSpeed += 2;
-        if (timeLeft < 100) return;
+        if (timeLeft < 100)
+        {
+            return;
+        }
 
-        var buffId = BuffId - 4;
+        var buffId = this.BuffId - 4;
         Game1.buffsDisplay.removeOtherBuff(buffId);
         Game1.buffsDisplay.addOtherBuff(
-            new(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            new Buff(
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
                 1,
-                GetType().Name,
-                ModEntry.i18n.Get("poacher.ulti.name"))
+                this.GetType().Name,
+                this.DisplayName)
             {
-                which = buffId,
-                sheetIndex = 37,
-                millisecondsDuration = timeLeft * 2,
-                description = ModEntry.i18n.Get("poacher.ulti.desc.revealed")
-            }
-        );
+                which = buffId, sheetIndex = 37, millisecondsDuration = timeLeft * 2, description = this.Description,
+            });
     }
 
     /// <inheritdoc />
     internal override void Countdown()
     {
-        ChargeValue -= MaxValue / 900d; // lasts 15s * 60 ticks/s -> 900 ticks
+        this.ChargeValue -= this.MaxValue / 900d; // lasts 15s * 60 ticks/s -> 900 ticks
     }
 
-    #endregion internal methods
+    /// <inheritdoc />
+    internal override string GetBuffPronoun()
+    {
+        return LocalizedContentManager.CurrentLanguageCode switch
+        {
+            LocalizedContentManager.LanguageCode.es => ModEntry.i18n.Get("pronoun.definite.female"),
+            LocalizedContentManager.LanguageCode.fr or LocalizedContentManager.LanguageCode.pt =>
+                ModEntry.i18n.Get("pronoun.definite.male"),
+            _ => string.Empty,
+        };
+    }
 }

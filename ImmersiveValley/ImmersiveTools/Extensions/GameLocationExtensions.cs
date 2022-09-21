@@ -2,19 +2,23 @@
 
 #region using directives
 
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using DaLion.Common.Extensions.Stardew;
 using Microsoft.Xna.Framework;
 using Netcode;
 using StardewValley.Locations;
 using StardewValley.TerrainFeatures;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 
 #endregion using directives
 
+/// <summary>Extensions for the <see cref="GameLocation"/> class.</summary>
 public static class GameLocationExtensions
 {
-    /// <summary>Get the resource clumps in a given location.</summary>
+    /// <summary>Gets the <see cref="ResourceClump"/> in the <paramref name="location"/>.</summary>
+    /// <param name="location">The <see cref="GameLocation"/>.</param>
+    /// <returns>A <see cref="IEnumerable{T}"/> of the <see cref="ResourceClump"/>.</returns>
     public static IEnumerable<ResourceClump> GetNormalResourceClumps(this GameLocation location)
     {
         IEnumerable<ResourceClump> clumps = location.resourceClumps;
@@ -23,25 +27,30 @@ public static class GameLocationExtensions
         {
             Forest { log: { } } forest => clumps.Concat(new[] { forest.log }),
             Woods woods when woods.stumps.Count > 0 => clumps.Concat(woods.stumps),
-            _ => clumps
+            _ => clumps,
         };
 
         return clumps;
     }
 
-    /// <summary>Get the resource clump which covers a given tile, if any.</summary>
+    /// <summary>Gets the <see cref="ResourceClump"/> which covers the given <paramref name="tile"/>, if any.</summary>
+    /// <param name="location">The <see cref="GameLocation"/>.</param>
     /// <param name="tile">The tile to check.</param>
     /// <param name="who">The current player.</param>
     /// <param name="applyTool">Applies a tool to the resource clump.</param>
-    public static ResourceClump? GetResourceClumpCoveringTile(this GameLocation location, Vector2 tile, Farmer who,
-        out Func<Tool, bool>? applyTool)
+    /// <returns>The <see cref="ResourceClump"/> located at <paramref name="tile"/> if any, otherwise <see langword="null"/>.</returns>
+    public static ResourceClump? GetResourceClumpCoveringTile(
+        this GameLocation location, Vector2 tile, Farmer who, out Func<Tool, bool>? applyTool)
     {
         var tileArea = tile.GetAbsoluteTileArea();
 
         // normal resource clumps
         foreach (var clump in location.GetNormalResourceClumps())
         {
-            if (!clump.getBoundingBox(clump.tile.Value).Intersects(tileArea)) continue;
+            if (!clump.getBoundingBox(clump.tile.Value).Intersects(tileArea))
+            {
+                continue;
+            }
 
             applyTool = tool => tool.UseOnTile(tile, location, who);
             return clump;
@@ -49,16 +58,21 @@ public static class GameLocationExtensions
 
         // FarmTypeManager resource clumps
         if (ModEntry.ModHelper.ModRegistry.IsLoaded("Esca.FarmTypeManager"))
+        {
             foreach (var feature in location.largeTerrainFeatures)
             {
                 if (feature.GetType().FullName != "FarmTypeManager.LargeResourceClump" ||
-                    !feature.getBoundingBox(feature.tilePosition.Value).Intersects(tileArea)) continue;
+                    !feature.getBoundingBox(feature.tilePosition.Value).Intersects(tileArea))
+                {
+                    continue;
+                }
 
                 var clump = ModEntry.ModHelper.Reflection
                     .GetField<NetRef<ResourceClump>>(feature, "Clump").GetValue().Value;
                 applyTool = tool => feature.performToolAction(tool, 0, tile, location);
                 return clump;
             }
+        }
 
         applyTool = null;
         return null;

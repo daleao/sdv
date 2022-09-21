@@ -8,10 +8,17 @@ using NetEscapades.EnumGenerators;
 
 /// <summary>The star quality of an <see cref="StardewValley.Object"/>.</summary>
 [EnumExtensions]
-internal enum Quality
+public enum Quality
 {
+    /// <summary>Regular quality.</summary>
     Regular,
+
+    /// <summary>Silver quality.</summary>
     Silver,
+
+    /// <summary>Gold quality.</summary>
     Gold,
-    Iridium = 4
+
+    /// <summary>Iridium quality.</summary>
+    Iridium = 4,
 }

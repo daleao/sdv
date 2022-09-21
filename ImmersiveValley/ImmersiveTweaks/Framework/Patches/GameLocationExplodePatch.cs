@@ -2,21 +2,22 @@
 
 #region using directives
 
-using Common.Classes;
-using HarmonyLib;
-using Microsoft.Xna.Framework;
 using System;
 using System.Linq;
+using DaLion.Common.Classes;
+using HarmonyLib;
+using Microsoft.Xna.Framework;
+using HarmonyPatch = DaLion.Common.Harmony.HarmonyPatch;
 
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class GameLocationExplodePatch : Common.Harmony.HarmonyPatch
+internal sealed class GameLocationExplodePatch : HarmonyPatch
 {
-    /// <summary>Construct an instance.</summary>
+    /// <summary>Initializes a new instance of the <see cref="GameLocationExplodePatch"/> class.</summary>
     internal GameLocationExplodePatch()
     {
-        Target = RequireMethod<GameLocation>(nameof(GameLocation.explode));
+        this.Target = this.RequireMethod<GameLocation>(nameof(GameLocation.explode));
     }
 
     #region harmony patches
@@ -25,12 +26,17 @@ internal sealed class GameLocationExplodePatch : Common.Harmony.HarmonyPatch
     [HarmonyPostfix]
     private static void GameLocationExplodePostfix(GameLocation __instance, Vector2 tileLocation, int radius)
     {
-        if (!ModEntry.Config.ExplosionTriggeredBombs) return;
+        if (!ModEntry.Config.ExplosionTriggeredBombs)
+        {
+            return;
+        }
 
         var circle = new CircleTileGrid(tileLocation, radius * 2);
         foreach (var sprite in __instance.TemporarySprites.Where(sprite =>
                      sprite.bombRadius > 0 && circle.Tiles.Contains(sprite.Position / 64f)))
+        {
             sprite.currentNumberOfLoops = Math.Max(sprite.totalNumberOfLoops - 1, sprite.currentNumberOfLoops);
+        }
     }
 
     #endregion harmony patches

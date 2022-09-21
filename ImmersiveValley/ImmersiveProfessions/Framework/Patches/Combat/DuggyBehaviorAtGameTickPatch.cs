@@ -2,26 +2,27 @@
 
 #region using directives
 
-using DaLion.Common;
-using DaLion.Common.Extensions.Reflection;
-using DaLion.Common.Harmony;
-using Extensions;
-using HarmonyLib;
-using StardewValley.Monsters;
 using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
+using DaLion.Common;
+using DaLion.Common.Extensions.Reflection;
+using DaLion.Common.Harmony;
+using DaLion.Stardew.Professions.Extensions;
+using HarmonyLib;
+using StardewValley.Monsters;
+using HarmonyPatch = DaLion.Common.Harmony.HarmonyPatch;
 
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class DuggyBehaviorAtGameTickPatch : DaLion.Common.Harmony.HarmonyPatch
+internal sealed class DuggyBehaviorAtGameTickPatch : HarmonyPatch
 {
-    /// <summary>Construct an instance.</summary>
+    /// <summary>Initializes a new instance of the <see cref="DuggyBehaviorAtGameTickPatch"/> class.</summary>
     internal DuggyBehaviorAtGameTickPatch()
     {
-        Target = RequireMethod<Duggy>(nameof(Duggy.behaviorAtGameTick));
+        this.Target = this.RequireMethod<Duggy>(nameof(Duggy.behaviorAtGameTick));
     }
 
     #region harmony patches
@@ -31,27 +32,24 @@ internal sealed class DuggyBehaviorAtGameTickPatch : DaLion.Common.Harmony.Harmo
     private static IEnumerable<CodeInstruction>? DuggyBehaviorAtGameTickTranspiler(
         IEnumerable<CodeInstruction> instructions, MethodBase original)
     {
-        var helper = new ILHelper(original, instructions);
+        var helper = new IlHelper(original, instructions);
 
-        /// From: if (Sprite.currentFrame < 4)
-        /// To: if (Sprite.currentFrame < 4 && !player.IsInAmbush())
-
+        // From: if (Sprite.currentFrame < 4)
+        // To: if (Sprite.currentFrame < 4 && !player.IsInAmbush())
         try
         {
             helper
-                .FindFirst(
-                    new CodeInstruction(OpCodes.Ldc_I4_4)
-                )
+                .FindFirst(new CodeInstruction(OpCodes.Ldc_I4_4))
                 .Advance()
                 .GetOperand(out var dontDoDamage)
                 .Advance()
                 .InsertInstructions(
                     new CodeInstruction(OpCodes.Ldarg_0),
                     new CodeInstruction(OpCodes.Call, typeof(Monster).RequirePropertyGetter(nameof(Monster.Player))),
-                    new CodeInstruction(OpCodes.Call,
+                    new CodeInstruction(
+                        OpCodes.Call,
                         typeof(FarmerExtensions).RequireMethod(nameof(FarmerExtensions.IsInAmbush))),
-                    new CodeInstruction(OpCodes.Brtrue, dontDoDamage)
-                );
+                    new CodeInstruction(OpCodes.Brtrue, dontDoDamage));
         }
         catch (Exception ex)
         {

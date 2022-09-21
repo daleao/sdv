@@ -1,29 +1,32 @@
 ﻿namespace DaLion.Stardew.Professions.Framework.Ultimates;
 
-#region using directives
-
-using System;
-
-#endregion using directives
-
 /// <summary>Interface for Ultimate abilities.</summary>
-public interface IUltimate : IDisposable
+public interface IUltimate
 {
-    /// <summary>The index of this Ultimate, which equals the index of the corresponding combat profession.</summary>
-    UltimateIndex Index { get; }
+    /// <summary>Gets the corresponding combat profession.</summary>
+    IProfession Profession { get; }
 
-    /// <summary>Whether this Ultimate is currently active.</summary>
+    /// <summary>Gets the localized and gendered name for this <see cref="IUltimate"/>.</summary>
+    string DisplayName { get; }
+
+    /// <summary>Gets get the localized description text for this <see cref="IUltimate"/>.</summary>
+    string Description { get; }
+
+    /// <summary>Gets the index of the <see cref="IUltimate"/>, which equals the index of the corresponding combat profession.</summary>
+    int Index { get; }
+
+    /// <summary>Gets a value indicating whether whether the <see cref="IUltimate"/> is currently active.</summary>
     bool IsActive { get; }
 
-    /// <summary>The current charge value.</summary>
+    /// <summary>Gets or sets the current charge value.</summary>
     double ChargeValue { get; set; }
 
-    /// <summary>The maximum charge value.</summary>
+    /// <summary>Gets the maximum charge value.</summary>
     int MaxValue { get; }
 
-    /// <summary>Check whether all activation conditions for this Ultimate are currently met.</summary>
+    /// <summary>Gets a value indicating whether whether all activation conditions for the <see cref="IUltimate"/> are currently met.</summary>
     bool CanActivate { get; }
 
-    /// <summary>Check whether the <see cref="UltimateHUD"/> is currently showing.</summary>
+    /// <summary>Gets a value indicating whether whether the <see cref="UltimateHud"/> is currently rendering.</summary>
     bool IsHudVisible { get; }
 }

@@ -8,7 +8,11 @@ using System.Xml.Serialization;
 
 /// <summary>Chance to not consume ammo.</summary>
 [XmlType("Mods_DaLion_PreservingEnchantment")]
-public class PreservingEnchantment : BaseSlingshotEnchantment
+public sealed class PreservingEnchantment : BaseSlingshotEnchantment
 {
-    public override string GetName() => ModEntry.i18n.Get("enchantments.preserving");
+    /// <inheritdoc />
+    public override string GetName()
+    {
+        return ModEntry.i18n.Get("enchantments.preserving");
+    }
 }

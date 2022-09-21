@@ -2,24 +2,28 @@
 
 #region using directives
 
-using StardewValley.Monsters;
 using System.Runtime.CompilerServices;
+using StardewValley.Monsters;
 
 #endregion using directives
 
-public static class Monster_GotCrit
+// ReSharper disable once InconsistentNaming
+internal static class Monster_GotCrit
 {
-    internal class Holder
+    internal static ConditionalWeakTable<Monster, Holder> Values { get; } = new();
+
+    internal static bool Get_GotCrit(this Monster monster)
     {
-        public bool gotCrit;
+        return Values.GetOrCreateValue(monster).GotCrit;
     }
 
-    internal static ConditionalWeakTable<Monster, Holder> Values = new();
-
-    public static bool get_GotCrit(this Monster monster) => Values.GetOrCreateValue(monster).gotCrit;
-
-    public static void set_GotCrit(this Monster monster, bool newVal)
+    internal static void Set_GotCrit(this Monster monster, bool newVal)
     {
-        Values.GetOrCreateValue(monster).gotCrit = newVal;
+        Values.GetOrCreateValue(monster).GotCrit = newVal;
+    }
+
+    internal class Holder
+    {
+        public bool GotCrit { get; internal set; }
     }
 }

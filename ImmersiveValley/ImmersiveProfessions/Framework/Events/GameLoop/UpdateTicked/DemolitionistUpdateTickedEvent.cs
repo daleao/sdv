@@ -2,38 +2,45 @@
 
 #region using directives
 
-using Common.Events;
-using StardewModdingAPI.Events;
 using System;
 using System.Linq;
+using DaLion.Common.Events;
+using StardewModdingAPI.Events;
 
 #endregion using directives
 
 [UsedImplicitly]
 internal sealed class DemolitionistUpdateTickedEvent : UpdateTickedEvent
 {
-    private const int BUFF_SHEET_INDEX_I = 41;
+    private const int BuffSheetIndex = 41;
 
     private readonly int _buffId;
 
-    /// <summary>Construct an instance.</summary>
+    /// <summary>Initializes a new instance of the <see cref="DemolitionistUpdateTickedEvent"/> class.</summary>
     /// <param name="manager">The <see cref="ProfessionEventManager"/> instance that manages this event.</param>
     internal DemolitionistUpdateTickedEvent(ProfessionEventManager manager)
         : base(manager)
     {
-        _buffId = (ModEntry.Manifest.UniqueID + Profession.Demolitionist).GetHashCode();
+        this._buffId = (ModEntry.Manifest.UniqueID + Profession.Demolitionist).GetHashCode();
     }
 
     /// <inheritdoc />
     protected override void OnUpdateTickedImpl(object? sender, UpdateTickedEventArgs e)
     {
-        if (ModEntry.State.DemolitionistExcitedness <= 0) Disable();
+        if (ModEntry.State.DemolitionistExcitedness <= 0)
+        {
+            this.Disable();
+        }
 
-        var buff = Game1.buffsDisplay.otherBuffs.FirstOrDefault(p => p.which == _buffId);
-        if (buff is not null) return;
+        var buff = Game1.buffsDisplay.otherBuffs.FirstOrDefault(p => p.which == this._buffId);
+        if (buff is not null)
+        {
+            return;
+        }
 
         Game1.buffsDisplay.addOtherBuff(
-            new(0,
+            new Buff(
+                0,
                 0,
                 0,
                 0,
@@ -50,12 +57,11 @@ internal sealed class DemolitionistUpdateTickedEvent : UpdateTickedEvent
                 ModEntry.i18n.Get(
                     "demolitionist.name" + (Game1.player.IsMale ? ".male" : ".female")))
             {
-                which = _buffId,
-                sheetIndex = BUFF_SHEET_INDEX_I,
+                which = this._buffId,
+                sheetIndex = BuffSheetIndex,
                 millisecondsDuration = 555,
-                description = ModEntry.i18n.Get("demolitionist.buff.desc")
-            }
-        );
+                description = ModEntry.i18n.Get("demolitionist.buff.desc"),
+            });
 
         var buffDecay = ModEntry.State.DemolitionistExcitedness >= 4 ? 2 : 1;
         ModEntry.State.DemolitionistExcitedness =

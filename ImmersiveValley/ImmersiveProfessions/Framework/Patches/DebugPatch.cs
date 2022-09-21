@@ -1,14 +1,16 @@
-﻿using DaLion.Common;
+﻿namespace DaLion.Stardew.Professions.Framework.Patches;
+
+using DaLion.Common;
 using DaLion.Common.Attributes;
 using HarmonyLib;
-
-namespace DaLion.Stardew.Professions.Framework.Patches;
+using HarmonyPatch = DaLion.Common.Harmony.HarmonyPatch;
 
 /// <summary>Wildcard prefix patch for on-demand debugging.</summary>
-[UsedImplicitly, DebugOnly]
-internal class DebugPatch : DaLion.Common.Harmony.HarmonyPatch
+[UsedImplicitly]
+[DebugOnly]
+internal class DebugPatch : HarmonyPatch
 {
-    /// <summary>Construct an instance.</summary>
+    /// <summary>Initializes a new instance of the <see cref="DebugPatch"/> class.</summary>
     internal DebugPatch()
     {
         //Target = RequireMethod<>(nameof(.));
@@ -20,7 +22,6 @@ internal class DebugPatch : DaLion.Common.Harmony.HarmonyPatch
     private static bool DebugPrefix(object __instance)
     {
         Log.D("DebugPatch called!");
-
 
         return false; // don't run original logic
     }

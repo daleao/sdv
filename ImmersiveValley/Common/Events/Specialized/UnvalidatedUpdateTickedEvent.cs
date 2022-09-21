@@ -9,19 +9,24 @@ using StardewModdingAPI.Events;
 /// <summary>Wrapper for <see cref="ISpecializedEvents.UnvalidatedUpdateTicked"/> allowing dynamic enabling / disabling.</summary>
 internal abstract class UnvalidatedUpdateTickedEvent : ManagedEvent
 {
-    /// <summary>Construct an instance.</summary>
+    /// <summary>Initializes a new instance of the <see cref="UnvalidatedUpdateTickedEvent"/> class.</summary>
     /// <param name="manager">The <see cref="EventManager"/> instance that manages this event.</param>
     protected UnvalidatedUpdateTickedEvent(EventManager manager)
-        : base(manager) { }
+        : base(manager)
+    {
+    }
 
     /// <inheritdoc cref="ISpecializedEvents.UnvalidatedUpdateTicked"/>
     /// <param name="sender">The event sender.</param>
     /// <param name="e">The event arguments.</param>
     internal void OnUnvalidatedUpdateTicked(object? sender, UnvalidatedUpdateTickedEventArgs e)
     {
-        if (IsEnabled) OnUnvalidatedUpdateTickedImpl(sender, e);
+        if (this.IsEnabled)
+        {
+            this.OnUnvalidatedUpdateTickedImpl(sender, e);
+        }
     }
 
-    /// <inheritdoc cref="OnUnvalidatedUpdateTicked" />
+    /// <inheritdoc cref="OnUnvalidatedUpdateTicked"/>
     protected abstract void OnUnvalidatedUpdateTickedImpl(object? sender, UnvalidatedUpdateTickedEventArgs e);
 }

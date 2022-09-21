@@ -4,16 +4,17 @@
 
 using HarmonyLib;
 using StardewValley.TerrainFeatures;
+using HarmonyPatch = DaLion.Common.Harmony.HarmonyPatch;
 
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class BushShakePatch : Common.Harmony.HarmonyPatch
+internal sealed class BushShakePatch : HarmonyPatch
 {
-    /// <summary>Construct an instance.</summary>
+    /// <summary>Initializes a new instance of the <see cref="BushShakePatch"/> class.</summary>
     internal BushShakePatch()
     {
-        Target = RequireMethod<Bush>("shake");
+        this.Target = this.RequireMethod<Bush>("shake");
     }
 
     #region harmony patches
@@ -35,7 +36,9 @@ internal sealed class BushShakePatch : Common.Harmony.HarmonyPatch
     private static void BushShakePostfix(Bush __instance, bool __state)
     {
         if (__state && __instance.tileSheetOffset.Value == 0)
+        {
             Game1.player.gainExperience(Farmer.foragingSkill, 5);
+        }
     }
 
     #endregion harmony patches

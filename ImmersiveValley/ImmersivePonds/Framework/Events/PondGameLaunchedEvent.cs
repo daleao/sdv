@@ -2,8 +2,8 @@
 
 #region using directives
 
-using Common.Events;
-using Integrations;
+using DaLion.Common.Events;
+using DaLion.Stardew.Ponds.Integrations;
 using StardewModdingAPI.Events;
 
 #endregion using directives
@@ -11,10 +11,12 @@ using StardewModdingAPI.Events;
 [UsedImplicitly]
 internal sealed class PondGameLaunchedEvent : GameLaunchedEvent
 {
-    /// <summary>Construct an instance.</summary>
+    /// <summary>Initializes a new instance of the <see cref="PondGameLaunchedEvent"/> class.</summary>
     /// <param name="manager">The <see cref="EventManager"/> instance that manages this event.</param>
     internal PondGameLaunchedEvent(EventManager manager)
-        : base(manager) { }
+        : base(manager)
+    {
+    }
 
     /// <inheritdoc />
     protected override void OnGameLaunchedImpl(object? sender, GameLaunchedEventArgs e)
@@ -23,20 +25,24 @@ internal sealed class PondGameLaunchedEvent : GameLaunchedEvent
 
         // add Generic Mod Config Menu integration
         if (registry.IsLoaded("spacechase0.GenericModConfigMenu"))
+        {
             new GenericModConfigMenuIntegrationForImmersivePonds(
                 getConfig: () => ModEntry.Config,
                 reset: () =>
                 {
-                    ModEntry.Config = new();
+                    ModEntry.Config = new ModConfig();
                     ModEntry.ModHelper.WriteConfig(ModEntry.Config);
                 },
                 saveAndApply: () => { ModEntry.ModHelper.WriteConfig(ModEntry.Config); },
                 modRegistry: registry,
-                manifest: ModEntry.Manifest
-            ).Register();
+                manifest: ModEntry.Manifest)
+                .Register();
+        }
 
         // add Immersive Professions integration
         if (registry.IsLoaded("DaLion.ImmersiveProfessions"))
+        {
             new ImmersiveProfessionsIntegration(registry).Register();
+        }
     }
 }

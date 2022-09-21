@@ -2,26 +2,27 @@
 
 #region using directives
 
-using DaLion.Common;
-using DaLion.Common.Extensions.Reflection;
-using DaLion.Common.Harmony;
-using Extensions;
-using HarmonyLib;
-using StardewModdingAPI.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
+using DaLion.Common;
+using DaLion.Common.Extensions.Reflection;
+using DaLion.Common.Harmony;
+using DaLion.Stardew.Professions.Extensions;
+using HarmonyLib;
+using StardewModdingAPI.Utilities;
+using HarmonyPatch = DaLion.Common.Harmony.HarmonyPatch;
 
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class ObjectPlacementActionPatch : DaLion.Common.Harmony.HarmonyPatch
+internal sealed class ObjectPlacementActionPatch : HarmonyPatch
 {
-    /// <summary>Construct an instance.</summary>
+    /// <summary>Initializes a new instance of the <see cref="ObjectPlacementActionPatch"/> class.</summary>
     internal ObjectPlacementActionPatch()
     {
-        Target = RequireMethod<SObject>(nameof(SObject.placementAction));
+        this.Target = this.RequireMethod<SObject>(nameof(SObject.placementAction));
     }
 
     #region harmony patches
@@ -31,13 +32,12 @@ internal sealed class ObjectPlacementActionPatch : DaLion.Common.Harmony.Harmony
     private static IEnumerable<CodeInstruction>? ObjectPlacementActionTranspiler(
         IEnumerable<CodeInstruction> instructions, ILGenerator generator, MethodBase original)
     {
-        var helper = new ILHelper(original, instructions);
+        var helper = new IlHelper(original, instructions);
 
-        /// Injected: if (who is not null && who.professions.Contains(<demolitionist_id>) && ModEntry.Config.ModKey.IsDown()) skipIntensity ...
-        /// After: new TemporaryAnimatedSprite( ... )
-
+        // Injected: if (who is not null && who.professions.Contains(<demolitionist_id>) && ModEntry.Config.ModKey.IsDown()) skipIntensity ...
+        // After: new TemporaryAnimatedSprite( ... )
         var i = 0;
-    repeat:
+        repeat:
         try
         {
             var skipIntensity = generator.DefineLabel();
@@ -46,33 +46,34 @@ internal sealed class ObjectPlacementActionPatch : DaLion.Common.Harmony.Harmony
                 .FindNext(
                     new CodeInstruction(OpCodes.Dup),
                     new CodeInstruction(OpCodes.Ldc_R4, 0.5f),
-                    new CodeInstruction(OpCodes.Stfld,
-                        typeof(TemporaryAnimatedSprite).RequireField(nameof(TemporaryAnimatedSprite.shakeIntensity)))
-                )
+                    new CodeInstruction(
+                        OpCodes.Stfld,
+                        typeof(TemporaryAnimatedSprite).RequireField(nameof(TemporaryAnimatedSprite.shakeIntensity))))
                 .AddLabels(resumeExecution)
                 .InsertInstructions(
                     new CodeInstruction(OpCodes.Ldarg_S, (byte)4), // arg 4 = Farmer who
                     new CodeInstruction(OpCodes.Brfalse_S, resumeExecution),
-                    new CodeInstruction(OpCodes.Ldarg_S, (byte)4)
-                )
+                    new CodeInstruction(OpCodes.Ldarg_S, (byte)4))
                 .InsertProfessionCheck(Profession.Demolitionist.Value, forLocalPlayer: false)
                 .InsertInstructions(
                     new CodeInstruction(OpCodes.Brfalse_S, resumeExecution),
-                    new CodeInstruction(OpCodes.Call,
+                    new CodeInstruction(
+                        OpCodes.Call,
                         typeof(ModEntry).RequirePropertyGetter(nameof(ModEntry.Config))),
-                    new CodeInstruction(OpCodes.Call,
+                    new CodeInstruction(
+                        OpCodes.Call,
                         typeof(ModConfig).RequirePropertyGetter(nameof(ModConfig.ModKey))),
-                    new CodeInstruction(OpCodes.Call,
+                    new CodeInstruction(
+                        OpCodes.Call,
                         typeof(KeybindList).RequireMethod(nameof(KeybindList.IsDown))),
-                    new CodeInstruction(OpCodes.Brtrue_S, skipIntensity)
-                )
+                    new CodeInstruction(OpCodes.Brtrue_S, skipIntensity))
                 .AdvanceUntil(
                     new CodeInstruction(OpCodes.Dup),
                     new CodeInstruction(OpCodes.Ldloc_1),
-                    new CodeInstruction(OpCodes.Stfld,
+                    new CodeInstruction(
+                        OpCodes.Stfld,
                         typeof(TemporaryAnimatedSprite).RequireField(nameof(TemporaryAnimatedSprite
-                            .extraInfoForEndBehavior)))
-                )
+                            .extraInfoForEndBehavior))))
                 .AddLabels(skipIntensity);
         }
         catch (Exception ex)
@@ -82,7 +83,10 @@ internal sealed class ObjectPlacementActionPatch : DaLion.Common.Harmony.Harmony
         }
 
         // repeat injection three times
-        if (++i < 3) goto repeat;
+        if (++i < 3)
+        {
+            goto repeat;
+        }
 
         return helper.Flush();
     }

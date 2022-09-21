@@ -4,16 +4,17 @@
 
 using HarmonyLib;
 using StardewValley.Tools;
+using HarmonyPatch = DaLion.Common.Harmony.HarmonyPatch;
 
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class JadeEnchantmentApplyToPatch : Common.Harmony.HarmonyPatch
+internal sealed class JadeEnchantmentApplyToPatch : HarmonyPatch
 {
-    /// <summary>Construct an instance.</summary>
+    /// <summary>Initializes a new instance of the <see cref="JadeEnchantmentApplyToPatch"/> class.</summary>
     internal JadeEnchantmentApplyToPatch()
     {
-        Target = RequireMethod<JadeEnchantment>("_ApplyTo");
+        this.Target = this.RequireMethod<JadeEnchantment>("_ApplyTo");
     }
 
     #region harmony patches
@@ -22,7 +23,10 @@ internal sealed class JadeEnchantmentApplyToPatch : Common.Harmony.HarmonyPatch
     [HarmonyPrefix]
     private static bool JadeEnchantmentApplyToPrefix(JadeEnchantment __instance, Item item)
     {
-        if (item is not MeleeWeapon weapon || !ModEntry.Config.RebalancedForges) return true; // run original logic
+        if (item is not MeleeWeapon weapon || !ModEntry.Config.RebalancedForges)
+        {
+            return true; // run original logic
+        }
 
         weapon.critMultiplier.Value += 0.5f * __instance.GetLevel();
         return false; // don't run original logic

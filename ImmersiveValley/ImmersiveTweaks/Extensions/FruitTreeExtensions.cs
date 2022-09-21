@@ -9,13 +9,18 @@ using StardewValley.TerrainFeatures;
 /// <summary>Extensions for the <see cref="Tree"/> class.</summary>
 public static class FruitTreeExtensions
 {
-    /// <summary>Get an object quality value based on this fruit tree's age.</summary>
-    public static int GetQualityFromAge(this FruitTree tree)
+    /// <summary>Gets an object quality value based on this <paramref name="fruitTree"/> age.</summary>
+    /// <param name="fruitTree">The <see cref="FruitTree"/>.</param>
+    /// <returns>A <see cref="SObject"/> quality value.</returns>
+    public static int GetQualityFromAge(this FruitTree fruitTree)
     {
-        var skillFactor = 1f + Game1.player.FarmingLevel * 0.1f;
-        if (ModEntry.ProfessionsApi is not null && Game1.player.professions.Contains(Farmer.lumberjack)) ++skillFactor;
+        var skillFactor = 1f + (Game1.player.FarmingLevel * 0.1f);
+        if (ModEntry.ProfessionsApi is not null && Game1.player.professions.Contains(Farmer.lumberjack))
+        {
+            ++skillFactor;
+        }
 
-        var age = tree.daysUntilMature.Value < 0 ? tree.daysUntilMature.Value * -1 : 0;
+        var age = fruitTree.daysUntilMature.Value < 0 ? fruitTree.daysUntilMature.Value * -1 : 0;
         age = (int)(age * skillFactor * ModEntry.Config.AgeImproveQualityFactor);
         if (ModEntry.Config.DeterministicAgeQuality)
         {
@@ -24,7 +29,7 @@ public static class FruitTreeExtensions
                 >= 336 => SObject.bestQuality,
                 >= 224 => SObject.highQuality,
                 >= 112 => SObject.medQuality,
-                _ => SObject.lowQuality
+                _ => SObject.lowQuality,
             };
         }
 
@@ -33,7 +38,7 @@ public static class FruitTreeExtensions
             >= 336 => SObject.bestQuality,
             >= 224 => SObject.highQuality,
             >= 112 => SObject.medQuality,
-            _ => SObject.lowQuality
+            _ => SObject.lowQuality,
         };
     }
 }

@@ -6,16 +6,17 @@ using HarmonyLib;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using StardewValley.Tools;
+using HarmonyPatch = DaLion.Common.Harmony.HarmonyPatch;
 
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class SlingshotDrawAttachmentsPatch : DaLion.Common.Harmony.HarmonyPatch
+internal sealed class SlingshotDrawAttachmentsPatch : HarmonyPatch
 {
-    /// <summary>Construct an instance.</summary>
+    /// <summary>Initializes a new instance of the <see cref="SlingshotDrawAttachmentsPatch"/> class.</summary>
     internal SlingshotDrawAttachmentsPatch()
     {
-        Target = RequireMethod<Slingshot>(nameof(Slingshot.drawAttachments));
+        this.Target = this.RequireMethod<Slingshot>(nameof(Slingshot.drawAttachments));
     }
 
     #region harmony patches
@@ -24,18 +25,40 @@ internal sealed class SlingshotDrawAttachmentsPatch : DaLion.Common.Harmony.Harm
     [HarmonyPostfix]
     private static void SlingshotDrawAttachmentsPostfix(Slingshot __instance, SpriteBatch b, int x, int y)
     {
-        if (__instance.numAttachmentSlots.Value < 2) return;
-
-        if (__instance.attachments[1] is null)
+        if (__instance.numAttachmentSlots.Value < 2)
         {
-            b.Draw(Game1.menuTexture, new(x, y + 64 + 4), Game1.getSourceRectForStandardTileSheet(Game1.menuTexture, 43),
-                Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0.86f);
             return;
         }
 
-        b.Draw(Game1.menuTexture, new(x, y + 64 + 4), Game1.getSourceRectForStandardTileSheet(Game1.menuTexture, 10),
-            Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0.86f);
-        __instance.attachments[1].drawInMenu(b, new(x, y + 64 + 4), 1f);
+        if (__instance.attachments[1] is null)
+        {
+            b.Draw(
+                Game1.menuTexture,
+                new Vector2(x, y + 64 + 4),
+                Game1.getSourceRectForStandardTileSheet(Game1.menuTexture, 43),
+                Color.White,
+                0f,
+                Vector2.Zero,
+                1f,
+                SpriteEffects.None,
+                0.86f);
+            return;
+        }
+
+        b.Draw(
+            Game1.menuTexture,
+            new Vector2(x, y + 64 + 4),
+            Game1.getSourceRectForStandardTileSheet(Game1.menuTexture, 10),
+            Color.White,
+            0f,
+            Vector2.Zero,
+            1f,
+            SpriteEffects.None,
+            0.86f);
+        __instance.attachments[1].drawInMenu(
+            b,
+            new Vector2(x, y + 64 + 4),
+            1f);
     }
 
     #endregion harmony patches

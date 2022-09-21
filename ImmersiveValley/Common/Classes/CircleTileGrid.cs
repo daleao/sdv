@@ -2,138 +2,189 @@
 
 #region using directives
 
-using Microsoft.Xna.Framework;
 using System.Collections.Generic;
 using System.Text;
+using Microsoft.Xna.Framework;
 
 #endregion using directives
 
-/// <summary>Represent a circular arrangement of tiles.</summary>
-public class CircleTileGrid
+/// <summary>Represents a circular grid of tiles.</summary>
+public sealed class CircleTileGrid
 {
     private readonly Vector2 _origin;
-    private readonly int _radius;
     private readonly bool[,] _outlineBoolArray;
+    private readonly int _radius;
 
-    /// <summary>Construct an instance.</summary>
+    /// <summary>Initializes a new instance of the <see cref="CircleTileGrid"/> class.</summary>
     /// <param name="origin">The center tile of the circle in the world reference.</param>
     /// <param name="radius">The radius of the circle in tile units.</param>
     public CircleTileGrid(Vector2 origin, int radius)
     {
-        _origin = origin;
-        _radius = radius;
-        _outlineBoolArray = GetOutline();
+        this._origin = origin;
+        this._radius = radius;
+        this._outlineBoolArray = this.GetOutline();
     }
 
-    /// <summary>Enumerate all the world tiles within a certain radius from the origin.</summary>
+    /// <summary>Gets enumerates all the tiles in the grid.</summary>
     public IEnumerable<Vector2> Tiles
     {
         get
         {
             // get the origin
-            yield return _origin;
+            yield return this._origin;
 
-            var center = new Vector2(_radius, _radius); // the center of the circle in the grid reference
+            var center = new Vector2(this._radius, this._radius); // the center of the circle in the grid reference
 
             // get the central Axes
-            for (var i = 0; i < _radius * 2 + 1; ++i)
-                if (i != _radius)
+            for (var i = 0; i < (this._radius * 2) + 1; ++i)
+            {
+                if (i == this._radius)
                 {
-                    yield return _origin - center + new Vector2(i, _radius);
-                    yield return _origin - center + new Vector2(_radius, i);
+                    continue;
                 }
 
+                yield return this._origin - center + new Vector2(i, this._radius);
+                yield return this._origin - center + new Vector2(this._radius, i);
+            }
+
             // loop over the first remaining quadrant and mirror matches 3 times
-            for (var x = 0; x < _radius; ++x)
-                for (var y = 0; y < _radius; ++y)
-                    if (Contains(new(x, y)))
+            for (var x = 0; x < this._radius; ++x)
+            {
+                for (var y = 0; y < this._radius; ++y)
+                {
+                    if (!this.Contains(new Point(x, y)))
                     {
-                        yield return _origin - center + new Vector2(y, x);
-                        yield return _origin - center + new Vector2(y, 2 * _radius - x);
-                        yield return _origin - center + new Vector2(2 * _radius - y, x);
-                        yield return _origin - center + new Vector2(2 * _radius - y, 2 * _radius - x);
+                        continue;
                     }
+
+                    yield return this._origin - center + new Vector2(y, x);
+                    yield return this._origin - center + new Vector2(y, (2 * this._radius) - x);
+                    yield return this._origin - center + new Vector2((2 * this._radius) - y, x);
+                    yield return this._origin - center + new Vector2((2 * this._radius) - y, (2 * this._radius) - x);
+                }
+            }
         }
     }
 
-    /// <summary>Enumerate all the world tiles at exact radius units from the origin.</summary>
+    /// <summary>Gets enumerates only the outline tiles of the grid.</summary>
     public IEnumerable<Vector2> Outline
     {
         get
         {
-            var center = new Vector2(_radius, _radius); // the center of the circle in the grid reference
+            var center = new Vector2(this._radius, this._radius); // the center of the circle in the grid reference
 
             // get the central axis extremities
-            yield return _origin - center + new Vector2(0, _radius);
-            yield return _origin - center + new Vector2(_radius * 2, _radius);
-            yield return _origin - center + new Vector2(_radius, 0);
-            yield return _origin - center + new Vector2(_radius, _radius * 2);
+            yield return this._origin - center + new Vector2(0, this._radius);
+            yield return this._origin - center + new Vector2(this._radius * 2, this._radius);
+            yield return this._origin - center + new Vector2(this._radius, 0);
+            yield return this._origin - center + new Vector2(this._radius, this._radius * 2);
 
-            if (_radius <= 1) yield break;
+            if (this._radius <= 1)
+            {
+                yield break;
+            }
 
             // loop over the first remaining quadrant and mirror matches 3 times
-            for (var x = 0; x < _radius; ++x)
-                for (var y = 0; y < _radius; ++y)
-                    if (_outlineBoolArray[x, y])
+            for (var x = 0; x < this._radius; ++x)
+            {
+                for (var y = 0; y < this._radius; ++y)
+                {
+                    if (!this._outlineBoolArray[x, y])
                     {
-                        yield return _origin - center + new Vector2(y, x);
-                        yield return _origin - center + new Vector2(y, 2 * _radius - x);
-                        yield return _origin - center + new Vector2(2 * _radius - y, x);
-                        yield return _origin - center + new Vector2(2 * _radius - y, 2 * _radius - x);
+                        continue;
                     }
+
+                    yield return this._origin - center + new Vector2(y, x);
+                    yield return this._origin - center + new Vector2(y, (2 * this._radius) - x);
+                    yield return this._origin - center + new Vector2((2 * this._radius) - y, x);
+                    yield return this._origin - center + new Vector2((2 * this._radius) - y, (2 * this._radius) - x);
+                }
+            }
         }
     }
 
-    /// <summary>Determine whether a point is contained within the circle's outline by using ray casting.</summary>
+    /// <summary>Determines whether a point is contained within the circle by using ray casting.</summary>
     /// <param name="point">The point to be tested.</param>
+    /// <returns><see langword="true"/> if the <paramref name="point"/> is within the bounds of the circle, otherwise <see langword="false"/>.</returns>
     /// <remarks>Remember that the center of the circle is located at (_radius, _radius).</remarks>
     public bool Contains(Point point)
     {
         // handle out of bounds
-        if (point.X < 0 || point.Y < 0 || point.X > _radius * 2 || point.Y > _radius * 2) return false;
+        if (point.X < 0 || point.Y < 0 || point.X > this._radius * 2 || point.Y > this._radius * 2)
+        {
+            return false;
+        }
 
         // handle edge points
-        if (point.X == 0 || point.Y == 0 || point.X == _radius * 2 || point.Y == _radius * 2)
-            return _outlineBoolArray[point.Y, point.X];
+        if (point.X == 0 || point.Y == 0 || point.X == this._radius * 2 || point.Y == this._radius * 2)
+        {
+            return this._outlineBoolArray[point.Y, point.X];
+        }
 
         // handle central Axes
-        if (point.X == _radius || point.Y == _radius) return true;
+        if (point.X == this._radius || point.Y == this._radius)
+        {
+            return true;
+        }
 
         // handle remaining outline points
-        if (_outlineBoolArray[point.Y, point.X]) return true;
+        if (this._outlineBoolArray[point.Y, point.X])
+        {
+            return true;
+        }
 
         // mirror point into the first quadrant
-        if (point.X > _radius) point.X = _radius - point.X;
-        if (point.Y > _radius) point.Y = _radius - point.Y;
+        if (point.X > this._radius)
+        {
+            point.X = this._radius - point.X;
+        }
+
+        if (point.Y > this._radius)
+        {
+            point.Y = this._radius - point.Y;
+        }
 
         // cast horizontal rays
-        for (var i = point.X; i < _radius; ++i)
-            if (_outlineBoolArray[point.Y, i])
+        for (var i = point.X; i < this._radius; ++i)
+        {
+            if (this._outlineBoolArray[point.Y, i])
+            {
                 return false;
+            }
+        }
 
         return true;
     }
 
-    /// <summary>Get a string representation of the complete tile grid.</summary>
+    /// <summary>Gets a <see cref="string"/> representation of the circle grid.</summary>
+    /// <returns>A <see cref="string"/> representation of the circle grid.</returns>
     public new string ToString()
     {
         var s = new StringBuilder().AppendLine();
-        var height = _outlineBoolArray.GetLength(0);
-        var width = _outlineBoolArray.GetLength(1);
+        var height = this._outlineBoolArray.GetLength(0);
+        var width = this._outlineBoolArray.GetLength(1);
         for (var i = 0; i < height; ++i)
         {
             var first = 0;
             var last = width;
             for (var j = 0; j < width; ++j)
             {
-                if (!_outlineBoolArray[i, j]) continue;
+                if (!this._outlineBoolArray[i, j])
+                {
+                    continue;
+                }
+
                 first = j;
                 break;
             }
 
             for (var j = width - 1; j >= 0; --j)
             {
-                if (!_outlineBoolArray[i, j]) continue;
+                if (!this._outlineBoolArray[i, j])
+                {
+                    continue;
+                }
+
                 last = j;
                 break;
             }
@@ -141,7 +192,11 @@ public class CircleTileGrid
             var toggle = false;
             for (var j = 0; j < width; ++j)
             {
-                if (j == first || j == last + 1) toggle = !toggle;
+                if (j == first || j == last + 1)
+                {
+                    toggle = !toggle;
+                }
+
                 s.Append(toggle ? 'x' : ' ').Append(' ');
             }
 
@@ -151,22 +206,21 @@ public class CircleTileGrid
         return s.ToString();
     }
 
-    #region private methods
-
-    /// <summary>Create the circle's outline as a <see cref="bool" /> array.</summary>
-    protected bool[,] GetOutline()
+    /// <summary>Creates the circle's outline as a <see cref="bool"/> array.</summary>
+    /// <returns>An array of <see cref="bool"/> values, where <see langword="true"/> indicates that the circle's outline crosses over the corresponding tile.</returns>
+    private bool[,] GetOutline()
     {
-        var outline = new bool[_radius * 2 + 1, _radius * 2 + 1];
-        var f = 1 - _radius;
+        var outline = new bool[(this._radius * 2) + 1, (this._radius * 2) + 1];
+        var f = 1 - this._radius;
         var ddFx = 1;
-        var ddFy = -2 * _radius;
+        var ddFy = -2 * this._radius;
         var x = 0;
-        var y = _radius;
+        var y = this._radius;
 
-        outline[_radius, _radius + _radius] = true;
-        outline[_radius, _radius - _radius] = true;
-        outline[_radius + _radius, _radius] = true;
-        outline[_radius - _radius, _radius] = true;
+        outline[this._radius, this._radius + this._radius] = true;
+        outline[this._radius, this._radius - this._radius] = true;
+        outline[this._radius + this._radius, this._radius] = true;
+        outline[this._radius - this._radius, this._radius] = true;
 
         while (x < y)
         {
@@ -181,18 +235,16 @@ public class CircleTileGrid
             ddFx += 2;
             f += ddFx;
 
-            outline[_radius + x, _radius + y] = true;
-            outline[_radius - x, _radius + y] = true;
-            outline[_radius + x, _radius - y] = true;
-            outline[_radius - x, _radius - y] = true;
-            outline[_radius + y, _radius + x] = true;
-            outline[_radius - y, _radius + x] = true;
-            outline[_radius + y, _radius - x] = true;
-            outline[_radius - y, _radius - x] = true;
+            outline[this._radius + x, this._radius + y] = true;
+            outline[this._radius - x, this._radius + y] = true;
+            outline[this._radius + x, this._radius - y] = true;
+            outline[this._radius - x, this._radius - y] = true;
+            outline[this._radius + y, this._radius + x] = true;
+            outline[this._radius - y, this._radius + x] = true;
+            outline[this._radius + y, this._radius - x] = true;
+            outline[this._radius - y, this._radius - x] = true;
         }
 
         return outline;
     }
-
-    #endregion private methods
 }

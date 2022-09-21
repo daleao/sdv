@@ -9,19 +9,24 @@ using StardewModdingAPI.Events;
 /// <summary>Wrapper for <see cref="IGameLoopEvents.UpdateTicked"/> allowing dynamic enabling / disabling.</summary>
 internal abstract class UpdateTickedEvent : ManagedEvent
 {
-    /// <summary>Construct an instance.</summary>
+    /// <summary>Initializes a new instance of the <see cref="UpdateTickedEvent"/> class.</summary>
     /// <param name="manager">The <see cref="EventManager"/> instance that manages this event.</param>
     protected UpdateTickedEvent(EventManager manager)
-        : base(manager) { }
+        : base(manager)
+    {
+    }
 
     /// <inheritdoc cref="IGameLoopEvents.UpdateTicked"/>
     /// <param name="sender">The event sender.</param>
     /// <param name="e">The event arguments.</param>
     internal void OnUpdateTicked(object? sender, UpdateTickedEventArgs e)
     {
-        if (IsEnabled) OnUpdateTickedImpl(sender, e);
+        if (this.IsEnabled)
+        {
+            this.OnUpdateTickedImpl(sender, e);
+        }
     }
 
-    /// <inheritdoc cref="OnUpdateTicked" />
+    /// <inheritdoc cref="OnUpdateTicked"/>
     protected abstract void OnUpdateTickedImpl(object? sender, UpdateTickedEventArgs e);
 }

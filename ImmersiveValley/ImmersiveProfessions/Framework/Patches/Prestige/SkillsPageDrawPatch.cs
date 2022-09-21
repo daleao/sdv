@@ -2,90 +2,87 @@
 
 #region using directives
 
-using DaLion.Common;
-using DaLion.Common.Extensions.Reflection;
-using DaLion.Common.Harmony;
-using Extensions;
-using HarmonyLib;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using StardewValley.Menus;
 using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
-using Textures;
+using DaLion.Common;
+using DaLion.Common.Extensions.Reflection;
+using DaLion.Common.Harmony;
+using DaLion.Stardew.Professions.Extensions;
+using DaLion.Stardew.Professions.Framework.Textures;
+using HarmonyLib;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using StardewValley.Menus;
+using HarmonyPatch = DaLion.Common.Harmony.HarmonyPatch;
 
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class SkillsPageDrawPatch : DaLion.Common.Harmony.HarmonyPatch
+internal sealed class SkillsPageDrawPatch : HarmonyPatch
 {
-    /// <summary>Construct an instance.</summary>
+    /// <summary>Initializes a new instance of the <see cref="SkillsPageDrawPatch"/> class.</summary>
     internal SkillsPageDrawPatch()
     {
-        Target = RequireMethod<SkillsPage>(nameof(SkillsPage.draw), new[] { typeof(SpriteBatch) });
+        this.Target = this.RequireMethod<SkillsPage>(nameof(SkillsPage.draw), new[] { typeof(SpriteBatch) });
     }
 
     #region harmony patches
 
     /// <summary>Patch to overlay skill bars above skill level 10 + draw prestige ribbons on the skills page.</summary>
     [HarmonyTranspiler]
-    private static IEnumerable<CodeInstruction>? SkillsPageDrawTranspiler(IEnumerable<CodeInstruction> instructions,
-        ILGenerator generator, MethodBase original)
+    private static IEnumerable<CodeInstruction>? SkillsPageDrawTranspiler(
+        IEnumerable<CodeInstruction> instructions, ILGenerator generator, MethodBase original)
     {
-        var helper = new ILHelper(original, instructions);
+        var helper = new IlHelper(original, instructions);
 
-        /// Inject: x -= ModEntry.Config.PrestigeProgressionStyle == ProgressionStyle.Stars ? Textures.STARS_WIDTH_I : Textures.RIBBON_WIDTH_I;
-        /// After: x = ...
-
+        // Inject: x -= ModEntry.Config.PrestigeProgressionStyle == ProgressionStyle.Stars ? Textures.STARS_WIDTH_I : Textures.RIBBON_WIDTH_I;
+        // After: x = ...
         var notRibbons = generator.DefineLabel();
         try
         {
             helper
                 .FindFirst(
-                    new CodeInstruction(OpCodes.Call,
+                    new CodeInstruction(
+                        OpCodes.Call,
                         typeof(LocalizedContentManager).RequirePropertyGetter(nameof(LocalizedContentManager
-                            .CurrentLanguageCode)))
-                )
-                .AdvanceUntil(
-                    new CodeInstruction(OpCodes.Br_S)
-                )
+                            .CurrentLanguageCode))))
+                .AdvanceUntil(new CodeInstruction(OpCodes.Br_S))
                 .GetOperand(out var resumeExecution)
-                .AdvanceUntil(
-                    new CodeInstruction(OpCodes.Stloc_0)
-                )
+                .AdvanceUntil(new CodeInstruction(OpCodes.Stloc_0))
                 .InsertInstructions(
                     new CodeInstruction(OpCodes.Call, typeof(ModEntry).RequirePropertyGetter(nameof(ModEntry.Config))),
-                    new CodeInstruction(OpCodes.Call,
+                    new CodeInstruction(
+                        OpCodes.Call,
                         typeof(ModConfig).RequirePropertyGetter(nameof(ModConfig.EnablePrestige))),
                     new CodeInstruction(OpCodes.Brfalse_S, resumeExecution),
                     new CodeInstruction(OpCodes.Call, typeof(ModEntry).RequirePropertyGetter(nameof(ModEntry.Config))),
-                    new CodeInstruction(OpCodes.Call,
+                    new CodeInstruction(
+                        OpCodes.Call,
                         typeof(ModConfig).RequirePropertyGetter(nameof(ModConfig.PrestigeProgressionStyle))),
                     new CodeInstruction(OpCodes.Ldc_I4_0),
                     new CodeInstruction(OpCodes.Beq_S, notRibbons),
-                    new CodeInstruction(OpCodes.Ldc_I4_S,
-                        (int)((Textures.RIBBON_WIDTH_I + 5) * Textures.RIBBON_SCALE_F)),
+                    new CodeInstruction(
+                        OpCodes.Ldc_I4_S,
+                        (int)((Textures.RibbonWidth + 5) * Textures.RibbonScale)),
                     new CodeInstruction(OpCodes.Sub),
-                    new CodeInstruction(OpCodes.Br_S, resumeExecution)
-                )
+                    new CodeInstruction(OpCodes.Br_S, resumeExecution))
                 .InsertWithLabels(
                     new[] { notRibbons },
-                    new CodeInstruction(OpCodes.Ldc_I4_S,
-                        (int)((Textures.STARS_WIDTH_I + 4) * Textures.STARS_SCALE_F)),
-                    new CodeInstruction(OpCodes.Sub)
-                );
+                    new CodeInstruction(
+                        OpCodes.Ldc_I4_S,
+                        (int)((Textures.StarsWidth + 4) * Textures.StarsScale)),
+                    new CodeInstruction(OpCodes.Sub));
         }
         catch (Exception ex)
         {
-            Log.E($"Failed adjusing localized skill page content position.\nHelper returned {ex}");
+            Log.E($"Failed adjusting localized skill page content position.\nHelper returned {ex}");
             return null;
         }
 
-        /// Injected: DrawExtendedLevelBars(levelIndex, skillIndex, x, y, addedX, skillLevel, b)
-        /// Before: if (i == 9) draw level number ...
-
+        // Injected: DrawExtendedLevelBars(levelIndex, skillIndex, x, y, addedX, skillLevel, b)
+        // Before: if (i == 9) draw level number ...
         var skillIndex = helper.Locals[4];
         var skillLevel = helper.Locals[8];
         try
@@ -94,8 +91,7 @@ internal sealed class SkillsPageDrawPatch : DaLion.Common.Harmony.HarmonyPatch
                 .FindFirst(
                     new CodeInstruction(OpCodes.Ldloc_3),
                     new CodeInstruction(OpCodes.Ldc_I4_S, 9),
-                    new CodeInstruction(OpCodes.Bne_Un)
-                )
+                    new CodeInstruction(OpCodes.Bne_Un))
                 .StripLabels(out var labels)
                 .InsertWithLabels(
                     labels,
@@ -106,9 +102,9 @@ internal sealed class SkillsPageDrawPatch : DaLion.Common.Harmony.HarmonyPatch
                     new CodeInstruction(OpCodes.Ldloc_2), // load addedX
                     new CodeInstruction(OpCodes.Ldloc_S, skillLevel), // load skillLevel,
                     new CodeInstruction(OpCodes.Ldarg_1), // load b
-                    new CodeInstruction(OpCodes.Call,
-                        typeof(SkillsPageDrawPatch).RequireMethod(nameof(DrawExtendedLevelBars)))
-                );
+                    new CodeInstruction(
+                        OpCodes.Call,
+                        typeof(SkillsPageDrawPatch).RequireMethod(nameof(DrawExtendedLevelBars))));
         }
         catch (Exception ex)
         {
@@ -116,29 +112,25 @@ internal sealed class SkillsPageDrawPatch : DaLion.Common.Harmony.HarmonyPatch
             return null;
         }
 
-        /// From: (addedSkill ? Color.LightGreen : Color.Cornsilk)
-        /// To: (addedSkill ? Color.LightGreen : skillLevel == 20 ? Color.Grey : Color.SandyBrown)
-
+        // From: (addedSkill ? Color.LightGreen : Color.Cornsilk)
+        // To: (addedSkill ? Color.LightGreen : skillLevel == 20 ? Color.Grey : Color.SandyBrown)
         var isSkillLevel20 = generator.DefineLabel();
         try
         {
             helper
                 .FindNext(
-                    new CodeInstruction(OpCodes.Call, typeof(Color).RequirePropertyGetter(nameof(Color.SandyBrown)))
-                )
+                    new CodeInstruction(OpCodes.Call, typeof(Color).RequirePropertyGetter(nameof(Color.SandyBrown))))
                 .InsertInstructions(
                     new CodeInstruction(OpCodes.Ldloc_S, skillLevel),
                     new CodeInstruction(OpCodes.Ldc_I4_S, 20),
-                    new CodeInstruction(OpCodes.Beq_S, isSkillLevel20)
-                )
+                    new CodeInstruction(OpCodes.Beq_S, isSkillLevel20))
                 .Advance()
                 .GetOperand(out var resumeExecution)
                 .Advance()
                 .InsertWithLabels(
                     new[] { isSkillLevel20 },
                     new CodeInstruction(OpCodes.Call, typeof(Color).RequirePropertyGetter(nameof(Color.Cornsilk))),
-                    new CodeInstruction(OpCodes.Br_S, resumeExecution)
-                );
+                    new CodeInstruction(OpCodes.Br_S, resumeExecution));
         }
         catch (Exception ex)
         {
@@ -146,25 +138,23 @@ internal sealed class SkillsPageDrawPatch : DaLion.Common.Harmony.HarmonyPatch
             return null;
         }
 
-        /// Injected: DrawRibbonsSubroutine(b);
-        /// Before: if (hoverText.Length > 0)
-
+        // Injected: DrawRibbonsSubroutine(b);
+        // Before: if (hoverText.Length > 0)
         try
         {
             helper
                 .FindLast(
                     new CodeInstruction(OpCodes.Ldarg_0),
                     new CodeInstruction(OpCodes.Ldfld, typeof(SkillsPage).RequireField("hoverText")),
-                    new CodeInstruction(OpCodes.Callvirt, typeof(string).RequirePropertyGetter(nameof(string.Length)))
-                )
+                    new CodeInstruction(OpCodes.Callvirt, typeof(string).RequirePropertyGetter(nameof(string.Length))))
                 .StripLabels(out var labels) // backup and remove branch labels
                 .InsertWithLabels(
                     labels,
                     new CodeInstruction(OpCodes.Ldarg_0),
                     new CodeInstruction(OpCodes.Ldarg_1),
-                    new CodeInstruction(OpCodes.Call,
-                        typeof(SkillsPageDrawPatch).RequireMethod(nameof(DrawRibbons)))
-                );
+                    new CodeInstruction(
+                        OpCodes.Call,
+                        typeof(SkillsPageDrawPatch).RequireMethod(nameof(DrawRibbons))));
         }
         catch (Exception ex)
         {
@@ -179,29 +169,47 @@ internal sealed class SkillsPageDrawPatch : DaLion.Common.Harmony.HarmonyPatch
 
     #region injected subroutines
 
-    internal static void DrawExtendedLevelBars(int levelIndex, int skillIndex, int x, int y, int addedX,
-        int skillLevel, SpriteBatch b)
+    internal static void DrawExtendedLevelBars(
+        int levelIndex, int skillIndex, int x, int y, int addedX, int skillLevel, SpriteBatch b)
     {
-        if (!ModEntry.Config.EnablePrestige) return;
+        if (!ModEntry.Config.EnablePrestige)
+        {
+            return;
+        }
 
         var drawBlue = skillLevel > levelIndex + 10;
-        if (!drawBlue) return;
+        if (!drawBlue)
+        {
+            return;
+        }
 
         // this will draw only the blue bars
         if ((levelIndex + 1) % 5 != 0)
-            b.Draw(Textures.BarsTx, new(addedX + x + levelIndex * 36, y - 4 + skillIndex * 56),
-                new(0, 0, 8, 9), Color.White, 0f, Vector2.Zero, 4f, SpriteEffects.None, 1f);
+        {
+            b.Draw(
+                Textures.BarsTx,
+                new Vector2(addedX + x + (levelIndex * 36), y - 4 + (skillIndex * 56)),
+                new Rectangle(0, 0, 8, 9),
+                Color.White,
+                0f,
+                Vector2.Zero,
+                4f,
+                SpriteEffects.None,
+                1f);
+        }
     }
 
     internal static void DrawRibbons(SkillsPage page, SpriteBatch b)
     {
-        if (!ModEntry.Config.EnablePrestige) return;
+        if (!ModEntry.Config.EnablePrestige)
+        {
+            return;
+        }
 
         var position =
             new Vector2(
-                page.xPositionOnScreen + page.width + Textures.PROGRESSION_HORIZONTAL_OFFSET_I,
-                page.yPositionOnScreen + IClickableMenu.spaceToClearTopBorder + IClickableMenu.borderWidth +
-                Textures.PROGRESSION_VERTICAL_OFFSET_I);
+                page.xPositionOnScreen + page.width + Textures.ProgressionHorizontalOffset,
+                page.yPositionOnScreen + IClickableMenu.spaceToClearTopBorder + IClickableMenu.borderWidth + Textures.ProgressionVerticalOffset);
         if (ModEntry.Config.PrestigeProgressionStyle == ModConfig.ProgressionStyle.StackedStars)
         {
             position.X -= 22;
@@ -217,57 +225,85 @@ internal sealed class SkillsPageDrawPatch : DaLion.Common.Harmony.HarmonyPatch
             {
                 1 => Skill.Mining,
                 3 => Skill.Fishing,
-                _ => Skill.FromValue(i)
+                _ => Skill.FromValue(i),
             };
             var count = Game1.player.GetProfessionsForSkill(skill, true).Length;
-            if (count == 0) continue;
+            if (count == 0)
+            {
+                continue;
+            }
 
             Rectangle srcRect;
             if (ModEntry.Config.PrestigeProgressionStyle.ToString().Contains("Ribbons"))
             {
-                srcRect = new(i * Textures.RIBBON_WIDTH_I, (count - 1) * Textures.RIBBON_WIDTH_I,
-                    Textures.RIBBON_WIDTH_I, Textures.RIBBON_WIDTH_I);
+                srcRect = new Rectangle(
+                    i * Textures.RibbonWidth,
+                    (count - 1) * Textures.RibbonWidth,
+                    Textures.RibbonWidth,
+                    Textures.RibbonWidth);
             }
             else if (ModEntry.Config.PrestigeProgressionStyle == ModConfig.ProgressionStyle.StackedStars)
             {
-                srcRect = new(0, (count - 1) * 16, Textures.STARS_WIDTH_I, 16);
+                srcRect = new Rectangle(0, (count - 1) * 16, Textures.StarsWidth, 16);
             }
             else
             {
                 srcRect = Rectangle.Empty;
             }
 
-            b.Draw(Textures.ProgressionTx, position, srcRect, Color.White, 0f, Vector2.Zero,
-                ModEntry.Config.PrestigeProgressionStyle == ModConfig.ProgressionStyle.StackedStars
-                    ? Textures.STARS_SCALE_F
-                    : Textures.RIBBON_SCALE_F, SpriteEffects.None, 1f);
+            b.Draw(
+                Textures.ProgressionTx,
+                position,
+                srcRect,
+                Color.White,
+                0f,
+                Vector2.Zero,
+                ModEntry.Config.PrestigeProgressionStyle == ModConfig.ProgressionStyle.StackedStars ? Textures.StarsScale : Textures.RibbonScale,
+                SpriteEffects.None,
+                1f);
         }
 
-        if (ModEntry.SpaceCoreApi is null) return;
+        if (ModEntry.SpaceCoreApi is null)
+        {
+            return;
+        }
 
         if (ModEntry.Config.PrestigeProgressionStyle.ToString().Contains("Ribbons"))
+        {
             position.X += 2; // not sure why but custom skill ribbons render with a small offset
+        }
 
-        foreach (var skill in CustomSkill.LoadedSkills.Values)
+        foreach (var skill in CustomSkill.Loaded.Values)
         {
             position.Y += 56;
             var count = Game1.player.GetProfessionsForSkill(skill, true).Length;
-            if (count == 0) continue;
+            if (count == 0)
+            {
+                continue;
+            }
 
             var srcRect = ModEntry.Config.PrestigeProgressionStyle switch
             {
-                ModConfig.ProgressionStyle.Gen3Ribbons or ModConfig.ProgressionStyle.Gen4Ribbons => new(
+                ModConfig.ProgressionStyle.Gen3Ribbons or ModConfig.ProgressionStyle.Gen4Ribbons => new Rectangle(
                     skill.StringId == "blueberry.LoveOfCooking.CookingSkill" ? 111 : 133,
-                    (count - 1) * Textures.RIBBON_WIDTH_I, Textures.RIBBON_WIDTH_I, Textures.RIBBON_WIDTH_I),
+                    (count - 1) * Textures.RibbonWidth,
+                    Textures.RibbonWidth,
+                    Textures.RibbonWidth),
                 ModConfig.ProgressionStyle.StackedStars =>
-                    new(0, (count - 1) * 16, Textures.STARS_WIDTH_I, 16),
-                _ => Rectangle.Empty
+                    new Rectangle(0, (count - 1) * 16, Textures.StarsWidth, 16),
+                _ => Rectangle.Empty,
             };
 
-            b.Draw(Textures.ProgressionTx, position, srcRect, Color.White, 0f, Vector2.Zero,
-                ModEntry.Config.PrestigeProgressionStyle == ModConfig.ProgressionStyle.StackedStars
-                    ? Textures.STARS_SCALE_F
-                    : Textures.RIBBON_SCALE_F, SpriteEffects.None, 1f);
+            b.Draw(
+                Textures.ProgressionTx,
+                position,
+                srcRect,
+                Color.White,
+                0f,
+                Vector2.Zero,
+                ModEntry.Config.PrestigeProgressionStyle == ModConfig.ProgressionStyle.StackedStars ? Textures.StarsScale : Textures.RibbonScale,
+                SpriteEffects.None,
+                1f);
         }
     }
 

@@ -2,30 +2,48 @@
 
 #region using directives
 
-using Common;
-using Common.Commands;
-using Common.Events;
-using Common.Harmony;
-using Configs;
-using Framework;
-using Framework.Events;
+using System.Linq;
+using DaLion.Common;
+using DaLion.Common.Commands;
+using DaLion.Common.Events;
+using DaLion.Common.Harmony;
+using DaLion.Stardew.Tools.Configs;
+using DaLion.Stardew.Tools.Framework;
+using DaLion.Stardew.Tools.Framework.Events;
 using HarmonyLib;
 using StardewModdingAPI.Utilities;
-using System.Linq;
 
 #endregion using directives
 
 /// <summary>The mod entry point.</summary>
-public class ModEntry : Mod
+public sealed class ModEntry : Mod
 {
+    /// <summary>Gets the static <see cref="ModEntry"/> instance.</summary>
     internal static ModEntry Instance { get; private set; } = null!;
-    internal static ToolConfig Config { get; set; } = null!;
-    internal static EventManager Events { get; private set; } = null!;
-    internal static PerScreen<Shockwave?> Shockwave { get; } = new(() => null);
 
+    /// <summary>Gets or sets the <see cref="ToolConfig"/> instance.</summary>
+    internal static ToolConfig Config { get; set; } = null!;
+
+    /// <summary>Gets the <see cref="EventManager"/> instance.</summary>
+    internal static EventManager Events { get; private set; } = null!;
+
+    /// <summary>Gets the <see cref="PerScreen{T}"/> <see cref="ModState"/>.</summary>
+    internal static PerScreen<ModState> PerScreenState { get; private set; } = null!;
+
+    /// <summary>Gets or sets the <see cref="ModState"/> of the local player.</summary>
+    internal static ModState State
+    {
+        get => PerScreenState.Value;
+        set => PerScreenState.Value = value;
+    }
+
+    /// <summary>Gets the <see cref="IModHelper"/> API.</summary>
     internal static IModHelper ModHelper => Instance.Helper;
+
+    /// <summary>Gets the <see cref="IManifest"/> for this mod.</summary>
     internal static IManifest Manifest => Instance.ModManifest;
 
+    /// <summary>Gets a value indicating whether Moon Misadventures mod is loaded in the current game session.</summary>
     internal static bool IsMoonMisadventuresLoaded { get; private set; }
 
     /// <summary>The mod entry point, called after the mod is first loaded.</summary>
@@ -35,27 +53,31 @@ public class ModEntry : Mod
         Instance = this;
 
         // initialize logger
-        Log.Init(Monitor);
+        Log.Init(this.Monitor);
 
         // check for Moon Misadventures before verifying configs
         IsMoonMisadventuresLoaded = helper.ModRegistry.IsLoaded("spacechase0.MoonMisadventures");
 
         // get and verify configs
-        Config = Helper.ReadConfig<ToolConfig>();
-        VerifyConfigs();
+        Config = this.Helper.ReadConfig<ToolConfig>();
+        this.VerifyConfigs();
 
         // enable events
-        Events = new(helper.Events);
-        if (Config.FaceMouseCursor) Events.Enable<ToolButtonPressedEvent>();
+        Events = new EventManager(helper.Events);
+        if (Config.FaceMouseCursor)
+        {
+            Events.Enable<ToolButtonPressedEvent>();
+        }
+
+        // initialize mod state
+        PerScreenState = new PerScreen<ModState>(() => new ModState());
 
         // apply patches
-        new Harmonizer(helper.ModRegistry, ModManifest.UniqueID).ApplyAll();
+        new Harmonizer(helper.ModRegistry, this.ModManifest.UniqueID).ApplyAll();
 
         // register commands
         new CommandHandler(helper.ConsoleCommands).Register("tan", "Tooth & Nail");
     }
-
-    #region private methods
 
     /// <summary>Check for and fix invalid mod settings.</summary>
     private void VerifyConfigs()
@@ -66,7 +88,10 @@ public class ModEntry : Mod
         {
             Log.W("Missing values in AxeConfig.RadiusAtEachPowerLevel. The default values will be restored.");
             Config.AxeConfig.RadiusAtEachPowerLevel = new[] { 1, 2, 3, 4, 5 };
-            if (IsMoonMisadventuresLoaded) Config.AxeConfig.RadiusAtEachPowerLevel.AddRangeToArray(new[] { 6, 7 });
+            if (IsMoonMisadventuresLoaded)
+            {
+                Config.AxeConfig.RadiusAtEachPowerLevel.AddRangeToArray(new[] { 6, 7 });
+            }
         }
         else if (Config.AxeConfig.RadiusAtEachPowerLevel.Any(i => i < 0))
         {
@@ -80,7 +105,10 @@ public class ModEntry : Mod
         {
             Log.W("Missing values PickaxeConfig.RadiusAtEachPowerLevel. The default values will be restored.");
             Config.PickaxeConfig.RadiusAtEachPowerLevel = new[] { 1, 2, 3, 4, 5 };
-            if (IsMoonMisadventuresLoaded) Config.PickaxeConfig.RadiusAtEachPowerLevel.AddRangeToArray(new[] { 6, 7 });
+            if (IsMoonMisadventuresLoaded)
+            {
+                Config.PickaxeConfig.RadiusAtEachPowerLevel.AddRangeToArray(new[] { 6, 7 });
+            }
         }
         else if (Config.PickaxeConfig.RadiusAtEachPowerLevel.Any(i => i < 0))
         {
@@ -94,54 +122,58 @@ public class ModEntry : Mod
         {
             Log.W("Incorrect or missing values in HoeConfig.AffectedTiles. The default values will be restored.");
             Config.HoeConfig.AffectedTiles = new[]
-                {
-                    new[] {3, 0},
-                    new[] {5, 0},
-                    new[] {3, 1},
-                    new[] {6, 1},
-                    new[] {5, 2}
-                };
+            {
+                new[] { 3, 0 }, new[] { 5, 0 }, new[] { 3, 1 }, new[] { 6, 1 }, new[] { 5, 2 },
+            };
             if (IsMoonMisadventuresLoaded)
-                Config.HoeConfig.AffectedTiles.AddRangeToArray(new[]
-                {
-                    new[] {7, 3},
-                    new[] {9, 4}
-                });
+            {
+                Config.HoeConfig.AffectedTiles.AddRangeToArray(new[] { new[] { 7, 3 }, new[] { 9, 4 } });
+            }
         }
         else if (Config.HoeConfig.AffectedTiles.Any(row => row.Any(i => i < 0)))
         {
             Log.W(
                 "Illegal negative value for affected tile radius or length in HoeConfig.AffectedTiles. Those values will be replaced with zero.");
             foreach (var row in Config.HoeConfig.AffectedTiles)
+            {
                 for (var i = 0; i < 2; ++i)
-                    if (row[i] < 0) row[i] = 0;
+                {
+                    if (row[i] < 0)
+                    {
+                        row[i] = 0;
+                    }
+                }
+            }
         }
 
-        if (Config.WateringCanConfig.AffectedTiles.Length < 5 || Config.WateringCanConfig.AffectedTiles.Any(row => row.Length != 2))
+        if (Config.WateringCanConfig.AffectedTiles.Length < 5 ||
+            Config.WateringCanConfig.AffectedTiles.Any(row => row.Length != 2))
         {
-            Log.W("Incorrect or missing values in WateringCanConfig.AffectedTiles. The default values will be restored.");
+            Log.W(
+                "Incorrect or missing values in WateringCanConfig.AffectedTiles. The default values will be restored.");
             Config.WateringCanConfig.AffectedTiles = new[]
             {
-                new[] {3, 0},
-                new[] {5, 0},
-                new[] {3, 1},
-                new[] {6, 1},
-                new[] {5, 2}
+                new[] { 3, 0 }, new[] { 5, 0 }, new[] { 3, 1 }, new[] { 6, 1 }, new[] { 5, 2 },
             };
             if (IsMoonMisadventuresLoaded)
-                Config.WateringCanConfig.AffectedTiles.AddRangeToArray(new[]
-                {
-                    new[] {7, 3},
-                    new[] {9, 4}
-                });
+            {
+                Config.WateringCanConfig.AffectedTiles.AddRangeToArray(new[] { new[] { 7, 3 }, new[] { 9, 4 } });
+            }
         }
         else if (Config.WateringCanConfig.AffectedTiles.Any(row => row.Any(i => i < 0)))
         {
             Log.W(
                 "Illegal negative value for affected tile radius or length in WateringCanConfig.AffectedTiles. Those values will be replaced with zero.");
             foreach (var row in Config.WateringCanConfig.AffectedTiles)
+            {
                 for (var i = 0; i < 2; ++i)
-                    if (row[i] < 0) row[i] = 0;
+                {
+                    if (row[i] < 0)
+                    {
+                        row[i] = 0;
+                    }
+                }
+            }
         }
 
         if (Config.RequireModkey && !Config.Modkey.IsBound)
@@ -152,7 +184,9 @@ public class ModEntry : Mod
         }
 
         if (Config.StaminaCostMultiplier < 0)
+        {
             Log.W("'StaminaCostMultiplier' is set to a negative value. This may cause game-breaking bugs.");
+        }
 
         if (Config.TicksBetweenWaves > 100)
         {
@@ -188,7 +222,8 @@ public class ModEntry : Mod
                     break;
 
                 case > 7:
-                    Log.W("Too many values in PickaxeConfig.RadiusAtEachPowerLevel. Additional values will be removed.");
+                    Log.W(
+                        "Too many values in PickaxeConfig.RadiusAtEachPowerLevel. Additional values will be removed.");
                     Config.PickaxeConfig.RadiusAtEachPowerLevel =
                         Config.PickaxeConfig.RadiusAtEachPowerLevel.Take(7).ToArray();
                     break;
@@ -200,8 +235,7 @@ public class ModEntry : Mod
                     Log.I("Adding default length and radius values for higher Hoe upgrades.");
                     Config.HoeConfig.AffectedTiles = Config.HoeConfig.AffectedTiles.AddRangeToArray(new[]
                     {
-                        new[] {7, 3},
-                        new[] {9, 4}
+                        new[] { 7, 3 }, new[] { 9, 4 },
                     });
                     break;
 
@@ -217,11 +251,7 @@ public class ModEntry : Mod
                 case < 7:
                     Log.I("Adding default length and radius values for higher Watering Can upgrades.");
                     Config.WateringCanConfig.AffectedTiles = Config.WateringCanConfig.AffectedTiles.AddRangeToArray(
-                        new[]
-                        {
-                            new[] {7, 3},
-                            new[] {9, 4}
-                        });
+                        new[] { new[] { 7, 3 }, new[] { 9, 4 } });
                     break;
 
                 case > 7:
@@ -261,8 +291,6 @@ public class ModEntry : Mod
             }
         }
 
-        Helper.WriteConfig(Config);
+        this.Helper.WriteConfig(Config);
     }
-
-    #endregion private methods
 }

@@ -2,34 +2,37 @@
 
 #region using directives
 
-using Extensions;
+using DaLion.Stardew.Professions.Extensions;
 using HarmonyLib;
 using StardewValley.Monsters;
 using StardewValley.Tools;
+using HarmonyPatch = DaLion.Common.Harmony.HarmonyPatch;
 
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class GameLocationIsMonsterDamageApplicablePatch : DaLion.Common.Harmony.HarmonyPatch
+internal sealed class GameLocationIsMonsterDamageApplicablePatch : HarmonyPatch
 {
-    private const int SLIME_INDEX_I = 766;
+    private const int SlimeIndex = 766;
 
-    /// <summary>Construct an instance.</summary>
+    /// <summary>Initializes a new instance of the <see cref="GameLocationIsMonsterDamageApplicablePatch"/> class.</summary>
     internal GameLocationIsMonsterDamageApplicablePatch()
     {
-        Target = RequireMethod<GameLocation>("isMonsterDamageApplicable");
+        this.Target = this.RequireMethod<GameLocation>("isMonsterDamageApplicable");
     }
 
     #region harmony patches
 
     /// <summary>Club smash aoe ignores gliders.</summary>
     [HarmonyPrefix]
-    private static bool GameLocationIsMonsterDamageApplicablePrefix(GameLocation __instance, ref bool __result,
-        Farmer who, Monster monster)
+    private static bool GameLocationIsMonsterDamageApplicablePrefix(
+        GameLocation __instance, ref bool __result, Farmer who, Monster monster)
     {
         if (!monster.IsSlime() || who.CurrentTool is not Slingshot slingshot ||
-            slingshot.attachments[0].ParentSheetIndex != SLIME_INDEX_I)
+            slingshot.attachments[0].ParentSheetIndex != SlimeIndex)
+        {
             return true; // run original logic
+        }
 
         __result = false;
         return false; // don't run original logic

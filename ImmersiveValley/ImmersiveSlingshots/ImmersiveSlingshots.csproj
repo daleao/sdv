@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-	<Import Project="..\_build\common.targets" />
+	<Import Project="..\_build\common.targets"/>
 
 	<PropertyGroup>
 		<AssemblyName>ImmersiveSlingshots</AssemblyName>

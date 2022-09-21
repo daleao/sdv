@@ -2,25 +2,28 @@
 
 #region using directives
 
+using System;
+using System.Collections.Generic;
+using System.Reflection;
+using System.Reflection.Emit;
 using DaLion.Common;
 using DaLion.Common.Attributes;
 using DaLion.Common.Extensions.Reflection;
 using DaLion.Common.Harmony;
 using HarmonyLib;
-using System;
-using System.Collections.Generic;
-using System.Reflection;
-using System.Reflection.Emit;
+using HarmonyPatch = DaLion.Common.Harmony.HarmonyPatch;
 
 #endregion using directives
 
-[UsedImplicitly, RequiresMod("Pathoschild.Automate")]
-internal sealed class CrabPotMachineGetStatePatch : DaLion.Common.Harmony.HarmonyPatch
+[UsedImplicitly]
+[RequiresMod("Pathoschild.Automate")]
+internal sealed class CrabPotMachineGetStatePatch : HarmonyPatch
 {
-    /// <summary>Construct an instance.</summary>
+    /// <summary>Initializes a new instance of the <see cref="CrabPotMachineGetStatePatch"/> class.</summary>
     internal CrabPotMachineGetStatePatch()
     {
-        Target = "Pathoschild.Stardew.Automate.Framework.Machines.Objects.CrabPotMachine".ToType()
+        this.Target = "Pathoschild.Stardew.Automate.Framework.Machines.Objects.CrabPotMachine"
+            .ToType()
             .RequireMethod("GetState");
     }
 
@@ -31,19 +34,17 @@ internal sealed class CrabPotMachineGetStatePatch : DaLion.Common.Harmony.Harmon
     private static IEnumerable<CodeInstruction>? CrabPotMachineGetStateTranspiler(
         IEnumerable<CodeInstruction> instructions, MethodBase original)
     {
-        var helper = new ILHelper(original, instructions);
+        var helper = new IlHelper(original, instructions);
 
-        /// Removed: || !this.PlayerNeedsBait()
-
+        // Removed: || !this.PlayerNeedsBait()
         try
         {
             helper
-                .FindFirst(
-                    new CodeInstruction(OpCodes.Brtrue_S)
-                )
+                .FindFirst(new CodeInstruction(OpCodes.Brtrue_S))
                 .RemoveInstructionsUntil(
-                    new CodeInstruction(OpCodes.Call, "CrabPotMachine".ToType().RequireMethod("PlayerNeedsBait"))
-                )
+                    new CodeInstruction(OpCodes.Call, "CrabPotMachine"
+                        .ToType()
+                        .RequireMethod("PlayerNeedsBait")))
                 .SetOpCode(OpCodes.Brfalse_S);
         }
         catch (Exception ex)

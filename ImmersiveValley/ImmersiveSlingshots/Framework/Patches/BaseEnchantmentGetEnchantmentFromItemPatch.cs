@@ -2,24 +2,25 @@
 
 #region using directives
 
-using Common;
-using Common.Harmony;
-using HarmonyLib;
-using StardewValley.Tools;
 using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
+using DaLion.Common;
+using DaLion.Common.Harmony;
+using HarmonyLib;
+using StardewValley.Tools;
+using HarmonyPatch = DaLion.Common.Harmony.HarmonyPatch;
 
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class BaseEnchantmentGetEnchantmentFromItemPatch : Common.Harmony.HarmonyPatch
+internal sealed class BaseEnchantmentGetEnchantmentFromItemPatch : HarmonyPatch
 {
-    /// <summary>Construct an instance.</summary>
+    /// <summary>Initializes a new instance of the <see cref="BaseEnchantmentGetEnchantmentFromItemPatch"/> class.</summary>
     internal BaseEnchantmentGetEnchantmentFromItemPatch()
     {
-        Target = RequireMethod<BaseEnchantment>(nameof(BaseEnchantment.GetEnchantmentFromItem));
+        this.Target = this.RequireMethod<BaseEnchantment>(nameof(BaseEnchantment.GetEnchantmentFromItem));
     }
 
     #region harmony patches
@@ -29,38 +30,28 @@ internal sealed class BaseEnchantmentGetEnchantmentFromItemPatch : Common.Harmon
     private static IEnumerable<CodeInstruction>? BaseEnchantmentGetEnchantmentFromItemTranspiler(
         IEnumerable<CodeInstruction> instructions, ILGenerator generator, MethodBase original)
     {
-        var helper = new ILHelper(original, instructions);
+        var helper = new IlHelper(original, instructions);
 
-        /// From: if (base_item == null || (base_item is MeleeWeapon && !(base_item as MeleeWeapon).isScythe()))
-        /// To: if (base_item == null || (base_item is MeleeWeapon && !(base_item as MeleeWeapon).isScythe()) || base_item is Slingshot)
-
+        // From: if (base_item == null || (base_item is MeleeWeapon && !(base_item as MeleeWeapon).isScythe()))
+        // To: if (base_item == null || (base_item is MeleeWeapon && !(base_item as MeleeWeapon).isScythe()) || base_item is Slingshot)
         var isNotMeleeWeaponButMaybeSlingshot = generator.DefineLabel();
         var canForge = generator.DefineLabel();
         try
         {
             helper
-                .AdvanceUntil(
-                    new CodeInstruction(OpCodes.Brfalse_S)
-                )
-                .AdvanceUntil(
-                    new CodeInstruction(OpCodes.Brfalse)
-                )
+                .AdvanceUntil(new CodeInstruction(OpCodes.Brfalse_S))
+                .AdvanceUntil(new CodeInstruction(OpCodes.Brfalse))
                 .GetOperand(out var cannotForge)
                 .SetOperand(isNotMeleeWeaponButMaybeSlingshot)
-                .AdvanceUntil(
-                    new CodeInstruction(OpCodes.Brtrue)
-                )
+                .AdvanceUntil(new CodeInstruction(OpCodes.Brtrue))
                 .Advance()
                 .AddLabels(canForge)
-                .InsertInstructions(
-                    new CodeInstruction(OpCodes.Br_S, canForge)
-                )
+                .InsertInstructions(new CodeInstruction(OpCodes.Br_S, canForge))
                 .InsertWithLabels(
                     new[] { isNotMeleeWeaponButMaybeSlingshot },
                     new CodeInstruction(OpCodes.Ldarg_0),
                     new CodeInstruction(OpCodes.Isinst, typeof(Slingshot)),
-                    new CodeInstruction(OpCodes.Brfalse, cannotForge)
-                );
+                    new CodeInstruction(OpCodes.Brfalse, cannotForge));
         }
         catch (Exception ex)
         {

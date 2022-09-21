@@ -4,16 +4,17 @@
 
 using HarmonyLib;
 using StardewValley.Tools;
+using HarmonyPatch = DaLion.Common.Harmony.HarmonyPatch;
 
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class AxeBeginUsingPatch : Common.Harmony.HarmonyPatch
+internal sealed class AxeBeginUsingPatch : HarmonyPatch
 {
-    /// <summary>Construct an instance.</summary>
+    /// <summary>Initializes a new instance of the <see cref="AxeBeginUsingPatch"/> class.</summary>
     internal AxeBeginUsingPatch()
     {
-        Target = RequireMethod<Axe>("beginUsing");
+        this.Target = this.RequireMethod<Axe>("beginUsing");
     }
 
     #region harmony patches
@@ -23,9 +24,11 @@ internal sealed class AxeBeginUsingPatch : Common.Harmony.HarmonyPatch
     private static bool AxeBeginUsingPrefix(Tool __instance, Farmer who)
     {
         if (!ModEntry.Config.AxeConfig.EnableCharging ||
-            ModEntry.Config.RequireModkey && !ModEntry.Config.Modkey.IsDown() ||
+            (ModEntry.Config.RequireModkey && !ModEntry.Config.Modkey.IsDown()) ||
             __instance.UpgradeLevel < (int)ModEntry.Config.AxeConfig.RequiredUpgradeForCharging)
+        {
             return true; // run original logic
+        }
 
         who.Halt();
         __instance.Update(who.FacingDirection, 0, who);

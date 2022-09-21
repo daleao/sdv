@@ -2,8 +2,8 @@
 
 #region using directives
 
-using Common.Events;
-using Enchantments;
+using DaLion.Common.Events;
+using DaLion.Stardew.Arsenal.Framework.Enchantments;
 using StardewModdingAPI.Events;
 using StardewValley.Tools;
 
@@ -12,12 +12,12 @@ using StardewValley.Tools;
 [UsedImplicitly]
 internal sealed class ArsenalSavingEvent : SavingEvent
 {
-    /// <summary>Construct an instance.</summary>
+    /// <summary>Initializes a new instance of the <see cref="ArsenalSavingEvent"/> class.</summary>
     /// <param name="manager">The <see cref="EventManager"/> instance that manages this event.</param>
     internal ArsenalSavingEvent(EventManager manager)
         : base(manager)
     {
-        AlwaysEnabled = true;
+        this.AlwaysEnabled = true;
     }
 
     /// <inheritdoc />
@@ -25,19 +25,22 @@ internal sealed class ArsenalSavingEvent : SavingEvent
     {
         Utility.iterateAllItems(item =>
         {
-            if (item is not MeleeWeapon weapon || weapon.isScythe()) return;
+            if (item is not MeleeWeapon weapon || weapon.isScythe())
+            {
+                return;
+            }
 
             switch (weapon.InitialParentTileIndex)
             {
-                case Constants.DARK_SWORD_INDEX_I:
+                case Constants.DarkSwordIndex:
                     weapon.RemoveEnchantment(weapon.GetEnchantmentOfType<CursedEnchantment>());
                     break;
-                case Constants.HOLY_BLADE_INDEX_I:
+                case Constants.HolyBladeIndex:
                     weapon.RemoveEnchantment(weapon.GetEnchantmentOfType<BlessedEnchantment>());
                     break;
-                case Constants.INFINITY_BLADE_INDEX_I:
-                case Constants.INFINITY_DAGGER_INDEX_I:
-                case Constants.INFINITY_CLUB_INDEX_I:
+                case Constants.InfinityBladeIndex:
+                case Constants.InfinityDaggerIndex:
+                case Constants.InfinityClubIndex:
                     weapon.RemoveEnchantment(weapon.GetEnchantmentOfType<InfinityEnchantment>());
                     break;
             }

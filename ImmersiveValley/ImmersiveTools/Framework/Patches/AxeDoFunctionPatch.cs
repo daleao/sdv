@@ -2,19 +2,20 @@
 
 #region using directives
 
+using System;
 using HarmonyLib;
 using StardewValley.Tools;
-using System;
+using HarmonyPatch = DaLion.Common.Harmony.HarmonyPatch;
 
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class AxeDoFunctionPatch : Common.Harmony.HarmonyPatch
+internal sealed class AxeDoFunctionPatch : HarmonyPatch
 {
-    /// <summary>Construct an instance.</summary>
+    /// <summary>Initializes a new instance of the <see cref="AxeDoFunctionPatch"/> class.</summary>
     internal AxeDoFunctionPatch()
     {
-        Target = RequireMethod<Axe>(nameof(Axe.DoFunction));
+        this.Target = this.RequireMethod<Axe>(nameof(Axe.DoFunction));
     }
 
     #region harmony patches
@@ -24,10 +25,13 @@ internal sealed class AxeDoFunctionPatch : Common.Harmony.HarmonyPatch
     private static void AxeDoFunctionPostfix(Farmer who)
     {
         var power = who.toolPower;
-        if (power <= 0) return;
+        if (power <= 0)
+        {
+            return;
+        }
 
         who.Stamina -=
-            (int)Math.Round(Math.Sqrt(Math.Max(2 * (power + 1) - who.ForagingLevel * 0.1f, 0.1f) *
+            (int)Math.Round(Math.Sqrt(Math.Max((2 * (power + 1)) - (who.ForagingLevel * 0.1f), 0.1f) *
                                       (int)Math.Pow(2d * (power + 1), 2d))) *
             (float)Math.Pow(ModEntry.Config.StaminaCostMultiplier, power);
     }

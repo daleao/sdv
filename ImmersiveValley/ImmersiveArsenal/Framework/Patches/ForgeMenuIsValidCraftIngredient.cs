@@ -2,19 +2,20 @@
 
 #region using directives
 
-using Extensions;
+using DaLion.Stardew.Arsenal.Extensions;
 using HarmonyLib;
 using StardewValley.Menus;
+using HarmonyPatch = DaLion.Common.Harmony.HarmonyPatch;
 
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class ForgeMenuIsValidCraftIngredient : Common.Harmony.HarmonyPatch
+internal sealed class ForgeMenuIsValidCraftIngredient : HarmonyPatch
 {
-    /// <summary>Construct an instance.</summary>
+    /// <summary>Initializes a new instance of the <see cref="ForgeMenuIsValidCraftIngredient"/> class.</summary>
     internal ForgeMenuIsValidCraftIngredient()
     {
-        Target = RequireMethod<ForgeMenu>(nameof(ForgeMenu.IsValidCraftIngredient));
+        this.Target = this.RequireMethod<ForgeMenu>(nameof(ForgeMenu.IsValidCraftIngredient));
     }
 
     #region harmony patches
@@ -23,7 +24,10 @@ internal sealed class ForgeMenuIsValidCraftIngredient : Common.Harmony.HarmonyPa
     [HarmonyPostfix]
     private static void ForgeMenuIsValidCraftIngredientPostfix(ref bool __result, Item item)
     {
-        if (item.IsHeroSoul()) __result = true;
+        if (item.IsHeroSoul())
+        {
+            __result = true;
+        }
     }
 
     #endregion harmony patches

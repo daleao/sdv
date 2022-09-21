@@ -1,4 +1,5 @@
-﻿namespace DaLion.Common.Integrations.CustomOreNodes;
+﻿#pragma warning disable CS1591
+namespace DaLion.Common.Integrations.CustomOreNodes;
 
 #region using directives
 
@@ -6,7 +7,8 @@ using System.Collections.Generic;
 
 #endregion using directives
 
-public interface ICustomOreNodesAPI
+/// <summary>The API provided by Custom Ore Nodes.</summary>
+public interface ICustomOreNodesApi
 {
     List<object> GetCustomOreNodes();
 

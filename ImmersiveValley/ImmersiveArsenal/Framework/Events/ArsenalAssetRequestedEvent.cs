@@ -2,63 +2,64 @@
 
 #region using directives
 
-using Common.Events;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using StardewModdingAPI.Events;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using DaLion.Common.Events;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using StardewModdingAPI.Events;
 
 #endregion using directives
 
 [UsedImplicitly]
 internal sealed class ArsenalAssetRequestedEvent : AssetRequestedEvent
 {
-    private const int
-        NAME_I = 0,
-        DESCRIPTION_I = 1,
-        MIN_DAMAGE_I = 2,
-        MAX_DAMAGE_I = 3,
-        KNOCKBACK_I = 4,
-        SPEED_I = 5,
-        PRECISION_I = 6,
-        DEFENSE_I = 7,
-        TYPE_I = 8,
-        BASE_DROP_LEVEL_I = 9,
-        MIN_DROP_LEVEL_I = 10,
-        AOE_I = 11,
-        CRIT_CHANCE_I = 12,
-        CRIT_POWER_I = 13;
+    private const int Name = 0;
+    private const int Description = 1;
+    private const int MinDamage = 2;
+    private const int MaxDamage = 3;
+    private const int Knockback = 4;
+    private const int Speed = 5;
+    private const int Precision = 6;
+    private const int Defense = 7;
+    private const int Type = 8;
+    private const int BaseDropLevel = 9;
+    private const int MinDropLevel = 10;
+    private const int Aoe = 11;
+    private const int CritChance = 12;
+    private const int CritPower = 13;
 
-    private static readonly Dictionary<string, (Action<IAssetData> callback, AssetEditPriority priority)> AssetEditors =
+    private static readonly Dictionary<string, (Action<IAssetData> Callback, AssetEditPriority Priority)> AssetEditors =
         new();
 
-    /// <summary>Construct an instance.</summary>
+    /// <summary>Initializes a new instance of the <see cref="ArsenalAssetRequestedEvent"/> class.</summary>
     /// <param name="manager">The <see cref="EventManager"/> instance that manages this event.</param>
     internal ArsenalAssetRequestedEvent(EventManager manager)
         : base(manager)
     {
-        AlwaysEnabled = true;
+        this.AlwaysEnabled = true;
 
         //AssetEditors["Data/Boots"] = (callback: DataBootsEditor, priority: AssetEditPriority.Default);
-        AssetEditors["Data/ObjectInformation"] =
-            (callback: EditDataObjectInformation, priority: AssetEditPriority.Default);
         //AssetEditors["Data/weapons"] = (callback: EditWeaponsData, priority: AssetEditPriority.Late);
-        AssetEditors["Strings/Locations"] = (callback: EditLocationsStrings, priority: AssetEditPriority.Default);
+        AssetEditors["Data/ObjectInformation"] =
+            (Callback: EditDataObjectInformation, Priority: AssetEditPriority.Default);
+        AssetEditors["Strings/Locations"] = (Callback: EditLocationsStrings, Priority: AssetEditPriority.Default);
         AssetEditors["Strings/StringsFromCSFiles"] =
-            (callback: EditStringsFromCSFilesStrings, priority: AssetEditPriority.Default);
+            (Callback: EditStringsFromCsFilesStrings, Priority: AssetEditPriority.Default);
         AssetEditors["TileSheets/animations"] =
-            (callback: EditAnimationsTileSheet, priority: AssetEditPriority.Default);
+            (Callback: EditAnimationsTileSheet, Priority: AssetEditPriority.Default);
         AssetEditors["TileSheets/BuffsIcons"] =
-            (callback: EditBuffsIconsTileSheet, priority: AssetEditPriority.Default);
+            (Callback: EditBuffsIconsTileSheet, Priority: AssetEditPriority.Default);
     }
 
     /// <inheritdoc />
     protected override void OnAssetRequestedImpl(object? sender, AssetRequestedEventArgs e)
     {
         if (AssetEditors.TryGetValue(e.NameWithoutLocale.Name, out var editor))
-            e.Edit(editor.callback, editor.priority);
+        {
+            e.Edit(editor.Callback, editor.Priority);
+        }
     }
 
     #region editor callbacks
@@ -112,7 +113,7 @@ internal sealed class ArsenalAssetRequestedEvent : AssetRequestedEvent
                 case 878: // crystal shoes
                     break;
 
-                    #endregion footwear switch-case
+                #endregion footwear switch-case
             }
 
             data[key] = string.Join('/', fields);
@@ -122,21 +123,22 @@ internal sealed class ArsenalAssetRequestedEvent : AssetRequestedEvent
     /// <summary>Edits galaxy soul description.</summary>
     private static void EditDataObjectInformation(IAssetData asset)
     {
-        if (!ModEntry.Config.InfinityPlusOneWeapons) return;
+        if (!ModEntry.Config.InfinityPlusOneWeapons)
+        {
+            return;
+        }
 
         var data = asset.AsDictionary<int, string>().Data;
 
         // edit galaxy soul description
-        var fields = data[Constants.GALAXY_SOUL_INDEX_I].Split('/');
+        var fields = data[Constants.GalaxySoulIndex].Split('/');
         fields[5] = ModEntry.i18n.Get("galaxysoul.desc");
-        data[Arsenal.Constants.GALAXY_SOUL_INDEX_I] = string.Join('/', fields);
+        data[Constants.GalaxySoulIndex] = string.Join('/', fields);
     }
 
     /// <summary>Edits weapons data with rebalanced stats.</summary>
     private static void EditWeaponsData(IAssetData asset)
     {
-        //if (!ModEntry.Config.RebalancedWeapons) return;
-
         var data = asset.AsDictionary<int, string>().Data;
         var keys = data.Keys;
         foreach (var key in keys)
@@ -148,578 +150,578 @@ internal sealed class ArsenalAssetRequestedEvent : AssetRequestedEvent
 
                 // STABBING SWORDS
                 case 12: // wooden blade
-                    fields[MIN_DAMAGE_I] = 2.ToString();
-                    fields[MAX_DAMAGE_I] = 5.ToString();
-                    fields[KNOCKBACK_I] = 1.ToString();
-                    fields[SPEED_I] = 2.ToString();
-                    fields[PRECISION_I] = 0.ToString();
-                    fields[DEFENSE_I] = 0.ToString();
-                    fields[TYPE_I] = 0.ToString();
-                    fields[BASE_DROP_LEVEL_I] = (-1).ToString();
-                    fields[MIN_DROP_LEVEL_I] = (-1).ToString();
-                    fields[AOE_I] = 0.ToString();
-                    fields[CRIT_CHANCE_I] = 0.05.ToString(CultureInfo.InvariantCulture);
-                    fields[CRIT_POWER_I] = 1.2.ToString(CultureInfo.InvariantCulture);
+                    fields[MinDamage] = 2.ToString();
+                    fields[MaxDamage] = 5.ToString();
+                    fields[Knockback] = 1.ToString();
+                    fields[Speed] = 2.ToString();
+                    fields[Precision] = 0.ToString();
+                    fields[Defense] = 0.ToString();
+                    fields[Type] = 0.ToString();
+                    fields[BaseDropLevel] = (-1).ToString();
+                    fields[MinDropLevel] = (-1).ToString();
+                    fields[Aoe] = 0.ToString();
+                    fields[CritChance] = 0.05.ToString(CultureInfo.InvariantCulture);
+                    fields[CritPower] = 1.2.ToString(CultureInfo.InvariantCulture);
                     break;
                 case 11: // steel smallsword
-                    fields[MIN_DAMAGE_I] = 4.ToString();
-                    fields[MAX_DAMAGE_I] = 8.ToString();
-                    fields[KNOCKBACK_I] = 1.ToString();
-                    fields[SPEED_I] = 0.ToString();
-                    fields[PRECISION_I] = 0.ToString();
-                    fields[DEFENSE_I] = 0.ToString();
-                    fields[TYPE_I] = 0.ToString();
-                    fields[BASE_DROP_LEVEL_I] = 5.ToString();
-                    fields[MIN_DROP_LEVEL_I] = (-1).ToString();
-                    fields[CRIT_CHANCE_I] = 0.05.ToString(CultureInfo.InvariantCulture);
-                    fields[CRIT_POWER_I] = 1.5.ToString(CultureInfo.InvariantCulture);
+                    fields[MinDamage] = 4.ToString();
+                    fields[MaxDamage] = 8.ToString();
+                    fields[Knockback] = 1.ToString();
+                    fields[Speed] = 0.ToString();
+                    fields[Precision] = 0.ToString();
+                    fields[Defense] = 0.ToString();
+                    fields[Type] = 0.ToString();
+                    fields[BaseDropLevel] = 5.ToString();
+                    fields[MinDropLevel] = (-1).ToString();
+                    fields[CritChance] = 0.05.ToString(CultureInfo.InvariantCulture);
+                    fields[CritPower] = 1.5.ToString(CultureInfo.InvariantCulture);
                     break;
                 case 44: // cutlass
-                    fields[MIN_DAMAGE_I] = 9.ToString();
-                    fields[MAX_DAMAGE_I] = 17.ToString();
-                    fields[KNOCKBACK_I] = 1.ToString();
-                    fields[SPEED_I] = 0.ToString();
-                    fields[PRECISION_I] = 0.ToString();
-                    fields[DEFENSE_I] = 0.ToString();
-                    fields[TYPE_I] = 0.ToString();
-                    fields[BASE_DROP_LEVEL_I] = 20.ToString();
-                    fields[MIN_DROP_LEVEL_I] = 5.ToString();
-                    fields[CRIT_CHANCE_I] = 0.05.ToString(CultureInfo.InvariantCulture);
-                    fields[CRIT_POWER_I] = 1.5.ToString(CultureInfo.InvariantCulture);
+                    fields[MinDamage] = 9.ToString();
+                    fields[MaxDamage] = 17.ToString();
+                    fields[Knockback] = 1.ToString();
+                    fields[Speed] = 0.ToString();
+                    fields[Precision] = 0.ToString();
+                    fields[Defense] = 0.ToString();
+                    fields[Type] = 0.ToString();
+                    fields[BaseDropLevel] = 20.ToString();
+                    fields[MinDropLevel] = 5.ToString();
+                    fields[CritChance] = 0.05.ToString(CultureInfo.InvariantCulture);
+                    fields[CritPower] = 1.5.ToString(CultureInfo.InvariantCulture);
                     break;
                 case 49: // rapier
-                    fields[MIN_DAMAGE_I] = 15.ToString();
-                    fields[MAX_DAMAGE_I] = 25.ToString();
-                    fields[KNOCKBACK_I] = 0.8.ToString(CultureInfo.InvariantCulture);
-                    fields[SPEED_I] = 8.ToString();
-                    fields[PRECISION_I] = 8.ToString();
-                    fields[DEFENSE_I] = 0.ToString();
-                    fields[TYPE_I] = 0.ToString();
-                    fields[BASE_DROP_LEVEL_I] = 60.ToString();
-                    fields[MIN_DROP_LEVEL_I] = 35.ToString();
-                    fields[AOE_I] = 0.ToString();
-                    fields[CRIT_CHANCE_I] = 0.05.ToString(CultureInfo.InvariantCulture);
-                    fields[CRIT_POWER_I] = 1.35.ToString(CultureInfo.InvariantCulture);
+                    fields[MinDamage] = 15.ToString();
+                    fields[MaxDamage] = 25.ToString();
+                    fields[Knockback] = 0.8.ToString(CultureInfo.InvariantCulture);
+                    fields[Speed] = 8.ToString();
+                    fields[Precision] = 8.ToString();
+                    fields[Defense] = 0.ToString();
+                    fields[Type] = 0.ToString();
+                    fields[BaseDropLevel] = 60.ToString();
+                    fields[MinDropLevel] = 35.ToString();
+                    fields[Aoe] = 0.ToString();
+                    fields[CritChance] = 0.05.ToString(CultureInfo.InvariantCulture);
+                    fields[CritPower] = 1.35.ToString(CultureInfo.InvariantCulture);
                     break;
                 case 50: // steel falchion
-                    fields[MIN_DAMAGE_I] = 30.ToString();
-                    fields[MAX_DAMAGE_I] = 45.ToString();
-                    fields[KNOCKBACK_I] = 1.ToString();
-                    fields[SPEED_I] = 4.ToString();
-                    fields[PRECISION_I] = 0.ToString();
-                    fields[DEFENSE_I] = 0.ToString();
-                    fields[TYPE_I] = 0.ToString();
-                    fields[BASE_DROP_LEVEL_I] = 80.ToString();
-                    fields[MIN_DROP_LEVEL_I] = 55.ToString();
-                    fields[CRIT_CHANCE_I] = 0.05.ToString(CultureInfo.InvariantCulture);
-                    fields[CRIT_POWER_I] = 1.75.ToString(CultureInfo.InvariantCulture);
+                    fields[MinDamage] = 30.ToString();
+                    fields[MaxDamage] = 45.ToString();
+                    fields[Knockback] = 1.ToString();
+                    fields[Speed] = 4.ToString();
+                    fields[Precision] = 0.ToString();
+                    fields[Defense] = 0.ToString();
+                    fields[Type] = 0.ToString();
+                    fields[BaseDropLevel] = 80.ToString();
+                    fields[MinDropLevel] = 55.ToString();
+                    fields[CritChance] = 0.05.ToString(CultureInfo.InvariantCulture);
+                    fields[CritPower] = 1.75.ToString(CultureInfo.InvariantCulture);
                     break;
                 case 43: // pirate's sword
-                    fields[MIN_DAMAGE_I] = 37.ToString();
-                    fields[MAX_DAMAGE_I] = 55.ToString();
-                    fields[KNOCKBACK_I] = 1.ToString();
-                    fields[SPEED_I] = 4.ToString();
-                    fields[DEFENSE_I] = 0.ToString();
-                    fields[TYPE_I] = 0.ToString();
-                    fields[BASE_DROP_LEVEL_I] = (-1).ToString();
-                    fields[MIN_DROP_LEVEL_I] = (-1).ToString();
-                    fields[CRIT_CHANCE_I] = 0.05.ToString(CultureInfo.InvariantCulture);
-                    fields[CRIT_POWER_I] = 1.5.ToString(CultureInfo.InvariantCulture);
+                    fields[MinDamage] = 37.ToString();
+                    fields[MaxDamage] = 55.ToString();
+                    fields[Knockback] = 1.ToString();
+                    fields[Speed] = 4.ToString();
+                    fields[Defense] = 0.ToString();
+                    fields[Type] = 0.ToString();
+                    fields[BaseDropLevel] = (-1).ToString();
+                    fields[MinDropLevel] = (-1).ToString();
+                    fields[CritChance] = 0.05.ToString(CultureInfo.InvariantCulture);
+                    fields[CritPower] = 1.5.ToString(CultureInfo.InvariantCulture);
                     break;
                 case 15: // forest sword
-                    fields[MIN_DAMAGE_I] = 42.ToString();
-                    fields[MAX_DAMAGE_I] = 60.ToString();
-                    fields[KNOCKBACK_I] = 1.ToString();
-                    fields[SPEED_I] = 2.ToString();
-                    fields[PRECISION_I] = 2.ToString();
-                    fields[DEFENSE_I] = 0.ToString();
-                    fields[TYPE_I] = 0.ToString();
-                    fields[BASE_DROP_LEVEL_I] = (-1).ToString();
-                    fields[MIN_DROP_LEVEL_I] = (-1).ToString();
-                    fields[AOE_I] = 2.ToString();
-                    fields[CRIT_CHANCE_I] = 0.05.ToString(CultureInfo.InvariantCulture);
-                    fields[CRIT_POWER_I] = 1.5.ToString(CultureInfo.InvariantCulture);
+                    fields[MinDamage] = 42.ToString();
+                    fields[MaxDamage] = 60.ToString();
+                    fields[Knockback] = 1.ToString();
+                    fields[Speed] = 2.ToString();
+                    fields[Precision] = 2.ToString();
+                    fields[Defense] = 0.ToString();
+                    fields[Type] = 0.ToString();
+                    fields[BaseDropLevel] = (-1).ToString();
+                    fields[MinDropLevel] = (-1).ToString();
+                    fields[Aoe] = 2.ToString();
+                    fields[CritChance] = 0.05.ToString(CultureInfo.InvariantCulture);
+                    fields[CritPower] = 1.5.ToString(CultureInfo.InvariantCulture);
                     break;
                 case 5: // bone sword
-                    fields[MIN_DAMAGE_I] = 35.ToString();
-                    fields[MAX_DAMAGE_I] = 53.ToString();
-                    fields[KNOCKBACK_I] = 1.ToString();
-                    fields[SPEED_I] = 4.ToString();
-                    fields[PRECISION_I] = 0.ToString();
-                    fields[DEFENSE_I] = 0.ToString();
-                    fields[TYPE_I] = 0.ToString();
-                    fields[BASE_DROP_LEVEL_I] = (-1).ToString();
-                    fields[MIN_DROP_LEVEL_I] = (-1).ToString();
-                    fields[CRIT_CHANCE_I] = 0.05.ToString(CultureInfo.InvariantCulture);
-                    fields[CRIT_POWER_I] = 1.4.ToString(CultureInfo.InvariantCulture);
+                    fields[MinDamage] = 35.ToString();
+                    fields[MaxDamage] = 53.ToString();
+                    fields[Knockback] = 1.ToString();
+                    fields[Speed] = 4.ToString();
+                    fields[Precision] = 0.ToString();
+                    fields[Defense] = 0.ToString();
+                    fields[Type] = 0.ToString();
+                    fields[BaseDropLevel] = (-1).ToString();
+                    fields[MinDropLevel] = (-1).ToString();
+                    fields[CritChance] = 0.05.ToString(CultureInfo.InvariantCulture);
+                    fields[CritPower] = 1.4.ToString(CultureInfo.InvariantCulture);
                     break;
                 case 13: // insect head
-                    fields[MIN_DAMAGE_I] = 1.ToString();
-                    fields[MAX_DAMAGE_I] = 50.ToString();
-                    fields[KNOCKBACK_I] = 0.6.ToString(CultureInfo.InvariantCulture);
-                    fields[PRECISION_I] = 12.ToString();
-                    fields[DEFENSE_I] = 0.ToString();
-                    fields[TYPE_I] = 0.ToString();
-                    fields[BASE_DROP_LEVEL_I] = (-1).ToString();
-                    fields[MIN_DROP_LEVEL_I] = (-1).ToString();
-                    fields[CRIT_CHANCE_I] = 0.15.ToString(CultureInfo.InvariantCulture);
-                    fields[CRIT_POWER_I] = 1.333.ToString(CultureInfo.InvariantCulture);
+                    fields[MinDamage] = 1.ToString();
+                    fields[MaxDamage] = 50.ToString();
+                    fields[Knockback] = 0.6.ToString(CultureInfo.InvariantCulture);
+                    fields[Precision] = 12.ToString();
+                    fields[Defense] = 0.ToString();
+                    fields[Type] = 0.ToString();
+                    fields[BaseDropLevel] = (-1).ToString();
+                    fields[MinDropLevel] = (-1).ToString();
+                    fields[CritChance] = 0.15.ToString(CultureInfo.InvariantCulture);
+                    fields[CritPower] = 1.333.ToString(CultureInfo.InvariantCulture);
                     break;
                 case 2: // dark sword
-                    fields[DESCRIPTION_I] = ModEntry.i18n.Get("darkblade.desc");
-                    fields[MIN_DAMAGE_I] = 50.ToString();
-                    fields[MAX_DAMAGE_I] = 65.ToString();
-                    fields[KNOCKBACK_I] = 1.ToString();
-                    fields[SPEED_I] = 0.ToString();
-                    fields[DEFENSE_I] = 0.ToString();
-                    fields[TYPE_I] = 0.ToString();
-                    fields[BASE_DROP_LEVEL_I] = (-1).ToString();
-                    fields[MIN_DROP_LEVEL_I] = (-1).ToString();
-                    fields[CRIT_CHANCE_I] = 0.05.ToString(CultureInfo.InvariantCulture);
-                    fields[CRIT_POWER_I] = 1.5.ToString(CultureInfo.InvariantCulture);
+                    fields[Description] = ModEntry.i18n.Get("darkblade.desc");
+                    fields[MinDamage] = 50.ToString();
+                    fields[MaxDamage] = 65.ToString();
+                    fields[Knockback] = 1.ToString();
+                    fields[Speed] = 0.ToString();
+                    fields[Defense] = 0.ToString();
+                    fields[Type] = 0.ToString();
+                    fields[BaseDropLevel] = (-1).ToString();
+                    fields[MinDropLevel] = (-1).ToString();
+                    fields[CritChance] = 0.05.ToString(CultureInfo.InvariantCulture);
+                    fields[CritPower] = 1.5.ToString(CultureInfo.InvariantCulture);
                     break;
                 case 8: // obsidian edge
-                    fields[MIN_DAMAGE_I] = 56.ToString();
-                    fields[MAX_DAMAGE_I] = 64.ToString();
-                    fields[KNOCKBACK_I] = 1.ToString();
-                    fields[SPEED_I] = 0.ToString();
-                    fields[PRECISION_I] = 4.ToString();
-                    fields[DEFENSE_I] = 0.ToString();
-                    fields[TYPE_I] = 0.ToString();
-                    fields[BASE_DROP_LEVEL_I] = 135.ToString();
-                    fields[MIN_DROP_LEVEL_I] = 100.ToString();
-                    fields[CRIT_CHANCE_I] = 0.08.ToString(CultureInfo.InvariantCulture);
-                    fields[CRIT_POWER_I] = 1.5.ToString(CultureInfo.InvariantCulture);
+                    fields[MinDamage] = 56.ToString();
+                    fields[MaxDamage] = 64.ToString();
+                    fields[Knockback] = 1.ToString();
+                    fields[Speed] = 0.ToString();
+                    fields[Precision] = 4.ToString();
+                    fields[Defense] = 0.ToString();
+                    fields[Type] = 0.ToString();
+                    fields[BaseDropLevel] = 135.ToString();
+                    fields[MinDropLevel] = 100.ToString();
+                    fields[CritChance] = 0.08.ToString(CultureInfo.InvariantCulture);
+                    fields[CritPower] = 1.5.ToString(CultureInfo.InvariantCulture);
                     break;
                 case 9: // lava katana
-                    fields[MIN_DAMAGE_I] = 75.ToString();
-                    fields[MAX_DAMAGE_I] = 90.ToString();
-                    fields[KNOCKBACK_I] = 0.8.ToString(CultureInfo.InvariantCulture);
-                    fields[SPEED_I] = 2.ToString();
-                    fields[PRECISION_I] = 2.ToString();
-                    fields[DEFENSE_I] = 0.ToString();
-                    fields[TYPE_I] = 0.ToString();
-                    fields[CRIT_CHANCE_I] = 0.06.ToString(CultureInfo.InvariantCulture);
-                    fields[CRIT_POWER_I] = 1.8.ToString(CultureInfo.InvariantCulture);
+                    fields[MinDamage] = 75.ToString();
+                    fields[MaxDamage] = 90.ToString();
+                    fields[Knockback] = 0.8.ToString(CultureInfo.InvariantCulture);
+                    fields[Speed] = 2.ToString();
+                    fields[Precision] = 2.ToString();
+                    fields[Defense] = 0.ToString();
+                    fields[Type] = 0.ToString();
+                    fields[CritChance] = 0.06.ToString(CultureInfo.InvariantCulture);
+                    fields[CritPower] = 1.8.ToString(CultureInfo.InvariantCulture);
                     break;
                 case 4: // galaxy sword
-                    fields[MIN_DAMAGE_I] = 80.ToString();
-                    fields[MAX_DAMAGE_I] = 95.ToString();
-                    fields[KNOCKBACK_I] = 1.ToString();
-                    fields[SPEED_I] = 2.ToString();
-                    fields[PRECISION_I] = 0.ToString();
-                    fields[DEFENSE_I] = 2.ToString();
-                    fields[TYPE_I] = 0.ToString();
-                    fields[AOE_I] = 2.ToString();
-                    fields[CRIT_CHANCE_I] = 0.05.ToString(CultureInfo.InvariantCulture);
-                    fields[CRIT_POWER_I] = 1.5.ToString(CultureInfo.InvariantCulture);
+                    fields[MinDamage] = 80.ToString();
+                    fields[MaxDamage] = 95.ToString();
+                    fields[Knockback] = 1.ToString();
+                    fields[Speed] = 2.ToString();
+                    fields[Precision] = 0.ToString();
+                    fields[Defense] = 2.ToString();
+                    fields[Type] = 0.ToString();
+                    fields[Aoe] = 2.ToString();
+                    fields[CritChance] = 0.05.ToString(CultureInfo.InvariantCulture);
+                    fields[CritPower] = 1.5.ToString(CultureInfo.InvariantCulture);
                     break;
                 case 57: // dragontooth cutlass
-                    fields[MIN_DAMAGE_I] = 145.ToString();
-                    fields[MAX_DAMAGE_I] = 175.ToString();
-                    fields[KNOCKBACK_I] = 1.ToString();
-                    fields[SPEED_I] = 0.ToString();
-                    fields[PRECISION_I] = 2.ToString();
-                    fields[DEFENSE_I] = 0.ToString();
-                    fields[TYPE_I] = 0.ToString();
-                    fields[CRIT_CHANCE_I] = 0.05.ToString(CultureInfo.InvariantCulture);
-                    fields[CRIT_POWER_I] = 2.ToString();
+                    fields[MinDamage] = 145.ToString();
+                    fields[MaxDamage] = 175.ToString();
+                    fields[Knockback] = 1.ToString();
+                    fields[Speed] = 0.ToString();
+                    fields[Precision] = 2.ToString();
+                    fields[Defense] = 0.ToString();
+                    fields[Type] = 0.ToString();
+                    fields[CritChance] = 0.05.ToString(CultureInfo.InvariantCulture);
+                    fields[CritPower] = 2.ToString();
                     break;
                 case 62: // infinity blade
-                    fields[MIN_DAMAGE_I] = 140.ToString();
-                    fields[MAX_DAMAGE_I] = 160.ToString();
-                    fields[KNOCKBACK_I] = 1.ToString();
-                    fields[SPEED_I] = 2.ToString();
-                    fields[PRECISION_I] = 2.ToString();
-                    fields[DEFENSE_I] = 0.ToString();
-                    fields[TYPE_I] = 0.ToString();
-                    fields[AOE_I] = 2.ToString();
-                    fields[CRIT_CHANCE_I] = 0.05.ToString(CultureInfo.InvariantCulture);
-                    fields[CRIT_POWER_I] = 1.5.ToString(CultureInfo.InvariantCulture);
+                    fields[MinDamage] = 140.ToString();
+                    fields[MaxDamage] = 160.ToString();
+                    fields[Knockback] = 1.ToString();
+                    fields[Speed] = 2.ToString();
+                    fields[Precision] = 2.ToString();
+                    fields[Defense] = 0.ToString();
+                    fields[Type] = 0.ToString();
+                    fields[Aoe] = 2.ToString();
+                    fields[CritChance] = 0.05.ToString(CultureInfo.InvariantCulture);
+                    fields[CritPower] = 1.5.ToString(CultureInfo.InvariantCulture);
                     break;
 
                 // DAGGERS
                 case 16: // carving knife
-                    fields[BASE_DROP_LEVEL_I] = 1.ToString();
-                    fields[CRIT_CHANCE_I] = 0.1.ToString(CultureInfo.InvariantCulture);
+                    fields[BaseDropLevel] = 1.ToString();
+                    fields[CritChance] = 0.1.ToString(CultureInfo.InvariantCulture);
                     break;
                 case 22: // wind spire
-                    fields[MIN_DAMAGE_I] = 2.ToString();
-                    fields[KNOCKBACK_I] = 0.3.ToString(CultureInfo.InvariantCulture);
-                    fields[SPEED_I] = 1.ToString();
-                    fields[CRIT_CHANCE_I] = 0.11.ToString(CultureInfo.InvariantCulture);
-                    fields[CRIT_POWER_I] = 3.2.ToString(CultureInfo.InvariantCulture);
+                    fields[MinDamage] = 2.ToString();
+                    fields[Knockback] = 0.3.ToString(CultureInfo.InvariantCulture);
+                    fields[Speed] = 1.ToString();
+                    fields[CritChance] = 0.11.ToString(CultureInfo.InvariantCulture);
+                    fields[CritPower] = 3.2.ToString(CultureInfo.InvariantCulture);
                     break;
                 case 17: // iron dirk
-                    fields[MIN_DAMAGE_I] = 5.ToString();
-                    fields[MAX_DAMAGE_I] = 8.ToString();
-                    fields[BASE_DROP_LEVEL_I] = 25.ToString();
-                    fields[MIN_DROP_LEVEL_I] = 10.ToString();
-                    fields[CRIT_CHANCE_I] = 0.08.ToString(CultureInfo.InvariantCulture);
+                    fields[MinDamage] = 5.ToString();
+                    fields[MaxDamage] = 8.ToString();
+                    fields[BaseDropLevel] = 25.ToString();
+                    fields[MinDropLevel] = 10.ToString();
+                    fields[CritChance] = 0.08.ToString(CultureInfo.InvariantCulture);
                     break;
                 case 18: // burglar's shank
-                    fields[KNOCKBACK_I] = 0.3.ToString(CultureInfo.InvariantCulture);
-                    fields[SPEED_I] = 1.ToString();
-                    fields[PRECISION_I] = 0.ToString();
-                    fields[BASE_DROP_LEVEL_I] = 45.ToString();
-                    fields[MIN_DROP_LEVEL_I] = 20.ToString();
-                    fields[CRIT_CHANCE_I] = 0.08.ToString(CultureInfo.InvariantCulture);
-                    fields[CRIT_POWER_I] = 4.ToString();
+                    fields[Knockback] = 0.3.ToString(CultureInfo.InvariantCulture);
+                    fields[Speed] = 1.ToString();
+                    fields[Precision] = 0.ToString();
+                    fields[BaseDropLevel] = 45.ToString();
+                    fields[MinDropLevel] = 20.ToString();
+                    fields[CritChance] = 0.08.ToString(CultureInfo.InvariantCulture);
+                    fields[CritPower] = 4.ToString();
                     break;
                 case 21: // crystal dagger
-                    fields[MIN_DAMAGE_I] = 16.ToString();
-                    fields[MAX_DAMAGE_I] = 20.ToString();
-                    fields[KNOCKBACK_I] = 0.6.ToString(CultureInfo.InvariantCulture);
-                    fields[PRECISION_I] = 0.ToString();
-                    fields[CRIT_CHANCE_I] = 0.1.ToString(CultureInfo.InvariantCulture);
-                    fields[CRIT_POWER_I] = 3.ToString();
+                    fields[MinDamage] = 16.ToString();
+                    fields[MaxDamage] = 20.ToString();
+                    fields[Knockback] = 0.6.ToString(CultureInfo.InvariantCulture);
+                    fields[Precision] = 0.ToString();
+                    fields[CritChance] = 0.1.ToString(CultureInfo.InvariantCulture);
+                    fields[CritPower] = 3.ToString();
                     break;
                 case 20: // elf blade
-                    fields[MIN_DAMAGE_I] = 13.ToString();
-                    fields[MAX_DAMAGE_I] = 18.ToString();
-                    fields[KNOCKBACK_I] = 0.6.ToString(CultureInfo.InvariantCulture);
-                    fields[SPEED_I] = 2.ToString();
-                    fields[PRECISION_I] = 2.ToString();
-                    fields[CRIT_CHANCE_I] = 0.12.ToString(CultureInfo.InvariantCulture);
+                    fields[MinDamage] = 13.ToString();
+                    fields[MaxDamage] = 18.ToString();
+                    fields[Knockback] = 0.6.ToString(CultureInfo.InvariantCulture);
+                    fields[Speed] = 2.ToString();
+                    fields[Precision] = 2.ToString();
+                    fields[CritChance] = 0.12.ToString(CultureInfo.InvariantCulture);
                     break;
                 case 19: // shadow blade
-                    fields[MIN_DAMAGE_I] = 24.ToString();
-                    fields[MAX_DAMAGE_I] = 28.ToString();
-                    fields[KNOCKBACK_I] = 0.4.ToString(CultureInfo.InvariantCulture);
-                    fields[SPEED_I] = 1.ToString();
-                    fields[BASE_DROP_LEVEL_I] = (-1).ToString();
-                    fields[MIN_DROP_LEVEL_I] = (-1).ToString();
-                    fields[AOE_I] = 2.ToString();
-                    fields[CRIT_CHANCE_I] = 0.08.ToString(CultureInfo.InvariantCulture);
+                    fields[MinDamage] = 24.ToString();
+                    fields[MaxDamage] = 28.ToString();
+                    fields[Knockback] = 0.4.ToString(CultureInfo.InvariantCulture);
+                    fields[Speed] = 1.ToString();
+                    fields[BaseDropLevel] = (-1).ToString();
+                    fields[MinDropLevel] = (-1).ToString();
+                    fields[Aoe] = 2.ToString();
+                    fields[CritChance] = 0.08.ToString(CultureInfo.InvariantCulture);
                     break;
                 case 51: // broken trident
-                    fields[MIN_DAMAGE_I] = 16.ToString();
-                    fields[MAX_DAMAGE_I] = 22.ToString();
-                    fields[KNOCKBACK_I] = 0.6.ToString(CultureInfo.InvariantCulture);
-                    fields[PRECISION_I] = 2.ToString();
-                    fields[CRIT_CHANCE_I] = 0.06.ToString(CultureInfo.InvariantCulture);
+                    fields[MinDamage] = 16.ToString();
+                    fields[MaxDamage] = 22.ToString();
+                    fields[Knockback] = 0.6.ToString(CultureInfo.InvariantCulture);
+                    fields[Precision] = 2.ToString();
+                    fields[CritChance] = 0.06.ToString(CultureInfo.InvariantCulture);
                     break;
                 case 45: // wicked kriss
-                    fields[MIN_DAMAGE_I] = 28.ToString();
-                    fields[MAX_DAMAGE_I] = 32.ToString();
-                    fields[KNOCKBACK_I] = 0.4.ToString(CultureInfo.InvariantCulture);
-                    fields[PRECISION_I] = 6.ToString();
-                    fields[BASE_DROP_LEVEL_I] = 110.ToString();
-                    fields[MIN_DROP_LEVEL_I] = 85.ToString();
-                    fields[AOE_I] = 0.ToString();
-                    fields[CRIT_CHANCE_I] = 0.2.ToString(CultureInfo.InvariantCulture);
-                    fields[CRIT_POWER_I] = 4.ToString();
+                    fields[MinDamage] = 28.ToString();
+                    fields[MaxDamage] = 32.ToString();
+                    fields[Knockback] = 0.4.ToString(CultureInfo.InvariantCulture);
+                    fields[Precision] = 6.ToString();
+                    fields[BaseDropLevel] = 110.ToString();
+                    fields[MinDropLevel] = 85.ToString();
+                    fields[Aoe] = 0.ToString();
+                    fields[CritChance] = 0.2.ToString(CultureInfo.InvariantCulture);
+                    fields[CritPower] = 4.ToString();
                     break;
                 case 61: // iridium needle
-                    fields[MIN_DAMAGE_I] = 31.ToString();
-                    fields[MAX_DAMAGE_I] = 33.ToString();
-                    fields[KNOCKBACK_I] = 0.3.ToString(CultureInfo.InvariantCulture);
-                    fields[SPEED_I] = 4.ToString();
-                    fields[PRECISION_I] = 10.ToString();
-                    fields[DEFENSE_I] = (-2).ToString();
-                    fields[CRIT_CHANCE_I] = 0.333.ToString(CultureInfo.InvariantCulture);
+                    fields[MinDamage] = 31.ToString();
+                    fields[MaxDamage] = 33.ToString();
+                    fields[Knockback] = 0.3.ToString(CultureInfo.InvariantCulture);
+                    fields[Speed] = 4.ToString();
+                    fields[Precision] = 10.ToString();
+                    fields[Defense] = (-2).ToString();
+                    fields[CritChance] = 0.333.ToString(CultureInfo.InvariantCulture);
                     break;
                 case 23: // galaxy dagger
-                    fields[MIN_DAMAGE_I] = 40.ToString();
-                    fields[MAX_DAMAGE_I] = 45.ToString();
-                    fields[KNOCKBACK_I] = 0.5.ToString(CultureInfo.InvariantCulture);
-                    fields[SPEED_I] = 3.ToString();
-                    fields[AOE_I] = 1.ToString();
-                    fields[CRIT_CHANCE_I] = 0.1.ToString(CultureInfo.InvariantCulture);
-                    fields[CRIT_POWER_I] = 4.ToString();
+                    fields[MinDamage] = 40.ToString();
+                    fields[MaxDamage] = 45.ToString();
+                    fields[Knockback] = 0.5.ToString(CultureInfo.InvariantCulture);
+                    fields[Speed] = 3.ToString();
+                    fields[Aoe] = 1.ToString();
+                    fields[CritChance] = 0.1.ToString(CultureInfo.InvariantCulture);
+                    fields[CritPower] = 4.ToString();
                     break;
                 case 56: // dwarf dagger
-                    fields[MIN_DAMAGE_I] = 60.ToString();
-                    fields[MAX_DAMAGE_I] = 65.ToString();
-                    fields[SPEED_I] = (-2).ToString();
-                    fields[CRIT_CHANCE_I] = 0.08.ToString(CultureInfo.InvariantCulture);
+                    fields[MinDamage] = 60.ToString();
+                    fields[MaxDamage] = 65.ToString();
+                    fields[Speed] = (-2).ToString();
+                    fields[CritChance] = 0.08.ToString(CultureInfo.InvariantCulture);
                     break;
                 case 59: // dragontooth shiv
-                    fields[MIN_DAMAGE_I] = 78.ToString();
-                    fields[MAX_DAMAGE_I] = 83.ToString();
-                    fields[KNOCKBACK_I] = 0.8.ToString(CultureInfo.InvariantCulture);
-                    fields[CRIT_CHANCE_I] = 0.1.ToString(CultureInfo.InvariantCulture);
+                    fields[MinDamage] = 78.ToString();
+                    fields[MaxDamage] = 83.ToString();
+                    fields[Knockback] = 0.8.ToString(CultureInfo.InvariantCulture);
+                    fields[CritChance] = 0.1.ToString(CultureInfo.InvariantCulture);
                     break;
                 case 64: // infinity dagger
-                    fields[MIN_DAMAGE_I] = 75.ToString();
-                    fields[MAX_DAMAGE_I] = 80.ToString();
-                    fields[KNOCKBACK_I] = 0.6.ToString(CultureInfo.InvariantCulture);
-                    fields[SPEED_I] = 3.ToString();
-                    fields[AOE_I] = 1.ToString();
-                    fields[CRIT_CHANCE_I] = 0.12.ToString(CultureInfo.InvariantCulture);
-                    fields[CRIT_POWER_I] = 4.ToString();
+                    fields[MinDamage] = 75.ToString();
+                    fields[MaxDamage] = 80.ToString();
+                    fields[Knockback] = 0.6.ToString(CultureInfo.InvariantCulture);
+                    fields[Speed] = 3.ToString();
+                    fields[Aoe] = 1.ToString();
+                    fields[CritChance] = 0.12.ToString(CultureInfo.InvariantCulture);
+                    fields[CritPower] = 4.ToString();
                     break;
 
                 // CLUBS
                 case 31: // femur
-                    fields[MIN_DAMAGE_I] = 10.ToString();
-                    fields[MAX_DAMAGE_I] = 40.ToString();
-                    fields[KNOCKBACK_I] = 1.6.ToString(CultureInfo.InvariantCulture);
-                    fields[SPEED_I] = (-16).ToString();
-                    fields[DEFENSE_I] = 6.ToString();
-                    fields[BASE_DROP_LEVEL_I] = (-1).ToString();
-                    fields[CRIT_POWER_I] = 2.ToString();
+                    fields[MinDamage] = 10.ToString();
+                    fields[MaxDamage] = 40.ToString();
+                    fields[Knockback] = 1.6.ToString(CultureInfo.InvariantCulture);
+                    fields[Speed] = (-16).ToString();
+                    fields[Defense] = 6.ToString();
+                    fields[BaseDropLevel] = (-1).ToString();
+                    fields[CritPower] = 2.ToString();
                     break;
                 case 24: // wood club
-                    fields[MIN_DAMAGE_I] = 3.ToString();
-                    fields[MAX_DAMAGE_I] = 12.ToString();
-                    fields[KNOCKBACK_I] = 1.4.ToString(CultureInfo.InvariantCulture);
-                    fields[SPEED_I] = (-14).ToString();
-                    fields[DEFENSE_I] = 4.ToString();
-                    fields[BASE_DROP_LEVEL_I] = 3.ToString();
-                    fields[CRIT_POWER_I] = 1.8.ToString(CultureInfo.InvariantCulture);
+                    fields[MinDamage] = 3.ToString();
+                    fields[MaxDamage] = 12.ToString();
+                    fields[Knockback] = 1.4.ToString(CultureInfo.InvariantCulture);
+                    fields[Speed] = (-14).ToString();
+                    fields[Defense] = 4.ToString();
+                    fields[BaseDropLevel] = 3.ToString();
+                    fields[CritPower] = 1.8.ToString(CultureInfo.InvariantCulture);
                     break;
                 case 27: // wood mallet
-                    fields[MIN_DAMAGE_I] = 5.ToString();
-                    fields[MAX_DAMAGE_I] = 26.ToString();
-                    fields[SPEED_I] = (-10).ToString();
-                    fields[PRECISION_I] = 0.ToString();
-                    fields[DEFENSE_I] = 3.ToString();
-                    fields[BASE_DROP_LEVEL_I] = 25.ToString();
-                    fields[MIN_DROP_LEVEL_I] = 10.ToString();
-                    fields[CRIT_POWER_I] = 1.8.ToString(CultureInfo.InvariantCulture);
+                    fields[MinDamage] = 5.ToString();
+                    fields[MaxDamage] = 26.ToString();
+                    fields[Speed] = (-10).ToString();
+                    fields[Precision] = 0.ToString();
+                    fields[Defense] = 3.ToString();
+                    fields[BaseDropLevel] = 25.ToString();
+                    fields[MinDropLevel] = 10.ToString();
+                    fields[CritPower] = 1.8.ToString(CultureInfo.InvariantCulture);
                     break;
                 case 26: // lead rod
-                    fields[MIN_DAMAGE_I] = 20.ToString();
-                    fields[MAX_DAMAGE_I] = 60.ToString();
-                    fields[KNOCKBACK_I] = 2.2.ToString(CultureInfo.InvariantCulture);
-                    fields[SPEED_I] = (-28).ToString();
-                    fields[DEFENSE_I] = 14.ToString();
-                    fields[BASE_DROP_LEVEL_I] = 65.ToString();
-                    fields[MIN_DROP_LEVEL_I] = 40.ToString();
-                    fields[CRIT_POWER_I] = 2.ToString();
+                    fields[MinDamage] = 20.ToString();
+                    fields[MaxDamage] = 60.ToString();
+                    fields[Knockback] = 2.2.ToString(CultureInfo.InvariantCulture);
+                    fields[Speed] = (-28).ToString();
+                    fields[Defense] = 14.ToString();
+                    fields[BaseDropLevel] = 65.ToString();
+                    fields[MinDropLevel] = 40.ToString();
+                    fields[CritPower] = 2.ToString();
                     break;
                 case 46: // kudgel
-                    fields[MIN_DAMAGE_I] = 30.ToString();
-                    fields[MAX_DAMAGE_I] = 70.ToString();
-                    fields[KNOCKBACK_I] = 1.8.ToString(CultureInfo.InvariantCulture);
-                    fields[SPEED_I] = (-24).ToString();
-                    fields[DEFENSE_I] = 8.ToString();
-                    fields[BASE_DROP_LEVEL_I] = 80.ToString();
-                    fields[MIN_DROP_LEVEL_I] = 60.ToString();
-                    fields[CRIT_POWER_I] = 2.2.ToString(CultureInfo.InvariantCulture);
+                    fields[MinDamage] = 30.ToString();
+                    fields[MaxDamage] = 70.ToString();
+                    fields[Knockback] = 1.8.ToString(CultureInfo.InvariantCulture);
+                    fields[Speed] = (-24).ToString();
+                    fields[Defense] = 8.ToString();
+                    fields[BaseDropLevel] = 80.ToString();
+                    fields[MinDropLevel] = 60.ToString();
+                    fields[CritPower] = 2.2.ToString(CultureInfo.InvariantCulture);
                     break;
                 case 28: // the slammer
-                    fields[MIN_DAMAGE_I] = 40.ToString();
-                    fields[MAX_DAMAGE_I] = 105.ToString();
-                    fields[KNOCKBACK_I] = 2.4.ToString(CultureInfo.InvariantCulture);
-                    fields[SPEED_I] = (-32).ToString();
-                    fields[DEFENSE_I] = 12.ToString();
-                    fields[BASE_DROP_LEVEL_I] = (-1).ToString();
-                    fields[MIN_DROP_LEVEL_I] = (-1).ToString();
-                    fields[CRIT_POWER_I] = 2.ToString();
+                    fields[MinDamage] = 40.ToString();
+                    fields[MaxDamage] = 105.ToString();
+                    fields[Knockback] = 2.4.ToString(CultureInfo.InvariantCulture);
+                    fields[Speed] = (-32).ToString();
+                    fields[Defense] = 12.ToString();
+                    fields[BaseDropLevel] = (-1).ToString();
+                    fields[MinDropLevel] = (-1).ToString();
+                    fields[CritPower] = 2.ToString();
                     break;
                 case 29: // galaxy hammer
-                    fields[MIN_DAMAGE_I] = 60.ToString();
-                    fields[MAX_DAMAGE_I] = 120.ToString();
-                    fields[KNOCKBACK_I] = 2.ToString();
-                    fields[SPEED_I] = (-14).ToString();
-                    fields[DEFENSE_I] = 10.ToString();
-                    fields[AOE_I] = 3.ToString();
-                    fields[CRIT_POWER_I] = 2.ToString();
+                    fields[MinDamage] = 60.ToString();
+                    fields[MaxDamage] = 120.ToString();
+                    fields[Knockback] = 2.ToString();
+                    fields[Speed] = (-14).ToString();
+                    fields[Defense] = 10.ToString();
+                    fields[Aoe] = 3.ToString();
+                    fields[CritPower] = 2.ToString();
                     break;
                 case 55: // dwarf hammer
-                    fields[MIN_DAMAGE_I] = 140.ToString();
-                    fields[MAX_DAMAGE_I] = 180.ToString();
-                    fields[KNOCKBACK_I] = 2.2.ToString(CultureInfo.InvariantCulture);
-                    fields[SPEED_I] = (-24).ToString();
-                    fields[DEFENSE_I] = 20.ToString();
-                    fields[CRIT_POWER_I] = 2.ToString();
+                    fields[MinDamage] = 140.ToString();
+                    fields[MaxDamage] = 180.ToString();
+                    fields[Knockback] = 2.2.ToString(CultureInfo.InvariantCulture);
+                    fields[Speed] = (-24).ToString();
+                    fields[Defense] = 20.ToString();
+                    fields[CritPower] = 2.ToString();
                     break;
                 case 58: // dragontooth club
-                    fields[MIN_DAMAGE_I] = 100.ToString();
-                    fields[MAX_DAMAGE_I] = 215.ToString();
-                    fields[KNOCKBACK_I] = 2.ToString();
-                    fields[SPEED_I] = (-16).ToString();
-                    fields[DEFENSE_I] = 12.ToString();
-                    fields[CRIT_POWER_I] = 3.ToString();
+                    fields[MinDamage] = 100.ToString();
+                    fields[MaxDamage] = 215.ToString();
+                    fields[Knockback] = 2.ToString();
+                    fields[Speed] = (-16).ToString();
+                    fields[Defense] = 12.ToString();
+                    fields[CritPower] = 3.ToString();
                     break;
                 case 63: // infinity gavel
-                    fields[MIN_DAMAGE_I] = 120.ToString();
-                    fields[MAX_DAMAGE_I] = 200.ToString();
-                    fields[KNOCKBACK_I] = 2.ToString();
-                    fields[SPEED_I] = (-12).ToString();
-                    fields[DEFENSE_I] = 15.ToString();
-                    fields[AOE_I] = 3.ToString();
-                    fields[CRIT_POWER_I] = 2.ToString();
+                    fields[MinDamage] = 120.ToString();
+                    fields[MaxDamage] = 200.ToString();
+                    fields[Knockback] = 2.ToString();
+                    fields[Speed] = (-12).ToString();
+                    fields[Defense] = 15.ToString();
+                    fields[Aoe] = 3.ToString();
+                    fields[CritPower] = 2.ToString();
                     break;
 
                 // DEFENSE SWORDS
                 case 0: // rusty sword
-                    fields[MIN_DAMAGE_I] = 3.ToString();
-                    fields[MAX_DAMAGE_I] = 7.ToString();
-                    fields[SPEED_I] = (-1).ToString();
-                    fields[DEFENSE_I] = 1.ToString();
-                    fields[CRIT_CHANCE_I] = 0.04.ToString(CultureInfo.InvariantCulture);
-                    fields[CRIT_POWER_I] = 1.5.ToString(CultureInfo.InvariantCulture);
+                    fields[MinDamage] = 3.ToString();
+                    fields[MaxDamage] = 7.ToString();
+                    fields[Speed] = (-1).ToString();
+                    fields[Defense] = 1.ToString();
+                    fields[CritChance] = 0.04.ToString(CultureInfo.InvariantCulture);
+                    fields[CritPower] = 1.5.ToString(CultureInfo.InvariantCulture);
                     break;
                 case 1: // silver saber
-                    fields[MIN_DAMAGE_I] = 4.ToString();
-                    fields[MAX_DAMAGE_I] = 8.ToString();
-                    fields[SPEED_I] = (-1).ToString();
-                    fields[PRECISION_I] = 0.ToString();
-                    fields[DEFENSE_I] = 2.ToString();
-                    fields[TYPE_I] = 3.ToString();
-                    fields[BASE_DROP_LEVEL_I] = 25.ToString();
-                    fields[MIN_DROP_LEVEL_I] = 10.ToString();
-                    fields[CRIT_CHANCE_I] = 0.04.ToString(CultureInfo.InvariantCulture);
-                    fields[CRIT_POWER_I] = 1.5.ToString(CultureInfo.InvariantCulture);
+                    fields[MinDamage] = 4.ToString();
+                    fields[MaxDamage] = 8.ToString();
+                    fields[Speed] = (-1).ToString();
+                    fields[Precision] = 0.ToString();
+                    fields[Defense] = 2.ToString();
+                    fields[Type] = 3.ToString();
+                    fields[BaseDropLevel] = 25.ToString();
+                    fields[MinDropLevel] = 10.ToString();
+                    fields[CritChance] = 0.04.ToString(CultureInfo.InvariantCulture);
+                    fields[CritPower] = 1.5.ToString(CultureInfo.InvariantCulture);
                     break;
                 case 6: // iron edge
-                    fields[MIN_DAMAGE_I] = 12.ToString();
-                    fields[MAX_DAMAGE_I] = 25.ToString();
-                    fields[DEFENSE_I] = 2.ToString();
-                    fields[BASE_DROP_LEVEL_I] = 40.ToString();
-                    fields[MIN_DROP_LEVEL_I] = 15.ToString();
-                    fields[CRIT_CHANCE_I] = 0.04.ToString(CultureInfo.InvariantCulture);
-                    fields[CRIT_POWER_I] = 1.5.ToString(CultureInfo.InvariantCulture);
+                    fields[MinDamage] = 12.ToString();
+                    fields[MaxDamage] = 25.ToString();
+                    fields[Defense] = 2.ToString();
+                    fields[BaseDropLevel] = 40.ToString();
+                    fields[MinDropLevel] = 15.ToString();
+                    fields[CritChance] = 0.04.ToString(CultureInfo.InvariantCulture);
+                    fields[CritPower] = 1.5.ToString(CultureInfo.InvariantCulture);
                     break;
                 case 3: // holy blade
-                    fields[MIN_DAMAGE_I] = 45.ToString();
-                    fields[MAX_DAMAGE_I] = 60.ToString();
-                    fields[SPEED_I] = (-2).ToString();
-                    fields[PRECISION_I] = 2.ToString();
-                    fields[DEFENSE_I] = 4.ToString();
-                    fields[AOE_I] = 2.ToString();
-                    fields[CRIT_CHANCE_I] = 0.04.ToString(CultureInfo.InvariantCulture);
-                    fields[CRIT_POWER_I] = 1.5.ToString(CultureInfo.InvariantCulture);
+                    fields[MinDamage] = 45.ToString();
+                    fields[MaxDamage] = 60.ToString();
+                    fields[Speed] = (-2).ToString();
+                    fields[Precision] = 2.ToString();
+                    fields[Defense] = 4.ToString();
+                    fields[Aoe] = 2.ToString();
+                    fields[CritChance] = 0.04.ToString(CultureInfo.InvariantCulture);
+                    fields[CritPower] = 1.5.ToString(CultureInfo.InvariantCulture);
                     break;
                 case 14: // neptune's glaive
-                    fields[MIN_DAMAGE_I] = 42.ToString();
-                    fields[MAX_DAMAGE_I] = 68.ToString();
-                    fields[KNOCKBACK_I] = 1.2.ToString(CultureInfo.InvariantCulture);
-                    fields[SPEED_I] = (-2).ToString();
-                    fields[PRECISION_I] = 0.ToString();
-                    fields[CRIT_CHANCE_I] = 0.04.ToString(CultureInfo.InvariantCulture);
-                    fields[CRIT_POWER_I] = 1.5.ToString(CultureInfo.InvariantCulture);
+                    fields[MinDamage] = 42.ToString();
+                    fields[MaxDamage] = 68.ToString();
+                    fields[Knockback] = 1.2.ToString(CultureInfo.InvariantCulture);
+                    fields[Speed] = (-2).ToString();
+                    fields[Precision] = 0.ToString();
+                    fields[CritChance] = 0.04.ToString(CultureInfo.InvariantCulture);
+                    fields[CritPower] = 1.5.ToString(CultureInfo.InvariantCulture);
                     break;
                 case 10: // claymore
-                    fields[MIN_DAMAGE_I] = 24.ToString();
-                    fields[MAX_DAMAGE_I] = 48.ToString();
-                    fields[KNOCKBACK_I] = 1.3.ToString(CultureInfo.InvariantCulture);
-                    fields[DEFENSE_I] = 8.ToString();
-                    fields[BASE_DROP_LEVEL_I] = 75.ToString();
-                    fields[MIN_DROP_LEVEL_I] = 50.ToString();
-                    fields[CRIT_CHANCE_I] = 0.04.ToString(CultureInfo.InvariantCulture);
-                    fields[CRIT_POWER_I] = 1.5.ToString(CultureInfo.InvariantCulture);
+                    fields[MinDamage] = 24.ToString();
+                    fields[MaxDamage] = 48.ToString();
+                    fields[Knockback] = 1.3.ToString(CultureInfo.InvariantCulture);
+                    fields[Defense] = 8.ToString();
+                    fields[BaseDropLevel] = 75.ToString();
+                    fields[MinDropLevel] = 50.ToString();
+                    fields[CritChance] = 0.04.ToString(CultureInfo.InvariantCulture);
+                    fields[CritPower] = 1.5.ToString(CultureInfo.InvariantCulture);
                     break;
                 case 7: // templar's blade
-                    fields[MIN_DAMAGE_I] = 44.ToString();
-                    fields[MAX_DAMAGE_I] = 62.ToString();
-                    fields[SPEED_I] = (-4).ToString();
-                    fields[DEFENSE_I] = 4.ToString();
-                    fields[BASE_DROP_LEVEL_I] = 100.ToString();
-                    fields[MIN_DROP_LEVEL_I] = 70.ToString();
-                    fields[CRIT_CHANCE_I] = 0.04.ToString(CultureInfo.InvariantCulture);
-                    fields[CRIT_POWER_I] = 1.5.ToString(CultureInfo.InvariantCulture);
+                    fields[MinDamage] = 44.ToString();
+                    fields[MaxDamage] = 62.ToString();
+                    fields[Speed] = (-4).ToString();
+                    fields[Defense] = 4.ToString();
+                    fields[BaseDropLevel] = 100.ToString();
+                    fields[MinDropLevel] = 70.ToString();
+                    fields[CritChance] = 0.04.ToString(CultureInfo.InvariantCulture);
+                    fields[CritPower] = 1.5.ToString(CultureInfo.InvariantCulture);
                     break;
                 case 48: // yeti's tooth
-                    fields[MIN_DAMAGE_I] = 26.ToString();
-                    fields[MAX_DAMAGE_I] = 42.ToString();
-                    fields[KNOCKBACK_I] = 1.2.ToString(CultureInfo.InvariantCulture);
-                    fields[TYPE_I] = 3.ToString();
-                    fields[BASE_DROP_LEVEL_I] = 60.ToString();
-                    fields[MIN_DROP_LEVEL_I] = 40.ToString();
-                    fields[AOE_I] = 2.ToString();
-                    fields[CRIT_CHANCE_I] = 0.04.ToString(CultureInfo.InvariantCulture);
-                    fields[CRIT_POWER_I] = 1.6.ToString(CultureInfo.InvariantCulture);
+                    fields[MinDamage] = 26.ToString();
+                    fields[MaxDamage] = 42.ToString();
+                    fields[Knockback] = 1.2.ToString(CultureInfo.InvariantCulture);
+                    fields[Type] = 3.ToString();
+                    fields[BaseDropLevel] = 60.ToString();
+                    fields[MinDropLevel] = 40.ToString();
+                    fields[Aoe] = 2.ToString();
+                    fields[CritChance] = 0.04.ToString(CultureInfo.InvariantCulture);
+                    fields[CritPower] = 1.6.ToString(CultureInfo.InvariantCulture);
                     break;
                 case 60: // ossified blade
-                    fields[MIN_DAMAGE_I] = 48.ToString();
-                    fields[MAX_DAMAGE_I] = 68.ToString();
-                    fields[DEFENSE_I] = 3.ToString();
-                    fields[TYPE_I] = 3.ToString();
-                    fields[BASE_DROP_LEVEL_I] = (-1).ToString();
-                    fields[MIN_DROP_LEVEL_I] = (-1).ToString();
-                    fields[CRIT_CHANCE_I] = 0.04.ToString(CultureInfo.InvariantCulture);
-                    fields[CRIT_POWER_I] = 1.5.ToString(CultureInfo.InvariantCulture);
+                    fields[MinDamage] = 48.ToString();
+                    fields[MaxDamage] = 68.ToString();
+                    fields[Defense] = 3.ToString();
+                    fields[Type] = 3.ToString();
+                    fields[BaseDropLevel] = (-1).ToString();
+                    fields[MinDropLevel] = (-1).ToString();
+                    fields[CritChance] = 0.04.ToString(CultureInfo.InvariantCulture);
+                    fields[CritPower] = 1.5.ToString(CultureInfo.InvariantCulture);
                     break;
                 case 52: // tempered broadsword
-                    fields[MIN_DAMAGE_I] = 60.ToString();
-                    fields[MAX_DAMAGE_I] = 80.ToString();
-                    fields[DEFENSE_I] = 6.ToString();
-                    fields[BASE_DROP_LEVEL_I] = 120.ToString();
-                    fields[CRIT_CHANCE_I] = 0.04.ToString(CultureInfo.InvariantCulture);
-                    fields[CRIT_POWER_I] = 1.55.ToString(CultureInfo.InvariantCulture);
+                    fields[MinDamage] = 60.ToString();
+                    fields[MaxDamage] = 80.ToString();
+                    fields[Defense] = 6.ToString();
+                    fields[BaseDropLevel] = 120.ToString();
+                    fields[CritChance] = 0.04.ToString(CultureInfo.InvariantCulture);
+                    fields[CritPower] = 1.55.ToString(CultureInfo.InvariantCulture);
                     break;
                 case 54: // dwarf sword
-                    fields[MIN_DAMAGE_I] = 120.ToString();
-                    fields[MAX_DAMAGE_I] = 140.ToString();
-                    fields[SPEED_I] = (-4).ToString();
-                    fields[DEFENSE_I] = 8.ToString();
-                    fields[TYPE_I] = 3.ToString();
-                    fields[CRIT_CHANCE_I] = 0.04.ToString(CultureInfo.InvariantCulture);
-                    fields[CRIT_POWER_I] = 1.5.ToString(CultureInfo.InvariantCulture);
+                    fields[MinDamage] = 120.ToString();
+                    fields[MaxDamage] = 140.ToString();
+                    fields[Speed] = (-4).ToString();
+                    fields[Defense] = 8.ToString();
+                    fields[Type] = 3.ToString();
+                    fields[CritChance] = 0.04.ToString(CultureInfo.InvariantCulture);
+                    fields[CritPower] = 1.5.ToString(CultureInfo.InvariantCulture);
                     break;
 
                 // BACHELOR(ETTE) WEAPONS
                 case 40: // abby
-                    fields[KNOCKBACK_I] = 0.4.ToString(CultureInfo.InvariantCulture);
-                    fields[SPEED_I] = 4.ToString();
-                    fields[PRECISION_I] = 4.ToString();
-                    fields[CRIT_CHANCE_I] = 0.08.ToString(CultureInfo.InvariantCulture);
+                    fields[Knockback] = 0.4.ToString(CultureInfo.InvariantCulture);
+                    fields[Speed] = 4.ToString();
+                    fields[Precision] = 4.ToString();
+                    fields[CritChance] = 0.08.ToString(CultureInfo.InvariantCulture);
                     break;
                 case 42: // haley
-                    fields[SPEED_I] = 0.ToString();
-                    fields[CRIT_CHANCE_I] = 0.04.ToString(CultureInfo.InvariantCulture);
-                    fields[CRIT_POWER_I] = 1.5.ToString(CultureInfo.InvariantCulture);
+                    fields[Speed] = 0.ToString();
+                    fields[CritChance] = 0.04.ToString(CultureInfo.InvariantCulture);
+                    fields[CritPower] = 1.5.ToString(CultureInfo.InvariantCulture);
                     break;
                 case 39: // leah
-                    fields[SPEED_I] = 0.ToString();
-                    fields[CRIT_CHANCE_I] = 0.08.ToString(CultureInfo.InvariantCulture);
+                    fields[Speed] = 0.ToString();
+                    fields[CritChance] = 0.08.ToString(CultureInfo.InvariantCulture);
                     break;
                 case 36: // maru
-                    fields[SPEED_I] = 0.ToString();
-                    fields[DEFENSE_I] = 1.ToString();
+                    fields[Speed] = 0.ToString();
+                    fields[Defense] = 1.ToString();
                     break;
                 case 38: // penny
-                    fields[SPEED_I] = 0.ToString();
-                    fields[TYPE_I] = 3.ToString();
-                    fields[CRIT_CHANCE_I] = 0.04.ToString(CultureInfo.InvariantCulture);
-                    fields[CRIT_POWER_I] = 1.5.ToString(CultureInfo.InvariantCulture);
+                    fields[Speed] = 0.ToString();
+                    fields[Type] = 3.ToString();
+                    fields[CritChance] = 0.04.ToString(CultureInfo.InvariantCulture);
+                    fields[CritPower] = 1.5.ToString(CultureInfo.InvariantCulture);
                     break;
                 case 25: // alex
-                    fields[KNOCKBACK_I] = 1.4.ToString(CultureInfo.InvariantCulture);
-                    fields[SPEED_I] = (-4).ToString();
+                    fields[Knockback] = 1.4.ToString(CultureInfo.InvariantCulture);
+                    fields[Speed] = (-4).ToString();
                     break;
                 case 35: // eliott
-                    fields[KNOCKBACK_I] = 0.3.ToString(CultureInfo.InvariantCulture);
-                    fields[SPEED_I] = 0.ToString();
-                    fields[PRECISION_I] = 2.ToString();
-                    fields[DEFENSE_I] = (-2).ToString();
-                    fields[CRIT_CHANCE_I] = 0.25.ToString(CultureInfo.InvariantCulture);
-                    fields[CRIT_POWER_I] = 2.5.ToString(CultureInfo.InvariantCulture);
+                    fields[Knockback] = 0.3.ToString(CultureInfo.InvariantCulture);
+                    fields[Speed] = 0.ToString();
+                    fields[Precision] = 2.ToString();
+                    fields[Defense] = (-2).ToString();
+                    fields[CritChance] = 0.25.ToString(CultureInfo.InvariantCulture);
+                    fields[CritPower] = 2.5.ToString(CultureInfo.InvariantCulture);
                     break;
                 case 37: // harvey
-                    fields[KNOCKBACK_I] = 1.2.ToString(CultureInfo.InvariantCulture);
-                    fields[SPEED_I] = 0.ToString();
-                    fields[DEFENSE_I] = 1.ToString();
-                    fields[CRIT_POWER_I] = 2.ToString();
+                    fields[Knockback] = 1.2.ToString(CultureInfo.InvariantCulture);
+                    fields[Speed] = 0.ToString();
+                    fields[Defense] = 1.ToString();
+                    fields[CritPower] = 2.ToString();
                     break;
                 case 30: // sam
-                    fields[SPEED_I] = (-12).ToString();
-                    fields[DEFENSE_I] = 2.ToString();
-                    fields[CRIT_POWER_I] = 2.ToString();
+                    fields[Speed] = (-12).ToString();
+                    fields[Defense] = 2.ToString();
+                    fields[CritPower] = 2.ToString();
                     break;
                 case 41: // seb
-                    fields[KNOCKBACK_I] = 1.2.ToString(CultureInfo.InvariantCulture);
-                    fields[SPEED_I] = (-8).ToString();
-                    fields[DEFENSE_I] = 4.ToString();
-                    fields[CRIT_POWER_I] = 2.ToString();
+                    fields[Knockback] = 1.2.ToString(CultureInfo.InvariantCulture);
+                    fields[Speed] = (-8).ToString();
+                    fields[Defense] = 4.ToString();
+                    fields[CritPower] = 2.ToString();
                     break;
 
                 // SCYTHES
                 case 47: // regular
-                    fields[AOE_I] = 6.ToString();
-                    fields[CRIT_POWER_I] = 1.5.ToString(CultureInfo.InvariantCulture);
+                    fields[Aoe] = 6.ToString();
+                    fields[CritPower] = 1.5.ToString(CultureInfo.InvariantCulture);
                     break;
                 case 53: // golden
-                    fields[MIN_DAMAGE_I] = 10.ToString();
-                    fields[AOE_I] = 12.ToString();
-                    fields[CRIT_POWER_I] = 2.ToString();
+                    fields[MinDamage] = 10.ToString();
+                    fields[Aoe] = 12.ToString();
+                    fields[CritPower] = 2.ToString();
                     break;
 
-                    #endregion weapon switch-case
+                #endregion weapon switch-case
             }
 
             data[key] = string.Join('/', fields);
@@ -729,16 +731,22 @@ internal sealed class ArsenalAssetRequestedEvent : AssetRequestedEvent
     /// <summary>Edits location string data with custom legendary sword rhyme.</summary>
     private static void EditLocationsStrings(IAssetData asset)
     {
-        if (!ModEntry.Config.InfinityPlusOneWeapons) return;
+        if (!ModEntry.Config.InfinityPlusOneWeapons)
+        {
+            return;
+        }
 
         var data = asset.AsDictionary<string, string>().Data;
         data["Town_DwarfGrave_Translated"] = ModEntry.i18n.Get("locations.Town_DwarfGrave_Translated");
     }
 
     /// <summary>Edits strings data with custom legendary sword reward prompt.</summary>
-    private static void EditStringsFromCSFilesStrings(IAssetData asset)
+    private static void EditStringsFromCsFilesStrings(IAssetData asset)
     {
-        if (!ModEntry.Config.InfinityPlusOneWeapons) return;
+        if (!ModEntry.Config.InfinityPlusOneWeapons)
+        {
+            return;
+        }
 
         var data = asset.AsDictionary<string, string>().Data;
         data["MeleeWeapon.cs.14122"] = ModEntry.i18n.Get("fromcsfiles.MeleeWeapon.cs.14122");
@@ -752,7 +760,9 @@ internal sealed class ArsenalAssetRequestedEvent : AssetRequestedEvent
         var srcArea = new Rectangle(0, 0, 640, 64);
         var targetArea = new Rectangle(0, 3328, 640, 64);
 
-        editor.PatchImage(ModEntry.ModHelper.ModContent.Load<Texture2D>("assets/animations/snowball.png"), srcArea,
+        editor.PatchImage(
+            ModEntry.ModHelper.ModContent.Load<Texture2D>("assets/animations/snowball.png"),
+            srcArea,
             targetArea);
     }
 
@@ -764,7 +774,9 @@ internal sealed class ArsenalAssetRequestedEvent : AssetRequestedEvent
         var srcArea = new Rectangle(0, 0, 16, 16);
         var targetArea = new Rectangle(96, 48, 16, 16);
 
-        editor.PatchImage(ModEntry.ModHelper.ModContent.Load<Texture2D>("assets/sprites/thunderlord.png"), srcArea,
+        editor.PatchImage(
+            ModEntry.ModHelper.ModContent.Load<Texture2D>("assets/sprites/thunderlord.png"),
+            srcArea,
             targetArea);
     }
 

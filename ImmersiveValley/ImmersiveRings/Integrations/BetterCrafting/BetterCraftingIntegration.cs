@@ -2,30 +2,38 @@
 
 #region using directives
 
-using Common.Integrations;
-using Common.Integrations.BetterCrafting;
 using System.Collections.Generic;
+using DaLion.Common.Integrations;
+using DaLion.Common.Integrations.BetterCrafting;
 
 #endregion using directives
 
-internal sealed class BetterCraftingIntegration : BaseIntegration<IBetterCraftingAPI>
+internal sealed class BetterCraftingIntegration : BaseIntegration<IBetterCraftingApi>
 {
-    /// <summary>Construct an instance.</summary>
+    /// <summary>Initializes a new instance of the <see cref="BetterCraftingIntegration"/> class.</summary>
     /// <param name="modRegistry">An API for fetching metadata about loaded mods.</param>
     public BetterCraftingIntegration(IModRegistry modRegistry)
-        : base("Better Crafting", "leclair.bettercrafting", "1.0.0", modRegistry) { }
+        : base("Better Crafting", "leclair.bettercrafting", "1.0.0", modRegistry)
+    {
+    }
 
     /// <summary>Register the ring recipe provider.</summary>
     public void Register()
     {
-        AssertLoaded();
-        ModApi!.AddRecipeProvider(new RingRecipeProvider(ModApi));
+        this.AssertLoaded();
+        this.ModApi!.AddRecipeProvider(new RingRecipeProvider(this.ModApi));
 
         var newRingRecipes = new List<string>
         {
-            "Glow Ring", "Magnet Ring", "Amethyst Ring", "Topaz Ring", "Aquamarine Ring", "Jade Ring", "Emerald Ring",
-            "Ruby Ring"
+            "Glow Ring",
+            "Magnet Ring",
+            "Amethyst Ring",
+            "Topaz Ring",
+            "Aquamarine Ring",
+            "Jade Ring",
+            "Emerald Ring",
+            "Ruby Ring",
         };
-        ModApi!.AddRecipesToDefaultCategory(false, "combat_rings", newRingRecipes);
+        this.ModApi!.AddRecipesToDefaultCategory(false, "combat_rings", newRingRecipes);
     }
 }

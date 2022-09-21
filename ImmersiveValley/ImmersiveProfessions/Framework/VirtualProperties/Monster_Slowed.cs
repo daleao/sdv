@@ -2,50 +2,57 @@
 
 #region using directives
 
+using System.Runtime.CompilerServices;
 using Netcode;
 using StardewValley.Monsters;
-using System.Runtime.CompilerServices;
 
 #endregion using directives
 
-public static class Monster_Slowed
+// ReSharper disable once InconsistentNaming
+internal static class Monster_Slowed
 {
+    internal static ConditionalWeakTable<Monster, Holder> Values { get; } = new();
+
+    internal static NetInt Get_SlowTimer(this Monster monster)
+    {
+        var holder = Values.GetOrCreateValue(monster);
+        return holder.SlowTimer;
+    }
+
+    // Net types are readonly
+    internal static void Set_SlowTmer(this Monster monster, NetInt newVal)
+    {
+    }
+
+    internal static NetInt Get_SlowIntensity(this Monster monster)
+    {
+        var holder = Values.GetOrCreateValue(monster);
+        return holder.SlowIntensity;
+    }
+
+    // Net types are readonly
+    internal static void Set_SlowIntensity(this Monster monster, NetInt newVal)
+    {
+    }
+
+    internal static Farmer Get_Slower(this Monster monster)
+    {
+        var holder = Values.GetOrCreateValue(monster);
+        return holder.Slower;
+    }
+
+    internal static void Set_Slower(this Monster monster, Farmer slower)
+    {
+        var holder = Values.GetOrCreateValue(monster);
+        holder.Slower = slower;
+    }
+
     internal class Holder
     {
-        public readonly NetInt slowTimer = new(-1);
-        public readonly NetInt slowIntensity = new(-1);
-        public Farmer slower = null!;
-    }
+        public NetInt SlowIntensity { get; } = new(-1);
 
-    internal static ConditionalWeakTable<Monster, Holder> Values = new();
+        public NetInt SlowTimer { get; } = new(-1);
 
-    public static NetInt get_SlowTimer(this Monster monster)
-    {
-        var holder = Values.GetOrCreateValue(monster);
-        return holder.slowTimer;
-    }
-
-    // Net types are readonly
-    public static void set_SlowTmer(this Monster monster, NetInt newVal) { }
-
-    public static NetInt get_SlowIntensity(this Monster monster)
-    {
-        var holder = Values.GetOrCreateValue(monster);
-        return holder.slowIntensity;
-    }
-
-    // Net types are readonly
-    public static void set_SlowIntensity(this Monster monster, NetInt newVal) { }
-
-    public static Farmer get_Slower(this Monster monster)
-    {
-        var holder = Values.GetOrCreateValue(monster);
-        return holder.slower;
-    }
-
-    public static void set_Slower(this Monster monster, Farmer slower)
-    {
-        var holder = Values.GetOrCreateValue(monster);
-        holder.slower = slower;
+        public Farmer Slower { get; internal set; } = null!;
     }
 }

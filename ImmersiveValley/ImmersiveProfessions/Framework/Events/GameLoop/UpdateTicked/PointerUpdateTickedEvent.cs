@@ -2,7 +2,7 @@
 
 #region using directives
 
-using Common.Events;
+using DaLion.Common.Events;
 using StardewModdingAPI.Events;
 
 #endregion using directives
@@ -10,10 +10,12 @@ using StardewModdingAPI.Events;
 [UsedImplicitly]
 internal sealed class PointerUpdateTickedEvent : UpdateTickedEvent
 {
-    /// <summary>Construct an instance.</summary>
+    /// <summary>Initializes a new instance of the <see cref="PointerUpdateTickedEvent"/> class.</summary>
     /// <param name="manager">The <see cref="ProfessionEventManager"/> instance that manages this event.</param>
     internal PointerUpdateTickedEvent(ProfessionEventManager manager)
-        : base(manager) { }
+        : base(manager)
+    {
+    }
 
     /// <inheritdoc />
     protected override void OnUpdateTickedImpl(object? sender, UpdateTickedEventArgs e)

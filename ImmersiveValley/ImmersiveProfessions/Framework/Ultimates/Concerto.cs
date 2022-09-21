@@ -2,51 +2,43 @@
 
 #region using directives
 
-using Events.GameLoop;
-using Extensions;
+using System.Linq;
+using DaLion.Stardew.Professions.Extensions;
+using DaLion.Stardew.Professions.Framework.Events.GameLoop;
+using DaLion.Stardew.Professions.Framework.Sounds;
+using DaLion.Stardew.Professions.Framework.VirtualProperties;
 using Microsoft.Xna.Framework;
-using Sounds;
 using StardewValley.Locations;
 using StardewValley.Monsters;
-using System.Linq;
-using VirtualProperties;
 
 #endregion using directives
 
 /// <summary>Handles Piper ultimate activation.</summary>
 public sealed class Concerto : Ultimate
 {
-    /// <summary>Construct an instance.</summary>
+    /// <summary>Initializes a new instance of the <see cref="Concerto"/> class.</summary>
     internal Concerto()
-    : base(UltimateIndex.PiperConcerto, Color.LimeGreen, Color.DarkGreen) { }
+        : base("Concerto", 28, Color.LimeGreen, Color.DarkGreen)
+    {
+    }
 
-    #region public properties
+    /// <inheritdoc />
+    public override string DisplayName =>
+        ModEntry.i18n.Get(this.Name.ToLower() + ".title." + (Game1.player.IsMale ? "male" : "female"));
 
     /// <inheritdoc />
     public override bool CanActivate => base.CanActivate && Game1.player.currentLocation.characters.OfType<Monster>()
         .Any(m => m.IsSlime() && m.IsWithinPlayerThreshold());
 
-    #endregion public properties
-
-    #region internal properties
-
-    /// <inheritdoc />
-    internal override int BuffId { get; } = (ModEntry.Manifest.UniqueID + (int)UltimateIndex.PiperConcerto + 4).GetHashCode();
-
     /// <inheritdoc />
     internal override int MillisecondsDuration =>
-        (int)(30000 * ((double)MaxValue / BASE_MAX_VALUE_I) / ModEntry.Config.SpecialDrainFactor);
-
+        (int)(30000 * ((double)this.MaxValue / BaseMaxValue) / ModEntry.Config.SpecialDrainFactor);
 
     /// <inheritdoc />
-    internal override SFX ActivationSfx => SFX.PiperConcerto;
+    internal override Sfx ActivationSfx => Sfx.PiperConcerto;
 
     /// <inheritdoc />
     internal override Color GlowColor => Color.LimeGreen;
-
-    #endregion internal properties
-
-    #region internal methods
 
     /// <inheritdoc />
     internal override void Activate()
@@ -56,14 +48,19 @@ public sealed class Concerto : Ultimate
         foreach (var slime in Game1.player.currentLocation.characters.OfType<GreenSlime>()
                      .Where(c => c.IsWithinPlayerThreshold() && c.Scale < 2f))
         {
-            if (Game1.random.NextDouble() <= 0.012 + Game1.player.team.AverageDailyLuck() / 10.0)
+            if (Game1.random.NextDouble() <= 0.012 + (Game1.player.team.AverageDailyLuck() / 10.0))
             {
                 if (Game1.currentLocation is MineShaft && Game1.player.team.SpecialOrderActive("Wizard2"))
+                {
                     slime.makePrismatic();
-                else slime.hasSpecialItem.Value = true;
+                }
+                else
+                {
+                    slime.hasSpecialItem.Value = true;
+                }
             }
 
-            slime.set_Piper(Game1.player);
+            slime.Set_Piper(Game1.player);
         }
 
         var bigSlimes = Game1.currentLocation.characters.OfType<BigSlime>().ToList();
@@ -76,17 +73,44 @@ public sealed class Concerto : Ultimate
             {
                 Game1.currentLocation.characters.Add(new GreenSlime(bigSlimes[i].Position, Game1.CurrentMineLevel));
                 var justCreated = Game1.currentLocation.characters[^1];
-                justCreated.setTrajectory((int)(bigSlimes[i].xVelocity / 8 + Game1.random.Next(-2, 3)),
-                    (int)(bigSlimes[i].yVelocity / 8 + Game1.random.Next(-2, 3)));
+                justCreated.setTrajectory(
+                    (int)((bigSlimes[i].xVelocity / 8) + Game1.random.Next(-2, 3)),
+                    (int)((bigSlimes[i].yVelocity / 8) + Game1.random.Next(-2, 3)));
                 justCreated.willDestroyObjectsUnderfoot = false;
                 justCreated.moveTowardPlayer(4);
-                justCreated.Scale = 0.75f + Game1.random.Next(-5, 10) / 100f;
+                justCreated.Scale = 0.75f + (Game1.random.Next(-5, 10) / 100f);
                 justCreated.currentLocation = Game1.currentLocation;
             }
         }
 
+        Game1.buffsDisplay.removeOtherBuff(this.BuffId);
+        Game1.buffsDisplay.addOtherBuff(
+            new Buff(
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                1,
+                this.GetType().Name,
+                this.DisplayName)
+            {
+                which = this.BuffId,
+                sheetIndex = 51,
+                glow = this.GlowColor,
+                millisecondsDuration = this.MillisecondsDuration,
+                description = this.Description,
+            });
+
         ModEntry.Events.Enable<SlimeInflationUpdateTickedEvent>();
-        ActivationSfx.PlayAfterDelay(333);
+        this.ActivationSfx.PlayAfterDelay(333);
     }
 
     /// <inheritdoc />
@@ -99,8 +123,6 @@ public sealed class Concerto : Ultimate
     /// <inheritdoc />
     internal override void Countdown()
     {
-        ChargeValue -= MaxValue / 1800d; // lasts 30s * 60 ticks/s -> 1800 ticks
+        this.ChargeValue -= this.MaxValue / 1800d; // lasts 30s * 60 ticks/s -> 1800 ticks
     }
-
-    #endregion internal methods
 }

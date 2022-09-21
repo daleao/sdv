@@ -10,7 +10,7 @@
                 "Object": "Garnet",
                 "Count": 1
             },
-			{
+            {
                 "Object": 336,
                 "Count": 5
             }
@@ -20,5 +20,5 @@
         "SkillUnlockLevel": 7
     },
     "TranslationKey": "rings.garnet",
-	"DisableWithMod": "BBR.BetterRings"
+    "DisableWithMod": "BBR.BetterRings"
 }

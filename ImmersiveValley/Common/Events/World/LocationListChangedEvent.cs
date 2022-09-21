@@ -9,19 +9,24 @@ using StardewModdingAPI.Events;
 /// <summary>Wrapper for <see cref="IWorldEvents.LocationListChanged"/> allowing dynamic enabling / disabling.</summary>
 internal abstract class LocationListChangedEvent : ManagedEvent
 {
-    /// <summary>Construct an instance.</summary>
+    /// <summary>Initializes a new instance of the <see cref="LocationListChangedEvent"/> class.</summary>
     /// <param name="manager">The <see cref="EventManager"/> instance that manages this event.</param>
     protected LocationListChangedEvent(EventManager manager)
-        : base(manager) { }
+        : base(manager)
+    {
+    }
 
     /// <inheritdoc cref="IWorldEvents.LocationListChanged"/>
     /// <param name="sender">The event sender.</param>
     /// <param name="e">The event arguments.</param>
     internal void OnLocationListChanged(object? sender, LocationListChangedEventArgs e)
     {
-        if (IsEnabled) OnLocationListChangedImpl(sender, e);
+        if (this.IsEnabled)
+        {
+            this.OnLocationListChangedImpl(sender, e);
+        }
     }
 
-    /// <inheritdoc cref="OnLocationListChanged" />
+    /// <inheritdoc cref="OnLocationListChanged"/>
     protected abstract void OnLocationListChangedImpl(object? sender, LocationListChangedEventArgs e);
 }

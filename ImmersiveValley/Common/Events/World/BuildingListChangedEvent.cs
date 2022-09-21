@@ -9,19 +9,24 @@ using StardewModdingAPI.Events;
 /// <summary>Wrapper for <see cref="IWorldEvents.BuildingListChanged"/> allowing dynamic enabling / disabling.</summary>
 internal abstract class BuildingListChangedEvent : ManagedEvent
 {
-    /// <summary>Construct an instance.</summary>
+    /// <summary>Initializes a new instance of the <see cref="BuildingListChangedEvent"/> class.</summary>
     /// <param name="manager">The <see cref="EventManager"/> instance that manages this event.</param>
     protected BuildingListChangedEvent(EventManager manager)
-        : base(manager) { }
+        : base(manager)
+    {
+    }
 
     /// <inheritdoc cref="IWorldEvents.BuildingListChanged"/>
     /// <param name="sender">The event sender.</param>
     /// <param name="e">The event arguments.</param>
     internal void OnBuildingListChanged(object? sender, BuildingListChangedEventArgs e)
     {
-        if (IsEnabled) OnBuildingListChangedImpl(sender, e);
+        if (this.IsEnabled)
+        {
+            this.OnBuildingListChangedImpl(sender, e);
+        }
     }
 
-    /// <inheritdoc cref="OnBuildingListChanged" />
+    /// <inheritdoc cref="OnBuildingListChanged"/>
     protected abstract void OnBuildingListChangedImpl(object? sender, BuildingListChangedEventArgs e);
 }

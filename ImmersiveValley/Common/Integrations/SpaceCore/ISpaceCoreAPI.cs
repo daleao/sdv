@@ -1,4 +1,5 @@
-﻿namespace DaLion.Common.Integrations.SpaceCore;
+﻿#pragma warning disable CS1591
+namespace DaLion.Common.Integrations.SpaceCore;
 
 #region using directives
 
@@ -7,7 +8,8 @@ using System.Reflection;
 
 #endregion using directives
 
-public interface ISpaceCoreAPI
+/// <summary>The API provided by SpaceCore.</summary>
+public interface ISpaceCoreApi
 {
     string[] GetCustomSkills();
 

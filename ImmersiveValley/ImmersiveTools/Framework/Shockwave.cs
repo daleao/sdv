@@ -2,133 +2,163 @@
 
 #region using directives
 
-using Common;
-using Common.Classes;
-using Effects;
-using Extensions;
-using Microsoft.Xna.Framework;
-using StardewValley.Tools;
 using System.Collections.Generic;
 using System.Linq;
+using DaLion.Common;
+using DaLion.Common.Classes;
+using DaLion.Stardew.Tools.Extensions;
+using DaLion.Stardew.Tools.Framework.Effects;
+using Microsoft.Xna.Framework;
+using StardewValley.Tools;
+using Utility = StardewValley.Utility;
 
 #endregion using directives
 
 /// <summary>Spreads a tool's effect across all tiles in a circular area.</summary>
 internal class Shockwave
 {
-    private const int SHOCKWAVE_DELAY_MS_I = 150;
+    private const int ShockwaveDelay = 150;
 
     private readonly IEffect? _effect;
-    private readonly Tool _tool;
     private readonly Vector2 _epicenter;
-    private readonly GameLocation _location;
     private readonly Farmer _farmer;
-    private readonly List<CircleTileGrid> _tileGrids = new();
-    private readonly double _millisecondsWhenReleased;
     private readonly int _finalRadius;
+    private readonly GameLocation _location;
+    private readonly double _millisecondsWhenReleased;
+    private readonly List<CircleTileGrid> _tileGrids = new();
+    private readonly Tool _tool;
     private int _currentRadius = 1;
 
-    /// <summary>Construct an instance.</summary>
+    /// <summary>Initializes a new instance of the <see cref="Shockwave"/> class.</summary>
     /// <param name="radius">The maximum radius of the shockwave.</param>
     /// <param name="who">The player who initiated the shockwave.</param>
-    /// <param name="milliseconds">The total elapsed <see cref="GameTime"/> in milliseconds at the moment the tool was released.</param>
+    /// <param name="milliseconds">
+    ///     The total elapsed <see cref="GameTime"/> in milliseconds at the moment the tool was
+    ///     released.
+    /// </param>
     internal Shockwave(int radius, Farmer who, double milliseconds)
     {
-        _farmer = who;
-        _location = who.currentLocation;
-        _tool = who.CurrentTool;
-        _effect = _tool switch
+        this._farmer = who;
+        this._location = who.currentLocation;
+        this._tool = who.CurrentTool;
+        this._effect = this._tool switch
         {
             Axe => new AxeEffect(ModEntry.Config.AxeConfig),
             Pickaxe => new PickaxeEffect(ModEntry.Config.PickaxeConfig),
-            _ => null
+            _ => null,
         };
 
-        _epicenter = new((int)(_farmer.GetToolLocation().X / Game1.tileSize),
-            (int)(_farmer.GetToolLocation().Y / Game1.tileSize));
-        _finalRadius = radius;
+        this._epicenter = new Vector2(
+            (int)(this._farmer.GetToolLocation().X / Game1.tileSize),
+            (int)(this._farmer.GetToolLocation().Y / Game1.tileSize));
+        this._finalRadius = radius;
 
         if (ModEntry.Config.TicksBetweenWaves <= 0)
         {
-            _tileGrids.Add(new(_epicenter, _finalRadius));
-            _currentRadius = _finalRadius;
+            this._tileGrids.Add(new CircleTileGrid(this._epicenter, this._finalRadius));
+            this._currentRadius = this._finalRadius;
         }
         else
         {
-            for (var i = 0; i < _finalRadius; ++i) _tileGrids.Add(new(_epicenter, i + 1));
+            for (var i = 0; i < this._finalRadius; ++i)
+            {
+                this._tileGrids.Add(new CircleTileGrid(this._epicenter, i + 1));
+            }
         }
 
-        _millisecondsWhenReleased = milliseconds;
+        this._millisecondsWhenReleased = milliseconds;
     }
 
-    /// <summary>Expand the affected radius by one unit and apply the tool's effects.</summary>
+    /// <summary>Expands the affected radius by one unit and applies the tool's effects.</summary>
     /// <param name="milliseconds">The current elapsed <see cref="GameTime"/> in milliseconds.</param>
     internal void Update(double milliseconds)
     {
-        if (milliseconds - _millisecondsWhenReleased < SHOCKWAVE_DELAY_MS_I) return;
+        if (milliseconds - this._millisecondsWhenReleased < ShockwaveDelay)
+        {
+            return;
+        }
 
         IEnumerable<Vector2> affectedTiles;
-        if (_tileGrids.Count > 1)
+        if (this._tileGrids.Count > 1)
         {
-            affectedTiles = _tileGrids[_currentRadius - 1].Tiles;
-            if (_currentRadius > 1) affectedTiles = affectedTiles.Except(_tileGrids[_currentRadius - 2].Tiles);
+            affectedTiles = this._tileGrids[this._currentRadius - 1].Tiles;
+            if (this._currentRadius > 1)
+            {
+                affectedTiles = affectedTiles.Except(this._tileGrids[this._currentRadius - 2].Tiles);
+            }
         }
         else
         {
-            affectedTiles = _tileGrids[0].Tiles;
+            affectedTiles = this._tileGrids[0].Tiles;
         }
 
-        foreach (var tile in affectedTiles.Except(new[] { _epicenter, _farmer.getTileLocation() }))
+        foreach (var tile in affectedTiles.Except(new[] { this._epicenter, this._farmer.getTileLocation() }))
         {
-            _farmer.TemporarilyFakeInteraction(() =>
+            this._farmer.TemporarilyFakeInteraction(() =>
             {
                 // face tile to avoid game skipping interaction
-                GetRadialAdjacentTile(_epicenter, tile, out var adjacentTile, out var facingDirection);
-                _farmer.Position = adjacentTile * Game1.tileSize;
-                _farmer.FacingDirection = facingDirection;
+                GetRadialAdjacentTile(this._epicenter, tile, out var adjacentTile, out var facingDirection);
+                this._farmer.Position = adjacentTile * Game1.tileSize;
+                this._farmer.FacingDirection = facingDirection;
 
                 // apply tool effects
-                _location.objects.TryGetValue(tile, out var tileObj);
-                _location.terrainFeatures.TryGetValue(tile, out var tileFeature);
-                _effect!.Apply(tile, tileObj, tileFeature, _tool, _location, _farmer);
+                this._location.objects.TryGetValue(tile, out var tileObj);
+                this._location.terrainFeatures.TryGetValue(tile, out var tileFeature);
+                this._effect!.Apply(tile, tileObj, tileFeature, this._tool, this._location, this._farmer);
             });
 
             var pixelPos = new Vector2(tile.X * Game1.tileSize, tile.Y * Game1.tileSize);
 
-            if (_tool is Axe && !ModEntry.Config.AxeConfig.PlayShockwaveAnimation ||
-                _tool is Pickaxe && !ModEntry.Config.PickaxeConfig.PlayShockwaveAnimation) continue;
+            if ((this._tool is Axe && !ModEntry.Config.AxeConfig.PlayShockwaveAnimation) ||
+                (this._tool is Pickaxe && !ModEntry.Config.PickaxeConfig.PlayShockwaveAnimation))
+            {
+                continue;
+            }
 
-            _location.temporarySprites.Add(new(12, pixelPos, Color.White, 8,
-                Game1.random.NextDouble() < 0.5, 50f));
-            _location.temporarySprites.Add(new(6, pixelPos, Color.White, 8,
-                Game1.random.NextDouble() < 0.5, 30f));
+            this._location.temporarySprites.Add(new TemporaryAnimatedSprite(
+                12,
+                pixelPos,
+                Color.White,
+                8,
+                Game1.random.NextDouble() < 0.5,
+                50f));
+            this._location.temporarySprites.Add(new TemporaryAnimatedSprite(
+                6,
+                pixelPos,
+                Color.White,
+                8,
+                Game1.random.NextDouble() < 0.5,
+                30f));
         }
 
-        if (_currentRadius++ < _finalRadius) return;
+        if (this._currentRadius++ < this._finalRadius)
+        {
+            return;
+        }
 
-        Log.D(_tileGrids[^1].ToString());
-        ModEntry.Shockwave.Value = null;
+        Log.D(this._tileGrids[^1].ToString());
+        ModEntry.State.Shockwave = null;
     }
 
-    #region private methods
-
-    /// <summary>Get the tile coordinate which is adjacent to the given <paramref name="tile" /> along a radial line from the player.</summary>
+    /// <summary>
+    ///     Gets the tile coordinate which is adjacent to the given <paramref name="tile"/> along a radial line from the
+    ///     player.
+    /// </summary>
     /// <param name="epicenter">The tile containing the player.</param>
     /// <param name="tile">The tile to face.</param>
-    /// <param name="adjacent">The tile radially adjacent to the <paramref name="tile" />.</param>
+    /// <param name="adjacent">The tile radially adjacent to the <paramref name="tile"/>.</param>
     /// <param name="facingDirection">The direction to face.</param>
-    private static void GetRadialAdjacentTile(Vector2 epicenter, Vector2 tile, out Vector2 adjacent, out int facingDirection)
+    private static void GetRadialAdjacentTile(
+        Vector2 epicenter, Vector2 tile, out Vector2 adjacent, out int facingDirection)
     {
-        facingDirection = StardewValley.Utility.getDirectionFromChange(tile, epicenter);
+        facingDirection = Utility.getDirectionFromChange(tile, epicenter);
         adjacent = facingDirection switch
         {
-            Game1.up => new(tile.X, tile.Y + 1),
-            Game1.down => new(tile.X, tile.Y - 1),
-            Game1.left => new(tile.X + 1, tile.Y),
-            Game1.right => new(tile.X - 1, tile.Y),
-            _ => tile
+            Game1.up => new Vector2(tile.X, tile.Y + 1),
+            Game1.down => new Vector2(tile.X, tile.Y - 1),
+            Game1.left => new Vector2(tile.X + 1, tile.Y),
+            Game1.right => new Vector2(tile.X - 1, tile.Y),
+            _ => tile,
         };
     }
-
-    #endregion private methods
 }

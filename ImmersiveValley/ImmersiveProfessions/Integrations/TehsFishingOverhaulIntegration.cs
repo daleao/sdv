@@ -2,48 +2,50 @@
 
 #region using directives
 
-using Common.Integrations;
-using Common.Integrations.TehsFishingOverhaul;
-using Extensions;
-using Framework;
-using HarmonyLib;
-using StardewModdingAPI.Events;
-using StardewValley.Tools;
 using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
+using DaLion.Common.Integrations;
+using DaLion.Common.Integrations.TehsFishingOverhaul;
+using DaLion.Stardew.Professions.Extensions;
+using DaLion.Stardew.Professions.Framework;
+using HarmonyLib;
+using StardewModdingAPI.Events;
+using StardewValley.Tools;
 
 #endregion using directives
 
-internal sealed class TehsFishingOverhaulIntegration : BaseIntegration<ISimplifiedFishingAPI>
+internal sealed class TehsFishingOverhaulIntegration : BaseIntegration<ISimplifiedFishingApi>
 {
+    private static readonly Func<object?, double> GetTreasureBaseChance;
+
+    private static readonly Func<object?, double> GetTreasurePirateFactor;
+
     // Mail flags added by TFO to track legendary fish progress
-    private static readonly Dictionary<int, string> legendaryFlags = new()
+    private static readonly Dictionary<int, string> LegendaryFlags = new()
     {
         [159] = "TehPers.FishingOverhaul/crimsonfishCaught",
         [160] = "TehPers.FishingOverhaul/anglerCaught",
         [163] = "TehPers.FishingOverhaul/legendCaught",
         [682] = "TehPers.FishingOverhaul/mutantCarpCaught",
-        [775] = "TehPers.FishingOverhaul/glacierfishCaught"
+        [775] = "TehPers.FishingOverhaul/glacierfishCaught",
     };
 
     // Conversation topics added by [TFO] Recatchable Legendaries to track delays
-    private static readonly List<string> recatchableLegendariesTopics = new()
+    private static readonly List<string> RecatchableLegendariesTopics = new()
     {
         "TehPers.RecatchableLegendaries/crimsonfishDelay",
         "TehPers.RecatchableLegendaries/anglerDelay",
         "TehPers.RecatchableLegendaries/legendDelay",
         "TehPers.RecatchableLegendaries/mutantCarpDelay",
-        "TehPers.RecatchableLegendaries/glacierfishDelay"
+        "TehPers.RecatchableLegendaries/glacierfishDelay",
     };
 
-    private static readonly Func<object?, double> getTreasureBaseChance;
-    private static readonly Func<object?, double> getTreasurePirateFactor;
-
-    private readonly IModEvents _Events;
-    private readonly object? _RawApi;
+    private readonly IModEvents _events;
+    private readonly object? _rawApi;
 
     /// <summary>
+    ///     Initializes static members of the <see cref="TehsFishingOverhaulIntegration"/> class.
     ///     Lazily initializes the static getter fields. This is done lazily in case Teh's Fishing
     ///     Overhaul isn't loaded and the types do not exist. By using expressions instead of
     ///     reflection, we can avoid most of the overhead of dynamically accessing fields.
@@ -81,26 +83,29 @@ internal sealed class TehsFishingOverhaulIntegration : BaseIntegration<ISimplifi
         });
 
         // Set the static fields
-        getTreasureBaseChance = fishingApi => getTreasureBaseChanceLazily.Value(fishingApi);
-        getTreasurePirateFactor = fishingApi => getTreasurePirateFactorLazily.Value(fishingApi);
+        GetTreasureBaseChance = fishingApi => getTreasureBaseChanceLazily.Value(fishingApi);
+        GetTreasurePirateFactor = fishingApi => getTreasurePirateFactorLazily.Value(fishingApi);
     }
 
     public TehsFishingOverhaulIntegration(
         IModRegistry modRegistry,
-        IModEvents events
-    ) : base("Teh's Fishing Overhaul", "TehPers.FishingOverhaul", "3.2.0",
-        modRegistry)
+        IModEvents events)
+        : base(
+            "Teh's Fishing Overhaul",
+            "TehPers.FishingOverhaul",
+            "3.2.0",
+            modRegistry)
     {
-        _Events = events;
-        _RawApi = modRegistry.GetApi("TehPers.FishingOverhaul");
+        this._events = events;
+        this._rawApi = modRegistry.GetApi("TehPers.FishingOverhaul");
     }
 
     public void Register()
     {
-        AssertLoaded();
+        this.AssertLoaded();
 
         // add Fisher perks
-        ModApi.ModifyChanceForFish(
+        this.ModApi.ModifyChanceForFish(
             (who, chance) => who.CurrentTool is FishingRod rod &&
                              rod.getBaitAttachmentIndex() != 703 // magnet
                              && who.HasProfession(Profession.Fisher)
@@ -108,14 +113,14 @@ internal sealed class TehsFishingOverhaulIntegration : BaseIntegration<ISimplifi
                 : chance);
 
         // remove Pirate perks
-        ModApi.ModifyChanceForTreasure(
+        this.ModApi.ModifyChanceForTreasure(
             (who, chance) => who.professions.Contains(9)
-                ? chance - getTreasureBaseChance(_RawApi) * getTreasurePirateFactor(_RawApi)
+                ? chance - (GetTreasureBaseChance(this._rawApi) * GetTreasurePirateFactor(this._rawApi))
                 : chance);
 
         // manage legendary caught flags
         bool? hadPrestigedAngler = null;
-        _Events.GameLoop.UpdateTicking += (_, _) =>
+        this._events.GameLoop.UpdateTicking += (_, _) =>
         {
             // check the state of the prestiged angler profession
             var hasPrestigedAngler = Game1.player.HasProfession(Profession.Angler, true);
@@ -123,29 +128,40 @@ internal sealed class TehsFishingOverhaulIntegration : BaseIntegration<ISimplifi
             {
                 // prestiged status was just lost
                 case (not false, false):
+                {
+                    // Add flags for all legendary fish that have been caught
+                    foreach (var (id, flag) in LegendaryFlags)
                     {
-                        // Add flags for all legendary fish that have been caught
-                        foreach (var (id, flag) in legendaryFlags)
-                            if (Game1.player.fishCaught.ContainsKey(id) && !Game1.player.mailReceived.Contains(flag))
-                                Game1.player.mailReceived.Add(flag);
-
-                        break;
+                        if (Game1.player.fishCaught.ContainsKey(id) && !Game1.player.mailReceived.Contains(flag))
+                        {
+                            Game1.player.mailReceived.Add(flag);
+                        }
                     }
+
+                    break;
+                }
 
                 // has the prestiged status
                 case (_, true):
+                {
+                    // remove all legendary caught flags so they can be caught again
+                    // note: does not remove the fish from the collections tab
+                    foreach (var flag in LegendaryFlags.Values)
                     {
-                        // remove all legendary caught flags so they can be caught again
-                        // note: does not remove the fish from the collections tab
-                        foreach (var flag in legendaryFlags.Values) Game1.player.RemoveMail(flag);
-
-                        // if Recatchable Legendaries is installed, reset the conversation topics
-                        if (ModRegistry.IsLoaded("TehPers.RecatchableLegendaries"))
-                            foreach (var topic in recatchableLegendariesTopics)
-                                Game1.player.activeDialogueEvents.Remove(topic);
-
-                        break;
+                        Game1.player.RemoveMail(flag);
                     }
+
+                    // if Recatchable Legendaries is installed, reset the conversation topics
+                    if (this.ModRegistry.IsLoaded("TehPers.RecatchableLegendaries"))
+                    {
+                        foreach (var topic in RecatchableLegendariesTopics)
+                        {
+                            Game1.player.activeDialogueEvents.Remove(topic);
+                        }
+                    }
+
+                    break;
+                }
             }
 
             // update previous state

@@ -2,24 +2,25 @@
 
 #region using directives
 
-using DaLion.Common;
-using DaLion.Common.Extensions.Stardew;
-using HarmonyLib;
-using StardewValley.Monsters;
 using System;
 using System.Reflection;
-using Ultimates;
-using VirtualProperties;
+using DaLion.Common;
+using DaLion.Common.Extensions.Stardew;
+using DaLion.Stardew.Professions.Framework.Ultimates;
+using DaLion.Stardew.Professions.Framework.VirtualProperties;
+using HarmonyLib;
+using StardewValley.Monsters;
+using HarmonyPatch = DaLion.Common.Harmony.HarmonyPatch;
 
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class NPCWithinPlayerThresholdPatch : DaLion.Common.Harmony.HarmonyPatch
+internal sealed class NPCWithinPlayerThresholdPatch : HarmonyPatch
 {
-    /// <summary>Construct an instance.</summary>
+    /// <summary>Initializes a new instance of the <see cref="NPCWithinPlayerThresholdPatch"/> class.</summary>
     internal NPCWithinPlayerThresholdPatch()
     {
-        Target = RequireMethod<NPC>(nameof(NPC.withinPlayerThreshold), new[] { typeof(int) });
+        this.Target = this.RequireMethod<NPC>(nameof(NPC.withinPlayerThreshold), new[] { typeof(int) });
     }
 
     #region harmony patch
@@ -30,11 +31,16 @@ internal sealed class NPCWithinPlayerThresholdPatch : DaLion.Common.Harmony.Harm
     {
         try
         {
-            if (__instance is not Monster) return true; // run original method
+            if (__instance is not Monster)
+            {
+                return true; // run original method
+            }
 
             var player = Game1.getFarmer(__instance.Read("Target", Game1.player.UniqueMultiplayerID));
-            if (!player.IsLocalPlayer || player.get_Ultimate() is not Ambush { IsActive: true })
+            if (!player.IsLocalPlayer || player.Get_Ultimate() is not Ambush { IsActive: true })
+            {
                 return true; // run original method
+            }
 
             __result = false;
             return false; // don't run original method

@@ -2,20 +2,21 @@
 
 #region using directives
 
-using Extensions;
+using DaLion.Stardew.Slingshots.Extensions;
+using DaLion.Stardew.Slingshots.Framework.VirtualProperties;
 using HarmonyLib;
 using StardewValley.Tools;
-using VirtualProperties;
+using HarmonyPatch = DaLion.Common.Harmony.HarmonyPatch;
 
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class Game1PressActionButtonPatch : Common.Harmony.HarmonyPatch
+internal sealed class Game1PressActionButtonPatch : HarmonyPatch
 {
-    /// <summary>Construct an instance.</summary>
+    /// <summary>Initializes a new instance of the <see cref="Game1PressActionButtonPatch"/> class.</summary>
     internal Game1PressActionButtonPatch()
     {
-        Target = RequireMethod<Game1>(nameof(Game1.pressActionButton));
+        this.Target = this.RequireMethod<Game1>(nameof(Game1.pressActionButton));
     }
 
     #region harmony patches
@@ -24,12 +25,18 @@ internal sealed class Game1PressActionButtonPatch : Common.Harmony.HarmonyPatch
     [HarmonyPostfix]
     private static void Game1PressActionButtonPostfix(ref bool __result)
     {
-        if (!__result || !ModEntry.Config.EnableSlingshotSpecialMove || ModEntry.ProfessionsApi is not null) return;
+        if (!__result || !ModEntry.Config.EnableSlingshotSpecialMove || ModEntry.ProfessionsApi is not null)
+        {
+            return;
+        }
 
         var player = Game1.player;
-        if (player.CurrentTool is not Slingshot slingshot || slingshot.get_IsOnSpecial() || player.usingSlingshot ||
+        if (player.CurrentTool is not Slingshot slingshot || slingshot.Get_IsOnSpecial() || player.usingSlingshot ||
             !player.CanMove || player.canOnlyWalk || Game1.eventUp || player.onBridge.Value ||
-            !Game1.didPlayerJustRightClick(true)) return;
+            !Game1.didPlayerJustRightClick(true))
+        {
+            return;
+        }
 
         slingshot.AnimateSpecialMove();
         __result = false;

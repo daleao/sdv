@@ -2,25 +2,29 @@
 
 #region using directives
 
+using System;
+using System.Collections.Generic;
+using System.Reflection;
+using System.Reflection.Emit;
 using DaLion.Common;
 using DaLion.Common.Attributes;
 using DaLion.Common.Extensions.Reflection;
 using DaLion.Common.Harmony;
 using HarmonyLib;
-using System;
-using System.Collections.Generic;
-using System.Reflection;
-using System.Reflection.Emit;
+using HarmonyPatch = DaLion.Common.Harmony.HarmonyPatch;
 
 #endregion using directives
 
-[UsedImplicitly, RequiresMod("CJBok.CheatsMenu")]
-internal sealed class ProfessionsCheatSetProfessionPatch : DaLion.Common.Harmony.HarmonyPatch
+[UsedImplicitly]
+[RequiresMod("CJBok.CheatsMenu")]
+internal sealed class ProfessionsCheatSetProfessionPatch : HarmonyPatch
 {
-    /// <summary>Construct an instance.</summary>
+    /// <summary>Initializes a new instance of the <see cref="ProfessionsCheatSetProfessionPatch"/> class.</summary>
     internal ProfessionsCheatSetProfessionPatch()
     {
-        Target = "CJBCheatsMenu.Framework.Cheats.Skills.ProfessionsCheat".ToType().RequireMethod("SetProfession");
+        this.Target = "CJBCheatsMenu.Framework.Cheats.Skills.ProfessionsCheat"
+            .ToType()
+            .RequireMethod("SetProfession");
     }
 
     #region harmony patches
@@ -30,24 +34,22 @@ internal sealed class ProfessionsCheatSetProfessionPatch : DaLion.Common.Harmony
     private static IEnumerable<CodeInstruction>? ProfessionsCheatSetProfessionTranspiler(
         IEnumerable<CodeInstruction> instructions, MethodBase original)
     {
-        var helper = new ILHelper(original, instructions);
+        var helper = new IlHelper(original, instructions);
 
-        /// From: case <defender_id>
-        /// To: case <brute_id>
-
+        // From: case <defender_id>
+        // To: case <brute_id>
         try
         {
             helper
-                .FindFirst(
-                    new CodeInstruction(OpCodes.Ldc_I4_S, Farmer.defender)
-                )
+                .FindFirst(new CodeInstruction(OpCodes.Ldc_I4_S, Farmer.defender))
                 .SetOperand(Profession.Brute.Value);
         }
         catch (Exception ex)
         {
-            Log.E("Immersive Professions failed while moving CJB Profession Cheat health bonus from Defender to Brute." +
-                  "\n—-- Do NOT report this to CJB Cheats Menu's author. ---" +
-                  $"\nHelper returned {ex}");
+            Log.E(
+                "Immersive Professions failed while moving CJB Profession Cheat health bonus from Defender to Brute." +
+                "\n—-- Do NOT report this to CJB Cheats Menu's author. ---" +
+                $"\nHelper returned {ex}");
             return null;
         }
 

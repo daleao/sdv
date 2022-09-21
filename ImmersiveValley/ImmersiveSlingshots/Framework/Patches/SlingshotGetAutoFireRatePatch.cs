@@ -2,20 +2,21 @@
 
 #region using directives
 
-using Common.Integrations.WalkOfLife;
-using Enchantments;
+using DaLion.Common.Integrations.WalkOfLife;
+using DaLion.Stardew.Slingshots.Framework.Enchantments;
 using HarmonyLib;
 using StardewValley.Tools;
+using HarmonyPatch = DaLion.Common.Harmony.HarmonyPatch;
 
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class SlingshotGetAutoFireRatePatch : Common.Harmony.HarmonyPatch
+internal sealed class SlingshotGetAutoFireRatePatch : HarmonyPatch
 {
-    /// <summary>Construct an instance.</summary>
+    /// <summary>Initializes a new instance of the <see cref="SlingshotGetAutoFireRatePatch"/> class.</summary>
     internal SlingshotGetAutoFireRatePatch()
     {
-        Target = RequireMethod<Slingshot>(nameof(Slingshot.GetAutoFireRate));
+        this.Target = this.RequireMethod<Slingshot>(nameof(Slingshot.GetAutoFireRate));
     }
 
     #region harmony patches
@@ -25,8 +26,11 @@ internal sealed class SlingshotGetAutoFireRatePatch : Common.Harmony.HarmonyPatc
     private static void SlingshotGetAutoFireRatePostfix(Slingshot __instance, ref float __result)
     {
         var ultimate = ModEntry.ProfessionsApi?.GetRegisteredUltimate();
-        if (ultimate is not null && ultimate.Index == IImmersiveProfessions.UltimateIndex.Blossom &&
-            ultimate.IsActive || !__instance.hasEnchantmentOfType<GatlingEnchantment>()) return;
+        if ((ultimate is not null && ultimate.Index == Farmer.desperado &&
+             ultimate.IsActive) || !__instance.hasEnchantmentOfType<GatlingEnchantment>())
+        {
+            return;
+        }
 
         __result *= 1.5f;
     }

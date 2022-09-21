@@ -2,23 +2,27 @@
 
 #region using directives
 
-using Common.Attributes;
-using Common.Extensions.Reflection;
+using System;
+using DaLion.Common.Attributes;
+using DaLion.Common.Extensions.Reflection;
 using HarmonyLib;
 using StardewValley.TerrainFeatures;
-using System;
+using HarmonyPatch = DaLion.Common.Harmony.HarmonyPatch;
 
 #endregion using directives
 
-[UsedImplicitly, RequiresMod("Pathoschild.Automate")]
-internal sealed class BushMachineOnOutputReducedPatch : Common.Harmony.HarmonyPatch
+[UsedImplicitly]
+[RequiresMod("Pathoschild.Automate")]
+[System.Diagnostics.CodeAnalysis.SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1649:File name should match first type name", Justification = "Integration patch.")]
+internal sealed class BushMachineOnOutputReducedPatch : HarmonyPatch
 {
-    private static Func<object, Bush>? _GetMachine;
+    private static Func<object, Bush>? _getMachine;
 
-    /// <summary>Construct an instance.</summary>
+    /// <summary>Initializes a new instance of the <see cref="BushMachineOnOutputReducedPatch"/> class.</summary>
     internal BushMachineOnOutputReducedPatch()
     {
-        Target = "Pathoschild.Stardew.Automate.Framework.Machines.TerrainFeatures.BushMachine".ToType()
+        this.Target = "Pathoschild.Stardew.Automate.Framework.Machines.TerrainFeatures.BushMachine"
+            .ToType()
             .RequireMethod("OnOutputReduced");
     }
 
@@ -28,12 +32,20 @@ internal sealed class BushMachineOnOutputReducedPatch : Common.Harmony.HarmonyPa
     [HarmonyPostfix]
     private static void BushMachineOnOutputReducedPostfix(object __instance)
     {
-        if (!ModEntry.Config.BerryBushesRewardExp) return;
+        if (!ModEntry.Config.BerryBushesRewardExp)
+        {
+            return;
+        }
 
-        _GetMachine ??= __instance.GetType().RequirePropertyGetter("Machine")
+        _getMachine ??= __instance
+            .GetType()
+            .RequirePropertyGetter("Machine")
             .CompileUnboundDelegate<Func<object, Bush>>();
-        var machine = _GetMachine(__instance);
-        if (machine.size.Value >= Bush.greenTeaBush) return;
+        var machine = _getMachine(__instance);
+        if (machine.size.Value >= Bush.greenTeaBush)
+        {
+            return;
+        }
 
         Game1.MasterPlayer.gainExperience(Farmer.foragingSkill, 5);
     }

@@ -11,34 +11,62 @@ using System.Linq;
 /// <summary>Extensions for generic objects.</summary>
 public static class GenericExtensions
 {
-    /// <summary>Determine if the object is equal to another of the same type.</summary>
-    /// <param name="other">Some other <typeparamref name="T"/> object.</param>
-    public static bool Compare<T>(this T @this, T other) where T : IEquatable<T> =>
-        EqualityComparer<T>.Default.Equals(@this, other);
-
-    /// <summary>Determine if the instance is contained by the collection.</summary>
-    /// <param name="items">A sequence of <typeparamref name="T"/> objects to check.</param>
-    public static bool IsIn<T>(this T item, params T[] items) =>
-        items.Contains(item);
-
-    /// <summary>Determine if the instance is contained by the collection.</summary>
-    /// <param name="collection">A sequence of <typeparamref name="T"/> objects to check.</param>
-    public static bool IsIn<T>(this T item, IEnumerable<T> collection) =>
-        collection.Contains(item);
-
-    /// <summary>Enumerate this and specified items.</summary>
-    /// <param name="items"><typeparamref name="T"/> items to add to the collection.</param>
-    public static IEnumerable<T> Collect<T>(this T item, params T[] items)
+    /// <summary>Determines whether the <paramref name="value"/> is equal to an<paramref name="other"/>.</summary>
+    /// <typeparam name="T">The type of the <paramref name="value"/>.</typeparam>
+    /// <param name="value">The value.</param>
+    /// <param name="other">Some other value with which to compare.</param>
+    /// <returns><see langword="true"/> if <paramref name="value"/> and <paramref name="other"/> are equal with respect to the default <see cref="EqualityComparer{T}"/>, otherwise <see langword="false"/>.</returns>
+    public static bool Compare<T>(this T value, T other)
+        where T : IEquatable<T>
     {
-        yield return item;
-        foreach (var next in items) yield return next;
+        return EqualityComparer<T>.Default.Equals(value, other);
     }
 
-    /// <summary>Enumerate this and specified <see cref="IEnumerable{T}"/>.</summary>
-    /// <param name="collection">A sequence of <typeparamref name="T"/> items to concatenate to the collection.</param>
-    public static IEnumerable<T> Collect<T>(this T item, IEnumerable<T> collection)
+    /// <summary>Determines whether the <paramref name="value"/> is equal to any of the <paramref name="candidates"/>.</summary>
+    /// <typeparam name="T">The type of the <paramref name="value"/>.</typeparam>
+    /// <param name="value">The value.</param>
+    /// <param name="candidates">Some candidates to check.</param>
+    /// <returns><see langword="true"/> if <paramref name="value"/> is equal to at least one of the <paramref name="candidates"/> with respect to the default <see cref="EqualityComparer{T}"/>, otherwise <see langword="false"/>.</returns>
+    public static bool IsAnyOf<T>(this T value, params T[] candidates)
     {
-        yield return item;
-        foreach (var next in collection) yield return next;
+        return candidates.Contains(value);
+    }
+
+    /// <summary>Determines whether <paramref name="value"/> is equal to any of the enumerated <paramref name="candidates"/>.</summary>
+    /// <typeparam name="T">The type of the <paramref name="value"/>.</typeparam>
+    /// <param name="value">The value.</param>
+    /// <param name="candidates">The candidates to check.</param>
+    /// <returns><see langword="true"/> if <paramref name="value"/> is equal to at least one of the <paramref name="candidates"/> with respect to the default <see cref="EqualityComparer{T}"/>, otherwise <see langword="false"/>.</returns>
+    public static bool IsAnyOf<T>(this T value, IEnumerable<T> candidates)
+    {
+        return candidates.Contains(value);
+    }
+
+    /// <summary>Enumerates the <paramref name="value"/> and <paramref name="others"/>.</summary>
+    /// <typeparam name="T">The type of the <paramref name="value"/>.</typeparam>
+    /// <param name="value">The value.</param>
+    /// <param name="others">Some other objects to collect.</param>
+    /// <returns>A <see cref="IEnumerable{T}"/> combining <paramref name="value"/> and <paramref name="others"/>.</returns>
+    public static IEnumerable<T> Collect<T>(this T value, params T[] others)
+    {
+        yield return value;
+        foreach (var next in others)
+        {
+            yield return next;
+        }
+    }
+
+    /// <summary>Enumerates the <paramref name="value"/> along with the enumerated <paramref name="others"/>.</summary>
+    /// <typeparam name="T">The type of the <paramref name="value"/>.</typeparam>
+    /// <param name="value">The value.</param>
+    /// <param name="others">Some other enumeration to collect.</param>
+    /// <returns>A <see cref="IEnumerable{T}"/> combining <paramref name="value"/> and <paramref name="others"/>.</returns>
+    public static IEnumerable<T> Collect<T>(this T value, IEnumerable<T> others)
+    {
+        yield return value;
+        foreach (var next in others)
+        {
+            yield return next;
+        }
     }
 }

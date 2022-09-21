@@ -2,20 +2,23 @@
 
 #region using directives
 
-using Common.Attributes;
-using Common.Events;
+using DaLion.Common.Attributes;
+using DaLion.Common.Events;
 using Microsoft.Xna.Framework;
 using StardewModdingAPI.Events;
 
 #endregion using directives
 
-[UsedImplicitly, DebugOnly]
+[UsedImplicitly]
+[DebugOnly]
 internal sealed class DebugRenderedHudEvent : RenderedHudEvent
 {
-    /// <summary>Construct an instance.</summary>
+    /// <summary>Initializes a new instance of the <see cref="DebugRenderedHudEvent"/> class.</summary>
     /// <param name="manager">The <see cref="ProfessionEventManager"/> instance that manages this event.</param>
     internal DebugRenderedHudEvent(ProfessionEventManager manager)
-        : base(manager) { }
+        : base(manager)
+    {
+    }
 
     /// <inheritdoc />
     protected override void OnRenderedHudImpl(object? sender, RenderedHudEventArgs e)
@@ -23,7 +26,10 @@ internal sealed class DebugRenderedHudEvent : RenderedHudEvent
         // show FPS counter
         ModEntry.FpsCounter?.Draw(Game1.currentGameTime);
 
-        if (ModEntry.DebugCursorPosition is null) return;
+        if (ModEntry.DebugCursorPosition is null)
+        {
+            return;
+        }
 
         var coords =
             $"X: {ModEntry.DebugCursorPosition.Tile.X} Tile / {ModEntry.DebugCursorPosition.GetScaledAbsolutePixels().X} Absolute";
@@ -31,11 +37,27 @@ internal sealed class DebugRenderedHudEvent : RenderedHudEvent
             $"\nY: {ModEntry.DebugCursorPosition.Tile.Y} Tile / {ModEntry.DebugCursorPosition.GetScaledAbsolutePixels().Y} Absolute";
 
         // draw cursor coordinates
-        e.SpriteBatch.DrawString(Game1.dialogueFont, coords, new(33f, 82f), Color.Black);
-        e.SpriteBatch.DrawString(Game1.dialogueFont, coords, new(32f, 81f), Color.White);
+        e.SpriteBatch.DrawString(
+            Game1.dialogueFont,
+            coords,
+            new Vector2(33f, 82f),
+            Color.Black);
+        e.SpriteBatch.DrawString(
+            Game1.dialogueFont,
+            coords,
+            new Vector2(32f, 81f),
+            Color.White);
 
         // draw current location
-        e.SpriteBatch.DrawString(Game1.dialogueFont, $"Location: {Game1.player.currentLocation.NameOrUniqueName}", new(33f, 167f), Color.Black);
-        e.SpriteBatch.DrawString(Game1.dialogueFont, $"Location: {Game1.player.currentLocation.NameOrUniqueName}", new(32f, 166f), Color.White);
+        e.SpriteBatch.DrawString(
+            Game1.dialogueFont,
+            $"Location: {Game1.player.currentLocation.NameOrUniqueName}",
+            new Vector2(33f, 167f),
+            Color.Black);
+        e.SpriteBatch.DrawString(
+            Game1.dialogueFont,
+            $"Location: {Game1.player.currentLocation.NameOrUniqueName}",
+            new Vector2(32f, 166f),
+            Color.White);
     }
 }

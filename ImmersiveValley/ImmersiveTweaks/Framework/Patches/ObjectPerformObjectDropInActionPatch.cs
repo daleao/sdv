@@ -2,18 +2,19 @@
 
 #region using directives
 
-using Common.Extensions;
+using DaLion.Common.Extensions;
 using HarmonyLib;
+using HarmonyPatch = DaLion.Common.Harmony.HarmonyPatch;
 
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class ObjectPerformObjectDropInActionPatch : Common.Harmony.HarmonyPatch
+internal sealed class ObjectPerformObjectDropInActionPatch : HarmonyPatch
 {
-    /// <summary>Construct an instance.</summary>
+    /// <summary>Initializes a new instance of the <see cref="ObjectPerformObjectDropInActionPatch"/> class.</summary>
     internal ObjectPerformObjectDropInActionPatch()
     {
-        Target = RequireMethod<SObject>(nameof(SObject.performObjectDropInAction));
+        this.Target = this.RequireMethod<SObject>(nameof(SObject.performObjectDropInAction));
     }
 
     #region harmony patches
@@ -29,12 +30,15 @@ internal sealed class ObjectPerformObjectDropInActionPatch : Common.Harmony.Harm
 
     /// <summary>Tweaks golden and ostrich egg artisan products + gives flower memory to kegs.</summary>
     [HarmonyPostfix]
-    private static void ObjectPerformObjectDropInActionPostfix(SObject __instance, bool __state, Item dropInItem,
-        bool probe)
+    private static void ObjectPerformObjectDropInActionPostfix(
+        SObject __instance, bool __state, Item dropInItem, bool probe)
     {
         // if there was an object inside before running the original method, or if the machine is still empty after running the original method, then do nothing
         if (probe || __state || dropInItem is not SObject input ||
-            __instance.heldObject.Value is not { } output) return;
+            __instance.heldObject.Value is not { } output)
+        {
+            return;
+        }
 
         // large milk/eggs give double output at normal quality
         switch (__instance.name)
@@ -42,14 +46,17 @@ internal sealed class ObjectPerformObjectDropInActionPatch : Common.Harmony.Harm
             case "Keg" when input.ParentSheetIndex == 340 && input.preservedParentSheetIndex.Value > 0 &&
                             ModEntry.Config.KegsRememberHoneyFlower:
                 output.name = input.name.Split(" Honey")[0] + " Mead";
-                output.honeyType.Value = (SObject.HoneyType)input.preservedParentSheetIndex.Value;
+                output.honeyType.Value = (Object.HoneyType)input.preservedParentSheetIndex.Value;
                 output.preservedParentSheetIndex.Value =
                     input.preservedParentSheetIndex.Value;
                 output.Price = input.Price * 2;
                 break;
             case "Cheese Press":
             case "Mayonnaise Machine":
-                if (!ModEntry.Config.LargeProducsYieldQuantityOverQuality) break;
+                if (!ModEntry.Config.LargeProducsYieldQuantityOverQuality)
+                {
+                    break;
+                }
 
                 if (input.Name.ContainsAnyOf("Large", "L."))
                 {
@@ -62,12 +69,12 @@ internal sealed class ObjectPerformObjectDropInActionPatch : Common.Harmony.Harm
                     {
                         // ostrich mayonnaise keeps giving x10 output but doesn't respect input quality without Artisan
                         case 289 when !ModEntry.ModHelper.ModRegistry.IsLoaded(
-                    "ughitsmegan.ostrichmayoForProducerFrameworkMod"):
+                            "ughitsmegan.ostrichmayoForProducerFrameworkMod"):
                             output.Quality = SObject.lowQuality;
                             break;
                         // golden mayonnaise keeps giving gives single output but keeps golden quality
                         case 928 when !ModEntry.ModHelper.ModRegistry.IsLoaded(
-                    "ughitsmegan.goldenmayoForProducerFrameworkMod"):
+                            "ughitsmegan.goldenmayoForProducerFrameworkMod"):
                             output.Stack = 1;
                             break;
                     }

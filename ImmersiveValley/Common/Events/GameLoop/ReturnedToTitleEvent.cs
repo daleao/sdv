@@ -9,19 +9,24 @@ using StardewModdingAPI.Events;
 /// <summary>Wrapper for <see cref="IGameLoopEvents.ReturnedToTitle"/> allowing dynamic enabling / disabling.</summary>
 internal abstract class ReturnedToTitleEvent : ManagedEvent
 {
-    /// <summary>Construct an instance.</summary>
+    /// <summary>Initializes a new instance of the <see cref="ReturnedToTitleEvent"/> class.</summary>
     /// <param name="manager">The <see cref="EventManager"/> instance that manages this event.</param>
     protected ReturnedToTitleEvent(EventManager manager)
-        : base(manager) { }
+        : base(manager)
+    {
+    }
 
     /// <inheritdoc cref="IGameLoopEvents.ReturnedToTitle"/>
     /// <param name="sender">The event sender.</param>
     /// <param name="e">The event data.</param>
     internal void OnReturnedToTitle(object? sender, ReturnedToTitleEventArgs e)
     {
-        if (IsEnabled) OnReturnedToTitleImpl(sender, e);
+        if (this.IsEnabled)
+        {
+            this.OnReturnedToTitleImpl(sender, e);
+        }
     }
 
-    /// <inheritdoc cref="OnReturnedToTitle" />
+    /// <inheritdoc cref="OnReturnedToTitle"/>
     protected abstract void OnReturnedToTitleImpl(object? sender, ReturnedToTitleEventArgs e);
 }

@@ -2,8 +2,8 @@
 
 #region using directives
 
-using Common;
-using Common.Commands;
+using DaLion.Common;
+using DaLion.Common.Commands;
 using StardewValley.Tools;
 
 #endregion using directives
@@ -11,10 +11,12 @@ using StardewValley.Tools;
 [UsedImplicitly]
 internal sealed class ClearEnchantmentsCommand : ConsoleCommand
 {
-    /// <summary>Construct an instance.</summary>
+    /// <summary>Initializes a new instance of the <see cref="ClearEnchantmentsCommand"/> class.</summary>
     /// <param name="handler">The <see cref="CommandHandler"/> instance that handles this command.</param>
     internal ClearEnchantmentsCommand(CommandHandler handler)
-        : base(handler) { }
+        : base(handler)
+    {
+    }
 
     /// <inheritdoc />
     public override string[] Triggers { get; } = { "clear_enchants", "clear", "reset" };
@@ -23,6 +25,7 @@ internal sealed class ClearEnchantmentsCommand : ConsoleCommand
     public override string Documentation => "Remove all enchantments from the selected weapon or slingshot.";
 
     /// <inheritdoc />
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("StyleCop.CSharp.SpacingRules", "SA1012:Opening braces should be spaced correctly", Justification = "Paradoxical.")]
     public override void Callback(string[] args)
     {
         if (Game1.player.CurrentTool is not ({ } tool and (Axe or Hoe or Pickaxe or WateringCan or FishingRod)))
@@ -32,7 +35,9 @@ internal sealed class ClearEnchantmentsCommand : ConsoleCommand
         }
 
         foreach (var enchantment in tool.enchantments)
+        {
             tool.RemoveEnchantment(enchantment);
+        }
 
         Log.I($"Removed all enchantments from {tool.DisplayName}.");
     }

@@ -2,19 +2,20 @@
 
 #region using directives
 
-using Common.Extensions.Stardew;
-using Extensions;
+using DaLion.Common.Extensions.Stardew;
+using DaLion.Stardew.Tweex.Extensions;
 using HarmonyLib;
+using HarmonyPatch = DaLion.Common.Harmony.HarmonyPatch;
 
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class ObjectPerformDropDownActionPatch : Common.Harmony.HarmonyPatch
+internal sealed class ObjectPerformDropDownActionPatch : HarmonyPatch
 {
-    /// <summary>Construct an instance.</summary>
+    /// <summary>Initializes a new instance of the <see cref="ObjectPerformDropDownActionPatch"/> class.</summary>
     internal ObjectPerformDropDownActionPatch()
     {
-        Target = RequireMethod<SObject>(nameof(SObject.performDropDownAction));
+        this.Target = this.RequireMethod<SObject>(nameof(SObject.performDropDownAction));
     }
 
     #region harmony patches
@@ -24,7 +25,9 @@ internal sealed class ObjectPerformDropDownActionPatch : Common.Harmony.HarmonyP
     private static void ObjectPerformDropDownActionPostfix(SObject __instance)
     {
         if (__instance.IsBeeHouse() || __instance.IsMushroomBox())
+        {
             __instance.Write("Age", null);
+        }
     }
 
     #endregion harmony patches

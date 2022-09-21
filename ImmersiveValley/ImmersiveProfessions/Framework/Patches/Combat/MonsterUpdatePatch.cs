@@ -2,21 +2,23 @@
 
 #region using directives
 
+using DaLion.Stardew.Professions.Framework.VirtualProperties;
 using HarmonyLib;
 using Microsoft.Xna.Framework;
 using StardewValley.Monsters;
-using VirtualProperties;
+using HarmonyPatch = DaLion.Common.Harmony.HarmonyPatch;
 
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class MonsterUpdatePatch : DaLion.Common.Harmony.HarmonyPatch
+internal sealed class MonsterUpdatePatch : HarmonyPatch
 {
-    /// <summary>Construct an instance.</summary>
+    /// <summary>Initializes a new instance of the <see cref="MonsterUpdatePatch"/> class.</summary>
     internal MonsterUpdatePatch()
     {
-        Target = RequireMethod<Monster>(nameof(Monster.update), new[] { typeof(GameTime), typeof(GameLocation) });
-        Prefix!.priority = Priority.First;
+        this.Target =
+            this.RequireMethod<Monster>(nameof(Monster.update), new[] { typeof(GameTime), typeof(GameLocation) });
+        this.Prefix!.priority = Priority.First;
     }
 
     #region harmony patches
@@ -26,11 +28,14 @@ internal sealed class MonsterUpdatePatch : DaLion.Common.Harmony.HarmonyPatch
     [HarmonyPriority(Priority.First)]
     private static bool MonsterUpdatePrefix(Monster __instance, GameTime time)
     {
-        var slowTimer = __instance.get_SlowTimer();
-        if (slowTimer.Value <= 0) return true; // run original logic
+        var slowTimer = __instance.Get_SlowTimer();
+        if (slowTimer.Value <= 0)
+        {
+            return true; // run original logic
+        }
 
         slowTimer.Value -= time.ElapsedGameTime.Milliseconds;
-        var slowIntensity = __instance.get_SlowIntensity();
+        var slowIntensity = __instance.Get_SlowIntensity();
         __instance.startGlowing(Color.LimeGreen, false, 0.05f);
         return time.TotalGameTime.Ticks % slowIntensity.Value == 0; // conditionally run original logic
     }

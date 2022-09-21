@@ -2,23 +2,25 @@
 
 #region using directives
 
-using DaLion.Common;
-using Extensions;
-using HarmonyLib;
-using StardewValley.Projectiles;
 using System;
 using System.Reflection;
+using DaLion.Common;
+using DaLion.Stardew.Professions.Extensions;
+using HarmonyLib;
+using Microsoft.Xna.Framework;
+using StardewValley.Projectiles;
+using HarmonyPatch = DaLion.Common.Harmony.HarmonyPatch;
 
 #endregion using directives
 
 // ReSharper disable PossibleLossOfFraction
 [UsedImplicitly]
-internal sealed class BasicProjectileExplodeOnImpact : DaLion.Common.Harmony.HarmonyPatch
+internal sealed class BasicProjectileExplodeOnImpactPatch : HarmonyPatch
 {
-    /// <summary>Construct an instance.</summary>
-    internal BasicProjectileExplodeOnImpact()
+    /// <summary>Initializes a new instance of the <see cref="BasicProjectileExplodeOnImpactPatch"/> class.</summary>
+    internal BasicProjectileExplodeOnImpactPatch()
     {
-        Target = RequireMethod<BasicProjectile>(nameof(BasicProjectile.explodeOnImpact));
+        this.Target = this.RequireMethod<BasicProjectile>(nameof(BasicProjectile.explodeOnImpact));
     }
 
     #region harmony patches
@@ -30,10 +32,14 @@ internal sealed class BasicProjectileExplodeOnImpact : DaLion.Common.Harmony.Har
         try
         {
             if (who is not Farmer farmer || !farmer.HasProfession(Profession.Demolitionist))
+            {
                 return true; // run original logic
+            }
 
-            location.explode(new(x / Game1.tileSize, y / Game1.tileSize),
-                farmer.HasProfession(Profession.Demolitionist) ? 4 : 3, farmer);
+            location.explode(
+                new Vector2(x / Game1.tileSize, y / Game1.tileSize),
+                farmer.HasProfession(Profession.Demolitionist) ? 4 : 3,
+                farmer);
             return false; // don't run original logic
         }
         catch (Exception ex)

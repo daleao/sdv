@@ -2,21 +2,20 @@
 
 #region using directives
 
+using DaLion.Stardew.Professions.Framework.TreasureHunts;
 using Microsoft.Xna.Framework;
-
-using TreasureHunts;
 
 #endregion using directives
 
 /// <summary>Interface for the arguments of a <see cref="TreasureHuntEndedEvent"/>.</summary>
 public interface ITreasureHuntStartedEventArgs
 {
-    /// <summary>The player who triggered the event.</summary>
+    /// <summary>Gets the player who triggered the event.</summary>
     Farmer Player { get; }
 
-    /// <summary>Whether this event relates to a Scavenger or Prospector hunt.</summary>
+    /// <summary>Gets determines whether this event relates to a Scavenger or Prospector hunt.</summary>
     TreasureHuntType Type { get; }
 
-    /// <summary>The coordinates of the target tile.</summary>
+    /// <summary>Gets the coordinates of the target tile.</summary>
     Vector2 Target { get; }
 }

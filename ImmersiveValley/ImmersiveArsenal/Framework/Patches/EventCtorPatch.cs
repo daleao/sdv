@@ -2,28 +2,33 @@
 
 #region using directives
 
+using System.Linq;
 using HarmonyLib;
 using StardewValley.Tools;
-using System.Linq;
+using HarmonyPatch = DaLion.Common.Harmony.HarmonyPatch;
 
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class EventCtorPatch : Common.Harmony.HarmonyPatch
+internal sealed class EventCtorPatch : HarmonyPatch
 {
-    /// <summary>Construct an instance.</summary>
+    /// <summary>Initializes a new instance of the <see cref="EventCtorPatch"/> class.</summary>
     internal EventCtorPatch()
     {
-        Target = RequireConstructor<Event>(typeof(string), typeof(int), typeof(Farmer));
+        this.Target = this.RequireConstructor<Event>(typeof(string), typeof(int), typeof(Farmer));
     }
 
     #region harmony patches
 
     /// <summary>Immersively adjust Marlon's intro event.</summary>
     [HarmonyPrefix]
+    // ReSharper disable once InconsistentNaming
     private static void EventCtorPrefix(ref string eventString, int eventID)
     {
-        if (!ModEntry.Config.WoodyReplacesRusty || eventID != 100162) return;
+        if (!ModEntry.Config.WoodyReplacesRusty || eventID != 100162)
+        {
+            return;
+        }
 
         if (ModEntry.ModHelper.ModRegistry.IsLoaded("FlashShifter.StardewValleyExpandedCP"))
         {

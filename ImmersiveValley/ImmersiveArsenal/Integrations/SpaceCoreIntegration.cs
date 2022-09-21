@@ -2,26 +2,28 @@
 
 #region using directives
 
-using Common.Integrations;
-using Common.Integrations.SpaceCore;
-using Framework.Enchantments;
+using DaLion.Common.Integrations;
+using DaLion.Common.Integrations.SpaceCore;
+using DaLion.Stardew.Arsenal.Framework.Enchantments;
 
 #endregion using directives
 
-internal sealed class SpaceCoreIntegration : BaseIntegration<ISpaceCoreAPI>
+internal sealed class SpaceCoreIntegration : BaseIntegration<ISpaceCoreApi>
 {
-    /// <summary>Construct an instance.</summary>
+    /// <summary>Initializes a new instance of the <see cref="SpaceCoreIntegration"/> class.</summary>
     /// <param name="modRegistry">An API for fetching metadata about loaded mods.</param>
     public SpaceCoreIntegration(IModRegistry modRegistry)
-        : base("SpaceCore", "spacechase0.SpaceCore", "1.8.3", modRegistry) { }
+        : base("SpaceCore", "spacechase0.SpaceCore", "1.8.3", modRegistry)
+    {
+    }
 
     /// <summary>Cache the SpaceCore API and initialize reflected SpaceCore fields.</summary>
     public void Register()
     {
-        AssertLoaded();
-        ModApi.RegisterSerializerType(typeof(CarvingEnchantment));
-        ModApi.RegisterSerializerType(typeof(CleavingEnchantment));
-        ModApi.RegisterSerializerType(typeof(EnergizedEnchantment));
-        ModApi.RegisterSerializerType(typeof(TributeEnchantment));
+        this.AssertLoaded();
+        this.ModApi.RegisterSerializerType(typeof(CarvingEnchantment));
+        this.ModApi.RegisterSerializerType(typeof(CleavingEnchantment));
+        this.ModApi.RegisterSerializerType(typeof(EnergizedEnchantment));
+        this.ModApi.RegisterSerializerType(typeof(TributeEnchantment));
     }
 }

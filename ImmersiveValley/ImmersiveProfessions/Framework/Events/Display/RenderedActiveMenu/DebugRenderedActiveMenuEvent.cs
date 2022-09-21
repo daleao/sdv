@@ -2,32 +2,34 @@
 
 #region using directives
 
-using Common.Attributes;
-using Common.Events;
-using Common.Extensions.Xna;
+using System.Collections.Generic;
+using DaLion.Common.Attributes;
+using DaLion.Common.Events;
+using DaLion.Common.Extensions.Xna;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using StardewModdingAPI.Events;
 using StardewValley.Menus;
-using System.Collections.Generic;
 
 #endregion using directives
 
-[UsedImplicitly, DebugOnly]
+[UsedImplicitly]
+[DebugOnly]
 internal sealed class DebugRenderedActiveMenuEvent : RenderedActiveMenuEvent
 {
     private readonly Texture2D _pixel;
 
-    /// <summary>Construct an instance.</summary>
+    /// <summary>Initializes a new instance of the <see cref="DebugRenderedActiveMenuEvent"/> class.</summary>
     /// <param name="manager">The <see cref="ProfessionEventManager"/> instance that manages this event.</param>
     internal DebugRenderedActiveMenuEvent(ProfessionEventManager manager)
         : base(manager)
     {
-        _pixel = new(Game1.graphics.GraphicsDevice, 1, 1, false, SurfaceFormat.Color);
-        _pixel.SetData(new[] { Color.White });
+        this._pixel = new Texture2D(Game1.graphics.GraphicsDevice, 1, 1, false, SurfaceFormat.Color);
+        this._pixel.SetData(new[] { Color.White });
     }
 
     internal static List<ClickableComponent> ClickableComponents { get; } = new();
+
     internal static ClickableComponent? FocusedComponent { get; set; }
 
     /// <inheritdoc />
@@ -35,19 +37,30 @@ internal sealed class DebugRenderedActiveMenuEvent : RenderedActiveMenuEvent
     {
         ClickableComponents.Clear();
         var activeMenu = Game1.activeClickableMenu;
-        if (activeMenu.allClickableComponents is null) activeMenu.populateClickableComponentList();
+        if (activeMenu.allClickableComponents is null)
+        {
+            activeMenu.populateClickableComponentList();
+        }
 
         ClickableComponents.AddRange(Game1.activeClickableMenu.allClickableComponents);
         if (Game1.activeClickableMenu is GameMenu gameMenu)
+        {
             ClickableComponents.AddRange(gameMenu.GetCurrentPage().allClickableComponents);
+        }
 
         foreach (var component in ClickableComponents)
         {
-            component.bounds.DrawBorder(_pixel, 3, Color.Red, e.SpriteBatch);
-            if (ModEntry.DebugCursorPosition is null) continue;
+            component.bounds.DrawBorder(this._pixel, 3, Color.Red, e.SpriteBatch);
+            if (ModEntry.DebugCursorPosition is null)
+            {
+                continue;
+            }
 
             var (cursorX, cursorY) = ModEntry.DebugCursorPosition.GetScaledScreenPixels();
-            if (component.containsPoint((int)cursorX, (int)cursorY)) FocusedComponent = component;
+            if (component.containsPoint((int)cursorX, (int)cursorY))
+            {
+                FocusedComponent = component;
+            }
         }
     }
 }

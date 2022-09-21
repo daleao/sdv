@@ -2,25 +2,27 @@
 
 #region using directives
 
-using DaLion.Common.Attributes;
-using DaLion.Common.Extensions;
-using Extensions;
-using HarmonyLib;
-using StardewValley.Locations;
-using StardewValley.Monsters;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using DaLion.Common.Attributes;
+using DaLion.Common.Extensions;
+using DaLion.Stardew.Professions.Extensions;
+using HarmonyLib;
+using StardewValley.Locations;
+using StardewValley.Monsters;
+using HarmonyPatch = DaLion.Common.Harmony.HarmonyPatch;
 
 #endregion using directives
 
-[UsedImplicitly, Deprecated]
-internal sealed class GreenSlimeGetExtraDropItemsPatch : DaLion.Common.Harmony.HarmonyPatch
+[UsedImplicitly]
+[Deprecated]
+internal sealed class GreenSlimeGetExtraDropItemsPatch : HarmonyPatch
 {
-    /// <summary>Construct an instance.</summary>
+    /// <summary>Initializes a new instance of the <see cref="GreenSlimeGetExtraDropItemsPatch"/> class.</summary>
     internal GreenSlimeGetExtraDropItemsPatch()
     {
-        Target = RequireMethod<GreenSlime>(nameof(GreenSlime.getExtraDropItems));
+        this.Target = this.RequireMethod<GreenSlime>(nameof(GreenSlime.getExtraDropItems));
     }
 
     #region harmony patches
@@ -30,33 +32,50 @@ internal sealed class GreenSlimeGetExtraDropItemsPatch : DaLion.Common.Harmony.H
     private static void GreenSlimeGetExtraDropItemsPostfix(GreenSlime __instance, List<Item> __result)
     {
         if (!__instance.currentLocation.DoesAnyPlayerHereHaveProfession(Profession.Piper, out var pipers) ||
-            !Game1.MasterPlayer.mailReceived.Contains("slimeHutchBuilt")) return;
+            !Game1.MasterPlayer.mailReceived.Contains("slimeHutchBuilt"))
+        {
+            return;
+        }
 
         var slimeCount =
             Game1.getFarm().buildings.Where(b =>
-                    (b.owner.Value.IsIn(pipers.Select(p => p.UniqueMultiplayerID)) ||
+                    (b.owner.Value.IsAnyOf(pipers.Select(p => p.UniqueMultiplayerID)) ||
                      !Context.IsMultiplayer) && b.indoors.Value is SlimeHutch && !b.isUnderConstruction() &&
                     b.indoors.Value.characters.Count > 0)
                 .Sum(b => b.indoors.Value.characters.Count(npc => npc is GreenSlime)) +
             Game1.getFarm().characters.Count(npc => npc is GreenSlime);
-        if (slimeCount <= 0) return;
+        if (slimeCount <= 0)
+        {
+            return;
+        }
 
         var r = new Random(Guid.NewGuid().GetHashCode());
-        var baseChance = -1 / (0.02 * (slimeCount + 50)) + 1;
+        var baseChance = (-1 / (0.02 * (slimeCount + 50))) + 1;
 
         // base drops
         var count = 0;
         while (r.NextDouble() < baseChance && count < 10)
         {
             __result.Add(new SObject(766, 1)); // slime
-            if (r.NextDouble() < 5f / 8f) __result.Add(new SObject(92, 1)); // sap
+            if (r.NextDouble() < 5f / 8f)
+            {
+                __result.Add(new SObject(92, 1)); // sap
+            }
+
             ++count;
         }
 
         if (MineShaft.lowestLevelReached >= 120 && __instance.currentLocation is MineShaft or VolcanoDungeon)
         {
-            if (r.NextDouble() < baseChance / 8) __result.Add(new SObject(72, 1)); // diamond
-            if (r.NextDouble() < baseChance / 10) __result.Add(new SObject(74, 1)); // prismatic shard
+            if (r.NextDouble() < baseChance / 8)
+            {
+                __result.Add(new SObject(72, 1)); // diamond
+            }
+
+            if (r.NextDouble() < baseChance / 10)
+            {
+                __result.Add(new SObject(74, 1)); // prismatic shard
+            }
         }
 
         // color drops
@@ -65,19 +84,44 @@ internal sealed class GreenSlimeGetExtraDropItemsPatch : DaLion.Common.Harmony.H
         {
             if (color.R < 80 && color.G < 80 && color.B < 80) // black
             {
-                while (r.NextDouble() < baseChance / 2) __result.Add(new SObject(382, count)); // coal
-                if (r.NextDouble() < baseChance / 3) __result.Add(new SObject(553, 1)); // neptunite
-                if (r.NextDouble() < baseChance / 3) __result.Add(new SObject(539, 1)); // bixite
+                while (r.NextDouble() < baseChance / 2)
+                {
+                    __result.Add(new SObject(382, count)); // coal
+                }
+
+                if (r.NextDouble() < baseChance / 3)
+                {
+                    __result.Add(new SObject(553, 1)); // neptunite
+                }
+
+                if (r.NextDouble() < baseChance / 3)
+                {
+                    __result.Add(new SObject(539, 1)); // bixite
+                }
             }
             else if (color.R > 200 && color.G > 180 && color.B < 50) // yellow
             {
-                while (r.NextDouble() < baseChance / 2) __result.Add(new SObject(384, 1)); // gold ore
-                if (r.NextDouble() < baseChance / 3) __result.Add(new SObject(336, 1)); // gold bar
+                while (r.NextDouble() < baseChance / 2)
+                {
+                    __result.Add(new SObject(384, 1)); // gold ore
+                }
+
+                if (r.NextDouble() < baseChance / 3)
+                {
+                    __result.Add(new SObject(336, 1)); // gold bar
+                }
             }
             else if (color.R > 220 && color.G is > 90 and < 150 && color.B < 50) // red
             {
-                while (r.NextDouble() < baseChance / 2) __result.Add(new SObject(378, 1)); // copper ore
-                if (r.NextDouble() < baseChance / 3) __result.Add(new SObject(334, 1)); // copper bar
+                while (r.NextDouble() < baseChance / 2)
+                {
+                    __result.Add(new SObject(378, 1)); // copper ore
+                }
+
+                if (r.NextDouble() < baseChance / 3)
+                {
+                    __result.Add(new SObject(334, 1)); // copper bar
+                }
             }
             else if (color.R > 150 && color.G > 150 && color.B > 150)
             {
@@ -91,17 +135,34 @@ internal sealed class GreenSlimeGetExtraDropItemsPatch : DaLion.Common.Harmony.H
                 }
                 else // grey
                 {
-                    while (r.NextDouble() < baseChance / 2) __result.Add(new SObject(380, 1)); // iron ore
-                    if (r.NextDouble() < baseChance / 3) __result.Add(new SObject(335, 1)); // iron bar
+                    while (r.NextDouble() < baseChance / 2)
+                    {
+                        __result.Add(new SObject(380, 1)); // iron ore
+                    }
+
+                    if (r.NextDouble() < baseChance / 3)
+                    {
+                        __result.Add(new SObject(335, 1)); // iron bar
+                    }
                 }
             }
             else if (color.R > 150 && color.B > 180 && color.G < 50) // purple
             {
-                while (r.NextDouble() < baseChance / 3) __result.Add(new SObject(386, 1)); // iridium ore
-                if (r.NextDouble() < baseChance / 4) __result.Add(new SObject(337, 1)); // iridium bar
+                while (r.NextDouble() < baseChance / 3)
+                {
+                    __result.Add(new SObject(386, 1)); // iridium ore
+                }
+
+                if (r.NextDouble() < baseChance / 4)
+                {
+                    __result.Add(new SObject(337, 1)); // iridium bar
+                }
             }
 
-            if (!(r.NextDouble() < baseChance / 5)) return;
+            if (!(r.NextDouble() < baseChance / 5))
+            {
+                return;
+            }
 
             // slime eggs
             switch (__instance.Name)
@@ -115,13 +176,14 @@ internal sealed class GreenSlimeGetExtraDropItemsPatch : DaLion.Common.Harmony.H
                     break;
 
                 case "Sludge":
-                    __result.Add(color.B < 200 ? new(437, 1) : new SObject(439, 1));
+                    __result.Add(color.B < 200 ? new SObject(437, 1) : new SObject(439, 1));
                     break;
             }
         }
         else
         {
             while (r.NextDouble() < baseChance)
+            {
                 switch (r.Next(4))
                 {
                     case 0:
@@ -140,9 +202,13 @@ internal sealed class GreenSlimeGetExtraDropItemsPatch : DaLion.Common.Harmony.H
                         __result.Add(new SObject(835, 1)); // mango sapling
                         break;
                 }
+            }
 
             // tiger slime egg
-            if (r.NextDouble() < baseChance / 5) __result.Add(new SObject(857, 1));
+            if (r.NextDouble() < baseChance / 5)
+            {
+                __result.Add(new SObject(857, 1));
+            }
         }
     }
 

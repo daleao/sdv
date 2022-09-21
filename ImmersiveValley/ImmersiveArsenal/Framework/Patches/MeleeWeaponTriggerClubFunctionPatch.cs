@@ -2,27 +2,28 @@
 
 #region using directives
 
-using Common;
-using Common.Extensions.Reflection;
-using Common.Harmony;
-using Enchantments;
-using HarmonyLib;
-using Microsoft.Xna.Framework;
-using StardewValley.Tools;
 using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
+using DaLion.Common;
+using DaLion.Common.Extensions.Reflection;
+using DaLion.Common.Harmony;
+using DaLion.Stardew.Arsenal.Framework.Enchantments;
+using HarmonyLib;
+using Microsoft.Xna.Framework;
+using StardewValley.Tools;
+using HarmonyPatch = DaLion.Common.Harmony.HarmonyPatch;
 
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class MeleeWeaponTriggerClubFunctionPatch : Common.Harmony.HarmonyPatch
+internal sealed class MeleeWeaponTriggerClubFunctionPatch : HarmonyPatch
 {
-    /// <summary>Construct an instance.</summary>
+    /// <summary>Initializes a new instance of the <see cref="MeleeWeaponTriggerClubFunctionPatch"/> class.</summary>
     internal MeleeWeaponTriggerClubFunctionPatch()
     {
-        Target = RequireMethod<MeleeWeapon>(nameof(MeleeWeapon.triggerClubFunction));
+        this.Target = this.RequireMethod<MeleeWeapon>(nameof(MeleeWeapon.triggerClubFunction));
     }
 
     #region harmony patches
@@ -32,40 +33,38 @@ internal sealed class MeleeWeaponTriggerClubFunctionPatch : Common.Harmony.Harmo
     private static IEnumerable<CodeInstruction>? MeleeWeaponTriggerClubFunctionTranspiler(
         IEnumerable<CodeInstruction> instructions, ILGenerator generator, MethodBase original)
     {
-        var helper = new ILHelper(original, instructions);
+        var helper = new IlHelper(original, instructions);
 
-        /// Injected: if (this.hasEnchantmentOfType<InfinityEnchantment>() areaOfEffect.Inflate(96, 96);
-        /// After: new Rectangle((int)lastUser.Position.X - 192, lastUser.GetBoundingBox().Y - 192, 384, 384)
-
+        // Injected: if (this.hasEnchantmentOfType<InfinityEnchantment>() areaOfEffect.Inflate(96, 96);
+        // After: new Rectangle((int)lastUser.Position.X - 192, lastUser.GetBoundingBox().Y - 192, 384, 384)
         var notInfinity = generator.DefineLabel();
         var aoe = generator.DeclareLocal(typeof(Rectangle));
         try
         {
             helper
                 .FindFirst(
-                    new CodeInstruction(OpCodes.Newobj)
-                )
+                    new CodeInstruction(OpCodes.Newobj))
                 .Advance()
                 .InsertInstructions(
-                    new CodeInstruction(OpCodes.Stloc_S, aoe)
-                )
+                    new CodeInstruction(OpCodes.Stloc_S, aoe))
                 .InsertWithLabels(
                     new[] { notInfinity },
-                    new CodeInstruction(OpCodes.Ldloc_S, aoe)
-                )
+                    new CodeInstruction(OpCodes.Ldloc_S, aoe))
                 .Retreat()
                 .InsertInstructions(
                     new CodeInstruction(OpCodes.Ldarg_0),
-                    new CodeInstruction(OpCodes.Call,
-                        typeof(MeleeWeapon).RequireMethod(nameof(MeleeWeapon.hasEnchantmentOfType))
+                    new CodeInstruction(
+                        OpCodes.Call,
+                        typeof(MeleeWeapon)
+                            .RequireMethod(nameof(MeleeWeapon.hasEnchantmentOfType))
                             .MakeGenericMethod(typeof(InfinityEnchantment))),
                     new CodeInstruction(OpCodes.Brfalse_S, notInfinity),
                     new CodeInstruction(OpCodes.Ldloca_S, aoe),
                     new CodeInstruction(OpCodes.Ldc_I4_S, 96),
                     new CodeInstruction(OpCodes.Ldc_I4_S, 96),
-                    new CodeInstruction(OpCodes.Call,
-                        typeof(Rectangle).RequireMethod(nameof(Rectangle.Inflate), new[] { typeof(int), typeof(int) }))
-                );
+                    new CodeInstruction(
+                        OpCodes.Call,
+                        typeof(Rectangle).RequireMethod(nameof(Rectangle.Inflate), new[] { typeof(int), typeof(int) })));
         }
         catch (Exception ex)
         {

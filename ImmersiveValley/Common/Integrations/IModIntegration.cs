@@ -4,9 +4,9 @@ namespace DaLion.Common.Integrations;
 /// <remarks>Original code by <see href="https://github.com/Pathoschild">Pathoschild</see>.</remarks>
 public interface IModIntegration
 {
-    /// <summary>A human-readable name for the mod.</summary>
+    /// <summary>Gets a human-readable name for the mod.</summary>
     string ModName { get; }
 
-    /// <summary>Whether the mod is available.</summary>
+    /// <summary>Gets a value indicating whether determines whether the mod is available.</summary>
     bool IsLoaded { get; }
 }

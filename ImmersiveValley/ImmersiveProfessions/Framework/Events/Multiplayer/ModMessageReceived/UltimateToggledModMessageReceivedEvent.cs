@@ -2,36 +2,46 @@
 
 #region using directives
 
-using Common;
-using Common.Events;
-using Common.Extensions.Stardew;
-using Microsoft.Xna.Framework;
+using DaLion.Common;
+using DaLion.Common.Events;
+using DaLion.Common.Extensions.Stardew;
+using DaLion.Stardew.Professions.Framework.Ultimates;
 using StardewModdingAPI.Events;
-using Ultimates;
 
 #endregion using directives
 
 [UsedImplicitly]
 internal sealed class UltimateToggledModMessageReceivedEvent : ModMessageReceivedEvent
 {
+    /// <summary>Initializes a new instance of the <see cref="UltimateToggledModMessageReceivedEvent"/> class.</summary>
+    /// <param name="manager">The <see cref="ProfessionEventManager"/> instance that manages this event.</param>
+    internal UltimateToggledModMessageReceivedEvent(ProfessionEventManager manager)
+        : base(manager)
+    {
+    }
+
     /// <inheritdoc />
     public override bool IsEnabled => Context.IsMultiplayer;
 
-    /// <summary>Construct an instance.</summary>
-    /// <param name="manager">The <see cref="ProfessionEventManager"/> instance that manages this event.</param>
-    internal UltimateToggledModMessageReceivedEvent(ProfessionEventManager manager)
-        : base(manager) { }
+    /// <inheritdoc />
+    public override bool Enable()
+    {
+        return false;
+    }
 
     /// <inheritdoc />
-    public override bool Enable() => false;
-
-    /// <inheritdoc />
-    public override bool Disable() => false;
+    public override bool Disable()
+    {
+        return false;
+    }
 
     /// <inheritdoc />
     protected override void OnModMessageReceivedImpl(object? sender, ModMessageReceivedEventArgs e)
     {
-        if (e.FromModID != ModEntry.Manifest.UniqueID || !e.Type.StartsWith("ToggledUltimate")) return;
+        if (e.FromModID != ModEntry.Manifest.UniqueID || !e.Type.StartsWith("ToggledUltimate"))
+        {
+            return;
+        }
 
         var who = Game1.getFarmer(e.FromPlayerID);
         if (who is null)
@@ -45,17 +55,9 @@ internal sealed class UltimateToggledModMessageReceivedEvent : ModMessageReceive
         {
             case "Active":
                 Log.D($"{who.Name} activated their Ultimate ability.");
-                var index = who.Read<UltimateIndex>("UltimateIndex");
-                var glowingColor = index switch
-                {
-                    UltimateIndex.BruteFrenzy => Color.OrangeRed,
-                    UltimateIndex.PoacherAmbush => Color.MediumPurple,
-                    UltimateIndex.DesperadoBlossom => Color.DarkGoldenrod,
-                    _ => Color.White
-                };
-
-                if (glowingColor != Color.White)
-                    who.startGlowing(glowingColor, false, 0.05f);
+                var index = who.Read<int>("UltimateIndex");
+                var glowingColor = Ultimate.FromValue(index).GlowColor;
+                who.startGlowing(glowingColor, false, 0.05f);
 
                 break;
 

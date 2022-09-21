@@ -2,24 +2,25 @@
 
 #region using directives
 
-using Common;
-using Common.Harmony;
-using HarmonyLib;
-using StardewValley.Tools;
 using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
+using DaLion.Common;
+using DaLion.Common.Harmony;
+using HarmonyLib;
+using StardewValley.Tools;
+using HarmonyPatch = DaLion.Common.Harmony.HarmonyPatch;
 
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class MeleeWeaponDoSwipePatch : Common.Harmony.HarmonyPatch
+internal sealed class MeleeWeaponDoSwipePatch : HarmonyPatch
 {
-    /// <summary>Construct an instance.</summary>
+    /// <summary>Initializes a new instance of the <see cref="MeleeWeaponDoSwipePatch"/> class.</summary>
     internal MeleeWeaponDoSwipePatch()
     {
-        Target = RequireMethod<MeleeWeapon>(nameof(MeleeWeapon.doSwipe));
+        this.Target = this.RequireMethod<MeleeWeapon>(nameof(MeleeWeapon.doSwipe));
     }
 
     #region harmony patches
@@ -29,11 +30,10 @@ internal sealed class MeleeWeaponDoSwipePatch : Common.Harmony.HarmonyPatch
     private static IEnumerable<CodeInstruction>? MeleeWeaponDoSwipeTranspiler(
         IEnumerable<CodeInstruction> instructions, ILGenerator generator, MethodBase original)
     {
-        var helper = new ILHelper(original, instructions);
+        var helper = new IlHelper(original, instructions);
 
-        /// From: case 3:
-        /// To: case 3 or 0:
-
+        // From: case 3:
+        // To: case 3 or 0:
         var isSword = generator.DefineLabel();
         try
         {
@@ -41,22 +41,18 @@ internal sealed class MeleeWeaponDoSwipePatch : Common.Harmony.HarmonyPatch
                 .FindFirst(
                     new CodeInstruction(OpCodes.Ldarg_1),
                     new CodeInstruction(OpCodes.Ldc_I4_3),
-                    new CodeInstruction(OpCodes.Bne_Un)
-                )
+                    new CodeInstruction(OpCodes.Bne_Un))
                 .AdvanceUntil(
-                    new CodeInstruction(OpCodes.Bne_Un)
-                )
+                    new CodeInstruction(OpCodes.Bne_Un))
                 .GetOperand(out var caseClub)
                 .ReplaceInstructionWith(
-                    new CodeInstruction(OpCodes.Beq_S, isSword)
-                )
+                    new CodeInstruction(OpCodes.Beq_S, isSword))
                 .Advance()
                 .AddLabels(isSword)
                 .InsertInstructions(
                     new CodeInstruction(OpCodes.Ldarg_1),
                     new CodeInstruction(OpCodes.Ldc_I4_0),
-                    new CodeInstruction(OpCodes.Bne_Un, caseClub)
-                );
+                    new CodeInstruction(OpCodes.Bne_Un, caseClub));
         }
         catch (Exception ex)
         {

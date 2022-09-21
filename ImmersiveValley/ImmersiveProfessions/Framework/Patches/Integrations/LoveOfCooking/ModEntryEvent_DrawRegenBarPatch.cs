@@ -2,28 +2,33 @@
 
 #region using directives
 
-using DaLion.Common;
-using DaLion.Common.Attributes;
-using DaLion.Common.Extensions.Reflection;
-using DaLion.Common.Harmony;
-using HarmonyLib;
-using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
-using Ultimates;
-using VirtualProperties;
+using DaLion.Common;
+using DaLion.Common.Attributes;
+using DaLion.Common.Extensions.Reflection;
+using DaLion.Common.Harmony;
+using DaLion.Stardew.Professions.Framework.Ultimates;
+using DaLion.Stardew.Professions.Framework.VirtualProperties;
+using HarmonyLib;
+using Microsoft.Xna.Framework;
+using HarmonyPatch = DaLion.Common.Harmony.HarmonyPatch;
 
 #endregion using directives
 
-[UsedImplicitly, RequiresMod("blueberry.LoveOfCooking"), Deprecated]
-internal sealed class ModEntryEvent_DrawRegenBarPatch : DaLion.Common.Harmony.HarmonyPatch
+[UsedImplicitly]
+[RequiresMod("blueberry.LoveOfCooking")]
+[Deprecated]
+internal sealed class ModEntryEvent_DrawRegenBarPatch : HarmonyPatch
 {
-    /// <summary>Construct an instance.</summary>
+    /// <summary>Initializes a new instance of the <see cref="ModEntryEvent_DrawRegenBarPatch"/> class.</summary>
     internal ModEntryEvent_DrawRegenBarPatch()
     {
-        Target = "LoveOfCooking.ModEntry".ToType().RequireMethod("Event_DrawRegenBar");
+        this.Target = "LoveOfCooking.ModEntry"
+            .ToType()
+            .RequireMethod("Event_DrawRegenBar");
     }
 
     #region harmony patches
@@ -33,37 +38,40 @@ internal sealed class ModEntryEvent_DrawRegenBarPatch : DaLion.Common.Harmony.Ha
     private static IEnumerable<CodeInstruction>? ModEntryEvent_DrawRegenBarTranspiler(
         IEnumerable<CodeInstruction> instructions, ILGenerator ilGenerator, MethodBase original)
     {
-        var helper = new ILHelper(original, instructions);
+        var helper = new IlHelper(original, instructions);
 
-        /// Inject: if (Game1.player.get_Ultimate()?.Hud.IsVisible) topOfBar.X -= 56f;
-        /// Before: e.SpriteBatch.Draw( ... )
-
+        // Inject: if (Game1.player.get_Ultimate()?.Hud.IsVisible) topOfBar.X -= 56f;
+        // Before: e.SpriteBatch.Draw( ... )
         var resumeExecution = ilGenerator.DefineLabel();
         try
         {
             helper
-                .FindFirst(
-                    new CodeInstruction(OpCodes.Ldarg_2) // arg 2 = RenderingHudEventArgs e
-                )
+                .FindFirst(new CodeInstruction(OpCodes.Ldarg_2)) // arg 2 = RenderingHudEventArgs e
                 .StripLabels(out var labels)
                 .AddLabels(resumeExecution)
                 .InsertWithLabels(
                     labels,
                     // check if Ultimate is null
-                    new CodeInstruction(OpCodes.Call,
+                    new CodeInstruction(
+                        OpCodes.Call,
                         typeof(Game1).RequirePropertyGetter(nameof(Game1.player))),
-                    new CodeInstruction(OpCodes.Call,
-                        typeof(Farmer_Ultimate).RequireMethod(nameof(Farmer_Ultimate.get_Ultimate))),
+                    new CodeInstruction(
+                        OpCodes.Call,
+                        typeof(Farmer_Ultimate).RequireMethod(nameof(Farmer_Ultimate.Get_Ultimate))),
                     new CodeInstruction(OpCodes.Brfalse_S, resumeExecution),
                     // check if Ultimate.Hud.IsVisible
-                    new CodeInstruction(OpCodes.Call,
+                    new CodeInstruction(
+                        OpCodes.Call,
                         typeof(Game1).RequirePropertyGetter(nameof(Game1.player))),
-                    new CodeInstruction(OpCodes.Call,
-                        typeof(Farmer_Ultimate).RequireMethod(nameof(Farmer_Ultimate.get_Ultimate))),
-                    new CodeInstruction(OpCodes.Callvirt,
+                    new CodeInstruction(
+                        OpCodes.Call,
+                        typeof(Farmer_Ultimate).RequireMethod(nameof(Farmer_Ultimate.Get_Ultimate))),
+                    new CodeInstruction(
+                        OpCodes.Callvirt,
                         typeof(Ultimate).RequirePropertyGetter(nameof(Ultimate.Hud))),
-                    new CodeInstruction(OpCodes.Call,
-                        typeof(UltimateHUD).RequirePropertyGetter(nameof(UltimateHUD.IsVisible))),
+                    new CodeInstruction(
+                        OpCodes.Call,
+                        typeof(UltimateHud).RequirePropertyGetter(nameof(UltimateHud.IsVisible))),
                     new CodeInstruction(OpCodes.Brfalse_S, resumeExecution),
                     // load and displace topOfBar.X
                     new CodeInstruction(OpCodes.Ldloca_S, helper.Locals[7]),
@@ -71,8 +79,7 @@ internal sealed class ModEntryEvent_DrawRegenBarPatch : DaLion.Common.Harmony.Ha
                     new CodeInstruction(OpCodes.Ldfld, typeof(Vector2).RequireField(nameof(Vector2.X))),
                     new CodeInstruction(OpCodes.Ldc_R4, 56f), // displace by 56 pixels
                     new CodeInstruction(OpCodes.Sub),
-                    new CodeInstruction(OpCodes.Stfld, typeof(Vector2).RequireField(nameof(Vector2.X)))
-                );
+                    new CodeInstruction(OpCodes.Stfld, typeof(Vector2).RequireField(nameof(Vector2.X))));
         }
         catch (Exception ex)
         {

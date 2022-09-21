@@ -2,48 +2,50 @@
 
 #region using directives
 
-using Common;
-using Common.Extensions.Reflection;
-using Common.Harmony;
-using HarmonyLib;
-using StardewValley.Tools;
 using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
+using DaLion.Common;
+using DaLion.Common.Extensions.Reflection;
+using DaLion.Common.Harmony;
+using HarmonyLib;
+using StardewValley.Tools;
+using HarmonyPatch = DaLion.Common.Harmony.HarmonyPatch;
 
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class FarmerTakeDamagePatch : Common.Harmony.HarmonyPatch
+internal sealed class FarmerTakeDamagePatch : HarmonyPatch
 {
-    /// <summary>Construct an instance.</summary>
+    /// <summary>Initializes a new instance of the <see cref="FarmerTakeDamagePatch"/> class.</summary>
     internal FarmerTakeDamagePatch()
     {
-        Target = RequireMethod<Farmer>(nameof(Farmer.takeDamage));
+        this.Target = this.RequireMethod<Farmer>(nameof(Farmer.takeDamage));
     }
 
     #region harmony patches
 
     /// <summary>Grant i-frames during stabby sword lunge.</summary>
     [HarmonyPrefix]
-    private static bool FarmerTakeDamagePrefix(Farmer __instance) =>
-        __instance.CurrentTool is not MeleeWeapon { type.Value: MeleeWeapon.stabbingSword, isOnSpecial: true };
+    private static bool FarmerTakeDamagePrefix(Farmer __instance)
+    {
+        return __instance.CurrentTool is not MeleeWeapon { type.Value: MeleeWeapon.stabbingSword, isOnSpecial: true };
+    }
 
     /// <summary>Removes damage mitigation soft cap.</summary>
     [HarmonyTranspiler]
-    private static IEnumerable<CodeInstruction>? FarmerTakeDamageTranspiler(IEnumerable<CodeInstruction> instructions,
-        ILGenerator generator, MethodBase original)
+    private static IEnumerable<CodeInstruction>? FarmerTakeDamageTranspiler(
+        IEnumerable<CodeInstruction> instructions, ILGenerator generator, MethodBase original)
     {
-        var helper = new ILHelper(original, instructions);
+        var helper = new IlHelper(original, instructions);
 
-        /// Injected: if (ModEntry.Config.RemoveDefenseSoftCap)
-        ///     skip
-        ///     {
-        ///         effectiveResilience >= damage * 0.5f)
-        ///         effectiveResilience -= (int) (effectiveResilience * Game1.random.Next(3) / 10f);
-        ///     }
-
+        // Injected: if (ModEntry.Config.RemoveDefenseSoftCap)
+        //     skip
+        //     {
+        //         effectiveResilience >= damage * 0.5f)
+        //         effectiveResilience -= (int) (effectiveResilience * Game1.random.Next(3) / 10f);
+        //     }
         var skipSoftCap = generator.DefineLabel();
         try
         {
@@ -53,19 +55,16 @@ internal sealed class FarmerTakeDamagePatch : Common.Harmony.HarmonyPatch
                     new CodeInstruction(OpCodes.Conv_R4),
                     new CodeInstruction(OpCodes.Ldarg_1),
                     new CodeInstruction(OpCodes.Conv_R4),
-                    new CodeInstruction(OpCodes.Ldc_R4, 0.5f)
-                )
+                    new CodeInstruction(OpCodes.Ldc_R4, 0.5f))
                 .StripLabels(out var labels)
                 .InsertWithLabels(
                     labels,
                     new CodeInstruction(OpCodes.Call, typeof(ModEntry).RequirePropertyGetter(nameof(ModEntry.Config))),
-                    new CodeInstruction(OpCodes.Call,
+                    new CodeInstruction(
+                        OpCodes.Call,
                         typeof(ModConfig).RequirePropertyGetter(nameof(ModConfig.RemoveFarmerDefenseSoftCap))),
-                    new CodeInstruction(OpCodes.Brtrue_S, skipSoftCap)
-                )
-                .AdvanceUntil(
-                    new CodeInstruction(OpCodes.Stloc_3)
-                )
+                    new CodeInstruction(OpCodes.Brtrue_S, skipSoftCap))
+                .AdvanceUntil(new CodeInstruction(OpCodes.Stloc_3))
                 .Advance()
                 .AddLabels(skipSoftCap);
         }

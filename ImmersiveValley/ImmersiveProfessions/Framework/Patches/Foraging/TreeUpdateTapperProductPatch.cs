@@ -3,35 +3,45 @@
 #region using directives
 
 using DaLion.Common.Extensions.Stardew;
-using Extensions;
+using DaLion.Stardew.Professions.Extensions;
 using HarmonyLib;
 using StardewValley.TerrainFeatures;
+using HarmonyPatch = DaLion.Common.Harmony.HarmonyPatch;
 
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class TreeUpdateTapperProductPatch : DaLion.Common.Harmony.HarmonyPatch
+internal sealed class TreeUpdateTapperProductPatch : HarmonyPatch
 {
-    /// <summary>Construct an instance.</summary>
+    /// <summary>Initializes a new instance of the <see cref="TreeUpdateTapperProductPatch"/> class.</summary>
     internal TreeUpdateTapperProductPatch()
     {
-        Target = RequireMethod<Tree>(nameof(Tree.UpdateTapperProduct));
+        this.Target = this.RequireMethod<Tree>(nameof(Tree.UpdateTapperProduct));
     }
 
     #region harmony patches
 
     /// <summary>Patch to decrease syrup production time for Tapper.</summary>
     [HarmonyPostfix]
-    private static void TreeUpdateTapperProductPostfix(SObject? tapper_instance)
+    // ReSharper disable once InconsistentNaming
+    private static void TreeUpdateTapperProductPostfix(Tree __instance, SObject? tapper_instance)
     {
-        if (tapper_instance is null) return;
+        if (tapper_instance is null || (__instance.treeType.Value == Tree.mushroomTree && Game1.currentSeason == "winter"))
+        {
+            return;
+        }
 
         var owner = ModEntry.Config.LaxOwnershipRequirements ? Game1.player : tapper_instance.GetOwner();
-        if (!owner.HasProfession(Profession.Tapper)) return;
+        if (!owner.HasProfession(Profession.Tapper))
+        {
+            return;
+        }
 
         if (tapper_instance.MinutesUntilReady > 0)
+        {
             tapper_instance.MinutesUntilReady = (int)(tapper_instance.MinutesUntilReady *
-                                                       (owner.HasProfession(Profession.Tapper, true) ? 0.5 : 0.75));
+                                                      (owner.HasProfession(Profession.Tapper, true) ? 0.5 : 0.75));
+        }
     }
 
     #endregion harmony patches

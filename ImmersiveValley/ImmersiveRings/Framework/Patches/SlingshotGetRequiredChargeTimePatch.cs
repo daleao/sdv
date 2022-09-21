@@ -4,28 +4,34 @@
 
 using HarmonyLib;
 using StardewValley.Tools;
+using HarmonyPatch = DaLion.Common.Harmony.HarmonyPatch;
 
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class SlingshotGetRequiredChargeTimePatch : Common.Harmony.HarmonyPatch
+internal sealed class SlingshotGetRequiredChargeTimePatch : HarmonyPatch
 {
-    /// <summary>Construct an instance.</summary>
+    /// <summary>Initializes a new instance of the <see cref="SlingshotGetRequiredChargeTimePatch"/> class.</summary>
     internal SlingshotGetRequiredChargeTimePatch()
     {
-        Target = RequireMethod<Slingshot>(nameof(Slingshot.GetRequiredChargeTime));
-        Postfix!.after = new[] { "DaLion.ImmersiveArsenal" };
-        Postfix!.before = new[] { "DaLion.ImmersiveProfessions" };
+        this.Target = this.RequireMethod<Slingshot>(nameof(Slingshot.GetRequiredChargeTime));
+        this.Postfix!.after = new[] { "DaLion.ImmersiveArsenal" };
+        this.Postfix!.before = new[] { "DaLion.ImmersiveProfessions" };
     }
 
     #region harmony patches
 
     /// <summary>Apply Emerald Enchantment to Slingshot.</summary>
-    [HarmonyPostfix, HarmonyAfter("DaLion.ImmersiveArsenal"), HarmonyBefore("DaLion.ImmersiveProfessions")]
+    [HarmonyPostfix]
+    [HarmonyAfter("DaLion.ImmersiveArsenal")]
+    [HarmonyBefore("DaLion.ImmersiveProfessions")]
     private static void SlingshotGetRequiredChargeTimePostfix(Slingshot __instance, ref float __result)
     {
         var firer = __instance.getLastFarmerToUse();
-        if (!firer.IsLocalPlayer) return;
+        if (!firer.IsLocalPlayer)
+        {
+            return;
+        }
 
         __result *= 1f - firer.weaponSpeedModifier;
     }

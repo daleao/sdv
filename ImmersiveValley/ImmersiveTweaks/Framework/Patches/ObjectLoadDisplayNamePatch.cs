@@ -1,12 +1,14 @@
 ﻿namespace DaLion.Stardew.Tweex.Framework.Patches;
 
+using DaLion.Common.Harmony;
+
 [UsedImplicitly]
-internal sealed class ObjectLoadDisplayName : Common.Harmony.HarmonyPatch
+internal sealed class ObjectLoadDisplayNamePatch : HarmonyPatch
 {
-    /// <summary>Construct an instance.</summary>
-    internal ObjectLoadDisplayName()
+    /// <summary>Initializes a new instance of the <see cref="ObjectLoadDisplayNamePatch"/> class.</summary>
+    internal ObjectLoadDisplayNamePatch()
     {
-        Target = RequireMethod<SObject>("loadDisplayName");
+        this.Target = this.RequireMethod<SObject>("loadDisplayName");
     }
 
     #region harmony patches
@@ -15,7 +17,10 @@ internal sealed class ObjectLoadDisplayName : Common.Harmony.HarmonyPatch
     private static void ObjectLoadDisplayNamePostfix(SObject __instance, ref string __result)
     {
         if (!__instance.name.Contains("Mead") || __instance.preservedParentSheetIndex.Value <= 0 ||
-            !ModEntry.Config.KegsRememberHoneyFlower) return;
+            !ModEntry.Config.KegsRememberHoneyFlower)
+        {
+            return;
+        }
 
         var prefix = Game1.objectInformation[__instance.preservedParentSheetIndex.Value].Split('/')[4];
         __result = prefix + ' ' + __result;

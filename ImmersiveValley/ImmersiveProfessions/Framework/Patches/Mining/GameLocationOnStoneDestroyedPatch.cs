@@ -2,24 +2,25 @@
 
 #region using directives
 
-using DaLion.Common;
-using DaLion.Common.Harmony;
-using Extensions;
-using HarmonyLib;
 using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
+using DaLion.Common;
+using DaLion.Common.Harmony;
+using DaLion.Stardew.Professions.Extensions;
+using HarmonyLib;
+using HarmonyPatch = DaLion.Common.Harmony.HarmonyPatch;
 
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class GameLocationOnStoneDestroyedPatch : DaLion.Common.Harmony.HarmonyPatch
+internal sealed class GameLocationOnStoneDestroyedPatch : HarmonyPatch
 {
-    /// <summary>Construct an instance.</summary>
+    /// <summary>Initializes a new instance of the <see cref="GameLocationOnStoneDestroyedPatch"/> class.</summary>
     internal GameLocationOnStoneDestroyedPatch()
     {
-        Target = RequireMethod<GameLocation>(nameof(GameLocation.OnStoneDestroyed));
+        this.Target = this.RequireMethod<GameLocation>(nameof(GameLocation.OnStoneDestroyed));
     }
 
     #region harmony patches
@@ -29,19 +30,16 @@ internal sealed class GameLocationOnStoneDestroyedPatch : DaLion.Common.Harmony.
     private static IEnumerable<CodeInstruction>? GameLocationOnStoneDestroyedTranspiler(
         IEnumerable<CodeInstruction> instructions, MethodBase original)
     {
-        var helper = new ILHelper(original, instructions);
+        var helper = new IlHelper(original, instructions);
 
-        /// From: random.NextDouble() < 0.035 * (double)(!who.professions.Contains(<prospector_id>) ? 1 : 2)
-        /// To: random.NextDouble() < 0.035
-
+        // From: random.NextDouble() < 0.035 * (double)(!who.professions.Contains(<prospector_id>) ? 1 : 2)
+        // To: random.NextDouble() < 0.035
         try
         {
             helper
                 .FindProfessionCheck(Farmer.burrower) // find index of prospector check
                 .Retreat()
-                .RemoveInstructionsUntil(
-                    new CodeInstruction(OpCodes.Mul) // remove this check
-                );
+                .RemoveInstructionsUntil(new CodeInstruction(OpCodes.Mul)); // remove this check
         }
         catch (Exception ex)
         {

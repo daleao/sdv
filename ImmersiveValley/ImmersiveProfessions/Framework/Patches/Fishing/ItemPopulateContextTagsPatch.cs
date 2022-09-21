@@ -2,19 +2,20 @@
 
 #region using directives
 
-using HarmonyLib;
 using System.Collections.Generic;
-using Utility;
+using DaLion.Stardew.Professions.Framework.Utility;
+using HarmonyLib;
+using HarmonyPatch = DaLion.Common.Harmony.HarmonyPatch;
 
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class ItemPopulateContextTagsPatch : DaLion.Common.Harmony.HarmonyPatch
+internal sealed class ItemPopulateContextTagsPatch : HarmonyPatch
 {
-    /// <summary>Construct an instance.</summary>
+    /// <summary>Initializes a new instance of the <see cref="ItemPopulateContextTagsPatch"/> class.</summary>
     internal ItemPopulateContextTagsPatch()
     {
-        Target = RequireMethod<Item>("_PopulateContextTags");
+        this.Target = this.RequireMethod<Item>("_PopulateContextTags");
     }
 
     #region harmony patches
@@ -23,7 +24,10 @@ internal sealed class ItemPopulateContextTagsPatch : DaLion.Common.Harmony.Harmo
     [HarmonyPostfix]
     private static void ItemPopulateContextTagsPostfix(Item __instance, HashSet<string> tags)
     {
-        if (!ObjectLookups.ExtendedFamilyPairs.TryGetValue(__instance.ParentSheetIndex, out var pairId)) return;
+        if (!Lookups.ExtendedFamilyPairs.TryGetValue(__instance.ParentSheetIndex, out var pairId))
+        {
+            return;
+        }
 
         var pair = new SObject(pairId, 1);
         tags.Add("item_" + __instance.SanitizeContextTag(pair.Name));

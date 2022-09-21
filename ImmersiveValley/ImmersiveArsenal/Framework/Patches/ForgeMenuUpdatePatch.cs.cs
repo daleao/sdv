@@ -2,72 +2,88 @@
 
 #region using directives
 
-using Common;
-using Common.Extensions.Reflection;
-using Common.Harmony;
-using Enchantments;
-using HarmonyLib;
-using Microsoft.Xna.Framework;
-using StardewValley.Menus;
-using StardewValley.Tools;
 using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
+using DaLion.Common;
+using DaLion.Common.Extensions.Reflection;
+using DaLion.Common.Harmony;
+using DaLion.Stardew.Arsenal.Framework.Enchantments;
+using HarmonyLib;
+using Microsoft.Xna.Framework;
+using StardewValley.Menus;
+using StardewValley.Tools;
+using HarmonyPatch = DaLion.Common.Harmony.HarmonyPatch;
+using Utility = StardewValley.Utility;
 
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class ForgeMenuUpdatePatch : Common.Harmony.HarmonyPatch
+internal sealed class ForgeMenuUpdatePatch : HarmonyPatch
 {
-    /// <summary>Construct an instance.</summary>
+    /// <summary>Initializes a new instance of the <see cref="ForgeMenuUpdatePatch"/> class.</summary>
     internal ForgeMenuUpdatePatch()
     {
-        Target = RequireMethod<ForgeMenu>(nameof(ForgeMenu.update), new[] { typeof(GameTime) });
+        this.Target = this.RequireMethod<ForgeMenu>(nameof(ForgeMenu.update), new[] { typeof(GameTime) });
     }
+
+    #region injected subroutines
+
+    internal static void UnforgeHolyBlade(ForgeMenu menu, MeleeWeapon holy)
+    {
+        var heroSoul = (SObject)ModEntry.DynamicGameAssetsApi!.SpawnDGAItem(ModEntry.Manifest.UniqueID + "/Hero Soul");
+        heroSoul.Stack = 3;
+        Utility.CollectOrDrop(heroSoul);
+        menu.leftIngredientSpot.item = null;
+        Game1.playSound("coin");
+    }
+
+    #endregion injected subroutines
 
     #region harmony patches
 
     /// <summary>Set unforge behavior of Holy Blade.</summary>
     [HarmonyTranspiler]
-    private static IEnumerable<CodeInstruction>? ForgeMenuUpdateTranspiler(IEnumerable<CodeInstruction> instructions,
-        ILGenerator generator, MethodBase original)
+    private static IEnumerable<CodeInstruction>? ForgeMenuUpdateTranspiler(
+        IEnumerable<CodeInstruction> instructions, ILGenerator generator, MethodBase original)
     {
-        var helper = new ILHelper(original, instructions);
+        var helper = new IlHelper(original, instructions);
 
-        /// Injected: if (ModEntry.Config.TrulyLegendaryGalaxySword && weapon.hasEnchantmentOfType<HolyEnchantment>())
-        ///               UnforgeHolyBlade(weapon);
-        ///           else ...
-        /// After: if (weapon != null)
-
+        // Injected: if (ModEntry.Config.TrulyLegendaryGalaxySword && weapon.hasEnchantmentOfType<HolyEnchantment>())
+        //               UnforgeHolyBlade(weapon);
+        //           else ...
+        // After: if (weapon != null)
         var vanillaUnforge = generator.DefineLabel();
         try
         {
             helper
                 .FindFirst(
                     new CodeInstruction(OpCodes.Ldloc_S, helper.Locals[9]), // local 9 = MeleeWeapon weapon
-                    new CodeInstruction(OpCodes.Brfalse)
-                )
+                    new CodeInstruction(OpCodes.Brfalse))
                 .Advance()
                 .GetOperand(out var resumeExecution)
                 .Advance()
                 .AddLabels(vanillaUnforge)
                 .InsertInstructions(
                     new CodeInstruction(OpCodes.Call, typeof(ModEntry).RequirePropertyGetter(nameof(ModEntry.Config))),
-                    new CodeInstruction(OpCodes.Call,
+                    new CodeInstruction(
+                        OpCodes.Call,
                         typeof(ModConfig).RequirePropertyGetter(nameof(ModConfig.InfinityPlusOneWeapons))),
                     new CodeInstruction(OpCodes.Brfalse_S, vanillaUnforge),
                     new CodeInstruction(OpCodes.Ldloc_S, helper.Locals[9]),
-                    new CodeInstruction(OpCodes.Call,
-                        typeof(Tool).RequireMethod(nameof(Tool.hasEnchantmentOfType))
+                    new CodeInstruction(
+                        OpCodes.Call,
+                        typeof(Tool)
+                            .RequireMethod(nameof(Tool.hasEnchantmentOfType))
                             .MakeGenericMethod(typeof(BlessedEnchantment))),
                     new CodeInstruction(OpCodes.Brfalse_S, vanillaUnforge),
                     new CodeInstruction(OpCodes.Ldarg_0),
                     new CodeInstruction(OpCodes.Ldloc_3, helper.Locals[9]),
-                    new CodeInstruction(OpCodes.Call,
+                    new CodeInstruction(
+                        OpCodes.Call,
                         typeof(ForgeMenuUpdatePatch).RequireMethod(nameof(UnforgeHolyBlade))),
-                    new CodeInstruction(OpCodes.Br, resumeExecution)
-                );
+                    new CodeInstruction(OpCodes.Br, resumeExecution));
         }
         catch (Exception ex)
         {
@@ -79,17 +95,4 @@ internal sealed class ForgeMenuUpdatePatch : Common.Harmony.HarmonyPatch
     }
 
     #endregion harmony patches
-
-    #region injected subroutines
-
-    internal static void UnforgeHolyBlade(ForgeMenu menu, MeleeWeapon holy)
-    {
-        var heroSoul = (SObject)ModEntry.DynamicGameAssetsApi!.SpawnDGAItem(ModEntry.Manifest.UniqueID + "/Hero Soul");
-        heroSoul.Stack = 3;
-        StardewValley.Utility.CollectOrDrop(heroSoul);
-        menu.leftIngredientSpot.item = null;
-        Game1.playSound("coin");
-    }
-
-    #endregion injected subroutines
 }

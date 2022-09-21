@@ -4,16 +4,17 @@
 
 using HarmonyLib;
 using StardewValley.Tools;
+using HarmonyPatch = DaLion.Common.Harmony.HarmonyPatch;
 
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class ToolGetMaxForgesPatch : Common.Harmony.HarmonyPatch
+internal sealed class ToolGetMaxForgesPatch : HarmonyPatch
 {
-    /// <summary>Construct an instance.</summary>
+    /// <summary>Initializes a new instance of the <see cref="ToolGetMaxForgesPatch"/> class.</summary>
     internal ToolGetMaxForgesPatch()
     {
-        Target = RequireMethod<Tool>(nameof(Tool.GetMaxForges));
+        this.Target = this.RequireMethod<Tool>(nameof(Tool.GetMaxForges));
     }
 
     #region harmony patches
@@ -22,7 +23,10 @@ internal sealed class ToolGetMaxForgesPatch : Common.Harmony.HarmonyPatch
     [HarmonyPrefix]
     private static bool ToolGetMaxForgesPrefix(Tool __instance, ref int __result)
     {
-        if (__instance is not Slingshot) return true; // run original logic
+        if (__instance is not Slingshot)
+        {
+            return true; // run original logic
+        }
 
         __result = 3;
         return false; // don't run original logic

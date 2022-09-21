@@ -3,18 +3,19 @@
 #region using directives
 
 using HarmonyLib;
+using HarmonyPatch = DaLion.Common.Harmony.HarmonyPatch;
 
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class FarmerCheckForLevelGainPatch : DaLion.Common.Harmony.HarmonyPatch
+internal sealed class FarmerCheckForLevelGainPatch : HarmonyPatch
 {
-    private const int PRESTIGE_GATE_I = 15000;
+    private const int PrestigeGate = 15000;
 
-    /// <summary>Construct an instance.</summary>
+    /// <summary>Initializes a new instance of the <see cref="FarmerCheckForLevelGainPatch"/> class.</summary>
     internal FarmerCheckForLevelGainPatch()
     {
-        Target = RequireMethod<Farmer>(nameof(Farmer.checkForLevelGain));
+        this.Target = this.RequireMethod<Farmer>(nameof(Farmer.checkForLevelGain));
     }
 
     #region harmony patches
@@ -23,13 +24,23 @@ internal sealed class FarmerCheckForLevelGainPatch : DaLion.Common.Harmony.Harmo
     [HarmonyPostfix]
     private static void FarmerCheckForLevelGainPostfix(ref int __result, int oldXP, int newXP)
     {
-        if (!ModEntry.Config.EnablePrestige) return;
+        if (!ModEntry.Config.EnablePrestige)
+        {
+            return;
+        }
 
         for (var i = 1; i <= 10; ++i)
         {
-            var requiredExpForThisLevel = PRESTIGE_GATE_I + ModEntry.Config.RequiredExpPerExtendedLevel * i;
-            if (oldXP >= requiredExpForThisLevel) continue;
-            if (newXP < requiredExpForThisLevel) return;
+            var requiredExpForThisLevel = PrestigeGate + (ModEntry.Config.RequiredExpPerExtendedLevel * i);
+            if (oldXP >= requiredExpForThisLevel)
+            {
+                continue;
+            }
+
+            if (newXP < requiredExpForThisLevel)
+            {
+                return;
+            }
 
             __result = i + 10;
         }

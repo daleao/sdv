@@ -2,19 +2,20 @@
 
 #region using directives
 
-using Events.GameLoop;
+using DaLion.Stardew.Professions.Framework.Events.GameLoop;
 using HarmonyLib;
 using StardewValley.Tools;
+using HarmonyPatch = DaLion.Common.Harmony.HarmonyPatch;
 
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class SlingshotBeginUsingPatch : DaLion.Common.Harmony.HarmonyPatch
+internal sealed class SlingshotBeginUsingPatch : HarmonyPatch
 {
-    /// <summary>Construct an instance.</summary>
+    /// <summary>Initializes a new instance of the <see cref="SlingshotBeginUsingPatch"/> class.</summary>
     internal SlingshotBeginUsingPatch()
     {
-        Target = RequireMethod<Slingshot>(nameof(Slingshot.beginUsing));
+        this.Target = this.RequireMethod<Slingshot>(nameof(Slingshot.beginUsing));
     }
 
     #region harmony patches

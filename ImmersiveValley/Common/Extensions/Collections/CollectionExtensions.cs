@@ -11,32 +11,63 @@ using System.Linq;
 /// <summary>Extensions for generic collections of objects.</summary>
 public static class CollectionExtensions
 {
-    /// <summary>Determine if a collection contains any of the objects in a sequence.</summary>
-    /// <param name="candidates">The objects to search for.</param>
-    public static bool ContainsAnyOf<T>(this ICollection<T> collection, params T[] candidates) =>
-        candidates.Any(collection.Contains);
+    /// <summary>Determines whether the <paramref name="collection"/> contains any of the specified <paramref name="items"/>.</summary>
+    /// <typeparam name="T">The type of elements in the <paramref name="collection"/>.</typeparam>
+    /// <param name="collection">The <see cref="ICollection{T}"/>.</param>
+    /// <param name="items">The objects to search for.</param>
+    /// <returns><see langword="true"/> if the <paramref name="collection"/> contains at least one of the specified <paramref name="items"/>, otherwise <see langword="false"/>.</returns>
+    public static bool ContainsAnyOf<T>(this ICollection<T> collection, params T[] items)
+    {
+        return items.Any(collection.Contains);
+    }
 
-    /// <summary>Determine if a collection contains any of the objects in a sequence.</summary>
-    /// <param name="candidates">The objects to search for.</param>
-    public static bool ContainsAnyOf<T>(this ICollection<T> collection, IEnumerable<T> candidates) =>
-        candidates.Any(collection.Contains);
+    /// <summary>
+    ///     Determines whether the <paramref name="collection"/> contains any of the enumerated <paramref name="items"/>.
+    /// </summary>
+    /// <typeparam name="T">The type of the elements in the <paramref name="collection"/>.</typeparam>
+    /// <param name="collection">The <see cref="ICollection{T}"/>.</param>
+    /// <param name="items">The objects to search for.</param>
+    /// <returns><see langword="true"/> if the <paramref name="collection"/> contains at least one of the specified <paramref name="items"/>, otherwise <see langword="false"/>.</returns>
+    public static bool ContainsAnyOf<T>(this ICollection<T> collection, IEnumerable<T> items)
+    {
+        return items.Any(collection.Contains);
+    }
 
-    /// <summary>Determine if a collection contains all of the objects in a sequence.</summary>
-    /// <param name="candidates">The objects to search for.</param>
-    public static bool ContainsAllOf<T>(this ICollection<T> collection, params T[] candidates) =>
-        candidates.All(collection.Contains);
+    /// <summary>Determines whether the <paramref name="collection"/> contains all of the specified <paramref name="items"/>.</summary>
+    /// <typeparam name="T">The type of the elements in the <paramref name="collection"/>.</typeparam>
+    /// <param name="collection">The <see cref="ICollection{T}"/>.</param>
+    /// <param name="items">The objects to search for.</param>
+    /// <returns><see langword="true"/> if the <paramref name="collection"/> contains all <paramref name="items"/>, otherwise <see langword="false"/>.</returns>
+    public static bool ContainsAllOf<T>(this ICollection<T> collection, params T[] items)
+    {
+        return items.All(collection.Contains);
+    }
 
-    /// <summary>Determine if a collection contains all of the objects in a sequence.</summary>
-    /// <param name="candidates">The objects to search for.</param>
-    public static bool ContainsAllOf<T>(this ICollection<T> collection, IEnumerable<T> candidates) =>
-        candidates.All(collection.Contains);
+    /// <summary>
+    ///     Determines whether the <paramref name="collection"/> contains all of the enumerated <paramref name="items"/>.
+    /// </summary>
+    /// <typeparam name="T">The type of the elements in the <paramref name="collection"/>.</typeparam>
+    /// <param name="collection">The <see cref="ICollection{T}"/>.</param>
+    /// <param name="items">The objects to search for.</param>
+    /// <returns><see langword="true"/> if the <paramref name="collection"/> contains all <paramref name="items"/>, otherwise <see langword="false"/>.</returns>
+    public static bool ContainsAllOf<T>(this ICollection<T> collection, IEnumerable<T> items)
+    {
+        return items.All(collection.Contains);
+    }
 
-    /// <summary>Determine if a collection contains any instance of the given type.</summary>
-    /// <param name="type">The type to search for.</param>
-    public static bool ContainsType<T>(this ICollection<T> collection, Type type) =>
-        collection.Any(item => item is not null && item.GetType() == type);
+    /// <summary>Determines whether a <paramref name="collection"/> contains any instance of the given type.</summary>
+    /// <typeparam name="T">The type of the elements in the <paramref name="collection"/>.</typeparam>
+    /// <param name="collection">The <see cref="ICollection{T}"/>.</param>
+    /// <param name="type">The type to search for. Should be a sub-type of <typeparamref name="T"/>.</param>
+    /// <returns><see langword="true"/> if the <paramref name="collection"/> contains at least one element of the specified <paramref name="type"/>, otherwise <see langword="false"/>.</returns>
+    public static bool ContainsType<T>(this ICollection<T> collection, Type type)
+    {
+        return type.IsAssignableTo(typeof(T)) && collection.Any(item => item is not null && item.GetType() == type);
+    }
 
-    /// <summary>Remove the singular instance of a given type from a collection.</summary>
+    /// <summary>Removes the first instance of a given type from a <paramref name="collection"/>.</summary>
+    /// <typeparam name="T">The type of the elements in the <paramref name="collection"/>.</typeparam>
+    /// <param name="collection">The <see cref="ICollection{T}"/>.</param>
     /// <param name="type">The type to search for.</param>
     /// <param name="removed">The removed instance.</param>
     /// <returns><see langword="true"/> if an instance was successfully removed, otherwise <see langword="false"/>.</returns>
@@ -49,24 +80,48 @@ public static class CollectionExtensions
             return collection.Remove(toRemove);
         }
 
-        removed = default;
+        removed = default(T?);
         return false;
     }
 
-    /// <summary>Remove the singular instance of each of the given types from a collection.</summary>
+    /// <summary>
+    ///     Removes the first instance of each of the given <paramref name="types"/> from a
+    ///     <paramref name="collection"/>.
+    /// </summary>
+    /// <typeparam name="T">The type of the elements in the <paramref name="collection"/>.</typeparam>
+    /// <param name="collection">The <see cref="ICollection{T}"/>.</param>
     /// <param name="types">The types to search for.</param>
     public static void RemoveTypes<T>(this ICollection<T> collection, params Type[] types)
     {
         types.ForEach(t => collection.TryRemoveType(t, out _));
     }
 
-    /// <summary>Add an item to the collection, or replace an already existing item with the new one.</summary>
+    /// <summary>
+    ///     Adds the specified <paramref name="item"/> to the <paramref name="collection"/>, or moves it to the bottom
+    ///     if already contained.
+    /// </summary>
+    /// <typeparam name="T">The type of the elements in the <paramref name="collection"/>.</typeparam>
+    /// <param name="collection">The <see cref="ICollection{T}"/>.</param>
     /// <param name="item">The item to add.</param>
-    /// <returns><see langword="true"/> if an item was added, otherwise <see langword="false"/>.</returns>
+    /// <returns>
+    ///     <see langword="true"/> if the <paramref name="collection"/> did not yet contain the <paramref name="item"/>,
+    ///     otherwise <see langword="false"/>.
+    /// </returns>
     public static bool AddOrReplace<T>(this ICollection<T> collection, T item)
     {
         var removed = collection.Remove(item);
         collection.Add(item);
         return !removed;
+    }
+
+    /// <summary>Determines whether all elements in the <paramref name="collection"/> are equal.</summary>
+    /// <typeparam name="T">The type of the elements in the <paramref name="collection"/>, which should implements <see cref="IEquatable{T}"/>.</typeparam>
+    /// <param name="collection">The <see cref="ICollection{T}"/>.</param>
+    /// <param name="comparer">Optional <see cref="IComparer{T}"/> object to define the equality between elements in the <paramref name="collection"/>.</param>
+    /// <returns><see langword="true"/> if all elements in the <paramref name="collection"/> are equal, otherwise <see langword="false"/>.</returns>
+    public static bool AreAllEqual<T>(this ICollection<T> collection, IEqualityComparer<T>? comparer = null)
+        where T : IEquatable<T>
+    {
+        return collection.Distinct(comparer).Count() == 1;
     }
 }

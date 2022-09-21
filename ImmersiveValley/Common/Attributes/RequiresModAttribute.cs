@@ -10,26 +10,26 @@ using System;
 [AttributeUsage(AttributeTargets.Class)]
 public class RequiresModAttribute : Attribute
 {
-    /// <summary>The mod unique ID.</summary>
-    public string UniqueID { get; }
-
-    /// <summary>The minimum required version.</summary>
-    public string Version { get; }
-
-    /// <summary>Construct an instance.</summary>
-    /// <param name="uniqueID">The mod unique ID.</param>
-    public RequiresModAttribute(string uniqueID)
+    /// <summary>Initializes a new instance of the <see cref="RequiresModAttribute"/> class.</summary>
+    /// <param name="uniqueId">The mod unique ID.</param>
+    public RequiresModAttribute(string uniqueId)
     {
-        UniqueID = uniqueID;
-        Version = string.Empty;
+        this.UniqueId = uniqueId;
+        this.Version = string.Empty;
     }
 
-    /// <summary>Construct an instance.</summary>
-    /// <param name="uniqueID">The mod unique ID.</param>
+    /// <summary>Initializes a new instance of the <see cref="RequiresModAttribute"/> class.</summary>
+    /// <param name="uniqueId">The mod unique ID.</param>
     /// <param name="version">The minimum required version.</param>
-    public RequiresModAttribute(string uniqueID, string version)
+    public RequiresModAttribute(string uniqueId, string version)
     {
-        UniqueID = uniqueID;
-        Version = version;
+        this.UniqueId = uniqueId;
+        this.Version = version;
     }
+
+    /// <summary>Gets the mod unique ID.</summary>
+    public string UniqueId { get; }
+
+    /// <summary>Gets the minimum required version.</summary>
+    public string Version { get; }
 }

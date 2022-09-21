@@ -2,7 +2,7 @@
 
 #region using directives
 
-using Common.Events;
+using DaLion.Common.Events;
 using StardewModdingAPI.Events;
 
 #endregion using directives
@@ -10,27 +10,33 @@ using StardewModdingAPI.Events;
 [UsedImplicitly]
 internal sealed class StaticReturnedToTitleEvent : ReturnedToTitleEvent
 {
-    /// <summary>Construct an instance.</summary>
+    /// <summary>Initializes a new instance of the <see cref="StaticReturnedToTitleEvent"/> class.</summary>
     /// <param name="manager">The <see cref="ProfessionEventManager"/> instance that manages this event.</param>
     internal StaticReturnedToTitleEvent(ProfessionEventManager manager)
         : base(manager)
     {
-        AlwaysEnabled = true;
+        this.AlwaysEnabled = true;
     }
 
     /// <inheritdoc />
-    public override bool Enable() => false;
+    public override bool Enable()
+    {
+        return false;
+    }
 
     /// <inheritdoc />
-    public override bool Disable() => false;
+    public override bool Disable()
+    {
+        return false;
+    }
 
     /// <inheritdoc />
     protected override void OnReturnedToTitleImpl(object? sender, ReturnedToTitleEventArgs e)
     {
         // disable events
-        Manager.ResetAllScreens();
+        this.Manager.ResetAllScreens();
 
         // reset mod state
-        ModEntry.State = new();
+        ModEntry.State = new ModState();
     }
 }

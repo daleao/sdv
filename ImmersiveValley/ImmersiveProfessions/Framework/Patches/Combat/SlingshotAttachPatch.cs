@@ -2,31 +2,36 @@
 
 #region using directives
 
+using System;
+using System.Reflection;
 using DaLion.Common;
 using HarmonyLib;
 using StardewValley.Tools;
-using System;
-using System.Reflection;
+using HarmonyPatch = DaLion.Common.Harmony.HarmonyPatch;
 
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class SlingshotAttachPatch : DaLion.Common.Harmony.HarmonyPatch
+internal sealed class SlingshotAttachPatch : HarmonyPatch
 {
-    /// <summary>Construct an instance.</summary>
+    /// <summary>Initializes a new instance of the <see cref="SlingshotAttachPatch"/> class.</summary>
     internal SlingshotAttachPatch()
     {
-        Target = RequireMethod<Slingshot>(nameof(Slingshot.attach));
-        Prefix!.before = new[] { "atravita.StopRugRemoval" };
+        this.Target = this.RequireMethod<Slingshot>(nameof(Slingshot.attach));
+        this.Prefix!.before = new[] { "atravita.StopRugRemoval" };
     }
 
     #region harmony patches
 
     /// <summary>Patch to attach Rascal's additional ammo.</summary>
-    [HarmonyPrefix, HarmonyBefore("atravita.StopRugRemoval")]
+    [HarmonyPrefix]
+    [HarmonyBefore("atravita.StopRugRemoval")]
     private static bool SlingshotAttachPrefix(Slingshot __instance, ref SObject? __result, SObject? o)
     {
-        if (__instance.numAttachmentSlots.Value < 2) return true; // run original logic
+        if (__instance.numAttachmentSlots.Value < 2)
+        {
+            return true; // run original logic
+        }
 
         try
         {
@@ -45,7 +50,10 @@ internal sealed class SlingshotAttachPatch : DaLion.Common.Harmony.HarmonyPatch
                     if (top.canStackWith(o) && top.Stack < 999)
                     {
                         top.Stack = o.addToStack(top);
-                        if (top.Stack <= 0) top = null;
+                        if (top.Stack <= 0)
+                        {
+                            top = null;
+                        }
 
                         __instance.attachments[0] = o;
                         __result = top;
@@ -54,7 +62,10 @@ internal sealed class SlingshotAttachPatch : DaLion.Common.Harmony.HarmonyPatch
                     else if (bottom?.canStackWith(o) == true && bottom.Stack < 999)
                     {
                         bottom.Stack = o.addToStack(bottom);
-                        if (bottom.Stack <= 0) bottom = null;
+                        if (bottom.Stack <= 0)
+                        {
+                            bottom = null;
+                        }
 
                         __instance.attachments[1] = o;
                         __result = bottom;
@@ -73,7 +84,10 @@ internal sealed class SlingshotAttachPatch : DaLion.Common.Harmony.HarmonyPatch
                             if (bottom.canStackWith(o) && bottom.Stack < 999)
                             {
                                 bottom.Stack = o.addToStack(bottom);
-                                if (bottom.Stack <= 0) bottom = null;
+                                if (bottom.Stack <= 0)
+                                {
+                                    bottom = null;
+                                }
                             }
 
                             __instance.attachments[1] = o;
@@ -98,7 +112,7 @@ internal sealed class SlingshotAttachPatch : DaLion.Common.Harmony.HarmonyPatch
                     Game1.playSound("button1");
                 }
             }
-            
+
             return false; // don't run original logic
         }
         catch (Exception ex)

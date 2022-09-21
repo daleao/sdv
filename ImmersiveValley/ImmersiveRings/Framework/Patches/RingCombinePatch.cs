@@ -2,35 +2,39 @@
 
 #region using directives
 
-using Common;
-using HarmonyLib;
-using Netcode;
-using StardewValley.Objects;
 using System;
 using System.Collections.Generic;
 using System.Reflection;
+using CommunityToolkit.Diagnostics;
+using DaLion.Common;
+using HarmonyLib;
+using Netcode;
+using StardewValley.Objects;
+using HarmonyPatch = DaLion.Common.Harmony.HarmonyPatch;
 
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class RingCombinePatch : Common.Harmony.HarmonyPatch
+internal sealed class RingCombinePatch : HarmonyPatch
 {
-    /// <summary>Construct an instance.</summary>
+    /// <summary>Initializes a new instance of the <see cref="RingCombinePatch"/> class.</summary>
     internal RingCombinePatch()
     {
-        Target = RequireMethod<Ring>(nameof(Ring.Combine));
-        Prefix!.priority = Priority.HigherThanNormal;
+        this.Target = this.RequireMethod<Ring>(nameof(Ring.Combine));
+        this.Prefix!.priority = Priority.HigherThanNormal;
     }
 
     #region harmony patches
 
-    /// <summary>Changes combined ring to iridium band when combining.</summary>
+    /// <summary>Changes combined ring to Infinity Band when combining.</summary>
     [HarmonyPrefix]
     [HarmonyPriority(Priority.HigherThanNormal)]
     private static bool RingCombinePrefix(Ring __instance, ref Ring __result, Ring ring)
     {
-        if (!ModEntry.Config.TheOneIridiumBand || __instance.ParentSheetIndex != Constants.IRIDIUM_BAND_INDEX_I)
+        if (!ModEntry.Config.TheOneIridiumBand || __instance.ParentSheetIndex != Constants.IridiumBandIndex)
+        {
             return true; // run original logic
+        }
 
         try
         {
@@ -38,7 +42,9 @@ internal sealed class RingCombinePatch : Common.Harmony.HarmonyPatch
             if (__instance is CombinedRing combined)
             {
                 if (combined.combinedRings.Count >= 4)
+                {
                     ThrowHelper.ThrowInvalidOperationException("Unexpected number of combined rings.");
+                }
 
                 toCombine.AddRange(combined.combinedRings);
             }
@@ -46,9 +52,9 @@ internal sealed class RingCombinePatch : Common.Harmony.HarmonyPatch
             toCombine.Add(ring);
             var combinedRing = new CombinedRing(880);
             combinedRing.combinedRings.AddRange(toCombine);
-            combinedRing.ParentSheetIndex = Constants.IRIDIUM_BAND_INDEX_I;
+            combinedRing.ParentSheetIndex = Constants.IridiumBandIndex;
             ModEntry.ModHelper.Reflection.GetField<NetInt>(combinedRing, nameof(Ring.indexInTileSheet)).GetValue()
-                .Set(Constants.IRIDIUM_BAND_INDEX_I);
+                .Set(Constants.IridiumBandIndex);
             combinedRing.UpdateDescription();
             __result = combinedRing;
             return false; // don't run original logic

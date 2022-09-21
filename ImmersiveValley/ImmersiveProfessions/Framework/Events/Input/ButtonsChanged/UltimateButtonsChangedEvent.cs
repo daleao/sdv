@@ -2,24 +2,27 @@
 
 #region using directives
 
-using Common.Events;
+using DaLion.Common.Events;
+using DaLion.Stardew.Professions.Framework.Ultimates;
+using DaLion.Stardew.Professions.Framework.VirtualProperties;
 using StardewModdingAPI.Events;
-using Ultimates;
-using VirtualProperties;
 
 #endregion using directives
 
-[UsedImplicitly, UltimateEvent]
+[UltimateEvent]
+[UsedImplicitly]
 internal sealed class UltimateButtonsChangedEvent : ButtonsChangedEvent
 {
-    /// <summary>Construct an instance.</summary>
+    /// <summary>Initializes a new instance of the <see cref="UltimateButtonsChangedEvent"/> class.</summary>
     /// <param name="manager">The <see cref="ProfessionEventManager"/> instance that manages this event.</param>
     internal UltimateButtonsChangedEvent(ProfessionEventManager manager)
-        : base(manager) { }
+        : base(manager)
+    {
+    }
 
     /// <inheritdoc />
     protected override void OnButtonsChangedImpl(object? sender, ButtonsChangedEventArgs e)
     {
-        Game1.player.get_Ultimate()!.CheckForActivation();
+        Game1.player.Get_Ultimate()!.CheckForActivation();
     }
 }

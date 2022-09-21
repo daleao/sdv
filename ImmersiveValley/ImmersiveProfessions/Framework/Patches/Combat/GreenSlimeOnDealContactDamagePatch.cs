@@ -2,25 +2,26 @@
 
 #region using directives
 
-using DaLion.Common;
-using DaLion.Common.Harmony;
-using Extensions;
-using HarmonyLib;
-using StardewValley.Monsters;
 using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
+using DaLion.Common;
+using DaLion.Common.Harmony;
+using DaLion.Stardew.Professions.Extensions;
+using HarmonyLib;
+using StardewValley.Monsters;
+using HarmonyPatch = DaLion.Common.Harmony.HarmonyPatch;
 
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class GreenSlimeOnDealContactDamagePatch : DaLion.Common.Harmony.HarmonyPatch
+internal sealed class GreenSlimeOnDealContactDamagePatch : HarmonyPatch
 {
-    /// <summary>Construct an instance.</summary>
+    /// <summary>Initializes a new instance of the <see cref="GreenSlimeOnDealContactDamagePatch"/> class.</summary>
     internal GreenSlimeOnDealContactDamagePatch()
     {
-        Target = RequireMethod<GreenSlime>(nameof(GreenSlime.onDealContactDamage));
+        this.Target = this.RequireMethod<GreenSlime>(nameof(GreenSlime.onDealContactDamage));
     }
 
     #region harmony patches
@@ -30,32 +31,24 @@ internal sealed class GreenSlimeOnDealContactDamagePatch : DaLion.Common.Harmony
     private static IEnumerable<CodeInstruction>? GreenSlimeOnDealContactDamageTranspiler(
         IEnumerable<CodeInstruction> instructions, ILGenerator generator, MethodBase original)
     {
-        var helper = new ILHelper(original, instructions);
+        var helper = new IlHelper(original, instructions);
 
-        /// Injected: if (who.professions.Contains(<piper_id>) && !who.professions.Contains(100 + <piper_id>)) return;
-
+        // Injected: if (who.professions.Contains(<piper_id>) && !who.professions.Contains(100 + <piper_id>)) return;
         var resumeExecution = generator.DefineLabel();
         try
         {
             helper
-                .FindFirst(
-                    new CodeInstruction(OpCodes.Bge_Un_S) // find index of first branch instruction
-                )
+                .FindFirst(new CodeInstruction(OpCodes.Bge_Un_S)) // find index of first branch instruction
                 .GetOperand(out var returnLabel) // get return label
                 .Return()
                 .AddLabels(resumeExecution)
-                .InsertInstructions(
-                    new CodeInstruction(OpCodes.Ldarg_1) // arg 1 = Farmer who
-                )
+                .InsertInstructions(new CodeInstruction(OpCodes.Ldarg_1)) // arg 1 = Farmer who
                 .InsertProfessionCheck(Profession.Piper.Value, forLocalPlayer: false)
                 .InsertInstructions(
                     new CodeInstruction(OpCodes.Brfalse_S, resumeExecution),
-                    new CodeInstruction(OpCodes.Ldarg_1) // arg 1 = Farmer who
-                )
+                    new CodeInstruction(OpCodes.Ldarg_1)) // arg 1 = Farmer who
                 .InsertProfessionCheck(Profession.Piper.Value + 100, forLocalPlayer: false)
-                .InsertInstructions(
-                    new CodeInstruction(OpCodes.Brfalse_S, returnLabel)
-                );
+                .InsertInstructions(new CodeInstruction(OpCodes.Brfalse_S, returnLabel));
         }
         catch (Exception ex)
         {

@@ -2,25 +2,29 @@
 
 #region using directives
 
+using System;
+using System.Collections.Generic;
+using System.Reflection;
+using System.Reflection.Emit;
 using DaLion.Common;
 using DaLion.Common.Attributes;
 using DaLion.Common.Extensions.Reflection;
 using DaLion.Common.Harmony;
 using HarmonyLib;
-using System;
-using System.Collections.Generic;
-using System.Reflection;
-using System.Reflection.Emit;
+using HarmonyPatch = DaLion.Common.Harmony.HarmonyPatch;
 
 #endregion using directives
 
-[UsedImplicitly, RequiresMod("Annosz.UiInfoSuite2", "2.2.6")]
-internal sealed class ExperieneBarDrawExperienceBarPatch : DaLion.Common.Harmony.HarmonyPatch
+[UsedImplicitly]
+[RequiresMod("Annosz.UiInfoSuite2", "2.2.6")]
+internal sealed class ExperienceBarDrawExperienceBarPatch : HarmonyPatch
 {
-    /// <summary>Construct an instance.</summary>
-    internal ExperieneBarDrawExperienceBarPatch()
+    /// <summary>Initializes a new instance of the <see cref="ExperienceBarDrawExperienceBarPatch"/> class.</summary>
+    internal ExperienceBarDrawExperienceBarPatch()
     {
-        Target = "UIInfoSuite2.UIElements.ExperienceBar".ToType().RequireMethod("DrawExperienceBar");
+        this.Target = "UIInfoSuite2.UIElements.ExperienceBar"
+            .ToType()
+            .RequireMethod("DrawExperienceBar");
     }
 
     #region harmony patches
@@ -30,17 +34,14 @@ internal sealed class ExperieneBarDrawExperienceBarPatch : DaLion.Common.Harmony
     private static IEnumerable<CodeInstruction>? ExperienceBarDrawExperienceBarTranspiler(
         IEnumerable<CodeInstruction> instructions, MethodBase original)
     {
-        var helper = new ILHelper(original, instructions);
+        var helper = new IlHelper(original, instructions);
 
-        /// From: Game1.spriteBatch.Draw(Game1.mouseCursors, new Vector2(num + 54f, ...
-        /// To: Game1.spriteBatch.Draw(Game1.mouseCursors, new Vector2(num + 162f, ...
-
+        // From: Game1.spriteBatch.Draw(Game1.mouseCursors, new Vector2(num + 54f, ...
+        // To: Game1.spriteBatch.Draw(Game1.mouseCursors, new Vector2(num + 162f, ...
         try
         {
             helper
-                .FindFirst(
-                    new CodeInstruction(OpCodes.Ldc_R4, 54f)
-                )
+                .FindFirst(new CodeInstruction(OpCodes.Ldc_R4, 54f))
                 .SetOperand(174f);
         }
         catch (Exception ex)

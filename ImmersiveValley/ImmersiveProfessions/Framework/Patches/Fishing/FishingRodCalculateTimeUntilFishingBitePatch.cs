@@ -2,19 +2,20 @@
 
 #region using directives
 
-using Extensions;
+using DaLion.Stardew.Professions.Extensions;
 using HarmonyLib;
 using StardewValley.Tools;
+using HarmonyPatch = DaLion.Common.Harmony.HarmonyPatch;
 
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class FishingRodCalculateTimeUntilFishingBitePatch : DaLion.Common.Harmony.HarmonyPatch
+internal sealed class FishingRodCalculateTimeUntilFishingBitePatch : HarmonyPatch
 {
-    /// <summary>Construct an instance.</summary>
+    /// <summary>Initializes a new instance of the <see cref="FishingRodCalculateTimeUntilFishingBitePatch"/> class.</summary>
     internal FishingRodCalculateTimeUntilFishingBitePatch()
     {
-        Target = RequireMethod<FishingRod>("calculateTimeUntilFishingBite");
+        this.Target = this.RequireMethod<FishingRod>("calculateTimeUntilFishingBite");
     }
 
     #region harmony patches
@@ -24,7 +25,10 @@ internal sealed class FishingRodCalculateTimeUntilFishingBitePatch : DaLion.Comm
     private static bool FishingRodCalculateTimeUntilFishingBitePrefix(FishingRod __instance, ref float __result)
     {
         var who = __instance.getLastFarmerToUse();
-        if (!who.HasProfession(Profession.Fisher, true)) return true; // run original logic
+        if (!who.HasProfession(Profession.Fisher, true))
+        {
+            return true; // run original logic
+        }
 
         __result = 50;
         return false; // don't run original logic
@@ -35,7 +39,10 @@ internal sealed class FishingRodCalculateTimeUntilFishingBitePatch : DaLion.Comm
     private static void FishingRodCalculateTimeUntilFishingBitePostfix(FishingRod __instance, ref float __result)
     {
         var who = __instance.getLastFarmerToUse();
-        if (who.HasProfession(Profession.Fisher)) __result *= 0.5f;
+        if (who.HasProfession(Profession.Fisher))
+        {
+            __result *= 0.5f;
+        }
     }
 
     #endregion harmony patches

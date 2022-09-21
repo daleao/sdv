@@ -2,21 +2,24 @@
 
 #region using directives
 
-using Common;
-using Common.Commands;
-using Extensions;
-using StardewValley.Buildings;
 using System.Linq;
+using DaLion.Common;
+using DaLion.Common.Commands;
+using DaLion.Common.Extensions.Stardew;
+using DaLion.Stardew.Ponds.Extensions;
+using StardewValley.Buildings;
 
 #endregion using directives
 
 [UsedImplicitly]
 internal sealed class UnlockPopulationGatesCommand : ConsoleCommand
 {
-    /// <summary>Construct an instance.</summary>
+    /// <summary>Initializes a new instance of the <see cref="UnlockPopulationGatesCommand"/> class.</summary>
     /// <param name="handler">The <see cref="CommandHandler"/> instance that handles this command.</param>
     internal UnlockPopulationGatesCommand(CommandHandler handler)
-        : base(handler) { }
+        : base(handler)
+    {
+    }
 
     /// <inheritdoc />
     public override string[] Triggers { get; } = { "unlock_gates", "unlock", "gates" };
@@ -29,22 +32,15 @@ internal sealed class UnlockPopulationGatesCommand : ConsoleCommand
     public override void Callback(string[] args)
     {
         if (args.Length > 0)
-            Log.W("Additional arguments will be ignored.");
-
-        var ponds = Game1.getFarm().buildings.OfType<FishPond>().Where(p =>
-                (p.owner.Value == Game1.player.UniqueMultiplayerID || !Context.IsMultiplayer) &&
-                !p.isUnderConstruction())
-            .ToHashSet();
-        if (ponds.Count <= 0)
         {
-            Log.W("You don't own any Fish Ponds.");
-            return;
+            Log.W("Additional arguments will be ignored.");
         }
 
-        var nearest = Game1.player.GetClosestBuilding(out _, ponds);
+        var nearest = Game1.player.GetClosestBuilding<FishPond>(predicate: b =>
+            (b.owner.Value == Game1.player.UniqueMultiplayerID || !Context.IsMultiplayer) && !b.isUnderConstruction());
         if (nearest is null)
         {
-            Log.W("There are no ponds nearby.");
+            Log.W("There are no owned ponds nearby.");
             return;
         }
 
@@ -56,7 +52,7 @@ internal sealed class UnlockPopulationGatesCommand : ConsoleCommand
 
         if (nearest.HasUnlockedFinalPopulationGate())
         {
-            Log.W("The nearest pond has no populatio gates left to unlock.");
+            Log.W("The nearest pond has no population gates left to unlock.");
             return;
         }
 

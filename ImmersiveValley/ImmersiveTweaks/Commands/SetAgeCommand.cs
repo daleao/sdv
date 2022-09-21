@@ -2,22 +2,24 @@
 
 #region using directives
 
-using Common;
-using Common.Commands;
-using Common.Extensions.Stardew;
-using Extensions;
-using StardewValley.TerrainFeatures;
 using System.Linq;
+using DaLion.Common;
+using DaLion.Common.Commands;
+using DaLion.Common.Extensions.Stardew;
+using DaLion.Stardew.Tweex.Extensions;
+using StardewValley.TerrainFeatures;
 
 #endregion using directives
 
 [UsedImplicitly]
 internal sealed class SetAgeCommand : ConsoleCommand
 {
-    /// <summary>Construct an instance.</summary>
+    /// <summary>Initializes a new instance of the <see cref="SetAgeCommand"/> class.</summary>
     /// <param name="handler">The <see cref="CommandHandler"/> instance that handles this command.</param>
     internal SetAgeCommand(CommandHandler handler)
-        : base(handler) { }
+        : base(handler)
+    {
+    }
 
     /// <inheritdoc />
     public override string[] Triggers { get; } = { "set_age", "age" };
@@ -31,15 +33,18 @@ internal sealed class SetAgeCommand : ConsoleCommand
     {
         if (args.Length is < 2 or > 3)
         {
-            Log.W("You must specify a target type and age value." + GetUsage());
+            Log.W("You must specify a target type and age value." + this.GetUsage());
             return;
         }
 
         var all = args.Any(a => a is "-a" or "--all");
-        if (all) args = args.Except(new[] { "-a", "--all" }).ToArray();
+        if (all)
+        {
+            args = args.Except(new[] { "-a", "--all" }).ToArray();
+        }
 
-        bool clear = false;
-        if (args[1].ToLowerInvariant() is ("clear" or "null"))
+        var clear = false;
+        if (args[1].ToLowerInvariant() is "clear" or "null")
         {
             clear = true;
         }
@@ -52,97 +57,110 @@ internal sealed class SetAgeCommand : ConsoleCommand
         switch (args[0].ToLowerInvariant())
         {
             case "tree":
+            {
+                if (all)
                 {
-                    if (all)
+                    foreach (var tree in Game1.locations.SelectMany(l => l.terrainFeatures.Values.OfType<Tree>()))
                     {
-                        foreach (var tree in Game1.locations.SelectMany(l => l.terrainFeatures.Values.OfType<Tree>()))
-                            tree.Write("Age", clear ? null : args[1]);
-                        Log.I(clear ? "Cleared all tree age data." : $"Set all tree age data to {args[1]} days.");
-                        break;
+                        tree.Write("Age", clear ? null : args[1]);
                     }
 
-                    var nearest = Game1.player.GetClosestTerrainFeature<Tree>();
-                    if (nearest is null)
-                    {
-                        Log.W("There are no trees nearby.");
-                        return;
-                    }
-
-                    nearest.Write("Age", clear ? null : args[1]);
-                    Log.I(clear
-                        ? $"Cleared {nearest.NameFromType()}'s age data"
-                        : $"Set {nearest.NameFromType()}'s age data to {args[1]} days.");
+                    Log.I(clear ? "Cleared all tree age data." : $"Set all tree age data to {args[1]} days.");
                     break;
                 }
+
+                var nearest = Game1.player.GetClosestTerrainFeature<Tree>();
+                if (nearest is null)
+                {
+                    Log.W("There are no trees nearby.");
+                    return;
+                }
+
+                nearest.Write("Age", clear ? null : args[1]);
+                Log.I(clear
+                    ? $"Cleared {nearest.NameFromType()}'s age data"
+                    : $"Set {nearest.NameFromType()}'s age data to {args[1]} days.");
+                break;
+            }
+
             case "bee":
             case "hive":
             case "beehive":
             case "beehouse":
+            {
+                if (all)
                 {
-                    if (all)
+                    foreach (var hive in Game1.locations.SelectMany(l =>
+                                 l.objects.Values.Where(o => o.Name == "Bee House")))
                     {
-                        foreach (var hive in Game1.locations.SelectMany(l =>
-                                     l.objects.Values.Where(o => o.Name == "Bee House")))
-                            hive.Write("Age", clear ? null : args[1]);
-                        Log.I(clear ? "Cleared all bee house age data." : $"Set all bee house age data to {args[1]} days.");
-                        break;
+                        hive.Write("Age", clear ? null : args[1]);
                     }
 
-                    var nearest =
-                        Game1.player.GetClosestObject<SObject>(predicate: o => o.bigCraftable.Value && o.Name == "Bee House");
-                    if (nearest is null)
-                    {
-                        Log.W("There are no bee houses nearby.");
-                        return;
-                    }
-
-                    nearest.Write("Age", clear ? null : args[1]);
-                    Log.I(clear ? "Cleared Bee House's age data." : $"Set Bee House's age data to {args[1]} days.");
+                    Log.I(clear ? "Cleared all bee house age data." : $"Set all bee house age data to {args[1]} days.");
                     break;
                 }
+
+                var nearest =
+                    Game1.player.GetClosestObject<SObject>(
+                        predicate: o => o.bigCraftable.Value && o.Name == "Bee House");
+                if (nearest is null)
+                {
+                    Log.W("There are no bee houses nearby.");
+                    return;
+                }
+
+                nearest.Write("Age", clear ? null : args[1]);
+                Log.I(clear ? "Cleared Bee House's age data." : $"Set Bee House's age data to {args[1]} days.");
+                break;
+            }
+
             case "mushroom":
             case "shroom":
             case "box":
             case "mushroombox":
             case "shroombox":
+            {
+                if (all)
                 {
-                    if (all)
+                    foreach (var box in Game1.locations.SelectMany(l =>
+                                 l.objects.Values.Where(o => o.Name == "Mushroom Box")))
                     {
-                        foreach (var box in Game1.locations.SelectMany(l =>
-                                     l.objects.Values.Where(o => o.Name == "Mushroom Box")))
-                            box.Write("Age", clear ? null : args[1]);
-                        Log.I(clear
-                            ? "Cleared all mushroom box age data."
-                            : $"Set all mushroom box age data to {args[1]} days.");
-                        break;
+                        box.Write("Age", clear ? null : args[1]);
                     }
 
-                    var nearest =
-                        Game1.player.GetClosestObject<SObject>(predicate: o => o.bigCraftable.Value && o.Name == "Mushroom Box");
-                    if (nearest is null)
-                    {
-                        Log.W("There are no mushroom boxes nearby.");
-                        return;
-                    }
-
-                    nearest.Write("Age", clear ? null : args[1]);
-                    Log.I(clear ? "Cleared Mushroom Box's age data." : $"Set Mushroom Box's age data to {args[1]} days.");
+                    Log.I(clear
+                        ? "Cleared all mushroom box age data."
+                        : $"Set all mushroom box age data to {args[1]} days.");
                     break;
                 }
+
+                var nearest =
+                    Game1.player.GetClosestObject<SObject>(predicate: o =>
+                        o.bigCraftable.Value && o.Name == "Mushroom Box");
+                if (nearest is null)
+                {
+                    Log.W("There are no mushroom boxes nearby.");
+                    return;
+                }
+
+                nearest.Write("Age", clear ? null : args[1]);
+                Log.I(clear ? "Cleared Mushroom Box's age data." : $"Set Mushroom Box's age data to {args[1]} days.");
+                break;
+            }
         }
     }
 
     private string GetUsage()
     {
-        var result = $"\n\nUsage: {Handler.EntryCommand} {Triggers.First()} [--all / -a] <target type> <age>";
+        var result = $"\n\nUsage: {this.Handler.EntryCommand} {this.Triggers.First()} [--all / -a] <target type> <age>";
         result += "\n\nParameters:";
         result += "\n\t- <target type>\t- one of 'tree', 'beehive' or 'mushroombox'";
         result += "\n\nOptional flags:";
         result +=
             "\n\t--all, -a\t- set the age of all instances of the specified type, instead of just the nearest one.";
         result += "\n\nExamples:";
-        result += $"\n\t- {Handler.EntryCommand} {Triggers.First()} hive 112";
-        result += $"\n\t- {Handler.EntryCommand} {Triggers.First()} -a tree 224";
+        result += $"\n\t- {this.Handler.EntryCommand} {this.Triggers.First()} hive 112";
+        result += $"\n\t- {this.Handler.EntryCommand} {this.Triggers.First()} -a tree 224";
         return result;
     }
 }

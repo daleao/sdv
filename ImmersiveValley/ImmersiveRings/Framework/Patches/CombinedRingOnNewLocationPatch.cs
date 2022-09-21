@@ -2,29 +2,29 @@
 
 #region using directives
 
-using Extensions;
+using DaLion.Stardew.Rings.Framework.VirtualProperties;
 using HarmonyLib;
 using StardewValley.Objects;
+using HarmonyPatch = DaLion.Common.Harmony.HarmonyPatch;
 
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class CombinedRingOnNewLocationPatch : Common.Harmony.HarmonyPatch
+internal sealed class CombinedRingOnNewLocationPatch : HarmonyPatch
 {
-    /// <summary>Construct an instance.</summary>
+    /// <summary>Initializes a new instance of the <see cref="CombinedRingOnNewLocationPatch"/> class.</summary>
     internal CombinedRingOnNewLocationPatch()
     {
-        Target = RequireMethod<CombinedRing>(nameof(CombinedRing.onNewLocation));
+        this.Target = this.RequireMethod<CombinedRing>(nameof(CombinedRing.onNewLocation));
     }
 
     #region harmony patches
 
-    /// <summary>Add Iridium Band resonance location effects.</summary>
+    /// <summary>Add Infinity Band resonance location effects.</summary>
     [HarmonyPostfix]
-    private static void CombinedRingOnNewLocationPostfix(CombinedRing __instance, Farmer who, GameLocation environment)
+    private static void CombinedRingOnNewLocationPostfix(CombinedRing __instance, GameLocation environment)
     {
-        if (__instance.ParentSheetIndex == Constants.IRIDIUM_BAND_INDEX_I && __instance.combinedRings.Count >= 2)
-            __instance.ApplyResonanceGlow(environment, who);
+        __instance.Get_Chord()?.OnNewLocation(environment);
     }
 
     #endregion harmony patches

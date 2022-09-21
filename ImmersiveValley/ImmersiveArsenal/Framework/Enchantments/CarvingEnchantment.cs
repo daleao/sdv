@@ -2,12 +2,12 @@
 
 #region using directives
 
-using Common.Extensions.Reflection;
-using Common.Extensions.Stardew;
-using Netcode;
-using StardewValley.Monsters;
 using System;
 using System.Xml.Serialization;
+using DaLion.Common.Extensions.Reflection;
+using DaLion.Common.Extensions.Stardew;
+using Netcode;
+using StardewValley.Monsters;
 
 #endregion using directives
 
@@ -15,23 +15,34 @@ using System.Xml.Serialization;
 [XmlType("Mods_DaLion_CarvingEnchantment")]
 public class CarvingEnchantment : BaseWeaponEnchantment
 {
-    private static readonly Lazy<Func<RockCrab, NetBool>> _GetShellGone = new(() =>
-        typeof(RockCrab).RequireField("shellGone").CompileUnboundFieldGetterDelegate<RockCrab, NetBool>());
+    private static readonly Lazy<Func<RockCrab, NetBool>> GetShellGone = new(() =>
+        typeof(RockCrab)
+            .RequireField("shellGone")
+            .CompileUnboundFieldGetterDelegate<RockCrab, NetBool>());
 
+    /// <inheritdoc />
+    public override string GetName()
+    {
+        return ModEntry.i18n.Get("enchantments.carving");
+    }
+
+    /// <inheritdoc />
     protected override void _OnDealDamage(Monster monster, GameLocation location, Farmer who, ref int amount)
     {
         monster.resilience.Value = Math.Max(monster.resilience.Value - 1, -1);
         switch (monster)
         {
-            case Bug {isArmoredBug.Value: true, resilience.Value: < 0} bug:
+            case Bug { isArmoredBug.Value: true, resilience.Value: < 0 } bug:
                 bug.isArmoredBug.Value = false;
                 break;
             case RockCrab crab:
                 crab.Increment("Carved");
-                if (crab.Read<int>("Carved") > 3) _GetShellGone.Value(crab).Value = true;
+                if (crab.Read<int>("Carved") > 3)
+                {
+                    GetShellGone.Value(crab).Value = true;
+                }
+
                 break;
         }
     }
-
-    public override string GetName() => ModEntry.i18n.Get("enchantments.carving");
 }

@@ -2,20 +2,24 @@
 
 #region using directives
 
-using Common.Attributes;
-using Common.Extensions.Reflection;
-using Extensions;
+using DaLion.Common.Attributes;
+using DaLion.Common.Extensions.Reflection;
+using DaLion.Stardew.Arsenal.Extensions;
 using HarmonyLib;
+using HarmonyPatch = DaLion.Common.Harmony.HarmonyPatch;
 
 #endregion using directives
 
-[UsedImplicitly, RequiresMod("spacechase0.SpaceCore")]
-internal sealed class NewForgeMenuIsValidCraftIngredient : Common.Harmony.HarmonyPatch
+[UsedImplicitly]
+[RequiresMod("spacechase0.SpaceCore")]
+internal sealed class NewForgeMenuIsValidCraftIngredient : HarmonyPatch
 {
-    /// <summary>Construct an instance.</summary>
+    /// <summary>Initializes a new instance of the <see cref="NewForgeMenuIsValidCraftIngredient"/> class.</summary>
     internal NewForgeMenuIsValidCraftIngredient()
     {
-        Target = "SpaceCore.Interface.NewForgeMenu".ToType().RequireMethod("IsValidCraftIngredient");
+        this.Target = "SpaceCore.Interface.NewForgeMenu"
+            .ToType()
+            .RequireMethod("IsValidCraftIngredient");
     }
 
     #region harmony patches
@@ -24,7 +28,10 @@ internal sealed class NewForgeMenuIsValidCraftIngredient : Common.Harmony.Harmon
     [HarmonyPostfix]
     private static void NewForgeMenuIsValidCraftIngredientPostfix(ref bool __result, Item item)
     {
-        if (item.IsHeroSoul()) __result = true;
+        if (item.IsHeroSoul())
+        {
+            __result = true;
+        }
     }
 
     #endregion harmony patches

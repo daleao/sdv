@@ -2,6 +2,10 @@
 
 #region using directives
 
+using System;
+using System.Collections.Generic;
+using System.Reflection;
+using System.Reflection.Emit;
 using DaLion.Common;
 using DaLion.Common.Extensions.Reflection;
 using DaLion.Common.Harmony;
@@ -9,20 +13,17 @@ using HarmonyLib;
 using Microsoft.Xna.Framework;
 using Netcode;
 using StardewValley.Projectiles;
-using System;
-using System.Collections.Generic;
-using System.Reflection;
-using System.Reflection.Emit;
+using HarmonyPatch = DaLion.Common.Harmony.HarmonyPatch;
 
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class ProjectileUpdatePatch : DaLion.Common.Harmony.HarmonyPatch
+internal sealed class ProjectileUpdatePatch : HarmonyPatch
 {
-    /// <summary>Construct an instance.</summary>
+    /// <summary>Initializes a new instance of the <see cref="ProjectileUpdatePatch"/> class.</summary>
     internal ProjectileUpdatePatch()
     {
-        Target = RequireMethod<Projectile>(nameof(Projectile.update));
+        this.Target = this.RequireMethod<Projectile>(nameof(Projectile.update));
     }
 
     #region harmony patches
@@ -32,11 +33,10 @@ internal sealed class ProjectileUpdatePatch : DaLion.Common.Harmony.HarmonyPatch
     private static IEnumerable<CodeInstruction>? ProjectileUpdateTranspiler(
         IEnumerable<CodeInstruction> instructions, ILGenerator generator, MethodBase original)
     {
-        var helper = new ILHelper(original, instructions);
+        var helper = new IlHelper(original, instructions);
 
-        /// Injected: this.DidBounce = true;
-        /// After: bouncesLeft.Value--;
-
+        // Injected: this.DidBounce = true;
+        // After: bouncesLeft.Value--;
         var projectile = generator.DeclareLocal(typeof(ImmersiveProjectile));
         var notTrickShot = generator.DefineLabel();
         try
@@ -44,12 +44,11 @@ internal sealed class ProjectileUpdatePatch : DaLion.Common.Harmony.HarmonyPatch
             helper
                 .FindFirst(
                     new CodeInstruction(OpCodes.Ldfld, typeof(Projectile).RequireField("bouncesLeft")),
-                    new CodeInstruction(OpCodes.Dup)
-                )
+                    new CodeInstruction(OpCodes.Dup))
                 .AdvanceUntil(
-                    new CodeInstruction(OpCodes.Callvirt,
-                        typeof(NetFieldBase<int, NetInt>).RequirePropertySetter("Value"))
-                )
+                    new CodeInstruction(
+                        OpCodes.Callvirt,
+                        typeof(NetFieldBase<int, NetInt>).RequirePropertySetter("Value")))
                 .Advance()
                 .AddLabels(notTrickShot)
                 .InsertInstructions(
@@ -62,20 +61,23 @@ internal sealed class ProjectileUpdatePatch : DaLion.Common.Harmony.HarmonyPatch
                     // check if is colliding with monster
                     new CodeInstruction(OpCodes.Ldarg_2),
                     new CodeInstruction(OpCodes.Ldarg_0),
-                    new CodeInstruction(OpCodes.Callvirt,
+                    new CodeInstruction(
+                        OpCodes.Callvirt,
                         typeof(Projectile).RequireMethod(nameof(Projectile.getBoundingBox))),
                     new CodeInstruction(OpCodes.Ldc_I4_0),
-                    new CodeInstruction(OpCodes.Callvirt,
-                        typeof(GameLocation).RequireMethod(nameof(GameLocation.doesPositionCollideWithCharacter),
+                    new CodeInstruction(
+                        OpCodes.Callvirt,
+                        typeof(GameLocation).RequireMethod(
+                            nameof(GameLocation.doesPositionCollideWithCharacter),
                             new[] { typeof(Rectangle), typeof(bool) })),
                     new CodeInstruction(OpCodes.Ldnull),
                     new CodeInstruction(OpCodes.Bgt_Un_S, notTrickShot),
                     // add to bounced bullet set
                     new CodeInstruction(OpCodes.Ldloc_S, projectile),
                     new CodeInstruction(OpCodes.Ldc_I4_1),
-                    new CodeInstruction(OpCodes.Call,
-                        typeof(ImmersiveProjectile).RequirePropertySetter(nameof(ImmersiveProjectile.DidBounce)))
-                );
+                    new CodeInstruction(
+                        OpCodes.Call,
+                        typeof(ImmersiveProjectile).RequirePropertySetter(nameof(ImmersiveProjectile.DidBounce))));
         }
         catch (Exception ex)
         {

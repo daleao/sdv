@@ -2,55 +2,70 @@
 
 #region using directives
 
-using Common.Extensions.Stardew;
-using Netcode;
 using System.Runtime.CompilerServices;
-using Ultimates;
+using DaLion.Common;
+using DaLion.Common.Extensions.Stardew;
+using DaLion.Stardew.Professions.Extensions;
+using DaLion.Stardew.Professions.Framework.Events.Display;
+using DaLion.Stardew.Professions.Framework.Events.Player;
+using DaLion.Stardew.Professions.Framework.Ultimates;
+using Netcode;
 
 #endregion using directives
 
-public static class Farmer_Ultimate
+// ReSharper disable once InconsistentNaming
+internal static class Farmer_Ultimate
 {
+    internal static ConditionalWeakTable<Farmer, Holder> Values { get; } = new();
+
+    internal static Ultimate? Get_Ultimate(this Farmer farmer)
+    {
+        return Values.GetValue(farmer, Create).Ultimate;
+    }
+
+    internal static void Set_Ultimate(this Farmer farmer, Ultimate? value)
+    {
+        farmer.Write("UltimateIndex", value?.Index.ToString() ?? string.Empty);
+        Values.AddOrUpdate(farmer, Create(farmer));
+        Log.W($"{farmer.Name}'s Ultimate was set to {value}.");
+
+        if (value is not null)
+        {
+            ModEntry.Events.Enable<UltimateWarpedEvent>();
+            if (Game1.currentLocation.IsDungeon())
+            {
+                ModEntry.Events.Enable<UltimateMeterRenderingHudEvent>();
+            }
+        }
+        else
+        {
+            ModEntry.Events.DisableWithAttribute<UltimateEventAttribute>();
+        }
+    }
+
+    internal static NetInt Get_UltimateIndex(this Farmer farmer)
+    {
+        return Values.GetValue(farmer, Create).NetIndex;
+    }
+
+    // Net types are readonly
+    internal static void Set_UltimateIndex(this Farmer farmer, NetInt value)
+    {
+    }
+
+    private static Holder Create(Farmer farmer)
+    {
+        var holder = new Holder();
+        var index = farmer.Read("UltimateIndex", -1);
+        holder.Ultimate = index < 0 ? null : Ultimate.FromValue(index);
+        holder.NetIndex.Value = index;
+        return holder;
+    }
+
     internal class Holder
     {
-        public Ultimate? ultimate;
-        public readonly NetInt ultimateIndex = new(-1);
-        public readonly NetBool isUltimateActive = new(false);
-    }
+        public NetInt NetIndex { get; } = new(-1);
 
-    internal static ConditionalWeakTable<Farmer, Holder> Values = new();
-
-    public static NetInt get_UltimateIndex(this Farmer farmer)
-    {
-        var holder = Values.GetOrCreateValue(farmer);
-        return holder.ultimateIndex;
-    }
-
-    // Net types are readonly
-    public static void set_UltimateIndex(this Farmer farmer, NetInt newVal) { }
-
-    public static NetBool get_IsUltimateActive(this Farmer farmer)
-    {
-        var holder = Values.GetOrCreateValue(farmer);
-        return holder.isUltimateActive;
-    }
-
-    // Net types are readonly
-    public static void set_IsUltimateActive(this Farmer farmer, NetBool newVal) { }
-
-    public static Ultimate? get_Ultimate(this Farmer farmer)
-    {
-        var holder = Values.GetOrCreateValue(farmer);
-        return holder.ultimate;
-    }
-
-    public static void set_Ultimate(this Farmer farmer, Ultimate? newVal)
-    {
-        var holder = Values.GetOrCreateValue(farmer);
-        holder.ultimate = newVal;
-
-        var newIndex = newVal?.Index ?? UltimateIndex.None;
-        holder.ultimateIndex.Value = (int)newIndex;
-        farmer.Write("UltimateIndex", newIndex.ToString());
+        public Ultimate? Ultimate { get; internal set; }
     }
 }

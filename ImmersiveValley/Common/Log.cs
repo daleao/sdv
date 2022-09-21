@@ -10,61 +10,61 @@ using System.Diagnostics;
 public static class Log
 {
     /// <inheritdoc cref="IMonitor"/>
-    private static IMonitor _Monitor = null!;
+    private static IMonitor _monitor = null!;
 
-    /// <summary>Initialize static instance.</summary>
+    /// <summary>Initializes the static instance.</summary>
     /// <param name="monitor">Encapsulates monitoring and logging for a given module.</param>
     public static void Init(IMonitor monitor)
     {
-        _Monitor = monitor;
+        _monitor = monitor;
     }
 
-    /// <summary>Log a message as debug.</summary>
+    /// <summary>Logs a message as debug.</summary>
     /// <param name="message">The message.</param>
     [Conditional("DEBUG")]
     public static void D(string message)
     {
-        _Monitor.Log(message, LogLevel.Debug);
+        _monitor.Log(message, LogLevel.Debug);
     }
 
-    /// <summary>Log a message as trace.</summary>
+    /// <summary>Logs a message as trace.</summary>
     /// <param name="message">The message.</param>
     public static void T(string message)
     {
-        _Monitor.Log(message, LogLevel.Trace);
+        _monitor.Log(message);
     }
 
-    /// <summary>Log a message as info.</summary>
+    /// <summary>Logs a message as info.</summary>
     /// <param name="message">The message.</param>
     public static void I(string message)
     {
-        _Monitor.Log(message, LogLevel.Info);
+        _monitor.Log(message, LogLevel.Info);
     }
 
-    /// <summary>Log a message as alert.</summary>
+    /// <summary>Logs a message as alert.</summary>
     /// <param name="message">The message.</param>
     public static void A(string message)
     {
-        _Monitor.Log(message, LogLevel.Alert);
+        _monitor.Log(message, LogLevel.Alert);
     }
 
-    /// <summary>Log a message as warn.</summary>
+    /// <summary>Logs a message as warn.</summary>
     /// <param name="message">The message.</param>
     public static void W(string message)
     {
-        _Monitor.Log(message, LogLevel.Warn);
+        _monitor.Log(message, LogLevel.Warn);
     }
 
-    /// <summary>Log a message as error.</summary>
+    /// <summary>Logs a message as error.</summary>
     /// <param name="message">The message.</param>
     public static void E(string message)
     {
-        _Monitor.Log(message, LogLevel.Error);
+        _monitor.Log(message, LogLevel.Error);
     }
 
     /// <inheritdoc cref="IMonitor.VerboseLog"/>
     public static void V(string message)
     {
-        _Monitor.VerboseLog(message);
+        _monitor.VerboseLog(message);
     }
 }

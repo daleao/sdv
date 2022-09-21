@@ -2,31 +2,51 @@
 
 #region using directives
 
-using Common.Extensions;
+using DaLion.Common.Extensions;
 
 #endregion using directives
 
 /// <summary>Extensions for the <see cref="SObject"/> class.</summary>
 public static class SObjectExtensions
 {
-    /// <summary>Whether a given object is algae or seaweed.</summary>
-    public static bool IsAlgae(this SObject @object) =>
-        @object.ParentSheetIndex is Constants.SEAWEED_INDEX_I or Constants.GREEN_ALGAE_INDEX_I
-            or Constants.WHITE_ALGAE_INDEX_I;
+    /// <summary>Determines whether the <paramref name="obj"/> is algae or seaweed.</summary>
+    /// <param name="obj">The <see cref="SObject"/>.</param>
+    /// <returns><see langword="true"/> if the <paramref name="obj"/> is any of the three algae, otherwise <see langword="false"/>.</returns>
+    public static bool IsAlgae(this SObject obj)
+    {
+        return obj.ParentSheetIndex is Constants.SeaweedIndex or Constants.GreenAlgaeIndex
+            or Constants.WhiteAlgaeIndex;
+    }
 
-    /// <summary>Whether a given object is a non-radioactive metallic ore.</summary>
-    public static bool IsNonRadioactiveOre(this SObject @object) =>
-        @object.ParentSheetIndex is 378 or 380 or 384 or 386;
+    /// <summary>Determines whether the <paramref name="obj"/> is a non-radioactive metallic ore.</summary>
+    /// <param name="obj">The <see cref="SObject"/>.</param>
+    /// <returns><see langword="true"/> if the <paramref name="obj"/> is either copper, iron, gold or iridium ore, otherwise <see langword="false"/>.</returns>
+    public static bool IsNonRadioactiveOre(this SObject obj)
+    {
+        return obj.ParentSheetIndex is 378 or 380 or 384 or 386;
+    }
 
-    /// <summary>Whether a given object is a non-radioactive metal ingot.</summary>
-    public static bool IsNonRadioactiveIngot(this SObject @object) =>
-        @object.ParentSheetIndex is 334 or 335 or 336 or 337;
+    /// <summary>Determines whether the <paramref name="obj"/> is a non-radioactive metal ingot.</summary>
+    /// <param name="obj">The <see cref="SObject"/>.</param>
+    /// <returns><see langword="true"/> if the <paramref name="obj"/> is either copper, iron, gold or iridium ore, otherwise <see langword="false"/>.</returns>
+    public static bool IsNonRadioactiveIngot(this SObject obj)
+    {
+        return obj.ParentSheetIndex is 334 or 335 or 336 or 337;
+    }
 
-    /// <summary>Whether a given object is a radioactive fish.</summary>
-    public static bool IsRadioactiveFish(this SObject @object) =>
-        @object.Category == SObject.FishCategory && @object.Name.ContainsAnyOf("Mutant", "Radioactive");
+    /// <summary>Determines whether the <paramref name="obj"/> is a radioactive fish.</summary>
+    /// <param name="obj">The <see cref="SObject"/>.</param>
+    /// <returns><see langword="true"/> if the <paramref name="obj"/> is a mutant or radioactive fish species, otherwise <see langword="false"/>.</returns>
+    public static bool IsRadioactiveFish(this SObject obj)
+    {
+        return obj.Category == SObject.FishCategory && obj.Name.ContainsAnyOf("Mutant", "Radioactive");
+    }
 
-    /// <summary>Whether a given object is a legendary fish.</summary>
-    public static bool IsLegendary(this SObject @object) =>
-        @object.HasContextTag("fish_legendary");
+    /// <summary>Determines whether the <paramref name="obj"/> is a legendary fish.</summary>
+    /// <param name="obj">The <see cref="SObject"/>.</param>
+    /// <returns><see langword="true"/> if the <paramref name="obj"/> has the legendary fish context tag, otherwise <see langword="false"/>.</returns>
+    public static bool IsLegendary(this SObject obj)
+    {
+        return obj.HasContextTag("fish_legendary");
+    }
 }

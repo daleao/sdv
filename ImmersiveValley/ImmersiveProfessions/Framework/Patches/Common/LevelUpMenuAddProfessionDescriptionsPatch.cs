@@ -2,42 +2,47 @@
 
 #region using directives
 
-using DaLion.Common;
-using Extensions;
-using HarmonyLib;
-using StardewValley.Menus;
 using System;
 using System.Collections.Generic;
 using System.Reflection;
+using DaLion.Common;
+using DaLion.Stardew.Professions.Extensions;
+using HarmonyLib;
+using StardewValley.Menus;
+using HarmonyPatch = DaLion.Common.Harmony.HarmonyPatch;
 
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class LevelUpMenuAddProfessionDescriptionsPatch : DaLion.Common.Harmony.HarmonyPatch
+internal sealed class LevelUpMenuAddProfessionDescriptionsPatch : HarmonyPatch
 {
-    /// <summary>Construct an instance.</summary>
+    /// <summary>Initializes a new instance of the <see cref="LevelUpMenuAddProfessionDescriptionsPatch"/> class.</summary>
     internal LevelUpMenuAddProfessionDescriptionsPatch()
     {
-        Target = RequireMethod<LevelUpMenu>("addProfessionDescriptions");
+        this.Target = this.RequireMethod<LevelUpMenu>("addProfessionDescriptions");
     }
 
     #region harmony patches
 
     /// <summary>Patch to apply modded profession descriptions.</summary>
     [HarmonyPrefix]
-    private static bool LevelUpMenuAddProfessionDescriptionsPrefix(List<string> descriptions,
-        string professionName)
+    private static bool LevelUpMenuAddProfessionDescriptionsPrefix(
+        List<string> descriptions, string professionName)
     {
         try
         {
-            if (!Profession.TryFromName(professionName, out var profession) || (Skill)profession.Skill == Farmer.luckSkill) return true; // run original logic
+            if (!Profession.TryFromName(professionName, out var profession) ||
+                (Skill)profession.Skill == Farmer.luckSkill)
+            {
+                return true; // run original logic
+            }
 
-            descriptions.Add(profession.GetDisplayName(Game1.player.IsMale));
+            descriptions.Add(profession.DisplayName);
 
             var skillIndex = profession / 6;
             var currentLevel = Game1.player.GetUnmodifiedSkillLevel(skillIndex);
             var prestiged = Game1.player.HasProfession(profession, true) ||
-                            Game1.activeClickableMenu is LevelUpMenu && currentLevel > 10;
+                            (Game1.activeClickableMenu is LevelUpMenu && currentLevel > 10);
             descriptions.AddRange(profession.GetDescription(prestiged).Split('\n'));
 
             return false; // don't run original logic

@@ -1,4 +1,5 @@
-﻿namespace DaLion.Common.Integrations.LuckSkill;
+﻿#pragma warning disable CS1591
+namespace DaLion.Common.Integrations.LuckSkill;
 
 #region using directives
 
@@ -6,10 +7,9 @@ using System.Collections.Generic;
 
 #endregion using directives
 
-public interface ILuckSkillAPI
+/// <summary>The API provided by Luck Skill mod.</summary>
+public interface ILuckSkillApi
 {
-    IDictionary<int, IProfession> GetProfessions();
-
     public interface IProfession
     {
         int Id { get; }
@@ -22,4 +22,6 @@ public interface ILuckSkillAPI
 
         string Description { get; }
     }
+
+    IDictionary<int, IProfession> GetProfessions();
 }

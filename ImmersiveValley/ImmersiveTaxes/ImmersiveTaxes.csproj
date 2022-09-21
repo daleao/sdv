@@ -1,12 +1,12 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-	<Import Project="..\_build\common.targets" />
+	<Import Project="..\_build\common.targets"/>
 
 	<PropertyGroup>
 		<AssemblyName>ImmersiveTaxes</AssemblyName>
 		<RootNamespace>DaLion.Stardew.Taxes</RootNamespace>
 		<UpdateKeys>Nexus:12547"</UpdateKeys>
-		<Version>2.1.1</Version>
+		<Version>2.2.0</Version>
 	</PropertyGroup>
 
 	<PropertyGroup>

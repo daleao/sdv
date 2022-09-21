@@ -2,31 +2,36 @@
 
 #region using directives
 
-using Common.Events;
+using System;
+using DaLion.Common.Events;
+using DaLion.Stardew.Professions.Framework.TreasureHunts;
 using Microsoft.Xna.Framework;
 using StardewModdingAPI.Events;
-using System;
-using TreasureHunts;
 
 #endregion using directives
 
 [UsedImplicitly]
 internal sealed class ScavengerHuntRenderedHudEvent : RenderedHudEvent
 {
-    private ScavengerHunt? Hunt;
+    private ScavengerHunt? _hunt;
 
-    /// <summary>Construct an instance.</summary>
+    /// <summary>Initializes a new instance of the <see cref="ScavengerHuntRenderedHudEvent"/> class.</summary>
     /// <param name="manager">The <see cref="ProfessionEventManager"/> instance that manages this event.</param>
     internal ScavengerHuntRenderedHudEvent(ProfessionEventManager manager)
-        : base(manager) { }
+        : base(manager)
+    {
+    }
 
     /// <inheritdoc />
     protected override void OnRenderedHudImpl(object? sender, RenderedHudEventArgs e)
     {
-        Hunt ??= (ScavengerHunt)ModEntry.State.ScavengerHunt.Value;
-        if (!Hunt.TreasureTile.HasValue) return;
+        this._hunt ??= (ScavengerHunt)ModEntry.State.ScavengerHunt.Value;
+        if (!this._hunt.TreasureTile.HasValue)
+        {
+            return;
+        }
 
-        var treasureTile = Hunt.TreasureTile.Value;
+        var treasureTile = this._hunt.TreasureTile.Value;
 
         // track target
         ModEntry.Pointer.Value.DrawAsTrackingPointer(treasureTile, Color.Violet);
@@ -34,6 +39,8 @@ internal sealed class ScavengerHuntRenderedHudEvent : RenderedHudEvent
         // reveal if close enough
         var distanceSquared = (Game1.player.getTileLocation() - treasureTile).LengthSquared();
         if (distanceSquared <= Math.Pow(ModEntry.Config.TreasureDetectionDistance, 2))
+        {
             ModEntry.Pointer.Value.DrawOverTile(treasureTile, Color.Violet);
+        }
     }
 }

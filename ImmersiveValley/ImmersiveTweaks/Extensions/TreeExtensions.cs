@@ -2,7 +2,7 @@
 
 #region using directives
 
-using Common.Extensions.Stardew;
+using DaLion.Common.Extensions.Stardew;
 using StardewValley.TerrainFeatures;
 
 #endregion using directives
@@ -10,14 +10,21 @@ using StardewValley.TerrainFeatures;
 /// <summary>Extensions for the <see cref="Tree"/> class.</summary>
 public static class TreeExtensions
 {
-    /// <summary>Whether a given tree can hold a Tapper.</summary>
-    public static bool CanBeTapped(this Tree tree) =>
-        tree.treeType.Value is Tree.bushyTree or Tree.leafyTree or Tree.pineTree or Tree.mushroomTree
+    /// <summary>Determines whether the <paramref name="tree"/> can hold a Tapper.</summary>
+    /// <param name="tree">The <see cref="Tree"/>.</param>
+    /// <returns><see langword="true"/> if the <paramref name="tree"/>'s type accepts a Tapper, otherwise <see langword="false"/>.</returns>
+    public static bool CanBeTapped(this Tree tree)
+    {
+        return tree.treeType.Value is Tree.bushyTree or Tree.leafyTree or Tree.pineTree or Tree.mushroomTree
             or Tree.mahoganyTree;
+    }
 
-    /// <summary>Get a string representation of a given tree's species.</summary>
-    public static string NameFromType(this Tree tree) =>
-        tree.treeType.Value switch
+    /// <summary>Gets a string representation for the <paramref name="tree"/>'s species.</summary>
+    /// <param name="tree">The <see cref="Tree"/>.</param>
+    /// <returns>A human-readable <see cref="string"/> representation of the <paramref name="tree"/>'s type.</returns>
+    public static string NameFromType(this Tree tree)
+    {
+        return tree.treeType.Value switch
         {
             Tree.bushyTree => "Oak Tree",
             Tree.leafyTree => "Mahogany Tree",
@@ -28,14 +35,20 @@ public static class TreeExtensions
             Tree.mushroomTree => "Mushroom Tree",
             Tree.mahoganyTree => "Mahogany Tree",
             Tree.palmTree2 => "Palm Tree 2",
-            _ => "Unknown Tree"
+            _ => "Unknown Tree",
         };
+    }
 
-    /// <summary>Get an object quality value based on this tree's age.</summary>
+    /// <summary>Gets an object quality value based on this <paramref name="tree"/>'s age.</summary>
+    /// <param name="tree">The <see cref="Tree"/>.</param>
+    /// <returns>A <see cref="SObject"/> quality value.</returns>
     public static int GetQualityFromAge(this Tree tree)
     {
-        var skillFactor = 1f + Game1.player.ForagingLevel * 0.1f;
-        if (ModEntry.ProfessionsApi is not null && Game1.player.professions.Contains(Farmer.lumberjack)) ++skillFactor;
+        var skillFactor = 1f + (Game1.player.ForagingLevel * 0.1f);
+        if (ModEntry.ProfessionsApi is not null && Game1.player.professions.Contains(Farmer.lumberjack))
+        {
+            ++skillFactor;
+        }
 
         var age = (int)(tree.Read<int>("Age") * skillFactor * ModEntry.Config.AgeImproveQualityFactor);
         if (ModEntry.Config.DeterministicAgeQuality)
@@ -45,7 +58,7 @@ public static class TreeExtensions
                 >= 336 => SObject.bestQuality,
                 >= 224 => SObject.highQuality,
                 >= 112 => SObject.medQuality,
-                _ => SObject.lowQuality
+                _ => SObject.lowQuality,
             };
         }
 
@@ -54,7 +67,7 @@ public static class TreeExtensions
             >= 336 => SObject.bestQuality,
             >= 224 => SObject.highQuality,
             >= 112 => SObject.medQuality,
-            _ => SObject.lowQuality
+            _ => SObject.lowQuality,
         };
     }
 }

@@ -2,21 +2,22 @@
 
 #region using directives
 
+using System;
+using System.Reflection;
 using DaLion.Common;
 using HarmonyLib;
 using StardewValley.Menus;
-using System;
-using System.Reflection;
+using HarmonyPatch = DaLion.Common.Harmony.HarmonyPatch;
 
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class LevelUpMenuGetProfessionNamePatch : DaLion.Common.Harmony.HarmonyPatch
+internal sealed class LevelUpMenuGetProfessionNamePatch : HarmonyPatch
 {
-    /// <summary>Construct an instance.</summary>
+    /// <summary>Initializes a new instance of the <see cref="LevelUpMenuGetProfessionNamePatch"/> class.</summary>
     internal LevelUpMenuGetProfessionNamePatch()
     {
-        Target = RequireMethod<LevelUpMenu>("getProfessionName");
+        this.Target = this.RequireMethod<LevelUpMenu>("getProfessionName");
     }
 
     #region harmony patches
@@ -27,7 +28,10 @@ internal sealed class LevelUpMenuGetProfessionNamePatch : DaLion.Common.Harmony.
     {
         try
         {
-            if (!Profession.TryFromValue(whichProfession, out var profession)) return true; // run original logic
+            if (!Profession.TryFromValue(whichProfession, out var profession))
+            {
+                return true; // run original logic
+            }
 
             __result = profession.Name;
             return false; // don't run original logic

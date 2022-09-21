@@ -2,22 +2,24 @@
 
 #region using directives
 
-using Common;
-using Common.Commands;
-using Common.Integrations.SpaceCore;
-using Framework;
 using System;
 using System.Linq;
+using DaLion.Common;
+using DaLion.Common.Commands;
+using DaLion.Common.Integrations.SpaceCore;
+using DaLion.Stardew.Professions.Framework;
 
 #endregion using directives
 
 [UsedImplicitly]
 internal sealed class ClearNewLevelsCommand : ConsoleCommand
 {
-    /// <summary>Construct an instance.</summary>
+    /// <summary>Initializes a new instance of the <see cref="ClearNewLevelsCommand"/> class.</summary>
     /// <param name="handler">The <see cref="CommandHandler"/> instance that handles this command.</param>
     internal ClearNewLevelsCommand(CommandHandler handler)
-        : base(handler) { }
+        : base(handler)
+    {
+    }
 
     /// <inheritdoc />
     public override string[] Triggers { get; } = { "clear_new_levels" };
@@ -30,8 +32,11 @@ internal sealed class ClearNewLevelsCommand : ConsoleCommand
     public override void Callback(string[] args)
     {
         if (args.Length <= 0)
+        {
             Game1.player.newLevels.Clear();
+        }
         else
+        {
             foreach (var arg in args)
             {
                 if (Skill.TryFromName(arg, true, out var skill))
@@ -40,7 +45,7 @@ internal sealed class ClearNewLevelsCommand : ConsoleCommand
                 }
                 else
                 {
-                    var customSkill = CustomSkill.LoadedSkills.Values.FirstOrDefault(s =>
+                    var customSkill = CustomSkill.Loaded.Values.FirstOrDefault(s =>
                         string.Equals(s.DisplayName, arg, StringComparison.CurrentCultureIgnoreCase));
                     if (customSkill is null)
                     {
@@ -48,10 +53,11 @@ internal sealed class ClearNewLevelsCommand : ConsoleCommand
                         continue;
                     }
 
-                    var newLevels = ExtendedSpaceCoreAPI.GetCustomSkillNewLevels.Value();
-                    ExtendedSpaceCoreAPI.SetCustomSkillNewLevels.Value(newLevels
+                    var newLevels = ExtendedSpaceCoreApi.GetCustomSkillNewLevels.Value();
+                    ExtendedSpaceCoreApi.SetCustomSkillNewLevels.Value(newLevels
                         .Where(pair => pair.Key != customSkill.StringId).ToList());
                 }
             }
+        }
     }
 }

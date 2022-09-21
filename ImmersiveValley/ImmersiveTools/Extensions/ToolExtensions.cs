@@ -2,17 +2,20 @@
 
 #region using directives
 
+using DaLion.Common.Extensions.Stardew;
 using Microsoft.Xna.Framework;
 
 #endregion using directives
 
+/// <summary>Extensions for the <see cref="Tool"/> class.</summary>
 public static class ToolExtensions
 {
-    /// <summary>Use a tool on a tile.</summary>
+    /// <summary>Uses the <paramref name="tool"/> on the given <paramref name="tile"/>.</summary>
+    /// <param name="tool">The <see cref="Tool"/>.</param>
     /// <param name="tile">The tile to affect.</param>
     /// <param name="location">The current location.</param>
     /// <param name="who">The current player.</param>
-    /// <returns><see langword="true"> for convenience when implementing tools.</returns>
+    /// <returns>Always <see langword="true"/>, for convenience when implementing tools.</returns>
     public static bool UseOnTile(this Tool tool, Vector2 tile, GameLocation location, Farmer who)
     {
         // use tool on center of tile

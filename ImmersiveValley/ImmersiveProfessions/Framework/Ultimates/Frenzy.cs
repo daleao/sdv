@@ -1,42 +1,33 @@
-﻿// ReSharper disable PossibleLossOfFraction
-namespace DaLion.Stardew.Professions.Framework.Ultimates;
+﻿namespace DaLion.Stardew.Professions.Framework.Ultimates;
 
 #region using directives
 
-using Microsoft.Xna.Framework;
-using Sounds;
 using System;
+using DaLion.Stardew.Professions.Framework.Sounds;
+using Microsoft.Xna.Framework;
 
 #endregion using directives
 
 /// <summary>Handles Brute ultimate activation.</summary>
 public sealed class Frenzy : Ultimate
 {
-    //private double _elapsedSinceDoT;
-    public const float PCT_INCREMENT_PER_RAGE_F = 0.01f;
+    internal const float PercentIncrementPerRage = 0.01f;
 
-    /// <summary>Construct an instance.</summary>
+    /// <summary>Initializes a new instance of the <see cref="Frenzy"/> class.</summary>
     internal Frenzy()
-    : base(UltimateIndex.BruteFrenzy, Color.OrangeRed, Color.OrangeRed) { }
-
-    #region internal properties
-
-    /// <inheritdoc />
-    internal override int BuffId { get; } = (ModEntry.Manifest.UniqueID + (int)UltimateIndex.BruteFrenzy + 4).GetHashCode();
+        : base("Frenzy", 26, Color.OrangeRed, Color.OrangeRed)
+    {
+    }
 
     /// <inheritdoc />
     internal override int MillisecondsDuration =>
-        (int)(15000 * ((double)MaxValue / BASE_MAX_VALUE_I) / ModEntry.Config.SpecialDrainFactor);
+        (int)(15000 * ((double)this.MaxValue / BaseMaxValue) / ModEntry.Config.SpecialDrainFactor);
 
     /// <inheritdoc />
-    internal override SFX ActivationSfx => SFX.BruteRage;
+    internal override Sfx ActivationSfx => Sfx.BruteRage;
 
     /// <inheritdoc />
     internal override Color GlowColor => Color.OrangeRed;
-
-    #endregion internal properties
-
-    #region internal methods
 
     /// <inheritdoc />
     internal override void Activate()
@@ -45,20 +36,31 @@ public sealed class Frenzy : Ultimate
 
         ModEntry.State.BruteKillCounter = 0;
 
-        Game1.buffsDisplay.removeOtherBuff(BuffId);
+        Game1.buffsDisplay.removeOtherBuff(this.BuffId);
         Game1.buffsDisplay.addOtherBuff(
-            new(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            new Buff(
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
                 1,
-                GetType().Name,
-                ModEntry.i18n.Get("brute.ulti.name"))
+                this.GetType().Name,
+                this.DisplayName)
             {
-                which = BuffId,
+                which = this.BuffId,
                 sheetIndex = 48,
-                glow = GlowColor,
-                millisecondsDuration = MillisecondsDuration,
-                description = ModEntry.i18n.Get("brute.ulti.desc")
-            }
-        );
+                glow = this.GlowColor,
+                millisecondsDuration = this.MillisecondsDuration,
+                description = this.Description,
+            });
     }
 
     /// <inheritdoc />
@@ -66,20 +68,22 @@ public sealed class Frenzy : Ultimate
     {
         base.Deactivate();
 
-        Game1.buffsDisplay.removeOtherBuff(BuffId);
+        Game1.buffsDisplay.removeOtherBuff(this.BuffId);
 
         var who = Game1.player;
         var healed = (int)(who.maxHealth * ModEntry.State.BruteKillCounter * 0.05f);
         who.health = Math.Min(who.health + healed, who.maxHealth);
-        who.currentLocation.debris.Add(new(healed,
-            new(who.getStandingX() + 8, who.getStandingY()), Color.Lime, 1f, who));
+        who.currentLocation.debris.Add(new Debris(
+            healed,
+            new Vector2(who.getStandingX() + 8, who.getStandingY()),
+            Color.Lime,
+            1f,
+            who));
     }
 
     /// <inheritdoc />
     internal override void Countdown()
     {
-        ChargeValue -= MaxValue / 900d; // lasts 15s * 60 ticks/s -> 900 ticks
+        this.ChargeValue -= this.MaxValue / 900d; // lasts 15s * 60 ticks/s -> 900 ticks
     }
-
-    #endregion internal methods
 }

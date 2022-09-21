@@ -9,19 +9,24 @@ using StardewModdingAPI.Events;
 /// <summary>Wrapper for <see cref="ISpecializedEvents.LoadStageChanged"/> allowing dynamic enabling / disabling.</summary>
 internal abstract class LoadStageChangedEvent : ManagedEvent
 {
-    /// <summary>Construct an instance.</summary>
+    /// <summary>Initializes a new instance of the <see cref="LoadStageChangedEvent"/> class.</summary>
     /// <param name="manager">The <see cref="EventManager"/> instance that manages this event.</param>
     protected LoadStageChangedEvent(EventManager manager)
-        : base(manager) { }
+        : base(manager)
+    {
+    }
 
     /// <inheritdoc cref="ISpecializedEvents.LoadStageChanged"/>
     /// <param name="sender">The event sender.</param>
     /// <param name="e">The event arguments.</param>
     internal void OnLoadStageChanged(object? sender, LoadStageChangedEventArgs e)
     {
-        if (IsEnabled) OnLoadStageChangedImpl(sender, e);
+        if (this.IsEnabled)
+        {
+            this.OnLoadStageChangedImpl(sender, e);
+        }
     }
 
-    /// <inheritdoc cref="OnLoadStageChanged" />
+    /// <inheritdoc cref="OnLoadStageChanged"/>
     protected abstract void OnLoadStageChangedImpl(object? sender, LoadStageChangedEventArgs e);
 }

@@ -2,61 +2,59 @@
 
 #region using directives
 
+using System.Linq;
 using DaLion.Common.Attributes;
 using DaLion.Common.Extensions;
 using DaLion.Common.Extensions.Reflection;
-using Extensions;
+using DaLion.Stardew.Professions.Extensions;
+using DaLion.Stardew.Professions.Framework.Textures;
 using HarmonyLib;
 using Microsoft.Xna.Framework;
 using StardewValley.Menus;
-using System.Linq;
-using Textures;
+using HarmonyPatch = DaLion.Common.Harmony.HarmonyPatch;
 
 #endregion using directives
 
-[UsedImplicitly, RequiresMod("spacechase0.SpaceCore")]
-internal sealed class NewSkillsPagePerformHoverActionPatch : DaLion.Common.Harmony.HarmonyPatch
+[UsedImplicitly]
+[RequiresMod("spacechase0.SpaceCore")]
+internal sealed class NewSkillsPagePerformHoverActionPatch : HarmonyPatch
 {
-    /// <summary>Construct an instance.</summary>
+    /// <summary>Initializes a new instance of the <see cref="NewSkillsPagePerformHoverActionPatch"/> class.</summary>
     internal NewSkillsPagePerformHoverActionPatch()
     {
-        Target = "SpaceCore.Interface.NewSkillsPage".ToType().RequireMethod("performHoverAction");
+        this.Target = "SpaceCore.Interface.NewSkillsPage"
+            .ToType()
+            .RequireMethod("performHoverAction");
     }
 
     #region harmony patches
 
     /// <summary>Patch to add prestige ribbon hover text + truncate profession descriptions in hover menu.</summary>
     [HarmonyPostfix]
-    private static void NewSkillsPagePerformHoverActionPostfix(IClickableMenu __instance, int x, int y,
-        ref string ___hoverText)
+    private static void NewSkillsPagePerformHoverActionPostfix(
+        IClickableMenu __instance, int x, int y, ref string ___hoverText)
     {
         ___hoverText = ___hoverText.Truncate(90);
 
-        if (!ModEntry.Config.EnablePrestige) return;
-
-        Rectangle bounds;
-        switch (ModEntry.Config.PrestigeProgressionStyle)
+        if (!ModEntry.Config.EnablePrestige)
         {
-            case ModConfig.ProgressionStyle.StackedStars:
-                bounds = new(
-                    __instance.xPositionOnScreen + __instance.width + Textures.PROGRESSION_HORIZONTAL_OFFSET_I - 22,
-                    __instance.yPositionOnScreen + IClickableMenu.spaceToClearTopBorder + IClickableMenu.borderWidth +
-                    Textures.PROGRESSION_VERTICAL_OFFSET_I + 8, 0,
-                    (int)(Textures.SINGLE_STAR_WIDTH_I * Textures.STARS_SCALE_F)
-                );
-                break;
-            case ModConfig.ProgressionStyle.Gen3Ribbons:
-            case ModConfig.ProgressionStyle.Gen4Ribbons:
-                bounds = new(
-                    __instance.xPositionOnScreen + __instance.width + Textures.PROGRESSION_HORIZONTAL_OFFSET_I,
-                    __instance.yPositionOnScreen + IClickableMenu.spaceToClearTopBorder + IClickableMenu.borderWidth +
-                    Textures.PROGRESSION_VERTICAL_OFFSET_I, (int)(Textures.RIBBON_WIDTH_I * Textures.RIBBON_SCALE_F),
-                    (int)(Textures.RIBBON_WIDTH_I * Textures.RIBBON_SCALE_F));
-                break;
-            default:
-                bounds = Rectangle.Empty;
-                break;
+            return;
         }
+
+        var bounds = ModEntry.Config.PrestigeProgressionStyle switch
+        {
+            ModConfig.ProgressionStyle.StackedStars => new Rectangle(
+                __instance.xPositionOnScreen + __instance.width + Textures.ProgressionHorizontalOffset - 22,
+                __instance.yPositionOnScreen + IClickableMenu.spaceToClearTopBorder + IClickableMenu.borderWidth + Textures.ProgressionVerticalOffset + 8,
+                0,
+                (int)(Textures.SingleStarWidth * Textures.StarsScale)),
+            ModConfig.ProgressionStyle.Gen3Ribbons or ModConfig.ProgressionStyle.Gen4Ribbons => new Rectangle(
+                __instance.xPositionOnScreen + __instance.width + Textures.ProgressionHorizontalOffset,
+                __instance.yPositionOnScreen + IClickableMenu.spaceToClearTopBorder + IClickableMenu.borderWidth + Textures.ProgressionVerticalOffset,
+                (int)(Textures.RibbonWidth * Textures.RibbonScale),
+                (int)(Textures.RibbonWidth * Textures.RibbonScale)),
+            _ => Rectangle.Empty,
+        };
 
         for (var i = 0; i < 5; ++i)
         {
@@ -67,43 +65,58 @@ internal sealed class NewSkillsPagePerformHoverActionPatch : DaLion.Common.Harmo
             {
                 1 => Skill.Mining,
                 3 => Skill.Fishing,
-                _ => Skill.FromValue(i)
+                _ => Skill.FromValue(i),
             };
             var professionsForThisSkill = Game1.player.GetProfessionsForSkill(skill, true);
             var count = professionsForThisSkill.Length;
-            if (count == 0) continue;
+            if (count == 0)
+            {
+                continue;
+            }
 
             bounds.Width = ModEntry.Config.PrestigeProgressionStyle is ModConfig.ProgressionStyle.Gen3Ribbons
                 or ModConfig.ProgressionStyle.Gen4Ribbons
-                ? (int)(Textures.RIBBON_WIDTH_I * Textures.RIBBON_SCALE_F)
-                : (int)((Textures.SINGLE_STAR_WIDTH_I / 2 * count + 4) * Textures.STARS_SCALE_F);
-            if (!bounds.Contains(x, y)) continue;
+                ? (int)(Textures.RibbonWidth * Textures.RibbonScale)
+                : (int)(((Textures.SingleStarWidth / 2 * count) + 4) * Textures.StarsScale);
+            if (!bounds.Contains(x, y))
+            {
+                continue;
+            }
 
             ___hoverText = ModEntry.i18n.Get("prestige.skillpage.tooltip", new { count });
             ___hoverText = professionsForThisSkill
-                .Select(p => p.GetDisplayName(Game1.player.IsMale))
+                .Select(p => p.DisplayName)
                 .Aggregate(___hoverText, (current, name) => current + $"\n• {name}");
         }
 
-        if (ModEntry.SpaceCoreApi is null) return;
+        if (ModEntry.SpaceCoreApi is null)
+        {
+            return;
+        }
 
-        foreach (var skill in CustomSkill.LoadedSkills.Values)
+        foreach (var skill in CustomSkill.Loaded.Values)
         {
             bounds.Y += 56;
             var professionsForThisSkill =
                 Game1.player.GetProfessionsForSkill(skill, true);
             var count = professionsForThisSkill.Length;
-            if (count == 0) continue;
+            if (count == 0)
+            {
+                continue;
+            }
 
             bounds.Width = ModEntry.Config.PrestigeProgressionStyle is ModConfig.ProgressionStyle.Gen3Ribbons
                 or ModConfig.ProgressionStyle.Gen4Ribbons
-                ? (int)(Textures.RIBBON_WIDTH_I * Textures.RIBBON_SCALE_F)
-                : (int)((Textures.SINGLE_STAR_WIDTH_I / 2 * count + 4) * Textures.STARS_SCALE_F);
-            if (!bounds.Contains(x, y)) continue;
+                ? (int)(Textures.RibbonWidth * Textures.RibbonScale)
+                : (int)(((Textures.SingleStarWidth / 2 * count) + 4) * Textures.StarsScale);
+            if (!bounds.Contains(x, y))
+            {
+                continue;
+            }
 
             ___hoverText = ModEntry.i18n.Get("prestige.skillpage.tooltip", new { count });
             ___hoverText = professionsForThisSkill
-                .Select(p => p.GetDisplayName())
+                .Select(p => p.DisplayName)
                 .Aggregate(___hoverText, (current, name) => current + $"\n• {name}");
         }
     }

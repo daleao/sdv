@@ -2,33 +2,35 @@
 
 #region using directives
 
-using Attributes;
-using Extensions.Reflection;
-using HarmonyLib;
 using System;
 using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
+using CommunityToolkit.Diagnostics;
+using DaLion.Common.Attributes;
+using DaLion.Common.Extensions.Reflection;
+using HarmonyLib;
 
 #endregion using directives
 
-/// <summary>Instantiates and applies <see cref="HarmonyPatch"/> classes in the assembly.</summary>
+/// <summary>Instantiates and applies <see cref="IHarmonyPatch"/> classes in the assembly.</summary>
 internal class Harmonizer
 {
     /// <inheritdoc cref="Harmony"/>
-    private readonly Harmony _Harmony;
-    private readonly IModRegistry _ModRegistry;
+    private readonly Harmony _harmony;
 
-    /// <summary>Construct an instance.</summary>
-    /// <param name="uniqueID">The unique ID of the declaring mod.</param>
-    /// /// <param name="modRegistry">API for fetching metadata about loaded mods.</param>
-    internal Harmonizer(IModRegistry modRegistry, string uniqueID)
+    private readonly IModRegistry _modRegistry;
+
+    /// <summary>Initializes a new instance of the <see cref="Harmonizer"/> class.</summary>
+    /// <param name="modRegistry">API for fetching metadata about loaded mods.</param>
+    /// <param name="uniqueId">The unique ID of the declaring mod.</param>
+    internal Harmonizer(IModRegistry modRegistry, string uniqueId)
     {
-        _Harmony = new(uniqueID);
-        _ModRegistry = modRegistry;
+        this._harmony = new Harmony(uniqueId);
+        this._modRegistry = modRegistry;
     }
 
-    /// <summary>Instantiate and apply one of every <see cref="IHarmonyPatch" /> class in the assembly using reflection.</summary>
+    /// <summary>Instantiates and applies one of every <see cref="IHarmonyPatch"/> class in the assembly using reflection.</summary>
     internal void ApplyAll()
     {
         var sw = new Stopwatch();
@@ -53,25 +55,29 @@ internal class Harmonizer
 
                 var deprecatedAttr =
                     (DeprecatedAttribute?)p.GetCustomAttributes(typeof(DeprecatedAttribute), false).FirstOrDefault();
-                if (deprecatedAttr is not null) continue;
+                if (deprecatedAttr is not null)
+                {
+                    continue;
+                }
 
-                var integrationAttr = (RequiresModAttribute?)p.GetCustomAttributes(typeof(RequiresModAttribute), false).FirstOrDefault();
+                var integrationAttr =
+                    (RequiresModAttribute?)p.GetCustomAttributes(typeof(RequiresModAttribute), false).FirstOrDefault();
                 if (integrationAttr is not null)
                 {
-                    if (!_ModRegistry.IsLoaded(integrationAttr.UniqueID))
+                    if (!this._modRegistry.IsLoaded(integrationAttr.UniqueId))
                     {
                         Log.D(
-                            $"[Harmonizer]: The target mod {integrationAttr.UniqueID} is not loaded. {p.Name} will be ignored.");
+                            $"[Harmonizer]: The target mod {integrationAttr.UniqueId} is not loaded. {p.Name} will be ignored.");
                         continue;
                     }
 
                     if (!string.IsNullOrEmpty(integrationAttr.Version) &&
-                        _ModRegistry.Get(integrationAttr.UniqueID)!.Manifest.Version.IsOlderThan(
+                        this._modRegistry.Get(integrationAttr.UniqueId)!.Manifest.Version.IsOlderThan(
                             integrationAttr.Version))
                     {
                         Log.W(
-                            $"[Harmonizer]: The integration patch {p.Name} will be ignored because the installed version of {integrationAttr.UniqueID} is older than minimum supported version." +
-                            $" Please update {integrationAttr.UniqueID} in order to enable integrations with {_Harmony.Id}.");
+                            $"[Harmonizer]: The integration patch {p.Name} will be ignored because the installed version of {integrationAttr.UniqueId} is older than minimum supported version." +
+                            $" Please update {integrationAttr.UniqueId} in order to enable integrations with {this._harmony.Id}.");
                         continue;
                     }
                 }
@@ -79,9 +85,12 @@ internal class Harmonizer
                 var patch = (IHarmonyPatch?)p
                     .GetConstructor(BindingFlags.Instance | BindingFlags.NonPublic, null, Type.EmptyTypes, null)
                     ?.Invoke(Array.Empty<object>());
-                if (patch is null) ThrowHelper.ThrowMissingMethodException("Didn't find internal parameter-less constructor.");
+                if (patch is null)
+                {
+                    ThrowHelper.ThrowMissingMethodException("Didn't find internal parameter-less constructor.");
+                }
 
-                patch.Apply(_Harmony);
+                patch.Apply(this._harmony);
                 Log.D($"[Harmonizer]: Applied {p.Name} to {patch.Target!.GetFullName()}.");
             }
             catch (MissingMethodException ex)

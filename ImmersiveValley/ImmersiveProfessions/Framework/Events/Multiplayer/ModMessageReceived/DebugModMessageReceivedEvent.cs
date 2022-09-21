@@ -2,35 +2,46 @@
 
 #region using directives
 
-using Common;
-using Common.Attributes;
-using Common.Events;
-using StardewModdingAPI.Events;
 using System.Linq;
+using CommunityToolkit.Diagnostics;
+using DaLion.Common;
+using DaLion.Common.Attributes;
+using DaLion.Common.Events;
+using StardewModdingAPI.Events;
 
 #endregion using directives
 
-[UsedImplicitly, DebugOnly]
+[UsedImplicitly]
+[DebugOnly]
 internal sealed class DebugModMessageReceivedEvent : ModMessageReceivedEvent
 {
-    /// <summary>Construct an instance.</summary>
+    /// <summary>Initializes a new instance of the <see cref="DebugModMessageReceivedEvent"/> class.</summary>
     /// <param name="manager">The <see cref="ProfessionEventManager"/> instance that manages this event.</param>
     internal DebugModMessageReceivedEvent(ProfessionEventManager manager)
         : base(manager)
     {
-        AlwaysEnabled = true;
+        this.AlwaysEnabled = true;
     }
 
     /// <inheritdoc />
-    public override bool Enable() => false;
+    public override bool Enable()
+    {
+        return false;
+    }
 
     /// <inheritdoc />
-    public override bool Disable() => false;
+    public override bool Disable()
+    {
+        return false;
+    }
 
     /// <inheritdoc />
     protected override void OnModMessageReceivedImpl(object? sender, ModMessageReceivedEventArgs e)
     {
-        if (e.FromModID != ModEntry.Manifest.UniqueID || !e.Type.StartsWith("Debug")) return;
+        if (e.FromModID != ModEntry.Manifest.UniqueID || !e.Type.StartsWith("Debug"))
+        {
+            return;
+        }
 
         var command = e.Type.Split('/')[1];
         var who = Game1.getFarmer(e.FromPlayerID);
@@ -48,7 +59,8 @@ internal sealed class DebugModMessageReceivedEvent : ModMessageReceivedEvent
                 switch (what)
                 {
                     case "EventsEnabled":
-                        var response = Manager.Enabled.Aggregate("",
+                        var response = this.Manager.Enabled.Aggregate(
+                            string.Empty,
                             (current, next) => current + "\n\t- " + next.GetType().Name);
                         ModEntry.Broadcaster.Message(response, "Debug/Response", e.FromPlayerID);
 
@@ -59,6 +71,12 @@ internal sealed class DebugModMessageReceivedEvent : ModMessageReceivedEvent
 
             case "Response":
                 Log.D($"Player {e.FromPlayerID} responded to {command} debug information.");
+                if (ModEntry.Broadcaster.ResponseReceived is null)
+                {
+                    Log.E("But the response was null.");
+                    return;
+                }
+
                 ModEntry.Broadcaster.ResponseReceived.TrySetResult(e.ReadAs<string>());
 
                 break;

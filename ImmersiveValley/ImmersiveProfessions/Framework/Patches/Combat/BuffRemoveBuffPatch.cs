@@ -2,20 +2,21 @@
 
 #region using directives
 
-using HarmonyLib;
 using System;
+using HarmonyLib;
+using HarmonyPatch = DaLion.Common.Harmony.HarmonyPatch;
 
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class BuffRemoveBuffPatch : DaLion.Common.Harmony.HarmonyPatch
+internal sealed class BuffRemoveBuffPatch : HarmonyPatch
 {
     private static readonly int _piperBuffId = (ModEntry.Manifest.UniqueID + Profession.Piper).GetHashCode();
 
-    /// <summary>Construct an instance.</summary>
+    /// <summary>Initializes a new instance of the <see cref="BuffRemoveBuffPatch"/> class.</summary>
     internal BuffRemoveBuffPatch()
     {
-        Target = RequireMethod<Buff>(nameof(Buff.removeBuff));
+        this.Target = this.RequireMethod<Buff>(nameof(Buff.removeBuff));
     }
 
     #region harmony patches
@@ -24,7 +25,9 @@ internal sealed class BuffRemoveBuffPatch : DaLion.Common.Harmony.HarmonyPatch
     private static void BuffRemoveBuffPrefix(Buff __instance)
     {
         if (__instance.which == _piperBuffId && __instance.millisecondsDuration <= 0)
+        {
             Array.Clear(ModEntry.State.AppliedPiperBuffs, 0, 12);
+        }
     }
 
     #endregion harmony patches

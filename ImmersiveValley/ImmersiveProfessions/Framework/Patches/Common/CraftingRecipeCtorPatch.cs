@@ -2,19 +2,21 @@
 
 #region using directives
 
+using System.Collections.Generic;
 using DaLion.Common.Extensions;
-using Extensions;
+using DaLion.Stardew.Professions.Extensions;
 using HarmonyLib;
+using HarmonyPatch = DaLion.Common.Harmony.HarmonyPatch;
 
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class CraftingRecipeCtorPatch : DaLion.Common.Harmony.HarmonyPatch
+internal sealed class CraftingRecipeCtorPatch : HarmonyPatch
 {
-    /// <summary>Construct an instance.</summary>
+    /// <summary>Initializes a new instance of the <see cref="CraftingRecipeCtorPatch"/> class.</summary>
     internal CraftingRecipeCtorPatch()
     {
-        Target = RequireConstructor<CraftingRecipe>(typeof(string), typeof(bool));
+        this.Target = this.RequireConstructor<CraftingRecipe>(typeof(string), typeof(bool));
     }
 
     #region harmony patches
@@ -24,20 +26,26 @@ internal sealed class CraftingRecipeCtorPatch : DaLion.Common.Harmony.HarmonyPat
     private static void CraftingRecipeCtorPostfix(CraftingRecipe __instance)
     {
         if (__instance.name == "Tapper" && Game1.player.HasProfession(Profession.Tapper))
-            __instance.recipeList = new()
+        {
+            __instance.recipeList = new Dictionary<int, int>
             {
                 { 388, 25 }, // wood
-                { 334, 1 } // copper bar
+                { 334, 1 }, // copper bar
             };
+        }
         else if (__instance.name == "Heavy Tapper" && Game1.player.HasProfession(Profession.Tapper))
-            __instance.recipeList = new()
+        {
+            __instance.recipeList = new Dictionary<int, int>
             {
                 { 709, 20 }, // hardwood
                 { 337, 1 }, // iridium bar
-                { 909, 1 } // radioactive ore
+                { 909, 1 }, // radioactive ore
             };
+        }
         else if (__instance.name.ContainsAnyOf("Bomb", "Explosive") && Game1.player.HasProfession(Profession.Blaster))
+        {
             __instance.numberProducedPerCraft *= 2;
+        }
     }
 
     #endregion harmony patches

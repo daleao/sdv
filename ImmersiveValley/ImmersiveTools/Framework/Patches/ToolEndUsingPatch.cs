@@ -2,19 +2,20 @@
 
 #region using directives
 
+using System.Linq;
 using HarmonyLib;
 using StardewValley.Tools;
-using System.Linq;
+using HarmonyPatch = DaLion.Common.Harmony.HarmonyPatch;
 
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class ToolEndUsingPatch : Common.Harmony.HarmonyPatch
+internal sealed class ToolEndUsingPatch : HarmonyPatch
 {
-    /// <summary>Construct an instance.</summary>
+    /// <summary>Initializes a new instance of the <see cref="ToolEndUsingPatch"/> class.</summary>
     internal ToolEndUsingPatch()
     {
-        Target = RequireMethod<Tool>(nameof(Tool.endUsing));
+        this.Target = this.RequireMethod<Tool>(nameof(Tool.endUsing));
     }
 
     #region harmony patches
@@ -24,7 +25,10 @@ internal sealed class ToolEndUsingPatch : Common.Harmony.HarmonyPatch
     private static void ToolEndUsingPostfix(Farmer who)
     {
         var tool = who.CurrentTool;
-        if (who.toolPower <= 0 || tool is not (Axe or Pickaxe)) return;
+        if (who.toolPower <= 0 || tool is not (Axe or Pickaxe))
+        {
+            return;
+        }
 
         var power = who.toolPower;
 #pragma warning disable CS8509
@@ -33,10 +37,10 @@ internal sealed class ToolEndUsingPatch : Common.Harmony.HarmonyPatch
         {
             Axe => ModEntry.Config.AxeConfig.RadiusAtEachPowerLevel.ElementAtOrDefault(power - 1),
             Pickaxe => ModEntry.Config.PickaxeConfig.RadiusAtEachPowerLevel.ElementAtOrDefault(power - 1),
-            _ => 1
+            _ => 1,
         };
 
-        ModEntry.Shockwave.Value = new(radius, who, Game1.currentGameTime.TotalGameTime.TotalMilliseconds);
+        ModEntry.State.Shockwave = new Shockwave(radius, who, Game1.currentGameTime.TotalGameTime.TotalMilliseconds);
     }
 
     #endregion harmony patches

@@ -2,23 +2,24 @@
 
 #region using directives
 
-using Common;
-using Common.Extensions;
-using Common.Extensions.Stardew;
+using System;
+using DaLion.Common;
+using DaLion.Common.Extensions;
+using DaLion.Common.Extensions.Stardew;
 using HarmonyLib;
 using StardewValley.Buildings;
 using StardewValley.Menus;
-using System;
+using HarmonyPatch = DaLion.Common.Harmony.HarmonyPatch;
 
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class PondQueryMenuCtorPatch : Common.Harmony.HarmonyPatch
+internal sealed class PondQueryMenuCtorPatch : HarmonyPatch
 {
-    /// <summary>Construct an instance.</summary>
+    /// <summary>Initializes a new instance of the <see cref="PondQueryMenuCtorPatch"/> class.</summary>
     internal PondQueryMenuCtorPatch()
     {
-        Target = RequireConstructor<PondQueryMenu>(typeof(FishPond));
+        this.Target = this.RequireConstructor<PondQueryMenu>(typeof(FishPond));
     }
 
     #region harmony patches

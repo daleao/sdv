@@ -2,18 +2,19 @@
 
 #region using directives
 
+using DaLion.Stardew.Professions.Framework.VirtualProperties;
 using HarmonyLib;
-using VirtualProperties;
+using HarmonyPatch = DaLion.Common.Harmony.HarmonyPatch;
 
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class FarmerEatObjectPatch : DaLion.Common.Harmony.HarmonyPatch
+internal sealed class FarmerEatObjectPatch : HarmonyPatch
 {
-    /// <summary>Construct an instance.</summary>
+    /// <summary>Initializes a new instance of the <see cref="FarmerEatObjectPatch"/> class.</summary>
     internal FarmerEatObjectPatch()
     {
-        Target = RequireMethod<Farmer>(nameof(Farmer.eatObject));
+        this.Target = this.RequireMethod<Farmer>(nameof(Farmer.eatObject));
     }
 
     #region harmony patches
@@ -22,7 +23,10 @@ internal sealed class FarmerEatObjectPatch : DaLion.Common.Harmony.HarmonyPatch
     [HarmonyPrefix]
     private static bool FarmerEatObjectPrefix()
     {
-        if (!Game1.player.get_IsUltimateActive().Value) return true; // run original logic
+        if (Game1.player.Get_Ultimate()?.IsActive != true)
+        {
+            return true; // run original logic
+        }
 
         Game1.playSound("cancel");
         Game1.showRedMessage(ModEntry.i18n.Get("ulti.canteat"));

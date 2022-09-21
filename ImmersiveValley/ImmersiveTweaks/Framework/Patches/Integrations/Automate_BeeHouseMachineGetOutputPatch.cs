@@ -2,26 +2,30 @@
 
 #region using directives
 
-using Common;
-using Common.Attributes;
-using Common.Extensions.Reflection;
-using Common.Harmony;
-using Extensions;
-using HarmonyLib;
 using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
+using DaLion.Common;
+using DaLion.Common.Attributes;
+using DaLion.Common.Extensions.Reflection;
+using DaLion.Common.Harmony;
+using DaLion.Stardew.Tweex.Extensions;
+using HarmonyLib;
+using HarmonyPatch = DaLion.Common.Harmony.HarmonyPatch;
 
 #endregion using directives
 
-[UsedImplicitly, RequiresMod("Pathoschild.Automate")]
-internal sealed class BeeHouseMachineGetOutputPatch : Common.Harmony.HarmonyPatch
+[UsedImplicitly]
+[RequiresMod("Pathoschild.Automate")]
+[System.Diagnostics.CodeAnalysis.SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1649:File name should match first type name", Justification = "Integration patch.")]
+internal sealed class BeeHouseMachineGetOutputPatch : HarmonyPatch
 {
-    /// <summary>Construct an instance.</summary>
+    /// <summary>Initializes a new instance of the <see cref="BeeHouseMachineGetOutputPatch"/> class.</summary>
     internal BeeHouseMachineGetOutputPatch()
     {
-        Target = "Pathoschild.Stardew.Automate.Framework.Machines.Objects.BeeHouseMachine".ToType()
+        this.Target = "Pathoschild.Stardew.Automate.Framework.Machines.Objects.BeeHouseMachine"
+            .ToType()
             .RequireMethod("GetOutput");
     }
 
@@ -32,35 +36,38 @@ internal sealed class BeeHouseMachineGetOutputPatch : Common.Harmony.HarmonyPatc
     private static IEnumerable<CodeInstruction>? BeeHouseMachineGetOutputTranspiler(
         IEnumerable<CodeInstruction> instructions, ILGenerator generator, MethodBase original)
     {
-        var helper = new ILHelper(original, instructions);
+        var helper = new IlHelper(original, instructions);
 
-        /// Injected: if (ModEntry.Config.AgeImprovesBeeHouses) object.Quality = @object.GetQualityFromAge();
-        /// Before: StardewValley.Object result = @object;
-
+        // Injected: if (ModEntry.Config.AgeImprovesBeeHouses) object.Quality = obj.GetQualityFromAge();
+        // Before: StardewValley.Object result = obj;
         var resumeExecution = generator.DefineLabel();
         try
         {
             helper
-                .FindLast(
-                    new CodeInstruction(OpCodes.Stloc_S, helper.Locals[4])
-                )
+                .FindLast(new CodeInstruction(OpCodes.Stloc_S, helper.Locals[4]))
                 .AddLabels(resumeExecution)
                 .InsertInstructions(
-                    new CodeInstruction(OpCodes.Call,
+                    new CodeInstruction(
+                        OpCodes.Call,
                         typeof(ModEntry).RequirePropertyGetter(nameof(ModEntry.Config))),
-                    new CodeInstruction(OpCodes.Call,
+                    new CodeInstruction(
+                        OpCodes.Call,
                         typeof(ModConfig).RequirePropertyGetter(nameof(ModConfig.AgeImprovesBeeHouses))),
                     new CodeInstruction(OpCodes.Brfalse_S, resumeExecution),
                     new CodeInstruction(OpCodes.Dup),
                     new CodeInstruction(OpCodes.Ldarg_0),
-                    new CodeInstruction(OpCodes.Call,
-                        "Pathoschild.Stardew.Automate.Framework.BaseMachine`1".ToType().MakeGenericType(typeof(SObject))
+                    new CodeInstruction(
+                        OpCodes.Call,
+                        "Pathoschild.Stardew.Automate.Framework.BaseMachine`1"
+                            .ToType()
+                            .MakeGenericType(typeof(SObject))
                             .RequirePropertyGetter("Machine")),
-                    new CodeInstruction(OpCodes.Call,
+                    new CodeInstruction(
+                        OpCodes.Call,
                         typeof(SObjectExtensions).RequireMethod(nameof(SObjectExtensions.GetQualityFromAge))),
-                    new CodeInstruction(OpCodes.Callvirt,
-                        typeof(SObject).RequirePropertySetter(nameof(SObject.Quality)))
-                );
+                    new CodeInstruction(
+                        OpCodes.Callvirt,
+                        typeof(SObject).RequirePropertySetter(nameof(SObject.Quality))));
         }
         catch (Exception ex)
         {

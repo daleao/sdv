@@ -2,7 +2,7 @@
 
 #region using directives
 
-using Common.Events;
+using DaLion.Common.Events;
 using StardewModdingAPI.Events;
 
 #endregion using directives
@@ -10,19 +10,24 @@ using StardewModdingAPI.Events;
 [UsedImplicitly]
 internal sealed class ToolUpdateTickedEvent : UpdateTickedEvent
 {
-    /// <inheritdoc />
-    public override bool IsEnabled => ModEntry.Shockwave.Value is not null;
-
-    /// <summary>Construct an instance.</summary>
+    /// <summary>Initializes a new instance of the <see cref="ToolUpdateTickedEvent"/> class.</summary>
     /// <param name="manager">The <see cref="EventManager"/> instance that manages this event.</param>
     internal ToolUpdateTickedEvent(EventManager manager)
-        : base(manager) { }
+        : base(manager)
+    {
+    }
+
+    /// <inheritdoc />
+    public override bool IsEnabled => ModEntry.State.Shockwave is not null;
 
     /// <inheritdoc />
     protected override void OnUpdateTickedImpl(object? sender, UpdateTickedEventArgs e)
     {
-        if (ModEntry.Config.TicksBetweenWaves > 0 && !e.IsMultipleOf(ModEntry.Config.TicksBetweenWaves)) return;
+        if (ModEntry.Config.TicksBetweenWaves > 0 && !e.IsMultipleOf(ModEntry.Config.TicksBetweenWaves))
+        {
+            return;
+        }
 
-        ModEntry.Shockwave.Value!.Update(Game1.currentGameTime.TotalGameTime.TotalMilliseconds);
+        ModEntry.State.Shockwave!.Update(Game1.currentGameTime.TotalGameTime.TotalMilliseconds);
     }
 }

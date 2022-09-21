@@ -2,21 +2,25 @@
 
 #region using directives
 
+using System;
 using DaLion.Common.Attributes;
 using DaLion.Common.Extensions.Reflection;
-using Extensions;
+using DaLion.Stardew.Professions.Extensions;
 using HarmonyLib;
-using System;
+using HarmonyPatch = DaLion.Common.Harmony.HarmonyPatch;
 
 #endregion using directives
 
-[UsedImplicitly, RequiresMod("spacechase0.SpaceCore")]
-internal sealed class SkillsAddExperiencePatch : DaLion.Common.Harmony.HarmonyPatch
+[UsedImplicitly]
+[RequiresMod("spacechase0.SpaceCore")]
+internal sealed class SkillsAddExperiencePatch : HarmonyPatch
 {
-    /// <summary>Construct an instance.</summary>
+    /// <summary>Initializes a new instance of the <see cref="SkillsAddExperiencePatch"/> class.</summary>
     internal SkillsAddExperiencePatch()
     {
-        Target = "SpaceCore.Skills".ToType().RequireMethod("AddExperience");
+        this.Target = "SpaceCore.Skills"
+            .ToType()
+            .RequireMethod("AddExperience");
     }
 
     #region harmony patches
@@ -25,10 +29,13 @@ internal sealed class SkillsAddExperiencePatch : DaLion.Common.Harmony.HarmonyPa
     [HarmonyPrefix]
     private static void SkillsAddExperiencePrefix(Farmer farmer, string skillName, ref int amt)
     {
-        if (!ModEntry.Config.EnablePrestige || !CustomSkill.LoadedSkills.TryGetValue(skillName, out var skill) ||
-            amt < 0) return;
+        if (!ModEntry.Config.EnablePrestige || !CustomSkill.Loaded.TryGetValue(skillName, out var skill) ||
+            amt < 0)
+        {
+            return;
+        }
 
-        amt = Math.Min((int)(amt * farmer.GetExperienceMultiplier(skill)), ISkill.VANILLA_EXP_CAP_I - skill.CurrentExp);
+        amt = Math.Min((int)(amt * farmer.GetExperienceMultiplier(skill)), ISkill.VanillaExpCap - skill.CurrentExp);
     }
 
     #endregion harmony patches

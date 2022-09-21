@@ -9,19 +9,24 @@ using StardewModdingAPI.Events;
 /// <summary>Wrapper for <see cref="IWorldEvents.DebrisListChanged"/> allowing dynamic enabling / disabling.</summary>
 internal abstract class DebrisListChangedEvent : ManagedEvent
 {
-    /// <summary>Construct an instance.</summary>
+    /// <summary>Initializes a new instance of the <see cref="DebrisListChangedEvent"/> class.</summary>
     /// <param name="manager">The <see cref="EventManager"/> instance that manages this event.</param>
     protected DebrisListChangedEvent(EventManager manager)
-        : base(manager) { }
+        : base(manager)
+    {
+    }
 
     /// <inheritdoc cref="IWorldEvents.DebrisListChanged"/>
     /// <param name="sender">The event sender.</param>
     /// <param name="e">The event arguments.</param>
     internal void OnDebrisListChanged(object? sender, DebrisListChangedEventArgs e)
     {
-        if (IsEnabled) OnDebrisListChangedImpl(sender, e);
+        if (this.IsEnabled)
+        {
+            this.OnDebrisListChangedImpl(sender, e);
+        }
     }
 
-    /// <inheritdoc cref="OnDebrisListChanged" />
+    /// <inheritdoc cref="OnDebrisListChanged"/>
     protected abstract void OnDebrisListChangedImpl(object? sender, DebrisListChangedEventArgs e);
 }

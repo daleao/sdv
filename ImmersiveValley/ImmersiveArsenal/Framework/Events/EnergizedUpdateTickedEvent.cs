@@ -2,7 +2,7 @@
 
 #region using directives
 
-using Common.Events;
+using DaLion.Common.Events;
 using StardewModdingAPI.Events;
 
 #endregion using directives
@@ -10,45 +10,61 @@ using StardewModdingAPI.Events;
 [UsedImplicitly]
 internal sealed class EnergizedUpdateTickedEvent : UpdateTickedEvent
 {
-    private const int BUFF_SHEET_INDEX_I = 42;
+    private const int BuffSheetIndex = 42;
 
     private readonly int _buffId = (ModEntry.Manifest.UniqueID + "Energized").GetHashCode();
 
     private uint _previousStepsTaken;
 
-    /// <summary>Construct an instance.</summary>
+    /// <summary>Initializes a new instance of the <see cref="EnergizedUpdateTickedEvent"/> class.</summary>
     /// <param name="manager">The <see cref="EventManager"/> instance that manages this event.</param>
     internal EnergizedUpdateTickedEvent(EventManager manager)
-        : base(manager) { }
+        : base(manager)
+    {
+    }
 
     /// <inheritdoc />
     protected override void OnEnabled()
     {
-        _previousStepsTaken = Game1.stats.StepsTaken;
+        this._previousStepsTaken = Game1.stats.StepsTaken;
     }
 
     /// <inheritdoc />
     protected override void OnUpdateTickedImpl(object? sender, UpdateTickedEventArgs e)
     {
-        if (Game1.stats.StepsTaken > _previousStepsTaken && Game1.stats.StepsTaken % 6 == 0)
+        if (Game1.stats.StepsTaken > this._previousStepsTaken && Game1.stats.StepsTaken % 6 == 0)
         {
-            ++ModEntry.EnergizeStacks.Value;
-            _previousStepsTaken = Game1.stats.StepsTaken;
+            ++ModEntry.State.EnergizeStacks;
+            this._previousStepsTaken = Game1.stats.StepsTaken;
         }
 
-        if (ModEntry.EnergizeStacks.Value <= 0 || Game1.player.hasBuff(_buffId)) return;
+        if (ModEntry.State.EnergizeStacks <= 0 || Game1.player.hasBuff(this._buffId))
+        {
+            return;
+        }
 
         Game1.buffsDisplay.addOtherBuff(
-            new(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            new Buff(
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
                 1,
                 "Energized",
                 ModEntry.i18n.Get("enchantments.energized"))
             {
-                which = _buffId,
-                sheetIndex = BUFF_SHEET_INDEX_I,
+                which = this._buffId,
+                sheetIndex = BuffSheetIndex,
                 millisecondsDuration = 0,
-                description = string.Empty
-            }
-        );
+                description = string.Empty,
+            });
     }
 }

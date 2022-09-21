@@ -9,13 +9,13 @@ using System;
 /// <summary>The arguments for an <see cref="UltimateFullyChargedEvent"/>.</summary>
 public sealed class UltimateFullyChargedEventArgs : EventArgs, IUltimateFullyChargedEventArgs
 {
-    /// <inheritdoc />
-    public Farmer Player { get; }
-
-    /// <summary>Construct an instance.</summary>
+    /// <summary>Initializes a new instance of the <see cref="UltimateFullyChargedEventArgs"/> class.</summary>
     /// <param name="player">The player who triggered the event.</param>
     internal UltimateFullyChargedEventArgs(Farmer player)
     {
-        Player = player;
+        this.Player = player;
     }
+
+    /// <inheritdoc />
+    public Farmer Player { get; }
 }

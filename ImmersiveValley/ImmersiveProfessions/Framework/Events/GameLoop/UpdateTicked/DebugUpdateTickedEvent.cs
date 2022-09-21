@@ -2,19 +2,22 @@
 
 #region using directives
 
-using Common.Attributes;
-using Common.Events;
+using DaLion.Common.Attributes;
+using DaLion.Common.Events;
 using StardewModdingAPI.Events;
 
 #endregion using directives
 
-[UsedImplicitly, DebugOnly]
+[UsedImplicitly]
+[DebugOnly]
 internal sealed class DebugUpdateTickedEvent : UpdateTickedEvent
 {
-    /// <summary>Construct an instance.</summary>
+    /// <summary>Initializes a new instance of the <see cref="DebugUpdateTickedEvent"/> class.</summary>
     /// <param name="manager">The <see cref="ProfessionEventManager"/> instance that manages this event.</param>
     internal DebugUpdateTickedEvent(ProfessionEventManager manager)
-        : base(manager) { }
+        : base(manager)
+    {
+    }
 
     /// <inheritdoc />
     protected override void OnUpdateTickedImpl(object? sender, UpdateTickedEventArgs e)

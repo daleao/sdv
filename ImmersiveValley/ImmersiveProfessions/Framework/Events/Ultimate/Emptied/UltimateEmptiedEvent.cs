@@ -2,24 +2,24 @@
 
 #region using directives
 
-using Common.Events;
 using System;
+using DaLion.Common.Events;
 
 #endregion using directives
 
-/// <summary>A dynamic event raised when a <see cref="Ultimates.IUltimate"> charge value returns to zero.</summary>
+/// <summary>A dynamic event raised when a <see cref="Ultimates.IUltimate"/> charge value returns to zero.</summary>
 internal sealed class UltimateEmptiedEvent : ManagedEvent
 {
-    private readonly Action<object?, IUltimateEmptiedEventArgs> _OnEmptiedImpl;
+    private readonly Action<object?, IUltimateEmptiedEventArgs> _onEmptiedImpl;
 
-    /// <summary>Construct an instance.</summary>
+    /// <summary>Initializes a new instance of the <see cref="UltimateEmptiedEvent"/> class.</summary>
     /// <param name="callback">The delegate to run when the event is raised.</param>
     /// <param name="alwaysEnabled">Whether the event should be allowed to override the <c>enabled</c> flag.</param>
     internal UltimateEmptiedEvent(Action<object?, IUltimateEmptiedEventArgs> callback, bool alwaysEnabled = false)
         : base(ModEntry.Events)
     {
-        _OnEmptiedImpl = callback;
-        AlwaysEnabled = alwaysEnabled;
+        this._onEmptiedImpl = callback;
+        this.AlwaysEnabled = alwaysEnabled;
     }
 
     /// <summary>Raised when the local player's <see cref="Ultimates.IUltimate"/> charge value returns to zero.</summary>
@@ -27,6 +27,9 @@ internal sealed class UltimateEmptiedEvent : ManagedEvent
     /// <param name="e">The event arguments.</param>
     internal void OnEmptied(object? sender, IUltimateEmptiedEventArgs e)
     {
-        if (IsEnabled) _OnEmptiedImpl(sender, e);
+        if (this.IsEnabled)
+        {
+            this._onEmptiedImpl(sender, e);
+        }
     }
 }

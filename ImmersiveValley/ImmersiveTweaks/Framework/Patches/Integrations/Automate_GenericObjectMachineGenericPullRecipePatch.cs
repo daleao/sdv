@@ -2,27 +2,30 @@
 
 #region using directives
 
-using Common;
-using Common.Attributes;
-using Common.Extensions;
-using Common.Extensions.Reflection;
-using Common.Harmony;
-using HarmonyLib;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
+using DaLion.Common;
+using DaLion.Common.Attributes;
+using DaLion.Common.Extensions;
+using DaLion.Common.Extensions.Reflection;
+using DaLion.Common.Harmony;
+using HarmonyLib;
+using HarmonyPatch = DaLion.Common.Harmony.HarmonyPatch;
 
 #endregion using directives
 
-[UsedImplicitly, RequiresMod("Pathoschild.Automate")]
-internal sealed class GenericObjectMachinePatches : Common.Harmony.HarmonyPatch
+[UsedImplicitly]
+[RequiresMod("Pathoschild.Automate")]
+[System.Diagnostics.CodeAnalysis.SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1649:File name should match first type name", Justification = "Integration patch.")]
+internal sealed class GenericObjectMachinePatches : HarmonyPatch
 {
-    /// <summary>Construct an instance.</summary>
+    /// <summary>Initializes a new instance of the <see cref="GenericObjectMachinePatches"/> class.</summary>
     internal GenericObjectMachinePatches()
     {
-        Transpiler!.before = new[] { "DaLion.ImmersiveProfessions" };
+        this.Transpiler!.before = new[] { "DaLion.ImmersiveProfessions" };
     }
 
     /// <inheritdoc />
@@ -30,7 +33,7 @@ internal sealed class GenericObjectMachinePatches : Common.Harmony.HarmonyPatch
     {
         foreach (var target in TargetMethods())
         {
-            Target = target;
+            this.Target = target;
             base.ApplyImpl(harmony);
         }
     }
@@ -42,6 +45,7 @@ internal sealed class GenericObjectMachinePatches : Common.Harmony.HarmonyPatch
             .MakeGenericType(typeof(SObject))
             .GetMethods(BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.DeclaredOnly)
             .First(m => m.Name == "GenericPullRecipe" && m.GetParameters().Length == 3);
+
         yield return "Pathoschild.Stardew.Automate.Framework.Machines.Objects.CheesePressMachine".ToType()
             .RequireMethod("SetInput");
     }
@@ -49,36 +53,41 @@ internal sealed class GenericObjectMachinePatches : Common.Harmony.HarmonyPatch
     #region harmony patches
 
     /// <summary>Replaces large egg output quality with quantity + add flower memory to automated kegs.</summary>
-    [HarmonyTranspiler, HarmonyBefore("DaLion.ImmersiveProfessions")]
+    [HarmonyTranspiler]
+    [HarmonyBefore("DaLion.ImmersiveProfessions")]
     private static IEnumerable<CodeInstruction>? GenericObjectMachineTranspiler(
         IEnumerable<CodeInstruction> instructions, MethodBase original)
     {
-        var helper = new ILHelper(original, instructions);
+        var helper = new IlHelper(original, instructions);
 
-        /// Injected: GenericPullRecipeSubroutine(this, consumable)
-        /// Before: return true;
-
+        // Injected: GenericPullRecipeSubroutine(this, consumable)
+        // Before: return true;
         try
         {
             helper
                 .FindLast(
                     new CodeInstruction(OpCodes.Ldc_I4_1),
-                    new CodeInstruction(OpCodes.Ret)
-                )
+                    new CodeInstruction(OpCodes.Ret))
                 .InsertInstructions(
                     new CodeInstruction(OpCodes.Ldarg_0),
-                    new CodeInstruction(OpCodes.Call,
-                        "Pathoschild.Stardew.Automate.Framework.BaseMachine`1".ToType().MakeGenericType(typeof(SObject))
+                    new CodeInstruction(
+                        OpCodes.Call,
+                        "Pathoschild.Stardew.Automate.Framework.BaseMachine`1"
+                            .ToType()
+                            .MakeGenericType(typeof(SObject))
                             .RequirePropertyGetter("Machine")),
                     new CodeInstruction(OpCodes.Ldloc_0),
-                    new CodeInstruction(OpCodes.Callvirt,
-                        "Pathoschild.Stardew.Automate.IConsumable".ToType().RequirePropertyGetter("Sample")),
-                    new CodeInstruction(OpCodes.Call,
+                    new CodeInstruction(
+                        OpCodes.Callvirt,
+                        "Pathoschild.Stardew.Automate.IConsumable"
+                            .ToType()
+                            .RequirePropertyGetter("Sample")),
+                    new CodeInstruction(
+                        OpCodes.Call,
                         typeof(GenericObjectMachinePatches).RequireMethod(
                             original.DeclaringType!.Name.Contains("CheesePress")
                                 ? nameof(CheesePressMachineSubroutine)
-                                : nameof(GenericMachineSubroutine)))
-                );
+                                : nameof(GenericMachineSubroutine))));
         }
         catch (Exception ex)
         {
@@ -97,7 +106,10 @@ internal sealed class GenericObjectMachinePatches : Common.Harmony.HarmonyPatch
 
     private static void GenericMachineSubroutine(SObject machine, Item sample)
     {
-        if (machine.heldObject.Value is null || sample is not SObject input) return;
+        if (machine.heldObject.Value is null || sample is not SObject input)
+        {
+            return;
+        }
 
         var output = machine.heldObject.Value;
         switch (machine.name)
@@ -112,7 +124,8 @@ internal sealed class GenericObjectMachinePatches : Common.Harmony.HarmonyPatch
             default:
                 if (ModEntry.Config.LargeProducsYieldQuantityOverQuality)
                 {
-                    if (input.Category is SObject.EggCategory or SObject.MilkCategory && input.Name.ContainsAnyOf("Large", "L."))
+                    if (input.Category is SObject.EggCategory or SObject.MilkCategory &&
+                        input.Name.ContainsAnyOf("Large", "L."))
                     {
                         output.Stack = 2;
                         output.Quality = SObject.lowQuality;
@@ -133,7 +146,6 @@ internal sealed class GenericObjectMachinePatches : Common.Harmony.HarmonyPatch
                                 break;
                         }
                     }
-
                 }
 
                 break;
@@ -143,7 +155,10 @@ internal sealed class GenericObjectMachinePatches : Common.Harmony.HarmonyPatch
     private static void CheesePressMachineSubroutine(SObject machine, Item sample)
     {
         if (!ModEntry.Config.LargeProducsYieldQuantityOverQuality || machine.heldObject.Value is null ||
-            sample is not SObject input || !input.Name.ContainsAnyOf("Large", "L.")) return;
+            sample is not SObject input || !input.Name.ContainsAnyOf("Large", "L."))
+        {
+            return;
+        }
 
         var output = machine.heldObject.Value;
         output.Stack = 2;

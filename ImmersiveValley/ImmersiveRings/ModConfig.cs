@@ -1,20 +1,23 @@
 ﻿namespace DaLion.Stardew.Rings;
 
 /// <summary>The mod user-defined settings.</summary>
-public class ModConfig
+public sealed class ModConfig
 {
-    /// <summary>Improves certain underwhelming rings.</summary>
+    /// <summary>Gets or sets a value indicating whether improves certain underwhelming rings.</summary>
     public bool RebalancedRings { get; set; } = true;
 
-    /// <summary>Adds new combat recipes for crafting gemstone rings.</summary>
+    /// <summary>Gets or sets a value indicating whether adds new combat recipes for crafting gemstone rings.</summary>
     public bool CraftableGemRings { get; set; } = true;
 
-    /// <summary>Adds new mining recipes for crafting glow and magnet rings.</summary>
+    /// <summary>Gets or sets a value indicating whether adds new mining recipes for crafting Glow and Magnet rings.</summary>
     public bool CraftableGlowAndMagnetRings { get; set; } = true;
 
-    /// <summary>Replaces the glowstone ring recipe.</summary>
+    /// <summary>Gets or sets a value indicating whether replaces the Glowstone Ring recipe.</summary>
     public bool ImmersiveGlowstoneRecipe { get; set; } = true;
 
-    /// <summary>Replaces the iridium band recipe and effect. Adds new forge mechanics.</summary>
+    /// <summary>Gets or sets a value indicating whether replaces the Iridium Band recipe and effect. Adds new forge mechanics.</summary>
     public bool TheOneIridiumBand { get; set; } = true;
+
+    /// <summary>Gets or sets a value indicating whether if <see cref="TheOneIridiumBand"/> is enabled, adds additional requirements to create the ultimate ring.</summary>
+    public bool TheOneInfinityBand { get; set; } = true;
 }

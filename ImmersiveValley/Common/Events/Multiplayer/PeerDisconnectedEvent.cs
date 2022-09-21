@@ -9,22 +9,27 @@ using StardewModdingAPI.Events;
 /// <summary>Wrapper for <see cref="IMultiplayerEvents.PeerDisconnected"/> allowing dynamic enabling / disabling.</summary>
 internal abstract class PeerDisconnectedEvent : ManagedEvent
 {
-    /// <inheritdoc />
-    public override bool IsEnabled => Context.IsMultiplayer && base.IsEnabled;
-
-    /// <summary>Construct an instance.</summary>
+    /// <summary>Initializes a new instance of the <see cref="PeerDisconnectedEvent"/> class.</summary>
     /// <param name="manager">The <see cref="EventManager"/> instance that manages this event.</param>
     protected PeerDisconnectedEvent(EventManager manager)
-        : base(manager) { }
+        : base(manager)
+    {
+    }
+
+    /// <inheritdoc />
+    public override bool IsEnabled => Context.IsMultiplayer && base.IsEnabled;
 
     /// <inheritdoc cref="IMultiplayerEvents.PeerDisconnected"/>
     /// <param name="sender">The event sender.</param>
     /// <param name="e">The event arguments.</param>
     internal void OnPeerDisconnected(object? sender, PeerDisconnectedEventArgs e)
     {
-        if (IsEnabled) OnPeerDisconnectedImpl(sender, e);
+        if (this.IsEnabled)
+        {
+            this.OnPeerDisconnectedImpl(sender, e);
+        }
     }
 
-    /// <inheritdoc cref="OnPeerDisconnected" />
+    /// <inheritdoc cref="OnPeerDisconnected"/>
     protected abstract void OnPeerDisconnectedImpl(object? sender, PeerDisconnectedEventArgs e);
 }

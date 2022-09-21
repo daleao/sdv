@@ -2,20 +2,21 @@
 
 #region using directives
 
-using Common.Extensions.Stardew;
+using DaLion.Common.Extensions.Stardew;
 using HarmonyLib;
 using StardewValley.Objects;
+using HarmonyPatch = DaLion.Common.Harmony.HarmonyPatch;
 
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class RingOnEquipPatch : Common.Harmony.HarmonyPatch
+internal sealed class RingOnEquipPatch : HarmonyPatch
 {
-    /// <summary>Construct an instance.</summary>
+    /// <summary>Initializes a new instance of the <see cref="RingOnEquipPatch"/> class.</summary>
     internal RingOnEquipPatch()
     {
-        Target = RequireMethod<Ring>(nameof(Ring.onEquip));
-        Prefix!.priority = Priority.HigherThanNormal;
+        this.Target = this.RequireMethod<Ring>(nameof(Ring.onEquip));
+        this.Prefix!.priority = Priority.HigherThanNormal;
     }
 
     #region harmony patches
@@ -26,23 +27,32 @@ internal sealed class RingOnEquipPatch : Common.Harmony.HarmonyPatch
     private static bool RingOnEquipPrefix(Ring __instance, Farmer who)
     {
         if (ModEntry.Config.TheOneIridiumBand &&
-            __instance.indexInTileSheet.Value == Constants.IRIDIUM_BAND_INDEX_I) return false; // don't run original logic
+            __instance.indexInTileSheet.Value == Constants.IridiumBandIndex)
+        {
+            return false; // don't run original logic
+        }
 
-        if (!ModEntry.Config.RebalancedRings) return true; // run original logic
+        if (!ModEntry.Config.RebalancedRings)
+        {
+            return true; // run original logic
+        }
 
         switch (__instance.indexInTileSheet.Value)
         {
-            case Constants.TOPAZ_RING_INDEX_I: // topaz to give defense
+            case Constants.TopazRingIndex: // topaz to give defense
                 who.resilience += 3;
                 return false; // don't run original logic
-            case Constants.JADE_RING_INDEX_I: // jade ring to give +50% crit. power
+            case Constants.JadeRingIndex: // jade ring to give +50% crit. power
                 who.critPowerModifier += 0.5f;
                 return false; // don't run original logic
-            case Constants.CRAB_RING_INDEX_I: // crab ring to give +10 defense
+            case Constants.CrabRingIndex: // crab ring to give +10 defense
                 who.resilience += 10;
                 return false; // don't run original logic
             default:
-                if (__instance.ParentSheetIndex != ModEntry.GarnetRingIndex) return true; // run original logic
+                if (__instance.ParentSheetIndex != ModEntry.GarnetRingIndex)
+                {
+                    return true; // run original logic
+                }
 
                 // garnet ring to give +10% cdr
                 who.Increment("CooldownReduction", 0.1f);

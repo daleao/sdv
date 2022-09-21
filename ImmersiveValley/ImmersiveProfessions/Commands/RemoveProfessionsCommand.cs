@@ -2,38 +2,40 @@
 
 #region using directives
 
-using Common;
-using Common.Commands;
-using Common.Extensions;
-using Framework;
-using StardewValley.Menus;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using DaLion.Common;
+using DaLion.Common.Commands;
+using DaLion.Common.Extensions;
+using DaLion.Stardew.Professions.Framework;
+using StardewValley.Menus;
 
 #endregion using directives
 
 [UsedImplicitly]
 internal sealed class RemoveProfessionsCommand : ConsoleCommand
 {
-    /// <summary>Construct an instance.</summary>
+    /// <summary>Initializes a new instance of the <see cref="RemoveProfessionsCommand"/> class.</summary>
     /// <param name="handler">The <see cref="CommandHandler"/> instance that handles this command.</param>
     internal RemoveProfessionsCommand(CommandHandler handler)
-        : base(handler) { }
+        : base(handler)
+    {
+    }
 
     /// <inheritdoc />
     public override string[] Triggers { get; } = { "remove_professions", "remove_profs", "remove" };
 
     /// <inheritdoc />
     public override string Documentation =>
-        "Remove the specified professions from the player. Does not affect skill levels." + GetUsage();
+        "Remove the specified professions from the player. Does not affect skill levels." + this.GetUsage();
 
     /// <inheritdoc />
     public override void Callback(string[] args)
     {
         if (args.Length <= 0)
         {
-            Log.W("You must specify at least one profession." + GetUsage());
+            Log.W("You must specify at least one profession." + this.GetUsage());
             return;
         }
 
@@ -57,7 +59,8 @@ internal sealed class RemoveProfessionsCommand : ConsoleCommand
             {
                 var range = Game1.player.professions
                     .Where(pid =>
-                        !Profession.TryFromValue(pid, out _) && CustomProfession.LoadedProfessions.Values.All(p => pid != p.Id))
+                        !Profession.TryFromValue(pid, out _) &&
+                        CustomProfession.LoadedProfessions.Values.All(p => pid != p.Id))
                     .ToArray();
 
                 professionsToRemove.AddRange(range);
@@ -74,7 +77,7 @@ internal sealed class RemoveProfessionsCommand : ConsoleCommand
             {
                 var customProfession = CustomProfession.LoadedProfessions.Values.FirstOrDefault(p =>
                     string.Equals(arg, p.StringId.TrimAll(), StringComparison.InvariantCultureIgnoreCase) ||
-                    string.Equals(arg, p.GetDisplayName().TrimAll(), StringComparison.InvariantCultureIgnoreCase));
+                    string.Equals(arg, p.DisplayName.TrimAll(), StringComparison.InvariantCultureIgnoreCase));
                 if (customProfession is null)
                 {
                     Log.W($"Ignoring unknown profession {arg}.");
@@ -86,20 +89,24 @@ internal sealed class RemoveProfessionsCommand : ConsoleCommand
             }
         }
 
-        foreach (var pid in professionsToRemove.Distinct()) GameLocation.RemoveProfession(pid);
+        foreach (var pid in professionsToRemove.Distinct())
+        {
+            GameLocation.RemoveProfession(pid);
+        }
 
         LevelUpMenu.RevalidateHealth(Game1.player);
     }
 
     private string GetUsage()
     {
-        var result = $"\n\nUsage: {Handler.EntryCommand} {Triggers.First()} [--prestige] <profession1> <profession2> ... <professionN>";
+        var result =
+            $"\n\nUsage: {this.Handler.EntryCommand} {this.Triggers.First()} [--prestige] <profession1> <profession2> ... <professionN>";
         result += "\n\nParameters:";
         result +=
             "\n\t- <profession>\t- a valid profession name, `all` or `unknown`. Use `unknown` to remove rogue professions from uninstalled custom skill mods.";
         result += "\n\nExamples:";
-        result += $"\n\t- {Handler.EntryCommand} {Triggers.First()} artisan brute";
-        result += $"\n\t- {Handler.EntryCommand} {Triggers.First()} -p all";
+        result += $"\n\t- {this.Handler.EntryCommand} {this.Triggers.First()} artisan brute";
+        result += $"\n\t- {this.Handler.EntryCommand} {this.Triggers.First()} -p all";
         return result;
     }
 }

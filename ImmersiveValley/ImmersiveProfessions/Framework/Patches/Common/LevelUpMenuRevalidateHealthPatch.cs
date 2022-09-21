@@ -2,24 +2,26 @@
 
 #region using directives
 
-using DaLion.Common;
-using Extensions;
-using HarmonyLib;
-using StardewValley.Buildings;
-using StardewValley.Menus;
 using System;
 using System.Linq;
 using System.Reflection;
+using DaLion.Common;
+using DaLion.Stardew.Professions.Extensions;
+using HarmonyLib;
+using Microsoft.Xna.Framework;
+using StardewValley.Buildings;
+using StardewValley.Menus;
+using HarmonyPatch = DaLion.Common.Harmony.HarmonyPatch;
 
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class LevelUpMenuRevalidateHealthPatch : DaLion.Common.Harmony.HarmonyPatch
+internal sealed class LevelUpMenuRevalidateHealthPatch : HarmonyPatch
 {
-    /// <summary>Construct an instance.</summary>
+    /// <summary>Initializes a new instance of the <see cref="LevelUpMenuRevalidateHealthPatch"/> class.</summary>
     internal LevelUpMenuRevalidateHealthPatch()
     {
-        Target = RequireMethod<LevelUpMenu>(nameof(LevelUpMenu.RevalidateHealth));
+        this.Target = this.RequireMethod<LevelUpMenu>(nameof(LevelUpMenu.RevalidateHealth));
     }
 
     #region harmony patches
@@ -32,14 +34,28 @@ internal sealed class LevelUpMenuRevalidateHealthPatch : DaLion.Common.Harmony.H
     private static bool LevelUpMenuRevalidateHealthPrefix(Farmer farmer)
     {
         var expectedMaxHealth = 100;
-        if (farmer.mailReceived.Contains("qiCave")) expectedMaxHealth += 25;
+        if (farmer.mailReceived.Contains("qiCave"))
+        {
+            expectedMaxHealth += 25;
+        }
 
         for (var i = 1; i <= farmer.combatLevel.Value; ++i)
-            if (!farmer.newLevels.Contains(new(Skill.Combat, i)))
+        {
+            if (!farmer.newLevels.Contains(new Point(Skill.Combat, i)))
+            {
                 expectedMaxHealth += 5;
+            }
+        }
 
-        if (farmer.HasProfession(Profession.Fighter)) expectedMaxHealth += 15;
-        if (farmer.HasProfession(Profession.Brute)) expectedMaxHealth += 25;
+        if (farmer.HasProfession(Profession.Fighter))
+        {
+            expectedMaxHealth += 15;
+        }
+
+        if (farmer.HasProfession(Profession.Brute))
+        {
+            expectedMaxHealth += 25;
+        }
 
         if (farmer.maxHealth != expectedMaxHealth)
         {

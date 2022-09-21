@@ -2,20 +2,22 @@
 
 #region using directives
 
-using Common;
-using Common.Commands;
-using Common.Extensions.Stardew;
 using System;
+using DaLion.Common;
+using DaLion.Common.Commands;
+using DaLion.Common.Extensions.Stardew;
 
 #endregion using directives
 
 [UsedImplicitly]
 internal sealed class SetDebtCommand : ConsoleCommand
 {
-    /// <summary>Construct an instance.</summary>
+    /// <summary>Initializes a new instance of the <see cref="SetDebtCommand"/> class.</summary>
     /// <param name="handler">The <see cref="CommandHandler"/> instance that handles this command.</param>
     internal SetDebtCommand(CommandHandler handler)
-        : base(handler) { }
+        : base(handler)
+    {
+    }
 
     /// <inheritdoc />
     public override string[] Triggers { get; } = { "set_debt", "debt" };
@@ -26,16 +28,20 @@ internal sealed class SetDebtCommand : ConsoleCommand
     /// <inheritdoc />
     public override void Callback(string[] args)
     {
-        if (args.Length <= 0 || !int.TryParse(args[0], out _) && string.Equals(args[0], "clear", StringComparison.InvariantCultureIgnoreCase))
+        if (args.Length <= 0 || (!int.TryParse(args[0], out _) &&
+                                 string.Equals(args[0], "clear", StringComparison.InvariantCultureIgnoreCase)))
         {
             Log.W("You must specify an integer value.");
             return;
         }
 
-        if (args.Length > 1) Log.W("Additional arguments will be ignored.");
+        if (args.Length > 1)
+        {
+            Log.W("Additional arguments will be ignored.");
+        }
 
-
-        Game1.player.Write("DebtOutstanding",
+        Game1.player.Write(
+            "DebtOutstanding",
             string.Equals(args[0], "clear", StringComparison.InvariantCultureIgnoreCase) ? string.Empty : args[0]);
         Log.I($"{Game1.player.Name}'s outstanding debt has been set to {args[0]}.");
     }

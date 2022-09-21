@@ -1,37 +1,30 @@
-﻿using DaLion.Stardew.Rings.Framework.Events;
-
-namespace DaLion.Stardew.Rings.Framework.Patches;
+﻿namespace DaLion.Stardew.Rings.Framework.Patches;
 
 #region using directives
 
-using Common.Extensions.Collections;
-using Extensions;
+using DaLion.Stardew.Rings.Framework.VirtualProperties;
 using HarmonyLib;
 using StardewValley.Objects;
-using VirtualProperties;
+using HarmonyPatch = DaLion.Common.Harmony.HarmonyPatch;
 
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class CombinedRingOnEquipPatch : Common.Harmony.HarmonyPatch
+internal sealed class CombinedRingOnEquipPatch : HarmonyPatch
 {
-    /// <summary>Construct an instance.</summary>
+    /// <summary>Initializes a new instance of the <see cref="CombinedRingOnEquipPatch"/> class.</summary>
     internal CombinedRingOnEquipPatch()
     {
-        Target = RequireMethod<CombinedRing>(nameof(CombinedRing.onEquip));
+        this.Target = this.RequireMethod<CombinedRing>(nameof(CombinedRing.onEquip));
     }
 
     #region harmony patches
 
-    /// <summary>Add Iridium Band resonance.</summary>
+    /// <summary>Add Infinity Band resonance effects.</summary>
     [HarmonyPostfix]
     private static void CombinedRingOnEquipPostfix(CombinedRing __instance, Farmer who)
     {
-        if (__instance.ParentSheetIndex != Constants.IRIDIUM_BAND_INDEX_I || __instance.combinedRings.Count < 2) return;
-
-        __instance.get_Resonances().ForEach(pair => pair.Key.OnEquip(pair.Value, who.currentLocation, who));
-        __instance.ApplyResonanceGlow(who.currentLocation, who);
-        ModEntry.Events.Enable<ResonanceUpdateTickedEvent>();
+        __instance.Get_Chord()?.OnEquip(who.currentLocation, who);
     }
 
     #endregion harmony patches

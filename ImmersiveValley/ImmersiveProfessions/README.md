@@ -1,7 +1,7 @@
 <table align="center"><tr><td align="center" width="9999">
 
 <!-- LOGO, TITLE, DESCRIPTION -->
-![](title_2.png)
+![](title2.png)
 # A Professions Overhaul
 ![](https://stardewcommunitywiki.com/mediawiki/images/8/82/Farming_Skill_Icon.png)
 ![](https://stardewcommunitywiki.com/mediawiki/images/2/2f/Mining_Skill_Icon.png)
@@ -380,4 +380,4 @@ To consume the API, copy both interfaces from the [Common.Integrations](../Commo
 
 ## License
 
-See [LICENSE](../../LICENSE) for more information.
+See [LICENSE](../LICENSE) for more information.

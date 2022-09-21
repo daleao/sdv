@@ -2,20 +2,21 @@
 
 #region using directives
 
-using Common.Extensions.Stardew;
+using DaLion.Common.Extensions.Stardew;
 using HarmonyLib;
 using Microsoft.Xna.Framework;
 using StardewValley.Buildings;
+using HarmonyPatch = DaLion.Common.Harmony.HarmonyPatch;
 
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class FishPondCtorPatch : Common.Harmony.HarmonyPatch
+internal sealed class FishPondCtorPatch : HarmonyPatch
 {
-    /// <summary>Construct an instance.</summary>
+    /// <summary>Initializes a new instance of the <see cref="FishPondCtorPatch"/> class.</summary>
     internal FishPondCtorPatch()
     {
-        Target = RequireConstructor<FishPond>(typeof(BluePrint), typeof(Vector2));
+        this.Target = this.RequireConstructor<FishPond>(typeof(BluePrint), typeof(Vector2));
     }
 
     #region harmony patches

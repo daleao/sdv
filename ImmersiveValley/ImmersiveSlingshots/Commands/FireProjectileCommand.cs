@@ -2,22 +2,25 @@
 
 #region using directives
 
-using Common;
-using Common.Attributes;
-using Common.Commands;
-using Common.Enums;
+using DaLion.Common;
+using DaLion.Common.Attributes;
+using DaLion.Common.Commands;
+using DaLion.Common.Enums;
 using Microsoft.Xna.Framework;
 using StardewValley.Projectiles;
 
 #endregion using directives
 
-[UsedImplicitly, DebugOnly]
+[UsedImplicitly]
+[DebugOnly]
 internal sealed class FireProjectileCommand : ConsoleCommand
 {
-    /// <summary>Construct an instance.</summary>
+    /// <summary>Initializes a new instance of the <see cref="FireProjectileCommand"/> class.</summary>
     /// <param name="handler">The <see cref="CommandHandler"/> instance that handles this command.</param>
     internal FireProjectileCommand(CommandHandler handler)
-        : base(handler) { }
+        : base(handler)
+    {
+    }
 
     /// <inheritdoc />
     public override string[] Triggers { get; } = { "fire", "shoot" };
@@ -53,16 +56,23 @@ internal sealed class FireProjectileCommand : ConsoleCommand
             return;
         }
 
-        var velocity = Utility.VectorFromFacingDirection((FacingDirection)Game1.player.FacingDirection);
+        var velocity = ((FacingDirection)Game1.player.FacingDirection).ToVector();
         var origin = Game1.player.getStandingPosition() - new Vector2(32f, 32f);
-        var projectile = new BasicProjectile(1, index, 0, tail, 0f, velocity.X, velocity.Y,
-            origin, "", "", false, false, Game1.player.currentLocation, Game1.player)
-        {
-            height =
-            {
-                Value = 32f
-            }
-        };
+        var projectile = new BasicProjectile(
+            1,
+            index,
+            0,
+            tail,
+            0f,
+            velocity.X,
+            velocity.Y,
+            origin,
+            string.Empty,
+            string.Empty,
+            false,
+            false,
+            Game1.player.currentLocation,
+            Game1.player) { height = { Value = 32f } };
         Game1.player.currentLocation.projectiles.Add(projectile);
     }
 }

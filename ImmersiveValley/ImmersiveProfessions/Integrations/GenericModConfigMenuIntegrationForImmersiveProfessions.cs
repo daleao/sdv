@@ -1,14 +1,15 @@
-namespace DaLion.Stardew.Professions.Integrations;
+﻿namespace DaLion.Stardew.Professions.Integrations;
 
 #region using directives
 
-using Common.Extensions.Collections;
-using Common.Extensions.SMAPI;
-using Common.Integrations.GenericModConfigMenu;
-using Framework;
-using StardewValley.Buildings;
 using System;
 using System.Linq;
+using CommunityToolkit.Diagnostics;
+using DaLion.Common.Extensions.Collections;
+using DaLion.Common.Extensions.SMAPI;
+using DaLion.Common.Integrations.GenericModConfigMenu;
+using DaLion.Stardew.Professions.Framework;
+using StardewValley.Buildings;
 
 #endregion using directives
 
@@ -18,28 +19,34 @@ internal sealed class GenericModConfigMenuIntegrationForImmersiveProfessions
     /// <summary>The Generic Mod Config Menu integration.</summary>
     private readonly GenericModConfigMenuIntegration<ModConfig> _configMenu;
 
-    /// <summary>Construct an instance.</summary>
+    /// <summary>Initializes a new instance of the <see cref="GenericModConfigMenuIntegrationForImmersiveProfessions"/> class.</summary>
     /// <param name="modRegistry">API for fetching metadata about loaded mods.</param>
     /// <param name="manifest">The mod manifest.</param>
     /// <param name="getConfig">Get the current config model.</param>
     /// <param name="reset">Reset the config model to the default values.</param>
     /// <param name="saveAndApply">Save and apply the current config model.</param>
-    public GenericModConfigMenuIntegrationForImmersiveProfessions(IModRegistry modRegistry, IManifest manifest,
-        Func<ModConfig> getConfig, Action reset, Action saveAndApply)
+    public GenericModConfigMenuIntegrationForImmersiveProfessions(
+        IModRegistry modRegistry,
+        IManifest manifest,
+        Func<ModConfig> getConfig,
+        Action reset,
+        Action saveAndApply)
     {
-        _configMenu =
-            new(modRegistry, manifest, getConfig, reset, saveAndApply);
+        this._configMenu =
+            new GenericModConfigMenuIntegration<ModConfig>(modRegistry, manifest, getConfig, reset, saveAndApply);
     }
 
     /// <summary>Register the config menu if available.</summary>
     public void Register()
     {
         // get config menu
-        if (!_configMenu.IsLoaded)
+        if (!this._configMenu.IsLoaded)
+        {
             return;
+        }
 
         // register
-        _configMenu
+        this._configMenu
             .Register()
 
             // controls and ui settings
@@ -48,8 +55,7 @@ internal sealed class GenericModConfigMenuIntegrationForImmersiveProfessions
                 () => "Mod Key",
                 () => "The key used by Prospector, Scavenger and Rascal professions to enable active effects.",
                 config => config.ModKey,
-                (config, value) => config.ModKey = value
-            )
+                (config, value) => config.ModKey = value)
             .AddDropdown(
                 () => "Vintage Interface Style",
                 () => "You generally don't need to change this unless you want to override the automatic setting.",
@@ -57,12 +63,13 @@ internal sealed class GenericModConfigMenuIntegrationForImmersiveProfessions
                 (config, value) =>
                 {
                     config.VintageInterfaceSupport = Enum.Parse<ModConfig.VintageInterfaceStyle>(value);
-                    ModEntry.ModHelper.GameContent.InvalidateCacheAndLocalized($"{ModEntry.Manifest.UniqueID}/SkillBars");
-                    ModEntry.ModHelper.GameContent.InvalidateCacheAndLocalized($"{ModEntry.Manifest.UniqueID}/UltimateMeter");
+                    ModEntry.ModHelper.GameContent.InvalidateCacheAndLocalized(
+                        $"{ModEntry.Manifest.UniqueID}/SkillBars");
+                    ModEntry.ModHelper.GameContent.InvalidateCacheAndLocalized(
+                        $"{ModEntry.Manifest.UniqueID}/UltimateMeter");
                 },
                 new[] { "Automatic", "Brown", "Pink", "Off" },
-                null
-            )
+                null)
             .AddDropdown(
                 () => "Progression Style",
                 () => "Determines the sprite that appears next to skill bars.",
@@ -70,17 +77,17 @@ internal sealed class GenericModConfigMenuIntegrationForImmersiveProfessions
                 (config, value) =>
                 {
                     config.PrestigeProgressionStyle = Enum.Parse<ModConfig.ProgressionStyle>(value);
-                    ModEntry.ModHelper.GameContent.InvalidateCacheAndLocalized($"{ModEntry.Manifest.UniqueID}/PrestigeProgression");
+                    ModEntry.ModHelper.GameContent.InvalidateCacheAndLocalized(
+                        $"{ModEntry.Manifest.UniqueID}/PrestigeProgression");
                 },
                 new[] { "StackedStars", "Gen3Ribbons", "Gen4Ribbons" },
                 value => value switch
-                    {
-                        "StackedStars" => "Stacked Stars",
-                        "Gen3Ribbons" => "Gen 3 Ribbons",
-                        "Gen4Ribbons" => "Gen 4 Ribbons",
-                        _ => ThrowHelper.ThrowArgumentOutOfRangeException<string>(nameof(value), value, null)
-                    }
-            )
+                {
+                    "StackedStars" => "Stacked Stars",
+                    "Gen3Ribbons" => "Gen 3 Ribbons",
+                    "Gen4Ribbons" => "Gen 4 Ribbons",
+                    _ => ThrowHelper.ThrowArgumentOutOfRangeException<string>(nameof(value), value, null),
+                })
 
             // professions
             .AddSectionTitle(() => "Profession Settings")
@@ -91,8 +98,7 @@ internal sealed class GenericModConfigMenuIntegrationForImmersiveProfessions
                 (config, value) => config.ForagesNeededForBestQuality = (uint)value,
                 0,
                 1000,
-                10
-            )
+                10)
             .AddNumberField(
                 () => "Minerals Needed for Best Quality",
                 () => "Gemologists must mine this many minerals to reach iridium quality.",
@@ -100,19 +106,19 @@ internal sealed class GenericModConfigMenuIntegrationForImmersiveProfessions
                 (config, value) => config.MineralsNeededForBestQuality = (uint)value,
                 0,
                 1000,
-                10
-            );
+                10);
 
         if (ModEntry.ModHelper.ModRegistry.IsLoaded("Pathoschild.Automate"))
-            _configMenu.AddCheckbox(
-                () => "Should Count Automated Harvests",
+        {
+            this._configMenu.AddCheckbox(
+                () => "Lax Ownership Requirements",
                 () =>
-                    "If enabled, forages and minerals harvested from automated machines will count towards Ecologist and Gemologist goals.",
+                    "If enabled, machine and building ownerhsip will be ignored when determining whether to apply certain profession bonuses.",
                 config => config.LaxOwnershipRequirements,
-                (config, value) => config.LaxOwnershipRequirements = value
-            );
+                (config, value) => config.LaxOwnershipRequirements = value);
+        }
 
-        _configMenu
+        this._configMenu
             .AddNumberField(
                 () => "Tracking Pointer Scale",
                 () => "Changes the size of the pointer used to track objects by Prospector and Scavenger professions.",
@@ -120,8 +126,7 @@ internal sealed class GenericModConfigMenuIntegrationForImmersiveProfessions
                 (config, value) => config.TrackPointerScale = value,
                 0.2f,
                 2f,
-                0.2f
-            )
+                0.2f)
             .AddNumberField(
                 () => "Track Pointer Bobbing Rate",
                 () => "Changes the speed at which the tracking pointer bounces up and down (higher is faster).",
@@ -129,14 +134,12 @@ internal sealed class GenericModConfigMenuIntegrationForImmersiveProfessions
                 (config, value) => config.TrackPointerBobbingRate = value,
                 0.5f,
                 2f,
-                0.05f
-            )
+                0.05f)
             .AddCheckbox(
                 () => "Disable Constant Tracking Arrows",
                 () => "If enabled, Prospector and Scavenger will only track off-screen objects while ModKey is held.",
                 config => config.DisableAlwaysTrack,
-                (config, value) => config.DisableAlwaysTrack = value
-            )
+                (config, value) => config.DisableAlwaysTrack = value)
             .AddNumberField(
                 () => "Chance to Start Treasure Hunt",
                 () => "The chance that your Scavenger or Prospector hunt senses will start tingling.",
@@ -144,14 +147,12 @@ internal sealed class GenericModConfigMenuIntegrationForImmersiveProfessions
                 (config, value) => config.ChanceToStartTreasureHunt = value,
                 0f,
                 1f,
-                0.05f
-            )
+                0.05f)
             .AddCheckbox(
                 () => "Allow Scavenger Hunts on Farm",
                 () => "Whether a Scavenger Hunt can trigger while entering a farm map.",
                 config => config.AllowScavengerHuntsOnFarm,
-                (config, value) => config.AllowScavengerHuntsOnFarm = value
-            )
+                (config, value) => config.AllowScavengerHuntsOnFarm = value)
             .AddNumberField(
                 () => "Scavenger Hunt Handicap",
                 () => "Increase this number if you find that Scavenger hunts end too quickly.",
@@ -159,8 +160,7 @@ internal sealed class GenericModConfigMenuIntegrationForImmersiveProfessions
                 (config, value) => config.ScavengerHuntHandicap = value,
                 1f,
                 10f,
-                0.5f
-            )
+                0.5f)
             .AddNumberField(
                 () => "Prospector Hunt Handicap",
                 () => "Increase this number if you find that Prospector hunts end too quickly.",
@@ -168,8 +168,7 @@ internal sealed class GenericModConfigMenuIntegrationForImmersiveProfessions
                 (config, value) => config.ProspectorHuntHandicap = value,
                 1f,
                 10f,
-                0.5f
-            )
+                0.5f)
             .AddNumberField(
                 () => "Treasure Detection Distance",
                 () => "How close you must be to the treasure tile to reveal it's location, in tiles.",
@@ -177,28 +176,24 @@ internal sealed class GenericModConfigMenuIntegrationForImmersiveProfessions
                 (config, value) => config.TreasureDetectionDistance = value,
                 1f,
                 10f,
-                0.5f
-            )
+                0.5f)
             .AddNumberField(
                 () => "Spelunker Speed Cap",
                 () => "The maximum speed a Spelunker can reach in the mines.",
                 config => (int)config.SpelunkerSpeedCap,
                 (config, value) => config.SpelunkerSpeedCap = (uint)value,
                 1,
-                10
-            )
+                10)
             .AddCheckbox(
                 () => "Enable 'Get Excited' buff",
                 () => "Toggles the 'Get Excited' buff when a Demolitionist is hit by an explosion.",
                 config => config.EnableGetExcited,
-                (config, value) => config.EnableGetExcited = value
-            )
+                (config, value) => config.EnableGetExcited = value)
             .AddCheckbox(
                 () => "Seaweed Is Junk",
                 () => "Whether Seaweed and Algae are considered junk for fishing purposes.",
                 config => config.SeaweedIsTrash,
-                (config, value) => config.SeaweedIsTrash = value
-            )
+                (config, value) => config.SeaweedIsTrash = value)
             .AddNumberField(
                 () => "Angler Multiplier Cap",
                 () =>
@@ -206,8 +201,7 @@ internal sealed class GenericModConfigMenuIntegrationForImmersiveProfessions
                 config => config.AnglerMultiplierCap,
                 (config, value) => config.AnglerMultiplierCap = value,
                 0.5f,
-                2f
-            )
+                2f)
             .AddNumberField(
                 () => "Legendary Pond Population Cap",
                 () => "The maximum population of Aquarist Fish Ponds with legendary fish.",
@@ -216,29 +210,28 @@ internal sealed class GenericModConfigMenuIntegrationForImmersiveProfessions
                 {
                     config.LegendaryPondPopulationCap = (uint)value;
                     if (Context.IsWorldReady)
+                    {
                         Game1.getFarm().buildings.OfType<FishPond>()
                             .Where(p => (p.owner.Value == Game1.player.UniqueMultiplayerID || !Context.IsMultiplayer) &&
                                         !p.isUnderConstruction()).ForEach(p => p.UpdateMaximumOccupancy());
+                    }
                 },
                 4,
-                12
-            )
+                12)
             .AddNumberField(
                 () => "Trash Needed Per Tax Bonus Percent",
                 () => "Conservationists must collect this much trash for every 1% tax deduction the following season.",
                 config => (int)config.TrashNeededPerTaxBonusPct,
                 (config, value) => config.TrashNeededPerTaxBonusPct = (uint)value,
                 10,
-                1000
-            )
+                1000)
             .AddNumberField(
                 () => "Trash Needed Per Friendship Point",
                 () => "Conservationists must collect this much trash for every 1 friendship point towards villagers.",
                 config => (int)config.TrashNeededPerFriendshipPoint,
                 (config, value) => config.TrashNeededPerFriendshipPoint = (uint)value,
                 10,
-                1000
-            )
+                1000)
             .AddNumberField(
                 () => "Tax Deduction Cap",
                 () => "The maximum tax deduction allowed by the Ferngill Revenue Service.",
@@ -246,8 +239,7 @@ internal sealed class GenericModConfigMenuIntegrationForImmersiveProfessions
                 (config, value) => config.ConservationistTaxBonusCeiling = value,
                 0f,
                 1f,
-                0.05f
-            )
+                0.05f)
 
             // ultimate
             .AddSectionTitle(() => "Special Ability Settings")
@@ -255,20 +247,17 @@ internal sealed class GenericModConfigMenuIntegrationForImmersiveProfessions
                 () => "Enable Special Abilities",
                 () => "Must be enabled to allow activating special abilities.",
                 config => config.EnableSpecials,
-                (config, value) => config.EnableSpecials = value
-            )
+                (config, value) => config.EnableSpecials = value)
             .AddKeyBinding(
                 () => "Activation Key",
                 () => "The key used to activate the special ability.",
                 config => config.SpecialActivationKey,
-                (config, value) => config.SpecialActivationKey = value
-            )
+                (config, value) => config.SpecialActivationKey = value)
             .AddCheckbox(
                 () => "Hold-To-Activate",
                 () => "If enabled, the special ability will be activated only after a short delay.",
                 config => config.HoldKeyToActivateSpecial,
-                (config, value) => config.HoldKeyToActivateSpecial = value
-            )
+                (config, value) => config.HoldKeyToActivateSpecial = value)
             .AddNumberField(
                 () => "Activation Delay",
                 () => "How long the key should be held before the special ability is activated, in seconds.",
@@ -276,8 +265,7 @@ internal sealed class GenericModConfigMenuIntegrationForImmersiveProfessions
                 (config, value) => config.SpecialActivationDelay = value,
                 0f,
                 3f,
-                0.2f
-            )
+                0.2f)
             .AddNumberField(
                 () => "Gain Factor",
                 () =>
@@ -285,8 +273,7 @@ internal sealed class GenericModConfigMenuIntegrationForImmersiveProfessions
                 config => (float)config.SpecialGainFactor,
                 (config, value) => config.SpecialGainFactor = value,
                 0.1f,
-                2f
-            )
+                2f)
             .AddNumberField(
                 () => "Drain Factor",
                 () =>
@@ -294,8 +281,7 @@ internal sealed class GenericModConfigMenuIntegrationForImmersiveProfessions
                 config => (float)config.SpecialDrainFactor,
                 (config, value) => config.SpecialDrainFactor = value,
                 0.5f,
-                2f
-            )
+                2f)
 
             // prestige
             .AddSectionTitle(() => "Prestige Settings")
@@ -303,8 +289,7 @@ internal sealed class GenericModConfigMenuIntegrationForImmersiveProfessions
                 () => "Enable Prestige",
                 () => "Must be enabled to allow all prestige modifications.",
                 config => config.EnablePrestige,
-                (config, value) => config.EnablePrestige = value
-            )
+                (config, value) => config.EnablePrestige = value)
             .AddNumberField(
                 () => "Skill Reset Cost Multiplier",
                 () =>
@@ -312,28 +297,24 @@ internal sealed class GenericModConfigMenuIntegrationForImmersiveProfessions
                 config => config.SkillResetCostMultiplier,
                 (config, value) => config.SkillResetCostMultiplier = value,
                 0f,
-                2f
-            )
+                2f)
             .AddCheckbox(
                 () => "Forget Recipes on Skill Reset",
                 () => "Disable this to keep all skill recipes upon skill reseting.",
                 config => config.ForgetRecipes,
-                (config, value) => config.ForgetRecipes = value
-            )
+                (config, value) => config.ForgetRecipes = value)
             .AddCheckbox(
                 () => "Allow Multiple Prestiges Per Day",
                 () => "Whether the player can use the Statue of Prestige more than once in a day.",
                 config => config.AllowMultiplePrestige,
-                (config, value) => config.AllowMultiplePrestige = value
-            )
+                (config, value) => config.AllowMultiplePrestige = value)
             .AddNumberField(
                 () => "Bonus Skill Experience After Reset",
                 () => "Cumulative bonus that multiplies a skill's experience gain after each respective skill reset.",
                 config => config.PrestigeExpMultiplier,
                 (config, value) => config.PrestigeExpMultiplier = value,
                 0f,
-                2f
-            )
+                2f)
             .AddNumberField(
                 () => "Required Experience Per Extended Level",
                 () => "How much skill experience is required for each level-up beyond level 10.",
@@ -341,8 +322,7 @@ internal sealed class GenericModConfigMenuIntegrationForImmersiveProfessions
                 (config, value) => config.RequiredExpPerExtendedLevel = (uint)value,
                 1000,
                 10000,
-                500
-            )
+                500)
             .AddNumberField(
                 () => "Cost of Prestige Respec",
                 () =>
@@ -351,8 +331,7 @@ internal sealed class GenericModConfigMenuIntegrationForImmersiveProfessions
                 (config, value) => config.PrestigeRespecCost = (uint)value,
                 0,
                 100000,
-                10000
-            )
+                10000)
             .AddNumberField(
                 () => "Cost of Changing Ultimate",
                 () => "Monetary cost of changing the combat Ultimate. Set to 0 to change for free.",
@@ -360,8 +339,7 @@ internal sealed class GenericModConfigMenuIntegrationForImmersiveProfessions
                 (config, value) => config.ChangeUltCost = (uint)value,
                 0,
                 100000,
-                10000
-            )
+                10000)
 
             // difficulty settings
             .AddSectionTitle(() => "Difficulty Settings")
@@ -371,55 +349,52 @@ internal sealed class GenericModConfigMenuIntegrationForImmersiveProfessions
                 config => config.BaseSkillExpMultipliers[0],
                 (config, value) => config.BaseSkillExpMultipliers[0] = value,
                 0.2f,
-                2f
-            )
+                2f)
             .AddNumberField(
                 () => "Base Fishing Experience Multiplier",
                 () => "Multiplies all skill experience gained for Fishing from the start of the game.",
                 config => config.BaseSkillExpMultipliers[1],
                 (config, value) => config.BaseSkillExpMultipliers[1] = value,
                 0.2f,
-                2f
-            )
+                2f)
             .AddNumberField(
                 () => "Base Foraging Experience Multiplier",
                 () => "Multiplies all skill experience gained for Foraging from the start of the game.",
                 config => config.BaseSkillExpMultipliers[2],
                 (config, value) => config.BaseSkillExpMultipliers[2] = value,
                 0.2f,
-                2f
-            )
+                2f)
             .AddNumberField(
                 () => "Base Mining Experience Multiplier",
                 () => "Multiplies all skill experience gained for Mining the start of the game.",
                 config => config.BaseSkillExpMultipliers[3],
                 (config, value) => config.BaseSkillExpMultipliers[3] = value,
                 0.2f,
-                2f
-            )
+                2f)
             .AddNumberField(
                 () => "Base Combat Experience Multiplier",
                 () => "Multiplies all skill experience gained for Combat from the start of the game.",
                 config => config.BaseSkillExpMultipliers[4],
                 (config, value) => config.BaseSkillExpMultipliers[4] = value,
                 0.2f,
-                2f
-            );
+                2f);
 
         foreach (var (skillId, multiplier) in ModEntry.Config.CustomSkillExpMultipliers)
         {
-            if (!CustomSkill.LoadedSkills.ContainsKey(skillId)) continue;
+            if (!CustomSkill.Loaded.ContainsKey(skillId))
+            {
+                continue;
+            }
 
-            var skill = CustomSkill.LoadedSkills[skillId];
-            _configMenu
+            var skill = CustomSkill.Loaded[skillId];
+            this._configMenu
                 .AddNumberField(
                     () => $"Base {skill.DisplayName} Experience Multiplier",
                     () => $"Multiplies all skill experience gained for {skill.StringId} from the start of the game.",
                     config => config.CustomSkillExpMultipliers[skillId],
                     (config, value) => config.CustomSkillExpMultipliers[skillId] = value,
                     0.2f,
-                    2f
-                );
+                    2f);
         }
     }
 }

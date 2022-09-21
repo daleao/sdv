@@ -2,24 +2,28 @@
 
 #region using directives
 
-using Common;
-using Common.Extensions;
-using Extensions;
-using HarmonyLib;
 using System;
 using System.Collections.Generic;
 using System.Reflection;
+using DaLion.Common;
+using DaLion.Common.Extensions;
+using DaLion.Stardew.Rings.Extensions;
+using HarmonyLib;
+using HarmonyPatch = DaLion.Common.Harmony.HarmonyPatch;
 
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class CraftingRecipeDoesFarmerHaveIngredientsInInventoryPatch : Common.Harmony.HarmonyPatch
+internal sealed class CraftingRecipeDoesFarmerHaveIngredientsInInventoryPatch : HarmonyPatch
 {
-    /// <summary>Construct an instance.</summary>
+    /// <summary>
+    ///     Initializes a new instance of the <see cref="CraftingRecipeDoesFarmerHaveIngredientsInInventoryPatch"/>
+    ///     class.
+    /// </summary>
     internal CraftingRecipeDoesFarmerHaveIngredientsInInventoryPatch()
     {
-        Target = RequireMethod<CraftingRecipe>(nameof(CraftingRecipe.doesFarmerHaveIngredientsInInventory));
-        Prefix!.priority = Priority.HigherThanNormal;
+        this.Target = this.RequireMethod<CraftingRecipe>(nameof(CraftingRecipe.doesFarmerHaveIngredientsInInventory));
+        this.Prefix!.priority = Priority.HigherThanNormal;
     }
 
     #region harmony patches
@@ -27,10 +31,14 @@ internal sealed class CraftingRecipeDoesFarmerHaveIngredientsInInventoryPatch : 
     /// <summary>Overrides ingredient search to allow non-Object types.</summary>
     [HarmonyPrefix]
     [HarmonyPriority(Priority.HigherThanNormal)]
-    private static bool CraftingRecipeDoesFarmerHaveIngredientsInInventoryPrefix(CraftingRecipe __instance, ref bool __result, IList<Item>? extraToCheck)
+    private static bool CraftingRecipeDoesFarmerHaveIngredientsInInventoryPrefix(
+        CraftingRecipe __instance, ref bool __result, IList<Item>? extraToCheck)
     {
         if (!__instance.name.Contains("Ring") || !__instance.name.ContainsAnyOf("Glow", "Magnet") ||
-            !ModEntry.Config.CraftableGlowAndMagnetRings && !ModEntry.Config.ImmersiveGlowstoneRecipe) return true; // run original logic
+            (!ModEntry.Config.CraftableGlowAndMagnetRings && !ModEntry.Config.ImmersiveGlowstoneRecipe))
+        {
+            return true; // run original logic
+        }
 
         try
         {
@@ -39,14 +47,20 @@ internal sealed class CraftingRecipeDoesFarmerHaveIngredientsInInventoryPatch : 
                 var remaining = required - (index.IsRingIndex()
                     ? Game1.player.GetRingItemCount(index)
                     : Game1.player.getItemCount(index, 5));
-                if (remaining <= 0) continue;
+                if (remaining <= 0)
+                {
+                    continue;
+                }
 
                 if (extraToCheck is not null)
                 {
                     remaining -= index.IsRingIndex()
                         ? Game1.player.GetRingItemCount(index, extraToCheck)
                         : Game1.player.getItemCountInList(extraToCheck, index, 5);
-                    if (remaining <= 0) continue;
+                    if (remaining <= 0)
+                    {
+                        continue;
+                    }
                 }
 
                 __result = false;

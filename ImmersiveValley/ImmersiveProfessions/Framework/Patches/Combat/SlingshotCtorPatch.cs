@@ -2,27 +2,28 @@
 
 #region using directives
 
-using Extensions;
+using System;
+using DaLion.Stardew.Professions.Extensions;
 using HarmonyLib;
 using StardewValley.Tools;
-using System;
+using HarmonyPatch = DaLion.Common.Harmony.HarmonyPatch;
 
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class SlingshotCtorPatch : DaLion.Common.Harmony.HarmonyPatch
+internal sealed class SlingshotCtorPatch : HarmonyPatch
 {
-    /// <summary>Construct an instance.</summary>
+    /// <summary>Initializes a new instance of the <see cref="SlingshotCtorPatch"/> class.</summary>
     internal SlingshotCtorPatch()
     {
-        Target = RequireConstructor<Slingshot>(Type.EmptyTypes);
+        this.Target = this.RequireConstructor<Slingshot>(Type.EmptyTypes);
     }
 
     /// <inheritdoc />
     protected override void ApplyImpl(Harmony harmony)
     {
         base.ApplyImpl(harmony);
-        Target = RequireConstructor<Slingshot>(typeof(int));
+        this.Target = this.RequireConstructor<Slingshot>(typeof(int));
         base.ApplyImpl(harmony);
     }
 
@@ -32,7 +33,10 @@ internal sealed class SlingshotCtorPatch : DaLion.Common.Harmony.HarmonyPatch
     [HarmonyPostfix]
     private static void SlingshotCtorPostfix(Slingshot __instance)
     {
-        if (!Game1.player.HasProfession(Profession.Rascal)) return;
+        if (!Game1.player.HasProfession(Profession.Rascal))
+        {
+            return;
+        }
 
         __instance.numAttachmentSlots.Value = 2;
         __instance.attachments.SetCount(2);

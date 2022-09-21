@@ -4,16 +4,17 @@
 
 using HarmonyLib;
 using StardewValley.Tools;
+using HarmonyPatch = DaLion.Common.Harmony.HarmonyPatch;
 
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class FarmerGetForagingLevelPatch : Common.Harmony.HarmonyPatch
+internal sealed class FarmerGetForagingLevelPatch : HarmonyPatch
 {
-    /// <summary>Construct an instance.</summary>
+    /// <summary>Initializes a new instance of the <see cref="FarmerGetForagingLevelPatch"/> class.</summary>
     internal FarmerGetForagingLevelPatch()
     {
-        Target = RequireMethod<Farmer>("get_ForagingLevel");
+        this.Target = this.RequireMethod<Farmer>("get_ForagingLevel");
     }
 
     #region harmony patches
@@ -23,7 +24,9 @@ internal sealed class FarmerGetForagingLevelPatch : Common.Harmony.HarmonyPatch
     private static void FarmerGetForagingLevelPostfix(Farmer __instance, ref int __result)
     {
         if (__instance.CurrentTool is Axe axe && axe.hasEnchantmentOfType<MasterEnchantment>())
+        {
             ++__result;
+        }
     }
 
     #endregion harmony patches

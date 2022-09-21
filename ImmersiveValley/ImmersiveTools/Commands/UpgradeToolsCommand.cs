@@ -2,30 +2,33 @@
 
 #region using directives
 
-using Common;
-using Common.Commands;
-using Framework;
-using StardewValley.Tools;
 using System;
 using System.Linq;
+using DaLion.Common;
+using DaLion.Common.Commands;
+using DaLion.Stardew.Tools.Framework;
+using StardewValley.Tools;
 
 #endregion using directives
 
 [UsedImplicitly]
 internal sealed class UpgradeToolsCommand : ConsoleCommand
 {
-    /// <summary>Construct an instance.</summary>
+    /// <summary>Initializes a new instance of the <see cref="UpgradeToolsCommand"/> class.</summary>
     /// <param name="handler">The <see cref="CommandHandler"/> instance that handles this command.</param>
     internal UpgradeToolsCommand(CommandHandler handler)
-        : base(handler) { }
+        : base(handler)
+    {
+    }
 
     /// <inheritdoc />
     public override string[] Triggers { get; } = { "upgrade_tools", "set_upgrade", "set", "upgrade" };
 
     /// <inheritdoc />
-    public override string Documentation => "Set the upgrade level of the currently held tool." + GetUsage();
+    public override string Documentation => "Set the upgrade level of the currently held tool." + this.GetUsage();
 
     /// <inheritdoc />
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("StyleCop.CSharp.SpacingRules", "SA1012:Opening braces should be spaced correctly", Justification = "Paradoxical.")]
     public override void Callback(string[] args)
     {
         if (Game1.player.CurrentTool is not ({ } tool and (Axe or Hoe or Pickaxe or WateringCan or FishingRod)))
@@ -36,13 +39,13 @@ internal sealed class UpgradeToolsCommand : ConsoleCommand
 
         if (args.Length < 1)
         {
-            Log.W("You must specify a valid upgrade level." + GetUsage());
+            Log.W("You must specify a valid upgrade level." + this.GetUsage());
             return;
         }
 
-        if (!Enum.TryParse<Framework.UpgradeLevel>(args[0], true, out var upgradeLevel))
+        if (!Enum.TryParse<UpgradeLevel>(args[0], true, out var upgradeLevel))
         {
-            Log.W($"Invalid upgrade level {args[0]}. Please specify a valid quality." + GetUsage());
+            Log.W($"Invalid upgrade level {args[0]}. Please specify a valid quality." + this.GetUsage());
             return;
         }
 
@@ -62,14 +65,16 @@ internal sealed class UpgradeToolsCommand : ConsoleCommand
     /// <summary>Tell the dummies how to use the console command.</summary>
     private string GetUsage()
     {
-        var result = $"\n\nUsage: {Handler.EntryCommand} {Triggers.FirstOrDefault()} <level>";
+        var result = $"\n\nUsage: {this.Handler.EntryCommand} {this.Triggers.FirstOrDefault()} <level>";
         result += "\n\nParameters:";
         result += "\n\t- <level>: one of 'copper', 'steel', 'gold', 'iridium'";
         if (ModEntry.IsMoonMisadventuresLoaded)
+        {
             result += ", 'radioactive', 'mythicite'";
+        }
 
         result += "\n\nExample:";
-        result += $"\n\t- {Handler.EntryCommand} {Triggers.First()} iridium";
+        result += $"\n\t- {this.Handler.EntryCommand} {this.Triggers.First()} iridium";
         return result;
     }
 }

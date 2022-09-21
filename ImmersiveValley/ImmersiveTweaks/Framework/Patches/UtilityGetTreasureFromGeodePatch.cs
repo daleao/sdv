@@ -2,20 +2,19 @@
 
 #region using directives
 
-using Extensions;
+using DaLion.Stardew.Tweex.Extensions;
 using HarmonyLib;
-using JetBrains.Annotations;
-using StardewValley;
+using HarmonyPatch = DaLion.Common.Harmony.HarmonyPatch;
 
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class UtilityGetTreasureFromGeodePatch : DaLion.Common.Harmony.HarmonyPatch
+internal sealed class UtilityGetTreasureFromGeodePatch : HarmonyPatch
 {
-    /// <summary>Construct an instance.</summary>
+    /// <summary>Initializes a new instance of the <see cref="UtilityGetTreasureFromGeodePatch"/> class.</summary>
     internal UtilityGetTreasureFromGeodePatch()
     {
-        Target = RequireMethod<Utility>(nameof(Utility.getTreasureFromGeode));
+        this.Target = this.RequireMethod<Utility>(nameof(Utility.getTreasureFromGeode));
     }
 
     #region harmony patches
@@ -25,7 +24,10 @@ internal sealed class UtilityGetTreasureFromGeodePatch : DaLion.Common.Harmony.H
     private static void UtilityGetTreasureFromGeodePostfix(Item __result, Item geode)
     {
         if (ModEntry.ProfessionsApi is not null && __result is SObject resultObj && resultObj.IsPreciousRock() &&
-            geode is SObject { Quality: > 0 } geodeObj) resultObj.Quality = geodeObj.Quality;
+            geode is SObject { Quality: > 0 } geodeObj)
+        {
+            resultObj.Quality = geodeObj.Quality;
+        }
     }
 
     #endregion harmony patches

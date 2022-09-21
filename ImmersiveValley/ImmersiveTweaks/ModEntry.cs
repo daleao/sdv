@@ -2,26 +2,35 @@
 
 #region using directives
 
-using Common;
-using Common.Commands;
-using Common.Events;
-using Common.Harmony;
-using Common.Integrations.WalkOfLife;
-using Common.ModData;
+using DaLion.Common;
+using DaLion.Common.Commands;
+using DaLion.Common.Events;
+using DaLion.Common.Harmony;
+using DaLion.Common.Integrations.WalkOfLife;
+using DaLion.Common.ModData;
 
 #endregion using directives
 
 /// <summary>The mod entry point.</summary>
-public class ModEntry : Mod
+public sealed class ModEntry : Mod
 {
+    /// <summary>Gets the static <see cref="ModEntry"/> instance.</summary>
     internal static ModEntry Instance { get; private set; } = null!;
+
+    /// <summary>Gets or sets the <see cref="ModConfig"/> instance.</summary>
     internal static ModConfig Config { get; set; } = null!;
+
+    /// <summary>Gets the <see cref="EventManager"/> instance.</summary>
     internal static EventManager Events { get; private set; } = null!;
 
+    /// <summary>Gets the <see cref="IModHelper"/> API.</summary>
     internal static IModHelper ModHelper => Instance.Helper;
+
+    /// <summary>Gets the <see cref="IManifest"/> for this mod.</summary>
     internal static IManifest Manifest => Instance.ModManifest;
 
-    internal static IImmersiveProfessionsAPI? ProfessionsApi { get; set; }
+    /// <summary>Gets or sets the <see cref="IImmersiveProfessionsApi"/>.</summary>
+    internal static IImmersiveProfessionsApi? ProfessionsApi { get; set; }
 
     /// <summary>The mod entry point, called after the mod is first loaded.</summary>
     /// <param name="helper">Provides simplified APIs for writing mods.</param>
@@ -30,19 +39,19 @@ public class ModEntry : Mod
         Instance = this;
 
         // initialize logger
-        Log.Init(Monitor);
+        Log.Init(this.Monitor);
 
         // initialize data
-        ModDataIO.Init(helper.Multiplayer, ModManifest.UniqueID);
+        ModDataIO.Init(helper.Multiplayer, this.ModManifest.UniqueID);
 
         // get configs
         Config = helper.ReadConfig<ModConfig>();
 
         // enable events
-        Events = new(helper.Events);
+        Events = new EventManager(helper.Events);
 
         // apply patches
-        new Harmonizer(helper.ModRegistry, ModManifest.UniqueID).ApplyAll();
+        new Harmonizer(helper.ModRegistry, this.ModManifest.UniqueID).ApplyAll();
 
         // register commands
         new CommandHandler(helper.ConsoleCommands).Register("qol", "Quality Of Life");

@@ -2,22 +2,14 @@
 
 #region using directives
 
-using Extensions.Reflection;
 using System.Reflection;
+using DaLion.Common.Extensions.Reflection;
+using HarmonyLib;
 
 #endregion using directives
 
-/// <summary>Provides functionality missing from <see cref="ILuckSkillAPI"/>.</summary>
-public static class ExtendedLuckSkillAPI
+/// <summary>Provides functionality missing from <see cref="ILuckSkillApi"/>.</summary>
+internal static class ExtendedLuckSkillApi
 {
-    public static MethodInfo GetProfessions = null!;
-
-    /// <summary>Whether the reflected fields have been initialized.</summary>
-    public static bool Initialized { get; private set; }
-
-    public static void Init()
-    {
-        GetProfessions = "LuckSkill.Mod".ToType().RequireMethod("GetProfessions");
-        Initialized = true;
-    }
+    internal static MethodInfo? GetProfessions { get; } = AccessTools.TypeByName("LuckSkill.Mod")?.RequireMethod("GetProfessions");
 }

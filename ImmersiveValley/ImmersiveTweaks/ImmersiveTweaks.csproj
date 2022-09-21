@@ -1,12 +1,12 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-	<Import Project="..\_build\common.targets" />
+	<Import Project="..\_build\common.targets"/>
 
 	<PropertyGroup>
 		<AssemblyName>ImmersiveTweaks</AssemblyName>
 		<RootNamespace>DaLion.Stardew.Tweex</RootNamespace>
 		<UpdateKeys>Nexus:11296"</UpdateKeys>
-		<Version>2.1.3</Version>
+		<Version>2.2.0</Version>
 	</PropertyGroup>
 
 	<PropertyGroup>

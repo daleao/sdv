@@ -2,25 +2,26 @@
 
 #region using directives
 
-using Common.Extensions.Reflection;
+using System;
+using DaLion.Common.Extensions.Reflection;
 using HarmonyLib;
 using StardewValley.Monsters;
 using StardewValley.Tools;
-using System;
+using HarmonyPatch = DaLion.Common.Harmony.HarmonyPatch;
 
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class MonsterHandleParriedPatch : Common.Harmony.HarmonyPatch
+internal sealed class MonsterHandleParriedPatch : HarmonyPatch
 {
-    private static Func<object, int>? _GetDamage;
-    private static Action<object, int>? _SetDamage;
-    private static Func<object, Farmer>? _GetWho;
+    private static Func<object, int>? _getDamage;
+    private static Func<object, Farmer>? _getWho;
+    private static Action<object, int>? _setDamage;
 
-    /// <summary>Construct an instance.</summary>
+    /// <summary>Initializes a new instance of the <see cref="MonsterHandleParriedPatch"/> class.</summary>
     internal MonsterHandleParriedPatch()
     {
-        Target = RequireMethod<Monster>("handleParried");
+        this.Target = this.RequireMethod<Monster>("handleParried");
     }
 
     #region harmony patches
@@ -29,19 +30,34 @@ internal sealed class MonsterHandleParriedPatch : Common.Harmony.HarmonyPatch
     [HarmonyPrefix]
     private static void MonsterHandleParriedPrefix(Monster __instance, object args)
     {
-        if (!ModEntry.Config.DefenseImprovesParryDamage) return;
+        if (!ModEntry.Config.DefenseImprovesParryDamage)
+        {
+            return;
+        }
 
-        _GetDamage ??= args.GetType().RequireField("damage").CompileUnboundFieldGetterDelegate<object, int>();
-        var damage = _GetDamage(args);
+        _getDamage ??= args
+            .GetType()
+            .RequireField("damage")
+            .CompileUnboundFieldGetterDelegate<object, int>();
+        var damage = _getDamage(args);
 
-        _GetWho ??= args.GetType().RequirePropertyGetter("who").CompileUnboundDelegate<Func<object, Farmer>>();
-        var who = _GetWho(args);
+        _getWho ??= args
+            .GetType()
+            .RequirePropertyGetter("who")
+            .CompileUnboundDelegate<Func<object, Farmer>>();
+        var who = _getWho(args);
 
-        if (who.CurrentTool is not MeleeWeapon { type.Value: MeleeWeapon.defenseSword } weapon) return;
+        if (who.CurrentTool is not MeleeWeapon { type.Value: MeleeWeapon.defenseSword } weapon)
+        {
+            return;
+        }
 
         var multiplier = 1f + (weapon.addedDefense.Value + who.resilience);
-        _SetDamage ??= args.GetType().RequireField("damage").CompileUnboundFieldSetterDelegate<object, int>();
-        _SetDamage(args, (int)(damage * multiplier));
+        _setDamage ??= args
+            .GetType()
+            .RequireField("damage")
+            .CompileUnboundFieldSetterDelegate<object, int>();
+        _setDamage(args, (int)(damage * multiplier));
     }
 
     #endregion harmony patches

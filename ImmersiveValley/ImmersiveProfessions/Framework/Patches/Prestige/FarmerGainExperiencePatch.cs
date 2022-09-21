@@ -2,23 +2,24 @@
 
 #region using directives
 
-using DaLion.Common;
-using Extensions;
-using HarmonyLib;
-using Microsoft.Xna.Framework;
 using System;
 using System.Reflection;
+using DaLion.Common;
+using DaLion.Stardew.Professions.Extensions;
+using HarmonyLib;
+using Microsoft.Xna.Framework;
+using HarmonyPatch = DaLion.Common.Harmony.HarmonyPatch;
 
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class FarmerGainExperiencePatch : DaLion.Common.Harmony.HarmonyPatch
+internal sealed class FarmerGainExperiencePatch : HarmonyPatch
 {
-    /// <summary>Construct an instance.</summary>
+    /// <summary>Initializes a new instance of the <see cref="FarmerGainExperiencePatch"/> class.</summary>
     internal FarmerGainExperiencePatch()
     {
-        Target = RequireMethod<Farmer>(nameof(Farmer.gainExperience));
-        Prefix!.priority = Priority.LowerThanNormal;
+        this.Target = this.RequireMethod<Farmer>(nameof(Farmer.gainExperience));
+        this.Prefix!.priority = Priority.LowerThanNormal;
     }
 
     #region harmony patches
@@ -31,8 +32,10 @@ internal sealed class FarmerGainExperiencePatch : DaLion.Common.Harmony.HarmonyP
         try
         {
             var skill = Skill.FromValue(which);
-            if (which == Farmer.luckSkill && ModEntry.LuckSkillApi is null || howMuch <= 0)
+            if ((which == Farmer.luckSkill && ModEntry.LuckSkillApi is null) || howMuch <= 0)
+            {
                 return false; // don't run original logic
+            }
 
             if (!__instance.IsLocalPlayer)
             {
@@ -41,24 +44,31 @@ internal sealed class FarmerGainExperiencePatch : DaLion.Common.Harmony.HarmonyP
             }
 
             howMuch = (int)(howMuch * __instance.GetExperienceMultiplier(skill));
-            var canGainPrestigeLevels = ModEntry.Config.EnablePrestige && __instance.HasAllProfessionsInSkill(skill) && skill != Farmer.luckSkill;
+            var canGainPrestigeLevels = ModEntry.Config.EnablePrestige && __instance.HasAllProfessionsInSkill(skill) &&
+                                        skill != Farmer.luckSkill;
             var newLevel = Farmer.checkForLevelGain(skill.CurrentExp, skill.CurrentExp + howMuch);
-            if (newLevel > 10 && !canGainPrestigeLevels) newLevel = 10;
-            
+            if (newLevel > 10 && !canGainPrestigeLevels)
+            {
+                newLevel = 10;
+            }
+
             if (newLevel > skill.CurrentLevel)
             {
                 for (var level = skill.CurrentLevel + 1; level <= newLevel; ++level)
                 {
                     var point = new Point(which, level);
                     if (!Game1.player.newLevels.Contains(point))
+                    {
                         Game1.player.newLevels.Add(point);
+                    }
                 }
 
                 Game1.player.SetSkillLevel(skill, newLevel);
             }
 
-            Game1.player.experiencePoints[skill] = Math.Min(skill.CurrentExp + howMuch,
-                canGainPrestigeLevels ? ISkill.ExperienceByLevel[20] : ISkill.VANILLA_EXP_CAP_I);
+            Game1.player.experiencePoints[skill] = Math.Min(
+                skill.CurrentExp + howMuch,
+                canGainPrestigeLevels ? ISkill.ExperienceByLevel[20] : ISkill.VanillaExpCap);
 
             return false; // don't run original logic
         }

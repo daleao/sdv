@@ -2,34 +2,35 @@
 
 #region using directives
 
-using Common;
-using Common.Extensions.Reflection;
-using Common.Harmony;
-using HarmonyLib;
-using Microsoft.Xna.Framework.Graphics;
-using StardewValley.Menus;
-using StardewValley.Tools;
 using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
+using DaLion.Common;
+using DaLion.Common.Extensions.Reflection;
+using DaLion.Common.Harmony;
+using HarmonyLib;
+using Microsoft.Xna.Framework.Graphics;
+using StardewValley.Menus;
+using StardewValley.Tools;
+using HarmonyPatch = DaLion.Common.Harmony.HarmonyPatch;
 
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class SkillsPageDrawPatch : Common.Harmony.HarmonyPatch
+internal sealed class SkillsPageDrawPatch : HarmonyPatch
 {
-    /// <summary>Construct an instance.</summary>
+    /// <summary>Initializes a new instance of the <see cref="SkillsPageDrawPatch"/> class.</summary>
     internal SkillsPageDrawPatch()
     {
-        Target = RequireMethod<SkillsPage>(nameof(SkillsPage.draw), new[] { typeof(SpriteBatch) });
+        this.Target = this.RequireMethod<SkillsPage>(nameof(SkillsPage.draw), new[] { typeof(SpriteBatch) });
     }
 
     /// <summary>Allows new Master Enchantments to draw as green levels in the skills page.</summary>
-    private static IEnumerable<CodeInstruction>? SkillsPageDrawTranspiler(IEnumerable<CodeInstruction> instructions,
-        ILGenerator generator, MethodBase original)
+    private static IEnumerable<CodeInstruction>? SkillsPageDrawTranspiler(
+        IEnumerable<CodeInstruction> instructions, ILGenerator generator, MethodBase original)
     {
-        var helper = new ILHelper(original, instructions);
+        var helper = new IlHelper(original, instructions);
         var currentTool = generator.DeclareLocal(typeof(Tool));
 
         try
@@ -41,16 +42,14 @@ internal sealed class SkillsPageDrawPatch : Common.Harmony.HarmonyPatch
             helper
                 .FindNext(
                     new CodeInstruction(OpCodes.Cgt),
-                    new CodeInstruction(OpCodes.Stloc_S, helper.Locals[6])
-                )
-                .ReplaceInstructionWith(
-                    new CodeInstruction(OpCodes.Bgt_S, setTrue)
-                )
+                    new CodeInstruction(OpCodes.Stloc_S, helper.Locals[6]))
+                .ReplaceInstructionWith(new CodeInstruction(OpCodes.Bgt_S, setTrue))
                 .Advance()
                 .AddLabels(resumeExecution)
                 .InsertInstructions(
                     new CodeInstruction(OpCodes.Call, typeof(Game1).RequirePropertyGetter(nameof(Game1.player))),
-                    new CodeInstruction(OpCodes.Callvirt,
+                    new CodeInstruction(
+                        OpCodes.Callvirt,
                         typeof(Farmer).RequirePropertyGetter(nameof(Farmer.CurrentTool))),
                     new CodeInstruction(OpCodes.Stloc_S, currentTool),
                     new CodeInstruction(OpCodes.Ldloc_S, currentTool),
@@ -60,25 +59,23 @@ internal sealed class SkillsPageDrawPatch : Common.Harmony.HarmonyPatch
                     new CodeInstruction(OpCodes.Brtrue_S, checkForMasterEnchantment),
                     new CodeInstruction(OpCodes.Ldloc_S, currentTool),
                     new CodeInstruction(OpCodes.Isinst, typeof(WateringCan)),
-                    new CodeInstruction(OpCodes.Brfalse_S, setFalse)
-                )
+                    new CodeInstruction(OpCodes.Brfalse_S, setFalse))
                 .InsertWithLabels(
                     new[] { checkForMasterEnchantment },
                     new CodeInstruction(OpCodes.Ldloc_S, currentTool),
-                    new CodeInstruction(OpCodes.Callvirt,
-                        typeof(Tool).RequireMethod(nameof(Tool.hasEnchantmentOfType))
+                    new CodeInstruction(
+                        OpCodes.Callvirt,
+                        typeof(Tool)
+                            .RequireMethod(nameof(Tool.hasEnchantmentOfType))
                             .MakeGenericMethod(typeof(MasterEnchantment))),
-                    new CodeInstruction(OpCodes.Brfalse_S, setFalse)
-                )
+                    new CodeInstruction(OpCodes.Brfalse_S, setFalse))
                 .InsertWithLabels(
                     new[] { setTrue },
                     new CodeInstruction(OpCodes.Ldc_I4_1),
-                    new CodeInstruction(OpCodes.Br_S, resumeExecution)
-                )
+                    new CodeInstruction(OpCodes.Br_S, resumeExecution))
                 .InsertWithLabels(
                     new[] { setFalse },
-                    new CodeInstruction(OpCodes.Ldc_I4_0)
-                );
+                    new CodeInstruction(OpCodes.Ldc_I4_0));
         }
         catch (Exception ex)
         {
@@ -94,35 +91,32 @@ internal sealed class SkillsPageDrawPatch : Common.Harmony.HarmonyPatch
             helper
                 .FindNext(
                     new CodeInstruction(OpCodes.Cgt),
-                    new CodeInstruction(OpCodes.Stloc_S, helper.Locals[6])
-                )
-                .ReplaceInstructionWith(
-                    new CodeInstruction(OpCodes.Bgt_S, setTrue)
-                )
+                    new CodeInstruction(OpCodes.Stloc_S, helper.Locals[6]))
+                .ReplaceInstructionWith(new CodeInstruction(OpCodes.Bgt_S, setTrue))
                 .Advance()
                 .AddLabels(resumeExecution)
                 .InsertInstructions(
                     new CodeInstruction(OpCodes.Call, typeof(Game1).RequirePropertyGetter(nameof(Game1.player))),
-                    new CodeInstruction(OpCodes.Callvirt,
+                    new CodeInstruction(
+                        OpCodes.Callvirt,
                         typeof(Farmer).RequirePropertyGetter(nameof(Farmer.CurrentTool))),
                     new CodeInstruction(OpCodes.Stloc_S, currentTool),
                     new CodeInstruction(OpCodes.Ldloc_S, currentTool),
                     new CodeInstruction(OpCodes.Brfalse_S, setFalse),
                     new CodeInstruction(OpCodes.Ldloc_S, currentTool),
-                    new CodeInstruction(OpCodes.Callvirt,
-                        typeof(Tool).RequireMethod(nameof(Tool.hasEnchantmentOfType))
+                    new CodeInstruction(
+                        OpCodes.Callvirt,
+                        typeof(Tool)
+                            .RequireMethod(nameof(Tool.hasEnchantmentOfType))
                             .MakeGenericMethod(typeof(MasterEnchantment))),
-                    new CodeInstruction(OpCodes.Brfalse_S, setFalse)
-                )
+                    new CodeInstruction(OpCodes.Brfalse_S, setFalse))
                 .InsertWithLabels(
                     new[] { setTrue },
                     new CodeInstruction(OpCodes.Ldc_I4_1),
-                    new CodeInstruction(OpCodes.Br_S, resumeExecution)
-                )
+                    new CodeInstruction(OpCodes.Br_S, resumeExecution))
                 .InsertWithLabels(
                     new[] { setFalse },
-                    new CodeInstruction(OpCodes.Ldc_I4_0)
-                );
+                    new CodeInstruction(OpCodes.Ldc_I4_0));
         }
         catch (Exception ex)
         {
@@ -138,35 +132,32 @@ internal sealed class SkillsPageDrawPatch : Common.Harmony.HarmonyPatch
             helper
                 .FindNext(
                     new CodeInstruction(OpCodes.Cgt),
-                    new CodeInstruction(OpCodes.Stloc_S, helper.Locals[6])
-                )
-                .ReplaceInstructionWith(
-                    new CodeInstruction(OpCodes.Bgt_S, setTrue)
-                )
+                    new CodeInstruction(OpCodes.Stloc_S, helper.Locals[6]))
+                .ReplaceInstructionWith(new CodeInstruction(OpCodes.Bgt_S, setTrue))
                 .Advance()
                 .AddLabels(resumeExecution)
                 .InsertInstructions(
                     new CodeInstruction(OpCodes.Call, typeof(Game1).RequirePropertyGetter(nameof(Game1.player))),
-                    new CodeInstruction(OpCodes.Callvirt,
+                    new CodeInstruction(
+                        OpCodes.Callvirt,
                         typeof(Farmer).RequirePropertyGetter(nameof(Farmer.CurrentTool))),
                     new CodeInstruction(OpCodes.Stloc_S, currentTool),
                     new CodeInstruction(OpCodes.Ldloc_S, currentTool),
                     new CodeInstruction(OpCodes.Brfalse_S, setFalse),
                     new CodeInstruction(OpCodes.Ldloc_S, currentTool),
-                    new CodeInstruction(OpCodes.Callvirt,
-                        typeof(Tool).RequireMethod(nameof(Tool.hasEnchantmentOfType))
+                    new CodeInstruction(
+                        OpCodes.Callvirt,
+                        typeof(Tool)
+                            .RequireMethod(nameof(Tool.hasEnchantmentOfType))
                             .MakeGenericMethod(typeof(MasterEnchantment))),
-                    new CodeInstruction(OpCodes.Brfalse_S, setFalse)
-                )
+                    new CodeInstruction(OpCodes.Brfalse_S, setFalse))
                 .InsertWithLabels(
                     new[] { setTrue },
                     new CodeInstruction(OpCodes.Ldc_I4_1),
-                    new CodeInstruction(OpCodes.Br_S, resumeExecution)
-                )
+                    new CodeInstruction(OpCodes.Br_S, resumeExecution))
                 .InsertWithLabels(
                     new[] { setFalse },
-                    new CodeInstruction(OpCodes.Ldc_I4_0)
-                );
+                    new CodeInstruction(OpCodes.Ldc_I4_0));
         }
         catch (Exception ex)
         {

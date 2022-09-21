@@ -3,11 +3,27 @@
 /// <summary>The secondary <see cref="BaseWeaponEnchantment"/> which characterizes the Holy Blade.</summary>
 public class BlessedEnchantment : BaseWeaponEnchantment
 {
-    public override bool IsSecondaryEnchantment() => true;
+    /// <inheritdoc />
+    public override bool IsSecondaryEnchantment()
+    {
+        return true;
+    }
 
-    public override bool IsForge() => false;
+    /// <inheritdoc />
+    public override bool IsForge()
+    {
+        return false;
+    }
 
-    public override int GetMaximumLevel() => 1;
+    /// <inheritdoc />
+    public override int GetMaximumLevel()
+    {
+        return 1;
+    }
 
-    public override bool ShouldBeDisplayed() => false;
+    /// <inheritdoc />
+    public override bool ShouldBeDisplayed()
+    {
+        return false;
+    }
 }

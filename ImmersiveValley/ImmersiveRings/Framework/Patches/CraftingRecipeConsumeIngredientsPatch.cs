@@ -2,25 +2,26 @@
 
 #region using directives
 
-using Common;
-using Common.Extensions;
-using Extensions;
-using HarmonyLib;
-using StardewValley.Objects;
 using System;
 using System.Collections.Generic;
 using System.Reflection;
+using DaLion.Common;
+using DaLion.Common.Extensions;
+using DaLion.Stardew.Rings.Extensions;
+using HarmonyLib;
+using StardewValley.Objects;
+using HarmonyPatch = DaLion.Common.Harmony.HarmonyPatch;
 
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class CraftingRecipeConsumeIngredientsPatch : Common.Harmony.HarmonyPatch
+internal sealed class CraftingRecipeConsumeIngredientsPatch : HarmonyPatch
 {
-    /// <summary>Construct an instance.</summary>
+    /// <summary>Initializes a new instance of the <see cref="CraftingRecipeConsumeIngredientsPatch"/> class.</summary>
     internal CraftingRecipeConsumeIngredientsPatch()
     {
-        Target = RequireMethod<CraftingRecipe>(nameof(CraftingRecipe.consumeIngredients));
-        Prefix!.priority = Priority.HigherThanNormal;
+        this.Target = this.RequireMethod<CraftingRecipe>(nameof(CraftingRecipe.consumeIngredients));
+        this.Prefix!.priority = Priority.HigherThanNormal;
     }
 
     #region harmony patches
@@ -28,10 +29,14 @@ internal sealed class CraftingRecipeConsumeIngredientsPatch : Common.Harmony.Har
     /// <summary>Overrides ingredient consumption to allow non-SObject types.</summary>
     [HarmonyPrefix]
     [HarmonyPriority(Priority.HigherThanNormal)]
-    private static bool CraftingRecipeConsumeIngredientsPrefix(CraftingRecipe __instance, IList<Chest?>? additional_materials)
+    private static bool CraftingRecipeConsumeIngredientsPrefix(
+        CraftingRecipe __instance, IList<Chest?>? additional_materials)
     {
         if (!__instance.name.Contains("Ring") || !__instance.name.ContainsAnyOf("Glow", "Magnet") ||
-            !ModEntry.Config.CraftableGlowAndMagnetRings && !ModEntry.Config.ImmersiveGlowstoneRecipe) return true; // run original logic
+            (!ModEntry.Config.CraftableGlowAndMagnetRings && !ModEntry.Config.ImmersiveGlowstoneRecipe))
+        {
+            return true; // run original logic
+        }
 
         try
         {
@@ -40,24 +45,39 @@ internal sealed class CraftingRecipeConsumeIngredientsPatch : Common.Harmony.Har
                 var remaining = index.IsRingIndex()
                     ? Game1.player.ConsumeRing(index, required)
                     : Game1.player.ConsumeObject(index, required);
-                if (remaining <= 0) continue;
+                if (remaining <= 0)
+                {
+                    continue;
+                }
 
-                if (additional_materials is null) throw new("Failed to consume required materials.");
+                if (additional_materials is null)
+                {
+                    throw new Exception("Failed to consume required materials.");
+                }
 
                 foreach (var chest in additional_materials)
                 {
-                    if (chest is null) continue;
+                    if (chest is null)
+                    {
+                        continue;
+                    }
 
                     remaining = index.IsRingIndex()
                         ? chest.ConsumeRing(index, remaining)
                         : chest.ConsumeObject(index, remaining);
-                    if (remaining > 0) continue;
+                    if (remaining > 0)
+                    {
+                        continue;
+                    }
 
                     chest.clearNulls();
                     break;
                 }
 
-                if (remaining > 0) throw new("Failed to consume required materials.");
+                if (remaining > 0)
+                {
+                    throw new Exception("Failed to consume required materials.");
+                }
             }
         }
         catch (Exception ex)

@@ -2,20 +2,21 @@
 
 #region using directives
 
-using Common.Extensions.Stardew;
-using Extensions;
+using DaLion.Common.Extensions.Stardew;
+using DaLion.Stardew.Tweex.Extensions;
 using HarmonyLib;
 using StardewValley.TerrainFeatures;
+using HarmonyPatch = DaLion.Common.Harmony.HarmonyPatch;
 
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class TreeDayUpdatePatch : Common.Harmony.HarmonyPatch
+internal sealed class TreeDayUpdatePatch : HarmonyPatch
 {
-    /// <summary>Construct an instance.</summary>
+    /// <summary>Initializes a new instance of the <see cref="TreeDayUpdatePatch"/> class.</summary>
     internal TreeDayUpdatePatch()
     {
-        Target = RequireMethod<Tree>(nameof(Tree.dayUpdate));
+        this.Target = this.RequireMethod<Tree>(nameof(Tree.dayUpdate));
     }
 
     #region harmony patches
@@ -25,7 +26,10 @@ internal sealed class TreeDayUpdatePatch : Common.Harmony.HarmonyPatch
     private static void TreeDayUpdatePostfix(Tree __instance)
     {
         if (__instance.growthStage.Value >= Tree.treeStage && __instance.CanBeTapped() &&
-            ModEntry.Config.AgeImprovesTreeSap) __instance.Increment("Age");
+            ModEntry.Config.AgeImprovesTreeSap)
+        {
+            __instance.Increment("Age");
+        }
     }
 
     #endregion harmony patches

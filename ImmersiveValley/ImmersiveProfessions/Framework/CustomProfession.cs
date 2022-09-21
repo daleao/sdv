@@ -20,8 +20,8 @@ public record CustomProfession(string StringId, string DisplayName, string Descr
     internal static Dictionary<int, CustomProfession> LoadedProfessions { get; set; } = new();
 
     /// <inheritdoc />
-    public string GetDisplayName(bool isMale = false) => DisplayName;
-
-    /// <inheritdoc />
-    public string GetDescription(bool prestiged = false) => Description;
+    public string GetDescription(bool prestiged = false)
+    {
+        return this.Description;
+    }
 }

@@ -2,50 +2,57 @@
 
 #region using directives
 
+using System.Runtime.CompilerServices;
 using Netcode;
 using StardewValley.Monsters;
-using System.Runtime.CompilerServices;
 
 #endregion using directives
 
-public static class Monster_Feared
+// ReSharper disable once InconsistentNaming
+internal static class Monster_Feared
 {
+    internal static ConditionalWeakTable<Monster, Holder> Values { get; } = new();
+
+    internal static NetInt Get_FearTimer(this Monster monster)
+    {
+        var holder = Values.GetOrCreateValue(monster);
+        return holder.FearTimer;
+    }
+
+    // Net types are readonly
+    internal static void Set_FearTimer(this Monster monster, NetInt newVal)
+    {
+    }
+
+    internal static NetInt Get_FearIntensity(this Monster monster)
+    {
+        var holder = Values.GetOrCreateValue(monster);
+        return holder.FearIntensity;
+    }
+
+    // Net types are readonly
+    internal static void Set_FearIntensity(this Monster monster, NetInt newVal)
+    {
+    }
+
+    internal static Farmer Get_Fearer(this Monster monster)
+    {
+        var holder = Values.GetOrCreateValue(monster);
+        return holder.Fearer;
+    }
+
+    internal static void Set_Fearer(this Monster monster, Farmer fearer)
+    {
+        var holder = Values.GetOrCreateValue(monster);
+        holder.Fearer = fearer;
+    }
+
     internal class Holder
     {
-        public readonly NetInt fearTimer = new(-1);
-        public readonly NetInt fearIntensity = new(-1);
-        public Farmer fearer = null!;
-    }
+        public NetInt FearIntensity { get;  } = new(-1);
 
-    internal static ConditionalWeakTable<Monster, Holder> Values = new();
+        public NetInt FearTimer { get; } = new(-1);
 
-    public static NetInt get_FearTimer(this Monster monster)
-    {
-        var holder = Values.GetOrCreateValue(monster);
-        return holder.fearTimer;
-    }
-
-    // Net types are readonly
-    public static void set_FearTmer(this Monster monster, NetInt newVal) { }
-
-    public static NetInt get_FearIntensity(this Monster monster)
-    {
-        var holder = Values.GetOrCreateValue(monster);
-        return holder.fearIntensity;
-    }
-
-    // Net types are readonly
-    public static void set_FearIntensity(this Monster monster, NetInt newVal) { }
-
-    public static Farmer get_Fearer(this Monster monster)
-    {
-        var holder = Values.GetOrCreateValue(monster);
-        return holder.fearer;
-    }
-
-    public static void set_Fearer(this Monster monster, Farmer fearer)
-    {
-        var holder = Values.GetOrCreateValue(monster);
-        holder.fearer = fearer;
+        public Farmer Fearer { get; internal set; } = null!;
     }
 }

@@ -2,27 +2,32 @@
 
 #region using directives
 
-using Common.Events;
+using DaLion.Common.Events;
+using DaLion.Stardew.Professions.Framework.Ultimates;
+using DaLion.Stardew.Professions.Framework.VirtualProperties;
 using StardewModdingAPI.Events;
-using Ultimates;
-using VirtualProperties;
 
 #endregion using directives
 
 [UsedImplicitly]
 internal sealed class AmbushUpdateTickedEvent : UpdateTickedEvent
 {
-    /// <summary>Construct an instance.</summary>
+    /// <summary>Initializes a new instance of the <see cref="AmbushUpdateTickedEvent"/> class.</summary>
     /// <param name="manager">The <see cref="ProfessionEventManager"/> instance that manages this event.</param>
     internal AmbushUpdateTickedEvent(ProfessionEventManager manager)
-        : base(manager) { }
+        : base(manager)
+    {
+    }
 
     /// <inheritdoc />
     protected override void OnUpdateTickedImpl(object? sender, UpdateTickedEventArgs e)
     {
-        if (!Game1.game1.IsActiveNoOverlay && Game1.options.pauseWhenOutOfFocus || !Game1.shouldTimePass()) return;
+        if ((!Game1.game1.IsActiveNoOverlay && Game1.options.pauseWhenOutOfFocus) || !Game1.shouldTimePass())
+        {
+            return;
+        }
 
-        var ambush = Game1.player.get_Ultimate() as Ambush;
+        var ambush = Game1.player.Get_Ultimate() as Ambush;
         if (ambush!.IsActive)
         {
             Game1.player.temporarilyInvincible = true;
@@ -30,7 +35,10 @@ internal sealed class AmbushUpdateTickedEvent : UpdateTickedEvent
         else
         {
             ambush.SecondsOutOfAmbush += 1d / 60d;
-            if (ambush.SecondsOutOfAmbush > 1.5d) Disable();
+            if (ambush.SecondsOutOfAmbush > 1.5d)
+            {
+                this.Disable();
+            }
         }
     }
 }

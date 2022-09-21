@@ -6,16 +6,22 @@ using Microsoft.Xna.Framework;
 
 #endregion using directives
 
+/// <summary>Extensions for the <see cref="Vector2"/> struct.</summary>
 public static class Vector2Extensions
 {
-    /// <summary>Draw a pointer over the tile if it is inside the current viewport.</summary>
+    /// <summary>Draws a pointer over the <paramref name="tile"/> if it is inside the current viewport.</summary>
+    /// <param name="tile">The <see cref="Vector2"/> tile.</param>
     /// <param name="color">The desired color for the pointer.</param>
     public static void TrackWhenOnScreen(this Vector2 tile, Color color)
     {
         ModEntry.Pointer.Value.DrawOverTile(tile, color);
     }
 
-    /// <summary>Draw a pointer at the edge of the screen, pointing to the tile, if it is outside the current viewport.</summary>
+    /// <summary>
+    ///     Draws a pointer at the edge of the screen, pointing to the <paramref name="tile"/>, if it is outside the
+    ///     current viewport.
+    /// </summary>
+    /// <param name="tile">The <see cref="Vector2"/> tile.</param>
     /// <param name="color">The desired color for the pointer.</param>
     public static void TrackWhenOffScreen(this Vector2 tile, Color color)
     {

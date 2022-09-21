@@ -1,15 +1,16 @@
-﻿namespace DaLion.Stardew.Arsenal;
+﻿#pragma warning disable CS1591
+namespace DaLion.Stardew.Arsenal;
 
 public class Constants
 {
-    public const int DARK_SWORD_INDEX_I = 2,
-        HOLY_BLADE_INDEX_I = 3,
-        GALAXY_SWORD_INDEX_I = 4,
-        WOODEN_BLADE_INDEX_I = 12,
-        INFINITY_BLADE_INDEX_I = 62,
-        INFINITY_DAGGER_INDEX_I = 63,
-        INFINITY_CLUB_INDEX_I = 64,
-        PRISMATIC_SHARD_INDEX_I = 74,
-        IRIDIUM_BAR_INDEX_I = 337,
-        GALAXY_SOUL_INDEX_I = 896;
+    public const int DarkSwordIndex = 2;
+    public const int HolyBladeIndex = 3;
+    public const int GalaxySwordIndex = 4;
+    public const int WoodenBladeIndex = 12;
+    public const int InfinityBladeIndex = 62;
+    public const int InfinityDaggerIndex = 63;
+    public const int InfinityClubIndex = 64;
+    public const int PrismaticShardIndex = 74;
+    public const int IridiumBarIndex = 337;
+    public const int GalaxySoulIndex = 896;
 }

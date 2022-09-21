@@ -2,30 +2,54 @@
 
 #region using directives
 
-using Common;
-using Common.Commands;
-using Common.Events;
-using Common.Harmony;
-using Common.Integrations.WalkOfLife;
-using Framework.Events;
+using System.Diagnostics.CodeAnalysis;
+using DaLion.Common;
+using DaLion.Common.Commands;
+using DaLion.Common.Events;
+using DaLion.Common.Harmony;
+using DaLion.Common.Integrations.WalkOfLife;
+using DaLion.Stardew.Slingshots.Framework.Events;
 using Newtonsoft.Json.Linq;
 using StardewModdingAPI.Utilities;
 
 #endregion using directives
 
 /// <summary>The mod entry point.</summary>
-public class ModEntry : Mod
+public sealed class ModEntry : Mod
 {
+    /// <summary>Gets the static <see cref="ModEntry"/> instance.</summary>
     internal static ModEntry Instance { get; private set; } = null!;
-    internal static ModConfig Config { get; set; } = null!;
-    internal static EventManager Events { get; private set; } = null!;
-    internal static PerScreen<int> SlingshotCooldown { get; } = new(() => default);
 
+    /// <summary>Gets or sets the <see cref="ModConfig"/> instance.</summary>
+    internal static ModConfig Config { get; set; } = null!;
+
+    /// <summary>Gets the <see cref="EventManager"/> instance.</summary>
+    internal static EventManager Events { get; private set; } = null!;
+
+    /// <summary>Gets the <see cref="PerScreen{T}"/> <see cref="ModState"/>.</summary>
+    internal static PerScreen<ModState> PerScreenState { get; private set; } = null!;
+
+    /// <summary>Gets or sets the <see cref="ModState"/> of the local player.</summary>
+    internal static ModState State
+    {
+        get => PerScreenState.Value;
+        set => PerScreenState.Value = value;
+    }
+
+    /// <summary>Gets the <see cref="IModHelper"/> API.</summary>
     internal static IModHelper ModHelper => Instance.Helper;
+
+    /// <summary>Gets the <see cref="IManifest"/> for this mod.</summary>
     internal static IManifest Manifest => Instance.ModManifest;
+
+    /// <summary>Gets the <see cref="ITranslationHelper"/> API.</summary>
+    [SuppressMessage("ReSharper", "InconsistentNaming", Justification = "Preference.")]
+    [SuppressMessage("StyleCop.CSharp.NamingRules", "SA1300:Element should begin with upper-case letter", Justification = "Preference.")]
     internal static ITranslationHelper i18n => ModHelper.Translation;
 
-    internal static IImmersiveProfessionsAPI? ProfessionsApi { get; set; }
+    /// <summary>Gets or sets the <see cref="IImmersiveProfessionsApi"/>.</summary>
+    internal static IImmersiveProfessionsApi? ProfessionsApi { get; set; }
+
     internal static JObject? ArsenalConfig { get; set; }
 
     /// <summary>The mod entry point, called after the mod is first loaded.</summary>
@@ -35,17 +59,23 @@ public class ModEntry : Mod
         Instance = this;
 
         // initialize logger
-        Log.Init(Monitor);
+        Log.Init(this.Monitor);
 
         // get configs
         Config = helper.ReadConfig<ModConfig>();
 
         // enable events
-        Events = new(helper.Events);
-        if (Config.FaceMouseCursor) Events.Enable<SlingshotButtonPressedEvent>();
+        Events = new EventManager(helper.Events);
+        if (Config.FaceMouseCursor)
+        {
+            Events.Enable<DriftButtonPressedEvent>();
+        }
+
+        // initialize mod state
+        PerScreenState = new PerScreen<ModState>(() => new ModState());
 
         // apply patches
-        new Harmonizer(helper.ModRegistry, ModManifest.UniqueID).ApplyAll();
+        new Harmonizer(helper.ModRegistry, this.ModManifest.UniqueID).ApplyAll();
 
         // register commands
         new CommandHandler(helper.ConsoleCommands).Register("dsp", "Desperado");

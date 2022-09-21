@@ -9,19 +9,24 @@ using StardewModdingAPI.Events;
 /// <summary>Wrapper for <see cref="IDisplayEvents.RenderingHud"/> allowing dynamic enabling / disabling.</summary>
 internal abstract class RenderingHudEvent : ManagedEvent
 {
-    /// <summary>Construct an instance.</summary>
+    /// <summary>Initializes a new instance of the <see cref="RenderingHudEvent"/> class.</summary>
     /// <param name="manager">The <see cref="EventManager"/> instance that manages this event.</param>
     protected RenderingHudEvent(EventManager manager)
-        : base(manager) { }
+        : base(manager)
+    {
+    }
 
     /// <inheritdoc cref="IDisplayEvents.RenderingHud"/>
     /// <param name="sender">The event sender.</param>
     /// <param name="e">The event arguments.</param>
     internal void OnRenderingHud(object? sender, RenderingHudEventArgs e)
     {
-        if (IsEnabled) OnRenderingHudImpl(sender, e);
+        if (this.IsEnabled)
+        {
+            this.OnRenderingHudImpl(sender, e);
+        }
     }
 
-    /// <inheritdoc cref="OnRenderingHud" />
+    /// <inheritdoc cref="OnRenderingHud"/>
     protected abstract void OnRenderingHudImpl(object? sender, RenderingHudEventArgs e);
 }

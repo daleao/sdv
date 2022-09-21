@@ -66,4 +66,4 @@ Before uninstall, **fish out and clear all ponds** to remove rogue data. Then de
 
 ## License
 
-See [LICENSE](../../LICENSE) for more information.
+See [LICENSE](../LICENSE) for more information.

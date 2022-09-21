@@ -2,25 +2,26 @@
 
 #region using directives
 
+using System;
+using System.Collections.Generic;
+using System.Reflection;
+using System.Reflection.Emit;
 using DaLion.Common;
 using DaLion.Common.Extensions.Reflection;
 using DaLion.Common.Harmony;
 using HarmonyLib;
 using StardewValley.Menus;
-using System;
-using System.Collections.Generic;
-using System.Reflection;
-using System.Reflection.Emit;
+using HarmonyPatch = DaLion.Common.Harmony.HarmonyPatch;
 
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class LevelUpMenuCtorPatch : DaLion.Common.Harmony.HarmonyPatch
+internal sealed class LevelUpMenuCtorPatch : HarmonyPatch
 {
-    /// <summary>Construct an instance.</summary>
+    /// <summary>Initializes a new instance of the <see cref="LevelUpMenuCtorPatch"/> class.</summary>
     internal LevelUpMenuCtorPatch()
     {
-        Target = RequireConstructor<LevelUpMenu>(typeof(int), typeof(int));
+        this.Target = this.RequireConstructor<LevelUpMenu>(typeof(int), typeof(int));
     }
 
     #region harmony patches
@@ -30,11 +31,10 @@ internal sealed class LevelUpMenuCtorPatch : DaLion.Common.Harmony.HarmonyPatch
     private static IEnumerable<CodeInstruction>? LevelUpMenuCtorTranspiler(
         IEnumerable<CodeInstruction> instructions, MethodBase original)
     {
-        var helper = new ILHelper(original, instructions);
+        var helper = new IlHelper(original, instructions);
 
-        /// From: if ((currentLevel == 5 || currentLevel == 10) && currentSkill != 5)
-        /// To: if (currentLevel % 5 == 0 && currentSkill != 5)
-
+        // From: if ((currentLevel == 5 || currentLevel == 10) && currentSkill != 5)
+        // To: if (currentLevel % 5 == 0 && currentSkill != 5)
         try
         {
             helper
@@ -42,16 +42,13 @@ internal sealed class LevelUpMenuCtorPatch : DaLion.Common.Harmony.HarmonyPatch
                     new CodeInstruction(OpCodes.Ldarg_0),
                     new CodeInstruction(OpCodes.Ldfld, typeof(LevelUpMenu).RequireField("currentLevel")),
                     new CodeInstruction(OpCodes.Ldc_I4_5),
-                    new CodeInstruction(OpCodes.Beq_S)
-                )
+                    new CodeInstruction(OpCodes.Beq_S))
                 .Advance(3)
                 .InsertInstructions(
                     new CodeInstruction(OpCodes.Rem_Un),
-                    new CodeInstruction(OpCodes.Ldc_I4_0)
-                )
+                    new CodeInstruction(OpCodes.Ldc_I4_0))
                 .RemoveInstructionsUntil(
-                    new CodeInstruction(OpCodes.Ldc_I4_S, 10)
-                );
+                    new CodeInstruction(OpCodes.Ldc_I4_S, 10));
         }
         catch (Exception ex)
         {

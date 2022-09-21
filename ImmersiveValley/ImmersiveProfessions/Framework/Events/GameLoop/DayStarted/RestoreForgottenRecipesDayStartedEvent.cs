@@ -2,22 +2,24 @@
 
 #region using directives
 
-using Common.Events;
-using Common.Extensions;
-using Common.Extensions.Collections;
-using Common.Extensions.Stardew;
-using StardewModdingAPI.Events;
 using System.Linq;
+using DaLion.Common.Events;
+using DaLion.Common.Extensions;
+using DaLion.Common.Extensions.Collections;
+using DaLion.Common.Extensions.Stardew;
+using StardewModdingAPI.Events;
 
 #endregion using directives
 
 [UsedImplicitly]
 internal sealed class RestoreForgottenRecipesDayStartedEvent : DayStartedEvent
 {
-    /// <summary>Construct an instance.</summary>
+    /// <summary>Initializes a new instance of the <see cref="RestoreForgottenRecipesDayStartedEvent"/> class.</summary>
     /// <param name="manager">The <see cref="ProfessionEventManager"/> instance that manages this event.</param>
     internal RestoreForgottenRecipesDayStartedEvent(ProfessionEventManager manager)
-        : base(manager) { }
+        : base(manager)
+    {
+    }
 
     /// <inheritdoc />
     protected override void OnDayStartedImpl(object? sender, DayStartedEventArgs e)
@@ -26,7 +28,7 @@ internal sealed class RestoreForgottenRecipesDayStartedEvent : DayStartedEvent
             .ParseDictionary<string, int>();
         if (forgottenRecipes.Count <= 0)
         {
-            Disable();
+            this.Disable();
             return;
         }
 
@@ -45,9 +47,9 @@ internal sealed class RestoreForgottenRecipesDayStartedEvent : DayStartedEvent
             }
         }
 
-        Game1.player.Write("ForgottenRecipesDict", forgottenRecipes.Count > 0
-            ? forgottenRecipes.Stringify()
-            : null);
-        Disable();
+        Game1.player.Write(
+            "ForgottenRecipesDict",
+            forgottenRecipes.Count > 0 ? forgottenRecipes.Stringify() : null);
+        this.Disable();
     }
 }

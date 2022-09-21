@@ -2,249 +2,56 @@
 
 #region using directives
 
-using Common;
-using Events.Display;
-using Events.GameLoop;
-using Events.Input;
-using Events.Player;
-using Extensions;
-using Framework.Events.Ultimate;
-using Microsoft.Xna.Framework;
-using Sounds;
 using System;
-using VirtualProperties;
+using Ardalis.SmartEnum;
+using DaLion.Stardew.Professions.Extensions;
+using DaLion.Stardew.Professions.Framework.Events.Display;
+using DaLion.Stardew.Professions.Framework.Events.GameLoop;
+using DaLion.Stardew.Professions.Framework.Events.Input;
+using DaLion.Stardew.Professions.Framework.Events.Ultimate;
+using DaLion.Stardew.Professions.Framework.Sounds;
+using Microsoft.Xna.Framework;
 
 #endregion using directives
 
 /// <summary>Base class for handling Ultimate activation.</summary>
-public abstract class Ultimate : IUltimate
+public abstract class Ultimate : SmartEnum<Ultimate>, IUltimate
 {
-    public const int BASE_MAX_VALUE_I = 100;
+    /// <summary>The maximum charge value at base level 10.</summary>
+    public const int BaseMaxValue = 100;
 
-    private int _activationTimer = _ActivationTimerMax;
+    #region enum entries
+
+    /// <summary>The <see cref="Ultimate"/> of <see cref="Profession.Brute"/>.</summary>
+    public static readonly Ultimate BruteFrenzy = new Frenzy();
+
+    /// <summary>The <see cref="Ultimate"/> of <see cref="Profession.Poacher"/>.</summary>
+    public static readonly Ultimate PoacherAmbush = new Ambush();
+
+    /// <summary>The <see cref="Ultimate"/> of <see cref="Profession.Piper"/>.</summary>
+    public static readonly Ultimate PiperConcerto = new Concerto();
+
+    /// <summary>The <see cref="Ultimate"/> of <see cref="Profession.Desperado"/>.</summary>
+    public static readonly Ultimate DesperadoBlossom = new DeathBlossom();
+
+    #endregion enum entires
+
+    private int _activationTimer = ActivationTimerMax;
     private double _chargeValue;
 
-    private static int _ActivationTimerMax => (int)(ModEntry.Config.SpecialActivationDelay * 60);
-
-    /// <summary>Construct an instance.</summary>
-    protected Ultimate(UltimateIndex index, Color meterColor, Color overlayColor)
+    /// <summary>Initializes a new instance of the <see cref="Ultimate"/> class.</summary>
+    /// <param name="name">The name of the enum entry.</param>
+    /// <param name="value">The value of the enum entry.</param>
+    /// <param name="meterColor">The color applied to the <see cref="UltimateHud"/>.</param>
+    /// <param name="overlayColor">The color of the <see cref="UltimateOverlay"/>.</param>
+    protected Ultimate(string name, int value, Color meterColor, Color overlayColor)
+        : base(name, value)
     {
-        Log.D($"Initializing Ultimate as {index}.");
-        Index = index;
-        Hud = new(this, meterColor);
-        Overlay = new(overlayColor);
-
-        ModEntry.Events.Enable<UltimateWarpedEvent>();
-        if (Game1.currentLocation.IsDungeon())
-            ModEntry.Events.Enable<UltimateMeterRenderingHudEvent>();
+        this.BuffId = ModEntry.Manifest.UniqueID.GetHashCode() + this.Value + 4;
+        this.Hud = new UltimateHud(this, meterColor);
+        this.Overlay = new UltimateOverlay(overlayColor);
+        this.Profession = Framework.Profession.FromValue(value);
     }
-
-    /// <inheritdoc />
-    public void Dispose()
-    {
-        ModEntry.Events.DisableWithAttribute<UltimateEventAttribute>();
-    }
-
-    #region public properties
-
-    /// <inheritdoc />
-    public UltimateIndex Index { get; }
-
-    /// <inheritdoc />
-    public bool IsActive { get; protected set; }
-
-    /// <inheritdoc />
-    public double ChargeValue
-    {
-        get => _chargeValue;
-        set
-        {
-            if (Math.Abs(_chargeValue - value) < 0.01) return;
-
-            if (value <= 0)
-            {
-                ModEntry.Events.Disable<UltimateGaugeShakeUpdateTickedEvent>();
-                Hud.ForceStopShake();
-
-                if (IsActive) Deactivate();
-
-                if (!Game1.currentLocation.IsDungeon())
-                    ModEntry.Events.Enable<UltimateGaugeFadeOutUpdateTickedEvent>();
-
-                OnEmptied();
-                _chargeValue = 0;
-            }
-            else
-            {
-                var delta = value - _chargeValue;
-                var scaledDelta = delta * ((double)MaxValue / BASE_MAX_VALUE_I) * (delta >= 0
-                    ? ModEntry.Config.SpecialGainFactor
-                    : ModEntry.Config.SpecialDrainFactor);
-                value = Math.Min(scaledDelta + _chargeValue, MaxValue);
-
-                if (_chargeValue == 0f)
-                {
-                    ModEntry.Events.Enable<UltimateMeterRenderingHudEvent>();
-                    OnChargeInitiated(value);
-                }
-
-                if (value > _chargeValue)
-                {
-                    OnChargeIncreased(_chargeValue, value);
-                    if (value >= MaxValue)
-                    {
-                        ModEntry.Events.Enable<UltimateButtonsChangedEvent>();
-                        ModEntry.Events.Enable<UltimateGaugeShakeUpdateTickedEvent>();
-                        OnFullyCharged();
-                    }
-                }
-
-                _chargeValue = value;
-            }
-        }
-    }
-
-    /// <inheritdoc />
-    public int MaxValue => BASE_MAX_VALUE_I + (Game1.player.CombatLevel > 10 ? Game1.player.CombatLevel * 5 : 0);
-
-    /// <inheritdoc />
-    public virtual bool CanActivate => !IsActive && ChargeValue >= MaxValue;
-
-    /// <inheritdoc />
-    public bool IsHudVisible => Hud.IsVisible;
-
-
-    #endregion public properties
-
-    #region internal properties
-
-    /// <summary>The ID of the buff that displays while the instance is active.</summary>
-    internal abstract int BuffId { get; }
-
-    /// <summary>The default duration of the buff.</summary>
-    internal abstract int MillisecondsDuration { get; }
-
-    /// <inheritdoc cref="UltimateHUD"/>
-    internal UltimateHUD Hud { get; }
-
-    /// <inheritdoc cref="UltimateOverlay"/>
-    internal UltimateOverlay Overlay { get; }
-
-    /// <summary>The sound effect that plays when this Ultimate is activated.</summary>
-    internal abstract SFX ActivationSfx { get; }
-
-    /// <summary>The glow color applied to the player while this Ultimate is active.</summary>
-    internal abstract Color GlowColor { get; }
-
-    #endregion internal properties
-
-    #region public methods
-
-    /// <inheritdoc />
-    public override string ToString() => Index.ToString();
-
-    #endregion public methods
-
-    #region internal methods
-
-    /// <summary>Activate Ultimate for the local player.</summary>
-    internal virtual void Activate()
-    {
-        IsActive = true;
-        Game1.player.get_IsUltimateActive().Value = true;
-
-        // interrupt fade out if necessary
-        ModEntry.Events.Disable<UltimateOverlayFadeOutUpdateTickedEvent>();
-
-        // stop updating, awaiting activation and shaking the hud meter
-        ModEntry.Events.Disable<UltimateButtonsChangedEvent>();
-        ModEntry.Events.Disable<UltimateGaugeShakeUpdateTickedEvent>();
-        ModEntry.Events.Disable<UltimateInputUpdateTickedEvent>();
-
-        // fade in overlay and begin countdown
-        ModEntry.Events.Enable<UltimateActiveUpdateTickedEvent>();
-        ModEntry.Events.Enable<UltimateOverlayFadeInUpdateTickedEvent>();
-        ModEntry.Events.Enable<UltimateOverlayRenderedWorldEvent>();
-
-        // play sound effect
-        ActivationSfx.Play();
-
-        // notify peers
-        ModEntry.Broadcaster.Broadcast("Active", "ToggledUltimate");
-
-        // invoke callbacks
-        OnActivated();
-    }
-
-    /// <summary>Deactivate Ultimate for the local player.</summary>
-    internal virtual void Deactivate()
-    {
-        IsActive = false;
-        Game1.player.get_IsUltimateActive().Value = false;
-        ChargeValue = 0;
-
-        // fade out overlay
-        ModEntry.Events.Enable<UltimateOverlayFadeOutUpdateTickedEvent>();
-
-        // stop countdown
-        ModEntry.Events.Disable<UltimateActiveUpdateTickedEvent>();
-
-        // stop glowing if necessary
-        Game1.player.stopGlowing();
-
-        // notify peers
-        ModEntry.Broadcaster.Broadcast("Inactive", "ToggledUltimate");
-
-        // invoke callbacks
-        OnDeactivated();
-    }
-
-    /// <summary>Detect and handle activation input.</summary>
-    internal void CheckForActivation()
-    {
-        if (!ModEntry.Config.EnableSpecials) return;
-
-        if (ModEntry.Config.SpecialActivationKey.JustPressed())
-        {
-            if (ModEntry.Config.HoldKeyToActivateSpecial)
-            {
-                _activationTimer = _ActivationTimerMax;
-                ModEntry.Events.Enable<UltimateInputUpdateTickedEvent>();
-            }
-            else if (CanActivate)
-            {
-                Activate();
-            }
-            else
-            {
-                Game1.playSound("cancel");
-            }
-        }
-        else if (ModEntry.Config.SpecialActivationKey.GetState() == SButtonState.Released && _activationTimer > 0)
-        {
-            _activationTimer = -1;
-            ModEntry.Events.Disable<UltimateInputUpdateTickedEvent>();
-        }
-    }
-
-    /// <summary>Update internal activation state.</summary>
-    internal void UpdateInput()
-    {
-        if (!Game1.game1.IsActive || !Game1.shouldTimePass() || _activationTimer <= 0) return;
-
-        --_activationTimer;
-        if (_activationTimer > 0) return;
-
-        if (CanActivate) Activate();
-        else Game1.playSound("cancel");
-    }
-
-    /// <summary>Countdown the charge value.</summary>
-    internal abstract void Countdown();
-
-    #endregion internal methods
-
-    #region event handlers
 
     /// <inheritdoc cref="OnActivated"/>
     internal static event EventHandler<IUltimateActivatedEventArgs>? Activated;
@@ -264,9 +71,228 @@ public abstract class Ultimate : IUltimate
     /// <inheritdoc cref="OnEmptied"/>
     internal static event EventHandler<IUltimateEmptiedEventArgs>? Emptied;
 
-    #endregion event handlers
+    /// <inheritdoc />
+    public IProfession Profession { get; }
 
-    #region event callbacks
+    /// <inheritdoc />
+    public virtual string DisplayName => ModEntry.i18n.Get(this.Name.ToLower() + ".title");
+
+    /// <inheritdoc />
+    public virtual string Description => ModEntry.i18n.Get(this.Name.ToLower() + ".desc");
+
+    /// <inheritdoc />
+    public int Index => this.Value;
+
+    /// <inheritdoc />
+    public bool IsActive { get; protected set; }
+
+    /// <inheritdoc />
+    public double ChargeValue
+    {
+        get => this._chargeValue;
+        set
+        {
+            if (Math.Abs(this._chargeValue - value) < 0.01)
+            {
+                return;
+            }
+
+            if (value <= 0)
+            {
+                ModEntry.Events.Disable<UltimateGaugeShakeUpdateTickedEvent>();
+                this.Hud.ForceStopShake();
+
+                if (this.IsActive)
+                {
+                    this.Deactivate();
+                }
+
+                if (!Game1.currentLocation.IsDungeon())
+                {
+                    ModEntry.Events.Enable<UltimateGaugeFadeOutUpdateTickedEvent>();
+                }
+
+                this.OnEmptied();
+                this._chargeValue = 0;
+            }
+            else
+            {
+                var delta = value - this._chargeValue;
+                var scaledDelta = delta * ((double)this.MaxValue / BaseMaxValue) * (delta >= 0
+                    ? ModEntry.Config.SpecialGainFactor
+                    : ModEntry.Config.SpecialDrainFactor);
+                value = Math.Min(scaledDelta + this._chargeValue, this.MaxValue);
+
+                if (this._chargeValue == 0f)
+                {
+                    ModEntry.Events.Enable<UltimateMeterRenderingHudEvent>();
+                    this.OnChargeInitiated(value);
+                }
+
+                if (value > this._chargeValue)
+                {
+                    this.OnChargeIncreased(this._chargeValue, value);
+                    if (value >= this.MaxValue)
+                    {
+                        ModEntry.Events.Enable<UltimateButtonsChangedEvent>();
+                        ModEntry.Events.Enable<UltimateGaugeShakeUpdateTickedEvent>();
+                        this.OnFullyCharged();
+                    }
+                }
+
+                this._chargeValue = value;
+            }
+        }
+    }
+
+    /// <inheritdoc />
+    public int MaxValue => BaseMaxValue + (Game1.player.CombatLevel > 10 ? Game1.player.CombatLevel * 5 : 0);
+
+    /// <inheritdoc />
+    public virtual bool CanActivate => !this.IsActive && this.ChargeValue >= this.MaxValue;
+
+    /// <inheritdoc />
+    public bool IsHudVisible => this.Hud.IsVisible;
+
+    /// <summary>Gets the ID of the buff that displays while the instance is active.</summary>
+    internal int BuffId { get; }
+
+    /// <summary>Gets the default duration of the buff.</summary>
+    internal abstract int MillisecondsDuration { get; }
+
+    /// <inheritdoc cref="UltimateHud"/>
+    internal UltimateHud Hud { get; }
+
+    /// <inheritdoc cref="UltimateOverlay"/>
+    internal UltimateOverlay Overlay { get; }
+
+    /// <summary>Gets the sound effect that plays when this Ultimate is activated.</summary>
+    internal abstract Sfx ActivationSfx { get; }
+
+    /// <summary>Gets the glow color applied to the player while this Ultimate is active.</summary>
+    internal abstract Color GlowColor { get; }
+
+    private static int ActivationTimerMax => (int)(ModEntry.Config.SpecialActivationDelay * 60);
+
+    /// <summary>Activates the <see cref="Ultimate"/> for the local player.</summary>
+    internal virtual void Activate()
+    {
+        this.IsActive = true;
+
+        // interrupt fade out if necessary
+        ModEntry.Events.Disable<UltimateOverlayFadeOutUpdateTickedEvent>();
+
+        // stop updating, awaiting activation and shaking the hud meter
+        ModEntry.Events.Disable<UltimateButtonsChangedEvent>();
+        ModEntry.Events.Disable<UltimateGaugeShakeUpdateTickedEvent>();
+        ModEntry.Events.Disable<UltimateInputUpdateTickedEvent>();
+
+        // fade in overlay and begin countdown
+        ModEntry.Events.Enable<UltimateActiveUpdateTickedEvent>();
+        ModEntry.Events.Enable<UltimateOverlayFadeInUpdateTickedEvent>();
+        ModEntry.Events.Enable<UltimateOverlayRenderedWorldEvent>();
+
+        // play sound effect
+        this.ActivationSfx.Play();
+
+        // notify peers
+        ModEntry.Broadcaster.Broadcast("Active", "ToggledUltimate");
+
+        // invoke callbacks
+        this.OnActivated();
+    }
+
+    /// <summary>Deactivates the <see cref="Ultimate"/> for the local player.</summary>
+    internal virtual void Deactivate()
+    {
+        this.IsActive = false;
+        this.ChargeValue = 0;
+
+        // fade out overlay
+        ModEntry.Events.Enable<UltimateOverlayFadeOutUpdateTickedEvent>();
+
+        // stop countdown
+        ModEntry.Events.Disable<UltimateActiveUpdateTickedEvent>();
+
+        // stop glowing if necessary
+        Game1.player.stopGlowing();
+
+        // notify peers
+        ModEntry.Broadcaster.Broadcast("Inactive", "ToggledUltimate");
+
+        // invoke callbacks
+        this.OnDeactivated();
+    }
+
+    /// <summary>Detects and handles activation input.</summary>
+    internal void CheckForActivation()
+    {
+        if (!ModEntry.Config.EnableSpecials)
+        {
+            return;
+        }
+
+        if (ModEntry.Config.SpecialActivationKey.JustPressed())
+        {
+            if (ModEntry.Config.HoldKeyToActivateSpecial)
+            {
+                this._activationTimer = ActivationTimerMax;
+                ModEntry.Events.Enable<UltimateInputUpdateTickedEvent>();
+            }
+            else if (this.CanActivate)
+            {
+                this.Activate();
+            }
+            else
+            {
+                Game1.playSound("cancel");
+            }
+        }
+        else if (ModEntry.Config.SpecialActivationKey.GetState() == SButtonState.Released && this._activationTimer > 0)
+        {
+            this._activationTimer = -1;
+            ModEntry.Events.Disable<UltimateInputUpdateTickedEvent>();
+        }
+    }
+
+    /// <summary>Updates internal activation state.</summary>
+    internal void UpdateInput()
+    {
+        if (!Game1.game1.IsActive || !Game1.shouldTimePass() || this._activationTimer <= 0)
+        {
+            return;
+        }
+
+        --this._activationTimer;
+        if (this._activationTimer > 0)
+        {
+            return;
+        }
+
+        if (this.CanActivate)
+        {
+            this.Activate();
+        }
+        else
+        {
+            Game1.playSound("cancel");
+        }
+    }
+
+    /// <summary>Counts down the charge value.</summary>
+    internal abstract void Countdown();
+
+    /// <summary>Get the localized pronoun for the <see cref="Ultimate"/>'s buff.</summary>
+    /// <returns>A localized and gendered pronoun to qualify <see cref="Ultimate"/>'s buff.</returns>
+    internal virtual string GetBuffPronoun()
+    {
+        return LocalizedContentManager.CurrentLanguageCode is
+            LocalizedContentManager.LanguageCode.fr or
+            LocalizedContentManager.LanguageCode.es or
+            LocalizedContentManager.LanguageCode.pt
+            ? ModEntry.i18n.Get("pronoun.definite.female")
+            : string.Empty;
+    }
 
     /// <summary>Raised when a player activates their combat Ultimate.</summary>
     protected void OnActivated()
@@ -288,7 +314,7 @@ public abstract class Ultimate : IUltimate
     }
 
     /// <summary>Raised when a player's combat Ultimate gains any charge.</summary>
-    /// <param name="newValue">The old charge value.</param>
+    /// <param name="oldValue">The old charge value.</param>
     /// <param name="newValue">The new charge value.</param>
     protected void OnChargeIncreased(double oldValue, double newValue)
     {
@@ -306,19 +332,4 @@ public abstract class Ultimate : IUltimate
     {
         Emptied?.Invoke(this, new UltimateEmptiedEventArgs(Game1.player));
     }
-
-    #endregion event callbacks
-
-    #region static methods
-
-    public static Ultimate? FromIndex(UltimateIndex index) => index switch
-    {
-        UltimateIndex.BruteFrenzy => new Frenzy(),
-        UltimateIndex.PoacherAmbush => new Ambush(),
-        UltimateIndex.PiperConcerto => new Concerto(),
-        UltimateIndex.DesperadoBlossom => new DeathBlossom(),
-        _ => null
-    };
-
-    #endregion static methods
 }

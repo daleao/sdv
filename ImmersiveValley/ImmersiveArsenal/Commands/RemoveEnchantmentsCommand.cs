@@ -2,26 +2,29 @@
 
 #region using directives
 
-using Common;
-using Common.Commands;
-using StardewValley.Tools;
 using System.Linq;
+using DaLion.Common;
+using DaLion.Common.Commands;
+using StardewValley.Tools;
 
 #endregion using directives
 
 [UsedImplicitly]
 internal sealed class RemoveEnchantmentsCommand : ConsoleCommand
 {
-    /// <summary>Construct an instance.</summary>
+    /// <summary>Initializes a new instance of the <see cref="RemoveEnchantmentsCommand"/> class.</summary>
     /// <param name="handler">The <see cref="CommandHandler"/> instance that handles this command.</param>
     internal RemoveEnchantmentsCommand(CommandHandler handler)
-        : base(handler) { }
+        : base(handler)
+    {
+    }
 
     /// <inheritdoc />
     public override string[] Triggers { get; } = { "remove_enchants", "remove", "disenchant" };
 
     /// <inheritdoc />
-    public override string Documentation => "Remove the specified enchantments from the selected weapon." + GetUsage();
+    public override string Documentation =>
+        "Remove the specified enchantments from the selected weapon." + this.GetUsage();
 
     /// <inheritdoc />
     public override void Callback(string[] args)
@@ -54,11 +57,11 @@ internal sealed class RemoveEnchantmentsCommand : ConsoleCommand
     /// <summary>Tell the dummies how to use the console command.</summary>
     private string GetUsage()
     {
-        var result = $"\n\nUsage: {Handler.EntryCommand} {Triggers.First()} <enchantment>";
+        var result = $"\n\nUsage: {this.Handler.EntryCommand} {this.Triggers.First()} <enchantment>";
         result += "\n\nParameters:";
         result += "\n\t- <enchantment>: a tool enchantment";
         result += "\n\nExample:";
-        result += $"\n\t- {Handler.EntryCommand} {Triggers.First()} vampiric";
+        result += $"\n\t- {this.Handler.EntryCommand} {this.Triggers.First()} vampiric";
         return result;
     }
 }

@@ -2,49 +2,60 @@
 
 #region using directives
 
-using Common.Events;
-using Common.Extensions.SMAPI;
-using Common.Extensions.Stardew;
-using Extensions;
-using StardewModdingAPI.Events;
 using System;
 using System.Globalization;
 using System.Linq;
+using DaLion.Common.Events;
+using DaLion.Common.Extensions.SMAPI;
+using DaLion.Common.Extensions.Stardew;
+using DaLion.Stardew.Professions.Extensions;
+using StardewModdingAPI.Events;
 
 #endregion using directives
 
 [UsedImplicitly]
 internal sealed class ConservationismDayEndingEvent : DayEndingEvent
 {
-    /// <summary>Construct an instance.</summary>
+    /// <summary>Initializes a new instance of the <see cref="ConservationismDayEndingEvent"/> class.</summary>
     /// <param name="manager">The <see cref="ProfessionEventManager"/> instance that manages this event.</param>
     internal ConservationismDayEndingEvent(ProfessionEventManager manager)
-        : base(manager) { }
+        : base(manager)
+    {
+    }
 
     /// <inheritdoc />
     protected override void OnDayEndingImpl(object? sender, DayEndingEventArgs e)
     {
-        if (Game1.dayOfMonth != 28) return;
+        if (Game1.dayOfMonth != 28)
+        {
+            return;
+        }
 
         foreach (var farmer in Game1.getAllFarmers().Where(f => f.HasProfession(Profession.Conservationist)))
         {
             var trashCollectedThisSeason =
                 farmer.Read<uint>("ConservationistTrashCollectedThisSeason");
-            if (trashCollectedThisSeason <= 0) return;
+            farmer.Write("ConservationistTrashCollectedThisSeason", "0");
+            if (trashCollectedThisSeason <= 0)
+            {
+                return;
+            }
 
             var taxBonusForNextSeason =
                 // ReSharper disable once PossibleLossOfFraction
-                Math.Min(trashCollectedThisSeason / ModEntry.Config.TrashNeededPerTaxBonusPct / 100f,
+                Math.Min(
+                    trashCollectedThisSeason / ModEntry.Config.TrashNeededPerTaxBonusPct / 100f,
                     ModEntry.Config.ConservationistTaxBonusCeiling);
-            farmer.Write("ConservationistActiveTaxBonusPct",
+            farmer.Write(
+                "ConservationistActiveTaxBonusPct",
                 taxBonusForNextSeason.ToString(CultureInfo.InvariantCulture));
-            if (taxBonusForNextSeason > 0 && ModEntry.TaxesConfig is null)
+            if (taxBonusForNextSeason <= 0 || ModEntry.TaxesConfig is not null)
             {
-                ModEntry.ModHelper.GameContent.InvalidateCacheAndLocalized("Data/mail");
-                farmer.mailForTomorrow.Add($"{ModEntry.Manifest.UniqueID}/ConservationistTaxNotice");
+                continue;
             }
 
-            farmer.Write("ConservationistTrashCollectedThisSeason", "0");
+            ModEntry.ModHelper.GameContent.InvalidateCacheAndLocalized("Data/mail");
+            farmer.mailForTomorrow.Add($"{ModEntry.Manifest.UniqueID}/ConservationistTaxNotice");
         }
     }
 }

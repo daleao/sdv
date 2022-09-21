@@ -2,31 +2,37 @@
 
 #region using directives
 
+using System;
+using System.Collections.Generic;
+using System.Reflection;
+using System.Reflection.Emit;
 using DaLion.Common;
 using DaLion.Common.Attributes;
 using DaLion.Common.Extensions.Reflection;
 using DaLion.Common.Extensions.Stardew;
 using DaLion.Common.Harmony;
-using Extensions;
+using DaLion.Stardew.Professions.Extensions;
 using HarmonyLib;
-using System;
-using System.Collections.Generic;
-using System.Reflection;
-using System.Reflection.Emit;
+using HarmonyPatch = DaLion.Common.Harmony.HarmonyPatch;
 
 #endregion using directives
 
-[UsedImplicitly, RequiresMod("blueberry.MushroomPropagator")]
-internal sealed class PropagatorPopExtraHeldMushroomsPatch : DaLion.Common.Harmony.HarmonyPatch
+[UsedImplicitly]
+[RequiresMod("blueberry.MushroomPropagator")]
+internal sealed class PropagatorPopExtraHeldMushroomsPatch : HarmonyPatch
 {
-    private static readonly Lazy<Func<SObject, int>> _GetSourceMushroomQuality = new(() =>
-        "BlueberryMushroomMachine.Propagator".ToType().RequireField("SourceMushroomQuality")
+    private static readonly Lazy<Func<SObject, int>> GetSourceMushroomQuality = new(() =>
+        "BlueberryMushroomMachine.Propagator"
+            .ToType()
+            .RequireField("SourceMushroomQuality")
             .CompileUnboundFieldGetterDelegate<SObject, int>());
 
-    /// <summary>Construct an instance.</summary>
+    /// <summary>Initializes a new instance of the <see cref="PropagatorPopExtraHeldMushroomsPatch"/> class.</summary>
     internal PropagatorPopExtraHeldMushroomsPatch()
     {
-        Target = "BlueberryMushroomMachine.Propagator".ToType().RequireMethod("PopExtraHeldMushrooms");
+        this.Target = "BlueberryMushroomMachine.Propagator"
+            .ToType()
+            .RequireMethod("PopExtraHeldMushrooms");
     }
 
     #region harmony patches
@@ -36,20 +42,17 @@ internal sealed class PropagatorPopExtraHeldMushroomsPatch : DaLion.Common.Harmo
     private static IEnumerable<CodeInstruction>? PropagatorPopExtraHeldMushroomsTranspiler(
         IEnumerable<CodeInstruction> instructions, ILGenerator generator, MethodBase original)
     {
-        var helper = new ILHelper(original, instructions);
+        var helper = new IlHelper(original, instructions);
 
-        /// From: ceq 0
-        /// To: Game1.player.professions.Contains(<forager_id>) ? !cgt 0 : clt 0
-
+        // From: ceq 0
+        // To: Game1.player.professions.Contains(<forager_id>) ? !cgt 0 : clt 0
         var isNotPrestiged = generator.DefineLabel();
         var resumeExecution = generator.DefineLabel();
         try
         {
             helper
                 .FindProfessionCheck(Profession.Forager.Value) // find index of forager check
-                .AdvanceUntil(
-                    new CodeInstruction(OpCodes.Ldc_I4_0)
-                )
+                .AdvanceUntil(new CodeInstruction(OpCodes.Ldc_I4_0))
                 .SetOpCode(OpCodes.Ldc_I4_1)
                 .Advance()
                 .InsertProfessionCheck(Profession.Forager.Value + 100)
@@ -57,12 +60,10 @@ internal sealed class PropagatorPopExtraHeldMushroomsPatch : DaLion.Common.Harmo
                     new CodeInstruction(OpCodes.Brfalse_S, isNotPrestiged),
                     new CodeInstruction(OpCodes.Cgt_Un),
                     new CodeInstruction(OpCodes.Not),
-                    new CodeInstruction(OpCodes.Br_S, resumeExecution)
-                )
+                    new CodeInstruction(OpCodes.Br_S, resumeExecution))
                 .InsertWithLabels(
                     new[] { isNotPrestiged },
-                    new CodeInstruction(OpCodes.Clt_Un)
-                )
+                    new CodeInstruction(OpCodes.Clt_Un))
                 .RemoveInstructions()
                 .AddLabels(resumeExecution);
         }
@@ -74,28 +75,23 @@ internal sealed class PropagatorPopExtraHeldMushroomsPatch : DaLion.Common.Harmo
             return null;
         }
 
-        /// From: int popQuality = Game1.player.professions.Contains(<ecologist_id>) ? 4 : SourceMushroomQuality);
-        /// To: int popQuality = PopExtraHeldMushroomsSubroutine(this);
-
-        var owner = generator.DeclareLocal(typeof(Farmer));
+        // From: int popQuality = Game1.player.professions.Contains(<ecologist_id>) ? 4 : SourceMushroomQuality);
+        // To: int popQuality = PopExtraHeldMushroomsSubroutine(this);
         try
         {
             helper
                 .FindProfessionCheck(Profession.Ecologist.Value) // find index of ecologist check
                 .Retreat()
                 .GetLabels(out var labels)
-                .RemoveInstructionsUntil(
-                    new CodeInstruction(OpCodes.Ldc_I4_4)
-                )
+                .RemoveInstructionsUntil(new CodeInstruction(OpCodes.Ldc_I4_4))
                 .InsertWithLabels(
                     labels,
                     new CodeInstruction(OpCodes.Ldarg_0),
-                    new CodeInstruction(OpCodes.Call,
-                        typeof(PropagatorPopExtraHeldMushroomsPatch).RequireMethod(
-                            nameof(PopExtraHeldMushroomsSubroutine)))
-                )
+                    new CodeInstruction(
+                        OpCodes.Call,
+                        typeof(PropagatorPopExtraHeldMushroomsPatch)
+                            .RequireMethod(nameof(PopExtraHeldMushroomsSubroutine))))
                 .RemoveLabels();
-
         }
         catch (Exception ex)
         {
@@ -115,9 +111,8 @@ internal sealed class PropagatorPopExtraHeldMushroomsPatch : DaLion.Common.Harmo
         var who = ModEntry.Config.LaxOwnershipRequirements ? Game1.player : propagator.GetOwner();
         return who.HasProfession(Profession.Ecologist)
             ? who.GetEcologistForageQuality()
-            : _GetSourceMushroomQuality.Value(propagator);
+            : GetSourceMushroomQuality.Value(propagator);
     }
 
     #endregion injected subroutines
-
 }

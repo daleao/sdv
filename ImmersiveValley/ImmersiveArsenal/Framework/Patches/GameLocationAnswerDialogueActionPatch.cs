@@ -2,21 +2,23 @@
 
 #region using directives
 
-using Common;
-using HarmonyLib;
-using StardewValley.Menus;
 using System;
 using System.Reflection;
+using DaLion.Common;
+using HarmonyLib;
+using StardewValley.Menus;
+using HarmonyPatch = DaLion.Common.Harmony.HarmonyPatch;
+using Utility = StardewValley.Utility;
 
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class GameLocationAnswerDialogueActionPatch : Common.Harmony.HarmonyPatch
+internal sealed class GameLocationAnswerDialogueActionPatch : HarmonyPatch
 {
-    /// <summary>Construct an instance.</summary>
+    /// <summary>Initializes a new instance of the <see cref="GameLocationAnswerDialogueActionPatch"/> class.</summary>
     internal GameLocationAnswerDialogueActionPatch()
     {
-        Target = RequireMethod<GameLocation>(nameof(GameLocation.answerDialogueAction));
+        this.Target = this.RequireMethod<GameLocation>(nameof(GameLocation.answerDialogueAction));
     }
 
     #region harmony patches
@@ -33,7 +35,8 @@ internal sealed class GameLocationAnswerDialogueActionPatch : Common.Harmony.Har
                     // ask to specify between tools and weapons
                     break;
                 case "Blacksmith_Upgrade_Tool":
-                    Game1.activeClickableMenu = new ShopMenu(StardewValley.Utility.getBlacksmithUpgradeStock(Game1.player), 0, "ClintUpgrade");
+                    Game1.activeClickableMenu =
+                        new ShopMenu(Utility.getBlacksmithUpgradeStock(Game1.player), 0, "ClintUpgrade");
                     break;
                 case "Blacksmith_Upgrade_Weapon":
                     // launch weapon upgrade menu

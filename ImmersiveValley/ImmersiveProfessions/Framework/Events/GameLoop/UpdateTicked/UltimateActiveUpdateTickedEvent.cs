@@ -2,28 +2,33 @@
 
 #region using directives
 
-using Common.Events;
+using DaLion.Common.Events;
+using DaLion.Stardew.Professions.Framework.Ultimates;
+using DaLion.Stardew.Professions.Framework.VirtualProperties;
 using StardewModdingAPI.Events;
-using Ultimates;
-using VirtualProperties;
 
 #endregion using directives
 
-[UsedImplicitly, UltimateEvent]
+[UltimateEvent]
+[UsedImplicitly]
 internal sealed class UltimateActiveUpdateTickedEvent : UpdateTickedEvent
 {
-    /// <summary>Construct an instance.</summary>
+    /// <summary>Initializes a new instance of the <see cref="UltimateActiveUpdateTickedEvent"/> class.</summary>
     /// <param name="manager">The <see cref="ProfessionEventManager"/> instance that manages this event.</param>
     internal UltimateActiveUpdateTickedEvent(ProfessionEventManager manager)
-        : base(manager) { }
+        : base(manager)
+    {
+    }
 
     /// <inheritdoc />
     protected override void OnUpdateTickedImpl(object? sender, UpdateTickedEventArgs e)
     {
-        var ultimate = Game1.player.get_Ultimate();
+        var ultimate = Game1.player.Get_Ultimate();
         Game1.player.startGlowing(ultimate!.GlowColor, false, 0.05f);
 
         if ((Game1.game1.IsActiveNoOverlay || !Game1.options.pauseWhenOutOfFocus) && Game1.shouldTimePass())
+        {
             ultimate.Countdown();
+        }
     }
 }

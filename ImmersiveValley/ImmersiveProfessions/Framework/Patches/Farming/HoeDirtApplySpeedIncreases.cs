@@ -2,25 +2,26 @@
 
 #region using directives
 
-using DaLion.Common;
-using DaLion.Common.Harmony;
-using Extensions;
-using HarmonyLib;
-using StardewValley.TerrainFeatures;
 using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
+using DaLion.Common;
+using DaLion.Common.Harmony;
+using DaLion.Stardew.Professions.Extensions;
+using HarmonyLib;
+using StardewValley.TerrainFeatures;
+using HarmonyPatch = DaLion.Common.Harmony.HarmonyPatch;
 
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class HoeDirtApplySpeedIncreases : DaLion.Common.Harmony.HarmonyPatch
+internal sealed class HoeDirtApplySpeedIncreases : HarmonyPatch
 {
-    /// <summary>Construct an instance.</summary>
+    /// <summary>Initializes a new instance of the <see cref="HoeDirtApplySpeedIncreases"/> class.</summary>
     internal HoeDirtApplySpeedIncreases()
     {
-        Target = RequireMethod<HoeDirt>("applySpeedIncreases");
+        this.Target = this.RequireMethod<HoeDirt>("applySpeedIncreases");
     }
 
     #region harmony patches
@@ -30,11 +31,10 @@ internal sealed class HoeDirtApplySpeedIncreases : DaLion.Common.Harmony.Harmony
     private static IEnumerable<CodeInstruction>? HoeDirtApplySpeedIncreasesTranspiler(
         IEnumerable<CodeInstruction> instructions, ILGenerator generator, MethodBase original)
     {
-        var helper = new ILHelper(original, instructions);
+        var helper = new IlHelper(original, instructions);
 
-        /// From: if (who.professions.Contains(<agriculturist_id>)) speedIncrease += 0.1f;
-        /// To: if (who.professions.Contains(<agriculturist_id>)) speedIncrease += who.professions.Contains(100 + <agriculturist_id>)) ? 0.2f : 0.1f;
-
+        // From: if (who.professions.Contains(<agriculturist_id>)) speedIncrease += 0.1f;
+        // To: if (who.professions.Contains(<agriculturist_id>)) speedIncrease += who.professions.Contains(100 + <agriculturist_id>)) ? 0.2f : 0.1f;
         var isNotPrestiged = generator.DefineLabel();
         var resumeExecution = generator.DefineLabel();
         try
@@ -43,19 +43,14 @@ internal sealed class HoeDirtApplySpeedIncreases : DaLion.Common.Harmony.Harmony
                 .FindProfessionCheck(Profession.Agriculturist.Value)
                 .Advance()
                 .FindProfessionCheck(Profession.Agriculturist.Value, true)
-                .AdvanceUntil(
-                    new CodeInstruction(OpCodes.Ldc_R4, 0.1f)
-                )
+                .AdvanceUntil(new CodeInstruction(OpCodes.Ldc_R4, 0.1f))
                 .AddLabels(isNotPrestiged)
-                .InsertInstructions(
-                    new CodeInstruction(OpCodes.Ldarg_1)
-                )
+                .InsertInstructions(new CodeInstruction(OpCodes.Ldarg_1))
                 .InsertProfessionCheck(Profession.Agriculturist.Value + 100, forLocalPlayer: false)
                 .InsertInstructions(
                     new CodeInstruction(OpCodes.Brfalse_S, isNotPrestiged),
                     new CodeInstruction(OpCodes.Ldc_R4, 0.2f),
-                    new CodeInstruction(OpCodes.Br_S, resumeExecution)
-                )
+                    new CodeInstruction(OpCodes.Br_S, resumeExecution))
                 .Advance()
                 .AddLabels(resumeExecution);
         }

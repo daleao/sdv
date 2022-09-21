@@ -9,19 +9,24 @@ using StardewModdingAPI.Events;
 /// <summary>Wrapper for <see cref="IWorldEvents.FurnitureListChanged"/> allowing dynamic enabling / disabling.</summary>
 internal abstract class FurnitureListChangedEvent : ManagedEvent
 {
-    /// <summary>Construct an instance.</summary>
+    /// <summary>Initializes a new instance of the <see cref="FurnitureListChangedEvent"/> class.</summary>
     /// <param name="manager">The <see cref="EventManager"/> instance that manages this event.</param>
     protected FurnitureListChangedEvent(EventManager manager)
-        : base(manager) { }
+        : base(manager)
+    {
+    }
 
     /// <inheritdoc cref="IWorldEvents.FurnitureListChanged"/>
     /// <param name="sender">The event sender.</param>
     /// <param name="e">The event arguments.</param>
     internal void OnFurnitureListChanged(object? sender, FurnitureListChangedEventArgs e)
     {
-        if (IsEnabled) OnFurnitureListChangedImpl(sender, e);
+        if (this.IsEnabled)
+        {
+            this.OnFurnitureListChangedImpl(sender, e);
+        }
     }
 
-    /// <inheritdoc cref="OnFurnitureListChanged" />
+    /// <inheritdoc cref="OnFurnitureListChanged"/>
     protected abstract void OnFurnitureListChangedImpl(object? sender, FurnitureListChangedEventArgs e);
 }

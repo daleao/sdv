@@ -2,21 +2,22 @@
 
 #region using directives
 
+using System;
+using System.Reflection;
 using DaLion.Common;
 using HarmonyLib;
 using StardewValley.Tools;
-using System;
-using System.Reflection;
+using HarmonyPatch = DaLion.Common.Harmony.HarmonyPatch;
 
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class SlingshotGetHoverBoxTextPatch : DaLion.Common.Harmony.HarmonyPatch
+internal sealed class SlingshotGetHoverBoxTextPatch : HarmonyPatch
 {
-    /// <summary>Construct an instance.</summary>
+    /// <summary>Initializes a new instance of the <see cref="SlingshotGetHoverBoxTextPatch"/> class.</summary>
     internal SlingshotGetHoverBoxTextPatch()
     {
-        Target = RequireMethod<Slingshot>(nameof(Slingshot.getHoverBoxText));
+        this.Target = this.RequireMethod<Slingshot>(nameof(Slingshot.getHoverBoxText));
     }
 
     #region harmony patches
@@ -29,14 +30,26 @@ internal sealed class SlingshotGetHoverBoxTextPatch : DaLion.Common.Harmony.Harm
         {
             switch (hoveredItem)
             {
-                case SObject @object when __instance.canThisBeAttached(@object):
-                    __result = Game1.content.LoadString("Strings\\StringsFromCSFiles:Slingshot.cs.14256", __instance.DisplayName, hoveredItem.DisplayName);
+                case SObject obj when __instance.canThisBeAttached(obj):
+                    __result = Game1.content.LoadString(
+                        "Strings\\StringsFromCSFiles:Slingshot.cs.14256",
+                        __instance.DisplayName,
+                        hoveredItem.DisplayName);
                     break;
                 case null when __instance.attachments.Count > 0:
                     if (__instance.attachments[0] is not null)
-                        __result =  Game1.content.LoadString("Strings\\StringsFromCSFiles:Slingshot.cs.14258", __instance.attachments[0].DisplayName);
+                    {
+                        __result = Game1.content.LoadString(
+                            "Strings\\StringsFromCSFiles:Slingshot.cs.14258",
+                            __instance.attachments[0].DisplayName);
+                    }
                     else if (__instance.numAttachmentSlots.Value > 1 && __instance.attachments[1] is not null)
-                        __result = Game1.content.LoadString("Strings\\StringsFromCSFiles:Slingshot.cs.14258", __instance.attachments[1].DisplayName);
+                    {
+                        __result = Game1.content.LoadString(
+                            "Strings\\StringsFromCSFiles:Slingshot.cs.14258",
+                            __instance.attachments[1].DisplayName);
+                    }
+
                     break;
                 default:
                     __result = null;

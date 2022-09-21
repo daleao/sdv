@@ -2,21 +2,23 @@
 
 #region using directives
 
-using Common;
-using Common.Commands;
-using Common.Extensions.Stardew;
-using StardewValley.Tools;
 using System.Linq;
+using DaLion.Common;
+using DaLion.Common.Commands;
+using DaLion.Common.Extensions.Stardew;
+using StardewValley.Tools;
 
 #endregion using directives
 
 [UsedImplicitly]
 internal sealed class ReadyPurificationCommand : ConsoleCommand
 {
-    /// <summary>Construct an instance.</summary>
+    /// <summary>Initializes a new instance of the <see cref="ReadyPurificationCommand"/> class.</summary>
     /// <param name="handler">The <see cref="CommandHandler"/> instance that handles this command.</param>
     internal ReadyPurificationCommand(CommandHandler handler)
-        : base(handler) { }
+        : base(handler)
+    {
+    }
 
     /// <inheritdoc />
     public override string[] Triggers { get; } = { "ready_dark_sword", "ready_sword", "ready_purify" };
@@ -29,7 +31,7 @@ internal sealed class ReadyPurificationCommand : ConsoleCommand
     {
         var darkSword = Game1.player.Items.FirstOrDefault(item => item is MeleeWeapon
         {
-            InitialParentTileIndex: Constants.DARK_SWORD_INDEX_I
+            InitialParentTileIndex: Constants.DarkSwordIndex
         });
         if (darkSword is null)
         {

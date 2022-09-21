@@ -2,20 +2,21 @@
 
 #region using directives
 
-using HarmonyLib;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection.Emit;
+using HarmonyLib;
+using HarmonyPatch = DaLion.Common.Harmony.HarmonyPatch;
 
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class FarmerToolPowerIncreasePatch : Common.Harmony.HarmonyPatch
+internal sealed class FarmerToolPowerIncreasePatch : HarmonyPatch
 {
-    /// <summary>Construct an instance.</summary>
+    /// <summary>Initializes a new instance of the <see cref="FarmerToolPowerIncreasePatch"/> class.</summary>
     internal FarmerToolPowerIncreasePatch()
     {
-        Target = RequireMethod<Farmer>("toolPowerIncrease");
+        this.Target = this.RequireMethod<Farmer>("toolPowerIncrease");
     }
 
     #region harmony patches
@@ -29,10 +30,13 @@ internal sealed class FarmerToolPowerIncreasePatch : Common.Harmony.HarmonyPatch
         for (var i = 0; i < l.Count; ++i)
         {
             if (l[i].opcode != OpCodes.Isinst ||
-                l[i].operand?.ToString() != "StardewValley.Tools.Pickaxe") continue;
+                l[i].operand?.ToString() != "StardewValley.Tools.Pickaxe")
+            {
+                continue;
+            }
 
             // inject branch over toolPower += 2
-            l.Insert(i - 2, new(OpCodes.Br_S, l[i + 1].operand));
+            l.Insert(i - 2, new CodeInstruction(OpCodes.Br_S, l[i + 1].operand));
             break;
         }
 

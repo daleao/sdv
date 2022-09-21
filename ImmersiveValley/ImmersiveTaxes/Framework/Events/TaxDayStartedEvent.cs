@@ -2,7 +2,7 @@
 
 #region using directives
 
-using Common.Events;
+using DaLion.Common.Events;
 using StardewModdingAPI.Events;
 
 #endregion using directives
@@ -10,17 +10,24 @@ using StardewModdingAPI.Events;
 [UsedImplicitly]
 internal sealed class TaxDayStartedEvent : DayStartedEvent
 {
-    /// <summary>Construct an instance.</summary>
+    /// <summary>Initializes a new instance of the <see cref="TaxDayStartedEvent"/> class.</summary>
     /// <param name="manager">The <see cref="EventManager"/> instance that manages this event.</param>
     internal TaxDayStartedEvent(EventManager manager)
-        : base(manager) { }
+        : base(manager)
+    {
+    }
 
     /// <inheritdoc />
     protected override void OnDayStartedImpl(object? sender, DayStartedEventArgs e)
     {
-        if (ModEntry.LatestAmountDebited.Value > 0)
+        if (ModEntry.State.ToDebit > 0)
+        {
+            Game1.player.Money -= ModEntry.State.ToDebit;
             Game1.addHUDMessage(
-                new(ModEntry.i18n.Get("debt.debit", new { amount = ModEntry.LatestAmountDebited }), HUDMessage.newQuest_type)
-                { timeLeft = HUDMessage.defaultTime * 2 });
+                new HUDMessage(
+                    ModEntry.i18n.Get("debt.debit", new { amount = ModEntry.State.ToDebit }),
+                    HUDMessage.newQuest_type) { timeLeft = HUDMessage.defaultTime * 2 });
+            ModEntry.State.ToDebit = 0;
+        }
     }
 }

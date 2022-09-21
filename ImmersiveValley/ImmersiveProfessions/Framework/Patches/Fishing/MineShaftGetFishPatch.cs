@@ -2,26 +2,27 @@
 
 #region using directives
 
-using DaLion.Common;
-using DaLion.Common.Extensions.Reflection;
-using DaLion.Common.Harmony;
-using Extensions;
-using HarmonyLib;
-using StardewValley.Locations;
 using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
+using DaLion.Common;
+using DaLion.Common.Extensions.Reflection;
+using DaLion.Common.Harmony;
+using DaLion.Stardew.Professions.Extensions;
+using HarmonyLib;
+using StardewValley.Locations;
+using HarmonyPatch = DaLion.Common.Harmony.HarmonyPatch;
 
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class MineShaftGetFishPatch : DaLion.Common.Harmony.HarmonyPatch
+internal sealed class MineShaftGetFishPatch : HarmonyPatch
 {
-    /// <summary>Construct an instance.</summary>
+    /// <summary>Initializes a new instance of the <see cref="MineShaftGetFishPatch"/> class.</summary>
     internal MineShaftGetFishPatch()
     {
-        Target = RequireMethod<MineShaft>(nameof(MineShaft.getFish));
+        this.Target = this.RequireMethod<MineShaft>(nameof(MineShaft.getFish));
     }
 
     #region harmony patches
@@ -31,31 +32,26 @@ internal sealed class MineShaftGetFishPatch : DaLion.Common.Harmony.HarmonyPatch
     private static IEnumerable<CodeInstruction>? GameLocationGetFishTranspiler(
         IEnumerable<CodeInstruction> instructions, ILGenerator generator, MethodBase original)
     {
-        var helper = new ILHelper(original, instructions);
+        var helper = new IlHelper(original, instructions);
 
-        /// Injected: if (Game1.player.professions.Contains(<fisher_id>)) <baseChance> *= 2 
-        ///	Before each of the three fish rolls
-
+        // Injected: if (Game1.player.professions.Contains(<fisher_id>)) <baseChance> *= 2
+        // Before each of the three fish rolls
         var i = 0;
-    repeat:
+        repeat:
         try
         {
             var isNotFisher = generator.DefineLabel();
             helper
                 .FindNext(
-                    new CodeInstruction(OpCodes.Callvirt, typeof(Random).RequireMethod(nameof(Random.NextDouble)))
-                )
-                .AdvanceUntil(
-                    new CodeInstruction(OpCodes.Ldc_R8, 0.02 - i * 0.005)
-                )
+                    new CodeInstruction(OpCodes.Callvirt, typeof(Random).RequireMethod(nameof(Random.NextDouble))))
+                .AdvanceUntil(new CodeInstruction(OpCodes.Ldc_R8, 0.02 - (i * 0.005)))
                 .Advance()
                 .AddLabels(isNotFisher)
                 .InsertProfessionCheck(Profession.Fisher.Value)
                 .InsertInstructions(
                     new CodeInstruction(OpCodes.Brfalse_S, isNotFisher),
                     new CodeInstruction(OpCodes.Ldc_R8, 2.0),
-                    new CodeInstruction(OpCodes.Mul)
-                );
+                    new CodeInstruction(OpCodes.Mul));
         }
         catch (Exception ex)
         {
@@ -63,7 +59,10 @@ internal sealed class MineShaftGetFishPatch : DaLion.Common.Harmony.HarmonyPatch
             return null;
         }
 
-        if (++i < 3) goto repeat;
+        if (++i < 3)
+        {
+            goto repeat;
+        }
 
         return helper.Flush();
     }

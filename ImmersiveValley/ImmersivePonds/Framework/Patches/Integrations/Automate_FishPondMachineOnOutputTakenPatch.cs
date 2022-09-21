@@ -2,32 +2,36 @@
 
 #region using directives
 
-using Common;
-using Common.Attributes;
-using Common.Extensions;
-using Common.Extensions.Reflection;
-using Common.Extensions.Stardew;
+using System;
+using System.Linq;
+using System.Reflection;
+using DaLion.Common;
+using DaLion.Common.Attributes;
+using DaLion.Common.Extensions;
+using DaLion.Common.Extensions.Reflection;
+using DaLion.Common.Extensions.Stardew;
 using HarmonyLib;
 using Microsoft.Xna.Framework;
 using StardewValley.Buildings;
 using StardewValley.Menus;
 using StardewValley.Objects;
-using System;
-using System.Linq;
-using System.Reflection;
+using HarmonyPatch = DaLion.Common.Harmony.HarmonyPatch;
 
 #endregion using directives
 
-[UsedImplicitly, RequiresMod("Pathoschild.Automate")]
-internal sealed class FishPondMachineOnOutputTakenPatch : Common.Harmony.HarmonyPatch
+[UsedImplicitly]
+[RequiresMod("Pathoschild.Automate")]
+[System.Diagnostics.CodeAnalysis.SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1649:File name should match first type name", Justification = "Integration patch.")]
+internal sealed class FishPondMachineOnOutputTakenPatch : HarmonyPatch
 {
-    private static Func<object, FishPond>? _GetMachine;
-    private static Func<object, Farmer>? _GetOwner;
+    private static Func<object, FishPond>? _getMachine;
+    private static Func<object, Farmer>? _getOwner;
 
-    /// <summary>Construct an instance.</summary>
+    /// <summary>Initializes a new instance of the <see cref="FishPondMachineOnOutputTakenPatch"/> class.</summary>
     internal FishPondMachineOnOutputTakenPatch()
     {
-        Target = "Pathoschild.Stardew.Automate.Framework.Machines.Buildings.FishPondMachine".ToType()
+        this.Target = "Pathoschild.Stardew.Automate.Framework.Machines.Buildings.FishPondMachine"
+            .ToType()
             .RequireMethod("OnOutputTaken");
     }
 
@@ -40,8 +44,11 @@ internal sealed class FishPondMachineOnOutputTakenPatch : Common.Harmony.Harmony
         FishPond? machine = null;
         try
         {
-            _GetMachine ??= __instance.GetType().RequirePropertyGetter("Machine").CompileUnboundDelegate<Func<object, FishPond>>();
-            machine = _GetMachine(__instance);
+            _getMachine ??= __instance
+                .GetType()
+                .RequirePropertyGetter("Machine")
+                .CompileUnboundDelegate<Func<object, FishPond>>();
+            machine = _getMachine(__instance);
 
             var produce = machine.Read("ItemsHeld").ParseList<string>(";");
             if (produce.Count <= 0)
@@ -52,23 +59,23 @@ internal sealed class FishPondMachineOnOutputTakenPatch : Common.Harmony.Harmony
             {
                 var next = produce.First()!;
                 var (index, stack, quality) = next.ParseTuple<int, int, int>()!.Value;
-                StardewValley.Object o;
+                SObject o;
                 if (index == 812) // roe
                 {
                     var split = Game1.objectInformation[machine.fishType.Value].Split('/');
                     var c = machine.fishType.Value == 698
-                        ? new(61, 55, 42)
+                        ? new Color(61, 55, 42)
                         : TailoringMenu.GetDyeColor(machine.GetFishObject()) ?? Color.Orange;
                     o = new ColoredObject(812, stack, c);
                     o.name = split[0] + " Roe";
-                    o.preserve.Value = StardewValley.Object.PreserveType.Roe;
+                    o.preserve.Value = SObject.PreserveType.Roe;
                     o.preservedParentSheetIndex.Value = machine.fishType.Value;
                     o.Price += Convert.ToInt32(split[1]) / 2;
                     o.Quality = quality;
                 }
                 else
                 {
-                    o = new(index, stack, quality: quality);
+                    o = new SObject(index, stack, quality: quality);
                 }
 
                 machine.output.Value = o;
@@ -76,15 +83,20 @@ internal sealed class FishPondMachineOnOutputTakenPatch : Common.Harmony.Harmony
                 machine.Write("ItemsHeld", string.Join(";", produce));
             }
 
-            if (machine.Read<bool>("CheckedToday")) return false; // don't run original logic
+            if (machine.Read<bool>("CheckedToday"))
+            {
+                return false; // don't run original logic
+            }
 
-            var bonus = (int)(item is StardewValley.Object @object
-                ? @object.sellToStorePrice() * FishPond.HARVEST_OUTPUT_EXP_MULTIPLIER
+            var bonus = (int)(item is SObject obj
+                ? obj.sellToStorePrice() * FishPond.HARVEST_OUTPUT_EXP_MULTIPLIER
                 : 0);
 
-            _GetOwner ??= __instance.GetType().RequireMethod("GetOwner").CompileUnboundDelegate<Func<object, Farmer>>();
-            _GetOwner(__instance).gainExperience(Farmer.fishingSkill,
-                FishPond.HARVEST_BASE_EXP + bonus);
+            _getOwner ??= __instance
+                .GetType()
+                .RequireMethod("GetOwner")
+                .CompileUnboundDelegate<Func<object, Farmer>>();
+            _getOwner(__instance).gainExperience(Farmer.fishingSkill, FishPond.HARVEST_BASE_EXP + bonus);
 
             machine.Write("CheckedToday", true.ToString());
             return false; // don't run original logic

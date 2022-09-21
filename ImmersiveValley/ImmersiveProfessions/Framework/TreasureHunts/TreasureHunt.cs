@@ -2,25 +2,30 @@
 
 #region using directives
 
-using Framework.Events.TreasureHunt;
-using Microsoft.Xna.Framework;
 using System;
+using CommunityToolkit.Diagnostics;
+using DaLion.Stardew.Professions.Framework.Events.TreasureHunt;
+using Microsoft.Xna.Framework;
 
 #endregion using directives
 
 /// <summary>Base class for treasure hunts.</summary>
 internal abstract class TreasureHunt : ITreasureHunt
 {
-    /// <inheritdoc />
-    public TreasureHuntType Type { get; }
+    private double _chanceAccumulator = 1d;
 
-    /// <inheritdoc />
-    public bool IsActive => TreasureTile is not null;
-
-    /// <inheritdoc />
-    public Vector2? TreasureTile { get; protected set; } = null;
-
-    #region event handlers
+    /// <summary>Initializes a new instance of the <see cref="TreasureHunt"/> class.</summary>
+    /// <param name="type">Either <see cref="Profession.Scavenger"/> or <see cref="Profession.Prospector"/>.</param>
+    /// <param name="huntStartedMessage">The message displayed to the player when the hunt starts.</param>
+    /// <param name="huntFailedMessage">The message displayed to the player when the hunt fails.</param>
+    /// <param name="iconSourceRect">The <see cref="Rectangle"/> area of the corresponding profession's icon.</param>
+    internal TreasureHunt(TreasureHuntType type, string huntStartedMessage, string huntFailedMessage, Rectangle iconSourceRect)
+    {
+        this.Type = type;
+        this.HuntStartedMessage = huntStartedMessage;
+        this.HuntFailedMessage = huntFailedMessage;
+        this.IconSourceRect = iconSourceRect;
+    }
 
     /// <inheritdoc cref="OnStarted"/>
     internal static event EventHandler<ITreasureHuntStartedEventArgs>? Started;
@@ -28,25 +33,35 @@ internal abstract class TreasureHunt : ITreasureHunt
     /// <inheritdoc cref="OnEnded"/>
     internal static event EventHandler<ITreasureHuntEndedEventArgs>? Ended;
 
-    #endregion event handlers
+    /// <inheritdoc />
+    public TreasureHuntType Type { get; }
 
-    protected uint elapsed;
-    protected uint timeLimit;
-    protected string huntStartedMessage = null!;
-    protected string huntFailedMessage = null!;
-    protected GameLocation huntLocation = null!;
-    protected Rectangle iconSourceRect;
-    protected readonly Random random = new(Guid.NewGuid().GetHashCode());
+    /// <inheritdoc />
+    public bool IsActive => this.TreasureTile is not null;
 
-    private double _chanceAccumulator = 1d;
+    /// <inheritdoc />
+    public Vector2? TreasureTile { get; protected set; } = null;
 
-    /// <summary>Construct an instance.</summary>
-    internal TreasureHunt()
-    {
-        Type = GetType() == typeof(ScavengerHunt) ? TreasureHuntType.Scavenger : TreasureHuntType.Prospector;
-    }
+    /// <summary>Gets a random number generator.</summary>
+    protected Random Random { get; } = new(Guid.NewGuid().GetHashCode());
 
-    #region public methods
+    /// <summary>Gets or sets the active hunt's <see cref="GameLocation"/>.</summary>
+    protected GameLocation HuntLocation { get; set; } = null!;
+
+    /// <summary>Gets the profession icon source <see cref="Rectangle"/>.</summary>
+    protected Rectangle IconSourceRect { get; }
+
+    /// <summary>Gets the hunt started message.</summary>
+    protected string HuntStartedMessage { get; }
+
+    /// <summary>Gets the hunt failed message.</summary>
+    protected string HuntFailedMessage { get; }
+
+    /// <summary>Gets or sets the elapsed time of the active hunt.</summary>
+    protected uint Elapsed { get; set; }
+
+    /// <summary>Gets or sets the time limit of the active hunt.</summary>
+    protected uint TimeLimit { get; set; }
 
     /// <inheritdoc />
     public abstract bool TryStart(GameLocation location);
@@ -57,80 +72,83 @@ internal abstract class TreasureHunt : ITreasureHunt
     /// <inheritdoc />
     public abstract void Fail();
 
-    #endregion public methods
-
-    #region internal methods
-
     /// <summary>Reset the accumulated bonus chance to trigger a new hunt.</summary>
     internal void ResetChanceAccumulator()
     {
-        _chanceAccumulator = 1d;
+        this._chanceAccumulator = 1d;
     }
 
     /// <summary>Check for completion or failure.</summary>
     /// <param name="ticks">The number of ticks elapsed since the game started.</param>
     internal void Update(uint ticks)
     {
-        if (!Game1.game1.IsActiveNoOverlay && Game1.options.pauseWhenOutOfFocus || !Game1.shouldTimePass()) return;
+        if ((!Game1.game1.IsActiveNoOverlay && Game1.options.pauseWhenOutOfFocus) || !Game1.shouldTimePass())
+        {
+            return;
+        }
 
-        if (ticks % 60 == 0 && ++elapsed > timeLimit) Fail();
-        else CheckForCompletion();
+        if (ticks % 60 == 0 && ++this.Elapsed > this.TimeLimit)
+        {
+            this.Fail();
+        }
+        else
+        {
+            this.CheckForCompletion();
+        }
     }
 
-    #endregion internal methods
-
-    #region protected methods
-
-    /// <summary>Roll the dice for a new treasure hunt or adjust the odds for the next attempt.</summary>
+    /// <summary>Rolls the dice for a new treasure hunt or adjusts the odds for the next attempt.</summary>
     /// <returns><see langword="true"/> if the dice roll was successful, otherwise <see langword="false"/>.</returns>
     protected bool TryStart()
     {
-        if (IsActive) return false;
-
-        if (random.NextDouble() > ModEntry.Config.ChanceToStartTreasureHunt * _chanceAccumulator)
+        if (this.IsActive)
         {
-            _chanceAccumulator *= 1d + Game1.player.DailyLuck;
             return false;
         }
 
-        _chanceAccumulator = 1d;
+        if (this.Random.NextDouble() > ModEntry.Config.ChanceToStartTreasureHunt * this._chanceAccumulator)
+        {
+            this._chanceAccumulator *= 1d + Game1.player.DailyLuck;
+            return false;
+        }
+
+        this._chanceAccumulator = 1d;
         return true;
     }
 
-    /// <summary>Check if a treasure hunt can be started immediately and adjust the odds for the next attempt.</summary>
+    /// <summary>Forcefully sets the odds for the next hunt start attempt to 100%.</summary>
     protected virtual void ForceStart()
     {
-        if (IsActive) ThrowHelper.ThrowInvalidOperationException("A Treasure Hunt is already active in this instance.");
-        _chanceAccumulator = 1d;
+        if (this.IsActive)
+        {
+            ThrowHelper.ThrowInvalidOperationException("A Treasure Hunt is already active in this instance.");
+        }
+
+        this._chanceAccumulator = 1d;
     }
 
-    /// <summary>Select a random tile and make sure it is a valid treasure target.</summary>
+    /// <summary>Selects a random tile and determines whether it is a valid treasure target.</summary>
     /// <param name="location">The game location.</param>
+    /// <returns>A <see cref="Vector2"/> tile.</returns>
     protected abstract Vector2? ChooseTreasureTile(GameLocation location);
 
-    /// <summary>Check if the player has found the treasure tile.</summary>
+    /// <summary>Determines whether the treasure tile has been found.</summary>
     protected abstract void CheckForCompletion();
 
-    /// <summary>Reset treasure tile and release treasure hunt update event.</summary>
+    /// <summary>Resets treasure tile and releases the treasure hunt update event.</summary>
+    /// <param name="found">Whether the treasure was successfully found.</param>
     protected abstract void End(bool found);
-
-    #endregion protected methods
-
-    #region event callbacks
 
     /// <summary>Raised when a Treasure Hunt starts.</summary>
     protected void OnStarted()
     {
-        Started?.Invoke(this, new TreasureHuntStartedEventArgs(Game1.player, Type, TreasureTile!.Value));
+        Started?.Invoke(this, new TreasureHuntStartedEventArgs(Game1.player, this.Type, this.TreasureTile!.Value));
     }
 
     /// <summary>Raised when a Treasure Hunt ends.</summary>
     /// <param name="found">Whether the player successfully discovered the treasure.</param>
     protected void OnEnded(bool found)
     {
-        Ended?.Invoke(this, new TreasureHuntEndedEventArgs(Game1.player, Type, found));
+        Ended?.Invoke(this, new TreasureHuntEndedEventArgs(Game1.player, this.Type, found));
     }
-
-    #endregion event callbacks
-
 }

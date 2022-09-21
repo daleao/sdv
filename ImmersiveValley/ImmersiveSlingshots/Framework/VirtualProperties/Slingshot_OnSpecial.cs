@@ -2,24 +2,28 @@
 
 #region using directives
 
-using StardewValley.Tools;
 using System.Runtime.CompilerServices;
+using StardewValley.Tools;
 
 #endregion using directives
 
-public static class Slingshot_OnSpecial
+// ReSharper disable once InconsistentNaming
+internal static class Slingshot_OnSpecial
 {
-    internal class Holder
+    internal static ConditionalWeakTable<Slingshot, Holder> Values { get; } = new();
+
+    internal static bool Get_IsOnSpecial(this Slingshot slingshot)
     {
-        public bool isOnSpecial;
+        return Values.GetOrCreateValue(slingshot).IsOnSpecial;
     }
 
-    internal static ConditionalWeakTable<Slingshot, Holder> Values = new();
-
-    public static bool get_IsOnSpecial(this Slingshot slingshot) => Values.GetOrCreateValue(slingshot).isOnSpecial;
-
-    public static void set_IsOnSpecial(this Slingshot slingshot, bool newVal)
+    internal static void Set_IsOnSpecial(this Slingshot slingshot, bool newVal)
     {
-        Values.GetOrCreateValue(slingshot).isOnSpecial = newVal;
+        Values.GetOrCreateValue(slingshot).IsOnSpecial = newVal;
+    }
+
+    internal class Holder
+    {
+        public bool IsOnSpecial { get; internal set; }
     }
 }

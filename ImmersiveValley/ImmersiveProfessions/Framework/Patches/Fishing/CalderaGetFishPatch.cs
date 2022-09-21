@@ -2,25 +2,26 @@
 
 #region using directives
 
-using DaLion.Common;
-using DaLion.Common.Harmony;
-using Extensions;
-using HarmonyLib;
-using StardewValley.Locations;
 using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
+using DaLion.Common;
+using DaLion.Common.Harmony;
+using DaLion.Stardew.Professions.Extensions;
+using HarmonyLib;
+using StardewValley.Locations;
+using HarmonyPatch = DaLion.Common.Harmony.HarmonyPatch;
 
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class CaderaGetFishPatch : DaLion.Common.Harmony.HarmonyPatch
+internal sealed class CalderaGetFishPatch : HarmonyPatch
 {
-    /// <summary>Construct an instance.</summary>
-    internal CaderaGetFishPatch()
+    /// <summary>Initializes a new instance of the <see cref="CalderaGetFishPatch"/> class.</summary>
+    internal CalderaGetFishPatch()
     {
-        Target = RequireMethod<Caldera>(nameof(Caldera.getFish));
+        this.Target = this.RequireMethod<Caldera>(nameof(Caldera.getFish));
     }
 
     #region harmony patches
@@ -30,26 +31,22 @@ internal sealed class CaderaGetFishPatch : DaLion.Common.Harmony.HarmonyPatch
     private static IEnumerable<CodeInstruction>? GameLocationGetFishTranspiler(
         IEnumerable<CodeInstruction> instructions, ILGenerator generator, MethodBase original)
     {
-        var helper = new ILHelper(original, instructions);
+        var helper = new IlHelper(original, instructions);
 
-        /// Injected: if (Game1.player.professions.Contains(<fisher_id>)) <baseChance> *= 2 
-        ///	After: if (Game1.random.NextDouble() < 0.1 ...
-
+        // Injected: if (Game1.player.professions.Contains(<fisher_id>)) <baseChance> *= 2
+        //	After: if (Game1.random.NextDouble() < 0.1 ...
         try
         {
             var isNotFisher = generator.DefineLabel();
             helper
-                .FindNext(
-                    new CodeInstruction(OpCodes.Ldc_R8, 0.1)
-                )
+                .FindNext(new CodeInstruction(OpCodes.Ldc_R8, 0.1))
                 .Advance()
                 .AddLabels(isNotFisher)
                 .InsertProfessionCheck(Profession.Fisher.Value)
                 .InsertInstructions(
                     new CodeInstruction(OpCodes.Brfalse_S, isNotFisher),
                     new CodeInstruction(OpCodes.Ldc_R8, 2.0),
-                    new CodeInstruction(OpCodes.Mul)
-                );
+                    new CodeInstruction(OpCodes.Mul));
         }
         catch (Exception ex)
         {

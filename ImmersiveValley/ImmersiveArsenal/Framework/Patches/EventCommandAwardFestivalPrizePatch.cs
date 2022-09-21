@@ -2,35 +2,36 @@
 
 #region using directives
 
-using Common;
-using Common.Extensions.Reflection;
-using Common.Harmony;
-using HarmonyLib;
-using StardewValley.Tools;
 using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
+using DaLion.Common;
+using DaLion.Common.Extensions.Reflection;
+using DaLion.Common.Harmony;
+using HarmonyLib;
+using StardewValley.Tools;
+using HarmonyPatch = DaLion.Common.Harmony.HarmonyPatch;
 
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class EventCommandAwardFestivalPrizePatch : Common.Harmony.HarmonyPatch
+internal sealed class EventCommandAwardFestivalPrizePatch : HarmonyPatch
 {
-    /// <summary>Construct an instance.</summary>
+    /// <summary>Initializes a new instance of the <see cref="EventCommandAwardFestivalPrizePatch"/> class.</summary>
     internal EventCommandAwardFestivalPrizePatch()
     {
-        Target = RequireMethod<Event>(nameof(Event.command_awardFestivalPrize));
+        this.Target = this.RequireMethod<Event>(nameof(Event.command_awardFestivalPrize));
     }
 
     #region harmony patches
 
     /// <summary>Replaces rusty sword with wooden blade in Marlon's intro event.</summary>
     [HarmonyTranspiler]
-    private static IEnumerable<CodeInstruction>? EventCommandAwardFestivalPrizeTranspiler(IEnumerable<CodeInstruction> instructions,
-        ILGenerator generator, MethodBase original)
+    private static IEnumerable<CodeInstruction>? EventCommandAwardFestivalPrizeTranspiler(
+        IEnumerable<CodeInstruction> instructions, ILGenerator generator, MethodBase original)
     {
-        var helper = new ILHelper(original, instructions);
+        var helper = new IlHelper(original, instructions);
 
         var rusty = generator.DefineLabel();
         var resumeExecution = generator.DefineLabel();
@@ -39,18 +40,18 @@ internal sealed class EventCommandAwardFestivalPrizePatch : Common.Harmony.Harmo
             helper
                 .FindFirst(
                     new CodeInstruction(OpCodes.Ldc_I4_0),
-                    new CodeInstruction(OpCodes.Newobj, typeof(MeleeWeapon).RequireConstructor(new[] { typeof(int) }))
-                )
+                    new CodeInstruction(OpCodes.Newobj, typeof(MeleeWeapon).RequireConstructor(typeof(int))))
                 .AddLabels(rusty)
                 .InsertInstructions(
-                    new CodeInstruction(OpCodes.Call,
+                    new CodeInstruction(
+                        OpCodes.Call,
                         typeof(ModEntry).RequirePropertyGetter(nameof(ModEntry.Config))),
-                    new CodeInstruction(OpCodes.Call,
+                    new CodeInstruction(
+                        OpCodes.Call,
                         typeof(ModConfig).RequirePropertyGetter(nameof(ModConfig.WoodyReplacesRusty))),
                     new CodeInstruction(OpCodes.Brfalse_S, rusty),
-                    new CodeInstruction(OpCodes.Ldc_I4_S, Constants.WOODEN_BLADE_INDEX_I),
-                    new CodeInstruction(OpCodes.Br_S, resumeExecution)
-                )
+                    new CodeInstruction(OpCodes.Ldc_I4_S, Constants.WoodenBladeIndex),
+                    new CodeInstruction(OpCodes.Br_S, resumeExecution))
                 .Advance()
                 .AddLabels(resumeExecution);
         }

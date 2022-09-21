@@ -2,25 +2,26 @@
 
 #region using directives
 
-using Common;
-using Common.Commands;
-using Common.Enums;
-using Common.Extensions;
-using Common.Extensions.Collections;
-using Common.Extensions.Stardew;
-using Extensions;
+using DaLion.Common;
+using DaLion.Common.Commands;
+using DaLion.Common.Enums;
+using DaLion.Common.Extensions;
+using DaLion.Common.Extensions.Collections;
+using DaLion.Common.Extensions.Stardew;
+using DaLion.Stardew.Ponds.Extensions;
 using StardewValley.Buildings;
-using System.Linq;
 
 #endregion using directives
 
 [UsedImplicitly]
 internal sealed class PrintPondDataCommand : ConsoleCommand
 {
-    /// <summary>Construct an instance.</summary>
+    /// <summary>Initializes a new instance of the <see cref="PrintPondDataCommand"/> class.</summary>
     /// <param name="handler">The <see cref="CommandHandler"/> instance that handles this command.</param>
     internal PrintPondDataCommand(CommandHandler handler)
-        : base(handler) { }
+        : base(handler)
+    {
+    }
 
     /// <inheritdoc />
     public override string[] Triggers { get; } = { "print_data", "print", "data" };
@@ -32,22 +33,15 @@ internal sealed class PrintPondDataCommand : ConsoleCommand
     public override void Callback(string[] args)
     {
         if (args.Length > 0)
-            Log.W("Additional arguments will be ignored.");
-
-        var ponds = Game1.getFarm().buildings.OfType<FishPond>().Where(p =>
-                (p.owner.Value == Game1.player.UniqueMultiplayerID || !Context.IsMultiplayer) &&
-                !p.isUnderConstruction())
-            .ToHashSet();
-        if (ponds.Count < 0)
         {
-            Log.W("You don't own any Fish Ponds.");
-            return;
+            Log.W("Additional arguments will be ignored.");
         }
 
-        var nearest = Game1.player.GetClosestBuilding(out _, ponds);
+        var nearest = Game1.player.GetClosestBuilding<FishPond>(predicate: b =>
+            (b.owner.Value == Game1.player.UniqueMultiplayerID || !Context.IsMultiplayer) && !b.isUnderConstruction());
         if (nearest is null)
         {
-            Log.W("There are no ponds nearby.");
+            Log.W("There are no owned ponds nearby.");
             return;
         }
 
@@ -83,7 +77,6 @@ internal sealed class PrintPondDataCommand : ConsoleCommand
         }
         else if (fish.IsAlgae())
         {
-
             var seaweedLivingHere = nearest.Read<int>("SeaweedLivingHere");
             var greenAlgaeLivingHere = nearest.Read<int>("GreenAlgaeLivingHere");
             var whiteAlgaeLivingHere = nearest.Read<int>("WhiteAlgaeLivingHere");
@@ -100,8 +93,8 @@ internal sealed class PrintPondDataCommand : ConsoleCommand
             foreach (var item in held.WhereNotNull())
             {
                 var (index, stack, quality) = item.ParseTuple<int, int, Quality>()!.Value;
-                var @object = new SObject(index, stack);
-                message += $"\n\t\t- {@object.Name} x{stack} ({quality})";
+                var obj = new SObject(index, stack);
+                message += $"\n\t\t- {obj.Name} x{stack} ({quality})";
             }
         }
         else

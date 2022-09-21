@@ -2,18 +2,19 @@
 
 #region using directives
 
+using DaLion.Stardew.Professions.Framework.VirtualProperties;
 using HarmonyLib;
-using VirtualProperties;
+using HarmonyPatch = DaLion.Common.Harmony.HarmonyPatch;
 
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class CharacterInitNetFieldsPatch : DaLion.Common.Harmony.HarmonyPatch
+internal sealed class CharacterInitNetFieldsPatch : HarmonyPatch
 {
-    /// <summary>Construct an instance.</summary>
+    /// <summary>Initializes a new instance of the <see cref="CharacterInitNetFieldsPatch"/> class.</summary>
     internal CharacterInitNetFieldsPatch()
     {
-        Target = RequireMethod<Character>("initNetFields");
+        this.Target = this.RequireMethod<Character>("initNetFields");
     }
 
     #region harmony patches
@@ -22,11 +23,13 @@ internal sealed class CharacterInitNetFieldsPatch : DaLion.Common.Harmony.Harmon
     [HarmonyPostfix]
     private static void CharacterInitNetFieldsPostfix(Character __instance)
     {
-        if (__instance is not Farmer farmer) return;
+        if (__instance is not Farmer farmer || farmer.Name is null)
+        {
+            return;
+        }
 
-        __instance.NetFields.AddFields(farmer.get_UltimateIndex());
-        __instance.NetFields.AddFields(farmer.get_IsUltimateActive());
-        __instance.NetFields.AddFields(farmer.get_IsFake());
+        __instance.NetFields.AddFields(farmer.Get_UltimateIndex());
+        __instance.NetFields.AddFields(farmer.Get_IsFake());
     }
 
     #endregion harmony patches

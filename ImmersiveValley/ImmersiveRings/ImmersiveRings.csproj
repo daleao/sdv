@@ -1,12 +1,12 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-	<Import Project="..\_build\common.targets" />
+	<Import Project="..\_build\common.targets"/>
 
 	<PropertyGroup>
 		<AssemblyName>ImmersiveRings</AssemblyName>
 		<RootNamespace>DaLion.Stardew.Rings</RootNamespace>
 		<UpdateKeys>Nexus:11380</UpdateKeys>
-		<Version>2.1.1</Version>
+		<Version>2.2.0</Version>
 	</PropertyGroup>
 
 	<PropertyGroup>
@@ -14,7 +14,7 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Ardalis.SmartEnum" Version="2.1.0" />
+		<PackageReference Include="Ardalis.SmartEnum" Version="2.1.0"/>
 	</ItemGroup>
 
 </Project>

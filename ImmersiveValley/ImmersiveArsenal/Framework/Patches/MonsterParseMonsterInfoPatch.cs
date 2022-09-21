@@ -2,19 +2,20 @@
 
 #region using directives
 
+using System;
 using HarmonyLib;
 using StardewValley.Monsters;
-using System;
+using HarmonyPatch = DaLion.Common.Harmony.HarmonyPatch;
 
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class MonsterParseMonsterInfoPatch : Common.Harmony.HarmonyPatch
+internal sealed class MonsterParseMonsterInfoPatch : HarmonyPatch
 {
-    /// <summary>Construct and instance.</summary>
+    /// <summary>Initializes a new instance of the <see cref="MonsterParseMonsterInfoPatch"/> class.Construct and instance.</summary>
     internal MonsterParseMonsterInfoPatch()
     {
-        Target = RequireMethod<Monster>("parseMonsterInfo");
+        this.Target = this.RequireMethod<Monster>("parseMonsterInfo");
     }
 
     #region harmony patches
@@ -27,13 +28,13 @@ internal sealed class MonsterParseMonsterInfoPatch : Common.Harmony.HarmonyPatch
         {
             var r = new Random(Guid.NewGuid().GetHashCode());
 
-            var luckModifier = Game1.player.DailyLuck * 3d + 1d;
+            var luckModifier = (Game1.player.DailyLuck * 3d) + 1d;
             __instance.Health = (int)(__instance.Health * r.Next(80, 121) / 1000d * luckModifier);
             __instance.DamageToFarmer = (int)(__instance.DamageToFarmer * r.Next(10, 41) / 10d * luckModifier);
             __instance.resilience.Value = (int)(__instance.resilience.Value * r.Next(10, 21) / 10d * luckModifier);
 
-            var addedSpeed = r.NextDouble() > 0.5 + Game1.player.DailyLuck * 2d ? 1 :
-                r.NextDouble() < 0.5 - Game1.player.DailyLuck * 2d ? -1 : 0;
+            var addedSpeed = r.NextDouble() > 0.5 + (Game1.player.DailyLuck * 2d) ? 1 :
+                r.NextDouble() < 0.5 - (Game1.player.DailyLuck * 2d) ? -1 : 0;
             __instance.speed = Math.Max(__instance.speed + addedSpeed, 1);
 
             __instance.durationOfRandomMovements.Value =

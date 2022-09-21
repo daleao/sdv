@@ -4,16 +4,17 @@
 
 using HarmonyLib;
 using StardewValley.Tools;
+using HarmonyPatch = DaLion.Common.Harmony.HarmonyPatch;
 
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class TopazEnchantmentUnpplyToPatch : Common.Harmony.HarmonyPatch
+internal sealed class TopazEnchantmentUnpplyToPatch : HarmonyPatch
 {
-    /// <summary>Construct an instance.</summary>
+    /// <summary>Initializes a new instance of the <see cref="TopazEnchantmentUnpplyToPatch"/> class.</summary>
     internal TopazEnchantmentUnpplyToPatch()
     {
-        Target = RequireMethod<TopazEnchantment>("_UnapplyTo");
+        this.Target = this.RequireMethod<TopazEnchantment>("_UnapplyTo");
     }
 
     #region harmony patches

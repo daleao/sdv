@@ -2,24 +2,25 @@
 
 #region using directives
 
-using Common;
-using Common.Commands;
-using Extensions;
-using Framework;
-using Framework.Ultimates;
-using Framework.VirtualProperties;
-using System;
 using System.Linq;
+using DaLion.Common;
+using DaLion.Common.Commands;
+using DaLion.Stardew.Professions.Extensions;
+using DaLion.Stardew.Professions.Framework;
+using DaLion.Stardew.Professions.Framework.Ultimates;
+using DaLion.Stardew.Professions.Framework.VirtualProperties;
 
 #endregion using directives
 
 [UsedImplicitly]
 internal sealed class SetRegisteredUltimateCommand : ConsoleCommand
 {
-    /// <summary>Construct an instance.</summary>
+    /// <summary>Initializes a new instance of the <see cref="SetRegisteredUltimateCommand"/> class.</summary>
     /// <param name="handler">The <see cref="CommandHandler"/> instance that handles this command.</param>
     internal SetRegisteredUltimateCommand(CommandHandler handler)
-        : base(handler) { }
+        : base(handler)
+    {
+    }
 
     /// <inheritdoc />
     public override string[] Triggers { get; } = { "set_ult" };
@@ -30,9 +31,15 @@ internal sealed class SetRegisteredUltimateCommand : ConsoleCommand
     /// <inheritdoc />
     public override void Callback(string[] args)
     {
-        if (args.Length != 1)
+        if (args.Length > 1)
         {
-            Log.W("You must specify a single value.");
+            Log.W("Additional arguments beyond the first will be ignored.");
+            return;
+        }
+
+        if (args[0].ToLowerInvariant() is "clear" or "null")
+        {
+            Game1.player.Set_Ultimate(null);
             return;
         }
 
@@ -42,22 +49,22 @@ internal sealed class SetRegisteredUltimateCommand : ConsoleCommand
             return;
         }
 
-        var index = Array.FindIndex(Enum.GetNames<UltimateIndex>(),
-            name => name.Contains(args[0], StringComparison.InvariantCultureIgnoreCase));
-        if (index < 0)
+        Ultimate ultimate;
+        Profession? profession = null;
+        if (!Ultimate.TryFromName(args[0], true, out ultimate) &&
+            (!Profession.TryFromLocalizedName(args[0], true, out profession) ||
+             !Ultimate.TryFromValue(profession, out ultimate)))
         {
             Log.W("You must enter a valid 2nd-tier combat profession or special ability name.");
             return;
         }
 
-        var value = Enum.GetValues<UltimateIndex>()[index];
-        var profession = Profession.FromValue((int)value);
-        if (!Game1.player.HasProfession(profession))
+        if (!Game1.player.HasProfession(profession ?? Profession.FromValue(ultimate)))
         {
             Log.W("You don't have this profession.");
             return;
         }
 
-        Game1.player.set_Ultimate(Ultimate.FromIndex(value));
+        Game1.player.Set_Ultimate(ultimate);
     }
 }

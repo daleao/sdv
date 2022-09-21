@@ -4,26 +4,28 @@
 
 using HarmonyLib;
 using StardewValley.Tools;
+using HarmonyPatch = DaLion.Common.Harmony.HarmonyPatch;
 
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class SlingshotGetRequiredChargeTimePatch : Common.Harmony.HarmonyPatch
+internal sealed class SlingshotGetRequiredChargeTimePatch : HarmonyPatch
 {
-    /// <summary>Construct an instance.</summary>
+    /// <summary>Initializes a new instance of the <see cref="SlingshotGetRequiredChargeTimePatch"/> class.</summary>
     internal SlingshotGetRequiredChargeTimePatch()
     {
-        Target = RequireMethod<Slingshot>(nameof(Slingshot.GetRequiredChargeTime));
-        Postfix!.before = new[] { "DaLion.ImmersiveProfessions", "DaLion.ImmersiveRings" };
+        this.Target = this.RequireMethod<Slingshot>(nameof(Slingshot.GetRequiredChargeTime));
+        this.Postfix!.before = new[] { "DaLion.ImmersiveProfessions", "DaLion.ImmersiveRings" };
     }
 
     #region harmony patches
 
     /// <summary>Apply Emerald Enchantment to Slingshot.</summary>
-    [HarmonyPostfix, HarmonyBefore("DaLion.ImmersiveProfessions", "DaLion.ImmersiveRings")]
+    [HarmonyPostfix]
+    [HarmonyBefore("DaLion.ImmersiveProfessions", "DaLion.ImmersiveRings")]
     private static void SlingshotGetRequiredChargeTimePostfix(Slingshot __instance, ref float __result)
     {
-        __result *= 1f - __instance.GetEnchantmentLevel<EmeraldEnchantment>() * 0.1f;
+        __result *= 1f - (__instance.GetEnchantmentLevel<EmeraldEnchantment>() * 0.1f);
     }
 
     #endregion harmony patches

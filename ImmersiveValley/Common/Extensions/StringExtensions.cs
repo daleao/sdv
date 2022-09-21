@@ -9,83 +9,138 @@ using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
+using CommunityToolkit.Diagnostics;
 
 #endregion using directives
 
 /// <summary>Extensions for the <see cref="string"/> primitive type.</summary>
 public static class StringExtensions
 {
-    private static readonly Regex _sWhitespace = new(@"\s+");
+    private static readonly Regex SWhitespace = new(@"\s+");
 
-    /// <summary>Determine if the string instance contains any of the specified substrings.</summary>
-    /// <param name="candidates">A sequence of strings candidates.</param>
-    public static bool ContainsAnyOf(this string s, params string[] candidates) =>
-        candidates.Any(s.Contains);
-
-    /// <summary>Determine if the string instance starts with any of the specified substrings.</summary>
-    /// <param name="candidates">A sequence of strings candidates.</param>
-    public static bool StartsWithAnyOf(this string s, params string[] candidates) =>
-        candidates.Any(s.StartsWith);
-
-    /// <summary>Determine if the string instance contains all of the specified substrings.</summary>
-    /// <param name="candidates">A sequence of strings candidates.</param>
-    public static bool ContainsAllOf(this string s, params string[] candidates) =>
-        candidates.All(s.Contains);
-
-    /// <summary>Capitalize the first character in the string instance.</summary>
-    public static string FirstCharToUpper(this string s) =>
-        string.IsNullOrEmpty(s)
-            ? s
-            : char.ToUpper(s[0]) + s[1..];
-
-    /// <summary>Removes invalid file name or path characters from the string instance.</summary>
-    public static string RemoveInvalidChars(this string s)
+    /// <summary>Determines whether the string contains any of the specified sub-strings.</summary>
+    /// <param name="str">The <see cref="string"/>.</param>
+    /// <param name="candidates">The sub-strings to search for.</param>
+    /// <returns><see langword="true"/> if <paramref name="str"/> contains at least one of the <see cref="string"/>s in <paramref name="candidates"/>, otherwise <see langword="false"/>.</returns>
+    public static bool ContainsAnyOf(this string str, params string[] candidates)
     {
-        var invalidChars = new string(Path.GetInvalidFileNameChars()) + new string(Path.GetInvalidPathChars());
-        return new Regex($"[{Regex.Escape(invalidChars)}]").Replace(s, string.Empty);
+        return candidates.Any(str.Contains);
     }
 
-    /// <summary>Split a camelCase or PascalCase string into its constituent words.</summary>
-    public static string[] SplitCamelCase(this string s) =>
-        Regex.Split(s, @"([A-Z]+|[A-Z]?[a-z]+)(?=[A-Z]|\b)").Where(r => !string.IsNullOrEmpty(r)).ToArray();
-
-    /// <summary>Trim all whitespace from the string.</summary>
-    public static string TrimAll(this string s) =>
-        _sWhitespace.Replace(s, "");
-
-    /// <summary>Truncate the string instance to a <paramref name="maxLength" />, ending with ellipses.</summary>
-    public static string Truncate(this string s, int maxLength, string truncationSuffix = "…") =>
-        s.Length > maxLength
-            ? s[..maxLength] + truncationSuffix
-            : s;
-
-    /// <summary>Parse the string instance to a generic type.</summary>
-    public static T? Parse<T>(this string s)
+    /// <summary>Determines whether the string contains all of the specified sub-strings.</summary>
+    /// <param name="str">The <see cref="string"/>.</param>
+    /// <param name="candidates">The sub-strings to search for.</param>
+    /// <returns><see langword="true"/> if <paramref name="str"/> contains all of the <see cref="string"/>s in <paramref name="candidates"/>, otherwise <see langword="false"/>.</returns>
+    public static bool ContainsAllOf(this string str, params string[] candidates)
     {
-        if (string.IsNullOrEmpty(s)) ThrowHelper.ThrowArgumentException("Cannot parse null or empty string.");
+        return candidates.All(str.Contains);
+    }
+
+    /// <summary>Determines whether the string starts with any of the specified sub-strings.</summary>
+    /// <param name="str">The <see cref="string"/>.</param>
+    /// <param name="candidates">The sub-strings to check.</param>
+    /// <returns><see langword="true"/> if <paramref name="str"/> begins with at least one of the <see cref="string"/>s in <paramref name="candidates"/>, otherwise <see langword="false"/>.</returns>
+    public static bool StartsWithAnyOf(this string str, params string[] candidates)
+    {
+        return candidates.Any(str.StartsWith);
+    }
+
+    /// <summary>Capitalizes the first character in the string.</summary>
+    /// <param name="str">The <see cref="string"/>.</param>
+    /// <returns>A new <see cref="string"/> with a capitalized first character.</returns>
+    public static string FirstCharToUpper(this string str)
+    {
+        return string.IsNullOrEmpty(str)
+            ? str
+            : char.ToUpper(str[0]) + str[1..];
+    }
+
+    /// <summary>Removes invalid file name or path characters from the string.</summary>
+    /// <param name="str">The <see cref="string"/>.</param>
+    /// <returns>A new <see cref="string"/> formed by filtering any invalid file name or path characters from the original.</returns>
+    public static string RemoveInvalidChars(this string str)
+    {
+        var invalidChars = new string(Path.GetInvalidFileNameChars()) + new string(Path.GetInvalidPathChars());
+        return new Regex($"[{Regex.Escape(invalidChars)}]").Replace(str, string.Empty);
+    }
+
+    /// <summary>Splits a <c>camelCase</c> or <c>PascalCase</c> string into its constituent words.</summary>
+    /// <param name="str">The <see cref="string"/>.</param>
+    /// <returns>An array of <see cref="string"/>s pertaining to the individual words in <paramref name="str"/>.</returns>
+    public static string[] SplitCamelCase(this string str)
+    {
+        return Regex.Split(str, @"([A-Z]+|[A-Z]?[a-z]+)(?=[A-Z]|\b)").Where(r => !string.IsNullOrEmpty(r))
+            .ToArray();
+    }
+
+    /// <summary>Trims all whitespace from the string.</summary>
+    /// <param name="str">The <see cref="string"/>.</param>
+    /// <returns>The original <see cref="string"/> trimmed of any whitespace characters.</returns>
+    public static string TrimAll(this string str)
+    {
+        return SWhitespace.Replace(str, string.Empty);
+    }
+
+    /// <summary>Truncates the string to the specified <paramref name="maxLength"/> if necessary, appending the desired <paramref name="truncationSuffix"/>.</summary>
+    /// <param name="str">The <see cref="string"/>.</param>
+    /// <param name="maxLength">The desired maximum length of the resulting <see cref="string"/>.</param>
+    /// <param name="truncationSuffix">A <see cref="string"/> to be appended to the result to signify that truncation has taken place (by default ellipses).</param>
+    /// <returns>The original <see cref="string"/> if it is shorter than <paramref name="maxLength"/>, or truncated after <paramref name="maxLength"/> characters and appended with <paramref name="truncationSuffix"/> otherwise.</returns>
+    public static string Truncate(this string str, int maxLength, string truncationSuffix = "…")
+    {
+        if (!string.IsNullOrEmpty(truncationSuffix))
+        {
+            maxLength -= 1;
+        }
+
+        return str.Length > maxLength
+            ? str[..maxLength] + truncationSuffix
+            : str;
+    }
+
+    /// <summary>Parses the string to a generic type.</summary>
+    /// <typeparam name="T">The expected type. This should most likely be a primitive.</typeparam>
+    /// <param name="str">The <see cref="string"/>.</param>
+    /// <returns>A value of type <typeparamref name="T"/> converted from <paramref name="str"/>, or <see langword="default"/>(<typeparamref name="T"/>) if empty.</returns>
+    /// <exception cref="InvalidOperationException">If the conversion fails.</exception>
+    public static T? Parse<T>(this string str)
+    {
+        if (string.IsNullOrEmpty(str))
+        {
+            return default(T);
+        }
 
         var converter = TypeDescriptor.GetConverter(typeof(T));
         if (!converter.CanConvertTo(typeof(T)) || !converter.CanConvertFrom(typeof(string)))
+        {
             ThrowHelper.ThrowInvalidOperationException("Cannot convert string to the specified type.");
+        }
 
-        return (T)converter.ConvertFromString(s);
+        return (T)converter.ConvertFromString(str);
     }
 
-    /// <summary>Try to parse the instance to a generic type.</summary>
-    /// <param name="result">Parsed <typeparamref name="T" />-type object if successful, else default.</param>
-    /// <returns><see langword="true"/> if parse was successful, otherwise <see langword="false"/>.</returns>
-    public static bool TryParse<T>(this string s, [NotNullWhen(true)] out T? result)
+    /// <summary>Safely attempts to parse the string to a generic type, and returns whether the parse was successful.</summary>
+    /// <typeparam name="T">The expected type. This should most likely be a primitive.</typeparam>
+    /// <param name="str">The <see cref="string"/>.</param>
+    /// <param name="result">The parsed value if successful, or default otherwise.</param>
+    /// <returns><see langword="true"/> if the parse was successful, otherwise <see langword="false"/>.</returns>
+    public static bool TryParse<T>(this string str, [NotNullWhen(true)] out T? result)
     {
-        result = default;
-        if (string.IsNullOrEmpty(s)) return false;
+        result = default(T?);
+        if (string.IsNullOrEmpty(str))
+        {
+            return false;
+        }
 
         var converter = TypeDescriptor.GetConverter(typeof(T));
-        if (!converter.IsValid(s))
+        if (!converter.IsValid(str))
+        {
             return false;
+        }
 
         try
         {
-            result = (T)converter.ConvertFromString(s);
+            result = (T)converter.ConvertFromString(str);
             return true;
         }
         catch
@@ -94,91 +149,159 @@ public static class StringExtensions
         }
     }
 
-    /// <summary>Converts a string into a hash code that is reliable across different executions.</summary>
-    public static int GetDeterministicHashCode(this string s)
+    /// <summary>Converts the string into a hash code that is reliable across different executions.</summary>
+    /// <param name="str">The <see cref="string"/>.</param>
+    /// <returns>A reproducible <see cref="int"/> hash of <paramref name="str"/>.</returns>
+    public static int GetDeterministicHashCode(this string str)
     {
         unchecked
         {
             var hash1 = (5381 << 16) + 5381;
             var hash2 = hash1;
-            for (var i = 0; i < s.Length; i += 2)
+            for (var i = 0; i < str.Length; i += 2)
             {
-                hash1 = ((hash1 << 5) + hash1) ^ s[i];
-                if (i == s.Length - 1)
+                hash1 = ((hash1 << 5) + hash1) ^ str[i];
+                if (i == str.Length - 1)
+                {
                     break;
-                hash2 = ((hash2 << 5) + hash2) ^ s[i + 1];
+                }
+
+                hash2 = ((hash2 << 5) + hash2) ^ str[i + 1];
             }
 
-            return hash1 + hash2 * 1566083941;
+            return hash1 + (hash2 * 1566083941);
         }
     }
 
-    /// <summary>Split the string with provided <paramref name="separator"/> and parse the resulting elements into a tuple.</summary>
-    /// <param name="separator">A string separator.</param>
-    public static (T, U)? ParseTuple<T, U>(this string s, string separator = ",")
-        where T : struct
-        where U : struct
+    /// <summary>
+    ///     Splits the string using the provided <paramref name="separator"/> and parses the resulting two components into
+    ///     different types.
+    /// </summary>
+    /// <typeparam name="T1">The expected type of the first component. This should most likely be a primitive.</typeparam>
+    /// <typeparam name="T2">The expected type of the second component. This should most likely be a primitive.</typeparam>
+    /// <param name="str">The <see cref="string"/>.</param>
+    /// <param name="separator">The element separator.</param>
+    /// <returns>The parsed components of <paramref name="str"/>, or the default values if empty.</returns>
+    /// <exception cref="InvalidOperationException">If <paramref name="str"/> does not contain the expected number of components.</exception>
+    /// <exception cref="InvalidOperationException">If the conversion fails.</exception>
+    public static (T1, T2)? ParseTuple<T1, T2>(this string str, string separator = ",")
+        where T1 : struct
+        where T2 : struct
     {
-        if (string.IsNullOrEmpty(s)) return null;
+        if (string.IsNullOrEmpty(str))
+        {
+            return (default(T1), default(T2));
+        }
 
-        var split = s.Split(separator);
+        var split = str.Split(separator);
         if (split.Length < 2)
+        {
             ThrowHelper.ThrowInvalidOperationException("Insufficient elements after string split.");
+        }
 
-        if (split[0].TryParse<T>(out var t) && split[1].TryParse<U>(out var u)) return (t, u);
+        if (split[0].TryParse<T1>(out var t) && split[1].TryParse<T2>(out var u))
+        {
+            return (t, u);
+        }
 
-        ThrowHelper.ThrowInvalidOperationException($"Failed to parse string {s}.");
+        ThrowHelper.ThrowInvalidOperationException($"Failed to parse string {str}.");
         return null;
     }
 
-    /// <summary>Split the string with provided <paramref name="separator"/> and parse the resulting elements into a tuple.</summary>
-    /// <param name="separator">A string separator.</param>
-    public static (T, U, V)? ParseTuple<T, U, V>(this string s, string separator = ",")
-        where T : struct
-        where U : struct
-        where V : struct
+    /// <summary>
+    ///     Splits the string using the provided <paramref name="separator"/> and parses the resulting three components into
+    ///     different types.
+    /// </summary>
+    /// <typeparam name="T1">The expected type of the first component. This should most likely be a primitive.</typeparam>
+    /// <typeparam name="T2">The expected type of the second component. This should most likely be a primitive.</typeparam>
+    /// <typeparam name="T3">The expected type of the third component. This should most likely be a primitive.</typeparam>
+    /// <param name="str">The <see cref="string"/>.</param>
+    /// <param name="separator">The element separator.</param>
+    /// <returns>The parsed components of <paramref name="str"/>.</returns>
+    /// <exception cref="InvalidOperationException">If <paramref name="str"/> does not contain the expected number of components.</exception>
+    /// <exception cref="InvalidOperationException">If the conversion fails.</exception>
+    public static (T1, T2, T3)? ParseTuple<T1, T2, T3>(this string str, string separator = ",")
+        where T1 : struct
+        where T2 : struct
+        where T3 : struct
     {
-        if (string.IsNullOrEmpty(s)) return null;
+        if (string.IsNullOrEmpty(str))
+        {
+            return (default(T1), default(T2), default(T3));
+        }
 
-        var split = s.Split(separator);
+        var split = str.Split(separator);
         if (split.Length < 3)
+        {
             ThrowHelper.ThrowInvalidOperationException("Insufficient elements after string split.");
+        }
 
-        if (split[0].TryParse<T>(out var t) && split[1].TryParse<U>(out var u) && split[2].TryParse<V>(out var v))
+        if (split[0].TryParse<T1>(out var t) && split[1].TryParse<T2>(out var u) && split[2].TryParse<T3>(out var v))
+        {
             return (t, u, v);
+        }
 
-        ThrowHelper.ThrowInvalidOperationException($"Failed to parse string {s}.");
+        ThrowHelper.ThrowInvalidOperationException($"Failed to parse string {str}.");
         return null;
     }
 
-    /// <summary>Split the string with provided <paramref name="separator"/> and parse the resulting elements into a tuple.</summary>
-    /// <param name="separator">A string separator.</param>
-    public static (T, U, V, W)? ParseTuple<T, U, V, W>(this string s, string separator = ",")
-        where T : struct
-        where U : struct
-        where V : struct
-        where W : struct
+    /// <summary>
+    ///     Splits the string using the provided <paramref name="separator"/> and parses the resulting four components into
+    ///     different types.
+    /// </summary>
+    /// <typeparam name="T1">The expected type of the first component. This should most likely be a primitive.</typeparam>
+    /// <typeparam name="T2">The expected type of the second component. This should most likely be a primitive.</typeparam>
+    /// <typeparam name="T3">The expected type of the third component. This should most likely be a primitive.</typeparam>
+    /// <typeparam name="T4">The expected type of the fourth component. This should most likely be a primitive.</typeparam>
+    /// <param name="str">The <see cref="string"/>.</param>
+    /// <param name="separator">The element separator.</param>
+    /// <returns>The parsed components of <paramref name="str"/>.</returns>
+    /// <exception cref="InvalidOperationException">If <paramref name="str"/> does not contain the expected number of components.</exception>
+    /// <exception cref="InvalidOperationException">If the conversion fails.</exception>
+    public static (T1, T2, T3, T4)? ParseTuple<T1, T2, T3, T4>(this string str, string separator = ",")
+        where T1 : struct
+        where T2 : struct
+        where T3 : struct
+        where T4 : struct
     {
-        if (string.IsNullOrEmpty(s)) return null;
+        if (string.IsNullOrEmpty(str))
+        {
+            return (default(T1), default(T2), default(T3), default(T4));
+        }
 
-        var split = s.Split(separator);
+        var split = str.Split(separator);
         if (split.Length < 4)
+        {
             ThrowHelper.ThrowInvalidOperationException("Insufficient elements after string split.");
+        }
 
-        if (split[0].TryParse<T>(out var t) && split[1].TryParse<U>(out var u) && split[2].TryParse<V>(out var v) &&
-            split[3].TryParse<W>(out var w)) return (t, u, v, w);
+        if (split[0].TryParse<T1>(out var t) && split[1].TryParse<T2>(out var u) && split[2].TryParse<T3>(out var v) &&
+            split[3].TryParse<T4>(out var w))
+        {
+            return (t, u, v, w);
+        }
 
-        ThrowHelper.ThrowInvalidOperationException($"Failed to parse string {s}.");
+        ThrowHelper.ThrowInvalidOperationException($"Failed to parse string {str}.");
         return null;
     }
 
-    /// <summary>Split the string with provided <paramref name="separator"/> and parse the resulting elements into a list.</summary>
-    /// <param name="separator">A string separator.</param>
-    public static List<T?> ParseList<T>(this string s, string separator = ",")
+    /// <summary>
+    ///     Splits the string using the provided <paramref name="separator"/> and parses the resulting elements into a
+    ///     <see cref="List{T}"/>.
+    /// </summary>
+    /// <typeparam name="T">The expected type of the elements. This should most likely be a primitive.</typeparam>
+    /// <param name="str">The <see cref="string"/>.</param>
+    /// <param name="separator">The element separator.</param>
+    /// <returns>A <see cref="List{T}"/> containing the parsed elements of <paramref name="str"/>.</returns>
+    /// <exception cref="InvalidOperationException">If the conversion fails.</exception>
+    public static List<T?> ParseList<T>(this string str, string separator = ",")
     {
-        if (string.IsNullOrEmpty(s)) return new();
+        if (string.IsNullOrEmpty(str))
+        {
+            return new List<T?>();
+        }
 
-        var split = s.Split(separator);
+        var split = str.Split(separator);
         var list = new List<T?>();
         foreach (var item in split)
         {
@@ -188,24 +311,36 @@ public static class StringExtensions
                 continue;
             }
 
-            ThrowHelper.ThrowInvalidOperationException($"Failed to parse string {s}.");
+            ThrowHelper.ThrowInvalidOperationException($"Failed to parse string {str}.");
         }
 
         return list;
     }
 
-    /// <summary>Parse a flattened string of key-value pairs back into a <see cref="Dictionary{TKey,TValue}" />.</summary>
-    /// <param name="keyValueSeparator">String that separates keys and values.</param>
-    /// <param name="pairSeparator">String that separates pairs.</param>
-    public static Dictionary<TKey, TValue> ParseDictionary<TKey, TValue>(this string s, string keyValueSeparator = ",",
-        string pairSeparator = ";") where TKey : notnull
+    /// <summary>Parses a flattened string of key-value pairs back into a <see cref="Dictionary{TKey,TValue}"/>.</summary>
+    /// <typeparam name="TKey">The expected type of the dictionary keys. This should most likely be a primitive.</typeparam>
+    /// <typeparam name="TValue">The expected type of the dictionary values. This should most likely be a primitive.</typeparam>
+    /// <param name="str">The <see cref="string"/>.</param>
+    /// <param name="keyValueSeparator">The sub-string that separates keys and values.</param>
+    /// <param name="pairSeparator">The sub-string that separates key-value pairs.</param>
+    /// <returns>A <see cref="Dictionary{TKey,TValue}"/> containing the parsed <see cref="KeyValuePair{TKey,TValue}"/>s.</returns>
+    /// <exception cref="ArgumentException">If <paramref name="keyValueSeparator"/> and <paramref name="pairSeparator"/> are equal.</exception>
+    /// <exception cref="InvalidOperationException">If the conversion fails.</exception>
+    public static Dictionary<TKey, TValue> ParseDictionary<TKey, TValue>(
+        this string str, string keyValueSeparator = ",", string pairSeparator = ";")
+        where TKey : notnull
     {
-        if (string.IsNullOrEmpty(s)) return new();
+        if (string.IsNullOrEmpty(str))
+        {
+            return new Dictionary<TKey, TValue>();
+        }
 
         if (pairSeparator == keyValueSeparator)
+        {
             ThrowHelper.ThrowArgumentException("Pair separator must be different from key-value separator.");
+        }
 
-        var pairs = s
+        var pairs = str
             .Split(new[] { pairSeparator }, StringSplitOptions.RemoveEmptyEntries)
             .Select(p => p.Split(new[] { keyValueSeparator }, StringSplitOptions.RemoveEmptyEntries));
 
@@ -218,7 +353,7 @@ public static class StringExtensions
                 continue;
             }
 
-            ThrowHelper.ThrowInvalidOperationException($"Failed to parse string {s}.");
+            ThrowHelper.ThrowInvalidOperationException($"Failed to parse string {str}.");
         }
 
         return dict;

@@ -2,50 +2,67 @@
 
 #region using directives
 
-using Extensions.Collections;
-using StardewModdingAPI.Utilities;
 using System;
 using System.Runtime.CompilerServices;
+using DaLion.Common.Extensions.Collections;
+using StardewModdingAPI.Utilities;
 
 #endregion using directives
 
 /// <summary>Base implementation of an event wrapper allowing dynamic enabling / disabling.</summary>
 internal abstract class ManagedEvent : IManagedEvent, IEquatable<ManagedEvent>
 {
-    private readonly PerScreen<bool> _Enabled = new(() => false);
+    private readonly PerScreen<bool> _enabled = new(() => false);
 
-    /// <summary>The <see cref="EventManager"/> instance that manages this event.</summary>
-    protected EventManager Manager { get; init; }
-
-    /// <summary>Allow this event to be raised even when disabled.</summary>
-    protected bool AlwaysEnabled { get; init; } = false;
-
-    /// <summary>Construct an instance.</summary>
+    /// <summary>Initializes a new instance of the <see cref="ManagedEvent"/> class.</summary>
     /// <param name="manager">The <see cref="EventManager"/> instance that manages this event.</param>
     protected ManagedEvent(EventManager manager)
     {
-        Manager = manager;
+        this.Manager = manager;
     }
 
-    /// <summary>Invoked once when the event is enabled.</summary>
-    protected virtual void OnEnabled() { }
-
-    /// <summary>Invoked once when the event is disabled.</summary>
-    protected virtual void OnDisabled() { }
-
     /// <inheritdoc />
-    public virtual bool IsEnabled => _Enabled.Value || AlwaysEnabled;
+    public virtual bool IsEnabled => this._enabled.Value || this.AlwaysEnabled;
+
+    /// <summary>Gets the <see cref="EventManager"/> instance that manages this event.</summary>
+    protected EventManager Manager { get; }
+
+    /// <summary>Gets a value indicating whether allow this event to be raised even when disabled.</summary>
+    protected bool AlwaysEnabled { get; init; } = false;
+
+    public static bool operator ==(ManagedEvent? left, ManagedEvent? right) => (object?)left == null ? (object?)right == null : left.Equals(right);
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static bool operator !=(ManagedEvent? left, ManagedEvent? right) => !(left == right);
+
+    /// <summary>Determines whether two <see cref="ManagedEvent"/> instances are equal.</summary>
+    /// <param name="other">A <see cref="ManagedEvent"/> to compare to this instance.</param>
+    /// <returns>
+    ///     <see langword="true"/> if <paramref name="other"/> has the same type as this instance, otherwise
+    ///     <see langword="false"/>.
+    /// </returns>
+    public virtual bool Equals(ManagedEvent? other)
+    {
+        // ReSharper disable once CheckForReferenceEqualityInstead.1
+        return this.GetType().Equals(other?.GetType());
+    }
 
     /// <inheritdoc />
     /// <remarks>Ignored the <see cref="AlwaysEnabled"/> flag.</remarks>
-    public bool IsEnabledForScreen(int screenId) => _Enabled.GetValueForScreen(screenId);
+    public bool IsEnabledForScreen(int screenId)
+    {
+        return this._enabled.GetValueForScreen(screenId);
+    }
 
     /// <inheritdoc />
     public virtual bool Enable()
     {
-        if (_Enabled.Value || !(_Enabled.Value = true)) return false;
+        if (this._enabled.Value || !(this._enabled.Value = true))
+        {
+            return false;
+        }
 
-        OnEnabled();
+        this.OnEnabled();
         return true;
     }
 
@@ -53,11 +70,17 @@ internal abstract class ManagedEvent : IManagedEvent, IEquatable<ManagedEvent>
     /// <remarks>This will not invoke the <see cref="OnEnabled"/> callback.</remarks>
     public bool EnableForScreen(int screenId)
     {
-        if (!Context.IsMainPlayer || !Context.IsSplitScreen) return false;
+        if (!Context.IsMainPlayer || !Context.IsSplitScreen)
+        {
+            return false;
+        }
 
-        if (_Enabled.GetValueForScreen(screenId)) return false;
+        if (this._enabled.GetValueForScreen(screenId))
+        {
+            return false;
+        }
 
-        _Enabled.SetValueForScreen(screenId, true);
+        this._enabled.SetValueForScreen(screenId, true);
         return true;
     }
 
@@ -65,15 +88,18 @@ internal abstract class ManagedEvent : IManagedEvent, IEquatable<ManagedEvent>
     /// <remarks>This will not invoke the <see cref="OnEnabled"/> callback.</remarks>
     public void EnableForAllScreens()
     {
-        _Enabled.GetActiveValues().ForEach(pair => _Enabled.SetValueForScreen(pair.Key, true));
+        this._enabled.GetActiveValues().ForEach(pair => this._enabled.SetValueForScreen(pair.Key, true));
     }
 
     /// <inheritdoc />
     public virtual bool Disable()
     {
-        if (!_Enabled.Value || (_Enabled.Value = false)) return false;
+        if (!this._enabled.Value || (this._enabled.Value = false))
+        {
+            return false;
+        }
 
-        OnDisabled();
+        this.OnDisabled();
         return true;
     }
 
@@ -81,11 +107,17 @@ internal abstract class ManagedEvent : IManagedEvent, IEquatable<ManagedEvent>
     /// <remarks>This will not invoke the <see cref="OnDisabled"/> callback.</remarks>
     public bool DisableForScreen(int screenId)
     {
-        if (!Context.IsMainPlayer || !Context.IsSplitScreen) return false;
+        if (!Context.IsMainPlayer || !Context.IsSplitScreen)
+        {
+            return false;
+        }
 
-        if (!_Enabled.GetValueForScreen(screenId)) return false;
+        if (!this._enabled.GetValueForScreen(screenId))
+        {
+            return false;
+        }
 
-        _Enabled.SetValueForScreen(screenId, false);
+        this._enabled.SetValueForScreen(screenId, false);
         return true;
     }
 
@@ -93,34 +125,41 @@ internal abstract class ManagedEvent : IManagedEvent, IEquatable<ManagedEvent>
     /// <remarks>This will not invoke the <see cref="OnDisabled"/> callback.</remarks>
     public void DisableForAllScreens()
     {
-        _Enabled.GetActiveValues().ForEach(pair => _Enabled.SetValueForScreen(pair.Key, false));
+        this._enabled.GetActiveValues().ForEach(pair => this._enabled.SetValueForScreen(pair.Key, false));
     }
 
     /// <inheritdoc />
     public void Reset()
     {
-        _Enabled.ResetAllScreens();
+        this._enabled.ResetAllScreens();
     }
 
     /// <inheritdoc />
-    public override string ToString() => GetType().Name;
+    public override string ToString()
+    {
+        return this.GetType().Name;
+    }
 
     /// <inheritdoc />
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public override int GetHashCode() => GetType().GetHashCode();
-
-    /// <summary>Determines if the specified <see cref="ManagedEvent"/> is equal to the current instance.</summary>
-    /// <param name="other">A <see cref="ManagedEvent"/> to compare to this instance.</param>
-    /// <returns><see langword="true"/> if <paramref name="other"/> has the same type as this instance; otherwise, <see langword="false"/>.</returns>
-    // ReSharper disable once CheckForReferenceEqualityInstead.1
-    public virtual bool Equals(ManagedEvent? other) => GetType().Equals(other?.GetType());
+    public override int GetHashCode()
+    {
+        return this.GetType().GetHashCode();
+    }
 
     /// <inheritdoc />
-    public override bool Equals(object? @object) => @object is ManagedEvent other && Equals(other);
+    public override bool Equals(object? obj)
+    {
+        return obj is ManagedEvent other && this.Equals(other);
+    }
 
-    public static bool operator ==(ManagedEvent? left, ManagedEvent? right) =>
-        (object?)left == null ? (object?)right == null : left.Equals(right);
+    /// <summary>Invoked once when the event is enabled.</summary>
+    protected virtual void OnEnabled()
+    {
+    }
 
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static bool operator !=(ManagedEvent? left, ManagedEvent? right) => !(left == right);
+    /// <summary>Invoked once when the event is disabled.</summary>
+    protected virtual void OnDisabled()
+    {
+    }
 }

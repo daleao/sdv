@@ -1,11 +1,10 @@
-﻿using DaLion.Common.Events;
-
-namespace DaLion.Stardew.Professions.Framework.Ultimates;
+﻿namespace DaLion.Stardew.Professions.Framework.Ultimates;
 
 #region using directives
 
-using Events.Display;
-using Events.GameLoop;
+using DaLion.Common.Events;
+using DaLion.Stardew.Professions.Framework.Events.Display;
+using DaLion.Stardew.Professions.Framework.Events.GameLoop;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -14,17 +13,17 @@ using Microsoft.Xna.Framework.Graphics;
 /// <summary>Fullscreen tinted overlay activated during Ultimate.</summary>
 internal class UltimateOverlay
 {
-    private const float MAX_OPACITY_F = 0.3f;
-
-    private float _opacity;
+    private const float MaxOpacity = 0.3f;
     private readonly Color _color;
 
-    /// <summary>Construct an instance.</summary>
-    /// <param name="index">The currently registered Super Mode profession's index.</param>
+    private float _opacity;
+
+    /// <summary>Initializes a new instance of the <see cref="UltimateOverlay"/> class.</summary>
+    /// <param name="color">The overlay <see cref="Color"/>.</param>
     internal UltimateOverlay(Color color)
     {
-        _color = color;
-        _opacity = 0f;
+        this._color = color;
+        this._opacity = 0f;
     }
 
     /// <summary>Draw the overlay over the world.</summary>
@@ -32,22 +31,36 @@ internal class UltimateOverlay
     /// <remarks>This should be called from a <see cref="RenderedWorldEvent"/>.</remarks>
     internal void Draw(SpriteBatch b)
     {
-        b.Draw(Game1.fadeToBlackRect, Game1.graphics.GraphicsDevice.Viewport.Bounds, _color * _opacity);
+        b.Draw(Game1.fadeToBlackRect, Game1.graphics.GraphicsDevice.Viewport.Bounds, this._color * this._opacity);
     }
 
     /// <summary>Gradually increase the overlay's opacity.</summary>
     internal void FadeIn()
     {
-        if (_opacity < MAX_OPACITY_F) _opacity += 0.01f;
-        if (_opacity >= MAX_OPACITY_F)
+        if (this._opacity < MaxOpacity)
+        {
+            this._opacity += 0.01f;
+        }
+
+        if (this._opacity >= MaxOpacity)
+        {
             ModEntry.Events.Disable<UltimateOverlayFadeInUpdateTickedEvent>();
+        }
     }
 
     /// <summary>Gradually decrease the overlay's opacity.</summary>
     internal void FadeOut()
     {
-        if (_opacity > 0) _opacity -= 0.01f;
-        if (!(_opacity <= 0)) return;
+        if (this._opacity > 0)
+        {
+            this._opacity -= 0.01f;
+        }
+
+        if (!(this._opacity <= 0))
+        {
+            return;
+        }
+
         ModEntry.Events.Disable<UltimateOverlayFadeOutUpdateTickedEvent>();
         ModEntry.Events.Disable<UltimateOverlayRenderedWorldEvent>();
     }

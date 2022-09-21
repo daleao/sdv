@@ -2,36 +2,37 @@
 
 #region using directives
 
-using DaLion.Common;
-using DaLion.Common.Extensions.Reflection;
-using DaLion.Common.Harmony;
-using Extensions;
-using HarmonyLib;
-using StardewValley.Menus;
 using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
+using DaLion.Common;
+using DaLion.Common.Extensions.Reflection;
+using DaLion.Common.Harmony;
+using DaLion.Stardew.Professions.Extensions;
+using HarmonyLib;
+using StardewValley.Menus;
+using HarmonyPatch = DaLion.Common.Harmony.HarmonyPatch;
 
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class BobberBarUpdatePatch : DaLion.Common.Harmony.HarmonyPatch
+internal sealed class BobberBarUpdatePatch : HarmonyPatch
 {
-    /// <summary>Construct an instance.</summary>
+    /// <summary>Initializes a new instance of the <see cref="BobberBarUpdatePatch"/> class.</summary>
     internal BobberBarUpdatePatch()
     {
-        Target = RequireMethod<BobberBar>(nameof(BobberBar.update));
+        this.Target = this.RequireMethod<BobberBar>(nameof(BobberBar.update));
     }
 
     #region harmony patches
 
     /// <summary>Patch to slow-down catching bar decrease for Aquarist.</summary>
     [HarmonyTranspiler]
-    private static IEnumerable<CodeInstruction>? BobberBarUpdateTranspiler(IEnumerable<CodeInstruction> instructions,
-        ILGenerator generator, MethodBase original)
+    private static IEnumerable<CodeInstruction>? BobberBarUpdateTranspiler(
+        IEnumerable<CodeInstruction> instructions, ILGenerator generator, MethodBase original)
     {
-        var helper = new ILHelper(original, instructions);
+        var helper = new IlHelper(original, instructions);
 
         ///// From: distanceFromCatching += 0.002f;
         ///// To: distanceFromCatching +=  Game1.player.professions.Contains(100 + <fisher_id>)) ? GetFisherBonusCatchingBarSpeed() : 0.002f;
@@ -64,19 +65,14 @@ internal sealed class BobberBarUpdatePatch : DaLion.Common.Harmony.HarmonyPatch
         //    return null;
         //}
 
-        /// Injected: if (Game1.player.professions.Contains(<aquarist_id>)) distanceFromCatching += Game1.player.GetAquaristCatchingBarCompensation();
-        /// After: distanceFromCatching -= ((whichBobber == 694 || beginnersRod) ? 0.002f : 0.003f);
-
+        // Injected: if (Game1.player.professions.Contains(<aquarist_id>)) distanceFromCatching += Game1.player.GetAquaristCatchingBarCompensation();
+        // After: distanceFromCatching -= ((whichBobber == 694 || beginnersRod) ? 0.002f : 0.003f);
         var isNotAquarist = generator.DefineLabel();
         try
         {
             helper
-                .FindFirst(
-                    new CodeInstruction(OpCodes.Ldc_I4, 694)
-                )
-                .AdvanceUntil(
-                    new CodeInstruction(OpCodes.Stfld)
-                )
+                .FindFirst(new CodeInstruction(OpCodes.Ldc_I4, 694))
+                .AdvanceUntil(new CodeInstruction(OpCodes.Stfld))
                 .Advance()
                 .AddLabels(isNotAquarist)
                 .InsertProfessionCheck(Profession.Aquarist.Value)
@@ -86,12 +82,12 @@ internal sealed class BobberBarUpdatePatch : DaLion.Common.Harmony.HarmonyPatch
                     new CodeInstruction(OpCodes.Ldarg_0),
                     new CodeInstruction(OpCodes.Ldfld, typeof(BobberBar).RequireField("distanceFromCatching")),
                     new CodeInstruction(OpCodes.Call, typeof(Game1).RequirePropertyGetter(nameof(Game1.player))),
-                    new CodeInstruction(OpCodes.Call,
-                        typeof(FarmerExtensions).RequireMethod(nameof(FarmerExtensions
-                            .GetAquaristCatchingBarCompensation))),
+                    new CodeInstruction(
+                        OpCodes.Call,
+                        typeof(FarmerExtensions)
+                            .RequireMethod(nameof(FarmerExtensions.GetAquaristCatchingBarCompensation))),
                     new CodeInstruction(OpCodes.Add),
-                    new CodeInstruction(OpCodes.Stfld, typeof(BobberBar).RequireField("distanceFromCatching"))
-                );
+                    new CodeInstruction(OpCodes.Stfld, typeof(BobberBar).RequireField("distanceFromCatching")));
         }
         catch (Exception ex)
         {

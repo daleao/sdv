@@ -2,23 +2,24 @@
 
 #region using directives
 
-using Extensions;
+using DaLion.Stardew.Professions.Extensions;
+using DaLion.Stardew.Professions.Framework.Ultimates;
+using DaLion.Stardew.Professions.Framework.VirtualProperties;
 using HarmonyLib;
 using StardewValley.Monsters;
-using Ultimates;
-using VirtualProperties;
+using HarmonyPatch = DaLion.Common.Harmony.HarmonyPatch;
 
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class GreenSlimeCollisionWithFarmerBehaviorPatch : DaLion.Common.Harmony.HarmonyPatch
+internal sealed class GreenSlimeCollisionWithFarmerBehaviorPatch : HarmonyPatch
 {
-    private const int FARMER_INVINCIBILITY_FRAMES_I = 72;
+    private const int FarmerInvincibilityFrames = 72;
 
-    /// <summary>Construct an instance.</summary>
+    /// <summary>Initializes a new instance of the <see cref="GreenSlimeCollisionWithFarmerBehaviorPatch"/> class.</summary>
     internal GreenSlimeCollisionWithFarmerBehaviorPatch()
     {
-        Target = RequireMethod<GreenSlime>(nameof(GreenSlime.collisionWithFarmerBehavior));
+        this.Target = this.RequireMethod<GreenSlime>(nameof(GreenSlime.collisionWithFarmerBehavior));
     }
 
     #region harmony patches
@@ -27,14 +28,20 @@ internal sealed class GreenSlimeCollisionWithFarmerBehaviorPatch : DaLion.Common
     [HarmonyPostfix]
     private static void GreenSlimeCollisionWithFarmerBehaviorPostfix(GreenSlime __instance)
     {
-        if (!__instance.currentLocation.IsDungeon()) return;
+        if (!__instance.currentLocation.IsDungeon())
+        {
+            return;
+        }
 
         var who = __instance.Player;
-        if (!who.IsLocalPlayer || who.get_Ultimate() is not Concerto { IsActive: false } concerto ||
-            ModEntry.State.SlimeContactTimer > 0) return;
+        if (!who.IsLocalPlayer || who.Get_Ultimate() is not Concerto { IsActive: false } concerto ||
+            ModEntry.State.SlimeContactTimer > 0)
+        {
+            return;
+        }
 
         concerto.ChargeValue += Game1.random.Next(1, 4);
-        ModEntry.State.SlimeContactTimer = FARMER_INVINCIBILITY_FRAMES_I;
+        ModEntry.State.SlimeContactTimer = FarmerInvincibilityFrames;
     }
 
     #endregion harmony patches

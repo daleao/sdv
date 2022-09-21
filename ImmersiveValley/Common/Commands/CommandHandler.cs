@@ -2,35 +2,29 @@
 
 #region using directives
 
-using Extensions.Collections;
-using HarmonyLib;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using DaLion.Common.Extensions.Collections;
+using HarmonyLib;
 
 #endregion using directives
 
-/// <summary>Handles mod-provided console commands.</summary>
+/// <summary>Handles mod-provided <see cref="IConsoleCommand"/>s.</summary>
 internal class CommandHandler
 {
-    /// <summary>Cache of handled <see cref="IConsoleCommand"/> instances.</summary>
-    private readonly Dictionary<string, IConsoleCommand> _HandledCommands = new();
-
     /// <inheritdoc cref="ICommandHelper"/>
-    private readonly ICommandHelper _CommandHelper;
+    private readonly ICommandHelper _commandHelper;
 
-    /// <summary>The <see cref="string"/> used as entry for all handled commands.</summary>
-    public string EntryCommand = null!;
+    /// <summary>Cache of handled <see cref="IConsoleCommand"/> instances.</summary>
+    private readonly Dictionary<string, IConsoleCommand> _handledCommands = new();
 
-    /// <summary>Human-readable name of the mod providing commands.</summary>
-    public string Mod = null!;
-
-    /// <summary>Construct an instance.</summary>
-    /// <param name="helper">Provides an API for managing console commands.</param>
+    /// <summary>Initializes a new instance of the <see cref="CommandHandler"/> class.</summary>
+    /// <param name="helper">The <see cref="ICommandHelper"/> API for the current mod.</param>
     internal CommandHandler(ICommandHelper helper)
     {
-        _CommandHelper = helper;
+        this._commandHelper = helper;
 
         Log.D("[CommandHandler]: Gathering commands...");
         var commandTypes = AccessTools
@@ -50,10 +44,16 @@ internal class CommandHandler
 #endif
 
                 var command = (IConsoleCommand)c
-                    .GetConstructor(BindingFlags.Instance | BindingFlags.NonPublic, null, new[] { GetType() }, null)!
+                    .GetConstructor(
+                        BindingFlags.Instance | BindingFlags.NonPublic,
+                        null,
+                        new[] { this.GetType() },
+                        null)!
                     .Invoke(new object?[] { this });
                 foreach (var trigger in command.Triggers)
-                    _HandledCommands.Add(trigger, command);
+                {
+                    this._handledCommands.Add(trigger, command);
+                }
 
                 Log.D($"[CommandHandler]: Handling {command.GetType().Name}");
             }
@@ -63,19 +63,25 @@ internal class CommandHandler
             }
         }
 
-        Log.D("[CommandHandler] Command initialization completed.");
+        Log.D("[CommandHandler]: Command initialization completed.");
     }
 
-    /// <summary>Register the entry command and name for this module.</summary>
-    /// <param name="entry">The <see cref="string"/> used as entry for all handled commands.</param>
-    /// <param name="mod">Human-readable name of the mod providing commands.</param>
+    /// <summary>Gets the <see cref="string"/> used as entry for all handled <see cref="IConsoleCommand"/>s.</summary>
+    public string EntryCommand { get; private set; } = null!;
+
+    /// <summary>Gets the human-readable name of the providing mod.</summary>
+    public string Mod { get; private set; } = null!;
+
+    /// <summary>Registers the entry command and name for this module.</summary>
+    /// <param name="entry">The <see cref="string"/> used as entry for all handled <see cref="IConsoleCommand"/>s.</param>
+    /// <param name="mod">Human-readable name of the providing mod.</param>
     internal void Register(string entry, string mod)
     {
-        EntryCommand = entry;
-        Mod = mod;
+        this.EntryCommand = entry;
+        this.Mod = mod;
         var documentation =
             $"The entry point for all {mod} console commands. Type `{entry} help` to list available commands.";
-        _CommandHelper.Add(entry, documentation, Entry);
+        this._commandHelper.Add(entry, documentation, this.Entry);
     }
 
     /// <summary>Handles the entry command for this module, delegating to the appropriate <see cref="IConsoleCommand"/>.</summary>
@@ -86,7 +92,7 @@ internal class CommandHandler
         if (args.Length <= 0)
         {
             Log.I(
-                $"This is the entry point for all {Mod} console commands. Use it by specifying a command to be executed. " +
+                $"This is the entry point for all {this.Mod} console commands. Use it by specifying a command to be executed. " +
                 $"For example, typing `{command} help` will invoke the `help` command, which lists all available commands.");
             return;
         }
@@ -94,7 +100,7 @@ internal class CommandHandler
         if (string.Equals(args[0], "help", StringComparison.InvariantCultureIgnoreCase))
         {
             var result = "Available commands:";
-            _HandledCommands.Values.Distinct().ForEach(c =>
+            this._handledCommands.Values.Distinct().ForEach(c =>
             {
                 result +=
                     $"\n\t-{command} {c.Triggers.First()}";
@@ -103,7 +109,7 @@ internal class CommandHandler
             return;
         }
 
-        if (!_HandledCommands.TryGetValue(args[0].ToLowerInvariant(), out var handled))
+        if (!this._handledCommands.TryGetValue(args[0].ToLowerInvariant(), out var handled))
         {
             Log.W($"{args[0]} is not a valid command. Use `{command} help` to see available sub-commands.");
             return;

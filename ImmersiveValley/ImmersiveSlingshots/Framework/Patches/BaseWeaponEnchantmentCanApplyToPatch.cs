@@ -4,26 +4,30 @@
 
 using HarmonyLib;
 using StardewValley.Tools;
+using HarmonyPatch = DaLion.Common.Harmony.HarmonyPatch;
 
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class BaseWeaponEnchantmentCanApplyToPatch : Common.Harmony.HarmonyPatch
+internal sealed class BaseWeaponEnchantmentCanApplyToPatch : HarmonyPatch
 {
-    /// <summary>Construct an instance.</summary>
+    /// <summary>Initializes a new instance of the <see cref="BaseWeaponEnchantmentCanApplyToPatch"/> class.</summary>
     internal BaseWeaponEnchantmentCanApplyToPatch()
     {
-        Target = RequireMethod<BaseWeaponEnchantment>("CanApplyTo");
+        this.Target = this.RequireMethod<BaseWeaponEnchantment>("CanApplyTo");
     }
 
     #region harmony patches
 
     /// <summary>Allow Slingshot forges.</summary>
     [HarmonyPostfix]
-    private static void BaseWeaponEnchantmentCanApplyToPostfix(BaseWeaponEnchantment __instance, ref bool __result,
-        Item item)
+    private static void BaseWeaponEnchantmentCanApplyToPostfix(
+        BaseWeaponEnchantment __instance, ref bool __result, Item item)
     {
-        if (item is not Slingshot || __instance.IsSecondaryEnchantment()) return;
+        if (item is not Slingshot || __instance.IsSecondaryEnchantment())
+        {
+            return;
+        }
 
         __result = __instance.IsForge() && ModEntry.Config.EnableSlingshotForges;
     }

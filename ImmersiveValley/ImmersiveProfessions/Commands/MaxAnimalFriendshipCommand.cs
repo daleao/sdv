@@ -2,23 +2,28 @@
 
 #region using directives
 
-using Common;
-using Common.Commands;
-using Framework;
 using System.Linq;
+using DaLion.Common;
+using DaLion.Common.Commands;
+using DaLion.Stardew.Professions.Framework;
 
 #endregion using directives
 
 [UsedImplicitly]
 internal sealed class MaxAnimalFriendshipCommand : ConsoleCommand
 {
-    /// <summary>Construct an instance.</summary>
+    /// <summary>Initializes a new instance of the <see cref="MaxAnimalFriendshipCommand"/> class.</summary>
     /// <param name="handler">The <see cref="CommandHandler"/> instance that handles this command.</param>
     internal MaxAnimalFriendshipCommand(CommandHandler handler)
-        : base(handler) { }
+        : base(handler)
+    {
+    }
 
     /// <inheritdoc />
-    public override string[] Triggers { get; } = { "max_animal_friendship", "max_friendship", "friendly_animals", "friendly" };
+    public override string[] Triggers { get; } =
+    {
+        "max_animal_friendship", "max_friendship", "friendly_animals", "friendly",
+    };
 
     /// <inheritdoc />
     public override string Documentation =>
@@ -36,7 +41,11 @@ internal sealed class MaxAnimalFriendshipCommand : ConsoleCommand
             return;
         }
 
-        foreach (var animal in animals) animal.friendshipTowardFarmer.Value = 1000;
+        foreach (var animal in animals)
+        {
+            animal.friendshipTowardFarmer.Value = 1000;
+        }
+
         Log.I($"Maxed the friendship of {count} animals");
     }
 }

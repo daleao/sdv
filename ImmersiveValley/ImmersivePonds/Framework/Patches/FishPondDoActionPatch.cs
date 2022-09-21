@@ -2,83 +2,87 @@
 
 #region using directives
 
-using Common;
-using Common.Extensions;
-using Common.Extensions.Collections;
-using Common.Extensions.Reflection;
-using Common.Extensions.Stardew;
-using Common.Harmony;
-using Extensions;
-using HarmonyLib;
-using Netcode;
-using StardewValley.Buildings;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
+using DaLion.Common;
+using DaLion.Common.Extensions;
+using DaLion.Common.Extensions.Collections;
+using DaLion.Common.Extensions.Reflection;
+using DaLion.Common.Extensions.Stardew;
+using DaLion.Common.Harmony;
+using DaLion.Stardew.Ponds.Extensions;
+using HarmonyLib;
+using Netcode;
+using StardewValley.Buildings;
+using HarmonyPatch = DaLion.Common.Harmony.HarmonyPatch;
 
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class FishPondDoActionPatch : Common.Harmony.HarmonyPatch
+internal sealed class FishPondDoActionPatch : HarmonyPatch
 {
-    private delegate void ShowObjectThrownIntoPondAnimationDelegate(FishPond instance, Farmer who, SObject whichObject,
-        DelayedAction.delayedBehavior? callback = null);
-
-    private static readonly Lazy<ShowObjectThrownIntoPondAnimationDelegate> _ShowObjectThrownIntoPondAnimation =
-        new(() => typeof(FishPond).RequireMethod("showObjectThrownIntoPondAnimation")
+    private static readonly Lazy<ShowObjectThrownIntoPondAnimationDelegate> ShowObjectThrownIntoPondAnimation =
+        new(() => typeof(FishPond)
+            .RequireMethod("showObjectThrownIntoPondAnimation")
             .CompileUnboundDelegate<ShowObjectThrownIntoPondAnimationDelegate>());
 
-    /// <summary>Construct an instance.</summary>
+    /// <summary>Initializes a new instance of the <see cref="FishPondDoActionPatch"/> class.</summary>
     internal FishPondDoActionPatch()
     {
-        Target = RequireMethod<FishPond>(nameof(FishPond.doAction));
+        this.Target = this.RequireMethod<FishPond>(nameof(FishPond.doAction));
     }
+
+    private delegate void ShowObjectThrownIntoPondAnimationDelegate(
+        FishPond instance, Farmer who, SObject whichObject, DelayedAction.delayedBehavior? callback = null);
 
     #region harmony patches
 
-    /// <summary>Inject ItemGrabMenu + allow legendary fish to share a pond with their extended families + secretly enrich metals in radioactive ponds.</summary>
+    /// <summary>
+    ///     Inject ItemGrabMenu + allow legendary fish to share a pond with their extended families + secretly enrich
+    ///     metals in radioactive ponds.
+    /// </summary>
     [HarmonyTranspiler]
-    private static IEnumerable<CodeInstruction>? FishPondDoActionTranspiler(IEnumerable<CodeInstruction> instructions,
-        ILGenerator generator, MethodBase original)
+    private static IEnumerable<CodeInstruction>? FishPondDoActionTranspiler(
+        IEnumerable<CodeInstruction> instructions, ILGenerator generator, MethodBase original)
     {
-        var helper = new ILHelper(original, instructions);
+        var helper = new IlHelper(original, instructions);
 
-        /// From: if (output.Value != null) {...} return true;
-        /// To: if (output.Value != null)
-        /// {
-        ///     this.RewardExp(who);
-        ///     return this.OpenChumBucketMenu();
-        /// }
-
+        // From: if (output.Value != null) {...} return true;
+        // To: if (output.Value != null)
+        // {
+        //     this.RewardExp(who);
+        //     return this.OpenChumBucketMenu();
+        // }
         try
         {
             helper
                 .FindFirst(
                     new CodeInstruction(OpCodes.Ldarg_0),
                     new CodeInstruction(OpCodes.Ldfld, typeof(FishPond).RequireField(nameof(FishPond.output))),
-                    new CodeInstruction(OpCodes.Callvirt,
+                    new CodeInstruction(
+                        OpCodes.Callvirt,
                         typeof(NetRef<Item>).RequirePropertyGetter(nameof(NetRef<Item>.Value))),
-                    new CodeInstruction(OpCodes.Stloc_1)
-                )
+                    new CodeInstruction(OpCodes.Stloc_1))
                 .Retreat()
                 .SetOpCode(OpCodes.Brfalse_S)
                 .Advance()
                 .RemoveInstructionsUntil(
                     new CodeInstruction(OpCodes.Ldc_I4_1),
-                    new CodeInstruction(OpCodes.Ret)
-                )
+                    new CodeInstruction(OpCodes.Ret))
                 .InsertInstructions(
                     new CodeInstruction(OpCodes.Ldarg_0),
                     new CodeInstruction(OpCodes.Ldarg_2),
-                    new CodeInstruction(OpCodes.Call,
+                    new CodeInstruction(
+                        OpCodes.Call,
                         typeof(FishPondExtensions).RequireMethod(nameof(FishPondExtensions.RewardExp))),
                     new CodeInstruction(OpCodes.Ldarg_0),
                     new CodeInstruction(OpCodes.Ldarg_2),
-                    new CodeInstruction(OpCodes.Call,
-                        typeof(FishPondExtensions).RequireMethod(nameof(FishPondExtensions.OpenChumBucketMenu)))
-                );
+                    new CodeInstruction(
+                        OpCodes.Call,
+                        typeof(FishPondExtensions).RequireMethod(nameof(FishPondExtensions.OpenChumBucketMenu))));
         }
         catch (Exception ex)
         {
@@ -86,29 +90,28 @@ internal sealed class FishPondDoActionPatch : Common.Harmony.HarmonyPatch
             return null;
         }
 
-        /// From: if (who.ActiveObject.ParentSheetIndex != (int) fishType)
-        /// To: if (who.ActiveObject.ParentSheetIndex != (int) fishType && !IsExtendedFamily(who.ActiveObject.ParentSheetIndex, (int) fishType)
-
+        // From: if (who.ActiveObject.ParentSheetIndex != (int) fishType)
+        // To: if (who.ActiveObject.ParentSheetIndex != (int) fishType && !IsExtendedFamily(who.ActiveObject.ParentSheetIndex, (int) fishType)
         try
         {
             helper
                 .FindNext(
                     new CodeInstruction(OpCodes.Ldfld, typeof(FishPond).RequireField(nameof(FishPond.fishType))),
                     new CodeInstruction(OpCodes.Call, typeof(NetFieldBase<int, NetInt>).RequireMethod("op_Implicit")),
-                    new CodeInstruction(OpCodes.Beq)
-                )
+                    new CodeInstruction(OpCodes.Beq))
                 .RetreatUntil(
-                    new CodeInstruction(OpCodes.Ldloc_0)
-                )
-                .GetInstructionsUntil(out var got, true, true,
-                    new CodeInstruction(OpCodes.Beq)
-                )
+                    new CodeInstruction(OpCodes.Ldloc_0))
+                .GetInstructionsUntil(
+                    out var got,
+                    true,
+                    true,
+                    new CodeInstruction(OpCodes.Beq))
                 .InsertInstructions(got)
                 .Retreat()
                 .InsertInstructions(
-                    new CodeInstruction(OpCodes.Call,
-                        typeof(Utils).RequireMethod(nameof(Utils.IsExtendedFamilyMember)))
-                )
+                    new CodeInstruction(
+                        OpCodes.Call,
+                        typeof(Utils).RequireMethod(nameof(Utils.IsExtendedFamilyMember))))
                 .SetOpCode(OpCodes.Brtrue_S);
         }
         catch (Exception ex)
@@ -117,29 +120,27 @@ internal sealed class FishPondDoActionPatch : Common.Harmony.HarmonyPatch
             return null;
         }
 
-        /// Injected: TryThrowMetalIntoPond(this, who)
-        /// Before: if (fishType >= 0) open PondQueryMenu ...
-
+        // Injected: TryThrowMetalIntoPond(this, who)
+        // Before: if (fishType >= 0) open PondQueryMenu ...
         var resumeExecution = generator.DefineLabel();
         try
         {
             helper
                 .FindLast(
                     new CodeInstruction(OpCodes.Ldarg_0),
-                    new CodeInstruction(OpCodes.Ldfld, typeof(FishPond).RequireField(nameof(FishPond.fishType)))
-                )
+                    new CodeInstruction(OpCodes.Ldfld, typeof(FishPond).RequireField(nameof(FishPond.fishType))))
                 .StripLabels(out var labels)
                 .AddLabels(resumeExecution)
                 .InsertWithLabels(
                     labels,
                     new CodeInstruction(OpCodes.Ldarg_0),
                     new CodeInstruction(OpCodes.Ldarg_2),
-                    new CodeInstruction(OpCodes.Call,
+                    new CodeInstruction(
+                        OpCodes.Call,
                         typeof(FishPondDoActionPatch).RequireMethod(nameof(TryThrowMetalIntoPond))),
                     new CodeInstruction(OpCodes.Brfalse_S, resumeExecution),
                     new CodeInstruction(OpCodes.Ldc_I4_1),
-                    new CodeInstruction(OpCodes.Ret)
-                );
+                    new CodeInstruction(OpCodes.Ret));
         }
         catch (Exception ex)
         {
@@ -158,7 +159,10 @@ internal sealed class FishPondDoActionPatch : Common.Harmony.HarmonyPatch
     {
         if (who.ActiveObject is not { Category: SObject.metalResources } metallic ||
             !(metallic.IsNonRadioactiveOre() || metallic.IsNonRadioactiveIngot()) ||
-            !pond.HasRadioactiveFish()) return false;
+            !pond.HasRadioactiveFish())
+        {
+            return false;
+        }
 
         var heldMinerals =
             pond.Read("MetalsHeld")
@@ -174,12 +178,14 @@ internal sealed class FishPondDoActionPatch : Common.Harmony.HarmonyPatch
         }
 
         var days = pond.GetEnrichmentDuration(metallic);
-        if (days == 0) return false;
+        if (days == 0)
+        {
+            return false;
+        }
 
         heldMinerals.Add((metallic.ParentSheetIndex, days));
-        pond.Write("MetalsHeld",
-            string.Join(';', heldMinerals.Select(m => string.Join(',', m.Item1, m.Item2))));
-        _ShowObjectThrownIntoPondAnimation.Value(pond, who, who.ActiveObject);
+        pond.Write("MetalsHeld", string.Join(';', heldMinerals.Select(m => string.Join(',', m.Item1, m.Item2))));
+        ShowObjectThrownIntoPondAnimation.Value(pond, who, who.ActiveObject);
         who.reduceActiveItemByOne();
         return true;
     }

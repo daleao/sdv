@@ -2,24 +2,28 @@
 
 #region using directives
 
-using StardewValley.Monsters;
 using System.Runtime.CompilerServices;
+using StardewValley.Monsters;
 
 #endregion using directives
 
-public static class Monster_Overkill
+// ReSharper disable once InconsistentNaming
+internal static class Monster_Overkill
 {
-    internal class Holder
+    internal static ConditionalWeakTable<Monster, Holder> Values { get; } = new();
+
+    internal static int Get_Overkill(this Monster monster)
     {
-        public int overkill;
+        return Values.GetOrCreateValue(monster).Overkill;
     }
 
-    internal static ConditionalWeakTable<Monster, Holder> Values = new();
-
-    public static int get_Overkill(this Monster monster) => Values.GetOrCreateValue(monster).overkill;
-
-    public static void set_Overkill(this Monster monster, int newVal)
+    internal static void Set_Overkill(this Monster monster, int newVal)
     {
-        Values.GetOrCreateValue(monster).overkill = newVal;
+        Values.GetOrCreateValue(monster).Overkill = newVal;
+    }
+
+    internal class Holder
+    {
+        public int Overkill { get; internal set; }
     }
 }

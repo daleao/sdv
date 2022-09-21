@@ -2,23 +2,27 @@
 
 #region using directives
 
-using Common.Attributes;
-using Common.Extensions.Reflection;
-using Common.Extensions.Stardew;
-using HarmonyLib;
 using System;
+using DaLion.Common.Attributes;
+using DaLion.Common.Extensions.Reflection;
+using DaLion.Common.Extensions.Stardew;
+using HarmonyLib;
+using HarmonyPatch = DaLion.Common.Harmony.HarmonyPatch;
 
 #endregion using directives
 
-[UsedImplicitly, RequiresMod("Pathoschild.Automate")]
-internal sealed class TapperMachineResetPatch : Common.Harmony.HarmonyPatch
+[UsedImplicitly]
+[RequiresMod("Pathoschild.Automate")]
+[System.Diagnostics.CodeAnalysis.SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1649:File name should match first type name", Justification = "Integration patch.")]
+internal sealed class TapperMachineResetPatch : HarmonyPatch
 {
-    private static Func<object, SObject>? _GetMachine;
+    private static Func<object, SObject>? _getMachine;
 
-    /// <summary>Construct an instance.</summary>
+    /// <summary>Initializes a new instance of the <see cref="TapperMachineResetPatch"/> class.</summary>
     internal TapperMachineResetPatch()
     {
-        Target = "Pathoschild.Stardew.Automate.Framework.Machines.Objects.TapperMachine".ToType()
+        this.Target = "Pathoschild.Stardew.Automate.Framework.Machines.Objects.TapperMachine"
+            .ToType()
             .RequireMethod("Reset");
     }
 
@@ -28,11 +32,16 @@ internal sealed class TapperMachineResetPatch : Common.Harmony.HarmonyPatch
     [HarmonyPostfix]
     private static void TapperMachineResetPostfix(object __instance)
     {
-        if (!ModEntry.Config.TappersRewardExp) return;
+        if (!ModEntry.Config.TappersRewardExp)
+        {
+            return;
+        }
 
-        _GetMachine ??= __instance.GetType().RequirePropertyGetter("Machine")
+        _getMachine ??= __instance
+            .GetType()
+            .RequirePropertyGetter("Machine")
             .CompileUnboundDelegate<Func<object, SObject>>();
-        _GetMachine(__instance).GetOwner().gainExperience(Farmer.foragingSkill, 5);
+        _getMachine(__instance).GetOwner().gainExperience(Farmer.foragingSkill, 5);
     }
 
     #endregion harmony patches

@@ -2,58 +2,67 @@
 
 #region using directives
 
-using DaLion.Common;
-using DaLion.Common.Attributes;
-using DaLion.Common.Extensions.Reflection;
-using DaLion.Common.Harmony;
-using Extensions;
-using HarmonyLib;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using StardewValley.Menus;
 using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
+using DaLion.Common;
+using DaLion.Common.Attributes;
+using DaLion.Common.Extensions.Reflection;
+using DaLion.Common.Harmony;
+using DaLion.Stardew.Professions.Extensions;
+using HarmonyLib;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using StardewValley.Menus;
+using HarmonyPatch = DaLion.Common.Harmony.HarmonyPatch;
 
 #endregion using directives
 
-[UsedImplicitly, RequiresMod("spacechase0.SpaceCore")]
-internal sealed class SkillLevelUpMenuDrawPatch : DaLion.Common.Harmony.HarmonyPatch
+[UsedImplicitly]
+[RequiresMod("spacechase0.SpaceCore")]
+internal sealed class SkillLevelUpMenuDrawPatch : HarmonyPatch
 {
-    private static readonly Lazy<Func<IClickableMenu, bool>> _GetIsProfessionChooser = new(() =>
-        "SpaceCore.Interface.SkillLevelUpMenu".ToType().RequireField("isProfessionChooser")
+    private static readonly Lazy<Func<IClickableMenu, bool>> GetIsProfessionChooser = new(() =>
+        "SpaceCore.Interface.SkillLevelUpMenu"
+            .ToType()
+            .RequireField("isProfessionChooser")
             .CompileUnboundFieldGetterDelegate<IClickableMenu, bool>());
 
-    private static readonly Lazy<Func<IClickableMenu, List<int>>> _GetProfessionsToChoose = new(() =>
-        "SpaceCore.Interface.SkillLevelUpMenu".ToType().RequireField("professionsToChoose")
+    private static readonly Lazy<Func<IClickableMenu, List<int>>> GetProfessionsToChoose = new(() =>
+        "SpaceCore.Interface.SkillLevelUpMenu"
+            .ToType()
+            .RequireField("professionsToChoose")
             .CompileUnboundFieldGetterDelegate<IClickableMenu, List<int>>());
 
-    /// <summary>Construct an instance.</summary>
+    /// <summary>Initializes a new instance of the <see cref="SkillLevelUpMenuDrawPatch"/> class.</summary>
     internal SkillLevelUpMenuDrawPatch()
     {
-        Target = "SpaceCore.Interface.SkillLevelUpMenu".ToType().RequireMethod("draw", new[] { typeof(SpriteBatch) });
+        this.Target = "SpaceCore.Interface.SkillLevelUpMenu"
+            .ToType()
+            .RequireMethod("draw", new[] { typeof(SpriteBatch) });
     }
 
     #region harmony patches
 
     /// <summary>Patch to draw Prestige tooltip during profession selection.</summary>
     [HarmonyTranspiler]
-    private static IEnumerable<CodeInstruction>? SkillLevelUpMenuDrawTranspiler(IEnumerable<CodeInstruction> instructions,
-        MethodBase original)
+    private static IEnumerable<CodeInstruction>? SkillLevelUpMenuDrawTranspiler(
+        IEnumerable<CodeInstruction> instructions, MethodBase original)
     {
-        var helper = new ILHelper(original, instructions);
+        var helper = new IlHelper(original, instructions);
 
-        /// Injected: DrawSubroutine(this, b);
-        /// Before: else if (!isProfessionChooser)
-
+        // Injected: DrawSubroutine(this, b);
+        // Before: else if (!isProfessionChooser)
         try
         {
             helper
                 .FindFirst(
-                    new CodeInstruction(OpCodes.Ldfld,
-                        "SkillLevelUpMenu".ToType().RequireField(nameof(LevelUpMenu.isProfessionChooser)))
-                )
+                    new CodeInstruction(
+                        OpCodes.Ldfld,
+                        "SkillLevelUpMenu"
+                            .ToType()
+                            .RequireField(nameof(LevelUpMenu.isProfessionChooser))))
                 .Advance()
                 .GetOperand(out var isNotProfessionChooser)
                 .FindLabel((Label)isNotProfessionChooser)
@@ -63,9 +72,9 @@ internal sealed class SkillLevelUpMenuDrawPatch : DaLion.Common.Harmony.HarmonyP
                     new CodeInstruction(OpCodes.Ldarg_0),
                     new CodeInstruction(OpCodes.Ldfld, typeof(LevelUpMenu).RequireField("currentLevel")),
                     new CodeInstruction(OpCodes.Ldarg_1),
-                    new CodeInstruction(OpCodes.Call,
-                        typeof(SkillLevelUpMenuDrawPatch).RequireMethod(nameof(DrawSubroutine)))
-                );
+                    new CodeInstruction(
+                        OpCodes.Call,
+                        typeof(SkillLevelUpMenuDrawPatch).RequireMethod(nameof(DrawSubroutine))));
         }
         catch (Exception ex)
         {
@@ -84,20 +93,29 @@ internal sealed class SkillLevelUpMenuDrawPatch : DaLion.Common.Harmony.HarmonyP
 
     private static void DrawSubroutine(IClickableMenu menu, int currentLevel, SpriteBatch b)
     {
-        if (!ModEntry.Config.EnablePrestige || !_GetIsProfessionChooser.Value(menu) ||
-            currentLevel > 10) return;
+        if (!ModEntry.Config.EnablePrestige || !GetIsProfessionChooser.Value(menu) ||
+            currentLevel > 10)
+        {
+            return;
+        }
 
-        var professionsToChoose = _GetProfessionsToChoose.Value(menu);
+        var professionsToChoose = GetProfessionsToChoose.Value(menu);
         if (!CustomProfession.LoadedProfessions.TryGetValue(professionsToChoose[0], out var leftProfession) ||
-            !CustomProfession.LoadedProfessions.TryGetValue(professionsToChoose[1], out var rightProfession)) return;
+            !CustomProfession.LoadedProfessions.TryGetValue(professionsToChoose[1], out var rightProfession))
+        {
+            return;
+        }
 
         Rectangle selectionArea;
         if (Game1.player.HasProfession(leftProfession) &&
             Game1.player.HasAllProfessionsBranchingFrom(leftProfession))
         {
-            selectionArea = new(menu.xPositionOnScreen + 32, menu.yPositionOnScreen + 232,
-                menu.width / 2 - 40, menu.height - 264);
-            b.Draw(Game1.staminaRect, selectionArea, new(Color.Black, 0.3f));
+            selectionArea = new Rectangle(
+                menu.xPositionOnScreen + 32,
+                menu.yPositionOnScreen + 232,
+                (menu.width / 2) - 40,
+                menu.height - 264);
+            b.Draw(Game1.staminaRect, selectionArea, new Color(Color.Black, 0.3f));
 
             if (selectionArea.Contains(Game1.getMouseX(), Game1.getMouseY()))
             {
@@ -111,10 +129,12 @@ internal sealed class SkillLevelUpMenuDrawPatch : DaLion.Common.Harmony.HarmonyP
         if (Game1.player.HasProfession(rightProfession) &&
             Game1.player.HasAllProfessionsBranchingFrom(rightProfession))
         {
-            selectionArea = new(menu.xPositionOnScreen + menu.width / 2 + 8,
+            selectionArea = new Rectangle(
+                menu.xPositionOnScreen + (menu.width / 2) + 8,
                 menu.yPositionOnScreen + 232,
-                menu.width / 2 - 40, menu.height - 264);
-            b.Draw(Game1.staminaRect, selectionArea, new(Color.Black, 0.3f));
+                (menu.width / 2) - 40,
+                menu.height - 264);
+            b.Draw(Game1.staminaRect, selectionArea, new Color(Color.Black, 0.3f));
 
             if (selectionArea.Contains(Game1.getMouseX(), Game1.getMouseY()))
             {

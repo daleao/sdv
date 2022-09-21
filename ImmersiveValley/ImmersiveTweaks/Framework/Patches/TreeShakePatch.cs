@@ -2,77 +2,70 @@
 
 #region using directives
 
-using Common;
-using Common.Extensions.Reflection;
-using Common.Harmony;
-using HarmonyLib;
-using StardewValley.TerrainFeatures;
 using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
+using DaLion.Common;
+using DaLion.Common.Extensions.Reflection;
+using DaLion.Common.Harmony;
+using HarmonyLib;
+using StardewValley.TerrainFeatures;
+using HarmonyPatch = DaLion.Common.Harmony.HarmonyPatch;
 
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class TreeShakePatch : Common.Harmony.HarmonyPatch
+internal sealed class TreeShakePatch : HarmonyPatch
 {
-    /// <summary>Construct an instance.</summary>
+    /// <summary>Initializes a new instance of the <see cref="TreeShakePatch"/> class.</summary>
     internal TreeShakePatch()
     {
-        Target = RequireMethod<Tree>("shake");
+        this.Target = this.RequireMethod<Tree>("shake");
     }
 
     #region harmony patches
 
     [HarmonyTranspiler]
-    private static IEnumerable<CodeInstruction>? TreeShakeTranspiler(IEnumerable<CodeInstruction> instructions,
-            MethodBase original)
+    private static IEnumerable<CodeInstruction>? TreeShakeTranspiler(
+        IEnumerable<CodeInstruction> instructions, MethodBase original)
     {
-        var helper = new ILHelper(original, instructions);
+        var helper = new IlHelper(original, instructions);
 
-        /// From: Game1.createObjectDebris(seedIndex, tileLocation.X, tileLocation.Y - 3, (tileLocation.Y + 1) * 64, 0, 1f, location);
-        /// To: Game1.createObjectDebris(seedIndex, tileLocation.X, tileLocation.Y - 3, (tileLocation.Y + 1) * 64, GetCoconutQuality(), 1f, location);
-        ///     -- and again for golden coconut immediately below
-
+        // From: Game1.createObjectDebris(seedIndex, tileLocation.X, tileLocation.Y - 3, (tileLocation.Y + 1) * 64, 0, 1f, location);
+        // To: Game1.createObjectDebris(seedIndex, tileLocation.X, tileLocation.Y - 3, (tileLocation.Y + 1) * 64, GetCoconutQuality(), 1f, location);
+        //     -- and again for golden coconut immediately below
         try
         {
-            var callCreateObjectDebrisInst = new CodeInstruction(OpCodes.Call,
-                typeof(Game1).RequireMethod(nameof(Game1.createObjectDebris),
+            var callCreateObjectDebrisInst = new CodeInstruction(
+                OpCodes.Call,
+                typeof(Game1).RequireMethod(
+                    nameof(Game1.createObjectDebris),
                     new[]
                     {
-                            typeof(int), typeof(int), typeof(int), typeof(int), typeof(int), typeof(float),
-                            typeof(GameLocation)
+                        typeof(int), typeof(int), typeof(int), typeof(int), typeof(int), typeof(float),
+                        typeof(GameLocation),
                     }));
 
             helper
                 // the normal coconut
                 .FindFirst(callCreateObjectDebrisInst)
-                .RetreatUntil(
-                    new CodeInstruction(OpCodes.Ldc_I4_0)
-                )
+                .RetreatUntil(new CodeInstruction(OpCodes.Ldc_I4_0))
                 .ReplaceInstructionWith(
-                    new CodeInstruction(OpCodes.Call,
-                        typeof(TreeShakePatch).RequireMethod(nameof(GetCoconutQuality)))
-                )
-                .InsertInstructions(
-                    new CodeInstruction(OpCodes.Ldloc_2)
-                )
+                    new CodeInstruction(
+                        OpCodes.Call,
+                        typeof(TreeShakePatch).RequireMethod(nameof(GetCoconutQuality))))
+                .InsertInstructions(new CodeInstruction(OpCodes.Ldloc_2))
                 // the golden coconut
-                .FindNext(
-                    new CodeInstruction(OpCodes.Ldc_I4, 791)
-                )
+                .FindNext(new CodeInstruction(OpCodes.Ldc_I4, 791))
                 .AdvanceUntil(callCreateObjectDebrisInst)
-                .RetreatUntil(
-                    new CodeInstruction(OpCodes.Ldc_I4_0)
-                )
+                .RetreatUntil(new CodeInstruction(OpCodes.Ldc_I4_0))
                 .ReplaceInstructionWith(
-                    new CodeInstruction(OpCodes.Call,
-                        typeof(TreeShakePatch).RequireMethod(nameof(GetCoconutQuality)))
-                )
+                    new CodeInstruction(
+                        OpCodes.Call,
+                        typeof(TreeShakePatch).RequireMethod(nameof(GetCoconutQuality))))
                 .InsertInstructions(
-                    new CodeInstruction(OpCodes.Ldc_I4, 791)
-                );
+                    new CodeInstruction(OpCodes.Ldc_I4, 791));
         }
         catch (Exception ex)
         {
@@ -89,10 +82,12 @@ internal sealed class TreeShakePatch : Common.Harmony.HarmonyPatch
 
     private static int GetCoconutQuality(int seedIndex)
     {
-        if (seedIndex is not (Constants.COCONUT_INDEX_I or Constants.GOLDEN_COCONUT_INDEX_I) ||
+        if (seedIndex is not (Constants.CoconutIndex or Constants.GoldenCoconutIndex) ||
             !ModEntry.Config.ProfessionalForagingInGingerIsland ||
             !Game1.player.professions.Contains(Farmer.botanist))
+        {
             return SObject.lowQuality;
+        }
 
         return ModEntry.ProfessionsApi is null
             ? SObject.bestQuality

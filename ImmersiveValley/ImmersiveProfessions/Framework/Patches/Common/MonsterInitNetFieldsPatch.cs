@@ -2,19 +2,20 @@
 
 #region using directives
 
+using DaLion.Stardew.Professions.Framework.VirtualProperties;
 using HarmonyLib;
 using StardewValley.Monsters;
-using VirtualProperties;
+using HarmonyPatch = DaLion.Common.Harmony.HarmonyPatch;
 
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class MonsterInitNetFieldsPatch : DaLion.Common.Harmony.HarmonyPatch
+internal sealed class MonsterInitNetFieldsPatch : HarmonyPatch
 {
-    /// <summary>Construct an instance.</summary>
+    /// <summary>Initializes a new instance of the <see cref="MonsterInitNetFieldsPatch"/> class.</summary>
     internal MonsterInitNetFieldsPatch()
     {
-        Target = RequireMethod<Monster>("initNetFields");
+        this.Target = this.RequireMethod<Monster>("initNetFields");
     }
 
     #region harmony patches
@@ -23,8 +24,11 @@ internal sealed class MonsterInitNetFieldsPatch : DaLion.Common.Harmony.HarmonyP
     [HarmonyPostfix]
     private static void MonsterInitNetFieldsPostix(Monster __instance)
     {
-        __instance.NetFields.AddFields(__instance.get_SlowIntensity(), __instance.get_SlowTimer(),
-            __instance.get_FearIntensity(), __instance.get_FearTimer());
+        __instance.NetFields.AddFields(
+            __instance.Get_SlowIntensity(),
+            __instance.Get_SlowTimer(),
+            __instance.Get_FearIntensity(),
+            __instance.Get_FearTimer());
     }
 
     #endregion harmony patches

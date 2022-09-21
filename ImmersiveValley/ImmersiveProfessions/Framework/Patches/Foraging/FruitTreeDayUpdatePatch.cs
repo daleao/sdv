@@ -2,19 +2,20 @@
 
 #region using directives
 
-using Extensions;
+using DaLion.Stardew.Professions.Extensions;
 using HarmonyLib;
 using StardewValley.TerrainFeatures;
+using HarmonyPatch = DaLion.Common.Harmony.HarmonyPatch;
 
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class FruitTreeDayUpdatePatch : DaLion.Common.Harmony.HarmonyPatch
+internal sealed class FruitTreeDayUpdatePatch : HarmonyPatch
 {
-    /// <summary>Construct an instance.</summary>
+    /// <summary>Initializes a new instance of the <see cref="FruitTreeDayUpdatePatch"/> class.</summary>
     internal FruitTreeDayUpdatePatch()
     {
-        Target = RequireMethod<FruitTree>(nameof(FruitTree.dayUpdate));
+        this.Target = this.RequireMethod<FruitTree>(nameof(FruitTree.dayUpdate));
     }
 
     #region harmony patches
@@ -26,7 +27,9 @@ internal sealed class FruitTreeDayUpdatePatch : DaLion.Common.Harmony.HarmonyPat
     {
         if (Game1.game1.DoesAnyPlayerHaveProfession(Profession.Arborist, out _) &&
             __instance.daysUntilMature.Value % 4 == 0)
+        {
             --__instance.daysUntilMature.Value;
+        }
     }
 
     #endregion harmony patches

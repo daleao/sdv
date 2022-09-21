@@ -2,24 +2,26 @@
 
 #region using directives
 
+using System.Collections.Generic;
 using DaLion.Common.Attributes;
 using DaLion.Common.Extensions.Reflection;
+using DaLion.Stardew.Professions.Framework.Textures;
 using HarmonyLib;
 using Microsoft.Xna.Framework;
 using StardewValley.Menus;
-using System.Collections.Generic;
-using Textures;
+using HarmonyPatch = DaLion.Common.Harmony.HarmonyPatch;
 
 #endregion using directives
 
-[UsedImplicitly, RequiresMod("spacechase0.SpaceCore")]
-internal sealed class NewSkillsPageCtorPatch : DaLion.Common.Harmony.HarmonyPatch
+[UsedImplicitly]
+[RequiresMod("spacechase0.SpaceCore")]
+internal sealed class NewSkillsPageCtorPatch : HarmonyPatch
 {
-    /// <summary>Construct an instance.</summary>
+    /// <summary>Initializes a new instance of the <see cref="NewSkillsPageCtorPatch"/> class.</summary>
     internal NewSkillsPageCtorPatch()
     {
-        Target = "SpaceCore.Interface.NewSkillsPage".ToType()
-            .RequireConstructor(new[] { typeof(int), typeof(int), typeof(int), typeof(int) });
+        this.Target = "SpaceCore.Interface.NewSkillsPage".ToType()
+            .RequireConstructor(typeof(int), typeof(int), typeof(int), typeof(int));
     }
 
     #region harmony patches
@@ -31,13 +33,22 @@ internal sealed class NewSkillsPageCtorPatch : DaLion.Common.Harmony.HarmonyPatc
     [HarmonyPostfix]
     private static void SkillsPageCtorPostfix(IClickableMenu __instance)
     {
-        if (!ModEntry.Config.EnablePrestige) return;
+        if (!ModEntry.Config.EnablePrestige)
+        {
+            return;
+        }
 
         __instance.width += 48;
-        if (ModEntry.Config.PrestigeProgressionStyle == ModConfig.ProgressionStyle.StackedStars) __instance.width += 24;
+        if (ModEntry.Config.PrestigeProgressionStyle == ModConfig.ProgressionStyle.StackedStars)
+        {
+            __instance.width += 24;
+        }
 
         if (__instance.GetType().RequireField("skillBars")!.GetValue(__instance) is not List<ClickableTextureComponent>
-            skillBars) return;
+            skillBars)
+        {
+            return;
+        }
 
         var srcRect = new Rectangle(16, 0, 14, 9);
         foreach (var component in skillBars)
@@ -53,7 +64,7 @@ internal sealed class NewSkillsPageCtorPatch : DaLion.Common.Harmony.HarmonyPatc
                     {
                         1 => 3,
                         3 => 1,
-                        _ => skillIndex
+                        _ => skillIndex,
                     };
 
                     if (Game1.player.GetUnmodifiedSkillLevel(skillIndex) >= 15)
@@ -72,7 +83,7 @@ internal sealed class NewSkillsPageCtorPatch : DaLion.Common.Harmony.HarmonyPatc
                     {
                         1 => 3,
                         3 => 1,
-                        _ => skillIndex
+                        _ => skillIndex,
                     };
 
                     if (Game1.player.GetUnmodifiedSkillLevel(skillIndex) >= 20)

@@ -2,35 +2,41 @@
 
 #region using directives
 
-using Common;
-using Common.Events;
-using Common.Extensions.Collections;
-using Common.Extensions.Stardew;
-using Extensions;
+using System.Linq;
+using DaLion.Common;
+using DaLion.Common.Events;
+using DaLion.Common.Extensions.Collections;
+using DaLion.Common.Extensions.Stardew;
+using DaLion.Stardew.Professions.Extensions;
+using DaLion.Stardew.Professions.Framework.Ultimates;
+using DaLion.Stardew.Professions.Framework.VirtualProperties;
 using StardewModdingAPI.Events;
 using StardewValley.Buildings;
-using System.Linq;
-using Ultimates;
-using VirtualProperties;
 
 #endregion using directives
 
 [UsedImplicitly]
 internal sealed class StaticSaveLoadedEvent : SaveLoadedEvent
 {
-    /// <summary>Construct an instance.</summary>
+    /// <summary>Initializes a new instance of the <see cref="StaticSaveLoadedEvent"/> class.</summary>
     /// <param name="manager">The <see cref="ProfessionEventManager"/> instance that manages this event.</param>
     internal StaticSaveLoadedEvent(ProfessionEventManager manager)
         : base(manager)
     {
-        AlwaysEnabled = true;
+        this.AlwaysEnabled = true;
     }
 
     /// <inheritdoc />
-    public override bool Enable() => false;
+    public override bool Enable()
+    {
+        return false;
+    }
 
     /// <inheritdoc />
-    public override bool Disable() => false;
+    public override bool Disable()
+    {
+        return false;
+    }
 
     /// <inheritdoc />
     protected override void OnSaveLoadedImpl(object? sender, SaveLoadedEventArgs e)
@@ -40,41 +46,18 @@ internal sealed class StaticSaveLoadedEvent : SaveLoadedEvent
         // enable events
         ModEntry.Events.EnableForLocalPlayer();
 
-        // load and initialize Ultimate index
-        Log.T("Initializing Ultimate...");
-
-        var ultimateIndex = Game1.player.Read("UltimateIndex", UltimateIndex.None);
-        switch (ultimateIndex)
-        {
-            case UltimateIndex.None when player.professions.Any(p => p is >= 26 and < 30):
-                Log.W($"{player.Name} is eligible for an Ultimate but is not currently registered to any. A default one will be chosen.");
-                ultimateIndex = (UltimateIndex)player.professions.First(p => p is >= 26 and < 30);
-                Log.W($"{player.Name}'s Ultimate was set to {ultimateIndex}.");
-
-                break;
-
-            case > UltimateIndex.None when !player.professions.Contains((int)ultimateIndex):
-                Log.W($"Missing corresponding profession for {ultimateIndex} Ultimate. Resetting to a default value.");
-                if (player.professions.Any(p => p is >= 26 and < 30))
-                    ultimateIndex = (UltimateIndex)player.professions.First(p => p is >= 26 and < 30);
-                else
-                    ultimateIndex = UltimateIndex.None;
-
-                break;
-        }
-
-        if (ultimateIndex > UltimateIndex.None)
-            Game1.player.set_Ultimate(Ultimate.FromIndex(ultimateIndex));
+        // revalidate levels
+        player.RevalidateLevels();
 
         // revalidate levels
-        Game1.player.RevalidateLevels();
+        player.RevalidateUltimate();
 
         // revalidate fish pond populations
         Game1.getFarm().buildings.OfType<FishPond>()
-            .Where(p => (p.owner.Value == Game1.player.UniqueMultiplayerID || !Context.IsMultiplayer) &&
+            .Where(p => (p.owner.Value == player.UniqueMultiplayerID || !Context.IsMultiplayer) &&
                         !p.isUnderConstruction()).ForEach(p => p.UpdateMaximumOccupancy());
 
         // prepare to check for prestige achievement
-        Manager.Enable<PrestigeAchievementOneSecondUpdateTickedEvent>();
+        this.Manager.Enable<PrestigeAchievementOneSecondUpdateTickedEvent>();
     }
 }

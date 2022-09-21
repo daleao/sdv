@@ -2,9 +2,9 @@
 
 #region using directives
 
-using Common;
-using Common.Events;
-using GameLoop;
+using DaLion.Common;
+using DaLion.Common.Events;
+using DaLion.Stardew.Professions.Framework.Events.GameLoop;
 using StardewModdingAPI.Events;
 
 #endregion using directives
@@ -12,24 +12,35 @@ using StardewModdingAPI.Events;
 [UsedImplicitly]
 internal sealed class HostRequestedModMessageReceivedEvent : ModMessageReceivedEvent
 {
+    /// <summary>Initializes a new instance of the <see cref="HostRequestedModMessageReceivedEvent"/> class.</summary>
+    /// <param name="manager">The <see cref="ProfessionEventManager"/> instance that manages this event.</param>
+    internal HostRequestedModMessageReceivedEvent(ProfessionEventManager manager)
+        : base(manager)
+    {
+    }
+
     /// <inheritdoc />
     public override bool IsEnabled => Context.IsMultiplayer && Context.IsMainPlayer;
 
-    /// <summary>Construct an instance.</summary>
-    /// <param name="manager">The <see cref="ProfessionEventManager"/> instance that manages this event.</param>
-    internal HostRequestedModMessageReceivedEvent(ProfessionEventManager manager)
-        : base(manager) { }
+    /// <inheritdoc />
+    public override bool Enable()
+    {
+        return false;
+    }
 
     /// <inheritdoc />
-    public override bool Enable() => false;
-
-    /// <inheritdoc />
-    public override bool Disable() => false;
+    public override bool Disable()
+    {
+        return false;
+    }
 
     /// <inheritdoc />
     protected override void OnModMessageReceivedImpl(object? sender, ModMessageReceivedEventArgs e)
     {
-        if (e.FromModID != ModEntry.Manifest.UniqueID || e.Type != "RequestHost") return;
+        if (e.FromModID != ModEntry.Manifest.UniqueID || e.Type != "RequestHost")
+        {
+            return;
+        }
 
         var split = e.ReadAs<string>().Split('/');
         var request = split[0];
@@ -44,11 +55,11 @@ internal sealed class HostRequestedModMessageReceivedEvent : ModMessageReceivedE
         {
             case "Conservationism":
                 Log.D($"{who.Name} requested Conservationism event subscription.");
-                Manager.Enable<ConservationismDayEndingEvent>();
+                this.Manager.Enable<ConservationismDayEndingEvent>();
                 break;
             case "HuntIsOn":
                 Log.D($"Prestiged treasure hunter {who.Name} is hunting for treasure.");
-                Manager.Enable<PrestigeTreasureHuntUpdateTickedEvent>();
+                this.Manager.Enable<PrestigeTreasureHuntUpdateTickedEvent>();
                 break;
         }
     }

@@ -1,26 +1,27 @@
-﻿namespace DaLion.Stardew.Ponds;
+﻿#pragma warning disable CS1591
+namespace DaLion.Stardew.Ponds;
 
-public class Constants
+public sealed class Constants
 {
-    // produce
-    public const int ROE_INDEX_I = 812,
-        SQUID_INK_INDEX_I = 814,
-        SEAWEED_INDEX_I = 152,
-        GREEN_ALGAE_INDEX_I = 153,
-        WHITE_ALGAE_INDEX_I = 157,
-        STURGEON_INDEX_I = 698,
-        RADIOACTIVE_ORE_INDEX_I = 909,
-        RADIOACTIVE_BAR_INDEX_I = 910;
-
     // legendary fish
-    public const int CRIMSONFISH_INDEX_I = 159,
-        ANGLER_INDEX_I = 160,
-        LEGEND_INDEX_I = 163,
-        MUTANT_CARP_INDEX_I = 682,
-        GLACIERFISH_INDEX_I = 775,
-        SON_OF_CRIMSONFISH_INDEX_I = 898,
-        MS_ANGLER_INDEX_I = 899,
-        LEGEND_II_INDEX_I = 900,
-        RADIOACTIVE_CARP_INDEX_I = 901,
-        GLACIERFISH_JR_INDEX_I = 902;
+    public const int CrimsonfishIndex = 159;
+    public const int AnglerIndex = 160;
+    public const int LegendIndex = 163;
+    public const int MutantCarpIndex = 682;
+    public const int GlacierfishIndex = 775;
+    public const int SonOfCrimsonfishIndex = 898;
+    public const int MsAnglerIndex = 899;
+    public const int Legend2Index = 900;
+    public const int RadioactiveCarpIndex = 901;
+    public const int GlacierfishJrIndex = 902;
+
+    // produce
+    public const int RoeIndex = 812;
+    public const int SquidInkIndex = 814;
+    public const int SeaweedIndex = 152;
+    public const int GreenAlgaeIndex = 153;
+    public const int WhiteAlgaeIndex = 157;
+    public const int SturgeonIndex = 698;
+    public const int RadioactiveOreIndex = 909;
+    public const int RadioactiveBarIndex = 910;
 }

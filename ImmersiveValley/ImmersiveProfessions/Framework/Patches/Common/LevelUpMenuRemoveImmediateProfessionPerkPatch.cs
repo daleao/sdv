@@ -2,28 +2,30 @@
 
 #region using directives
 
-using DaLion.Common;
-using DaLion.Common.Harmony;
-using HarmonyLib;
-using StardewValley.Menus;
-using StardewValley.Tools;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
-using Ultimates;
-using VirtualProperties;
+using DaLion.Common;
+using DaLion.Common.Harmony;
+using DaLion.Stardew.Professions.Framework.Ultimates;
+using DaLion.Stardew.Professions.Framework.VirtualProperties;
+using HarmonyLib;
+using StardewValley.Menus;
+using StardewValley.Tools;
+using HarmonyPatch = DaLion.Common.Harmony.HarmonyPatch;
+using Utility = StardewValley.Utility;
 
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class LevelUpMenuRemoveImmediateProfessionPerkPatch : DaLion.Common.Harmony.HarmonyPatch
+internal sealed class LevelUpMenuRemoveImmediateProfessionPerkPatch : HarmonyPatch
 {
-    /// <summary>Construct an instance.</summary>
+    /// <summary>Initializes a new instance of the <see cref="LevelUpMenuRemoveImmediateProfessionPerkPatch"/> class.</summary>
     internal LevelUpMenuRemoveImmediateProfessionPerkPatch()
     {
-        Target = RequireMethod<LevelUpMenu>(nameof(LevelUpMenu.removeImmediateProfessionPerk));
+        this.Target = this.RequireMethod<LevelUpMenu>(nameof(LevelUpMenu.removeImmediateProfessionPerk));
     }
 
     #region harmony patches
@@ -33,10 +35,14 @@ internal sealed class LevelUpMenuRemoveImmediateProfessionPerkPatch : DaLion.Com
     private static void LevelUpMenuRemoveImmediateProfessionPerkPostfix(int whichProfession)
     {
         if (!Profession.TryFromValue(whichProfession, out var profession) ||
-            whichProfession == Farmer.luckSkill) return;
+            whichProfession == Farmer.luckSkill)
+        {
+            return;
+        }
 
         // remove immediate perks
         if (profession == Profession.Aquarist)
+        {
             foreach (var pond in Game1.getFarm().buildings.Where(p =>
                          (p.owner.Value == Game1.player.UniqueMultiplayerID || !Context.IsMultiplayer) &&
                          !p.isUnderConstruction() && p.maxOccupants.Value > 10))
@@ -44,31 +50,40 @@ internal sealed class LevelUpMenuRemoveImmediateProfessionPerkPatch : DaLion.Com
                 pond.maxOccupants.Set(10);
                 pond.currentOccupants.Value = Math.Min(pond.currentOccupants.Value, pond.maxOccupants.Value);
             }
+        }
         else if (profession == Profession.Rascal)
-            StardewValley.Utility.iterateAllItems(item =>
+        {
+            Utility.iterateAllItems(item =>
             {
                 if (item is not Slingshot { numAttachmentSlots.Value: 2 } slingshot ||
-                    !slingshot.getLastFarmerToUse().IsLocalPlayer) return;
+                    !slingshot.getLastFarmerToUse().IsLocalPlayer)
+                {
+                    return;
+                }
 
                 slingshot.attachments[1] = null;
                 slingshot.numAttachmentSlots.Value = 1;
                 slingshot.attachments.SetCount(1);
             });
+        }
 
         // disable unnecessary events
         ModEntry.Events.DisableForProfession(profession);
 
         // unregister Ultimate
-        if (Game1.player.get_Ultimate()?.Index != (UltimateIndex)whichProfession) return;
+        if (Game1.player.Get_Ultimate()?.Value != whichProfession)
+        {
+            return;
+        }
 
         if (Game1.player.professions.Any(p => p is >= 26 and < 30))
         {
-            var firstIndex = (UltimateIndex)Game1.player.professions.First(p => p is >= 26 and < 30);
-            Game1.player.set_Ultimate(Ultimate.FromIndex(firstIndex));
+            var firstIndex = Game1.player.professions.First(p => p is >= 26 and < 30);
+            Game1.player.Set_Ultimate(Ultimate.FromValue(firstIndex));
         }
         else
         {
-            Game1.player.set_Ultimate(null);
+            Game1.player.Set_Ultimate(null);
         }
     }
 
@@ -77,17 +92,14 @@ internal sealed class LevelUpMenuRemoveImmediateProfessionPerkPatch : DaLion.Com
     private static IEnumerable<CodeInstruction>? LevelUpMenuRemoveImmediateProfessionPerkTranspiler(
         IEnumerable<CodeInstruction> instructions, MethodBase original)
     {
-        var helper = new ILHelper(original, instructions);
+        var helper = new IlHelper(original, instructions);
 
-        /// From: case <defender_id>:
-        /// To: case <brute_id>:
-
+        // From: case <defender_id>:
+        // To: case <brute_id>:
         try
         {
             helper
-                .FindFirst(
-                    new CodeInstruction(OpCodes.Ldc_I4_S, Farmer.defender)
-                )
+                .FindFirst(new CodeInstruction(OpCodes.Ldc_I4_S, Farmer.defender))
                 .SetOperand(Profession.Brute.Value);
         }
         catch (Exception ex)

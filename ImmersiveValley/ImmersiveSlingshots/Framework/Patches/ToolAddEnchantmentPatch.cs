@@ -2,46 +2,44 @@
 
 #region using directives
 
-using Common;
-using Common.Extensions.Reflection;
-using Common.Harmony;
-using HarmonyLib;
-using StardewValley.Tools;
 using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
+using DaLion.Common;
+using DaLion.Common.Extensions.Reflection;
+using DaLion.Common.Harmony;
+using HarmonyLib;
+using StardewValley.Tools;
+using HarmonyPatch = DaLion.Common.Harmony.HarmonyPatch;
 
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class ToolAddEnchantmentPatch : Common.Harmony.HarmonyPatch
+internal sealed class ToolAddEnchantmentPatch : HarmonyPatch
 {
-    /// <summary>Construct an instance.</summary>
+    /// <summary>Initializes a new instance of the <see cref="ToolAddEnchantmentPatch"/> class.</summary>
     internal ToolAddEnchantmentPatch()
     {
-        Target = RequireMethod<Tool>(nameof(Tool.AddEnchantment));
+        this.Target = this.RequireMethod<Tool>(nameof(Tool.AddEnchantment));
     }
 
     #region harmony patches
 
     /// <summary>Allow Slingshot forges.</summary>
     [HarmonyTranspiler]
-    private static IEnumerable<CodeInstruction>? ToolAddEnchantmentTranspiler(IEnumerable<CodeInstruction> instructions,
-        ILGenerator generator, MethodBase original)
+    private static IEnumerable<CodeInstruction>? ToolAddEnchantmentTranspiler(
+        IEnumerable<CodeInstruction> instructions, ILGenerator generator, MethodBase original)
     {
-        var helper = new ILHelper(original, instructions);
+        var helper = new IlHelper(original, instructions);
 
-        /// From: if (this is MeleeWeapon ...
-        /// To: if (this is MeleeWeapon || this is Slingshot && ModEntry.Config.EnableSlingshotForges ...
-
+        // From: if (this is MeleeWeapon ...
+        // To: if (this is MeleeWeapon || this is Slingshot && ModEntry.Config.EnableSlingshotForges ...
         var isWeapon = generator.DefineLabel();
         try
         {
             helper
-                .FindFirst(
-                    new CodeInstruction(OpCodes.Isinst)
-                )
+                .FindFirst(new CodeInstruction(OpCodes.Isinst))
                 .Advance()
                 .GetOperand(out var resumeExecution)
                 .InsertInstructions(
@@ -50,9 +48,9 @@ internal sealed class ToolAddEnchantmentPatch : Common.Harmony.HarmonyPatch
                     new CodeInstruction(OpCodes.Isinst, typeof(Slingshot)),
                     new CodeInstruction(OpCodes.Brfalse, resumeExecution),
                     new CodeInstruction(OpCodes.Call, typeof(ModEntry).RequirePropertyGetter(nameof(ModEntry.Config))),
-                    new CodeInstruction(OpCodes.Call,
-                        typeof(ModConfig).RequirePropertyGetter(nameof(ModConfig.EnableSlingshotForges)))
-                )
+                    new CodeInstruction(
+                        OpCodes.Call,
+                        typeof(ModConfig).RequirePropertyGetter(nameof(ModConfig.EnableSlingshotForges))))
                 .Advance()
                 .AddLabels(isWeapon);
         }

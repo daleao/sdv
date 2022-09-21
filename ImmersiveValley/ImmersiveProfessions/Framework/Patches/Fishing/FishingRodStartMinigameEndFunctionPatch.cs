@@ -2,25 +2,26 @@
 
 #region using directives
 
-using DaLion.Common;
-using DaLion.Common.Harmony;
-using Extensions;
-using HarmonyLib;
-using StardewValley.Tools;
 using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
+using DaLion.Common;
+using DaLion.Common.Harmony;
+using DaLion.Stardew.Professions.Extensions;
+using HarmonyLib;
+using StardewValley.Tools;
+using HarmonyPatch = DaLion.Common.Harmony.HarmonyPatch;
 
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class FishingRodStartMinigameEndFunctionPatch : DaLion.Common.Harmony.HarmonyPatch
+internal sealed class FishingRodStartMinigameEndFunctionPatch : HarmonyPatch
 {
-    /// <summary>Construct an instance.</summary>
+    /// <summary>Initializes a new instance of the <see cref="FishingRodStartMinigameEndFunctionPatch"/> class.</summary>
     internal FishingRodStartMinigameEndFunctionPatch()
     {
-        Target = RequireMethod<FishingRod>(nameof(FishingRod.startMinigameEndFunction));
+        this.Target = this.RequireMethod<FishingRod>(nameof(FishingRod.startMinigameEndFunction));
     }
 
     #region harmony patches
@@ -30,18 +31,15 @@ internal sealed class FishingRodStartMinigameEndFunctionPatch : DaLion.Common.Ha
     private static IEnumerable<CodeInstruction>? FishingRodStartMinigameEndFunctionTranspiler(
         IEnumerable<CodeInstruction> instructions, MethodBase original)
     {
-        var helper = new ILHelper(original, instructions);
+        var helper = new IlHelper(original, instructions);
 
-        /// Removed: lastUser.professions.Contains(<pirate_id>) ? baseChance ...
-
+        // Removed: lastUser.professions.Contains(<pirate_id>) ? baseChance ...
         try
         {
             helper // find index of pirate check
                 .FindProfessionCheck(Farmer.pirate)
                 .Retreat(2)
-                .RemoveInstructionsUntil(
-                    new CodeInstruction(OpCodes.Add) // remove this check
-                );
+                .RemoveInstructionsUntil(new CodeInstruction(OpCodes.Add)); // remove this check
         }
         catch (Exception ex)
         {

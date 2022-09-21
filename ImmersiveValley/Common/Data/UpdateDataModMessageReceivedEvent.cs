@@ -2,8 +2,7 @@
 
 #region using directives
 
-using Common;
-using Events;
+using DaLion.Common.Events;
 using StardewModdingAPI.Events;
 
 #endregion using directives
@@ -11,18 +10,23 @@ using StardewModdingAPI.Events;
 [UsedImplicitly]
 internal sealed class UpdateDataModMessageReceivedEvent : ModMessageReceivedEvent
 {
-    /// <inheritdoc />
-    public override bool IsEnabled => Context.IsMultiplayer && Context.IsMainPlayer;
-
-    /// <summary>Construct an instance.</summary>
+    /// <summary>Initializes a new instance of the <see cref="UpdateDataModMessageReceivedEvent"/> class.</summary>
     /// <param name="manager">The <see cref="EventManager"/> instance that manages this event.</param>
     internal UpdateDataModMessageReceivedEvent(EventManager manager)
-        : base(manager) { }
+        : base(manager)
+    {
+    }
+
+    /// <inheritdoc />
+    public override bool IsEnabled => Context.IsMultiplayer && Context.IsMainPlayer;
 
     /// <inheritdoc />
     protected override void OnModMessageReceivedImpl(object? sender, ModMessageReceivedEventArgs e)
     {
-        if (e.FromModID != ModDataIO.ModID || e.Type != "UpdateData") return;
+        if (e.FromModID != ModDataIO.ModId || e.Type != "UpdateData")
+        {
+            return;
+        }
 
         var who = Game1.getFarmer(e.FromPlayerID);
         if (who is null)

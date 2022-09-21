@@ -2,31 +2,35 @@
 
 #region using directives
 
+using System;
+using System.Linq;
 using DaLion.Common.Extensions.Reflection;
-using Extensions;
+using DaLion.Stardew.Professions.Extensions;
+using DaLion.Stardew.Professions.Framework.VirtualProperties;
 using HarmonyLib;
 using Microsoft.Xna.Framework;
 using Netcode;
 using StardewValley.Monsters;
-using System;
-using System.Linq;
-using VirtualProperties;
+using HarmonyPatch = DaLion.Common.Harmony.HarmonyPatch;
+using Utility = StardewValley.Utility;
 
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class GreenSlimeUpdatePatch : DaLion.Common.Harmony.HarmonyPatch
+internal sealed class GreenSlimeUpdatePatch : HarmonyPatch
 {
-    private const int IMMUNE_TO_DAMAGE_DURATION_I = 450;
+    private const int ImmuneToDamageDuration = 450;
 
-    private static readonly Lazy<Func<RockCrab, NetBool>> _GetShellGone = new(() =>
-        typeof(RockCrab).RequireField("shellGone").CompileUnboundFieldGetterDelegate<RockCrab, NetBool>());
+    private static readonly Lazy<Func<RockCrab, NetBool>> GetShellGone = new(() =>
+        typeof(RockCrab)
+            .RequireField("shellGone")
+            .CompileUnboundFieldGetterDelegate<RockCrab, NetBool>());
 
-    /// <summary>Construct an instance.</summary>
+    /// <summary>Initializes a new instance of the <see cref="GreenSlimeUpdatePatch"/> class.</summary>
     internal GreenSlimeUpdatePatch()
     {
-        Target = RequireMethod<GreenSlime>(nameof(GreenSlime.update),
-            new[] { typeof(GameTime), typeof(GameLocation) });
+        this.Target = this.RequireMethod<GreenSlime>(
+            nameof(GreenSlime.update), new[] { typeof(GameTime), typeof(GameLocation) });
     }
 
     #region harmony patches
@@ -35,54 +39,71 @@ internal sealed class GreenSlimeUpdatePatch : DaLion.Common.Harmony.HarmonyPatch
     [HarmonyPostfix]
     private static void GreenSlimeUpdatePostfix(GreenSlime __instance, GameTime time)
     {
-        var pipeTimer = __instance.get_PipeTimer();
-        if (pipeTimer.Value <= 0) return;
+        var pipeTimer = __instance.Get_PipeTimer();
+        if (pipeTimer.Value <= 0)
+        {
+            return;
+        }
 
         pipeTimer.Value -= time.ElapsedGameTime.Milliseconds;
         foreach (var monster in __instance.currentLocation.characters.OfType<Monster>().Where(m => !m.IsSlime()))
         {
             var monsterBox = monster.GetBoundingBox();
             if (monster.IsInvisible || monster.isInvincible() ||
-                monster.isGlider.Value && !(__instance.Scale > 1.8f || __instance.IsJumping()) ||
+                (monster.isGlider.Value && !(__instance.Scale > 1.8f || __instance.IsJumping())) ||
                 !monsterBox.Intersects(__instance.GetBoundingBox()))
+            {
                 continue;
+            }
 
-            if (monster is Bug bug && bug.isArmoredBug.Value // skip Armored Bugs
-                || monster is LavaCrab && __instance.Sprite.currentFrame % 4 == 0 // skip shelled Lava Crabs
-                || monster is RockCrab crab && crab.Sprite.currentFrame % 4 == 0 && !_GetShellGone.Value(crab).Value // skip shelled Rock Crabs
-                || monster is LavaLurk lurk &&
-                lurk.currentState.Value == LavaLurk.State.Submerged // skip submerged Lava Lurks
+            if ((monster is Bug bug && bug.isArmoredBug.Value) // skip Armored Bugs
+                || (monster is LavaCrab && __instance.Sprite.currentFrame % 4 == 0) // skip shelled Lava Crabs
+                || (monster is RockCrab crab && crab.Sprite.currentFrame % 4 == 0 &&
+                    !GetShellGone.Value(crab).Value) // skip shelled Rock Crabs
+                || (monster is LavaLurk lurk &&
+                    lurk.currentState.Value == LavaLurk.State.Submerged) // skip submerged Lava Lurks
                 || monster is Spiker) // skip Spikers
+            {
                 continue;
+            }
 
             // damage monster
-            var damageToMonster = (int)Math.Max(1,
-                                      (__instance.DamageToFarmer +
-                                       Game1.random.Next(-__instance.DamageToFarmer / 4,
-                                           __instance.DamageToFarmer / 4)) * __instance.Scale) -
-                                  monster.resilience.Value;
-
+            var randomizedDamage = __instance.DamageToFarmer +
+                                   Game1.random.Next(-__instance.DamageToFarmer / 4, __instance.DamageToFarmer / 4);
+            var damageToMonster = (int)Math.Max(1, randomizedDamage * __instance.Scale) - monster.resilience.Value;
             var (xTrajectory, yTrajectory) = monster.Slipperiness < 0
                 ? Vector2.Zero
-                : StardewValley.Utility.getAwayFromPositionTrajectory(monsterBox, __instance.getStandingPosition()) / 2f;
+                : Utility.getAwayFromPositionTrajectory(monsterBox, __instance.getStandingPosition()) / 2f;
             monster.takeDamage(damageToMonster, (int)xTrajectory, (int)yTrajectory, false, 1d, "slime");
-            monster.currentLocation.debris.Add(new(damageToMonster,
-                new(monsterBox.Center.X + 16, monsterBox.Center.Y), new(255, 130, 0), 1f, monster));
-            monster.setInvincibleCountdown(IMMUNE_TO_DAMAGE_DURATION_I);
+            monster.currentLocation.debris.Add(new Debris(
+                damageToMonster,
+                new Vector2(monsterBox.Center.X + 16, monsterBox.Center.Y),
+                new Color(255, 130, 0),
+                1f,
+                monster));
+            monster.setInvincibleCountdown(ImmuneToDamageDuration);
 
             // aggro monsters
-            if (monster.get_Taunter().Get(monster.currentLocation) is null) monster.set_Taunter(__instance);
+            if (monster.Get_Taunter().Get(monster.currentLocation) is null)
+            {
+                monster.Set_Taunter(__instance);
+            }
 
-            var fakeFarmer = monster.get_FakeFarmer();
-            if (fakeFarmer is not null) fakeFarmer.Position = __instance.Position;
+            var fakeFarmer = monster.Get_FakeFarmer();
+            if (fakeFarmer is not null)
+            {
+                fakeFarmer.Position = __instance.Position;
+            }
 
             // get damaged by monster
-            var damageToSlime = Math.Max(1,
-                                    monster.DamageToFarmer + Game1.random.Next(-monster.DamageToFarmer / 4,
-                                        monster.DamageToFarmer / 4)) -
-                                __instance.resilience.Value;
+            randomizedDamage = monster.DamageToFarmer +
+                                   Game1.random.Next(-monster.DamageToFarmer / 4, monster.DamageToFarmer / 4);
+            var damageToSlime = Math.Max(1, randomizedDamage) - __instance.resilience.Value;
             __instance.takeDamage(damageToSlime, (int)-xTrajectory, (int)-yTrajectory, false, 1d, "slime");
-            if (__instance.Health <= 0) break;
+            if (__instance.Health <= 0)
+            {
+                break;
+            }
         }
     }
 

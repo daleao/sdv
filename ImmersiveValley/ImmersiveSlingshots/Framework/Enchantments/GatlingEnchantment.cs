@@ -6,9 +6,13 @@ using System.Xml.Serialization;
 
 #endregion using directives
 
-/// <summary>Enables auto-firing at lower firing speed..</summary>
+/// <summary>Enables auto-firing at lower firing speed.</summary>
 [XmlType("Mods_DaLion_GatlingEnchantment")]
-public class GatlingEnchantment : BaseSlingshotEnchantment
+public sealed class GatlingEnchantment : BaseSlingshotEnchantment
 {
-    public override string GetName() => ModEntry.i18n.Get("enchantments.gatling");
+    /// <inheritdoc />
+    public override string GetName()
+    {
+        return ModEntry.i18n.Get("enchantments.gatling");
+    }
 }

@@ -6,16 +6,18 @@ using DaLion.Common.Attributes;
 using DaLion.Common.Extensions.Stardew;
 using HarmonyLib;
 using StardewValley.Monsters;
+using HarmonyPatch = DaLion.Common.Harmony.HarmonyPatch;
 
 #endregion using directives
 
-[UsedImplicitly, Deprecated]
-internal sealed class GreenSlimeBehaviorAtGameTickPatch : DaLion.Common.Harmony.HarmonyPatch
+[UsedImplicitly]
+[Deprecated]
+internal sealed class GreenSlimeBehaviorAtGameTickPatch : HarmonyPatch
 {
-    /// <summary>Construct an instance.</summary>
+    /// <summary>Initializes a new instance of the <see cref="GreenSlimeBehaviorAtGameTickPatch"/> class.</summary>
     internal GreenSlimeBehaviorAtGameTickPatch()
     {
-        Target = RequireMethod<GreenSlime>(nameof(GreenSlime.behaviorAtGameTick));
+        this.Target = this.RequireMethod<GreenSlime>(nameof(GreenSlime.behaviorAtGameTick));
     }
 
     #region harmony patches
@@ -25,7 +27,10 @@ internal sealed class GreenSlimeBehaviorAtGameTickPatch : DaLion.Common.Harmony.
     private static void GreenSlimeBehaviorAtGameTickPostfix(GreenSlime __instance, ref int ___readyToJump)
     {
         var timeLeft = __instance.Read<int>("Jumping");
-        if (timeLeft <= 0) return;
+        if (timeLeft <= 0)
+        {
+            return;
+        }
 
         timeLeft -= Game1.currentGameTime.ElapsedGameTime.Milliseconds;
         __instance.Write("Jumping", timeLeft <= 0 ? null : timeLeft.ToString());

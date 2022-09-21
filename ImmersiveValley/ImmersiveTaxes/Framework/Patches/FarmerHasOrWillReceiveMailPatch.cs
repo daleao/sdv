@@ -2,20 +2,21 @@
 
 #region using directives
 
-using Common;
-using HarmonyLib;
 using System;
 using System.Reflection;
+using DaLion.Common;
+using HarmonyLib;
+using HarmonyPatch = DaLion.Common.Harmony.HarmonyPatch;
 
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class FarmerHasOrWillReceiveMailPatch : Common.Harmony.HarmonyPatch
+internal sealed class FarmerHasOrWillReceiveMailPatch : HarmonyPatch
 {
-    /// <summary>Construct an instance.</summary>
+    /// <summary>Initializes a new instance of the <see cref="FarmerHasOrWillReceiveMailPatch"/> class.</summary>
     internal FarmerHasOrWillReceiveMailPatch()
     {
-        Target = RequireMethod<Farmer>(nameof(Farmer.hasOrWillReceiveMail));
+        this.Target = this.RequireMethod<Farmer>(nameof(Farmer.hasOrWillReceiveMail));
     }
 
     #region harmony patches
@@ -27,7 +28,9 @@ internal sealed class FarmerHasOrWillReceiveMailPatch : Common.Harmony.HarmonyPa
         try
         {
             if (!id.Contains(ModEntry.Manifest.UniqueID))
+            {
                 return true; // run original logic
+            }
 
             __result = id.Contains("TaxIntro");
             return false; // don't run original logic

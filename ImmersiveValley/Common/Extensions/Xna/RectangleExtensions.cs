@@ -7,33 +7,43 @@ using Microsoft.Xna.Framework.Graphics;
 
 #endregion using directives
 
-/// <summary>Extensions for the <see cref="Rectangle"/> class.</summary>
+/// <summary>Extensions for the <see cref="Rectangle"/> struct.</summary>
 public static class RectangleExtensions
 {
-    /// <summary>Draw the rectangle's border to the specified <see cref="SpriteBatch"/>.</summary>
+    /// <summary>Draws the <paramref name="rectangle"/>'s border.</summary>
+    /// <param name="rectangle">The <see cref="Rectangle"/>.</param>
     /// <param name="pixel">The border pixel texture.</param>
     /// <param name="thickness">Border thickness.</param>
     /// <param name="color">Border color.</param>
-    /// <param name="b"><see cref="SpriteBatch" /> to draw to.</param>
-    public static void DrawBorder(this Rectangle r, Texture2D pixel, int thickness, Color color, SpriteBatch b)
+    /// <param name="batch"><see cref="SpriteBatch"/> to draw to.</param>
+    public static void DrawBorder(
+        this Rectangle rectangle, Texture2D pixel, int thickness, Color color, SpriteBatch batch)
     {
-        b.Draw(pixel, new Rectangle(r.X, r.Y, r.Width, thickness), color); // top line
-        b.Draw(pixel, new Rectangle(r.X, r.Y, thickness, r.Height), color); // left line
-        b.Draw(pixel, new Rectangle(r.X + r.Width - thickness, r.Y, thickness, r.Height), color); // right line
-        b.Draw(pixel, new Rectangle(r.X, r.Y + r.Height - thickness, r.Width, thickness), color); // bottom line
+        batch.Draw(pixel, new Rectangle(rectangle.X, rectangle.Y, rectangle.Width, thickness), color); // top line
+        batch.Draw(pixel, new Rectangle(rectangle.X, rectangle.Y, thickness, rectangle.Height), color); // left line
+        batch.Draw(
+            pixel, new Rectangle(rectangle.X + rectangle.Width - thickness, rectangle.Y, thickness, rectangle.Height), color); // right line
+        batch.Draw(
+            pixel, new Rectangle(rectangle.X, rectangle.Y + rectangle.Height - thickness, rectangle.Width, thickness), color); // bottom line
     }
 
-    /// <summary>Draw the rectangle's border to the specified <see cref="SpriteBatch"/>.</summary>
+    /// <summary>Draws the <paramref name="rectangle"/>'s border.</summary>
+    /// <param name="rectangle">The <see cref="Rectangle"/>.</param>
     /// <param name="pixel">The border pixel texture.</param>
     /// <param name="thickness">Border thickness.</param>
     /// <param name="color">Border color.</param>
-    /// <param name="b"><see cref="SpriteBatch" /> to draw to.</param>
-    public static void DrawBorder(this Rectangle r, Texture2D pixel, int thickness, Color color, SpriteBatch b,
-        Vector2 offset)
+    /// <param name="batch"><see cref="SpriteBatch"/> to draw to.</param>
+    /// <param name="offset">An optional offset to the <paramref name="pixel"/>'s position.</param>
+    public static void DrawBorder(
+        this Rectangle rectangle, Texture2D pixel, int thickness, Color color, SpriteBatch batch, Vector2 offset)
     {
-        b.Draw(pixel, new Rectangle(r.X + (int)offset.X, r.Y + (int)offset.Y, r.Width, thickness), color); // top line
-        b.Draw(pixel, new Rectangle(r.X + (int)offset.X, r.Y + (int)offset.Y, thickness, r.Height), color); // left line
-        b.Draw(pixel, new Rectangle(r.X + (int)offset.X + r.Width - thickness, r.Y + (int)offset.Y, thickness, r.Height), color); // right line
-        b.Draw(pixel, new Rectangle(r.X + (int)offset.X, r.Y + (int)offset.Y + r.Height - thickness, r.Width, thickness), color); // bottom line
+        batch.Draw(
+            pixel, new Rectangle(rectangle.X + (int)offset.X, rectangle.Y + (int)offset.Y, rectangle.Width, thickness), color); // top line
+        batch.Draw(
+            pixel, new Rectangle(rectangle.X + (int)offset.X, rectangle.Y + (int)offset.Y, thickness, rectangle.Height), color); // left line
+        batch.Draw(
+            pixel, new Rectangle(rectangle.X + (int)offset.X + rectangle.Width - thickness, rectangle.Y + (int)offset.Y, thickness, rectangle.Height), color); // right line
+        batch.Draw(
+            pixel, new Rectangle(rectangle.X + (int)offset.X, rectangle.Y + (int)offset.Y + rectangle.Height - thickness, rectangle.Width, thickness), color); // bottom line
     }
 }

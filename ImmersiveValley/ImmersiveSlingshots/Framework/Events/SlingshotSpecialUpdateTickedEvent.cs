@@ -2,32 +2,35 @@
 
 #region using directives
 
-using Common.Enums;
-using Common.Events;
-using Common.Exceptions;
-using Extensions;
+using DaLion.Common.Enums;
+using DaLion.Common.Events;
+using DaLion.Common.Exceptions;
+using DaLion.Stardew.Slingshots.Extensions;
+using DaLion.Stardew.Slingshots.Framework.VirtualProperties;
 using StardewModdingAPI.Events;
 using StardewValley.Tools;
-using VirtualProperties;
 
 #endregion using directives
 
 [UsedImplicitly]
 internal sealed class SlingshotSpecialUpdateTickedEvent : UpdateTickedEvent
 {
-    private static int _currentFrame = -1, _animationFrames;
+    private static int _currentFrame = -1;
+    private static int _animationFrames;
 
-    /// <summary>Construct an instance.</summary>
+    /// <summary>Initializes a new instance of the <see cref="SlingshotSpecialUpdateTickedEvent"/> class.</summary>
     /// <param name="manager">The <see cref="EventManager"/> instance that manages this event.</param>
     internal SlingshotSpecialUpdateTickedEvent(EventManager manager)
-        : base(manager) { }
+        : base(manager)
+    {
+    }
 
     /// <inheritdoc />
     protected override void OnUpdateTickedImpl(object? sender, UpdateTickedEventArgs e)
     {
         var user = Game1.player;
         var slingshot = (Slingshot)user.CurrentTool;
-        if (slingshot.get_IsOnSpecial())
+        if (slingshot.Get_IsOnSpecial())
         {
             ++_currentFrame;
             if (_currentFrame == 0)
@@ -39,17 +42,17 @@ internal sealed class SlingshotSpecialUpdateTickedEvent : UpdateTickedEvent
                     FacingDirection.Down => 160,
                     FacingDirection.Left => 184,
                     _ => ThrowHelperExtensions.ThrowUnexpectedEnumValueException<FacingDirection, int>(
-                        (FacingDirection)user.FacingDirection)
+                        (FacingDirection)user.FacingDirection),
                 };
 
                 var sprite = (FarmerSprite)user.Sprite;
                 sprite.setCurrentFrame(frame, 0, 40, _animationFrames, user.FacingDirection == 3, true);
-                _animationFrames = sprite.CurrentAnimation.Count * 3 + 9;
+                _animationFrames = (sprite.CurrentAnimation.Count * 3) + 9;
             }
             else if (_currentFrame >= _animationFrames)
             {
                 user.completelyStopAnimatingOrDoingAction();
-                slingshot.set_IsOnSpecial(false);
+                slingshot.Set_IsOnSpecial(false);
                 user.forceCanMove();
 #if RELEASE
             ModEntry.State.SlingshotCooldown = Constants.SLINGSHOT_COOLDOWN_TIME_I;
@@ -60,7 +63,8 @@ internal sealed class SlingshotSpecialUpdateTickedEvent : UpdateTickedEvent
                 ModEntry.State.SlingshotCooldown = (int)(ModEntry.State.SlingshotCooldown *
                                                          (1f - slingshot.GetEnchantmentLevel<TopazEnchantment>() * 0.1f));
             if (ModEntry.IsImmersiveRingsLoaded)
-                ModEntry.State.SlingshotCooldown = (int) (ModEntry.State.SlingshotCooldown * (1f - user.Read<float>("CooldownReduction", modId: "DaLion.ImmersiveRings")));
+                ModEntry.State.SlingshotCooldown =
+ (int) (ModEntry.State.SlingshotCooldown * (1f - user.Read<float>("CooldownReduction", modId: "DaLion.ImmersiveRings")));
 #endif
                 _currentFrame = -1;
             }
@@ -68,7 +72,9 @@ internal sealed class SlingshotSpecialUpdateTickedEvent : UpdateTickedEvent
             {
                 var sprite = user.FarmerSprite;
                 if (_currentFrame >= 6 && _currentFrame < _animationFrames - 6 && _currentFrame % 3 == 0)
+                {
                     sprite.CurrentFrame = sprite.CurrentAnimation[++sprite.currentAnimationIndex].frame;
+                }
 
                 if (_currentFrame == 6)
                 {
@@ -94,7 +100,7 @@ internal sealed class SlingshotSpecialUpdateTickedEvent : UpdateTickedEvent
 
             Game1.playSound("objectiveComplete");
 #endif
-            Disable();
+            this.Disable();
         }
     }
 }

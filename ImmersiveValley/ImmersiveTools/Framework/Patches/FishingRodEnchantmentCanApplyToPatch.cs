@@ -4,16 +4,17 @@
 
 using HarmonyLib;
 using StardewValley.Tools;
+using HarmonyPatch = DaLion.Common.Harmony.HarmonyPatch;
 
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class FishingRodEnchantmentCanApplyToPatch : Common.Harmony.HarmonyPatch
+internal sealed class FishingRodEnchantmentCanApplyToPatch : HarmonyPatch
 {
-    /// <summary>Construct an instance.</summary>
+    /// <summary>Initializes a new instance of the <see cref="FishingRodEnchantmentCanApplyToPatch"/> class.</summary>
     internal FishingRodEnchantmentCanApplyToPatch()
     {
-        Target = RequireMethod<FishingRodEnchantment>(nameof(FishingRodEnchantment.CanApplyTo));
+        this.Target = this.RequireMethod<FishingRodEnchantment>(nameof(FishingRodEnchantment.CanApplyTo));
     }
 
     #region harmony patches
@@ -22,7 +23,10 @@ internal sealed class FishingRodEnchantmentCanApplyToPatch : Common.Harmony.Harm
     [HarmonyPostfix]
     private static void FishingRodEnchantmentCanApplyTo(FishingRodEnchantment __instance, ref bool __result, Item item)
     {
-        if (__instance is MasterEnchantment && item is Axe or Hoe or Pickaxe or WateringCan) __result = true;
+        if (__instance is MasterEnchantment && item is Axe or Hoe or Pickaxe or WateringCan)
+        {
+            __result = true;
+        }
     }
 
     #endregion harmony patches

@@ -2,19 +2,20 @@
 
 #region using directives
 
-using Extensions;
+using DaLion.Stardew.Professions.Extensions;
 using HarmonyLib;
 using StardewValley.TerrainFeatures;
+using HarmonyPatch = DaLion.Common.Harmony.HarmonyPatch;
 
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class TreeDayUpdatePatch : DaLion.Common.Harmony.HarmonyPatch
+internal sealed class TreeDayUpdatePatch : HarmonyPatch
 {
-    /// <summary>Construct an instance.</summary>
+    /// <summary>Initializes a new instance of the <see cref="TreeDayUpdatePatch"/> class.</summary>
     internal TreeDayUpdatePatch()
     {
-        Target = RequireMethod<Tree>(nameof(Tree.dayUpdate));
+        this.Target = this.RequireMethod<Tree>(nameof(Tree.dayUpdate));
     }
 
     #region harmony patches
@@ -33,13 +34,18 @@ internal sealed class TreeDayUpdatePatch : DaLion.Common.Harmony.HarmonyPatch
     private static void TreeDayUpdatePostfix(Tree __instance, int __state)
     {
         var anyPlayerIsArborist = Game1.game1.DoesAnyPlayerHaveProfession(Profession.Arborist, out var n);
-        if (__instance.growthStage.Value > __state || !anyPlayerIsArborist || !__instance.CanGrow()) return;
+        if (__instance.growthStage.Value > __state || !anyPlayerIsArborist || !__instance.CanGrow())
+        {
+            return;
+        }
 
         if (__instance.treeType.Value == Tree.mahoganyTree)
         {
             if (Game1.random.NextDouble() < 0.075 * n ||
-                __instance.fertilized.Value && Game1.random.NextDouble() < 0.3 * n)
+                (__instance.fertilized.Value && Game1.random.NextDouble() < 0.3 * n))
+            {
                 ++__instance.growthStage.Value;
+            }
         }
         else if (Game1.random.NextDouble() < 0.1 * n)
         {

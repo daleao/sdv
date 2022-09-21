@@ -2,8 +2,8 @@
 
 #region using directives
 
-using Common.Extensions.Stardew;
-using Framework;
+using DaLion.Common.Extensions.Stardew;
+using DaLion.Stardew.Professions.Framework;
 using StardewValley.Buildings;
 
 #endregion using directives
@@ -11,10 +11,25 @@ using StardewValley.Buildings;
 /// <summary>Extensions for the <see cref="Building"/> class.</summary>
 public static class BuildingExtensions
 {
-    /// <summary>Whether the owner of this instance has the specified profession.</summary>
+    /// <summary>Determines whether the owner of the <paramref name="building"/> has the specified <paramref name="profession"/>.</summary>
+    /// <param name="building">The <see cref="Building"/>.</param>
+    /// <param name="profession">A <see cref="IProfession"/>.</param>
+    /// <param name="prestiged">Whether to check for the prestiged variant.</param>
+    /// <returns><see langword="true"/> if the <see cref="Farmer"/> who owns the <paramref name="building"/> has the <paramref name="profession"/>, otherwise <see langword="false"/>.</returns>
+    public static bool DoesOwnerHaveProfession(this Building building, IProfession profession, bool prestiged = false)
+    {
+        return building.GetOwner().HasProfession(profession, prestiged);
+    }
+
+    /// <summary>Determines whether the owner of the <paramref name="building"/> has the <see cref="Profession"/> corresponding to <paramref name="index"/>.</summary>
+    /// <param name="building">The <see cref="Building"/>.</param>
     /// <param name="index">A valid profession index.</param>
     /// <param name="prestiged">Whether to check for the prestiged variant.</param>
-    /// <remarks>This extension is only called by emitted ILCode, so we use a simpler <see cref="int"/> interface instead of the standard <see cref="Profession"/>.</remarks>>
-    public static bool DoesOwnerHaveProfession(this Building building, int index, bool prestiged = false) =>
-        Profession.TryFromValue(index, out var profession) && building.GetOwner().HasProfession(profession, prestiged);
+    /// <returns><see langword="true"/> if the owner of <paramref name="building"/> the <see cref="Profession"/> with the specified <paramref name="index"/>, otherwise <see langword="false"/>.</returns>
+    /// <remarks>This overload exists only to be called by emitted ILCode. Excepts a vanilla <see cref="Profession"/>.</remarks>
+    public static bool DoesOwnerHaveProfession(this Building building, int index, bool prestiged = false)
+    {
+        return Profession.TryFromValue(index, out var profession) &&
+               building.GetOwner().HasProfession(profession, prestiged);
+    }
 }

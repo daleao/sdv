@@ -3,54 +3,69 @@ namespace DaLion.Stardew.Ponds.Framework.Patches;
 
 #region using directives
 
-using Common;
-using Common.Extensions;
-using Common.Extensions.Reflection;
-using Common.Extensions.Stardew;
-using Extensions;
+using System;
+using System.Reflection;
+using DaLion.Common;
+using DaLion.Common.Extensions;
+using DaLion.Common.Extensions.Reflection;
+using DaLion.Common.Extensions.Stardew;
+using DaLion.Stardew.Ponds.Extensions;
 using HarmonyLib;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using StardewModdingAPI.Utilities;
 using StardewValley.Buildings;
 using StardewValley.Menus;
-using System;
-using System.Reflection;
+using HarmonyPatch = DaLion.Common.Harmony.HarmonyPatch;
+using Utility = StardewValley.Utility;
 
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class PondQueryMenuDrawPatch : Common.Harmony.HarmonyPatch
+internal sealed class PondQueryMenuDrawPatch : HarmonyPatch
 {
-    private delegate void DrawHorizontalPartitionDelegate(IClickableMenu instance, SpriteBatch b, int yPosition,
-        bool small = false, int red = -1, int green = -1, int blue = -1);
-
-    private static readonly Lazy<Func<PondQueryMenu, string>> _GetDisplayedText = new(() =>
-        typeof(PondQueryMenu).RequireMethod("getDisplayedText").CompileUnboundDelegate<Func<PondQueryMenu, string>>());
-
-    private static readonly Lazy<Func<PondQueryMenu, string, int>> _MeasureExtraTextHeight = new(() =>
-        typeof(PondQueryMenu).RequireMethod("measureExtraTextHeight")
-            .CompileUnboundDelegate<Func<PondQueryMenu, string, int>>());
-
-    private static readonly Lazy<DrawHorizontalPartitionDelegate> _DrawHorizontalPartition = new(() =>
-        typeof(PondQueryMenu).RequireMethod("drawHorizontalPartition")
+    private static readonly Lazy<DrawHorizontalPartitionDelegate> DrawHorizontalPartition = new(() =>
+        typeof(PondQueryMenu)
+            .RequireMethod("drawHorizontalPartition")
             .CompileUnboundDelegate<DrawHorizontalPartitionDelegate>());
 
-    /// <summary>Construct an instance.</summary>
+    private static readonly Lazy<Func<PondQueryMenu, string>> GetDisplayedText = new(() =>
+        typeof(PondQueryMenu)
+            .RequireMethod("getDisplayedText")
+            .CompileUnboundDelegate<Func<PondQueryMenu, string>>());
+
+    private static readonly Lazy<Func<PondQueryMenu, string, int>> MeasureExtraTextHeight = new(() =>
+        typeof(PondQueryMenu)
+            .RequireMethod("measureExtraTextHeight")
+            .CompileUnboundDelegate<Func<PondQueryMenu, string, int>>());
+
+    /// <summary>Initializes a new instance of the <see cref="PondQueryMenuDrawPatch"/> class.</summary>
     internal PondQueryMenuDrawPatch()
     {
-        Target = RequireMethod<PondQueryMenu>(nameof(PondQueryMenu.draw), new[] { typeof(SpriteBatch) });
-        Prefix!.priority = Priority.High;
-        Prefix!.before = new[] { "DaLion.ImmersiveProfessions" };
+        this.Target = this.RequireMethod<PondQueryMenu>(nameof(PondQueryMenu.draw), new[] { typeof(SpriteBatch) });
+        this.Prefix!.priority = Priority.High;
+        this.Prefix!.before = new[] { "DaLion.ImmersiveProfessions" };
     }
+
+    private delegate void DrawHorizontalPartitionDelegate(
+        IClickableMenu instance, SpriteBatch b, int yPosition, bool small = false, int red = -1, int green = -1, int blue = -1);
 
     #region harmony patches
 
     /// <summary>Adjust fish pond query menu for algae.</summary>
-    [HarmonyPrefix, HarmonyPriority(Priority.High), HarmonyBefore("DaLion.ImmersiveProfessions")]
-    private static bool PondQueryMenuDrawPrefix(PondQueryMenu __instance, float ____age,
-        Rectangle ____confirmationBoxRectangle, string ____confirmationText, bool ___confirmingEmpty,
-        string ___hoverText, SObject ____fishItem, FishPond ____pond, SpriteBatch b)
+    [HarmonyPrefix]
+    [HarmonyPriority(Priority.High)]
+    [HarmonyBefore("DaLion.ImmersiveProfessions")]
+    private static bool PondQueryMenuDrawPrefix(
+        PondQueryMenu __instance,
+        float ____age,
+        Rectangle ____confirmationBoxRectangle,
+        string ____confirmationText,
+        bool ___confirmingEmpty,
+        string ___hoverText,
+        SObject ____fishItem,
+        FishPond ____pond,
+        SpriteBatch b)
     {
         try
         {
@@ -72,43 +87,48 @@ internal sealed class PondQueryMenuDrawPatch : Common.Harmony.HarmonyPatch
                     ____fishItem.DisplayName);
             var textSize = Game1.smallFont.MeasureString(pondNameText);
             Game1.DrawBox(
-                x: (int)(Game1.uiViewport.Width / 2 - (textSize.X + 64f) * 0.5f),
-                y: __instance.yPositionOnScreen - 4 + 128, (int)(textSize.X + 64f), 64
-            );
-            StardewValley.Utility.drawTextWithShadow(
-                b: b,
-                text: pondNameText,
-                font: Game1.smallFont,
-                position: new(
-                    x: Game1.uiViewport.Width / 2 - textSize.X * 0.5f,
-                    y: __instance.yPositionOnScreen - 4 + 160f - textSize.Y * 0.5f), Color.Black
-            );
-            var displayedText = _GetDisplayedText.Value(__instance);
-            var extraHeight = 0;
-            if (hasUnresolvedNeeds) extraHeight += 116;
+                (int)((Game1.uiViewport.Width / 2) - ((textSize.X + 64f) * 0.5f)),
+                __instance.yPositionOnScreen - 4 + 128,
+                (int)(textSize.X + 64f),
+                64);
 
-            var extraTextHeight = _MeasureExtraTextHeight.Value(__instance, displayedText);
+            Utility.drawTextWithShadow(
+                b,
+                pondNameText,
+                Game1.smallFont,
+                new Vector2(
+                    (Game1.uiViewport.Width / 2) - (textSize.X * 0.5f),
+                    __instance.yPositionOnScreen - 4 + 160f - (textSize.Y * 0.5f)),
+                Color.Black);
+            var displayedText = GetDisplayedText.Value(__instance);
+            var extraHeight = 0;
+            if (hasUnresolvedNeeds)
+            {
+                extraHeight += 116;
+            }
+
+            var extraTextHeight = MeasureExtraTextHeight.Value(__instance, displayedText);
             Game1.drawDialogueBox(
-                x: __instance.xPositionOnScreen,
-                y: __instance.yPositionOnScreen + 128,
-                width: PondQueryMenu.width,
-                height: PondQueryMenu.height - 128 + extraHeight + extraTextHeight,
-                speaker: false,
-                drawOnlyBox: true
-            );
+                __instance.xPositionOnScreen,
+                __instance.yPositionOnScreen + 128,
+                PondQueryMenu.width,
+                PondQueryMenu.height - 128 + extraHeight + extraTextHeight,
+                false,
+                true);
             var populationText = Game1.content.LoadString(
-                PathUtilities.NormalizeAssetName("Strings/UI:PondQuery_Population"),
-                string.Concat(____pond.FishCount), ____pond.maxOccupants.Value);
+                PathUtilities.NormalizeAssetName(
+                    "Strings/UI:PondQuery_Population"),
+                string.Concat(____pond.FishCount),
+                ____pond.maxOccupants.Value);
             textSize = Game1.smallFont.MeasureString(populationText);
-            StardewValley.Utility.drawTextWithShadow(
-                b: b, populationText,
-                font: Game1.smallFont,
-                position: new(
-                    x: __instance.xPositionOnScreen + PondQueryMenu.width / 2 - textSize.X * 0.5f,
-                    y: __instance.yPositionOnScreen + IClickableMenu.spaceToClearTopBorder + 16 + 128
-                ),
-                color: Game1.textColor
-            );
+            Utility.drawTextWithShadow(
+                b,
+                populationText,
+                Game1.smallFont,
+                new Vector2(
+                    __instance.xPositionOnScreen + (PondQueryMenu.width / 2) - (textSize.X * 0.5f),
+                    __instance.yPositionOnScreen + IClickableMenu.spaceToClearTopBorder + 16 + 128),
+                Game1.textColor);
 
             // draw fish
             int x = 0, y = 0, seaweedCount = 0, greenAlgaeCount = 0, whiteAlgaeCount = 0, familyCount = 0;
@@ -122,7 +142,7 @@ internal sealed class PondQueryMenuDrawPatch : Common.Harmony.HarmonyPatch
                 4 => 36,
                 3 => 70,
                 2 => 76,
-                _ => 0
+                _ => 0,
             };
             SObject? itemToDraw = null;
             if (isAlgaePond)
@@ -143,46 +163,81 @@ internal sealed class PondQueryMenuDrawPatch : Common.Harmony.HarmonyPatch
 
             for (var i = 0; i < slotsToDraw; ++i)
             {
-                var yOffset = (float)Math.Sin(____age + x * 0.75f + y * 0.25f) * 2f;
-                var yPos = __instance.yPositionOnScreen + (int)(yOffset * 4f) + y * slotSpacing * 4f + 275.2f;
-                var xPos = __instance.xPositionOnScreen + PondQueryMenu.width / 2 -
-                    slotSpacing * Math.Min(slotsToDraw, 5) * 2f + x * slotSpacing * 4f - 12f + xOffset;
+                var yOffset = (float)Math.Sin(____age + (x * 0.75f) + (y * 0.25f)) * 2f;
+                var yPos = __instance.yPositionOnScreen + (int)(yOffset * 4f) + (y * slotSpacing * 4f) + 275.2f;
+                var xPos = __instance.xPositionOnScreen + (PondQueryMenu.width / 2) -
+                    (slotSpacing * Math.Min(slotsToDraw, 5) * 2f) + (x * slotSpacing * 4f) - 12f + xOffset;
 
                 if (isAlgaePond)
                 {
                     itemToDraw = seaweedCount-- > 0
-                        ? new(Constants.SEAWEED_INDEX_I, 1)
+                        ? new SObject(Constants.SeaweedIndex, 1)
                         : greenAlgaeCount-- > 0
-                            ? new(Constants.GREEN_ALGAE_INDEX_I, 1)
+                            ? new SObject(Constants.GreenAlgaeIndex, 1)
                             : whiteAlgaeCount-- > 0
-                                ? new(Constants.WHITE_ALGAE_INDEX_I, 1)
+                                ? new SObject(Constants.WhiteAlgaeIndex, 1)
                                 : null;
 
                     if (itemToDraw is not null)
-                        itemToDraw.drawInMenu(b, new(xPos, yPos), 0.75f, 1f, 0f, StackDrawType.Hide,
+                    {
+                        itemToDraw.drawInMenu(
+                            b,
+                            new Vector2(xPos, yPos),
+                            0.75f,
+                            1f,
+                            0f,
+                            StackDrawType.Hide,
                             Color.White,
                             false);
+                    }
                     else
-                        ____fishItem.drawInMenu(b, new(xPos, yPos), 0.75f, 0.35f, 0f, StackDrawType.Hide,
+                    {
+                        ____fishItem.drawInMenu(
+                            b,
+                            new Vector2(xPos, yPos),
+                            0.75f,
+                            0.35f,
+                            0f,
+                            StackDrawType.Hide,
                             Color.Black,
                             false);
+                    }
                 }
                 else if (i < ____pond.FishCount)
                 {
                     if (isLegendaryPond && familyCount > 0 && i == ____pond.FishCount - familyCount)
-                        itemToDraw = new(Utils.ExtendedFamilyPairs[____fishItem.ParentSheetIndex], 1);
+                    {
+                        itemToDraw = new SObject(Utils.ExtendedFamilyPairs[____fishItem.ParentSheetIndex], 1);
+                    }
 
-                    itemToDraw!.drawInMenu(b, new(xPos, yPos), 0.75f, 1f, 0f, StackDrawType.Hide,
-                        Color.White, false);
+                    itemToDraw!.drawInMenu(
+                        b,
+                        new Vector2(xPos, yPos),
+                        0.75f,
+                        1f,
+                        0f,
+                        StackDrawType.Hide,
+                        Color.White,
+                        false);
                 }
                 else
                 {
-                    ____fishItem.drawInMenu(b, new(xPos, yPos), 0.75f, 0.35f, 0f, StackDrawType.Hide,
-                            Color.Black, false);
+                    ____fishItem.drawInMenu(
+                        b,
+                        new Vector2(xPos, yPos),
+                        0.75f,
+                        0.35f,
+                        0f,
+                        StackDrawType.Hide,
+                        Color.Black,
+                        false);
                 }
 
                 ++x;
-                if (x != columns) continue;
+                if (x != columns)
+                {
+                    continue;
+                }
 
                 x = 0;
                 ++y;
@@ -199,10 +254,10 @@ internal sealed class PondQueryMenuDrawPatch : Common.Harmony.HarmonyPatch
                     x = y = 0;
                     for (var i = 0; i < ____pond.FishCount - familyCount; ++i)
                     {
-                        var yOffset = (float)Math.Sin(____age + x * 0.75f + y * 0.25f) * 2f;
-                        var yPos = __instance.yPositionOnScreen + (int)(yOffset * 4f) + y * slotSpacing * 4f + 270.2f;
-                        var xPos = __instance.xPositionOnScreen + PondQueryMenu.width / 2 -
-                            slotSpacing * Math.Min(slotsToDraw, 5) * 2f + x * slotSpacing * 4f + 4f + xOffset;
+                        var yOffset = (float)Math.Sin(____age + (x * 0.75f) + (y * 0.25f)) * 2f;
+                        var yPos = __instance.yPositionOnScreen + (int)(yOffset * 4f) + (y * slotSpacing * 4f) + 270.2f;
+                        var xPos = __instance.xPositionOnScreen + (PondQueryMenu.width / 2) -
+                            (slotSpacing * Math.Min(slotsToDraw, 5) * 2f) + (x * slotSpacing * 4f) + 4f + xOffset;
 
                         var quality = numBestQuality-- > 0
                             ? SObject.bestQuality
@@ -223,27 +278,29 @@ internal sealed class PondQueryMenuDrawPatch : Common.Harmony.HarmonyPatch
                             continue;
                         }
 
-                        Rectangle qualityRect = quality < SObject.bestQuality
-                            ? new(338 + (quality - 1) * 8, 400, 8, 8)
-                            : new(346, 392, 8, 8);
+                        var qualityRect = quality < SObject.bestQuality
+                            ? new Rectangle(338 + ((quality - 1) * 8), 400, 8, 8)
+                            : new Rectangle(346, 392, 8, 8);
                         yOffset = quality < SObject.bestQuality
                             ? 0f
                             : (float)((Math.Cos(Game1.currentGameTime.TotalGameTime.Milliseconds * Math.PI / 512.0) +
-                                        1f) * 0.05f);
+                                       1f) * 0.05f);
                         b.Draw(
-                            texture: Game1.mouseCursors,
-                            position: new(xPos, yPos + yOffset + 50f),
-                            sourceRectangle: qualityRect,
-                            color: Color.White,
-                            rotation: 0f,
-                            origin: new(4f, 4f),
-                            scale: 3f * 0.75f * (1f + yOffset),
-                            effects: SpriteEffects.None,
-                            layerDepth: 0.9f
-                        );
+                            Game1.mouseCursors,
+                            new Vector2(xPos, yPos + yOffset + 50f),
+                            qualityRect,
+                            Color.White,
+                            0f,
+                            new Vector2(4f, 4f),
+                            3f * 0.75f * (1f + yOffset),
+                            SpriteEffects.None,
+                            0.9f);
 
                         ++x;
-                        if (x != columns) continue;
+                        if (x != columns)
+                        {
+                            continue;
+                        }
 
                         x = 0;
                         ++y;
@@ -253,16 +310,18 @@ internal sealed class PondQueryMenuDrawPatch : Common.Harmony.HarmonyPatch
                 if (familyCount > 0)
                 {
                     var (_, numMedFamilyQuality, numHighFamilyQuality, numBestFamilyQuality) =
-                        ____pond.Read("FamilyQualities", $"{familyCount},0,0,0").ParseTuple<int, int, int, int>()!.Value;
+                        ____pond.Read("FamilyQualities", $"{familyCount},0,0,0").ParseTuple<int, int, int, int>()!
+                            .Value;
                     if (numBestFamilyQuality + numHighFamilyQuality + numMedFamilyQuality > 0)
                     {
                         for (var i = ____pond.FishCount - familyCount; i < ____pond.FishCount; ++i)
                         {
-                            var yOffset = (float)Math.Sin(____age * 1f + x * 0.75f + y * 0.25f) * 2f;
-                            var yPos = __instance.yPositionOnScreen + (int)(yOffset * 4f) + y * 4 * slotSpacing +
+                            var yOffset = (float)Math.Sin((____age * 1f) + (x * 0.75f) + (y * 0.25f)) * 2f;
+                            var yPos = __instance.yPositionOnScreen + (int)(yOffset * 4f) + (y * 4 * slotSpacing) +
                                        270.2f;
-                            var xPos = __instance.xPositionOnScreen + PondQueryMenu.width / 2 -
-                                       slotSpacing * Math.Min(slotsToDraw, 5) * 4f * 0.5f + x * slotSpacing * 4f + 4f +
+                            var xPos = __instance.xPositionOnScreen + (PondQueryMenu.width / 2) -
+                                       (slotSpacing * Math.Min(slotsToDraw, 5) * 4f * 0.5f) + (x * slotSpacing * 4f) +
+                                       4f +
                                        xOffset;
 
                             var quality = numBestFamilyQuality-- > 0
@@ -272,29 +331,35 @@ internal sealed class PondQueryMenuDrawPatch : Common.Harmony.HarmonyPatch
                                     : numMedFamilyQuality-- > 0
                                         ? SObject.medQuality
                                         : SObject.lowQuality;
-                            if (quality <= SObject.lowQuality) break;
+                            if (quality <= SObject.lowQuality)
+                            {
+                                break;
+                            }
 
-                            Rectangle qualityRect = quality < SObject.bestQuality
-                                ? new(338 + (quality - 1) * 8, 400, 8, 8)
-                                : new(346, 392, 8, 8);
+                            var qualityRect = quality < SObject.bestQuality
+                                ? new Rectangle(338 + ((quality - 1) * 8), 400, 8, 8)
+                                : new Rectangle(346, 392, 8, 8);
                             yOffset = quality < SObject.bestQuality
                                 ? 0f
                                 : (float)((Math.Cos(Game1.currentGameTime.TotalGameTime.Milliseconds * Math.PI /
-                                                     512.0) +
-                                            1f) * 0.05f);
+                                                    512.0) +
+                                           1f) * 0.05f);
                             b.Draw(
-                                texture: Game1.mouseCursors,
-                                position: new(xPos, yPos + yOffset + 50f),
-                                sourceRectangle: qualityRect,
-                                color: Color.White,
-                                rotation: 0f,
-                                origin: new(4f, 4f), 3f * 0.75f * (1f + yOffset),
-                                effects: SpriteEffects.None,
-                                layerDepth: 0.9f
-                            );
+                                Game1.mouseCursors,
+                                new Vector2(xPos, yPos + yOffset + 50f),
+                                qualityRect,
+                                Color.White,
+                                0f,
+                                new Vector2(4f, 4f),
+                                3f * 0.75f * (1f + yOffset),
+                                SpriteEffects.None,
+                                0.9f);
 
                             ++x;
-                            if (x != columns) continue;
+                            if (x != columns)
+                            {
+                                continue;
+                            }
 
                             x = 0;
                             ++y;
@@ -305,32 +370,31 @@ internal sealed class PondQueryMenuDrawPatch : Common.Harmony.HarmonyPatch
 
             // draw more stuff
             textSize = Game1.smallFont.MeasureString(displayedText);
-            StardewValley.Utility.drawTextWithShadow(
-                b: b,
-                text: displayedText,
-                font: Game1.smallFont,
-                position: new(
-                    x: __instance.xPositionOnScreen + PondQueryMenu.width / 2 - textSize.X * 0.5f,
-                    y: __instance.yPositionOnScreen + PondQueryMenu.height + extraTextHeight - (hasUnresolvedNeeds ? 32 : 48) - textSize.Y
-                ),
-                color: Game1.textColor
-            );
+            Utility.drawTextWithShadow(
+                b,
+                displayedText,
+                Game1.smallFont,
+                new Vector2(
+                    __instance.xPositionOnScreen + (PondQueryMenu.width / 2) - (textSize.X * 0.5f),
+                    __instance.yPositionOnScreen + PondQueryMenu.height + extraTextHeight - (hasUnresolvedNeeds ? 32 : 48) - textSize.Y),
+                Game1.textColor);
 
             if (hasUnresolvedNeeds)
             {
-                _DrawHorizontalPartition.Value(__instance, b, (int)(__instance.yPositionOnScreen + PondQueryMenu.height + extraTextHeight - 48f));
-                StardewValley.Utility.drawWithShadow(
-                    b: b,
-                    texture: Game1.mouseCursors,
-                    position: new(
-                        x: __instance.xPositionOnScreen + 60 + 8f * Game1.dialogueButtonScale / 10f,
-                        y: __instance.yPositionOnScreen + PondQueryMenu.height + extraTextHeight + 28
-                    ),
-                    sourceRect: new(412, 495, 5, 4),
-                    color: Color.White,
-                    rotation: (float)Math.PI / 2f,
-                    origin: Vector2.Zero
-                );
+                DrawHorizontalPartition.Value(
+                    __instance,
+                    b,
+                    (int)(__instance.yPositionOnScreen + PondQueryMenu.height + extraTextHeight - 48f));
+                Utility.drawWithShadow(
+                    b,
+                    Game1.mouseCursors,
+                    new Vector2(
+                        __instance.xPositionOnScreen + 60 + (8f * Game1.dialogueButtonScale / 10f),
+                        __instance.yPositionOnScreen + PondQueryMenu.height + extraTextHeight + 28),
+                    new Rectangle(412, 495, 5, 4),
+                    Color.White,
+                    (float)Math.PI / 2f,
+                    Vector2.Zero);
 
                 var bringText =
                     Game1.content.LoadString(
@@ -339,76 +403,70 @@ internal sealed class PondQueryMenuDrawPatch : Common.Harmony.HarmonyPatch
                 var leftX = __instance.xPositionOnScreen + 88;
                 float textX = leftX;
                 var iconX = textX + textSize.X + 4f;
-                if (LocalizedContentManager.CurrentLanguageCode.IsIn(
+                if (LocalizedContentManager.CurrentLanguageCode.IsAnyOf(
                         LocalizedContentManager.LanguageCode.ja,
                         LocalizedContentManager.LanguageCode.ko,
-                        LocalizedContentManager.LanguageCode.tr)
-                )
+                        LocalizedContentManager.LanguageCode.tr))
                 {
                     iconX = leftX - 8;
                     textX = leftX + 76;
                 }
 
-                StardewValley.Utility.drawTextWithShadow(
-                    b: b,
-                    text: bringText,
-                    font: Game1.smallFont,
-                    position: new(
-                        x: textX,
-                        y: __instance.yPositionOnScreen + PondQueryMenu.height + extraTextHeight + 24
-                    ),
-                    color: Game1.textColor
-                );
+                Utility.drawTextWithShadow(
+                    b,
+                    bringText,
+                    Game1.smallFont,
+                    new Vector2(
+                        textX,
+                        __instance.yPositionOnScreen + PondQueryMenu.height + extraTextHeight + 24),
+                    Game1.textColor);
 
                 b.Draw(
-                    texture: Game1.objectSpriteSheet,
-                    position: new(
-                        x: iconX,
-                        y: __instance.yPositionOnScreen + PondQueryMenu.height + extraTextHeight + 4
-                    ),
-                    sourceRectangle: Game1.getSourceRectForStandardTileSheet(
-                        tileSheet: Game1.objectSpriteSheet,
-                        tilePosition: ____pond.neededItem.Value?.ParentSheetIndex ?? 0,
-                        width: 16,
-                        height: 16
-                    ),
-                    color: Color.Black * 0.4f,
-                    rotation: 0f,
-                    origin: Vector2.Zero, 4f, SpriteEffects.None, 1f
-                );
+                    Game1.objectSpriteSheet,
+                    new Vector2(
+                        iconX,
+                        __instance.yPositionOnScreen + PondQueryMenu.height + extraTextHeight + 4),
+                    Game1.getSourceRectForStandardTileSheet(
+                        Game1.objectSpriteSheet,
+                        ____pond.neededItem.Value?.ParentSheetIndex ?? 0,
+                        16,
+                        16),
+                    Color.Black * 0.4f,
+                    0f,
+                    Vector2.Zero,
+                    4f,
+                    SpriteEffects.None,
+                    1f);
 
                 b.Draw(
-                    texture: Game1.objectSpriteSheet,
-                    position: new(
-                        x: iconX + 4f,
-                        y: __instance.yPositionOnScreen + PondQueryMenu.height + extraTextHeight
-                    ),
-                    sourceRectangle: Game1.getSourceRectForStandardTileSheet(
-                        tileSheet: Game1.objectSpriteSheet,
-                        tilePosition: ____pond.neededItem.Value?.ParentSheetIndex ?? 0,
-                        width: 16,
-                        height: 16
-                    ),
-                    color: Color.White,
-                    rotation: 0f,
-                    origin: Vector2.Zero,
-                    scale: 4f,
-                    effects: SpriteEffects.None,
-                    layerDepth: 1f
-                );
+                    Game1.objectSpriteSheet,
+                    new Vector2(
+                        iconX + 4f,
+                        __instance.yPositionOnScreen + PondQueryMenu.height + extraTextHeight),
+                    Game1.getSourceRectForStandardTileSheet(
+                        Game1.objectSpriteSheet,
+                        ____pond.neededItem.Value?.ParentSheetIndex ?? 0,
+                        16,
+                        16),
+                    Color.White,
+                    0f,
+                    Vector2.Zero,
+                    4f,
+                    SpriteEffects.None,
+                    1f);
 
                 if (____pond.neededItemCount.Value > 1)
-                    StardewValley.Utility.drawTinyDigits(
-                        toDraw: ____pond.neededItemCount.Value,
-                        b: b,
-                        position: new(
-                            x: iconX + 48f,
-                            y: __instance.yPositionOnScreen + PondQueryMenu.height + extraTextHeight + 48
-                        ),
-                        scale: 3f,
-                        layerDepth: 1f,
-                        c: Color.White
-                    );
+                {
+                    Utility.drawTinyDigits(
+                        ____pond.neededItemCount.Value,
+                        b,
+                        new Vector2(
+                            iconX + 48f,
+                            __instance.yPositionOnScreen + PondQueryMenu.height + extraTextHeight + 48),
+                        3f,
+                        1f,
+                        Color.White);
+                }
             }
 
             __instance.okButton.draw(b);
@@ -417,10 +475,9 @@ internal sealed class PondQueryMenuDrawPatch : Common.Harmony.HarmonyPatch
             if (___confirmingEmpty)
             {
                 b.Draw(
-                    texture: Game1.fadeToBlackRect,
-                    destinationRectangle: Game1.graphics.GraphicsDevice.Viewport.Bounds,
-                    color: Color.Black * 0.75f
-                );
+                    Game1.fadeToBlackRect,
+                    Game1.graphics.GraphicsDevice.Viewport.Bounds,
+                    Color.Black * 0.75f);
 
                 const int padding = 16;
                 ____confirmationBoxRectangle.Width += padding;
@@ -428,20 +485,20 @@ internal sealed class PondQueryMenuDrawPatch : Common.Harmony.HarmonyPatch
                 ____confirmationBoxRectangle.X -= padding / 2;
                 ____confirmationBoxRectangle.Y -= padding / 2;
                 Game1.DrawBox(
-                    ____confirmationBoxRectangle.X, ____confirmationBoxRectangle.Y,
-                    ____confirmationBoxRectangle.Width, ____confirmationBoxRectangle.Height
-                );
+                    ____confirmationBoxRectangle.X,
+                    ____confirmationBoxRectangle.Y,
+                    ____confirmationBoxRectangle.Width,
+                    ____confirmationBoxRectangle.Height);
 
                 ____confirmationBoxRectangle.Width -= padding;
                 ____confirmationBoxRectangle.Height -= padding;
                 ____confirmationBoxRectangle.X += padding / 2;
                 ____confirmationBoxRectangle.Y += padding / 2;
                 b.DrawString(
-                    spriteFont: Game1.smallFont,
-                    text: ____confirmationText,
-                    position: new(____confirmationBoxRectangle.X, ____confirmationBoxRectangle.Y),
-                    color: Game1.textColor
-                );
+                    Game1.smallFont,
+                    ____confirmationText,
+                    new Vector2(____confirmationBoxRectangle.X, ____confirmationBoxRectangle.Y),
+                    Game1.textColor);
 
                 __instance.yesButton.draw(b);
                 __instance.noButton.draw(b);

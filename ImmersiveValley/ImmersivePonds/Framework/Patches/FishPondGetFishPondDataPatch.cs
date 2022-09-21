@@ -3,22 +3,23 @@ namespace DaLion.Stardew.Ponds.Framework.Patches;
 
 #region using directives
 
-using Common.Extensions.Reflection;
+using System.Collections.Generic;
+using System.Linq;
+using DaLion.Common.Extensions.Reflection;
 using HarmonyLib;
 using StardewValley.Buildings;
 using StardewValley.GameData.FishPond;
-using System.Collections.Generic;
-using System.Linq;
+using HarmonyPatch = DaLion.Common.Harmony.HarmonyPatch;
 
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class FishPondGetFishPondDataPatch : Common.Harmony.HarmonyPatch
+internal sealed class FishPondGetFishPondDataPatch : HarmonyPatch
 {
-    /// <summary>Construct an instance.</summary>
+    /// <summary>Initializes a new instance of the <see cref="FishPondGetFishPondDataPatch"/> class.</summary>
     internal FishPondGetFishPondDataPatch()
     {
-        Target = RequireMethod<FishPond>(nameof(FishPond.GetFishPondData));
+        this.Target = this.RequireMethod<FishPond>(nameof(FishPond.GetFishPondData));
     }
 
     #region harmony patches
@@ -35,25 +36,28 @@ internal sealed class FishPondGetFishPondDataPatch : Common.Harmony.HarmonyPatch
         }
 
         var list = Game1.content.Load<List<FishPondData>>("Data\\FishPondData");
-        var fish_item = __instance.GetFishObject();
-        foreach (var data_entry in list)
+        var fish = __instance.GetFishObject();
+        foreach (var entry in list)
         {
-            if (data_entry.RequiredTags.Any(required_tag => !fish_item.HasContextTag(required_tag))) continue;
-
-            if (data_entry.SpawnTime == -1)
+            if (entry.RequiredTags.Any(required => !fish.HasContextTag(required)))
             {
-                data_entry.SpawnTime = fish_item.Price switch
+                continue;
+            }
+
+            if (entry.SpawnTime == -1)
+            {
+                entry.SpawnTime = fish.Price switch
                 {
                     <= 30 => 1,
                     <= 80 => 2,
                     <= 120 => 3,
                     <= 250 => 4,
-                    _ => 5
+                    _ => 5,
                 };
             }
 
-            __instance.GetType().RequireField("_fishPondData").SetValue(__instance, data_entry);
-            __result = data_entry;
+            __instance.GetType().RequireField("_fishPondData").SetValue(__instance, entry);
+            __result = entry;
             return false;
         }
 

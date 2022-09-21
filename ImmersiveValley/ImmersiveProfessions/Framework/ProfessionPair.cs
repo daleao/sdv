@@ -2,9 +2,9 @@
 
 #region using directives
 
-using Common.Extensions;
 using System.Collections;
 using System.Collections.Generic;
+using DaLion.Common.Extensions;
 
 #endregion using directives
 
@@ -16,7 +16,14 @@ using System.Collections.Generic;
 public record ProfessionPair
     (IProfession First, IProfession Second, IProfession? Requires, int Level) : IEnumerable<IProfession>
 {
-    public IEnumerator<IProfession> GetEnumerator() => First.Collect(Second).GetEnumerator();
+    /// <inheritdoc />
+    public IEnumerator<IProfession> GetEnumerator()
+    {
+        return this.First.Collect(this.Second).GetEnumerator();
+    }
 
-    IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
+    IEnumerator IEnumerable.GetEnumerator()
+    {
+        return this.GetEnumerator();
+    }
 }

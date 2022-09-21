@@ -2,25 +2,26 @@
 
 #region using directives
 
-using DaLion.Common;
-using DaLion.Common.Harmony;
-using Extensions;
-using HarmonyLib;
-using StardewValley.Objects;
 using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
+using DaLion.Common;
+using DaLion.Common.Harmony;
+using DaLion.Stardew.Professions.Extensions;
+using HarmonyLib;
+using StardewValley.Objects;
+using HarmonyPatch = DaLion.Common.Harmony.HarmonyPatch;
 
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class CrabPotPerformObjectDropInActionPatch : DaLion.Common.Harmony.HarmonyPatch
+internal sealed class CrabPotPerformObjectDropInActionPatch : HarmonyPatch
 {
-    /// <summary>Construct an instance.</summary>
+    /// <summary>Initializes a new instance of the <see cref="CrabPotPerformObjectDropInActionPatch"/> class.</summary>
     internal CrabPotPerformObjectDropInActionPatch()
     {
-        Target = RequireMethod<CrabPot>(nameof(CrabPot.performObjectDropInAction));
+        this.Target = this.RequireMethod<CrabPot>(nameof(CrabPot.performObjectDropInAction));
     }
 
     #region harmony patches
@@ -30,23 +31,16 @@ internal sealed class CrabPotPerformObjectDropInActionPatch : DaLion.Common.Harm
     private static IEnumerable<CodeInstruction>? CrabPotPerformObjectDropInActionTranspiler(
         IEnumerable<CodeInstruction> instructions, MethodBase original)
     {
-        var helper = new ILHelper(original, instructions);
+        var helper = new IlHelper(original, instructions);
 
-        /// Removed: ... && (owner_farmer is null || !owner_farmer.professions.Contains(11)
-
+        // Removed: ... && (owner_farmer is null || !owner_farmer.professions.Contains(11)
         try
         {
             helper
                 .FindProfessionCheck(Profession.Conservationist.Value)
-                .RetreatUntil(
-                    new CodeInstruction(OpCodes.Ldloc_1)
-                )
-                .RetreatUntil(
-                    new CodeInstruction(OpCodes.Ldloc_1)
-                )
-                .RemoveInstructionsUntil(
-                    new CodeInstruction(OpCodes.Brtrue_S)
-                );
+                .RetreatUntil(new CodeInstruction(OpCodes.Ldloc_1))
+                .RetreatUntil(new CodeInstruction(OpCodes.Ldloc_1))
+                .RemoveInstructionsUntil(new CodeInstruction(OpCodes.Brtrue_S));
         }
         catch (Exception ex)
         {

@@ -7,20 +7,22 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using StardewValley.Menus;
 using StardewValley.Tools;
+using HarmonyPatch = DaLion.Common.Harmony.HarmonyPatch;
 
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class SlingshotDrawInMenuPatch : Common.Harmony.HarmonyPatch
+internal sealed class SlingshotDrawInMenuPatch : HarmonyPatch
 {
-    /// <summary>Construct an instance.</summary>
+    /// <summary>Initializes a new instance of the <see cref="SlingshotDrawInMenuPatch"/> class.</summary>
     internal SlingshotDrawInMenuPatch()
     {
-        Target = RequireMethod<Slingshot>(nameof(Slingshot.drawInMenu),
+        this.Target = this.RequireMethod<Slingshot>(
+            nameof(Slingshot.drawInMenu),
             new[]
             {
                 typeof(SpriteBatch), typeof(Vector2), typeof(float), typeof(float), typeof(float),
-                typeof(StackDrawType), typeof(Color), typeof(bool)
+                typeof(StackDrawType), typeof(Color), typeof(bool),
             });
     }
 
@@ -28,26 +30,43 @@ internal sealed class SlingshotDrawInMenuPatch : Common.Harmony.HarmonyPatch
 
     /// <summary>Draw slingshot cooldown.</summary>
     [HarmonyPostfix]
-    private static void SlingshotDrawInMenuPostfix(Slingshot __instance, SpriteBatch spriteBatch, Vector2 location,
-        float scaleSize, StackDrawType drawStackNumber, bool drawShadow)
+    private static void SlingshotDrawInMenuPostfix(
+        Slingshot __instance, SpriteBatch spriteBatch, Vector2 location, float scaleSize, StackDrawType drawStackNumber, bool drawShadow)
     {
         if (drawStackNumber != 0 && __instance.numAttachmentSlots.Value > 1 && __instance.attachments[1] is not null)
-            Utility.drawTinyDigits(__instance.attachments[1].Stack, spriteBatch,
-                location + new Vector2(
-                    64 - Utility.getWidthOfTinyDigitString(__instance.attachments[1].Stack, 3f * scaleSize) +
-                    3f * scaleSize, 64f - 18f * scaleSize + 2f), 3f * scaleSize, 1f, Color.White);
+        {
+            Utility.drawTinyDigits(
+                __instance.attachments[1].Stack,
+                spriteBatch,
+                location + new Vector2(64 - Utility.getWidthOfTinyDigitString(__instance.attachments[1].Stack, 3f * scaleSize) + (3f * scaleSize), 64f - (18f * scaleSize) + 2f),
+                3f * scaleSize,
+                1f,
+                Color.White);
+        }
 
-        if (ModEntry.SlingshotCooldown.Value <= 0) return;
+        if (ModEntry.State.SlingshotCooldown <= 0)
+        {
+            return;
+        }
 
-        var cooldownLevel = ModEntry.SlingshotCooldown.Value / Constants.SLINGSHOT_COOLDOWN_TIME_I;
+        var cooldownLevel = ModEntry.State.SlingshotCooldown / Constants.SlingshotCooldownTime;
         var drawingAsDebris = drawShadow && drawStackNumber == StackDrawType.Hide;
+
         // ReSharper disable once CompareOfFloatsByEqualityOperator
-        if (!drawShadow || drawingAsDebris || Game1.activeClickableMenu is ShopMenu && scaleSize == 1f) return;
+        if (!drawShadow || drawingAsDebris || (Game1.activeClickableMenu is ShopMenu && scaleSize == 1f))
+        {
+            return;
+        }
 
         var (x, y) = location;
-        spriteBatch.Draw(Game1.staminaRect,
-            new Rectangle((int)x, (int)y + (Game1.tileSize - cooldownLevel * Game1.tileSize),
-                Game1.tileSize, cooldownLevel * Game1.tileSize), Color.Red * 0.66f);
+        spriteBatch.Draw(
+            Game1.staminaRect,
+            new Rectangle(
+                (int)x,
+                (int)y + (Game1.tileSize - (cooldownLevel * Game1.tileSize)),
+                Game1.tileSize,
+                cooldownLevel * Game1.tileSize),
+            Color.Red * 0.66f);
     }
 
     #endregion harmony patches

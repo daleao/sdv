@@ -1,21 +1,22 @@
-﻿using HarmonyLib;
-using System.Reflection;
-using System.Reflection.Emit;
-
-namespace DaLion.Common.Exceptions;
+﻿namespace DaLion.Common.Exceptions;
 
 #region using directives
 
 using System;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
+using System.Reflection;
+using System.Reflection.Emit;
+using CommunityToolkit.Diagnostics;
+using HarmonyLib;
 
 #endregion using directives
 
+/// <summary>Throws <see cref="Exception"/>s not available in <see cref="ThrowHelper"/>.</summary>
 public static class ThrowHelperExtensions
 {
     /// <summary>
-    /// Throws a new <see cref="FileLoadException"/>.
+    ///     Throws a new <see cref="FileLoadException"/>.
     /// </summary>
     /// <exception cref="FileLoadException">Thrown with no parameters.</exception>
     [DoesNotReturn]
@@ -25,7 +26,7 @@ public static class ThrowHelperExtensions
     }
 
     /// <summary>
-    /// Throws a new <see cref="FileLoadException"/>.
+    ///     Throws a new <see cref="FileLoadException"/>.
     /// </summary>
     /// <param name="message">The message to include in the exception.</param>
     /// <exception cref="FileLoadException">Thrown with the specified parameters.</exception>
@@ -36,7 +37,7 @@ public static class ThrowHelperExtensions
     }
 
     /// <summary>
-    /// Throws a new <see cref="FileLoadException"/>.
+    ///     Throws a new <see cref="FileLoadException"/>.
     /// </summary>
     /// <param name="message">The message to include in the exception.</param>
     /// <param name="innerException">The inner <see cref="Exception"/> to include.</param>
@@ -48,7 +49,7 @@ public static class ThrowHelperExtensions
     }
 
     /// <summary>
-    /// Throws a new <see cref="IndexOutOfRangeException"/>.
+    ///     Throws a new <see cref="IndexOutOfRangeException"/>.
     /// </summary>
     /// <exception cref="IndexOutOfRangeException">Thrown with no parameters.</exception>
     [DoesNotReturn]
@@ -58,7 +59,7 @@ public static class ThrowHelperExtensions
     }
 
     /// <summary>
-    /// Throws a new <see cref="IndexOutOfRangeException"/>.
+    ///     Throws a new <see cref="IndexOutOfRangeException"/>.
     /// </summary>
     /// <param name="message">The message to include in the exception.</param>
     /// <exception cref="IndexOutOfRangeException">Thrown with the specified parameters.</exception>
@@ -69,7 +70,7 @@ public static class ThrowHelperExtensions
     }
 
     /// <summary>
-    /// Throws a new <see cref="IndexOutOfRangeException"/>.
+    ///     Throws a new <see cref="IndexOutOfRangeException"/>.
     /// </summary>
     /// <param name="message">The message to include in the exception.</param>
     /// <param name="innerException">The inner <see cref="Exception"/> to include.</param>
@@ -81,7 +82,7 @@ public static class ThrowHelperExtensions
     }
 
     /// <summary>
-    /// Throws a new <see cref="MissingMethodException"/>.
+    ///     Throws a new <see cref="MissingMethodException"/>.
     /// </summary>
     /// <exception cref="MissingMethodException">Thrown with no parameters.</exception>
     [DoesNotReturn]
@@ -91,7 +92,7 @@ public static class ThrowHelperExtensions
     }
 
     /// <summary>
-    /// Throws a new <see cref="MissingMethodException"/>.
+    ///     Throws a new <see cref="MissingMethodException"/>.
     /// </summary>
     /// <param name="message">The message to include in the exception.</param>
     /// <exception cref="MissingMethodException">Thrown with the specified parameters.</exception>
@@ -102,7 +103,7 @@ public static class ThrowHelperExtensions
     }
 
     /// <summary>
-    /// Throws a new <see cref="MissingMethodException"/>.
+    ///     Throws a new <see cref="MissingMethodException"/>.
     /// </summary>
     /// <param name="message">The message to include in the exception.</param>
     /// <param name="innerException">The inner <see cref="Exception"/> to include.</param>
@@ -114,7 +115,7 @@ public static class ThrowHelperExtensions
     }
 
     /// <summary>
-    /// Throws a new <see cref="NotImplementedException"/>.
+    ///     Throws a new <see cref="NotImplementedException"/>.
     /// </summary>
     /// <exception cref="NotImplementedException">Thrown with no parameters.</exception>
     [DoesNotReturn]
@@ -124,7 +125,7 @@ public static class ThrowHelperExtensions
     }
 
     /// <summary>
-    /// Throws a new <see cref="NotImplementedException"/>.
+    ///     Throws a new <see cref="NotImplementedException"/>.
     /// </summary>
     /// <param name="message">The message to include in the exception.</param>
     /// <exception cref="NotImplementedException">Thrown with the specified parameters.</exception>
@@ -135,7 +136,7 @@ public static class ThrowHelperExtensions
     }
 
     /// <summary>
-    /// Throws a new <see cref="NotImplementedException"/>.
+    ///     Throws a new <see cref="NotImplementedException"/>.
     /// </summary>
     /// <param name="message">The message to include in the exception.</param>
     /// <param name="innerException">The inner <see cref="Exception"/> to include.</param>
@@ -147,7 +148,7 @@ public static class ThrowHelperExtensions
     }
 
     /// <summary>
-    /// Throws a new <see cref="UnexpectedEnumValueException{T}"/>.
+    ///     Throws a new <see cref="UnexpectedEnumValueException{T}"/>.
     /// </summary>
     /// <typeparam name="TEnum">The enum type that received an unexpected value.</typeparam>
     /// <param name="value">The unexpected enum value.</param>
@@ -159,7 +160,7 @@ public static class ThrowHelperExtensions
     }
 
     /// <summary>
-    /// Throws a new <see cref="UnexpectedEnumValueException{T}"/>.
+    ///     Throws a new <see cref="UnexpectedEnumValueException{T}"/>.
     /// </summary>
     /// <typeparam name="TEnum">The enum type that received an unexpected value.</typeparam>
     /// <param name="value">The unexpected enum value.</param>
@@ -171,11 +172,12 @@ public static class ThrowHelperExtensions
     }
 
     /// <summary>
-    /// Throws a new <see cref="UnexpectedEnumValueException{T}"/>.
+    ///     Throws a new <see cref="UnexpectedEnumValueException{T}"/>.
     /// </summary>
     /// <typeparam name="TEnum">The enum type that received an unexpected value.</typeparam>
     /// <typeparam name="TReturn">The return type expected by the method where the exception is thrown.</typeparam>
     /// <param name="value">The unexpected enum value.</param>
+    /// <returns>Nothing.</returns>
     /// <exception cref="NotImplementedException">Thrown with the specified parameters.</exception>
     [DoesNotReturn]
     public static TReturn ThrowUnexpectedEnumValueException<TEnum, TReturn>(int value)
@@ -184,11 +186,12 @@ public static class ThrowHelperExtensions
     }
 
     /// <summary>
-    /// Throws a new <see cref="UnexpectedEnumValueException{T}"/>.
+    ///     Throws a new <see cref="UnexpectedEnumValueException{T}"/>.
     /// </summary>
     /// <typeparam name="TEnum">The enum type that received an unexpected value.</typeparam>
     /// <typeparam name="TReturn">The return type expected by the method where the exception is thrown.</typeparam>
     /// <param name="value">The unexpected enum value.</param>
+    /// <returns>Nothing.</returns>
     /// <exception cref="NotImplementedException">Thrown with the specified parameters.</exception>
     [DoesNotReturn]
     public static TReturn ThrowUnexpectedEnumValueException<TEnum, TReturn>(TEnum value)
@@ -197,7 +200,7 @@ public static class ThrowHelperExtensions
     }
 
     /// <summary>
-    /// Throws a new <see cref="PatternNotFoundException"/>.
+    ///     Throws a new <see cref="PatternNotFoundException"/>.
     /// </summary>
     /// <param name="pattern">A sequence of <see cref="CodeInstruction"/> that could not be found.</param>
     /// <param name="target">The target method where the pattern was searched for.</param>
@@ -209,7 +212,7 @@ public static class ThrowHelperExtensions
     }
 
     /// <summary>
-    /// Throws a new <see cref="PatternNotFoundException"/>.
+    ///     Throws a new <see cref="PatternNotFoundException"/>.
     /// </summary>
     /// <param name="pattern">A sequence of <see cref="CodeInstruction"/> that could not be found.</param>
     /// <param name="target">The target method where the pattern was searched for.</param>
@@ -222,9 +225,9 @@ public static class ThrowHelperExtensions
     }
 
     /// <summary>
-    /// Throws a new <see cref="LabelNotFoundException"/>.
+    ///     Throws a new <see cref="LabelNotFoundException"/>.
     /// </summary>
-    /// <param name="label">The <see cref="Label" /> which could not be found.</param>
+    /// <param name="label">The <see cref="Label"/> which could not be found.</param>
     /// <param name="target">The target method where the label was searched for.</param>
     /// <exception cref="LabelNotFoundException">Thrown with the specified parameters.</exception>
     [DoesNotReturn]
@@ -234,9 +237,9 @@ public static class ThrowHelperExtensions
     }
 
     /// <summary>
-    /// Throws a new <see cref="LabelNotFoundException"/>.
+    ///     Throws a new <see cref="LabelNotFoundException"/>.
     /// </summary>
-    /// <param name="label">The <see cref="Label" /> which could not be found.</param>
+    /// <param name="label">The <see cref="Label"/> which could not be found.</param>
     /// <param name="target">The target method where the label was searched for.</param>
     /// <param name="snitch">A callback to snitch on applied changes to the target method.</param>
     /// <exception cref="LabelNotFoundException">Thrown with the specified parameters.</exception>
@@ -244,5 +247,17 @@ public static class ThrowHelperExtensions
     public static void ThrowLabelNotFoundException(Label label, MethodBase target, Func<string> snitch)
     {
         throw new LabelNotFoundException(label, target, snitch);
+    }
+
+    /// <summary>
+    ///     Throws a new <see cref="MissingTypeException"/>.
+    /// </summary>
+    /// <param name="name">The name of the expected type.</param>
+    /// <returns>Nothing.</returns>
+    /// <exception cref="MissingTypeException">Thrown with the specified parameters.</exception>
+    [DoesNotReturn]
+    public static Type ThrowMissingTypeException(string name)
+    {
+        throw new MissingTypeException(name);
     }
 }

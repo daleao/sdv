@@ -1,4 +1,5 @@
-﻿namespace DaLion.Common.Integrations.LoveOfCooking;
+﻿#pragma warning disable CS1591
+namespace DaLion.Common.Integrations.LoveOfCooking;
 
 #region using directives
 
@@ -6,8 +7,10 @@ using System.Collections.Generic;
 
 #endregion using directives
 
-public interface ICookingSkillAPI
+/// <summary>The API provided by Love Of Cooking.</summary>
+public interface ICookingSkillApi
 {
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1602:Enumeration items should be documented", Justification = "Third-party.")]
     public enum Profession
     {
         ImprovedOil,
@@ -15,7 +18,7 @@ public interface ICookingSkillAPI
         GiftBoost,
         SalePrice,
         ExtraPortion,
-        BuffDuration
+        BuffDuration,
     }
 
     bool IsEnabled();

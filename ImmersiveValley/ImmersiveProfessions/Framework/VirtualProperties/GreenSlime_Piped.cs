@@ -2,86 +2,98 @@
 
 #region using directives
 
+using System.Runtime.CompilerServices;
 using Netcode;
 using StardewValley.Monsters;
-using System.Runtime.CompilerServices;
 
 #endregion using directives
 
-public static class GreenSlime_Piped
+// ReSharper disable once InconsistentNaming
+internal static class GreenSlime_Piped
 {
-    internal class Holder
-    {
-        public readonly NetInt pipeTimer = new(-1);
-        public Farmer? piper;
-        public Farmer? fakeFarmer;
-        public float originalScale;
-        public int originalHealth;
-        public int originalRange;
-        public bool inflated;
-    }
+    internal static ConditionalWeakTable<GreenSlime, Holder> Values { get; } = new();
 
-    internal static ConditionalWeakTable<GreenSlime, Holder> Values = new();
-
-    public static NetInt get_PipeTimer(this GreenSlime slime)
+    internal static NetInt Get_PipeTimer(this GreenSlime slime)
     {
         var holder = Values.GetOrCreateValue(slime);
-        return holder.pipeTimer;
+        return holder.PipeTimer;
     }
 
     // Net types are readonly
-    public static void set_PipeTimer(this GreenSlime slime, NetInt newVal) { }
-
-    public static Farmer? get_Piper(this GreenSlime slime)
+    internal static void Set_PipeTimer(this GreenSlime slime, NetInt newVal)
     {
-        var holder = Values.GetOrCreateValue(slime);
-        return holder.piper;
     }
 
-    public static void set_Piper(this GreenSlime slime, Farmer? piper)
+    internal static Farmer? Get_Piper(this GreenSlime slime)
     {
         var holder = Values.GetOrCreateValue(slime);
-        holder.piper = piper;
-        holder.pipeTimer.Value = (int)(30000 / ModEntry.Config.SpecialDrainFactor);
-        holder.originalHealth = slime.MaxHealth;
-        holder.originalScale = slime.Scale;
-        holder.originalRange = slime.moveTowardPlayerThreshold.Value;
-        holder.fakeFarmer = new() { UniqueMultiplayerID = slime.GetHashCode(), currentLocation = slime.currentLocation };
+        return holder.Piper;
     }
 
-    public static Farmer? get_FakeFarmer(this GreenSlime slime)
+    internal static void Set_Piper(this GreenSlime slime, Farmer? piper)
     {
         var holder = Values.GetOrCreateValue(slime);
-        return holder.fakeFarmer;
+        holder.Piper = piper;
+        holder.PipeTimer.Value = (int)(30000 / ModEntry.Config.SpecialDrainFactor);
+        holder.OriginalHealth = slime.MaxHealth;
+        holder.OriginalScale = slime.Scale;
+        holder.OriginalRange = slime.moveTowardPlayerThreshold.Value;
+        holder.FakeFarmer = new Farmer
+        {
+            UniqueMultiplayerID = slime.GetHashCode(), currentLocation = slime.currentLocation,
+        };
     }
 
-    public static float get_OriginalScale(this GreenSlime slime)
+    internal static Farmer? Get_FakeFarmer(this GreenSlime slime)
     {
         var holder = Values.GetOrCreateValue(slime);
-        return holder.originalScale;
+        return holder.FakeFarmer;
     }
 
-    public static int get_OriginalHealth(this GreenSlime slime)
+    internal static float Get_OriginalScale(this GreenSlime slime)
     {
         var holder = Values.GetOrCreateValue(slime);
-        return holder.originalHealth;
+        return holder.OriginalScale;
     }
 
-    public static int get_OriginalRange(this GreenSlime slime)
+    internal static int Get_OriginalHealth(this GreenSlime slime)
     {
         var holder = Values.GetOrCreateValue(slime);
-        return holder.originalRange;
+        return holder.OriginalHealth;
     }
 
-    public static bool get_Inflated(this GreenSlime slime)
+    internal static int Get_OriginalRange(this GreenSlime slime)
     {
         var holder = Values.GetOrCreateValue(slime);
-        return holder.inflated;
+        return holder.OriginalRange;
     }
 
-    public static void set_Inflated(this GreenSlime slime, bool newVal)
+    internal static bool Get_Inflated(this GreenSlime slime)
     {
         var holder = Values.GetOrCreateValue(slime);
-        holder.inflated = newVal;
+        return holder.Inflated;
+    }
+
+    internal static void Set_Inflated(this GreenSlime slime, bool newVal)
+    {
+        var holder = Values.GetOrCreateValue(slime);
+        holder.Inflated = newVal;
+    }
+
+    internal class Holder
+    {
+        public NetInt PipeTimer { get; } = new(-1);
+
+        public Farmer? FakeFarmer { get; internal set; }
+
+        public bool Inflated { get; internal set; }
+
+        public int OriginalHealth { get; internal set; }
+
+        public int OriginalRange { get; internal set; }
+
+        public float OriginalScale { get; internal set; }
+
+        public Farmer? Piper { get; internal set; }
     }
 }

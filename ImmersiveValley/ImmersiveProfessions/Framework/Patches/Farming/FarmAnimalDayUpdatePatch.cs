@@ -2,25 +2,26 @@
 
 #region using directives
 
+using System;
+using System.Collections.Generic;
+using System.Reflection;
+using System.Reflection.Emit;
 using DaLion.Common;
 using DaLion.Common.Extensions.Reflection;
 using DaLion.Common.Harmony;
 using HarmonyLib;
 using Netcode;
-using System;
-using System.Collections.Generic;
-using System.Reflection;
-using System.Reflection.Emit;
+using HarmonyPatch = DaLion.Common.Harmony.HarmonyPatch;
 
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class FarmAnimalDayUpdatePatch : DaLion.Common.Harmony.HarmonyPatch
+internal sealed class FarmAnimalDayUpdatePatch : HarmonyPatch
 {
-    /// <summary>Construct an instance.</summary>
+    /// <summary>Initializes a new instance of the <see cref="FarmAnimalDayUpdatePatch"/> class.</summary>
     internal FarmAnimalDayUpdatePatch()
     {
-        Target = RequireMethod<FarmAnimal>(nameof(FarmAnimal.dayUpdate));
+        this.Target = this.RequireMethod<FarmAnimal>(nameof(FarmAnimal.dayUpdate));
     }
 
     #region harmony patches
@@ -33,85 +34,66 @@ internal sealed class FarmAnimalDayUpdatePatch : DaLion.Common.Harmony.HarmonyPa
     private static IEnumerable<CodeInstruction>? FarmAnimalDayUpdateTranspiler(
         IEnumerable<CodeInstruction> instructions, ILGenerator generator, MethodBase original)
     {
-        var helper = new ILHelper(original, instructions);
+        var helper = new IlHelper(original, instructions);
 
-        /// From: FarmeAnimal.daysToLay -= (FarmAnimal.type.Value.Equals("Sheep") && Game1.getFarmer(FarmAnimal.ownerID).professions.Contains(Farmer.shepherd)) ? 1 : 0
-        /// To: FarmAnimal.daysToLay /= (FarmAnimal.happiness.Value >= 200 && Game1.getFarmer(FarmAnimal.ownerID).professions.Contains(<producer_id>))
-        ///		? Game1.getFarmer(FarmAnimal.ownerID).professions.Contains(100 + <producer_id>)) ? 3 : 2
-        ///		: 1
-
+        // From: FarmeAnimal.daysToLay -= (FarmAnimal.type.Value.Equals("Sheep") && Game1.getFarmer(FarmAnimal.ownerID).professions.Contains(Farmer.shepherd)) ? 1 : 0
+        // To: FarmAnimal.daysToLay /= (FarmAnimal.happiness.Value >= 200 && Game1.getFarmer(FarmAnimal.ownerID).professions.Contains(<producer_id>))
+        //		? Game1.getFarmer(FarmAnimal.ownerID).professions.Contains(100 + <producer_id>)) ? 3 : 2
+        //		: 1
         var notPrestigedProducer = generator.DefineLabel();
         var resumeExecution1 = generator.DefineLabel();
         try
         {
             helper
-                .FindFirst( // find index of FarmAnimal.type.Value.Equals("Sheep")
+                .FindFirst(
+                    // find index of FarmAnimal.type.Value.Equals("Sheep")
                     new CodeInstruction(OpCodes.Ldstr, "Sheep"),
-                    new CodeInstruction(OpCodes.Callvirt,
-                        typeof(string).RequireMethod(nameof(string.Equals), new[] { typeof(string) }))
-                )
-                .RetreatUntil(
-                    new CodeInstruction(OpCodes.Ldarg_0)
-                )
-                .InsertInstructions(
-                    new CodeInstruction(OpCodes.Conv_R8)
-                )
-                .AdvanceUntil(
-                    new CodeInstruction(OpCodes.Ldfld, typeof(FarmAnimal).RequireField(nameof(FarmAnimal.type)))
-                )
+                    new CodeInstruction(
+                        OpCodes.Callvirt,
+                        typeof(string).RequireMethod(nameof(string.Equals), new[] { typeof(string) })))
+                .RetreatUntil(new CodeInstruction(OpCodes.Ldarg_0))
+                .InsertInstructions(new CodeInstruction(OpCodes.Conv_R8))
+                .AdvanceUntil(new CodeInstruction(OpCodes.Ldfld, typeof(FarmAnimal)
+                    .RequireField(nameof(FarmAnimal.type))))
                 .SetOperand(typeof(FarmAnimal).RequireField(nameof(FarmAnimal.happiness))) // was FarmAnimal.type
                 .Advance()
                 .SetOperand(typeof(NetFieldBase<byte, NetByte>)
                     .RequirePropertyGetter(nameof(NetFieldBase<byte, NetByte>.Value))) // was <string, NetString>
                 .Advance()
-                .ReplaceInstructionWith(
-                    new(OpCodes.Ldc_I4_S, 200) // was Ldstr "Sheep"
-                )
+                .ReplaceInstructionWith(new CodeInstruction(OpCodes.Ldc_I4_S, 200)) // was Ldstr "Sheep"
                 .Advance()
                 .RemoveInstructions()
                 .SetOpCode(OpCodes.Blt_S) // was Brfalse_S
                 .Advance()
-                .GetInstructionsUntil(out var got, false, true,
-                    new CodeInstruction(OpCodes.Callvirt,
-                        typeof(NetList<int, NetInt>).RequireMethod(nameof(NetList<int, NetInt>.Contains)))
-                )
-                .AdvanceUntil(
-                    new CodeInstruction(OpCodes.Ldc_I4_0)
-                )
-                .ReplaceInstructionWith(
-                    new(OpCodes.Ldc_R8, 1.0),
-                    true
-                )
-                .AdvanceUntil(
-                    new CodeInstruction(OpCodes.Ldc_I4_1)
-                )
-                .ReplaceInstructionWith(
-                    new(OpCodes.Ldc_R8, 1.75),
-                    true
-                )
+                .GetInstructionsUntil(
+                    out var got,
+                    false,
+                    true,
+                    new CodeInstruction(
+                        OpCodes.Callvirt,
+                        typeof(NetList<int, NetInt>).RequireMethod(nameof(NetList<int, NetInt>.Contains))))
+                .AdvanceUntil(new CodeInstruction(OpCodes.Ldc_I4_0))
+                .ReplaceInstructionWith(new CodeInstruction(OpCodes.Ldc_R8, 1.0), true)
+                .AdvanceUntil(new CodeInstruction(OpCodes.Ldc_I4_1))
+                .ReplaceInstructionWith(new CodeInstruction(OpCodes.Ldc_R8, 1.75), true)
                 .AddLabels(notPrestigedProducer)
                 .InsertInstructions(got)
-                .RetreatUntil(
-                    new CodeInstruction(OpCodes.Ldc_I4_3)
-                )
-                .ReplaceInstructionWith(
-                    new(OpCodes.Ldc_I4_S, Profession.Producer.Value + 100)
-                )
+                .RetreatUntil(new CodeInstruction(OpCodes.Ldc_I4_3))
+                .ReplaceInstructionWith(new CodeInstruction(OpCodes.Ldc_I4_S, Profession.Producer.Value + 100))
                 .Return()
                 .InsertInstructions(
                     new CodeInstruction(OpCodes.Brfalse_S, notPrestigedProducer),
                     new CodeInstruction(OpCodes.Ldc_R8, 3.0),
-                    new CodeInstruction(OpCodes.Br_S, resumeExecution1)
-                )
+                    new CodeInstruction(OpCodes.Br_S, resumeExecution1))
                 .Advance()
                 .SetOpCode(OpCodes.Div) // was Sub
                 .AddLabels(resumeExecution1)
                 .Advance()
                 .InsertInstructions(
-                    new CodeInstruction(OpCodes.Call,
+                    new CodeInstruction(
+                        OpCodes.Call,
                         typeof(Math).RequireMethod(nameof(Math.Round), new[] { typeof(double) })),
-                    new CodeInstruction(OpCodes.Conv_U1)
-                );
+                    new CodeInstruction(OpCodes.Conv_U1));
         }
         catch (Exception ex)
         {
@@ -119,28 +101,28 @@ internal sealed class FarmAnimalDayUpdatePatch : DaLion.Common.Harmony.HarmonyPa
             return null;
         }
 
-        /// Skipped: if ((!isCoopDweller() && Game1.getFarmer(FarmAnimal.ownerID).professions.Contains(<shepherd_id>)) || (isCoopDweller() && Game1.getFarmer(FarmAnimal.ownerID).professions.Contains(<coopmaster_id>))) chanceForQuality += 0.33
-
+        // Skipped: if ((!isCoopDweller() && Game1.getFarmer(FarmAnimal.ownerID).professions.Contains(<shepherd_id>)) || (isCoopDweller() && Game1.getFarmer(FarmAnimal.ownerID).professions.Contains(<coopmaster_id>))) chanceForQuality += 0.33
         try
         {
             helper
-                .FindNext( // find index of first FarmAnimal.isCoopDweller check
-                    new CodeInstruction(OpCodes.Call,
-                        typeof(FarmAnimal).RequireMethod(nameof(FarmAnimal.isCoopDweller)))
-                )
+                .FindNext(
+                    // find index of first FarmAnimal.isCoopDweller check
+                    new CodeInstruction(
+                        OpCodes.Call,
+                        typeof(FarmAnimal).RequireMethod(nameof(FarmAnimal.isCoopDweller))))
                 .AdvanceUntil(
-                    new CodeInstruction(OpCodes.Brfalse_S) // the all cases false branch
-                )
+                    new CodeInstruction(OpCodes.Brfalse_S)) // the all cases false branch
                 .GetOperand(out var resumeExecution2) // copy destination
                 .Return()
                 .Retreat()
-                .InsertInstructions( // insert unconditional branch to skip this whole section
-                    new CodeInstruction(OpCodes.Br_S, (Label)resumeExecution2)
-                );
+                .InsertInstructions(
+                    // insert unconditional branch to skip this whole section
+                    new CodeInstruction(OpCodes.Br_S, (Label)resumeExecution2));
         }
         catch (Exception ex)
         {
-            Log.E($"Failed while removing vanilla Coopmaster + Shepherd produce quality bonuses.\nHelper returned {ex}");
+            Log.E(
+                $"Failed while removing vanilla Coopmaster + Shepherd produce quality bonuses.\nHelper returned {ex}");
             return null;
         }
 

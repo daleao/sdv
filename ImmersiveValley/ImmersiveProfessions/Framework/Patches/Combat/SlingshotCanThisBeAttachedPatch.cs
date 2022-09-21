@@ -2,19 +2,20 @@
 
 #region using directives
 
-using Extensions;
+using DaLion.Stardew.Professions.Extensions;
 using HarmonyLib;
 using StardewValley.Tools;
+using HarmonyPatch = DaLion.Common.Harmony.HarmonyPatch;
 
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class SlingshotCanThisBeAttachedPatch : DaLion.Common.Harmony.HarmonyPatch
+internal sealed class SlingshotCanThisBeAttachedPatch : HarmonyPatch
 {
-    /// <summary>Construct an instance.</summary>
+    /// <summary>Initializes a new instance of the <see cref="SlingshotCanThisBeAttachedPatch"/> class.</summary>
     internal SlingshotCanThisBeAttachedPatch()
     {
-        Target = RequireMethod<Slingshot>(nameof(Slingshot.canThisBeAttached));
+        this.Target = this.RequireMethod<Slingshot>(nameof(Slingshot.canThisBeAttached));
     }
 
     #region harmony patches
@@ -23,8 +24,8 @@ internal sealed class SlingshotCanThisBeAttachedPatch : DaLion.Common.Harmony.Ha
     [HarmonyPostfix]
     private static void SlingshotCanThisBeAttachedPostfix(Slingshot __instance, ref bool __result, SObject? o)
     {
-        __result = __result || o is { bigCraftable.Value: false, ParentSheetIndex: 766 } &&
-                   __instance.getLastFarmerToUse().HasProfession(Profession.Piper);
+        __result = __result || (o is { bigCraftable.Value: false, ParentSheetIndex: 766 } &&
+                                __instance.getLastFarmerToUse().HasProfession(Profession.Piper));
     }
 
     #endregion harmony patches

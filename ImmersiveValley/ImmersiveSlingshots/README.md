@@ -68,4 +68,4 @@ Then, delete the mod from your mods folder.
 
 ## License
 
-See [LICENSE](../../LICENSE) for more information.
+See [LICENSE](../LICENSE) for more information.

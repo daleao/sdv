@@ -7,9 +7,14 @@ using System.Linq;
 
 #endregion using directives
 
+/// <summary>Extensions for the <see cref="Farmer"/> class.</summary>
 public static class FarmerExtensions
 {
-    /// <summary>Temporarily set up the farmer to interact with a tile, then return it to the original state.</summary>
+    /// <summary>
+    ///     Temporarily sets up the <paramref name="farmer"/> to interact with a tile, then return it to the original
+    ///     state.
+    /// </summary>
+    /// <param name="farmer">The <see cref="Farmer"/>.</param>
     /// <param name="action">The action to perform.</param>
     public static void TemporarilyFakeInteraction(this Farmer farmer, Action action)
     {
@@ -36,16 +41,19 @@ public static class FarmerExtensions
         }
     }
 
-    /// <summary>Cancel the current player animation if it matches one of the given IDs.</summary>
+    /// <summary>Cancels the <paramref name="farmer"/>'s current animation if it matches one of the given IDs.</summary>
+    /// <param name="farmer">The <see cref="Farmer"/>.</param>
     /// <param name="animationIds">The animation IDs to detect.</param>
-    public static void CancelAnimation(this Farmer who, params int[] animationIds)
+    public static void CancelAnimation(this Farmer farmer, params int[] animationIds)
     {
-        var animationId = ModEntry.ModHelper.Reflection.GetField<int>(who.FarmerSprite, "currentSingleAnimation")
+        var animationId = ModEntry.ModHelper.Reflection.GetField<int>(farmer.FarmerSprite, "currentSingleAnimation")
             .GetValue();
-        if (animationIds.Any(id => id == animationId))
+        if (animationIds.All(id => id != animationId))
         {
-            who.completelyStopAnimatingOrDoingAction();
-            who.forceCanMove();
+            return;
         }
+
+        farmer.completelyStopAnimatingOrDoingAction();
+        farmer.forceCanMove();
     }
 }

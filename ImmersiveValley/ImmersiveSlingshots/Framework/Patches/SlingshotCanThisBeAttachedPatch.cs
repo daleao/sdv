@@ -4,16 +4,17 @@
 
 using HarmonyLib;
 using StardewValley.Tools;
+using HarmonyPatch = DaLion.Common.Harmony.HarmonyPatch;
 
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class SlingshotCanThisBeAttachedPatch : Common.Harmony.HarmonyPatch
+internal sealed class SlingshotCanThisBeAttachedPatch : HarmonyPatch
 {
-    /// <summary>Construct an instance.</summary>
+    /// <summary>Initializes a new instance of the <see cref="SlingshotCanThisBeAttachedPatch"/> class.</summary>
     internal SlingshotCanThisBeAttachedPatch()
     {
-        Target = RequireMethod<Slingshot>(nameof(Slingshot.canThisBeAttached));
+        this.Target = this.RequireMethod<Slingshot>(nameof(Slingshot.canThisBeAttached));
     }
 
     #region harmony patches

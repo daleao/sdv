@@ -2,22 +2,23 @@
 
 #region using directives
 
-using Common.Extensions.Reflection;
-using Enchantments;
-using HarmonyLib;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection.Emit;
+using DaLion.Common.Extensions.Reflection;
+using DaLion.Stardew.Slingshots.Framework.Enchantments;
+using HarmonyLib;
+using HarmonyPatch = DaLion.Common.Harmony.HarmonyPatch;
 
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class BaseEnchantmentGetAvailableEnchantmentsPatch : Common.Harmony.HarmonyPatch
+internal sealed class BaseEnchantmentGetAvailableEnchantmentsPatch : HarmonyPatch
 {
-    /// <summary>Construct an instance.</summary>
+    /// <summary>Initializes a new instance of the <see cref="BaseEnchantmentGetAvailableEnchantmentsPatch"/> class.</summary>
     internal BaseEnchantmentGetAvailableEnchantmentsPatch()
     {
-        Target = RequireMethod<BaseEnchantment>(nameof(BaseEnchantment.GetAvailableEnchantments));
+        this.Target = this.RequireMethod<BaseEnchantment>(nameof(BaseEnchantment.GetAvailableEnchantments));
     }
 
     #region harmony patches
@@ -45,7 +46,7 @@ internal sealed class BaseEnchantmentGetAvailableEnchantmentsPatch : Common.Harm
             // add spreading enchant
             new(OpCodes.Ldsfld, typeof(BaseEnchantment).RequireField("_enchantments")),
             new(OpCodes.Newobj, typeof(SpreadingEnchantment).RequireConstructor()),
-            new(OpCodes.Callvirt, typeof(List<BaseEnchantment>).RequireMethod(nameof(List<BaseEnchantment>.Add)))
+            new(OpCodes.Callvirt, typeof(List<BaseEnchantment>).RequireMethod(nameof(List<BaseEnchantment>.Add))),
         });
 
         return l.AsEnumerable();

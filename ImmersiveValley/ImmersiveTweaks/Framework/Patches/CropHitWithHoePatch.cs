@@ -2,48 +2,46 @@
 
 #region using directives
 
-using Common;
-using Common.Extensions.Reflection;
-using Common.Harmony;
-using HarmonyLib;
 using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
+using DaLion.Common;
+using DaLion.Common.Extensions.Reflection;
+using DaLion.Common.Harmony;
+using HarmonyLib;
+using HarmonyPatch = DaLion.Common.Harmony.HarmonyPatch;
 
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class CropHitWithHoePatch : Common.Harmony.HarmonyPatch
+internal sealed class CropHitWithHoePatch : HarmonyPatch
 {
-    /// <summary>Construct an instance.</summary>
+    /// <summary>Initializes a new instance of the <see cref="CropHitWithHoePatch"/> class.</summary>
     internal CropHitWithHoePatch()
     {
-        Target = RequireMethod<Crop>(nameof(Crop.hitWithHoe));
+        this.Target = this.RequireMethod<Crop>(nameof(Crop.hitWithHoe));
     }
 
     #region harmony patches
 
     /// <summary>Apply Botanist/Ecologist perk to wild ginger.</summary>
     [HarmonyTranspiler]
-    private static IEnumerable<CodeInstruction>? CropHitWithHoeTranspiler(IEnumerable<CodeInstruction> instructions,
-        MethodBase original)
+    private static IEnumerable<CodeInstruction>? CropHitWithHoeTranspiler(
+        IEnumerable<CodeInstruction> instructions, MethodBase original)
     {
-        var helper = new ILHelper(original, instructions);
+        var helper = new IlHelper(original, instructions);
 
-        /// Injected: SetGingerQuality(@object);
-        /// Between: @object = new SObject(829, 1);
-
+        // Injected: SetGingerQuality(obj);
+        // Between: obj = new SObject(829, 1);
         try
         {
             helper
-                .FindFirst(
-                    new CodeInstruction(OpCodes.Stloc_0)
-                )
+                .FindFirst(new CodeInstruction(OpCodes.Stloc_0))
                 .InsertInstructions(
-                    new CodeInstruction(OpCodes.Call,
-                        typeof(CropHitWithHoePatch).RequireMethod(nameof(AddGingerQuality)))
-                );
+                    new CodeInstruction(
+                        OpCodes.Call,
+                        typeof(CropHitWithHoePatch).RequireMethod(nameof(AddGingerQuality))));
         }
         catch (Exception ex)
         {
@@ -60,7 +58,10 @@ internal sealed class CropHitWithHoePatch : Common.Harmony.HarmonyPatch
 
     private static SObject AddGingerQuality(SObject ginger)
     {
-        if (!ModEntry.Config.ProfessionalForagingInGingerIsland || !Game1.player.professions.Contains(Farmer.botanist)) return ginger;
+        if (!ModEntry.Config.ProfessionalForagingInGingerIsland || !Game1.player.professions.Contains(Farmer.botanist))
+        {
+            return ginger;
+        }
 
         ginger.Quality = ModEntry.ProfessionsApi is null
             ? SObject.bestQuality

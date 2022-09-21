@@ -2,23 +2,23 @@
 
 #region using directives
 
-using Common.Events;
-using Enchantments;
+using System.Linq;
+using DaLion.Common.Events;
+using DaLion.Stardew.Arsenal.Framework.Enchantments;
 using StardewModdingAPI.Events;
 using StardewValley.Tools;
-using System.Linq;
 
 #endregion using directives
 
 [UsedImplicitly]
 internal sealed class ArsenalSaveLoadedEvent : SaveLoadedEvent
 {
-    /// <summary>Construct an instance.</summary>
+    /// <summary>Initializes a new instance of the <see cref="ArsenalSaveLoadedEvent"/> class.</summary>
     /// <param name="manager">The <see cref="EventManager"/> instance that manages this event.</param>
     internal ArsenalSaveLoadedEvent(EventManager manager)
         : base(manager)
     {
-        AlwaysEnabled = true;
+        this.AlwaysEnabled = true;
     }
 
     /// <inheritdoc />
@@ -28,12 +28,21 @@ internal sealed class ArsenalSaveLoadedEvent : SaveLoadedEvent
         {
             Utility.iterateAllItems(item =>
             {
-                if (item is MeleeWeapon weapon && !weapon.isScythe()) AddEnchantments(weapon);
+                if (item is MeleeWeapon weapon && !weapon.isScythe())
+                {
+                    this.AddEnchantments(weapon);
+                }
             });
         }
         else
         {
-            foreach (var weapon in Game1.player.Items.OfType<MeleeWeapon>()) if (!weapon.isScythe()) AddEnchantments(weapon);
+            foreach (var weapon in Game1.player.Items.OfType<MeleeWeapon>())
+            {
+                if (!weapon.isScythe())
+                {
+                    this.AddEnchantments(weapon);
+                }
+            }
         }
     }
 
@@ -41,15 +50,15 @@ internal sealed class ArsenalSaveLoadedEvent : SaveLoadedEvent
     {
         switch (weapon.InitialParentTileIndex)
         {
-            case Constants.DARK_SWORD_INDEX_I:
+            case Constants.DarkSwordIndex:
                 weapon.enchantments.Add(new CursedEnchantment());
                 break;
-            case Constants.HOLY_BLADE_INDEX_I:
+            case Constants.HolyBladeIndex:
                 weapon.enchantments.Add(new BlessedEnchantment());
                 break;
-            case Constants.INFINITY_BLADE_INDEX_I:
-            case Constants.INFINITY_DAGGER_INDEX_I:
-            case Constants.INFINITY_CLUB_INDEX_I:
+            case Constants.InfinityBladeIndex:
+            case Constants.InfinityDaggerIndex:
+            case Constants.InfinityClubIndex:
                 weapon.enchantments.Add(new InfinityEnchantment());
                 break;
         }

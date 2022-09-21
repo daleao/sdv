@@ -2,49 +2,59 @@
 
 #region using directives
 
-using Common.Events;
+using System;
+using System.Collections.Generic;
+using DaLion.Common.Events;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using StardewModdingAPI.Events;
-using System;
-using System.Collections.Generic;
 
 #endregion using directives
 
 [UsedImplicitly]
 internal class RingAssetRequestedEvent : AssetRequestedEvent
 {
-    private static readonly Dictionary<string, (Action<IAssetData> edit, AssetEditPriority priority)> AssetEditors =
+    private static readonly Dictionary<string, (Action<IAssetData> Edit, AssetEditPriority Priority)> AssetEditors =
         new();
 
-    private static readonly Dictionary<string, (Func<string> provide, AssetLoadPriority priority)> AssetProviders = new();
+    private static readonly Dictionary<string, (Func<string> Provide, AssetLoadPriority Priority)> AssetProviders =
+        new();
 
-    /// <summary>Construct an instance.</summary>
+    /// <summary>Initializes a new instance of the <see cref="RingAssetRequestedEvent"/> class.</summary>
     /// <param name="manager">The <see cref="EventManager"/> instance that manages this event.</param>
     internal RingAssetRequestedEvent(EventManager manager)
         : base(manager)
     {
-        AlwaysEnabled = true;
+        this.AlwaysEnabled = true;
 
-        AssetEditors["Data/CraftingRecipes"] = (edit: EditCraftingRecipesData, priority: AssetEditPriority.Default);
-        AssetEditors["Data/ObjectInformation"] = (edit: EditObjectInformationData, priority: AssetEditPriority.Default);
-        AssetEditors["Maps/springobjects"] = (edit: EditSpringObjectsMaps, priority: AssetEditPriority.Late);
+        AssetEditors["Data/CraftingRecipes"] = (Edit: EditCraftingRecipesData, Priority: AssetEditPriority.Default);
+        AssetEditors["Data/ObjectInformation"] = (Edit: EditObjectInformationData, Priority: AssetEditPriority.Default);
+        AssetEditors["Maps/springobjects"] = (Edit: EditSpringObjectsMaps, Priority: AssetEditPriority.Late);
 
+        // ring textures
         AssetProviders[$"{ModEntry.Manifest.UniqueID}/Gemstones"] = (() =>
-            "assets/gemstones" + (ModEntry.IsBetterRingsLoaded ? "_better" : string.Empty) + ".png",
-            AssetLoadPriority.Medium);
+                "assets/gemstones" + (ModEntry.IsBetterRingsLoaded ? "_better" : string.Empty) + ".png",
+            Priority: AssetLoadPriority.Medium);
         AssetProviders[$"{ModEntry.Manifest.UniqueID}/Rings"] = (() =>
-            "assets/rings" + (ModEntry.IsBetterRingsLoaded ? "_better" : string.Empty) + ".png",
-            AssetLoadPriority.Medium);
+                "assets/rings" + (ModEntry.IsBetterRingsLoaded ? "_better" : string.Empty) + ".png",
+            Priority: AssetLoadPriority.Medium);
+
+        // resonance light source textures
+        AssetProviders[$"{ModEntry.Manifest.UniqueID}/Light"] = (() =>
+            "assets/light", Priority: AssetLoadPriority.Medium);
     }
 
     /// <inheritdoc />
     protected override void OnAssetRequestedImpl(object? sender, AssetRequestedEventArgs e)
     {
         if (AssetEditors.TryGetValue(e.NameWithoutLocale.Name, out var editor))
-            e.Edit(editor.edit, editor.priority);
+        {
+            e.Edit(editor.Edit, editor.Priority);
+        }
         else if (AssetProviders.TryGetValue(e.NameWithoutLocale.Name, out var provider))
-            e.LoadFromModFile<Texture2D>(provider.provide(), provider.priority);
+        {
+            e.LoadFromModFile<Texture2D>(provider.Provide(), provider.Priority);
+        }
     }
 
     #region editor callbacks
@@ -94,20 +104,20 @@ internal class RingAssetRequestedEvent : AssetRequestedEvent
 
         if (ModEntry.Config.RebalancedRings)
         {
-            fields = data[Constants.TOPAZ_RING_INDEX_I].Split('/');
+            fields = data[Constants.TopazRingIndex].Split('/');
             fields[5] = ModEntry.i18n.Get("rings.topaz.description");
-            data[Constants.TOPAZ_RING_INDEX_I] = string.Join('/', fields);
+            data[Constants.TopazRingIndex] = string.Join('/', fields);
 
-            fields = data[Constants.JADE_RING_INDEX_I].Split('/');
+            fields = data[Constants.JadeRingIndex].Split('/');
             fields[5] = ModEntry.i18n.Get("rings.jade.description");
-            data[Constants.JADE_RING_INDEX_I] = string.Join('/', fields);
+            data[Constants.JadeRingIndex] = string.Join('/', fields);
         }
 
         if (ModEntry.Config.TheOneIridiumBand)
         {
-            fields = data[Constants.IRIDIUM_BAND_INDEX_I].Split('/');
+            fields = data[Constants.IridiumBandIndex].Split('/');
             fields[5] = ModEntry.i18n.Get("rings.iridium.description");
-            data[Constants.IRIDIUM_BAND_INDEX_I] = string.Join('/', fields);
+            data[Constants.IridiumBandIndex] = string.Join('/', fields);
         }
     }
 
@@ -120,15 +130,15 @@ internal class RingAssetRequestedEvent : AssetRequestedEvent
         var ringsTx = ModEntry.ModHelper.GameContent.Load<Texture2D>($"{ModEntry.Manifest.UniqueID}/Rings");
         if (ModEntry.Config.CraftableGemRings)
         {
-            srcArea = new(16, 0, 96, 16);
-            targetArea = new(16, 352, 96, 16);
+            srcArea = new Rectangle(16, 0, 96, 16);
+            targetArea = new Rectangle(16, 352, 96, 16);
             editor.PatchImage(ringsTx, srcArea, targetArea);
         }
 
         if (ModEntry.Config.TheOneIridiumBand)
         {
-            srcArea = new(0, 0, 16, 16);
-            targetArea = new(368, 336, 16, 16);
+            srcArea = new Rectangle(0, 0, 16, 16);
+            targetArea = new Rectangle(368, 336, 16, 16);
             editor.PatchImage(ringsTx, srcArea, targetArea);
         }
     }

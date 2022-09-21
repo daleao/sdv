@@ -2,25 +2,26 @@
 
 #region using directives
 
-using Common;
-using Common.Extensions.Reflection;
-using Common.Harmony;
-using HarmonyLib;
-using StardewValley.Tools;
 using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
+using DaLion.Common;
+using DaLion.Common.Extensions.Reflection;
+using DaLion.Common.Harmony;
+using HarmonyLib;
+using StardewValley.Tools;
+using HarmonyPatch = DaLion.Common.Harmony.HarmonyPatch;
 
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class ToolDoFunctionPatches : Common.Harmony.HarmonyPatch
+internal sealed class ToolDoFunctionPatches : HarmonyPatch
 {
-    /// <summary>Construct an instance.</summary>
+    /// <summary>Initializes a new instance of the <see cref="ToolDoFunctionPatches"/> class.</summary>
     internal ToolDoFunctionPatches()
     {
-        Target = RequireMethod<Tool>(nameof(Tool.DoFunction));
+        this.Target = this.RequireMethod<Tool>(nameof(Tool.DoFunction));
     }
 
     /// <inheritdoc />
@@ -28,7 +29,7 @@ internal sealed class ToolDoFunctionPatches : Common.Harmony.HarmonyPatch
     {
         foreach (var target in TargetMethods())
         {
-            Target = target;
+            this.Target = target;
             base.ApplyImpl(harmony);
         }
     }
@@ -46,25 +47,24 @@ internal sealed class ToolDoFunctionPatches : Common.Harmony.HarmonyPatch
 
     /// <summary>Add hard lower-bound to stamina cost.</summary>
     [HarmonyTranspiler]
-    private static IEnumerable<CodeInstruction>? ToolDoFunctionTranspiler(IEnumerable<CodeInstruction> instructions, ILGenerator generator, MethodBase original)
+    private static IEnumerable<CodeInstruction>? ToolDoFunctionTranspiler(
+        IEnumerable<CodeInstruction> instructions, ILGenerator generator, MethodBase original)
     {
-        var helper = new ILHelper(original, instructions);
+        var helper = new IlHelper(original, instructions);
 
-        /// From: who.Stamina -= (float)(2 * power) - (float)who.<SkillLevel> * 0.1f;
-        /// To: who.Stamina -= Math.Max((float)(2 * power) - (float)who.<SkillLevel> * 0.1f, 0.1f);
-
+        // From: who.Stamina -= (float)(2 * power) - (float)who.<SkillLevel> * 0.1f;
+        // To: who.Stamina -= Math.Max((float)(2 * power) - (float)who.<SkillLevel> * 0.1f, 0.1f);
         try
         {
             helper
                 .FindFirst(
                     new CodeInstruction(OpCodes.Sub),
-                    new CodeInstruction(OpCodes.Callvirt, typeof(Farmer).RequirePropertySetter(nameof(Farmer.Stamina)))
-                )
+                    new CodeInstruction(OpCodes.Callvirt, typeof(Farmer).RequirePropertySetter(nameof(Farmer.Stamina))))
                 .InsertInstructions(
                     new CodeInstruction(OpCodes.Ldc_R4, 1f),
-                    new CodeInstruction(OpCodes.Call,
-                        typeof(Math).RequireMethod(nameof(Math.Max), new[] { typeof(float), typeof(float) }))
-                );
+                    new CodeInstruction(
+                        OpCodes.Call,
+                        typeof(Math).RequireMethod(nameof(Math.Max), new[] { typeof(float), typeof(float) })));
         }
         catch (Exception ex)
         {

@@ -2,87 +2,139 @@
 
 #region using directives
 
-using Extensions;
 using System;
 using System.Linq.Expressions;
+using DaLion.Common.Extensions;
 
 #endregion using directives
 
-/// <summary>Provides extension methods for reading and writing values in the <see cref="ModDataDictionary" /> class.</summary>
+/// <summary>Provides extension methods for reading and writing values in the <see cref="ModDataDictionary"/> class.</summary>
 public static class ModDataDictionaryExtensions
 {
-    /// <summary>Read a value from the <see cref="ModDataDictionary" /> as string.</summary>
+    /// <summary>Reads a value from the <see cref="ModDataDictionary"/> as a <see cref="string"/>.</summary>
+    /// <param name="data">The <see cref="ModDataDictionary"/>.</param>
     /// <param name="key">The dictionary key to read from.</param>
-    /// <param name="defaultValue">The default value to return if the key does not exist.</param>
-    /// <returns>The value of the specified key if it exists, or a default value if it doesn't.</returns>
-    public static string Read(this ModDataDictionary data, string key, string defaultValue = "") =>
-        data.TryGetValue(key, out var rawValue)
+    /// <param name="defaultValue">The default value to return if the <paramref name="key"/> does not exist.</param>
+    /// <returns>The value of the specified <paramref name="key"/> if it exists, or <paramref name="defaultValue"/> value if it doesn't.</returns>
+    public static string Read(this ModDataDictionary data, string key, string defaultValue = "")
+    {
+        return data.TryGetValue(key, out var rawValue)
             ? rawValue
             : defaultValue;
+    }
 
-    /// <summary>Read a value from the <see cref="ModDataDictionary" /> and try to parse it as type <typeparamref name="T" />.</summary>
+    /// <summary>
+    ///     Reads a value from the <see cref="ModDataDictionary"/> and tries to parse it as type
+    ///     <typeparamref name="T"/>.
+    /// </summary>
+    /// <typeparam name="T">The expected value type.</typeparam>
+    /// <param name="data">The <see cref="ModDataDictionary"/>.</param>
     /// <param name="key">The dictionary key to read from.</param>
     /// <param name="defaultValue">The default value to return if the key does not exist.</param>
     /// <returns>
-    ///     The value of the specified key if it exists, parsed as type <typeparamref name="T" />, or a default value if
-    ///     the key doesn't exist or fails to parse.
+    ///     The value of the specified <paramref name="key"/> if it exists, parsed as type <typeparamref name="T"/>, or <paramref name="defaultValue"/> if
+    ///     the <paramref name="key"/> doesn't exist or fails to parse.
     /// </returns>
-    public static T ReadAs<T>(this ModDataDictionary data, string key, T defaultValue = default) where T : struct =>
-        data.TryGetValue(key, out var rawValue) && rawValue.TryParse(out T parsedValue)
+    public static T Read<T>(this ModDataDictionary data, string key, T defaultValue = default)
+        where T : struct
+    {
+        return data.TryGetValue(key, out var rawValue) && rawValue.TryParse(out T parsedValue)
             ? parsedValue
             : defaultValue;
+    }
 
-    /// <summary>Write a string value to the <see cref="ModDataDictionary" />, or remove the corresponding key if supplied with a null or empty string.</summary>
+    /// <summary>
+    ///     Writes a <see cref="string"/> <paramref name="value"/> to the <see cref="ModDataDictionary"/>, or removes the
+    ///     corresponding <paramref name="key"/> if the <paramref name="value"/> is null or empty.
+    /// </summary>
+    /// <param name="data">The <see cref="ModDataDictionary"/>.</param>
     /// <param name="key">The dictionary key to write to.</param>
     /// <param name="value">The value to write, or <c>null</c> to remove the key.</param>
-    /// <returns>Interface to <paramref name="data" />.</returns>
+    /// <returns>The interface to <paramref name="data"/>.</returns>
     public static ModDataDictionary Write(this ModDataDictionary data, string key, string? value)
     {
-        if (string.IsNullOrEmpty(value)) data.Remove(key);
-        else data[key] = value;
+        if (string.IsNullOrEmpty(value))
+        {
+            data.Remove(key);
+        }
+        else
+        {
+            data[key] = value;
+        }
+
         return data;
     }
 
-    /// <summary>Write a value to the <see cref="ModDataDictionary" /> only if the key does not yet exist.</summary>
+    /// <summary>
+    ///     Writes a <paramref name="value"/> to the <see cref="ModDataDictionary"/> only if the specified
+    ///     <paramref name="key"/> does not yet exist.
+    /// </summary>
+    /// <param name="data">The <see cref="ModDataDictionary"/>.</param>
     /// <param name="key">The dictionary key to write to.</param>
     /// <param name="value">The value to write.</param>
-    /// <returns>Interface to <paramref name="data" />.</returns>
+    /// <returns>The interface to <paramref name="data"/>.</returns>
     public static ModDataDictionary WriteIfNotExists(this ModDataDictionary data, string key, string? value)
     {
-        if (!data.ContainsKey(key)) data[key] = value;
+        if (!data.ContainsKey(key))
+        {
+            data[key] = value;
+        }
+
         return data;
     }
 
-    /// <summary>Write a value to the <see cref="ModDataDictionary" /> only if the key does not yet exist.</summary>
+    /// <summary>
+    ///     Writes a <paramref name="value"/> to the <see cref="ModDataDictionary"/> only if the specified
+    ///     <paramref name="key"/> does not yet exist, and returns whether or not it existed.
+    /// </summary>
+    /// <param name="data">The <see cref="ModDataDictionary"/>.</param>
     /// <param name="key">The dictionary key to write to.</param>
     /// <param name="value">The value to write.</param>
-    /// <param name="didExist">Whether the key in fact existed in the dictionary.</param>
-    /// <returns>Interface to <paramref name="data" />.</returns>
-    public static ModDataDictionary WriteIfNotExists(this ModDataDictionary data, string key, string? value,
-        out bool didExist)
+    /// <param name="didExist"><see langword="true"/> if the key did in fact exist in the dictionary, otherwise <see langword="false"/>.</param>
+    /// <returns>The interface to <paramref name="data"/>.</returns>
+    public static ModDataDictionary WriteIfNotExists(
+        this ModDataDictionary data, string key, string? value, out bool didExist)
     {
         didExist = data.ContainsKey(key);
-        if (!didExist) data[key] = value;
+        if (!didExist)
+        {
+            data[key] = value;
+        }
+
         return data;
     }
 
-    /// <summary>Append a string representation of an object value to the specified field in the <see cref="ModDataDictionary" />.</summary>
+    /// <summary>
+    ///     Appends a <see cref="string"/> representation of a <paramref name="value"/> to the specified <paramref name="key"/> in
+    ///     the <see cref="ModDataDictionary"/>, prefixed with the chosen <paramref name="separator"/>.
+    /// </summary>
+    /// <typeparam name="T">The type of the <paramref name="value"/>.</typeparam>
+    /// <param name="data">The <see cref="ModDataDictionary"/>.</param>
     /// <param name="key">The dictionary key to update.</param>
-    /// <param name="value">The object value to append.</param>
-    /// <returns>Interface to <paramref name="data" />.</returns>
-    public static ModDataDictionary Append<T>(this ModDataDictionary data, string key, T value, string separator) =>
-        data.TryGetValue(key, out var currentValue)
+    /// <param name="value">The value to append.</param>
+    /// <param name="separator">The <see cref="string"/> which separates values.</param>
+    /// <returns>The interface to <paramref name="data"/>.</returns>
+    public static ModDataDictionary Append<T>(this ModDataDictionary data, string key, T value, string separator)
+    {
+        return data.TryGetValue(key, out var currentValue)
             ? data.Write(key, currentValue + separator + value)
             : data.Write(key, value?.ToString());
+    }
 
-    /// <summary>Increment a numeric value in the <see cref="ModDataDictionary" />.</summary>
+    /// <summary>Increments the value at <paramref name="key"/> by a generic <paramref name="amount"/>.</summary>
+    /// <typeparam name="T">A numeric value type.</typeparam>
+    /// <param name="data">The <see cref="ModDataDictionary"/>.</param>
     /// <param name="key">The dictionary key to update.</param>
-    /// <param name="amount">Amount to increment by.</param>
-    /// <returns>Interface to <paramref name="data" />.</returns>
-    /// <remarks>Original code by <see href="https://stackoverflow.com/questions/8122611/c-sharp-adding-two-generic-values">Adi Lester</see>.</remarks>
-    public static ModDataDictionary Increment<T>(this ModDataDictionary data, string key, T amount) where T : struct
+    /// <param name="amount">The amount to increment by.</param>
+    /// <returns>The interface to <paramref name="data"/>.</returns>
+    /// <remarks>
+    ///     Original code by
+    ///     <see href="https://stackoverflow.com/questions/8122611/c-sharp-adding-two-generic-values">Adi Lester</see>.
+    /// </remarks>
+    public static ModDataDictionary Increment<T>(this ModDataDictionary data, string key, T amount)
+        where T : struct
     {
-        var num = data.ReadAs<T>(key);
+        var num = data.Read<T>(key);
 
         // declare the parameters
         var paramA = Expression.Parameter(typeof(T), "a");

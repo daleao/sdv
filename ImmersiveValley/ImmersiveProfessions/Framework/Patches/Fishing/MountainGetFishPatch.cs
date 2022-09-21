@@ -2,27 +2,28 @@
 
 #region using directives
 
-using DaLion.Common;
-using DaLion.Common.Harmony;
-using Extensions;
-using HarmonyLib;
-using StardewValley.Locations;
 using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
+using DaLion.Common;
+using DaLion.Common.Harmony;
+using DaLion.Stardew.Professions.Extensions;
+using HarmonyLib;
+using StardewValley.Locations;
+using HarmonyPatch = DaLion.Common.Harmony.HarmonyPatch;
 
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class MountainGetFishPatch : DaLion.Common.Harmony.HarmonyPatch
+internal sealed class MountainGetFishPatch : HarmonyPatch
 {
-    private const int LEGEND_INDEX_I = 163;
+    private const int LegendIndex = 163;
 
-    /// <summary>Construct an instance.</summary>
+    /// <summary>Initializes a new instance of the <see cref="MountainGetFishPatch"/> class.</summary>
     internal MountainGetFishPatch()
     {
-        Target = RequireMethod<Mountain>(nameof(Mountain.getFish));
+        this.Target = this.RequireMethod<Mountain>(nameof(Mountain.getFish));
     }
 
     #region harmony patches
@@ -32,33 +33,23 @@ internal sealed class MountainGetFishPatch : DaLion.Common.Harmony.HarmonyPatch
     private static IEnumerable<CodeInstruction>? MountainGetFishTranspiler(
         IEnumerable<CodeInstruction> instructions, ILGenerator generator, MethodBase original)
     {
-        var helper = new ILHelper(original, instructions);
+        var helper = new IlHelper(original, instructions);
 
-        /// From: if (!who.fishCaught.ContainsKey(<legendary_fish_id>)) ...
-        /// To: if (!who.fishCaught.ContainsKey(<legendary_fish_id>) || !who.HasPrestigedProfession("Angler") ...
-
+        // From: if (!who.fishCaught.ContainsKey(<legendary_fish_id>)) ...
+        // To: if (!who.fishCaught.ContainsKey(<legendary_fish_id>) || !who.HasPrestigedProfession("Angler") ...
         var checkSeason = generator.DefineLabel();
         try
         {
             helper
-                .FindFirst(
-                    new CodeInstruction(OpCodes.Ldc_I4, LEGEND_INDEX_I)
-                )
-                .AdvanceUntil(
-                    new CodeInstruction(OpCodes.Brtrue_S)
-                )
+                .FindFirst(new CodeInstruction(OpCodes.Ldc_I4, LegendIndex))
+                .AdvanceUntil(new CodeInstruction(OpCodes.Brtrue_S))
                 .GetOperand(out var skipLegendary)
-                .ReplaceInstructionWith(
-                    new(OpCodes.Brfalse_S, checkSeason))
+                .ReplaceInstructionWith(new CodeInstruction(OpCodes.Brfalse_S, checkSeason))
                 .Advance()
                 .AddLabels(checkSeason)
-                .InsertInstructions(
-                    new CodeInstruction(OpCodes.Ldarg_S, (byte)4) // arg 4 = Farmer who
-                )
+                .InsertInstructions(new CodeInstruction(OpCodes.Ldarg_S, (byte)4)) // arg 4 = Farmer who
                 .InsertProfessionCheck(Profession.Angler.Value + 100, forLocalPlayer: false)
-                .InsertInstructions(
-                    new CodeInstruction(OpCodes.Brfalse_S, skipLegendary)
-                );
+                .InsertInstructions(new CodeInstruction(OpCodes.Brfalse_S, skipLegendary));
         }
         catch (Exception ex)
         {

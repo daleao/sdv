@@ -3,7 +3,11 @@
 /// <summary>Extensions for the <see cref="Item"/> class.</summary>
 public static class ItemExtensions
 {
-    /// <summary>Whether the ammo should make squishy noises upon collision.</summary>
-    public static bool IsSquishyAmmo(this Item ammo) =>
-        ammo.Category is SObject.EggCategory or SObject.FruitsCategory or SObject.VegetableCategory;
+    /// <summary>Determines whether the <paramref name="ammo"/> should make squishy noises upon collision.</summary>
+    /// <param name="ammo">The ammo <see cref="Item"/>.</param>
+    /// <returns><see langword="true"/> if the <paramref name="ammo"/> is an egg, fruit or vegetable, otherwise <see langword="false"/>.</returns>
+    public static bool IsSquishyAmmo(this Item ammo)
+    {
+        return ammo.Category is SObject.EggCategory or SObject.FruitsCategory or SObject.VegetableCategory;
+    }
 }

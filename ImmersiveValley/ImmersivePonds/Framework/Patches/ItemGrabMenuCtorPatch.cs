@@ -2,20 +2,21 @@
 
 #region using directives
 
+using System.Collections.Generic;
 using HarmonyLib;
 using StardewValley.Buildings;
 using StardewValley.Menus;
-using System.Collections.Generic;
+using HarmonyPatch = DaLion.Common.Harmony.HarmonyPatch;
 
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class ItemGrabMenuCtorPatch : Common.Harmony.HarmonyPatch
+internal sealed class ItemGrabMenuCtorPatch : HarmonyPatch
 {
-    /// <summary>Construct an instance.</summary>
+    /// <summary>Initializes a new instance of the <see cref="ItemGrabMenuCtorPatch"/> class.</summary>
     internal ItemGrabMenuCtorPatch()
     {
-        Target = RequireConstructor<ItemGrabMenu>(typeof(List<Item>), typeof(object));
+        this.Target = this.RequireConstructor<ItemGrabMenu>(typeof(List<Item>), typeof(object));
     }
 
     #region harmony patches
@@ -24,7 +25,10 @@ internal sealed class ItemGrabMenuCtorPatch : Common.Harmony.HarmonyPatch
     [HarmonyPostfix]
     private static void ItemGrabMenuCtorPostfix(ItemGrabMenu __instance)
     {
-        if (__instance.context is FishPond) __instance.canExitOnKey = true;
+        if (__instance.context is FishPond)
+        {
+            __instance.canExitOnKey = true;
+        }
     }
 
     #endregion harmony patches

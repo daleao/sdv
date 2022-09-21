@@ -2,23 +2,24 @@
 
 #region using directives
 
-using Common.Extensions.Collections;
-using Common.Extensions.Stardew;
+using System.Linq;
+using DaLion.Common.Extensions.Collections;
+using DaLion.Common.Extensions.Stardew;
 using HarmonyLib;
 using StardewValley.Buildings;
 using StardewValley.Menus;
 using StardewValley.Objects;
-using System.Linq;
+using HarmonyPatch = DaLion.Common.Harmony.HarmonyPatch;
 
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class ItemGrabMenuReadyToClosePatch : Common.Harmony.HarmonyPatch
+internal sealed class ItemGrabMenuReadyToClosePatch : HarmonyPatch
 {
-    /// <summary>Construct an instance.</summary>
+    /// <summary>Initializes a new instance of the <see cref="ItemGrabMenuReadyToClosePatch"/> class.</summary>
     internal ItemGrabMenuReadyToClosePatch()
     {
-        Target = RequireMethod<ItemGrabMenu>(nameof(ItemGrabMenu.readyToClose));
+        this.Target = this.RequireMethod<ItemGrabMenu>(nameof(ItemGrabMenu.readyToClose));
     }
 
     #region harmony patches
@@ -27,7 +28,10 @@ internal sealed class ItemGrabMenuReadyToClosePatch : Common.Harmony.HarmonyPatc
     [HarmonyPostfix]
     private static void ItemGrabMenuReadyToClosePostfix(ItemGrabMenu __instance, ref bool __result)
     {
-        if (__instance.context is not FishPond pond) return;
+        if (__instance.context is not FishPond pond)
+        {
+            return;
+        }
 
         var inventory = __instance.ItemsToGrabMenu?.actualInventory.WhereNotNull().ToList();
         if (inventory?.Count is not > 0)
@@ -38,9 +42,9 @@ internal sealed class ItemGrabMenuReadyToClosePatch : Common.Harmony.HarmonyPatc
         }
 
         var output = inventory.OrderByDescending(i => i is ColoredObject
-            ? new SObject(i.ParentSheetIndex, 1).salePrice()
-            : i.salePrice())
-        .First() as SObject;
+                ? new SObject(i.ParentSheetIndex, 1).salePrice()
+                : i.salePrice())
+            .First() as SObject;
         inventory.Remove(output!);
         if (inventory.Count > 0)
         {

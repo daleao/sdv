@@ -2,21 +2,22 @@
 
 #region using directives
 
-using Common.Extensions.Stardew;
-using Extensions;
-using HarmonyLib;
 using System;
+using DaLion.Common.Extensions.Stardew;
+using DaLion.Stardew.Tweex.Extensions;
+using HarmonyLib;
+using HarmonyPatch = DaLion.Common.Harmony.HarmonyPatch;
 
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class ObjectDayUpdatePatch : Common.Harmony.HarmonyPatch
+internal sealed class ObjectDayUpdatePatch : HarmonyPatch
 {
-    /// <summary>Construct an instance.</summary>
+    /// <summary>Initializes a new instance of the <see cref="ObjectDayUpdatePatch"/> class.</summary>
     internal ObjectDayUpdatePatch()
     {
-        Target = RequireMethod<SObject>(nameof(SObject.DayUpdate));
-        Postfix!.priority = Priority.LowerThanNormal;
+        this.Target = this.RequireMethod<SObject>(nameof(SObject.DayUpdate));
+        this.Postfix!.priority = Priority.LowerThanNormal;
     }
 
     #region harmony patches
@@ -33,13 +34,17 @@ internal sealed class ObjectDayUpdatePatch : Common.Harmony.HarmonyPatch
         else if (__instance.IsMushroomBox() && ModEntry.Config.AgeImprovesMushroomBoxes)
         {
             __instance.Increment("Age");
-            if (__instance.heldObject.Value is null) return;
+            if (__instance.heldObject.Value is null)
+            {
+                return;
+            }
 
             __instance.heldObject.Value.Quality = ModEntry.ProfessionsApi is null
                 ? Game1.player.professions.Contains(Farmer.botanist)
                     ? SObject.bestQuality
                     : __instance.GetQualityFromAge()
-                : Math.Max(ModEntry.ProfessionsApi.GetEcologistForageQuality(Game1.player),
+                : Math.Max(
+                    ModEntry.ProfessionsApi.GetEcologistForageQuality(Game1.player),
                     __instance.GetQualityFromAge());
         }
     }

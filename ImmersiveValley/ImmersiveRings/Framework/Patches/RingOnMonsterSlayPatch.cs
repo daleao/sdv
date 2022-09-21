@@ -2,20 +2,21 @@
 
 #region using directives
 
-using Events;
+using DaLion.Stardew.Rings.Framework.Events;
 using HarmonyLib;
 using StardewValley.Objects;
+using HarmonyPatch = DaLion.Common.Harmony.HarmonyPatch;
 
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class RingOnMonsterSlayPatch : Common.Harmony.HarmonyPatch
+internal sealed class RingOnMonsterSlayPatch : HarmonyPatch
 {
-    /// <summary>Construct an instance.</summary>
+    /// <summary>Initializes a new instance of the <see cref="RingOnMonsterSlayPatch"/> class.</summary>
     internal RingOnMonsterSlayPatch()
     {
-        Target = RequireMethod<Ring>(nameof(Ring.onMonsterSlay));
-        Prefix!.priority = Priority.HigherThanNormal;
+        this.Target = this.RequireMethod<Ring>(nameof(Ring.onMonsterSlay));
+        this.Prefix!.priority = Priority.HigherThanNormal;
     }
 
     #region harmony patches
@@ -24,9 +25,12 @@ internal sealed class RingOnMonsterSlayPatch : Common.Harmony.HarmonyPatch
     [HarmonyPrefix]
     private static bool RingOnMonsterSlayPrefix(Ring __instance, Farmer who)
     {
-        if (__instance.ParentSheetIndex != 523 || !ModEntry.Config.RebalancedRings) return true; // run original logic
+        if (__instance.ParentSheetIndex != 523 || !ModEntry.Config.RebalancedRings)
+        {
+            return true; // run original logic
+        }
 
-        ModEntry.SavageExcitedness.Value = 9;
+        ModEntry.State.SavageExcitedness = 9;
         ModEntry.Events.Enable<SavageUpdateTickedEvent>();
 
         return false; // don't run original logic

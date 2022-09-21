@@ -2,9 +2,9 @@
 
 #region using directives
 
-using Common;
-using Common.Commands;
-using Extensions;
+using DaLion.Common;
+using DaLion.Common.Commands;
+using DaLion.Stardew.Professions.Extensions;
 using Microsoft.Xna.Framework;
 
 #endregion using directives
@@ -12,10 +12,12 @@ using Microsoft.Xna.Framework;
 [UsedImplicitly]
 internal sealed class RerollTreasureTileCommand : ConsoleCommand
 {
-    /// <summary>Construct an instance.</summary>
+    /// <summary>Initializes a new instance of the <see cref="RerollTreasureTileCommand"/> class.</summary>
     /// <param name="handler">The <see cref="CommandHandler"/> instance that handles this command.</param>
     internal RerollTreasureTileCommand(CommandHandler handler)
-        : base(handler) { }
+        : base(handler)
+    {
+    }
 
     /// <inheritdoc />
     public override string[] Triggers { get; } = { "reset_the_hunt", "hunt_reset", "reroll_treasure" };

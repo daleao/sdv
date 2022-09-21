@@ -2,22 +2,25 @@
 
 #region using directives
 
-using Common.Attributes;
-using Common.Extensions.Stardew;
+using System;
+using DaLion.Common.Attributes;
+using DaLion.Common.Extensions.Stardew;
 using HarmonyLib;
 using Microsoft.Xna.Framework;
 using StardewValley.Tools;
-using System;
+using FarmerExtensions = DaLion.Stardew.Arsenal.Extensions.FarmerExtensions;
+using HarmonyPatch = DaLion.Common.Harmony.HarmonyPatch;
 
 #endregion using directives
 
-[UsedImplicitly, Deprecated]
-internal sealed class GameLocationPerformActionPatch : Common.Harmony.HarmonyPatch
+[UsedImplicitly]
+[Deprecated]
+internal sealed class GameLocationPerformActionPatch : HarmonyPatch
 {
-    /// <summary>Construct an instance.</summary>
+    /// <summary>Initializes a new instance of the <see cref="GameLocationPerformActionPatch"/> class.</summary>
     internal GameLocationPerformActionPatch()
     {
-        Target = RequireMethod<GameLocation>(nameof(GameLocation.performAction));
+        this.Target = this.RequireMethod<GameLocation>(nameof(GameLocation.performAction));
     }
 
     #region harmony patches
@@ -27,24 +30,31 @@ internal sealed class GameLocationPerformActionPatch : Common.Harmony.HarmonyPat
     private static bool GameLocationPerformTouchActionPrefix(GameLocation __instance, string? action, Farmer who)
     {
         if (!ModEntry.Config.InfinityPlusOneWeapons || action?.StartsWith("Yoba") != true || !who.IsLocalPlayer ||
-            who.CurrentTool is not MeleeWeapon { InitialParentTileIndex: Constants.DARK_SWORD_INDEX_I } darkSword ||
+            who.CurrentTool is not MeleeWeapon { InitialParentTileIndex: Constants.DarkSwordIndex } darkSword ||
             darkSword.Read<int>("EnemiesSlain") < ModEntry.Config.RequiredKillCountToPurifyDarkSword ||
-            who.mailReceived.Contains("holyBlade")) return true; // run original logic
+            who.mailReceived.Contains("holyBlade"))
+        {
+            return true; // run original logic
+        }
 
         who.Halt();
         who.faceDirection(2);
         who.showCarrying();
         who.jitterStrength = 1f;
-        Game1.pauseThenDoFunction(3000, Extensions.FarmerExtensions.GetHolyBlade);
+        Game1.pauseThenDoFunction(3000, FarmerExtensions.GetHolyBlade);
         Game1.changeMusicTrack("none", false, Game1.MusicContext.Event);
         __instance.playSound("crit");
         Game1.screenGlowOnce(Color.Transparent, true, 0.01f, 0.999f);
         DelayedAction.playSoundAfterDelay("stardrop", 1500);
         Game1.screenOverlayTempSprites.AddRange(
-            Utility.sparkleWithinArea(new(0, 0, Game1.viewport.Width, Game1.viewport.Height), 500, Color.Gold, 10,
+            Utility.sparkleWithinArea(
+                new Rectangle(0, 0, Game1.viewport.Width, Game1.viewport.Height),
+                500,
+                Color.Gold,
+                10,
                 2000));
-        Game1.afterDialogues = (Game1.afterFadeFunction)Delegate.Combine(Game1.afterDialogues,
-            (Game1.afterFadeFunction)delegate { Game1.stopMusicTrack(Game1.MusicContext.Event); });
+        Game1.afterDialogues = (Game1.afterFadeFunction)Delegate.Combine(
+            Game1.afterDialogues, (Game1.afterFadeFunction)(() => Game1.stopMusicTrack(Game1.MusicContext.Event)));
 
         return false; // don't run original logic
     }

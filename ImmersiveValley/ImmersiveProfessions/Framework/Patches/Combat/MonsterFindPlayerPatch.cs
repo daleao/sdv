@@ -2,26 +2,28 @@
 
 #region using directives
 
-using DaLion.Common;
-using DaLion.Common.Extensions.Stardew;
-using Extensions;
-using HarmonyLib;
-using StardewValley.Monsters;
 using System;
 using System.Linq;
 using System.Reflection;
-using VirtualProperties;
+using DaLion.Common;
+using DaLion.Common.Extensions.Stardew;
+using DaLion.Stardew.Professions.Extensions;
+using DaLion.Stardew.Professions.Framework.VirtualProperties;
+using HarmonyLib;
+using StardewValley.Monsters;
+using HarmonyPatch = DaLion.Common.Harmony.HarmonyPatch;
+using SObjectExtensions = DaLion.Common.Extensions.Stardew.SObjectExtensions;
 
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class MonsterFindPlayerPatch : DaLion.Common.Harmony.HarmonyPatch
+internal sealed class MonsterFindPlayerPatch : HarmonyPatch
 {
-    /// <summary>Construct an instance.</summary>
+    /// <summary>Initializes a new instance of the <see cref="MonsterFindPlayerPatch"/> class.</summary>
     internal MonsterFindPlayerPatch()
     {
-        Target = RequireMethod<Monster>("findPlayer");
-        Prefix!.priority = Priority.First;
+        this.Target = this.RequireMethod<Monster>("findPlayer");
+        this.Prefix!.priority = Priority.First;
     }
 
     #region harmony patches
@@ -35,12 +37,12 @@ internal sealed class MonsterFindPlayerPatch : DaLion.Common.Harmony.HarmonyPatc
         {
             var location = Game1.currentLocation;
             Farmer? target = null;
-            if (__instance is GreenSlime slime && slime.get_Piper() is not null)
+            if (__instance is GreenSlime slime && slime.Get_Piper() is not null)
             {
-                var aggroee = slime.GetClosestNPC(location.characters.OfType<Monster>().Where(m => !m.IsSlime()));
+                var aggroee = slime.GetClosestCharacter(location.characters.OfType<Monster>().Where(m => !m.IsSlime()));
                 if (aggroee is not null)
                 {
-                    var fakeFarmer = slime.get_FakeFarmer();
+                    var fakeFarmer = slime.Get_FakeFarmer();
                     if (fakeFarmer is not null)
                     {
                         fakeFarmer.Position = aggroee.Position;
@@ -50,10 +52,10 @@ internal sealed class MonsterFindPlayerPatch : DaLion.Common.Harmony.HarmonyPatc
             }
             else
             {
-                var taunter = __instance.get_Taunter().Get(__instance.currentLocation);
+                var taunter = __instance.Get_Taunter().Get(__instance.currentLocation);
                 if (taunter is not null)
                 {
-                    var fakeFarmer = __instance.get_FakeFarmer();
+                    var fakeFarmer = __instance.Get_FakeFarmer();
                     if (fakeFarmer is not null)
                     {
                         fakeFarmer.Position = taunter.Position;
@@ -63,7 +65,7 @@ internal sealed class MonsterFindPlayerPatch : DaLion.Common.Harmony.HarmonyPatc
             }
 
             __result = target ?? (Context.IsMultiplayer
-                ? __instance.GetClosestFarmer(predicate: f => !f.get_IsFake().Value && !f.IsInAmbush())
+                ? __instance.GetClosestFarmer(predicate: f => !f.Get_IsFake().Value && !f.IsInAmbush())
                 : Game1.player);
             return false; // don't run original logic
         }

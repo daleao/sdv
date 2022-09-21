@@ -2,176 +2,290 @@
 
 #region using directives
 
-using Common;
-using Common.Extensions.Collections;
-using Common.Extensions.Reflection;
-using Common.Harmony;
-using Extensions;
-using HarmonyLib;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using StardewValley.Objects;
 using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
-using VirtualProperties;
+using DaLion.Common;
+using DaLion.Common.Extensions.Reflection;
+using DaLion.Common.Harmony;
+using DaLion.Stardew.Rings.Extensions;
+using DaLion.Stardew.Rings.Framework.VirtualProperties;
+using HarmonyLib;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using StardewValley.Objects;
+using HarmonyPatch = DaLion.Common.Harmony.HarmonyPatch;
+using Utility = StardewValley.Utility;
 
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class RingDrawTooltipPatch : Common.Harmony.HarmonyPatch
+internal sealed class RingDrawTooltipPatch : HarmonyPatch
 {
-    private static readonly Lazy<Func<Item, int>> _GetDescriptionWidth = new(() =>
-        typeof(Item).RequireMethod("getDescriptionWidth").CompileUnboundDelegate<Func<Item, int>>());
+    private static readonly Lazy<Func<Item, int>> GetDescriptionWidth = new(() =>
+        typeof(Item)
+            .RequireMethod("getDescriptionWidth")
+            .CompileUnboundDelegate<Func<Item, int>>());
 
-    /// <summary>Construct an instance.</summary>
+    /// <summary>Initializes a new instance of the <see cref="RingDrawTooltipPatch"/> class.</summary>
     internal RingDrawTooltipPatch()
     {
-        Target = RequireMethod<Ring>(nameof(Ring.drawTooltip));
+        this.Target = this.RequireMethod<Ring>(nameof(Ring.drawTooltip));
     }
 
     #region harmony patches
 
-    /// <summary>Draw combined Iridium Band effects in tooltip.</summary>
+    /// <summary>Draw combined Infinity Band effects in tooltip.</summary>
     [HarmonyPrefix]
-    private static bool RingDrawTooltipPrefix(Ring __instance, SpriteBatch spriteBatch, ref int x, ref int y,
-        SpriteFont font, float alpha)
+    private static bool RingDrawTooltipPrefix(
+        Ring __instance, SpriteBatch spriteBatch, ref int x, ref int y, SpriteFont font, float alpha)
     {
-        if (!__instance.IsCombinedIridiumBand(out var combined)) return true; // run original logic
-
-        var modifiers = new StatModifiers();
-        combined.combinedRings.ForEach(r => Gemstone.FromRing(r.ParentSheetIndex).ApplyModifier(ref modifiers));
-        if (!modifiers.Any()) return false; // don't run original logic
-
-        combined.get_Resonances().ForEach(r => r.Key.ApplyToModifiers(ref modifiers, r.Value));
+        if (!__instance.IsCombinedInfinityBand(out var combined))
+        {
+            return true; // run original logic
+        }
 
         // write description
-        var descriptionWidth = _GetDescriptionWidth.Value(__instance);
-        StardewValley.Utility.drawTextWithShadow(spriteBatch,
-            Game1.parseText(__instance.description, Game1.smallFont, descriptionWidth), font, new(x + 16, y + 20),
+        var descriptionWidth = GetDescriptionWidth.Value(__instance);
+        Utility.drawTextWithShadow(
+            spriteBatch,
+            Game1.parseText(__instance.description, Game1.smallFont, descriptionWidth),
+            font,
+            new Vector2(x + 16, y + 20),
             Game1.textColor);
         y += (int)font.MeasureString(Game1.parseText(__instance.description, Game1.smallFont, descriptionWidth)).Y;
+
+        if (combined.combinedRings.Count <= 0)
+        {
+            return false; // don't run original logic
+        }
+
+        var buffer = combined.Get_StatBuffer();
+        if (!buffer.Any())
+        {
+            return false; // don't run original logic
+        }
 
         Color co;
         var maxWidth = 0;
 
         // write bonus damage
-        if (modifiers.DamageModifier > 0)
+        if (buffer.DamageModifier > 0)
         {
-            var amount = $"{modifiers.DamageModifier:p0}";
-            co = new(0, 120, 120);
-            StardewValley.Utility.drawWithShadow(spriteBatch, Game1.mouseCursors, new(x + 20, y + 20), new(120, 428, 10, 10), Color.White,
-                0f, Vector2.Zero, 4f, false, 1f);
+            var amount = $"{buffer.DamageModifier:0%}";
+            co = new Color(0, 120, 120);
+            Utility.drawWithShadow(
+                spriteBatch,
+                Game1.mouseCursors,
+                new Vector2(x + 20, y + 20),
+                new Rectangle(120, 428, 10, 10),
+                Color.White,
+                0f,
+                Vector2.Zero,
+                4f,
+                false,
+                1f);
 
             var text = ModEntry.i18n.Get("ui.itemhover.damage", new { amount });
             var width = font.MeasureString(text).X;
             maxWidth = (int)Math.Max(width, maxWidth);
-            StardewValley.Utility.drawTextWithShadow(spriteBatch, text, font, new(x + 68, y + 28), co * 0.9f * alpha);
+            Utility.drawTextWithShadow(spriteBatch, text, font, new Vector2(x + 68, y + 28), co * 0.9f * alpha);
             y += (int)Math.Max(font.MeasureString("TT").Y, 48f);
         }
 
         // write bonus crit rate
-        if (modifiers.CritChanceModifier > 0)
+        if (buffer.CritChanceModifier > 0)
         {
-            var amount = $"{modifiers.CritChanceModifier:p0}";
-            co = new(0, 120, 120);
-            StardewValley.Utility.drawWithShadow(spriteBatch, Game1.mouseCursors, new(x + 20, y + 20), new(40, 428, 10, 10),
-                Color.White, 0f, Vector2.Zero, 4f, false, 1f);
+            var amount = $"{buffer.CritChanceModifier:0%}";
+            co = new Color(0, 120, 120);
+            Utility.drawWithShadow(
+                spriteBatch,
+                Game1.mouseCursors,
+                new Vector2(x + 20, y + 20),
+                new Rectangle(40, 428, 10, 10),
+                Color.White,
+                0f,
+                Vector2.Zero,
+                4f,
+                false,
+                1f);
 
             var text = Game1.content.LoadString("Strings\\UI:ItemHover_CritChanceBonus", amount);
             var width = font.MeasureString(text).X;
             maxWidth = (int)Math.Max(width, maxWidth);
-            StardewValley.Utility.drawTextWithShadow(spriteBatch, text, font, new(x + 68, y + 28), co * 0.9f * alpha);
+            Utility.drawTextWithShadow(spriteBatch, text, font, new Vector2(x + 68, y + 28), co * 0.9f * alpha);
             y += (int)Math.Max(font.MeasureString("TT").Y, 48f);
         }
 
         // write crit power
-        if (modifiers.CritPowerModifier > 0)
+        if (buffer.CritPowerModifier > 0)
         {
-            var amount = $"{modifiers.CritPowerModifier:p0}";
-            co = new(0, 120, 120);
-            StardewValley.Utility.drawWithShadow(spriteBatch, Game1.mouseCursors, new(x + 16, y + 16 + 4),
-                new(160, 428, 10, 10), Color.White, 0f, Vector2.Zero, 4f, false, 1f);
+            var amount = $"{buffer.CritPowerModifier:0%}";
+            co = new Color(0, 120, 120);
+            Utility.drawWithShadow(
+                spriteBatch,
+                Game1.mouseCursors,
+                new Vector2(x + 16, y + 16 + 4),
+                new Rectangle(160, 428, 10, 10),
+                Color.White,
+                0f,
+                Vector2.Zero,
+                4f,
+                false,
+                1f);
 
             var text = Game1.content.LoadString("Strings\\UI:ItemHover_CritPowerBonus", amount);
             var width = font.MeasureString(text).X;
             maxWidth = (int)Math.Max(width, maxWidth);
-            StardewValley.Utility.drawTextWithShadow(spriteBatch, text, font, new(x + 16 + 44, y + 16 + 12), co * 0.9f * alpha);
+            Utility.drawTextWithShadow(
+                spriteBatch,
+                text,
+                font,
+                new Vector2(x + 16 + 44, y + 16 + 12),
+                co * 0.9f * alpha);
             y += (int)Math.Max(font.MeasureString("TT").Y, 48f);
         }
 
         // write bonus precision
-        if (modifiers.PrecisionModifier > 0)
+        if (buffer.PrecisionModifier > 0)
         {
-            var amount = $"{modifiers.PrecisionModifier:p0}";
-            co = new(0, 120, 120);
-            StardewValley.Utility.drawWithShadow(spriteBatch, Game1.mouseCursors, new(x + 20, y + 20), new(110, 428, 10, 10),
-                Color.White, 0f, Vector2.Zero, 4f, false, 1f);
+            var amount = $"{buffer.PrecisionModifier:0%}";
+            co = new Color(0, 120, 120);
+            Utility.drawWithShadow(
+                spriteBatch,
+                Game1.mouseCursors,
+                new Vector2(x + 20, y + 20),
+                new Rectangle(110, 428, 10, 10),
+                Color.White,
+                0f,
+                Vector2.Zero,
+                4f,
+                false,
+                1f);
 
             var text = ModEntry.i18n.Get("ui.itemhover.precision", new { amount });
             var width = font.MeasureString(text).X;
             maxWidth = (int)Math.Max(width, maxWidth);
-            StardewValley.Utility.drawTextWithShadow(spriteBatch, text, font, new(x + 68, y + 28), co * 0.9f * alpha);
+            Utility.drawTextWithShadow(spriteBatch, text, font, new Vector2(x + 68, y + 28), co * 0.9f * alpha);
             y += (int)Math.Max(font.MeasureString("TT").Y, 48f);
         }
 
         // write bonus knockback
-        if (modifiers.KnockbackModifier > 0)
+        if (buffer.KnockbackModifier > 0)
         {
-            var amount = $"+{modifiers.KnockbackModifier:p0}";
-            co = new(0, 120, 120);
-            StardewValley.Utility.drawWithShadow(spriteBatch, Game1.mouseCursors, new(x + 20, y + 20), new(70, 428, 10, 10),
-                Color.White, 0f, Vector2.Zero, 4f, false, 1f);
+            var amount = $"+{buffer.KnockbackModifier:0%}";
+            co = new Color(0, 120, 120);
+            Utility.drawWithShadow(
+                spriteBatch,
+                Game1.mouseCursors,
+                new Vector2(x + 20, y + 20),
+                new Rectangle(70, 428, 10, 10),
+                Color.White,
+                0f,
+                Vector2.Zero,
+                4f,
+                false,
+                1f);
 
             var text = Game1.content.LoadString("Strings\\UI:ItemHover_Weight", amount);
             var width = font.MeasureString(text).X;
             maxWidth = (int)Math.Max(width, maxWidth);
-            StardewValley.Utility.drawTextWithShadow(spriteBatch, text, font, new(x + 68, y + 28), co * 0.9f * alpha);
+            Utility.drawTextWithShadow(spriteBatch, text, font, new Vector2(x + 68, y + 28), co * 0.9f * alpha);
             y += (int)Math.Max(font.MeasureString("TT").Y, 48f);
         }
 
         // write bonus swing speed
-        if (modifiers.SwingSpeedModifier > 0)
+        if (buffer.SwingSpeedModifier > 0)
         {
-            var amount = $"+{modifiers.SwingSpeedModifier:p0}";
-            co = new(0, 120, 120);
-            StardewValley.Utility.drawWithShadow(spriteBatch, Game1.mouseCursors, new(x + 20, y + 20), new(130, 428, 10, 10),
-                Color.White, 0f, Vector2.Zero, 4f, false, 1f);
+            var amount = $"+{buffer.SwingSpeedModifier:0%}";
+            co = new Color(0, 120, 120);
+            Utility.drawWithShadow(
+                spriteBatch,
+                Game1.mouseCursors,
+                new Vector2(x + 20, y + 20),
+                new Rectangle(130, 428, 10, 10),
+                Color.White,
+                0f,
+                Vector2.Zero,
+                4f,
+                false,
+                1f);
 
             var text = Game1.content.LoadString("Strings\\UI:ItemHover_Speed", amount);
             var width = font.MeasureString(text).X;
             maxWidth = (int)Math.Max(width, maxWidth);
-            StardewValley.Utility.drawTextWithShadow(spriteBatch, text, font, new(x + 68, y + 28), co * 0.9f * alpha);
+            Utility.drawTextWithShadow(spriteBatch, text, font, new Vector2(x + 68, y + 28), co * 0.9f * alpha);
             y += (int)Math.Max(font.MeasureString("TT").Y, 48f);
         }
 
         // write bonus cooldown reduction
-        if (modifiers.CooldownReduction > 0)
+        if (buffer.CooldownReduction > 0)
         {
-            var amount = $"{modifiers.CooldownReduction:p0}";
-            co = new(0, 120, 120);
-            StardewValley.Utility.drawWithShadow(spriteBatch, Game1.mouseCursors, new(x + 20, y + 20), new(150, 428, 10, 10),
-                Color.White, 0f, Vector2.Zero, 4f, false, 1f);
+            var amount = $"{buffer.CooldownReduction:0%}";
+            co = new Color(0, 120, 120);
+            Utility.drawWithShadow(
+                spriteBatch,
+                Game1.mouseCursors,
+                new Vector2(x + 20, y + 20),
+                new Rectangle(150, 428, 10, 10),
+                Color.White,
+                0f,
+                Vector2.Zero,
+                4f,
+                false,
+                1f);
 
             var text = ModEntry.i18n.Get("ui.itemhover.cdr", new { amount });
             var width = font.MeasureString(text).X;
             maxWidth = (int)Math.Max(width, maxWidth);
-            StardewValley.Utility.drawTextWithShadow(spriteBatch, text, font, new(x + 68, y + 28), co * 0.9f * alpha);
+            Utility.drawTextWithShadow(spriteBatch, text, font, new Vector2(x + 68, y + 28), co * 0.9f * alpha);
             y += (int)Math.Max(font.MeasureString("TT").Y, 48f);
         }
 
         // write bonus defense
-        if (modifiers.AddedDefense > 0)
+        if (buffer.AddedDefense > 0)
         {
-            co = new(0, 120, 120);
-            StardewValley.Utility.drawWithShadow(spriteBatch, Game1.mouseCursors, new(x + 20, y + 20), new(110, 428, 10, 10),
-                Color.White, 0f, Vector2.Zero, 4f, false, 1f);
+            co = new Color(0, 120, 120);
+            Utility.drawWithShadow(
+                spriteBatch,
+                Game1.mouseCursors,
+                new Vector2(x + 20, y + 20),
+                new Rectangle(110, 428, 10, 10),
+                Color.White,
+                0f,
+                Vector2.Zero,
+                4f,
+                false,
+                1f);
 
-            var text = Game1.content.LoadString("Strings\\UI:ItemHover_DefenseBonus", modifiers.AddedDefense);
+            var text = Game1.content.LoadString("Strings\\UI:ItemHover_DefenseBonus", buffer.AddedDefense);
             var width = font.MeasureString(text).X;
             maxWidth = (int)Math.Max(width, maxWidth);
-            StardewValley.Utility.drawTextWithShadow(spriteBatch, text, font, new(x + 68, y + 28), co * 0.9f * alpha);
+            Utility.drawTextWithShadow(spriteBatch, text, font, new Vector2(x + 68, y + 28), co * 0.9f * alpha);
+            y += (int)Math.Max(font.MeasureString("TT").Y, 48f);
+        }
+
+        // write bonus magnetism
+        if (buffer.AddedMagneticRadius > 0)
+        {
+            co = new Color(0, 120, 120);
+            Utility.drawWithShadow(
+                spriteBatch,
+                Game1.mouseCursors,
+                new Vector2(x + 20, y + 20),
+                new Rectangle(90, 428, 10, 10),
+                Color.White,
+                0f,
+                Vector2.Zero,
+                4f,
+                false,
+                1f);
+
+            var text = '+' + Game1.content.LoadString("Strings\\UI:ItemHover_Buff8", buffer.AddedMagneticRadius);
+            var width = font.MeasureString(text).X;
+            maxWidth = (int)Math.Max(width, maxWidth);
+            Utility.drawTextWithShadow(spriteBatch, text, font, new Vector2(x + 68, y + 28), co * 0.9f * alpha);
             y += (int)Math.Max(font.MeasureString("TT").Y, 48f);
         }
 
@@ -179,37 +293,36 @@ internal sealed class RingDrawTooltipPatch : Common.Harmony.HarmonyPatch
         return false; // don't run original logic
     }
 
-    /// <summary>Fix crab ring tooltip.</summary>
+    /// <summary>Fix Crab Ring tooltip.</summary>
     [HarmonyTranspiler]
-    private static IEnumerable<CodeInstruction>? RingDrawTooltipTranspiler(IEnumerable<CodeInstruction> instructions,
-        ILGenerator generator, MethodBase original)
+    private static IEnumerable<CodeInstruction>? RingDrawTooltipTranspiler(
+        IEnumerable<CodeInstruction> instructions, ILGenerator generator, MethodBase original)
     {
-        var helper = new ILHelper(original, instructions);
+        var helper = new IlHelper(original, instructions);
 
         var displayVanillaEffect = generator.DefineLabel();
         var resumeExecution = generator.DefineLabel();
         try
         {
             helper
-                .FindFirst(
-                    new CodeInstruction(OpCodes.Ldc_I4_5)
-                )
+                .FindFirst(new CodeInstruction(OpCodes.Ldc_I4_5))
                 .AddLabels(displayVanillaEffect)
                 .InsertInstructions(
-                    new CodeInstruction(OpCodes.Call,
+                    new CodeInstruction(
+                        OpCodes.Call,
                         typeof(ModEntry).RequirePropertyGetter(nameof(ModEntry.Config))),
-                    new CodeInstruction(OpCodes.Call,
+                    new CodeInstruction(
+                        OpCodes.Call,
                         typeof(ModConfig).RequirePropertyGetter(nameof(ModConfig.RebalancedRings))),
                     new CodeInstruction(OpCodes.Brfalse_S, displayVanillaEffect),
                     new CodeInstruction(OpCodes.Ldc_I4_S, 10),
-                    new CodeInstruction(OpCodes.Br_S, resumeExecution)
-                )
+                    new CodeInstruction(OpCodes.Br_S, resumeExecution))
                 .Advance()
                 .AddLabels(resumeExecution);
         }
         catch (Exception ex)
         {
-            Log.E($"Failed injecting custom crabshell tooltip.\nHelper returned {ex}");
+            Log.E($"Failed injecting custom Crab Ring tooltip.\nHelper returned {ex}");
             return null;
         }
 

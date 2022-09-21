@@ -1,12 +1,12 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 	
-	<Import Project="..\_build\common.targets" />
+	<Import Project="..\_build\common.targets"/>
 
 	<PropertyGroup>
 		<AssemblyName>ImmersiveProfessions</AssemblyName>
 		<RootNamespace>DaLion.Stardew.Professions</RootNamespace>
 		<UpdateKeys>Nexus:8111</UpdateKeys>
-		<Version>5.1.6</Version>
+		<Version>5.2.0</Version>
 	</PropertyGroup>
 
 	<PropertyGroup>
@@ -14,7 +14,7 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Ardalis.SmartEnum" Version="2.1.0" />
-	</ItemGroup>
+		<PackageReference Include="Ardalis.SmartEnum" Version="2.1.0"/>
+  </ItemGroup>
 
 </Project>

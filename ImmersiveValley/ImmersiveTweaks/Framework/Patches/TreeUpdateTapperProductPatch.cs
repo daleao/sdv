@@ -2,19 +2,20 @@
 
 #region using directives
 
-using Extensions;
+using DaLion.Stardew.Tweex.Extensions;
 using HarmonyLib;
 using StardewValley.TerrainFeatures;
+using HarmonyPatch = DaLion.Common.Harmony.HarmonyPatch;
 
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class TreeUpdateTapperProductPatch : Common.Harmony.HarmonyPatch
+internal sealed class TreeUpdateTapperProductPatch : HarmonyPatch
 {
-    /// <summary>Construct an instance.</summary>
+    /// <summary>Initializes a new instance of the <see cref="TreeUpdateTapperProductPatch"/> class.</summary>
     internal TreeUpdateTapperProductPatch()
     {
-        Target = RequireMethod<Tree>(nameof(Tree.UpdateTapperProduct));
+        this.Target = this.RequireMethod<Tree>(nameof(Tree.UpdateTapperProduct));
     }
 
     #region harmony patches
@@ -24,7 +25,9 @@ internal sealed class TreeUpdateTapperProductPatch : Common.Harmony.HarmonyPatch
     private static void TreeUpdateTapperProductPostfix(Tree __instance, SObject? tapper_instance)
     {
         if (tapper_instance is not null)
+        {
             tapper_instance.heldObject.Value.Quality = __instance.GetQualityFromAge();
+        }
     }
 
     #endregion harmony patches

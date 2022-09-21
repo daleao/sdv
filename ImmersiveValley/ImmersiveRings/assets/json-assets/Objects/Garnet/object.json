@@ -3,6 +3,6 @@
     "Category": "Gem",
     "Edibility": -300,
     "Price": 300,
-	"Recipe": null,
+    "Recipe": null,
     "TranslationKey": "gems.garnet"
 }

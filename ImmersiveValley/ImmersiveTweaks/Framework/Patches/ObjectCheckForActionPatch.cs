@@ -2,25 +2,26 @@
 
 #region using directives
 
-using Common;
-using Common.Extensions.Reflection;
-using Common.Harmony;
-using Extensions;
-using HarmonyLib;
 using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
+using DaLion.Common;
+using DaLion.Common.Extensions.Reflection;
+using DaLion.Common.Harmony;
+using DaLion.Stardew.Tweex.Extensions;
+using HarmonyLib;
+using HarmonyPatch = DaLion.Common.Harmony.HarmonyPatch;
 
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class ObjectCheckForActionPatch : Common.Harmony.HarmonyPatch
+internal sealed class ObjectCheckForActionPatch : HarmonyPatch
 {
-    /// <summary>Construct an instance.</summary>
+    /// <summary>Initializes a new instance of the <see cref="ObjectCheckForActionPatch"/> class.</summary>
     internal ObjectCheckForActionPatch()
     {
-        Target = RequireMethod<SObject>(nameof(SObject.checkForAction));
+        this.Target = this.RequireMethod<SObject>(nameof(SObject.checkForAction));
     }
 
     #region harmony patches
@@ -39,12 +40,19 @@ internal sealed class ObjectCheckForActionPatch : Common.Harmony.HarmonyPatch
     [HarmonyPostfix]
     private static void ObjectCheckForActionPostfix(SObject __instance, bool __state)
     {
-        if (!__state || __instance.readyForHarvest.Value) return;
+        if (!__state || __instance.readyForHarvest.Value)
+        {
+            return;
+        }
 
         if (__instance.name.Contains("Tapper") && ModEntry.Config.TappersRewardExp)
+        {
             Game1.player.gainExperience(Farmer.foragingSkill, 5);
+        }
         else if (__instance.name.Contains("Mushroom Box") && ModEntry.Config.MushroomBoxesRewardExp)
+        {
             Game1.player.gainExperience(Farmer.foragingSkill, 1);
+        }
     }
 
     /// <summary>Applies quality to aged bee house.</summary>
@@ -52,48 +60,47 @@ internal sealed class ObjectCheckForActionPatch : Common.Harmony.HarmonyPatch
     private static IEnumerable<CodeInstruction>? ObjectCheckForActionTranspiler(
         IEnumerable<CodeInstruction> instructions, ILGenerator generator, MethodBase original)
     {
-        var helper = new ILHelper(original, instructions);
+        var helper = new IlHelper(original, instructions);
 
-        /// Injected: if (ModEntry.Config.AgeImprovesBeeHouses) heldObject.Value.Quality = this.GetQualityFromAge();
-        /// After: heldObject.Value.preservedParentSheetIndex.Value = honey_type;
-
+        // Injected: if (ModEntry.Config.AgeImprovesBeeHouses) heldObject.Value.Quality = this.GetQualityFromAge();
+        // After: heldObject.Value.preservedParentSheetIndex.Value = honey_type;
         var resumeExecution = generator.DefineLabel();
         try
         {
             helper
-                .FindFirst(
-                    new CodeInstruction(OpCodes.Ldstr, " Honey")
-                )
+                .FindFirst(new CodeInstruction(OpCodes.Ldstr, " Honey"))
                 .FindNext(
-                    new CodeInstruction(OpCodes.Ldfld,
-                        typeof(SObject).RequireField(nameof(SObject.preservedParentSheetIndex)))
-                )
-                .RetreatUntil(
-                    new CodeInstruction(OpCodes.Ldarg_0)
-                )
-                .GetInstructionsUntil(out var got, false, true,
-                    new CodeInstruction(OpCodes.Callvirt)
-                )
+                    new CodeInstruction(
+                        OpCodes.Ldfld,
+                        typeof(SObject).RequireField(nameof(SObject.preservedParentSheetIndex))))
+                .RetreatUntil(new CodeInstruction(OpCodes.Ldarg_0))
+                .GetInstructionsUntil(
+                    out var got,
+                    false,
+                    true,
+                    new CodeInstruction(OpCodes.Callvirt))
                 .AdvanceUntil(
-                    new CodeInstruction(OpCodes.Call,
-                        typeof(Game1).RequirePropertyGetter(nameof(Game1.currentLocation)))
-                )
+                    new CodeInstruction(
+                        OpCodes.Call,
+                        typeof(Game1).RequirePropertyGetter(nameof(Game1.currentLocation))))
                 .AddLabels(resumeExecution)
                 .InsertInstructions(
-                    new CodeInstruction(OpCodes.Call,
+                    new CodeInstruction(
+                        OpCodes.Call,
                         typeof(ModEntry).RequirePropertyGetter(nameof(ModEntry.Config))),
-                    new CodeInstruction(OpCodes.Call,
+                    new CodeInstruction(
+                        OpCodes.Call,
                         typeof(ModConfig).RequirePropertyGetter(nameof(ModConfig.AgeImprovesBeeHouses))),
-                    new CodeInstruction(OpCodes.Brfalse_S, resumeExecution)
-                )
+                    new CodeInstruction(OpCodes.Brfalse_S, resumeExecution))
                 .InsertInstructions(got)
                 .InsertInstructions(
                     new CodeInstruction(OpCodes.Ldarg_0),
-                    new CodeInstruction(OpCodes.Call,
+                    new CodeInstruction(
+                        OpCodes.Call,
                         typeof(SObjectExtensions).RequireMethod(nameof(SObjectExtensions.GetQualityFromAge))),
-                    new CodeInstruction(OpCodes.Callvirt,
-                        typeof(SObject).RequirePropertySetter(nameof(SObject.Quality)))
-                );
+                    new CodeInstruction(
+                        OpCodes.Callvirt,
+                        typeof(SObject).RequirePropertySetter(nameof(SObject.Quality))));
         }
         catch (Exception ex)
         {

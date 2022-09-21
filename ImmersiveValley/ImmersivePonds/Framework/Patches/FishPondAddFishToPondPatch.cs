@@ -2,24 +2,26 @@
 
 #region using directives
 
-using Common;
-using Common.Extensions;
-using Common.Extensions.Stardew;
-using Extensions;
-using HarmonyLib;
-using StardewValley.Buildings;
 using System.IO;
 using System.Linq;
+using CommunityToolkit.Diagnostics;
+using DaLion.Common;
+using DaLion.Common.Extensions;
+using DaLion.Common.Extensions.Stardew;
+using DaLion.Stardew.Ponds.Extensions;
+using HarmonyLib;
+using StardewValley.Buildings;
+using HarmonyPatch = DaLion.Common.Harmony.HarmonyPatch;
 
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class FishPondAddFishToPondPatch : Common.Harmony.HarmonyPatch
+internal sealed class FishPondAddFishToPondPatch : HarmonyPatch
 {
-    /// <summary>Construct an instance.</summary>
+    /// <summary>Initializes a new instance of the <see cref="FishPondAddFishToPondPatch"/> class.</summary>
     internal FishPondAddFishToPondPatch()
     {
-        Target = RequireMethod<FishPond>("addFishToPond");
+        this.Target = this.RequireMethod<FishPond>("addFishToPond");
     }
 
     #region harmony patches
@@ -37,7 +39,9 @@ internal sealed class FishPondAddFishToPondPatch : Common.Harmony.HarmonyPatch
                     .ParseList<int>();
                 if (familyQualities.Count != 4 ||
                     familyQualities.Sum() != __instance.Read<int>("FamilyLivingHere"))
+                {
                     ThrowHelper.ThrowInvalidDataException("FamilyQualities data had incorrect number of values.");
+                }
 
                 ++familyQualities[fish.Quality == 4 ? 3 : fish.Quality];
                 __instance.Increment("FamilyLivingHere");
@@ -47,24 +51,25 @@ internal sealed class FishPondAddFishToPondPatch : Common.Harmony.HarmonyPatch
             {
                 switch (fish.ParentSheetIndex)
                 {
-                    case Constants.SEAWEED_INDEX_I:
+                    case Constants.SeaweedIndex:
                         __instance.Increment("SeaweedLivingHere");
                         break;
-                    case Constants.GREEN_ALGAE_INDEX_I:
+                    case Constants.GreenAlgaeIndex:
                         __instance.Increment("GreenAlgaeLivingHere");
                         break;
-                    case Constants.WHITE_ALGAE_INDEX_I:
+                    case Constants.WhiteAlgaeIndex:
                         __instance.Increment("WhiteAlgaeLivingHere");
                         break;
                 }
             }
             else
             {
-                var fishQualities = __instance.Read("FishQualities",
-                        $"{__instance.FishCount - __instance.Read<int>("FamilyLivingHere") - 1},0,0,0") // already added at this point, so consider - 1
+                var fishQualities = __instance.Read("FishQualities", $"{__instance.FishCount - __instance.Read<int>("FamilyLivingHere") - 1},0,0,0") // already added at this point, so consider - 1
                     .ParseList<int>();
-                if (fishQualities.Count != 4 || fishQualities.Any(q => 0 > q || q > __instance.FishCount - 1))
+                if (fishQualities.Count != 4 || fishQualities.Any(q => q < 0 || q > __instance.FishCount - 1))
+                {
                     ThrowHelper.ThrowInvalidDataException("FishQualities data had incorrect number of values.");
+                }
 
                 ++fishQualities[fish.Quality == 4 ? 3 : fish.Quality];
                 __instance.Write("FishQualities", string.Join(',', fishQualities));

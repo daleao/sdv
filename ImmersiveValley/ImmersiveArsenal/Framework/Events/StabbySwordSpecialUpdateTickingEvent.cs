@@ -2,30 +2,36 @@
 
 #region using directives
 
-using Common.Enums;
-using Common.Events;
-using Common.Exceptions;
-using Common.Extensions.Reflection;
-using Enchantments;
+using System;
+using DaLion.Common;
+using DaLion.Common.Enums;
+using DaLion.Common.Events;
+using DaLion.Common.Exceptions;
+using DaLion.Common.Extensions.Reflection;
+using DaLion.Stardew.Arsenal.Framework.Enchantments;
 using Microsoft.Xna.Framework;
 using StardewModdingAPI.Events;
 using StardewValley.Tools;
-using System;
 
 #endregion using directives
 
 [UsedImplicitly]
 internal sealed class StabbySwordSpecialUpdateTickingEvent : UpdateTickingEvent
 {
-    private static readonly Lazy<Action<MeleeWeapon, Farmer>> _BeginSpecialMove = new(() =>
-        typeof(MeleeWeapon).RequireMethod("beginSpecialMove").CompileUnboundDelegate<Action<MeleeWeapon, Farmer>>());
+    private static readonly Lazy<Action<MeleeWeapon, Farmer>> BeginSpecialMove = new(() =>
+        typeof(MeleeWeapon)
+            .RequireMethod("beginSpecialMove")
+            .CompileUnboundDelegate<Action<MeleeWeapon, Farmer>>());
 
-    private static int _currentFrame = -1, _animationFrames;
+    private static int _currentFrame = -1;
+    private static int _animationFrames;
 
-    /// <summary>Construct an instance.</summary>
+    /// <summary>Initializes a new instance of the <see cref="StabbySwordSpecialUpdateTickingEvent"/> class.</summary>
     /// <param name="manager">The <see cref="EventManager"/> instance that manages this event.</param>
     internal StabbySwordSpecialUpdateTickingEvent(EventManager manager)
-        : base(manager) { }
+        : base(manager)
+    {
+    }
 
     /// <inheritdoc />
     protected override void OnUpdateTickingImpl(object? sender, UpdateTickingEventArgs e)
@@ -35,13 +41,16 @@ internal sealed class StabbySwordSpecialUpdateTickingEvent : UpdateTickingEvent
         ++_currentFrame;
         if (_currentFrame == 0)
         {
-            _BeginSpecialMove.Value(sword, user);
+            BeginSpecialMove.Value(sword, user);
 
-            var trajectory = Common.Utility.VectorFromFacingDirection((FacingDirection)user.FacingDirection) *
-                             (25f + Game1.player.addedSpeed * 2.5f);
+            var trajectory = ((FacingDirection)user.FacingDirection).ToVector() *
+                             (25f + (Game1.player.addedSpeed * 2.5f));
             user.setTrajectory(trajectory);
 
-            _animationFrames = sword.hasEnchantmentOfType<InfinityEnchantment>() ? 24 : 15; // don't ask me why but this translated exactly to (5 tiles : 4 tiles)
+            _animationFrames =
+                sword.hasEnchantmentOfType<InfinityEnchantment>()
+                    ? 24
+                    : 15; // don't ask me why but this translated exactly to (5 tiles : 4 tiles)
             var frame = (FacingDirection)user.FacingDirection switch
             {
                 FacingDirection.Up => 276,
@@ -49,7 +58,7 @@ internal sealed class StabbySwordSpecialUpdateTickingEvent : UpdateTickingEvent
                 FacingDirection.Down => 272,
                 FacingDirection.Left => 278,
                 _ => ThrowHelperExtensions.ThrowUnexpectedEnumValueException<FacingDirection, int>(
-                    (FacingDirection)user.FacingDirection)
+                    (FacingDirection)user.FacingDirection),
             };
 
             user.FarmerSprite.setCurrentFrame(frame, 0, 15, 2, user.FacingDirection == 3, true);
@@ -62,20 +71,27 @@ internal sealed class StabbySwordSpecialUpdateTickingEvent : UpdateTickingEvent
             user.forceCanMove();
 #if RELEASE
             MeleeWeapon.attackSwordCooldown = MeleeWeapon.attackSwordCooldownTime;
-            if (ModEntry.ProfessionsApi is null && user.professions.Contains(Farmer.acrobat)) MeleeWeapon.attackSwordCooldown /= 2;
+            if (ModEntry.ProfessionsApi is null && user.professions.Contains(Farmer.acrobat)) MeleeWeapon.attackSwordCooldown
+ /= 2;
             if (sword.hasEnchantmentOfType<ArtfulEnchantment>()) MeleeWeapon.attackSwordCooldown /= 2;
             if (sword.hasEnchantmentOfType<GarnetEnchantment>())
                 MeleeWeapon.attackSwordCooldown = (int) (MeleeWeapon.attackSwordCooldown *
                                                          (1f - sword.GetEnchantmentLevel<TopazEnchantment>() * 0.1f));
 #endif
             _currentFrame = -1;
-            Disable();
+            this.Disable();
         }
         else
         {
             var sprite = user.FarmerSprite;
-            if (_currentFrame == 1) ++sprite.currentAnimationIndex;
-            else if (_currentFrame == _animationFrames - 1) --sprite.currentAnimationIndex;
+            if (_currentFrame == 1)
+            {
+                ++sprite.currentAnimationIndex;
+            }
+            else if (_currentFrame == _animationFrames - 1)
+            {
+                --sprite.currentAnimationIndex;
+            }
 
             sprite.CurrentFrame = sprite.CurrentAnimation[sprite.currentAnimationIndex].frame;
 

@@ -2,24 +2,25 @@
 
 #region using directives
 
-using DaLion.Common;
-using DaLion.Common.Harmony;
-using Extensions;
-using HarmonyLib;
 using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
+using DaLion.Common;
+using DaLion.Common.Harmony;
+using DaLion.Stardew.Professions.Extensions;
+using HarmonyLib;
+using HarmonyPatch = DaLion.Common.Harmony.HarmonyPatch;
 
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class GameLocationBreakStonePatch : DaLion.Common.Harmony.HarmonyPatch
+internal sealed class GameLocationBreakStonePatch : HarmonyPatch
 {
-    /// <summary>Construct an instance.</summary>
+    /// <summary>Initializes a new instance of the <see cref="GameLocationBreakStonePatch"/> class.</summary>
     internal GameLocationBreakStonePatch()
     {
-        Target = RequireMethod<GameLocation>("breakStone");
+        this.Target = this.RequireMethod<GameLocation>("breakStone");
     }
 
     #region harmony patches
@@ -29,29 +30,23 @@ internal sealed class GameLocationBreakStonePatch : DaLion.Common.Harmony.Harmon
     private static IEnumerable<CodeInstruction>? GameLocationBreakStoneTranspiler(
         IEnumerable<CodeInstruction> instructions, ILGenerator generator, MethodBase original)
     {
-        var helper = new ILHelper(original, instructions);
+        var helper = new IlHelper(original, instructions);
 
-        /// Injected: if (who.professions.Contains(100 + <miner_id>) addedOres++;
-        /// After: int addedOres = (who.professions.Contains(<miner_id>) ? 1 : 0);
-
+        // Injected: if (who.professions.Contains(100 + <miner_id>) addedOres++;
+        // After: int addedOres = (who.professions.Contains(<miner_id>) ? 1 : 0);
         var isNotPrestiged = generator.DefineLabel();
         try
         {
             helper
                 .FindProfessionCheck(Profession.Miner.Value)
-                .AdvanceUntil(
-                    new CodeInstruction(OpCodes.Stloc_1)
-                )
+                .AdvanceUntil(new CodeInstruction(OpCodes.Stloc_1))
                 .AddLabels(isNotPrestiged)
-                .InsertInstructions(
-                    new CodeInstruction(OpCodes.Ldarg_S, (byte)4) // arg 4 = Farmer who
-                )
+                .InsertInstructions(new CodeInstruction(OpCodes.Ldarg_S, (byte)4)) // arg 4 = Farmer who
                 .InsertProfessionCheck(Profession.Miner.Value + 100, forLocalPlayer: false)
                 .InsertInstructions(
                     new CodeInstruction(OpCodes.Brfalse_S, isNotPrestiged),
                     new CodeInstruction(OpCodes.Ldc_I4_1),
-                    new CodeInstruction(OpCodes.Add)
-                );
+                    new CodeInstruction(OpCodes.Add));
         }
         catch (Exception ex)
         {
@@ -59,23 +54,20 @@ internal sealed class GameLocationBreakStonePatch : DaLion.Common.Harmony.Harmon
             return null;
         }
 
-        /// Skipped: if (who.professions.Contains(<geologist_id> && r.NextDouble() < 0.5) switch(indexOfStone) ...
-
+        // Skipped: if (who.professions.Contains(<geologist_id> && r.NextDouble() < 0.5) switch(indexOfStone) ...
         try
         {
             helper
                 .FindProfessionCheck(Farmer.geologist) // find index of geologist check
                 .Retreat()
                 .StripLabels(out var labels) // backup and remove branch labels
-                .AdvanceUntil(
-                    new CodeInstruction(OpCodes.Brfalse) // the false case branch
-                )
+                .AdvanceUntil(new CodeInstruction(OpCodes.Brfalse)) // the false case branch
                 .GetOperand(out var isNotGeologist) // copy destination
                 .Return()
-                .InsertWithLabels( // insert unconditional branch to skip this check and restore backed-up labels to this branch
+                .InsertWithLabels(
+                    // insert unconditional branch to skip this check and restore backed-up labels to this branch
                     labels,
-                    new CodeInstruction(OpCodes.Br, (Label)isNotGeologist)
-                );
+                    new CodeInstruction(OpCodes.Br, (Label)isNotGeologist));
         }
         catch (Exception ex)
         {
@@ -83,21 +75,16 @@ internal sealed class GameLocationBreakStonePatch : DaLion.Common.Harmony.Harmon
             return null;
         }
 
-        /// Skipped: if (who.professions.Contains(<prospector_id>)) ...
-
+        // Skipped: if (who.professions.Contains(<prospector_id>)) ...
         try
         {
             helper
                 .FindProfessionCheck(Farmer.burrower) // find index of prospector check
                 .Retreat()
-                .AdvanceUntil(
-                    new CodeInstruction(OpCodes.Brfalse_S) // the false case branch
-                )
+                .AdvanceUntil(new CodeInstruction(OpCodes.Brfalse_S)) // the false case branch
                 .GetOperand(out var isNotProspector) // copy destination
                 .Return()
-                .InsertInstructions( // insert uncoditional branch to skip this check
-                    new CodeInstruction(OpCodes.Br_S, (Label)isNotProspector)
-                );
+                .InsertInstructions(new CodeInstruction(OpCodes.Br_S, (Label)isNotProspector)); // insert uncoditional branch to skip this check
         }
         catch (Exception ex)
         {

@@ -2,21 +2,22 @@
 
 #region using directives
 
+using System;
+using System.Reflection;
 using DaLion.Common;
 using HarmonyLib;
 using StardewValley.Menus;
-using System;
-using System.Reflection;
+using HarmonyPatch = DaLion.Common.Harmony.HarmonyPatch;
 
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class LevelUpMenuGetProfessionTitleFromNumberPatch : DaLion.Common.Harmony.HarmonyPatch
+internal sealed class LevelUpMenuGetProfessionTitleFromNumberPatch : HarmonyPatch
 {
-    /// <summary>Construct an instance.</summary>
+    /// <summary>Initializes a new instance of the <see cref="LevelUpMenuGetProfessionTitleFromNumberPatch"/> class.</summary>
     internal LevelUpMenuGetProfessionTitleFromNumberPatch()
     {
-        Target = RequireMethod<LevelUpMenu>(nameof(LevelUpMenu.getProfessionTitleFromNumber));
+        this.Target = this.RequireMethod<LevelUpMenu>(nameof(LevelUpMenu.getProfessionTitleFromNumber));
     }
 
     #region harmony patches
@@ -27,9 +28,13 @@ internal sealed class LevelUpMenuGetProfessionTitleFromNumberPatch : DaLion.Comm
     {
         try
         {
-            if (!Profession.TryFromValue(whichProfession, out var profession) || (Skill)profession.Skill == Farmer.luckSkill) return true; // run original logic
+            if (!Profession.TryFromValue(whichProfession, out var profession) ||
+                (Skill)profession.Skill == Farmer.luckSkill)
+            {
+                return true; // run original logic
+            }
 
-            __result = profession.GetDisplayName(Game1.player.IsMale);
+            __result = profession.DisplayName;
             return false; // don't run original logic
         }
         catch (Exception ex)

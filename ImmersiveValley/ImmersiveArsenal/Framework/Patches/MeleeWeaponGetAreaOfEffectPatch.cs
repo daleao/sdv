@@ -6,27 +6,37 @@ namespace DaLion.Stardew.Arsenal.Framework.Patches;
 using HarmonyLib;
 using Microsoft.Xna.Framework;
 using StardewValley.Tools;
+using HarmonyPatch = DaLion.Common.Harmony.HarmonyPatch;
 
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class MeleeWeaponGetAreaOfEffectPatch : Common.Harmony.HarmonyPatch
+internal sealed class MeleeWeaponGetAreaOfEffectPatch : HarmonyPatch
 {
-    /// <summary>Construct an instance.</summary>
+    /// <summary>Initializes a new instance of the <see cref="MeleeWeaponGetAreaOfEffectPatch"/> class.</summary>
     internal MeleeWeaponGetAreaOfEffectPatch()
     {
-        Target = RequireMethod<MeleeWeapon>(nameof(MeleeWeapon.getAreaOfEffect));
+        this.Target = this.RequireMethod<MeleeWeapon>(nameof(MeleeWeapon.getAreaOfEffect));
     }
 
     #region harmony patches
 
     /// <summary>Fix stabby sword hitbox during lunge.</summary>
     [HarmonyPrefix]
-    private static bool MeleeWeaponGetAreaOfEffectPrefix(MeleeWeapon __instance, ref Rectangle __result, int x, int y,
-        int facingDirection, ref Vector2 tileLocation1, ref Vector2 tileLocation2, Rectangle wielderBoundingBox)
+    private static bool MeleeWeaponGetAreaOfEffectPrefix(
+        MeleeWeapon __instance,
+        ref Rectangle __result,
+        int x,
+        int y,
+        int facingDirection,
+        ref Vector2 tileLocation1,
+        ref Vector2 tileLocation2,
+        Rectangle wielderBoundingBox)
     {
         if (__instance.type.Value != MeleeWeapon.stabbingSword || !__instance.isOnSpecial)
+        {
             return true; // run original logic
+        }
 
         const int width = 74;
         const int height = 64;
@@ -35,36 +45,47 @@ internal sealed class MeleeWeaponGetAreaOfEffectPatch : Common.Harmony.HarmonyPa
         switch (facingDirection)
         {
             case Game1.up:
-                __result = new(x - width / 2, wielderBoundingBox.Y - height - upHeightOffset, width / 2,
+                __result = new Rectangle(
+                    x - (width / 2),
+                    wielderBoundingBox.Y - height - upHeightOffset,
+                    width / 2,
                     height + upHeightOffset);
-                tileLocation1 = new((Game1.random.NextDouble() < 0.5 ? __result.Left : __result.Right) / 64,
-                    __result.Top / 64);
-                tileLocation2 = new(__result.Center.X / 64, __result.Top / 64);
+                tileLocation1 = new Vector2((Game1.random.NextDouble() < 0.5 ? __result.Left : __result.Right) / 64, __result.Top / 64);
+                tileLocation2 = new Vector2(__result.Center.X / 64, __result.Top / 64);
                 __result.Offset(20, -16);
                 __result.Height += 16;
                 __result.Width += 20;
                 break;
             case Game1.right:
-                __result = new(wielderBoundingBox.Right, y - height / 2 + horizontalYOffset, height, width);
-                tileLocation1 = new(__result.Center.X / 64,
-                    (Game1.random.NextDouble() < 0.5 ? __result.Top : __result.Bottom) / 64);
-                tileLocation2 = new(__result.Center.X / 64, __result.Center.Y / 64);
+                __result = new Rectangle(
+                    wielderBoundingBox.Right,
+                    y - (height / 2) + horizontalYOffset,
+                    height,
+                    width);
+                tileLocation1 = new Vector2(__result.Center.X / 64, (Game1.random.NextDouble() < 0.5 ? __result.Top : __result.Bottom) / 64);
+                tileLocation2 = new Vector2(__result.Center.X / 64, __result.Center.Y / 64);
                 __result.Offset(-4, 0);
                 __result.Width += 16;
                 break;
             case Game1.down:
-                __result = new(x - width / 2, wielderBoundingBox.Bottom, width, height);
-                tileLocation1 = new((Game1.random.NextDouble() < 0.5 ? __result.Left : __result.Right) / 64,
-                    __result.Center.Y / 64);
-                tileLocation2 = new(__result.Center.X / 64, __result.Center.Y / 64);
+                __result = new Rectangle(
+                    x - (width / 2),
+                    wielderBoundingBox.Bottom,
+                    width,
+                    height);
+                tileLocation1 = new Vector2((Game1.random.NextDouble() < 0.5 ? __result.Left : __result.Right) / 64, __result.Center.Y / 64);
+                tileLocation2 = new Vector2(__result.Center.X / 64, __result.Center.Y / 64);
                 __result.Offset(12, -8);
                 __result.Width -= 21;
                 break;
             case Game1.left:
-                __result = new(wielderBoundingBox.Left - height, y - height / 2 + horizontalYOffset, height, width);
-                tileLocation1 = new(__result.Left / 64,
-                    (Game1.random.NextDouble() < 0.5 ? __result.Top : __result.Bottom) / 64);
-                tileLocation2 = new(__result.Left / 64, __result.Center.Y / 64);
+                __result = new Rectangle(
+                    wielderBoundingBox.Left - height,
+                    y - (height / 2) + horizontalYOffset,
+                    height,
+                    width);
+                tileLocation1 = new Vector2(__result.Left / 64, (Game1.random.NextDouble() < 0.5 ? __result.Top : __result.Bottom) / 64);
+                tileLocation2 = new Vector2(__result.Left / 64, __result.Center.Y / 64);
                 __result.Offset(-12, 0);
                 __result.Width += 16;
                 break;

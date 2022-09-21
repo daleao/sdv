@@ -2,10 +2,10 @@
 
 #region using directives
 
-using Extensions.Reflection;
-using HarmonyLib;
 using System;
 using System.Reflection;
+using DaLion.Common.Extensions.Reflection;
+using HarmonyLib;
 
 #endregion using directives
 
@@ -27,7 +27,8 @@ public class PatternNotFoundException : Exception
     /// <param name="snitch">A callback to snitch on applied changes to the target method.</param>
     public PatternNotFoundException(CodeInstruction[] pattern, MethodBase target, Func<string> snitch)
         : base($"Couldn't find instruction pattern in target method {target.GetFullName()}." +
-               $"\nPattern:\n---- BEGIN ----\n{string.Join<CodeInstruction>("\n", pattern)}\n----- END -----\n" + snitch())
+               $"\nPattern:\n---- BEGIN ----\n{string.Join<CodeInstruction>("\n", pattern)}\n----- END -----\n" +
+               snitch())
     {
     }
 }

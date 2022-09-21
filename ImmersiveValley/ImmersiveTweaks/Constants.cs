@@ -1,6 +1,8 @@
-﻿namespace DaLion.Stardew.Tweex;
+﻿#pragma warning disable CS1591
+namespace DaLion.Stardew.Tweex;
 
-internal class Constants
+internal sealed class Constants
 {
-    public const int COCONUT_INDEX_I = 88, GOLDEN_COCONUT_INDEX_I = 791;
+    public const int CoconutIndex = 88;
+    public const int GoldenCoconutIndex = 791;
 }

@@ -2,44 +2,53 @@
 
 #region using directives
 
-using Newtonsoft.Json.Linq;
 using System.IO;
+using Newtonsoft.Json.Linq;
 
 #endregion using directives
 
 /// <summary>Extensions for the <see cref="IModHelper"/> interface.</summary>
 public static class ModHelperExtensions
 {
-    /// <summary>Get the <see cref="IMod"/> interface for an external mod.</summary>
-    /// <param name="uniqueID">The unique ID of the external mod.</param>
+    /// <summary>Gets the <see cref="IMod"/> interface for the external mod identified by <paramref name="uniqueId"/>.</summary>
+    /// <param name="helper">The <see cref="IModHelper"/> of the current <see cref="IMod"/>.</param>
+    /// <param name="uniqueId">The unique ID of the external mod.</param>
+    /// <returns>A <see cref="JObject"/> representing the contents of the config.</returns>
     /// <remarks>Will only for mods that implement <see cref="IMod"/>; i.e., will not work for content packs.</remarks>
-    public static IMod? GetModEntryFor(this IModHelper helper, string uniqueID)
+    public static IMod? GetModEntryFor(this IModHelper helper, string uniqueId)
     {
-        var modInfo = helper.ModRegistry.Get(uniqueID);
-        if (modInfo is not null) return (IMod)modInfo.GetType().GetProperty("Mod")!.GetValue(modInfo)!;
+        var modInfo = helper.ModRegistry.Get(uniqueId);
+        if (modInfo is not null)
+        {
+            return (IMod)modInfo.GetType().GetProperty("Mod")!.GetValue(modInfo)!;
+        }
 
-        Log.V($"{uniqueID} mod not found.");
+        Log.V($"{uniqueId} mod not found.");
         return null;
     }
 
-    /// <summary>Read an external mod's configuration file.</summary>
-    /// <param name="uniqueID">The unique ID of the external mod.</param>
+    /// <summary>Reads the configuration file of the mod with the specified <paramref name="uniqueId"/>.</summary>
+    /// <param name="helper">The <see cref="IModHelper"/> of the current <see cref="IMod"/>.</param>
+    /// <param name="uniqueId">The unique ID of the external mod.</param>
+    /// <returns>A <see cref="JObject"/> representing the contents of the config.</returns>
     /// <remarks>Will only for mods that implement <see cref="IMod"/>; i.e., will not work for content packs.</remarks>
-    public static JObject? ReadConfigExt(this IModHelper helper, string uniqueID)
+    public static JObject? ReadConfigExt(this IModHelper helper, string uniqueId)
     {
-        var modEntry = helper.GetModEntryFor(uniqueID);
+        var modEntry = helper.GetModEntryFor(uniqueId);
         return modEntry?.Helper.ReadConfig<JObject>();
     }
 
-    /// <summary>Read an external content pack's configuration file.</summary>
-    /// <param name="uniqueID">The unique ID of the external mod.</param>
+    /// <summary>Reads the configuration file of the content pack with the specified <paramref name="uniqueId"/>.</summary>
+    /// <param name="helper">The <see cref="IModHelper"/> of the current <see cref="IMod"/>.</param>
+    /// <param name="uniqueId">The unique ID of the content pack.</param>
+    /// <returns>A <see cref="JObject"/> representing the contents of the config.</returns>
     /// <remarks>Will work for any mod, but is reserved for content packs.</remarks>
-    public static JObject? ReadContentPackConfig(this IModHelper helper, string uniqueID)
+    public static JObject? ReadContentPackConfig(this IModHelper helper, string uniqueId)
     {
-        var modInfo = helper.ModRegistry.Get(uniqueID);
+        var modInfo = helper.ModRegistry.Get(uniqueId);
         if (modInfo is null)
         {
-            Log.V($"{uniqueID} mod not found. Integrations disabled.");
+            Log.V($"{uniqueId} mod not found. Integrations disabled.");
             return null;
         }
 
@@ -53,7 +62,7 @@ public static class ModHelperExtensions
         catch (FileNotFoundException)
         {
             Log.W(
-                $"Detected {uniqueID}, but a corresponding config file was not found in the expected location '{modPath}'.\nIntegrations will not be enabled until the next restart.");
+                $"Detected {uniqueId}, but a corresponding config file was not found in the expected location '{modPath}'.\nIntegrations will not be enabled until the next restart.");
             return null;
         }
     }

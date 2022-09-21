@@ -2,30 +2,32 @@
 
 #region using directives
 
-using DaLion.Common;
-using DaLion.Common.Harmony;
-using Events.GameLoop;
-using HarmonyLib;
-using StardewValley.Buildings;
-using StardewValley.Menus;
-using StardewValley.Tools;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
-using Ultimates;
-using VirtualProperties;
+using DaLion.Common;
+using DaLion.Common.Harmony;
+using DaLion.Stardew.Professions.Framework.Events.GameLoop;
+using DaLion.Stardew.Professions.Framework.Ultimates;
+using DaLion.Stardew.Professions.Framework.VirtualProperties;
+using HarmonyLib;
+using StardewValley.Buildings;
+using StardewValley.Menus;
+using StardewValley.Tools;
+using HarmonyPatch = DaLion.Common.Harmony.HarmonyPatch;
+using Utility = StardewValley.Utility;
 
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class LevelUpMenuGetImmediateProfessionPerkPatch : DaLion.Common.Harmony.HarmonyPatch
+internal sealed class LevelUpMenuGetImmediateProfessionPerkPatch : HarmonyPatch
 {
-    /// <summary>Construct an instance.</summary>
+    /// <summary>Initializes a new instance of the <see cref="LevelUpMenuGetImmediateProfessionPerkPatch"/> class.</summary>
     internal LevelUpMenuGetImmediateProfessionPerkPatch()
     {
-        Target = RequireMethod<LevelUpMenu>(nameof(LevelUpMenu.getImmediateProfessionPerk));
+        this.Target = this.RequireMethod<LevelUpMenu>(nameof(LevelUpMenu.getImmediateProfessionPerk));
     }
 
     #region harmony patches
@@ -35,22 +37,34 @@ internal sealed class LevelUpMenuGetImmediateProfessionPerkPatch : DaLion.Common
     private static void LevelUpMenuGetImmediateProfessionPerkPostfix(int whichProfession)
     {
         if (!Profession.TryFromValue(whichProfession, out var profession) ||
-            whichProfession == Farmer.luckSkill) return;
+            whichProfession == Farmer.luckSkill)
+        {
+            return;
+        }
 
         // add immediate perks
         if (profession == Profession.Aquarist)
+        {
             foreach (var pond in Game1.getFarm().buildings.OfType<FishPond>().Where(p =>
                          (p.owner.Value == Game1.player.UniqueMultiplayerID || !Context.IsMultiplayer) &&
                          !p.isUnderConstruction()))
-                pond.UpdateMaximumOccupancy();
-        else if (profession == Profession.Rascal)
-            StardewValley.Utility.iterateAllItems(item =>
             {
-                if (item is not Slingshot slingshot || !slingshot.getLastFarmerToUse().IsLocalPlayer) return;
+                pond.UpdateMaximumOccupancy();
+            }
+        }
+        else if (profession == Profession.Rascal)
+        {
+            Utility.iterateAllItems(item =>
+            {
+                if (item is not Slingshot slingshot || !slingshot.getLastFarmerToUse().IsLocalPlayer)
+                {
+                    return;
+                }
 
                 slingshot.numAttachmentSlots.Value = 2;
                 slingshot.attachments.SetCount(2);
             });
+        }
 
         // subscribe events
         ModEntry.Events.EnableForProfession(profession);
@@ -58,20 +72,26 @@ internal sealed class LevelUpMenuGetImmediateProfessionPerkPatch : DaLion.Common
         {
             // request the main player
             if (profession == Profession.Aquarist)
+            {
                 ModEntry.Broadcaster.Message("Conservationism", "RequestEvent", Game1.MasterPlayer.UniqueMultiplayerID);
+            }
             else if (profession == Profession.Conservationist)
+            {
                 ModEntry.Broadcaster.Message("Conservationism", "RequestEvent", Game1.MasterPlayer.UniqueMultiplayerID);
+            }
         }
         else if (profession == Profession.Conservationist)
         {
             ModEntry.Events.Enable<ConservationismDayEndingEvent>();
         }
 
-        if (whichProfession is < 26 or >= 30 || Game1.player.get_Ultimate() is not null) return;
+        if (whichProfession is < 26 or >= 30 || Game1.player.Get_Ultimate() is not null)
+        {
+            return;
+        }
 
         // register Ultimate
-        var newIndex = (UltimateIndex)whichProfession;
-        Game1.player.set_Ultimate(Ultimate.FromIndex(newIndex));
+        Game1.player.Set_Ultimate(Ultimate.FromValue(whichProfession));
     }
 
     /// <summary>Patch to move bonus health from Defender to Brute.</summary>
@@ -79,17 +99,14 @@ internal sealed class LevelUpMenuGetImmediateProfessionPerkPatch : DaLion.Common
     private static IEnumerable<CodeInstruction>? LevelUpMenuGetImmediateProfessionPerkTranspiler(
         IEnumerable<CodeInstruction> instructions, MethodBase original)
     {
-        var helper = new ILHelper(original, instructions);
+        var helper = new IlHelper(original, instructions);
 
-        /// From: case <defender_id>:
-        /// To: case <brute_id>:
-
+        // From: case <defender_id>:
+        // To: case <brute_id>:
         try
         {
             helper
-                .FindFirst(
-                    new CodeInstruction(OpCodes.Ldc_I4_S, Farmer.defender)
-                )
+                .FindFirst(new CodeInstruction(OpCodes.Ldc_I4_S, Farmer.defender))
                 .SetOperand(Profession.Brute.Value);
         }
         catch (Exception ex)

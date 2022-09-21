@@ -2,23 +2,25 @@
 
 #region using directives
 
-using Common.Commands;
-using Common.Extensions;
-using Framework;
-using StardewModdingAPI.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using DaLion.Common.Commands;
+using DaLion.Common.Extensions;
+using DaLion.Stardew.Professions.Framework;
+using StardewModdingAPI.Utilities;
 
 #endregion using directives
 
 [UsedImplicitly]
 internal sealed class MaxFishingAuditCommand : ConsoleCommand
 {
-    /// <summary>Construct an instance.</summary>
+    /// <summary>Initializes a new instance of the <see cref="MaxFishingAuditCommand"/> class.</summary>
     /// <param name="handler">The <see cref="CommandHandler"/> instance that handles this command.</param>
     internal MaxFishingAuditCommand(CommandHandler handler)
-        : base(handler) { }
+        : base(handler)
+    {
+    }
 
     /// <inheritdoc />
     public override string[] Triggers { get; } = { "fishdex_complete", "set_fishdex" };
@@ -32,7 +34,7 @@ internal sealed class MaxFishingAuditCommand : ConsoleCommand
     {
         var fishData = Game1.content
             .Load<Dictionary<int, string>>(PathUtilities.NormalizeAssetName("Data/Fish"))
-            .Where(p => !p.Key.IsIn(152, 153, 157) && !p.Value.Contains("trap"))
+            .Where(p => !p.Key.IsAnyOf(152, 153, 157) && !p.Value.Contains("trap"))
             .ToDictionary(p => p.Key, p => p.Value);
         foreach (var (key, value) in fishData)
         {

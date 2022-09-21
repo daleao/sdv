@@ -2,80 +2,126 @@
 
 #region using directives
 
-using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.Xna.Framework;
 
 #endregion using directives
 
-/// <summary>Extensions for the <see cref="Vector2"/> class.</summary>
+/// <summary>Extensions for the <see cref="Vector2"/> struct.</summary>
 public static class Vector2Extensions
 {
-    /// <summary>Get the angle between the instance and the horizontal.</summary>
-    public static double AngleWithHorizontal(this Vector2 v)
+    /// <summary>Gets the angle between the <paramref name="vector"/> and the horizontal.</summary>
+    /// <param name="vector">The <see cref="Vector2"/>.</param>
+    /// <returns>The angle between the <paramref name="vector"/> and a horizontal line.</returns>
+    public static double AngleWithHorizontal(this Vector2 vector)
     {
-        var (x, y) = v;
+        var (x, y) = vector;
         return Math.Atan2(0f - y, 0f - x) * (180 / Math.PI);
     }
 
-    /// <summary>Get the angle between the instance and the specified vector.</summary>
-    public static double AngleBetween(this Vector2 a, Vector2 b)
+    /// <summary>Gets the angle between the <paramref name="vector"/> and an<paramref name="other"/>.</summary>
+    /// <param name="vector">The <see cref="Vector2"/>.</param>
+    /// <param name="other">Some other <see cref="Vector2"/>.</param>
+    /// <returns>The angle between <paramref name="vector"/> and <paramref name="other"/>.</returns>
+    public static double AngleBetween(this Vector2 vector, Vector2 other)
     {
-        var (ax, ay) = a;
-        var (bx, by) = b;
-        double sin = ax * by - bx * ay;
-        double cos = ax * bx + ay * by;
+        var (ax, ay) = vector;
+        var (bx, by) = other;
+        double sin = (ax * by) - (bx * ay);
+        double cos = (ax * bx) + (ay * by);
         return Math.Atan2(sin, cos) * (180 / Math.PI);
     }
 
-    /// <summary>Rotates the instance by 90 degrees.</summary>
-    public static Vector2 Perpendicular(this Vector2 v)
+    /// <summary>Creates a new <see cref="Vector2"/> that is perpendicular to this one.</summary>
+    /// <param name="vector">The <see cref="Vector2"/>.</param>
+    /// <returns>A new <see cref="Vector2"/> obtained by a 90-degree anti-clockwise rotation of the original.</returns>
+    public static Vector2 Perpendicular(this Vector2 vector)
     {
-        var (x, y) = v;
-        return new(y, -x);
+        var (x, y) = vector;
+        return new Vector2(y, -x);
     }
 
-    /// <summary>Rotates the instance by the specified angle.</summary>
-    public static Vector2 Rotate(this Vector2 v, double degrees)
+    /// <summary>Rotates the <paramref name="vector"/> by the specified <paramref name="angle"/>, in degrees.</summary>
+    /// <param name="vector">The <see cref="Vector2"/>.</param>
+    /// <param name="angle">An angle, in degrees, to rotate by.</param>
+    /// <returns>A new <see cref="Vector2"/> obtained by the specified rotation of the original.</returns>
+    public static Vector2 Rotate(this Vector2 vector, double angle)
     {
-        var sin = (float)Math.Sin(degrees * Math.PI / 180);
-        var cos = (float)Math.Cos(degrees * Math.PI / 180);
-
-        var tx = v.X;
-        var ty = v.Y;
-        v.X = cos * tx - sin * ty;
-        v.Y = sin * tx + cos * ty;
-
-        return v;
+        var sin = (float)Math.Sin(angle * Math.PI / 180d);
+        var cos = (float)Math.Cos(angle * Math.PI / 180d);
+        var tx = vector.X;
+        var ty = vector.Y;
+        return new Vector2(
+            (cos * tx) - (sin * ty),
+            (sin * tx) + (cos * ty));
     }
 
-    /// <summary>Get the 4-connected neighbors of the instance.</summary>
-    /// <param name="w">The width of the region.</param>
-    /// <param name="h">The height of the region.</param>
-    public static IEnumerable<Vector2> GetFourNeighbours(this Vector2 v, int w, int h)
+    /// <summary>Gets the 4-connected neighbors.</summary>
+    /// <param name="vector">The <see cref="Vector2"/>.</param>
+    /// <param name="width">The width of the region.</param>
+    /// <param name="height">The height of the region.</param>
+    /// <returns>A <see cref="IEnumerable{T}"/> of the four-connected neighbors of the <paramref name="vector"/>.</returns>
+    public static IEnumerable<Vector2> GetFourNeighbors(this Vector2 vector, int width, int height)
     {
-        var (x, y) = v;
-        if (x > 0) yield return new(x - 1, y);
-        if (x < w - 1) yield return new(x + 1, y);
-        if (y > 0) yield return new(x, y - 1);
-        if (y < h - 1) yield return new(x, y + 1);
+        var (x, y) = vector;
+        if (x > 0)
+        {
+            yield return new Vector2(x - 1, y);
+        }
+
+        if (x < width - 1)
+        {
+            yield return new Vector2(x + 1, y);
+        }
+
+        if (y > 0)
+        {
+            yield return new Vector2(x, y - 1);
+        }
+
+        if (y < height - 1)
+        {
+            yield return new Vector2(x, y + 1);
+        }
     }
 
-    /// <summary>Get the 8-connected neighbors of the instance.</summary>
-    /// <param name="w">The width of the region.</param>
-    /// <param name="h">The height of the region.</param>
-    public static IEnumerable<Vector2> GetEightNeighbours(this Vector2 v, int w, int h)
+    /// <summary>Gets the 8-connected neighbors.</summary>
+    /// <param name="vector">The <see cref="Vector2"/>.</param>
+    /// <param name="width">The width of the region.</param>
+    /// <param name="height">The height of the region.</param>
+    /// <returns>A <see cref="IEnumerable{T}"/> of the eight-connected neighbors of the <paramref name="vector"/>.</returns>
+    public static IEnumerable<Vector2> GetEightNeighbors(this Vector2 vector, int width, int height)
     {
-        var (x, y) = v;
-        if (x > 0 && y > 0) yield return new(x - 1, y - 1);
-        if (x > 0 && y < h - 1) yield return new(x - 1, y + 1);
-        if (x < w - 1 && y > 0) yield return new(x + 1, y - 1);
-        if (x < w - 1 && y < h - 1) yield return new(x + 1, y + 1);
-        foreach (var neighbour in GetFourNeighbours(v, w, h)) yield return neighbour;
+        var (x, y) = vector;
+        if (x > 0 && y > 0)
+        {
+            yield return new Vector2(x - 1, y - 1);
+        }
+
+        if (x > 0 && y < height - 1)
+        {
+            yield return new Vector2(x - 1, y + 1);
+        }
+
+        if (x < width - 1 && y > 0)
+        {
+            yield return new Vector2(x + 1, y - 1);
+        }
+
+        if (x < width - 1 && y < height - 1)
+        {
+            yield return new Vector2(x + 1, y + 1);
+        }
+
+        foreach (var neighbour in GetFourNeighbors(vector, width, height))
+        {
+            yield return neighbour;
+        }
     }
 
-    /// <summary>Search for region boundaries using a Flood Fill algorithm.</summary>
+    /// <summary>Searches for region boundaries using a Flood Fill algorithm.</summary>
     /// <param name="origin">The starting point for the fill, as a <see cref="Vector2"/>.</param>
     /// <param name="width">The width of the region.</param>
     /// <param name="height">The height of the region.</param>
@@ -83,10 +129,22 @@ public static class Vector2Extensions
     /// <returns>The set of points belonging to the region, as <see cref="Vector2"/>.</returns>
     public static IEnumerable<Vector2> FloodFill(Vector2 origin, int width, int height, Func<Vector2, bool> predicate)
     {
-        if (origin.X <= 0) origin = new(origin.X + 1, origin.Y);
-        else if (origin.Y <= 0) origin = new(origin.X, origin.Y + 1);
-        else if (origin.X >= width - 1) origin = new(origin.X - 1, origin.Y);
-        else if (origin.Y >= height - 1) origin = new(origin.X, origin.Y - 1);
+        if (origin.X <= 0)
+        {
+            origin = new Vector2(origin.X + 1, origin.Y);
+        }
+        else if (origin.Y <= 0)
+        {
+            origin = new Vector2(origin.X, origin.Y + 1);
+        }
+        else if (origin.X >= width - 1)
+        {
+            origin = new Vector2(origin.X - 1, origin.Y);
+        }
+        else if (origin.Y >= height - 1)
+        {
+            origin = new Vector2(origin.X, origin.Y - 1);
+        }
 
         var result = new List<Vector2>();
         var visited = new HashSet<Vector2>();
@@ -96,13 +154,20 @@ public static class Vector2Extensions
         {
             var tile = toVisit.Dequeue();
             if (!visited.Add(tile))
+            {
                 continue;
+            }
 
-            if (!predicate(tile)) continue;
+            if (!predicate(tile))
+            {
+                continue;
+            }
 
             result.Add(tile);
-            foreach (var neighbour in tile.GetEightNeighbours(width, height).Where(v => !visited.Contains(v)))
-                toVisit.Enqueue(neighbour);
+            foreach (var neighbor in tile.GetEightNeighbors(width, height).Where(v => !visited.Contains(v)))
+            {
+                toVisit.Enqueue(neighbor);
+            }
         }
 
         return result;

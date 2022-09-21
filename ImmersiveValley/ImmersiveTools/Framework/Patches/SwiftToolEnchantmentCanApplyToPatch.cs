@@ -4,16 +4,17 @@
 
 using HarmonyLib;
 using StardewValley.Tools;
+using HarmonyPatch = DaLion.Common.Harmony.HarmonyPatch;
 
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class SwiftToolEnchantmentCanApplyToPatch : Common.Harmony.HarmonyPatch
+internal sealed class SwiftToolEnchantmentCanApplyToPatch : HarmonyPatch
 {
-    /// <summary>Construct an instance.</summary>
+    /// <summary>Initializes a new instance of the <see cref="SwiftToolEnchantmentCanApplyToPatch"/> class.</summary>
     internal SwiftToolEnchantmentCanApplyToPatch()
     {
-        Target = RequireMethod<SwiftToolEnchantment>(nameof(SwiftToolEnchantment.CanApplyTo));
+        this.Target = this.RequireMethod<SwiftToolEnchantment>(nameof(SwiftToolEnchantment.CanApplyTo));
     }
 
     #region harmony patches
@@ -24,8 +25,8 @@ internal sealed class SwiftToolEnchantmentCanApplyToPatch : Common.Harmony.Harmo
     private static bool SwiftToolEnchantmentCanApplyToPrefix(ref bool __result, Item item)
     {
         __result = item is Tool tool && (tool is Axe or Hoe or Pickaxe ||
-                                         tool is WateringCan &&
-                                         ModEntry.Config.WateringCanConfig.AllowSwiftEnchantment);
+                                         (tool is WateringCan &&
+                                          ModEntry.Config.WateringCanConfig.AllowSwiftEnchantment));
         return false; // don't run original logic
     }
 

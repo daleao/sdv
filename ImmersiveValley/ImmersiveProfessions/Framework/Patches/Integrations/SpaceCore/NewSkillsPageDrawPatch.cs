@@ -2,30 +2,34 @@
 
 #region using directives
 
-using DaLion.Common;
-using DaLion.Common.Attributes;
-using DaLion.Common.Extensions.Reflection;
-using DaLion.Common.Harmony;
-using HarmonyLib;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using Prestige;
-using StardewValley.Menus;
 using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
-using Textures;
+using DaLion.Common;
+using DaLion.Common.Attributes;
+using DaLion.Common.Extensions.Reflection;
+using DaLion.Common.Harmony;
+using DaLion.Stardew.Professions.Framework.Patches.Prestige;
+using DaLion.Stardew.Professions.Framework.Textures;
+using HarmonyLib;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using StardewValley.Menus;
+using HarmonyPatch = DaLion.Common.Harmony.HarmonyPatch;
 
 #endregion using directives
 
-[UsedImplicitly, RequiresMod("spacechase0.SpaceCore")]
-internal sealed class NewSkillsPageDrawPatch : DaLion.Common.Harmony.HarmonyPatch
+[UsedImplicitly]
+[RequiresMod("spacechase0.SpaceCore")]
+internal sealed class NewSkillsPageDrawPatch : HarmonyPatch
 {
-    /// <summary>Construct an instance.</summary>
+    /// <summary>Initializes a new instance of the <see cref="NewSkillsPageDrawPatch"/> class.</summary>
     internal NewSkillsPageDrawPatch()
     {
-        Target = "SpaceCore.Interface.NewSkillsPage".ToType().RequireMethod("draw", new[] { typeof(SpriteBatch) });
+        this.Target = "SpaceCore.Interface.NewSkillsPage"
+            .ToType()
+            .RequireMethod("draw", new[] { typeof(SpriteBatch) });
     }
 
     #region harmony patches
@@ -33,51 +37,47 @@ internal sealed class NewSkillsPageDrawPatch : DaLion.Common.Harmony.HarmonyPatc
     /// <summary>Patch to overlay skill bars above skill level 10 + draw prestige ribbons on the skills page.</summary>
     [HarmonyTranspiler]
     private static IEnumerable<CodeInstruction>? NewSkillsPageDrawTranspiler(
-        IEnumerable<CodeInstruction> instructions,
-        ILGenerator generator, MethodBase original)
+        IEnumerable<CodeInstruction> instructions, ILGenerator generator, MethodBase original)
     {
-        var helper = new ILHelper(original, instructions);
+        var helper = new IlHelper(original, instructions);
 
-        /// Inject: x -= ModEntry.Config.PrestigeProgressionStyle == ProgressionStyle.Stars ? Textures.STARS_WIDTH_I : Textures.RIBBON_WIDTH_I;
-        /// After: x = ...
-
+        // Inject: x -= ModEntry.Config.PrestigeProgressionStyle == ProgressionStyle.Stars ? Textures.STARS_WIDTH_I : Textures.RIBBON_WIDTH_I;
+        // After: x = ...
         var notRibbons = generator.DefineLabel();
         try
         {
             helper
                 .FindFirst(
-                    new CodeInstruction(OpCodes.Call,
+                    new CodeInstruction(
+                        OpCodes.Call,
                         typeof(LocalizedContentManager).RequirePropertyGetter(nameof(LocalizedContentManager
-                            .CurrentLanguageCode)))
-                )
-                .AdvanceUntil(
-                    new CodeInstruction(OpCodes.Br_S)
-                )
+                            .CurrentLanguageCode))))
+                .AdvanceUntil(new CodeInstruction(OpCodes.Br_S))
                 .GetOperand(out var resumeExecution)
-                .AdvanceUntil(
-                    new CodeInstruction(OpCodes.Stloc_0)
-                )
+                .AdvanceUntil(new CodeInstruction(OpCodes.Stloc_0))
                 .InsertInstructions(
                     new CodeInstruction(OpCodes.Call, typeof(ModEntry).RequirePropertyGetter(nameof(ModEntry.Config))),
-                    new CodeInstruction(OpCodes.Call,
+                    new CodeInstruction(
+                        OpCodes.Call,
                         typeof(ModConfig).RequirePropertyGetter(nameof(ModConfig.EnablePrestige))),
                     new CodeInstruction(OpCodes.Brfalse_S, resumeExecution),
                     new CodeInstruction(OpCodes.Call, typeof(ModEntry).RequirePropertyGetter(nameof(ModEntry.Config))),
-                    new CodeInstruction(OpCodes.Call,
+                    new CodeInstruction(
+                        OpCodes.Call,
                         typeof(ModConfig).RequirePropertyGetter(nameof(ModConfig.PrestigeProgressionStyle))),
                     new CodeInstruction(OpCodes.Ldc_I4_0),
                     new CodeInstruction(OpCodes.Beq_S, notRibbons),
-                    new CodeInstruction(OpCodes.Ldc_I4_S,
-                        (int)((Textures.RIBBON_WIDTH_I + 5) * Textures.RIBBON_SCALE_F)),
+                    new CodeInstruction(
+                        OpCodes.Ldc_I4_S,
+                        (int)((Textures.RibbonWidth + 5) * Textures.RibbonScale)),
                     new CodeInstruction(OpCodes.Sub),
-                    new CodeInstruction(OpCodes.Br_S, resumeExecution)
-                )
+                    new CodeInstruction(OpCodes.Br_S, resumeExecution))
                 .InsertWithLabels(
                     new[] { notRibbons },
-                    new CodeInstruction(OpCodes.Ldc_I4_S,
-                        (int)((Textures.STARS_WIDTH_I + 4) * Textures.STARS_SCALE_F)),
-                    new CodeInstruction(OpCodes.Sub)
-                );
+                    new CodeInstruction(
+                        OpCodes.Ldc_I4_S,
+                        (int)((Textures.StarsWidth + 4) * Textures.StarsScale)),
+                    new CodeInstruction(OpCodes.Sub));
         }
         catch (Exception ex)
         {
@@ -87,10 +87,9 @@ internal sealed class NewSkillsPageDrawPatch : DaLion.Common.Harmony.HarmonyPatc
             return null;
         }
 
-        /// Injected: DrawExtendedLevelBars(levelIndex, skillindex, x, y, addedX, skillLevel, b)
-        /// Before: if (i == 9) draw level number ...
-
-        // local variable indices correspond to SpaceCore v1.8.0
+        // Injected: DrawExtendedLevelBars(levelIndex, skillindex, x, y, addedX, skillLevel, b)
+        // Before: if (i == 9) draw level number ...
+        // Note: local variable indices correspond to SpaceCore v1.8.0
         var levelIndex = helper.Locals[8];
         var skillIndex = helper.Locals[9];
         var skillLevel = helper.Locals[13];
@@ -100,8 +99,7 @@ internal sealed class NewSkillsPageDrawPatch : DaLion.Common.Harmony.HarmonyPatc
                 .FindFirst(
                     new CodeInstruction(OpCodes.Ldloc_S, levelIndex),
                     new CodeInstruction(OpCodes.Ldc_I4_S, 9),
-                    new CodeInstruction(OpCodes.Bne_Un)
-                )
+                    new CodeInstruction(OpCodes.Bne_Un))
                 .StripLabels(out var labels)
                 .InsertWithLabels(
                     labels,
@@ -112,9 +110,9 @@ internal sealed class NewSkillsPageDrawPatch : DaLion.Common.Harmony.HarmonyPatc
                     new CodeInstruction(OpCodes.Ldloc_3), // load xOffset
                     new CodeInstruction(OpCodes.Ldloc_S, skillLevel),
                     new CodeInstruction(OpCodes.Ldarg_1), // load b
-                    new CodeInstruction(OpCodes.Call,
-                        typeof(SkillsPageDrawPatch).RequireMethod(nameof(SkillsPageDrawPatch.DrawExtendedLevelBars)))
-                );
+                    new CodeInstruction(
+                        OpCodes.Call,
+                        typeof(SkillsPageDrawPatch).RequireMethod(nameof(SkillsPageDrawPatch.DrawExtendedLevelBars))));
         }
         catch (Exception ex)
         {
@@ -124,29 +122,25 @@ internal sealed class NewSkillsPageDrawPatch : DaLion.Common.Harmony.HarmonyPatc
             return null;
         }
 
-        /// From: (addedSkill ? Color.LightGreen : Color.Cornsilk)
-        /// To: (addedSkill ? Color.LightGreen : skillLevel == 20 ? Color.Grey : Color.SandyBrown)
-
+        // From: (addedSkill ? Color.LightGreen : Color.Cornsilk)
+        // To: (addedSkill ? Color.LightGreen : skillLevel == 20 ? Color.Grey : Color.SandyBrown)
         var isSkillLevel20 = generator.DefineLabel();
         try
         {
             helper
                 .FindNext(
-                    new CodeInstruction(OpCodes.Call, typeof(Color).RequirePropertyGetter(nameof(Color.SandyBrown)))
-                )
+                    new CodeInstruction(OpCodes.Call, typeof(Color).RequirePropertyGetter(nameof(Color.SandyBrown))))
                 .InsertInstructions(
                     new CodeInstruction(OpCodes.Ldloc_S, skillLevel),
                     new CodeInstruction(OpCodes.Ldc_I4_S, 20),
-                    new CodeInstruction(OpCodes.Beq_S, isSkillLevel20)
-                )
+                    new CodeInstruction(OpCodes.Beq_S, isSkillLevel20))
                 .Advance()
                 .GetOperand(out var resumeExecution)
                 .Advance()
                 .InsertWithLabels(
                     new[] { isSkillLevel20 },
                     new CodeInstruction(OpCodes.Call, typeof(Color).RequirePropertyGetter(nameof(Color.Cornsilk))),
-                    new CodeInstruction(OpCodes.Br_S, resumeExecution)
-                );
+                    new CodeInstruction(OpCodes.Br_S, resumeExecution));
         }
         catch (Exception ex)
         {
@@ -156,25 +150,23 @@ internal sealed class NewSkillsPageDrawPatch : DaLion.Common.Harmony.HarmonyPatc
             return null;
         }
 
-        /// Injected: DrawRibbonsSubroutine(b);
-        /// Before: if (hoverText.Length > 0)
-
+        // Injected: DrawRibbonsSubroutine(b);
+        // Before: if (hoverText.Length > 0)
         try
         {
             helper
                 .FindLast(
                     new CodeInstruction(OpCodes.Ldarg_0),
                     new CodeInstruction(OpCodes.Ldfld, typeof(SkillsPage).RequireField("hoverText")),
-                    new CodeInstruction(OpCodes.Callvirt, typeof(string).RequirePropertyGetter(nameof(string.Length)))
-                )
+                    new CodeInstruction(OpCodes.Callvirt, typeof(string).RequirePropertyGetter(nameof(string.Length))))
                 .StripLabels(out var labels) // backup and remove branch labels
                 .InsertWithLabels(
                     labels,
                     new CodeInstruction(OpCodes.Ldarg_0),
                     new CodeInstruction(OpCodes.Ldarg_1),
-                    new CodeInstruction(OpCodes.Call,
-                        typeof(SkillsPageDrawPatch).RequireMethod(nameof(SkillsPageDrawPatch.DrawRibbons)))
-                );
+                    new CodeInstruction(
+                        OpCodes.Call,
+                        typeof(SkillsPageDrawPatch).RequireMethod(nameof(SkillsPageDrawPatch.DrawRibbons))));
         }
         catch (Exception ex)
         {

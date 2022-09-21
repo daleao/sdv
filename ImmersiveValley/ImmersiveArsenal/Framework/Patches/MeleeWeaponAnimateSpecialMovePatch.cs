@@ -2,19 +2,20 @@
 
 #region using directives
 
-using Events;
+using DaLion.Stardew.Arsenal.Framework.Events;
 using HarmonyLib;
 using StardewValley.Tools;
+using HarmonyPatch = DaLion.Common.Harmony.HarmonyPatch;
 
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class MeleeWeaponAnimateSpecialMovePatch : Common.Harmony.HarmonyPatch
+internal sealed class MeleeWeaponAnimateSpecialMovePatch : HarmonyPatch
 {
-    /// <summary>Construct an instance.</summary>
+    /// <summary>Initializes a new instance of the <see cref="MeleeWeaponAnimateSpecialMovePatch"/> class.</summary>
     internal MeleeWeaponAnimateSpecialMovePatch()
     {
-        Target = RequireMethod<MeleeWeapon>(nameof(MeleeWeapon.animateSpecialMove));
+        this.Target = this.RequireMethod<MeleeWeapon>(nameof(MeleeWeapon.animateSpecialMove));
     }
 
     #region harmony patches
@@ -24,7 +25,10 @@ internal sealed class MeleeWeaponAnimateSpecialMovePatch : Common.Harmony.Harmon
     private static bool MeleeWeaponAnimateSpecalMovePrefix(MeleeWeapon __instance, ref Farmer ___lastUser, Farmer who)
     {
         if (__instance.type.Value != MeleeWeapon.stabbingSword || MeleeWeapon.attackSwordCooldown > 0 ||
-            !ModEntry.Config.BringBackStabbySwords) return true; // run original logic
+            !ModEntry.Config.BringBackStabbySwords)
+        {
+            return true; // run original logic
+        }
 
         ___lastUser = who;
         ModEntry.Events.Enable<StabbySwordSpecialUpdateTickingEvent>();

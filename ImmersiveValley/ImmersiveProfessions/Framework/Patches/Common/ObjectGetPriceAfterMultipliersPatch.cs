@@ -2,21 +2,22 @@
 
 #region using directives
 
-using DaLion.Common;
-using Extensions;
-using HarmonyLib;
 using System;
 using System.Reflection;
+using DaLion.Common;
+using DaLion.Stardew.Professions.Extensions;
+using HarmonyLib;
+using HarmonyPatch = DaLion.Common.Harmony.HarmonyPatch;
 
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class ObjectGetPriceAfterMultipliersPatch : DaLion.Common.Harmony.HarmonyPatch
+internal sealed class ObjectGetPriceAfterMultipliersPatch : HarmonyPatch
 {
-    /// <summary>Construct an instance.</summary>
+    /// <summary>Initializes a new instance of the <see cref="ObjectGetPriceAfterMultipliersPatch"/> class.</summary>
     internal ObjectGetPriceAfterMultipliersPatch()
     {
-        Target = RequireMethod<SObject>("getPriceAfterMultipliers");
+        this.Target = this.RequireMethod<SObject>("getPriceAfterMultipliers");
     }
 
     #region harmony patches
@@ -24,8 +25,8 @@ internal sealed class ObjectGetPriceAfterMultipliersPatch : DaLion.Common.Harmon
     /// <summary>Patch to modify price multipliers for various modded professions.</summary>
     // ReSharper disable once RedundantAssignment
     [HarmonyPrefix]
-    private static bool ObjectGetPriceAfterMultipliersPrefix(SObject __instance, ref float __result,
-        float startPrice, long specificPlayerID)
+    private static bool ObjectGetPriceAfterMultipliersPrefix(
+        SObject __instance, ref float __result, float startPrice, long specificPlayerID)
     {
         var saleMultiplier = 1f;
         try
@@ -37,7 +38,9 @@ internal sealed class ObjectGetPriceAfterMultipliersPatch : DaLion.Common.Harmon
                     if (specificPlayerID == -1)
                     {
                         if (farmer.UniqueMultiplayerID != Game1.player.UniqueMultiplayerID || !farmer.isActive())
+                        {
                             continue;
+                        }
                     }
                     else if (farmer.UniqueMultiplayerID != specificPlayerID)
                     {
@@ -53,20 +56,31 @@ internal sealed class ObjectGetPriceAfterMultipliersPatch : DaLion.Common.Harmon
 
                 // professions
                 if (farmer.HasProfession(Profession.Producer) && __instance.IsAnimalProduct())
+                {
                     multiplier += farmer.GetProducerPriceBonus();
+                }
+
                 if (farmer.HasProfession(Profession.Angler) && __instance.IsFish())
+                {
                     multiplier += farmer.GetAnglerPriceBonus();
+                }
 
                 // events
                 else if (farmer.eventsSeen.Contains(2120303) && __instance.IsWildBerry())
+                {
                     multiplier *= 3f;
+                }
                 else if (farmer.eventsSeen.Contains(3910979) && __instance.IsSpringOnion())
+                {
                     multiplier *= 5f;
+                }
 
                 // tax bonus
                 if (farmer.IsLocalPlayer && farmer.HasProfession(Profession.Conservationist) &&
                     ModEntry.TaxesConfig is null)
+                {
                     multiplier *= farmer.GetConservationistPriceMultiplier();
+                }
 
                 saleMultiplier = Math.Max(saleMultiplier, multiplier);
             }

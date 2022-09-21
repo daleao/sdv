@@ -4,17 +4,18 @@
 
 using HarmonyLib;
 using StardewValley.Objects;
+using HarmonyPatch = DaLion.Common.Harmony.HarmonyPatch;
 
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class CombinedRingLoadDisplayFieldsPatch : Common.Harmony.HarmonyPatch
+internal sealed class CombinedRingLoadDisplayFieldsPatch : HarmonyPatch
 {
-    /// <summary>Construct an instance.</summary>
+    /// <summary>Initializes a new instance of the <see cref="CombinedRingLoadDisplayFieldsPatch"/> class.</summary>
     internal CombinedRingLoadDisplayFieldsPatch()
     {
-        Target = RequireMethod<CombinedRing>("loadDisplayFields");
-        Prefix!.priority = Priority.HigherThanNormal;
+        this.Target = this.RequireMethod<CombinedRing>("loadDisplayFields");
+        this.Prefix!.priority = Priority.HigherThanNormal;
     }
 
     #region harmony patches
@@ -24,8 +25,10 @@ internal sealed class CombinedRingLoadDisplayFieldsPatch : Common.Harmony.Harmon
     [HarmonyPriority(Priority.HigherThanNormal)]
     private static bool CombinedRingsLoadDisplayFieldsPrefix(CombinedRing __instance, ref bool __result)
     {
-        if (__instance.ParentSheetIndex != Constants.IRIDIUM_BAND_INDEX_I)
+        if (__instance.ParentSheetIndex != Constants.IridiumBandIndex)
+        {
             return true; // don't run original logic
+        }
 
         if (Game1.objectInformation is null || __instance.indexInTileSheet is null)
         {

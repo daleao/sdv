@@ -2,21 +2,23 @@
 
 #region using directives
 
-using Extensions;
+using System.Linq;
+using DaLion.Stardew.Professions.Extensions;
+using DaLion.Stardew.Professions.Framework.VirtualProperties;
 using HarmonyLib;
 using StardewValley.Monsters;
-using System.Linq;
-using VirtualProperties;
+using HarmonyPatch = DaLion.Common.Harmony.HarmonyPatch;
 
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class MonsterTakeDamagePatch : DaLion.Common.Harmony.HarmonyPatch
+internal sealed class MonsterTakeDamagePatch : HarmonyPatch
 {
-    /// <summary>Construct an instance.</summary>
+    /// <summary>Initializes a new instance of the <see cref="MonsterTakeDamagePatch"/> class.</summary>
     internal MonsterTakeDamagePatch()
     {
-        Target = RequireMethod<Monster>(nameof(Monster.takeDamage),
+        this.Target = this.RequireMethod<Monster>(
+            nameof(Monster.takeDamage),
             new[] { typeof(int), typeof(int), typeof(int), typeof(bool), typeof(double), typeof(string) });
     }
 
@@ -26,12 +28,17 @@ internal sealed class MonsterTakeDamagePatch : DaLion.Common.Harmony.HarmonyPatc
     [HarmonyPostfix]
     private static void MonsterTakeDamagePostfix(Monster __instance)
     {
-        if (__instance is not GreenSlime slime || slime.get_Piper() is null ||
-            slime.Health > 0) return;
+        if (__instance is not GreenSlime slime || slime.Get_Piper() is null ||
+            slime.Health > 0)
+        {
+            return;
+        }
 
         foreach (var monster in slime.currentLocation.characters.OfType<Monster>()
-                     .Where(m => !m.IsSlime() && m.get_Taunter().Get(m.currentLocation) == slime))
-            monster.set_Taunter(null);
+                     .Where(m => !m.IsSlime() && m.Get_Taunter().Get(m.currentLocation) == slime))
+        {
+            monster.Set_Taunter(null);
+        }
     }
 
     #endregion harmony patches

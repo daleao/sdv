@@ -5,16 +5,17 @@
 using HarmonyLib;
 using StardewValley.Menus;
 using StardewValley.Tools;
+using HarmonyPatch = DaLion.Common.Harmony.HarmonyPatch;
 
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class ForgeMenuIsValidUnforgePatch : Common.Harmony.HarmonyPatch
+internal sealed class ForgeMenuIsValidUnforgePatch : HarmonyPatch
 {
-    /// <summary>Construct an instance.</summary>
+    /// <summary>Initializes a new instance of the <see cref="ForgeMenuIsValidUnforgePatch"/> class.</summary>
     internal ForgeMenuIsValidUnforgePatch()
     {
-        Target = RequireMethod<ForgeMenu>(nameof(ForgeMenu.IsValidUnforge));
+        this.Target = this.RequireMethod<ForgeMenu>(nameof(ForgeMenu.IsValidUnforge));
     }
 
     #region harmony patches
@@ -23,11 +24,14 @@ internal sealed class ForgeMenuIsValidUnforgePatch : Common.Harmony.HarmonyPatch
     [HarmonyPostfix]
     private static void ForgeMenuIsValidUnforgePostfix(ForgeMenu __instance, ref bool __result)
     {
-        if (__result) return;
+        if (__result)
+        {
+            return;
+        }
 
         __result = __instance.leftIngredientSpot.item is MeleeWeapon
         {
-            InitialParentTileIndex: Constants.HOLY_BLADE_INDEX_I
+            InitialParentTileIndex: Constants.HolyBladeIndex
         };
     }
 

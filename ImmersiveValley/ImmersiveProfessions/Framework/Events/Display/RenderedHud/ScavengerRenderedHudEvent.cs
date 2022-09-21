@@ -2,27 +2,32 @@
 
 #region using directives
 
-using Common.Events;
-using Extensions;
+using System.Linq;
+using DaLion.Common.Events;
+using DaLion.Stardew.Professions.Extensions;
 using Microsoft.Xna.Framework;
 using StardewModdingAPI.Events;
 using StardewValley.TerrainFeatures;
-using System.Linq;
 
 #endregion using directives
 
 [UsedImplicitly]
 internal sealed class ScavengerRenderedHudEvent : RenderedHudEvent
 {
-    /// <summary>Construct an instance.</summary>
+    /// <summary>Initializes a new instance of the <see cref="ScavengerRenderedHudEvent"/> class.</summary>
     /// <param name="manager">The <see cref="ProfessionEventManager"/> instance that manages this event.</param>
     internal ScavengerRenderedHudEvent(ProfessionEventManager manager)
-        : base(manager) { }
+        : base(manager)
+    {
+    }
 
     /// <inheritdoc />
     protected override void OnRenderedHudImpl(object? sender, RenderedHudEventArgs e)
     {
-        if (ModEntry.Config.DisableAlwaysTrack && !ModEntry.Config.ModKey.IsDown()) return;
+        if (ModEntry.Config.DisableAlwaysTrack && !ModEntry.Config.ModKey.IsDown())
+        {
+            return;
+        }
 
         var shouldHighlightOnScreen = ModEntry.Config.ModKey.IsDown();
 
@@ -31,7 +36,10 @@ internal sealed class ScavengerRenderedHudEvent : RenderedHudEvent
                      p.Value.ShouldBeTrackedBy(Profession.Scavenger)))
         {
             ModEntry.Pointer.Value.DrawAsTrackingPointer(key, Color.Yellow);
-            if (shouldHighlightOnScreen) ModEntry.Pointer.Value.DrawOverTile(key, Color.Yellow);
+            if (shouldHighlightOnScreen)
+            {
+                ModEntry.Pointer.Value.DrawOverTile(key, Color.Yellow);
+            }
         }
 
         //track berries
@@ -40,7 +48,10 @@ internal sealed class ScavengerRenderedHudEvent : RenderedHudEvent
                      b.inBloom(Game1.GetSeasonForLocation(Game1.currentLocation), Game1.dayOfMonth)))
         {
             ModEntry.Pointer.Value.DrawAsTrackingPointer(bush.tilePosition.Value, Color.Yellow);
-            if (shouldHighlightOnScreen) ModEntry.Pointer.Value.DrawOverTile(bush.tilePosition.Value, Color.Yellow);
+            if (shouldHighlightOnScreen)
+            {
+                ModEntry.Pointer.Value.DrawOverTile(bush.tilePosition.Value, Color.Yellow);
+            }
         }
 
         // track ginger
@@ -48,7 +59,10 @@ internal sealed class ScavengerRenderedHudEvent : RenderedHudEvent
                      .Where(d => d.crop is not null && d.crop.forageCrop.Value))
         {
             ModEntry.Pointer.Value.DrawAsTrackingPointer(crop.currentTileLocation, Color.Yellow);
-            if (shouldHighlightOnScreen) ModEntry.Pointer.Value.DrawOverTile(crop.currentTileLocation, Color.Yellow);
+            if (shouldHighlightOnScreen)
+            {
+                ModEntry.Pointer.Value.DrawOverTile(crop.currentTileLocation, Color.Yellow);
+            }
         }
 
         // track coconuts
@@ -56,7 +70,10 @@ internal sealed class ScavengerRenderedHudEvent : RenderedHudEvent
                      .Where(t => t.hasSeed.Value && t.treeType.Value == Tree.palmTree))
         {
             ModEntry.Pointer.Value.DrawAsTrackingPointer(tree.currentTileLocation, Color.Yellow);
-            if (shouldHighlightOnScreen) ModEntry.Pointer.Value.DrawOverTile(tree.currentTileLocation, Color.Yellow);
+            if (shouldHighlightOnScreen)
+            {
+                ModEntry.Pointer.Value.DrawOverTile(tree.currentTileLocation, Color.Yellow);
+            }
         }
     }
 }

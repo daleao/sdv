@@ -1,9 +1,9 @@
-namespace DaLion.Stardew.Ponds.Integrations;
+﻿namespace DaLion.Stardew.Ponds.Integrations;
 
 #region using directives
 
-using Common.Integrations.GenericModConfigMenu;
 using System;
+using DaLion.Common.Integrations.GenericModConfigMenu;
 
 #endregion using directives
 
@@ -13,27 +13,34 @@ internal sealed class GenericModConfigMenuIntegrationForImmersivePonds
     /// <summary>The Generic Mod Config Menu integration.</summary>
     private readonly GenericModConfigMenuIntegration<ModConfig> _configMenu;
 
-    /// <summary>Construct an instance.</summary>
+    /// <summary>Initializes a new instance of the <see cref="GenericModConfigMenuIntegrationForImmersivePonds"/> class.</summary>
     /// <param name="modRegistry">API for fetching metadata about loaded mods.</param>
     /// <param name="manifest">The mod manifest.</param>
     /// <param name="getConfig">Get the current config model.</param>
     /// <param name="reset">Reset the config model to the default values.</param>
     /// <param name="saveAndApply">Save and apply the current config model.</param>
-    public GenericModConfigMenuIntegrationForImmersivePonds(IModRegistry modRegistry, IManifest manifest,
-        Func<ModConfig> getConfig, Action reset, Action saveAndApply)
+    public GenericModConfigMenuIntegrationForImmersivePonds(
+        IModRegistry modRegistry,
+        IManifest manifest,
+        Func<ModConfig> getConfig,
+        Action reset,
+        Action saveAndApply)
     {
-        _configMenu = new(modRegistry, manifest, getConfig, reset, saveAndApply);
+        this._configMenu =
+            new GenericModConfigMenuIntegration<ModConfig>(modRegistry, manifest, getConfig, reset, saveAndApply);
     }
 
     /// <summary>Register the config menu if available.</summary>
     public void Register()
     {
         // get config menu
-        if (!_configMenu.IsLoaded)
+        if (!this._configMenu.IsLoaded)
+        {
             return;
+        }
 
         // register
-        _configMenu
+        this._configMenu
             .Register()
             .AddNumberField(
                 () => "Roe Production Chance Multiplier",
@@ -41,7 +48,6 @@ internal sealed class GenericModConfigMenuIntegrationForImmersivePonds
                 config => config.RoeProductionChanceMultiplier,
                 (config, value) => config.RoeProductionChanceMultiplier = value,
                 0.1f,
-                2f
-            );
+                2f);
     }
 }

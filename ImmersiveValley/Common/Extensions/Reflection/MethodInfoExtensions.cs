@@ -2,46 +2,68 @@
 
 #region using directives
 
+using System;
+using System.Linq;
+using System.Reflection;
+using CommunityToolkit.Diagnostics;
 using FastExpressionCompiler.LightExpression;
 using HarmonyLib;
-using System;
-using System.Reflection;
-using System.Linq;
 
 #endregion using directives
 
 /// <summary>Extensions for the <see cref="MethodInfo"/> class.</summary>
 public static class MethodInfoExtensions
 {
-    /// <summary>Construct a <see cref="HarmonyMethod"/> instance from a <see cref="MethodInfo"/> object.</summary>
-    /// <returns>A <see cref="HarmonyMethod"/> instance if <paramref name="method"/> is not null, or <see langword="null"/> otherwise.</returns>
-    public static HarmonyMethod? ToHarmonyMethod(this MethodInfo? method) =>
-        method is null ? null : new HarmonyMethod(method);
-
-    /// <summary>Creates a delegate of the specified type that represents the specified instance method.</summary>
-    /// <typeparam name="TDelegate">A delegate type which mirrors the desired method and accepts the target instance type as the first parameter.</typeparam>
-    public static TDelegate CompileUnboundDelegate<TDelegate>(this MethodInfo method) where TDelegate : Delegate
+    /// <summary>Constructs a <see cref="HarmonyMethod"/> instance from a <see cref="MethodInfo"/> object.</summary>
+    /// <param name="method">The <see cref="MethodInfo"/>.</param>
+    /// <returns>
+    ///     A <see cref="HarmonyMethod"/> instance if <paramref name="method"/> is not null, or <see langword="null"/>
+    ///     otherwise.
+    /// </returns>
+    public static HarmonyMethod? ToHarmonyMethod(this MethodInfo? method)
     {
-        if (method.IsStatic) ThrowHelper.ThrowInvalidOperationException("Method cannot be static.");
+        return method is null ? null : new HarmonyMethod(method);
+    }
+
+    /// <summary>Creates a delegate of the specified type for the given instance <paramref name="method"/>.</summary>
+    /// <typeparam name="TDelegate">
+    ///     A delegate type which mirrors the desired <paramref name="method"/> and accepts the target
+    ///     instance type as the first parameter.
+    /// </typeparam>
+    /// <param name="method">The <see cref="MethodInfo"/>.</param>
+    /// <returns>A delegate of type <typeparamref name="TDelegate"/> which takes in an instance of an object and calls the corresponding <paramref name="method"/>.</returns>
+    public static TDelegate CompileUnboundDelegate<TDelegate>(this MethodInfo method)
+        where TDelegate : Delegate
+    {
+        if (method.IsStatic)
+        {
+            ThrowHelper.ThrowInvalidOperationException("Method cannot be static.");
+        }
 
         var delegateInfo = typeof(TDelegate).GetMethodInfoFromDelegateType();
         var methodParamTypes = method.GetParameters().Select(m => m.ParameterType).ToArray();
         var delegateParamTypes = delegateInfo.GetParameters().Select(d => d.ParameterType).ToArray();
         if (delegateParamTypes.Length < 1)
+        {
             ThrowHelper.ThrowInvalidOperationException(
                 "Delegate type must accept at least the target instance parameter.");
+        }
 
         var delegateInstanceType = delegateParamTypes[0];
         delegateParamTypes = delegateParamTypes.Skip(1).ToArray();
         if (delegateParamTypes.Length != methodParamTypes.Length)
+        {
             ThrowHelper.ThrowInvalidOperationException(
                 "Mismatched method and delegate parameter count.");
+        }
 
         for (var i = 0; i < delegateParamTypes.Length; ++i)
         {
             if (!delegateParamTypes[i].IsAssignableTo(methodParamTypes[i]))
+            {
                 ThrowHelper.ThrowArgumentException(
                     $"{delegateParamTypes[i].FullName} is not assignable to {methodParamTypes[i].FullName}");
+            }
         }
 
         // convert argument types if necessary
@@ -53,7 +75,7 @@ public static class MethodInfoExtensions
                 DelegateParamExp = delegateParamExp,
                 ConvertedParamExp = methodParamType != delegateParamType
                     ? (Expression)Expression.Convert(delegateParamExp, methodParamType)
-                    : delegateParamExp
+                    : delegateParamExp,
             };
         }).ToArray();
 
@@ -77,24 +99,34 @@ public static class MethodInfoExtensions
             .CompileFast();
     }
 
-    /// <summary>Creates a delegate of the specified type that represents the specified static method.</summary>
-    /// <typeparam name="TDelegate">A delegate type which mirrors the desired method signature.</typeparam>
-    public static TDelegate CompileStaticDelegate<TDelegate>(this MethodInfo method) where TDelegate : Delegate
+    /// <summary>Creates a delegate of the specified type that for the given static <paramref name="method"/>.</summary>
+    /// <typeparam name="TDelegate">A delegate type which mirrors the desired <paramref name="method"/> signature.</typeparam>
+    /// <param name="method">The <see cref="MethodInfo"/>.</param>
+    /// <returns>A delegate of type <typeparamref name="TDelegate"/> which calls the static <paramref name="method"/>.</returns>
+    public static TDelegate CompileStaticDelegate<TDelegate>(this MethodInfo method)
+        where TDelegate : Delegate
     {
-        if (!method.IsStatic) ThrowHelper.ThrowInvalidOperationException("Method must be static.");
+        if (!method.IsStatic)
+        {
+            ThrowHelper.ThrowInvalidOperationException("Method must be static.");
+        }
 
         var delegateInfo = typeof(TDelegate).GetMethodInfoFromDelegateType();
         var methodParamTypes = method.GetParameters().Select(m => m.ParameterType).ToArray();
         var delegateParamTypes = delegateInfo.GetParameters().Select(d => d.ParameterType).ToArray();
         if (delegateParamTypes.Length != methodParamTypes.Length)
+        {
             ThrowHelper.ThrowInvalidOperationException(
                 "Mismatched method and delegate parameter count.");
+        }
 
         for (var i = 0; i < delegateParamTypes.Length; ++i)
         {
             if (!delegateParamTypes[i].IsAssignableTo(methodParamTypes[i]))
+            {
                 ThrowHelper.ThrowArgumentException(
                     $"{delegateParamTypes[i].FullName} is not assignable to {methodParamTypes[i].FullName}");
+            }
         }
 
         // convert argument types if necessary
@@ -106,7 +138,7 @@ public static class MethodInfoExtensions
                 DelegateParamExp = delegateParamExp,
                 ConvertedParamExp = methodParamType != delegateParamType
                     ? (Expression)Expression.Convert(delegateParamExp, methodParamType)
-                    : delegateParamExp
+                    : delegateParamExp,
             };
         }).ToArray();
 

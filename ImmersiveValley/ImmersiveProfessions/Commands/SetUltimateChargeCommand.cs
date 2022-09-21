@@ -1,33 +1,35 @@
-﻿using DaLion.Stardew.Professions.Framework.Events.GameLoop;
-
-namespace DaLion.Stardew.Professions.Commands;
+﻿namespace DaLion.Stardew.Professions.Commands;
 
 #region using directives
 
-using Common;
-using Common.Commands;
-using Framework.VirtualProperties;
+using DaLion.Common;
+using DaLion.Common.Commands;
+using DaLion.Stardew.Professions.Framework.Events.GameLoop;
+using DaLion.Stardew.Professions.Framework.VirtualProperties;
 
 #endregion using directives
 
 [UsedImplicitly]
 internal sealed class SetUltimateChargeCommand : ConsoleCommand
 {
-    /// <summary>Construct an instance.</summary>
+    /// <summary>Initializes a new instance of the <see cref="SetUltimateChargeCommand"/> class.</summary>
     /// <param name="handler">The <see cref="CommandHandler"/> instance that handles this command.</param>
     internal SetUltimateChargeCommand(CommandHandler handler)
-        : base(handler) { }
+        : base(handler)
+    {
+    }
 
     /// <inheritdoc />
     public override string[] Triggers { get; } = { "ready_ult", "rdy", "set_charge", "charge" };
 
     /// <inheritdoc />
-    public override string Documentation => "Max-out the player's Special Ability charge, or set it to the specified percentage.";
+    public override string Documentation =>
+        "Max-out the player's Special Ability charge, or set it to the specified percentage.";
 
     /// <inheritdoc />
     public override void Callback(string[] args)
     {
-        var ultimate = Game1.player.get_Ultimate();
+        var ultimate = Game1.player.Get_Ultimate();
         if (ultimate is null)
         {
             Log.W("Not registered to an Ultimate.");
@@ -51,7 +53,9 @@ internal sealed class SetUltimateChargeCommand : ConsoleCommand
         }
 
         if (ultimate.CanActivate && value < ultimate.MaxValue)
+        {
             ModEntry.Events.Disable<UltimateGaugeShakeUpdateTickedEvent>();
+        }
 
         ultimate.ChargeValue = (double)value * ultimate.MaxValue / 100d;
     }

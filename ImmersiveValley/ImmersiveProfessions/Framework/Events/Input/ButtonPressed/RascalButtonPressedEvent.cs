@@ -2,8 +2,8 @@
 
 #region using directives
 
-using Common;
-using Common.Events;
+using DaLion.Common;
+using DaLion.Common.Events;
 using StardewModdingAPI.Events;
 using StardewValley.Tools;
 
@@ -12,17 +12,22 @@ using StardewValley.Tools;
 [UsedImplicitly]
 internal sealed class RascalButtonPressedEvent : ButtonPressedEvent
 {
-    /// <summary>Construct an instance.</summary>
+    /// <summary>Initializes a new instance of the <see cref="RascalButtonPressedEvent"/> class.</summary>
     /// <param name="manager">The <see cref="ProfessionEventManager"/> instance that manages this event.</param>
     internal RascalButtonPressedEvent(ProfessionEventManager manager)
-        : base(manager) { }
+        : base(manager)
+    {
+    }
 
     /// <inheritdoc />
     protected override void OnButtonPressedImpl(object? sender, ButtonPressedEventArgs e)
     {
         var player = Game1.player;
         if (Game1.activeClickableMenu is not null || player.CurrentTool is not Slingshot || !player.CanMove ||
-            player.canOnlyWalk || player.isRidingHorse() || player.onBridge.Value || player.usingSlingshot) return;
+            player.canOnlyWalk || player.isRidingHorse() || player.onBridge.Value || player.usingSlingshot)
+        {
+            return;
+        }
 
         if (e.Button.IsActionButton())
         {

@@ -2,24 +2,26 @@
 
 #region using directives
 
-using Common;
-using Common.Commands;
-using Common.Integrations.SpaceCore;
-using Extensions;
-using Framework;
-using StardewValley.Menus;
 using System;
 using System.Linq;
+using DaLion.Common;
+using DaLion.Common.Commands;
+using DaLion.Common.Integrations.SpaceCore;
+using DaLion.Stardew.Professions.Extensions;
+using DaLion.Stardew.Professions.Framework;
+using StardewValley.Menus;
 
 #endregion using directives
 
 [UsedImplicitly]
 internal sealed class ResetSkillLevelsCommand : ConsoleCommand
 {
-    /// <summary>Construct an instance.</summary>
+    /// <summary>Initializes a new instance of the <see cref="ResetSkillLevelsCommand"/> class.</summary>
     /// <param name="handler">The <see cref="CommandHandler"/> instance that handles this command.</param>
     internal ResetSkillLevelsCommand(CommandHandler handler)
-        : base(handler) { }
+        : base(handler)
+    {
+    }
 
     /// <inheritdoc />
     public override string[] Triggers { get; } = { "reset_levels", "reset_skills" };
@@ -44,55 +46,47 @@ internal sealed class ResetSkillLevelsCommand : ConsoleCommand
             {
                 Game1.player.experiencePoints[i] = 0;
                 if (ModEntry.Config.ForgetRecipes && i < 5)
+                {
                     Game1.player.ForgetRecipesForSkill(Skill.FromValue(i));
+                }
             }
 
             LevelUpMenu.RevalidateHealth(Game1.player);
 
-            foreach (var (_, skill) in CustomSkill.LoadedSkills)
+            foreach (var (_, skill) in CustomSkill.Loaded)
             {
                 ModEntry.SpaceCoreApi!.AddExperienceForCustomSkill(Game1.player, skill.StringId, -skill.CurrentExp);
                 if (ModEntry.Config.ForgetRecipes &&
                     skill.StringId == "blueberry.LoveOfCooking.CookingSkill")
+                {
                     Game1.player.ForgetRecipesForLoveOfCookingSkill();
+                }
             }
         }
         else
         {
             foreach (var arg in args)
+            {
                 if (Skill.TryFromName(arg, true, out var skill))
                 {
-                    // ReSharper disable once SwitchStatementHandlesSomeKnownEnumValuesWithDefault
-                    switch (skill)
-                    {
-                        case Farmer.farmingSkill:
-                            Game1.player.farmingLevel.Value = 0;
-                            break;
-                        case Farmer.fishingSkill:
-                            Game1.player.fishingLevel.Value = 0;
-                            break;
-                        case Farmer.foragingSkill:
-                            Game1.player.foragingLevel.Value = 0;
-                            break;
-                        case Farmer.miningSkill:
-                            Game1.player.miningLevel.Value = 0;
-                            break;
-                        case Farmer.combatSkill:
-                            Game1.player.combatLevel.Value = 0;
-                            break;
-                        case Farmer.luckSkill:
-                            Game1.player.luckLevel.Value = 0;
-                            break;
-                    }
+                    skill
+                        .When(Skill.Farming).Then(() => Game1.player.farmingLevel.Value = 0)
+                        .When(Skill.Fishing).Then(() => Game1.player.fishingLevel.Value = 0)
+                        .When(Skill.Foraging).Then(() => Game1.player.foragingLevel.Value = 0)
+                        .When(Skill.Mining).Then(() => Game1.player.miningLevel.Value = 0)
+                        .When(Skill.Combat).Then(() => Game1.player.combatLevel.Value = 0)
+                        .When(Skill.Luck).Then(() => Game1.player.luckLevel.Value = 0);
 
                     Game1.player.experiencePoints[skill] = 0;
                     Game1.player.newLevels.Set(Game1.player.newLevels.Where(p => p.X != skill).ToList());
                     if (ModEntry.Config.ForgetRecipes && skill < Skill.Luck)
+                    {
                         Game1.player.ForgetRecipesForSkill(skill);
+                    }
                 }
                 else
                 {
-                    var customSkill = CustomSkill.LoadedSkills.Values.FirstOrDefault(s =>
+                    var customSkill = CustomSkill.Loaded.Values.FirstOrDefault(s =>
                         string.Equals(s.DisplayName, arg, StringComparison.CurrentCultureIgnoreCase));
                     if (customSkill is null)
                     {
@@ -100,17 +94,22 @@ internal sealed class ResetSkillLevelsCommand : ConsoleCommand
                         continue;
                     }
 
-                    ModEntry.SpaceCoreApi!.AddExperienceForCustomSkill(Game1.player, customSkill.StringId,
+                    ModEntry.SpaceCoreApi!.AddExperienceForCustomSkill(
+                        Game1.player,
+                        customSkill.StringId,
                         -customSkill.CurrentExp);
 
-                    var newLevels = ExtendedSpaceCoreAPI.GetCustomSkillNewLevels.Value();
-                    ExtendedSpaceCoreAPI.SetCustomSkillNewLevels.Value(newLevels
+                    var newLevels = ExtendedSpaceCoreApi.GetCustomSkillNewLevels.Value();
+                    ExtendedSpaceCoreApi.SetCustomSkillNewLevels.Value(newLevels
                         .Where(pair => pair.Key != customSkill.StringId).ToList());
 
                     if (ModEntry.Config.ForgetRecipes &&
                         customSkill.StringId == "blueberry.LoveOfCooking.CookingSkill")
+                    {
                         Game1.player.ForgetRecipesForLoveOfCookingSkill();
+                    }
                 }
+            }
         }
     }
 }

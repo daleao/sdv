@@ -2,57 +2,57 @@
 
 #region using directives
 
-using DaLion.Common;
-using DaLion.Common.Attributes;
-using DaLion.Common.Extensions.Reflection;
-using DaLion.Common.Harmony;
-using Extensions;
-using HarmonyLib;
-using StardewValley.Buildings;
 using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
+using DaLion.Common;
+using DaLion.Common.Attributes;
+using DaLion.Common.Extensions.Reflection;
+using DaLion.Common.Harmony;
+using DaLion.Stardew.Professions.Extensions;
+using HarmonyLib;
+using StardewValley.Buildings;
+using HarmonyPatch = DaLion.Common.Harmony.HarmonyPatch;
 
 #endregion using directives
 
-[UsedImplicitly, RequiresMod("DIGUS.ANIMALHUSBANDRYMOD")]
-internal sealed class PregnancyControllerAddNewHatchedAnimalPatch : DaLion.Common.Harmony.HarmonyPatch
+[UsedImplicitly]
+[RequiresMod("DIGUS.ANIMALHUSBANDRYMOD")]
+internal sealed class PregnancyControllerAddNewHatchedAnimalPatch : HarmonyPatch
 {
-    /// <summary>Construct an instance.</summary>
+    /// <summary>Initializes a new instance of the <see cref="PregnancyControllerAddNewHatchedAnimalPatch"/> class.</summary>
     internal PregnancyControllerAddNewHatchedAnimalPatch()
     {
-        Target = "AnimalHusbandryMod.animals.PregnancyController".ToType().RequireMethod("addNewHatchedAnimal");
+        this.Target = "AnimalHusbandryMod.animals.PregnancyController"
+            .ToType()
+            .RequireMethod("addNewHatchedAnimal");
     }
 
     #region harmony patches
 
     /// <summary>Patch for Rancher husbanded animals to have random starting friendship.</summary>
-
     [HarmonyTranspiler]
     private static IEnumerable<CodeInstruction>? PregnancyControllerAddNewHatchedAnimalTranspiler(
-        IEnumerable<CodeInstruction> instructions, ILGenerator generator, MethodBase original)
+        IEnumerable<CodeInstruction> instructions, MethodBase original)
     {
-        var helper = new ILHelper(original, instructions);
+        var helper = new IlHelper(original, instructions);
 
-        /// Injected: AddNewHatchedAnimalSubroutine(farmAnimal);
-        /// Before: AnimalHouse animalHouse = building.indoors.Value as AnimalHouse; 
-
+        // Injected: AddNewHatchedAnimalSubroutine(farmAnimal);
+        // Before: AnimalHouse animalHouse = building.indoors.Value as AnimalHouse;
         try
         {
             helper
                 .FindFirst(
                     new CodeInstruction(OpCodes.Ldloc_0),
-                    new CodeInstruction(OpCodes.Ldfld, typeof(Building).RequireField(nameof(Building.indoors)))
-                )
-                .RetreatUntil(
-                    new CodeInstruction(OpCodes.Nop)
-                )
+                    new CodeInstruction(OpCodes.Ldfld, typeof(Building).RequireField(nameof(Building.indoors))))
+                .RetreatUntil(new CodeInstruction(OpCodes.Nop))
                 .InsertInstructions(
                     new CodeInstruction(OpCodes.Ldloc_1),
-                    new CodeInstruction(OpCodes.Call,
-                        typeof(PregnancyControllerAddNewHatchedAnimalPatch).RequireMethod(nameof(AddNewHatchedAnimalSubroutine)))
-                );
+                    new CodeInstruction(
+                        OpCodes.Call,
+                        typeof(PregnancyControllerAddNewHatchedAnimalPatch)
+                            .RequireMethod(nameof(AddNewHatchedAnimalSubroutine))));
         }
         catch (Exception ex)
         {
@@ -72,7 +72,10 @@ internal sealed class PregnancyControllerAddNewHatchedAnimalPatch : DaLion.Commo
     private static void AddNewHatchedAnimalSubroutine(FarmAnimal newborn)
     {
         var owner = Game1.getFarmer(newborn.ownerID.Value);
-        if (!owner.HasProfession(Profession.Rancher)) return;
+        if (!owner.HasProfession(Profession.Rancher))
+        {
+            return;
+        }
 
         newborn.friendshipTowardFarmer.Value =
             200 + new Random(newborn.myID.GetHashCode()).Next(-50, 51);
