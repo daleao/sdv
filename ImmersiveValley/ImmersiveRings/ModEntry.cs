@@ -3,7 +3,6 @@
 #region using directives
 
 using System.Diagnostics.CodeAnalysis;
-using DaLion.Common;
 using DaLion.Common.Events;
 using DaLion.Common.Harmony;
 using DaLion.Common.Integrations.JsonAssets;

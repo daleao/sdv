@@ -48,7 +48,7 @@ public static class SObjectExtensions
     public static int GetQualityFromAge(this SObject obj)
     {
         var skillFactor = 1f + (Game1.player.FarmingLevel * 0.1f);
-        var age = (int)(obj.Read<int>("Age") * skillFactor * ModEntry.Config.AgeImproveQualityFactor);
+        var age = (int)(obj.Read<int>(DataFields.Age) * skillFactor * ModEntry.Config.AgeImproveQualityFactor);
 
         if (ModEntry.Config.DeterministicAgeQuality)
         {

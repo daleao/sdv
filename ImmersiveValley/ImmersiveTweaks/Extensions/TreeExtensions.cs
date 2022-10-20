@@ -50,7 +50,7 @@ public static class TreeExtensions
             ++skillFactor;
         }
 
-        var age = (int)(tree.Read<int>("Age") * skillFactor * ModEntry.Config.AgeImproveQualityFactor);
+        var age = (int)(tree.Read<int>(DataFields.Age) * skillFactor * ModEntry.Config.AgeImproveQualityFactor);
         if (ModEntry.Config.DeterministicAgeQuality)
         {
             return age switch

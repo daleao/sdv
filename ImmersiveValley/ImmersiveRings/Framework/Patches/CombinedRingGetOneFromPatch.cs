@@ -26,14 +26,14 @@ internal sealed class CombinedRingGetOneFromPatch : HarmonyPatch
     [HarmonyPriority(Priority.HigherThanNormal)]
     private static bool CombinedRingGetOneFromPrefix(CombinedRing __instance, Item source)
     {
-        if (source.ParentSheetIndex != Constants.IridiumBandIndex)
+        if (source.ParentSheetIndex != ModEntry.InfinityBandIndex)
         {
             return true; // run original logic
         }
 
-        __instance.ParentSheetIndex = Constants.IridiumBandIndex;
+        __instance.ParentSheetIndex = ModEntry.InfinityBandIndex;
         ModEntry.ModHelper.Reflection.GetField<NetInt>(__instance, nameof(Ring.indexInTileSheet)).GetValue()
-            .Set(Constants.IridiumBandIndex);
+            .Set(ModEntry.InfinityBandIndex);
         return true; // run original logic
     }
 

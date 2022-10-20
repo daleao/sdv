@@ -30,9 +30,6 @@ internal sealed class UltimateMeterRenderingHudEvent : RenderingHudEvent
             return;
         }
 
-        if (!Game1.eventUp)
-        {
-            ultimate.Hud.Draw(e.SpriteBatch);
-        }
+        ultimate.Hud.Draw(e.SpriteBatch);
     }
 }

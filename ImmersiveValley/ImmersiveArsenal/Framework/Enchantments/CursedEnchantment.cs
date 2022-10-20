@@ -2,11 +2,7 @@
 
 #region using directives
 
-using System;
-using CommunityToolkit.Diagnostics;
-using DaLion.Common.Extensions.Stardew;
 using StardewValley.Monsters;
-using StardewValley.Tools;
 
 #endregion using directives
 
@@ -46,12 +42,5 @@ public class CursedEnchantment : BaseWeaponEnchantment
     /// <inheritdoc />
     protected override void _OnMonsterSlay(Monster m, GameLocation location, Farmer who)
     {
-        var sword = who.CurrentTool as MeleeWeapon;
-        if (sword?.hasEnchantmentOfType<CursedEnchantment>() != true)
-        {
-            ThrowHelper.ThrowInvalidOperationException("Current tool does not have Demonic Enchantment");
-        }
-
-        sword.Increment("EnemiesSlain");
     }
 }

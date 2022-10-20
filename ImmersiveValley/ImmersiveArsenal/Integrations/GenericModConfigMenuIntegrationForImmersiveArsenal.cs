@@ -2,7 +2,6 @@
 
 #region using directives
 
-using System;
 using DaLion.Common.Extensions.SMAPI;
 using DaLion.Common.Integrations.GenericModConfigMenu;
 using DaLion.Stardew.Arsenal.Framework.Events;
@@ -97,13 +96,6 @@ internal sealed class GenericModConfigMenuIntegrationForImmersiveArsenal
                     ModEntry.ModHelper.GameContent.InvalidateCacheAndLocalized("Strings/Locations");
                     ModEntry.ModHelper.GameContent.InvalidateCacheAndLocalized("Strings/StringsFromCSFiles");
                 })
-            .AddNumberField(
-                () => "Dark Sword Purification Requirement",
-                () => "The Dark Sword must slay this many enemies before it can be purified.",
-                config => config.RequiredKillCountToPurifyDarkSword,
-                (config, value) => config.RequiredKillCountToPurifyDarkSword = value,
-                0,
-                1000)
             .AddSectionTitle(() => "Enchantment Settings")
             .AddCheckbox(
                 () => "Rebalanced Enchants",

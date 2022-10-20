@@ -2,9 +2,7 @@
 
 #region using directives
 
-using System;
 using System.Linq;
-using DaLion.Common;
 using DaLion.Common.Commands;
 using DaLion.Common.Integrations.SpaceCore;
 using DaLion.Stardew.Professions.Extensions;

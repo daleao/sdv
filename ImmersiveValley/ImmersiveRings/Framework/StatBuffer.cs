@@ -9,22 +9,14 @@ using System.Linq;
 /// <summary>A buffer for aggregating stat bonuses.</summary>
 public sealed class StatBuffer
 {
+    private readonly float[] _stats = new float[10];
+
     /// <summary>
     ///     Initializes a new instance of the <see cref="StatBuffer"/> class.Constructs an instance, initializing all
     ///     stat bonuses to zero.
     /// </summary>
     public StatBuffer()
     {
-        this.DamageModifier = 0f;
-        this.CritChanceModifier = 0f;
-        this.CritPowerModifier = 0f;
-        this.SwingSpeedModifier = 0f;
-        this.KnockbackModifier = 0f;
-        this.PrecisionModifier = 0f;
-        this.CooldownReduction = 0f;
-        this.AddedDefense = 0;
-        this.AddedImmunity = 0;
-        this.AddedMagneticRadius = 0;
     }
 
     /// <summary>
@@ -53,62 +45,59 @@ public sealed class StatBuffer
         int addedImmunity,
         int addedMagneticRadius)
     {
-        this.DamageModifier = damageModifier;
-        this.CritChanceModifier = critChanceModifier;
-        this.CritPowerModifier = critPowerModifier;
-        this.SwingSpeedModifier = swingSpeedModifier;
-        this.KnockbackModifier = knockbackModifier;
-        this.PrecisionModifier = precisionModifier;
-        this.CooldownReduction = cooldownReduction;
-        this.AddedDefense = addedDefense;
-        this.AddedImmunity = addedImmunity;
-        this.AddedMagneticRadius = addedMagneticRadius;
+        this._stats[0] = damageModifier;
+        this._stats[1] = critChanceModifier;
+        this._stats[2] = critPowerModifier;
+        this._stats[3] = swingSpeedModifier;
+        this._stats[4] = knockbackModifier;
+        this._stats[5] = precisionModifier;
+        this._stats[6] = cooldownReduction;
+        this._stats[7] = addedDefense;
+        this._stats[8] = addedImmunity;
+        this._stats[9] = addedMagneticRadius;
     }
 
     /// <summary>Gets or sets the added defense.</summary>
-    public int AddedDefense { get; set; }
+    public int AddedDefense { get => (int)this._stats[7]; set => this._stats[7] = value; }
 
     /// <summary>Gets or sets the added immunity.</summary>
-    public int AddedImmunity { get; set; }
+    public int AddedImmunity { get => (int)this._stats[8]; set => this._stats[8] = value; }
 
     /// <summary>Gets or sets the added magnetic radius.</summary>
-    public int AddedMagneticRadius { get; set; }
+    public int AddedMagneticRadius { get => (int)this._stats[9]; set => this._stats[9] = value; }
 
     /// <summary>Gets or sets the cooldown reduction.</summary>
-    public float CooldownReduction { get; set; }
+    public float CooldownReduction { get => this._stats[6]; set => this._stats[6] = value; }
 
     /// <summary>Gets or sets the critical chance modifier.</summary>
-    public float CritChanceModifier { get; set; }
+    public float CritChanceModifier { get => this._stats[1]; set => this._stats[1] = value; }
 
     /// <summary>Gets or sets the critical power modifier.</summary>
-    public float CritPowerModifier { get; set; }
+    public float CritPowerModifier { get => this._stats[2]; set => this._stats[2] = value; }
 
     /// <summary>Gets or sets the damage modifier.</summary>
-    public float DamageModifier { get; set; }
+    public float DamageModifier { get => this._stats[0]; set => this._stats[0] = value; }
 
     /// <summary>Gets or sets the knockback modifier.</summary>
-    public float KnockbackModifier { get; set; }
+    public float KnockbackModifier { get => this._stats[4]; set => this._stats[4] = value; }
 
     /// <summary>Gets or sets the precision modifier.</summary>
-    public float PrecisionModifier { get; set; }
+    public float PrecisionModifier { get => this._stats[5]; set => this._stats[5] = value; }
 
     /// <summary>Gets or sets the swing speed modifier.</summary>
-    public float SwingSpeedModifier { get; set; }
+    public float SwingSpeedModifier { get => this._stats[3]; set => this._stats[3] = value; }
 
     /// <summary>Determines whether any of the buffered stats is non-zero.</summary>
     /// <returns><see langword="true"/> if at least one of the buffered stats is greater than zero, otherwise <see langword="false"/>.</returns>
     public bool Any()
     {
-        return this.DamageModifier != 0f || this.CritChanceModifier != 0f || this.CritPowerModifier != 0f ||
-               this.SwingSpeedModifier != 0f || this.KnockbackModifier != 0f || this.PrecisionModifier != 0f ||
-               this.CooldownReduction != 0f || this.AddedDefense != 0 || this.AddedImmunity != 0 ||
-               this.AddedMagneticRadius != 0;
+        return this._stats.Any(s => s > 0f);
     }
 
     /// <summary>Gets the number of non-zero buffered stats.</summary>
     /// <returns>The number of non-zero buffered stats.</returns>
     public int Count()
     {
-        return this.GetType().GetFields().Count(fi => (float)fi.GetValue(this)! > 0f);
+        return this._stats.Count(s => s > 0f);
     }
 }

@@ -2,7 +2,6 @@
 
 #region using directives
 
-using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -27,7 +26,7 @@ public static class GenericExtensions
     /// <param name="value">The value.</param>
     /// <param name="candidates">Some candidates to check.</param>
     /// <returns><see langword="true"/> if <paramref name="value"/> is equal to at least one of the <paramref name="candidates"/> with respect to the default <see cref="EqualityComparer{T}"/>, otherwise <see langword="false"/>.</returns>
-    public static bool IsAnyOf<T>(this T value, params T[] candidates)
+    public static bool IsIn<T>(this T value, params T[] candidates)
     {
         return candidates.Contains(value);
     }
@@ -37,7 +36,7 @@ public static class GenericExtensions
     /// <param name="value">The value.</param>
     /// <param name="candidates">The candidates to check.</param>
     /// <returns><see langword="true"/> if <paramref name="value"/> is equal to at least one of the <paramref name="candidates"/> with respect to the default <see cref="EqualityComparer{T}"/>, otherwise <see langword="false"/>.</returns>
-    public static bool IsAnyOf<T>(this T value, IEnumerable<T> candidates)
+    public static bool IsIn<T>(this T value, IEnumerable<T> candidates)
     {
         return candidates.Contains(value);
     }

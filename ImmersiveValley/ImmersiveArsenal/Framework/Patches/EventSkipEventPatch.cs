@@ -2,12 +2,10 @@
 
 #region using directives
 
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
-using DaLion.Common;
 using DaLion.Common.Extensions.Reflection;
 using DaLion.Common.Harmony;
 using HarmonyLib;
@@ -34,10 +32,10 @@ internal sealed class EventSkipEventPatch : HarmonyPatch
     {
         var helper = new IlHelper(original, instructions);
 
-        var rusty = generator.DefineLabel();
-        var resumeExecution = generator.DefineLabel();
         try
         {
+            var rusty = generator.DefineLabel();
+            var resumeExecution = generator.DefineLabel();
             helper
                 .FindFirst(
                     new CodeInstruction(OpCodes.Ldstr, "Rusty Sword"))

@@ -2,16 +2,12 @@
 
 #region using directives
 
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
-using CommunityToolkit.Diagnostics;
-using DaLion.Common;
 using DaLion.Common.Extensions.Reflection;
 using DaLion.Common.Harmony;
-using DaLion.Common.ModData;
 using DaLion.Stardew.Professions.Extensions;
 using HarmonyLib;
 using StardewValley.Characters;
@@ -64,19 +60,19 @@ internal sealed class CropHarvestPatch : HarmonyPatch
         }
 
         // Injected: if (Game1.player.professions.Contains(<ecologist_id>))
-        //     Game1.player.IncrementField("EcologistItemsForaged", amount: obj.Stack)
+        //     Game1.player.Increment(DataFields.EcologistItemsForaged, amount: obj.Stack)
         // After: Game1.stats.ItemsForaged += obj.Stack;
         // Note: this particular method is too edgy for Harmony's AccessTools, so we use some old-fashioned reflection trickery to find this particular overload of FarmerExtensions.IncrementData<T>
-        var mi = typeof(ModDataIO)
-                     .GetMethods()
-                     .FirstOrDefault(mi =>
-                         mi.Name.Contains(nameof(ModDataIO.Increment)) && mi.GetParameters().Length == 3)?
-                     .MakeGenericMethod(typeof(uint)) ??
-                 ThrowHelper.ThrowMissingMethodException<MethodInfo>("Increment method not found.");
-
-        var dontIncreaseEcologistCounter = generator.DefineLabel();
         try
         {
+            var incrementMethod = typeof(DaLion.Common.Extensions.Stardew.FarmerExtensions)
+                                      .GetMethods()
+                                      .FirstOrDefault(mi =>
+                                          mi.Name.Contains(nameof(DaLion.Common.Extensions.Stardew.FarmerExtensions.Increment)) && mi.GetGenericArguments().Length > 0)?
+                                      .MakeGenericMethod(typeof(uint)) ??
+                                  ThrowHelper.ThrowMissingMethodException<MethodInfo>("Increment method not found.");
+
+            var dontIncreaseEcologistCounter = generator.DefineLabel();
             helper
                 .FindNext(
                     new CodeInstruction(
@@ -88,12 +84,12 @@ internal sealed class CropHarvestPatch : HarmonyPatch
                 .InsertInstructions(
                     new CodeInstruction(OpCodes.Brfalse_S, dontIncreaseEcologistCounter),
                     new CodeInstruction(OpCodes.Call, typeof(Game1).RequirePropertyGetter(nameof(Game1.player))),
-                    new CodeInstruction(OpCodes.Ldc_I4_0), // DataField.EcologistItemsForaged
+                    new CodeInstruction(OpCodes.Ldstr, DataFields.EcologistItemsForaged),
                     new CodeInstruction(OpCodes.Ldloc_1), // loc 1 = obj
                     new CodeInstruction(
                         OpCodes.Callvirt,
                         typeof(Item).RequirePropertyGetter(nameof(Item.Stack))),
-                    new CodeInstruction(OpCodes.Call, mi));
+                    new CodeInstruction(OpCodes.Call, incrementMethod));
         }
         catch (Exception ex)
         {
@@ -103,11 +99,11 @@ internal sealed class CropHarvestPatch : HarmonyPatch
 
         // From: if (fertilizerQualityLevel >= 3 && random2.NextDouble() < chanceForGoldQuality / 2.0)
         // To: if (Game1.player.professions.Contains(<agriculturist_id>) || fertilizerQualityLevel >= 3) && random2.NextDouble() < chanceForGoldQuality / 2.0)
-        var fertilizerQualityLevel = helper.Locals[8];
         var random2 = helper.Locals[9];
-        var isAgriculturist = generator.DefineLabel();
         try
         {
+            var fertilizerQualityLevel = helper.Locals[8];
+            var isAgriculturist = generator.DefineLabel();
             helper.AdvanceUntil(
                     // find index of Crop.fertilizerQualityLevel >= 3
                     new CodeInstruction(OpCodes.Ldloc_S, fertilizerQualityLevel),
@@ -128,10 +124,10 @@ internal sealed class CropHarvestPatch : HarmonyPatch
 
         // Injected: if (ShouldIncreaseHarvestYield(junimoHarvester, random2) numToHarvest++;
         // After: numToHarvest++;
-        var numToHarvest = helper.Locals[6];
-        var dontIncreaseNumToHarvest = generator.DefineLabel();
         try
         {
+            var numToHarvest = helper.Locals[6];
+            var dontIncreaseNumToHarvest = generator.DefineLabel();
             helper
                 .FindNext(
                     new CodeInstruction(OpCodes.Ldloc_S, numToHarvest)) // find index of numToHarvest++

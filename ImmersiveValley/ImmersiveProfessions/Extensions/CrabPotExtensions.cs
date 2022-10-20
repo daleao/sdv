@@ -2,7 +2,6 @@
 
 #region using directives
 
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using DaLion.Stardew.Professions.Framework;
@@ -250,7 +249,7 @@ public static class CrabPotExtensions
     /// <returns>The index of a random trash <see cref="Item"/>.</returns>
     public static int GetTrash(this CrabPot crabPot, GameLocation location, Random r)
     {
-        if (!ModEntry.Config.SeaweedIsTrash || r.NextDouble() > 0.5)
+        if (r.NextDouble() > 0.5)
         {
             return r.Next(167, 173);
         }
@@ -261,6 +260,7 @@ public static class CrabPotExtensions
             case Beach:
             case IslandSouth:
             case IslandWest when location.getFishingLocation(crabPot.TileLocation) == 1:
+            case Farm when Game1.whichFarm == Farm.beach_layout:
                 trash = 152; // seaweed
                 break;
             case MineShaft:

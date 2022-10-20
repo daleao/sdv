@@ -37,7 +37,7 @@ internal sealed class Game1DrawToolPatch : HarmonyPatch
             16,
             16);
         slingshot.DrawDuringUse(
-            ((FarmerSprite)f.Sprite).currentAnimationIndex,
+            f.FarmerSprite.currentAnimationIndex,
             f.FacingDirection,
             Game1.spriteBatch,
             position,

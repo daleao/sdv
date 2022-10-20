@@ -2,11 +2,9 @@
 
 #region using directives
 
-using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
-using DaLion.Common;
 using DaLion.Common.Extensions.Reflection;
 using DaLion.Common.Harmony;
 using DaLion.Stardew.Professions.Extensions;
@@ -39,11 +37,11 @@ internal sealed class ResourceClumpPerformToolAction : HarmonyPatch
         // -- and also
         // Injected: if (t.getLastFarmerToUse().professions.Contains(100 + <lumberjack_id>) && Game1.NextDouble() < 0.5) numChunks++;
         // Before: numChunks++;
-        var isNotPrestiged = generator.DefineLabel();
-        var resumeExecution1 = generator.DefineLabel();
-        var resumeExecution2 = generator.DefineLabel();
         try
         {
+            var isNotPrestiged = generator.DefineLabel();
+            var resumeExecution1 = generator.DefineLabel();
+            var resumeExecution2 = generator.DefineLabel();
             helper
                 .FindProfessionCheck(Profession.Lumberjack.Value)
                 .AdvanceUntil(new CodeInstruction(OpCodes.Ldc_I4_S, 10))

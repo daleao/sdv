@@ -3,7 +3,6 @@
 #region using directives
 
 using System.Runtime.CompilerServices;
-using DaLion.Common;
 using DaLion.Common.Extensions.Stardew;
 using DaLion.Stardew.Professions.Extensions;
 using DaLion.Stardew.Professions.Framework.Events.Display;
@@ -25,7 +24,7 @@ internal static class Farmer_Ultimate
 
     internal static void Set_Ultimate(this Farmer farmer, Ultimate? value)
     {
-        farmer.Write("UltimateIndex", value?.Index.ToString() ?? string.Empty);
+        farmer.Write(DataFields.UltimateIndex, value?.Index.ToString() ?? string.Empty);
         Values.AddOrUpdate(farmer, Create(farmer));
         Log.W($"{farmer.Name}'s Ultimate was set to {value}.");
 
@@ -56,7 +55,7 @@ internal static class Farmer_Ultimate
     private static Holder Create(Farmer farmer)
     {
         var holder = new Holder();
-        var index = farmer.Read("UltimateIndex", -1);
+        var index = farmer.Read(DataFields.UltimateIndex, -1);
         holder.Ultimate = index < 0 ? null : Ultimate.FromValue(index);
         holder.NetIndex.Value = index;
         return holder;

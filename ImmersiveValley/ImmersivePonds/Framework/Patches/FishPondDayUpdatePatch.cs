@@ -2,12 +2,10 @@
 
 #region using directives
 
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
-using DaLion.Common;
 using DaLion.Common.Extensions;
 using DaLion.Common.Extensions.Collections;
 using DaLion.Common.Extensions.Reflection;
@@ -40,7 +38,7 @@ internal sealed class FishPondDayUpdatePatch : HarmonyPatch
         if (__instance.HasRadioactiveFish())
         {
             var heldMetals =
-                __instance.Read("MetalsHeld")
+                __instance.Read(DataFields.MetalsHeld)
                     .ParseList<string>(";")?
                     .Select(li => li?.ParseTuple<int, int>())
                     .WhereNotNull()
@@ -51,7 +49,7 @@ internal sealed class FishPondDayUpdatePatch : HarmonyPatch
                 heldMetals[i] = (metal, --daysLeft);
             }
 
-            __instance.Write("MetalsHeld", string.Join(';', heldMetals.Select(m => string.Join(',', m.Item1, m.Item2))));
+            __instance.Write(DataFields.MetalsHeld, string.Join(';', heldMetals.Select(m => string.Join(',', m.Item1, m.Item2))));
         }
 
 #if RELEASE
@@ -147,8 +145,8 @@ internal sealed class FishPondDayUpdatePatch : HarmonyPatch
         var r = new Random(Guid.NewGuid().GetHashCode());
 
         // if pond is empty, spontaneously grow algae/seaweed
-        __instance.Increment("DaysEmpty");
-        if (__instance.Read<int>("DaysEmpty") < ModEntry.Config.DaysUntilAlgaeSpawn + 1)
+        __instance.Increment(DataFields.DaysEmpty);
+        if (__instance.Read<int>(DataFields.DaysEmpty) < ModEntry.Config.DaysUntilAlgaeSpawn + 1)
         {
             return;
         }
@@ -162,17 +160,17 @@ internal sealed class FishPondDayUpdatePatch : HarmonyPatch
         switch (spawned)
         {
             case Constants.SeaweedIndex:
-                __instance.Increment("SeaweedLivingHere");
+                __instance.Increment(DataFields.SeaweedLivingHere);
                 break;
             case Constants.GreenAlgaeIndex:
-                __instance.Increment("GreenAlgaeLivingHere");
+                __instance.Increment(DataFields.GreenAlgaeLivingHere);
                 break;
             case Constants.WhiteAlgaeIndex:
-                __instance.Increment("WhiteAlgaeLivingHere");
+                __instance.Increment(DataFields.WhiteAlgaeLivingHere);
                 break;
         }
 
-        __instance.Write("DaysEmpty", null);
+        __instance.Write(DataFields.DaysEmpty, null);
     }
 
     /// <summary>

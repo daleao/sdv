@@ -3,10 +3,8 @@ namespace DaLion.Stardew.Professions.Extensions;
 
 #region using directives
 
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using DaLion.Common;
 using DaLion.Common.Extensions;
 using DaLion.Common.Extensions.Collections;
 using DaLion.Common.Extensions.Stardew;
@@ -32,7 +30,7 @@ public static class FarmerExtensions
     /// <returns><see langword="true"/> if the <paramref name="farmer"/> has the specified <paramref name="profession"/>, otherwise <see langword="false"/>.</returns>
     public static bool HasProfession(this Farmer farmer, IProfession profession, bool prestiged = false)
     {
-        if (prestiged && !profession.Id.IsAnyOf(Profession.GetRange()))
+        if (prestiged && !profession.Id.IsIn(Profession.GetRange()))
         {
             return false;
         }
@@ -88,7 +86,7 @@ public static class FarmerExtensions
     /// <returns>The last acquired profession index, or -1 if none was found.</returns>
     public static int GetCurrentBranchForSkill(this Farmer farmer, ISkill skill)
     {
-        return farmer.professions.Where(pid => pid.IsAnyOf(skill.TierOneProfessionIds)).DefaultIfEmpty(-1).Last();
+        return farmer.professions.Where(pid => pid.IsIn(skill.TierOneProfessionIds)).DefaultIfEmpty(-1).Last();
     }
 
     /// <summary>
@@ -100,7 +98,7 @@ public static class FarmerExtensions
     /// <returns>The last acquired profession index, or -1 if none was found.</returns>
     public static int GetCurrentProfessionForBranch(this Farmer farmer, IProfession branch)
     {
-        return farmer.professions.Where(pid => pid.IsAnyOf(branch.BranchingProfessions)).DefaultIfEmpty(-1).Last();
+        return farmer.professions.Where(pid => pid.IsIn(branch.BranchingProfessions)).DefaultIfEmpty(-1).Last();
     }
 
     /// <summary>Gets all the <paramref name="farmer"/>'s professions associated with a specific <paramref name="skill"/>.</summary>
@@ -146,7 +144,7 @@ public static class FarmerExtensions
     {
         return subset is null
             ? farmer.professions[^1]
-            : farmer.professions.Where(p => p.IsAnyOf(subset)).DefaultIfEmpty(-1).Last();
+            : farmer.professions.Where(p => p.IsIn(subset)).DefaultIfEmpty(-1).Last();
     }
 
     /// <summary>
@@ -418,7 +416,7 @@ public static class FarmerExtensions
     /// <param name="farmer">The <see cref="Farmer"/>.</param>
     public static void RevalidateUltimate(this Farmer farmer)
     {
-        var ultimateIndex = farmer.Read("UltimateIndex", -1);
+        var ultimateIndex = farmer.Read(DataFields.UltimateIndex, -1);
         switch (ultimateIndex)
         {
             case < 0 when farmer.professions.Any(p => p is >= 26 and < 30):
@@ -452,7 +450,7 @@ public static class FarmerExtensions
     /// <param name="addToRecoveryDict">Whether to store crafted quantities for later recovery.</param>
     public static void ForgetRecipesForSkill(this Farmer farmer, Skill skill, bool addToRecoveryDict = false)
     {
-        var forgottenRecipesDict = farmer.Read("ForgottenRecipesDict")
+        var forgottenRecipesDict = farmer.Read(DataFields.ForgottenRecipesDict)
             .ParseDictionary<string, int>();
 
         // remove associated crafting recipes
@@ -503,7 +501,7 @@ public static class FarmerExtensions
 
         if (addToRecoveryDict)
         {
-            farmer.Write("ForgottenRecipesDict", forgottenRecipesDict.Stringify());
+            farmer.Write(DataFields.ForgottenRecipesDict, forgottenRecipesDict.Stringify());
         }
     }
 
@@ -512,7 +510,7 @@ public static class FarmerExtensions
     /// <param name="addToRecoveryDict">Whether to store crafted quantities for later recovery.</param>
     public static void ForgetRecipesForLoveOfCookingSkill(this Farmer farmer, bool addToRecoveryDict = false)
     {
-        var forgottenRecipesDict = farmer.Read("ForgottenRecipesDict")
+        var forgottenRecipesDict = farmer.Read(DataFields.ForgottenRecipesDict)
             .ParseDictionary<string, int>();
 
         // remove associated cooking recipes
@@ -521,7 +519,7 @@ public static class FarmerExtensions
             .SelectMany(r => r)
             .Select(r => "blueberry.cac." + r)
             .ToList();
-        var knownCookingRecipes = farmer.cookingRecipes.Keys.Where(key => key.IsAnyOf(cookingRecipes)).ToDictionary(
+        var knownCookingRecipes = farmer.cookingRecipes.Keys.Where(key => key.IsIn(cookingRecipes)).ToDictionary(
             key => key,
             key => farmer.cookingRecipes[key]);
         foreach (var (key, value) in knownCookingRecipes)
@@ -536,7 +534,7 @@ public static class FarmerExtensions
 
         if (addToRecoveryDict)
         {
-            farmer.Write("ForgottenRecipesDict", forgottenRecipesDict.Stringify());
+            farmer.Write(DataFields.ForgottenRecipesDict, forgottenRecipesDict.Stringify());
         }
     }
 
@@ -582,7 +580,7 @@ public static class FarmerExtensions
 
         var fishData = Game1.content
             .Load<Dictionary<int, string>>(PathUtilities.NormalizeAssetName("Data/Fish"))
-            .Where(p => !p.Key.IsAnyOf(152, 153, 157) && !p.Value.Contains("trap"))
+            .Where(p => !p.Key.IsIn(152, 153, 157) && !p.Value.Contains("trap"))
             .ToDictionary(p => p.Key, p => p.Value);
 
         if (!fishData.TryGetValue(index, out var specificFishData))
@@ -668,7 +666,7 @@ public static class FarmerExtensions
     /// <returns>A <see cref="float"/> multiplier for general items.</returns>
     public static float GetConservationistPriceMultiplier(this Farmer farmer)
     {
-        return 1f + farmer.Read<float>("ConservationistActiveTaxBonusPct");
+        return 1f + farmer.Read<float>(DataFields.ConservationistActiveTaxBonusPct);
     }
 
     /// <summary>Gets the quality of items foraged by <see cref="Profession.Ecologist"/>.</summary>
@@ -676,7 +674,7 @@ public static class FarmerExtensions
     /// <returns>A <see cref="SObject"/> quality level.</returns>
     public static int GetEcologistForageQuality(this Farmer farmer)
     {
-        var itemsForaged = farmer.Read<uint>("EcologistItemsForaged");
+        var itemsForaged = farmer.Read<uint>(DataFields.EcologistItemsForaged);
         return itemsForaged < ModEntry.Config.ForagesNeededForBestQuality
             ? itemsForaged < ModEntry.Config.ForagesNeededForBestQuality / 2
                 ? SObject.medQuality
@@ -689,7 +687,7 @@ public static class FarmerExtensions
     /// <returns>A <see cref="SObject"/> quality level.</returns>
     public static int GetGemologistMineralQuality(this Farmer farmer)
     {
-        var mineralsCollected = farmer.Read<uint>("GemologistMineralsCollected");
+        var mineralsCollected = farmer.Read<uint>(DataFields.GemologistMineralsCollected);
         return mineralsCollected < ModEntry.Config.MineralsNeededForBestQuality
             ? mineralsCollected < ModEntry.Config.MineralsNeededForBestQuality / 2
                 ? SObject.medQuality

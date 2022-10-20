@@ -2,11 +2,9 @@
 
 #region using directives
 
-using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
-using DaLion.Common;
 using DaLion.Common.Harmony;
 using DaLion.Stardew.Professions.Extensions;
 using HarmonyLib;
@@ -61,9 +59,9 @@ internal sealed class FarmAnimalPetPatch : HarmonyPatch
 
         // From: friendshipTowardFarmer.Value = Math.Min(1000, (int)friendshipTowardFarmer + 15);
         // To: friendshipTowardFarmer.Value = Math.Min(1000, (int)friendshipTowardFarmer + 15 + (who.professions.Contains(<rancher_id> + 100) ? 15 : 0));
-        var isNotPrestiged = generator.DefineLabel();
         try
         {
+            var isNotPrestiged = generator.DefineLabel();
             helper
                 .FindProfessionCheck(Profession.Rancher.Value) // go back and find the inserted rancher check
                 .AdvanceUntil(

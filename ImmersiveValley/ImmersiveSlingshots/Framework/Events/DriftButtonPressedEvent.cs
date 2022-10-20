@@ -2,7 +2,6 @@
 
 #region using directives
 
-using DaLion.Common;
 using DaLion.Common.Enums;
 using DaLion.Common.Events;
 using DaLion.Common.Extensions.Stardew;

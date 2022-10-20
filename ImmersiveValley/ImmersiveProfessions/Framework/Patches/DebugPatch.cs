@@ -1,6 +1,5 @@
 ﻿namespace DaLion.Stardew.Professions.Framework.Patches;
 
-using DaLion.Common;
 using DaLion.Common.Attributes;
 using HarmonyLib;
 using HarmonyPatch = DaLion.Common.Harmony.HarmonyPatch;

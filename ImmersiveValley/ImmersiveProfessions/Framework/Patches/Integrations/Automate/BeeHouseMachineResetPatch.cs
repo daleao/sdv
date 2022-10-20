@@ -2,11 +2,9 @@
 
 #region using directives
 
-using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
-using DaLion.Common;
 using DaLion.Common.Attributes;
 using DaLion.Common.Extensions.Reflection;
 using DaLion.Common.Harmony;
@@ -44,11 +42,11 @@ internal sealed class BeeHouseMachineResetPatch : HarmonyPatch
         //         ? 1
         //         : 2
         //     : 4);
-        var isNotProducer = generator.DefineLabel();
-        var isNotPrestiged = generator.DefineLabel();
-        var resumeExecution = generator.DefineLabel();
         try
         {
+            var isNotProducer = generator.DefineLabel();
+            var isNotPrestiged = generator.DefineLabel();
+            var resumeExecution = generator.DefineLabel();
             helper
                 .FindFirst(
                     new CodeInstruction(OpCodes.Ldc_I4_4),

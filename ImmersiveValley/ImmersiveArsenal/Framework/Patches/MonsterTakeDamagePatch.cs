@@ -2,11 +2,9 @@
 
 #region using directives
 
-using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
-using DaLion.Common;
 using DaLion.Common.Extensions.Reflection;
 using DaLion.Common.Harmony;
 using DaLion.Stardew.Arsenal.Framework.VirtualProperties;
@@ -44,10 +42,10 @@ internal sealed class MonsterTakeDamagePatch : HarmonyPatch
 
         // From: int actualDamage = Math.Max(1, damage - (int)resilience);
         // To: int actualDamage = this.get_GotCrit() && ModEntry.Config.CritsIgnoreDefense ? damage : damage * 10 / (10 + (int)resilience) ;
-        var mitigateDamage = generator.DefineLabel();
-        var resumeExecution = generator.DefineLabel();
         try
         {
+            var mitigateDamage = generator.DefineLabel();
+            var resumeExecution = generator.DefineLabel();
             helper
                 .InsertInstructions(
                     new CodeInstruction(OpCodes.Call, typeof(ModEntry).RequirePropertyGetter(nameof(ModEntry.Config))),

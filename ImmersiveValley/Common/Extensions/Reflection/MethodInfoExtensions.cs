@@ -2,10 +2,8 @@
 
 #region using directives
 
-using System;
 using System.Linq;
 using System.Reflection;
-using CommunityToolkit.Diagnostics;
 using FastExpressionCompiler.LightExpression;
 using HarmonyLib;
 
@@ -55,15 +53,6 @@ public static class MethodInfoExtensions
         {
             ThrowHelper.ThrowInvalidOperationException(
                 "Mismatched method and delegate parameter count.");
-        }
-
-        for (var i = 0; i < delegateParamTypes.Length; ++i)
-        {
-            if (!delegateParamTypes[i].IsAssignableTo(methodParamTypes[i]))
-            {
-                ThrowHelper.ThrowArgumentException(
-                    $"{delegateParamTypes[i].FullName} is not assignable to {methodParamTypes[i].FullName}");
-            }
         }
 
         // convert argument types if necessary
@@ -118,15 +107,6 @@ public static class MethodInfoExtensions
         {
             ThrowHelper.ThrowInvalidOperationException(
                 "Mismatched method and delegate parameter count.");
-        }
-
-        for (var i = 0; i < delegateParamTypes.Length; ++i)
-        {
-            if (!delegateParamTypes[i].IsAssignableTo(methodParamTypes[i]))
-            {
-                ThrowHelper.ThrowArgumentException(
-                    $"{delegateParamTypes[i].FullName} is not assignable to {methodParamTypes[i].FullName}");
-            }
         }
 
         // convert argument types if necessary

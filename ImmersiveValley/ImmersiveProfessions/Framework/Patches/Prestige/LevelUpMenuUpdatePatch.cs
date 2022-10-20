@@ -2,19 +2,16 @@
 
 #region using directives
 
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
-using DaLion.Common;
 using DaLion.Common.Extensions;
 using DaLion.Common.Extensions.Reflection;
 using DaLion.Common.Harmony;
 using DaLion.Stardew.Professions.Extensions;
 using DaLion.Stardew.Professions.Framework.Events.GameLoop;
 using DaLion.Stardew.Professions.Framework.Ultimates;
-using DaLion.Stardew.Professions.Framework.Utility;
 using DaLion.Stardew.Professions.Framework.VirtualProperties;
 using HarmonyLib;
 using Microsoft.Xna.Framework;
@@ -62,9 +59,9 @@ internal sealed class LevelUpMenuUpdatePatch : HarmonyPatch
 
         // From: if (currentLevel == 5)
         // To: if (currentLevel is 5 or 15)
-        var isLevel5 = generator.DefineLabel();
         try
         {
+            var isLevel5 = generator.DefineLabel();
             helper
                 .FindNext(
                     new CodeInstruction(OpCodes.Ldarg_0),
@@ -127,6 +124,10 @@ internal sealed class LevelUpMenuUpdatePatch : HarmonyPatch
             return null;
         }
 
+        var chosenProfession = generator.DeclareLocal(typeof(int));
+        var shouldProposeFinalQuestion = generator.DeclareLocal(typeof(bool));
+        var shouldCongratulateFullSkillMastery = generator.DeclareLocal(typeof(bool));
+
         // From: Game1.player.professions.Add(professionsToChoose[i]);
         //		  getImmediateProfessionPerk(professionsToChoose[i]);
         // To: if (!Game1.player.professions.AddOrReplace(professionsToChoose[i])) getImmediateProfessionPerk(professionsToChoose[i]);
@@ -135,15 +136,12 @@ internal sealed class LevelUpMenuUpdatePatch : HarmonyPatch
         // Injected: if (ShouldProposeFinalQuestion(professionsToChoose[i])) shouldProposeFinalQuestion = true;
         //			  if (ShouldCongratulateOnFullPrestige(currentLevel, professionsToChoose[i])) shouldCongratulateOnFullPrestige = true;
         // Before: isActive = false;
-        var dontGetImmediatePerks = generator.DefineLabel();
-        var isNotPrestigeLevel = generator.DefineLabel();
-        var chosenProfession = generator.DeclareLocal(typeof(int));
-        var shouldProposeFinalQuestion = generator.DeclareLocal(typeof(bool));
-        var shouldCongratulateFullSkillMastery = generator.DeclareLocal(typeof(bool));
         var i = 0;
         repeat1:
         try
         {
+            var dontGetImmediatePerks = generator.DefineLabel();
+            var isNotPrestigeLevel = generator.DefineLabel();
             helper
                 .FindNext(
                     // find index of adding a profession to the player's list of professions
@@ -227,11 +225,11 @@ internal sealed class LevelUpMenuUpdatePatch : HarmonyPatch
         // Injected: if (shouldProposeFinalQuestion) ProposeFinalQuestion(chosenProfession)
         // Aand: if (shouldCongratulateOnFullPrestige) CongratulateOnFullPrestige(chosenProfession)
         // Before: if (!isActive || !informationUp)
-        var dontProposeFinalQuestion = generator.DefineLabel();
-        var dontCongratulateOnFullPrestige = generator.DefineLabel();
-        var resumeExecution = generator.DefineLabel();
         try
         {
+            var dontProposeFinalQuestion = generator.DefineLabel();
+            var dontCongratulateOnFullPrestige = generator.DefineLabel();
+            var resumeExecution = generator.DefineLabel();
             helper
                 .GoTo(0)
                 .InsertInstructions(
@@ -280,9 +278,9 @@ internal sealed class LevelUpMenuUpdatePatch : HarmonyPatch
 
         // Injected: if (!ShouldSuppressClick(chosenProfession[i], currentLevel))
         // Before: leftProfessionColor = Color.Green; (x2)
-        var skip = generator.DefineLabel();
         try
         {
+            var skip = generator.DefineLabel();
             helper
                 .FindFirst(
                     new CodeInstruction(OpCodes.Ldarg_0),

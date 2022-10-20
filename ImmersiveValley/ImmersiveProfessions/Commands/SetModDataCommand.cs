@@ -3,7 +3,6 @@
 #region using directives
 
 using System.Linq;
-using DaLion.Common;
 using DaLion.Common.Commands;
 using DaLion.Common.Extensions.Stardew;
 using DaLion.Stardew.Professions.Extensions;
@@ -71,7 +70,7 @@ internal sealed class SetModDataCommand : ConsoleCommand
             case "forage":
             case "itemsforaged":
             case "ecologist":
-            case "EcologistItemsForaged":
+            case "ecologistitemsforaged":
                 SetEcologistItemsForaged(value);
                 break;
 
@@ -120,7 +119,7 @@ internal sealed class SetModDataCommand : ConsoleCommand
             return;
         }
 
-        Game1.player.Write("EcologistItemsForaged", value?.ToString());
+        Game1.player.Write(DataFields.EcologistItemsForaged, value?.ToString());
         if (value.HasValue)
         {
             Log.I($"Items foraged as Ecologist was set to {value}.");
@@ -135,7 +134,7 @@ internal sealed class SetModDataCommand : ConsoleCommand
             return;
         }
 
-        Game1.player.Write("GemologistMineralsCollected", value?.ToString());
+        Game1.player.Write(DataFields.GemologistMineralsCollected, value?.ToString());
         if (value.HasValue)
         {
             Log.I($"Minerals collected as Gemologist was set to {value}.");
@@ -150,7 +149,7 @@ internal sealed class SetModDataCommand : ConsoleCommand
             return;
         }
 
-        Game1.player.Write("ProspectorHuntStreak", value?.ToString());
+        Game1.player.Write(DataFields.ProspectorHuntStreak, value?.ToString());
         if (value.HasValue)
         {
             Log.I($"Prospector Hunt was streak set to {value}.");
@@ -165,7 +164,7 @@ internal sealed class SetModDataCommand : ConsoleCommand
             return;
         }
 
-        Game1.player.Write("ScavengerHuntStreak", value?.ToString());
+        Game1.player.Write(DataFields.ScavengerHuntStreak, value?.ToString());
         if (value.HasValue)
         {
             Log.I($"Scavenger Hunt streak was set to {value}.");
@@ -180,7 +179,7 @@ internal sealed class SetModDataCommand : ConsoleCommand
             return;
         }
 
-        Game1.player.Write("ConservationistTrashCollectedThisSeason", value?.ToString());
+        Game1.player.Write(DataFields.ConservationistTrashCollectedThisSeason, value?.ToString());
         if (value.HasValue)
         {
             Log.I($"Conservationist trash collected in the current season was set to {value}.");

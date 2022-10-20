@@ -2,11 +2,9 @@
 
 #region using directives
 
-using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
-using DaLion.Common;
 using DaLion.Common.Extensions.Reflection;
 using DaLion.Common.Harmony;
 using DaLion.Stardew.Arsenal.Framework.Enchantments;
@@ -69,10 +67,10 @@ internal sealed class MeleeWeaponDoAnimateSpecialMovePatch : HarmonyPatch
 
         // From: daggerHitsLeft = 4;
         // To: daggerHitsLeft = this.BaseName.Contains "Infinity" ? 6 : 4;
-        var notInfinity = generator.DefineLabel();
-        var resumeExecution = generator.DefineLabel();
         try
         {
+            var notInfinity = generator.DefineLabel();
+            var resumeExecution = generator.DefineLabel();
             helper
                 .FindLast(new CodeInstruction(OpCodes.Ldc_I4_4))
                 .AddLabels(notInfinity)

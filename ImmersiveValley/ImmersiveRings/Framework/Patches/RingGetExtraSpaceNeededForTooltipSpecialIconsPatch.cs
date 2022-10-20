@@ -2,7 +2,6 @@
 
 #region using directives
 
-using System;
 using DaLion.Stardew.Rings.Extensions;
 using DaLion.Stardew.Rings.Framework.VirtualProperties;
 using HarmonyLib;
@@ -37,9 +36,8 @@ internal sealed class RingGetExtraSpaceNeededForTooltipSpecialIconsPatch : Harmo
         }
 
         __result.X = Math.Max(__result.X, MaxWidth + 86);
-
-        //__result.Y += (int)(Math.Max(font.MeasureString("TT").Y, 48f) *
-        //                    combined.Get_StatBuffer().Select(r => r.ParentSheetIndex).Distinct().Count());
+        __result.Y += (int)(Math.Max(font.MeasureString("TT").Y, 48f) *
+                            combined.Get_StatBuffer().Count());
     }
 
     #endregion harmony patches

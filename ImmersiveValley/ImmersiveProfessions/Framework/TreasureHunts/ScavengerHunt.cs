@@ -2,7 +2,6 @@
 
 #region using directives
 
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using DaLion.Common.Extensions.Stardew;
@@ -12,7 +11,6 @@ using DaLion.Stardew.Professions.Framework.Events.Display;
 using DaLion.Stardew.Professions.Framework.Events.GameLoop;
 using DaLion.Stardew.Professions.Framework.VirtualProperties;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using StardewModdingAPI.Utilities;
 using StardewValley.Locations;
 using StardewValley.Menus;
@@ -145,7 +143,7 @@ internal sealed class ScavengerHunt : TreasureHunt
     public override void Fail()
     {
         Game1.addHUDMessage(new HuntNotification(this.HuntFailedMessage));
-        Game1.player.Write("ScavengerHuntStreak", "0");
+        Game1.player.Write(DataFields.ScavengerHuntStreak, "0");
         this.End(false);
     }
 
@@ -183,7 +181,7 @@ internal sealed class ScavengerHunt : TreasureHunt
 
         var getTreasure = new DelayedAction(200, this.BeginFindTreasure);
         Game1.delayedActions.Add(getTreasure);
-        Game1.player.Increment("ScavengerHuntStreak");
+        Game1.player.Increment(DataFields.ScavengerHuntStreak);
         this.End(true);
     }
 
@@ -511,7 +509,7 @@ internal sealed class ScavengerHunt : TreasureHunt
     private void AddSpecialTreasureItems(List<Item> treasures)
     {
         var luckModifier = 1.0 + (Game1.player.DailyLuck * 10);
-        var streak = Game1.player.Read<uint>("ScavengerHuntStreak");
+        var streak = Game1.player.Read<uint>(DataFields.ScavengerHuntStreak);
 
         // forest sword
         if (this.Random.NextDouble() < 0.025 * luckModifier &&

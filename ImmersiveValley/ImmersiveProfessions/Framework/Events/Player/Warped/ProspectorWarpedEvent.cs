@@ -27,7 +27,7 @@ internal sealed class ProspectorWarpedEvent : WarpedEvent
             ModEntry.State.ProspectorHunt.Value.Fail();
         }
 
-        if (!Game1.eventUp && e.NewLocation is MineShaft shaft && !shaft.IsTreasureOrSafeRoom())
+        if (e.NewLocation is MineShaft shaft && !shaft.IsTreasureOrSafeRoom())
         {
             ModEntry.State.ProspectorHunt.Value.TryStart(e.NewLocation);
         }

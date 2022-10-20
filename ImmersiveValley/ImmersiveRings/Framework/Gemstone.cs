@@ -2,7 +2,6 @@
 
 #region using directives
 
-using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using Ardalis.SmartEnum;
@@ -315,13 +314,13 @@ public abstract class Gemstone : SmartEnum<Gemstone>, IEquatable<Gemstone>, ICom
         /// <inheritdoc />
         public override void Resonate(float richness, Farmer who)
         {
-            who.Increment("CooldownReduction", 0.1f * richness);
+            who.Increment(DataFields.CooldownReduction, 0.1f * richness);
         }
 
         /// <inheritdoc />
         public override void Dissonate(float richness, Farmer who)
         {
-            who.Increment("CooldownReduction", -0.1f * richness);
+            who.Increment(DataFields.CooldownReduction, -0.1f * richness);
         }
 
         /// <inheritdoc />

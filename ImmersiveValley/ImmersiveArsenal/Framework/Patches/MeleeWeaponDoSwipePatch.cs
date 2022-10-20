@@ -2,11 +2,9 @@
 
 #region using directives
 
-using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
-using DaLion.Common;
 using DaLion.Common.Harmony;
 using HarmonyLib;
 using StardewValley.Tools;
@@ -25,7 +23,7 @@ internal sealed class MeleeWeaponDoSwipePatch : HarmonyPatch
 
     #region harmony patches
 
-    /// <summary>Inject stabby sword swipe.</summary>
+    /// <summary>Allow swiping stabby sword.</summary>
     [HarmonyTranspiler]
     private static IEnumerable<CodeInstruction>? MeleeWeaponDoSwipeTranspiler(
         IEnumerable<CodeInstruction> instructions, ILGenerator generator, MethodBase original)
@@ -34,9 +32,9 @@ internal sealed class MeleeWeaponDoSwipePatch : HarmonyPatch
 
         // From: case 3:
         // To: case 3 or 0:
-        var isSword = generator.DefineLabel();
         try
         {
+            var isSword = generator.DefineLabel();
             helper
                 .FindFirst(
                     new CodeInstruction(OpCodes.Ldarg_1),

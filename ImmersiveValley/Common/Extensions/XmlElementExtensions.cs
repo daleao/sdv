@@ -4,7 +4,6 @@
 
 using System.Diagnostics.CodeAnalysis;
 using System.Xml;
-using CommunityToolkit.Diagnostics;
 
 #endregion using directives
 

@@ -2,12 +2,9 @@
 
 #region using directives
 
-using System;
 using System.Linq;
 using System.Reflection;
-using DaLion.Common;
 using DaLion.Common.Extensions.Reflection;
-using DaLion.Common.Integrations.WalkOfLife;
 using DaLion.Stardew.Slingshots.Extensions;
 using DaLion.Stardew.Slingshots.Framework.Enchantments;
 using DaLion.Stardew.Slingshots.Framework.VirtualProperties;

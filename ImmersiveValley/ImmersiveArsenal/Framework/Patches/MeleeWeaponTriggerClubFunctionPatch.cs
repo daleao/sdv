@@ -2,11 +2,9 @@
 
 #region using directives
 
-using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
-using DaLion.Common;
 using DaLion.Common.Extensions.Reflection;
 using DaLion.Common.Harmony;
 using DaLion.Stardew.Arsenal.Framework.Enchantments;
@@ -37,10 +35,10 @@ internal sealed class MeleeWeaponTriggerClubFunctionPatch : HarmonyPatch
 
         // Injected: if (this.hasEnchantmentOfType<InfinityEnchantment>() areaOfEffect.Inflate(96, 96);
         // After: new Rectangle((int)lastUser.Position.X - 192, lastUser.GetBoundingBox().Y - 192, 384, 384)
-        var notInfinity = generator.DefineLabel();
-        var aoe = generator.DeclareLocal(typeof(Rectangle));
         try
         {
+            var notInfinity = generator.DefineLabel();
+            var aoe = generator.DeclareLocal(typeof(Rectangle));
             helper
                 .FindFirst(
                     new CodeInstruction(OpCodes.Newobj))

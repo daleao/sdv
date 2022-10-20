@@ -2,7 +2,6 @@
 
 #region using directives
 
-using System;
 using System.Xml.Serialization;
 using DaLion.Common.Extensions.Reflection;
 using DaLion.Common.Extensions.Stardew;
@@ -36,8 +35,8 @@ public class CarvingEnchantment : BaseWeaponEnchantment
                 bug.isArmoredBug.Value = false;
                 break;
             case RockCrab crab:
-                crab.Increment("Carved");
-                if (crab.Read<int>("Carved") > 3)
+                crab.Increment(DataFields.Carved);
+                if (crab.Read<int>(DataFields.Carved) > 3)
                 {
                     GetShellGone.Value(crab).Value = true;
                 }

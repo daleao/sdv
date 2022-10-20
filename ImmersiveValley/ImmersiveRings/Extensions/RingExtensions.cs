@@ -58,7 +58,7 @@ public static class RingExtensions
     /// </returns>
     public static bool IsCombinedInfinityBand(this Ring ring, [NotNullWhen(true)] out CombinedRing? infinity)
     {
-        if (ring is CombinedRing { ParentSheetIndex: Constants.IridiumBandIndex } combined &&
+        if (ring is CombinedRing combined && combined.ParentSheetIndex == ModEntry.InfinityBandIndex &&
             combined.combinedRings.Count > 0)
         {
             infinity = combined;

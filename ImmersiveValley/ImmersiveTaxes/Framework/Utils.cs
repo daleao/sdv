@@ -4,9 +4,9 @@ using System.Collections.Generic;
 
 internal static class Utils
 {
-    internal static float[] Brackets = { 0.1f, 0.12f, 0.22f, 0.24f, 0.32f, 0.35f, 0.37f };
+    internal static float[] Brackets { get; } = { 0.1f, 0.12f, 0.22f, 0.24f, 0.32f, 0.35f, 0.37f };
 
-    internal static IReadOnlyDictionary<float, int> Thresholds = new Dictionary<float, int>()
+    internal static IReadOnlyDictionary<float, int> Thresholds { get; } = new Dictionary<float, int>()
     {
         { 0.1f, 9950 },
         { 0.12f, 40525 },

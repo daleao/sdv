@@ -2,11 +2,9 @@
 
 #region using directives
 
-using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
-using DaLion.Common;
 using DaLion.Common.Attributes;
 using DaLion.Common.Extensions.Reflection;
 using DaLion.Common.Extensions.Stardew;
@@ -46,10 +44,10 @@ internal sealed class PropagatorPopExtraHeldMushroomsPatch : HarmonyPatch
 
         // From: ceq 0
         // To: Game1.player.professions.Contains(<forager_id>) ? !cgt 0 : clt 0
-        var isNotPrestiged = generator.DefineLabel();
-        var resumeExecution = generator.DefineLabel();
         try
         {
+            var isNotPrestiged = generator.DefineLabel();
+            var resumeExecution = generator.DefineLabel();
             helper
                 .FindProfessionCheck(Profession.Forager.Value) // find index of forager check
                 .AdvanceUntil(new CodeInstruction(OpCodes.Ldc_I4_0))

@@ -1,11 +1,5 @@
 ﻿namespace DaLion.Common.Integrations.TehsFishingOverhaul;
 
-#region using directives
-
-using System;
-
-#endregion using directives
-
 /// <summary>The API provided by Teh's Fishing Overhaul.</summary>
 public interface ISimplifiedFishingApi
 {

@@ -2,10 +2,8 @@
 
 #region using directives
 
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using DaLion.Common;
 using DaLion.Common.Extensions;
 using DaLion.Common.Extensions.Collections;
 using DaLion.Common.Extensions.Reflection;
@@ -108,7 +106,7 @@ public static class FishPondExtensions
     /// <param name="who">The player.</param>
     public static void RewardExp(this FishPond pond, Farmer who)
     {
-        if (pond.Read<bool>("CheckedToday"))
+        if (pond.Read<bool>(DataFields.CheckedToday))
         {
             return;
         }
@@ -128,7 +126,7 @@ public static class FishPondExtensions
     /// <returns>Always <see langword="true"/> (required by vanilla code).</returns>
     public static bool OpenChumBucketMenu(this FishPond pond, Farmer who)
     {
-        var held = pond.DeserializeObjectListData("ItemsHeld");
+        var held = pond.DeserializeObjectListData(DataFields.ItemsHeld);
         if (held.Count <= 0)
         {
             if (who.addItemToInventoryBool(pond.output.Value))
@@ -176,11 +174,11 @@ public static class FishPondExtensions
             catch (InvalidOperationException ex)
             {
                 Log.W($"ItemsHeld data is invalid. {ex}\nThe data will be reset");
-                pond.Write("ItemsHeld", null);
+                pond.Write(DataFields.ItemsHeld, null);
             }
         }
 
-        pond.Write("CheckedToday", true.ToString());
+        pond.Write(DataFields.CheckedToday, true.ToString());
         return true; // expected by vanilla code
     }
 

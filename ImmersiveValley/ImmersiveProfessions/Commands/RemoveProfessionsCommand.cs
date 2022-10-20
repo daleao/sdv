@@ -2,10 +2,8 @@
 
 #region using directives
 
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using DaLion.Common;
 using DaLion.Common.Commands;
 using DaLion.Common.Extensions;
 using DaLion.Stardew.Professions.Framework;

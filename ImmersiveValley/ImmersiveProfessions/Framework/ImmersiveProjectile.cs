@@ -2,7 +2,6 @@
 
 #region using directives
 
-using System;
 using DaLion.Common.Extensions.Reflection;
 using DaLion.Common.Extensions.Xna;
 using DaLion.Stardew.Professions.Extensions;
@@ -200,7 +199,7 @@ internal sealed class ImmersiveProjectile : BasicProjectile
         }
 
         // increment Desperado ultimate meter
-        if (firer.IsLocalPlayer && firer.Get_Ultimate() is DeathBlossom { IsActive: false } blossom)
+        if (firer.IsLocalPlayer && firer.Get_Ultimate() is DeathBlossom { IsActive: false } blossom && ModEntry.Config.EnableSpecials)
         {
             blossom.ChargeValue += (this.DidBounce || this.DidPierce ? 18 : 12) - (10 * firer.health / firer.maxHealth);
         }

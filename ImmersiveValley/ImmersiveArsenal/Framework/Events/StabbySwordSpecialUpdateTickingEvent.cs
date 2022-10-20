@@ -2,8 +2,6 @@
 
 #region using directives
 
-using System;
-using DaLion.Common;
 using DaLion.Common.Enums;
 using DaLion.Common.Events;
 using DaLion.Common.Exceptions;
@@ -71,12 +69,21 @@ internal sealed class StabbySwordSpecialUpdateTickingEvent : UpdateTickingEvent
             user.forceCanMove();
 #if RELEASE
             MeleeWeapon.attackSwordCooldown = MeleeWeapon.attackSwordCooldownTime;
-            if (ModEntry.ProfessionsApi is null && user.professions.Contains(Farmer.acrobat)) MeleeWeapon.attackSwordCooldown
- /= 2;
-            if (sword.hasEnchantmentOfType<ArtfulEnchantment>()) MeleeWeapon.attackSwordCooldown /= 2;
+            if (ModEntry.ProfessionsApi is null && user.professions.Contains(Farmer.acrobat))
+            {
+                MeleeWeapon.attackSwordCooldown /= 2;
+            }
+
+            if (sword.hasEnchantmentOfType<ArtfulEnchantment>())
+            {
+                MeleeWeapon.attackSwordCooldown /= 2;
+            }
+
             if (sword.hasEnchantmentOfType<GarnetEnchantment>())
-                MeleeWeapon.attackSwordCooldown = (int) (MeleeWeapon.attackSwordCooldown *
-                                                         (1f - sword.GetEnchantmentLevel<TopazEnchantment>() * 0.1f));
+            {
+                MeleeWeapon.attackSwordCooldown = (int)(MeleeWeapon.attackSwordCooldown *
+                                                        (1f - (sword.GetEnchantmentLevel<TopazEnchantment>() * 0.1f)));
+            }
 #endif
             _currentFrame = -1;
             this.Disable();

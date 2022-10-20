@@ -32,8 +32,7 @@ internal sealed class Game1PressActionButtonPatch : HarmonyPatch
 
         var player = Game1.player;
         if (player.CurrentTool is not Slingshot slingshot || slingshot.Get_IsOnSpecial() || player.usingSlingshot ||
-            !player.CanMove || player.canOnlyWalk || Game1.eventUp || player.onBridge.Value ||
-            !Game1.didPlayerJustRightClick(true))
+            !player.CanMove || player.canOnlyWalk || player.onBridge.Value || !Game1.didPlayerJustRightClick(true))
         {
             return;
         }

@@ -2,11 +2,9 @@
 
 #region using directives
 
-using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
-using DaLion.Common;
 using DaLion.Common.Harmony;
 using DaLion.Stardew.Professions.Extensions;
 using HarmonyLib;
@@ -37,9 +35,9 @@ internal sealed class SewerGetFishPatch : HarmonyPatch
 
         // From: if (!who.fishCaught.ContainsKey(<legendary_fish_id>)) ...
         // To: if (!who.fishCaught.ContainsKey(<legendary_fish_id>) || !who.HasPrestigedProfession("Angler") ...
-        var chooseLegendary = generator.DefineLabel();
         try
         {
+            var chooseLegendary = generator.DefineLabel();
             helper
                 .FindFirst(new CodeInstruction(OpCodes.Ldc_I4, MutantCarpIndex))
                 .AdvanceUntil(new CodeInstruction(OpCodes.Brtrue_S))

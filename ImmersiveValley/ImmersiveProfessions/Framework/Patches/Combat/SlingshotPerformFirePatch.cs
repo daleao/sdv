@@ -2,10 +2,8 @@
 
 #region using directives
 
-using System;
 using System.Linq;
 using System.Reflection;
-using DaLion.Common;
 using DaLion.Common.Extensions;
 using DaLion.Common.Extensions.Reflection;
 using DaLion.Common.Extensions.Xna;

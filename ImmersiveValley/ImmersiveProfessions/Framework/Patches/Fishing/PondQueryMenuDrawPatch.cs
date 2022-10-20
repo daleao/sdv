@@ -3,10 +3,8 @@ namespace DaLion.Stardew.Professions.Framework.Patches.Fishing;
 
 #region using directives
 
-using System;
 using System.Linq;
 using System.Reflection;
-using DaLion.Common;
 using DaLion.Common.Extensions;
 using DaLion.Common.Extensions.Reflection;
 using DaLion.Common.Extensions.Stardew;
@@ -238,7 +236,7 @@ internal sealed class PondQueryMenuDrawPatch : HarmonyPatch
                 var leftX = __instance.xPositionOnScreen + 88;
                 float textX = leftX;
                 var iconX = textX + textSize.X + 4f;
-                if (LocalizedContentManager.CurrentLanguageCode.IsAnyOf(
+                if (LocalizedContentManager.CurrentLanguageCode.IsIn(
                         LocalizedContentManager.LanguageCode.ja,
                         LocalizedContentManager.LanguageCode.ko,
                         LocalizedContentManager.LanguageCode.tr))

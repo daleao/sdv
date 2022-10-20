@@ -2,7 +2,6 @@
 
 #region using directives
 
-using System;
 using DaLion.Common.Integrations.GenericModConfigMenu;
 using DaLion.Stardew.Slingshots.Framework.Events;
 

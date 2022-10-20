@@ -2,11 +2,9 @@
 
 #region using directives
 
-using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
-using DaLion.Common;
 using DaLion.Common.Extensions.Reflection;
 using DaLion.Common.Harmony;
 using DaLion.Stardew.Tweex.Extensions;
@@ -64,9 +62,9 @@ internal sealed class ObjectCheckForActionPatch : HarmonyPatch
 
         // Injected: if (ModEntry.Config.AgeImprovesBeeHouses) heldObject.Value.Quality = this.GetQualityFromAge();
         // After: heldObject.Value.preservedParentSheetIndex.Value = honey_type;
-        var resumeExecution = generator.DefineLabel();
         try
         {
+            var resumeExecution = generator.DefineLabel();
             helper
                 .FindFirst(new CodeInstruction(OpCodes.Ldstr, " Honey"))
                 .FindNext(

@@ -2,11 +2,9 @@
 
 #region using directives
 
-using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
-using DaLion.Common;
 using DaLion.Common.Attributes;
 using DaLion.Common.Extensions.Reflection;
 using DaLion.Common.Harmony;
@@ -43,9 +41,9 @@ internal sealed class NewSkillsPageDrawPatch : HarmonyPatch
 
         // Inject: x -= ModEntry.Config.PrestigeProgressionStyle == ProgressionStyle.Stars ? Textures.STARS_WIDTH_I : Textures.RIBBON_WIDTH_I;
         // After: x = ...
-        var notRibbons = generator.DefineLabel();
         try
         {
+            var notRibbons = generator.DefineLabel();
             helper
                 .FindFirst(
                     new CodeInstruction(
@@ -124,9 +122,9 @@ internal sealed class NewSkillsPageDrawPatch : HarmonyPatch
 
         // From: (addedSkill ? Color.LightGreen : Color.Cornsilk)
         // To: (addedSkill ? Color.LightGreen : skillLevel == 20 ? Color.Grey : Color.SandyBrown)
-        var isSkillLevel20 = generator.DefineLabel();
         try
         {
+            var isSkillLevel20 = generator.DefineLabel();
             helper
                 .FindNext(
                     new CodeInstruction(OpCodes.Call, typeof(Color).RequirePropertyGetter(nameof(Color.SandyBrown))))

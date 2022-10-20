@@ -2,11 +2,9 @@
 
 #region using directives
 
-using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
-using DaLion.Common;
 using DaLion.Common.Extensions.Reflection;
 using DaLion.Common.Harmony;
 using HarmonyLib;
@@ -37,10 +35,10 @@ internal sealed class ProjectileUpdatePatch : HarmonyPatch
 
         // Injected: this.DidBounce = true;
         // After: bouncesLeft.Value--;
-        var projectile = generator.DeclareLocal(typeof(ImmersiveProjectile));
-        var notTrickShot = generator.DefineLabel();
         try
         {
+            var projectile = generator.DeclareLocal(typeof(ImmersiveProjectile));
+            var notTrickShot = generator.DefineLabel();
             helper
                 .FindFirst(
                     new CodeInstruction(OpCodes.Ldfld, typeof(Projectile).RequireField("bouncesLeft")),

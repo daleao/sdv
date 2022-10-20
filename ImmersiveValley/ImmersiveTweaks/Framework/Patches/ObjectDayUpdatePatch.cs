@@ -2,7 +2,6 @@
 
 #region using directives
 
-using System;
 using DaLion.Common.Extensions.Stardew;
 using DaLion.Stardew.Tweex.Extensions;
 using HarmonyLib;
@@ -29,11 +28,11 @@ internal sealed class ObjectDayUpdatePatch : HarmonyPatch
     {
         if (__instance.IsBeeHouse() && ModEntry.Config.AgeImprovesBeeHouses)
         {
-            __instance.Increment("Age");
+            __instance.Increment(DataFields.Age);
         }
         else if (__instance.IsMushroomBox() && ModEntry.Config.AgeImprovesMushroomBoxes)
         {
-            __instance.Increment("Age");
+            __instance.Increment(DataFields.Age);
             if (__instance.heldObject.Value is null)
             {
                 return;

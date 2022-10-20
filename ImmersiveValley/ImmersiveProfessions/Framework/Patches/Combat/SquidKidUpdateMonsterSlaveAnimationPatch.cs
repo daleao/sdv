@@ -2,11 +2,9 @@
 
 #region using directives
 
-using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
-using DaLion.Common;
 using DaLion.Common.Extensions.Reflection;
 using DaLion.Common.Harmony;
 using DaLion.Stardew.Professions.Extensions;
@@ -37,9 +35,9 @@ internal sealed class SquidKidUpdateMonsterSlaveAnimationPatch : HarmonyPatch
 
         // From: faceGeneralDirection(base.Player.Position);
         // To: if (!base.Player.IsInAmbush()) faceGeneralDirection(base.Player.Position);
-        var skip = generator.DefineLabel();
         try
         {
+            var skip = generator.DefineLabel();
             helper
                 .FindLast(
                     new CodeInstruction(

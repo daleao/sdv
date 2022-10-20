@@ -2,11 +2,9 @@
 
 #region using directives
 
-using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
-using DaLion.Common;
 using DaLion.Common.Extensions.Reflection;
 using DaLion.Common.Harmony;
 using DaLion.Stardew.Arsenal.Framework.Enchantments;
@@ -54,9 +52,9 @@ internal sealed class ForgeMenuUpdatePatch : HarmonyPatch
         //               UnforgeHolyBlade(weapon);
         //           else ...
         // After: if (weapon != null)
-        var vanillaUnforge = generator.DefineLabel();
         try
         {
+            var vanillaUnforge = generator.DefineLabel();
             helper
                 .FindFirst(
                     new CodeInstruction(OpCodes.Ldloc_S, helper.Locals[9]), // local 9 = MeleeWeapon weapon

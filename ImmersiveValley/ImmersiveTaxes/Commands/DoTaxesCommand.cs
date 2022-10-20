@@ -2,8 +2,6 @@
 
 #region using directives
 
-using System;
-using DaLion.Common;
 using DaLion.Common.Commands;
 using DaLion.Common.Extensions.Stardew;
 using DaLion.Stardew.Taxes.Framework;
@@ -33,13 +31,14 @@ internal sealed class DoTaxesCommand : ConsoleCommand
     {
         var player = Game1.player;
         var forClosingSeason = Game1.dayOfMonth == 1;
-        var income = player.Read<int>("SeasonIncome");
-        var deductible = ModEntry.ProfessionsApi is not null && player.professions.Contains(Farmer.mariner)
+        var seasonIncome = player.Read<int>(DataFields.SeasonIncome);
+        var deductibleExpenses = player.Read<int>(DataFields.BusinessExpenses);
+        var deductiblePct = ModEntry.ProfessionsApi is not null && player.professions.Contains(Farmer.mariner)
             ? forClosingSeason
-                ? player.Read<float>("DeductionPct")
+                ? player.Read<float>(DataFields.PercentDeductions)
                 : ModEntry.ProfessionsApi.GetConservationistProjectedTaxBonus(player)
             : 0f;
-        var taxable = (int)(income * (1f - deductible));
+        var taxable = (int)((seasonIncome - deductibleExpenses) * (1f - deductiblePct));
 
         var dueF = 0f;
         var bracket = 0f;
@@ -60,15 +59,16 @@ internal sealed class DoTaxesCommand : ConsoleCommand
         }
 
         var dueI = (int)Math.Round(dueF);
-        var debt = player.Read<int>("DebtOutstanding");
+        var debt = player.Read<int>(DataFields.DebtOutstanding);
         Log.I(
             "Accounting " + (forClosingSeason ? "report" : "projections") + " for the " +
             (forClosingSeason ? "closing" : "current") + " season:" +
-            $"\n\t- Income (season-to-date): {income}g" +
-            CurrentCulture($"\n\t- Eligible deductions: {deductible:0%}") +
-            $"\n\t- Taxable income: {taxable}g" +
+            $"\n\t- Income (season-to-date): {seasonIncome}g" +
+            $"\n\t- Business expenses: {deductibleExpenses}g" +
+            CurrentCulture($"\n\t- Eligible deductions: {deductiblePct:0%}") +
+            $"\n\t- Taxable amount: {taxable}g" +
             CurrentCulture($"\n\t- Current tax bracket: {bracket:0%}") +
-            $"\n\t- Due income tax: {dueI}g." +
+            $"\n\t- Due amount: {dueI}g." +
             $"\n\t- Outstanding debt: {debt}g." +
             $"\nRequested on {Game1.currentSeason} {Game1.dayOfMonth}, year {Game1.year}.");
     }

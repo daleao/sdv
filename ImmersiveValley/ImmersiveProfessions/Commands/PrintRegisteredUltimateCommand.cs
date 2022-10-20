@@ -2,9 +2,7 @@
 
 #region using directives
 
-using DaLion.Common;
 using DaLion.Common.Commands;
-using DaLion.Common.Extensions;
 using DaLion.Stardew.Professions.Framework.VirtualProperties;
 
 #endregion using directives
@@ -35,9 +33,6 @@ internal sealed class PrintRegisteredUltimateCommand : ConsoleCommand
             return;
         }
 
-        var key = ultimate.Profession.StringId.SplitCamelCase()[0].ToLowerInvariant();
-        var professionDisplayName = ModEntry.i18n.Get(key + ".name.male");
-        var ultiName = ModEntry.i18n.Get(key + ".ulti.name");
-        Log.I($"Registered to {professionDisplayName}'s {ultiName}.");
+        Log.I($"Registered to {ultimate.Profession.DisplayName}'s {ultimate.DisplayName}.");
     }
 }

@@ -46,7 +46,7 @@ internal sealed class ObjectPerformObjectDropInActionPatch : HarmonyPatch
             case "Keg" when input.ParentSheetIndex == 340 && input.preservedParentSheetIndex.Value > 0 &&
                             ModEntry.Config.KegsRememberHoneyFlower:
                 output.name = input.name.Split(" Honey")[0] + " Mead";
-                output.honeyType.Value = (Object.HoneyType)input.preservedParentSheetIndex.Value;
+                output.honeyType.Value = (SObject.HoneyType)input.preservedParentSheetIndex.Value;
                 output.preservedParentSheetIndex.Value =
                     input.preservedParentSheetIndex.Value;
                 output.Price = input.Price * 2;

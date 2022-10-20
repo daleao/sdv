@@ -3,9 +3,7 @@ namespace DaLion.Stardew.Ponds.Framework.Patches;
 
 #region using directives
 
-using System;
 using System.Reflection;
-using DaLion.Common;
 using DaLion.Common.Extensions;
 using DaLion.Common.Extensions.Reflection;
 using DaLion.Common.Extensions.Stardew;
@@ -147,13 +145,13 @@ internal sealed class PondQueryMenuDrawPatch : HarmonyPatch
             SObject? itemToDraw = null;
             if (isAlgaePond)
             {
-                seaweedCount = ____pond.Read<int>("SeaweedLivingHere");
-                greenAlgaeCount = ____pond.Read<int>("GreenAlgaeLivingHere");
-                whiteAlgaeCount = ____pond.Read<int>("WhiteAlgaeLivingHere");
+                seaweedCount = ____pond.Read<int>(DataFields.SeaweedLivingHere);
+                greenAlgaeCount = ____pond.Read<int>(DataFields.GreenAlgaeLivingHere);
+                whiteAlgaeCount = ____pond.Read<int>(DataFields.WhiteAlgaeLivingHere);
             }
             else if (isLegendaryPond)
             {
-                familyCount = ____pond.Read<int>("FamilyLivingHere");
+                familyCount = ____pond.Read<int>(DataFields.FamilyLivingHere);
                 itemToDraw = ____fishItem;
             }
             else
@@ -247,7 +245,7 @@ internal sealed class PondQueryMenuDrawPatch : HarmonyPatch
             if (!isAlgaePond)
             {
                 var (_, numMedQuality, numHighQuality, numBestQuality) =
-                    ____pond.Read("FishQualities", $"{____pond.FishCount - familyCount},0,0,0")
+                    ____pond.Read(DataFields.FishQualities, $"{____pond.FishCount - familyCount},0,0,0")
                         .ParseTuple<int, int, int, int>()!.Value;
                 if (numBestQuality + numHighQuality + numMedQuality > 0)
                 {
@@ -310,7 +308,7 @@ internal sealed class PondQueryMenuDrawPatch : HarmonyPatch
                 if (familyCount > 0)
                 {
                     var (_, numMedFamilyQuality, numHighFamilyQuality, numBestFamilyQuality) =
-                        ____pond.Read("FamilyQualities", $"{familyCount},0,0,0").ParseTuple<int, int, int, int>()!
+                        ____pond.Read(DataFields.FamilyQualities, $"{familyCount},0,0,0").ParseTuple<int, int, int, int>()!
                             .Value;
                     if (numBestFamilyQuality + numHighFamilyQuality + numMedFamilyQuality > 0)
                     {
@@ -403,7 +401,7 @@ internal sealed class PondQueryMenuDrawPatch : HarmonyPatch
                 var leftX = __instance.xPositionOnScreen + 88;
                 float textX = leftX;
                 var iconX = textX + textSize.X + 4f;
-                if (LocalizedContentManager.CurrentLanguageCode.IsAnyOf(
+                if (LocalizedContentManager.CurrentLanguageCode.IsIn(
                         LocalizedContentManager.LanguageCode.ja,
                         LocalizedContentManager.LanguageCode.ko,
                         LocalizedContentManager.LanguageCode.tr))

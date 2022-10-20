@@ -2,7 +2,6 @@
 
 #region using directives
 
-using System;
 using Microsoft.Xna.Framework;
 
 #endregion using directives

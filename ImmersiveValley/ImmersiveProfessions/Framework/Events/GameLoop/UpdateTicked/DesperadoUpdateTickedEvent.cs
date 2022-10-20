@@ -2,7 +2,6 @@
 
 #region using directives
 
-using System;
 using System.Linq;
 using DaLion.Common.Events;
 using DaLion.Common.Extensions;

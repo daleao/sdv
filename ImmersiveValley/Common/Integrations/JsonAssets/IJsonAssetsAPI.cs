@@ -3,7 +3,6 @@ namespace DaLion.Common.Integrations.JsonAssets;
 
 #region using directives
 
-using System;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;

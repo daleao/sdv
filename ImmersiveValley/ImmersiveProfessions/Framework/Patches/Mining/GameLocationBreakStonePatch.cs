@@ -2,11 +2,9 @@
 
 #region using directives
 
-using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
-using DaLion.Common;
 using DaLion.Common.Harmony;
 using DaLion.Stardew.Professions.Extensions;
 using HarmonyLib;
@@ -34,9 +32,9 @@ internal sealed class GameLocationBreakStonePatch : HarmonyPatch
 
         // Injected: if (who.professions.Contains(100 + <miner_id>) addedOres++;
         // After: int addedOres = (who.professions.Contains(<miner_id>) ? 1 : 0);
-        var isNotPrestiged = generator.DefineLabel();
         try
         {
+            var isNotPrestiged = generator.DefineLabel();
             helper
                 .FindProfessionCheck(Profession.Miner.Value)
                 .AdvanceUntil(new CodeInstruction(OpCodes.Stloc_1))

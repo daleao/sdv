@@ -2,7 +2,6 @@
 
 #region using directives
 
-using DaLion.Common.Integrations.WalkOfLife;
 using DaLion.Stardew.Slingshots.Framework.Enchantments;
 using HarmonyLib;
 using StardewValley.Tools;

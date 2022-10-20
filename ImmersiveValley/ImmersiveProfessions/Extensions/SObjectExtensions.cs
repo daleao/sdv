@@ -38,7 +38,7 @@ public static class SObjectExtensions
     /// <returns><see langword="true"/> if the <paramref name="obj"/> is produced directly or indirectly by an animal, otherwise <see langword="false"/>.</returns>
     public static bool IsAnimalProduct(this SObject obj)
     {
-        return obj.Category.IsAnyOf(
+        return obj.Category.IsIn(
                    SObject.EggCategory,
                    SObject.MilkCategory,
                    SObject.meatCategory,
@@ -83,7 +83,7 @@ public static class SObjectExtensions
     /// <returns><see langword="true"/> if the <paramref name="obj"/> is a foraged mineral, otherwise <see langword="false"/>.</returns>
     public static bool IsForagedMineral(this SObject obj)
     {
-        return obj.Name.IsAnyOf("Quartz", "Earth Crystal", "Frozen Tear", "Fire Quartz");
+        return obj.Name.IsIn("Quartz", "Earth Crystal", "Frozen Tear", "Fire Quartz");
     }
 
     /// <summary>Determines whether <paramref name="obj"/> is a resource node.</summary>

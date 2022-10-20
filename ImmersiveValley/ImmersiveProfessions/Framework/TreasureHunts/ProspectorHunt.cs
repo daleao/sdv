@@ -2,7 +2,6 @@
 
 #region using directives
 
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using DaLion.Common.Extensions.Stardew;
@@ -111,7 +110,7 @@ internal sealed class ProspectorHunt : TreasureHunt
     public override void Fail()
     {
         Game1.addHUDMessage(new HuntNotification(this.HuntFailedMessage));
-        Game1.player.Write("ProspectorHuntStreak", "0");
+        Game1.player.Write(DataFields.ProspectorHuntStreak, "0");
         this.End(false);
     }
 
@@ -151,7 +150,7 @@ internal sealed class ProspectorHunt : TreasureHunt
             shaft.createLadderDown((int)this.TreasureTile!.Value.X, (int)this.TreasureTile!.Value.Y);
         }
 
-        Game1.player.Increment("ProspectorHuntStreak");
+        Game1.player.Increment(DataFields.ProspectorHuntStreak);
         this.End(true);
     }
 
@@ -316,7 +315,7 @@ internal sealed class ProspectorHunt : TreasureHunt
 
                     case 2: // special items
                         var luckModifier = Math.Max(0, 1.0 + (Game1.player.DailyLuck * mineLevel / 4));
-                        var streak = Game1.player.Read<uint>("ProspectorHuntStreak");
+                        var streak = Game1.player.Read<uint>(DataFields.ProspectorHuntStreak);
                         if (this.Random.NextDouble() < 0.025 * luckModifier && !Game1.player.specialItems.Contains(31))
                         {
                             treasuresAndQuantities.Add(-1, 1); // femur

@@ -3,7 +3,6 @@
 #region using directives
 
 using System.Linq;
-using DaLion.Common;
 using DaLion.Common.Attributes;
 using DaLion.Common.Events;
 using DaLion.Common.Extensions;
@@ -62,7 +61,7 @@ internal sealed class DebugButtonsChangedEvent : ButtonsChangedEvent
             message = component
                 .GetType()
                 .GetFields()
-                .Where(f => !f.Name.IsAnyOf("myID", "name"))
+                .Where(f => !f.Name.IsIn("myID", "name"))
                 .Aggregate(
                     message,
                     (current, field) => current + $"\n\t- {field.Name}: {field.GetValue(component)}");
@@ -76,7 +75,7 @@ internal sealed class DebugButtonsChangedEvent : ButtonsChangedEvent
                 message = o
                     .GetType()
                     .GetFields()
-                    .Where(f => !f.Name.IsAnyOf("ParentSheetIndex", "Name"))
+                    .Where(f => !f.Name.IsIn("ParentSheetIndex", "Name"))
                     .Aggregate(
                         message,
                         (current, field) => current + $"\n\t- {field.Name}: {field.GetValue(o)}");
@@ -104,7 +103,7 @@ internal sealed class DebugButtonsChangedEvent : ButtonsChangedEvent
                     message = c
                         .GetType()
                         .GetFields()
-                        .Where(f => !f.Name.IsAnyOf("UniqueMultiplayerID", "Name"))
+                        .Where(f => !f.Name.IsIn("UniqueMultiplayerID", "Name"))
                         .Aggregate(
                             message,
                             (m, f) => m + $"\n\t- {f.Name}: {f.GetValue(c)}");

@@ -2,11 +2,9 @@
 
 #region using directives
 
-using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
-using DaLion.Common;
 using DaLion.Common.Harmony;
 using HarmonyLib;
 using StardewValley.Tools;
@@ -34,10 +32,10 @@ internal sealed class BaseEnchantmentGetEnchantmentFromItemPatch : HarmonyPatch
 
         // From: if (base_item == null || (base_item is MeleeWeapon && !(base_item as MeleeWeapon).isScythe()))
         // To: if (base_item == null || (base_item is MeleeWeapon && !(base_item as MeleeWeapon).isScythe()) || base_item is Slingshot)
-        var isNotMeleeWeaponButMaybeSlingshot = generator.DefineLabel();
-        var canForge = generator.DefineLabel();
         try
         {
+            var isNotMeleeWeaponButMaybeSlingshot = generator.DefineLabel();
+            var canForge = generator.DefineLabel();
             helper
                 .AdvanceUntil(new CodeInstruction(OpCodes.Brfalse_S))
                 .AdvanceUntil(new CodeInstruction(OpCodes.Brfalse))

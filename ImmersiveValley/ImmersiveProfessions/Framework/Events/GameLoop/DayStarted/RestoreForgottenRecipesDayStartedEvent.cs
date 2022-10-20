@@ -24,7 +24,7 @@ internal sealed class RestoreForgottenRecipesDayStartedEvent : DayStartedEvent
     /// <inheritdoc />
     protected override void OnDayStartedImpl(object? sender, DayStartedEventArgs e)
     {
-        var forgottenRecipes = Game1.player.Read("ForgottenRecipesDict")
+        var forgottenRecipes = Game1.player.Read(DataFields.ForgottenRecipesDict)
             .ParseDictionary<string, int>();
         if (forgottenRecipes.Count <= 0)
         {
@@ -48,7 +48,7 @@ internal sealed class RestoreForgottenRecipesDayStartedEvent : DayStartedEvent
         }
 
         Game1.player.Write(
-            "ForgottenRecipesDict",
+            DataFields.ForgottenRecipesDict,
             forgottenRecipes.Count > 0 ? forgottenRecipes.Stringify() : null);
         this.Disable();
     }

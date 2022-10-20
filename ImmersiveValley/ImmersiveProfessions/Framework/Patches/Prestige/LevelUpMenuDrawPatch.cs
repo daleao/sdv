@@ -2,11 +2,9 @@
 
 #region using directives
 
-using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
-using DaLion.Common;
 using DaLion.Common.Extensions.Reflection;
 using DaLion.Common.Harmony;
 using DaLion.Stardew.Professions.Extensions;
@@ -107,7 +105,7 @@ internal sealed class LevelUpMenuDrawPatch : HarmonyPatch
 
     #region injected subroutines
 
-    internal static string GetChooseProfessionText(int currentLevel)
+    private static string GetChooseProfessionText(int currentLevel)
     {
         return currentLevel > 10
             ? ModEntry.i18n.Get("prestige.levelup.prestige")

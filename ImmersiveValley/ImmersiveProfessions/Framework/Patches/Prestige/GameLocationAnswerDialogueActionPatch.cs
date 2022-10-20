@@ -2,18 +2,15 @@
 
 #region using directives
 
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using DaLion.Common;
 using DaLion.Common.Extensions;
 using DaLion.Common.Extensions.Collections;
 using DaLion.Stardew.Professions.Extensions;
 using DaLion.Stardew.Professions.Framework.Events.GameLoop;
 using DaLion.Stardew.Professions.Framework.Sounds;
 using DaLion.Stardew.Professions.Framework.Ultimates;
-using DaLion.Stardew.Professions.Framework.Utility;
 using DaLion.Stardew.Professions.Framework.VirtualProperties;
 using HarmonyLib;
 using Microsoft.Xna.Framework;

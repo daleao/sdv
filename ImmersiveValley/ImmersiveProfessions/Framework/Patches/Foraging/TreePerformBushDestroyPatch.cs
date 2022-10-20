@@ -2,11 +2,9 @@
 
 #region using directives
 
-using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
-using DaLion.Common;
 using DaLion.Common.Extensions.Reflection;
 using DaLion.Common.Harmony;
 using DaLion.Stardew.Professions.Extensions;
@@ -37,10 +35,10 @@ internal sealed class TreePerformBushDestroyPatch : HarmonyPatch
 
         // From: Game1.getFarmer(lastPlayerToHit).professions.Contains(<lumberjack_id>) ? 1.25 : 1.0
         // To: Game1.getFarmer(lastPlayerToHit).professions.Contains(100 + <lumberjack_id>) ? 1.4 : Game1.getFarmer(lastPlayerToHit).professions.Contains(12) ? 1.25 : 1.0
-        var isPrestiged = generator.DefineLabel();
-        var resumeExecution = generator.DefineLabel();
         try
         {
+            var isPrestiged = generator.DefineLabel();
+            var resumeExecution = generator.DefineLabel();
             helper
                 .FindProfessionCheck(Profession.Lumberjack.Value, true)
                 .Advance()

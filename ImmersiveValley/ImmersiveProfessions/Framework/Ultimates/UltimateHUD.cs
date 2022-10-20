@@ -2,7 +2,6 @@
 
 #region using directives
 
-using System;
 using DaLion.Common.Events;
 using DaLion.Stardew.Professions.Framework.Events.Display;
 using DaLion.Stardew.Professions.Framework.Events.GameLoop;

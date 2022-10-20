@@ -2,12 +2,10 @@
 
 #region using directives
 
-using System;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Reflection;
 using System.Reflection.Emit;
-using CommunityToolkit.Diagnostics;
 using HarmonyLib;
 
 #endregion using directives

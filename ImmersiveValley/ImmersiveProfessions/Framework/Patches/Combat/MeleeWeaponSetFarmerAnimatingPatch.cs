@@ -2,11 +2,9 @@
 
 #region using directives
 
-using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
-using DaLion.Common;
 using DaLion.Common.Extensions.Reflection;
 using DaLion.Common.Harmony;
 using DaLion.Stardew.Professions.Extensions;
@@ -37,9 +35,9 @@ internal sealed class MeleeWeaponSetFarmerAnimatingPatch : HarmonyPatch
 
         // Injected: if (who.professions.Contains(100 + <brute_id>) swipeSpeed *= 1f - ModEntry.PlayerState.BruteRageCounter * 0.005f;
         // After: if (who.IsLocalPlayer)
-        var skipRageBonus = generator.DefineLabel();
         try
         {
+            var skipRageBonus = generator.DefineLabel();
             helper
                 .FindFirst(
                     new CodeInstruction(

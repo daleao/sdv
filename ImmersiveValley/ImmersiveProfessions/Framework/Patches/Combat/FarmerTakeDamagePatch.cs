@@ -2,11 +2,9 @@
 
 #region using directives
 
-using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
-using DaLion.Common;
 using DaLion.Common.Extensions.Reflection;
 using DaLion.Common.Harmony;
 using DaLion.Stardew.Professions.Extensions;
@@ -39,10 +37,10 @@ internal sealed class FarmerTakeDamagePatch : HarmonyPatch
         var helper = new IlHelper(original, instructions);
 
         // Injected: else if (this.IsLocalPlayer && this.get_Ultimate() is Ambush {IsActive: true}) monsterDamageCapable = false;
-        var alreadyUndamageableOrNotAmbuscade = generator.DefineLabel();
-        var ambush = generator.DeclareLocal(typeof(Ambush));
         try
         {
+            var alreadyUndamageableOrNotAmbuscade = generator.DefineLabel();
+            var ambush = generator.DeclareLocal(typeof(Ambush));
             helper
                 .FindFirst(new CodeInstruction(OpCodes.Stloc_0))
                 .Advance()
@@ -85,10 +83,10 @@ internal sealed class FarmerTakeDamagePatch : HarmonyPatch
         // Injected: if (this.IsLocalPlayer && this.get_Ultimate() is Frenzy {IsActive: true}) health = 1;
         // After: if (health <= 0)
         // Before: GetEffectsOfRingMultiplier(863)
-        var isNotUndyingButMayHaveDailyRevive = generator.DefineLabel();
         var frenzy = generator.DeclareLocal(typeof(Frenzy));
         try
         {
+            var isNotUndyingButMayHaveDailyRevive = generator.DefineLabel();
             helper
                 .FindNext(
                     // find index of health <= 0 (start of revive ring effect)
@@ -146,11 +144,11 @@ internal sealed class FarmerTakeDamagePatch : HarmonyPatch
         //     if (!frenzy.IsActive)
         //         frenzy.ChargeValue += damage / 4.0;
         // At: end of method (before return)
-        var resumeExecution2 = generator.DefineLabel();
-        var doesNotHaveFrenzyOrIsNotActive = generator.DefineLabel();
-        var add = generator.DefineLabel();
         try
         {
+            var resumeExecution2 = generator.DefineLabel();
+            var doesNotHaveFrenzyOrIsNotActive = generator.DefineLabel();
+            var add = generator.DefineLabel();
             helper
                 .FindLast(new CodeInstruction(OpCodes.Ret)) // find index of final return
                 .AddLabels(resumeExecution2) // branch here to skip increments

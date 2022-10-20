@@ -2,7 +2,6 @@
 
 #region using directives
 
-using System;
 using System.Globalization;
 using System.Linq;
 using DaLion.Common.Events;
@@ -34,10 +33,11 @@ internal sealed class ConservationismDayEndingEvent : DayEndingEvent
         foreach (var farmer in Game1.getAllFarmers().Where(f => f.HasProfession(Profession.Conservationist)))
         {
             var trashCollectedThisSeason =
-                farmer.Read<uint>("ConservationistTrashCollectedThisSeason");
-            farmer.Write("ConservationistTrashCollectedThisSeason", "0");
+                farmer.Read<uint>(DataFields.ConservationistTrashCollectedThisSeason);
+            farmer.Write(DataFields.ConservationistTrashCollectedThisSeason, "0");
             if (trashCollectedThisSeason <= 0)
             {
+                farmer.Write(DataFields.ConservationistActiveTaxBonusPct, "0");
                 return;
             }
 
@@ -47,7 +47,7 @@ internal sealed class ConservationismDayEndingEvent : DayEndingEvent
                     trashCollectedThisSeason / ModEntry.Config.TrashNeededPerTaxBonusPct / 100f,
                     ModEntry.Config.ConservationistTaxBonusCeiling);
             farmer.Write(
-                "ConservationistActiveTaxBonusPct",
+                DataFields.ConservationistActiveTaxBonusPct,
                 taxBonusForNextSeason.ToString(CultureInfo.InvariantCulture));
             if (taxBonusForNextSeason <= 0 || ModEntry.TaxesConfig is not null)
             {

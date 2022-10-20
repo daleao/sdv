@@ -26,7 +26,7 @@ internal sealed class ObjectPerformDropDownActionPatch : HarmonyPatch
     {
         if (__instance.IsBeeHouse() || __instance.IsMushroomBox())
         {
-            __instance.Write("Age", null);
+            __instance.Write(DataFields.Age, null);
         }
     }
 

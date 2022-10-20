@@ -2,13 +2,11 @@
 
 #region using directives
 
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
 using System.Text;
-using DaLion.Common;
 using DaLion.Common.Extensions.Reflection;
 using DaLion.Common.Extensions.Stardew;
 using DaLion.Common.Harmony;
@@ -70,10 +68,10 @@ internal sealed class GameLocationDamageMonsterPatch : HarmonyPatch
 
         // From: if (who is not null && who.professions.Contains(<fighter_id>) ... *= 1.1f;
         // To: if (who is not null && who.professions.Contains(<fighter_id>) ... *= who.professions.Contains(100 + <fighter_id>) ? 1.2f : 1.1f;
-        var isNotPrestiged = generator.DefineLabel();
-        var resumeExecution = generator.DefineLabel();
         try
         {
+            var isNotPrestiged = generator.DefineLabel();
+            var resumeExecution = generator.DefineLabel();
             helper
                 .FindProfessionCheck(
                     Profession.Fighter.Value,
@@ -138,9 +136,9 @@ internal sealed class GameLocationDamageMonsterPatch : HarmonyPatch
 
         // From: if (who is not null && crit && who.professions.Contains(<desperado_id>) ... *= 2f;
         // To: if (who is not null && who.IsLocalPlayer && crit && who.get_Ultimate() is Ambush ambush && ambush.ShouldBuffCritPow()) ... *= 2f;
-        var ambush = generator.DeclareLocal(typeof(Ambush));
         try
         {
+            var ambush = generator.DeclareLocal(typeof(Ambush));
             helper
                 .FindProfessionCheck(Farmer.desperado, true) // find index of desperado check
                 .RetreatUntil(new CodeInstruction(OpCodes.Brfalse_S))
@@ -186,10 +184,10 @@ internal sealed class GameLocationDamageMonsterPatch : HarmonyPatch
 
         // Injected: DamageMonsterSubroutine(damageAmount, isBomb, crit, critMultiplier, monster, who);
         // Before: if (monster.Health <= 0)
-        var didCrit = helper.Locals[7];
-        var damageAmount = helper.Locals[8];
         try
         {
+            var didCrit = helper.Locals[7];
+            var damageAmount = helper.Locals[8];
             helper
                 .FindFirst(
                     // monster.Health <= 0
@@ -263,7 +261,7 @@ internal sealed class GameLocationDamageMonsterPatch : HarmonyPatch
         // record last time in combat
         ModEntry.State.SecondsOutOfCombat = 0;
 
-        if (who.CurrentTool is not MeleeWeapon weapon || ultimate != Ultimate.BruteFrenzy || monster.Health > 0)
+        if (who.CurrentTool is not MeleeWeapon weapon || ultimate != Ultimate.BruteFrenzy || monster.Health > 0 || !ModEntry.Config.EnableSpecials)
         {
             return;
         }
@@ -294,7 +292,7 @@ internal sealed class GameLocationDamageMonsterPatch : HarmonyPatch
             }
         }
 
-        if (ultimate is not Ambush ambush)
+        if (ultimate is not Ambush ambush || !ModEntry.Config.EnableSpecials)
         {
             return;
         }
@@ -366,7 +364,7 @@ internal sealed class GameLocationDamageMonsterPatch : HarmonyPatch
                     applied[11],
                     3,
                     "Piper",
-                    ModEntry.i18n.Get("piper.name" + (who.IsMale ? ".male" : ".female")))
+                    ModEntry.i18n.Get("piper.title" + (who.IsMale ? ".male" : ".female")))
                 {
                     which = buffId,
                     sheetIndex = 38,
@@ -405,7 +403,7 @@ internal sealed class GameLocationDamageMonsterPatch : HarmonyPatch
         }
 
         // increment ultimate meter
-        if (ultimate is Concerto { IsActive: false } concerto)
+        if (ultimate is Concerto { IsActive: false } concerto && ModEntry.Config.EnableSpecials)
         {
             var increment = monster switch
             {
@@ -420,7 +418,7 @@ internal sealed class GameLocationDamageMonsterPatch : HarmonyPatch
 
     private static void TrySteal(Monster monster, Farmer who, Random r)
     {
-        if (monster.Read<bool>("Stolen") || !(Game1.random.NextDouble() < 0.2))
+        if (monster.Read<bool>(DataFields.Stolen) || !(Game1.random.NextDouble() < 0.2))
         {
             return;
         }
@@ -433,7 +431,7 @@ internal sealed class GameLocationDamageMonsterPatch : HarmonyPatch
             return;
         }
 
-        monster.Write("Stolen", bool.TrueString);
+        monster.Write(DataFields.Stolen, bool.TrueString);
 
         // play sound effect
         Sfx.PoacherSteal.Play();

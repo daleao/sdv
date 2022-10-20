@@ -2,11 +2,9 @@
 
 #region using directives
 
-using System;
 using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
-using CommunityToolkit.Diagnostics;
 using DaLion.Common.Attributes;
 using DaLion.Common.Extensions.Reflection;
 using HarmonyLib;

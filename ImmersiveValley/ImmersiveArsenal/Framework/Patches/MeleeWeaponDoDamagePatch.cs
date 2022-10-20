@@ -2,11 +2,9 @@
 
 #region using directives
 
-using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
-using DaLion.Common;
 using DaLion.Common.Extensions.Reflection;
 using DaLion.Common.Harmony;
 using HarmonyLib;
@@ -31,7 +29,6 @@ internal sealed class MeleeWeaponDoDamagePatch : HarmonyPatch
     [HarmonyTranspiler]
     private static IEnumerable<CodeInstruction>? MeleeWeaponDoDamageTranspiler(
         IEnumerable<CodeInstruction> instructions,
-        ILGenerator generator,
         MethodBase original)
     {
         var helper = new IlHelper(original, instructions);
@@ -61,7 +58,7 @@ internal sealed class MeleeWeaponDoDamagePatch : HarmonyPatch
         }
         catch (Exception ex)
         {
-            Log.E($"Failed prevent special stabby sword override.\nHelper returned {ex}");
+            Log.E($"Failed to prevent special stabby sword override.\nHelper returned {ex}");
             return null;
         }
 

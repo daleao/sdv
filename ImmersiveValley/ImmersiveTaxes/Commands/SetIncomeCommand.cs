@@ -2,8 +2,6 @@
 
 #region using directives
 
-using System;
-using DaLion.Common;
 using DaLion.Common.Commands;
 using DaLion.Common.Extensions.Stardew;
 
@@ -41,7 +39,7 @@ internal sealed class SetIncomeCommand : ConsoleCommand
         }
 
         Game1.player.Write(
-            "SeasonIncome",
+            DataFields.SeasonIncome,
             string.Equals(args[0], "clear", StringComparison.InvariantCultureIgnoreCase) ? string.Empty : args[0]);
         Log.I($"{Game1.player.Name}'s season income has been set to {args[0]}.");
     }

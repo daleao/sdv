@@ -2,7 +2,6 @@
 
 #region using directives
 
-using System;
 using DaLion.Common.Extensions.Stardew;
 using DaLion.Stardew.Professions.Framework.VirtualProperties;
 using StardewValley.Monsters;
@@ -17,7 +16,7 @@ public static class GreenSlimeExtensions
     /// <returns><see langword="true"/> if the <paramref name="slime"/> if mid jump animation, otherwise <see langword="false"/>.</returns>
     public static bool IsJumping(this GreenSlime slime)
     {
-        return !string.IsNullOrEmpty(slime.Read("Jumping"));
+        return !string.IsNullOrEmpty(slime.Read(DataFields.Jumping));
     }
 
     /// <summary>Grows this <paramref name="slime"/> one stage.</summary>

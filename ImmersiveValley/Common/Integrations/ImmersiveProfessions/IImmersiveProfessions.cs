@@ -363,9 +363,6 @@ public interface IImmersiveProfessions
         /// <summary>Gets or sets a value indicating whether toggles the Get Excited buff when a Demolitionist is hit by an explosion.</summary>
         bool EnableGetExcited { get; set; }
 
-        /// <summary>Gets or sets a value indicating whether determines whether Seaweed and Algae are considered junk for fishing purposes.</summary>
-        bool SeaweedIsTrash { get; set; }
-
         /// <summary>Gets or sets you must catch this many fish of a given species to achieve instant catch.</summary>
         /// <remarks>Unused.</remarks>
         uint FishNeededForInstantCatch { get; set; }

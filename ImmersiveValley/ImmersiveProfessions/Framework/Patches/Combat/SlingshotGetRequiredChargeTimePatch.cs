@@ -17,14 +17,14 @@ internal sealed class SlingshotGetRequiredChargeTimePatch : HarmonyPatch
     internal SlingshotGetRequiredChargeTimePatch()
     {
         this.Target = this.RequireMethod<Slingshot>(nameof(Slingshot.GetRequiredChargeTime));
-        this.Postfix!.after = new[] { "DaLion.ImmersiveRings", "DaLion.ImmersiveSlingshots" };
+        this.Postfix!.after = new[] { "DaLion.ImmersiveSlingshots" };
     }
 
     #region harmony patches
 
     /// <summary>Patch to reduce Slingshot charge time for Desperado.</summary>
     [HarmonyPostfix]
-    [HarmonyBefore("DaLion.ImmersiveRings", "DaLion.ImmersiveSlingshots")]
+    [HarmonyBefore("DaLion.ImmersiveSlingshots")]
     private static void SlingshotGetRequiredChargeTimePostfix(Slingshot __instance, ref float __result)
     {
         var firer = __instance.getLastFarmerToUse();

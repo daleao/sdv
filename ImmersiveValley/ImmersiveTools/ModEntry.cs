@@ -3,12 +3,10 @@
 #region using directives
 
 using System.Linq;
-using DaLion.Common;
 using DaLion.Common.Commands;
 using DaLion.Common.Events;
 using DaLion.Common.Harmony;
 using DaLion.Stardew.Tools.Configs;
-using DaLion.Stardew.Tools.Framework;
 using DaLion.Stardew.Tools.Framework.Events;
 using HarmonyLib;
 using StardewModdingAPI.Utilities;

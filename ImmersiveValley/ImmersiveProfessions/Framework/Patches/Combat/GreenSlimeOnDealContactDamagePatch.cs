@@ -2,11 +2,9 @@
 
 #region using directives
 
-using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
-using DaLion.Common;
 using DaLion.Common.Harmony;
 using DaLion.Stardew.Professions.Extensions;
 using HarmonyLib;
@@ -34,9 +32,9 @@ internal sealed class GreenSlimeOnDealContactDamagePatch : HarmonyPatch
         var helper = new IlHelper(original, instructions);
 
         // Injected: if (who.professions.Contains(<piper_id>) && !who.professions.Contains(100 + <piper_id>)) return;
-        var resumeExecution = generator.DefineLabel();
         try
         {
+            var resumeExecution = generator.DefineLabel();
             helper
                 .FindFirst(new CodeInstruction(OpCodes.Bge_Un_S)) // find index of first branch instruction
                 .GetOperand(out var returnLabel) // get return label

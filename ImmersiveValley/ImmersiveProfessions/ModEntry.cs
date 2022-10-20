@@ -2,9 +2,7 @@
 
 #region using directives
 
-using System;
 using System.Diagnostics.CodeAnalysis;
-using DaLion.Common;
 using DaLion.Common.Commands;
 using DaLion.Common.Harmony;
 using DaLion.Common.Integrations.LoveOfCooking;

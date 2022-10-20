@@ -2,7 +2,6 @@
 
 #region using directives
 
-using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
@@ -154,119 +153,119 @@ public sealed class Profession : SmartEnum<Profession>, IProfession
         {
             result = Rancher;
         }
-        else if (string.Equals(name, Harvester.DisplayName))
+        else if (string.Equals(name, Harvester.DisplayName.TrimAll(), stringComparison))
         {
             result = Harvester;
         }
-        else if (string.Equals(name, Breeder.DisplayName))
+        else if (string.Equals(name, Breeder.DisplayName.TrimAll(), stringComparison))
         {
             result = Breeder;
         }
-        else if (string.Equals(name, Producer.DisplayName))
+        else if (string.Equals(name, Producer.DisplayName.TrimAll(), stringComparison))
         {
             result = Producer;
         }
-        else if (string.Equals(name, Artisan.DisplayName))
+        else if (string.Equals(name, Artisan.DisplayName.TrimAll(), stringComparison))
         {
             result = Artisan;
         }
-        else if (string.Equals(name, Agriculturist.DisplayName))
+        else if (string.Equals(name, Agriculturist.DisplayName.TrimAll(), stringComparison))
         {
             result = Agriculturist;
         }
-        else if (string.Equals(name, Fisher.DisplayName))
+        else if (string.Equals(name, Fisher.DisplayName.TrimAll(), stringComparison))
         {
             result = Fisher;
         }
-        else if (string.Equals(name, Trapper.DisplayName))
+        else if (string.Equals(name, Trapper.DisplayName.TrimAll(), stringComparison))
         {
             result = Trapper;
         }
-        else if (string.Equals(name, Angler.DisplayName))
+        else if (string.Equals(name, Angler.DisplayName.TrimAll(), stringComparison))
         {
             result = Angler;
         }
-        else if (string.Equals(name, Aquarist.DisplayName))
+        else if (string.Equals(name, Aquarist.DisplayName.TrimAll(), stringComparison))
         {
             result = Aquarist;
         }
-        else if (string.Equals(name, Luremaster.DisplayName))
+        else if (string.Equals(name, Luremaster.DisplayName.TrimAll(), stringComparison))
         {
             result = Luremaster;
         }
-        else if (string.Equals(name, Conservationist.DisplayName))
+        else if (string.Equals(name, Conservationist.DisplayName.TrimAll(), stringComparison))
         {
             result = Conservationist;
         }
-        else if (string.Equals(name, Lumberjack.DisplayName))
+        else if (string.Equals(name, Lumberjack.DisplayName.TrimAll(), stringComparison))
         {
             result = Lumberjack;
         }
-        else if (string.Equals(name, Forager.DisplayName))
+        else if (string.Equals(name, Forager.DisplayName.TrimAll(), stringComparison))
         {
             result = Forager;
         }
-        else if (string.Equals(name, Arborist.DisplayName))
+        else if (string.Equals(name, Arborist.DisplayName.TrimAll(), stringComparison))
         {
             result = Arborist;
         }
-        else if (string.Equals(name, Tapper.DisplayName))
+        else if (string.Equals(name, Tapper.DisplayName.TrimAll(), stringComparison))
         {
             result = Tapper;
         }
-        else if (string.Equals(name, Ecologist.DisplayName))
+        else if (string.Equals(name, Ecologist.DisplayName.TrimAll(), stringComparison))
         {
             result = Ecologist;
         }
-        else if (string.Equals(name, Scavenger.DisplayName))
+        else if (string.Equals(name, Scavenger.DisplayName.TrimAll(), stringComparison))
         {
             result = Scavenger;
         }
-        else if (string.Equals(name, Miner.DisplayName))
+        else if (string.Equals(name, Miner.DisplayName.TrimAll(), stringComparison))
         {
             result = Miner;
         }
-        else if (string.Equals(name, Blaster.DisplayName))
+        else if (string.Equals(name, Blaster.DisplayName.TrimAll(), stringComparison))
         {
             result = Blaster;
         }
-        else if (string.Equals(name, Spelunker.DisplayName))
+        else if (string.Equals(name, Spelunker.DisplayName.TrimAll(), stringComparison))
         {
             result = Spelunker;
         }
-        else if (string.Equals(name, Prospector.DisplayName))
+        else if (string.Equals(name, Prospector.DisplayName.TrimAll(), stringComparison))
         {
             result = Prospector;
         }
-        else if (string.Equals(name, Demolitionist.DisplayName))
+        else if (string.Equals(name, Demolitionist.DisplayName.TrimAll(), stringComparison))
         {
             result = Demolitionist;
         }
-        else if (string.Equals(name, Gemologist.DisplayName))
+        else if (string.Equals(name, Gemologist.DisplayName.TrimAll(), stringComparison))
         {
             result = Gemologist;
         }
-        else if (string.Equals(name, Fighter.DisplayName))
+        else if (string.Equals(name, Fighter.DisplayName.TrimAll(), stringComparison))
         {
             result = Fighter;
         }
-        else if (string.Equals(name, Rascal.DisplayName))
+        else if (string.Equals(name, Rascal.DisplayName.TrimAll(), stringComparison))
         {
             result = Rascal;
         }
-        else if (string.Equals(name, Brute.DisplayName))
+        else if (string.Equals(name, Brute.DisplayName.TrimAll(), stringComparison))
         {
             result = Brute;
         }
-        else if (string.Equals(name, Poacher.DisplayName))
+        else if (string.Equals(name, Poacher.DisplayName.TrimAll(), stringComparison))
         {
             result = Poacher;
         }
-        else if (string.Equals(name, Piper.DisplayName))
+        else if (string.Equals(name, Piper.DisplayName.TrimAll(), stringComparison))
         {
             result = Piper;
         }
-        else if (string.Equals(name, Desperado.DisplayName))
+        else if (string.Equals(name, Desperado.DisplayName.TrimAll(), stringComparison))
         {
             result = Desperado;
         }

@@ -2,11 +2,9 @@
 
 #region using directives
 
-using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
-using DaLion.Common;
 using DaLion.Common.Extensions.Reflection;
 using DaLion.Common.Harmony;
 using HarmonyLib;
@@ -34,9 +32,10 @@ internal sealed class MillDayUpdatePatch : HarmonyPatch
         IEnumerable<CodeInstruction> instructions, ILGenerator generator, MethodBase original)
     {
         var helper = new IlHelper(original, instructions);
-        var input = generator.DeclareLocal(typeof(SObject));
+
         try
         {
+            var input = generator.DeclareLocal(typeof(SObject));
             var @break = generator.DefineLabel();
             helper
                 .ForEach(

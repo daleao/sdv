@@ -2,11 +2,8 @@
 
 #region using directives
 
-using System;
 using System.IO;
 using System.Linq;
-using CommunityToolkit.Diagnostics;
-using DaLion.Common;
 using DaLion.Common.Attributes;
 using DaLion.Common.Extensions;
 using DaLion.Common.Extensions.Reflection;
@@ -20,7 +17,7 @@ using HarmonyPatch = DaLion.Common.Harmony.HarmonyPatch;
 #endregion using directives
 
 [UsedImplicitly]
-[RequiresMod("TehPers.FishingOverhau")]
+[RequiresMod("TehPers.FishingOverhaul")]
 [System.Diagnostics.CodeAnalysis.SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1649:File name should match first type name", Justification = "Integration patch.")]
 internal sealed class FishingRodPatcherCatchItemPatch : HarmonyPatch
 {
@@ -83,8 +80,8 @@ internal sealed class FishingRodPatcherCatchItemPatch : HarmonyPatch
             }
 
             var fishQualities = pond.Read(
-                    "FishQualities",
-                    $"{pond.FishCount - pond.Read<int>("FamilyLivingHere") + 1},0,0,0")
+                    DataFields.FishQualities,
+                    $"{pond.FishCount - pond.Read<int>(DataFields.FamilyLivingHere) + 1},0,0,0")
                 .ParseList<int>(); // already reduced at this point, so consider + 1
             if (fishQualities.Count != 4 || fishQualities.Any(q => q < 0 || q > pond.FishCount + 1))
             {
@@ -102,7 +99,7 @@ internal sealed class FishingRodPatcherCatchItemPatch : HarmonyPatch
                 .CompileUnboundDelegate<Action<object, object>>();
             if (pond.HasLegendaryFish())
             {
-                var familyCount = pond.Read<int>("FamilyLivingHere");
+                var familyCount = pond.Read<int>(DataFields.FamilyLivingHere);
                 if (fishQualities.Sum() + familyCount != pond.FishCount + 1)
                 {
                     ThrowHelper.ThrowInvalidDataException("FamilyLivingHere data is invalid.");
@@ -110,7 +107,7 @@ internal sealed class FishingRodPatcherCatchItemPatch : HarmonyPatch
 
                 if (familyCount > 0)
                 {
-                    var familyQualities = pond.Read("FamilyQualities", $"{familyCount},0,0,0").ParseList<int>();
+                    var familyQualities = pond.Read(DataFields.FamilyQualities, $"{familyCount},0,0,0").ParseList<int>();
                     if (familyQualities.Count != 4 || familyQualities.Sum() != familyCount)
                     {
                         ThrowHelper.ThrowInvalidDataException("FamilyQualities data had incorrect number of values.");
@@ -125,8 +122,8 @@ internal sealed class FishingRodPatcherCatchItemPatch : HarmonyPatch
                             new SObject(whichFish, 1, quality: lowestFamily == 3 ? 4 : lowestFamily));
                         _setFishQuality(info, lowestFamily == 3 ? 4 : lowestFamily);
                         --familyQualities[lowestFamily];
-                        pond.Write("FamilyQualities", string.Join(",", familyQualities));
-                        pond.Increment("FamilyLivingHere", -1);
+                        pond.Write(DataFields.FamilyQualities, string.Join(",", familyQualities));
+                        pond.Increment(DataFields.FamilyLivingHere, -1);
                     }
                     else
                     {
@@ -135,7 +132,7 @@ internal sealed class FishingRodPatcherCatchItemPatch : HarmonyPatch
                             new SObject(pond.fishType.Value, 1, quality: lowestFamily == 3 ? 4 : lowestFamily));
                         _setFishQuality(info, lowestFish == 3 ? 4 : lowestFish);
                         --fishQualities[lowestFish];
-                        pond.Write("FishQualities", string.Join(",", fishQualities));
+                        pond.Write(DataFields.FishQualities, string.Join(",", fishQualities));
                     }
                 }
                 else
@@ -145,7 +142,7 @@ internal sealed class FishingRodPatcherCatchItemPatch : HarmonyPatch
                         new SObject(pond.fishType.Value, 1, quality: lowestFish == 3 ? 4 : lowestFish));
                     _setFishQuality(info, lowestFish == 3 ? 4 : lowestFish);
                     --fishQualities[lowestFish];
-                    pond.Write("FishQualities", string.Join(",", fishQualities));
+                    pond.Write(DataFields.FishQualities, string.Join(",", fishQualities));
                 }
             }
             else
@@ -158,15 +155,15 @@ internal sealed class FishingRodPatcherCatchItemPatch : HarmonyPatch
                 _setFishItem(info, new SObject(pond.fishType.Value, 1, quality: lowestFish == 3 ? 4 : lowestFish));
                 _setFishQuality(info, lowestFish == 3 ? 4 : lowestFish);
                 --fishQualities[lowestFish];
-                pond.Write("FishQualities", string.Join(",", fishQualities));
+                pond.Write(DataFields.FishQualities, string.Join(",", fishQualities));
             }
         }
         catch (InvalidDataException ex) when (pond is not null)
         {
             Log.W($"{ex}\nThe data will be reset.");
-            pond.Write("FishQualities", $"{pond.FishCount},0,0,0");
-            pond.Write("FamilyQualities", null);
-            pond.Write("FamilyLivingHere", null);
+            pond.Write(DataFields.FishQualities, $"{pond.FishCount},0,0,0");
+            pond.Write(DataFields.FamilyQualities, null);
+            pond.Write(DataFields.FamilyLivingHere, null);
         }
     }
 

@@ -2,10 +2,8 @@
 
 #region using directives
 
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using DaLion.Common;
 using DaLion.Common.Commands;
 using DaLion.Common.Extensions;
 using DaLion.Stardew.Professions.Extensions;
@@ -44,7 +42,7 @@ internal sealed class PrintFishingAuditCommand : ConsoleCommand
 
         var fishData = Game1.content
             .Load<Dictionary<int, string>>(PathUtilities.NormalizeAssetName("Data/Fish"))
-            .Where(p => !p.Key.IsAnyOf(152, 153, 157) && !p.Value.Contains("trap"))
+            .Where(p => !p.Key.IsIn(152, 153, 157) && !p.Value.Contains("trap"))
             .ToDictionary(p => p.Key, p => p.Value);
         int numLegendaryCaught = 0, numMaxSizedCaught = 0;
         var caughtFishNames = new List<string>();
@@ -80,7 +78,7 @@ internal sealed class PrintFishingAuditCommand : ConsoleCommand
         }
 
         var priceMultiplier = Game1.player.HasProfession(Profession.Angler)
-            ? CurrentCulture($"{(numMaxSizedCaught * 0.01f) + (numLegendaryCaught * 0.05f):p0}")
+            ? CurrentCulture($"{Math.Min((numMaxSizedCaught * 0.01f) + (numLegendaryCaught * 0.05f), ModEntry.Config.AnglerMultiplierCap):p0}")
             : "Zero. You're not an Angler.";
         result +=
             $"Species caught: {Game1.player.fishCaught.Count()}/{fishData.Count}\nMax-sized: {numMaxSizedCaught}/{Game1.player.fishCaught.Count()}\nLegendaries: {numLegendaryCaught}/10\nTotal Angler price bonus: {priceMultiplier}\n\nThe following caught fish are not max-sized:";

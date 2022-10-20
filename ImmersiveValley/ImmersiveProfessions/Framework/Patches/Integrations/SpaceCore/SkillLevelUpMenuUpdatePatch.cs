@@ -2,12 +2,10 @@
 
 #region using directives
 
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
-using DaLion.Common;
 using DaLion.Common.Attributes;
 using DaLion.Common.Extensions;
 using DaLion.Common.Extensions.Reflection;
@@ -103,11 +101,11 @@ internal sealed class SkillLevelUpMenuUpdatePatch : HarmonyPatch
 
         // From: Game1.player.professions.Add(professionsToChoose[i]);
         // To: if (!Game1.player.professions.AddOrReplace(professionsToChoose[i]))
-        var dontGetImmediatePerks = generator.DefineLabel();
         var i = 0;
         repeat:
         try
         {
+            var dontGetImmediatePerks = generator.DefineLabel();
             helper
                 .FindNext(
                     // find index of adding a profession to the player's list of professions
@@ -148,9 +146,9 @@ internal sealed class SkillLevelUpMenuUpdatePatch : HarmonyPatch
 
         // Injected: if (!ShouldSuppressClick(chosenProfession[i], currentLevel))
         // Before: leftProfessionColor = Color.Green;
-        var skip = generator.DefineLabel();
         try
         {
+            var skip = generator.DefineLabel();
             helper
                 .FindFirst(
                     new CodeInstruction(OpCodes.Ldarg_0),

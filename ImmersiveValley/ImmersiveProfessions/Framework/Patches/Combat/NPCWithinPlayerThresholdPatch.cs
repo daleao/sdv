@@ -2,9 +2,7 @@
 
 #region using directives
 
-using System;
 using System.Reflection;
-using DaLion.Common;
 using DaLion.Common.Extensions.Stardew;
 using DaLion.Stardew.Professions.Framework.Ultimates;
 using DaLion.Stardew.Professions.Framework.VirtualProperties;
@@ -36,7 +34,7 @@ internal sealed class NPCWithinPlayerThresholdPatch : HarmonyPatch
                 return true; // run original method
             }
 
-            var player = Game1.getFarmer(__instance.Read("Target", Game1.player.UniqueMultiplayerID));
+            var player = Game1.getFarmer(__instance.Read(DataFields.Target, Game1.player.UniqueMultiplayerID));
             if (!player.IsLocalPlayer || player.Get_Ultimate() is not Ambush { IsActive: true })
             {
                 return true; // run original method

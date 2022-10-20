@@ -2,10 +2,8 @@
 
 #region using directives
 
-using System;
 using System.Linq;
 using System.Reflection;
-using DaLion.Common;
 using DaLion.Stardew.Professions.Extensions;
 using HarmonyLib;
 using Microsoft.Xna.Framework;

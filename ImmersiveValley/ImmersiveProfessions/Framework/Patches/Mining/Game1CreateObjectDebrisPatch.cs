@@ -2,9 +2,7 @@
 
 #region using directives
 
-using System;
 using System.Reflection;
-using DaLion.Common;
 using DaLion.Common.Extensions.Stardew;
 using DaLion.Stardew.Professions.Extensions;
 using HarmonyLib;
@@ -44,7 +42,7 @@ internal sealed class Game1CreateObjectDebrisPatch : HarmonyPatch
                 new Vector2((xTile * 64) + 32, (yTile * 64) + 32),
                 who.getStandingPosition()) { itemQuality = who.GetGemologistMineralQuality() });
 
-            who.Increment("GemologistMineralsCollected");
+            who.Increment(DataFields.GemologistMineralsCollected);
             return false; // don't run original logic
         }
         catch (Exception ex)

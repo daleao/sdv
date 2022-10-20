@@ -26,7 +26,7 @@ internal sealed class MeleeWeaponDoAnimateSpecialMovePatch : HarmonyPatch
     [HarmonyAfter("DaLion.ImmersiveArsenal")]
     private static void MeleeWeaponDoAnimateSpecialMovePostfix(MeleeWeapon __instance)
     {
-        var cdr = __instance.getLastFarmerToUse().Read<float>("CooldownReduction");
+        var cdr = __instance.getLastFarmerToUse().Read<float>(DataFields.CooldownReduction);
         if (cdr <= 0f)
         {
             return;

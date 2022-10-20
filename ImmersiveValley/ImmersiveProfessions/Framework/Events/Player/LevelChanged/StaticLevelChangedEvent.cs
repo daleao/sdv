@@ -2,7 +2,6 @@
 
 #region using directives
 
-using System;
 using DaLion.Common.Events;
 using StardewModdingAPI.Enums;
 using StardewModdingAPI.Events;

@@ -2,10 +2,8 @@
 
 #region using directives
 
-using System;
 using System.Collections.Generic;
 using System.Reflection;
-using DaLion.Common;
 using DaLion.Common.Extensions;
 using DaLion.Stardew.Rings.Extensions;
 using HarmonyLib;

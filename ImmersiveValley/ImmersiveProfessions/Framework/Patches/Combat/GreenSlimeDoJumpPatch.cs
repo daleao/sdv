@@ -26,7 +26,7 @@ internal sealed class GreenSlimeDoJumpPatch : HarmonyPatch
     [HarmonyPrefix]
     private static bool GreenSlimeDoJumpPrefix(GreenSlime __instance)
     {
-        __instance.Write("Jumping", 200.ToString());
+        __instance.Write(DataFields.Jumping, 200.ToString());
         return true; // run original logic
     }
 

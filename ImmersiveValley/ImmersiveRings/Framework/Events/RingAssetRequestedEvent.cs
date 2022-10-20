@@ -2,7 +2,6 @@
 
 #region using directives
 
-using System;
 using System.Collections.Generic;
 using DaLion.Common.Events;
 using Microsoft.Xna.Framework;

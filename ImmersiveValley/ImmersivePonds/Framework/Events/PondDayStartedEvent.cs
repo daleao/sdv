@@ -29,7 +29,7 @@ internal sealed class PondDayStartedEvent : DayStartedEvent
                      (p.owner.Value == Game1.player.UniqueMultiplayerID || !Context.IsMultiplayer) &&
                      !p.isUnderConstruction()))
         {
-            pond.Write("CheckedToday", false.ToString());
+            pond.Write(DataFields.CheckedToday, false.ToString());
         }
     }
 }

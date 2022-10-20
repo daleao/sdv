@@ -17,6 +17,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)Exceptions\ThrowHelperExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Exceptions\MissingTypeException.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Exceptions\UnexpectedEnumValueException.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Extensions\Int32Extensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Extensions\RangeExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\SMAPI\AssetNameExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\SMAPI\GameContentHelperExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\Stardew\FarmerExtensions.cs" />

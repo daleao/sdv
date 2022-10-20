@@ -2,10 +2,8 @@
 
 #region using directives
 
-using System;
 using System.Collections.Generic;
 using System.Reflection;
-using DaLion.Common;
 using DaLion.Common.Extensions;
 using DaLion.Stardew.Professions.Extensions;
 using HarmonyLib;
@@ -50,7 +48,7 @@ internal sealed class CrabPotCheckForActionPatch : HarmonyPatch
 
             var item = __instance.heldObject.Value;
             bool addedToInventory;
-            if (__instance.heldObject.Value.ParentSheetIndex.IsAnyOf(14, 51))
+            if (__instance.heldObject.Value.ParentSheetIndex.IsIn(14, 51))
             {
                 // caught a weapon
                 var weapon = new MeleeWeapon(__instance.heldObject.Value.ParentSheetIndex) { specialItem = true };
@@ -58,7 +56,7 @@ internal sealed class CrabPotCheckForActionPatch : HarmonyPatch
                 who.mostRecentlyGrabbedItem = weapon;
             }
             else if (__instance.heldObject.Value.ParentSheetIndex
-                     .IsAnyOf(516, 517, 518, 519, 527, 529, 530, 531, 532, 533, 534))
+                     .IsIn(516, 517, 518, 519, 527, 529, 530, 531, 532, 533, 534))
             {
                 // caught a ring
                 var ring = new Ring(__instance.heldObject.Value.ParentSheetIndex);

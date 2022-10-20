@@ -2,12 +2,10 @@
 
 #region using directives
 
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
-using DaLion.Common;
 using DaLion.Common.Extensions.Reflection;
 using DaLion.Common.Harmony;
 using HarmonyLib;
@@ -38,12 +36,12 @@ internal sealed class ForgeMenuUpdatePatch : HarmonyPatch
         var helper = new IlHelper(original, instructions);
 
         // Injected: if (ModEntry.Config.TheOneIridiumBand && ring.ParentSheetIndex == Constants.IRIDIUM_BAND_INDEX_I)
-        //               UnforgeIridiumBand(ring);
+        //               UnforgeInfinityBand(ring);
         //           else ...
         // After: if (leftIngredientSpot.item is CombinedRing ring)
-        var vanillaUnforge = generator.DefineLabel();
         try
         {
+            var vanillaUnforge = generator.DefineLabel();
             helper
                 .FindFirst(
                     new CodeInstruction(OpCodes.Stloc_S, helper.Locals[14])) // local 14 = CombinedRing ring
@@ -61,13 +59,13 @@ internal sealed class ForgeMenuUpdatePatch : HarmonyPatch
                     new CodeInstruction(
                         OpCodes.Call,
                         typeof(Item).RequirePropertyGetter(nameof(Item.ParentSheetIndex))),
-                    new CodeInstruction(OpCodes.Ldc_I4, Constants.IridiumBandIndex),
+                    new CodeInstruction(OpCodes.Call, typeof(ModEntry).RequirePropertyGetter(nameof(ModEntry.InfinityBandIndex))),
                     new CodeInstruction(OpCodes.Bne_Un_S, vanillaUnforge),
                     new CodeInstruction(OpCodes.Ldarg_0),
                     new CodeInstruction(OpCodes.Ldloc_S, helper.Locals[14]),
                     new CodeInstruction(
                         OpCodes.Call,
-                        typeof(ForgeMenuUpdatePatch).RequireMethod(nameof(UnforgeIridiumBand))),
+                        typeof(ForgeMenuUpdatePatch).RequireMethod(nameof(UnforgeInfinityBand))),
                     new CodeInstruction(OpCodes.Br_S, resumeExecution));
         }
         catch (Exception ex)
@@ -83,7 +81,7 @@ internal sealed class ForgeMenuUpdatePatch : HarmonyPatch
 
     #region injected subroutines
 
-    private static void UnforgeIridiumBand(ForgeMenu menu, CombinedRing iridium)
+    private static void UnforgeInfinityBand(ForgeMenu menu, CombinedRing iridium)
     {
         var combinedRings = new List<Ring>(iridium.combinedRings);
         iridium.combinedRings.Clear();
@@ -93,7 +91,7 @@ internal sealed class ForgeMenuUpdatePatch : HarmonyPatch
             Utility.CollectOrDrop(new SObject(848, 5));
         }
 
-        Utility.CollectOrDrop(new Ring(Constants.IridiumBandIndex));
+        Utility.CollectOrDrop(new Ring(ModEntry.InfinityBandIndex));
         menu.leftIngredientSpot.item = null;
         Game1.playSound("coin");
     }

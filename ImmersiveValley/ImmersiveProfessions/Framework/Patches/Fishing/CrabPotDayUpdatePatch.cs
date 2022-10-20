@@ -2,10 +2,8 @@
 
 #region using directives
 
-using System;
 using System.Collections.Generic;
 using System.Reflection;
-using DaLion.Common;
 using DaLion.Common.Extensions;
 using DaLion.Common.Extensions.Stardew;
 using DaLion.Stardew.Professions.Extensions;
@@ -82,9 +80,9 @@ internal sealed class CrabPotDayUpdatePatch : HarmonyPatch
                     whichFish = __instance.GetTrash(location, r);
                     if (isConservationist && whichFish.IsTrashIndex())
                     {
-                        owner.Increment("ConservationistTrashCollectedThisSeason");
+                        owner.Increment(DataFields.ConservationistTrashCollectedThisSeason);
                         if (owner.HasProfession(Profession.Conservationist, true) &&
-                            owner.Read<uint>("ConservationistTrashCollectedThisSeason") %
+                            owner.Read<uint>(DataFields.ConservationistTrashCollectedThisSeason) %
                             ModEntry.Config.TrashNeededPerFriendshipPoint ==
                             0)
                         {
@@ -98,7 +96,7 @@ internal sealed class CrabPotDayUpdatePatch : HarmonyPatch
                 }
             }
             else if (!whichFish
-                         .IsAnyOf(14, 51, 516, 517, 518, 519, 527, 529, 530, 531, 532, 533, 534))
+                         .IsIn(14, 51, 516, 517, 518, 519, 527, 529, 530, 531, 532, 533, 534))
             {
                 // not ring or weapon
                 fishQuality = __instance.GetTrapQuality(whichFish, owner, r, isLuremaster);

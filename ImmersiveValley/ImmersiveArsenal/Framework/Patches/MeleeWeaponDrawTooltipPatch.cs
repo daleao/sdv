@@ -2,7 +2,6 @@
 
 #region using directives
 
-using System;
 using System.Linq;
 using DaLion.Common.Extensions.Reflection;
 using DaLion.Stardew.Arsenal.Framework.Enchantments;
@@ -35,8 +34,6 @@ internal sealed class MeleeWeaponDrawTooltipPatch : HarmonyPatch
     private static bool MeleeWeaponDrawTooltipPrefix(
         MeleeWeapon __instance, SpriteBatch spriteBatch, ref int x, ref int y, SpriteFont font, float alpha)
     {
-        return true;
-
         // write description
         var descriptionWidth = GetDescriptionWidth.Value(__instance);
         Utility.drawTextWithShadow(

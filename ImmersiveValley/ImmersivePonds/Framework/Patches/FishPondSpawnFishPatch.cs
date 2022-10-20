@@ -2,11 +2,8 @@
 
 #region using directives
 
-using System;
 using System.IO;
 using System.Linq;
-using CommunityToolkit.Diagnostics;
-using DaLion.Common;
 using DaLion.Common.Extensions;
 using DaLion.Common.Extensions.Stardew;
 using DaLion.Stardew.Ponds.Extensions;
@@ -46,19 +43,19 @@ internal sealed class FishPondSpawnFishPatch : HarmonyPatch
                 switch (spawned)
                 {
                     case Constants.SeaweedIndex:
-                        __instance.Increment("SeaweedLivingHere");
+                        __instance.Increment(DataFields.SeaweedLivingHere);
                         break;
                     case Constants.GreenAlgaeIndex:
-                        __instance.Increment("GreenAlgaeLivingHere");
+                        __instance.Increment(DataFields.GreenAlgaeLivingHere);
                         break;
                     case Constants.WhiteAlgaeIndex:
-                        __instance.Increment("WhiteAlgaeLivingHere");
+                        __instance.Increment(DataFields.WhiteAlgaeLivingHere);
                         break;
                 }
 
-                var total = __instance.Read<int>("SeaweedLivingHere") +
-                            __instance.Read<int>("GreenAlgaeLivingHere") +
-                            __instance.Read<int>("WhiteAlgaeLivingHere");
+                var total = __instance.Read<int>(DataFields.SeaweedLivingHere) +
+                            __instance.Read<int>(DataFields.GreenAlgaeLivingHere) +
+                            __instance.Read<int>(DataFields.WhiteAlgaeLivingHere);
                 if (total != __instance.FishCount)
                 {
                     ThrowHelper.ThrowInvalidDataException(
@@ -71,14 +68,14 @@ internal sealed class FishPondSpawnFishPatch : HarmonyPatch
         catch (InvalidDataException ex)
         {
             Log.W($"{ex}\nThe data will be reset.");
-            __instance.Write("SeaweedLivingHere", null);
-            __instance.Write("GreenAlgaeLivingHere", null);
-            __instance.Write("WhiteAlgaeLivingHere", null);
+            __instance.Write(DataFields.SeaweedLivingHere, null);
+            __instance.Write(DataFields.GreenAlgaeLivingHere, null);
+            __instance.Write(DataFields.WhiteAlgaeLivingHere, null);
             var field = __instance.fishType.Value switch
             {
-                Constants.SeaweedIndex => "SeaweedLivingHere",
-                Constants.GreenAlgaeIndex => "GreenAlgaeLivingHere",
-                Constants.WhiteAlgaeIndex => "WhiteAlgaeLivingHere",
+                Constants.SeaweedIndex => DataFields.SeaweedLivingHere,
+                Constants.GreenAlgaeIndex => DataFields.GreenAlgaeLivingHere,
+                Constants.WhiteAlgaeIndex => DataFields.WhiteAlgaeLivingHere,
                 _ => string.Empty,
             };
 
@@ -91,7 +88,7 @@ internal sealed class FishPondSpawnFishPatch : HarmonyPatch
             var familyCount = 0;
             if (__instance.HasLegendaryFish())
             {
-                familyCount = __instance.Read<int>("FamilyLivingHere");
+                familyCount = __instance.Read<int>(DataFields.FamilyLivingHere);
                 if (familyCount < 0 || familyCount > __instance.FishCount)
                 {
                     ThrowHelper.ThrowInvalidDataException(
@@ -109,7 +106,7 @@ internal sealed class FishPondSpawnFishPatch : HarmonyPatch
                 ? $"{familyCount},0,0,0"
                 : $"{__instance.FishCount - familyCount - 1},0,0,0";
             var qualities = __instance
-                .Read(forFamily ? "FamilyQualities" : "FishQualities", @default)
+                .Read(forFamily ? DataFields.FamilyQualities : DataFields.FishQualities, @default)
                 .ParseList<int>();
             if (qualities.Count != 4 ||
                 qualities.Sum() != (forFamily ? familyCount : __instance.FishCount - familyCount - 1))
@@ -120,7 +117,7 @@ internal sealed class FishPondSpawnFishPatch : HarmonyPatch
             if (qualities.Sum() == 0)
             {
                 ++qualities[0];
-                __instance.Write(forFamily ? "FamilyQualities" : "FishQualities", string.Join(',', qualities));
+                __instance.Write(forFamily ? DataFields.FamilyQualities : DataFields.FishQualities, string.Join(',', qualities));
                 return;
             }
 
@@ -134,14 +131,14 @@ internal sealed class FishPondSpawnFishPatch : HarmonyPatch
                         : SObject.lowQuality;
 
             ++qualities[fishlingQuality == 4 ? 3 : fishlingQuality];
-            __instance.Write(forFamily ? "FamilyQualities" : "FishQualities", string.Join(',', qualities));
+            __instance.Write(forFamily ? DataFields.FamilyQualities : DataFields.FishQualities, string.Join(',', qualities));
         }
         catch (InvalidDataException ex)
         {
             Log.W($"{ex}\nThe data will be reset.");
-            __instance.Write("FishQualities", $"{__instance.FishCount},0,0,0");
-            __instance.Write("FamilyQualities", null);
-            __instance.Write("FamilyLivingHere", null);
+            __instance.Write(DataFields.FishQualities, $"{__instance.FishCount},0,0,0");
+            __instance.Write(DataFields.FamilyQualities, null);
+            __instance.Write(DataFields.FamilyLivingHere, null);
         }
     }
 

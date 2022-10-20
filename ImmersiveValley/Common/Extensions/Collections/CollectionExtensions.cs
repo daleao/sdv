@@ -2,7 +2,6 @@
 
 #region using directives
 
-using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -16,7 +15,7 @@ public static class CollectionExtensions
     /// <param name="collection">The <see cref="ICollection{T}"/>.</param>
     /// <param name="items">The objects to search for.</param>
     /// <returns><see langword="true"/> if the <paramref name="collection"/> contains at least one of the specified <paramref name="items"/>, otherwise <see langword="false"/>.</returns>
-    public static bool ContainsAnyOf<T>(this ICollection<T> collection, params T[] items)
+    public static bool ContainsAny<T>(this ICollection<T> collection, params T[] items)
     {
         return items.Any(collection.Contains);
     }
@@ -28,7 +27,7 @@ public static class CollectionExtensions
     /// <param name="collection">The <see cref="ICollection{T}"/>.</param>
     /// <param name="items">The objects to search for.</param>
     /// <returns><see langword="true"/> if the <paramref name="collection"/> contains at least one of the specified <paramref name="items"/>, otherwise <see langword="false"/>.</returns>
-    public static bool ContainsAnyOf<T>(this ICollection<T> collection, IEnumerable<T> items)
+    public static bool ContainsAny<T>(this ICollection<T> collection, IEnumerable<T> items)
     {
         return items.Any(collection.Contains);
     }
@@ -38,7 +37,7 @@ public static class CollectionExtensions
     /// <param name="collection">The <see cref="ICollection{T}"/>.</param>
     /// <param name="items">The objects to search for.</param>
     /// <returns><see langword="true"/> if the <paramref name="collection"/> contains all <paramref name="items"/>, otherwise <see langword="false"/>.</returns>
-    public static bool ContainsAllOf<T>(this ICollection<T> collection, params T[] items)
+    public static bool ContainsAll<T>(this ICollection<T> collection, params T[] items)
     {
         return items.All(collection.Contains);
     }
@@ -50,7 +49,7 @@ public static class CollectionExtensions
     /// <param name="collection">The <see cref="ICollection{T}"/>.</param>
     /// <param name="items">The objects to search for.</param>
     /// <returns><see langword="true"/> if the <paramref name="collection"/> contains all <paramref name="items"/>, otherwise <see langword="false"/>.</returns>
-    public static bool ContainsAllOf<T>(this ICollection<T> collection, IEnumerable<T> items)
+    public static bool ContainsAll<T>(this ICollection<T> collection, IEnumerable<T> items)
     {
         return items.All(collection.Contains);
     }

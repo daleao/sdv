@@ -2,7 +2,6 @@
 
 #region using directives
 
-using DaLion.Common;
 using DaLion.Common.Attributes;
 using DaLion.Common.Commands;
 using DaLion.Common.Enums;

@@ -23,13 +23,13 @@ internal sealed class GameLocationIsMonsterDamageApplicablePatch : HarmonyPatch
 
     #region harmony patches
 
-    /// <summary>Club smash aoe ignores gliders.</summary>
+    /// <summary>Patch to make Slimes immune to slime ammo.</summary>
     [HarmonyPrefix]
     private static bool GameLocationIsMonsterDamageApplicablePrefix(
         GameLocation __instance, ref bool __result, Farmer who, Monster monster)
     {
         if (!monster.IsSlime() || who.CurrentTool is not Slingshot slingshot ||
-            slingshot.attachments[0].ParentSheetIndex != SlimeIndex)
+            slingshot.attachments[0]?.ParentSheetIndex != SlimeIndex)
         {
             return true; // run original logic
         }

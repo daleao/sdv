@@ -15,7 +15,7 @@ internal static class CombinedRing_Chord
 
     internal static IChord? Get_Chord(this CombinedRing combined)
     {
-        return combined is { ParentSheetIndex: Constants.IridiumBandIndex, combinedRings.Count: >= 2 }
+        return combined.ParentSheetIndex == ModEntry.InfinityBandIndex && combined.combinedRings.Count >= 2
             ? Values.GetValue(combined, Create)
             : null;
     }

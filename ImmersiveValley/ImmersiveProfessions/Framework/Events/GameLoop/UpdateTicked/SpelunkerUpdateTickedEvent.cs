@@ -2,7 +2,6 @@
 
 #region using directives
 
-using System;
 using System.Linq;
 using DaLion.Common.Events;
 using StardewModdingAPI.Events;
@@ -58,7 +57,7 @@ internal sealed class SpelunkerUpdateTickedEvent : UpdateTickedEvent
                 0,
                 1,
                 "Spelunker",
-                ModEntry.i18n.Get("spelunker.name" + (Game1.player.IsMale ? ".male" : ".female")))
+                ModEntry.i18n.Get("spelunker.title" + (Game1.player.IsMale ? ".male" : ".female")))
             {
                 which = this._buffId,
                 sheetIndex = BuffSheetIndex,

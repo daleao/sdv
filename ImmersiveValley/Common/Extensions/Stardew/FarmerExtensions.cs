@@ -2,8 +2,6 @@
 
 #region using directives
 
-using System;
-using CommunityToolkit.Diagnostics;
 using DaLion.Common.Enums;
 using DaLion.Common.ModData;
 using Microsoft.Xna.Framework;

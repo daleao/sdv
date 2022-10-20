@@ -37,15 +37,15 @@ internal sealed class FishPondOnFishTypeChangedPatch : HarmonyPatch
             return;
         }
 
-        __instance.Write("FishQualities", null);
-        __instance.Write("FamilyQualities", null);
-        __instance.Write("FamilyLivingHere", null);
-        __instance.Write("DaysEmpty", 0.ToString());
-        __instance.Write("SeaweedLivingHere", null);
-        __instance.Write("GreenAlgaeLivingHere", null);
-        __instance.Write("WhiteAlgaeLivingHere", null);
-        __instance.Write("CheckedToday", null);
-        __instance.Write("ItemsHeld", null);
+        __instance.Write(DataFields.FishQualities, null);
+        __instance.Write(DataFields.FamilyQualities, null);
+        __instance.Write(DataFields.FamilyLivingHere, null);
+        __instance.Write(DataFields.DaysEmpty, 0.ToString());
+        __instance.Write(DataFields.SeaweedLivingHere, null);
+        __instance.Write(DataFields.GreenAlgaeLivingHere, null);
+        __instance.Write(DataFields.WhiteAlgaeLivingHere, null);
+        __instance.Write(DataFields.CheckedToday, null);
+        __instance.Write(DataFields.ItemsHeld, null);
     }
 
     #endregion harmony patches

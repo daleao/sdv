@@ -2,13 +2,10 @@
 
 #region using directives
 
-using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
-using DaLion.Common;
 using DaLion.Common.Extensions.Reflection;
-using DaLion.Common.Extensions.Stardew;
 using DaLion.Common.Harmony;
 using DaLion.Stardew.Arsenal.Framework.Enchantments;
 using HarmonyLib;
@@ -43,7 +40,6 @@ internal sealed class MeleeWeaponCtorPatch : HarmonyPatch
             case Constants.DarkSwordIndex:
                 __instance.enchantments.Add(new CursedEnchantment());
                 __instance.specialItem = true;
-                __instance.Write("EnemiesSlain", 0.ToString());
                 break;
             case Constants.HolyBladeIndex:
                 __instance.enchantments.Add(new BlessedEnchantment());

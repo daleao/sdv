@@ -23,4 +23,7 @@ public enum ComboHitStep
 
     /// <summary>The fourth hit of the combo.</summary>
     FourthHit,
+
+    /// <summary>The infinity-th hit of the combo.</summary>
+    Infinite = int.MaxValue,
 }

@@ -2,11 +2,9 @@
 
 #region using directives
 
-using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
-using DaLion.Common;
 using DaLion.Common.Extensions.Reflection;
 using DaLion.Common.Harmony;
 using HarmonyLib;
@@ -46,9 +44,9 @@ internal sealed class FarmerTakeDamagePatch : HarmonyPatch
         //         effectiveResilience >= damage * 0.5f)
         //         effectiveResilience -= (int) (effectiveResilience * Game1.random.Next(3) / 10f);
         //     }
-        var skipSoftCap = generator.DefineLabel();
         try
         {
+            var skipSoftCap = generator.DefineLabel();
             helper
                 .FindNext(
                     new CodeInstruction(OpCodes.Ldloc_3),

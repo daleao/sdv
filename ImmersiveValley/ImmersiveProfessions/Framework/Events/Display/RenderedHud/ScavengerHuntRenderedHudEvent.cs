@@ -2,7 +2,6 @@
 
 #region using directives
 
-using System;
 using DaLion.Common.Events;
 using DaLion.Stardew.Professions.Framework.TreasureHunts;
 using Microsoft.Xna.Framework;

@@ -2,10 +2,7 @@
 
 #region using directives
 
-using System;
 using System.Reflection;
-using CommunityToolkit.Diagnostics;
-using DaLion.Common;
 using HarmonyLib;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -46,7 +43,7 @@ internal sealed class CombinedRingDrawInMenuPatch : HarmonyPatch
         Color color,
         bool drawShadow)
     {
-        if (__instance.ParentSheetIndex != Constants.IridiumBandIndex)
+        if (__instance.ParentSheetIndex != ModEntry.InfinityBandIndex)
         {
             return true; // run original logic
         }

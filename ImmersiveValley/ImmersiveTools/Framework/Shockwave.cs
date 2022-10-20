@@ -4,7 +4,6 @@
 
 using System.Collections.Generic;
 using System.Linq;
-using DaLion.Common;
 using DaLion.Common.Classes;
 using DaLion.Stardew.Tools.Extensions;
 using DaLion.Stardew.Tools.Framework.Effects;

@@ -2,12 +2,10 @@
 
 #region using directives
 
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
-using DaLion.Common;
 using DaLion.Common.Extensions;
 using DaLion.Common.Extensions.Collections;
 using DaLion.Common.Extensions.Reflection;
@@ -122,9 +120,9 @@ internal sealed class FishPondDoActionPatch : HarmonyPatch
 
         // Injected: TryThrowMetalIntoPond(this, who)
         // Before: if (fishType >= 0) open PondQueryMenu ...
-        var resumeExecution = generator.DefineLabel();
         try
         {
+            var resumeExecution = generator.DefineLabel();
             helper
                 .FindLast(
                     new CodeInstruction(OpCodes.Ldarg_0),
@@ -165,7 +163,7 @@ internal sealed class FishPondDoActionPatch : HarmonyPatch
         }
 
         var heldMinerals =
-            pond.Read("MetalsHeld")
+            pond.Read(DataFields.MetalsHeld)
                 .ParseList<string>(";")
                 .Select(li => li?.ParseTuple<int, int>())
                 .WhereNotNull()
@@ -184,7 +182,7 @@ internal sealed class FishPondDoActionPatch : HarmonyPatch
         }
 
         heldMinerals.Add((metallic.ParentSheetIndex, days));
-        pond.Write("MetalsHeld", string.Join(';', heldMinerals.Select(m => string.Join(',', m.Item1, m.Item2))));
+        pond.Write(DataFields.MetalsHeld, string.Join(';', heldMinerals.Select(m => string.Join(',', m.Item1, m.Item2))));
         ShowObjectThrownIntoPondAnimation.Value(pond, who, who.ActiveObject);
         who.reduceActiveItemByOne();
         return true;

@@ -2,10 +2,8 @@
 
 #region using directives
 
-using System;
 using System.Globalization;
 using System.Linq;
-using DaLion.Common;
 using DaLion.Common.Events;
 using DaLion.Common.Extensions.SMAPI;
 using DaLion.Common.Extensions.Stardew;
@@ -51,7 +49,7 @@ internal sealed class TaxDayEndingEvent : DayEndingEvent
                     break;
                 }
 
-                player.Write("DeductionPct", deductible.ToString(CultureInfo.InvariantCulture));
+                player.Write(DataFields.PercentDeductions, deductible.ToString(CultureInfo.InvariantCulture));
                 ModEntry.ModHelper.GameContent.InvalidateCacheAndLocalized("Data/mail");
                 player.mailForTomorrow.Add($"{ModEntry.Manifest.UniqueID}/TaxDeduction");
                 Log.I(
@@ -64,7 +62,7 @@ internal sealed class TaxDayEndingEvent : DayEndingEvent
                 break;
             }
 
-            case 1 when player.Read<float>("DeductionPct") < 1f:
+            case 1 when player.Read<float>(DataFields.PercentDeductions) < 1f:
             {
                 if (Game1.currentSeason == "spring" && Game1.year == 1)
                 {
@@ -94,7 +92,7 @@ internal sealed class TaxDayEndingEvent : DayEndingEvent
                     player.Money = 0;
                     amountPaid = player.Money + dayIncome;
                     amountDue -= amountPaid;
-                    player.Increment("DebtOutstanding", amountDue);
+                    player.Increment(DataFields.DebtOutstanding, amountDue);
                     ModEntry.ModHelper.GameContent.InvalidateCacheAndLocalized("Data/mail");
                     player.mailForTomorrow.Add($"{ModEntry.Manifest.UniqueID}/TaxOutstanding");
                     Log.I(
@@ -104,12 +102,12 @@ internal sealed class TaxDayEndingEvent : DayEndingEvent
                         " An FRS collection notice has been posted for tomorrow.");
                 }
 
-                player.Write("SeasonIncome", "0");
+                player.Write(DataFields.SeasonIncome, "0");
                 break;
             }
         }
 
-        var debtOutstanding = player.Read<int>("DebtOutstanding");
+        var debtOutstanding = player.Read<int>(DataFields.DebtOutstanding);
         if (debtOutstanding > 0)
         {
             if (dayIncome >= debtOutstanding)
@@ -131,9 +129,9 @@ internal sealed class TaxDayEndingEvent : DayEndingEvent
 
             var debit = amountSold - dayIncome;
             ModEntry.State.ToDebit = debit;
-            player.Write("DebtOutstanding", debtOutstanding.ToString());
+            player.Write(DataFields.DebtOutstanding, debtOutstanding.ToString());
         }
 
-        player.Increment("SeasonIncome", dayIncome);
+        player.Increment(DataFields.SeasonIncome, dayIncome);
     }
 }

@@ -2,7 +2,6 @@
 
 #region using directives
 
-using System;
 using System.Runtime.CompilerServices;
 using DaLion.Common.Extensions.Collections;
 using StardewModdingAPI.Utilities;

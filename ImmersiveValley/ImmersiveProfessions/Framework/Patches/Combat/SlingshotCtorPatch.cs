@@ -2,7 +2,6 @@
 
 #region using directives
 
-using System;
 using DaLion.Stardew.Professions.Extensions;
 using HarmonyLib;
 using StardewValley.Tools;

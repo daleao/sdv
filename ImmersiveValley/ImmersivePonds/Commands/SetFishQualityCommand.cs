@@ -2,7 +2,6 @@
 
 #region using directives
 
-using DaLion.Common;
 using DaLion.Common.Commands;
 using DaLion.Common.Enums;
 using DaLion.Common.Extensions.Stardew;
@@ -64,24 +63,24 @@ internal sealed class SetFishQualityCommand : ConsoleCommand
             return;
         }
 
-        var familyCount = nearest.Read<int>("FamilyLivingHere");
+        var familyCount = nearest.Read<int>(DataFields.FamilyLivingHere);
         var familyQualities = new int[4];
         if (familyCount > nearest.FishCount)
         {
             Log.W("FamilyLivingHere data is invalid. The data will be reset.");
             familyCount = 0;
-            nearest.Write("FamilyLivingHere", null);
+            nearest.Write(DataFields.FamilyLivingHere, null);
         }
 
         if (familyCount > 0)
         {
             familyQualities[newQuality == Quality.Iridium ? 3 : (int)newQuality] += familyCount;
-            nearest.Write("FamilyQualities", string.Join(',', familyQualities));
+            nearest.Write(DataFields.FamilyQualities, string.Join(',', familyQualities));
         }
 
         var fishQualities = new int[4];
         fishQualities[newQuality == Quality.Iridium ? 3 : (int)newQuality] += nearest.FishCount - familyCount;
-        nearest.Write("FishQualities", string.Join(',', fishQualities));
+        nearest.Write(DataFields.FishQualities, string.Join(',', fishQualities));
         Log.I($"The quality of fish in nearby {nearest.GetFishObject().Name} Pond have been set to {newQuality}.");
     }
 }

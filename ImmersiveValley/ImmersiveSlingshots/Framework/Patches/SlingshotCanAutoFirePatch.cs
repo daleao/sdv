@@ -2,9 +2,7 @@
 
 #region using directives
 
-using System;
 using System.Reflection;
-using DaLion.Common;
 using DaLion.Stardew.Slingshots.Framework.Enchantments;
 using HarmonyLib;
 using StardewValley.Tools;

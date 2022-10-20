@@ -2,9 +2,7 @@
 
 #region using directives
 
-using System;
 using DaLion.Common.Enums;
-using DaLion.Common.Exceptions;
 using Microsoft.Xna.Framework;
 
 #endregion using directives

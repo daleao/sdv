@@ -2,7 +2,6 @@
 
 #region using directives
 
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using DaLion.Common.Attributes;
@@ -39,7 +38,7 @@ internal sealed class GreenSlimeGetExtraDropItemsPatch : HarmonyPatch
 
         var slimeCount =
             Game1.getFarm().buildings.Where(b =>
-                    (b.owner.Value.IsAnyOf(pipers.Select(p => p.UniqueMultiplayerID)) ||
+                    (b.owner.Value.IsIn(pipers.Select(p => p.UniqueMultiplayerID)) ||
                      !Context.IsMultiplayer) && b.indoors.Value is SlimeHutch && !b.isUnderConstruction() &&
                     b.indoors.Value.characters.Count > 0)
                 .Sum(b => b.indoors.Value.characters.Count(npc => npc is GreenSlime)) +

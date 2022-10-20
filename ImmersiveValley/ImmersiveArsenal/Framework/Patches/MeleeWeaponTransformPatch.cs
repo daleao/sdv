@@ -2,7 +2,6 @@
 
 #region using directives
 
-using DaLion.Common.Extensions.Stardew;
 using DaLion.Stardew.Arsenal.Framework.Enchantments;
 using HarmonyLib;
 using StardewValley.Tools;
@@ -34,7 +33,6 @@ internal sealed class MeleeWeaponTransformPatch : HarmonyPatch
         {
             // dark sword -> holy blade
             case Constants.HolyBladeIndex:
-                __instance.Write("EnemiesSlain", null);
                 __instance.enchantments.Remove(__instance.GetEnchantmentOfType<CursedEnchantment>());
                 __instance.enchantments.Add(new BlessedEnchantment());
                 break;

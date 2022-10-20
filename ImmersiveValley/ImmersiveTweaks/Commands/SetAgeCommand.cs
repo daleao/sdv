@@ -3,7 +3,6 @@
 #region using directives
 
 using System.Linq;
-using DaLion.Common;
 using DaLion.Common.Commands;
 using DaLion.Common.Extensions.Stardew;
 using DaLion.Stardew.Tweex.Extensions;
@@ -62,7 +61,7 @@ internal sealed class SetAgeCommand : ConsoleCommand
                 {
                     foreach (var tree in Game1.locations.SelectMany(l => l.terrainFeatures.Values.OfType<Tree>()))
                     {
-                        tree.Write("Age", clear ? null : args[1]);
+                        tree.Write(DataFields.Age, clear ? null : args[1]);
                     }
 
                     Log.I(clear ? "Cleared all tree age data." : $"Set all tree age data to {args[1]} days.");
@@ -76,7 +75,7 @@ internal sealed class SetAgeCommand : ConsoleCommand
                     return;
                 }
 
-                nearest.Write("Age", clear ? null : args[1]);
+                nearest.Write(DataFields.Age, clear ? null : args[1]);
                 Log.I(clear
                     ? $"Cleared {nearest.NameFromType()}'s age data"
                     : $"Set {nearest.NameFromType()}'s age data to {args[1]} days.");
@@ -93,7 +92,7 @@ internal sealed class SetAgeCommand : ConsoleCommand
                     foreach (var hive in Game1.locations.SelectMany(l =>
                                  l.objects.Values.Where(o => o.Name == "Bee House")))
                     {
-                        hive.Write("Age", clear ? null : args[1]);
+                        hive.Write(DataFields.Age, clear ? null : args[1]);
                     }
 
                     Log.I(clear ? "Cleared all bee house age data." : $"Set all bee house age data to {args[1]} days.");
@@ -109,7 +108,7 @@ internal sealed class SetAgeCommand : ConsoleCommand
                     return;
                 }
 
-                nearest.Write("Age", clear ? null : args[1]);
+                nearest.Write(DataFields.Age, clear ? null : args[1]);
                 Log.I(clear ? "Cleared Bee House's age data." : $"Set Bee House's age data to {args[1]} days.");
                 break;
             }
@@ -125,7 +124,7 @@ internal sealed class SetAgeCommand : ConsoleCommand
                     foreach (var box in Game1.locations.SelectMany(l =>
                                  l.objects.Values.Where(o => o.Name == "Mushroom Box")))
                     {
-                        box.Write("Age", clear ? null : args[1]);
+                        box.Write(DataFields.Age, clear ? null : args[1]);
                     }
 
                     Log.I(clear
@@ -143,7 +142,7 @@ internal sealed class SetAgeCommand : ConsoleCommand
                     return;
                 }
 
-                nearest.Write("Age", clear ? null : args[1]);
+                nearest.Write(DataFields.Age, clear ? null : args[1]);
                 Log.I(clear ? "Cleared Mushroom Box's age data." : $"Set Mushroom Box's age data to {args[1]} days.");
                 break;
             }

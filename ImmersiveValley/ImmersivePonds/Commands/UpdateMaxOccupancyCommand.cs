@@ -1,9 +1,8 @@
-﻿namespace DaLion.Stardew.Professions.Commands;
+﻿namespace DaLion.Stardew.Ponds.Commands;
 
 #region using directives
 
 using System.Linq;
-using DaLion.Common;
 using DaLion.Common.Commands;
 using DaLion.Common.Extensions.Collections;
 using StardewValley.Buildings;

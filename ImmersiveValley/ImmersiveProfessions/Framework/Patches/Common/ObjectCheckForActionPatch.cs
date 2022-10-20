@@ -2,11 +2,9 @@
 
 #region using directives
 
-using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
-using DaLion.Common;
 using DaLion.Common.Extensions.Reflection;
 using DaLion.Common.Extensions.Stardew;
 using DaLion.Common.Harmony;
@@ -45,7 +43,7 @@ internal sealed class ObjectCheckForActionPatch : HarmonyPatch
         if (__state && __instance.heldObject.Value is null && __instance.IsMushroomBox() &&
             who.HasProfession(Profession.Ecologist))
         {
-            Game1.player.Increment("EcologistItemsForaged");
+            Game1.player.Increment(DataFields.EcologistItemsForaged);
         }
     }
 
@@ -62,11 +60,11 @@ internal sealed class ObjectCheckForActionPatch : HarmonyPatch
         //         ? 1
         //         : 2
         //     : 4);
-        var isNotProducer = generator.DefineLabel();
-        var isNotPrestiged = generator.DefineLabel();
-        var resumeExecution = generator.DefineLabel();
         try
         {
+            var isNotProducer = generator.DefineLabel();
+            var isNotPrestiged = generator.DefineLabel();
+            var resumeExecution = generator.DefineLabel();
             helper
                 .FindNext(
                     new CodeInstruction(OpCodes.Ldc_I4_4),

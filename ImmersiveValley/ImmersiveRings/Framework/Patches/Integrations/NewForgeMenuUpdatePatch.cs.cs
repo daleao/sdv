@@ -2,12 +2,10 @@
 
 #region using directives
 
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
-using DaLion.Common;
 using DaLion.Common.Attributes;
 using DaLion.Common.Extensions.Reflection;
 using DaLion.Common.Harmony;
@@ -51,9 +49,9 @@ internal sealed class NewForgeMenuUpdatePatch : HarmonyPatch
         //               UnforgeIridiumBand(ring);
         //           else ...
         // After: if (leftIngredientSpot.item is CombinedRing ring)
-        var vanillaUnforge = generator.DefineLabel();
         try
         {
+            var vanillaUnforge = generator.DefineLabel();
             helper
                 .FindFirst(
                     new CodeInstruction(OpCodes.Stloc_S, helper.Locals[15])) // local 15 = CombinedRing ring

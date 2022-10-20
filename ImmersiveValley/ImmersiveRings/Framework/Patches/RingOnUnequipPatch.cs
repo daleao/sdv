@@ -55,7 +55,7 @@ internal sealed class RingOnUnequipPatch : HarmonyPatch
                 }
 
                 // garnet ring to give +10% cdr
-                who.Increment("CooldownReduction", -0.1f);
+                who.Increment(DataFields.CooldownReduction, -0.1f);
                 return false; // don't run original logic
         }
     }

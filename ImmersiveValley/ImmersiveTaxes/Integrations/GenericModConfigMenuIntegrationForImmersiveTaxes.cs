@@ -2,7 +2,6 @@
 
 #region using directives
 
-using System;
 using DaLion.Common.Integrations.GenericModConfigMenu;
 
 #endregion using directives
@@ -56,6 +55,16 @@ internal sealed class GenericModConfigMenuIntegrationForImmersiveTaxes
                 config => config.AnnualInterest,
                 (config, value) => config.AnnualInterest = value,
                 0f,
-                2f);
+                2f)
+            .AddCheckbox(
+                () => "Deductible Building Expenses",
+                () => "Whether or not any gold spent constructing farm buildings is tax-deductible.",
+                config => config.DeductibleBuildingExpenses,
+                (config, value) => config.DeductibleBuildingExpenses = value)
+            .AddCheckbox(
+                () => "Deductible Tool Expenses",
+                () => "Whether or not any gold spent upgrading tools is tax-deductible.",
+                config => config.DeductibleBuildingExpenses,
+                (config, value) => config.DeductibleBuildingExpenses = value);
     }
 }

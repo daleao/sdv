@@ -3,8 +3,6 @@ namespace DaLion.Stardew.Slingshots.Extensions;
 
 #region using directives
 
-using System;
-using DaLion.Common;
 using DaLion.Common.Enums;
 using DaLion.Common.Exceptions;
 using DaLion.Common.Extensions.Reflection;

@@ -2,7 +2,6 @@
 
 #region using directives
 
-using System;
 using System.Reflection;
 using DaLion.Common.Extensions.Reflection;
 using HarmonyLib;

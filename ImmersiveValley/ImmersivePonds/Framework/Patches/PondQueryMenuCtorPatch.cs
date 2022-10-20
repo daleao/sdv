@@ -2,8 +2,6 @@
 
 #region using directives
 
-using System;
-using DaLion.Common;
 using DaLion.Common.Extensions;
 using DaLion.Common.Extensions.Stardew;
 using HarmonyLib;
@@ -30,26 +28,26 @@ internal sealed class PondQueryMenuCtorPatch : HarmonyPatch
     {
         try
         {
-            fish_pond.Read("FishQualities").ParseTuple<int, int, int, int>();
+            fish_pond.Read(DataFields.FishQualities).ParseTuple<int, int, int, int>();
         }
         catch (InvalidOperationException ex)
         {
             Log.W($"FishQualities data is invalid. {ex}\nThe data will be reset");
-            fish_pond.Write("FishQualities", $"{fish_pond.FishCount},0,0,0");
-            fish_pond.Write("FamilyQualities", null);
-            fish_pond.Write("FamilyLivingHere", null);
+            fish_pond.Write(DataFields.FishQualities, $"{fish_pond.FishCount},0,0,0");
+            fish_pond.Write(DataFields.FamilyQualities, null);
+            fish_pond.Write(DataFields.FamilyLivingHere, null);
         }
 
         try
         {
-            fish_pond.Read("FamilyQualities").ParseTuple<int, int, int, int>();
+            fish_pond.Read(DataFields.FamilyQualities).ParseTuple<int, int, int, int>();
         }
         catch (InvalidOperationException ex)
         {
             Log.W($"FamilyQuality data is invalid. {ex}\nThe data will be reset");
-            fish_pond.Write("FishQualities", $"{fish_pond.FishCount},0,0,0");
-            fish_pond.Write("FamilyQualities", null);
-            fish_pond.Write("FamilyLivingHere", null);
+            fish_pond.Write(DataFields.FishQualities, $"{fish_pond.FishCount},0,0,0");
+            fish_pond.Write(DataFields.FamilyQualities, null);
+            fish_pond.Write(DataFields.FamilyLivingHere, null);
         }
     }
 

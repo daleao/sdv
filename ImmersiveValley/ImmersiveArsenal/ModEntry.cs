@@ -3,7 +3,6 @@
 #region using directives
 
 using System.Diagnostics.CodeAnalysis;
-using DaLion.Common;
 using DaLion.Common.Commands;
 using DaLion.Common.Events;
 using DaLion.Common.Harmony;
@@ -78,7 +77,8 @@ public sealed class ModEntry : Mod
             typeof(ArsenalGameLaunchedEvent),
             typeof(ArsenalSavedEvent),
             typeof(ArsenalSaveLoadedEvent),
-            typeof(ArsenalSavingEvent));
+            typeof(ArsenalSavingEvent),
+            typeof(ComboButtonPressedEvent));
         if (Config.FaceMouseCursor)
         {
             Events.Enable<DriftButtonPressedEvent>();

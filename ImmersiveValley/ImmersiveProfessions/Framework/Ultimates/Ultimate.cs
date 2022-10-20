@@ -2,7 +2,6 @@
 
 #region using directives
 
-using System;
 using Ardalis.SmartEnum;
 using DaLion.Stardew.Professions.Extensions;
 using DaLion.Stardew.Professions.Framework.Events.Display;

@@ -34,8 +34,8 @@ internal sealed class TaxAssetRequestedEvent : AssetRequestedEvent
             var data = asset.AsDictionary<string, string>().Data;
 
             var due = ModEntry.State.LatestAmountDue.ToString();
-            var deductible = Game1.player.Read<float>("DeductionPct");
-            var outstanding = Game1.player.Read("DebtOutstanding");
+            var deductions = Game1.player.Read<float>(DataFields.PercentDeductions);
+            var outstanding = Game1.player.Read(DataFields.DebtOutstanding);
             var honorific = ModEntry.i18n.Get("honorific" + (Game1.player.IsMale ? ".male" : ".female"));
             var farm = Game1.getFarm().Name;
             var interest = CurrentCulture($"{ModEntry.Config.AnnualInterest:p0}");
@@ -52,12 +52,12 @@ internal sealed class TaxAssetRequestedEvent : AssetRequestedEvent
                     farm,
                     interest,
                 });
-            data[$"{ModEntry.Manifest.UniqueID}/TaxDeduction"] = deductible switch
+            data[$"{ModEntry.Manifest.UniqueID}/TaxDeduction"] = deductions switch
             {
                 >= 1f => ModEntry.i18n.Get("tax.deduction.max", new { honorific }),
                 >= 0f => ModEntry.i18n.Get(
                     "tax.deduction",
-                    new { honorific, deductible = CurrentCulture($"{deductible:p0}") }),
+                    new { honorific, deductible = CurrentCulture($"{deductions:p0}") }),
                 _ => string.Empty,
             };
         });

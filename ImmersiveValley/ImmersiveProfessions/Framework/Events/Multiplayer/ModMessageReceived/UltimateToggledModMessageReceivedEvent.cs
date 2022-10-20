@@ -2,7 +2,6 @@
 
 #region using directives
 
-using DaLion.Common;
 using DaLion.Common.Events;
 using DaLion.Common.Extensions.Stardew;
 using DaLion.Stardew.Professions.Framework.Ultimates;
@@ -55,7 +54,7 @@ internal sealed class UltimateToggledModMessageReceivedEvent : ModMessageReceive
         {
             case "Active":
                 Log.D($"{who.Name} activated their Ultimate ability.");
-                var index = who.Read<int>("UltimateIndex");
+                var index = who.Read<int>(DataFields.UltimateIndex);
                 var glowingColor = Ultimate.FromValue(index).GlowColor;
                 who.startGlowing(glowingColor, false, 0.05f);
 

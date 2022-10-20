@@ -2,11 +2,9 @@
 
 #region using directives
 
-using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
-using DaLion.Common;
 using DaLion.Common.Attributes;
 using DaLion.Common.Extensions.Reflection;
 using DaLion.Common.Harmony;
@@ -80,10 +78,10 @@ internal sealed class NewForgeMenuUpdatePatch : HarmonyPatch
         // Injected: else if (leftIngredientSpot.item is Slingshot slingshot && ModEntry.Config.EnableSlingshotForges)
         //             UnforgeSlingshot(leftIngredientSpot.item);
         // Between: MeleeWeapon and CombinedRing unforge behaviors...
-        var elseIfCombinedRing = generator.DefineLabel();
-        var slingshot = generator.DeclareLocal(typeof(Slingshot));
         try
         {
+            var elseIfCombinedRing = generator.DefineLabel();
+            var slingshot = generator.DeclareLocal(typeof(Slingshot));
             helper
                 .FindNext(
                     new CodeInstruction(OpCodes.Isinst, typeof(CombinedRing)),

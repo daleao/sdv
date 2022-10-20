@@ -1,11 +1,5 @@
 ﻿namespace DaLion.Stardew.Professions.Framework.Events.Ultimate;
 
-#region using directives
-
-using System;
-
-#endregion using directives
-
 /// <summary>The arguments for an <see cref="UltimateFullyChargedEvent"/>.</summary>
 public sealed class UltimateFullyChargedEventArgs : EventArgs, IUltimateFullyChargedEventArgs
 {

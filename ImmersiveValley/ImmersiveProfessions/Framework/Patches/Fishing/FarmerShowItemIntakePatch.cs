@@ -2,9 +2,7 @@
 
 #region using directives
 
-using System;
 using System.Reflection;
-using DaLion.Common;
 using DaLion.Common.Extensions;
 using HarmonyLib;
 using Microsoft.Xna.Framework;
@@ -30,7 +28,7 @@ internal sealed class FarmerShowItemIntakePatch : HarmonyPatch
     {
         try
         {
-            if (!who.mostRecentlyGrabbedItem.ParentSheetIndex.IsAnyOf(14, 51))
+            if (!who.mostRecentlyGrabbedItem.ParentSheetIndex.IsIn(14, 51))
             {
                 return true; // run original logic
             }

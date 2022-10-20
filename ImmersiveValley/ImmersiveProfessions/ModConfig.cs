@@ -126,9 +126,6 @@ public sealed class ModConfig
     /// <summary>Gets or sets a value indicating whether toggles the Get Excited buff when a Demolitionist is hit by an explosion.</summary>
     public bool EnableGetExcited { get; set; } = true;
 
-    /// <summary>Gets or sets a value indicating whether determines whether Seaweed and Algae are considered junk for fishing purposes.</summary>
-    public bool SeaweedIsTrash { get; set; } = true;
-
     /// <summary>Gets or sets you must catch this many fish of a given species to achieve instant catch.</summary>
     /// <remarks>Unused.</remarks>
     public uint FishNeededForInstantCatch { get; set; } = 500;

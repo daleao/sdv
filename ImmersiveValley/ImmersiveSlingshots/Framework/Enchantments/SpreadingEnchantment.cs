@@ -2,7 +2,6 @@
 
 #region using directives
 
-using System;
 using System.Xml.Serialization;
 using DaLion.Common.Extensions.Reflection;
 using DaLion.Common.Extensions.Xna;

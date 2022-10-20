@@ -2,8 +2,6 @@
 
 #region using directives
 
-using System;
-using CommunityToolkit.Diagnostics;
 using DaLion.Common.Events;
 using DaLion.Common.Exceptions;
 using DaLion.Common.Extensions.Stardew;
@@ -65,7 +63,7 @@ public sealed class ModApi
     {
         farmer ??= Game1.player;
         // ReSharper disable once PossibleLossOfFraction
-        return farmer.Read<int>("ConservationistTrashCollectedThisSeason") /
+        return farmer.Read<int>(DataFields.ConservationistTrashCollectedThisSeason) /
                ModEntry.Config.TrashNeededPerTaxBonusPct / 100f;
     }
 

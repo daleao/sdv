@@ -38,7 +38,7 @@ internal sealed class FruitTreeDayUpdatePatch : HarmonyPatch
     {
         if (!ModEntry.Config.PreventFruitTreeGrowthInWinter || __instance.growthStage.Value >= FruitTree.treeStage ||
             !Game1.IsWinter || __instance.currentLocation.IsGreenhouse ||
-            __instance.Read<int>("atravita.MoreFertilizer.FruitTree") > 0)
+            __instance.Read<int>("FruitTree", modId: "atravita.MoreFertilizers") > 0)
         {
             return;
         }

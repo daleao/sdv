@@ -2,12 +2,10 @@
 
 #region using directives
 
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
-using DaLion.Common;
 using DaLion.Common.Extensions.Reflection;
 using DaLion.Common.Harmony;
 using DaLion.Stardew.Professions.Extensions;
@@ -38,20 +36,17 @@ internal sealed class GameLocationGetFishPatch : HarmonyPatch
     {
         var helper = new IlHelper(original, instructions);
 
-        var startOfFishRoll = generator.DefineLabel();
-        var shouldntReroll = generator.DefineLabel();
-        var hasRerolled = generator.DeclareLocal(typeof(bool));
-        var shuffleMethod = typeof(Utility).GetMethods().Where(mi => mi.Name == "Shuffle").ElementAtOrDefault(1);
-        if (shuffleMethod is null)
-        {
-            Log.E($"Failed to acquire {typeof(Utility)}::Shuffle method.");
-            return null;
-        }
-
         // Injected: if (ShouldRerollFish(who, whichFish, hasRerolled)) goto <choose_fish>
         // Before: caught = new Object(whichFish, 1);
         try
         {
+            var startOfFishRoll = generator.DefineLabel();
+            var shouldntReroll = generator.DefineLabel();
+            var hasRerolled = generator.DeclareLocal(typeof(bool));
+            var shuffleMethod = typeof(Utility)
+                                    .GetMethods()
+                                    .Where(mi => mi.Name == "Shuffle")
+                                    .ElementAtOrDefault(1) ?? ThrowHelper.ThrowMissingMethodException<MethodInfo>("Failed to acquire {typeof(Utility)}::Shuffle method.");
             helper
                 .InsertInstructions(
                     // set hasRerolled to false
@@ -99,7 +94,7 @@ internal sealed class GameLocationGetFishPatch : HarmonyPatch
 
     private static bool ShouldRerollFish(Farmer who, int currentFish, bool hasRerolled)
     {
-        return (currentFish is > 166 and < 173 || (ModEntry.Config.SeaweedIsTrash && currentFish.IsAlgaeIndex()))
+        return (currentFish.IsTrashIndex() || currentFish.IsAlgaeIndex())
                && who.CurrentTool is FishingRod rod
                && rod.getBaitAttachmentIndex() != MagnetIndex
                && who.HasProfession(Profession.Fisher) && !hasRerolled;

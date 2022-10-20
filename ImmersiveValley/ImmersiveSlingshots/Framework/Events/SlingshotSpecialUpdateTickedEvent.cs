@@ -64,7 +64,7 @@ internal sealed class SlingshotSpecialUpdateTickedEvent : UpdateTickedEvent
                                                          (1f - slingshot.GetEnchantmentLevel<TopazEnchantment>() * 0.1f));
             if (ModEntry.IsImmersiveRingsLoaded)
                 ModEntry.State.SlingshotCooldown =
- (int) (ModEntry.State.SlingshotCooldown * (1f - user.Read<float>("CooldownReduction", modId: "DaLion.ImmersiveRings")));
+ (int) (ModEntry.State.SlingshotCooldown * (1f - user.Read<float>(DataFields.CooldownReduction, modId: "DaLion.ImmersiveRings")));
 #endif
                 _currentFrame = -1;
             }
@@ -78,7 +78,7 @@ internal sealed class SlingshotSpecialUpdateTickedEvent : UpdateTickedEvent
 
                 if (_currentFrame == 6)
                 {
-                    Farmer.showToolSwipeEffect(Game1.player);
+                    Farmer.showToolSwipeEffect(user);
                     Game1.playSound("swordswipe");
                 }
 
@@ -88,8 +88,8 @@ internal sealed class SlingshotSpecialUpdateTickedEvent : UpdateTickedEvent
                     slingshot.DoDamage((int)x, (int)y, user);
                 }
 
-                Game1.player.UsingTool = true;
-                Game1.player.CanMove = false;
+                user.UsingTool = true;
+                user.CanMove = false;
             }
         }
         else

@@ -28,7 +28,7 @@ internal sealed class TreeDayUpdatePatch : HarmonyPatch
         if (__instance.growthStage.Value >= Tree.treeStage && __instance.CanBeTapped() &&
             ModEntry.Config.AgeImprovesTreeSap)
         {
-            __instance.Increment("Age");
+            __instance.Increment(DataFields.Age);
         }
     }
 

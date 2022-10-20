@@ -3,7 +3,6 @@ namespace DaLion.Common.Integrations.SpaceCore;
 
 #region using directives
 
-using System;
 using System.Reflection;
 
 #endregion using directives

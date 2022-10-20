@@ -2,7 +2,6 @@
 
 #region using directives
 
-using System;
 using System.Xml.Serialization;
 using DaLion.Stardew.Arsenal.Framework.VirtualProperties;
 using StardewValley.Monsters;

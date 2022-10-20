@@ -10,5 +10,9 @@ internal sealed class ModState
 {
     internal int EnergizeStacks { get; set; } = -1;
 
+    internal int QueuedHits { get; set; } = 0;
+
+    internal int WeaponSwingCooldown { get; set; } = 0;
+
     internal ComboHitStep ComboHitStep { get; set; } = ComboHitStep.Idle;
 }

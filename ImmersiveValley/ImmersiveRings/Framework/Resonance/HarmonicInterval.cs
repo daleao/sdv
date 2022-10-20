@@ -1,13 +1,6 @@
 ﻿#pragma warning disable SA1649 // File name should match first type name
 namespace DaLion.Stardew.Rings.Framework.Resonance;
 
-#region using directives
-
-using CommunityToolkit.Diagnostics;
-using NetEscapades.EnumGenerators;
-
-#endregion using directives
-
 #region enum
 
 /// <summary>The number of steps between two <see cref="Gemstone"/>s in a <see cref="DiatonicScale"/>.</summary>
@@ -63,14 +56,6 @@ public record HarmonicInterval
         this.First = first;
         this.Second = second;
         this.Number = first.IntervalWith(second);
-        this.Resonance = this.Number switch
-        {
-            IntervalNumber.Second or IntervalNumber.Seventh => -1d / 8d,
-            IntervalNumber.Third or IntervalNumber.Sixth => 5d / 27d,
-            IntervalNumber.Fourth => 1d / 3d,
-            IntervalNumber.Fifth => 1d / 2d,
-            _ => 0f,
-        };
     }
 
     /// <summary>Gets the first <see cref="Gemstone"/> in the pair.</summary>
@@ -81,9 +66,6 @@ public record HarmonicInterval
 
     /// <summary>Gets the number of steps between <see cref="First"/> and <see cref="Second"/> in a <see cref="DiatonicScale"/>.</summary>
     public IntervalNumber Number { get; }
-
-    /// <summary>Gets the factor by which <see cref="Second"/> amplifies or dampens <see cref="First"/>.</summary>
-    public double Resonance { get; }
 
     /// <summary>Adds two <see cref="HarmonicInterval"/>s.</summary>
     /// <param name="a">The first <see cref="HarmonicInterval"/>.</param>

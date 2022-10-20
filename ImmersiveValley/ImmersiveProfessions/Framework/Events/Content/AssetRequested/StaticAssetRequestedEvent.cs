@@ -2,7 +2,6 @@
 
 #region using directives
 
-using System;
 using System.Collections.Generic;
 using DaLion.Common.Events;
 using DaLion.Common.Extensions;
@@ -132,7 +131,7 @@ internal sealed class StaticAssetRequestedEvent : AssetRequestedEvent
     {
         var data = asset.AsDictionary<string, string>().Data;
         var taxBonus =
-            Game1.player.Read<float>("ConservationistActiveTaxBonusPct");
+            Game1.player.Read<float>(DataFields.ConservationistActiveTaxBonusPct);
         var key = taxBonus >= ModEntry.Config.ConservationistTaxBonusCeiling
             ? "conservationist.mail.max"
             : "conservationist.mail";
@@ -209,7 +208,7 @@ internal sealed class StaticAssetRequestedEvent : AssetRequestedEvent
         if (ModEntry.SveConfig is not null)
         {
             if (ModEntry.SveConfig.Value<bool?>("DisableGaldoranTheme") == false &&
-                (Game1.currentLocation?.NameOrUniqueName.IsAnyOf(
+                (Game1.currentLocation?.NameOrUniqueName.IsIn(
                      "Custom_CastleVillageOutpost",
                      "Custom_CrimsonBadlands",
                      "Custom_IridiumQuarry",

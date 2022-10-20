@@ -2,10 +2,8 @@
 
 #region using directives
 
-using System;
 using System.Linq;
 using System.Reflection;
-using DaLion.Common;
 using DaLion.Common.Attributes;
 using DaLion.Common.Extensions;
 using DaLion.Common.Extensions.Reflection;
@@ -50,7 +48,7 @@ internal sealed class FishPondMachineOnOutputTakenPatch : HarmonyPatch
                 .CompileUnboundDelegate<Func<object, FishPond>>();
             machine = _getMachine(__instance);
 
-            var produce = machine.Read("ItemsHeld").ParseList<string>(";");
+            var produce = machine.Read(DataFields.ItemsHeld).ParseList<string>(";");
             if (produce.Count <= 0)
             {
                 machine.output.Value = null;
@@ -80,10 +78,10 @@ internal sealed class FishPondMachineOnOutputTakenPatch : HarmonyPatch
 
                 machine.output.Value = o;
                 produce.Remove(next);
-                machine.Write("ItemsHeld", string.Join(";", produce));
+                machine.Write(DataFields.ItemsHeld, string.Join(";", produce));
             }
 
-            if (machine.Read<bool>("CheckedToday"))
+            if (machine.Read<bool>(DataFields.CheckedToday))
             {
                 return false; // don't run original logic
             }
@@ -98,13 +96,13 @@ internal sealed class FishPondMachineOnOutputTakenPatch : HarmonyPatch
                 .CompileUnboundDelegate<Func<object, Farmer>>();
             _getOwner(__instance).gainExperience(Farmer.fishingSkill, FishPond.HARVEST_BASE_EXP + bonus);
 
-            machine.Write("CheckedToday", true.ToString());
+            machine.Write(DataFields.CheckedToday, true.ToString());
             return false; // don't run original logic
         }
         catch (InvalidOperationException ex) when (machine is not null)
         {
             Log.W($"ItemsHeld data is invalid. {ex}\nThe data will be reset");
-            machine.Write("ItemsHeld", null);
+            machine.Write(DataFields.ItemsHeld, null);
             return true; // default to original logic
         }
         catch (Exception ex)

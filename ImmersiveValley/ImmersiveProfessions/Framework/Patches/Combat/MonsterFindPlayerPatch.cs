@@ -2,17 +2,14 @@
 
 #region using directives
 
-using System;
 using System.Linq;
 using System.Reflection;
-using DaLion.Common;
 using DaLion.Common.Extensions.Stardew;
 using DaLion.Stardew.Professions.Extensions;
 using DaLion.Stardew.Professions.Framework.VirtualProperties;
 using HarmonyLib;
 using StardewValley.Monsters;
 using HarmonyPatch = DaLion.Common.Harmony.HarmonyPatch;
-using SObjectExtensions = DaLion.Common.Extensions.Stardew.SObjectExtensions;
 
 #endregion using directives
 

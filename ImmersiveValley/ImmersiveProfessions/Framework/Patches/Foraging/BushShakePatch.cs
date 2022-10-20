@@ -2,11 +2,9 @@
 
 #region using directives
 
-using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
-using DaLion.Common;
 using DaLion.Common.Extensions.Reflection;
 using DaLion.Common.Harmony;
 using DaLion.Common.ModData;
@@ -59,10 +57,10 @@ internal sealed class BushShakePatch : HarmonyPatch
         }
 
         // Injected: if (Game1.player.professions.Contains(<ecologist_id>))
-        //     Data.IncrementField<uint>("EcologistItemsForaged")
-        var dontIncreaseEcologistCounter = generator.DefineLabel();
+        //     Data.IncrementField<uint>(DataFields.EcologistItemsForaged)
         try
         {
+            var dontIncreaseEcologistCounter = generator.DefineLabel();
             helper
                 .FindNext(
                     new CodeInstruction(OpCodes.Ldarg_0))
@@ -72,7 +70,7 @@ internal sealed class BushShakePatch : HarmonyPatch
                 .InsertInstructions(
                     new CodeInstruction(OpCodes.Brfalse_S, dontIncreaseEcologistCounter),
                     new CodeInstruction(OpCodes.Call, typeof(Game1).RequirePropertyGetter(nameof(Game1.player))),
-                    new CodeInstruction(OpCodes.Ldstr, "EcologistItemsForaged"),
+                    new CodeInstruction(OpCodes.Ldstr, DataFields.EcologistItemsForaged),
                     new CodeInstruction(
                         OpCodes.Call,
                         typeof(ModDataIO)

@@ -3,7 +3,6 @@
 #region using directives
 
 using System.Linq;
-using DaLion.Common;
 using DaLion.Common.Commands;
 using DaLion.Stardew.Slingshots.Framework.Enchantments;
 using StardewValley.Tools;

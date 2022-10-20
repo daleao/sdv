@@ -2,7 +2,6 @@
 
 #region using directives
 
-using System;
 using System.IO;
 using DaLion.Common.Integrations;
 using DaLion.Common.Integrations.JsonAssets;

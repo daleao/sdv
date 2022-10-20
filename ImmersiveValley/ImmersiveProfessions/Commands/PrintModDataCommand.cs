@@ -2,8 +2,6 @@
 
 #region using directives
 
-using System;
-using DaLion.Common;
 using DaLion.Common.Commands;
 using DaLion.Common.Enums;
 using DaLion.Common.Extensions.Stardew;
@@ -34,7 +32,7 @@ internal sealed class PrintModDataCommand : ConsoleCommand
     {
         var player = Game1.player;
         var message = $"Farmer {player.Name}'s mod data:";
-        var value = player.Read("EcologistItemsForaged");
+        var value = player.Read(DataFields.EcologistItemsForaged);
         message += "\n\t- " +
                    (!IsNullOrEmpty(value)
                        ? $"Ecologist Items Foraged: {value}\t\tExpected quality: {(Quality)player.GetEcologistForageQuality()}" +
@@ -43,7 +41,7 @@ internal sealed class PrintModDataCommand : ConsoleCommand
                              : Empty)
                        : "Mod data does not contain an entry for EcologistItemsForaged.");
 
-        value = player.Read("GemologistMineralsCollected");
+        value = player.Read(DataFields.GemologistMineralsCollected);
         message += "\n\t- " +
                    (!IsNullOrEmpty(value)
                        ? $"Gemologist Minerals Collected: {value}\n\t\tExpected quality: {(Quality)player.GetGemologistMineralQuality()}" +
@@ -52,19 +50,19 @@ internal sealed class PrintModDataCommand : ConsoleCommand
                              : Empty)
                        : "Mod data does not contain an entry for GemologistMineralsCollected.");
 
-        value = player.Read("ProspectorHuntStreak");
+        value = player.Read(DataFields.ProspectorHuntStreak);
         message += "\n\t- " +
                    (!IsNullOrEmpty(value)
                        ? $"Prospector Hunt Streak: {value} (affects Prospector Hunt treasure quality)"
                        : "Mod data does not contain an entry for ProspectorHuntStreak.");
 
-        value = player.Read("ScavengerHuntStreak");
+        value = player.Read(DataFields.ScavengerHuntStreak);
         message += "\n\t- " +
                    (!IsNullOrEmpty(value)
                        ? $"Scavenger Hunt Streak: {value} (affects Scavenger Hunt treasure quality)"
                        : "Mod data does not contain an entry for ScavengerHuntStreak.");
 
-        value = player.Read("ConservationistTrashCollectedThisSeason");
+        value = player.Read(DataFields.ConservationistTrashCollectedThisSeason);
         message += "\n\t- " +
                    (!IsNullOrEmpty(value)
                        ? $"Conservationist Trash Collected ({SeasonExtensions.Current()}): {value}\n\t\tExpected tax deduction for {SeasonExtensions.Next()}: " +
@@ -72,7 +70,7 @@ internal sealed class PrintModDataCommand : ConsoleCommand
                          $"{Math.Min(int.Parse(value) / ModEntry.Config.TrashNeededPerTaxBonusPct / 100f, ModEntry.Config.ConservationistTaxBonusCeiling):0%}"
                        : "Mod data does not contain an entry for ConservationistTrashCollectedThisSeason.");
 
-        value = player.Read("ConservationistActiveTaxBonusPct");
+        value = player.Read(DataFields.ConservationistActiveTaxBonusPct);
         message += "\n\t- " +
                    (!IsNullOrEmpty(value)
                        ? CurrentCulture($"ConservationistActiveTaxBonusPct: {float.Parse(value):0%}")

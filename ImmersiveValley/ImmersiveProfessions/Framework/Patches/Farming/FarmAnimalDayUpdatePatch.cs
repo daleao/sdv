@@ -2,11 +2,9 @@
 
 #region using directives
 
-using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
-using DaLion.Common;
 using DaLion.Common.Extensions.Reflection;
 using DaLion.Common.Harmony;
 using HarmonyLib;
@@ -40,10 +38,10 @@ internal sealed class FarmAnimalDayUpdatePatch : HarmonyPatch
         // To: FarmAnimal.daysToLay /= (FarmAnimal.happiness.Value >= 200 && Game1.getFarmer(FarmAnimal.ownerID).professions.Contains(<producer_id>))
         //		? Game1.getFarmer(FarmAnimal.ownerID).professions.Contains(100 + <producer_id>)) ? 3 : 2
         //		: 1
-        var notPrestigedProducer = generator.DefineLabel();
-        var resumeExecution1 = generator.DefineLabel();
         try
         {
+            var notPrestigedProducer = generator.DefineLabel();
+            var resumeExecution1 = generator.DefineLabel();
             helper
                 .FindFirst(
                     // find index of FarmAnimal.type.Value.Equals("Sheep")

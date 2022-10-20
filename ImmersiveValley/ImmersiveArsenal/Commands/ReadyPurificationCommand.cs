@@ -3,9 +3,7 @@
 #region using directives
 
 using System.Linq;
-using DaLion.Common;
 using DaLion.Common.Commands;
-using DaLion.Common.Extensions.Stardew;
 using StardewValley.Tools;
 
 #endregion using directives
@@ -21,7 +19,7 @@ internal sealed class ReadyPurificationCommand : ConsoleCommand
     }
 
     /// <inheritdoc />
-    public override string[] Triggers { get; } = { "ready_dark_sword", "ready_sword", "ready_purify" };
+    public override string[] Triggers { get; } = { "ready_purification" };
 
     /// <inheritdoc />
     public override string Documentation => "Ready a currently held Dark Sword for purification.";
@@ -39,6 +37,6 @@ internal sealed class ReadyPurificationCommand : ConsoleCommand
             return;
         }
 
-        darkSword.Write("EnemiesSlain", ModEntry.Config.RequiredKillCountToPurifyDarkSword.ToString());
+        // implement...
     }
 }

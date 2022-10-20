@@ -2,7 +2,6 @@
 
 #region using directives
 
-using System;
 using HarmonyLib;
 using StardewValley.Tools;
 using HarmonyPatch = DaLion.Common.Harmony.HarmonyPatch;

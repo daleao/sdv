@@ -1,11 +1,5 @@
 ﻿namespace DaLion.Common.Exceptions;
 
-#region using directives
-
-using System;
-
-#endregion using directives
-
 /// <summary>Thrown when a given type is not found in any executing assembly at runtime.</summary>
 public class MissingTypeException : Exception
 {

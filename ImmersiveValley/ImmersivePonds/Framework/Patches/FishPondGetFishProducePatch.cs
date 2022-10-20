@@ -2,12 +2,9 @@
 
 #region using directives
 
-using System;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using CommunityToolkit.Diagnostics;
-using DaLion.Common;
 using DaLion.Common.Extensions;
 using DaLion.Common.Extensions.Collections;
 using DaLion.Common.Extensions.Stardew;
@@ -42,7 +39,7 @@ internal sealed class FishPondGetFishProducePatch : HarmonyPatch
 
         try
         {
-            var held = __instance.DeserializeObjectListData("ItemsHeld");
+            var held = __instance.DeserializeObjectListData(DataFields.ItemsHeld);
             if (__instance.output.Value is not null)
             {
                 held.Add(__instance.output.Value);
@@ -54,7 +51,7 @@ internal sealed class FishPondGetFishProducePatch : HarmonyPatch
             if (__instance.HasAlgae())
             {
                 var algaeStacks = new[] { 0, 0, 0 }; // green, white, seaweed
-                var population = __instance.Read<int>("GreenAlgaeLivingHere");
+                var population = __instance.Read<int>(DataFields.GreenAlgaeLivingHere);
                 var chance = Utility.Lerp(0.15f, 0.95f, population / (float)__instance.currentOccupants.Value);
                 for (var i = 0; i < population; ++i)
                 {
@@ -64,7 +61,7 @@ internal sealed class FishPondGetFishProducePatch : HarmonyPatch
                     }
                 }
 
-                population = __instance.Read<int>("WhiteAlgaeLivingHere");
+                population = __instance.Read<int>(DataFields.WhiteAlgaeLivingHere);
                 chance = Utility.Lerp(0.15f, 0.95f, population / (float)__instance.currentOccupants.Value);
                 for (var i = 0; i < population; ++i)
                 {
@@ -74,7 +71,7 @@ internal sealed class FishPondGetFishProducePatch : HarmonyPatch
                     }
                 }
 
-                population = __instance.Read<int>("SeaweedLivingHere");
+                population = __instance.Read<int>(DataFields.SeaweedLivingHere);
                 chance = Utility.Lerp(0.15f, 0.95f, population / (float)__instance.currentOccupants.Value);
                 for (var i = 0; i < population; ++i)
                 {
@@ -134,7 +131,7 @@ internal sealed class FishPondGetFishProducePatch : HarmonyPatch
                 }
 
                 var serialized = held.Take(36).Select(p => $"{p.ParentSheetIndex},{p.Stack},0");
-                __instance.Write("ItemsHeld", string.Join(';', serialized));
+                __instance.Write(DataFields.ItemsHeld, string.Join(';', serialized));
                 return false; // don't run original logic
             }
 
@@ -193,8 +190,8 @@ internal sealed class FishPondGetFishProducePatch : HarmonyPatch
             else
             {
                 var fishQualities = __instance.Read(
-                        "FishQualities",
-                        $"{__instance.FishCount - __instance.Read<int>("FamilyLivingHere")},0,0,0")
+                        DataFields.FishQualities,
+                        $"{__instance.FishCount - __instance.Read<int>(DataFields.FamilyLivingHere)},0,0,0")
                     .ParseList<int>();
                 if (fishQualities.Count != 4)
                 {
@@ -202,7 +199,7 @@ internal sealed class FishPondGetFishProducePatch : HarmonyPatch
                 }
 
                 var familyQualities =
-                    __instance.Read("FamilyQualities", "0,0,0,0").ParseList<int>();
+                    __instance.Read(DataFields.FamilyQualities, "0,0,0,0").ParseList<int>();
                 if (familyQualities.Count != 4)
                 {
                     ThrowHelper.ThrowInvalidDataException("FamilyQualities data had incorrect number of values.");
@@ -251,7 +248,7 @@ internal sealed class FishPondGetFishProducePatch : HarmonyPatch
                 if (__instance.HasRadioactiveFish())
                 {
                     var heldMetals =
-                        __instance.Read("MetalsHeld")
+                        __instance.Read(DataFields.MetalsHeld)
                             .ParseList<string>(";")
                             .Select(li => li?.ParseTuple<int, int>())
                             .WhereNotNull()
@@ -267,7 +264,7 @@ internal sealed class FishPondGetFishProducePatch : HarmonyPatch
                     }
 
                     __instance.Write(
-                        "MetalsHeld",
+                        DataFields.MetalsHeld,
                         string.Join(';', heldMetals.Select(m => string.Join(',', m.Item1, m.Item2))));
                 }
             }
@@ -284,11 +281,11 @@ internal sealed class FishPondGetFishProducePatch : HarmonyPatch
             if (held.Count > 0)
             {
                 var serialized = held.Take(36).Select(p => $"{p.ParentSheetIndex},{p.Stack},{((SObject)p).Quality}");
-                __instance.Write("ItemsHeld", string.Join(';', serialized));
+                __instance.Write(DataFields.ItemsHeld, string.Join(';', serialized));
             }
             else
             {
-                __instance.Write("ItemsHeld", null);
+                __instance.Write(DataFields.ItemsHeld, null);
             }
 
             if (__result!.ParentSheetIndex != Constants.RoeIndex)
@@ -298,7 +295,7 @@ internal sealed class FishPondGetFishProducePatch : HarmonyPatch
 
             var fishIndex = fish.ParentSheetIndex;
             if (fish.IsLegendary() && random.NextDouble() <
-                __instance.Read<double>("FamilyLivingHere") / __instance.FishCount)
+                __instance.Read<double>(DataFields.FamilyLivingHere) / __instance.FishCount)
             {
                 fishIndex = Utils.ExtendedFamilyPairs[fishIndex];
             }
@@ -320,9 +317,9 @@ internal sealed class FishPondGetFishProducePatch : HarmonyPatch
         catch (InvalidDataException ex)
         {
             Log.W($"{ex}\nThe data will be reset.");
-            __instance.Write("FishQualities", $"{__instance.FishCount},0,0,0");
-            __instance.Write("FamilyQualities", null);
-            __instance.Write("FamilyLivingHere", null);
+            __instance.Write(DataFields.FishQualities, $"{__instance.FishCount},0,0,0");
+            __instance.Write(DataFields.FamilyQualities, null);
+            __instance.Write(DataFields.FamilyLivingHere, null);
             return true; // default to original logic
         }
         catch (Exception ex)

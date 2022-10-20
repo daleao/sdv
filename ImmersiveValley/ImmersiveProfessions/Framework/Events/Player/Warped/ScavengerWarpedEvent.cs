@@ -25,8 +25,7 @@ internal sealed class ScavengerWarpedEvent : WarpedEvent
             ModEntry.State.ScavengerHunt.Value.Fail();
         }
 
-        if (!Game1.eventUp && e.NewLocation.IsOutdoors &&
-            (ModEntry.Config.AllowScavengerHuntsOnFarm || !e.NewLocation.IsFarm))
+        if (e.NewLocation.IsOutdoors && (ModEntry.Config.AllowScavengerHuntsOnFarm || !e.NewLocation.IsFarm))
         {
             ModEntry.State.ScavengerHunt.Value.TryStart(e.NewLocation);
         }

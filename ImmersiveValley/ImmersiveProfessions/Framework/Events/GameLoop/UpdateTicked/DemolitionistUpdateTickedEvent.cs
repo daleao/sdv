@@ -2,7 +2,6 @@
 
 #region using directives
 
-using System;
 using System.Linq;
 using DaLion.Common.Events;
 using StardewModdingAPI.Events;
@@ -55,7 +54,7 @@ internal sealed class DemolitionistUpdateTickedEvent : UpdateTickedEvent
                 1,
                 "Demolitionist",
                 ModEntry.i18n.Get(
-                    "demolitionist.name" + (Game1.player.IsMale ? ".male" : ".female")))
+                    "demolitionist.title" + (Game1.player.IsMale ? ".male" : ".female")))
             {
                 which = this._buffId,
                 sheetIndex = BuffSheetIndex,

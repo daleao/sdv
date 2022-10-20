@@ -2,11 +2,9 @@
 
 #region using directives
 
-using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
-using DaLion.Common;
 using DaLion.Common.Extensions.Reflection;
 using DaLion.Common.Harmony;
 using DaLion.Stardew.Professions.Extensions;
@@ -40,11 +38,11 @@ internal sealed class ObjectPerformDropDownActionPatch : HarmonyPatch
         //         ? 1
         //         : 2
         //     : 4);
-        var isNotProducer = generator.DefineLabel();
-        var isNotPrestiged = generator.DefineLabel();
-        var resumeExecution = generator.DefineLabel();
         try
         {
+            var isNotProducer = generator.DefineLabel();
+            var isNotPrestiged = generator.DefineLabel();
+            var resumeExecution = generator.DefineLabel();
             helper
                 .FindFirst(
                     new CodeInstruction(OpCodes.Ldc_I4_4),

@@ -2,11 +2,9 @@
 
 #region using directives
 
-using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
-using DaLion.Common;
 using DaLion.Common.Extensions.Reflection;
 using DaLion.Common.Harmony;
 using DaLion.Stardew.Professions.Extensions;
@@ -39,9 +37,9 @@ internal sealed class MineShaftCheckStoneForItemsPatch : HarmonyPatch
 
         // Injected: if (who.professions.Contains(<spelunker_id>) chanceForLadderDown += ModEntry.PlayerState.SpelunkerLadderStreak * 0.005;
         // After: if (EnemyCount == 0) chanceForLadderDown += 0.04;
-        var resumeExecution = generator.DefineLabel();
         try
         {
+            var resumeExecution = generator.DefineLabel();
             helper
                 .FindFirst(
                     // find ladder spawn segment

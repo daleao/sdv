@@ -2,11 +2,9 @@
 
 #region using directives
 
-using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
-using DaLion.Common;
 using DaLion.Common.Attributes;
 using DaLion.Common.Extensions.Reflection;
 using DaLion.Common.Harmony;
@@ -42,9 +40,9 @@ internal sealed class ModEntryEvent_DrawRegenBarPatch : HarmonyPatch
 
         // Inject: if (Game1.player.get_Ultimate()?.Hud.IsVisible) topOfBar.X -= 56f;
         // Before: e.SpriteBatch.Draw( ... )
-        var resumeExecution = ilGenerator.DefineLabel();
         try
         {
+            var resumeExecution = ilGenerator.DefineLabel();
             helper
                 .FindFirst(new CodeInstruction(OpCodes.Ldarg_2)) // arg 2 = RenderingHudEventArgs e
                 .StripLabels(out var labels)

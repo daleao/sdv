@@ -2,11 +2,9 @@
 
 #region using directives
 
-using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
-using DaLion.Common;
 using DaLion.Common.Attributes;
 using DaLion.Common.Extensions.Reflection;
 using DaLion.Common.Harmony;
@@ -39,12 +37,12 @@ internal sealed class InseminationSyringeOverridesDoFunctionPatch : HarmonyPatch
 
         // Injected: if (who.professions.Contains(<breeder_id>)) daysUntilBirth /= who.professions.Contains(<breeder_id> + 100) ? 3.0 : 2.0
         // Before: PregnancyController.AddPregnancy(animal, daysUtillBirth);
-        var daysUntilBirth = helper.Locals[5];
-        var isNotBreeder = generator.DefineLabel();
-        var isNotPrestiged = generator.DefineLabel();
-        var resumeDivision = generator.DefineLabel();
         try
         {
+            var daysUntilBirth = helper.Locals[5];
+            var isNotBreeder = generator.DefineLabel();
+            var isNotPrestiged = generator.DefineLabel();
+            var resumeDivision = generator.DefineLabel();
             helper
                 .FindFirst(
                     new CodeInstruction(OpCodes.Ldloc_1),

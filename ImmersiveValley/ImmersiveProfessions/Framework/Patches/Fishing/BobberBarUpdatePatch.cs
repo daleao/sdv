@@ -2,11 +2,9 @@
 
 #region using directives
 
-using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
-using DaLion.Common;
 using DaLion.Common.Extensions.Reflection;
 using DaLion.Common.Harmony;
 using DaLion.Stardew.Professions.Extensions;
@@ -67,9 +65,9 @@ internal sealed class BobberBarUpdatePatch : HarmonyPatch
 
         // Injected: if (Game1.player.professions.Contains(<aquarist_id>)) distanceFromCatching += Game1.player.GetAquaristCatchingBarCompensation();
         // After: distanceFromCatching -= ((whichBobber == 694 || beginnersRod) ? 0.002f : 0.003f);
-        var isNotAquarist = generator.DefineLabel();
         try
         {
+            var isNotAquarist = generator.DefineLabel();
             helper
                 .FindFirst(new CodeInstruction(OpCodes.Ldc_I4, 694))
                 .AdvanceUntil(new CodeInstruction(OpCodes.Stfld))

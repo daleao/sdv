@@ -2,7 +2,6 @@
 
 #region using directives
 
-using System;
 using System.Collections.Generic;
 using DaLion.Common.Extensions;
 using DaLion.Common.Extensions.Reflection;
@@ -41,7 +40,7 @@ public static class MineShaftExtensions
             for (var j = 0; j < shaft.Map.GetLayer("Buildings").LayerHeight; ++j)
             {
                 var index = shaft.getTileIndexAt(new Point(i, j), "Buildings");
-                if (index.IsAnyOf(173, 174))
+                if (index.IsIn(173, 174))
                 {
                     yield return new Vector2(i, j);
                 }

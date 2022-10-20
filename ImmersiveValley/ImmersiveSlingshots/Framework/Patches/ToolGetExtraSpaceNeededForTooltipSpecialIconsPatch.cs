@@ -2,7 +2,6 @@
 
 #region using directives
 
-using System;
 using System.Linq;
 using HarmonyLib;
 using Microsoft.Xna.Framework;

@@ -2,7 +2,6 @@
 
 #region using directives
 
-using System;
 using DaLion.Common.Classes;
 using DaLion.Common.Extensions.Reflection;
 using DaLion.Stardew.Professions.Extensions;

@@ -2,11 +2,9 @@
 
 #region using directives
 
-using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
-using DaLion.Common;
 using DaLion.Common.Harmony;
 using DaLion.Stardew.Professions.Extensions;
 using HarmonyLib;
@@ -35,10 +33,10 @@ internal sealed class HoeDirtApplySpeedIncreases : HarmonyPatch
 
         // From: if (who.professions.Contains(<agriculturist_id>)) speedIncrease += 0.1f;
         // To: if (who.professions.Contains(<agriculturist_id>)) speedIncrease += who.professions.Contains(100 + <agriculturist_id>)) ? 0.2f : 0.1f;
-        var isNotPrestiged = generator.DefineLabel();
-        var resumeExecution = generator.DefineLabel();
         try
         {
+            var isNotPrestiged = generator.DefineLabel();
+            var resumeExecution = generator.DefineLabel();
             helper
                 .FindProfessionCheck(Profession.Agriculturist.Value)
                 .Advance()

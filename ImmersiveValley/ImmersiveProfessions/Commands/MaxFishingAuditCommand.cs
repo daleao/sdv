@@ -2,7 +2,6 @@
 
 #region using directives
 
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using DaLion.Common.Commands;
@@ -34,7 +33,7 @@ internal sealed class MaxFishingAuditCommand : ConsoleCommand
     {
         var fishData = Game1.content
             .Load<Dictionary<int, string>>(PathUtilities.NormalizeAssetName("Data/Fish"))
-            .Where(p => !p.Key.IsAnyOf(152, 153, 157) && !p.Value.Contains("trap"))
+            .Where(p => !p.Key.IsIn(152, 153, 157) && !p.Value.Contains("trap"))
             .ToDictionary(p => p.Key, p => p.Value);
         foreach (var (key, value) in fishData)
         {

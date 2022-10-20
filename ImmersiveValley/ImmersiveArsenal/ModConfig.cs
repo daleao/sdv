@@ -24,9 +24,6 @@ public sealed class ModConfig
     /// <summary>Gets or sets a value indicating whether replace lame Galaxy and Infinity weapons with something truly legendary.</summary>
     public bool InfinityPlusOneWeapons { get; set; } = true;
 
-    /// <summary>Gets or sets your Dark Sword must slay this many enemies before it can be purified.</summary>
-    public int RequiredKillCountToPurifyDarkSword { get; set; } = 500;
-
     /// <summary>Gets or sets a value indicating whether improves certain underwhelming enchantments.</summary>
     public bool RebalancedForges { get; set; } = true;
 

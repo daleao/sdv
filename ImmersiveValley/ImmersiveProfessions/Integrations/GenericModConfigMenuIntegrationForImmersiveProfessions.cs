@@ -2,9 +2,7 @@
 
 #region using directives
 
-using System;
 using System.Linq;
-using CommunityToolkit.Diagnostics;
 using DaLion.Common.Extensions.Collections;
 using DaLion.Common.Extensions.SMAPI;
 using DaLion.Common.Integrations.GenericModConfigMenu;
@@ -189,11 +187,6 @@ internal sealed class GenericModConfigMenuIntegrationForImmersiveProfessions
                 () => "Toggles the 'Get Excited' buff when a Demolitionist is hit by an explosion.",
                 config => config.EnableGetExcited,
                 (config, value) => config.EnableGetExcited = value)
-            .AddCheckbox(
-                () => "Seaweed Is Junk",
-                () => "Whether Seaweed and Algae are considered junk for fishing purposes.",
-                config => config.SeaweedIsTrash,
-                (config, value) => config.SeaweedIsTrash = value)
             .AddNumberField(
                 () => "Angler Multiplier Cap",
                 () =>

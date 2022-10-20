@@ -2,11 +2,9 @@
 
 #region using directives
 
-using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
-using DaLion.Common;
 using DaLion.Common.Extensions.Reflection;
 using DaLion.Common.Harmony;
 using DaLion.Stardew.Arsenal.Framework.VirtualProperties;
@@ -44,9 +42,9 @@ internal sealed class GameLocationDamageMonsterPatch : HarmonyPatch
 
         // From: if (!monster.IsInvisible && ...
         // To: if ((!monster.IsInvisible || who?.CurrentTool is MeleeWeapon && IsClubSmashHittingDuggy(who.CurrentTool as MeleeWeapon, monster)) && ...
-        var resumeExecution = generator.DefineLabel();
         try
         {
+            var resumeExecution = generator.DefineLabel();
             helper
                 .FindFirst(
                     new CodeInstruction(OpCodes.Callvirt, typeof(NPC).RequirePropertyGetter(nameof(NPC.IsInvisible))))
@@ -84,9 +82,9 @@ internal sealed class GameLocationDamageMonsterPatch : HarmonyPatch
         // From: if (who != null && Game1.random.NextDouble() < (double)(critChance + (float)who.LuckLevel * (critChance / 40f)))
         // To: if (who != null && (Game1.random.NextDouble() < (double)(critChance + (float)who.LuckLevel * (critChance / 40f)) ||
         //         who.CurrentTool is MeleeWeapon && isClubSmashHittingDuggy(who.CurrentTool as MeleeWeapon, monster))
-        var doCrit = generator.DefineLabel();
         try
         {
+            var doCrit = generator.DefineLabel();
             helper
                 .FindNext(new CodeInstruction(OpCodes.Ldstr, "crit"))
                 .RetreatUntil(new CodeInstruction(OpCodes.Bge_Un_S))

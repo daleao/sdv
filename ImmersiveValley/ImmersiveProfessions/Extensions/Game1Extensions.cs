@@ -3,7 +3,9 @@
 #region using directives
 
 using System.Linq;
+using DaLion.Common.Extensions.Collections;
 using DaLion.Stardew.Professions.Framework;
+using StardewValley.Buildings;
 
 #endregion using directives
 
@@ -30,5 +32,14 @@ public static class Game1Extensions
         count = Game1.getOnlineFarmers()
             .Count(f => f.HasProfession(profession));
         return count > 0;
+    }
+
+    /// <summary>Checks for and corrects invalid <see cref="FishPond"/> populations in the game session.</summary>
+    /// <param name="game1">The <see cref="Game1"/> instance.</param>
+    public static void RevalidateFishPondPopulations(this Game1 game1)
+    {
+        Game1.getFarm().buildings.OfType<FishPond>()
+            .Where(p => (p.owner.Value == Game1.player.UniqueMultiplayerID || !Context.IsMultiplayer) &&
+                        !p.isUnderConstruction()).ForEach(p => p.UpdateMaximumOccupancy());
     }
 }

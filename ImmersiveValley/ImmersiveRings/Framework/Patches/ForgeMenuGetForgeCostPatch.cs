@@ -26,9 +26,8 @@ internal sealed class ForgeMenuGetForgeCostPatch : HarmonyPatch
     private static bool ForgeMenuGetForgeCostPrefix(ref int __result, Item left_item, Item right_item)
     {
         if (!ModEntry.Config.TheOneIridiumBand ||
-            left_item is not Ring { ParentSheetIndex: Constants.IridiumBandIndex } ||
-            right_item is not Ring right ||
-            !right.IsGemRing())
+            left_item is not Ring left || left.ParentSheetIndex != ModEntry.InfinityBandIndex ||
+            right_item is not Ring right || !right.IsGemRing())
         {
             return true; // run original logic
         }

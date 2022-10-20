@@ -2,7 +2,6 @@
 
 #region using directives
 
-using DaLion.Common;
 using DaLion.Common.Commands;
 using DaLion.Common.Extensions.Stardew;
 using StardewValley.Buildings;
@@ -42,14 +41,15 @@ internal sealed class ResetPondDataCommand : ConsoleCommand
             return;
         }
 
-        nearest.Write("FishQualities", null);
-        nearest.Write("FamilyQualities", null);
-        nearest.Write("FamilyLivingHere", null);
-        nearest.Write("DaysEmpty", 0.ToString());
-        nearest.Write("SeaweedLivingHere", null);
-        nearest.Write("GreenAlgaeLivingHere", null);
-        nearest.Write("WhiteAlgaeLivingHere", null);
-        nearest.Write("CheckedToday", null);
-        nearest.Write("ItemsHeld", null);
+        nearest.Write(DataFields.FishQualities, null);
+        nearest.Write(DataFields.FamilyQualities, null);
+        nearest.Write(DataFields.FamilyLivingHere, null);
+        nearest.Write(DataFields.DaysEmpty, 0.ToString());
+        nearest.Write(DataFields.SeaweedLivingHere, null);
+        nearest.Write(DataFields.GreenAlgaeLivingHere, null);
+        nearest.Write(DataFields.WhiteAlgaeLivingHere, null);
+        nearest.Write(DataFields.CheckedToday, null);
+        nearest.Write(DataFields.ItemsHeld, null);
+        nearest.Write(DataFields.MetalsHeld, null);
     }
 }

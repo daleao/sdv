@@ -2,7 +2,6 @@
 
 #region using directives
 
-using System;
 using HarmonyLib;
 using Microsoft.Xna.Framework;
 using StardewValley.Monsters;

@@ -3,8 +3,6 @@
 #region using directives
 
 using System.Linq;
-using CommunityToolkit.Diagnostics;
-using DaLion.Common;
 using DaLion.Common.Attributes;
 using DaLion.Common.Events;
 using StardewModdingAPI.Events;

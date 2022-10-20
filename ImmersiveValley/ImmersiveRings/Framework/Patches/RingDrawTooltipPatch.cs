@@ -2,11 +2,9 @@
 
 #region using directives
 
-using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
-using DaLion.Common;
 using DaLion.Common.Extensions.Reflection;
 using DaLion.Common.Harmony;
 using DaLion.Stardew.Rings.Extensions;
@@ -300,10 +298,10 @@ internal sealed class RingDrawTooltipPatch : HarmonyPatch
     {
         var helper = new IlHelper(original, instructions);
 
-        var displayVanillaEffect = generator.DefineLabel();
-        var resumeExecution = generator.DefineLabel();
         try
         {
+            var displayVanillaEffect = generator.DefineLabel();
+            var resumeExecution = generator.DefineLabel();
             helper
                 .FindFirst(new CodeInstruction(OpCodes.Ldc_I4_5))
                 .AddLabels(displayVanillaEffect)

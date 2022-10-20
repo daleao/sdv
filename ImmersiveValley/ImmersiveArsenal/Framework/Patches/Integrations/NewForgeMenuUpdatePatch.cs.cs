@@ -2,11 +2,9 @@
 
 #region using directives
 
-using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
-using DaLion.Common;
 using DaLion.Common.Attributes;
 using DaLion.Common.Extensions.Reflection;
 using DaLion.Common.Harmony;
@@ -59,9 +57,9 @@ internal sealed class NewForgeMenuUpdatePatch : HarmonyPatch
         //               UnforgeHolyBlade(weapon);
         //           else ...
         // After: if (weapon != null)
-        var vanillaUnforge = generator.DefineLabel();
         try
         {
+            var vanillaUnforge = generator.DefineLabel();
             helper
                 .FindLast(
                     new CodeInstruction(OpCodes.Pop),

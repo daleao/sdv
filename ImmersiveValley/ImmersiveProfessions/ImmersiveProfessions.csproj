@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 	
-	<Import Project="..\_build\common.targets"/>
+	<Import Project="..\common.targets"/>
 
 	<PropertyGroup>
 		<AssemblyName>ImmersiveProfessions</AssemblyName>

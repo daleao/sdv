@@ -2,16 +2,9 @@
 
 #region using directives
 
-using System.Linq;
-using DaLion.Common;
 using DaLion.Common.Events;
-using DaLion.Common.Extensions.Collections;
-using DaLion.Common.Extensions.Stardew;
 using DaLion.Stardew.Professions.Extensions;
-using DaLion.Stardew.Professions.Framework.Ultimates;
-using DaLion.Stardew.Professions.Framework.VirtualProperties;
 using StardewModdingAPI.Events;
-using StardewValley.Buildings;
 
 #endregion using directives
 
@@ -43,21 +36,14 @@ internal sealed class StaticSaveLoadedEvent : SaveLoadedEvent
     {
         var player = Game1.player;
 
-        // enable events
         ModEntry.Events.EnableForLocalPlayer();
 
-        // revalidate levels
         player.RevalidateLevels();
 
-        // revalidate levels
         player.RevalidateUltimate();
 
-        // revalidate fish pond populations
-        Game1.getFarm().buildings.OfType<FishPond>()
-            .Where(p => (p.owner.Value == player.UniqueMultiplayerID || !Context.IsMultiplayer) &&
-                        !p.isUnderConstruction()).ForEach(p => p.UpdateMaximumOccupancy());
+        Game1.game1.RevalidateFishPondPopulations();
 
-        // prepare to check for prestige achievement
         this.Manager.Enable<PrestigeAchievementOneSecondUpdateTickedEvent>();
     }
 }

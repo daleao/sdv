@@ -2,11 +2,9 @@
 
 #region using directives
 
-using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
-using DaLion.Common;
 using DaLion.Common.Extensions;
 using DaLion.Common.Extensions.Reflection;
 using DaLion.Common.Extensions.Stardew;
@@ -80,9 +78,9 @@ internal sealed class GameLocationCheckActionPatch : HarmonyPatch
         }
 
         // Injected: else if (who.professions.Contains(<gemologist_id>) && IsForagedMineral(objects[key])) objects[key].Quality = GetMineralQualityForGemologist()
-        var gemologistCheck = generator.DefineLabel();
         try
         {
+            var gemologistCheck = generator.DefineLabel();
             helper
                 .FindProfessionCheck(Farmer.botanist) // return to botanist check
                 .Retreat() // retreat to start of check
@@ -160,10 +158,10 @@ internal sealed class GameLocationCheckActionPatch : HarmonyPatch
 
         // From: if (random.NextDouble() < 0.2)
         // To: if (random.NextDouble() < who.professions.Contains(100 + <forager_id>) ? 0.4 : 0.2
-        var isNotPrestiged = generator.DefineLabel();
-        var resumeExecution = generator.DefineLabel();
         try
         {
+            var isNotPrestiged = generator.DefineLabel();
+            var resumeExecution = generator.DefineLabel();
             helper
                 .FindProfessionCheck(Profession.Forager.Value)
                 .Retreat()
@@ -199,11 +197,11 @@ internal sealed class GameLocationCheckActionPatch : HarmonyPatch
     {
         if (who.HasProfession(Profession.Ecologist) && obj.isForage(location) && !obj.IsForagedMineral())
         {
-            who.Increment("EcologistItemsForaged");
+            who.Increment(DataFields.EcologistItemsForaged);
         }
         else if (who.HasProfession(Profession.Gemologist) && obj.IsForagedMineral())
         {
-            who.Increment("GemologistMineralsCollected");
+            who.Increment(DataFields.GemologistMineralsCollected);
         }
     }
 
