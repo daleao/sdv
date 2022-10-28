@@ -1,0 +1,79 @@
+{
+  "Name": "The Overhaul",
+  "Author": "DaLion",
+  "Version": "1.0.0-Debug",
+  "Description": "A total gameplay overhaul.",
+  "UniqueID": "DaLion.Redux",
+  "EntryDll": "StardewRedux.dll",
+  "MinimumApiVersion": "3.14.0",
+  "UpdateKeys": [
+    "Nexus:????"
+  ],
+  "Dependencies": [
+    {
+      "UniqueID": "spacechase0.SpaceCore",
+      "MinimumVersion": "1.8.1",
+      "IsRequired": true
+    },
+    {
+      "UniqueID": "spacechase0.GenericModConfigMenu",
+      "MinimumVersion": "1.8.0",
+      "IsRequired": true
+    },
+    {
+      "UniqueID": "spacechase0.DynamicGameAssets",
+      "MinimumVersion": "1.4.3",
+      "IsRequired": false
+    },
+    {
+      "UniqueID": "spacechase0.JsonAssets",
+      "MinimumVersion": "1.10.7",
+      "IsRequired": false
+    },
+    {
+      "UniqueID": "spacechase0.LuckSkill",
+      "IsRequired": false
+    },
+    {
+      "UniqueID": "spacechase0.CookingSkill",
+      "IsRequired": false
+    },
+    {
+      "UniqueID": "spacechase0.MoonMisadventures",
+      "IsRequired": false
+    },
+    {
+      "UniqueID": "Pathoschild.Automate",
+      "IsRequired": false
+    },
+    {
+      "UniqueID": "blueberry.LoveOfCooking",
+      "MinimumVersion": "1.0.28",
+      "IsRequired": false
+    },
+    {
+      "UniqueID": "leclair.bettercrafting",
+      "MinimumVersion": "1.0.0",
+      "IsRequired": false
+    },
+    {
+      "UniqueID": "TehPers.FishingOverhaul",
+      "MinimumVersion": "3.2.1",
+      "IsRequired": false
+    },
+    {
+      "UniqueID": "BBR.BetterRings",
+      "IsRequired": false
+    },
+    {
+      "UniqueID": "drbirbdev.BinningSkill",
+      "IsRequired": false
+    },
+    {
+      "UniqueID": "drbirbdev.SocializingSkill",
+      "IsRequired": false
+    }
+  ],
+  "DGA.FormatVersion": 2,
+  "DGA.ConditionsFormatVersion": "1.23.0"
+}

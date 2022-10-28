@@ -354,31 +354,31 @@ internal sealed class ScavengerHunt : TreasureHunt
         }
 
         // gold ore
-        if (possibles.Count == 0 || this.Random.NextDouble() < 0.4)
+        if (possibles.Count <= 0 || this.Random.NextDouble() < 0.4)
         {
             possibles.Add(384);
         }
 
         // iron ore
-        if (possibles.Count == 0 || this.Random.NextDouble() < 0.4)
+        if (possibles.Count <= 0 || this.Random.NextDouble() < 0.4)
         {
             possibles.Add(380);
         }
 
         // copper ore
-        if (possibles.Count == 0 || this.Random.NextDouble() < 0.4)
+        if (possibles.Count <= 0 || this.Random.NextDouble() < 0.4)
         {
             possibles.Add(378);
         }
 
         // wood
-        if (possibles.Count == 0 || this.Random.NextDouble() < 0.4)
+        if (possibles.Count <= 0 || this.Random.NextDouble() < 0.4)
         {
             possibles.Add(388);
         }
 
         // stone
-        if (possibles.Count == 0 || this.Random.NextDouble() < 0.4)
+        if (possibles.Count <= 0 || this.Random.NextDouble() < 0.4)
         {
             possibles.Add(390);
         }

@@ -93,6 +93,26 @@ internal abstract class HarmonyPatch : IHarmonyPatch
         return typeof(TType).RequireMethod(name, parameters);
     }
 
+    /// <summary>Gets a property getter and asserts that it was found.</summary>
+    /// <typeparam name="TType">The type to search in.</typeparam>
+    /// <param name="name">The property name.</param>
+    /// <returns>The corresponding <see cref="MethodInfo"/>.</returns>
+    /// <remarks>Original code by <see href="https://github.com/Pathoschild">Pathoschild</see>.</remarks>
+    protected MethodInfo RequirePropertyGetter<TType>(string name)
+    {
+        return typeof(TType).RequirePropertyGetter(name);
+    }
+
+    /// <summary>Gets a property setter and asserts that it was found.</summary>
+    /// <typeparam name="TType">The type to search in.</typeparam>
+    /// <param name="name">The property name.</param>
+    /// <returns>The corresponding <see cref="MethodInfo"/>.</returns>
+    /// <remarks>Original code by <see href="https://github.com/Pathoschild">Pathoschild</see>.</remarks>
+    protected MethodInfo RequirePropertySetter<TType>(string name)
+    {
+        return typeof(TType).RequirePropertySetter(name);
+    }
+
     /// <summary>Gets all <see cref="HarmonyPatch"/>-annotated methods in the current instance.</summary>
     /// <returns>The <see cref="HarmonyMethod"/> representations of each patch method within the <see cref="HarmonyPatch"/>.</returns>
     private (HarmonyMethod? Prefix, HarmonyMethod? Postfix, HarmonyMethod? Transpiler, HarmonyMethod? Finalizer, HarmonyMethod? ReversePatch) GetHarmonyMethods()

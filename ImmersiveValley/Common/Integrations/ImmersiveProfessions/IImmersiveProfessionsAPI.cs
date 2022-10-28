@@ -1,4 +1,4 @@
-﻿namespace DaLion.Common.Integrations.WalkOfLife;
+﻿namespace DaLion.Common.Integrations.ImmersiveProfessions;
 
 #region using directives
 
@@ -10,12 +10,12 @@ using Microsoft.Xna.Framework;
 /// <remarks>Version 5.2.0.</remarks>
 public interface IImmersiveProfessionsApi
 {
-    /// <summary>Get the value of an Ecologist's forage quality.</summary>
+    /// <summary>Gets the value of an Ecologist's forage quality.</summary>
     /// <param name="farmer">The player.</param>
     /// <returns>A <see cref="SObject"/> quality level.</returns>
     int GetEcologistForageQuality(Farmer? farmer = null);
 
-    /// <summary>Get the value of a Gemologist's mineral quality.</summary>
+    /// <summary>Gets the value of a Gemologist's mineral quality.</summary>
     /// <param name="farmer">The player.</param>
     /// <returns>A <see cref="SObject"/> quality level.</returns>
     int GetGemologistMineralQuality(Farmer? farmer = null);
@@ -30,13 +30,13 @@ public interface IImmersiveProfessionsApi
     /// <returns>A <see cref="float"/> multiplier for fish prices.</returns>
     float GetAnglerFishPriceBonus(Farmer? farmer = null);
 
-    /// <summary>Get the value of the a Conservationist's projected tax deduction based on current season's trash collection.</summary>
+    /// <summary>Gets the value of the a Conservationist's projected tax deduction based on current season's trash collection.</summary>
     /// <param name="farmer">The player.</param>
     /// <returns>A percentage of tax deductions based current season's collected trash.</returns>
     float GetConservationistProjectedTaxBonus(Farmer? farmer = null);
 
     /// <summary>
-    ///     Get the value of the a Conservationist's effective tax deduction based on the preceding season's trash
+    ///     Gets the value of the a Conservationist's effective tax deduction based on the preceding season's trash
     ///     collection.
     /// </summary>
     /// <param name="farmer">The player.</param>
@@ -71,7 +71,7 @@ public interface IImmersiveProfessionsApi
 
     /// <inheritdoc cref="IImmersiveProfessions.ITreasureHunt.ForceStart"/>
     /// <param name="location">The hunt location.</param>
-    /// <param name="target">The target tile.</param>
+    /// <param name="target">The tarGets tile.</param>
     /// <param name="type">The type of treasure hunt.</param>
     void ForceStartNewHunt(GameLocation location, Vector2 target, IImmersiveProfessions.TreasureHuntType type);
 

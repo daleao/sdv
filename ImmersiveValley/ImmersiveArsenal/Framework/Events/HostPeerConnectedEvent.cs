@@ -35,9 +35,14 @@ internal sealed class HostPeerConnectedEvent : PeerConnectedEvent
         }
 
         ModEntry.Events.EnableForScreen<ArsenalSaveLoadedEvent>(e.Peer.ScreenID.Value);
-        if (ModEntry.Config.FaceMouseCursor)
+        if (ModEntry.Config.FaceMouseCursor || ModEntry.Config.SlickMoves)
         {
             ModEntry.Events.EnableForScreen<DriftButtonPressedEvent>(e.Peer.ScreenID.Value);
+        }
+
+        if (ModEntry.Config.ComboHits)
+        {
+            ModEntry.Events.EnableForScreen<ComboButtonPressedEvent>(e.Peer.ScreenID.Value);
         }
     }
 }

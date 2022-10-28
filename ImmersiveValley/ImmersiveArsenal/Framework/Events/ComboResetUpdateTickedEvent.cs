@@ -26,8 +26,6 @@ internal sealed class ComboResetUpdateTickedEvent : UpdateTickedEvent
         }
 
         ModEntry.State.ComboHitStep = ComboHitStep.Idle;
-        ModEntry.State.QueuedHits = 0;
-        Log.D($"Combo hit step: {ModEntry.State.ComboHitStep}");
         this.Disable();
     }
 }

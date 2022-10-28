@@ -24,7 +24,7 @@ internal sealed class CombinedRingOnUnequipPatch : HarmonyPatch
     [HarmonyPostfix]
     private static void CombinedRingOnUnequipPostfix(CombinedRing __instance, Farmer who)
     {
-        __instance.Get_Chord()?.OnUnequip(who.currentLocation, who);
+        __instance.Get_Chord()?.Unapply(who.currentLocation, who);
     }
 
     #endregion harmony patches

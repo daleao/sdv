@@ -7,7 +7,8 @@ using DaLion.Common.Commands;
 using DaLion.Common.Events;
 using DaLion.Common.Harmony;
 using DaLion.Common.Integrations.DynamicGameAssets;
-using DaLion.Common.Integrations.WalkOfLife;
+using Common.Integrations.ImmersiveProfessions;
+using Common.Integrations.ImmersiveRings;
 using DaLion.Stardew.Arsenal.Framework.Events;
 using StardewModdingAPI.Utilities;
 
@@ -52,9 +53,6 @@ public sealed class ModEntry : Mod
     /// <summary>Gets or sets the <see cref="IImmersiveProfessionsApi"/>.</summary>
     internal static IImmersiveProfessionsApi? ProfessionsApi { get; set; }
 
-    /// <summary>Gets a value indicating whether Immersive Rings mod is loaded in the current game session.</summary>
-    internal static bool IsImmersiveRingsLoaded { get; private set; }
-
     /// <summary>The mod entry point, called after the mod is first loaded.</summary>
     /// <param name="helper">Provides simplified APIs for writing mods.</param>
     public override void Entry(IModHelper helper)
@@ -63,9 +61,6 @@ public sealed class ModEntry : Mod
 
         // initialize logger
         Log.Init(this.Monitor);
-
-        // check for loaded mod integrations
-        IsImmersiveRingsLoaded = helper.ModRegistry.IsLoaded("DaLion.ImmersiveRings");
 
         // get configs
         Config = helper.ReadConfig<ModConfig>();
@@ -77,12 +72,7 @@ public sealed class ModEntry : Mod
             typeof(ArsenalGameLaunchedEvent),
             typeof(ArsenalSavedEvent),
             typeof(ArsenalSaveLoadedEvent),
-            typeof(ArsenalSavingEvent),
-            typeof(ComboButtonPressedEvent));
-        if (Config.FaceMouseCursor)
-        {
-            Events.Enable<DriftButtonPressedEvent>();
-        }
+            typeof(ArsenalSavingEvent));
 
         // initialize mod state
         PerScreenState = new PerScreen<ModState>(() => new ModState());

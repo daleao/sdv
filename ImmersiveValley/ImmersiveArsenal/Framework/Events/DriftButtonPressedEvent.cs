@@ -30,20 +30,20 @@ internal sealed class DriftButtonPressedEvent : ButtonPressedEvent
             return;
         }
 
-        if (!Game1.options.gamepadControls)
+        var originalDirection = (FacingDirection)player.FacingDirection;
+        if (!Game1.options.gamepadControls && ModEntry.Config.FaceMouseCursor)
         {
             // face mouse cursor
             player.FaceTowardsTile(Game1.currentCursorTile);
         }
 
-        if (!player.isMoving() || !player.running)
+        if (!player.isMoving() || !player.running || !ModEntry.Config.SlickMoves)
         {
             return;
         }
 
         // do drift
-        var direction = player.FacingDirection;
-        var driftTrajectory = ((FacingDirection)direction).ToVector() *
+        var driftTrajectory = originalDirection.ToVector() *
                               (1f + (Game1.player.addedSpeed * 0.1f)) * 2f;
         player.setTrajectory(driftTrajectory);
     }

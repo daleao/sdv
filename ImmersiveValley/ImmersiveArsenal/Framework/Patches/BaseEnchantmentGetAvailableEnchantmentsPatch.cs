@@ -41,7 +41,7 @@ internal sealed class BaseEnchantmentGetAvailableEnchantmentsPatch : HarmonyPatc
                     new CodeInstruction(OpCodes.Call, typeof(ModEntry).RequirePropertyGetter(nameof(ModEntry.Config))),
                     new CodeInstruction(
                         OpCodes.Call,
-                        typeof(ModConfig).RequirePropertyGetter(nameof(ModConfig.NewWeaponEnchants))),
+                        typeof(ModConfig).RequirePropertyGetter(nameof(ModConfig.OverhauledEnchants))),
                     new CodeInstruction(OpCodes.Brtrue_S, newWeaponEnchants))
                 .Advance(12)
                 .InsertInstructions(new CodeInstruction(OpCodes.Br_S, resumeExecution))

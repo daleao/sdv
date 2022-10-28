@@ -2,6 +2,7 @@
 
 #region using directives
 
+using DaLion.Common.Attributes;
 using DaLion.Stardew.Slingshots.Extensions;
 using DaLion.Stardew.Slingshots.Framework.VirtualProperties;
 using HarmonyLib;
@@ -11,6 +12,7 @@ using HarmonyPatch = DaLion.Common.Harmony.HarmonyPatch;
 #endregion using directives
 
 [UsedImplicitly]
+[Deprecated]
 internal sealed class Game1PressActionButtonPatch : HarmonyPatch
 {
     /// <summary>Initializes a new instance of the <see cref="Game1PressActionButtonPatch"/> class.</summary>
@@ -25,7 +27,7 @@ internal sealed class Game1PressActionButtonPatch : HarmonyPatch
     [HarmonyPostfix]
     private static void Game1PressActionButtonPostfix(ref bool __result)
     {
-        if (!__result || !ModEntry.Config.EnableSlingshotSpecialMove || ModEntry.ProfessionsApi is not null)
+        if (!__result || ModEntry.ProfessionsApi is not null)
         {
             return;
         }

@@ -4,11 +4,13 @@
 
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
+using System.Linq;
 using Ardalis.SmartEnum;
 using DaLion.Common.Extensions.Stardew;
 using DaLion.Common.Extensions.Xna;
 using DaLion.Stardew.Rings.Framework.Resonance;
 using Microsoft.Xna.Framework;
+using StardewValley.Tools;
 
 #endregion using directives
 
@@ -17,7 +19,7 @@ using Microsoft.Xna.Framework;
 ///     Each <see cref="Gemstone"/> vibrates with a characteristic wavelength, which allows it to resonate with
 ///     others in the <see cref="DiatonicScale"/> of <see cref="Gemstone"/>.
 /// </remarks>
-public abstract class Gemstone : SmartEnum<Gemstone>, IEquatable<Gemstone>, IComparable<Gemstone>
+public abstract class Gemstone : SmartEnum<Gemstone>, IEquatable<Gemstone>, IComparable<Gemstone>, IGemstone
 {
     #region enum entries
 
@@ -45,14 +47,14 @@ public abstract class Gemstone : SmartEnum<Gemstone>, IEquatable<Gemstone>, ICom
     #endregion enum entries
 
     /// <summary>Look-up to obtain the corresponding <see cref="Gemstone"/> from a ring index.</summary>
-    private static readonly Dictionary<int, Gemstone> _FromRing;
+    private static readonly Dictionary<int, Gemstone> FromRingDict;
 
     /// <summary>The canonical <see cref="DiatonicScale"/> with <see cref="Ruby"/> as the root.</summary>
-    private static readonly DiatonicScale _RubyScale;
+    private static readonly DiatonicScale RubyScale;
 
     static Gemstone()
     {
-        _FromRing = new Dictionary<int, Gemstone>();
+        FromRingDict = new Dictionary<int, Gemstone>();
 
         Ruby = new RubyGemstone();
         Aquamarine = new AquamarineGemstone();
@@ -62,7 +64,7 @@ public abstract class Gemstone : SmartEnum<Gemstone>, IEquatable<Gemstone>, ICom
         Jade = new JadeGemstone();
         Topaz = new TopazGemstone();
 
-        _RubyScale = new DiatonicScale();
+        RubyScale = new DiatonicScale();
     }
 
     /// <summary>Initializes a new instance of the <see cref="Gemstone"/> class.</summary>
@@ -77,7 +79,7 @@ public abstract class Gemstone : SmartEnum<Gemstone>, IEquatable<Gemstone>, ICom
     {
         this.ObjectIndex = objectIndex;
         this.RingIndex = ringIndex;
-        _FromRing[ringIndex] = this;
+        FromRingDict[ringIndex] = this;
 
         this.Frequency = frequency;
         this.Color = color;
@@ -101,39 +103,22 @@ public abstract class Gemstone : SmartEnum<Gemstone>, IEquatable<Gemstone>, ICom
     public Color InverseColor { get; }
 
     /// <summary>Gets the second <see cref="Gemstone"/> in the corresponding <see cref="DiatonicScale"/>.</summary>
-    public Gemstone Second => _RubyScale[(this.Value + 1) % 7];
+    public Gemstone Second => RubyScale[(this.Value + 1) % 7];
 
     /// <summary>Gets the third <see cref="Gemstone"/> in the corresponding <see cref="DiatonicScale"/>.</summary>
-    public Gemstone Third => _RubyScale[(this.Value + 2) % 7];
+    public Gemstone Third => RubyScale[(this.Value + 2) % 7];
 
     /// <summary>Gets the fourth <see cref="Gemstone"/> in the corresponding <see cref="DiatonicScale"/>.</summary>
-    public Gemstone Fourth => _RubyScale[(this.Value + 3) % 7];
+    public Gemstone Fourth => RubyScale[(this.Value + 3) % 7];
 
     /// <summary>Gets the fifth <see cref="Gemstone"/> in the corresponding <see cref="DiatonicScale"/>.</summary>
-    public Gemstone Fifth => _RubyScale[(this.Value + 4) % 7];
+    public Gemstone Fifth => RubyScale[(this.Value + 4) % 7];
 
     /// <summary>Gets the sixth <see cref="Gemstone"/> in the corresponding <see cref="DiatonicScale"/>.</summary>
-    public Gemstone Sixth => _RubyScale[(this.Value + 5) % 7];
+    public Gemstone Sixth => RubyScale[(this.Value + 5) % 7];
 
     /// <summary>Gets the seventh <see cref="Gemstone"/> in the corresponding <see cref="DiatonicScale"/>.</summary>
-    public Gemstone Seventh => _RubyScale[(this.Value + 6) % 7];
-
-    /// <summary>Get the gemstone associated with the specified ring index.</summary>
-    /// <param name="ringIndex">The index of a gemstone ring.</param>
-    /// <returns>The <see cref="Gemstone"/> which embedded in the <see cref="StardewValley.Objects.Ring"/> with the specified <paramref name="ringIndex"/>.</returns>
-    public static Gemstone FromRing(int ringIndex)
-    {
-        return _FromRing[ringIndex];
-    }
-
-    /// <summary>Try to get the gemstone associated with the specified ring index.</summary>
-    /// <param name="ringIndex">The index of a gemstone ring.</param>
-    /// <param name="gemstone">The matched gemstone, if any.</param>
-    /// <returns><see langword="true"/> if a matching gemstone exists, otherwise <see langword="false"/>.</returns>
-    public static bool TryFromRing(int ringIndex, [NotNullWhen(true)] out Gemstone? gemstone)
-    {
-        return _FromRing.TryGetValue(ringIndex, out gemstone);
-    }
+    public Gemstone Seventh => RubyScale[(this.Value + 6) % 7];
 
     /// <summary>
     ///     Gets the ascending diatonic <see cref="HarmonicInterval"/> between this and some other
@@ -148,18 +133,65 @@ public abstract class Gemstone : SmartEnum<Gemstone>, IEquatable<Gemstone>, ICom
             : (IntervalNumber)(7 + other.Value - this.Value);
     }
 
+    /// <summary>Get the gemstone associated with the specified ring index.</summary>
+    /// <param name="ringIndex">The index of a gemstone ring.</param>
+    /// <returns>The <see cref="Gemstone"/> which embedded in the <see cref="StardewValley.Objects.Ring"/> with the specified <paramref name="ringIndex"/>.</returns>
+    internal static Gemstone FromRing(int ringIndex)
+    {
+        return FromRingDict[ringIndex];
+    }
+
+    /// <summary>Try to get the gemstone associated with the specified ring index.</summary>
+    /// <param name="ringIndex">The index of a gemstone ring.</param>
+    /// <param name="gemstone">The matched gemstone, if any.</param>
+    /// <returns><see langword="true"/> if a matching gemstone exists, otherwise <see langword="false"/>.</returns>
+    internal static bool TryFromRing(int ringIndex, [NotNullWhen(true)] out Gemstone? gemstone)
+    {
+        return FromRingDict.TryGetValue(ringIndex, out gemstone);
+    }
+
+    /// <summary>Get the static gemstone instance with the specified <paramref name="type"/>.</summary>
+    /// <param name="type">The <see cref="Type"/> of a <see cref="Gemstone"/>.</param>
+    /// <returns>The <see cref="Gemstone"/> whose type matches <see cref="type"/>, if any, otherwise <see langword="null"/>.</returns>
+    internal static Gemstone? FromType(Type type)
+    {
+        return List.FirstOrDefault(gemstone => gemstone.GetType() == type);
+    }
+
     /// <summary>
-    ///     Resonates with the specified <paramref name="richness"/>, adding the corresponding stat bonuses to
+    ///     Resonates with the specified <paramref name="amplitude"/>, adding the corresponding stat bonuses to
     ///     <paramref name="who"/>.
     /// </summary>
-    /// <param name="richness">The resonance richness.</param>
-    /// <param name="who">The farmer.</param>
-    public abstract void Resonate(float richness, Farmer who);
+    /// <param name="who">The <see cref="Farmer"/>.</param>
+    /// <param name="amplitude">The resonance amplitude.</param>
+    internal abstract void ResonateInRing(Farmer who, float amplitude);
 
     /// <summary>Removes the corresponding resonance stat bonuses from <paramref name="who"/>.</summary>
-    /// <param name="richness">The resonance richness.</param>
-    /// <param name="who">The farmer.</param>
-    public abstract void Dissonate(float richness, Farmer who);
+    /// <param name="who">The <see cref="Farmer"/>.</param>
+    /// <param name="amplitude">The resonance amplitude.</param>
+    internal abstract void DissonateInRing(Farmer who, float amplitude);
+
+    /// <summary>Resonates with the specified <paramref name="weapon"/>.</summary>
+    /// <param name="weapon">The <see cref="MeleeWeapon"/>.</param>
+    /// <param name="amplitude">The resonance amplitude.</param>
+    internal abstract void ResonateInWeapon(MeleeWeapon weapon, float amplitude);
+
+    /// <summary>Removes the corresponding resonance stat bonuses from the <paramref name="weapon"/>.</summary>
+    /// <param name="weapon">The <see cref="MeleeWeapon"/>.</param>
+    /// <param name="amplitude">The resonance amplitude.</param>
+    internal abstract void DissonateInWeapon(MeleeWeapon weapon, float amplitude);
+
+    /// <summary>Resonates with the specified <paramref name="slingshot"/>.</summary>
+    /// <param name="slingshot">The <see cref="Slingshot"/>.</param>
+    /// <param name="amplitude">The resonance amplitude.</param>
+    /// <remarks>Requires Immersive Rings.</remarks>
+    internal abstract void ResonateInSlingshot(Slingshot slingshot, float amplitude);
+
+    /// <summary>Removes the corresponding resonance stat bonuses from the <paramref name="slingshot"/>.</summary>
+    /// <param name="slingshot">The <see cref="Slingshot"/>.</param>
+    /// <param name="amplitude">The resonance amplitude.</param>
+    /// <remarks>Requires Immersive Rings.</remarks>
+    internal abstract void DissonateInSlingshot(Slingshot slingshot, float amplitude);
 
     /// <inheritdoc />
     public bool Equals(Gemstone? other)
@@ -198,15 +230,47 @@ public abstract class Gemstone : SmartEnum<Gemstone>, IEquatable<Gemstone>, ICom
         }
 
         /// <inheritdoc />
-        public override void Resonate(float richness, Farmer who)
+        internal override void ResonateInRing(Farmer who, float amplitude)
         {
-            who.attackIncreaseModifier += 0.1f * richness;
+            who.attackIncreaseModifier += 0.1f * amplitude;
         }
 
         /// <inheritdoc />
-        public override void Dissonate(float richness, Farmer who)
+        internal override void DissonateInRing(Farmer who, float amplitude)
         {
-            who.attackIncreaseModifier -= 0.1f * richness;
+            who.attackIncreaseModifier -= 0.1f * amplitude;
+        }
+
+        /// <inheritdoc />
+        internal override void ResonateInWeapon(MeleeWeapon weapon, float amplitude)
+        {
+            var array = Game1.temporaryContent.Load<Dictionary<int, string>>("Data\\weapons")[weapon.InitialParentTileIndex].Split('/');
+            var baseMin = Convert.ToInt32(array[2]);
+            var baseMax = Convert.ToInt32(array[3]);
+            weapon.minDamage.Value += Math.Max(1, (int)(baseMin * 0.1f * amplitude));
+            weapon.maxDamage.Value += Math.Max(1, (int)(baseMax * 0.1f * amplitude));
+        }
+
+        /// <inheritdoc />
+        internal override void DissonateInWeapon(MeleeWeapon weapon, float amplitude)
+        {
+            var array = Game1.temporaryContent.Load<Dictionary<int, string>>("Data\\weapons")[weapon.InitialParentTileIndex].Split('/');
+            var baseMin = Convert.ToInt32(array[2]);
+            var baseMax = Convert.ToInt32(array[3]);
+            weapon.minDamage.Value -= Math.Max(1, (int)(baseMin * 0.1f * amplitude));
+            weapon.maxDamage.Value -= Math.Max(1, (int)(baseMax * 0.1f * amplitude));
+        }
+
+        /// <inheritdoc />
+        internal override void ResonateInSlingshot(Slingshot slingshot, float amplitude)
+        {
+            slingshot.Increment("RubyResonance", amplitude);
+        }
+
+        /// <inheritdoc />
+        internal override void DissonateInSlingshot(Slingshot slingshot, float amplitude)
+        {
+            slingshot.Increment("RubyResonance", -amplitude);
         }
 
         /// <inheritdoc />
@@ -236,15 +300,39 @@ public abstract class Gemstone : SmartEnum<Gemstone>, IEquatable<Gemstone>, ICom
         }
 
         /// <inheritdoc />
-        public override void Resonate(float richness, Farmer who)
+        internal override void ResonateInRing(Farmer who, float amplitude)
         {
-            who.critChanceModifier += 0.1f * richness;
+            who.critChanceModifier += 0.1f * amplitude;
         }
 
         /// <inheritdoc />
-        public override void Dissonate(float richness, Farmer who)
+        internal override void DissonateInRing(Farmer who, float amplitude)
         {
-            who.critChanceModifier -= 0.1f * richness;
+            who.critChanceModifier -= 0.1f * amplitude;
+        }
+
+        /// <inheritdoc />
+        internal override void ResonateInWeapon(MeleeWeapon weapon, float amplitude)
+        {
+            weapon.critChance.Value += (ModEntry.IsImmersiveArsenalLoaded ? 0.05f : 0.046f) * amplitude;
+        }
+
+        /// <inheritdoc />
+        internal override void DissonateInWeapon(MeleeWeapon weapon, float amplitude)
+        {
+            weapon.critChance.Value -= (ModEntry.IsImmersiveArsenalLoaded ? 0.05f : 0.046f) * amplitude;
+        }
+
+        /// <inheritdoc />
+        internal override void ResonateInSlingshot(Slingshot slingshot, float amplitude)
+        {
+            slingshot.Increment("AquamarineResonance", amplitude);
+        }
+
+        /// <inheritdoc />
+        internal override void DissonateInSlingshot(Slingshot slingshot, float amplitude)
+        {
+            slingshot.Increment("AquamarineResonance", -amplitude);
         }
 
         /// <inheritdoc />
@@ -274,15 +362,39 @@ public abstract class Gemstone : SmartEnum<Gemstone>, IEquatable<Gemstone>, ICom
         }
 
         /// <inheritdoc />
-        public override void Resonate(float richness, Farmer who)
+        internal override void ResonateInRing(Farmer who, float amplitude)
         {
-            who.knockbackModifier += 0.1f * richness;
+            who.knockbackModifier += 0.1f * amplitude;
         }
 
         /// <inheritdoc />
-        public override void Dissonate(float richness, Farmer who)
+        internal override void DissonateInRing(Farmer who, float amplitude)
         {
-            who.knockbackModifier -= 0.1f * richness;
+            who.knockbackModifier -= 0.1f * amplitude;
+        }
+
+        /// <inheritdoc />
+        internal override void ResonateInWeapon(MeleeWeapon weapon, float amplitude)
+        {
+            weapon.knockback.Value += 0.1f * amplitude;
+        }
+
+        /// <inheritdoc />
+        internal override void DissonateInWeapon(MeleeWeapon weapon, float amplitude)
+        {
+            weapon.knockback.Value -= 0.1f * amplitude;
+        }
+
+        /// <inheritdoc />
+        internal override void ResonateInSlingshot(Slingshot slingshot, float amplitude)
+        {
+            slingshot.Increment("AmethystResonance", amplitude);
+        }
+
+        /// <inheritdoc />
+        internal override void DissonateInSlingshot(Slingshot slingshot, float amplitude)
+        {
+            slingshot.Increment("AmethystResonance", -amplitude);
         }
 
         /// <inheritdoc />
@@ -312,15 +424,37 @@ public abstract class Gemstone : SmartEnum<Gemstone>, IEquatable<Gemstone>, ICom
         }
 
         /// <inheritdoc />
-        public override void Resonate(float richness, Farmer who)
+        internal override void ResonateInRing(Farmer who, float amplitude)
         {
-            who.Increment(DataFields.CooldownReduction, 0.1f * richness);
+            who.Increment(DataFields.CooldownReduction, 0.1f * amplitude);
         }
 
         /// <inheritdoc />
-        public override void Dissonate(float richness, Farmer who)
+        internal override void DissonateInRing(Farmer who, float amplitude)
         {
-            who.Increment(DataFields.CooldownReduction, -0.1f * richness);
+            who.Increment(DataFields.CooldownReduction, -0.1f * amplitude);
+        }
+
+        /// <inheritdoc />
+        internal override void ResonateInWeapon(MeleeWeapon weapon, float amplitude)
+        {
+            weapon.Increment("GarnetResonance", amplitude);
+        }
+
+        /// <inheritdoc />
+        internal override void DissonateInWeapon(MeleeWeapon weapon, float amplitude)
+        {
+            weapon.Increment("GarnetResonance", -amplitude);
+        }
+
+        /// <inheritdoc />
+        internal override void ResonateInSlingshot(Slingshot slingshot, float amplitude)
+        {
+        }
+
+        /// <inheritdoc />
+        internal override void DissonateInSlingshot(Slingshot slingshot, float amplitude)
+        {
         }
 
         /// <inheritdoc />
@@ -350,15 +484,39 @@ public abstract class Gemstone : SmartEnum<Gemstone>, IEquatable<Gemstone>, ICom
         }
 
         /// <inheritdoc />
-        public override void Resonate(float richness, Farmer who)
+        internal override void ResonateInRing(Farmer who, float amplitude)
         {
-            who.weaponSpeedModifier += 0.1f * richness;
+            who.weaponSpeedModifier += 0.1f * amplitude;
         }
 
         /// <inheritdoc />
-        public override void Dissonate(float richness, Farmer who)
+        internal override void DissonateInRing(Farmer who, float amplitude)
         {
-            who.weaponSpeedModifier -= 0.1f * richness;
+            who.weaponSpeedModifier -= 0.1f * amplitude;
+        }
+
+        /// <inheritdoc />
+        internal override void ResonateInWeapon(MeleeWeapon weapon, float amplitude)
+        {
+            weapon.Increment("EmeraldResonance", amplitude);
+        }
+
+        /// <inheritdoc />
+        internal override void DissonateInWeapon(MeleeWeapon weapon, float amplitude)
+        {
+            weapon.Increment("EmeraldResonance", -amplitude);
+        }
+
+        /// <inheritdoc />
+        internal override void ResonateInSlingshot(Slingshot slingshot, float amplitude)
+        {
+            slingshot.Increment("EmeraldResonance", amplitude);
+        }
+
+        /// <inheritdoc />
+        internal override void DissonateInSlingshot(Slingshot slingshot, float amplitude)
+        {
+            slingshot.Increment("EmeraldResonance", -amplitude);
         }
 
         /// <inheritdoc />
@@ -388,15 +546,39 @@ public abstract class Gemstone : SmartEnum<Gemstone>, IEquatable<Gemstone>, ICom
         }
 
         /// <inheritdoc />
-        public override void Resonate(float richness, Farmer who)
+        internal override void ResonateInRing(Farmer who, float amplitude)
         {
-            who.critPowerModifier += 0.5f * richness;
+            who.critPowerModifier += 0.5f * amplitude;
         }
 
         /// <inheritdoc />
-        public override void Dissonate(float richness, Farmer who)
+        internal override void DissonateInRing(Farmer who, float amplitude)
         {
-            who.critPowerModifier -= 0.5f * richness;
+            who.critPowerModifier -= 0.5f * amplitude;
+        }
+
+        /// <inheritdoc />
+        internal override void ResonateInWeapon(MeleeWeapon weapon, float amplitude)
+        {
+            weapon.critMultiplier.Value += (ModEntry.IsImmersiveArsenalLoaded ? 0.5f : 0.1f) * amplitude;
+        }
+
+        /// <inheritdoc />
+        internal override void DissonateInWeapon(MeleeWeapon weapon, float amplitude)
+        {
+            weapon.critMultiplier.Value += (ModEntry.IsImmersiveArsenalLoaded ? 0.5f : 0.1f) * amplitude;
+        }
+
+        /// <inheritdoc />
+        internal override void ResonateInSlingshot(Slingshot slingshot, float amplitude)
+        {
+            slingshot.Increment("JadeResonance", amplitude);
+        }
+
+        /// <inheritdoc />
+        internal override void DissonateInSlingshot(Slingshot slingshot, float amplitude)
+        {
+            slingshot.Increment("JadeResonance", -amplitude);
         }
 
         /// <inheritdoc />
@@ -426,29 +608,55 @@ public abstract class Gemstone : SmartEnum<Gemstone>, IEquatable<Gemstone>, ICom
         }
 
         /// <inheritdoc />
-        public override void Resonate(float richness, Farmer who)
+        internal override void ResonateInRing(Farmer who, float amplitude)
         {
             if (ModEntry.Config.RebalancedRings)
             {
-                who.resilience += richness > 1 ? (int)Math.Ceiling(3f * richness) : (int)Math.Floor(3f * richness);
+                //who.resilience += amplitude > 1 ? (int)Math.Ceiling(3f * amplitude) : (int)Math.Floor(3f * amplitude);
+                who.Increment("TopazResonance", amplitude);
             }
             else
             {
-                who.weaponPrecisionModifier += 0.1f * richness;
+                who.weaponPrecisionModifier += 0.1f * amplitude;
             }
         }
 
         /// <inheritdoc />
-        public override void Dissonate(float richness, Farmer who)
+        internal override void DissonateInRing(Farmer who, float amplitude)
         {
             if (ModEntry.Config.RebalancedRings)
             {
-                who.resilience -= richness > 1 ? (int)Math.Ceiling(3f * richness) : (int)Math.Floor(3f * richness);
+                //who.resilience -= amplitude > 1 ? (int)Math.Ceiling(3f * amplitude) : (int)Math.Floor(3f * amplitude);
+                who.Increment("TopazResonance", -amplitude);
             }
             else
             {
-                who.weaponPrecisionModifier -= 0.1f * richness;
+                who.weaponPrecisionModifier -= 0.1f * amplitude;
             }
+        }
+
+        /// <inheritdoc />
+        internal override void ResonateInWeapon(MeleeWeapon weapon, float amplitude)
+        {
+            weapon.Increment("TopazResonance", amplitude);
+        }
+
+        /// <inheritdoc />
+        internal override void DissonateInWeapon(MeleeWeapon weapon, float amplitude)
+        {
+            weapon.Increment("TopazResonance", -amplitude);
+        }
+
+        /// <inheritdoc />
+        internal override void ResonateInSlingshot(Slingshot slingshot, float amplitude)
+        {
+            slingshot.Increment("TopazResonance", amplitude);
+        }
+
+        /// <inheritdoc />
+        internal override void DissonateInSlingshot(Slingshot slingshot, float amplitude)
+        {
+            slingshot.Increment("TopazResonance", -amplitude);
         }
 
         /// <inheritdoc />

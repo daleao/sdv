@@ -24,7 +24,7 @@ internal sealed class CombinedRingOnEquipPatch : HarmonyPatch
     [HarmonyPostfix]
     private static void CombinedRingOnEquipPostfix(CombinedRing __instance, Farmer who)
     {
-        __instance.Get_Chord()?.OnEquip(who.currentLocation, who);
+        __instance.Get_Chord()?.Apply(who.currentLocation, who);
     }
 
     #endregion harmony patches

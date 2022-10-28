@@ -1,5 +1,5 @@
 ﻿#pragma warning disable SA1201 // Elements should appear in the correct order
-namespace DaLion.Common.Integrations.WalkOfLife;
+namespace DaLion.Common.Integrations.ImmersiveProfessions;
 
 #region using directives
 

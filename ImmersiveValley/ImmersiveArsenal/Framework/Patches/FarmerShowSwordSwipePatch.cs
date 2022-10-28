@@ -2,7 +2,6 @@
 
 #region using directives
 
-using DaLion.Stardew.Arsenal.Framework.Events;
 using HarmonyLib;
 using Microsoft.Xna.Framework;
 using StardewValley;
@@ -26,16 +25,17 @@ internal sealed class FarmerShowSwordSwipePatch : HarmonyPatch
     [HarmonyPrefix]
     private static bool FarmerShowSwordSwipePrefix(Farmer who)
     {
-        var sprite = who.FarmerSprite;
-        if (sprite.currentAnimationIndex < 6 || ModEntry.State.ComboHitStep < ComboHitStep.FirstHit ||
-            who.CurrentTool is not MeleeWeapon { type.Value: MeleeWeapon.defenseSword or MeleeWeapon.stabbingSword } sword)
+        if (who.CurrentTool is not MeleeWeapon weapon ||
+            weapon.type.Value is not MeleeWeapon.defenseSword or MeleeWeapon.stabbingSword ||
+            ModEntry.State.ComboHitStep <= ComboHitStep.FirstHit)
         {
             return true; // run original logic
         }
 
+        var sprite = who.FarmerSprite;
         TemporaryAnimatedSprite? tempSprite = null;
         var actionTile = who.GetToolLocation(ignoreClick: true);
-        sword.DoDamage(who.currentLocation, (int)actionTile.X, (int)actionTile.Y, who.FacingDirection, 1, who);
+        weapon.DoDamage(who.currentLocation, (int)actionTile.X, (int)actionTile.Y, who.FacingDirection, 1, who);
         const int minSwipeInterval = 20;
         var index = sprite.currentAnimationIndex;
         switch (who.FacingDirection)
@@ -181,7 +181,7 @@ internal sealed class FarmerShowSwordSwipePatch : HarmonyPatch
             return false; // don't run original logic
         }
 
-        if (sword.InitialParentTileIndex == 4)
+        if (weapon.InitialParentTileIndex == 4)
         {
             tempSprite.color = Color.HotPink;
         }
@@ -189,22 +189,6 @@ internal sealed class FarmerShowSwordSwipePatch : HarmonyPatch
         who.currentLocation.temporarySprites.Add(tempSprite);
 
         return false; // don't run original logic
-    }
-
-    [HarmonyPostfix]
-    private static void FarmerShowSwordSwipePostfix(Farmer who)
-    {
-        Log.D($"Frame of farmer animation: {who.FarmerSprite.CurrentFrame}");
-
-        if (who.FarmerSprite.currentAnimationIndex % 6 == 1)
-        {
-            ++ModEntry.State.ComboHitStep;
-            Log.D($"Combo hit step: {ModEntry.State.ComboHitStep}");
-        }
-        else if (who.FarmerSprite.currentAnimationIndex > 6 && who.FarmerSprite.currentAnimationIndex % 6 == 2)
-        {
-            who.currentLocation.localSound("swordswipe");
-        }
     }
 
     #endregion harmony patches

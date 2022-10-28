@@ -5,6 +5,6 @@
     "enchantments.spreading": "Spreading",
 
     "ui.itemhover.damage": "{{amount}} Damage",
-    "ui.itemhover.chargespeed": "{{amount}} Firing Speed",
+    "ui.itemhover.chargespeed": "{{amount}} Fire Speed",
     "ui.itemhover.cdr": "-{{amount}} Cooldown"
 }

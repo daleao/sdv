@@ -49,6 +49,9 @@ public sealed class ModEntry : Mod
     /// <summary>Gets a value indicating whether Better Rings mod is loaded in the current game session.</summary>
     internal static bool IsBetterRingsLoaded { get; private set; }
 
+    /// <summary>Gets a value indicating whether Immersive Arsenal mod is loaded in the current game session.</summary>
+    internal static bool IsImmersiveArsenalLoaded { get; private set; }
+
     /// <summary>Gets a value indicating whether Immersive Professions mod is loaded in the current game session.</summary>
     internal static bool IsImmersiveProfessionsLoaded { get; private set; }
 
@@ -72,6 +75,7 @@ public sealed class ModEntry : Mod
 
         // check for Better Rings
         IsBetterRingsLoaded = helper.ModRegistry.IsLoaded("BBR.BetterRings");
+        IsImmersiveArsenalLoaded = helper.ModRegistry.IsLoaded("DaLion.ImmersiveArsenal");
         IsImmersiveProfessionsLoaded = helper.ModRegistry.IsLoaded("DaLion.ImmersiveProfessions");
 
         // get configs

@@ -51,7 +51,7 @@ internal sealed class MonsterTakeDamagePatch : HarmonyPatch
                     new CodeInstruction(OpCodes.Call, typeof(ModEntry).RequirePropertyGetter(nameof(ModEntry.Config))),
                     new CodeInstruction(
                         OpCodes.Call,
-                        typeof(ModConfig).RequirePropertyGetter(nameof(ModConfig.CritsIgnoreDefense))),
+                        typeof(ModConfig).RequirePropertyGetter(nameof(ModConfig.EnemyDefenseOverhaul))),
                     new CodeInstruction(OpCodes.Brfalse_S, mitigateDamage),
                     new CodeInstruction(OpCodes.Ldarg_0),
                     new CodeInstruction(

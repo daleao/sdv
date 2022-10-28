@@ -36,7 +36,8 @@ internal sealed class AddEnchantmentsCommand : ConsoleCommand
 
         while (args.Length > 0)
         {
-            BaseEnchantment? enchantment = args[0].ToLower() switch
+            var name = args[0].ToLower();
+            BaseEnchantment? enchantment = name switch
             {
                 // forges
                 "ruby" => new RubyEnchantment(),
@@ -63,20 +64,20 @@ internal sealed class AddEnchantmentsCommand : ConsoleCommand
 
             if (enchantment is null)
             {
-                Log.W($"Ignoring unknown enchantment {args[0]}.");
+                Log.W($"Ignoring unknown enchantment {name}.");
                 args = args.Skip(1).ToArray();
                 continue;
             }
 
             if (!enchantment.CanApplyTo(weapon))
             {
-                Log.W($"Cannot apply {enchantment.GetDisplayName()} enchantment to {weapon.DisplayName}.");
+                Log.W($"Cannot apply {name} enchantment to {weapon.DisplayName}.");
                 args = args.Skip(1).ToArray();
                 continue;
             }
 
-            weapon.enchantments.Add(enchantment);
-            Log.I($"Applied {enchantment.GetDisplayName()} enchantment to {weapon.DisplayName}.");
+            weapon.AddEnchantment(enchantment);
+            Log.I($"Applied {name} enchantment to {weapon.DisplayName}.");
 
             args = args.Skip(1).ToArray();
         }

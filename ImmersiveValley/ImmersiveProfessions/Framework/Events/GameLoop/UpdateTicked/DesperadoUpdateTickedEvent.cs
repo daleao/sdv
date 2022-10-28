@@ -35,7 +35,7 @@ internal sealed class DesperadoUpdateTickedEvent : UpdateTickedEvent
 
         var hasQuincyEnchantment = slinghsot.enchantments.FirstOrDefault(e =>
             e.GetType().FullName?.ContainsAllOf("ImmersiveSlingshots", "QuincyEnchantment") == true) is not null;
-        if ((slinghsot.attachments.Count == 0 || slinghsot.attachments[0] is null) && !hasQuincyEnchantment)
+        if ((slinghsot.attachments.Count <= 0 || slinghsot.attachments[0] is null) && !hasQuincyEnchantment)
         {
             this.Disable();
             return;

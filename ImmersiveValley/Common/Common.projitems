@@ -27,6 +27,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\Stardew\Vector2Extensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Harmony\LabelNotFoundException.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Harmony\PatternNotFoundException.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Integrations\ImmersiveRIngs\IImmersiveRings.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Integrations\ImmersiveRIngs\IImmersiveRingsApi.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)MathConstants.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)VectorUtils.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Commands\ConsoleCommand.cs" />

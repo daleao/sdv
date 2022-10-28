@@ -104,7 +104,7 @@ internal sealed class ToolDrawTooltipPatch : HarmonyPatch
         if (__instance.hasEnchantmentOfType<JadeEnchantment>())
         {
             var amount =
-                $"{__instance.GetEnchantmentLevel<JadeEnchantment>() * (ModEntry.ArsenalConfig?.Value<bool?>("RebalanceEnchants") == true ? 0.5f : 0.1f):p0}";
+                $"{__instance.GetEnchantmentLevel<JadeEnchantment>() * (ModEntry.ArsenalConfig?.Value<bool?>("RebalancedForges") == true ? 0.5f : 0.1f):p0}";
             co = new Color(0, 120, 120);
             Utility.drawWithShadow(
                 spriteBatch,
@@ -178,37 +178,37 @@ internal sealed class ToolDrawTooltipPatch : HarmonyPatch
         }
 
         // write bonus cooldown reduction
-        var garnetEnchantments = __instance.enchantments.Where(e => e.GetType().Name.Contains("GarnetEnchantment"))
-            .ToArray();
-        if (garnetEnchantments.Length > 0)
-        {
-            var amount = $"{garnetEnchantments.Sum(e => e.GetLevel()) * 0.1f:p0}";
-            co = new Color(0, 120, 120);
-            Utility.drawWithShadow(
-                spriteBatch,
-                Game1.mouseCursors,
-                new Vector2(x + 20, y + 20),
-                new Rectangle(150, 428, 10, 10),
-                Color.White,
-                0f,
-                Vector2.Zero,
-                4f,
-                false,
-                1f);
-            Utility.drawTextWithShadow(
-                spriteBatch,
-                ModEntry.i18n.Get("ui.itemhover.cdr", new { amount }),
-                font,
-                new Vector2(x + 68, y + 28),
-                co * 0.9f * alpha);
-            y += (int)Math.Max(font.MeasureString("TT").Y, 48f);
-        }
+        //var garnetEnchantments = __instance.enchantments.Where(e => e.GetType().Name.Contains("GarnetEnchantment"))
+        //    .ToArray();
+        //if (garnetEnchantments.Length > 0)
+        //{
+        //    var amount = $"{garnetEnchantments.Sum(e => e.GetLevel()) * 0.1f:p0}";
+        //    co = new Color(0, 120, 120);
+        //    Utility.drawWithShadow(
+        //        spriteBatch,
+        //        Game1.mouseCursors,
+        //        new Vector2(x + 20, y + 20),
+        //        new Rectangle(150, 428, 10, 10),
+        //        Color.White,
+        //        0f,
+        //        Vector2.Zero,
+        //        4f,
+        //        false,
+        //        1f);
+        //    Utility.drawTextWithShadow(
+        //        spriteBatch,
+        //        ModEntry.i18n.Get("ui.itemhover.cdr", new { amount }),
+        //        font,
+        //        new Vector2(x + 68, y + 28),
+        //        co * 0.9f * alpha);
+        //    y += (int)Math.Max(font.MeasureString("TT").Y, 48f);
+        //}
 
         // write bonus defense
         if (__instance.hasEnchantmentOfType<TopazEnchantment>())
         {
             var amount =
-                $"+{__instance.GetEnchantmentLevel<TopazEnchantment>() * (ModEntry.ArsenalConfig?.Value<bool?>("RebalanceEnchants") == true ? 5 : 1)}";
+                $"+{__instance.GetEnchantmentLevel<TopazEnchantment>() * (ModEntry.ArsenalConfig?.Value<bool?>("RebalancedForges") == true ? 3 : 1)}";
             co = new Color(0, 120, 120);
             Utility.drawWithShadow(
                 spriteBatch,

@@ -19,10 +19,10 @@ internal sealed class ImmersiveProjectile : BasicProjectile
             .CompileUnboundDelegate<Action<BasicProjectile, GameLocation>>());
 
     public ImmersiveProjectile(
-        Slingshot whatFiredMe,
-        int damageToFarmer,
+        Slingshot source,
+        Farmer firer,
+        float damage,
         int parentSheetIndex,
-        int bouncesTillDestruct,
         int tailLength,
         float rotationVelocity,
         float xVelocity,
@@ -30,16 +30,13 @@ internal sealed class ImmersiveProjectile : BasicProjectile
         Vector2 startingPosition,
         string collisionSound,
         string firingSound,
-        bool explode,
-        bool damagesMonsters = false,
         GameLocation? location = null,
-        Character? firer = null,
         bool spriteFromObjectSheet = false,
         onCollisionBehavior? collisionBehavior = null)
         : base(
-            damageToFarmer,
+            (int)damage,
             parentSheetIndex,
-            bouncesTillDestruct,
+            0,
             tailLength,
             rotationVelocity,
             xVelocity,
@@ -47,19 +44,33 @@ internal sealed class ImmersiveProjectile : BasicProjectile
             startingPosition,
             collisionSound,
             firingSound,
-            explode,
-            damagesMonsters,
+            false,
+            true,
             location,
             firer,
             spriteFromObjectSheet,
             collisionBehavior)
     {
-        this.MyId = parentSheetIndex;
-        this.WhatFiredMe = whatFiredMe;
+        this.ParentSheetIndex = parentSheetIndex;
+        this.Source = source;
+
+        this.Firer = this.theOneWhoFiredMe.Get(location) as Farmer ?? Game1.player;
+        this.Damage = (int)(this.damageToFarmer.Value * (1f + source.GetEnchantmentLevel<RubyEnchantment>()) *
+                           (1f + firer.attackIncreaseModifier));
+        this.Knockback = this.IsQuincy
+            ? 0f
+            : (1f + source.GetEnchantmentLevel<AmethystEnchantment>()) * (1f + firer.knockbackModifier);
+        this.CritChance = !this.IsQuincy && ModEntry.Config.AllowCrits
+            ? (0.05f + (0.046f * source.GetEnchantmentLevel<AquamarineEnchantment>())) *
+              (1f + firer.critChanceModifier)
+            : 0;
+        this.CritPower =
+            (1f + ((ModEntry.ArsenalConfig?.Value<bool?>("OverhauledEnchants") == true ? 0.5f : 0.1f) *
+                   source.GetEnchantmentLevel<JadeEnchantment>())) * (1f + firer.critPowerModifier);
 
         switch (spriteFromObjectSheet)
         {
-            case true when ModEntry.Config.DisableSlingshotGracePeriod:
+            case true when ModEntry.Config.DisableGracePeriod:
                 this.ignoreTravelGracePeriod.Value = true;
                 break;
             case false:
@@ -77,9 +88,19 @@ internal sealed class ImmersiveProjectile : BasicProjectile
         }
     }
 
-    public Slingshot WhatFiredMe { get; }
+    public int ParentSheetIndex { get; }
 
-    public int MyId { get; }
+    public Farmer Firer { get; }
+
+    public Slingshot Source { get; }
+
+    public int Damage { get; }
+
+    public float Knockback { get; }
+
+    public float CritChance { get; }
+
+    public float CritPower { get; }
 
     public bool IsQuincy { get; }
 
@@ -99,28 +120,16 @@ internal sealed class ImmersiveProjectile : BasicProjectile
         }
 
         ExplosionAnimation.Value(this, location);
-        var firer = this.theOneWhoFiredMe.Get(location) is Farmer farmer ? farmer : Game1.player;
-        var damage = this.damageToFarmer.Value;
-        var knockback = this.IsQuincy
-            ? 0f
-            : (1f + this.WhatFiredMe.GetEnchantmentLevel<AmethystEnchantment>()) * (1f + firer.knockbackModifier);
-        var crate = !this.IsQuincy && ModEntry.Config.EnableSlingshotCrits
-            ? (0.05f + (0.046f * this.WhatFiredMe.GetEnchantmentLevel<AquamarineEnchantment>())) *
-              (1f + firer.critChanceModifier)
-            : 0;
-        var cpower =
-            (1f + ((ModEntry.ArsenalConfig?.Value<bool?>("RebalanceEnchants") == true ? 0.5f : 0.1f) *
-                   this.WhatFiredMe.GetEnchantmentLevel<JadeEnchantment>())) * (1f + firer.critPowerModifier);
         location.damageMonster(
             monster.GetBoundingBox(),
-            damage,
-            damage + 1,
+            this.Damage,
+            this.Damage + 1,
             false,
-            knockback,
+            this.Knockback,
             0,
-            crate,
-            cpower,
+            this.CritChance,
+            this.CritPower,
             true,
-            firer);
+            this.Firer);
     }
 }

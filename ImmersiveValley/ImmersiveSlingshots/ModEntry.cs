@@ -6,7 +6,7 @@ using System.Diagnostics.CodeAnalysis;
 using DaLion.Common.Commands;
 using DaLion.Common.Events;
 using DaLion.Common.Harmony;
-using DaLion.Common.Integrations.WalkOfLife;
+using Common.Integrations.ImmersiveProfessions;
 using DaLion.Stardew.Slingshots.Framework.Events;
 using Newtonsoft.Json.Linq;
 using StardewModdingAPI.Utilities;
@@ -49,6 +49,7 @@ public sealed class ModEntry : Mod
     /// <summary>Gets or sets the <see cref="IImmersiveProfessionsApi"/>.</summary>
     internal static IImmersiveProfessionsApi? ProfessionsApi { get; set; }
 
+    /// <summary>Gets or sets the <see cref="IImmersiveProfessionsApi"/>.</summary>
     internal static JObject? ArsenalConfig { get; set; }
 
     /// <summary>The mod entry point, called after the mod is first loaded.</summary>
@@ -65,10 +66,6 @@ public sealed class ModEntry : Mod
 
         // enable events
         Events = new EventManager(helper.Events);
-        if (Config.FaceMouseCursor)
-        {
-            Events.Enable<DriftButtonPressedEvent>();
-        }
 
         // initialize mod state
         PerScreenState = new PerScreen<ModState>(() => new ModState());

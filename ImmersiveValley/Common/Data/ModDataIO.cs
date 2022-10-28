@@ -4,6 +4,7 @@
 
 using DaLion.Common.Extensions;
 using DaLion.Common.Multiplayer;
+using StardewValley;
 using StardewValley.Buildings;
 using StardewValley.TerrainFeatures;
 
@@ -156,6 +157,26 @@ internal static class ModDataIO
 
         Game1.player.modData.Increment($"{ModId}/{farmer.UniqueMultiplayerID}/{field}", amount);
         Log.V($"[ModDataIO]: Incremented {farmer.Name}'s {field} by {amount}.");
+    }
+
+    /// <summary>
+    ///     Increments the value of a numeric <paramref name="field"/> in the <paramref name="farmer"/>'s
+    ///     <see cref="ModDataDictionary"/> by 1.
+    /// </summary>
+    /// <typeparam name="T">A numeric type with which to increment the <paramref name="field"/>. This should most likely be an integer type.</typeparam>
+    /// <param name="farmer">The <see cref="Farmer"/>.</param>
+    /// <param name="field">The field to update.</param>
+    public static void Increment<T>(Farmer farmer, string field)
+        where T : struct
+    {
+        if (Context.IsMultiplayer && !Context.IsMainPlayer)
+        {
+            _broadcaster.MessageHost("1", $"UpdateData/Increment/{field}");
+            return;
+        }
+
+        Game1.player.modData.Increment($"{ModId}/{farmer.UniqueMultiplayerID}/{field}", "1".Parse<T>());
+        Log.V($"[ModDataIO]: Incremented {farmer.Name}'s {field} by 1.");
     }
 
     #endregion farmer rw

@@ -2,8 +2,11 @@
 
 #region using directives
 
+using DaLion.Common.Extensions.Reflection;
 using DaLion.Stardew.Arsenal.Framework.Events;
 using HarmonyLib;
+using StardewValley;
+using StardewValley.Tools;
 using HarmonyPatch = DaLion.Common.Harmony.HarmonyPatch;
 
 #endregion using directives
@@ -21,9 +24,17 @@ internal sealed class FarmerCanMoveNowPatch : HarmonyPatch
 
     /// <summary>Reset combo hit counter.</summary>
     [HarmonyPostfix]
-    private static void FarmerCanMoveNowPostfix()
+    private static void FarmerCanMoveNowPostfix(Farmer who)
     {
-        ModEntry.State.WeaponSwingCooldown = 16;
+        if (who.CurrentTool is not MeleeWeapon weapon || ModEntry.State.ComboHitStep == ComboHitStep.Idle)
+        {
+            return;
+        }
+
+        ModEntry.State.WeaponSwingCooldown = 400 - (weapon.speed.Value * 20);
+        ModEntry.State.WeaponSwingCooldown *= (int)(1f - who.weaponSpeedModifier);
+        ModEntry.State.WeaponSwingCooldown /= 15;
+
         ModEntry.Events.Enable<ComboResetUpdateTickedEvent>();
     }
 

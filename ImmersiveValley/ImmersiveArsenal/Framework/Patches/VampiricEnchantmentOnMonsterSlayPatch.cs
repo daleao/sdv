@@ -24,7 +24,7 @@ internal sealed class VampiricEnchantmentOnMonsterSlayPatch : HarmonyPatch
     [HarmonyPrefix]
     private static bool VampiricEnchantmentOnMonsterSlayPrefix(Monster m, GameLocation location, Farmer who)
     {
-        if (!ModEntry.Config.NewWeaponEnchants)
+        if (!ModEntry.Config.OverhauledEnchants)
         {
             return true; // run original logic
         }

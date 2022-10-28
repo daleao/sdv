@@ -39,20 +39,28 @@ public sealed class ModEntry : Mod
         set => PerScreenState.Value = value;
     }
 
+    /// <summary>Gets or sets the multiplayer message broadcaster.</summary>
     internal static Broadcaster Broadcaster { get; private set; } = null!;
 
+    /// <summary>Gets or sets the config object for Immersive Arsenal.</summary>
     internal static JObject? ArsenalConfig { get; set; }
 
+    /// <summary>Gets or sets the config object for Immersive Ponds.</summary>
     internal static JObject? PondsConfig { get; set; }
 
+    /// <summary>Gets or sets the config object for Immersive Rings.</summary>
     internal static JObject? RingsConfig { get; set; }
 
+    /// <summary>Gets or sets the config object for Immersive Slingshots.</summary>
     internal static JObject? SlingshotsConfig { get; set; }
 
+    /// <summary>Gets or sets the config object for Immersive Taxes.</summary>
     internal static JObject? TaxesConfig { get; set; }
 
+    /// <summary>Gets or sets the config object for Immersive Arsenal.</summary>
     internal static JObject? TweaksConfig { get; set; }
 
+    /// <summary>Gets or sets the config object for Immersive Arsenal.</summary>
     internal static JObject? SveConfig { get; set; }
 
     internal static Lazy<HudPointer> Pointer { get; } = new(() => new HudPointer());

@@ -65,7 +65,7 @@ internal sealed class ImmersiveProjectile : BasicProjectile
         this.Overcharge = overcharge;
         switch (spriteFromObjectSheet)
         {
-            case true when ModEntry.ArsenalConfig?.Value<bool?>("RemoveSlingshotGracePeriod") == true:
+            case true when ModEntry.SlingshotsConfig?.Value<bool?>("RemoveGracePeriod") == true:
                 this.ignoreTravelGracePeriod.Value = true;
                 break;
             case false:
@@ -119,12 +119,12 @@ internal sealed class ImmersiveProjectile : BasicProjectile
             ? 0f
             : (1f + this.WhatFiredMe.GetEnchantmentLevel<AmethystEnchantment>()) * (1f + firer.knockbackModifier) *
               this.Overcharge;
-        var crate = !this.IsQuincy && ModEntry.ArsenalConfig?.Value<bool?>("EnableSlingshotCrits") == true
+        var crate = !this.IsQuincy && ModEntry.SlingshotsConfig?.Value<bool?>("AllowCrits") == true
             ? (0.05f + (0.046f * this.WhatFiredMe.GetEnchantmentLevel<AquamarineEnchantment>())) *
               (1f + firer.critChanceModifier)
             : 0;
         var cpower =
-            (1f + ((ModEntry.ArsenalConfig?.Value<bool?>("RebalanceEnchants") == true ? 0.5f : 0.1f) *
+            (1f + ((ModEntry.ArsenalConfig?.Value<bool?>("RebalancedForges") == true ? 0.5f : 0.1f) *
                    this.WhatFiredMe.GetEnchantmentLevel<JadeEnchantment>())) * (1f + firer.critPowerModifier);
         if (this.currentTileSheetIndex.Value == 766)
         {
@@ -285,11 +285,11 @@ internal sealed class ImmersiveProjectile : BasicProjectile
         var damage = (int)(this.damageToFarmer.Value * multiplier);
         var knockback = this.WhatFiredMe.GetEnchantmentLevel<AmethystEnchantment>() * (1f + firer.knockbackModifier) *
                         multiplier;
-        var crate = ModEntry.ArsenalConfig?.Value<bool?>("EnableSlingshotCrits") == true
+        var crate = ModEntry.SlingshotsConfig?.Value<bool?>("AllowCrits") == true
             ? (0.05f + (0.046f * this.WhatFiredMe.GetEnchantmentLevel<AmethystEnchantment>())) * (1f + firer.critChanceModifier)
             : 0;
         var cpower = (1f +
-                      ((ModEntry.ArsenalConfig?.Value<bool?>("RebalanceEnchants") == true
+                      ((ModEntry.ArsenalConfig?.Value<bool?>("RebalancedForges") == true
                            ? 0.5f
                            : 0.1f) *
                        this.WhatFiredMe.GetEnchantmentLevel<JadeEnchantment>())) * (1f + firer.critPowerModifier);

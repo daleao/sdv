@@ -43,12 +43,21 @@ internal sealed class GenericModConfigMenuIntegrationForImmersiveArsenal
         // register
         this._configMenu
             .Register()
-            .AddSectionTitle(() => "Control Settings")
+            .AddSectionTitle(() => "Movement Settings")
             .AddCheckbox(
                 () => "Face Towards Mouse Cursor",
                 () =>
                     "If using mouse and keyboard, turn to face towards the current cursor position before swinging your tools.",
                 config => config.FaceMouseCursor,
+                (config, value) =>
+                {
+                    config.FaceMouseCursor = value;
+                })
+            .AddCheckbox(
+                () => "Slick Moves",
+                () =>
+                    "Allows the farmer to drift when using weapons while running.",
+                config => config.SlickMoves,
                 (config, value) =>
                 {
                     config.FaceMouseCursor = value;
@@ -61,19 +70,13 @@ internal sealed class GenericModConfigMenuIntegrationForImmersiveArsenal
                         ModEntry.Events.Disable<DriftButtonPressedEvent>();
                     }
                 })
-            .AddSectionTitle(() => "Melee Weapon Settings")
+
+            .AddSectionTitle(() => "Weapon Settings")
             .AddCheckbox(
-                () => "Immersive Club Smash",
-                () =>
-                    "A club smash AoE will inflict guaranteed critical damage on burrowing enemies, but completely miss flying enemies.",
-                config => config.BringBackStabbySwords,
-                (config, value) => config.BringBackStabbySwords = value)
-            .AddCheckbox(
-                () => "DefenseImprovesParryDamage",
-                () =>
-                    "Improve sword parrying and defensive builds by increasing the reflected damage by 10% per defense point.",
-                config => config.BringBackStabbySwords,
-                (config, value) => config.BringBackStabbySwords = value)
+                () => "Woody Replaces Rusty",
+                () => "Replace the starting Rusty Sword with a Wooden Blade.",
+                config => config.WoodyReplacesRusty,
+                (config, value) => config.WoodyReplacesRusty = value)
             .AddCheckbox(
                 () => "Bring Back Stabby Swords",
                 () =>
@@ -81,10 +84,33 @@ internal sealed class GenericModConfigMenuIntegrationForImmersiveArsenal
                 config => config.BringBackStabbySwords,
                 (config, value) => config.BringBackStabbySwords = value)
             .AddCheckbox(
-                () => "Woody Replaces Rusty",
-                () => "Replace the starting Rusty Sword with a Wooden Blade.",
-                config => config.WoodyReplacesRusty,
-                (config, value) => config.WoodyReplacesRusty = value)
+                () => "Combo Hits",
+                () => "Replaces vanilla weapon spam with a more strategic combo system.",
+                config => config.ComboHits,
+                (config, value) =>
+                {
+                    config.ComboHits = value;
+                    if (value)
+                    {
+                        ModEntry.Events.Enable<ComboButtonPressedEvent>();
+                    }
+                    else
+                    {
+                        ModEntry.Events.Disable<ComboButtonPressedEvent>();
+                    }
+                })
+            .AddCheckbox(
+                () => "DefenseImprovesParryDamage",
+                () =>
+                    "Improve sword parrying and defensive builds by increasing the reflected damage by 10% per defense point.",
+                config => config.BringBackStabbySwords,
+                (config, value) => config.BringBackStabbySwords = value)
+            .AddCheckbox(
+                () => "Immersive Club Smash",
+                () =>
+                    "A club smash AoE will inflict guaranteed critical damage on burrowing enemies, but completely miss flying enemies.",
+                config => config.BringBackStabbySwords,
+                (config, value) => config.BringBackStabbySwords = value)
             .AddCheckbox(
                 () => "Infinity-Plus-One Weapons",
                 () => "Replace lame Galaxy and Infinity weapons with something truly legendary.",
@@ -96,29 +122,32 @@ internal sealed class GenericModConfigMenuIntegrationForImmersiveArsenal
                     ModEntry.ModHelper.GameContent.InvalidateCacheAndLocalized("Strings/Locations");
                     ModEntry.ModHelper.GameContent.InvalidateCacheAndLocalized("Strings/StringsFromCSFiles");
                 })
+
             .AddSectionTitle(() => "Enchantment Settings")
             .AddCheckbox(
-                () => "Rebalanced Enchants",
-                () => "Improves certain underwhelming enchantments.",
+                () => "Overhauled Enchants",
+                () => "Replaces boring old enchantments with exciting new ones.",
+                config => config.OverhauledEnchants,
+                (config, value) => config.RebalancedForges = value)
+            .AddCheckbox(
+                () => "Rebalanced Forges",
+                () => "Improves certain underwhelming forges (analogous with Fellowship - Immersive Rings).",
                 config => config.RebalancedForges,
                 (config, value) => config.RebalancedForges = value)
+
             .AddSectionTitle(() => "Player Settings")
             .AddCheckbox(
                 () => "Remove Defense Soft Cap",
                 () => "Damage mitigation should not be soft-capped at 50%.",
                 config => config.RemoveFarmerDefenseSoftCap,
                 (config, value) => config.RemoveFarmerDefenseSoftCap = value)
+
             .AddSectionTitle(() => "Monster Settings")
             .AddCheckbox(
-                () => "Improve Enemy Defense",
+                () => "Improved Enemy Defense",
                 () => "Effectively squares the defense of enemy monsters.",
-                config => config.ImprovedEnemyDefense,
-                (config, value) => config.ImprovedEnemyDefense = value)
-            .AddCheckbox(
-                () => "Crits Ignore Defense",
-                () => "Damage mitigation is skipped for critical hits.",
-                config => config.CritsIgnoreDefense,
-                (config, value) => config.CritsIgnoreDefense = value)
+                config => config.EnemyDefenseOverhaul,
+                (config, value) => config.EnemyDefenseOverhaul = value)
             .AddNumberField(
                 () => "Monster Health Multiplier",
                 () => "Increases the health of all enemies.",
@@ -141,9 +170,9 @@ internal sealed class GenericModConfigMenuIntegrationForImmersiveArsenal
                 1f,
                 3f)
             .AddCheckbox(
-                () => "Varied Monster Stats",
-                () => "Randomizes monster stats, subject to daily luck bias, to add variability to monster encounters.",
-                config => config.VariedMonsterStats,
-                (config, value) => config.VariedMonsterStats = value);
+                () => "Varied Encounters",
+                () => "Randomizes monster stats, subject to daily luck bias, adding variability to monster encounters.",
+                config => config.VariedEncounters,
+                (config, value) => config.VariedEncounters = value);
     }
 }

@@ -53,9 +53,24 @@ internal sealed class MeleeWeaponDrawDuringUsePatch : HarmonyPatch
             return false; // don't run original logic
         }
 
-        if (frameOfFarmerAnimation > 6 && ModEntry.State.ComboHitStep > ComboHitStep.FirstHit)
+        if (ModEntry.State.ComboHitStep <= ComboHitStep.FirstHit)
         {
-            DrawDuringCombo(
+            return true; // run original logic
+        }
+
+        if (type == MeleeWeapon.club)
+        {
+            DrawDuringClubCombo(
+                frameOfFarmerAnimation,
+                facingDirection,
+                spriteBatch,
+                playerPosition,
+                f,
+                sourceRect);
+        }
+        else
+        {
+            DrawDuringSwordCombo(
                 ___center,
                 frameOfFarmerAnimation,
                 facingDirection,
@@ -63,10 +78,9 @@ internal sealed class MeleeWeaponDrawDuringUsePatch : HarmonyPatch
                 playerPosition,
                 f,
                 sourceRect);
-            return false;  // don't run original logic
         }
 
-        return true; // run original logic
+        return false;  // don't run original logic
     }
 
     #endregion harmony patches
@@ -113,6 +127,7 @@ internal sealed class MeleeWeaponDrawDuringUsePatch : HarmonyPatch
                 }
 
                 break;
+
             case Game1.right:
                 switch (frameOfFarmerAnimation)
                 {
@@ -143,6 +158,7 @@ internal sealed class MeleeWeaponDrawDuringUsePatch : HarmonyPatch
                 }
 
                 break;
+
             case Game1.down:
                 switch (frameOfFarmerAnimation)
                 {
@@ -173,6 +189,7 @@ internal sealed class MeleeWeaponDrawDuringUsePatch : HarmonyPatch
                 }
 
                 break;
+
             case Game1.left:
                 switch (frameOfFarmerAnimation)
                 {
@@ -206,7 +223,7 @@ internal sealed class MeleeWeaponDrawDuringUsePatch : HarmonyPatch
         }
     }
 
-    private static void DrawDuringCombo(
+    private static void DrawDuringSwordCombo(
         Vector2 center,
         int frameOfFarmerAnimation,
         int facingDirection,
@@ -530,6 +547,358 @@ internal sealed class MeleeWeaponDrawDuringUsePatch : HarmonyPatch
                             SpriteEffects.FlipHorizontally,
                             Math.Max(0f, (farmer.getStandingY() + 64) / 10000f));
                         break;
+                }
+
+                break;
+        }
+    }
+
+    private static void DrawDuringClubCombo(
+       int frameOfFarmerAnimation,
+       int facingDirection,
+       SpriteBatch b,
+       Vector2 playerPosition,
+       Farmer farmer,
+       Rectangle sourceRect)
+    {
+        switch (facingDirection)
+        {
+            case Game1.right:
+                switch (frameOfFarmerAnimation)
+                {
+                    case 6:
+                        b.Draw(
+                            Tool.weaponsTexture,
+                            new Vector2(playerPosition.X - 32f - 12f, playerPosition.Y - 80f),
+                            sourceRect,
+                            Color.White,
+                            (float)Math.PI * -3f / 8f,
+                            Vector2.Zero,
+                            4f,
+                            SpriteEffects.None,
+                            Math.Max(0f, (farmer.getStandingY() + 64) / 10000f));
+                        break;
+                    case 7:
+                        b.Draw(
+                            Tool.weaponsTexture,
+                            new Vector2(playerPosition.X + 64f, playerPosition.Y - 64f - 48f),
+                            sourceRect,
+                            Color.White,
+                            (float)Math.PI / 8f,
+                            Vector2.Zero,
+                            4f,
+                            SpriteEffects.None,
+                            Math.Max(0f, (farmer.getStandingY() + 64) / 10000f));
+                        break;
+                    case 8:
+                        b.Draw(
+                            Tool.weaponsTexture,
+                            new Vector2(playerPosition.X + 128f - 16f, playerPosition.Y - 64f - 12f),
+                            sourceRect,
+                            Color.White,
+                            (float)Math.PI * 3f / 8f,
+                            Vector2.Zero,
+                            4f,
+                            SpriteEffects.None,
+                            Math.Max(0f, (farmer.getStandingY() + 64) / 10000f));
+                        break;
+                    case 9:
+                        b.Draw(
+                            Tool.weaponsTexture,
+                            new Vector2(playerPosition.X + 72f, playerPosition.Y - 64f + 16f - 32f),
+                            sourceRect,
+                            Color.White,
+                            (float)Math.PI / 8f,
+                            Vector2.Zero,
+                            4f,
+                            SpriteEffects.None,
+                            Math.Max(0f, (farmer.getStandingY() + 64) / 10000f));
+                        break;
+                    case 10:
+                        b.Draw(
+                            Tool.weaponsTexture,
+                            new Vector2(playerPosition.X + 96f, playerPosition.Y - 64f + 16f - 16f),
+                            sourceRect,
+                            Color.White,
+                            (float)Math.PI / 4f,
+                            Vector2.Zero,
+                            4f,
+                            SpriteEffects.None,
+                            Math.Max(0f, (farmer.getStandingY() + 64) / 10000f));
+                        break;
+                    case 11:
+                        b.Draw(
+                            Tool.weaponsTexture,
+                            new Vector2(playerPosition.X + 96f - 12f, playerPosition.Y - 64f + 16f),
+                            sourceRect,
+                            Color.White,
+                            (float)Math.PI / 4f,
+                            Vector2.Zero,
+                            4f,
+                            SpriteEffects.None,
+                            Math.Max(0f, (farmer.getStandingY() + 64) / 10000f));
+                        break;
+                    case 12:
+                        b.Draw(
+                            Tool.weaponsTexture,
+                            new Vector2(playerPosition.X + 96f - 16f, playerPosition.Y - 64f + 40f - 8f),
+                            sourceRect,
+                            Color.White,
+                            (float)Math.PI / 4f,
+                            Vector2.Zero,
+                            4f,
+                            SpriteEffects.None,
+                            Math.Max(0f, (farmer.getStandingY() + 64) / 10000f));
+                        break;
+                    case 13:
+                        b.Draw(
+                            Tool.weaponsTexture,
+                            new Vector2(playerPosition.X + 96f - 8f, playerPosition.Y + 40f),
+                            sourceRect,
+                            Color.White,
+                            (float)Math.PI * 5f / 16f,
+                            Vector2.Zero,
+                            4f,
+                            SpriteEffects.None,
+                            Math.Max(0f, (farmer.getStandingY() + 64) / 10000f));
+                        break;
+                }
+
+                break;
+
+            case Game1.left:
+                switch (frameOfFarmerAnimation)
+                {
+                    case 6:
+                        b.Draw(
+                            Tool.weaponsTexture,
+                            new Vector2(playerPosition.X + 64f - 4f + 8f, playerPosition.Y - 56f - 64f),
+                            sourceRect,
+                            Color.White,
+                            (float)Math.PI / 8f,
+                            Vector2.Zero,
+                            4f,
+                            SpriteEffects.None,
+                            Math.Max(0f, (farmer.getStandingY() + 64) / 10000f));
+                        break;
+                    case 7:
+                        b.Draw(
+                            Tool.weaponsTexture,
+                            new Vector2(playerPosition.X - 32f, playerPosition.Y - 32f),
+                            sourceRect,
+                            Color.White,
+                            (float)Math.PI * -5f / 8f,
+                            Vector2.Zero,
+                            4f,
+                            SpriteEffects.None,
+                            Math.Max(0f, (farmer.getStandingY() + 64) / 10000f));
+                        break;
+                    case 8:
+                        b.Draw(
+                            Tool.weaponsTexture,
+                            new Vector2(playerPosition.X - 12f, playerPosition.Y + 8f),
+                            sourceRect,
+                            Color.White,
+                            (float)Math.PI * -7f / 8f,
+                            Vector2.Zero,
+                            4f,
+                            SpriteEffects.None,
+                            Math.Max(0f, (farmer.getStandingY() + 64) / 10000f));
+                        break;
+                    case 9:
+                        b.Draw(
+                            Tool.weaponsTexture,
+                            new Vector2(playerPosition.X - 32f - 4f, playerPosition.Y + 8f),
+                            sourceRect,
+                            Color.White,
+                            (float)Math.PI * -3f / 4f,
+                            Vector2.Zero,
+                            4f,
+                            SpriteEffects.None,
+                            Math.Max(0f, (farmer.getStandingY() + 64) / 10000f));
+                        break;
+                    case 10:
+                        b.Draw(
+                            Tool.weaponsTexture,
+                            new Vector2(playerPosition.X - 16f - 24f, playerPosition.Y + 64f + 12f - 64f),
+                            sourceRect,
+                            Color.White,
+                            (float)Math.PI * 11f / 8f,
+                            Vector2.Zero,
+                            4f,
+                            SpriteEffects.None,
+                            Math.Max(0f, (farmer.getStandingY() + 64) / 10000f));
+                        break;
+                    case 11:
+                        b.Draw(
+                            Tool.weaponsTexture,
+                            new Vector2(playerPosition.X - 20f,playerPosition.Y + 64f + 40f - 64f),
+                            sourceRect,
+                            Color.White,
+                            (float)Math.PI * 5f / 4f,
+                            Vector2.Zero,
+                            4f,
+                            SpriteEffects.None,
+                            Math.Max(0f, (farmer.getStandingY() + 64) / 10000f));
+                        break;
+                    case 12:
+                        b.Draw(
+                            Tool.weaponsTexture,
+                            new Vector2(playerPosition.X - 16f, playerPosition.Y + 64f + 56f),
+                            sourceRect,
+                            Color.White,
+                            (float)Math.PI * 5f / 4f,
+                            Vector2.Zero,
+                            4f,
+                            SpriteEffects.None,
+                            Math.Max(0f, (farmer.getStandingY() + 64) / 10000f));
+                        break;
+                    case 13:
+                        b.Draw(
+                            Tool.weaponsTexture,
+                            new Vector2(playerPosition.X - 8f, playerPosition.Y + 64f + 64f),
+                            sourceRect,
+                            Color.White,
+                            (float)Math.PI * 19f / 16f,
+                            Vector2.Zero,
+                            4f,
+                            SpriteEffects.None,
+                            Math.Max(0f, (farmer.getStandingY() + 64) / 10000f));
+                        break;
+                }
+
+                break;
+
+            default:
+                switch (frameOfFarmerAnimation)
+                {
+                    case 6:
+                        b.Draw(
+                            Tool.weaponsTexture,
+                            new Vector2(playerPosition.X - 24f, playerPosition.Y - 21f - 8f - 64f),
+                            sourceRect,
+                            Color.White,
+                            -(float)Math.PI / 4f,
+                            Vector2.Zero,
+                            4f,
+                            SpriteEffects.None,
+                            Math.Max(0f, (farmer.getStandingY() + 32) / 10000f));
+                        break;
+                    case 7:
+                        b.Draw(
+                            Tool.weaponsTexture,
+                            new Vector2(playerPosition.X - 16f, playerPosition.Y - 21f - 64f + 4f),
+                            sourceRect,
+                            Color.White,
+                            -(float)Math.PI / 4f,
+                            Vector2.Zero,
+                            4f,
+                            SpriteEffects.None,
+                            Math.Max(0f, (farmer.getStandingY() + 32) / 10000f));
+                        break;
+                    case 8:
+                        b.Draw(
+                            Tool.weaponsTexture,
+                            new Vector2(playerPosition.X - 16f, playerPosition.Y - 21f + 20f - 64f),
+                            sourceRect,
+                            Color.White,
+                            -(float)Math.PI / 4f,
+                            Vector2.Zero,
+                            4f,
+                            SpriteEffects.None,
+                            Math.Max(0f, (farmer.getStandingY() + 32) / 10000f));
+                        break;
+                    case 9:
+                        if (facingDirection == Game1.down)
+                        {
+                            b.Draw( 
+                                Tool.weaponsTexture,
+                                new Vector2(playerPosition.X + 64f + 8f, playerPosition.Y + 32f),
+                                sourceRect,
+                                Color.White,
+                                (float)Math.PI * -5f / 4f,
+                                Vector2.Zero,
+                                4f,
+                                SpriteEffects.None,
+                                Math.Max(0f, (farmer.getStandingY() + 32) / 10000f));
+                        }
+                        else
+                        {
+                            b.Draw(
+                                Tool.weaponsTexture,
+                                new Vector2(playerPosition.X - 16f, playerPosition.Y - 21f + 32f - 64f),
+                                sourceRect,
+                                Color.White,
+                                -(float)Math.PI / 4f,
+                                Vector2.Zero,
+                                4f,
+                                SpriteEffects.None,
+                                Math.Max(0f, (farmer.getStandingY() + 32) / 10000f));
+                        }
+
+                        break;
+                    case 10 when facingDirection == Game1.down:
+                        b.Draw(
+                            Tool.weaponsTexture,
+                            new Vector2(playerPosition.X + 64f + 8f, playerPosition.Y + 32f),
+                            sourceRect,
+                            Color.White,
+                            (float)Math.PI * -5f / 4f,
+                            Vector2.Zero,
+                            4f,
+                            SpriteEffects.None,
+                            Math.Max(0f, (farmer.getStandingY() + 32) / 10000f));
+                        break;
+                    case 11 when facingDirection == Game1.down:
+                        b.Draw(
+                            Tool.weaponsTexture,
+                            new Vector2(playerPosition.X + 64f + 12f, playerPosition.Y + 64f - 20f),
+                            sourceRect,
+                            Color.White,
+                            (float)Math.PI * 3f / 4f,
+                            Vector2.Zero,
+                            4f,
+                            SpriteEffects.None,
+                            Math.Max(0f, (farmer.getStandingY() + 32) / 10000f));
+                        break;
+                    case 12 when facingDirection == Game1.down:
+                        b.Draw(
+                            Tool.weaponsTexture,
+                            new Vector2(playerPosition.X + 64f + 12f, playerPosition.Y + 64f + 54f),
+                            sourceRect,
+                            Color.White,
+                            (float)Math.PI * 3f / 4f,
+                            Vector2.Zero,
+                            4f,
+                            SpriteEffects.None,
+                            Math.Max(0f, (farmer.getStandingY() + 32) / 10000f));
+                        break;
+                    case 13 when facingDirection == Game1.down:
+                        b.Draw(
+                            Tool.weaponsTexture,
+                            new Vector2(playerPosition.X + 64f + 12f, playerPosition.Y + 64f + 58f),
+                            sourceRect,
+                            Color.White,
+                            (float)Math.PI * 3f / 4f,
+                            Vector2.Zero,
+                            4f,
+                            SpriteEffects.None,
+                            Math.Max(0f, (farmer.getStandingY() + 32) / 10000f));
+                        break;
+                }
+
+                if (facingDirection == Game1.up)
+                {
+                    farmer.FarmerRenderer.draw(
+                        b,
+                        farmer.FarmerSprite,
+                        farmer.FarmerSprite.SourceRect,
+                        farmer.getLocalPosition(Game1.viewport),
+                        new Vector2(0f, ((farmer.yOffset + 128f - (farmer.GetBoundingBox().Height / 2)) / 4f) + 4f),
+                        Math.Max(0f, (farmer.getStandingY() / 10000f) + 0.0099f),
+                        Color.White,
+                        0f,
+                        farmer);
                 }
 
                 break;

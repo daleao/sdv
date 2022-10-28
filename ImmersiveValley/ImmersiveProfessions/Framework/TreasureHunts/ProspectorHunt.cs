@@ -204,12 +204,12 @@ internal sealed class ProspectorHunt : TreasureHunt
                     possibles.Add(384); // gold ore
                 }
 
-                if (mineLevel > 40 && (possibles.Count == 0 || this.Random.NextDouble() < 0.6))
+                if (mineLevel > 40 && (possibles.Count <= 0 || this.Random.NextDouble() < 0.6))
                 {
                     possibles.Add(380); // iron ore
                 }
 
-                if (possibles.Count == 0 || this.Random.NextDouble() < 0.6)
+                if (possibles.Count <= 0 || this.Random.NextDouble() < 0.6)
                 {
                     possibles.Add(378); // copper ore
                 }
@@ -331,7 +331,7 @@ internal sealed class ProspectorHunt : TreasureHunt
                             treasuresAndQuantities.Add(74, 1); // prismatic shard
                         }
 
-                        if (treasuresAndQuantities.Count == 0)
+                        if (treasuresAndQuantities.Count <= 0)
                         {
                             treasuresAndQuantities.Add(72, 1); // consolation diamond
                         }

@@ -5,7 +5,7 @@
 using DaLion.Common.Commands;
 using DaLion.Common.Events;
 using DaLion.Common.Harmony;
-using DaLion.Common.Integrations.WalkOfLife;
+using Common.Integrations.ImmersiveProfessions;
 using DaLion.Common.ModData;
 
 #endregion using directives

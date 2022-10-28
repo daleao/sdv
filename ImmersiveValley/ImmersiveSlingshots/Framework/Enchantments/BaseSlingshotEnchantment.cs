@@ -15,7 +15,7 @@ public class BaseSlingshotEnchantment : BaseEnchantment
     /// <inheritdoc />
     public override bool CanApplyTo(Item item)
     {
-        return item is Slingshot && ModEntry.Config.EnableSlingshotEnchants;
+        return item is Slingshot && ModEntry.Config.AllowEnchants;
     }
 
     /// <summary>Raised when the <paramref name="slingshot"/> fires a <see cref="BasicProjectile"/>.</summary>

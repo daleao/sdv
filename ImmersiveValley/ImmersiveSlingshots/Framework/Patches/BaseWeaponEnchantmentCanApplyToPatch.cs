@@ -29,7 +29,7 @@ internal sealed class BaseWeaponEnchantmentCanApplyToPatch : HarmonyPatch
             return;
         }
 
-        __result = __instance.IsForge() && ModEntry.Config.EnableSlingshotForges;
+        __result = __instance.IsForge() && ModEntry.Config.AllowForges;
     }
 
     #endregion harmony patches

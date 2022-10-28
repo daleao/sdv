@@ -62,36 +62,24 @@ internal sealed class GenericModConfigMenuIntegrationForImmersiveSlingshots
                 })
             .AddSectionTitle(() => "Slingshot Settings")
             .AddCheckbox(
-                () => "Allow Slingshot Crit",
+                () => "Allow Crits",
                 () => "Allows Slingshot to deal critical damage and be affected by critical modifiers.",
-                config => config.EnableSlingshotCrits,
-                (config, value) => config.EnableSlingshotCrits = value)
+                config => config.AllowCrits,
+                (config, value) => config.AllowCrits = value)
             .AddCheckbox(
-                () => "Allow Slingshot Enchants",
+                () => "Allow Enchants",
                 () => "Allow Slingshot to be enchanted with weapon enchantments (Prismatic Shard) at the Forge.",
-                config => config.EnableSlingshotEnchants,
-                (config, value) => config.EnableSlingshotEnchants = value)
+                config => config.AllowEnchants,
+                (config, value) => config.AllowEnchants = value)
             .AddCheckbox(
-                () => "Allow Slingshot Forges",
+                () => "Allow Forges",
                 () => "Allow Slingshot to be enchanted with weapon forges (gemstones) at the Forge.",
-                config => config.EnableSlingshotForges,
-                (config, value) => config.EnableSlingshotForges = value)
+                config => config.AllowForges,
+                (config, value) => config.AllowForges = value)
             .AddCheckbox(
-                () => "Allow Slingshot Special Move",
-                () =>
-                    "Add a new stunning smack special move for slingshots. This does nothing if Immersive Professions is installed.",
-                config => config.EnableSlingshotSpecialMove,
-                (config, value) => config.EnableSlingshotSpecialMove = value)
-            .AddCheckbox(
-                () => "Face Mouse Cursor",
-                () =>
-                    "Face the current cursor position before swinging your slingshot special. This does nothing if Immersive Professions is installed.",
-                config => config.FaceMouseCursor,
-                (config, value) => config.FaceMouseCursor = value)
-            .AddCheckbox(
-                () => "Remove Slingshot Grace Period",
+                () => "Remove Grace Period",
                 () => "Projectiles should not be useless for the first 100ms.",
-                config => config.DisableSlingshotGracePeriod,
-                (config, value) => config.DisableSlingshotGracePeriod = value);
+                config => config.DisableGracePeriod,
+                (config, value) => config.DisableGracePeriod = value);
     }
 }

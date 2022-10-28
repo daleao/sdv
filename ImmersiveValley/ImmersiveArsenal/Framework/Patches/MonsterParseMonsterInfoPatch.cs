@@ -23,7 +23,7 @@ internal sealed class MonsterParseMonsterInfoPatch : HarmonyPatch
     [HarmonyPostfix]
     private static void MonsterParseMonsterInfoPostfix(Monster __instance)
     {
-        if (ModEntry.Config.VariedMonsterStats)
+        if (ModEntry.Config.VariedEncounters)
         {
             var r = new Random(Guid.NewGuid().GetHashCode());
 

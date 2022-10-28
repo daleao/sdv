@@ -5,6 +5,7 @@
 using System.Linq;
 using DaLion.Common.Extensions.Reflection;
 using DaLion.Stardew.Arsenal.Framework.Enchantments;
+using Extensions;
 using HarmonyLib;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -78,22 +79,14 @@ internal sealed class MeleeWeaponDrawTooltipPatch : HarmonyPatch
             co * 0.9f * alpha);
         y += (int)Math.Max(font.MeasureString("TT").Y, 48f);
 
+        var type = __instance.type.Value;
+
         // write bonus crit rate
-        var effectiveCritChance = __instance.critChance.Value;
-        if (__instance.type.Value == 1)
+        var crate = __instance.critChance.Value;
+        var baseCrate = __instance.DefaultCritChance();
+        if (crate > baseCrate)
         {
-            effectiveCritChance += 0.005f;
-            effectiveCritChance *= 1.12f;
-        }
-
-        if (effectiveCritChance / 0.02 >= 1.1000000238418579)
-        {
-            co = Game1.textColor;
-            if (__instance.hasEnchantmentOfType<AquamarineEnchantment>())
-            {
-                co = new Color(0, 120, 120);
-            }
-
+            co = __instance.hasEnchantmentOfType<AquamarineEnchantment>() ? new Color(0, 120, 120) : Game1.textColor;
             Utility.drawWithShadow(
                 spriteBatch,
                 Game1.mouseCursors,
@@ -107,24 +100,21 @@ internal sealed class MeleeWeaponDrawTooltipPatch : HarmonyPatch
                 1f);
             Utility.drawTextWithShadow(
                 spriteBatch,
-                Game1.content.LoadString(
-                    "Strings\\UI:ItemHover_CritChanceBonus",
-                    (int)Math.Round((effectiveCritChance - 0.001f) / 0.02)),
+                ModEntry.i18n.Get(
+                    "ui.itemhover.crate",
+                    new { amount = (crate > baseCrate ? "+" : "-") + $"{crate - baseCrate:0%}" }),
                 font,
                 new Vector2(x + 68, y + 28),
                 co * 0.9f * alpha);
             y += (int)Math.Max(font.MeasureString("TT").Y, 48f);
         }
 
-        // write crit power
-        if ((__instance.critMultiplier.Value - 3f) / 0.02 >= 1.0)
+        // write bonus crit power
+        var cpow = __instance.critMultiplier.Value;
+        var baseCpow = __instance.DefaultCritPower();
+        if (cpow > baseCpow)
         {
-            co = Game1.textColor;
-            if (__instance.hasEnchantmentOfType<JadeEnchantment>())
-            {
-                co = new Color(0, 120, 120);
-            }
-
+            co = __instance.hasEnchantmentOfType<JadeEnchantment>() ? new Color(0, 120, 120) : Game1.textColor;
             Utility.drawWithShadow(
                 spriteBatch,
                 Game1.mouseCursors,
@@ -138,9 +128,9 @@ internal sealed class MeleeWeaponDrawTooltipPatch : HarmonyPatch
                 1f);
             Utility.drawTextWithShadow(
                 spriteBatch,
-                Game1.content.LoadString(
-                    "Strings\\UI:ItemHover_CritPowerBonus",
-                    (int)((__instance.critMultiplier.Value - 3f) / 0.02)),
+                ModEntry.i18n.Get(
+                    "ui.itemhover.crate",
+                    new { amount = (cpow > baseCpow ? "+" : "-") + $"{cpow - baseCpow:0%}" }),
                 font,
                 new Vector2(x + 204, y + 28),
                 co * 0.9f * alpha);
@@ -148,15 +138,11 @@ internal sealed class MeleeWeaponDrawTooltipPatch : HarmonyPatch
         }
 
         // write bonus knockback
-        if (Math.Abs(__instance.knockback.Value - __instance.defaultKnockBackForThisType(__instance.type.Value)) >
-            0.01f)
+        var knockback = __instance.knockback.Value;
+        var baseKnockback = __instance.defaultKnockBackForThisType(type);
+        if (knockback != baseKnockback)
         {
-            co = Game1.textColor;
-            if (__instance.hasEnchantmentOfType<AmethystEnchantment>())
-            {
-                co = new Color(0, 120, 120);
-            }
-
+            co = __instance.hasEnchantmentOfType<AmethystEnchantment>() ? new Color(0, 120, 120) : Game1.textColor;
             Utility.drawWithShadow(
                 spriteBatch,
                 Game1.mouseCursors,
@@ -168,14 +154,11 @@ internal sealed class MeleeWeaponDrawTooltipPatch : HarmonyPatch
                 4f,
                 false,
                 1f);
-
-            var defaultKnockback = __instance.defaultKnockBackForThisType(__instance.type.Value);
-            var absoluteDifference = (int)Math.Ceiling(Math.Abs(__instance.knockback.Value - defaultKnockback) * 10f);
             Utility.drawTextWithShadow(
                 spriteBatch,
-                Game1.content.LoadString(
-                    "Strings\\UI:ItemHover_Weight",
-                    (absoluteDifference > defaultKnockback ? "+" : string.Empty) + absoluteDifference),
+                ModEntry.i18n.Get(
+                    "ui.itemhover.knockback",
+                    new { amount = (knockback > baseKnockback ? "+" : "-") + $"{knockback - baseKnockback:0%}" }),
                 font,
                 new Vector2(x + 68, y + 28),
                 co * 0.9f * alpha);
@@ -183,17 +166,10 @@ internal sealed class MeleeWeaponDrawTooltipPatch : HarmonyPatch
         }
 
         // write bonus swing speed
-        if (__instance.speed.Value != (__instance.type.Value == 2 ? -8 : 0))
+        var speed = __instance.speed.Value;
+        if (speed != 0)
         {
-            var amount = __instance.type.Value == 2 ? __instance.speed.Value + 8 : __instance.speed.Value;
-            var negativeSpeed = (__instance.type.Value == 2 && __instance.speed.Value < -8) ||
-                                (__instance.type.Value != 2 && __instance.speed.Value < 0);
-            co = Game1.textColor;
-            if (__instance.hasEnchantmentOfType<EmeraldEnchantment>())
-            {
-                co = new Color(0, 120, 120);
-            }
-
+            co = __instance.hasEnchantmentOfType<EmeraldEnchantment>() ? new Color(0, 120, 120) : Game1.textColor;
             Utility.drawWithShadow(
                 spriteBatch,
                 Game1.mouseCursors,
@@ -207,12 +183,12 @@ internal sealed class MeleeWeaponDrawTooltipPatch : HarmonyPatch
                 1f);
             Utility.drawTextWithShadow(
                 spriteBatch,
-                Game1.content.LoadString(
-                    "Strings\\UI:ItemHover_Speed",
-                    (amount > 0 ? "+" : string.Empty) + (amount / 2)),
+                ModEntry.i18n.Get(
+                    "ui.itemhover.speed",
+                    new { amount = (speed > 0 ? "+" : "-") + $"{speed * 0.1f:0%}" }),
                 font,
                 new Vector2(x + 68, y + 28),
-                negativeSpeed ? Color.DarkRed : co * 0.9f * alpha);
+                co * 0.9f * alpha);
             y += (int)Math.Max(font.MeasureString("TT").Y, 48f);
         }
 
@@ -243,13 +219,10 @@ internal sealed class MeleeWeaponDrawTooltipPatch : HarmonyPatch
         }
 
         // write bonus defense
-        if (__instance.addedDefense.Value > 0)
+        var defense = __instance.addedDefense.Value;
+        if (defense != 0)
         {
-            co = Game1.textColor;
-            if (__instance.hasEnchantmentOfType<TopazEnchantment>())
-            {
-                co = new Color(0, 120, 120);
-            }
+            co = __instance.hasEnchantmentOfType<TopazEnchantment>() ? new Color(0, 120, 120) : Game1.textColor;
 
             Utility.drawWithShadow(
                 spriteBatch,
@@ -264,9 +237,9 @@ internal sealed class MeleeWeaponDrawTooltipPatch : HarmonyPatch
                 1f);
             Utility.drawTextWithShadow(
                 spriteBatch,
-                Game1.content.LoadString(
-                    "Strings\\UI:ItemHover_DefenseBonus",
-                    __instance.addedDefense.Value),
+                ModEntry.i18n.Get(
+                    "ui.itemhover.defense",
+                    new { amount = (defense > 0 ? "+" : "-") + $"{defense}" }),
                 font,
                 new Vector2(x + 68, y + 28),
                 co * 0.9f * alpha);

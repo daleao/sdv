@@ -66,7 +66,7 @@ internal sealed class AddEnchantmentsCommand : ConsoleCommand
                 continue;
             }
 
-            tool.enchantments.Add(enchantment);
+            tool.AddEnchantment(enchantment);
             Log.I($"Applied {enchantment.GetDisplayName()} enchantment to {tool.DisplayName}.");
 
             args = args.Skip(1).ToArray();

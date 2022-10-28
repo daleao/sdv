@@ -49,7 +49,7 @@ internal sealed class SlingshotDrawInMenuPatch : HarmonyPatch
             return;
         }
 
-        var cooldownLevel = ModEntry.State.SlingshotCooldown / Constants.SlingshotCooldownTime;
+        var cooldown = ModEntry.State.SlingshotCooldown / Constants.SlingshotCooldownTime;
         var drawingAsDebris = drawShadow && drawStackNumber == StackDrawType.Hide;
 
         // ReSharper disable once CompareOfFloatsByEqualityOperator
@@ -63,9 +63,9 @@ internal sealed class SlingshotDrawInMenuPatch : HarmonyPatch
             Game1.staminaRect,
             new Rectangle(
                 (int)x,
-                (int)y + (Game1.tileSize - (cooldownLevel * Game1.tileSize)),
+                (int)y + (Game1.tileSize - (cooldown * Game1.tileSize)),
                 Game1.tileSize,
-                cooldownLevel * Game1.tileSize),
+                cooldown * Game1.tileSize),
             Color.Red * 0.66f);
     }
 

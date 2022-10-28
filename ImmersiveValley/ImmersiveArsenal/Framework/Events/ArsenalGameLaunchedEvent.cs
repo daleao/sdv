@@ -51,9 +51,14 @@ internal sealed class ArsenalGameLaunchedEvent : GameLaunchedEvent
             new ImmersiveProfessionsIntegration(registry).Register();
         }
 
-        if (ModEntry.Config.FaceMouseCursor)
+        if (ModEntry.Config.FaceMouseCursor || ModEntry.Config.SlickMoves)
         {
             ModEntry.Events.Enable<DriftButtonPressedEvent>();
+        }
+
+        if (ModEntry.Config.ComboHits)
+        {
+            ModEntry.Events.Enable<ComboButtonPressedEvent>();
         }
     }
 }

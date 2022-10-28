@@ -139,7 +139,6 @@ internal sealed class SlingshotPerformFirePatch : HarmonyPatch
                 34 => 4f,
                 _ => 1f,
             };
-            damageMod *= 1f + __instance.GetEnchantmentLevel<RubyEnchantment>() + who.attackIncreaseModifier;
 
             if (Game1.options.useLegacySlingshotFiring)
             {
@@ -147,27 +146,25 @@ internal sealed class SlingshotPerformFirePatch : HarmonyPatch
                 y *= -1f;
             }
 
-            var startingPosition = shootOrigin - new Vector2(32f, 32f);
             var damage = (damageBase + Game1.random.Next(-damageBase / 2, damageBase + 2)) * damageMod;
             var index = ammo?.ParentSheetIndex ?? (__instance.hasEnchantmentOfType<QuincyEnchantment>()
                 ? Constants.QuincyProjectileIndex
                 : Constants.SnowballProjectileIndex);
+            var rotationVelocity = (float)(Math.PI / (64f + Game1.random.Next(-63, 64)));
+            var startingPosition = shootOrigin - new Vector2(32f, 32f);
             var projectile = new ImmersiveProjectile(
                 __instance,
-                (int)damage,
+                who,
+                damage,
                 index,
-                0,
                 index == Constants.QuincyProjectileIndex ? 5 : 0,
-                (float)(Math.PI / (64f + Game1.random.Next(-63, 64))),
+                rotationVelocity,
                 x,
                 y,
                 startingPosition,
                 collisionSound,
                 index == Constants.QuincyProjectileIndex ? "debuffSpell" : string.Empty,
-                false,
-                index != Constants.SnowballProjectileIndex,
                 location,
-                who,
                 ammo is not null,
                 collisionBehavior)
             {

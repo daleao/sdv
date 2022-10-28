@@ -23,15 +23,12 @@ internal sealed class TopazEnchantmentApplyToPatch : HarmonyPatch
     [HarmonyPrefix]
     private static bool TopazEnchantmentApplyToPrefix(TopazEnchantment __instance, Item item)
     {
-        switch (item)
+        if (item is not MeleeWeapon weapon || !ModEntry.Config.RebalancedForges)
         {
-            case MeleeWeapon weapon when ModEntry.Config.RebalancedForges:
-                weapon.addedDefense.Value += (ModEntry.Config.RebalancedForges ? 5 : 1) * __instance.GetLevel();
-                break;
-            case Slingshot:
-                Game1.player.resilience += (ModEntry.Config.RebalancedForges ? 5 : 1) * __instance.GetLevel();
-                break;
+            return true; // run original logic
         }
+
+        weapon.addedDefense.Value += 3 * __instance.GetLevel();
 
         return false; // don't run original logic
     }

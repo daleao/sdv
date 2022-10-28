@@ -3,7 +3,7 @@
 #region using directives
 
 using DaLion.Common.Integrations;
-using DaLion.Common.Integrations.WalkOfLife;
+using Common.Integrations.ImmersiveProfessions;
 
 #endregion using directives
 
