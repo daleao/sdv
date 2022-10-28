@@ -1,25 +1,32 @@
 # What is this mod?
 
-This mod is a compilation of the "Immersive" suite of mods, all of which spawned from the original professions overhaul, i.e., Walk Of Life.
-Mods included in this compilation include:
-  - Immersive Professions (a.k.a. Walk Of Life)
-  - Immersive Ponds (a.k.a. Aquarism)
-  - Immersive Rings (a.k.a. Fellowship)
-  - Immersive Taxes (a.k.a. Serfdom)
-  - Immersive Tools (a.k.a. Tooth And Nail)
-  - Immersive Tweaks (a.k.a. Quality Of Life)
+This mod is a compilation of modules that each overhaul different aspects of vanilla game mechanics.
 
-It also includes the previously unreleased Immersive Arsenal, which overhauls combat, weapons and slingshots.
+Currently included modules:
+  - **[Professions](/Professions/README.md)** is the main module, and the only one enabled by default. This will overhaul all the game's professions with the goal of supporting more diverse and interesting playstyles.
+  - **[Arsenal](/Arsenal/README.md)** is the second largest module. It overhauls various aspects of melee weapons and slingshots so as to diversify combat and provide viable alternatives to the all-powerful sword.
+  - **[Rings](/Rings/README.md)** is a huge overhaul of the Iridium Band, introducing new forge mechanics and Gemstone Music Theory. It also rebalances other underwhelming rings and unimmersive crafting recipes.
+  - **[Ponds](/Ponds/README.md)** is a complement to the new Aquarist profession. It overhauls Fish Ponds to merit a spot on any farm.
+  - **[Taxes](/Taxes/README.md)** is a complement to the new Conservationist profession. It introduces a simple yet realistic taxations system. Because surely a nation at war would be on top of that juicy farm income.
+  - **[Tools](/Tools/README.md)** is a simple mod allowing chargeable resource tools, customizable farming tools and some extended tool enchantments.
+  - **[Tweaks](/Tweaks/README.md)** is the final module, and serves as a repository for smaller tweaks and fixes to inconsistencies in vanilla.
+                     
+The modules can be individually enabled or disabled, and are fully customizable themselves. For more information, visit the READMEs for each individual module.
 
 # Why does this exist?
 
-It was always the intention of all mods in the Immersive following Walk Of Life to be complements for the latter; i.e., Aquarism was a complement for the Aquarist profession, Serfdom for the Conservationist profession, and Fellowship for all the new combat skill professions. Consequently, all of these mods were tightly integrated with Walk Of Life, but had little to no interaction with each other, which could reasonably be achieved by Walk Of Life's provided API.
+This mod aggregates the "Immersive" suite of mods, all of which spawned from the original, Walk Of Life, Immersive Professions. It also includes the previously unreleased Immersive Arsenal. It was always the intention of all mods in the Immersive suite following Walk Of Life to be complements for the latter. Consequently, all of these mods were tightly integrated with Walk Of Life, but had otherwise little to no interaction with each other, which could reasonably be achieved by Walk Of Life's provided API.
 
-This changed with the addition of the new Arsenal mod, which needed to communicate with several other mods in addition to Walk Of Life. At this point, it became increasingly difficult to establish the required level of integration using APIs, not to mention the unecessary code clutter.
+This changed with the addition of Arsenal, which needed to communicate with several of the modules in addition to Walk Of Life. At this point, it became increasingly difficult to establish the required level of integration using APIs alone, not to mention the unecessary code clutter.
 
-Another issue was the amount of redundancy and increased memory consumption caused by compiling separate mods requiring the same shared framework.
+Another issue was the amount of redundancy and increased memory consumption caused by compiling separate mods all of which require the same underlying framework.
 
-A single combined mod allows all components to communicate natively and share a single framework.
+A single combined mod allows all components to communicate natively all the while sharing a single framework.
+
+# Compatibility
+
+All modules should be fully multiplayer-ready.
+Not Android-compatible.
 
 # Installation and Update
 
