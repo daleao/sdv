@@ -1,8 +1,8 @@
 <table align="center"><tr><td align="center" width="9999">
 
 <!-- LOGO, TITLE, DESCRIPTION -->
-![](/resources/title2.png)
-# A Professions Overhaul
+
+# Redux :: Professions
 ![](https://stardewcommunitywiki.com/mediawiki/images/8/82/Farming_Skill_Icon.png)
 ![](https://stardewcommunitywiki.com/mediawiki/images/2/2f/Mining_Skill_Icon.png)
 ![](https://stardewcommunitywiki.com/mediawiki/images/f/f1/Foraging_Skill_Icon.png)
@@ -41,80 +41,65 @@
 
 </td></tr></table>
 
-Ever wondered why there aren't any profession overhaul mods on the Nexus? Me too.
-
 ## Features
 
-Profession-related features:
-- Rebalanced and reworked [almost] every profession to be an equally unique and attractive choice.
-- Each profession targets a specific style of gameplay, some which were not viable in vanilla (e.g. ranching).
-- No more ~~boring~~ uninspiring +X% sell price bonuses.
-- Bomberman mining; Thief/Assassin combat; epic slingshots; command an army of giant Slimes.
-- Scaling end-game objectives.
-- Level 5 professions provide simple early-game buffs that benefit most styles of general gameplay.
-- Level 10 professions are more specialized and engaging, providing two bonuses which change the way you play.
-- Professions are more consistent across the board, with several analogous perks and synergies.
-- _[Optional]_ Combat professions have unique special abilities.
-- _[Optional]_ Lore-friendly and balanced multi-profession.
-- _[Optional]_ Level 20 skills and prestiged professions.
-- Gender-specific profession titles.
-- New icons for most professions, courtesy of [IllogicalMoodSwing](https://forums.nexusmods.com/index.php?/user/38784845-illogicalmoodswing/) (please make sure to [endorse their original](https://www.nexusmods.com/stardewvalley/mods/4163) mod).
-- New sound effects and visuals for certain professions.
-- Automatcally detects SVE's Galdora and Vintage Interface (both version) and provides compatible HUD elements.
+This module is an extensive overhaul of vanilla professions and skills, and makes up the core of Redux. Almost every profession has been reworked to be an equally unique and attractive choice targetting a specific style of gameplay, many of which were simply not viable in vanilla (i.e., ranching). And while it is not guaranteed that an "optimal" path does not exist, the main goal is to create opportunities for diversified or themed strategies as well as engaging new gameplay mechanics. Gone are the ~~boring~~ uninspiring +X% sell price bonuses, and in their stead we introduce bomberman mining, thief/assassin combat, truly epic sharpshooting and even Slime taming. The new professions are meant to scale with player, provide new end-game objectives and steer the player towards new playstyles.
 
-Other skill-related features:
-- Combat levels which reward a profession (multiples of 5) now also reward 5 HP. At level 10 the player will have 200 health instead of 190.
+By popular demand this module also introduces an immersive (and completely optional) **Prestige** system, which will eventually allow the player to obtain *all* professions and open up skill progression to level 20. Also added are unique special abilities for each combat profession, with accompanying new visual and sound effects.
 
-Integration is provided for Automate and several popular mods. See the [compatibility](#compatibility) section for details.
+This module was inspired by Enai Siaion's excellent [Ordinator](https://www.nexusmods.com/skyrimspecialedition/mods/1137) for Skyrim, and borrows many ideas (and a few assets) from the likes of League of Legends](https://www.leagueoflegends.com/), [Diablo](https://diablo2.blizzard.com/) and the classic [Ragnarok Online](http://iro.ragnarokonline.com/).
+
+Integrations are provided for several popular mods. See the [compatibility](#compatibility) section for details.
 
 ## Professions
+
+The perks in *italics* refer to Prestiged variants. Written in *(parenthesis)*, these perks **replace**, and do not stack with, their regular counterpart.
 
 ### ![](https://i.imgur.com/p9QdB6L.png) Farming
 
 - ![](resources/assets/sprites/loose/harvester.png) **Harvester (Lv5)** - 10% *(20%)* chance for extra yield from harvested crops.
-    - Yields an equivalent 10% monetary bonus to vanilla on average, while also benefiting anybody who will not sell raw crops.
+    - Yields an equivalent 10% monetary bonus to vanilla on average, while also benefiting those who will not sell raw crops.
 - ![](resources/assets/sprites/loose/agriculturist.png) **Agriculturist (Lv10)** - Crops grow 10% *(20%)* faster. Grow best-quality crops organically without fertilizer.
-    - Allows harvesting of iridium-quality crops without any fertilizer. The chance is unchanged from vanilla, and is equal to half the chance of gold quality. Fertilizers will still massively increase that chance.
+    - Allows harvesting iridium-quality crops, normally only possible with Deluxe Fertilizer. The chance is unchanged from vanilla, and is equal to half the chance of gold quality. This means that fertilizers are **not** obsolete, as they will still massively increase that chance.
 - ![](resources/assets/sprites/loose/artisan.png) **Artisan (Lv10)** - All artisan machines work 10% *(25%)* faster. Machine output quality is at least as good as input ingredient quality.
-    - Essentially implements [Quality Artisan Products](https://www.moddrop.com/stardew-valley/mods/707502-quality-artisan-products) (QAP), but exclusively for Artisans. Also adds 5% chance to promote the output quality by one level. In multiplayer, **the bonus production speed applies only to machines crafted by the player with this profession, and only when that player uses the machine**.
+    - Essentially implements [Quality Artisan Products](https://www.moddrop.com/stardew-valley/mods/707502-quality-artisan-products) exclusively for Artisans. Also added is 5% chance to promote the output quality by one level. Note that the quality preservation perk is tied to the Artisan player, while the quality promotion perk is tied to the machine itself; in other words, only Artisans themselves can preserve the quality of ingredients, but they can do so on any machine, whereas any non-Artisan player can benefit from a quality upgrade, so long as they use a machine crafted by an Artisan player (ownerhsip requirements can be turned off in the configs).
 - ![](resources/assets/sprites/loose/miner.png) **Rancher (Lv5)** - Befriend animals 2× *(3×)* quicker.
-    - Gain double mood and friendship points from petting. Newborn animals are born with some starting friendship between 150 and 250 (out of 1000 maximum), chosen at random.
+    - Gain double mood *and* friendship points from petting. Newborn animals are also born with a non-zero, random initial friendship.
 - ![](resources/assets/sprites/loose/breeder.png) **Breeder (Lv10)** - Incubation 2× *(3×)* faster and natural pregnancy 3× *(5×)* more likely. Increase value of animals at high friendship.
-    - At max friendship animals are worth 2.5x their base price, instead of vanilla 1.3x. Animal Husbandry: gestation following insemination is also 2x *(3x)* faster.
-- ![](resources/assets/sprites/loose/producer.png) **Producer (Lv10)** - Happy animals produce 2× *(3×)* as frequently. Produce worth 5% more for every full barn or coop.
-    - Note that happiness (mood) is **not** the same as friendship. Also note this will **not** allow certain animals (i.e. cows and chickens) to produce more than once per day. Bonus produce value also applies to artisan goods derived from animal products (i.e. cheeses, mayos and cloth), honey (bees are animals), and meat (Animal Husbandry or Fresh Meat). Only deluxe buildings can be considered full. **Note that honey is also considered an animal product.** There is no limit to the scaling. In multiplayer, **the bonus applies only to barns and coops owned by the player with this profession, and only when that player sells the produce**.
+    - At max friendship animals are worth 2.5x their base price, instead of vanilla 1.3x. If Animal Husbandry is installed, gestation following insemination is also 2x *(3x)* faster.
+- ![](resources/assets/sprites/loose/producer.png) **Producer (Lv10)** - Happy animals produce 2× *(3×)* as frequently. Produce is worth 5% more for every full barn or coop.
+    - Note that happiness, or mood, is **not** the same as friendship. Also note that this will **not** allow certain animals (i.e., cows and chickens) to produce more than once per day. Bonus produce value also applies to artisan goods derived from animal products (such as cheeses, mayos and cloth), honey (bees are animals too), and meat from Animal Husbandry or PPJA Fresh Meat. Also also note that only deluxe buildings can be considered full. There is no limit to this bonus value. In multiplayer, the bonus applies only to barns and coops owned by the player with this profession, and only when that player sells the produce (ownership requirements can be turned off in the configs).
 
 ### ![](https://i.imgur.com/jf88nPt.png) Foraging
 
 - ![](resources/assets/sprites/loose/forager.png) **Lv5 - Forager** - 20% *(40%)* chance for double yield of foraged items.
-    - _Unchanged effect from vanilla. Only the name is changed._
+    - Other than the name, this profession is unchanged compared to vanilla.
 - ![](resources/assets/sprites/loose/ecologist.png) **Ecologist (Lv10)** - Wild berries restore 50% *(100%)* more health and energy. Progressively identify forage of higher quality.
-    - All foraged items will have the same deterministic quality. This immediate gives inventory convenience. However the quality will start off at silver, and progress to iridium when enough items have been foraged. Applies to Mushroom Boxes, but only if the cave owner (i.e. the host player) has the profession.
+    - All foraged items will have the same deterministic quality, providing immediate inventory convenience. However, that quality will initially start out at silver, and progress to iridium as you gather foraged items. Unlike vanilla this perk will also apply to hoed forage (such as Winter Root, Snow Yams and Ginger), Coconuts shaken off palm trees, and mushrooms produced by Mushroom Boxes, but only if the cave owner (i.e., the host player) has the profession. It will likewise apply to crafted Mushroom Boxes and Mushroom Propagators, if either of those mods is installed.
 - ![](resources/assets/sprites/loose/scavenger.png) **Scavenger (Lv10)** - Location of foragable items revealed. Occasionally detect buried treasure. *Time freezes during Scavenger Hunts.*
-    - On switching maps while outside you will occasionally detect hidden buried treasure. Find it and dig it up (with a hoe) within the time limit to obtain your reward. The larger your win streak the better your odds of obtaining rare items.
-    - _Bonus: holding [ModKey](#configs) will highlight all foragables on-screen._
+    - Whenever you are outside there is a chance to trigger a short Scavenger Hunt for hidden buried treasure. Follow the purple HUD arrow to find the treasure and dig it up (with a hoe) within the time limit to obtain a reward. The larger your win streak the better your odds of obtaining rare items. You can optionally configure the HUD arrows to only appear when holding a key (LeftShift by default). This will also highlight forageable currently on-screen for your convenience.
 - ![](resources/assets/sprites/loose/lumberjack.png) **Lumberjack (Lv5)** - Felled trees yield 25% *(40%)* more wood.
-    - _Unchanged effect from vanilla. Only the name is changed._
+    - Other than the name, this profession is unchanged compared to vanilla.
 - ![](resources/assets/sprites/loose/arborist.png) **Arborist (Lv10)** - All trees grow faster. Normal trees can drop *(twice as much)* hardwood.
-    - Bonus tree growth works as a global buff; i.e. in multiplayer, all trees will be affected as long as any player in the session has this profession, and the effect will stack for all additional online players that share this profession. _The hardwood bonus is unchanged from vanilla._
-- ![](resources/assets/sprites/loose/tapper.png) **Tapper (Lv10)** - Tappers are cheaper to craft. Tapped trees give syrup 25% *(50%)* faster.
+    - Bonus tree growth works as a global buff; i.e., all trees in the world are affected as long as any player in the session has this profession, and the effect will stack for all additional online players that share this profession. The hardwood bonus is inherited and uchanged from vanilla.
+- ![](resources/assets/sprites/loose/tapper.png) **Tapper (Lv10)** - Tappers are cheaper to craft. Tapped trees produce syrup 25% *(50%)* faster.
     - New regular recipe: x25 wood, x1 copper bar.
-    - New Heavy recipe: x20 hardwood, x1 iridium bar, x1 radioactive ore.
+    - New Heavy recipe: x18 hardwood, x1 radioactive bar.
 
 ### ![](https://i.imgur.com/TidtIw0.png) Mining 
 
 - ![](resources/assets/sprites/loose/miner.png) **Miner (Lv5)** - +1 *(+2)* ore per ore vein.
-    - _Unchanged from vanilla._
+    - Completely unchanged compared to vanilla.
 - ![](resources/assets/sprites/loose/spelunker.png) **Spelunker (Lv10)** - Chance to find ladders and shafts increases with every mine level. +1 speed every 10 levels. *Also recover some health and stamina with every mine level.*
-    - Plus 0.5% ladder chance per level. Bonus ladder chance resets every time you leave the mines. **This includes taking the stairs back to the mine entrance.**
-- ![](resources/assets/sprites/loose/prospector.png) **Prospector (Lv10)** - Location of ladders and mining nodes revealed. Occasionally detect rocks with valuable minerals. *Time freezes during Scavenger Hunts.*
-    - Analogous to Scavenger. Tracks any mining nodes or mineral forages off-screen with a yellow pointer, and any ladders or shafts with a green pointer. On entering a new mine floor you will occasionally detect stones with prospective treasure. Find the stone and break it within the time limit to obtain a reward. The larger your win streak the better your odds of obtaining rare items. Completing a hunt automatically reveals a ladder.
-    - _Bonus: holding [ModKey](#configs) will highlight all nodes and ladders on-screen._
+    - Plus 0.5% ladder chance per level. Bonus ladder chance resets each time you leave the mines. **This includes taking the stairs back to the mine entrance.**
+- ![](resources/assets/sprites/loose/prospector.png) **Prospector (Lv10)** - Location of ladders and mining nodes revealed. Occasionally detect rocks with valuable minerals. *Time freezes during Prospector Hunts.*
+    - Analogous to Scavenger. Tracks all mining nodes and mineral forages off-screen with a yellow pointer, ladders, shafts and panning spots (when outside) with a green pointer. Whenever you are in the mines there is a chance to trigger a short Propsector Hunt for hidden stone treasure. Follow the purple HUD arrow to find the correct stone within the time limit and break it up to obtain a reward. The larger your win streak the better your odds of obtaining rare minerals or artifacts. Succesful completion of a hunt automatically reveals a ladder. You can optionally configure the HUD arrows to only appear when holding a key (LeftShift by default). This will also highlight mineral nodes and other tiles of interest currently on-screen for your convenience.
 - ![](resources/assets/sprites/loose/blaster.png) **Blaster (Lv5)** - Craft twice as many explosives. Exploded rocks yield 2× *(3×)* as much coal.
+    - This aims to provide a new style of mining while attempting to compensate for the lack of coal without the vanilla Prospector profession.
 - ![](resources/assets/sprites/loose/demolitionist.png) **Demolitionist (Lv10)** - Bomb radius +1. Exploded rocks yield 20% *(40%)* more resources.
-    - _Bonus: [Get excited!](https://www.youtube.com/watch?v=0nlJuwO0GDs) when hit by an explosion._
+    - This aims to improve the bomberman style of mining while attempting to compensate for the lack of Geologist and Gemologist professions from vanilla. As a configurable bonus, the pyromaniac in your will [get excited](https://www.youtube.com/watch?v=0nlJuwO0GDs) when hit by an explosion.
 - ![](resources/assets/sprites/loose/gemologist.png) **Gemologist (Lv10)** - Progressively identify gems and minerals of higher quality. Crystalariums work 25% *(50%)* faster.
-    - Analogous to Ecologist. All gems and minerals mined from nodes have a fixed quality, starting at silver and increasing once enough minerals have been collected. Minerals collected from Crystalariums and Geode Crushers are counted for this total, **but not those from geodes broken at Clint's**. In multiplayer, **the bonus Crystalarium speed applies only to machines crafted by the player with this profession, and only when used by that player**.
+    - Analogous to Ecologist. All gems and minerals mined from nodes have a fixed quality, starting at silver and increasing to iridium as you mine. Please note that this bonus will only apply to gems or minerals that have been either physically mined, or produced by Geode Crushers owned by the Gemologist. Crystalariums and geodes opened by Clint will **not** receive quality upgrades. The exception to this is Crystalariums already in production, which will all receive an equivalent quality upgrade whenever the player reaches a quality milestone. In multiplayer, **the bonus Crystalarium speed applies only to machines crafted by the player with this profession, and only when used by that player**.
 
 ### ![](https://i.imgur.com/XvdVsAn.png) Fishing
 
