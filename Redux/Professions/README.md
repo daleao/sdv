@@ -108,39 +108,36 @@ The perks in *italics* refer to Prestiged variants. Written in *(parenthesis)*, 
 - ![](resources/assets/sprites/loose/angler.png) **Angler (Lv10)** - Fish worth 1% more for every unique max-sized fish caught and 5% more for every legendary fish. *Can recatch legendary fish.*
     - "Legendary fish" includes the Extended Family Qi challenge varieties, counted only once.
 - ![](resources/assets/sprites/loose/aquarist.png) **Aquarist (Lv10)** - Fish pond max capacity +2. Catching bar decreases slower for every unique fish species raised in a fish pond. *Can raise legendary fish.*
-    - The catching bar decays 5.5% slower per unique Fish Pond. Six ponds equal a permanent Trap Bobber. In multiplayer, **only counts Fish Ponds owned by the player with this profession**.
+    - The catching bar decays 5.5% slower per unique Fish Pond. Six ponds are equivalent to a permanent Trap Bobber. In multiplayer, **only counts Fish Ponds owned by the player with this profession**.
     - *Legendary fish and extended family can be raised in the same pond.*
 - ![](resources/assets/sprites/loose/trapper.png) **Trapper (Lv5)** - Crab pots are cheaper to craft. Can trap higher-quality *(highest-quality)* haul.
-    - All trapped fish can have quality up to gold. Chance depends on your fishing level (same formula as forage). _Recipe is unchanged from vanilla._
+    - All trapped fish can have quality up to gold. Chance depends on fishing level (same formula as forage). The Crab Pot recipe is unchanged from vanilla.
 - ![](resources/assets/sprites/loose/luremaster.png) **Luremaster (Lv10)** - Crab pots no longer produce junk. Use different baits to attract different catch. *60% chance to preserve bait.*
     - Each type bait will also apply it's regular fishing effects:
         - **Regular bait:** 25% chance to catch fish, subject to the same location and season limitations as regular fishing.
         - **Wild bait:** 25% chance to also double the haul.
-        - **Magnet:** Repels all fish (as per its description), but attracts metal items such as resources, artifacts, treasure chests, rings and even weapons.
+        - **Magnet:** Repels all fish (as per its description), but attracts metal items such as resources, artifacts, treasure chests, rings and even some weapons (treasure table is similar to fishing treasure chests).
         - **Magic bait:** 25% chance to catch fish of any location or season. Also upgrades all catch to iridium-quality.
 - ![](resources/assets/sprites/loose/conservationist.png) **Conservationist (Lv10)** - Crab pots without bait can trap junk. Clean the Valley's waters to merit tax deductions. *Cleaning the Valley's waters also merits favor with the villagers.*
-    - Every 100 (configurable) junk items collected will earn you a 1% tax deduction the following season (max 25%, also configurable), increasing the value of all shipped goods. You will receive a formal mail from the Ferngill Revenue Service each season informing your currrent tax bracket.
+    - Every 100 (configurable) junk items collected will earn you a 1% tax deduction the following season (max 25%, also configurable). What a "tax deduction" means depends on whether the [Taxes](../Taxes/README.md) module is enabled; if it is enabled, a tax deduction works as you would expect, reducing your overall amount due. If this module is not enabled, then a tax deduction works as a % value increasing to all items shipped in the bin. If you quality for a deduction you will receive a formal mail from the Ferngill Revenue Service on the first of the season informing your currrent deduction rights.
 
 ### ![](https://i.imgur.com/fUnZSTj.png) Combat
 
 - ![](resources/assets/sprites/loose/fighter.png) **Fighter (Lv5)** - Damage +10% *(+20%)*. +15 HP.
-    - _Unchanged from vanilla._
-- ![](resources/assets/sprites/loose/brute.png) **Brute (Lv10)** - Taking damage builds rage, improving combat prowess. +25 HP. *Rage also grants attack speed.*
-    - You may want to consider building defense bonuses. In vanilla, defense has a soft cap, not allowing damage reduction beyond 50%. This mod removes that cap, making defense more effective.
+    - Completely unchanged compared to vanilla.
+- ![](resources/assets/sprites/loose/brute.png) **Brute / Amazon (Lv10)** - Taking damage builds rage, improving damage. +25 HP. *Rage also grants attack speed.*
     - **Rage:** Damage +1% per stack. Max 100 stacks. Lose 1 stack every 5 seconds after 30 seconds out of combat. *Attack speed +0.5% per stack*.
 - ![](resources/assets/sprites/loose/poacher.png) **Bushwhacker (Lv10)** - Crit. chance +50%. Crit. strikes can poach items. *Successfully poaching an item refunds special move cooldown.*
-    - Monsters can only be poached once.
-- ![](resources/assets/sprites/loose/rascal.png) **Rascal (Lv5)** - Slingshot damage +25% *(+50%)*. 60% chance to recover spent ammo.
-    - In vanilla, slingshot projectiles have a short "grace period" during which it will ignore collision with enemies. This mod removes that grace period, allowing projectiles to hit enemies immediately in front of the Farmer. All professions are affected.
-    -_Bonus: holding [ModKey](#configs) will fire a trick shot, which is weaker but can ricochet once. If prestiged, trick shots stun enemies for 5s._
-- ![](resources/assets/sprites/loose/desperado.png) **Desperado (Lv10)** - Charge slingshot 50% faster. Can overcharge slingshots for more power, or quick-release for a double-shot. *Overcharged shots become spreadshots.*
-    - **Overcharge:** Continue to hold the tool button to reveal the overcharge meter.
-    - **Quick-shots:** Release the shot as soon as it completes charging to perform double-shots.
-    - **Spreadhots:** Fire three projectiles in a cone. Requires overcharging at least half the bar. The higher the bar the narrower the cone. 
-- ![](resources/assets/sprites/loose/piper.png) **Slimed Piper (Lv10)** - Attract more Slimes in dangerous areas. Chance to gain a random buff when a Slime is defeated. *Chance to also recover some health and energy when a Slime is defeated.*
-    - Each Slime raised in a hutch adds a chance to spawn an extra Slime in dungeons, up to the number of enemies on the map.
-    - Buffs are the same as food/drink buffs (skill levels, attack, defense, speed, luck, max energy, magnetism). Lasts 3 minutes and stacks indefinitely, refreshing the duration each time.
-    - _Bonus: immune to the Slimed debuff, even without a Slime Charmer ring._
+    - **Poaching:** Each monsters can only be poached once. Any item from the monster's available loot table can be obtained by this method.
+- ![](resources/assets/sprites/loose/rascal.png) **Rascal (Lv5)** - Gain one additional ammo slot. 35% *(70%)* chance to recover spent ammo. *Trick shots stun enemies for 5s.*
+    - The secondary ammo can be fired with the Action (i.e., Special Move) button.
+    - **Trick Shot:** Holding the Mod Key (default LeftShift) will fire a weaker shot which can ricochet once off of walls. This only works with non-squishy ammo.
+- ![](resources/assets/sprites/loose/desperado.png) **Desperado (Lv10)** - Charge slingshot 50% faster. Can overcharge slingshots for more power, or quick-release for a double-shot. *Overcharged twice as quickly.*
+    - **Overcharge:** Continue to hold the tool button to reveal the overcharge meter. Overcharged has increased hitbox and knockback, and have a chance to pierce enemies.
+- ![](resources/assets/sprites/loose/piper.png) **Slimed Piper / Slimed Enchantress (Lv10)** - Attract Slimes when near enemies. Chance to gain a random buff when a Slime is defeated. *Chance to also recover some health and energy when a Slime is defeated.*
+    - Each Slime raised in a hutch adds a chance to spawn an extra Slime in dungeons and dangeorus areas, up to the number of enemies on the map.
+    - Obtainable buffs are the same as food/drink buffs (skill levels, attack, defense, speed, luck, max energy, magnetism). A buff lasts real-life 3 minutes and stack indefinitely, refreshing the duration each time.
+    - Pipers are also immune to the Slimed debuff, even without a Slime Charmer ring (but are **not** immune to Slime damage).
 
 ## Prestige
 
