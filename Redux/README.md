@@ -3,13 +3,13 @@
 This mod is a compilation of modules that each overhaul different aspects of vanilla game mechanics.
 
 Currently included modules:
-  - **[Professions](/Professions/README.md)** is the main module, and the only one enabled by default. This will overhaul all the game's professions with the goal of supporting more diverse and interesting playstyles.
-  - **[Arsenal](/Arsenal/README.md)** is the second largest module. It overhauls various aspects of melee weapons and slingshots so as to diversify combat and provide viable alternatives to the all-powerful sword.
-  - **[Rings](/Rings/README.md)** is a huge overhaul of the Iridium Band, introducing new forge mechanics and Gemstone Music Theory. It also rebalances other underwhelming rings and unimmersive crafting recipes.
-  - **[Ponds](/Ponds/README.md)** is a complement to the new Aquarist profession. It overhauls Fish Ponds to merit a spot on any farm.
-  - **[Taxes](/Taxes/README.md)** is a complement to the new Conservationist profession. It introduces a simple yet realistic taxations system. Because surely a nation at war would be on top of that juicy farm income.
-  - **[Tools](/Tools/README.md)** is a simple mod allowing chargeable resource tools, customizable farming tools and some extended tool enchantments.
-  - **[Tweaks](/Tweaks/README.md)** is the final module, and serves as a repository for smaller tweaks and fixes to inconsistencies in vanilla.
+  - **[Professions](./Framework/Professions/README.md)** is the main module, and the only one enabled by default. This will overhaul all the game's professions with the goal of supporting more diverse and interesting playstyles.
+  - **[Arsenal](./Framework/Arsenal/README.md)** is the second largest module. It overhauls various aspects of melee weapons and slingshots so as to diversify combat and provide viable alternatives to the all-powerful sword.
+  - **[Rings](./Framework/Rings/README.md)** is a huge overhaul of the Iridium Band, introducing new forge mechanics and Gemstone Music Theory. It also rebalances other underwhelming rings and unimmersive crafting recipes.
+  - **[Ponds](./Framework/Ponds/README.md)** is a complement to the new Aquarist profession. It overhauls Fish Ponds to merit a spot on any farm.
+  - **[Taxes](./Framework/Taxes/README.md)** is a complement to the new Conservationist profession. It introduces a simple yet realistic taxations system. Because surely a nation at war would be on top of that juicy farm income.
+  - **[Tools](./Framework/Tools/README.md)** is a simple mod allowing chargeable resource tools, customizable farming tools and some extended tool enchantments.
+  - **[Tweaks](./Framework/Tweex/README.md)** is the final module, and serves as a repository for smaller tweaks and fixes to inconsistencies in vanilla.
                      
 The modules can be individually enabled or disabled, and are fully customizable themselves. For more information, visit the READMEs for each individual module.
 
@@ -25,7 +25,7 @@ A single combined mod allows all components to communicate natively all the whil
 
 # Compatibility
 
-All modules should be fully multiplayer-ready.
+All modules should be fully multiplayer-ready as long as all players have it installed.
 Not Android-compatible.
 
 # Installation and Update
@@ -39,6 +39,8 @@ Not Android-compatible.
 # Uninstallation
 
 Be mindful that certain module have special uninstall instructions. Failure to comply with these instructions may lead to save file corruption.
+
+After disabling a module in the Generic Mod Config Menu, you must restart the game for the changes to take effect.
 
 # Special Thanks
 

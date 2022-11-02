@@ -19,9 +19,10 @@ using StardewModdingAPI.Events;
 /// </summary>
 internal sealed class EventManager
 {
-    /// <summary>Gets the cached <see cref="IManagedEvent"/> instances by type.</summary>
+    /// <summary>Cache of <see cref="IManagedEvent"/> instances by type.</summary>
     private readonly ConditionalWeakTable<Type, IManagedEvent> _eventCache = new();
 
+    /// <inheritdoc cref="IModRegistry"/>
     private readonly IModRegistry _modRegistry;
 
     /// <summary>Initializes a new instance of the <see cref="EventManager"/> class.</summary>
@@ -83,7 +84,10 @@ internal sealed class EventManager
         {
 #if RELEASE
             var debugAttribute = e.GetCustomAttribute<DebugAttribute>();
-            if (debugAttribute is not null) continue;
+            if (debugAttribute is not null)
+            {
+                continue;
+            }
 #endif
 
             var deprecatedAttr = e.GetCustomAttribute<DeprecatedAttribute>();
@@ -129,15 +133,17 @@ internal sealed class EventManager
 
     /// <summary>Enable a single <see cref="IManagedEvent"/>.</summary>
     /// <param name="type">A <see cref="IManagedEvent"/> type to enable.</param>
-    internal void Enable(Type type)
+    /// <returns><see langword="true"/> if the event's enabled status was changed, otherwise <see langword="false"/>.</returns>
+    internal bool Enable(Type type)
     {
         if (this.GetCachedEvent(type)?.Enable() == true)
         {
             Log.D($"[EventManager]: Enabled {type.Name}.");
-            return;
+            return true;
         }
 
         Log.D($"[EventManager]: {type.Name} was not enabled.");
+        return false;
     }
 
     /// <summary>Enables the specified <see cref="IManagedEvent"/> types.</summary>
@@ -152,24 +158,27 @@ internal sealed class EventManager
 
     /// <summary>Enable a single <see cref="IManagedEvent"/>.</summary>
     /// <typeparam name="TEvent">AA <see cref="IManagedEvent"/> type to enable.</typeparam>
-    internal void Enable<TEvent>()
+    /// <returns><see langword="true"/> if the event's enabled status was changed, otherwise <see langword="false"/>.</returns>
+    internal bool Enable<TEvent>()
         where TEvent : IManagedEvent
     {
-        this.Enable(typeof(TEvent));
+        return this.Enable(typeof(TEvent));
     }
 
     /// <summary>Enables a single <see cref="IManagedEvent"/> for the specified screen.</summary>
     /// <param name="type">A <see cref="IManagedEvent"/> type to enable.</param>
     /// <param name="screenId">A local peer's screen ID.</param>
-    internal void EnableForScreen(Type type, int screenId)
+    /// <returns><see langword="true"/> if the event's enabled status was changed, otherwise <see langword="false"/>.</returns>
+    internal bool EnableForScreen(Type type, int screenId)
     {
         if (this.GetCachedEvent(type)?.EnableForScreen(screenId) == true)
         {
             Log.D($"[EventManager]: Enabled {type.Name}.");
-            return;
+            return true;
         }
 
         Log.D($"[EventManager]: {type.Name} was not enabled.");
+        return false;
     }
 
     /// <summary>Enables the specified <see cref="IManagedEvent"/> types for the specified screen.</summary>
@@ -186,10 +195,11 @@ internal sealed class EventManager
     /// <summary>Enables a single <see cref="IManagedEvent"/> for the specified screen.</summary>
     /// <typeparam name="TEvent">A <see cref="IManagedEvent"/> type to enable.</typeparam>
     /// <param name="screenId">A local peer's screen ID.</param>
-    internal void EnableForScreen<TEvent>(int screenId)
+    /// <returns><see langword="true"/> if the event's enabled status was changed, otherwise <see langword="false"/>.</returns>
+    internal bool EnableForScreen<TEvent>(int screenId)
         where TEvent : IManagedEvent
     {
-        this.EnableForScreen(typeof(TEvent), screenId);
+        return this.EnableForScreen(typeof(TEvent), screenId);
     }
 
     /// <summary>Enables a single <see cref="IManagedEvent"/> for the specified screen.</summary>
@@ -220,15 +230,17 @@ internal sealed class EventManager
 
     /// <summary>Disables a single <see cref="IManagedEvent"/>.</summary>
     /// <param name="type">A <see cref="IManagedEvent"/> type to disable.</param>
-    internal void Disable(Type type)
+    /// <returns><see langword="true"/> if the event's enabled status was changed, otherwise <see langword="false"/>.</returns>
+    internal bool Disable(Type type)
     {
         if (this.GetCachedEvent(type)?.Disable() == true)
         {
             Log.D($"[EventManager]: Disabled {type.Name}.");
-            return;
+            return true;
         }
 
         Log.D($"[EventManager]: {type.Name} was not disabled.");
+        return false;
     }
 
     /// <summary>Disables the specified <see cref="IManagedEvent"/>s events.</summary>
@@ -243,24 +255,27 @@ internal sealed class EventManager
 
     /// <summary>Disables a single <see cref="IManagedEvent"/>.</summary>
     /// <typeparam name="TEvent">A <see cref="IManagedEvent"/> type to disable.</typeparam>
-    internal void Disable<TEvent>()
+    /// <returns><see langword="true"/> if the event's enabled status was changed, otherwise <see langword="false"/>.</returns>
+    internal bool Disable<TEvent>()
         where TEvent : IManagedEvent
     {
-        this.Disable(typeof(TEvent));
+        return this.Disable(typeof(TEvent));
     }
 
     /// <summary>Disables a single <see cref="IManagedEvent"/> for the specified screen.</summary>
     /// <param name="type">A <see cref="IManagedEvent"/> type to disable.</param>
     /// <param name="screenId">A local peer's screen ID.</param>
-    internal void DisableForScreen(Type type, int screenId)
+    /// <returns><see langword="true"/> if the event's enabled status was changed, otherwise <see langword="false"/>.</returns>
+    internal bool DisableForScreen(Type type, int screenId)
     {
         if (this.GetCachedEvent(type)?.DisableForScreen(screenId) == true)
         {
             Log.D($"[EventManager]: Disabled {type.Name}.");
-            return;
+            return true;
         }
 
         Log.D($"[EventManager]: {type.Name} was not disabled.");
+        return false;
     }
 
     /// <summary>Disables the specified <see cref="IManagedEvent"/>s for the specified screen.</summary>
@@ -277,10 +292,11 @@ internal sealed class EventManager
     /// <summary>Disables a single <see cref="IManagedEvent"/> for the specified screen.</summary>
     /// <typeparam name="TEvent">An <see cref="IManagedEvent"/> type to disable.</typeparam>
     /// <param name="screenId">A local peer's screen ID.</param>
-    internal void DisableForScreen<TEvent>(int screenId)
+    /// <returns><see langword="true"/> if the event's enabled status was changed, otherwise <see langword="false"/>.</returns>
+    internal bool DisableForScreen<TEvent>(int screenId)
         where TEvent : IManagedEvent
     {
-        this.DisableForScreen(typeof(TEvent), screenId);
+        return this.DisableForScreen(typeof(TEvent), screenId);
     }
 
     /// <summary>Disables a single <see cref="IManagedEvent"/> for the specified screen.</summary>
@@ -312,14 +328,20 @@ internal sealed class EventManager
     /// <summary>Enables all <see cref="IManagedEvent"/>s.</summary>
     internal void EnableAll()
     {
-        var count = this._eventCache.Count(pair => pair.Value.Enable());
+        var count = AccessTools
+            .GetTypesFromAssembly(Assembly.GetAssembly(typeof(IManagedEvent)))
+            .Where(t => t.IsAssignableTo(typeof(IManagedEvent)) && !t.IsAbstract)
+            .Count(this.Enable);
         Log.D($"[EventManager]: Enabled {count} events.");
     }
 
     /// <summary>Disables all <see cref="IManagedEvent"/>s.</summary>
     internal void DisableAll()
     {
-        var count = this._eventCache.Count(pair => pair.Value.Disable());
+        var count = AccessTools
+            .GetTypesFromAssembly(Assembly.GetAssembly(typeof(IManagedEvent)))
+            .Where(t => t.IsAssignableTo(typeof(IManagedEvent)) && !t.IsAbstract)
+            .Count(this.Disable);
         Log.D($"[EventManager]: Disabled {count} events.");
     }
 
@@ -328,9 +350,10 @@ internal sealed class EventManager
     internal void EnableWithAttribute<TAttribute>()
         where TAttribute : Attribute
     {
-        var count = this._eventCache
-            .Where(pair => pair.Key.GetCustomAttribute<TAttribute>() is not null)
-            .Count(pair => pair.Value.Enable());
+        var count = AccessTools
+            .GetTypesFromAssembly(Assembly.GetAssembly(typeof(IManagedEvent)))
+            .Where(t => t.IsAssignableTo(typeof(IManagedEvent)) && !t.IsAbstract && t.GetCustomAttribute<TAttribute>() is not null)
+            .Count(this.Enable);
         Log.D($"[EventManager]: Enabled {count} events.");
     }
 
@@ -339,9 +362,10 @@ internal sealed class EventManager
     internal void DisableWithAttribute<TAttribute>()
         where TAttribute : Attribute
     {
-        var count = this._eventCache
-            .Where(pair => pair.Key.GetCustomAttribute<TAttribute>() is not null)
-            .Count(pair => pair.Value.Disable());
+        var count = AccessTools
+            .GetTypesFromAssembly(Assembly.GetAssembly(typeof(IManagedEvent)))
+            .Where(t => t.IsAssignableTo(typeof(IManagedEvent)) && !t.IsAbstract && t.GetCustomAttribute<TAttribute>() is not null)
+            .Count(this.Disable);
         Log.D($"[EventManager]: Disabled {count} events.");
     }
 
@@ -412,7 +436,6 @@ internal sealed class EventManager
     /// <summary>Instantiates a new <see cref="IManagedEvent"/> instance of the specified <paramref name="type"/>.</summary>
     /// <param name="type">A type implementing <see cref="IManagedEvent"/>.</param>
     /// <returns>A <see cref="IManagedEvent"/> instance of the specified <paramref name="type"/>.</returns>
-
     private IManagedEvent? CreateEventInstance(Type type)
     {
         if (!type.IsAssignableTo(typeof(IManagedEvent)) || type.IsAbstract || type.GetConstructor(
@@ -426,8 +449,11 @@ internal sealed class EventManager
         }
 
 #if RELEASE
-            var debugAttribute = type.GetCustomAttribute<DebugAttribute>();
-            if (debugAttribute is not null) return null;
+        var debugAttribute = type.GetCustomAttribute<DebugAttribute>();
+        if (debugAttribute is not null)
+        {
+            return null;
+        }
 #endif
 
         var deprecatedAttr = type.GetCustomAttribute<DeprecatedAttribute>();

@@ -58,6 +58,50 @@ public static class MethodBaseExtensions
     }
 
     /// <summary>
+    ///     Gets all the <see cref="Patch"/> instances applied to the <paramref name="method"/> that include a <see cref="HarmonyPrefix"/>
+    ///     and that optionally satisfy a given <paramref name="predicate"/>.
+    /// </summary>
+    /// <param name="method">The <see cref="MethodBase"/>.</param>
+    /// <param name="predicate">Filter conditions.</param>
+    /// <returns>A <see cref="IEnumerable{T}"/> of <see cref="Patch"/> instances currently applied to the <paramref name="method"/> which contain at least one <see cref="HarmonyPrefix"/>, and that satisfy the given <paramref name="predicate"/>, if any.</returns>
+    public static IEnumerable<Patch> GetAppliedPrefixes(this MethodBase method, Func<Patch, bool>? predicate = null)
+    {
+        predicate ??= _ => true;
+        var patches = Harmony.GetPatchInfo(method);
+        if (patches is null)
+        {
+            yield break;
+        }
+
+        foreach (var patch in patches.Prefixes.Where(predicate))
+        {
+            yield return patch;
+        }
+    }
+
+    /// <summary>
+    ///     Gets all the <see cref="Patch"/> instances applied to the <paramref name="method"/> that include a <see cref="HarmonyPostfix"/>
+    ///     and that optionally satisfy a given <paramref name="predicate"/>.
+    /// </summary>
+    /// <param name="method">The <see cref="MethodBase"/>.</param>
+    /// <param name="predicate">Filter conditions.</param>
+    /// <returns>A <see cref="IEnumerable{T}"/> of <see cref="Patch"/> instances currently applied to the <paramref name="method"/> which contain at least one <see cref="HarmonyPostfix"/>, and that satisfy the given <paramref name="predicate"/>, if any.</returns>
+    public static IEnumerable<Patch> GetAppliedPostfixes(this MethodBase method, Func<Patch, bool>? predicate = null)
+    {
+        predicate ??= _ => true;
+        var patches = Harmony.GetPatchInfo(method);
+        if (patches is null)
+        {
+            yield break;
+        }
+
+        foreach (var patch in patches.Postfixes.Where(predicate))
+        {
+            yield return patch;
+        }
+    }
+
+    /// <summary>
     ///     Gets all the <see cref="Patch"/> instances applied to the <paramref name="method"/> that include a <see cref="HarmonyTranspiler"/>
     ///     and that optionally satisfy a given <paramref name="predicate"/>.
     /// </summary>
@@ -74,6 +118,28 @@ public static class MethodBaseExtensions
         }
 
         foreach (var patch in patches.Transpilers.Where(predicate))
+        {
+            yield return patch;
+        }
+    }
+
+    /// <summary>
+    ///     Gets all the <see cref="Patch"/> instances applied to the <paramref name="method"/> that include a <see cref="HarmonyFinalizer"/>
+    ///     and that optionally satisfy a given <paramref name="predicate"/>.
+    /// </summary>
+    /// <param name="method">The <see cref="MethodBase"/>.</param>
+    /// <param name="predicate">Filter conditions.</param>
+    /// <returns>A <see cref="IEnumerable{T}"/> of <see cref="Patch"/> instances currently applied to the <paramref name="method"/> which contain at least one <see cref="HarmonyFinalizer"/>, and that satisfy the given <paramref name="predicate"/>, if any.</returns>
+    public static IEnumerable<Patch> GetAppliedFinalizers(this MethodBase method, Func<Patch, bool>? predicate = null)
+    {
+        predicate ??= _ => true;
+        var patches = Harmony.GetPatchInfo(method);
+        if (patches is null)
+        {
+            yield break;
+        }
+
+        foreach (var patch in patches.Finalizers.Where(predicate))
         {
             yield return patch;
         }

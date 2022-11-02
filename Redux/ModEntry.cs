@@ -7,6 +7,7 @@ using DaLion.Shared.Events;
 using DaLion.Shared.ModData;
 using DaLion.Shared.Multiplayer;
 using DaLion.Shared.Reflection;
+using Shared.Harmony;
 using StardewModdingAPI.Utilities;
 
 #endregion using directives
@@ -98,7 +99,7 @@ public sealed class ModEntry : Mod
         if (Config.EnableRings)
         {
             ReduxModule.Rings.Initialize(helper);
-            Integrations.IsBetterRingsLoaded = helper.ModRegistry.IsLoaded("BBR.BetterRings");
+            Framework.Integrations.IsBetterRingsLoaded = helper.ModRegistry.IsLoaded("BBR.BetterRings");
         }
 
         if (Config.EnableTaxes)
@@ -109,7 +110,7 @@ public sealed class ModEntry : Mod
         if (Config.EnableTools)
         {
             ReduxModule.Tools.Initialize(helper);
-            Integrations.IsMoonMisadventuresLoaded = helper.ModRegistry.IsLoaded("spacechase0.MoonMisadventures");
+            Framework.Integrations.IsMoonMisadventuresLoaded = helper.ModRegistry.IsLoaded("spacechase0.MoonMisadventures");
         }
 
         if (Config.EnableTweex)
@@ -133,14 +134,6 @@ public sealed class ModEntry : Mod
                     $"[Entry] The session host has a different mod version. Some features may not work properly.\n\tHost version: {hostMod.Version}\n\tLocal version: {this.ModManifest.Version}");
             }
         }
-
-#if DEBUG
-        ReduxModule.Debug.Initialize(helper);
-
-        // start FPS counter
-        Globals.FpsCounter = new FrameRateCounter(GameRunner.instance);
-        helper.Reflection.GetMethod(Globals.FpsCounter, "LoadContent").Invoke();
-#endif
     }
 
     /// <inheritdoc />

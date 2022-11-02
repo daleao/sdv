@@ -20,7 +20,7 @@ internal abstract class HarmonyPatch : IHarmonyPatch
     }
 
     /// <inheritdoc />
-    public MethodBase? Target { get; protected set; }
+    public MethodBase Target { get; protected set; } = null!; // initialized in derived class
 
     /// <inheritdoc />
     public HarmonyMethod? Prefix { get; }
@@ -59,11 +59,6 @@ internal abstract class HarmonyPatch : IHarmonyPatch
     /// <inheritdoc cref="IHarmonyPatch.Apply"/>
     protected virtual void ApplyImpl(Harmony harmony)
     {
-        if (this.Target is null)
-        {
-            ThrowHelper.ThrowMissingMethodException("Patch target not defined.");
-        }
-
         if (this.Reverse is not null)
         {
             harmony.CreateReversePatcher(this.Target, this.Reverse).Patch();

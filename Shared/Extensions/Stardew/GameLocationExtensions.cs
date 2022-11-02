@@ -2,13 +2,23 @@
 
 #region using directives
 
+using System.Linq;
 using DaLion.Shared.ModData;
+using StardewValley.Monsters;
 
 #endregion using directives
 
 /// <summary>Extensions for the <see cref="SObject"/> class.</summary>
 public static class GameLocationExtensions
 {
+    /// <summary>Determines whether this <paramref name="location"/> has spawned enemies.</summary>
+    /// <param name="location">The <see cref="GameLocation"/>.</param>
+    /// <returns><see langword="true"/> if the <paramref name="location"/> is has at least one living monster and is not a <see cref="SlimeHutch"/>, otherwise <see langword="false"/>.</returns>
+    public static bool HasMonsters(this GameLocation location)
+    {
+        return location.characters.OfType<Monster>().Any() && location is not SlimeHutch;
+    }
+
     /// <inheritdoc cref="ModDataIO.Read(GameLocation, string, string, string)"/>
     public static string Read(this GameLocation location, string field, string defaultValue = "", string modId = "")
     {

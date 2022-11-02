@@ -11,7 +11,7 @@ using HarmonyLib;
 internal interface IHarmonyPatch
 {
     /// <summary>Gets the method to be patched.</summary>
-    MethodBase? Target { get; }
+    MethodBase Target { get; }
 
     /// <summary>Gets the <see cref="HarmonyPrefix"/> patch that should be applied, if any.</summary>
     HarmonyMethod? Prefix { get; }

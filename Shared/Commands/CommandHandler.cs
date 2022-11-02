@@ -42,7 +42,10 @@ internal sealed class CommandHandler
             {
 #if RELEASE
                 var debugAttribute = c.GetCustomAttribute<DebugAttribute>();
-                if (debugAttribute is not null) continue;
+                if (debugAttribute is not null)
+                {
+                    continue;
+                }
 #endif
 
                 var deprecatedAttr = c.GetCustomAttribute<DeprecatedAttribute>();

@@ -2,15 +2,15 @@
 
 #region using directives
 
-using DaLion.Redux.Professions;
-using DaLion.Redux.Professions.Events.TreasureHunt;
-using DaLion.Redux.Professions.Events.Ultimate;
-using DaLion.Redux.Professions.Extensions;
-using DaLion.Redux.Professions.TreasureHunts;
-using DaLion.Redux.Professions.Ultimates;
-using DaLion.Redux.Professions.VirtualProperties;
-using DaLion.Redux.Rings.Resonance;
-using DaLion.Redux.Rings.VirtualProperties;
+using DaLion.Redux.Framework.Professions;
+using DaLion.Redux.Framework.Professions.Events.TreasureHunt;
+using DaLion.Redux.Framework.Professions.Events.Ultimate;
+using DaLion.Redux.Framework.Professions.Extensions;
+using DaLion.Redux.Framework.Professions.TreasureHunts;
+using DaLion.Redux.Framework.Professions.Ultimates;
+using DaLion.Redux.Framework.Professions.VirtualProperties;
+using DaLion.Redux.Framework.Rings.Resonance;
+using DaLion.Redux.Framework.Rings.VirtualProperties;
 using DaLion.Shared.Events;
 using DaLion.Shared.Exceptions;
 using Microsoft.Xna.Framework;
@@ -84,6 +84,37 @@ public sealed class ModApi
         }
 
         return slingshot.GetOvercharge(farmer);
+    }
+
+    /// <summary>Sets a flag to allow the specified SpaceCore skill to level past 10 and offer prestige professions.</summary>
+    /// <param name="id">The SpaceCore skill id.</param>
+    /// <param name="getPrestigeDescriptionTier1Path1">A delegate which returns the prestige description for the level-5 profession first path.</param>
+    /// <param name="getPrestigeDescriptionTier1Path2">A delegate which returns the prestige description for the level-5 profession second path.</param>
+    /// <param name="getPrestigeDescriptionTier2Path1A">A delegate which returns the prestige description for the level-10 profession first path, option A.</param>
+    /// <param name="getPrestigeDescriptionTier2Path1B">A delegate which returns the prestige description for the level-10 profession first path, option B.</param>
+    /// <param name="getPrestigeDescriptionTier2Path2A">A delegate which returns the prestige description for the level-10 profession second path, option A.</param>
+    /// <param name="getPrestigeDescriptionTier2Path2B">A delegate which returns the prestige description for the level-10 profession second path, option B.</param>
+    public void RegisterCustomSkillPrestige(
+        string id,
+        Func<string> getPrestigeDescriptionTier1Path1,
+        Func<string> getPrestigeDescriptionTier1Path2,
+        Func<string> getPrestigeDescriptionTier2Path1A,
+        Func<string> getPrestigeDescriptionTier2Path1B,
+        Func<string> getPrestigeDescriptionTier2Path2A,
+        Func<string> getPrestigeDescriptionTier2Path2B)
+    {
+        if (!SCSkill.Loaded.TryGetValue(id, out var skill))
+        {
+            ThrowHelper.ThrowInvalidOperationException($"The custom skill {id} is not loaded.");
+        }
+
+        ((SCProfession)skill.ProfessionPairs[0].First).SetPrestigeDescriptionGetter(getPrestigeDescriptionTier1Path1);
+        ((SCProfession)skill.ProfessionPairs[0].Second).SetPrestigeDescriptionGetter(getPrestigeDescriptionTier1Path2);
+        ((SCProfession)skill.ProfessionPairs[1].First).SetPrestigeDescriptionGetter(getPrestigeDescriptionTier2Path1A);
+        ((SCProfession)skill.ProfessionPairs[1].Second).SetPrestigeDescriptionGetter(getPrestigeDescriptionTier2Path1B);
+        ((SCProfession)skill.ProfessionPairs[2].First).SetPrestigeDescriptionGetter(getPrestigeDescriptionTier2Path2A);
+        ((SCProfession)skill.ProfessionPairs[2].Second).SetPrestigeDescriptionGetter(getPrestigeDescriptionTier2Path2B);
+        ((SCSkill)skill).CanPrestige = true;
     }
 
     #endregion professions

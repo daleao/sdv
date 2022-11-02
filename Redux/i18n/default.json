@@ -226,12 +226,14 @@
   "resonance.topaz": "Topaz Resonance",
   "resonance.garnet": "Garnet Resonance",
   "rings.jade.description": "Increases critical strike power by 50%.",
-  "rings.topaz.description": "Increases defense by 3.",
+  "rings.topaz.description.resist": "Increases resistance by 10%.",
+  "rings.topaz.description.defense": "Increases defense by 1.",
   "rings.garnet.name": "Garnet Ring",
   "rings.garnet.description": "Decreases special move cooldown by 10%.",
   "rings.iridium.description": "An ordinary band made of iridium.",
   "rings.infinity.name": "Infinity Band",
   "rings.infinity.description": "A vessel for great power.",
+  "global.infinitycraft": "{{who}} forged an Infinity Band.",
 
   // **************** //
   // * ENCHANTMENTS * //
@@ -241,6 +243,7 @@
   "enchantments.carving": "Carving",
   "enchantments.cleaving": "Cleaving",
   "enchantments.tribute": "Tribute",
+  "enchantments.vampiric": "Bloodthirsty",
   "enchantments.gatling": "Gatling",
   "enchantments.preserving": "Preserving",
   "enchantments.quincy": "Quincy",
@@ -272,8 +275,8 @@
   "ui.itemhover.knockback": "{{amount}} Knockback",
   "ui.itemhover.firespeed": "{{amount}} Firing Speed",
   "ui.itemhover.swingspeed": "{{amount}} Swing Speed",
-  "ui.itemhover.cdr": "{{amount}} Cooldown Reduction",
-  "ui.itemhover.defense": "{{amount}} Damage Reduction",
+  "ui.itemhover.cdr": "{{amount}} Cooldown",
+  "ui.itemhover.resist": "{{amount}} Resistance",
   "ui.itemhover.precision": "{{amount}} Precision",
 
   // ********* //

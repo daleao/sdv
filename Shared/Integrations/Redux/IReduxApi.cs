@@ -47,6 +47,23 @@ public interface IReduxApi
     /// <returns>A percentage between 0 and 1.</returns>
     float GetDesperadoOvercharge(Farmer? farmer = null);
 
+    /// <summary>Sets a flag to allow the specified SpaceCore skill to level past 10 and offer prestige professions.</summary>
+    /// <param name="id">The SpaceCore skill id.</param>
+    /// <param name="getPrestigeDescriptionTier1Path1">A delegate which returns the prestige description for the level-5 profession first path.</param>
+    /// <param name="getPrestigeDescriptionTier1Path2">A delegate which returns the prestige description for the level-5 profession second path.</param>
+    /// <param name="getPrestigeDescriptionTier2Path1A">A delegate which returns the prestige description for the level-10 profession first path, option A.</param>
+    /// <param name="getPrestigeDescriptionTier2Path1B">A delegate which returns the prestige description for the level-10 profession first path, option B.</param>
+    /// <param name="getPrestigeDescriptionTier2Path2A">A delegate which returns the prestige description for the level-10 profession second path, option A.</param>
+    /// <param name="getPrestigeDescriptionTier2Path2B">A delegate which returns the prestige description for the level-10 profession second path, option B.</param>
+    void RegisterCustomSkillPrestige(
+        string id,
+        Func<string> getPrestigeDescriptionTier1Path1,
+        Func<string> getPrestigeDescriptionTier1Path2,
+        Func<string> getPrestigeDescriptionTier2Path1A,
+        Func<string> getPrestigeDescriptionTier2Path1B,
+        Func<string> getPrestigeDescriptionTier2Path2A,
+        Func<string> getPrestigeDescriptionTier2Path2B);
+
     #endregion professions
 
     #region tresure hunts

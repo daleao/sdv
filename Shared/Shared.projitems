@@ -99,9 +99,11 @@
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\Stardew\BuildingExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\Stardew\CharacterExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\Stardew\GameLocationExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Extensions\Stardew\Int32Extensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\Stardew\ItemExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\Stardew\FarmAnimalExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\Stardew\FarmerExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Extensions\Stardew\MonsterExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\Stardew\TerrainFeatureExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\Stardew\SObjectExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\Stardew\Vector2Extensions.cs" />
@@ -140,7 +142,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Integrations\SpaceCore\ISpaceCoreApi.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Integrations\TehsFishingOverhaul\ISimplifiedFishingApi.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Integrations\IModIntegration.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Integrations\WearMoreRings\IWearMoreRingApi.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Integrations\WearMoreRings\IWearMoreRingsApi.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Multiplayer\Broadcaster.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Log.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)MathConstants.cs" />

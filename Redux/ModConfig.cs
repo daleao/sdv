@@ -3,6 +3,7 @@
 #region using directives
 
 using Newtonsoft.Json;
+using StardewModdingAPI.Utilities;
 
 #endregion using directives
 
@@ -19,7 +20,7 @@ public sealed class ModConfig
 
     /// <summary>Gets a value indicating whether the Arsenal module is enabled.</summary>
     [JsonProperty]
-    public bool EnableArsenal { get; set; } = true;
+    public bool EnableArsenal { get; internal set; } = true;
 
     /// <summary>Gets a value indicating whether the Ponds module is enabled.</summary>
     [JsonProperty]
@@ -50,7 +51,7 @@ public sealed class ModConfig
     /// <summary>Gets a value indicating whether the Ponds module is enabled.</summary>
     [JsonProperty]
     public bool EnablePonds { get; internal set; } = false;
-    
+
     /// <summary>Gets a value indicating whether the Rings module is enabled.</summary>
     [JsonProperty]
     public bool EnableRings { get; internal set; } = false;
@@ -79,39 +80,35 @@ public sealed class ModConfig
 
     /// <summary>Gets the Arsenal module config settings.</summary>
     [JsonProperty]
-    public Arsenal.Config Arsenal { get; internal set; } = new();
+    public Framework.Arsenal.Config Arsenal { get; internal set; } = new();
 
     /// <summary>Gets the Ponds module config settings.</summary>
     [JsonProperty]
-    public Ponds.Config Ponds { get; internal set; } = new();
+    public Framework.Ponds.Config Ponds { get; internal set; } = new();
 
     /// <summary>Gets the Professions module config settings.</summary>
     [JsonProperty]
-    public Professions.Config Professions { get; internal set; } = new();
+    public Framework.Professions.Config Professions { get; internal set; } = new();
 
     /// <summary>Gets the Rings module config settings.</summary>
     [JsonProperty]
-    public Rings.Config Rings { get; internal set; } = new();
+    public Framework.Rings.Config Rings { get; internal set; } = new();
 
     /// <summary>Gets the Taxes module config settings.</summary>
     [JsonProperty]
-    public Taxes.Config Taxes { get; internal set; } = new();
+    public Framework.Taxes.Config Taxes { get; internal set; } = new();
 
     /// <summary>Gets the Tools module config settings.</summary>
     [JsonProperty]
-    public Tools.Config Tools { get; internal set; } = new();
+    public Framework.Tools.Config Tools { get; internal set; } = new();
 
     /// <summary>Gets the Tweex module config settings.</summary>
     [JsonProperty]
-    public Tweex.Config Tweex { get; internal set; } = new();
-
-#if DEBUG
-
-    /// <summary>Gets the Debug module config settings.</summary>
-    [JsonProperty]
-    public Debug.Config Debug { get; internal set; } = new();
-
-#endif
+    public Framework.Tweex.Config Tweex { get; internal set; } = new();
 
     #endregion config sub-modules
+
+    /// <summary>Gets the key used to trigger debug features.</summary>
+    [JsonProperty]
+    public KeybindList DebugKey { get; internal set; } = KeybindList.Parse("LeftControl");
 }

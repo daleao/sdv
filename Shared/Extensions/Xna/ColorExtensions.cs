@@ -32,7 +32,7 @@ public static class ColorExtensions
     /// <returns>A 32-bit <see cref="uint"/> value representing the packed ARGB bytes of <paramref name="color"/>.</returns>
     public static uint ToPackedValue(this Color color)
     {
-        return (uint)((color.A << 24) | (color.R << 16) | (color.G << 8) | color.B);
+        return (uint)((color.A << 24) | (color.B << 16) | (color.G << 8) | color.R);
     }
 
     /// <summary>Gets the complementary <see cref="Color"/>.</summary>
@@ -43,14 +43,14 @@ public static class ColorExtensions
         return new Color(color.ToPackedValue() ^ 0xFFFFFFu);
     }
 
-    /// <summary>Performs a hue rotation by <paramref name="amount"/> degrees.</summary>
+    /// <summary>Performs a hue rotation by <paramref name="degrees"/> degrees.</summary>
     /// <param name="color">The <see cref="Color"/>.</param>
-    /// <param name="amount">The amount to rotate by, in degrees.</param>
+    /// <param name="degrees">The number of degrees to rotate by.</param>
     /// <returns>A new <see cref="Color"/> with the adjusted Hue.</returns>
-    public static Color ShiftHue(this Color color, int amount)
+    public static Color ShiftHue(this Color color, float degrees)
     {
         var (h, s, v) = color.ToHsv();
-        var rotated = default(Color).FromHsv((h + amount) % 360, s, v);
+        var rotated = default(Color).FromHsv((h + degrees) % 360, s, v);
         return new Color(rotated.R, rotated.G, rotated.B, color.A);
     }
 

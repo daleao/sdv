@@ -14,31 +14,28 @@ internal sealed class ReduxModule : SmartEnum<ReduxModule>
     #region enum entries
 
     /// <summary>Gets the namespace ID of the Core module.</summary>
-    public static readonly ReduxModule Core = new("DaLion.Redux.Core", 0);
-
-    /// <summary>Gets the namespace ID of the Debug module.</summary>
-    public static readonly ReduxModule Debug = new("DaLion.Redux.Debug", 1);
+    public static readonly ReduxModule Core = new("DaLion.Redux.Framework.Core", 0);
 
     /// <summary>Gets the namespace ID of the Professions module.</summary>
-    public static readonly ReduxModule Professions = new("DaLion.Redux.Professions", 2);
+    public static readonly ReduxModule Professions = new("DaLion.Redux.Framework.Professions", 1);
 
     /// <summary>Gets the namespace ID of the Arsenal module.</summary>
-    public static readonly ReduxModule Arsenal = new("DaLion.Redux.Arsenal", 3);
+    public static readonly ReduxModule Arsenal = new("DaLion.Redux.Framework.Arsenal", 2);
 
     /// <summary>Gets the namespace ID of the Rings module.</summary>
-    public static readonly ReduxModule Rings = new("DaLion.Redux.Rings", 4);
+    public static readonly ReduxModule Rings = new("DaLion.Redux.Framework.Rings", 3);
 
     /// <summary>Gets the namespace ID of the Ponds module.</summary>
-    public static readonly ReduxModule Ponds = new("DaLion.Redux.Ponds", 5);
+    public static readonly ReduxModule Ponds = new("DaLion.Redux.Framework.Ponds", 4);
 
     /// <summary> Gets the namespace ID of the Taxes module.</summary>
-    public static readonly ReduxModule Taxes = new("DaLion.Redux.Taxes", 6);
+    public static readonly ReduxModule Taxes = new("DaLion.Redux.Framework.Taxes", 5);
 
     /// <summary>Gets the namespace ID of the Tools module.</summary>
-    public static readonly ReduxModule Tools = new("DaLion.Redux.Tools", 7);
+    public static readonly ReduxModule Tools = new("DaLion.Redux.Framework.Tools", 6);
 
     /// <summary>Gets the namespace ID of the Tweex module.</summary>
-    public static readonly ReduxModule Tweex = new("DaLion.Redux.Tweex", 8);
+    public static readonly ReduxModule Tweex = new("DaLion.Redux.Framework.Tweex", 7);
 
     #endregion enum entries
 
@@ -52,39 +49,35 @@ internal sealed class ReduxModule : SmartEnum<ReduxModule>
         {
             case 0:
                 this.DisplayName = "Redux Core";
-                this.EntryCommand = "rxc";
+                this.EntryCommand = "rdx";
                 break;
             case 1:
-                this.DisplayName = "Redux Debug";
-                this.EntryCommand = "rxd";
+                this.DisplayName = "Redux Professions";
+                this.EntryCommand = "profs";
                 break;
             case 2:
-                this.DisplayName = "Redux Professions";
-                this.EntryCommand = "wol";
-                break;
-            case 3:
                 this.DisplayName = "Redux Arsenal";
                 this.EntryCommand = "ars";
                 break;
-            case 4:
+            case 3:
                 this.DisplayName = "Redux Rings";
-                this.EntryCommand = "lotr";
+                this.EntryCommand = "rings";
+                break;
+            case 4:
+                this.DisplayName = "Redux Ponds";
+                this.EntryCommand = "ponds";
                 break;
             case 5:
-                this.DisplayName = "Redux Ponds";
-                this.EntryCommand = "aq";
+                this.DisplayName = "Redux Taxes";
+                this.EntryCommand = "tax";
                 break;
             case 6:
-                this.DisplayName = "Redux Taxes";
-                this.EntryCommand = "serf";
+                this.DisplayName = "Redux Tools";
+                this.EntryCommand = "tools";
                 break;
             case 7:
-                this.DisplayName = "Redux Tools";
-                this.EntryCommand = "tan";
-                break;
-            case 8:
                 this.DisplayName = "Redux Tweaks";
-                this.EntryCommand = "qol";
+                this.EntryCommand = "tweex";
                 break;
             default:
                 ThrowHelper.ThrowArgumentException($"Invalid module {id}.");
@@ -105,5 +98,16 @@ internal sealed class ReduxModule : SmartEnum<ReduxModule>
         ModEntry.Events.ManageNamespace(this.Name);
         new Harmonizer(helper.ModRegistry, this.Name).ApplyAll(true);
         new CommandHandler(helper.ConsoleCommands, this.Name).Register(this.EntryCommand, this.DisplayName);
+
+#if DEBUG
+        if (this != Core)
+        {
+            return;
+        }
+
+        // start FPS counter
+        Framework.Globals.FpsCounter = new FrameRateCounter(GameRunner.instance);
+        helper.Reflection.GetMethod(Framework.Globals.FpsCounter, "LoadContent").Invoke();
+#endif
     }
 }

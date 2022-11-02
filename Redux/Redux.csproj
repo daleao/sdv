@@ -118,7 +118,7 @@
     <Using Alias="Log" Include="DaLion.Shared.Log" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Core\Patches\" />
+    <Folder Include="Framework\Core\Patches\" />
   </ItemGroup>
 
 </Project>
