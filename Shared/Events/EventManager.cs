@@ -59,76 +59,28 @@ internal sealed class EventManager
         Log.D($"[EventManager]: Now managing {@event.GetType().Name}.");
     }
 
-    /// <summary>Instantiates one of each <see cref="IManagedEvent"/> instance to the set of <see cref="_eventCache"/>.</summary>
-    /// <param name="namespace">An optional namespace within which to limit the scope of managed <see cref="IManagedEvent"/>s.</param>
+    /// <summary>Implicitly manages <see cref="IManagedEvent"/> types in the assembly.</summary>
+    internal void ManageAll()
+    {
+        Log.D("[EventManager]: Gathering all events...");
+        this.ManageImplicitly();
+    }
+
+    /// <summary>Implicitly manages <see cref="IManagedEvent"/> types in the specified namespace.</summary>
+    /// <param name="namespace">The desired namespace.</param>
     internal void ManageNamespace(string @namespace)
     {
         Log.D($"[EventManager]: Gathering events in {@namespace}...");
-        var eventTypes = AccessTools
-            .GetTypesFromAssembly(Assembly.GetAssembly(typeof(IManagedEvent)))
-            .Where(t => t.IsAssignableTo(typeof(IManagedEvent)) && !t.IsAbstract &&
-                        t.Namespace?.StartsWith(@namespace) == true &&
-                        // event classes may or not have the required internal parameterized constructor accepting only the manager instance, depending on whether they are SMAPI or mod-handled
-                        // we only want to construct SMAPI events at this point, so we filter out the rest
-                        t.GetConstructor(
-                            BindingFlags.Instance | BindingFlags.NonPublic,
-                            null,
-                            new[] { this.GetType() },
-                            null) is not null &&
-                        (t.GetCustomAttribute<AlwaysEnabledAttribute>() is not null ||
-                         t.GetProperty(nameof(IManagedEvent.IsEnabled))?.DeclaringType == t))
-            .ToArray();
+        this.ManageImplicitly(t => t.Namespace?.StartsWith(@namespace) == true);
+    }
 
-        Log.D($"[EventManager]: Found {eventTypes.Length} event classes that should be enabled. Instantiating events...");
-        foreach (var e in eventTypes)
-        {
-#if RELEASE
-            var debugAttribute = e.GetCustomAttribute<DebugAttribute>();
-            if (debugAttribute is not null)
-            {
-                continue;
-            }
-#endif
-
-            var deprecatedAttr = e.GetCustomAttribute<DeprecatedAttribute>();
-            if (deprecatedAttr is not null)
-            {
-                continue;
-            }
-
-            var integrationAttr = e.GetCustomAttribute<IntegrationAttribute>();
-            if (integrationAttr is not null)
-            {
-                if (!this._modRegistry.IsLoaded(integrationAttr.UniqueId))
-                {
-                    Log.D(
-                        $"[EventManager]: The target mod {integrationAttr.UniqueId} is not loaded. {e.Name} will be ignored.");
-                    continue;
-                }
-
-                if (!string.IsNullOrEmpty(integrationAttr.Version) &&
-                    this._modRegistry.Get(integrationAttr.UniqueId)!.Manifest.Version.IsOlderThan(
-                        integrationAttr.Version))
-                {
-                    Log.W(
-                        $"[EventManager]: The integration event {e.Name} will be ignored because the installed version of {integrationAttr.UniqueId} is older than minimum supported version." +
-                        $" Please update {integrationAttr.UniqueId} in order to enable integrations with this mod.");
-                    continue;
-                }
-            }
-
-            var instance = this.CreateEventInstance(e);
-            if (instance is null)
-            {
-                Log.E($"[EventManager]: Failed to create {e.Name}.");
-                continue;
-            }
-
-            this._eventCache.Add(e, instance);
-            Log.D($"[EventManager]: Now managing {e.Name}.");
-
-            instance.Enable();
-        }
+    /// <summary>Implicitly manages <see cref="IManagedEvent"/> types with the specified attribute type.</summary>
+    /// <typeparam name="TAttribute">An <see cref="Attribute"/> type.</typeparam>
+    internal void ManageWithAttribute<TAttribute>()
+        where TAttribute : Attribute
+    {
+        Log.D($"[EventManager]: Gathering events with {nameof(TAttribute)}...");
+        this.ManageImplicitly(t => t.GetCustomAttribute<TAttribute>() is not null);
     }
 
     /// <summary>Enable a single <see cref="IManagedEvent"/>.</summary>
@@ -411,6 +363,74 @@ internal sealed class EventManager
         where TEvent : IManagedEvent
     {
         return this.Get<TEvent>()?.IsEnabledForScreen(screenId) == true;
+    }
+
+    /// <summary>Instantiates and manages <see cref="IManagedEvent"/> classes using reflection.</summary>
+    /// <param name="predicate">An optional condition with which to limit the scope of managed <see cref="IManagedEvent"/>s.</param>
+    private void ManageImplicitly(Func<Type, bool>? predicate = null)
+    {
+        predicate ??= t => true;
+        var eventTypes = AccessTools
+            .GetTypesFromAssembly(Assembly.GetAssembly(typeof(IManagedEvent)))
+            .Where(t => t.IsAssignableTo(typeof(IManagedEvent)) && !t.IsAbstract && predicate(t) &&
+                        // event classes may or not have the required internal parameterized constructor accepting only the manager instance, depending on whether they are SMAPI or mod-handled
+                        // we only want to construct SMAPI events at this point, so we filter out the rest
+                        t.GetConstructor(
+                            BindingFlags.Instance | BindingFlags.NonPublic,
+                            null,
+                            new[] { this.GetType() },
+                            null) is not null &&
+                        (t.GetCustomAttribute<AlwaysEnabledEventAttribute>() is not null ||
+                         t.GetProperty(nameof(IManagedEvent.IsEnabled))?.DeclaringType == t))
+            .ToArray();
+
+        Log.D($"[EventManager]: Found {eventTypes.Length} event classes that should be enabled. Instantiating events...");
+        foreach (var e in eventTypes)
+        {
+#if RELEASE
+            var debugAttribute = e.GetCustomAttribute<DebugAttribute>();
+            if (debugAttribute is not null)
+            {
+                continue;
+            }
+#endif
+
+            var deprecatedAttr = e.GetCustomAttribute<DeprecatedAttribute>();
+            if (deprecatedAttr is not null)
+            {
+                continue;
+            }
+
+            var integrationAttr = e.GetCustomAttribute<IntegrationAttribute>();
+            if (integrationAttr is not null)
+            {
+                if (!this._modRegistry.IsLoaded(integrationAttr.UniqueId))
+                {
+                    Log.D(
+                        $"[EventManager]: The target mod {integrationAttr.UniqueId} is not loaded. {e.Name} will be ignored.");
+                    continue;
+                }
+
+                if (!string.IsNullOrEmpty(integrationAttr.Version) &&
+                    this._modRegistry.Get(integrationAttr.UniqueId)!.Manifest.Version.IsOlderThan(
+                        integrationAttr.Version))
+                {
+                    Log.W(
+                        $"[EventManager]: The integration event {e.Name} will be ignored because the installed version of {integrationAttr.UniqueId} is older than minimum supported version." +
+                        $" Please update {integrationAttr.UniqueId} in order to enable integrations with this mod.");
+                    continue;
+                }
+            }
+
+            var instance = this.CreateEventInstance(e);
+            if (instance is null)
+            {
+                Log.E($"[EventManager]: Failed to create {e.Name}.");
+                continue;
+            }
+
+            this.Manage(instance);
+        }
     }
 
     /// <summary>Retrieves an existing event instance from the cache, or caches a new instance.</summary>

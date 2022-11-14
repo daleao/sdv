@@ -1,0 +1,254 @@
+﻿{
+  // ***************** //
+  // ** PROFESSIONS ** //
+  // ***************** //
+
+  // farming
+  "harvester.title.male": "Cultivateur",
+  "harvester.title.female": "Cultivatrice",
+  "harvester.desc": "10 % de chances d’obtenir un rendiment supplémentaire des cultures récoltées.",
+  "harvester.desc.prestiged": "10 % >> 20 % de chances d’obtenir un rendiment supplémentaire des cultures récoltées.",
+  "agriculturist.title.male": "Agriculteur",
+  "agriculturist.title.female": "Agricultrice",
+  "agriculturist.desc": "Les cultures poussent 10 % plus vite. Cultivez des cultures de la meilleure qualité de manière biologique sans engrais.",
+  "agriculturist.desc.prestiged": "Les cultures poussent 10 % >> 20 % plus vite.",
+  "artisan.title.male": "Artisan",
+  "artisan.title.female": "Artisane",
+  "artisan.desc": "Toutes les machines artisanales fonctionnent 10 % plus vite. La qualité de sorite des machines est égale ou supérieure que la qualité de l’ingrédient d’entrée.",
+  "artisan.desc.prestiged": "Toutes les machines artisanales fonctionnent 10 % >> 25 % plus vite.",
+
+  "rancher.title.male": "Cowboy",
+  "rancher.title.female": "Cowgirl",
+  "rancher.desc": "Se lier d’amitié avec les animaux 2× plus rapidement.",
+  "rancher.desc.prestiged": "Se lier d’amitié avec les animaux 2× >> 3× plus rapidement.",
+  "breeder.title.male": "Éleveur de bétail",
+  "breeder.title.female": "Éleveuse de bétail",
+  "breeder.desc": "Incubation 2× plus rapide et grossesse naturelle 3× plus probable. Augment la valeur des animaux à haute amitié.",
+  "breeder.desc.prestiged": "Incubation 2× >> 3× plus rapide et grossesse naturelle 3× >> 5× plus probable.",
+  "producer.title.male": "Producteur",
+  "producer.title.female": "Productrice",
+  "producer.desc": "Les animaux heureux produisent 2× plus fréquemment. Les produits animaux valent 5 % de plus pour chaque grange ou poulailler plein.",
+  "producer.desc.prestiged": "Les animaux heureux produisent 2× >> 3× plus fréquemment.",
+
+  // foraging
+  "forager.title.male": "Fourrageur",
+  "forager.title.female": "Fourrageuse",
+  "forager.desc": "20 % de chances de doubler le rendement des objets fourragés.",
+  "forager.desc.prestiged": "20 % >> 40 % de chances de doubler le rendement des objets fourragés.",
+  "ecologist.title.male": "Écologiste",
+  "ecologist.title.female": "Écologiste",
+  "ecologist.desc": "Les baies sauvages redonnent 50 % de plus de santé et d’énergie. Identifiez progressivement des fourrages de qualité supérieure.",
+  "ecologist.desc.prestiged": "Les baies sauvages redonnent 50 % >> 100 % de plus de santé et d’énergie.",
+  "scavenger.title.male": "Traqueur",
+  "scavenger.title.female": "Traqueuse",
+  "scavenger.desc": "Révèle l’emplacement des fourrages. Détectez occasionnellement des trésors enfouis.",
+  "scavenger.desc.prestiged": "Le temps se fige pendent les chasses au trésor.",
+  "scavenger.huntstarted": "Vos sens de Traqueur picotent...",
+  "scavenger.huntfailed": "Les picotements s’arrêtent.",
+
+  "lumberjack.title.male": "Bûcheron",
+  "lumberjack.title.female": "Bûcheronne",
+  "lumberjack.desc": "Les arbres abattus donnent 25 % de bois en plus.",
+  "lumberjack.desc.prestiged": "Les arbres abattus donnent 25 % >> 40 % de bois en plus.",
+  "arborist.title.male": "Arboriculteur",
+  "arborist.title.female": "Arboricultrice",
+  "arborist.desc": "Tous les arbres poussent plus vite. Les arbres normaux peuvent laisser tomber du bois dur.",
+  "arborist.desc.prestiged": "Les arbres normaux peuvent laisser tomber deux fois plus de bois dur.",
+  "tapper.title.male": "Saigneur",
+  "tapper.title.female": "Saigneure",
+  "tapper.desc": "Les saigneurs sont moins chers à fabriquer. Les arbres saignés donnent du sirop 25 % plus rapidement.",
+  "tapper.desc.prestiged": "Les arbres saignés donnent du sirop 25 % >> 50 % plus rapidement.",
+
+  // mining
+  "miner.title.male": "Mineur",
+  "miner.title.female": "Mineure",
+  "miner.desc": "+1 minerai par veine.",
+  "miner.desc.prestiged": "+1 >> +2 minéraux par veine.",
+  "spelunker.title.male": "Spéléologue",
+  "spelunker.title.female": "Spéléologue",
+  "spelunker.desc": "Les chances de trouver des escaliers et des puits augmentent de 1 % à chaque niveau de la mine. +1 vitesse tous les cinq niveaux.",
+  "spelunker.desc.prestiged": "Restaurez de la santé et de l’endurance à chaque niveau de la mine.",
+  "spelunker.buff.desc": "Chance d’escaliers +{{bonusLadderChance}} %. +{{bonusSpeed}} Vitesse.",
+  "prospector.title.male": "Prospecteur",
+  "prospector.title.female": "Prospectrice",
+  "prospector.desc": "Révèle l’emplacement des escaliers et des nœuds miniers. Détectez occasionnellement des roches contenant des minéraux précieux.",
+  "prospector.desc.prestiged": "Le temps se fige pendent les chasses de prospecteur.",
+  "prospector.huntstarted": "Vos sens de Prospecteur picotent...",
+  "prospector.huntfailed": "Les picotements s’arrêtent.",
+
+  "blaster.title.male": "Botefeu",
+  "blaster.title.female": "Botefeu",
+  "blaster.desc": "Fabriquez deux fois plus d’explosifs. Les roches explosées produisent 2× plus de charbon.",
+  "blaster.desc.prestiged": "Les roches explosées produisent 2× >> 3× plus de charbon.",
+  "demolitionist.title.male": "Démolisseur",
+  "demolitionist.title.female": "Démolisseuse",
+  "demolitionist.desc": "Rayon des bombes +1. Les roches explosées rapportent 20 % de ressources en plus.",
+  "demolitionist.buff.desc": "Enthousiasme!",
+  "demolitionist.desc.prestiged": "Les roches explosées rapportent 20 % >> 40 % de ressources en plus.",
+  "gemologist.title.male": "Gemmologue",
+  "gemologist.title.female": "Gemmologue",
+  "gemologist.desc": "Identifiez progressivement des minéraux de qualité supérieure. Les cristalariums produisent 25 % plus vite.",
+  "gemologist.desc.prestiged": "Les cristalariums produisent 25 % >> 50 % plus vite.",
+
+  // fishing
+  "fisher.title.male": "Pêcheur",
+  "fisher.title.female": "Pêcheuse",
+  "fisher.desc": "Le poissons mordent plus vite. Réduit les chances de pêcher des déchets.",
+  "fisher.desc.prestiged": "Les poissons mordent toujours instantanément.",
+  "angler.title.male": "Maître pêcheur",
+  "angler.title.female": "Maîtresse pêcheuse",
+  "angler.desc": "Les poissons valent 1 % de plus pour chaque poisson unique de taille maximale pêché et 5 % de plus pour chaque poisson légendaire pêché.",
+  "angler.desc.prestiged": "Peut rattraper des poissons légendaires.",
+  "aquarist.title.male": "Aquariophile",
+  "aquarist.title.female": "Aquariophile",
+  "aquarist.desc": "Capacité des étanges +2. La barre de capture diminue plus lentement pour chaque espèce de poisson élevée dans un étang.",
+  "aquarist.desc.prestiged": "Peut élever des poissons légendaires dans des étangs.",
+
+  "trapper.title.male": "Trappeur",
+  "trapper.title.female": "Trappeuse",
+  "trapper.desc": "Les casiers à crabes sont moins chers à fabriquer. Peut piéger des poissons de meilleure qualité.",
+  "trapper.desc.prestiged": "Peut piéger des poissons de la meilleure qualité.",
+  "luremaster.title.male": "Maître des leurres",
+  "luremaster.title.female": "Maîtresse des leurres",
+  "luremaster.desc": "Les casiers à crabes ne produisent plus de déchets. Utilisez différents appâts pour attirer différentes prises.",
+  "luremaster.desc.prestiged": "60 % chance de conserver les appâts de casiers à crabe.",
+  "conservationist.title.male": "Conservationniste",
+  "conservationist.title.female": "Conservationniste",
+  "conservationist.desc": "Les casiers à crabes sans appâts peuvent pieger des déchets. Nettoyez les eaux de la Vallée pour mériter des déductions fiscales.",
+  "conservationist.desc.prestiged": "Nettoyez les eaux de la Vallée pour mériter également de la faveur des villageois.",
+  "conservationist.mail": "Direction Générale des Finances Publiques^^^{{honorific}} @,^^Nous sommes heureux de vous informer qu'après examen de vos activités environnementales, nous avons verifié que vous avez droit à une déduction d'impôt sur le revenu de {{taxBonus}} conformément à l'article 501(c)(3) du Code Général des Impôts de Ferngill. En tant que tel, tous les revenus imposables de {{farm}} seront augmentés du montant susmentionné, en vigueur pendant la saison {{season}} en cours.^^Veuillez conserver cette lettre dans vos dossiers permanents au cas oú vous avez besoin de résoudre des questions concernant votre statut fiscal.^^Veuillez agréer, {{honorific}} l'expression de mes salutations distinguées.^^Laura D. Pretto^Directrice Exécutive, Direction Générale des Finances Publiques[#]Taxation Deduction",
+  "conservationist.mail.max": "Direction Générale des Finances Publiques^^^{{honorific}} @,^^Nous sommes heureux de vous informer qu'après examen de vos activités environnementales, nous avons verifié que vous avez droit à la déduction maximale d'impôt sur le revenu de {{taxBonus}} conformément à l'article 501(c)(3) du Code Général des Impôts de Ferngill. En tant que tel, tous les revenus imposables de {{farm}} seront augmentés du montant susmentionné, en vigueur pendant la saison {{season}} en cours.^^Veuillez conserver cette lettre dans vos dossiers permanents au cas oú vous avez besoin de résoudre des questions concernant votre statut fiscal.^^Veuillez agréer, {{honorific}} l'expression de mes salutations distinguées.^^Laura D. Pretto^Directrice Exécutive, Direction Générale des Finances Publiques[#]Taxation Deduction",
+
+  // combat
+  "fighter.title.male": "Combattant",
+  "fighter.title.female": "Combattante",
+  "fighter.desc": "Dégâts +10 %. +15 HP.",
+  "fighter.desc.prestiged": "Dégâts +10 % >> +15 %.",
+  "brute.title.male": "Brute",
+  "brute.title.female": "Amazone",
+  "brute.desc": "Augmente la rage lorsque vous subissez des dégàts, augmentant ainsi vos prouesses au combat. +25 HP.",
+  "brute.desc.prestiged": "Rage accorde également de la vitesse d’attaque.",
+  "brute.buff.title": "Rage",
+  "brute.buff.desc": "Bonus de dégâts +{{magnitude}} %.",
+  "brute.buff.desc.prestiged": "Bonus de dégâts et vitesse d’attaque +{{magnitude}} %.",
+  "poacher.title.male": "Débroussailleur",
+  "poacher.title.female": "Débroussailleuse",
+  "poacher.desc": "Chance de coup critique +50^. Les coups critiques font braconner des objets.",
+  "poacher.desc.prestiged": "Annule le délai de récupération des attaques spéciales lors du braconnage d’un objet.",
+
+  "rascal.title.male": "Coquin",
+  "rascal.title.female": "Coquine",
+  "rascal.desc": "Les lance-pierres gagnent un emplacement de munitions supplémentaire. 35 % de chances de récupérer les munitions dépensées.",
+  "rascal.desc.prestiged": "35 % >> 70 % de chances de récupérer les munitions dépensées.",
+  "desperado.title.male": "Desperado",
+  "desperado.title.female": "Desperada",
+  "desperado.desc": "Peut surcharger les lance-pierres pour tirer avec plus de puissance.",
+  "desperado.desc.prestiged": "Surcharger deux fois plus vite.",
+  "piper.title.male": "Enchanteur de Slimes",
+  "piper.title.female": "Enchanteresse de Slimes",
+  "piper.desc": "Attirez plus de Slimes dans des zones dangereuses. Chance de gagner des effets aléatoires en battant des Slimes.",
+  "piper.desc.prestiged": "Chance d’égalmente récuperer de la santé et de l’énergie en battant des Slimes.",
+  "piper.buff": "Englué(e)",
+
+
+  // *************** //
+  // ** ULTIMATES ** //
+  // *************** //
+
+  "frenzy.title": "Fureur Inépuisable ",
+  "frenzy.desc": "La rage monte deux fois plus vite. Immunisé contre l’évanouissement.",
+  "ambush.title": "Embuscade",
+  "ambush.desc.hidden": "Invisible.",
+  "ambush.desc.revealed": "Puissance des coups critiques x2.",
+  "blossom.title": "Fleur de la mort",
+  "blossom.desc": "Active le rechargement automatique. Tire en huit directions autour de toi à la fois.",
+  "concerto.title.male": "Concerto de Hamelin",
+  "concerto.title.female": "Fièvre Phéromonique",
+  "concerto.desc": "Enchantez les Slime à proximité. Les Slimes enchantés augmentent en taille et en puissance et traquent les autres ennemis.",
+
+  "ulti.canteat": "Impossible de faire ça maintenant.",
+
+
+  // ************** //
+  // ** PRESTIGE ** //
+  // ************** //
+
+  "prestige.dogstatue.first": "-Statue de Prestige-^La statue peut ramener le niveau d’une compétence à zero tout en conservant les professions acquises.",
+  "prestige.dogstatue.forget": "^Toutes les recettes associées seront oubliées.",
+  "prestige.dogstatue.offer": "^Faire une offrande ?",
+  "prestige.dogstatue.which": "Quelle compétence voudriez-vous ramener à zero ?",
+  "prestige.dogstatue.cost": "({{cost}} po)",
+  "prestige.dogstatue.dismiss": "Reviens demain.",
+  "prestige.dogstatue.what": "-Statue de Prestige-^...",
+  "prestige.dogstatue.respec": "Changer les professions de prestige",
+  "prestige.dogstatue.changeult": "Changer le super mode de combat",
+  "prestige.dogstatue.replace": "Actuellement enregistré {{pronoun}} {{ultimate}} de {{profession}}. Remplacer ?",
+  "prestige.dogstatue.choice": "{{ultimate}} de {{profession}}",
+  "prestige.dogstatue.fledged": "*Wouaf* *Wouaf* (vous êtes désormais {{pronoun}} {{profession}} à part entière.)",
+  "prestige.dogstatue.cancel": "J’ai changé d’avis...",
+  "prestige.skillpage.tooltip": "{{count}}/4 professions acquises:",
+  "prestige.levelup.tooltip:5": "Vous avez déjà tous les professions dans cette branche.",
+  "prestige.levelup.tooltip:10": "Vous avez déjà cette profession.",
+  "prestige.levelup.question": "Actuellement enregistré {{pronoun}} {{oldUltimate}} de {{oldProfession}}. Remplacer par la / le {{newUltimate}} de {{newProfession}} ?",
+  "prestige.levelup.unlocked": "Vous pouvez désormais continuer à développer votre compétence {{skill}} encore plus.",
+  "prestige.levelup.prestige": "Choisir une profession à prestigier:",
+  "prestige.achievement.title.male": "Touche-à-tout",
+  "prestige.achievement.title.female": "Touche-à-tout",
+  "prestige.achievement.desc": "Acquérir tous les professions dans toutes les compétences.",
+
+  // ********* //
+  // * RINGS * //
+  // ********* //
+
+  "gems.ruby.name": "Rubis",
+  "gems.aquamarine.name": "Aigue-marine",
+  "gems.jade.name": "Jade",
+  "gems.emerald.name": "Émeraude",
+  "gems.amethyst.name": "Améthyste",
+  "gems.topaz.name": "Topaze",
+  "gems.garnet.name": "Grenat",
+  "gems.garnet.description": "L'homonyme d'une belle princesse.",
+  "rings.jade.description": "Augmente la puissance des coups critiques de 50 %.",
+  "rings.topaz.description.resist": "Augmente la résistance de 10%.",
+  "rings.topaz.description.defense": "Augmente la défense de 1.",
+  "rings.garnet.name": "Bague Grenat",
+  "rings.garnet.description": "Diminue le temps de recharge des coups spéciaux de 10 %.",
+  "rings.iridium.description": "Une bague en iridium.",
+
+  // *********** //
+  // ** TAXES ** //
+  // *********** //
+
+  "tax.intro": "Direction Générale des Finances Publiques de Ferngill^^^{{honorific}} @,^^Nous venons par la présente vous informer que votre récente demande de changement d'adresse à Pélican Ville, Stardew Valley a été déposée et enregistrée. Toute correspondance future sera adressée à {{farm}}.^^Nous vous rappelons que les contributions fédérales à l'impôt sur le revenu sont dues le 2 de chaque saison. Pour votre commodité, vos obligations dues seront automatiquement déduites de votre solde. En cas de solde insuffisant, un prêt sera automatiquement émis à votre nom, sous réserve de frais d'intérêt nominaux de {{interest}} par an.^^Veuillez agréer, {{honorific}}, l'expression de mes salutations distinguées.^^Laura D. Pretto^Directrice Exécutive, Direction Générale des Finances Publiques[#]Taxation Intro",
+  "tax.notice": "Direction Générale des Finances Publiques de Ferngill^^^{{honorific}} @,^^Nous venons par la présente vous informer que votre impôt total dû pour la saison de clôture d'un montant de {{due}}g a été automatiquement déduit de votre solde pour votre commodité.^^Veuillez conserver cette lettre dans vos dossiers permanents au cas oú vous avez besoin de résoudre des questions concernant votre statut fiscal.^^Veuillez agréer, {{honorific}}, l'expression de mes salutations distinguées.^^Laura D. Pretto^Directrice Exécutive, Direction Générale des Finances Publiques[#]Taxation Notice",
+  "tax.outstanding": "Direction Générale des Finances Publiques de Ferngill^^^{{honorific}} @,^^Nous venons par la présente vous informer que votre impôt total dû pour la saison de clôture d'un montant de {{due}}g n'a pu être entièrement déduit de votre solde. En tant que tel, tous les revenus futurs de {{farm}} seront saisis jusqu'à ce que votre dette impayée d'un montant de {{outstanding}} soit réglée. Nous vous rappelons qu'il est dans votre meilleur intérêt de régler toutes les dettes impayées dès que possible afin d'éviter d'accumuler des intérêts au taux de {{interestRate}} par an.^^Veuillez conserver cette lettre dans vos dossiers permanents au cas oú vous avez besoin de résoudre des questions concernant votre statut fiscal.^^Veuillez agréer, {{honorific}}, l'expression de mes salutations distinguées.^^Laura D. Pretto^Directrice Exécutive, Direction Générale des Finances Publiques[#]Taxation Outstanding",
+  "tax.deduction": "Direction Générale des Finances Publiques de Ferngill^^^{{honorific}} @,^^Nous sommes heureux de vous informer qu'après examen de vos activités environnementales, nous avons verifié que vous avez droit à une déduction d'impôt sur le revenu de {{deductible}} conformément à l'article 501(c)(3) du Code Général des Impôts de Ferngill.^^Veuillez conserver cette lettre dans vos dossiers permanents au cas oú vous avez besoin de résoudre des questions concernant votre statut fiscal.^^Veuillez agréer, {{honorific}}, l'expression de mes salutations distinguées.^^Laura D. Pretto^Directrice Exécutive, Direction Générale des Finances Publiques[#]Taxation Deduction",
+  "tax.deduction.max": "Direction Générale des Finances Publiques de Ferngill^^^{{honorific}} @,^^Nous sommes heureux de vous informer qu'après examen de vos activités environnementales, nous avons verifié que vous avez droit à la déduction complète de votre impôt sur le revenu conformément à l'article 501(c)(3) du Code Général des Impôts de Ferngill. En tant que tel, aucun frais ne sera imputé à votre solde en ce qui concerne la fermeture de la saison.^^Veuillez conserver cette lettre dans vos dossiers permanents au cas oú vous avez besoin de résoudre des questions concernant votre statut fiscal.^^Veuillez agréer, {{honorific}}, l'expression de mes salutations distinguées.^^Laura D. Pretto^Directrice Exécutive, Direction Générale des Finances Publiques[#]Taxation Deduction",
+  "debt.debit": "Votre solde a été débité de {{amount}} g pour des dettes impayées.",
+  "honorific.male": "Monsieur",
+  "honorific.female": "Madame",
+
+  // **************** //
+  // ** UI STRINGS ** //
+  // **************** //
+
+  "ui.itemhover.damage": "{{amount}} Damage",
+  "ui.itemhover.precision": "{{amount}} Precision",
+  "ui.itemhover.cdr": "{{amount}} Cooldown Reduction",
+
+  "article.definite.male": "au",
+  "article.definite.female": "à la",
+  "article.indefinite.male": "un",
+  "article.indefinite.female": "une",
+
+  "season.spring": "printanière",
+  "season.summer": "estivale",
+  "season.fall": "d'automne",
+  "season.winter": "d'hiver",
+
+  // ********* //
+  // * PONDS * //
+  // ********* //
+
+  "algae": "Algues"
+}

@@ -24,18 +24,8 @@ public static class FarmerExtensions
             ThrowHelper.ThrowInvalidOperationException("Can only do this for the local player.");
         }
 
-        var (x, y) = tile - Game1.player.getTileLocation();
-        FacingDirection direction;
-        if (Math.Abs(x) >= Math.Abs(y))
-        {
-            direction = x < 0 ? FacingDirection.Left : FacingDirection.Right;
-        }
-        else
-        {
-            direction = y > 0 ? FacingDirection.Down : FacingDirection.Up;
-        }
-
-        farmer.faceDirection((int)direction);
+        var direction = tile - Game1.player.getTileLocation();
+        farmer.faceDirection((int)direction.ToFacingDirection());
     }
 
     /// <inheritdoc cref="ModDataIO.Read(Farmer, string, string, string)"/>

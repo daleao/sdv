@@ -12,11 +12,15 @@
     <Compile Include="$(MSBuildThisFileDirectory)Attributes\DebugAttribute.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Attributes\DeprecatedAttribute.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Attributes\IntegrationAttribute.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Classes\BiMap.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Classes\CircleTileGrid.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Classes\Countdown.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Commands\ConsoleCommand.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Commands\CommandHandler.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Commands\IConsoleCommand.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Comparers\EquatableComparer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Comparers\GenericEqualsComparer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Comparers\ObjectReferenceComparer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Data\ModDataIO.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Data\ModDataDictionaryExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Data\UpdateDataModMessageReceivedEvent.cs" />
@@ -28,7 +32,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Events\Content\AssetRequestedEvent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Events\Content\AssetsInvalidatedEvent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Events\Content\LocaleChangedEvent.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Events\AlwaysEnabledAttribute.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Events\AlwaysEnabledEventAttribute.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Events\Input\ButtonReleasedEvent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Events\Input\ButtonPressedEvent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Events\Input\ButtonsChangedEvent.cs" />
@@ -87,6 +91,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\Collections\DictionaryExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\Collections\EnumerableExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\Collections\ListExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Extensions\RandomExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\Reflection\FieldInfoExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\Reflection\MethodBaseExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\Reflection\MethodInfoExtensions.cs" />
@@ -134,11 +139,11 @@
     <Compile Include="$(MSBuildThisFileDirectory)Integrations\DynamicGameAssets\IDynamicGameAssetsApi.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Integrations\GenericModConfigMenu\GenericModConfigMenuIntegration.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Integrations\GenericModConfigMenu\IGenericModConfigMenuApi.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Integrations\Redux\IRedux.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Integrations\Ligo\ILigo.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Integrations\JsonAssets\IJsonAssetsApi.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Integrations\LoveOfCooking\ICookingSkillApi.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Integrations\LuckSkill\ILuckSkillApi.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Integrations\Redux\IReduxApi.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Integrations\Ligo\ILigoApi.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Integrations\SpaceCore\ISpaceCoreApi.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Integrations\TehsFishingOverhaul\ISimplifiedFishingApi.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Integrations\IModIntegration.cs" />
@@ -149,6 +154,19 @@
     <Compile Include="$(MSBuildThisFileDirectory)Caching\IntervalMemoryCache.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Reflection\Reflector.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)VectorUtils.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Watchers\DisposableWatcher.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Watchers\ICollectionWatcher.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Watchers\IDictionaryWatcher.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Watchers\IValueWatcher.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Watchers\IWatcher.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Watchers\NetCollectionWatcher.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Watchers\NetDictionaryWatcher.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Watchers\NetStringListWatcher.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Watchers\NetIntListWatcher.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Watchers\NetListWatcher.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Watchers\NetFieldWatcher.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Watchers\ComparableValueWatcher.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Watchers\WatcherFactory.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="$(MSBuildThisFileDirectory)Caching\" />

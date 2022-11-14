@@ -14,14 +14,14 @@ public static class VectorUtils
     /// <returns>A unit <see cref="Vector2"/> pointing up.</returns>
     public static Vector2 UpVector()
     {
-        return Vector2.UnitY;
+        return Vector2.UnitY * -1f;
     }
 
     /// <summary>A unit vector pointing down.</summary>
     /// <returns>A unit <see cref="Vector2"/> pointing down.</returns>
     public static Vector2 DownVector()
     {
-        return Vector2.UnitY * -1f;
+        return Vector2.UnitY;
     }
 
     /// <summary>A unit vector pointing right.</summary>

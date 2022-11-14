@@ -57,14 +57,14 @@ public static class Vector2Extensions
             (sin * tx) + (cos * ty));
     }
 
-    /// <summary>Gets the 4-connected neighbors.</summary>
-    /// <param name="vector">The <see cref="Vector2"/>.</param>
-    /// <param name="width">The width of the region.</param>
-    /// <param name="height">The height of the region.</param>
-    /// <returns>A <see cref="IEnumerable{T}"/> of the four-connected neighbors of the <paramref name="vector"/>.</returns>
-    public static IEnumerable<Vector2> GetFourNeighbors(this Vector2 vector, int width, int height)
+    /// <summary>Gets the 4-connected neighboring tiles in a given region.</summary>
+    /// <param name="tile">The tile.</param>
+    /// <param name="width">The width of the entire region.</param>
+    /// <param name="height">The height of the entire region.</param>
+    /// <returns>A <see cref="IEnumerable{T}"/> of the four-connected neighbors of the <paramref name="tile"/>.</returns>
+    public static IEnumerable<Vector2> GetFourNeighbors(this Vector2 tile, int width, int height)
     {
-        var (x, y) = vector;
+        var (x, y) = tile;
         if (x > 0)
         {
             yield return new Vector2(x - 1, y);
@@ -86,10 +86,10 @@ public static class Vector2Extensions
         }
     }
 
-    /// <summary>Gets the 8-connected neighbors.</summary>
-    /// <param name="vector">The <see cref="Vector2"/>.</param>
-    /// <param name="width">The width of the region.</param>
-    /// <param name="height">The height of the region.</param>
+    /// <summary>Gets the 8-connected neighboring tiles in a given region.</summary>
+    /// <param name="vector">The tile.</param>
+    /// <param name="width">The width of the entire region.</param>
+    /// <param name="height">The height of the entire region.</param>
     /// <returns>A <see cref="IEnumerable{T}"/> of the eight-connected neighbors of the <paramref name="vector"/>.</returns>
     public static IEnumerable<Vector2> GetEightNeighbors(this Vector2 vector, int width, int height)
     {
@@ -120,13 +120,23 @@ public static class Vector2Extensions
         }
     }
 
+    /// <summary>Gets the unit vectors which point in the same direction as the components of the <see cref="Vector2"/>.</summary>
+    /// <param name="vector">The <see cref="Vector2"/>.</param>
+    /// <returns>Two unit vectors which point in the same direction as the components of <paramref name="vector"/>.</returns>
+    public static (Vector2 Horizontal, Vector2 Vertical) GetUnitComponents(this Vector2 vector)
+    {
+        var horizontal = vector.X > 0f ? VectorUtils.RightVector() : vector.X < 0f ? VectorUtils.LeftVector() : Vector2.Zero;
+        var vertical = vector.Y > 0f ? VectorUtils.DownVector() : vector.Y < 0f ? VectorUtils.UpVector() : Vector2.Zero;
+        return (horizontal, vertical);
+    }
+
     /// <summary>Searches for region boundaries using a Flood Fill algorithm.</summary>
     /// <param name="origin">The starting point for the fill, as a <see cref="Vector2"/>.</param>
     /// <param name="width">The width of the region.</param>
     /// <param name="height">The height of the region.</param>
     /// <param name="predicate">The boundary condition.</param>
     /// <returns>The set of points belonging to the region, as <see cref="Vector2"/>.</returns>
-    public static IEnumerable<Vector2> FloodFill(Vector2 origin, int width, int height, Func<Vector2, bool> predicate)
+    public static IEnumerable<Vector2> FloodFill(this Vector2 origin, int width, int height, Func<Vector2, bool> predicate)
     {
         if (origin.X <= 0)
         {

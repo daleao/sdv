@@ -36,18 +36,47 @@ internal sealed class Harmonizer
     /// <summary>Gets the unique ID of the <see cref="HarmonyLib.Harmony"/> instance.</summary>
     internal string UniqueId { get; }
 
-    /// <summary>Instantiates and applies one of every <see cref="IHarmonyPatch"/> class in the assembly using reflection.</summary>
-    /// <param name="scoped">Indicates whether to limit the scope of applied <see cref="IHarmonyPatch"/>es to the namespace equal to the unique ID of the <see cref="HarmonyLib.Harmony"/> instance.</param>
-    internal void ApplyAll(bool scoped = false)
+    /// <summary>Implicitly applies<see cref="IHarmonyPatch"/> types in the assembly using reflection.</summary>
+    /// <param name="modRegistry">API for fetching metadata about loaded mods.</param>
+    /// <param name="uniqueId">The unique ID of the declaring module.</param>
+    internal static void ApplyAll(IModRegistry modRegistry, string uniqueId)
+    {
+        Log.D("[Harmonizer]: Gathering all patches...");
+        new Harmonizer(modRegistry, uniqueId).ApplyImplicitly();
+    }
+
+    /// <summary>Implicitly applies<see cref="IHarmonyPatch"/> types in the specified namespace.</summary>
+    /// <param name="modRegistry">API for fetching metadata about loaded mods.</param>
+    /// <param name="uniqueId">The unique ID of the declaring module.</param>
+    /// <param name="namespace">The desired namespace.</param>
+    internal static void ApplyFromNamespace(IModRegistry modRegistry, string uniqueId, string? @namespace = null)
+    {
+        @namespace ??= uniqueId;
+        Log.D($"[Harmonizer]: Gathering patches in {@namespace}...");
+        new Harmonizer(modRegistry, uniqueId).ApplyImplicitly(t => t.Namespace?.StartsWith(@namespace) == true);
+    }
+
+    /// <summary>Implicitly applies<see cref="IHarmonyPatch"/> types with the specified attribute.</summary>
+    /// <param name="modRegistry">API for fetching metadata about loaded mods.</param>
+    /// <param name="uniqueId">The unique ID of the declaring module.</param>
+    /// <typeparam name="TAttribute">An <see cref="Attribute"/> type.</typeparam>
+    internal static void ApplyWithAttribute<TAttribute>(IModRegistry modRegistry, string uniqueId)
+        where TAttribute : Attribute
+    {
+        Log.D($"[Harmonizer]: Gathering patches with {nameof(TAttribute)}...");
+        new Harmonizer(modRegistry, uniqueId).ApplyImplicitly(t => t.GetCustomAttribute<TAttribute>() is not null);
+    }
+
+    /// <summary>Instantiates and applies <see cref="IHarmonyPatch"/> classes using reflection.</summary>
+    /// <param name="predicate">An optional condition with which to limit the scope of applied <see cref="IHarmonyPatch"/>es.</param>
+    private void ApplyImplicitly(Func<Type, bool>? predicate = null)
     {
         this.StartWatch();
 
-        var where = scoped ? "in " + this.UniqueId : string.Empty;
-        Log.D($"[Harmonizer]: Gathering patches {where}...");
+        predicate ??= t => true;
         var patchTypes = AccessTools
             .GetTypesFromAssembly(Assembly.GetAssembly(typeof(IHarmonyPatch)))
-            .Where(t => t.IsAssignableTo(typeof(IHarmonyPatch)) && !t.IsAbstract &&
-                        (!scoped || t.Namespace?.StartsWith(this.UniqueId) == true))
+            .Where(t => t.IsAssignableTo(typeof(IHarmonyPatch)) && !t.IsAbstract && predicate(t))
             .ToArray();
 
         Log.D($"[Harmonizer]: Found {patchTypes.Length} patch classes. Applying patches...");
@@ -107,7 +136,7 @@ internal sealed class Harmonizer
             }
         }
 
-        this.StopWatch();;
+        this.StopWatch();
         this.PrintSummary();
     }
 

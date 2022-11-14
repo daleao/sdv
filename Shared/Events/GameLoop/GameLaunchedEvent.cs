@@ -7,7 +7,7 @@ using StardewModdingAPI.Events;
 #endregion using directives
 
 /// <summary>Wrapper for <see cref="IGameLoopEvents.GameLaunched"/> allowing dynamic enabling / disabling.</summary>
-[AlwaysEnabled]
+[AlwaysEnabledEvent]
 internal abstract class GameLaunchedEvent : ManagedEvent
 {
     /// <summary>Initializes a new instance of the <see cref="GameLaunchedEvent"/> class.</summary>

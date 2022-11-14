@@ -22,59 +22,9 @@ internal sealed class CommandHandler
 
     /// <summary>Initializes a new instance of the <see cref="CommandHandler"/> class.</summary>
     /// <param name="helper">The <see cref="ICommandHelper"/> API for the current mod.</param>
-    /// <param name="namespace">An optional namespace within which to limit the scope of handled <see cref="IConsoleCommand"/>s.</param>
-    internal CommandHandler(ICommandHelper helper, string? @namespace = null)
+    internal CommandHandler(ICommandHelper helper)
     {
         this._commandHelper = helper;
-
-        var where = @namespace ?? "all namespaces";
-        Log.D($"[CommandHandler]: Gathering commands in {where}...");
-        var commandTypes = AccessTools
-            .GetTypesFromAssembly(Assembly.GetAssembly(typeof(IConsoleCommand)))
-            .Where(t => t.IsAssignableTo(typeof(IConsoleCommand)) && !t.IsAbstract &&
-                        (@namespace is null || t.Namespace?.StartsWith(@namespace) == true))
-            .ToArray();
-
-        Log.D($"[CommandHandler]: Found {commandTypes.Length} command classes. Instantiating commands...");
-        foreach (var c in commandTypes)
-        {
-            try
-            {
-#if RELEASE
-                var debugAttribute = c.GetCustomAttribute<DebugAttribute>();
-                if (debugAttribute is not null)
-                {
-                    continue;
-                }
-#endif
-
-                var deprecatedAttr = c.GetCustomAttribute<DeprecatedAttribute>();
-                if (deprecatedAttr is not null)
-                {
-                    continue;
-                }
-
-                var command = (IConsoleCommand)c
-                    .GetConstructor(
-                        BindingFlags.Instance | BindingFlags.NonPublic,
-                        null,
-                        new[] { this.GetType() },
-                        null)!
-                    .Invoke(new object?[] { this });
-                foreach (var trigger in command.Triggers)
-                {
-                    this._handledCommands.Add(trigger, command);
-                }
-
-                Log.D($"[CommandHandler]: Handling {command.GetType().Name}");
-            }
-            catch (Exception ex)
-            {
-                Log.E($"[CommandHandler]: Failed to handle {c.Name}.\n{ex}");
-            }
-        }
-
-        Log.D("[CommandHandler]: Command initialization completed.");
     }
 
     /// <summary>Gets the <see cref="string"/> used as entry for all handled <see cref="IConsoleCommand"/>s.</summary>
@@ -82,6 +32,25 @@ internal sealed class CommandHandler
 
     /// <summary>Gets the human-readable name of the providing mod.</summary>
     public string Mod { get; private set; } = null!; // set in register
+
+    /// <summary>Implicitly registers <see cref="IConsoleCommand"/> types in the specified namespace.</summary>
+    /// <param name="helper">The <see cref="ICommandHelper"/> API for the current mod.</param>
+    /// <param name="namespace">The desired namespace.</param>
+    internal static void FromNamespace(ICommandHelper helper, string @namespace)
+    {
+        Log.D($"[CommandHandler]: Gathering commands in {@namespace}...");
+        new CommandHandler(helper).HandleImplicitly(helper, t => t.Namespace?.StartsWith(@namespace) == true);
+    }
+
+    /// <summary>Implicitly registers <see cref="IConsoleCommand"/> types with the specified attribute.</summary>
+    /// <typeparam name="TAttribute">An <see cref="Attribute"/> type.</typeparam>
+    /// <param name="helper">The <see cref="ICommandHelper"/> API for the current mod.</param>
+    internal static void WithAttribute<TAttribute>(ICommandHelper helper)
+        where TAttribute : Attribute
+    {
+        Log.D($"[CommandHandler]: Gathering commands with {nameof(TAttribute)}...");
+        new CommandHandler(helper).HandleImplicitly(helper, t => t.GetCustomAttribute<TAttribute>() is not null);
+    }
 
     /// <summary>Registers the entry command and name for this module.</summary>
     /// <param name="entry">The <see cref="string"/> used as entry for all handled <see cref="IConsoleCommand"/>s.</param>
@@ -141,5 +110,58 @@ internal sealed class CommandHandler
         }
 
         handled.Callback(args.Skip(1).ToArray());
+    }
+
+    /// <summary>Implicitly handles <see cref="IConsoleCommand"/> types using reflection.</summary>
+    /// <param name="helper">The <see cref="ICommandHelper"/> API for the current mod.</param>
+    /// <param name="predicate">An optional condition with which to limit the scope of handled <see cref="IConsoleCommand"/>s.</param>
+    private void HandleImplicitly(ICommandHelper helper, Func<Type, bool>? predicate = null)
+    {
+        predicate ??= t => true;
+        var commandTypes = AccessTools
+            .GetTypesFromAssembly(Assembly.GetAssembly(typeof(IConsoleCommand)))
+            .Where(t => t.IsAssignableTo(typeof(IConsoleCommand)) && !t.IsAbstract && predicate(t))
+            .ToArray();
+
+        Log.D($"[CommandHandler]: Found {commandTypes.Length} command classes. Instantiating commands...");
+        foreach (var c in commandTypes)
+        {
+            try
+            {
+#if RELEASE
+                var debugAttribute = c.GetCustomAttribute<DebugAttribute>();
+                if (debugAttribute is not null)
+                {
+                    continue;
+                }
+#endif
+
+                var deprecatedAttr = c.GetCustomAttribute<DeprecatedAttribute>();
+                if (deprecatedAttr is not null)
+                {
+                    continue;
+                }
+
+                var command = (IConsoleCommand)c
+                    .GetConstructor(
+                        BindingFlags.Instance | BindingFlags.NonPublic,
+                        null,
+                        new[] { this.GetType() },
+                        null)!
+                    .Invoke(new object?[] { this });
+                foreach (var trigger in command.Triggers)
+                {
+                    this._handledCommands.Add(trigger, command);
+                }
+
+                Log.D($"[CommandHandler]: Handling {command.GetType().Name}");
+            }
+            catch (Exception ex)
+            {
+                Log.E($"[CommandHandler]: Failed to handle {c.Name}.\n{ex}");
+            }
+        }
+
+        Log.D("[CommandHandler]: Command initialization completed.");
     }
 }

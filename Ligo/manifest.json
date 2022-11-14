@@ -1,0 +1,71 @@
+{
+  "Name": "Da Lion's Immersive Gameplay Overhaul",
+  "Author": "DaLion",
+  "Version": "1.0.0-Debug",
+  "Description": "An immersive gameplay overhaul.",
+  "UniqueID": "DaLion.Overhaul",
+  "EntryDll": "Ligo.dll",
+  "MinimumApiVersion": "3.14.0",
+  "UpdateKeys": [
+    "Nexus:14470"
+  ],
+  "Dependencies": [
+    {
+      "UniqueID": "spacechase0.SpaceCore",
+      "MinimumVersion": "1.8.1",
+      "IsRequired": true
+    },
+    {
+      "UniqueID": "spacechase0.GenericModConfigMenu",
+      "MinimumVersion": "1.8.0",
+      "IsRequired": true
+    },
+    {
+      "UniqueID": "spacechase0.DynamicGameAssets",
+      "MinimumVersion": "1.4.3",
+      "IsRequired": false
+    },
+    {
+      "UniqueID": "spacechase0.JsonAssets",
+      "MinimumVersion": "1.10.7",
+      "IsRequired": false
+    },
+    {
+      "UniqueID": "spacechase0.LuckSkill",
+      "IsRequired": false
+    },
+    {
+      "UniqueID": "spacechase0.CookingSkill",
+      "IsRequired": false
+    },
+    {
+      "UniqueID": "spacechase0.MoonMisadventures",
+      "IsRequired": false
+    },
+    {
+      "UniqueID": "Pathoschild.Automate",
+      "IsRequired": false
+    },
+    {
+      "UniqueID": "blueberry.LoveOfCooking",
+      "MinimumVersion": "1.0.28",
+      "IsRequired": false
+    },
+    {
+      "UniqueID": "leclair.bettercrafting",
+      "MinimumVersion": "1.0.0",
+      "IsRequired": false
+    },
+    {
+      "UniqueID": "TehPers.FishingOverhaul",
+      "MinimumVersion": "3.2.1",
+      "IsRequired": false
+    },
+    {
+      "UniqueID": "BBR.BetterRings",
+      "IsRequired": false
+    }
+  ],
+  "DGA.FormatVersion": 2,
+  "DGA.ConditionsFormatVersion": "1.23.0"
+}

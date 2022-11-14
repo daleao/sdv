@@ -8,7 +8,7 @@ using DaLion.Shared.Extensions.Reflection;
 #endregion using directives
 
 /// <summary>Provides delegates to inaccessible code.</summary>
-/// <remarks>Based on SMAPI's <see href="https://github.com/Pathoschild/SMAPI/blob/develop/src/SMAPI/Framework/Reflection/Reflector.cs">Reflector</see> class by Pathoschild.</remarks>
+/// <remarks>Based on SMAPI's <see href="https://github.com/Pathoschild/SMAPI/blob/develop/src/SMAPI/Modules/Reflection/Reflector.cs">Reflector</see> class by Pathoschild.</remarks>
 internal sealed class Reflector
 {
     private readonly IntervalMemoryCache<string, Delegate> _delegateCache = new();
@@ -32,7 +32,7 @@ internal sealed class Reflector
     {
         var type = instance.GetType();
         return this.GetCachedDelegate(
-            'f',
+            "fg",
             type,
             name,
             false,
@@ -47,7 +47,7 @@ internal sealed class Reflector
     public Func<TField> GetStaticFieldGetter<TField>(Type type, string name)
     {
         return this.GetCachedDelegate(
-            'f',
+            "fg",
             type,
             name,
             true,
@@ -75,7 +75,7 @@ internal sealed class Reflector
     {
         var type = instance.GetType();
         return this.GetCachedDelegate(
-            'f',
+            "fs",
             type,
             name,
             false,
@@ -90,7 +90,7 @@ internal sealed class Reflector
     public Action<TField> GetStaticFieldSetter<TField>(Type type, string name)
     {
         return this.GetCachedDelegate(
-            'f',
+            "fs",
             type,
             name,
             true,
@@ -122,7 +122,7 @@ internal sealed class Reflector
     {
         var type = instance.GetType();
         return this.GetCachedDelegate(
-            'p',
+            "pg",
             type,
             name,
             false,
@@ -137,7 +137,7 @@ internal sealed class Reflector
     public Func<TProperty> GetStaticPropertyGetter<TProperty>(Type type, string name)
     {
         return this.GetCachedDelegate(
-            'p',
+            "pg",
             type,
             name,
             true,
@@ -165,7 +165,7 @@ internal sealed class Reflector
     {
         var type = instance.GetType();
         return this.GetCachedDelegate(
-            'p',
+            "ps",
             type,
             name,
             false,
@@ -180,7 +180,7 @@ internal sealed class Reflector
     public Action<TProperty> GetStaticPropertySetter<TProperty>(Type type, string name)
     {
         return this.GetCachedDelegate(
-            'p',
+            "ps",
             type,
             name,
             true,
@@ -214,7 +214,7 @@ internal sealed class Reflector
     {
         var type = instance.GetType();
         return this.GetCachedDelegate(
-            'm',
+            "m",
             type,
             name,
             false,
@@ -230,7 +230,7 @@ internal sealed class Reflector
         where TDelegate : Delegate
     {
         return this.GetCachedDelegate(
-            'm',
+            "m",
             type,
             name,
             true,
@@ -253,13 +253,13 @@ internal sealed class Reflector
 
     /// <summary>Retrieves an existing delegate instance from the cache, or caches a new instance.</summary>
     /// <typeparam name="TDelegate">The expected <see cref="Delegate"/> type.</typeparam>
-    /// <param name="prefix">A letter representing the member type (like 'm' for method).</param>
+    /// <param name="prefix">A letter or letters representing the member type (like 'm' for method).</param>
     /// <param name="type">The declaring type of the reflected member.</param>
     /// <param name="name">The member name.</param>
     /// <param name="isStatic">Whether the member is static.</param>
     /// <param name="fetch">Fetches a new value to cache.</param>
     /// <returns>The cached delegated.</returns>
-    private TDelegate GetCachedDelegate<TDelegate>(char prefix, Type type, string name, bool isStatic, Func<TDelegate> fetch)
+    private TDelegate GetCachedDelegate<TDelegate>(string prefix, Type type, string name, bool isStatic, Func<TDelegate> fetch)
         where TDelegate : Delegate
     {
         var key = $"{prefix}{(isStatic ? 's' : 'i')}{type.FullName}:{name}";

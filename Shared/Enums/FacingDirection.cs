@@ -28,6 +28,22 @@ public enum FacingDirection
 /// <summary>Extensions for the <see cref="FacingDirection"/> enum.</summary>
 public static partial class FacingDirectionExtensions
 {
+    /// <summary>Checks whether the <see cref="FacingDirection"/> is left or right.</summary>
+    /// <param name="direction">The <see cref="FacingDirection"/>.</param>
+    /// <returns><see langword="true"/> if <paramref name="direction"/> is left or right, otherwise <see langword="false"/>.</returns>
+    public static bool IsHorizontal(this FacingDirection direction)
+    {
+        return direction is FacingDirection.Left or FacingDirection.Right;
+    }
+
+    /// <summary>Checks whether the <see cref="FacingDirection"/> is up or down.</summary>
+    /// <param name="direction">The <see cref="FacingDirection"/>.</param>
+    /// <returns><see langword="true"/> if <paramref name="direction"/> is up or down, otherwise <see langword="false"/>.</returns>
+    public static bool IsVertical(this FacingDirection direction)
+    {
+        return direction is FacingDirection.Up or FacingDirection.Down;
+    }
+
     /// <summary>Gets the opposite <see cref="FacingDirection"/>.</summary>
     /// <param name="direction">The <see cref="FacingDirection"/>.</param>
     /// <returns>The opposite direction.</returns>

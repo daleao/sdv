@@ -10,7 +10,7 @@ using StardewModdingAPI.Utilities;
 #endregion using directives
 
 /// <summary>Base implementation of an event wrapper allowing dynamic enabling / disabling.</summary>
-internal abstract class ManagedEvent : IManagedEvent, IEquatable<ManagedEvent>
+internal abstract class ManagedEvent : IManagedEvent, IComparable<ManagedEvent>, IEquatable<ManagedEvent>
 {
     private readonly PerScreen<bool> _enabled = new(() => false);
     private readonly bool _alwaysEnabled;
@@ -20,7 +20,7 @@ internal abstract class ManagedEvent : IManagedEvent, IEquatable<ManagedEvent>
     protected ManagedEvent(EventManager manager)
     {
         this.Manager = manager;
-        if (this.GetType().GetCustomAttribute<AlwaysEnabledAttribute>() is not null)
+        if (this.GetType().GetCustomAttribute<AlwaysEnabledEventAttribute>() is not null)
         {
             this._alwaysEnabled = true;
         }
@@ -152,6 +152,12 @@ internal abstract class ManagedEvent : IManagedEvent, IEquatable<ManagedEvent>
     public override int GetHashCode()
     {
         return this.GetType().GetHashCode();
+    }
+
+    /// <inheritdoc />
+    public int CompareTo(ManagedEvent? other)
+    {
+        return string.Compare(this.GetType().Name, other?.GetType().Name, StringComparison.Ordinal);
     }
 
     /// <inheritdoc />

@@ -1,0 +1,287 @@
+﻿{
+  // ***************** //
+  // ** PROFESSIONS ** //
+  // ***************** //
+
+  // farming
+  "harvester.title.male": "Harvester",
+  "harvester.title.female": "Harvester",
+  "harvester.desc": "10% chance for extra yield from harvested crops.",
+  "harvester.desc.prestiged": "10% >> 20% chance for extra yield from harvested crops.",
+  "agriculturist.title.male": "Agriculturist",
+  "agriculturist.title.female": "Agriculturist",
+  "agriculturist.desc": "Crops grow 10% faster. Grow best-quality crops organically without fertilizer.",
+  "agriculturist.desc.prestiged": "Crops grow 10% >> 20% faster.",
+  "artisan.title.male": "Artisan",
+  "artisan.title.female": "Artisan",
+  "artisan.desc": "All artisan machines work 10% faster. Machine output quality is equal to or better than input ingredient quality.",
+  "artisan.desc.prestiged": "All artisan machines work 10% >> 25% faster.",
+
+  "rancher.title.male": "Rancher",
+  "rancher.title.female": "Rancher",
+  "rancher.desc": "Befriend animals 2× quicker.",
+  "rancher.desc.prestiged": "Befriend animals 2× >> 3× quicker.",
+  "breeder.title.male": "Breeder",
+  "breeder.title.female": "Breeder",
+  "breeder.desc": "Incubation 2× faster and natural pregnancy 3× more likely. Increase value of animals at high friendship.",
+  "breeder.desc.prestiged": "Incubation 2× >> 3× faster and natural pregnancy 3× >> 5× more likely.",
+  "producer.title.male": "Producer",
+  "producer.title.female": "Producer",
+  "producer.desc": "Happy animals produce 2× as frequently. Produce worth 5% more for every full barn or coop.",
+  "producer.desc.prestiged": "Happy animals produce 2× >> 3× as frequently.",
+
+  // foraging
+  "forager.title.male": "Forager",
+  "forager.title.female": "Forager",
+  "forager.desc": "20% chance for double yield of foraged items.",
+  "forager.desc.prestiged": "20% >> 40% chance for double yield of foraged items.",
+  "ecologist.title.male": "Ecologist",
+  "ecologist.title.female": "Ecologist",
+  "ecologist.desc": "Wild berries restore 50% more health and energy. Progressively identify forage of higher quality.",
+  "ecologist.desc.prestiged": "Wild berries restore 50% >> 100% more health and energy.",
+  "scavenger.title.male": "Scavenger",
+  "scavenger.title.female": "Scavenger",
+  "scavenger.desc": "Location of forageable items revealed. Occasionally detect buried treasure.",
+  "scavenger.desc.prestiged": "Time freezes during Scavenger Hunts.",
+  "scavenger.huntstarted": "Your Scavenger senses are tingling...",
+  "scavenger.huntfailed": "The tingling stops.",
+
+  "lumberjack.title.male": "Lumberjack",
+  "lumberjack.title.female": "Lumberjack",
+  "lumberjack.desc": "Felled trees yield 25% more wood.",
+  "lumberjack.desc.prestiged": "Felled trees yield 25% >> 40% more wood.",
+  "arborist.title.male": "Arborist",
+  "arborist.title.female": "Arborist",
+  "arborist.desc": "All trees grow faster. Normal trees can drop hardwood.",
+  "arborist.desc.prestiged": "Normal trees drop twice as much hardwood.",
+  "tapper.title.male": "Tapper",
+  "tapper.title.female": "Tapper",
+  "tapper.desc": "Tappers are cheaper to craft. Tapped trees give syrup 25% faster.",
+  "tapper.desc.prestiged": "Tapped trees give syrup 25% >> 50% faster.",
+
+  // mining
+  "miner.title.male": "Miner",
+  "miner.title.female": "Miner",
+  "miner.desc": "+1 ore per vein.",
+  "miner.desc.prestiged": "+1 >> +2 ores per vein.",
+  "spelunker.title.male": "Spelunker",
+  "spelunker.title.female": "Spelunker",
+  "spelunker.desc": "Chance to find ladders and shafts increases with every mine level. +1 speed every 5 levels.",
+  "spelunker.desc.prestiged": "Also restore some health and energy with every mine level.",
+  "spelunker.buff.desc": "Ladder chance +{{bonusLadderChance}}%. +{{bonusSpeed}} Speed.",
+  "prospector.title.male": "Prospector",
+  "prospector.title.female": "Prospector",
+  "prospector.desc": "Locations of ladders and mining nodes revealed. Occasionally detect rocks with valuable minerals.",
+  "prospector.desc.prestiged": "Time freezes during Prospector Hunts.",
+  "prospector.huntstarted": "Your Prospector senses are tingling...",
+  "prospector.huntfailed": "The tingling stops.",
+
+  "blaster.title.male": "Blaster",
+  "blaster.title.female": "Blaster",
+  "blaster.desc": "Craft twice as many explosives. Exploded rocks yield 2× as much coal.",
+  "blaster.desc.prestiged": "Exploded rocks yield 2× >> 3× as much coal.",
+  "demolitionist.title.male": "Demolitionist",
+  "demolitionist.title.female": "Demolitionist",
+  "demolitionist.desc": "Bomb radius +1. Exploded rocks yield 20% more resources.",
+  "demolitionist.desc.prestiged": "Exploded rocks yield 20% >> 40% more resources.",
+  "demolitionist.buff.desc": "Get excited!",
+  "gemologist.title.male": "Gemologist",
+  "gemologist.title.female": "Gemologist",
+  "gemologist.desc": "Progressively identify minerals of higher quality. Crystalariums produce 25% faster.",
+  "gemologist.desc.prestiged": "Crystalariums produce 25% >> 50% faster.",
+
+  // fishing
+  "fisher.title.male": "Fisher",
+  "fisher.title.female": "Fisher",
+  "fisher.desc": "Fish bite faster. Reduced chance to fish junk.",
+  "fisher.desc.prestiged": "Fish always bite instantly.",
+  "angler.title.male": "Angler",
+  "angler.title.female": "Angler",
+  "angler.desc": "Fish worth 1% more for every unique max-sized fish caught and 5% more for every legendary fish.",
+  "angler.desc.prestiged": "Can re-catch legendary fish.",
+  "aquarist.title.male": "Aquarist",
+  "aquarist.title.female": "Aquarist",
+  "aquarist.desc": "Fish pond max capacity +2. Catching bar decreases slower for every unique fish species raised in a fish pond.",
+  "aquarist.desc.prestiged": "Can raise legendary fish in fish ponds.",
+
+  "trapper.title.male": "Trapper",
+  "trapper.title.female": "Trapper",
+  "trapper.desc": "Crab pots are cheaper to craft. Can trap higher-quality fish.",
+  "trapper.desc.prestiged": "Can trap best-quality fish.",
+  "luremaster.title.male": "Luremaster",
+  "luremaster.title.female": "Luremaster",
+  "luremaster.desc": "Crab pots no longer produce junk. Use different baits to attract different catch.",
+  "luremaster.desc.prestiged": "60% chance to preserve crab pot bait.",
+  "conservationist.title.male": "Conservationist",
+  "conservationist.title.female": "Conservationist",
+  "conservationist.desc": "Crab pots without bait can trap junk. Clean the Valley's waters to merit tax deductions.",
+  "conservationist.desc.prestiged": "Cleaning the Valley's waters also merits favor with the villagers.",
+  "conservationist.mail": "Department of the Treasury^Ferngill Revenue Service^^^{{honorific}} Taxpayer,^^We are pleased to inform you that, upon review of your environmentalist activities, we have determined that you qualify for an income tax deduction of {{taxBonus}} as per section 501(c)(3) of the Ferngill Revenue Code. As such, all taxable income for {{farm}} will be increased by the aforementioned amount, effective until the 28th of {{season}}.^^Please keep this letter in your permanent records should you need to resolve any questions regarding your fiscal status.^^^Sincerely,^^Laura D. Pretto^Executive Directrice, Ferngill Revenue Service[#]Taxation Deduction",
+  "conservationist.mail.max": "Department of the Treasury^Ferngill Revenue Service^^^{{honorific}} Taxpayer,^^We are pleased to inform you that, upon review of your environmentalist activities, we have determined that you qualify for the maximum income tax deduction of {{taxBonus}} as per section 501(c)(3) of the Ferngill Revenue Code. As such, all taxable income for {{farm}} will be increased by the aforementioned amount, effective until the 28th of {{season}}.^^Please keep this letter in your permanent records should you need to resolve any questions regarding your fiscal status.^^^Sincerely,^^Laura D. Pretto^Executive Directrice, Ferngill Revenue Service[#]Taxation Deduction",
+
+  // combat
+  "fighter.title.male": "Fighter",
+  "fighter.title.female": "Fighter",
+  "fighter.desc": "Damage +10%. +15 HP.",
+  "fighter.desc.prestiged": "Damage +10% >> +15%.",
+  "brute.title.male": "Brute",
+  "brute.title.female": "Amazon",
+  "brute.desc": "Taking damage builds rage, improving combat prowess. +25 HP.",
+  "brute.desc.prestiged": "Rage also grants attack speed.",
+  "brute.buff.name": "Rage",
+  "brute.buff.desc": "Damage +{{magnitude}}%.",
+  "brute.buff.desc.prestiged": "Damage and attack speed +{{magnitude}}%.",
+  "poacher.title.male": "Bushwhacker",
+  "poacher.title.female": "Bushwhacker",
+  "poacher.desc": "Crit. chance +50%. Crit. strikes have a chance to poach items from enemies.",
+  "poacher.desc.prestiged": "Refund special move cooldown on a successful poach.",
+
+  "rascal.title.male": "Rascal",
+  "rascal.title.female": "Rascal",
+  "rascal.desc": "Gain one additional ammo slot. 35% chance to recover spent ammo.",
+  "rascal.desc.prestiged": "35% >> 70% chance to recover spent ammo.",
+  "desperado.title.male": "Desperado",
+  "desperado.title.female": "Desperada",
+  "desperado.desc": "Fire faster at lower HP. Can overcharge the slingshot to increase ammo power and cross-section.",
+  "desperado.desc.prestiged": "Overcharged shots can pierce enemies.",
+  "piper.title.male": "Slimed Piper",
+  "piper.title.female": "Slime Enchantress",
+  "piper.desc": "Attract ally Slimes when near enemies. Chance to gain a random buff when a Slime is defeated.",
+  "piper.desc.prestiged": "Chance to also recover some health and energy when a Slime is defeated.",
+  "piper.buff": "Slimed",
+
+
+  // *************** //
+  // ** ULTIMATES ** //
+  // *************** //
+
+  "frenzy.title": "Undying Frenzy",
+  "frenzy.desc": "Rage builds twice as fast. Cannot be knocked out.",
+  "ambush.title": "Ambuscade",
+  "ambush.desc.hidden": "Hidden.",
+  "ambush.desc.revealed": "Crit. power x2.",
+  "blossom.title": "Deadly Blossom",
+  "blossom.desc": "Enables auto-firing eight simultaneous projectiles.",
+  "concerto.title.male": "Hamelin Concerto",
+  "concerto.title.female": "Pheromonious Fever",
+  "concerto.desc": "Nearby Slimes becomed empowered and charmed.",
+
+  "ulti.canteat": "Can't do that now.",
+
+  // ************** //
+  // ** PRESTIGE ** //
+  // ************** //
+
+  "prestige.dogstatue.first": "-Statue Of Prestige-^The statue can reset a skill's level while preserving all acquired professions.",
+  "prestige.dogstatue.forget": "^All associated recipes will be forgotten.",
+  "prestige.dogstatue.offer": "^Make an offering?",
+  "prestige.dogstatue.which": "Which skill would you like to reset?",
+  "prestige.dogstatue.cost": "({{cost}}g)",
+  "prestige.dogstatue.dismiss": "Come back tomorrow.",
+  "prestige.dogstatue.what": "-Statue Of Prestige-^...",
+  "prestige.dogstatue.respec": "Change prestiged professions",
+  "prestige.dogstatue.changeult": "Change the ultimate combat ability",
+  "prestige.dogstatue.replace": "Currently registered to {{profession}}'s {{ultimate}}. Replace?",
+  "prestige.dogstatue.choice": "{{profession}}'s {{ultimate}}",
+  "prestige.dogstatue.fledged": "*woof* *woof* (You are now a fully-fledged {{profession}}).",
+  "prestige.dogstatue.cancel": "I changed my mind...",
+  "prestige.skillpage.tooltip": "{{count}}/4 professions acquired:",
+  "prestige.levelup.tooltip:5": "Already acquired all professions in this branch.",
+  "prestige.levelup.tooltip:10": "Already acquired this profession.",
+  "prestige.levelup.question": "Currently registered to {{oldProfession}}'s {{oldUltimate}}. Replace with {{newProfession}}'s {{newUltimate}}?",
+  "prestige.levelup.unlocked": "You can now continue to develop your {{skill}} skill further.",
+  "prestige.levelup.prestige": "Choose a profession to prestige:",
+  "prestige.achievement.title.male": "Jack-Of-All-Trades",
+  "prestige.achievement.title.female": "Jill-Of-All-Trades",
+  "prestige.achievement.desc": "Acquire all professions in every skill.",
+
+  // *********** //
+  // * ARSENAL * //
+  // *********** //
+
+  "herosoul.name": "Hero Soul",
+  "herosoul.desc": "The materialized essence of a hero.",
+  "galaxysoul.desc": "The materialized core of a tiny galaxy.",
+  "darkblade.desc": "It's glowing with malicious energy.",
+  "holyblade.holdupmessage": "The Dark Sword is reacting to the Altar of Yoba. The malicious energy begins to fade as a warm sensation seeps through your palm...^^     You obtain the =Holy Blade=  ^",
+
+  "events.100162.sword": "MarlonsTheme/21 9/farmer -100 -100 0 Marlon 23 6 2/addQuest 14/skippable/pause 1000/move Marlon 0 2 2/pause 500/showFrame Marlon 4/pause 1000/speak Marlon \"Hmmm... \"/pause 500/warp farmer 18 13/playSound stoneStep/move farmer 0 -3 1/move farmer 5 0 0/pause 500/showFrame Marlon 0/pause 500/speak Marlon \"...I was just peering down into this old mine shaft.#$b#It's been abandoned for decades.\"/pause 500/showFrame Marlon 4/speak Marlon \"Still, there's probably good ore down there.#$b#But a dark place, undisturbed for so long... I'm afraid ore isn't the only thing you'll find...\"/pause 500/showFrame Marlon 0/pause 500/speak Marlon \"Here, take this. You might need it.\"/pause 500/playSound dwop/faceDirection farmer 1 true/pause 50/faceDirection farmer 2/itemAboveHead sword/pause 3300/awardFestivalPrize sword/pause 300/faceDirection farmer 1 true/pause 100/faceDirection farmer 0/pause 500/speak Marlon \"Name's Marlon, by the way. I run the adventurer's guild right outside.#$b#I'll keep my eye on you. Prove yourself and I might think about making you a member.\"/pause 500/end",
+  "events.100162.nosword": "MarlonsTheme/21 9/farmer -100 -100 0 Marlon 23 6 2/addQuest 14/skippable/pause 1000/move Marlon 0 2 2/pause 500/showFrame Marlon 4/pause 1000/speak Marlon \"Hmmm... \"/pause 500/warp farmer 18 13/playSound stoneStep/move farmer 0 -3 1/move farmer 5 0 0/pause 500/showFrame Marlon 0/pause 500/speak Marlon \"...I was just peering down into this old mine shaft.#$b#It's been abandoned for decades.\"/pause 500/showFrame Marlon 4/speak Marlon \"Still, there's probably good ore down there.#$b#But a dark place, undisturbed for so long... I'm afraid ore isn't the only thing you'll find...\"/pause 500/showFrame Marlon 0/pause 500/speak Marlon \"You better know how to swing that weapon. You might need it.\"/pause 500/speak Marlon \"Name's Marlon, by the way. I run the adventurer's guild right outside.#$b#I'll keep my eye on you. Prove yourself and I might think about making you a member.\"/pause 500/end",
+  "events.100162.sword.sve": "MarlonsTheme/21 9/farmer -100 -100 0 MarlonFay 23 6 2/addQuest 14/skippable/pause 1000/move MarlonFay 0 2 2/pause 500/showFrame MarlonFay 19/pause 1000/speak MarlonFay \"Hmmm... \"/pause 500/warp farmer 18 13/playSound stoneStep/move farmer 0 -3 1/move farmer 5 0 0/pause 500/showFrame MarlonFay 0/pause 500/speak MarlonFay \"...I was just wondering how far down this mine shaft goes.#$b#I'm going to take care of some of the monsters in here before they start climbing out into the valley.$1#$b#You seem concerned. I may be old, but age hasn't robbed me of my skill with a sword, quite yet.$0\"/pause 500/showFrame MarlonFay 18/pause 2000/showFrame MarlonFay 0/pause 500/speak MarlonFay \"As leader of the adventurer's guild I've met a lot of fighters in my time. I recognize that look in your eye.$2\"/pause 1500/speak MarlonFay \"Take this. It's a training weapon. It may not look like much, but you'll be able to battle the monsters here.\"/playSound dwop/faceDirection farmer 1 true/pause 50/faceDirection farmer 2/itemAboveHead sword/pause 3300/awardFestivalPrize sword/pause 300/faceDirection farmer 1 true/pause 100/faceDirection farmer 0/pause 500/speak MarlonFay \"I'll keep my eye on you. Prove yourself and I might think about making you a member.\"/pause 750/end",
+  "events.100162.nosword.sve": "MarlonsTheme/21 9/farmer -100 -100 0 MarlonFay 23 6 2/addQuest 14/skippable/pause 1000/move MarlonFay 0 2 2/pause 500/showFrame MarlonFay 19/pause 1000/speak MarlonFay \"Hmmm... \"/pause 500/warp farmer 18 13/playSound stoneStep/move farmer 0 -3 1/move farmer 5 0 0/pause 500/showFrame MarlonFay 0/pause 500/speak MarlonFay \"...I was just wondering how far down this mine shaft goes.#$b#I'm going to take care of some of the monsters in here before they start climbing out into the valley.$1#$b#You seem concerned. I may be old, but age hasn't robbed me of my skill with a sword, quite yet.$0\"/pause 500/showFrame MarlonFay 18/pause 2000/showFrame MarlonFay 0/pause 500/speak MarlonFay \"As leader of the adventurer's guild I've met a lot of fighters in my time. I recognize that look in your eye.$2\"/pause 300/showFrame MarlonFay 19/pause 1000/showFrame MarlonFat 0/pause 300/speak MarlonFay \"Prove to me that you can swing that weapon and I might think about making you a member.\"/pause 750/end",
+  "locations.Town_DwarfGrave_Translated": "     You translate the dwarvish:     \n\n'twixt golden triplets lost in sand\nbring forth a rainbow forged from land\nbeseech the heavens! stake thy claim\nlet thunders bruit and roar thy name\nif heart be pure and conscious clear\nand faith hath neither doubt nor fear\nstars shall rain to break the seal\nand bestow thee with heaven steel",
+  "fromcsfiles.MeleeWeapon.cs.14122": "The iridium in your backpack is reacting to the prismatic shard. It changes shape before your very eyes! You feel tremendous power from this blade.^^     You've found the =Galaxy Sword=  ^",
+
+  // ********* //
+  // * RINGS * //
+  // ********* //
+
+  "gems.ruby.name": "Ruby",
+  "gems.aquamarine.name": "Aquamarine",
+  "gems.jade.name": "Jade",
+  "gems.emerald.name": "Emerald",
+  "gems.amethyst.name": "Amethyst",
+  "gems.topaz.name": "Topaz",
+  "gems.garnet.name": "Garnet",
+  "gems.garnet.description": "The namesake of a beautiful princess from a faraway land.",
+  "rings.jade.description": "Increases critical strike power by 50%.",
+  "rings.topaz.description.resist": "Increases resistance by 10%.",
+  "rings.topaz.description.defense": "Increases defense by 1.",
+  "rings.garnet.name": "Garnet Ring",
+  "rings.garnet.description": "Decreases special move cooldown by 10%.",
+  "rings.iridium.description": "An ordinary band made of iridium.",
+  "rings.infinity.name": "Infinity Band",
+  "rings.infinity.description": "A vessel for great power.",
+  "global.infinitycraft": "{{who}} forged an Infinity Band.",
+
+  // **************** //
+  // * ENCHANTMENTS * //
+  // **************** //
+
+  "enchantments.carving": "Carving",
+  "enchantments.cleaving": "Cleaving",
+  "enchantments.energized": "Energized",
+  "enchantments.tribute": "Tribute",
+  "enchantments.vampiric": "Bloodthirsty",
+  "enchantments.engorging": "Engorging",
+  "enchantments.gatling": "Gatling",
+  "enchantments.preserving": "Preserving",
+  "enchantments.quincy": "Quincy",
+  "enchantments.spreading": "Spreading",
+
+  // *********** //
+  // ** TAXES ** //
+  // *********** //
+
+  "tax.intro": "Department of the Treasury^Ferngill Revenue Service^^^{{honorific}} Taxpayer,^^This letter is to inform you that your recent address change to Pelican Town, Stardew Valley has been filed and registered. All future correspondence will be directed to {{farm}}.^^We kindly remind you that Federal income tax contributions are due on the 2nd of every season. For your convenience, your due obligations will be automatically deducted from your balance. If your balance is insufficient, a loan will automatically be issued in your name, subject to the nominal interest fee of {{interest}} per annum.^^^Sincerely,^^Laura D. Pretto^Executive Directrice, Ferngill Revenue Service[#]Taxation Intro",
+  "tax.notice": "Department of the Treasury^Ferngill Revenue Service^^^{{honorific}} Taxpayer,^^This letter is to inform you that your total due income tax for the closing season in the amount of {{due}}g has been automatically deducted from your balance.^^Please keep this letter in your permanent records should you need to resolve any questions regarding your fiscal status.^^^Sincerely,^^Laura D. Pretto^Executive Directrice, Ferngill Revenue Service[#]Taxation Notice",
+  "tax.outstanding": "Department of the Treasury^Ferngill Revenue Service^^^{{honorific}} Taxpayer,^^This letter is to inform you that your total due income tax for the closing season in the amount of {{due}}g could not be fully deducted from your balance. As such, all future income from {{farm}} will be seized until your outstanding debt in the amount of {{outstanding}} is settled. Please keep in mind that it is in your best interest to clear any outstanding debts as soon as possible to avoid accruing interest at the rate of {{interestRate}} per annum.^^Please keep this letter in your permanent records should you need to resolve any questions regarding your fiscal status.^^^Sincerely,^^Laura D. Pretto^Executive Directrice, Ferngill Revenue Service[#]Taxation Outstanding",
+  "tax.deduction": "Department of the Treasury^Ferngill Revenue Service^^^{{honorific}} Taxpayer,^^We are pleased to inform you that, upon review of your environmentalist activities, we have determined that you qualify for an income tax deduction of {{deductible}} as per section 501(c)(3) of the Ferngill Revenue Code.^^Please keep this letter in your permanent records should you need to resolve any questions regarding your fiscal status.^^^Sincerely,^^Laura D. Pretto^Executive Directrice, Ferngill Revenue Service[#]Taxation Deduction",
+  "tax.deduction.max": "Department of the Treasury^Ferngill Revenue Service^^^{{honorific}} Taxpayer,^^We are pleased to inform you that, upon review of your environmentalist activities, we have determined that you are exempt from Federal income tax as per section 501(c)(3) of the Ferngill Revenue Code. As such, no charges will be made to your balance with respect to the closing season.^^Please keep this letter in your permanent records should you need to resolve any questions regarding your fiscal status.^^^Sincerely,^^Laura D. Pretto^Executive Directrice, Ferngill Revenue Service[#]Taxation Deduction",
+  "debt.debit": "Your balance was debited for {{amount}}g towards outstanding debts.",
+  "honorific.male": "Dear",
+  "honorific.female": "Dear",
+
+  // ************** //
+  // * UI STRINGS * //
+  // ************** //
+
+  "config.module.enable": "Configuration options for {{module}} will not appear until you re-open the Ligo GMCM menu.",
+  "config.module.disable": "Disabling the {{module}} module requires re-launching the game.",
+
+  "ui.itemhover.damage": "{{amount}} Damage",
+  "ui.itemhover.crate": "{{amount}} Crit. Chance",
+  "ui.itemhover.cpow": "{{amount}} Crit. Power",
+  "ui.itemhover.knockback": "{{amount}} Knockback",
+  "ui.itemhover.firespeed": "{{amount}} Firing Speed",
+  "ui.itemhover.swingspeed": "{{amount}} Swing Speed",
+  "ui.itemhover.cdr": "{{amount}} Cooldown",
+  "ui.itemhover.resist": "{{amount}} Resistance",
+  "ui.itemhover.precision": "{{amount}} Precision",
+
+  // ********* //
+  // * PONDS * //
+  // ********* //
+
+  "algae": "Algae"
+}

@@ -1,1 +1,1 @@
-Common C# classes and extensions for other mods.
+Shared C# classes and extensions for other mods.
