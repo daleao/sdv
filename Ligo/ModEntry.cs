@@ -6,7 +6,7 @@ using System.Diagnostics.CodeAnalysis;
 using DaLion.Ligo.Modules;
 using DaLion.Shared.Events;
 using DaLion.Shared.ModData;
-using DaLion.Shared.Multiplayer;
+using Shared.Networking;
 using DaLion.Shared.Reflection;
 using StardewModdingAPI.Utilities;
 

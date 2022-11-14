@@ -5,14 +5,14 @@
 using DaLion.Ligo.Modules.Arsenal.Weapons.Extensions;
 using DaLion.Shared.Attributes;
 using HarmonyLib;
+using Shared.Harmony;
 using SpaceCore.Interface;
-using HarmonyPatch = DaLion.Shared.Harmony.HarmonyPatch;
 
 #endregion using directives
 
 [UsedImplicitly]
 [Integration("spacechase0.SpaceCore")]
-internal sealed class NewForgeMenuIsValidCraftIngredient : HarmonyPatch
+internal sealed class NewForgeMenuIsValidCraftIngredient : HarmonyPatcher
 {
     /// <summary>Initializes a new instance of the <see cref="NewForgeMenuIsValidCraftIngredient"/> class.</summary>
     internal NewForgeMenuIsValidCraftIngredient()

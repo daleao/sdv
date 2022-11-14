@@ -6,17 +6,17 @@ using DaLion.Shared.Attributes;
 using DaLion.Shared.Extensions;
 using DaLion.Shared.Extensions.Reflection;
 using HarmonyLib;
-using HarmonyPatch = DaLion.Shared.Harmony.HarmonyPatch;
+using Shared.Harmony;
 
 #endregion using directives
 
 [UsedImplicitly]
 [Integration("Digus.ProducerFrameworkMod")]
 [System.Diagnostics.CodeAnalysis.SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1649:File name should match first type name", Justification = "Integration patch.")]
-internal sealed class ProducerRuleControllerProduceOutputPatch : HarmonyPatch
+internal sealed class ProducerRuleControllerProduceOutputPatcher : HarmonyPatcher
 {
-    /// <summary>Initializes a new instance of the <see cref="ProducerRuleControllerProduceOutputPatch"/> class.</summary>
-    internal ProducerRuleControllerProduceOutputPatch()
+    /// <summary>Initializes a new instance of the <see cref="ProducerRuleControllerProduceOutputPatcher"/> class.</summary>
+    internal ProducerRuleControllerProduceOutputPatcher()
     {
         this.Target = "ProducerFrameworkMod.Controllers.ProducerRuleController"
             .ToType()

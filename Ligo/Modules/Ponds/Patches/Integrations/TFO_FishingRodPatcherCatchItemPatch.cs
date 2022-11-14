@@ -11,18 +11,18 @@ using DaLion.Shared.Extensions.Reflection;
 using DaLion.Shared.Extensions.Stardew;
 using HarmonyLib;
 using Microsoft.Xna.Framework;
+using Shared.Harmony;
 using StardewValley.Buildings;
-using HarmonyPatch = DaLion.Shared.Harmony.HarmonyPatch;
 
 #endregion using directives
 
 [UsedImplicitly]
 [Integration("TehPers.FishingOverhaul")]
 [System.Diagnostics.CodeAnalysis.SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1649:File name should match first type name", Justification = "Integration patch.")]
-internal sealed class FishingRodPatcherCatchItemPatch : HarmonyPatch
+internal sealed class FishingRodPatcherCatchItemPatcher : HarmonyPatcher
 {
-    /// <summary>Initializes a new instance of the <see cref="FishingRodPatcherCatchItemPatch"/> class.</summary>
-    internal FishingRodPatcherCatchItemPatch()
+    /// <summary>Initializes a new instance of the <see cref="FishingRodPatcherCatchItemPatcher"/> class.</summary>
+    internal FishingRodPatcherCatchItemPatcher()
     {
         this.Target = "TehPers.FishingOverhaul.Services.Setup.FishingRodPatcher"
             .ToType()

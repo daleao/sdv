@@ -12,17 +12,16 @@ using DaLion.Shared.Extensions;
 using DaLion.Shared.Extensions.Reflection;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
-using HarmonyPatch = DaLion.Shared.Harmony.HarmonyPatch;
 
 #endregion using directives
 
 [UsedImplicitly]
 [Integration("Pathoschild.Automate")]
 [System.Diagnostics.CodeAnalysis.SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1649:File name should match first type name", Justification = "Integration patch.")]
-internal sealed class GenericObjectMachinePatches : HarmonyPatch
+internal sealed class GenericObjectMachinePatchers : HarmonyPatcher
 {
-    /// <summary>Initializes a new instance of the <see cref="GenericObjectMachinePatches"/> class.</summary>
-    internal GenericObjectMachinePatches()
+    /// <summary>Initializes a new instance of the <see cref="GenericObjectMachinePatchers"/> class.</summary>
+    internal GenericObjectMachinePatchers()
     {
         this.Transpiler!.before = new[] { LigoModule.Professions.Namespace };
     }
@@ -83,7 +82,7 @@ internal sealed class GenericObjectMachinePatches : HarmonyPatch
                             .RequirePropertyGetter("Sample")),
                     new CodeInstruction(
                         OpCodes.Call,
-                        typeof(GenericObjectMachinePatches).RequireMethod(
+                        typeof(GenericObjectMachinePatchers).RequireMethod(
                             original.DeclaringType!.Name.Contains("CheesePress")
                                 ? nameof(CheesePressMachineSubroutine)
                                 : nameof(GenericMachineSubroutine))));

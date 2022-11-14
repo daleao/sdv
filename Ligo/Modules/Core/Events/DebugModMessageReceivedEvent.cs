@@ -48,7 +48,7 @@ internal sealed class DebugModMessageReceivedEvent : ModMessageReceivedEvent
                         var response = this.Manager.Enabled.Aggregate(
                             string.Empty,
                             (current, next) => current + "\n\t- " + next.GetType().Name);
-                        ModEntry.Broadcaster.Message(response, "Debug/Response", e.FromPlayerID);
+                        ModEntry.Broadcaster.MessagePeer(response, "Debug/Response", e.FromPlayerID);
 
                         break;
                 }

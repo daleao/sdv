@@ -1,0 +1,51 @@
+﻿namespace DaLion.Ligo.Modules.Rings.Patches;
+
+#region using directives
+
+using DaLion.Ligo.Modules.Rings.Extensions;
+using HarmonyLib;
+using Shared.Harmony;
+using StardewValley.Objects;
+
+#endregion using directives
+
+[UsedImplicitly]
+internal sealed class RingCanCombinePatcher : HarmonyPatcher
+{
+    /// <summary>Initializes a new instance of the <see cref="RingCanCombinePatcher"/> class.</summary>
+    internal RingCanCombinePatcher()
+    {
+        this.Target = this.RequireMethod<Ring>(nameof(Ring.CanCombine));
+        this.Prefix!.priority = Priority.HigherThanNormal;
+    }
+
+    #region harmony patches
+
+    /// <summary>Allows feeding up to four gemstone rings into an Infinity Band.</summary>
+    [HarmonyPrefix]
+    [HarmonyPriority(Priority.HigherThanNormal)]
+    private static bool RingCanCombinePrefix(Ring __instance, ref bool __result, Ring ring)
+    {
+        if (!ModEntry.Config.Rings.TheOneInfinityBand)
+        {
+            return true; // run original logic
+        }
+
+        if (__instance.ParentSheetIndex == Constants.IridiumBandIndex ||
+            ring.ParentSheetIndex == Constants.IridiumBandIndex)
+        {
+            return false; // don't run original logic
+        }
+
+        if (__instance.ParentSheetIndex != Globals.InfinityBandIndex)
+        {
+            return ring.ParentSheetIndex != Globals.InfinityBandIndex;
+        }
+
+        __result = ring.IsGemRing() &&
+                   (__instance is not CombinedRing combined || combined.combinedRings.Count < 4);
+        return false; // don't run original logic
+    }
+
+    #endregion harmony patches
+}

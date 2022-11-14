@@ -10,12 +10,11 @@ using DaLion.Shared.Extensions.Reflection;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
 using StardewValley.TerrainFeatures;
-using HarmonyPatch = DaLion.Shared.Harmony.HarmonyPatch;
 
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class ResourceClumpPerformToolAction : HarmonyPatch
+internal sealed class ResourceClumpPerformToolAction : HarmonyPatcher
 {
     /// <summary>Initializes a new instance of the <see cref="ResourceClumpPerformToolAction"/> class.</summary>
     internal ResourceClumpPerformToolAction()

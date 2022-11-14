@@ -1,0 +1,35 @@
+﻿namespace DaLion.Ligo.Modules.Professions.Patches.Mining;
+
+#region using directives
+
+using DaLion.Ligo.Modules.Professions.Extensions;
+using DaLion.Shared.Extensions.Stardew;
+using HarmonyLib;
+using Shared.Harmony;
+
+#endregion using directives
+
+[UsedImplicitly]
+internal sealed class ObjectGetMinutesForCrystalariumPatcher : HarmonyPatcher
+{
+    /// <summary>Initializes a new instance of the <see cref="ObjectGetMinutesForCrystalariumPatcher"/> class.</summary>
+    internal ObjectGetMinutesForCrystalariumPatcher()
+    {
+        this.Target = this.RequireMethod<SObject>("getMinutesForCrystalarium");
+    }
+
+    #region harmony patches
+
+    /// <summary>Patch to speed up crystalarium processing time for each Gemologist.</summary>
+    [HarmonyPostfix]
+    private static void ObjectGetMinutesForCrystalariumPostfix(SObject __instance, ref int __result)
+    {
+        var owner = ModEntry.Config.Professions.LaxOwnershipRequirements ? Game1.player : __instance.GetOwner();
+        if (owner.HasProfession(Profession.Gemologist))
+        {
+            __result = (int)(__result * (owner.HasProfession(Profession.Gemologist, true) ? 0.5 : 0.75));
+        }
+    }
+
+    #endregion harmony patches
+}

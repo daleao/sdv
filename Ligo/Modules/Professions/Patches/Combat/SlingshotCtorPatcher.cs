@@ -1,0 +1,45 @@
+﻿namespace DaLion.Ligo.Modules.Professions.Patches.Combat;
+
+#region using directives
+
+using DaLion.Ligo.Modules.Professions.Extensions;
+using HarmonyLib;
+using Shared.Harmony;
+using StardewValley.Tools;
+
+#endregion using directives
+
+[UsedImplicitly]
+internal sealed class SlingshotCtorPatcher : HarmonyPatcher
+{
+    /// <summary>Initializes a new instance of the <see cref="SlingshotCtorPatcher"/> class.</summary>
+    internal SlingshotCtorPatcher()
+    {
+        this.Target = this.RequireConstructor<Slingshot>(Type.EmptyTypes);
+    }
+
+    /// <inheritdoc />
+    protected override void ApplyImpl(Harmony harmony)
+    {
+        base.ApplyImpl(harmony);
+        this.Target = this.RequireConstructor<Slingshot>(typeof(int));
+        base.ApplyImpl(harmony);
+    }
+
+    #region harmony patches
+
+    /// <summary>Add Rascal ammo slot.</summary>
+    [HarmonyPostfix]
+    private static void SlingshotCtorPostfix(Slingshot __instance)
+    {
+        if (!Game1.player.HasProfession(Profession.Rascal))
+        {
+            return;
+        }
+
+        __instance.numAttachmentSlots.Value = 2;
+        __instance.attachments.SetCount(2);
+    }
+
+    #endregion harmony patches
+}

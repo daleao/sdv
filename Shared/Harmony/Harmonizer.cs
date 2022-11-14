@@ -11,7 +11,7 @@ using HarmonyLib;
 
 #endregion using directives
 
-/// <summary>Instantiates and applies <see cref="IHarmonyPatch"/> classes in the assembly.</summary>
+/// <summary>Instantiates and applies <see cref="IHarmonyPatcher"/> classes in the assembly.</summary>
 internal sealed class Harmonizer
 {
     /// <inheritdoc cref="IModRegistry"/>
@@ -36,7 +36,7 @@ internal sealed class Harmonizer
     /// <summary>Gets the unique ID of the <see cref="HarmonyLib.Harmony"/> instance.</summary>
     internal string UniqueId { get; }
 
-    /// <summary>Implicitly applies<see cref="IHarmonyPatch"/> types in the assembly using reflection.</summary>
+    /// <summary>Implicitly applies<see cref="IHarmonyPatcher"/> types in the assembly using reflection.</summary>
     /// <param name="modRegistry">API for fetching metadata about loaded mods.</param>
     /// <param name="uniqueId">The unique ID of the declaring module.</param>
     internal static void ApplyAll(IModRegistry modRegistry, string uniqueId)
@@ -45,7 +45,7 @@ internal sealed class Harmonizer
         new Harmonizer(modRegistry, uniqueId).ApplyImplicitly();
     }
 
-    /// <summary>Implicitly applies<see cref="IHarmonyPatch"/> types in the specified namespace.</summary>
+    /// <summary>Implicitly applies<see cref="IHarmonyPatcher"/> types in the specified namespace.</summary>
     /// <param name="modRegistry">API for fetching metadata about loaded mods.</param>
     /// <param name="uniqueId">The unique ID of the declaring module.</param>
     /// <param name="namespace">The desired namespace.</param>
@@ -56,7 +56,7 @@ internal sealed class Harmonizer
         new Harmonizer(modRegistry, uniqueId).ApplyImplicitly(t => t.Namespace?.StartsWith(@namespace) == true);
     }
 
-    /// <summary>Implicitly applies<see cref="IHarmonyPatch"/> types with the specified attribute.</summary>
+    /// <summary>Implicitly applies<see cref="IHarmonyPatcher"/> types with the specified attribute.</summary>
     /// <param name="modRegistry">API for fetching metadata about loaded mods.</param>
     /// <param name="uniqueId">The unique ID of the declaring module.</param>
     /// <typeparam name="TAttribute">An <see cref="Attribute"/> type.</typeparam>
@@ -67,16 +67,16 @@ internal sealed class Harmonizer
         new Harmonizer(modRegistry, uniqueId).ApplyImplicitly(t => t.GetCustomAttribute<TAttribute>() is not null);
     }
 
-    /// <summary>Instantiates and applies <see cref="IHarmonyPatch"/> classes using reflection.</summary>
-    /// <param name="predicate">An optional condition with which to limit the scope of applied <see cref="IHarmonyPatch"/>es.</param>
+    /// <summary>Instantiates and applies <see cref="IHarmonyPatcher"/> classes using reflection.</summary>
+    /// <param name="predicate">An optional condition with which to limit the scope of applied <see cref="IHarmonyPatcher"/>es.</param>
     private void ApplyImplicitly(Func<Type, bool>? predicate = null)
     {
         this.StartWatch();
 
         predicate ??= t => true;
         var patchTypes = AccessTools
-            .GetTypesFromAssembly(Assembly.GetAssembly(typeof(IHarmonyPatch)))
-            .Where(t => t.IsAssignableTo(typeof(IHarmonyPatch)) && !t.IsAbstract && predicate(t))
+            .GetTypesFromAssembly(Assembly.GetAssembly(typeof(IHarmonyPatcher)))
+            .Where(t => t.IsAssignableTo(typeof(IHarmonyPatcher)) && !t.IsAbstract && predicate(t))
             .ToArray();
 
         Log.D($"[Harmonizer]: Found {patchTypes.Length} patch classes. Applying patches...");
@@ -119,7 +119,7 @@ internal sealed class Harmonizer
 
             try
             {
-                var patch = (IHarmonyPatch?)p
+                var patch = (IHarmonyPatcher?)p
                     .GetConstructor(BindingFlags.Instance | BindingFlags.NonPublic, null, Type.EmptyTypes, null)
                     ?.Invoke(Array.Empty<object>());
                 if (patch is null)

@@ -9,7 +9,7 @@ using DaLion.Ligo.Modules.Professions.Events.GameLoop;
 using DaLion.Ligo.Modules.Professions.Extensions;
 using DaLion.Ligo.Modules.Professions.VirtualProperties;
 using DaLion.Shared.Extensions.Stardew;
-using DaLion.Shared.Multiplayer;
+using Shared.Networking;
 using Microsoft.Xna.Framework;
 using StardewModdingAPI.Utilities;
 using StardewValley.Locations;
@@ -88,7 +88,7 @@ internal sealed class ScavengerHunt : TreasureHunt
                 Game1.player.Get_IsHuntingTreasure().Value = true;
                 if (!Context.IsMainPlayer)
                 {
-                    ModEntry.Broadcaster.Message("HuntIsOn", "RequestEvent", Game1.MasterPlayer.UniqueMultiplayerID);
+                    ModEntry.Broadcaster.MessagePeer("HuntIsOn", "RequestEvent", Game1.MasterPlayer.UniqueMultiplayerID);
                 }
                 else
                 {
@@ -127,7 +127,7 @@ internal sealed class ScavengerHunt : TreasureHunt
                 Game1.player.Get_IsHuntingTreasure().Value = true;
                 if (!Context.IsMainPlayer)
                 {
-                    ModEntry.Broadcaster.Message("HuntIsOn", "RequestEvent", Game1.MasterPlayer.UniqueMultiplayerID);
+                    ModEntry.Broadcaster.MessagePeer("HuntIsOn", "RequestEvent", Game1.MasterPlayer.UniqueMultiplayerID);
                 }
                 else
                 {
@@ -201,7 +201,7 @@ internal sealed class ScavengerHunt : TreasureHunt
         Broadcaster.SendPublicChat(found
             ? $"{Game1.player.Name} has found the treasure!"
             : $"{Game1.player.Name} failed to find the treasure.");
-        ModEntry.Broadcaster.Message("HuntIsOff", "RequestEvent", Game1.MasterPlayer.UniqueMultiplayerID);
+        ModEntry.Broadcaster.MessagePeer("HuntIsOff", "RequestEvent", Game1.MasterPlayer.UniqueMultiplayerID);
 
         this.OnEnded(found);
     }

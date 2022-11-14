@@ -14,16 +14,15 @@ using SpaceCore.Interface;
 using StardewValley.Menus;
 using StardewValley.Objects;
 using StardewValley.Tools;
-using HarmonyPatch = DaLion.Shared.Harmony.HarmonyPatch;
 
 #endregion using directives
 
 [UsedImplicitly]
 [Integration("spacechase0.SpaceCore")]
-internal sealed class NewForgeMenuUpdatePatch : HarmonyPatch
+internal sealed class NewForgeMenuUpdatePatcher : HarmonyPatcher
 {
-    /// <summary>Initializes a new instance of the <see cref="NewForgeMenuUpdatePatch"/> class.</summary>
-    internal NewForgeMenuUpdatePatch()
+    /// <summary>Initializes a new instance of the <see cref="NewForgeMenuUpdatePatcher"/> class.</summary>
+    internal NewForgeMenuUpdatePatcher()
     {
         this.Target = this.RequireMethod<NewForgeMenu>(nameof(NewForgeMenu.update), new[] { typeof(GameTime) });
     }
@@ -81,7 +80,7 @@ internal sealed class NewForgeMenuUpdatePatch : HarmonyPatch
                     new CodeInstruction(OpCodes.Ldloc_S, slingshot),
                     new CodeInstruction(
                         OpCodes.Call,
-                        typeof(NewForgeMenuUpdatePatch).RequireMethod(nameof(UnforgeSlingshot))));
+                        typeof(NewForgeMenuUpdatePatcher).RequireMethod(nameof(UnforgeSlingshot))));
         }
         catch (Exception ex)
         {

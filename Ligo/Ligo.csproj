@@ -8,7 +8,7 @@
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
     <RepositoryUrl>https://gitlab.com/daleao/sdv-mods</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
-    <GenerateDocumentationFile>True</GenerateDocumentationFile>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <UpdateKeys>Nexus:14470</UpdateKeys>
     <Version>1.0.0</Version>
 
@@ -46,14 +46,14 @@
 
   <!-- non-release settings -->
   <PropertyGroup Condition="$(Configuration) != 'Release'">
-    <EnableModZip>False</EnableModZip>
+    <EnableModZip>true</EnableModZip>
     <DebugType>Portable</DebugType>
     <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
 
   <!-- release settings -->
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <Optimize>True</Optimize>
+    <Optimize>true</Optimize>
   </PropertyGroup>
 
   <!-- third-party packages -->

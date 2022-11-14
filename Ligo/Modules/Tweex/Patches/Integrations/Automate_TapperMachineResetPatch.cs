@@ -6,17 +6,17 @@ using DaLion.Shared.Attributes;
 using DaLion.Shared.Extensions.Reflection;
 using DaLion.Shared.Extensions.Stardew;
 using HarmonyLib;
-using HarmonyPatch = DaLion.Shared.Harmony.HarmonyPatch;
+using Shared.Harmony;
 
 #endregion using directives
 
 [UsedImplicitly]
 [Integration("Pathoschild.Automate")]
 [System.Diagnostics.CodeAnalysis.SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1649:File name should match first type name", Justification = "Integration patch.")]
-internal sealed class TapperMachineResetPatch : HarmonyPatch
+internal sealed class TapperMachineResetPatcher : HarmonyPatcher
 {
-    /// <summary>Initializes a new instance of the <see cref="TapperMachineResetPatch"/> class.</summary>
-    internal TapperMachineResetPatch()
+    /// <summary>Initializes a new instance of the <see cref="TapperMachineResetPatcher"/> class.</summary>
+    internal TapperMachineResetPatcher()
     {
         this.Target = "Pathoschild.Stardew.Automate.Framework.Machines.Objects.TapperMachine"
             .ToType()

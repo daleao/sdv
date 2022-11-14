@@ -3,7 +3,7 @@
 #region using directives
 
 using DaLion.Shared.Extensions;
-using DaLion.Shared.Multiplayer;
+using Networking;
 using StardewValley;
 using StardewValley.Buildings;
 using StardewValley.TerrainFeatures;

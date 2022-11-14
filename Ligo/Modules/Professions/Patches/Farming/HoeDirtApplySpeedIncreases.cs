@@ -9,12 +9,11 @@ using DaLion.Ligo.Modules.Professions.Extensions;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
 using StardewValley.TerrainFeatures;
-using HarmonyPatch = DaLion.Shared.Harmony.HarmonyPatch;
 
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class HoeDirtApplySpeedIncreases : HarmonyPatch
+internal sealed class HoeDirtApplySpeedIncreases : HarmonyPatcher
 {
     /// <summary>Initializes a new instance of the <see cref="HoeDirtApplySpeedIncreases"/> class.</summary>
     internal HoeDirtApplySpeedIncreases()

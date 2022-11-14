@@ -124,9 +124,9 @@
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\XmlElementExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Harmony\CodeInstructionListExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Harmony\HarmonyExtensions.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Harmony\HarmonyPatch.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Harmony\HarmonyPatcher.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Harmony\Harmonizer.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Harmony\IHarmonyPatch.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Harmony\IHarmonyPatcher.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Harmony\ILHelper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Harmony\LabelNotFoundException.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Harmony\PatternNotFoundException.cs" />
@@ -148,7 +148,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Integrations\TehsFishingOverhaul\ISimplifiedFishingApi.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Integrations\IModIntegration.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Integrations\WearMoreRings\IWearMoreRingsApi.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Multiplayer\Broadcaster.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Networking\Broadcaster.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Log.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)MathConstants.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Caching\IntervalMemoryCache.cs" />

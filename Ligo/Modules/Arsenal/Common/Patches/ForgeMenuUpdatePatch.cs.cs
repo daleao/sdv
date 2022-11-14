@@ -13,15 +13,14 @@ using HarmonyLib;
 using Microsoft.Xna.Framework;
 using StardewValley.Menus;
 using StardewValley.Tools;
-using HarmonyPatch = DaLion.Shared.Harmony.HarmonyPatch;
 
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class ForgeMenuUpdatePatch : HarmonyPatch
+internal sealed class ForgeMenuUpdatePatcher : HarmonyPatcher
 {
-    /// <summary>Initializes a new instance of the <see cref="ForgeMenuUpdatePatch"/> class.</summary>
-    internal ForgeMenuUpdatePatch()
+    /// <summary>Initializes a new instance of the <see cref="ForgeMenuUpdatePatcher"/> class.</summary>
+    internal ForgeMenuUpdatePatcher()
     {
         this.Target = this.RequireMethod<ForgeMenu>(nameof(ForgeMenu.update), new[] { typeof(GameTime) });
     }
@@ -70,7 +69,7 @@ internal sealed class ForgeMenuUpdatePatch : HarmonyPatch
                     new CodeInstruction(OpCodes.Ldloc_3, helper.Locals[9]),
                     new CodeInstruction(
                         OpCodes.Call,
-                        typeof(ForgeMenuUpdatePatch).RequireMethod(nameof(UnforgeHolyBlade))),
+                        typeof(ForgeMenuUpdatePatcher).RequireMethod(nameof(UnforgeHolyBlade))),
                     new CodeInstruction(OpCodes.Br, resumeExecution));
         }
         catch (Exception ex)
