@@ -1,8 +1,13 @@
-[![License][shield:license]](LICENSE) [![Nexus][shield:nexus]][url:nexus] [![Mod Drop][shield:moddrop]][url:moddrop]
+<div align="center">
 
 # LIGO - Lion's Immersive Gameplay Overhaul
 
 A complete and comprehensive rework of Stardew Valley gameplay mechanics, offering a much more engaging and immersive experience.
+
+[![License][shield:license]](LICENSE) [![Nexus][shield:nexus]][url:nexus] [![Mod Drop][shield:moddrop]][url:moddrop]
+
+</div>
+
 
 ## About this mod
 
