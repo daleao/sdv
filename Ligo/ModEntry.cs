@@ -1,4 +1,4 @@
-﻿namespace DaLion.Ligo;
+namespace DaLion.Ligo;
 
 #region using directives
 
@@ -47,8 +47,8 @@ public sealed class ModEntry : Mod
     internal static IManifest Manifest => Instance.ModManifest;
 
     /// <summary>Gets the <see cref="ITranslationHelper"/> API.</summary>
-    [SuppressMessage("ReSharper", "InconsistentNaming", Justification = "Preference.")]
-    [SuppressMessage("StyleCop.CSharp.NamingRules", "SA1300:Element should begin with upper-case letter", Justification = "Preference.")]
+    [SuppressMessage("ReSharper", "InconsistentNaming", Justification = "Preference for i18n.")]
+    [SuppressMessage("StyleCop.CSharp.NamingRules", "SA1300:Element should begin with upper-case letter", Justification = "Preference for i18n.")]
     internal static ITranslationHelper i18n => ModHelper.Translation;
 
     /// <summary>The mod entry point, called after the mod is first loaded.</summary>
@@ -126,12 +126,12 @@ public sealed class ModEntry : Mod
             if (hostMod is null)
             {
                 Log.W(
-                    "[Entry] The session host does not have this mod installed. Most features will not work properly.");
+                    "Ligo has not been installed by the session host. Most features will not work properly.");
             }
             else if (!hostMod.Version.Equals(this.ModManifest.Version))
             {
                 Log.W(
-                    $"[Entry] The session host has a different mod version. Some features may not work properly.\n\tHost version: {hostMod.Version}\n\tLocal version: {this.ModManifest.Version}");
+                    $"The session host has a different version of Ligo installed. Some features may not work properly.\n\tHost version: {hostMod.Version}\n\tLocal version: {this.ModManifest.Version}");
             }
         }
     }
