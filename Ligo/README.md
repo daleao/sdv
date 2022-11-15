@@ -1,61 +1,67 @@
-## :: LIGO - Lion's Immersive Gameplay Overhaul ::
+[![License][shield:license]](LICENSE) [![Nexus][shield:nexus]][url:nexus] [![Mod Drop][shield:moddrop]][url:moddrop]
 
-# What is this mod?
+# LIGO - Lion's Immersive Gameplay Overhaul
 
-This mod is a compilation of modules that each overhaul different aspects of vanilla game mechanics.
+A complete and comprehensive rework of Stardew Valley gameplay mechanics, offering a much more engaging and immersive experience.
 
-Currently included modules:
-  - **[Professions](./Modules/Professions/README.md)** is the main module, and the only one enabled by default. This will overhaul all the game's professions with the goal of supporting more diverse and interesting playstyles.
-  - **[Arsenal](./Modules/Arsenal/README.md)** is the second largest module. It overhauls various aspects of melee weapons and slingshots so as to diversify combat and provide viable alternatives to the all-powerful sword.
-  - **[Rings](./Modules/Rings/README.md)** is a huge overhaul of the Iridium Band, introducing new forge mechanics and Gemstone Music Theory. It also rebalances other underwhelming rings and unimmersive crafting recipes.
-  - **[Ponds](./Modules/Ponds/README.md)** is a complement to the new Aquarist profession. It overhauls Fish Ponds to merit a spot on any farm.
-  - **[Taxes](./Modules/Taxes/README.md)** is a complement to the new Conservationist profession. It introduces a simple yet realistic taxations system. Because surely a nation at war would be on top of that juicy farm income.
-  - **[Tools](./Modules/Tools/README.md)** is a simple mod allowing chargeable resource tools, customizable farming tools and some extended tool enchantments.
-  - **[Tweaks](./Modules/Tweex/README.md)** is the final module, and serves as a repository for smaller tweaks and fixes to inconsistencies in vanilla.
-                     
-The modules can be individually enabled or disabled, and are fully customizable themselves. For more information, visit the READMEs for each individual module.
+## About this mod
 
-# Why does this exist?
+This mod is a compilation of overhaul modules, each targeting a specific gameplay component or mechanic. The modular nature of this mod allows users to cherry-pick features to their liking while also preserving the deep native integration required between individual modules. This reduces the amount of code redundancy and improves code maintainability.
 
-This mod aggregates the "Immersive" suite of mods, all of which spawned from the original, Walk Of Life, Immersive Professions. It also includes the previously unreleased Immersive Arsenal. It was always the intention of all mods in the Immersive suite following Walk Of Life to be complements for the latter. Consequently, all of these mods were tightly integrated with Walk Of Life, but had otherwise little to no interaction with each other, which could reasonably be achieved by Walk Of Life's provided API.
+## Current modules
 
-This changed with the addition of Arsenal, which needed to communicate with several of the modules in addition to Walk Of Life. At this point, it became increasingly difficult to establish the required level of integration using APIs alone, not to mention the unecessary code clutter.
+The available modules are listed below. Modules can be toggled on or off individually, but please keep in mind that **you must restart the game for those changes to take effect**. Certain modules also have specific uninstallation/disabling instructions you should pay attention to. All modules should be fully multiplayer and splitscreen-ready so long as all players have it installed. Unless explicitly stated otherwise, none of the modules are Android-compatible. Please refer to each module's specific documentation page for further details, compatibility information and uninstallation instructions.
 
-Another issue was the amount of redundancy and increased memory consumption caused by compiling separate mods all of which require the same underlying framework.
+- **[Professions](./Modules/Professions/README.md)** is the original and largest module. It overhauls all the game's professions with the goal of supporting more diverse and interesting playstyles. It also introduces all-new Prestige mechanics for very-late game save files, as well as exciting new Super Abilities for combat professions.
 
-A single combined mod allows all components to communicate natively all the while sharing a single framework.
+- **[Arsenal](./Modules/Arsenal/README.md)** is the second largest. It overhauls various aspects of both melee weapons and slingshots so as to diversify combat and provide viable alternatives to the ubiquitous sword. Included are all-new enchantments, weapon combos and one new weapon type, as well as novelty features for making legendary weapons truly legendary.
 
-# Compatibility
+- **[Rings](./Modules/Rings/README.md)** mainly overhauls the Iridium Band, replacing the bland vanilla version with all-new forge mechanics and Gemstone Music Theory, which draws inspiration from real-life Music Theory to provide a more interesting and balance form of combining many rings. It also adds new crafting mechanics providing a more natural progression for ring development.
 
-All modules should be fully multiplayer-ready as long as all players have it installed.
-Not Android-compatible.
+- **[Ponds](./Modules/Ponds/README.md)** is a complement to the new Aquarist profession. It overhauls Fish Ponds as profitable alternatives meritting a spot on any farm.
 
-# Installation and Update
+- **[Taxes](./Modules/Taxes/README.md)** is a complement to the new Conservationist profession. It introduces a simple yet realistic taxation system as an added challenge and end-game gold sink. Because surely a nation at war would be all over your juicy farm income.
 
-1. Delete any previous installations of this or Immersive suite mods.
-2. Extract the zip file into the mods folder.
-3. Start the game once with SMAPI to generate a config file.
-4. Use the Generic Mod Config Menu to enable the desired modules.
-5. Restart the game for changes to take effect.
+- **[Tools](./Modules/Tools/README.md)** is a simple mod allowing chargeable resource tools, customizable farming tools.
 
-# Uninstallation
+- **[Tweaks](./Modules/Tweex/README.md)** is the final module, and serves as a repository for smaller tweaks and fixes to inconsistencies not large enough to merit a separate module.
 
-Be mindful that certain module have special uninstall instructions. Failure to comply with these instructions may lead to save file corruption.
+## Installation and Update
 
-After disabling a module in the Generic Mod Config Menu, you must restart the game for the changes to take effect.
+1. Extract the downloaded archive file into your local mods folder.
+2. Start the game once with SMAPI to generate a config file.
+3. Use the Generic Mod Config Menu to enable the desired modules.
+4. Restart the game for changes to take effect.
 
-# Special Thanks
+As with any mod, always **delete any previous installation completely** before updating. 
+**The use of Vortex or other mod managers is not recommended for Stardew Valley.**
 
-- **ConcernedApe** for Stardew Valley.
-- [JetBrains](https://jb.gg/OpenSource) for providing a free license to their tools.
+## Credits & Thanks
 
-<table>
-  <tr>
-    <td><img width="64" src="https://smapi.io/Content/images/pufferchick.png" alt="Pufferchick"></td>
-    <td><img width="80" src="https://resources.jetbrains.com/storage/products/company/brand/logos/jb_beam.svg" alt="JetBrains logo."></td>
-  </tr>
-</table>
+Despite questionable programming decisions, **ConcernedApe** is deeply appreciated for his work creating and supporting Stardew Valley for both players and modders. Equally appreciated is the work of [Pathoschild][user:pathoschild], creator of [SMAPI][url:smapi] and god of the mod-verse.
 
-# License
+This mod borrows several assets from [Ragnarok Online][url:ragnarok], [League of Legends][url:league] and early Pokemon games. Credit to those, respectively, goes to [Gravity][url:gravity], [Riot Games][url:riot] and [Game Freak][url:gamefreak]. This mod completely free and open-source, provided under [Common Clause-extended MIT License](LICENSE).
 
-See [LICENSE](LICENSE) for more information.
+Lastly, a shout-out to [JetBrains][url:jetbrains] for providing a free open-source license to ReSharper and other tools, which provide an immense help to improve and maintain the quality of the code in this mod.
+
+<img width="64" src="https://smapi.io/Content/images/pufferchick.png" alt="Pufferchick"> <img width="80" src="https://resources.jetbrains.com/storage/products/company/brand/logos/jb_beam.svg" alt="JetBrains logo.">
+
+
+
+<!-- MARKDOWN LINKS & IMAGES -->
+[shield:license]: https://img.shields.io/badge/License-Commons%20Clause%20(MIT)-brightgreen?style=for-the-badge
+[shield:nexus]: https://img.shields.io/badge/Download-Nexus-yellow?style=for-the-badge
+[url:nexus]: https://www.nexusmods.com/stardewvalley/mods/14470
+[shield:moddrop]: https://img.shields.io/badge/Download-Mod%20Drop-blue?style=for-the-badge
+[url:moddrop]: https://www.moddrop.com/stardew-valley/
+
+[url:stardewvalley]: <https://www.stardewvalley.net/> "Stardew Valley"
+[url:jetbrains]: <https://jb.gg/OpenSource> "JetBrains"
+[url:smapi]: <https://smapi.io/> "SMAPI"
+[url:gamefreak]: <https://www.gamefreak.co.jp/> "Game Freak"
+[url:gravity]: <https://www.gravity.co.kr/> "Gravity"
+[url:ragnarok]: <https://ro.gnjoy.com/index.asp> "Ragnarok Online"
+[url:riot]: <https://www.riotgames.com/> "Riot Games"
+[url:league]: <https://www.leagueoflegends.com/> "League of Legends"
+
+[user:pathoschild]: <https://www.nexusmods.com/stardewvalley/users/1552317> "Pathoschild"

@@ -1,13 +1,22 @@
+<!-- Improved compatibility of back to top link. -->
+<a name="readme-top"></a>
+
+<!-- PROJECT SHIELDS -->
+[![MIT License][license-shield]][license-url]
+
 <table align="center"><tr><td align="center" width="9999">
 
 <!-- LOGO, TITLE, DESCRIPTION -->
 
-# Ligo :: Professions
 ![](https://stardewcommunitywiki.com/mediawiki/images/8/82/Farming_Skill_Icon.png)
 ![](https://stardewcommunitywiki.com/mediawiki/images/2/2f/Mining_Skill_Icon.png)
 ![](https://stardewcommunitywiki.com/mediawiki/images/f/f1/Foraging_Skill_Icon.png)
 ![](https://stardewcommunitywiki.com/mediawiki/images/e/e7/Fishing_Skill_Icon.png)
 ![](https://stardewcommunitywiki.com/mediawiki/images/c/cf/Combat_Skill_Icon.png)
+
+# Ligo :: Professions
+
+
 
 <br/>
 
@@ -15,7 +24,7 @@
 <details open="open" align="left">
   <summary>Table of Contents</summary>
   <ol>
-    <li><a href="#features">Features</a></li>
+    <li><a href="#overview">Overview</a></li>
     <li>
       <a href="#professions">Professions</a>
       <ul>
@@ -28,13 +37,10 @@
     </li>
     <li><a href="#prestige">Prestige</a></li>
     <li><a href="#special-abilities">Special Abilities</a></li>
-    <li><a href="#compatibility">Compatibility</a></li>
     <li><a href="#installation">Installation</a></li>
-    <li><a href="#configs">Configs</a></li>
-    <li><a href="#console-commands">Console Commands</a></li>
-    <li><a href="#api">API</a></li>
+    <li><a href="#compatibility">Compatibility</a></li>
     <li><a href="#recommended-mods">Recommended Mods</a></li>
-    <li><a href="#special-thanks">Special Thanks</a></li>
+    <li><a href="#for-skill-mod-developers">For Skill Mod Developers</a></li>
   </ol>
 </details>
 
@@ -182,8 +188,8 @@ Switching special abilities is not possible if the Prestige system is disabled. 
 
 The following mods are fully integrated:
 
-- [Luck Skill](https://www.nexusmods.com/stardewvalley/mods/521) and custom skill mods based on SpaceCore, like [Magic](https://www.nexusmods.com/stardewvalley/mods/2007) and [Love Of Cooking](https://www.nexusmods.com/stardewvalley/mods/6830)) can also be reset at the Statue of Prestige. They will display corresponding stars/ribbons in the Skills page and are affected by this mod's console commands. However they will not have their level cap raised above 10 and therefore cannot be prestiged unless this functionality is enabled by the mod author. So please do not ask me to add compatibility for XXX skill. 
-- [Automate](https://www.nexusmods.com/stardewvalley/mods/1063) machines will apply Artisan, Ecologist and Gemologist perks to all appropriate machines which meet the ownership requirements (if that setting is enabled). In the case of machines that are not crafted, such as the Farm Cave Mushroom Boxes  and terrain features like Berry Bushes and Fruit Trees, only the session host's professions will apply. In cases which consider the professions of the user, and not of the owner, then the owner of the closest chest in the automation group is used.
+- All [SpaceCore][spacecore-url] custom skills are fully supported by the skill reset systems, including but not limited to: [Luck Skill][luck-skill-url], [Cooking][cooking-url], [Magic][magic-url], [Love Of Cooking][love-of-cooking-url], [Binning][binning-url] and [Socializing][socializing-url]. However, *only skills which explicitly provide prestiged professions will be supported by the Prestige system*. An API is provided for mod authors to register their custom skills for prestige. Authors are responsible for providing the prestige perks and functionality of their own professions,as well as corresponding prestige icons and descriptions.
+- [Automate][automate-url] machines will apply Artisan, Ecologist and Gemologist perks to all appropriate machines which meet the ownership requirements (if that setting is enabled). In the case of machines that are not crafted, such as the Farm Cave Mushroom Boxes  and terrain features like Berry Bushes and Fruit Trees, only the session host's professions will apply. In cases which consider the professions of the user, and not of the owner, then the owner of the closest chest in the automation group is used.
 - [Producer Modules Mod](https://www.nexusmods.com/stardewvalley/mods/4970) and [PFMAutomate](https://www.nexusmods.com/stardewvalley/mods/5038) respect the same rules as above, but not all machines are compatible by default. Machines from the following PPJA packs and addons are compatible out-of-the-box:
     - [Artisan Valley](https://www.nexusmods.com/stardewvalley/mods/1926)
     - [Artisanal Soda Makers](https://www.nexusmods.com/stardewvalley/mods/5173)
@@ -243,14 +249,33 @@ To consume the API, copy both interfaces from the [Common.Integrations](../../..
 - [Slime Produce](https://www.nexusmods.com/stardewvalley/mods/7634) (makes Slime ranching more interesting and profitable).
 - [Ostrich Mayo and Golden Mayo](https://www.nexusmods.com/stardewvalley/mods/7660) (better consistency for Ostrich and Golden eggs in combination with Artisan profession).
 
-## Special Thanks
 
-- [Bpendragon](https://www.nexusmods.com/stardewvalley/users/20668164) for [Forage Pointers](https://www.nexusmods.com/stardewvalley/mods/7781).
-- [IllogicalMoodSwing](https://forums.nexusmods.com/index.php?/user/38784845-illogicalmoodswing/) for [Profession Icons Redone](https://www.nexusmods.com/stardewvalley/mods/4163).
-- [HimeTarts](https://www.nexusmods.com/stardewvalley/users/108124018) for the title logo.
-- [PiknikKey](https://forums.nexusmods.com/index.php?/user/97782533-piknikkey/) for Chinese translation.
-- [lacerta143](https://www.nexusmods.com/stardewvalley/users/38094530) for Korean translation.
-- [TehPers](https://www.nexusmods.com/stardewvalley/users/3994776) for TFO integration.
-- [Goldenrevolver](https://www.nexusmods.com/stardewvalley/users/5347339) for ForageFantasy integration and troubleshooting support.﻿
-- [Pathoschild](https://www.nexusmods.com/stardewvalley/users/1552317) for SMAPI support.
-- Game Freak, Gravity and Riot for ~~stolen~~ borrowed assets.
+
+<!-- MARKDOWN LINKS & IMAGES -->
+[license-shield]: https://img.shields.io/badge/license-Commons%20Clause%20(MIT)-orange
+[license-url]: ./LICENSE
+
+<!-- MOD LINKS -->
+[mod:spacecore]: <https://www.nexusmods.com/stardewvalley/mods/1348> "SpaceCore"
+[mod:luck-skill]: <https://www.nexusmods.com/stardewvalley/mods/521> "Luck Skill"
+[mod:cooking-skill]: <https://www.nexusmods.com/stardewvalley/mods/522> "Cooking Skill"
+[mod:magic]: <https://www.nexusmods.com/stardewvalley/mods/2007> "Magic"
+[mod:love-of-cooking]: <https://www.nexusmods.com/stardewvalley/mods/6830> "Love Of Cooking"
+[mod:binning-skill]: <https://www.nexusmods.com/stardewvalley/mods/14073> "Binning Skill"
+[mod:socializing-skill]: <https://www.nexusmods.com/stardewvalley/mods/14142> "Socializing Skill"
+[mod:forage-pointers]: <https://www.nexusmods.com/stardewvalley/mods/7781> "Forage Pointers"
+
+<!-- USER LINKS -->
+[user:pathoschild]: <https://www.nexusmods.com/stardewvalley/users/1552317> "Pathoschild"
+[user:tehpers]: <https://www.nexusmods.com/stardewvalley/users/3994776> "TehPers"
+[user:goldenrevolver]: <https://www.nexusmods.com/stardewvalley/users/5347339> "Goldenrevolver"
+[user:bpendragon]: <https://www.nexusmods.com/stardewvalley/users/20668164> "Bpendragon"
+[user:illogicalmoodswing]: <https://forums.nexusmods.com/index.php?/user/38784845-illogicalmoodswing/> "IllogicalMoodSwing"
+[user:himetarts]: <https://www.nexusmods.com/stardewvalley/users/108124018> "HimeTarts"
+[user:piknikkey]: <https://forums.nexusmods.com/index.php?/user/97782533-piknikkey/> "PiknikKey"
+[user:lacerta143]: <https://www.nexusmods.com/stardewvalley/users/38094530> "lacerta143"
+
+<!-- OTHER LINKS -->
+[co:gamefreak]: <https://www.gamefreak.co.jp/> "GameFreak"
+[co:gravity]: <https://www.gravity.co.kr/> "Gravity"
+[co:riot]: <https://www.riotgames.com/> "Riot Games"
