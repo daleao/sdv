@@ -28,6 +28,12 @@ internal sealed class RemoveEnchantmentsCommand : ConsoleCommand
     /// <inheritdoc />
     public override void Callback(string[] args)
     {
+        if (args.Length == 0)
+        {
+            Log.W("No enchantment was specified.");
+            return;
+        }
+
         var tool = Game1.player.CurrentTool;
         if (tool is not (MeleeWeapon or Slingshot))
         {

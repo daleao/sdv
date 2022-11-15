@@ -29,6 +29,12 @@ internal sealed class RemoveEnchantmentsCommand : ConsoleCommand
     [System.Diagnostics.CodeAnalysis.SuppressMessage("StyleCop.CSharp.SpacingRules", "SA1012:Opening braces should be spaced correctly", Justification = "Paradoxical.")]
     public override void Callback(string[] args)
     {
+        if (args.Length == 0)
+        {
+            Log.W("No enchantment was specified.");
+            return;
+        }
+
         if (Game1.player.CurrentTool is not ({ } tool and (Axe or Hoe or Pickaxe or WateringCan or FishingRod)))
         {
             Log.W("You must select a tool first.");

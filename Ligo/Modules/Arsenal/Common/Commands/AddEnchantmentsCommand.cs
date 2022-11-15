@@ -31,6 +31,12 @@ internal sealed class AddEnchantmentsCommand : ConsoleCommand
     /// <inheritdoc />
     public override void Callback(string[] args)
     {
+        if (args.Length == 0)
+        {
+            Log.W("No enchantment was specified.");
+            return;
+        }
+
         var tool = Game1.player.CurrentTool;
         if (tool is not (MeleeWeapon or Slingshot))
         {
@@ -53,22 +59,26 @@ internal sealed class AddEnchantmentsCommand : ConsoleCommand
 
                 // weapon enchants
                 "haymaker" => new HaymakerEnchantment(),
+                "carving" => new CarvingEnchantment(),
                 "cleaving" => new CleavingEnchantment(),
                 "energized" => new EnergizedEnchantment(),
                 "tribute" or "gold" => new TributeEnchantment(),
-                "vampiric" => new VampiricEnchantment(),
-                "magic" or "sunburst" => new MagicEnchantment(),
+                "r_artful" => new ReduxArtfulEnchantment(),
+                "bloodthirsty" => new BloodthirstyEnchantment(),
 
                 // slingshot enchants
+                "engorging" => new EngorgingEnchantment(),
                 "gatling" => new GatlingEnchantment(),
                 "preserving" => new Slingshots.Enchantments.PreservingEnchantment(),
                 "quincy" => new QuincyEnchantment(),
                 "spreading" => new SpreadingEnchantment(),
 
                 // vanilla
-                "artful" => new ArchaeologistEnchantment(),
+                "artful" => new ArtfulEnchantment(),
                 "bugkiller" => new BugKillerEnchantment(),
                 "crusader" => new CrusaderEnchantment(),
+                "vampiric" => new VampiricEnchantment(),
+                "magic" or "sunburst" => new MagicEnchantment(),
 
                 _ => null,
             };

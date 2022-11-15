@@ -10,7 +10,6 @@ using StardewValley.Tools;
 #endregion using directives
 
 [UsedImplicitly]
-[Deprecated]
 internal sealed class MeleeWeaponDefaultKnockbackForThisTypePatcher : HarmonyPatcher
 {
     /// <summary>Initializes a new instance of the <see cref="MeleeWeaponDefaultKnockbackForThisTypePatcher"/> class.</summary>

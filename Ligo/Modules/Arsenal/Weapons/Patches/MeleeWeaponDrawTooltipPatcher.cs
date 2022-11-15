@@ -99,7 +99,7 @@ internal sealed class MeleeWeaponDrawTooltipPatcher : HarmonyPatcher
                 spriteBatch,
                 ModEntry.i18n.Get(
                     "ui.itemhover.crate",
-                    new { amount = (crate > baseCrate ? "+" : "-") + $"{crate - baseCrate:0%}" }),
+                    new { amount = $"{crate - baseCrate:+#%;-#%}" }),
                 font,
                 new Vector2(x + 68, y + 28),
                 co * 0.9f * alpha);
@@ -127,7 +127,7 @@ internal sealed class MeleeWeaponDrawTooltipPatcher : HarmonyPatcher
                 spriteBatch,
                 ModEntry.i18n.Get(
                     "ui.itemhover.cpow",
-                    new { amount = (cpow > baseCpow ? "+" : "-") + $"{cpow - baseCpow:0%}" }),
+                    new { amount = $"{cpow - baseCpow:+#%;-#%}" }),
                 font,
                 new Vector2(x + 68, y + 28),
                 co * 0.9f * alpha);
@@ -155,7 +155,7 @@ internal sealed class MeleeWeaponDrawTooltipPatcher : HarmonyPatcher
                 spriteBatch,
                 ModEntry.i18n.Get(
                     "ui.itemhover.knockback",
-                    new { amount = (knockback > baseKnockback ? "+" : "-") + $"{knockback - baseKnockback:0%}" }),
+                    new { amount = $"{knockback - baseKnockback:+#%;-#%}" }),
                 font,
                 new Vector2(x + 68, y + 28),
                 co * 0.9f * alpha);
@@ -182,7 +182,7 @@ internal sealed class MeleeWeaponDrawTooltipPatcher : HarmonyPatcher
                 spriteBatch,
                 ModEntry.i18n.Get(
                     "ui.itemhover.swingspeed",
-                    new { amount = (speed > 0 ? "+" : "-") + $"{speed:0%}" }),
+                    new { amount = $"{speed:+#%;-#%}" }),
                 font,
                 new Vector2(x + 68, y + 28),
                 co * 0.9f * alpha);

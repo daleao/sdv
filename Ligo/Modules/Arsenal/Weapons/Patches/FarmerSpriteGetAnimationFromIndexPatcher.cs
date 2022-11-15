@@ -39,7 +39,7 @@ internal sealed class FarmerSpriteGetAnimationFromIndexPatcher : HarmonyPatcher
         }
 
         var multiplier = 10f / (10f + weapon.speed.Value + weapon.Read<float>(DataFields.ResonantSpeed)) * (1f - owner.weaponSpeedModifier);
-        var cooldown = 800 / (weapon.type.Value == MeleeWeapon.club ? 5 : 8);
+        var cooldown = weapon.type.Value == MeleeWeapon.club ? 250 : 25;
         requester.loopThisAnimation = false;
         var outFrames = requester.currentAnimation;
         outFrames.Clear();

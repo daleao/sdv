@@ -50,13 +50,13 @@ internal sealed class LigoModule : SmartEnum<LigoModule>
         this.EntryCommand = name switch
         {
             "Core" => "ligo",
-            "Professions" => "ligo profs",
-            "Arsenal" => "ligo ars",
-            "Rings" => "ligo rings",
-            "Ponds" => "ligo ponds",
-            "Taxes" => "ligo tax",
-            "Tools" => "ligo tools",
-            "Tweex" => "ligo tweex",
+            "Professions" => "profs",
+            "Arsenal" => "ars",
+            "Rings" => "rings",
+            "Ponds" => "ponds",
+            "Taxes" => "tax",
+            "Tools" => "tools",
+            "Tweex" => "tweex",
             _ => ThrowHelper.ThrowArgumentException<string>($"Invalid module {name}."),
         };
     }
@@ -76,7 +76,7 @@ internal sealed class LigoModule : SmartEnum<LigoModule>
     {
         ModEntry.Events.ManageNamespace(this.Namespace);
         Harmonizer.ApplyFromNamespace(helper.ModRegistry, this.Namespace);
-        CommandHandler.FromNamespace(helper.ConsoleCommands, this.Namespace);
+        CommandHandler.FromNamespace(helper.ConsoleCommands, this.Namespace, this.EntryCommand, this.DisplayName);
 
 #if DEBUG
         if (this != Core)

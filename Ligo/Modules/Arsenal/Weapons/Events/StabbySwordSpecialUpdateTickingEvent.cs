@@ -44,13 +44,13 @@ internal sealed class StabbySwordSpecialUpdateTickingEvent : UpdateTickingEvent
                 facingVector *= -1f;
             }
 
-            var trajectory = facingVector * (25f + (Game1.player.addedSpeed * 2.5f));
+            var trajectory = facingVector * (20f + (Game1.player.addedSpeed * 2f));
             user.setTrajectory(trajectory);
 
             _animationFrames =
                 sword.hasEnchantmentOfType<ReduxArtfulEnchantment>()
                     ? 24
-                    : 15; // don't ask me why but this translated exactly to (5 tiles : 4 tiles)
+                    : 16; // don't ask me why but this translated exactly to (5 tiles : 4 tiles)
             var frame = (FacingDirection)user.FacingDirection switch
             {
                 FacingDirection.Up => 276,

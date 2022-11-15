@@ -108,7 +108,7 @@ internal sealed class ComboButtonPressedEvent : ButtonPressedEvent
                     new AnimationFrame(39, (int)(25 * multiplier), true, flip: false, Farmer.showSwordSwipe),
                     new AnimationFrame(38, (int)(25 * multiplier), true, flip: false, Farmer.showSwordSwipe),
                     new AnimationFrame(37, (int)(25 * multiplier), true, flip: false, Farmer.showSwordSwipe),
-                    new AnimationFrame(36, (int)(100 * multiplier), true, flip: false, Farmer.showSwordSwipe),
+                    new AnimationFrame(36, (int)(25 * multiplier), true, flip: false, Farmer.showSwordSwipe),
                     new AnimationFrame(36, 0, true, flip: false, Farmer.canMoveNow, behaviorAtEndOfFrame: true),
                 });
 
@@ -127,7 +127,7 @@ internal sealed class ComboButtonPressedEvent : ButtonPressedEvent
                     new AnimationFrame(33, (int)(25 * multiplier), true, flip: false, Farmer.showSwordSwipe),
                     new AnimationFrame(32, (int)(25 * multiplier), true, flip: false, Farmer.showSwordSwipe),
                     new AnimationFrame(31, (int)(25 * multiplier), true, flip: false, Farmer.showSwordSwipe),
-                    new AnimationFrame(30, (int)(100 * multiplier), true, flip: false, Farmer.showSwordSwipe),
+                    new AnimationFrame(30, (int)(25 * multiplier), true, flip: false, Farmer.showSwordSwipe),
                     new AnimationFrame(30, 0, true, flip: false, Farmer.canMoveNow, behaviorAtEndOfFrame: true),
                 });
 
@@ -146,7 +146,7 @@ internal sealed class ComboButtonPressedEvent : ButtonPressedEvent
                     new AnimationFrame(27, (int)(25 * multiplier), true, flip: false, Farmer.showSwordSwipe),
                     new AnimationFrame(26, (int)(25 * multiplier), true, flip: false, Farmer.showSwordSwipe),
                     new AnimationFrame(25, (int)(25 * multiplier), true, flip: false, Farmer.showSwordSwipe),
-                    new AnimationFrame(24, (int)(100 * multiplier), true, flip: false, Farmer.showSwordSwipe),
+                    new AnimationFrame(24, (int)(25 * multiplier), true, flip: false, Farmer.showSwordSwipe),
                     new AnimationFrame(24, 0, true, flip: false, Farmer.canMoveNow, behaviorAtEndOfFrame: true),
                 });
 
@@ -165,7 +165,7 @@ internal sealed class ComboButtonPressedEvent : ButtonPressedEvent
                     new AnimationFrame(33, (int)(25 * multiplier), true, flip: true, Farmer.showSwordSwipe),
                     new AnimationFrame(32, (int)(25 * multiplier), true, flip: true, Farmer.showSwordSwipe),
                     new AnimationFrame(31, (int)(25 * multiplier), true, flip: true, Farmer.showSwordSwipe),
-                    new AnimationFrame(30, (int)(100 * multiplier), true, flip: true, Farmer.showSwordSwipe),
+                    new AnimationFrame(30, (int)(25 * multiplier), true, flip: true, Farmer.showSwordSwipe),
                     new AnimationFrame(30, 0, true, flip: true, Farmer.canMoveNow, behaviorAtEndOfFrame: true),
                 });
 
@@ -204,7 +204,7 @@ internal sealed class ComboButtonPressedEvent : ButtonPressedEvent
                     new AnimationFrame(38, (int)(25 * multiplier), true, flip: false, Farmer.showSwordSwipe),
                     new AnimationFrame(39, (int)(25 * multiplier), true, flip: false, Farmer.showSwordSwipe),
                     new AnimationFrame(40, (int)(25 * multiplier), true, flip: false, Farmer.showSwordSwipe),
-                    new AnimationFrame(41, (int)(100 * multiplier), true, flip: false, Farmer.showSwordSwipe),
+                    new AnimationFrame(41, (int)(25 * multiplier), true, flip: false, Farmer.showSwordSwipe),
                     new AnimationFrame(41, 0, true, flip: false, Farmer.canMoveNow, behaviorAtEndOfFrame: true),
                 });
 
@@ -223,7 +223,7 @@ internal sealed class ComboButtonPressedEvent : ButtonPressedEvent
                     new AnimationFrame(32, (int)(25 * multiplier), true, flip: false, Farmer.showSwordSwipe),
                     new AnimationFrame(33, (int)(25 * multiplier), true, flip: false, Farmer.showSwordSwipe),
                     new AnimationFrame(34, (int)(25 * multiplier), true, flip: false, Farmer.showSwordSwipe),
-                    new AnimationFrame(35, (int)(100 * multiplier), true, flip: false, Farmer.showSwordSwipe),
+                    new AnimationFrame(35, (int)(25 * multiplier), true, flip: false, Farmer.showSwordSwipe),
                     new AnimationFrame(35, 0, true, flip: false, Farmer.canMoveNow, behaviorAtEndOfFrame: true),
                 });
 
@@ -242,7 +242,7 @@ internal sealed class ComboButtonPressedEvent : ButtonPressedEvent
                     new AnimationFrame(26, (int)(25 * multiplier), true, flip: false, Farmer.showSwordSwipe),
                     new AnimationFrame(27, (int)(25 * multiplier), true, flip: false, Farmer.showSwordSwipe),
                     new AnimationFrame(28, (int)(25 * multiplier), true, flip: false, Farmer.showSwordSwipe),
-                    new AnimationFrame(29, (int)(100 * multiplier), true, flip: false, Farmer.showSwordSwipe),
+                    new AnimationFrame(29, (int)(25 * multiplier), true, flip: false, Farmer.showSwordSwipe),
                     new AnimationFrame(29, 0, true, flip: false, Farmer.canMoveNow, behaviorAtEndOfFrame: true),
                 });
 
@@ -261,7 +261,7 @@ internal sealed class ComboButtonPressedEvent : ButtonPressedEvent
                     new AnimationFrame(32, (int)(25 * multiplier), true, flip: true, Farmer.showSwordSwipe),
                     new AnimationFrame(33, (int)(25 * multiplier), true, flip: true, Farmer.showSwordSwipe),
                     new AnimationFrame(34, (int)(25 * multiplier), true, flip: true, Farmer.showSwordSwipe),
-                    new AnimationFrame(35, (int)(100 * multiplier), true, flip: true, Farmer.showSwordSwipe),
+                    new AnimationFrame(35, (int)(25 * multiplier), true, flip: true, Farmer.showSwordSwipe),
                     new AnimationFrame(35, 0, true, flip: true, Farmer.canMoveNow, behaviorAtEndOfFrame: true),
                 });
 
@@ -291,11 +291,11 @@ internal sealed class ComboButtonPressedEvent : ButtonPressedEvent
                 sprite.currentAnimation.RemoveAt(sprite.CurrentAnimation.Count - 1);
                 sprite.currentAnimation.AddRange(new[]
                 {
-                    new AnimationFrame(36, (int)(100 * multiplier), false, flip: false),
+                    new AnimationFrame(36, (int)(120 * multiplier), false, flip: false),
                     new AnimationFrame(37, (int)(50 * multiplier), false, flip: false, Farmer.showToolSwipeEffect),
-                    new AnimationFrame(38, (int)(50 * multiplier), false, flip: false, Farmer.useTool),
-                    new AnimationFrame(63, (int)(50 * multiplier), false, flip: false, who => who.currentLocation.localSound("clubswipe")),
-                    new AnimationFrame(62, (int)(160 * multiplier), false, flip: false, Farmer.canMoveNow, behaviorAtEndOfFrame: true),
+                    new AnimationFrame(38, (int)(50 * multiplier), false, flip: false, who => who.currentLocation.localSound("clubswipe")),
+                    new AnimationFrame(63, (int)(50 * multiplier), false, flip: false, Farmer.useTool),
+                    new AnimationFrame(62, (int)(250 * multiplier), false, flip: false, Farmer.canMoveNow, behaviorAtEndOfFrame: true),
                 });
 
                 break;
@@ -304,11 +304,11 @@ internal sealed class ComboButtonPressedEvent : ButtonPressedEvent
                 sprite.currentAnimation.RemoveAt(sprite.CurrentAnimation.Count - 1);
                 sprite.currentAnimation.AddRange(new[]
                 {
-                    new AnimationFrame(48, (int)(100 * multiplier), false, flip: false),
+                    new AnimationFrame(48, (int)(120 * multiplier), false, flip: false),
                     new AnimationFrame(49, (int)(50 * multiplier), false, flip: false, Farmer.showToolSwipeEffect),
-                    new AnimationFrame(50, (int)(50 * multiplier), false, flip: false, Farmer.useTool),
-                    new AnimationFrame(51, (int)(50 * multiplier), false, flip: false, who => who.currentLocation.localSound("clubswipe")),
-                    new AnimationFrame(52, (int)(160 * multiplier), false, flip: false, Farmer.canMoveNow, behaviorAtEndOfFrame: true),
+                    new AnimationFrame(50, (int)(50 * multiplier), false, flip: false, who => who.currentLocation.localSound("clubswipe")),
+                    new AnimationFrame(51, (int)(50 * multiplier), false, flip: false, Farmer.useTool),
+                    new AnimationFrame(52, (int)(250 * multiplier), false, flip: false, Farmer.canMoveNow, behaviorAtEndOfFrame: true),
                 });
 
                 break;
@@ -317,11 +317,11 @@ internal sealed class ComboButtonPressedEvent : ButtonPressedEvent
                 sprite.currentAnimation.RemoveAt(sprite.CurrentAnimation.Count - 1);
                 sprite.currentAnimation.AddRange(new[]
                 {
-                    new AnimationFrame(66, (int)(100 * multiplier), false, flip: false),
+                    new AnimationFrame(66, (int)(120 * multiplier), false, flip: false),
                     new AnimationFrame(67, (int)(50 * multiplier), false, flip: false, Farmer.showToolSwipeEffect),
-                    new AnimationFrame(68, (int)(50 * multiplier), false, flip: false, Farmer.useTool),
-                    new AnimationFrame(69, (int)(50 * multiplier), false, flip: false, who => who.currentLocation.localSound("clubswipe")),
-                    new AnimationFrame(70, (int)(160 * multiplier), false, flip: false, Farmer.canMoveNow, behaviorAtEndOfFrame: true),
+                    new AnimationFrame(68, (int)(50 * multiplier), false, flip: false, who => who.currentLocation.localSound("clubswipe")),
+                    new AnimationFrame(69, (int)(50 * multiplier), false, flip: false, Farmer.useTool),
+                    new AnimationFrame(70, (int)(250 * multiplier), false, flip: false, Farmer.canMoveNow, behaviorAtEndOfFrame: true),
                 });
 
                 break;
@@ -330,11 +330,11 @@ internal sealed class ComboButtonPressedEvent : ButtonPressedEvent
                 sprite.currentAnimation.RemoveAt(sprite.CurrentAnimation.Count - 1);
                 sprite.currentAnimation.AddRange(new[]
                 {
-                    new AnimationFrame(48, (int)(100 * multiplier), false, flip: true),
+                    new AnimationFrame(48, (int)(120 * multiplier), false, flip: true),
                     new AnimationFrame(49, (int)(50 * multiplier), false, flip: true, Farmer.showToolSwipeEffect),
-                    new AnimationFrame(50, (int)(50 * multiplier), false, flip: true, Farmer.useTool),
-                    new AnimationFrame(51, (int)(50 * multiplier), false, flip: true, who => who.currentLocation.localSound("clubswipe")),
-                    new AnimationFrame(52, (int)(160 * multiplier), false, flip: true, Farmer.canMoveNow, behaviorAtEndOfFrame: true),
+                    new AnimationFrame(50, (int)(50 * multiplier), false, flip: true, who => who.currentLocation.localSound("clubswipe")),
+                    new AnimationFrame(51, (int)(50 * multiplier), false, flip: true, Farmer.useTool),
+                    new AnimationFrame(52, (int)(250 * multiplier), false, flip: true, Farmer.canMoveNow, behaviorAtEndOfFrame: true),
                 });
 
                 break;

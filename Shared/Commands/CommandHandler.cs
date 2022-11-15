@@ -36,10 +36,12 @@ internal sealed class CommandHandler
     /// <summary>Implicitly registers <see cref="IConsoleCommand"/> types in the specified namespace.</summary>
     /// <param name="helper">The <see cref="ICommandHelper"/> API for the current mod.</param>
     /// <param name="namespace">The desired namespace.</param>
-    internal static void FromNamespace(ICommandHelper helper, string @namespace)
+    /// <param name="entry">The <see cref="string"/> used as entry for all handled <see cref="IConsoleCommand"/>s.</param>
+    /// <param name="mod">Human-readable name of the providing mod.</param>
+    internal static void FromNamespace(ICommandHelper helper, string @namespace, string entry, string mod)
     {
         Log.D($"[CommandHandler]: Gathering commands in {@namespace}...");
-        new CommandHandler(helper).HandleImplicitly(helper, t => t.Namespace?.StartsWith(@namespace) == true);
+        new CommandHandler(helper).HandleImplicitly(helper, t => t.Namespace?.StartsWith(@namespace) == true).Register(entry, mod);
     }
 
     /// <summary>Implicitly registers <see cref="IConsoleCommand"/> types with the specified attribute.</summary>
@@ -115,7 +117,7 @@ internal sealed class CommandHandler
     /// <summary>Implicitly handles <see cref="IConsoleCommand"/> types using reflection.</summary>
     /// <param name="helper">The <see cref="ICommandHelper"/> API for the current mod.</param>
     /// <param name="predicate">An optional condition with which to limit the scope of handled <see cref="IConsoleCommand"/>s.</param>
-    private void HandleImplicitly(ICommandHelper helper, Func<Type, bool>? predicate = null)
+    private CommandHandler HandleImplicitly(ICommandHelper helper, Func<Type, bool>? predicate = null)
     {
         predicate ??= t => true;
         var commandTypes = AccessTools
@@ -163,5 +165,6 @@ internal sealed class CommandHandler
         }
 
         Log.D("[CommandHandler]: Command initialization completed.");
+        return this;
     }
 }

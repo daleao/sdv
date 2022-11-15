@@ -3,10 +3,9 @@
 #region using directives
 
 using DaLion.Ligo.Modules.Arsenal.Weapons.Events;
+using DaLion.Shared.Harmony;
 using HarmonyLib;
-using Shared.Harmony;
 using StardewValley;
-using StardewValley.Tools;
 
 #endregion using directives
 
@@ -25,14 +24,11 @@ internal sealed class FarmerCanMoveNowPatcher : HarmonyPatcher
     [HarmonyPostfix]
     private static void FarmerCanMoveNowPostfix(Farmer who)
     {
-        if (who.CurrentTool is not MeleeWeapon weapon || ModEntry.State.Arsenal.ComboHitStep == ComboHitStep.Idle)
+        if (!who.IsLocalPlayer)
         {
             return;
         }
 
-        ModEntry.State.Arsenal.WeaponSwingCooldown = 400 - (weapon.speed.Value * 20);
-        ModEntry.State.Arsenal.WeaponSwingCooldown *= (int)(1f - who.weaponSpeedModifier);
-        ModEntry.State.Arsenal.WeaponSwingCooldown /= 15;
         ModEntry.Events.Enable<ComboResetUpdateTickedEvent>();
     }
 

@@ -4,6 +4,7 @@
 
 using DaLion.Shared.Events;
 using StardewModdingAPI.Events;
+using StardewValley.Tools;
 
 #endregion using directives
 
@@ -18,10 +19,25 @@ internal sealed class ComboResetUpdateTickedEvent : UpdateTickedEvent
     }
 
     /// <inheritdoc />
+    protected override void OnEnabled()
+    {
+        var who = Game1.player;
+        if (who.CurrentTool is not MeleeWeapon weapon || ModEntry.State.Arsenal.ComboHitStep == ComboHitStep.Idle)
+        {
+            return;
+        }
+
+        ModEntry.State.Arsenal.WeaponSwingCooldown = 400 - (weapon.speed.Value * 20);
+        ModEntry.State.Arsenal.WeaponSwingCooldown = (int)(ModEntry.State.Arsenal.WeaponSwingCooldown * (1f - who.weaponSpeedModifier));
+    }
+
+    /// <inheritdoc />
     protected override void OnUpdateTickedImpl(object? sender, UpdateTickedEventArgs e)
     {
-        if (--ModEntry.State.Arsenal.WeaponSwingCooldown > 0)
+        ModEntry.State.Arsenal.WeaponSwingCooldown -= Game1.currentGameTime.ElapsedGameTime.Milliseconds;
+        if (ModEntry.State.Arsenal.WeaponSwingCooldown > 0)
         {
+            Log.D($"{ModEntry.State.Arsenal.WeaponSwingCooldown}");
             return;
         }
 
