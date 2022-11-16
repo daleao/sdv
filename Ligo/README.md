@@ -12,7 +12,7 @@ A complete and comprehensive rework of Stardew Valley gameplay mechanics, offeri
 
 This mod is a compilation of overhaul modules, each targeting a specific gameplay component or mechanic. The modular nature of this mod allows users to cherry-pick features to their liking while also preserving the deep native integration required between individual modules. This reduces the amount of code redundancy and improves code maintainability.
 
-## Current modules
+## Current Modules
 
 The available modules are listed below. **Please read this page carefuly in its entirety**. Modules can be toggled on or off individually, but **you must restart the game for those changes to take effect**. Some modules require specific enabling/disabling instructions you should pay attention to. These requirements are listed below.
 
@@ -32,7 +32,7 @@ All modules should be fully multiplayer and splitscreen-ready so long as all pla
 
 - **[Tweaks](./Modules/Tweex/README.md)** is the final module, and serves as a repository for smaller tweaks and fixes to inconsistencies not large enough to merit a separate module.
 
-## Installation and update
+## Installation & Update
 
 1. Extract the downloaded archive file into your local mods folder.
 2. Start the game once with SMAPI to generate a config file.
@@ -42,7 +42,7 @@ All modules should be fully multiplayer and splitscreen-ready so long as all pla
 As with any mod, always **delete any previous installation completely** before updating. 
 **The use of Vortex or other mod managers is not recommended for Stardew Valley.**
 
-## Credits & thanks
+## Credits & Thanks
 
 Despite questionable programming decisions, **ConcernedApe** is deeply appreciated for his work creating and supporting Stardew Valley for both players and modders. Equally appreciated is the work of [Pathoschild][user:pathoschild], creator of [SMAPI][url:smapi] and god of the mod-verse.
 
