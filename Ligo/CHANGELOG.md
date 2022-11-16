@@ -1,11 +1,11 @@
-﻿# Ligo Change Logs
+# Ligo Change Logs
 
 ## Release Highlights
 
 * Initial release of LIGO.
 * Initial release of the [Arsenal](Modules/Arsenal/README.md) module. Check it out for tons of new features.
 * Changes to Slingshot [Professions](Modules/Professions/README.md) to accomodate the changes introduced by Arsenal.
-* New Prestiged profession icons.
+* New icons for prestiged professions.
 * Introduction of Gemstone Music Theory in the [Rings](Modules/Rings/README.md) module.
 
 ## Detailed Change Logs
