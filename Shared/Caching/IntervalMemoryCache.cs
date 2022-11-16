@@ -1,4 +1,4 @@
-﻿namespace DaLion.Shared.Caching;
+namespace DaLion.Shared.Caching;
 
 #region using directives
 
@@ -9,8 +9,11 @@ using System.Collections.Generic;
 /// <summary>A memory cache with sliding expiry based on custom intervals, with no background processing.</summary>
 /// <typeparam name="TKey">The cache key type.</typeparam>
 /// <typeparam name="TValue">The cache value type.</typeparam>
-/// <remarks>This is optimized for small caches that are reset relatively rarely. Each cache entry is marked as hot (accessed since the interval started) or stale.
-/// When a new interval is started, stale entries are cleared and hot entries become stale.</remarks>
+/// <remarks>
+///        This is optimized for small caches that are reset relatively rarely. Each cache entry is marked as hot (accessed since the interval started) or stale.
+///        When a new interval is started, stale entries are cleared and hot entries become stale.
+///        Pulled from <see href="https://github.com/Pathoschild/SMAPI/tree/develop/src/SMAPI/Modules/StateTracking">SMAPI</see>.
+/// </remarks>
 internal sealed class IntervalMemoryCache<TKey, TValue>
     where TKey : notnull
 {

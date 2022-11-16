@@ -1,4 +1,4 @@
-﻿namespace DaLion.Shared.Watchers;
+namespace DaLion.Shared.Watchers;
 
 #region using directives
 
@@ -9,6 +9,7 @@ using System.Collections.Generic;
 
 /// <summary>A watcher which detects changes to a value using a specified <see cref="IEqualityComparer{T}"/> instance.</summary>
 /// <typeparam name="TValue">A comparable value type.</typeparam>
+/// <remarks>Pulled from <see href="https://github.com/Pathoschild/SMAPI/tree/develop/src/SMAPI/Modules/StateTracking">SMAPI</see>.</remarks>
 internal class ComparableValueWatcher<TValue> : IValueWatcher<TValue>
 {
     /// <summary>Get the current value.</summary>
