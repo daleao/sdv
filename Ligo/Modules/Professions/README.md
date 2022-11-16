@@ -25,7 +25,7 @@
 	<li><a href="#prestige">Prestige</a></li>
 	<li><a href="#special-abilities">Special Abilities</a></li>
 	<li><a href="#compatibility">Compatibility</a></li>
-	<li><a href="#installation">FAQ</a></li>
+	<li><a href="#faq">FAQ</a></li>
 	<li><a href="#recommended-mods">Recommended Mods</a></li>
 	<li><a href="#for-c#-developers">For C# Developers</a></li>
 </ol>
@@ -209,26 +209,26 @@ The following mods are **not** compatible:
 
 ## FAQ
 
-**Will perks apply retroactively on an existing save?**
+**Will perks apply retroactively on an existing save?**     
 Yes.
   
-**Do Ecologist and Gemologist professions count forages/gems acquired before the profession?**
+**Do Ecologist and Gemologist professions count forages/gems acquired before the profession?**  
 No.
 
-**Do Artisan/Producer/Aquarist and similar professions based on ownership of a machine or building, apply retroactively to machines/buildings that have already been crafted/built?**
+**Do Artisan/Producer/Aquarist and similar professions based on ownership of a machine or building, apply retroactively to machines/buildings that have already been crafted/built?**   
 Yes.
 
-**Can Luremaster and Conservationist work together?**
+**Can Luremaster and Conservationist work together?**   
 Yes, otherwise the whole Prestige system wouldn't make a lot of sense.  
   
-**Can I obtain all prestige professions simultaneously?**  
+**Can I obtain all prestige professions simultaneously?**   
 No, sorry. Making tough choices is part of this mod's design.  
 You can cheat them in with console commands if you really want (`profs add -p all`).  
   
 **Can I obtain all Special Abilities simultaneously?**  
 No.
 
-**What do Legendary Fish produce in Fish Ponds? How long do they take to multiply?**  
+**What do Legendary Fish produce in Fish Ponds? How long do they take to multiply?**    
 They will obey whatever is set for them in the [FishPondData][wiki:fishponddata] file.  
 By default they don't multiply, have no quests, and only produce Roe.  
 This can be changed to whatever you like by using Content Patcher to target FishPondData.  
