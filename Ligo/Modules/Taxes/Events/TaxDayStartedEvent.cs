@@ -1,4 +1,4 @@
-﻿namespace DaLion.Ligo.Modules.Taxes.Events;
+namespace DaLion.Ligo.Modules.Taxes.Events;
 
 #region using directives
 
@@ -28,7 +28,7 @@ internal sealed class TaxDayStartedEvent : DayStartedEvent
         Game1.player.Money -= ModEntry.State.Taxes.LatestDebit;
         Game1.addHUDMessage(
             new HUDMessage(
-                ModEntry.i18n.Get("debt.debit", new { amount = ModEntry.State.Taxes.LatestDebit }),
+                ModEntry.i18n.Get("debt.debit", new { amount = ModEntry.State.Taxes.LatestDebit.ToString() }),
                 HUDMessage.newQuest_type) { timeLeft = HUDMessage.defaultTime * 2 });
         ModEntry.State.Taxes.LatestDebit = 0;
         this.Disable();
