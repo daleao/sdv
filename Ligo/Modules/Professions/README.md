@@ -269,6 +269,7 @@ To consume the API, copy both interfaces from the [Shared.Integrations.Ligo](../
 <!-- MOD LINKS -->
 [mod:ordinator]: <https://www.nexusmods.com/skyrimspecialedition/mods/1137> "Ordinator"
 [mod:w3ee]: <https://www.nexusmods.com/witcher3/mods/3522> "W3EE"
+[mod:sve]: <https://www.nexusmods.com/stardewvalley/mods/3753> "Stardew Valley Expanded"
 [mod:spacecore]: <https://www.nexusmods.com/stardewvalley/mods/1348> "SpaceCore"
 [mod:luck]: <https://www.nexusmods.com/stardewvalley/mods/521> "Luck Skill"
 [mod:cooking]: <https://www.nexusmods.com/stardewvalley/mods/522> "Cooking Skill"
@@ -293,9 +294,6 @@ To consume the API, copy both interfaces from the [Shared.Integrations.Ligo](../
 [mod:con]: <https://www.nexusmods.com/stardewvalley/mods/5966> "Custom Ore Nodes"
 [mod:tfo]: <https://www.nexusmods.com/stardewvalley/mods/866/> "Teh's Fishing Overhaul"
 [mod:forage-pointers]: <https://www.nexusmods.com/stardewvalley/mods/7781> "Forage Pointers"
-[mod:vintage-ui]: <https://www.nexusmods.com/stardewvalley/mods/4697> "Vintage Interface"
-[mod:sve]: <https://www.nexusmods.com/stardewvalley/mods/3753> "Stardew Valley Expanded"
-[mod:cjb-cheats]: <https://www.nexusmods.com/stardewvalley/mods/4> "CJB Cheats Menu"
 [mod:myc]: <https://www.nexusmods.com/stardewvalley/mods/6069> "Multi Yield Crops"
 [mod:mushroom-boxes]: <https://www.nexusmods.com/stardewvalley/mods/10296> "Craftable Mushroom Boxes"
 [mod:better-beehouses]: <https://www.nexusmods.com/stardewvalley/mods/10996> "Better Beehouses"
@@ -304,10 +302,13 @@ To consume the API, copy both interfaces from the [Shared.Integrations.Ligo](../
 [mod:forage-fantasy]: <https://www.nexusmods.com/stardewvalley/mods/7554> "Forage Fantasy"
 [mod:better-slingshots]: <https://www.nexusmods.com/stardewvalley/mods/2067> "Better Slingshots"
 [mod:ring-overhaul]: <https://www.nexusmods.com/stardewvalley/mods/10669> "Ring Overhaul"
+[mod:slime-produce]: <https://www.nexusmods.com/stardewvalley/mods/7634> "Slime Produce"
 [mod:capstone]: <https://www.nexusmods.com/stardewvalley/mods/7636> "Capstone Professions"
 [mod:all-professions]: <https://www.nexusmods.com/stardewvalley/mods/174> "All Professions"
 [mod:prestige]: <https://www.nexusmods.com/stardewvalley/mods/569> "Skill Prestige"
 [mod:icons-redone]: <https://www.nexusmods.com/stardewvalley/mods/4163> "Profession Icons Redone"
+[mod:vintage-ui]: <https://www.nexusmods.com/stardewvalley/mods/4697> "Vintage Interface"
+[mod:cjb-cheats]: <https://www.nexusmods.com/stardewvalley/mods/4> "CJB Cheats Menu"
 
 <!-- USER LINKS -->
 [user:enai]: <https://www.nexusmods.com/skyrimspecialedition/users/3959191> "Enai Siaion"
