@@ -41,6 +41,8 @@ This module was inspired by [Enai Siaion][user:enai]'s excellent [Ordinator][mod
 
 Integrations are provided out-of-the-box for several popular mods. See the [compatibility](#compatibility) section for details.
 
+This module is safe to enable or disable mid-save. However, please note that disabling this mod will have no effect on skill levels or acquired professions, so make sure to manually reset your skills and professions back to vanilla standards **before** disabling, using provided console commands.
+
 ## Professions
 
 The perks in *italics* refer to ![shield:prestige] variants. Written in *(parenthesis)*, these perks **replace**, and do not stack with, their regular counterpart.
@@ -262,7 +264,7 @@ To consume the API, copy both interfaces from the [Shared.Integrations.Ligo](../
 
 
 <!-- MARKDOWN LINKS & IMAGES -->
-[shield:prestige]: https://img.shields.io/badge/Prestige-yellow?style=plastic
+[shield:prestige]: https://img.shields.io/badge/Prestige-yellow?style=flat
 
 <!-- MOD LINKS -->
 [mod:ordinator]: <https://www.nexusmods.com/skyrimspecialedition/mods/1137> "Ordinator"

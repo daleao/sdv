@@ -1,4 +1,4 @@
-﻿namespace DaLion.Ligo;
+namespace DaLion.Ligo;
 
 /// <summary>Holds the runtime state variables of all the modules.</summary>
 internal sealed class ModState

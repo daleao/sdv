@@ -47,11 +47,11 @@
 
 </td></tr></table>
 
-## Intro
+## Overview
 
 What began as a simple weapon rebalance has become a huge overhaul of weapon mechanics, slingshot mechanics and combat itself. At last, the final module of the original Immersive Suite has arrived.
 
-
+Please note that existing melee weapons may not be affected if this mod is enabled mid-save. Please use [CJB Item Spawner][mod:cjb-spawner] or similar to delete and respawn all owned melee weapons after enabling or disabling this module.
 
 ## Melee Weapons
 

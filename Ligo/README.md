@@ -8,7 +8,6 @@ A complete and comprehensive rework of Stardew Valley gameplay mechanics, offeri
 
 </div>
 
-
 ## About this mod
 
 This mod is a compilation of overhaul modules, each targeting a specific gameplay component or mechanic. The modular nature of this mod allows users to cherry-pick features to their liking while also preserving the deep native integration required between individual modules. This reduces the amount of code redundancy and improves code maintainability.
@@ -20,26 +19,18 @@ The available modules are listed below. **Please read this page carefuly in its 
 All modules should be fully multiplayer and splitscreen-ready so long as all players have it installed. Unless explicitly stated otherwise, none of the modules are Android-compatible. Please refer to each module's specific documentation page for further details and compatibility information.
 
 - **[Professions](./Modules/Professions/README.md)** is the original and largest module. It overhauls all the game's professions with the goal of supporting more diverse and interesting playstyles. It also introduces all-new Prestige mechanics for very-late game save files, as well as exciting new Super Abilities for combat professions.
-    - This module is safe to enable or disable mid-save. However, please note that disabling this mod will have no effect on skill levels or acquired professions, so make sure to manually reset your skills and professions back to vanilla standards **before** disabling, using provided console commands.
 
 - **[Arsenal](./Modules/Arsenal/README.md)** is the second largest. It overhauls various aspects of both melee weapons and slingshots so as to diversify combat and provide viable alternatives to the ubiquitous sword. Included are all-new enchantments, weapon combos and one new weapon type, as well as novelty features for making legendary weapons truly legendary.
-    - Please note that existing melee weapons may not be affected if this mod is enabled mid-save. Please use [CJB Item Spawner][mod:cjb-spawner] or similar to delete and respawn all owned melee weapons after enabling or disabling this module.
 
 - **[Rings](./Modules/Rings/README.md)** mainly overhauls the Iridium Band, replacing the bland vanilla version with all-new forge mechanics and Gemstone Music Theory, which draws inspiration from real-life Music Theory to provide a more interesting and balance form of combining many rings. It also adds new crafting mechanics providing a more natural progression for ring development.
-    - After disabling this module, please use [CJB Item Spawner][mod:cjb-spawner] or similar to delete and respawn all owned Iridium Bands to avoid issues.
 
-- **[Ponds](./Modules/Ponds/README.md)** is a complement to the new Aquarist profession. It overhauls Fish Ponds as profitable alternatives meritting a spot on any farm.
-    - Before disabling this module, please manually fish out and then **clear** every Fish Pond instance to reset mod data in order to prevent issues.
-
+- **[Ponds](./Modules/Ponds/README.md)** is a complement to the new Aquarist profession. It allows Fish Ponds to remember the qualities of raised fishes, scales roe quantity and quality with population, and a few other interesting features.
+    
 - **[Taxes](./Modules/Taxes/README.md)** is a complement to the new Conservationist profession. It introduces a simple yet realistic taxation system as an added challenge and end-game gold sink. Because surely a nation at war would be all over your juicy farm income.
-    - This module can safely be enabled and disabled without issues.
-
+    -
 - **[Tools](./Modules/Tools/README.md)** is a simple mod allowing chargeable resource tools, customizable farming tools.
-    - This module can safely be enabled and disabled without issues.
-    - This module is android-compatible, provided as a separate, optional download.
 
 - **[Tweaks](./Modules/Tweex/README.md)** is the final module, and serves as a repository for smaller tweaks and fixes to inconsistencies not large enough to merit a separate module.
-    - This module can safely be enabled and disabled without issues.
 
 ## Installation and update
 

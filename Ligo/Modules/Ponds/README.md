@@ -16,6 +16,8 @@ This module makes Fish Ponds useful and immersive by implementing the following 
 
 This module is intended to complemented the [Professions](../Professions) module and its Aquarist profession, but can be used without it.
 
+**Before disabling this module, please manually fish out and then ***clear*** every Fish Pond instance to reset mod data in order to prevent issues.**
+
 ## Compatibility
 
 - Compatible with Content Patcher packs which apply visual changes to Fish Ponds or which edit Fish Pond Data
