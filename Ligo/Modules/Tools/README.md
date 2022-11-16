@@ -1,10 +1,10 @@
-<table align="center"><tr><td align="center" width="9999">
+<div align="center">
 
 # ![](https://i.imgur.com/6sWaRit.png) Ligo :: Tools ![](https://i.imgur.com/4rYYYCD.png)
 
-</td></tr></table>
+</div>
 
-## Features
+## Overview
 
 This module is inspired by the tool progression system of old Harvest Moon: Friends of Mineral Town, where the Axe and Hammer tools were also chargeable, and their ultimate upgrades could destroy all debris on-screen.
 
@@ -60,11 +60,3 @@ The tools are compatible withThis mod uses Harmony to patch the behavior of Axe 
 - Compatible with [Harvest Moon FoMT-like Watering Can And Hoe Area](https://www.nexusmods.com/stardewvalley/mods/7851) as long as you don't touch Hoe and Watering Can settings (although you can just set them to the same values used by that mod to achieve the same effect).
 - Compatible with [Generic Mod Config Menu](https://www.nexusmods.com/stardewvalley/mods/5098).
 - **Not** compatible with the likes of [Combat Controls - Fixed Mouse Click](https://www.nexusmods.com/stardewvalley/mods/2590) or [Combat Controls Ligo](https://www.nexusmods.com/stardewvalley/mods/10496), as those features are already included in this and other Ligo modules.
-
-## Uninstallation
-
-Safe to uninstall or disable without special measures.
-
-## Special Thanks
-
-- [Pathoschild](https://www.nexusmods.com/stardewvalley/users/1552317) for their [TractorMod](https://www.nexusmods.com/stardewvalley/mods/1401), from which this mod ~~steals~~ borrows much of its code.

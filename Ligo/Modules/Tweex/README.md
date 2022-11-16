@@ -1,10 +1,10 @@
-<table align="center"><tr><td align="center" width="9999">
+<div align="center">
 
 # Ligo :: Tweex
 
-</td></tr></table>
+</div>
 
-## Features
+## Overview
 
 This module is a collection of small tweaks and fixes to several vanilla inconsistencies or balancing issues not large enough to merit a separate module.
 
@@ -21,7 +21,3 @@ All features can be toggled on or off.
 ## Compatibility
 
 - [Forage Fantasy](https://www.nexusmods.com/stardewvalley/mods/7554) has several conflicting features, but can be used together with this module if you pay attention to the configs of both mods.
-
-## Uninstallation
-
-Safe to uninstall or disable without special measures.

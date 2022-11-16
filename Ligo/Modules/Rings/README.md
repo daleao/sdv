@@ -1,41 +1,41 @@
-<table align="center"><tr><td align="center" width="9999">
+<div align="center">
 
 # Ligo :: Rings
 
-</td></tr></table>
+</div>
 
-## Features
+## Overview
 
 This module brings several immersive changes to vanilla rings and major new ring mechanics.
 All features can be toggled on or off.
 
-### Glow and Magnet Rings
+## Ring Crafting Progression
 
-- Adds missing ring crafting recipes and rebalances vanilla recipes to establish a clear crafting progression.
-    - Glow and Magnet rings are given new crafting recipes which consume their smaller counterparts.
-    - The recipe for the Glowstone Ring is replaced to actually consume one Glow and one Magnet rings.
+The vanilla game does not allow rings to be used as crafting ingredients. This module bypasses that limitation, allowing, in particular, Glow and Magnet rings to be crafted from their smaller counterparts, and the Glowstone Ring to be crafted from the former two. This is not only more immersive, but also provides a more natural progression, making the hoards of small ring drops actually useful.
 
-### Gemstone Rings
+In addition, new progressive crafting recipes are added for each of the gemstone rings, with corresponding visual changes.
+    - **Amethyst and Topaz:** *combat level 2, requires Copper Bars.*
+    - **Aquamarine and Jade:** *combat level 4, requires Iron Bars.*
+    - **Emerald and Ruby:** *combat level 6, requires Gold Bars.*
 
-- Adds progressive crafting recipes with corresponding visuals.
-    - **Amethyst and Topaz:** *combat level 2, uses copper bars.*
-    - **Aquamarine and Jade:** *combat level 4, uses iron bars.*
-    - **Emerald and Ruby:** *combat level 6, uses gold bars.*
-
-- Rebalances the Jade and Topaz rings.
-    - **Jade:** *+10% -> +50% crit. power.* A 10% boost to crit. power is a 10% damage boost that *only* applies to crits. To put that in perspective, it means that only if the player has 100% crit. chance they will receive an overall 10% boost to damage. It should be clear that this is complete garbage next to the Ruby Ring, which straight up grants an overall 10% boost to damage. At 50% crit. power, the Jade Ring becomes a better choice than the Ruby Ring if the player has at least 20% crit. chance, which should be attainable by any weapon type. Above that threshold, Jade Ring becomes significantly stronger.
-    - **Topaz:** *literally nothing -> +1 defense.* Since the precision stat is unused in the Vanilla game, the Topaz Ring was completely useless. ConcernedApe realized this, which is why he made the Topaz Enchantment grant defense instead. This change makes the Topaz Ring consistent with the Topaz Enchantment.
-
-- Adds the Garnet gemstone and Garnet Ring. This ring grants 10% cooldown reduction to special moves, which compensates for the lack of Acrobat profession in [Walk Of Life](https://www.nexusmods.com/stardewvalley/mods/8111).
-    - Corresponding Garnet mining nodes are also added via an included [Custom Ore Nodes](https://www.nexusmods.com/stardewvalley/mods/5966) content pack. If you don't install Custom Ore Nodes, Garnets will be unobtainable in-game.
-
-### Infinity Band
+## Infinity Band
 
 In Vanilla, the Iridium Band is an instant 3-rings-in-1 which can also be forged to get a 4-rings-in-1. It completely triviliazes Glow Rings, Magnet Ring and even the brand new Glowstone Ring, introduced in patch 1.5. This module aims to solve all of these issues while also alluding to everyone's favorite cinematic universe.
 
 The iridium Band is completely overhauled. Initially, a newly crafted Iridium Band will grant no effects at all. Only with access to the Forge will you be able to awaken its true form, infusing a Galaxy Soul to transform it into an **Infinity Band**.
 
 The Infinity Band likewise does nothing on its own, but it serves as a vessel for up to **four** gemstones. To add a gemstone to the Infinity Band, you must fuse it with a gemstone ring at the Forge. The same type of gemstone can be added more than once, compounding the effect. Alternatively, combining different gemstones will potentially lead to powerful **Resonances**.
+
+### Gemstone Rebalance
+
+There are two problematic gemstones in vanilla: Jade and Topaz. This modules rebalances their effects to be on-par with the ubiquitous Ruby.
+    - **Jade:** *+10% -> +50% crit. power.* A 10% boost to crit. power is a 10% damage boost that *only* applies to crits. To put that in perspective, if the player has 100% crit. chance then they will receive an overall 10% boost to damage. It should be clear that this is complete garbage next to a Ruby Ring, which straight up grants a 10% boost to damage, but *all the time*. At 50% crit. power, the Jade Ring becomes a better choice than the Ruby Ring if the player has at least 20% crit. chance, which should be attainable by any weapon type given an appropriate build. Above that threshold, Jade Ring becomes significantly stronger.
+    - **Topaz:** *literally nothing -> +1 defense.* Since the precision stat is unused in the Vanilla game, the Topaz Ring was completely useless. ConcernedApe realized this, which is why he made the Topaz Enchantment grant defense instead. This change makes the Topaz Ring consistent with the Topaz Enchantment. If the [Arsenal](../Arsenal) module's Defense Overhaul is enabled, this will be converted to 10% damage reduction.
+
+To achieve the intended balance for all gemstones, make sure to enable the [Arsenal](../Arsenal) module.
+
+Finally, this module also introduces the Garnet gemstone and Garnet Ring. This ring adds cooldown reduction as the seventh combat stat, compensating for the removed Acrobat profession by the [Professions](../Professions) module and completing the Diatonic Gemstone Scale.
+    - Corresponding Garnet mining nodes are also added via an included [Custom Ore Nodes](https://www.nexusmods.com/stardewvalley/mods/5966) content pack. If you don't install Custom Ore Nodes, Garnets will be unobtainable in-game.
 
 ### Resonance
 

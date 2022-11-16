@@ -1,10 +1,10 @@
-<table align="center"><tr><td align="center" width="9999">
+<div align="center">
 
-# Serfdom - Immersive Taxes
+# Ligo :: Taxes
 
-</td></tr></table>
+</div>
 
-## Features
+## Overview
 
 This mod implements a simple taxation system to the game, because surely a nation at war would be on top of that juicy end-game income.
 
@@ -19,7 +19,3 @@ If the [Professions](../Professions) module is enabled and the player has the Co
 ## Compatibility
 
 Should be compatible with anything (including [Ferngill Revenue Service](https://www.nexusmods.com/stardewvalley/mods/7566, but please don't try using both together).
-
-## Uninstallation
-
-Safe to uninstall or disable without special measures.
