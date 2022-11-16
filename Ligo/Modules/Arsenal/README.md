@@ -1,12 +1,14 @@
-<table align="center"><tr><td align="center" width="9999">
+<div align="center">
 
 # Ligo :: Arsenal
+
+</div>
 
 <!-- TABLE OF CONTENTS -->
 <details open="open" align="left">
   <summary>Table of Contents</summary>
   <ol>
-    <li><a href="#intro">Intro</a></li>
+    <li><a href="#overview">Overview</a></li>
     <li>
       <a href="#melee-weapons">Melee Weapons</a>
       <ul>
@@ -45,13 +47,11 @@
   </ol>
 </details>
 
-</td></tr></table>
-
 ## Overview
 
 What began as a simple weapon rebalance has become a huge overhaul of weapon mechanics, slingshot mechanics and combat itself. At last, the final module of the original Immersive Suite has arrived.
 
-Please note that existing melee weapons may not be affected if this mod is enabled mid-save. Please use [CJB Item Spawner][mod:cjb-spawner] or similar to delete and respawn all owned melee weapons after enabling or disabling this module.
+Please note that existing weapon will not be immediately be affected by all changes provided by this module if it is enabled mid-save. Please use [CJB Item Spawner][mod:cjb-spawner] or similar to delete and respawn all owned melee weapons after enabling or disabling this module.
 
 ## Melee Weapons
 
@@ -59,11 +59,12 @@ One of the issues with melee weapons in vanilla is the supremacy of the sword, w
 
 Another issue is the futility of most weapon stats; in vanilla, damage is king when choosing rings and forges, and the remaining five weapon stats (crit. chance, crit. power, knockback, speed and precision) are mostly, if not completely, useless. Crit. stats tend to be avoided due to the difficulty in building significant crit. chance; knockback and speed are ignored, again because the sword already offers enough of both, and precision does absolutely nothing.
 
-This module seeks to fix all of these issues, rebalance all three weapon types while preserving their identities, and also add strategic value to all buildable weapon stats, allowing players to experiment a variety of different builds and playstyles. To achieve this, this module uses a combination of nerfs, buffs and entirely new mechanics which will overall make combat significantly more challenging. Players who don't care for a challenge or are uninsterested in combat should probably keep this whole module disabled.
+This module seeks to fix all of these issues, rebalance all weapon types while preserving their identities, and also add strategic value to all buildable weapon stats, allowing players to experiment a variety of different builds and playstyles. To achieve this, this module uses a combination of nerfs, buffs and entirely new mechanics which will overall make combat significantly more challenging. Players who don't care for a challenge or are uninsterested in combat should probably keep this whole module disabled.
 
-### Knockback
+### Stabbing Swords
 
-Knockback has been nerfed across the board. In vanilla, the default knockback for swords is the sweet spot, and the higher knockback offered by clubs is often more of a nuisance than a perk. Now, club knockback has become the sweet spot, and sword users will be forced to build knockback bonuses to achieve the same effect.
+In vanilla game code we can find traces of an abandoned fourth weapon type: **stabbing swords**. We can conclude that Concerned Ape did originally intend for some swords to *not* have the infamously hated and widely ignored defensive parry special move. This module thus reintroduces stabbing swords into the game, along with a brand new special move, which means that sword players can finally have an offensive special move: 
+pressing the action button with a stabbing sword equipped will perform a forwards dash attack, which allows for quick repositioning while also damaging enemies along the way. The player is also invincible during the dash.
 
 ### Combos & Swing Speed
 
@@ -72,6 +73,10 @@ Rather than naively nerfing or buffing the swing speed of different weapons, we 
 Swing speed bonuses from emerald rings and forges have also been revamped. In vanilla, these bonuses would only reduce the duration of the final frame of the attack, which in fact consists of six frames in total. Now, every single frame will benefit from the speed stat, as well as the cooldown in between combos. This should make speed a significantly more valuable stat, making fast-hitting club builds a viable option.
 
 Note that daggers, unlike the other two weapon types, have single-frame animations. As such, their attacks are near-instantaneous by default, and thus will gain little to no benefit from swing speed bonuses even with these changes.
+
+### Knockback
+
+Knockback has been nerfed across the board. In vanilla, the default knockback for swords is the sweet spot, and the higher knockback offered by clubs is often more of a nuisance than a perk. Now, club knockback has become the sweet spot, and sword users will be forced to build knockback bonuses to achieve the same effect.
 
 ### Critical Hits
 
@@ -86,11 +91,6 @@ Criticals are quite awkward in vanilla; the base crit. multiplier of all weapons
 This makes clubs unreliable as crit. weapons, but capable of packing a punch if putting the effort to build-up the crit. chance. On the other hand, daggers are reliable crit. weapons, but require some extra crit. multipliers to reach the damage potential of the other weapon types. This is supported by the enchantment changes further below, as well as the [Rings](../Rings) module.
 
 Note that daggers, as in vanilla, continue to gain slightly more out of each crit. point than other weapons.
-
-### Stabbing Swords
-
-In vanilla game code we can find traces of an abandoned fourth weapon type: **stabbing swords**. We can conclude that Concerned Ape did originally intend for some swords to *not* have the infamously hated and widely ignored defensive parry special move. This module thus reintroduces stabbing swords into the game, along with a brand new special move, which means that sword players can finally have an offensive special move: 
-pressing the action button with a stabbing sword equipped will perform a forwards dash attack, which allows for quick repositioning while also damaging enemies along the way. The player is also invincible during the dash.
 
 ### Enchantments & Forges
 
@@ -166,7 +166,6 @@ Lastly, Radioactive Ore can now be used as ammo, dealing considerably more damag
 
 - Radioactive Ore: 80 damage
 
-
 ### Travel Grace Period
 
 In vanilla, you may have noticed that slingshot projectiles will travel right through and ignore enemies that get too close. This essentially makes the slingshot a useless weapon in close quarters. This module removes the grace period required before projectiles are allowed to deal damage, making slingshot a more reliable offensive option.
@@ -237,9 +236,3 @@ Last but not least, this module offers three sliders to taylor monster difficult
 - **Not** compatible with other mods that overhaul weapons or slingshots, such as [Better Slingshots](https://www.nexusmods.com/stardewvalley/mods/2067) and [Enhanced Slingshots](https://www.nexusmods.com/stardewvalley/mods/12763).
 - **Not** compatible with the likes of [Combat Controls - Fixed Mouse Click](https://www.nexusmods.com/stardewvalley/mods/2590) or [Combat Controls Ligo](https://www.nexusmods.com/stardewvalley/mods/10496), as those features are already included in this and other Ligo modules.
 - Compatible with [Advanced Melee Framework](https://www.nexusmods.com/stardewvalley/mods/7886) and related content packs, but I do not recommend using both together.
-
-## Installation
-
-This module can be enabled on existing saves.
-
-Before uninstalling Ligo or disabling this module, you **must disable BringBackStabbySword**, then load up your save and play through one day to pesist the changes. Failure to do so will cause your swords to become permanently unusable.
