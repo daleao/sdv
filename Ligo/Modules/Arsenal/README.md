@@ -1,7 +1,7 @@
 
 <div align="center">
 
-# Ligo :: Arsenal
+# ![](https://stardewvalleywiki.com/mediawiki/images/d/da/Steel_Smallsword.png) Ligo :: Arsenal ![](https://stardewvalleywiki.com/mediawiki/images/6/63/Master_Slingshot.png)
 
 </div>
 
@@ -68,7 +68,7 @@ The second issue is the futility of most weapon stats; damage is king when choos
 
 The third issue is the spammy nature of weapons; the speed stat in vanilla is doubly useless, because it only affects the last frame of the attack animation (i.e., the delay between attacks, and not the swipe animation as a whole), but also the game allows attacks to animation-cancel each other, bypassing that last frame. The result is that you can just spam click to attack continuously without penalty. This also adds to the futility of the sword's defensive special move.
 
-The fourth issue is the overabundance of weapons, especially swords, paired with how easy it is to obtain the best-in-slot weapons; nearly all of the unique and best weapons are freely given every 10 mine levels, not even including how easy it is to obtain the Galaxy Sword. This quickly trivializes any weapons obtained from drops, which end up serving as little more than inventory clutter. 
+The fourth issue is the overabundance of weapons, especially swords, with marginally different stats, combined how easy it is to obtain the best-in-slot weapons; nearly all of the unique and best weapons are freely given every 10 mine levels, not even including how easy it is to obtain the Galaxy Sword. This quickly trivializes any weapons obtained from drops, which end up serving as little more than inventory clutter. 
 
 A weapon overhaul must fix, or at least touch upon, all of these issues; it needs to rebalance all weapon types while preserving their identities, and also add strategic value to all buildable weapon stats, allowing players to experiment a variety of different builds and playstyles. To achieve this, this module uses a combination of nerfs, buffs and entirely new mechanics which will overall make combat significantly more challenging. Players who don't care for a challenge or are uninsterested in combat should probably keep this whole module disabled.
 
