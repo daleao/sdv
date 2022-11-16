@@ -6,6 +6,8 @@
 # Arsenal
 - Refactor Monster Carved from Data Field to Virtual Property.
 - Add Util logic for automatically updating owned weapons.
+- Move weapon patching callback into Weapons namespace.
+- Add config setting for weapon patching.
 - Review melee weapon drift during normal attack.
 - Review combo overlap.
 
