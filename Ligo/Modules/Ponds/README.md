@@ -1,10 +1,10 @@
-<table align="center"><tr><td align="center" width="9999">
+<div align="center">
 
 # Ligo :: Ponds
 
-</td></tr></table>
+</div>
 
-## Features
+## Overview
 
 This module makes Fish Ponds useful and immersive by implementing the following features:
 
@@ -18,15 +18,8 @@ This module is intended to complemented the [Professions](../Professions) module
 
 ## Compatibility
 
-- Compatible with Content Patcher packs that edit Fish Ponds or FishPondData
+- Compatible with Content Patcher packs which apply visual changes to Fish Ponds or which edit Fish Pond Data
 - Compatible with [Pond Painter](https://www.nexusmods.com/stardewvalley/mods/4703).
 - **Not** compatible with [Anything Pond](https://www.nexusmods.com/stardewvalley/mods/4702) or [Quality Fish Ponds](https://www.nexusmods.com/stardewvalley/mods/11021).
 - **Not** compatible with [Smaller Fish Ponds](https://www.nexusmods.com/stardewvalley/mods/7651)﻿ due to a bug in that mod which prevents Fish Wells from persisting mod data.
 
-## Uninstallation
-
-Before uninstalling Ligo or disabling this module, please make sure to **fish out and clear all ponds** to remove rogue mod data.
-
-## Special Thanks
-
-- [MouseyPounds](https://www.nexusmods.com/stardewvalley/users/3604264), author of Anything Ponds, for the idea of spontaneous algae growth.
