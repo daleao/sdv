@@ -2,3 +2,5 @@
 - Add stamina customization to Tools module.
 - Add Scythe settings to Tools module, with AoE customization. 
 - Automatic update of all owned weapons (Arsenal).
+- Review melee weapon drift during normal attack.
+- Review combo overlap.

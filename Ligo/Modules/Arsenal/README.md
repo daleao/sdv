@@ -1,3 +1,4 @@
+
 <div align="center">
 
 # Ligo :: Arsenal
@@ -10,40 +11,44 @@
   <ol>
     <li><a href="#overview">Overview</a></li>
     <li>
-      <a href="#melee-weapons">Melee Weapons</a>
+      <a href="#melee-weapons-rework">Melee Weapons Rework</a>
       <ul>
-        <li><a href="#knockback">Knockback</a></li>
-        <li><a href="#combos-swing-speed">Combos & Swing Speed</a></li>
-        <li><a href="#critical-hits">Critical Hits</a></li>
-        <li><a href="#stabbing-swords">Stabbing Swords</a></li>
-        <li><a href="#enchantments-forged">Enchantments & Forges</a></li>
-        <li><a href="#special-moves">Special Moves</a></li>
+        <li><a href="#combos-and-swing-speed">Combos and Swing Speed</a></li>
+	    <li><a href="#knockback-mechanics">Knockback Mechanics</a></li>    
+        <li><a href="#defense-mechanics">Defense Mechanics</a></li>
+        <li><a href="#weapon-stats">Weapon Stats</a></li>
+        <li><a href="#stabbing-swords-and-special-moves">Stabbing Swords and Special Moves</a></li>
       </ul>
     </li>
     <li>
-      <a href="#slingshots">Slingshots</a></li>
+      <a href="#slingshots">Slingshots Rework</a></li>
       <ul>
         <li><a href="#critical-hits">Critical Hits</a></li>
         <li><a href="#special-move">Special Move</a></li>
-        <li><a href="#enchantments-forged">Enchantments & Forges</a></li>
+        <li><a href="#forge-mechanics">Forges Mechanics</a></li>
         <li><a href="#damage-modifiers">Damage Modifiers</a></li>
         <li><a href="#travel-grace-period">Travel Grace Period</a></li>
-        <li><a href="#snowballs">Snowballs</a></li>
       </ul>
     </li>
     <li>
-      <a href="#general">General</a></li>
+      <a href="#general">Enchantments & Forges</a></li>
       <ul>
-        <li><a href="#defense-overhaul">Defense Overhaul</a></li>
-        <li><a href="#knockback-overhaul">Knocback Overhaul</a></li>
+        <li><a href="#defense-overhaul">Gemstone Forges</a></li>
+        <li><a href="#weapon-enchantments">Weapon Enchantments</a></li>
+        <li><a href="#slingshot-enchantments">Slingshot Enchantments</a></li>
+      </ul>
+    </li>
+    <li>
+      <a href="#general">Other Features</a></li>
+      <ul>
+	    <li><a href="#facing-direction-and-slick-moves">Facing Direction and Slick Moves</a></li>
         <li><a href="#infinity-1-weapons">Infinity +1 Weapons</a></li>
         <li><a href="#woody-replaces-rusty">Woody Replaces Rusty</a></li>
-        <li><a href="#facing-direction-slick-moves">Facing Direction & Slick Moves</a></li>
+        <li><a href="#snowballs">Snowballs</a></li>
+        <li><a href="#difficulty-sliders">Difficulty Sliders</a></li>
       </ul>
     </li>
     <li><a href="#recommended-mods">Compatibility</a></li>
-    <li><a href="#installation">Installation</a></li>
-    <li><a href="#special-thanks">Special Thanks</a></li>
   </ol>
 </details>
 
@@ -53,34 +58,49 @@ What began as a simple weapon rebalance has become a huge overhaul of weapon mec
 
 Please note that existing weapon will not be immediately be affected by all changes provided by this module if it is enabled mid-save. Please use [CJB Item Spawner][mod:cjb-spawner] or similar to delete and respawn all owned melee weapons after enabling or disabling this module.
 
-## Melee Weapons
+## Melee Weapons Rework
 
-One of the issues with melee weapons in vanilla is the supremacy of the sword, which combines the speed of the dagger with the knockback of the club. Several mods have attempted to balance this issue by increasing the knockback of the dagger, or increasing the speed of the club. But that solution is disingenuous in that all it does is make every weapon behave like a sword; the identity of each weapon type is lost in the process.
+Vanilla weapons have several issues.
 
-Another issue is the futility of most weapon stats; in vanilla, damage is king when choosing rings and forges, and the remaining five weapon stats (crit. chance, crit. power, knockback, speed and precision) are mostly, if not completely, useless. Crit. stats tend to be avoided due to the difficulty in building significant crit. chance; knockback and speed are ignored, again because the sword already offers enough of both, and precision does absolutely nothing.
+The first issue is the supremacy of the sword, which combines the speed of the dagger with the knockback of the club. Several mods have attempted to rebalance weapons by increasing the knockback of daggers or increasing the speed of clubs. But that solution is disingenuous, making every weapon behave like a sword; the identity of each weapon type is lost in the process.
 
-This module seeks to fix all of these issues, rebalance all weapon types while preserving their identities, and also add strategic value to all buildable weapon stats, allowing players to experiment a variety of different builds and playstyles. To achieve this, this module uses a combination of nerfs, buffs and entirely new mechanics which will overall make combat significantly more challenging. Players who don't care for a challenge or are uninsterested in combat should probably keep this whole module disabled.
+The second issue is the futility of most weapon stats; damage is king when choosing rings and forges, and the remaining five weapon stats (crit. chance, crit. power, knockback, speed and precision) are mostly, if not completely, useless: crit. stats tend to be avoided due to the difficulty in building significant crit. chance; knockback and speed are ignored, again because the sword already offers enough of both, and precision does absolutely nothing.
 
-### Stabbing Swords
+The third issue is the spammy nature of weapons; the speed stat in vanilla is doubly useless, because it only affects the last frame of the attack animation (i.e., the delay between attacks, and not the swipe animation as a whole), but also the game allows attacks to animation-cancel each other, bypassing that last frame. The result is that you can just spam click to attack continuously without penalty. This also adds to the futility of the sword's defensive special move.
 
-In vanilla game code we can find traces of an abandoned fourth weapon type: **stabbing swords**. We can conclude that Concerned Ape did originally intend for some swords to *not* have the infamously hated and widely ignored defensive parry special move. This module thus reintroduces stabbing swords into the game, along with a brand new special move, which means that sword players can finally have an offensive special move: 
-pressing the action button with a stabbing sword equipped will perform a forwards dash attack, which allows for quick repositioning while also damaging enemies along the way. The player is also invincible during the dash.
+The fourth issue is the overabundance of weapons, especially swords, paired with how easy it is to obtain the best-in-slot weapons; nearly all of the unique and best weapons are freely given every 10 mine levels, not even including how easy it is to obtain the Galaxy Sword. This quickly trivializes any weapons obtained from drops, which end up serving as little more than inventory clutter. 
 
-### Combos & Swing Speed
+A weapon overhaul must fix, or at least touch upon, all of these issues; it needs to rebalance all weapon types while preserving their identities, and also add strategic value to all buildable weapon stats, allowing players to experiment a variety of different builds and playstyles. To achieve this, this module uses a combination of nerfs, buffs and entirely new mechanics which will overall make combat significantly more challenging. Players who don't care for a challenge or are uninsterested in combat should probably keep this whole module disabled.
 
-Rather than naively nerfing or buffing the swing speed of different weapons, we notice that the real issue lies deeper: in the spammy nature of weapons. Taking inspiration from the Haunted Chocolatier trailer, this module introduces **weapon combos**, which allow short bursts of swing speed followed by a longer cooldown period. Sword combos can perform up to 3 hits, maintaining the above-average speed of swords but preventing them from being spammed continously. Club combos can perform up to 2 hits only, which should give them an edge over their vanilla counterparts while remaining significantly slower than swords. Daggers cannot combo; they remain unchanged from vanilla.
+### Combos and Swing Speed
 
-Swing speed bonuses from emerald rings and forges have also been revamped. In vanilla, these bonuses would only reduce the duration of the final frame of the attack, which in fact consists of six frames in total. Now, every single frame will benefit from the speed stat, as well as the cooldown in between combos. This should make speed a significantly more valuable stat, making fast-hitting club builds a viable option.
+Taking inspiration from the Haunted Chocolatier trailer, this module introduces **weapon combos**. These are short bursts of swing speed followed by a longer cooldown period. Sword combos can perform up to 4 hits, maintaining the above-average speed of swords but preventing them from being spammed continously. Club combos can perform up to 2 hits only, which should give them an edge over their vanilla counterparts while remaining significantly slower than swords. Daggers cannot combo; they remain unchanged from vanilla.
+
+Swing speed bonuses from emerald rings and forges now affect every single frame of the attack animation, as well as the cooldown in between combos. This should make speed a significantly more valuable stat.
 
 Note that daggers, unlike the other two weapon types, have single-frame animations. As such, their attacks are near-instantaneous by default, and thus will gain little to no benefit from swing speed bonuses even with these changes.
 
-### Knockback
+### Knockback Mechanics
 
-Knockback has been nerfed across the board. In vanilla, the default knockback for swords is the sweet spot, and the higher knockback offered by clubs is often more of a nuisance than a perk. Now, club knockback has become the sweet spot, and sword users will be forced to build knockback bonuses to achieve the same effect.
+Knocked-back enemies will now take damage porportional to the knockback stat when colliding with a wall or obstacle. This makes knockback a viable offensive stat in addition to its defensive value. This also means that positioning is now an important strategic combat element. The excessive knockback of vanilla weapons has also been nerfed by 25% to as much as 33% across the board.
 
-### Critical Hits
+### Defense Mechanics
 
-Criticals are quite awkward in vanilla; the base crit. multiplier of all weapons is a whopping 300%, but the base chance to score a crit. is a lousy 2%. This module seeks to normalize this discrepancy. Each weapon type has unique and inversely proportional base crit. chance and crit. power:
+Defense in vanilla is linearly subtracted from damage. There are several problems with this approach which make the defense stat unscalable:
+- While a single point of defense can easily mean a 50% damage reduction against early-game Green Slimes, that same point of defense is largely worthless against end-game monsters in the Volcano or difficult Mines.
+- Though it can be difficult to build sufficient defense, if enough mods are installed which introduce new ways to stack defense (as with earlier releases of the [Rings](../Rings) module), it becomes possible to essentially negate all damage and trivialize combat.
+
+This module introduces an exponential and multiplicative defense model:
+```
+resistance = 10 / (10 + defense)
+```
+One point of defense will now reduce incoming damage by 10% regardless of the enemy's damage, making it a consistently valuable stat throughout the game. Subsequent points in defense, however, will have diminishing returns, such that 100% damage negation is no longer possible to achieve.
+
+Note that this change applies to monsters as well as players! It is also significantly more noticeable on enemies, given the player's inflated damage versus the fact that most monsters have just a few points of defense. Now, those few points can easily cut your damage by half. Crit. strikes have the added benefit of ignoring enemy defense, meaning that critical builds will counter defensive enemies.
+
+### Weapon Stats
+
+Every weapon is given adjusted stats to accomodate and better fit the aforementioned changes. This includes changes to damage, in order to generate a more fluid progression in the Mines and compensate for the removal of weapons from chests. It also includes overall reductions in knockback and swing speed already described above. Criticals, in particular, are quite awkward in vanilla; all weapons share the exact same default crit. stats, with a whopping 300% crit. power and a lousy 2% crit. chance. The reworked stats seek to normalize the large discrepancy between crit. chance and power and also grant some identity to each weapon type.
 
 | Weapon Type | Crit. Chance  | Crit. Power |
 | ----------- | ------------- | ----------- |
@@ -88,15 +108,61 @@ Criticals are quite awkward in vanilla; the base crit. multiplier of all weapons
 | Dagger      | 1/8 or 12.5%  | 150%        |
 | Club        | 1/32 or 3.12% | 300%        |
 
-This makes clubs unreliable as crit. weapons, but capable of packing a punch if putting the effort to build-up the crit. chance. On the other hand, daggers are reliable crit. weapons, but require some extra crit. multipliers to reach the damage potential of the other weapon types. This is supported by the enchantment changes further below, as well as the [Rings](../Rings) module.
+Clubs are unreliable crit. weapons, but pack a punch if you putt in the effort to build-up crit. chance.  On the other hand, daggers are reliable crit. weapons, but require some extra crit. multipliers to reach the same damage potential. Note that daggers, as in vanilla, continue to gain slightly more out of each crit. point than other weapons.
 
-Note that daggers, as in vanilla, continue to gain slightly more out of each crit. point than other weapons.
+### Stabbing Swords and Special Moves
 
-### Enchantments & Forges
+In vanilla game code we can find traces of an abandoned fourth weapon type: **stabbing swords**. We can conclude that Concerned Ape did originally intend for some swords to *not* have the infamously hated and widely ignored defensive parry special move. This module thus reintroduces stabbing swords into the game, along with a brand new special move, which means that sword players can finally have an offensive special move: 
+pressing the action button with a stabbing sword equipped will perform a forwards dash attack, which allows for quick repositioning while also damaging enemies along the way. The player is also invincible during the dash.
 
-Forges have been touched slightly. Analogous to its [Rings](../Rings) counterpart, the Jade enchantment has received a significant buff, from +10% to +50% crit. power. If the Rings module is enabled, a new forge will also be added for the Garnet gemstone, granting 10% cooldown reduction. The number of allowed forges for melee weapons now also depends on the weapon's level; basic weapons like the Wooden Blade can only receive 1 gemstone, where as higher leevel weapons continue receiving up to 3.
+This is by no means intended to further triviliaze the parry mechanic. On that contrary, parry is made immediately more useful by the introduction of combos and reduced knockback. On top of that, the parry damage has been improved and will now increase by 10% for every point of defense, adding some offensive value to the defense stat and making defensive builds more viable.
 
-The real neat changes, though, are with the weapon enchantments, which have been almost entirely overhauled. Hopefully these enchantments will provide more interesting gameplay options.
+Lastly, there is also the option to make the club smash attack more immersive, after all a ground-shaking smash attack should do critical damage to all enemies underground, and should not do any damage at all to enemies in the air.
+
+## Slingshots Rework
+
+Slingshots in vanilla are, surprisingly, way stronger than people give them credit for. But the lack of features surrounding slingshots lends to their lack of credibility as a main weapon. Together with the Rascal profession from the [Professions](../Professions) module, the Arsenal module seeks to change that poor perception and break slingshots into mainstream use by adding critical hit, special move and Forge mechanics.
+
+### Critical Hits
+
+Slingshots can score critical hits! Think of them as headshots. It seems absurd that slingshots should not be able to score crit. hits. With this option enabled, all slingshots will benefit from crit. chance and crit. power bonuses.
+
+### Special Move
+
+Slingshots receive their own special move! This move will perform a melee smack attack that stuns enemies for 2 seconds. This allows the player to react to enemies in close range without switching weapons, and quickly reposition to continue firing from safety. Press the action button to trigger this move.
+
+### Forge Mechanics
+
+Slingshots can be enchanted with gemstone forges as well as Prismatic Shards! They receive their own unique enchantments, distinct from melee weapons. For more information keep reading onto the [Enchantments](#enchantments) section.
+
+### Damage Modifiers
+
+In order to accomodate the new mechanics without completely breaking slingshots, the damage modifiers have been nerfed. This is meant to encourage more strategic character building, instead of mindless one-shotting enemies.
+- Master Slingshot: Ammo damage x2 >> x1.5
+- Galaxy Slingshot: Ammo damage x4 >> x2
+
+Some ammunitions have also been tweaked, either for immersion or balance:
+- Coal: 15 damage >> 2 damage
+    - *Have you ever held a piece of coal? That stuff is brittle, and weaker than raw wood, so the damage has been reduced accordingly. Not that anybody uses this as ammo aanyway.*
+- Explosive Ammo: 20 damage >> 5 damage
+    - *Explosive ammo is meant to be used as a mining utility only, so it's daage has been reduced to reflect that. If you'd like to use slingshots for combat and mining simultaneously, consider taking up the [Rascal](../Professions) profession.*
+
+Lastly, Radioactive Ore can now be used as ammo, dealing considerably more damage than Iridium Ore:
+- Radioactive Ore: 80 damage
+
+### Travel Grace Period
+
+In vanilla, you may have noticed that slingshot projectiles will travel right through and ignore enemies that get too close. This is caused by the so-called "grace period", which prevents projectiles from colliding before 100ms, and essentially makes the slingshot a useless weapon in close quarters. This module removes the grace period required before projectiles are allowed to deal damage, making slingshots significantly more reliable.
+
+## Enchantments & Forges
+
+### Gemstone Forges
+
+Forges have been touched slightly. Analogous to its [Rings](../Rings) counterpart, the Jade enchantment has received a significant buff, from +10% to +50% crit. power. If the Rings module is enabled, a new forge will also be added for the Garnet gemstone, granting 10% cooldown reduction. The number of allowed forges for melee weapons now also depends on the weapon's level; basic weapons like the Wooden Blade can only receive 1 gemstone, where as higher level weapons continue receiving up to 3. For slingshots, the number of allowed forges likewise depends on the slingshot level (1 for basic Slingshot, 2 for Master Slingshot, and 3 for Galaxy Slingshot). All gemstones are compatible and apply the same effect as for melee weapons, with the exception of Emerald which increases the charge speed instead of animation speed. If the [Professions](../Professions] module is enabled and the player has the Desperado profession, the Emerald gemstone will also improve the rate of overcharge.
+
+### Weapon Enchantments
+
+Enchantments have been almost entirely overhauled. Hopefully these enchantments will provide more interesting gameplay options.
 
 | Name      | Effect |
 | --------- | -------|
@@ -110,31 +176,9 @@ The real neat changes, though, are with the weapon enchantments, which have been
 
 \* **Stabbing swords:** Dash distance +20%. **Defense swwords:** Successful parries stun enemies for 1s. **Daggers:** Quick stab hit count +2. **Clubs:** Smash AoE + 50%.
 
-### Special Moves
+### Slingshot Enchantments
 
-In order to make defense swords and the parry mechanic less useless (especially given the addition of stabbing swords). This module allows the player's parry damage to increase by 10% for every point of defense. This adds offensive value to the defense stat and a bit more viability for defensive builds.
-
-There is also the option to make the club smash attack more immersive, after all a ground-shaking smash attack should do critical damage to all enemies underground, and should not do any damage at all to enemies in the air.
-
-
-
-## Slingshots
-
-Slingshots in vanilla are, surprisingly, way stronger than people give them credit for. But the lack of features surrounding slingshots lends to their lack of credibility as a main weapon. Together with the Rascal profession from the [Professions](../Professions) module, the Arsenal module seeks to change that poor perception and break slingshots into mainstream use by affording to them the same "ammenities" as melee weapons.
-
-### Critical Hits
-
-Slingshots can score critical hits! Think of them as headshots. It seems absurd that slingshots should not be able to score crit. hits. With this option enabled, all slingshots will benefit from crit. chance and crit. power bonuses.
-
-### Special Move
-
-Slingshots receive their own special move! This move will perform a melee smack attack that stuns enemies for 2 seconds. This allows the player to react to enemies in close range without switching weapons, and quickly reposition to continue firing from safety. Press the action button to trigger this move.
-
-### Enchantments & Forges
-
-Slingshots are enchantable at the Forge! Like melee weapons, slingshots can be forged with gemstones and enchanted with Prismatic Shards. The number of allowed forges depends on the slingshot level (1 for basic Slingshot, 2 for Master Slingshot, and 3 for Galaxy Slingshot). All gemstones are compatible and apply the same effect as for melee weapons.
-
-Melee weapon enchantments, on the other hand, are not compatible with slingshots. Instead, they gain especially-made brand-new ones:
+All enchantments below are entirely new and unique to slingshots.
 
 | Name       | Effect |
 | ---------- | -------|
@@ -148,58 +192,13 @@ Melee weapon enchantments, on the other hand, are not compatible with slingshots
 
 \** *The Quincy projectile cannot crit or knock back enemies, but is affected by damage modifiers. If the Professions module is enabled and the player has the Desperado profession, the Quincy projectile will also be affected by Overcharge, which will also increase the projectile's size.*
 
-### Damage Modifiers
+## Other Features
 
-In order to accomodate all the aforementioned new mechanics without completely breaking slingshots, the damage modifiers have been nerfed. This is meant to encourage more strategic character building, instead of mindless one-shotting enemies.
+This section describes features not specific to weapons or slingshots. It includes novelty features in addition to control improvements and general difficulty sliders.
 
-- Master Slingshot: Ammo damage x2 >> x1.5
-- Galaxy Slingshot: Ammo damage x4 >> x2
+### Facing Direction and Slick Moves
 
-Some ammunitions have also been tweaked, either for immersion or balance:
-
-- Coal: 15 damage >> 2 damage
-    - *Have you ever held a piece of coal? That stuff is brittle, and weaker than raw wood, so the damage has been reduced accordingly. Not that anybody uses this as ammo aanyway.*
-- Explosive Ammo: 20 damage >> 5 damage
-    - *Explosive ammo is meant to be used as a mining utility only, so it's daage has been reduced to reflect that. If you'd like to use slingshots for combat and mining simultaneously, consider taking up the [Rascal](../Professions) profession.*
-
-Lastly, Radioactive Ore can now be used as ammo, dealing considerably more damage than Iridium Ore:
-
-- Radioactive Ore: 80 damage
-
-### Travel Grace Period
-
-In vanilla, you may have noticed that slingshot projectiles will travel right through and ignore enemies that get too close. This essentially makes the slingshot a useless weapon in close quarters. This module removes the grace period required before projectiles are allowed to deal damage, making slingshot a more reliable offensive option.
-
-### Snowballs
-
-This is purely a novelty, for-fun feature. When the player is standing on snowy ground, attempting to fire an empty slingshot will fire a snowball projectile. Now you can annoy the villagers and your friends!
-
-
-
-## General
-
-In addition to weapon and slingshot-specific changes already described, this module also alters certain mechanics of general combat to create a distinct combat experience.
-
-### Defense Overhaul
-
-Defense in vanilla is linearly subtracted from damage. There are several problems with this approach which make  makes the defense stat simultaneously useless and overpowered:
-
-- While a single point of defense can easily mean a 50% damage reduction against early-game Green Slimes, that same point of defense is largely worthless against an end-game monster in the difficult Mines. Moreover, any damage increase applied to monsters by other mods likewise contribute to making defense less and less valuable.
-- Though it can be difficult to build sufficient defense, if enough mods are installed which introduce new ways to stack defense (as with earlier releases of the [Rings](../Rings) module), it becomes possible to essentially negate all damage and trivialize combat.
-
-It becomes clear that the linear, subtractive defense model from vanilla is unscalable and inadequate. This module fixes that by introducing an exponential and multiplicative defense model:
-```
-resistance = 10 / (10 + defense)
-```
-One point of defense will now reduce incoming damage by 10% regardless of the enemy's damage, making it a consistently valuable stat throughout the game. Subsequent points in defense, however, will have diminishing returns, such that 100% damage negation is no longer possible to achieve.
-
-This change also has the notable side-effect of allowing the use of fractional defense points, whereas only full integers could be used in vanilla. This will be relevant if the player decides to enable the [Rings](../Rings) module and the associated Resonance mechanic.
-
-Also note that the defense changes apply to monsters as well as players! This change is a lot more noticeable on enemies since the player's damage is more inflated; i.e., a few points of defense in vanilla will make little difference against the player's 100+ damage. With this setting, monsters will now be able to resist your a significant portion of damage. Crit. strikes have the added benefit of ignoring enemy defense, meaning that critical builds will counter certain enemies.
-
-### Knockback Overhaul
-
-Though it has been nerfed for melee weapons, the knockback stat overall has become much more useful: knocked-back enemies will now take damage porportional to the knockback stat when colliding with a wall or obstacle. This makes knockback a viable offensive stat in addition to its defensive value.
+This popular feature is built-in to this module; when playing with mouse and keyboard the farmer will always swing their weapon in the direction of the mouse cursor. Additionally, swinging a weapon or charging a slingshot while running will also cause the player to drift in the direction of movement while performing that action, instead of coming to an abrupt halt.
 
 ### Infinity +1 Weapons
 
@@ -212,15 +211,15 @@ To you obtain your first Galaxy weapon, as in vanilla you must first unlock the 
 In return for all that extra work, the Infinity weapons receive some extra perks:
     
 1. +1 gemstone slot (4 total).
-2. An exclusive enchantment: while at full health, weapon swings fire a beam of energy capable of hitting enemies at mid-range.
+2. While at full health, every swing of an Infinity weapon fires a mid-range energy beam.
 
 ### Woody Replaces Rusty
 
 The vanilla game has too many weapons for its own good. A minor issue which results from this is the very awkward "upgrade" from the starting Rusty Sword to the Wooden Blade. Why would Marlon be mocking about with a rusty weapon anyway? This has always bothered me, and so, for a slight increase in immersion, this novelty feature will remove the Rusty Sword from the game and replace the starter weapon with the Wooden Blade.
 
-### Facing Direction & Slick Moves
+### Snowballs
 
-This popular feature is built-in to this module; when playing with mouse and keyboard the farmer will always swing their weapon in the direction of the mouse cursor. Additionally, swinging a weapon or charging a slingshot while running will also cause the player to drift in the direction of movement while performing that action, instead of coming to an abrupt halt.
+This is purely a novelty, for-fun feature. When the player is standing on snowy ground, attempting to fire an empty slingshot will fire a snowball projectile. Now you can annoy the villagers and your friends!
 
 ### Difficulty Sliders
 
@@ -229,10 +228,18 @@ Last but not least, this module offers three sliders to taylor monster difficult
 - Monster damage multiplier
 - Monster defense multiplier
 
-
-
 ## Compatibility
 
-- **Not** compatible with other mods that overhaul weapons or slingshots, such as [Better Slingshots](https://www.nexusmods.com/stardewvalley/mods/2067) and [Enhanced Slingshots](https://www.nexusmods.com/stardewvalley/mods/12763).
-- **Not** compatible with the likes of [Combat Controls - Fixed Mouse Click](https://www.nexusmods.com/stardewvalley/mods/2590) or [Combat Controls Ligo](https://www.nexusmods.com/stardewvalley/mods/10496), as those features are already included in this and other Ligo modules.
-- Compatible with [Advanced Melee Framework](https://www.nexusmods.com/stardewvalley/mods/7886) and related content packs, but I do not recommend using both together.
+- **Not** compatible with other mods that introduce weapon types or rebalance weapon stats, such as [Angel's Weapon Rebalance][mod:angels-rebalance].
+- **Not** compatible with other mods that overhaul slingshots, such as [Better Slingshots][mod:better-slingshots] and [Enhanced Slingshots][mod:enhanced-slingshots].
+- **Not** compatible with the likes of [Combat Controls][mod:combat-controls] or [Combat Controls Redux][mod:combat-controls-redux], as those features are already included in this and other Ligo modules.
+- Compatible with [Advanced Melee Framework][mod:amf] and related content packs, but I do not recommend using both together.
+
+<!-- MARKDOWN LINKS & IMAGES -->
+[mod:cjb-spawner]: <https://www.nexusmods.com/stardewvalley/mods/93> "CJB Item Spawner"
+[mod:angels-rebalance]: <https://www.nexusmods.com/stardewvalley/mods/6894> "Angel's Weapon Rebalance"
+[mod:better-slingshots]: <https://www.nexusmods.com/stardewvalley/mods/2067> "Better Slingshots"
+[mod:enhanced-slingshots]: <https://www.nexusmods.com/stardewvalley/mods/12763> "Enhanced Slingshots"
+[mod:combat-controls]: <https://www.nexusmods.com/stardewvalley/mods/2590> "Combat Controls - Fixed Mouse Click"
+[mod:combat-controls-redux]: <https://www.nexusmods.com/stardewvalley/mods/10496> "Combat Controls Redux"
+[mod:amf]: <https://www.nexusmods.com/stardewvalley/mods/7886> "Advanced Melee Framework"
