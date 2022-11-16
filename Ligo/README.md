@@ -25,9 +25,9 @@ All modules should be fully multiplayer and splitscreen-ready so long as all pla
 - **[Rings](Modules/Rings)** mainly overhauls the Iridium Band, replacing the bland vanilla version with all-new forge mechanics and Gemstone Music Theory, which draws inspiration from real-life Music Theory to provide a more interesting and balance form of combining many rings. It also adds new crafting mechanics providing a more natural progression for ring development.
 
 - **[Ponds](Modules/Ponds)** is a complement to the new Aquarist profession. It allows Fish Ponds to remember the qualities of raised fishes, scales roe quantity and quality with population, and a few other interesting features.
-    
+
 - **[Taxes](Modules/Taxes)** is a complement to the new Conservationist profession. It introduces a simple yet realistic taxation system as an added challenge and end-game gold sink. Because surely a nation at war would be all over your juicy farm income.
-    -
+
 - **[Tools](Modules/Tools)** is a simple mod allowing chargeable resource tools, customizable farming tools.
 
 - **[Tweaks](Modules/Tweex)** is the final module, and serves as a repository for smaller tweaks and fixes to inconsistencies not large enough to merit a separate module.
