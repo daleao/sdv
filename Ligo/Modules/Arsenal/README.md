@@ -13,11 +13,11 @@
     <li>
       <a href="#melee-weapons-rework">Melee Weapons Rework</a>
       <ul>
-        <li><a href="#combos-and-swing-speed">Combos and Swing Speed</a></li>
+        <li><a href="#combos-swing-speed">Combos & Swing Speed</a></li>
 	      <li><a href="#knockback-mechanics">Knockback Mechanics</a></li>    
         <li><a href="#defense-mechanics">Defense Mechanics</a></li>
         <li><a href="#weapon-stats">Weapon Stats</a></li>
-        <li><a href="#stabbing-swords-and-special-moves">Stabbing Swords and Special Moves</a></li>
+        <li><a href="#stabbing-swords-special-moves">Stabbing Swords & Special Moves</a></li>
       </ul>
     </li>
     <li>
@@ -31,7 +31,7 @@
       </ul>
     </li>
     <li>
-      <a href="#general">Enchantments & Forges</a>
+      <a href="#enchantments-forges">Enchantments & Forges</a>
       <ul>
         <li><a href="#defense-overhaul">Gemstone Forges</a></li>
         <li><a href="#weapon-enchantments">Weapon Enchantments</a></li>
@@ -39,9 +39,9 @@
       </ul>
     </li>
     <li>
-      <a href="#general">Other Features</a>
+      <a href="#other-features">Other Features</a>
       <ul>
-	    <li><a href="#facing-direction-and-slick-moves">Facing Direction and Slick Moves</a></li>
+	    <li><a href="#facing-direction-slick-moves">Facing Direction & Slick Moves</a></li>
         <li><a href="#infinity-1-weapons">Infinity +1 Weapons</a></li>
         <li><a href="#woody-replaces-rusty">Woody Replaces Rusty</a></li>
         <li><a href="#snowballs">Snowballs</a></li>
@@ -72,7 +72,7 @@ The fourth issue is the overabundance of weapons, especially swords, paired with
 
 A weapon overhaul must fix, or at least touch upon, all of these issues; it needs to rebalance all weapon types while preserving their identities, and also add strategic value to all buildable weapon stats, allowing players to experiment a variety of different builds and playstyles. To achieve this, this module uses a combination of nerfs, buffs and entirely new mechanics which will overall make combat significantly more challenging. Players who don't care for a challenge or are uninsterested in combat should probably keep this whole module disabled.
 
-### Combos and Swing Speed
+### Combos & Swing Speed
 
 Taking inspiration from the Haunted Chocolatier trailer, this module introduces **weapon combos**. These are short bursts of swing speed followed by a longer cooldown period. Sword combos can perform up to 4 hits, maintaining the above-average speed of swords but preventing them from being spammed continously. Club combos can perform up to 2 hits only, which should give them an edge over their vanilla counterparts while remaining significantly slower than swords. Daggers cannot combo; they remain unchanged from vanilla.
 
@@ -110,7 +110,7 @@ Every weapon is given adjusted stats to accomodate and better fit the aforementi
 
 Clubs are unreliable crit. weapons, but pack a punch if you putt in the effort to build-up crit. chance.  On the other hand, daggers are reliable crit. weapons, but require some extra crit. multipliers to reach the same damage potential. Note that daggers, as in vanilla, continue to gain slightly more out of each crit. point than other weapons.
 
-### Stabbing Swords and Special Moves
+### Stabbing Swords & Special Moves
 
 In vanilla game code we can find traces of an abandoned fourth weapon type: **stabbing swords**. We can conclude that Concerned Ape did originally intend for some swords to *not* have the infamously hated and widely ignored defensive parry special move. This module thus reintroduces stabbing swords into the game, along with a brand new special move, which means that sword players can finally have an offensive special move: 
 pressing the action button with a stabbing sword equipped will perform a forwards dash attack, which allows for quick repositioning while also damaging enemies along the way. The player is also invincible during the dash.
@@ -196,7 +196,7 @@ All enchantments below are entirely new and unique to slingshots.
 
 This section describes features not specific to weapons or slingshots. It includes novelty features in addition to control improvements and general difficulty sliders.
 
-### Facing Direction and Slick Moves
+### Facing Direction & Slick Moves
 
 This popular feature is built-in to this module; when playing with mouse and keyboard the farmer will always swing their weapon in the direction of the mouse cursor. Additionally, swinging a weapon or charging a slingshot while running will also cause the player to drift in the direction of movement while performing that action, instead of coming to an abrupt halt.
 
