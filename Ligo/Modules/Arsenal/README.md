@@ -14,14 +14,14 @@
       <a href="#melee-weapons-rework">Melee Weapons Rework</a>
       <ul>
         <li><a href="#combos-and-swing-speed">Combos and Swing Speed</a></li>
-	    <li><a href="#knockback-mechanics">Knockback Mechanics</a></li>    
+	      <li><a href="#knockback-mechanics">Knockback Mechanics</a></li>    
         <li><a href="#defense-mechanics">Defense Mechanics</a></li>
         <li><a href="#weapon-stats">Weapon Stats</a></li>
         <li><a href="#stabbing-swords-and-special-moves">Stabbing Swords and Special Moves</a></li>
       </ul>
     </li>
     <li>
-      <a href="#slingshots">Slingshots Rework</a></li>
+      <a href="#slingshots">Slingshots Rework</a>
       <ul>
         <li><a href="#critical-hits">Critical Hits</a></li>
         <li><a href="#special-move">Special Move</a></li>
@@ -31,7 +31,7 @@
       </ul>
     </li>
     <li>
-      <a href="#general">Enchantments & Forges</a></li>
+      <a href="#general">Enchantments & Forges</a>
       <ul>
         <li><a href="#defense-overhaul">Gemstone Forges</a></li>
         <li><a href="#weapon-enchantments">Weapon Enchantments</a></li>
@@ -39,7 +39,7 @@
       </ul>
     </li>
     <li>
-      <a href="#general">Other Features</a></li>
+      <a href="#general">Other Features</a>
       <ul>
 	    <li><a href="#facing-direction-and-slick-moves">Facing Direction and Slick Moves</a></li>
         <li><a href="#infinity-1-weapons">Infinity +1 Weapons</a></li>
