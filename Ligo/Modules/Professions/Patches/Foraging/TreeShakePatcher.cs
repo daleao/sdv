@@ -1,4 +1,4 @@
-﻿namespace DaLion.Ligo.Modules.Professions.Patches.Foraging;
+namespace DaLion.Ligo.Modules.Professions.Patches.Foraging;
 
 #region using directives
 
@@ -24,6 +24,7 @@ internal sealed class TreeShakePatcher : HarmonyPatcher
 
     #region harmony patches
 
+    /// <summary>Patch to apply Ecologist perk to coconuts from shaken trees.</summary>
     [HarmonyTranspiler]
     private static IEnumerable<CodeInstruction>? TreeShakeTranspiler(
         IEnumerable<CodeInstruction> instructions, MethodBase original)

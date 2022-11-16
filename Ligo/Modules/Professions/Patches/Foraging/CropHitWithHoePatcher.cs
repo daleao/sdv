@@ -1,4 +1,4 @@
-﻿namespace DaLion.Ligo.Modules.Professions.Patches.Foraging;
+namespace DaLion.Ligo.Modules.Professions.Patches.Foraging;
 
 #region using directives
 
@@ -23,7 +23,7 @@ internal sealed class CropHitWithHoePatcher : HarmonyPatcher
 
     #region harmony patches
 
-    /// <summary>Apply Botanist/Ecologist perk to wild ginger.</summary>
+    /// <summary>Patch to apply Ecologist perk to wild ginger.</summary>
     [HarmonyTranspiler]
     private static IEnumerable<CodeInstruction>? CropHitWithHoeTranspiler(
         IEnumerable<CodeInstruction> instructions, ILGenerator generator, MethodBase original)
