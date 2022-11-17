@@ -25,6 +25,6 @@ internal sealed class RevertStabbySwordsCommand : ConsoleCommand
     /// <inheritdoc />
     public override void Callback(string[] args)
     {
-        Utils.RevertStabbySwords();
+        Utils.RevertAllStabbySwords();
     }
 }

@@ -3,9 +3,9 @@
 #region using directives
 
 using DaLion.Ligo.Modules.Rings.Extensions;
+using DaLion.Shared.Harmony;
 using HarmonyLib;
 using Netcode;
-using Shared.Harmony;
 using StardewValley;
 using StardewValley.Tools;
 

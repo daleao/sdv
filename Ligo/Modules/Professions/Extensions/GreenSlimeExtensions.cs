@@ -11,14 +11,6 @@ using StardewValley.Monsters;
 /// <summary>Extensions for the <see cref="GreenSlime"/> class.</summary>
 internal static class GreenSlimeExtensions
 {
-    /// <summary>Determines whether the <paramref name="slime"/> is currently jumping.</summary>
-    /// <param name="slime">The <see cref="GreenSlime"/>.</param>
-    /// <returns><see langword="true"/> if the <paramref name="slime"/> if mid jump animation, otherwise <see langword="false"/>.</returns>
-    internal static bool IsJumping(this GreenSlime slime)
-    {
-        return !string.IsNullOrEmpty(slime.Read(DataFields.Jumping));
-    }
-
     /// <summary>Grows this <paramref name="slime"/> one stage.</summary>
     /// <param name="slime">The <see cref="GreenSlime"/>.</param>
     internal static void Inflate(this GreenSlime slime)

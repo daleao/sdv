@@ -27,6 +27,10 @@ public sealed class Config
     [JsonProperty]
     public WateringCanConfig Can { get; internal set; } = new();
 
+    /// <inheritdoc cref="WateringCanConfig"/>
+    [JsonProperty]
+    public ScytheConfig Scythe { get; internal set; } = new();
+
     /// <summary>Gets a value indicating whether determines whether charging requires a mod key to activate.</summary>
     [JsonProperty]
     public bool RequireModkey { get; internal set; } = true;

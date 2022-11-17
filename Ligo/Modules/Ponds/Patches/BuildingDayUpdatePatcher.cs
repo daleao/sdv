@@ -3,8 +3,8 @@
 #region using directives
 
 using DaLion.Shared.Exceptions;
+using DaLion.Shared.Harmony;
 using HarmonyLib;
-using Shared.Harmony;
 using StardewValley.Buildings;
 
 #endregion using directives

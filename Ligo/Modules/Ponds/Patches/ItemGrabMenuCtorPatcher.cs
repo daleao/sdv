@@ -3,8 +3,8 @@
 #region using directives
 
 using System.Collections.Generic;
+using DaLion.Shared.Harmony;
 using HarmonyLib;
-using Shared.Harmony;
 using StardewValley.Buildings;
 using StardewValley.Menus;
 

@@ -3,8 +3,8 @@
 #region using directives
 
 using DaLion.Ligo.Modules.Rings.Extensions;
+using DaLion.Shared.Harmony;
 using HarmonyLib;
-using Shared.Harmony;
 using StardewValley.Menus;
 using StardewValley.Objects;
 

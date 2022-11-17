@@ -5,9 +5,8 @@
 using System.Reflection;
 using DaLion.Ligo.Modules.Professions.Ultimates;
 using DaLion.Ligo.Modules.Professions.VirtualProperties;
-using DaLion.Shared.Extensions.Stardew;
+using DaLion.Shared.Harmony;
 using HarmonyLib;
-using Shared.Harmony;
 using StardewValley.Monsters;
 
 #endregion using directives
@@ -34,7 +33,7 @@ internal sealed class MonsterWithinPlayerThresholdPatcher : HarmonyPatcher
                 return true; // run original logic
             }
 
-            var player = Game1.getFarmer(__instance.Read(DataFields.Target, Game1.player.UniqueMultiplayerID));
+            var player = __instance.Get_Target();
             if (!player.IsLocalPlayer || player.Get_Ultimate() is not Ambush { IsActive: true })
             {
                 return true; // run original method

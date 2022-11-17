@@ -6,8 +6,8 @@ using System.Collections.Generic;
 using System.Reflection;
 using DaLion.Ligo.Modules.Rings.Extensions;
 using DaLion.Shared.Extensions;
+using DaLion.Shared.Harmony;
 using HarmonyLib;
-using Shared.Harmony;
 using StardewValley.Objects;
 
 #endregion using directives

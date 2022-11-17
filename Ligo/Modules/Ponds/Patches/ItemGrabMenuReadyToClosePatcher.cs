@@ -5,8 +5,8 @@
 using System.Linq;
 using DaLion.Shared.Extensions.Collections;
 using DaLion.Shared.Extensions.Stardew;
+using DaLion.Shared.Harmony;
 using HarmonyLib;
-using Shared.Harmony;
 using StardewValley.Buildings;
 using StardewValley.Menus;
 using StardewValley.Objects;

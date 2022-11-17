@@ -4,10 +4,10 @@
 
 using DaLion.Ligo.Modules.Rings.Extensions;
 using DaLion.Ligo.Modules.Rings.VirtualProperties;
+using DaLion.Shared.Harmony;
 using HarmonyLib;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Shared.Harmony;
 using StardewValley.Objects;
 
 #endregion using directives
@@ -102,7 +102,7 @@ internal sealed class RingDrawTooltipPatcher : HarmonyPatcher
                 false,
                 1f);
 
-            var text = ModEntry.i18n.Get("ui.itemhover.damage", new { amount });
+            string text = ModEntry.i18n.Get("ui.itemhover.damage", new { amount });
             var width = font.MeasureString(text).X;
             maxWidth = (int)Math.Max(width, maxWidth);
             Utility.drawTextWithShadow(spriteBatch, text, font, new Vector2(x + 68, y + 28), co * 0.9f * alpha);
@@ -126,7 +126,7 @@ internal sealed class RingDrawTooltipPatcher : HarmonyPatcher
                 false,
                 1f);
 
-            var text = ModEntry.i18n.Get("ui.itemhover.crate", new { amount });
+            string text = ModEntry.i18n.Get("ui.itemhover.crate", new { amount });
             var width = font.MeasureString(text).X;
             maxWidth = (int)Math.Max(width, maxWidth);
             Utility.drawTextWithShadow(spriteBatch, text, font, new Vector2(x + 68, y + 28), co * 0.9f * alpha);
@@ -150,7 +150,7 @@ internal sealed class RingDrawTooltipPatcher : HarmonyPatcher
                 false,
                 1f);
 
-            var text = ModEntry.i18n.Get("ui.itemhover.cpow", new { amount });
+            string text = ModEntry.i18n.Get("ui.itemhover.cpow", new { amount });
             var width = font.MeasureString(text).X;
             maxWidth = (int)Math.Max(width, maxWidth);
             Utility.drawTextWithShadow(
@@ -179,7 +179,7 @@ internal sealed class RingDrawTooltipPatcher : HarmonyPatcher
                 false,
                 1f);
 
-            var text = ModEntry.i18n.Get("ui.itemhover.precision", new { amount });
+            string text = ModEntry.i18n.Get("ui.itemhover.precision", new { amount });
             var width = font.MeasureString(text).X;
             maxWidth = (int)Math.Max(width, maxWidth);
             Utility.drawTextWithShadow(spriteBatch, text, font, new Vector2(x + 68, y + 28), co * 0.9f * alpha);
@@ -203,7 +203,7 @@ internal sealed class RingDrawTooltipPatcher : HarmonyPatcher
                 false,
                 1f);
 
-            var text = ModEntry.i18n.Get("ui.itemhover.knockback", new { amount });
+            string text = ModEntry.i18n.Get("ui.itemhover.knockback", new { amount });
             var width = font.MeasureString(text).X;
             maxWidth = (int)Math.Max(width, maxWidth);
             Utility.drawTextWithShadow(spriteBatch, text, font, new Vector2(x + 68, y + 28), co * 0.9f * alpha);
@@ -251,7 +251,7 @@ internal sealed class RingDrawTooltipPatcher : HarmonyPatcher
                 false,
                 1f);
 
-            var text = ModEntry.i18n.Get("ui.itemhover.cdr", new { amount });
+            string text = ModEntry.i18n.Get("ui.itemhover.cdr", new { amount });
             var width = font.MeasureString(text).X;
             maxWidth = (int)Math.Max(width, maxWidth);
             Utility.drawTextWithShadow(spriteBatch, text, font, new Vector2(x + 68, y + 28), co * 0.9f * alpha);

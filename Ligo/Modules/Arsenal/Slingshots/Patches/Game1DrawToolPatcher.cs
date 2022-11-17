@@ -4,8 +4,8 @@
 
 using DaLion.Ligo.Modules.Arsenal.Slingshots.Extensions;
 using DaLion.Ligo.Modules.Arsenal.Slingshots.VirtualProperties;
+using DaLion.Shared.Harmony;
 using HarmonyLib;
-using Shared.Harmony;
 using StardewValley.Tools;
 
 #endregion using directives

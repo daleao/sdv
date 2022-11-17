@@ -3,8 +3,8 @@
 #region using directives
 
 using DaLion.Shared.Attributes;
+using DaLion.Shared.Harmony;
 using HarmonyLib;
-using Shared.Harmony;
 
 #endregion using directives
 

@@ -8,8 +8,8 @@ using DaLion.Ligo.Modules.Tweex.Extensions;
 using DaLion.Shared.Attributes;
 using DaLion.Shared.Extensions.Reflection;
 using DaLion.Shared.Extensions.Stardew;
+using DaLion.Shared.Harmony;
 using HarmonyLib;
-using Shared.Harmony;
 
 #endregion using directives
 

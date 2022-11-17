@@ -4,8 +4,8 @@
 
 using System.Reflection;
 using DaLion.Ligo.Modules.Arsenal.Slingshots.Enchantments;
+using DaLion.Shared.Harmony;
 using HarmonyLib;
-using Shared.Harmony;
 using StardewValley.Tools;
 
 #endregion using directives

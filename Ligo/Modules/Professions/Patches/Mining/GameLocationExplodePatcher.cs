@@ -6,9 +6,9 @@ using DaLion.Ligo.Modules.Professions.Events.GameLoop;
 using DaLion.Ligo.Modules.Professions.Extensions;
 using DaLion.Shared.Classes;
 using DaLion.Shared.Extensions.Stardew;
+using DaLion.Shared.Harmony;
 using HarmonyLib;
 using Microsoft.Xna.Framework;
-using Shared.Harmony;
 using StardewValley.Locations;
 
 #endregion using directives

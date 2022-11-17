@@ -2,10 +2,10 @@
 
 #region using directives
 
+using DaLion.Shared.Harmony;
 using HarmonyLib;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Shared.Harmony;
 using StardewValley.Tools;
 
 #endregion using directives

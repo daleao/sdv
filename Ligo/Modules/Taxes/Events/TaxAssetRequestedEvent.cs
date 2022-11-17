@@ -36,7 +36,8 @@ internal sealed class TaxAssetRequestedEvent : AssetRequestedEvent
             var due = ModEntry.State.Taxes.LatestAmountDue.ToString();
             var deductions = Game1.player.Read<float>(DataFields.PercentDeductions);
             var outstanding = Game1.player.Read(DataFields.DebtOutstanding);
-            var honorific = ModEntry.i18n.Get("honorific" + (Game1.player.IsMale ? ".male" : ".female"));
+
+            string honorific = ModEntry.i18n.Get("honorific" + (Game1.player.IsMale ? ".male" : ".female"));
             var farm = Game1.getFarm().Name;
             var interest = CurrentCulture($"{ModEntry.Config.Taxes.AnnualInterest:0%}");
 

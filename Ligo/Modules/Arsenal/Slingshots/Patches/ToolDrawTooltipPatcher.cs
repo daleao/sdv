@@ -6,10 +6,10 @@ using System.Linq;
 using System.Text;
 using DaLion.Ligo.Modules.Arsenal.Common.Enchantments;
 using DaLion.Shared.Extensions.Stardew;
+using DaLion.Shared.Harmony;
 using HarmonyLib;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Shared.Harmony;
 using StardewValley.Tools;
 
 #endregion using directives

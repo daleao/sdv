@@ -3,9 +3,9 @@
 #region using directives
 
 using DaLion.Ligo.Modules.Professions.VirtualProperties;
+using DaLion.Shared.Harmony;
 using HarmonyLib;
 using Microsoft.Xna.Framework;
-using Shared.Harmony;
 using StardewValley.Monsters;
 
 #endregion using directives

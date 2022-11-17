@@ -2,8 +2,8 @@
 
 #region using directives
 
+using DaLion.Shared.Harmony;
 using HarmonyLib;
-using Shared.Harmony;
 using SpaceCore.Interface;
 using StardewValley.Objects;
 

@@ -4,8 +4,8 @@
 
 using DaLion.Ligo.Modules.Rings.Extensions;
 using DaLion.Ligo.Modules.Rings.VirtualProperties;
+using DaLion.Shared.Harmony;
 using HarmonyLib;
-using Shared.Harmony;
 using StardewValley.Objects;
 using StardewValley.Tools;
 

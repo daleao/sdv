@@ -3,9 +3,9 @@ namespace DaLion.Ligo.Modules.Arsenal.Weapons.Patches;
 
 #region using directives
 
+using DaLion.Shared.Harmony;
 using HarmonyLib;
 using Microsoft.Xna.Framework;
-using Shared.Harmony;
 using StardewValley.Tools;
 
 #endregion using directives

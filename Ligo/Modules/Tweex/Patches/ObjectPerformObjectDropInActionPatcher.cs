@@ -4,8 +4,8 @@
 
 using DaLion.Shared.Enums;
 using DaLion.Shared.Extensions;
+using DaLion.Shared.Harmony;
 using HarmonyLib;
-using Shared.Harmony;
 
 #endregion using directives
 

@@ -3,6 +3,7 @@
 #region using directives
 
 using System.Xml.Serialization;
+using Common.VirtualProperties;
 using DaLion.Shared.Extensions.Stardew;
 using Netcode;
 using StardewValley.Monsters;
@@ -32,8 +33,8 @@ public class CarvingEnchantment : BaseWeaponEnchantment
                 bug.isArmoredBug.Value = false;
                 break;
             case RockCrab crab:
-                crab.Increment(DataFields.Carved);
-                if (crab.Read<int>(DataFields.Carved) > 3)
+                crab.Increment_Carved();
+                if (crab.Get_Carved() > 3)
                 {
                     ModEntry.Reflector
                         .GetUnboundFieldGetter<RockCrab, NetBool>(crab, "shellGone")

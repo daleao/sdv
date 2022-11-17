@@ -5,9 +5,9 @@
 using System.Collections.Generic;
 using DaLion.Shared.Attributes;
 using DaLion.Shared.Extensions.Reflection;
+using DaLion.Shared.Harmony;
 using HarmonyLib;
 using Microsoft.Xna.Framework;
-using Shared.Harmony;
 using SpaceCore.Interface;
 using StardewValley.Menus;
 

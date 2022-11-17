@@ -5,8 +5,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection.Emit;
+using DaLion.Shared.Harmony;
 using HarmonyLib;
-using Shared.Harmony;
 
 #endregion using directives
 

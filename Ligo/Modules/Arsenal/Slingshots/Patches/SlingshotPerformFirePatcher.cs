@@ -14,9 +14,9 @@ using DaLion.Ligo.Modules.Professions.Ultimates;
 using DaLion.Ligo.Modules.Professions.VirtualProperties;
 using DaLion.Shared.Extensions.Stardew;
 using DaLion.Shared.Extensions.Xna;
+using DaLion.Shared.Harmony;
 using HarmonyLib;
 using Microsoft.Xna.Framework;
-using Shared.Harmony;
 using StardewValley.Projectiles;
 using StardewValley.Tools;
 

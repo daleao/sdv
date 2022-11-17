@@ -4,9 +4,9 @@
 
 using System.Reflection;
 using DaLion.Shared.Extensions;
+using DaLion.Shared.Harmony;
 using HarmonyLib;
 using Microsoft.Xna.Framework;
-using Shared.Harmony;
 using StardewModdingAPI.Utilities;
 
 #endregion using directives

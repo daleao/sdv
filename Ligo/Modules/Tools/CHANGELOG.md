@@ -2,4 +2,7 @@
 
 ## 1.0.0 (Unreleased)
 
-* No change
+### Added
+
+* Added Scythe settings.
+* Added stamina multiplier setting to each tool.

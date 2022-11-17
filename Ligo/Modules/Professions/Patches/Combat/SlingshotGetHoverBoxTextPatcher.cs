@@ -2,9 +2,9 @@
 
 #region using directives
 
+using DaLion.Shared.Harmony;
 using System.Reflection;
 using HarmonyLib;
-using Shared.Harmony;
 using StardewValley.Tools;
 
 #endregion using directives

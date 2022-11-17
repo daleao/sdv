@@ -4,9 +4,9 @@
 
 using System.Collections.Generic;
 using System.Reflection;
+using DaLion.Shared.Harmony;
 using HarmonyLib;
 using Netcode;
-using Shared.Harmony;
 using StardewValley.Objects;
 
 #endregion using directives

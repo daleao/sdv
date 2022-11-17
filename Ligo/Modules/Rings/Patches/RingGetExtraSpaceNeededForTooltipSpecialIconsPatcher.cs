@@ -4,10 +4,10 @@
 
 using DaLion.Ligo.Modules.Rings.Extensions;
 using DaLion.Ligo.Modules.Rings.VirtualProperties;
+using DaLion.Shared.Harmony;
 using HarmonyLib;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Shared.Harmony;
 using StardewValley.Objects;
 
 #endregion using directives

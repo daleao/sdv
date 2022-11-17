@@ -12,10 +12,10 @@ using DaLion.Ligo.Modules.Professions.Ultimates;
 using DaLion.Ligo.Modules.Professions.VirtualProperties;
 using DaLion.Shared.Extensions;
 using DaLion.Shared.Extensions.Collections;
+using DaLion.Shared.Harmony;
 using HarmonyLib;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
-using Shared.Harmony;
 
 #endregion using directives
 
@@ -193,7 +193,8 @@ internal sealed class GameLocationAnswerDialogueActionPatcher : HarmonyPatcher
 
         var chosenUltimate = Game1.player.Get_Ultimate()!;
         var pronoun = chosenUltimate.GetBuffPronoun();
-        var message = ModEntry.i18n.Get(
+
+        string message = ModEntry.i18n.Get(
             "prestige.dogstatue.replace",
             new { pronoun, profession = chosenUltimate.Profession.Title, ultimate = chosenUltimate.DisplayName });
 
@@ -294,7 +295,7 @@ internal sealed class GameLocationAnswerDialogueActionPatcher : HarmonyPatcher
         Sfx.DogStatuePrestige.Play();
 
         // tell the player
-        var pronoun = ModEntry.i18n.Get("article.indefinite" + (Game1.player.IsMale ? ".male" : ".female"));
+        string pronoun = ModEntry.i18n.Get("article.indefinite" + (Game1.player.IsMale ? ".male" : ".female"));
         Game1.drawObjectDialogue(ModEntry.i18n.Get(
             "prestige.dogstatue.fledged",
             new { pronoun, profession = chosenUltimate.Profession.Title }));

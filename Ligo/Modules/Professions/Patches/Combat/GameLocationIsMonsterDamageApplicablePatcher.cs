@@ -3,8 +3,8 @@
 #region using directives
 
 using DaLion.Shared.Extensions.Stardew;
+using DaLion.Shared.Harmony;
 using HarmonyLib;
-using Shared.Harmony;
 using StardewValley.Monsters;
 using StardewValley.Tools;
 

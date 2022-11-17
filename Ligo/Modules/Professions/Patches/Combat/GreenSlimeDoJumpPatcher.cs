@@ -2,10 +2,10 @@
 
 #region using directives
 
+using DaLion.Ligo.Modules.Professions.VirtualProperties;
 using DaLion.Shared.Attributes;
-using DaLion.Shared.Extensions.Stardew;
+using DaLion.Shared.Harmony;
 using HarmonyLib;
-using Shared.Harmony;
 using StardewValley.Monsters;
 
 #endregion using directives
@@ -26,7 +26,7 @@ internal sealed class GreenSlimeDoJumpPatcher : HarmonyPatcher
     [HarmonyPrefix]
     private static bool GreenSlimeDoJumpPrefix(GreenSlime __instance)
     {
-        __instance.Write(DataFields.Jumping, 200.ToString());
+        __instance.Set_JumpTimer(200);
         return true; // run original logic
     }
 

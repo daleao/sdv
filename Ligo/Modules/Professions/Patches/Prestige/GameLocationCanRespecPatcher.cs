@@ -3,9 +3,9 @@
 #region using directives
 
 using System.Reflection;
+using DaLion.Shared.Harmony;
 using HarmonyLib;
 using Microsoft.Xna.Framework;
-using Shared.Harmony;
 
 #endregion using directive
 

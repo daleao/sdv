@@ -3,10 +3,10 @@
 #region using directives
 
 using System.Linq;
+using DaLion.Shared.Harmony;
 using HarmonyLib;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Shared.Harmony;
 using StardewValley.Tools;
 
 #endregion using directives

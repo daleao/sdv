@@ -3,14 +3,13 @@
 #region using directives
 
 using System.Linq;
-using DaLion.Ligo.Modules.Professions.Extensions;
 using DaLion.Ligo.Modules.Professions.Ultimates;
 using DaLion.Ligo.Modules.Professions.VirtualProperties;
 using DaLion.Shared.Extensions.Stardew;
+using DaLion.Shared.Harmony;
 using HarmonyLib;
 using Microsoft.Xna.Framework;
 using Netcode;
-using Shared.Harmony;
 using StardewValley.Monsters;
 
 #endregion using directives
@@ -42,7 +41,7 @@ internal sealed class GreenSlimeUpdatePatcher : HarmonyPatcher
         {
             var monsterBox = monster.GetBoundingBox();
             if (monster.IsInvisible || monster.isInvincible() ||
-                (monster.isGlider.Value && !(__instance.Scale > 1.8f || __instance.IsJumping())) ||
+                (monster.isGlider.Value && !(__instance.Scale > 1.8f || __instance.Get_Jumping())) ||
                 !monsterBox.Intersects(__instance.GetBoundingBox()))
             {
                 continue;

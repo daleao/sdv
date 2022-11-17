@@ -35,7 +35,8 @@ internal sealed class RemoveEnchantmentsCommand : ConsoleCommand
             return;
         }
 
-        if (Game1.player.CurrentTool is not ({ } tool and (Axe or Hoe or Pickaxe or WateringCan or FishingRod)))
+        if (Game1.player.CurrentTool is not ({ } tool and (Axe or Hoe or Pickaxe or WateringCan or FishingRod or MeleeWeapon)) ||
+            (Game1.player.CurrentTool is MeleeWeapon weapon && !weapon.isScythe()))
         {
             Log.W("You must select a tool first.");
             return;

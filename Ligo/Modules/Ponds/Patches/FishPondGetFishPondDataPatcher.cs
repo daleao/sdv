@@ -6,8 +6,8 @@ namespace DaLion.Ligo.Modules.Ponds.Patches;
 using System.Collections.Generic;
 using System.Linq;
 using DaLion.Shared.Extensions.Reflection;
+using DaLion.Shared.Harmony;
 using HarmonyLib;
-using Shared.Harmony;
 using StardewValley.Buildings;
 using StardewValley.GameData.FishPond;
 

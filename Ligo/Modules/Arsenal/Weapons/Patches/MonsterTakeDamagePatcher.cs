@@ -3,8 +3,8 @@
 #region using directives
 
 using DaLion.Ligo.Modules.Arsenal.Weapons.VirtualProperties;
+using DaLion.Shared.Harmony;
 using HarmonyLib;
-using Shared.Harmony;
 using StardewValley.Monsters;
 
 #endregion using directives

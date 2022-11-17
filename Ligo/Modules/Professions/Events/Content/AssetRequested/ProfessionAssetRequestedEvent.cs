@@ -70,13 +70,13 @@ internal sealed class ProfessionAssetRequestedEvent : AssetRequestedEvent
         string name =
             ModEntry.i18n.Get("prestige.achievement.name" +
                               (Game1.player.IsMale ? ".male" : ".female"));
-        var desc = ModEntry.i18n.Get("prestige.achievement.desc");
+        string desc = ModEntry.i18n.Get("prestige.achievement.desc");
 
-        const string SHOULD_DISPLAY_BEFORE_EARNED_S = "false";
-        const string PREREQUISITE_S = "-1";
-        const string HAT_INDEX_S = "";
+        const string shouldDisplayBeforeEarned = "false";
+        const string prerequisite = "-1";
+        const string hatIndex = "";
 
-        var newEntry = string.Join("^", name, desc, SHOULD_DISPLAY_BEFORE_EARNED_S, PREREQUISITE_S, HAT_INDEX_S);
+        var newEntry = string.Join("^", name, desc, shouldDisplayBeforeEarned, prerequisite, hatIndex);
         data[name.GetDeterministicHashCode()] = newEntry;
     }
 
@@ -118,7 +118,8 @@ internal sealed class ProfessionAssetRequestedEvent : AssetRequestedEvent
         var key = taxBonus >= ModEntry.Config.Professions.ConservationistTaxBonusCeiling
             ? "conservationist.mail.max"
             : "conservationist.mail";
-        var honorific = ModEntry.i18n.Get("honorific" + (Game1.player.IsMale ? ".male" : ".female"));
+
+        string honorific = ModEntry.i18n.Get("honorific" + (Game1.player.IsMale ? ".male" : ".female"));
         var farm = Game1.getFarm().Name;
         var season = LocalizedContentManager.CurrentLanguageCode == LocalizedContentManager.LanguageCode.fr
             ? ModEntry.i18n.Get("season." + Game1.currentSeason)

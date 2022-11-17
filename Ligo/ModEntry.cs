@@ -1,4 +1,4 @@
-namespace DaLion.Ligo;
+﻿namespace DaLion.Ligo;
 
 #region using directives
 
@@ -6,7 +6,7 @@ using System.Diagnostics.CodeAnalysis;
 using DaLion.Ligo.Modules;
 using DaLion.Shared.Events;
 using DaLion.Shared.ModData;
-using Shared.Networking;
+using DaLion.Shared.Networking;
 using DaLion.Shared.Reflection;
 using StardewModdingAPI.Utilities;
 

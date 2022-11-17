@@ -9,7 +9,7 @@ using DaLion.Ligo.Modules.Professions.Events.GameLoop;
 using DaLion.Ligo.Modules.Professions.Extensions;
 using DaLion.Ligo.Modules.Professions.VirtualProperties;
 using DaLion.Shared.Extensions.Stardew;
-using Shared.Networking;
+using DaLion.Shared.Networking;
 using Microsoft.Xna.Framework;
 using StardewValley.Locations;
 using StardewValley.Tools;

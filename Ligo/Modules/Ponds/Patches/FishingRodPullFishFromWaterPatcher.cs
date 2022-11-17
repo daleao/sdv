@@ -9,9 +9,9 @@ using DaLion.Ligo.Modules.Ponds.Extensions;
 using DaLion.Ligo.Modules.Professions.Extensions;
 using DaLion.Shared.Extensions;
 using DaLion.Shared.Extensions.Stardew;
+using DaLion.Shared.Harmony;
 using HarmonyLib;
 using Microsoft.Xna.Framework;
-using Shared.Harmony;
 using StardewValley.Buildings;
 using StardewValley.Tools;
 

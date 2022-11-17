@@ -149,6 +149,22 @@ internal sealed partial class GenericModConfigMenuIntegration
             .AddPage(LigoModule.Arsenal + "/Weapons", () => "Weapon Settings")
             .AddPageLink(LigoModule.Arsenal.Namespace, () => "Back to Arsenal settings")
             .AddCheckbox(
+                () => "Allow Combo Hits",
+                () => "Replaces vanilla weapon spam with a more strategic combo system.",
+                config => config.Arsenal.Weapons.AllowComboHits,
+                (config, value) => config.Arsenal.Weapons.AllowComboHits = value)
+            .AddCheckbox(
+                () => "Grounded Club Smash",
+                () =>
+                    "A club smash AoE will inflict guaranteed critical damage on burrowed enemies, but completely miss flying enemies.",
+                config => config.Arsenal.Weapons.GroundedClubSmash,
+                (config, value) => config.Arsenal.Weapons.GroundedClubSmash = value)
+            .AddCheckbox(
+                () => "Defense Improves Parry",
+                () => "Parry damage will increase by 10% for each point in defense.",
+                config => config.Arsenal.Weapons.DefenseImprovesParry,
+                (config, value) => config.Arsenal.Weapons.DefenseImprovesParry = value)
+            .AddCheckbox(
                 () => "Bring Back Stabby Swords",
                 () =>
                     "Replace the defensive special move of some swords with an offensive lunge move.\nAFTER DISABLING THIS SETTING YOU MUST TRASH ALL OWNED STABBING SWORDS.",
@@ -164,30 +180,23 @@ internal sealed partial class GenericModConfigMenuIntegration
                     config.Arsenal.Weapons.BringBackStabbySwords = value;
                     if (value)
                     {
-                        Modules.Arsenal.Weapons.Utils.ConvertStabbySwords();
+                        Arsenal.Weapons.Utils.ConvertAllStabbySwords();
                     }
                     else
                     {
-                        Modules.Arsenal.Weapons.Utils.RevertStabbySwords();
+                        Arsenal.Weapons.Utils.RevertAllStabbySwords();
                     }
                 })
             .AddCheckbox(
-                () => "Allow Combo Hits",
-                () => "Replaces vanilla weapon spam with a more strategic combo system.",
-                config => config.Arsenal.Weapons.AllowComboHits,
-                (config, value) => config.Arsenal.Weapons.AllowComboHits = value)
-            .AddCheckbox(
-                () => "Grounded Club Smash",
-                () =>
-                    "A club smash AoE will inflict guaranteed critical damage on burrowed enemies, but completely miss flying enemies.",
-                config => config.Arsenal.Weapons.GroundedClubSmash,
-                (config, value) => config.Arsenal.Weapons.GroundedClubSmash = value)
-            .AddCheckbox(
-                () => "Defense Improves Parry",
-                () =>
-                    "Parry damage will increase by 10% for each point in defense.",
-                config => config.Arsenal.Weapons.DefenseImprovesParry,
-                (config, value) => config.Arsenal.Weapons.DefenseImprovesParry = value)
+                () => "Rebalance Weapons",
+                () => "Rebalances every melee weapon with stats well-suited for this mod's intended experience.",
+                config => config.Arsenal.Weapons.RebalanceWeapons,
+                (config, value) =>
+                {
+                    config.Arsenal.Weapons.RebalanceWeapons = value;
+                    ModEntry.ModHelper.GameContent.InvalidateCache("Data/weapons");
+                    Arsenal.Weapons.Utils.UpdateAllWeapons();
+                })
             .AddCheckbox(
                 () => "Use Ligo Enchantments",
                 () => "Replaces boring old enchantments with exciting new ones.",

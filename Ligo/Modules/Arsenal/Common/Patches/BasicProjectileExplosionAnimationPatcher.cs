@@ -4,9 +4,9 @@
 
 using DaLion.Ligo.Modules.Arsenal.Common.Projectiles;
 using DaLion.Ligo.Modules.Arsenal.Slingshots.Projectiles;
+using DaLion.Shared.Harmony;
 using HarmonyLib;
 using Microsoft.Xna.Framework;
-using Shared.Harmony;
 using StardewValley.Projectiles;
 
 #endregion using directives

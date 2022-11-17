@@ -7,8 +7,8 @@ using System.Linq;
 using System.Reflection.Emit;
 using DaLion.Ligo.Modules.Arsenal.Slingshots.Enchantments;
 using DaLion.Shared.Extensions.Reflection;
+using DaLion.Shared.Harmony;
 using HarmonyLib;
-using Shared.Harmony;
 
 #endregion using directives
 

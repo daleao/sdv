@@ -68,6 +68,7 @@ internal sealed partial class GenericModConfigMenuIntegration
             .AddPageLink(LigoModule.Tools + "/Pick", () => "Pick Settings", () => "Go to Pick settings.")
             .AddPageLink(LigoModule.Tools + "/Hoe", () => "Hoe Settings", () => "Go to Hoe settings.")
             .AddPageLink(LigoModule.Tools + "/Can", () => "Watering Can Settings", () => "Go to Watering Can settings.")
+            .AddPageLink(LigoModule.Tools + "/Scythe", () => "Scythe Settings", () => "Go to Scythe settings.")
 
             // axe settings
             .AddPage(LigoModule.Tools + "/Axe", () => "Axe Settings")
@@ -637,6 +638,34 @@ internal sealed partial class GenericModConfigMenuIntegration
                 () => "Allow Swift Enchantment",
                 () => "Whether the Watering Can can be enchanted with Swift.",
                 config => config.Tools.Can.AllowSwiftEnchantment,
-                (config, value) => config.Tools.Can.AllowSwiftEnchantment = value);
+                (config, value) => config.Tools.Can.AllowSwiftEnchantment = value)
+
+            // scythe settings
+            .AddPage(LigoModule.Tools + "/Scythe", () => "Scythe Settings")
+            .AddPageLink(LigoModule.Tools.Namespace, () => "Back to Tool settings")
+            .AddNumberField(
+                () => "Regular Scythe Radius",
+                () => "Sets the area of effect of the regular Scythe.",
+                config => config.Tools.Scythe.RegularRadius,
+                (config, value) => config.Tools.Scythe.RegularRadius = value,
+                0,
+                10)
+            .AddNumberField(
+                () => "Golden Scythe Radius",
+                () => "Sets the area of effect of the Golden Scythe.",
+                config => config.Tools.Scythe.GoldRadius,
+                (config, value) => config.Tools.Scythe.GoldRadius = value,
+                0,
+                10)
+            .AddCheckbox(
+                () => "Clear Tree Saplings",
+                () => "Whether to clear tree saplings with the Scythe.",
+                config => config.Tools.Scythe.ClearTreeSaplings,
+                (config, value) => config.Tools.Scythe.ClearTreeSaplings = value)
+            .AddCheckbox(
+                () => "Allow Haymaker Enchantment",
+                () => "Whether the Scythe can be enchanted with Haymaker.",
+                config => config.Tools.Scythe.AllowHaymakerEnchantment,
+                (config, value) => config.Tools.Scythe.AllowHaymakerEnchantment = value);
     }
 }

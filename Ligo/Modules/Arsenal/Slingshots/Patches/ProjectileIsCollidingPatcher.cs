@@ -2,8 +2,8 @@
 
 #region using directives
 
+using DaLion.Shared.Harmony;
 using HarmonyLib;
-using Shared.Harmony;
 using StardewValley;
 using StardewValley.Network;
 using StardewValley.Projectiles;

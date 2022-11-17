@@ -5,8 +5,8 @@
 using DaLion.Ligo.Modules.Professions.Extensions;
 using DaLion.Ligo.Modules.Professions.Ultimates;
 using DaLion.Ligo.Modules.Professions.VirtualProperties;
+using DaLion.Shared.Harmony;
 using HarmonyLib;
-using Shared.Harmony;
 using StardewValley.Monsters;
 
 #endregion using directives

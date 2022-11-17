@@ -6,9 +6,9 @@ using System.Linq;
 using DaLion.Ligo.Modules.Professions.Extensions;
 using DaLion.Shared.Attributes;
 using DaLion.Shared.Extensions;
+using DaLion.Shared.Harmony;
 using HarmonyLib;
 using Microsoft.Xna.Framework;
-using Shared.Harmony;
 using SpaceCore.Interface;
 using StardewValley.Menus;
 

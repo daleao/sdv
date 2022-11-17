@@ -4,8 +4,8 @@
 
 using DaLion.Shared.Attributes;
 using DaLion.Shared.Extensions.Reflection;
+using DaLion.Shared.Harmony;
 using HarmonyLib;
-using Shared.Harmony;
 using StardewValley.TerrainFeatures;
 
 #endregion using directives

@@ -5,9 +5,9 @@ namespace DaLion.Ligo.Modules.Arsenal.Slingshots.Patches;
 
 using System.Text;
 using DaLion.Shared.Exceptions;
+using DaLion.Shared.Harmony;
 using HarmonyLib;
 using Microsoft.Xna.Framework.Graphics;
-using Shared.Harmony;
 
 #endregion using directives
 

@@ -3,6 +3,7 @@
 #region using directives
 
 using Newtonsoft.Json;
+using StardewValley.Tools;
 
 #endregion using directives
 
@@ -22,13 +23,17 @@ public sealed class HoeConfig
     };
 
     /// <summary>
-    ///     Gets a value indicating whether determines whether to apply custom tile area for the Hoe. Keep this at false if using defaults to improve
+    ///     Gets a value indicating whether to apply custom tile area for the Hoe. Keep this at false if using defaults to improve
     ///     performance.
     /// </summary>
     [JsonProperty]
     public bool OverrideAffectedTiles { get; internal set; } = false;
 
-    /// <summary>Gets a value indicating whether determines whether the Hoe can be enchanted with Master.</summary>
+    /// <summary>Gets a value indicating whether the Hoe can be enchanted with Master.</summary>
     [JsonProperty]
     public bool AllowMasterEnchantment { get; internal set; } = true;
+
+    /// <summary>Gets the multiplier to base stamina consumed by the <see cref="Axe"/>.</summary>
+    [JsonProperty]
+    public float BaseStaminaMultiplier { get; internal set; } = 1f;
 }

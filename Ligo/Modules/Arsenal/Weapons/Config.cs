@@ -46,6 +46,10 @@ public sealed class Config
         "Infinity Blade",
     }.ToHashSet();
 
+    /// <summary>Gets a value indicating whether to apply the corresponding weapon rebalance.</summary>
+    [JsonProperty]
+    public bool RebalanceWeapons { get; internal set; } = true;
+
     /// <summary>Gets a value indicating whether enable new overhauled enchantments for melee weapons, and rebalance some old ones.</summary>
     [JsonProperty]
     public bool LigoEnchants { get; internal set; } = true;

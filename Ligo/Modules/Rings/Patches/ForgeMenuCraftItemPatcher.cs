@@ -2,9 +2,9 @@
 
 #region using directives
 
-using Shared.Networking;
+using DaLion.Shared.Harmony;
+using DaLion.Shared.Networking;
 using HarmonyLib;
-using Shared.Harmony;
 using StardewValley.Menus;
 using StardewValley.Objects;
 

@@ -5,8 +5,8 @@
 using System.Reflection;
 using DaLion.Ligo.Modules.Professions.Extensions;
 using DaLion.Shared.Extensions.Stardew;
+using DaLion.Shared.Harmony;
 using HarmonyLib;
-using Shared.Harmony;
 
 #endregion using directives
 

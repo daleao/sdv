@@ -4,9 +4,9 @@
 
 using System.Reflection;
 using DaLion.Ligo.Modules.Professions.Extensions;
+using DaLion.Shared.Harmony;
 using HarmonyLib;
 using Microsoft.Xna.Framework;
-using Shared.Harmony;
 using StardewValley.Projectiles;
 
 #endregion using directives

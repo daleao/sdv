@@ -2,10 +2,10 @@
 
 #region using directives
 
+using DaLion.Ligo.Modules.Professions.VirtualProperties;
 using DaLion.Shared.Attributes;
-using DaLion.Shared.Extensions.Stardew;
+using DaLion.Shared.Harmony;
 using HarmonyLib;
-using Shared.Harmony;
 using StardewValley.Monsters;
 
 #endregion using directives
@@ -26,18 +26,17 @@ internal sealed class GreenSlimeBehaviorAtGameTickPatcher : HarmonyPatcher
     [HarmonyPostfix]
     private static void GreenSlimeBehaviorAtGameTickPostfix(GreenSlime __instance, ref int ___readyToJump)
     {
-        var timeLeft = __instance.Read<int>(DataFields.Jumping);
+        var timeLeft = __instance.Get_JumpTimer();
         if (timeLeft <= 0)
         {
             return;
         }
 
         timeLeft -= Game1.currentGameTime.ElapsedGameTime.Milliseconds;
-        __instance.Write(DataFields.Jumping, timeLeft <= 0 ? null : timeLeft.ToString());
+        __instance.Set_JumpTimer(timeLeft);
 
         //if (!__instance.Player.HasProfession(Profession.Piper)) return;
-
-        //___readyToJump = -1;
+        //  ___readyToJump = -1;
     }
 
     #endregion harmony patches

@@ -4,10 +4,10 @@
 
 using System.Reflection;
 using DaLion.Shared.Extensions;
+using DaLion.Shared.Harmony;
 using HarmonyLib;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Shared.Harmony;
 using StardewModdingAPI.Utilities;
 using StardewValley.Objects;
 

@@ -3,8 +3,8 @@
 #region using directives
 
 using DaLion.Ligo.Modules.Arsenal.Weapons.Extensions;
+using DaLion.Shared.Harmony;
 using HarmonyLib;
-using Shared.Harmony;
 using StardewValley.Menus;
 
 #endregion using directives

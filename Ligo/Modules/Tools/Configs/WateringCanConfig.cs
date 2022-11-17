@@ -3,6 +3,7 @@
 #region using directives
 
 using Newtonsoft.Json;
+using StardewValley.Tools;
 
 #endregion using directives
 
@@ -29,7 +30,11 @@ public sealed class WateringCanConfig
     [JsonProperty]
     public bool OverrideAffectedTiles { get; internal set; } = false;
 
-    /// <summary>Gets a value indicating whether determines whether the Watering Can can be enchanted with Master.</summary>
+    /// <summary>Gets a value indicating whether the Watering Can can be enchanted with Master.</summary>
     [JsonProperty]
     public bool AllowMasterEnchantment { get; internal set; } = true;
+
+    /// <summary>Gets the multiplier to base stamina consumed by the <see cref="Axe"/>.</summary>
+    [JsonProperty]
+    public float BaseStaminaMultiplier { get; internal set; } = 1f;
 }

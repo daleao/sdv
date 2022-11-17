@@ -421,7 +421,7 @@ internal sealed class GameLocationDamageMonsterPatcher : HarmonyPatcher
 
     private static void TrySteal(Monster monster, Farmer who, Random r)
     {
-        if (monster.Read<bool>(DataFields.Stolen) || !(Game1.random.NextDouble() < 0.2))
+        if (monster.Get_Stolen() || !(Game1.random.NextDouble() < 0.2))
         {
             return;
         }
@@ -434,7 +434,7 @@ internal sealed class GameLocationDamageMonsterPatcher : HarmonyPatcher
             return;
         }
 
-        monster.Write(DataFields.Stolen, bool.TrueString);
+        monster.Set_Stolen(true);
 
         // play sound effect
         Sfx.PoacherSteal.Play();

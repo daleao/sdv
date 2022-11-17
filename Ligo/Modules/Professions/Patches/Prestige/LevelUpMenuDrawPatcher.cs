@@ -135,7 +135,7 @@ internal sealed class LevelUpMenuDrawPatcher : HarmonyPatcher
 
             if (selectionArea.Contains(Game1.getMouseX(), Game1.getMouseY()))
             {
-                var hoverText = ModEntry.i18n.Get(leftProfession % 6 <= 1
+                string hoverText = ModEntry.i18n.Get(leftProfession % 6 <= 1
                     ? "prestige.levelup.tooltip:5"
                     : "prestige.levelup.tooltip:10");
                 IClickableMenu.drawHoverText(b, hoverText, Game1.smallFont);
@@ -154,7 +154,7 @@ internal sealed class LevelUpMenuDrawPatcher : HarmonyPatcher
 
             if (selectionArea.Contains(Game1.getMouseX(), Game1.getMouseY()))
             {
-                var hoverText = ModEntry.i18n.Get(leftProfession % 6 <= 1
+                string hoverText = ModEntry.i18n.Get(leftProfession % 6 <= 1
                     ? "prestige.levelup.tooltip:5"
                     : "prestige.levelup.tooltip:10");
                 IClickableMenu.drawHoverText(b, hoverText, Game1.smallFont);

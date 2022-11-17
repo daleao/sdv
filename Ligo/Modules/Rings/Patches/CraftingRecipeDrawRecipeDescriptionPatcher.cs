@@ -6,10 +6,10 @@ using System.Collections.Generic;
 using System.Reflection;
 using DaLion.Ligo.Modules.Rings.Extensions;
 using DaLion.Shared.Extensions;
+using DaLion.Shared.Harmony;
 using HarmonyLib;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Shared.Harmony;
 using StardewModdingAPI.Utilities;
 
 #endregion using directives

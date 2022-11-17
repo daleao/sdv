@@ -15,3 +15,4 @@
 
 * Fixed an issue where debited amount would not actually reduce the player's money when they didn't have any before sleeping. The debit now happens when the day starts, *after* the previous day's earnings have been added to the player's balance.
 * Fixed a typo in introduction letter (english).
+* Fixed a translation objects not being converted to strings.

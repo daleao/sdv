@@ -5,9 +5,9 @@
 using System.Collections.Generic;
 using DaLion.Shared.Classes;
 using DaLion.Shared.Extensions.Xna;
+using DaLion.Shared.Harmony;
 using HarmonyLib;
 using Microsoft.Xna.Framework;
-using Shared.Harmony;
 using StardewValley.Tools;
 
 #endregion using directives

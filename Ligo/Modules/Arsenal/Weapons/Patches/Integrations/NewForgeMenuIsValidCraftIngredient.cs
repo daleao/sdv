@@ -4,8 +4,8 @@
 
 using DaLion.Ligo.Modules.Arsenal.Weapons.Extensions;
 using DaLion.Shared.Attributes;
+using DaLion.Shared.Harmony;
 using HarmonyLib;
-using Shared.Harmony;
 using SpaceCore.Interface;
 
 #endregion using directives

@@ -5,8 +5,8 @@
 using DaLion.Ligo.Modules.Arsenal.Common.Enchantments;
 using DaLion.Ligo.Modules.Arsenal.Weapons.Extensions;
 using DaLion.Shared.Extensions.Stardew;
+using DaLion.Shared.Harmony;
 using HarmonyLib;
-using Shared.Harmony;
 using StardewValley.Tools;
 
 #endregion using directives
