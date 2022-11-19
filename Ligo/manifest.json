@@ -1,5 +1,5 @@
 {
-  "Name": "Da Lion's Immersive Gameplay Overhaul",
+  "Name": "Lion's Immersive Gameplay Overhaul",
   "Author": "DaLion",
   "Version": "1.0.0-Debug",
   "Description": "An immersive gameplay overhaul.",
@@ -32,10 +32,6 @@
     },
     {
       "UniqueID": "spacechase0.LuckSkill",
-      "IsRequired": false
-    },
-    {
-      "UniqueID": "spacechase0.CookingSkill",
       "IsRequired": false
     },
     {

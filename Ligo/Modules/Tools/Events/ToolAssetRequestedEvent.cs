@@ -20,9 +20,6 @@ internal sealed class ToolAssetRequestedEvent : AssetRequestedEvent
     private const int CritChance = 12;
     private const int CritPower = 13;
 
-    private const int ScytheIndex = 47;
-    private const int GoldenScytheIndex = 53;
-
     private static readonly Dictionary<string, (Action<IAssetData> Callback, AssetEditPriority Priority)> AssetEditors =
         new();
 
@@ -55,8 +52,8 @@ internal sealed class ToolAssetRequestedEvent : AssetRequestedEvent
             var fields = data[key].Split('/');
             switch (key)
             {
-                case ScytheIndex: // scythe
-                    fields[Aoe] = ModEntry.Config.Tools.Scythe.RegularRadius.ToString();
+                case Constants.ScytheIndex: // scythe
+                    fields[Aoe] = (ModEntry.Config.Tools.Scythe.RegularRadius * Game1.tileSize).ToString();
 
                     if (ModEntry.Config.EnableArsenal && ModEntry.Config.Arsenal.Weapons.RebalanceWeapons)
                     {
@@ -68,8 +65,8 @@ internal sealed class ToolAssetRequestedEvent : AssetRequestedEvent
                     }
 
                     break;
-                case GoldenScytheIndex: // golden scythe
-                    fields[Aoe] = ModEntry.Config.Tools.Scythe.GoldRadius.ToString();
+                case Constants.GoldenScytheIndex: // golden scythe
+                    fields[Aoe] = (ModEntry.Config.Tools.Scythe.GoldRadius * Game1.tileSize).ToString();
 
                     if (ModEntry.Config.EnableArsenal && ModEntry.Config.Arsenal.Weapons.RebalanceWeapons)
                     {

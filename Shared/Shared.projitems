@@ -108,9 +108,11 @@
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\Stardew\ItemExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\Stardew\FarmAnimalExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\Stardew\FarmerExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Extensions\Stardew\MeleeWeaponExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\Stardew\MonsterExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\Stardew\TerrainFeatureExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\Stardew\SObjectExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Extensions\Stardew\RectangleExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\Stardew\Vector2Extensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\Xna\ColorExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\Xna\PointExtensions.cs" />

@@ -26,7 +26,9 @@ internal sealed class MeleeWeaponDoAnimateSpecialMovePatcher : HarmonyPatcher
     [HarmonyAfter("Ligo.Modules.Arsenal")]
     private static void MeleeWeaponDoAnimateSpecialMovePostfix(MeleeWeapon __instance)
     {
-        var cdr = 10f / (10f + __instance.getLastFarmerToUse().Read<float>(DataFields.RingCooldownReduction));
+        var lastUser = __instance.getLastFarmerToUse();
+        var cdr = 1f - ((lastUser.Read<float>(DataFields.RingCooldownReduction) +
+                         lastUser.Read<float>(DataFields.ResonantCooldownReduction)) * 0.1f);
         if (cdr <= 0f)
         {
             return;

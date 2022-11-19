@@ -2,6 +2,7 @@
 
 #region using directives
 
+using DaLion.Ligo.Modules.Arsenal.Configs;
 using Newtonsoft.Json;
 
 #endregion using directives
@@ -9,13 +10,13 @@ using Newtonsoft.Json;
 /// <summary>The user-configurable settings for Arsenal.</summary>
 public sealed class Config
 {
-    /// <inheritdoc cref="Arsenal.Slingshots.Config"/>
+    /// <inheritdoc cref="SlingshotConfig"/>
     [JsonProperty]
-    public Slingshots.Config Slingshots { get; internal set; } = new();
+    public SlingshotConfig Slingshots { get; internal set; } = new();
 
-    /// <inheritdoc cref="Arsenal.Weapons.Config"/>
+    /// <inheritdoc cref="WeaponConfig"/>
     [JsonProperty]
-    public Weapons.Config Weapons { get; internal set; } = new();
+    public WeaponConfig Weapons { get; internal set; } = new();
 
     /// <summary>Gets a value indicating whether face the current cursor position before swinging your arsenal.</summary>
     [JsonProperty]

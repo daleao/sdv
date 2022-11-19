@@ -4,6 +4,7 @@
 
 using System.Collections.Generic;
 using System.Linq;
+using DaLion.Ligo;
 using Microsoft.Xna.Framework;
 using StardewModdingAPI.Utilities;
 using StardewValley.Buildings;
@@ -23,7 +24,6 @@ public static class SObjectExtensions
         306, // mayonnaise
         307, // duck mayonnaise
         308, // void mayonnaise
-        340, // honey
         424, // cheese
         426, // goat cheese
         428, // cloth
@@ -33,7 +33,7 @@ public static class SObjectExtensions
     /// <summary>Determines whether <paramref name="object"/> is an animal produce or derived artisan good.</summary>
     /// <param name="object">The <see cref="SObject"/>.</param>
     /// <returns><see langword="true"/> if the <paramref name="object"/> is produced directly or indirectly by an animal, otherwise <see langword="false"/>.</returns>
-    public static bool IsAnimalProduct(this SObject @object)
+    public static bool IsAnimalOrDerivedProduct(this SObject @object)
     {
         return @object.Category.IsIn(
                    SObject.EggCategory,

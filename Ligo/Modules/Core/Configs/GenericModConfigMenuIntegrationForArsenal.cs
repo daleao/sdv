@@ -180,11 +180,11 @@ internal sealed partial class GenericModConfigMenuIntegration
                     config.Arsenal.Weapons.BringBackStabbySwords = value;
                     if (value)
                     {
-                        Arsenal.Weapons.Utils.ConvertAllStabbySwords();
+                        Arsenal.Utils.ConvertAllStabbySwords();
                     }
                     else
                     {
-                        Arsenal.Weapons.Utils.RevertAllStabbySwords();
+                        Arsenal.Utils.RevertAllStabbySwords();
                     }
                 })
             .AddCheckbox(
@@ -195,7 +195,7 @@ internal sealed partial class GenericModConfigMenuIntegration
                 {
                     config.Arsenal.Weapons.RebalanceWeapons = value;
                     ModEntry.ModHelper.GameContent.InvalidateCache("Data/weapons");
-                    Arsenal.Weapons.Utils.UpdateAllWeapons();
+                    Arsenal.Utils.UpdateAllWeapons();
                 })
             .AddCheckbox(
                 () => "Use Ligo Enchantments",

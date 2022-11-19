@@ -6,6 +6,7 @@
 
 * When a Gemologist reaches a new quality threshold, all currently processing Crystalariums owned by that player will likewise receive a quality upgrade to reflect that.
 * Added golden versions of profession icons for Prestiged professions.
+* Added config setting to disable Bee House being affected by Producer profession.
 
 ### Removed
 

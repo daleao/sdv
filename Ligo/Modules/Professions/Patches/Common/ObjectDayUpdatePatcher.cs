@@ -31,7 +31,7 @@ internal sealed class ObjectDayUpdatePatcher : HarmonyPatcher
         var helper = new IlHelper(original, instructions);
 
         // From: minutesUntilReady.Value = Utility.CalculateMinutesUntilMorning(Game1.timeOfDay, 4);
-        // To: minutesUntilReady.Value = Utility.CalculateMinutesUntilMorning(Game1.timeOfDay, this.DoesOwnerHaveProfession(<producer_id>)
+        // To: minutesUntilReady.Value = Utility.CalculateMinutesUntilMorning(Game1.timeOfDay, Config.BeesAreAnimals && this.DoesOwnerHaveProfession(<producer_id>)
         //     ? this.DoesOwnerHaveProfession(100 + <producer_id>
         //         ? 1
         //         : 2
@@ -51,6 +51,14 @@ internal sealed class ObjectDayUpdatePatcher : HarmonyPatcher
                             new[] { typeof(int), typeof(int) })))
                 .AddLabels(isNotProducer)
                 .InsertInstructions(
+                    new CodeInstruction(OpCodes.Call, typeof(ModEntry).RequirePropertyGetter(nameof(ModEntry.Config))),
+                    new CodeInstruction(
+                        OpCodes.Callvirt,
+                        typeof(ModConfig).RequirePropertyGetter(nameof(ModConfig.Professions))),
+                    new CodeInstruction(
+                        OpCodes.Callvirt,
+                        typeof(Config).RequirePropertyGetter(nameof(Config.BeesAreAnimals))),
+                    new CodeInstruction(OpCodes.Brfalse_S, isNotProducer),
                     new CodeInstruction(OpCodes.Ldarg_0),
                     new CodeInstruction(OpCodes.Ldc_I4_3), // 3 = Profession.Producer
                     new CodeInstruction(OpCodes.Ldc_I4_0), // false for not prestiged

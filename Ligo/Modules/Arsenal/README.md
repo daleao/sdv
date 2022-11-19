@@ -98,26 +98,29 @@ One point of defense will now reduce incoming damage by 10% regardless of the en
 
 Note that this change applies to monsters as well as players! It is also significantly more noticeable on enemies, given the player's inflated damage versus the fact that most monsters have just a few points of defense. Now, those few points can easily cut your damage by half. Crit. strikes have the added benefit of ignoring enemy defense, meaning that critical builds will counter defensive enemies.
 
-### Weapon Stats
-
-Every weapon is given adjusted stats to accomodate and better fit the aforementioned changes. This includes changes to damage, in order to generate a more fluid progression in the Mines and compensate for the removal of weapons from chests. It also includes overall reductions in knockback and swing speed already described above. Criticals, in particular, are quite awkward in vanilla; all weapons share the exact same default crit. stats, with a whopping 300% crit. power and a lousy 2% crit. chance. The reworked stats seek to normalize the large discrepancy between crit. chance and power and also grant some identity to each weapon type.
-
-| Weapon Type | Crit. Chance  | Crit. Power |
-| ----------- | ------------- | ----------- |
-| Sword       | 1/16 or 6.25% | 200%        |
-| Dagger      | 1/8 or 12.5%  | 150%        |
-| Club        | 1/32 or 3.12% | 300%        |
-
-Clubs are unreliable crit. weapons, but pack a punch if you putt in the effort to build-up crit. chance.  On the other hand, daggers are reliable crit. weapons, but require some extra crit. multipliers to reach the same damage potential. Note that daggers, as in vanilla, continue to gain slightly more out of each crit. point than other weapons.
-
 ### Stabbing Swords & Special Moves
 
 In vanilla game code we can find traces of an abandoned fourth weapon type: **stabbing swords**. We can conclude that Concerned Ape did originally intend for some swords to *not* have the infamously hated and widely ignored defensive parry special move. This module thus reintroduces stabbing swords into the game, along with a brand new special move, which means that sword players can finally have an offensive special move: 
 pressing the action button with a stabbing sword equipped will perform a forwards dash attack, which allows for quick repositioning while also damaging enemies along the way. The player is also invincible during the dash.
 
-This is by no means intended to further triviliaze the parry mechanic. On that contrary, parry is made immediately more useful by the introduction of combos and reduced knockback. On top of that, the parry damage has been improved and will now increase by 10% for every point of defense, adding some offensive value to the defense stat and making defensive builds more viable.
+Defensive swords are still in the game, and the addition of stabbing swords is by no means intended to further triviliaze their parry mechanic. On the contrary, parry has been made immediately more useful by the simple introduction of combos and reduced knockback. But on top of that, the parry damage will now increase by 10% for each defense point, adding some offensive value to the defense stat itself and making defensive builds more viable.
 
 Lastly, there is also the option to make the club smash attack more immersive, after all a ground-shaking smash attack should do critical damage to all enemies underground, and should not do any damage at all to enemies in the air.
+
+### Weapon Stats
+
+I wrestled with this idea for a long time, but ultimately decided that a weapon stat rework is necessary to achieve the desired experience with the aforementioned changes. This rebalance has three main objectives:
+
+1. To differentiate between and establish an identity for each of the 4 weapon types:
+    - **Clubs** are your general unreliable, imprecise and sluggish, but huge-damage-potential, heavy and larger-hit-box weapons.
+    - **Daggers** are the opposite of clubs, being the quick, precise, but short-range and generally lower damage potential weapons.
+    - **Stabbing Swords** are somewhere in the middle, with average damage, speed and precision.
+    - **Defense Swords** are marginally weaker and slower than their offensive counterpart, but are otherwise heavier, sturdier and wider. They are somewhere in-between stabbing swords and clubs. 
+2. To improve the overall weapon progression, make fodder weapons useful and force the player to work for more powerful unique weapons; and
+3. To add more viable best-in-slot alternative which are not immediately overshadowed by the Infinity Blade, but at the same time maintaining the latter's "legendary" status:
+    - **Dragonbone** weapons are the sharpest and most-damaging weapons in the game, even above Infinity weapons.
+    - **Dwarven** weapons are marginally weaker, but heavier, wider and more defensive.
+    - **Infinity** weapons have comparable damage. They are otherwise unremarkable stat-wise, but offer [other unique bonuses, if you are willing to put in some work for them](#infinity-1-weapons).
 
 ## Slingshots Rework
 
@@ -210,8 +213,8 @@ To you obtain your first Galaxy weapon, as in vanilla you must first unlock the 
 
 In return for all that extra work, the Infinity weapons receive some extra perks:
     
-1. +1 gemstone slot (4 total).
-2. While at full health, every swing of an Infinity weapon fires a mid-range energy beam.
+1. +1 gemstone slot (4 total). Keeping in mind that each gemstone can resonate with equipped [Infinity Bands](../Rings).
+2. While at full health, every swing will fire a mid-range energy beam. 
 
 ### Woody Replaces Rusty
 

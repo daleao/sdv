@@ -181,7 +181,7 @@ internal sealed class ProfessionAssetRequestedEvent : AssetRequestedEvent
         if (ModEntry.Config.Professions.VintageInterfaceSupport != Config.VintageInterfaceStyle.Off)
         {
             var vintage = "off";
-            if (ModEntry.Config.Professions.VintageInterfaceSupport == Config.VintageInterfaceStyle.Automatic)
+            if (ModEntry.Config.Professions.VintageInterfaceSupport == Config.VintageInterfaceStyle.Auto)
             {
                 if (ModEntry.ModHelper.ModRegistry.IsLoaded("ManaKirel.VMI") ||
                     ModEntry.ModHelper.ModRegistry.IsLoaded("ManaKirel.VintageInterface2"))
@@ -224,7 +224,7 @@ internal sealed class ProfessionAssetRequestedEvent : AssetRequestedEvent
         if (ModEntry.Config.Professions.VintageInterfaceSupport != Config.VintageInterfaceStyle.Off)
         {
             var vintage = "off";
-            if (ModEntry.Config.Professions.VintageInterfaceSupport == Config.VintageInterfaceStyle.Automatic)
+            if (ModEntry.Config.Professions.VintageInterfaceSupport == Config.VintageInterfaceStyle.Auto)
             {
                 if (ModEntry.ModHelper.ModRegistry.IsLoaded("ManaKirel.VMI"))
                 {

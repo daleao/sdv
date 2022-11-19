@@ -3,7 +3,7 @@
 #region using directives
 
 using System.Linq;
-using DaLion.Ligo.Modules.Arsenal.Common.Enchantments;
+using DaLion.Ligo.Modules.Arsenal.Enchantments;
 using DaLion.Ligo.Modules.Rings.VirtualProperties;
 using DaLion.Shared.Extensions;
 using DaLion.Shared.Extensions.Stardew;

@@ -15,7 +15,7 @@ public sealed class ScytheConfig
 
     /// <summary>Gets the radius of the Golden Scythe.</summary>
     [JsonProperty]
-    public int GoldRadius { get; internal set; } = 20;
+    public int GoldRadius { get; internal set; } = 4;
 
     /// <summary>Gets a value indicating whether to clear tree saplings.</summary>
     [JsonProperty]

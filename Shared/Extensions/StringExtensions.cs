@@ -56,7 +56,7 @@ public static class StringExtensions
     /// <summary>Removes invalid file name or path characters from the string.</summary>
     /// <param name="str">The <see cref="string"/>.</param>
     /// <returns>A new <see cref="string"/> formed by filtering any invalid file name or path characters from the original.</returns>
-    public static string RemoveInvalidChars(this string str)
+    public static string RemoveInvalidFileNameOrPathChars(this string str)
     {
         var invalidChars = new string(Path.GetInvalidFileNameChars()) + new string(Path.GetInvalidPathChars());
         return new Regex($"[{Regex.Escape(invalidChars)}]").Replace(str, string.Empty);
@@ -124,7 +124,7 @@ public static class StringExtensions
     /// <returns><see langword="true"/> if the parse was successful, otherwise <see langword="false"/>.</returns>
     public static bool TryParse<T>(this string str, [NotNullWhen(true)] out T? result)
     {
-        result = default(T?);
+        result = default;
         if (string.IsNullOrEmpty(str))
         {
             return false;

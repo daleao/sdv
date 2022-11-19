@@ -277,7 +277,7 @@ internal sealed class GameLocationDamageMonsterPatcher : HarmonyPatcher
         else
         {
             // increment ultimate
-            ultimate.ChargeValue += weapon.type.Value == MeleeWeapon.club ? 3 : 2; // more if wielding a club
+            ultimate.ChargeValue += weapon.IsClub() ? 3 : 2; // more if wielding a club
         }
     }
 

@@ -26,7 +26,7 @@ public sealed class Config
         Brown,
 
         /// <summary>Detect automatically based on the <see cref="IModRegistry"/>.</summary>
-        Automatic,
+        Auto,
     }
 
     /// <summary>The style used to indicate Skill Reset progression.</summary>
@@ -88,11 +88,15 @@ public sealed class Config
         "Yogurt Jar", // artisan valley
     };
 
-    /// <summary>Gets you must forage this many items before your forage becomes iridium-quality.</summary>
+    /// <summary>Gets a value indicating whether Bee House will be affected by producer bonuses.</summary>
+    [JsonProperty]
+    public bool BeesAreAnimals { get; internal set; } = true;
+
+    /// <summary>Gets the number of items that must be foraged before foraged items become iridium-quality.</summary>
     [JsonProperty]
     public uint ForagesNeededForBestQuality { get; internal set; } = 100;
 
-    /// <summary>Gets you must mine this many minerals before your mined minerals become iridium-quality.</summary>
+    /// <summary>Gets the number of minerals that must be mined before mined minerals become iridium-quality.</summary>
     [JsonProperty]
     public uint MineralsNeededForBestQuality { get; internal set; } = 100;
 
@@ -103,11 +107,11 @@ public sealed class Config
     [JsonProperty]
     public bool LaxOwnershipRequirements { get; internal set; } = false;
 
-    /// <summary>Gets changes the size of the pointer used to track objects by Prospector and Scavenger professions.</summary>
+    /// <summary>Gets the size of the pointer used to track objects by Prospector and Scavenger professions.</summary>
     [JsonProperty]
     public float TrackPointerScale { get; internal set; } = 1f;
 
-    /// <summary>Gets changes the speed at which the tracking pointer bounces up and down (higher is faster).</summary>
+    /// <summary>Gets the speed at which the tracking pointer bounces up and down (higher is faster).</summary>
     [JsonProperty]
     public float TrackPointerBobbingRate { get; internal set; } = 1f;
 
@@ -123,15 +127,15 @@ public sealed class Config
     [JsonProperty]
     public bool AllowScavengerHuntsOnFarm { get; internal set; } = false;
 
-    /// <summary>Gets increase this multiplier if you find that Scavenger hunts end too quickly.</summary>
+    /// <summary>Gets a multiplier which is used to extend the duration of Scavenger hunts, in case you feel they end too quickly.</summary>
     [JsonProperty]
     public float ScavengerHuntHandicap { get; internal set; } = 1f;
 
-    /// <summary>Gets increase this multiplier if you find that Prospector hunts end too quickly.</summary>
+    /// <summary>Gets a multiplier which is used to extend the duration of Prospector hunts, in case you feel they end too quickly.</summary>
     [JsonProperty]
     public float ProspectorHuntHandicap { get; internal set; } = 1f;
 
-    /// <summary>Gets you must be this close to the treasure hunt target before the indicator appears.</summary>
+    /// <summary>Gets the minimum distance to the treasure hunt target before the indicator appears.</summary>
     [JsonProperty]
     public float TreasureDetectionDistance { get; internal set; } = 3f;
 
@@ -143,20 +147,20 @@ public sealed class Config
     [JsonProperty]
     public bool EnableGetExcited { get; internal set; } = true;
 
-    /// <summary>Gets you must catch this many fish of a given species to achieve instant catch.</summary>
+    /// <summary>Gets the number of fish species that must be caught to achieve instant catch.</summary>
     /// <remarks>Unused.</remarks>
     [JsonProperty]
     public uint FishNeededForInstantCatch { get; internal set; } = 500;
 
     /// <summary>
-    ///     Gets if multiple new fish mods are installed, you may want to adjust this to a sensible value. Limits the price
-    ///     multiplier for fish sold by Angler.
+    ///     Gets the maximum multiplier that will be added to fish sold by Angler. if multiple new fish mods are installed,
+    ///     you may want to adjust this to a sensible value.
     /// </summary>
     [JsonProperty]
     public float AnglerMultiplierCap { get; internal set; } = 1f;
 
     /// <summary>
-    ///     Gets a value indicating whether determines whether to display the MAX icon below fish in the Collections Menu which have been caught at the
+    ///     Gets a value indicating whether to display the MAX icon below fish in the Collections Menu which have been caught at the
     ///     maximum size.
     /// </summary>
     [JsonProperty]
@@ -182,7 +186,7 @@ public sealed class Config
     [JsonProperty]
     public uint PiperBuffCap { get; internal set; } = 10;
 
-    /// <summary>Gets a value indicating whether required to allow Ultimate activation. Super Stat continues to apply.</summary>
+    /// <summary>Gets a value indicating whether to allow Ultimate activation. Super Stat continues to apply.</summary>
     [JsonProperty]
     public bool EnableSpecials { get; internal set; } = true;
 
@@ -199,32 +203,32 @@ public sealed class Config
     public float SpecialActivationDelay { get; internal set; } = 1f;
 
     /// <summary>
-    ///     Gets affects the rate at which one builds the Ultimate meter. Increase this if you feel the gauge raises too
+    ///     Gets the rate at which one builds the Ultimate meter. Increase this if you feel the gauge raises too
     ///     slowly.
     /// </summary>
     [JsonProperty]
     public double SpecialGainFactor { get; internal set; } = 1d;
 
     /// <summary>
-    ///     Gets affects the rate at which the Ultimate meter depletes during Ultimate. Decrease this to make Ultimate last
+    ///     Gets the rate at which the Ultimate meter depletes during Ultimate. Decrease this to make Ultimate last
     ///     longer.
     /// </summary>
     [JsonProperty]
     public double SpecialDrainFactor { get; internal set; } = 1d;
 
-    /// <summary>Gets a value indicating whether required to apply prestige changes.</summary>
+    /// <summary>Gets a value indicating whether to apply Prestige changes.</summary>
     [JsonProperty]
     public bool EnablePrestige { get; internal set; } = true;
 
-    /// <summary>Gets multiplies the base skill reset cost. Set to 0 to reset for free.</summary>
+    /// <summary>Gets the base skill reset cost multiplier. Set to 0 to reset for free.</summary>
     [JsonProperty]
     public float SkillResetCostMultiplier { get; internal set; } = 1f;
 
-    /// <summary>Gets a value indicating whether determines whether resetting a skill also clears all corresponding recipes.</summary>
+    /// <summary>Gets a value indicating whether resetting a skill also clears all corresponding recipes.</summary>
     [JsonProperty]
     public bool ForgetRecipes { get; internal set; } = true;
 
-    /// <summary>Gets a value indicating whether determines whether the player can use the Statue of Prestige more than once per day.</summary>
+    /// <summary>Gets a value indicating whether the player can use the Statue of Prestige more than once per day.</summary>
     [JsonProperty]
     public bool AllowMultiplePrestige { get; internal set; } = false;
 
@@ -244,7 +248,7 @@ public sealed class Config
     [JsonProperty]
     public uint ChangeUltCost { get; internal set; } = 0;
 
-    /// <summary>Gets multiplies all skill experience gained from the start of the game.</summary>
+    /// <summary>Gets a multiplier that will be applied to all skill experience gained from the start of the game.</summary>
     /// <remarks>The order is Farming, Fishing, Foraging, Mining, Combat.</remarks>
     [JsonProperty]
     public float[] BaseSkillExpMultipliers { get; internal set; } = { 1f, 1f, 1f, 1f, 1f, 1f };
@@ -259,11 +263,13 @@ public sealed class Config
             { "spacechase0.Cooking", 1 },
             { "spacechase0.Luck", 1 },
             { "spacechase0.Magic", 1 },
+            { "drbirbdev.BinningSkill", 1 },
+            { "drbirbdev.SocializingSkill", 1 },
         };
 
-    /// <summary>Gets enable if using the Vintage Interface v2 mod. Accepted values: "Brown", "Pink", "Off", "Automatic".</summary>
+    /// <summary>Gets whether to enable support for Vintage Interface. Accepted values: "Brown", "Pink", "Off", "Auto".</summary>
     [JsonProperty]
-    public VintageInterfaceStyle VintageInterfaceSupport { get; internal set; } = VintageInterfaceStyle.Automatic;
+    public VintageInterfaceStyle VintageInterfaceSupport { get; internal set; } = VintageInterfaceStyle.Auto;
 
     /// <summary>
     ///     Gets determines the sprite that appears next to skill bars. Accepted values: "StackedStars", "Gen3Ribbons",

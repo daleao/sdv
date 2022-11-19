@@ -4,6 +4,7 @@
 
 using System.Collections.Generic;
 using System.Linq;
+using StardewValley.Minigames;
 
 #endregion using directives
 
@@ -122,5 +123,21 @@ public static class CollectionExtensions
         where T : IEquatable<T>
     {
         return collection.Distinct(comparer).Count() == 1;
+    }
+
+    /// <summary>Gets a properly formatted, comma-separated string representation of the <paramref name="collection"/>.</summary>
+    /// <typeparam name="T">The type of the elements in the <paramref name="collection"/>.</typeparam>
+    /// <param name="collection">The <see cref="ICollection{T}"/>.</param>
+    /// <returns>A properly formatted, comma-separated string representation of the <paramref name="collection"/>.</returns>
+    public static string ToListString<T>(this ICollection<T> collection)
+    {
+        var s = string.Join(", ", collection);
+        var lastComma = s.LastIndexOf(',');
+        if (lastComma != -1)
+        {
+            s = s.Remove(lastComma, 1).Insert(lastComma, " and");
+        }
+
+        return s;
     }
 }

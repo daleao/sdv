@@ -38,7 +38,7 @@ internal sealed partial class GenericModConfigMenuIntegration
                     ModEntry.ModHelper.GameContent.InvalidateCacheAndLocalized(
                         $"{ModEntry.Manifest.UniqueID}/UltimateMeter");
                 },
-                new[] { "Automatic", "Brown", "Pink", "Off" },
+                new[] { "Auto", "Brown", "Pink", "Off" },
                 null)
             .AddDropdown(
                 () => "Progression Style",

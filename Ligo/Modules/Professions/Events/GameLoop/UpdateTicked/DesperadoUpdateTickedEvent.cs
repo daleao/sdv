@@ -52,13 +52,13 @@ internal sealed class DesperadoUpdateTickedEvent : UpdateTickedEvent
             return;
         }
 
-        var overcharge = slingshot.GetOvercharge(firer);
-        if (overcharge <= 1f)
+        var overchargePct = slingshot.GetOvercharge(firer) - 1f;
+        if (overchargePct <= 0f)
         {
             return;
         }
 
-        firer.jitterStrength = Math.Max(0f, overcharge - 0.5f);
+        firer.jitterStrength = Math.Max(0f, overchargePct);
 
         if (Game1.soundBank is null)
         {
@@ -71,6 +71,6 @@ internal sealed class DesperadoUpdateTickedEvent : UpdateTickedEvent
             Sfx.SinWave.Play();
         }
 
-        Sfx.SinWave.SetVariable("Pitch", 2400f * overcharge);
+        Sfx.SinWave.SetVariable("Pitch", 2400f * overchargePct);
     }
 }

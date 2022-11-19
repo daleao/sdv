@@ -8,14 +8,15 @@ public sealed class Constants
     // produce
     public const int OstrichEggIndex = 289;
     public const int GoldenEggIndex = 928;
+    public const int HoneyIndex = 340;
 
     // ponds
-    public const int RoeIndex = 812;
-    public const int SquidInkIndex = 814;
     public const int SeaweedIndex = 152;
     public const int GreenAlgaeIndex = 153;
     public const int WhiteAlgaeIndex = 157;
     public const int SturgeonIndex = 698;
+    public const int RoeIndex = 812;
+    public const int SquidInkIndex = 814;
 
     // gemstones
     public const int EmeraldIndex = 60;
@@ -91,6 +92,10 @@ public sealed class Constants
     public const int EmeraldRingIndex = 533;
     public const int RubyRingIndex = 534;
     public const int GlowstoneRingIndex = 888;
+
+    // scythes
+    public const int ScytheIndex = 47;
+    public const int GoldenScytheIndex = 53;
 
     // animations
     public const int StunAnimationIndex = 52;

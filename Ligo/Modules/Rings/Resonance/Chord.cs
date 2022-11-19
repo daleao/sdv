@@ -18,7 +18,7 @@ public sealed class Chord : IChord
     private int _magnetism;
     private int _position;
     private double _phase;
-    private double _period;
+    private double _period = 360d;
     private LightSource? _lightSource;
 
     /// <summary>Initializes a new instance of the <see cref="Chord"/> class.Construct a Dyad instance.</summary>
@@ -145,6 +145,11 @@ public sealed class Chord : IChord
     /// <param name="who">The <see cref="Farmer"/>.</param>
     internal void Update(Farmer who)
     {
+        if (this.Root is null)
+        {
+            return;
+        }
+
         this._position = (int)((this._position + 1) % this._period);
         this._phase = Range[this._position];
         if (this._lightSource is null)

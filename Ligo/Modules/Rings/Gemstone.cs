@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using Ardalis.SmartEnum;
-using DaLion.Ligo.Modules.Arsenal.Common.Enchantments;
+using DaLion.Ligo.Modules.Arsenal.Enchantments;
 using DaLion.Ligo.Modules.Rings.Resonance;
 using DaLion.Shared.Extensions.Stardew;
 using DaLion.Shared.Extensions.Xna;
