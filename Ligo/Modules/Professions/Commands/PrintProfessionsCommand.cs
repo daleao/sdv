@@ -42,7 +42,7 @@ internal sealed class PrintProfessionsCommand : ConsoleCommand
             }
             else if (SCProfession.Loaded.ContainsKey(pid))
             {
-                name = SCProfession.Loaded[pid].StringId;
+                name = SCProfession.Loaded[pid].StringId + " (" + SCProfession.Loaded[pid].Skill.StringId + ')';
             }
             else
             {

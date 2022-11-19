@@ -1,4 +1,4 @@
-namespace DaLion.Ligo.Modules.Professions;
+﻿namespace DaLion.Ligo.Modules.Professions;
 
 #region using directives
 
