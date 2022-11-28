@@ -4,6 +4,7 @@
 
 using DaLion.Ligo.Modules.Professions.Events.GameLoop;
 using DaLion.Ligo.Modules.Professions.Extensions;
+using DaLion.Ligo.Modules.Professions.VirtualProperties;
 using DaLion.Shared.Events;
 using DaLion.Shared.Extensions.Stardew;
 using StardewModdingAPI.Events;
@@ -21,6 +22,9 @@ internal sealed class BruteWarpedEvent : WarpedEvent
     }
 
     /// <inheritdoc />
+    public override bool IsEnabled => Game1.player.HasProfession(Profession.Brute);
+
+    /// <inheritdoc />
     protected override void OnWarpedImpl(object? sender, WarpedEventArgs e)
     {
         if (e.NewLocation.IsDungeon() || e.NewLocation.HasMonsters())
@@ -29,7 +33,7 @@ internal sealed class BruteWarpedEvent : WarpedEvent
         }
         else
         {
-            ModEntry.State.Professions.BruteRageCounter = 0;
+            e.Player.Set_BruteRageCounter(0);
             this.Manager.Enable<BruteUpdateTickedEvent>();
         }
     }

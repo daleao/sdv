@@ -47,7 +47,7 @@ internal static class TreeExtensions
         var skillFactor = 1f + (Game1.player.ForagingLevel * 0.1f);
         if (ModEntry.Config.EnableProfessions && Game1.player.professions.Contains(Farmer.lumberjack))
         {
-            ++skillFactor;
+            skillFactor++;
         }
 
         var age = (int)(tree.Read<int>(DataFields.Age) * skillFactor * ModEntry.Config.Tweex.TreeAgingFactor);

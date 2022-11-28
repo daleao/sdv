@@ -3,6 +3,7 @@
 #region using directives
 
 using System.Linq;
+using DaLion.Ligo.Modules.Professions.VirtualProperties;
 using DaLion.Shared.Events;
 using StardewModdingAPI.Events;
 
@@ -24,7 +25,8 @@ internal sealed class DemolitionistUpdateTickedEvent : UpdateTickedEvent
     /// <inheritdoc />
     protected override void OnUpdateTickedImpl(object? sender, UpdateTickedEventArgs e)
     {
-        if (ModEntry.State.Professions.DemolitionistExcitedness <= 0)
+        var excitedness = Game1.player.Get_DemolitionistExcitedness();
+        if (excitedness <= 0)
         {
             this.Disable();
         }
@@ -46,7 +48,7 @@ internal sealed class DemolitionistUpdateTickedEvent : UpdateTickedEvent
                 0,
                 0,
                 0,
-                ModEntry.State.Professions.DemolitionistExcitedness,
+                excitedness,
                 0,
                 0,
                 1,
@@ -60,8 +62,7 @@ internal sealed class DemolitionistUpdateTickedEvent : UpdateTickedEvent
                 description = ModEntry.i18n.Get("demolitionist.buff.desc"),
             });
 
-        var buffDecay = ModEntry.State.Professions.DemolitionistExcitedness >= 4 ? 2 : 1;
-        ModEntry.State.Professions.DemolitionistExcitedness =
-            Math.Max(0, ModEntry.State.Professions.DemolitionistExcitedness - buffDecay);
+        var decay = excitedness >= 4 ? 2 : 1;
+        Game1.player.Decrement_DemolitionistExcitedness(decay);
     }
 }

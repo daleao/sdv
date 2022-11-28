@@ -23,32 +23,23 @@ internal sealed class ConservationismDayEndingEvent : DayEndingEvent
     }
 
     /// <inheritdoc />
+    public override bool IsEnabled => Game1.player.HasProfession(Profession.Conservationist);
+
+    /// <inheritdoc />
     protected override void OnDayEndingImpl(object? sender, DayEndingEventArgs e)
     {
-        if (!Context.IsMainPlayer)
-        {
-            return;
-        }
-
-        var conservationists = Game1.getAllFarmers().Where(f => f.HasProfession(Profession.Conservationist)).ToList();
+        var player = Game1.player;
         if (!ModEntry.Config.EnableTaxes)
         {
-            foreach (var farmer in conservationists)
+            var taxBonus = player.Read<float>(DataFields.ConservationistActiveTaxBonusPct);
+            if (taxBonus > 0f)
             {
-                var taxBonus = farmer.Read<float>(DataFields.ConservationistActiveTaxBonusPct);
-                if (taxBonus <= 0f)
-                {
-                    continue;
-                }
-
-                var amountSold = Game1.getFarm().getShippingBin(farmer).Sum(item =>
+                var amountSold = Game1.getFarm().getShippingBin(player).Sum(item =>
                     item is SObject obj ? obj.sellToStorePrice() * obj.Stack : item.salePrice() / 2);
-                if (amountSold <= 0)
+                if (amountSold >= 0)
                 {
-                    continue;
+                    player.Money += (int)(amountSold * taxBonus);
                 }
-
-                farmer.Money += (int)(amountSold * taxBonus);
             }
         }
 
@@ -57,32 +48,28 @@ internal sealed class ConservationismDayEndingEvent : DayEndingEvent
             return;
         }
 
-        foreach (var farmer in conservationists)
+        var trashCollectedThisSeason = player.Read<uint>(DataFields.ConservationistTrashCollectedThisSeason);
+        player.Write(DataFields.ConservationistTrashCollectedThisSeason, "0");
+        if (trashCollectedThisSeason <= 0)
         {
-            var trashCollectedThisSeason =
-                farmer.Read<uint>(DataFields.ConservationistTrashCollectedThisSeason);
-            farmer.Write(DataFields.ConservationistTrashCollectedThisSeason, "0");
-            if (trashCollectedThisSeason <= 0)
-            {
-                farmer.Write(DataFields.ConservationistActiveTaxBonusPct, "0");
-                return;
-            }
-
-            var taxBonusForNextSeason =
-                // ReSharper disable once PossibleLossOfFraction
-                Math.Min(
-                    trashCollectedThisSeason / ModEntry.Config.Professions.TrashNeededPerTaxBonusPct / 100f,
-                    ModEntry.Config.Professions.ConservationistTaxBonusCeiling);
-            farmer.Write(
-                DataFields.ConservationistActiveTaxBonusPct,
-                taxBonusForNextSeason.ToString(CultureInfo.InvariantCulture));
-            if (taxBonusForNextSeason <= 0 || ModEntry.Config.EnableTaxes)
-            {
-                continue;
-            }
-
-            ModEntry.ModHelper.GameContent.InvalidateCacheAndLocalized("Data/mail");
-            farmer.mailForTomorrow.Add($"{ModEntry.Manifest.UniqueID}/ConservationistTaxNotice");
+            player.Write(DataFields.ConservationistActiveTaxBonusPct, "0");
+            return;
         }
+
+        var taxBonusForNextSeason =
+            // ReSharper disable once PossibleLossOfFraction
+            Math.Min(
+                trashCollectedThisSeason / ModEntry.Config.Professions.TrashNeededPerTaxBonusPct / 100f,
+                ModEntry.Config.Professions.ConservationistTaxBonusCeiling);
+        player.Write(
+            DataFields.ConservationistActiveTaxBonusPct,
+            taxBonusForNextSeason.ToString(CultureInfo.InvariantCulture));
+        if (taxBonusForNextSeason <= 0 || ModEntry.Config.EnableTaxes)
+        {
+            return;
+        }
+
+        ModEntry.ModHelper.GameContent.InvalidateCacheAndLocalized("Data/mail");
+        player.mailForTomorrow.Add($"{ModEntry.Manifest.UniqueID}/ConservationistTaxNotice");
     }
 }

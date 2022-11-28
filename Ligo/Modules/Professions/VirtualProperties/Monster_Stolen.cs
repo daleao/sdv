@@ -17,9 +17,9 @@ internal static class Monster_Stolen
         return Values.GetOrCreateValue(monster).WasStolen;
     }
 
-    internal static void Set_Stolen(this Monster monster, bool newVal)
+    internal static void Set_Stolen(this Monster monster, bool value)
     {
-        Values.GetOrCreateValue(monster).WasStolen = newVal;
+        Values.GetOrCreateValue(monster).WasStolen = value;
     }
 
     internal class Holder

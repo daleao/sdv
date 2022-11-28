@@ -22,9 +22,9 @@ internal static class GreenSlime_Jumping
         return Values.GetOrCreateValue(slime).JumpTimer;
     }
 
-    internal static void Set_JumpTimer(this GreenSlime slime, int newVal)
+    internal static void Set_JumpTimer(this GreenSlime slime, int value)
     {
-        Values.GetOrCreateValue(slime).JumpTimer = newVal;
+        Values.GetOrCreateValue(slime).JumpTimer = value;
     }
 
     internal class Holder

@@ -17,9 +17,9 @@ internal static class Monster_GotCrit
         return Values.GetOrCreateValue(monster).GotCrit;
     }
 
-    internal static void Set_GotCrit(this Monster monster, bool newVal)
+    internal static void Set_GotCrit(this Monster monster, bool value)
     {
-        Values.GetOrCreateValue(monster).GotCrit = newVal;
+        Values.GetOrCreateValue(monster).GotCrit = value;
     }
 
     internal class Holder

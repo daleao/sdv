@@ -56,13 +56,13 @@ internal sealed class PrintFishingAuditCommand : ConsoleCommand
             var dataFields = specificFishData.Split('/');
             if (Collections.LegendaryFishNames.Contains(dataFields[0]))
             {
-                ++numLegendaryCaught;
+                numLegendaryCaught++;
             }
             else
             {
                 if (value[1] > Convert.ToInt32(dataFields[4]))
                 {
-                    ++numMaxSizedCaught;
+                    numMaxSizedCaught++;
                 }
                 else
                 {

@@ -3,6 +3,7 @@
 #region using directives
 
 using DaLion.Ligo.Modules.Professions.Extensions;
+using DaLion.Ligo.Modules.Professions.VirtualProperties;
 using DaLion.Shared.Commands;
 using Microsoft.Xna.Framework;
 
@@ -28,15 +29,16 @@ internal sealed class RerollTreasureTileCommand : ConsoleCommand
     /// <inheritdoc />
     public override void Callback(string[] args)
     {
-        if (!ModEntry.State.Professions.ScavengerHunt.Value.IsActive && !ModEntry.State.Professions.ProspectorHunt.Value.IsActive)
+        var player = Game1.player;
+        if (!player.Get_ScavengerHunt().IsActive && !player.Get_ProspectorHunt().IsActive)
         {
             Log.W("There is no Treasure Hunt currently active.");
             return;
         }
 
-        if (ModEntry.State.Professions.ScavengerHunt.Value.IsActive)
+        if (player.Get_ScavengerHunt().IsActive)
         {
-            var v = ModEntry.ModHelper.Reflection.GetMethod(ModEntry.State.Professions.ScavengerHunt, "ChooseTreasureTile")
+            var v = ModEntry.ModHelper.Reflection.GetMethod(player.Get_ScavengerHunt(), "ChooseTreasureTile")
                 .Invoke<Vector2?>(Game1.currentLocation);
             if (v is null)
             {
@@ -45,15 +47,15 @@ internal sealed class RerollTreasureTileCommand : ConsoleCommand
             }
 
             Game1.currentLocation.MakeTileDiggable(v.Value);
-            ModEntry.ModHelper.Reflection.GetProperty<Vector2?>(ModEntry.State.Professions.ScavengerHunt, "TreasureTile")
+            ModEntry.ModHelper.Reflection.GetProperty<Vector2?>(player.Get_ScavengerHunt(), "TreasureTile")
                 .SetValue(v);
-            ModEntry.ModHelper.Reflection.GetField<uint>(ModEntry.State.Professions.ScavengerHunt, "elapsed").SetValue(0);
+            ModEntry.ModHelper.Reflection.GetField<uint>(player.Get_ScavengerHunt(), "elapsed").SetValue(0);
 
             Log.I("The Scavenger Hunt was reset.");
         }
-        else if (ModEntry.State.Professions.ProspectorHunt.Value.IsActive)
+        else if (player.Get_ProspectorHunt().IsActive)
         {
-            var v = ModEntry.ModHelper.Reflection.GetMethod(ModEntry.State.Professions.ProspectorHunt, "ChooseTreasureTile")
+            var v = ModEntry.ModHelper.Reflection.GetMethod(player.Get_ProspectorHunt(), "ChooseTreasureTile")
                 .Invoke<Vector2?>(Game1.currentLocation);
             if (v is null)
             {
@@ -61,9 +63,9 @@ internal sealed class RerollTreasureTileCommand : ConsoleCommand
                 return;
             }
 
-            ModEntry.ModHelper.Reflection.GetProperty<Vector2?>(ModEntry.State.Professions.ProspectorHunt, "TreasureTile")
+            ModEntry.ModHelper.Reflection.GetProperty<Vector2?>(player.Get_ProspectorHunt(), "TreasureTile")
                 .SetValue(v);
-            ModEntry.ModHelper.Reflection.GetField<int>(ModEntry.State.Professions.ProspectorHunt, "Elapsed").SetValue(0);
+            ModEntry.ModHelper.Reflection.GetField<int>(player.Get_ProspectorHunt(), "Elapsed").SetValue(0);
 
             Log.I("The Prospector Hunt was reset.");
         }

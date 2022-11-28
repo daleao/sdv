@@ -3,6 +3,7 @@
 #region using directives
 
 using DaLion.Ligo.Modules.Professions.Extensions;
+using DaLion.Ligo.Modules.Professions.VirtualProperties;
 using DaLion.Shared.Events;
 using StardewModdingAPI.Events;
 using StardewValley.Locations;
@@ -20,16 +21,19 @@ internal sealed class ProspectorWarpedEvent : WarpedEvent
     }
 
     /// <inheritdoc />
+    public override bool IsEnabled => Game1.player.HasProfession(Profession.Prospector);
+
+    /// <inheritdoc />
     protected override void OnWarpedImpl(object? sender, WarpedEventArgs e)
     {
-        if (ModEntry.State.Professions.ProspectorHunt.Value.IsActive)
+        if (e.Player.Get_ProspectorHunt().IsActive)
         {
-            ModEntry.State.Professions.ProspectorHunt.Value.Fail();
+            e.Player.Get_ProspectorHunt().Fail();
         }
 
         if (e.NewLocation is MineShaft shaft && !shaft.IsTreasureOrSafeRoom())
         {
-            ModEntry.State.Professions.ProspectorHunt.Value.TryStart(e.NewLocation);
+            e.Player.Get_ProspectorHunt().TryStart(e.NewLocation);
         }
     }
 }

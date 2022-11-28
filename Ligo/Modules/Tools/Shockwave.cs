@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using DaLion.Ligo.Modules.Tools.Effects;
 using DaLion.Ligo.Modules.Tools.Extensions;
+using DaLion.Ligo.Modules.Tools.VirtualProperties;
 using DaLion.Shared.Classes;
 using Microsoft.Xna.Framework;
 using StardewValley.Tools;
@@ -58,7 +59,7 @@ internal class Shockwave
         }
         else
         {
-            for (var i = 0; i < this._finalRadius; ++i)
+            for (var i = 0; i < this._finalRadius; i++)
             {
                 this._tileGrids.Add(new CircleTileGrid(this._epicenter, i + 1));
             }
@@ -135,7 +136,7 @@ internal class Shockwave
         }
 
         Log.D(this._tileGrids[^1].ToString());
-        ModEntry.State.Tools.Shockwave = null;
+        this._farmer.Get_Shockwaves().Remove(this);
     }
 
     /// <summary>

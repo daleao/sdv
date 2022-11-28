@@ -3,7 +3,6 @@
 #region using directives
 
 using DaLion.Ligo.Modules.Core.Configs;
-using DaLion.Shared.Integrations.DynamicGameAssets;
 using DaLion.Shared.Integrations.JsonAssets;
 using DaLion.Shared.Integrations.LoveOfCooking;
 using DaLion.Shared.Integrations.LuckSkill;
@@ -18,9 +17,6 @@ internal static class Integrations
 {
     /// <summary>Gets or sets the <see cref="ICookingSkillApi"/>.</summary>
     internal static ICookingSkillApi? CookingSkillApi { get; set; }
-
-    /// <summary>Gets or sets the <see cref="IDynamicGameAssetsApi"/>.</summary>
-    internal static IDynamicGameAssetsApi? DynamicGameAssetsApi { get; set; }
 
     /// <summary>Gets or sets the <see cref="IJsonAssetsApi"/>.</summary>
     internal static IJsonAssetsApi? JsonAssetsApi { get; set; }

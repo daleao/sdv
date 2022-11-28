@@ -3,10 +3,9 @@
 #region using directives
 
 using System.Linq;
+using DaLion.Ligo.Modules.Arsenal.VirtualProperties;
 using DaLion.Ligo.Modules.Rings.VirtualProperties;
-using DaLion.Shared.Extensions;
 using DaLion.Shared.Extensions.Stardew;
-using StardewValley.Objects;
 using StardewValley.Tools;
 
 #endregion using directives
@@ -19,20 +18,17 @@ internal static class MeleeWeaponExtensions
     internal static void RecalculateResonances(this MeleeWeapon weapon)
     {
         weapon.Write(DataFields.ResonantDamage, null);
+        weapon.Write(DataFields.ResonantKnockback, null);
         weapon.Write(DataFields.ResonantCritChance, null);
         weapon.Write(DataFields.ResonantCritPower, null);
-        weapon.Write(DataFields.ResonantKnockback, null);
-        weapon.Write(DataFields.ResonantCooldownReduction, null);
         weapon.Write(DataFields.ResonantSpeed, null);
-        weapon.Write(DataFields.ResonantDefense, null);
+        weapon.Write(DataFields.ResonantCooldownReduction, null);
+        weapon.Write(DataFields.ResonantResilience, null);
 
         var player = Game1.player;
-        var rings = Ligo.Integrations.WearMoreRingsApi?.GetAllRings(player) ??
-                    player.leftRing.Value.Collect(player.rightRing.Value);
-        foreach (var ring in rings.OfType<CombinedRing>())
+        foreach (var chord in player.Get_ResonatingChords())
         {
-            var chord = ring.Get_Chord();
-            if (chord?.Root is null)
+            if (chord.Root is null)
             {
                 continue;
             }
@@ -54,11 +50,16 @@ internal static class MeleeWeaponExtensions
                 .When(Gemstone.Garnet).Then(() =>
                     weapon.Increment(DataFields.ResonantCooldownReduction, enchantment.GetLevel() * 0.05f))
                 .When(Gemstone.Emerald).Then(() =>
-                    weapon.Increment(DataFields.ResonantSpeed, enchantment.GetLevel() * 0.05f))
+                    weapon.Increment(DataFields.ResonantSpeed, enchantment.GetLevel() * 0.5f))
                 .When(Gemstone.Jade).Then(() =>
                     weapon.Increment(DataFields.ResonantCritPower, enchantment.GetLevel() * 0.25f))
                 .When(Gemstone.Topaz).Then(() =>
-                    weapon.Increment(DataFields.ResonantDefense, enchantment.GetLevel() * 0.05f));
+                    weapon.Increment(DataFields.ResonantResilience, enchantment.GetLevel() * 0.5f));
+        }
+
+        if (ModEntry.Config.EnableArsenal)
+        {
+            weapon.Invalidate();
         }
     }
 
@@ -72,6 +73,10 @@ internal static class MeleeWeaponExtensions
         weapon.Write(DataFields.ResonantKnockback, null);
         weapon.Write(DataFields.ResonantCooldownReduction, null);
         weapon.Write(DataFields.ResonantSpeed, null);
-        weapon.Write(DataFields.ResonantDefense, null);
+        weapon.Write(DataFields.ResonantResilience, null);
+        if (ModEntry.Config.EnableArsenal)
+        {
+            weapon.Invalidate();
+        }
     }
 }

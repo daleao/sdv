@@ -3,6 +3,7 @@
 #region using directives
 
 using System.Linq;
+using DaLion.Ligo.Modules.Arsenal.VirtualProperties;
 using DaLion.Shared.Extensions.Stardew;
 using StardewValley.Tools;
 using static StardewValley.FarmerSprite;
@@ -18,13 +19,14 @@ internal static class FarmerExtensions
     /// <returns>The total swing speed modifier, a number between 0 and 1.</returns>
     internal static float GetTotalSwingSpeedModifier(this Farmer farmer, MeleeWeapon? weapon = null)
     {
-        var modifier = 1f / (1f + (farmer.weaponSpeedModifier + farmer.Read<float>(DataFields.ResonantSpeed)));
+        var modifier = 1f;
         weapon ??= farmer.CurrentTool as MeleeWeapon;
         if (weapon is not null)
         {
-            modifier *= 10f / (10f + weapon.speed.Value + weapon.Read<float>(DataFields.ResonantSpeed));
+            modifier *= weapon.Get_EffectiveSwingSpeed();
         }
 
+        modifier *= 1f / (1f + farmer.weaponSpeedModifier + farmer.Read<float>(DataFields.ResonantSpeed));
         return modifier;
     }
 
@@ -44,6 +46,22 @@ internal static class FarmerExtensions
         return modifier;
     }
 
+    /// <summary>Gets the overhauled total resilience of the <paramref name="farmer"/>.</summary>
+    /// <param name="farmer">The <see cref="Farmer"/>.</param>
+    /// <returns>The total resilience, a number between 0 and 1.</returns>
+    internal static float GetOverhauledResilience(this Farmer farmer)
+    {
+        var weaponResilience = farmer.CurrentTool switch
+        {
+            MeleeWeapon weapon => weapon.Get_EffectiveResilience(),
+            Slingshot slingshot => slingshot.Get_EffectiveResilience(),
+            _ => 0f,
+        };
+
+        var playerResilience = farmer.resilience + farmer.Read<float>(DataFields.ResonantResilience);
+        return weaponResilience * (10f / (10f + playerResilience));
+    }
+
     /// <summary>Determines whether the <paramref name="farmer"/> is stepping on a snowy tile.</summary>
     /// <param name="farmer">The <see cref="Farmer"/>.</param>
     /// <returns><see langword="true"/> if the corresponding <see cref="FarmerSprite"/> is using snowy step sounds, otherwise <see langword="false"/>.</returns>
@@ -57,9 +75,10 @@ internal static class FarmerExtensions
         var sprite = farmer.FarmerSprite;
         var modifier = farmer.GetTotalSwingSpeedModifier(weapon);
         var halfModifier = 1f - ((1f - modifier) / 2f);
+        var cooldown = weapon.IsClub() ? 250 : 50;
         sprite.loopThisAnimation = false;
         var outFrames = sprite.currentAnimation;
-        if (ModEntry.State.Arsenal.IsFarmerAnimating)
+        if (farmer.Get_IsAnimating())
         {
             outFrames.RemoveAt(sprite.CurrentAnimation.Count - 1);
         }
@@ -73,13 +92,13 @@ internal static class FarmerExtensions
             case Game1.up:
                 outFrames.AddRange(new[]
                 {
-                    new AnimationFrame(41, (int)(55 * modifier), true, flip: false, Farmer.showSwordSwipe),
-                    new AnimationFrame(40, (int)(45 * modifier), true, flip: false, who =>
+                    new AnimationFrame(41, (int)(65 * modifier), true, flip: false, Farmer.showSwordSwipe),
+                    new AnimationFrame(40, (int)(55 * modifier), true, flip: false, who =>
                     {
                         Farmer.showSwordSwipe(who);
                         who.currentLocation.localSound("swordswipe");
                     }),
-                    new AnimationFrame(39, (int)(25 * halfModifier), true, flip: false, who =>
+                    new AnimationFrame(39, (int)(30 * halfModifier), true, flip: false, who =>
                     {
                         foreach (var enchantment in weapon.enchantments.OfType<BaseWeaponEnchantment>())
                         {
@@ -88,9 +107,9 @@ internal static class FarmerExtensions
 
                         Farmer.showSwordSwipe(who);
                     }),
-                    new AnimationFrame(38, (int)(25 * halfModifier), true, flip: false, Farmer.showSwordSwipe),
-                    new AnimationFrame(37, (int)(25 * halfModifier), true, flip: false, Farmer.showSwordSwipe),
-                    new AnimationFrame(36, (int)(25 * modifier), true, flip: false, Farmer.showSwordSwipe),
+                    new AnimationFrame(38, (int)(30 * halfModifier), true, flip: false, Farmer.showSwordSwipe),
+                    new AnimationFrame(37, (int)(30 * halfModifier), true, flip: false, Farmer.showSwordSwipe),
+                    new AnimationFrame(36, (int)(cooldown * modifier), true, flip: false, Farmer.showSwordSwipe),
                     new AnimationFrame(36, 0, true, flip: false, Farmer.canMoveNow, behaviorAtEndOfFrame: true),
                 });
 
@@ -99,13 +118,13 @@ internal static class FarmerExtensions
             case Game1.right:
                 outFrames.AddRange(new[]
                 {
-                    new AnimationFrame(35, (int)(55 * modifier), true, flip: false, Farmer.showSwordSwipe),
-                    new AnimationFrame(34, (int)(45 * modifier), true, flip: false, who =>
+                    new AnimationFrame(35, (int)(65 * modifier), true, flip: false, Farmer.showSwordSwipe),
+                    new AnimationFrame(34, (int)(55 * modifier), true, flip: false, who =>
                     {
                         Farmer.showSwordSwipe(who);
                         who.currentLocation.localSound("swordswipe");
                     }),
-                    new AnimationFrame(33, (int)(25 * halfModifier), true, flip: false, who =>
+                    new AnimationFrame(33, (int)(30 * halfModifier), true, flip: false, who =>
                     {
                         foreach (var enchantment in weapon.enchantments.OfType<BaseWeaponEnchantment>())
                         {
@@ -114,9 +133,9 @@ internal static class FarmerExtensions
 
                         Farmer.showSwordSwipe(who);
                     }),
-                    new AnimationFrame(32, (int)(25 * halfModifier), true, flip: false, Farmer.showSwordSwipe),
-                    new AnimationFrame(31, (int)(25 * halfModifier), true, flip: false, Farmer.showSwordSwipe),
-                    new AnimationFrame(30, (int)(25 * modifier), true, flip: false, Farmer.showSwordSwipe),
+                    new AnimationFrame(32, (int)(30 * halfModifier), true, flip: false, Farmer.showSwordSwipe),
+                    new AnimationFrame(31, (int)(30 * halfModifier), true, flip: false, Farmer.showSwordSwipe),
+                    new AnimationFrame(30, (int)(cooldown * modifier), true, flip: false, Farmer.showSwordSwipe),
                     new AnimationFrame(30, 0, true, flip: false, Farmer.canMoveNow, behaviorAtEndOfFrame: true),
                 });
 
@@ -131,7 +150,7 @@ internal static class FarmerExtensions
                         Farmer.showSwordSwipe(who);
                         who.currentLocation.localSound("swordswipe");
                     }),
-                    new AnimationFrame(27, (int)(25 * halfModifier), true, flip: false, who =>
+                    new AnimationFrame(27, (int)(30 * halfModifier), true, flip: false, who =>
                     {
                         foreach (var enchantment in weapon.enchantments.OfType<BaseWeaponEnchantment>())
                         {
@@ -140,9 +159,9 @@ internal static class FarmerExtensions
 
                         Farmer.showSwordSwipe(who);
                     }),
-                    new AnimationFrame(26, (int)(25 * halfModifier), true, flip: false, Farmer.showSwordSwipe),
-                    new AnimationFrame(25, (int)(25 * halfModifier), true, flip: false, Farmer.showSwordSwipe),
-                    new AnimationFrame(24, (int)(25 * modifier), true, flip: false, Farmer.showSwordSwipe),
+                    new AnimationFrame(26, (int)(30 * halfModifier), true, flip: false, Farmer.showSwordSwipe),
+                    new AnimationFrame(25, (int)(30 * halfModifier), true, flip: false, Farmer.showSwordSwipe),
+                    new AnimationFrame(24, (int)(cooldown * modifier), true, flip: false, Farmer.showSwordSwipe),
                     new AnimationFrame(24, 0, true, flip: false, Farmer.canMoveNow, behaviorAtEndOfFrame: true),
                 });
 
@@ -151,13 +170,13 @@ internal static class FarmerExtensions
             case Game1.left:
                 outFrames.AddRange(new[]
                 {
-                    new AnimationFrame(35, (int)(55 * modifier), true, flip: true, Farmer.showSwordSwipe),
-                    new AnimationFrame(34, (int)(45 * modifier), true, flip: true, who =>
+                    new AnimationFrame(35, (int)(65 * modifier), true, flip: true, Farmer.showSwordSwipe),
+                    new AnimationFrame(34, (int)(55 * modifier), true, flip: true, who =>
                     {
                         Farmer.showSwordSwipe(who);
                         who.currentLocation.localSound("swordswipe");
                     }),
-                    new AnimationFrame(33, (int)(25 * halfModifier), true, flip: true, who =>
+                    new AnimationFrame(33, (int)(30 * halfModifier), true, flip: true, who =>
                     {
                         foreach (var enchantment in weapon.enchantments.OfType<BaseWeaponEnchantment>())
                         {
@@ -166,9 +185,9 @@ internal static class FarmerExtensions
 
                         Farmer.showSwordSwipe(who);
                     }),
-                    new AnimationFrame(32, (int)(25 * halfModifier), true, flip: true, Farmer.showSwordSwipe),
-                    new AnimationFrame(31, (int)(25 * halfModifier), true, flip: true, Farmer.showSwordSwipe),
-                    new AnimationFrame(30, (int)(25 * modifier), true, flip: true, Farmer.showSwordSwipe),
+                    new AnimationFrame(32, (int)(30 * halfModifier), true, flip: true, Farmer.showSwordSwipe),
+                    new AnimationFrame(31, (int)(30 * halfModifier), true, flip: true, Farmer.showSwordSwipe),
+                    new AnimationFrame(30, (int)(cooldown * modifier), true, flip: true, Farmer.showSwordSwipe),
                     new AnimationFrame(30, 0, true, flip: true, Farmer.canMoveNow, behaviorAtEndOfFrame: true),
                 });
 
@@ -178,8 +197,8 @@ internal static class FarmerExtensions
         ModEntry.Reflector
             .GetUnboundFieldSetter<FarmerSprite, int>(sprite, "currentAnimationFrames")
             .Invoke(sprite, sprite.CurrentAnimation.Count);
-        ++ModEntry.State.Arsenal.ComboHitStep;
-        ModEntry.State.Arsenal.IsFarmerAnimating = true;
+        farmer.Increment_CurrentHitStep();
+        farmer.Set_IsAnimating(true);
     }
 
     internal static void QueueForwardSwipe(this Farmer farmer, MeleeWeapon weapon)
@@ -187,10 +206,11 @@ internal static class FarmerExtensions
         var sprite = farmer.FarmerSprite;
         var modifier = farmer.GetTotalSwingSpeedModifier(weapon);
         var halfModifier = 1f - ((1f - modifier) / 2f);
-        var cooldown = weapon.IsClub() ? 250 : 25;
+        var cooldown = weapon.IsClub() ? 250 : 50;
+        var sound = weapon.IsClub() ? "clubswipe" : "swordswipe";
         sprite.loopThisAnimation = false;
         var outFrames = sprite.currentAnimation;
-        if (ModEntry.State.Arsenal.IsFarmerAnimating)
+        if (farmer.Get_IsAnimating())
         {
             outFrames.RemoveAt(sprite.CurrentAnimation.Count - 1);
         }
@@ -204,13 +224,13 @@ internal static class FarmerExtensions
             case Game1.up:
                 outFrames.AddRange(new[]
                 {
-                    new AnimationFrame(36, (int)(55 * modifier), true, flip: false, Farmer.showSwordSwipe),
-                    new AnimationFrame(37, (int)(45 * modifier), true, flip: false,  who =>
+                    new AnimationFrame(36, (int)(65 * modifier), true, flip: false, Farmer.showSwordSwipe),
+                    new AnimationFrame(37, (int)(65 * modifier), true, flip: false,  who =>
                     {
                         Farmer.showSwordSwipe(who);
-                        who.currentLocation.localSound(weapon.IsClub() ? "clubswipe" : "swordswipe");
+                        who.currentLocation.localSound(sound);
                     }),
-                    new AnimationFrame(38, (int)(25 * halfModifier), true, flip: false, who =>
+                    new AnimationFrame(38, (int)(30 * halfModifier), true, flip: false, who =>
                     {
                         foreach (var enchantment in weapon.enchantments.OfType<BaseWeaponEnchantment>())
                         {
@@ -219,8 +239,8 @@ internal static class FarmerExtensions
 
                         Farmer.showSwordSwipe(who);
                     }),
-                    new AnimationFrame(39, (int)(25 * halfModifier), true, flip: false, Farmer.showSwordSwipe),
-                    new AnimationFrame(40, (int)(25 * halfModifier), true, flip: false, Farmer.showSwordSwipe),
+                    new AnimationFrame(39, (int)(30 * halfModifier), true, flip: false, Farmer.showSwordSwipe),
+                    new AnimationFrame(40, (int)(30 * halfModifier), true, flip: false, Farmer.showSwordSwipe),
                     new AnimationFrame(41, (int)(cooldown * modifier), true, flip: false, Farmer.showSwordSwipe),
                     new AnimationFrame(41, 0, true, flip: false, Farmer.canMoveNow, behaviorAtEndOfFrame: true),
                 });
@@ -230,13 +250,13 @@ internal static class FarmerExtensions
             case Game1.right:
                 outFrames.AddRange(new[]
                 {
-                    new AnimationFrame(30, (int)(55 * modifier), true, flip: false, Farmer.showSwordSwipe),
-                    new AnimationFrame(31, (int)(45 * modifier), true, flip: false, who =>
+                    new AnimationFrame(30, (int)(65 * modifier), true, flip: false, Farmer.showSwordSwipe),
+                    new AnimationFrame(31, (int)(55 * modifier), true, flip: false, who =>
                     {
                         Farmer.showSwordSwipe(who);
-                        who.currentLocation.localSound(weapon.IsClub() ? "clubswipe" : "swordswipe");
+                        who.currentLocation.localSound(sound);
                     }),
-                    new AnimationFrame(32, (int)(25 * halfModifier), true, flip: false, who =>
+                    new AnimationFrame(32, (int)(30 * halfModifier), true, flip: false, who =>
                     {
                         foreach (var enchantment in weapon.enchantments.OfType<BaseWeaponEnchantment>())
                         {
@@ -245,8 +265,8 @@ internal static class FarmerExtensions
 
                         Farmer.showSwordSwipe(who);
                     }),
-                    new AnimationFrame(33, (int)(25 * halfModifier), true, flip: false, Farmer.showSwordSwipe),
-                    new AnimationFrame(34, (int)(25 * halfModifier), true, flip: false, Farmer.showSwordSwipe),
+                    new AnimationFrame(33, (int)(30 * halfModifier), true, flip: false, Farmer.showSwordSwipe),
+                    new AnimationFrame(34, (int)(30 * halfModifier), true, flip: false, Farmer.showSwordSwipe),
                     new AnimationFrame(35, (int)(cooldown * modifier), true, flip: false, Farmer.showSwordSwipe),
                     new AnimationFrame(35, 0, true, flip: false, Farmer.canMoveNow, behaviorAtEndOfFrame: true),
                 });
@@ -256,13 +276,13 @@ internal static class FarmerExtensions
             case Game1.down:
                 outFrames.AddRange(new[]
                 {
-                    new AnimationFrame(24, (int)(55 * modifier), true, flip: false, Farmer.showSwordSwipe),
-                    new AnimationFrame(25, (int)(45 * modifier), true, flip: false,  who =>
+                    new AnimationFrame(24, (int)(65 * modifier), true, flip: false, Farmer.showSwordSwipe),
+                    new AnimationFrame(25, (int)(55 * modifier), true, flip: false,  who =>
                     {
                         Farmer.showSwordSwipe(who);
-                        who.currentLocation.localSound(weapon.IsClub() ? "clubswipe" : "swordswipe");
+                        who.currentLocation.localSound(sound);
                     }),
-                    new AnimationFrame(26, (int)(25 * halfModifier), true, flip: false, who =>
+                    new AnimationFrame(26, (int)(30 * halfModifier), true, flip: false, who =>
                     {
                         foreach (var enchantment in weapon.enchantments.OfType<BaseWeaponEnchantment>())
                         {
@@ -271,8 +291,8 @@ internal static class FarmerExtensions
 
                         Farmer.showSwordSwipe(who);
                     }),
-                    new AnimationFrame(27, (int)(25 * halfModifier), true, flip: false, Farmer.showSwordSwipe),
-                    new AnimationFrame(28, (int)(25 * halfModifier), true, flip: false, Farmer.showSwordSwipe),
+                    new AnimationFrame(27, (int)(30 * halfModifier), true, flip: false, Farmer.showSwordSwipe),
+                    new AnimationFrame(28, (int)(30 * halfModifier), true, flip: false, Farmer.showSwordSwipe),
                     new AnimationFrame(29, (int)(cooldown * modifier), true, flip: false, Farmer.showSwordSwipe),
                     new AnimationFrame(29, 0, true, flip: false, Farmer.canMoveNow, behaviorAtEndOfFrame: true),
                 });
@@ -282,13 +302,13 @@ internal static class FarmerExtensions
             case Game1.left:
                 outFrames.AddRange(new[]
                 {
-                    new AnimationFrame(30, (int)(55 * modifier), true, flip: true, Farmer.showSwordSwipe),
-                    new AnimationFrame(31, (int)(45 * modifier), true, flip: true,  who =>
+                    new AnimationFrame(30, (int)(65 * modifier), true, flip: true, Farmer.showSwordSwipe),
+                    new AnimationFrame(31, (int)(55 * modifier), true, flip: true,  who =>
                     {
                         Farmer.showSwordSwipe(who);
-                        who.currentLocation.localSound(weapon.IsClub() ? "clubswipe" : "swordswipe");
+                        who.currentLocation.localSound(sound);
                     }),
-                    new AnimationFrame(32, (int)(25 * halfModifier), true, flip: true, who =>
+                    new AnimationFrame(32, (int)(30 * halfModifier), true, flip: true, who =>
                     {
                         foreach (var enchantment in weapon.enchantments.OfType<BaseWeaponEnchantment>())
                         {
@@ -297,8 +317,8 @@ internal static class FarmerExtensions
 
                         Farmer.showSwordSwipe(who);
                     }),
-                    new AnimationFrame(33, (int)(25 * halfModifier), true, flip: true, Farmer.showSwordSwipe),
-                    new AnimationFrame(34, (int)(25 * halfModifier), true, flip: true, Farmer.showSwordSwipe),
+                    new AnimationFrame(33, (int)(30 * halfModifier), true, flip: true, Farmer.showSwordSwipe),
+                    new AnimationFrame(34, (int)(30 * halfModifier), true, flip: true, Farmer.showSwordSwipe),
                     new AnimationFrame(35, (int)(cooldown * modifier), true, flip: true, Farmer.showSwordSwipe),
                     new AnimationFrame(35, 0, true, flip: true, Farmer.canMoveNow, behaviorAtEndOfFrame: true),
                 });
@@ -309,8 +329,8 @@ internal static class FarmerExtensions
         ModEntry.Reflector
             .GetUnboundFieldSetter<FarmerSprite, int>(sprite, "currentAnimationFrames")
             .Invoke(sprite, sprite.CurrentAnimation.Count);
-        ++ModEntry.State.Arsenal.ComboHitStep;
-        ModEntry.State.Arsenal.IsFarmerAnimating = true;
+        farmer.Increment_CurrentHitStep();
+        farmer.Set_IsAnimating(true);
     }
 
     internal static void QueueOverheadSwipe(this Farmer farmer, MeleeWeapon weapon)
@@ -318,9 +338,12 @@ internal static class FarmerExtensions
         var sprite = farmer.FarmerSprite;
         var modifier = farmer.GetTotalSwingSpeedModifier(weapon);
         var halfModifier = 1f - ((1f - modifier) / 2f);
+        var windup = weapon.IsClub() ? 120 : 65;
+        var cooldown = weapon.IsClub() ? 250 : 50;
+        var sound = weapon.IsClub() ? "clubswipe" : "swordswipe";
         sprite.loopThisAnimation = false;
         var outFrames = sprite.currentAnimation;
-        if (ModEntry.State.Arsenal.IsFarmerAnimating)
+        if (farmer.Get_IsAnimating())
         {
             outFrames.RemoveAt(sprite.CurrentAnimation.Count - 1);
         }
@@ -334,7 +357,7 @@ internal static class FarmerExtensions
             case Game1.up:
                 outFrames.AddRange(new[]
                 {
-                    new AnimationFrame(36, (int)(120 * modifier), false, flip: false),
+                    new AnimationFrame(36, (int)(windup * modifier), false, flip: false),
                     new AnimationFrame(37, (int)(50 * halfModifier), false, flip: false, Farmer.showToolSwipeEffect),
                     new AnimationFrame(38, (int)(50 * halfModifier), false, flip: false, who =>
                     {
@@ -342,11 +365,11 @@ internal static class FarmerExtensions
                         {
                             enchantment.OnSwing(weapon, who);
                         }
-                        
-                        who.currentLocation.localSound("clubswipe");
+
+                        who.currentLocation.localSound(sound);
                     }),
                     new AnimationFrame(63, (int)(50 * halfModifier), false, flip: false, Farmer.useTool),
-                    new AnimationFrame(62, (int)(250 * modifier), false, flip: false, Farmer.canMoveNow, behaviorAtEndOfFrame: true),
+                    new AnimationFrame(62, (int)(cooldown * modifier), false, flip: false, Farmer.canMoveNow, behaviorAtEndOfFrame: true),
                 });
 
                 break;
@@ -354,11 +377,19 @@ internal static class FarmerExtensions
             case Game1.right:
                 outFrames.AddRange(new[]
                 {
-                    new AnimationFrame(48, (int)(120 * modifier), false, flip: false),
+                    new AnimationFrame(48, (int)(windup * modifier), false, flip: false),
                     new AnimationFrame(49, (int)(50 * halfModifier), false, flip: false, Farmer.showToolSwipeEffect),
-                    new AnimationFrame(50, (int)(50 * halfModifier), false, flip: false, who => who.currentLocation.localSound("clubswipe")),
+                    new AnimationFrame(50, (int)(50 * halfModifier), false, flip: false, who =>
+                    {
+                        foreach (var enchantment in weapon.enchantments.OfType<BaseWeaponEnchantment>())
+                        {
+                            enchantment.OnSwing(weapon, who);
+                        }
+
+                        who.currentLocation.localSound(sound);
+                    }),
                     new AnimationFrame(51, (int)(50 * halfModifier), false, flip: false, Farmer.useTool),
-                    new AnimationFrame(52, (int)(250 * modifier), false, flip: false, Farmer.canMoveNow, behaviorAtEndOfFrame: true),
+                    new AnimationFrame(52, (int)(cooldown * modifier), false, flip: false, Farmer.canMoveNow, behaviorAtEndOfFrame: true),
                 });
 
                 break;
@@ -366,7 +397,7 @@ internal static class FarmerExtensions
             case Game1.down:
                 outFrames.AddRange(new[]
                 {
-                    new AnimationFrame(66, (int)(120 * modifier), false, flip: false),
+                    new AnimationFrame(66, (int)(windup * modifier), false, flip: false),
                     new AnimationFrame(67, (int)(50 * halfModifier), false, flip: false, Farmer.showToolSwipeEffect),
                     new AnimationFrame(68, (int)(50 * halfModifier), false, flip: false, who =>
                     {
@@ -375,10 +406,10 @@ internal static class FarmerExtensions
                             enchantment.OnSwing(weapon, who);
                         }
 
-                        who.currentLocation.localSound("clubswipe");
+                        who.currentLocation.localSound(sound);
                     }),
                     new AnimationFrame(69, (int)(50 * halfModifier), false, flip: false, Farmer.useTool),
-                    new AnimationFrame(70, (int)(250 * modifier), false, flip: false, Farmer.canMoveNow, behaviorAtEndOfFrame: true),
+                    new AnimationFrame(70, (int)(cooldown * modifier), false, flip: false, Farmer.canMoveNow, behaviorAtEndOfFrame: true),
                 });
 
                 break;
@@ -386,11 +417,19 @@ internal static class FarmerExtensions
             case Game1.left:
                 outFrames.AddRange(new[]
                 {
-                    new AnimationFrame(48, (int)(120 * modifier), false, flip: true),
+                    new AnimationFrame(48, (int)(windup * modifier), false, flip: true),
                     new AnimationFrame(49, (int)(50 * halfModifier), false, flip: true, Farmer.showToolSwipeEffect),
-                    new AnimationFrame(50, (int)(50 * halfModifier), false, flip: true, who => who.currentLocation.localSound("clubswipe")),
+                    new AnimationFrame(50, (int)(50 * halfModifier), false, flip: true, who =>
+                    {
+                        foreach (var enchantment in weapon.enchantments.OfType<BaseWeaponEnchantment>())
+                        {
+                            enchantment.OnSwing(weapon, who);
+                        }
+
+                        who.currentLocation.localSound(sound);
+                    }),
                     new AnimationFrame(51, (int)(50 * halfModifier), false, flip: true, Farmer.useTool),
-                    new AnimationFrame(52, (int)(250 * modifier), false, flip: true, Farmer.canMoveNow, behaviorAtEndOfFrame: true),
+                    new AnimationFrame(52, (int)(cooldown * modifier), false, flip: true, Farmer.canMoveNow, behaviorAtEndOfFrame: true),
                 });
 
                 break;
@@ -399,7 +438,113 @@ internal static class FarmerExtensions
         ModEntry.Reflector
             .GetUnboundFieldSetter<FarmerSprite, int>(sprite, "currentAnimationFrames")
             .Invoke(sprite, sprite.CurrentAnimation.Count);
-        ++ModEntry.State.Arsenal.ComboHitStep;
-        ModEntry.State.Arsenal.IsFarmerAnimating = true;
+        farmer.Increment_CurrentHitStep();
+        farmer.Set_IsAnimating(true);
+    }
+
+    internal static void QueueThrust(this Farmer farmer, MeleeWeapon weapon)
+    {
+        var sprite = farmer.FarmerSprite;
+        var modifier = farmer.GetTotalSwingSpeedModifier(weapon);
+        var halfModifier = 1f - ((1f - modifier) / 2f);
+        sprite.loopThisAnimation = false;
+        var outFrames = sprite.currentAnimation;
+        if (farmer.Get_IsAnimating())
+        {
+            outFrames.RemoveAt(sprite.CurrentAnimation.Count - 1);
+        }
+        else
+        {
+            outFrames.Clear();
+        }
+
+        switch (farmer.FacingDirection)
+        {
+            case Game1.up:
+                outFrames.AddRange(new[]
+                {
+                    new AnimationFrame(38, (int)(50 * halfModifier), true, flip: false),
+                    new AnimationFrame(40, (int)(120 * halfModifier), true, flip: false, who =>
+                    {
+                        Farmer.useTool(who);
+                        foreach (var enchantment in weapon.enchantments.OfType<BaseWeaponEnchantment>())
+                        {
+                            enchantment.OnSwing(weapon, who);
+                        }
+
+                        who.currentLocation.localSound("daggerswipe");
+                    }),
+                    new AnimationFrame(38, (int)(50 * halfModifier), true, flip: false),
+                    new AnimationFrame(38, 0, true, flip: false, Farmer.canMoveNow, behaviorAtEndOfFrame: true),
+                });
+
+                break;
+
+            case Game1.right:
+                outFrames.AddRange(new[]
+                {
+                    new AnimationFrame(33, (int)(50 * halfModifier), false, flip: false),
+                    new AnimationFrame(34, (int)(120 * halfModifier), false, flip: false, who =>
+                    {
+                        Farmer.useTool(who);
+                        foreach (var enchantment in weapon.enchantments.OfType<BaseWeaponEnchantment>())
+                        {
+                            enchantment.OnSwing(weapon, who);
+                        }
+
+                        who.currentLocation.localSound("daggerswipe");
+                    }),
+                    new AnimationFrame(33, (int)(50 * halfModifier), false, flip: false),
+                    new AnimationFrame(33, 0, false, flip: false, Farmer.canMoveNow, behaviorAtEndOfFrame: true),
+                });
+
+                break;
+
+            case Game1.down:
+                outFrames.AddRange(new[]
+                {
+                    new AnimationFrame(25, (int)(50 * halfModifier), true, flip: false),
+                    new AnimationFrame(27, (int)(120 * halfModifier), true, flip: false, who =>
+                    {
+                        Farmer.useTool(who);
+                        foreach (var enchantment in weapon.enchantments.OfType<BaseWeaponEnchantment>())
+                        {
+                            enchantment.OnSwing(weapon, who);
+                        }
+
+                        who.currentLocation.localSound("daggerswipe");
+                    }),
+                    new AnimationFrame(25, (int)(50 * halfModifier), true, flip: false),
+                    new AnimationFrame(25, 0, true, flip: false, Farmer.canMoveNow, behaviorAtEndOfFrame: true),
+                });
+
+                break;
+
+            case Game1.left:
+                outFrames.AddRange(new[]
+                {
+                    new AnimationFrame(38, (int)(50 * halfModifier), false, flip: true),
+                    new AnimationFrame(40, (int)(120 * halfModifier), false, flip: true, who =>
+                    {
+                        Farmer.useTool(who);
+                        foreach (var enchantment in weapon.enchantments.OfType<BaseWeaponEnchantment>())
+                        {
+                            enchantment.OnSwing(weapon, who);
+                        }
+
+                        who.currentLocation.localSound("daggerswipe");
+                    }),
+                    new AnimationFrame(38, (int)(50 * halfModifier), false, flip: true),
+                    new AnimationFrame(38, 0, false, flip: true, Farmer.canMoveNow, behaviorAtEndOfFrame: true),
+                });
+
+                break;
+        }
+
+        ModEntry.Reflector
+            .GetUnboundFieldSetter<FarmerSprite, int>(sprite, "currentAnimationFrames")
+            .Invoke(sprite, sprite.CurrentAnimation.Count);
+        farmer.Increment_CurrentHitStep();
+        farmer.Set_IsAnimating(true);
     }
 }

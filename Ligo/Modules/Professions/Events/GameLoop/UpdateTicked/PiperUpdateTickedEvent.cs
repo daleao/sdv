@@ -2,6 +2,8 @@
 
 #region using directives
 
+using DaLion.Ligo.Modules.Professions.Ultimates;
+using DaLion.Ligo.Modules.Professions.VirtualProperties;
 using DaLion.Shared.Events;
 using StardewModdingAPI.Events;
 
@@ -20,11 +22,17 @@ internal sealed class PiperUpdateTickedEvent : UpdateTickedEvent
     /// <inheritdoc />
     protected override void OnUpdateTickedImpl(object? sender, UpdateTickedEventArgs e)
     {
-        // countdown contact timer
-        if (ModEntry.State.Professions.SlimeContactTimer > 0 &&
-            (Game1.game1.IsActiveNoOverlay || !Game1.options.pauseWhenOutOfFocus) && Game1.shouldTimePass())
+        var concerto = (Concerto)Game1.player.Get_Ultimate()!;
+        if (concerto.SlimeContactTimer <= 0)
         {
-            --ModEntry.State.Professions.SlimeContactTimer;
+            this.Disable();
+            return;
+        }
+
+        // countdown contact timer
+        if ((Game1.game1.IsActiveNoOverlay || !Game1.options.pauseWhenOutOfFocus) && Game1.shouldTimePass())
+        {
+            concerto.SlimeContactTimer--;
         }
     }
 }

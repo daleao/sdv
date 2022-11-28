@@ -4,6 +4,7 @@
 
 using System.Collections.Generic;
 using System.Linq;
+using DaLion.Ligo.Modules.Rings.VirtualProperties;
 using DaLion.Shared.Extensions;
 using DaLion.Shared.Extensions.Collections;
 using Microsoft.Xna.Framework;
@@ -78,7 +79,7 @@ public sealed class Chord : IChord
     /// <param name="who">The <see cref="Farmer"/>.</param>
     public void Apply(GameLocation location, Farmer who)
     {
-        ModEntry.State.Rings.ResonatingChords.Add(this);
+        who.Get_ResonatingChords().Add(this);
 
         this.ResonanceByGemstone.ForEach(pair => pair.Key.Resonate(who, (float)pair.Value));
         who.MagneticRadius += this._magnetism;
@@ -87,9 +88,8 @@ public sealed class Chord : IChord
             return;
         }
 
-        while (location.sharedLights.ContainsKey(this._lightSource.Identifier))
+        while (location.sharedLights.ContainsKey(this._lightSource.Identifier++))
         {
-            ++this._lightSource.Identifier;
         }
 
         location.sharedLights[this._lightSource.Identifier] = this._lightSource;
@@ -100,7 +100,7 @@ public sealed class Chord : IChord
     /// <param name="who">The <see cref="Farmer"/>.</param>
     public void Unapply(GameLocation location, Farmer who)
     {
-        ModEntry.State.Rings.ResonatingChords.Remove(this);
+        who.Get_ResonatingChords().Remove(this);
 
         this.ResonanceByGemstone.ForEach(pair => pair.Key.Dissonate(who, (float)pair.Value));
         who.MagneticRadius += this._magnetism;
@@ -121,9 +121,8 @@ public sealed class Chord : IChord
             return;
         }
 
-        while (location.sharedLights.ContainsKey(this._lightSource.Identifier))
+        while (location.sharedLights.ContainsKey(this._lightSource.Identifier++))
         {
-            ++this._lightSource.Identifier;
         }
 
         location.sharedLights[this._lightSource.Identifier] = this._lightSource;

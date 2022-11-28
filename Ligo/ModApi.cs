@@ -104,35 +104,45 @@ public sealed class ModApi
 
     /// <inheritdoc cref="ITreasureHunt.IsActive"/>
     /// <param name="type">The type of treasure hunt.</param>
+    /// <param name="farmer">The <see cref="Farmer"/>.</param>
     /// <returns><see langword="true"/> if the specified <see cref="ITreasureHunt"/> <paramref name="type"/> is currently active, otherwise <see langword="false"/>.</returns>
-    public bool IsHuntActive(TreasureHuntType type) =>
-        type switch
+    public bool IsHuntActive(TreasureHuntType type, Farmer? farmer = null)
+    {
+        farmer ??= Game1.player;
+        return type switch
         {
-            TreasureHuntType.Prospector => ModEntry.State.Professions.ProspectorHunt.Value.IsActive,
-            TreasureHuntType.Scavenger => ModEntry.State.Professions.ScavengerHunt.Value.IsActive,
+            TreasureHuntType.Prospector => farmer.Get_ProspectorHunt().IsActive,
+            TreasureHuntType.Scavenger => farmer.Get_ScavengerHunt().IsActive,
             _ => ThrowHelperExtensions.ThrowUnexpectedEnumValueException<TreasureHuntType, bool>(type),
         };
+    }
 
     /// <inheritdoc cref="ITreasureHunt.TryStart"/>
     /// <param name="location">The hunt location.</param>
     /// <param name="type">The type of treasure hunt.</param>
+    /// <param name="farmer">The <see cref="Farmer"/>.</param>
     /// <returns><see langword="true"/> if a hunt was started, otherwise <see langword="false"/>.</returns>
-    public bool TryStartNewHunt(GameLocation location, TreasureHuntType type) =>
-        type switch
+    public bool TryStartNewHunt(GameLocation location, TreasureHuntType type, Farmer? farmer = null)
+    {
+        farmer ??= Game1.player;
+        return type switch
         {
             TreasureHuntType.Prospector => Game1.player.HasProfession(Profession.Prospector) &&
-                                           ModEntry.State.Professions.ProspectorHunt.Value.TryStart(location),
+                                           farmer.Get_ProspectorHunt().TryStart(location),
             TreasureHuntType.Scavenger => Game1.player.HasProfession(Profession.Scavenger) &&
-                                          ModEntry.State.Professions.ScavengerHunt.Value.TryStart(location),
+                                          farmer.Get_ScavengerHunt().TryStart(location),
             _ => ThrowHelperExtensions.ThrowUnexpectedEnumValueException<TreasureHuntType, bool>(type),
         };
+    }
 
     /// <inheritdoc cref="ITreasureHunt.ForceStart"/>
     /// <param name="location">The hunt location.</param>
     /// <param name="target">The target tile.</param>
     /// <param name="type">The type of treasure hunt.</param>
-    public void ForceStartNewHunt(GameLocation location, Vector2 target, TreasureHuntType type)
+    /// <param name="farmer">The <see cref="Farmer"/>.</param>
+    public void ForceStartNewHunt(GameLocation location, Vector2 target, TreasureHuntType type, Farmer? farmer = null)
     {
+        farmer ??= Game1.player;
         switch (type)
         {
             case TreasureHuntType.Prospector:
@@ -141,7 +151,7 @@ public sealed class ModApi
                     ThrowHelper.ThrowInvalidOperationException("Player does not have the Prospector profession.");
                 }
 
-                ModEntry.State.Professions.ProspectorHunt.Value.ForceStart(location, target);
+                farmer.Get_ProspectorHunt().ForceStart(location, target);
                 break;
             case TreasureHuntType.Scavenger:
                 if (!Game1.player.HasProfession(Profession.Scavenger))
@@ -149,32 +159,37 @@ public sealed class ModApi
                     ThrowHelper.ThrowInvalidOperationException("Player does not have the Scavenger profession.");
                 }
 
-                ModEntry.State.Professions.ScavengerHunt.Value.ForceStart(location, target);
+                farmer.Get_ScavengerHunt().ForceStart(location, target);
                 break;
+            default:
+                ThrowHelperExtensions.ThrowUnexpectedEnumValueException(type);
+                return;
         }
     }
 
     /// <inheritdoc cref="ITreasureHunt.Fail"/>
     /// <param name="type">The type of treasure hunt.</param>
+    /// <param name="farmer">The <see cref="Farmer"/>.</param>
     /// <returns>
     ///     <see langword="false"/> if the <see cref="ITreasureHunt"/> instance was not active, otherwise
     ///     <see langword="true"/>.
     /// </returns>
-    public bool InterruptActiveHunt(TreasureHuntType type)
+    public bool InterruptActiveHunt(TreasureHuntType type, Farmer? farmer = null)
     {
+        farmer ??= Game1.player;
         var hunt = type switch
         {
-            TreasureHuntType.Prospector => ModEntry.State.Professions.ProspectorHunt,
-            TreasureHuntType.Scavenger => ModEntry.State.Professions.ScavengerHunt,
-            _ => ThrowHelperExtensions.ThrowUnexpectedEnumValueException<TreasureHuntType, Lazy<TreasureHunt>>(type),
+            TreasureHuntType.Prospector => farmer.Get_ProspectorHunt(),
+            TreasureHuntType.Scavenger => farmer.Get_ScavengerHunt(),
+            _ => ThrowHelperExtensions.ThrowUnexpectedEnumValueException<TreasureHuntType, TreasureHunt>(type),
         };
 
-        if (!hunt.IsValueCreated || !hunt.Value.IsActive)
+        if (!hunt.IsActive)
         {
             return false;
         }
 
-        hunt.Value.Fail();
+        hunt.Fail();
         return true;
     }
 

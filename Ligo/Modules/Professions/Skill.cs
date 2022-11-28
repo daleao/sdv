@@ -259,7 +259,7 @@ public class Skill : SmartEnum<Skill>, ISkill
         var level = 1;
         while (level <= this.MaxLevel && this.CurrentExp >= ISkill.ExperienceByLevel[level++])
         {
-            ++expectedLevel;
+            expectedLevel++;
         }
 
         if (this.CurrentLevel == expectedLevel)
@@ -270,7 +270,7 @@ public class Skill : SmartEnum<Skill>, ISkill
         var farmer = Game1.player;
         if (this.CurrentLevel < expectedLevel)
         {
-            for (var levelUp = this.CurrentLevel + 1; levelUp <= expectedLevel; ++levelUp)
+            for (var levelUp = this.CurrentLevel + 1; levelUp <= expectedLevel; levelUp++)
             {
                 var point = new Point(this, levelUp);
                 if (!farmer.newLevels.Contains(point))

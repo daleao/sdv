@@ -27,20 +27,6 @@ internal sealed partial class GenericModConfigMenuIntegration
                 config => config.Professions.ModKey,
                 (config, value) => config.Professions.ModKey = value)
             .AddDropdown(
-                () => "Vintage Interface Style",
-                () => "You generally don't need to change this unless you want to override the automatic setting.",
-                config => config.Professions.VintageInterfaceSupport.ToString(),
-                (config, value) =>
-                {
-                    config.Professions.VintageInterfaceSupport = Enum.Parse<Professions.Config.VintageInterfaceStyle>(value);
-                    ModEntry.ModHelper.GameContent.InvalidateCacheAndLocalized(
-                        $"{ModEntry.Manifest.UniqueID}/SkillBars");
-                    ModEntry.ModHelper.GameContent.InvalidateCacheAndLocalized(
-                        $"{ModEntry.Manifest.UniqueID}/UltimateMeter");
-                },
-                new[] { "Auto", "Brown", "Pink", "Off" },
-                null)
-            .AddDropdown(
                 () => "Progression Style",
                 () => "Determines the sprite that appears next to skill bars.",
                 config => config.Professions.PrestigeProgressionStyle.ToString(),

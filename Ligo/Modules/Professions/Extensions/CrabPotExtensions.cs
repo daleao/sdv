@@ -143,12 +143,10 @@ internal static class CrabPotExtensions
                 return whichFish; // if isn't algae
             }
 
-            if (counter != 0)
+            if (counter++ != 0)
             {
                 return -1; // if already rerolled
             }
-
-            ++counter;
         }
 
         return -1;

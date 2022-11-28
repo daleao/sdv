@@ -28,7 +28,7 @@ All modules should be fully multiplayer and splitscreen-ready so long as all pla
 
 - **[Taxes](Modules/Taxes)** is a complement to the new Conservationist profession. It introduces a simple yet realistic taxation system as an added challenge and end-game gold sink. Because surely a nation at war would be all over your juicy farm income.
 
-- **[Tools](Modules/Tools)** is a simple mod allowing chargeable resource tools, customizable farming tools.
+- **[Tools](Modules/Tools)** is a simple mod allowing chargeable resource tools and customizable farming tools.
 
 - **[Tweaks](Modules/Tweex)** is the final module, and serves as a repository for smaller tweaks and fixes to inconsistencies not large enough to merit a separate module.
 

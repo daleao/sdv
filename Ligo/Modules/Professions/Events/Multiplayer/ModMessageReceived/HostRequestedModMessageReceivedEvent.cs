@@ -40,10 +40,6 @@ internal sealed class HostRequestedModMessageReceivedEvent : ModMessageReceivedE
 
         switch (request)
         {
-            case "Conservationism":
-                Log.D($"{who.Name} requested Conservationism event subscription.");
-                this.Manager.Enable<ConservationismDayEndingEvent>();
-                break;
             case "HuntIsOn":
                 Log.D($"Prestiged treasure hunter {who.Name} is hunting for treasure.");
                 this.Manager.Enable<PrestigeTreasureHuntUpdateTickedEvent>();

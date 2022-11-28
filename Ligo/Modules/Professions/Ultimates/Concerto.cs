@@ -40,6 +40,9 @@ public sealed class Concerto : Ultimate
     /// <inheritdoc />
     internal override Color GlowColor => Color.LimeGreen;
 
+    /// <summary>Gets or sets the number of ticks since the latest contact with a Slime.</summary>
+    internal int SlimeContactTimer { get; set; }
+
     /// <inheritdoc />
     internal override void Activate()
     {
@@ -64,7 +67,7 @@ public sealed class Concerto : Ultimate
         }
 
         var bigSlimes = Game1.currentLocation.characters.OfType<BigSlime>().ToList();
-        for (var i = bigSlimes.Count - 1; i >= 0; --i)
+        for (var i = bigSlimes.Count - 1; i >= 0; i--)
         {
             bigSlimes[i].Health = 0;
             bigSlimes[i].deathAnimation();

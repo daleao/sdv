@@ -15,6 +15,13 @@ public sealed class WeaponConfig
     [JsonProperty]
     public bool AllowComboHits { get; internal set; } = true;
 
+    /// <summary>Gets the number of hits in each weapon type's combo.</summary>
+    [JsonProperty]
+    public Dictionary<WeaponType, int> ComboHitsPerWeapon { get; internal set; } = new()
+    {
+        { WeaponType.StabbingSword, 4 }, { WeaponType.DefenseSword, 4 }, { WeaponType.Club, 2 },
+    };
+
     /// <summary>Gets a value indicating whether to guarantee smash crit on Duggies and guarantee miss on gliders.</summary>
     [JsonProperty]
     public bool GroundedClubSmash { get; internal set; } = true;
@@ -34,23 +41,26 @@ public sealed class WeaponConfig
         "Steel Smallsword",
         "Cutlass",
         "Rapier",
-        "Steel Falchion",
+        "Falchion",
         "Pirate's Sword",
         "Forest Sword",
         "Insect Head",
         "Obsidian Edge",
         "Lava Katana",
         "Galaxy Sword",
-        "Tempered Galaxy Sword",
         "Dragontooth Cutlass",
         "Infinity Blade",
     }.ToHashSet();
 
     /// <summary>Gets a value indicating whether to apply the corresponding weapon rebalance.</summary>
     [JsonProperty]
-    public bool RebalanceWeapons { get; internal set; } = true;
+    public bool RebalancedWeapons { get; internal set; } = true;
+
+    /// <summary>Gets a value indicating whether to apply the corresponding weapon retexture.</summary>
+    [JsonProperty]
+    public bool RetexturedWeapons { get; internal set; } = true;
 
     /// <summary>Gets a value indicating whether enable new overhauled enchantments for melee weapons, and rebalance some old ones.</summary>
     [JsonProperty]
-    public bool LigoEnchants { get; internal set; } = true;
+    public bool UseLigoEnchants { get; internal set; } = true;
 }

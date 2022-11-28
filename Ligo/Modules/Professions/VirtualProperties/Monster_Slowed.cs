@@ -20,7 +20,7 @@ internal static class Monster_Slowed
     }
 
     // Net types are readonly
-    internal static void Set_SlowTmer(this Monster monster, NetInt newVal)
+    internal static void Set_SlowTmer(this Monster monster, NetInt value)
     {
     }
 
@@ -31,7 +31,7 @@ internal static class Monster_Slowed
     }
 
     // Net types are readonly
-    internal static void Set_SlowIntensity(this Monster monster, NetInt newVal)
+    internal static void Set_SlowIntensity(this Monster monster, NetInt value)
     {
     }
 

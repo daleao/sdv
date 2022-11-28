@@ -5,6 +5,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using DaLion.Ligo.Modules.Professions.Extensions;
+using DaLion.Ligo.Modules.Professions.VirtualProperties;
 using DaLion.Shared.Extensions.Collections;
 using StardewValley;
 
@@ -66,7 +67,7 @@ public interface ISkill
     virtual IEnumerable<int> TierTwoProfessionIds => this.ProfessionIds.TakeLast(4);
 
     /// <summary>Gets the experience required for each level.</summary>
-    internal static Dictionary<int, int> ExperienceByLevel { get; } = new()
+    internal static IReadOnlyDictionary<int, int> ExperienceByLevel { get; } = new Dictionary<int, int>
     {
         { 0, 0 },
         { 1, 100 },
@@ -129,7 +130,7 @@ public interface ISkill
             return false;
         }
 
-        var alreadyResetThisSkill = ModEntry.State.Professions.SkillsToReset.Contains(this);
+        var alreadyResetThisSkill = farmer.Get_SkillsToReset().Contains(this);
         if (alreadyResetThisSkill)
         {
             Log.D($"{this.StringId} skill has already been marked for reset tonight.");

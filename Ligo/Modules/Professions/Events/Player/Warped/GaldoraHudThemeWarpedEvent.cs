@@ -11,7 +11,7 @@ using StardewModdingAPI.Events;
 #endregion using directives
 
 [UsedImplicitly]
-[Integration("FlashShifter.StardewValleyExpandedCP")]
+[RequiresMod("FlashShifter.StardewValleyExpandedCP")]
 [AlwaysEnabledEvent]
 internal sealed class GaldoraHudThemeWarpedEvent : WarpedEvent
 {

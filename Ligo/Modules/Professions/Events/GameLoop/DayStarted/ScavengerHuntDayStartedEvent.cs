@@ -2,6 +2,8 @@
 
 #region using directives
 
+using DaLion.Ligo.Modules.Professions.Extensions;
+using DaLion.Ligo.Modules.Professions.VirtualProperties;
 using DaLion.Shared.Events;
 using StardewModdingAPI.Events;
 
@@ -18,8 +20,11 @@ internal sealed class ScavengerHuntDayStartedEvent : DayStartedEvent
     }
 
     /// <inheritdoc />
+    public override bool IsEnabled => Game1.player.HasProfession(Profession.Scavenger);
+
+    /// <inheritdoc />
     protected override void OnDayStartedImpl(object? sender, DayStartedEventArgs e)
     {
-        ModEntry.State.Professions.ScavengerHunt.Value.ResetChanceAccumulator();
+        Game1.player.Get_ScavengerHunt().ResetChanceAccumulator();
     }
 }

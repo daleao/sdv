@@ -3,6 +3,7 @@
 #region using directives
 
 using System.Linq;
+using DaLion.Ligo.Modules.Professions.VirtualProperties;
 using DaLion.Shared.Events;
 using StardewModdingAPI.Events;
 using StardewValley.Locations;
@@ -35,9 +36,9 @@ internal sealed class SpelunkerUpdateTickedEvent : UpdateTickedEvent
             return;
         }
 
-        var bonusLadderChance = (ModEntry.State.Professions.SpelunkerLadderStreak * 0.5f).ToString("0.0");
-        var bonusSpeed = Math.Min(
-            (ModEntry.State.Professions.SpelunkerLadderStreak / 10) + 1,
+        var ladderChance = (Game1.player.Get_SpelunkerLadderStreak() * 0.5f).ToString("0.0");
+        var speed = Math.Min(
+            (Game1.player.Get_SpelunkerLadderStreak() / 10) + 1,
             (int)ModEntry.Config.Professions.SpelunkerSpeedCap);
         Game1.buffsDisplay.addOtherBuff(
             new Buff(
@@ -50,7 +51,7 @@ internal sealed class SpelunkerUpdateTickedEvent : UpdateTickedEvent
                 0,
                 0,
                 0,
-                bonusSpeed,
+                speed,
                 0,
                 0,
                 1,
@@ -61,7 +62,7 @@ internal sealed class SpelunkerUpdateTickedEvent : UpdateTickedEvent
                 sheetIndex = Profession.SpelunkerStreakSheetIndex,
                 millisecondsDuration = 0,
                 description =
-                    ModEntry.i18n.Get("spelunker.buff.desc", new { bonusLadderChance, bonusSpeed }),
+                    ModEntry.i18n.Get("spelunker.buff.desc", new { ladderChance, speed }),
             });
     }
 }

@@ -42,10 +42,10 @@ internal sealed class DoTaxesCommand : ConsoleCommand
 
         var dueF = 0f;
         var bracket = 0f;
-        for (var i = 0; i < 7; ++i)
+        for (var i = 0; i < 7; i++)
         {
-            bracket = Utils.Brackets[i];
-            var threshold = Utils.Thresholds[bracket];
+            bracket = RevenueService.Brackets[i];
+            var threshold = RevenueService.Thresholds[bracket];
             if (taxable > threshold)
             {
                 dueF += threshold * bracket;

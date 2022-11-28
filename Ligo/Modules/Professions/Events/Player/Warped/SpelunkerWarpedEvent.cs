@@ -4,6 +4,7 @@
 
 using DaLion.Ligo.Modules.Professions.Events.GameLoop;
 using DaLion.Ligo.Modules.Professions.Extensions;
+using DaLion.Ligo.Modules.Professions.VirtualProperties;
 using DaLion.Shared.Events;
 using StardewModdingAPI.Events;
 using StardewValley.Locations;
@@ -21,13 +22,15 @@ internal sealed class SpelunkerWarpedEvent : WarpedEvent
     }
 
     /// <inheritdoc />
+    public override bool IsEnabled => Game1.player.HasProfession(Profession.Spelunker);
+
+    /// <inheritdoc />
     protected override void OnWarpedImpl(object? sender, WarpedEventArgs e)
     {
         if (e.NewLocation is MineShaft newShaft && e.OldLocation is MineShaft oldShaft &&
             newShaft.mineLevel > oldShaft.mineLevel)
         {
-            ++ModEntry.State.Professions.SpelunkerLadderStreak;
-
+            Game1.player.Increment_SpelunkerLadderStreak();
             if (e.Player.HasProfession(Profession.Spelunker, true))
             {
                 var player = e.Player;
@@ -39,8 +42,8 @@ internal sealed class SpelunkerWarpedEvent : WarpedEvent
         }
         else if (e.NewLocation is not MineShaft && e.OldLocation is MineShaft)
         {
-            ModEntry.State.Professions.SpelunkerLadderStreak = 0;
-            this.Manager.Enable<SpelunkerUpdateTickedEvent>();
+            Game1.player.Set_SpelunkerLadderStreak(0);
+            this.Manager.Disable<SpelunkerUpdateTickedEvent>();
         }
     }
 }

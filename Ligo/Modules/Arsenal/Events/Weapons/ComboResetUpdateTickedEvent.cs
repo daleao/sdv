@@ -3,6 +3,7 @@
 #region using directives
 
 using DaLion.Ligo.Modules.Arsenal.Extensions;
+using DaLion.Ligo.Modules.Arsenal.VirtualProperties;
 using DaLion.Shared.Events;
 using StardewModdingAPI.Events;
 using StardewValley.Tools;
@@ -22,25 +23,25 @@ internal sealed class ComboResetUpdateTickedEvent : UpdateTickedEvent
     /// <inheritdoc />
     protected override void OnEnabled()
     {
-        var who = Game1.player;
-        if (who.CurrentTool is not MeleeWeapon weapon || ModEntry.State.Arsenal.ComboHitStep == ComboHitStep.Idle)
+        var player = Game1.player;
+        if (player.CurrentTool is not MeleeWeapon weapon || player.Get_CurrentHitStep() == ComboHitStep.Idle)
         {
             return;
         }
 
-        ModEntry.State.Arsenal.WeaponSwingCooldown = (int)(400 * who.GetTotalSwingSpeedModifier(weapon));
+        player.Set_ComboCooldown((int)(400 * player.GetTotalSwingSpeedModifier(weapon)));
     }
 
     /// <inheritdoc />
     protected override void OnUpdateTickedImpl(object? sender, UpdateTickedEventArgs e)
     {
-        ModEntry.State.Arsenal.WeaponSwingCooldown -= Game1.currentGameTime.ElapsedGameTime.Milliseconds;
-        if (ModEntry.State.Arsenal.WeaponSwingCooldown > 0)
+        Game1.player.Decrement_ComboCooldown(Game1.currentGameTime.ElapsedGameTime.Milliseconds);
+        if (Game1.player.Get_ComboCooldown() > 0)
         {
             return;
         }
 
-        ModEntry.State.Arsenal.ComboHitStep = ComboHitStep.Idle;
+        Game1.player.Set_CurrentHitStep(ComboHitStep.Idle);
         this.Disable();
     }
 }

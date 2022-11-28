@@ -13,22 +13,6 @@ public sealed class Config
 {
     #region dropdown enums
 
-    /// <summary>The version of <c>Vintage Interface</c> to use for compatibility.</summary>
-    public enum VintageInterfaceStyle
-    {
-        /// <summary>None. Use vanilla interface.</summary>
-        Off,
-
-        /// <summary>Vintage Interface v1 (pink version).</summary>
-        Pink,
-
-        /// <summary>Vintage Interface v1 (brown version).</summary>
-        Brown,
-
-        /// <summary>Detect automatically based on the <see cref="IModRegistry"/>.</summary>
-        Auto,
-    }
-
     /// <summary>The style used to indicate Skill Reset progression.</summary>
     public enum ProgressionStyle
     {
@@ -266,10 +250,6 @@ public sealed class Config
             { "drbirbdev.BinningSkill", 1 },
             { "drbirbdev.SocializingSkill", 1 },
         };
-
-    /// <summary>Gets whether to enable support for Vintage Interface. Accepted values: "Brown", "Pink", "Off", "Auto".</summary>
-    [JsonProperty]
-    public VintageInterfaceStyle VintageInterfaceSupport { get; internal set; } = VintageInterfaceStyle.Auto;
 
     /// <summary>
     ///     Gets determines the sprite that appears next to skill bars. Accepted values: "StackedStars", "Gen3Ribbons",

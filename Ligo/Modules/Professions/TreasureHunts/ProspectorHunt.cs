@@ -127,7 +127,7 @@ internal sealed class ProspectorHunt : TreasureHunt
             }
 
             v = location.Objects.Keys.ElementAtOrDefault(this.Random.Next(location.Objects.Keys.Count()));
-            ++failSafe;
+            failSafe++;
         }
         while (!location.Objects.TryGetValue(v, out var obj) || !obj.IsStone() || obj.IsResourceNode());
 

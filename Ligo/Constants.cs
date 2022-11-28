@@ -35,6 +35,7 @@ public sealed class Constants
     public const int SlimeIndex = 766;
     public const int SunEssenceIndex = 768;
     public const int VoidEssenceIndex = 769;
+    public const int DragonToothIndex = 852;
     public const int RadioactiveOreIndex = 909;
     public const int RadioactiveBarIndex = 910;
     public const int GalaxySoulIndex = 896;
@@ -64,7 +65,8 @@ public sealed class Constants
 
     // projectiles
     public const int SnowballProjectileIndex = 6;
-    public const int InfinityBeamIndex = 11;
+    public const int LightBeamIndex = 11;
+    public const int InfinityBeamIndex = 15;
     public const int QuincyProjectileIndex = 14;
     public const int ExplosiveAmmoIndex = 441;
 
@@ -73,9 +75,15 @@ public sealed class Constants
     public const int DarkSwordIndex = 2;
     public const int HolyBladeIndex = 3;
     public const int GalaxySwordIndex = 4;
+    public const int DwarfSwordIndex = 54;
+    public const int DwarfHammerIndex = 55;
+    public const int DwarfDaggerIndex = 56;
+    public const int DragontoothCutlassIndex = 57;
+    public const int DragontoothClubIndex = 58;
+    public const int DragontoothShivIndex = 59;
     public const int InfinityBladeIndex = 62;
-    public const int InfinityDaggerIndex = 63;
-    public const int InfinityClubIndex = 64;
+    public const int InfinityGavelIndex = 63;
+    public const int InfinityDaggerIndex = 64;
 
     // rings
     public const int SmallGlowRingIndex = 516;

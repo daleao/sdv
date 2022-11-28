@@ -3,6 +3,8 @@
 #region using directives
 
 using DaLion.Ligo.Modules.Arsenal.Enchantments;
+using DaLion.Ligo.Modules.Arsenal.VirtualProperties;
+using DaLion.Ligo.Modules.Rings.VirtualProperties;
 using DaLion.Shared.Enums;
 using DaLion.Shared.Events;
 using DaLion.Shared.Exceptions;
@@ -30,7 +32,7 @@ internal sealed class StabbySwordSpecialUpdateTickingEvent : UpdateTickingEvent
     {
         var user = Game1.player;
         var sword = (MeleeWeapon)user.CurrentTool;
-        ++_currentFrame;
+        _currentFrame++;
         if (_currentFrame == 0)
         {
             ModEntry.Reflector
@@ -81,9 +83,9 @@ internal sealed class StabbySwordSpecialUpdateTickingEvent : UpdateTickingEvent
                 MeleeWeapon.attackSwordCooldown /= 2;
             }
 
-            var cdr = 10f / (10f + sword.GetEnchantmentLevel<GarnetEnchantment>() +
-                             sword.Read<float>(DataFields.ResonantCooldownReduction) +
-                             user.Read<float>(DataFields.RingCooldownReduction));
+            MeleeWeapon.attackSwordCooldown = (int)(MeleeWeapon.attackSwordCooldown *
+                                                    sword.Get_EffectiveCooldownReduction() *
+                                                    user.Get_CooldownReduction());
 #endif
             _currentFrame = -1;
             this.Disable();
@@ -93,11 +95,11 @@ internal sealed class StabbySwordSpecialUpdateTickingEvent : UpdateTickingEvent
             var sprite = user.FarmerSprite;
             if (_currentFrame == 1)
             {
-                ++sprite.currentAnimationIndex;
+                sprite.currentAnimationIndex++;
             }
             else if (_currentFrame == _animationFrames - 1)
             {
-                --sprite.currentAnimationIndex;
+                sprite.currentAnimationIndex--;
             }
 
             sprite.CurrentFrame = sprite.CurrentAnimation[sprite.currentAnimationIndex].frame;

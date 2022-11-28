@@ -21,7 +21,7 @@ public class CleavingEnchantment : BaseWeaponEnchantment
     /// <inheritdoc />
     protected override void _OnDealDamage(Monster monster, GameLocation location, Farmer who, ref int amount)
     {
-        for (var i = location.characters.Count - 1; i >= 0; --i)
+        for (var i = location.characters.Count - 1; i >= 0; i--)
         {
             var character = location.characters[i];
             if (character is not Monster { IsMonster: true, Health: > 0 } other || other.IsInvisible ||

@@ -100,7 +100,7 @@ internal sealed class InfinityProjectile : BasicProjectile
     public override bool update(GameTime time, GameLocation location)
     {
         var result = base.update(time, location);
-        this._index = ++this._index % 5;
+        this._index = this._index++ % 5;
         this.color.Value = InfinityColors[this._index];
         return result;
     }

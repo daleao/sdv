@@ -4,6 +4,7 @@
 
 using System.Collections.Generic;
 using System.Linq;
+using DaLion.Ligo.Modules.Rings.VirtualProperties;
 using DaLion.Shared.Events;
 using Microsoft.Xna.Framework;
 using StardewModdingAPI.Events;
@@ -32,7 +33,7 @@ internal sealed class SavageUpdateTickedEvent : UpdateTickedEvent
     /// <inheritdoc />
     protected override void OnUpdateTickedImpl(object? sender, UpdateTickedEventArgs e)
     {
-        var savageness = ModEntry.State.Rings.SavageExcitedness;
+        var savageness = Game1.player.Get_SavageExcitedness();
         if (savageness <= 0)
         {
             this.Disable();
@@ -76,6 +77,6 @@ internal sealed class SavageUpdateTickedEvent : UpdateTickedEvent
             _ => 1,
         };
 
-        ModEntry.State.Rings.SavageExcitedness = Math.Max(0, savageness - buffDecay);
+        Game1.player.Set_SavageExcitedness(Math.Max(0, savageness - buffDecay));
     }
 }

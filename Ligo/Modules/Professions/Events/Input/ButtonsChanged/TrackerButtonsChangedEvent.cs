@@ -3,6 +3,8 @@
 #region using directives
 
 using DaLion.Ligo.Modules.Professions.Events.GameLoop;
+using DaLion.Ligo.Modules.Professions.Extensions;
+using DaLion.Ligo.Modules.Professions.VirtualProperties;
 using DaLion.Shared.Events;
 using StardewModdingAPI.Events;
 
@@ -19,6 +21,10 @@ internal sealed class TrackerButtonsChangedEvent : ButtonsChangedEvent
     }
 
     /// <inheritdoc />
+    public override bool IsEnabled => Game1.player.HasProfession(Profession.Prospector) ||
+                                      Game1.player.HasProfession(Profession.Scavenger);
+
+    /// <inheritdoc />
     protected override void OnButtonsChangedImpl(object? sender, ButtonsChangedEventArgs e)
     {
         if (ModEntry.Config.Professions.ModKey.JustPressed())
@@ -26,7 +32,7 @@ internal sealed class TrackerButtonsChangedEvent : ButtonsChangedEvent
             this.Manager.Enable<PointerUpdateTickedEvent>();
         }
         else if (ModEntry.Config.Professions.ModKey.GetState() == SButtonState.Released &&
-                 !ModEntry.State.Professions.ProspectorHunt.Value.IsActive && !ModEntry.State.Professions.ScavengerHunt.Value.IsActive)
+                 !Game1.player.Get_ProspectorHunt().IsActive && !Game1.player.Get_ScavengerHunt().IsActive)
         {
             this.Manager.Disable<PointerUpdateTickedEvent>();
         }

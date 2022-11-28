@@ -11,7 +11,7 @@ using StardewModdingAPI.Events;
 #endregion using directives
 
 [UsedImplicitly]
-[Integration("spacechase0.SpaceCore")]
+[RequiresMod("spacechase0.SpaceCore")]
 [AlwaysEnabledEvent]
 internal sealed class SpaceCoreSaveLoadedEvent : SaveLoadedEvent
 {

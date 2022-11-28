@@ -40,15 +40,15 @@ public sealed class Config
 
     /// <summary>Gets increases the health of all monsters.</summary>
     [JsonProperty]
-    public float MonsterHealthMultiplier { get; internal set; } = 1.5f;
+    public float MonsterHealthMultiplier { get; internal set; } = 2f;
 
     /// <summary>Gets increases the damage dealt by all monsters.</summary>
     [JsonProperty]
-    public float MonsterDamageMultiplier { get; internal set; } = 1f;
+    public float MonsterDamageMultiplier { get; internal set; } = 1.2f;
 
     /// <summary>Gets increases the resistance of all monsters.</summary>
     [JsonProperty]
-    public float MonsterDefenseMultiplier { get; internal set; } = 1f;
+    public float MonsterDefenseMultiplier { get; internal set; } = 1.5f;
 
     /// <summary>Gets a value indicating whether randomizes monster stats to add variability to monster encounters.</summary>
     [JsonProperty]
@@ -57,6 +57,10 @@ public sealed class Config
     /// <summary>Gets a value indicating whether replace the starting Rusty Sword with a Wooden Blade.</summary>
     [JsonProperty]
     public bool WoodyReplacesRusty { get; internal set; } = true;
+
+    /// <summary>Gets a value indicating whether replace the starting Rusty Sword with a Wooden Blade.</summary>
+    [JsonProperty]
+    public bool AncientCrafting { get; internal set; } = true;
 
     /// <summary>Gets a value indicating whether replace lame Galaxy and Infinity weapons with something truly legendary.</summary>
     [JsonProperty]

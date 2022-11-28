@@ -162,7 +162,7 @@ internal sealed class ScavengerHunt : TreasureHunt
             var x = this.Random.Next(location.Map.DisplayWidth / Game1.tileSize);
             var y = this.Random.Next(location.Map.DisplayHeight / Game1.tileSize);
             v = new Vector2(x, y);
-            ++failSafe;
+            failSafe++;
         }
         while (!location.IsTileValidForTreasure(v));
 

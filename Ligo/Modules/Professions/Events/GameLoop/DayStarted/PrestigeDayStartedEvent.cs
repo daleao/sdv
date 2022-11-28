@@ -2,6 +2,7 @@
 
 #region using directives
 
+using DaLion.Ligo.Modules.Professions.VirtualProperties;
 using DaLion.Shared.Events;
 using StardewModdingAPI.Events;
 
@@ -20,8 +21,7 @@ internal sealed class PrestigeDayStartedEvent : DayStartedEvent
     /// <inheritdoc />
     protected override void OnDayStartedImpl(object? sender, DayStartedEventArgs e)
     {
-        ModEntry.ModHelper.GameContent.InvalidateCache("LooseSprites/Cursors");
-        ModEntry.State.Professions.UsedDogStatueToday = false;
+        Game1.player.Set_UsedStatueToday(false);
         this.Disable();
     }
 }

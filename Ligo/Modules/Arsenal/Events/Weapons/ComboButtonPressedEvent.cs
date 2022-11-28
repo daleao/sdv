@@ -3,6 +3,7 @@
 #region using directives
 
 using DaLion.Ligo.Modules.Arsenal.Extensions;
+using DaLion.Ligo.Modules.Arsenal.VirtualProperties;
 using DaLion.Shared.Events;
 using StardewModdingAPI.Events;
 using StardewValley;
@@ -33,19 +34,20 @@ internal sealed class ComboButtonPressedEvent : ButtonPressedEvent
             return;
         }
 
-        var hitStep = ModEntry.State.Arsenal.ComboHitStep;
+        var hitStep = player.Get_CurrentHitStep();
         if (hitStep == ComboHitStep.Idle)
         {
             return;
         }
 
-        if (hitStep >= weapon.GetFinalHitStep())
+        var finalHitStep = weapon.GetFinalHitStep();
+        if (hitStep >= finalHitStep)
         {
             ModEntry.ModHelper.Input.Suppress(e.Button);
             return;
         }
 
-        if (!ModEntry.State.Arsenal.IsFarmerAnimating)
+        if (!player.Get_IsAnimating())
         {
             return;
         }
@@ -53,33 +55,17 @@ internal sealed class ComboButtonPressedEvent : ButtonPressedEvent
         ModEntry.ModHelper.Input.Suppress(e.Button);
 
         var type = weapon.type.Value;
-        switch (type)
+        if (type == MeleeWeapon.club && hitStep == finalHitStep - 1)
         {
-            case MeleeWeapon.club:
-            {
-                if ((int)ModEntry.State.Arsenal.ComboHitStep % 2 == 0)
-                {
-                    player.QueueForwardSwipe(weapon);
-                }
-                else
-                {
-                    player.QueueOverheadSwipe(weapon);
-                }
-
-                break;
-            }
-
-            case MeleeWeapon.stabbingSword or MeleeWeapon.defenseSword:
-                if ((int)ModEntry.State.Arsenal.ComboHitStep % 2 == 0)
-                {
-                    player.QueueForwardSwipe(weapon);
-                }
-                else
-                {
-                    player.QueueBackwardSwipe(weapon);
-                }
-
-                break;
+            player.QueueOverheadSwipe(weapon);
+        }
+        else if ((int)hitStep % 2 == 0)
+        {
+            player.QueueForwardSwipe(weapon);
+        }
+        else
+        {
+            player.QueueBackwardSwipe(weapon);
         }
     }
 }

@@ -201,16 +201,14 @@ internal sealed class UltimateHud
 
         if (this._shakeTimer > 0)
         {
-            --this._shakeTimer;
-            if (this._shakeTimer <= 0)
+            if (--this._shakeTimer <= 0)
             {
                 this._shake = false;
             }
         }
         else if (this._nextShake > 0)
         {
-            --this._nextShake;
-            if (this._nextShake > 0)
+            if (--this._nextShake > 0)
             {
                 return;
             }
@@ -230,8 +228,7 @@ internal sealed class UltimateHud
     /// <summary>Gradually reduce the gauge's opacity value.</summary>
     internal void FadeOut()
     {
-        --this._fadeOutTimer;
-        if (this._fadeOutTimer >= FadeOutDuration)
+        if (--this._fadeOutTimer >= FadeOutDuration)
         {
             return;
         }

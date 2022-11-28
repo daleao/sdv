@@ -17,7 +17,7 @@ internal static class FruitTreeExtensions
         var skillFactor = 1f + (Game1.player.FarmingLevel * 0.1f);
         if (ModEntry.Config.EnableProfessions && Game1.player.professions.Contains(Farmer.lumberjack))
         {
-            ++skillFactor;
+            skillFactor++;
         }
 
         var age = fruitTree.daysUntilMature.Value < 0 ? fruitTree.daysUntilMature.Value * -1 : 0;

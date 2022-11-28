@@ -9,9 +9,12 @@ using Microsoft.Xna.Framework.Graphics;
 /// <summary>Caches custom mod textures and related functions.</summary>
 internal static class Textures
 {
-    internal static Texture2D ProjectilesTx { get; } =
+    internal static Texture2D BuffSheetTx { get; } =
+        ModEntry.ModHelper.ModContent.Load<Texture2D>("assets/sprites/buffs");
+
+    internal static Texture2D ProjectileSheetTx { get; } =
         ModEntry.ModHelper.ModContent.Load<Texture2D>("assets/sprites/projectiles");
 
-    internal static Texture2D BuffsSheetTx { get; } =
-        ModEntry.ModHelper.ModContent.Load<Texture2D>("assets/sprites/buffs");
+    internal static Texture2D WeaponSheetTx { get; } =
+        ModEntry.ModHelper.ModContent.Load<Texture2D>("assets/sprites/weapons");
 }

@@ -38,6 +38,6 @@ internal static class Monster_Taunted
     {
         public NetCharacterRef Taunter { get; } = new();
 
-        public Farmer? FakeFarmer { get; set; }
+        public Farmer? FakeFarmer { get; internal set; }
     }
 }

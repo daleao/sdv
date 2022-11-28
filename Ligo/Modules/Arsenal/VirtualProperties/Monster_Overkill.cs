@@ -17,9 +17,9 @@ internal static class Monster_Overkill
         return Values.GetOrCreateValue(monster).Overkill;
     }
 
-    internal static void Set_Overkill(this Monster monster, int newVal)
+    internal static void Set_Overkill(this Monster monster, int value)
     {
-        Values.GetOrCreateValue(monster).Overkill = newVal;
+        Values.GetOrCreateValue(monster).Overkill = value;
     }
 
     internal class Holder

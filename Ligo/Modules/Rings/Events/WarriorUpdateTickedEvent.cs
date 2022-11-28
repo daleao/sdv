@@ -3,6 +3,7 @@
 #region using directives
 
 using System.Collections.Generic;
+using DaLion.Ligo.Modules.Rings.VirtualProperties;
 using DaLion.Shared.Events;
 using Microsoft.Xna.Framework;
 using StardewModdingAPI.Events;
@@ -31,7 +32,8 @@ internal sealed class WarriorUpdateTickedEvent : UpdateTickedEvent
     /// <inheritdoc />
     protected override void OnUpdateTickedImpl(object? sender, UpdateTickedEventArgs e)
     {
-        if (ModEntry.State.Rings.WarriorKillCount < 10)
+        var killCount = Game1.player.Get_WarriorKillCount();
+        if (killCount < 10)
         {
             return;
         }
@@ -41,7 +43,7 @@ internal sealed class WarriorUpdateTickedEvent : UpdateTickedEvent
             return;
         }
 
-        var magnitude = ModEntry.State.Rings.WarriorKillCount / 10;
+        var magnitude = killCount / 10;
         Game1.buffsDisplay.addOtherBuff(
             new Buff(
                 0,

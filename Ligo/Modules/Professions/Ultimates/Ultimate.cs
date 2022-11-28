@@ -266,8 +266,7 @@ public abstract class Ultimate : SmartEnum<Ultimate>, IUltimate
             return;
         }
 
-        --this._activationTimer;
-        if (this._activationTimer > 0)
+        if (--this._activationTimer > 0)
         {
             return;
         }

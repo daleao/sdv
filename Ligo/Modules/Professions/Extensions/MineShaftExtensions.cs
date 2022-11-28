@@ -32,9 +32,9 @@ internal static class MineShaftExtensions
     /// <remarks>Credit to <c>pomepome</c>.</remarks>
     internal static IEnumerable<Vector2> GetLadderTiles(this MineShaft shaft)
     {
-        for (var i = 0; i < shaft.Map.GetLayer("Buildings").LayerWidth; ++i)
+        for (var i = 0; i < shaft.Map.GetLayer("Buildings").LayerWidth; i++)
         {
-            for (var j = 0; j < shaft.Map.GetLayer("Buildings").LayerHeight; ++j)
+            for (var j = 0; j < shaft.Map.GetLayer("Buildings").LayerHeight; j++)
             {
                 var index = shaft.getTileIndexAt(new Point(i, j), "Buildings");
                 if (index.IsIn(173, 174))

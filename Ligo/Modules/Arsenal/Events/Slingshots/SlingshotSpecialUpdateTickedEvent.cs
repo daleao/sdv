@@ -4,6 +4,7 @@
 
 using DaLion.Ligo.Modules.Arsenal.Extensions;
 using DaLion.Ligo.Modules.Arsenal.VirtualProperties;
+using DaLion.Ligo.Modules.Rings.VirtualProperties;
 using DaLion.Shared.Enums;
 using DaLion.Shared.Events;
 using DaLion.Shared.Exceptions;
@@ -33,7 +34,7 @@ internal sealed class SlingshotSpecialUpdateTickedEvent : UpdateTickedEvent
         var slingshot = (Slingshot)user.CurrentTool;
         if (slingshot.Get_IsOnSpecial())
         {
-            ++_currentFrame;
+            _currentFrame++;
             if (_currentFrame == 0)
             {
                 var frame = (FacingDirection)user.FacingDirection switch
@@ -56,21 +57,20 @@ internal sealed class SlingshotSpecialUpdateTickedEvent : UpdateTickedEvent
                 slingshot.Set_IsOnSpecial(false);
                 user.forceCanMove();
 #if RELEASE
-                ModEntry.State.Arsenal.SlingshotSpecialCooldown = SlingshotSpecialCooldown;
+                slingshot.Set_SpecialCooldown(SlingshotCooldown);
                 if (!ModEntry.Config.EnableProfessions && user.professions.Contains(Farmer.acrobat))
                 {
-                    ModEntry.State.Arsenal.SlingshotSpecialCooldown /= 2;
+                    slingshot.Halve_SpecialCooldown();
                 }
 
                 if (slingshot.hasEnchantmentOfType<ArtfulEnchantment>())
                 {
-                    ModEntry.State.Arsenal.SlingshotSpecialCooldown /= 2;
+                    slingshot.Halve_SpecialCooldown();
                 }
 
-                var cdr = 10f / (10f + slingshot.GetEnchantmentLevel<GarnetEnchantment>() +
-                                 slingshot.Read<float>(DataFields.ResonantCooldownReduction) +
-                                 user.Read<float>(DataFields.RingCooldownReduction));
-                ModEntry.State.Arsenal.SlingshotSpecialCooldown = (int)(ModEntry.State.Arsenal.SlingshotSpecialCooldown * cdr);
+                slingshot.Set_SpecialCooldown((int)(slingshot.Get_SpecialCooldown() *
+                                                    slingshot.Get_EffectiveCooldownReduction() *
+                                                    user.Get_CooldownReduction()));
 #endif
                 _currentFrame = -1;
             }
@@ -79,7 +79,7 @@ internal sealed class SlingshotSpecialUpdateTickedEvent : UpdateTickedEvent
                 var sprite = user.FarmerSprite;
                 if (_currentFrame >= 6 && _currentFrame < _animationFrames - 6 && _currentFrame % 3 == 0)
                 {
-                    sprite.CurrentFrame = sprite.CurrentAnimation[++sprite.currentAnimationIndex].frame;
+                    sprite.CurrentFrame = sprite.CurrentAnimation[sprite.currentAnimationIndex++].frame;
                 }
 
                 if (_currentFrame == 6)
@@ -101,8 +101,8 @@ internal sealed class SlingshotSpecialUpdateTickedEvent : UpdateTickedEvent
         else
         {
 #if RELEASE
-            ModEntry.State.Arsenal.SlingshotSpecialCooldown -= Game1.currentGameTime.ElapsedGameTime.Milliseconds;
-            if (ModEntry.State.Arsenal.SlingshotSpecialCooldown > 0)
+            slingshot.Decrement_SpecialCooldown(Game1.currentGameTime.ElapsedGameTime.Milliseconds);
+            if (slingshot.Get_SpecialCooldown() > 0)
             {
                 return;
             }

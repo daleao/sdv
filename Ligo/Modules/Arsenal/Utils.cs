@@ -2,36 +2,14 @@
 
 #region using directives
 
-using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
-using DaLion.Ligo.Modules.Arsenal.Enchantments;
+using DaLion.Ligo.Modules.Arsenal.Extensions;
 using StardewValley.Tools;
 
 #endregion using directives
 
 internal static class Utils
 {
-    /// <summary>Adds hidden weapon enchantments related to Infinity +1.</summary>
-    /// <param name="weapon">The <see cref="MeleeWeapon"/>.</param>
-    internal static void AddEnchantments(MeleeWeapon weapon)
-    {
-        switch (weapon.InitialParentTileIndex)
-        {
-            case Constants.DarkSwordIndex:
-                weapon.enchantments.Add(new CursedEnchantment());
-                break;
-            case Constants.HolyBladeIndex:
-                weapon.enchantments.Add(new BlessedEnchantment());
-                break;
-            case Constants.InfinityBladeIndex:
-            case Constants.InfinityDaggerIndex:
-            case Constants.InfinityClubIndex:
-                weapon.enchantments.Add(new InfinityEnchantment());
-                break;
-        }
-    }
-
     /// <summary>Converts the config-specified defensive swords into stabbing swords throughout the world.</summary>
     internal static void ConvertAllStabbySwords()
     {
@@ -93,7 +71,7 @@ internal static class Utils
             {
                 if (item is MeleeWeapon weapon)
                 {
-                    UpdateSingleWeapon(weapon);
+                    weapon.RefreshStats();
                 }
             });
         }
@@ -101,42 +79,33 @@ internal static class Utils
         {
             foreach (var weapon in Game1.player.Items.OfType<MeleeWeapon>())
             {
-                UpdateSingleWeapon(weapon);
+                weapon.RefreshStats();
             }
         }
     }
 
-    /// <summary>Refreshes the stats of the specified <paramref name="weapon"/>.</summary>
-    /// <param name="weapon">The <see cref="MeleeWeapon"/>.g</param>
-    internal static void UpdateSingleWeapon(MeleeWeapon weapon)
+    /// <summary>Gives the local player a Dark Sword.</summary>
+    internal static void GetDarkSword()
     {
-        var data = ModEntry.ModHelper.GameContent.Load<Dictionary<int, string>>("Data/weapons");
-        if (!data.ContainsKey(weapon.InitialParentTileIndex))
-        {
-            return;
-        }
-
-        var split = data[weapon.InitialParentTileIndex].Split('/');
-        weapon.minDamage.Value = Convert.ToInt32(split[2]);
-        weapon.maxDamage.Value = Convert.ToInt32(split[3]);
-        weapon.knockback.Value = (float)Convert.ToDouble(split[4], CultureInfo.InvariantCulture);
-        weapon.speed.Value = Convert.ToInt32(split[5]);
-        weapon.addedPrecision.Value = Convert.ToInt32(split[6]);
-        weapon.addedDefense.Value = Convert.ToInt32(split[7]);
-        weapon.type.Set(Convert.ToInt32(split[8]));
-        weapon.addedAreaOfEffect.Value = Convert.ToInt32(split[11]);
-        weapon.critChance.Value = (float)Convert.ToDouble(split[12], CultureInfo.InvariantCulture);
-        weapon.critMultiplier.Value = (float)Convert.ToDouble(split[13], CultureInfo.InvariantCulture);
+        Game1.playSound("parry");
+        Game1.player.mailReceived.Add("gotDarkSword");
+        Game1.player.addItemByMenuIfNecessaryElseHoldUp(new MeleeWeapon(Constants.DarkSwordIndex));
     }
 
     /// <summary>Transforms the currently held weapon into the Holy Blade.</summary>
     internal static void GetHolyBlade()
     {
+        var player = Game1.player;
+        if (player.CurrentTool is not MeleeWeapon { InitialParentTileIndex: Constants.DarkSwordIndex } darkSword)
+        {
+            return;
+        }
+
         Game1.flashAlpha = 1f;
-        Game1.player.holdUpItemThenMessage(new MeleeWeapon(Constants.HolyBladeIndex));
-        ((MeleeWeapon)Game1.player.CurrentTool).transform(Constants.HolyBladeIndex);
-        Game1.player.mailReceived.Add("holyBlade");
-        Game1.player.jitterStrength = 0f;
+        player.holdUpItemThenMessage(new MeleeWeapon(Constants.HolyBladeIndex));
+        darkSword.transform(Constants.HolyBladeIndex);
+        player.mailReceived.Add("holyBlade");
+        player.jitterStrength = 0f;
         Game1.screenGlowHold = false;
     }
 }

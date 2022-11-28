@@ -95,7 +95,7 @@ internal sealed class ObjectProjectile : BasicProjectile
             this.Damage = (int)(this.Damage * 0.8f);
             this.Knockback *= 0.8f;
             this.Overcharge *= 0.8f;
-            ++this.bouncesLeft.Value;
+            this.bouncesLeft.Value++;
         }
 
         if (ModEntry.Config.Arsenal.Slingshots.DisableGracePeriod)
@@ -202,7 +202,7 @@ internal sealed class ObjectProjectile : BasicProjectile
             this.Knockback *= 0.8f;
             this.Overcharge *= 0.8f;
             this.DidPierce = true;
-            ++this._pierceCount;
+            this._pierceCount++;
         }
         else
         {

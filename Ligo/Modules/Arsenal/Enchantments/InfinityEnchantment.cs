@@ -2,6 +2,7 @@
 
 #region using directives
 
+using System.Xml.Serialization;
 using DaLion.Ligo.Modules.Arsenal.Projectiles;
 using DaLion.Shared.Enums;
 using Microsoft.Xna.Framework;
@@ -10,6 +11,7 @@ using StardewValley.Tools;
 #endregion using directives
 
 /// <summary>The secondary <see cref="BaseWeaponEnchantment"/> which characterizes Infinity weapons.</summary>
+[XmlType("Mods_DaLion_InfinityEnchantment")]
 public class InfinityEnchantment : BaseWeaponEnchantment
 {
     /// <inheritdoc />

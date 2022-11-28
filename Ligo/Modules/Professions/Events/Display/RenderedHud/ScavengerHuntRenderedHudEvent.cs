@@ -3,6 +3,7 @@
 #region using directives
 
 using DaLion.Ligo.Modules.Professions.TreasureHunts;
+using DaLion.Ligo.Modules.Professions.VirtualProperties;
 using DaLion.Shared.Events;
 using Microsoft.Xna.Framework;
 using StardewModdingAPI.Events;
@@ -24,7 +25,7 @@ internal sealed class ScavengerHuntRenderedHudEvent : RenderedHudEvent
     /// <inheritdoc />
     protected override void OnRenderedHudImpl(object? sender, RenderedHudEventArgs e)
     {
-        this._hunt ??= (ScavengerHunt)ModEntry.State.Professions.ScavengerHunt.Value;
+        this._hunt ??= Game1.player.Get_ScavengerHunt();
         if (!this._hunt.TreasureTile.HasValue)
         {
             return;

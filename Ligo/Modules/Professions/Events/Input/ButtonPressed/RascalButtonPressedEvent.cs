@@ -2,6 +2,7 @@
 
 #region using directives
 
+using DaLion.Ligo.Modules.Professions.Extensions;
 using DaLion.Shared.Events;
 using StardewModdingAPI.Events;
 using StardewValley.Tools;
@@ -17,6 +18,9 @@ internal sealed class RascalButtonPressedEvent : ButtonPressedEvent
         : base(manager)
     {
     }
+
+    /// <inheritdoc />
+    public override bool IsEnabled => Game1.player.HasProfession(Profession.Rascal);
 
     /// <inheritdoc />
     protected override void OnButtonPressedImpl(object? sender, ButtonPressedEventArgs e)

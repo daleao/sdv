@@ -27,6 +27,12 @@ internal sealed class GetHeroSoulCommand : ConsoleCommand
     /// <inheritdoc />
     public override void Callback(string[] args)
     {
+        if (!ModEntry.Config.Arsenal.InfinityPlusOne || !Globals.HeroSoulindex.HasValue)
+        {
+            Log.W("Infinity +1 feature is not enabled.");
+            return;
+        }
+
         if (args.Length > 1)
         {
             Log.W("Additional arguments beyond the first will be ignored.");
@@ -38,9 +44,6 @@ internal sealed class GetHeroSoulCommand : ConsoleCommand
             Log.W($"Received invalid value {args[0]} for `stack` parameter. The parameter will be ignored.");
         }
 
-        var heroSoul =
-            (SObject)Ligo.Integrations.DynamicGameAssetsApi!.SpawnDGAItem(ModEntry.Manifest.UniqueID + "/Hero Soul");
-        heroSoul.Stack = stack;
-        Utility.CollectOrDrop(heroSoul);
+        Utility.CollectOrDrop(new SObject(Globals.HeroSoulindex.Value, stack));
     }
 }

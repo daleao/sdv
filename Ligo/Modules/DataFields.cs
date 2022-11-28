@@ -16,17 +16,46 @@ internal sealed class DataFields
 
     #endregion professions
 
+    #region arsenal
+
+    // weapon
+    internal const string CursePoints = "CursePoints";
+    internal const string InitialMinDamage = "InitialMinDamage";
+    internal const string InitialMaxDamage = "InitialMaxDamage";
+    internal const string WeaponLevel = "WeaponLevel";
+
+    // farmer
+    internal const string ArsenalInitialized = "ArsenalInitialized";
+    internal const string Cursed = "Cursed";
+    internal const string UniqueWeapons = "UniqueWeapons";
+
+    internal const string ProvenCompassion = "ProvenCompassion";
+    internal const string ProvenHonesty = "ProvenHonesty";
+    internal const string ProvenGenerosity = "ProvenGenerosity";
+    internal const string ProvenValor = "ProvenValor";
+    internal const string ProvenWisdom = "ProvenWisdom";
+    internal const string GotDwarfSwordBlueprint = "GotDwarfSwordBlueprint";
+    internal const string GotDwarfDaggerBlueprint = "GotDwarfDaggerBlueprint";
+    internal const string GotDwarfHammerBlueprint = "GotDwarfHammerBlueprint";
+    internal const string GotDragontoothCutlassBlueprint = "GotDragontoothCutlassBlueprint";
+    internal const string GotDragontoothShivBlueprint = "GotDragontoothShivBlueprint";
+    internal const string GotDragontoothClubBlueprint = "GotDragontoothClubBlueprint";
+
+    #endregion arsenal
+
     #region rings
 
-    internal const string RingCooldownReduction = "RingCooldownReduction";
+    // farmer
+    internal const string CooldownReduction = "CooldownReduction";
 
+    // tool
     internal const string ResonantDamage = "ResonantDamage";
+    internal const string ResonantKnockback = "ResonantKnockback";
     internal const string ResonantCritChance = "ResonantCritChance";
     internal const string ResonantCritPower = "ResonantCritPower";
-    internal const string ResonantKnockback = "ResonantKnockback";
-    internal const string ResonantCooldownReduction = "ResonantCooldownReduction";
     internal const string ResonantSpeed = "ResonantSpeed";
-    internal const string ResonantDefense = "ResonantDefense";
+    internal const string ResonantCooldownReduction = "ResonantCooldownReduction";
+    internal const string ResonantResilience = "ResonantResilience";
 
     #endregion rings
 

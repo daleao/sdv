@@ -2,6 +2,7 @@
 
 #region using directives
 
+using DaLion.Ligo.Modules.Tools.VirtualProperties;
 using DaLion.Shared.Events;
 using StardewModdingAPI.Events;
 
@@ -18,16 +19,14 @@ internal sealed class ToolUpdateTickedEvent : UpdateTickedEvent
     }
 
     /// <inheritdoc />
-    public override bool IsEnabled => ModEntry.State.Tools.Shockwave is not null;
+    public override bool IsEnabled => Game1.player.Get_HasShockwave();
 
     /// <inheritdoc />
     protected override void OnUpdateTickedImpl(object? sender, UpdateTickedEventArgs e)
     {
-        if (ModEntry.Config.Tools.TicksBetweenWaves > 0 && !e.IsMultipleOf(ModEntry.Config.Tools.TicksBetweenWaves))
+        if (ModEntry.Config.Tools.TicksBetweenWaves <= 1 || e.IsMultipleOf(ModEntry.Config.Tools.TicksBetweenWaves))
         {
-            return;
+            Game1.player.Get_Shockwaves().ForEach(wave => wave.Update(Game1.currentGameTime.TotalGameTime.TotalMilliseconds));
         }
-
-        ModEntry.State.Tools.Shockwave!.Update(Game1.currentGameTime.TotalGameTime.TotalMilliseconds);
     }
 }

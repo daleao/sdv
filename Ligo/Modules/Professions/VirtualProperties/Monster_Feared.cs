@@ -20,7 +20,7 @@ internal static class Monster_Feared
     }
 
     // Net types are readonly
-    internal static void Set_FearTimer(this Monster monster, NetInt newVal)
+    internal static void Set_FearTimer(this Monster monster, NetInt value)
     {
     }
 
@@ -31,7 +31,7 @@ internal static class Monster_Feared
     }
 
     // Net types are readonly
-    internal static void Set_FearIntensity(this Monster monster, NetInt newVal)
+    internal static void Set_FearIntensity(this Monster monster, NetInt value)
     {
     }
 

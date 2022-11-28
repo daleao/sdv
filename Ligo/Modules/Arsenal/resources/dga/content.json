@@ -9,22 +9,14 @@
         "HideFromShippingCollection": true,
         "IsGiftable": false,
     },
-    {
+	{
         "$ItemType": "Object",
-        "ID": "Garnet",
-        "Category": "Gem",
-        "Texture": "garnet.png:0",
-        "SellPrice": 300,
+        "ID": "Dwarven Scrap",
+        "Category": "Crafting",
+        "Texture": "dwarvenscrap.png:0",
+        "SellPrice": 750,
         "CanTrash": true,
         "HideFromShippingCollection": false,
         "IsGiftable": true,
-        "DynamicFields": [
-            {
-                "Conditions": {
-                    "HasMod |DaLion.ImmersiveRings": true
-                },
-                "Enabled": false
-            }
-        ]
     }
 ]

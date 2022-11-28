@@ -26,7 +26,17 @@ internal sealed class ArsenalGameLaunchedEvent : GameLaunchedEvent
         // register custom enchants
         new SpaceCoreIntegration(registry).Register();
 
-        // add Hero Soul item
-        new DynamicGameAssetsIntegration(registry).Register();
+        // add custom items
+        if (registry.IsLoaded("spacechase0.JsonAssets"))
+        {
+            new JsonAssetsIntegration(registry).Register();
+        }
+        else
+        {
+            Log.W("Json Assets was not loaded. Features from the Arsenal module will be disabled.");
+            ModEntry.Config.Arsenal.AncientCrafting = false;
+            ModEntry.Config.Arsenal.InfinityPlusOne = false;
+            ModEntry.ModHelper.WriteConfig(ModEntry.Config);
+        }
     }
 }

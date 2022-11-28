@@ -2,6 +2,7 @@
 
 #region using directives
 
+using DaLion.Ligo.Modules.Rings.Integrations;
 using DaLion.Shared.Extensions.SMAPI;
 
 #endregion using directives
@@ -58,10 +59,20 @@ internal sealed partial class GenericModConfigMenuIntegration
                 config => config.Rings.TheOneInfinityBand,
                 (config, value) =>
                 {
+                    if (value && !ModEntry.ModHelper.ModRegistry.IsLoaded("spacechase0.JsonAssets"))
+                    {
+                        Log.W("Cannot enable The One Iridium Band because this feature requires Json Assets which is not installed.");
+                        return;
+                    }
+
                     config.Rings.TheOneInfinityBand = value;
                     ModEntry.ModHelper.GameContent.InvalidateCacheAndLocalized("Data/CraftingRecipes");
                     ModEntry.ModHelper.GameContent.InvalidateCacheAndLocalized("Data/ObjectInformation");
                     ModEntry.ModHelper.GameContent.InvalidateCacheAndLocalized("Maps/springobjects");
+                    if (value && !Globals.InfinityBandIndex.HasValue)
+                    {
+                        new JsonAssetsIntegration(ModEntry.ModHelper.ModRegistry).Register();
+                    }
                 })
             .AddCheckbox(
                 () => "Enable Gemstone Resonance",

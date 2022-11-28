@@ -22,6 +22,5 @@ internal sealed class CoreReturnedToTitleEvent : ReturnedToTitleEvent
     protected override void OnReturnedToTitleImpl(object? sender, ReturnedToTitleEventArgs e)
     {
         ModEntry.Events.Reset();
-        ModEntry.State = new ModState();
     }
 }

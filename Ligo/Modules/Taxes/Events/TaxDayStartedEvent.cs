@@ -1,7 +1,8 @@
-namespace DaLion.Ligo.Modules.Taxes.Events;
+﻿namespace DaLion.Ligo.Modules.Taxes.Events;
 
 #region using directives
 
+using DaLion.Ligo.Modules.Taxes.VirtualProperties;
 using DaLion.Shared.Events;
 using StardewModdingAPI.Events;
 
@@ -20,17 +21,20 @@ internal sealed class TaxDayStartedEvent : DayStartedEvent
     /// <inheritdoc />
     protected override void OnDayStartedImpl(object? sender, DayStartedEventArgs e)
     {
-        if (ModEntry.State.Taxes.LatestDebit <= 0)
+        var toDebit = Game1.player.Get_LatestCharge();
+        if (toDebit <= 0)
         {
             return;
         }
 
-        Game1.player.Money -= ModEntry.State.Taxes.LatestDebit;
+        Game1.player.Money -= toDebit;
         Game1.addHUDMessage(
             new HUDMessage(
-                ModEntry.i18n.Get("debt.debit", new { amount = ModEntry.State.Taxes.LatestDebit.ToString() }),
+                ModEntry.i18n.Get(
+                    "debt.debit",
+                    new { amount = toDebit.ToString() }),
                 HUDMessage.newQuest_type) { timeLeft = HUDMessage.defaultTime * 2 });
-        ModEntry.State.Taxes.LatestDebit = 0;
+        Game1.player.Set_LatestCharge(0);
         this.Disable();
     }
 }

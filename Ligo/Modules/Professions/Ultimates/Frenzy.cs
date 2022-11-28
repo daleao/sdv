@@ -3,6 +3,7 @@
 #region using directives
 
 using DaLion.Ligo.Modules.Professions.Sounds;
+using DaLion.Ligo.Modules.Professions.VirtualProperties;
 using Microsoft.Xna.Framework;
 
 #endregion using directives
@@ -10,8 +11,6 @@ using Microsoft.Xna.Framework;
 /// <summary>Handles Brute ultimate activation.</summary>
 public sealed class Frenzy : Ultimate
 {
-    internal const float PercentIncrementPerRage = 0.01f;
-
     /// <summary>Initializes a new instance of the <see cref="Frenzy"/> class.</summary>
     internal Frenzy()
         : base("Frenzy", 26, Color.OrangeRed, Color.OrangeRed)
@@ -33,8 +32,7 @@ public sealed class Frenzy : Ultimate
     {
         base.Activate();
 
-        ModEntry.State.Professions.BruteKillCounter = 0;
-
+        Game1.player.Set_BruteKillCounter(0);
         Game1.buffsDisplay.removeOtherBuff(this.BuffId);
         Game1.buffsDisplay.addOtherBuff(
             new Buff(
@@ -70,7 +68,7 @@ public sealed class Frenzy : Ultimate
         Game1.buffsDisplay.removeOtherBuff(this.BuffId);
 
         var who = Game1.player;
-        var healed = (int)(who.maxHealth * ModEntry.State.Professions.BruteKillCounter * 0.05f);
+        var healed = (int)(who.maxHealth * Game1.player.Get_BruteKillCounter() * 0.05f);
         who.health = Math.Min(who.health + healed, who.maxHealth);
         who.currentLocation.debris.Add(new Debris(
             healed,

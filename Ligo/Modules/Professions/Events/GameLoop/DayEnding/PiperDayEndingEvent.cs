@@ -2,6 +2,7 @@
 
 #region using directives
 
+using DaLion.Ligo.Modules.Professions.VirtualProperties;
 using DaLion.Shared.Events;
 using StardewModdingAPI.Events;
 
@@ -23,7 +24,7 @@ internal sealed class PiperDayEndingEvent : DayEndingEvent
     protected override void OnDayEndingImpl(object? sender, DayEndingEventArgs e)
     {
         Game1.buffsDisplay.removeOtherBuff(PiperBuffId);
-        Array.Clear(ModEntry.State.Professions.AppliedPiperBuffs, 0, 12);
+        Array.Clear(Game1.player.Get_PiperBuffs(), 0, 12);
         this.Disable();
     }
 }

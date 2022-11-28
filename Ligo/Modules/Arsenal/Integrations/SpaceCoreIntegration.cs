@@ -34,5 +34,10 @@ internal sealed class SpaceCoreIntegration : BaseIntegration<ISpaceCoreApi>
         this.ModApi.RegisterSerializerType(typeof(PreservingEnchantment));
         this.ModApi.RegisterSerializerType(typeof(QuincyEnchantment));
         this.ModApi.RegisterSerializerType(typeof(SpreadingEnchantment));
+
+        this.ModApi.RegisterSerializerType(typeof(BlessedEnchantment));
+        this.ModApi.RegisterSerializerType(typeof(CursedEnchantment));
+        this.ModApi.RegisterSerializerType(typeof(GarnetEnchantment));
+        this.ModApi.RegisterSerializerType(typeof(InfinityEnchantment));
     }
 }

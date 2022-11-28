@@ -341,8 +341,8 @@ public abstract class Gemstone : SmartEnum<Gemstone>, IEquatable<Gemstone>, ICom
             : base(
                 "Garnet",
                 3,
-                Globals.GarnetIndex,
-                Globals.GarnetRingIndex,
+                Globals.GarnetIndex!.Value,
+                Globals.GarnetRingIndex!.Value,
                 4f / 3f,
                 new Color(152, 29, 45),
                 new Color(245, 75, 20, 230))
@@ -355,13 +355,13 @@ public abstract class Gemstone : SmartEnum<Gemstone>, IEquatable<Gemstone>, ICom
         /// <inheritdoc />
         internal override void Resonate(Farmer who, float amplitude)
         {
-            who.Increment(DataFields.ResonantCooldownReduction, amplitude);
+            who.Increment(DataFields.CooldownReduction, amplitude);
         }
 
         /// <inheritdoc />
         internal override void Dissonate(Farmer who, float amplitude)
         {
-            who.Increment(DataFields.ResonantCooldownReduction, -amplitude);
+            who.Increment(DataFields.CooldownReduction, -amplitude);
         }
 
         /// <inheritdoc />
@@ -485,7 +485,7 @@ public abstract class Gemstone : SmartEnum<Gemstone>, IEquatable<Gemstone>, ICom
             {
                 if (ModEntry.Config.EnableArsenal && ModEntry.Config.Arsenal.OverhauledDefense)
                 {
-                    who.Increment(DataFields.ResonantDefense, amplitude * 0.1f);
+                    who.Increment(DataFields.ResonantResilience, amplitude * 0.1f);
                 }
                 else
                 {
@@ -505,7 +505,7 @@ public abstract class Gemstone : SmartEnum<Gemstone>, IEquatable<Gemstone>, ICom
             {
                 if (ModEntry.Config.EnableArsenal && ModEntry.Config.Arsenal.OverhauledDefense)
                 {
-                    who.Increment(DataFields.ResonantDefense, amplitude * -0.1f);
+                    who.Increment(DataFields.ResonantResilience, amplitude * -0.1f);
                 }
                 else
                 {

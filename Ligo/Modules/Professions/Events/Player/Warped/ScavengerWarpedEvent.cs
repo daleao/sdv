@@ -2,6 +2,8 @@
 
 #region using directives
 
+using DaLion.Ligo.Modules.Professions.Extensions;
+using DaLion.Ligo.Modules.Professions.VirtualProperties;
 using DaLion.Shared.Events;
 using StardewModdingAPI.Events;
 
@@ -18,16 +20,19 @@ internal sealed class ScavengerWarpedEvent : WarpedEvent
     }
 
     /// <inheritdoc />
+    public override bool IsEnabled => Game1.player.HasProfession(Profession.Scavenger);
+
+    /// <inheritdoc />
     protected override void OnWarpedImpl(object? sender, WarpedEventArgs e)
     {
-        if (ModEntry.State.Professions.ScavengerHunt.Value.IsActive)
+        if (e.Player.Get_ScavengerHunt().IsActive)
         {
-            ModEntry.State.Professions.ScavengerHunt.Value.Fail();
+            e.Player.Get_ScavengerHunt().Fail();
         }
 
         if (e.NewLocation.IsOutdoors && (ModEntry.Config.Professions.AllowScavengerHuntsOnFarm || !e.NewLocation.IsFarm))
         {
-            ModEntry.State.Professions.ScavengerHunt.Value.TryStart(e.NewLocation);
+            e.Player.Get_ScavengerHunt().TryStart(e.NewLocation);
         }
     }
 }

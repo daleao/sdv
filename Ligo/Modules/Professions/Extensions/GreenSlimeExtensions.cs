@@ -3,7 +3,6 @@
 #region using directives
 
 using DaLion.Ligo.Modules.Professions.VirtualProperties;
-using DaLion.Shared.Extensions.Stardew;
 using StardewValley.Monsters;
 
 #endregion using directives

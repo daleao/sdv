@@ -3,7 +3,9 @@
 #region using directives
 
 using System.Linq;
+using DaLion.Ligo.Modules.Arsenal.Extensions;
 using DaLion.Shared.Events;
+using DaLion.Shared.Extensions.Stardew;
 using StardewModdingAPI.Events;
 using StardewValley.Tools;
 
@@ -23,18 +25,28 @@ internal sealed class ArsenalSaveLoadedEvent : SaveLoadedEvent
     /// <inheritdoc />
     protected override void OnSaveLoadedImpl(object? sender, SaveLoadedEventArgs e)
     {
+        if (Game1.player.Read<bool>(DataFields.Cursed))
+        {
+            ModEntry.Events.Enable<CurseUpdateTickedEvent>();
+        }
+
+        if (Game1.player.Read<bool>(DataFields.ArsenalInitialized))
+        {
+            return;
+        }
+
         if (Context.IsMainPlayer)
         {
             Utility.iterateAllItems(item =>
             {
-                if (item is not MeleeWeapon weapon || !weapon.isScythe())
+                if (item is not MeleeWeapon weapon || weapon.isScythe())
                 {
                     return;
                 }
 
                 if (ModEntry.Config.Arsenal.InfinityPlusOne)
                 {
-                    Utils.AddEnchantments(weapon);
+                    weapon.AddIntrinsicEnchantments();
                 }
 
                 if (ModEntry.Config.Arsenal.Weapons.StabbySwords.Contains(weapon.Name))
@@ -42,9 +54,9 @@ internal sealed class ArsenalSaveLoadedEvent : SaveLoadedEvent
                     weapon.type.Value = MeleeWeapon.stabbingSword;
                 }
 
-                if (ModEntry.Config.Arsenal.Weapons.RebalanceWeapons)
+                if (ModEntry.Config.Arsenal.Weapons.RebalancedWeapons)
                 {
-                    Utils.UpdateSingleWeapon(weapon);
+                    weapon.RefreshStats();
                 }
             });
         }
@@ -59,7 +71,7 @@ internal sealed class ArsenalSaveLoadedEvent : SaveLoadedEvent
 
                 if (ModEntry.Config.Arsenal.InfinityPlusOne)
                 {
-                    Utils.AddEnchantments(weapon);
+                    weapon.AddIntrinsicEnchantments();
                 }
 
                 if (ModEntry.Config.Arsenal.Weapons.StabbySwords.Contains(weapon.Name))
@@ -67,11 +79,13 @@ internal sealed class ArsenalSaveLoadedEvent : SaveLoadedEvent
                     weapon.type.Value = MeleeWeapon.stabbingSword;
                 }
 
-                if (ModEntry.Config.Arsenal.Weapons.RebalanceWeapons)
+                if (ModEntry.Config.Arsenal.Weapons.RebalancedWeapons)
                 {
-                    Utils.UpdateSingleWeapon(weapon);
+                    weapon.RefreshStats();
                 }
             }
         }
+
+        Game1.player.Write(DataFields.ArsenalInitialized, true.ToString());
     }
 }

@@ -17,9 +17,9 @@ internal static class Monster_WasKnockedBack
         return Values.GetOrCreateValue(monster).WasKnockedBack;
     }
 
-    internal static void Set_WasKnockedBack(this Monster monster, bool newVal)
+    internal static void Set_WasKnockedBack(this Monster monster, bool value)
     {
-        Values.GetOrCreateValue(monster).WasKnockedBack = newVal;
+        Values.GetOrCreateValue(monster).WasKnockedBack = value;
     }
 
     internal class Holder

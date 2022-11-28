@@ -20,7 +20,7 @@ internal static class GreenSlime_Piped
     }
 
     // Net types are readonly
-    internal static void Set_PipeTimer(this GreenSlime slime, NetInt newVal)
+    internal static void Set_PipeTimer(this GreenSlime slime, NetInt value)
     {
     }
 

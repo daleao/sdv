@@ -33,16 +33,15 @@ internal static class FarmerExtensions
     internal static int ConsumeRing(this Farmer farmer, int index, int amount)
     {
         var list = farmer.Items;
-        for (var i = 0; i < list.Count; ++i)
+        for (var i = 0; i < list.Count; i++)
         {
             if (list[i] is not Ring || list[i].ParentSheetIndex != index)
             {
                 continue;
             }
 
-            --amount;
             list[i] = null;
-            if (amount > 0)
+            if (--amount > 0)
             {
                 continue;
             }
@@ -61,7 +60,7 @@ internal static class FarmerExtensions
     internal static int ConsumeObject(this Farmer farmer, int index, int amount)
     {
         var list = farmer.Items;
-        for (var i = 0; i < list.Count; ++i)
+        for (var i = 0; i < list.Count; i++)
         {
             if (list[i] is not SObject || list[i].ParentSheetIndex != index)
             {

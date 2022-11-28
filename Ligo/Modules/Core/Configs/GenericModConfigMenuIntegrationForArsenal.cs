@@ -2,6 +2,7 @@
 
 #region using directives
 
+using Arsenal.Integrations;
 using DaLion.Shared.Extensions.SMAPI;
 using StardewValley.Objects;
 
@@ -101,15 +102,43 @@ internal sealed partial class GenericModConfigMenuIntegration
                 config => config.Arsenal.WoodyReplacesRusty,
                 (config, value) => config.Arsenal.WoodyReplacesRusty = value)
             .AddCheckbox(
+                () => "Ancient Crafting",
+                () => "Allows crafting Dwarven and Dragontooth weapons.",
+                config => config.Arsenal.AncientCrafting,
+                (config, value) =>
+                {
+                    if (value && !ModEntry.ModHelper.ModRegistry.IsLoaded("spacechase0.JsonAssets"))
+                    {
+                        Log.W("Cannot enable Ancient Crafting because this feature requires Json Assets which is not installed.");
+                        return;
+                    }
+
+                    config.Arsenal.AncientCrafting = value;
+                    if (value && !Globals.DwarvenScrapIndex.HasValue)
+                    {
+                        new JsonAssetsIntegration(ModEntry.ModHelper.ModRegistry).Register();
+                    }
+                })
+            .AddCheckbox(
                 () => "Infinity +1 Weapons",
                 () => "Replace lame Galaxy and Infinity weapons with something truly legendary.",
                 config => config.Arsenal.InfinityPlusOne,
                 (config, value) =>
                 {
+                    if (value && !ModEntry.ModHelper.ModRegistry.IsLoaded("spacechase0.JsonAssets"))
+                    {
+                        Log.W("Cannot enable Infinity +1 weapons because this feature requires Json Assets which is not installed.");
+                        return;
+                    }
+
                     config.Arsenal.InfinityPlusOne = value;
                     ModEntry.ModHelper.GameContent.InvalidateCacheAndLocalized("Data/ObjectInformation");
                     ModEntry.ModHelper.GameContent.InvalidateCacheAndLocalized("Strings/Locations");
                     ModEntry.ModHelper.GameContent.InvalidateCacheAndLocalized("Strings/StringsFromCSFiles");
+                    if (value && !Globals.HeroSoulindex.HasValue)
+                    {
+                        new JsonAssetsIntegration(ModEntry.ModHelper.ModRegistry).Register();
+                    }
                 })
 
             // page links
@@ -190,17 +219,26 @@ internal sealed partial class GenericModConfigMenuIntegration
             .AddCheckbox(
                 () => "Rebalance Weapons",
                 () => "Rebalances every melee weapon with stats well-suited for this mod's intended experience.",
-                config => config.Arsenal.Weapons.RebalanceWeapons,
+                config => config.Arsenal.Weapons.RebalancedWeapons,
                 (config, value) =>
                 {
-                    config.Arsenal.Weapons.RebalanceWeapons = value;
+                    config.Arsenal.Weapons.RebalancedWeapons = value;
                     ModEntry.ModHelper.GameContent.InvalidateCache("Data/weapons");
                     Arsenal.Utils.UpdateAllWeapons();
                 })
             .AddCheckbox(
+                () => "Retexture Weapons",
+                () => "Slightly touches up many melee weapons, without changing the vanilla style, to be slightly more realistic or to reflect other changes made by this module.",
+                config => config.Arsenal.Weapons.RetexturedWeapons,
+                (config, value) =>
+                {
+                    config.Arsenal.Weapons.RetexturedWeapons = value;
+                    ModEntry.ModHelper.GameContent.InvalidateCache("TileSheets/weapons");
+                })
+            .AddCheckbox(
                 () => "Use Ligo Enchantments",
                 () => "Replaces boring old enchantments with exciting new ones.",
-                config => config.Arsenal.Weapons.LigoEnchants,
-                (config, value) => config.Arsenal.Weapons.LigoEnchants = value);
+                config => config.Arsenal.Weapons.UseLigoEnchants,
+                (config, value) => config.Arsenal.Weapons.UseLigoEnchants = value);
     }
 }

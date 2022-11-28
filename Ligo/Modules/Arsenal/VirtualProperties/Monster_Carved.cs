@@ -17,14 +17,14 @@ internal static class Monster_Carved
         return Values.GetOrCreateValue(monster).Carved;
     }
 
-    internal static void Set_Carved(this Monster monster, int newVal)
+    internal static void Set_Carved(this Monster monster, int value)
     {
-        Values.GetOrCreateValue(monster).Carved = newVal;
+        Values.GetOrCreateValue(monster).Carved = value;
     }
 
-    internal static void Increment_Carved(this Monster monster)
+    internal static void Increment_Carved(this Monster monster, int amount = 1)
     {
-        ++Values.GetOrCreateValue(monster).Carved;
+        Values.GetOrCreateValue(monster).Carved += amount;
     }
 
     internal class Holder

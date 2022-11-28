@@ -2,6 +2,7 @@
 
 #region using directives
 
+using DaLion.Ligo.Modules.Professions.Events.Display;
 using DaLion.Ligo.Modules.Professions.Extensions;
 using DaLion.Shared.Events;
 using DaLion.Shared.Extensions.Collections;
@@ -27,7 +28,17 @@ internal sealed class ProfessionSaveLoadedEvent : SaveLoadedEvent
         Skill.List.ForEach(s => s.Revalidate());
         player.RevalidateUltimate();
         Game1.game1.RevalidateFishPondPopulations();
-        ModEntry.Events.EnableForLocalPlayer();
+
+        if (player.HasProfession(Profession.Prospector))
+        {
+            ModEntry.Events.Enable<ProspectorHuntRenderedHudEvent>();
+        }
+
+        if (player.HasProfession(Profession.Scavenger))
+        {
+            ModEntry.Events.Enable<ScavengerHuntRenderedHudEvent>();
+        }
+
         this.Manager.Enable<PrestigeAchievementOneSecondUpdateTickedEvent>();
     }
 }

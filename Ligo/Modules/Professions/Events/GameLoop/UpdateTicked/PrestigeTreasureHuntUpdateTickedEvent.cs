@@ -23,7 +23,7 @@ internal sealed class PrestigeTreasureHuntUpdateTickedEvent : UpdateTickedEvent
     protected override void OnUpdateTickedImpl(object? sender, UpdateTickedEventArgs e)
     {
         Game1.gameTimeInterval = 0;
-        if (Farmer_HuntingTreasure.Values.AsEnumerable().All(pair => pair.Value.Value == false))
+        if (Farmer_TreasureHunt.Values.AsEnumerable().All(pair => pair.Value.Value == false))
         {
             this.Disable();
         }

@@ -176,37 +176,20 @@ internal sealed class ProfessionAssetRequestedEvent : AssetRequestedEvent
     /// <summary>Provides the correct skill bars texture path.</summary>
     private static string ProvideSkillBars()
     {
-        var path = "assets/menus/";
-
-        if (ModEntry.Config.Professions.VintageInterfaceSupport != Config.VintageInterfaceStyle.Off)
+        var path = "assets/menus/skillbars";
+        if (ModEntry.ModHelper.ModRegistry.IsLoaded("ManaKirel.VMI") ||
+            ModEntry.ModHelper.ModRegistry.IsLoaded("ManaKirel.VintageInterface2"))
         {
-            var vintage = "off";
-            if (ModEntry.Config.Professions.VintageInterfaceSupport == Config.VintageInterfaceStyle.Auto)
-            {
-                if (ModEntry.ModHelper.ModRegistry.IsLoaded("ManaKirel.VMI") ||
-                    ModEntry.ModHelper.ModRegistry.IsLoaded("ManaKirel.VintageInterface2"))
-                {
-                    vintage = "on";
-                }
-            }
-            else
-            {
-                vintage = "on";
-            }
-
-            if (vintage != "off")
-            {
-                return path + "skillbars_vintage.png";
-            }
+            path += "_vintage";
         }
 
-        return path + "skillbars.png";
+        return path + ".png";
     }
 
     /// <summary>Provides the correct ultimate meter texture path.</summary>
     private static string ProvideUltimateMeter()
     {
-        const string path = "assets/hud/";
+        var path = "assets/hud/gauge";
         if (Ligo.Integrations.SveConfig is not null)
         {
             if (Ligo.Integrations.SveConfig.Value<bool?>("DisableGaldoranTheme") == false &&
@@ -217,36 +200,20 @@ internal sealed class ProfessionAssetRequestedEvent : AssetRequestedEvent
                      "Custom_TreasureCave") == true ||
                  Ligo.Integrations.SveConfig.Value<bool?>("UseGaldoranThemeAllTimes") == true))
             {
-                return path + "gauge_galdora.png";
+                return path + "_galdora.png";
             }
         }
 
-        if (ModEntry.Config.Professions.VintageInterfaceSupport != Config.VintageInterfaceStyle.Off)
+        if (ModEntry.ModHelper.ModRegistry.IsLoaded("ManaKirel.VMI"))
         {
-            var vintage = "off";
-            if (ModEntry.Config.Professions.VintageInterfaceSupport == Config.VintageInterfaceStyle.Auto)
-            {
-                if (ModEntry.ModHelper.ModRegistry.IsLoaded("ManaKirel.VMI"))
-                {
-                    vintage = "pink";
-                }
-                else if (ModEntry.ModHelper.ModRegistry.IsLoaded("ManaKirel.VintageInterface2"))
-                {
-                    vintage = "brown";
-                }
-            }
-            else
-            {
-                vintage = ModEntry.Config.Professions.VintageInterfaceSupport.ToString().ToLowerInvariant();
-            }
-
-            if (vintage != "off")
-            {
-                return path + $"gauge_vintage_{vintage}.png";
-            }
+            path += "_vintange_pink";
+        }
+        else if (ModEntry.ModHelper.ModRegistry.IsLoaded("ManaKirel.VintageInterface2"))
+        {
+            path += "_vintage_brown";
         }
 
-        return path + "gauge.png";
+        return path + ".png";
     }
 
     #endregion provider callbacks

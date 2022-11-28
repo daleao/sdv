@@ -96,7 +96,7 @@ internal static class GameLocationExtensions
         var locationData =
             Game1.content.Load<Dictionary<string, string>>(PathUtilities.NormalizeAssetName("Data/Locations"));
         List<string> allSeasonFish = new();
-        for (var i = 0; i < 4; ++i)
+        for (var i = 0; i < 4; i++)
         {
             var seasonalFishData = locationData[location.NameOrUniqueName].Split('/')[4 + i].Split(' ');
             if (seasonalFishData.Length > 1)

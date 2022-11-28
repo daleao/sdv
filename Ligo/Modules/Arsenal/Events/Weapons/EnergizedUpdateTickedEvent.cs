@@ -31,8 +31,8 @@ internal sealed class EnergizedUpdateTickedEvent : UpdateTickedEvent
     /// <inheritdoc />
     protected override void OnUpdateTickedImpl(object? sender, UpdateTickedEventArgs e)
     {
-        var farmer = Game1.player;
-        var energized = (farmer.CurrentTool as MeleeWeapon)?.GetEnchantmentOfType<EnergizedEnchantment>();
+        var player = Game1.player;
+        var energized = (player.CurrentTool as MeleeWeapon)?.GetEnchantmentOfType<EnergizedEnchantment>();
         if (energized is null)
         {
             this.Disable();
@@ -41,15 +41,15 @@ internal sealed class EnergizedUpdateTickedEvent : UpdateTickedEvent
 
         if (e.IsOneSecond)
         {
-            var gained = (Game1.stats.StepsTaken - this._previousStepsByFarmer[farmer]) / 3;
+            var gained = (Game1.stats.StepsTaken - this._previousStepsByFarmer[player]) / 3;
             if (gained > 0)
             {
                 energized.Stacks += (int)gained;
-                this._previousStepsByFarmer[farmer] = Game1.stats.StepsTaken;
+                this._previousStepsByFarmer[player] = Game1.stats.StepsTaken;
             }
         }
 
-        if (energized.Stacks <= 0 || farmer.hasBuff(EnergizedEnchantment.BuffId))
+        if (energized.Stacks <= 0 || player.hasBuff(EnergizedEnchantment.BuffId))
         {
             return;
         }

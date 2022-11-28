@@ -32,7 +32,7 @@ internal sealed class RestoreForgottenRecipesDayStartedEvent : DayStartedEvent
             return;
         }
 
-        for (var i = forgottenRecipes.Count - 1; i >= 0; --i)
+        for (var i = forgottenRecipes.Count - 1; i >= 0; i--)
         {
             var key = forgottenRecipes.ElementAt(i).Key;
             if (Game1.player.craftingRecipes.ContainsKey(key))
