@@ -30,5 +30,6 @@ internal interface IHarmonyPatcher
 
     /// <summary>Applies internally-defined Harmony patches.</summary>
     /// <param name="harmony">The <see cref="Harmony"/> instance for this mod.</param>
-    void Apply(Harmony harmony);
+    /// <returns><see langword="true"/> if the patch was applied successfully, otherwise <see langword="false"/>.</returns>
+    bool Apply(Harmony harmony);
 }

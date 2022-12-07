@@ -77,7 +77,7 @@ internal sealed class LevelUpMenuUpdatePatcher : HarmonyPatcher
         }
         catch (Exception ex)
         {
-            Log.E($"Failed while patching level 15 profession choices.\nHelper returned {ex}");
+            Log.E($"Failed patching level 15 profession choices.\nHelper returned {ex}");
             return null;
         }
 
@@ -118,7 +118,7 @@ internal sealed class LevelUpMenuUpdatePatcher : HarmonyPatcher
         catch (Exception ex)
         {
             Log.E(
-                $"Failed while patching 2nd-tier profession choices to reflect last chosen 1st-tier profession.\nHelper returned {ex}");
+                $"Failed patching 2nd-tier profession choices to reflect last chosen 1st-tier profession.\nHelper returned {ex}");
             return null;
         }
 
@@ -210,7 +210,7 @@ internal sealed class LevelUpMenuUpdatePatcher : HarmonyPatcher
         catch (Exception ex)
         {
             Log.E(
-                $"Failed while patching level up profession redundancy and injecting dialogues.\nHelper returned {ex}");
+                $"Failed patching level up profession redundancy and injecting dialogues.\nHelper returned {ex}");
             return null;
         }
 
@@ -270,7 +270,7 @@ internal sealed class LevelUpMenuUpdatePatcher : HarmonyPatcher
         }
         catch (Exception ex)
         {
-            Log.E($"Failed while injecting level up profession final question.\nHelper returned {ex}");
+            Log.E($"Failed injecting level up profession final question.\nHelper returned {ex}");
             return null;
         }
 
@@ -315,7 +315,7 @@ internal sealed class LevelUpMenuUpdatePatcher : HarmonyPatcher
         }
         catch (Exception ex)
         {
-            Log.E($"Failed while patching level up menu choice suppression.\nHelper returned {ex}");
+            Log.E($"Failed patching level up menu choice suppression.\nHelper returned {ex}");
             return null;
         }
 

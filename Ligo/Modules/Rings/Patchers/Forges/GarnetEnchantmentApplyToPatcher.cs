@@ -6,7 +6,7 @@ using System.Linq;
 using DaLion.Ligo.Modules.Arsenal.Enchantments;
 using DaLion.Ligo.Modules.Arsenal.Extensions;
 using DaLion.Ligo.Modules.Rings.VirtualProperties;
-using DaLion.Shared.Extensions.Stardew;
+using DaLion.Shared.Extensions.Collections;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
 using StardewValley.Tools;
@@ -26,7 +26,7 @@ internal sealed class GarnetEnchantmentApplyToPatcher : HarmonyPatcher
 
     /// <summary>Resonate with Garnet chord.</summary>
     [HarmonyPostfix]
-    private static void GarnetEnchantmentApplyToPostfix(GarnetEnchantment __instance, Item item)
+    private static void GarnetEnchantmentApplyToPostfix(Item item)
     {
         var player = Game1.player;
         if (item is not (Tool tool and (MeleeWeapon or Slingshot)) || tool != player.CurrentTool)
@@ -34,12 +34,16 @@ internal sealed class GarnetEnchantmentApplyToPatcher : HarmonyPatcher
             return;
         }
 
-        var multiplier = player.Get_ResonatingChords().Sum(c => c.Root == Gemstone.Garnet ? 0.5f : 0f);
-        tool.Increment(DataFields.ResonantCooldownReduction, __instance.GetLevel() * multiplier);
-        if (ModEntry.Config.EnableArsenal)
+        var chord = player.Get_ResonatingChords()
+            .Where(c => c.Root == Gemstone.Garnet)
+            .ArgMax(c => c.Amplitude);
+        if (chord is null)
         {
-            tool.Invalidate();
+            return;
         }
+
+        tool.UpdateResonatingChord<GarnetEnchantment>(chord);
+        tool.Invalidate();
     }
 
     #endregion harmony patches

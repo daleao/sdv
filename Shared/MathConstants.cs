@@ -1,6 +1,6 @@
 ﻿namespace DaLion.Shared;
 
-/// <summary>Provides generally useful methods.</summary>
+/// <summary>Provides generally useful mathematical constants.</summary>
 public static class MathConstants
 {
     /// <summary>The square-root of 2.</summary>

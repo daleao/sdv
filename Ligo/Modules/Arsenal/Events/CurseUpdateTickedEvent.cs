@@ -43,18 +43,6 @@ internal sealed class CurseUpdateTickedEvent : UpdateTickedEvent
     protected override void OnUpdateTickedImpl(object? sender, UpdateTickedEventArgs e)
     {
         var player = Game1.player;
-        if (player.CurrentTool is MeleeWeapon weapon && weapon != this._cursedWeapon)
-        {
-            var index = player.Items.IndexOf(this._cursedWeapon);
-            if (index < 0)
-            {
-                Log.D($"{Game1.player.Name}'s curse was lifted.");
-                this.Disable();
-            }
-
-            player.CurrentToolIndex = index;
-        }
-
         if (player.CurrentTool != this._cursedWeapon ||
             (!Game1.game1.IsActiveNoOverlay && Game1.options.pauseWhenOutOfFocus) || !Game1.shouldTimePass() ||
             !e.IsMultipleOf(300))

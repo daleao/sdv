@@ -142,7 +142,7 @@ public static class ListExtensions
         }
 
         var array = list.ToArray();
-        for (var i = 0; i < count; ++i)
+        for (var i = 0; i < count; i++)
         {
             array.ShiftRight();
         }
@@ -164,7 +164,7 @@ public static class ListExtensions
         }
 
         var array = list.ToArray();
-        for (var i = 0; i < count; ++i)
+        for (var i = 0; i < count; i++)
         {
             array.ShiftLeft();
         }
@@ -213,7 +213,7 @@ public static class ListExtensions
         while (!list.SequenceEqual(pattern))
         {
             list.ShiftLeft(1);
-            ++count;
+            count++;
         }
     }
 
@@ -282,5 +282,16 @@ public static class ListExtensions
         var l2 = other.ToLookup(t => t);
         return l1.Count == l2.Count &&
                l1.All(group => l2.Contains(group.Key) && l2[group.Key].Count() == group.Count());
+    }
+
+    /// <summary>Chooses a random element from the <paramref name="list"/>.</summary>
+    /// <typeparam name="T">The type of elements in the list.</typeparam>
+    /// <param name="list">The list.</param>
+    /// <param name="r">A <see cref="Random"/> number generator.</param>
+    /// <returns>A random element from the <paramref name="list"/>.</returns>
+    public static T Choose<T>(this IList<T> list, Random? r = null)
+    {
+        r ??= new Random(Guid.NewGuid().GetHashCode());
+        return list[r.Next(list.Count)];
     }
 }

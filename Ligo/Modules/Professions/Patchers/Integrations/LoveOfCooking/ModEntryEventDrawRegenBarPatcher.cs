@@ -80,7 +80,7 @@ internal sealed class ModEntryEventDrawRegenBarPatcher : HarmonyPatcher
         }
         catch (Exception ex)
         {
-            Log.E($"Failed while moving Love Of Cooking's food regen bar.\nHelper returned {ex}");
+            Log.E($"Failed moving Love Of Cooking's food regen bar.\nHelper returned {ex}");
             return null;
         }
 

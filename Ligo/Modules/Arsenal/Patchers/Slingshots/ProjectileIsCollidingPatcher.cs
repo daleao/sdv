@@ -1,4 +1,4 @@
-﻿namespace DaLion.Ligo.Modules.Arsenal.Patchers;
+﻿namespace DaLion.Ligo.Modules.Arsenal.Patchers.Slingshots;
 
 #region using directives
 

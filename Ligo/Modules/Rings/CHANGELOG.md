@@ -5,8 +5,9 @@
 ### Added
 
 * Added the Infinity Band. The Iridium Band must now be converted to Infinity before accepting gemstones.
-* Added compatibility with [Wear More Rings](https://www.nexusmods.com/stardewvalley/mods/3214).
 * Weapon and Slingshots can now resonate with Infinity Bands if the Arsenal module is enabled.
+* Added compatibility with [Wear More Rings](https://www.nexusmods.com/stardewvalley/mods/3214).
+* Added compatibility with [Vanilla Tweaks](https://www.nexusmods.com/stardewvalley/mods/10852).
 
 ### Changed
 

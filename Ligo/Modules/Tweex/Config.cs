@@ -56,4 +56,7 @@ public sealed class Config
 
     /// <summary>Gets or sets a value indicating whether bombs within any explosion radius are immediately triggered.</summary>
     public bool ExplosionTriggeredBombs { get; set; } = true;
+
+    /// <summary>Gets or sets a value indicating whether to set the quality of legendary fish at best.</summary>
+    public bool LegendaryFishAlwaysBestQuality { get; set; } = true;
 }

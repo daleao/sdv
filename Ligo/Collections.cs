@@ -118,53 +118,6 @@ internal static class Collections
         46, // mystic stone
     };
 
-    /// <summary>Gets the ids of weapons that are dropped from enemies.</summary>
-    internal static IReadOnlySet<int> RandomDropWeapons { get; } = new HashSet<int>
-    {
-        11, // steel smallsword
-        44, // cutlass
-        49, // rapier
-        50, // falchion
-
-        16, // carving knife
-        18, // burglar's shank
-        22, // wind spire
-        17, // iron dirk
-
-        24, // wood club
-        27, // wood mallet
-        26, // lead rod
-        46, // kudgel
-
-        12, // wooden blade
-        1, // silver sword
-        6, // iron edge
-        10, // claymore
-        52, // tempered broadsword
-    };
-
-    /// <summary>Gets the ids of weapons obtained from treasure hunts or fishing chests.</summary>
-    internal static IReadOnlySet<int> RewardWeapons { get; } = new HashSet<int>
-    {
-        15, // forest sword
-        5, // bone sword
-        60, // ossified blade
-        43, // pirate sword
-
-        20, // elf blade
-
-        31, // femur
-    };
-
-    /// <summary>Gets the ids of weapons obtained from treasure hunts or fishing chests.</summary>
-    internal static IReadOnlySet<int> UniqueWeapons { get; } = new HashSet<int>
-    {
-        14, // neptune's glaive
-        51, // broken trident
-        13, // insect head
-        28, // the slammer
-    };
-
     /// <summary>Gets the corresponding extended family pair by legendary fish id.</summary>
     internal static IReadOnlyDictionary<int, int> ExtendedFamilyPairs { get; } = new Dictionary<int, int>
     {

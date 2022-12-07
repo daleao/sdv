@@ -44,7 +44,7 @@ internal sealed class ProfessionsCheatSetProfessionPatcher : HarmonyPatcher
         catch (Exception ex)
         {
             Log.E(
-                "LIGO Professions module failed while moving CJB Profession Cheat health bonus from Defender to Brute." +
+                "LIGO Professions module failed moving CJB Profession Cheat health bonus from Defender to Brute." +
                 "\n—-- Do NOT report this to CJB Cheats Menu's author. ---" +
                 $"\nHelper returned {ex}");
             return null;

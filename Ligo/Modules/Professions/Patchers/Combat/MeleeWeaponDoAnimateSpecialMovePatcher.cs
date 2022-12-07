@@ -49,7 +49,7 @@ internal sealed class MeleeWeaponDoAnimateSpecialMovePatcher : HarmonyPatcher
         }
         catch (Exception ex)
         {
-            Log.E($"Failed while removing vanilla Acrobat cooldown reduction.\nHelper returned {ex}");
+            Log.E($"Failed removing vanilla Acrobat cooldown reduction.\nHelper returned {ex}");
             return null;
         }
 

@@ -49,7 +49,7 @@ internal sealed class GreenSlimeOnDealContactDamagePatcher : HarmonyPatcher
         }
         catch (Exception ex)
         {
-            Log.E($"Failed while adding Piper slime debuff immunity.\nHelper returned {ex}");
+            Log.E($"Failed adding Piper slime debuff immunity.\nHelper returned {ex}");
             return null;
         }
 

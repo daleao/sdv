@@ -1,4 +1,4 @@
-﻿namespace DaLion.Ligo.Modules.Arsenal.Patchers;
+﻿namespace DaLion.Ligo.Modules.Arsenal.Patchers.Integrations;
 
 #region using directives
 

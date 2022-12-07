@@ -29,6 +29,7 @@ public sealed class SpreadingEnchantment : BaseSlingshotEnchantment
         BasicProjectile projectile,
         int damageBase,
         float damageMod,
+        float knockback,
         Vector2 startingPosition,
         float xVelocity,
         float yVelocity,
@@ -49,6 +50,7 @@ public sealed class SpreadingEnchantment : BaseSlingshotEnchantment
             firer,
             damageBase,
             damageMod,
+            knockback,
             overcharge,
             startingPosition,
             velocity);
@@ -61,6 +63,7 @@ public sealed class SpreadingEnchantment : BaseSlingshotEnchantment
             firer,
             damageBase,
             damageMod,
+            knockback,
             overcharge,
             startingPosition,
             velocity);
@@ -73,6 +76,7 @@ public sealed class SpreadingEnchantment : BaseSlingshotEnchantment
         Farmer firer,
         int damageBase,
         float damageMod,
+        float knockback,
         float overcharge,
         Vector2 startingPosition,
         Vector2 velocity)
@@ -104,6 +108,7 @@ public sealed class SpreadingEnchantment : BaseSlingshotEnchantment
                 slingshot,
                 firer,
                 damage,
+                knockback,
                 overcharge,
                 startingPosition,
                 velocity.X,

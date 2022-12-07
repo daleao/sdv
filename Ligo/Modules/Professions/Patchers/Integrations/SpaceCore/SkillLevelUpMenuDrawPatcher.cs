@@ -63,7 +63,7 @@ internal sealed class SkillLevelUpMenuDrawPatcher : HarmonyPatcher
         }
         catch (Exception ex)
         {
-            Log.E("LIGO Professions module failed while patching level up menu prestige tooltip draw." +
+            Log.E("LIGO Professions module failed patching level up menu prestige tooltip draw." +
                   "\n—-- Do NOT report this to SpaceCore's author. ---" +
                   $"\nHelper returned {ex}");
             return null;

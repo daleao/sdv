@@ -6,6 +6,7 @@ namespace DaLion.Ligo.Modules.Arsenal.VirtualProperties;
 using System.Runtime.CompilerServices;
 using DaLion.Ligo.Modules.Arsenal.Enchantments;
 using DaLion.Ligo.Modules.Arsenal.Extensions;
+using DaLion.Ligo.Modules.Rings.VirtualProperties;
 using DaLion.Shared.Extensions.Stardew;
 using StardewValley.Tools;
 
@@ -33,7 +34,14 @@ internal static class MeleeWeapon_Stats
 
     internal static float Get_RelativeKnockback(this MeleeWeapon weapon)
     {
-        return Values.GetValue(weapon, Create).Knockback - weapon.defaultKnockBackForThisType(weapon.type.Value);
+        var knockback = Values.GetValue(weapon, Create).Knockback;
+        var @default = weapon.defaultKnockBackForThisType(weapon.type.Value);
+        if (knockback == @default)
+        {
+            return 0f;
+        }
+
+        return (knockback / @default) - 1f;
     }
 
     internal static float Get_EffectiveCritChance(this MeleeWeapon weapon)
@@ -51,7 +59,7 @@ internal static class MeleeWeapon_Stats
             return 0f;
         }
 
-        return (critChance > @default ? critChance / @default : -@default / critChance) - 1f;
+        return (critChance / @default) - 1f;
     }
 
     internal static float Get_EffectiveCritPower(this MeleeWeapon weapon)
@@ -68,7 +76,7 @@ internal static class MeleeWeapon_Stats
             return 0f;
         }
 
-        return (critPower > @default ? critPower / @default : -@default / critPower) - 1f;
+        return (critPower / @default) - 1f;
     }
 
     internal static float Get_EffectiveSwingSpeed(this MeleeWeapon weapon)
@@ -138,6 +146,11 @@ internal static class MeleeWeapon_Stats
         return count;
     }
 
+    internal static int Get_Level(this MeleeWeapon weapon)
+    {
+        return Values.GetValue(weapon, Create).Level;
+    }
+
     internal static void Invalidate(this MeleeWeapon weapon)
     {
         Values.Remove(weapon);
@@ -156,18 +169,81 @@ internal static class MeleeWeapon_Stats
             holder.MaxDamage += curseBonus;
         }
 
-        holder.MinDamage = (int)(holder.MinDamage * (1f + weapon.Read<float>(DataFields.ResonantDamage)));
-        holder.MaxDamage = (int)(holder.MaxDamage * (1f + weapon.Read<float>(DataFields.ResonantDamage)));
+        if (weapon.Get_ResonatingChord<RubyEnchantment>() is { } rubyChord)
+        {
+            holder.MinDamage = (int)(holder.MinDamage + (weapon.Read<int>(DataFields.BaseMinDamage) *
+                                                         weapon.GetEnchantmentLevel<RubyEnchantment>() *
+                                                         rubyChord.Amplitude * 0.1f));
+            holder.MaxDamage = (int)(holder.MaxDamage + (weapon.Read<int>(DataFields.BaseMaxDamage) *
+                                                         weapon.GetEnchantmentLevel<RubyEnchantment>() *
+                                                         rubyChord.Amplitude * 0.1f));
+        }
 
-        holder.Knockback = weapon.knockback.Value * (1f + weapon.Read<float>(DataFields.ResonantKnockback));
-        holder.CritChance = weapon.critChance.Value * (1f + weapon.Read<float>(DataFields.ResonantCritChance));
-        holder.CritPower = weapon.critMultiplier.Value * (1f + weapon.Read<float>(DataFields.ResonantCritPower));
+        holder.Knockback = weapon.knockback.Value;
+        if (weapon.Get_ResonatingChord<AmethystEnchantment>() is { } amethystChord)
+        {
+            holder.Knockback +=
+                (float)(weapon.GetEnchantmentLevel<AmethystEnchantment>() * amethystChord.Amplitude * 0.1f);
+        }
 
-        holder.SwingSpeed = weapon.speed.Value + weapon.Read<float>(DataFields.ResonantSpeed);
-        holder.Resilience = weapon.addedDefense.Value + weapon.Read<float>(DataFields.ResonantResilience);
-        holder.CooldownReduction = weapon.GetEnchantmentLevel<GarnetEnchantment>() +
-                            weapon.Read<float>(DataFields.ResonantCooldownReduction);
+        holder.CritChance = weapon.critChance.Value;
+        if (weapon.Get_ResonatingChord<AquamarineEnchantment>() is { } aquamarineChord)
+        {
+            holder.CritChance +=
+                (float)(weapon.GetEnchantmentLevel<AmethystEnchantment>() * aquamarineChord.Amplitude * 0.046f);
+        }
 
+        holder.CritPower = weapon.critMultiplier.Value;
+        if (weapon.Get_ResonatingChord<JadeEnchantment>() is { } jadeChord)
+        {
+            holder.CritPower += (float)(weapon.GetEnchantmentLevel<AmethystEnchantment>() * jadeChord.Amplitude *
+                                        (ModEntry.Config.Arsenal.RebalancedForges ? 0.5f : 0.1f));
+        }
+
+        holder.SwingSpeed = weapon.speed.Value;
+        if (weapon.Get_ResonatingChord<EmeraldEnchantment>() is { } emeraldChord)
+        {
+            holder.SwingSpeed += (float)(weapon.GetEnchantmentLevel<AmethystEnchantment>() * emeraldChord.Amplitude);
+        }
+
+        if (weapon.Get_ResonatingChord<GarnetEnchantment>() is { } garnetChord)
+        {
+            holder.CooldownReduction = (float)(weapon.GetEnchantmentLevel<GarnetEnchantment>() * garnetChord.Amplitude);
+        }
+
+        holder.Resilience = weapon.addedDefense.Value;
+        if (weapon.Get_ResonatingChord<TopazEnchantment>() is { } topazChord)
+        {
+             holder.Resilience += (float)(weapon.GetEnchantmentLevel<TopazEnchantment>() * topazChord.Amplitude);
+        }
+
+        var points = weapon.Read<int>(DataFields.BaseMaxDamage) * weapon.type.Value switch
+        {
+            MeleeWeapon.stabbingSword or MeleeWeapon.defenseSword => 0.5f,
+            MeleeWeapon.dagger => 0.75f,
+            MeleeWeapon.club => 0.3f,
+            _ => 0f,
+        };
+
+        points += (weapon.knockback.Value - weapon.defaultKnockBackForThisType(weapon.type.Value)) *
+                  10f;
+        points += ((weapon.critChance.Value / weapon.DefaultCritChance()) - 1f) * 10f;
+        points += ((weapon.critMultiplier.Value / weapon.DefaultCritPower()) - 1f) * 10f;
+        points += weapon.addedPrecision.Value;
+        points += weapon.addedDefense.Value;
+        points += weapon.speed.Value;
+        points += weapon.addedAreaOfEffect.Value / 4f;
+
+        if (weapon.IsUnique() || weapon.CanBeCrafted())
+        {
+            holder.Level++;
+        }
+        else if (holder.Level == 0)
+        {
+            holder.Level = 1;
+        }
+
+        holder.Level = Math.Min((int)Math.Floor(points / 10f), 10);
         return holder;
     }
 
@@ -188,5 +264,7 @@ internal static class MeleeWeapon_Stats
         public float CooldownReduction { get; internal set; }
 
         public float Resilience { get; internal set; }
+
+        public int Level { get; internal set; }
     }
 }

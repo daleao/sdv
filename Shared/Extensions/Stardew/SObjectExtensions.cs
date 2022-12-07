@@ -4,7 +4,6 @@
 
 using System.Collections.Generic;
 using System.Linq;
-using DaLion.Ligo;
 using Microsoft.Xna.Framework;
 using StardewModdingAPI.Utilities;
 using StardewValley.Buildings;

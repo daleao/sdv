@@ -54,7 +54,7 @@ internal sealed class CropHarvestPatcher : HarmonyPatcher
         }
         catch (Exception ex)
         {
-            Log.E($"Failed while patching modded Ecologist spring onion quality.\nHelper returned {ex}");
+            Log.E($"Failed patching modded Ecologist spring onion quality.\nHelper returned {ex}");
             return null;
         }
 
@@ -92,7 +92,7 @@ internal sealed class CropHarvestPatcher : HarmonyPatcher
         }
         catch (Exception ex)
         {
-            Log.E($"Failed while adding Ecologist counter increment.\nHelper returned {ex}");
+            Log.E($"Failed adding Ecologist counter increment.\nHelper returned {ex}");
             return null;
         }
 
@@ -117,7 +117,7 @@ internal sealed class CropHarvestPatcher : HarmonyPatcher
         }
         catch (Exception ex)
         {
-            Log.E($"Failed while adding modded Agriculturist crop harvest quality.\nHelper returned {ex}");
+            Log.E($"Failed adding modded Agriculturist crop harvest quality.\nHelper returned {ex}");
             return null;
         }
 
@@ -155,7 +155,7 @@ internal sealed class CropHarvestPatcher : HarmonyPatcher
         }
         catch (Exception ex)
         {
-            Log.E($"Failed while adding modded Harvester extra crop yield.\nHelper returned {ex}");
+            Log.E($"Failed adding modded Harvester extra crop yield.\nHelper returned {ex}");
             return null;
         }
 

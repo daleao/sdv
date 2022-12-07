@@ -50,7 +50,7 @@ internal sealed class DuggyBehaviorAtGameTickPatcher : HarmonyPatcher
         }
         catch (Exception ex)
         {
-            Log.E($"Failed while hiding ambushing Poacher from Duggies.\nHelper returned {ex}");
+            Log.E($"Failed hiding ambushing Poacher from Duggies.\nHelper returned {ex}");
             return null;
         }
 

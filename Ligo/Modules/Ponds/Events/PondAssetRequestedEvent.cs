@@ -3,6 +3,7 @@
 #region using directives
 
 using System.Collections.Generic;
+using DaLion.Shared.Content;
 using DaLion.Shared.Events;
 using StardewModdingAPI.Events;
 using StardewValley.GameData.FishPond;
@@ -18,15 +19,7 @@ internal sealed class PondAssetRequestedEvent : AssetRequestedEvent
     internal PondAssetRequestedEvent(EventManager manager)
         : base(manager)
     {
-    }
-
-    /// <inheritdoc />
-    protected override void OnAssetRequestedImpl(object? sender, AssetRequestedEventArgs e)
-    {
-        if (e.NameWithoutLocale.IsEquivalentTo("Data/FishPondData"))
-        {
-            e.Edit(EditFishPondData, AssetEditPriority.Late);
-        }
+        this.Edit("Data/FishPondData", new AssetEditor(EditFishPondData, AssetEditPriority.Late));
     }
 
     private static void EditFishPondData(IAssetData asset)

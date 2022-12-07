@@ -83,27 +83,64 @@ internal sealed class SlingshotPerformFirePatcher : HarmonyPatcher
                 __instance.attachments[0] = null;
             }
 
-            var damageBase = ammo.ParentSheetIndex switch
+            int damageBase;
+            float knockback;
+            switch (ammo.ParentSheetIndex)
             {
-                SObject.wood => 2,
-                SObject.coal => 2,
-                SObject.stone => 5,
-                SObject.copper => 10,
-                SObject.iron => 20,
-                SObject.gold => 30,
-                SObject.iridium => 50,
-                Constants.ExplosiveAmmoIndex => 5,
-                Constants.SlimeIndex => who.HasProfession(Profession.Piper) ? 10 : 5,
-                _ => 1, // fish, fruit or vegetable
-            };
+                case SObject.wood or SObject.coal:
+                    damageBase = 2;
+                    knockback = 0.4f;
+                    break;
+                case SObject.stone:
+                    damageBase = 5;
+                    knockback = 0.5f;
+                    break;
+                case SObject.copper:
+                    damageBase = 10;
+                    knockback = 0.55f;
+                    break;
+                case SObject.iron:
+                    damageBase = 20;
+                    knockback = 0.60f;
+                    break;
+                case SObject.gold:
+                    damageBase = 30;
+                    knockback = 0.65f;
+                    break;
+                case SObject.iridium:
+                    damageBase = 50;
+                    knockback = 0.70f;
+                    break;
+                case Constants.ExplosiveAmmoIndex:
+                    damageBase = 5;
+                    knockback = 5f;
+                    break;
+                case Constants.SlimeIndex:
+                    damageBase = who.HasProfession(Profession.Piper) ? 10 : 5;
+                    knockback = 0f;
+                    break;
+                default: // fish, fruit or vegetable
+                    damageBase = 1;
+                    knockback = 0f;
+                    break;
+            }
 
             // apply slingshot damage modifiers
-            var damageMod = __instance.InitialParentTileIndex switch
+            float damageMod;
+            switch (__instance.InitialParentTileIndex)
             {
-                Constants.MasterSlingshotIndex => 1.5f,
-                Constants.GalaxySlingshotIndex => 2f,
-                _ => 1f,
-            };
+                case Constants.MasterSlingshotIndex:
+                    damageMod = 1.5f;
+                    knockback += 0.1f;
+                    break;
+                case Constants.GalaxySlingshotIndex:
+                    damageMod = 2f;
+                    knockback += 0.2f;
+                    break;
+                default:
+                    damageMod = 1f;
+                    break;
+            }
 
             // calculate overcharge
             var overcharge = who.HasProfession(Profession.Desperado) ? __instance.GetOvercharge(who) : 1f;
@@ -139,6 +176,7 @@ internal sealed class SlingshotPerformFirePatcher : HarmonyPatcher
                     __instance,
                     who,
                     damage,
+                    knockback,
                     overcharge,
                     startingPosition,
                     xVelocity,
@@ -172,6 +210,7 @@ internal sealed class SlingshotPerformFirePatcher : HarmonyPatcher
                         __instance,
                         who,
                         damage,
+                        knockback,
                         0f,
                         startingPosition,
                         velocity.X,

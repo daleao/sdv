@@ -61,7 +61,7 @@ internal sealed class TreePerformTreeFallPatcher : HarmonyPatcher
         }
         catch (Exception ex)
         {
-            Log.E($"Failed while adding prestiged Lumberjack bonus wood.\nHelper returned {ex}");
+            Log.E($"Failed adding prestiged Lumberjack bonus wood.\nHelper returned {ex}");
             return null;
         }
 

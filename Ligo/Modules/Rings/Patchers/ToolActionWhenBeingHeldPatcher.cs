@@ -2,11 +2,12 @@
 
 #region using directives
 
+using System.Linq;
 using DaLion.Ligo.Modules.Rings.Extensions;
+using DaLion.Ligo.Modules.Rings.VirtualProperties;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
 using StardewValley;
-using StardewValley.Tools;
 
 #endregion using directives
 
@@ -23,23 +24,17 @@ internal sealed class ToolActionWhenBeingHeldPatcher : HarmonyPatcher
 
     /// <summary>Reset applied arsenal resonances.</summary>
     [HarmonyPostfix]
-    private static void ToolActionWhenBeingHeldPostfix(Tool __instance)
+    private static void ToolActionWhenBeingHeldPostfix(Tool __instance, Farmer who)
     {
         if (!ModEntry.Config.EnableArsenal)
         {
             return;
         }
 
-        switch (__instance)
+        foreach (var chord in who.Get_ResonatingChords()
+                     .Where(chord => chord.Root is not null && __instance.CanResonateWith(chord.Root)))
         {
-            case MeleeWeapon weapon:
-                weapon.RecalculateResonances();
-                break;
-            case Slingshot slingshot:
-                slingshot.RecalculateResonances();
-                break;
-            default:
-                return;
+            __instance.UpdateResonatingChord(chord);
         }
     }
 

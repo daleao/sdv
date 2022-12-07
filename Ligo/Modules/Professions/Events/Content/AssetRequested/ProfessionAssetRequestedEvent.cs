@@ -4,6 +4,7 @@
 
 using System.Collections.Generic;
 using DaLion.Ligo.Modules.Professions.Extensions;
+using DaLion.Shared.Content;
 using DaLion.Shared.Events;
 using DaLion.Shared.Extensions;
 using DaLion.Shared.Extensions.Collections;
@@ -20,44 +21,29 @@ using StardewValley.Menus;
 [AlwaysEnabledEvent]
 internal sealed class ProfessionAssetRequestedEvent : AssetRequestedEvent
 {
-    private static readonly Dictionary<string, (Action<IAssetData> Edit, AssetEditPriority Priority)> AssetEditors =
-        new();
-
-    private static readonly Dictionary<string, (Func<string> Provide, AssetLoadPriority Priority)> AssetProviders =
-        new();
-
     /// <summary>Initializes a new instance of the <see cref="ProfessionAssetRequestedEvent"/> class.</summary>
     /// <param name="manager">The <see cref="EventManager"/> instance that manages this event.</param>
     internal ProfessionAssetRequestedEvent(EventManager manager)
         : base(manager)
     {
-        AssetEditors["Data/achievements"] = (Edit: EditAchievementsData, Priority: AssetEditPriority.Default);
-        AssetEditors["Data/FishPondData"] = (Edit: EditFishPondDataData, Priority: AssetEditPriority.Late);
-        AssetEditors["Data/mail"] = (Edit: EditMailData, Priority: AssetEditPriority.Default);
-        AssetEditors["LooseSprites/Cursors"] = (Edit: EditCursorsLooseSprites, Priority: AssetEditPriority.Default);
-        AssetEditors["TileSheets/BuffsIcons"] = (Edit: EditBuffsIconsTileSheets, Priority: AssetEditPriority.Default);
+        this.Edit("Data/achievements", new AssetEditor(EditAchievementsData, AssetEditPriority.Default));
+        this.Edit("Data/FishPondData", new AssetEditor(EditFishPondDataData, AssetEditPriority.Late));
+        this.Edit("Data/mail", new AssetEditor(EditMailData, AssetEditPriority.Default));
+        this.Edit("LooseSprites/Cursors", new AssetEditor(EditCursorsLooseSprites, AssetEditPriority.Default));
+        this.Edit("TileSheets/BuffsIcons", new AssetEditor(EditBuffsIconsTileSheets, AssetEditPriority.Default));
 
-        AssetProviders[$"{ModEntry.Manifest.UniqueID}/HudPointer"] = (Provide: () => "assets/hud/pointer.png",
-            Priority: AssetLoadPriority.Medium);
-        AssetProviders[$"{ModEntry.Manifest.UniqueID}/MaxIcon"] = (Provide: () => "assets/menus/max.png",
-            Priority: AssetLoadPriority.Medium);
-        AssetProviders[$"{ModEntry.Manifest.UniqueID}/SkillBars"] =
-            (Provide: ProvideSkillBars, Priority: AssetLoadPriority.Medium);
-        AssetProviders[$"{ModEntry.Manifest.UniqueID}/UltimateMeter"] =
-            (Provide: ProvideUltimateMeter, Priority: AssetLoadPriority.Medium);
-    }
-
-    /// <inheritdoc />
-    protected override void OnAssetRequestedImpl(object? sender, AssetRequestedEventArgs e)
-    {
-        if (AssetEditors.TryGetValue(e.NameWithoutLocale.Name, out var editor))
-        {
-            e.Edit(editor.Edit, editor.Priority);
-        }
-        else if (AssetProviders.TryGetValue(e.NameWithoutLocale.Name, out var provider))
-        {
-            e.LoadFromModFile<Texture2D>(provider.Provide(), provider.Priority);
-        }
+        this.Provide(
+            $"{ModEntry.Manifest.UniqueID}/HudPointer",
+            new ModTextureProvider(() => "assets/hud/pointer.png", AssetLoadPriority.Medium));
+        this.Provide(
+            $"{ModEntry.Manifest.UniqueID}/MaxIcon",
+            new ModTextureProvider(() => "assets/menus/max.png", AssetLoadPriority.Medium));
+        this.Provide(
+            $"{ModEntry.Manifest.UniqueID}/SkillBars",
+            new ModTextureProvider(ProvideSkillBars, AssetLoadPriority.Medium));
+        this.Provide(
+            $"{ModEntry.Manifest.UniqueID}/UltimateMeter",
+            new ModTextureProvider(ProvideUltimateMeter, AssetLoadPriority.Medium));
     }
 
     #region editor callback
@@ -134,9 +120,10 @@ internal sealed class ProfessionAssetRequestedEvent : AssetRequestedEvent
     private static void EditCursorsLooseSprites(IAssetData asset)
     {
         var editor = asset.AsImage();
+        var sourceTx = ModEntry.ModHelper.ModContent.Load<Texture2D>("assets/sprites/professions");
         var srcArea = new Rectangle(0, 0, 96, 80);
         var targetArea = new Rectangle(0, 624, 96, 80);
-        editor.PatchImage(Textures.ProfessionsSheetTx, srcArea, targetArea);
+        editor.PatchImage(sourceTx, srcArea, targetArea);
 
         if (!Context.IsWorldReady || Game1.player is null)
         {
@@ -154,7 +141,7 @@ internal sealed class ProfessionAssetRequestedEvent : AssetRequestedEvent
             srcArea = profession.SourceSheetRect;
             srcArea.Y += 80;
             targetArea = profession.TargetSheetRect;
-            editor.PatchImage(Textures.ProfessionsSheetTx, srcArea, targetArea);
+            editor.PatchImage(sourceTx, srcArea, targetArea);
         }
     }
 
@@ -164,9 +151,8 @@ internal sealed class ProfessionAssetRequestedEvent : AssetRequestedEvent
         var editor = asset.AsImage();
         editor.ExtendImage(192, 80);
 
-        var srcArea = new Rectangle(0, 0, 96, 32);
         var targetArea = new Rectangle(0, 48, 96, 32);
-        editor.PatchImage(Textures.BuffsSheetTx, srcArea, targetArea);
+        editor.PatchImage(ModEntry.ModHelper.ModContent.Load<Texture2D>("assets/sprites/buffs"), null, targetArea);
     }
 
     #endregion editor callbacks

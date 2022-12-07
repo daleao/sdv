@@ -2,6 +2,7 @@
 
 #region using directives
 
+using DaLion.Ligo.Modules.Professions.Events.GameLoop;
 using DaLion.Ligo.Modules.Professions.Extensions;
 using DaLion.Ligo.Modules.Professions.Ultimates;
 using DaLion.Ligo.Modules.Professions.VirtualProperties;
@@ -42,6 +43,7 @@ internal sealed class GreenSlimeCollisionWithFarmerBehaviorPatcher : HarmonyPatc
 
         concerto.ChargeValue += Game1.random.Next(1, 4);
         concerto.SlimeContactTimer = FarmerInvincibilityFrames;
+        ModEntry.Events.Enable<PiperUpdateTickedEvent>();
     }
 
     #endregion harmony patches

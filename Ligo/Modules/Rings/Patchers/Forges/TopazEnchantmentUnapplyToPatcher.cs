@@ -5,7 +5,7 @@
 using System.Linq;
 using DaLion.Ligo.Modules.Arsenal.Extensions;
 using DaLion.Ligo.Modules.Rings.VirtualProperties;
-using DaLion.Shared.Extensions.Stardew;
+using DaLion.Shared.Extensions.Collections;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
 using StardewValley.Tools;
@@ -25,7 +25,7 @@ internal sealed class TopazEnchantmentUnapplyToPatcher : HarmonyPatcher
 
     /// <summary>Remove resonance with Topaz chord.</summary>
     [HarmonyPostfix]
-    private static void TopazEnchantmentUnapplyToPostfix(TopazEnchantment __instance, Item item)
+    private static void TopazEnchantmentUnapplyToPostfix(Item item)
     {
         var player = Game1.player;
         if (!ModEntry.Config.EnableArsenal || item is not (Tool tool and (MeleeWeapon or Slingshot)) || tool != player.CurrentTool)
@@ -33,12 +33,16 @@ internal sealed class TopazEnchantmentUnapplyToPatcher : HarmonyPatcher
             return;
         }
 
-        var multiplier = player.Get_ResonatingChords().Sum(c => c.Root == Gemstone.Topaz ? -0.5f : 0f);
-        tool.Increment(DataFields.ResonantResilience, __instance.GetLevel() * multiplier);
-        if (ModEntry.Config.EnableArsenal)
+        var chord = player.Get_ResonatingChords()
+            .Where(c => c.Root == Gemstone.Topaz)
+            .ArgMax(c => c.Amplitude);
+        if (chord is null || tool.Get_ResonatingChord<TopazEnchantment>() != chord)
         {
-            tool.Invalidate();
+            return;
         }
+
+        tool.UnsetResonatingChord<TopazEnchantment>();
+        tool.Invalidate();
     }
 
     #endregion harmony patches

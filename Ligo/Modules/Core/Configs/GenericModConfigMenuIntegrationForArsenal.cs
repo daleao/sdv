@@ -2,7 +2,7 @@
 
 #region using directives
 
-using Arsenal.Integrations;
+using DaLion.Ligo.Modules.Arsenal.Integrations;
 using DaLion.Shared.Extensions.SMAPI;
 using StardewValley.Objects;
 
@@ -73,22 +73,25 @@ internal sealed partial class GenericModConfigMenuIntegration
                 () => "Increases the health of all enemies.",
                 config => config.Arsenal.MonsterHealthMultiplier,
                 (config, value) => config.Arsenal.MonsterHealthMultiplier = value,
-                1f,
-                3f)
+                0.25f,
+                4f,
+                0.25f)
             .AddNumberField(
                 () => "Monster Damage Multiplier",
                 () => "Increases the damage dealt by all enemies.",
                 config => config.Arsenal.MonsterDamageMultiplier,
                 (config, value) => config.Arsenal.MonsterDamageMultiplier = value,
-                1f,
-                3f)
+                0.25f,
+                4f,
+                0.25f)
             .AddNumberField(
                 () => "Monster Defense Multiplier",
                 () => "Increases the damage resistance of all enemies.",
                 config => config.Arsenal.MonsterDefenseMultiplier,
                 (config, value) => config.Arsenal.MonsterDefenseMultiplier = value,
-                1f,
-                3f)
+                0.25f,
+                4f,
+                0.25f)
             .AddCheckbox(
                 () => "Varied Encounters",
                 () => "Randomizes monster stats, subject to daily luck bias, adding variability to monster encounters.",
@@ -102,9 +105,9 @@ internal sealed partial class GenericModConfigMenuIntegration
                 config => config.Arsenal.WoodyReplacesRusty,
                 (config, value) => config.Arsenal.WoodyReplacesRusty = value)
             .AddCheckbox(
-                () => "Ancient Crafting",
-                () => "Allows crafting Dwarven and Dragontooth weapons.",
-                config => config.Arsenal.AncientCrafting,
+                () => "Dwarvish Crafting",
+                () => "Allows crafting Dwarven and Dragontooth weapons by uncovering ancient Dwarvish blueprints.",
+                config => config.Arsenal.DwarvishCrafting,
                 (config, value) =>
                 {
                     if (value && !ModEntry.ModHelper.ModRegistry.IsLoaded("spacechase0.JsonAssets"))
@@ -113,11 +116,16 @@ internal sealed partial class GenericModConfigMenuIntegration
                         return;
                     }
 
-                    config.Arsenal.AncientCrafting = value;
+                    config.Arsenal.DwarvishCrafting = value;
                     if (value && !Globals.DwarvenScrapIndex.HasValue)
                     {
                         new JsonAssetsIntegration(ModEntry.ModHelper.ModRegistry).Register();
                     }
+
+                    ModEntry.ModHelper.GameContent.InvalidateCacheAndLocalized("Data/Events/Blacksmith");
+                    ModEntry.ModHelper.GameContent.InvalidateCacheAndLocalized("Data/Quests");
+                    ModEntry.ModHelper.GameContent.InvalidateCacheAndLocalized("Data/Monsters");
+                    ModEntry.ModHelper.GameContent.InvalidateCacheAndLocalized("Data/weapons");
                 })
             .AddCheckbox(
                 () => "Infinity +1 Weapons",
@@ -132,12 +140,20 @@ internal sealed partial class GenericModConfigMenuIntegration
                     }
 
                     config.Arsenal.InfinityPlusOne = value;
-                    ModEntry.ModHelper.GameContent.InvalidateCacheAndLocalized("Data/ObjectInformation");
-                    ModEntry.ModHelper.GameContent.InvalidateCacheAndLocalized("Strings/Locations");
-                    ModEntry.ModHelper.GameContent.InvalidateCacheAndLocalized("Strings/StringsFromCSFiles");
-                    if (value && !Globals.HeroSoulindex.HasValue)
+                    if (value && !Globals.HeroSoulIndex.HasValue)
                     {
                         new JsonAssetsIntegration(ModEntry.ModHelper.ModRegistry).Register();
+                    }
+
+                    ModEntry.ModHelper.GameContent.InvalidateCacheAndLocalized("Data/Events/WizardHouse");
+                    ModEntry.ModHelper.GameContent.InvalidateCacheAndLocalized("Data/ObjectInformation");
+                    ModEntry.ModHelper.GameContent.InvalidateCacheAndLocalized("Data/weapons");
+                    ModEntry.ModHelper.GameContent.InvalidateCacheAndLocalized("Strings/Locations");
+                    ModEntry.ModHelper.GameContent.InvalidateCacheAndLocalized("Strings/StringsFromCSFiles");
+                    ModEntry.ModHelper.GameContent.InvalidateCacheAndLocalized("TileSheets/Projectiles");
+                    if (Integrations.UsingVanillaTweaksWeapons)
+                    {
+                        ModEntry.ModHelper.GameContent.InvalidateCacheAndLocalized("TileSheets/weapons");
                     }
                 })
 
@@ -207,6 +223,7 @@ internal sealed partial class GenericModConfigMenuIntegration
                     }
 
                     config.Arsenal.Weapons.BringBackStabbySwords = value;
+                    ModEntry.ModHelper.GameContent.InvalidateCacheAndLocalized("Data/weapons");
                     if (value)
                     {
                         Arsenal.Utils.ConvertAllStabbySwords();
@@ -223,7 +240,7 @@ internal sealed partial class GenericModConfigMenuIntegration
                 (config, value) =>
                 {
                     config.Arsenal.Weapons.RebalancedWeapons = value;
-                    ModEntry.ModHelper.GameContent.InvalidateCache("Data/weapons");
+                    ModEntry.ModHelper.GameContent.InvalidateCacheAndLocalized("Data/weapons");
                     Arsenal.Utils.UpdateAllWeapons();
                 })
             .AddCheckbox(
@@ -233,12 +250,16 @@ internal sealed partial class GenericModConfigMenuIntegration
                 (config, value) =>
                 {
                     config.Arsenal.Weapons.RetexturedWeapons = value;
-                    ModEntry.ModHelper.GameContent.InvalidateCache("TileSheets/weapons");
+                    ModEntry.ModHelper.GameContent.InvalidateCacheAndLocalized("TileSheets/weapons");
                 })
             .AddCheckbox(
                 () => "Use Ligo Enchantments",
                 () => "Replaces boring old enchantments with exciting new ones.",
                 config => config.Arsenal.Weapons.UseLigoEnchants,
-                (config, value) => config.Arsenal.Weapons.UseLigoEnchants = value);
+                (config, value) =>
+                {
+                    config.Arsenal.Weapons.UseLigoEnchants = value;
+                    ModEntry.ModHelper.GameContent.InvalidateCacheAndLocalized("TileSheets/BuffsIcons");
+                });
     }
 }

@@ -60,7 +60,7 @@ internal sealed class PropagatorPopExtraHeldMushroomsPatcher : HarmonyPatcher
         }
         catch (Exception ex)
         {
-            Log.E("LIGO Professions module failed while patching Blueberry's Mushroom Propagator output quantity." +
+            Log.E("LIGO Professions module failed patching Blueberry's Mushroom Propagator output quantity." +
                   "\n—-- Do NOT report this to Mushroom Propagator's author. ---" +
                   $"\nHelper returned {ex}");
             return null;
@@ -86,7 +86,7 @@ internal sealed class PropagatorPopExtraHeldMushroomsPatcher : HarmonyPatcher
         }
         catch (Exception ex)
         {
-            Log.E($"Failed while patching Blueberry's Mushroom Propagator output quality.\nHelper returned {ex}");
+            Log.E($"Failed patching Blueberry's Mushroom Propagator output quality.\nHelper returned {ex}");
             return null;
         }
 

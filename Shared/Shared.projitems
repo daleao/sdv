@@ -10,8 +10,8 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)Attributes\DebugAttribute.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Attributes\DeprecatedAttribute.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Attributes\IntegrationAttribute.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Attributes\ImplicitIgnoreAttribute.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Attributes\RequiresModAttribute.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Classes\BiMap.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Classes\CircleTileGrid.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Classes\Countdown.cs" />
@@ -21,6 +21,13 @@
     <Compile Include="$(MSBuildThisFileDirectory)Comparers\EquatableComparer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Comparers\GenericEqualsComparer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Comparers\ObjectReferenceComparer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Content\TextureProvider.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Content\DictionaryProvider.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Content\IAssetEditor.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Content\IAssetProvider.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Content\ModDictionaryProvider.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Content\ModTextureProvider.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Content\AssetEditor.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Data\ModDataIO.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Data\ModDataDictionaryExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Data\UpdateDataModMessageReceivedEvent.cs" />
@@ -103,6 +110,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\SMAPI\ModHelperExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\Stardew\BuildingExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\Stardew\CharacterExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Extensions\Stardew\Game1Extensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\Stardew\GameLocationExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\Stardew\Int32Extensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\Stardew\ItemExtensions.cs" />
@@ -113,6 +121,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\Stardew\TerrainFeatureExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\Stardew\SObjectExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\Stardew\RectangleExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Extensions\Stardew\ToolEnchantments.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\Stardew\Vector2Extensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\Xna\ColorExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\Xna\PointExtensions.cs" />
@@ -150,11 +159,13 @@
     <Compile Include="$(MSBuildThisFileDirectory)Integrations\TehsFishingOverhaul\ISimplifiedFishingApi.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Integrations\IModIntegration.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Integrations\WearMoreRings\IWearMoreRingsApi.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)MathUtils.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Networking\Broadcaster.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Log.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)MathConstants.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Caching\IntervalMemoryCache.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Reflection\Reflector.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)UI\HudPointer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)VectorUtils.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Watchers\DisposableWatcher.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Watchers\ICollectionWatcher.cs" />

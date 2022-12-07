@@ -1,11 +1,11 @@
-﻿namespace DaLion.Ligo.Modules.Arsenal.Patchers;
+﻿namespace DaLion.Ligo.Modules.Arsenal.Patchers.Weapons;
 
 #region using directives
 
 using System.Reflection;
 using DaLion.Ligo.Modules.Arsenal.Enchantments;
+using DaLion.Ligo.Modules.Arsenal.Extensions;
 using DaLion.Ligo.Modules.Core.Extensions;
-using DaLion.Shared.Extensions.Stardew;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
 using StardewValley.Monsters;
@@ -42,8 +42,7 @@ internal sealed class MonsterHandleParriedPatcher : HarmonyPatcher
                 return;
             }
 
-            var multiplier = (10f + weapon.addedDefense.Value + weapon.Read<float>(DataFields.ResonantResilience) +
-                              who.resilience) / 10f;
+            var multiplier = who.GetOverhauledResilience();
             ModEntry.Reflector.GetUnboundFieldSetter<object, int>(args, "damage")
                 .Invoke(args, (int)(damage * multiplier));
 

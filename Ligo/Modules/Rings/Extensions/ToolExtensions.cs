@@ -16,10 +16,10 @@ internal static class ToolExtensions
     /// <returns>
     ///     <see langword="true"/> if the <paramref name="tool"/> has at least one corresponding <see cref="BaseWeaponEnchantment"/> to <paramref name="gemstone"/>, otherwise <see langword="false"/>.
     /// </returns>
-    internal static bool HasEnchantmentOfType(this Tool tool, Gemstone gemstone)
+    internal static bool CanResonateWith(this Tool tool, Gemstone gemstone)
     {
         return tool.enchantments.OfType<BaseWeaponEnchantment>()
-            .Any(enchantment => enchantment.GetType().Name.Contains(gemstone.Name));
+            .Any(enchantment => enchantment.GetType() == gemstone.EnchantmentType);
     }
 
     /// <summary>Determines whether the <paramref name="tool"/> has the <see cref="BaseWeaponEnchantment"/> which corresponds to the specified <typeparamref name="TGemstone"/>.</summary>
@@ -28,12 +28,12 @@ internal static class ToolExtensions
     /// <returns>
     ///     <see langword="true"/> if the <paramref name="tool"/> has at least one corresponding <see cref="BaseWeaponEnchantment"/> to <typeparamref name="TGemstone"/>, otherwise <see langword="false"/>.
     /// </returns>
-    internal static bool HasEnchantmentOfType<TGemstone>(this Tool tool)
+    internal static bool CanResonateWith<TGemstone>(this Tool tool)
         where TGemstone : Gemstone
     {
         var gemstone = Gemstone.FromType(typeof(TGemstone));
         return gemstone is not null && tool.enchantments.OfType<BaseWeaponEnchantment>()
-            .Any(enchantment => enchantment.GetType().Name.Contains(gemstone.Name));
+            .Any(enchantment => enchantment.GetType() == gemstone.EnchantmentType);
     }
 
     /// <summary>Counts the number of <see cref="BaseWeaponEnchantment"/>s in the <paramref name="tool"/> which correspond to the specified <paramref name="gemstone"/>.</summary>

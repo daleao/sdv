@@ -1,6 +1,6 @@
 ﻿namespace DaLion.Ligo.Modules;
 
-/// <summary>Holds the IDs of data fields used by all the modules.</summary>
+/// <summary>Holds the string IDs of mod data fields used by all the modules.</summary>
 internal sealed class DataFields
 {
     #region professions
@@ -20,44 +20,21 @@ internal sealed class DataFields
 
     // weapon
     internal const string CursePoints = "CursePoints";
-    internal const string InitialMinDamage = "InitialMinDamage";
-    internal const string InitialMaxDamage = "InitialMaxDamage";
-    internal const string WeaponLevel = "WeaponLevel";
+    internal const string BaseMinDamage = "BaseMinDamage";
+    internal const string BaseMaxDamage = "BaseMaxDamage";
 
     // farmer
     internal const string ArsenalInitialized = "ArsenalInitialized";
+    internal const string GalaxyArsenalObtained = "GalaxyArsenalObtained";
     internal const string Cursed = "Cursed";
-    internal const string UniqueWeapons = "UniqueWeapons";
-
-    internal const string ProvenCompassion = "ProvenCompassion";
-    internal const string ProvenHonesty = "ProvenHonesty";
-    internal const string ProvenGenerosity = "ProvenGenerosity";
-    internal const string ProvenValor = "ProvenValor";
-    internal const string ProvenWisdom = "ProvenWisdom";
-    internal const string GotDwarfSwordBlueprint = "GotDwarfSwordBlueprint";
-    internal const string GotDwarfDaggerBlueprint = "GotDwarfDaggerBlueprint";
-    internal const string GotDwarfHammerBlueprint = "GotDwarfHammerBlueprint";
-    internal const string GotDragontoothCutlassBlueprint = "GotDragontoothCutlassBlueprint";
-    internal const string GotDragontoothShivBlueprint = "GotDragontoothShivBlueprint";
-    internal const string GotDragontoothClubBlueprint = "GotDragontoothClubBlueprint";
+    internal const string BlueprintsFound = "BlueprintsFound";
+    internal const string DaysLeftTranslating = "DaysLeftTranslating";
+    internal const string ReadyToForge = "ReadyToForge";
+    internal const string ProvenHonor = "ProvenHonor"; // max 8 points (-4)
+    internal const string ProvenCompassion = "ProvenCompassion"; // max 9 points (-3)
+    internal const string ProvenWisdom = "ProvenWisdom"; // max 8 points (-1)
 
     #endregion arsenal
-
-    #region rings
-
-    // farmer
-    internal const string CooldownReduction = "CooldownReduction";
-
-    // tool
-    internal const string ResonantDamage = "ResonantDamage";
-    internal const string ResonantKnockback = "ResonantKnockback";
-    internal const string ResonantCritChance = "ResonantCritChance";
-    internal const string ResonantCritPower = "ResonantCritPower";
-    internal const string ResonantSpeed = "ResonantSpeed";
-    internal const string ResonantCooldownReduction = "ResonantCooldownReduction";
-    internal const string ResonantResilience = "ResonantResilience";
-
-    #endregion rings
 
     #region ponds
 

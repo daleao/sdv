@@ -113,7 +113,7 @@ internal sealed class ObjectPerformObjectDropInActionPatcher : HarmonyPatcher
         }
         catch (Exception ex)
         {
-            Log.E($"Failed while adding prestiged Breeder incubation bonus.\nHelper returned {ex}");
+            Log.E($"Failed adding prestiged Breeder incubation bonus.\nHelper returned {ex}");
             return null;
         }
 
@@ -152,7 +152,7 @@ internal sealed class ObjectPerformObjectDropInActionPatcher : HarmonyPatcher
         }
         catch (Exception ex)
         {
-            Log.E($"Failed while adding prestiged Breeder incubation bonus.\nHelper returned {ex}");
+            Log.E($"Failed adding prestiged Breeder incubation bonus.\nHelper returned {ex}");
             return null;
         }
 

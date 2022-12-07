@@ -1,6 +1,6 @@
 ﻿namespace DaLion.Shared.Attributes;
 
-/// <summary>Specifies that an implicitly-used class should only be available in debug mode.</summary>
+/// <summary>Indicates that an implicitly-used marked symbol should only be available in debug mode.</summary>
 [AttributeUsage(AttributeTargets.Class)]
 public sealed class DebugAttribute : Attribute
 {

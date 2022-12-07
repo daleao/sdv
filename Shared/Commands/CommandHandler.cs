@@ -138,7 +138,7 @@ internal sealed class CommandHandler
                 }
 #endif
 
-                var deprecatedAttr = c.GetCustomAttribute<DeprecatedAttribute>();
+                var deprecatedAttr = c.GetCustomAttribute<ImplicitIgnoreAttribute>();
                 if (deprecatedAttr is not null)
                 {
                     continue;

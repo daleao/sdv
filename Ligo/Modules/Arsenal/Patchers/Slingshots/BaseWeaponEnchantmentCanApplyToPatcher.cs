@@ -1,4 +1,4 @@
-﻿namespace DaLion.Ligo.Modules.Arsenal.Patchers;
+﻿namespace DaLion.Ligo.Modules.Arsenal.Patchers.Slingshots;
 
 #region using directives
 
@@ -20,16 +20,17 @@ internal sealed class BaseWeaponEnchantmentCanApplyToPatcher : HarmonyPatcher
     #region harmony patches
 
     /// <summary>Allow Slingshot forges.</summary>
-    [HarmonyPostfix]
-    private static void BaseWeaponEnchantmentCanApplyToPostfix(
+    [HarmonyPrefix]
+    private static bool BaseWeaponEnchantmentCanApplyToPostfix(
         BaseWeaponEnchantment __instance, ref bool __result, Item item)
     {
         if (item is not Slingshot || __instance.IsSecondaryEnchantment())
         {
-            return;
+            return true; // run original logic
         }
 
         __result = __instance.IsForge() && ModEntry.Config.Arsenal.Slingshots.AllowForges;
+        return false; // don't run original logic
     }
 
     #endregion harmony patches

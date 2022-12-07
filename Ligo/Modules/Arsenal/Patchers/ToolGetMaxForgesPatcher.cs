@@ -1,9 +1,8 @@
 ﻿namespace DaLion.Ligo.Modules.Arsenal.Patchers;
 
-using System.Reflection;
-
 #region using directives
 
+using System.Reflection;
 using DaLion.Ligo.Modules.Arsenal.Enchantments;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
@@ -26,16 +25,11 @@ internal sealed class ToolGetMaxForgesPatcher : HarmonyPatcher
     [HarmonyPrefix]
     private static bool ToolGetMaxForgesPostfix(Tool __instance, ref int __result)
     {
-        if (!ModEntry.Config.Arsenal.Weapons.RebalancedWeapons)
-        {
-            return true; // run original logic
-        }
-
         try
         {
             switch (__instance)
             {
-                case MeleeWeapon weapon:
+                case MeleeWeapon weapon when ModEntry.Config.Arsenal.Weapons.RebalancedWeapons:
                     __result = weapon.getItemLevel() switch
                     {
                         >= 6 => 3,
@@ -44,8 +38,8 @@ internal sealed class ToolGetMaxForgesPatcher : HarmonyPatcher
                         _ => 0,
                     };
                     break;
-                case Slingshot:
-                    __result = __instance.ParentSheetIndex switch
+                case Slingshot when ModEntry.Config.Arsenal.Slingshots.AllowForges:
+                    __result = __instance.InitialParentTileIndex switch
                     {
                         Constants.BasicSlingshotIndex => 1,
                         Constants.MasterSlingshotIndex => 2,

@@ -3,6 +3,7 @@
 #region using directives
 
 using DaLion.Shared.Events;
+using DaLion.Shared.Extensions.SMAPI;
 using StardewModdingAPI.Events;
 
 #endregion using directives
@@ -36,5 +37,11 @@ internal sealed class CoreGameLaunchedEvent : GameLaunchedEvent
             manifest: ModEntry.Manifest);
 
         Integrations.GmcmIntegration.Register();
+
+        // add SVE integration
+        if (registry.IsLoaded("FlashShifter.StardewValleyExpandedCP"))
+        {
+            Integrations.SveConfig = ModEntry.ModHelper.ReadContentPackConfig("FlashShifter.StardewValleyExpandedCP");
+        }
     }
 }

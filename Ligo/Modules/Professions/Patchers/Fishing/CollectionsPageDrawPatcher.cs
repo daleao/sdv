@@ -52,7 +52,7 @@ internal sealed class CollectionsPageDrawPatcher : HarmonyPatcher
         }
         catch (Exception ex)
         {
-            Log.E($"Failed while patching to draw collections page MAX icons.\nHelper returned {ex}");
+            Log.E($"Failed patching to draw collections page MAX icons.\nHelper returned {ex}");
             return null;
         }
 

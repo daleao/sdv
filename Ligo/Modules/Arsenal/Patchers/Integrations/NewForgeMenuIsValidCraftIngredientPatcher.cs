@@ -1,4 +1,4 @@
-﻿namespace DaLion.Ligo.Modules.Arsenal.Patchers;
+﻿namespace DaLion.Ligo.Modules.Arsenal.Patchers.Integrations;
 
 #region using directives
 
@@ -25,7 +25,7 @@ internal sealed class NewForgeMenuIsValidCraftIngredientPatcher : HarmonyPatcher
     [HarmonyPostfix]
     private static void NewForgeMenuIsValidCraftIngredientPostfix(ref bool __result, Item item)
     {
-        if (item.ParentSheetIndex == Globals.HeroSoulindex)
+        if (item.ParentSheetIndex == Globals.HeroSoulIndex)
         {
             __result = true;
         }

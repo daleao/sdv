@@ -2,6 +2,7 @@
 
 #region using directives
 
+using DaLion.Ligo.Modules.Arsenal.VirtualProperties;
 using DaLion.Ligo.Modules.Professions.Extensions;
 using DaLion.Ligo.Modules.Professions.Ultimates;
 using DaLion.Ligo.Modules.Professions.VirtualProperties;
@@ -26,6 +27,7 @@ internal sealed class ObjectProjectile : BasicProjectile
     /// <param name="source">The <see cref="Slingshot"/> which fired this projectile.</param>
     /// <param name="firer">The <see cref="Farmer"/> who fired this projectile.</param>
     /// <param name="damage">The un-mitigated damage this projectile will cause.</param>
+    /// <param name="knockback">The knockback this projectile will cause.</param>
     /// <param name="overcharge">The amount of overcharge with which the projectile was fired.</param>
     /// <param name="startingPosition">The projectile's starting position.</param>
     /// <param name="xVelocity">The projectile's starting velocity in the horizontal direction.</param>
@@ -38,6 +40,7 @@ internal sealed class ObjectProjectile : BasicProjectile
         Slingshot source,
         Farmer firer,
         float damage,
+        float knockback,
         float overcharge,
         Vector2 startingPosition,
         float xVelocity,
@@ -66,20 +69,15 @@ internal sealed class ObjectProjectile : BasicProjectile
         this.Source = source;
         this.Firer = firer;
         this.Overcharge = overcharge;
-        this.Damage = (int)(this.damageToFarmer.Value *
-                            (1f + (source.GetEnchantmentLevel<RubyEnchantment>() * 0.1f) + source.Read<float>(DataFields.ResonantDamage)) *
-                            (1f + firer.attackIncreaseModifier) * overcharge);
-        this.Knockback = 0.75f + (source.GetEnchantmentLevel<AmethystEnchantment>() * 0.1f) + (source.Read<float>(DataFields.ResonantKnockback) *
-            (1f + firer.knockbackModifier) * overcharge);
+        this.Damage = (int)(this.damageToFarmer.Value * source.Get_EffectiveDamageModifier() * (1f + firer.attackIncreaseModifier) * overcharge);
+        this.Knockback = knockback * source.Get_EffectiveKnockbackModifer() * (1f + firer.knockbackModifier) * overcharge;
 
         var canCrit = ModEntry.Config.Arsenal.Slingshots.AllowCrits;
         this.CritChance = canCrit
-            ? ((1f / 32f) + (source.GetEnchantmentLevel<AquamarineEnchantment>() * 0.046f) + source.Read<float>(DataFields.ResonantCritChance)) *
-              (1f + firer.critChanceModifier)
+            ? (1f / 32f) * source.Get_EffectiveCritChanceModifier() * (1f + firer.critChanceModifier)
             : 0f;
         this.CritPower = canCrit
-            ? (1f + ((ModEntry.Config.EnableArsenal && ModEntry.Config.Arsenal.RebalancedForges ? 0.5f : 0.1f) + source.GetEnchantmentLevel<JadeEnchantment>()) + source.Read<float>(DataFields.ResonantCritPower)) *
-              (1f + firer.critPowerModifier)
+            ? 2.5f * source.Get_EffectiveCritPowerModifier() * (1f + firer.critPowerModifier)
             : 0f;
 
         this.CanBeRecovered = canRecover && !this.IsSquishy() && ammo.ParentSheetIndex != Constants.ExplosiveAmmoIndex;
@@ -248,7 +246,7 @@ internal sealed class ObjectProjectile : BasicProjectile
         }
 
         // try to recover
-        var chance = this.Ammo!.ParentSheetIndex is SObject.wood or SObject.coal ? 0.175 : 0.35;
+        var chance = this.Ammo.ParentSheetIndex is SObject.wood or SObject.coal ? 0.175 : 0.35;
         if (this.Firer.professions.Contains(Farmer.scout + 100))
         {
             chance *= 2d;

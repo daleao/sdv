@@ -7,7 +7,6 @@ using DaLion.Ligo.Modules.Rings.VirtualProperties;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
 using StardewValley.Objects;
-using StardewValley.Tools;
 
 #endregion using directives
 
@@ -26,22 +25,17 @@ internal sealed class CombinedRingOnEquipPatcher : HarmonyPatcher
     [HarmonyPostfix]
     private static void CombinedRingOnEquipPostfix(CombinedRing __instance, Farmer who)
     {
-        __instance.Get_Chord()?.Apply(who.currentLocation, who);
-        if (!ModEntry.Config.EnableArsenal || who.CurrentTool is not { } tool)
+        var chord = __instance.Get_Chord();
+        if (chord is null)
         {
             return;
         }
 
-        switch (tool)
+        chord.Apply(who.currentLocation, who);
+        if (ModEntry.Config.EnableArsenal && who.CurrentTool is { } tool && chord.Root is not null &&
+            tool.CanResonateWith(chord.Root))
         {
-            case MeleeWeapon weapon:
-                weapon.RecalculateResonances();
-                break;
-            case Slingshot slingshot:
-                slingshot.RecalculateResonances();
-                break;
-            default:
-                return;
+            tool.UpdateResonatingChord(chord);
         }
     }
 

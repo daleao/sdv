@@ -89,7 +89,7 @@ internal sealed class ObjectDayUpdatePatcher : HarmonyPatcher
         }
         catch (Exception ex)
         {
-            Log.E($"Failed while patching Bee House production speed for Producers.\nHelper returned {ex}");
+            Log.E($"Failed patching Bee House production speed for Producers.\nHelper returned {ex}");
             return null;
         }
 

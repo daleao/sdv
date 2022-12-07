@@ -2,11 +2,10 @@
 
 #region using directives
 
-using DaLion.Ligo.Modules.Rings.Extensions;
+using DaLion.Ligo.Modules.Rings.VirtualProperties;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
 using StardewValley;
-using StardewValley.Tools;
 
 #endregion using directives
 
@@ -30,17 +29,7 @@ internal sealed class ToolActionWhenStopBeingHeldPatcher : HarmonyPatcher
             return;
         }
 
-        switch (__instance)
-        {
-            case MeleeWeapon weapon:
-                weapon.RemoveResonances();
-                break;
-            case Slingshot slingshot:
-                slingshot.RemoveResonances();
-                break;
-            default:
-                return;
-        }
+        __instance.UnsetAllResonatingChords();
     }
 
     #endregion harmony patches

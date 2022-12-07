@@ -103,7 +103,7 @@ internal sealed class LevelUpMenuGetImmediateProfessionPerkPatcher : HarmonyPatc
         }
         catch (Exception ex)
         {
-            Log.E($"Failed while moving vanilla Defender health bonus to Brute.\nHelper returned {ex}");
+            Log.E($"Failed moving vanilla Defender health bonus to Brute.\nHelper returned {ex}");
             return null;
         }
 

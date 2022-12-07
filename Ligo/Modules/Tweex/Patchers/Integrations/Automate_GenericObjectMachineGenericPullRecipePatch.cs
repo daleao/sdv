@@ -89,7 +89,7 @@ internal sealed class GenericObjectMachinePatchers : HarmonyPatcher
         }
         catch (Exception ex)
         {
-            Log.E("Immersive Tweaks failed while patching modded Artisan behavior to generic Automate machines." +
+            Log.E("Immersive Tweaks Failed patching modded Artisan behavior to generic Automate machines." +
                   "\n—-- Do NOT report this to Automate's author. ---" +
                   $"\nHelper returned {ex}");
             return null;

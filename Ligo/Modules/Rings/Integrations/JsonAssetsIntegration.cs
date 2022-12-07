@@ -22,7 +22,10 @@ internal sealed class JsonAssetsIntegration : BaseIntegration<IJsonAssetsApi>
     {
         this.AssertLoaded();
         Ligo.Integrations.JsonAssetsApi = this.ModApi;
-        this.ModApi.LoadAssets(Path.Combine(ModEntry.ModHelper.DirectoryPath, "assets", "json-assets", "Rings"), ModEntry.i18n);
+
+        var subFolder = Ligo.Integrations.UsingVanillaTweaksRings ? "VanillaTweaks" :
+            Ligo.Integrations.UsingBetterRings ? "BetterRings" : "Vanilla";
+        this.ModApi.LoadAssets(Path.Combine(ModEntry.ModHelper.DirectoryPath, "assets", "json-assets", "Rings", subFolder), ModEntry.i18n);
         this.ModApi.IdsAssigned += this.OnIdsAssigned;
     }
 

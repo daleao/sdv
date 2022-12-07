@@ -3,7 +3,10 @@
 #region using directives
 
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
+using DaLion.Shared.Extensions;
+using DaLion.Shared.Extensions.Stardew;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
 using StardewValley.Menus;
@@ -32,7 +35,7 @@ internal sealed class GameLocationAnswerDialogueActionPatcher : HarmonyPatcher
             return false; // don't run original logic
         }
 
-        if (!ModEntry.Config.Arsenal.InfinityPlusOne && !ModEntry.Config.Arsenal.AncientCrafting)
+        if (!ModEntry.Config.Arsenal.InfinityPlusOne && !ModEntry.Config.Arsenal.DwarvishCrafting)
         {
             return true; // run original logic
         }
@@ -43,7 +46,9 @@ internal sealed class GameLocationAnswerDialogueActionPatcher : HarmonyPatcher
             {
                 case "DarkSword_GrabIt":
                 {
-                    Utils.GetDarkSword();
+                    Game1.playSound("parry");
+                    Game1.player.addItemByMenuIfNecessaryElseHoldUp(new MeleeWeapon(Constants.DarkSwordIndex));
+                    Game1.player.mailReceived.Add("gotDarkSword");
                     break;
                 }
 
@@ -82,42 +87,43 @@ internal sealed class GameLocationAnswerDialogueActionPatcher : HarmonyPatcher
     private static Dictionary<ISalable, int[]> GetBlacksmithForgeStock()
     {
         var stock = new Dictionary<ISalable, int[]>();
-        //if (Game1.player.Read<bool>(DataFields.GotDwarfSwordBlueprint))
+        var found = Game1.player.Read(DataFields.BlueprintsFound).ParseList<int>().ToHashSet();
+        if (found.Contains(Constants.DwarfSwordIndex))
         {
             stock.Add(
                 new MeleeWeapon(Constants.DwarfSwordIndex),
                 new[] { 0, int.MaxValue, Globals.DwarvenScrapIndex!.Value, 5 });
         }
 
-        //if (Game1.player.Read<bool>(DataFields.GotDwarfHammerBlueprint))
+        if (found.Contains(Constants.DwarfHammerIndex))
         {
             stock.Add(
                 new MeleeWeapon(Constants.DwarfHammerIndex),
                 new[] { 0, int.MaxValue, Globals.DwarvenScrapIndex!.Value, 5 });
         }
 
-        //if (Game1.player.Read<bool>(DataFields.GotDwarfDaggerBlueprint))
+        if (found.Contains(Constants.DwarfDaggerIndex))
         {
             stock.Add(
                 new MeleeWeapon(Constants.DwarfDaggerIndex),
                 new[] { 0, int.MaxValue, Globals.DwarvenScrapIndex!.Value, 5 });
         }
 
-        //if (Game1.player.Read<bool>(DataFields.GotDragontoothCutlassBlueprint))
+        if (found.Contains(Constants.DragontoothCutlassIndex))
         {
             stock.Add(
                 new MeleeWeapon(Constants.DragontoothCutlassIndex),
                 new[] { 0, int.MaxValue, Constants.DragonToothIndex, 10 });
         }
 
-        //if (Game1.player.Read<bool>(DataFields.GotDragontoothClubBlueprint))
+        if (found.Contains(Constants.DragontoothClubIndex))
         {
             stock.Add(
                 new MeleeWeapon(Constants.DragontoothClubIndex),
                 new[] { 0, int.MaxValue, Constants.DragonToothIndex, 10 });
         }
 
-        //if (Game1.player.Read<bool>(DataFields.GotDragontoothShivBlueprint))
+        if (found.Contains(Constants.DragontoothShivIndex))
         {
             stock.Add(
                 new MeleeWeapon(Constants.DragontoothShivIndex),

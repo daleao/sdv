@@ -11,6 +11,7 @@ using DaLion.Ligo.Modules.Professions.VirtualProperties;
 using DaLion.Shared.Extensions.Reflection;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
+using StardewValley.Monsters;
 
 #endregion using directives
 
@@ -75,7 +76,7 @@ internal sealed class FarmerTakeDamagePatcher : HarmonyPatcher
         }
         catch (Exception ex)
         {
-            Log.E($"Failed while adding Poacher Ambush untargetability.\nHelper returned {ex}");
+            Log.E($"Failed adding Poacher Ambush untargetability.\nHelper returned {ex}");
             return null;
         }
 
@@ -132,86 +133,27 @@ internal sealed class FarmerTakeDamagePatcher : HarmonyPatcher
         }
         catch (Exception ex)
         {
-            Log.E($"Failed while adding Brute Frenzy immortality.\nHelper returned {ex}");
+            Log.E($"Failed adding Brute Frenzy immortality.\nHelper returned {ex}");
             return null;
         }
 
-        // Injected: if (this.IsLocalPlayer && this.professions.Contains(<brute_id>) && damager is not null)
-        //              var frenzy = this.Get_Ultimate() as Frenzy;
-        //              this.Increment_BruteRageCounter(frenzy?.IsActive ? 2 : 1));
-        //              if (!frenzy.IsActive) frenzy.ChargeValue += damage / 4.0;
+        // Injected: IncrementBruteCounters(this, damager, damage);
         // At: end of method (before return)
-        var isActive = generator.DeclareLocal(typeof(bool));
         try
         {
-            var resumeExecution = generator.DefineLabel();
-            var doesNotHaveFrenzyOrIsNotActive = generator.DefineLabel();
-            var increment = generator.DefineLabel();
             helper
                 .FindLast(new CodeInstruction(OpCodes.Ret)) // find index of final return
-                .AddLabels(resumeExecution) // branch here to skip increments
                 .InsertInstructions(
                     new CodeInstruction(OpCodes.Ldarg_0),
-                    new CodeInstruction(
-                        OpCodes.Callvirt,
-                        typeof(Farmer).RequirePropertyGetter(nameof(Farmer.IsLocalPlayer))),
-                    new CodeInstruction(OpCodes.Brfalse_S, resumeExecution),
-                    new CodeInstruction(OpCodes.Ldarg_0))
-                .InsertProfessionCheck(Profession.Brute.Value, forLocalPlayer: false)
-                .InsertInstructions(
-                    new CodeInstruction(OpCodes.Brfalse_S, resumeExecution),
-                    // check if damager null
-                    new CodeInstruction(OpCodes.Ldarg_3), // arg 3 = Monster damager
-                    new CodeInstruction(OpCodes.Brfalse_S, resumeExecution),
-                    // check for frenzy
-                    new CodeInstruction(OpCodes.Ldarg_0),
+                    new CodeInstruction(OpCodes.Ldarg_3),
+                    new CodeInstruction(OpCodes.Ldarg_1),
                     new CodeInstruction(
                         OpCodes.Call,
-                        typeof(Farmer_Ultimate).RequireMethod(nameof(Farmer_Ultimate.Get_Ultimate))),
-                    new CodeInstruction(OpCodes.Isinst, typeof(Frenzy)),
-                    new CodeInstruction(OpCodes.Stloc_S, frenzy),
-                    // increment rage counter
-                    new CodeInstruction(OpCodes.Ldarg_0),
-                    new CodeInstruction(OpCodes.Ldloc_S, frenzy),
-                    new CodeInstruction(OpCodes.Brfalse_S, doesNotHaveFrenzyOrIsNotActive),
-                    new CodeInstruction(OpCodes.Ldloc_S, frenzy),
-                    new CodeInstruction(
-                        OpCodes.Callvirt,
-                        typeof(IUltimate).RequirePropertyGetter(nameof(IUltimate.IsActive))),
-                    new CodeInstruction(OpCodes.Stloc_S, isActive),
-                    new CodeInstruction(OpCodes.Ldloc_S, isActive),
-                    new CodeInstruction(OpCodes.Brfalse_S, doesNotHaveFrenzyOrIsNotActive),
-                    new CodeInstruction(OpCodes.Ldc_I4_2),
-                    new CodeInstruction(OpCodes.Br_S, increment))
-                .InsertWithLabels(
-                    new[] { doesNotHaveFrenzyOrIsNotActive },
-                    new CodeInstruction(OpCodes.Ldc_I4_1))
-                .InsertWithLabels(
-                    new[] { increment },
-                    new CodeInstruction(
-                        OpCodes.Call,
-                        typeof(Farmer_BruteCounters).RequireMethod(nameof(Farmer_BruteCounters.Increment_BruteRageCounter))),
-                    // check frenzy once again
-                    new CodeInstruction(OpCodes.Ldloc_S, isActive),
-                    new CodeInstruction(OpCodes.Brtrue_S, resumeExecution),
-                    // increment ultimate meter
-                    new CodeInstruction(OpCodes.Ldloc_S, frenzy),
-                    new CodeInstruction(OpCodes.Dup),
-                    new CodeInstruction(
-                        OpCodes.Callvirt,
-                        typeof(IUltimate).RequirePropertyGetter(nameof(IUltimate.ChargeValue))),
-                    new CodeInstruction(OpCodes.Ldarg_1), // arg 1 = int damage
-                    new CodeInstruction(OpCodes.Conv_R8),
-                    new CodeInstruction(OpCodes.Ldc_R8, 4d),
-                    new CodeInstruction(OpCodes.Div),
-                    new CodeInstruction(OpCodes.Add),
-                    new CodeInstruction(
-                        OpCodes.Callvirt,
-                        typeof(IUltimate).RequirePropertySetter(nameof(IUltimate.ChargeValue))));
+                        typeof(FarmerTakeDamagePatcher).RequireMethod(nameof(IncrementBruteCounters))));
         }
         catch (Exception ex)
         {
-            Log.E($"Failed while incrementing Brute rage counter and ultimate meter.\nHelper returned {ex}");
+            Log.E($"Failed injecting Brute rage counter and ultimate meter.\nHelper returned {ex}");
             return null;
         }
 
@@ -219,4 +161,24 @@ internal sealed class FarmerTakeDamagePatcher : HarmonyPatcher
     }
 
     #endregion harmony patches
+
+    #region injected subroutines
+
+    private static void IncrementBruteCounters(Farmer farmer, Monster? damager, int damage)
+    {
+        if (!farmer.IsLocalPlayer || !farmer.HasProfession(Profession.Brute) || damager is null)
+        {
+            return;
+        }
+
+        var frenzy = farmer.Get_Ultimate() as Frenzy;
+        farmer.Increment_BruteRageCounter(frenzy?.IsActive == true ? 2 : 1);
+        if (frenzy?.IsActive == false)
+        {
+            frenzy.ChargeValue += damage / 4.0;
+        }
+    }
+
+    #endregion injected subroutines
+
 }

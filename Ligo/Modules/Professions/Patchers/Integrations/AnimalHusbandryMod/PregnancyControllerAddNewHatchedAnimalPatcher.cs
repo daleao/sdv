@@ -53,7 +53,7 @@ internal sealed class PregnancyControllerAddNewHatchedAnimalPatcher : HarmonyPat
         }
         catch (Exception ex)
         {
-            Log.E("LIGO Professions module failed while patching Rancher husbanded newborn friendship." +
+            Log.E("LIGO Professions module failed patching Rancher husbanded newborn friendship." +
                   "\n—-- Do NOT report this to Animal Husbandry's author. ---" +
                   $"\nHelper returned {ex}");
             return null;

@@ -117,7 +117,7 @@ internal sealed class NewSkillsPageDrawPatcher : HarmonyPatcher
         }
         catch (Exception ex)
         {
-            Log.E("Immersive Professions failed while patching to draw SpaceCore skills page extended level bars." +
+            Log.E("Immersive Professions Failed patching to draw SpaceCore skills page extended level bars." +
                   "\n—-- Do NOT report this to SpaceCore's author. ---" +
                   $"\nHelper returned {ex}");
             return null;
@@ -145,7 +145,7 @@ internal sealed class NewSkillsPageDrawPatcher : HarmonyPatcher
         }
         catch (Exception ex)
         {
-            Log.E("Immersive Professions failed while patching to draw max skill level with different color." +
+            Log.E("Immersive Professions Failed patching to draw max skill level with different color." +
                   "\n—-- Do NOT report this to SpaceCore's author. ---" +
                   $"\nHelper returned {ex}");
             return null;
@@ -171,7 +171,7 @@ internal sealed class NewSkillsPageDrawPatcher : HarmonyPatcher
         }
         catch (Exception ex)
         {
-            Log.E("Immersive Professions failed while patching to draw skills page prestige ribbons." +
+            Log.E("Immersive Professions Failed patching to draw skills page prestige ribbons." +
                   "\n—-- Do NOT report this to SpaceCore's author. ---" +
                   $"\nHelper returned {ex}");
             return null;

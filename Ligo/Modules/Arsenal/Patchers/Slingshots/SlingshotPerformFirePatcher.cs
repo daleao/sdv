@@ -1,4 +1,4 @@
-﻿namespace DaLion.Ligo.Modules.Arsenal.Patchers;
+﻿namespace DaLion.Ligo.Modules.Arsenal.Patchers.Slingshots;
 
 #region using directives
 
@@ -102,29 +102,76 @@ internal sealed class SlingshotPerformFirePatcher : HarmonyPatcher
                 didPreserve = true;
             }
 
-            var damageBase = ammo?.ParentSheetIndex switch
+            int damageBase;
+            float knockback;
+            switch (ammo?.ParentSheetIndex)
             {
-                SObject.coal => 2,
-                SObject.wood => 2,
-                SObject.stone => 5,
-                SObject.copper => 10,
-                SObject.iron => 20,
-                SObject.gold => 30,
-                SObject.iridium => 50,
-                Constants.RadioactiveOreIndex => 80,
-                Constants.ExplosiveAmmoIndex => 5,
-                Constants.SlimeIndex => who.professions.Contains(Farmer.acrobat) ? 10 : 5,
-                null => canDoQuincy ? 5 : 1, // quincy or snowball
-                _ => 1, // fish, fruit or vegetable
-            };
+                case SObject.wood or SObject.coal:
+                    damageBase = 2;
+                    knockback = 0.4f;
+                    break;
+                case SObject.stone:
+                    damageBase = 5;
+                    knockback = 0.5f;
+                    break;
+                case SObject.copper:
+                    damageBase = 10;
+                    knockback = 0.55f;
+                    break;
+                case SObject.iron:
+                    damageBase = 20;
+                    knockback = 0.60f;
+                    break;
+                case SObject.gold:
+                    damageBase = 30;
+                    knockback = 0.65f;
+                    break;
+                case SObject.iridium:
+                    damageBase = 50;
+                    knockback = 0.70f;
+                    break;
+                case Constants.RadioactiveOreIndex:
+                    damageBase = 80;
+                    knockback = 0.75f;
+                    break;
+                case Constants.ExplosiveAmmoIndex:
+                    damageBase = 5;
+                    knockback = 5f;
+                    break;
+                case Constants.SlimeIndex:
+                    damageBase = who.professions.Contains(Farmer.acrobat) ? 10 : 5;
+                    knockback = 0f;
+                    break;
+                case null: // quincy or snowball
+                    damageBase = canDoQuincy ? 5 : 1;
+                    knockback = canDoQuincy ? 0f : 0.5f;
+                    break;
+                default: // fish, fruit or vegetable
+                    damageBase = 1;
+                    knockback = 0f;
+                    break;
+            }
 
             // apply slingshot damage modifiers
-            var damageMod = __instance.InitialParentTileIndex switch
+            float damageMod;
+            switch (__instance.InitialParentTileIndex)
             {
-                Constants.MasterSlingshotIndex => 1.5f,
-                Constants.GalaxySlingshotIndex => 2f,
-                _ => 1f,
-            };
+                case Constants.MasterSlingshotIndex:
+                    damageMod = 1.5f;
+                    knockback += 0.1f;
+                    break;
+                case Constants.GalaxySlingshotIndex:
+                    damageMod = 2f;
+                    knockback += 0.2f;
+                    break;
+                case Constants.InfinitySlingshotIndex:
+                    damageMod = 2.5f;
+                    knockback += 0.25f;
+                    break;
+                default:
+                    damageMod = 1f;
+                    break;
+            }
 
             // calculate overcharge
             var overcharge = ModEntry.Config.EnableProfessions && who.professions.Contains(Farmer.desperado)
@@ -150,7 +197,7 @@ internal sealed class SlingshotPerformFirePatcher : HarmonyPatcher
             var startingPosition = shootOrigin - new Vector2(32f, 32f);
             var rotationVelocity = (float)(Math.PI / (64f + Game1.random.Next(-63, 64)));
             var index = ammo?.ParentSheetIndex ?? (canDoQuincy
-                ? Constants.QuincyProjectileIndex
+                ? QuincyProjectile.TileSheetIndex
                 : Projectile.snowBall);
             if (ammo is not null && ammo.ParentSheetIndex is not (Constants.ExplosiveAmmoIndex or Constants.SlimeIndex
                     or Constants.RadioactiveOreIndex) && damageBase > 1)
@@ -160,7 +207,7 @@ internal sealed class SlingshotPerformFirePatcher : HarmonyPatcher
 
             BasicProjectile projectile = index switch
             {
-                Constants.QuincyProjectileIndex => new QuincyProjectile(
+                QuincyProjectile.TileSheetIndex => new QuincyProjectile(
                     __instance,
                     who,
                     damage,
@@ -182,6 +229,7 @@ internal sealed class SlingshotPerformFirePatcher : HarmonyPatcher
                     __instance,
                     who,
                     damage,
+                    knockback,
                     overcharge,
                     startingPosition,
                     xVelocity,
@@ -219,7 +267,7 @@ internal sealed class SlingshotPerformFirePatcher : HarmonyPatcher
                     rotationVelocity = (float)(Math.PI / (64f + Game1.random.Next(-63, 64)));
                     BasicProjectile petal = index switch
                     {
-                        Constants.QuincyProjectileIndex => new QuincyProjectile(
+                        QuincyProjectile.TileSheetIndex => new QuincyProjectile(
                             __instance,
                             who,
                             damage,
@@ -241,6 +289,7 @@ internal sealed class SlingshotPerformFirePatcher : HarmonyPatcher
                             __instance,
                             who,
                             damage,
+                            knockback,
                             0f,
                             startingPosition,
                             velocity.X,
@@ -265,6 +314,7 @@ internal sealed class SlingshotPerformFirePatcher : HarmonyPatcher
                     projectile,
                     damageBase,
                     damageMod,
+                    knockback,
                     startingPosition,
                     xVelocity,
                     yVelocity,

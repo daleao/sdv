@@ -61,7 +61,7 @@ internal sealed class MillDayUpdatePatcher : HarmonyPatcher
                                 new CodeInstruction(OpCodes.Ldfld, typeof(Mill).RequireField(nameof(Mill.input))),
                                 new CodeInstruction(
                                     OpCodes.Callvirt,
-                                    typeof(NetFieldBase<Chest, NetRef<Chest>>).RequirePropertyGetter("Value")),
+                                    typeof(NetFieldBase<Chest, NetRef<Chest>>).RequirePropertyGetter(nameof(NetFieldBase<Chest, NetRef<Chest>>.Value))),
                                 new CodeInstruction(OpCodes.Ldfld, typeof(Chest).RequireField(nameof(Chest.items))),
                                 new CodeInstruction(OpCodes.Ldloc_0),
                                 new CodeInstruction(

@@ -4,6 +4,7 @@
 
 using System.Linq;
 using DaLion.Ligo.Modules.Arsenal.VirtualProperties;
+using DaLion.Ligo.Modules.Rings.VirtualProperties;
 using DaLion.Shared.Extensions.Stardew;
 using StardewValley.Tools;
 using static StardewValley.FarmerSprite;
@@ -26,7 +27,7 @@ internal static class FarmerExtensions
             modifier *= weapon.Get_EffectiveSwingSpeed();
         }
 
-        modifier *= 1f / (1f + farmer.weaponSpeedModifier + farmer.Read<float>(DataFields.ResonantSpeed));
+        modifier *= 1f / (1f + farmer.weaponSpeedModifier);
         return modifier;
     }
 
@@ -36,11 +37,11 @@ internal static class FarmerExtensions
     /// <returns>The total firing speed modifier, a number between 0 and 1.</returns>
     internal static float GetTotalFiringSpeedModifier(this Farmer farmer, Slingshot? slingshot = null)
     {
-        var modifier = 10f / (10f + farmer.weaponSpeedModifier + farmer.Read<float>(DataFields.ResonantSpeed));
+        var modifier = 10f / (10f + farmer.weaponSpeedModifier);
         slingshot ??= farmer.CurrentTool as Slingshot;
         if (slingshot is not null)
         {
-            modifier *= 10f / (10f + slingshot.GetEnchantmentLevel<EmeraldEnchantment>() + slingshot.Read<float>(DataFields.ResonantSpeed));
+            modifier *= slingshot.Get_EffectiveFireSpeed();
         }
 
         return modifier;
@@ -58,7 +59,7 @@ internal static class FarmerExtensions
             _ => 0f,
         };
 
-        var playerResilience = farmer.resilience + farmer.Read<float>(DataFields.ResonantResilience);
+        var playerResilience = farmer.resilience + farmer.Get_ResonantResilience();
         return weaponResilience * (10f / (10f + playerResilience));
     }
 
@@ -69,6 +70,90 @@ internal static class FarmerExtensions
     {
         return farmer.FarmerSprite.currentStep == "snowyStep";
     }
+
+    /// <summary>Counts the number of completed Monster Eradication goals.</summary>
+    /// <param name="farmer">The <see cref="Farmer"/>.</param>
+    /// <returns>The number of completed Monster Eradication goals.</returns>
+    internal static int NumMonsterSlayerQuestsCompleted(this Farmer farmer)
+    {
+        var count = 0;
+
+        if (farmer.mailReceived.Contains("Gil_Slime Charmer Ring"))
+        {
+            count++;
+        }
+
+        if (farmer.mailReceived.Contains("Gil_Savage Ring"))
+        {
+            count++;
+        }
+
+        if (farmer.mailReceived.Contains("Gil_Skeleton Mask"))
+        {
+            count++;
+        }
+
+        if (farmer.mailReceived.Contains("Gil_Insect Head"))
+        {
+            count++;
+        }
+
+        if (farmer.mailReceived.Contains("Gil_Vampire Ring"))
+        {
+            count++;
+        }
+
+        if (farmer.mailReceived.Contains("Gil_Hard Hat"))
+        {
+            count++;
+        }
+
+        if (farmer.mailReceived.Contains("Gil_Burglar's Ring"))
+        {
+            count++;
+        }
+
+        if (farmer.mailReceived.Contains("Gil_Crabshell Ring"))
+        {
+            count++;
+        }
+
+        if (farmer.mailReceived.Contains("Gil_Arcane Hat"))
+        {
+            count++;
+        }
+
+        if (farmer.mailReceived.Contains("Gil_Knight's Helmet"))
+        {
+            count++;
+        }
+
+        if (farmer.mailReceived.Contains("Gil_Napalm Ring"))
+        {
+            count++;
+        }
+
+        if (farmer.mailReceived.Contains("Gil_Telephone"))
+        {
+            count++;
+        }
+
+        return count;
+    }
+
+    /// <summary>Determines whether the <paramref name="farmer"/> has proven the 5 chivalric virtues.</summary>
+    /// <param name="farmer">The <see cref="Farmer"/>.</param>
+    /// <returns><see langword="true"/> if the <paramref name="farmer"/> has proved all 5 chivalric virtues, otherwise <see langword="false"/>.</returns>
+    internal static bool HasProvenChivalricVirtues(this Farmer farmer)
+    {
+        return farmer.Read<int>(DataFields.ProvenHonor) >= 3 &&
+               farmer.Read<int>(DataFields.ProvenCompassion) >= 3 &&
+               farmer.Read<int>(DataFields.ProvenWisdom) >= 3 &&
+               farmer.mailReceived.Contains("pamHouseUpgrade") &&
+               farmer.NumMonsterSlayerQuestsCompleted() >= 5;
+    }
+
+    #region combo framework
 
     internal static void QueueBackwardSwipe(this Farmer farmer, MeleeWeapon weapon)
     {
@@ -547,4 +632,6 @@ internal static class FarmerExtensions
         farmer.Increment_CurrentHitStep();
         farmer.Set_IsAnimating(true);
     }
+
+    #endregion combo framework
 }

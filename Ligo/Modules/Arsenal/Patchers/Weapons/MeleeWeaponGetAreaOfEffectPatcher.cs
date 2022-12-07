@@ -1,5 +1,5 @@
 ﻿// ReSharper disable PossibleLossOfFraction
-namespace DaLion.Ligo.Modules.Arsenal.Patchers;
+namespace DaLion.Ligo.Modules.Arsenal.Patchers.Weapons;
 
 #region using directives
 
@@ -110,7 +110,6 @@ internal sealed class MeleeWeaponGetAreaOfEffectPatcher : HarmonyPatcher
             Log.E($"Failed in {MethodBase.GetCurrentMethod()?.Name}:\n{ex}");
             return true; // default to original logic
         }
-
     }
 
     #endregion harmony patches

@@ -4,6 +4,7 @@
 
 using DaLion.Shared.UI;
 using Microsoft.Xna.Framework.Graphics;
+using Shared.Extensions;
 
 #endregion using directives
 
@@ -26,10 +27,13 @@ internal sealed class Globals
     internal static int? InfinityBandIndex { get; set; }
 
     /// <summary>Gets or sets <see cref="Item"/> index of the Hero Soul (provided by Dynamic Game Assets).</summary>
-    internal static int? HeroSoulindex { get; set; }
+    internal static int? HeroSoulIndex { get; set; }
 
     /// <summary>Gets or sets <see cref="Item"/> index of Dwarven Scrap (provided by Dynamic Game Assets).</summary>
     internal static int? DwarvenScrapIndex { get; set; }
+
+    /// <summary>Gets or sets <see cref="Item"/> index of Dwarvish weapon blueprints (provided by Dynamic Game Assets).</summary>
+    internal static int? DwarvishBlueprintIndex { get; set; }
 
     /// <summary>Gets or sets the <see cref="FrameRateCounter"/>.</summary>
     internal static FrameRateCounter? FpsCounter { get; set; }

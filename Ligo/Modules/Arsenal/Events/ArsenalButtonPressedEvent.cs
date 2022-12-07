@@ -26,7 +26,8 @@ internal sealed class ArsenalButtonPressedEvent : ButtonPressedEvent
     protected override void OnButtonPressedImpl(object? sender, ButtonPressedEventArgs e)
     {
         var player = Game1.player;
-        if (!(e.Button.IsActionButton() || e.Button.IsUseToolButton()) || player.UsingTool || player.isRidingHorse())
+        if (!(e.Button.IsActionButton() || e.Button.IsUseToolButton()) || player.UsingTool || player.isRidingHorse() ||
+            !player.CanMove)
         {
             return;
         }

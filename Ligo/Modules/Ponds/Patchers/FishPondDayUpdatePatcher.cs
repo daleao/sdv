@@ -29,7 +29,7 @@ internal sealed class FishPondDayUpdatePatcher : HarmonyPatcher
 
     #region harmony patches
 
-    /// <summary>Rest held items each morning.</summary>
+    /// <summary>Reset held items each morning.</summary>
     [HarmonyPrefix]
     [HarmonyPriority(Priority.HigherThanNormal)]
     private static bool FishPondDayUpdatePrefix(FishPond __instance, int dayOfMonth)

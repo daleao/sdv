@@ -10,14 +10,6 @@ public sealed class Constants
     public const int GoldenEggIndex = 928;
     public const int HoneyIndex = 340;
 
-    // ponds
-    public const int SeaweedIndex = 152;
-    public const int GreenAlgaeIndex = 153;
-    public const int WhiteAlgaeIndex = 157;
-    public const int SturgeonIndex = 698;
-    public const int RoeIndex = 812;
-    public const int SquidInkIndex = 814;
-
     // gemstones
     public const int EmeraldIndex = 60;
     public const int AquamarineIndex = 62;
@@ -29,6 +21,12 @@ public sealed class Constants
     // forage
     public const int CoconutIndex = 88;
     public const int GoldenCoconutIndex = 791;
+    public const int GingerIndex = 829;
+
+    // fruit
+    public const int BananaSaplingIndex = 69;
+    public const int PineappleIndex = 832;
+    public const int MangoIndex = 834;
 
     // resources
     public const int HardwoodIndex = 709;
@@ -57,33 +55,84 @@ public sealed class Constants
     public const int RadioactiveCarpIndex = 901;
     public const int GlacierfishJrIndex = 902;
 
-    // slingshots
-    public const int BasicSlingshotIndex = 32;
-    public const int MasterSlingshotIndex = 33;
-    public const int GalaxySlingshotIndex = 34;
-    public const int SlingshotCooldownTime = 2000;
-
-    // projectiles
-    public const int SnowballProjectileIndex = 6;
-    public const int LightBeamIndex = 11;
-    public const int InfinityBeamIndex = 15;
-    public const int QuincyProjectileIndex = 14;
-    public const int ExplosiveAmmoIndex = 441;
+    // ponds
+    public const int SeaweedIndex = 152;
+    public const int GreenAlgaeIndex = 153;
+    public const int WhiteAlgaeIndex = 157;
+    public const int SturgeonIndex = 698;
+    public const int RoeIndex = 812;
+    public const int SquidInkIndex = 814;
 
     // weapons
     public const int WoodenBladeIndex = 12;
-    public const int DarkSwordIndex = 2;
-    public const int HolyBladeIndex = 3;
-    public const int GalaxySwordIndex = 4;
+
+    public const int SteelSmallswordIndex = 11;
+    public const int SilverSaberIndex = 1;
+    public const int CarvingKnife = 16;
+    public const int WoodClubIndex = 24;
+
+    public const int CutlassIndex = 44;
+    public const int IronEdgeIndex = 6;
+    public const int BurglarsShankIndex = 18;
+    public const int WoodMalletIndex = 27;
+
+    public const int RapierIndex = 49;
+    public const int ClaymoreIndex = 10;
+    public const int WindSpireIndex = 22;
+    public const int LeadRodIndex = 26;
+
+    public const int SteelFalchionIndex = 50;
+    public const int TemperedBroadswordIndex = 52;
+    public const int IronDirkIndex = 17;
+    public const int KudgelIndex = 46;
+
+    public const int TemplarsBladeIndex = 7;
+    public const int WickedKrisIndex = 45;
+    public const int TheSlammerIndex = 28;
+
+    public const int PiratesSwordIndex = 43;
+    public const int BrokenTridentIndex = 51;
+    public const int NeptunesGlaiveIndex = 14;
+
+    public const int ForestSwordIndex = 15;
+    public const int ElfBladeIndex = 20;
+
+    public const int BoneSwordIndex = 5;
+    public const int OssifiedBladeIndex = 60;
+    public const int FemurIndex = 31;
+
+    public const int CrystalDaggerIndex = 21;
+    public const int YetiToothIndex = 48;
+    public const int ShadowDaggerIndex = 19;
+
+    public const int ObsidianEdgeIndex = 8;
+    public const int LavaKatanaIndex = 9;
+    public const int IridiumNeedleIndex = 61;
+    public const int InsectHeadIndex = 13;
+
     public const int DwarfSwordIndex = 54;
     public const int DwarfHammerIndex = 55;
     public const int DwarfDaggerIndex = 56;
     public const int DragontoothCutlassIndex = 57;
     public const int DragontoothClubIndex = 58;
     public const int DragontoothShivIndex = 59;
+
+    public const int DarkSwordIndex = 2;
+    public const int HolyBladeIndex = 3;
+    public const int GalaxySwordIndex = 4;
+    public const int GalaxyHammerIndex = 29;
+    public const int GalaxyDaggerIndex = 23;
     public const int InfinityBladeIndex = 62;
     public const int InfinityGavelIndex = 63;
     public const int InfinityDaggerIndex = 64;
+
+    // slingshots
+    public const int BasicSlingshotIndex = 32;
+    public const int MasterSlingshotIndex = 33;
+    public const int GalaxySlingshotIndex = 34;
+    public const int InfinitySlingshotIndex = 65;
+    public const int SlingshotCooldownTime = 2000;
+    public const int ExplosiveAmmoIndex = 441;
 
     // rings
     public const int SmallGlowRingIndex = 516;
@@ -105,10 +154,10 @@ public sealed class Constants
     public const int ScytheIndex = 47;
     public const int GoldenScytheIndex = 53;
 
-    // animations
-    public const int StunAnimationIndex = 52;
-    public const int SnowballAnimationIndex = 54;
-    public const int InfinityAnimationIndex = 55;
+    // quests
+    public const int ForgeIntroQuestId = 144701;
+    public const int ForgeNextQuestId = 144702;
+    public const int CurseQuestId = 144703;
 
     // other
     public const int ExpAtLevel10 = 15000;

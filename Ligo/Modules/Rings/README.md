@@ -64,6 +64,7 @@ It is my hope that this mechanic will encourage experimentation, and also teach 
 - Compatible with [Better Crafting](https://www.nexusmods.com/stardewvalley/mods/11115).
 - Compatible with [Wear More Rings](https://www.nexusmods.com/stardewvalley/mods/3214).
 - Compatible with [Better Rings](https://www.nexusmods.com/stardewvalley/mods/8642), and will use compatible textures if that mod is installed. Credits to [compare123](https://www.nexusmods.com/stardewvalley/users/13917800) for Better Rings-compatible textures.
+- (NEW) compatible with [Vanilla Tweaks](https://www.nexusmods.com/stardewvalley/mods/10852), and will use compatible textures if that mod is installed.
 
 - Generally incompatible with other mods with similar scope, including [Combine Many Rings](https://www.nexusmods.com/stardewvalley/mods/8801), [Balanced Combine Many Rings](https://www.nexusmods.com/stardewvalley/mods/8981) and, to an extent, [Ring Overhaul](https://www.nexusmods.com/stardewvalley/mods/10669)
     - Because of it's highly modular nature, Ring Overhaul in particular can still be used with this module, provided you know how to customize the configs to cherry-pick non-conflicting features.

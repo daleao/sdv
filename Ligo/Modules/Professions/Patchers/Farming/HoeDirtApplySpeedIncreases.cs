@@ -53,7 +53,7 @@ internal sealed class HoeDirtApplySpeedIncreases : HarmonyPatcher
         }
         catch (Exception ex)
         {
-            Log.E($"Failed while patching prestiged Agriculturist bonus.\nHelper returned {ex}");
+            Log.E($"Failed patching prestiged Agriculturist bonus.\nHelper returned {ex}");
             return null;
         }
 

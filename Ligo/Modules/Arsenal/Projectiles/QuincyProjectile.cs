@@ -3,7 +3,7 @@
 #region using directives
 
 using DaLion.Ligo.Modules.Arsenal.Enchantments;
-using DaLion.Shared.Extensions.Stardew;
+using DaLion.Ligo.Modules.Arsenal.VirtualProperties;
 using Microsoft.Xna.Framework;
 using StardewValley.Monsters;
 using StardewValley.Projectiles;
@@ -14,6 +14,8 @@ using StardewValley.Tools;
 /// <summary>An energy projectile fired by a <see cref="Slingshot"/> which has the <see cref="QuincyEnchantment"/>.</summary>
 internal sealed class QuincyProjectile : BasicProjectile
 {
+    public const int TileSheetIndex = 14;
+
     /// <summary>Initializes a new instance of the <see cref="QuincyProjectile"/> class.</summary>
     /// <param name="source">The <see cref="Slingshot"/> which fired this projectile.</param>
     /// <param name="firer">The <see cref="Farmer"/> who fired this projectile.</param>
@@ -34,7 +36,7 @@ internal sealed class QuincyProjectile : BasicProjectile
         float rotationVelocity)
         : base(
             (int)damage,
-            Constants.QuincyProjectileIndex,
+            TileSheetIndex,
             0,
             5,
             rotationVelocity,
@@ -49,8 +51,7 @@ internal sealed class QuincyProjectile : BasicProjectile
             firer)
     {
         this.Firer = firer;
-        this.Damage = (int)(this.damageToFarmer.Value *
-                            (1f + (source.GetEnchantmentLevel<RubyEnchantment>() * 0.1f) + source.Read<float>(DataFields.ResonantDamage)) *
+        this.Damage = (int)(this.damageToFarmer.Value * source.Get_EffectiveDamageModifier() *
                             (1f + firer.attackIncreaseModifier) * overcharge);
         this.Overcharge = overcharge;
         this.startingScale.Value *= overcharge * overcharge;

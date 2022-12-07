@@ -61,7 +61,7 @@ internal sealed class GameLocationDamageMonsterPatcher : HarmonyPatcher
         }
         catch (Exception ex)
         {
-            Log.E($"Failed while moving modded bonus crit chance from Scout to Poacher.\nHelper returned {ex}");
+            Log.E($"Failed moving modded bonus crit chance from Scout to Poacher.\nHelper returned {ex}");
             return null;
         }
 
@@ -90,7 +90,7 @@ internal sealed class GameLocationDamageMonsterPatcher : HarmonyPatcher
         }
         catch (Exception ex)
         {
-            Log.E($"Failed while patching prestiged Fighter bonus damage.\nHelper returned {ex}");
+            Log.E($"Failed patching prestiged Fighter bonus damage.\nHelper returned {ex}");
 
             return null;
         }
@@ -126,7 +126,7 @@ internal sealed class GameLocationDamageMonsterPatcher : HarmonyPatcher
         }
         catch (Exception ex)
         {
-            Log.E($"Failed while patching modded Brute bonus damage.\nHelper returned {ex}");
+            Log.E($"Failed patching modded Brute bonus damage.\nHelper returned {ex}");
 
             return null;
         }
@@ -174,7 +174,7 @@ internal sealed class GameLocationDamageMonsterPatcher : HarmonyPatcher
         }
         catch (Exception ex)
         {
-            Log.E($"Failed while moving Desperado bonus crit damage to Poacher after-ult.\nHelper returned {ex}");
+            Log.E($"Failed moving Desperado bonus crit damage to Poacher after-ult.\nHelper returned {ex}");
 
             return null;
         }
@@ -211,7 +211,7 @@ internal sealed class GameLocationDamageMonsterPatcher : HarmonyPatcher
         catch (Exception ex)
         {
             Log.E(
-                $"Failed while injecting modded Poacher snatch attempt plus Brute Fury and Poacher Cold Blood gauges.\nHelper returned {ex}");
+                $"Failed injecting modded Poacher snatch attempt plus Brute Fury and Poacher Cold Blood gauges.\nHelper returned {ex}");
 
             return null;
         }

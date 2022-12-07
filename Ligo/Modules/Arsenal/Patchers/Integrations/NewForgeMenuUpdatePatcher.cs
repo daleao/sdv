@@ -1,4 +1,4 @@
-﻿namespace DaLion.Ligo.Modules.Arsenal.Patchers;
+﻿namespace DaLion.Ligo.Modules.Arsenal.Patchers.Integrations;
 
 #region using directives
 
@@ -148,7 +148,7 @@ internal sealed class NewForgeMenuUpdatePatcher : HarmonyPatcher
     [SuppressMessage("StyleCop.CSharp.OrderingRules", "SA1202:Elements should be ordered by access", Justification = "Preference for patch classes with injected subroutines.")]
     internal static void UnforgeHolyBlade(IClickableMenu menu, MeleeWeapon holy)
     {
-        Utility.CollectOrDrop(new SObject(Globals.HeroSoulindex!.Value, 1));
+        Utility.CollectOrDrop(new SObject(Globals.HeroSoulIndex!.Value, 1));
         ModEntry.Reflector
             .GetUnboundFieldGetter<IClickableMenu, ClickableTextureComponent>(menu, "leftIngredientSpot")
             .Invoke(menu).item = null;

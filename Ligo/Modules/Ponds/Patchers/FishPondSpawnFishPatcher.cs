@@ -5,6 +5,7 @@
 using System.IO;
 using System.Linq;
 using DaLion.Ligo.Modules.Ponds.Extensions;
+using DaLion.Ligo.Modules.Professions;
 using DaLion.Ligo.Modules.Professions.Extensions;
 using DaLion.Shared.Extensions;
 using DaLion.Shared.Extensions.Stardew;
@@ -131,7 +132,15 @@ internal sealed class FishPondSpawnFishPatcher : HarmonyPatcher
                         ? SObject.medQuality
                         : SObject.lowQuality;
 
-            qualities[fishlingQuality == 4 ? 3 : fishlingQuality]++;
+            if (ModEntry.Config.EnableProfessions && fishlingQuality < SObject.bestQuality && Game1.random.NextDouble() < 0.5 &&
+                (__instance.GetOwner().HasProfession(Profession.Aquarist) ||
+                 (ModEntry.Config.Professions.LaxOwnershipRequirements &&
+                  Game1.game1.DoesAnyPlayerHaveProfession(Profession.Aquarist, out _))))
+            {
+                fishlingQuality += fishlingQuality == SObject.highQuality ? 2 : 1;
+            }
+
+            qualities[fishlingQuality == SObject.bestQuality ? 3 : fishlingQuality]++;
             __instance.Write(forFamily ? DataFields.FamilyQualities : DataFields.FishQualities, string.Join(',', qualities));
         }
         catch (InvalidDataException ex)

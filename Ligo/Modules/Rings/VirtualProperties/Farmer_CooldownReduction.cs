@@ -2,8 +2,10 @@
 
 #region using directives
 
+using System.Linq;
 using System.Runtime.CompilerServices;
-using DaLion.Shared.Extensions.Stardew;
+using DaLion.Shared.Extensions;
+using DaLion.Shared.Extensions.Collections;
 
 #endregion using directives
 
@@ -14,12 +16,24 @@ internal static class Farmer_CooldownReduction
 
     internal static float Get_CooldownReduction(this Farmer farmer)
     {
-        return Values.GetValue(farmer, Create).CooldownReduction;
+        return 1f - (Values.GetValue(farmer, Create).CooldownReduction * 0.1f);
+    }
+
+    internal static void Increment_CooldownReduction(this Farmer farmer, float amount = 1f)
+    {
+        Values.GetValue(farmer, Create).CooldownReduction += amount;
     }
 
     private static Holder Create(Farmer farmer)
     {
-        return new Holder { CooldownReduction = 1f - (farmer.Read<float>(DataFields.CooldownReduction) * 0.1f) };
+        var rings = Ligo.Integrations.WearMoreRingsApi?.GetAllRings(farmer) ??
+                    farmer.leftRing.Value.Collect(farmer.rightRing.Value);
+        return new Holder
+        {
+            CooldownReduction = rings.WhereNotNull().Aggregate(
+                0,
+                (cdr, ring) => cdr + (ring.ParentSheetIndex == Globals.GarnetRingIndex ? 1 : 0)),
+        };
     }
 
     internal class Holder

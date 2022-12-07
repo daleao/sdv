@@ -101,7 +101,7 @@ internal sealed class GenericObjectMachinePatcher : HarmonyPatcher
         }
         catch (Exception ex)
         {
-            Log.E("LIGO Professions module failed while patching modded Artisan behavior for generic Automate machines." +
+            Log.E("LIGO Professions module failed patching modded Artisan behavior for generic Automate machines." +
                   "\n—-- Do NOT report this to Automate's author. ---" +
                   $"\nHelper returned {ex}");
             return null;

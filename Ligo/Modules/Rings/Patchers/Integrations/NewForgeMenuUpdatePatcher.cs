@@ -1,5 +1,7 @@
 ﻿namespace DaLion.Ligo.Modules.Rings.Patchers;
 
+using System;
+
 #region using directives
 
 using System.Collections.Generic;
@@ -14,6 +16,7 @@ using Microsoft.Xna.Framework;
 using SpaceCore.Interface;
 using StardewValley.Menus;
 using StardewValley.Objects;
+using static HarmonyLib.Code;
 
 #endregion using directives
 
@@ -36,8 +39,8 @@ internal sealed class NewForgeMenuUpdatePatcher : HarmonyPatcher
     {
         var helper = new ILHelper(original, instructions);
 
-        // Injected: if (ModEntry.Config.Arsenal.Slingshots.TheOneInfinityBand && ring.ParentSheetIndex == Globals.InfinityBandIndex)
-        //               UnforgeIridiumBand(ring);
+        // Injected: if (ModEntry.Config.Arsenal.Slingshots.TheOneInfinityBand && ring.ParentSheetIndex == Globals.InfinityBandIndex.Value)
+        //               UnforgeInfinityBand(ring);
         //           else ...
         // After: if (leftIngredientSpot.item is CombinedRing ring)
         try
@@ -63,13 +66,14 @@ internal sealed class NewForgeMenuUpdatePatcher : HarmonyPatcher
                     new CodeInstruction(
                         OpCodes.Callvirt,
                         typeof(Item).RequirePropertyGetter(nameof(Item.ParentSheetIndex))),
-                    new CodeInstruction(OpCodes.Ldc_I4, Constants.IridiumBandIndex),
+                    new CodeInstruction(OpCodes.Call, typeof(Globals).RequirePropertyGetter(nameof(Globals.InfinityBandIndex))),
+                    new CodeInstruction(OpCodes.Call, typeof(int?).RequirePropertyGetter(nameof(Nullable<int>.Value))),
                     new CodeInstruction(OpCodes.Bne_Un_S, vanillaUnforge),
                     new CodeInstruction(OpCodes.Ldarg_0),
                     new CodeInstruction(OpCodes.Ldloc_S, helper.Locals[15]),
                     new CodeInstruction(
                         OpCodes.Call,
-                        typeof(NewForgeMenuUpdatePatcher).RequireMethod(nameof(UnforgeIridiumBand))),
+                        typeof(NewForgeMenuUpdatePatcher).RequireMethod(nameof(UnforgeInfinityBand))),
                     new CodeInstruction(OpCodes.Br_S, resumeExecution));
         }
         catch (Exception ex)
@@ -87,7 +91,7 @@ internal sealed class NewForgeMenuUpdatePatcher : HarmonyPatcher
 
     #region injected subroutines
 
-    private static void UnforgeIridiumBand(IClickableMenu menu, CombinedRing infinity)
+    private static void UnforgeInfinityBand(IClickableMenu menu, CombinedRing infinity)
     {
         var combinedRings = new List<Ring>(infinity.combinedRings);
         infinity.combinedRings.Clear();
@@ -97,7 +101,7 @@ internal sealed class NewForgeMenuUpdatePatcher : HarmonyPatcher
             Utility.CollectOrDrop(new SObject(848, 5));
         }
 
-        Utility.CollectOrDrop(new Ring(Constants.IridiumBandIndex));
+        Utility.CollectOrDrop(new Ring(Globals.InfinityBandIndex!.Value));
         ModEntry.Reflector
             .GetUnboundFieldGetter<object, ClickableTextureComponent>(menu, "leftIngredientSpot")
             .Invoke(menu).item = null;

@@ -4,6 +4,7 @@
 
 using System.Linq;
 using DaLion.Ligo.Modules.Arsenal.Extensions;
+using DaLion.Ligo.Modules.Arsenal.VirtualProperties;
 using StardewValley.Tools;
 
 #endregion using directives
@@ -69,10 +70,13 @@ internal static class Utils
         {
             Utility.iterateAllItems(item =>
             {
-                if (item is MeleeWeapon weapon)
+                if (item is not MeleeWeapon weapon)
                 {
-                    weapon.RefreshStats();
+                    return;
                 }
+
+                weapon.RefreshStats();
+                MeleeWeapon_Stats.Invalidate(weapon);
             });
         }
         else
@@ -80,16 +84,9 @@ internal static class Utils
             foreach (var weapon in Game1.player.Items.OfType<MeleeWeapon>())
             {
                 weapon.RefreshStats();
+                MeleeWeapon_Stats.Invalidate(weapon);
             }
         }
-    }
-
-    /// <summary>Gives the local player a Dark Sword.</summary>
-    internal static void GetDarkSword()
-    {
-        Game1.playSound("parry");
-        Game1.player.mailReceived.Add("gotDarkSword");
-        Game1.player.addItemByMenuIfNecessaryElseHoldUp(new MeleeWeapon(Constants.DarkSwordIndex));
     }
 
     /// <summary>Transforms the currently held weapon into the Holy Blade.</summary>

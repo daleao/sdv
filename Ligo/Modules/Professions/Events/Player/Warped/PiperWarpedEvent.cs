@@ -3,7 +3,6 @@
 #region using directives
 
 using System.Linq;
-using DaLion.Ligo.Modules.Professions.Events.GameLoop;
 using DaLion.Ligo.Modules.Professions.Extensions;
 using DaLion.Shared.Events;
 using DaLion.Shared.Extensions.Stardew;
@@ -148,10 +147,5 @@ internal sealed class PiperWarpedEvent : WarpedEvent
         }
 
         Log.D($"Spawned {pipedCount} Slimes after {raisedSlimes.Length} attempts.");
-
-        if (pipedCount > 0 || e.NewLocation.characters.Any(npc => npc is GreenSlime))
-        {
-            this.Manager.Enable<PiperUpdateTickedEvent>();
-        }
     }
 }

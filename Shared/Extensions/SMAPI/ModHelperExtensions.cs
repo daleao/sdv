@@ -48,7 +48,7 @@ public static class ModHelperExtensions
         var modInfo = helper.ModRegistry.Get(uniqueId);
         if (modInfo is null)
         {
-            Log.V($"{uniqueId} mod not found. Integrations disabled.");
+            Log.V($"{uniqueId} mod not found.");
             return null;
         }
 
@@ -56,13 +56,12 @@ public static class ModHelperExtensions
         try
         {
             var config = JObject.Parse(File.ReadAllText(Path.Combine(modPath, "config.json")));
-            Log.V("Success. Integrations will be enabled.");
             return config;
         }
         catch (FileNotFoundException)
         {
             Log.W(
-                $"Detected {uniqueId}, but a corresponding config file was not found in the expected location '{modPath}'.\nIntegrations will not be enabled until the next restart.");
+                $"Detected {uniqueId}, but a corresponding config file was not found in the expected location '{modPath}'.");
             return null;
         }
     }

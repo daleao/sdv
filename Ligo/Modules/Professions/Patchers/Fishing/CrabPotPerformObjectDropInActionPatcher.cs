@@ -41,7 +41,7 @@ internal sealed class CrabPotPerformObjectDropInActionPatcher : HarmonyPatcher
         }
         catch (Exception ex)
         {
-            Log.E($"Failed while removing Conservationist bait restriction.\nHelper returned {ex}");
+            Log.E($"Failed removing Conservationist bait restriction.\nHelper returned {ex}");
             return null;
         }
 

@@ -2,12 +2,10 @@
 
 #region using directives
 
-using DaLion.Ligo.Modules.Rings.Extensions;
 using DaLion.Ligo.Modules.Rings.VirtualProperties;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
 using StardewValley.Objects;
-using StardewValley.Tools;
 
 #endregion using directives
 
@@ -26,22 +24,17 @@ internal sealed class CombinedRingOnUnequipPatcher : HarmonyPatcher
     [HarmonyPostfix]
     private static void CombinedRingOnUnequipPostfix(CombinedRing __instance, Farmer who)
     {
-        __instance.Get_Chord()?.Unapply(who.currentLocation, who);
-        if (!ModEntry.Config.EnableArsenal || who.CurrentTool is not { } tool)
+        var chord = __instance.Get_Chord();
+        if (chord is null)
         {
             return;
         }
 
-        switch (tool)
+        chord.Unapply(who.currentLocation, who);
+        if (ModEntry.Config.EnableArsenal && who.CurrentTool is { } tool && chord.Root is not null &&
+            tool.Get_ResonatingChord(chord.Root.EnchantmentType) == chord)
         {
-            case MeleeWeapon weapon:
-                weapon.RemoveResonances();
-                break;
-            case Slingshot slingshot:
-                slingshot.RemoveResonances();
-                break;
-            default:
-                return;
+            tool.UnsetResonatingChord(chord.Root.EnchantmentType);
         }
     }
 

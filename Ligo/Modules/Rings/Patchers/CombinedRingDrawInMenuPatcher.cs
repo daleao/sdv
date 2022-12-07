@@ -34,6 +34,7 @@ internal sealed class CombinedRingDrawInMenuPatcher : HarmonyPatcher
     [HarmonyPriority(Priority.HigherThanNormal)]
     private static bool CombinedRingDrawInMenuPrefix(
         CombinedRing __instance,
+        ref Vector2 __state,
         SpriteBatch spriteBatch,
         Vector2 location,
         float scaleSize,
@@ -64,11 +65,13 @@ internal sealed class CombinedRingDrawInMenuPatcher : HarmonyPatcher
 
             // draw top gem
             var gemColor = Gemstone.FromRing(__instance.combinedRings[0].ParentSheetIndex).Color * transparency;
-            offset = Ligo.Integrations.IsBetterRingsLoaded ? new Vector2(19f, 3f) : new Vector2(24f, 12f);
-            var sourceY = Ligo.Integrations.IsBetterRingsLoaded ? 4 : 0;
+            offset = Ligo.Integrations.UsingVanillaTweaksRings ? new Vector2(24f, 6f) :
+                Ligo.Integrations.UsingBetterRings ? new Vector2(19f, 3f) : new Vector2(24f, 12f);
+            var sourceY = Ligo.Integrations.UsingBetterRings ? 4 : 0;
+            __state = location + (offset * scaleSize);
             spriteBatch.Draw(
                 Textures.GemstonesTx,
-                location + (offset * scaleSize),
+                __state,
                 new Rectangle(0, sourceY, 4, 4),
                 gemColor,
                 0f,
@@ -81,7 +84,7 @@ internal sealed class CombinedRingDrawInMenuPatcher : HarmonyPatcher
             {
                 // draw bottom gem (or left, in case of better rings)
                 gemColor = Gemstone.FromRing(__instance.combinedRings[1].ParentSheetIndex).Color * transparency;
-                offset = Ligo.Integrations.IsBetterRingsLoaded ? new Vector2(23f, 19f) : new Vector2(24f, 44f);
+                offset = Ligo.Integrations.UsingBetterRings ? new Vector2(23f, 19f) : new Vector2(24f, 44f);
                 spriteBatch.Draw(
                     Textures.GemstonesTx,
                     location + (offset * scaleSize),
@@ -98,7 +101,8 @@ internal sealed class CombinedRingDrawInMenuPatcher : HarmonyPatcher
             {
                 // draw left gem (or right, in case of better rings)
                 gemColor = Gemstone.FromRing(__instance.combinedRings[2].ParentSheetIndex).Color * transparency;
-                offset = Ligo.Integrations.IsBetterRingsLoaded ? new Vector2(35f, 7f) : new Vector2(8f, 28f);
+                offset = Ligo.Integrations.UsingVanillaTweaksRings ? new Vector2(3f, 25f) :
+                    Ligo.Integrations.UsingBetterRings ? new Vector2(35f, 7f) : new Vector2(8f, 28f);
                 spriteBatch.Draw(
                     Textures.GemstonesTx,
                     location + (offset * scaleSize),
@@ -115,7 +119,8 @@ internal sealed class CombinedRingDrawInMenuPatcher : HarmonyPatcher
             {
                 // draw right gem (or bottom, in case of better rings)
                 gemColor = Gemstone.FromRing(__instance.combinedRings[3].ParentSheetIndex).Color * transparency;
-                offset = Ligo.Integrations.IsBetterRingsLoaded ? new Vector2(39f, 23f) : new Vector2(40f, 28f);
+                offset = Ligo.Integrations.UsingVanillaTweaksRings ? new Vector2(45f, 25f) :
+                    Ligo.Integrations.UsingBetterRings ? new Vector2(39f, 23f) : new Vector2(40f, 28f);
                 spriteBatch.Draw(
                     Textures.GemstonesTx,
                     location + (offset * scaleSize),
@@ -146,6 +151,40 @@ internal sealed class CombinedRingDrawInMenuPatcher : HarmonyPatcher
             Log.E($"Failed in {MethodBase.GetCurrentMethod()?.Name}:\n{ex}");
             return true; // default to original logic
         }
+    }
+
+    /// <summary>Draw gemstones on combined Infinity Band.</summary>
+    [HarmonyPostfix]
+    private static void CombinedRingDrawInMenuPostfix(
+        CombinedRing __instance,
+        Vector2 __state,
+        SpriteBatch spriteBatch,
+        float scaleSize,
+        float transparency,
+        float layerDepth)
+    {
+        if (__instance.ParentSheetIndex != Globals.InfinityBandIndex || !Ligo.Integrations.UsingVanillaTweaksRings)
+        {
+            return;
+        }
+
+        if (Game1.activeClickableMenu is null)
+        {
+            __state.X += 2;
+        }
+
+        // redraw top gem
+        var gemColor = Gemstone.FromRing(__instance.combinedRings[0].ParentSheetIndex).Color * transparency;
+        spriteBatch.Draw(
+            Textures.GemstonesTx,
+            __state,
+            new Rectangle(0, 0, 4, 4),
+            gemColor,
+            0f,
+            Vector2.Zero,
+            scaleSize * 4f,
+            SpriteEffects.None,
+            layerDepth);
     }
 
     #endregion harmony patches

@@ -5,7 +5,7 @@
 using System.Linq;
 using DaLion.Ligo.Modules.Arsenal.Extensions;
 using DaLion.Ligo.Modules.Rings.VirtualProperties;
-using DaLion.Shared.Extensions.Stardew;
+using DaLion.Shared.Extensions.Collections;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
 using StardewValley.Tools;
@@ -25,7 +25,7 @@ internal sealed class AquamarineEnchantmentUnapplyToPatcher : HarmonyPatcher
 
     /// <summary>Remove resonance with Aquamarine chord.</summary>
     [HarmonyPostfix]
-    private static void AquamarineEnchantmentUnapplyToPostfix(AquamarineEnchantment __instance, Item item)
+    private static void AquamarineEnchantmentUnapplyToPostfix(Item item)
     {
         var player = Game1.player;
         if (!ModEntry.Config.EnableArsenal || item is not (Tool tool and (MeleeWeapon or Slingshot)) || tool != player.CurrentTool)
@@ -33,12 +33,16 @@ internal sealed class AquamarineEnchantmentUnapplyToPatcher : HarmonyPatcher
             return;
         }
 
-        var multiplier = player.Get_ResonatingChords().Sum(c => c.Root == Gemstone.Aquamarine ? -0.023f : 0f);
-        tool.Increment(DataFields.ResonantCritChance, __instance.GetLevel() * multiplier);
-        if (ModEntry.Config.EnableArsenal)
+        var chord = player.Get_ResonatingChords()
+            .Where(c => c.Root == Gemstone.Aquamarine)
+            .ArgMax(c => c.Amplitude);
+        if (chord is null || tool.Get_ResonatingChord<AquamarineEnchantment>() != chord)
         {
-            tool.Invalidate();
+            return;
         }
+
+        tool.UnsetResonatingChord<AquamarineEnchantment>();
+        tool.Invalidate();
     }
 
     #endregion harmony patches

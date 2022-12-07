@@ -15,9 +15,9 @@ public static class RectangleExtensions
     /// <returns>A <see cref="IEnumerable{Vector2}"/>, where <see cref="Vector2.X"/> and <see cref="Vector2.Y"/> represent the coordinates of tiles contained by the <paramref name="rectangle"/>.</returns>
     public static IEnumerable<Vector2> GetInnerTiles(this Rectangle rectangle)
     {
-        for (var y = rectangle.Top / Game1.tileSize; y < rectangle.Bottom / Game1.tileSize; ++y)
+        for (var y = rectangle.Top / Game1.tileSize; y < rectangle.Bottom / Game1.tileSize; y++)
         {
-            for (var x = rectangle.Left / Game1.tileSize; x < rectangle.Right / Game1.tileSize; ++x)
+            for (var x = rectangle.Left / Game1.tileSize; x < rectangle.Right / Game1.tileSize; x++)
             {
                 yield return new Vector2(x, y);
             }

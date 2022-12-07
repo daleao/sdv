@@ -31,7 +31,7 @@ internal sealed class ForgeMenuUpdatePatcher : HarmonyPatcher
 
     #region harmony patches
 
-    /// <summary>Set unforge behavior of Holy Blade.</summary>
+    /// <summary>Set unforge behavior of Holy Blade + Slingshot.</summary>
     [HarmonyTranspiler]
     private static IEnumerable<CodeInstruction>? ForgeMenuUpdateTranspiler(
         IEnumerable<CodeInstruction> instructions, ILGenerator generator, MethodBase original)
@@ -142,7 +142,7 @@ internal sealed class ForgeMenuUpdatePatcher : HarmonyPatcher
     [SuppressMessage("StyleCop.CSharp.OrderingRules", "SA1202:Elements should be ordered by access", Justification = "Preference for patch classes with injected subroutines.")]
     internal static void UnforgeHolyBlade(ForgeMenu menu, MeleeWeapon holy)
     {
-        Utility.CollectOrDrop(new SObject(Globals.HeroSoulindex!.Value, 1));
+        Utility.CollectOrDrop(new SObject(Globals.HeroSoulIndex!.Value, 1));
         menu.leftIngredientSpot.item = null;
         Game1.playSound("coin");
     }

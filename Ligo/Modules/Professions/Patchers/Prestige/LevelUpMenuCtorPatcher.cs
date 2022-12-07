@@ -60,7 +60,7 @@ internal sealed class LevelUpMenuCtorPatcher : HarmonyPatcher
         }
         catch (Exception ex)
         {
-            Log.E($"Failed while patching profession choices above level 10.\nHelper returned {ex}");
+            Log.E($"Failed patching profession choices above level 10.\nHelper returned {ex}");
             return null;
         }
 

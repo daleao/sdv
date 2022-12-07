@@ -1,11 +1,10 @@
 ﻿// ReSharper disable PossibleLossOfFraction
-namespace DaLion.Ligo.Modules.Arsenal.Patchers;
+namespace DaLion.Ligo.Modules.Arsenal.Patchers.Weapons;
 
 #region using directives
 
 using System.Reflection;
-using DaLion.Ligo.Modules.Arsenal.Extensions;
-using DaLion.Shared.Extensions.Stardew;
+using DaLion.Ligo.Modules.Arsenal.VirtualProperties;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
 using StardewValley.Tools;
@@ -34,29 +33,7 @@ internal sealed class MeleeWeaponGetItemLevelPatcher : HarmonyPatcher
 
         try
         {
-            var points = __instance.Read<int>(DataFields.InitialMaxDamage) * __instance.type.Value switch
-            {
-                MeleeWeapon.stabbingSword or MeleeWeapon.defenseSword => 0.5f,
-                MeleeWeapon.dagger => 0.75f,
-                MeleeWeapon.club => 0.3f,
-                _ => 0f,
-            };
-
-            points += (__instance.knockback.Value - __instance.defaultKnockBackForThisType(__instance.type.Value)) *
-                      10f;
-            points += ((__instance.critChance.Value / __instance.DefaultCritChance()) - 1f) * 10f;
-            points += ((__instance.critMultiplier.Value / __instance.DefaultCritPower()) - 1f) * 10f;
-            points += __instance.addedPrecision.Value;
-            points += __instance.addedDefense.Value;
-            points += __instance.speed.Value;
-            points += __instance.addedAreaOfEffect.Value / 4;
-
-            __result = (int)Math.Floor(points / 10);
-            if (__instance.IsUnique() || __instance.CanBeCrafted())
-            {
-                __result++;
-            }
-
+            __result = __instance.Get_Level();
             return false; // don't run original logic
         }
         catch (Exception ex)

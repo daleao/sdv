@@ -37,12 +37,12 @@ internal sealed class FarmerTakeDamagePatcher : HarmonyPatcher
         IEnumerable<CodeInstruction> instructions, ILGenerator generator, MethodBase original)
     {
         var helper = new ILHelper(original, instructions);
-
         var floatResilience = generator.DeclareLocal(typeof(float));
 
         // From: bullshit resilience mitigation
-        // To: if (ModEntry.Config.Arsenal.OverhauledDefense ? GetOverhauledResilience(this)
-        //           else { do vanilla logic }
+        // To: if (ModEntry.Config.Arsenal.OverhauledDefense)
+        //          GetOverhauledResilience(this)
+        //     else { do vanilla logic }
         try
         {
             var useVanillaResilience = generator.DefineLabel();
@@ -75,7 +75,7 @@ internal sealed class FarmerTakeDamagePatcher : HarmonyPatcher
         }
         catch (Exception ex)
         {
-            Log.E($"Failed while adding overhauled farmer defense (part 1).\nHelper returned {ex}");
+            Log.E($"Failed adding overhauled farmer defense (part 1).\nHelper returned {ex}");
             return null;
         }
 
@@ -115,7 +115,7 @@ internal sealed class FarmerTakeDamagePatcher : HarmonyPatcher
         }
         catch (Exception ex)
         {
-            Log.E($"Failed while adding overhauled farmer defense (part 2).\nHelper returned {ex}");
+            Log.E($"Failed adding overhauled farmer defense (part 2).\nHelper returned {ex}");
             return null;
         }
 

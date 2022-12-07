@@ -1,4 +1,4 @@
-﻿namespace DaLion.Ligo.Modules.Arsenal.Patchers;
+﻿namespace DaLion.Ligo.Modules.Arsenal.Patchers.Weapons;
 
 #region using directives
 
@@ -21,29 +21,27 @@ internal sealed class MeleeWeaponDefaultKnockbackForThisTypePatcher : HarmonyPat
 
     /// <summary>Rebalance knockback for all weapons.</summary>
     [HarmonyPrefix]
-    private static bool MeleeWeaponDefaultKnockbackForThisTypePrefix(ref float __result, int type)
+    private static bool MeleeWeaponDefaultKnockbackForThisTypePrefix(MeleeWeapon __instance, ref float __result, int type)
     {
-        if (!ModEntry.Config.Arsenal.OverhauledKnockback)
+        if (!ModEntry.Config.Arsenal.Weapons.RebalancedWeapons)
         {
             return true; // run original logic
         }
 
-        switch (type)
+        if (__instance.Name == "Diamond Wand")
         {
-            case MeleeWeapon.dagger:
-                __result = 0.5f;
-                break;
-            case MeleeWeapon.stabbingSword:
-            case MeleeWeapon.defenseSword:
-                __result = 0.75f;
-                break;
-            case MeleeWeapon.club:
-                __result = 1f;
-                break;
-            default:
-                __result = -1f;
-                break;
+            __result = 31f;
+            return false; // don't run original logic
         }
+
+
+        __result = type switch
+        {
+            MeleeWeapon.dagger => 0.5f,
+            MeleeWeapon.stabbingSword or MeleeWeapon.defenseSword=> 0.75f,
+            MeleeWeapon.club => 1f,
+            _ => -1f,
+        };
 
         return false; // don't run original logic
     }

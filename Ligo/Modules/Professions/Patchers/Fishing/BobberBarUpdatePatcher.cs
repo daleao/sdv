@@ -58,7 +58,7 @@ internal sealed class BobberBarUpdatePatcher : HarmonyPatcher
         //}
         //catch (Exception ex)
         //{
-        //    Log.E($"Failed while patching Fisher catching bar gain.\nHelper returned {ex}");
+        //    Log.E($"Failed patching Fisher catching bar gain.\nHelper returned {ex}");
         //    return null;
         //}
 
@@ -88,7 +88,7 @@ internal sealed class BobberBarUpdatePatcher : HarmonyPatcher
         }
         catch (Exception ex)
         {
-            Log.E($"Failed while patching Aquarist catching bar loss.\nHelper returned {ex}");
+            Log.E($"Failed patching Aquarist catching bar loss.\nHelper returned {ex}");
             return null;
         }
 

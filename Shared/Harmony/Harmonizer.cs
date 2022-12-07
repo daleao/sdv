@@ -90,13 +90,13 @@ internal sealed class Harmonizer
             }
 #endif
 
-            var deprecatedAttr = p.GetCustomAttribute<DeprecatedAttribute>();
+            var deprecatedAttr = p.GetCustomAttribute<ImplicitIgnoreAttribute>();
             if (deprecatedAttr is not null)
             {
                 continue;
             }
 
-            var integrationAttr = p.GetCustomAttribute<IntegrationAttribute>();
+            var integrationAttr = p.GetCustomAttribute<RequiresModAttribute>();
             if (integrationAttr is not null)
             {
                 if (!this._modRegistry.IsLoaded(integrationAttr.UniqueId))
@@ -127,8 +127,14 @@ internal sealed class Harmonizer
                     ThrowHelper.ThrowMissingMethodException("Didn't find internal parameter-less constructor.");
                 }
 
-                patch.Apply(this.Harmony);
-                Log.D($"[Harmonizer]: Applied {p.Name} to {patch.Target.GetFullName()}.");
+                if (patch.Apply(this.Harmony))
+                {
+                    Log.D($"[Harmonizer]: Applied {p.Name} to {patch.Target.GetFullName()}.");
+                }
+                else
+                {
+                    Log.W($"[Harmonizer]: {p.Name} was not applied.");
+                }
             }
             catch (Exception ex)
             {

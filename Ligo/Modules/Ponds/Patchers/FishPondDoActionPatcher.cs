@@ -78,7 +78,7 @@ internal sealed class FishPondDoActionPatcher : HarmonyPatcher
         }
         catch (Exception ex)
         {
-            Log.E($"Failed while adding chum bucket menu.\nHelper returned {ex}");
+            Log.E($"Failed adding chum bucket menu.\nHelper returned {ex}");
             return null;
         }
 
@@ -108,7 +108,7 @@ internal sealed class FishPondDoActionPatcher : HarmonyPatcher
         }
         catch (Exception ex)
         {
-            Log.E($"Failed while adding family ties to legendary fish in ponds.\nHelper returned {ex}");
+            Log.E($"Failed adding family ties to legendary fish in ponds.\nHelper returned {ex}");
             return null;
         }
 
@@ -136,7 +136,7 @@ internal sealed class FishPondDoActionPatcher : HarmonyPatcher
         }
         catch (Exception ex)
         {
-            Log.E($"Failed while adding metal enrichment to radioactive ponds.\nHelper returned {ex}");
+            Log.E($"Failed adding metal enrichment to radioactive ponds.\nHelper returned {ex}");
             return null;
         }
 

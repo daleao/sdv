@@ -8,7 +8,7 @@ using System.Linq;
 using Ardalis.SmartEnum;
 using DaLion.Ligo.Modules.Arsenal.Enchantments;
 using DaLion.Ligo.Modules.Rings.Resonance;
-using DaLion.Shared.Extensions.Stardew;
+using DaLion.Ligo.Modules.Rings.VirtualProperties;
 using DaLion.Shared.Extensions.Xna;
 using Microsoft.Xna.Framework;
 
@@ -355,13 +355,13 @@ public abstract class Gemstone : SmartEnum<Gemstone>, IEquatable<Gemstone>, ICom
         /// <inheritdoc />
         internal override void Resonate(Farmer who, float amplitude)
         {
-            who.Increment(DataFields.CooldownReduction, amplitude);
+            who.Increment_CooldownReduction(amplitude);
         }
 
         /// <inheritdoc />
         internal override void Dissonate(Farmer who, float amplitude)
         {
-            who.Increment(DataFields.CooldownReduction, -amplitude);
+            who.Increment_CooldownReduction(-amplitude);
         }
 
         /// <inheritdoc />
@@ -485,7 +485,7 @@ public abstract class Gemstone : SmartEnum<Gemstone>, IEquatable<Gemstone>, ICom
             {
                 if (ModEntry.Config.EnableArsenal && ModEntry.Config.Arsenal.OverhauledDefense)
                 {
-                    who.Increment(DataFields.ResonantResilience, amplitude * 0.1f);
+                    who.Increment_ResonantResilience(amplitude);
                 }
                 else
                 {
@@ -505,7 +505,7 @@ public abstract class Gemstone : SmartEnum<Gemstone>, IEquatable<Gemstone>, ICom
             {
                 if (ModEntry.Config.EnableArsenal && ModEntry.Config.Arsenal.OverhauledDefense)
                 {
-                    who.Increment(DataFields.ResonantResilience, amplitude * -0.1f);
+                    who.Increment_ResonantResilience(-amplitude);
                 }
                 else
                 {

@@ -38,9 +38,18 @@ internal abstract class HarmonyPatcher : IHarmonyPatcher
     public HarmonyMethod? Reverse { get; }
 
     /// <inheritdoc />
-    void IHarmonyPatcher.Apply(Harmony harmony)
+    bool IHarmonyPatcher.Apply(Harmony harmony)
     {
-        this.ApplyImpl(harmony);
+        try
+        {
+            this.ApplyImpl(harmony);
+            return true;
+        }
+        catch (Exception ex)
+        {
+            Log.E(ex.ToString());
+            return false;
+        }
     }
 
     /// <inheritdoc />
@@ -56,7 +65,8 @@ internal abstract class HarmonyPatcher : IHarmonyPatcher
         return this.GetType().GetHashCode();
     }
 
-    /// <inheritdoc cref="IHarmonyPatcher.Apply"/>
+    /// <summary>Applies internally-defined Harmony patches.</summary>
+    /// <param name="harmony">The <see cref="Harmony"/> instance for this mod.</param>
     protected virtual void ApplyImpl(Harmony harmony)
     {
         if (this.Reverse is not null)

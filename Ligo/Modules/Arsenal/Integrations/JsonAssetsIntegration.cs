@@ -34,7 +34,9 @@ internal sealed class JsonAssetsIntegration : BaseIntegration<IJsonAssetsApi>
             return;
         }
 
-        Globals.HeroSoulindex = this.ModApi.GetObjectId("Hero Soul");
+        Globals.HeroSoulIndex = this.ModApi.GetObjectId("Hero Soul");
         Globals.DwarvenScrapIndex = this.ModApi.GetObjectId("Dwarven Scrap");
+        Globals.DwarvishBlueprintIndex = this.ModApi.GetObjectId("Dwarvish Blueprint");
+        ModEntry.ModHelper.GameContent.InvalidateCache("Data/Monsters");
     }
 }

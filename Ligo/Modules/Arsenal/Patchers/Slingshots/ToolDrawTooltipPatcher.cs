@@ -1,4 +1,4 @@
-﻿namespace DaLion.Ligo.Modules.Arsenal.Patchers;
+﻿namespace DaLion.Ligo.Modules.Arsenal.Patchers.Slingshots;
 
 #region using directives
 
@@ -44,7 +44,6 @@ internal sealed class ToolDrawTooltipPatcher : HarmonyPatcher
 
         try
         {
-
             // write description
             ItemDrawTooltipPatcher.ItemDrawTooltipReverse(
                 __instance,
@@ -60,7 +59,7 @@ internal sealed class ToolDrawTooltipPatcher : HarmonyPatcher
             // write bonus damage
             if (slingshot.hasEnchantmentOfType<RubyEnchantment>())
             {
-                var amount = $"+{slingshot.Get_DamageModifier():0%}";
+                var amount = $"+{slingshot.Get_RelativeDamageModifier():0%}";
                 co = new Color(0, 120, 120);
                 Utility.drawWithShadow(
                     spriteBatch,
@@ -87,7 +86,7 @@ internal sealed class ToolDrawTooltipPatcher : HarmonyPatcher
             // write bonus knockback
             if (__instance.hasEnchantmentOfType<AmethystEnchantment>())
             {
-                var amount = $"+{slingshot.Get_KnockbackModifer()}:0%";
+                var amount = $"+{slingshot.Get_RelativeKnockbackModifer():0%}";
                 co = new Color(0, 120, 120);
                 Utility.drawWithShadow(
                     spriteBatch,
@@ -114,7 +113,7 @@ internal sealed class ToolDrawTooltipPatcher : HarmonyPatcher
             // write bonus crit rate
             if (__instance.hasEnchantmentOfType<AquamarineEnchantment>())
             {
-                var amount = $"+{slingshot.Get_CritChanceModifier():0%}";
+                var amount = $"{slingshot.Get_RelativeCritChanceModifier():0.0%}";
                 co = new Color(0, 120, 120);
                 Utility.drawWithShadow(
                     spriteBatch,
@@ -141,7 +140,7 @@ internal sealed class ToolDrawTooltipPatcher : HarmonyPatcher
             // write crit power
             if (__instance.hasEnchantmentOfType<JadeEnchantment>())
             {
-                var amount = $"+{slingshot.Get_CritPowerModifier():0%}";
+                var amount = $"{slingshot.Get_RelativeCritPowerModifier():0%}";
                 co = new Color(0, 120, 120);
                 Utility.drawWithShadow(
                     spriteBatch,
@@ -289,12 +288,6 @@ internal sealed class ToolDrawTooltipPatcher : HarmonyPatcher
                     new Vector2(x + 68, y + 28),
                     co * 0.9f * alpha);
                 y += (int)Math.Max(font.MeasureString("TT").Y, 48f);
-            }
-
-            // extra height to compensate `Forged` text
-            if (__instance.enchantments.Count > 0)
-            {
-                y += (int)Math.Max(font.MeasureString("TT").Y, 48f) / 4;
             }
 
             return false; // don't run original logic

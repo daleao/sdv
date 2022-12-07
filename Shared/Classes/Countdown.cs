@@ -26,7 +26,7 @@ internal sealed class Countdown
             return false;
         }
 
-        --this.Current;
+        this.Current--;
         return true;
     }
 

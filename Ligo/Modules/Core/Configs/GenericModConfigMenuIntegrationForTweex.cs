@@ -72,6 +72,11 @@ internal sealed partial class GenericModConfigMenuIntegration
                 () => "Explosion Triggered Bombs",
                 () => "Bombs within any explosion radius are immediately triggered.",
                 config => config.Tweex.ExplosionTriggeredBombs,
-                (config, value) => config.Tweex.ExplosionTriggeredBombs = value);
+                (config, value) => config.Tweex.ExplosionTriggeredBombs = value)
+            .AddCheckbox(
+                () => "Legendary Fish Always Best Quality",
+                () => "Legendary fish are always iridium-quality.",
+                config => config.Tweex.LegendaryFishAlwaysBestQuality,
+                (config, value) => config.Tweex.LegendaryFishAlwaysBestQuality = value);
     }
 }

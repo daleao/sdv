@@ -3,7 +3,7 @@
 #region using directives
 
 using DaLion.Ligo.Modules.Arsenal.Enchantments;
-using DaLion.Shared.Extensions.Stardew;
+using DaLion.Ligo.Modules.Arsenal.VirtualProperties;
 using Microsoft.Xna.Framework;
 using StardewValley;
 using StardewValley.Monsters;
@@ -15,6 +15,8 @@ using StardewValley.Tools;
 /// <summary>A beam of energy fired by <see cref="MeleeWeapon"/>s with the <see cref="InfinityEnchantment"/>.</summary>
 internal sealed class LightBeamProjectile : BasicProjectile
 {
+    public const int TileSheetIndex = 11;
+
     /// <summary>Initializes a new instance of the <see cref="LightBeamProjectile"/> class.</summary>
     /// <param name="source">The <see cref="MeleeWeapon"/> which fired this projectile.</param>
     /// <param name="firer">The <see cref="Farmer"/> who fired this projectile.</param>
@@ -31,7 +33,7 @@ internal sealed class LightBeamProjectile : BasicProjectile
         float rotation)
         : base(
             1,
-            Constants.LightBeamIndex,
+            TileSheetIndex,
             0,
             3,
             0f,
@@ -46,9 +48,7 @@ internal sealed class LightBeamProjectile : BasicProjectile
             firer)
     {
         this.Firer = firer;
-        this.Damage = (int)(Math.Ceiling(source.minDamage.Value / 4f) *
-                      (1f + (source.GetEnchantmentLevel<RubyEnchantment>() * 0.1f) + source.Read<float>(DataFields.ResonantDamage)) *
-                      (1f + firer.attackIncreaseModifier));
+        this.Damage = (int)(source.Get_MinDamage() * (1f + firer.attackIncreaseModifier) / 4f);
         this.rotation = rotation;
         this.ignoreTravelGracePeriod.Value = true;
         this.ignoreMeleeAttacks.Value = true;

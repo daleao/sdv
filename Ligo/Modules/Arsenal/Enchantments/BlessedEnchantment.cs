@@ -3,8 +3,10 @@
 #region using directives
 
 using System.Xml.Serialization;
+using DaLion.Ligo.Modules.Arsenal.Events;
 using DaLion.Ligo.Modules.Arsenal.Projectiles;
 using DaLion.Shared.Enums;
+using DaLion.Shared.Extensions.Stardew;
 using Microsoft.Xna.Framework;
 using StardewValley.Tools;
 
@@ -36,6 +38,21 @@ public class BlessedEnchantment : BaseWeaponEnchantment
     public override bool ShouldBeDisplayed()
     {
         return false;
+    }
+
+    /// <inheritdoc />
+    protected override void _OnEquip(Farmer who)
+    {
+        base._OnEquip(who);
+        if (!who.Read<bool>(DataFields.Cursed))
+        {
+            return;
+        }
+
+        who.Write(DataFields.Cursed, null);
+        who.Write(DataFields.CursePoints, null);
+        ModEntry.Events.Disable<CurseUpdateTickedEvent>();
+        Log.D($"{who.Name}'s curse was lifted!");
     }
 
     /// <inheritdoc />

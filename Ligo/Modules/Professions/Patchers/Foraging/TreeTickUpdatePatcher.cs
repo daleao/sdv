@@ -61,7 +61,7 @@ internal sealed class TreeTickUpdatePatcher : HarmonyPatcher
         }
         catch (Exception ex)
         {
-            Log.E($"Failed while adding prestiged Lumberjack bonus wood.\nHelper returned {ex}");
+            Log.E($"Failed adding prestiged Lumberjack bonus wood.\nHelper returned {ex}");
             return null;
         }
 
@@ -88,7 +88,7 @@ internal sealed class TreeTickUpdatePatcher : HarmonyPatcher
         }
         catch (Exception ex)
         {
-            Log.E($"Failed while getting instructions for Arborist check.\nHelper returned {ex}");
+            Log.E($"Failed getting instructions for Arborist check.\nHelper returned {ex}");
             return null;
         }
 
@@ -139,7 +139,7 @@ internal sealed class TreeTickUpdatePatcher : HarmonyPatcher
         }
         catch (Exception ex)
         {
-            Log.E($"Failed while adding prestiged Arborist bonus hardwood.\nHelper returned {ex}");
+            Log.E($"Failed adding prestiged Arborist bonus hardwood.\nHelper returned {ex}");
             return null;
         }
 

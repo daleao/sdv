@@ -57,28 +57,32 @@ public interface ILigoApi
 
     /// <inheritdoc cref="ILigo.ITreasureHunt.IsActive"/>
     /// <param name="type">The type of treasure hunt.</param>
+    /// <param name="farmer">The <see cref="Farmer"/>.</param>
     /// <returns><see langword="true"/> if the specified <see cref="ILigo.ITreasureHunt"/> <paramref name="type"/> is currently active, otherwise <see langword="false"/>.</returns>
-    bool IsHuntActive(ILigo.TreasureHuntType type);
+    bool IsHuntActive(ILigo.TreasureHuntType type, Farmer? farmer = null);
 
     /// <inheritdoc cref="ILigo.ITreasureHunt.TryStart"/>
     /// <param name="location">The hunt location.</param>
     /// <param name="type">The type of treasure hunt.</param>
+    /// <param name="farmer">The <see cref="Farmer"/>.</param>
     /// <returns><see langword="true"/> if a hunt was started, otherwise <see langword="false"/>.</returns>
-    bool TryStartNewHunt(GameLocation location, ILigo.TreasureHuntType type);
+    bool TryStartNewHunt(GameLocation location, ILigo.TreasureHuntType type, Farmer? farmer = null);
 
     /// <inheritdoc cref="ILigo.ITreasureHunt.ForceStart"/>
     /// <param name="location">The hunt location.</param>
     /// <param name="target">The target tile.</param>
     /// <param name="type">The type of treasure hunt.</param>
-    void ForceStartNewHunt(GameLocation location, Vector2 target, ILigo.TreasureHuntType type);
+    /// <param name="farmer">The <see cref="Farmer"/>.</param>
+    void ForceStartNewHunt(GameLocation location, Vector2 target, ILigo.TreasureHuntType type, Farmer? farmer = null);
 
     /// <inheritdoc cref="ILigo.ITreasureHunt.Fail"/>
     /// <param name="type">The type of treasure hunt.</param>
+    /// <param name="farmer">The <see cref="Farmer"/>.</param>
     /// <returns>
     ///     <see langword="false"/> if the <see cref="ILigo.ITreasureHunt"/> instance was not active, otherwise
     ///     <see langword="true"/>.
     /// </returns>
-    bool InterruptActiveHunt(ILigo.TreasureHuntType type);
+    bool InterruptActiveHunt(ILigo.TreasureHuntType type, Farmer? farmer = null);
 
     /// <summary>Registers a new instance of an event raised when a <see cref="ILigo.ITreasureHunt"/> begins.</summary>
     /// <param name="callback">The delegate that will be called when the event is triggered.</param>

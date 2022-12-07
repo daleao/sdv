@@ -34,7 +34,7 @@ internal sealed class ArsenalGameLaunchedEvent : GameLaunchedEvent
         else
         {
             Log.W("Json Assets was not loaded. Features from the Arsenal module will be disabled.");
-            ModEntry.Config.Arsenal.AncientCrafting = false;
+            ModEntry.Config.Arsenal.DwarvishCrafting = false;
             ModEntry.Config.Arsenal.InfinityPlusOne = false;
             ModEntry.ModHelper.WriteConfig(ModEntry.Config);
         }

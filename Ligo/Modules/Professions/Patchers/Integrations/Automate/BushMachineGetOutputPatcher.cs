@@ -58,7 +58,7 @@ internal sealed class BushMachineGetOutputPatcher : HarmonyPatcher
         }
         catch (Exception ex)
         {
-            Log.E("LIGO Professions module failed while patching automated Berry Bush quality." +
+            Log.E("LIGO Professions module failed patching automated Berry Bush quality." +
                   "\n—-- Do NOT report this to Automate's author. ---" +
                   $"\nHelper returned {ex}");
             return null;

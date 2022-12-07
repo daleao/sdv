@@ -35,7 +35,7 @@ internal sealed class GameLocationDamageMonsterPatcher : HarmonyPatcher
 
     #region harmony patches
 
-    /// <summary>Guaranteed crit on underground Duggy from club smash attack + record knockback.</summary>
+    /// <summary>Guaranteed crit on underground Duggy from club smash attack + record knockback and crit + slingshot special stun.</summary>
     [HarmonyTranspiler]
     private static IEnumerable<CodeInstruction>? GameLocationDamageMonsterTranspiler(
         IEnumerable<CodeInstruction> instructions, ILGenerator generator, MethodBase original)

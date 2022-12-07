@@ -37,7 +37,7 @@ public sealed class Sfx : SmartEnum<Sfx>
     /// <summary>Initializes a new instance of the <see cref="Sfx"/> class.</summary>
     /// <param name="name">The sound effect name.</param>
     /// <param name="value">The sound effect enum index.</param>
-    public Sfx(string name, int value)
+    private Sfx(string name, int value)
         : base(name, value)
     {
         var path = Path.Combine(ModEntry.ModHelper.DirectoryPath, "assets", "sfx", name + ".wav");
@@ -52,8 +52,8 @@ public sealed class Sfx : SmartEnum<Sfx>
         {
             name = name, instanceLimit = 1, limitBehavior = CueDefinition.LimitBehavior.ReplaceOldest,
         };
-        cueDefinition.SetSound(soundEffect, Game1.audioEngine.GetCategoryIndex("Sound"));
 
+        cueDefinition.SetSound(soundEffect, Game1.audioEngine.GetCategoryIndex("Sound"));
         Game1.soundBank.AddCue(cueDefinition);
     }
 

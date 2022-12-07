@@ -3,7 +3,7 @@
 #region using directives
 
 using DaLion.Ligo.Modules.Arsenal.Enchantments;
-using DaLion.Shared.Extensions.Stardew;
+using DaLion.Ligo.Modules.Arsenal.VirtualProperties;
 using Microsoft.Xna.Framework;
 using StardewValley;
 using StardewValley.Monsters;
@@ -15,6 +15,8 @@ using StardewValley.Tools;
 /// <summary>A beam of energy fired by <see cref="MeleeWeapon"/>s with the <see cref="InfinityEnchantment"/>.</summary>
 internal sealed class InfinityProjectile : BasicProjectile
 {
+    public const int TileSheetIndex = 15;
+
     private static readonly Color[] InfinityColors =
     {
         new(255, 69, 182),
@@ -42,7 +44,7 @@ internal sealed class InfinityProjectile : BasicProjectile
         float rotation)
         : base(
             1,
-            Constants.InfinityBeamIndex,
+            TileSheetIndex,
             0,
             3,
             0f,
@@ -57,9 +59,7 @@ internal sealed class InfinityProjectile : BasicProjectile
             firer)
     {
         this.Firer = firer;
-        this.Damage = (int)(Math.Ceiling(source.minDamage.Value / 4f) *
-                      (1f + (source.GetEnchantmentLevel<RubyEnchantment>() * 0.1f) + source.Read<float>(DataFields.ResonantDamage)) *
-                      (1f + firer.attackIncreaseModifier));
+        this.Damage = (int)(source.Get_MinDamage() * (1f + firer.attackIncreaseModifier) / 4f);
         this.rotation = rotation;
         this.ignoreTravelGracePeriod.Value = true;
         this.ignoreMeleeAttacks.Value = true;
@@ -100,7 +100,7 @@ internal sealed class InfinityProjectile : BasicProjectile
     public override bool update(GameTime time, GameLocation location)
     {
         var result = base.update(time, location);
-        this._index = this._index++ % 5;
+        this._index = ++this._index % 5;
         this.color.Value = InfinityColors[this._index];
         return result;
     }

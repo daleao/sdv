@@ -39,5 +39,10 @@ internal sealed class SpaceCoreIntegration : BaseIntegration<ISpaceCoreApi>
         this.ModApi.RegisterSerializerType(typeof(CursedEnchantment));
         this.ModApi.RegisterSerializerType(typeof(GarnetEnchantment));
         this.ModApi.RegisterSerializerType(typeof(InfinityEnchantment));
+
+        this.ModApi.RegisterSerializerType(typeof(InsectEnchantment));
+        this.ModApi.RegisterSerializerType(typeof(LavaEnchantment));
+        this.ModApi.RegisterSerializerType(typeof(NeptuneEnchantment));
+        this.ModApi.RegisterSerializerType(typeof(ObsidianEnchantment));
     }
 }

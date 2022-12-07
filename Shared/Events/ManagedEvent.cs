@@ -27,6 +27,7 @@ internal abstract class ManagedEvent : IManagedEvent, IComparable<ManagedEvent>,
     }
 
     /// <inheritdoc />
+    /// <remarks>Overriding this property will prevent <see cref="Enable"/> and <see cref="Disable"/> from doing anything.</remarks>
     public virtual bool IsEnabled => this._enabled.Value || this._alwaysEnabled;
 
     /// <summary>Gets the <see cref="EventManager"/> instance that manages this event.</summary>

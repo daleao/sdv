@@ -51,7 +51,7 @@ internal sealed class UpgradeToolsCommand : ConsoleCommand
             case UpgradeLevel.Enchanted:
                 Log.W("To add enchantments please use the `add_enchantment` command instead.");
                 return;
-            case > UpgradeLevel.Iridium when !Integrations.IsMoonMisadventuresLoaded:
+            case > UpgradeLevel.Iridium when !Integrations.UsingMoodMisadventures:
                 Log.W("You must have `Moon Misadventures` mod installed to set this upgrade level.");
                 return;
         }
@@ -65,7 +65,7 @@ internal sealed class UpgradeToolsCommand : ConsoleCommand
         var result = $"\n\nUsage: {this.Handler.EntryCommand} {this.Triggers.FirstOrDefault()} <level>";
         result += "\n\nParameters:";
         result += "\n\t- <level>: one of 'copper', 'steel', 'gold', 'iridium'";
-        if (Integrations.IsMoonMisadventuresLoaded)
+        if (Integrations.UsingMoodMisadventures)
         {
             result += ", 'radioactive', 'mythicite'";
         }

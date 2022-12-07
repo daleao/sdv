@@ -2,7 +2,7 @@
 
 #region using directives
 
-using DaLion.Shared.Extensions.Stardew;
+using DaLion.Ligo.Modules.Rings.VirtualProperties;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
 using StardewValley.Objects;
@@ -52,7 +52,7 @@ internal sealed class RingOnEquipPatcher : HarmonyPatcher
                 }
 
                 // garnet ring to give +10% cdr
-                who.Increment(DataFields.CooldownReduction);
+                who.Increment_CooldownReduction();
                 return false; // don't run original logic
         }
     }

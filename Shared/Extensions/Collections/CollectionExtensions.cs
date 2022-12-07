@@ -4,7 +4,6 @@
 
 using System.Collections.Generic;
 using System.Linq;
-using StardewValley.Minigames;
 
 #endregion using directives
 
@@ -80,7 +79,7 @@ public static class CollectionExtensions
             return collection.Remove(toRemove);
         }
 
-        removed = default(T?);
+        removed = default;
         return false;
     }
 

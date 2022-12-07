@@ -40,7 +40,7 @@ internal sealed class FishingRodStartMinigameEndFunctionPatcher : HarmonyPatcher
         }
         catch (Exception ex)
         {
-            Log.E($"Failed while removing vanilla Pirate bonus treasure chance.\nHelper returned {ex}");
+            Log.E($"Failed removing vanilla Pirate bonus treasure chance.\nHelper returned {ex}");
             return null;
         }
 

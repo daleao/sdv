@@ -40,7 +40,7 @@ internal sealed class GameLocationOnStoneDestroyedPatcher : HarmonyPatcher
         }
         catch (Exception ex)
         {
-            Log.E($"Failed while removing vanilla Prospector double coal chance.\nHelper returned {ex}");
+            Log.E($"Failed removing vanilla Prospector double coal chance.\nHelper returned {ex}");
             return null;
         }
 

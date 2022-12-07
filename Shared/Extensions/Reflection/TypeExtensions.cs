@@ -3,6 +3,7 @@
 #region using directives
 
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using HarmonyLib;
@@ -49,6 +50,7 @@ public static class TypeExtensions
     /// <param name="type">The <see cref="Type"/>.</param>
     /// <returns>The corresponding <see cref="ConstructorInfo"/>, if found.</returns>
     /// <exception cref="MissingMethodException">If a constructor is not found.</exception>
+    [DebuggerStepThrough]
     public static ConstructorInfo RequireConstructor(this Type type)
     {
         return AccessTools.Constructor(type) ??
@@ -61,6 +63,7 @@ public static class TypeExtensions
     /// <param name="parameters">The method parameter types, or <c>null</c> if it's not overloaded.</param>
     /// <returns>The corresponding <see cref="ConstructorInfo"/>, if found.</returns>
     /// <exception cref="MissingMethodException">If a matching constructor is not found.</exception>
+    [DebuggerStepThrough]
     public static ConstructorInfo RequireConstructor(this Type type, params Type[]? parameters)
     {
         return AccessTools.Constructor(type, parameters) ??
@@ -73,6 +76,7 @@ public static class TypeExtensions
     /// <param name="parameterCount">The the number of parameters in the overload signature.</param>
     /// <returns>The first constructor that matches the specified parameter count.</returns>
     /// <remarks>Useful when there's no compile-time access to one or more parameter types.</remarks>
+    [DebuggerStepThrough]
     public static ConstructorInfo RequireConstructor(this Type type, int parameterCount)
     {
         return AccessTools.GetDeclaredConstructors(type).First(c => c.GetParameters().Length == parameterCount);
@@ -83,6 +87,7 @@ public static class TypeExtensions
     /// <param name="name">The method name.</param>
     /// <returns>The corresponding <see cref="MethodInfo"/>, if found.</returns>
     /// <exception cref="MissingMethodException">If a matching method is not found.</exception>
+    [DebuggerStepThrough]
     public static MethodInfo RequireMethod(this Type type, string name)
     {
         return AccessTools.Method(type, name) ??
@@ -96,6 +101,7 @@ public static class TypeExtensions
     /// <param name="parameters">The method parameter types, or <c>null</c> if it's not overloaded.</param>
     /// <returns>The corresponding <see cref="MethodInfo"/>, if found.</returns>
     /// <exception cref="MissingMethodException">If a matching method is not found.</exception>
+    [DebuggerStepThrough]
     public static MethodInfo RequireMethod(this Type type, string name, Type[]? parameters)
     {
         return AccessTools.Method(type, name, parameters) ??
@@ -108,6 +114,7 @@ public static class TypeExtensions
     /// <param name="name">The field name.</param>
     /// <returns>The corresponding <see cref="FieldInfo"/>, if found.</returns>
     /// <exception cref="MissingMethodException">If a matching field is not found.</exception>
+    [DebuggerStepThrough]
     public static FieldInfo RequireField(this Type type, string name)
     {
         return AccessTools.Field(type, name) ??
@@ -120,6 +127,7 @@ public static class TypeExtensions
     /// <param name="name">The property name.</param>
     /// <returns>The <see cref="MethodInfo"/> corresponding to the getter of the property, if found.</returns>
     /// <exception cref="MissingMethodException">If a matching property is not found.</exception>
+    [DebuggerStepThrough]
     public static MethodInfo RequirePropertyGetter(this Type type, string name)
     {
         return AccessTools.Property(type, name)?.GetGetMethod(true) ??
@@ -132,6 +140,7 @@ public static class TypeExtensions
     /// <param name="name">The property name.</param>
     /// <returns>The <see cref="MethodInfo"/> corresponding to the setter of the property, if found.</returns>
     /// <exception cref="MissingMethodException">If a matching property is not found.</exception>
+    [DebuggerStepThrough]
     public static MethodInfo RequirePropertySetter(this Type type, string name)
     {
         return AccessTools.Property(type, name)?.GetSetMethod(true) ??

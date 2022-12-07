@@ -1,4 +1,4 @@
-﻿namespace DaLion.Ligo.Modules.Arsenal.Patchers;
+﻿namespace DaLion.Ligo.Modules.Arsenal.Patchers.Crafting;
 
 #region using directives
 
@@ -6,10 +6,10 @@ using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
 using DaLion.Shared.Extensions.Reflection;
+using DaLion.Shared.Extensions.Stardew;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
 using Netcode;
-using Shared.Extensions.Stardew;
 using StardewValley.Tools;
 
 #endregion using directives
@@ -40,7 +40,7 @@ internal sealed class GameLocationBlacksmithPatcher : HarmonyPatcher
                     new CodeInstruction(OpCodes.Ldfld, typeof(Farmer).RequireField(nameof(Farmer.toolBeingUpgraded))),
                     new CodeInstruction(
                         OpCodes.Callvirt,
-                        typeof(NetFieldBase<Tool, NetRef<Tool>>).RequirePropertyGetter("Value")),
+                        typeof(NetFieldBase<Tool, NetRef<Tool>>).RequirePropertyGetter(nameof(NetFieldBase<Tool, NetRef<Tool>>.Value))),
                     new CodeInstruction(OpCodes.Brtrue))
                 .Advance(2)
                 .SetOpCode(OpCodes.Brtrue_S)
@@ -77,7 +77,8 @@ internal sealed class GameLocationBlacksmithPatcher : HarmonyPatcher
 
         if (HasUpgradeableToolsInInventory(Game1.player))
         {
-            responses.Add(new Response("Upgrade",
+            responses.Add(new Response(
+                "Upgrade",
                 Game1.content.LoadString("Strings\\Locations:Blacksmith_Clint_Upgrade")));
         }
 
@@ -88,13 +89,13 @@ internal sealed class GameLocationBlacksmithPatcher : HarmonyPatcher
                 Game1.content.LoadString("Strings\\Locations:Blacksmith_Clint_Geodes")));
         }
 
-        if (HasUnlockedForgeBlueprints(Game1.player))
+        if (ModEntry.Config.Arsenal.DwarvishCrafting && !string.IsNullOrEmpty(Game1.player.Read(DataFields.BlueprintsFound)))
         {
             responses.Add(new Response("Forge", ModEntry.i18n.Get("blacksmith.forge.option")));
         }
 
         responses.Add(new Response("Leave", Game1.content.LoadString("Strings\\Locations:Blacksmith_Clint_Leave")));
-        location.createQuestionDialogue("", responses.ToArray(), "Blacksmith");
+        location.createQuestionDialogue(string.Empty, responses.ToArray(), "Blacksmith");
     }
 
     private static bool HasUpgradeableToolsInInventory(Farmer farmer)
@@ -110,14 +111,6 @@ internal sealed class GameLocationBlacksmithPatcher : HarmonyPatcher
         return farmer.hasItemInInventory(535, 1) || farmer.hasItemInInventory(536, 1) ||
                farmer.hasItemInInventory(537, 1) || farmer.hasItemInInventory(749, 1) ||
                farmer.hasItemInInventory(275, 1) || farmer.hasItemInInventory(791, 1);
-    }
-
-    private static bool HasUnlockedForgeBlueprints(Farmer farmer)
-    {
-        return true;
-        return farmer.Read<bool>(DataFields.GotDwarfSwordBlueprint) || farmer.Read<bool>(DataFields.GotDragontoothCutlassBlueprint) ||
-               farmer.Read<bool>(DataFields.GotDwarfHammerBlueprint) || farmer.Read<bool>(DataFields.GotDragontoothClubBlueprint) ||
-               farmer.Read<bool>(DataFields.GotDwarfDaggerBlueprint) || farmer.Read<bool>(DataFields.GotDragontoothShivBlueprint);
     }
 
     #endregion injected subroutines

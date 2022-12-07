@@ -50,7 +50,7 @@ internal sealed class Game1DrawHudPatcher : HarmonyPatcher
         }
         catch (Exception ex)
         {
-            Log.E($"Failed while removing vanilla Tracker behavior.\nHelper returned {ex}");
+            Log.E($"Failed removing vanilla Tracker behavior.\nHelper returned {ex}");
             return null;
         }
 

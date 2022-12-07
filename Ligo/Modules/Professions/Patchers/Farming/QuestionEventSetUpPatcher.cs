@@ -58,7 +58,7 @@ internal sealed class QuestionEventSetUpPatcher : HarmonyPatcher
         }
         catch (Exception ex)
         {
-            Log.E($"Failed while adding Breeder bonus animal pregnancy chance.\nHelper returned {ex}");
+            Log.E($"Failed adding Breeder bonus animal pregnancy chance.\nHelper returned {ex}");
             return null;
         }
 

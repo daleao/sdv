@@ -5,7 +5,7 @@
 using System.Linq;
 using DaLion.Ligo.Modules.Arsenal.Extensions;
 using DaLion.Ligo.Modules.Rings.VirtualProperties;
-using DaLion.Shared.Extensions.Stardew;
+using DaLion.Shared.Extensions.Collections;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
 using StardewValley.Tools;
@@ -25,7 +25,7 @@ internal sealed class EmeraldEnchantmentUnapplyToPatcher : HarmonyPatcher
 
     /// <summary>Remove resonance with Emerald chord.</summary>
     [HarmonyPostfix]
-    private static void EmeraldEnchantmentUnapplyToPostfix(EmeraldEnchantment __instance, Item item)
+    private static void EmeraldEnchantmentUnapplyToPostfix(Item item)
     {
         var player = Game1.player;
         if (!ModEntry.Config.EnableArsenal || item is not (Tool tool and (MeleeWeapon or Slingshot)) || tool != player.CurrentTool)
@@ -33,12 +33,16 @@ internal sealed class EmeraldEnchantmentUnapplyToPatcher : HarmonyPatcher
             return;
         }
 
-        var multiplier = player.Get_ResonatingChords().Sum(c => c.Root == Gemstone.Emerald ? -0.5f : 0f);
-        tool.Increment(DataFields.ResonantSpeed, __instance.GetLevel() * multiplier);
-        if (ModEntry.Config.EnableArsenal)
+        var chord = player.Get_ResonatingChords()
+            .Where(c => c.Root == Gemstone.Emerald)
+            .ArgMax(c => c.Amplitude);
+        if (chord is null || tool.Get_ResonatingChord<EmeraldEnchantment>() != chord)
         {
-            tool.Invalidate();
+            return;
         }
+
+        tool.UnsetResonatingChord<EmeraldEnchantment>();
+        tool.Invalidate();
     }
 
     #endregion harmony patches

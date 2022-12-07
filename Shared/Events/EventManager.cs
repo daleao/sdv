@@ -395,13 +395,13 @@ internal sealed class EventManager
             }
 #endif
 
-            var deprecatedAttr = e.GetCustomAttribute<DeprecatedAttribute>();
+            var deprecatedAttr = e.GetCustomAttribute<ImplicitIgnoreAttribute>();
             if (deprecatedAttr is not null)
             {
                 continue;
             }
 
-            var integrationAttr = e.GetCustomAttribute<IntegrationAttribute>();
+            var integrationAttr = e.GetCustomAttribute<RequiresModAttribute>();
             if (integrationAttr is not null)
             {
                 if (!this._modRegistry.IsLoaded(integrationAttr.UniqueId))
@@ -476,14 +476,14 @@ internal sealed class EventManager
         }
 #endif
 
-        var deprecatedAttr = type.GetCustomAttribute<DeprecatedAttribute>();
+        var deprecatedAttr = type.GetCustomAttribute<ImplicitIgnoreAttribute>();
         if (deprecatedAttr is not null)
         {
             Log.D($"[EventManager]: {type.Name} is deprecated.");
             return null;
         }
 
-        var integrationAttr = type.GetCustomAttribute<IntegrationAttribute>();
+        var integrationAttr = type.GetCustomAttribute<RequiresModAttribute>();
         if (integrationAttr is not null)
         {
             if (!this._modRegistry.IsLoaded(integrationAttr.UniqueId))

@@ -2,8 +2,8 @@
 
 #region using directives
 
-using System.Collections.Generic;
 using System.Globalization;
+using DaLion.Shared.Content;
 using DaLion.Shared.Events;
 using StardewModdingAPI.Events;
 
@@ -20,24 +20,12 @@ internal sealed class ToolAssetRequestedEvent : AssetRequestedEvent
     private const int CritChance = 12;
     private const int CritPower = 13;
 
-    private static readonly Dictionary<string, (Action<IAssetData> Callback, AssetEditPriority Priority)> AssetEditors =
-        new();
-
     /// <summary>Initializes a new instance of the <see cref="ToolAssetRequestedEvent"/> class.</summary>
     /// <param name="manager">The <see cref="EventManager"/> instance that manages this event.</param>
     internal ToolAssetRequestedEvent(EventManager manager)
         : base(manager)
     {
-        AssetEditors["Data/weapons"] = (Callback: EditToolsData, Priority: AssetEditPriority.Late);
-    }
-
-    /// <inheritdoc />
-    protected override void OnAssetRequestedImpl(object? sender, AssetRequestedEventArgs e)
-    {
-        if (AssetEditors.TryGetValue(e.NameWithoutLocale.Name, out var editor))
-        {
-            e.Edit(editor.Callback, editor.Priority);
-        }
+        this.Edit("Data/weapons", new AssetEditor(EditToolsData, AssetEditPriority.Late));
     }
 
     #region editor callbacks

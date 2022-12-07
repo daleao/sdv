@@ -33,7 +33,7 @@ internal sealed class ForgeMenuUpdatePatcher : HarmonyPatcher
     {
         var helper = new ILHelper(original, instructions);
 
-        // Injected: if (ModEntry.Config.Arsenal.Slingshots.TheOneInfinityBand && ring.ParentSheetIndex == Globals.InfinityBandIndex)
+        // Injected: if (ModEntry.Config.Arsenal.Slingshots.TheOneInfinityBand && ring.ParentSheetIndex == Globals.InfinityBandIndex.Value)
         //               UnforgeInfinityBand(ring);
         //           else ...
         // After: if (leftIngredientSpot.item is CombinedRing ring)
@@ -61,6 +61,7 @@ internal sealed class ForgeMenuUpdatePatcher : HarmonyPatcher
                         OpCodes.Callvirt,
                         typeof(Item).RequirePropertyGetter(nameof(Item.ParentSheetIndex))),
                     new CodeInstruction(OpCodes.Call, typeof(Globals).RequirePropertyGetter(nameof(Globals.InfinityBandIndex))),
+                    new CodeInstruction(OpCodes.Call, typeof(int?).RequirePropertyGetter(nameof(Nullable<int>.Value))),
                     new CodeInstruction(OpCodes.Bne_Un_S, vanillaUnforge),
                     new CodeInstruction(OpCodes.Ldarg_0),
                     new CodeInstruction(OpCodes.Ldloc_S, helper.Locals[14]),

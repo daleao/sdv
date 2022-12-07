@@ -54,9 +54,43 @@
 
 ## Overview
 
-What began as a simple weapon rebalance has become a huge overhaul of weapon mechanics, slingshot mechanics and combat itself. At last, the final module of the original Immersive Suite has arrived.
+What began as a simple weapon rebalance has become a huge overhaul of weapon mechanics, slingshot mechanics and the entire combat experience. At last, the final module of the original Immersive Suite has arrived.
 
-Please note that existing weapon will not be immediately be affected by all changes provided by this module if it is enabled mid-save. Please use [CJB Item Spawner][mod:cjb-spawner] or similar to delete and respawn all owned melee weapons after enabling or disabling this module.
+TL;DR:
+
+- Completely rebalances all vanilla weapons and gives looted weapons randomized stats scaled to the player's game progress, thus making looted weapons actually competitive throughout the whole game.
+- Additionally removes weapons from mine chest rewards, encouraging the players to work for better weapons by either farming monsters or purchase them from Marlon.
+- Furthermore, adjusts Marlon's weapon stock, removing the ability to purchase Galaxy Weapons. If SVE is installed, the Galaxy introduction event will be automatically adjusted.
+
+- Reintroducecs Stabbing Swords, the removed fourth weapon type, to the game. Their special move is a stabbing forwards lunge.
+- Introduces weapon combos, which limit the spammy nature of weapons and greatly improving the balance between each of the weapon types. 
+
+- Improves combat controls for mouse & keyboard, always facing the mouse cursor before swinging a melee weapon.
+- Reworks the Defense stat, reducing damage multiplicatively rather than linearly, which makes a single defense point a valuable stat all throughout the game.
+- Reduces overall weapon knockback, but allows knocked-back enemies to take damage when they collide with walls or obstacles.
+
+- Removes the travel grace period of slingshot projectiles, allowing the player to hit enemies in close range.
+- Allows firing radioactive ore, and additionally tweaks the damage modifiers of certain projectiles to be more immersive.
+- Allows slingshots to deal critical damage, and reduces the base damage multiplier of higher slingshots to compensate.
+- Introduces a new special move for slingshots, in the form of a melee stunning smack attack.
+- Allows slingshots to be improved with gemstones and enchantments at the Forge.
+
+- Completely reworks all weapon enchantments with all-new, more interesting enchantments, and gives slingshots a unique set of appropriate slingshot enchantments.
+
+- Adds an Iridium Bar requirement for obtaining the Galaxy Sword, requiring the player to delve into the Skull Caverns even they received a lucky early Prismatic Shard.
+- Additionally allows all Galaxy weapons, slingshot included, to be obtained at the Three Pillars, each requiring an increasing stack of Prismatic Shards. The obtained weapon is determined by whichever weapon type is positioned earliest in the player's inventory (e.g., place a hammer at position 1 to receive the Galaxy Hammer).
+
+- Removes the Rusty Sword from the game, replacing it with the Wooden Blade.
+- Allows Dwarven and Dragontooth weapons to be immersively forged by Clint, and removes them from the Volcano chest rewards list.
+- Reworks the Dark Sword and reintroduces the removed Holy Blade, along with a corresponding questline.
+- Delays aquisition of Galaxy and Infinity weapons by introducing immersive new conditions, with the goal of making these weapons feel truly legendary.
+- Introduces an Infinity version for the Galaxy Slingshot.
+
+- Adds configurable sliders for monster damage, health and defense.
+- Allows players to fire snowballs by firing an empty slingshot when standing on a snowy tile.
+
+
+There may be other features I'm forgetting to list. All these can be toggled on or off, but many are grouped under the same config setting, so not all features can be mixed and matched. For more detailed explanations and justifications for all these features, continue reading below.
 
 ## Melee Weapons Rework
 
@@ -82,7 +116,7 @@ Note that daggers, unlike the other two weapon types, have single-frame animatio
 
 ### Knockback Mechanics
 
-Knocked-back enemies will now take damage porportional to the knockback stat when colliding with a wall or obstacle. This makes knockback a viable offensive stat in addition to its defensive value. This also means that positioning is now an important strategic combat element. The excessive knockback of vanilla weapons has also been nerfed by 25% to as much as 33% across the board.
+Knocked-back enemies will now take damage porportional to the knockback stat when colliding with a wall or obstacle. This makes knockback a viable offensive stat in addition to its defensive value. This also means that positioning is now an actual strategic combat element. The excessive knockback of vanilla weapons has been nerfed by between 25% to as much as 33% across the board.
 
 ### Defense Mechanics
 
@@ -120,7 +154,15 @@ I wrestled with this idea for a long time, but ultimately decided that a weapon 
 3. To add more viable best-in-slot alternative which are not immediately overshadowed by the Infinity Blade, but at the same time maintaining the latter's "legendary" status:
     - **Dragonbone** weapons are the sharpest and most-damaging weapons in the game, even above Infinity weapons.
     - **Dwarven** weapons are marginally weaker, but heavier, wider and more defensive.
-    - **Infinity** weapons have comparable damage. They are otherwise unremarkable stat-wise, but offer [other unique bonuses, if you are willing to put in some work for them](#infinity-1-weapons).
+    - **Infinity** weapons have comparable damage. They are otherwise unremarkable stat-wise, but offer [other unique bonuses, if you are willing to put in the work for them](#infinity-1-weapons).
+
+In addition to reworked base stats, two copies of the same weapon will not longer be identical; as is standard among many RPGs, looted weapons now receive randomized stats, determined when dropped and scaled up to the player's deepest mine progression. This means that players can always loot stronger weapons, and no weapon is ever trivialized. Unique or legendary weapons retain fixed stats.
+
+Finally, in order to ensure the desired experience, weapons have been removed from mine chest rewards. Chests will offer valuable loot, but players must now work for better weapons, either from farming monster drops or purchasing them from Marlon. Keep in mind that purchased wepons also have fixed stats, and are generally significantly weaker than dropped variants. Certain special weapons can now only be obtained as monster drops.
+
+### Weapon Textures
+
+As a bonus, this module offers a simple makeover for some weapons. The new designs are true to vanilla, seeking to only make them more realistic (i.e., daggers that actually look like daggers rather than small swords) or better fitting of their reassigned weapon type or lore. These textures will always be overwritten by Content Patcher weapon retextures.
 
 ## Slingshots Rework
 
@@ -134,15 +176,18 @@ Slingshots can score critical hits! Think of them as headshots. It seems absurd 
 
 Slingshots receive their own special move! This move will perform a melee smack attack that stuns enemies for 2 seconds. This allows the player to react to enemies in close range without switching weapons, and quickly reposition to continue firing from safety. Press the action button to trigger this move.
 
-### Forge Mechanics
+### Forge Mechanics & Infinity Slingshot
 
 Slingshots can be enchanted with gemstone forges as well as Prismatic Shards! They receive their own unique enchantments, distinct from melee weapons. For more information keep reading onto the [Enchantments](#enchantments) section.
+
+The Galaxy Slingshot can likewise be enchanted with Galaxy Soul, being upgradeable to Infinity Slinsghot after 3 enchantments.
 
 ### Damage Modifiers
 
 In order to accomodate the new mechanics without completely breaking slingshots, the damage modifiers have been nerfed. This is meant to encourage more strategic character building, instead of mindless one-shotting enemies.
 - Master Slingshot: Ammo damage x2 >> x1.5
 - Galaxy Slingshot: Ammo damage x4 >> x2
+- (NEW) Infinity Slingshot: x2.5
 
 Some ammunitions have also been tweaked, either for immersion or balance:
 - Coal: 15 damage >> 2 damage
@@ -207,14 +252,19 @@ This popular feature is built-in to this module; when playing with mouse and key
 
 According to [TV Tropes Wiki](https://tvtropes.org/pmwiki/pmwiki.php/Main/InfinityPlusOneSword), an Infinity +1 sword is "not only the most powerful of its kind ... , but its power is matched by how hard it is to acquire". If you were ever bothered by how easy it was to obtain the Galaxy and Infinity weapons in vanilla (and immediately trivialize all the rest), this module has got your back, by making these weapons truly legendary.
 
-To you obtain your first Galaxy weapon, as in vanilla you must first unlock the desert, acquire a Prismatic Shard and offer it to the three magic pillars. Unlike vanilla, however, the weapon will not materialize out of thin air, but will be shaped out of 10 Iridium Bars, which must be in your inventory. This will prevent a lucky Prismatic Shard drop from the Mines or a Fishing Chest from instantly rewarding one of the strongest weapons in the game before the player has even set foot in the Skull Caverns. Now, some venturing into the Skull Caverns is required. In addition, the awarded weapon will not longer necessarily be a sword, but will be based on the player's most-used weapon type up to that point – this includes the Galaxy Slingshot. All subsequent weapon types continue to be sold by Marlon at the Adventurer's Guild.
+To obtain your first Galaxy weapon, as in vanilla you must first unlock the desert, acquire a Prismatic Shard and offer it to the Three Sand Sisters. Unlike vanilla, however, the weapon will not materialize out of thin air, but will be shaped out of a configurable amount of Iridium Bars (10 by default), which must be in your inventory. This will prevent a lucky Prismatic Shard drop from the Mines or a Fishing Chest from instantly rewarding one of the strongest weapons in the game before the player has even set foot in the Skull Caverns. Now, some venturing into the Skull Caverns is required.
 
-/// explain Infinity part
+Subsequent Galaxy weapons will no longer be available for purchase at the Adventurer's Guild; one full set, including the slingshot, can now be acquired at the desert, but each weapon will require a larger stack of Prismatic Shards. The order in which the weapons are obtained can be influenced by placing the desired weapon type at the top of the top of the backpack.
 
-In return for all that extra work, the Infinity weapons receive some extra perks:
-    
+Upgrading to Infinity is now a much more involved task, requiring the player to prove they have a virtuous and heroic soul. Doing so will require completion of a new questline revolving around the all-new Blade of Ruin...
+
+In return for all that extra work, the Infinity weapons receive some extra perks:    
 1. +1 gemstone slot (4 total). Keeping in mind that each gemstone can resonate with equipped [Infinity Bands](../Rings).
-2. While at full health, every swing will fire a mid-range energy beam. 
+2. While at full health, every swing will fire a mid-range energy beam.
+
+### Dwarven Weapon Recipes
+
+The Dwarven and Dragontooth weapons are no longer simple chest rewards. To acquire them, you must now complete a small questline which will have you gathering ancient Dwarvish blueprints. Take them to Clint, along with the corresponding materials and he will create these masterwork weapons for you. Requires the Dwarvish Translation Guide and at least 6 hearts with Clint.
 
 ### Woody Replaces Rusty
 

@@ -44,7 +44,7 @@ public sealed class Config
 
     /// <summary>Gets increases the damage dealt by all monsters.</summary>
     [JsonProperty]
-    public float MonsterDamageMultiplier { get; internal set; } = 1.2f;
+    public float MonsterDamageMultiplier { get; internal set; } = 1f;
 
     /// <summary>Gets increases the resistance of all monsters.</summary>
     [JsonProperty]
@@ -60,9 +60,13 @@ public sealed class Config
 
     /// <summary>Gets a value indicating whether replace the starting Rusty Sword with a Wooden Blade.</summary>
     [JsonProperty]
-    public bool AncientCrafting { get; internal set; } = true;
+    public bool DwarvishCrafting { get; internal set; } = true;
 
     /// <summary>Gets a value indicating whether replace lame Galaxy and Infinity weapons with something truly legendary.</summary>
     [JsonProperty]
     public bool InfinityPlusOne { get; internal set; } = true;
+
+    /// <summary>Gets a value indicating the number of Iridium Bars required to obtain a Galaxy weapon.</summary>
+    [JsonProperty]
+    public int IridiumBarsRequiredForGalaxyArsenal { get; internal set; } = 10;
 }

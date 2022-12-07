@@ -60,11 +60,5 @@ internal sealed class ProfessionGameLaunchedEvent : GameLaunchedEvent
         {
             new Integrations.CustomOreNodesIntegration(registry).Register();
         }
-
-        // add SVE integration
-        if (registry.IsLoaded("FlashShifter.StardewValleyExpandedCP"))
-        {
-            Ligo.Integrations.SveConfig = ModEntry.ModHelper.ReadContentPackConfig("FlashShifter.StardewValleyExpandedCP");
-        }
     }
 }

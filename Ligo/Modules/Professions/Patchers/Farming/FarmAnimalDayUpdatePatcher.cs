@@ -94,7 +94,7 @@ internal sealed class FarmAnimalDayUpdatePatcher : HarmonyPatcher
         }
         catch (Exception ex)
         {
-            Log.E($"Failed while patching modded Producer produce frequency.\nHelper returned {ex}");
+            Log.E($"Failed patching modded Producer produce frequency.\nHelper returned {ex}");
             return null;
         }
 
@@ -119,7 +119,7 @@ internal sealed class FarmAnimalDayUpdatePatcher : HarmonyPatcher
         catch (Exception ex)
         {
             Log.E(
-                $"Failed while removing vanilla Coopmaster + Shepherd produce quality bonuses.\nHelper returned {ex}");
+                $"Failed removing vanilla Coopmaster + Shepherd produce quality bonuses.\nHelper returned {ex}");
             return null;
         }
 

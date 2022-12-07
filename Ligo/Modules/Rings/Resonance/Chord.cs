@@ -5,6 +5,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using DaLion.Ligo.Modules.Rings.VirtualProperties;
+using DaLion.Shared.Exceptions;
 using DaLion.Shared.Extensions;
 using DaLion.Shared.Extensions.Collections;
 using Microsoft.Xna.Framework;
@@ -244,70 +245,67 @@ public sealed class Chord : IChord
             var numbers = group.Select(i => i.Number).ToHashSet();
             group.ForEach(i =>
             {
-                // the perfect intervals
-                if (i.Number == IntervalNumber.Fifth)
+                switch (i.Number)
                 {
-                    this.ResonanceByGemstone[group.Key] += 1d / 2d;
-                    return;
-                }
+                    case IntervalNumber.Unison:
+                    case IntervalNumber.Octave:
+                        return;
+                    // the perfect intervals
+                    case IntervalNumber.Fifth:
+                        this.ResonanceByGemstone[group.Key] += 1d / 2d;
+                        return;
+                    case IntervalNumber.Fourth:
+                        this.ResonanceByGemstone[group.Key] += 1d / 3d;
+                        return;
 
-                if (i.Number == IntervalNumber.Fourth)
-                {
-                    this.ResonanceByGemstone[group.Key] += 1d / 3d;
-                    return;
-                }
-
-                // the consonant intervals
-                if (i.Number == IntervalNumber.Third)
-                {
-                    if (this.Root is null || group.Key == this.Root)
+                    // the consonant intervals
+                    case IntervalNumber.Third:
                     {
-                        this.ResonanceByGemstone[group.Key] += 1d / 5d;
-                        if (this.Root is not null)
+                        if (this.Root is null || group.Key == this.Root)
                         {
-                            this._magnetism += 24;
+                            this.ResonanceByGemstone[group.Key] += 1d / 5d;
+                            if (this.Root is not null)
+                            {
+                                this._magnetism += 24;
+                            }
                         }
-                    }
-                    else
-                    {
-                        this.ResonanceByGemstone[group.Key] += 1d / 6d;
-                    }
+                        else
+                        {
+                            this.ResonanceByGemstone[group.Key] += 1d / 6d;
+                        }
 
-                    return;
-                }
-
-                if (i.Number == IntervalNumber.Sixth)
-                {
-                    if (this.Root is null || group.Key == this.Root)
-                    {
-                        this.ResonanceByGemstone[group.Key] += 1d / 5d;
-                    }
-                    else
-                    {
-                        this.ResonanceByGemstone[group.Key] += 1d / 6d;
+                        return;
                     }
 
-                    return;
-                }
-
-                // the dissonant intervals
-                if (i.Number == IntervalNumber.Second)
-                {
-                    this.ResonanceByGemstone[group.Key] -= 1d / 8d;
-                    return;
-                }
-
-                if (i.Number == IntervalNumber.Seventh)
-                {
-                    if (numbers.Contains(IntervalNumber.Third) && numbers.Contains(IntervalNumber.Fifth))
+                    case IntervalNumber.Sixth:
                     {
+                        if (this.Root is null || group.Key == this.Root)
+                        {
+                            this.ResonanceByGemstone[group.Key] += 1d / 5d;
+                        }
+                        else
+                        {
+                            this.ResonanceByGemstone[group.Key] += 1d / 6d;
+                        }
+
+                        return;
+                    }
+
+                    // the dissonant intervals
+                    case IntervalNumber.Second:
+                        this.ResonanceByGemstone[group.Key] -= 1d / 8d;
+                        return;
+                    case IntervalNumber.Seventh when numbers.Contains(IntervalNumber.Third) && numbers.Contains(IntervalNumber.Fifth):
                         this.ResonanceByGemstone[group.Key] += 1 / 8d;
                         this._magnetism += 24;
-                    }
-                    else
-                    {
+                        return;
+                    case IntervalNumber.Seventh:
                         this.ResonanceByGemstone[group.Key] -= 1d / 8d;
-                    }
+                        return;
+
+                    default:
+                        ThrowHelperExtensions.ThrowUnexpectedEnumValueException(i.Number);
+                        return;
                 }
             });
         });

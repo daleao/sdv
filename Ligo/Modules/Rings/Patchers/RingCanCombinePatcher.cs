@@ -32,14 +32,15 @@ internal sealed class RingCanCombinePatcher : HarmonyPatcher
         }
 
         if (__instance.ParentSheetIndex == Constants.IridiumBandIndex ||
-            ring.ParentSheetIndex == Constants.IridiumBandIndex)
+            ring.ParentSheetIndex == Constants.IridiumBandIndex ||
+            ring.ParentSheetIndex == Globals.InfinityBandIndex)
         {
             return false; // don't run original logic
         }
 
         if (__instance.ParentSheetIndex != Globals.InfinityBandIndex)
         {
-            return ring.ParentSheetIndex != Globals.InfinityBandIndex;
+            return true; // run original logic
         }
 
         __result = ring.IsGemRing() &&

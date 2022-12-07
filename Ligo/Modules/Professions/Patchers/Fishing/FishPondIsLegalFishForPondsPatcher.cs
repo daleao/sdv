@@ -50,7 +50,7 @@ internal sealed class FishPondIsLegalFishForPondsPatcher : HarmonyPatcher
         }
         catch (Exception ex)
         {
-            Log.E($"Failed while adding prestiged Aquarist permission to raise legendary fish.\nHelper returned {ex}");
+            Log.E($"Failed adding prestiged Aquarist permission to raise legendary fish.\nHelper returned {ex}");
             return null;
         }
 

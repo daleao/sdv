@@ -1,4 +1,4 @@
-﻿namespace DaLion.Ligo.Modules.Arsenal.Patchers;
+﻿namespace DaLion.Ligo.Modules.Arsenal.Patchers.Integrations;
 
 #region using directives
 
@@ -29,7 +29,7 @@ internal sealed class NewForgeMenuSpendRightItemPatcher : HarmonyPatcher
     {
         try
         {
-            return __instance.rightIngredientSpot.item?.ParentSheetIndex != Globals.HeroSoulindex;
+            return __instance.rightIngredientSpot.item?.ParentSheetIndex != Globals.HeroSoulIndex;
         }
         catch (Exception ex)
         {

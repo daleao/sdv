@@ -27,7 +27,7 @@ internal sealed class Reflector
     /// <typeparam name="TField">The type of the field.</typeparam>
     /// <param name="instance">The instance which has the field.</param>
     /// <param name="name">The field name.</param>
-    /// <returns>Returns the field getter delegate.</returns>
+    /// <returns>A delegate for getting the field's value.</returns>
     public Func<TInstance, TField> GetUnboundFieldGetter<TInstance, TField>(object instance, string name)
     {
         var type = instance.GetType();
@@ -43,7 +43,7 @@ internal sealed class Reflector
     /// <typeparam name="TField">The type of the field.</typeparam>
     /// <param name="type">The type which declares the field.</param>
     /// <param name="name">The field name.</param>
-    /// <returns>Returns the field getter delegate.</returns>
+    /// <returns>A delegate for getting the field's value.</returns>
     public Func<TField> GetStaticFieldGetter<TField>(Type type, string name)
     {
         return this.GetCachedDelegate(
@@ -58,7 +58,7 @@ internal sealed class Reflector
     /// <typeparam name="TField">The type of the field.</typeparam>
     /// <param name="typeName">The name of the type which declares the field.</param>
     /// <param name="fieldName">The field name.</param>
-    /// <returns>Returns the field getter delegate.</returns>
+    /// <returns>A delegate for getting the field's value.</returns>
     public Func<TField> GetStaticFieldGetter<TField>(string typeName, string fieldName)
     {
         var type = this._typeCache.GetOrSet(typeName, typeName.ToType);
@@ -70,7 +70,7 @@ internal sealed class Reflector
     /// <typeparam name="TField">The type of the field.</typeparam>
     /// <param name="instance">The instance which has the field.</param>
     /// <param name="name">The field name.</param>
-    /// <returns>Returns the field setter delegate.</returns>
+    /// <returns>A delegate for setting the field's value.</returns>
     public Action<TInstance, TField> GetUnboundFieldSetter<TInstance, TField>(object instance, string name)
     {
         var type = instance.GetType();
@@ -86,7 +86,7 @@ internal sealed class Reflector
     /// <typeparam name="TField">The type that will be returned by the delegate.</typeparam>
     /// <param name="type">The type which declares the field.</param>
     /// <param name="name">The field name.</param>
-    /// <returns>Returns the field setter delegate.</returns>
+    /// <returns>A delegate for setting the field's value.</returns>
     public Action<TField> GetStaticFieldSetter<TField>(Type type, string name)
     {
         return this.GetCachedDelegate(
@@ -101,7 +101,7 @@ internal sealed class Reflector
     /// <typeparam name="TField">The type that will be returned by the delegate.</typeparam>
     /// <param name="typeName">The name of the type which declares the field.</param>
     /// <param name="fieldName">The field name.</param>
-    /// <returns>Returns the field setter delegate.</returns>
+    /// <returns>A delegate for setting the field's value.</returns>
     public Action<TField> GetStaticFieldSetter<TField>(string typeName, string fieldName)
     {
         var type = this._typeCache.GetOrSet(typeName, typeName.ToType);
@@ -117,7 +117,7 @@ internal sealed class Reflector
     /// <typeparam name="TProperty">The type of the property.</typeparam>
     /// <param name="instance">The instance which has the property.</param>
     /// <param name="name">The property name.</param>
-    /// <returns>Returns the property getter delegate.</returns>
+    /// <returns>A delegate to the property getter.</returns>
     public Func<TInstance, TProperty> GetUnboundPropertyGetter<TInstance, TProperty>(object instance, string name)
     {
         var type = instance.GetType();
@@ -133,7 +133,7 @@ internal sealed class Reflector
     /// <typeparam name="TProperty">The type of the property.</typeparam>
     /// <param name="type">The type which declares the property.</param>
     /// <param name="name">The property name.</param>
-    /// <returns>Returns the property getter delegate.</returns>
+    /// <returns>A delegate to the property getter.</returns>
     public Func<TProperty> GetStaticPropertyGetter<TProperty>(Type type, string name)
     {
         return this.GetCachedDelegate(
@@ -148,7 +148,7 @@ internal sealed class Reflector
     /// <typeparam name="TProperty">The type of the property.</typeparam>
     /// <param name="typeName">The name of the type which declares the property.</param>
     /// <param name="propertyName">The property name.</param>
-    /// <returns>Returns the property getter delegate.</returns>
+    /// <returns>A delegate to the property getter.</returns>
     public Func<TProperty> GetStaticPropertyGetter<TProperty>(string typeName, string propertyName)
     {
         var type = this._typeCache.GetOrSet(typeName, typeName.ToType);
@@ -160,7 +160,7 @@ internal sealed class Reflector
     /// <typeparam name="TProperty">The type of the property.</typeparam>
     /// <param name="instance">The instance which has the property.</param>
     /// <param name="name">The property name.</param>
-    /// <returns>Returns the property setter delegate.</returns>
+    /// <returns>A delegate to the property setter.</returns>
     public Action<TInstance, TProperty> GetUnboundPropertySetter<TInstance, TProperty>(object instance, string name)
     {
         var type = instance.GetType();
@@ -176,7 +176,7 @@ internal sealed class Reflector
     /// <typeparam name="TProperty">The type of the property.</typeparam>
     /// <param name="type">The type which declares the property.</param>
     /// <param name="name">The property name.</param>
-    /// <returns>Returns the property setter delegate.</returns>
+    /// <returns>A delegate to the property setter.</returns>
     public Action<TProperty> GetStaticPropertySetter<TProperty>(Type type, string name)
     {
         return this.GetCachedDelegate(
@@ -191,7 +191,7 @@ internal sealed class Reflector
     /// <typeparam name="TProperty">The type of the property.</typeparam>
     /// <param name="typeName">The name of the type which declares the property.</param>
     /// <param name="propertyName">The property name.</param>
-    /// <returns>Returns the property setter delegate.</returns>
+    /// <returns>A delegate to the property setter.</returns>
     public Action<TProperty> GetStaticPropertySetter<TProperty>(string typeName, string propertyName)
     {
         var type = this._typeCache.GetOrSet(typeName, typeName.ToType);
@@ -208,7 +208,7 @@ internal sealed class Reflector
     ///     instance type as the first parameter.</typeparam>
     /// <param name="instance">The instance which has the method.</param>
     /// <param name="name">The method name.</param>
-    /// <returns>Returns the method delegate.</returns>
+    /// <returns>A delegate to the method.</returns>
     public TDelegate GetUnboundMethodDelegate<TDelegate>(object instance, string name)
         where TDelegate : Delegate
     {
@@ -225,7 +225,7 @@ internal sealed class Reflector
     /// <typeparam name="TDelegate">A delegate type which mirrors the desired method signature.</typeparam>
     /// <param name="type">The type which declares the method.</param>
     /// <param name="name">The method name.</param>
-    /// <returns>Returns the method delegate.</returns>
+    /// <returns>A delegate to the method.</returns>
     public TDelegate GetStaticMethodDelegate<TDelegate>(Type type, string name)
         where TDelegate : Delegate
     {
@@ -241,7 +241,7 @@ internal sealed class Reflector
     /// <typeparam name="TDelegate">A delegate type which mirrors the desired method signature.</typeparam>
     /// <param name="typeName">The name of the type which declares the method.</param>
     /// <param name="methodName">The method name.</param>
-    /// <returns>Returns the method delegate.</returns>
+    /// <returns>A delegate to the method.</returns>
     public TDelegate GetStaticMethodDelegate<TDelegate>(string typeName, string methodName)
         where TDelegate : Delegate
     {

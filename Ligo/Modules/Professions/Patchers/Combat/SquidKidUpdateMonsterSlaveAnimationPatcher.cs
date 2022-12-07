@@ -61,7 +61,7 @@ internal sealed class SquidKidUpdateMonsterSlaveAnimationPatcher : HarmonyPatche
         }
         catch (Exception ex)
         {
-            Log.E($"Failed while patching Squid Kid eye-stalking hidden Poachers.\nHelper returned {ex}");
+            Log.E($"Failed patching Squid Kid eye-stalking hidden Poachers.\nHelper returned {ex}");
             return null;
         }
 

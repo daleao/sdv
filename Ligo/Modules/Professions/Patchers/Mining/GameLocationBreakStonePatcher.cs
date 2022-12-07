@@ -47,7 +47,7 @@ internal sealed class GameLocationBreakStonePatcher : HarmonyPatcher
         }
         catch (Exception ex)
         {
-            Log.E($"Failed while adding prestiged Miner extra ores.\nHelper returned {ex}");
+            Log.E($"Failed adding prestiged Miner extra ores.\nHelper returned {ex}");
             return null;
         }
 
@@ -68,7 +68,7 @@ internal sealed class GameLocationBreakStonePatcher : HarmonyPatcher
         }
         catch (Exception ex)
         {
-            Log.E($"Failed while removing vanilla Geologist paired gems.\nHelper returned {ex}");
+            Log.E($"Failed removing vanilla Geologist paired gems.\nHelper returned {ex}");
             return null;
         }
 
@@ -85,7 +85,7 @@ internal sealed class GameLocationBreakStonePatcher : HarmonyPatcher
         }
         catch (Exception ex)
         {
-            Log.E($"Failed while removing vanilla Prospector double coal chance.\nHelper returned {ex}");
+            Log.E($"Failed removing vanilla Prospector double coal chance.\nHelper returned {ex}");
             return null;
         }
 

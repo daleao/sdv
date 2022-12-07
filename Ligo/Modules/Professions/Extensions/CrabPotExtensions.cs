@@ -4,6 +4,7 @@
 
 using System.Collections.Generic;
 using System.Linq;
+using DaLion.Shared.Extensions.Collections;
 using DaLion.Shared.Extensions.Stardew;
 using Microsoft.Xna.Framework;
 using StardewValley.Locations;
@@ -192,7 +193,7 @@ internal static class CrabPotExtensions
 
         if (isLuremaster && keys.Count > 0)
         {
-            return keys[r.Next(keys.Count)];
+            return keys.Choose(r);
         }
 
         return -1;

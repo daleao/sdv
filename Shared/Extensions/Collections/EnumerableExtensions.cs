@@ -24,26 +24,30 @@ public static class EnumerableExtensions
 
     /// <summary>Finds the item which maximizes the given <paramref name="predicate"/>.</summary>
     /// <typeparam name="T">The type of elements in the <paramref name="enumerable"/>.</typeparam>
-    /// <typeparam name="TResult">The type returned by the <paramref name="predicate"/>, which should implement <see cref="IComparable"/>.</typeparam>
+    /// <typeparam name="TComparable">The type returned by the <paramref name="predicate"/>, which should implement <see cref="IComparable"/>.</typeparam>
     /// <param name="enumerable">The <see cref="IEnumerable{T}"/>.</param>
     /// <param name="predicate">A predicate which must return <see cref="IComparable"/>.</param>
-    /// <returns>The <typeparamref name="T"/> item in the enumerable which yields the highest <typeparamref name="TResult"/>.</returns>
-    public static T ArgMax<T, TResult>(this IEnumerable<T> enumerable, Func<T, TResult> predicate)
-        where TResult : IComparable<TResult>
+    /// <returns>The <typeparamref name="T"/> item in the enumerable which yields the highest <typeparamref name="T"/>.</returns>
+    public static T? ArgMax<T, TComparable>(this IEnumerable<T> enumerable, Func<T, TComparable> predicate)
+        where TComparable : IComparable<TComparable>
     {
-        return enumerable.Aggregate((a, b) => predicate(a).CompareTo(predicate(b)) > 0 ? a : b);
+        return enumerable.Aggregate(
+            default(T),
+            (a, b) => a is null ? b : predicate(a).CompareTo(predicate(b)) >= 0 ? a : b);
     }
 
     /// <summary>Finds the item which minimizes the given <paramref name="predicate"/>.</summary>
     /// <typeparam name="T">The type of elements in the <paramref name="enumerable"/>.</typeparam>
-    /// <typeparam name="TResult">The type returned by the <paramref name="predicate"/>, which should implement <see cref="IComparable"/>.</typeparam>
+    /// <typeparam name="TComparable">The type returned by the <paramref name="predicate"/>, which should implement <see cref="IComparable"/>.</typeparam>
     /// <param name="enumerable">The <see cref="IEnumerable{T}"/>.</param>
     /// <param name="predicate">A predicate which must return <see cref="IComparable"/>.</param>
-    /// <returns>The <typeparamref name="T"/> item in the enumerable which yields the lowest <typeparamref name="TResult"/>.</returns>
-    public static T ArgMin<T, TResult>(this IEnumerable<T> enumerable, Func<T, TResult> predicate)
-        where TResult : IComparable<TResult>
+    /// <returns>The <typeparamref name="T"/> item in the enumerable which yields the lowest <typeparamref name="TComparable"/>.</returns>
+    public static T? ArgMin<T, TComparable>(this IEnumerable<T> enumerable, Func<T, TComparable> predicate)
+        where TComparable : IComparable<TComparable>
     {
-        return enumerable.Aggregate((a, b) => predicate(a).CompareTo(predicate(b)) < 0 ? a : b);
+        return enumerable.Aggregate(
+            default(T),
+            (a, b) => a is null ? b : predicate(a).CompareTo(predicate(b)) <= 0 ? a : b);
     }
 
     /// <summary>Filters out <see langword="null"/> references from the <paramref name="enumerable"/>.</summary>

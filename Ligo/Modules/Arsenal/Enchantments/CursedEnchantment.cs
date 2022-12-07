@@ -49,7 +49,7 @@ public class CursedEnchantment : BaseWeaponEnchantment
 
         who.Write(DataFields.Cursed, true.ToString());
         ModEntry.Events.Enable<CurseUpdateTickedEvent>();
-        Log.D($"{Game1.player.Name} has been cursed!");
+        Log.D($"{who.Name} has been cursed!");
     }
 
     /// <inheritdoc />

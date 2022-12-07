@@ -4,6 +4,7 @@
 
 using System.Linq;
 using DaLion.Ligo.Modules.Arsenal.Enchantments;
+using DaLion.Ligo.Modules.Arsenal.Extensions;
 using DaLion.Shared.Commands;
 using DaLion.Shared.Extensions;
 using StardewValley.Tools;
@@ -102,6 +103,8 @@ internal sealed class AddEnchantmentsCommand : ConsoleCommand
 
             args = args.Skip(1).ToArray();
         }
+
+        tool.Invalidate();
     }
 
     /// <summary>Tell the dummies how to use the console command.</summary>

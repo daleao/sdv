@@ -22,7 +22,7 @@ internal abstract class WarpedEvent : ManagedEvent
     /// <param name="e">The event arguments.</param>
     internal void OnWarped(object? sender, WarpedEventArgs e)
     {
-        if (this.IsEnabled && !e.NewLocation.Equals(e.OldLocation))
+        if (e.IsLocalPlayer && this.IsEnabled && !e.NewLocation.Equals(e.OldLocation))
         {
             this.OnWarpedImpl(sender, e);
         }

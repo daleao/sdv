@@ -34,10 +34,16 @@ internal static class Integrations
     internal static JObject? SveConfig { get; set; }
 
     /// <summary>Gets or sets a value indicating whether Better Rings mod is loaded in the current game session.</summary>
-    internal static bool IsBetterRingsLoaded { get; set; }
+    internal static bool UsingBetterRings { get; set; }
+
+    /// <summary>Gets or sets a value indicating whether Vanilla Tweaks mod is loaded in the current game session and the Weapons config setting is set to <see langword="true"/>.</summary>
+    internal static bool UsingVanillaTweaksWeapons { get; set; }
+
+    /// <summary>Gets or sets a value indicating whether Vanilla Tweaks mod is loaded in the current game session and the Rings config setting is set to <see langword="true"/>.</summary>
+    internal static bool UsingVanillaTweaksRings { get; set; }
 
     /// <summary>Gets or sets a value indicating whether Moon Misadventures mod is loaded in the current game session.</summary>
-    internal static bool IsMoonMisadventuresLoaded { get; set; }
+    internal static bool UsingMoodMisadventures { get; set; }
 
     /// <summary>Gets or sets the <see cref="GenericModConfigMenuIntegration"/> instance.</summary>
     internal static GenericModConfigMenuIntegration GmcmIntegration { get; set; } = null!; // set on game launched

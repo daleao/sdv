@@ -52,7 +52,7 @@ internal sealed class FarmAnimalPetPatcher : HarmonyPatcher
         catch (Exception ex)
         {
             Log.E(
-                $"Failed while moving combined vanilla Coopmaster + Shepherd friendship bonuses to Rancher.\nHelper returned {ex}");
+                $"Failed moving combined vanilla Coopmaster + Shepherd friendship bonuses to Rancher.\nHelper returned {ex}");
             return null;
         }
 
@@ -78,7 +78,7 @@ internal sealed class FarmAnimalPetPatcher : HarmonyPatcher
         }
         catch (Exception ex)
         {
-            Log.E($"Failed while adding prestiged Rancher friendship bonuses.\nHelper returned {ex}");
+            Log.E($"Failed adding prestiged Rancher friendship bonuses.\nHelper returned {ex}");
             return null;
         }
 

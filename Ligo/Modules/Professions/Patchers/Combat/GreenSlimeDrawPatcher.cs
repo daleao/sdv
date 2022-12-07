@@ -75,7 +75,7 @@ internal sealed class GreenSlimeDrawPatcher : HarmonyPatcher
         }
         catch (Exception ex)
         {
-            Log.E($"Failed while patching inflated Green Slime sprite.\nHelper returned {ex}");
+            Log.E($"Failed patching inflated Green Slime sprite.\nHelper returned {ex}");
             return null;
         }
 

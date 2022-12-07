@@ -4,6 +4,7 @@
 
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Reflection.Emit;
 using HarmonyLib;
 
@@ -23,14 +24,23 @@ public static class CodeInstructionListExtensions
     public static int IndexOf(this List<CodeInstruction> instructions, CodeInstruction[] pattern, int start = 0)
     {
         var count = instructions.Count - pattern.Length + 1;
-        for (var i = start; i < count; ++i)
+        for (var i = start; i < count; i++)
         {
             var j = 0;
             while (j < pattern.Length && instructions[i + j].opcode.Equals(pattern[j].opcode)
                                       && (pattern[j].operand is null || instructions[i + j].operand?.ToString()
                                           == pattern[j].operand.ToString()))
             {
-                ++j;
+                // ConstructorInfo.ToString() doesn't include the type name, so any constructors with equal signature
+                // will be considered equivalent without this additional check
+                if (instructions[i + j].opcode == OpCodes.Newobj && pattern[j].operand is not null &&
+                    ((MethodBase)pattern[j].operand).DeclaringType !=
+                    ((MethodBase)instructions[i + j].operand).DeclaringType)
+                {
+                    break;
+                }
+
+                j++;
             }
 
             if (j == pattern.Length)
@@ -53,14 +63,14 @@ public static class CodeInstructionListExtensions
     public static int IndexOf(this List<CodeInstruction> instructions, IList<CodeInstruction> pattern, int start = 0)
     {
         var count = instructions.Count - pattern.Count + 1;
-        for (var i = start; i < count; ++i)
+        for (var i = start; i < count; i++)
         {
             var j = 0;
             while (j < pattern.Count && instructions[i + j].opcode.Equals(pattern[j].opcode)
                                      && (pattern[j].operand is null || instructions[i + j].operand?.ToString()
                                          == pattern[j].operand.ToString()))
             {
-                ++j;
+                j++;
             }
 
             if (j == pattern.Count)
@@ -83,7 +93,7 @@ public static class CodeInstructionListExtensions
     public static int IndexOf(this List<CodeInstruction> instructions, Label label, int start = 0)
     {
         var count = instructions.Count;
-        for (var i = start; i < count; ++i)
+        for (var i = start; i < count; i++)
         {
             if (instructions[i].labels.Contains(label))
             {

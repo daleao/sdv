@@ -36,7 +36,7 @@ public sealed class CircleTileGrid
             var center = new Vector2(this._radius, this._radius); // the center of the circle in the grid reference
 
             // get the central Axes
-            for (var i = 0; i < (this._radius * 2) + 1; ++i)
+            for (var i = 0; i < (this._radius * 2) + 1; i++)
             {
                 if (i == this._radius)
                 {
@@ -48,9 +48,9 @@ public sealed class CircleTileGrid
             }
 
             // loop over the first remaining quadrant and mirror matches 3 times
-            for (var x = 0; x < this._radius; ++x)
+            for (var x = 0; x < this._radius; x++)
             {
-                for (var y = 0; y < this._radius; ++y)
+                for (var y = 0; y < this._radius; y++)
                 {
                     if (!this.Contains(new Point(x, y)))
                     {
@@ -85,9 +85,9 @@ public sealed class CircleTileGrid
             }
 
             // loop over the first remaining quadrant and mirror matches 3 times
-            for (var x = 0; x < this._radius; ++x)
+            for (var x = 0; x < this._radius; x++)
             {
-                for (var y = 0; y < this._radius; ++y)
+                for (var y = 0; y < this._radius; y++)
                 {
                     if (!this._outlineBoolArray[x, y])
                     {
@@ -145,7 +145,7 @@ public sealed class CircleTileGrid
         }
 
         // cast horizontal rays
-        for (var i = point.X; i < this._radius; ++i)
+        for (var i = point.X; i < this._radius; i++)
         {
             if (this._outlineBoolArray[point.Y, i])
             {
@@ -163,11 +163,11 @@ public sealed class CircleTileGrid
         var s = new StringBuilder().AppendLine();
         var height = this._outlineBoolArray.GetLength(0);
         var width = this._outlineBoolArray.GetLength(1);
-        for (var i = 0; i < height; ++i)
+        for (var i = 0; i < height; i++)
         {
             var first = 0;
             var last = width;
-            for (var j = 0; j < width; ++j)
+            for (var j = 0; j < width; j++)
             {
                 if (!this._outlineBoolArray[i, j])
                 {
@@ -178,7 +178,7 @@ public sealed class CircleTileGrid
                 break;
             }
 
-            for (var j = width - 1; j >= 0; --j)
+            for (var j = width - 1; j >= 0; j--)
             {
                 if (!this._outlineBoolArray[i, j])
                 {
@@ -190,7 +190,7 @@ public sealed class CircleTileGrid
             }
 
             var toggle = false;
-            for (var j = 0; j < width; ++j)
+            for (var j = 0; j < width; j++)
             {
                 if (j == first || j == last + 1)
                 {

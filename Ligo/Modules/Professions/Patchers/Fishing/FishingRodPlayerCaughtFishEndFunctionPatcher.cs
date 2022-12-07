@@ -57,7 +57,7 @@ internal sealed class FishingRodPlayerCaughtFishEndFunctionPatcher : HarmonyPatc
         }
         catch (Exception ex)
         {
-            Log.E($"Failed while removing annoying legendary fish caught notification.\nHelper returned {ex}");
+            Log.E($"Failed removing annoying legendary fish caught notification.\nHelper returned {ex}");
             return null;
         }
 

@@ -53,7 +53,7 @@ internal sealed class CropHitWithHoePatcher : HarmonyPatcher
         }
         catch (Exception ex)
         {
-            Log.E($"Failed while apply Ecologist perk to hoed ginger.\nHelper returned {ex}");
+            Log.E($"Failed apply Ecologist perk to hoed ginger.\nHelper returned {ex}");
             return null;
         }
 

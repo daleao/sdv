@@ -51,7 +51,7 @@ internal sealed class BushShakePatcher : HarmonyPatcher
         }
         catch (Exception ex)
         {
-            Log.E($"Failed while patching modded Ecologist wild berry quality.\nHelper returned {ex}");
+            Log.E($"Failed patching modded Ecologist wild berry quality.\nHelper returned {ex}");
             return null;
         }
 
@@ -79,7 +79,7 @@ internal sealed class BushShakePatcher : HarmonyPatcher
         }
         catch (Exception ex)
         {
-            Log.E($"Failed while adding Ecologist counter increment.\nHelper returned {ex}");
+            Log.E($"Failed adding Ecologist counter increment.\nHelper returned {ex}");
             return null;
         }
 

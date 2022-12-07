@@ -63,7 +63,7 @@ internal sealed class AngryRogerUpdateAnimationPatcher : HarmonyPatcher
         }
         catch (Exception ex)
         {
-            Log.E($"Failed while patching Angry Roger eye-stalking hidden Poachers.\nHelper returned {ex}");
+            Log.E($"Failed patching Angry Roger eye-stalking hidden Poachers.\nHelper returned {ex}");
             return null;
         }
 

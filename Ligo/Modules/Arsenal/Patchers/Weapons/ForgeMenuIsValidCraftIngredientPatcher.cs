@@ -1,8 +1,7 @@
-﻿namespace DaLion.Ligo.Modules.Arsenal.Patchers;
+﻿namespace DaLion.Ligo.Modules.Arsenal.Patchers.Weapons;
 
 #region using directives
 
-using DaLion.Ligo.Modules.Arsenal.Extensions;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
 using StardewValley.Menus;
@@ -24,7 +23,7 @@ internal sealed class ForgeMenuIsValidCraftIngredientPatcher : HarmonyPatcher
     [HarmonyPostfix]
     private static void ForgeMenuIsValidCraftIngredientPostfix(ref bool __result, Item item)
     {
-        if (item.ParentSheetIndex == Globals.HeroSoulindex)
+        if (item.ParentSheetIndex == Globals.HeroSoulIndex)
         {
             __result = true;
         }

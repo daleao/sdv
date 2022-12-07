@@ -47,7 +47,7 @@ internal sealed class CalderaGetFishPatcher : HarmonyPatcher
         }
         catch (Exception ex)
         {
-            Log.E($"Failed while adding modded Fisher fish reroll.\nHelper returned {ex}");
+            Log.E($"Failed adding modded Fisher fish reroll.\nHelper returned {ex}");
             return null;
         }
 

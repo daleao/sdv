@@ -20,7 +20,7 @@ All modules should be fully multiplayer and splitscreen-ready so long as all pla
 
 - **[Professions](Modules/Professions)** is the original and largest module. It overhauls all the game's professions with the goal of supporting more diverse and interesting playstyles. It also introduces all-new Prestige mechanics for very-late game save files, as well as exciting new Super Abilities for combat professions.
 
-- **[Arsenal](Modules/Arsenal)** is the newest and second largest. It overhauls various aspects of both melee weapons and slingshots so as to diversify combat and provide viable alternatives to the ubiquitous sword. Included are all-new enchantments, weapon combos and one new weapon type, as well as novelty features for making legendary weapons truly legendary.
+- **[Arsenal](Modules/Arsenal)** is the newest and second largest. It overhauls various aspects of both melee weapons and slingshots so as to diversify combat and provide viable alternatives to the ubiquitous sword. Included are all-new enchantments, weapon combos and one new weapon type, as well as novelty features for making legendary weapons feel truly legendary. **Before uninstalling Ligo you must disable the Arsenal module to allow it to revert certain changes.**
 
 - **[Rings](Modules/Rings)** mainly overhauls the Iridium Band, replacing the bland vanilla version with all-new forge mechanics and Gemstone Music Theory, which draws inspiration from real-life Music Theory to provide a more interesting and balance form of combining many rings. It also adds new crafting mechanics providing a more natural progression for ring development.
 

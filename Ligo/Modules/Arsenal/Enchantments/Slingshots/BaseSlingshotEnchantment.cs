@@ -24,6 +24,7 @@ public class BaseSlingshotEnchantment : BaseEnchantment
     /// <param name="projectile">The fired <see cref="BasicProjectile"/>.</param>
     /// <param name="damageBase">The base deterministic damage of the fired projectile, before any modifiers or randomness.</param>
     /// <param name="damageMod">The slingshot's damage modifier.</param>
+    /// <param name="knockback">The base knockback of the fired projectile, before any modifiers.</param>
     /// <param name="startingPosition">The projectile's starting position (also its current position).</param>
     /// <param name="xVelocity">The horizontal component of projectile's velocity.</param>
     /// <param name="yVelocity">The vertical component of projectile's velocity.</param>
@@ -34,6 +35,7 @@ public class BaseSlingshotEnchantment : BaseEnchantment
         BasicProjectile projectile,
         int damageBase,
         float damageMod,
+        float knockback,
         Vector2 startingPosition,
         float xVelocity,
         float yVelocity,
@@ -45,6 +47,7 @@ public class BaseSlingshotEnchantment : BaseEnchantment
             projectile,
             damageBase,
             damageMod,
+            knockback,
             startingPosition,
             xVelocity,
             yVelocity,
@@ -59,6 +62,7 @@ public class BaseSlingshotEnchantment : BaseEnchantment
         BasicProjectile projectile,
         int damageBase,
         float damageMod,
+        float knockback,
         Vector2 startingPosition,
         float xVelocity,
         float yVelocity,

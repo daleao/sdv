@@ -102,7 +102,7 @@ internal sealed class ObjectCheckForActionPatcher : HarmonyPatcher
         }
         catch (Exception ex)
         {
-            Log.E($"Failed while patching bee house production speed for Producers.\nHelper returned {ex}");
+            Log.E($"Failed patching bee house production speed for Producers.\nHelper returned {ex}");
             return null;
         }
 

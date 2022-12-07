@@ -85,7 +85,7 @@ internal sealed class BeeHouseMachineResetPatcher : HarmonyPatcher
         }
         catch (Exception ex)
         {
-            Log.E("LIGO Professions module failed while patching automated Bee House production speed for Producers." +
+            Log.E("LIGO Professions module failed patching automated Bee House production speed for Producers." +
                   "\n—-- Do NOT report this to Automate's author. ---" +
                   $"\nHelper returned {ex}");
             return null;

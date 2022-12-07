@@ -76,7 +76,7 @@ internal sealed class MineShaftCheckStoneForItemsPatcher : HarmonyPatcher
         }
         catch (Exception ex)
         {
-            Log.E($"Failed while adding Spelunker bonus ladder down chance.\nHelper returned {ex}");
+            Log.E($"Failed adding Spelunker bonus ladder down chance.\nHelper returned {ex}");
             return null;
         }
 
@@ -99,7 +99,7 @@ internal sealed class MineShaftCheckStoneForItemsPatcher : HarmonyPatcher
         }
         catch (Exception ex)
         {
-            Log.E($"Failed while removing vanilla Geologist paired gem chance.\nHelper returned {ex}");
+            Log.E($"Failed removing vanilla Geologist paired gem chance.\nHelper returned {ex}");
             return null;
         }
 
@@ -122,7 +122,7 @@ internal sealed class MineShaftCheckStoneForItemsPatcher : HarmonyPatcher
         }
         catch (Exception ex)
         {
-            Log.E($"Failed while removing vanilla Excavator double geode chance.\nHelper returned {ex}");
+            Log.E($"Failed removing vanilla Excavator double geode chance.\nHelper returned {ex}");
             return null;
         }
 
@@ -143,7 +143,7 @@ internal sealed class MineShaftCheckStoneForItemsPatcher : HarmonyPatcher
         }
         catch (Exception ex)
         {
-            Log.E($"Failed while removing vanilla Prospector double coal chance.\nHelper returned {ex}");
+            Log.E($"Failed removing vanilla Prospector double coal chance.\nHelper returned {ex}");
             return null;
         }
 

@@ -20,9 +20,6 @@ internal static class Textures
     internal const int ProgressionHorizontalOffset = -82;
     internal const int ProgressionVerticalOffset = -70;
 
-    internal static Texture2D PointerTx { get; } =
-        ModEntry.ModHelper.GameContent.Load<Texture2D>($"{ModEntry.Manifest.UniqueID}/HudPointer");
-
     internal static Texture2D MaxIconTx { get; } =
         ModEntry.ModHelper.GameContent.Load<Texture2D>($"{ModEntry.Manifest.UniqueID}/MaxIcon");
 
@@ -31,12 +28,6 @@ internal static class Textures
 
     internal static Texture2D UltimateMeterTx { get; private set; } =
         ModEntry.ModHelper.GameContent.Load<Texture2D>($"{ModEntry.Manifest.UniqueID}/UltimateMeter");
-
-    internal static Texture2D BuffsSheetTx { get; } =
-        ModEntry.ModHelper.ModContent.Load<Texture2D>("assets/sprites/buffs");
-
-    internal static Texture2D ProfessionsSheetTx { get; } =
-        ModEntry.ModHelper.ModContent.Load<Texture2D>("assets/sprites/professions");
 
     internal static Texture2D PrestigeSheetTx { get; private set; } =
         ModEntry.ModHelper.ModContent.Load<Texture2D>($"assets/sprites/{ModEntry.Config.Professions.PrestigeProgressionStyle}.png");

@@ -15,14 +15,15 @@ using HarmonyLib;
 #endregion using directives
 
 /// <summary>Provides an API for abstracting common transpiler operations.</summary>
-public sealed class IlHelper
+// ReSharper disable once InconsistentNaming
+public sealed class ILHelper
 {
     private readonly Stack<int> _indexStack = new();
 
-    /// <summary>Initializes a new instance of the <see cref="IlHelper"/> class.</summary>
+    /// <summary>Initializes a new instance of the <see cref="ILHelper"/> class.</summary>
     /// <param name="original">A <see cref="MethodBase"/> representation of the original method.</param>
     /// <param name="instructions">The <see cref="CodeInstruction"/>s to be modified.</param>
-    public IlHelper(MethodBase original, IEnumerable<CodeInstruction> instructions)
+    public ILHelper(MethodBase original, IEnumerable<CodeInstruction> instructions)
     {
         this.Original = original;
         this.Instructions = instructions.ToList();
@@ -79,8 +80,8 @@ public sealed class IlHelper
     ///     <see cref="CodeInstruction"/> list and moves the index pointer to it.
     /// </summary>
     /// <param name="pattern">A pattern of <see cref="CodeInstruction"/>s to match.</param>
-    /// <returns>The <see cref="IlHelper"/> instance.</returns>
-    public IlHelper FindFirst(params CodeInstruction[] pattern)
+    /// <returns>The <see cref="ILHelper"/> instance.</returns>
+    public ILHelper FindFirst(params CodeInstruction[] pattern)
     {
         var index = this.Instructions.IndexOf(pattern);
         if (index < 0)
@@ -97,8 +98,8 @@ public sealed class IlHelper
     ///     <see cref="CodeInstruction"/> list and moves the index pointer to it.
     /// </summary>
     /// <param name="pattern">A pattern of <see cref="CodeInstruction"/>s to match.</param>
-    /// <returns>The <see cref="IlHelper"/> instance.</returns>
-    public IlHelper FindLast(params CodeInstruction[] pattern)
+    /// <returns>The <see cref="ILHelper"/> instance.</returns>
+    public ILHelper FindLast(params CodeInstruction[] pattern)
     {
         var reversedInstructions = this.Instructions.Clone();
         reversedInstructions.Reverse();
@@ -119,8 +120,8 @@ public sealed class IlHelper
     ///     <see cref="CodeInstruction"/> list and moves the index pointer to it.
     /// </summary>
     /// <param name="pattern">A pattern of <see cref="CodeInstruction"/>s to match.</param>
-    /// <returns>The <see cref="IlHelper"/> instance.</returns>
-    public IlHelper FindNext(params CodeInstruction[] pattern)
+    /// <returns>The <see cref="ILHelper"/> instance.</returns>
+    public ILHelper FindNext(params CodeInstruction[] pattern)
     {
         var index = this.Instructions.IndexOf(pattern, this.CurrentIndex + 1);
         if (index < 0)
@@ -137,8 +138,8 @@ public sealed class IlHelper
     ///     <see cref="CodeInstruction"/> list and move the index pointer to it.
     /// </summary>
     /// <param name="pattern">A pattern of <see cref="CodeInstruction"/>s to match.</param>
-    /// <returns>The <see cref="IlHelper"/> instance.</returns>
-    public IlHelper FindPrevious(params CodeInstruction[] pattern)
+    /// <returns>The <see cref="ILHelper"/> instance.</returns>
+    public ILHelper FindPrevious(params CodeInstruction[] pattern)
     {
         var reversedInstructions = this.Instructions.Clone();
         reversedInstructions.Reverse();
@@ -160,8 +161,8 @@ public sealed class IlHelper
     /// </summary>
     /// <param name="label">The <see cref="Label"/> object to match.</param>
     /// <param name="fromCurrentIndex">Whether to begin search from the currently pointed index.</param>
-    /// <returns>The <see cref="IlHelper"/> instance.</returns>
-    public IlHelper FindLabel(Label label, bool fromCurrentIndex = false)
+    /// <returns>The <see cref="ILHelper"/> instance.</returns>
+    public ILHelper FindLabel(Label label, bool fromCurrentIndex = false)
     {
         var index = this.Instructions.IndexOf(label, fromCurrentIndex ? this.CurrentIndex + 1 : 0);
         if (index < 0)
@@ -175,8 +176,8 @@ public sealed class IlHelper
 
     /// <summary>Moves the index pointer forward an integer number of <paramref name="steps"/>.</summary>
     /// <param name="steps">Number of steps by which to move the index pointer.</param>
-    /// <returns>The <see cref="IlHelper"/> instance.</returns>
-    public IlHelper Advance(int steps = 1)
+    /// <returns>The <see cref="ILHelper"/> instance.</returns>
+    public ILHelper Advance(int steps = 1)
     {
         if (this.CurrentIndex + steps < 0 || this.CurrentIndex + steps > this.LastIndex)
         {
@@ -189,36 +190,36 @@ public sealed class IlHelper
 
     /// <summary>Alias for <see cref="FindNext(CodeInstruction[])"/>.</summary>
     /// <param name="pattern">A pattern of <see cref="CodeInstruction"/>s to match.</param>
-    /// <returns>The <see cref="IlHelper"/> instance.</returns>
-    public IlHelper AdvanceUntil(params CodeInstruction[] pattern)
+    /// <returns>The <see cref="ILHelper"/> instance.</returns>
+    public ILHelper AdvanceUntil(params CodeInstruction[] pattern)
     {
         return this.FindNext(pattern);
     }
 
     /// <summary>Moves the index pointer backward an integer number of <paramref name="steps"/>.</summary>
     /// <param name="steps">Number of steps by which to move the index pointer.</param>
-    /// <returns>The <see cref="IlHelper"/> instance.</returns>
-    public IlHelper Retreat(int steps = 1)
+    /// <returns>The <see cref="ILHelper"/> instance.</returns>
+    public ILHelper Retreat(int steps = 1)
     {
         return this.Advance(-steps);
     }
 
     /// <summary>Alias for <see cref="FindPrevious(CodeInstruction[])"/>.</summary>
     /// <param name="pattern">A pattern of <see cref="CodeInstruction"/>s to match.</param>
-    /// <returns>The <see cref="IlHelper"/> instance.</returns>
-    public IlHelper RetreatUntil(params CodeInstruction[] pattern)
+    /// <returns>The <see cref="ILHelper"/> instance.</returns>
+    public ILHelper RetreatUntil(params CodeInstruction[] pattern)
     {
         return this.FindPrevious(pattern);
     }
 
     /// <summary>Inserts the given <paramref name="instructions"/> at the currently pointed index.</summary>
     /// <param name="instructions">The <see cref="CodeInstruction"/>s to insert.</param>
-    /// <returns>The <see cref="IlHelper"/> instance.</returns>
+    /// <returns>The <see cref="ILHelper"/> instance.</returns>
     /// <remarks>
     ///     The instruction at the current address is pushed forward, such that the index pointer continues to point to
     ///     the same instruction after insertion.
     /// </remarks>
-    public IlHelper InsertInstructions(params CodeInstruction[] instructions)
+    public ILHelper InsertInstructions(params CodeInstruction[] instructions)
     {
         this.Instructions.InsertRange(this.CurrentIndex, instructions);
         this._indexStack.Push(this.CurrentIndex + instructions.Length);
@@ -231,12 +232,12 @@ public sealed class IlHelper
     /// </summary>
     /// <param name="labels">Some <see cref="CodeInstruction"/>s to add at the start of the insertion.</param>
     /// <param name="instructions">The <see cref="CodeInstruction"/>s to insert.</param>
-    /// <returns>The <see cref="IlHelper"/> instance.</returns>
+    /// <returns>The <see cref="ILHelper"/> instance.</returns>
     /// <remarks>
     ///     The instruction at the current address is pushed forward, such that the index pointer continues to point to
     ///     the same instruction after insertion.
     /// </remarks>
-    public IlHelper InsertWithLabels(Label[] labels, params CodeInstruction[] instructions)
+    public ILHelper InsertWithLabels(Label[] labels, params CodeInstruction[] instructions)
     {
         instructions[0].labels.AddRange(labels);
         this.Instructions.InsertRange(this.CurrentIndex, instructions);
@@ -246,9 +247,9 @@ public sealed class IlHelper
 
     /// <summary>Adds the given <paramref name="instructions"/> to the end of the active <see cref="CodeInstruction"/> list.</summary>
     /// <param name="instructions">The <see cref="CodeInstruction"/>s to add.</param>
-    /// <returns>The <see cref="IlHelper"/> instance.</returns>
+    /// <returns>The <see cref="ILHelper"/> instance.</returns>
     /// <remarks>The index pointer is moved to the first instruction in the added sequence.</remarks>
-    public IlHelper AddInstructions(params CodeInstruction[] instructions)
+    public ILHelper AddInstructions(params CodeInstruction[] instructions)
     {
         this.Instructions.AddRange(instructions);
         this._indexStack.Push(this.LastIndex - instructions.Length);
@@ -261,9 +262,9 @@ public sealed class IlHelper
     /// </summary>
     /// <param name="labels">Some <see cref="Label"/>s to add at the start of the insertion.</param>
     /// <param name="instructions">The <see cref="CodeInstruction"/>s to add.</param>
-    /// <returns>The <see cref="IlHelper"/> instance.</returns>
+    /// <returns>The <see cref="ILHelper"/> instance.</returns>
     /// <remarks>The index pointer is moved to the first instruction in the added sequence.</remarks>
-    public IlHelper AddWithLabels(Label[] labels, params CodeInstruction[] instructions)
+    public ILHelper AddWithLabels(Label[] labels, params CodeInstruction[] instructions)
     {
         instructions[0].labels.AddRange(labels);
         this.Instructions.AddRange(instructions);
@@ -279,8 +280,8 @@ public sealed class IlHelper
     /// <param name="count">Number of code instructions to get.</param>
     /// <param name="removeLabels">Whether to remove the labels of the copied <see cref="CodeInstruction"/>s.</param>
     /// <param name="advance">Whether to advance the index pointer.</param>
-    /// <returns>The <see cref="IlHelper"/> instance.</returns>
-    public IlHelper GetInstructions(
+    /// <returns>The <see cref="ILHelper"/> instance.</returns>
+    public ILHelper GetInstructions(
         out CodeInstruction[] got, int count = 1, bool removeLabels = false, bool advance = false)
     {
         got = this.Instructions.GetRange(this.CurrentIndex, count).Clone().ToArray();
@@ -308,8 +309,8 @@ public sealed class IlHelper
     /// <param name="removeLabels">Whether to remove the labels of the copied <see cref="CodeInstruction"/>s.</param>
     /// <param name="advance">Whether to advance the index pointer.</param>
     /// <param name="pattern">A pattern of <see cref="CodeInstruction"/>s to match.</param>
-    /// <returns>The <see cref="IlHelper"/> instance.</returns>
-    public IlHelper GetInstructionsUntil(
+    /// <returns>The <see cref="ILHelper"/> instance.</returns>
+    public ILHelper GetInstructionsUntil(
         out CodeInstruction[] got, bool removeLabels = false, bool advance = false, params CodeInstruction[] pattern)
     {
         this.AdvanceUntil(pattern);
@@ -338,8 +339,8 @@ public sealed class IlHelper
     ///     index.
     /// </summary>
     /// <param name="count">Number of code instructions to remove.</param>
-    /// <returns>The <see cref="IlHelper"/> instance.</returns>
-    public IlHelper RemoveInstructions(int count = 1)
+    /// <returns>The <see cref="ILHelper"/> instance.</returns>
+    public ILHelper RemoveInstructions(int count = 1)
     {
         if (this.CurrentIndex + count > this.LastIndex)
         {
@@ -355,8 +356,8 @@ public sealed class IlHelper
     ///     first instruction in the specified <paramref name="pattern"/>.
     /// </summary>
     /// <param name="pattern">A pattern of <see cref="CodeInstruction"/>s to match.</param>
-    /// <returns>The <see cref="IlHelper"/> instance.</returns>
-    public IlHelper RemoveInstructionsUntil(params CodeInstruction[] pattern)
+    /// <returns>The <see cref="ILHelper"/> instance.</returns>
+    public ILHelper RemoveInstructionsUntil(params CodeInstruction[] pattern)
     {
         this.AdvanceUntil(pattern);
         var endIndex = this._indexStack.Pop() + 1;
@@ -368,8 +369,8 @@ public sealed class IlHelper
     /// <summary>Replaces the <see cref="CodeInstruction"/> at the currently pointed index.</summary>
     /// <param name="instruction">The <see cref="CodeInstruction"/> to replace with.</param>
     /// <param name="preserveLabels">Whether to preserve the labels at the current <see cref="CodeInstruction"/> before replacement.</param>
-    /// <returns>The <see cref="IlHelper"/> instance.</returns>
-    public IlHelper ReplaceInstructionWith(CodeInstruction instruction, bool preserveLabels = false)
+    /// <returns>The <see cref="ILHelper"/> instance.</returns>
+    public ILHelper ReplaceInstructionWith(CodeInstruction instruction, bool preserveLabels = false)
     {
         if (preserveLabels)
         {
@@ -382,16 +383,16 @@ public sealed class IlHelper
 
     /// <summary>Adds one or more <see cref="Label"/>s to the <see cref="CodeInstruction"/> at the currently pointed index.</summary>
     /// <param name="labels">Some of <see cref="Label"/>s to add.</param>
-    /// <returns>The <see cref="IlHelper"/> instance.</returns>
-    public IlHelper AddLabels(params Label[] labels)
+    /// <returns>The <see cref="ILHelper"/> instance.</returns>
+    public ILHelper AddLabels(params Label[] labels)
     {
         this.Instructions[this.CurrentIndex].labels.AddRange(labels);
         return this;
     }
 
     /// <summary>Removes all <see cref="Label"/>s from the <see cref="CodeInstruction"/> at the currently pointed index.</summary>
-    /// <returns>The <see cref="IlHelper"/> instance.</returns>
-    public IlHelper RemoveLabels()
+    /// <returns>The <see cref="ILHelper"/> instance.</returns>
+    public ILHelper RemoveLabels()
     {
         this.Instructions[this.CurrentIndex].labels.Clear();
         return this;
@@ -402,8 +403,8 @@ public sealed class IlHelper
     ///     index.
     /// </summary>
     /// <param name="labels">The <see cref="Label"/>s to remove.</param>
-    /// <returns>The <see cref="IlHelper"/> instance.</returns>
-    public IlHelper RemoveLabels(params Label[] labels)
+    /// <returns>The <see cref="ILHelper"/> instance.</returns>
+    public ILHelper RemoveLabels(params Label[] labels)
     {
         labels.ForEach(l => this.Instructions[this.CurrentIndex].labels.Remove(l));
         return this;
@@ -411,8 +412,8 @@ public sealed class IlHelper
 
     /// <summary>Replaces the <see cref="Label"/>s of the <see cref="CodeInstruction"/> at the currently pointed index.</summary>
     /// <param name="labels">The new <see cref="Label"/>s to set.</param>
-    /// <returns>The <see cref="IlHelper"/> instance.</returns>
-    public IlHelper SetLabels(params Label[] labels)
+    /// <returns>The <see cref="ILHelper"/> instance.</returns>
+    public ILHelper SetLabels(params Label[] labels)
     {
         this.Instructions[this.CurrentIndex].labels = labels.ToList();
         return this;
@@ -423,8 +424,8 @@ public sealed class IlHelper
     ///     index.
     /// </summary>
     /// <param name="labels">The copied <see cref="Label"/>s.</param>
-    /// <returns>The <see cref="IlHelper"/> instance.</returns>
-    public IlHelper GetLabels(out Label[] labels)
+    /// <returns>The <see cref="ILHelper"/> instance.</returns>
+    public ILHelper GetLabels(out Label[] labels)
     {
         labels = this.Instructions[this.CurrentIndex].labels.ToArray();
         return this;
@@ -435,8 +436,8 @@ public sealed class IlHelper
     ///     returns a reference to those <see cref="Label"/>s.
     /// </summary>
     /// <param name="labels">The removed <see cref="Label"/>s.</param>
-    /// <returns>The <see cref="IlHelper"/> instance.</returns>
-    public IlHelper StripLabels(out Label[] labels)
+    /// <returns>The <see cref="ILHelper"/> instance.</returns>
+    public ILHelper StripLabels(out Label[] labels)
     {
         this.GetLabels(out labels);
         return this.RemoveLabels();
@@ -444,8 +445,8 @@ public sealed class IlHelper
 
     /// <summary>Returns the <see cref="OpCode"/> of the <see cref="CodeInstruction"/> at the currently pointed index.</summary>
     /// <param name="opcode">The returned <see cref="OpCode"/>.</param>
-    /// <returns>The <see cref="IlHelper"/> instance.</returns>
-    public IlHelper GetOpCode(out OpCode opcode)
+    /// <returns>The <see cref="ILHelper"/> instance.</returns>
+    public ILHelper GetOpCode(out OpCode opcode)
     {
         opcode = this.Instructions[this.CurrentIndex].opcode;
         return this;
@@ -453,8 +454,8 @@ public sealed class IlHelper
 
     /// <summary>Changes the <see cref="OpCode"/> of the <see cref="CodeInstruction"/> at the currently pointed index.</summary>
     /// <param name="opcode">The new <see cref="OpCode"/> to replace with.</param>
-    /// <returns>The <see cref="IlHelper"/> instance.</returns>
-    public IlHelper SetOpCode(OpCode opcode)
+    /// <returns>The <see cref="ILHelper"/> instance.</returns>
+    public ILHelper SetOpCode(OpCode opcode)
     {
         this.Instructions[this.CurrentIndex].opcode = opcode;
         return this;
@@ -462,8 +463,8 @@ public sealed class IlHelper
 
     /// <summary>Returns the operand of the <see cref="CodeInstruction"/> at the currently pointed index.</summary>
     /// <param name="operand">The returned operand.</param>
-    /// <returns>The <see cref="IlHelper"/> instance.</returns>
-    public IlHelper GetOperand(out object operand)
+    /// <returns>The <see cref="ILHelper"/> instance.</returns>
+    public ILHelper GetOperand(out object operand)
     {
         operand = this.Instructions[this.CurrentIndex].operand;
         return this;
@@ -471,8 +472,8 @@ public sealed class IlHelper
 
     /// <summary>Changes the operand of the <see cref="CodeInstruction"/> at the currently pointed index.</summary>
     /// <param name="operand">The new operand to replace with.</param>
-    /// <returns>The <see cref="IlHelper"/> instance.</returns>
-    public IlHelper SetOperand(object operand)
+    /// <returns>The <see cref="ILHelper"/> instance.</returns>
+    public ILHelper SetOperand(object operand)
     {
         this.Instructions[this.CurrentIndex].operand = operand;
         return this;
@@ -480,10 +481,10 @@ public sealed class IlHelper
 
     /// <summary>Returns the index pointer to a previous state.</summary>
     /// <param name="count">Number of index changes to discard.</param>
-    /// <returns>The <see cref="IlHelper"/> instance.</returns>
-    public IlHelper Return(int count = 1)
+    /// <returns>The <see cref="ILHelper"/> instance.</returns>
+    public ILHelper Return(int count = 1)
     {
-        for (var i = 0; i < count; ++i)
+        for (var i = 0; i < count; i++)
         {
             this._indexStack.Pop();
         }
@@ -493,8 +494,8 @@ public sealed class IlHelper
 
     /// <summary>Moves the index pointer to the specific <paramref name="index"/>.</summary>
     /// <param name="index">The index to move to.</param>
-    /// <returns>The <see cref="IlHelper"/> instance.</returns>
-    public IlHelper GoTo(int index)
+    /// <returns>The <see cref="ILHelper"/> instance.</returns>
+    public ILHelper GoTo(int index)
     {
         if (index < 0)
         {
@@ -516,8 +517,8 @@ public sealed class IlHelper
     /// </summary>
     /// <param name="pattern">A pattern of <see cref="CodeInstruction"/>s to match.</param>
     /// <param name="action">The action to be applied.</param>
-    /// <returns>The <see cref="IlHelper"/> instance.</returns>
-    public IlHelper ForEach(CodeInstruction[] pattern, Action action)
+    /// <returns>The <see cref="ILHelper"/> instance.</returns>
+    public ILHelper ForEach(CodeInstruction[] pattern, Action action)
     {
         while (this.TryMoveNext(pattern))
         {
@@ -528,8 +529,8 @@ public sealed class IlHelper
     }
 
     /// <summary>Resets the current instance.</summary>
-    /// <returns>The <see cref="IlHelper"/> instance.</returns>
-    public IlHelper Clear()
+    /// <returns>The <see cref="ILHelper"/> instance.</returns>
+    public ILHelper Clear()
     {
         this._indexStack.Clear();
         this.Instructions.Clear();
@@ -543,6 +544,27 @@ public sealed class IlHelper
         var result = this.Instructions.Clone();
         this.Clear();
         return result.AsEnumerable();
+    }
+
+    /// <summary>Gets the corresponding <see cref="CodeInstruction"/> for loading a given integer.</summary>
+    /// <param name="num">An integer.</param>
+    /// <returns>The correct <see cref="CodeInstruction"/> which loads <paramref name="num"/>.</returns>
+    public CodeInstruction LdcFromInt(int num)
+    {
+        return num switch
+        {
+            0 => new CodeInstruction(OpCodes.Ldc_I4_0),
+            1 => new CodeInstruction(OpCodes.Ldc_I4_1),
+            2 => new CodeInstruction(OpCodes.Ldc_I4_2),
+            3 => new CodeInstruction(OpCodes.Ldc_I4_3),
+            4 => new CodeInstruction(OpCodes.Ldc_I4_4),
+            5 => new CodeInstruction(OpCodes.Ldc_I4_5),
+            6 => new CodeInstruction(OpCodes.Ldc_I4_6),
+            7 => new CodeInstruction(OpCodes.Ldc_I4_7),
+            8 => new CodeInstruction(OpCodes.Ldc_I4_8),
+            > byte.MaxValue => new CodeInstruction(OpCodes.Ldc_I4, num),
+            _ => new CodeInstruction(OpCodes.Ldc_I4_S, num),
+        };
     }
 
     /// <summary>Snitches on other <see cref="HarmonyTranspiler"/>s applied to the target <see cref="Original"/> method.</summary>
@@ -560,7 +582,7 @@ public sealed class IlHelper
         foreach (var transpiler in this.Original.GetAppliedTranspilers())
         {
             sb.AppendLine().Append($"\t{transpiler.PatchMethod.GetFullName()}");
-            ++count;
+            count++;
         }
 
         return count > 0 ? sb.ToString() : string.Empty;

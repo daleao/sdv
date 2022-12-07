@@ -48,7 +48,7 @@ internal sealed class TownGetFishPatcher : HarmonyPatcher
         }
         catch (Exception ex)
         {
-            Log.E($"Failed while adding prestiged Angler legendary fish recatch.\nHelper returned {ex}");
+            Log.E($"Failed adding prestiged Angler legendary fish recatch.\nHelper returned {ex}");
             return null;
         }
 

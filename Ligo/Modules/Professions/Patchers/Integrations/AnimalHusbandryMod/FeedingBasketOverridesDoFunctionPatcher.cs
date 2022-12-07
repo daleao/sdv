@@ -72,7 +72,7 @@ internal sealed class FeedingBasketOverridesDoFunctionPatcher : HarmonyPatcher
         catch (Exception ex)
         {
             Log.E(
-                "LIGO Professions module failed while moving combined feeding basket Coopmaster + Shepherd friendship bonuses to Rancher." +
+                "LIGO Professions module failed moving combined feeding basket Coopmaster + Shepherd friendship bonuses to Rancher." +
                 "\n—-- Do NOT report this to Animal Husbandry's author. ---" +
                 $"\nHelper returned {ex}");
             return null;

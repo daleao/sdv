@@ -14,7 +14,7 @@ internal sealed partial class GenericModConfigMenuIntegration
     private void RegisterTools()
     {
         var allowedUpgrades = new[] { "Copper", "Steel", "Gold", "Iridium" };
-        if (Integrations.IsMoonMisadventuresLoaded)
+        if (Integrations.UsingMoodMisadventures)
         {
             allowedUpgrades.AddRangeToArray(new[] { "Radioactive", "Mythicite" });
         }
@@ -114,7 +114,7 @@ internal sealed partial class GenericModConfigMenuIntegration
                 1,
                 10);
 
-        if (Integrations.IsMoonMisadventuresLoaded)
+        if (Integrations.UsingMoodMisadventures)
         {
             this._configMenu
                 .AddNumberField(
@@ -137,8 +137,8 @@ internal sealed partial class GenericModConfigMenuIntegration
             .AddNumberField(
                 () => "Reaching Radius",
                 () => "The radius of affected tiles for the Axe with Reaching Enchantment.",
-                config => config.Tools.Axe.RadiusAtEachPowerLevel[Integrations.IsMoonMisadventuresLoaded ? 6 : 4],
-                (config, value) => config.Tools.Axe.RadiusAtEachPowerLevel[Integrations.IsMoonMisadventuresLoaded ? 6 : 4] =
+                config => config.Tools.Axe.RadiusAtEachPowerLevel[Integrations.UsingMoodMisadventures ? 6 : 4],
+                (config, value) => config.Tools.Axe.RadiusAtEachPowerLevel[Integrations.UsingMoodMisadventures ? 6 : 4] =
                     value,
                 1,
                 10)
@@ -262,7 +262,7 @@ internal sealed partial class GenericModConfigMenuIntegration
                 1,
                 10);
 
-        if (Integrations.IsMoonMisadventuresLoaded)
+        if (Integrations.UsingMoodMisadventures)
         {
             this._configMenu
                 .AddNumberField(
@@ -285,9 +285,9 @@ internal sealed partial class GenericModConfigMenuIntegration
             .AddNumberField(
                 () => "Reaching Radius",
                 () => "The radius of affected tiles for the Pick with Reaching Enchantment.",
-                config => config.Tools.Pick.RadiusAtEachPowerLevel[Integrations.IsMoonMisadventuresLoaded ? 6 : 4],
+                config => config.Tools.Pick.RadiusAtEachPowerLevel[Integrations.UsingMoodMisadventures ? 6 : 4],
                 (config, value) =>
-                    config.Tools.Pick.RadiusAtEachPowerLevel[Integrations.IsMoonMisadventuresLoaded ? 6 : 4] = value,
+                    config.Tools.Pick.RadiusAtEachPowerLevel[Integrations.UsingMoodMisadventures ? 6 : 4] = value,
                 1,
                 10)
             .AddCheckbox(
@@ -417,7 +417,7 @@ internal sealed partial class GenericModConfigMenuIntegration
                 0,
                 7);
 
-        switch (Integrations.IsMoonMisadventuresLoaded)
+        switch (Integrations.UsingMoodMisadventures)
         {
             case false:
                 this._configMenu
@@ -558,7 +558,7 @@ internal sealed partial class GenericModConfigMenuIntegration
                 0,
                 7);
 
-        switch (Integrations.IsMoonMisadventuresLoaded)
+        switch (Integrations.UsingMoodMisadventures)
         {
             case false:
                 this._configMenu

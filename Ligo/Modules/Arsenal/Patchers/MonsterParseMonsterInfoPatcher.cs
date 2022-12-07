@@ -33,16 +33,16 @@ internal sealed class MonsterParseMonsterInfoPatcher : HarmonyPatcher
     [HarmonyPostfix]
     private static void MonsterParseMonsterInfoPostfix(Monster __instance)
     {
-        if (ModEntry.Config.Arsenal.VariedEncounters)
-        {
-            __instance.RandomizeStats();
-        }
-
         __instance.Health = (int)Math.Round(__instance.Health * ModEntry.Config.Arsenal.MonsterHealthMultiplier);
         __instance.DamageToFarmer =
             (int)Math.Round(__instance.DamageToFarmer * ModEntry.Config.Arsenal.MonsterDamageMultiplier);
         __instance.resilience.Value =
             (int)Math.Round(__instance.resilience.Value * ModEntry.Config.Arsenal.MonsterDefenseMultiplier);
+
+        if (ModEntry.Config.Arsenal.VariedEncounters)
+        {
+            __instance.RandomizeStats();
+        }
     }
 
     #endregion harmony patches

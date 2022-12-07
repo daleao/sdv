@@ -1,4 +1,4 @@
-﻿namespace DaLion.Ligo.Modules.Arsenal.Patchers;
+﻿namespace DaLion.Ligo.Modules.Arsenal.Patchers.Crafting;
 
 #region using directives
 
@@ -28,7 +28,7 @@ internal sealed class ShopMenuChargePlayerPatcher : HarmonyPatcher
     {
         try
         {
-            if (currencyType != Globals.DwarvenScrapIndex && currencyType != Constants.DragonToothIndex)
+            if (currencyType != Constants.DragonToothIndex && (!Globals.DwarvenScrapIndex.HasValue || currencyType != Globals.DwarvenScrapIndex.Value))
             {
                 return true; // run original logic
             }

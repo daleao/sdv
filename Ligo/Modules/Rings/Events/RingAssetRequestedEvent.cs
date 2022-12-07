@@ -2,10 +2,9 @@
 
 #region using directives
 
-using System.Collections.Generic;
+using DaLion.Shared.Content;
 using DaLion.Shared.Events;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using StardewModdingAPI.Events;
 
 #endregion using directives
@@ -14,39 +13,19 @@ using StardewModdingAPI.Events;
 [AlwaysEnabledEvent]
 internal class RingAssetRequestedEvent : AssetRequestedEvent
 {
-    private static readonly Dictionary<string, (Action<IAssetData> Edit, AssetEditPriority Priority)> AssetEditors =
-        new();
-
-    private static readonly Dictionary<string, (Func<string> Provide, AssetLoadPriority Priority)> AssetProviders =
-        new();
-
     /// <summary>Initializes a new instance of the <see cref="RingAssetRequestedEvent"/> class.</summary>
     /// <param name="manager">The <see cref="EventManager"/> instance that manages this event.</param>
     internal RingAssetRequestedEvent(EventManager manager)
         : base(manager)
     {
-        // editors
-        AssetEditors["Data/CraftingRecipes"] = (Edit: EditCraftingRecipesData, Priority: AssetEditPriority.Default);
-        AssetEditors["Data/ObjectInformation"] = (Edit: EditObjectInformationData, Priority: AssetEditPriority.Default);
-        AssetEditors["Maps/springobjects"] = (Edit: EditSpringObjectsMaps, Priority: AssetEditPriority.Late);
-    }
-
-    /// <inheritdoc />
-    protected override void OnAssetRequestedImpl(object? sender, AssetRequestedEventArgs e)
-    {
-        if (AssetEditors.TryGetValue(e.NameWithoutLocale.Name, out var editor))
-        {
-            e.Edit(editor.Edit, editor.Priority);
-        }
-        else if (AssetProviders.TryGetValue(e.NameWithoutLocale.Name, out var provider))
-        {
-            e.LoadFromModFile<Texture2D>(provider.Provide(), provider.Priority);
-        }
+        this.Edit("Data/CraftingRecipes", new AssetEditor(EditCraftingRecipesData, AssetEditPriority.Default));
+        this.Edit("Data/ObjectInformation", new AssetEditor(EditObjectInformationData, AssetEditPriority.Default));
+        this.Edit("Maps/springobjects", new AssetEditor(EditSpringObjectsMaps, AssetEditPriority.Late));
     }
 
     #region editor callbacks
 
-    /// <summary>Edits crafting recipes wit new ring recipes.</summary>
+    /// <summary>Edits crafting recipes with new ring recipes.</summary>
     private static void EditCraftingRecipesData(IAssetData asset)
     {
         var data = asset.AsDictionary<string, string>().Data;
@@ -83,7 +62,7 @@ internal class RingAssetRequestedEvent : AssetRequestedEvent
         }
     }
 
-    /// <summary>Edits object information with rebalanced ring recipes.</summary>
+    /// <summary>Edits object information with rebalanced ring descriptions.</summary>
     private static void EditObjectInformationData(IAssetData asset)
     {
         var data = asset.AsDictionary<int, string>().Data;
@@ -116,7 +95,7 @@ internal class RingAssetRequestedEvent : AssetRequestedEvent
         var editor = asset.AsImage();
         Rectangle srcArea, targetArea;
 
-        var sourceY = Ligo.Integrations.IsBetterRingsLoaded ? 16 : 0;
+        var sourceY = Ligo.Integrations.UsingVanillaTweaksRings ? 32 : Ligo.Integrations.UsingBetterRings ? 16 : 0;
         if (ModEntry.Config.Rings.CraftableGemRings)
         {
             srcArea = new Rectangle(16, sourceY, 96, 16);

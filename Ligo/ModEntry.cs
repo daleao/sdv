@@ -5,6 +5,7 @@
 using System.Diagnostics.CodeAnalysis;
 using DaLion.Ligo.Modules;
 using DaLion.Shared.Events;
+using DaLion.Shared.Extensions.SMAPI;
 using DaLion.Shared.ModData;
 using DaLion.Shared.Networking;
 using DaLion.Shared.Reflection;
@@ -69,6 +70,9 @@ public sealed class ModEntry : Mod
 
         if (Config.EnableArsenal)
         {
+            Integrations.UsingVanillaTweaksWeapons = helper.ModRegistry.IsLoaded("Taiyo.VanillaTweaks") &&
+                                                   helper.ReadContentPackConfig("Taiyo.VanillaTweaks")
+                                                       ?.Value<bool>("WeaponsCategoryEnabled") == true;
             LigoModule.Arsenal.Initialize(helper);
         }
 
@@ -84,8 +88,12 @@ public sealed class ModEntry : Mod
 
         if (Config.EnableRings)
         {
+            Integrations.UsingBetterRings = helper.ModRegistry.IsLoaded("BBR.BetterRings");
+            Integrations.UsingVanillaTweaksRings = helper.ModRegistry.IsLoaded("Taiyo.VanillaTweaks") &&
+                                              helper.ReadContentPackConfig("Taiyo.VanillaTweaks")
+                                                  ?.Value<bool>("RingsCategoryEnabled") == true;
+
             LigoModule.Rings.Initialize(helper);
-            Integrations.IsBetterRingsLoaded = helper.ModRegistry.IsLoaded("BBR.BetterRings");
         }
 
         if (Config.EnableTaxes)
@@ -95,8 +103,8 @@ public sealed class ModEntry : Mod
 
         if (Config.EnableTools)
         {
+            Integrations.UsingMoodMisadventures = helper.ModRegistry.IsLoaded("spacechase0.MoonMisadventures");
             LigoModule.Tools.Initialize(helper);
-            Integrations.IsMoonMisadventuresLoaded = helper.ModRegistry.IsLoaded("spacechase0.MoonMisadventures");
         }
 
         if (Config.EnableTweex)
@@ -105,20 +113,22 @@ public sealed class ModEntry : Mod
         }
 
         // validate multiplayer
-        if (Context.IsMultiplayer && !Context.IsMainPlayer && !Context.IsSplitScreen)
+        if (!Context.IsMultiplayer || Context.IsMainPlayer || Context.IsSplitScreen)
         {
-            var host = helper.Multiplayer.GetConnectedPlayer(Game1.MasterPlayer.UniqueMultiplayerID)!;
-            var hostMod = host.GetMod(this.ModManifest.UniqueID);
-            if (hostMod is null)
-            {
-                Log.W(
-                    "Ligo has not been installed by the session host. Most features will not work properly.");
-            }
-            else if (!hostMod.Version.Equals(this.ModManifest.Version))
-            {
-                Log.W(
-                    $"The session host has a different version of Ligo installed. Some features may not work properly.\n\tHost version: {hostMod.Version}\n\tLocal version: {this.ModManifest.Version}");
-            }
+            return;
+        }
+
+        var host = helper.Multiplayer.GetConnectedPlayer(Game1.MasterPlayer.UniqueMultiplayerID)!;
+        var hostMod = host.GetMod(this.ModManifest.UniqueID);
+        if (hostMod is null)
+        {
+            Log.W(
+                "Ligo has not been installed by the session host. Most features will not work properly.");
+        }
+        else if (!hostMod.Version.Equals(this.ModManifest.Version))
+        {
+            Log.W(
+                $"The session host has a different version of Ligo installed. Some features may not work properly.\n\tHost version: {hostMod.Version}\n\tLocal version: {this.ModManifest.Version}");
         }
     }
 

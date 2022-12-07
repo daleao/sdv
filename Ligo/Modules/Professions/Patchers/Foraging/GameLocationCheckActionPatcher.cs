@@ -72,7 +72,7 @@ internal sealed class GameLocationCheckActionPatcher : HarmonyPatcher
         }
         catch (Exception ex)
         {
-            Log.E($"Failed while patching modded Ecologist forage quality.\nHelper returned {ex}");
+            Log.E($"Failed patching modded Ecologist forage quality.\nHelper returned {ex}");
             return null;
         }
 
@@ -124,7 +124,7 @@ internal sealed class GameLocationCheckActionPatcher : HarmonyPatcher
         }
         catch (Exception ex)
         {
-            Log.E($"Failed while adding modded Gemologist foraged mineral quality.\nHelper returned {ex}");
+            Log.E($"Failed adding modded Gemologist foraged mineral quality.\nHelper returned {ex}");
             return null;
         }
 
@@ -151,7 +151,7 @@ internal sealed class GameLocationCheckActionPatcher : HarmonyPatcher
         }
         catch (Exception ex)
         {
-            Log.E($"Failed while adding Ecologist and Gemologist counter increment.\nHelper returned {ex}");
+            Log.E($"Failed adding Ecologist and Gemologist counter increment.\nHelper returned {ex}");
             return null;
         }
 
@@ -181,7 +181,7 @@ internal sealed class GameLocationCheckActionPatcher : HarmonyPatcher
         }
         catch (Exception ex)
         {
-            Log.E($"Failed while adding prestiged Foraged double forage bonus.\nHelper returned {ex}");
+            Log.E($"Failed adding prestiged Foraged double forage bonus.\nHelper returned {ex}");
             return null;
         }
 
