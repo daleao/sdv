@@ -20,24 +20,21 @@ internal static class IlHelperExtensions
     ///     active <see cref="CodeInstruction"/> list and moves the index pointer to it.
     /// </summary>
     /// <param name="helper">The <see cref="ILHelper"/> instance.</param>
-    /// <param name="whichProfession">The profession id.</param>
-    /// <param name="fromCurrentIndex">Whether to begin search from currently pointed index.</param>
+    /// <param name="index">The profession index.</param>
+    /// <param name="search">The <see cref="ILHelper.SearchOption"/>.</param>
     /// <returns>The <paramref name="helper"/> instance.</returns>
-    internal static ILHelper FindProfessionCheck(this ILHelper helper, int whichProfession, bool fromCurrentIndex = false)
+    internal static ILHelper FindProfessionCheck(this ILHelper helper, int index, ILHelper.SearchOption search = ILHelper.SearchOption.Next)
     {
-        return fromCurrentIndex
-            ? helper.FindNext(
-                new CodeInstruction(OpCodes.Ldfld, typeof(Farmer).RequireField(nameof(Farmer.professions))),
-                helper.LdcFromInt(whichProfession),
-                new CodeInstruction(
-                    OpCodes.Callvirt,
-                    typeof(NetList<int, NetInt>).RequireMethod(nameof(NetList<int, NetInt>.Contains))))
-            : helper.FindFirst(
-                new CodeInstruction(OpCodes.Ldfld, typeof(Farmer).RequireField(nameof(Farmer.professions))),
-                helper.LdcFromInt(whichProfession),
-                new CodeInstruction(
-                    OpCodes.Callvirt,
-                    typeof(NetList<int, NetInt>).RequireMethod(nameof(NetList<int, NetInt>.Contains))));
+        return helper
+            .Match(
+                new[]
+                {
+                    new CodeInstruction(OpCodes.Ldfld, typeof(Farmer).RequireField(nameof(Farmer.professions))),
+                    helper.LdcFromInt(index), new CodeInstruction(
+                        OpCodes.Callvirt,
+                        typeof(NetList<int, NetInt>).RequireMethod(nameof(NetList<int, NetInt>.Contains))),
+                },
+                search);
     }
 
     /// <summary>
@@ -73,6 +70,6 @@ internal static class IlHelperExtensions
             toInsert[0].labels.AddRange(labels);
         }
 
-        return helper.InsertInstructions(toInsert.ToArray());
+        return helper.Insert(toInsert.ToArray());
     }
 }

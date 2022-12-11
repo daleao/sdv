@@ -53,7 +53,7 @@ internal sealed class SetUltimateChargeCommand : ConsoleCommand
 
         if (ultimate.CanActivate && value < ultimate.MaxValue)
         {
-            ModEntry.Events.Disable<UltimateGaugeShakeUpdateTickedEvent>();
+            EventManager.Disable<UltimateGaugeShakeUpdateTickedEvent>();
         }
 
         ultimate.ChargeValue = (double)value * ultimate.MaxValue / 100d;

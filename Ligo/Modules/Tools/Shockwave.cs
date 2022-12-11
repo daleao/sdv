@@ -21,12 +21,12 @@ internal class Shockwave
     private readonly IEffect? _effect;
     private readonly Vector2 _epicenter;
     private readonly Farmer _farmer;
-    private readonly int _finalRadius;
+    private readonly uint _finalRadius;
     private readonly GameLocation _location;
     private readonly double _millisecondsWhenReleased;
     private readonly List<CircleTileGrid> _tileGrids = new();
     private readonly Tool _tool;
-    private int _currentRadius = 1;
+    private uint _currentRadius = 1;
 
     /// <summary>Initializes a new instance of the <see cref="Shockwave"/> class.</summary>
     /// <param name="radius">The maximum radius of the <see cref="Shockwave"/>.</param>
@@ -35,15 +35,15 @@ internal class Shockwave
     ///     The total elapsed <see cref="GameTime"/> in milliseconds at the moment the tool was
     ///     released.
     /// </param>
-    internal Shockwave(int radius, Farmer who, double milliseconds)
+    internal Shockwave(uint radius, Farmer who, double milliseconds)
     {
         this._farmer = who;
         this._location = who.currentLocation;
         this._tool = who.CurrentTool;
         this._effect = this._tool switch
         {
-            Axe => new AxeEffect(ModEntry.Config.Tools.Axe),
-            Pickaxe => new PickaxeEffect(ModEntry.Config.Tools.Pick),
+            Axe => new AxeEffect(ToolsModule.Config.Axe),
+            Pickaxe => new PickaxeEffect(ToolsModule.Config.Pick),
             _ => null,
         };
 
@@ -52,14 +52,14 @@ internal class Shockwave
             (int)(this._farmer.GetToolLocation().Y / Game1.tileSize));
         this._finalRadius = radius;
 
-        if (ModEntry.Config.Tools.TicksBetweenWaves <= 0)
+        if (ToolsModule.Config.TicksBetweenWaves <= 0)
         {
             this._tileGrids.Add(new CircleTileGrid(this._epicenter, this._finalRadius));
             this._currentRadius = this._finalRadius;
         }
         else
         {
-            for (var i = 0; i < this._finalRadius; i++)
+            for (uint i = 0; i < this._finalRadius; i++)
             {
                 this._tileGrids.Add(new CircleTileGrid(this._epicenter, i + 1));
             }
@@ -80,10 +80,10 @@ internal class Shockwave
         IEnumerable<Vector2> affectedTiles;
         if (this._tileGrids.Count > 1)
         {
-            affectedTiles = this._tileGrids[this._currentRadius - 1].Tiles;
+            affectedTiles = this._tileGrids[(int)this._currentRadius - 1].Tiles;
             if (this._currentRadius > 1)
             {
-                affectedTiles = affectedTiles.Except(this._tileGrids[this._currentRadius - 2].Tiles);
+                affectedTiles = affectedTiles.Except(this._tileGrids[(int)this._currentRadius - 2].Tiles);
             }
         }
         else
@@ -108,8 +108,8 @@ internal class Shockwave
 
             var pixelPos = new Vector2(tile.X * Game1.tileSize, tile.Y * Game1.tileSize);
 
-            if ((this._tool is Axe && !ModEntry.Config.Tools.Axe.PlayShockwaveAnimation) ||
-                (this._tool is Pickaxe && !ModEntry.Config.Tools.Pick.PlayShockwaveAnimation))
+            if ((this._tool is Axe && !ToolsModule.Config.Axe.PlayShockwaveAnimation) ||
+                (this._tool is Pickaxe && !ToolsModule.Config.Pick.PlayShockwaveAnimation))
             {
                 continue;
             }

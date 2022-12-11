@@ -63,29 +63,30 @@ internal sealed class GenericObjectMachinePatchers : HarmonyPatcher
         try
         {
             helper
-                .FindLast(
-                    new CodeInstruction(OpCodes.Ldc_I4_1),
-                    new CodeInstruction(OpCodes.Ret))
-                .InsertInstructions(
-                    new CodeInstruction(OpCodes.Ldarg_0),
-                    new CodeInstruction(
-                        OpCodes.Call,
-                        "Pathoschild.Stardew.Automate.Framework.BaseMachine`1"
-                            .ToType()
-                            .MakeGenericType(typeof(SObject))
-                            .RequirePropertyGetter("Machine")),
-                    new CodeInstruction(OpCodes.Ldloc_0),
-                    new CodeInstruction(
-                        OpCodes.Callvirt,
-                        "Pathoschild.Stardew.Automate.IConsumable"
-                            .ToType()
-                            .RequirePropertyGetter("Sample")),
-                    new CodeInstruction(
-                        OpCodes.Call,
-                        typeof(GenericObjectMachinePatchers).RequireMethod(
-                            original.DeclaringType!.Name.Contains("CheesePress")
-                                ? nameof(CheesePressMachineSubroutine)
-                                : nameof(GenericMachineSubroutine))));
+                .Match(
+                    new[] { new CodeInstruction(OpCodes.Ldc_I4_1), new CodeInstruction(OpCodes.Ret), },
+                    ILHelper.SearchOption.Last)
+                .Insert(
+                    new[]
+                    {
+                        new CodeInstruction(OpCodes.Ldarg_0), new CodeInstruction(
+                            OpCodes.Call,
+                            "Pathoschild.Stardew.Automate.Framework.BaseMachine`1"
+                                .ToType()
+                                .MakeGenericType(typeof(SObject))
+                                .RequirePropertyGetter("Machine")),
+                        new CodeInstruction(OpCodes.Ldloc_0), new CodeInstruction(
+                            OpCodes.Callvirt,
+                            "Pathoschild.Stardew.Automate.IConsumable"
+                                .ToType()
+                                .RequirePropertyGetter("Sample")),
+                        new CodeInstruction(
+                            OpCodes.Call,
+                            typeof(GenericObjectMachinePatchers).RequireMethod(
+                                original.DeclaringType!.Name.Contains("CheesePress")
+                                    ? nameof(CheesePressMachineSubroutine)
+                                    : nameof(GenericMachineSubroutine))),
+                    });
         }
         catch (Exception ex)
         {
@@ -104,7 +105,7 @@ internal sealed class GenericObjectMachinePatchers : HarmonyPatcher
 
     private static void GenericMachineSubroutine(SObject machine, Item sample)
     {
-        if (!ModEntry.Config.Tweex.LargeProducsYieldQuantityOverQuality || machine.heldObject.Value is not { } output ||
+        if (!TweexModule.Config.LargeProducsYieldQuantityOverQuality || machine.heldObject.Value is not { } output ||
             sample is not SObject input)
         {
             return;
@@ -120,12 +121,12 @@ internal sealed class GenericObjectMachinePatchers : HarmonyPatcher
             switch (input.ParentSheetIndex)
             {
                 // ostrich mayonnaise keeps giving x10 output but doesn't respect input quality without Artisan
-                case Constants.OstrichEggIndex when !ModEntry.ModHelper.ModRegistry.IsLoaded(
+                case Constants.OstrichEggIndex when !ModHelper.ModRegistry.IsLoaded(
                     "ughitsmegan.ostrichmayoForProducerFrameworkMod"):
                     output.Quality = SObject.lowQuality;
                     break;
                 // golden mayonnaise keeps giving gives single output but keeps golden quality
-                case Constants.GoldenEggIndex when !ModEntry.ModHelper.ModRegistry.IsLoaded(
+                case Constants.GoldenEggIndex when !ModHelper.ModRegistry.IsLoaded(
                     "ughitsmegan.goldenmayoForProducerFrameworkMod"):
                     output.Stack = 1;
                     break;
@@ -135,7 +136,7 @@ internal sealed class GenericObjectMachinePatchers : HarmonyPatcher
 
     private static void CheesePressMachineSubroutine(SObject machine, Item sample)
     {
-        if (!ModEntry.Config.Tweex.LargeProducsYieldQuantityOverQuality || machine.heldObject.Value is not { } output ||
+        if (!TweexModule.Config.LargeProducsYieldQuantityOverQuality || machine.heldObject.Value is not { } output ||
             sample is not SObject input || !input.Name.ContainsAnyOf("Large", "L."))
         {
             return;

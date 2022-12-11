@@ -43,18 +43,22 @@ internal sealed class BushMachineGetOutputPatcher : HarmonyPatcher
         {
             helper
                 .FindProfessionCheck(Profession.Ecologist.Value) // find index of ecologist check
-                .Retreat()
-                .InsertInstructions(
-                    new CodeInstruction(OpCodes.Ldarg_0),
-                    new CodeInstruction(
-                        OpCodes.Call,
-                        "Pathoschild.Stardew.Automate.Framework.BaseMachine`1".ToType().MakeGenericType(typeof(SObject))
-                            .RequirePropertyGetter("Machine")),
-                    new CodeInstruction(
-                        OpCodes.Call,
-                        typeof(BushMachineGetOutputPatcher).RequireMethod(nameof(GetOutputSubroutine))))
-                .RemoveInstructionsUntil(new CodeInstruction(OpCodes.Ldc_I4_4))
-                .RemoveLabels();
+                .Move(-1)
+                .Insert(
+                    new[]
+                    {
+                        new CodeInstruction(OpCodes.Ldarg_0), new CodeInstruction(
+                            OpCodes.Call,
+                            "Pathoschild.Stardew.Automate.Framework.BaseMachine`1".ToType()
+                                .MakeGenericType(typeof(SObject))
+                                .RequirePropertyGetter("Machine")),
+                        new CodeInstruction(
+                            OpCodes.Call,
+                            typeof(BushMachineGetOutputPatcher).RequireMethod(nameof(GetOutputSubroutine))),
+                    })
+                .Match(new[] { new CodeInstruction(OpCodes.Ldc_I4_4) }, out var count)
+                .Remove(count)
+                .StripLabels();
         }
         catch (Exception ex)
         {
@@ -74,7 +78,7 @@ internal sealed class BushMachineGetOutputPatcher : HarmonyPatcher
     private static int GetOutputSubroutine(Bush machine)
     {
         var chest = ExtendedAutomateApi.GetClosestContainerTo(machine);
-        var user = ModEntry.Config.Professions.LaxOwnershipRequirements ? Game1.player : chest?.GetOwner() ?? Game1.MasterPlayer;
+        var user = ProfessionsModule.Config.LaxOwnershipRequirements ? Game1.player : chest?.GetOwner() ?? Game1.MasterPlayer;
         return user.HasProfession(Profession.Ecologist) ? user.GetEcologistForageQuality() : SObject.lowQuality;
     }
 

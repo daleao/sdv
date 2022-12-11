@@ -15,7 +15,7 @@ internal sealed class TreasureHuntStartedEvent : ManagedEvent
     /// <param name="callback">The delegate to run when the event is raised.</param>
     internal TreasureHuntStartedEvent(
         Action<object?, ITreasureHuntStartedEventArgs> callback)
-        : base(ModEntry.Events)
+        : base(ModEntry.EventManager)
     {
         this._onStartedImpl = callback;
     }

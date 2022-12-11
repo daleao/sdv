@@ -20,7 +20,7 @@ internal sealed class ToolButtonPressedEvent : ButtonPressedEvent
     }
 
     /// <inheritdoc />
-    public override bool IsEnabled => ModEntry.Config.Tools.FaceMouseCursor;
+    public override bool IsEnabled => ToolsModule.Config.FaceMouseCursor;
 
     /// <inheritdoc />
     protected override void OnButtonPressedImpl(object? sender, ButtonPressedEventArgs e)

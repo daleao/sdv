@@ -114,7 +114,7 @@ internal static class GameLocationExtensions
     /// <returns><see langword="true"/> if the <paramref name="tile"/> is completely clear of any <see cref="SObject"/>, <see cref="TerrainFeature"/> or other map property that would make it inaccessible, otherwise <see langword="false"/>.</returns>
     internal static bool IsTileValidForTreasure(this GameLocation location, Vector2 tile)
     {
-        return (!location.objects.TryGetValue(tile, out var o) || o == null) &&
+        return (!location.objects.TryGetValue(tile, out var @object) || @object == null) &&
                location.doesTileHaveProperty((int)tile.X, (int)tile.Y, "Spawnable", "Back") != null &&
                !location.doesEitherTileOrTileIndexPropertyEqual((int)tile.X, (int)tile.Y, "Spawnable", "Back", "F") &&
                location.isTileLocationTotallyClearAndPlaceable(tile) &&

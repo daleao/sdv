@@ -34,7 +34,7 @@ internal sealed class MushroomBoxMachineGetOutputPatcher : HarmonyPatcher
     {
         try
         {
-            var machine = ModEntry.Reflector
+            var machine = Reflector
                 .GetUnboundPropertyGetter<object, SObject>(__instance, "Machine")
                 .Invoke(__instance);
             if (machine.heldObject.Value is not { } held)
@@ -42,14 +42,14 @@ internal sealed class MushroomBoxMachineGetOutputPatcher : HarmonyPatcher
                 return;
             }
 
-            var owner = ModEntry.Config.EnableProfessions && !ModEntry.Config.Professions.LaxOwnershipRequirements
+            var owner = Config.EnableProfessions && !ProfessionsModule.Config.LaxOwnershipRequirements
                 ? machine.GetOwner()
                 : Game1.player;
             if (!owner.professions.Contains(Farmer.botanist))
             {
                 held.Quality = held.GetQualityFromAge();
             }
-            else if (ModEntry.Config.EnableProfessions)
+            else if (Config.EnableProfessions)
             {
                 held.Quality = Math.Max(owner.GetEcologistForageQuality(), held.Quality);
             }
@@ -58,7 +58,7 @@ internal sealed class MushroomBoxMachineGetOutputPatcher : HarmonyPatcher
                 held.Quality = SObject.bestQuality;
             }
 
-            if (ModEntry.Config.Tweex.MushroomBoxesRewardExp)
+            if (TweexModule.Config.MushroomBoxesRewardExp)
             {
                 Game1.player.gainExperience(Farmer.foragingSkill, 1);
             }

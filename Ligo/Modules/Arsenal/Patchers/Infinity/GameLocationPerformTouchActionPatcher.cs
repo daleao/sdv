@@ -38,30 +38,34 @@ internal sealed class GameLocationPerformTouchActionPatcher : HarmonyPatcher
         try
         {
             helper
-                .FindFirst(
-                    new CodeInstruction(OpCodes.Call, typeof(Game1).RequirePropertyGetter(nameof(Game1.player))),
-                    new CodeInstruction(
-                        OpCodes.Callvirt,
-                        typeof(Farmer).RequirePropertyGetter(nameof(Farmer.ActiveObject))))
+                .Match(
+                    new[]
+                    {
+                        new CodeInstruction(OpCodes.Call, typeof(Game1).RequirePropertyGetter(nameof(Game1.player))),
+                        new CodeInstruction(
+                            OpCodes.Callvirt,
+                            typeof(Farmer).RequirePropertyGetter(nameof(Farmer.ActiveObject))),
+                    })
                 .StripLabels(out var labels)
-                .AdvanceUntil(new CodeInstruction(OpCodes.Brfalse))
+                .Match(new[] { new CodeInstruction(OpCodes.Brfalse) })
                 .GetOperand(out var didNotMeetConditions)
                 .Return()
-                .RemoveInstructionsUntil(
-                    new CodeInstruction(OpCodes.Brtrue))
-                .InsertWithLabels(
-                    labels,
-                    new CodeInstruction(
-                        OpCodes.Call,
-                        typeof(GameLocationPerformTouchActionPatcher)
-                            .RequireMethod(nameof(DoesPlayerMeetGalaxyConditions))),
-                    new CodeInstruction(OpCodes.Brfalse, didNotMeetConditions),
-                    new CodeInstruction(OpCodes.Ldarg_0),
-                    new CodeInstruction(OpCodes.Ldstr, "thunder"),
-                    new CodeInstruction(OpCodes.Ldc_I4_0),
-                    new CodeInstruction(
-                        OpCodes.Call,
-                        typeof(GameLocation).RequireMethod(nameof(GameLocation.playSound))));
+                .Match(new[] { new CodeInstruction(OpCodes.Brtrue) }, out var count)
+                .Remove(count)
+                .Insert(
+                    new[]
+                    {
+                        new CodeInstruction(
+                            OpCodes.Call,
+                            typeof(GameLocationPerformTouchActionPatcher)
+                                .RequireMethod(nameof(DoesPlayerMeetGalaxyConditions))),
+                        new CodeInstruction(OpCodes.Brfalse, didNotMeetConditions),
+                        new CodeInstruction(OpCodes.Ldarg_0), new CodeInstruction(OpCodes.Ldstr, "thunder"),
+                        new CodeInstruction(OpCodes.Ldc_I4_0), new CodeInstruction(
+                            OpCodes.Call,
+                            typeof(GameLocation).RequireMethod(nameof(GameLocation.playSound))),
+                    },
+                    labels);
         }
         catch (Exception ex)
         {
@@ -84,12 +88,12 @@ internal sealed class GameLocationPerformTouchActionPatcher : HarmonyPatcher
             return false;
         }
 
-        if (!ModEntry.Config.Arsenal.InfinityPlusOne && !Game1.player.mailReceived.Contains("galaxySword"))
+        if (!ArsenalModule.Config.InfinityPlusOne && !Game1.player.mailReceived.Contains("galaxySword"))
         {
             return true;
         }
 
-        if (!Game1.player.hasItemInInventory(SObject.iridiumBar, ModEntry.Config.Arsenal.IridiumBarsRequiredForGalaxyArsenal))
+        if (!Game1.player.hasItemInInventory(SObject.iridiumBar, ArsenalModule.Config.IridiumBarsRequiredForGalaxyArsenal))
         {
             return false;
         }

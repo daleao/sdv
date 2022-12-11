@@ -23,7 +23,7 @@ internal sealed class UltimateInputUpdateTickedEvent : UpdateTickedEvent
     /// <inheritdoc />
     protected override void OnUpdateTickedImpl(object? sender, UpdateTickedEventArgs e)
     {
-        if (ModEntry.Config.Professions.SpecialActivationKey.IsDown())
+        if (ProfessionsModule.Config.SpecialActivationKey.IsDown())
         {
             Game1.player.Get_Ultimate()!.UpdateInput();
         }

@@ -13,7 +13,7 @@ using StardewModdingAPI.Events;
 [UsedImplicitly]
 internal sealed class BruteUpdateTickedEvent : UpdateTickedEvent
 {
-    private readonly int _buffId = (ModEntry.Manifest.UniqueID + Profession.Brute).GetHashCode();
+    private readonly int _buffId = (Manifest.UniqueID + Profession.Brute).GetHashCode();
 
     /// <summary>Initializes a new instance of the <see cref="BruteUpdateTickedEvent"/> class.</summary>
     /// <param name="manager">The <see cref="EventManager"/> instance that manages this event.</param>
@@ -60,15 +60,15 @@ internal sealed class BruteUpdateTickedEvent : UpdateTickedEvent
                 0,
                 1,
                 "Brute",
-                ModEntry.i18n.Get("brute.title" + (Game1.player.IsMale ? ".title" : ".female")) + " " +
-                ModEntry.i18n.Get("brute.buff.name"))
+                i18n.Get("brute.title" + (Game1.player.IsMale ? ".title" : ".female")) + " " +
+                i18n.Get("brute.buff.name"))
             {
                 which = this._buffId,
                 sheetIndex = Profession.BruteRageSheetIndex,
                 millisecondsDuration = 0,
                 description = Game1.player.HasProfession(Profession.Brute, true)
-                    ? ModEntry.i18n.Get("brute.buff.desc", new { damage = magnitude.ToString("0.0") })
-                    : ModEntry.i18n.Get(
+                    ? i18n.Get("brute.buff.desc", new { damage = magnitude.ToString("0.0") })
+                    : i18n.Get(
                         "brute.buff.desc.prestiged",
                         new { damage = magnitude.ToString("0.0"), speed = (magnitude / 2f).ToString("0.0") }),
             });

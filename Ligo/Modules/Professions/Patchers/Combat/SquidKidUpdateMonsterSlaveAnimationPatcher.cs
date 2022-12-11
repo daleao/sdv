@@ -38,25 +38,34 @@ internal sealed class SquidKidUpdateMonsterSlaveAnimationPatcher : HarmonyPatche
         {
             var skip = generator.DefineLabel();
             helper
-                .FindLast(
-                    new CodeInstruction(
-                        OpCodes.Call,
-                        typeof(Character).RequireMethod(
-                            nameof(Character.faceGeneralDirection),
-                            new[] { typeof(Vector2), typeof(int), typeof(bool) })))
-                .RetreatUntil(
-                    new CodeInstruction(OpCodes.Ldarg_0),
-                    new CodeInstruction(OpCodes.Ldarg_0))
+                .Match(
+                    new[]
+                    {
+                        new CodeInstruction(
+                            OpCodes.Call,
+                            typeof(Character).RequireMethod(
+                                nameof(Character.faceGeneralDirection),
+                                new[] { typeof(Vector2), typeof(int), typeof(bool) })),
+                    },
+                    ILHelper.SearchOption.Last)
+                .Match(
+                    new[] { new CodeInstruction(OpCodes.Ldarg_0), new CodeInstruction(OpCodes.Ldarg_0), },
+                    ILHelper.SearchOption.Previous)
                 .StripLabels(out var labels)
-                .InsertWithLabels(
-                    labels,
-                    new CodeInstruction(OpCodes.Ldarg_0),
-                    new CodeInstruction(OpCodes.Call, typeof(Monster).RequirePropertyGetter(nameof(Monster.Player))),
-                    new CodeInstruction(
-                        OpCodes.Call,
-                        typeof(FarmerExtensions).RequireMethod(nameof(FarmerExtensions.IsInAmbush))),
-                    new CodeInstruction(OpCodes.Brtrue_S, skip))
-                .AdvanceUntil(new CodeInstruction(OpCodes.Ret))
+                .Insert(
+                    new[]
+                    {
+                        new CodeInstruction(OpCodes.Ldarg_0),
+                        new CodeInstruction(
+                            OpCodes.Call,
+                            typeof(Monster).RequirePropertyGetter(nameof(Monster.Player))),
+                        new CodeInstruction(
+                            OpCodes.Call,
+                            typeof(FarmerExtensions).RequireMethod(nameof(FarmerExtensions.IsInAmbush))),
+                        new CodeInstruction(OpCodes.Brtrue_S, skip),
+                    },
+                    labels)
+                .Match(new[] { new CodeInstruction(OpCodes.Ret) })
                 .AddLabels(skip);
         }
         catch (Exception ex)

@@ -19,7 +19,7 @@ internal sealed class SveWarpedEvent : WarpedEvent
     }
 
     /// <inheritdoc />
-    public override bool IsEnabled => ModEntry.Config.Arsenal.InfinityPlusOne && Ligo.Integrations.SveConfig is not null;
+    public override bool IsEnabled => ArsenalModule.Config.InfinityPlusOne && Ligo.Integrations.SveConfig is not null;
 
     /// <inheritdoc />
     protected override void OnWarpedImpl(object? sender, WarpedEventArgs e)

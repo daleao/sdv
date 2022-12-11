@@ -19,7 +19,7 @@ internal static class MonsterExtensions
         monster.stunTime = duration;
         //monster.currentLocation.TemporarySprites.Add(new StunAnimation(monster, duration));
         StunAnimation.StunAnimationByMonster.AddOrUpdate(monster, new StunAnimation(monster, duration));
-        ModEntry.Events.Enable<StunAnimationUpdateTickedEvent>();
-        ModEntry.Events.Enable<StunAnimationRenderedWorldEvent>();
+        EventManager.Enable<StunAnimationUpdateTickedEvent>();
+        EventManager.Enable<StunAnimationRenderedWorldEvent>();
     }
 }

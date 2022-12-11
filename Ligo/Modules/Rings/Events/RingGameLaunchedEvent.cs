@@ -20,7 +20,7 @@ internal class RingGameLaunchedEvent : GameLaunchedEvent
     /// <inheritdoc />
     protected override void OnGameLaunchedImpl(object? sender, GameLaunchedEventArgs e)
     {
-        var registry = ModEntry.ModHelper.ModRegistry;
+        var registry = ModHelper.ModRegistry;
 
         // add Garnet ring
         if (registry.IsLoaded("spacechase0.JsonAssets"))

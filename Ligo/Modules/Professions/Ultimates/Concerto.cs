@@ -24,15 +24,18 @@ public sealed class Concerto : Ultimate
 
     /// <inheritdoc />
     public override string DisplayName =>
-        ModEntry.i18n.Get(this.Name.ToLower() + ".title." + (Game1.player.IsMale ? "male" : "female"));
+        i18n.Get(this.Name.ToLower() + ".title." + (Game1.player.IsMale ? "male" : "female"));
 
     /// <inheritdoc />
     public override bool CanActivate => base.CanActivate && Game1.player.currentLocation.characters.OfType<Monster>()
         .Any(m => m.IsSlime() && m.IsWithinPlayerThreshold());
 
     /// <inheritdoc />
+    public override IProfession Profession => Professions.Profession.Piper;
+
+    /// <inheritdoc />
     internal override int MillisecondsDuration =>
-        (int)(30000 * ((double)this.MaxValue / BaseMaxValue) / ModEntry.Config.Professions.SpecialDrainFactor);
+        (int)(30000 * ((double)this.MaxValue / BaseMaxValue) / ProfessionsModule.Config.SpecialDrainFactor);
 
     /// <inheritdoc />
     internal override Sfx ActivationSfx => Sfx.PiperConcerto;
@@ -47,7 +50,6 @@ public sealed class Concerto : Ultimate
     internal override void Activate()
     {
         base.Activate();
-
         foreach (var slime in Game1.player.currentLocation.characters.OfType<GreenSlime>()
                      .Where(c => c.IsWithinPlayerThreshold() && c.Scale < 2f))
         {
@@ -112,7 +114,7 @@ public sealed class Concerto : Ultimate
                 description = this.Description,
             });
 
-        ModEntry.Events.Enable<SlimeInflationUpdateTickedEvent>();
+        EventManager.Enable<SlimeInflationUpdateTickedEvent>();
         this.ActivationSfx.PlayAfterDelay(333);
     }
 
@@ -120,7 +122,7 @@ public sealed class Concerto : Ultimate
     internal override void Deactivate()
     {
         base.Deactivate();
-        ModEntry.Events.Enable<SlimeDeflationUpdateTickedEvent>();
+        EventManager.Enable<SlimeDeflationUpdateTickedEvent>();
     }
 
     /// <inheritdoc />

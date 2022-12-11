@@ -30,15 +30,15 @@ internal static class Farmer_Ultimate
 
         if (value is not null)
         {
-            ModEntry.Events.Enable<UltimateWarpedEvent>();
+            EventManager.Enable<UltimateWarpedEvent>();
             if (Game1.currentLocation.IsDungeon())
             {
-                ModEntry.Events.Enable<UltimateMeterRenderingHudEvent>();
+                EventManager.Enable<UltimateMeterRenderingHudEvent>();
             }
         }
         else
         {
-            ModEntry.Events.DisableWithAttribute<UltimateEventAttribute>();
+            EventManager.DisableWithAttribute<UltimateEventAttribute>();
         }
     }
 

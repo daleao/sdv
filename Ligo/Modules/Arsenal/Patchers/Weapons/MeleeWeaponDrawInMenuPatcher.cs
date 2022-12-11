@@ -45,31 +45,33 @@ internal sealed class MeleeWeaponDrawInMenuPatcher : HarmonyPatcher
         {
             var tryAttackSwordCooldown = generator.DefineLabel();
             helper
-                .FindFirst(
-                    new CodeInstruction(
-                        OpCodes.Ldsfld,
-                        typeof(MeleeWeapon).RequireField(nameof(MeleeWeapon.defenseCooldown))),
-                    new CodeInstruction(OpCodes.Ldc_I4_0),
-                    new CodeInstruction(OpCodes.Ble_S))
-                .Advance(2)
+                .Match(
+                    new[]
+                    {
+                        new CodeInstruction(
+                            OpCodes.Ldsfld,
+                            typeof(MeleeWeapon).RequireField(nameof(MeleeWeapon.defenseCooldown))),
+                        new CodeInstruction(OpCodes.Ldc_I4_0), new CodeInstruction(OpCodes.Ble_S),
+                    })
+                .Move(2)
                 .GetOperand(out var resumeExecution)
                 .SetOperand(tryAttackSwordCooldown)
-                .AdvanceUntil(
-                    new CodeInstruction(OpCodes.Ldsfld, typeof(MeleeWeapon).RequireField("addedSwordScale")))
-                .InsertWithLabels(
-                    new[] { tryAttackSwordCooldown },
-                    new CodeInstruction(
-                        OpCodes.Ldsfld,
-                        typeof(MeleeWeapon).RequireField(nameof(MeleeWeapon.attackSwordCooldown))),
-                    new CodeInstruction(OpCodes.Ldc_I4_0),
-                    new CodeInstruction(OpCodes.Ble_S, resumeExecution),
-                    new CodeInstruction(
-                        OpCodes.Ldsfld,
-                        typeof(MeleeWeapon).RequireField(nameof(MeleeWeapon.attackSwordCooldown))),
-                    new CodeInstruction(OpCodes.Conv_R4),
-                    new CodeInstruction(OpCodes.Ldc_R4, 2000f),
-                    new CodeInstruction(OpCodes.Div),
-                    new CodeInstruction(OpCodes.Stloc_0));
+                .Match(
+                    new[] { new CodeInstruction(OpCodes.Ldsfld, typeof(MeleeWeapon).RequireField("addedSwordScale")) })
+                .Insert(
+                    new[]
+                    {
+                        new CodeInstruction(
+                            OpCodes.Ldsfld,
+                            typeof(MeleeWeapon).RequireField(nameof(MeleeWeapon.attackSwordCooldown))),
+                        new CodeInstruction(OpCodes.Ldc_I4_0), new CodeInstruction(OpCodes.Ble_S, resumeExecution),
+                        new CodeInstruction(
+                            OpCodes.Ldsfld,
+                            typeof(MeleeWeapon).RequireField(nameof(MeleeWeapon.attackSwordCooldown))),
+                        new CodeInstruction(OpCodes.Conv_R4), new CodeInstruction(OpCodes.Ldc_R4, 2000f),
+                        new CodeInstruction(OpCodes.Div), new CodeInstruction(OpCodes.Stloc_0),
+                    },
+                    new[] { tryAttackSwordCooldown });
         }
         catch (Exception ex)
         {

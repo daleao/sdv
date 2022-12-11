@@ -117,7 +117,7 @@ internal sealed class AddProfessionsCommand : ConsoleCommand
         LevelUpMenu.RevalidateHealth(Game1.player);
         if (professionsToAdd.Intersect(Profession.GetRange(true)).Any())
         {
-            ModEntry.ModHelper.GameContent.InvalidateCache("LooseSprites/Cursors");
+            ModHelper.GameContent.InvalidateCache("LooseSprites/Cursors");
         }
     }
 

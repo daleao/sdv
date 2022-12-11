@@ -37,88 +37,89 @@ internal sealed class BaseEnchantmentGetAvailableEnchantmentsPatcher : HarmonyPa
             var resumeExecution = generator.DefineLabel();
             helper
                 .GoTo(4)
-                .InsertInstructions(
-                    new CodeInstruction(OpCodes.Call, typeof(ModEntry).RequirePropertyGetter(nameof(ModEntry.Config))),
-                    new CodeInstruction(
-                        OpCodes.Callvirt,
-                        typeof(ModConfig).RequirePropertyGetter(nameof(ModConfig.Arsenal))),
-                    new CodeInstruction(
-                        OpCodes.Callvirt,
-                        typeof(Config).RequirePropertyGetter(nameof(Config.Weapons))),
-                    new CodeInstruction(
-                        OpCodes.Callvirt,
-                        typeof(WeaponConfig).RequirePropertyGetter(nameof(WeaponConfig.UseLigoEnchants))),
-                    new CodeInstruction(OpCodes.Brtrue_S, newWeaponEnchants))
-                .Advance(12)
-                .InsertInstructions(new CodeInstruction(OpCodes.Br_S, resumeExecution))
-                .InsertWithLabels(
-                    new[] { newWeaponEnchants },
-                    // add redux artful enchant
-                    new CodeInstruction(OpCodes.Ldsfld, typeof(BaseEnchantment).RequireField("_enchantments")),
-                    new CodeInstruction(OpCodes.Newobj, typeof(ReduxArtfulEnchantment).RequireConstructor()),
-                    new CodeInstruction(
-                        OpCodes.Callvirt,
-                        typeof(List<BaseEnchantment>).RequireMethod(nameof(List<BaseEnchantment>.Add))),
-                    // add carving enchant
-                    new CodeInstruction(OpCodes.Ldsfld, typeof(BaseEnchantment).RequireField("_enchantments")),
-                    new CodeInstruction(OpCodes.Newobj, typeof(CarvingEnchantment).RequireConstructor()),
-                    new CodeInstruction(
-                        OpCodes.Callvirt,
-                        typeof(List<BaseEnchantment>).RequireMethod(nameof(List<BaseEnchantment>.Add))),
-                    // add cleaving enchant
-                    new CodeInstruction(OpCodes.Ldsfld, typeof(BaseEnchantment).RequireField("_enchantments")),
-                    new CodeInstruction(OpCodes.Newobj, typeof(CleavingEnchantment).RequireConstructor()),
-                    new CodeInstruction(
-                        OpCodes.Callvirt,
-                        typeof(List<BaseEnchantment>).RequireMethod(nameof(List<BaseEnchantment>.Add))),
-                    // add energized enchant
-                    new CodeInstruction(OpCodes.Ldsfld, typeof(BaseEnchantment).RequireField("_enchantments")),
-                    new CodeInstruction(OpCodes.Newobj, typeof(EnergizedEnchantment).RequireConstructor()),
-                    new CodeInstruction(
-                        OpCodes.Callvirt,
-                        typeof(List<BaseEnchantment>).RequireMethod(nameof(List<BaseEnchantment>.Add))),
-                    // add tribute enchant
-                    new CodeInstruction(OpCodes.Ldsfld, typeof(BaseEnchantment).RequireField("_enchantments")),
-                    new CodeInstruction(OpCodes.Newobj, typeof(TributeEnchantment).RequireConstructor()),
-                    new CodeInstruction(
-                        OpCodes.Callvirt,
-                        typeof(List<BaseEnchantment>).RequireMethod(nameof(List<BaseEnchantment>.Add))),
-                    // add bloodthirsty enchant
-                    new CodeInstruction(OpCodes.Ldsfld, typeof(BaseEnchantment).RequireField("_enchantments")),
-                    new CodeInstruction(OpCodes.Newobj, typeof(BloodthirstyEnchantment).RequireConstructor()),
-                    new CodeInstruction(
-                        OpCodes.Callvirt,
-                        typeof(List<BaseEnchantment>).RequireMethod(nameof(List<BaseEnchantment>.Add))),
-                    // add engorging enchant
-                    new(OpCodes.Ldsfld, typeof(BaseEnchantment).RequireField("_enchantments")),
-                    new(OpCodes.Newobj, typeof(EngorgingEnchantment).RequireConstructor()),
-                    new(
-                        OpCodes.Callvirt,
-                        typeof(List<BaseEnchantment>).RequireMethod(nameof(List<BaseEnchantment>.Add))),
-                    // add gatling enchant
-                    new(OpCodes.Ldsfld, typeof(BaseEnchantment).RequireField("_enchantments")),
-                    new(OpCodes.Newobj, typeof(GatlingEnchantment).RequireConstructor()),
-                    new(
-                        OpCodes.Callvirt,
-                        typeof(List<BaseEnchantment>).RequireMethod(nameof(List<BaseEnchantment>.Add))),
-                    // add preserving enchant
-                    new(OpCodes.Ldsfld, typeof(BaseEnchantment).RequireField("_enchantments")),
-                    new(OpCodes.Newobj, typeof(Enchantments.PreservingEnchantment).RequireConstructor()),
-                    new(
-                        OpCodes.Callvirt,
-                        typeof(List<BaseEnchantment>).RequireMethod(nameof(List<BaseEnchantment>.Add))),
-                    // add quincy enchant
-                    new(OpCodes.Ldsfld, typeof(BaseEnchantment).RequireField("_enchantments")),
-                    new(OpCodes.Newobj, typeof(QuincyEnchantment).RequireConstructor()),
-                    new(
-                        OpCodes.Callvirt,
-                        typeof(List<BaseEnchantment>).RequireMethod(nameof(List<BaseEnchantment>.Add))),
-                    // add spreading enchant
-                    new(OpCodes.Ldsfld, typeof(BaseEnchantment).RequireField("_enchantments")),
-                    new(OpCodes.Newobj, typeof(SpreadingEnchantment).RequireConstructor()),
-                    new(
-                        OpCodes.Callvirt,
-                        typeof(List<BaseEnchantment>).RequireMethod(nameof(List<BaseEnchantment>.Add))))
+                .Insert(
+                    new[]
+                    {
+                        new CodeInstruction(OpCodes.Call, typeof(ModEntry).RequirePropertyGetter(nameof(Config))),
+                        new CodeInstruction(
+                            OpCodes.Callvirt,
+                            typeof(ModConfig).RequirePropertyGetter(nameof(ModConfig.Arsenal))),
+                        new CodeInstruction(
+                            OpCodes.Callvirt,
+                            typeof(ArsenalConfig).RequirePropertyGetter(nameof(ArsenalConfig.Weapons))),
+                        new CodeInstruction(
+                            OpCodes.Callvirt,
+                            typeof(WeaponConfig).RequirePropertyGetter(nameof(WeaponConfig.UseLigoEnchants))),
+                        new CodeInstruction(OpCodes.Brtrue_S, newWeaponEnchants),
+                    })
+                .Move(12)
+                .Insert(new[] { new CodeInstruction(OpCodes.Br_S, resumeExecution) })
+                .Insert(
+                    new[]
+                    {
+                        // add redux artful enchant
+                        new CodeInstruction(OpCodes.Ldsfld, typeof(BaseEnchantment).RequireField("_enchantments")),
+                        new CodeInstruction(OpCodes.Newobj, typeof(ReduxArtfulEnchantment).RequireConstructor()),
+                        new CodeInstruction(
+                            OpCodes.Callvirt,
+                            typeof(List<BaseEnchantment>).RequireMethod(nameof(List<BaseEnchantment>.Add))),
+                        // add carving enchant
+                        new CodeInstruction(OpCodes.Ldsfld, typeof(BaseEnchantment).RequireField("_enchantments")),
+                        new CodeInstruction(OpCodes.Newobj, typeof(CarvingEnchantment).RequireConstructor()),
+                        new CodeInstruction(
+                            OpCodes.Callvirt,
+                            typeof(List<BaseEnchantment>).RequireMethod(nameof(List<BaseEnchantment>.Add))),
+                        // add cleaving enchant
+                        new CodeInstruction(OpCodes.Ldsfld, typeof(BaseEnchantment).RequireField("_enchantments")),
+                        new CodeInstruction(OpCodes.Newobj, typeof(CleavingEnchantment).RequireConstructor()),
+                        new CodeInstruction(
+                            OpCodes.Callvirt,
+                            typeof(List<BaseEnchantment>).RequireMethod(nameof(List<BaseEnchantment>.Add))),
+                        // add energized enchant
+                        new CodeInstruction(OpCodes.Ldsfld, typeof(BaseEnchantment).RequireField("_enchantments")),
+                        new CodeInstruction(OpCodes.Newobj, typeof(EnergizedEnchantment).RequireConstructor()),
+                        new CodeInstruction(
+                            OpCodes.Callvirt,
+                            typeof(List<BaseEnchantment>).RequireMethod(nameof(List<BaseEnchantment>.Add))),
+                        // add tribute enchant
+                        new CodeInstruction(OpCodes.Ldsfld, typeof(BaseEnchantment).RequireField("_enchantments")),
+                        new CodeInstruction(OpCodes.Newobj, typeof(TributeEnchantment).RequireConstructor()),
+                        new CodeInstruction(
+                            OpCodes.Callvirt,
+                            typeof(List<BaseEnchantment>).RequireMethod(nameof(List<BaseEnchantment>.Add))),
+                        // add bloodthirsty enchant
+                        new CodeInstruction(OpCodes.Ldsfld, typeof(BaseEnchantment).RequireField("_enchantments")),
+                        new CodeInstruction(OpCodes.Newobj, typeof(BloodthirstyEnchantment).RequireConstructor()),
+                        new CodeInstruction(
+                            OpCodes.Callvirt,
+                            typeof(List<BaseEnchantment>).RequireMethod(nameof(List<BaseEnchantment>.Add))),
+                        // add engorging enchant
+                        new(OpCodes.Ldsfld, typeof(BaseEnchantment).RequireField("_enchantments")),
+                        new(OpCodes.Newobj, typeof(EngorgingEnchantment).RequireConstructor()), new(
+                            OpCodes.Callvirt,
+                            typeof(List<BaseEnchantment>).RequireMethod(nameof(List<BaseEnchantment>.Add))),
+                        // add gatling enchant
+                        new(OpCodes.Ldsfld, typeof(BaseEnchantment).RequireField("_enchantments")),
+                        new(OpCodes.Newobj, typeof(GatlingEnchantment).RequireConstructor()), new(
+                            OpCodes.Callvirt,
+                            typeof(List<BaseEnchantment>).RequireMethod(nameof(List<BaseEnchantment>.Add))),
+                        // add preserving enchant
+                        new(OpCodes.Ldsfld, typeof(BaseEnchantment).RequireField("_enchantments")),
+                        new(OpCodes.Newobj, typeof(Enchantments.PreservingEnchantment).RequireConstructor()), new(
+                            OpCodes.Callvirt,
+                            typeof(List<BaseEnchantment>).RequireMethod(nameof(List<BaseEnchantment>.Add))),
+                        // add quincy enchant
+                        new(OpCodes.Ldsfld, typeof(BaseEnchantment).RequireField("_enchantments")),
+                        new(OpCodes.Newobj, typeof(QuincyEnchantment).RequireConstructor()), new(
+                            OpCodes.Callvirt,
+                            typeof(List<BaseEnchantment>).RequireMethod(nameof(List<BaseEnchantment>.Add))),
+                        // add spreading enchant
+                        new(OpCodes.Ldsfld, typeof(BaseEnchantment).RequireField("_enchantments")),
+                        new(OpCodes.Newobj, typeof(SpreadingEnchantment).RequireConstructor()), new(
+                            OpCodes.Callvirt,
+                            typeof(List<BaseEnchantment>).RequireMethod(nameof(List<BaseEnchantment>.Add))),
+                    },
+                    new[] { newWeaponEnchants })
                 .AddLabels(resumeExecution);
         }
         catch (Exception ex)

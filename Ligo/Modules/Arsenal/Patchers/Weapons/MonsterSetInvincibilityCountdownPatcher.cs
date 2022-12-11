@@ -25,7 +25,7 @@ internal sealed class MonsterSetInvincibilityCountdownPatcher : HarmonyPatcher
     [HarmonyPrefix]
     private static void MonsterSetInvincibilityCountdownPrefix(Monster __instance, ref int time)
     {
-        if (ModEntry.Config.Arsenal.Weapons.AllowComboHits)
+        if (ArsenalModule.Config.Weapons.AllowComboHits)
         {
             time /= 2;
         }

@@ -36,19 +36,22 @@ internal sealed class BaseEnchantmentGetEnchantmentFromItemPatcher : HarmonyPatc
             var isNotMeleeWeaponButMaybeSlingshot = generator.DefineLabel();
             var canForge = generator.DefineLabel();
             helper
-                .AdvanceUntil(new CodeInstruction(OpCodes.Brfalse_S))
-                .AdvanceUntil(new CodeInstruction(OpCodes.Brfalse))
+                .Match(new[] { new CodeInstruction(OpCodes.Brfalse_S) })
+                .Match(new[] { new CodeInstruction(OpCodes.Brfalse) })
                 .GetOperand(out var cannotForge)
                 .SetOperand(isNotMeleeWeaponButMaybeSlingshot)
-                .AdvanceUntil(new CodeInstruction(OpCodes.Brtrue))
-                .Advance()
+                .Match(new[] { new CodeInstruction(OpCodes.Brtrue) })
+                .Move()
                 .AddLabels(canForge)
-                .InsertInstructions(new CodeInstruction(OpCodes.Br_S, canForge))
-                .InsertWithLabels(
-                    new[] { isNotMeleeWeaponButMaybeSlingshot },
-                    new CodeInstruction(OpCodes.Ldarg_0),
-                    new CodeInstruction(OpCodes.Isinst, typeof(Slingshot)),
-                    new CodeInstruction(OpCodes.Brfalse, cannotForge));
+                .Insert(new[] { new CodeInstruction(OpCodes.Br_S, canForge) })
+                .Insert(
+                    new[]
+                    {
+                        new CodeInstruction(OpCodes.Ldarg_0),
+                        new CodeInstruction(OpCodes.Isinst, typeof(Slingshot)),
+                        new CodeInstruction(OpCodes.Brfalse, cannotForge),
+                    },
+                    new[] { isNotMeleeWeaponButMaybeSlingshot });
         }
         catch (Exception ex)
         {

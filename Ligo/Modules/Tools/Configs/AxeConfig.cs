@@ -20,7 +20,7 @@ public sealed class AxeConfig
 
     /// <summary>Gets the radius of affected tiles at each upgrade level.</summary>
     [JsonProperty]
-    public int[] RadiusAtEachPowerLevel { get; internal set; } = { 1, 2, 3, 4, 5 };
+    public uint[] RadiusAtEachPowerLevel { get; internal set; } = { 1, 2, 3, 4, 5 };
 
     /// <summary>Gets a value indicating whether to clear fruit tree seeds.</summary>
     [JsonProperty]

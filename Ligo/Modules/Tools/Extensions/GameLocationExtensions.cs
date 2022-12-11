@@ -56,7 +56,7 @@ internal static class GameLocationExtensions
         }
 
         // FarmTypeManager resource clumps
-        if (ModEntry.ModHelper.ModRegistry.IsLoaded("Esca.FarmTypeManager"))
+        if (ModHelper.ModRegistry.IsLoaded("Esca.FarmTypeManager"))
         {
             foreach (var feature in location.largeTerrainFeatures)
             {
@@ -66,7 +66,7 @@ internal static class GameLocationExtensions
                     continue;
                 }
 
-                var clump = ModEntry.ModHelper.Reflection
+                var clump = ModHelper.Reflection
                     .GetField<NetRef<ResourceClump>>(feature, "Clump").GetValue().Value;
                 applyTool = tool => feature.performToolAction(tool, 0, tile, location);
                 return clump;

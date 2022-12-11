@@ -24,10 +24,10 @@ internal static class ExtendedAutomateApi
     /// <summary>Initialize reflected fields and compile delegates.</summary>
     internal static void Init()
     {
-        var mod = ModEntry.ModHelper.GetModEntryFor("Pathoschild.Automate") ??
+        var mod = ModHelper.GetModEntryFor("Pathoschild.Automate") ??
                   ThrowHelper.ThrowMissingMemberException<IMod>("Pathoschild.Automate", "ModEntry");
-        _machineManager = ModEntry.Reflector.GetUnboundFieldGetter<IMod, object>(mod, "MachineManager").Invoke(mod);
-        _machineData = (IDictionary)ModEntry.Reflector
+        _machineManager = Reflector.GetUnboundFieldGetter<IMod, object>(mod, "MachineManager").Invoke(mod);
+        _machineData = (IDictionary)Reflector
             .GetUnboundFieldGetter<object, object>(_machineManager, "MachineData")
             .Invoke(_machineManager);
     }
@@ -50,7 +50,7 @@ internal static class ExtendedAutomateApi
         }
 
         var machineDataForLocation = _machineData!.Values.Cast<object>().ElementAt(mdIndex.Value);
-        var activeTiles = (IDictionary)ModEntry.Reflector
+        var activeTiles = (IDictionary)Reflector
             .GetUnboundPropertyGetter<object, object>(machineDataForLocation, "ActiveTiles")
             .Invoke(machineDataForLocation);
         if (activeTiles.Count == 0)
@@ -67,15 +67,15 @@ internal static class ExtendedAutomateApi
         }
         else
         {
-            var junimoMachineGroup = ModEntry.Reflector
+            var junimoMachineGroup = Reflector
                 .GetUnboundPropertyGetter<object, object>(_machineManager!, "JunimoMachineGroup")
                 .Invoke(_machineManager!);
-            var machineGroups = (IList)ModEntry.Reflector
+            var machineGroups = (IList)Reflector
                 .GetUnboundFieldGetter<object, object>(junimoMachineGroup, "MachineGroups")
                 .Invoke(junimoMachineGroup);
             foreach (var group in machineGroups)
             {
-                var groupLocationKey = ModEntry.Reflector
+                var groupLocationKey = Reflector
                     .GetUnboundFieldGetter<object, string?>(group, "LocationKey")
                     .Invoke(group);
                 if (groupLocationKey != machineLocationKey)
@@ -83,12 +83,12 @@ internal static class ExtendedAutomateApi
                     continue;
                 }
 
-                var wrappers = (IEnumerable)ModEntry.Reflector
+                var wrappers = (IEnumerable)Reflector
                     .GetUnboundPropertyGetter<object, object>(group, "Machines")
                     .Invoke(group);
                 foreach (var wrapper in wrappers)
                 {
-                    var wrapperLocation = ModEntry.Reflector
+                    var wrapperLocation = Reflector
                         .GetUnboundPropertyGetter<object, GameLocation>(wrapper, "Location")
                         .Invoke(wrapper);
                     if (wrapperLocation is not Farm)
@@ -96,7 +96,7 @@ internal static class ExtendedAutomateApi
                         continue;
                     }
 
-                    var wrapperTileArea = ModEntry.Reflector
+                    var wrapperTileArea = Reflector
                         .GetUnboundPropertyGetter<object, Rectangle>(wrapper, "TileArea")
                         .Invoke(wrapper);
                     if (wrapperTileArea.X != machine.tileX.Value || wrapperTileArea.Y != machine.tileY.Value ||
@@ -121,11 +121,11 @@ internal static class ExtendedAutomateApi
             return null;
         }
 
-        var containers = (Array)ModEntry.Reflector
+        var containers = (Array)Reflector
             .GetUnboundPropertyGetter<object, object>(machineGroup, "Containers")
             .Invoke(machineGroup);
         var chests = containers.Cast<object>()
-            .Select(c => ModEntry.Reflector.GetUnboundFieldGetter<object, Chest>(c, "Chest").Invoke(c))
+            .Select(c => Reflector.GetUnboundFieldGetter<object, Chest>(c, "Chest").Invoke(c))
             .Where(c => c.SpecialChestType != Chest.SpecialChestTypes.JunimoChest)
             .ToArray();
         return chests.Length == 0
@@ -155,7 +155,7 @@ internal static class ExtendedAutomateApi
         }
 
         var machineDataForLocation = _machineData!.Values.Cast<object>().ElementAt(mdIndex.Value);
-        var activeTiles = (IDictionary)ModEntry.Reflector
+        var activeTiles = (IDictionary)Reflector
             .GetUnboundPropertyGetter<object, object>(machineDataForLocation, "ActiveTiles")
             .Invoke(machineDataForLocation);
         if (activeTiles.Count == 0)
@@ -172,15 +172,15 @@ internal static class ExtendedAutomateApi
         }
         else
         {
-            var junimoMachineGroup = ModEntry.Reflector
+            var junimoMachineGroup = Reflector
                 .GetUnboundPropertyGetter<object, object>(_machineManager!, "JunimoMachineGroup")
                 .Invoke(_machineManager!);
-            var machineGroups = (IList)ModEntry.Reflector
+            var machineGroups = (IList)Reflector
                 .GetUnboundFieldGetter<object, object>(junimoMachineGroup, "MachineGroups")
                 .Invoke(junimoMachineGroup);
             foreach (var group in machineGroups)
             {
-                var groupLocationKey = ModEntry.Reflector
+                var groupLocationKey = Reflector
                     .GetUnboundFieldGetter<object, string?>(group, "LocationKey")
                     .Invoke(group);
                 if (groupLocationKey != machineLocationKey)
@@ -188,12 +188,12 @@ internal static class ExtendedAutomateApi
                     continue;
                 }
 
-                var wrappers = (IEnumerable)ModEntry.Reflector
+                var wrappers = (IEnumerable)Reflector
                     .GetUnboundPropertyGetter<object, object>(group, "Machines")
                     .Invoke(group);
                 foreach (var wrapper in wrappers)
                 {
-                    var wrapperLocation = ModEntry.Reflector
+                    var wrapperLocation = Reflector
                         .GetUnboundPropertyGetter<object, GameLocation>(wrapper, "Location")
                         .Invoke(wrapper);
                     // ReSharper disable once PossibleUnintendedReferenceComparison
@@ -202,7 +202,7 @@ internal static class ExtendedAutomateApi
                         continue;
                     }
 
-                    var wrapperTileArea = ModEntry.Reflector
+                    var wrapperTileArea = Reflector
                         .GetUnboundPropertyGetter<object, Rectangle>(wrapper, "TileArea")
                         .Invoke(wrapper);
                     if (wrapperTileArea.X != machine.TileLocation.X || wrapperTileArea.Y != machine.TileLocation.Y)
@@ -226,11 +226,11 @@ internal static class ExtendedAutomateApi
             return null;
         }
 
-        var containers = (Array)ModEntry.Reflector
+        var containers = (Array)Reflector
             .GetUnboundPropertyGetter<object, object>(machineGroup, "Containers")
             .Invoke(machineGroup);
         var chests = containers.Cast<object>()
-            .Select(c => ModEntry.Reflector.GetUnboundFieldGetter<object, Chest>(c, "Chest").Invoke(c))
+            .Select(c => Reflector.GetUnboundFieldGetter<object, Chest>(c, "Chest").Invoke(c))
             .Where(c => c.SpecialChestType != Chest.SpecialChestTypes.JunimoChest)
             .ToArray();
         return chests.Length == 0
@@ -259,7 +259,7 @@ internal static class ExtendedAutomateApi
         }
 
         var machineDataForLocation = _machineData!.Values.Cast<object>().ElementAt(mdIndex.Value);
-        var activeTiles = (IDictionary)ModEntry.Reflector
+        var activeTiles = (IDictionary)Reflector
             .GetUnboundPropertyGetter<object, object>(machineDataForLocation, "ActiveTiles")
             .Invoke(machineDataForLocation);
         if (activeTiles.Count == 0)
@@ -279,15 +279,15 @@ internal static class ExtendedAutomateApi
         }
         else
         {
-            var junimoMachineGroup = ModEntry.Reflector
+            var junimoMachineGroup = Reflector
                 .GetUnboundPropertyGetter<object, object>(_machineManager!, "JunimoMachineGroup")
                 .Invoke(_machineManager!);
-            var machineGroups = (IList)ModEntry.Reflector
+            var machineGroups = (IList)Reflector
                 .GetUnboundFieldGetter<object, object>(junimoMachineGroup, "MachineGroups")
                 .Invoke(junimoMachineGroup);
             foreach (var group in machineGroups)
             {
-                var groupLocationKey = ModEntry.Reflector
+                var groupLocationKey = Reflector
                     .GetUnboundFieldGetter<object, string?>(group, "LocationKey")
                     .Invoke(group);
                 if (groupLocationKey != machineLocationKey)
@@ -295,12 +295,12 @@ internal static class ExtendedAutomateApi
                     continue;
                 }
 
-                var wrappers = (IEnumerable)ModEntry.Reflector
+                var wrappers = (IEnumerable)Reflector
                     .GetUnboundPropertyGetter<object, object>(group, "Machines")
                     .Invoke(group);
                 foreach (var wrapper in wrappers)
                 {
-                    var wrapperLocation = ModEntry.Reflector
+                    var wrapperLocation = Reflector
                         .GetUnboundPropertyGetter<object, GameLocation>(wrapper, "Location")
                         .Invoke(wrapper);
                     if (wrapperLocation != machine.currentLocation)
@@ -308,7 +308,7 @@ internal static class ExtendedAutomateApi
                         continue;
                     }
 
-                    var wrapperTileArea = ModEntry.Reflector
+                    var wrapperTileArea = Reflector
                         .GetUnboundPropertyGetter<object, Rectangle>(wrapper, "TileArea")
                         .Invoke(wrapper);
                     if (wrapperTileArea.X != machine.currentTileLocation.X || wrapperTileArea.Y != machine.currentTileLocation.Y)
@@ -327,11 +327,11 @@ internal static class ExtendedAutomateApi
             return null;
         }
 
-        var containers = (Array)ModEntry.Reflector
+        var containers = (Array)Reflector
             .GetUnboundPropertyGetter<object, object>(machineGroup, "Containers")
             .Invoke(machineGroup);
         var chests = containers.Cast<object>()
-            .Select(c => ModEntry.Reflector.GetUnboundFieldGetter<object, Chest>(c, "Chest").Invoke(c))
+            .Select(c => Reflector.GetUnboundFieldGetter<object, Chest>(c, "Chest").Invoke(c))
             .Where(c => c.SpecialChestType != Chest.SpecialChestTypes.JunimoChest)
             .ToArray();
         return chests.Length == 0

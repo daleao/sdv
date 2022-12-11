@@ -36,19 +36,19 @@ internal sealed class SewerGetFishPatcher : HarmonyPatcher
         {
             var chooseLegendary = generator.DefineLabel();
             helper
-                .FindFirst(new CodeInstruction(OpCodes.Ldc_I4, Constants.MutantCarpIndex))
-                .AdvanceUntil(new CodeInstruction(OpCodes.Brtrue_S))
+                .Match(new[] { new CodeInstruction(OpCodes.Ldc_I4, Constants.MutantCarpIndex) })
+                .Match(new[] { new CodeInstruction(OpCodes.Brtrue_S) })
                 .GetOperand(out var skipLegendary)
-                .ReplaceInstructionWith(new CodeInstruction(OpCodes.Brfalse_S, chooseLegendary))
-                .Advance()
+                .ReplaceWith(new CodeInstruction(OpCodes.Brfalse_S, chooseLegendary))
+                .Move()
                 .AddLabels(chooseLegendary)
-                .InsertInstructions(new CodeInstruction(OpCodes.Ldarg_S, (byte)4)) // arg 4 = Farmer who
+                .Insert(new[] { new CodeInstruction(OpCodes.Ldarg_S, (byte)4) }) // arg 4 = Farmer who
                 .InsertProfessionCheck(Profession.Angler.Value + 100, forLocalPlayer: false)
-                .InsertInstructions(new CodeInstruction(OpCodes.Brfalse_S, skipLegendary));
+                .Insert(new[] { new CodeInstruction(OpCodes.Brfalse_S, skipLegendary) });
         }
         catch (Exception ex)
         {
-            Log.E($"Failed adding prestiged Angler legendary fish recatch.\nHelper returned {ex}");
+            Log.E($"Failed adding prestiged Mutant Carp legendary fish recatch.\nHelper returned {ex}");
             return null;
         }
 

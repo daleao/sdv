@@ -29,11 +29,11 @@ internal sealed class FishPondUpdateMaximumOccupancyPatcher : HarmonyPatcher
     {
         if (__instance.HasLegendaryFish())
         {
-            __instance.maxOccupants.Set((int)ModEntry.Config.Professions.LegendaryPondPopulationCap);
+            __instance.maxOccupants.Set((int)ProfessionsModule.Config.LegendaryPondPopulationCap);
         }
         else if (____fishPondData is not null &&
                  ((__instance.GetOwner().HasProfession(Profession.Aquarist) &&
-                   __instance.HasUnlockedFinalPopulationGate()) || (ModEntry.Config.Professions.LaxOwnershipRequirements &&
+                   __instance.HasUnlockedFinalPopulationGate()) || (ProfessionsModule.Config.LaxOwnershipRequirements &&
                                                                     Game1.game1.DoesAnyPlayerHaveProfession(
                                                                         Profession.Aquarist, out _))))
         {

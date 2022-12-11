@@ -51,27 +51,36 @@ internal sealed class GreenSlimeDrawPatcher : HarmonyPatcher
         try
         {
             helper
-                .FindFirst(drawInstructions) // the main sprite draw call
-                .FindNext(drawInstructions) // find antenna draw call
-                .AdvanceUntil(new CodeInstruction(OpCodes.Ldloc_S, helper.Locals[5])) // advance until end of position argument
-                .Retreat()
-                .GetInstructions(out var got, advance: true) // copy vector addition instruction
-                .InsertInstructions(
-                    // insert custom offset
-                    new CodeInstruction(OpCodes.Ldarg_0),
-                    new CodeInstruction(
-                        OpCodes.Call,
-                        typeof(GreenSlimeDrawPatcher).RequireMethod(nameof(GetAntennaeOffset))))
-                .InsertInstructions(got) // insert addition
-                .FindNext(drawInstructions) // find eyes draw call
-                .AdvanceUntil(new CodeInstruction(OpCodes.Ldc_I4_S, 32)) // advance until end of position argument
-                .InsertInstructions(
-                    // insert custom offset
-                    new CodeInstruction(OpCodes.Ldarg_0),
-                    new CodeInstruction(
-                        OpCodes.Call,
-                        typeof(GreenSlimeDrawPatcher).RequireMethod(nameof(GetEyesOffset))))
-                .InsertInstructions(got); // insert addition
+                .Match(drawInstructions) // the main sprite draw call
+                .Match(drawInstructions) // find antenna draw call
+                .Match(
+                    new[]
+                    {
+                        new CodeInstruction(OpCodes.Ldloc_S, helper.Locals[5]),
+                    }) // advance until end of position argument
+                .Move(-1)
+                .Copy(out var got, moveStackPointer: true) // copy vector addition instruction
+                .Insert(
+                    new[]
+                    {
+                        // insert custom offset
+                        new CodeInstruction(OpCodes.Ldarg_0), new CodeInstruction(
+                            OpCodes.Call,
+                            typeof(GreenSlimeDrawPatcher).RequireMethod(nameof(GetAntennaeOffset))),
+                    })
+                .Insert(got) // insert addition
+                .Match(drawInstructions) // find eyes draw call
+                .Match(
+                    new[] { new CodeInstruction(OpCodes.Ldc_I4_S, 32) }) // advance until end of position argument
+                .Insert(
+                    new[]
+                    {
+                        // insert custom offset
+                        new CodeInstruction(OpCodes.Ldarg_0), new CodeInstruction(
+                            OpCodes.Call,
+                            typeof(GreenSlimeDrawPatcher).RequireMethod(nameof(GetEyesOffset))),
+                    })
+                .Insert(got); // insert addition
         }
         catch (Exception ex)
         {

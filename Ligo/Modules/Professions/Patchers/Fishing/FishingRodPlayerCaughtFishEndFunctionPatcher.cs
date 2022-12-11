@@ -35,25 +35,31 @@ internal sealed class FishingRodPlayerCaughtFishEndFunctionPatcher : HarmonyPatc
         try
         {
             helper
-                .FindFirst(
-                    new CodeInstruction(
-                        OpCodes.Call,
-                        typeof(FishingRod).RequireMethod(nameof(FishingRod.isFishBossFish))))
-                .Advance()
+                .Match(
+                    new[]
+                    {
+                        new CodeInstruction(
+                            OpCodes.Call,
+                            typeof(FishingRod).RequireMethod(nameof(FishingRod.isFishBossFish))),
+                    })
+                .Move()
                 .GetOperand(out var dontShowMessage)
-                .Advance()
-                .InsertInstructions(
-                    new CodeInstruction(OpCodes.Ldarg_0),
-                    new CodeInstruction(
-                        OpCodes.Call,
-                        typeof(FishingRod).RequireMethod(nameof(FishingRod.getLastFarmerToUse))),
-                    new CodeInstruction(OpCodes.Ldfld, typeof(Farmer).RequireField(nameof(Farmer.fishCaught))),
-                    new CodeInstruction(OpCodes.Ldarg_0),
-                    new CodeInstruction(OpCodes.Ldfld, typeof(FishingRod).RequireField("whichFish")),
-                    new CodeInstruction(
-                        OpCodes.Call,
-                        typeof(NetIntIntArrayDictionary).RequireMethod(nameof(NetIntIntArrayDictionary.ContainsKey))),
-                    new CodeInstruction(OpCodes.Brtrue_S, dontShowMessage));
+                .Move()
+                .Insert(
+                    new[]
+                    {
+                        new CodeInstruction(OpCodes.Ldarg_0), new CodeInstruction(
+                            OpCodes.Call,
+                            typeof(FishingRod).RequireMethod(nameof(FishingRod.getLastFarmerToUse))),
+                        new CodeInstruction(OpCodes.Ldfld, typeof(Farmer).RequireField(nameof(Farmer.fishCaught))),
+                        new CodeInstruction(OpCodes.Ldarg_0),
+                        new CodeInstruction(OpCodes.Ldfld, typeof(FishingRod).RequireField("whichFish")),
+                        new CodeInstruction(
+                            OpCodes.Call,
+                            typeof(NetIntIntArrayDictionary).RequireMethod(nameof(NetIntIntArrayDictionary
+                                .ContainsKey))),
+                        new CodeInstruction(OpCodes.Brtrue_S, dontShowMessage),
+                    });
         }
         catch (Exception ex)
         {

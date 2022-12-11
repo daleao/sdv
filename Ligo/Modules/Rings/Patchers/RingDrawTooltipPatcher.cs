@@ -33,7 +33,7 @@ internal sealed class RingDrawTooltipPatcher : HarmonyPatcher
             return true; // run original logic
         }
 
-        var descriptionWidth = ModEntry.Reflector
+        var descriptionWidth = Reflector
             .GetUnboundMethodDelegate<Func<Item, int>>(__instance, "getDescriptionWidth")
             .Invoke(__instance);
         if (combined.combinedRings.Count == 0)
@@ -102,7 +102,7 @@ internal sealed class RingDrawTooltipPatcher : HarmonyPatcher
                 false,
                 1f);
 
-            string text = ModEntry.i18n.Get("ui.itemhover.damage", new { amount });
+            string text = i18n.Get("ui.itemhover.damage", new { amount });
             var width = font.MeasureString(text).X;
             maxWidth = (int)Math.Max(width, maxWidth);
             Utility.drawTextWithShadow(spriteBatch, text, font, new Vector2(x + 68, y + 28), co * 0.9f * alpha);
@@ -126,7 +126,7 @@ internal sealed class RingDrawTooltipPatcher : HarmonyPatcher
                 false,
                 1f);
 
-            string text = ModEntry.i18n.Get("ui.itemhover.knockback", new { amount });
+            string text = i18n.Get("ui.itemhover.knockback", new { amount });
             var width = font.MeasureString(text).X;
             maxWidth = (int)Math.Max(width, maxWidth);
             Utility.drawTextWithShadow(spriteBatch, text, font, new Vector2(x + 68, y + 28), co * 0.9f * alpha);
@@ -150,7 +150,7 @@ internal sealed class RingDrawTooltipPatcher : HarmonyPatcher
                 false,
                 1f);
 
-            string text = ModEntry.i18n.Get("ui.itemhover.crate", new { amount });
+            string text = i18n.Get("ui.itemhover.crate", new { amount });
             var width = font.MeasureString(text).X;
             maxWidth = (int)Math.Max(width, maxWidth);
             Utility.drawTextWithShadow(spriteBatch, text, font, new Vector2(x + 68, y + 28), co * 0.9f * alpha);
@@ -174,7 +174,7 @@ internal sealed class RingDrawTooltipPatcher : HarmonyPatcher
                 false,
                 1f);
 
-            string text = ModEntry.i18n.Get("ui.itemhover.cpow", new { amount });
+            string text = i18n.Get("ui.itemhover.cpow", new { amount });
             var width = font.MeasureString(text).X;
             maxWidth = (int)Math.Max(width, maxWidth);
             Utility.drawTextWithShadow(
@@ -203,7 +203,7 @@ internal sealed class RingDrawTooltipPatcher : HarmonyPatcher
                 false,
                 1f);
 
-            string text = ModEntry.i18n.Get("ui.itemhover.precision", new { amount });
+            string text = i18n.Get("ui.itemhover.precision", new { amount });
             var width = font.MeasureString(text).X;
             maxWidth = (int)Math.Max(width, maxWidth);
             Utility.drawTextWithShadow(spriteBatch, text, font, new Vector2(x + 68, y + 28), co * 0.9f * alpha);
@@ -251,7 +251,7 @@ internal sealed class RingDrawTooltipPatcher : HarmonyPatcher
                 false,
                 1f);
 
-            string text = ModEntry.i18n.Get("ui.itemhover.cdr", new { amount });
+            string text = i18n.Get("ui.itemhover.cdr", new { amount });
             var width = font.MeasureString(text).X;
             maxWidth = (int)Math.Max(width, maxWidth);
             Utility.drawTextWithShadow(spriteBatch, text, font, new Vector2(x + 68, y + 28), co * 0.9f * alpha);
@@ -275,8 +275,8 @@ internal sealed class RingDrawTooltipPatcher : HarmonyPatcher
                 false,
                 1f);
 
-            var text = ModEntry.Config.EnableArsenal && ModEntry.Config.Arsenal.OverhauledDefense
-                ? ModEntry.i18n.Get("ui.itemhover.resist", new { amount })
+            var text = Config.EnableArsenal && ArsenalModule.Config.OverhauledDefense
+                ? i18n.Get("ui.itemhover.resist", new { amount })
                 : Game1.content.LoadString("ItemHover_DefenseBonus", buffer.DefenseModifier);
             var width = font.MeasureString(text).X;
             maxWidth = (int)Math.Max(width, maxWidth);

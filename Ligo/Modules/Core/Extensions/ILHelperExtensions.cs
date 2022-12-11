@@ -34,9 +34,8 @@ internal static class IlHelperExtensions
             _ => typeof(Log).RequireMethod(nameof(Log.T)),
         };
 
-        return helper.InsertInstructions(
-            new CodeInstruction(OpCodes.Ldstr, message),
-            new CodeInstruction(OpCodes.Call, logger));
+        return helper.Insert(
+            new[] { new CodeInstruction(OpCodes.Ldstr, message), new CodeInstruction(OpCodes.Call, logger) });
     }
 
     /// <summary>Inserts a sequence of <see cref="CodeInstruction"/>s at the currently pointed index to roll a random double.</summary>
@@ -65,7 +64,7 @@ internal static class IlHelperExtensions
             toInsert[0].labels.AddRange(labels);
         }
 
-        return helper.InsertInstructions(toInsert.ToArray());
+        return helper.Insert(toInsert.ToArray());
     }
 
     /// <summary>Inserts a sequence of <see cref="CodeInstruction"/>s at the currently pointed index to roll a random integer.</summary>
@@ -93,6 +92,6 @@ internal static class IlHelperExtensions
             toInsert[0].labels.AddRange(labels);
         }
 
-        return helper.InsertInstructions(toInsert.ToArray());
+        return helper.Insert(toInsert.ToArray());
     }
 }

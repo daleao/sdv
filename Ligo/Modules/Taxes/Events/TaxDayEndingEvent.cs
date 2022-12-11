@@ -31,20 +31,20 @@ internal sealed class TaxDayEndingEvent : DayEndingEvent
 
         if (Game1.dayOfMonth == 0 && Game1.currentSeason == "spring" && Game1.year == 1)
         {
-            player.mailForTomorrow.Add($"{ModEntry.Manifest.UniqueID}/TaxIntro");
+            player.mailForTomorrow.Add($"{Manifest.UniqueID}/TaxIntro");
         }
 
         var amountSold = Game1.getFarm().getShippingBin(player).Sum(item =>
             item is SObject obj ? obj.sellToStorePrice() * obj.Stack : item.salePrice() / 2);
-        if (amountSold > 0 && !player.hasOrWillReceiveMail($"{ModEntry.Manifest.UniqueID}/TaxIntro"))
+        if (amountSold > 0 && !player.hasOrWillReceiveMail($"{Manifest.UniqueID}/TaxIntro"))
         {
-            player.mailForTomorrow.Add($"{ModEntry.Manifest.UniqueID}/TaxIntro");
+            player.mailForTomorrow.Add($"{Manifest.UniqueID}/TaxIntro");
         }
 
         var dayIncome = amountSold;
         switch (Game1.dayOfMonth)
         {
-            case 28 when ModEntry.Config.EnableProfessions && player.professions.Contains(Farmer.mariner):
+            case 28 when Config.EnableProfessions && player.professions.Contains(Farmer.mariner):
             {
                 var deductible = player.GetConservationistPriceMultiplier() - 1;
                 if (deductible <= 0f)
@@ -53,8 +53,8 @@ internal sealed class TaxDayEndingEvent : DayEndingEvent
                 }
 
                 player.Write(DataFields.PercentDeductions, deductible.ToString(CultureInfo.InvariantCulture));
-                ModEntry.ModHelper.GameContent.InvalidateCacheAndLocalized("Data/mail");
-                player.mailForTomorrow.Add($"{ModEntry.Manifest.UniqueID}/TaxDeduction");
+                ModHelper.GameContent.InvalidateCacheAndLocalized("Data/mail");
+                player.mailForTomorrow.Add($"{Manifest.UniqueID}/TaxDeduction");
                 Log.I(
                     FormattableString.CurrentCulture(
                         $"Farmer {player.Name} is eligible for tax deductions of {deductible:0%}.") +
@@ -85,8 +85,8 @@ internal sealed class TaxDayEndingEvent : DayEndingEvent
                     player.Money -= amountDue;
                     amountPaid = amountDue;
                     amountDue = 0;
-                    ModEntry.ModHelper.GameContent.InvalidateCacheAndLocalized("Data/mail");
-                    player.mailForTomorrow.Add($"{ModEntry.Manifest.UniqueID}/TaxNotice");
+                    ModHelper.GameContent.InvalidateCacheAndLocalized("Data/mail");
+                    player.mailForTomorrow.Add($"{Manifest.UniqueID}/TaxNotice");
                     Log.I("Amount due has been paid in full." +
                           " An FRS taxation notice has been posted for tomorrow.");
                 }
@@ -96,8 +96,8 @@ internal sealed class TaxDayEndingEvent : DayEndingEvent
                     amountPaid = player.Money + dayIncome;
                     amountDue -= amountPaid;
                     player.Increment(DataFields.DebtOutstanding, amountDue);
-                    ModEntry.ModHelper.GameContent.InvalidateCacheAndLocalized("Data/mail");
-                    player.mailForTomorrow.Add($"{ModEntry.Manifest.UniqueID}/TaxOutstanding");
+                    ModHelper.GameContent.InvalidateCacheAndLocalized("Data/mail");
+                    player.mailForTomorrow.Add($"{Manifest.UniqueID}/TaxOutstanding");
                     Log.I(
                         $"{player.Name} did not carry enough funds to cover the amount due." +
                         $"\n\t- Amount charged: {amountPaid}g" +
@@ -123,7 +123,7 @@ internal sealed class TaxDayEndingEvent : DayEndingEvent
             else
             {
                 debtOutstanding -= dayIncome;
-                var interest = (int)Math.Round(debtOutstanding * ModEntry.Config.Taxes.AnnualInterest / 112f);
+                var interest = (int)Math.Round(debtOutstanding * TaxesModule.Config.AnnualInterest / 112f);
                 debtOutstanding += interest;
                 Log.I(
                     $"{player.Name}'s outstanding debt has accrued {interest}g interest and is now worth {debtOutstanding}g.");
@@ -133,7 +133,7 @@ internal sealed class TaxDayEndingEvent : DayEndingEvent
             var toDebit = amountSold - dayIncome;
             player.Set_LatestCharge(toDebit);
             player.Write(DataFields.DebtOutstanding, debtOutstanding.ToString());
-            ModEntry.Events.Enable<TaxDayStartedEvent>();
+            this.Manager.Enable<TaxDayStartedEvent>();
         }
 
         player.Increment(DataFields.SeasonIncome, dayIncome);

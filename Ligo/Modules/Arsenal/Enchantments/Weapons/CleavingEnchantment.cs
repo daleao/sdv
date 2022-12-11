@@ -15,7 +15,7 @@ public class CleavingEnchantment : BaseWeaponEnchantment
     /// <inheritdoc />
     public override string GetName()
     {
-        return ModEntry.i18n.Get("enchantments.cleaving");
+        return i18n.Get("enchantments.cleaving");
     }
 
     /// <inheritdoc />

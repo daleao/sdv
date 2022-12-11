@@ -31,10 +31,10 @@ internal sealed class PrestigeAchievementOneSecondUpdateTickedEvent : OneSecondU
         // check for prestige achievements
         if (Game1.player.HasAllProfessions())
         {
-            string name =
-                ModEntry.i18n.Get("prestige.achievement.name" +
+            string title =
+                i18n.Get("prestige.achievement.title" +
                                   (Game1.player.IsMale ? ".male" : ".female"));
-            if (!Game1.player.achievements.Contains(name.GetDeterministicHashCode()))
+            if (!Game1.player.achievements.Contains(title.GetDeterministicHashCode()))
             {
                 this.Manager.Enable<AchievementUnlockedDayStartedEvent>();
             }

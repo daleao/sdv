@@ -2,7 +2,6 @@
 
 #region using directives
 
-using System.Reflection;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
 using Microsoft.Xna.Framework;
@@ -32,6 +31,11 @@ internal sealed class GameLocationMonsterDropPatcher : HarmonyPatcher
             case ShadowGirl:
             case ShadowGuy:
             case ShadowShaman:
+                if (Game1.mine is null)
+                {
+                    return;
+                }
+
                 if (Game1.mine.GetAdditionalDifficulty() > 0 && Game1.random.NextDouble() < 0.01 + (who.LuckLevel * 0.002f))
                 {
                     monster.ModifyMonsterLoot(Game1.createItemDebris(

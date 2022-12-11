@@ -14,7 +14,7 @@ internal sealed class UltimateActivatedEvent : ManagedEvent
     /// <summary>Initializes a new instance of the <see cref="UltimateActivatedEvent"/> class.</summary>
     /// <param name="callback">The delegate to run when the event is raised.</param>
     internal UltimateActivatedEvent(Action<object?, IUltimateActivatedEventArgs> callback)
-        : base(ModEntry.Events)
+        : base(ModEntry.EventManager)
     {
         this._onActivatedImpl = callback;
     }

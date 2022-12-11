@@ -30,7 +30,7 @@ internal sealed class FarmerToolPowerIncreasePatcher : HarmonyPatcher
         for (var i = 0; i < l.Count; i++)
         {
             if (l[i].opcode != OpCodes.Isinst ||
-                l[i].operand?.ToString() != "StardewValley.Tools.Pick")
+                l[i].operand?.ToString() != "StardewValley.Tools.Pickaxe")
             {
                 continue;
             }

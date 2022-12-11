@@ -67,11 +67,11 @@ internal sealed class LevelUpMenuRemoveImmediateProfessionPerkPatcher : HarmonyP
             })
             .When(Profession.Prospector).Then(() =>
             {
-                ModEntry.Events.Disable<ProspectorHuntRenderedHudEvent>();
+                EventManager.Disable<ProspectorHuntRenderedHudEvent>();
             })
             .When(Profession.Scavenger).Then(() =>
             {
-                ModEntry.Events.Disable<ScavengerHuntRenderedHudEvent>();
+                EventManager.Disable<ScavengerHuntRenderedHudEvent>();
             });
 
         // unregister Ultimate
@@ -103,7 +103,7 @@ internal sealed class LevelUpMenuRemoveImmediateProfessionPerkPatcher : HarmonyP
         try
         {
             helper
-                .FindFirst(new CodeInstruction(OpCodes.Ldc_I4_S, Farmer.defender))
+                .Match(new[] { new CodeInstruction(OpCodes.Ldc_I4_S, Farmer.defender) })
                 .SetOperand(Profession.Brute.Value);
         }
         catch (Exception ex)

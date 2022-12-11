@@ -21,47 +21,47 @@ public sealed class LuckSkill : Skill
         this.StringId = "spacechase0.LuckSkill";
 
         var i18n = "LuckSkill.I18n".ToType();
-        this.DisplayName = ModEntry.Reflector.GetStaticMethodDelegate<Func<string>>(i18n, "Skill_Name").Invoke();
+        this.DisplayName = Reflector.GetStaticMethodDelegate<Func<string>>(i18n, "Skill_Name").Invoke();
         this.Professions.Add(new SCProfession(
             30,
             "LuckSkill.Fortunate",
-            ModEntry.Reflector.GetStaticMethodDelegate<Func<string>>(i18n, "Fortunate_Name"),
-            ModEntry.Reflector.GetStaticMethodDelegate<Func<string>>(i18n, "Fortunate_Desc"),
+            Reflector.GetStaticMethodDelegate<Func<string>>(i18n, "Fortunate_Name"),
+            Reflector.GetStaticMethodDelegate<Func<string>>(i18n, "Fortunate_Desc"),
             5,
             this));
         this.Professions.Add(new SCProfession(
             31,
             "LuckSkill.PopularHelper",
-            ModEntry.Reflector.GetStaticMethodDelegate<Func<string>>(i18n, "PopularHelper_Name"),
-            ModEntry.Reflector.GetStaticMethodDelegate<Func<string>>(i18n, "PopularHelper_Desc"),
+            Reflector.GetStaticMethodDelegate<Func<string>>(i18n, "PopularHelper_Name"),
+            Reflector.GetStaticMethodDelegate<Func<string>>(i18n, "PopularHelper_Desc"),
             5,
             this));
         this.Professions.Add(new SCProfession(
             32,
             "LuckSkill.Lucky",
-            ModEntry.Reflector.GetStaticMethodDelegate<Func<string>>(i18n, "Lucky_Name"),
-            ModEntry.Reflector.GetStaticMethodDelegate<Func<string>>(i18n, "Lucky_Desc"),
+            Reflector.GetStaticMethodDelegate<Func<string>>(i18n, "Lucky_Name"),
+            Reflector.GetStaticMethodDelegate<Func<string>>(i18n, "Lucky_Desc"),
             10,
             this));
         this.Professions.Add(new SCProfession(
             33,
             "LuckSkill.UnUnlucky",
-            ModEntry.Reflector.GetStaticMethodDelegate<Func<string>>(i18n, "UnUnlucky_Name"),
-            ModEntry.Reflector.GetStaticMethodDelegate<Func<string>>(i18n, "UnUnlucky_Desc"),
+            Reflector.GetStaticMethodDelegate<Func<string>>(i18n, "UnUnlucky_Name"),
+            Reflector.GetStaticMethodDelegate<Func<string>>(i18n, "UnUnlucky_Desc"),
             10,
             this));
         this.Professions.Add(new SCProfession(
             34,
             "LuckSkill.ShootingStar",
-            ModEntry.Reflector.GetStaticMethodDelegate<Func<string>>(i18n, "ShootingStar_Name"),
-            ModEntry.Reflector.GetStaticMethodDelegate<Func<string>>(i18n, "ShootingStar_Desc"),
+            Reflector.GetStaticMethodDelegate<Func<string>>(i18n, "ShootingStar_Name"),
+            Reflector.GetStaticMethodDelegate<Func<string>>(i18n, "ShootingStar_Desc"),
             10,
             this));
         this.Professions.Add(new SCProfession(
             35,
             "LuckSkill.SpiritChild",
-            ModEntry.Reflector.GetStaticMethodDelegate<Func<string>>(i18n, "SpiritChild_Name"),
-            ModEntry.Reflector.GetStaticMethodDelegate<Func<string>>(i18n, "SpiritChild_Desc"),
+            Reflector.GetStaticMethodDelegate<Func<string>>(i18n, "SpiritChild_Name"),
+            Reflector.GetStaticMethodDelegate<Func<string>>(i18n, "SpiritChild_Desc"),
             10,
             this));
 

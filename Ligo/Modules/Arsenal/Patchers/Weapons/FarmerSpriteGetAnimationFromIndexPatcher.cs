@@ -34,7 +34,7 @@ internal sealed class FarmerSpriteGetAnimationFromIndexPatcher : HarmonyPatcher
 
         try
         {
-            var owner = ModEntry.Reflector.GetUnboundFieldGetter<FarmerSprite, Farmer>(requester, "owner")
+            var owner = Reflector.GetUnboundFieldGetter<FarmerSprite, Farmer>(requester, "owner")
                 .Invoke(requester);
             if (!owner.IsLocalPlayer || owner.CurrentTool is not MeleeWeapon weapon)
             {

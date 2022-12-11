@@ -36,7 +36,7 @@ internal sealed class LevelUpMenuGetImmediateProfessionPerkPatcher : HarmonyPatc
     {
         if (whichProfession.IsIn(Profession.GetRange(true)))
         {
-            ModEntry.ModHelper.GameContent.InvalidateCache("LooseSprites/Cursors");
+            ModHelper.GameContent.InvalidateCache("LooseSprites/Cursors");
         }
 
         if (!Profession.TryFromValue(whichProfession, out var profession) ||
@@ -52,7 +52,7 @@ internal sealed class LevelUpMenuGetImmediateProfessionPerkPatcher : HarmonyPatc
                 Game1.getFarm().buildings
                     .OfType<FishPond>()
                     .Where(p => (p.owner.Value == Game1.player.UniqueMultiplayerID || !Context.IsMultiplayer ||
-                                 ModEntry.Config.Professions.LaxOwnershipRequirements) && !p.isUnderConstruction())
+                                 ProfessionsModule.Config.LaxOwnershipRequirements) && !p.isUnderConstruction())
                     .ForEach(p => p.UpdateMaximumOccupancy());
             })
             .When(Profession.Rascal).Then(() =>
@@ -70,11 +70,11 @@ internal sealed class LevelUpMenuGetImmediateProfessionPerkPatcher : HarmonyPatc
             })
             .When(Profession.Prospector).Then(() =>
             {
-                ModEntry.Events.Enable<ProspectorHuntRenderedHudEvent>();
+                EventManager.Enable<ProspectorHuntRenderedHudEvent>();
             })
             .When(Profession.Scavenger).Then(() =>
             {
-                ModEntry.Events.Enable<ScavengerHuntRenderedHudEvent>();
+                EventManager.Enable<ScavengerHuntRenderedHudEvent>();
             });
 
         if (whichProfession is < 26 or >= 30 || Game1.player.Get_Ultimate() is not null)
@@ -98,7 +98,7 @@ internal sealed class LevelUpMenuGetImmediateProfessionPerkPatcher : HarmonyPatc
         try
         {
             helper
-                .FindFirst(new CodeInstruction(OpCodes.Ldc_I4_S, Farmer.defender))
+                .Match(new[] { new CodeInstruction(OpCodes.Ldc_I4_S, Farmer.defender) })
                 .SetOperand(Profession.Brute.Value);
         }
         catch (Exception ex)

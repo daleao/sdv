@@ -50,14 +50,14 @@ internal sealed class ObjectPerformObjectDropInActionPatcher : HarmonyPatcher
         }
 
         var user = who;
-        var owner = ModEntry.Config.Professions.LaxOwnershipRequirements ? Game1.player : __instance.GetOwner();
+        var owner = ProfessionsModule.Config.LaxOwnershipRequirements ? Game1.player : __instance.GetOwner();
 
         // artisan users can preserve the input quality
         if (user.HasProfession(Profession.Artisan))
         {
             // golden mayonnaise is always iridium quality
             held.Quality = __instance.ParentSheetIndex == (int)Machine.MayonnaiseMachine && dropIn.ParentSheetIndex == Constants.GoldenEggIndex &&
-                           !ModEntry.ModHelper.ModRegistry.IsLoaded("ughitsmegan.goldenmayoForProducerFrameworkMod")
+                           !ModHelper.ModRegistry.IsLoaded("ughitsmegan.goldenmayoForProducerFrameworkMod")
                 ? SObject.bestQuality
                 : dropIn.Quality;
         }
@@ -96,20 +96,28 @@ internal sealed class ObjectPerformObjectDropInActionPatcher : HarmonyPatcher
         {
             var resumeExecution = generator.DefineLabel();
             helper
-                .FindFirst(
-                    new CodeInstruction(OpCodes.Ldarg_0),
-                    new CodeInstruction(OpCodes.Ldfld, typeof(SObject).RequireField(nameof(SObject.heldObject))),
-                    new CodeInstruction(OpCodes.Ldloc_S, helper.Locals[22]),
-                    new CodeInstruction(OpCodes.Callvirt))
+                .Match(
+                    new[]
+                    {
+                        new CodeInstruction(OpCodes.Ldarg_0),
+                        new CodeInstruction(
+                            OpCodes.Ldfld,
+                            typeof(SObject).RequireField(nameof(SObject.heldObject))),
+                        new CodeInstruction(OpCodes.Ldloc_S, helper.Locals[22]),
+                        new CodeInstruction(OpCodes.Callvirt),
+                    })
                 .AddLabels(resumeExecution)
-                .InsertInstructions(
-                    new CodeInstruction(OpCodes.Ldarg_0),
-                    new CodeInstruction(OpCodes.Ldloc_S, helper.Locals[22]), // local 22 = SObject geode_item
-                    new CodeInstruction(OpCodes.Ldarg_3), // arg 3 = Farmer who
-                    new CodeInstruction(
-                        OpCodes.Call,
-                        typeof(ObjectPerformObjectDropInActionPatcher).RequireMethod(
-                            nameof(SetGeodeTreasureQuality))));
+                .Insert(
+                    new[]
+                    {
+                        new CodeInstruction(OpCodes.Ldarg_0),
+                        new CodeInstruction(OpCodes.Ldloc_S, helper.Locals[22]), // local 22 = SObject geode_item
+                        new CodeInstruction(OpCodes.Ldarg_3), // arg 3 = Farmer who
+                        new CodeInstruction(
+                            OpCodes.Call,
+                            typeof(ObjectPerformObjectDropInActionPatcher).RequireMethod(
+                                nameof(SetGeodeTreasureQuality))),
+                    });
         }
         catch (Exception ex)
         {
@@ -121,45 +129,47 @@ internal sealed class ObjectPerformObjectDropInActionPatcher : HarmonyPatcher
 
         // From: minutesUntilReady.Value /= 2
         // To: minutesUntilReady.Value /= who.professions.Contains(100 + <breeder_id>) ? 3 : 2
-        var i = 0;
-        repeat:
         try
         {
-            var notPrestigedBreeder = generator.DefineLabel();
-            var resumeExecution = generator.DefineLabel();
             helper
-                .FindProfessionCheck(Profession.Breeder.Value, true)
-                .RetreatUntil(new CodeInstruction(OpCodes.Ldloc_0))
-                .GetInstructionsUntil(
-                    out var got,
-                    true,
-                    true,
-                    new CodeInstruction(OpCodes.Brfalse_S))
-                .AdvanceUntil(new CodeInstruction(OpCodes.Ldc_I4_2))
-                .AddLabels(notPrestigedBreeder)
-                .InsertInstructions(got)
-                .Retreat()
-                .RetreatUntil(new CodeInstruction(OpCodes.Ldc_I4_2))
-                .ReplaceInstructionWith(new CodeInstruction(OpCodes.Ldc_I4_S, Profession.Breeder.Value + 100))
-                .AdvanceUntil(new CodeInstruction(OpCodes.Brfalse_S))
-                .SetOperand(notPrestigedBreeder)
-                .Advance()
-                .InsertInstructions(
-                    new CodeInstruction(OpCodes.Ldc_I4_3),
-                    new CodeInstruction(OpCodes.Br_S, resumeExecution))
-                .Advance()
-                .AddLabels(resumeExecution);
+                .Repeat(
+                    3,
+                    _ =>
+                    {
+                        var notPrestigedBreeder = generator.DefineLabel();
+                        var resumeExecution = generator.DefineLabel();
+                        helper
+                            .FindProfessionCheck(Profession.Breeder.Value)
+                            .Match(new[] { new CodeInstruction(OpCodes.Ldloc_0) }, ILHelper.SearchOption.Previous)
+                            .Match(new[] { new CodeInstruction(OpCodes.Brfalse_S) }, out var steps)
+                            .Copy(
+                                out var copy,
+                                steps,
+                                true,
+                                true)
+                            .Match(new[] { new CodeInstruction(OpCodes.Ldc_I4_2) })
+                            .AddLabels(notPrestigedBreeder)
+                            .Insert(copy)
+                            .Move(-1)
+                            .Match(new[] { new CodeInstruction(OpCodes.Ldc_I4_2) }, ILHelper.SearchOption.Previous)
+                            .ReplaceWith(new CodeInstruction(OpCodes.Ldc_I4_S, Profession.Breeder.Value + 100))
+                            .Match(new[] { new CodeInstruction(OpCodes.Brfalse_S) })
+                            .SetOperand(notPrestigedBreeder)
+                            .Move()
+                            .Insert(
+                                new[]
+                                {
+                                    new CodeInstruction(OpCodes.Ldc_I4_3),
+                                    new CodeInstruction(OpCodes.Br_S, resumeExecution),
+                                })
+                            .Move()
+                            .AddLabels(resumeExecution);
+                    });
         }
         catch (Exception ex)
         {
             Log.E($"Failed adding prestiged Breeder incubation bonus.\nHelper returned {ex}");
             return null;
-        }
-
-        // repeat injection three times
-        if (++i < 3)
-        {
-            goto repeat;
         }
 
         return helper.Flush();
@@ -172,7 +182,7 @@ internal sealed class ObjectPerformObjectDropInActionPatcher : HarmonyPatcher
     private static void SetGeodeTreasureQuality(SObject crusher, SObject treasure, Farmer who)
     {
         if (treasure.IsGemOrMineral() && (crusher.owner.Value == who.UniqueMultiplayerID ||
-                                          ModEntry.Config.Professions.LaxOwnershipRequirements))
+                                          ProfessionsModule.Config.LaxOwnershipRequirements))
         {
             treasure.Quality = who.GetGemologistMineralQuality();
         }

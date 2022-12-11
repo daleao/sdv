@@ -70,7 +70,7 @@ internal sealed class EnergizedUpdateTickedEvent : UpdateTickedEvent
                 0,
                 1,
                 "Energized",
-                ModEntry.i18n.Get("enchantments.energized"))
+                i18n.Get("enchantments.energized"))
             {
                 which = EnergizedEnchantment.BuffId,
                 sheetIndex = EnergizedEnchantment.BuffSheetIndex,

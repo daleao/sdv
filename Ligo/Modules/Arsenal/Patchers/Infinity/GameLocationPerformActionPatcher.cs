@@ -28,7 +28,7 @@ internal sealed class GameLocationPerformActionPatcher : HarmonyPatcher
     [HarmonyPrefix]
     private static bool GameLocationPerformActionPrefix(GameLocation __instance, string? action, Farmer who)
     {
-        if (!ModEntry.Config.Arsenal.InfinityPlusOne || action is null || !who.IsLocalPlayer)
+        if (!ArsenalModule.Config.InfinityPlusOne || action is null || !who.IsLocalPlayer)
         {
             return true; // run original logic
         }
@@ -119,16 +119,16 @@ internal sealed class GameLocationPerformActionPatcher : HarmonyPatcher
     {
         Game1.multipleDialogues(new string[]
         {
-            ModEntry.i18n.Get("darksword.found"),
-            ModEntry.i18n.Get("darksword.chill"),
+            i18n.Get("darksword.found"),
+            i18n.Get("darksword.chill"),
         });
 
         Game1.afterDialogues = () => location.createQuestionDialogue(
-            ModEntry.i18n.Get("darksword.question"),
+            i18n.Get("darksword.question"),
             new Response[]
             {
-                new("GrabIt", ModEntry.i18n.Get("darksword.grabit")),
-                new("LeaveIt", ModEntry.i18n.Get("darksword.leaveit")),
+                new("GrabIt", i18n.Get("darksword.grabit")),
+                new("LeaveIt", i18n.Get("darksword.leaveit")),
             },
             "DarkSword");
     }

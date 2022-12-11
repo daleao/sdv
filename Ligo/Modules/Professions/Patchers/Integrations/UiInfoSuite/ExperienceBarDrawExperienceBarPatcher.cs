@@ -38,7 +38,7 @@ internal sealed class ExperienceBarDrawExperienceBarPatcher : HarmonyPatcher
         try
         {
             helper
-                .FindFirst(new CodeInstruction(OpCodes.Ldc_R4, 54f))
+                .Match(new[] { new CodeInstruction(OpCodes.Ldc_R4, 54f) })
                 .SetOperand(174f);
         }
         catch (Exception ex)

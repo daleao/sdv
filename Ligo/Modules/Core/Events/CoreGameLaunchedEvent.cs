@@ -22,26 +22,26 @@ internal sealed class CoreGameLaunchedEvent : GameLaunchedEvent
     /// <inheritdoc />
     protected override void OnGameLaunchedImpl(object? sender, GameLaunchedEventArgs e)
     {
-        var registry = ModEntry.ModHelper.ModRegistry;
+        var registry = ModHelper.ModRegistry;
 
         // add Generic Mod Config Menu integration
         Integrations.GmcmIntegration = new Configs.GenericModConfigMenuIntegration(
-            getConfig: () => ModEntry.Config,
-            reset: () => ModEntry.Config = new ModConfig(),
+            getConfig: () => Config,
+            reset: () => Config = new ModConfig(),
             saveAndApply: () =>
             {
-                ModEntry.ModHelper.WriteConfig(ModEntry.Config);
+                ModHelper.WriteConfig(Config);
                 Integrations.GmcmIntegration.Reload();
             },
             modRegistry: registry,
-            manifest: ModEntry.Manifest);
+            manifest: Manifest);
 
         Integrations.GmcmIntegration.Register();
 
         // add SVE integration
         if (registry.IsLoaded("FlashShifter.StardewValleyExpandedCP"))
         {
-            Integrations.SveConfig = ModEntry.ModHelper.ReadContentPackConfig("FlashShifter.StardewValleyExpandedCP");
+            Integrations.SveConfig = ModHelper.ReadContentPackConfig("FlashShifter.StardewValleyExpandedCP");
         }
     }
 }

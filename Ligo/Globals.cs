@@ -4,7 +4,6 @@
 
 using DaLion.Shared.UI;
 using Microsoft.Xna.Framework.Graphics;
-using Shared.Extensions;
 
 #endregion using directives
 
@@ -13,9 +12,9 @@ internal sealed class Globals
 {
     /// <summary>Gets the <see cref="HudPointer"/> which points at various points of interest.</summary>
     internal static Lazy<HudPointer> Pointer { get; } = new(() => new HudPointer(
-        ModEntry.ModHelper.GameContent.Load<Texture2D>($"{ModEntry.Manifest.UniqueID}/HudPointer"),
-        ModEntry.Config.Professions.TrackPointerScale,
-        ModEntry.Config.Professions.TrackPointerBobbingRate));
+        ModHelper.GameContent.Load<Texture2D>($"{Manifest.UniqueID}/HudPointer"),
+        ProfessionsModule.Config.TrackPointerScale,
+        ProfessionsModule.Config.TrackPointerBobbingRate));
 
     /// <summary>Gets or sets <see cref="Item"/> index of the Garnet gemstone (provided by Json Assets).</summary>
     internal static int? GarnetIndex { get; set; }
@@ -31,6 +30,9 @@ internal sealed class Globals
 
     /// <summary>Gets or sets <see cref="Item"/> index of Dwarven Scrap (provided by Dynamic Game Assets).</summary>
     internal static int? DwarvenScrapIndex { get; set; }
+
+    /// <summary>Gets or sets <see cref="Item"/> index of Elderwood (provided by Dynamic Game Assets).</summary>
+    internal static int? ElderwoodIndex { get; set; }
 
     /// <summary>Gets or sets <see cref="Item"/> index of Dwarvish weapon blueprints (provided by Dynamic Game Assets).</summary>
     internal static int? DwarvishBlueprintIndex { get; set; }

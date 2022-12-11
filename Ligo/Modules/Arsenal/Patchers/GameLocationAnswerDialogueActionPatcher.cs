@@ -35,7 +35,7 @@ internal sealed class GameLocationAnswerDialogueActionPatcher : HarmonyPatcher
             return false; // don't run original logic
         }
 
-        if (!ModEntry.Config.Arsenal.InfinityPlusOne && !ModEntry.Config.Arsenal.DwarvishCrafting)
+        if (!ArsenalModule.Config.InfinityPlusOne && !ArsenalModule.Config.DwarvishCrafting)
         {
             return true; // run original logic
         }
@@ -88,6 +88,21 @@ internal sealed class GameLocationAnswerDialogueActionPatcher : HarmonyPatcher
     {
         var stock = new Dictionary<ISalable, int[]>();
         var found = Game1.player.Read(DataFields.BlueprintsFound).ParseList<int>().ToHashSet();
+
+        if (found.Contains(Constants.ForestSwordIndex))
+        {
+            stock.Add(
+                new MeleeWeapon(Constants.ForestSwordIndex),
+                new[] { 0, int.MaxValue, Globals.ElderwoodIndex!.Value, 2 });
+        }
+
+        if (found.Contains(Constants.ElfBladeIndex))
+        {
+            stock.Add(
+                new MeleeWeapon(Constants.ElfBladeIndex),
+                new[] { 0, int.MaxValue, Globals.ElderwoodIndex!.Value, 1 });
+        }
+
         if (found.Contains(Constants.DwarfSwordIndex))
         {
             stock.Add(
@@ -106,7 +121,7 @@ internal sealed class GameLocationAnswerDialogueActionPatcher : HarmonyPatcher
         {
             stock.Add(
                 new MeleeWeapon(Constants.DwarfDaggerIndex),
-                new[] { 0, int.MaxValue, Globals.DwarvenScrapIndex!.Value, 5 });
+                new[] { 0, int.MaxValue, Globals.DwarvenScrapIndex!.Value, 3 });
         }
 
         if (found.Contains(Constants.DragontoothCutlassIndex))
@@ -127,7 +142,7 @@ internal sealed class GameLocationAnswerDialogueActionPatcher : HarmonyPatcher
         {
             stock.Add(
                 new MeleeWeapon(Constants.DragontoothShivIndex),
-                new[] { 0, int.MaxValue, Constants.DragonToothIndex, 10 });
+                new[] { 0, int.MaxValue, Constants.DragonToothIndex, 7 });
         }
 
         return stock;

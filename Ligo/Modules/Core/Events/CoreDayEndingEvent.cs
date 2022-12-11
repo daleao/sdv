@@ -21,6 +21,6 @@ internal sealed class CoreDayEndingEvent : DayEndingEvent
     /// <inheritdoc />
     protected override void OnDayEndingImpl(object? sender, DayEndingEventArgs e)
     {
-        ModEntry.Reflector.NewCacheInterval();
+        Reflector.NewCacheInterval();
     }
 }

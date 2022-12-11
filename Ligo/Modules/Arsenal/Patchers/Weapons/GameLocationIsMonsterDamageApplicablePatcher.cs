@@ -27,7 +27,7 @@ internal sealed class GameLocationIsMonsterDamageApplicablePatcher : HarmonyPatc
     private static bool GameLocationIsMonsterDamageApplicablePrefix(
         ref bool __result, Farmer who, Monster monster)
     {
-        if (!ModEntry.Config.Arsenal.Weapons.GroundedClubSmash || (!monster.isGlider.Value && monster is not Bug) ||
+        if (!ArsenalModule.Config.Weapons.GroundedClubSmash || (!monster.isGlider.Value && monster is not Bug) ||
             who.CurrentTool is not MeleeWeapon { type.Value: MeleeWeapon.club, isOnSpecial: true } club)
         {
             return true; // run original logic

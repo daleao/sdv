@@ -30,7 +30,7 @@ internal sealed class AddGemstonesCommand : ConsoleCommand
     /// <inheritdoc />
     public override void Callback(string[] args)
     {
-        if (!ModEntry.Config.Rings.TheOneInfinityBand || !Globals.InfinityBandIndex.HasValue)
+        if (!RingsModule.Config.TheOneInfinityBand || !Globals.InfinityBandIndex.HasValue)
         {
             Log.W("The One Infinity Band feature is not enabled.");
             return;
@@ -83,7 +83,7 @@ internal sealed class AddGemstonesCommand : ConsoleCommand
         }
 
         band.ParentSheetIndex = Globals.InfinityBandIndex.Value;
-        ModEntry.ModHelper.Reflection.GetField<NetInt>(band, nameof(Ring.indexInTileSheet)).GetValue()
+        ModHelper.Reflection.GetField<NetInt>(band, nameof(Ring.indexInTileSheet)).GetValue()
             .Set(Globals.InfinityBandIndex.Value);
         band.UpdateDescription();
         Game1.player.Items[Game1.player.CurrentToolIndex] = band;

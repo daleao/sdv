@@ -3,7 +3,6 @@
 #region using directives
 
 using DaLion.Shared.Events;
-using DaLion.Shared.Extensions.SMAPI;
 using StardewModdingAPI.Events;
 
 #endregion using directives
@@ -22,7 +21,7 @@ internal sealed class ProfessionGameLaunchedEvent : GameLaunchedEvent
     /// <inheritdoc />
     protected override void OnGameLaunchedImpl(object? sender, GameLaunchedEventArgs e)
     {
-        var registry = ModEntry.ModHelper.ModRegistry;
+        var registry = ModHelper.ModRegistry;
 
         // add SpaceCore integration
         if (registry.IsLoaded("spacechase0.SpaceCore"))
@@ -51,7 +50,7 @@ internal sealed class ProfessionGameLaunchedEvent : GameLaunchedEvent
         // add Teh's Fishing Overhaul integration
         if (registry.IsLoaded("TehPers.FishingOverhaul"))
         {
-            new Integrations.TehsFishingOverhaulIntegration(registry, ModEntry.ModHelper.Events)
+            new Integrations.TehsFishingOverhaulIntegration(registry, ModHelper.Events)
                 .Register();
         }
 

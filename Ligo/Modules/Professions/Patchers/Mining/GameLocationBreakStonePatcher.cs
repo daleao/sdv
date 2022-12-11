@@ -36,14 +36,16 @@ internal sealed class GameLocationBreakStonePatcher : HarmonyPatcher
             var isNotPrestiged = generator.DefineLabel();
             helper
                 .FindProfessionCheck(Profession.Miner.Value)
-                .AdvanceUntil(new CodeInstruction(OpCodes.Stloc_1))
+                .Match(new[] { new CodeInstruction(OpCodes.Stloc_1) })
                 .AddLabels(isNotPrestiged)
-                .InsertInstructions(new CodeInstruction(OpCodes.Ldarg_S, (byte)4)) // arg 4 = Farmer who
+                .Insert(new[] { new CodeInstruction(OpCodes.Ldarg_S, (byte)4) }) // arg 4 = Farmer who
                 .InsertProfessionCheck(Profession.Miner.Value + 100, forLocalPlayer: false)
-                .InsertInstructions(
-                    new CodeInstruction(OpCodes.Brfalse_S, isNotPrestiged),
-                    new CodeInstruction(OpCodes.Ldc_I4_1),
-                    new CodeInstruction(OpCodes.Add));
+                .Insert(
+                    new[]
+                    {
+                        new CodeInstruction(OpCodes.Brfalse_S, isNotPrestiged),
+                        new CodeInstruction(OpCodes.Ldc_I4_1), new CodeInstruction(OpCodes.Add),
+                    });
         }
         catch (Exception ex)
         {
@@ -56,15 +58,18 @@ internal sealed class GameLocationBreakStonePatcher : HarmonyPatcher
         {
             helper
                 .FindProfessionCheck(Farmer.geologist) // find index of geologist check
-                .Retreat()
+                .Move(-1)
                 .StripLabels(out var labels) // backup and remove branch labels
-                .AdvanceUntil(new CodeInstruction(OpCodes.Brfalse)) // the false case branch
+                .Match(new[] { new CodeInstruction(OpCodes.Brfalse) }) // the false case branch
                 .GetOperand(out var isNotGeologist) // copy destination
                 .Return()
-                .InsertWithLabels(
-                    // insert unconditional branch to skip this check and restore backed-up labels to this branch
-                    labels,
-                    new CodeInstruction(OpCodes.Br, (Label)isNotGeologist));
+                .Insert(
+                    new[]
+                    {
+                        // insert unconditional branch to skip this check and restore backed-up labels to this branch
+                        new CodeInstruction(OpCodes.Br, (Label)isNotGeologist),
+                    },
+                    labels);
         }
         catch (Exception ex)
         {
@@ -77,11 +82,16 @@ internal sealed class GameLocationBreakStonePatcher : HarmonyPatcher
         {
             helper
                 .FindProfessionCheck(Farmer.burrower) // find index of prospector check
-                .Retreat()
-                .AdvanceUntil(new CodeInstruction(OpCodes.Brfalse_S)) // the false case branch
+                .Move(-1)
+                .Match(new[] { new CodeInstruction(OpCodes.Brfalse_S) }) // the false case branch
                 .GetOperand(out var isNotProspector) // copy destination
                 .Return()
-                .InsertInstructions(new CodeInstruction(OpCodes.Br_S, (Label)isNotProspector)); // insert uncoditional branch to skip this check
+                .Insert(
+                    new[]
+                    {
+                        // insert uncoditional branch to skip this check
+                        new CodeInstruction(OpCodes.Br_S, (Label)isNotProspector),
+                    });
         }
         catch (Exception ex)
         {

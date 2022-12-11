@@ -34,12 +34,22 @@ internal sealed class BatGetExtraDropItemsPatcher : HarmonyPatcher
         try
         {
             helper
-                .FindFirst(
-                    new CodeInstruction(OpCodes.Ldc_I4_2),
-                    new CodeInstruction(OpCodes.Newobj, typeof(MeleeWeapon).RequireConstructor(typeof(int))))
+                .Match(
+                    new[]
+                    {
+                        new CodeInstruction(OpCodes.Ldc_I4_2),
+                        new CodeInstruction(OpCodes.Newobj, typeof(MeleeWeapon).RequireConstructor(typeof(int))),
+                    })
                 .StripLabels(out var labels)
-                .RemoveInstructionsUntil(
-                    new CodeInstruction(OpCodes.Callvirt, typeof(List<Item>).RequireMethod(nameof(List<Item>.Add))))
+                .Match(
+                    new[]
+                    {
+                        new CodeInstruction(
+                            OpCodes.Callvirt,
+                            typeof(List<Item>).RequireMethod(nameof(List<Item>.Add))),
+                    },
+                    out var count)
+                .Remove(count)
                 .AddLabels(labels);
         }
         catch (Exception ex)

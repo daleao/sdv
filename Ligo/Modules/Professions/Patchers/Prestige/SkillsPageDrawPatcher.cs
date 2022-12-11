@@ -33,49 +33,57 @@ internal sealed class SkillsPageDrawPatcher : HarmonyPatcher
     {
         var helper = new ILHelper(original, instructions);
 
-        // Inject: x -= ModEntry.Config.Arsenal.Slingshots.PrestigeProgressionStyle == ProgressionStyle.Stars ? Textures.STARS_WIDTH_I : Textures.RIBBON_WIDTH_I;
+        // Inject: x -= ArsenalModule.Config.Slingshots.PrestigeProgressionStyle == ProgressionStyle.Stars ? Textures.STARS_WIDTH_I : Textures.RIBBON_WIDTH_I;
         // After: x = ...
         try
         {
             var notRibbons = generator.DefineLabel();
             helper
-                .FindFirst(
-                    new CodeInstruction(
-                        OpCodes.Call,
-                        typeof(LocalizedContentManager).RequirePropertyGetter(nameof(LocalizedContentManager
-                            .CurrentLanguageCode))))
-                .AdvanceUntil(new CodeInstruction(OpCodes.Br_S))
+                .Match(
+                    new[]
+                    {
+                        new CodeInstruction(
+                            OpCodes.Call,
+                            typeof(LocalizedContentManager).RequirePropertyGetter(nameof(LocalizedContentManager
+                                .CurrentLanguageCode))),
+                    })
+                .Match(new[] { new CodeInstruction(OpCodes.Br_S) })
                 .GetOperand(out var resumeExecution)
-                .AdvanceUntil(new CodeInstruction(OpCodes.Stloc_0))
-                .InsertInstructions(
-                    new CodeInstruction(OpCodes.Call, typeof(ModEntry).RequirePropertyGetter(nameof(ModEntry.Config))),
-                    new CodeInstruction(
-                        OpCodes.Callvirt,
-                        typeof(ModConfig).RequirePropertyGetter(nameof(ModConfig.Professions))),
-                    new CodeInstruction(
-                        OpCodes.Callvirt,
-                        typeof(Config).RequirePropertyGetter(nameof(Config.EnablePrestige))),
-                    new CodeInstruction(OpCodes.Brfalse_S, resumeExecution),
-                    new CodeInstruction(OpCodes.Call, typeof(ModEntry).RequirePropertyGetter(nameof(ModEntry.Config))),
-                    new CodeInstruction(
-                        OpCodes.Callvirt,
-                        typeof(ModConfig).RequirePropertyGetter(nameof(ModConfig.Professions))),
-                    new CodeInstruction(
-                        OpCodes.Callvirt,
-                        typeof(Config).RequirePropertyGetter(nameof(Config.PrestigeProgressionStyle))),
-                    new CodeInstruction(OpCodes.Ldc_I4_0),
-                    new CodeInstruction(OpCodes.Beq_S, notRibbons),
-                    new CodeInstruction(
-                        OpCodes.Ldc_I4_S,
-                        (int)((Textures.RibbonWidth + 5) * Textures.RibbonScale)),
-                    new CodeInstruction(OpCodes.Sub),
-                    new CodeInstruction(OpCodes.Br_S, resumeExecution))
-                .InsertWithLabels(
-                    new[] { notRibbons },
-                    new CodeInstruction(
-                        OpCodes.Ldc_I4_S,
-                        (int)((Textures.StarsWidth + 4) * Textures.StarsScale)),
-                    new CodeInstruction(OpCodes.Sub));
+                .Match(new[] { new CodeInstruction(OpCodes.Stloc_0) })
+                .Insert(
+                    new[]
+                    {
+                        new CodeInstruction(OpCodes.Call, typeof(ModEntry).RequirePropertyGetter(nameof(Config))),
+                        new CodeInstruction(
+                            OpCodes.Callvirt,
+                            typeof(ModConfig).RequirePropertyGetter(nameof(ModConfig.Professions))),
+                        new CodeInstruction(
+                            OpCodes.Callvirt,
+                            typeof(ProfessionsConfig).RequirePropertyGetter(nameof(ProfessionsConfig.EnablePrestige))),
+                        new CodeInstruction(OpCodes.Brfalse_S, resumeExecution),
+                        new CodeInstruction(OpCodes.Call, typeof(ModEntry).RequirePropertyGetter(nameof(Config))),
+                        new CodeInstruction(
+                            OpCodes.Callvirt,
+                            typeof(ModConfig).RequirePropertyGetter(nameof(ModConfig.Professions))),
+                        new CodeInstruction(
+                            OpCodes.Callvirt,
+                            typeof(ProfessionsConfig).RequirePropertyGetter(
+                                nameof(ProfessionsConfig.PrestigeProgressionStyle))),
+                        new CodeInstruction(OpCodes.Ldc_I4_0), new CodeInstruction(OpCodes.Beq_S, notRibbons),
+                        new CodeInstruction(
+                            OpCodes.Ldc_I4_S,
+                            (int)((Textures.RibbonWidth + 5) * Textures.RibbonScale)),
+                        new CodeInstruction(OpCodes.Sub), new CodeInstruction(OpCodes.Br_S, resumeExecution),
+                    })
+                .Insert(
+                    new[]
+                    {
+                        new CodeInstruction(
+                            OpCodes.Ldc_I4_S,
+                            (int)((Textures.StarsWidth + 4) * Textures.StarsScale)),
+                        new CodeInstruction(OpCodes.Sub),
+                    },
+                    new[] { notRibbons });
         }
         catch (Exception ex)
         {
@@ -90,23 +98,29 @@ internal sealed class SkillsPageDrawPatcher : HarmonyPatcher
         try
         {
             helper
-                .FindFirst(
-                    new CodeInstruction(OpCodes.Ldloc_3),
-                    new CodeInstruction(OpCodes.Ldc_I4_S, 9),
-                    new CodeInstruction(OpCodes.Bne_Un))
+                .Match(
+                    new[]
+                    {
+                        new CodeInstruction(OpCodes.Ldloc_3), new CodeInstruction(OpCodes.Ldc_I4_S, 9),
+                        new CodeInstruction(OpCodes.Bne_Un),
+                    },
+                    ILHelper.SearchOption.First)
                 .StripLabels(out var labels)
-                .InsertWithLabels(
-                    labels,
-                    new CodeInstruction(OpCodes.Ldloc_3), // load levelIndex
-                    new CodeInstruction(OpCodes.Ldloc_S, skillIndex),
-                    new CodeInstruction(OpCodes.Ldloc_0), // load x
-                    new CodeInstruction(OpCodes.Ldloc_1), // load y
-                    new CodeInstruction(OpCodes.Ldloc_2), // load addedX
-                    new CodeInstruction(OpCodes.Ldloc_S, skillLevel), // load skillLevel,
-                    new CodeInstruction(OpCodes.Ldarg_1), // load b
-                    new CodeInstruction(
-                        OpCodes.Call,
-                        typeof(SkillsPageDrawPatcher).RequireMethod(nameof(DrawExtendedLevelBars))));
+                .Insert(
+                    new[]
+                    {
+                        new CodeInstruction(OpCodes.Ldloc_3), // load levelIndex
+                        new CodeInstruction(OpCodes.Ldloc_S, skillIndex),
+                        new CodeInstruction(OpCodes.Ldloc_0), // load x
+                        new CodeInstruction(OpCodes.Ldloc_1), // load y
+                        new CodeInstruction(OpCodes.Ldloc_2), // load addedX
+                        new CodeInstruction(OpCodes.Ldloc_S, skillLevel), // load skillLevel,
+                        new CodeInstruction(OpCodes.Ldarg_1), // load b
+                        new CodeInstruction(
+                            OpCodes.Call,
+                            typeof(SkillsPageDrawPatcher).RequireMethod(nameof(DrawExtendedLevelBars))),
+                    },
+                    labels);
         }
         catch (Exception ex)
         {
@@ -120,19 +134,31 @@ internal sealed class SkillsPageDrawPatcher : HarmonyPatcher
         {
             var isSkillLevel20 = generator.DefineLabel();
             helper
-                .FindNext(
-                    new CodeInstruction(OpCodes.Call, typeof(Color).RequirePropertyGetter(nameof(Color.SandyBrown))))
-                .InsertInstructions(
-                    new CodeInstruction(OpCodes.Ldloc_S, skillLevel),
-                    new CodeInstruction(OpCodes.Ldc_I4_S, 20),
-                    new CodeInstruction(OpCodes.Beq_S, isSkillLevel20))
-                .Advance()
+                .Match(
+                    new[]
+                    {
+                        new CodeInstruction(
+                            OpCodes.Call,
+                            typeof(Color).RequirePropertyGetter(nameof(Color.SandyBrown))),
+                    })
+                .Insert(
+                    new[]
+                    {
+                        new CodeInstruction(OpCodes.Ldloc_S, skillLevel), new CodeInstruction(OpCodes.Ldc_I4_S, 20),
+                        new CodeInstruction(OpCodes.Beq_S, isSkillLevel20),
+                    })
+                .Move()
                 .GetOperand(out var resumeExecution)
-                .Advance()
-                .InsertWithLabels(
-                    new[] { isSkillLevel20 },
-                    new CodeInstruction(OpCodes.Call, typeof(Color).RequirePropertyGetter(nameof(Color.Cornsilk))),
-                    new CodeInstruction(OpCodes.Br_S, resumeExecution));
+                .Move()
+                .Insert(
+                    new[]
+                    {
+                        new CodeInstruction(
+                            OpCodes.Call,
+                            typeof(Color).RequirePropertyGetter(nameof(Color.Cornsilk))),
+                        new CodeInstruction(OpCodes.Br_S, resumeExecution),
+                    },
+                    new[] { isSkillLevel20 });
         }
         catch (Exception ex)
         {
@@ -145,18 +171,24 @@ internal sealed class SkillsPageDrawPatcher : HarmonyPatcher
         try
         {
             helper
-                .FindLast(
-                    new CodeInstruction(OpCodes.Ldarg_0),
-                    new CodeInstruction(OpCodes.Ldfld, typeof(SkillsPage).RequireField("hoverText")),
-                    new CodeInstruction(OpCodes.Callvirt, typeof(string).RequirePropertyGetter(nameof(string.Length))))
+                .Match(
+                    new[]
+                    {
+                        new CodeInstruction(OpCodes.Ldarg_0),
+                        new CodeInstruction(OpCodes.Ldfld, typeof(SkillsPage).RequireField("hoverText")),
+                        new CodeInstruction(OpCodes.Callvirt,
+                            typeof(string).RequirePropertyGetter(nameof(string.Length))),
+                    },
+                    ILHelper.SearchOption.Last)
                 .StripLabels(out var labels) // backup and remove branch labels
-                .InsertWithLabels(
-                    labels,
-                    new CodeInstruction(OpCodes.Ldarg_0),
-                    new CodeInstruction(OpCodes.Ldarg_1),
-                    new CodeInstruction(
-                        OpCodes.Call,
-                        typeof(SkillsPageDrawPatcher).RequireMethod(nameof(DrawRibbons))));
+                .Insert(
+                    new[]
+                    {
+                        new CodeInstruction(OpCodes.Ldarg_0), new CodeInstruction(OpCodes.Ldarg_1), new CodeInstruction(
+                            OpCodes.Call,
+                            typeof(SkillsPageDrawPatcher).RequireMethod(nameof(DrawRibbons))),
+                    },
+                    labels);
         }
         catch (Exception ex)
         {
@@ -175,7 +207,7 @@ internal sealed class SkillsPageDrawPatcher : HarmonyPatcher
     internal static void DrawExtendedLevelBars(
         int levelIndex, int skillIndex, int x, int y, int addedX, int skillLevel, SpriteBatch b)
     {
-        if (!ModEntry.Config.Professions.EnablePrestige)
+        if (!ProfessionsModule.Config.EnablePrestige)
         {
             return;
         }
@@ -204,7 +236,7 @@ internal sealed class SkillsPageDrawPatcher : HarmonyPatcher
 
     internal static void DrawRibbons(SkillsPage page, SpriteBatch b)
     {
-        if (!ModEntry.Config.Professions.EnablePrestige)
+        if (!ProfessionsModule.Config.EnablePrestige)
         {
             return;
         }
@@ -213,7 +245,7 @@ internal sealed class SkillsPageDrawPatcher : HarmonyPatcher
             new Vector2(
                 page.xPositionOnScreen + page.width + Textures.ProgressionHorizontalOffset,
                 page.yPositionOnScreen + IClickableMenu.spaceToClearTopBorder + IClickableMenu.borderWidth + Textures.ProgressionVerticalOffset);
-        if (ModEntry.Config.Professions.PrestigeProgressionStyle == Config.ProgressionStyle.StackedStars)
+        if (ProfessionsModule.Config.PrestigeProgressionStyle == ProfessionsConfig.ProgressionStyle.StackedStars)
         {
             position.X -= 22;
             position.Y -= 4;
@@ -237,7 +269,7 @@ internal sealed class SkillsPageDrawPatcher : HarmonyPatcher
             }
 
             Rectangle srcRect;
-            if (ModEntry.Config.Professions.PrestigeProgressionStyle.ToString().Contains("Ribbons"))
+            if (ProfessionsModule.Config.PrestigeProgressionStyle.ToString().Contains("Ribbons"))
             {
                 srcRect = new Rectangle(
                     i * Textures.RibbonWidth,
@@ -245,7 +277,7 @@ internal sealed class SkillsPageDrawPatcher : HarmonyPatcher
                     Textures.RibbonWidth,
                     Textures.RibbonWidth);
             }
-            else if (ModEntry.Config.Professions.PrestigeProgressionStyle == Config.ProgressionStyle.StackedStars)
+            else if (ProfessionsModule.Config.PrestigeProgressionStyle == ProfessionsConfig.ProgressionStyle.StackedStars)
             {
                 srcRect = new Rectangle(0, (count - 1) * 16, Textures.StarsWidth, 16);
             }
@@ -261,7 +293,7 @@ internal sealed class SkillsPageDrawPatcher : HarmonyPatcher
                 Color.White,
                 0f,
                 Vector2.Zero,
-                ModEntry.Config.Professions.PrestigeProgressionStyle == Config.ProgressionStyle.StackedStars
+                ProfessionsModule.Config.PrestigeProgressionStyle == ProfessionsConfig.ProgressionStyle.StackedStars
                     ? Textures.StarsScale
                     : Textures.RibbonScale,
                 SpriteEffects.None,
@@ -273,7 +305,7 @@ internal sealed class SkillsPageDrawPatcher : HarmonyPatcher
             return;
         }
 
-        if (ModEntry.Config.Professions.PrestigeProgressionStyle.ToString().Contains("Ribbons"))
+        if (ProfessionsModule.Config.PrestigeProgressionStyle.ToString().Contains("Ribbons"))
         {
             position.X += 2; // not sure why but custom skill ribbons render with a small offset
         }
@@ -287,14 +319,14 @@ internal sealed class SkillsPageDrawPatcher : HarmonyPatcher
                 continue;
             }
 
-            var srcRect = ModEntry.Config.Professions.PrestigeProgressionStyle switch
+            var srcRect = ProfessionsModule.Config.PrestigeProgressionStyle switch
             {
-                Config.ProgressionStyle.Gen3Ribbons or Config.ProgressionStyle.Gen4Ribbons => new Rectangle(
+                ProfessionsConfig.ProgressionStyle.Gen3Ribbons or ProfessionsConfig.ProgressionStyle.Gen4Ribbons => new Rectangle(
                     skill.StringId == "blueberry.LoveOfCooking.CookingSkill" ? 111 : 133,
                     (count - 1) * Textures.RibbonWidth,
                     Textures.RibbonWidth,
                     Textures.RibbonWidth),
-                Config.ProgressionStyle.StackedStars =>
+                ProfessionsConfig.ProgressionStyle.StackedStars =>
                     new Rectangle(0, (count - 1) * 16, Textures.StarsWidth, 16),
                 _ => Rectangle.Empty,
             };
@@ -306,7 +338,7 @@ internal sealed class SkillsPageDrawPatcher : HarmonyPatcher
                 Color.White,
                 0f,
                 Vector2.Zero,
-                ModEntry.Config.Professions.PrestigeProgressionStyle == Config.ProgressionStyle.StackedStars
+                ProfessionsModule.Config.PrestigeProgressionStyle == ProfessionsConfig.ProgressionStyle.StackedStars
                     ? Textures.StarsScale
                     : Textures.RibbonScale,
                 SpriteEffects.None,

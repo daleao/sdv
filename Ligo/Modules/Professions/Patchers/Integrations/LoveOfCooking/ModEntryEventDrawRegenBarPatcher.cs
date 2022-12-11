@@ -43,40 +43,43 @@ internal sealed class ModEntryEventDrawRegenBarPatcher : HarmonyPatcher
         {
             var resumeExecution = ilGenerator.DefineLabel();
             helper
-                .FindFirst(new CodeInstruction(OpCodes.Ldarg_2)) // arg 2 = RenderingHudEventArgs e
+                .Match(new[] { new CodeInstruction(OpCodes.Ldarg_2) }) // arg 2 = RenderingHudEventArgs e
                 .StripLabels(out var labels)
                 .AddLabels(resumeExecution)
-                .InsertWithLabels(
-                    labels,
-                    // check if Ultimate is null
-                    new CodeInstruction(
-                        OpCodes.Call,
-                        typeof(Game1).RequirePropertyGetter(nameof(Game1.player))),
-                    new CodeInstruction(
-                        OpCodes.Call,
-                        typeof(Farmer_Ultimate).RequireMethod(nameof(Farmer_Ultimate.Get_Ultimate))),
-                    new CodeInstruction(OpCodes.Brfalse_S, resumeExecution),
-                    // check if Ultimate.Hud.IsVisible
-                    new CodeInstruction(
-                        OpCodes.Call,
-                        typeof(Game1).RequirePropertyGetter(nameof(Game1.player))),
-                    new CodeInstruction(
-                        OpCodes.Call,
-                        typeof(Farmer_Ultimate).RequireMethod(nameof(Farmer_Ultimate.Get_Ultimate))),
-                    new CodeInstruction(
-                        OpCodes.Callvirt,
-                        typeof(Ultimate).RequirePropertyGetter(nameof(Ultimate.Hud))),
-                    new CodeInstruction(
-                        OpCodes.Call,
-                        typeof(UltimateHud).RequirePropertyGetter(nameof(UltimateHud.IsVisible))),
-                    new CodeInstruction(OpCodes.Brfalse_S, resumeExecution),
-                    // load and displace topOfBar.X
-                    new CodeInstruction(OpCodes.Ldloca_S, helper.Locals[7]),
-                    new CodeInstruction(OpCodes.Ldloc_S, helper.Locals[7]),
-                    new CodeInstruction(OpCodes.Ldfld, typeof(Vector2).RequireField(nameof(Vector2.X))),
-                    new CodeInstruction(OpCodes.Ldc_R4, 56f), // displace by 56 pixels
-                    new CodeInstruction(OpCodes.Sub),
-                    new CodeInstruction(OpCodes.Stfld, typeof(Vector2).RequireField(nameof(Vector2.X))));
+                .Insert(
+                    new[]
+                    {
+                        // check if Ultimate is null
+                        new CodeInstruction(
+                            OpCodes.Call,
+                            typeof(Game1).RequirePropertyGetter(nameof(Game1.player))),
+                        new CodeInstruction(
+                            OpCodes.Call,
+                            typeof(Farmer_Ultimate).RequireMethod(nameof(Farmer_Ultimate.Get_Ultimate))),
+                        new CodeInstruction(OpCodes.Brfalse_S, resumeExecution),
+                        // check if Ultimate.Hud.IsVisible
+                        new CodeInstruction(
+                            OpCodes.Call,
+                            typeof(Game1).RequirePropertyGetter(nameof(Game1.player))),
+                        new CodeInstruction(
+                            OpCodes.Call,
+                            typeof(Farmer_Ultimate).RequireMethod(nameof(Farmer_Ultimate.Get_Ultimate))),
+                        new CodeInstruction(
+                            OpCodes.Callvirt,
+                            typeof(Ultimate).RequirePropertyGetter(nameof(Ultimate.Hud))),
+                        new CodeInstruction(
+                            OpCodes.Call,
+                            typeof(UltimateHud).RequirePropertyGetter(nameof(UltimateHud.IsVisible))),
+                        new CodeInstruction(OpCodes.Brfalse_S, resumeExecution),
+                        // load and displace topOfBar.X
+                        new CodeInstruction(OpCodes.Ldloca_S, helper.Locals[7]),
+                        new CodeInstruction(OpCodes.Ldloc_S, helper.Locals[7]),
+                        new CodeInstruction(OpCodes.Ldfld, typeof(Vector2).RequireField(nameof(Vector2.X))),
+                        new CodeInstruction(OpCodes.Ldc_R4, 56f), // displace by 56 pixels
+                        new CodeInstruction(OpCodes.Sub),
+                        new CodeInstruction(OpCodes.Stfld, typeof(Vector2).RequireField(nameof(Vector2.X))),
+                    },
+                    labels);
         }
         catch (Exception ex)
         {

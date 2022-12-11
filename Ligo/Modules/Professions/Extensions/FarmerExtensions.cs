@@ -227,7 +227,7 @@ internal static class FarmerExtensions
     internal static float GetProducerPriceBonus(this Farmer farmer)
     {
         return Game1.getFarm().buildings.Where(b =>
-            (b.owner.Value == farmer.UniqueMultiplayerID || !Context.IsMultiplayer || ModEntry.Config.Professions.LaxOwnershipRequirements) &&
+            (b.owner.Value == farmer.UniqueMultiplayerID || !Context.IsMultiplayer || ProfessionsModule.Config.LaxOwnershipRequirements) &&
             b.buildingType.Contains("Deluxe") && ((AnimalHouse)b.indoors.Value).isFull()).Sum(_ => 0.05f);
     }
 
@@ -239,9 +239,9 @@ internal static class FarmerExtensions
     internal static float GetFisherBonusCatchingBarSpeed(this Farmer farmer, int whichFish)
     {
         return farmer.fishCaught.TryGetValue(whichFish, out var caughtData)
-            ? caughtData[0] >= ModEntry.Config.Professions.FishNeededForInstantCatch
+            ? caughtData[0] >= ProfessionsModule.Config.FishNeededForInstantCatch
                 ? 1f
-                : Math.Max(caughtData[0] * (0.1f / ModEntry.Config.Professions.FishNeededForInstantCatch) * 0.0002f, 0.002f)
+                : Math.Max(caughtData[0] * (0.1f / ProfessionsModule.Config.FishNeededForInstantCatch) * 0.0002f, 0.002f)
             : 0.002f;
     }
 
@@ -273,7 +273,7 @@ internal static class FarmerExtensions
             }
         }
 
-        return Math.Min(bonus, ModEntry.Config.Professions.AnglerMultiplierCap);
+        return Math.Min(bonus, ProfessionsModule.Config.AnglerMultiplierCap);
     }
 
     /// <summary>Gets the amount of "catching" bar to compensate for <see cref="Profession.Aquarist"/>.</summary>
@@ -285,7 +285,7 @@ internal static class FarmerExtensions
             .OfType<FishPond>()
             .Where(pond =>
                 (pond.owner.Value == farmer.UniqueMultiplayerID || !Context.IsMultiplayer ||
-                 ModEntry.Config.Professions.LaxOwnershipRequirements) && pond.fishType.Value > 0)
+                 ProfessionsModule.Config.LaxOwnershipRequirements) && pond.fishType.Value > 0)
             .Select(pond => pond.fishType.Value);
 
         return Math.Min(fishTypes.Distinct().Count() * 0.000165f, 0.002f);
@@ -305,8 +305,8 @@ internal static class FarmerExtensions
     internal static int GetEcologistForageQuality(this Farmer farmer)
     {
         var itemsForaged = farmer.Read<uint>(DataFields.EcologistItemsForaged);
-        return itemsForaged < ModEntry.Config.Professions.ForagesNeededForBestQuality
-            ? itemsForaged < ModEntry.Config.Professions.ForagesNeededForBestQuality / 2
+        return itemsForaged < ProfessionsModule.Config.ForagesNeededForBestQuality
+            ? itemsForaged < ProfessionsModule.Config.ForagesNeededForBestQuality / 2
                 ? SObject.medQuality
                 : SObject.highQuality
             : SObject.bestQuality;
@@ -318,8 +318,8 @@ internal static class FarmerExtensions
     internal static int GetGemologistMineralQuality(this Farmer farmer)
     {
         var mineralsCollected = farmer.Read<uint>(DataFields.GemologistMineralsCollected);
-        return mineralsCollected < ModEntry.Config.Professions.MineralsNeededForBestQuality
-            ? mineralsCollected < ModEntry.Config.Professions.MineralsNeededForBestQuality / 2
+        return mineralsCollected < ProfessionsModule.Config.MineralsNeededForBestQuality
+            ? mineralsCollected < ProfessionsModule.Config.MineralsNeededForBestQuality / 2
                 ? SObject.medQuality
                 : SObject.highQuality
             : SObject.bestQuality;
@@ -333,7 +333,7 @@ internal static class FarmerExtensions
         return Game1.getFarm().buildings
             .Where(b =>
                 (b.owner.Value == farmer.UniqueMultiplayerID || !Context.IsMultiplayer ||
-                 ModEntry.Config.Professions.LaxOwnershipRequirements) && b.indoors.Value is SlimeHutch &&
+                 ProfessionsModule.Config.LaxOwnershipRequirements) && b.indoors.Value is SlimeHutch &&
                 !b.isUnderConstruction())
             .SelectMany(b => b.indoors.Value.characters.OfType<GreenSlime>());
     }

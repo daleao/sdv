@@ -69,7 +69,7 @@ internal sealed class LightBeamProjectile : BasicProjectile
             return;
         }
 
-        ModEntry.Reflector
+        Reflector
             .GetUnboundMethodDelegate<Action<BasicProjectile, GameLocation>>(this, "explosionAnimation")
             .Invoke(this, location);
         location.damageMonster(
@@ -91,7 +91,7 @@ internal sealed class LightBeamProjectile : BasicProjectile
     {
         //location.temporarySprites.Add(
         //    new TemporaryAnimatedSprite(
-        //        $"{ModEntry.Manifest.UniqueID}/LightBeamCollisionAnimation",
+        //        $"{Manifest.UniqueID}/LightBeamCollisionAnimation",
         //        new Rectangle(0, 0, 128, 128),
         //        50f,
         //        5,

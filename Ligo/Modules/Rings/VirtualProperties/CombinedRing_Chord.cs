@@ -15,7 +15,7 @@ internal static class CombinedRing_Chord
 
     internal static Chord? Get_Chord(this CombinedRing combined)
     {
-        return combined.ParentSheetIndex == Globals.InfinityBandIndex && combined.combinedRings.Count >= 2 && ModEntry.Config.Rings.EnableResonance
+        return combined.ParentSheetIndex == Globals.InfinityBandIndex && combined.combinedRings.Count >= 2 && RingsModule.Config.EnableResonance
             ? Values.GetValue(combined, Create)
             : null;
     }

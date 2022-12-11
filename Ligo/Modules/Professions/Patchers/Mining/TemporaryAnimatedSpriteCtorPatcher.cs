@@ -45,13 +45,13 @@ internal sealed class TemporaryAnimatedSpriteCtorPatcher : HarmonyPatcher
             __instance.bombRadius++;
         }
 
-        if (!ModEntry.Config.Professions.ModKey.IsDown())
+        if (!ProfessionsModule.Config.ModKey.IsDown())
         {
             return;
         }
 
         __instance.totalNumberOfLoops = int.MaxValue;
-        ModEntry.Events.Enable<ManualDetonationUpdateTickedEvent>();
+        EventManager.Enable<ManualDetonationUpdateTickedEvent>();
     }
 
     #endregion harmony patches

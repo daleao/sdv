@@ -41,11 +41,11 @@ internal sealed class ObjectCheckForActionPatcher : HarmonyPatcher
             return;
         }
 
-        if (__instance.name.Contains("Tapper") && ModEntry.Config.Tweex.TappersRewardExp)
+        if (__instance.name.Contains("Tapper") && TweexModule.Config.TappersRewardExp)
         {
             Game1.player.gainExperience(Farmer.foragingSkill, 5);
         }
-        else if (__instance.name.Contains("Mushroom Box") && ModEntry.Config.Tweex.MushroomBoxesRewardExp)
+        else if (__instance.name.Contains("Mushroom Box") && TweexModule.Config.MushroomBoxesRewardExp)
         {
             Game1.player.gainExperience(Farmer.foragingSkill, 1);
         }
@@ -63,30 +63,35 @@ internal sealed class ObjectCheckForActionPatcher : HarmonyPatcher
         try
         {
             helper
-                .FindFirst(new CodeInstruction(OpCodes.Ldstr, " Honey"))
-                .FindNext(
-                    new CodeInstruction(
-                        OpCodes.Ldfld,
-                        typeof(SObject).RequireField(nameof(SObject.preservedParentSheetIndex))))
-                .RetreatUntil(new CodeInstruction(OpCodes.Ldarg_0))
-                .GetInstructionsUntil(
-                    out var got,
-                    false,
-                    true,
-                    new CodeInstruction(OpCodes.Callvirt))
-                .AdvanceUntil(
-                    new CodeInstruction(
-                        OpCodes.Call,
-                        typeof(Game1).RequirePropertyGetter(nameof(Game1.currentLocation))))
-                .InsertInstructions(got)
-                .InsertInstructions(
-                    new CodeInstruction(OpCodes.Ldarg_0),
+                .Match(new[] { new CodeInstruction(OpCodes.Ldstr, " Honey") })
+                .Match(
+                    new[]
+                    {
+                        new CodeInstruction(
+                            OpCodes.Ldfld,
+                            typeof(SObject).RequireField(nameof(SObject.preservedParentSheetIndex))),
+                    })
+                .Match(new[] { new CodeInstruction(OpCodes.Ldarg_0) }, ILHelper.SearchOption.Previous)
+                .Match(new[] { new CodeInstruction(OpCodes.Callvirt) }, out var steps)
+                .Copy(out var copy, steps, false, true)
+                .Match(new[]
+                {
                     new CodeInstruction(
                         OpCodes.Call,
-                        typeof(Extensions.SObjectExtensions).RequireMethod(nameof(Extensions.SObjectExtensions.GetQualityFromAge))),
-                    new CodeInstruction(
-                        OpCodes.Callvirt,
-                        typeof(SObject).RequirePropertySetter(nameof(SObject.Quality))));
+                        typeof(Game1).RequirePropertyGetter(nameof(Game1.currentLocation))),
+                })
+                .Insert(copy)
+                .Insert(
+                    new[]
+                    {
+                        new CodeInstruction(OpCodes.Ldarg_0), new CodeInstruction(
+                            OpCodes.Call,
+                            typeof(Extensions.SObjectExtensions).RequireMethod(nameof(Extensions.SObjectExtensions
+                                .GetQualityFromAge))),
+                        new CodeInstruction(
+                            OpCodes.Callvirt,
+                            typeof(SObject).RequirePropertySetter(nameof(SObject.Quality))),
+                    });
         }
         catch (Exception ex)
         {

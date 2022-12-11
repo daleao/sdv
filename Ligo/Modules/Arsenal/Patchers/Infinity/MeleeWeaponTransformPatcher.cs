@@ -24,7 +24,7 @@ internal sealed class MeleeWeaponTransformPatcher : HarmonyPatcher
     [HarmonyPrefix]
     private static bool MeleeWeaponTransformPostfix(MeleeWeapon __instance, int newIndex)
     {
-        if (!ModEntry.Config.Arsenal.InfinityPlusOne)
+        if (!ArsenalModule.Config.InfinityPlusOne)
         {
             return true; // run original logic
         }

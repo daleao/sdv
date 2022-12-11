@@ -47,39 +47,43 @@ internal sealed class MonsterTakeDamagePatcher : HarmonyPatcher
             var mitigateDamage = generator.DefineLabel();
             var resumeExecution = generator.DefineLabel();
             helper
-                .InsertInstructions(
-                    new CodeInstruction(OpCodes.Call, typeof(ModEntry).RequirePropertyGetter(nameof(ModEntry.Config))),
-                    new CodeInstruction(
-                        OpCodes.Callvirt,
-                        typeof(ModConfig).RequirePropertyGetter(nameof(ModConfig.Arsenal))),
-                    new CodeInstruction(
-                        OpCodes.Callvirt,
-                        typeof(Config).RequirePropertyGetter(nameof(Config.OverhauledDefense))),
-                    new CodeInstruction(OpCodes.Brfalse_S, mitigateDamage),
-                    new CodeInstruction(OpCodes.Ldarg_0),
-                    new CodeInstruction(
-                        OpCodes.Call,
-                        typeof(Monster_GotCrit).RequireMethod(nameof(Monster_GotCrit.Get_GotCrit))),
-                    new CodeInstruction(OpCodes.Brfalse_S, mitigateDamage),
-                    new CodeInstruction(OpCodes.Ldarg_1),
-                    new CodeInstruction(OpCodes.Stloc_0),
-                    new CodeInstruction(OpCodes.Br_S, resumeExecution))
-                .RemoveInstructions()
+                .Insert(
+                    new[]
+                    {
+                        new CodeInstruction(OpCodes.Call, typeof(ModEntry).RequirePropertyGetter(nameof(Config))),
+                        new CodeInstruction(
+                            OpCodes.Callvirt,
+                            typeof(ModConfig).RequirePropertyGetter(nameof(ModConfig.Arsenal))),
+                        new CodeInstruction(
+                            OpCodes.Callvirt,
+                            typeof(ArsenalConfig).RequirePropertyGetter(nameof(ArsenalConfig.OverhauledDefense))),
+                        new CodeInstruction(OpCodes.Brfalse_S, mitigateDamage), new CodeInstruction(OpCodes.Ldarg_0),
+                        new CodeInstruction(
+                            OpCodes.Call,
+                            typeof(Monster_GotCrit).RequireMethod(nameof(Monster_GotCrit.Get_GotCrit))),
+                        new CodeInstruction(OpCodes.Brfalse_S, mitigateDamage), new CodeInstruction(OpCodes.Ldarg_1),
+                        new CodeInstruction(OpCodes.Stloc_0), new CodeInstruction(OpCodes.Br_S, resumeExecution),
+                    })
+                .Remove()
                 .AddLabels(mitigateDamage)
-                .Advance()
-                .InsertInstructions(
-                    new CodeInstruction(OpCodes.Conv_R4),
-                    new CodeInstruction(OpCodes.Ldc_R4, 10f),
-                    new CodeInstruction(OpCodes.Ldc_R4, 10f))
-                .AdvanceUntil(new CodeInstruction(OpCodes.Sub))
-                .InsertInstructions(
-                    new CodeInstruction(OpCodes.Conv_R4),
-                    new CodeInstruction(OpCodes.Add),
-                    new CodeInstruction(OpCodes.Div))
-                .ReplaceInstructionWith(new CodeInstruction(OpCodes.Mul))
-                .Advance()
-                .ReplaceInstructionWith(new CodeInstruction(OpCodes.Conv_I4))
-                .Advance(2)
+                .Move()
+                .Insert(
+                    new[]
+                    {
+                        new CodeInstruction(OpCodes.Conv_R4), new CodeInstruction(OpCodes.Ldc_R4, 10f),
+                        new CodeInstruction(OpCodes.Ldc_R4, 10f),
+                    })
+                .Match(new[] { new CodeInstruction(OpCodes.Sub) })
+                .Insert(
+                    new[]
+                    {
+                        new CodeInstruction(OpCodes.Conv_R4), new CodeInstruction(OpCodes.Add),
+                        new CodeInstruction(OpCodes.Div),
+                    })
+                .ReplaceWith(new CodeInstruction(OpCodes.Mul))
+                .Move()
+                .ReplaceWith(new CodeInstruction(OpCodes.Conv_I4))
+                .Move(2)
                 .AddLabels(resumeExecution);
         }
         catch (Exception ex)

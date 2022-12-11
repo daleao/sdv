@@ -25,7 +25,7 @@ internal sealed class RingOnLeaveLocationPatcher : HarmonyPatcher
     [HarmonyPriority(Priority.HigherThanNormal)]
     private static bool RingOnLeaveLocationPrefix(Ring __instance)
     {
-        return !ModEntry.Config.Rings.TheOneInfinityBand ||
+        return !RingsModule.Config.TheOneInfinityBand ||
                __instance.indexInTileSheet.Value != Constants.IridiumBandIndex;
     }
 

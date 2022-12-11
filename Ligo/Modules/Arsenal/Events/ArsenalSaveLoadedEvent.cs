@@ -27,7 +27,7 @@ internal sealed class ArsenalSaveLoadedEvent : SaveLoadedEvent
     {
         if (Game1.player.Read<bool>(DataFields.Cursed))
         {
-            ModEntry.Events.Enable<CurseUpdateTickedEvent>();
+            this.Manager.Enable<CurseUpdateTickedEvent>();
         }
 
         if (Game1.player.Read<bool>(DataFields.ArsenalInitialized))
@@ -44,17 +44,13 @@ internal sealed class ArsenalSaveLoadedEvent : SaveLoadedEvent
                     return;
                 }
 
-                if (ModEntry.Config.Arsenal.InfinityPlusOne)
-                {
-                    weapon.AddIntrinsicEnchantments();
-                }
-
-                if (ModEntry.Config.Arsenal.Weapons.StabbySwords.Contains(weapon.Name))
+                weapon.AddIntrinsicEnchantments();
+                if (Collections.StabbySwords.Contains(weapon.InitialParentTileIndex))
                 {
                     weapon.type.Value = MeleeWeapon.stabbingSword;
                 }
 
-                if (ModEntry.Config.Arsenal.Weapons.RebalancedWeapons)
+                if (ArsenalModule.Config.Weapons.RebalancedWeapons)
                 {
                     weapon.RefreshStats();
                 }
@@ -69,17 +65,17 @@ internal sealed class ArsenalSaveLoadedEvent : SaveLoadedEvent
                     continue;
                 }
 
-                if (ModEntry.Config.Arsenal.InfinityPlusOne)
+                if (ArsenalModule.Config.InfinityPlusOne)
                 {
                     weapon.AddIntrinsicEnchantments();
                 }
 
-                if (ModEntry.Config.Arsenal.Weapons.StabbySwords.Contains(weapon.Name))
+                if (Collections.StabbySwords.Contains(weapon.InitialParentTileIndex))
                 {
                     weapon.type.Value = MeleeWeapon.stabbingSword;
                 }
 
-                if (ModEntry.Config.Arsenal.Weapons.RebalancedWeapons)
+                if (ArsenalModule.Config.Weapons.RebalancedWeapons)
                 {
                     weapon.RefreshStats();
                 }

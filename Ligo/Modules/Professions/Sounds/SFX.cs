@@ -40,7 +40,7 @@ public sealed class Sfx : SmartEnum<Sfx>
     private Sfx(string name, int value)
         : base(name, value)
     {
-        var path = Path.Combine(ModEntry.ModHelper.DirectoryPath, "assets", "sfx", name + ".wav");
+        var path = Path.Combine(ModHelper.DirectoryPath, "assets", "sfx", name + ".wav");
         using var fs = new FileStream(path, FileMode.Open);
         var soundEffect = SoundEffect.FromStream(fs);
         if (soundEffect is null)

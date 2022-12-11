@@ -26,7 +26,7 @@ internal sealed class RingOnMonsterSlayPatcher : HarmonyPatcher
     [HarmonyPrefix]
     private static bool RingOnMonsterSlayPrefix(Ring __instance, Farmer who)
     {
-        if (!who.IsLocalPlayer || !ModEntry.Config.Rings.RebalancedRings)
+        if (!who.IsLocalPlayer || !RingsModule.Config.RebalancedRings)
         {
             return true; // run original logic
         }
@@ -35,11 +35,11 @@ internal sealed class RingOnMonsterSlayPatcher : HarmonyPatcher
         {
             case Constants.WarriorRingIndex:
                 who.Increment_WarriorKillCount();
-                ModEntry.Events.Enable<WarriorUpdateTickedEvent>();
+                EventManager.Enable<WarriorUpdateTickedEvent>();
                 break;
             case Constants.SavangeRingIndex:
                 who.Set_SavageExcitedness(9);
-                ModEntry.Events.Enable<SavageUpdateTickedEvent>();
+                EventManager.Enable<SavageUpdateTickedEvent>();
                 break;
         }
 

@@ -35,17 +35,20 @@ internal sealed class GreenSlimeOnDealContactDamagePatcher : HarmonyPatcher
         {
             var resumeExecution = generator.DefineLabel();
             helper
-                .FindFirst(new CodeInstruction(OpCodes.Bge_Un_S)) // find index of first branch instruction
+                .Match(new[] { new CodeInstruction(OpCodes.Bge_Un_S) }) // find index of first branch instruction
                 .GetOperand(out var returnLabel) // get return label
                 .Return()
                 .AddLabels(resumeExecution)
-                .InsertInstructions(new CodeInstruction(OpCodes.Ldarg_1)) // arg 1 = Farmer who
+                .Insert(new[] { new CodeInstruction(OpCodes.Ldarg_1) }) // arg 1 = Farmer who
                 .InsertProfessionCheck(Profession.Piper.Value, forLocalPlayer: false)
-                .InsertInstructions(
-                    new CodeInstruction(OpCodes.Brfalse_S, resumeExecution),
-                    new CodeInstruction(OpCodes.Ldarg_1)) // arg 1 = Farmer who
+                .Insert(
+                    new[]
+                    {
+                        new CodeInstruction(OpCodes.Brfalse_S, resumeExecution),
+                        new CodeInstruction(OpCodes.Ldarg_1),
+                    }) // arg 1 = Farmer who
                 .InsertProfessionCheck(Profession.Piper.Value + 100, forLocalPlayer: false)
-                .InsertInstructions(new CodeInstruction(OpCodes.Brfalse_S, returnLabel));
+                .Insert(new[] { new CodeInstruction(OpCodes.Brfalse_S, returnLabel), });
         }
         catch (Exception ex)
         {

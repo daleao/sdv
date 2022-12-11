@@ -36,26 +36,40 @@ internal sealed class GameLocationBlacksmithPatcher : HarmonyPatcher
         try
         {
             helper
-                .FindFirst(
-                    new CodeInstruction(OpCodes.Ldfld, typeof(Farmer).RequireField(nameof(Farmer.toolBeingUpgraded))),
-                    new CodeInstruction(
-                        OpCodes.Callvirt,
-                        typeof(NetFieldBase<Tool, NetRef<Tool>>).RequirePropertyGetter(nameof(NetFieldBase<Tool, NetRef<Tool>>.Value))),
-                    new CodeInstruction(OpCodes.Brtrue))
-                .Advance(2)
+                .Match(
+                    new[]
+                    {
+                        new CodeInstruction(
+                            OpCodes.Ldfld,
+                            typeof(Farmer).RequireField(nameof(Farmer.toolBeingUpgraded))),
+                        new CodeInstruction(
+                            OpCodes.Callvirt,
+                            typeof(NetFieldBase<Tool, NetRef<Tool>>).RequirePropertyGetter(
+                                nameof(NetFieldBase<Tool, NetRef<Tool>>.Value))),
+                        new CodeInstruction(OpCodes.Brtrue),
+                    })
+                .Move(2)
                 .SetOpCode(OpCodes.Brtrue_S)
-                .Advance()
-                .RemoveInstructionsUntil(
-                    new CodeInstruction(
-                        OpCodes.Call,
-                        typeof(GameLocation).RequireMethod(
-                            nameof(GameLocation.createQuestionDialogue),
-                            new[] { typeof(string), typeof(Response[]), typeof(string) })))
-                .InsertInstructions(
-                    new CodeInstruction(OpCodes.Ldarg_0),
-                    new CodeInstruction(
-                        OpCodes.Call,
-                        typeof(GameLocationBlacksmithPatcher).RequireMethod(nameof(CreateBlacksmithQuestionDialogue))));
+                .Move()
+                .Match(
+                    new[]
+                    {
+                        new CodeInstruction(
+                            OpCodes.Call,
+                            typeof(GameLocation).RequireMethod(
+                                nameof(GameLocation.createQuestionDialogue),
+                                new[] { typeof(string), typeof(Response[]), typeof(string) })),
+                    },
+                    out var count)
+                .Remove(count)
+                .Insert(
+                    new[]
+                    {
+                        new CodeInstruction(OpCodes.Ldarg_0), new CodeInstruction(
+                            OpCodes.Call,
+                            typeof(GameLocationBlacksmithPatcher).RequireMethod(
+                                nameof(CreateBlacksmithQuestionDialogue))),
+                    });
         }
         catch (Exception ex)
         {
@@ -89,9 +103,9 @@ internal sealed class GameLocationBlacksmithPatcher : HarmonyPatcher
                 Game1.content.LoadString("Strings\\Locations:Blacksmith_Clint_Geodes")));
         }
 
-        if (ModEntry.Config.Arsenal.DwarvishCrafting && !string.IsNullOrEmpty(Game1.player.Read(DataFields.BlueprintsFound)))
+        if (ArsenalModule.Config.DwarvishCrafting && !string.IsNullOrEmpty(Game1.player.Read(DataFields.BlueprintsFound)))
         {
-            responses.Add(new Response("Forge", ModEntry.i18n.Get("blacksmith.forge.option")));
+            responses.Add(new Response("Forge", i18n.Get("blacksmith.forge.option")));
         }
 
         responses.Add(new Response("Leave", Game1.content.LoadString("Strings\\Locations:Blacksmith_Clint_Leave")));

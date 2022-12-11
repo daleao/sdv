@@ -80,7 +80,7 @@ internal sealed class InfinityProjectile : BasicProjectile
             return;
         }
 
-        ModEntry.Reflector
+        Reflector
             .GetUnboundMethodDelegate<Action<BasicProjectile, GameLocation>>(this, "explosionAnimation")
             .Invoke(this, location);
         location.damageMonster(
@@ -111,7 +111,7 @@ internal sealed class InfinityProjectile : BasicProjectile
     {
         //location.temporarySprites.Add(
         //    new TemporaryAnimatedSprite(
-        //        $"{ModEntry.Manifest.UniqueID}/InfinityCollisionAnimation",
+        //        $"{Manifest.UniqueID}/InfinityCollisionAnimation",
         //        new Rectangle(0, 0, 128, 128),
         //        50f,
         //        5,

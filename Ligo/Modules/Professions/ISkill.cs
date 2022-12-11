@@ -40,7 +40,7 @@ public interface ISkill
 
     /// <summary>Gets the experience multiplier due to this skill's prestige level.</summary>
     float PrestigeExperienceMultiplier =>
-        (float)Math.Pow(1f + ModEntry.Config.Professions.PrestigeExpMultiplier, this.PrestigeLevel);
+        (float)Math.Pow(1f + ProfessionsModule.Config.PrestigeExpMultiplier, this.PrestigeLevel);
 
     /// <summary>Gets the new levels gained during the current game day, which have not yet been accomplished by an overnight menu.</summary>
     IEnumerable<int> NewLevels { get; }
@@ -80,16 +80,16 @@ public interface ISkill
         { 8, 6900 },
         { 9, 10000 },
         { 10, Constants.ExpAtLevel10 },
-        { 11, Constants.ExpAtLevel10 + (int)ModEntry.Config.Professions.RequiredExpPerExtendedLevel },
-        { 12, Constants.ExpAtLevel10 + ((int)ModEntry.Config.Professions.RequiredExpPerExtendedLevel * 2) },
-        { 13, Constants.ExpAtLevel10 + ((int)ModEntry.Config.Professions.RequiredExpPerExtendedLevel * 3) },
-        { 14, Constants.ExpAtLevel10 + ((int)ModEntry.Config.Professions.RequiredExpPerExtendedLevel * 4) },
-        { 15, Constants.ExpAtLevel10 + ((int)ModEntry.Config.Professions.RequiredExpPerExtendedLevel * 5) },
-        { 16, Constants.ExpAtLevel10 + ((int)ModEntry.Config.Professions.RequiredExpPerExtendedLevel * 6) },
-        { 17, Constants.ExpAtLevel10 + ((int)ModEntry.Config.Professions.RequiredExpPerExtendedLevel * 7) },
-        { 18, Constants.ExpAtLevel10 + ((int)ModEntry.Config.Professions.RequiredExpPerExtendedLevel * 8) },
-        { 19, Constants.ExpAtLevel10 + ((int)ModEntry.Config.Professions.RequiredExpPerExtendedLevel * 9) },
-        { 20, Constants.ExpAtLevel10 + ((int)ModEntry.Config.Professions.RequiredExpPerExtendedLevel * 10) },
+        { 11, Constants.ExpAtLevel10 + (int)ProfessionsModule.Config.RequiredExpPerExtendedLevel },
+        { 12, Constants.ExpAtLevel10 + ((int)ProfessionsModule.Config.RequiredExpPerExtendedLevel * 2) },
+        { 13, Constants.ExpAtLevel10 + ((int)ProfessionsModule.Config.RequiredExpPerExtendedLevel * 3) },
+        { 14, Constants.ExpAtLevel10 + ((int)ProfessionsModule.Config.RequiredExpPerExtendedLevel * 4) },
+        { 15, Constants.ExpAtLevel10 + ((int)ProfessionsModule.Config.RequiredExpPerExtendedLevel * 5) },
+        { 16, Constants.ExpAtLevel10 + ((int)ProfessionsModule.Config.RequiredExpPerExtendedLevel * 6) },
+        { 17, Constants.ExpAtLevel10 + ((int)ProfessionsModule.Config.RequiredExpPerExtendedLevel * 7) },
+        { 18, Constants.ExpAtLevel10 + ((int)ProfessionsModule.Config.RequiredExpPerExtendedLevel * 8) },
+        { 19, Constants.ExpAtLevel10 + ((int)ProfessionsModule.Config.RequiredExpPerExtendedLevel * 9) },
+        { 20, Constants.ExpAtLevel10 + ((int)ProfessionsModule.Config.RequiredExpPerExtendedLevel * 10) },
     };
 
     /// <summary>Adds experience points for this skill.</summary>
@@ -144,7 +144,7 @@ public interface ISkill
     /// <returns>A sum of gold to be paid.</returns>
     virtual int GetResetCost()
     {
-        var multiplier = ModEntry.Config.Professions.SkillResetCostMultiplier;
+        var multiplier = ProfessionsModule.Config.SkillResetCostMultiplier;
         if (multiplier <= 0f)
         {
             return 0;

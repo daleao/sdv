@@ -32,30 +32,32 @@ internal sealed class ToolAddEnchantmentPatcher : HarmonyPatcher
         var helper = new ILHelper(original, instructions);
 
         // From: if (this is MeleeWeapon ...
-        // To: if (this is MeleeWeapon || this is Slingshot && ModEntry.Config.Arsenal.Slingshots.AllowForges ...
+        // To: if (this is MeleeWeapon || this is Slingshot && ArsenalModule.Config.Slingshots.AllowForges ...
         try
         {
             var isWeapon = generator.DefineLabel();
             helper
-                .FindFirst(new CodeInstruction(OpCodes.Isinst))
-                .Advance()
+                .Match(new[] { new CodeInstruction(OpCodes.Isinst) })
+                .Move()
                 .GetOperand(out var resumeExecution)
-                .InsertInstructions(
-                    new CodeInstruction(OpCodes.Brtrue_S, isWeapon),
-                    new CodeInstruction(OpCodes.Ldarg_0),
-                    new CodeInstruction(OpCodes.Isinst, typeof(Slingshot)),
-                    new CodeInstruction(OpCodes.Brfalse, resumeExecution),
-                    new CodeInstruction(OpCodes.Call, typeof(ModEntry).RequirePropertyGetter(nameof(ModEntry.Config))),
-                    new CodeInstruction(
-                        OpCodes.Callvirt,
-                        typeof(ModConfig).RequirePropertyGetter(nameof(ModConfig.Arsenal))),
-                    new CodeInstruction(
-                        OpCodes.Callvirt,
-                        typeof(Config).RequirePropertyGetter(nameof(Config.Slingshots))),
-                    new CodeInstruction(
-                        OpCodes.Callvirt,
-                        typeof(SlingshotConfig).RequirePropertyGetter(nameof(SlingshotConfig.AllowForges))))
-                .Advance()
+                .Insert(
+                    new[]
+                    {
+                        new CodeInstruction(OpCodes.Brtrue_S, isWeapon), new CodeInstruction(OpCodes.Ldarg_0),
+                        new CodeInstruction(OpCodes.Isinst, typeof(Slingshot)),
+                        new CodeInstruction(OpCodes.Brfalse, resumeExecution),
+                        new CodeInstruction(OpCodes.Call, typeof(ModEntry).RequirePropertyGetter(nameof(Config))),
+                        new CodeInstruction(
+                            OpCodes.Callvirt,
+                            typeof(ModConfig).RequirePropertyGetter(nameof(ModConfig.Arsenal))),
+                        new CodeInstruction(
+                            OpCodes.Callvirt,
+                            typeof(ArsenalConfig).RequirePropertyGetter(nameof(ArsenalConfig.Slingshots))),
+                        new CodeInstruction(
+                            OpCodes.Callvirt,
+                            typeof(SlingshotConfig).RequirePropertyGetter(nameof(SlingshotConfig.AllowForges))),
+                    })
+                .Move()
                 .AddLabels(isWeapon);
         }
         catch (Exception ex)

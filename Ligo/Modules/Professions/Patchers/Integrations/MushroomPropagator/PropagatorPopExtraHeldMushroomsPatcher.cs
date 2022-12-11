@@ -43,19 +43,20 @@ internal sealed class PropagatorPopExtraHeldMushroomsPatcher : HarmonyPatcher
             var resumeExecution = generator.DefineLabel();
             helper
                 .FindProfessionCheck(Profession.Forager.Value) // find index of forager check
-                .AdvanceUntil(new CodeInstruction(OpCodes.Ldc_I4_0))
+                .Match(new[] { new CodeInstruction(OpCodes.Ldc_I4_0) })
                 .SetOpCode(OpCodes.Ldc_I4_1)
-                .Advance()
+                .Move()
                 .InsertProfessionCheck(Profession.Forager.Value + 100)
-                .InsertInstructions(
-                    new CodeInstruction(OpCodes.Brfalse_S, isNotPrestiged),
-                    new CodeInstruction(OpCodes.Cgt_Un),
-                    new CodeInstruction(OpCodes.Not),
-                    new CodeInstruction(OpCodes.Br_S, resumeExecution))
-                .InsertWithLabels(
-                    new[] { isNotPrestiged },
-                    new CodeInstruction(OpCodes.Clt_Un))
-                .RemoveInstructions()
+                .Insert(
+                    new[]
+                    {
+                        new CodeInstruction(OpCodes.Brfalse_S, isNotPrestiged), new CodeInstruction(OpCodes.Cgt_Un),
+                        new CodeInstruction(OpCodes.Not), new CodeInstruction(OpCodes.Br_S, resumeExecution),
+                    })
+                .Insert(
+                    new[] { new CodeInstruction(OpCodes.Clt_Un) },
+                    new[] { isNotPrestiged })
+                .Remove()
                 .AddLabels(resumeExecution);
         }
         catch (Exception ex)
@@ -72,17 +73,20 @@ internal sealed class PropagatorPopExtraHeldMushroomsPatcher : HarmonyPatcher
         {
             helper
                 .FindProfessionCheck(Profession.Ecologist.Value) // find index of ecologist check
-                .Retreat()
+                .Move(-1)
                 .GetLabels(out var labels)
-                .RemoveInstructionsUntil(new CodeInstruction(OpCodes.Ldc_I4_4))
-                .InsertWithLabels(
-                    labels,
-                    new CodeInstruction(OpCodes.Ldarg_0),
-                    new CodeInstruction(
-                        OpCodes.Call,
-                        typeof(PropagatorPopExtraHeldMushroomsPatcher)
-                            .RequireMethod(nameof(PopExtraHeldMushroomsSubroutine))))
-                .RemoveLabels();
+                .Match(new[] { new CodeInstruction(OpCodes.Ldc_I4_4) }, out var count)
+                .Remove(count)
+                .Insert(
+                    new[]
+                    {
+                        new CodeInstruction(OpCodes.Ldarg_0), new CodeInstruction(
+                            OpCodes.Call,
+                            typeof(PropagatorPopExtraHeldMushroomsPatcher)
+                                .RequireMethod(nameof(PopExtraHeldMushroomsSubroutine))),
+                    },
+                    labels)
+                .StripLabels();
         }
         catch (Exception ex)
         {
@@ -99,10 +103,10 @@ internal sealed class PropagatorPopExtraHeldMushroomsPatcher : HarmonyPatcher
 
     private static int PopExtraHeldMushroomsSubroutine(SObject propagator)
     {
-        var who = ModEntry.Config.Professions.LaxOwnershipRequirements ? Game1.player : propagator.GetOwner();
+        var who = ProfessionsModule.Config.LaxOwnershipRequirements ? Game1.player : propagator.GetOwner();
         return who.HasProfession(Profession.Ecologist)
             ? who.GetEcologistForageQuality()
-            : ModEntry.Reflector.GetUnboundFieldGetter<SObject, int>(propagator, "SourceMushroomQuality").Invoke(propagator);
+            : Reflector.GetUnboundFieldGetter<SObject, int>(propagator, "SourceMushroomQuality").Invoke(propagator);
     }
 
     #endregion injected subroutines

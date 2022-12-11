@@ -36,32 +36,36 @@ internal sealed class EventSkipEventPatcher : HarmonyPatcher
             var rusty = generator.DefineLabel();
             var resumeExecution = generator.DefineLabel();
             helper
-                .FindFirst(
-                    new CodeInstruction(OpCodes.Ldstr, "Rusty Sword"))
-                .Retreat()
+                .Match(new[] { new CodeInstruction(OpCodes.Ldstr, "Rusty Sword") })
+                .Move(-1)
                 .StripLabels(out var labels)
                 .AddLabels(rusty)
-                .InsertWithLabels(
-                    labels,
-                    new CodeInstruction(
-                        OpCodes.Call,
-                        typeof(ModEntry).RequirePropertyGetter(nameof(ModEntry.Config))),
-                    new CodeInstruction(
-                        OpCodes.Callvirt,
-                        typeof(ModConfig).RequirePropertyGetter(nameof(ModConfig.Arsenal))),
-                    new CodeInstruction(
-                        OpCodes.Callvirt,
-                        typeof(Config).RequirePropertyGetter(nameof(Config.WoodyReplacesRusty))),
-                    new CodeInstruction(OpCodes.Brfalse_S, rusty),
-                    new CodeInstruction(
-                        OpCodes.Call,
-                        typeof(EventSkipEventPatcher).RequireMethod(nameof(AddSwordIfNecessary))),
-                    new CodeInstruction(OpCodes.Br_S, resumeExecution))
-                .AdvanceUntil(
-                    new CodeInstruction(
-                        OpCodes.Callvirt,
-                        typeof(Farmer).RequireMethod(nameof(Farmer.addItemByMenuIfNecessary))))
-                .Advance()
+                .Insert(
+                    new[]
+                    {
+                        new CodeInstruction(
+                            OpCodes.Call,
+                            typeof(ModEntry).RequirePropertyGetter(nameof(Config))),
+                        new CodeInstruction(
+                            OpCodes.Callvirt,
+                            typeof(ModConfig).RequirePropertyGetter(nameof(ModConfig.Arsenal))),
+                        new CodeInstruction(
+                            OpCodes.Callvirt,
+                            typeof(ArsenalConfig).RequirePropertyGetter(nameof(ArsenalConfig.WoodyReplacesRusty))),
+                        new CodeInstruction(OpCodes.Brfalse_S, rusty), new CodeInstruction(
+                            OpCodes.Call,
+                            typeof(EventSkipEventPatcher).RequireMethod(nameof(AddSwordIfNecessary))),
+                        new CodeInstruction(OpCodes.Br_S, resumeExecution),
+                    },
+                    labels)
+                .Match(
+                    new[]
+                    {
+                        new CodeInstruction(
+                            OpCodes.Callvirt,
+                            typeof(Farmer).RequireMethod(nameof(Farmer.addItemByMenuIfNecessary))),
+                    })
+                .Move()
                 .AddLabels(resumeExecution);
         }
         catch (Exception ex)

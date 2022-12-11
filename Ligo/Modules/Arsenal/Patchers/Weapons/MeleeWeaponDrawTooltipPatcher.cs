@@ -32,7 +32,7 @@ internal sealed class MeleeWeaponDrawTooltipPatcher : HarmonyPatcher
         try
         {
             // write description
-            var descriptionWidth = ModEntry.Reflector
+            var descriptionWidth = Reflector
                 .GetUnboundMethodDelegate<Func<Item, int>>(__instance, "getDescriptionWidth")
                 .Invoke(__instance);
             Utility.drawTextWithShadow(
@@ -96,7 +96,7 @@ internal sealed class MeleeWeaponDrawTooltipPatcher : HarmonyPatcher
 
                 Utility.drawTextWithShadow(
                     spriteBatch,
-                    ModEntry.i18n.Get(
+                    i18n.Get(
                         "ui.itemhover.knockback",
                         new { amount = $"{relativeKnockback:+#%;-#%}" }),
                     font,
@@ -127,7 +127,7 @@ internal sealed class MeleeWeaponDrawTooltipPatcher : HarmonyPatcher
 
                 Utility.drawTextWithShadow(
                     spriteBatch,
-                    ModEntry.i18n.Get(
+                    i18n.Get(
                         "ui.itemhover.crate",
                         new { amount = $"{relativeCritChance:+#%;-#%}" }),
                     font,
@@ -156,7 +156,7 @@ internal sealed class MeleeWeaponDrawTooltipPatcher : HarmonyPatcher
 
                 Utility.drawTextWithShadow(
                     spriteBatch,
-                    ModEntry.i18n.Get(
+                    i18n.Get(
                         "ui.itemhover.cpow",
                         new { amount = $"{relativeGetCritPower:+#%;-#%}" }),
                     font,
@@ -185,7 +185,7 @@ internal sealed class MeleeWeaponDrawTooltipPatcher : HarmonyPatcher
 
                 Utility.drawTextWithShadow(
                     spriteBatch,
-                    ModEntry.i18n.Get(
+                    i18n.Get(
                         "ui.itemhover.swingspeed",
                         new { amount = $"{speed:+#%;-#%}" }),
                     font,
@@ -214,7 +214,7 @@ internal sealed class MeleeWeaponDrawTooltipPatcher : HarmonyPatcher
 
                 Utility.drawTextWithShadow(
                     spriteBatch,
-                    ModEntry.i18n.Get("ui.itemhover.cdr", new { amount = $"-{cooldownReduction:0%}" }),
+                    i18n.Get("ui.itemhover.cdr", new { amount = $"-{cooldownReduction:0%}" }),
                     font,
                     new Vector2(x + 68, y + 28),
                     co * 0.9f * alpha);
@@ -224,7 +224,7 @@ internal sealed class MeleeWeaponDrawTooltipPatcher : HarmonyPatcher
 
             // write bonus defense
             var resistance = __instance.Get_RelativeResilience();
-            if ((ModEntry.Config.Arsenal.OverhauledDefense && resistance != 0f) || resistance > 1f)
+            if ((ArsenalModule.Config.OverhauledDefense && resistance != 0f) || resistance > 1f)
             {
                 co = __instance.hasEnchantmentOfType<TopazEnchantment>() ? new Color(0, 120, 120) : Game1.textColor;
                 Utility.drawWithShadow(
@@ -241,8 +241,8 @@ internal sealed class MeleeWeaponDrawTooltipPatcher : HarmonyPatcher
 
                 Utility.drawTextWithShadow(
                     spriteBatch,
-                    ModEntry.Config.EnableArsenal && ModEntry.Config.Arsenal.OverhauledDefense
-                        ? ModEntry.i18n.Get("ui.itemhover.resist", new { amount = $"{resistance:+#%;-#%}" })
+                    Config.EnableArsenal && ArsenalModule.Config.OverhauledDefense
+                        ? i18n.Get("ui.itemhover.resist", new { amount = $"{resistance:+#%;-#%}" })
                         : Game1.content.LoadString("ItemHover_DefenseBonus", __instance.addedDefense.Value),
                     font,
                     new Vector2(x + 68, y + 28),
@@ -272,7 +272,7 @@ internal sealed class MeleeWeaponDrawTooltipPatcher : HarmonyPatcher
             co = new Color(120, 0, 210);
 
             // write other enchantments
-            foreach (var enchantment in __instance.enchantments.Where(enchantment => enchantment.ShouldBeDisplayed()))
+            foreach (var enchantment in __instance.enchantments.Where(e => e.ShouldBeDisplayed()))
             {
                 Utility.drawWithShadow(
                     spriteBatch,

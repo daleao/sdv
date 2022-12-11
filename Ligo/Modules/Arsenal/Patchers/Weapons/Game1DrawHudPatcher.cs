@@ -37,18 +37,30 @@ internal sealed class Game1DrawHudPatcher : HarmonyPatcher
         try
         {
             helper
-                .FindFirst(
-                    new CodeInstruction(OpCodes.Ldc_I4_1),
-                    new CodeInstruction(OpCodes.Stsfld, typeof(Game1).RequireField(nameof(Game1.showingHealth))))
-                .Advance(2)
-                .RemoveInstructionsUntil(
-                    new CodeInstruction(OpCodes.Callvirt),
-                    new CodeInstruction(OpCodes.Br_S))
-                .InsertInstructions(
-                    new CodeInstruction(OpCodes.Ldloc_1),
-                    new CodeInstruction(
-                        OpCodes.Call,
-                        typeof(Game1DrawHudPatcher).RequireMethod(nameof(DrawHealthBarSubroutine))));
+                .Match(
+                    new[]
+                    {
+                        new CodeInstruction(OpCodes.Ldc_I4_1), new CodeInstruction(
+                            OpCodes.Stsfld,
+                            typeof(Game1).RequireField(nameof(Game1.showingHealth))),
+                    })
+                .Move(2)
+                .Match(
+                    new[]
+                    {
+                        new CodeInstruction(OpCodes.Callvirt),
+                        new CodeInstruction(OpCodes.Br_S),
+
+                    },
+                    out var count)
+                .Remove(count)
+                .Insert(
+                    new[]
+                    {
+                        new CodeInstruction(OpCodes.Ldloc_1), new CodeInstruction(
+                            OpCodes.Call,
+                            typeof(Game1DrawHudPatcher).RequireMethod(nameof(DrawHealthBarSubroutine))),
+                    });
         }
         catch (Exception ex)
         {

@@ -44,33 +44,47 @@ internal sealed class ResourceClumpPerformToolAction : HarmonyPatcher
             var resumeExecution2 = generator.DefineLabel();
             helper
                 .FindProfessionCheck(Profession.Lumberjack.Value)
-                .AdvanceUntil(new CodeInstruction(OpCodes.Ldc_I4_S, 10))
+                .Match(new[] { new CodeInstruction(OpCodes.Ldc_I4_S, 10) })
                 .AddLabels(isNotPrestiged)
-                .InsertInstructions(
-                    new CodeInstruction(OpCodes.Ldarg_1),
-                    new CodeInstruction(OpCodes.Callvirt, typeof(Tool).RequireMethod(nameof(Tool.getLastFarmerToUse))))
+                .Insert(
+                    new[]
+                    {
+                        new CodeInstruction(OpCodes.Ldarg_1),
+                        new CodeInstruction(
+                            OpCodes.Callvirt,
+                            typeof(Tool).RequireMethod(nameof(Tool.getLastFarmerToUse))),
+                    })
                 .InsertProfessionCheck(Profession.Lumberjack.Value + 100, forLocalPlayer: false)
-                .InsertInstructions(
-                    new CodeInstruction(OpCodes.Brfalse_S, isNotPrestiged),
-                    new CodeInstruction(OpCodes.Ldc_I4_S, 11),
-                    new CodeInstruction(OpCodes.Br_S, resumeExecution1))
-                .Advance()
+                .Insert(
+                    new[]
+                    {
+                        new CodeInstruction(OpCodes.Brfalse_S, isNotPrestiged),
+                        new CodeInstruction(OpCodes.Ldc_I4_S, 11),
+                        new CodeInstruction(OpCodes.Br_S, resumeExecution1),
+                    })
+                .Move()
                 .AddLabels(resumeExecution1)
-                .AdvanceUntil(
-                    new CodeInstruction(OpCodes.Ldc_I4_1),
-                    new CodeInstruction(OpCodes.Add))
-                .Advance()
+                .Match(
+                    new[] { new CodeInstruction(OpCodes.Ldc_I4_1), new CodeInstruction(OpCodes.Add), })
+                .Move()
                 .AddLabels(resumeExecution2)
-                .InsertInstructions(
-                    new CodeInstruction(OpCodes.Ldarg_1),
-                    new CodeInstruction(OpCodes.Callvirt, typeof(Tool).RequireMethod(nameof(Tool.getLastFarmerToUse))))
+                .Insert(
+                    new[]
+                    {
+                        new CodeInstruction(OpCodes.Ldarg_1),
+                        new CodeInstruction(
+                            OpCodes.Callvirt,
+                            typeof(Tool).RequireMethod(nameof(Tool.getLastFarmerToUse))),
+                    })
                 .InsertProfessionCheck(Profession.Lumberjack.Value + 100, forLocalPlayer: false)
-                .InsertInstructions(new CodeInstruction(OpCodes.Brfalse_S, resumeExecution2))
+                .Insert(new[] { new CodeInstruction(OpCodes.Brfalse_S, resumeExecution2) })
                 .InsertDiceRoll(0.5)
-                .InsertInstructions(
-                    new CodeInstruction(OpCodes.Bgt_S, resumeExecution2),
-                    new CodeInstruction(OpCodes.Ldc_I4_1),
-                    new CodeInstruction(OpCodes.Add));
+                .Insert(
+                    new[]
+                    {
+                        new CodeInstruction(OpCodes.Bgt_S, resumeExecution2), new CodeInstruction(OpCodes.Ldc_I4_1),
+                        new CodeInstruction(OpCodes.Add),
+                    });
         }
         catch (Exception ex)
         {

@@ -21,7 +21,7 @@ internal sealed class ManualDetonationUpdateTickedEvent : UpdateTickedEvent
     /// <inheritdoc />
     protected override void OnUpdateTickedImpl(object? sender, UpdateTickedEventArgs e)
     {
-        if (ModEntry.Config.Professions.ModKey.IsDown())
+        if (ProfessionsModule.Config.ModKey.IsDown())
         {
             return;
         }

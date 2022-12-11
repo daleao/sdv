@@ -25,7 +25,7 @@ internal sealed class UltimateToggledModMessageReceivedEvent : ModMessageReceive
     /// <inheritdoc />
     protected override void OnModMessageReceivedImpl(object? sender, ModMessageReceivedEventArgs e)
     {
-        if (e.FromModID != ModEntry.Manifest.UniqueID || !e.Type.StartsWith("ToggledUltimate"))
+        if (e.FromModID != Manifest.UniqueID || !e.Type.StartsWith("ToggledUltimate"))
         {
             return;
         }

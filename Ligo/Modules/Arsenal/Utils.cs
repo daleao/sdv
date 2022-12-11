@@ -23,7 +23,7 @@ internal static class Utils
                     return;
                 }
 
-                if (ModEntry.Config.Arsenal.Weapons.StabbySwords.Contains(sword.Name))
+                if (Collections.StabbySwords.Contains(sword.InitialParentTileIndex))
                 {
                     sword.type.Value = MeleeWeapon.stabbingSword;
                 }
@@ -33,7 +33,7 @@ internal static class Utils
         {
             foreach (var sword in Game1.player.Items.OfType<MeleeWeapon>().Where(w =>
                          w.type.Value == MeleeWeapon.defenseSword &&
-                         ModEntry.Config.Arsenal.Weapons.StabbySwords.Contains(w.Name)))
+                         Collections.StabbySwords.Contains(w.InitialParentTileIndex)))
             {
                 sword.type.Value = MeleeWeapon.stabbingSword;
             }

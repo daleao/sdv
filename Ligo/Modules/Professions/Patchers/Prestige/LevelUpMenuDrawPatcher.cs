@@ -48,15 +48,19 @@ internal sealed class LevelUpMenuDrawPatcher : HarmonyPatcher
         try
         {
             helper
-                .FindFirst(new CodeInstruction(OpCodes.Stloc_1))
-                .RetreatUntil(new CodeInstruction(OpCodes.Ldsfld))
-                .RemoveInstructionsUntil(new CodeInstruction(OpCodes.Callvirt))
-                .InsertInstructions(
-                    new CodeInstruction(OpCodes.Ldarg_0),
-                    new CodeInstruction(OpCodes.Ldfld, typeof(LevelUpMenu).RequireField("currentLevel")),
-                    new CodeInstruction(
-                        OpCodes.Call,
-                        typeof(LevelUpMenuDrawPatcher).RequireMethod(nameof(GetChooseProfessionText))));
+                .Match(new[] { new CodeInstruction(OpCodes.Stloc_1) })
+                .Match(new[] { new CodeInstruction(OpCodes.Ldsfld) }, ILHelper.SearchOption.Previous)
+                .Match(new[] { new CodeInstruction(OpCodes.Callvirt) }, out var count)
+                .Remove(count)
+                .Insert(
+                    new[]
+                    {
+                        new CodeInstruction(OpCodes.Ldarg_0),
+                        new CodeInstruction(OpCodes.Ldfld, typeof(LevelUpMenu).RequireField("currentLevel")),
+                        new CodeInstruction(
+                            OpCodes.Call,
+                            typeof(LevelUpMenuDrawPatcher).RequireMethod(nameof(GetChooseProfessionText))),
+                    });
         }
         catch (Exception ex)
         {
@@ -69,22 +73,27 @@ internal sealed class LevelUpMenuDrawPatcher : HarmonyPatcher
         try
         {
             helper
-                .FindFirst(
-                    new CodeInstruction(
-                        OpCodes.Ldfld,
-                        typeof(LevelUpMenu).RequireField(nameof(LevelUpMenu.isProfessionChooser))))
-                .Advance()
+                .Match(
+                    new[]
+                    {
+                        new CodeInstruction(
+                            OpCodes.Ldfld,
+                            typeof(LevelUpMenu).RequireField(nameof(LevelUpMenu.isProfessionChooser))),
+                    },
+                    ILHelper.SearchOption.First)
+                .Move()
                 .GetOperand(out var isNotProfessionChooser)
                 .FindLabel((Label)isNotProfessionChooser)
-                .Retreat()
-                .InsertInstructions(
-                    new CodeInstruction(OpCodes.Ldarg_0),
-                    new CodeInstruction(OpCodes.Ldarg_0),
-                    new CodeInstruction(OpCodes.Ldfld, typeof(LevelUpMenu).RequireField("currentLevel")),
-                    new CodeInstruction(OpCodes.Ldarg_1),
-                    new CodeInstruction(
-                        OpCodes.Call,
-                        typeof(LevelUpMenuDrawPatcher).RequireMethod(nameof(DrawSubroutine))));
+                .Move(-1)
+                .Insert(
+                    new[]
+                    {
+                        new CodeInstruction(OpCodes.Ldarg_0), new CodeInstruction(OpCodes.Ldarg_0),
+                        new CodeInstruction(OpCodes.Ldfld, typeof(LevelUpMenu).RequireField("currentLevel")),
+                        new CodeInstruction(OpCodes.Ldarg_1), new CodeInstruction(
+                            OpCodes.Call,
+                            typeof(LevelUpMenuDrawPatcher).RequireMethod(nameof(DrawSubroutine))),
+                    });
         }
         catch (Exception ex)
         {
@@ -102,18 +111,18 @@ internal sealed class LevelUpMenuDrawPatcher : HarmonyPatcher
     private static string GetChooseProfessionText(int currentLevel)
     {
         return currentLevel > 10
-            ? ModEntry.i18n.Get("prestige.levelup.prestige")
+            ? i18n.Get("prestige.levelup.prestige")
             : Game1.content.LoadString("Strings\\UI:LevelUp_ChooseProfession");
     }
 
     private static void DrawSubroutine(LevelUpMenu menu, int currentLevel, SpriteBatch b)
     {
-        if (!ModEntry.Config.Professions.EnablePrestige || !menu.isProfessionChooser || currentLevel > 10)
+        if (!ProfessionsModule.Config.EnablePrestige || !menu.isProfessionChooser || currentLevel > 10)
         {
             return;
         }
 
-        var professionsToChoose = ModEntry.Reflector
+        var professionsToChoose = Reflector
             .GetUnboundFieldGetter<LevelUpMenu, List<int>>(menu, "professionsToChoose")
             .Invoke(menu);
         if (!Profession.TryFromValue(professionsToChoose[0], out var leftProfession) ||
@@ -135,7 +144,7 @@ internal sealed class LevelUpMenuDrawPatcher : HarmonyPatcher
 
             if (selectionArea.Contains(Game1.getMouseX(), Game1.getMouseY()))
             {
-                string hoverText = ModEntry.i18n.Get(leftProfession % 6 <= 1
+                string hoverText = i18n.Get(leftProfession % 6 <= 1
                     ? "prestige.levelup.tooltip:5"
                     : "prestige.levelup.tooltip:10");
                 IClickableMenu.drawHoverText(b, hoverText, Game1.smallFont);
@@ -154,7 +163,7 @@ internal sealed class LevelUpMenuDrawPatcher : HarmonyPatcher
 
             if (selectionArea.Contains(Game1.getMouseX(), Game1.getMouseY()))
             {
-                string hoverText = ModEntry.i18n.Get(leftProfession % 6 <= 1
+                string hoverText = i18n.Get(leftProfession % 6 <= 1
                     ? "prestige.levelup.tooltip:5"
                     : "prestige.levelup.tooltip:10");
                 IClickableMenu.drawHoverText(b, hoverText, Game1.smallFont);

@@ -2,12 +2,13 @@
 
 #region using directives
 
+using DaLion.Shared.Configs;
 using Newtonsoft.Json;
 
 #endregion using directives
 
 /// <summary>The user-configurable settings for Taxes.</summary>
-public sealed class Config
+public sealed class TaxesConfig : Config
 {
     /// <summary>
     ///     Gets the interest rate charged annually over any outstanding debt. Interest is accrued daily at a rate of 1/112 the
@@ -38,5 +39,5 @@ public sealed class Config
 
     /// <summary>Gets a value indicating the list of extra objects that should be tax-deductible.</summary>
     [JsonProperty]
-    public string[] DeductibleObjects { get; internal set; } = { };
+    public string[] DeductibleObjects { get; internal set; } = Array.Empty<string>();
 }

@@ -26,7 +26,7 @@ internal sealed class SwiftToolEnchantmentCanApplyToPatcher : HarmonyPatcher
     {
         __result = item is Tool tool && (tool is Axe or Hoe or Pickaxe ||
                                          (tool is WateringCan &&
-                                          ModEntry.Config.Tools.Can.AllowSwiftEnchantment));
+                                          ToolsModule.Config.Can.AllowSwiftEnchantment));
         return false; // don't run original logic
     }
 

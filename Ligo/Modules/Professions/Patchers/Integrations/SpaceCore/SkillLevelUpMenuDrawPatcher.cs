@@ -42,24 +42,28 @@ internal sealed class SkillLevelUpMenuDrawPatcher : HarmonyPatcher
         try
         {
             helper
-                .FindFirst(
-                    new CodeInstruction(
-                        OpCodes.Ldfld,
-                        "SkillLevelUpMenu"
-                            .ToType()
-                            .RequireField(nameof(LevelUpMenu.isProfessionChooser))))
-                .Advance()
+                .Match(
+                    new[]
+                    {
+                        new CodeInstruction(
+                            OpCodes.Ldfld,
+                            "SkillLevelUpMenu"
+                                .ToType()
+                                .RequireField(nameof(LevelUpMenu.isProfessionChooser))),
+                    })
+                .Move()
                 .GetOperand(out var isNotProfessionChooser)
                 .FindLabel((Label)isNotProfessionChooser)
-                .Retreat()
-                .InsertInstructions(
-                    new CodeInstruction(OpCodes.Ldarg_0),
-                    new CodeInstruction(OpCodes.Ldarg_0),
-                    new CodeInstruction(OpCodes.Ldfld, typeof(LevelUpMenu).RequireField("currentLevel")),
-                    new CodeInstruction(OpCodes.Ldarg_1),
-                    new CodeInstruction(
-                        OpCodes.Call,
-                        typeof(SkillLevelUpMenuDrawPatcher).RequireMethod(nameof(DrawSubroutine))));
+                .Move(-1)
+                .Insert(
+                    new[]
+                    {
+                        new CodeInstruction(OpCodes.Ldarg_0), new CodeInstruction(OpCodes.Ldarg_0),
+                        new CodeInstruction(OpCodes.Ldfld, typeof(LevelUpMenu).RequireField("currentLevel")),
+                        new CodeInstruction(OpCodes.Ldarg_1), new CodeInstruction(
+                            OpCodes.Call,
+                            typeof(SkillLevelUpMenuDrawPatcher).RequireMethod(nameof(DrawSubroutine))),
+                    });
         }
         catch (Exception ex)
         {
@@ -78,15 +82,15 @@ internal sealed class SkillLevelUpMenuDrawPatcher : HarmonyPatcher
 
     private static void DrawSubroutine(IClickableMenu menu, int currentLevel, SpriteBatch b)
     {
-        var isProfessionChooser = ModEntry.Reflector
+        var isProfessionChooser = Reflector
             .GetUnboundFieldGetter<IClickableMenu, bool>(menu, "isProfessionChooser")
             .Invoke(menu);
-        if (!ModEntry.Config.Professions.EnablePrestige || !isProfessionChooser || currentLevel > 10)
+        if (!ProfessionsModule.Config.EnablePrestige || !isProfessionChooser || currentLevel > 10)
         {
             return;
         }
 
-        var professionsToChoose = ModEntry.Reflector
+        var professionsToChoose = Reflector
             .GetUnboundFieldGetter<IClickableMenu, List<int>>(menu, "professionsToChoose")
             .Invoke(menu);
         if (!SCProfession.Loaded.TryGetValue(professionsToChoose[0], out var leftProfession) ||
@@ -108,7 +112,7 @@ internal sealed class SkillLevelUpMenuDrawPatcher : HarmonyPatcher
 
             if (selectionArea.Contains(Game1.getMouseX(), Game1.getMouseY()))
             {
-                string hoverText = ModEntry.i18n.Get(leftProfession.Id % 6 <= 1
+                string hoverText = i18n.Get(leftProfession.Id % 6 <= 1
                     ? "prestige.levelup.tooltip:5"
                     : "prestige.levelup.tooltip:10");
                 IClickableMenu.drawHoverText(b, hoverText, Game1.smallFont);
@@ -127,7 +131,7 @@ internal sealed class SkillLevelUpMenuDrawPatcher : HarmonyPatcher
 
             if (selectionArea.Contains(Game1.getMouseX(), Game1.getMouseY()))
             {
-                string hoverText = ModEntry.i18n.Get(leftProfession.Id % 6 <= 1
+                string hoverText = i18n.Get(leftProfession.Id % 6 <= 1
                     ? "prestige.levelup.tooltip:5"
                     : "prestige.levelup.tooltip:10");
                 IClickableMenu.drawHoverText(b, hoverText, Game1.smallFont);

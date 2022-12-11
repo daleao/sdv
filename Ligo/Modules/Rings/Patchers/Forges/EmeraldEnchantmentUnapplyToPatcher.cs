@@ -28,7 +28,7 @@ internal sealed class EmeraldEnchantmentUnapplyToPatcher : HarmonyPatcher
     private static void EmeraldEnchantmentUnapplyToPostfix(Item item)
     {
         var player = Game1.player;
-        if (!ModEntry.Config.EnableArsenal || item is not (Tool tool and (MeleeWeapon or Slingshot)) || tool != player.CurrentTool)
+        if (!Config.EnableArsenal || item is not (Tool tool and (MeleeWeapon or Slingshot)) || tool != player.CurrentTool)
         {
             return;
         }

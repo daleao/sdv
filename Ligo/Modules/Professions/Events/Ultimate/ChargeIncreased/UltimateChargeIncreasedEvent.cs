@@ -15,7 +15,7 @@ internal sealed class UltimateChargeIncreasedEvent : ManagedEvent
     /// <param name="callback">The delegate to run when the event is raised.</param>
     internal UltimateChargeIncreasedEvent(
         Action<object?, IUltimateChargeIncreasedEventArgs> callback)
-        : base(ModEntry.Events)
+        : base(ModEntry.EventManager)
     {
         this._onChargeIncreasedImpl = callback;
     }

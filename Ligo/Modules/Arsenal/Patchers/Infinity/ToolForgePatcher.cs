@@ -34,7 +34,7 @@ internal sealed class ToolForgePatcher : HarmonyPatcher
         }
 
         var enchantment = BaseEnchantment.GetEnchantmentFromItem(__instance, item);
-        if (ModEntry.Config.Arsenal.InfinityPlusOne)
+        if (ArsenalModule.Config.InfinityPlusOne)
         {
             if (enchantment is not InfinityEnchantment)
             {
@@ -58,12 +58,12 @@ internal sealed class ToolForgePatcher : HarmonyPatcher
         slingshot.InitialParentTileIndex = Constants.InfinitySlingshotIndex;
         slingshot.IndexOfMenuItemView = Constants.InfinitySlingshotIndex;
         slingshot.BaseName = "Infinity Slingshot";
-        slingshot.DisplayName = ModEntry.i18n.Get("infinityslingshot.name");
-        slingshot.description = ModEntry.i18n.Get("infinityslingshot.desc");
+        slingshot.DisplayName = i18n.Get("slingshots.infinity.name");
+        slingshot.description = i18n.Get("slingshots.infinity.desc");
         if (count_towards_stats)
         {
             DelayedAction.playSoundAfterDelay("discoverMineral", 400);
-            ModEntry.Reflector.GetStaticFieldGetter<Multiplayer>(typeof(Game1), "multiplayer").Invoke()
+            Reflector.GetStaticFieldGetter<Multiplayer>(typeof(Game1), "multiplayer").Invoke()
                 .globalChatInfoMessage("InfinityWeapon", Game1.player.Name, slingshot.DisplayName);
 
             slingshot.previousEnchantments.Insert(0, enchantment.GetName());
@@ -99,36 +99,46 @@ internal sealed class ToolForgePatcher : HarmonyPatcher
             var checkForGalaxy = generator.DefineLabel();
             var resumeExecution = generator.DefineLabel();
             helper
-                .FindFirst(
-                    new CodeInstruction(OpCodes.Isinst, typeof(GalaxySoulEnchantment)))
+                .Match(new[] { new CodeInstruction(OpCodes.Isinst, typeof(GalaxySoulEnchantment)) })
                 .AddLabels(checkForGalaxy)
-                .InsertInstructions(
-                    new CodeInstruction(OpCodes.Call, typeof(ModEntry).RequirePropertyGetter(nameof(ModEntry.Config))),
-                    new CodeInstruction(
-                        OpCodes.Callvirt,
-                        typeof(ModConfig).RequirePropertyGetter(nameof(ModConfig.Arsenal))),
-                    new CodeInstruction(
-                        OpCodes.Callvirt,
-                        typeof(Config).RequirePropertyGetter(nameof(Config.InfinityPlusOne))),
-                    new CodeInstruction(OpCodes.Brfalse_S, checkForGalaxy),
-                    new CodeInstruction(OpCodes.Isinst, typeof(InfinityEnchantment)),
-                    new CodeInstruction(OpCodes.Br_S, resumeExecution))
-                .Advance()
+                .Insert(
+                    new[]
+                    {
+                        new CodeInstruction(OpCodes.Call, typeof(ModEntry).RequirePropertyGetter(nameof(Config))),
+                        new CodeInstruction(
+                            OpCodes.Callvirt,
+                            typeof(ModConfig).RequirePropertyGetter(nameof(ModConfig.Arsenal))),
+                        new CodeInstruction(
+                            OpCodes.Callvirt,
+                            typeof(ArsenalConfig).RequirePropertyGetter(nameof(ArsenalConfig.InfinityPlusOne))),
+                        new CodeInstruction(OpCodes.Brfalse_S, checkForGalaxy),
+                        new CodeInstruction(OpCodes.Isinst, typeof(InfinityEnchantment)),
+                        new CodeInstruction(OpCodes.Br_S, resumeExecution),
+                    })
+                .Move()
                 .AddLabels(resumeExecution)
-                .FindNext(
-                    new CodeInstruction(OpCodes.Ldarg_0),
-                    new CodeInstruction(
-                        OpCodes.Call,
-                        typeof(Tool)
-                            .RequireMethod(nameof(Tool.GetEnchantmentOfType))
-                            .MakeGenericMethod(typeof(GalaxySoulEnchantment))))
+                .Match(
+                    new[]
+                    {
+                        new CodeInstruction(OpCodes.Ldarg_0), new CodeInstruction(
+                            OpCodes.Call,
+                            typeof(Tool)
+                                .RequireMethod(nameof(Tool.GetEnchantmentOfType))
+                                .MakeGenericMethod(typeof(GalaxySoulEnchantment))),
+                    })
                 .StripLabels(out var labels)
-                .AdvanceUntil(
-                    new CodeInstruction(OpCodes.Brfalse_S))
+                .Match(new[] { new CodeInstruction(OpCodes.Brfalse_S) })
                 .GetOperand(out var toRemove)
                 .Return()
-                .RemoveInstructionsUntil(
-                    new CodeInstruction(OpCodes.Callvirt, typeof(Tool).RequireMethod(nameof(Tool.RemoveEnchantment))))
+                .Match(
+                    new[]
+                    {
+                        new CodeInstruction(
+                            OpCodes.Callvirt,
+                            typeof(Tool).RequireMethod(nameof(Tool.RemoveEnchantment))),
+                    },
+                    out var count)
+                .Remove(count)
                 .RemoveLabels((Label)toRemove)
                 .AddLabels(labels);
         }

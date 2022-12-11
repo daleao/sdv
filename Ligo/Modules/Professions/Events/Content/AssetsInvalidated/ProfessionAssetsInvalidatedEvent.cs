@@ -25,9 +25,9 @@ internal sealed class ProfessionAssetsInvalidatedEvent : AssetsInvalidatedEvent
     protected override void OnAssetsInvalidatedImpl(object? sender, AssetsInvalidatedEventArgs e)
     {
         Textures.Refresh(e.NamesWithoutLocale.Where(name => name.IsEquivalentToAnyOf(
-            $"{ModEntry.Manifest.UniqueID}/SkillBars",
-            $"{ModEntry.Manifest.UniqueID}/UltimateMeter",
-            $"{ModEntry.Manifest.UniqueID}/PrestigeProgression"))
+            $"{Manifest.UniqueID}/SkillBars",
+            $"{Manifest.UniqueID}/UltimateMeter",
+            $"{Manifest.UniqueID}/PrestigeProgression"))
             .ToImmutableHashSet());
     }
 }

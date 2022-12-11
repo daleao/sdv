@@ -40,11 +40,11 @@ internal abstract class TreasureHunt : ITreasureHunt
     /// <inheritdoc />
     public Vector2? TreasureTile { get; protected set; } = null;
 
+    /// <inheritdoc />
+    public GameLocation? Location { get; protected set; }
+
     /// <summary>Gets a random number generator.</summary>
     protected Random Random { get; } = new(Guid.NewGuid().GetHashCode());
-
-    /// <summary>Gets or sets the active hunt's <see cref="GameLocation"/>.</summary>
-    protected GameLocation HuntLocation { get; set; } = null!; // not null when treasure tile is not null
 
     /// <summary>Gets the profession icon source <see cref="Rectangle"/>.</summary>
     protected Rectangle IconSourceRect { get; }
@@ -104,7 +104,7 @@ internal abstract class TreasureHunt : ITreasureHunt
             return false;
         }
 
-        if (this.Random.NextDouble() > ModEntry.Config.Professions.ChanceToStartTreasureHunt * this._chanceAccumulator)
+        if (this.Random.NextDouble() > ProfessionsModule.Config.ChanceToStartTreasureHunt * this._chanceAccumulator)
         {
             this._chanceAccumulator *= 1d + Game1.player.DailyLuck;
             return false;

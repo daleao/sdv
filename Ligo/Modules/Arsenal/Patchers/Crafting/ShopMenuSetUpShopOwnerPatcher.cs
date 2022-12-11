@@ -25,17 +25,17 @@ internal sealed class ShopMenuSetUpShopOwnerPatcher : HarmonyPatcher
     [HarmonyPrefix]
     private static bool ShopMenuSetUpShopOwnerPrefix(ShopMenu __instance, string? who)
     {
+        if (who != "ClintForge")
+        {
+            return true; // run original logic
+        }
+
         try
         {
-            if (who != "ClintForge")
-            {
-                return true; // run original logic
-            }
-
             __instance.portraitPerson = Game1.getCharacterFromName("Clint");
             __instance.potraitPersonDialogue =
                 Game1.parseText(
-                    ModEntry.i18n.Get("blacksmith.forge.explanation"),
+                    i18n.Get("blacksmith.forge.explanation"),
                     Game1.dialogueFont,
                     304);
             return false; // don't run original logic

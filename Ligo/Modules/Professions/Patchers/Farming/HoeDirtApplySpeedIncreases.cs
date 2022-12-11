@@ -38,17 +38,20 @@ internal sealed class HoeDirtApplySpeedIncreases : HarmonyPatcher
             var resumeExecution = generator.DefineLabel();
             helper
                 .FindProfessionCheck(Profession.Agriculturist.Value)
-                .Advance()
-                .FindProfessionCheck(Profession.Agriculturist.Value, true)
-                .AdvanceUntil(new CodeInstruction(OpCodes.Ldc_R4, 0.1f))
+                .Move()
+                .FindProfessionCheck(Profession.Agriculturist.Value)
+                .Match(new[] { new CodeInstruction(OpCodes.Ldc_R4, 0.1f) })
                 .AddLabels(isNotPrestiged)
-                .InsertInstructions(new CodeInstruction(OpCodes.Ldarg_1))
+                .Insert(new[] { new CodeInstruction(OpCodes.Ldarg_1) })
                 .InsertProfessionCheck(Profession.Agriculturist.Value + 100, forLocalPlayer: false)
-                .InsertInstructions(
-                    new CodeInstruction(OpCodes.Brfalse_S, isNotPrestiged),
-                    new CodeInstruction(OpCodes.Ldc_R4, 0.2f),
-                    new CodeInstruction(OpCodes.Br_S, resumeExecution))
-                .Advance()
+                .Insert(
+                    new[]
+                    {
+                        new CodeInstruction(OpCodes.Brfalse_S, isNotPrestiged),
+                        new CodeInstruction(OpCodes.Ldc_R4, 0.2f),
+                        new CodeInstruction(OpCodes.Br_S, resumeExecution),
+                    })
+                .Move()
                 .AddLabels(resumeExecution);
         }
         catch (Exception ex)

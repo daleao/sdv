@@ -24,49 +24,6 @@ internal sealed class PickaxeDoFunctionPatcher : HarmonyPatcher
 
     #region harmony patches
 
-    /// <summary>Apply base stamina multiplier.</summary>
-    [HarmonyTranspiler]
-    private static IEnumerable<CodeInstruction>? PickaxeDoFunctionTranspiler(
-        IEnumerable<CodeInstruction> instructions,
-        MethodBase original)
-    {
-        var helper = new ILHelper(original, instructions);
-
-        // From: who.Stamina -= (float)(2 * power) - (float)who.<SkillLevel> * 0.1f;
-        // To: who.Stamina -= Math.Max(((float)(2 * power) - (float)who.<SkillLevel> * 0.1f) * PickaxeConfig.BaseStaminaMultiplier, 0.1f);
-        try
-        {
-            helper
-                .FindFirst(
-                    new CodeInstruction(OpCodes.Callvirt, typeof(Farmer).RequirePropertySetter(nameof(Farmer.Stamina))))
-                .InsertInstructions(
-                    new CodeInstruction(
-                        OpCodes.Call,
-                        typeof(ModEntry).RequirePropertyGetter(nameof(ModEntry.Config))),
-                    new CodeInstruction(
-                        OpCodes.Callvirt,
-                        typeof(ModConfig).RequirePropertyGetter(nameof(ModConfig.Tools))),
-                    new CodeInstruction(
-                        OpCodes.Callvirt,
-                        typeof(Config).RequirePropertyGetter(nameof(Config.Pick))),
-                    new CodeInstruction(
-                        OpCodes.Callvirt,
-                        typeof(PickaxeConfig).RequirePropertyGetter(nameof(AxeConfig.BaseStaminaMultiplier))),
-                    new CodeInstruction(OpCodes.Mul),
-                    new CodeInstruction(OpCodes.Ldc_R4, 1f),
-                    new CodeInstruction(
-                        OpCodes.Call,
-                        typeof(Math).RequireMethod(nameof(Math.Max), new[] { typeof(float), typeof(float) })));
-        }
-        catch (Exception ex)
-        {
-            Log.E($"Failed adding stamina cost multiplier and lower bound for the Pickaxe.\nHelper returned {ex}");
-            return null;
-        }
-
-        return helper.Flush();
-    }
-
     /// <summary>Charge shockwave stamina cost.</summary>
     [HarmonyPostfix]
     private static void PickaxeDoFunctionPostfix(Farmer who)
@@ -80,7 +37,56 @@ internal sealed class PickaxeDoFunctionPatcher : HarmonyPatcher
         who.Stamina -=
             (int)Math.Round(Math.Sqrt(Math.Max((2 * (power + 1)) - (who.MiningLevel * 0.1f), 0.1f) *
                                       (int)Math.Pow(2d * (power + 1), 2d))) *
-            (float)Math.Pow(ModEntry.Config.Tools.StaminaCostMultiplier, power);
+            (float)Math.Pow(ToolsModule.Config.StaminaCostMultiplier, power);
+    }
+
+    /// <summary>Apply base stamina multiplier.</summary>
+    [HarmonyTranspiler]
+    private static IEnumerable<CodeInstruction>? PickaxeDoFunctionTranspiler(
+        IEnumerable<CodeInstruction> instructions,
+        MethodBase original)
+    {
+        var helper = new ILHelper(original, instructions);
+
+        // From: who.Stamina -= (float)(2 * power) - (float)who.<SkillLevel> * 0.1f;
+        // To: who.Stamina -= Math.Max(((float)(2 * power) - (float)who.<SkillLevel> * 0.1f) * PickaxeConfig.BaseStaminaMultiplier, 0.1f);
+        try
+        {
+            helper
+                .Match(
+                    new[]
+                    {
+                        new CodeInstruction(
+                            OpCodes.Callvirt,
+                            typeof(Farmer).RequirePropertySetter(nameof(Farmer.Stamina))),
+                    })
+                .Insert(
+                    new[]
+                    {
+                        new CodeInstruction(
+                            OpCodes.Call,
+                            typeof(ModEntry).RequirePropertyGetter(nameof(Config))),
+                        new CodeInstruction(
+                            OpCodes.Callvirt,
+                            typeof(ModConfig).RequirePropertyGetter(nameof(ModConfig.Tools))),
+                        new CodeInstruction(
+                            OpCodes.Callvirt,
+                            typeof(ToolsConfig).RequirePropertyGetter(nameof(ToolsConfig.Pick))),
+                        new CodeInstruction(
+                            OpCodes.Callvirt,
+                            typeof(PickaxeConfig).RequirePropertyGetter(nameof(AxeConfig.BaseStaminaMultiplier))),
+                        new CodeInstruction(OpCodes.Mul), new CodeInstruction(OpCodes.Ldc_R4, 1f), new CodeInstruction(
+                            OpCodes.Call,
+                            typeof(Math).RequireMethod(nameof(Math.Max), new[] { typeof(float), typeof(float) })),
+                    });
+        }
+        catch (Exception ex)
+        {
+            Log.E($"Failed adding stamina cost multiplier and lower bound for the Pickaxe.\nHelper returned {ex}");
+            return null;
+        }
+
+        return helper.Flush();
     }
 
     #endregion harmony patches

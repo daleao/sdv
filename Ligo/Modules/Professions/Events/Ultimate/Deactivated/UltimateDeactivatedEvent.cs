@@ -15,7 +15,7 @@ internal sealed class UltimateDeactivatedEvent : ManagedEvent
     /// <param name="callback">The delegate to run when the event is raised.</param>
     internal UltimateDeactivatedEvent(
         Action<object?, IUltimateDeactivatedEventArgs> callback)
-        : base(ModEntry.Events)
+        : base(ModEntry.EventManager)
     {
         this._onDeactivatedImpl = callback;
     }

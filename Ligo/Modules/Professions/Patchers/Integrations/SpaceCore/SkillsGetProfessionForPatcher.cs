@@ -25,7 +25,7 @@ internal sealed class SkillsGetProfessionForPatcher : HarmonyPatcher
     [HarmonyPrefix]
     private static bool SkillsGetProfessionForPrefix(ref SpaceCore.Skills.Skill.Profession? __result, SpaceCore.Skills.Skill skill, int level)
     {
-        if (!ModEntry.Config.Professions.EnablePrestige)
+        if (!ProfessionsModule.Config.EnablePrestige)
         {
             return true; // run original logic
         }

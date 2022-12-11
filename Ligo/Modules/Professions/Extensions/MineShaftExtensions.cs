@@ -18,7 +18,7 @@ internal static class MineShaftExtensions
     /// <returns><see langword="true"/> if the <paramref name="shaft"/>'s level is a regular mine level multiple of 10 or a skull cavern level with either a Qi event or the treasure net flag, otherwise <see langword="false"/>.</returns>
     internal static bool IsTreasureOrSafeRoom(this MineShaft shaft)
     {
-        var isTreasureRoom = ModEntry.Reflector
+        var isTreasureRoom = Reflector
             .GetUnboundFieldGetter<MineShaft, NetBool>(shaft, "netIsTreasureRoom")
             .Invoke(shaft).Value;
         return (shaft.mineLevel <= 120 && shaft.mineLevel % 10 == 0) ||

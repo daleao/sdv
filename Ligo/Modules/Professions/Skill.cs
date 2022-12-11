@@ -92,10 +92,10 @@ public class Skill : SmartEnum<Skill>, ISkill
     public int CurrentLevel => Game1.player.GetUnmodifiedSkillLevel(this.Value);
 
     /// <inheritdoc />
-    public virtual int MaxLevel => ModEntry.Config.Professions.EnablePrestige && ((ISkill)this).PrestigeLevel >= 4 ? 20 : 10;
+    public virtual int MaxLevel => ProfessionsModule.Config.EnablePrestige && ((ISkill)this).PrestigeLevel >= 4 ? 20 : 10;
 
     /// <inheritdoc />
-    public float BaseExperienceMultiplier => ModEntry.Config.Professions.BaseSkillExpMultipliers[this.Value];
+    public float BaseExperienceMultiplier => ProfessionsModule.Config.BaseSkillExpMultipliers[this.Value];
 
     /// <inheritdoc />
     public IEnumerable<int> NewLevels => Game1.player.newLevels.Where(p => p.X == this.Value).Select(p => p.Y);
@@ -165,7 +165,7 @@ public class Skill : SmartEnum<Skill>, ISkill
         farmer.experiencePoints[this] = 0;
 
         // forget recipes
-        if (ModEntry.Config.Professions.ForgetRecipes && this < Luck)
+        if (ProfessionsModule.Config.ForgetRecipes && this < Luck)
         {
             this.ForgetRecipes();
         }

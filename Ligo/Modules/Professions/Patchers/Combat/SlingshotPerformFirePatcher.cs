@@ -36,7 +36,7 @@ internal sealed class SlingshotPerformFirePatcher : HarmonyPatcher
     private static bool SlingshotPerformFirePrefix(
         Slingshot __instance, ref bool ___canPlaySound, GameLocation location, Farmer who)
     {
-        if (ModEntry.Config.EnableArsenal)
+        if (Config.EnableArsenal)
         {
             return true; // hand over to Slingshots module
         }
@@ -65,7 +65,7 @@ internal sealed class SlingshotPerformFirePatcher : HarmonyPatcher
             }
 
             // calculate projectile velocity
-            ModEntry.Reflector
+            Reflector
                 .GetUnboundMethodDelegate<Action<Slingshot>>(__instance, "updateAimPos")
                 .Invoke(__instance);
             var mouseX = __instance.aimPos.X;
@@ -89,7 +89,7 @@ internal sealed class SlingshotPerformFirePatcher : HarmonyPatcher
             {
                 case SObject.wood or SObject.coal:
                     damageBase = 2;
-                    knockback = 0.4f;
+                    knockback = 0.3f;
                     break;
                 case SObject.stone:
                     damageBase = 5;
@@ -97,23 +97,23 @@ internal sealed class SlingshotPerformFirePatcher : HarmonyPatcher
                     break;
                 case SObject.copper:
                     damageBase = 10;
-                    knockback = 0.55f;
+                    knockback = 0.525f;
                     break;
                 case SObject.iron:
                     damageBase = 20;
-                    knockback = 0.60f;
+                    knockback = 0.55f;
                     break;
                 case SObject.gold:
                     damageBase = 30;
-                    knockback = 0.65f;
+                    knockback = 0.575f;
                     break;
                 case SObject.iridium:
                     damageBase = 50;
-                    knockback = 0.70f;
+                    knockback = 0.6f;
                     break;
                 case Constants.ExplosiveAmmoIndex:
                     damageBase = 5;
-                    knockback = 5f;
+                    knockback = 0.4f;
                     break;
                 case Constants.SlimeIndex:
                     damageBase = who.HasProfession(Profession.Piper) ? 10 : 5;
@@ -150,7 +150,7 @@ internal sealed class SlingshotPerformFirePatcher : HarmonyPatcher
             {
                 xVelocity *= overcharge;
                 yVelocity *= overcharge;
-                ModEntry.Events.Disable<DesperadoUpdateTickedEvent>();
+                EventManager.Disable<DesperadoUpdateTickedEvent>();
             }
 
             if (Game1.options.useLegacySlingshotFiring)

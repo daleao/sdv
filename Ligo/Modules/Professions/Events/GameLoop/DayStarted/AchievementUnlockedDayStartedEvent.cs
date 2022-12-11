@@ -21,12 +21,12 @@ internal sealed class AchievementUnlockedDayStartedEvent : DayStartedEvent
     /// <inheritdoc />
     protected override void OnDayStartedImpl(object? sender, DayStartedEventArgs e)
     {
-        string name =
-            ModEntry.i18n.Get("prestige.achievement.title" +
+        string title =
+            i18n.Get("prestige.achievement.title" +
                               (Game1.player.IsMale ? ".male" : ".female"));
-        Game1.player.achievements.Add(name.GetDeterministicHashCode());
+        Game1.player.achievements.Add(title.GetDeterministicHashCode());
         Game1.playSound("achievement");
-        Game1.addHUDMessage(new HUDMessage(name, true));
+        Game1.addHUDMessage(new HUDMessage(title, true));
 
         this.Disable();
     }

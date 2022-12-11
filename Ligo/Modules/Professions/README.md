@@ -41,7 +41,7 @@ This module was inspired by [Enai Siaion][user:enai]'s excellent [Ordinator][mod
 
 Integrations are provided out-of-the-box for several popular mods. See the [compatibility](#compatibility) section for details.
 
-This module is safe to enable or disable mid-save. However, please note that disabling this mod will have no effect on skill levels or acquired professions, so make sure to manually reset your skills and professions back to vanilla standards **before** disabling, using provided console commands.
+This module is safe to enable or disable mid-save. All profession perks will be applied retroactively. However, please note that disabling this mod will have no effect on skill levels or acquired professions, so make sure to manually reset your skills and professions back to vanilla standards **before** disabling, using provided console commands.
 
 ## Professions
 
@@ -68,8 +68,9 @@ The perks in *italics* refer to ![shield:prestige] variants. Written in *(parent
 	- Other than the name, this profession is unchanged compared to vanilla.
 - ![](resources/assets/sprites/loose/ecologist.png)  **Ecologist (Lv10)** - Wild berries restore 50% *(100%)* more health and energy. Progressively identify forage of higher quality.
 	- All foraged items will have the same deterministic quality, providing immediate inventory convenience. However, that quality will initially start out at silver, and progress to iridium as you gather foraged items. Unlike vanilla this perk will also apply to hoed forage (such as Winter Root, Snow Yams and Ginger), Coconuts shaken off palm trees, and mushrooms produced by Mushroom Boxes, but only if the cave owner (i.e., the host player) has the profession. It will likewise apply to crafted Mushroom Boxes and Mushroom Propagators, if either of those mods is installed.
-- ![](resources/assets/sprites/loose/scavenger.png)  **Scavenger (Lv10)** - Location of foragable items revealed. Occasionally detect buried treasure. *Time freezes during Scavenger Hunts.*
+- ![](resources/assets/sprites/loose/scavenger.png)  **Scavenger (Lv10)** - Location of forageable items revealed. Occasionally detect buried treasure. *Time freezes during Scavenger Hunts.*
 	- Whenever you are outside there is a chance to trigger a short Scavenger Hunt for hidden buried treasure. Follow the purple HUD arrow to find the treasure and dig it up (with a hoe) within the time limit to obtain a reward. The larger your win streak the better your odds of obtaining rare items. You can optionally configure the HUD arrows to only appear when holding a key (LeftShift by default). This will also highlight forageable currently on-screen for your convenience.
+    - Also gains a chance, proportional to the Scavenger Hunt streak, to spawn additional forage when entering a new map.
 - ![](resources/assets/sprites/loose/lumberjack.png)  **Lumberjack (Lv5)** - Felled trees yield 25% *(40%)* more wood.
 	- Other than the name, this profession is unchanged compared to vanilla.
 - ![](resources/assets/sprites/loose/arborist.png)  **Arborist (Lv10)** - All trees grow faster. Normal trees can drop *(twice as much)* hardwood.
@@ -86,10 +87,12 @@ The perks in *italics* refer to ![shield:prestige] variants. Written in *(parent
 	- Plus 0.5% ladder chance per level. Bonus ladder chance resets each time you leave the mines. **This includes taking the stairs back to the mine entrance.**
 - ![](resources/assets/sprites/loose/prospector.png)  **Prospector (Lv10)** - Location of ladders and mining nodes revealed. Occasionally detect rocks with valuable minerals. *Time freezes during Prospector Hunts.*
 	- Analogous to Scavenger. Tracks all mining nodes and mineral forages off-screen with a yellow pointer, ladders, shafts and panning spots (when outside) with a green pointer. Whenever you are in the mines there is a chance to trigger a short Propsector Hunt for hidden stone treasure. Follow the purple HUD arrow to find the correct stone within the time limit and break it up to obtain a reward. The larger your win streak the better your odds of obtaining rare minerals or artifacts. Succesful completion of a hunt automatically reveals a ladder. You can optionally configure the HUD arrows to only appear when holding a key (LeftShift by default). This will also highlight mineral nodes and other tiles of interest currently on-screen for your convenience.
+    - Also gains a chance, proportional to the Prospector Hunt streak, to spawn additional forage when entering a new map.
 - ![](resources/assets/sprites/loose/blaster.png)  **Blaster (Lv5)** - Craft twice as many explosives. Exploded rocks yield 2× *(3×)* as much coal.
 	- This aims to provide a new style of mining while attempting to compensate for the lack of coal without the vanilla Prospector profession.
-- ![](resources/assets/sprites/loose/demolitionist.png)  **Demolitionist (Lv10)** - Bomb radius +1. Exploded rocks yield 20% *(40%)* more resources.
+- ![](resources/assets/sprites/loose/demolitionist.png)  **Demolitionist (Lv10)** - Bomb radius +1 *(+2)*. Exploded rocks yield 20% *(40%)* more resources.
 	- This aims to improve the bomberman style of mining while attempting to compensate for the lack of Geologist and Gemologist professions from vanilla. As a configurable bonus, the pyromaniac in your will [get excited](https://www.youtube.com/watch?v=0nlJuwO0GDs) when hit by an explosion.
+    - You can also manually detonate bombs; any bombs placed while holding down the Mod Key (default LeftShift) will not detonate until you release the key.
 - ![](resources/assets/sprites/loose/gemologist.png)  **Gemologist (Lv10)** - Progressively identify gems and minerals of higher quality. Crystalariums work 25% *(50%)* faster.
 	- Analogous to Ecologist. All gems and minerals mined from nodes have a fixed quality, starting at silver and increasing to iridium as you mine. Please note that this bonus will only apply to gems or minerals that have been either physically mined, or produced by Geode Crushers owned by the Gemologist. Crystalariums and geodes opened by Clint will **not** receive quality upgrades. The exception to this is Crystalariums already in production, which will all receive an equivalent quality upgrade whenever the owner reaches a quality milestone. The production time bonus for Crystalarium is likewise tied to the owner, and therefore only Crystalariums crafted by the Gemologist will receive that perk (ownerhsip requirements can be turned off in the configs).
 
@@ -207,11 +210,8 @@ The following mods are **not** compatible:
 - [Quality Artisan Products][mod:qap] and [Quality Artisan Products for Artisan Valley][mod:qap-av], as they will be overriden by this mod's changes to the Artisan profession (use [Flower Meads][mod:flower-meads] instead for the namesake feature).
 - [All Professions][mod:all-professions] and [Skill Prestige][mod:prestige], as they conflict with this mod's Prestige system. You could potentially use them if you disable this mod's Prestige system, but I will not provide support in case of bugs.
 
-## FAQ
+## F.A.Q.
 
-**Will perks apply retroactively on an existing save?**     
-Yes.
-  
 **Do Ecologist and Gemologist professions count forages/gems acquired before the profession?**  
 No.
 

@@ -22,7 +22,7 @@ internal sealed class LightSourceLoadTextureFromConstantValuePatcher : HarmonyPa
     [HarmonyPostfix]
     private static void LightSourceLoadTextureFromConstantValuePostfix(LightSource __instance, int value)
     {
-        if (value == ModEntry.Manifest.UniqueID.GetHashCode())
+        if (value == Manifest.UniqueID.GetHashCode())
         {
             __instance.lightTexture = Textures.ResonanceLightTx;
         }

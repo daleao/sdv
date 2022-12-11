@@ -17,7 +17,7 @@ internal static class FishPondExtensions
     /// <returns><see langword="true"/> if the last unlocked population gate matches the last gate in the <see cref="FishPondData"/>, otherwise <see langword="false"/>.</returns>
     internal static bool HasUnlockedFinalPopulationGate(this FishPond pond)
     {
-        var data = ModEntry.Reflector
+        var data = Reflector
             .GetUnboundFieldGetter<FishPond, FishPondData?>(pond, "_fishPondData")
             .Invoke(pond);
         return data?.PopulationGates is null ||

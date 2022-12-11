@@ -3,7 +3,6 @@
 #region using directives
 
 using System.Collections.Generic;
-using System.Linq;
 using Newtonsoft.Json;
 
 #endregion using directives
@@ -34,21 +33,13 @@ public sealed class WeaponConfig
     [JsonProperty]
     public bool BringBackStabbySwords { get; internal set; } = true;
 
-    /// <summary>Gets the swords that should be converted to stabby swords.</summary>
+    /// <summary>Gets a value indicating whether replace the defensive special move of some swords with an offensive lunge move.</summary>
     [JsonProperty]
-    public HashSet<string> StabbySwords { get; internal set; } = new[]
-    {
-        "Steel Smallsword",
-        "Cutlass",
-        "Rapier",
-        "Steel Falchion",
-        "Pirate's Sword",
-        "Forest Sword",
-        "Lava Katana",
-        "Galaxy Sword",
-        "Dragontooth Cutlass",
-        "Infinity Blade",
-    }.ToHashSet();
+    public WeaponType GalaxySwordType { get; internal set; } = WeaponType.StabbingSword;
+
+    /// <summary>Gets a value indicating whether replace the defensive special move of some swords with an offensive lunge move.</summary>
+    [JsonProperty]
+    public WeaponType InfinityBladeType { get; internal set; } = WeaponType.StabbingSword;
 
     /// <summary>Gets a value indicating whether to apply the corresponding weapon rebalance.</summary>
     [JsonProperty]

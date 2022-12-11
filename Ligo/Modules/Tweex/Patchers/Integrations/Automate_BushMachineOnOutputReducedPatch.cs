@@ -29,12 +29,12 @@ internal sealed class BushMachineOnOutputReducedPatcher : HarmonyPatcher
     [HarmonyPostfix]
     private static void BushMachineOnOutputReducedPostfix(object __instance)
     {
-        if (!ModEntry.Config.Tweex.BerryBushesRewardExp)
+        if (!TweexModule.Config.BerryBushesRewardExp)
         {
             return;
         }
 
-        var machine = ModEntry.Reflector
+        var machine = Reflector
             .GetUnboundPropertyGetter<object, Bush>(__instance, "Machine")
             .Invoke(__instance);
         if (machine.size.Value >= Bush.greenTeaBush)

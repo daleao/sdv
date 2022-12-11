@@ -49,7 +49,7 @@ internal sealed class ProducerRuleControllerProduceOutputPatcher : HarmonyPatche
             output.Quality = input.Quality;
         }
 
-        var owner = ModEntry.Config.Professions.LaxOwnershipRequirements ? Game1.player : producer.GetOwner();
+        var owner = ProfessionsModule.Config.LaxOwnershipRequirements ? Game1.player : producer.GetOwner();
         if (!owner.HasProfession(Profession.Artisan))
         {
             return;

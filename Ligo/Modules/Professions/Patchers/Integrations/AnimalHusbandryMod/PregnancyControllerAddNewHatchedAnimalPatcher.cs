@@ -40,16 +40,21 @@ internal sealed class PregnancyControllerAddNewHatchedAnimalPatcher : HarmonyPat
         try
         {
             helper
-                .FindFirst(
-                    new CodeInstruction(OpCodes.Ldloc_0),
-                    new CodeInstruction(OpCodes.Ldfld, typeof(Building).RequireField(nameof(Building.indoors))))
-                .RetreatUntil(new CodeInstruction(OpCodes.Nop))
-                .InsertInstructions(
-                    new CodeInstruction(OpCodes.Ldloc_1),
-                    new CodeInstruction(
-                        OpCodes.Call,
-                        typeof(PregnancyControllerAddNewHatchedAnimalPatcher)
-                            .RequireMethod(nameof(AddNewHatchedAnimalSubroutine))));
+                .Match(
+                    new[]
+                    {
+                        new CodeInstruction(OpCodes.Ldloc_0),
+                        new CodeInstruction(OpCodes.Ldfld, typeof(Building).RequireField(nameof(Building.indoors))),
+                    })
+                .Match(new[] { new CodeInstruction(OpCodes.Nop) }, ILHelper.SearchOption.Previous)
+                .Insert(
+                    new[]
+                    {
+                        new CodeInstruction(OpCodes.Ldloc_1), new CodeInstruction(
+                            OpCodes.Call,
+                            typeof(PregnancyControllerAddNewHatchedAnimalPatcher)
+                                .RequireMethod(nameof(AddNewHatchedAnimalSubroutine))),
+                    });
         }
         catch (Exception ex)
         {

@@ -45,48 +45,49 @@ public sealed class WeaponTier : SmartEnum<WeaponTier>
     static WeaponTier()
     {
 #pragma warning disable SA1509 // Opening braces should not be preceded by blank line
-        TierByWeapon = new Dictionary<int, WeaponTier>()
+        TierByWeapon = new Dictionary<int, WeaponTier>
         {
-            { Constants.WoodenBladeIndex, Common },
+            { Constants.WoodenBladeIndex, Untiered },
+
             { Constants.SteelSmallswordIndex, Common },
             { Constants.SilverSaberIndex, Common },
             { Constants.CarvingKnife, Common },
             { Constants.WoodClubIndex, Common },
-            { Constants.CutlassIndex, Common },
-            { Constants.IronEdgeIndex, Common },
-            { Constants.BurglarsShankIndex, Common },
-            { Constants.WoodMalletIndex, Common },
 
-            { Constants.RapierIndex, Uncommon },
-            { Constants.ClaymoreIndex, Uncommon },
-            { Constants.WindSpireIndex, Uncommon },
-            { Constants.LeadRodIndex, Uncommon },
-            { Constants.SteelFalchionIndex, Uncommon },
-            { Constants.TemperedBroadswordIndex, Uncommon },
-            { Constants.IronDirkIndex, Uncommon },
-            { Constants.KudgelIndex, Uncommon },
+            { Constants.CutlassIndex, Uncommon },
+            { Constants.IronEdgeIndex, Uncommon },
+            { Constants.BurglarsShankIndex, Uncommon },
+            { Constants.WoodMalletIndex, Uncommon },
 
+            { Constants.RapierIndex, Rare },
+            { Constants.ClaymoreIndex, Rare },
+            { Constants.WindSpireIndex, Rare },
+            { Constants.LeadRodIndex, Rare },
             { Constants.PiratesSwordIndex, Rare },
             { Constants.BoneSwordIndex, Rare },
             { Constants.FemurIndex, Rare },
-            { Constants.ElfBladeIndex, Rare },
-            { Constants.ForestSwordIndex, Rare },
             { Constants.CrystalDaggerIndex, Rare },
-            { Constants.YetiToothIndex, Rare },
-            { Constants.ShadowDaggerIndex, Rare },
 
-            { Constants.TemplarsBladeIndex, Epic },
-            { Constants.WickedKrisIndex, Epic },
-            { Constants.TheSlammerIndex, Epic },
-            { Constants.BrokenTridentIndex, Epic },
+            { Constants.SteelFalchionIndex, Epic },
+            { Constants.TemperedBroadswordIndex, Epic },
+            { Constants.IronDirkIndex, Epic },
+            { Constants.KudgelIndex, Epic },
             { Constants.OssifiedBladeIndex, Epic },
+            { Constants.YetiToothIndex, Epic },
+            { Constants.ShadowDaggerIndex, Epic },
+            { Constants.BrokenTridentIndex, Epic },
 
+            { Constants.TemplarsBladeIndex, Mythic },
+            { Constants.WickedKrisIndex, Mythic },
+            { Constants.TheSlammerIndex, Mythic },
             { Constants.InsectHeadIndex, Mythic },
             { Constants.NeptunesGlaiveIndex, Mythic },
             { Constants.ObsidianEdgeIndex, Mythic },
             { Constants.LavaKatanaIndex, Mythic },
             { Constants.IridiumNeedleIndex, Mythic },
 
+            { Constants.ElfBladeIndex, Masterwork },
+            { Constants.ForestSwordIndex, Masterwork },
             { Constants.DwarfSwordIndex, Masterwork },
             { Constants.DwarfHammerIndex, Masterwork },
             { Constants.DwarfDaggerIndex, Masterwork },
@@ -112,17 +113,44 @@ public sealed class WeaponTier : SmartEnum<WeaponTier>
     private WeaponTier(string name, int value)
         : base(name, value)
     {
-        this.Color = value switch
+        switch (value)
         {
-            1 => Color.Green,
-            2 => Color.Blue,
-            3 => Color.Purple,
-            4 => Color.Orange,
-            5 => Color.Yellow,
-            6 => Color.Gold,
-            _ => Color.White,
-        };
+            case 1:
+                this.Color = Color.Green;
+                this.Price = 400;
+                break;
+            case 2:
+                this.Color = Color.Blue;
+                this.Price = 900;
+                break;
+            case 3:
+                this.Color = Color.Purple;
+                this.Price = 1600;
+                break;
+            case 4:
+                this.Color = Color.Red;
+                this.Price = 4900;
+                break;
+            case 5:
+                this.Color = Color.MonoGameOrange;
+                this.Price = 8100;
+                break;
+            case 6:
+                this.Color = Color.White;
+                this.Price = 0;
+                break;
+            default:
+                this.Color = Game1.textColor;
+                this.Price = 250;
+                break;
+        }
     }
+
+    /// <summary>Gets the title color of a weapon at this tier, <see href="https://tvtropes.org/pmwiki/pmwiki.php/Main/ColourCodedForYourConvenience">for your convenience</see>.</summary>
+    public Color Color { get; }
+
+    /// <summary>Gets the sell price of a weapon at this tier.</summary>
+    public int Price { get; }
 
     /// <summary>Gets the corresponding <see cref="WeaponTier"/> for the specified <paramref name="weapon"/>.</summary>
     /// <param name="weapon">The <see cref="MeleeWeapon"/>.</param>
@@ -131,7 +159,4 @@ public sealed class WeaponTier : SmartEnum<WeaponTier>
     {
         return TierByWeapon.TryGetValue(weapon.InitialParentTileIndex, out var tier) ? tier : Untiered;
     }
-
-    /// <summary><see href="https://tvtropes.org/pmwiki/pmwiki.php/Main/ColourCodedForYourConvenience">Color-Coded for your convenience</see>.</summary>
-    public Color Color { get; }
 }

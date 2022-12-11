@@ -25,16 +25,16 @@ internal sealed class DebugButtonsChangedEvent : ButtonsChangedEvent
     /// <inheritdoc />
     protected override async void OnButtonsChangedImpl(object? sender, ButtonsChangedEventArgs e)
     {
-        if (ModEntry.Config.DebugKey.JustPressed())
+        if (Config.DebugKey.JustPressed())
         {
-            ModEntry.Events.EnableWithAttribute<DebugAttribute>();
+            this.Manager.EnableWithAttribute<DebugAttribute>();
         }
-        else if (ModEntry.Config.DebugKey.GetState() == SButtonState.Released)
+        else if (Config.DebugKey.GetState() == SButtonState.Released)
         {
-            ModEntry.Events.DisableWithAttribute<DebugAttribute>();
+            this.Manager.DisableWithAttribute<DebugAttribute>();
         }
 
-        if (!ModEntry.Config.DebugKey.IsDown() ||
+        if (!Config.DebugKey.IsDown() ||
             !e.Pressed.Any(b => b is SButton.MouseRight or SButton.MouseLeft))
         {
             return;
@@ -102,7 +102,7 @@ internal sealed class DebugButtonsChangedEvent : ButtonsChangedEvent
                     {
                         message += "\n\n\tMod data:";
                         message = Game1.MasterPlayer.modData.Pairs
-                            .Where(p => p.Key.StartsWith(ModEntry.Manifest.UniqueID) &&
+                            .Where(p => p.Key.StartsWith(Manifest.UniqueID) &&
                                         p.Key.Contains(who.UniqueMultiplayerID.ToString()))
                             .Aggregate(
                                 message,
@@ -117,9 +117,9 @@ internal sealed class DebugButtonsChangedEvent : ButtonsChangedEvent
                         }
                         else if (Context.IsMultiplayer && who.isActive())
                         {
-                            var peer = ModEntry.ModHelper.Multiplayer.GetConnectedPlayer(who.UniqueMultiplayerID);
+                            var peer = ModHelper.Multiplayer.GetConnectedPlayer(who.UniqueMultiplayerID);
                             events = peer is { IsSplitScreen: true, ScreenID: not null }
-                                ? ModEntry.Events.EnabledForScreen(peer.ScreenID.Value).Aggregate(
+                                ? this.Manager.EnabledForScreen(peer.ScreenID.Value).Aggregate(
                                     string.Empty,
                                     (current, next) => current + "\n\t\t- " + next.GetType().Name)
                                 : await ModEntry.Broadcaster.RequestAsync(

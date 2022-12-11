@@ -128,12 +128,12 @@ internal static class Slingshot_Stats
         if (slingshot.hasEnchantmentOfType<JadeEnchantment>())
         {
             holder.CritPower = slingshot.GetEnchantmentLevel<JadeEnchantment>() *
-                               (ModEntry.Config.Arsenal.RebalancedForges ? 0.5f : 0.1f);
+                               (ArsenalModule.Config.RebalancedForges ? 0.5f : 0.1f);
         }
 
         if (slingshot.Get_ResonatingChord<JadeEnchantment>() is { } jadeChord)
         {
-            holder.CritPower += (float)jadeChord.Amplitude * (ModEntry.Config.Arsenal.RebalancedForges ? 0.5f : 0.1f);
+            holder.CritPower += (float)jadeChord.Amplitude * (ArsenalModule.Config.RebalancedForges ? 0.5f : 0.1f);
         }
 
         if (slingshot.hasEnchantmentOfType<EmeraldEnchantment>())

@@ -22,9 +22,9 @@ internal sealed class WarriorUpdateTickedEvent : UpdateTickedEvent
     internal WarriorUpdateTickedEvent(EventManager manager)
         : base(manager)
     {
-        this._buffId = (ModEntry.Manifest.UniqueID + "Warrior").GetHashCode();
+        this._buffId = (Manifest.UniqueID + "Warrior").GetHashCode();
         this._buffSource =
-            ModEntry.ModHelper.GameContent.Load<Dictionary<int, string>>("Data/ObjectInformation")[Constants.WarriorRingIndex]
+            ModHelper.GameContent.Load<Dictionary<int, string>>("Data/ObjectInformation")[Constants.WarriorRingIndex]
                 .Split('/')[0];
         this._buffDescription = Game1.content.LoadString("Strings\\StringsFromCSFiles:Buff.cs.468");
     }

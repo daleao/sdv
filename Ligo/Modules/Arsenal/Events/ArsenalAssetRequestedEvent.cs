@@ -54,16 +54,16 @@ internal sealed class ArsenalAssetRequestedEvent : AssetRequestedEvent
         this.Edit("TileSheets/BuffsIcons", new AssetEditor(EditBuffsIconsTileSheet, AssetEditPriority.Default));
         this.Edit("TileSheets/Projectiles", new AssetEditor(EditProjectilesTileSheet, AssetEditPriority.Default));
         this.Edit("TileSheets/weapons", new AssetEditor(EditWeaponsTileSheetEarly, AssetEditPriority.Early));
-        this.Edit("TileSheets/weapons", new AssetEditor(EditWeaponsTileSheetLate, AssetEditPriority.Early));
+        this.Edit("TileSheets/weapons", new AssetEditor(EditWeaponsTileSheetLate, AssetEditPriority.Late));
 
         this.Provide(
-            $"{ModEntry.Manifest.UniqueID}/InfinityCollisionAnimation",
+            $"{Manifest.UniqueID}/InfinityCollisionAnimation",
             new ModTextureProvider(() => "assets/animations/infinity.png", AssetLoadPriority.Medium));
         this.Provide(
-            $"{ModEntry.Manifest.UniqueID}/QuincyCollisionAnimation",
+            $"{Manifest.UniqueID}/QuincyCollisionAnimation",
             new ModTextureProvider(() => "assets/animations/quincy.png", Priority: AssetLoadPriority.Medium));
         this.Provide(
-            $"{ModEntry.Manifest.UniqueID}/SnowballCollisionAnimation",
+            $"{Manifest.UniqueID}/SnowballCollisionAnimation",
             new ModTextureProvider(() => "assets/animations/snowball.png", Priority: AssetLoadPriority.Medium));
         this.Provide("Data/Events/Blacksmith", new DictionaryProvider<string, string>(null, AssetLoadPriority.Low));
     }
@@ -73,7 +73,7 @@ internal sealed class ArsenalAssetRequestedEvent : AssetRequestedEvent
     /// <summary>Patches buffs icons with energized buff icon.</summary>
     private static void EditBuffsIconsTileSheet(IAssetData asset)
     {
-        if (!ModEntry.Config.Arsenal.Weapons.UseLigoEnchants)
+        if (!ArsenalModule.Config.Weapons.UseLigoEnchants)
         {
             return;
         }
@@ -81,31 +81,31 @@ internal sealed class ArsenalAssetRequestedEvent : AssetRequestedEvent
         var editor = asset.AsImage();
         editor.ExtendImage(192, 64);
 
-        var srcArea = new Rectangle(64, 16, 16, 16);
+        var sourceArea = new Rectangle(64, 16, 16, 16);
         var targetArea = new Rectangle(96, 48, 16, 16);
         editor.PatchImage(
-            ModEntry.ModHelper.ModContent.Load<Texture2D>("assets/sprites/buffs"),
-            srcArea,
+            ModHelper.ModContent.Load<Texture2D>("assets/sprites/buffs"),
+            sourceArea,
             targetArea);
     }
 
     /// <summary>Edits location string data with custom legendary sword rhyme.</summary>
     private static void EditLocationsStrings(IAssetData asset)
     {
-        if (!ModEntry.Config.Arsenal.InfinityPlusOne)
+        if (!ArsenalModule.Config.InfinityPlusOne)
         {
             return;
         }
 
         var data = asset.AsDictionary<string, string>().Data;
-        data["Town_DwarfGrave_Translated"] = ModEntry.i18n.Get("locations.Town.DwarfGrave.Translated");
-        data["SeedShop_Yoba"] = ModEntry.i18n.Get("locations.SeedShop.Yoba");
+        data["Town_DwarfGrave_Translated"] = i18n.Get("locations.Town.DwarfGrave.Translated");
+        data["SeedShop_Yoba"] = i18n.Get("locations.SeedShop.Yoba");
     }
 
     /// <summary>Edits galaxy soul description.</summary>
     private static void EditObjectInformationData(IAssetData asset)
     {
-        if (!ModEntry.Config.Arsenal.InfinityPlusOne)
+        if (!ArsenalModule.Config.InfinityPlusOne)
         {
             return;
         }
@@ -114,75 +114,77 @@ internal sealed class ArsenalAssetRequestedEvent : AssetRequestedEvent
 
         // edit galaxy soul description
         var fields = data[Constants.GalaxySoulIndex].Split('/');
-        fields[5] = ModEntry.i18n.Get("objects.galaxysoul.desc");
+        fields[5] = i18n.Get("objects.galaxysoul.desc");
         data[Constants.GalaxySoulIndex] = string.Join('/', fields);
     }
 
     /// <summary>Edits strings data with custom legendary sword reward prompt.</summary>
     private static void EditStringsFromCsFilesStrings(IAssetData asset)
     {
-        if (!ModEntry.Config.Arsenal.InfinityPlusOne)
+        if (!ArsenalModule.Config.InfinityPlusOne)
         {
             return;
         }
 
         var data = asset.AsDictionary<string, string>().Data;
-        data["MeleeWeapon.cs.14122"] = ModEntry.i18n.Get("fromcsfiles.MeleeWeapon.cs.14122");
+        data["MeleeWeapon.cs.14122"] = i18n.Get("fromcsfiles.MeleeWeapon.cs.14122");
     }
 
     /// <summary>Edits events data with custom Dwarvish Blueprint introduction event.</summary>
     private static void EditBlacksmithEventsData(IAssetData asset)
     {
-        if (!ModEntry.Config.Arsenal.DwarvishCrafting)
+        if (!ArsenalModule.Config.DwarvishCrafting)
         {
             return;
         }
 
         var data = asset.AsDictionary<string, string>().Data;
         data["144701/n dwarvishBlueprintFound/n canUnderstandDwarves/f Clint 1500/p Clint"] =
-            ModEntry.i18n.Get("events.forge.intro");
+            i18n.Get("events.forge.intro");
     }
 
     /// <summary>Edits events data with custom Blade of Ruin introduction event.</summary>
     private static void EditWizardEventsData(IAssetData asset)
     {
-        if (!ModEntry.Config.Arsenal.InfinityPlusOne)
+        if (!ArsenalModule.Config.InfinityPlusOne)
         {
             return;
         }
 
         var data = asset.AsDictionary<string, string>().Data;
-        data["144703/n darkSwordFound/p Wizard"] = ModEntry.i18n.Get("events.curse.intro");
+        data["144703/n darkSwordFound/p Wizard"] = Ligo.Integrations.SveConfig is null
+            ? i18n.Get("events.curse.intro")
+            : i18n.Get("events.curse.intro.sve");
     }
 
     /// <summary>Edits Marlon's Galaxy Sword event in SVE, removing references to purchasable Galaxy weapons.</summary>
     private static void EditSveEventsData(IAssetData asset)
     {
         var data = asset.AsDictionary<string, string>().Data;
-        if (data.ContainsKey("1337098") && ModEntry.Config.Arsenal.InfinityPlusOne)
+        if (data.ContainsKey("1337098") && ArsenalModule.Config.InfinityPlusOne)
         {
-            data["1337098"] = ModEntry.i18n.Get("events.1337098.nopurchase");
+            data["1337098"] = i18n.Get("events.1337098.nopurchase");
         }
     }
 
     /// <summary>Edits quests data with custom Dwarvish Blueprint introduction quest.</summary>
     private static void EditQuestsData(IAssetData asset)
     {
-        if (!ModEntry.Config.Arsenal.DwarvishCrafting)
+        if (!ArsenalModule.Config.DwarvishCrafting)
         {
             return;
         }
 
         var data = asset.AsDictionary<int, string>().Data;
-        data[Constants.ForgeIntroQuestId] = ModEntry.i18n.Get("quests.forge.intro");
-        data[Constants.ForgeNextQuestId] = ModEntry.i18n.Get("quests.forge.next");
-        data[Constants.CurseQuestId] = ModEntry.i18n.Get("quests.curse");
+        data[Constants.ForgeIntroQuestId] = i18n.Get("quests.forge.intro");
+        data[Constants.ForgeNextQuestId] = i18n.Get("quests.forge.next");
+        data[Constants.CurseQuestId] = i18n.Get("quests.curse");
     }
 
     /// <summary>Edits monsters data for ancient weapon crafting materials.</summary>
     private static void EditMonstersData(IAssetData asset)
     {
-        if (!ModEntry.Config.Arsenal.DwarvishCrafting)
+        if (!ArsenalModule.Config.DwarvishCrafting)
         {
             return;
         }
@@ -208,26 +210,26 @@ internal sealed class ArsenalAssetRequestedEvent : AssetRequestedEvent
     /// <summary>Adds the infinity enchantment projectile.</summary>
     private static void EditProjectilesTileSheet(IAssetData asset)
     {
-        if (!ModEntry.Config.Arsenal.InfinityPlusOne)
+        if (!ArsenalModule.Config.InfinityPlusOne)
         {
             return;
         }
 
         var editor = asset.AsImage();
-        var srcArea = new Rectangle(0, 0, 16, 16);
+        var sourceArea = new Rectangle(0, 0, 16, 16);
         var targetArea = new Rectangle(112, 16, 16, 16);
         editor.PatchImage(
-            ModEntry.ModHelper.ModContent.Load<Texture2D>("assets/sprites/projectiles"),
-            srcArea,
+            ModHelper.ModContent.Load<Texture2D>("assets/sprites/projectiles"),
+            sourceArea,
             targetArea);
     }
 
     /// <summary>Edits weapons data with rebalanced stats.</summary>
     private static void EditWeaponsData(IAssetData asset)
     {
-        if (!ModEntry.Config.Arsenal.Weapons.RebalancedWeapons &&
-            !ModEntry.Config.Arsenal.Weapons.BringBackStabbySwords && !ModEntry.Config.Arsenal.DwarvishCrafting &&
-            !ModEntry.Config.Arsenal.InfinityPlusOne)
+        if (!ArsenalModule.Config.Weapons.RebalancedWeapons &&
+            !ArsenalModule.Config.Weapons.BringBackStabbySwords && !ArsenalModule.Config.DwarvishCrafting &&
+            !ArsenalModule.Config.InfinityPlusOne)
         {
             return;
         }
@@ -238,33 +240,34 @@ internal sealed class ArsenalAssetRequestedEvent : AssetRequestedEvent
         {
             var fields = data[key].Split('/');
 
-            if (ModEntry.Config.Arsenal.Weapons.RebalancedWeapons)
+            if (ArsenalModule.Config.Weapons.RebalancedWeapons)
             {
                 EditSpecificWeapon(key, fields);
             }
 
-            if (ModEntry.Config.Arsenal.Weapons.BringBackStabbySwords &&
-                ModEntry.Config.Arsenal.Weapons.StabbySwords.Contains(fields[Name]))
+            if (ArsenalModule.Config.DwarvishCrafting)
             {
-                fields[Type] = "0";
+                if (fields[Name].Contains("Dwarf"))
+                {
+                    fields[Name] = fields[Name].Replace("Dwarf", "Dwarven");
+                }
+                else if (key is Constants.ElfBladeIndex or Constants.ForestSwordIndex)
+                {
+                    fields[Name] = fields[Name].Replace(key == Constants.ElfBladeIndex ? "Elf" : "Forest", "Elven");
+                }
             }
 
-            if (ModEntry.Config.Arsenal.DwarvishCrafting && fields[Name].Contains("Dwarf"))
-            {
-                fields[Name] = fields[Name].Replace("Dwarf", "Dwarven");
-            }
-
-            if (ModEntry.Config.Arsenal.InfinityPlusOne)
+            if (ArsenalModule.Config.InfinityPlusOne)
             {
                 switch (key)
                 {
                     case Constants.DarkSwordIndex:
-                        fields[Name] = ModEntry.i18n.Get("weapons.darksword.name");
-                        fields[Description] = ModEntry.i18n.Get("weapons.darksword.desc");
+                        fields[Name] = i18n.Get("weapons.darksword.name");
+                        fields[Description] = i18n.Get("weapons.darksword.desc");
                         break;
                     case Constants.HolyBladeIndex:
-                        fields[Name] = ModEntry.i18n.Get("weapons.holyblade.name");
-                        fields[Description] = ModEntry.i18n.Get("weapons.holyblade.desc");
+                        fields[Name] = i18n.Get("weapons.holyblade.name");
+                        fields[Description] = i18n.Get("weapons.holyblade.desc");
                         break;
                 }
             }
@@ -272,38 +275,63 @@ internal sealed class ArsenalAssetRequestedEvent : AssetRequestedEvent
             data[key] = string.Join('/', fields);
         }
 
-        if (ModEntry.Config.Arsenal.InfinityPlusOne)
+        if (ArsenalModule.Config.InfinityPlusOne)
         {
             data[Constants.InfinitySlingshotIndex] = string.Format(
                 "Infinity Slingshot/{0}/1/3/1/308/0/0/4/-1/-1/0/.02/3/{1}",
-                ModEntry.i18n.Get("slingshots.infinity.desc"),
-                ModEntry.i18n.Get("slingshots.infinity.name"));
+                i18n.Get("slingshots.infinity.desc"),
+                i18n.Get("slingshots.infinity.name"));
         }
     }
 
     /// <summary>Edits weapons tilesheet with touched up textures.</summary>
     private static void EditWeaponsTileSheetEarly(IAssetData asset)
     {
-        if (!ModEntry.Config.Arsenal.Weapons.RetexturedWeapons || Ligo.Integrations.UsingVanillaTweaksWeapons)
+        if (!ArsenalModule.Config.Weapons.RetexturedWeapons && !ArsenalModule.Config.InfinityPlusOne)
         {
             return;
         }
 
         var editor = asset.AsImage();
-        editor.PatchImage(ModEntry.ModHelper.ModContent.Load<Texture2D>("assets/sprites/weapons"));
+        if (ArsenalModule.Config.Weapons.RetexturedWeapons)
+        {
+            editor.PatchImage(ModHelper.ModContent.Load<Texture2D>("assets/sprites/weapons"));
+        }
+        else
+        {
+            var area = new Rectangle(16, 128, 16, 16);
+            editor.PatchImage(ModHelper.ModContent.Load<Texture2D>("assets/sprites/weapons"), area, area);
+        }
     }
 
     /// <summary>Edits weapons tilesheet with touched up textures.</summary>
     private static void EditWeaponsTileSheetLate(IAssetData asset)
     {
-        if (!Ligo.Integrations.UsingVanillaTweaksWeapons || !ModEntry.Config.Arsenal.InfinityPlusOne)
+        if (!Ligo.Integrations.UsingVanillaTweaksWeapons)
         {
             return;
         }
 
         var editor = asset.AsImage();
-        var targetArea = new Rectangle(32, 0, 32, 16);
-        editor.PatchImage(ModEntry.ModHelper.ModContent.Load<Texture2D>("assets/sprites/VanillaTweaks/swords"), null, targetArea);
+        var sourceTx = ModHelper.ModContent.Load<Texture2D>("assets/sprites/weapons_vanillatweaks.png");
+        Rectangle sourceArea, targetArea;
+        if (ArsenalModule.Config.InfinityPlusOne)
+        {
+            sourceArea = new Rectangle(0, 0, 32, 16);
+            targetArea = new Rectangle(32, 0, 32, 16);
+            editor.PatchImage(sourceTx, sourceArea, targetArea);
+        }
+
+        if (ArsenalModule.Config.DwarvishCrafting)
+        {
+            sourceArea = new Rectangle(32, 0, 16, 16);
+            targetArea = new Rectangle(112, 16, 16, 16);
+            editor.PatchImage(sourceTx, sourceArea, targetArea);
+
+            sourceArea = new Rectangle(48, 0, 16, 16);
+            targetArea = new Rectangle(64, 32, 16, 16);
+            editor.PatchImage(sourceTx, sourceArea, targetArea);
+        }
     }
 
     #endregion editor callbacks
@@ -323,6 +351,8 @@ internal sealed class ArsenalAssetRequestedEvent : AssetRequestedEvent
                 fields[Speed] = (-1).ToString();
                 fields[Precision] = 0.ToString();
                 fields[Defense] = 0.ToString();
+                fields[BaseDropLevel] = (-1).ToString();
+                fields[MinDropLevel] = (-1).ToString();
                 fields[Aoe] = 0.ToString();
                 fields[CritChance] = 0.05.ToString(CultureInfo.InvariantCulture);
                 fields[CritPower] = 1.5.ToString(CultureInfo.InvariantCulture);
@@ -379,7 +409,7 @@ internal sealed class ArsenalAssetRequestedEvent : AssetRequestedEvent
                 fields[MinDropLevel] = 25.ToString();
                 fields[Aoe] = (-8).ToString();
                 fields[CritChance] = 0.05.ToString(CultureInfo.InvariantCulture);
-                fields[CritPower] = 1.75.ToString(CultureInfo.InvariantCulture);
+                fields[CritPower] = 1.5.ToString(CultureInfo.InvariantCulture);
                 break;
             case 50: // steel falchion
                 fields[MinDamage] = 40.ToString();
@@ -397,7 +427,7 @@ internal sealed class ArsenalAssetRequestedEvent : AssetRequestedEvent
             case 1: // silver saber
                 fields[MinDamage] = 5.ToString();
                 fields[MaxDamage] = 8.ToString();
-                fields[Knockback] = 0.8.ToString(CultureInfo.InvariantCulture);
+                fields[Knockback] = 0.7875.ToString(CultureInfo.InvariantCulture);
                 fields[Speed] = 0.ToString();
                 fields[Precision] = 0.ToString();
                 fields[Defense] = 1.ToString();
@@ -457,18 +487,36 @@ internal sealed class ArsenalAssetRequestedEvent : AssetRequestedEvent
                 fields[CritPower] = 2.5.ToString(CultureInfo.InvariantCulture);
                 break;
 
-            case 15: // forest sword (scavenger hunt)
-                fields[MinDamage] = 48.ToString();
-                fields[MaxDamage] = 60.ToString();
-                fields[Knockback] = 0.825.ToString(CultureInfo.InvariantCulture);
-                fields[Speed] = 1.ToString();
-                fields[Precision] = 1.ToString();
-                fields[Defense] = 0.ToString();
-                fields[BaseDropLevel] = (-1).ToString();
-                fields[MinDropLevel] = (-1).ToString();
-                fields[Aoe] = 8.ToString();
-                fields[CritChance] = 0.05.ToString(CultureInfo.InvariantCulture);
-                fields[CritPower] = 2.0.ToString(CultureInfo.InvariantCulture);
+            case 15: // forest sword (scavenger hunt / crafting)
+                if (ArsenalModule.Config.DwarvishCrafting)
+                {
+                    fields[MinDamage] = 85.ToString();
+                    fields[MaxDamage] = 100.ToString();
+                    fields[Knockback] = 0.9375.ToString(CultureInfo.InvariantCulture);
+                    fields[Speed] = 3.ToString();
+                    fields[Precision] = 2.ToString();
+                    fields[Defense] = 1.ToString();
+                    fields[BaseDropLevel] = (-1).ToString();
+                    fields[MinDropLevel] = (-1).ToString();
+                    fields[Aoe] = 12.ToString();
+                    fields[CritChance] = 0.05.ToString(CultureInfo.InvariantCulture);
+                    fields[CritPower] = 2.0.ToString(CultureInfo.InvariantCulture);
+                }
+                else
+                {
+                    fields[MinDamage] = 48.ToString();
+                    fields[MaxDamage] = 60.ToString();
+                    fields[Knockback] = 0.825.ToString(CultureInfo.InvariantCulture);
+                    fields[Speed] = 1.ToString();
+                    fields[Precision] = 1.ToString();
+                    fields[Defense] = 0.ToString();
+                    fields[BaseDropLevel] = (-1).ToString();
+                    fields[MinDropLevel] = (-1).ToString();
+                    fields[Aoe] = 8.ToString();
+                    fields[CritChance] = 0.05.ToString(CultureInfo.InvariantCulture);
+                    fields[CritPower] = 2.0.ToString(CultureInfo.InvariantCulture);
+                }
+
                 break;
             case 5: // bone sword (prospector hunt)
                 fields[MinDamage] = 34.ToString();
@@ -486,15 +534,15 @@ internal sealed class ArsenalAssetRequestedEvent : AssetRequestedEvent
             case 60: // ossified blade (prospector hunt)
                 fields[MinDamage] = 64.ToString();
                 fields[MaxDamage] = 85.ToString();
-                fields[Knockback] = 0.8.ToString(CultureInfo.InvariantCulture);
+                fields[Knockback] = 0.7875.ToString(CultureInfo.InvariantCulture);
                 fields[Speed] = (-1).ToString();
                 fields[Defense] = 1.ToString();
                 fields[Precision] = 0.ToString();
                 fields[BaseDropLevel] = (-1).ToString();
                 fields[MinDropLevel] = (-1).ToString();
                 fields[Aoe] = 4.ToString();
-                fields[CritChance] = 0.06.ToString(CultureInfo.InvariantCulture);
-                fields[CritPower] = 2.25.ToString(CultureInfo.InvariantCulture);
+                fields[CritChance] = 0.05.ToString(CultureInfo.InvariantCulture);
+                fields[CritPower] = 2.5.ToString(CultureInfo.InvariantCulture);
                 break;
             case 43: // pirate sword (fishing chest)
                 fields[MinDamage] = 36.ToString();
@@ -522,10 +570,11 @@ internal sealed class ArsenalAssetRequestedEvent : AssetRequestedEvent
                 fields[CritPower] = 2.0.ToString(CultureInfo.InvariantCulture);
                 break;
             case 8: // obsidian edge
+                fields[Description] += i18n.Get("weapons.obsidianedge.extradesc");
                 fields[MinDamage] = 70.ToString();
                 fields[MaxDamage] = 95.ToString();
                 fields[Knockback] = 0.8625.ToString(CultureInfo.InvariantCulture);
-                fields[Speed] = 1.ToString();
+                fields[Speed] = (-2).ToString();
                 fields[Precision] = 0.ToString();
                 fields[Defense] = 0.ToString();
                 fields[BaseDropLevel] = (-1).ToString();
@@ -535,8 +584,8 @@ internal sealed class ArsenalAssetRequestedEvent : AssetRequestedEvent
                 fields[CritPower] = 2.5.ToString(CultureInfo.InvariantCulture);
                 break;
             case 9: // lava katana
-                fields[Description] = ModEntry.i18n.Get("weapons.lavakatana.desc");
-                fields[MinDamage] = 85.ToString();
+                fields[Description] += i18n.Get("weapons.lavakatana.extradesc");
+                fields[MinDamage] = 95.ToString();
                 fields[MaxDamage] = 110.ToString();
                 fields[Knockback] = 0.75.ToString(CultureInfo.InvariantCulture);
                 fields[Speed] = 1.ToString();
@@ -546,7 +595,7 @@ internal sealed class ArsenalAssetRequestedEvent : AssetRequestedEvent
                 fields[MinDropLevel] = (-1).ToString();
                 fields[Aoe] = 4.ToString();
                 fields[CritChance] = 0.0625.ToString(CultureInfo.InvariantCulture);
-                fields[CritPower] = 2.5.ToString(CultureInfo.InvariantCulture);
+                fields[CritPower] = 3.ToString(CultureInfo.InvariantCulture);
                 break;
 
             // UNIQUE SWORDS
@@ -566,8 +615,8 @@ internal sealed class ArsenalAssetRequestedEvent : AssetRequestedEvent
 
             // BIS SWORDS
             case 2: // dark sword
-                fields[Name] = ModEntry.i18n.Get("weapons.darksword.name");
-                fields[Description] = ModEntry.i18n.Get("weapons.darksword.desc");
+                fields[Name] = i18n.Get("weapons.darksword.name");
+                fields[Description] = i18n.Get("weapons.darksword.desc");
                 fields[MinDamage] = 100.ToString();
                 fields[MaxDamage] = 140.ToString();
                 fields[Knockback] = 0.75.ToString(CultureInfo.InvariantCulture);
@@ -579,8 +628,8 @@ internal sealed class ArsenalAssetRequestedEvent : AssetRequestedEvent
                 fields[CritPower] = 2.0.ToString(CultureInfo.InvariantCulture);
                 break;
             case 3: // holy blade
-                fields[Name] = ModEntry.i18n.Get("weapons.holyblade.name");
-                fields[Description] = ModEntry.i18n.Get("weapons.holyblade.desc");
+                fields[Name] = i18n.Get("weapons.holyblade.name");
+                fields[Description] = i18n.Get("weapons.holyblade.desc");
                 fields[MinDamage] = 120.ToString();
                 fields[MaxDamage] = 160.ToString();
                 fields[Knockback] = 0.75.ToString(CultureInfo.InvariantCulture);
@@ -640,7 +689,7 @@ internal sealed class ArsenalAssetRequestedEvent : AssetRequestedEvent
                 fields[Defense] = 0.ToString();
                 fields[BaseDropLevel] = (-1).ToString();
                 fields[MinDropLevel] = (-1).ToString();
-                fields[Aoe] = 8.ToString();
+                fields[Aoe] = 12.ToString();
                 fields[CritChance] = 0.05.ToString(CultureInfo.InvariantCulture);
                 fields[CritPower] = 2.0.ToString(CultureInfo.InvariantCulture);
                 break;
@@ -673,7 +722,7 @@ internal sealed class ArsenalAssetRequestedEvent : AssetRequestedEvent
                 fields[BaseDropLevel] = 25.ToString();
                 fields[MinDropLevel] = 10.ToString();
                 fields[Aoe] = (-4).ToString();
-                fields[CritChance] = 0.15.ToString(CultureInfo.InvariantCulture);
+                fields[CritChance] = 0.12.ToString(CultureInfo.InvariantCulture);
                 fields[CritPower] = 1.5.ToString(CultureInfo.InvariantCulture);
                 break;
             case 22: // wind spire
@@ -743,41 +792,60 @@ internal sealed class ArsenalAssetRequestedEvent : AssetRequestedEvent
                 fields[CritPower] = 1.5.ToString(CultureInfo.InvariantCulture);
                 break;
             case 20: // elf blade (scavenger hunt)
-                fields[MinDamage] = 32.ToString();
-                fields[MaxDamage] = 38.ToString();
-                fields[Knockback] = 0.5.ToString(CultureInfo.InvariantCulture);
-                fields[Speed] = 2.ToString();
-                fields[Precision] = 1.ToString();
-                fields[Defense] = 0.ToString();
-                fields[BaseDropLevel] = (-1).ToString();
-                fields[MinDropLevel] = (-1).ToString();
-                fields[Aoe] = 0.ToString();
-                fields[CritChance] = 0.1.ToString(CultureInfo.InvariantCulture);
-                fields[CritPower] = 1.5.ToString(CultureInfo.InvariantCulture);
+                if (ArsenalModule.Config.DwarvishCrafting)
+                {
+                    fields[MinDamage] = 50.ToString();
+                    fields[MaxDamage] = 60.ToString();
+                    fields[Knockback] = 0.625.ToString(CultureInfo.InvariantCulture);
+                    fields[Speed] = 3.ToString();
+                    fields[Precision] = 2.ToString();
+                    fields[Defense] = 1.ToString();
+                    fields[BaseDropLevel] = (-1).ToString();
+                    fields[MinDropLevel] = (-1).ToString();
+                    fields[Aoe] = 8.ToString();
+                    fields[CritChance] = 0.1.ToString(CultureInfo.InvariantCulture);
+                    fields[CritPower] = 1.5.ToString(CultureInfo.InvariantCulture);
+                }
+                else
+                {
+                    fields[MinDamage] = 32.ToString();
+                    fields[MaxDamage] = 38.ToString();
+                    fields[Knockback] = 0.5.ToString(CultureInfo.InvariantCulture);
+                    fields[Speed] = 2.ToString();
+                    fields[Precision] = 1.ToString();
+                    fields[Defense] = 0.ToString();
+                    fields[BaseDropLevel] = (-1).ToString();
+                    fields[MinDropLevel] = (-1).ToString();
+                    fields[Aoe] = 0.ToString();
+                    fields[CritChance] = 0.1.ToString(CultureInfo.InvariantCulture);
+                    fields[CritPower] = 1.5.ToString(CultureInfo.InvariantCulture);
+                }
+
                 break;
             case 51: // broken trident (fishing chest)
                 fields[MinDamage] = 50.ToString();
                 fields[MaxDamage] = 58.ToString();
-                fields[Knockback] = 0.6.ToString(CultureInfo.InvariantCulture);
+                fields[Knockback] = 0.66666666666666d.ToString(CultureInfo.InvariantCulture);
                 fields[Speed] = 0.ToString();
                 fields[Precision] = 1.ToString();
                 fields[Defense] = (-1).ToString();
                 fields[BaseDropLevel] = (-1).ToString();
                 fields[MinDropLevel] = (-1).ToString();
                 fields[Aoe] = 12.ToString();
-                fields[CritChance] = 0.15.ToString(CultureInfo.InvariantCulture);
+                fields[CritChance] = 0.13333333333333d.ToString(CultureInfo.InvariantCulture);
                 fields[CritPower] = 1.5.ToString(CultureInfo.InvariantCulture);
                 break;
 
             // UNIQUE DAGGERS
             case 13: // insect head (quest)
+                fields[Description] += i18n.Get("weapons.insecthead.desc");
                 fields[MinDamage] = 1.ToString();
-                fields[MaxDamage] = 199.ToString();
+                fields[MaxDamage] = 3.ToString();
                 fields[Knockback] = 0.1.ToString(CultureInfo.InvariantCulture);
-                fields[Speed] = (-1).ToString();
+                fields[Speed] = 0.ToString();
                 fields[Precision] = (-1).ToString();
                 fields[Defense] = (-3).ToString();
-                fields[Type] = 1.ToString();
+                fields[Type] = 1.ToString(); // this gets overwritten for some reason
                 fields[BaseDropLevel] = (-1).ToString();
                 fields[MinDropLevel] = (-1).ToString();
                 fields[Aoe] = (-4).ToString();
@@ -800,6 +868,7 @@ internal sealed class ArsenalAssetRequestedEvent : AssetRequestedEvent
                 fields[CritPower] = 1.5.ToString(CultureInfo.InvariantCulture);
                 break;
             case 61: // iridium needle (quest or drop)
+                fields[Description] += i18n.Get("weapons.iridiumneedle.extradesc");
                 fields[MinDamage] = 68.ToString();
                 fields[MaxDamage] = 80.ToString();
                 fields[Knockback] = 0.25.ToString(CultureInfo.InvariantCulture);
@@ -810,7 +879,7 @@ internal sealed class ArsenalAssetRequestedEvent : AssetRequestedEvent
                 fields[MinDropLevel] = (-1).ToString();
                 fields[Aoe] = (-8).ToString();
                 fields[CritChance] = 1.ToString(CultureInfo.InvariantCulture);
-                fields[CritPower] = 1.ToString(CultureInfo.InvariantCulture);
+                fields[CritPower] = 1.5.ToString(CultureInfo.InvariantCulture);
                 break;
 
             case 56: // dwarf dagger
@@ -848,7 +917,7 @@ internal sealed class ArsenalAssetRequestedEvent : AssetRequestedEvent
                 fields[Defense] = 0.ToString();
                 fields[BaseDropLevel] = (-1).ToString();
                 fields[MinDropLevel] = (-1).ToString();
-                fields[Aoe] = 8.ToString();
+                fields[Aoe] = 12.ToString();
                 fields[CritChance] = 0.1.ToString(CultureInfo.InvariantCulture);
                 fields[CritPower] = 1.5.ToString(CultureInfo.InvariantCulture);
                 break;
@@ -988,7 +1057,7 @@ internal sealed class ArsenalAssetRequestedEvent : AssetRequestedEvent
                 fields[Defense] = 0.ToString();
                 fields[BaseDropLevel] = (-1).ToString();
                 fields[MinDropLevel] = (-1).ToString();
-                fields[Aoe] = 12.ToString();
+                fields[Aoe] = 16.ToString();
                 fields[CritChance] = 0.025.ToString(CultureInfo.InvariantCulture);
                 fields[CritPower] = 3.0.ToString(CultureInfo.InvariantCulture);
                 break;
@@ -1072,7 +1141,7 @@ internal sealed class ArsenalAssetRequestedEvent : AssetRequestedEvent
                 fields[CritPower] = 3.0.ToString(CultureInfo.InvariantCulture);
                 break;
 
-                #endregion bachelor(ette) weapons
+            #endregion bachelor(ette) weapons
         }
     }
 

@@ -37,14 +37,17 @@ internal sealed class MeleeWeaponDoDamagePatcher : HarmonyPatcher
         try
         {
             helper
-                .FindFirst(
-                    new CodeInstruction(
-                        OpCodes.Call,
-                        typeof(Utility).RequireMethod(
-                            nameof(Utility.getListOfTileLocationsForBordersOfNonTileRectangle))))
-                .ReplaceInstructionWith(new CodeInstruction(OpCodes.Ldarg_0))
-                .Advance()
-                .ReplaceInstructionWith(
+                .Match(
+                    new[]
+                    {
+                        new CodeInstruction(
+                            OpCodes.Call,
+                            typeof(Utility).RequireMethod(
+                                nameof(Utility.getListOfTileLocationsForBordersOfNonTileRectangle))),
+                    })
+                .ReplaceWith(new CodeInstruction(OpCodes.Ldarg_0))
+                .Move()
+                .ReplaceWith(
                     new CodeInstruction(
                         OpCodes.Call,
                         typeof(MeleeWeaponDoDamagePatcher).RequireMethod(nameof(ListInnerTiles))));
@@ -64,10 +67,10 @@ internal sealed class MeleeWeaponDoDamagePatcher : HarmonyPatcher
 
     private static List<Vector2> ListInnerTiles(Rectangle rectange, MeleeWeapon weapon)
     {
-        var radius = weapon.InitialParentTileIndex switch
+        uint radius = weapon.InitialParentTileIndex switch
         {
-            Constants.ScytheIndex => ModEntry.Config.Tools.Scythe.RegularRadius,
-            Constants.GoldenScytheIndex => ModEntry.Config.Tools.Scythe.GoldRadius,
+            Constants.ScytheIndex => ToolsModule.Config.Scythe.RegularRadius,
+            Constants.GoldenScytheIndex => ToolsModule.Config.Scythe.GoldRadius,
             _ => 0,
         };
 

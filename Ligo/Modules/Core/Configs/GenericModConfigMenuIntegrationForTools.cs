@@ -40,7 +40,7 @@ internal sealed partial class GenericModConfigMenuIntegration
             .AddNumberField(
                 () => "Shockwave Delay",
                 () => "Affects the shockwave travel speed. Lower is faster. Set to 0 for instant.",
-                config => (int)config.Tools.TicksBetweenWaves,
+                config => config.Tools.TicksBetweenWaves,
                 (config, value) => config.Tools.TicksBetweenWaves = (uint)value,
                 0,
                 10)
@@ -88,29 +88,30 @@ internal sealed partial class GenericModConfigMenuIntegration
             .AddNumberField(
                 () => "Copper Radius",
                 () => "The radius of affected tiles for the Copper Axe.",
-                config => config.Tools.Axe.RadiusAtEachPowerLevel[0],
-                (config, value) => config.Tools.Axe.RadiusAtEachPowerLevel[0] = value,
+                config => (int)config.Tools.Axe.RadiusAtEachPowerLevel[0],
+                (config, value) => config.Tools.Axe.RadiusAtEachPowerLevel[0] = (uint)value,
                 1,
-                10)
+                10,
+                1)
             .AddNumberField(
                 () => "Steel Radius",
                 () => "The radius of affected tiles for the Steel Axe.",
-                config => config.Tools.Axe.RadiusAtEachPowerLevel[1],
-                (config, value) => config.Tools.Axe.RadiusAtEachPowerLevel[1] = value,
+                config => (int)config.Tools.Axe.RadiusAtEachPowerLevel[1],
+                (config, value) => config.Tools.Axe.RadiusAtEachPowerLevel[1] = (uint)value,
                 1,
                 10)
             .AddNumberField(
                 () => "Gold Radius",
                 () => "The radius of affected tiles for the Gold Axe.",
-                config => config.Tools.Axe.RadiusAtEachPowerLevel[2],
-                (config, value) => config.Tools.Axe.RadiusAtEachPowerLevel[2] = value,
+                config => (int)config.Tools.Axe.RadiusAtEachPowerLevel[2],
+                (config, value) => config.Tools.Axe.RadiusAtEachPowerLevel[2] = (uint)value,
                 1,
                 10)
             .AddNumberField(
                 () => "Iridium Radius",
                 () => "The radius of affected tiles for the Iridium Axe.",
-                config => config.Tools.Axe.RadiusAtEachPowerLevel[3],
-                (config, value) => config.Tools.Axe.RadiusAtEachPowerLevel[3] = value,
+                config => (int)config.Tools.Axe.RadiusAtEachPowerLevel[3],
+                (config, value) => config.Tools.Axe.RadiusAtEachPowerLevel[3] = (uint)value,
                 1,
                 10);
 
@@ -120,15 +121,15 @@ internal sealed partial class GenericModConfigMenuIntegration
                 .AddNumberField(
                     () => "Radioactive Radius",
                     () => "The radius of affected tiles for the Radioactive Axe.",
-                    config => config.Tools.Axe.RadiusAtEachPowerLevel[4],
-                    (config, value) => config.Tools.Axe.RadiusAtEachPowerLevel[4] = value,
+                    config => (int)config.Tools.Axe.RadiusAtEachPowerLevel[4],
+                    (config, value) => config.Tools.Axe.RadiusAtEachPowerLevel[4] = (uint)value,
                     1,
                     10)
                 .AddNumberField(
                     () => "Mythicite Radius",
                     () => "The radius of affected tiles for the Mythicite Axe.",
-                    config => config.Tools.Axe.RadiusAtEachPowerLevel[5],
-                    (config, value) => config.Tools.Axe.RadiusAtEachPowerLevel[5] = value,
+                    config => (int)config.Tools.Axe.RadiusAtEachPowerLevel[5],
+                    (config, value) => config.Tools.Axe.RadiusAtEachPowerLevel[5] = (uint)value,
                     1,
                     10);
         }
@@ -137,9 +138,9 @@ internal sealed partial class GenericModConfigMenuIntegration
             .AddNumberField(
                 () => "Reaching Radius",
                 () => "The radius of affected tiles for the Axe with Reaching Enchantment.",
-                config => config.Tools.Axe.RadiusAtEachPowerLevel[Integrations.UsingMoodMisadventures ? 6 : 4],
+                config => (int)config.Tools.Axe.RadiusAtEachPowerLevel[Integrations.UsingMoodMisadventures ? 6 : 4],
                 (config, value) => config.Tools.Axe.RadiusAtEachPowerLevel[Integrations.UsingMoodMisadventures ? 6 : 4] =
-                    value,
+                    (uint)value,
                 1,
                 10)
             .AddCheckbox(
@@ -236,29 +237,29 @@ internal sealed partial class GenericModConfigMenuIntegration
             .AddNumberField(
                 () => "Copper Radius",
                 () => "The radius of affected tiles for the Copper Pick.",
-                config => config.Tools.Pick.RadiusAtEachPowerLevel[0],
-                (config, value) => config.Tools.Pick.RadiusAtEachPowerLevel[0] = value,
+                config => (int)config.Tools.Axe.RadiusAtEachPowerLevel[0],
+                (config, value) => config.Tools.Axe.RadiusAtEachPowerLevel[0] = (uint)value,
                 1,
                 10)
             .AddNumberField(
                 () => "Steel Radius",
                 () => "The radius of affected tiles for the Steel Pick.",
-                config => config.Tools.Pick.RadiusAtEachPowerLevel[1],
-                (config, value) => config.Tools.Pick.RadiusAtEachPowerLevel[1] = value,
+                config => (int)config.Tools.Axe.RadiusAtEachPowerLevel[1],
+                (config, value) => config.Tools.Axe.RadiusAtEachPowerLevel[1] = (uint)value,
                 1,
                 10)
             .AddNumberField(
                 () => "Gold Radius",
                 () => "The radius of affected tiles for the Gold Pick.",
-                config => config.Tools.Pick.RadiusAtEachPowerLevel[2],
-                (config, value) => config.Tools.Pick.RadiusAtEachPowerLevel[2] = value,
+                config => (int)config.Tools.Axe.RadiusAtEachPowerLevel[2],
+                (config, value) => config.Tools.Axe.RadiusAtEachPowerLevel[2] = (uint)value,
                 1,
                 10)
             .AddNumberField(
                 () => "Iridium Radius",
                 () => "The radius of affected tiles for the Iridium Pick.",
-                config => config.Tools.Pick.RadiusAtEachPowerLevel[3],
-                (config, value) => config.Tools.Pick.RadiusAtEachPowerLevel[3] = value,
+                config => (int)config.Tools.Axe.RadiusAtEachPowerLevel[3],
+                (config, value) => config.Tools.Axe.RadiusAtEachPowerLevel[3] = (uint)value,
                 1,
                 10);
 
@@ -268,15 +269,15 @@ internal sealed partial class GenericModConfigMenuIntegration
                 .AddNumberField(
                     () => "Radioactive Radius",
                     () => "The radius of affected tiles for the Radioactive Pick.",
-                    config => config.Tools.Pick.RadiusAtEachPowerLevel[4],
-                    (config, value) => config.Tools.Pick.RadiusAtEachPowerLevel[4] = value,
+                    config => (int)config.Tools.Axe.RadiusAtEachPowerLevel[4],
+                    (config, value) => config.Tools.Axe.RadiusAtEachPowerLevel[4] = (uint)value,
                     1,
                     10)
                 .AddNumberField(
                     () => "Mythicite Radius",
                     () => "The radius of affected tiles for the Mythicite Pick.",
-                    config => config.Tools.Pick.RadiusAtEachPowerLevel[5],
-                    (config, value) => config.Tools.Pick.RadiusAtEachPowerLevel[5] = value,
+                    config => (int)config.Tools.Axe.RadiusAtEachPowerLevel[5],
+                    (config, value) => config.Tools.Axe.RadiusAtEachPowerLevel[5] = (uint)value,
                     1,
                     10);
         }
@@ -285,9 +286,9 @@ internal sealed partial class GenericModConfigMenuIntegration
             .AddNumberField(
                 () => "Reaching Radius",
                 () => "The radius of affected tiles for the Pick with Reaching Enchantment.",
-                config => config.Tools.Pick.RadiusAtEachPowerLevel[Integrations.UsingMoodMisadventures ? 6 : 4],
+                config => (int)config.Tools.Axe.RadiusAtEachPowerLevel[Integrations.UsingMoodMisadventures ? 6 : 4],
                 (config, value) =>
-                    config.Tools.Pick.RadiusAtEachPowerLevel[Integrations.UsingMoodMisadventures ? 6 : 4] = value,
+                    config.Tools.Pick.RadiusAtEachPowerLevel[Integrations.UsingMoodMisadventures ? 6 : 4] = (uint)value,
                 1,
                 10)
             .AddCheckbox(
@@ -363,57 +364,57 @@ internal sealed partial class GenericModConfigMenuIntegration
             .AddNumberField(
                 () => "Copper Length",
                 () => "The length of affected tiles for the Copper Hoe.",
-                config => config.Tools.Hoe.AffectedTiles[0][0],
-                (config, value) => config.Tools.Hoe.AffectedTiles[0][0] = value,
+                config => (int)config.Tools.Hoe.AffectedTiles[0][0],
+                (config, value) => config.Tools.Hoe.AffectedTiles[0][0] = (uint)value,
                 1,
                 15)
             .AddNumberField(
                 () => "Copper Radius",
                 () => "The radius of affected tiles to either side of the farmer for the Copper Hoe.",
-                config => config.Tools.Hoe.AffectedTiles[0][1],
-                (config, value) => config.Tools.Hoe.AffectedTiles[0][1] = value,
+                config => (int)config.Tools.Hoe.AffectedTiles[0][1],
+                (config, value) => config.Tools.Hoe.AffectedTiles[0][1] = (uint)value,
                 0,
                 7)
             .AddNumberField(
                 () => "Steel Length",
                 () => "The length of affected tiles for the Steel Hoe.",
-                config => config.Tools.Hoe.AffectedTiles[1][0],
-                (config, value) => config.Tools.Hoe.AffectedTiles[1][0] = value,
+                config => (int)config.Tools.Hoe.AffectedTiles[1][0],
+                (config, value) => config.Tools.Hoe.AffectedTiles[1][0] = (uint)value,
                 1,
                 15)
             .AddNumberField(
                 () => "Steel Radius",
                 () => "The radius of affected tiles to either side of the farmer for the Steel Hoe.",
-                config => config.Tools.Hoe.AffectedTiles[1][1],
-                (config, value) => config.Tools.Hoe.AffectedTiles[1][1] = value,
+                config => (int)config.Tools.Hoe.AffectedTiles[1][1],
+                (config, value) => config.Tools.Hoe.AffectedTiles[1][1] = (uint)value,
                 0,
                 7)
             .AddNumberField(
                 () => "Gold Length",
                 () => "The length of affected tiles for the Gold Hoe.",
-                config => config.Tools.Hoe.AffectedTiles[2][0],
-                (config, value) => config.Tools.Hoe.AffectedTiles[2][0] = value,
+                config => (int)config.Tools.Hoe.AffectedTiles[2][0],
+                (config, value) => config.Tools.Hoe.AffectedTiles[2][0] = (uint)value,
                 1,
                 15)
             .AddNumberField(
                 () => "Gold Radius",
                 () => "The radius of affected tiles to either side of the farmer for the Gold Hoe.",
-                config => config.Tools.Hoe.AffectedTiles[2][1],
-                (config, value) => config.Tools.Hoe.AffectedTiles[2][1] = value,
+                config => (int)config.Tools.Hoe.AffectedTiles[2][1],
+                (config, value) => config.Tools.Hoe.AffectedTiles[2][1] = (uint)value,
                 0,
                 7)
             .AddNumberField(
                 () => "Iridium Length",
                 () => "The length of affected tiles for the Iridium Hoe.",
-                config => config.Tools.Hoe.AffectedTiles[3][0],
-                (config, value) => config.Tools.Hoe.AffectedTiles[3][0] = value,
+                config => (int)config.Tools.Hoe.AffectedTiles[3][0],
+                (config, value) => config.Tools.Hoe.AffectedTiles[3][0] = (uint)value,
                 1,
                 15)
             .AddNumberField(
                 () => "Iridium Radius",
                 () => "The radius of affected tiles to either side of the farmer for the Iridium Hoe.",
-                config => config.Tools.Hoe.AffectedTiles[3][1],
-                (config, value) => config.Tools.Hoe.AffectedTiles[3][1] = value,
+                config => (int)config.Tools.Hoe.AffectedTiles[3][1],
+                (config, value) => config.Tools.Hoe.AffectedTiles[3][1] = (uint)value,
                 0,
                 7);
 
@@ -422,18 +423,18 @@ internal sealed partial class GenericModConfigMenuIntegration
             case false:
                 this._configMenu
                     .AddNumberField(
-                        () => "Enchanted Length",
+                        () => "Reaching Length",
                         () => "The length of affected tiles for the Hoe when Reaching Enchantment is applied.",
-                        config => config.Tools.Hoe.AffectedTiles[4][0],
-                        (config, value) => config.Tools.Hoe.AffectedTiles[4][0] = value,
+                        config => (int)config.Tools.Hoe.AffectedTiles[4][0],
+                        (config, value) => config.Tools.Hoe.AffectedTiles[4][0] = (uint)value,
                         1,
                         15)
                     .AddNumberField(
                         () => "Reaching Radius",
                         () =>
                             "The radius of affected tiles to either side of the farmer for the Hoe when Reaching Enchantment is applied.",
-                        config => config.Tools.Hoe.AffectedTiles[4][1],
-                        (config, value) => config.Tools.Hoe.AffectedTiles[4][1] = value,
+                        config => (int)config.Tools.Hoe.AffectedTiles[4][1],
+                        (config, value) => config.Tools.Hoe.AffectedTiles[4][1] = (uint)value,
                         0,
                         7);
                 break;
@@ -442,44 +443,44 @@ internal sealed partial class GenericModConfigMenuIntegration
                     .AddNumberField(
                         () => "Radioactive Length",
                         () => "The length of affected tiles for the Radioactive Hoe.",
-                        config => config.Tools.Hoe.AffectedTiles[4][0],
-                        (config, value) => config.Tools.Hoe.AffectedTiles[4][0] = value,
+                        config => (int)config.Tools.Hoe.AffectedTiles[4][0],
+                        (config, value) => config.Tools.Hoe.AffectedTiles[4][0] = (uint)value,
                         1,
                         15)
                     .AddNumberField(
                         () => "Radioactive Radius",
                         () => "The radius of affected tiles to either side of the farmer for the Radioactive Hoe.",
-                        config => config.Tools.Hoe.AffectedTiles[4][1],
-                        (config, value) => config.Tools.Hoe.AffectedTiles[4][1] = value,
+                        config => (int)config.Tools.Hoe.AffectedTiles[4][1],
+                        (config, value) => config.Tools.Hoe.AffectedTiles[4][1] = (uint)value,
                         0,
                         7)
                     .AddNumberField(
                         () => "Mythicite Length",
                         () => "The length of affected tiles for the Mythicite Hoe.",
-                        config => config.Tools.Hoe.AffectedTiles[5][0],
-                        (config, value) => config.Tools.Hoe.AffectedTiles[5][0] = value,
+                        config => (int)config.Tools.Hoe.AffectedTiles[5][0],
+                        (config, value) => config.Tools.Hoe.AffectedTiles[5][0] = (uint)value,
                         1,
                         15)
                     .AddNumberField(
                         () => "Mythicite Radius",
                         () => "The radius of affected tiles to either side of the farmer for the Mythicite Hoe.",
-                        config => config.Tools.Hoe.AffectedTiles[5][1],
-                        (config, value) => config.Tools.Hoe.AffectedTiles[5][1] = value,
+                        config => (int)config.Tools.Hoe.AffectedTiles[5][1],
+                        (config, value) => config.Tools.Hoe.AffectedTiles[5][1] = (uint)value,
                         0,
                         7)
                     .AddNumberField(
-                        () => "Enchanted Length",
+                        () => "Reaching Length",
                         () => "The length of affected tiles for the Hoe when Reaching Enchantment is applied.",
-                        config => config.Tools.Hoe.AffectedTiles[6][0],
-                        (config, value) => config.Tools.Hoe.AffectedTiles[6][0] = value,
+                        config => (int)config.Tools.Hoe.AffectedTiles[6][0],
+                        (config, value) => config.Tools.Hoe.AffectedTiles[6][0] = (uint)value,
                         1,
                         15)
                     .AddNumberField(
                         () => "Reaching Radius",
                         () =>
                             "The radius of affected tiles to either side of the farmer for the Hoe when Reaching Enchantment is applied.",
-                        config => config.Tools.Hoe.AffectedTiles[6][1],
-                        (config, value) => config.Tools.Hoe.AffectedTiles[6][1] = value,
+                        config => (int)config.Tools.Hoe.AffectedTiles[6][1],
+                        (config, value) => config.Tools.Hoe.AffectedTiles[6][1] = (uint)value,
                         0,
                         7);
                 break;
@@ -504,57 +505,57 @@ internal sealed partial class GenericModConfigMenuIntegration
             .AddNumberField(
                 () => "Copper Length",
                 () => "The length of affected tiles for the Copper Watering Can.",
-                config => config.Tools.Can.AffectedTiles[0][0],
-                (config, value) => config.Tools.Can.AffectedTiles[0][0] = value,
+                config => (int)config.Tools.Can.AffectedTiles[0][0],
+                (config, value) => config.Tools.Can.AffectedTiles[0][0] = (uint)value,
                 1,
                 15)
             .AddNumberField(
                 () => "Copper Radius",
                 () => "The radius of affected tiles to either side of the farmer for the Copper Watering Can.",
-                config => config.Tools.Can.AffectedTiles[0][1],
-                (config, value) => config.Tools.Can.AffectedTiles[0][1] = value,
+                config => (int)config.Tools.Can.AffectedTiles[0][1],
+                (config, value) => config.Tools.Can.AffectedTiles[0][1] = (uint)value,
                 0,
                 7)
             .AddNumberField(
                 () => "Steel Length",
                 () => "The length of affected tiles for the Steel Watering Can.",
-                config => config.Tools.Can.AffectedTiles[1][0],
-                (config, value) => config.Tools.Can.AffectedTiles[1][0] = value,
+                config => (int)config.Tools.Can.AffectedTiles[1][0],
+                (config, value) => config.Tools.Can.AffectedTiles[1][0] = (uint)value,
                 1,
                 15)
             .AddNumberField(
                 () => "Steel Radius",
                 () => "The radius of affected tiles to either side of the farmer for the Steel Watering Can.",
-                config => config.Tools.Can.AffectedTiles[1][1],
-                (config, value) => config.Tools.Can.AffectedTiles[1][1] = value,
+                config => (int)config.Tools.Can.AffectedTiles[1][1],
+                (config, value) => config.Tools.Can.AffectedTiles[1][1] = (uint)value,
                 0,
                 7)
             .AddNumberField(
                 () => "Gold Length",
                 () => "The length of affected tiles for the Gold Watering Can.",
-                config => config.Tools.Can.AffectedTiles[2][0],
-                (config, value) => config.Tools.Can.AffectedTiles[2][0] = value,
+                config => (int)config.Tools.Can.AffectedTiles[2][0],
+                (config, value) => config.Tools.Can.AffectedTiles[2][0] = (uint)value,
                 1,
                 15)
             .AddNumberField(
                 () => "Gold Radius",
                 () => "The radius of affected tiles to either side of the farmer for the Gold Watering Can.",
-                config => config.Tools.Can.AffectedTiles[2][1],
-                (config, value) => config.Tools.Can.AffectedTiles[2][1] = value,
+                config => (int)config.Tools.Can.AffectedTiles[2][1],
+                (config, value) => config.Tools.Can.AffectedTiles[2][1] = (uint)value,
                 0,
                 7)
             .AddNumberField(
                 () => "Iridium Length",
                 () => "The length of affected tiles for the Iridium Watering Can.",
-                config => config.Tools.Can.AffectedTiles[3][0],
-                (config, value) => config.Tools.Can.AffectedTiles[3][0] = value,
+                config => (int)config.Tools.Can.AffectedTiles[3][0],
+                (config, value) => config.Tools.Can.AffectedTiles[3][0] = (uint)value,
                 1,
                 15)
             .AddNumberField(
                 () => "Iridium Radius",
                 () => "The radius of affected tiles to either side of the farmer for the Iridium Watering Can.",
-                config => config.Tools.Can.AffectedTiles[3][1],
-                (config, value) => config.Tools.Can.AffectedTiles[3][1] = value,
+                config => (int)config.Tools.Can.AffectedTiles[3][1],
+                (config, value) => config.Tools.Can.AffectedTiles[3][1] = (uint)value,
                 0,
                 7);
 
@@ -563,18 +564,18 @@ internal sealed partial class GenericModConfigMenuIntegration
             case false:
                 this._configMenu
                     .AddNumberField(
-                        () => "Enchanted Length",
+                        () => "Reaching Length",
                         () => "The length of affected tiles for the Watering Can when Reaching Enchantment is applied.",
-                        config => config.Tools.Can.AffectedTiles[4][0],
-                        (config, value) => config.Tools.Can.AffectedTiles[4][0] = value,
+                        config => (int)config.Tools.Can.AffectedTiles[4][0],
+                        (config, value) => config.Tools.Can.AffectedTiles[4][0] = (uint)value,
                         1,
                         15)
                     .AddNumberField(
                         () => "Reaching Radius",
                         () =>
                             "The radius of affected tiles to either side of the farmer for the Watering Can when Reaching Enchantment is applied.",
-                        config => config.Tools.Can.AffectedTiles[4][1],
-                        (config, value) => config.Tools.Can.AffectedTiles[4][1] = value,
+                        config => (int)config.Tools.Can.AffectedTiles[4][1],
+                        (config, value) => config.Tools.Can.AffectedTiles[4][1] = (uint)value,
                         0,
                         7);
                 break;
@@ -583,46 +584,46 @@ internal sealed partial class GenericModConfigMenuIntegration
                     .AddNumberField(
                         () => "Radioactive Length",
                         () => "The length of affected tiles for the Radioactive Watering Can.",
-                        config => config.Tools.Can.AffectedTiles[4][0],
-                        (config, value) => config.Tools.Can.AffectedTiles[4][0] = value,
+                        config => (int)config.Tools.Can.AffectedTiles[4][0],
+                        (config, value) => config.Tools.Can.AffectedTiles[4][0] = (uint)value,
                         1,
                         15)
                     .AddNumberField(
                         () => "Radioactive Radius",
                         () =>
                             "The radius of affected tiles to either side of the farmer for the Radioactive Watering Can.",
-                        config => config.Tools.Can.AffectedTiles[4][1],
-                        (config, value) => config.Tools.Can.AffectedTiles[4][1] = value,
+                        config => (int)config.Tools.Can.AffectedTiles[4][1],
+                        (config, value) => config.Tools.Can.AffectedTiles[4][1] = (uint)value,
                         0,
                         7)
                     .AddNumberField(
                         () => "Mythicite Length",
                         () => "The length of affected tiles for the Mythicite Watering Can.",
-                        config => config.Tools.Can.AffectedTiles[5][0],
-                        (config, value) => config.Tools.Can.AffectedTiles[5][0] = value,
+                        config => (int)config.Tools.Can.AffectedTiles[5][0],
+                        (config, value) => config.Tools.Can.AffectedTiles[5][0] = (uint)value,
                         1,
                         15)
                     .AddNumberField(
                         () => "Mythicite Radius",
                         () =>
                             "The radius of affected tiles to either side of the farmer for the Mythicite Watering Can.",
-                        config => config.Tools.Can.AffectedTiles[5][1],
-                        (config, value) => config.Tools.Can.AffectedTiles[5][1] = value,
+                        config => (int)config.Tools.Can.AffectedTiles[5][1],
+                        (config, value) => config.Tools.Can.AffectedTiles[5][1] = (uint)value,
                         0,
                         7)
                     .AddNumberField(
-                        () => "Enchanted Length",
+                        () => "Reaching Length",
                         () => "The length of affected tiles for the Watering Can when Reaching Enchantment is applied.",
-                        config => config.Tools.Can.AffectedTiles[6][0],
-                        (config, value) => config.Tools.Can.AffectedTiles[6][0] = value,
+                        config => (int)config.Tools.Can.AffectedTiles[6][0],
+                        (config, value) => config.Tools.Can.AffectedTiles[6][0] = (uint)value,
                         1,
                         15)
                     .AddNumberField(
                         () => "Reaching Radius",
                         () =>
                             "The radius of affected tiles to either side of the farmer for the Watering Can when Reaching Enchantment is applied.",
-                        config => config.Tools.Can.AffectedTiles[6][1],
-                        (config, value) => config.Tools.Can.AffectedTiles[6][1] = value,
+                        config => (int)config.Tools.Can.AffectedTiles[6][1],
+                        (config, value) => config.Tools.Can.AffectedTiles[6][1] = (uint)value,
                         0,
                         7);
                 break;
@@ -647,14 +648,14 @@ internal sealed partial class GenericModConfigMenuIntegration
                 () => "Regular Scythe Radius",
                 () => "Sets the area of effect of the regular Scythe.",
                 config => config.Tools.Scythe.RegularRadius,
-                (config, value) => config.Tools.Scythe.RegularRadius = value,
+                (config, value) => config.Tools.Scythe.RegularRadius = (uint)value,
                 0,
                 10)
             .AddNumberField(
                 () => "Golden Scythe Radius",
                 () => "Sets the area of effect of the Golden Scythe.",
                 config => config.Tools.Scythe.GoldRadius,
-                (config, value) => config.Tools.Scythe.GoldRadius = value,
+                (config, value) => config.Tools.Scythe.GoldRadius = (uint)value,
                 0,
                 10)
             .AddCheckbox(

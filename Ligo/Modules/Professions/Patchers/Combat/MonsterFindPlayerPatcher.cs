@@ -49,7 +49,7 @@ internal sealed class MonsterFindPlayerPatcher : HarmonyPatcher
             }
             else
             {
-                var taunter = __instance.Get_Taunter().Get(__instance.currentLocation);
+                var taunter = __instance.Get_Taunter();
                 if (taunter is not null)
                 {
                     var fakeFarmer = __instance.Get_FakeFarmer();

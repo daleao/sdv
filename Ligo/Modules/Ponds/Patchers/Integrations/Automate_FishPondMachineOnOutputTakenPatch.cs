@@ -39,7 +39,7 @@ internal sealed class FishPondMachineOnOutputTakenPatcher : HarmonyPatcher
         FishPond? machine = null;
         try
         {
-            machine = ModEntry.Reflector
+            machine = Reflector
                 .GetUnboundPropertyGetter<object, FishPond>(__instance, "Machine")
                 .Invoke(__instance);
 
@@ -85,7 +85,7 @@ internal sealed class FishPondMachineOnOutputTakenPatcher : HarmonyPatcher
                 ? obj.sellToStorePrice() * FishPond.HARVEST_OUTPUT_EXP_MULTIPLIER
                 : 0);
 
-            ModEntry.Reflector
+            Reflector
                 .GetUnboundMethodDelegate<Func<object, Farmer>>(__instance, "GetOwner")
                 .Invoke(__instance)
                 .gainExperience(Farmer.fishingSkill, FishPond.HARVEST_BASE_EXP + bonus);

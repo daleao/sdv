@@ -26,7 +26,7 @@ internal sealed class RingCanCombinePatcher : HarmonyPatcher
     [HarmonyPriority(Priority.HigherThanNormal)]
     private static bool RingCanCombinePrefix(Ring __instance, ref bool __result, Ring ring)
     {
-        if (!ModEntry.Config.Rings.TheOneInfinityBand)
+        if (!RingsModule.Config.TheOneInfinityBand)
         {
             return true; // run original logic
         }

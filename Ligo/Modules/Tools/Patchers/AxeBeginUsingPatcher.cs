@@ -23,9 +23,9 @@ internal sealed class AxeBeginUsingPatcher : HarmonyPatcher
     [HarmonyPrefix]
     private static bool AxeBeginUsingPrefix(Tool __instance, Farmer who)
     {
-        if (!ModEntry.Config.Tools.Axe.EnableCharging ||
-            (ModEntry.Config.Tools.RequireModkey && !ModEntry.Config.Tools.Modkey.IsDown()) ||
-            __instance.UpgradeLevel < (int)ModEntry.Config.Tools.Axe.RequiredUpgradeForCharging)
+        if (!ToolsModule.Config.Axe.EnableCharging ||
+            (ToolsModule.Config.RequireModkey && !ToolsModule.Config.Modkey.IsDown()) ||
+            __instance.UpgradeLevel < (int)ToolsModule.Config.Axe.RequiredUpgradeForCharging)
         {
             return true; // run original logic
         }

@@ -24,7 +24,7 @@ internal sealed class PurchaseAnimalsSetUpForReturnAfterPurchasingAnimalPatcher 
     [HarmonyPostfix]
     private static void PurchaseAnimalsMenuReceiveLeftClickPostfix(PurchaseAnimalsMenu __instance, int ___priceOfAnimal)
     {
-        if (!ModEntry.Config.Taxes.DeductibleAnimalExpenses)
+        if (!TaxesModule.Config.DeductibleAnimalExpenses)
         {
             return;
         }

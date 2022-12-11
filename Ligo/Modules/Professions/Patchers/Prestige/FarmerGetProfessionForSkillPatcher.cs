@@ -24,7 +24,7 @@ internal sealed class FarmerGetProfessionForSkillPatcher : HarmonyPatcher
     private static bool FarmerGetProfessionForSkillPrefix(
         Farmer __instance, ref int __result, int skillType, int skillLevel)
     {
-        if (!ModEntry.Config.Professions.EnablePrestige || skillType == Farmer.luckSkill)
+        if (!ProfessionsModule.Config.EnablePrestige || skillType == Farmer.luckSkill)
         {
             return true; // run original logic
         }

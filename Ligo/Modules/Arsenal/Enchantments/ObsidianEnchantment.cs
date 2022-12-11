@@ -39,7 +39,7 @@ public class ObsidianEnchantment : BaseWeaponEnchantment
     protected override void _OnDealDamage(Monster monster, GameLocation location, Farmer who, ref int amount)
     {
         base._OnDealDamage(monster, location, who, ref amount);
-        if (ModEntry.Config.Arsenal.OverhauledDefense)
+        if (ArsenalModule.Config.OverhauledDefense)
         {
             amount *= 1 + (monster.resilience.Value / 10);
         }

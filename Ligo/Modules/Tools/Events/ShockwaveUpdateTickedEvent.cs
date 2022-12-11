@@ -2,6 +2,7 @@
 
 #region using directives
 
+using System.Linq;
 using DaLion.Ligo.Modules.Tools.VirtualProperties;
 using DaLion.Shared.Events;
 using StardewModdingAPI.Events;
@@ -9,11 +10,11 @@ using StardewModdingAPI.Events;
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class ToolUpdateTickedEvent : UpdateTickedEvent
+internal sealed class ShockwaveUpdateTickedEvent : UpdateTickedEvent
 {
-    /// <summary>Initializes a new instance of the <see cref="ToolUpdateTickedEvent"/> class.</summary>
+    /// <summary>Initializes a new instance of the <see cref="ShockwaveUpdateTickedEvent"/> class.</summary>
     /// <param name="manager">The <see cref="EventManager"/> instance that manages this event.</param>
-    internal ToolUpdateTickedEvent(EventManager manager)
+    internal ShockwaveUpdateTickedEvent(EventManager manager)
         : base(manager)
     {
     }
@@ -24,9 +25,12 @@ internal sealed class ToolUpdateTickedEvent : UpdateTickedEvent
     /// <inheritdoc />
     protected override void OnUpdateTickedImpl(object? sender, UpdateTickedEventArgs e)
     {
-        if (ModEntry.Config.Tools.TicksBetweenWaves <= 1 || e.IsMultipleOf(ModEntry.Config.Tools.TicksBetweenWaves))
+        if (ToolsModule.Config.TicksBetweenWaves > 1 && !e.IsMultipleOf(ToolsModule.Config.TicksBetweenWaves))
         {
-            Game1.player.Get_Shockwaves().ForEach(wave => wave.Update(Game1.currentGameTime.TotalGameTime.TotalMilliseconds));
+            return;
         }
+
+        var shockwaves = Game1.player.Get_Shockwaves().ToList();
+        shockwaves.ForEach(wave => wave.Update(Game1.currentGameTime.TotalGameTime.TotalMilliseconds));
     }
 }

@@ -42,49 +42,50 @@ internal sealed class ObjectDayUpdatePatcher : HarmonyPatcher
             var isNotPrestiged = generator.DefineLabel();
             var resumeExecution = generator.DefineLabel();
             helper
-                .FindFirst(
-                    new CodeInstruction(OpCodes.Ldc_I4_4),
-                    new CodeInstruction(
-                        OpCodes.Call,
-                        typeof(Utility).RequireMethod(
-                            nameof(Utility.CalculateMinutesUntilMorning),
-                            new[] { typeof(int), typeof(int) })))
+                .Match(
+                    new[]
+                    {
+                        new CodeInstruction(OpCodes.Ldc_I4_4), new CodeInstruction(
+                            OpCodes.Call,
+                            typeof(Utility).RequireMethod(
+                                nameof(Utility.CalculateMinutesUntilMorning),
+                                new[] { typeof(int), typeof(int) })),
+                    })
                 .AddLabels(isNotProducer)
-                .InsertInstructions(
-                    new CodeInstruction(OpCodes.Call, typeof(ModEntry).RequirePropertyGetter(nameof(ModEntry.Config))),
-                    new CodeInstruction(
-                        OpCodes.Callvirt,
-                        typeof(ModConfig).RequirePropertyGetter(nameof(ModConfig.Professions))),
-                    new CodeInstruction(
-                        OpCodes.Callvirt,
-                        typeof(Config).RequirePropertyGetter(nameof(Config.BeesAreAnimals))),
-                    new CodeInstruction(OpCodes.Brfalse_S, isNotProducer),
-                    new CodeInstruction(OpCodes.Ldarg_0),
-                    new CodeInstruction(OpCodes.Ldc_I4_3), // 3 = Profession.Producer
-                    new CodeInstruction(OpCodes.Ldc_I4_0), // false for not prestiged
-                    new CodeInstruction(
-                        OpCodes.Call,
-                        typeof(SObjectExtensions).RequireMethod(
-                            nameof(SObjectExtensions.DoesOwnerHaveProfession),
-                            new[] { typeof(SObject), typeof(int), typeof(bool) })),
-                    new CodeInstruction(OpCodes.Brfalse_S, isNotProducer),
-                    new CodeInstruction(OpCodes.Ldarg_0),
-                    new CodeInstruction(OpCodes.Ldc_I4_3),
-                    new CodeInstruction(OpCodes.Ldc_I4_1), // true for prestiged
-                    new CodeInstruction(
-                        OpCodes.Call,
-                        typeof(SObjectExtensions).RequireMethod(
-                            nameof(SObjectExtensions.DoesOwnerHaveProfession),
-                            new[] { typeof(SObject), typeof(int), typeof(bool) })),
-                    new CodeInstruction(OpCodes.Brfalse_S, isNotPrestiged),
-                    new CodeInstruction(OpCodes.Ldc_I4_1),
-                    new CodeInstruction(OpCodes.Br_S, resumeExecution),
-                    new CodeInstruction(OpCodes.Ldc_I4_2),
-                    new CodeInstruction(OpCodes.Br_S, resumeExecution))
-                .Retreat(2)
+                .Insert(
+                    new[]
+                    {
+                        new CodeInstruction(OpCodes.Call, typeof(ModEntry).RequirePropertyGetter(nameof(Config))),
+                        new CodeInstruction(
+                            OpCodes.Callvirt,
+                            typeof(ModConfig).RequirePropertyGetter(nameof(ModConfig.Professions))),
+                        new CodeInstruction(
+                            OpCodes.Callvirt,
+                            typeof(ProfessionsConfig).RequirePropertyGetter(nameof(ProfessionsConfig.BeesAreAnimals))),
+                        new CodeInstruction(OpCodes.Brfalse_S, isNotProducer), new CodeInstruction(OpCodes.Ldarg_0),
+                        new CodeInstruction(OpCodes.Ldc_I4_3), // 3 = Profession.Producer
+                        new CodeInstruction(OpCodes.Ldc_I4_0), // false for not prestiged
+                        new CodeInstruction(
+                            OpCodes.Call,
+                            typeof(SObjectExtensions).RequireMethod(
+                                nameof(SObjectExtensions.DoesOwnerHaveProfession),
+                                new[] { typeof(SObject), typeof(int), typeof(bool) })),
+                        new CodeInstruction(OpCodes.Brfalse_S, isNotProducer), new CodeInstruction(OpCodes.Ldarg_0),
+                        new CodeInstruction(OpCodes.Ldc_I4_3),
+                        new CodeInstruction(OpCodes.Ldc_I4_1), // true for prestiged
+                        new CodeInstruction(
+                            OpCodes.Call,
+                            typeof(SObjectExtensions).RequireMethod(
+                                nameof(SObjectExtensions.DoesOwnerHaveProfession),
+                                new[] { typeof(SObject), typeof(int), typeof(bool) })),
+                        new CodeInstruction(OpCodes.Brfalse_S, isNotPrestiged), new CodeInstruction(OpCodes.Ldc_I4_1),
+                        new CodeInstruction(OpCodes.Br_S, resumeExecution), new CodeInstruction(OpCodes.Ldc_I4_2),
+                        new CodeInstruction(OpCodes.Br_S, resumeExecution),
+                    })
+                .Move(-2)
                 .AddLabels(isNotPrestiged)
                 .Return()
-                .Advance()
+                .Move()
                 .AddLabels(resumeExecution);
         }
         catch (Exception ex)

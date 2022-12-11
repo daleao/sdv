@@ -28,7 +28,7 @@ internal sealed class RingCombinePatcher : HarmonyPatcher
     [HarmonyPriority(Priority.HigherThanNormal)]
     private static bool RingCombinePrefix(Ring __instance, ref Ring __result, Ring ring)
     {
-        if (!ModEntry.Config.Rings.TheOneInfinityBand || __instance.ParentSheetIndex != Globals.InfinityBandIndex)
+        if (!RingsModule.Config.TheOneInfinityBand || __instance.ParentSheetIndex != Globals.InfinityBandIndex)
         {
             return true; // run original logic
         }
@@ -50,7 +50,7 @@ internal sealed class RingCombinePatcher : HarmonyPatcher
             var combinedRing = new CombinedRing(880);
             combinedRing.combinedRings.AddRange(toCombine);
             combinedRing.ParentSheetIndex = Globals.InfinityBandIndex.Value;
-            ModEntry.ModHelper.Reflection.GetField<NetInt>(combinedRing, nameof(Ring.indexInTileSheet)).GetValue()
+            ModHelper.Reflection.GetField<NetInt>(combinedRing, nameof(Ring.indexInTileSheet)).GetValue()
                 .Set(Globals.InfinityBandIndex.Value);
             combinedRing.UpdateDescription();
             __result = combinedRing;

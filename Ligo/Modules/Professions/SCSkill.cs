@@ -64,16 +64,16 @@ public sealed class SCSkill : ISkill
 
     /// <inheritdoc />
     public int MaxLevel =>
-        this.CanPrestige && ModEntry.Config.Professions.EnablePrestige && ((ISkill)this).PrestigeLevel >= 4 ? 20 : 10;
+        this.CanPrestige && ProfessionsModule.Config.EnablePrestige && ((ISkill)this).PrestigeLevel >= 4 ? 20 : 10;
 
     /// <inheritdoc />
     public float BaseExperienceMultiplier =>
-        ModEntry.Config.Professions.CustomSkillExpMultipliers.TryGetValue(this.StringId, out var multiplier)
+        ProfessionsModule.Config.CustomSkillExpMultipliers.TryGetValue(this.StringId, out var multiplier)
             ? multiplier
             : 1f;
 
     /// <inheritdoc />
-    public IEnumerable<int> NewLevels => ModEntry.Reflector
+    public IEnumerable<int> NewLevels => Reflector
         .GetStaticFieldGetter<List<KeyValuePair<string, int>>>(typeof(SpaceCore.Skills), "NewLevels")
         .Invoke()
         .Where(pair => pair.Key == this.StringId).Select(pair => pair.Value);
@@ -129,15 +129,15 @@ public sealed class SCSkill : ISkill
         this.AddExperience(-this.CurrentExp);
 
         // reset new levels
-        var newLevels = ModEntry.Reflector
+        var newLevels = Reflector
             .GetStaticFieldGetter<List<KeyValuePair<string, int>>>(typeof(SpaceCore.Skills), "NewLevels")
             .Invoke();
-        ModEntry.Reflector
+        Reflector
             .GetStaticFieldSetter<List<KeyValuePair<string, int>>>(typeof(SpaceCore.Skills), "NewLevels")
             .Invoke(newLevels.Where(pair => pair.Key != this.StringId).ToList());
 
         // reset recipes
-        if (ModEntry.Config.Professions.ForgetRecipes && this.StringId == "blueberry.LoveOfCooking.CookingSkill")
+        if (ProfessionsModule.Config.ForgetRecipes && this.StringId == "blueberry.LoveOfCooking.CookingSkill")
         {
             this.ForgetRecipes();
         }

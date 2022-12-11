@@ -38,37 +38,47 @@ internal sealed class GameLocationCheckActionPatcher : HarmonyPatcher
 
         // From: if (who.professions.Contains(<botanist_id>) && objects[key].isForage()) objects[key].Quality = 4
         // To: if (who.professions.Contains(<ecologist_id>) && objects[key].isForage() && !IsForagedMineral(objects[key]) objects[key].Quality = Game1.player.GetEcologistForageQuality()
-        CodeInstruction[] got;
+        CodeInstruction[] copy;
         try
         {
             helper
-                .FindProfessionCheck(Farmer.botanist) // find index of botanist check
-                .AdvanceUntil(new CodeInstruction(OpCodes.Ldarg_0)) // start of objects[key].isForage() check
-                .GetInstructionsUntil(
-                    out got,
-                    pattern: new CodeInstruction(
-                        OpCodes.Callvirt,
-                        typeof(OverlaidDictionary).RequirePropertyGetter("Item"))) // copy objects[key]
-                .AdvanceUntil(new CodeInstruction(OpCodes.Brfalse_S)) // end of check
+                .FindProfessionCheck(Farmer.botanist, ILHelper.SearchOption.First) // find index of botanist check
+                .Match(new[] { new CodeInstruction(OpCodes.Ldarg_0) }) // start of objects[key].isForage() check
+                .Match(
+                    new[]
+                    {
+                        new CodeInstruction(
+                            OpCodes.Callvirt,
+                            typeof(OverlaidDictionary).RequirePropertyGetter("Item")),
+                    },
+                    out var steps)
+                .Copy(out copy, steps) // copy objects[key]
+                .Match(new[] { new CodeInstruction(OpCodes.Brfalse_S) }) // end of check
                 .GetOperand(out var shouldntSetCustomQuality) // copy failed check branch destination
-                .Advance()
-                .InsertInstructions(got) // insert objects[key]
-                .InsertInstructions(
-                    // check if is foraged mineral and branch if true
-                    new CodeInstruction(
-                        OpCodes.Call,
-                        typeof(DaLion.Shared.Extensions.Stardew.SObjectExtensions).RequireMethod(
-                            nameof(DaLion.Shared.Extensions.Stardew.SObjectExtensions.IsForagedMineral))),
-                    new CodeInstruction(OpCodes.Brtrue_S, shouldntSetCustomQuality))
-                .AdvanceUntil(new CodeInstruction(OpCodes.Ldc_I4_4)) // end of objects[key].Quality = 4
-                .ReplaceInstructionWith(
+                .Move()
+                .Insert(copy) // insert objects[key]
+                .Insert(
+                    new[]
+                    {
+                        // check if is foraged mineral and branch if true
+                        new CodeInstruction(
+                            OpCodes.Call,
+                            typeof(DaLion.Shared.Extensions.Stardew.SObjectExtensions).RequireMethod(
+                                nameof(DaLion.Shared.Extensions.Stardew.SObjectExtensions.IsForagedMineral))),
+                        new CodeInstruction(OpCodes.Brtrue_S, shouldntSetCustomQuality),
+                    })
+                .Match(new[] { new CodeInstruction(OpCodes.Ldc_I4_4) }) // end of objects[key].Quality = 4
+                .ReplaceWith(
                     // replace with custom quality
                     new CodeInstruction(
                         OpCodes.Call,
                         typeof(Extensions.FarmerExtensions).RequireMethod(nameof(Extensions.FarmerExtensions
                             .GetEcologistForageQuality))))
-                .InsertInstructions(new CodeInstruction(OpCodes.Call, typeof(Game1)
-                    .RequirePropertyGetter(nameof(Game1.player))));
+                .Insert(new[]
+                {
+                    new CodeInstruction(OpCodes.Call, typeof(Game1)
+                        .RequirePropertyGetter(nameof(Game1.player))),
+                });
         }
         catch (Exception ex)
         {
@@ -81,46 +91,66 @@ internal sealed class GameLocationCheckActionPatcher : HarmonyPatcher
         {
             var gemologistCheck = generator.DefineLabel();
             helper
-                .FindProfessionCheck(Farmer.botanist) // return to botanist check
-                .Retreat() // retreat to start of check
-                .GetInstructionsUntil(
-                    out got,
-                    true,
-                    false, // copy entire section until done setting quality
-                    new CodeInstruction(OpCodes.Br_S))
-                .AdvanceUntil(new CodeInstruction(OpCodes.Brfalse_S)) // change previous section branch destinations to injected section
+                .FindProfessionCheck(Farmer.botanist, ILHelper.SearchOption.First) // return to botanist check
+                .Move(-1) // retreat to start of check
+                .Match(new[] { new CodeInstruction(OpCodes.Br_S) }, out var count)
+                .Copy( // copy entire section until done setting quality
+                    out copy,
+                    count,
+                    true)
+                .Match(new[]
+                {
+                    // change previous section branch destinations to injected section
+                    new CodeInstruction(OpCodes.Brfalse_S),
+                })
                 .SetOperand(gemologistCheck)
-                .AdvanceUntil(new CodeInstruction(OpCodes.Brfalse_S))
+                .Match(new[] { new CodeInstruction(OpCodes.Brfalse_S) })
                 .SetOperand(gemologistCheck)
-                .AdvanceUntil(new CodeInstruction(OpCodes.Brtrue_S))
+                .Match(new[] { new CodeInstruction(OpCodes.Brtrue_S) })
                 .SetOperand(gemologistCheck)
-                .AdvanceUntil(new CodeInstruction(OpCodes.Br_S))
-                .Advance()
-                .InsertWithLabels(new[] { gemologistCheck }, got) // insert copy with destination label for branches from previous section
+                .Match(new[] { new CodeInstruction(OpCodes.Br_S) })
+                .Move()
+                .Insert(copy,
+                    new[] { gemologistCheck }) // insert copy with destination label for branches from previous section
                 .Return()
-                .AdvanceUntil(new CodeInstruction(OpCodes.Ldc_I4_S, Farmer.botanist)) // find repeated botanist check
+                .Match(new[]
+                {
+                    new CodeInstruction(OpCodes.Ldc_I4_S, Farmer.botanist),
+                }) // find repeated botanist check
                 .SetOperand(Profession.Gemologist.Value) // replace with gemologist check
-                .AdvanceUntil(new CodeInstruction(OpCodes.Ldarg_0))
-                .AdvanceUntil(new CodeInstruction(OpCodes.Brfalse_S))
+                .Match(new[] { new CodeInstruction(OpCodes.Ldarg_0) })
+                .Match(new[] { new CodeInstruction(OpCodes.Brfalse_S) })
                 .GetOperand(out var shouldntSetCustomQuality) // copy next section branch destination
-                .RetreatUntil(new CodeInstruction(OpCodes.Ldarg_0)) // start of call to isForage()
-                .RemoveInstructionsUntil(
-                    // right before call to IsForagedMineral()
-                    new CodeInstruction(
-                        OpCodes.Callvirt,
-                        typeof(OverlaidDictionary).RequirePropertyGetter("Item")))
-                .Advance()
-                .ReplaceInstructionWith(
+                .Match(
+                    new[] { new CodeInstruction(OpCodes.Ldarg_0) },
+                    ILHelper.SearchOption.Previous) // start of call to isForage()
+
+                .Match(
+                    new[]
+                    {
+                        // right before call to IsForagedMineral()
+                        new CodeInstruction(
+                            OpCodes.Callvirt,
+                            typeof(OverlaidDictionary).RequirePropertyGetter("Item")),
+                    },
+                    out count)
+                .Remove(count)
+                .Move()
+                .ReplaceWith(
                     // remove 'not' and set correct branch destination
                     new CodeInstruction(OpCodes.Brfalse_S, (Label)shouldntSetCustomQuality))
-                .AdvanceUntil(
-                    new CodeInstruction(
-                        OpCodes.Call,
-                        typeof(Extensions.FarmerExtensions)
-                            .RequireMethod(nameof(Extensions.FarmerExtensions.GetEcologistForageQuality))))
+                .Match(
+                    new[]
+                    {
+                        new CodeInstruction(
+                            OpCodes.Call,
+                            typeof(Extensions.FarmerExtensions)
+                                .RequireMethod(nameof(Extensions.FarmerExtensions.GetEcologistForageQuality))),
+                    })
                 .SetOperand(
                     typeof(Extensions.FarmerExtensions)
-                        .RequireMethod(nameof(Extensions.FarmerExtensions.GetGemologistMineralQuality))); // set correct custom quality method call
+                        .RequireMethod(nameof(Extensions.FarmerExtensions
+                            .GetGemologistMineralQuality))); // set correct custom quality method call
         }
         catch (Exception ex)
         {
@@ -133,21 +163,30 @@ internal sealed class GameLocationCheckActionPatcher : HarmonyPatcher
         try
         {
             helper
-                .FindNext(
-                    new CodeInstruction(
-                        OpCodes.Callvirt,
-                        typeof(Stats).RequirePropertySetter(nameof(Stats.ItemsForaged))))
-                .Advance()
-                .InsertInstructions(got.SubArray(5, 4)) // SObject objects[key]
-                .InsertInstructions(
-                    new CodeInstruction(
-                        OpCodes.Ldarg_0),
-                    new CodeInstruction(
-                        OpCodes.Ldarg_3))
-                .InsertInstructions(
-                    new CodeInstruction(
-                        OpCodes.Call,
-                        typeof(GameLocationCheckActionPatcher).RequireMethod(nameof(CheckActionSubroutine))));
+                .Match(
+                    new[]
+                    {
+                        new CodeInstruction(
+                            OpCodes.Callvirt,
+                            typeof(Stats).RequirePropertySetter(nameof(Stats.ItemsForaged))),
+                    })
+                .Move()
+                .Insert(copy.SubArray(5, 4)) // SObject objects[key]
+                .Insert(
+                    new[]
+                    {
+                        new CodeInstruction(
+                            OpCodes.Ldarg_0),
+                        new CodeInstruction(
+                            OpCodes.Ldarg_3),
+                    })
+                .Insert(
+                    new[]
+                    {
+                        new CodeInstruction(
+                            OpCodes.Call,
+                            typeof(GameLocationCheckActionPatcher).RequireMethod(nameof(CheckActionSubroutine))),
+                    });
         }
         catch (Exception ex)
         {
@@ -163,20 +202,25 @@ internal sealed class GameLocationCheckActionPatcher : HarmonyPatcher
             var resumeExecution = generator.DefineLabel();
             helper
                 .FindProfessionCheck(Profession.Forager.Value)
-                .Retreat()
-                .GetInstructionsUntil(out got, true, true, new CodeInstruction(OpCodes.Brfalse_S))
-                .AdvanceUntil(new CodeInstruction(OpCodes.Ldc_R8, 0.2))
+                .Move(-1)
+                .Match(new[] { new CodeInstruction(OpCodes.Brfalse_S) }, out var steps)
+                .Copy(out copy, steps, true, true)
+                .Match(new[] { new CodeInstruction(OpCodes.Ldc_R8, 0.2) })
                 .AddLabels(isNotPrestiged)
-                .InsertInstructions(got)
-                .RetreatUntil(new CodeInstruction(OpCodes.Ldc_I4_S, Profession.Forager.Value))
+                .Insert(copy)
+                .Match(
+                    new[] { new CodeInstruction(OpCodes.Ldc_I4_S, Profession.Forager.Value) },
+                    ILHelper.SearchOption.Previous)
                 .SetOperand(Profession.Forager.Value + 100)
-                .AdvanceUntil(new CodeInstruction(OpCodes.Brfalse_S))
+                .Match(new[] { new CodeInstruction(OpCodes.Brfalse_S) })
                 .SetOperand(isNotPrestiged)
-                .Advance()
-                .InsertInstructions(
-                    new CodeInstruction(OpCodes.Ldc_R8, 0.4),
-                    new CodeInstruction(OpCodes.Br_S, resumeExecution))
-                .Advance()
+                .Move()
+                .Insert(
+                    new[]
+                    {
+                        new CodeInstruction(OpCodes.Ldc_R8, 0.4), new CodeInstruction(OpCodes.Br_S, resumeExecution)
+                    })
+                .Move()
                 .AddLabels(resumeExecution);
         }
         catch (Exception ex)
@@ -202,11 +246,11 @@ internal sealed class GameLocationCheckActionPatcher : HarmonyPatcher
         {
             who.Increment(DataFields.GemologistMineralsCollected);
             var collected = who.Read<int>(DataFields.GemologistMineralsCollected);
-            if (collected == ModEntry.Config.Professions.MineralsNeededForBestQuality / 2)
+            if (collected == ProfessionsModule.Config.MineralsNeededForBestQuality / 2)
             {
                 Game1.game1.GlobalUpgradeCrystalariums(SObject.highQuality, who);
             }
-            else if (collected == ModEntry.Config.Professions.MineralsNeededForBestQuality)
+            else if (collected == ProfessionsModule.Config.MineralsNeededForBestQuality)
             {
                 Game1.game1.GlobalUpgradeCrystalariums(SObject.bestQuality, who);
             }

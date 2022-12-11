@@ -44,7 +44,7 @@ internal sealed class SnowballProjectile : BasicProjectile
     {
         this.Overcharge = overcharge;
         this.startingScale.Value *= overcharge;
-        if (ModEntry.Config.Arsenal.Slingshots.DisableGracePeriod)
+        if (ArsenalModule.Config.Slingshots.DisableGracePeriod)
         {
             this.ignoreTravelGracePeriod.Value = true;
         }
@@ -58,7 +58,7 @@ internal sealed class SnowballProjectile : BasicProjectile
     {
         location.temporarySprites.Add(
             new TemporaryAnimatedSprite(
-                $"{ModEntry.Manifest.UniqueID}/SnowballCollisionAnimation",
+                $"{Manifest.UniqueID}/SnowballCollisionAnimation",
                 new Rectangle(0, 0, 64, 64),
                 50f,
                 10,

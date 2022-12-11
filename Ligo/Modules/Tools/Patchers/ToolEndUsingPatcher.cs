@@ -33,11 +33,11 @@ internal sealed class ToolEndUsingPatcher : HarmonyPatcher
 
         var power = who.toolPower;
 #pragma warning disable CS8509
-        var radius = tool switch
+        uint radius = tool switch
 #pragma warning restore CS8509
         {
-            Axe => ModEntry.Config.Tools.Axe.RadiusAtEachPowerLevel.ElementAtOrDefault(power - 1),
-            Pickaxe => ModEntry.Config.Tools.Pick.RadiusAtEachPowerLevel.ElementAtOrDefault(power - 1),
+            Axe => ToolsModule.Config.Axe.RadiusAtEachPowerLevel.ElementAtOrDefault(power - 1),
+            Pickaxe => ToolsModule.Config.Pick.RadiusAtEachPowerLevel.ElementAtOrDefault(power - 1),
             _ => 1,
         };
 

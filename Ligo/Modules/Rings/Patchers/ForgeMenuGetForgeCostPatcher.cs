@@ -25,7 +25,7 @@ internal sealed class ForgeMenuGetForgeCostPatcher : HarmonyPatcher
     [HarmonyPrefix]
     private static bool ForgeMenuGetForgeCostPrefix(ref int __result, Item left_item, Item right_item)
     {
-        if (!ModEntry.Config.Rings.TheOneInfinityBand || left_item is not Ring left)
+        if (!RingsModule.Config.TheOneInfinityBand || left_item is not Ring left)
         {
             return true; // run original logic
         }

@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using DaLion.Ligo.Modules.Arsenal.Enchantments;
+using DaLion.Ligo.Modules.Arsenal.VirtualProperties;
 using DaLion.Shared;
 using DaLion.Shared.Extensions;
 using DaLion.Shared.Extensions.Stardew;
@@ -13,7 +14,6 @@ using Microsoft.Xna.Framework;
 using StardewValley;
 using StardewValley.Locations;
 using StardewValley.Tools;
-using VirtualProperties;
 
 #endregion using directives
 
@@ -50,7 +50,7 @@ internal static class MeleeWeaponExtensions
     /// <returns><see langword="true"/> if the <paramref name="weapon"/> is a Galaxy, Infinity or other unique weapon, otherwise <see langword="false"/>.</returns>
     internal static bool CanBeCrafted(this MeleeWeapon weapon)
     {
-        return weapon.Name.StartsWith("Dwarven") || weapon.Name.StartsWith("Dragontooth");
+        return weapon.Name.StartsWith("Dwarven") || weapon.Name.StartsWith("Dragontooth") || weapon.Name.StartsWith("Elven");
     }
 
     /// <summary>Gets the default crit. chance for this weapon type.</summary>
@@ -88,19 +88,20 @@ internal static class MeleeWeaponExtensions
     {
         return weapon.type.Value switch
         {
-            MeleeWeapon.stabbingSword => (ComboHitStep)ModEntry.Config.Arsenal.Weapons.ComboHitsPerWeapon[WeaponType.StabbingSword],
-            MeleeWeapon.club => (ComboHitStep)ModEntry.Config.Arsenal.Weapons.ComboHitsPerWeapon[WeaponType.Club],
+            MeleeWeapon.stabbingSword => (ComboHitStep)ArsenalModule.Config.Weapons.ComboHitsPerWeapon[WeaponType.StabbingSword],
+            MeleeWeapon.club => (ComboHitStep)ArsenalModule.Config.Weapons.ComboHitsPerWeapon[WeaponType.Club],
             MeleeWeapon.dagger => ComboHitStep.FirstHit,
-            MeleeWeapon.defenseSword => (ComboHitStep)ModEntry.Config.Arsenal.Weapons.ComboHitsPerWeapon[WeaponType.DefenseSword],
+            MeleeWeapon.defenseSword => (ComboHitStep)ArsenalModule.Config.Weapons.ComboHitsPerWeapon[WeaponType.DefenseSword],
             _ => 0,
         };
     }
 
     /// <summary>Refreshes the stats of the specified <paramref name="weapon"/>.</summary>
     /// <param name="weapon">The <see cref="MeleeWeapon"/>.</param>
-    internal static void RefreshStats(this MeleeWeapon weapon)
+    /// <param name="force">Whether to force a stat refresh, even if initial stats have already been cached for the <paramref name="weapon"/>.</param>
+    internal static void RefreshStats(this MeleeWeapon weapon, bool force = false)
     {
-        var data = ModEntry.ModHelper.GameContent.Load<Dictionary<int, string>>("Data/weapons");
+        var data = ModHelper.GameContent.Load<Dictionary<int, string>>("Data/weapons");
         if (!data.ContainsKey(weapon.InitialParentTileIndex))
         {
             return;
@@ -117,6 +118,13 @@ internal static class MeleeWeaponExtensions
         weapon.critChance.Value = (float)Convert.ToDouble(split[12], CultureInfo.InvariantCulture);
         weapon.critMultiplier.Value = (float)Convert.ToDouble(split[13], CultureInfo.InvariantCulture);
 
+        if (force)
+        {
+            weapon.RandomizeDamage();
+            MeleeWeapon_Stats.Invalidate(weapon);
+            return;
+        }
+
         var initialMinDamage = weapon.Read(DataFields.BaseMinDamage, -1);
         var initialMaxDamage = weapon.Read(DataFields.BaseMaxDamage, -1);
         if (initialMinDamage >= 0 && initialMaxDamage >= 0)
@@ -124,8 +132,8 @@ internal static class MeleeWeaponExtensions
             weapon.minDamage.Value = initialMinDamage;
             weapon.maxDamage.Value = initialMaxDamage;
         }
-        else if (!weapon.IsUnique() && (!ModEntry.Config.Arsenal.DwarvishCrafting || !weapon.CanBeCrafted()) &&
-                 ModEntry.Config.Arsenal.Weapons.RebalancedWeapons && WeaponTier.GetFor(weapon) > WeaponTier.Untiered)
+        else if (!weapon.IsUnique() && (!ArsenalModule.Config.DwarvishCrafting || !weapon.CanBeCrafted()) &&
+                 ArsenalModule.Config.Weapons.RebalancedWeapons && WeaponTier.GetFor(weapon) > WeaponTier.Untiered)
         {
             weapon.RandomizeDamage();
         }
@@ -135,8 +143,6 @@ internal static class MeleeWeaponExtensions
             weapon.maxDamage.Value = Convert.ToInt32(split[3]);
         }
 
-        weapon.Write(DataFields.BaseMinDamage, weapon.minDamage.Value.ToString());
-        weapon.Write(DataFields.BaseMaxDamage, weapon.maxDamage.Value.ToString());
         MeleeWeapon_Stats.Invalidate(weapon);
     }
 
@@ -155,15 +161,16 @@ internal static class MeleeWeaponExtensions
         var dangerous = (Game1.netWorldState.Value.MinesDifficulty > 0) |
                         (Game1.netWorldState.Value.SkullCavesDifficulty > 0);
         var baseDamage = getBaseDamage(level, dangerous);
-        var mean = (double)WeaponTier.GetFor(weapon) - 2d + (player.DailyLuck * 10d);
-        var randomDamage = baseDamage * MathUtils.Sigmoid(Game1.random.NextGaussian(mean, stddev: 2d) / 2d);
+        var mean = ((double)WeaponTier.GetFor(weapon) - 2d + (player.DailyLuck * 10d)) * 2d;
+        var randomizer = (0.5 * MathUtils.Sigmoid(Game1.random.NextGaussian(mean, stddev: 2d) / 2d)) - 0.25; // (-0.25, 0.25)
+        var randomDamage = baseDamage * (1d + randomizer);
 
         var minDamage = 1d;
         var maxDamage = 3d;
         switch (weapon.type.Value)
         {
             case MeleeWeapon.stabbingSword:
-            case MeleeWeapon.defaultSpeed:
+            case MeleeWeapon.defenseSword:
                 maxDamage = randomDamage;
                 minDamage = 0.75 * maxDamage;
                 break;
@@ -179,6 +186,8 @@ internal static class MeleeWeaponExtensions
 
         weapon.minDamage.Value = (int)Math.Max(minDamage, 1);
         weapon.maxDamage.Value = (int)Math.Max(maxDamage, 3);
+        weapon.Write(DataFields.BaseMinDamage, weapon.minDamage.Value.ToString());
+        weapon.Write(DataFields.BaseMaxDamage, weapon.maxDamage.Value.ToString());
 
         int getBaseDamage(int level, bool dangerous)
         {
@@ -192,35 +201,48 @@ internal static class MeleeWeaponExtensions
     /// <param name="weapon">The <see cref="MeleeWeapon"/>.</param>
     internal static void AddIntrinsicEnchantments(this MeleeWeapon weapon)
     {
-        switch (weapon.InitialParentTileIndex)
+        if (ArsenalModule.Config.Weapons.RebalancedWeapons)
         {
-            case Constants.DarkSwordIndex when !weapon.hasEnchantmentOfType<CursedEnchantment>():
-                weapon.enchantments.Add(new CursedEnchantment());
-                break;
-            case Constants.HolyBladeIndex when !weapon.hasEnchantmentOfType<BlessedEnchantment>():
-                weapon.enchantments.Add(new BlessedEnchantment());
-                break;
-            case Constants.InfinityBladeIndex:
-            case Constants.InfinityDaggerIndex:
-            case Constants.InfinityGavelIndex:
-                if (!weapon.hasEnchantmentOfType<InfinityEnchantment>())
-                {
-                    weapon.enchantments.Add(new InfinityEnchantment());
-                }
+            switch (weapon.InitialParentTileIndex)
+            {
+                case Constants.LavaKatanaIndex when !weapon.hasEnchantmentOfType<LavaEnchantment>():
+                    weapon.enchantments.Add(new LavaEnchantment());
+                    break;
+            }
+        }
 
-                break;
+        if (ArsenalModule.Config.InfinityPlusOne)
+        {
+            switch (weapon.InitialParentTileIndex)
+            {
+                case Constants.DarkSwordIndex when !weapon.hasEnchantmentOfType<CursedEnchantment>():
+                    weapon.enchantments.Add(new CursedEnchantment());
+                    break;
+                case Constants.HolyBladeIndex when !weapon.hasEnchantmentOfType<BlessedEnchantment>():
+                    weapon.enchantments.Add(new BlessedEnchantment());
+                    break;
+                case Constants.InfinityBladeIndex:
+                case Constants.InfinityDaggerIndex:
+                case Constants.InfinityGavelIndex:
+                    if (!weapon.hasEnchantmentOfType<InfinityEnchantment>())
+                    {
+                        weapon.enchantments.Add(new InfinityEnchantment());
+                    }
+
+                    break;
+            }
         }
     }
 
     internal static void SetFarmerAnimatingBackwards(this MeleeWeapon weapon, Farmer farmer)
     {
-        ModEntry.Reflector
+        Reflector
             .GetUnboundFieldSetter<MeleeWeapon, bool>(weapon, "anotherClick")
             .Invoke(weapon, false);
         farmer.FarmerSprite.PauseForSingleAnimation = false;
         farmer.FarmerSprite.StopAnimation();
 
-        ModEntry.Reflector
+        Reflector
             .GetUnboundFieldSetter<MeleeWeapon, bool>(weapon, "hasBegunWeaponEndPause")
             .Invoke(weapon, false);
         float swipeSpeed = 400 - (weapon.speed.Value * 40);

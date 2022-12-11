@@ -13,8 +13,7 @@
 Please refer to the change logs of specific modules:
 
 * [Professions](Modules/Professions/CHANGELOG.md)
-* [Weapons](Modules/Arsenal/Weapons/CHANGELOG.md)
-* [Slingshots](Modules/Arsenal/Slingshots/CHANGELOG.md)
+* [Arsenal](Modules/Arsenal/CHANGELOG.md)
 * [Rings](Modules/Rings/CHANGELOG.md)
 * [Ponds](Modules/Ponds/CHANGELOG.md)
 * [Taxes](Modules/Taxes/CHANGELOG.md)

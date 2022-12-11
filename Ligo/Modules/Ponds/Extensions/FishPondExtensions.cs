@@ -24,7 +24,7 @@ internal static class FishPondExtensions
     /// <returns><see langword="true"/> if the last unlocked population gate matches the last gate in the <see cref="FishPondData"/>, otherwise <see langword="false"/>.</returns>
     internal static bool HasUnlockedFinalPopulationGate(this FishPond pond)
     {
-        var data = ModEntry.Reflector
+        var data = Reflector
             .GetUnboundFieldGetter<FishPond, FishPondData?>(pond, "_fishPondData")
             .Invoke(pond);
         return data?.PopulationGates is null ||
@@ -54,7 +54,7 @@ internal static class FishPondExtensions
     internal static int GetEnrichmentDuration(this FishPond pond, SObject metal)
     {
         var maxPopulation = pond.HasLegendaryFish()
-            ? ModEntry.Config.Professions.LegendaryPondPopulationCap
+            ? ProfessionsModule.Config.LegendaryPondPopulationCap
             : 12;
         var populationFactor = pond.FishCount < maxPopulation / 2f
             ? 0f
@@ -206,6 +206,6 @@ internal static class FishPondExtensions
         const double a = 335d / 4d;
         const double b = 275d / 2d;
         var neighbors = pond.FishCount - 1;
-        return a / (cappedValue + b) * (1d + (neighbors / 11d) - (1d / 11d)) * ModEntry.Config.Ponds.RoeProductionChanceMultiplier;
+        return a / (cappedValue + b) * (1d + (neighbors / 11d) - (1d / 11d)) * PondsModule.Config.RoeProductionChanceMultiplier;
     }
 }

@@ -3,6 +3,7 @@ namespace DaLion.Ligo.Modules.Arsenal.VirtualProperties;
 
 #region using directives
 
+using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using DaLion.Ligo.Modules.Arsenal.Enchantments;
 using DaLion.Ligo.Modules.Arsenal.Extensions;
@@ -19,12 +20,40 @@ internal static class MeleeWeapon_Stats
 
     internal static int Get_MinDamage(this MeleeWeapon weapon)
     {
-        return Values.GetValue(weapon, Create).MinDamage;
+        if (weapon.InitialParentTileIndex == Constants.InsectHeadIndex)
+        {
+            var caveInsectsKilled = Game1.stats.getMonstersKilled("Grub") +
+                                    Game1.stats.getMonstersKilled("Fly") +
+                                    Game1.stats.getMonstersKilled("Bug");
+            return (int)(caveInsectsKilled / 5 * 0.85);
+        }
+
+        var minDamage = Values.GetValue(weapon, Create).MinDamage;
+        if (weapon.hasEnchantmentOfType<CursedEnchantment>())
+        {
+            minDamage += weapon.Read<int>(DataFields.CursePoints) / 20;
+        }
+
+        return minDamage;
     }
 
     internal static int Get_MaxDamage(this MeleeWeapon weapon)
     {
-        return Values.GetValue(weapon, Create).MaxDamage;
+        if (weapon.InitialParentTileIndex == Constants.InsectHeadIndex)
+        {
+            var caveInsectsKilled = Game1.stats.getMonstersKilled("Grub") +
+                                    Game1.stats.getMonstersKilled("Fly") +
+                                    Game1.stats.getMonstersKilled("Bug");
+            return caveInsectsKilled / 5;
+        }
+
+        var maxDamage = Values.GetValue(weapon, Create).MaxDamage;
+        if (weapon.hasEnchantmentOfType<CursedEnchantment>())
+        {
+            maxDamage += weapon.Read<int>(DataFields.CursePoints) / 20;
+        }
+
+        return maxDamage;
     }
 
     internal static float Get_AbsoluteKnockback(this MeleeWeapon weapon)
@@ -162,21 +191,17 @@ internal static class MeleeWeapon_Stats
 
         holder.MinDamage = weapon.minDamage.Value;
         holder.MaxDamage = weapon.maxDamage.Value;
-        if (weapon.hasEnchantmentOfType<CursedEnchantment>())
-        {
-            var curseBonus = weapon.Read<int>(DataFields.CursePoints) / 25;
-            holder.MinDamage += curseBonus;
-            holder.MaxDamage += curseBonus;
-        }
-
+        var data = ModHelper.GameContent
+            .Load<Dictionary<int, string>>("Data/weapons")[weapon.InitialParentTileIndex]
+            .Split('/');
         if (weapon.Get_ResonatingChord<RubyEnchantment>() is { } rubyChord)
         {
-            holder.MinDamage = (int)(holder.MinDamage + (weapon.Read<int>(DataFields.BaseMinDamage) *
-                                                         weapon.GetEnchantmentLevel<RubyEnchantment>() *
-                                                         rubyChord.Amplitude * 0.1f));
-            holder.MaxDamage = (int)(holder.MaxDamage + (weapon.Read<int>(DataFields.BaseMaxDamage) *
-                                                         weapon.GetEnchantmentLevel<RubyEnchantment>() *
-                                                         rubyChord.Amplitude * 0.1f));
+            holder.MinDamage = (int)(holder.MinDamage +
+                                     (weapon.Read(DataFields.BaseMinDamage, Convert.ToInt32(data[2])) *
+                                      weapon.GetEnchantmentLevel<RubyEnchantment>() * rubyChord.Amplitude * 0.1f));
+            holder.MaxDamage = (int)(holder.MaxDamage +
+                                     (weapon.Read(DataFields.BaseMaxDamage, Convert.ToInt32(data[3])) *
+                                      weapon.GetEnchantmentLevel<RubyEnchantment>() * rubyChord.Amplitude * 0.1f));
         }
 
         holder.Knockback = weapon.knockback.Value;
@@ -197,7 +222,7 @@ internal static class MeleeWeapon_Stats
         if (weapon.Get_ResonatingChord<JadeEnchantment>() is { } jadeChord)
         {
             holder.CritPower += (float)(weapon.GetEnchantmentLevel<AmethystEnchantment>() * jadeChord.Amplitude *
-                                        (ModEntry.Config.Arsenal.RebalancedForges ? 0.5f : 0.1f));
+                                        (ArsenalModule.Config.RebalancedForges ? 0.5f : 0.1f));
         }
 
         holder.SwingSpeed = weapon.speed.Value;
@@ -217,7 +242,7 @@ internal static class MeleeWeapon_Stats
              holder.Resilience += (float)(weapon.GetEnchantmentLevel<TopazEnchantment>() * topazChord.Amplitude);
         }
 
-        var points = weapon.Read<int>(DataFields.BaseMaxDamage) * weapon.type.Value switch
+        var points = weapon.Read(DataFields.BaseMaxDamage, Convert.ToInt32(data[3])) * weapon.type.Value switch
         {
             MeleeWeapon.stabbingSword or MeleeWeapon.defenseSword => 0.5f,
             MeleeWeapon.dagger => 0.75f,
@@ -234,16 +259,13 @@ internal static class MeleeWeapon_Stats
         points += weapon.speed.Value;
         points += weapon.addedAreaOfEffect.Value / 4f;
 
+        holder.Level = (int)Math.Floor(points / 10f);
         if (weapon.IsUnique() || weapon.CanBeCrafted())
         {
             holder.Level++;
         }
-        else if (holder.Level == 0)
-        {
-            holder.Level = 1;
-        }
 
-        holder.Level = Math.Min((int)Math.Floor(points / 10f), 10);
+        holder.Level = Math.Clamp(holder.Level, 1, 10);
         return holder;
     }
 

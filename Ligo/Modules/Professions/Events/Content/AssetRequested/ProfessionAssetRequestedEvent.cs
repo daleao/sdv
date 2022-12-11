@@ -33,16 +33,16 @@ internal sealed class ProfessionAssetRequestedEvent : AssetRequestedEvent
         this.Edit("TileSheets/BuffsIcons", new AssetEditor(EditBuffsIconsTileSheets, AssetEditPriority.Default));
 
         this.Provide(
-            $"{ModEntry.Manifest.UniqueID}/HudPointer",
+            $"{Manifest.UniqueID}/HudPointer",
             new ModTextureProvider(() => "assets/hud/pointer.png", AssetLoadPriority.Medium));
         this.Provide(
-            $"{ModEntry.Manifest.UniqueID}/MaxIcon",
+            $"{Manifest.UniqueID}/MaxIcon",
             new ModTextureProvider(() => "assets/menus/max.png", AssetLoadPriority.Medium));
         this.Provide(
-            $"{ModEntry.Manifest.UniqueID}/SkillBars",
+            $"{Manifest.UniqueID}/SkillBars",
             new ModTextureProvider(ProvideSkillBars, AssetLoadPriority.Medium));
         this.Provide(
-            $"{ModEntry.Manifest.UniqueID}/UltimateMeter",
+            $"{Manifest.UniqueID}/UltimateMeter",
             new ModTextureProvider(ProvideUltimateMeter, AssetLoadPriority.Medium));
     }
 
@@ -53,17 +53,17 @@ internal sealed class ProfessionAssetRequestedEvent : AssetRequestedEvent
     {
         var data = asset.AsDictionary<int, string>().Data;
 
-        string name =
-            ModEntry.i18n.Get("prestige.achievement.name" +
+        string title =
+            i18n.Get("prestige.achievement.title" +
                               (Game1.player.IsMale ? ".male" : ".female"));
-        string desc = ModEntry.i18n.Get("prestige.achievement.desc");
+        string desc = i18n.Get("prestige.achievement.desc");
 
         const string shouldDisplayBeforeEarned = "false";
         const string prerequisite = "-1";
         const string hatIndex = "";
 
-        var newEntry = string.Join("^", name, desc, shouldDisplayBeforeEarned, prerequisite, hatIndex);
-        data[name.GetDeterministicHashCode()] = newEntry;
+        var newEntry = string.Join("^", title, desc, shouldDisplayBeforeEarned, prerequisite, hatIndex);
+        data[title.GetDeterministicHashCode()] = newEntry;
     }
 
     /// <summary>Patches fish pond data with legendary fish data.</summary>
@@ -101,29 +101,29 @@ internal sealed class ProfessionAssetRequestedEvent : AssetRequestedEvent
         var data = asset.AsDictionary<string, string>().Data;
         var taxBonus =
             Game1.player.Read<float>(DataFields.ConservationistActiveTaxBonusPct);
-        var key = taxBonus >= ModEntry.Config.Professions.ConservationistTaxBonusCeiling
+        var key = taxBonus >= ProfessionsModule.Config.ConservationistTaxBonusCeiling
             ? "conservationist.mail.max"
             : "conservationist.mail";
 
-        string honorific = ModEntry.i18n.Get("honorific" + (Game1.player.IsMale ? ".male" : ".female"));
+        string honorific = i18n.Get("honorific" + (Game1.player.IsMale ? ".male" : ".female"));
         var farm = Game1.getFarm().Name;
         var season = LocalizedContentManager.CurrentLanguageCode == LocalizedContentManager.LanguageCode.fr
-            ? ModEntry.i18n.Get("season." + Game1.currentSeason)
+            ? i18n.Get("season." + Game1.currentSeason)
             : Game1.CurrentSeasonDisplayName;
 
-        string message = ModEntry.i18n.Get(
+        string message = i18n.Get(
             key, new { honorific, taxBonus = FormattableString.CurrentCulture($"{taxBonus:0%}"), farm, season });
-        data[$"{ModEntry.Manifest.UniqueID}/ConservationistTaxNotice"] = message;
+        data[$"{Manifest.UniqueID}/ConservationistTaxNotice"] = message;
     }
 
     /// <summary>Patches cursors with modded profession icons.</summary>
     private static void EditCursorsLooseSprites(IAssetData asset)
     {
         var editor = asset.AsImage();
-        var sourceTx = ModEntry.ModHelper.ModContent.Load<Texture2D>("assets/sprites/professions");
-        var srcArea = new Rectangle(0, 0, 96, 80);
+        var sourceTx = ModHelper.ModContent.Load<Texture2D>("assets/sprites/professions");
+        var sourceArea = new Rectangle(0, 0, 96, 80);
         var targetArea = new Rectangle(0, 624, 96, 80);
-        editor.PatchImage(sourceTx, srcArea, targetArea);
+        editor.PatchImage(sourceTx, sourceArea, targetArea);
 
         if (!Context.IsWorldReady || Game1.player is null)
         {
@@ -138,10 +138,10 @@ internal sealed class ProfessionAssetRequestedEvent : AssetRequestedEvent
                 continue;
             }
 
-            srcArea = profession.SourceSheetRect;
-            srcArea.Y += 80;
+            sourceArea = profession.SourceSheetRect;
+            sourceArea.Y += 80;
             targetArea = profession.TargetSheetRect;
-            editor.PatchImage(sourceTx, srcArea, targetArea);
+            editor.PatchImage(sourceTx, sourceArea, targetArea);
         }
     }
 
@@ -152,7 +152,7 @@ internal sealed class ProfessionAssetRequestedEvent : AssetRequestedEvent
         editor.ExtendImage(192, 80);
 
         var targetArea = new Rectangle(0, 48, 96, 32);
-        editor.PatchImage(ModEntry.ModHelper.ModContent.Load<Texture2D>("assets/sprites/buffs"), null, targetArea);
+        editor.PatchImage(ModHelper.ModContent.Load<Texture2D>("assets/sprites/buffs"), null, targetArea);
     }
 
     #endregion editor callbacks
@@ -163,8 +163,8 @@ internal sealed class ProfessionAssetRequestedEvent : AssetRequestedEvent
     private static string ProvideSkillBars()
     {
         var path = "assets/menus/skillbars";
-        if (ModEntry.ModHelper.ModRegistry.IsLoaded("ManaKirel.VMI") ||
-            ModEntry.ModHelper.ModRegistry.IsLoaded("ManaKirel.VintageInterface2"))
+        if (ModHelper.ModRegistry.IsLoaded("ManaKirel.VMI") ||
+            ModHelper.ModRegistry.IsLoaded("ManaKirel.VintageInterface2"))
         {
             path += "_vintage";
         }
@@ -190,11 +190,11 @@ internal sealed class ProfessionAssetRequestedEvent : AssetRequestedEvent
             }
         }
 
-        if (ModEntry.ModHelper.ModRegistry.IsLoaded("ManaKirel.VMI"))
+        if (ModHelper.ModRegistry.IsLoaded("ManaKirel.VMI"))
         {
             path += "_vintange_pink";
         }
-        else if (ModEntry.ModHelper.ModRegistry.IsLoaded("ManaKirel.VintageInterface2"))
+        else if (ModHelper.ModRegistry.IsLoaded("ManaKirel.VintageInterface2"))
         {
             path += "_vintage_brown";
         }

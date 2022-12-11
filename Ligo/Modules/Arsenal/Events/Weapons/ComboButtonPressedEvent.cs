@@ -22,7 +22,7 @@ internal sealed class ComboButtonPressedEvent : ButtonPressedEvent
     }
 
     /// <inheritdoc />
-    public override bool IsEnabled => ModEntry.Config.Arsenal.Weapons.AllowComboHits;
+    public override bool IsEnabled => ArsenalModule.Config.Weapons.AllowComboHits;
 
     /// <inheritdoc />
     protected override void OnButtonPressedImpl(object? sender, ButtonPressedEventArgs e)
@@ -43,7 +43,7 @@ internal sealed class ComboButtonPressedEvent : ButtonPressedEvent
         var finalHitStep = weapon.GetFinalHitStep();
         if (hitStep >= finalHitStep)
         {
-            ModEntry.ModHelper.Input.Suppress(e.Button);
+            ModHelper.Input.Suppress(e.Button);
             return;
         }
 
@@ -52,7 +52,7 @@ internal sealed class ComboButtonPressedEvent : ButtonPressedEvent
             return;
         }
 
-        ModEntry.ModHelper.Input.Suppress(e.Button);
+        ModHelper.Input.Suppress(e.Button);
 
         var type = weapon.type.Value;
         if (type == MeleeWeapon.club && hitStep == finalHitStep - 1)

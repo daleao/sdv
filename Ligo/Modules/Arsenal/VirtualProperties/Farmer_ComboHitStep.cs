@@ -52,11 +52,11 @@ internal static class Farmer_ComboHitStep
     {
         if (value)
         {
-            ModEntry.Events.Disable<ComboResetUpdateTickedEvent>();
+            EventManager.Disable<ComboResetUpdateTickedEvent>();
         }
         else
         {
-            ModEntry.Events.Enable<ComboResetUpdateTickedEvent>();
+            EventManager.Enable<ComboResetUpdateTickedEvent>();
         }
 
         Values.GetOrCreateValue(farmer).IsAnimating = value;

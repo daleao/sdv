@@ -138,7 +138,7 @@ public sealed class Profession : SmartEnum<Profession>, IProfession
 
     /// <inheritdoc />
     public string Title =>
-        ModEntry.i18n.Get(this.Name.ToLower() + ".title." + (Game1.player.IsMale ? "male" : "female"));
+        i18n.Get(this.Name.ToLower() + ".title." + (Game1.player.IsMale ? "male" : "female"));
 
     /// <inheritdoc />
     public int Id => this.Value;
@@ -301,6 +301,6 @@ public sealed class Profession : SmartEnum<Profession>, IProfession
     /// <inheritdoc />
     public string GetDescription(bool prestiged = false)
     {
-        return ModEntry.i18n.Get(this.Name.ToLowerInvariant() + ".desc" + (prestiged ? ".prestiged" : Empty));
+        return i18n.Get(this.Name.ToLowerInvariant() + ".desc" + (prestiged ? ".prestiged" : Empty));
     }
 }

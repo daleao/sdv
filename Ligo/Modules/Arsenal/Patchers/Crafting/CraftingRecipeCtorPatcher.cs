@@ -22,7 +22,7 @@ internal sealed class CraftingRecipeCtorPatcher : HarmonyPatcher
     [HarmonyPostfix]
     private static void CraftingRecipeCtorPostfix(CraftingRecipe __instance)
     {
-        if (ModEntry.Config.Arsenal.DwarvishCrafting && __instance.name != "Warp Totem: Island" &&
+        if (ArsenalModule.Config.DwarvishCrafting && __instance.name != "Warp Totem: Island" &&
             __instance.recipeList.Remove(Constants.DragonToothIndex))
         {
             __instance.recipeList[Constants.GingerIndex] *= 2;

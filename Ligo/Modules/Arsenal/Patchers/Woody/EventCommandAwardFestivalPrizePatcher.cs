@@ -35,24 +35,30 @@ internal sealed class EventCommandAwardFestivalPrizePatcher : HarmonyPatcher
             var rusty = generator.DefineLabel();
             var resumeExecution = generator.DefineLabel();
             helper
-                .FindFirst(
-                    new CodeInstruction(OpCodes.Ldc_I4_0),
-                    new CodeInstruction(OpCodes.Newobj, typeof(MeleeWeapon).RequireConstructor(typeof(int))))
+                .Match(
+                    new[]
+                    {
+                        new CodeInstruction(OpCodes.Ldc_I4_0),
+                        new CodeInstruction(OpCodes.Newobj, typeof(MeleeWeapon).RequireConstructor(typeof(int))),
+                    })
                 .AddLabels(rusty)
-                .InsertInstructions(
-                    new CodeInstruction(
-                        OpCodes.Call,
-                        typeof(ModEntry).RequirePropertyGetter(nameof(ModEntry.Config))),
-                    new CodeInstruction(
-                        OpCodes.Callvirt,
-                        typeof(ModConfig).RequirePropertyGetter(nameof(ModConfig.Arsenal))),
-                    new CodeInstruction(
-                        OpCodes.Callvirt,
-                        typeof(Config).RequirePropertyGetter(nameof(Config.WoodyReplacesRusty))),
-                    new CodeInstruction(OpCodes.Brfalse_S, rusty),
-                    new CodeInstruction(OpCodes.Ldc_I4_S, Constants.WoodenBladeIndex),
-                    new CodeInstruction(OpCodes.Br_S, resumeExecution))
-                .Advance()
+                .Insert(
+                    new[]
+                    {
+                        new CodeInstruction(
+                            OpCodes.Call,
+                            typeof(ModEntry).RequirePropertyGetter(nameof(Config))),
+                        new CodeInstruction(
+                            OpCodes.Callvirt,
+                            typeof(ModConfig).RequirePropertyGetter(nameof(ModConfig.Arsenal))),
+                        new CodeInstruction(
+                            OpCodes.Callvirt,
+                            typeof(ArsenalConfig).RequirePropertyGetter(nameof(ArsenalConfig.WoodyReplacesRusty))),
+                        new CodeInstruction(OpCodes.Brfalse_S, rusty),
+                        new CodeInstruction(OpCodes.Ldc_I4_S, Constants.WoodenBladeIndex),
+                        new CodeInstruction(OpCodes.Br_S, resumeExecution),
+                    })
+                .Move()
                 .AddLabels(resumeExecution);
         }
         catch (Exception ex)

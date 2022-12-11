@@ -5,6 +5,7 @@
 using System.Linq;
 using DaLion.Ligo.Modules.Arsenal.Extensions;
 using DaLion.Shared.Extensions;
+using DaLion.Shared.Extensions.Collections;
 using DaLion.Shared.Extensions.Stardew;
 using DaLion.Shared.Harmony;
 using DaLion.Shared.Networking;
@@ -31,7 +32,7 @@ internal sealed class ChestPerformOpenChestPatcher : HarmonyPatcher
     [System.Diagnostics.CodeAnalysis.SuppressMessage("StyleCop.CSharp.NamingRules", "SA1300:Element should begin with upper-case letter", Justification = "Preference for internal functions.")]
     private static void ChestPerformOpenChestPostfix(Chest __instance)
     {
-        if (!ModEntry.Config.Arsenal.DwarvishCrafting || !Globals.DwarvishBlueprintIndex.HasValue)
+        if (!ArsenalModule.Config.DwarvishCrafting || !Globals.DwarvishBlueprintIndex.HasValue)
         {
             return;
         }
@@ -41,18 +42,26 @@ internal sealed class ChestPerformOpenChestPatcher : HarmonyPatcher
             return;
         }
 
+        __instance.items.Remove(weapon);
+
         var player = Game1.player;
         var found = player.Read(DataFields.BlueprintsFound).ParseList<int>();
-        if (found.Count == 6 || !player.canUnderstandDwarves)
+        var volcanoBlueprints = new[]
+        {
+            Constants.DwarfSwordIndex, Constants.DwarfDaggerIndex, Constants.DwarfHammerIndex,
+            Constants.DragontoothCutlassIndex, Constants.DragontoothShivIndex, Constants.DragontoothClubIndex,
+        };
+
+        if (found.ContainsAll(volcanoBlueprints) || !player.canUnderstandDwarves)
         {
             var material = weapon.Name.StartsWith("Dwarven")
                 ? Globals.DwarvenScrapIndex!.Value
                 : Constants.DragonToothIndex;
-            getEquivalentMaterial(__instance, material);
+            __instance.items.Add(new SObject(material, 1));
             return;
         }
 
-        var blueprint = weapon.ParentSheetIndex;
+        var blueprint = weapon.InitialParentTileIndex;
         if (found.Contains(blueprint))
         {
             if (weapon.Name.StartsWith("Dwarven"))
@@ -71,7 +80,7 @@ internal sealed class ChestPerformOpenChestPatcher : HarmonyPatcher
                 }
                 else
                 {
-                    getEquivalentMaterial(__instance, Globals.DwarvenScrapIndex!.Value);
+                    __instance.items.Add(new SObject(Globals.DwarvenScrapIndex!.Value, 1));
                     return;
                 }
             }
@@ -91,7 +100,7 @@ internal sealed class ChestPerformOpenChestPatcher : HarmonyPatcher
                 }
                 else
                 {
-                    getEquivalentMaterial(__instance, Constants.DragonToothIndex);
+                    __instance.items.Add(new SObject(Constants.DragonToothIndex, 1));
                     return;
                 }
             }
@@ -111,13 +120,7 @@ internal sealed class ChestPerformOpenChestPatcher : HarmonyPatcher
         player.holdUpItemThenMessage(new SObject(Globals.DwarvishBlueprintIndex.Value, 1));
         if (Context.IsMultiplayer)
         {
-            Broadcaster.SendPublicChat(ModEntry.i18n.Get("blueprint.found.global", new { who = player.Name }));
-        }
-
-        void getEquivalentMaterial(Chest chest, int material)
-        {
-            chest.items.Remove(weapon);
-            chest.items.Add(new SObject(material, 1));
+            Broadcaster.SendPublicChat(i18n.Get("blueprint.found.global", new { who = player.Name }));
         }
     }
 

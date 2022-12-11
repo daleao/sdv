@@ -26,13 +26,13 @@ internal sealed class RingOnEquipPatcher : HarmonyPatcher
     [HarmonyPriority(Priority.HigherThanNormal)]
     private static bool RingOnEquipPrefix(Ring __instance, Farmer who)
     {
-        if (ModEntry.Config.Rings.TheOneInfinityBand &&
+        if (RingsModule.Config.TheOneInfinityBand &&
             __instance.indexInTileSheet.Value == Constants.IridiumBandIndex)
         {
             return false; // don't run original logic
         }
 
-        if (!ModEntry.Config.Rings.RebalancedRings)
+        if (!RingsModule.Config.RebalancedRings)
         {
             return true; // run original logic
         }

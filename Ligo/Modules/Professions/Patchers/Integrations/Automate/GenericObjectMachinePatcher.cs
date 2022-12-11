@@ -70,34 +70,35 @@ internal sealed class GenericObjectMachinePatcher : HarmonyPatcher
         try
         {
             helper
-                .FindLast(
-                    new CodeInstruction(OpCodes.Ldc_I4_1),
-                    new CodeInstruction(OpCodes.Ret))
-                .InsertInstructions(
-                    new CodeInstruction(OpCodes.Ldarg_0),
-                    new CodeInstruction(
-                        OpCodes.Call,
-                        "Pathoschild.Stardew.Automate.Framework.BaseMachine`1"
-                            .ToType()
-                            .MakeGenericType(typeof(SObject))
-                            .RequirePropertyGetter("Machine")),
-                    new CodeInstruction(OpCodes.Ldarg_0),
-                    new CodeInstruction(
-                        OpCodes.Call,
-                        "Pathoschild.Stardew.Automate.Framework.BaseMachine"
-                            .ToType()
-                            .RequirePropertyGetter("Location")),
-                    new CodeInstruction(original.DeclaringType!.Name.Contains("Loom")
-                        ? OpCodes.Ldloc_1
-                        : OpCodes.Ldloc_0),
-                    new CodeInstruction(
-                        OpCodes.Callvirt,
-                        "Pathoschild.Stardew.Automate.IConsumable"
-                            .ToType()
-                            .RequirePropertyGetter("Sample")),
-                    new CodeInstruction(
-                        OpCodes.Call,
-                        typeof(GenericObjectMachinePatcher).RequireMethod(nameof(ApplyArtisanPerks))));
+                .Match(
+                    new[] { new CodeInstruction(OpCodes.Ldc_I4_1), new CodeInstruction(OpCodes.Ret), },
+                    ILHelper.SearchOption.Last)
+                .Insert(
+                    new[]
+                    {
+                        new CodeInstruction(OpCodes.Ldarg_0), new CodeInstruction(
+                            OpCodes.Call,
+                            "Pathoschild.Stardew.Automate.Framework.BaseMachine`1"
+                                .ToType()
+                                .MakeGenericType(typeof(SObject))
+                                .RequirePropertyGetter("Machine")),
+                        new CodeInstruction(OpCodes.Ldarg_0), new CodeInstruction(
+                            OpCodes.Call,
+                            "Pathoschild.Stardew.Automate.Framework.BaseMachine"
+                                .ToType()
+                                .RequirePropertyGetter("Location")),
+                        new CodeInstruction(original.DeclaringType!.Name.Contains("Loom")
+                            ? OpCodes.Ldloc_1
+                            : OpCodes.Ldloc_0),
+                        new CodeInstruction(
+                            OpCodes.Callvirt,
+                            "Pathoschild.Stardew.Automate.IConsumable"
+                                .ToType()
+                                .RequirePropertyGetter("Sample")),
+                        new CodeInstruction(
+                            OpCodes.Call,
+                            typeof(GenericObjectMachinePatcher).RequireMethod(nameof(ApplyArtisanPerks))),
+                    });
         }
         catch (Exception ex)
         {
@@ -124,14 +125,14 @@ internal sealed class GenericObjectMachinePatcher : HarmonyPatcher
 
         var output = machine.heldObject.Value;
         var chest = ExtendedAutomateApi.GetClosestContainerTo(machine, location);
-        var user = ModEntry.Config.Professions.LaxOwnershipRequirements ? Game1.player : chest?.GetOwner() ?? Game1.MasterPlayer;
+        var user = ProfessionsModule.Config.LaxOwnershipRequirements ? Game1.player : chest?.GetOwner() ?? Game1.MasterPlayer;
         if (user.HasProfession(Profession.Artisan) ||
-            (ModEntry.Config.Professions.LaxOwnershipRequirements && Game1.game1.DoesAnyPlayerHaveProfession(Profession.Artisan, out _)))
+            (ProfessionsModule.Config.LaxOwnershipRequirements && Game1.game1.DoesAnyPlayerHaveProfession(Profession.Artisan, out _)))
         {
             output.Quality = input.Quality;
         }
 
-        var owner = ModEntry.Config.Professions.LaxOwnershipRequirements ? Game1.player : machine.GetOwner();
+        var owner = ProfessionsModule.Config.LaxOwnershipRequirements ? Game1.player : machine.GetOwner();
         if (!owner.HasProfession(Profession.Artisan))
         {
             return;
@@ -152,7 +153,7 @@ internal sealed class GenericObjectMachinePatcher : HarmonyPatcher
         }
 
         if (machine.ParentSheetIndex == (int)Machine.MayonnaiseMachine && input.ParentSheetIndex == Constants.GoldenEggIndex &&
-            !ModEntry.ModHelper.ModRegistry.IsLoaded("ughitsmegan.goldenmayoForProducerFrameworkMod"))
+            !ModHelper.ModRegistry.IsLoaded("ughitsmegan.goldenmayoForProducerFrameworkMod"))
         {
             output.Quality = SObject.bestQuality;
         }

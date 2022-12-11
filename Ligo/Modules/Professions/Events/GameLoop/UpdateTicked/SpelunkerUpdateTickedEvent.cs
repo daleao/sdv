@@ -13,7 +13,7 @@ using StardewValley.Locations;
 [UsedImplicitly]
 internal sealed class SpelunkerUpdateTickedEvent : UpdateTickedEvent
 {
-    private readonly int _buffId = (ModEntry.Manifest.UniqueID + Profession.Spelunker).GetHashCode();
+    private readonly int _buffId = (Manifest.UniqueID + Profession.Spelunker).GetHashCode();
 
     /// <summary>Initializes a new instance of the <see cref="SpelunkerUpdateTickedEvent"/> class.</summary>
     /// <param name="manager">The <see cref="EventManager"/> instance that manages this event.</param>
@@ -39,7 +39,7 @@ internal sealed class SpelunkerUpdateTickedEvent : UpdateTickedEvent
         var ladderChance = (Game1.player.Get_SpelunkerLadderStreak() * 0.5f).ToString("0.0");
         var speed = Math.Min(
             (Game1.player.Get_SpelunkerLadderStreak() / 10) + 1,
-            (int)ModEntry.Config.Professions.SpelunkerSpeedCap);
+            (int)ProfessionsModule.Config.SpelunkerSpeedCap);
         Game1.buffsDisplay.addOtherBuff(
             new Buff(
                 0,
@@ -56,13 +56,13 @@ internal sealed class SpelunkerUpdateTickedEvent : UpdateTickedEvent
                 0,
                 1,
                 "Spelunker",
-                ModEntry.i18n.Get("spelunker.title" + (Game1.player.IsMale ? ".male" : ".female")))
+                i18n.Get("spelunker.title" + (Game1.player.IsMale ? ".male" : ".female")))
             {
                 which = this._buffId,
                 sheetIndex = Profession.SpelunkerStreakSheetIndex,
                 millisecondsDuration = 0,
                 description =
-                    ModEntry.i18n.Get("spelunker.buff.desc", new { ladderChance, speed }),
+                    i18n.Get("spelunker.buff.desc", new { ladderChance, speed }),
             });
     }
 }

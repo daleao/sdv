@@ -37,16 +37,18 @@ internal sealed class FishPondIsLegalFishForPondsPatcher : HarmonyPatcher
         try
         {
             helper
-                .FindFirst(new CodeInstruction(OpCodes.Ldstr, "fish_legendary"))
-                .AdvanceUntil(new CodeInstruction(OpCodes.Brfalse_S))
+                .Match(new[] { new CodeInstruction(OpCodes.Ldstr, "fish_legendary") })
+                .Match(new[] { new CodeInstruction(OpCodes.Brfalse_S) })
                 .GetOperand(out var resumeExecution)
-                .Advance()
-                .InsertInstructions(
-                    new CodeInstruction(OpCodes.Ldarg_0),
-                    new CodeInstruction(
-                        OpCodes.Call,
-                        typeof(FishPondIsLegalFishForPondsPatcher).RequireMethod(nameof(CanRaiseLegendaryFish))),
-                    new CodeInstruction(OpCodes.Brtrue_S, resumeExecution));
+                .Move()
+                .Insert(
+                    new[]
+                    {
+                        new CodeInstruction(OpCodes.Ldarg_0), new CodeInstruction(
+                            OpCodes.Call,
+                            typeof(FishPondIsLegalFishForPondsPatcher).RequireMethod(nameof(CanRaiseLegendaryFish))),
+                        new CodeInstruction(OpCodes.Brtrue_S, resumeExecution),
+                    });
         }
         catch (Exception ex)
         {
@@ -64,7 +66,7 @@ internal sealed class FishPondIsLegalFishForPondsPatcher : HarmonyPatcher
     private static bool CanRaiseLegendaryFish(FishPond pond)
     {
         return pond.GetOwner().HasProfession(Profession.Aquarist, true) ||
-               (ModEntry.Config.Professions.LaxOwnershipRequirements &&
+               (ProfessionsModule.Config.LaxOwnershipRequirements &&
                 Game1.game1.DoesAnyPlayerHaveProfession(Profession.Aquarist, out _));
     }
 

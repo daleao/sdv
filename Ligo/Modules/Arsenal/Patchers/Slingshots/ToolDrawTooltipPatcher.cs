@@ -75,7 +75,7 @@ internal sealed class ToolDrawTooltipPatcher : HarmonyPatcher
 
                 Utility.drawTextWithShadow(
                     spriteBatch,
-                    ModEntry.i18n.Get("ui.itemhover.damage", new { amount }),
+                    i18n.Get("ui.itemhover.damage", new { amount }),
                     font,
                     new Vector2(x + 68, y + 28),
                     co * 0.9f * alpha);
@@ -183,7 +183,7 @@ internal sealed class ToolDrawTooltipPatcher : HarmonyPatcher
 
                 Utility.drawTextWithShadow(
                     spriteBatch,
-                    ModEntry.i18n.Get("ui.itemhover.firespeed", new { amount }),
+                    i18n.Get("ui.itemhover.firespeed", new { amount }),
                     font,
                     new Vector2(x + 68, y + 28),
                     co * 0.9f * alpha);
@@ -210,7 +210,7 @@ internal sealed class ToolDrawTooltipPatcher : HarmonyPatcher
 
                 Utility.drawTextWithShadow(
                     spriteBatch,
-                    ModEntry.i18n.Get("ui.itemhover.cdr", new { amount }),
+                    i18n.Get("ui.itemhover.cdr", new { amount }),
                     font,
                     new Vector2(x + 68, y + 28),
                     co * 0.9f * alpha);
@@ -221,7 +221,7 @@ internal sealed class ToolDrawTooltipPatcher : HarmonyPatcher
             // write bonus defense
             if (__instance.hasEnchantmentOfType<TopazEnchantment>())
             {
-                var amount = ModEntry.Config.Arsenal.OverhauledDefense
+                var amount = ArsenalModule.Config.OverhauledDefense
                     ? $"+{slingshot.Get_RelativeResilience():0%}"
                     : slingshot.GetEnchantmentLevel<TopazEnchantment>().ToString();
                 co = new Color(0, 120, 120);
@@ -239,8 +239,8 @@ internal sealed class ToolDrawTooltipPatcher : HarmonyPatcher
 
                 Utility.drawTextWithShadow(
                     spriteBatch,
-                    ModEntry.Config.EnableArsenal && ModEntry.Config.Arsenal.OverhauledDefense
-                        ? ModEntry.i18n.Get("ui.itemhover.resist", new { amount })
+                    Config.EnableArsenal && ArsenalModule.Config.OverhauledDefense
+                        ? i18n.Get("ui.itemhover.resist", new { amount })
                         : Game1.content.LoadString("ItemHover_DefenseBonus", amount),
                     font,
                     new Vector2(x + 68, y + 28),
@@ -268,7 +268,7 @@ internal sealed class ToolDrawTooltipPatcher : HarmonyPatcher
 
             // write other enchantments
             co = new Color(120, 0, 210);
-            foreach (var enchantment in __instance.enchantments.Where(enchantment => enchantment.ShouldBeDisplayed()))
+            foreach (var enchantment in __instance.enchantments.Where(e => e.ShouldBeDisplayed()))
             {
                 Utility.drawWithShadow(
                     spriteBatch,

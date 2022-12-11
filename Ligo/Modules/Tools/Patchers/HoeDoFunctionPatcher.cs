@@ -37,26 +37,32 @@ internal sealed class HoeDoFunctionPatcher : HarmonyPatcher
         try
         {
             helper
-                .FindFirst(
-                    new CodeInstruction(OpCodes.Callvirt, typeof(Farmer).RequirePropertySetter(nameof(Farmer.Stamina))))
-                .InsertInstructions(
-                    new CodeInstruction(
-                        OpCodes.Call,
-                        typeof(ModEntry).RequirePropertyGetter(nameof(ModEntry.Config))),
-                    new CodeInstruction(
-                        OpCodes.Callvirt,
-                        typeof(ModConfig).RequirePropertyGetter(nameof(ModConfig.Tools))),
-                    new CodeInstruction(
-                        OpCodes.Callvirt,
-                        typeof(Config).RequirePropertyGetter(nameof(Config.Hoe))),
-                    new CodeInstruction(
-                        OpCodes.Callvirt,
-                        typeof(HoeConfig).RequirePropertyGetter(nameof(HoeConfig.BaseStaminaMultiplier))),
-                    new CodeInstruction(OpCodes.Mul),
-                    new CodeInstruction(OpCodes.Ldc_R4, 1f),
-                    new CodeInstruction(
-                        OpCodes.Call,
-                        typeof(Math).RequireMethod(nameof(Math.Max), new[] { typeof(float), typeof(float) })));
+                .Match(
+                    new[]
+                    {
+                        new CodeInstruction(
+                            OpCodes.Callvirt,
+                            typeof(Farmer).RequirePropertySetter(nameof(Farmer.Stamina))),
+                    })
+                .Insert(
+                    new[]
+                    {
+                        new CodeInstruction(
+                            OpCodes.Call,
+                            typeof(ModEntry).RequirePropertyGetter(nameof(Config))),
+                        new CodeInstruction(
+                            OpCodes.Callvirt,
+                            typeof(ModConfig).RequirePropertyGetter(nameof(ModConfig.Tools))),
+                        new CodeInstruction(
+                            OpCodes.Callvirt,
+                            typeof(ToolsConfig).RequirePropertyGetter(nameof(ToolsConfig.Hoe))),
+                        new CodeInstruction(
+                            OpCodes.Callvirt,
+                            typeof(HoeConfig).RequirePropertyGetter(nameof(HoeConfig.BaseStaminaMultiplier))),
+                        new CodeInstruction(OpCodes.Mul), new CodeInstruction(OpCodes.Ldc_R4, 1f), new CodeInstruction(
+                            OpCodes.Call,
+                            typeof(Math).RequireMethod(nameof(Math.Max), new[] { typeof(float), typeof(float) })),
+                    });
         }
         catch (Exception ex)
         {

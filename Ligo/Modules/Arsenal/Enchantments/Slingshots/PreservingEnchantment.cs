@@ -13,6 +13,6 @@ public sealed class PreservingEnchantment : BaseSlingshotEnchantment
     /// <inheritdoc />
     public override string GetName()
     {
-        return ModEntry.i18n.Get("enchantments.preserving");
+        return i18n.Get("enchantments.preserving");
     }
 }

@@ -34,21 +34,30 @@ internal sealed class FishingRodOpenTreasureMenuEndFunctionPatcher : HarmonyPatc
         try
         {
             helper
-                .FindFirst(
-                    new CodeInstruction(
-                        OpCodes.Ldfld,
-                        typeof(Farmer).RequireField(nameof(Farmer.specialItems))),
-                    new CodeInstruction(OpCodes.Ldc_I4_S),
-                    new CodeInstruction(
-                        OpCodes.Callvirt,
-                        typeof(NetIntList).RequireMethod(nameof(NetIntList.Contains))))
-                .AdvanceUntil(
-                    new CodeInstruction(OpCodes.Ldsfld, typeof(Game1).RequireField(nameof(Game1.random))))
-                .InsertInstructions(
-                    new CodeInstruction(OpCodes.Ldarg_0),
-                    new CodeInstruction(OpCodes.Ldfld, typeof(Tool).RequireField("lastUser")),
-                    new CodeInstruction(OpCodes.Ldc_I4_S, 14),
-                    new CodeInstruction(OpCodes.Callvirt, typeof(NetIntList).RequireMethod(nameof(NetIntList.Add))));
+                .Match(
+                    new[]
+                    {
+                        new CodeInstruction(
+                            OpCodes.Ldfld,
+                            typeof(Farmer).RequireField(nameof(Farmer.specialItems))),
+                        new CodeInstruction(OpCodes.Ldc_I4_S), new CodeInstruction(
+                            OpCodes.Callvirt,
+                            typeof(NetIntList).RequireMethod(nameof(NetIntList.Contains))),
+                    })
+                .Match(new[]
+                    {
+                        new CodeInstruction(OpCodes.Ldsfld, typeof(Game1).RequireField(nameof(Game1.random))),
+                    })
+                .Insert(
+                    new[]
+                    {
+                        new CodeInstruction(OpCodes.Ldarg_0),
+                        new CodeInstruction(OpCodes.Ldfld, typeof(Tool).RequireField("lastUser")),
+                        new CodeInstruction(OpCodes.Ldc_I4_S, 14),
+                        new CodeInstruction(
+                            OpCodes.Callvirt,
+                            typeof(NetIntList).RequireMethod(nameof(NetIntList.Add))),
+                    });
         }
         catch (Exception ex)
         {

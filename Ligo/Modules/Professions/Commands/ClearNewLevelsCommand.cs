@@ -50,10 +50,10 @@ internal sealed class ClearNewLevelsCommand : ConsoleCommand
                         continue;
                     }
 
-                    var newLevels = ModEntry.Reflector
+                    var newLevels = Reflector
                         .GetStaticFieldGetter<List<KeyValuePair<string, int>>>(typeof(SpaceCore.Skills), "NewLevels")
                         .Invoke();
-                    ModEntry.Reflector
+                    Reflector
                         .GetStaticFieldSetter<List<KeyValuePair<string, int>>>(typeof(SpaceCore.Skills), "NewLevels")
                         .Invoke(newLevels.Where(pair => pair.Key != customSkill.StringId).ToList());
                 }

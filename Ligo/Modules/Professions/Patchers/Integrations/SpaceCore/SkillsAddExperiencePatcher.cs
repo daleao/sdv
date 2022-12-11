@@ -24,7 +24,7 @@ internal sealed class SkillsAddExperiencePatcher : HarmonyPatcher
     [HarmonyPrefix]
     private static void SkillsAddExperiencePrefix(string skillName, ref int amt)
     {
-        if (!ModEntry.Config.Professions.EnablePrestige || !SCSkill.Loaded.TryGetValue(skillName, out var skill) ||
+        if (!ProfessionsModule.Config.EnablePrestige || !SCSkill.Loaded.TryGetValue(skillName, out var skill) ||
             amt <= 0)
         {
             return;

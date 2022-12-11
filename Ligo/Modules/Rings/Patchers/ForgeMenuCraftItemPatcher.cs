@@ -25,7 +25,7 @@ internal sealed class ForgeMenuCraftItemPatcher : HarmonyPatcher
     [HarmonyPostfix]
     private static void ForgeMenuCraftItemPostfix(ref Item? __result, Item? left_item, Item? right_item, bool forReal)
     {
-        if (!ModEntry.Config.Rings.TheOneInfinityBand ||
+        if (!RingsModule.Config.TheOneInfinityBand ||
             left_item is not Ring { ParentSheetIndex: Constants.IridiumBandIndex } ||
             right_item?.ParentSheetIndex != Constants.GalaxySoulIndex)
         {
@@ -41,7 +41,7 @@ internal sealed class ForgeMenuCraftItemPatcher : HarmonyPatcher
         DelayedAction.playSoundAfterDelay("discoverMineral", 400);
         if (Context.IsMultiplayer)
         {
-            Broadcaster.SendPublicChat(ModEntry.i18n.Get("global.infinitycraft", new { who = Game1.player.Name }));
+            Broadcaster.SendPublicChat(i18n.Get("global.infinitycraft", new { who = Game1.player.Name }));
         }
     }
 

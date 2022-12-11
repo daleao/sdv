@@ -4,7 +4,6 @@
 
 using DaLion.Ligo.Modules.Professions.Events.Display;
 using DaLion.Ligo.Modules.Professions.Events.GameLoop;
-using DaLion.Shared.Events;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -28,7 +27,7 @@ internal sealed class UltimateOverlay
 
     /// <summary>Draw the overlay over the world.</summary>
     /// <param name="b">A <see cref="SpriteBatch"/> to draw to.</param>
-    /// <remarks>This should be called from a <see cref="RenderedWorldEvent"/>.</remarks>
+    /// <remarks>This should be called from a <see cref="Shared.Events.RenderedWorldEvent"/>.</remarks>
     internal void Draw(SpriteBatch b)
     {
         b.Draw(Game1.fadeToBlackRect, Game1.graphics.GraphicsDevice.Viewport.Bounds, this._color * this._opacity);
@@ -44,7 +43,7 @@ internal sealed class UltimateOverlay
 
         if (this._opacity >= MaxOpacity)
         {
-            ModEntry.Events.Disable<UltimateOverlayFadeInUpdateTickedEvent>();
+            EventManager.Disable<UltimateOverlayFadeInUpdateTickedEvent>();
         }
     }
 
@@ -61,7 +60,7 @@ internal sealed class UltimateOverlay
             return;
         }
 
-        ModEntry.Events.Disable<UltimateOverlayFadeOutUpdateTickedEvent>();
-        ModEntry.Events.Disable<UltimateOverlayRenderedWorldEvent>();
+        EventManager.Disable<UltimateOverlayFadeOutUpdateTickedEvent>();
+        EventManager.Disable<UltimateOverlayRenderedWorldEvent>();
     }
 }

@@ -46,7 +46,7 @@ internal sealed class GameLocationExplodePatcher : HarmonyPatcher
         var isPrestigedDemolitionist = who.HasProfession(Profession.Demolitionist, true);
         var chanceModifier = (who.DailyLuck / 2.0) + (who.LuckLevel * 0.001) + (who.MiningLevel * 0.005);
         var r = new Random(Guid.NewGuid().GetHashCode());
-        var circle = new CircleTileGrid(tileLocation, radius);
+        var circle = new CircleTileGrid(tileLocation, (uint)radius);
         foreach (var tile in circle.Tiles)
         {
             if (!__instance.objects.TryGetValue(tile, out var tileObj) || !tileObj.IsStone())
@@ -81,7 +81,7 @@ internal sealed class GameLocationExplodePatcher : HarmonyPatcher
                                 __instance);
                         }
 
-                        ModEntry.Reflector.GetStaticFieldGetter<Multiplayer>(typeof(Game1), "multiplyer").Invoke()
+                        Reflector.GetStaticFieldGetter<Multiplayer>(typeof(Game1), "multiplyer").Invoke()
                             .broadcastSprites(
                                 __instance,
                                 new TemporaryAnimatedSprite(
@@ -123,7 +123,7 @@ internal sealed class GameLocationExplodePatcher : HarmonyPatcher
                                 __instance);
                         }
 
-                        ModEntry.Reflector.GetStaticFieldGetter<Multiplayer>(typeof(Game1), "multiplyer").Invoke()
+                        Reflector.GetStaticFieldGetter<Multiplayer>(typeof(Game1), "multiplyer").Invoke()
                             .broadcastSprites(
                                 __instance,
                                 new TemporaryAnimatedSprite(
@@ -432,7 +432,7 @@ internal sealed class GameLocationExplodePatcher : HarmonyPatcher
             }
         }
 
-        if (!who.IsLocalPlayer || !isDemolitionist || !ModEntry.Config.Professions.EnableGetExcited)
+        if (!who.IsLocalPlayer || !isDemolitionist || !ProfessionsModule.Config.EnableGetExcited)
         {
             return;
         }
@@ -449,7 +449,7 @@ internal sealed class GameLocationExplodePatcher : HarmonyPatcher
             who.Increment_DemolitionistExcitedness(2);
         }
 
-        ModEntry.Events.Enable<DemolitionistUpdateTickedEvent>();
+        EventManager.Enable<DemolitionistUpdateTickedEvent>();
     }
 
     #endregion harmony patches

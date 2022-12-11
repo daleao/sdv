@@ -31,7 +31,7 @@ internal sealed class NpcCheckForNewCurrentDialoguePatcher : HarmonyPatcher
                 {
                     __instance.CurrentDialogue.Clear();
                     __instance.CurrentDialogue.Push(new Dialogue(
-                        ModEntry.i18n.Get("dialogue.clint.blueprint.notdone"),
+                        i18n.Get("dialogue.clint.blueprint.notdone"),
                         __instance));
                     return false; // don't run original logic
                 }
@@ -40,7 +40,7 @@ internal sealed class NpcCheckForNewCurrentDialoguePatcher : HarmonyPatcher
                 {
                     __instance.CurrentDialogue.Clear();
                     __instance.CurrentDialogue.Push(new Dialogue(
-                        ModEntry.i18n.Get("dialogue.clint.blueprint.done"),
+                        i18n.Get("dialogue.clint.blueprint.done"),
                         __instance));
                     player.completeQuest(Constants.ForgeIntroQuestId);
                     return false; // don't run original logic
@@ -51,7 +51,7 @@ internal sealed class NpcCheckForNewCurrentDialoguePatcher : HarmonyPatcher
             case "Wizard" when player.hasQuest(Constants.CurseQuestId):
                 __instance.CurrentDialogue.Clear();
                 __instance.CurrentDialogue.Push(new Dialogue(
-                    ModEntry.i18n.Get("dialogue.wizard.curse.canthelp"),
+                    i18n.Get("dialogue.wizard.curse.canthelp"),
                     __instance));
                 return false; // don't run original logic
         }

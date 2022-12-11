@@ -36,24 +36,30 @@ internal sealed class TreePerformToolActionPatcher : HarmonyPatcher
         try
         {
             helper
-                .FindFirst(
-                    new CodeInstruction(OpCodes.Ldarg_1),
-                    new CodeInstruction(OpCodes.Isinst, typeof(MeleeWeapon)))
-                .Advance(2)
-                .InsertInstructions(
-                    new CodeInstruction(
-                        OpCodes.Call,
-                        typeof(ModEntry).RequirePropertyGetter(nameof(ModEntry.Config))),
-                    new CodeInstruction(
-                        OpCodes.Callvirt,
-                        typeof(ModConfig).RequirePropertyGetter(nameof(ModConfig.Tools))),
-                    new CodeInstruction(
-                        OpCodes.Callvirt,
-                        typeof(Config).RequirePropertyGetter(nameof(Config.Scythe))),
-                    new CodeInstruction(
-                        OpCodes.Callvirt,
-                        typeof(ScytheConfig).RequirePropertyGetter(nameof(ScytheConfig.ClearTreeSaplings))),
-                    new CodeInstruction(OpCodes.And));
+                .Match(
+                    new[]
+                    {
+                        new CodeInstruction(OpCodes.Ldarg_1),
+                        new CodeInstruction(OpCodes.Isinst, typeof(MeleeWeapon)),
+                    })
+                .Move(2)
+                .Insert(
+                    new[]
+                    {
+                        new CodeInstruction(
+                            OpCodes.Call,
+                            typeof(ModEntry).RequirePropertyGetter(nameof(Config))),
+                        new CodeInstruction(
+                            OpCodes.Callvirt,
+                            typeof(ModConfig).RequirePropertyGetter(nameof(ModConfig.Tools))),
+                        new CodeInstruction(
+                            OpCodes.Callvirt,
+                            typeof(ToolsConfig).RequirePropertyGetter(nameof(ToolsConfig.Scythe))),
+                        new CodeInstruction(
+                            OpCodes.Callvirt,
+                            typeof(ScytheConfig).RequirePropertyGetter(nameof(ScytheConfig.ClearTreeSaplings))),
+                        new CodeInstruction(OpCodes.And),
+                    });
         }
         catch (Exception ex)
         {

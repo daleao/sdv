@@ -41,38 +41,45 @@ internal sealed class MineShaftCheckStoneForItemsPatcher : HarmonyPatcher
         {
             var resumeExecution = generator.DefineLabel();
             helper
-                .FindFirst(
-                    // find ladder spawn segment
-                    new CodeInstruction(
-                        OpCodes.Ldfld,
-                        typeof(MineShaft).RequireField("ladderHasSpawned")))
-                .Retreat()
+                .Match(
+                    new[]
+                    {
+                        // find ladder spawn segment
+                        new CodeInstruction(
+                            OpCodes.Ldfld,
+                            typeof(MineShaft).RequireField("ladderHasSpawned")),
+                    })
+                .Move(-1)
                 .StripLabels(out var labels) // backup and remove branch labels
                 .AddLabels(resumeExecution) // branch here to resume execution
-                .InsertWithLabels(
+                .Insert(
+                    new[]
+                    {
+                        // check for local player
+                        new CodeInstruction(OpCodes.Ldarg_S, (byte)4), // arg 4 = Farmer who
+                        new CodeInstruction(
+                            OpCodes.Callvirt,
+                            typeof(Farmer).RequirePropertyGetter(nameof(Farmer.IsLocalPlayer))),
+                        new CodeInstruction(OpCodes.Brfalse_S, resumeExecution),
+                        // prepare profession check
+                        new CodeInstruction(OpCodes.Ldarg_S, (byte)4),
+                    },
                     // restore backed-up labels
-                    labels,
-                    // check for local player
-                    new CodeInstruction(OpCodes.Ldarg_S, (byte)4), // arg 4 = Farmer who
-                    new CodeInstruction(
-                        OpCodes.Callvirt,
-                        typeof(Farmer).RequirePropertyGetter(nameof(Farmer.IsLocalPlayer))),
-                    new CodeInstruction(OpCodes.Brfalse_S, resumeExecution),
-                    // prepare profession check
-                    new CodeInstruction(OpCodes.Ldarg_S, (byte)4))
+                    labels)
                 .InsertProfessionCheck(Profession.Spelunker.Value, forLocalPlayer: false)
-                .InsertInstructions(
-                    new CodeInstruction(OpCodes.Brfalse_S, resumeExecution),
-                    new CodeInstruction(OpCodes.Ldloc_3), // local 3 = chanceForLadderDown
-                    new CodeInstruction(OpCodes.Ldarg_S, (byte)4),
-                    new CodeInstruction(
-                        OpCodes.Call,
-                        typeof(Farmer_SpelunkerLadderStreak).RequireMethod(nameof(Farmer_SpelunkerLadderStreak.Get_SpelunkerLadderStreak))),
-                    new CodeInstruction(OpCodes.Conv_R8),
-                    new CodeInstruction(OpCodes.Ldc_R8, 0.005),
-                    new CodeInstruction(OpCodes.Mul),
-                    new CodeInstruction(OpCodes.Add),
-                    new CodeInstruction(OpCodes.Stloc_3));
+                .Insert(
+                    new[]
+                    {
+                        new CodeInstruction(OpCodes.Brfalse_S, resumeExecution),
+                        new CodeInstruction(OpCodes.Ldloc_3), // local 3 = chanceForLadderDown
+                        new CodeInstruction(OpCodes.Ldarg_S, (byte)4), new CodeInstruction(
+                            OpCodes.Call,
+                            typeof(Farmer_SpelunkerLadderStreak).RequireMethod(nameof(Farmer_SpelunkerLadderStreak
+                                .Get_SpelunkerLadderStreak))),
+                        new CodeInstruction(OpCodes.Conv_R8), new CodeInstruction(OpCodes.Ldc_R8, 0.005),
+                        new CodeInstruction(OpCodes.Mul), new CodeInstruction(OpCodes.Add),
+                        new CodeInstruction(OpCodes.Stloc_3),
+                    });
         }
         catch (Exception ex)
         {
@@ -81,21 +88,30 @@ internal sealed class MineShaftCheckStoneForItemsPatcher : HarmonyPatcher
         }
 
         // Skipped: if (who.professions.Contains(<geologist_id>)) ...
-        var i = 0;
-        repeat1:
         try
         {
-            helper // find index of geologist check
-                .FindProfessionCheck(Farmer.geologist, i != 0)
-                .Retreat()
-                .StripLabels(out var labels) // backup and remove branch labels
-                .AdvanceUntil(new CodeInstruction(OpCodes.Brfalse_S)) // the false case branch
-                .GetOperand(out var isNotGeologist) // copy destination
-                .Return()
-                .InsertWithLabels(
-                    // insert unconditional branch to skip this check and restore backed-up labels to this branch
-                    labels,
-                    new CodeInstruction(OpCodes.Br_S, (Label)isNotGeologist));
+            helper
+                .Repeat(
+                    2,
+                    i =>
+                    {
+                        helper // find index of geologist check
+                            .FindProfessionCheck(
+                                Farmer.geologist,
+                                i == 0 ? ILHelper.SearchOption.First : ILHelper.SearchOption.Next)
+                            .Move(-1)
+                            .StripLabels(out var labels) // backup and remove branch labels
+                            .Match(new[] { new CodeInstruction(OpCodes.Brfalse_S) }) // the false case branch
+                            .GetOperand(out var isNotGeologist) // copy destination
+                            .Return()
+                            .Insert(
+                                new[]
+                                {
+                                    // insert unconditional branch to skip this check and restore backed-up labels to this branch
+                                    new CodeInstruction(OpCodes.Br_S, (Label)isNotGeologist),
+                                },
+                                labels);
+                    });
         }
         catch (Exception ex)
         {
@@ -103,22 +119,23 @@ internal sealed class MineShaftCheckStoneForItemsPatcher : HarmonyPatcher
             return null;
         }
 
-        // repeat injection
-        if (++i < 2)
-        {
-            goto repeat1;
-        }
-
         // From: random.NextDouble() < <value> * (1.0 + chanceModifier) * (double)(!who.professions.Contains(<excavator_id>) ? 1 : 2)
         // To: random.NextDouble() < <value> * (1.0 + chanceModifier)
-        i = 0;
-        repeat2:
         try
         {
-            helper // find index of excavator check
-                .FindProfessionCheck(Farmer.excavator, i != 0)
-                .Retreat()
-                .RemoveInstructionsUntil(new CodeInstruction(OpCodes.Mul)); // remove this check
+            helper
+                .Repeat(
+                    2,
+                    i =>
+                    {
+                        helper // find index of excavator check
+                            .FindProfessionCheck(
+                                Farmer.excavator,
+                                i == 0 ? ILHelper.SearchOption.First : ILHelper.SearchOption.Next)
+                            .Move(-1)
+                            .Match(new[] { new CodeInstruction(OpCodes.Mul) }, out var count)
+                            .Remove(count); // remove this check
+                    });
         }
         catch (Exception ex)
         {
@@ -126,20 +143,15 @@ internal sealed class MineShaftCheckStoneForItemsPatcher : HarmonyPatcher
             return null;
         }
 
-        // repeat injection
-        if (++i < 2)
-        {
-            goto repeat2;
-        }
-
         // From: if (random.NextDouble() < 0.25 * (double)(!who.professions.Contains(<prospector_id>) ? 1 : 2))
         // To: if (random.NextDouble() < 0.25)
         try
         {
             helper
-                .FindProfessionCheck(Farmer.burrower, true) // find index of prospector check
-                .Retreat()
-                .RemoveInstructionsUntil(new CodeInstruction(OpCodes.Mul)); // remove this check
+                .FindProfessionCheck(Farmer.burrower) // find index of prospector check
+                .Move(-1)
+                .Match(new[] { new CodeInstruction(OpCodes.Mul) }, out var count)
+                .Remove(count); // remove this check
         }
         catch (Exception ex)
         {

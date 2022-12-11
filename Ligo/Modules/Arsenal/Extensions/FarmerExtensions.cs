@@ -161,6 +161,7 @@ internal static class FarmerExtensions
         var modifier = farmer.GetTotalSwingSpeedModifier(weapon);
         var halfModifier = 1f - ((1f - modifier) / 2f);
         var cooldown = weapon.IsClub() ? 250 : 50;
+        var sound = weapon.InitialParentTileIndex == Constants.LavaKatanaIndex ? "fireball" : "swordswipe";
         sprite.loopThisAnimation = false;
         var outFrames = sprite.currentAnimation;
         if (farmer.Get_IsAnimating())
@@ -181,7 +182,7 @@ internal static class FarmerExtensions
                     new AnimationFrame(40, (int)(55 * modifier), true, flip: false, who =>
                     {
                         Farmer.showSwordSwipe(who);
-                        who.currentLocation.localSound("swordswipe");
+                        who.currentLocation.localSound(sound);
                     }),
                     new AnimationFrame(39, (int)(30 * halfModifier), true, flip: false, who =>
                     {
@@ -207,7 +208,7 @@ internal static class FarmerExtensions
                     new AnimationFrame(34, (int)(55 * modifier), true, flip: false, who =>
                     {
                         Farmer.showSwordSwipe(who);
-                        who.currentLocation.localSound("swordswipe");
+                        who.currentLocation.localSound(sound);
                     }),
                     new AnimationFrame(33, (int)(30 * halfModifier), true, flip: false, who =>
                     {
@@ -233,7 +234,7 @@ internal static class FarmerExtensions
                     new AnimationFrame(28, (int)(45 * modifier), true, flip: false, who =>
                     {
                         Farmer.showSwordSwipe(who);
-                        who.currentLocation.localSound("swordswipe");
+                        who.currentLocation.localSound(sound);
                     }),
                     new AnimationFrame(27, (int)(30 * halfModifier), true, flip: false, who =>
                     {
@@ -259,7 +260,7 @@ internal static class FarmerExtensions
                     new AnimationFrame(34, (int)(55 * modifier), true, flip: true, who =>
                     {
                         Farmer.showSwordSwipe(who);
-                        who.currentLocation.localSound("swordswipe");
+                        who.currentLocation.localSound(sound);
                     }),
                     new AnimationFrame(33, (int)(30 * halfModifier), true, flip: true, who =>
                     {
@@ -279,7 +280,7 @@ internal static class FarmerExtensions
                 break;
         }
 
-        ModEntry.Reflector
+        Reflector
             .GetUnboundFieldSetter<FarmerSprite, int>(sprite, "currentAnimationFrames")
             .Invoke(sprite, sprite.CurrentAnimation.Count);
         farmer.Increment_CurrentHitStep();
@@ -292,7 +293,7 @@ internal static class FarmerExtensions
         var modifier = farmer.GetTotalSwingSpeedModifier(weapon);
         var halfModifier = 1f - ((1f - modifier) / 2f);
         var cooldown = weapon.IsClub() ? 250 : 50;
-        var sound = weapon.IsClub() ? "clubswipe" : "swordswipe";
+        var sound = weapon.IsClub() ? "clubswipe" : weapon.InitialParentTileIndex == Constants.LavaKatanaIndex ? "fireball" : "swordswipe";
         sprite.loopThisAnimation = false;
         var outFrames = sprite.currentAnimation;
         if (farmer.Get_IsAnimating())
@@ -411,7 +412,7 @@ internal static class FarmerExtensions
                 break;
         }
 
-        ModEntry.Reflector
+        Reflector
             .GetUnboundFieldSetter<FarmerSprite, int>(sprite, "currentAnimationFrames")
             .Invoke(sprite, sprite.CurrentAnimation.Count);
         farmer.Increment_CurrentHitStep();
@@ -520,7 +521,7 @@ internal static class FarmerExtensions
                 break;
         }
 
-        ModEntry.Reflector
+        Reflector
             .GetUnboundFieldSetter<FarmerSprite, int>(sprite, "currentAnimationFrames")
             .Invoke(sprite, sprite.CurrentAnimation.Count);
         farmer.Increment_CurrentHitStep();
@@ -626,7 +627,7 @@ internal static class FarmerExtensions
                 break;
         }
 
-        ModEntry.Reflector
+        Reflector
             .GetUnboundFieldSetter<FarmerSprite, int>(sprite, "currentAnimationFrames")
             .Invoke(sprite, sprite.CurrentAnimation.Count);
         farmer.Increment_CurrentHitStep();

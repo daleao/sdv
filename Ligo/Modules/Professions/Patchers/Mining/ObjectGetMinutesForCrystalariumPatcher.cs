@@ -24,7 +24,7 @@ internal sealed class ObjectGetMinutesForCrystalariumPatcher : HarmonyPatcher
     [HarmonyPostfix]
     private static void ObjectGetMinutesForCrystalariumPostfix(SObject __instance, ref int __result)
     {
-        var owner = ModEntry.Config.Professions.LaxOwnershipRequirements ? Game1.player : __instance.GetOwner();
+        var owner = ProfessionsModule.Config.LaxOwnershipRequirements ? Game1.player : __instance.GetOwner();
         if (owner.HasProfession(Profession.Gemologist))
         {
             __result = (int)(__result * (owner.HasProfession(Profession.Gemologist, true) ? 0.5 : 0.75));

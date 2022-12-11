@@ -40,7 +40,6 @@ internal sealed class GetCustomItemCommand : ConsoleCommand
         SObject? @object = null;
         switch (args[0].ToLowerInvariant())
         {
-            case "hero soul":
             case "herosoul":
             case "soul":
                 if (!Globals.HeroSoulIndex.HasValue)
@@ -51,9 +50,8 @@ internal sealed class GetCustomItemCommand : ConsoleCommand
 
                 @object = new SObject(Globals.HeroSoulIndex.Value, 1);
                 break;
-            case "dwarven scrap":
             case "dwarvenscrap":
-            case "scraps":
+            case "scrap":
                 if (!Globals.DwarvenScrapIndex.HasValue)
                 {
                     Log.W("Dwarvish Scrap item was not initialized correctly.");
@@ -61,6 +59,17 @@ internal sealed class GetCustomItemCommand : ConsoleCommand
                 }
 
                 @object = new SObject(Globals.DwarvenScrapIndex.Value, 10);
+                break;
+            case "fairywood":
+            case "elderwood":
+            case "wood":
+                if (!Globals.ElderwoodIndex.HasValue)
+                {
+                    Log.W("Elderwood item was not initialized correctly.");
+                    return;
+                }
+
+                @object = new SObject(Globals.ElderwoodIndex.Value, 10);
                 break;
             case "dwarvish blueprint":
             case "blueprint":
@@ -72,18 +81,28 @@ internal sealed class GetCustomItemCommand : ConsoleCommand
                 }
 
                 var player = Game1.player;
-                var notFound = new List<int>
+                var allBlueprints = new List<int>
                 {
+                    Constants.ElfBladeIndex,
+                    Constants.ForestSwordIndex,
                     Constants.DwarfSwordIndex,
                     Constants.DwarfHammerIndex,
                     Constants.DwarfDaggerIndex,
                     Constants.DragontoothCutlassIndex,
                     Constants.DragontoothClubIndex,
                     Constants.DragontoothShivIndex,
-                }.Except(player.Read(DataFields.BlueprintsFound).ParseList<int>()).ToArray();
+                };
 
-                var blueprint = Game1.random.Next(notFound.Length);
-                player.Append(DataFields.BlueprintsFound, blueprint.ToString());
+                if (args.Length > 1 && args[1] == "all")
+                {
+                    player.Write(DataFields.BlueprintsFound, string.Join(',', allBlueprints));
+                    Log.I($"Added all Dwarvish Blueprints to {player.Name}.");
+                    return;
+                }
+
+                var notFound = allBlueprints.Except(player.Read(DataFields.BlueprintsFound).ParseList<int>()).ToArray();
+                var chosen = Game1.random.Next(notFound.Length);
+                player.Append(DataFields.BlueprintsFound, chosen.ToString());
                 if (!player.hasOrWillReceiveMail("dwarvishBlueprintFound"))
                 {
                     Game1.player.mailReceived.Add("dwarvishBlueprintFound");
@@ -92,7 +111,7 @@ internal sealed class GetCustomItemCommand : ConsoleCommand
                 player.holdUpItemThenMessage(new SObject(Globals.DwarvishBlueprintIndex.Value, 1));
                 if (Context.IsMultiplayer)
                 {
-                    Broadcaster.SendPublicChat(ModEntry.i18n.Get("blueprint.found.global", new { who = player.Name }));
+                    Broadcaster.SendPublicChat(i18n.Get("blueprint.found.global", new { who = player.Name }));
                 }
 
                 player.addItemToInventoryBool(new SObject(Globals.DwarvishBlueprintIndex.Value, 1));

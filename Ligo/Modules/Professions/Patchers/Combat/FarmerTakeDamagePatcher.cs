@@ -42,37 +42,35 @@ internal sealed class FarmerTakeDamagePatcher : HarmonyPatcher
             var alreadyUndamageableOrNotAmbuscade = generator.DefineLabel();
             var ambush = generator.DeclareLocal(typeof(Ambush));
             helper
-                .FindFirst(new CodeInstruction(OpCodes.Stloc_0))
-                .Advance()
+                .Match(new[] { new CodeInstruction(OpCodes.Stloc_0) })
+                .Move()
                 .AddLabels(alreadyUndamageableOrNotAmbuscade)
-                .InsertInstructions(
-                    // check if monsterDamageCapable is already false
-                    new CodeInstruction(OpCodes.Ldloc_0),
-                    new CodeInstruction(OpCodes.Brfalse_S, alreadyUndamageableOrNotAmbuscade),
-                    // check if this is the local player
-                    new CodeInstruction(OpCodes.Ldarg_0),
-                    new CodeInstruction(
-                        OpCodes.Callvirt,
-                        typeof(Farmer).RequirePropertyGetter(nameof(Farmer.IsLocalPlayer))),
-                    new CodeInstruction(OpCodes.Brfalse_S, alreadyUndamageableOrNotAmbuscade),
-                    // check for ambush
-                    new CodeInstruction(OpCodes.Ldarg_0),
-                    new CodeInstruction(
-                        OpCodes.Call,
-                        typeof(Farmer_Ultimate).RequireMethod(nameof(Farmer_Ultimate.Get_Ultimate))),
-                    new CodeInstruction(OpCodes.Isinst, typeof(Ambush)),
-                    new CodeInstruction(OpCodes.Stloc_S, ambush),
-                    new CodeInstruction(OpCodes.Ldloc_S, ambush),
-                    new CodeInstruction(OpCodes.Brfalse_S, alreadyUndamageableOrNotAmbuscade),
-                    // check if it's active
-                    new CodeInstruction(OpCodes.Ldloc_S, ambush),
-                    new CodeInstruction(
-                        OpCodes.Callvirt,
-                        typeof(Ultimate).RequirePropertyGetter(nameof(Ultimate.IsActive))),
-                    new CodeInstruction(OpCodes.Brfalse_S, alreadyUndamageableOrNotAmbuscade),
-                    // set monsterDamageCapable = false
-                    new CodeInstruction(OpCodes.Ldc_I4_0),
-                    new CodeInstruction(OpCodes.Stloc_0));
+                .Insert(
+                    new[]
+                    {
+                        // check if monsterDamageCapable is already false
+                        new CodeInstruction(OpCodes.Ldloc_0),
+                        new CodeInstruction(OpCodes.Brfalse_S, alreadyUndamageableOrNotAmbuscade),
+                        // check if this is the local player
+                        new CodeInstruction(OpCodes.Ldarg_0), new CodeInstruction(
+                            OpCodes.Callvirt,
+                            typeof(Farmer).RequirePropertyGetter(nameof(Farmer.IsLocalPlayer))),
+                        new CodeInstruction(OpCodes.Brfalse_S, alreadyUndamageableOrNotAmbuscade),
+                        // check for ambush
+                        new CodeInstruction(OpCodes.Ldarg_0), new CodeInstruction(
+                            OpCodes.Call,
+                            typeof(Farmer_Ultimate).RequireMethod(nameof(Farmer_Ultimate.Get_Ultimate))),
+                        new CodeInstruction(OpCodes.Isinst, typeof(Ambush)),
+                        new CodeInstruction(OpCodes.Stloc_S, ambush), new CodeInstruction(OpCodes.Ldloc_S, ambush),
+                        new CodeInstruction(OpCodes.Brfalse_S, alreadyUndamageableOrNotAmbuscade),
+                        // check if it's active
+                        new CodeInstruction(OpCodes.Ldloc_S, ambush), new CodeInstruction(
+                            OpCodes.Callvirt,
+                            typeof(Ultimate).RequirePropertyGetter(nameof(Ultimate.IsActive))),
+                        new CodeInstruction(OpCodes.Brfalse_S, alreadyUndamageableOrNotAmbuscade),
+                        // set monsterDamageCapable = false
+                        new CodeInstruction(OpCodes.Ldc_I4_0), new CodeInstruction(OpCodes.Stloc_0),
+                    });
         }
         catch (Exception ex)
         {
@@ -88,48 +86,48 @@ internal sealed class FarmerTakeDamagePatcher : HarmonyPatcher
         {
             var isNotUndyingButMayHaveDailyRevive = generator.DefineLabel();
             helper
-                .FindNext(
-                    // find index of health <= 0 (start of revive ring effect)
-                    new CodeInstruction(OpCodes.Ldarg_0), // arg 0 = Farmer this
-                    new CodeInstruction(
-                        OpCodes.Ldfld,
-                        typeof(Farmer).RequireField(nameof(Farmer.health))),
-                    new CodeInstruction(OpCodes.Ldc_I4_0),
-                    new CodeInstruction(OpCodes.Bgt))
-                .AdvanceUntil(new CodeInstruction(OpCodes.Bgt))
+                .Match(
+                    new[]
+                    {
+                        // find index of health <= 0 (start of revive ring effect)
+                        new CodeInstruction(OpCodes.Ldarg_0), // arg 0 = Farmer this
+                        new CodeInstruction(
+                            OpCodes.Ldfld,
+                            typeof(Farmer).RequireField(nameof(Farmer.health))),
+                        new CodeInstruction(OpCodes.Ldc_I4_0), new CodeInstruction(OpCodes.Bgt),
+                    })
+                .Match(new[] { new CodeInstruction(OpCodes.Bgt) })
                 .GetOperand(out var resumeExecution) // copy branch label to resume normal execution
-                .Advance()
+                .Move()
                 .AddLabels(isNotUndyingButMayHaveDailyRevive)
-                .InsertInstructions(
-                    // check if this is the local player
-                    new CodeInstruction(OpCodes.Ldarg_0),
-                    new CodeInstruction(
-                        OpCodes.Callvirt,
-                        typeof(Farmer).RequirePropertyGetter(nameof(Farmer.IsLocalPlayer))),
-                    new CodeInstruction(OpCodes.Brfalse_S, isNotUndyingButMayHaveDailyRevive),
-                    // check for frenzy
-                    new CodeInstruction(OpCodes.Ldarg_0),
-                    new CodeInstruction(
-                        OpCodes.Call,
-                        typeof(Farmer_Ultimate).RequireMethod(nameof(Farmer_Ultimate.Get_Ultimate))),
-                    new CodeInstruction(OpCodes.Isinst, typeof(Frenzy)),
-                    new CodeInstruction(OpCodes.Stloc_S, frenzy),
-                    new CodeInstruction(OpCodes.Ldloc, frenzy),
-                    new CodeInstruction(OpCodes.Brfalse_S, isNotUndyingButMayHaveDailyRevive),
-                    // check if it's active
-                    new CodeInstruction(OpCodes.Ldloc_S, frenzy),
-                    new CodeInstruction(
-                        OpCodes.Callvirt,
-                        typeof(IUltimate).RequirePropertyGetter(nameof(IUltimate.IsActive))),
-                    new CodeInstruction(OpCodes.Brfalse_S, isNotUndyingButMayHaveDailyRevive),
-                    // set health back to 1
-                    new CodeInstruction(OpCodes.Ldarg_0), // arg 0 = Farmer this
-                    new CodeInstruction(OpCodes.Ldc_I4_1),
-                    new CodeInstruction(
-                        OpCodes.Stfld,
-                        typeof(Farmer).RequireField(nameof(Farmer.health))),
-                    // resume execution (skip revive ring effect)
-                    new CodeInstruction(OpCodes.Br, resumeExecution));
+                .Insert(
+                    new[]
+                    {
+                        // check if this is the local player
+                        new CodeInstruction(OpCodes.Ldarg_0), new CodeInstruction(
+                            OpCodes.Callvirt,
+                            typeof(Farmer).RequirePropertyGetter(nameof(Farmer.IsLocalPlayer))),
+                        new CodeInstruction(OpCodes.Brfalse_S, isNotUndyingButMayHaveDailyRevive),
+                        // check for frenzy
+                        new CodeInstruction(OpCodes.Ldarg_0), new CodeInstruction(
+                            OpCodes.Call,
+                            typeof(Farmer_Ultimate).RequireMethod(nameof(Farmer_Ultimate.Get_Ultimate))),
+                        new CodeInstruction(OpCodes.Isinst, typeof(Frenzy)),
+                        new CodeInstruction(OpCodes.Stloc_S, frenzy), new CodeInstruction(OpCodes.Ldloc, frenzy),
+                        new CodeInstruction(OpCodes.Brfalse_S, isNotUndyingButMayHaveDailyRevive),
+                        // check if it's active
+                        new CodeInstruction(OpCodes.Ldloc_S, frenzy), new CodeInstruction(
+                            OpCodes.Callvirt,
+                            typeof(IUltimate).RequirePropertyGetter(nameof(IUltimate.IsActive))),
+                        new CodeInstruction(OpCodes.Brfalse_S, isNotUndyingButMayHaveDailyRevive),
+                        // set health back to 1
+                        new CodeInstruction(OpCodes.Ldarg_0), // arg 0 = Farmer this
+                        new CodeInstruction(OpCodes.Ldc_I4_1), new CodeInstruction(
+                            OpCodes.Stfld,
+                            typeof(Farmer).RequireField(nameof(Farmer.health))),
+                        // resume execution (skip revive ring effect)
+                        new CodeInstruction(OpCodes.Br, resumeExecution),
+                    });
         }
         catch (Exception ex)
         {
@@ -142,14 +140,17 @@ internal sealed class FarmerTakeDamagePatcher : HarmonyPatcher
         try
         {
             helper
-                .FindLast(new CodeInstruction(OpCodes.Ret)) // find index of final return
-                .InsertInstructions(
-                    new CodeInstruction(OpCodes.Ldarg_0),
-                    new CodeInstruction(OpCodes.Ldarg_3),
-                    new CodeInstruction(OpCodes.Ldarg_1),
-                    new CodeInstruction(
-                        OpCodes.Call,
-                        typeof(FarmerTakeDamagePatcher).RequireMethod(nameof(IncrementBruteCounters))));
+                .Match(
+                    new[] { new CodeInstruction(OpCodes.Ret) },
+                    ILHelper.SearchOption.Last) // find index of final return
+                .Insert(
+                    new[]
+                    {
+                        new CodeInstruction(OpCodes.Ldarg_0), new CodeInstruction(OpCodes.Ldarg_3),
+                        new CodeInstruction(OpCodes.Ldarg_1), new CodeInstruction(
+                            OpCodes.Call,
+                            typeof(FarmerTakeDamagePatcher).RequireMethod(nameof(IncrementBruteCounters))),
+                    });
         }
         catch (Exception ex)
         {

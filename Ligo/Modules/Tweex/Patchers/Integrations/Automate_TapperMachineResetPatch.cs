@@ -29,12 +29,12 @@ internal sealed class TapperMachineResetPatcher : HarmonyPatcher
     [HarmonyPostfix]
     private static void TapperMachineResetPostfix(object __instance)
     {
-        if (!ModEntry.Config.Tweex.TappersRewardExp)
+        if (!TweexModule.Config.TappersRewardExp)
         {
             return;
         }
 
-        ModEntry.Reflector
+        Reflector
             .GetUnboundPropertyGetter<object, SObject>(__instance, "Machine")
             .Invoke(__instance)
             .GetOwner()

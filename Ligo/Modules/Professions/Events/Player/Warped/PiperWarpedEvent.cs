@@ -53,7 +53,7 @@ internal sealed class PiperWarpedEvent : WarpedEvent
         var raisedSlimes = e.Player.GetRaisedSlimes().ToArray();
         var chance = this._pipeChance(raisedSlimes.Length);
         var pipedCount = 0;
-        foreach (var tamedSlime in raisedSlimes)
+        foreach (var raised in raisedSlimes)
         {
             if (r.NextDouble() > chance)
             {
@@ -81,25 +81,25 @@ internal sealed class PiperWarpedEvent : WarpedEvent
             }
 
             // choose slime variation
-            GreenSlime pipedSlime;
+            GreenSlime piped;
             switch (e.NewLocation)
             {
                 case MineShaft shaft:
                 {
-                    pipedSlime = new GreenSlime(Vector2.Zero, shaft.mineLevel);
+                    piped = new GreenSlime(Vector2.Zero, shaft.mineLevel);
                     if (shaft.GetAdditionalDifficulty() > 0 &&
                         r.NextDouble() < Math.Min(shaft.GetAdditionalDifficulty() * 0.1f, 0.5f))
                     {
-                        pipedSlime.stackedSlimes.Value = r.NextDouble() < 0.0099999997764825821 ? 4 : 2;
+                        piped.stackedSlimes.Value = r.NextDouble() < 0.0099999997764825821 ? 4 : 2;
                     }
 
-                    shaft.BuffMonsterIfNecessary(pipedSlime);
+                    shaft.BuffMonsterIfNecessary(piped);
                     break;
                 }
 
                 case Woods:
                 {
-                    pipedSlime = Game1.currentSeason switch
+                    piped = Game1.currentSeason switch
                     {
                         "fall" => new GreenSlime(Vector2.Zero, r.NextDouble() < 0.5 ? 40 : 0),
                         "winter" => new GreenSlime(Vector2.Zero, 40),
@@ -110,36 +110,36 @@ internal sealed class PiperWarpedEvent : WarpedEvent
 
                 case VolcanoDungeon:
                 {
-                    pipedSlime = new GreenSlime(Vector2.Zero, 0);
-                    pipedSlime.makeTigerSlime();
+                    piped = new GreenSlime(Vector2.Zero, 0);
+                    piped.makeTigerSlime();
                     break;
                 }
 
                 default:
                 {
-                    pipedSlime = new GreenSlime(Vector2.Zero, 121);
+                    piped = new GreenSlime(Vector2.Zero, 121);
                     break;
                 }
             }
 
             // adjust color
-            if (tamedSlime.Name == "Tiger Slime" && pipedSlime.Name != tamedSlime.Name)
+            if (raised.Name == "Tiger Slime" && piped.Name != raised.Name)
             {
-                pipedSlime.makeTigerSlime();
+                piped.makeTigerSlime();
             }
             else
             {
-                pipedSlime.color.R = (byte)(tamedSlime.color.R + r.Next(-20, 21));
-                pipedSlime.color.G = (byte)(tamedSlime.color.G + r.Next(-20, 21));
-                pipedSlime.color.B = (byte)(tamedSlime.color.B + r.Next(-20, 21));
+                piped.color.R = (byte)(raised.color.R + r.Next(-20, 21));
+                piped.color.G = (byte)(raised.color.G + r.Next(-20, 21));
+                piped.color.B = (byte)(raised.color.B + r.Next(-20, 21));
             }
 
             // make friendly
-            pipedSlime.moveTowardPlayerThreshold.Value = 0;
+            piped.moveTowardPlayerThreshold.Value = 0;
 
             // spawn
-            pipedSlime.setTileLocation(spawnTile);
-            e.NewLocation.characters.Add(pipedSlime);
+            piped.setTileLocation(spawnTile);
+            e.NewLocation.characters.Add(piped);
             if (++pipedCount >= enemyCount)
             {
                 break;

@@ -23,7 +23,7 @@ internal sealed class MeleeWeaponDefaultKnockbackForThisTypePatcher : HarmonyPat
     [HarmonyPrefix]
     private static bool MeleeWeaponDefaultKnockbackForThisTypePrefix(MeleeWeapon __instance, ref float __result, int type)
     {
-        if (!ModEntry.Config.Arsenal.Weapons.RebalancedWeapons)
+        if (!ArsenalModule.Config.Weapons.RebalancedWeapons)
         {
             return true; // run original logic
         }
@@ -33,7 +33,6 @@ internal sealed class MeleeWeaponDefaultKnockbackForThisTypePatcher : HarmonyPat
             __result = 31f;
             return false; // don't run original logic
         }
-
 
         __result = type switch
         {

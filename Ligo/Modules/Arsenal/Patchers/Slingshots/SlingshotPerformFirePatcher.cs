@@ -52,7 +52,6 @@ internal sealed class SlingshotPerformFirePatcher : HarmonyPatcher
                 return false; // don't run original logic
             }
 
-            Log.D("Did Shoot!");
             var canDoQuincy = __instance.hasEnchantmentOfType<QuincyEnchantment>() && location.HasMonsters();
             if (__instance.attachments[0] is null && !canDoQuincy && !who.IsSteppingOnSnow())
             {
@@ -76,7 +75,7 @@ internal sealed class SlingshotPerformFirePatcher : HarmonyPatcher
             }
 
             // calculate projectile velocity
-            ModEntry.Reflector
+            Reflector
                 .GetUnboundMethodDelegate<Action<Slingshot>>(__instance, "updateAimPos")
                 .Invoke(__instance);
             var mouseX = __instance.aimPos.X;
@@ -108,7 +107,7 @@ internal sealed class SlingshotPerformFirePatcher : HarmonyPatcher
             {
                 case SObject.wood or SObject.coal:
                     damageBase = 2;
-                    knockback = 0.4f;
+                    knockback = 0.3f;
                     break;
                 case SObject.stone:
                     damageBase = 5;
@@ -116,27 +115,27 @@ internal sealed class SlingshotPerformFirePatcher : HarmonyPatcher
                     break;
                 case SObject.copper:
                     damageBase = 10;
-                    knockback = 0.55f;
+                    knockback = 0.525f;
                     break;
                 case SObject.iron:
                     damageBase = 20;
-                    knockback = 0.60f;
+                    knockback = 0.55f;
                     break;
                 case SObject.gold:
                     damageBase = 30;
-                    knockback = 0.65f;
+                    knockback = 0.575f;
                     break;
                 case SObject.iridium:
                     damageBase = 50;
-                    knockback = 0.70f;
+                    knockback = 0.6f;
                     break;
                 case Constants.RadioactiveOreIndex:
                     damageBase = 80;
-                    knockback = 0.75f;
+                    knockback = 0.625f;
                     break;
                 case Constants.ExplosiveAmmoIndex:
                     damageBase = 5;
-                    knockback = 5f;
+                    knockback = 0.4f;
                     break;
                 case Constants.SlimeIndex:
                     damageBase = who.professions.Contains(Farmer.acrobat) ? 10 : 5;
@@ -144,7 +143,7 @@ internal sealed class SlingshotPerformFirePatcher : HarmonyPatcher
                     break;
                 case null: // quincy or snowball
                     damageBase = canDoQuincy ? 5 : 1;
-                    knockback = canDoQuincy ? 0f : 0.5f;
+                    knockback = canDoQuincy ? 0f : 0.4f;
                     break;
                 default: // fish, fruit or vegetable
                     damageBase = 1;
@@ -174,7 +173,7 @@ internal sealed class SlingshotPerformFirePatcher : HarmonyPatcher
             }
 
             // calculate overcharge
-            var overcharge = ModEntry.Config.EnableProfessions && who.professions.Contains(Farmer.desperado)
+            var overcharge = Config.EnableProfessions && who.professions.Contains(Farmer.desperado)
                 ? __instance.GetOvercharge(who)
                 : 1f;
 
@@ -183,7 +182,7 @@ internal sealed class SlingshotPerformFirePatcher : HarmonyPatcher
             {
                 xVelocity *= overcharge;
                 yVelocity *= overcharge;
-                ModEntry.Events.Disable<DesperadoUpdateTickedEvent>();
+                EventManager.Disable<DesperadoUpdateTickedEvent>();
             }
 
             if (Game1.options.useLegacySlingshotFiring)

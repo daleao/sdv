@@ -31,7 +31,7 @@ internal sealed class LevelUpMenuCtorPatcher : HarmonyPatcher
             return;
         }
 
-        ModEntry.ModHelper.GameContent.InvalidateCache("LooseSprites/Cursors");
+        ModHelper.GameContent.InvalidateCache("LooseSprites/Cursors");
     }
 
     /// <summary>Patch to prevent duplicate profession acquisition + display end of level up dialogues.</summary>
@@ -46,17 +46,18 @@ internal sealed class LevelUpMenuCtorPatcher : HarmonyPatcher
         try
         {
             helper
-                .FindFirst(
-                    new CodeInstruction(OpCodes.Ldarg_0),
-                    new CodeInstruction(OpCodes.Ldfld, typeof(LevelUpMenu).RequireField("currentLevel")),
-                    new CodeInstruction(OpCodes.Ldc_I4_5),
-                    new CodeInstruction(OpCodes.Beq_S))
-                .Advance(3)
-                .InsertInstructions(
-                    new CodeInstruction(OpCodes.Rem_Un),
-                    new CodeInstruction(OpCodes.Ldc_I4_0))
-                .RemoveInstructionsUntil(
-                    new CodeInstruction(OpCodes.Ldc_I4_S, 10));
+                .Match(
+                    new[]
+                    {
+                        new CodeInstruction(OpCodes.Ldarg_0),
+                        new CodeInstruction(OpCodes.Ldfld, typeof(LevelUpMenu).RequireField("currentLevel")),
+                        new CodeInstruction(OpCodes.Ldc_I4_5), new CodeInstruction(OpCodes.Beq_S),
+                    })
+                .Move(3)
+                .Insert(
+                    new[] { new CodeInstruction(OpCodes.Rem_Un), new CodeInstruction(OpCodes.Ldc_I4_0), })
+                .Match(new[] { new CodeInstruction(OpCodes.Ldc_I4_S, 10) }, out var count)
+                .Remove(count);
         }
         catch (Exception ex)
         {

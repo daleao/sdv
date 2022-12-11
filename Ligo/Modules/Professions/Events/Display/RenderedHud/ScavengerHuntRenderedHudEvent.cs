@@ -38,7 +38,7 @@ internal sealed class ScavengerHuntRenderedHudEvent : RenderedHudEvent
 
         // reveal if close enough
         var distanceSquared = (Game1.player.getTileLocation() - treasureTile).LengthSquared();
-        if (distanceSquared <= Math.Pow(ModEntry.Config.Professions.TreasureDetectionDistance, 2))
+        if (distanceSquared <= Math.Pow(ProfessionsModule.Config.TreasureDetectionDistance, 2))
         {
             Globals.Pointer.Value.DrawOverTile(treasureTile, Color.Violet);
         }

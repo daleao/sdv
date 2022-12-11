@@ -33,7 +33,7 @@ internal sealed class CraftingRecipeDrawRecipeDescriptionPatcher : HarmonyPatche
         CraftingRecipe __instance, SpriteBatch b, Vector2 position, int width, IList<Item> additional_crafting_items)
     {
         if (!__instance.name.Contains("Ring") || !__instance.name.ContainsAnyOf("Glow", "Magnet") ||
-            (!ModEntry.Config.Rings.CraftableGlowAndMagnetRings && !ModEntry.Config.Rings.ImmersiveGlowstoneRecipe))
+            (!RingsModule.Config.CraftableGlowAndMagnetRings && !RingsModule.Config.ImmersiveGlowstoneRecipe))
         {
             return true; // run original logic
         }

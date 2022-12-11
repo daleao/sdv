@@ -68,23 +68,25 @@ internal sealed class BobberBarUpdatePatcher : HarmonyPatcher
         {
             var isNotAquarist = generator.DefineLabel();
             helper
-                .FindFirst(new CodeInstruction(OpCodes.Ldc_I4, 694))
-                .AdvanceUntil(new CodeInstruction(OpCodes.Stfld))
-                .Advance()
+                .Match(new[] { new CodeInstruction(OpCodes.Ldc_I4, 694) })
+                .Match(new[] { new CodeInstruction(OpCodes.Stfld) })
+                .Move()
                 .AddLabels(isNotAquarist)
                 .InsertProfessionCheck(Profession.Aquarist.Value)
-                .InsertInstructions(
-                    new CodeInstruction(OpCodes.Brfalse_S, isNotAquarist),
-                    new CodeInstruction(OpCodes.Ldarg_0),
-                    new CodeInstruction(OpCodes.Ldarg_0),
-                    new CodeInstruction(OpCodes.Ldfld, typeof(BobberBar).RequireField("distanceFromCatching")),
-                    new CodeInstruction(OpCodes.Call, typeof(Game1).RequirePropertyGetter(nameof(Game1.player))),
-                    new CodeInstruction(
-                        OpCodes.Call,
-                        typeof(FarmerExtensions)
-                            .RequireMethod(nameof(FarmerExtensions.GetAquaristCatchingBarCompensation))),
-                    new CodeInstruction(OpCodes.Add),
-                    new CodeInstruction(OpCodes.Stfld, typeof(BobberBar).RequireField("distanceFromCatching")));
+                .Insert(
+                    new[]
+                    {
+                        new CodeInstruction(OpCodes.Brfalse_S, isNotAquarist), new CodeInstruction(OpCodes.Ldarg_0),
+                        new CodeInstruction(OpCodes.Ldarg_0),
+                        new CodeInstruction(OpCodes.Ldfld, typeof(BobberBar).RequireField("distanceFromCatching")),
+                        new CodeInstruction(OpCodes.Call, typeof(Game1).RequirePropertyGetter(nameof(Game1.player))),
+                        new CodeInstruction(
+                            OpCodes.Call,
+                            typeof(FarmerExtensions)
+                                .RequireMethod(nameof(FarmerExtensions.GetAquaristCatchingBarCompensation))),
+                        new CodeInstruction(OpCodes.Add),
+                        new CodeInstruction(OpCodes.Stfld, typeof(BobberBar).RequireField("distanceFromCatching")),
+                    });
         }
         catch (Exception ex)
         {

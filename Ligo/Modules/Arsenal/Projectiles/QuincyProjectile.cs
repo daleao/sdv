@@ -55,7 +55,7 @@ internal sealed class QuincyProjectile : BasicProjectile
                             (1f + firer.attackIncreaseModifier) * overcharge);
         this.Overcharge = overcharge;
         this.startingScale.Value *= overcharge * overcharge;
-        if (ModEntry.Config.Arsenal.Slingshots.DisableGracePeriod)
+        if (ArsenalModule.Config.Slingshots.DisableGracePeriod)
         {
             this.ignoreTravelGracePeriod.Value = true;
         }
@@ -76,7 +76,7 @@ internal sealed class QuincyProjectile : BasicProjectile
             return;
         }
 
-        ModEntry.Reflector
+        Reflector
             .GetUnboundMethodDelegate<Action<BasicProjectile, GameLocation>>(this, "explosionAnimation")
             .Invoke(this, location);
         location.damageMonster(
@@ -98,7 +98,7 @@ internal sealed class QuincyProjectile : BasicProjectile
     {
         //location.temporarySprites.Add(
         //    new TemporaryAnimatedSprite(
-        //        $"{ModEntry.Manifest.UniqueID}/QuincyCollisionAnimation",
+        //        $"{Manifest.UniqueID}/QuincyCollisionAnimation",
         //        new Rectangle(0, 0, 64, 64),
         //        50f,
         //        1,

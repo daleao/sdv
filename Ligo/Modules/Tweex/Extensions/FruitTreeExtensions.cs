@@ -15,14 +15,14 @@ internal static class FruitTreeExtensions
     internal static int GetQualityFromAge(this FruitTree fruitTree)
     {
         var skillFactor = 1f + (Game1.player.FarmingLevel * 0.1f);
-        if (ModEntry.Config.EnableProfessions && Game1.player.professions.Contains(Farmer.lumberjack))
+        if (Config.EnableProfessions && Game1.player.professions.Contains(Farmer.lumberjack))
         {
             skillFactor++;
         }
 
         var age = fruitTree.daysUntilMature.Value < 0 ? fruitTree.daysUntilMature.Value * -1 : 0;
-        age = (int)(age * skillFactor * ModEntry.Config.Tweex.FruitTreeAgingFactor);
-        if (ModEntry.Config.Tweex.DeterministicAgeQuality)
+        age = (int)(age * skillFactor * TweexModule.Config.FruitTreeAgingFactor);
+        if (TweexModule.Config.DeterministicAgeQuality)
         {
             return age switch
             {

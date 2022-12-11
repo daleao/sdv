@@ -25,7 +25,7 @@ internal sealed class HostPeerConnectedEvent : PeerConnectedEvent
     {
         if (e.Peer.IsSplitScreen && e.Peer.ScreenID.HasValue)
         {
-            ModEntry.Events.EnableForScreen(
+            this.Manager.EnableForScreen(
                 e.Peer.ScreenID.Value,
                 typeof(TaxDayEndingEvent),
                 typeof(TaxDayStartedEvent));

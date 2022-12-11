@@ -28,7 +28,7 @@ internal sealed class GameLocationGetGalaxySwordPatcher : HarmonyPatcher
     [System.Diagnostics.CodeAnalysis.SuppressMessage("StyleCop.CSharp.NamingRules", "SA1300:Element should begin with upper-case letter", Justification = "Preference for inner functions.")]
     private static bool GameLocationGetGalaxySwordPrefix()
     {
-        if (!ModEntry.Config.Arsenal.InfinityPlusOne)
+        if (!ArsenalModule.Config.InfinityPlusOne)
         {
             return true; // run original logic
         }
@@ -72,7 +72,7 @@ internal sealed class GameLocationGetGalaxySwordPatcher : HarmonyPatcher
         //player.mailReceived.Add("galaxySword"); --> don't add mail to prevent galaxy weapons from appearing in stores
         player.jitterStrength = 0f;
         Game1.screenGlowHold = false;
-        ModEntry.Reflector.GetStaticFieldGetter<Multiplayer>(typeof(Game1), "multiplayer").Invoke()
+        Reflector.GetStaticFieldGetter<Multiplayer>(typeof(Game1), "multiplayer").Invoke()
             .globalChatInfoMessage("GalaxySword", Game1.player.Name);
         return false; // don't run original logic
 

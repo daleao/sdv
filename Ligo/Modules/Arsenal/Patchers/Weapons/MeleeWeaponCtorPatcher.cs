@@ -3,7 +3,6 @@
 #region using directives
 
 using DaLion.Ligo.Modules.Arsenal.Extensions;
-using DaLion.Shared.Extensions.Stardew;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
 using StardewValley.Tools;
@@ -25,19 +24,19 @@ internal sealed class MeleeWeaponCtorPatcher : HarmonyPatcher
     [HarmonyPostfix]
     private static void MeleeWeaponCtorPostfix(MeleeWeapon __instance)
     {
-        __instance.Write(DataFields.BaseMinDamage, __instance.minDamage.Value.ToString());
-        __instance.Write(DataFields.BaseMaxDamage, __instance.maxDamage.Value.ToString());
-
         if (__instance.InitialParentTileIndex == Constants.InsectHeadIndex)
         {
             __instance.type.Value = MeleeWeapon.dagger;
+            __instance.specialItem = true;
             return;
         }
 
-        if (ModEntry.Config.Arsenal.Weapons.RebalancedWeapons)
+        if (Collections.StabbySwords.Contains(__instance.InitialParentTileIndex))
         {
-            __instance.AddIntrinsicEnchantments();
+            __instance.type.Value = MeleeWeapon.stabbingSword;
         }
+
+        __instance.AddIntrinsicEnchantments();
     }
 
     #endregion harmony patches

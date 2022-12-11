@@ -28,22 +28,22 @@ internal sealed class MonsterHandleParriedPatcher : HarmonyPatcher
     [HarmonyPrefix]
     private static void MonsterHandleParriedPrefix(ref bool __state, object args)
     {
-        if (!ModEntry.Config.Arsenal.Weapons.DefenseImprovesParry)
+        if (!ArsenalModule.Config.Weapons.DefenseImprovesParry)
         {
             return;
         }
 
         try
         {
-            var damage = ModEntry.Reflector.GetUnboundFieldGetter<object, int>(args, "damage").Invoke(args);
-            var who = ModEntry.Reflector.GetUnboundPropertyGetter<object, Farmer>(args, "who").Invoke(args);
+            var damage = Reflector.GetUnboundFieldGetter<object, int>(args, "damage").Invoke(args);
+            var who = Reflector.GetUnboundPropertyGetter<object, Farmer>(args, "who").Invoke(args);
             if (who.CurrentTool is not MeleeWeapon { type.Value: MeleeWeapon.defenseSword } weapon)
             {
                 return;
             }
 
             var multiplier = who.GetOverhauledResilience();
-            ModEntry.Reflector.GetUnboundFieldSetter<object, int>(args, "damage")
+            Reflector.GetUnboundFieldSetter<object, int>(args, "damage")
                 .Invoke(args, (int)(damage * multiplier));
 
             // set up for stun

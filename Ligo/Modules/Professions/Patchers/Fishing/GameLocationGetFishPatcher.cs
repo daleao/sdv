@@ -45,35 +45,46 @@ internal sealed class GameLocationGetFishPatcher : HarmonyPatcher
                                     .Where(mi => mi.Name == "Shuffle")
                                     .ElementAtOrDefault(1) ?? ThrowHelper.ThrowMissingMethodException<MethodInfo>("Failed to acquire {typeof(Utility)}::Shuffle method.");
             helper
-                .InsertInstructions(
-                    // set hasRerolled to false
-                    new CodeInstruction(OpCodes.Ldc_I4_0),
-                    new CodeInstruction(OpCodes.Stloc_S, hasRerolled))
-                .FindLast(
-                    // find index of caught = new Ammo(whichFish, 1)
-                    new CodeInstruction(
-                        OpCodes.Newobj,
-                        typeof(SObject).GetConstructor(new[]
-                        {
-                            typeof(int), typeof(int), typeof(bool), typeof(int), typeof(int),
-                        })))
-                .RetreatUntil(new CodeInstruction(OpCodes.Ldloc_1))
+                .Insert(
+                    new[]
+                    {
+                        // set hasRerolled to false
+                        new CodeInstruction(OpCodes.Ldc_I4_0), new CodeInstruction(OpCodes.Stloc_S, hasRerolled),
+                    })
+                .Match(
+                    new[]
+                    {
+                        // find index of caught = new Ammo(whichFish, 1)
+                        new CodeInstruction(
+                            OpCodes.Newobj,
+                            typeof(SObject).GetConstructor(new[]
+                            {
+                                typeof(int), typeof(int), typeof(bool), typeof(int), typeof(int),
+                            })),
+                    },
+                    ILHelper.SearchOption.Last)
+                .Match(new[] { new CodeInstruction(OpCodes.Ldloc_1) }, ILHelper.SearchOption.Previous)
                 .AddLabels(shouldntReroll) // branch here if shouldn't reroll
-                .InsertInstructions(
-                    new CodeInstruction(OpCodes.Ldarg_S, (byte)4), // arg 4 = Farmer who
-                    new CodeInstruction(OpCodes.Ldloc_1), // local 1 = whichFish
-                    new CodeInstruction(OpCodes.Ldloc_S, hasRerolled),
-                    new CodeInstruction(
-                        OpCodes.Call,
-                        typeof(GameLocationGetFishPatcher).RequireMethod(nameof(ShouldRerollFish))),
-                    new CodeInstruction(OpCodes.Brfalse_S, shouldntReroll),
-                    new CodeInstruction(OpCodes.Ldc_I4_1),
-                    new CodeInstruction(OpCodes.Stloc_S, hasRerolled), // set hasRerolled to true
-                    new CodeInstruction(OpCodes.Br, startOfFishRoll))
-                .RetreatUntil(
-                    // start of choose fish
-                    new CodeInstruction(OpCodes.Call, shuffleMethod.MakeGenericMethod(typeof(string))))
-                .Retreat(2)
+                .Insert(
+                    new[]
+                    {
+                        new CodeInstruction(OpCodes.Ldarg_S, (byte)4), // arg 4 = Farmer who
+                        new CodeInstruction(OpCodes.Ldloc_1), // local 1 = whichFish
+                        new CodeInstruction(OpCodes.Ldloc_S, hasRerolled), new CodeInstruction(
+                            OpCodes.Call,
+                            typeof(GameLocationGetFishPatcher).RequireMethod(nameof(ShouldRerollFish))),
+                        new CodeInstruction(OpCodes.Brfalse_S, shouldntReroll), new CodeInstruction(OpCodes.Ldc_I4_1),
+                        new CodeInstruction(OpCodes.Stloc_S, hasRerolled), // set hasRerolled to true
+                        new CodeInstruction(OpCodes.Br, startOfFishRoll),
+                    })
+                .Match(
+                    new[]
+                    {
+                        // start of choose fish
+                        new CodeInstruction(OpCodes.Call, shuffleMethod.MakeGenericMethod(typeof(string))),
+                    },
+                    ILHelper.SearchOption.Previous)
+                .Move(-2)
                 .AddLabels(startOfFishRoll); // branch here to reroll
         }
         catch (Exception ex)

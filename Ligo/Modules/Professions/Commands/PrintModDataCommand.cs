@@ -36,8 +36,8 @@ internal sealed class PrintModDataCommand : ConsoleCommand
         message += "\n\t- " +
                    (!IsNullOrEmpty(value)
                        ? $"Ecologist Items Foraged: {value}\t\tExpected quality: {(Quality)player.GetEcologistForageQuality()}" +
-                         (int.Parse(value) < ModEntry.Config.Professions.ForagesNeededForBestQuality
-                             ? $"({ModEntry.Config.Professions.ForagesNeededForBestQuality - int.Parse(value)} needed for best quality)"
+                         (int.Parse(value) < ProfessionsModule.Config.ForagesNeededForBestQuality
+                             ? $"({ProfessionsModule.Config.ForagesNeededForBestQuality - int.Parse(value)} needed for best quality)"
                              : Empty)
                        : "Mod data does not contain an entry for EcologistItemsForaged.");
 
@@ -45,8 +45,8 @@ internal sealed class PrintModDataCommand : ConsoleCommand
         message += "\n\t- " +
                    (!IsNullOrEmpty(value)
                        ? $"Gemologist Minerals Collected: {value}\n\t\tExpected quality: {(Quality)player.GetGemologistMineralQuality()}" +
-                         (int.Parse(value) < ModEntry.Config.Professions.MineralsNeededForBestQuality
-                             ? $"({ModEntry.Config.Professions.MineralsNeededForBestQuality - int.Parse(value)} needed for best quality)"
+                         (int.Parse(value) < ProfessionsModule.Config.MineralsNeededForBestQuality
+                             ? $"({ProfessionsModule.Config.MineralsNeededForBestQuality - int.Parse(value)} needed for best quality)"
                              : Empty)
                        : "Mod data does not contain an entry for GemologistMineralsCollected.");
 
@@ -67,7 +67,7 @@ internal sealed class PrintModDataCommand : ConsoleCommand
                    (!IsNullOrEmpty(value)
                        ? $"Conservationist Trash Collected ({SeasonExtensions.Current()}): {value}\n\t\tExpected tax deduction for {SeasonExtensions.Next()}: " +
                          // ReSharper disable once PossibleLossOfFraction
-                         $"{Math.Min(int.Parse(value) / ModEntry.Config.Professions.TrashNeededPerTaxBonusPct / 100f, ModEntry.Config.Professions.ConservationistTaxBonusCeiling):0%}"
+                         $"{Math.Min(int.Parse(value) / ProfessionsModule.Config.TrashNeededPerTaxBonusPct / 100f, ProfessionsModule.Config.ConservationistTaxBonusCeiling):0%}"
                        : "Mod data does not contain an entry for ConservationistTrashCollectedThisSeason.");
 
         value = player.Read(DataFields.ConservationistActiveTaxBonusPct);

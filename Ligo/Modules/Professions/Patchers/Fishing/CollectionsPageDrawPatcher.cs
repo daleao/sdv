@@ -39,16 +39,22 @@ internal sealed class CollectionsPageDrawPatcher : HarmonyPatcher
         try
         {
             helper
-                .FindFirst(
-                    new CodeInstruction(OpCodes.Ldarg_0),
-                    new CodeInstruction(OpCodes.Ldfld, typeof(CollectionsPage).RequireField("hoverItem")),
-                    new CodeInstruction(OpCodes.Brfalse_S))
-                .InsertInstructions(
-                    new CodeInstruction(OpCodes.Ldarg_0), // this
-                    new CodeInstruction(OpCodes.Ldarg_1), // SpriteBatch b
-                    new CodeInstruction(
-                        OpCodes.Call,
-                        typeof(CollectionsPageDrawPatcher).RequireMethod(nameof(DrawMaxIcons))));
+                .Match(
+                    new[]
+                    {
+                        new CodeInstruction(OpCodes.Ldarg_0),
+                        new CodeInstruction(OpCodes.Ldfld, typeof(CollectionsPage).RequireField("hoverItem")),
+                        new CodeInstruction(OpCodes.Brfalse_S),
+                    })
+                .Insert(
+                    new[]
+                    {
+                        new CodeInstruction(OpCodes.Ldarg_0), // this
+                        new CodeInstruction(OpCodes.Ldarg_1), // SpriteBatch b
+                        new CodeInstruction(
+                            OpCodes.Call,
+                            typeof(CollectionsPageDrawPatcher).RequireMethod(nameof(DrawMaxIcons))),
+                    });
         }
         catch (Exception ex)
         {
@@ -65,7 +71,7 @@ internal sealed class CollectionsPageDrawPatcher : HarmonyPatcher
 
     private static void DrawMaxIcons(CollectionsPage page, SpriteBatch b)
     {
-        if (!ModEntry.Config.Professions.ShowFishCollectionMaxIcon)
+        if (!ProfessionsModule.Config.ShowFishCollectionMaxIcon)
         {
             return;
         }

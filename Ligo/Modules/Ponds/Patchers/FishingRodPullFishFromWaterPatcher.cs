@@ -38,7 +38,7 @@ internal sealed class FishingRodPullFishFromWaterPatcher : HarmonyPatcher
             return;
         }
 
-        var (x, y) = ModEntry.Reflector
+        var (x, y) = Reflector
             .GetUnboundMethodDelegate<Func<FishingRod, Vector2>>(__instance, "calculateBobberTile")
             .Invoke(__instance);
         var pond = Game1.getFarm().buildings.OfType<FishPond>().FirstOrDefault(p =>

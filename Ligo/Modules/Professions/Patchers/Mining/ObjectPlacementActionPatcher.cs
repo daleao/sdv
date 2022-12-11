@@ -31,61 +31,70 @@ internal sealed class ObjectPlacementActionPatcher : HarmonyPatcher
     {
         var helper = new ILHelper(original, instructions);
 
-        // Injected: if (who is not null && who.professions.Contains(<demolitionist_id>) && ModEntry.Config.Arsenal.Slingshots.ModKey.IsDown()) skipIntensity ...
+        // Injected: if (who is not null && who.professions.Contains(<demolitionist_id>) && ArsenalModule.Config.Slingshots.ModKey.IsDown()) skipIntensity ...
         // After: new TemporaryAnimatedSprite( ... )
-        var i = 0;
-        repeat:
         try
         {
-            var skipIntensity = generator.DefineLabel();
-            var resumeExecution = generator.DefineLabel();
             helper
-                .FindNext(
-                    new CodeInstruction(OpCodes.Dup),
-                    new CodeInstruction(OpCodes.Ldc_R4, 0.5f),
-                    new CodeInstruction(
-                        OpCodes.Stfld,
-                        typeof(TemporaryAnimatedSprite).RequireField(nameof(TemporaryAnimatedSprite.shakeIntensity))))
-                .AddLabels(resumeExecution)
-                .InsertInstructions(
-                    new CodeInstruction(OpCodes.Ldarg_S, (byte)4), // arg 4 = Farmer who
-                    new CodeInstruction(OpCodes.Brfalse_S, resumeExecution),
-                    new CodeInstruction(OpCodes.Ldarg_S, (byte)4))
-                .InsertProfessionCheck(Profession.Demolitionist.Value, forLocalPlayer: false)
-                .InsertInstructions(
-                    new CodeInstruction(OpCodes.Brfalse_S, resumeExecution),
-                    new CodeInstruction(
-                        OpCodes.Call,
-                        typeof(ModEntry).RequirePropertyGetter(nameof(ModEntry.Config))),
-                    new CodeInstruction(
-                        OpCodes.Callvirt,
-                        typeof(ModConfig).RequirePropertyGetter(nameof(ModConfig.Professions))),
-                    new CodeInstruction(
-                        OpCodes.Callvirt,
-                        typeof(Config).RequirePropertyGetter(nameof(Config.ModKey))),
-                    new CodeInstruction(
-                        OpCodes.Call,
-                        typeof(KeybindList).RequireMethod(nameof(KeybindList.IsDown))),
-                    new CodeInstruction(OpCodes.Brtrue_S, skipIntensity))
-                .AdvanceUntil(
-                    new CodeInstruction(OpCodes.Dup),
-                    new CodeInstruction(OpCodes.Ldloc_1),
-                    new CodeInstruction(
-                        OpCodes.Stfld,
-                        typeof(TemporaryAnimatedSprite).RequireField(nameof(TemporaryAnimatedSprite
-                            .extraInfoForEndBehavior))))
-                .AddLabels(skipIntensity);
+                .Repeat(
+                    3,
+                    _ =>
+                    {
+                        var skipIntensity = generator.DefineLabel();
+                        var resumeExecution = generator.DefineLabel();
+                        helper
+                            .Match(
+                                new[]
+                                {
+                                    new CodeInstruction(OpCodes.Dup), new CodeInstruction(OpCodes.Ldc_R4, 0.5f),
+                                    new CodeInstruction(
+                                        OpCodes.Stfld,
+                                        typeof(TemporaryAnimatedSprite).RequireField(nameof(TemporaryAnimatedSprite
+                                            .shakeIntensity))),
+                                })
+                            .AddLabels(resumeExecution)
+                            .Insert(
+                                new[]
+                                {
+                                    new CodeInstruction(OpCodes.Ldarg_S, (byte)4), // arg 4 = Farmer who
+                                    new CodeInstruction(OpCodes.Brfalse_S, resumeExecution),
+                                    new CodeInstruction(OpCodes.Ldarg_S, (byte)4),
+                                })
+                            .InsertProfessionCheck(Profession.Demolitionist.Value, forLocalPlayer: false)
+                            .Insert(
+                                new[]
+                                {
+                                    new CodeInstruction(OpCodes.Brfalse_S, resumeExecution), new CodeInstruction(
+                                        OpCodes.Call,
+                                        typeof(ModEntry).RequirePropertyGetter(nameof(Config))),
+                                    new CodeInstruction(
+                                        OpCodes.Callvirt,
+                                        typeof(ModConfig).RequirePropertyGetter(nameof(ModConfig.Professions))),
+                                    new CodeInstruction(
+                                        OpCodes.Callvirt,
+                                        typeof(ProfessionsConfig).RequirePropertyGetter(
+                                            nameof(ProfessionsConfig.ModKey))),
+                                    new CodeInstruction(
+                                        OpCodes.Call,
+                                        typeof(KeybindList).RequireMethod(nameof(KeybindList.IsDown))),
+                                    new CodeInstruction(OpCodes.Brtrue_S, skipIntensity),
+                                })
+                            .Match(
+                                new[]
+                                {
+                                    new CodeInstruction(OpCodes.Dup), new CodeInstruction(OpCodes.Ldloc_1),
+                                    new CodeInstruction(
+                                        OpCodes.Stfld,
+                                        typeof(TemporaryAnimatedSprite).RequireField(nameof(TemporaryAnimatedSprite
+                                            .extraInfoForEndBehavior))),
+                                })
+                            .AddLabels(skipIntensity);
+                    });
         }
         catch (Exception ex)
         {
             Log.E($"Failed injecting intensity skip for manually-detonated bombs.\nHelper returned {ex}");
             return null;
-        }
-
-        // repeat injection three times
-        if (++i < 3)
-        {
-            goto repeat;
         }
 
         return helper.Flush();

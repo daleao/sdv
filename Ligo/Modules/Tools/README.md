@@ -33,11 +33,13 @@ Like the Tractor Mod, what the shockwave actually does can also be configured. B
 
 The area of effect of Hoe and Watering Can may be customized by setting a length and radius for each upgrade level. Note that the radius adds to both side of the farmer, such that a radius of 1 yields an area 3 tiles wide.
 
+The radius of the Scythe and Golden Scythe can also be configured.
+
 ## Enchantments
 
 All tool enchantments are compatible. The Reaching Enchantment will work on chargeable resource tools as it ordinarily does for farming tools, increasing the maximum charge level by **one**. The Powerful Enchantment likewise continues to increase the power of resource tools, and that extends to every affected tile in the shockwave.
 
-In addition, this module will allow the Swift Enchantment to be applied on the Watering Can, and the Master Enchantment to be applied on all tools, boosting the corresponding skill level by **one**.
+In addition, this module will allow the Swift Enchantment to be applied to the Watering Can, and the Master Enchantment to be applied to all tools, boosting the corresponding skill level by **one**. Lastly, the Haymaker Enchantment can now be applied to the Scythe and Golden Scythe.
 
 ## Configs
 
@@ -50,7 +52,8 @@ This section describes some of the configurable settings provided in configs.jso
 - **'HideAffectedTiles':** If enabled, will not display the green overlay showing the size of the shockwave.
 - **'StaminaCostMultiplier':** By default, charging multiplies your tool's base stamina cost by the charging level. Use this multiplier to adjust the cost of the shockwave *only*. Set to zero to make it free (you will still lose stamina equal to the base tool cost). Accepts any real number greater than zero.
 - **'TicksBetweenWaves':** The number of game ticks before the shockwave grows by 1 tile. Higher numbers cause the shockwave to travel slower. Setting this to 0 replicates the original behavior from older versions.
-- Other settings are self explanatory. Use [Generic Mod Config Menu](https://www.nexusmods.com/stardewvalley/mods/5098) if you need verbatim explanations.
+
+Other settings are self explanatory. Use [Generic Mod Config Menu](https://www.nexusmods.com/stardewvalley/mods/5098) if you need verbatim explanations.
 
 ## Compatibility
 

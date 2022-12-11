@@ -19,7 +19,7 @@ internal static class Collections
         "Mayonnaise Machine",
         "Oil Maker",
         "Preserves Jar",
-    }.Concat(ModEntry.Config.Professions.CustomArtisanMachines).ToHashSet();
+    }.Concat(ProfessionsModule.Config.CustomArtisanMachines).ToHashSet();
 
     /// <summary>Gets the names of the legendary fish.</summary>
     internal static IReadOnlySet<string> LegendaryFishNames { get; } = new HashSet<string>
@@ -131,5 +131,18 @@ internal static class Collections
         { Constants.Legend2Index, Constants.LegendIndex },
         { Constants.RadioactiveCarpIndex, Constants.MutantCarpIndex },
         { Constants.GlacierfishJrIndex, Constants.GlacierfishIndex },
+    };
+
+    /// <summary>Gets the swords that should be converted to stabby swords.</summary>
+    internal static ISet<int> StabbySwords { get; } = new HashSet<int>
+    {
+        Constants.SteelSmallswordIndex,
+        Constants.CutlassIndex,
+        Constants.RapierIndex,
+        Constants.SteelFalchionIndex,
+        Constants.PiratesSwordIndex,
+        Constants.ForestSwordIndex,
+        Constants.LavaKatanaIndex,
+        Constants.DragontoothCutlassIndex,
     };
 }

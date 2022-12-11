@@ -45,7 +45,7 @@ internal static class FarmerExtensions
     /// <param name="animationIds">The animation IDs to detect.</param>
     internal static void CancelAnimation(this Farmer farmer, params int[] animationIds)
     {
-        var animationId = ModEntry.ModHelper.Reflection.GetField<int>(farmer.FarmerSprite, "currentSingleAnimation")
+        var animationId = ModHelper.Reflection.GetField<int>(farmer.FarmerSprite, "currentSingleAnimation")
             .GetValue();
         if (animationIds.All(id => id != animationId))
         {

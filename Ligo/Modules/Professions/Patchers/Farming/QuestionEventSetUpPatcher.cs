@@ -38,23 +38,33 @@ internal sealed class QuestionEventSetUpPatcher : HarmonyPatcher
             var isNotPrestiged = generator.DefineLabel();
             var resumeExecution = generator.DefineLabel();
             helper
-                .FindFirst(new CodeInstruction(OpCodes.Ldc_R8, 0.0055)) // find index of loading base pregnancy chance
+                .Match(
+                    new[]
+                    {
+                        new CodeInstruction(OpCodes.Ldc_R8, 0.0055)
+                    }) // find index of loading base pregnancy chance
                 .AddLabels(isNotBreeder) // branch here if player is not breeder
-                .Advance()
+                .Move()
                 .AddLabels(resumeExecution) // branch here to resume execution
-                .Retreat()
+                .Move(-1)
                 .InsertProfessionCheck(Profession.Breeder.Value)
-                .InsertInstructions(new CodeInstruction(OpCodes.Brfalse_S, isNotBreeder))
+                .Insert(new[] { new CodeInstruction(OpCodes.Brfalse_S, isNotBreeder) })
                 .InsertProfessionCheck(Profession.Breeder.Value + 100)
-                .InsertInstructions(
-                    new CodeInstruction(OpCodes.Brfalse_S, isNotPrestiged),
-                    // if player is breeder load adjusted pregnancy chance
-                    new CodeInstruction(OpCodes.Ldc_R8, 0.0275), // x5 for prestiged
-                    new CodeInstruction(OpCodes.Br_S, resumeExecution))
-                .InsertWithLabels(
-                    new[] { isNotPrestiged },
-                    new CodeInstruction(OpCodes.Ldc_R8, 0.0055 * 3), // x3 for regular
-                    new CodeInstruction(OpCodes.Br_S, resumeExecution));
+                .Insert(
+                    new[]
+                    {
+                        new CodeInstruction(OpCodes.Brfalse_S, isNotPrestiged),
+                        // if player is breeder load adjusted pregnancy chance
+                        new CodeInstruction(OpCodes.Ldc_R8, 0.0275), // x5 for prestiged
+                        new CodeInstruction(OpCodes.Br_S, resumeExecution),
+                    })
+                .Insert(
+                    new[]
+                    {
+                        new CodeInstruction(OpCodes.Ldc_R8, 0.0055 * 3), // x3 for regular
+                        new CodeInstruction(OpCodes.Br_S, resumeExecution),
+                    },
+                    new[] { isNotPrestiged });
         }
         catch (Exception ex)
         {

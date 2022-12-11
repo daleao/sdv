@@ -10,11 +10,11 @@ using Microsoft.Xna.Framework.Graphics;
 internal static class Textures
 {
     internal static Texture2D RingsTx { get; } =
-        ModEntry.ModHelper.ModContent.Load<Texture2D>("assets/sprites/rings");
+        ModHelper.ModContent.Load<Texture2D>("assets/sprites/rings");
 
     internal static Texture2D GemstonesTx { get; } =
-        ModEntry.ModHelper.ModContent.Load<Texture2D>("assets/sprites/gemstones");
+        ModHelper.ModContent.Load<Texture2D>("assets/sprites/gemstones");
 
     internal static Texture2D ResonanceLightTx { get; } =
-        ModEntry.ModHelper.ModContent.Load<Texture2D>("assets/lights/resonance");
+        ModHelper.ModContent.Load<Texture2D>("assets/lights/resonance");
 }

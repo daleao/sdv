@@ -4,7 +4,6 @@
 
 using DaLion.Ligo.Modules.Professions.Events.Display;
 using DaLion.Ligo.Modules.Professions.Events.GameLoop;
-using DaLion.Shared.Events;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -41,11 +40,11 @@ internal sealed class UltimateHud
     internal static Texture2D Texture => Textures.UltimateMeterTx;
 
     /// <summary>Gets a value indicating whether determines whether the gauge is being drawn.</summary>
-    internal bool IsVisible => ModEntry.Events.IsEnabled<UltimateMeterRenderingHudEvent>();
+    internal bool IsVisible => EventManager.IsEnabled<UltimateMeterRenderingHudEvent>();
 
     /// <summary>Draw the gauge and all it's components to the HUD.</summary>
     /// <param name="b">A <see cref="SpriteBatch"/> to draw to.</param>
-    /// <remarks>This should be called from a <see cref="RenderingHudEvent"/>.</remarks>
+    /// <remarks>This should be called from a <see cref="Shared.Events.RenderingHudEvent"/>.</remarks>
     internal void Draw(SpriteBatch b)
     {
         if (this._opacity <= 0f)
@@ -240,8 +239,8 @@ internal sealed class UltimateHud
             return;
         }
 
-        ModEntry.Events.Disable<UltimateGaugeFadeOutUpdateTickedEvent>();
-        ModEntry.Events.Disable<UltimateMeterRenderingHudEvent>();
+        EventManager.Disable<UltimateGaugeFadeOutUpdateTickedEvent>();
+        EventManager.Disable<UltimateMeterRenderingHudEvent>();
         this._fadeOutTimer = FadeOutDelay + FadeOutDuration;
         this._opacity = 1f;
     }

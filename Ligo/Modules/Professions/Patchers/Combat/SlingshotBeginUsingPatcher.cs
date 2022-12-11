@@ -24,7 +24,7 @@ internal sealed class SlingshotBeginUsingPatcher : HarmonyPatcher
     [HarmonyPostfix]
     private static void SlingshotBeginUsingPostfix()
     {
-        ModEntry.Events.Enable<DesperadoUpdateTickedEvent>();
+        EventManager.Enable<DesperadoUpdateTickedEvent>();
     }
 
     #endregion harmony patches

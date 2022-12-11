@@ -33,7 +33,7 @@ internal sealed class ForgeMenuUpdatePatcher : HarmonyPatcher
     {
         var helper = new ILHelper(original, instructions);
 
-        // Injected: if (ModEntry.Config.Arsenal.Slingshots.TheOneInfinityBand && ring.ParentSheetIndex == Globals.InfinityBandIndex.Value)
+        // Injected: if (ArsenalModule.Config.Slingshots.TheOneInfinityBand && ring.ParentSheetIndex == Globals.InfinityBandIndex.Value)
         //               UnforgeInfinityBand(ring);
         //           else ...
         // After: if (leftIngredientSpot.item is CombinedRing ring)
@@ -41,34 +41,38 @@ internal sealed class ForgeMenuUpdatePatcher : HarmonyPatcher
         {
             var vanillaUnforge = generator.DefineLabel();
             helper
-                .FindFirst(
-                    new CodeInstruction(OpCodes.Stloc_S, helper.Locals[14])) // local 14 = CombinedRing ring
-                .AdvanceUntil(new CodeInstruction(OpCodes.Brfalse_S))
+                .Match(
+                    new[] { new CodeInstruction(OpCodes.Stloc_S, helper.Locals[14]) }) // local 14 = CombinedRing ring
+                .Match(new[] { new CodeInstruction(OpCodes.Brfalse_S) })
                 .GetOperand(out var resumeExecution)
-                .Advance()
+                .Move()
                 .AddLabels(vanillaUnforge)
-                .InsertInstructions(
-                    new CodeInstruction(OpCodes.Call, typeof(ModEntry).RequirePropertyGetter(nameof(ModEntry.Config))),
-                    new CodeInstruction(
-                        OpCodes.Callvirt,
-                        typeof(ModConfig).RequirePropertyGetter(nameof(ModConfig.Rings))),
-                    new CodeInstruction(
-                        OpCodes.Callvirt,
-                        typeof(Config).RequirePropertyGetter(nameof(Config.TheOneInfinityBand))),
-                    new CodeInstruction(OpCodes.Brfalse_S, vanillaUnforge),
-                    new CodeInstruction(OpCodes.Ldloc_S, helper.Locals[14]),
-                    new CodeInstruction(
-                        OpCodes.Callvirt,
-                        typeof(Item).RequirePropertyGetter(nameof(Item.ParentSheetIndex))),
-                    new CodeInstruction(OpCodes.Call, typeof(Globals).RequirePropertyGetter(nameof(Globals.InfinityBandIndex))),
-                    new CodeInstruction(OpCodes.Call, typeof(int?).RequirePropertyGetter(nameof(Nullable<int>.Value))),
-                    new CodeInstruction(OpCodes.Bne_Un_S, vanillaUnforge),
-                    new CodeInstruction(OpCodes.Ldarg_0),
-                    new CodeInstruction(OpCodes.Ldloc_S, helper.Locals[14]),
-                    new CodeInstruction(
-                        OpCodes.Call,
-                        typeof(ForgeMenuUpdatePatcher).RequireMethod(nameof(UnforgeInfinityBand))),
-                    new CodeInstruction(OpCodes.Br_S, resumeExecution));
+                .Insert(
+                    new[]
+                    {
+                        new CodeInstruction(OpCodes.Call, typeof(ModEntry).RequirePropertyGetter(nameof(Config))),
+                        new CodeInstruction(
+                            OpCodes.Callvirt,
+                            typeof(ModConfig).RequirePropertyGetter(nameof(ModConfig.Rings))),
+                        new CodeInstruction(
+                            OpCodes.Callvirt,
+                            typeof(RingsConfig).RequirePropertyGetter(nameof(RingsConfig.TheOneInfinityBand))),
+                        new CodeInstruction(OpCodes.Brfalse_S, vanillaUnforge),
+                        new CodeInstruction(OpCodes.Ldloc_S, helper.Locals[14]), new CodeInstruction(
+                            OpCodes.Callvirt,
+                            typeof(Item).RequirePropertyGetter(nameof(Item.ParentSheetIndex))),
+                        new CodeInstruction(
+                            OpCodes.Call,
+                            typeof(Globals).RequirePropertyGetter(nameof(Globals.InfinityBandIndex))),
+                        new CodeInstruction(
+                            OpCodes.Call,
+                            typeof(int?).RequirePropertyGetter(nameof(Nullable<int>.Value))),
+                        new CodeInstruction(OpCodes.Bne_Un_S, vanillaUnforge), new CodeInstruction(OpCodes.Ldarg_0),
+                        new CodeInstruction(OpCodes.Ldloc_S, helper.Locals[14]), new CodeInstruction(
+                            OpCodes.Call,
+                            typeof(ForgeMenuUpdatePatcher).RequireMethod(nameof(UnforgeInfinityBand))),
+                        new CodeInstruction(OpCodes.Br_S, resumeExecution),
+                    });
         }
         catch (Exception ex)
         {

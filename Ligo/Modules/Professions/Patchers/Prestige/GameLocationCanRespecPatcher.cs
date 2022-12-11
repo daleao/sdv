@@ -24,7 +24,7 @@ internal sealed class GameLocationCanRespecPatcher : HarmonyPatcher
     [HarmonyPrefix]
     private static bool GameLocationCanRespecPrefix(ref bool __result, int skill_index)
     {
-        if (!ModEntry.Config.Professions.EnablePrestige)
+        if (!ProfessionsModule.Config.EnablePrestige)
         {
             return true; // run original logic
         }

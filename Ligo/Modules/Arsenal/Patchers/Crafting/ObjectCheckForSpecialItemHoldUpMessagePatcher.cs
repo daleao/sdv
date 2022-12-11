@@ -35,11 +35,11 @@ internal sealed class ObjectCheckForSpecialItemHoldUpMessagePatcher : HarmonyPat
         if (found.Count == 1)
         {
             var type = ((WeaponType)new MeleeWeapon(found[0]).type.Value).ToStringFast();
-            __result = ModEntry.i18n.Get("blueprint.found.first", new { type });
+            __result = i18n.Get("blueprint.found.first", new { type });
         }
         else
         {
-            __result = ModEntry.i18n.Get("blueprint.found.local");
+            __result = i18n.Get("blueprint.found.local");
         }
     }
 

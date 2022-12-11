@@ -25,7 +25,7 @@ internal sealed class FarmerHasOrWillReceiveMailPatcher : HarmonyPatcher
     {
         try
         {
-            if (!id.Contains(ModEntry.Manifest.UniqueID))
+            if (!id.Contains(Manifest.UniqueID))
             {
                 return true; // run original logic
             }

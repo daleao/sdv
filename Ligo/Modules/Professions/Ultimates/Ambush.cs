@@ -24,11 +24,14 @@ public sealed class Ambush : Ultimate
 
     /// <inheritdoc />
     public override string Description =>
-        ModEntry.i18n.Get(this.Name.ToLower() + ".desc." + (this.IsGrantingCritBuff ? "revealed" : "hidden"));
+        i18n.Get(this.Name.ToLower() + ".desc." + (this.IsGrantingCritBuff ? "revealed" : "hidden"));
+
+    /// <inheritdoc />
+    public override IProfession Profession => Professions.Profession.Poacher;
 
     /// <inheritdoc />
     internal override int MillisecondsDuration =>
-        (int)(15000 * ((double)this.MaxValue / BaseMaxValue) / ModEntry.Config.Professions.SpecialDrainFactor);
+        (int)(15000 * ((double)this.MaxValue / BaseMaxValue) / ProfessionsModule.Config.SpecialDrainFactor);
 
     /// <inheritdoc />
     internal override Sfx ActivationSfx => Sfx.PoacherAmbush;
@@ -57,20 +60,20 @@ public sealed class Ambush : Ultimate
             {
                 case AngryRoger:
                 case Ghost:
-                    ModEntry.ModHelper.Reflection.GetField<bool>(monster, "seenPlayer").SetValue(false);
+                    ModHelper.Reflection.GetField<bool>(monster, "seenPlayer").SetValue(false);
                     break;
                 case Bat:
                 case RockGolem:
-                    ModEntry.ModHelper.Reflection.GetField<NetBool>(monster, "seenPlayer").GetValue().Value = false;
+                    ModHelper.Reflection.GetField<NetBool>(monster, "seenPlayer").GetValue().Value = false;
                     break;
                 case DustSpirit:
-                    ModEntry.ModHelper.Reflection.GetField<bool>(monster, "seenFarmer").SetValue(false);
-                    ModEntry.ModHelper.Reflection.GetField<bool>(monster, "chargingFarmer").SetValue(false);
+                    ModHelper.Reflection.GetField<bool>(monster, "seenFarmer").SetValue(false);
+                    ModHelper.Reflection.GetField<bool>(monster, "chargingFarmer").SetValue(false);
                     break;
                 case ShadowGuy:
                 case ShadowShaman:
                 case Skeleton:
-                    ModEntry.ModHelper.Reflection.GetField<bool>(monster, "spottedPlayer").SetValue(false);
+                    ModHelper.Reflection.GetField<bool>(monster, "spottedPlayer").SetValue(false);
                     break;
             }
         }
@@ -106,7 +109,7 @@ public sealed class Ambush : Ultimate
                 description = this.Description,
             });
 
-        ModEntry.Events.Enable<AmbushUpdateTickedEvent>();
+        EventManager.Enable<AmbushUpdateTickedEvent>();
     }
 
     /// <inheritdoc />
@@ -161,9 +164,9 @@ public sealed class Ambush : Ultimate
     {
         return LocalizedContentManager.CurrentLanguageCode switch
         {
-            LocalizedContentManager.LanguageCode.es => ModEntry.i18n.Get("article.definite.female"),
+            LocalizedContentManager.LanguageCode.es => i18n.Get("article.definite.female"),
             LocalizedContentManager.LanguageCode.fr or LocalizedContentManager.LanguageCode.pt =>
-                ModEntry.i18n.Get("article.definite.male"),
+                i18n.Get("article.definite.male"),
             _ => string.Empty,
         };
     }

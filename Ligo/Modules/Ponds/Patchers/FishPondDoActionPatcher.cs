@@ -51,30 +51,40 @@ internal sealed class FishPondDoActionPatcher : HarmonyPatcher
         try
         {
             helper
-                .FindFirst(
-                    new CodeInstruction(OpCodes.Ldarg_0),
-                    new CodeInstruction(OpCodes.Ldfld, typeof(FishPond).RequireField(nameof(FishPond.output))),
-                    new CodeInstruction(
-                        OpCodes.Callvirt,
-                        typeof(NetRef<Item>).RequirePropertyGetter(nameof(NetRef<Item>.Value))),
-                    new CodeInstruction(OpCodes.Stloc_1))
-                .Retreat()
+                .Match(
+                    new[]
+                    {
+                        new CodeInstruction(OpCodes.Ldarg_0),
+                        new CodeInstruction(OpCodes.Ldfld, typeof(FishPond).RequireField(nameof(FishPond.output))),
+                        new CodeInstruction(
+                            OpCodes.Callvirt,
+                            typeof(NetRef<Item>).RequirePropertyGetter(nameof(NetRef<Item>.Value))),
+                        new CodeInstruction(OpCodes.Stloc_1),
+                    })
+                .Move(-1)
                 .SetOpCode(OpCodes.Brfalse_S)
-                .Advance()
-                .RemoveInstructionsUntil(
-                    new CodeInstruction(OpCodes.Ldc_I4_1),
-                    new CodeInstruction(OpCodes.Ret))
-                .InsertInstructions(
-                    new CodeInstruction(OpCodes.Ldarg_0),
-                    new CodeInstruction(OpCodes.Ldarg_2),
-                    new CodeInstruction(
-                        OpCodes.Call,
-                        typeof(FishPondExtensions).RequireMethod(nameof(FishPondExtensions.RewardExp))),
-                    new CodeInstruction(OpCodes.Ldarg_0),
-                    new CodeInstruction(OpCodes.Ldarg_2),
-                    new CodeInstruction(
-                        OpCodes.Call,
-                        typeof(FishPondExtensions).RequireMethod(nameof(FishPondExtensions.OpenChumBucketMenu))));
+                .Move()
+                .Match(
+                    new[]
+                    {
+                        new CodeInstruction(OpCodes.Ldc_I4_1),
+                        new CodeInstruction(OpCodes.Ret),
+                    },
+                    out var count)
+                .Remove(count)
+                .Insert(
+                    new[]
+                    {
+                        new CodeInstruction(OpCodes.Ldarg_0),
+                        new CodeInstruction(OpCodes.Ldarg_2),
+                        new CodeInstruction(
+                            OpCodes.Call,
+                            typeof(FishPondExtensions).RequireMethod(nameof(FishPondExtensions.RewardExp))),
+                        new CodeInstruction(OpCodes.Ldarg_0),
+                        new CodeInstruction(OpCodes.Ldarg_2), new CodeInstruction(
+                            OpCodes.Call,
+                            typeof(FishPondExtensions).RequireMethod(nameof(FishPondExtensions.OpenChumBucketMenu))),
+                    });
         }
         catch (Exception ex)
         {
@@ -87,23 +97,33 @@ internal sealed class FishPondDoActionPatcher : HarmonyPatcher
         try
         {
             helper
-                .FindNext(
-                    new CodeInstruction(OpCodes.Ldfld, typeof(FishPond).RequireField(nameof(FishPond.fishType))),
-                    new CodeInstruction(OpCodes.Call, typeof(NetFieldBase<int, NetInt>).RequireMethod("op_Implicit")),
-                    new CodeInstruction(OpCodes.Beq))
-                .RetreatUntil(
-                    new CodeInstruction(OpCodes.Ldloc_0))
-                .GetInstructionsUntil(
-                    out var got,
+                .Match(
+                    new[]
+                    {
+                        new CodeInstruction(
+                            OpCodes.Ldfld,
+                            typeof(FishPond).RequireField(nameof(FishPond.fishType))),
+                        new CodeInstruction(
+                            OpCodes.Call,
+                            typeof(NetFieldBase<int, NetInt>).RequireMethod("op_Implicit")),
+                        new CodeInstruction(OpCodes.Beq),
+                    })
+                .Match(new[] { new CodeInstruction(OpCodes.Ldloc_0) }, ILHelper.SearchOption.Previous)
+                .Match(new[] { new CodeInstruction(OpCodes.Beq) }, out var steps)
+                .Copy(
+                    out var copy,
+                    steps,
                     true,
-                    true,
-                    new CodeInstruction(OpCodes.Beq))
-                .InsertInstructions(got)
-                .Retreat()
-                .InsertInstructions(
-                    new CodeInstruction(
-                        OpCodes.Call,
-                        typeof(FishPondDoActionPatcher).RequireMethod(nameof(IsExtendedFamilyMember))))
+                    true)
+                .Insert(copy)
+                .Move(-1)
+                .Insert(
+                    new[]
+                    {
+                        new CodeInstruction(
+                            OpCodes.Call,
+                            typeof(FishPondDoActionPatcher).RequireMethod(nameof(IsExtendedFamilyMember))),
+                    })
                 .SetOpCode(OpCodes.Brtrue_S);
         }
         catch (Exception ex)
@@ -118,21 +138,27 @@ internal sealed class FishPondDoActionPatcher : HarmonyPatcher
         {
             var resumeExecution = generator.DefineLabel();
             helper
-                .FindLast(
-                    new CodeInstruction(OpCodes.Ldarg_0),
-                    new CodeInstruction(OpCodes.Ldfld, typeof(FishPond).RequireField(nameof(FishPond.fishType))))
+                .Match(
+                    new[]
+                    {
+                        new CodeInstruction(OpCodes.Ldarg_0),
+                        new CodeInstruction(
+                            OpCodes.Ldfld,
+                            typeof(FishPond).RequireField(nameof(FishPond.fishType))),
+                    },
+                    ILHelper.SearchOption.Last)
                 .StripLabels(out var labels)
                 .AddLabels(resumeExecution)
-                .InsertWithLabels(
-                    labels,
-                    new CodeInstruction(OpCodes.Ldarg_0),
-                    new CodeInstruction(OpCodes.Ldarg_2),
-                    new CodeInstruction(
-                        OpCodes.Call,
-                        typeof(FishPondDoActionPatcher).RequireMethod(nameof(TryThrowMetalIntoPond))),
-                    new CodeInstruction(OpCodes.Brfalse_S, resumeExecution),
-                    new CodeInstruction(OpCodes.Ldc_I4_1),
-                    new CodeInstruction(OpCodes.Ret));
+                .Insert(
+                    new[]
+                    {
+                        new CodeInstruction(OpCodes.Ldarg_0), new CodeInstruction(OpCodes.Ldarg_2), new CodeInstruction(
+                            OpCodes.Call,
+                            typeof(FishPondDoActionPatcher).RequireMethod(nameof(TryThrowMetalIntoPond))),
+                        new CodeInstruction(OpCodes.Brfalse_S, resumeExecution), new CodeInstruction(OpCodes.Ldc_I4_1),
+                        new CodeInstruction(OpCodes.Ret),
+                    },
+                    labels);
         }
         catch (Exception ex)
         {
@@ -177,7 +203,7 @@ internal sealed class FishPondDoActionPatcher : HarmonyPatcher
         heldMinerals.Add((metallic.ParentSheetIndex, days));
         pond.Write(DataFields.MetalsHeld, string.Join(';', heldMinerals.Select(m => string.Join(',', m.Item1, m.Item2))));
 
-        ModEntry.Reflector
+        Reflector
             .GetUnboundMethodDelegate<ShowObjectThrownIntoPondAnimationDelegate>(
                 pond,
                 "showObjectThrownIntoPondAnimation")

@@ -25,13 +25,13 @@ internal sealed class MeleeWeaponAnimateSpecialMovePatcher : HarmonyPatcher
     private static bool MeleeWeaponAnimateSpecalMovePrefix(MeleeWeapon __instance, ref Farmer ___lastUser, Farmer who)
     {
         if (__instance.type.Value != MeleeWeapon.stabbingSword || MeleeWeapon.attackSwordCooldown > 0 ||
-            !ModEntry.Config.Arsenal.Weapons.BringBackStabbySwords)
+            !ArsenalModule.Config.Weapons.BringBackStabbySwords)
         {
             return true; // run original logic
         }
 
         ___lastUser = who;
-        ModEntry.Events.Enable<StabbySwordSpecialUpdateTickingEvent>();
+        EventManager.Enable<StabbySwordSpecialUpdateTickingEvent>();
         return false; // don't run original logic
     }
 

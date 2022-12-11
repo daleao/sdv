@@ -41,16 +41,19 @@ internal sealed class CropHarvestPatcher : HarmonyPatcher
         {
             helper
                 .FindProfessionCheck(Farmer.botanist) // find index of botanist check
-                .AdvanceUntil(new CodeInstruction(OpCodes.Ldc_I4_4)) // start of obj.Quality = 4
-                .ReplaceInstructionWith(
+                .Match(new[] { new CodeInstruction(OpCodes.Ldc_I4_4) }) // start of obj.Quality = 4
+                .ReplaceWith(
                     // replace with custom quality
                     new CodeInstruction(
                         OpCodes.Call,
                         typeof(FarmerExtensions).RequireMethod(nameof(FarmerExtensions.GetEcologistForageQuality))))
-                .InsertInstructions(
-                    new CodeInstruction(
-                    OpCodes.Call,
-                    typeof(Game1).RequirePropertyGetter(nameof(Game1.player))));
+                .Insert(
+                    new[]
+                    {
+                        new CodeInstruction(
+                            OpCodes.Call,
+                            typeof(Game1).RequirePropertyGetter(nameof(Game1.player))),
+                    });
         }
         catch (Exception ex)
         {
@@ -73,22 +76,28 @@ internal sealed class CropHarvestPatcher : HarmonyPatcher
 
             var dontIncreaseEcologistCounter = generator.DefineLabel();
             helper
-                .FindNext(
-                    new CodeInstruction(
-                        OpCodes.Callvirt,
-                        typeof(Stats).RequirePropertySetter(nameof(Stats.ItemsForaged))))
-                .Advance()
+                .Match(
+                    new[]
+                    {
+                        new CodeInstruction(
+                            OpCodes.Callvirt,
+                            typeof(Stats).RequirePropertySetter(nameof(Stats.ItemsForaged))),
+                    })
+                .Move()
                 .AddLabels(dontIncreaseEcologistCounter)
                 .InsertProfessionCheck(Profession.Ecologist.Value)
-                .InsertInstructions(
-                    new CodeInstruction(OpCodes.Brfalse_S, dontIncreaseEcologistCounter),
-                    new CodeInstruction(OpCodes.Call, typeof(Game1).RequirePropertyGetter(nameof(Game1.player))),
-                    new CodeInstruction(OpCodes.Ldstr, DataFields.EcologistItemsForaged),
-                    new CodeInstruction(OpCodes.Ldloc_1), // loc 1 = obj
-                    new CodeInstruction(
-                        OpCodes.Callvirt,
-                        typeof(Item).RequirePropertyGetter(nameof(Item.Stack))),
-                    new CodeInstruction(OpCodes.Call, incrementMethod));
+                .Insert(
+                    new[]
+                    {
+                        new CodeInstruction(OpCodes.Brfalse_S, dontIncreaseEcologistCounter),
+                        new CodeInstruction(OpCodes.Call, typeof(Game1).RequirePropertyGetter(nameof(Game1.player))),
+                        new CodeInstruction(OpCodes.Ldstr, DataFields.EcologistItemsForaged),
+                        new CodeInstruction(OpCodes.Ldloc_1), // loc 1 = obj
+                        new CodeInstruction(
+                            OpCodes.Callvirt,
+                            typeof(Item).RequirePropertyGetter(nameof(Item.Stack))),
+                        new CodeInstruction(OpCodes.Call, incrementMethod),
+                    });
         }
         catch (Exception ex)
         {
@@ -103,16 +112,22 @@ internal sealed class CropHarvestPatcher : HarmonyPatcher
         {
             var fertilizerQualityLevel = helper.Locals[8];
             var isAgriculturist = generator.DefineLabel();
-            helper.AdvanceUntil(
-                    // find index of Crop.fertilizerQualityLevel >= 3
-                    new CodeInstruction(OpCodes.Ldloc_S, fertilizerQualityLevel),
-                    new CodeInstruction(OpCodes.Ldc_I4_3),
-                    new CodeInstruction(OpCodes.Blt_S))
+            helper
+                .Match(
+                    new[]
+                    {
+                        // find index of Crop.fertilizerQualityLevel >= 3
+                        new CodeInstruction(OpCodes.Ldloc_S, fertilizerQualityLevel),
+                        new CodeInstruction(OpCodes.Ldc_I4_3), new CodeInstruction(OpCodes.Blt_S),
+                    })
                 .InsertProfessionCheck(Profession.Agriculturist.Value)
-                .InsertInstructions(
-                    new CodeInstruction(OpCodes.Brtrue_S, isAgriculturist))
-                .AdvanceUntil(// find start of dice roll
-                    new CodeInstruction(OpCodes.Ldloc_S, random2))
+                .Insert(new[] { new CodeInstruction(OpCodes.Brtrue_S, isAgriculturist) })
+                .Match(
+                    new[]
+                    {
+                        // find start of dice roll
+                        new CodeInstruction(OpCodes.Ldloc_S, random2),
+                    })
                 .AddLabels(isAgriculturist); // branch here if player is agriculturist
         }
         catch (Exception ex)
@@ -128,30 +143,35 @@ internal sealed class CropHarvestPatcher : HarmonyPatcher
             var numToHarvest = helper.Locals[6];
             var dontIncreaseNumToHarvest = generator.DefineLabel();
             helper
-                .FindNext(
-                    new CodeInstruction(OpCodes.Ldloc_S, numToHarvest)) // find index of numToHarvest++
-                .GetInstructionsUntil(
-                    out var got,
-                    true,
-                    false,
-                    new CodeInstruction(OpCodes.Stloc_S, numToHarvest))
-                .AdvanceUntil(// find end of chanceForExtraCrops while loop
-                    new CodeInstruction(
-                        OpCodes.Ldfld,
-                        typeof(Crop).RequireField(nameof(Crop.chanceForExtraCrops))))
-                .AdvanceUntil(
-                    new CodeInstruction(OpCodes.Ldarg_0)) // beginning of the next segment
+                .Match(new[]
+                {
+                    // find index of numToHarvest++
+                    new CodeInstruction(OpCodes.Ldloc_S, numToHarvest),
+                })
+                .Match(new[] { new CodeInstruction(OpCodes.Stloc_S, numToHarvest) }, out var steps)
+                .Copy(out var copy, steps, true)
+                .Match(
+                    new[]
+                    {
+                        // find end of chanceForExtraCrops while loop
+                        new CodeInstruction(
+                            OpCodes.Ldfld,
+                            typeof(Crop).RequireField(nameof(Crop.chanceForExtraCrops))),
+                    })
+                .Match(new[] { new CodeInstruction(OpCodes.Ldarg_0) }) // beginning of the next segment
                 .StripLabels(out var labels) // copy existing labels
                 .AddLabels(dontIncreaseNumToHarvest) // branch here if shouldn't apply Harvester bonus
-                .InsertWithLabels(
-                    labels,
-                    new CodeInstruction(OpCodes.Ldarg_S, (byte)4), // arg 4 = JunimoHarvester junimoHarvester
-                    new CodeInstruction(OpCodes.Ldloc_S, random2),
-                    new CodeInstruction(
-                        OpCodes.Call,
-                        typeof(CropHarvestPatcher).RequireMethod(nameof(ShouldIncreaseHarvestYield))),
-                    new CodeInstruction(OpCodes.Brfalse_S, dontIncreaseNumToHarvest))
-                .InsertInstructions(got); // insert numToHarvest++
+                .Insert(
+                    new[]
+                    {
+                        new CodeInstruction(OpCodes.Ldarg_S, (byte)4), // arg 4 = JunimoHarvester junimoHarvester
+                        new CodeInstruction(OpCodes.Ldloc_S, random2), new CodeInstruction(
+                            OpCodes.Call,
+                            typeof(CropHarvestPatcher).RequireMethod(nameof(ShouldIncreaseHarvestYield))),
+                        new CodeInstruction(OpCodes.Brfalse_S, dontIncreaseNumToHarvest),
+                    },
+                    labels)
+                .Insert(copy); // insert numToHarvest++
         }
         catch (Exception ex)
         {
@@ -169,7 +189,7 @@ internal sealed class CropHarvestPatcher : HarmonyPatcher
     private static bool ShouldIncreaseHarvestYield(JunimoHarvester? junimoHarvester, Random r)
     {
         var harvester = junimoHarvester is null ? Game1.player :
-            ModEntry.Config.Professions.ShouldJunimosInheritProfessions ? junimoHarvester.GetOwner() : null;
+            ProfessionsModule.Config.ShouldJunimosInheritProfessions ? junimoHarvester.GetOwner() : null;
         return harvester?.HasProfession(Profession.Harvester) == true &&
                r.NextDouble() < (harvester.HasProfession(Profession.Harvester, true) ? 0.2 : 0.1);
     }

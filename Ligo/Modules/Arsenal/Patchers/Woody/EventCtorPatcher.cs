@@ -25,21 +25,21 @@ internal sealed class EventCtorPatcher : HarmonyPatcher
     // ReSharper disable once InconsistentNaming
     private static void EventCtorPrefix(ref string eventString, int eventID)
     {
-        if (!ModEntry.Config.Arsenal.WoodyReplacesRusty || eventID != 100162)
+        if (!ArsenalModule.Config.WoodyReplacesRusty || eventID != 100162)
         {
             return;
         }
 
         if (Ligo.Integrations.SveConfig is not null)
         {
-            eventString = ModEntry.i18n.Get(
+            eventString = i18n.Get(
                 Game1.player.Items.Any(item => item is MeleeWeapon weapon && !weapon.isScythe())
                     ? "events.100162.nosword.sve"
                     : "events.100162.sword.sve");
         }
         else
         {
-            eventString = ModEntry.i18n.Get(
+            eventString = i18n.Get(
                 Game1.player.Items.Any(item => item is MeleeWeapon weapon && !weapon.isScythe())
                     ? "events.100162.nosword"
                     : "events.100162.sword");

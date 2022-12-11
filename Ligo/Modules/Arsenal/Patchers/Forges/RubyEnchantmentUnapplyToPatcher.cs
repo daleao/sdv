@@ -2,6 +2,7 @@
 
 #region using directives
 
+using System.Collections.Generic;
 using DaLion.Shared.Extensions.Stardew;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
@@ -24,13 +25,20 @@ internal sealed class RubyEnchantmentUnapplyToPatcher : HarmonyPatcher
     [HarmonyPrefix]
     private static bool RubyEnchantmentUnapplyToPrefix(RubyEnchantment __instance, Item item)
     {
-        if (item is not MeleeWeapon weapon || !ModEntry.Config.Arsenal.Weapons.RebalancedWeapons)
+        if (item is not MeleeWeapon weapon || !ArsenalModule.Config.Weapons.RebalancedWeapons)
         {
             return true; // run original logic
         }
 
-        weapon.minDamage.Value -= (int)Math.Min(weapon.Read<int>(DataFields.BaseMinDamage) * __instance.GetLevel() * 0.1f, 1);
-        weapon.maxDamage.Value -= (int)Math.Min(weapon.Read<int>(DataFields.BaseMaxDamage) * __instance.GetLevel() * 0.1f, 1);
+        var data = ModHelper.GameContent
+            .Load<Dictionary<int, string>>("Data/weapons")[weapon.InitialParentTileIndex]
+            .Split('/');
+        weapon.minDamage.Value -=
+            (int)Math.Min(
+                weapon.Read(DataFields.BaseMinDamage, Convert.ToInt32(data[2])) * __instance.GetLevel() * 0.1f, 1);
+        weapon.maxDamage.Value -=
+            (int)Math.Min(
+                weapon.Read(DataFields.BaseMaxDamage, Convert.ToInt32(data[3])) * __instance.GetLevel() * 0.1f, 1);
         return false; // don't run original logic
     }
 

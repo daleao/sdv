@@ -23,7 +23,7 @@ internal sealed partial class GenericModConfigMenuIntegration
                 (config, value) =>
                 {
                     config.Rings.RebalancedRings = value;
-                    ModEntry.ModHelper.GameContent.InvalidateCacheAndLocalized("Data/ObjectInformation");
+                    ModHelper.GameContent.InvalidateCacheAndLocalized("Data/ObjectInformation");
                 })
             .AddCheckbox(
                 () => "Craftable Gemstone Rings",
@@ -32,8 +32,8 @@ internal sealed partial class GenericModConfigMenuIntegration
                 (config, value) =>
                 {
                     config.Rings.CraftableGemRings = value;
-                    ModEntry.ModHelper.GameContent.InvalidateCacheAndLocalized("Data/CraftingRecipes");
-                    ModEntry.ModHelper.GameContent.InvalidateCacheAndLocalized("Maps/springobjects");
+                    ModHelper.GameContent.InvalidateCacheAndLocalized("Data/CraftingRecipes");
+                    ModHelper.GameContent.InvalidateCacheAndLocalized("Maps/springobjects");
                 })
             .AddCheckbox(
                 () => "Craftable Glow and Magnet Rings",
@@ -42,7 +42,7 @@ internal sealed partial class GenericModConfigMenuIntegration
                 (config, value) =>
                 {
                     config.Rings.CraftableGlowAndMagnetRings = value;
-                    ModEntry.ModHelper.GameContent.InvalidateCacheAndLocalized("Data/CraftingRecipes");
+                    ModHelper.GameContent.InvalidateCacheAndLocalized("Data/CraftingRecipes");
                 })
             .AddCheckbox(
                 () => "Immersive Glowstone Recipe",
@@ -51,7 +51,7 @@ internal sealed partial class GenericModConfigMenuIntegration
                 (config, value) =>
                 {
                     config.Rings.ImmersiveGlowstoneRecipe = value;
-                    ModEntry.ModHelper.GameContent.InvalidateCacheAndLocalized("Data/CraftingRecipes");
+                    ModHelper.GameContent.InvalidateCacheAndLocalized("Data/CraftingRecipes");
                 })
             .AddCheckbox(
                 () => "The One Iridium Band",
@@ -59,19 +59,19 @@ internal sealed partial class GenericModConfigMenuIntegration
                 config => config.Rings.TheOneInfinityBand,
                 (config, value) =>
                 {
-                    if (value && !ModEntry.ModHelper.ModRegistry.IsLoaded("spacechase0.JsonAssets"))
+                    if (value && !ModHelper.ModRegistry.IsLoaded("spacechase0.JsonAssets"))
                     {
                         Log.W("Cannot enable The One Iridium Band because this feature requires Json Assets which is not installed.");
                         return;
                     }
 
                     config.Rings.TheOneInfinityBand = value;
-                    ModEntry.ModHelper.GameContent.InvalidateCacheAndLocalized("Data/CraftingRecipes");
-                    ModEntry.ModHelper.GameContent.InvalidateCacheAndLocalized("Data/ObjectInformation");
-                    ModEntry.ModHelper.GameContent.InvalidateCacheAndLocalized("Maps/springobjects");
-                    if (value && !Globals.InfinityBandIndex.HasValue)
+                    ModHelper.GameContent.InvalidateCacheAndLocalized("Data/CraftingRecipes");
+                    ModHelper.GameContent.InvalidateCacheAndLocalized("Data/ObjectInformation");
+                    ModHelper.GameContent.InvalidateCacheAndLocalized("Maps/springobjects");
+                    if (value && !Globals.InfinityBandIndex.HasValue && !JsonAssetsIntegration.Registered)
                     {
-                        new JsonAssetsIntegration(ModEntry.ModHelper.ModRegistry).Register();
+                        new JsonAssetsIntegration(ModHelper.ModRegistry).Register();
                     }
                 })
             .AddCheckbox(

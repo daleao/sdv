@@ -25,7 +25,7 @@ internal sealed class IslandNorthGetIslandMerchantTradeStockPatcher : HarmonyPat
     [HarmonyPostfix]
     private static void IslandNorthGetIslandMerchantTradeStockPostfix(Dictionary<ISalable, int[]> __result)
     {
-        if (!ModEntry.Config.Arsenal.DwarvishCrafting)
+        if (!ArsenalModule.Config.DwarvishCrafting)
         {
             return;
         }

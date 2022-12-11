@@ -35,19 +35,26 @@ internal sealed class FarmAnimalPetPatcher : HarmonyPatcher
         {
             helper
                 .FindProfessionCheck(Farmer.shepherd) // find index of shepherd check
-                .Advance()
+                .Move()
                 .SetOpCode(OpCodes.Ldc_I4_0) // replace with rancher check
-                .AdvanceUntil(new CodeInstruction(OpCodes.Brfalse_S))
-                .AdvanceUntil(new CodeInstruction(OpCodes.Brfalse_S))
-                .AdvanceUntil(new CodeInstruction(OpCodes.Brfalse_S)) // the get out of here false case branch instruction
+                .Match(new[] { new CodeInstruction(OpCodes.Brfalse_S) })
+                .Match(new[] { new CodeInstruction(OpCodes.Brfalse_S) })
+                .Match(new[]
+                {
+                    // the get out of here false case branch instruction
+                    new CodeInstruction(OpCodes.Brfalse_S),
+                })
                 .GetOperand(out var isNotRancher) // copy destination
                 .Return(2)
                 .SetOperand(isNotRancher) // replace false case branch with true case branch
-                .Advance()
-                .RemoveInstructionsUntil(new CodeInstruction(OpCodes.Brfalse_S))
-                .RemoveInstructionsUntil(new CodeInstruction(OpCodes.Brfalse_S))
-                .RemoveInstructionsUntil(new CodeInstruction(OpCodes.Brfalse_S))
-                .RemoveLabels();
+                .Move()
+                .Match(new[] { new CodeInstruction(OpCodes.Brfalse_S) }, out var count)
+                .Remove(count)
+                .Match(new[] { new CodeInstruction(OpCodes.Brfalse_S) }, out count)
+                .Remove(count)
+                .Match(new[] { new CodeInstruction(OpCodes.Brfalse_S) }, out count)
+                .Remove(count)
+                .StripLabels();
         }
         catch (Exception ex)
         {
@@ -62,19 +69,19 @@ internal sealed class FarmAnimalPetPatcher : HarmonyPatcher
         {
             var isNotPrestiged = generator.DefineLabel();
             helper
-                .FindProfessionCheck(Profession.Rancher.Value) // go back and find the inserted rancher check
-                .AdvanceUntil(
-                    new CodeInstruction(OpCodes.Ldc_I4_S, 15),
-                    new CodeInstruction(OpCodes.Add))
-                .Advance(2)
+                .FindProfessionCheck(Profession.Rancher.Value, ILHelper.SearchOption.Previous) // go back and find the inserted rancher check
+                .Match(
+                    new[] { new CodeInstruction(OpCodes.Ldc_I4_S, 15), new CodeInstruction(OpCodes.Add), })
+                .Move(2)
                 .AddLabels(isNotPrestiged)
-                .InsertInstructions(
-                    new CodeInstruction(OpCodes.Ldarg_1)) // arg 1 = Farmer who
+                .Insert(new[] { new CodeInstruction(OpCodes.Ldarg_1) }) // arg 1 = Farmer who
                 .InsertProfessionCheck(Profession.Rancher.Value + 100, forLocalPlayer: false)
-                .InsertInstructions(
-                    new CodeInstruction(OpCodes.Brfalse_S, isNotPrestiged),
-                    new CodeInstruction(OpCodes.Ldc_I4_S, 15),
-                    new CodeInstruction(OpCodes.Add));
+                .Insert(
+                    new[]
+                    {
+                        new CodeInstruction(OpCodes.Brfalse_S, isNotPrestiged),
+                        new CodeInstruction(OpCodes.Ldc_I4_S, 15), new CodeInstruction(OpCodes.Add),
+                    });
         }
         catch (Exception ex)
         {

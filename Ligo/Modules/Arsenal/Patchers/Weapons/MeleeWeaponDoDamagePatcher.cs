@@ -38,23 +38,29 @@ internal sealed class MeleeWeaponDoDamagePatcher : HarmonyPatcher
         try
         {
             helper
-                .FindFirst(
-                    new CodeInstruction(
-                        OpCodes.Stfld,
-                        typeof(MeleeWeapon).RequireField(nameof(MeleeWeapon.isOnSpecial))))
-                .Retreat()
-                .InsertInstructions(
-                    new CodeInstruction(OpCodes.Ldarg_0),
-                    new CodeInstruction(OpCodes.Ldfld, typeof(MeleeWeapon).RequireField(nameof(MeleeWeapon.type))),
-                    new CodeInstruction(OpCodes.Call, typeof(NetFieldBase<int, NetInt>).RequireMethod("op_Implicit")),
-                    new CodeInstruction(OpCodes.Ldc_I4_0), // 0 = MeleeWeapon.stabbingSword
-                    new CodeInstruction(OpCodes.Ceq),
-                    new CodeInstruction(OpCodes.Ldarg_0),
-                    new CodeInstruction(
-                        OpCodes.Ldfld,
-                        typeof(MeleeWeapon).RequireField(nameof(MeleeWeapon.isOnSpecial))),
-                    new CodeInstruction(OpCodes.And))
-                .RemoveInstructions();
+                .Match(
+                    new[]
+                    {
+                        new CodeInstruction(
+                            OpCodes.Stfld,
+                            typeof(MeleeWeapon).RequireField(nameof(MeleeWeapon.isOnSpecial))),
+                    })
+                .Move(-1)
+                .Insert(
+                    new[]
+                    {
+                        new CodeInstruction(OpCodes.Ldarg_0),
+                        new CodeInstruction(OpCodes.Ldfld, typeof(MeleeWeapon).RequireField(nameof(MeleeWeapon.type))),
+                        new CodeInstruction(
+                            OpCodes.Call,
+                            typeof(NetFieldBase<int, NetInt>).RequireMethod("op_Implicit")),
+                        new CodeInstruction(OpCodes.Ldc_I4_0), // 0 = MeleeWeapon.stabbingSword
+                        new CodeInstruction(OpCodes.Ceq), new CodeInstruction(OpCodes.Ldarg_0), new CodeInstruction(
+                            OpCodes.Ldfld,
+                            typeof(MeleeWeapon).RequireField(nameof(MeleeWeapon.isOnSpecial))),
+                        new CodeInstruction(OpCodes.And),
+                    })
+                .Remove();
         }
         catch (Exception ex)
         {
@@ -62,7 +68,7 @@ internal sealed class MeleeWeaponDoDamagePatcher : HarmonyPatcher
             return null;
         }
 
-        if (!ModEntry.Config.EnableRings)
+        if (!Config.EnableRings)
         {
             return helper.Flush();
         }
@@ -72,14 +78,20 @@ internal sealed class MeleeWeaponDoDamagePatcher : HarmonyPatcher
         try
         {
             helper
-                .FindFirst(
-                    new CodeInstruction(OpCodes.Ldfld, typeof(MeleeWeapon).RequireField(nameof(MeleeWeapon.minDamage))))
-                .ReplaceInstructionWith(
+                .Match(
+                    new[]
+                    {
+                        new CodeInstruction(
+                            OpCodes.Ldfld,
+                            typeof(MeleeWeapon).RequireField(nameof(MeleeWeapon.minDamage))),
+                    },
+                    ILHelper.SearchOption.First)
+                .ReplaceWith(
                     new CodeInstruction(
                         OpCodes.Call,
                         typeof(MeleeWeapon_Stats).RequireMethod(nameof(MeleeWeapon_Stats.Get_MinDamage))))
-                .Advance()
-                .RemoveInstructions();
+                .Move()
+                .Remove();
         }
         catch (Exception ex)
         {
@@ -90,14 +102,19 @@ internal sealed class MeleeWeaponDoDamagePatcher : HarmonyPatcher
         try
         {
             helper
-                .FindNext(
-                    new CodeInstruction(OpCodes.Ldfld, typeof(MeleeWeapon).RequireField(nameof(MeleeWeapon.maxDamage))))
-                .ReplaceInstructionWith(
+                .Match(
+                    new[]
+                    {
+                        new CodeInstruction(
+                            OpCodes.Ldfld,
+                            typeof(MeleeWeapon).RequireField(nameof(MeleeWeapon.maxDamage))),
+                    })
+                .ReplaceWith(
                     new CodeInstruction(
                         OpCodes.Call,
                         typeof(MeleeWeapon_Stats).RequireMethod(nameof(MeleeWeapon_Stats.Get_MaxDamage))))
-                .Advance()
-                .RemoveInstructions();
+                .Move()
+                .Remove();
         }
         catch (Exception ex)
         {
@@ -108,14 +125,19 @@ internal sealed class MeleeWeaponDoDamagePatcher : HarmonyPatcher
         try
         {
             helper
-                .FindNext(
-                    new CodeInstruction(OpCodes.Ldfld, typeof(MeleeWeapon).RequireField(nameof(MeleeWeapon.knockback))))
-                .ReplaceInstructionWith(
+                .Match(
+                    new[]
+                    {
+                        new CodeInstruction(
+                            OpCodes.Ldfld,
+                            typeof(MeleeWeapon).RequireField(nameof(MeleeWeapon.knockback))),
+                    })
+                .ReplaceWith(
                     new CodeInstruction(
                         OpCodes.Call,
                         typeof(MeleeWeapon_Stats).RequireMethod(nameof(MeleeWeapon_Stats.Get_AbsoluteKnockback))))
-                .Advance()
-                .RemoveInstructions();
+                .Move()
+                .Remove();
         }
         catch (Exception ex)
         {
@@ -126,14 +148,16 @@ internal sealed class MeleeWeaponDoDamagePatcher : HarmonyPatcher
         try
         {
             helper
-                .FindNext(
-                    new CodeInstruction(OpCodes.Ldloc_3))
-                .ReplaceInstructionWith(new CodeInstruction(OpCodes.Ldarg_0))
-                .Advance()
-                .InsertInstructions(
-                    new CodeInstruction(
-                        OpCodes.Call,
-                        typeof(MeleeWeapon_Stats).RequireMethod(nameof(MeleeWeapon_Stats.Get_EffectiveCritChance))));
+                .Match(new[] { new CodeInstruction(OpCodes.Ldloc_3) })
+                .ReplaceWith(new CodeInstruction(OpCodes.Ldarg_0))
+                .Move()
+                .Insert(
+                    new[]
+                    {
+                        new CodeInstruction(
+                            OpCodes.Call,
+                            typeof(MeleeWeapon_Stats).RequireMethod(nameof(MeleeWeapon_Stats.Get_EffectiveCritChance))),
+                    });
         }
         catch (Exception ex)
         {
@@ -144,9 +168,14 @@ internal sealed class MeleeWeaponDoDamagePatcher : HarmonyPatcher
         try
         {
             helper
-                .FindNext(
-                    new CodeInstruction(OpCodes.Ldfld, typeof(MeleeWeapon).RequireField(nameof(MeleeWeapon.critMultiplier))))
-                .ReplaceInstructionWith(
+                .Match(
+                    new[]
+                    {
+                        new CodeInstruction(
+                            OpCodes.Ldfld,
+                            typeof(MeleeWeapon).RequireField(nameof(MeleeWeapon.critMultiplier))),
+                    })
+                .ReplaceWith(
                     new CodeInstruction(
                         OpCodes.Call,
                         typeof(MeleeWeapon_Stats).RequireMethod(nameof(MeleeWeapon_Stats.Get_EffectiveCritPower))));

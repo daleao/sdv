@@ -24,7 +24,7 @@ public class EnergizedEnchantment : BaseWeaponEnchantment
 
     private bool _doingLightningStrike;
 
-    internal static int BuffId { get; } = (ModEntry.Manifest.UniqueID + "Energized").GetHashCode();
+    internal static int BuffId { get; } = (Manifest.UniqueID + "Energized").GetHashCode();
 
     internal int Stacks
     {
@@ -38,7 +38,7 @@ public class EnergizedEnchantment : BaseWeaponEnchantment
     /// <inheritdoc />
     public override string GetName()
     {
-        return ModEntry.i18n.Get("enchantments.energized");
+        return i18n.Get("enchantments.energized");
     }
 
     internal void DoLightningStrike(Monster monster, GameLocation location, Farmer who, MeleeWeapon weapon)
@@ -86,7 +86,7 @@ public class EnergizedEnchantment : BaseWeaponEnchantment
         }
 
         this.Stacks = 0;
-        ModEntry.Events.Enable<EnergizedUpdateTickedEvent>();
+        EventManager.Enable<EnergizedUpdateTickedEvent>();
     }
 
     /// <inheritdoc />
@@ -98,6 +98,6 @@ public class EnergizedEnchantment : BaseWeaponEnchantment
         }
 
         this.Stacks = -1;
-        ModEntry.Events.Disable<EnergizedUpdateTickedEvent>();
+        EventManager.Disable<EnergizedUpdateTickedEvent>();
     }
 }

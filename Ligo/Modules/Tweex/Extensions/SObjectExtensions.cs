@@ -17,12 +17,12 @@ internal static class SObjectExtensions
         var skillFactor = 1f + (Game1.player.FarmingLevel * 0.1f);
         var age = (int)(@object.Read<int>(DataFields.Age) * skillFactor * (@object.IsBeeHouse()
             ?
-            ModEntry.Config.Tweex.BeeHouseAgingFactor
+            TweexModule.Config.BeeHouseAgingFactor
             : @object.IsMushroomBox()
-                ? ModEntry.Config.Tweex.MushroomBoxAgingFactor
+                ? TweexModule.Config.MushroomBoxAgingFactor
                 : 1f));
 
-        if (ModEntry.Config.Tweex.DeterministicAgeQuality)
+        if (TweexModule.Config.DeterministicAgeQuality)
         {
             return age switch
             {

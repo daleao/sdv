@@ -24,7 +24,7 @@ internal sealed class DebugModMessageReceivedEvent : ModMessageReceivedEvent
     /// <inheritdoc />
     protected override void OnModMessageReceivedImpl(object? sender, ModMessageReceivedEventArgs e)
     {
-        if (e.FromModID != ModEntry.Manifest.UniqueID || !e.Type.StartsWith("Debug"))
+        if (e.FromModID != Manifest.UniqueID || !e.Type.StartsWith("Debug"))
         {
             return;
         }

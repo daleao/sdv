@@ -31,7 +31,7 @@ internal sealed class TreeUpdateTapperProductPatcher : HarmonyPatcher
             return;
         }
 
-        var owner = ModEntry.Config.Professions.LaxOwnershipRequirements ? Game1.player : tapper_instance.GetOwner();
+        var owner = ProfessionsModule.Config.LaxOwnershipRequirements ? Game1.player : tapper_instance.GetOwner();
         if (!owner.HasProfession(Profession.Tapper))
         {
             return;

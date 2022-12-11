@@ -33,19 +33,19 @@ internal sealed class NewSkillsPagePerformHoverActionPatcher : HarmonyPatcher
     {
         ___hoverText = ___hoverText.Truncate(90);
 
-        if (!ModEntry.Config.Professions.EnablePrestige)
+        if (!ProfessionsModule.Config.EnablePrestige)
         {
             return;
         }
 
-        var bounds = ModEntry.Config.Professions.PrestigeProgressionStyle switch
+        var bounds = ProfessionsModule.Config.PrestigeProgressionStyle switch
         {
-            Config.ProgressionStyle.StackedStars => new Rectangle(
+            ProfessionsConfig.ProgressionStyle.StackedStars => new Rectangle(
                 __instance.xPositionOnScreen + __instance.width + Textures.ProgressionHorizontalOffset - 22,
                 __instance.yPositionOnScreen + IClickableMenu.spaceToClearTopBorder + IClickableMenu.borderWidth + Textures.ProgressionVerticalOffset + 8,
                 0,
                 (int)(Textures.SingleStarWidth * Textures.StarsScale)),
-            Config.ProgressionStyle.Gen3Ribbons or Config.ProgressionStyle.Gen4Ribbons => new Rectangle(
+            ProfessionsConfig.ProgressionStyle.Gen3Ribbons or ProfessionsConfig.ProgressionStyle.Gen4Ribbons => new Rectangle(
                 __instance.xPositionOnScreen + __instance.width + Textures.ProgressionHorizontalOffset,
                 __instance.yPositionOnScreen + IClickableMenu.spaceToClearTopBorder + IClickableMenu.borderWidth + Textures.ProgressionVerticalOffset,
                 (int)(Textures.RibbonWidth * Textures.RibbonScale),
@@ -71,8 +71,8 @@ internal sealed class NewSkillsPagePerformHoverActionPatcher : HarmonyPatcher
                 continue;
             }
 
-            bounds.Width = ModEntry.Config.Professions.PrestigeProgressionStyle is Config.ProgressionStyle.Gen3Ribbons
-                or Config.ProgressionStyle.Gen4Ribbons
+            bounds.Width = ProfessionsModule.Config.PrestigeProgressionStyle is ProfessionsConfig.ProgressionStyle.Gen3Ribbons
+                or ProfessionsConfig.ProgressionStyle.Gen4Ribbons
                 ? (int)(Textures.RibbonWidth * Textures.RibbonScale)
                 : (int)(((Textures.SingleStarWidth / 2 * count) + 4) * Textures.StarsScale);
             if (!bounds.Contains(x, y))
@@ -80,7 +80,7 @@ internal sealed class NewSkillsPagePerformHoverActionPatcher : HarmonyPatcher
                 continue;
             }
 
-            ___hoverText = ModEntry.i18n.Get("prestige.skillpage.tooltip", new { count });
+            ___hoverText = i18n.Get("prestige.skillpage.tooltip", new { count });
             ___hoverText = professionsForThisSkill
                 .Select(p => p.Title)
                 .Aggregate(___hoverText, (current, name) => current + $"\n• {name}");
@@ -102,8 +102,8 @@ internal sealed class NewSkillsPagePerformHoverActionPatcher : HarmonyPatcher
                 continue;
             }
 
-            bounds.Width = ModEntry.Config.Professions.PrestigeProgressionStyle is Config.ProgressionStyle.Gen3Ribbons
-                or Config.ProgressionStyle.Gen4Ribbons
+            bounds.Width = ProfessionsModule.Config.PrestigeProgressionStyle is ProfessionsConfig.ProgressionStyle.Gen3Ribbons
+                or ProfessionsConfig.ProgressionStyle.Gen4Ribbons
                 ? (int)(Textures.RibbonWidth * Textures.RibbonScale)
                 : (int)(((Textures.SingleStarWidth / 2 * count) + 4) * Textures.StarsScale);
             if (!bounds.Contains(x, y))
@@ -111,7 +111,7 @@ internal sealed class NewSkillsPagePerformHoverActionPatcher : HarmonyPatcher
                 continue;
             }
 
-            ___hoverText = ModEntry.i18n.Get("prestige.skillpage.tooltip", new { count });
+            ___hoverText = i18n.Get("prestige.skillpage.tooltip", new { count });
             ___hoverText = professionsForThisSkill
                 .Select(p => p.Title)
                 .Aggregate(___hoverText, (current, name) => current + $"\n• {name}");

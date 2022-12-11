@@ -11,40 +11,47 @@
   <ol>
     <li><a href="#overview">Overview</a></li>
     <li>
-      <a href="#melee-weapons-rework">Melee Weapons Rework</a>
+      <a href="#melee-weapon-changes">Melee Weapon Changes</a>
       <ul>
         <li><a href="#combos-swing-speed">Combos & Swing Speed</a></li>
-	      <li><a href="#knockback-mechanics">Knockback Mechanics</a></li>    
-        <li><a href="#defense-mechanics">Defense Mechanics</a></li>
-        <li><a href="#weapon-stats">Weapon Stats</a></li>
-        <li><a href="#stabbing-swords-special-moves">Stabbing Swords & Special Moves</a></li>
+	    <li><a href="#offensive-defensive-swords">Offensive & Defensive Swords</a></li>    
+        <li><a href="#weapon-stat-rebalance">Weapon Stat Rebalance</a></li>
+        <li><a href="#weapon-retextures">Weapon Retextures</a></li>
+        <li><a href="#woody-replaces-rusty">Woody Replaces Rusty</a></li>
       </ul>
     </li>
     <li>
-      <a href="#slingshots">Slingshots Rework</a>
+      <a href="#slingshot-changes">Slingshot Changes</a>
       <ul>
+        <li><a href="#fire-speed">Fire Speed</a></li>
         <li><a href="#critical-hits">Critical Hits</a></li>
         <li><a href="#special-move">Special Move</a></li>
-        <li><a href="#forge-mechanics">Forges Mechanics</a></li>
+        <li><a href="#forge-mechanics-infinity-slingshot">Forges Mechanics & Infinity Slingshot</a></li>
         <li><a href="#damage-modifiers">Damage Modifiers</a></li>
         <li><a href="#travel-grace-period">Travel Grace Period</a></li>
+        <li><a href="#snowballs">Snowballs</a></li>
       </ul>
     </li>
     <li>
-      <a href="#enchantments-forges">Enchantments & Forges</a>
+      <a href="#general-combat-changes">General Combat Changes</a>
       <ul>
-        <li><a href="#defense-overhaul">Gemstone Forges</a></li>
-        <li><a href="#weapon-enchantments">Weapon Enchantments</a></li>
-        <li><a href="#slingshot-enchantments">Slingshot Enchantments</a></li>
+        <li><a href="#knockback-damage">Knockback Damage</a></li>
+        <li><a href="#defense-overhaul">Defense Overhaul</a></li>
       </ul>
     </li>
+    <li>
+      <a href="#general-combat-changes">Enchantments & Forges</a>
+      <ul>
+        <li><a href="#knockback-damage">Gemstone Forges</a></li>
+        <li><a href="#defense-overhaul">Weapon Enchantments</a></li>
+        <li><a href="#defense-overhaul">Slingshot Enchantments</a></li>
+      </ul>
+    </li>
+    <li><a href="#infinity-1">Infinity +1</a></li>
     <li>
       <a href="#other-features">Other Features</a>
       <ul>
 	    <li><a href="#facing-direction-slick-moves">Facing Direction & Slick Moves</a></li>
-        <li><a href="#infinity-1-weapons">Infinity +1 Weapons</a></li>
-        <li><a href="#woody-replaces-rusty">Woody Replaces Rusty</a></li>
-        <li><a href="#snowballs">Snowballs</a></li>
         <li><a href="#difficulty-sliders">Difficulty Sliders</a></li>
       </ul>
     </li>
@@ -56,121 +63,87 @@
 
 What began as a simple weapon rebalance has become a huge overhaul of weapon mechanics, slingshot mechanics and the entire combat experience. At last, the final module of the original Immersive Suite has arrived.
 
-TL;DR:
+This module has the following main objectives:
+1. To fix the main issues of Melee Weapons and Slingshots as I perceive them, which include the following:
+    - Rebalance the weapon types, creating new playstyles by emphasizing the strengths and identity of each type. In vanilla, the sword is ubiquitous because it combines the speed of the dagger with the knockback and range of the club.
+    - Rebalance the offensive stats, adding strategic and offensive value to all gemstone archetypes. In vanilla, five out of six weapon stats (crit. chance, crit. power, knockback, speed and precision) are mostly, if not completely, useless: crit. stats tend to be avoided due to the difficulty in building significant crit. chance; knockback and speed are ignored, again because the sword already offers enough of both, and precision does absolutely nothing.
+    - Reduce the spammy nature of weapons; in vanilla, the speed stat only affects the last of the six attack animation frames. In addition, the game allows attacks to animation-cancel each other, bypassing that last frame. The result is a mindless combat that consists of spam clicking to both attack and defend. This also adds to the futility of the sword's defensive special move.
+    - Rebalance the weapons themselves, making each weapon feel distinct and at least somewhat useful, rather than simple inventory clutter. This includes not just rebalancing stats, but also how they are obtained; i.e., improving weapon progression and removing legendary or unique weapons from Mine chests and shops.
+    - Bring slingshots up to par with melee weapons, including the ability to crit., perform special moves and receive Forge enchantments.
+2. To increase the longevity of the game by introducing end-game questlines for obtaining legendary weapons which increase the player's sense of accomplishment and makes those weapons feel truly legendary.
 
-- Completely rebalances all vanilla weapons and gives looted weapons randomized stats scaled to the player's game progress, thus making looted weapons actually competitive throughout the whole game.
-- Additionally removes weapons from mine chest rewards, encouraging the players to work for better weapons by either farming monsters or purchase them from Marlon.
-- Furthermore, adjusts Marlon's weapon stock, removing the ability to purchase Galaxy Weapons. If SVE is installed, the Galaxy introduction event will be automatically adjusted.
+This module tries to achieve all of this through a combination of nerfs, buffs and entirely new mechanics which will overall make combat significantly more strategic and challenging. Players who don't care for a challenge or are uninsterested in combat should probably keep this whole module disabled.
 
-- Reintroducecs Stabbing Swords, the removed fourth weapon type, to the game. Their special move is a stabbing forwards lunge.
-- Introduces weapon combos, which limit the spammy nature of weapons and greatly improving the balance between each of the weapon types. 
-
-- Improves combat controls for mouse & keyboard, always facing the mouse cursor before swinging a melee weapon.
-- Reworks the Defense stat, reducing damage multiplicatively rather than linearly, which makes a single defense point a valuable stat all throughout the game.
-- Reduces overall weapon knockback, but allows knocked-back enemies to take damage when they collide with walls or obstacles.
-
-- Removes the travel grace period of slingshot projectiles, allowing the player to hit enemies in close range.
-- Allows firing radioactive ore, and additionally tweaks the damage modifiers of certain projectiles to be more immersive.
-- Allows slingshots to deal critical damage, and reduces the base damage multiplier of higher slingshots to compensate.
-- Introduces a new special move for slingshots, in the form of a melee stunning smack attack.
-- Allows slingshots to be improved with gemstones and enchantments at the Forge.
-
-- Completely reworks all weapon enchantments with all-new, more interesting enchantments, and gives slingshots a unique set of appropriate slingshot enchantments.
-
-- Adds an Iridium Bar requirement for obtaining the Galaxy Sword, requiring the player to delve into the Skull Caverns even they received a lucky early Prismatic Shard.
-- Additionally allows all Galaxy weapons, slingshot included, to be obtained at the Three Pillars, each requiring an increasing stack of Prismatic Shards. The obtained weapon is determined by whichever weapon type is positioned earliest in the player's inventory (e.g., place a hammer at position 1 to receive the Galaxy Hammer).
-
-- Removes the Rusty Sword from the game, replacing it with the Wooden Blade.
-- Allows Dwarven and Dragontooth weapons to be immersively forged by Clint, and removes them from the Volcano chest rewards list.
-- Reworks the Dark Sword and reintroduces the removed Holy Blade, along with a corresponding questline.
-- Delays aquisition of Galaxy and Infinity weapons by introducing immersive new conditions, with the goal of making these weapons feel truly legendary.
-- Introduces an Infinity version for the Galaxy Slingshot.
-
-- Adds configurable sliders for monster damage, health and defense.
-- Allows players to fire snowballs by firing an empty slingshot when standing on a snowy tile.
-
-
-There may be other features I'm forgetting to list. All these can be toggled on or off, but many are grouped under the same config setting, so not all features can be mixed and matched. For more detailed explanations and justifications for all these features, continue reading below.
-
-## Melee Weapons Rework
-
-Vanilla weapons have several issues.
-
-The first issue is the supremacy of the sword, which combines the speed of the dagger with the knockback of the club. Several mods have attempted to rebalance weapons by increasing the knockback of daggers or increasing the speed of clubs. But that solution is disingenuous, making every weapon behave like a sword; the identity of each weapon type is lost in the process.
-
-The second issue is the futility of most weapon stats; damage is king when choosing rings and forges, and the remaining five weapon stats (crit. chance, crit. power, knockback, speed and precision) are mostly, if not completely, useless: crit. stats tend to be avoided due to the difficulty in building significant crit. chance; knockback and speed are ignored, again because the sword already offers enough of both, and precision does absolutely nothing.
-
-The third issue is the spammy nature of weapons; the speed stat in vanilla is doubly useless, because it only affects the last frame of the attack animation (i.e., the delay between attacks, and not the swipe animation as a whole), but also the game allows attacks to animation-cancel each other, bypassing that last frame. The result is that you can just spam click to attack continuously without penalty. This also adds to the futility of the sword's defensive special move.
-
-The fourth issue is the overabundance of weapons, especially swords, with marginally different stats, combined how easy it is to obtain the best-in-slot weapons; nearly all of the unique and best weapons are freely given every 10 mine levels, not even including how easy it is to obtain the Galaxy Sword. This quickly trivializes any weapons obtained from drops, which end up serving as little more than inventory clutter. 
-
-A weapon overhaul must fix, or at least touch upon, all of these issues; it needs to rebalance all weapon types while preserving their identities, and also add strategic value to all buildable weapon stats, allowing players to experiment a variety of different builds and playstyles. To achieve this, this module uses a combination of nerfs, buffs and entirely new mechanics which will overall make combat significantly more challenging. Players who don't care for a challenge or are uninsterested in combat should probably keep this whole module disabled.
+## Melee Weapon Changes
 
 ### Combos & Swing Speed
 
-Taking inspiration from the Haunted Chocolatier trailer, this module introduces **weapon combos**. These are short bursts of swing speed followed by a longer cooldown period. Sword combos can perform up to 4 hits, maintaining the above-average speed of swords but preventing them from being spammed continously. Club combos can perform up to 2 hits only, which should give them an edge over their vanilla counterparts while remaining significantly slower than swords. Daggers cannot combo; they remain unchanged from vanilla.
+Introducing weapon combos to replace weapon spamming. These are short bursts of swing speed followed by a slightly longer cooldown period. Each weapon type comes with a combo limit:
+    - **Swords** can perform up to 4 horizontal swipes.
+    - **Clubs** can perform up to 2 hits, being one horizontal swipe and one vertical swipe.
+    - **Daggers** do not have a limit, and behave as in vanilla.
 
-Swing speed bonuses from emerald rings and forges now affect every single frame of the attack animation, as well as the cooldown in between combos. This should make speed a significantly more valuable stat.
+Swing speed bonuses from emerald rings and forges will affect every frame of the attack animation, as well as the cooldown in between combos. This makes speed a significantly more valuable stat.
 
-Note that daggers, unlike the other two weapon types, have single-frame animations. As such, their attacks are near-instantaneous by default, and thus will gain little to no benefit from swing speed bonuses even with these changes.
+### Offensive & Defensive Swords
 
-### Knockback Mechanics
+In vanilla game code we can find traces of an abandoned fourth weapon type: **Stabbing Swords**. This module re-implements stabbing swords into the game.
 
-Knocked-back enemies will now take damage porportional to the knockback stat when colliding with a wall or obstacle. This makes knockback a viable offensive stat in addition to its defensive value. This also means that positioning is now an actual strategic combat element. The excessive knockback of vanilla weapons has been nerfed by between 25% to as much as 33% across the board.
+Swords are now split between **offensive** and **defensive** archetypes. Defensive swwords retain the parry special move, while offensive swords gain a new stabbing thrust move. This move allows quick repositioning and also grants invincibility frames.
 
-### Defense Mechanics
-
-Defense in vanilla is linearly subtracted from damage. There are several problems with this approach which make the defense stat unscalable:
-- While a single point of defense can easily mean a 50% damage reduction against early-game Green Slimes, that same point of defense is largely worthless against end-game monsters in the Volcano or difficult Mines.
-- Though it can be difficult to build sufficient defense, if enough mods are installed which introduce new ways to stack defense (as with earlier releases of the [Rings](../Rings) module), it becomes possible to essentially negate all damage and trivialize combat.
-
-This module introduces an exponential and multiplicative defense model:
-```
-resistance = 10 / (10 + defense)
-```
-One point of defense will now reduce incoming damage by 10% regardless of the enemy's damage, making it a consistently valuable stat throughout the game. Subsequent points in defense, however, will have diminishing returns, such that 100% damage negation is no longer possible to achieve.
-
-Note that this change applies to monsters as well as players! It is also significantly more noticeable on enemies, given the player's inflated damage versus the fact that most monsters have just a few points of defense. Now, those few points can easily cut your damage by half. Crit. strikes have the added benefit of ignoring enemy defense, meaning that critical builds will counter defensive enemies.
-
-### Stabbing Swords & Special Moves
-
-In vanilla game code we can find traces of an abandoned fourth weapon type: **stabbing swords**. We can conclude that Concerned Ape did originally intend for some swords to *not* have the infamously hated and widely ignored defensive parry special move. This module thus reintroduces stabbing swords into the game, along with a brand new special move, which means that sword players can finally have an offensive special move: 
-pressing the action button with a stabbing sword equipped will perform a forwards dash attack, which allows for quick repositioning while also damaging enemies along the way. The player is also invincible during the dash.
-
-Defensive swords are still in the game, and the addition of stabbing swords is by no means intended to further triviliaze their parry mechanic. On the contrary, parry has been made immediately more useful by the simple introduction of combos and reduced knockback. But on top of that, the parry damage will now increase by 10% for each defense point, adding some offensive value to the defense stat itself and making defensive builds more viable.
+To improve the defensive parry move, parry damage is increased by 10% for every defense point. This adds offensive value to the defense stat itself and makes defensive builds more viable. Note that the introduction of weapon combos also adds to the value of a defensive move.
 
 Lastly, there is also the option to make the club smash attack more immersive, after all a ground-shaking smash attack should do critical damage to all enemies underground, and should not do any damage at all to enemies in the air.
 
-### Weapon Stats
+### Weapon Stat Rebalance
 
-I wrestled with this idea for a long time, but ultimately decided that a weapon stat rework is necessary to achieve the desired experience with the aforementioned changes. This rebalance has three main objectives:
+Weapon stats have been rebalanced across the board:
 
-1. To differentiate between and establish an identity for each of the 4 weapon types:
-    - **Clubs** are your general unreliable, imprecise and sluggish, but huge-damage-potential, heavy and larger-hit-box weapons.
-    - **Daggers** are the opposite of clubs, being the quick, precise, but short-range and generally lower damage potential weapons.
-    - **Stabbing Swords** are somewhere in the middle, with average damage, speed and precision.
-    - **Defense Swords** are marginally weaker and slower than their offensive counterpart, but are otherwise heavier, sturdier and wider. They are somewhere in-between stabbing swords and clubs. 
-2. To improve the overall weapon progression, make fodder weapons useful and force the player to work for more powerful unique weapons; and
-3. To add more viable best-in-slot alternative which are not immediately overshadowed by the Infinity Blade, but at the same time maintaining the latter's "legendary" status:
-    - **Dragonbone** weapons are the sharpest and most-damaging weapons in the game, even above Infinity weapons.
-    - **Dwarven** weapons are marginally weaker, but heavier, wider and more defensive.
-    - **Infinity** weapons have comparable damage. They are otherwise unremarkable stat-wise, but offer [other unique bonuses, if you are willing to put in the work for them](#infinity-1-weapons).
+ - **Clubs** are your general unreliable, imprecise and sluggish, but huge-damage-potential, heavy and larger-hit-box weapons.
+ - **Daggers** are the opposite of clubs, being the quick, precise, but short-range and generally lower damage potential weapons.
+ - **Stabbing Swords** are somewhere in the middle, with average damage, speed and precision.
+ - **Defense Swords** are marginally weaker and slower than their offensive counterpart, but are otherwise heavier, sturdier and wider. They are somewhere in-between stabbing swords and clubs. 
 
-In addition to reworked base stats, two copies of the same weapon will not longer be identical; as is standard among many RPGs, looted weapons now receive randomized stats, determined when dropped and scaled up to the player's deepest mine progression. This means that players can always loot stronger weapons, and no weapon is ever trivialized. Unique or legendary weapons retain fixed stats.
+Weapons are categorized by diffrent tiers, [color-coded for your convenience][tropes:color-coded]:
 
-Finally, in order to ensure the desired experience, weapons have been removed from mine chest rewards. Chests will offer valuable loot, but players must now work for better weapons, either from farming monster drops or purchasing them from Marlon. Keep in mind that purchased wepons also have fixed stats, and are generally significantly weaker than dropped variants. Certain special weapons can now only be obtained as monster drops.
+![shield:common]
+![shield:uncommon]
+![shield:rare]
+![shield:epic]
+![shield:mythic]
+![shield:masterwork]
+![shield:legendary]
 
-### Weapon Textures
+Weapons below the Mythic tier have randomized damage, determined the moment they are dropped and scaled to your mine progression. This way, players can always loot stronger weapons, and no specific weapon is ever trivialized. Higher-tier weapons will generally be stronger than lower-tiered ones, although that may not always be the case. These weapons can still be purchased from Marlon, but they will have fixed and significantly weaker stats.
 
-As a bonus, this module offers a simple makeover for some weapons. The new designs are true to vanilla, seeking to only make them more realistic (i.e., daggers that actually look like daggers rather than small swords) or better fitting of their reassigned weapon type or lore. These textures will always be overwritten by Content Patcher weapon retextures.
+Mythic weapons are unique or extremely rare. They are usually quest rewards or rare monster drops, and tend to carry special perks in addition to their regular stats.
 
-## Slingshots Rework
+Masterwork weapons have fixed stats. These are weapons created by the Dwarven race using special materials. To obtain them, you will have to uncover the lost Dwarvish Blueprints and take them to a skilled blacksmith, along with the required materials:
+- **Elven** weapons, carved out of **Elderwood** obtained from [Scavenger Hunts](../Professions), are quick, nimble weapons enchanted with forest magic which grants them high reach and knockback.
+- **Dwarven** weapons, forged from **Dwarven Scraps** obtained from Volcano chests, are large, bulky weapons. They grant high defense and knockback, but reduce speed.
+- **Dragonbone** weapons, forged from **Dragon Teeth** obtained from Volcano chests and near dragon skeletons, are light and sharp, granting the highest raw damage out of any weapon in the game.
 
-Slingshots in vanilla are, surprisingly, way stronger than people give them credit for. But the lack of features surrounding slingshots lends to their lack of credibility as a main weapon. Together with the Rascal profession from the [Professions](../Professions) module, the Arsenal module seeks to change that poor perception and break slingshots into mainstream use by adding critical hit, special move and Forge mechanics.
+Last but not least, Legendary weapons, will require [considerable work to obtain](#infinity-one).
+
+All weapons have been removed from Mine chests. They will still offer valuable loot, but weapons will require some work to obtain.
+
+### Weapon Retextures
+
+Some weapons have been slightly retouched to look more realistic or to complement their new weapon type. These textures will always be overwritten by Content Patcher weapon retextures.
+
+### Woody Replaces Rusty
+
+The vanilla game has too many weapons for its own good. A minor issue which results from this is the very awkward "upgrade" from the starting Rusty Sword to the Wooden Blade. Why would Marlon be mocking about with a rusty weapon anyway? This has always bothered me, and so, for a slight increase in immersion, this novelty feature will remove the Rusty Sword from the game and replace the starter weapon with the Wooden Blade.
+
+## Slingshot Changes
+
+### Fire Speed
+
+Fire speed is now affected by Emerald speed boosts. This also affects Overcharge if the [Professions](../Professions) module is enabled.
 
 ### Critical Hits
 
-Slingshots can score critical hits! Think of them as headshots. It seems absurd that slingshots should not be able to score crit. hits. With this option enabled, all slingshots will benefit from crit. chance and crit. power bonuses.
+Slingshots can score critical hits! Think of them as headshots. With this option enabled, all slingshots will benefit from crit. chance and crit. power bonuses.
 
 ### Special Move
 
@@ -195,18 +168,43 @@ Some ammunitions have also been tweaked, either for immersion or balance:
 - Explosive Ammo: 20 damage >> 5 damage
     - *Explosive ammo is meant to be used as a mining utility only, so it's daage has been reduced to reflect that. If you'd like to use slingshots for combat and mining simultaneously, consider taking up the [Rascal](../Professions) profession.*
 
-Lastly, Radioactive Ore can now be used as ammo, dealing considerably more damage than Iridium Ore:
-- Radioactive Ore: 80 damage
+Lastly, Radioactive Ore can now be used as ammo, dealing considerably more damage than Iridium Ore.
 
 ### Travel Grace Period
 
 In vanilla, you may have noticed that slingshot projectiles will travel right through and ignore enemies that get too close. This is caused by the so-called "grace period", which prevents projectiles from colliding before 100ms, and essentially makes the slingshot a useless weapon in close quarters. This module removes the grace period required before projectiles are allowed to deal damage, making slingshots significantly more reliable.
 
+### Snowballs
+
+This is purely a novelty, for-fun feature. When the player is standing on snowy ground, attempting to fire an empty slingshot will fire a snowball projectile. Now you can annoy the villagers and your friends!
+
+## General Combat Changes
+
+### Knockback Damage
+
+Knocked-back enemies will take damage porportional to the knockback stat when colliding with a wall or obstacle. This makes knockback a viable offensive stat in addition to its defensive value. It also makes positioning an important strategic element.
+
+### Defense Overhaul
+
+Defense in vanilla is linearly subtracted from damage. There are several problems with this approach which make the defense stat unscalable:
+- While a single point of defense can easily mean a 50% damage reduction against early-game Green Slimes, that same point of defense is largely worthless against end-game monsters in the Volcano or difficult Mines.
+- Though it can be difficult to build sufficient defense, if enough mods are installed which introduce new ways to stack defense (as with earlier releases of the [Rings](../Rings) module), it becomes possible to essentially negate all damage and trivialize combat.
+
+This module introduces an exponential and multiplicative defense model:
+```
+resistance = 10 / (10 + defense)
+```
+One point of defense will now reduce incoming damage by 10% regardless of the enemy's damage, making it a consistently valuable stat throughout the game. Subsequent points in defense, however, will have diminishing returns, such that 100% damage negation is no longer possible to achieve.
+
+Note that this change applies to monsters as well as players! It is also significantly more noticeable on enemies, given the player's inflated damage versus the fact that most monsters have just a few points of defense. Now, those few points can easily cut your damage by half. Crit. strikes have the added benefit of ignoring enemy defense, meaning that critical builds will counter defensive enemies.
+
 ## Enchantments & Forges
 
 ### Gemstone Forges
 
-Forges have been touched slightly. Analogous to its [Rings](../Rings) counterpart, the Jade enchantment has received a significant buff, from +10% to +50% crit. power. If the Rings module is enabled, a new forge will also be added for the Garnet gemstone, granting 10% cooldown reduction. The number of allowed forges for melee weapons now also depends on the weapon's level; basic weapons like the Wooden Blade can only receive 1 gemstone, where as higher level weapons continue receiving up to 3. For slingshots, the number of allowed forges likewise depends on the slingshot level (1 for basic Slingshot, 2 for Master Slingshot, and 3 for Galaxy Slingshot). All gemstones are compatible and apply the same effect as for melee weapons, with the exception of Emerald which increases the charge speed instead of animation speed. If the [Professions](../Professions] module is enabled and the player has the Desperado profession, the Emerald gemstone will also improve the rate of overcharge.
+Forges have been touched slightly. Analogous to its [Rings](../Rings) counterpart, the Jade enchantment has received a significant buff, from +10% to +50% crit. power. If the Rings module is enabled, a new forge will also be added for the Garnet gemstone, granting 10% cooldown reduction. The number of allowed forges for melee weapons now also depends on the weapon's level.
+
+For slingshots, the number of allowed forges likewise depends on the slingshot.
 
 ### Weapon Enchantments
 
@@ -240,15 +238,7 @@ All enchantments below are entirely new and unique to slingshots.
 
 \** *The Quincy projectile cannot crit or knock back enemies, but is affected by damage modifiers. If the Professions module is enabled and the player has the Desperado profession, the Quincy projectile will also be affected by Overcharge, which will also increase the projectile's size.*
 
-## Other Features
-
-This section describes features not specific to weapons or slingshots. It includes novelty features in addition to control improvements and general difficulty sliders.
-
-### Facing Direction & Slick Moves
-
-This popular feature is built-in to this module; when playing with mouse and keyboard the farmer will always swing their weapon in the direction of the mouse cursor. Additionally, swinging a weapon or charging a slingshot while running will also cause the player to drift in the direction of movement while performing that action, instead of coming to an abrupt halt.
-
-### Infinity +1 Weapons
+## Infinity +1
 
 According to [TV Tropes Wiki](https://tvtropes.org/pmwiki/pmwiki.php/Main/InfinityPlusOneSword), an Infinity +1 sword is "not only the most powerful of its kind ... , but its power is matched by how hard it is to acquire". If you were ever bothered by how easy it was to obtain the Galaxy and Infinity weapons in vanilla (and immediately trivialize all the rest), this module has got your back, by making these weapons truly legendary.
 
@@ -258,21 +248,17 @@ Subsequent Galaxy weapons will no longer be available for purchase at the Advent
 
 Upgrading to Infinity is now a much more involved task, requiring the player to prove they have a virtuous and heroic soul. Doing so will require completion of a new questline revolving around the all-new Blade of Ruin...
 
-In return for all that extra work, the Infinity weapons receive some extra perks:    
+In return for all that extra work, the Infinity weapons have extra perks:    
 1. +1 gemstone slot (4 total). Keeping in mind that each gemstone can resonate with equipped [Infinity Bands](../Rings).
 2. While at full health, every swing will fire a mid-range energy beam.
 
-### Dwarven Weapon Recipes
+## Other Features
 
-The Dwarven and Dragontooth weapons are no longer simple chest rewards. To acquire them, you must now complete a small questline which will have you gathering ancient Dwarvish blueprints. Take them to Clint, along with the corresponding materials and he will create these masterwork weapons for you. Requires the Dwarvish Translation Guide and at least 6 hearts with Clint.
+This section describes features not specific to weapons or slingshots. It includes novelty features in addition to control improvements and general difficulty sliders.
 
-### Woody Replaces Rusty
+### Facing Direction & Slick Moves
 
-The vanilla game has too many weapons for its own good. A minor issue which results from this is the very awkward "upgrade" from the starting Rusty Sword to the Wooden Blade. Why would Marlon be mocking about with a rusty weapon anyway? This has always bothered me, and so, for a slight increase in immersion, this novelty feature will remove the Rusty Sword from the game and replace the starter weapon with the Wooden Blade.
-
-### Snowballs
-
-This is purely a novelty, for-fun feature. When the player is standing on snowy ground, attempting to fire an empty slingshot will fire a snowball projectile. Now you can annoy the villagers and your friends!
+This popular feature is built-in to this module; when playing with mouse and keyboard the farmer will always swing their weapon in the direction of the mouse cursor. Additionally, swinging a weapon or charging a slingshot while running will also cause the player to drift in the direction of movement while performing that action, instead of coming to an abrupt halt.
 
 ### Difficulty Sliders
 
@@ -289,6 +275,14 @@ Last but not least, this module offers three sliders to taylor monster difficult
 - Compatible with [Advanced Melee Framework][mod:amf] and related content packs, but I do not recommend using both together.
 
 <!-- MARKDOWN LINKS & IMAGES -->
+[shield:common]: <https://img.shields.io/badge/Common-white?style=flat>
+[shield:uncommon]: <https://img.shields.io/badge/Uncommon-green?style=flat>
+[shield:rare]: <https://img.shields.io/badge/Rare-blue?style=flat>
+[shield:epic]: <https://img.shields.io/badge/Epic-purple?style=flat>
+[shield:mythic]: <https://img.shields.io/badge/Mythic-red?style=flat>
+[shield:masterwork]: <https://img.shields.io/badge/Masterwork-orange?style=flat>
+[shield:legendary]: <https://img.shields.io/badge/Legendary-gold?style=flat>
+
 [mod:cjb-spawner]: <https://www.nexusmods.com/stardewvalley/mods/93> "CJB Item Spawner"
 [mod:angels-rebalance]: <https://www.nexusmods.com/stardewvalley/mods/6894> "Angel's Weapon Rebalance"
 [mod:better-slingshots]: <https://www.nexusmods.com/stardewvalley/mods/2067> "Better Slingshots"
@@ -296,3 +290,4 @@ Last but not least, this module offers three sliders to taylor monster difficult
 [mod:combat-controls]: <https://www.nexusmods.com/stardewvalley/mods/2590> "Combat Controls - Fixed Mouse Click"
 [mod:combat-controls-redux]: <https://www.nexusmods.com/stardewvalley/mods/10496> "Combat Controls Redux"
 [mod:amf]: <https://www.nexusmods.com/stardewvalley/mods/7886> "Advanced Melee Framework"
+[tropes:color-coded]: <https://tvtropes.org/pmwiki/pmwiki.php/Main/ColourCodedForYourConvenience> "Color-Coded for Your Convenience"

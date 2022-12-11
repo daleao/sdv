@@ -45,13 +45,13 @@ internal static class TreeExtensions
     internal static int GetQualityFromAge(this Tree tree)
     {
         var skillFactor = 1f + (Game1.player.ForagingLevel * 0.1f);
-        if (ModEntry.Config.EnableProfessions && Game1.player.professions.Contains(Farmer.lumberjack))
+        if (Config.EnableProfessions && Game1.player.professions.Contains(Farmer.lumberjack))
         {
             skillFactor++;
         }
 
-        var age = (int)(tree.Read<int>(DataFields.Age) * skillFactor * ModEntry.Config.Tweex.TreeAgingFactor);
-        if (ModEntry.Config.Tweex.DeterministicAgeQuality)
+        var age = (int)(tree.Read<int>(DataFields.Age) * skillFactor * TweexModule.Config.TreeAgingFactor);
+        if (TweexModule.Config.DeterministicAgeQuality)
         {
             return age switch
             {

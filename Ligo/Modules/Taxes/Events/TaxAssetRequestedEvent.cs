@@ -32,15 +32,15 @@ internal sealed class TaxAssetRequestedEvent : AssetRequestedEvent
         var deductions = Game1.player.Read<float>(DataFields.PercentDeductions);
         var outstanding = Game1.player.Read(DataFields.DebtOutstanding);
 
-        string honorific = ModEntry.i18n.Get("honorific" + (Game1.player.IsMale ? ".male" : ".female"));
+        string honorific = i18n.Get("honorific" + (Game1.player.IsMale ? ".male" : ".female"));
         var farm = Game1.getFarm().Name;
-        var interest = CurrentCulture($"{ModEntry.Config.Taxes.AnnualInterest:0%}");
+        var interest = CurrentCulture($"{TaxesModule.Config.AnnualInterest:0%}");
 
-        data[$"{ModEntry.Manifest.UniqueID}/TaxIntro"] =
-            ModEntry.i18n.Get("tax.intro", new { honorific, farm = Game1.getFarm().Name, interest });
-        data[$"{ModEntry.Manifest.UniqueID}/TaxNotice"] = ModEntry.i18n.Get("tax.notice", new { honorific, due });
-        data[$"{ModEntry.Manifest.UniqueID}/TaxOutstanding"] =
-            ModEntry.i18n.Get("tax.outstanding", new
+        data[$"{Manifest.UniqueID}/TaxIntro"] =
+            i18n.Get("tax.intro", new { honorific, farm = Game1.getFarm().Name, interest });
+        data[$"{Manifest.UniqueID}/TaxNotice"] = i18n.Get("tax.notice", new { honorific, due });
+        data[$"{Manifest.UniqueID}/TaxOutstanding"] =
+            i18n.Get("tax.outstanding", new
             {
                 honorific,
                 due,
@@ -48,10 +48,10 @@ internal sealed class TaxAssetRequestedEvent : AssetRequestedEvent
                 farm,
                 interest,
             });
-        data[$"{ModEntry.Manifest.UniqueID}/TaxDeduction"] = deductions switch
+        data[$"{Manifest.UniqueID}/TaxDeduction"] = deductions switch
         {
-            >= 1f => ModEntry.i18n.Get("tax.deduction.max", new { honorific }),
-            >= 0f => ModEntry.i18n.Get(
+            >= 1f => i18n.Get("tax.deduction.max", new { honorific }),
+            >= 0f => i18n.Get(
                 "tax.deduction",
                 new { honorific, deductible = CurrentCulture($"{deductions:0%}") }),
             _ => string.Empty,

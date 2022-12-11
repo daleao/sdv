@@ -27,7 +27,7 @@ internal sealed class UtilityGetAdventureShopStockPatcher : HarmonyPatcher
     [HarmonyPrefix]
     private static bool UtilityGetAdventureShopStockPrefix(Dictionary<ISalable, int[]> __result)
     {
-        if (!ModEntry.Config.Arsenal.Weapons.RebalancedWeapons)
+        if (!ArsenalModule.Config.Weapons.RebalancedWeapons)
         {
             return true; // run original logic
         }
@@ -100,7 +100,7 @@ internal sealed class UtilityGetAdventureShopStockPatcher : HarmonyPatcher
             stock.Add(new Boots(514), new[] { 20000, int.MaxValue }); // space boots
         }
 
-        if (!ModEntry.Config.EnableRings || !ModEntry.Config.Rings.CraftableGemRings)
+        if (!Config.EnableRings || !RingsModule.Config.CraftableGemRings)
         {
             stock.Add(new Ring(Constants.AmethystRingIndex), new[] { 1000, int.MaxValue });
             stock.Add(new Ring(Constants.TopazRingIndex), new[] { 1000, int.MaxValue });
@@ -198,7 +198,7 @@ internal sealed class UtilityGetAdventureShopStockPatcher : HarmonyPatcher
     [HarmonyPostfix]
     private static void UtilityGetAdventureShopStockPostfix(Dictionary<ISalable, int[]> __result)
     {
-        if (!ModEntry.Config.Arsenal.InfinityPlusOne)
+        if (!ArsenalModule.Config.InfinityPlusOne)
         {
             return;
         }

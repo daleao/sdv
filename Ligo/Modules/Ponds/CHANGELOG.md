@@ -4,7 +4,7 @@
 
 ### Added
 
-* The [Aquarist](../Professions) profession can now boost the quality of a newborn fishlings.
+* The [Aquarist](../Professions) profession now adds a chance to boost the quality of newborn fishlings, so you may eventually breed high-quality fish from low-quality ones.
 
 ### Fixed
 

@@ -23,7 +23,7 @@ internal sealed class MeleeWeaponCheckForSpecialItemHoldUpMessagePatcher : Harmo
     [HarmonyPostfix]
     private static void MeleeWeaponCheckForSpecialItemHoldUpPostfix(MeleeWeapon __instance, ref string? __result)
     {
-        if (!ModEntry.Config.Arsenal.InfinityPlusOne ||
+        if (!ArsenalModule.Config.InfinityPlusOne ||
             __instance.InitialParentTileIndex is not Constants.DarkSwordIndex or Constants.HolyBladeIndex)
         {
             return;
@@ -33,16 +33,16 @@ internal sealed class MeleeWeaponCheckForSpecialItemHoldUpMessagePatcher : Harmo
         {
             case Constants.DarkSwordIndex:
             {
-                var darkSword = ModEntry.i18n.Get("darksword.name");
-                __result = ModEntry.i18n.Get("darksword.holdupmessage", new { darkSword });
+                var darkSword = i18n.Get("darksword.name");
+                __result = i18n.Get("darksword.holdupmessage", new { darkSword });
                 break;
             }
 
             case Constants.HolyBladeIndex:
             {
-                var darkSword = ModEntry.i18n.Get("darksword.name");
-                var holyBlade = ModEntry.i18n.Get("holyblade.name");
-                __result = ModEntry.i18n.Get("holyblade.holdupmessage", new { darkSword, holyBlade });
+                var darkSword = i18n.Get("darksword.name");
+                var holyBlade = i18n.Get("holyblade.name");
+                __result = i18n.Get("holyblade.holdupmessage", new { darkSword, holyBlade });
                 break;
             }
         }

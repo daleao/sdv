@@ -36,14 +36,16 @@ internal sealed class CalderaGetFishPatcher : HarmonyPatcher
         {
             var isNotFisher = generator.DefineLabel();
             helper
-                .FindNext(new CodeInstruction(OpCodes.Ldc_R8, 0.1))
-                .Advance()
+                .Match(new[] { new CodeInstruction(OpCodes.Ldc_R8, 0.1) })
+                .Move()
                 .AddLabels(isNotFisher)
                 .InsertProfessionCheck(Profession.Fisher.Value)
-                .InsertInstructions(
-                    new CodeInstruction(OpCodes.Brfalse_S, isNotFisher),
-                    new CodeInstruction(OpCodes.Ldc_R8, 2.0),
-                    new CodeInstruction(OpCodes.Mul));
+                .Insert(
+                    new[]
+                    {
+                        new CodeInstruction(OpCodes.Brfalse_S, isNotFisher),
+                        new CodeInstruction(OpCodes.Ldc_R8, 2.0), new CodeInstruction(OpCodes.Mul),
+                    });
         }
         catch (Exception ex)
         {

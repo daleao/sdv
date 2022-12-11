@@ -70,22 +70,22 @@ internal sealed class ObjectProjectile : BasicProjectile
         this.Damage = (int)(this.damageToFarmer.Value * source.Get_EffectiveDamageModifier() * (1f + firer.attackIncreaseModifier) * overcharge);
         this.Knockback = knockback * source.Get_EffectiveKnockbackModifer() * (1f + firer.knockbackModifier) * overcharge;
 
-        var canCrit = ModEntry.Config.Arsenal.Slingshots.AllowCrits;
+        var canCrit = ArsenalModule.Config.Slingshots.AllowCrits;
         this.CritChance = canCrit
-            ? (1f / 32f) * source.Get_EffectiveCritChanceModifier() * (1f + firer.critChanceModifier)
+            ? 0.025f * source.Get_EffectiveCritChanceModifier() * (1f + firer.critChanceModifier)
             : 0f;
         this.CritPower = canCrit
-            ? 2.5f * source.Get_EffectiveCritPowerModifier() * (1f + firer.critPowerModifier)
+            ? 2f * source.Get_EffectiveCritPowerModifier() * (1f + firer.critPowerModifier)
             : 0f;
 
         if (this.IsSquishy())
         {
-            ModEntry.Reflector
+            Reflector
                 .GetUnboundFieldGetter<BasicProjectile, NetString>(this, "collisionSound")
                 .Invoke(this).Value = "slimedead";
         }
 
-        if (firer.HasProfession(Profession.Rascal) && !this.IsSquishy() && ModEntry.Config.Professions.ModKey.IsDown() && !source.CanAutoFire())
+        if (firer.HasProfession(Profession.Rascal) && !this.IsSquishy() && ProfessionsModule.Config.ModKey.IsDown() && !source.CanAutoFire())
         {
             this.Damage = (int)(this.Damage * 0.8f);
             this.Knockback *= 0.8f;
@@ -144,7 +144,7 @@ internal sealed class ObjectProjectile : BasicProjectile
                     1f,
                     monster));
                 //Game1.playSound("healSound");
-                ModEntry.Reflector
+                Reflector
                     .GetUnboundMethodDelegate<Action<BasicProjectile, GameLocation>>(this, "explosionAnimation")
                     .Invoke(this, location);
 
@@ -189,7 +189,7 @@ internal sealed class ObjectProjectile : BasicProjectile
         }
         else
         {
-            ModEntry.Reflector
+            Reflector
                 .GetUnboundMethodDelegate<Action<BasicProjectile, GameLocation>>(this, "explosionAnimation")
                 .Invoke(this, location);
         }
@@ -202,7 +202,7 @@ internal sealed class ObjectProjectile : BasicProjectile
 
         // increment Desperado ultimate meter
         if (this.Firer.IsLocalPlayer && this.Firer.Get_Ultimate() is DeathBlossom { IsActive: false } blossom &&
-            ModEntry.Config.Professions.EnableSpecials)
+            ProfessionsModule.Config.EnableSpecials)
         {
             blossom.ChargeValue += (this.DidBounce || this.DidPierce ? 18 : 12) -
                                    (10 * this.Firer.health / this.Firer.maxHealth);

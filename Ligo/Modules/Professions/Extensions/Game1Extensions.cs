@@ -40,7 +40,7 @@ internal static class Game1Extensions
     {
         Game1.getFarm().buildings.OfType<FishPond>()
             .Where(p => (p.owner.Value == Game1.player.UniqueMultiplayerID || !Context.IsMultiplayer ||
-                         ModEntry.Config.Professions.LaxOwnershipRequirements) && !p.isUnderConstruction())
+                         ProfessionsModule.Config.LaxOwnershipRequirements) && !p.isUnderConstruction())
             .ForEach(p => p.UpdateMaximumOccupancy());
     }
 
@@ -56,7 +56,7 @@ internal static class Game1Extensions
                 .Where(o =>
                     o.bigCraftable.Value && o.ParentSheetIndex == (int)Machine.Crystalarium &&
                     (o.owner.Value == who.UniqueMultiplayerID || !Context.IsMultiplayer ||
-                     ModEntry.Config.Professions.LaxOwnershipRequirements) &&
+                     ProfessionsModule.Config.LaxOwnershipRequirements) &&
                     o.heldObject.Value?.Quality < newQuality)
                 .ForEach(crystalarium => crystalarium.heldObject.Value.Quality = newQuality);
         });

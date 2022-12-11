@@ -56,7 +56,7 @@ internal sealed class GameLocationDamageMonsterPatcher : HarmonyPatcher
         {
             helper
                 .FindProfessionCheck(Farmer.scout) // find index of scout check
-                .Advance()
+                .Move()
                 .SetOperand(Profession.Poacher.Value); // replace with Poacher check
         }
         catch (Exception ex)
@@ -72,20 +72,19 @@ internal sealed class GameLocationDamageMonsterPatcher : HarmonyPatcher
             var isNotPrestiged = generator.DefineLabel();
             var resumeExecution = generator.DefineLabel();
             helper
-                .FindProfessionCheck(
-                    Profession.Fighter.Value,
-                    true) // find index of brute check
-                .AdvanceUntil(
-                    new CodeInstruction(OpCodes.Ldc_R4, 1.1f)) // brute damage multiplier
+                .FindProfessionCheck(Profession.Fighter.Value) // find index of brute check
+                .Match(new[] { new CodeInstruction(OpCodes.Ldc_R4, 1.1f) }) // brute damage multiplier
                 .AddLabels(isNotPrestiged)
-                .InsertInstructions(
-                    new CodeInstruction(OpCodes.Ldarg_S, (byte)10)) // arg 10 = Farmer who
+                .Insert(new[] { new CodeInstruction(OpCodes.Ldarg_S, (byte)10) }) // arg 10 = Farmer who
                 .InsertProfessionCheck(Profession.Fighter.Value + 100, forLocalPlayer: false)
-                .InsertInstructions(
-                    new CodeInstruction(OpCodes.Brfalse_S, isNotPrestiged),
-                    new CodeInstruction(OpCodes.Ldc_R4, 1.15f),
-                    new CodeInstruction(OpCodes.Br_S, resumeExecution))
-                .Advance()
+                .Insert(
+                    new[]
+                    {
+                        new CodeInstruction(OpCodes.Brfalse_S, isNotPrestiged),
+                        new CodeInstruction(OpCodes.Ldc_R4, 1.15f),
+                        new CodeInstruction(OpCodes.Br_S, resumeExecution),
+                    })
+                .Move()
                 .AddLabels(resumeExecution);
         }
         catch (Exception ex)
@@ -100,29 +99,32 @@ internal sealed class GameLocationDamageMonsterPatcher : HarmonyPatcher
         try
         {
             helper
-                .FindProfessionCheck(Profession.Brute.Value, true) // find index of brute check
-                .Retreat(2)
+                .FindProfessionCheck(Profession.Brute.Value) // find index of brute check
+                .Move(-2)
                 .GetOperand(out var dontBuffDamage)
-                .InsertInstructions(
-                    new CodeInstruction(OpCodes.Brfalse_S, dontBuffDamage),
-                    // check for local player
-                    new CodeInstruction(OpCodes.Ldarg_S, (byte)10), // arg 10 = Farmer who
-                    new CodeInstruction(
-                        OpCodes.Callvirt,
-                        typeof(Farmer).RequirePropertyGetter(nameof(Farmer.IsLocalPlayer))))
-                .AdvanceUntil(
-                    new CodeInstruction(OpCodes.Ldc_R4, 1.15f)) // brute damage multiplier
+                .Insert(
+                    new[]
+                    {
+                        new CodeInstruction(OpCodes.Brfalse_S, dontBuffDamage),
+                        // check for local player
+                        new CodeInstruction(OpCodes.Ldarg_S, (byte)10), // arg 10 = Farmer who
+                        new CodeInstruction(
+                            OpCodes.Callvirt,
+                            typeof(Farmer).RequirePropertyGetter(nameof(Farmer.IsLocalPlayer))),
+                    })
+                .Match(new[] { new CodeInstruction(OpCodes.Ldc_R4, 1.15f) }) // brute damage multiplier
                 .SetOperand(1f)
-                .Advance()
-                .InsertInstructions(
-                    new CodeInstruction(OpCodes.Ldarg_S, (byte)10),
-                    new CodeInstruction(
-                        OpCodes.Call,
-                        typeof(Farmer_BruteCounters).RequireMethod(nameof(Farmer_BruteCounters.Get_BruteRageCounter))),
-                    new CodeInstruction(OpCodes.Conv_R4),
-                    new CodeInstruction(OpCodes.Ldc_R4, 0.01f),
-                    new CodeInstruction(OpCodes.Mul),
-                    new CodeInstruction(OpCodes.Add));
+                .Move()
+                .Insert(
+                    new[]
+                    {
+                        new CodeInstruction(OpCodes.Ldarg_S, (byte)10), new CodeInstruction(
+                            OpCodes.Call,
+                            typeof(Farmer_BruteCounters).RequireMethod(
+                                nameof(Farmer_BruteCounters.Get_BruteRageCounter))),
+                        new CodeInstruction(OpCodes.Conv_R4), new CodeInstruction(OpCodes.Ldc_R4, 0.01f),
+                        new CodeInstruction(OpCodes.Mul), new CodeInstruction(OpCodes.Add),
+                    });
         }
         catch (Exception ex)
         {
@@ -137,40 +139,43 @@ internal sealed class GameLocationDamageMonsterPatcher : HarmonyPatcher
         {
             var ambush = generator.DeclareLocal(typeof(Ambush));
             helper
-                .FindProfessionCheck(Farmer.desperado, true) // find index of desperado check
-                .RetreatUntil(new CodeInstruction(OpCodes.Brfalse_S))
+                .FindProfessionCheck(Farmer.desperado) // find index of desperado check
+                .Match(new[] { new CodeInstruction(OpCodes.Brfalse_S) }, ILHelper.SearchOption.Previous)
                 .GetOperand(out var dontBuffCritPow)
-                .RetreatUntil(new CodeInstruction(OpCodes.Ldnull))
-                .ReplaceInstructionWith(new CodeInstruction(OpCodes.Brfalse_S, dontBuffCritPow))
-                .Advance()
-                .ReplaceInstructionWith(new CodeInstruction(OpCodes.Ldarg_S, (byte)10)) // was cgt ; arg 10 = Farmer who
-                .Advance()
-                .InsertInstructions(
-                    new CodeInstruction(
-                        OpCodes.Callvirt,
-                        typeof(Farmer).RequirePropertyGetter(nameof(Farmer.IsLocalPlayer))),
-                    new CodeInstruction(OpCodes.Brfalse_S, dontBuffCritPow))
-                .Advance()
-                .RemoveInstructions() // was and
-                .Advance()
-                .InsertInstructions(
-                    // check for ambush
-                    new CodeInstruction(OpCodes.Ldarg_S, (byte)10),
-                    new CodeInstruction(
-                        OpCodes.Call,
-                        typeof(Farmer_Ultimate).RequireMethod(nameof(Farmer_Ultimate.Get_Ultimate))),
-                    new CodeInstruction(OpCodes.Isinst, typeof(Ambush)),
-                    new CodeInstruction(OpCodes.Stloc_S, ambush),
-                    new CodeInstruction(OpCodes.Ldloc_S, ambush),
-                    new CodeInstruction(OpCodes.Brfalse_S, dontBuffCritPow),
-                    // check for crit. pow. buff
-                    new CodeInstruction(OpCodes.Ldloc_S, ambush),
-                    new CodeInstruction(
-                        OpCodes.Call,
-                        typeof(Ambush).RequirePropertyGetter(nameof(Ambush.IsGrantingCritBuff))),
-                    new CodeInstruction(OpCodes.Brfalse_S, dontBuffCritPow))
-                .RemoveInstructionsUntil(
-                    new CodeInstruction(OpCodes.Brfalse_S));
+                .Match(new[] { new CodeInstruction(OpCodes.Ldnull) }, ILHelper.SearchOption.Previous)
+                .ReplaceWith(new CodeInstruction(OpCodes.Brfalse_S, dontBuffCritPow))
+                .Move()
+                .ReplaceWith(new CodeInstruction(OpCodes.Ldarg_S, (byte)10)) // was cgt ; arg 10 = Farmer who
+                .Move()
+                .Insert(
+                    new[]
+                    {
+                        new CodeInstruction(
+                            OpCodes.Callvirt,
+                            typeof(Farmer).RequirePropertyGetter(nameof(Farmer.IsLocalPlayer))),
+                        new CodeInstruction(OpCodes.Brfalse_S, dontBuffCritPow),
+                    })
+                .Move()
+                .Remove() // was and
+                .Move()
+                .Insert(
+                    new[]
+                    {
+                        // check for ambush
+                        new CodeInstruction(OpCodes.Ldarg_S, (byte)10), new CodeInstruction(
+                            OpCodes.Call,
+                            typeof(Farmer_Ultimate).RequireMethod(nameof(Farmer_Ultimate.Get_Ultimate))),
+                        new CodeInstruction(OpCodes.Isinst, typeof(Ambush)),
+                        new CodeInstruction(OpCodes.Stloc_S, ambush), new CodeInstruction(OpCodes.Ldloc_S, ambush),
+                        new CodeInstruction(OpCodes.Brfalse_S, dontBuffCritPow),
+                        // check for crit. pow. buff
+                        new CodeInstruction(OpCodes.Ldloc_S, ambush), new CodeInstruction(
+                            OpCodes.Call,
+                            typeof(Ambush).RequirePropertyGetter(nameof(Ambush.IsGrantingCritBuff))),
+                        new CodeInstruction(OpCodes.Brfalse_S, dontBuffCritPow),
+                    })
+                .Match(new[] { new CodeInstruction(OpCodes.Brfalse_S) }, out var count)
+                .Remove(count);
         }
         catch (Exception ex)
         {
@@ -186,27 +191,32 @@ internal sealed class GameLocationDamageMonsterPatcher : HarmonyPatcher
             var didCrit = helper.Locals[7];
             var damageAmount = helper.Locals[8];
             helper
-                .FindFirst(
-                    // monster.Health <= 0
-                    new CodeInstruction(OpCodes.Ldloc_2),
-                    new CodeInstruction(
-                        OpCodes.Callvirt,
-                        typeof(Monster).RequirePropertyGetter(nameof(Monster.Health))),
-                    new CodeInstruction(OpCodes.Ldc_I4_0),
-                    new CodeInstruction(OpCodes.Bgt))
+                .Match(
+                    new[]
+                    {
+                        // monster.Health <= 0
+                        new CodeInstruction(OpCodes.Ldloc_2), new CodeInstruction(
+                            OpCodes.Callvirt,
+                            typeof(Monster).RequirePropertyGetter(nameof(Monster.Health))),
+                        new CodeInstruction(OpCodes.Ldc_I4_0), new CodeInstruction(OpCodes.Bgt),
+                    },
+                    ILHelper.SearchOption.First)
                 .StripLabels(out var labels) // backup and remove branch labels
-                .InsertWithLabels(
-                    labels, // restore backed-up labels
-                    // prepare arguments
-                    new CodeInstruction(OpCodes.Ldloc_S, damageAmount),
-                    new CodeInstruction(OpCodes.Ldarg_S, (byte)4), // arg 4 = bool isBomb
-                    new CodeInstruction(OpCodes.Ldloc_S, didCrit),
-                    new CodeInstruction(OpCodes.Ldarg_S, (byte)8), // arg 8 = float critMultiplier
-                    new CodeInstruction(OpCodes.Ldloc_2), // local 2 = Monster monster
-                    new CodeInstruction(OpCodes.Ldarg_S, (byte)10), // arg 10 = Farmer who
-                    new CodeInstruction(
-                        OpCodes.Call,
-                        typeof(GameLocationDamageMonsterPatcher).RequireMethod(nameof(DamageMonsterSubroutine))));
+                .Insert(
+                    new[]
+                    {
+                        // prepare arguments
+                        new CodeInstruction(OpCodes.Ldloc_S, damageAmount),
+                        new CodeInstruction(OpCodes.Ldarg_S, (byte)4), // arg 4 = bool isBomb
+                        new CodeInstruction(OpCodes.Ldloc_S, didCrit),
+                        new CodeInstruction(OpCodes.Ldarg_S, (byte)8), // arg 8 = float critMultiplier
+                        new CodeInstruction(OpCodes.Ldloc_2), // local 2 = Monster monster
+                        new CodeInstruction(OpCodes.Ldarg_S, (byte)10), // arg 10 = Farmer who
+                        new CodeInstruction(
+                            OpCodes.Call,
+                            typeof(GameLocationDamageMonsterPatcher).RequireMethod(nameof(DamageMonsterSubroutine))),
+                    },
+                    labels);
         }
         catch (Exception ex)
         {
@@ -256,7 +266,7 @@ internal sealed class GameLocationDamageMonsterPatcher : HarmonyPatcher
     private static void HandleBrute(Monster monster, Farmer who, Ultimate? ultimate)
     {
         if (who.CurrentTool is not MeleeWeapon weapon || ultimate != Ultimate.BruteFrenzy || monster.Health > 0 ||
-            !ModEntry.Config.Professions.EnableSpecials)
+            !ProfessionsModule.Config.EnableSpecials)
         {
             return;
         }
@@ -287,7 +297,7 @@ internal sealed class GameLocationDamageMonsterPatcher : HarmonyPatcher
             }
         }
 
-        if (ultimate is not Ambush ambush || !ModEntry.Config.Professions.EnableSpecials)
+        if (ultimate is not Ambush ambush || !ProfessionsModule.Config.EnableSpecials)
         {
             return;
         }
@@ -320,21 +330,21 @@ internal sealed class GameLocationDamageMonsterPatcher : HarmonyPatcher
                 switch (whatToBuff)
                 {
                     case 8:
-                        if (applied[8] < ModEntry.Config.Professions.PiperBuffCap * 8)
+                        if (applied[8] < ProfessionsModule.Config.PiperBuffCap * 8)
                         {
                             applied[8] += 8;
                         }
 
                         break;
                     case 7:
-                        if (applied[7] < ModEntry.Config.Professions.PiperBuffCap * 10)
+                        if (applied[7] < ProfessionsModule.Config.PiperBuffCap * 10)
                         {
                             applied[7] += 10;
                         }
 
                         break;
                     default:
-                        if (applied[8] < ModEntry.Config.Professions.PiperBuffCap)
+                        if (applied[8] < ProfessionsModule.Config.PiperBuffCap)
                         {
                             applied[whatToBuff]++;
                         }
@@ -342,7 +352,7 @@ internal sealed class GameLocationDamageMonsterPatcher : HarmonyPatcher
                         break;
                 }
 
-                var buffId = (ModEntry.Manifest.UniqueID + Profession.Piper).GetHashCode();
+                var buffId = (Manifest.UniqueID + Profession.Piper).GetHashCode();
                 Game1.buffsDisplay.removeOtherBuff(buffId);
                 Game1.buffsDisplay.addOtherBuff(new Buff(
                     applied[0],
@@ -359,7 +369,7 @@ internal sealed class GameLocationDamageMonsterPatcher : HarmonyPatcher
                     applied[11],
                     3,
                     "Piper",
-                    ModEntry.i18n.Get("piper.title" + (who.IsMale ? ".male" : ".female")))
+                    i18n.Get("piper.title" + (who.IsMale ? ".male" : ".female")))
                 {
                     which = buffId,
                     sheetIndex = 38,
@@ -377,7 +387,7 @@ internal sealed class GameLocationDamageMonsterPatcher : HarmonyPatcher
                         applied[8]),
                 });
 
-                ModEntry.Events.Enable<PiperDayEndingEvent>();
+                EventManager.Enable<PiperDayEndingEvent>();
             }
         }
 
@@ -398,7 +408,7 @@ internal sealed class GameLocationDamageMonsterPatcher : HarmonyPatcher
         }
 
         // increment ultimate meter
-        if (ultimate is Concerto { IsActive: false } concerto && ModEntry.Config.Professions.EnableSpecials)
+        if (ultimate is Concerto { IsActive: false } concerto && ProfessionsModule.Config.EnableSpecials)
         {
             var increment = monster switch
             {

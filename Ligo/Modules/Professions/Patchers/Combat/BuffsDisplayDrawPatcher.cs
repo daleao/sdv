@@ -16,7 +16,7 @@ using StardewValley.Menus;
 [UsedImplicitly]
 internal sealed class BuffsDisplayDrawPatcher : HarmonyPatcher
 {
-    private static readonly int BuffId = (ModEntry.Manifest.UniqueID + Profession.Brute).GetHashCode();
+    private static readonly int BuffId = (Manifest.UniqueID + Profession.Brute).GetHashCode();
 
     /// <summary>Initializes a new instance of the <see cref="BuffsDisplayDrawPatcher"/> class.</summary>
     internal BuffsDisplayDrawPatcher()

@@ -42,55 +42,72 @@ internal sealed class FarmAnimalDayUpdatePatcher : HarmonyPatcher
             var notPrestigedProducer = generator.DefineLabel();
             var resumeExecution1 = generator.DefineLabel();
             helper
-                .FindFirst(
-                    // find index of FarmAnimal.type.Value.Equals("Sheep")
-                    new CodeInstruction(OpCodes.Ldstr, "Sheep"),
-                    new CodeInstruction(
-                        OpCodes.Callvirt,
-                        typeof(string).RequireMethod(nameof(string.Equals), new[] { typeof(string) })))
-                .RetreatUntil(new CodeInstruction(OpCodes.Ldarg_0))
-                .InsertInstructions(new CodeInstruction(OpCodes.Conv_R8))
-                .AdvanceUntil(new CodeInstruction(OpCodes.Ldfld, typeof(FarmAnimal)
-                    .RequireField(nameof(FarmAnimal.type))))
+                .Match(
+                    new[]
+                    {
+                        // find index of FarmAnimal.type.Value.Equals("Sheep")
+                        new CodeInstruction(OpCodes.Ldstr, "Sheep"), new CodeInstruction(
+                            OpCodes.Callvirt,
+                            typeof(string).RequireMethod(nameof(string.Equals), new[] { typeof(string) })),
+                    })
+                .Match(new[] { new CodeInstruction(OpCodes.Ldarg_0) }, ILHelper.SearchOption.Previous)
+                .Insert(new[] { new CodeInstruction(OpCodes.Conv_R8) })
+                .Match(new[]
+                {
+                    new CodeInstruction(OpCodes.Ldfld, typeof(FarmAnimal)
+                        .RequireField(nameof(FarmAnimal.type))),
+                })
                 .SetOperand(typeof(FarmAnimal).RequireField(nameof(FarmAnimal.happiness))) // was FarmAnimal.type
-                .Advance()
+                .Move()
                 .SetOperand(typeof(NetFieldBase<byte, NetByte>)
                     .RequirePropertyGetter(nameof(NetFieldBase<byte, NetByte>.Value))) // was <string, NetString>
-                .Advance()
-                .ReplaceInstructionWith(new CodeInstruction(OpCodes.Ldc_I4_S, 200)) // was Ldstr "Sheep"
-                .Advance()
-                .RemoveInstructions()
+                .Move()
+                .ReplaceWith(new CodeInstruction(OpCodes.Ldc_I4_S, 200)) // was Ldstr "Sheep"
+                .Move()
+                .Remove()
                 .SetOpCode(OpCodes.Blt_S) // was Brfalse_S
-                .Advance()
-                .GetInstructionsUntil(
-                    out var got,
+                .Move()
+                .Match(
+                    new[]
+                    {
+                        new CodeInstruction(
+                            OpCodes.Callvirt,
+                            typeof(NetList<int, NetInt>).RequireMethod(nameof(NetList<int, NetInt>.Contains))),
+                    },
+                    out var steps)
+                .Copy(
+                    out var copy,
+                    steps,
                     false,
-                    true,
-                    new CodeInstruction(
-                        OpCodes.Callvirt,
-                        typeof(NetList<int, NetInt>).RequireMethod(nameof(NetList<int, NetInt>.Contains))))
-                .AdvanceUntil(new CodeInstruction(OpCodes.Ldc_I4_0))
-                .ReplaceInstructionWith(new CodeInstruction(OpCodes.Ldc_R8, 1.0), true)
-                .AdvanceUntil(new CodeInstruction(OpCodes.Ldc_I4_1))
-                .ReplaceInstructionWith(new CodeInstruction(OpCodes.Ldc_R8, 1.75), true)
+                    true)
+                .Match(new[] { new CodeInstruction(OpCodes.Ldc_I4_0) })
+                .ReplaceWith(new CodeInstruction(OpCodes.Ldc_R8, 1.0), true)
+                .Match(new[] { new CodeInstruction(OpCodes.Ldc_I4_1) })
+                .ReplaceWith(new CodeInstruction(OpCodes.Ldc_R8, 1.75), true)
                 .AddLabels(notPrestigedProducer)
-                .InsertInstructions(got)
-                .RetreatUntil(new CodeInstruction(OpCodes.Ldc_I4_3))
-                .ReplaceInstructionWith(new CodeInstruction(OpCodes.Ldc_I4_S, Profession.Producer.Value + 100))
+                .Insert(copy)
+                .Match(new[] { new CodeInstruction(OpCodes.Ldc_I4_3) }, ILHelper.SearchOption.Previous)
+                .ReplaceWith(new CodeInstruction(OpCodes.Ldc_I4_S, Profession.Producer.Value + 100))
                 .Return()
-                .InsertInstructions(
-                    new CodeInstruction(OpCodes.Brfalse_S, notPrestigedProducer),
-                    new CodeInstruction(OpCodes.Ldc_R8, 3.0),
-                    new CodeInstruction(OpCodes.Br_S, resumeExecution1))
-                .Advance()
+                .Insert(
+                    new[]
+                    {
+                        new CodeInstruction(OpCodes.Brfalse_S, notPrestigedProducer),
+                        new CodeInstruction(OpCodes.Ldc_R8, 3.0),
+                        new CodeInstruction(OpCodes.Br_S, resumeExecution1),
+                    })
+                .Move()
                 .SetOpCode(OpCodes.Div) // was Sub
                 .AddLabels(resumeExecution1)
-                .Advance()
-                .InsertInstructions(
-                    new CodeInstruction(
-                        OpCodes.Call,
-                        typeof(Math).RequireMethod(nameof(Math.Round), new[] { typeof(double) })),
-                    new CodeInstruction(OpCodes.Conv_U1));
+                .Move()
+                .Insert(
+                    new[]
+                    {
+                        new CodeInstruction(
+                            OpCodes.Call,
+                            typeof(Math).RequireMethod(nameof(Math.Round), new[] { typeof(double) })),
+                        new CodeInstruction(OpCodes.Conv_U1),
+                    });
         }
         catch (Exception ex)
         {
@@ -102,19 +119,24 @@ internal sealed class FarmAnimalDayUpdatePatcher : HarmonyPatcher
         try
         {
             helper
-                .FindNext(
-                    // find index of first FarmAnimal.isCoopDweller check
-                    new CodeInstruction(
-                        OpCodes.Call,
-                        typeof(FarmAnimal).RequireMethod(nameof(FarmAnimal.isCoopDweller))))
-                .AdvanceUntil(
-                    new CodeInstruction(OpCodes.Brfalse_S)) // the all cases false branch
+                .Match(
+                    new[]
+                    {
+                        // find index of first FarmAnimal.isCoopDweller check
+                        new CodeInstruction(
+                            OpCodes.Call,
+                            typeof(FarmAnimal).RequireMethod(nameof(FarmAnimal.isCoopDweller))),
+                    })
+                .Match(new[] { new CodeInstruction(OpCodes.Brfalse_S) }) // the all cases false branch
                 .GetOperand(out var resumeExecution2) // copy destination
                 .Return()
-                .Retreat()
-                .InsertInstructions(
-                    // insert unconditional branch to skip this whole section
-                    new CodeInstruction(OpCodes.Br_S, (Label)resumeExecution2));
+                .Move(-1)
+                .Insert(
+                    new[]
+                    {
+                        // insert unconditional branch to skip this whole section
+                        new CodeInstruction(OpCodes.Br_S, (Label)resumeExecution2),
+                    });
         }
         catch (Exception ex)
         {

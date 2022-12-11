@@ -38,7 +38,6 @@ internal sealed class BaseEnchantmentGetEnchantmentFromItemPatcher : HarmonyPatc
         {
             __result = new GalaxySoulEnchantment();
         }
-
     }
 
     #endregion harmony patches

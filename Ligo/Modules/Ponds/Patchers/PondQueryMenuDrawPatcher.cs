@@ -61,7 +61,7 @@ internal sealed class PondQueryMenuDrawPatcher : HarmonyPatcher
                                      !____pond.hasCompletedRequest.Value;
             bool isAlgaePond = ____fishItem.IsAlgae(), isLegendaryPond = ____fishItem.HasContextTag("fish_legendary");
             var pondNameText = isAlgaePond
-                ? ModEntry.i18n.Get("algae")
+                ? i18n.Get("algae")
                 : Game1.content.LoadString(
                     PathUtilities.NormalizeAssetName("Strings/UI:PondQuery_Name"),
                     ____fishItem.DisplayName);
@@ -80,7 +80,7 @@ internal sealed class PondQueryMenuDrawPatcher : HarmonyPatcher
                     (Game1.uiViewport.Width / 2) - (textSize.X * 0.5f),
                     __instance.yPositionOnScreen - 4 + 160f - (textSize.Y * 0.5f)),
                 Color.Black);
-            var displayedText = ModEntry.Reflector
+            var displayedText = Reflector
                 .GetUnboundMethodDelegate<Func<PondQueryMenu, string>>(__instance, "getDisplayedText")
                 .Invoke(__instance);
             var extraHeight = 0;
@@ -89,7 +89,7 @@ internal sealed class PondQueryMenuDrawPatcher : HarmonyPatcher
                 extraHeight += 116;
             }
 
-            var extraTextHeight = ModEntry.Reflector
+            var extraTextHeight = Reflector
                 .GetUnboundMethodDelegate<Func<PondQueryMenu, string, int>>(__instance, "measureExtraTextHeight")
                 .Invoke(__instance, displayedText);
             Game1.drawDialogueBox(
@@ -362,7 +362,7 @@ internal sealed class PondQueryMenuDrawPatcher : HarmonyPatcher
 
             if (hasUnresolvedNeeds)
             {
-                ModEntry.Reflector.GetUnboundMethodDelegate<DrawHorizontalPartitionDelegate>(__instance, "drawHorizontalPartition").Invoke(
+                Reflector.GetUnboundMethodDelegate<DrawHorizontalPartitionDelegate>(__instance, "drawHorizontalPartition").Invoke(
                     __instance,
                     b,
                     (int)(__instance.yPositionOnScreen + PondQueryMenu.height + extraTextHeight - 48f));

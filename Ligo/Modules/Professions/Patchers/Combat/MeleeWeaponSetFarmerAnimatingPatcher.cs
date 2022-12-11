@@ -38,30 +38,33 @@ internal sealed class MeleeWeaponSetFarmerAnimatingPatcher : HarmonyPatcher
         {
             var skipRageBonus = generator.DefineLabel();
             helper
-                .FindFirst(
-                    new CodeInstruction(
-                        OpCodes.Callvirt,
-                        typeof(Farmer).RequirePropertyGetter(nameof(Farmer.IsLocalPlayer))))
-                .AdvanceUntil(new CodeInstruction(OpCodes.Ldarg_0))
+                .Match(
+                    new[]
+                    {
+                        new CodeInstruction(
+                            OpCodes.Callvirt,
+                            typeof(Farmer).RequirePropertyGetter(nameof(Farmer.IsLocalPlayer))),
+                    })
+                .Match(new[] { new CodeInstruction(OpCodes.Ldarg_0) })
                 .AddLabels(skipRageBonus)
-                .InsertInstructions(new CodeInstruction(OpCodes.Ldarg_1)) // arg 1 = Farmer who
+                .Insert(new[] { new CodeInstruction(OpCodes.Ldarg_1) }) // arg 1 = Farmer who
                 .InsertProfessionCheck(Profession.Brute.Value + 100, forLocalPlayer: false)
-                .InsertInstructions(
-                    new CodeInstruction(OpCodes.Brfalse_S, skipRageBonus),
-                    new CodeInstruction(OpCodes.Ldarg_0),
-                    new CodeInstruction(OpCodes.Ldarg_0),
-                    new CodeInstruction(OpCodes.Ldfld, typeof(MeleeWeapon).RequireField("swipeSpeed")),
-                    new CodeInstruction(OpCodes.Ldc_R4, 1f),
-                    new CodeInstruction(OpCodes.Ldarg_1),
-                    new CodeInstruction(
-                        OpCodes.Call,
-                        typeof(Farmer_BruteCounters).RequireMethod(nameof(Farmer_BruteCounters.Get_BruteRageCounter))),
-                    new CodeInstruction(OpCodes.Conv_R4),
-                    new CodeInstruction(OpCodes.Ldc_R4, 0.005f),
-                    new CodeInstruction(OpCodes.Mul),
-                    new CodeInstruction(OpCodes.Sub),
-                    new CodeInstruction(OpCodes.Mul),
-                    new CodeInstruction(OpCodes.Stfld, typeof(MeleeWeapon).RequireField("swipeSpeed")));
+                .Insert(
+                    new[]
+                    {
+                        new CodeInstruction(OpCodes.Brfalse_S, skipRageBonus), new CodeInstruction(OpCodes.Ldarg_0),
+                        new CodeInstruction(OpCodes.Ldarg_0),
+                        new CodeInstruction(OpCodes.Ldfld, typeof(MeleeWeapon).RequireField("swipeSpeed")),
+                        new CodeInstruction(OpCodes.Ldc_R4, 1f), new CodeInstruction(OpCodes.Ldarg_1),
+                        new CodeInstruction(
+                            OpCodes.Call,
+                            typeof(Farmer_BruteCounters).RequireMethod(
+                                nameof(Farmer_BruteCounters.Get_BruteRageCounter))),
+                        new CodeInstruction(OpCodes.Conv_R4), new CodeInstruction(OpCodes.Ldc_R4, 0.005f),
+                        new CodeInstruction(OpCodes.Mul), new CodeInstruction(OpCodes.Sub),
+                        new CodeInstruction(OpCodes.Mul),
+                        new CodeInstruction(OpCodes.Stfld, typeof(MeleeWeapon).RequireField("swipeSpeed")),
+                    });
         }
         catch (Exception ex)
         {

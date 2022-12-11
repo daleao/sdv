@@ -64,7 +64,7 @@ internal sealed class FishPondDayUpdatePatcher : HarmonyPatcher
         }
 
         __instance.hasSpawnedFish.Value = false;
-        ModEntry.ModHelper.Reflection.GetField<bool>(__instance, "_hasAnimatedSpawnedFish").SetValue(false);
+        ModHelper.Reflection.GetField<bool>(__instance, "_hasAnimatedSpawnedFish").SetValue(false);
         if (__instance.hasCompletedRequest.Value)
         {
             __instance.neededItem.Value = null;
@@ -95,7 +95,7 @@ internal sealed class FishPondDayUpdatePatcher : HarmonyPatcher
 
             if (__instance.daysSinceSpawn.Value >= fishPondData.SpawnTime)
             {
-                var (key, value) = ModEntry.ModHelper.Reflection.GetMethod(__instance, "_GetNeededItemData")
+                var (key, value) = ModHelper.Reflection.GetMethod(__instance, "_GetNeededItemData")
                     .Invoke<KeyValuePair<int, int>>();
                 if (key != -1)
                 {
@@ -124,7 +124,7 @@ internal sealed class FishPondDayUpdatePatcher : HarmonyPatcher
                 }
             }
 
-            ModEntry.ModHelper.Reflection.GetMethod(__instance, "doFishSpecificWaterColoring").Invoke();
+            ModHelper.Reflection.GetMethod(__instance, "doFishSpecificWaterColoring").Invoke();
         }
 
         BuildingDayUpdatePatcher.BuildingDayUpdateReverse(__instance, dayOfMonth);
@@ -145,7 +145,7 @@ internal sealed class FishPondDayUpdatePatcher : HarmonyPatcher
 
         // if pond is empty, spontaneously grow algae/seaweed
         __instance.Increment(DataFields.DaysEmpty);
-        if (__instance.Read<int>(DataFields.DaysEmpty) < ModEntry.Config.Ponds.DaysUntilAlgaeSpawn + 1)
+        if (__instance.Read<uint>(DataFields.DaysEmpty) < PondsModule.Config.DaysUntilAlgaeSpawn + 1)
         {
             return;
         }
@@ -184,15 +184,23 @@ internal sealed class FishPondDayUpdatePatcher : HarmonyPatcher
         try
         {
             helper
-                .FindFirst(
-                    new CodeInstruction(OpCodes.Ldloc_0),
-                    new CodeInstruction(OpCodes.Callvirt, typeof(Random).RequireMethod(nameof(Random.NextDouble))))
-                .RemoveInstructionsUntil(
-                    new CodeInstruction(OpCodes.Bge_Un_S))
-                .AdvanceUntil(
-                    new CodeInstruction(OpCodes.Ldarg_0),
-                    new CodeInstruction(OpCodes.Ldfld, typeof(FishPond).RequireField(nameof(FishPond.daysSinceSpawn))))
-                .RemoveLabels();
+                .Match(
+                    new[]
+                    {
+                        new CodeInstruction(OpCodes.Ldloc_0), new CodeInstruction(
+                            OpCodes.Callvirt,
+                            typeof(Random).RequireMethod(nameof(Random.NextDouble))),
+                    })
+                .Match(new[] { new CodeInstruction(OpCodes.Bge_Un_S) }, out var count)
+                .Remove(count)
+                .Match(
+                    new[]
+                    {
+                        new CodeInstruction(OpCodes.Ldarg_0), new CodeInstruction(
+                            OpCodes.Ldfld,
+                            typeof(FishPond).RequireField(nameof(FishPond.daysSinceSpawn))),
+                    })
+                .StripLabels();
         }
         catch (Exception ex)
         {

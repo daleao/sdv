@@ -22,7 +22,7 @@ internal sealed class ToolDrawPatcher : HarmonyPatcher
     [HarmonyPrefix]
     private static bool ToolDrawPrefix()
     {
-        return !ModEntry.Config.Tools.HideAffectedTiles;
+        return !ToolsModule.Config.HideAffectedTiles;
     }
 
     #endregion harmony patches

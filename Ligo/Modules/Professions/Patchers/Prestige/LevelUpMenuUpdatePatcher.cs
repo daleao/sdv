@@ -61,18 +61,22 @@ internal sealed class LevelUpMenuUpdatePatcher : HarmonyPatcher
         {
             var isLevel5 = generator.DefineLabel();
             helper
-                .FindNext(
-                    new CodeInstruction(OpCodes.Ldarg_0),
-                    new CodeInstruction(OpCodes.Ldfld, typeof(LevelUpMenu).RequireField("currentLevel")),
-                    new CodeInstruction(OpCodes.Ldc_I4_5),
-                    new CodeInstruction(OpCodes.Bne_Un_S))
-                .AdvanceUntil(new CodeInstruction(OpCodes.Bne_Un_S))
-                .InsertInstructions(
-                    new CodeInstruction(OpCodes.Beq_S, isLevel5),
-                    new CodeInstruction(OpCodes.Ldarg_0),
-                    new CodeInstruction(OpCodes.Ldfld, typeof(LevelUpMenu).RequireField("currentLevel")),
-                    new CodeInstruction(OpCodes.Ldc_I4_S, 15))
-                .Advance()
+                .Match(
+                    new[]
+                    {
+                        new CodeInstruction(OpCodes.Ldarg_0),
+                        new CodeInstruction(OpCodes.Ldfld, typeof(LevelUpMenu).RequireField("currentLevel")),
+                        new CodeInstruction(OpCodes.Ldc_I4_5), new CodeInstruction(OpCodes.Bne_Un_S),
+                    })
+                .Match(new[] { new CodeInstruction(OpCodes.Bne_Un_S) })
+                .Insert(
+                    new[]
+                    {
+                        new CodeInstruction(OpCodes.Beq_S, isLevel5), new CodeInstruction(OpCodes.Ldarg_0),
+                        new CodeInstruction(OpCodes.Ldfld, typeof(LevelUpMenu).RequireField("currentLevel")),
+                        new CodeInstruction(OpCodes.Ldc_I4_S, 15),
+                    })
+                .Move()
                 .AddLabels(isLevel5);
         }
         catch (Exception ex)
@@ -87,32 +91,40 @@ internal sealed class LevelUpMenuUpdatePatcher : HarmonyPatcher
         try
         {
             helper
-                .FindFirst(
-                    // find index of checking if the player has the the first level 5 profession in the skill
-                    new CodeInstruction(OpCodes.Call, typeof(Game1).RequirePropertyGetter(nameof(Game1.player))),
-                    new CodeInstruction(OpCodes.Ldfld, typeof(Farmer).RequireField(nameof(Farmer.professions))),
-                    new CodeInstruction(OpCodes.Ldarg_0),
-                    new CodeInstruction(OpCodes.Ldfld, typeof(LevelUpMenu).RequireField("currentSkill")),
-                    new CodeInstruction(OpCodes.Ldc_I4_6),
-                    new CodeInstruction(OpCodes.Mul),
-                    new CodeInstruction(
-                        OpCodes.Callvirt,
-                        typeof(NetList<int, NetInt>).RequireMethod(nameof(NetList<int, NetInt>.Contains))))
+                .Match(
+                    new[]
+                    {
+                        // find index of checking if the player has the the first level 5 profession in the skill
+                        new CodeInstruction(OpCodes.Call, typeof(Game1).RequirePropertyGetter(nameof(Game1.player))),
+                        new CodeInstruction(OpCodes.Ldfld, typeof(Farmer).RequireField(nameof(Farmer.professions))),
+                        new CodeInstruction(OpCodes.Ldarg_0),
+                        new CodeInstruction(OpCodes.Ldfld, typeof(LevelUpMenu).RequireField("currentSkill")),
+                        new CodeInstruction(OpCodes.Ldc_I4_6), new CodeInstruction(OpCodes.Mul), new CodeInstruction(
+                            OpCodes.Callvirt,
+                            typeof(NetList<int, NetInt>).RequireMethod(nameof(NetList<int, NetInt>.Contains))),
+                    },
+                    ILHelper.SearchOption.First)
                 .GetLabels(out var labels)
-                .RemoveInstructions(2) // remove loading the local player's professions
+                .Remove(2) // remove loading the local player's professions
                 .AddLabels(labels)
-                .Advance(2)
-                .InsertInstructions(
-                    new CodeInstruction(
-                        OpCodes.Call,
-                        typeof(LevelUpMenuUpdatePatcher).RequireMethod(nameof(GetCurrentBranchForSkill))),
-                    new CodeInstruction(OpCodes.Ldarg_0),
-                    new CodeInstruction(OpCodes.Ldfld, typeof(LevelUpMenu).RequireField("currentSkill")))
-                .AdvanceUntil(
-                    new CodeInstruction(
-                        OpCodes.Callvirt,
-                        typeof(NetList<int, NetInt>).RequireMethod(nameof(NetList<int, NetInt>.Contains))))
-                .RemoveInstructions() // remove Callvirt Nelist<int, NetInt>.Contains()
+                .Move(2)
+                .Insert(
+                    new[]
+                    {
+                        new CodeInstruction(
+                            OpCodes.Call,
+                            typeof(LevelUpMenuUpdatePatcher).RequireMethod(nameof(GetCurrentBranchForSkill))),
+                        new CodeInstruction(OpCodes.Ldarg_0),
+                        new CodeInstruction(OpCodes.Ldfld, typeof(LevelUpMenu).RequireField("currentSkill")),
+                    })
+                .Match(
+                    new[]
+                    {
+                        new CodeInstruction(
+                            OpCodes.Callvirt,
+                            typeof(NetList<int, NetInt>).RequireMethod(nameof(NetList<int, NetInt>.Contains))),
+                    })
+                .Remove() // remove Callvirt Nelist<int, NetInt>.Contains()
                 .SetOpCode(OpCodes.Bne_Un_S); // was Brfalse_S
         }
         catch (Exception ex)
@@ -134,90 +146,121 @@ internal sealed class LevelUpMenuUpdatePatcher : HarmonyPatcher
         // Injected: if (ShouldProposeFinalQuestion(professionsToChoose[i])) shouldProposeFinalQuestion = true;
         //			  if (ShouldCongratulateOnFullPrestige(currentLevel, professionsToChoose[i])) shouldCongratulateOnFullPrestige = true;
         // Before: isActive = false;
-        var i = 0;
-        repeat1:
         try
         {
-            var dontGetImmediatePerks = generator.DefineLabel();
-            var isNotPrestigeLevel = generator.DefineLabel();
             helper
-                .FindNext(
-                    // find index of adding a profession to the player's list of professions
-                    new CodeInstruction(OpCodes.Callvirt, typeof(List<int>).RequirePropertyGetter("Item")),
-                    new CodeInstruction(OpCodes.Callvirt, typeof(NetList<int, NetInt>).RequireMethod("Add")))
-                .Advance()
-                .InsertInstructions(
-                    // duplicate chosen profession
-                    new CodeInstruction(OpCodes.Dup),
-                    // store it for later
-                    new CodeInstruction(OpCodes.Stloc_S, chosenProfession))
-                .ReplaceInstructionWith(
-                    // replace Add() with AddOrReplace()
-                    new CodeInstruction(
-                        OpCodes.Call,
-                        typeof(DaLion.Shared.Extensions.Collections.CollectionExtensions)
-                            .RequireMethod(nameof(DaLion.Shared.Extensions.Collections.CollectionExtensions.AddOrReplace))
-                            .MakeGenericMethod(typeof(int))))
-                .Advance()
-                .InsertInstructions(
-                    // skip adding perks if player already has them
-                    new CodeInstruction(OpCodes.Brfalse_S, dontGetImmediatePerks))
-                .AdvanceUntil(
-                    // find isActive = false section
-                    new CodeInstruction(OpCodes.Ldarg_0),
-                    new CodeInstruction(OpCodes.Ldc_I4_0),
-                    new CodeInstruction(OpCodes.Stfld))
-                .InsertWithLabels(
-                    // branch here if the player already had the chosen profession
-                    new[] { dontGetImmediatePerks },
-                    // check if current level is above 10 (i.e. prestige level)
-                    new CodeInstruction(OpCodes.Ldarg_0),
-                    new CodeInstruction(OpCodes.Ldfld, typeof(LevelUpMenu).RequireField("currentLevel")),
-                    new CodeInstruction(OpCodes.Ldc_I4_S, 10),
-                    new CodeInstruction(OpCodes.Ble_Un_S, isNotPrestigeLevel), // branch out if not
-                    // add chosenProfession + 100 to player's professions
-                    new CodeInstruction(OpCodes.Call, typeof(Game1).RequirePropertyGetter(nameof(Game1.player))),
-                    new CodeInstruction(OpCodes.Ldfld, typeof(Farmer).RequireField(nameof(Farmer.professions))),
-                    new CodeInstruction(OpCodes.Ldc_I4_S, 100),
-                    new CodeInstruction(OpCodes.Ldloc_S, chosenProfession),
-                    new CodeInstruction(OpCodes.Add),
-                    new CodeInstruction(
-                        OpCodes.Callvirt,
-                        typeof(NetList<int, NetInt>).RequireMethod(nameof(NetList<int, NetInt>.Add))))
-                .InsertWithLabels(
-                    // branch here if was not prestige level
-                    new[] { isNotPrestigeLevel },
-                    // load the chosen profession onto the stack
-                    new CodeInstruction(OpCodes.Ldloc_S, chosenProfession),
-                    // check if should propose final question
-                    new CodeInstruction(
-                        OpCodes.Call,
-                        typeof(LevelUpMenuUpdatePatcher).RequireMethod(nameof(ShouldProposeFinalQuestion))),
-                    // store the bool result for later
-                    new CodeInstruction(OpCodes.Stloc_S, shouldProposeFinalQuestion),
-                    // load the current level onto the stack
-                    new CodeInstruction(OpCodes.Ldarg_0),
-                    new CodeInstruction(OpCodes.Ldfld, typeof(LevelUpMenu).RequireField("currentLevel")),
-                    // load the chosen profession onto the stack
-                    new CodeInstruction(OpCodes.Ldloc_S, chosenProfession),
-                    // check if should congratulate on full prestige
-                    new CodeInstruction(
-                        OpCodes.Call,
-                        typeof(LevelUpMenuUpdatePatcher).RequireMethod(nameof(ShouldCongratulateOnFullSkillMastery))),
-                    // store the bool result for later
-                    new CodeInstruction(OpCodes.Stloc_S, shouldCongratulateFullSkillMastery));
+                .Repeat(
+                    2,
+                    _ =>
+                    {
+                        var dontGetImmediatePerks = generator.DefineLabel();
+                        var isNotPrestigeLevel = generator.DefineLabel();
+                        helper
+                            .Match(
+                                new[]
+                                {
+                                    // find index of adding a profession to the player's list of professions
+                                    new CodeInstruction(
+                                        OpCodes.Callvirt,
+                                        typeof(List<int>).RequirePropertyGetter("Item")),
+                                    new CodeInstruction(
+                                        OpCodes.Callvirt,
+                                        typeof(NetList<int, NetInt>).RequireMethod("Add")),
+                                })
+                            .Move()
+                            .Insert(
+                                new[]
+                                {
+                                    // duplicate chosen profession
+                                    new CodeInstruction(OpCodes.Dup),
+                                    // store it for later
+                                    new CodeInstruction(OpCodes.Stloc_S, chosenProfession),
+                                })
+                            .ReplaceWith(
+                                // replace Add() with AddOrReplace()
+                                new CodeInstruction(
+                                    OpCodes.Call,
+                                    typeof(Shared.Extensions.Collections.CollectionExtensions)
+                                        .RequireMethod(
+                                            nameof(Shared.Extensions.Collections.CollectionExtensions
+                                                .AddOrReplace))
+                                        .MakeGenericMethod(typeof(int))))
+                            .Move()
+                            .Insert(
+                                new[]
+                                {
+                                    // skip adding perks if player already has them
+                                    new CodeInstruction(OpCodes.Brfalse_S, dontGetImmediatePerks),
+                                })
+                            .Match(
+                                new[]
+                                {
+                                    // find isActive = false section
+                                    new CodeInstruction(OpCodes.Ldarg_0),
+                                    new CodeInstruction(OpCodes.Ldc_I4_0),
+                                    new CodeInstruction(OpCodes.Stfld),
+                                })
+                            .Insert(
+                                new[]
+                                {
+                                    // check if current level is above 10 (i.e. prestige level)
+                                    new CodeInstruction(OpCodes.Ldarg_0),
+                                    new CodeInstruction(
+                                        OpCodes.Ldfld,
+                                        typeof(LevelUpMenu).RequireField("currentLevel")),
+                                    new CodeInstruction(OpCodes.Ldc_I4_S, 10),
+                                    new CodeInstruction(OpCodes.Ble_Un_S, isNotPrestigeLevel), // branch out if not
+                                    // add chosenProfession + 100 to player's professions
+                                    new CodeInstruction(
+                                        OpCodes.Call,
+                                        typeof(Game1).RequirePropertyGetter(nameof(Game1.player))),
+                                    new CodeInstruction(
+                                        OpCodes.Ldfld,
+                                        typeof(Farmer).RequireField(nameof(Farmer.professions))),
+                                    new CodeInstruction(OpCodes.Ldc_I4_S, 100),
+                                    new CodeInstruction(OpCodes.Ldloc_S, chosenProfession),
+                                    new CodeInstruction(OpCodes.Add), new CodeInstruction(
+                                        OpCodes.Callvirt,
+                                        typeof(NetList<int, NetInt>).RequireMethod(nameof(NetList<int, NetInt>.Add))),
+                                },
+                                // branch here if the player already had the chosen profession
+                                new[] { dontGetImmediatePerks })
+                            .Insert(
+                                new[]
+                                {
+                                    // load the chosen profession onto the stack
+                                    new CodeInstruction(OpCodes.Ldloc_S, chosenProfession),
+                                    // check if should propose final question
+                                    new CodeInstruction(
+                                        OpCodes.Call,
+                                        typeof(LevelUpMenuUpdatePatcher).RequireMethod(
+                                            nameof(ShouldProposeFinalQuestion))),
+                                    // store the bool result for later
+                                    new CodeInstruction(OpCodes.Stloc_S, shouldProposeFinalQuestion),
+                                    // load the current level onto the stack
+                                    new CodeInstruction(OpCodes.Ldarg_0),
+                                    new CodeInstruction(
+                                        OpCodes.Ldfld,
+                                        typeof(LevelUpMenu).RequireField("currentLevel")),
+                                    // load the chosen profession onto the stack
+                                    new CodeInstruction(OpCodes.Ldloc_S, chosenProfession),
+                                    // check if should congratulate on full prestige
+                                    new CodeInstruction(
+                                        OpCodes.Call,
+                                        typeof(LevelUpMenuUpdatePatcher).RequireMethod(
+                                            nameof(ShouldCongratulateOnFullSkillMastery))),
+                                    // store the bool result for later
+                                    new CodeInstruction(OpCodes.Stloc_S, shouldCongratulateFullSkillMastery),
+                                },
+                                // branch here if was not prestige level
+                                new[] { isNotPrestigeLevel });
+                    });
         }
         catch (Exception ex)
         {
             Log.E(
                 $"Failed patching level up profession redundancy and injecting dialogues.\nHelper returned {ex}");
             return null;
-        }
-
-        // repeat injection
-        if (++i < 2)
-        {
-            goto repeat1;
         }
 
         // Injected: if (shouldProposeFinalQuestion) ProposeFinalQuestion(chosenProfession)
@@ -230,43 +273,58 @@ internal sealed class LevelUpMenuUpdatePatcher : HarmonyPatcher
             var resumeExecution = generator.DefineLabel();
             helper
                 .GoTo(0)
-                .InsertInstructions(
-                    // initialize shouldProposeFinalQuestion local variable to false
-                    new CodeInstruction(OpCodes.Ldc_I4_0),
-                    new CodeInstruction(OpCodes.Stloc_S, shouldProposeFinalQuestion),
-                    // initialize shouldCongratulateOnFullPrestige local variable to false
-                    new CodeInstruction(OpCodes.Ldc_I4_0),
-                    new CodeInstruction(OpCodes.Stloc_S, shouldCongratulateFullSkillMastery))
-                .FindLast(
-                    // find index of the section that checks for a return (once LevelUpMenu is no longer needed)
-                    new CodeInstruction(OpCodes.Ldfld, typeof(LevelUpMenu).RequireField(nameof(LevelUpMenu.isActive))))
-                .Retreat() // retreat to the start of this section
+                .Insert(
+                    new[]
+                    {
+                        // initialize shouldProposeFinalQuestion local variable to false
+                        new CodeInstruction(OpCodes.Ldc_I4_0),
+                        new CodeInstruction(OpCodes.Stloc_S, shouldProposeFinalQuestion),
+                        // initialize shouldCongratulateOnFullPrestige local variable to false
+                        new CodeInstruction(OpCodes.Ldc_I4_0),
+                        new CodeInstruction(OpCodes.Stloc_S, shouldCongratulateFullSkillMastery),
+                    })
+                .Match(
+                    new[]
+                    {
+                        // find index of the section that checks for a return (once LevelUpMenu is no longer needed)
+                        new CodeInstruction(
+                            OpCodes.Ldfld,
+                            typeof(LevelUpMenu).RequireField(nameof(LevelUpMenu.isActive))),
+                    },
+                    ILHelper.SearchOption.Last)
+                .Move(-1) // retreat to the start of this section
                 .StripLabels(out var labels) // backup and remove branch labels
-                .AddLabels(dontCongratulateOnFullPrestige, resumeExecution) // branch here after checking for congratulate or after proposing final question
-                .InsertWithLabels(
+                .AddLabels(
+                    dontCongratulateOnFullPrestige,
+                    resumeExecution) // branch here after checking for congratulate or after proposing final question
+                .Insert(
+                    new[]
+                    {
+                        // check if should propose the final question
+                        new CodeInstruction(OpCodes.Ldloc_S, shouldProposeFinalQuestion),
+                        new CodeInstruction(OpCodes.Brfalse_S, dontProposeFinalQuestion),
+                        // if so, push the chosen profession onto the stack and call ProposeFinalQuestion()
+                        new CodeInstruction(OpCodes.Ldloc_S, chosenProfession),
+                        new CodeInstruction(OpCodes.Ldloc_S, shouldCongratulateFullSkillMastery), new CodeInstruction(
+                            OpCodes.Call,
+                            typeof(LevelUpMenuUpdatePatcher).RequireMethod(nameof(ProposeFinalQuestion))),
+                        new CodeInstruction(OpCodes.Br_S, resumeExecution),
+                    },
                     // restore backed-up labels
-                    labels,
-                    // check if should propose the final question
-                    new CodeInstruction(OpCodes.Ldloc_S, shouldProposeFinalQuestion),
-                    new CodeInstruction(OpCodes.Brfalse_S, dontProposeFinalQuestion),
-                    // if so, push the chosen profession onto the stack and call ProposeFinalQuestion()
-                    new CodeInstruction(OpCodes.Ldloc_S, chosenProfession),
-                    new CodeInstruction(OpCodes.Ldloc_S, shouldCongratulateFullSkillMastery),
-                    new CodeInstruction(
-                        OpCodes.Call,
-                        typeof(LevelUpMenuUpdatePatcher).RequireMethod(nameof(ProposeFinalQuestion))),
-                    new CodeInstruction(OpCodes.Br_S, resumeExecution))
-                .InsertWithLabels(
+                    labels)
+                .Insert(
+                    new[]
+                    {
+                        // check if should congratulate on full prestige
+                        new CodeInstruction(OpCodes.Ldloc_S, shouldCongratulateFullSkillMastery),
+                        new CodeInstruction(OpCodes.Brfalse_S, dontCongratulateOnFullPrestige),
+                        // if so, push the chosen profession onto the stack and call CongratulateOnFullPrestige()
+                        new CodeInstruction(OpCodes.Ldloc_S, chosenProfession), new CodeInstruction(
+                            OpCodes.Call,
+                            typeof(LevelUpMenuUpdatePatcher).RequireMethod(nameof(CongratulateOnFullSkillMastery))),
+                    },
                     // branch here after checking for proposal
-                    new[] { dontProposeFinalQuestion },
-                    // check if should congratulate on full prestige
-                    new CodeInstruction(OpCodes.Ldloc_S, shouldCongratulateFullSkillMastery),
-                    new CodeInstruction(OpCodes.Brfalse_S, dontCongratulateOnFullPrestige),
-                    // if so, push the chosen profession onto the stack and call CongratulateOnFullPrestige()
-                    new CodeInstruction(OpCodes.Ldloc_S, chosenProfession),
-                    new CodeInstruction(
-                        OpCodes.Call,
-                        typeof(LevelUpMenuUpdatePatcher).RequireMethod(nameof(CongratulateOnFullSkillMastery))));
+                    new[] { dontProposeFinalQuestion });
         }
         catch (Exception ex)
         {
@@ -280,37 +338,49 @@ internal sealed class LevelUpMenuUpdatePatcher : HarmonyPatcher
         {
             var skip = generator.DefineLabel();
             helper
-                .FindFirst(
-                    new CodeInstruction(OpCodes.Ldarg_0),
-                    new CodeInstruction(OpCodes.Call, typeof(Color).RequirePropertyGetter(nameof(Color.Green))))
-                .InsertInstructions(
-                    new CodeInstruction(OpCodes.Ldarg_0),
-                    new CodeInstruction(OpCodes.Ldfld, typeof(LevelUpMenu).RequireField("professionsToChoose")),
-                    new CodeInstruction(OpCodes.Ldc_I4_0),
-                    new CodeInstruction(OpCodes.Callvirt, typeof(List<int>).RequirePropertyGetter("Item")),
-                    new CodeInstruction(OpCodes.Ldarg_0),
-                    new CodeInstruction(OpCodes.Ldfld, typeof(LevelUpMenu).RequireField("currentLevel")),
-                    new CodeInstruction(
-                        OpCodes.Call,
-                        typeof(LevelUpMenuUpdatePatcher).RequireMethod(nameof(ShouldSuppressClick))),
-                    new CodeInstruction(OpCodes.Brtrue, skip))
-                .FindNext(
-                    new CodeInstruction(OpCodes.Ldarg_0),
-                    new CodeInstruction(OpCodes.Call, typeof(Color).RequirePropertyGetter(nameof(Color.Green))))
-                .InsertInstructions(
-                    new CodeInstruction(OpCodes.Ldarg_0),
-                    new CodeInstruction(OpCodes.Ldfld, typeof(LevelUpMenu).RequireField("professionsToChoose")),
-                    new CodeInstruction(OpCodes.Ldc_I4_1),
-                    new CodeInstruction(OpCodes.Callvirt, typeof(List<int>).RequirePropertyGetter("Item")),
-                    new CodeInstruction(OpCodes.Ldarg_0),
-                    new CodeInstruction(OpCodes.Ldfld, typeof(LevelUpMenu).RequireField("currentLevel")),
-                    new CodeInstruction(
-                        OpCodes.Call,
-                        typeof(LevelUpMenuUpdatePatcher).RequireMethod(nameof(ShouldSuppressClick))),
-                    new CodeInstruction(OpCodes.Brtrue, skip))
-                .FindNext(
-                    new CodeInstruction(OpCodes.Ldarg_0),
-                    new CodeInstruction(OpCodes.Ldc_I4, 512))
+                .Match(
+                    new[]
+                    {
+                        new CodeInstruction(OpCodes.Ldarg_0),
+                        new CodeInstruction(OpCodes.Call, typeof(Color).RequirePropertyGetter(nameof(Color.Green))),
+                    },
+                    ILHelper.SearchOption.First)
+                .Insert(
+                    new[]
+                    {
+                        new CodeInstruction(OpCodes.Ldarg_0),
+                        new CodeInstruction(OpCodes.Ldfld, typeof(LevelUpMenu).RequireField("professionsToChoose")),
+                        new CodeInstruction(OpCodes.Ldc_I4_0),
+                        new CodeInstruction(OpCodes.Callvirt, typeof(List<int>).RequirePropertyGetter("Item")),
+                        new CodeInstruction(OpCodes.Ldarg_0),
+                        new CodeInstruction(OpCodes.Ldfld, typeof(LevelUpMenu).RequireField("currentLevel")),
+                        new CodeInstruction(
+                            OpCodes.Call,
+                            typeof(LevelUpMenuUpdatePatcher).RequireMethod(nameof(ShouldSuppressClick))),
+                        new CodeInstruction(OpCodes.Brtrue, skip),
+                    })
+                .Match(
+                    new[]
+                    {
+                        new CodeInstruction(OpCodes.Ldarg_0),
+                        new CodeInstruction(OpCodes.Call, typeof(Color).RequirePropertyGetter(nameof(Color.Green))),
+                    })
+                .Insert(
+                    new[]
+                    {
+                        new CodeInstruction(OpCodes.Ldarg_0),
+                        new CodeInstruction(OpCodes.Ldfld, typeof(LevelUpMenu).RequireField("professionsToChoose")),
+                        new CodeInstruction(OpCodes.Ldc_I4_1),
+                        new CodeInstruction(OpCodes.Callvirt, typeof(List<int>).RequirePropertyGetter("Item")),
+                        new CodeInstruction(OpCodes.Ldarg_0),
+                        new CodeInstruction(OpCodes.Ldfld, typeof(LevelUpMenu).RequireField("currentLevel")),
+                        new CodeInstruction(
+                            OpCodes.Call,
+                            typeof(LevelUpMenuUpdatePatcher).RequireMethod(nameof(ShouldSuppressClick))),
+                        new CodeInstruction(OpCodes.Brtrue, skip),
+                    })
+                .Match(
+                    new[] { new CodeInstruction(OpCodes.Ldarg_0), new CodeInstruction(OpCodes.Ldc_I4, 512) })
                 .AddLabels(skip);
         }
         catch (Exception ex)
@@ -328,7 +398,7 @@ internal sealed class LevelUpMenuUpdatePatcher : HarmonyPatcher
 
     private static bool ShouldProposeFinalQuestion(int chosenProfession)
     {
-        return ModEntry.Config.Professions.EnablePrestige && chosenProfession is >= 26 and < 30 &&
+        return ProfessionsModule.Config.EnablePrestige && chosenProfession is >= 26 and < 30 &&
                Game1.player.Get_Ultimate() is not null && Game1.player.Get_Ultimate()!.Value != chosenProfession;
     }
 
@@ -364,7 +434,7 @@ internal sealed class LevelUpMenuUpdatePatcher : HarmonyPatcher
         var newProfession = Profession.FromValue(chosenProfession);
         var pronoun = ulti.GetBuffPronoun();
         Game1.currentLocation.createQuestionDialogue(
-            ModEntry.i18n.Get(
+            i18n.Get(
                 "prestige.levelup.question",
                 new
                 {
@@ -391,7 +461,7 @@ internal sealed class LevelUpMenuUpdatePatcher : HarmonyPatcher
 
     private static void CongratulateOnFullSkillMastery(int chosenProfession)
     {
-        Game1.drawObjectDialogue(ModEntry.i18n.Get(
+        Game1.drawObjectDialogue(i18n.Get(
             "prestige.levelup.unlocked",
             new { skill = Skill.FromValue(chosenProfession / 6).DisplayName }));
 
@@ -400,13 +470,11 @@ internal sealed class LevelUpMenuUpdatePatcher : HarmonyPatcher
             return;
         }
 
-        string title = ModEntry.i18n.Get("prestige.achievement.name" + (Game1.player.IsMale ? ".male" : ".female"));
-        if (Game1.player.achievements.Contains(title.GetDeterministicHashCode()))
+        string title = i18n.Get("prestige.achievement.title" + (Game1.player.IsMale ? ".male" : ".female"));
+        if (!Game1.player.achievements.Contains(title.GetDeterministicHashCode()))
         {
-            return;
+            EventManager.Enable<AchievementUnlockedDayStartedEvent>();
         }
-
-        ModEntry.Events.Enable<AchievementUnlockedDayStartedEvent>();
     }
 
     private static int GetCurrentBranchForSkill(int currentSkill)

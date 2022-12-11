@@ -37,11 +37,16 @@ internal sealed class CrabPotMachineGetStatePatcher : HarmonyPatcher
         try
         {
             helper
-                .FindFirst(new CodeInstruction(OpCodes.Brtrue_S))
-                .RemoveInstructionsUntil(
-                    new CodeInstruction(OpCodes.Call, "CrabPotMachine"
-                        .ToType()
-                        .RequireMethod("PlayerNeedsBait")))
+                .Match(new[] { new CodeInstruction(OpCodes.Brtrue_S) })
+                .Match(
+                    new[]
+                    {
+                        new CodeInstruction(OpCodes.Call, "CrabPotMachine"
+                            .ToType()
+                            .RequireMethod("PlayerNeedsBait")),
+                    },
+                    out var count)
+                .Remove(count)
                 .SetOpCode(OpCodes.Brfalse_S);
         }
         catch (Exception ex)

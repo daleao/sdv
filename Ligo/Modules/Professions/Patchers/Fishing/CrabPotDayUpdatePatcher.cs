@@ -31,7 +31,7 @@ internal sealed class CrabPotDayUpdatePatcher : HarmonyPatcher
     {
         try
         {
-            var owner = ModEntry.Config.Professions.LaxOwnershipRequirements ? Game1.player : __instance.GetOwner();
+            var owner = ProfessionsModule.Config.LaxOwnershipRequirements ? Game1.player : __instance.GetOwner();
             var isConservationist = owner.HasProfession(Profession.Conservationist);
             if ((__instance.bait.Value is null && !isConservationist) || __instance.heldObject.Value is not null)
             {
@@ -82,7 +82,7 @@ internal sealed class CrabPotDayUpdatePatcher : HarmonyPatcher
                         owner.Increment(DataFields.ConservationistTrashCollectedThisSeason);
                         if (owner.HasProfession(Profession.Conservationist, true) &&
                             owner.Read<uint>(DataFields.ConservationistTrashCollectedThisSeason) %
-                            ModEntry.Config.Professions.TrashNeededPerFriendshipPoint ==
+                            ProfessionsModule.Config.TrashNeededPerFriendshipPoint ==
                             0)
                         {
                             Utility.improveFriendshipWithEveryoneInRegion(owner, 1, 2);

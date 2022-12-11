@@ -21,6 +21,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Comparers\EquatableComparer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Comparers\GenericEqualsComparer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Comparers\ObjectReferenceComparer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Configs\Config.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Content\TextureProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Content\DictionaryProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Content\IAssetEditor.cs" />

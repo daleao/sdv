@@ -25,7 +25,7 @@ internal sealed class RascalButtonPressedEvent : ButtonPressedEvent
     /// <inheritdoc />
     protected override void OnButtonPressedImpl(object? sender, ButtonPressedEventArgs e)
     {
-        if (!ModEntry.Config.Professions.ModKey.JustPressed())
+        if (!ProfessionsModule.Config.ModKey.JustPressed())
         {
             return;
         }

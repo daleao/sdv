@@ -34,10 +34,10 @@ internal sealed class AxeEffect : IEffect
 
     /// <inheritdoc />
     public bool Apply(
-        Vector2 tile, SObject tileObj, TerrainFeature tileFeature, Tool tool, GameLocation location, Farmer who)
+        Vector2 tile, SObject? tileObj, TerrainFeature tileFeature, Tool tool, GameLocation location, Farmer who)
     {
         // clear debris
-        if (this.Config.ClearDebris && (tileObj.IsTwig() || tileObj.IsWeed()))
+        if (this.Config.ClearDebris && (tileObj?.IsTwig() == true || tileObj?.IsWeed() == true))
         {
             return tool.UseOnTile(tile, location, who);
         }

@@ -26,7 +26,7 @@ internal sealed class GameLocationPerformActionPatcher : HarmonyPatcher
     [HarmonyPrefix]
     private static bool GameLocationPerformActionPrefix(GameLocation __instance, string? action, Farmer who)
     {
-        if (!ModEntry.Config.Professions.EnablePrestige || action?.StartsWith("DogStatue") != true ||
+        if (!ProfessionsModule.Config.EnablePrestige || action?.StartsWith("DogStatue") != true ||
             !who.IsLocalPlayer)
         {
             return true; // run original logic
@@ -35,9 +35,9 @@ internal sealed class GameLocationPerformActionPatcher : HarmonyPatcher
         try
         {
             string message;
-            if (!ModEntry.Config.Professions.AllowMultiplePrestige && who.Get_HasSkillsToReset())
+            if (!ProfessionsModule.Config.AllowMultiplePrestige && who.Get_HasSkillsToReset())
             {
-                message = ModEntry.i18n.Get("prestige.dogstatue.dismiss");
+                message = i18n.Get("prestige.dogstatue.dismiss");
                 Game1.drawObjectDialogue(message);
                 return false; // don't run original logic
             }
@@ -54,7 +54,7 @@ internal sealed class GameLocationPerformActionPatcher : HarmonyPatcher
                 return false; // don't run original logic
             }
 
-            message = ModEntry.i18n.Get("prestige.dogstatue.first");
+            message = i18n.Get("prestige.dogstatue.first");
             Game1.drawObjectDialogue(message);
             return false; // don't run original logic
         }
@@ -71,20 +71,20 @@ internal sealed class GameLocationPerformActionPatcher : HarmonyPatcher
 
     private static void OfferSkillReset(GameLocation location)
     {
-        string message = ModEntry.i18n.Get("prestige.dogstatue.first");
-        if (ModEntry.Config.Professions.ForgetRecipes)
+        string message = i18n.Get("prestige.dogstatue.first");
+        if (ProfessionsModule.Config.ForgetRecipes)
         {
-            message += ModEntry.i18n.Get("prestige.dogstatue.forget");
+            message += i18n.Get("prestige.dogstatue.forget");
         }
 
-        message += ModEntry.i18n.Get("prestige.dogstatue.offer");
+        message += i18n.Get("prestige.dogstatue.offer");
 
         location.createQuestionDialogue(message, location.createYesNoResponses(), "dogStatue");
     }
 
     private static void OfferRespecOptions(GameLocation location)
     {
-        string message = ModEntry.i18n.Get("prestige.dogstatue.what");
+        string message = i18n.Get("prestige.dogstatue.what");
         var options = Array.Empty<Response>();
 
         if (Game1.player.Get_Ultimate() is not null)
@@ -93,11 +93,11 @@ internal sealed class GameLocationPerformActionPatcher : HarmonyPatcher
             {
                 new(
                     "changeUlt",
-                    ModEntry.i18n.Get("prestige.dogstatue.changeult") +
-                    (ModEntry.Config.Professions.ChangeUltCost > 0
-                        ? ' ' + ModEntry.i18n.Get(
+                    i18n.Get("prestige.dogstatue.changeult") +
+                    (ProfessionsModule.Config.ChangeUltCost > 0
+                        ? ' ' + i18n.Get(
                             "prestige.dogstatue.cost",
-                            new { cost = ModEntry.Config.Professions.ChangeUltCost })
+                            new { cost = ProfessionsModule.Config.ChangeUltCost })
                         : string.Empty)),
             }).ToArray();
         }
@@ -108,11 +108,11 @@ internal sealed class GameLocationPerformActionPatcher : HarmonyPatcher
             {
                 new(
                     "prestigeRespec",
-                    ModEntry.i18n.Get("prestige.dogstatue.respec") +
-                    (ModEntry.Config.Professions.PrestigeRespecCost > 0
-                        ? ' ' + ModEntry.i18n.Get(
+                    i18n.Get("prestige.dogstatue.respec") +
+                    (ProfessionsModule.Config.PrestigeRespecCost > 0
+                        ? ' ' + i18n.Get(
                             "prestige.dogstatue.cost",
-                            new { cost = ModEntry.Config.Professions.PrestigeRespecCost })
+                            new { cost = ProfessionsModule.Config.PrestigeRespecCost })
                         : string.Empty)),
             }).ToArray();
         }

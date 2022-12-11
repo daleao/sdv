@@ -35,12 +35,15 @@ internal sealed class MeleeWeaponSetFarmerAnimatingPatcher : HarmonyPatcher
         try
         {
             helper
-                .FindFirst(
-                    new CodeInstruction(OpCodes.Ldarg_1),
-                    new CodeInstruction(
-                        OpCodes.Callvirt,
-                        typeof(Farmer).RequirePropertyGetter(nameof(Farmer.addedSpeed))))
-                .RemoveInstructionsUntil(new CodeInstruction(OpCodes.Sub));
+                .Match(
+                    new[]
+                    {
+                        new CodeInstruction(OpCodes.Ldarg_1), new CodeInstruction(
+                            OpCodes.Callvirt,
+                            typeof(Farmer).RequirePropertyGetter(nameof(Farmer.addedSpeed))),
+                    })
+                .Match(new[] { new CodeInstruction(OpCodes.Sub) }, out var count)
+                .Remove(count);
         }
         catch (Exception ex)
         {
@@ -54,20 +57,28 @@ internal sealed class MeleeWeaponSetFarmerAnimatingPatcher : HarmonyPatcher
         try
         {
             helper
-                .FindFirst(
-                    new CodeInstruction(OpCodes.Ldarg_1),
-                    new CodeInstruction(
-                        OpCodes.Callvirt,
-                        typeof(Farmer).RequirePropertyGetter(nameof(Farmer.IsLocalPlayer))))
-                .Advance(2)
+                .Match(
+                    new[]
+                    {
+                        new CodeInstruction(OpCodes.Ldarg_1), new CodeInstruction(
+                            OpCodes.Callvirt,
+                            typeof(Farmer).RequirePropertyGetter(nameof(Farmer.IsLocalPlayer))),
+                    },
+                    ILHelper.SearchOption.First)
+                .Move(2)
                 .GetOperand(out var resumeExecution)
-                .Advance()
-                .InsertInstructions(
-                    new CodeInstruction(OpCodes.Ldarg_0),
-                    new CodeInstruction(OpCodes.Ldfld, typeof(MeleeWeapon).RequireField(nameof(MeleeWeapon.type))),
-                    new CodeInstruction(OpCodes.Call, typeof(NetFieldBase<int, NetInt>).RequireMethod("op_Implicit")),
-                    new CodeInstruction(OpCodes.Ldc_I4_1), // 1 = MeleeWeapon.dagger
-                    new CodeInstruction(OpCodes.Bne_Un_S, resumeExecution));
+                .Move()
+                .Insert(
+                    new[]
+                    {
+                        new CodeInstruction(OpCodes.Ldarg_0),
+                        new CodeInstruction(OpCodes.Ldfld, typeof(MeleeWeapon).RequireField(nameof(MeleeWeapon.type))),
+                        new CodeInstruction(
+                            OpCodes.Call,
+                            typeof(NetFieldBase<int, NetInt>).RequireMethod("op_Implicit")),
+                        new CodeInstruction(OpCodes.Ldc_I4_1), // 1 = MeleeWeapon.dagger
+                        new CodeInstruction(OpCodes.Bne_Un_S, resumeExecution),
+                    });
         }
         catch (Exception ex)
         {

@@ -35,7 +35,7 @@ internal sealed class MonsterTakeDamagePatcher : HarmonyPatcher
         }
 
         foreach (var monster in slime.currentLocation.characters.OfType<Monster>()
-                     .Where(m => !m.IsSlime() && m.Get_Taunter().Get(m.currentLocation) == slime))
+                     .Where(m => !m.IsSlime() && m.Get_Taunter() == slime))
         {
             monster.Set_Taunter(null);
         }

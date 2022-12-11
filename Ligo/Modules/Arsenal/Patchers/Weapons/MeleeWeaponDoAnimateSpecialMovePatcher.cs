@@ -72,19 +72,20 @@ internal sealed class MeleeWeaponDoAnimateSpecialMovePatcher : HarmonyPatcher
             var notInfinity = generator.DefineLabel();
             var resumeExecution = generator.DefineLabel();
             helper
-                .FindLast(new CodeInstruction(OpCodes.Ldc_I4_4))
+                .Match(new[] { new CodeInstruction(OpCodes.Ldc_I4_4) }, ILHelper.SearchOption.Last)
                 .AddLabels(notInfinity)
-                .InsertInstructions(
-                    new CodeInstruction(OpCodes.Ldarg_0),
-                    new CodeInstruction(
-                        OpCodes.Call,
-                        typeof(MeleeWeapon)
-                            .RequireMethod(nameof(MeleeWeapon.hasEnchantmentOfType))
-                            .MakeGenericMethod(typeof(ReduxArtfulEnchantment))),
-                    new CodeInstruction(OpCodes.Brfalse_S, notInfinity),
-                    new CodeInstruction(OpCodes.Ldc_I4_6),
-                    new CodeInstruction(OpCodes.Br_S, resumeExecution))
-                .Advance()
+                .Insert(
+                    new[]
+                    {
+                        new CodeInstruction(OpCodes.Ldarg_0), new CodeInstruction(
+                            OpCodes.Call,
+                            typeof(MeleeWeapon)
+                                .RequireMethod(nameof(MeleeWeapon.hasEnchantmentOfType))
+                                .MakeGenericMethod(typeof(ReduxArtfulEnchantment))),
+                        new CodeInstruction(OpCodes.Brfalse_S, notInfinity), new CodeInstruction(OpCodes.Ldc_I4_6),
+                        new CodeInstruction(OpCodes.Br_S, resumeExecution),
+                    })
+                .Move()
                 .AddLabels(resumeExecution);
         }
         catch (Exception ex)

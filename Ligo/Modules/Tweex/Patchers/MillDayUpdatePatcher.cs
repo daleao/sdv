@@ -43,45 +43,48 @@ internal sealed class MillDayUpdatePatcher : HarmonyPatcher
                     {
                         var popThenBreak = generator.DefineLabel();
                         helper
-                            .Advance(2)
-                            .InsertInstructions(
-                                new CodeInstruction(
-                                    OpCodes.Call,
-                                    typeof(ModEntry).RequirePropertyGetter(nameof(ModEntry.Config))),
-                                new CodeInstruction(
-                                    OpCodes.Callvirt,
-                                    typeof(ModConfig).RequirePropertyGetter(nameof(ModConfig.Tweex))),
-                                new CodeInstruction(
-                                    OpCodes.Callvirt,
-                                    typeof(Config).RequirePropertyGetter(nameof(Config.MillsPreserveQuality))),
-                                new CodeInstruction(OpCodes.Brfalse_S, @break),
-                                new CodeInstruction(OpCodes.Ldloc_1),
-                                new CodeInstruction(OpCodes.Castclass, typeof(SObject)),
-                                new CodeInstruction(OpCodes.Ldarg_0),
-                                new CodeInstruction(OpCodes.Ldfld, typeof(Mill).RequireField(nameof(Mill.input))),
-                                new CodeInstruction(
-                                    OpCodes.Callvirt,
-                                    typeof(NetFieldBase<Chest, NetRef<Chest>>).RequirePropertyGetter(nameof(NetFieldBase<Chest, NetRef<Chest>>.Value))),
-                                new CodeInstruction(OpCodes.Ldfld, typeof(Chest).RequireField(nameof(Chest.items))),
-                                new CodeInstruction(OpCodes.Ldloc_0),
-                                new CodeInstruction(
-                                    OpCodes.Callvirt,
-                                    typeof(NetList<Item, NetRef<Item>>).RequirePropertyGetter("Item")),
-                                new CodeInstruction(OpCodes.Isinst, typeof(SObject)),
-                                new CodeInstruction(OpCodes.Stloc_S, input),
-                                new CodeInstruction(OpCodes.Ldloc_S, input),
-                                new CodeInstruction(OpCodes.Brfalse_S, popThenBreak),
-                                new CodeInstruction(OpCodes.Ldloc_S, input),
-                                new CodeInstruction(
-                                    OpCodes.Callvirt,
-                                    typeof(SObject).RequirePropertyGetter(nameof(SObject.Quality))),
-                                new CodeInstruction(
-                                    OpCodes.Callvirt,
-                                    typeof(SObject).RequirePropertySetter(nameof(SObject.Quality))),
-                                new CodeInstruction(OpCodes.Br_S, @break))
-                            .InsertWithLabels(
-                                new[] { popThenBreak },
-                                new CodeInstruction(OpCodes.Pop));
+                            .Move(2)
+                            .Insert(
+                                new[]
+                                {
+                                    new CodeInstruction(
+                                        OpCodes.Call,
+                                        typeof(ModEntry).RequirePropertyGetter(nameof(Config))),
+                                    new CodeInstruction(
+                                        OpCodes.Callvirt,
+                                        typeof(ModConfig).RequirePropertyGetter(nameof(ModConfig.Tweex))),
+                                    new CodeInstruction(
+                                        OpCodes.Callvirt,
+                                        typeof(TweexConfig).RequirePropertyGetter(
+                                            nameof(TweexConfig.MillsPreserveQuality))),
+                                    new CodeInstruction(OpCodes.Brfalse_S, @break),
+                                    new CodeInstruction(OpCodes.Ldloc_1),
+                                    new CodeInstruction(OpCodes.Castclass, typeof(SObject)),
+                                    new CodeInstruction(OpCodes.Ldarg_0),
+                                    new CodeInstruction(OpCodes.Ldfld, typeof(Mill).RequireField(nameof(Mill.input))),
+                                    new CodeInstruction(
+                                        OpCodes.Callvirt,
+                                        typeof(NetFieldBase<Chest, NetRef<Chest>>).RequirePropertyGetter(
+                                            nameof(NetFieldBase<Chest, NetRef<Chest>>.Value))),
+                                    new CodeInstruction(OpCodes.Ldfld, typeof(Chest).RequireField(nameof(Chest.items))),
+                                    new CodeInstruction(OpCodes.Ldloc_0), new CodeInstruction(
+                                        OpCodes.Callvirt,
+                                        typeof(NetList<Item, NetRef<Item>>).RequirePropertyGetter("Item")),
+                                    new CodeInstruction(OpCodes.Isinst, typeof(SObject)),
+                                    new CodeInstruction(OpCodes.Stloc_S, input),
+                                    new CodeInstruction(OpCodes.Ldloc_S, input),
+                                    new CodeInstruction(OpCodes.Brfalse_S, popThenBreak),
+                                    new CodeInstruction(OpCodes.Ldloc_S, input), new CodeInstruction(
+                                        OpCodes.Callvirt,
+                                        typeof(SObject).RequirePropertyGetter(nameof(SObject.Quality))),
+                                    new CodeInstruction(
+                                        OpCodes.Callvirt,
+                                        typeof(SObject).RequirePropertySetter(nameof(SObject.Quality))),
+                                    new CodeInstruction(OpCodes.Br_S, @break),
+                                })
+                            .Insert(
+                                new[] { new CodeInstruction(OpCodes.Pop) },
+                                new[] { popThenBreak });
                     })
                 .AddLabels(@break);
         }

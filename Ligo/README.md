@@ -10,7 +10,11 @@ A complete and comprehensive rework of Stardew Valley gameplay mechanics, offeri
 
 ## About this mod
 
-This mod is a compilation of overhaul modules, each targeting a specific gameplay component or mechanic. The modular nature of this mod allows users to cherry-pick features to their liking while also preserving the deep native integration required between individual modules. This reduces the amount of code redundancy and improves code maintainability.
+This mod is a compilation of overhaul modules, each targeting a specific gameplay component or mechanic. Together, the modules complement each other to create a "Vanilla+" experience.
+
+The modular nature of this mod allows users to cherry-pick features to their liking, while also preserving the deep native integration required between individual modules. This reduces the amount of code redundancy and improves code maintainability.
+
+This mod is the culmination of over a year of work. Please take the time to read the descriptions before asking questions.
 
 ## Current Modules
 
@@ -22,13 +26,13 @@ All modules should be fully multiplayer and splitscreen-ready so long as all pla
 
 - **[Arsenal](Modules/Arsenal)** is the newest and second largest. It overhauls various aspects of both melee weapons and slingshots so as to diversify combat and provide viable alternatives to the ubiquitous sword. Included are all-new enchantments, weapon combos and one new weapon type, as well as novelty features for making legendary weapons feel truly legendary. **Before uninstalling Ligo you must disable the Arsenal module to allow it to revert certain changes.**
 
-- **[Rings](Modules/Rings)** mainly overhauls the Iridium Band, replacing the bland vanilla version with all-new forge mechanics and Gemstone Music Theory, which draws inspiration from real-life Music Theory to provide a more interesting and balance form of combining many rings. It also adds new crafting mechanics providing a more natural progression for ring development.
+- **[Rings](Modules/Rings)** mainly overhauls the Iridium Band, replacing the bland vanilla version with all-new forge mechanics. It also introduces Gemstone Music Theory, which draws inspiration from real-life Music Theory to provide a more interesting and balanced form of combining many rings. It also adds new crafting mechanics providing a more natural progression for ring development.
 
 - **[Ponds](Modules/Ponds)** is a complement to the new Aquarist profession. It allows Fish Ponds to remember the qualities of raised fishes, scales roe quantity and quality with population, and a few other interesting features.
 
 - **[Taxes](Modules/Taxes)** is a complement to the new Conservationist profession. It introduces a simple yet realistic taxation system as an added challenge and end-game gold sink. Because surely a nation at war would be all over your juicy farm income.
 
-- **[Tools](Modules/Tools)** is a simple mod allowing chargeable resource tools and customizable farming tools.
+- **[Tools](Modules/Tools)** is a simple mod which allows for chargeable resource tools and customizable farming tools. It also extends the available pool of tool enchantments.
 
 - **[Tweaks](Modules/Tweex)** is the final module, and serves as a repository for smaller tweaks and fixes to inconsistencies not large enough to merit a separate module.
 

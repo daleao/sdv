@@ -20,7 +20,7 @@ public sealed class SpreadingEnchantment : BaseSlingshotEnchantment
     /// <inheritdoc />
     public override string GetName()
     {
-        return ModEntry.i18n.Get("enchantments.spreading");
+        return i18n.Get("enchantments.spreading");
     }
 
     /// <inheritdoc />
@@ -38,7 +38,7 @@ public sealed class SpreadingEnchantment : BaseSlingshotEnchantment
     {
         var velocity = new Vector2(xVelocity, yVelocity);
         damageBase = (int)(damageBase * 0.6f);
-        var overcharge = ModEntry.Config.EnableProfessions && firer.professions.Contains(Farmer.desperado)
+        var overcharge = Config.EnableProfessions && firer.professions.Contains(Farmer.desperado)
             ? slingshot.GetOvercharge(firer)
             : 1f;
 

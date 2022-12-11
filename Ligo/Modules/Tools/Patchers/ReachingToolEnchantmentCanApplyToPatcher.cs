@@ -25,8 +25,8 @@ internal sealed class ReachingToolEnchantmentCanApplyToPatcher : HarmonyPatcher
     private static bool ReachingToolEnchantmentCanApplyToPrefix(ref bool __result, Item item)
     {
         if (item is Tool tool && (tool is WateringCan or Hoe ||
-                                  (tool is Axe && ModEntry.Config.Tools.Axe.AllowReachingEnchantment) ||
-                                  (tool is Pickaxe && ModEntry.Config.Tools.Pick.AllowReachingEnchantment)))
+                                  (tool is Axe && ToolsModule.Config.Axe.AllowReachingEnchantment) ||
+                                  (tool is Pickaxe && ToolsModule.Config.Pick.AllowReachingEnchantment)))
         {
             __result = tool.UpgradeLevel == 4;
         }

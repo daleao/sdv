@@ -28,7 +28,9 @@ internal sealed class ShopMenuGetPlayerCurrencyAmountPatcher : HarmonyPatcher
     {
         try
         {
-            if (currencyType != Constants.DragonToothIndex && (!Globals.DwarvenScrapIndex.HasValue || currencyType != Globals.DwarvenScrapIndex.Value))
+            if (currencyType != Constants.DragonToothIndex &&
+                (!Globals.DwarvenScrapIndex.HasValue || currencyType != Globals.DwarvenScrapIndex.Value) &&
+                (!Globals.ElderwoodIndex.HasValue || currencyType != Globals.ElderwoodIndex.Value))
             {
                 return true; // run original logic
             }

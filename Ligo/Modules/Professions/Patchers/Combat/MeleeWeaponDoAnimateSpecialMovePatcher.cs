@@ -31,32 +31,37 @@ internal sealed class MeleeWeaponDoAnimateSpecialMovePatcher : HarmonyPatcher
         var helper = new ILHelper(original, instructions);
 
         // Skipped: if (lastUser.professions.Contains(<acrobat_id>) cooldown /= 2
-        var i = 0;
-        repeat:
         try
         {
-            helper // find index of acrobat check
-                .FindProfessionCheck(Farmer.acrobat, i != 0)
-                .Retreat(2)
-                .StripLabels(out var labels) // backup and remove branch labels
-                .AdvanceUntil(new CodeInstruction(OpCodes.Brfalse_S)) // the false case branch
-                .GetOperand(out var isNotAcrobat) // copy destination
-                .Return()
-                .InsertInstructions(new CodeInstruction(OpCodes.Br_S, (Label)isNotAcrobat)) // insert unconditional branch to skip this check
-                .Retreat()
-                .AddLabels(labels) // restore bakced-up labels to inserted branch
-                .Advance(3);
+            helper
+                .Repeat(
+                    3,
+                    i =>
+                {
+                    helper
+                        // find index of acrobat check
+                        .FindProfessionCheck(Farmer.acrobat,
+                            i == 0 ? ILHelper.SearchOption.First : ILHelper.SearchOption.Next)
+                        .Move(-2)
+                        .StripLabels(out var labels) // backup and remove branch labels
+                        .Match(new[] { new CodeInstruction(OpCodes.Brfalse_S) }) // the false case branch
+                        .GetOperand(out var isNotAcrobat) // copy destination
+                        .Return()
+                        .Insert(
+                            new[]
+                            {
+                                // insert unconditional branch to skip this check
+                                new CodeInstruction(OpCodes.Br_S, (Label)isNotAcrobat),
+                            })
+                        .Move(-1)
+                        .AddLabels(labels) // restore bakced-up labels to inserted branch
+                        .Move(3);
+                });
         }
         catch (Exception ex)
         {
             Log.E($"Failed removing vanilla Acrobat cooldown reduction.\nHelper returned {ex}");
             return null;
-        }
-
-        // repeat injection three times
-        if (++i < 3)
-        {
-            goto repeat;
         }
 
         return helper.Flush();

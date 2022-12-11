@@ -17,6 +17,9 @@ internal sealed class JsonAssetsIntegration : BaseIntegration<IJsonAssetsApi>
     {
     }
 
+    /// <summary>Gets a value indicating whether the integration has been registered.</summary>
+    internal static bool Registered { get; private set; }
+
     /// <summary>Registers the Garnet and Garnet Ring items.</summary>
     internal void Register()
     {
@@ -25,8 +28,9 @@ internal sealed class JsonAssetsIntegration : BaseIntegration<IJsonAssetsApi>
 
         var subFolder = Ligo.Integrations.UsingVanillaTweaksRings ? "VanillaTweaks" :
             Ligo.Integrations.UsingBetterRings ? "BetterRings" : "Vanilla";
-        this.ModApi.LoadAssets(Path.Combine(ModEntry.ModHelper.DirectoryPath, "assets", "json-assets", "Rings", subFolder), ModEntry.i18n);
+        this.ModApi.LoadAssets(Path.Combine(ModHelper.DirectoryPath, "assets", "json-assets", "Rings", subFolder), i18n);
         this.ModApi.IdsAssigned += this.OnIdsAssigned;
+        Registered = true;
     }
 
     /// <summary>Gets assigned IDs.</summary>

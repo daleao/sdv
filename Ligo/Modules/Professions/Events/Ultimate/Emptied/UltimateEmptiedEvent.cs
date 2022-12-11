@@ -14,7 +14,7 @@ internal sealed class UltimateEmptiedEvent : ManagedEvent
     /// <summary>Initializes a new instance of the <see cref="UltimateEmptiedEvent"/> class.</summary>
     /// <param name="callback">The delegate to run when the event is raised.</param>
     internal UltimateEmptiedEvent(Action<object?, IUltimateEmptiedEventArgs> callback)
-        : base(ModEntry.Events)
+        : base(ModEntry.EventManager)
     {
         this._onEmptiedImpl = callback;
     }

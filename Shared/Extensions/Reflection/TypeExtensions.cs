@@ -164,16 +164,16 @@ public static class TypeExtensions
         }
     }
 
-    /// <summary>Gets all inner methods whose names begin with the given <paramref name="prefix"/>.</summary>
+    /// <summary>Gets all inner methods whose names contain the given <paramref name="substring"/>.</summary>
     /// <param name="type">The <see cref="Type"/>.</param>
-    /// <param name="prefix">A string prefix.</param>
-    /// <returns>A <see cref="IEnumerable{T}"/> of all the inner <see cref="MethodInfo"/>s of <paramref name="type"/> beginning with <paramref name="prefix"/>.</returns>
+    /// <param name="substring">A substring.</param>
+    /// <returns>A <see cref="IEnumerable{T}"/> of all the inner <see cref="MethodInfo"/>s of <paramref name="type"/> containing the <paramref name="substring"/>.</returns>
     /// <exception cref="MissingMethodException">If a matching method is not found.</exception>
-    public static IEnumerable<MethodInfo> GetInnerMethodsStartingWith(this Type type, string prefix)
+    public static IEnumerable<MethodInfo> GetInnerMethodsContaining(this Type type, string substring)
     {
         return type.GetAllInnerTypes()
             .SelectMany(AccessTools.GetDeclaredMethods)
-            .Where(m => prefix == "*" || m.Name.StartsWith(prefix));
+            .Where(m => substring == "*" || m.Name.Contains(substring));
     }
 
     #endregion safe reflection

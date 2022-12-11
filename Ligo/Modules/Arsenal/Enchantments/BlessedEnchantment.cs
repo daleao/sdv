@@ -51,7 +51,7 @@ public class BlessedEnchantment : BaseWeaponEnchantment
 
         who.Write(DataFields.Cursed, null);
         who.Write(DataFields.CursePoints, null);
-        ModEntry.Events.Disable<CurseUpdateTickedEvent>();
+        EventManager.Disable<CurseUpdateTickedEvent>();
         Log.D($"{who.Name}'s curse was lifted!");
     }
 

@@ -35,7 +35,7 @@ internal sealed class StabbySwordSpecialUpdateTickingEvent : UpdateTickingEvent
         _currentFrame++;
         if (_currentFrame == 0)
         {
-            ModEntry.Reflector
+            Reflector
                 .GetUnboundMethodDelegate<Action<MeleeWeapon, Farmer>>(sword, "beginSpecialMove")
                 .Invoke(sword, user);
 
@@ -64,7 +64,7 @@ internal sealed class StabbySwordSpecialUpdateTickingEvent : UpdateTickingEvent
             };
 
             user.FarmerSprite.setCurrentFrame(frame, 0, 15, 2, user.FacingDirection == 3, true);
-            Game1.playSound("daggerswipe");
+            Game1.playSound(sword.CurrentParentTileIndex == Constants.LavaKatanaIndex ? "fireball" : "daggerswipe");
         }
         else if (_currentFrame > _animationFrames)
         {
@@ -73,7 +73,7 @@ internal sealed class StabbySwordSpecialUpdateTickingEvent : UpdateTickingEvent
             user.forceCanMove();
 #if RELEASE
             MeleeWeapon.attackSwordCooldown = MeleeWeapon.attackSwordCooldownTime;
-            if (!ModEntry.Config.EnableProfessions && user.professions.Contains(Farmer.acrobat))
+            if (!Config.EnableProfessions && user.professions.Contains(Farmer.acrobat))
             {
                 MeleeWeapon.attackSwordCooldown /= 2;
             }

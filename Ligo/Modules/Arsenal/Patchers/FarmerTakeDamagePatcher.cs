@@ -40,7 +40,7 @@ internal sealed class FarmerTakeDamagePatcher : HarmonyPatcher
         var floatResilience = generator.DeclareLocal(typeof(float));
 
         // From: bullshit resilience mitigation
-        // To: if (ModEntry.Config.Arsenal.OverhauledDefense)
+        // To: if (ArsenalModule.Config.OverhauledDefense)
         //          GetOverhauledResilience(this)
         //     else { do vanilla logic }
         try
@@ -48,29 +48,39 @@ internal sealed class FarmerTakeDamagePatcher : HarmonyPatcher
             var useVanillaResilience = generator.DefineLabel();
             var resumeExecution = generator.DefineLabel();
             helper
-                .FindFirst(
-                    new CodeInstruction(OpCodes.Ldarg_0),
-                    new CodeInstruction(OpCodes.Ldfld, typeof(Farmer).RequireField(nameof(Farmer.resilience))),
-                    new CodeInstruction(OpCodes.Stloc_3))
+                .Match(
+                    new[]
+                    {
+                        new CodeInstruction(OpCodes.Ldarg_0),
+                        new CodeInstruction(OpCodes.Ldfld, typeof(Farmer).RequireField(nameof(Farmer.resilience))),
+                        new CodeInstruction(OpCodes.Stloc_3),
+                    })
                 .AddLabels(useVanillaResilience)
-                .InsertInstructions(
-                    new CodeInstruction(OpCodes.Call, typeof(ModEntry).RequirePropertyGetter(nameof(ModEntry.Config))),
-                    new CodeInstruction(
-                        OpCodes.Callvirt,
-                        typeof(ModConfig).RequirePropertyGetter(nameof(ModConfig.Arsenal))),
-                    new CodeInstruction(
-                        OpCodes.Callvirt,
-                        typeof(Config).RequirePropertyGetter(nameof(Config.OverhauledDefense))),
-                    new CodeInstruction(OpCodes.Brfalse_S, useVanillaResilience),
-                    new CodeInstruction(OpCodes.Ldarg_0),
-                    new CodeInstruction(
-                        OpCodes.Call,
-                        typeof(FarmerExtensions).RequireMethod(nameof(FarmerExtensions.GetOverhauledResilience))),
-                    new CodeInstruction(OpCodes.Stloc_S, floatResilience),
-                    new CodeInstruction(OpCodes.Br_S, resumeExecution))
-                .FindNext(
-                    new CodeInstruction(OpCodes.Call, typeof(Farmer).RequireMethod(nameof(Farmer.isWearingRing))))
-                .Retreat(2)
+                .Insert(
+                    new[]
+                    {
+                        new CodeInstruction(OpCodes.Call, typeof(ModEntry).RequirePropertyGetter(nameof(Config))),
+                        new CodeInstruction(
+                            OpCodes.Callvirt,
+                            typeof(ModConfig).RequirePropertyGetter(nameof(ModConfig.Arsenal))),
+                        new CodeInstruction(
+                            OpCodes.Callvirt,
+                            typeof(ArsenalConfig).RequirePropertyGetter(nameof(ArsenalConfig.OverhauledDefense))),
+                        new CodeInstruction(OpCodes.Brfalse_S, useVanillaResilience),
+                        new CodeInstruction(OpCodes.Ldarg_0), new CodeInstruction(
+                            OpCodes.Call,
+                            typeof(FarmerExtensions).RequireMethod(nameof(FarmerExtensions.GetOverhauledResilience))),
+                        new CodeInstruction(OpCodes.Stloc_S, floatResilience),
+                        new CodeInstruction(OpCodes.Br_S, resumeExecution),
+                    })
+                .Match(
+                    new[]
+                    {
+                        new CodeInstruction(
+                            OpCodes.Call,
+                            typeof(Farmer).RequireMethod(nameof(Farmer.isWearingRing))),
+                    })
+                .Move(-2)
                 .AddLabels(resumeExecution);
         }
         catch (Exception ex)
@@ -86,31 +96,36 @@ internal sealed class FarmerTakeDamagePatcher : HarmonyPatcher
             var useLinearScaling = generator.DefineLabel();
             var resumeExecution = generator.DefineLabel();
             helper
-                .FindNext(
-                    new CodeInstruction(
-                        OpCodes.Call,
-                        typeof(Rumble).RequireMethod(nameof(Rumble.rumble), new[] { typeof(float), typeof(float) })),
-                    new CodeInstruction(OpCodes.Ldc_I4_1))
-                .Advance()
+                .Match(
+                    new[]
+                    {
+                        new CodeInstruction(
+                            OpCodes.Call,
+                            typeof(Rumble).RequireMethod(
+                                nameof(Rumble.rumble),
+                                new[] { typeof(float), typeof(float) })),
+                        new CodeInstruction(OpCodes.Ldc_I4_1),
+                    })
+                .Move()
                 .AddLabels(useLinearScaling)
-                .InsertInstructions(
-                    new CodeInstruction(OpCodes.Call, typeof(ModEntry).RequirePropertyGetter(nameof(ModEntry.Config))),
-                    new CodeInstruction(
-                        OpCodes.Callvirt,
-                        typeof(ModConfig).RequirePropertyGetter(nameof(ModConfig.Arsenal))),
-                    new CodeInstruction(
-                        OpCodes.Callvirt,
-                        typeof(Config).RequirePropertyGetter(nameof(Config.OverhauledDefense))),
-                    new CodeInstruction(OpCodes.Brfalse_S, useLinearScaling),
-                    new CodeInstruction(OpCodes.Ldarg_1),
-                    new CodeInstruction(OpCodes.Conv_R4),
-                    new CodeInstruction(OpCodes.Ldloc_S, floatResilience),
-                    new CodeInstruction(OpCodes.Mul),
-                    new CodeInstruction(OpCodes.Conv_I4),
-                    new CodeInstruction(OpCodes.Starg_S, (byte)1),
-                    new CodeInstruction(OpCodes.Br_S, resumeExecution))
-                .FindNext(
-                    new CodeInstruction(OpCodes.Ldarg_0))
+                .Insert(
+                    new[]
+                    {
+                        new CodeInstruction(OpCodes.Call, typeof(ModEntry).RequirePropertyGetter(nameof(Config))),
+                        new CodeInstruction(
+                            OpCodes.Callvirt,
+                            typeof(ModConfig).RequirePropertyGetter(nameof(ModConfig.Arsenal))),
+                        new CodeInstruction(
+                            OpCodes.Callvirt,
+                            typeof(ArsenalConfig).RequirePropertyGetter(nameof(ArsenalConfig.OverhauledDefense))),
+                        new CodeInstruction(OpCodes.Brfalse_S, useLinearScaling), new CodeInstruction(OpCodes.Ldarg_1),
+                        new CodeInstruction(OpCodes.Conv_R4), new CodeInstruction(OpCodes.Ldloc_S, floatResilience),
+                        new CodeInstruction(OpCodes.Mul), new CodeInstruction(OpCodes.Conv_I4),
+                        new CodeInstruction(OpCodes.Starg_S, (byte)1),
+                        new CodeInstruction(OpCodes.Br_S, resumeExecution),
+                    })
+                .Match(
+                    new[] { new CodeInstruction(OpCodes.Ldarg_0) })
                 .AddLabels(resumeExecution);
         }
         catch (Exception ex)

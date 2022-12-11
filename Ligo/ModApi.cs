@@ -199,7 +199,7 @@ public sealed class ModApi
     public IManagedEvent RegisterTreasureHuntStartedEvent(Action<object?, ITreasureHuntStartedEventArgs> callback)
     {
         var e = new TreasureHuntStartedEvent(callback);
-        ModEntry.Events.Manage(e);
+        ModEntry.EventManager.Manage(e);
         TreasureHunt.Started += e.OnStarted;
         return e;
     }
@@ -210,7 +210,7 @@ public sealed class ModApi
     public IManagedEvent RegisterTreasureHuntEndedEvent(Action<object?, ITreasureHuntEndedEventArgs> callback)
     {
         var e = new TreasureHuntEndedEvent(callback);
-        ModEntry.Events.Manage(e);
+        ModEntry.EventManager.Manage(e);
         TreasureHunt.Ended += e.OnEnded;
         return e;
     }
@@ -233,7 +233,7 @@ public sealed class ModApi
     public IManagedEvent RegisterUltimateActivatedEvent(Action<object?, IUltimateActivatedEventArgs> callback)
     {
         var e = new UltimateActivatedEvent(callback);
-        ModEntry.Events.Manage(e);
+        ModEntry.EventManager.Manage(e);
         Ultimate.Activated += e.OnActivated;
         return e;
     }
@@ -244,7 +244,7 @@ public sealed class ModApi
     public IManagedEvent RegisterUltimateDeactivatedEvent(Action<object?, IUltimateDeactivatedEventArgs> callback)
     {
         var e = new UltimateDeactivatedEvent(callback);
-        ModEntry.Events.Manage(e);
+        ModEntry.EventManager.Manage(e);
         Ultimate.Deactivated += e.OnDeactivated;
         return e;
     }
@@ -255,7 +255,7 @@ public sealed class ModApi
     public IManagedEvent RegisterUltimateChargeInitiatedEvent(Action<object?, IUltimateChargeInitiatedEventArgs> callback)
     {
         var e = new UltimateChargeInitiatedEvent(callback);
-        ModEntry.Events.Manage(e);
+        ModEntry.EventManager.Manage(e);
         Ultimate.ChargeInitiated += e.OnChargeInitiated;
         return e;
     }
@@ -266,7 +266,7 @@ public sealed class ModApi
     public IManagedEvent RegisterUltimateChargeIncreasedEvent(Action<object?, IUltimateChargeIncreasedEventArgs> callback)
     {
         var e = new UltimateChargeIncreasedEvent(callback);
-        ModEntry.Events.Manage(e);
+        ModEntry.EventManager.Manage(e);
         Ultimate.ChargeIncreased += e.OnChargeIncreased;
         return e;
     }
@@ -277,7 +277,7 @@ public sealed class ModApi
     public IManagedEvent RegisterUltimateFullyChargedEvent(Action<object?, IUltimateFullyChargedEventArgs> callback)
     {
         var e = new UltimateFullyChargedEvent(callback);
-        ModEntry.Events.Manage(e);
+        ModEntry.EventManager.Manage(e);
         Ultimate.FullyCharged += e.OnFullyCharged;
         return e;
     }
@@ -289,7 +289,7 @@ public sealed class ModApi
         Action<object?, IUltimateEmptiedEventArgs> callback)
     {
         var e = new UltimateEmptiedEvent(callback);
-        ModEntry.Events.Manage(e);
+        ModEntry.EventManager.Manage(e);
         Ultimate.Emptied += e.OnEmptied;
         return e;
     }
@@ -314,7 +314,7 @@ public sealed class ModApi
     /// <returns>The <see cref="ModConfig"/> instance.</returns>
     public ModConfig GetConfig()
     {
-        return ModEntry.Config;
+        return Config;
     }
 
     #endregion configs

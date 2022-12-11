@@ -98,6 +98,7 @@ internal sealed class TehsFishingOverhaulIntegration : BaseIntegration<ISimplifi
         this._rawApi = modRegistry.GetApi("TehPers.FishingOverhaul");
     }
 
+    /// <summary>Apply modded profession perks.</summary>
     internal void Register()
     {
         this.AssertLoaded();

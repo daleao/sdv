@@ -36,17 +36,22 @@ internal sealed class DuggyBehaviorAtGameTickPatcher : HarmonyPatcher
         try
         {
             helper
-                .FindFirst(new CodeInstruction(OpCodes.Ldc_I4_4))
-                .Advance()
+                .Match(new[] { new CodeInstruction(OpCodes.Ldc_I4_4) })
+                .Move()
                 .GetOperand(out var dontDoDamage)
-                .Advance()
-                .InsertInstructions(
-                    new CodeInstruction(OpCodes.Ldarg_0),
-                    new CodeInstruction(OpCodes.Call, typeof(Monster).RequirePropertyGetter(nameof(Monster.Player))),
-                    new CodeInstruction(
-                        OpCodes.Call,
-                        typeof(FarmerExtensions).RequireMethod(nameof(FarmerExtensions.IsInAmbush))),
-                    new CodeInstruction(OpCodes.Brtrue, dontDoDamage));
+                .Move()
+                .Insert(
+                    new[]
+                    {
+                        new CodeInstruction(OpCodes.Ldarg_0),
+                        new CodeInstruction(
+                            OpCodes.Call,
+                            typeof(Monster).RequirePropertyGetter(nameof(Monster.Player))),
+                        new CodeInstruction(
+                            OpCodes.Call,
+                            typeof(FarmerExtensions).RequireMethod(nameof(FarmerExtensions.IsInAmbush))),
+                        new CodeInstruction(OpCodes.Brtrue, dontDoDamage),
+                    });
         }
         catch (Exception ex)
         {

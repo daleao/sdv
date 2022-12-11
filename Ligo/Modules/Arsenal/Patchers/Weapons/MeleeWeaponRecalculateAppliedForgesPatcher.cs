@@ -5,7 +5,6 @@
 using System.Linq;
 using System.Reflection;
 using DaLion.Ligo.Modules.Arsenal.Extensions;
-using DaLion.Ligo.Modules.Arsenal.VirtualProperties;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
 using StardewValley.Tools;

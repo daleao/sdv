@@ -37,7 +37,7 @@ internal static class SlingshotExtensions
         }
 
         slingshot.BeginSpecialMove(user);
-        ModEntry.Events.Enable<SlingshotSpecialUpdateTickedEvent>();
+        EventManager.Enable<SlingshotSpecialUpdateTickedEvent>();
     }
 
     /// <summary>Analogous to "MeleeWeapon.beginSpecialMove".</summary>
@@ -92,7 +92,7 @@ internal static class SlingshotExtensions
         who.FarmerSprite.PauseForSingleAnimation = false;
 
         var dummyWeapon = new MeleeWeapon { BaseName = string.Empty };
-        ModEntry.Reflector.GetUnboundFieldSetter<Tool, Farmer>(dummyWeapon, "lastUser").Invoke(dummyWeapon, who);
+        Reflector.GetUnboundFieldSetter<Tool, Farmer>(dummyWeapon, "lastUser").Invoke(dummyWeapon, who);
         var v = new Vector2(x / 64, y / 64);
 
         if (location.terrainFeatures.ContainsKey(v) &&

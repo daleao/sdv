@@ -40,22 +40,25 @@ internal sealed class BeeHouseMachineGetOutputPatcher : HarmonyPatcher
         try
         {
             helper
-                .FindLast(new CodeInstruction(OpCodes.Stloc_S, helper.Locals[4]))
-                .InsertInstructions(
-                    new CodeInstruction(OpCodes.Dup),
-                    new CodeInstruction(OpCodes.Ldarg_0),
-                    new CodeInstruction(
-                        OpCodes.Call,
-                        "Pathoschild.Stardew.Automate.Framework.BaseMachine`1"
-                            .ToType()
-                            .MakeGenericType(typeof(SObject))
-                            .RequirePropertyGetter("Machine")),
-                    new CodeInstruction(
-                        OpCodes.Call,
-                        typeof(SObjectExtensions).RequireMethod(nameof(SObjectExtensions.GetQualityFromAge))),
-                    new CodeInstruction(
-                        OpCodes.Callvirt,
-                        typeof(SObject).RequirePropertySetter(nameof(SObject.Quality))));
+                .Match(
+                    new[] { new CodeInstruction(OpCodes.Stloc_S, helper.Locals[4]) },
+                    ILHelper.SearchOption.Last)
+                .Insert(
+                    new[]
+                    {
+                        new CodeInstruction(OpCodes.Dup), new CodeInstruction(OpCodes.Ldarg_0), new CodeInstruction(
+                            OpCodes.Call,
+                            "Pathoschild.Stardew.Automate.Framework.BaseMachine`1"
+                                .ToType()
+                                .MakeGenericType(typeof(SObject))
+                                .RequirePropertyGetter("Machine")),
+                        new CodeInstruction(
+                            OpCodes.Call,
+                            typeof(SObjectExtensions).RequireMethod(nameof(SObjectExtensions.GetQualityFromAge))),
+                        new CodeInstruction(
+                            OpCodes.Callvirt,
+                            typeof(SObject).RequirePropertySetter(nameof(SObject.Quality))),
+                    });
         }
         catch (Exception ex)
         {

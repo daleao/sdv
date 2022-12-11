@@ -34,30 +34,37 @@ internal sealed class TreeTickUpdatePatcher : HarmonyPatcher
 
         // From: Game1.getFarmer(lastPlayerToHit).professions.Contains(<lumberjack_id>) ? 1.25 : 1.0
         // To: Game1.getFarmer(lastPlayerToHit).professions.Contains(100 + <lumberjack_id>) ? 1.4 : Game1.getFarmer(lastPlayerToHit).professions.Contains(12) ? 1.25 : 1.0
-        var i = 0;
-        repeat1:
         try
         {
-            var isPrestiged = generator.DefineLabel();
-            var resumeExecution = generator.DefineLabel();
             helper
-                .FindProfessionCheck(Profession.Lumberjack.Value, true)
-                .Advance()
-                .InsertInstructions(
-                    new CodeInstruction(OpCodes.Dup),
-                    new CodeInstruction(OpCodes.Ldc_I4_S, Profession.Lumberjack.Value + 100),
-                    new CodeInstruction(
-                        OpCodes.Callvirt,
-                        typeof(NetList<int, NetInt>).RequireMethod(nameof(NetList<int, NetInt>.Contains))),
-                    new CodeInstruction(OpCodes.Brtrue_S, isPrestiged))
-                .AdvanceUntil(new CodeInstruction(OpCodes.Ldc_R8, 1.25))
-                .Advance()
-                .AddLabels(resumeExecution)
-                .InsertInstructions(new CodeInstruction(OpCodes.Br_S, resumeExecution))
-                .InsertWithLabels(
-                    new[] { isPrestiged },
-                    new CodeInstruction(OpCodes.Pop),
-                    new CodeInstruction(OpCodes.Ldc_R8, 1.4));
+                .Repeat(
+                    2,
+                    _ =>
+                    {
+                        var isPrestiged = generator.DefineLabel();
+                        var resumeExecution = generator.DefineLabel();
+                        helper
+                            .FindProfessionCheck(Profession.Lumberjack.Value)
+                            .Move()
+                            .Insert(
+                                new[]
+                                {
+                                    new CodeInstruction(OpCodes.Dup),
+                                    new CodeInstruction(OpCodes.Ldc_I4_S, Profession.Lumberjack.Value + 100),
+                                    new CodeInstruction(
+                                        OpCodes.Callvirt,
+                                        typeof(NetList<int, NetInt>).RequireMethod(
+                                            nameof(NetList<int, NetInt>.Contains))),
+                                    new CodeInstruction(OpCodes.Brtrue_S, isPrestiged),
+                                })
+                            .Match(new[] { new CodeInstruction(OpCodes.Ldc_R8, 1.25) })
+                            .Move()
+                            .AddLabels(resumeExecution)
+                            .Insert(new[] { new CodeInstruction(OpCodes.Br_S, resumeExecution) })
+                            .Insert(
+                                new[] { new CodeInstruction(OpCodes.Pop), new CodeInstruction(OpCodes.Ldc_R8, 1.4), },
+                                new[] { isPrestiged });
+                    });
         }
         catch (Exception ex)
         {
@@ -65,26 +72,25 @@ internal sealed class TreeTickUpdatePatcher : HarmonyPatcher
             return null;
         }
 
-        // repeat injection
-        if (++i < 2)
-        {
-            goto repeat1;
-        }
-
         // find the Arborist profession check
         CodeInstruction[] checkForArboristInstructions;
         try
         {
             helper
-                .FindProfessionCheck(Profession.Arborist.Value, true)
-                .RetreatUntil(new CodeInstruction(OpCodes.Ldarg_0))
-                .GetInstructionsUntil(
+                .FindProfessionCheck(Profession.Arborist.Value)
+                .Match(new[] { new CodeInstruction(OpCodes.Ldarg_0) }, ILHelper.SearchOption.Previous)
+                .Match(
+                    new[]
+                    {
+                        new CodeInstruction(
+                            OpCodes.Callvirt,
+                            typeof(NetList<int, NetInt>).RequireMethod(nameof(NetList<int, NetInt>.Contains))),
+                    },
+                    out var steps)
+                .Copy(
                     out checkForArboristInstructions,
-                    true,
-                    false,
-                    new CodeInstruction(
-                        OpCodes.Callvirt,
-                        typeof(NetList<int, NetInt>).RequireMethod(nameof(NetList<int, NetInt>.Contains))));
+                    steps,
+                    true);
         }
         catch (Exception ex)
         {
@@ -103,50 +109,53 @@ internal sealed class TreeTickUpdatePatcher : HarmonyPatcher
         // From: numHardwood += (int) (numHardwood * 0.25f + 0.9f);
         // To: numHardwood += (int) (numHardwood * (Game1.getFarmer(lastPlayerToHit).professions.Contains(100 + <arborist_id>) ? 0.5f : 0.25f) + 0.9f);
         helper.GoTo(0);
-        i = 0;
-        repeat2:
         try
         {
-            var notPrestigedArborist1 = generator.DefineLabel();
-            var notPrestigedArborist2 = generator.DefineLabel();
-            var resumeExecution1 = generator.DefineLabel();
-            var resumeExecution2 = generator.DefineLabel();
             helper
-                .FindProfessionCheck(Profession.Arborist.Value, true)
-                .RetreatUntil(
-                    new CodeInstruction(OpCodes.Ldc_I4_1),
-                    new CodeInstruction(OpCodes.Add))
-                .AddLabels(notPrestigedArborist1)
-                .InsertInstructions(checkForPrestigedArboristInstructions)
-                .InsertInstructions(
-                    new CodeInstruction(OpCodes.Brfalse_S, notPrestigedArborist1),
-                    new CodeInstruction(OpCodes.Ldc_I4_2),
-                    new CodeInstruction(OpCodes.Br_S, resumeExecution1))
-                .Advance()
-                .AddLabels(resumeExecution1)
-                .FindProfessionCheck(Profession.Arborist.Value, true)
-                .AdvanceUntil(
-                    new CodeInstruction(OpCodes.Ldc_R4, 0.25f),
-                    new CodeInstruction(OpCodes.Mul))
-                .AddLabels(notPrestigedArborist2)
-                .InsertInstructions(checkForPrestigedArboristInstructions)
-                .InsertInstructions(
-                    new CodeInstruction(OpCodes.Brfalse_S, notPrestigedArborist2),
-                    new CodeInstruction(OpCodes.Ldc_R4, 0.5f),
-                    new CodeInstruction(OpCodes.Br_S, resumeExecution2))
-                .Advance()
-                .AddLabels(resumeExecution2);
+                .Repeat(
+                    2,
+                    _ =>
+                    {
+                        var notPrestigedArborist1 = generator.DefineLabel();
+                        var notPrestigedArborist2 = generator.DefineLabel();
+                        var resumeExecution1 = generator.DefineLabel();
+                        var resumeExecution2 = generator.DefineLabel();
+                        helper
+                            .FindProfessionCheck(Profession.Arborist.Value)
+                            .Match(
+                                new[] { new CodeInstruction(OpCodes.Ldc_I4_1), new CodeInstruction(OpCodes.Add) },
+                                ILHelper.SearchOption.Previous)
+                            .AddLabels(notPrestigedArborist1)
+                            .Insert(checkForPrestigedArboristInstructions)
+                            .Insert(
+                                new[]
+                                {
+                                    new CodeInstruction(OpCodes.Brfalse_S, notPrestigedArborist1),
+                                    new CodeInstruction(OpCodes.Ldc_I4_2),
+                                    new CodeInstruction(OpCodes.Br_S, resumeExecution1),
+                                })
+                            .Move()
+                            .AddLabels(resumeExecution1)
+                            .FindProfessionCheck(Profession.Arborist.Value)
+                            .Match(
+                                new[] { new CodeInstruction(OpCodes.Ldc_R4, 0.25f), new CodeInstruction(OpCodes.Mul), })
+                            .AddLabels(notPrestigedArborist2)
+                            .Insert(checkForPrestigedArboristInstructions)
+                            .Insert(
+                                new[]
+                                {
+                                    new CodeInstruction(OpCodes.Brfalse_S, notPrestigedArborist2),
+                                    new CodeInstruction(OpCodes.Ldc_R4, 0.5f),
+                                    new CodeInstruction(OpCodes.Br_S, resumeExecution2),
+                                })
+                            .Move()
+                            .AddLabels(resumeExecution2);
+                    });
         }
         catch (Exception ex)
         {
             Log.E($"Failed adding prestiged Arborist bonus hardwood.\nHelper returned {ex}");
             return null;
-        }
-
-        // repeat injection
-        if (++i < 2)
-        {
-            goto repeat2;
         }
 
         return helper.Flush();

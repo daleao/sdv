@@ -20,7 +20,7 @@ internal sealed class ArsenalButtonPressedEvent : ButtonPressedEvent
     }
 
     /// <inheritdoc />
-    public override bool IsEnabled => ModEntry.Config.Arsenal.FaceMouseCursor || ModEntry.Config.Arsenal.SlickMoves;
+    public override bool IsEnabled => ArsenalModule.Config.FaceMouseCursor || ArsenalModule.Config.SlickMoves;
 
     /// <inheritdoc />
     protected override void OnButtonPressedImpl(object? sender, ButtonPressedEventArgs e)
@@ -33,13 +33,13 @@ internal sealed class ArsenalButtonPressedEvent : ButtonPressedEvent
         }
 
         var originalDirection = (FacingDirection)player.FacingDirection;
-        if (!Game1.options.gamepadControls && ModEntry.Config.Arsenal.FaceMouseCursor)
+        if (!Game1.options.gamepadControls && ArsenalModule.Config.FaceMouseCursor)
         {
             // face mouse cursor
             player.FaceTowardsTile(Game1.currentCursorTile);
         }
 
-        if (!player.isMoving() || !player.running || !ModEntry.Config.Arsenal.SlickMoves)
+        if (!player.isMoving() || !player.running || !ArsenalModule.Config.SlickMoves)
         {
             return;
         }

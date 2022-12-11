@@ -21,6 +21,6 @@ internal sealed class CoreReturnedToTitleEvent : ReturnedToTitleEvent
     /// <inheritdoc />
     protected override void OnReturnedToTitleImpl(object? sender, ReturnedToTitleEventArgs e)
     {
-        ModEntry.Events.Reset();
+        this.Manager.Reset();
     }
 }

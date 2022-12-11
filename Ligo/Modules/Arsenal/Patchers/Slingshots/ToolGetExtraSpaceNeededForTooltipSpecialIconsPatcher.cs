@@ -3,7 +3,6 @@
 #region using directives
 
 using System.Linq;
-using DaLion.Ligo.Modules.Arsenal.Enchantments;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
 using Microsoft.Xna.Framework;

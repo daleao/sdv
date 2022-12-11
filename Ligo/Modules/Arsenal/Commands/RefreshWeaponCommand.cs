@@ -34,7 +34,7 @@ internal sealed class RefreshWeaponCommand : ConsoleCommand
             return;
         }
 
-        weapon.RefreshStats();
+        weapon.RefreshStats(true);
         Log.I($"Refreshed the stats of {weapon.Name}.");
     }
 }

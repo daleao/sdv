@@ -132,9 +132,9 @@ internal sealed class FishPondSpawnFishPatcher : HarmonyPatcher
                         ? SObject.medQuality
                         : SObject.lowQuality;
 
-            if (ModEntry.Config.EnableProfessions && fishlingQuality < SObject.bestQuality && Game1.random.NextDouble() < 0.5 &&
+            if (Config.EnableProfessions && fishlingQuality < SObject.bestQuality && Game1.random.NextDouble() < 0.5 &&
                 (__instance.GetOwner().HasProfession(Profession.Aquarist) ||
-                 (ModEntry.Config.Professions.LaxOwnershipRequirements &&
+                 (ProfessionsModule.Config.LaxOwnershipRequirements &&
                   Game1.game1.DoesAnyPlayerHaveProfession(Profession.Aquarist, out _))))
             {
                 fishlingQuality += fishlingQuality == SObject.highQuality ? 2 : 1;

@@ -26,7 +26,7 @@ internal sealed class BushShakePatcher : HarmonyPatcher
     {
         __state = __instance.tileSheetOffset.Value == 1 && !__instance.townBush.Value &&
                   __instance.inBloom(Game1.GetSeasonForLocation(__instance.currentLocation), Game1.dayOfMonth) &&
-                  __instance.size.Value < Bush.greenTeaBush && ModEntry.Config.Tweex.BerryBushesRewardExp;
+                  __instance.size.Value < Bush.greenTeaBush && TweexModule.Config.BerryBushesRewardExp;
 
         return true; // run original logic
     }

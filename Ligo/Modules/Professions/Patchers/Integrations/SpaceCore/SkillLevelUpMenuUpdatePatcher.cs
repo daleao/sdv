@@ -66,25 +66,27 @@ internal sealed class SkillLevelUpMenuUpdatePatcher : HarmonyPatcher
         try
         {
             helper
-                .FindFirst(new CodeInstruction(OpCodes.Ldnull)) // find index of initializing profPair to null
-                .ReplaceInstructionWith(
+                .Match(
+                    new[] { new CodeInstruction(OpCodes.Ldnull) }) // find index of initializing profPair to null
+                .ReplaceWith(
                     new CodeInstruction(
                         OpCodes.Call,
                         typeof(SkillLevelUpMenuUpdatePatcher).RequireMethod(nameof(ChooseProfessionPair))))
-                .InsertInstructions(
-                    new CodeInstruction(OpCodes.Ldloc_1),
-                    new CodeInstruction(OpCodes.Ldarg_0),
-                    new CodeInstruction(
-                        OpCodes.Ldfld,
-                        typeof(SkillLevelUpMenu)
-                            .RequireField("currentSkill")),
-                    new CodeInstruction(OpCodes.Ldarg_0),
-                    new CodeInstruction(
-                        OpCodes.Ldfld,
-                        typeof(SkillLevelUpMenu)
-                            .RequireField("currentLevel")))
-                .Advance(2)
-                .RemoveInstructionsUntil(new CodeInstruction(OpCodes.Endfinally)); // remove the entire loop
+                .Insert(
+                    new[]
+                    {
+                        new CodeInstruction(OpCodes.Ldloc_1), new CodeInstruction(OpCodes.Ldarg_0), new CodeInstruction(
+                            OpCodes.Ldfld,
+                            typeof(SkillLevelUpMenu)
+                                .RequireField("currentSkill")),
+                        new CodeInstruction(OpCodes.Ldarg_0), new CodeInstruction(
+                            OpCodes.Ldfld,
+                            typeof(SkillLevelUpMenu)
+                                .RequireField("currentLevel")),
+                    })
+                .Move(2)
+                .Match(new[] { new CodeInstruction(OpCodes.Endfinally) }, out var count)
+                .Remove(count); // remove the entire loop
         }
         catch (Exception ex)
         {
@@ -97,34 +99,54 @@ internal sealed class SkillLevelUpMenuUpdatePatcher : HarmonyPatcher
 
         // From: Game1.player.professions.Add(professionsToChoose[i]);
         // To: if (!Game1.player.professions.AddOrReplace(professionsToChoose[i]))
-        var i = 0;
-        repeat:
         try
         {
-            var dontGetImmediatePerks = generator.DefineLabel();
             helper
-                .FindNext(
-                    // find index of adding a profession to the player's list of professions
-                    new CodeInstruction(OpCodes.Callvirt, typeof(List<int>).RequirePropertyGetter("Item")),
-                    new CodeInstruction(OpCodes.Callvirt, typeof(NetList<int, NetInt>).RequireMethod("Add")))
-                .Advance()
-                .ReplaceInstructionWith(
-                    // replace Add() with AddOrReplace()
-                    new CodeInstruction(
-                        OpCodes.Call,
-                        typeof(DaLion.Shared.Extensions.Collections.CollectionExtensions)
-                            .RequireMethod(nameof(DaLion.Shared.Extensions.Collections.CollectionExtensions.AddOrReplace))
-                            .MakeGenericMethod(typeof(int))))
-                .Advance()
-                .InsertInstructions(
-                    // skip adding perks if player already has them
-                    new CodeInstruction(OpCodes.Brfalse_S, dontGetImmediatePerks))
-                .AdvanceUntil(
-                    // find isActive = false section
-                    new CodeInstruction(OpCodes.Ldarg_0),
-                    new CodeInstruction(OpCodes.Ldc_I4_0),
-                    new CodeInstruction(OpCodes.Stfld))
-                .AddLabels(dontGetImmediatePerks); // branch here if the player already had the chosen profession
+                .Repeat(
+                    2,
+                    _ =>
+                    {
+                        var dontGetImmediatePerks = generator.DefineLabel();
+                        helper
+                            .Match(
+                                new[]
+                                {
+                                    // find index of adding a profession to the player's list of professions
+                                    new CodeInstruction(
+                                        OpCodes.Callvirt,
+                                        typeof(List<int>).RequirePropertyGetter("Item")),
+                                    new CodeInstruction(
+                                        OpCodes.Callvirt,
+                                        typeof(NetList<int, NetInt>).RequireMethod("Add")),
+                                })
+                            .Move()
+                            .ReplaceWith(
+                                // replace Add() with AddOrReplace()
+                                new CodeInstruction(
+                                    OpCodes.Call,
+                                    typeof(DaLion.Shared.Extensions.Collections.CollectionExtensions)
+                                        .RequireMethod(
+                                            nameof(DaLion.Shared.Extensions.Collections.CollectionExtensions
+                                                .AddOrReplace))
+                                        .MakeGenericMethod(typeof(int))))
+                            .Move()
+                            .Insert(
+                                new[]
+                                {
+                                    // skip adding perks if player already has them
+                                    new CodeInstruction(OpCodes.Brfalse_S, dontGetImmediatePerks),
+                                })
+                            .Match(
+                                new[]
+                                {
+                                    // find isActive = false section
+                                    new CodeInstruction(OpCodes.Ldarg_0),
+                                    new CodeInstruction(OpCodes.Ldc_I4_0),
+                                    new CodeInstruction(OpCodes.Stfld),
+                                })
+                            .AddLabels(
+                                dontGetImmediatePerks); // branch here if the player already had the chosen profession
+                    });
         }
         catch (Exception ex)
         {
@@ -134,57 +156,63 @@ internal sealed class SkillLevelUpMenuUpdatePatcher : HarmonyPatcher
             return null;
         }
 
-        // repeat injection
-        if (++i < 2)
-        {
-            goto repeat;
-        }
-
         // Injected: if (!ShouldSuppressClick(chosenProfession[i], currentLevel))
         // Before: leftProfessionColor = Color.Green;
         try
         {
             var skip = generator.DefineLabel();
             helper
-                .FindFirst(
-                    new CodeInstruction(OpCodes.Ldarg_0),
-                    new CodeInstruction(OpCodes.Call, typeof(Color).RequirePropertyGetter(nameof(Color.Green))))
-                .InsertInstructions(
-                    new CodeInstruction(OpCodes.Ldarg_0),
-                    new CodeInstruction(OpCodes.Ldfld, "SkillLevelUpMenu"
-                        .ToType()
-                        .RequireField("professionsToChoose")),
-                    new CodeInstruction(OpCodes.Ldc_I4_0),
-                    new CodeInstruction(OpCodes.Callvirt, typeof(List<int>).RequirePropertyGetter("Item")),
-                    new CodeInstruction(OpCodes.Ldarg_0),
-                    new CodeInstruction(OpCodes.Ldfld, "SkillLevelUpMenu"
-                        .ToType()
-                        .RequireField("currentLevel")),
-                    new CodeInstruction(
-                        OpCodes.Call,
-                        typeof(SkillLevelUpMenuUpdatePatcher).RequireMethod(nameof(ShouldSuppressClick))),
-                    new CodeInstruction(OpCodes.Brtrue, skip))
-                .FindNext(
-                    new CodeInstruction(OpCodes.Ldarg_0),
-                    new CodeInstruction(OpCodes.Call, typeof(Color).RequirePropertyGetter(nameof(Color.Green))))
-                .InsertInstructions(
-                    new CodeInstruction(OpCodes.Ldarg_0),
-                    new CodeInstruction(OpCodes.Ldfld, "SkillLevelUpMenu"
-                        .ToType()
-                        .RequireField("professionsToChoose")),
-                    new CodeInstruction(OpCodes.Ldc_I4_1),
-                    new CodeInstruction(OpCodes.Callvirt, typeof(List<int>).RequirePropertyGetter("Item")),
-                    new CodeInstruction(OpCodes.Ldarg_0),
-                    new CodeInstruction(OpCodes.Ldfld, "SkillLevelUpMenu"
-                        .ToType()
-                        .RequireField("currentLevel")),
-                    new CodeInstruction(
-                        OpCodes.Call,
-                        typeof(SkillLevelUpMenuUpdatePatcher).RequireMethod(nameof(ShouldSuppressClick))),
-                    new CodeInstruction(OpCodes.Brtrue, skip))
-                .FindNext(
-                    new CodeInstruction(OpCodes.Ldarg_0),
-                    new CodeInstruction(OpCodes.Ldc_I4, 512))
+                .Match(
+                    new[]
+                    {
+                        new CodeInstruction(OpCodes.Ldarg_0),
+                        new CodeInstruction(OpCodes.Call, typeof(Color).RequirePropertyGetter(nameof(Color.Green))),
+                    },
+                    ILHelper.SearchOption.First)
+                .Insert(
+                    new[]
+                    {
+                        new CodeInstruction(OpCodes.Ldarg_0), new CodeInstruction(OpCodes.Ldfld, "SkillLevelUpMenu"
+                            .ToType()
+                            .RequireField("professionsToChoose")),
+                        new CodeInstruction(OpCodes.Ldc_I4_0),
+                        new CodeInstruction(OpCodes.Callvirt, typeof(List<int>).RequirePropertyGetter("Item")),
+                        new CodeInstruction(OpCodes.Ldarg_0), new CodeInstruction(OpCodes.Ldfld, "SkillLevelUpMenu"
+                            .ToType()
+                            .RequireField("currentLevel")),
+                        new CodeInstruction(
+                            OpCodes.Call,
+                            typeof(SkillLevelUpMenuUpdatePatcher).RequireMethod(nameof(ShouldSuppressClick))),
+                        new CodeInstruction(OpCodes.Brtrue, skip),
+                    })
+                .Match(
+                    new[]
+                    {
+                        new CodeInstruction(OpCodes.Ldarg_0),
+                        new CodeInstruction(OpCodes.Call, typeof(Color).RequirePropertyGetter(nameof(Color.Green))),
+                    })
+                .Insert(
+                    new[]
+                    {
+                        new CodeInstruction(OpCodes.Ldarg_0), new CodeInstruction(OpCodes.Ldfld, "SkillLevelUpMenu"
+                            .ToType()
+                            .RequireField("professionsToChoose")),
+                        new CodeInstruction(OpCodes.Ldc_I4_1),
+                        new CodeInstruction(OpCodes.Callvirt, typeof(List<int>).RequirePropertyGetter("Item")),
+                        new CodeInstruction(OpCodes.Ldarg_0), new CodeInstruction(OpCodes.Ldfld, "SkillLevelUpMenu"
+                            .ToType()
+                            .RequireField("currentLevel")),
+                        new CodeInstruction(
+                            OpCodes.Call,
+                            typeof(SkillLevelUpMenuUpdatePatcher).RequireMethod(nameof(ShouldSuppressClick))),
+                        new CodeInstruction(OpCodes.Brtrue, skip),
+                    })
+                .Match(
+                    new[]
+                    {
+                        new CodeInstruction(OpCodes.Ldarg_0),
+                        new CodeInstruction(OpCodes.Ldc_I4, 512),
+                    })
                 .AddLabels(skip);
         }
         catch (Exception ex)
@@ -209,7 +237,7 @@ internal sealed class SkillLevelUpMenuUpdatePatcher : HarmonyPatcher
             return null;
         }
 
-        var professionPairs = ModEntry.Reflector
+        var professionPairs = Reflector
             .GetUnboundPropertyGetter<object, IEnumerable>(skillInstance, "ProfessionsForLevels")
             .Invoke(skillInstance)
             .Cast<object>()
@@ -220,16 +248,16 @@ internal sealed class SkillLevelUpMenuUpdatePatcher : HarmonyPatcher
             return levelFivePair;
         }
 
-        var first = ModEntry.Reflector
+        var first = Reflector
             .GetUnboundPropertyGetter<object, object>(levelFivePair, "First")
             .Invoke(levelFivePair);
-        var second = ModEntry.Reflector
+        var second = Reflector
             .GetUnboundPropertyGetter<object, object>(levelFivePair, "Second")
             .Invoke(levelFivePair);
-        var firstStringId = ModEntry.Reflector
+        var firstStringId = Reflector
             .GetUnboundPropertyGetter<object, string>(first, "Id")
             .Invoke(first);
-        var secondStringId = ModEntry.Reflector
+        var secondStringId = Reflector
             .GetUnboundPropertyGetter<object, string>(second, "Id")
             .Invoke(second);
         var firstId = Ligo.Integrations.SpaceCoreApi!.GetProfessionId(skillId, firstStringId);

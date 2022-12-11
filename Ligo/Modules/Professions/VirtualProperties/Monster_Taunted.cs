@@ -13,16 +13,16 @@ internal static class Monster_Taunted
 {
     internal static ConditionalWeakTable<Monster, Holder> Values { get; } = new();
 
-    internal static NetCharacterRef Get_Taunter(this Monster monster)
+    internal static Monster? Get_Taunter(this Monster monster)
     {
         var holder = Values.GetOrCreateValue(monster);
         return holder.Taunter;
     }
 
-    internal static void Set_Taunter(this Monster monster, Character? taunter)
+    internal static void Set_Taunter(this Monster monster, Monster? taunter)
     {
         var holder = Values.GetOrCreateValue(monster);
-        holder.Taunter.Set(taunter?.currentLocation, taunter);
+        holder.Taunter = taunter;
         holder.FakeFarmer = taunter is null
             ? null
             : new Farmer { UniqueMultiplayerID = monster.GetHashCode(), currentLocation = monster.currentLocation };
@@ -36,7 +36,7 @@ internal static class Monster_Taunted
 
     internal class Holder
     {
-        public NetCharacterRef Taunter { get; } = new();
+        public Monster? Taunter { get; internal set; }
 
         public Farmer? FakeFarmer { get; internal set; }
     }

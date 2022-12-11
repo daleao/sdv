@@ -26,7 +26,7 @@ internal sealed class ToolActionWhenBeingHeldPatcher : HarmonyPatcher
     [HarmonyPostfix]
     private static void ToolActionWhenBeingHeldPostfix(Tool __instance, Farmer who)
     {
-        if (!ModEntry.Config.EnableArsenal)
+        if (!Config.EnableArsenal)
         {
             return;
         }

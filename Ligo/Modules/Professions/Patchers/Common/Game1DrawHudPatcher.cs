@@ -37,16 +37,17 @@ internal sealed class Game1DrawHudPatcher : HarmonyPatcher
         {
             helper
                 .FindProfessionCheck(Farmer.tracker) // find index of tracker check
-                .Retreat()
+                .Move(-1)
                 .GetLabels(out var leave) // the exception block leave opcode destination
                 .GoTo(helper.LastIndex)
                 .GetLabels(out var labels) // get the labels of the final return instruction
                 .Return()
-                .RemoveInstructionsUntil(new CodeInstruction(OpCodes.Ret)) // remove everything after the profession check
-                .AddWithLabels(
-                    // add back a new return statement
-                    labels.Take(2).Concat(leave).ToArray(), // exclude the labels defined after the profession check
-                    new CodeInstruction(OpCodes.Ret));
+                .Match(
+                    new[] { new CodeInstruction(OpCodes.Ret) },
+                    out var count) // remove everything after the profession check up until the return instruction
+                .Remove(count - 1)
+                .AddLabels(
+                    labels.Take(2).Concat(leave).ToArray()); // exclude the labels defined after the profession check
         }
         catch (Exception ex)
         {

@@ -25,12 +25,12 @@ internal sealed class GameLocationExplodePatcher : HarmonyPatcher
     [HarmonyPostfix]
     private static void GameLocationExplodePostfix(GameLocation __instance, Vector2 tileLocation, int radius)
     {
-        if (!ModEntry.Config.Tweex.ExplosionTriggeredBombs)
+        if (!TweexModule.Config.ExplosionTriggeredBombs)
         {
             return;
         }
 
-        var circle = new CircleTileGrid(tileLocation, radius * 2);
+        var circle = new CircleTileGrid(tileLocation, (uint)radius * 2);
         foreach (var sprite in __instance.TemporarySprites.Where(sprite =>
                      sprite.bombRadius > 0 && circle.Tiles.Contains(sprite.Position / 64f)))
         {

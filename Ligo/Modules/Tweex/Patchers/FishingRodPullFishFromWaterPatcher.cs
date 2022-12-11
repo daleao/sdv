@@ -24,7 +24,7 @@ internal sealed class FishingRodPullFishFromWaterPatcher : HarmonyPatcher
     [HarmonyPrefix]
     private static void FishingRodPullFishFromWaterPrefix(int whichFish, ref int fishQuality)
     {
-        if (whichFish.IsLegendaryFishIndex() && ModEntry.Config.Tweex.LegendaryFishAlwaysBestQuality)
+        if (whichFish.IsLegendaryFishIndex() && TweexModule.Config.LegendaryFishAlwaysBestQuality)
         {
             fishQuality = SObject.bestQuality;
         }

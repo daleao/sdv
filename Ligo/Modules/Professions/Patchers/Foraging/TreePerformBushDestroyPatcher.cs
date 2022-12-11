@@ -39,23 +39,24 @@ internal sealed class TreePerformBushDestroyPatcher : HarmonyPatcher
             var isPrestiged = generator.DefineLabel();
             var resumeExecution = generator.DefineLabel();
             helper
-                .FindProfessionCheck(Profession.Lumberjack.Value, true)
-                .Advance()
-                .InsertInstructions(
-                    new CodeInstruction(OpCodes.Dup),
-                    new CodeInstruction(OpCodes.Ldc_I4_S, Profession.Lumberjack.Value + 100),
-                    new CodeInstruction(
-                        OpCodes.Callvirt,
-                        typeof(NetList<int, NetInt>).RequireMethod(nameof(NetList<int, NetInt>.Contains))),
-                    new CodeInstruction(OpCodes.Brtrue_S, isPrestiged))
-                .AdvanceUntil(new CodeInstruction(OpCodes.Ldc_R8, 1.25))
-                .Advance()
+                .FindProfessionCheck(Profession.Lumberjack.Value)
+                .Move()
+                .Insert(
+                    new[]
+                    {
+                        new CodeInstruction(OpCodes.Dup),
+                        new CodeInstruction(OpCodes.Ldc_I4_S, Profession.Lumberjack.Value + 100), new CodeInstruction(
+                            OpCodes.Callvirt,
+                            typeof(NetList<int, NetInt>).RequireMethod(nameof(NetList<int, NetInt>.Contains))),
+                        new CodeInstruction(OpCodes.Brtrue_S, isPrestiged),
+                    })
+                .Match(new[] { new CodeInstruction(OpCodes.Ldc_R8, 1.25) })
+                .Move()
                 .AddLabels(resumeExecution)
-                .InsertInstructions(new CodeInstruction(OpCodes.Br_S, resumeExecution))
-                .InsertWithLabels(
-                    new[] { isPrestiged },
-                    new CodeInstruction(OpCodes.Pop),
-                    new CodeInstruction(OpCodes.Ldc_R8, 1.4));
+                .Insert(new[] { new CodeInstruction(OpCodes.Br_S, resumeExecution) })
+                .Insert(
+                    new[] { new CodeInstruction(OpCodes.Pop), new CodeInstruction(OpCodes.Ldc_R8, 1.4) },
+                    new[] { isPrestiged });
         }
         catch (Exception ex)
         {

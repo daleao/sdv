@@ -94,7 +94,7 @@ internal sealed class RemoveProfessionsCommand : ConsoleCommand
         LevelUpMenu.RevalidateHealth(Game1.player);
         if (professionsToRemove.Intersect(Profession.GetRange(true)).Any())
         {
-            ModEntry.ModHelper.GameContent.InvalidateCache("LooseSprites/Cursors");
+            ModHelper.GameContent.InvalidateCache("LooseSprites/Cursors");
         }
     }
 

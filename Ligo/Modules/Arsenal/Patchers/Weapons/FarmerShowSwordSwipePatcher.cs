@@ -3,6 +3,7 @@
 #region using directives
 
 using System.Reflection;
+using DaLion.Ligo.Modules.Arsenal.Extensions;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
 using Microsoft.Xna.Framework;
@@ -33,12 +34,13 @@ internal sealed class FarmerShowSwordSwipePatcher : HarmonyPatcher
 
         try
         {
-            var sprite = who.FarmerSprite;
-            TemporaryAnimatedSprite? tempSprite = null;
-            var actionTile = who.GetToolLocation(ignoreClick: true);
-            weapon.DoDamage(who.currentLocation, (int)actionTile.X, (int)actionTile.Y, who.FacingDirection, 1, who);
             const int minSwipeInterval = 20;
+            var actionTile = who.GetToolLocation(ignoreClick: true);
+            var sprite = who.FarmerSprite;
             var index = sprite.currentAnimationIndex;
+
+            TemporaryAnimatedSprite? tempSprite = null;
+            weapon.DoDamage(who.currentLocation, (int)actionTile.X, (int)actionTile.Y, who.FacingDirection, 1, who);
             switch (who.FacingDirection)
             {
                 case Game1.up:
@@ -182,7 +184,7 @@ internal sealed class FarmerShowSwordSwipePatcher : HarmonyPatcher
                 return false; // don't run original logic
             }
 
-            if (weapon.InitialParentTileIndex == 4)
+            if (weapon.isGalaxyWeapon() || weapon.IsInfinityWeapon())
             {
                 tempSprite.color = Color.HotPink;
             }

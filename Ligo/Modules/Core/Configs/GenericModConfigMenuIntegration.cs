@@ -100,73 +100,73 @@ internal sealed partial class GenericModConfigMenuIntegration
         this._configMenu.SetTitleScreenOnlyForNextOptions(false);
 
         // add page links
-        if (ModEntry.Config.EnableArsenal)
+        if (Config.EnableArsenal)
         {
             this._configMenu.AddPageLink(LigoModule.Arsenal.Namespace, () => "Go to Arsenal settings");
         }
 
-        if (ModEntry.Config.EnablePonds)
+        if (Config.EnablePonds)
         {
             this._configMenu.AddPageLink(LigoModule.Ponds.Namespace, () => "Go to Pond settings");
         }
 
-        if (ModEntry.Config.EnableProfessions)
+        if (Config.EnableProfessions)
         {
             this._configMenu.AddPageLink(LigoModule.Professions.Namespace, () => "Go to Profession settings");
         }
 
-        if (ModEntry.Config.EnableRings)
+        if (Config.EnableRings)
         {
             this._configMenu.AddPageLink(LigoModule.Rings.Namespace, () => "Go to Ring settings");
         }
 
-        if (ModEntry.Config.EnableTools)
+        if (Config.EnableTools)
         {
             this._configMenu.AddPageLink(LigoModule.Tools.Namespace, () => "Go to Tool settings");
         }
 
-        if (ModEntry.Config.EnableTaxes)
+        if (Config.EnableTaxes)
         {
             this._configMenu.AddPageLink(LigoModule.Taxes.Namespace, () => "Go to Tax settings");
         }
 
-        if (ModEntry.Config.EnableTweex)
+        if (Config.EnableTweex)
         {
             this._configMenu.AddPageLink(LigoModule.Tweex.Namespace, () => "Go to Tweak settings");
         }
 
         // add page contents
-        if (ModEntry.Config.EnableArsenal)
+        if (Config.EnableArsenal)
         {
             this.RegisterArsenal();
         }
 
-        if (ModEntry.Config.EnablePonds)
+        if (Config.EnablePonds)
         {
             this.RegisterPonds();
         }
 
-        if (ModEntry.Config.EnableProfessions)
+        if (Config.EnableProfessions)
         {
             this.RegisterProfessions();
         }
 
-        if (ModEntry.Config.EnableRings)
+        if (Config.EnableRings)
         {
             this.RegisterRings();
         }
 
-        if (ModEntry.Config.EnableTools)
+        if (Config.EnableTools)
         {
             this.RegisterTools();
         }
 
-        if (ModEntry.Config.EnableTaxes)
+        if (Config.EnableTaxes)
         {
             this.RegisterTaxes();
         }
 
-        if (ModEntry.Config.EnableTweex)
+        if (Config.EnableTweex)
         {
             this.RegisterTweex();
         }

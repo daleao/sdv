@@ -43,49 +43,53 @@ internal sealed class MummyTakeDamagePatcher : HarmonyPatcher
             var makeJucier = generator.DefineLabel();
             var meleeWeapon = generator.DeclareLocal(typeof(MeleeWeapon));
             helper
-                .FindFirst(
-                    new CodeInstruction(
-                        OpCodes.Callvirt,
-                        typeof(Tool).RequireMethod(nameof(Tool.hasEnchantmentOfType))
-                            .MakeGenericMethod(typeof(CrusaderEnchantment))))
-                .RetreatUntil(
-                    new CodeInstruction(OpCodes.Brfalse_S),
-                    new CodeInstruction(OpCodes.Ldarg_S))
+                .Match(
+                    new[]
+                    {
+                        new CodeInstruction(
+                            OpCodes.Callvirt,
+                            typeof(Tool).RequireMethod(nameof(Tool.hasEnchantmentOfType))
+                                .MakeGenericMethod(typeof(CrusaderEnchantment))),
+                    })
+                .Match(
+                    new[] { new CodeInstruction(OpCodes.Brfalse_S), new CodeInstruction(OpCodes.Ldarg_S) },
+                    ILHelper.SearchOption.Previous)
                 .GetOperand(out var resumeExecution)
-                .InsertInstructions(
-                    new CodeInstruction(OpCodes.Stloc_S, meleeWeapon),
-                    new CodeInstruction(OpCodes.Ldloc_S, meleeWeapon))
-                .AdvanceUntil(
-                    new CodeInstruction(OpCodes.Ldarg_S))
-                .RemoveInstructions(2) // redundant who.CurrentWeapon is MeleeWeapon
-                .ReplaceInstructionWith(
-                    new CodeInstruction(OpCodes.Ldloc_S, meleeWeapon)) // was OpCodes.Isinst typeof(MeleeWeapon)
-                .AdvanceUntil(new CodeInstruction(OpCodes.Brfalse_S))
-                .ReplaceInstructionWith(new CodeInstruction(OpCodes.Brtrue_S, makeJucier)) // we are changing AND to OR
-                .Advance() // beginning of Utility.makeTemporarySpriteJuicier( ... )
+                .Insert(
+                    new[]
+                    {
+                        new CodeInstruction(OpCodes.Stloc_S, meleeWeapon),
+                        new CodeInstruction(OpCodes.Ldloc_S, meleeWeapon),
+                    })
+                .Match(new[] { new CodeInstruction(OpCodes.Ldarg_S) })
+                .Remove(2) // redundant who.CurrentWeapon is MeleeWeapon
+                .ReplaceWith(new CodeInstruction(OpCodes.Ldloc_S, meleeWeapon)) // was OpCodes.Isinst typeof(MeleeWeapon)
+                .Match(new[] { new CodeInstruction(OpCodes.Brfalse_S) })
+                .ReplaceWith(new CodeInstruction(OpCodes.Brtrue_S, makeJucier)) // we are changing AND to OR
+                .Move() // beginning of Utility.makeTemporarySpriteJuicier( ... )
                 .AddLabels(makeJucier)
-                .InsertInstructions(
-                    // or meleeWeapon.hasEnchantmentOfType<CursedEnchantment>()
-                    new CodeInstruction(OpCodes.Ldloc_S, meleeWeapon),
-                    new CodeInstruction(
-                        OpCodes.Callvirt,
-                        typeof(Tool).RequireMethod(nameof(Tool.hasEnchantmentOfType))
-                            .MakeGenericMethod(typeof(CursedEnchantment))),
-                    new CodeInstruction(OpCodes.Brtrue_S, makeJucier),
-                    // or meleeWeapon.hasEnchantmentOfType<BlessedEnchantment>()
-                    new CodeInstruction(OpCodes.Ldloc_S, meleeWeapon),
-                    new CodeInstruction(
-                        OpCodes.Callvirt,
-                        typeof(Tool).RequireMethod(nameof(Tool.hasEnchantmentOfType))
-                            .MakeGenericMethod(typeof(BlessedEnchantment))),
-                    new CodeInstruction(OpCodes.Brtrue_S, makeJucier),
-                    // or meleeWeapon.hasEnchantmentOfType<InfinityEnchantment>()
-                    new CodeInstruction(OpCodes.Ldloc_S, meleeWeapon),
-                    new CodeInstruction(
-                        OpCodes.Callvirt,
-                        typeof(Tool).RequireMethod(nameof(Tool.hasEnchantmentOfType))
-                            .MakeGenericMethod(typeof(InfinityEnchantment))),
-                    new CodeInstruction(OpCodes.Brfalse_S, resumeExecution));
+                .Insert(
+                    new[]
+                    {
+                        // or meleeWeapon.hasEnchantmentOfType<CursedEnchantment>()
+                        new CodeInstruction(OpCodes.Ldloc_S, meleeWeapon), new CodeInstruction(
+                            OpCodes.Callvirt,
+                            typeof(Tool).RequireMethod(nameof(Tool.hasEnchantmentOfType))
+                                .MakeGenericMethod(typeof(CursedEnchantment))),
+                        new CodeInstruction(OpCodes.Brtrue_S, makeJucier),
+                        // or meleeWeapon.hasEnchantmentOfType<BlessedEnchantment>()
+                        new CodeInstruction(OpCodes.Ldloc_S, meleeWeapon), new CodeInstruction(
+                            OpCodes.Callvirt,
+                            typeof(Tool).RequireMethod(nameof(Tool.hasEnchantmentOfType))
+                                .MakeGenericMethod(typeof(BlessedEnchantment))),
+                        new CodeInstruction(OpCodes.Brtrue_S, makeJucier),
+                        // or meleeWeapon.hasEnchantmentOfType<InfinityEnchantment>()
+                        new CodeInstruction(OpCodes.Ldloc_S, meleeWeapon), new CodeInstruction(
+                            OpCodes.Callvirt,
+                            typeof(Tool).RequireMethod(nameof(Tool.hasEnchantmentOfType))
+                                .MakeGenericMethod(typeof(InfinityEnchantment))),
+                        new CodeInstruction(OpCodes.Brfalse_S, resumeExecution),
+                    });
         }
         catch (Exception ex)
         {

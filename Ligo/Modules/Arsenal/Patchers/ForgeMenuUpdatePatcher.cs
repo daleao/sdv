@@ -1,11 +1,8 @@
 ﻿namespace DaLion.Ligo.Modules.Arsenal.Patchers;
 
-using System.Collections;
-
 #region using directives
 
 using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using System.Reflection.Emit;
 using DaLion.Ligo.Modules.Arsenal.Configs;
@@ -38,7 +35,7 @@ internal sealed class ForgeMenuUpdatePatcher : HarmonyPatcher
     {
         var helper = new ILHelper(original, instructions);
 
-        // Injected: if (ModEntry.Config.Arsenal.TrulyLegendaryGalaxySword && weapon.hasEnchantmentOfType<HolyEnchantment>())
+        // Injected: if (ArsenalModule.Config.TrulyLegendaryGalaxySword && weapon.hasEnchantmentOfType<HolyEnchantment>())
         //               UnforgeHolyBlade(weapon);
         //           else ...
         // After: if (weapon != null)
@@ -46,35 +43,38 @@ internal sealed class ForgeMenuUpdatePatcher : HarmonyPatcher
         {
             var vanillaUnforge = generator.DefineLabel();
             helper
-                .FindFirst(
-                    new CodeInstruction(OpCodes.Ldloc_S, helper.Locals[9]), // local 9 = MeleeWeapon weapon
-                    new CodeInstruction(OpCodes.Brfalse))
-                .Advance()
+                .Match(
+                    new[]
+                    {
+                        new CodeInstruction(OpCodes.Ldloc_S, helper.Locals[9]), // local 9 = MeleeWeapon weapon
+                        new CodeInstruction(OpCodes.Brfalse),
+                    })
+                .Move()
                 .GetOperand(out var resumeExecution)
-                .Advance()
+                .Move()
                 .AddLabels(vanillaUnforge)
-                .InsertInstructions(
-                    new CodeInstruction(OpCodes.Call, typeof(ModEntry).RequirePropertyGetter(nameof(ModEntry.Config))),
-                    new CodeInstruction(
-                        OpCodes.Callvirt,
-                        typeof(ModConfig).RequirePropertyGetter(nameof(ModConfig.Arsenal))),
-                    new CodeInstruction(
-                        OpCodes.Callvirt,
-                        typeof(Config).RequirePropertyGetter(nameof(Config.InfinityPlusOne))),
-                    new CodeInstruction(OpCodes.Brfalse_S, vanillaUnforge),
-                    new CodeInstruction(OpCodes.Ldloc_S, helper.Locals[9]),
-                    new CodeInstruction(
-                        OpCodes.Call,
-                        typeof(Tool)
-                            .RequireMethod(nameof(Tool.hasEnchantmentOfType))
-                            .MakeGenericMethod(typeof(BlessedEnchantment))),
-                    new CodeInstruction(OpCodes.Brfalse_S, vanillaUnforge),
-                    new CodeInstruction(OpCodes.Ldarg_0),
-                    new CodeInstruction(OpCodes.Ldloc_3, helper.Locals[9]),
-                    new CodeInstruction(
-                        OpCodes.Call,
-                        typeof(ForgeMenuUpdatePatcher).RequireMethod(nameof(UnforgeHolyBlade))),
-                    new CodeInstruction(OpCodes.Br, resumeExecution));
+                .Insert(
+                    new[]
+                    {
+                        new CodeInstruction(OpCodes.Call, typeof(ModEntry).RequirePropertyGetter(nameof(Config))),
+                        new CodeInstruction(
+                            OpCodes.Callvirt,
+                            typeof(ModConfig).RequirePropertyGetter(nameof(ModConfig.Arsenal))),
+                        new CodeInstruction(
+                            OpCodes.Callvirt,
+                            typeof(ArsenalConfig).RequirePropertyGetter(nameof(ArsenalConfig.InfinityPlusOne))),
+                        new CodeInstruction(OpCodes.Brfalse_S, vanillaUnforge),
+                        new CodeInstruction(OpCodes.Ldloc_S, helper.Locals[9]), new CodeInstruction(
+                            OpCodes.Call,
+                            typeof(Tool)
+                                .RequireMethod(nameof(Tool.hasEnchantmentOfType))
+                                .MakeGenericMethod(typeof(BlessedEnchantment))),
+                        new CodeInstruction(OpCodes.Brfalse_S, vanillaUnforge), new CodeInstruction(OpCodes.Ldarg_0),
+                        new CodeInstruction(OpCodes.Ldloc_3, helper.Locals[9]), new CodeInstruction(
+                            OpCodes.Call,
+                            typeof(ForgeMenuUpdatePatcher).RequireMethod(nameof(UnforgeHolyBlade))),
+                        new CodeInstruction(OpCodes.Br, resumeExecution),
+                    });
         }
         catch (Exception ex)
         {
@@ -82,7 +82,7 @@ internal sealed class ForgeMenuUpdatePatcher : HarmonyPatcher
             return null;
         }
 
-        // Injected: else if (leftIngredientSpot.item is Slingshot slingshot && ModEntry.Config.Arsenal.Slingshots.AllowForges)
+        // Injected: else if (leftIngredientSpot.item is Slingshot slingshot && ArsenalModule.Config.Slingshots.AllowForges)
         //     UnforgeSlingshot(leftIngredientSpot.item);
         // Between: MeleeWeapon and CombinedRing unforge behaviors...
         try
@@ -90,41 +90,45 @@ internal sealed class ForgeMenuUpdatePatcher : HarmonyPatcher
             var elseIfCombinedRing = generator.DefineLabel();
             var slingshot = generator.DeclareLocal(typeof(Slingshot));
             helper
-                .FindFirst(
-                    new CodeInstruction(OpCodes.Isinst, typeof(CombinedRing)),
-                    new CodeInstruction(OpCodes.Brfalse))
-                .RetreatUntil(new CodeInstruction(OpCodes.Ldarg_0))
+                .Match(
+                    new[]
+                    {
+                        new CodeInstruction(OpCodes.Isinst, typeof(CombinedRing)),
+                        new CodeInstruction(OpCodes.Brfalse),
+                    },
+                    ILHelper.SearchOption.First)
+                .Match(new[] { new CodeInstruction(OpCodes.Ldarg_0) }, ILHelper.SearchOption.Previous)
                 .StripLabels(out var labels)
                 .AddLabels(elseIfCombinedRing)
-                .InsertWithLabels(
-                    labels,
-                    new CodeInstruction(OpCodes.Ldarg_0),
-                    new CodeInstruction(
-                        OpCodes.Ldfld,
-                        typeof(ForgeMenu).RequireField(nameof(ForgeMenu.leftIngredientSpot))),
-                    new CodeInstruction(
-                        OpCodes.Ldfld,
-                        typeof(ClickableTextureComponent).RequireField(nameof(ClickableTextureComponent.item))),
-                    new CodeInstruction(OpCodes.Isinst, typeof(Slingshot)),
-                    new CodeInstruction(OpCodes.Stloc_S, slingshot),
-                    new CodeInstruction(OpCodes.Ldloc_S, slingshot),
-                    new CodeInstruction(OpCodes.Brfalse, elseIfCombinedRing),
-                    new CodeInstruction(OpCodes.Call, typeof(ModEntry).RequirePropertyGetter(nameof(ModEntry.Config))),
-                    new CodeInstruction(
-                        OpCodes.Callvirt,
-                        typeof(ModConfig).RequirePropertyGetter(nameof(ModConfig.Arsenal))),
-                    new CodeInstruction(
-                        OpCodes.Callvirt,
-                        typeof(Config).RequirePropertyGetter(nameof(Config.Slingshots))),
-                    new CodeInstruction(
-                        OpCodes.Callvirt,
-                        typeof(SlingshotConfig).RequirePropertyGetter(nameof(SlingshotConfig.AllowForges))),
-                    new CodeInstruction(OpCodes.Brfalse, elseIfCombinedRing),
-                    new CodeInstruction(OpCodes.Ldarg_0),
-                    new CodeInstruction(OpCodes.Ldloc_S, slingshot),
-                    new CodeInstruction(
-                        OpCodes.Call,
-                        typeof(ForgeMenuUpdatePatcher).RequireMethod(nameof(UnforgeSlingshot))));
+                .Insert(
+                    new[]
+                    {
+                        new CodeInstruction(OpCodes.Ldarg_0), new CodeInstruction(
+                            OpCodes.Ldfld,
+                            typeof(ForgeMenu).RequireField(nameof(ForgeMenu.leftIngredientSpot))),
+                        new CodeInstruction(
+                            OpCodes.Ldfld,
+                            typeof(ClickableTextureComponent).RequireField(nameof(ClickableTextureComponent.item))),
+                        new CodeInstruction(OpCodes.Isinst, typeof(Slingshot)),
+                        new CodeInstruction(OpCodes.Stloc_S, slingshot),
+                        new CodeInstruction(OpCodes.Ldloc_S, slingshot),
+                        new CodeInstruction(OpCodes.Brfalse, elseIfCombinedRing),
+                        new CodeInstruction(OpCodes.Call, typeof(ModEntry).RequirePropertyGetter(nameof(Config))),
+                        new CodeInstruction(
+                            OpCodes.Callvirt,
+                            typeof(ModConfig).RequirePropertyGetter(nameof(ModConfig.Arsenal))),
+                        new CodeInstruction(
+                            OpCodes.Callvirt,
+                            typeof(ArsenalConfig).RequirePropertyGetter(nameof(ArsenalConfig.Slingshots))),
+                        new CodeInstruction(
+                            OpCodes.Callvirt,
+                            typeof(SlingshotConfig).RequirePropertyGetter(nameof(SlingshotConfig.AllowForges))),
+                        new CodeInstruction(OpCodes.Brfalse, elseIfCombinedRing), new CodeInstruction(OpCodes.Ldarg_0),
+                        new CodeInstruction(OpCodes.Ldloc_S, slingshot), new CodeInstruction(
+                            OpCodes.Call,
+                            typeof(ForgeMenuUpdatePatcher).RequireMethod(nameof(UnforgeSlingshot))),
+                    },
+                    labels);
         }
         catch (Exception ex)
         {
@@ -139,16 +143,14 @@ internal sealed class ForgeMenuUpdatePatcher : HarmonyPatcher
 
     #region injected subroutines
 
-    [SuppressMessage("StyleCop.CSharp.OrderingRules", "SA1202:Elements should be ordered by access", Justification = "Preference for patch classes with injected subroutines.")]
-    internal static void UnforgeHolyBlade(ForgeMenu menu, MeleeWeapon holy)
+    private static void UnforgeHolyBlade(ForgeMenu menu, MeleeWeapon holy)
     {
         Utility.CollectOrDrop(new SObject(Globals.HeroSoulIndex!.Value, 1));
         menu.leftIngredientSpot.item = null;
         Game1.playSound("coin");
     }
 
-    [SuppressMessage("StyleCop.CSharp.OrderingRules", "SA1202:Elements should be ordered by access", Justification = "Preference for patch classes with injected subroutines.")]
-    internal static void UnforgeSlingshot(ForgeMenu menu, Slingshot slingshot)
+    private static void UnforgeSlingshot(ForgeMenu menu, Slingshot slingshot)
     {
         var cost = 0;
         var forgeLevels = slingshot.GetTotalForgeLevels(true);

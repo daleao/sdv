@@ -36,7 +36,7 @@ internal sealed class GaldoraHudThemeWarpedEvent : WarpedEvent
                 "Custom_IridiumQuarry",
                 "Custom_TreasureCave"))
         {
-            ModEntry.ModHelper.GameContent.InvalidateCacheAndLocalized($"{ModEntry.Manifest.UniqueID}/UltimateMeter");
+            ModHelper.GameContent.InvalidateCacheAndLocalized($"{Manifest.UniqueID}/UltimateMeter");
         }
     }
 }

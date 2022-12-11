@@ -39,29 +39,27 @@ internal sealed class MeleeWeaponTriggerClubFunctionPatcher : HarmonyPatcher
             var notInfinity = generator.DefineLabel();
             var aoe = generator.DeclareLocal(typeof(Rectangle));
             helper
-                .FindFirst(
-                    new CodeInstruction(OpCodes.Newobj))
-                .Advance()
-                .InsertInstructions(
-                    new CodeInstruction(OpCodes.Stloc_S, aoe))
-                .InsertWithLabels(
-                    new[] { notInfinity },
-                    new CodeInstruction(OpCodes.Ldloc_S, aoe))
-                .Retreat()
-                .InsertInstructions(
-                    new CodeInstruction(OpCodes.Ldarg_0),
-                    new CodeInstruction(
-                        OpCodes.Call,
-                        typeof(MeleeWeapon)
-                            .RequireMethod(nameof(MeleeWeapon.hasEnchantmentOfType))
-                            .MakeGenericMethod(typeof(ReduxArtfulEnchantment))),
-                    new CodeInstruction(OpCodes.Brfalse_S, notInfinity),
-                    new CodeInstruction(OpCodes.Ldloca_S, aoe),
-                    new CodeInstruction(OpCodes.Ldc_I4_S, 96),
-                    new CodeInstruction(OpCodes.Ldc_I4_S, 96),
-                    new CodeInstruction(
-                        OpCodes.Call,
-                        typeof(Rectangle).RequireMethod(nameof(Rectangle.Inflate), new[] { typeof(int), typeof(int) })));
+                .Match(new[] { new CodeInstruction(OpCodes.Newobj) })
+                .Move()
+                .Insert(new[] { new CodeInstruction(OpCodes.Stloc_S, aoe) })
+                .Insert(new[] { new CodeInstruction(OpCodes.Ldloc_S, aoe) }, new[] { notInfinity })
+                .Move(-1)
+                .Insert(
+                    new[]
+                    {
+                        new CodeInstruction(OpCodes.Ldarg_0), new CodeInstruction(
+                            OpCodes.Call,
+                            typeof(MeleeWeapon)
+                                .RequireMethod(nameof(MeleeWeapon.hasEnchantmentOfType))
+                                .MakeGenericMethod(typeof(ReduxArtfulEnchantment))),
+                        new CodeInstruction(OpCodes.Brfalse_S, notInfinity), new CodeInstruction(OpCodes.Ldloca_S, aoe),
+                        new CodeInstruction(OpCodes.Ldc_I4_S, 96), new CodeInstruction(OpCodes.Ldc_I4_S, 96),
+                        new CodeInstruction(
+                            OpCodes.Call,
+                            typeof(Rectangle).RequireMethod(
+                                nameof(Rectangle.Inflate),
+                                new[] { typeof(int), typeof(int) })),
+                    });
         }
         catch (Exception ex)
         {

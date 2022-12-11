@@ -34,7 +34,7 @@ internal sealed class ToolActionWhenPurchasedPatcher : HarmonyPatcher
         Game1.player.daysLeftForToolUpgrade.Value = 3;
         Game1.playSound("parry");
         Game1.exitActiveMenu();
-        Game1.drawDialogue(Game1.getCharacterFromName("Clint"), ModEntry.i18n.Get("clint.forge.confirmation"));
+        Game1.drawDialogue(Game1.getCharacterFromName("Clint"), i18n.Get("blacksmith.forge.confirmation"));
         __result = true;
     }
 

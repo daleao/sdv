@@ -29,7 +29,7 @@ internal sealed class ConservationismDayEndingEvent : DayEndingEvent
     protected override void OnDayEndingImpl(object? sender, DayEndingEventArgs e)
     {
         var player = Game1.player;
-        if (!ModEntry.Config.EnableTaxes)
+        if (!Config.EnableTaxes)
         {
             var taxBonus = player.Read<float>(DataFields.ConservationistActiveTaxBonusPct);
             if (taxBonus > 0f)
@@ -59,17 +59,17 @@ internal sealed class ConservationismDayEndingEvent : DayEndingEvent
         var taxBonusForNextSeason =
             // ReSharper disable once PossibleLossOfFraction
             Math.Min(
-                trashCollectedThisSeason / ModEntry.Config.Professions.TrashNeededPerTaxBonusPct / 100f,
-                ModEntry.Config.Professions.ConservationistTaxBonusCeiling);
+                trashCollectedThisSeason / ProfessionsModule.Config.TrashNeededPerTaxBonusPct / 100f,
+                ProfessionsModule.Config.ConservationistTaxBonusCeiling);
         player.Write(
             DataFields.ConservationistActiveTaxBonusPct,
             taxBonusForNextSeason.ToString(CultureInfo.InvariantCulture));
-        if (taxBonusForNextSeason <= 0 || ModEntry.Config.EnableTaxes)
+        if (taxBonusForNextSeason <= 0 || Config.EnableTaxes)
         {
             return;
         }
 
-        ModEntry.ModHelper.GameContent.InvalidateCacheAndLocalized("Data/mail");
-        player.mailForTomorrow.Add($"{ModEntry.Manifest.UniqueID}/ConservationistTaxNotice");
+        ModHelper.GameContent.InvalidateCacheAndLocalized("Data/mail");
+        player.mailForTomorrow.Add($"{Manifest.UniqueID}/ConservationistTaxNotice");
     }
 }

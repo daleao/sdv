@@ -23,13 +23,13 @@ internal sealed class ToolTilesAffectedPatcher : HarmonyPatcher
         this.Postfix!.priority = Priority.LowerThanNormal;
     }
 
-    private static int[] AxeAffectedTilesRadii => ModEntry.Config.Tools.Axe.RadiusAtEachPowerLevel;
+    private static uint[] AxeAffectedTilesRadii => ToolsModule.Config.Axe.RadiusAtEachPowerLevel;
 
-    private static int[] PickaxeAffectedTilesRadii => ModEntry.Config.Tools.Pick.RadiusAtEachPowerLevel;
+    private static uint[] PickaxeAffectedTilesRadii => ToolsModule.Config.Pick.RadiusAtEachPowerLevel;
 
-    private static int[][] HoeAffectedTiles => ModEntry.Config.Tools.Hoe.AffectedTiles;
+    private static uint[][] HoeAffectedTiles => ToolsModule.Config.Hoe.AffectedTiles;
 
-    private static int[][] WateringCanAffectedTiles => ModEntry.Config.Tools.Can.AffectedTiles;
+    private static uint[][] WateringCanAffectedTiles => ToolsModule.Config.Can.AffectedTiles;
 
     #region harmony patches
 
@@ -44,8 +44,8 @@ internal sealed class ToolTilesAffectedPatcher : HarmonyPatcher
             return true; // run original logic
         }
 
-        if ((__instance is Hoe && !ModEntry.Config.Tools.Hoe.OverrideAffectedTiles) || (__instance is WateringCan &&
-                !ModEntry.Config.Tools.Can.OverrideAffectedTiles))
+        if ((__instance is Hoe && !ToolsModule.Config.Hoe.OverrideAffectedTiles) || (__instance is WateringCan &&
+                !ToolsModule.Config.Can.OverrideAffectedTiles))
         {
             return true; // run original logic
         }

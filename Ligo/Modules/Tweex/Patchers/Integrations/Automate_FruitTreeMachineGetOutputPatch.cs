@@ -33,7 +33,7 @@ internal sealed class FruitTreeMachineGetOutputPatcher : HarmonyPatcher
     private static IEnumerable<CodeInstruction>? FruitTreeMachineGetOutputTranspiler(
         IEnumerable<CodeInstruction> instructions, MethodBase original)
     {
-        if (ModEntry.ModHelper.ModRegistry.IsLoaded("aedenthorn.FruitTreeTweaks"))
+        if (ModHelper.ModRegistry.IsLoaded("aedenthorn.FruitTreeTweaks"))
         {
             return instructions;
         }
@@ -46,21 +46,23 @@ internal sealed class FruitTreeMachineGetOutputPatcher : HarmonyPatcher
         try
         {
             helper
-                .FindFirst(
-                    new CodeInstruction(OpCodes.Ldc_I4_0),
-                    new CodeInstruction(OpCodes.Stloc_1))
+                .Match(
+                    new[] { new CodeInstruction(OpCodes.Ldc_I4_0), new CodeInstruction(OpCodes.Stloc_1), })
                 .StripLabels(out var labels)
-                .ReplaceInstructionWith(new CodeInstruction(
+                .ReplaceWith(new CodeInstruction(
                     OpCodes.Call,
                     typeof(FruitTreeExtensions).RequireMethod(nameof(FruitTreeExtensions.GetQualityFromAge))))
-                .InsertWithLabels(
-                    labels,
-                    new CodeInstruction(OpCodes.Ldloc_0))
-                .FindNext(new CodeInstruction(OpCodes.Ldloc_0))
-                .RemoveInstructionsUntil(new CodeInstruction(OpCodes.Stloc_1))
-                .RemoveInstructionsUntil(new CodeInstruction(OpCodes.Stloc_1))
-                .RemoveInstructionsUntil(new CodeInstruction(OpCodes.Stloc_1))
-                .RemoveLabels();
+                .Insert(
+                    new[] { new CodeInstruction(OpCodes.Ldloc_0) },
+                    labels)
+                .Match(new[] { new CodeInstruction(OpCodes.Ldloc_0) })
+                .Match(new[] { new CodeInstruction(OpCodes.Stloc_1) }, out var count)
+                .Remove(count)
+                .Match(new[] { new CodeInstruction(OpCodes.Stloc_1) }, out count)
+                .Remove(count)
+                .Match(new[] { new CodeInstruction(OpCodes.Stloc_1) }, out count)
+                .Remove(count)
+                .StripLabels();
         }
         catch (Exception ex)
         {

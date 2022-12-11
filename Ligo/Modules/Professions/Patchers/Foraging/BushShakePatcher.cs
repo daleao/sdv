@@ -38,16 +38,19 @@ internal sealed class BushShakePatcher : HarmonyPatcher
         {
             helper
                 .FindProfessionCheck(Farmer.botanist) // find index of botanist check
-                .AdvanceUntil(new CodeInstruction(OpCodes.Ldc_I4_4))
+                .Match(new[] { new CodeInstruction(OpCodes.Ldc_I4_4) })
                 .GetLabels(out var labels) // backup branch labels
-                .ReplaceInstructionWith(
+                .ReplaceWith(
                     // replace with custom quality
                     new CodeInstruction(
                         OpCodes.Call,
                         typeof(FarmerExtensions).RequireMethod(nameof(FarmerExtensions.GetEcologistForageQuality))))
-                .InsertWithLabels(
-                    labels, // restore backed-up labels
-                    new CodeInstruction(OpCodes.Call, typeof(Game1).RequirePropertyGetter(nameof(Game1.player))));
+                .Insert(
+                    new[]
+                    {
+                        new CodeInstruction(OpCodes.Call, typeof(Game1).RequirePropertyGetter(nameof(Game1.player))),
+                    },
+                    labels); // restore backed-up labels
         }
         catch (Exception ex)
         {
@@ -61,20 +64,20 @@ internal sealed class BushShakePatcher : HarmonyPatcher
         {
             var dontIncreaseEcologistCounter = generator.DefineLabel();
             helper
-                .FindNext(
-                    new CodeInstruction(OpCodes.Ldarg_0))
-                .AdvanceUntil(
-                    new CodeInstruction(OpCodes.Ldarg_0))
+                .Match(new[] { new CodeInstruction(OpCodes.Ldarg_0) })
+                .Match(new[] { new CodeInstruction(OpCodes.Ldarg_0) })
                 .InsertProfessionCheck(Profession.Ecologist.Value)
-                .InsertInstructions(
-                    new CodeInstruction(OpCodes.Brfalse_S, dontIncreaseEcologistCounter),
-                    new CodeInstruction(OpCodes.Call, typeof(Game1).RequirePropertyGetter(nameof(Game1.player))),
-                    new CodeInstruction(OpCodes.Ldstr, DataFields.EcologistItemsForaged),
-                    new CodeInstruction(
-                        OpCodes.Call,
-                        typeof(ModDataIO)
-                            .RequireMethod(nameof(ModDataIO.Increment), new[] { typeof(Farmer), typeof(string) })
-                            .MakeGenericMethod(typeof(uint))))
+                .Insert(
+                    new[]
+                    {
+                        new CodeInstruction(OpCodes.Brfalse_S, dontIncreaseEcologistCounter),
+                        new CodeInstruction(OpCodes.Call, typeof(Game1).RequirePropertyGetter(nameof(Game1.player))),
+                        new CodeInstruction(OpCodes.Ldstr, DataFields.EcologistItemsForaged), new CodeInstruction(
+                            OpCodes.Call,
+                            typeof(ModDataIO)
+                                .RequireMethod(nameof(ModDataIO.Increment), new[] { typeof(Farmer), typeof(string) })
+                                .MakeGenericMethod(typeof(uint))),
+                    })
                 .AddLabels(dontIncreaseEcologistCounter);
         }
         catch (Exception ex)

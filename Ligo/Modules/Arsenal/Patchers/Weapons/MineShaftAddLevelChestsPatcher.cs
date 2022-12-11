@@ -28,7 +28,7 @@ internal sealed class MineShaftAddLevelChestsPatcher : HarmonyPatcher
     [HarmonyPrefix]
     private static bool MineShaftAddLevelChestsPrefix(MineShaft __instance)
     {
-        if (!ModEntry.Config.Arsenal.Weapons.RebalancedWeapons)
+        if (!ArsenalModule.Config.Weapons.RebalancedWeapons)
         {
             return true; // run original logic
         }
@@ -106,7 +106,7 @@ internal sealed class MineShaftAddLevelChestsPatcher : HarmonyPatcher
                 break;
         }
 
-        if (ModEntry.Reflector.GetUnboundFieldGetter<MineShaft, NetBool>(__instance, "netIsTreasureRoom").Invoke(__instance).Value || forceTreasureRoom)
+        if (Reflector.GetUnboundFieldGetter<MineShaft, NetBool>(__instance, "netIsTreasureRoom").Invoke(__instance).Value || forceTreasureRoom)
         {
             chestItems.Add(MineShaft.getTreasureRoomItem());
         }

@@ -1,9 +1,17 @@
-﻿namespace DaLion.Ligo;
+﻿#region global using directives
+
+#pragma warning disable SA1200 // Using directives should be placed correctly
+global using static DaLion.Ligo.ModEntry;
+global using static DaLion.Ligo.Modules.LigoModule;
+#pragma warning restore SA1200 // Using directives should be placed correctly
+
+#endregion global using directives
+
+namespace DaLion.Ligo;
 
 #region using directives
 
 using System.Diagnostics.CodeAnalysis;
-using DaLion.Ligo.Modules;
 using DaLion.Shared.Events;
 using DaLion.Shared.Extensions.SMAPI;
 using DaLion.Shared.ModData;
@@ -21,8 +29,8 @@ public sealed class ModEntry : Mod
     /// <summary>Gets or sets the <see cref="ModConfig"/> instance.</summary>
     internal static ModConfig Config { get; set; } = null!; // set in Entry
 
-    /// <summary>Gets the <see cref="EventManager"/> instance.</summary>
-    internal static EventManager Events { get; private set; } = null!; // set in Entry
+    /// <summary>Gets the <see cref="Shared.Events.EventManager"/> instance.</summary>
+    internal static EventManager EventManager { get; private set; } = null!; // set in Entry
 
     /// <summary>Gets the <see cref="Reflector"/> instance.</summary>
     internal static Reflector Reflector { get; private set; } = null!; // set in Entry
@@ -55,9 +63,10 @@ public sealed class ModEntry : Mod
 
         // get configs
         Config = helper.ReadConfig<ModConfig>();
+        Config.Validate(helper);
 
         // initialize event manager
-        Events = new EventManager(helper.Events, helper.ModRegistry);
+        EventManager = new EventManager(helper.Events, helper.ModRegistry);
 
         // initialize reflector
         Reflector = new Reflector();
@@ -66,24 +75,24 @@ public sealed class ModEntry : Mod
         Broadcaster = new Broadcaster(helper.Multiplayer, this.ModManifest.UniqueID);
 
         // initialize modules
-        LigoModule.Core.Initialize(helper);
+        Core.Initialize(helper);
 
         if (Config.EnableArsenal)
         {
             Integrations.UsingVanillaTweaksWeapons = helper.ModRegistry.IsLoaded("Taiyo.VanillaTweaks") &&
                                                    helper.ReadContentPackConfig("Taiyo.VanillaTweaks")
                                                        ?.Value<bool>("WeaponsCategoryEnabled") == true;
-            LigoModule.Arsenal.Initialize(helper);
+            Arsenal.Initialize(helper);
         }
 
         if (Config.EnablePonds)
         {
-            LigoModule.Ponds.Initialize(helper);
+            Ponds.Initialize(helper);
         }
 
         if (Config.EnableProfessions)
         {
-            LigoModule.Professions.Initialize(helper);
+            Professions.Initialize(helper);
         }
 
         if (Config.EnableRings)
@@ -93,23 +102,23 @@ public sealed class ModEntry : Mod
                                               helper.ReadContentPackConfig("Taiyo.VanillaTweaks")
                                                   ?.Value<bool>("RingsCategoryEnabled") == true;
 
-            LigoModule.Rings.Initialize(helper);
+            Rings.Initialize(helper);
         }
 
         if (Config.EnableTaxes)
         {
-            LigoModule.Taxes.Initialize(helper);
+            Taxes.Initialize(helper);
         }
 
         if (Config.EnableTools)
         {
             Integrations.UsingMoodMisadventures = helper.ModRegistry.IsLoaded("spacechase0.MoonMisadventures");
-            LigoModule.Tools.Initialize(helper);
+            Tools.Initialize(helper);
         }
 
         if (Config.EnableTweex)
         {
-            LigoModule.Tweex.Initialize(helper);
+            Tweex.Initialize(helper);
         }
 
         // validate multiplayer

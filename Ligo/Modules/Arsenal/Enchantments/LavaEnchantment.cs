@@ -3,7 +3,6 @@
 #region using directives
 
 using System.Xml.Serialization;
-using StardewValley.Tools;
 
 #endregion using directives
 
@@ -33,18 +32,5 @@ public class LavaEnchantment : BaseWeaponEnchantment
     public override bool ShouldBeDisplayed()
     {
         return false;
-    }
-
-    /// <inheritdoc />
-    public override bool CanApplyTo(Item item)
-    {
-        return item is Tool tool && tool.GetEnchantmentLevel<GalaxySoulEnchantment>() >= 3;
-    }
-
-    /// <inheritdoc />
-    protected override void _OnSwing(MeleeWeapon weapon, Farmer farmer)
-    {
-        base._OnSwing(weapon, farmer);
-        // play fiery sound effect
     }
 }

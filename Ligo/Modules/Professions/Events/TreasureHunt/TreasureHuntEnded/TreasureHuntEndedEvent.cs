@@ -14,7 +14,7 @@ internal sealed class TreasureHuntEndedEvent : ManagedEvent
     /// <summary>Initializes a new instance of the <see cref="TreasureHuntEndedEvent"/> class.</summary>
     /// <param name="callback">The delegate to run when the event is raised.</param>
     internal TreasureHuntEndedEvent(Action<object?, ITreasureHuntEndedEventArgs> callback)
-        : base(ModEntry.Events)
+        : base(ModEntry.EventManager)
     {
         this._onEndedImpl = callback;
     }

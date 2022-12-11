@@ -13,12 +13,12 @@ public sealed class CircleTileGrid
 {
     private readonly Vector2 _origin;
     private readonly bool[,] _outlineBoolArray;
-    private readonly int _radius;
+    private readonly uint _radius;
 
     /// <summary>Initializes a new instance of the <see cref="CircleTileGrid"/> class.</summary>
     /// <param name="origin">The center tile of the circle in the world reference.</param>
     /// <param name="radius">The radius of the circle in tile units.</param>
-    public CircleTileGrid(Vector2 origin, int radius)
+    public CircleTileGrid(Vector2 origin, uint radius)
     {
         this._origin = origin;
         this._radius = radius;
@@ -136,12 +136,12 @@ public sealed class CircleTileGrid
         // mirror point into the first quadrant
         if (point.X > this._radius)
         {
-            point.X = this._radius - point.X;
+            point.X = (int)this._radius - point.X;
         }
 
         if (point.Y > this._radius)
         {
-            point.Y = this._radius - point.Y;
+            point.Y = (int)this._radius - point.Y;
         }
 
         // cast horizontal rays
@@ -211,11 +211,11 @@ public sealed class CircleTileGrid
     private bool[,] GetOutline()
     {
         var outline = new bool[(this._radius * 2) + 1, (this._radius * 2) + 1];
-        var f = 1 - this._radius;
+        var f = 1 - (int)this._radius;
         var ddFx = 1;
-        var ddFy = -2 * this._radius;
+        var ddFy = -2 * (int)this._radius;
         var x = 0;
-        var y = this._radius;
+        var y = (int)this._radius;
 
         outline[this._radius, this._radius + this._radius] = true;
         outline[this._radius, this._radius - this._radius] = true;

@@ -24,12 +24,12 @@ internal sealed class ProspectorRenderedHudEvent : RenderedHudEvent
     /// <inheritdoc />
     protected override void OnRenderedHudImpl(object? sender, RenderedHudEventArgs e)
     {
-        if (ModEntry.Config.Professions.DisableAlwaysTrack && !ModEntry.Config.Professions.ModKey.IsDown())
+        if (ProfessionsModule.Config.DisableAlwaysTrack && !ProfessionsModule.Config.ModKey.IsDown())
         {
             return;
         }
 
-        var shouldHighlightOnScreen = ModEntry.Config.Professions.ModKey.IsDown();
+        var shouldHighlightOnScreen = ProfessionsModule.Config.ModKey.IsDown();
 
         // reveal on-screen trackable objects
         foreach (var (tile, _) in Game1.currentLocation.Objects.Pairs.Where(p =>

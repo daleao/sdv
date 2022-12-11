@@ -21,7 +21,7 @@ internal sealed class ArsenalGameLaunchedEvent : GameLaunchedEvent
     /// <inheritdoc />
     protected override void OnGameLaunchedImpl(object? sender, GameLaunchedEventArgs e)
     {
-        var registry = ModEntry.ModHelper.ModRegistry;
+        var registry = ModHelper.ModRegistry;
 
         // register custom enchants
         new SpaceCoreIntegration(registry).Register();
@@ -34,9 +34,9 @@ internal sealed class ArsenalGameLaunchedEvent : GameLaunchedEvent
         else
         {
             Log.W("Json Assets was not loaded. Features from the Arsenal module will be disabled.");
-            ModEntry.Config.Arsenal.DwarvishCrafting = false;
-            ModEntry.Config.Arsenal.InfinityPlusOne = false;
-            ModEntry.ModHelper.WriteConfig(ModEntry.Config);
+            ArsenalModule.Config.DwarvishCrafting = false;
+            ArsenalModule.Config.InfinityPlusOne = false;
+            ModHelper.WriteConfig(Config);
         }
     }
 }

@@ -19,7 +19,7 @@ public class CarvingEnchantment : BaseWeaponEnchantment
     /// <inheritdoc />
     public override string GetName()
     {
-        return ModEntry.i18n.Get("enchantments.carving");
+        return i18n.Get("enchantments.carving");
     }
 
     /// <inheritdoc />
@@ -35,7 +35,7 @@ public class CarvingEnchantment : BaseWeaponEnchantment
                 crab.Increment_Carved();
                 if (crab.Get_Carved() > 3)
                 {
-                    ModEntry.Reflector
+                    Reflector
                         .GetUnboundFieldGetter<RockCrab, NetBool>(crab, "shellGone")
                         .Invoke(crab).Value = true;
                 }

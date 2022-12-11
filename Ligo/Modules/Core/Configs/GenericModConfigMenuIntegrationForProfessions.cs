@@ -32,9 +32,9 @@ internal sealed partial class GenericModConfigMenuIntegration
                 config => config.Professions.PrestigeProgressionStyle.ToString(),
                 (config, value) =>
                 {
-                    config.Professions.PrestigeProgressionStyle = Enum.Parse<Professions.Config.ProgressionStyle>(value);
-                    ModEntry.ModHelper.GameContent.InvalidateCacheAndLocalized(
-                        $"{ModEntry.Manifest.UniqueID}/PrestigeProgression");
+                    config.Professions.PrestigeProgressionStyle = Enum.Parse<Professions.ProfessionsConfig.ProgressionStyle>(value);
+                    ModHelper.GameContent.InvalidateCacheAndLocalized(
+                        $"{Manifest.UniqueID}/PrestigeProgression");
                 },
                 new[] { "StackedStars", "Gen3Ribbons", "Gen4Ribbons" },
                 value => value switch
@@ -64,7 +64,7 @@ internal sealed partial class GenericModConfigMenuIntegration
                 1000,
                 10);
 
-        if (ModEntry.ModHelper.ModRegistry.IsLoaded("Pathoschild.Automate"))
+        if (ModHelper.ModRegistry.IsLoaded("Pathoschild.Automate"))
         {
             this._configMenu.AddCheckbox(
                 () => "Lax Ownership Requirements",
@@ -164,7 +164,7 @@ internal sealed partial class GenericModConfigMenuIntegration
                     {
                         Game1.getFarm().buildings.OfType<FishPond>()
                             .Where(p => (p.owner.Value == Game1.player.UniqueMultiplayerID || !Context.IsMultiplayer ||
-                                         ModEntry.Config.Professions.LaxOwnershipRequirements) &&
+                                         ProfessionsModule.Config.LaxOwnershipRequirements) &&
                                         !p.isUnderConstruction()).ForEach(p => p.UpdateMaximumOccupancy());
                     }
                 },
@@ -331,7 +331,7 @@ internal sealed partial class GenericModConfigMenuIntegration
                 0.2f,
                 2f);
 
-        foreach (var (skillId, _) in ModEntry.Config.Professions.CustomSkillExpMultipliers)
+        foreach (var (skillId, _) in ProfessionsModule.Config.CustomSkillExpMultipliers)
         {
             if (!SCSkill.Loaded.ContainsKey(skillId))
             {

@@ -3,12 +3,13 @@
 #region using directives
 
 using DaLion.Ligo.Modules.Arsenal.Configs;
+using DaLion.Shared.Configs;
 using Newtonsoft.Json;
 
 #endregion using directives
 
 /// <summary>The user-configurable settings for Arsenal.</summary>
-public sealed class Config
+public sealed class ArsenalConfig : Config
 {
     /// <inheritdoc cref="SlingshotConfig"/>
     [JsonProperty]
@@ -26,17 +27,21 @@ public sealed class Config
     [JsonProperty]
     public bool SlickMoves { get; internal set; } = true;
 
+    /// <summary>Gets a value indicating whether to color-code weapon and slingshot names, <see href="https://tvtropes.org/pmwiki/pmwiki.php/Main/ColourCodedForYourConvenience">for your convenience</see>.</summary>
+    [JsonProperty]
+    public bool ColorCodedForYourConvenience { get; internal set; } = true;
+
     /// <summary>Gets a value indicating whether to improve certain underwhelming gemstone enchantments.</summary>
     [JsonProperty]
     public bool RebalancedForges { get; internal set; } = true;
 
+    /// <summary>Gets a value indicating whether to overhaul the knockback stat adding collision damage.</summary>
+    [JsonProperty]
+    public bool KnockbackDamage { get; internal set; } = true;
+
     /// <summary>Gets a value indicating whether to overhaul the defense stat with better scaling and other features.</summary>
     [JsonProperty]
     public bool OverhauledDefense { get; internal set; } = true;
-
-    /// <summary>Gets a value indicating whether to overhaul the knockback stat.</summary>
-    [JsonProperty]
-    public bool OverhauledKnockback { get; internal set; } = true;
 
     /// <summary>Gets increases the health of all monsters.</summary>
     [JsonProperty]
@@ -69,4 +74,34 @@ public sealed class Config
     /// <summary>Gets a value indicating the number of Iridium Bars required to obtain a Galaxy weapon.</summary>
     [JsonProperty]
     public int IridiumBarsRequiredForGalaxyArsenal { get; internal set; } = 10;
+
+    /// <inheritdoc />
+    internal override bool Validate()
+    {
+        var isValid = true;
+
+        if (this.Weapons.GalaxySwordType == WeaponType.StabbingSword)
+        {
+            Collections.StabbySwords.Add(Constants.GalaxySwordIndex);
+        }
+        else if (this.Weapons.GalaxySwordType != WeaponType.DefenseSword)
+        {
+            Log.W(
+                $"Invalid type {this.Weapons.GalaxySwordType} for Galaxy Sword. Should be either 'StabbingSword' or 'DefenseSword'. The value will default to 'DefenseSword'.");
+            this.Weapons.GalaxySwordType = WeaponType.DefenseSword;
+        }
+
+        if (this.Weapons.InfinityBladeType == WeaponType.StabbingSword)
+        {
+            Collections.StabbySwords.Add(Constants.InfinityBladeIndex);
+        }
+        else if (this.Weapons.InfinityBladeType != WeaponType.DefenseSword)
+        {
+            Log.W(
+                $"Invalid type {this.Weapons.InfinityBladeType} for Infinity Blade. Should be either 'StabbingSword' or 'DefenseSword'. The value will default to 'DefenseSword'.");
+            this.Weapons.GalaxySwordType = WeaponType.DefenseSword;
+        }
+
+        return isValid;
+    }
 }

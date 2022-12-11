@@ -38,7 +38,7 @@ internal sealed class ProfessionsCheatSetProfessionPatcher : HarmonyPatcher
         try
         {
             helper
-                .FindFirst(new CodeInstruction(OpCodes.Ldc_I4_S, Farmer.defender))
+                .Match(new[] { new CodeInstruction(OpCodes.Ldc_I4_S, Farmer.defender) })
                 .SetOperand(Profession.Brute.Value);
         }
         catch (Exception ex)

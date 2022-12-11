@@ -21,32 +21,32 @@ internal static class Textures
     internal const int ProgressionVerticalOffset = -70;
 
     internal static Texture2D MaxIconTx { get; } =
-        ModEntry.ModHelper.GameContent.Load<Texture2D>($"{ModEntry.Manifest.UniqueID}/MaxIcon");
+        ModHelper.GameContent.Load<Texture2D>($"{Manifest.UniqueID}/MaxIcon");
 
     internal static Texture2D SkillBarsTx { get; private set; } =
-        ModEntry.ModHelper.GameContent.Load<Texture2D>($"{ModEntry.Manifest.UniqueID}/SkillBars");
+        ModHelper.GameContent.Load<Texture2D>($"{Manifest.UniqueID}/SkillBars");
 
     internal static Texture2D UltimateMeterTx { get; private set; } =
-        ModEntry.ModHelper.GameContent.Load<Texture2D>($"{ModEntry.Manifest.UniqueID}/UltimateMeter");
+        ModHelper.GameContent.Load<Texture2D>($"{Manifest.UniqueID}/UltimateMeter");
 
     internal static Texture2D PrestigeSheetTx { get; private set; } =
-        ModEntry.ModHelper.ModContent.Load<Texture2D>($"assets/sprites/{ModEntry.Config.Professions.PrestigeProgressionStyle}.png");
+        ModHelper.ModContent.Load<Texture2D>($"assets/sprites/{ProfessionsModule.Config.PrestigeProgressionStyle}.png");
 
     internal static void Refresh(IReadOnlySet<IAssetName> names)
     {
-        if (names.Any(name => name.IsEquivalentTo($"{ModEntry.Manifest.UniqueID}/SkillBars")))
+        if (names.Any(name => name.IsEquivalentTo($"{Manifest.UniqueID}/SkillBars")))
         {
-            SkillBarsTx = ModEntry.ModHelper.GameContent.Load<Texture2D>($"{ModEntry.Manifest.UniqueID}/SkillBars");
+            SkillBarsTx = ModHelper.GameContent.Load<Texture2D>($"{Manifest.UniqueID}/SkillBars");
         }
 
-        if (names.Any(name => name.IsEquivalentTo($"{ModEntry.Manifest.UniqueID}/UltimateMeter")))
+        if (names.Any(name => name.IsEquivalentTo($"{Manifest.UniqueID}/UltimateMeter")))
         {
-            UltimateMeterTx = ModEntry.ModHelper.GameContent.Load<Texture2D>($"{ModEntry.Manifest.UniqueID}/UltimateMeter");
+            UltimateMeterTx = ModHelper.GameContent.Load<Texture2D>($"{Manifest.UniqueID}/UltimateMeter");
         }
 
-        if (names.Any(name => name.IsEquivalentTo($"{ModEntry.Manifest.UniqueID}/PrestigeProgression")))
+        if (names.Any(name => name.IsEquivalentTo($"{Manifest.UniqueID}/PrestigeProgression")))
         {
-            PrestigeSheetTx = ModEntry.ModHelper.GameContent.Load<Texture2D>($"{ModEntry.Manifest.UniqueID}/PrestigeProgression");
+            PrestigeSheetTx = ModHelper.GameContent.Load<Texture2D>($"{Manifest.UniqueID}/PrestigeProgression");
         }
     }
 }

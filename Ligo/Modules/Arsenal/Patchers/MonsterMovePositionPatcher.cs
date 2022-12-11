@@ -39,13 +39,21 @@ internal class MonsterMovePositionPatcher : HarmonyPatcher
         try
         {
             helper
-                .FindFirst(
-                    new CodeInstruction(OpCodes.Ldc_I4_1),
-                    new CodeInstruction(OpCodes.Stloc_S, helper.Locals[6]))
-                .Advance(2)
-                .InsertInstructions(
-                    new CodeInstruction(OpCodes.Ldarg_0),
-                    new CodeInstruction(OpCodes.Call, typeof(MonsterMovePositionPatcher).RequireMethod(nameof(CollisionDetectedSubroutine))));
+                .Match(
+                    new[]
+                    {
+                        new CodeInstruction(OpCodes.Ldc_I4_1),
+                        new CodeInstruction(OpCodes.Stloc_S, helper.Locals[6]),
+                    })
+                .Move(2)
+                .Insert(
+                    new[]
+                    {
+                        new CodeInstruction(OpCodes.Ldarg_0),
+                        new CodeInstruction(
+                            OpCodes.Call,
+                            typeof(MonsterMovePositionPatcher).RequireMethod(nameof(CollisionDetectedSubroutine))),
+                    });
         }
         catch (Exception ex)
         {

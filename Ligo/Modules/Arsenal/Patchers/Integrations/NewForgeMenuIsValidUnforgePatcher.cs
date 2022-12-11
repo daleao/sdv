@@ -32,7 +32,7 @@ internal sealed class NewForgeMenuIsValidUnforgePatcher : HarmonyPatcher
             return;
         }
 
-        var item = ModEntry.Reflector
+        var item = Reflector
             .GetUnboundFieldGetter<IClickableMenu, ClickableTextureComponent>(__instance, "leftIngredientSpot")
             .Invoke(__instance).item;
         __result = item is MeleeWeapon { InitialParentTileIndex: Constants.HolyBladeIndex } ||

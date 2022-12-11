@@ -47,16 +47,15 @@ internal sealed class SetRegisteredUltimateCommand : ConsoleCommand
             return;
         }
 
-        Profession? profession = null;
         if (!Ultimate.TryFromName(args[0], true, out var ultimate) &&
-            (!Profession.TryFromLocalizedName(args[0], true, out profession) ||
-             !Ultimate.TryFromValue(profession, out ultimate)))
+            !(Profession.TryFromLocalizedName(args[0], true, out var profession) &&
+             Ultimate.TryFromValue(profession, out ultimate)))
         {
             Log.W("You must enter a valid 2nd-tier combat profession or special ability name.");
             return;
         }
 
-        if (!Game1.player.HasProfession(profession ?? Profession.FromValue(ultimate)))
+        if (!Game1.player.HasProfession(ultimate.Profession))
         {
             Log.W("You don't have this profession.");
             return;

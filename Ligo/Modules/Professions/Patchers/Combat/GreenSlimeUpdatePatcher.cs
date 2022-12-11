@@ -50,7 +50,7 @@ internal sealed class GreenSlimeUpdatePatcher : HarmonyPatcher
             if ((monster is Bug bug && bug.isArmoredBug.Value) // skip Armored Bugs
                 || (monster is LavaCrab && __instance.Sprite.currentFrame % 4 == 0) // skip shelled Lava Crabs
                 || (monster is RockCrab crab && crab.Sprite.currentFrame % 4 == 0 &&
-                    !ModEntry.Reflector
+                    !Reflector
                         .GetUnboundFieldGetter<RockCrab, NetBool>(crab, "shellGone")
                         .Invoke(crab).Value) // skip shelled Rock Crabs
                 || (monster is LavaLurk lurk &&
@@ -64,7 +64,7 @@ internal sealed class GreenSlimeUpdatePatcher : HarmonyPatcher
             var randomizedDamage = __instance.DamageToFarmer +
                                    Game1.random.Next(-__instance.DamageToFarmer / 4, __instance.DamageToFarmer / 4);
             var damageToMonster = (int)Math.Max(1, randomizedDamage * __instance.Scale) - monster.resilience.Value;
-            (float xTrajectory, float yTrajectory) = monster.Slipperiness < 0
+            var (xTrajectory, yTrajectory) = monster.Slipperiness < 0
                 ? Vector2.Zero
                 : Utility.getAwayFromPositionTrajectory(monsterBox, __instance.getStandingPosition()) / 2f;
             monster.takeDamage(damageToMonster, (int)xTrajectory, (int)yTrajectory, false, 1d, "slime");
@@ -79,7 +79,7 @@ internal sealed class GreenSlimeUpdatePatcher : HarmonyPatcher
             monster.setInvincibleCountdown(piper.Get_Ultimate() is Concerto { IsActive: true } ? 300 : 450);
 
             // aggro monsters
-            if (monster.Get_Taunter().Get(monster.currentLocation) is null)
+            if (monster.Get_Taunter() is null)
             {
                 monster.Set_Taunter(__instance);
             }

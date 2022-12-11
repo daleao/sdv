@@ -48,32 +48,37 @@ internal sealed class GameLocationDamageMonsterPatcher : HarmonyPatcher
         {
             var resumeExecution = generator.DefineLabel();
             helper
-                .FindFirst(
-                    new CodeInstruction(OpCodes.Callvirt, typeof(NPC).RequirePropertyGetter(nameof(NPC.IsInvisible))))
-                .Advance()
+                .Match(
+                    new[]
+                    {
+                        new CodeInstruction(
+                            OpCodes.Callvirt,
+                            typeof(NPC).RequirePropertyGetter(nameof(NPC.IsInvisible))),
+                    })
+                .Move()
                 .GetOperand(out var skip)
-                .ReplaceInstructionWith(new CodeInstruction(OpCodes.Brfalse_S, resumeExecution))
-                .Advance()
+                .ReplaceWith(new CodeInstruction(OpCodes.Brfalse_S, resumeExecution))
+                .Move()
                 .AddLabels(resumeExecution)
-                .InsertInstructions(
-                    new CodeInstruction(OpCodes.Ldarg_S, (byte)10), // arg 10 = Farmer who
-                    new CodeInstruction(OpCodes.Brfalse_S, skip),
-                    new CodeInstruction(OpCodes.Ldarg_S, (byte)10),
-                    new CodeInstruction(
-                        OpCodes.Callvirt,
-                        typeof(Farmer).RequirePropertyGetter(nameof(Farmer.CurrentTool))),
-                    new CodeInstruction(OpCodes.Isinst, typeof(MeleeWeapon)),
-                    new CodeInstruction(OpCodes.Brfalse_S, skip),
-                    new CodeInstruction(OpCodes.Ldarg_S, (byte)10),
-                    new CodeInstruction(
-                        OpCodes.Callvirt,
-                        typeof(Farmer).RequirePropertyGetter(nameof(Farmer.CurrentTool))),
-                    new CodeInstruction(OpCodes.Isinst, typeof(MeleeWeapon)),
-                    new CodeInstruction(OpCodes.Ldloc_2),
-                    new CodeInstruction(
-                        OpCodes.Call,
-                        typeof(GameLocationDamageMonsterPatcher).RequireMethod(nameof(IsClubSmashHittingDuggy))),
-                    new CodeInstruction(OpCodes.Brfalse, skip));
+                .Insert(
+                    new[]
+                    {
+                        new CodeInstruction(OpCodes.Ldarg_S, (byte)10), // arg 10 = Farmer who
+                        new CodeInstruction(OpCodes.Brfalse_S, skip), new CodeInstruction(OpCodes.Ldarg_S, (byte)10),
+                        new CodeInstruction(
+                            OpCodes.Callvirt,
+                            typeof(Farmer).RequirePropertyGetter(nameof(Farmer.CurrentTool))),
+                        new CodeInstruction(OpCodes.Isinst, typeof(MeleeWeapon)),
+                        new CodeInstruction(OpCodes.Brfalse_S, skip), new CodeInstruction(OpCodes.Ldarg_S, (byte)10),
+                        new CodeInstruction(
+                            OpCodes.Callvirt,
+                            typeof(Farmer).RequirePropertyGetter(nameof(Farmer.CurrentTool))),
+                        new CodeInstruction(OpCodes.Isinst, typeof(MeleeWeapon)), new CodeInstruction(OpCodes.Ldloc_2),
+                        new CodeInstruction(
+                            OpCodes.Call,
+                            typeof(GameLocationDamageMonsterPatcher).RequireMethod(nameof(IsClubSmashHittingDuggy))),
+                        new CodeInstruction(OpCodes.Brfalse, skip),
+                    });
         }
         catch (Exception ex)
         {
@@ -88,29 +93,30 @@ internal sealed class GameLocationDamageMonsterPatcher : HarmonyPatcher
         {
             var doCrit = generator.DefineLabel();
             helper
-                .FindNext(new CodeInstruction(OpCodes.Ldstr, "crit"))
-                .RetreatUntil(new CodeInstruction(OpCodes.Bge_Un_S))
+                .Match(new[] { new CodeInstruction(OpCodes.Ldstr, "crit") })
+                .Match(new[] { new CodeInstruction(OpCodes.Bge_Un_S) }, ILHelper.SearchOption.Previous)
                 .GetOperand(out var notCrit)
-                .ReplaceInstructionWith(new CodeInstruction(OpCodes.Blt_Un_S, doCrit))
-                .Advance()
+                .ReplaceWith(new CodeInstruction(OpCodes.Blt_Un_S, doCrit))
+                .Move()
                 .AddLabels(doCrit)
-                .InsertInstructions(
-                    new CodeInstruction(OpCodes.Ldarg_S, (byte)10), // arg 10 = Farmer who
-                    new CodeInstruction(
-                        OpCodes.Callvirt,
-                        typeof(Farmer).RequirePropertyGetter(nameof(Farmer.CurrentTool))),
-                    new CodeInstruction(OpCodes.Isinst, typeof(MeleeWeapon)),
-                    new CodeInstruction(OpCodes.Brfalse_S, notCrit),
-                    new CodeInstruction(OpCodes.Ldarg_S, (byte)10),
-                    new CodeInstruction(
-                        OpCodes.Callvirt,
-                        typeof(Farmer).RequirePropertyGetter(nameof(Farmer.CurrentTool))),
-                    new CodeInstruction(OpCodes.Isinst, typeof(MeleeWeapon)),
-                    new CodeInstruction(OpCodes.Ldloc_2),
-                    new CodeInstruction(
-                        OpCodes.Call,
-                        typeof(GameLocationDamageMonsterPatcher).RequireMethod(nameof(IsClubSmashHittingDuggy))),
-                    new CodeInstruction(OpCodes.Brfalse_S, notCrit));
+                .Insert(
+                    new[]
+                    {
+                        new CodeInstruction(OpCodes.Ldarg_S, (byte)10), // arg 10 = Farmer who
+                        new CodeInstruction(
+                            OpCodes.Callvirt,
+                            typeof(Farmer).RequirePropertyGetter(nameof(Farmer.CurrentTool))),
+                        new CodeInstruction(OpCodes.Isinst, typeof(MeleeWeapon)),
+                        new CodeInstruction(OpCodes.Brfalse_S, notCrit), new CodeInstruction(OpCodes.Ldarg_S, (byte)10),
+                        new CodeInstruction(
+                            OpCodes.Callvirt,
+                            typeof(Farmer).RequirePropertyGetter(nameof(Farmer.CurrentTool))),
+                        new CodeInstruction(OpCodes.Isinst, typeof(MeleeWeapon)), new CodeInstruction(OpCodes.Ldloc_2),
+                        new CodeInstruction(
+                            OpCodes.Call,
+                            typeof(GameLocationDamageMonsterPatcher).RequireMethod(nameof(IsClubSmashHittingDuggy))),
+                        new CodeInstruction(OpCodes.Brfalse_S, notCrit),
+                    });
         }
         catch (Exception ex)
         {
@@ -123,18 +129,23 @@ internal sealed class GameLocationDamageMonsterPatcher : HarmonyPatcher
         try
         {
             helper
-                .FindFirst(
-                    new CodeInstruction(OpCodes.Ldloc_S, helper.Locals[8]),
-                    new CodeInstruction(OpCodes.Ldc_I4_0),
-                    new CodeInstruction(OpCodes.Ble))
+                .Match(
+                    new[]
+                    {
+                        new CodeInstruction(OpCodes.Ldloc_S, helper.Locals[8]),
+                        new CodeInstruction(OpCodes.Ldc_I4_0), new CodeInstruction(OpCodes.Ble),
+                    },
+                    ILHelper.SearchOption.First)
                 .StripLabels(out var labels)
-                .InsertWithLabels(
-                    labels,
-                    new CodeInstruction(OpCodes.Ldloc_2),
-                    new CodeInstruction(OpCodes.Ldarg_S, (byte)10),
-                    new CodeInstruction(
-                        OpCodes.Call,
-                        typeof(GameLocationDamageMonsterPatcher).RequireMethod(nameof(DoSlingshotSpecial))));
+                .Insert(
+                    new[]
+                    {
+                        new CodeInstruction(OpCodes.Ldloc_2), new CodeInstruction(OpCodes.Ldarg_S, (byte)10),
+                        new CodeInstruction(
+                            OpCodes.Call,
+                            typeof(GameLocationDamageMonsterPatcher).RequireMethod(nameof(DoSlingshotSpecial))),
+                    },
+                    labels);
         }
         catch (Exception ex)
         {
@@ -147,18 +158,24 @@ internal sealed class GameLocationDamageMonsterPatcher : HarmonyPatcher
         try
         {
             helper
-                .FindFirst(
-                    new CodeInstruction(OpCodes.Ldloc_S, helper.Locals[6]),
-                    new CodeInstruction(OpCodes.Ldarg_S, (byte)5),
-                    new CodeInstruction(OpCodes.Call),
-                    new CodeInstruction(OpCodes.Stloc_S, helper.Locals[6]))
-                .Advance(4)
-                .InsertInstructions(
-                    new CodeInstruction(OpCodes.Ldloc_2),
-                    new CodeInstruction(OpCodes.Ldc_I4_1),
-                    new CodeInstruction(
-                        OpCodes.Call,
-                        typeof(Monster_WasKnockedBack).RequireMethod(nameof(Monster_WasKnockedBack.Set_WasKnockedBack))));
+                .Match(
+                    new[]
+                    {
+                        new CodeInstruction(OpCodes.Ldloc_S, helper.Locals[6]),
+                        new CodeInstruction(OpCodes.Ldarg_S, (byte)5), new CodeInstruction(OpCodes.Call),
+                        new CodeInstruction(OpCodes.Stloc_S, helper.Locals[6]),
+                    },
+                    ILHelper.SearchOption.First)
+                .Move(4)
+                .Insert(
+                    new[]
+                    {
+                        new CodeInstruction(OpCodes.Ldloc_2), new CodeInstruction(OpCodes.Ldc_I4_1),
+                        new CodeInstruction(
+                            OpCodes.Call,
+                            typeof(Monster_WasKnockedBack).RequireMethod(nameof(Monster_WasKnockedBack
+                                .Set_WasKnockedBack))),
+                    });
         }
         catch (Exception ex)
         {
@@ -171,14 +188,16 @@ internal sealed class GameLocationDamageMonsterPatcher : HarmonyPatcher
         try
         {
             helper
-                .FindNext(new CodeInstruction(OpCodes.Ldstr, "crit"))
-                .Advance(3)
-                .InsertInstructions(
-                    new CodeInstruction(OpCodes.Ldloc_2),
-                    new CodeInstruction(OpCodes.Ldc_I4_1),
-                    new CodeInstruction(
-                        OpCodes.Call,
-                        typeof(Monster_GotCrit).RequireMethod(nameof(Monster_GotCrit.Set_GotCrit))));
+                .Match(new[] { new CodeInstruction(OpCodes.Ldstr, "crit") })
+                .Move(3)
+                .Insert(
+                    new[]
+                    {
+                        new CodeInstruction(OpCodes.Ldloc_2), new CodeInstruction(OpCodes.Ldc_I4_1),
+                        new CodeInstruction(
+                            OpCodes.Call,
+                            typeof(Monster_GotCrit).RequireMethod(nameof(Monster_GotCrit.Set_GotCrit))),
+                    });
         }
         catch (Exception ex)
         {
@@ -195,7 +214,7 @@ internal sealed class GameLocationDamageMonsterPatcher : HarmonyPatcher
 
     private static bool IsClubSmashHittingDuggy(MeleeWeapon weapon, Monster monster)
     {
-        return ModEntry.Config.Arsenal.Weapons.GroundedClubSmash && weapon.IsClub() &&
+        return ArsenalModule.Config.Weapons.GroundedClubSmash && weapon.IsClub() &&
                weapon.isOnSpecial && monster is Duggy;
     }
 

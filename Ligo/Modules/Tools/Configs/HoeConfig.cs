@@ -13,13 +13,13 @@ public sealed class HoeConfig
     /// <summary>Gets the area of affected tiles at each power level for the Hoe, in units lengths x units radius.</summary>
     /// <remarks>Note that radius extends to both sides of the farmer.</remarks>
     [JsonProperty]
-    public int[][] AffectedTiles { get; internal set; } =
+    public uint[][] AffectedTiles { get; internal set; } =
     {
-        new[] { 3, 0 },
-        new[] { 5, 0 },
-        new[] { 3, 1 },
-        new[] { 6, 1 },
-        new[] { 5, 2 },
+        new uint[] { 3, 0 },
+        new uint[] { 5, 0 },
+        new uint[] { 3, 1 },
+        new uint[] { 6, 1 },
+        new uint[] { 5, 2 },
     };
 
     /// <summary>

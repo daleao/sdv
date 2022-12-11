@@ -23,7 +23,7 @@ internal sealed class AmethystEnchantmentApplyToPatcher : HarmonyPatcher
     [HarmonyPrefix]
     private static bool AmethystEnchantmentApplyToPrefix(AmethystEnchantment __instance, Item item)
     {
-        if (item is not MeleeWeapon weapon || !ModEntry.Config.Arsenal.RebalancedForges)
+        if (item is not MeleeWeapon weapon || !ArsenalModule.Config.RebalancedForges)
         {
             return true; // run original logic
         }

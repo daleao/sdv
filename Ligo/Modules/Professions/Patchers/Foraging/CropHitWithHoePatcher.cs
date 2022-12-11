@@ -1,4 +1,4 @@
-namespace DaLion.Ligo.Modules.Professions.Patchers.Foraging;
+﻿namespace DaLion.Ligo.Modules.Professions.Patchers.Foraging;
 
 #region using directives
 
@@ -36,20 +36,22 @@ internal sealed class CropHitWithHoePatcher : HarmonyPatcher
         {
             var resumeExecution = generator.DefineLabel();
             helper
-                .FindFirst(new CodeInstruction(OpCodes.Stloc_0))
-                .Advance()
+                .Match(new[] { new CodeInstruction(OpCodes.Stloc_0) })
+                .Move()
                 .AddLabels(resumeExecution)
                 .InsertProfessionCheck(Profession.Ecologist)
-                .InsertInstructions(
-                    new CodeInstruction(OpCodes.Brfalse_S, resumeExecution),
-                    new CodeInstruction(OpCodes.Ldloc_0),
-                    new CodeInstruction(OpCodes.Call, typeof(Game1).RequirePropertyGetter(nameof(Game1.player))),
-                    new CodeInstruction(
-                        OpCodes.Call,
-                        typeof(FarmerExtensions).RequireMethod(nameof(FarmerExtensions.GetEcologistForageQuality))),
-                    new CodeInstruction(
-                        OpCodes.Callvirt,
-                        typeof(SObject).RequirePropertySetter(nameof(SObject.Quality))));
+                .Insert(
+                    new[]
+                    {
+                        new CodeInstruction(OpCodes.Brfalse_S, resumeExecution), new CodeInstruction(OpCodes.Ldloc_0),
+                        new CodeInstruction(OpCodes.Call, typeof(Game1).RequirePropertyGetter(nameof(Game1.player))),
+                        new CodeInstruction(
+                            OpCodes.Call,
+                            typeof(FarmerExtensions).RequireMethod(nameof(FarmerExtensions.GetEcologistForageQuality))),
+                        new CodeInstruction(
+                            OpCodes.Callvirt,
+                            typeof(SObject).RequirePropertySetter(nameof(SObject.Quality))),
+                    });
         }
         catch (Exception ex)
         {

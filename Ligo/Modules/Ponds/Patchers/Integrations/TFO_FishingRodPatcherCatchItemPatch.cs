@@ -43,7 +43,7 @@ internal sealed class FishingRodPatcherCatchItemPatcher : HarmonyPatcher
                 return;
             }
 
-            var fromFishPond = ModEntry.Reflector
+            var fromFishPond = Reflector
                 .GetUnboundPropertyGetter<object, bool>(info, "FromFishPond")
                 .Invoke(info);
             if (!fromFishPond)
@@ -51,10 +51,10 @@ internal sealed class FishingRodPatcherCatchItemPatcher : HarmonyPatcher
                 return;
             }
 
-            var fishingInfo = ModEntry.Reflector
+            var fishingInfo = Reflector
                 .GetUnboundPropertyGetter<object, object>(info, "FishingInfo")
                 .Invoke(info);
-            var (x, y) = ModEntry.Reflector
+            var (x, y) = Reflector
                 .GetUnboundPropertyGetter<object, Vector2>(fishingInfo, "BobberPosition")
                 .Invoke(fishingInfo);
             pond = Game1.getFarm().buildings
@@ -77,9 +77,9 @@ internal sealed class FishingRodPatcherCatchItemPatcher : HarmonyPatcher
             }
 
             var lowestFish = fishQualities.FindIndex(i => i > 0);
-            var setFishItem = ModEntry.Reflector
+            var setFishItem = Reflector
                 .GetUnboundPropertySetter<object, object>(info, "FishItem");
-            var setFishQuality = ModEntry.Reflector
+            var setFishQuality = Reflector
                 .GetUnboundPropertySetter<object, object>(info, "FishQuality");
             if (pond.HasLegendaryFish())
             {

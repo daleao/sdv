@@ -43,37 +43,44 @@ internal sealed class InseminationSyringeOverridesDoFunctionPatcher : HarmonyPat
             var isNotPrestiged = generator.DefineLabel();
             var resumeDivision = generator.DefineLabel();
             helper
-                .FindFirst(
-                    new CodeInstruction(OpCodes.Ldloc_1),
-                    new CodeInstruction(OpCodes.Ldloc_S, daysUntilBirth),
-                    new CodeInstruction(OpCodes.Call))
+                .Match(
+                    new[]
+                    {
+                        new CodeInstruction(OpCodes.Ldloc_1), new CodeInstruction(OpCodes.Ldloc_S, daysUntilBirth),
+                        new CodeInstruction(OpCodes.Call),
+                    })
                 .StripLabels(out var labels)
                 .AddLabels(isNotBreeder)
-                .InsertWithLabels(
-                    labels,
-                    new CodeInstruction(OpCodes.Ldarg_S, (byte)5)) // arg 5 = Farmer who
+                .Insert(
+                    new[] { new CodeInstruction(OpCodes.Ldarg_S, (byte)5) }, // arg 5 = Farmer who
+                    labels)
                 .InsertProfessionCheck(Profession.Breeder.Value, forLocalPlayer: false)
-                .InsertInstructions(
-                    new CodeInstruction(OpCodes.Brfalse_S, isNotBreeder),
-                    new CodeInstruction(OpCodes.Ldloc_S, daysUntilBirth),
-                    new CodeInstruction(OpCodes.Conv_R8),
-                    new CodeInstruction(OpCodes.Ldarg_S, (byte)5))
+                .Insert(
+                    new[]
+                    {
+                        new CodeInstruction(OpCodes.Brfalse_S, isNotBreeder),
+                        new CodeInstruction(OpCodes.Ldloc_S, daysUntilBirth), new CodeInstruction(OpCodes.Conv_R8),
+                        new CodeInstruction(OpCodes.Ldarg_S, (byte)5),
+                    })
                 .InsertProfessionCheck(Profession.Breeder.Value + 100, forLocalPlayer: false)
-                .InsertInstructions(
-                    new CodeInstruction(OpCodes.Brfalse_S, isNotPrestiged),
-                    new CodeInstruction(OpCodes.Ldc_R8, 3.0),
-                    new CodeInstruction(OpCodes.Br_S, resumeDivision))
-                .InsertWithLabels(
-                    new[] { isNotPrestiged },
-                    new CodeInstruction(OpCodes.Ldc_R8, 2.0))
-                .InsertWithLabels(
-                    new[] { resumeDivision },
-                    new CodeInstruction(OpCodes.Div),
-                    new CodeInstruction(
-                        OpCodes.Call,
-                        typeof(Math).RequireMethod(nameof(Math.Round), new[] { typeof(double) })),
-                    new CodeInstruction(OpCodes.Conv_I4),
-                    new CodeInstruction(OpCodes.Stloc_S, daysUntilBirth));
+                .Insert(
+                    new[]
+                    {
+                        new CodeInstruction(OpCodes.Brfalse_S, isNotPrestiged),
+                        new CodeInstruction(OpCodes.Ldc_R8, 3.0), new CodeInstruction(OpCodes.Br_S, resumeDivision),
+                    })
+                .Insert(
+                    new[] { new CodeInstruction(OpCodes.Ldc_R8, 2.0) },
+                    new[] { isNotPrestiged })
+                .Insert(
+                    new[]
+                    {
+                        new CodeInstruction(OpCodes.Div), new CodeInstruction(
+                            OpCodes.Call,
+                            typeof(Math).RequireMethod(nameof(Math.Round), new[] { typeof(double) })),
+                        new CodeInstruction(OpCodes.Conv_I4), new CodeInstruction(OpCodes.Stloc_S, daysUntilBirth),
+                    },
+                    new[] { resumeDivision });
         }
         catch (Exception ex)
         {

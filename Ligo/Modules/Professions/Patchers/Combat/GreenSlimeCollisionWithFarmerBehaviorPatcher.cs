@@ -43,7 +43,7 @@ internal sealed class GreenSlimeCollisionWithFarmerBehaviorPatcher : HarmonyPatc
 
         concerto.ChargeValue += Game1.random.Next(1, 4);
         concerto.SlimeContactTimer = FarmerInvincibilityFrames;
-        ModEntry.Events.Enable<PiperUpdateTickedEvent>();
+        EventManager.Enable<PiperUpdateTickedEvent>();
     }
 
     #endregion harmony patches

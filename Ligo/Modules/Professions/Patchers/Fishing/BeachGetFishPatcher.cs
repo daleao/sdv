@@ -36,19 +36,19 @@ internal sealed class BeachGetFishPatcher : HarmonyPatcher
         {
             var checkSeason = generator.DefineLabel();
             helper
-                .FindFirst(new CodeInstruction(OpCodes.Ldc_I4, Constants.CrimsonfishIndex))
-                .AdvanceUntil(new CodeInstruction(OpCodes.Brtrue_S))
+                .Match(new[] { new CodeInstruction(OpCodes.Ldc_I4, Constants.CrimsonfishIndex) })
+                .Match(new[] { new CodeInstruction(OpCodes.Brtrue_S) })
                 .GetOperand(out var skipLegendary)
-                .ReplaceInstructionWith(new CodeInstruction(OpCodes.Brfalse_S, checkSeason))
-                .Advance()
+                .ReplaceWith(new CodeInstruction(OpCodes.Brfalse_S, checkSeason))
+                .Move()
                 .AddLabels(checkSeason)
-                .InsertInstructions(new CodeInstruction(OpCodes.Ldarg_S, (byte)4)) // arg 4 = Farmer who
+                .Insert(new[] { new CodeInstruction(OpCodes.Ldarg_S, (byte)4) }) // arg 4 = Farmer who
                 .InsertProfessionCheck(Profession.Angler.Value + 100, forLocalPlayer: false)
-                .InsertInstructions(new CodeInstruction(OpCodes.Brfalse_S, skipLegendary));
+                .Insert(new[] { new CodeInstruction(OpCodes.Brfalse_S, skipLegendary) });
         }
         catch (Exception ex)
         {
-            Log.E($"Failed adding prestiged Angler legendary fish recatch.\nHelper returned {ex}");
+            Log.E($"Failed adding prestiged Crimsonfish legendary fish recatch.\nHelper returned {ex}");
             return null;
         }
 

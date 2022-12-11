@@ -31,20 +31,20 @@ internal class RingAssetRequestedEvent : AssetRequestedEvent
         var data = asset.AsDictionary<string, string>().Data;
 
         string[] fields;
-        if (ModEntry.Config.Rings.ImmersiveGlowstoneRecipe)
+        if (RingsModule.Config.ImmersiveGlowstoneRecipe)
         {
             fields = data["Glowstone Ring"].Split('/');
             fields[0] = "517 1 519 1 768 20 769 20";
             data["Glowstone Ring"] = string.Join('/', fields);
         }
 
-        if (ModEntry.Config.Rings.CraftableGlowAndMagnetRings)
+        if (RingsModule.Config.CraftableGlowAndMagnetRings)
         {
             data["Glow Ring"] = "516 2 768 10/Home/517/Ring/Mining 2";
             data["Magnet Ring"] = "518 2 769 10/Home/519/Ring/Mining 2";
         }
 
-        if (ModEntry.Config.Rings.CraftableGemRings)
+        if (RingsModule.Config.CraftableGemRings)
         {
             data["Emerald Ring"] = "60 1 336 5/Home/533/Ring/Combat 6";
             data["Aquamarine Ring"] = "62 1 335 5/Home/531/Ring/Combat 4";
@@ -54,7 +54,7 @@ internal class RingAssetRequestedEvent : AssetRequestedEvent
             data["Jade Ring"] = "70 1 335 5/Home/532/Ring/Combat 4";
         }
 
-        if (ModEntry.Config.Rings.TheOneInfinityBand)
+        if (RingsModule.Config.TheOneInfinityBand)
         {
             fields = data["Iridium Band"].Split('/');
             fields[0] = "337 5 768 100 769 100";
@@ -68,23 +68,23 @@ internal class RingAssetRequestedEvent : AssetRequestedEvent
         var data = asset.AsDictionary<int, string>().Data;
         string[] fields;
 
-        if (ModEntry.Config.Rings.RebalancedRings)
+        if (RingsModule.Config.RebalancedRings)
         {
             fields = data[Constants.TopazRingIndex].Split('/');
-            fields[5] = ModEntry.Config.EnableArsenal && ModEntry.Config.Arsenal.OverhauledDefense
-                ? ModEntry.i18n.Get("rings.topaz.description.resist")
-                : ModEntry.i18n.Get("rings.topaz.description.defense");
+            fields[5] = Config.EnableArsenal && ArsenalModule.Config.OverhauledDefense
+                ? i18n.Get("rings.topaz.description.resist")
+                : i18n.Get("rings.topaz.description.defense");
             data[Constants.TopazRingIndex] = string.Join('/', fields);
 
             fields = data[Constants.JadeRingIndex].Split('/');
-            fields[5] = ModEntry.i18n.Get("rings.jade.description");
+            fields[5] = i18n.Get("rings.jade.description");
             data[Constants.JadeRingIndex] = string.Join('/', fields);
         }
 
-        if (ModEntry.Config.Rings.TheOneInfinityBand)
+        if (RingsModule.Config.TheOneInfinityBand)
         {
             fields = data[Constants.IridiumBandIndex].Split('/');
-            fields[5] = ModEntry.i18n.Get("rings.iridium.description");
+            fields[5] = i18n.Get("rings.iridium.description");
             data[Constants.IridiumBandIndex] = string.Join('/', fields);
         }
     }
@@ -93,21 +93,21 @@ internal class RingAssetRequestedEvent : AssetRequestedEvent
     private static void EditSpringObjectsMaps(IAssetData asset)
     {
         var editor = asset.AsImage();
-        Rectangle srcArea, targetArea;
+        Rectangle sourceArea, targetArea;
 
         var sourceY = Ligo.Integrations.UsingVanillaTweaksRings ? 32 : Ligo.Integrations.UsingBetterRings ? 16 : 0;
-        if (ModEntry.Config.Rings.CraftableGemRings)
+        if (RingsModule.Config.CraftableGemRings)
         {
-            srcArea = new Rectangle(16, sourceY, 96, 16);
+            sourceArea = new Rectangle(16, sourceY, 96, 16);
             targetArea = new Rectangle(16, 352, 96, 16);
-            editor.PatchImage(Textures.RingsTx, srcArea, targetArea);
+            editor.PatchImage(Textures.RingsTx, sourceArea, targetArea);
         }
 
-        if (ModEntry.Config.Rings.TheOneInfinityBand)
+        if (RingsModule.Config.TheOneInfinityBand)
         {
-            srcArea = new Rectangle(0, sourceY, 16, 16);
+            sourceArea = new Rectangle(0, sourceY, 16, 16);
             targetArea = new Rectangle(368, 336, 16, 16);
-            editor.PatchImage(Textures.RingsTx, srcArea, targetArea);
+            editor.PatchImage(Textures.RingsTx, sourceArea, targetArea);
         }
     }
 

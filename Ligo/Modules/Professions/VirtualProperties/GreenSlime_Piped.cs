@@ -34,7 +34,7 @@ internal static class GreenSlime_Piped
     {
         var holder = Values.GetOrCreateValue(slime);
         holder.Piper = piper;
-        holder.PipeTimer.Value = (int)(30000 / ModEntry.Config.Professions.SpecialDrainFactor);
+        holder.PipeTimer.Value = (int)(30000 / ProfessionsModule.Config.SpecialDrainFactor);
         holder.OriginalHealth = slime.MaxHealth;
         holder.OriginalScale = slime.Scale;
         holder.OriginalRange = slime.moveTowardPlayerThreshold.Value;

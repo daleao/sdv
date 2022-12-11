@@ -3,62 +3,59 @@
 #region using directives
 
 using Ardalis.SmartEnum;
+using DaLion.Ligo.Modules.Arsenal;
+using DaLion.Ligo.Modules.Ponds;
+using DaLion.Ligo.Modules.Professions;
+using DaLion.Ligo.Modules.Rings;
+using DaLion.Ligo.Modules.Taxes;
+using DaLion.Ligo.Modules.Tools;
+using DaLion.Ligo.Modules.Tweex;
 using DaLion.Shared.Commands;
 using DaLion.Shared.Harmony;
 
 #endregion using directives
 
 /// <summary>The individual modules within the Ligo mod.</summary>
-internal sealed class LigoModule : SmartEnum<LigoModule>
+internal abstract class LigoModule : SmartEnum<LigoModule>
 {
     #region enum entries
 
-    /// <summary>Gets the namespace ID of the Core module.</summary>
-    public static readonly LigoModule Core = new("Core", 0);
+    /// <summary>The Core module.</summary>
+    public static readonly LigoModule Core = new CoreModule();
 
-    /// <summary>Gets the namespace ID of the Professions module.</summary>
-    public static readonly LigoModule Professions = new("Professions", 1);
+    /// <summary>The Professions module.</summary>
+    public static readonly LigoModule Professions = new ProfessionsModule();
 
-    /// <summary>Gets the namespace ID of the Arsenal module.</summary>
-    public static readonly LigoModule Arsenal = new("Arsenal", 2);
+    /// <summary>The Arsenal module.</summary>
+    public static readonly LigoModule Arsenal = new ArsenalModule();
 
-    /// <summary>Gets the namespace ID of the Rings module.</summary>
-    public static readonly LigoModule Rings = new("Rings", 3);
+    /// <summary>The Rings module.</summary>
+    public static readonly LigoModule Rings = new RingsModule();
 
-    /// <summary>Gets the namespace ID of the Ponds module.</summary>
-    public static readonly LigoModule Ponds = new("Ponds", 4);
+    /// <summary>The Ponds module.</summary>
+    public static readonly LigoModule Ponds = new PondsModule();
 
-    /// <summary> Gets the namespace ID of the Taxes module.</summary>
-    public static readonly LigoModule Taxes = new("Taxes", 5);
+    /// <summary>The Taxes module.</summary>
+    public static readonly LigoModule Taxes = new TaxesModule();
 
-    /// <summary>Gets the namespace ID of the Tools module.</summary>
-    public static readonly LigoModule Tools = new("Tools", 6);
+    /// <summary>The Tools module.</summary>
+    public static readonly LigoModule Tools = new ToolsModule();
 
-    /// <summary>Gets the namespace ID of the Tweex module.</summary>
-    public static readonly LigoModule Tweex = new("Tweex", 7);
+    /// <summary>The Tweex module.</summary>
+    public static readonly LigoModule Tweex = new TweexModule();
 
     #endregion enum entries
 
     /// <summary>Initializes a new instance of the <see cref="LigoModule"/> class.</summary>
     /// <param name="name">The module name.</param>
     /// <param name="value">The module index.</param>
-    private LigoModule(string name, int value)
+    /// <param name="entry">The entry keyword for the module's <see cref="IConsoleCommand"/>s.</param>
+    protected LigoModule(string name, int value, string entry)
         : base(name, value)
     {
-        this.DisplayName = "Ligo " + name;
+        this.DisplayName = "Ligo" + name;
         this.Namespace = "DaLion.Ligo.Modules." + name;
-        this.EntryCommand = name switch
-        {
-            "Core" => "ligo",
-            "Professions" => "profs",
-            "Arsenal" => "ars",
-            "Rings" => "rings",
-            "Ponds" => "ponds",
-            "Taxes" => "tax",
-            "Tools" => "tools",
-            "Tweex" => "tweex",
-            _ => ThrowHelper.ThrowArgumentException<string>($"Invalid module {name}."),
-        };
+        this.EntryCommand = entry;
     }
 
     /// <summary>Gets the human-readable name of the module.</summary>
@@ -72,21 +69,117 @@ internal sealed class LigoModule : SmartEnum<LigoModule>
 
     /// <summary>Initializes the module.</summary>
     /// <param name="helper">Provides simplified APIs for writing mods.</param>
-    internal void Initialize(IModHelper helper)
+    internal virtual void Initialize(IModHelper helper)
     {
-        ModEntry.Events.ManageNamespace(this.Namespace);
+        EventManager.ManageNamespace(this.Namespace);
         Harmonizer.ApplyFromNamespace(helper.ModRegistry, this.Namespace);
         CommandHandler.FromNamespace(helper.ConsoleCommands, this.Namespace, this.EntryCommand, this.DisplayName);
+    }
 
-#if DEBUG
-        if (this != Core)
+    #region implementations
+
+    private sealed class CoreModule : LigoModule
+    {
+        /// <summary>Initializes a new instance of the <see cref="LigoModule.CoreModule"/> class.</summary>
+        internal CoreModule()
+            : base("Core", 0, "ligo")
         {
-            return;
         }
 
-        // start FPS counter
-        Globals.FpsCounter = new FrameRateCounter(GameRunner.instance);
-        helper.Reflection.GetMethod(Globals.FpsCounter, "LoadContent").Invoke();
+        internal override void Initialize(IModHelper helper)
+        {
+            base.Initialize(helper);
+#if DEBUG
+            // start FPS counter
+            Globals.FpsCounter = new FrameRateCounter(GameRunner.instance);
+            helper.Reflection.GetMethod(Globals.FpsCounter, "LoadContent").Invoke();
 #endif
+        }
     }
+
+    internal sealed class ProfessionsModule : LigoModule
+    {
+        /// <summary>Initializes a new instance of the <see cref="LigoModule.ProfessionsModule"/> class.</summary>
+        internal ProfessionsModule()
+            : base("Professions", 1, "profs")
+        {
+        }
+
+        /// <summary>Gets the config instance for the <see cref="LigoModule.ProfessionsModule"/>.</summary>
+        internal static ProfessionsConfig Config => ModEntry.Config.Professions;
+    }
+
+    internal sealed class ArsenalModule : LigoModule
+    {
+        /// <summary>Initializes a new instance of the <see cref="LigoModule.ArsenalModule"/> class.</summary>
+        internal ArsenalModule()
+            : base("Arsenal", 2, "ars")
+        {
+        }
+
+        /// <summary>Gets the config instance for the <see cref="LigoModule.ArsenalModule"/>.</summary>
+        internal static ArsenalConfig Config => ModEntry.Config.Arsenal;
+    }
+
+    internal sealed class RingsModule : LigoModule
+    {
+        /// <summary>Initializes a new instance of the <see cref="LigoModule.RingsModule"/> class.</summary>
+        internal RingsModule()
+            : base("Rings", 3, "rings")
+        {
+        }
+
+        /// <summary>Gets the config instance for the <see cref="LigoModule.RingsModule"/>.</summary>
+        internal static RingsConfig Config => ModEntry.Config.Rings;
+    }
+
+    internal sealed class PondsModule : LigoModule
+    {
+        /// <summary>Initializes a new instance of the <see cref="LigoModule.PondsModule"/> class.</summary>
+        internal PondsModule()
+            : base("Ponds", 4, "ponds")
+        {
+        }
+
+        /// <summary>Gets the config instance for the <see cref="LigoModule.PondsModule"/>.</summary>
+        internal static PondsConfig Config => ModEntry.Config.Ponds;
+    }
+
+    internal sealed class TaxesModule : LigoModule
+    {
+        /// <summary>Initializes a new instance of the <see cref="LigoModule.TaxesModule"/> class.</summary>
+        internal TaxesModule()
+            : base("Taxes", 5, "tax")
+        {
+        }
+
+        /// <summary>Gets the config instance for the <see cref="LigoModule.TaxesModule"/>.</summary>
+        internal static TaxesConfig Config => ModEntry.Config.Taxes;
+    }
+
+    internal sealed class ToolsModule : LigoModule
+    {
+        /// <summary>Initializes a new instance of the <see cref="LigoModule.ToolsModule"/> class.</summary>
+        internal ToolsModule()
+            : base("Tools", 6, "tools")
+        {
+        }
+
+        /// <summary>Gets the config instance for the <see cref="LigoModule.ToolsModule"/>.</summary>
+        internal static ToolsConfig Config => ModEntry.Config.Tools;
+    }
+
+    internal sealed class TweexModule : LigoModule
+    {
+        /// <summary>Initializes a new instance of the <see cref="LigoModule.TweexModule"/> class.</summary>
+        internal TweexModule()
+            : base("Tweex", 7, "tweex")
+        {
+        }
+
+        /// <summary>Gets the config instance for the <see cref="LigoModule.TweexModule"/>.</summary>
+        internal static TweexConfig Config => ModEntry.Config.Tweex;
+    }
+
+    #endregion implementations
 }

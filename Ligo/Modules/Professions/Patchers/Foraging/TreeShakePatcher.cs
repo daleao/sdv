@@ -1,4 +1,4 @@
-namespace DaLion.Ligo.Modules.Professions.Patchers.Foraging;
+﻿namespace DaLion.Ligo.Modules.Professions.Patchers.Foraging;
 
 #region using directives
 
@@ -48,23 +48,22 @@ internal sealed class TreeShakePatcher : HarmonyPatcher
 
             helper
                 // the normal coconut
-                .FindFirst(callCreateObjectDebrisInst)
-                .RetreatUntil(new CodeInstruction(OpCodes.Ldc_I4_0))
-                .ReplaceInstructionWith(
+                .Match(new[] { callCreateObjectDebrisInst })
+                .Match(new[] { new CodeInstruction(OpCodes.Ldc_I4_0) }, ILHelper.SearchOption.Previous)
+                .ReplaceWith(
                     new CodeInstruction(
                         OpCodes.Call,
                         typeof(TreeShakePatcher).RequireMethod(nameof(GetCoconutQuality))))
-                .InsertInstructions(new CodeInstruction(OpCodes.Ldloc_2))
+                .Insert(new[] { new CodeInstruction(OpCodes.Ldloc_2) })
                 // the golden coconut
-                .FindNext(new CodeInstruction(OpCodes.Ldc_I4, 791))
-                .AdvanceUntil(callCreateObjectDebrisInst)
-                .RetreatUntil(new CodeInstruction(OpCodes.Ldc_I4_0))
-                .ReplaceInstructionWith(
+                .Match(new[] { new CodeInstruction(OpCodes.Ldc_I4, 791) })
+                .Match(new[] { callCreateObjectDebrisInst })
+                .Match(new[] { new CodeInstruction(OpCodes.Ldc_I4_0) }, ILHelper.SearchOption.Previous)
+                .ReplaceWith(
                     new CodeInstruction(
                         OpCodes.Call,
                         typeof(TreeShakePatcher).RequireMethod(nameof(GetCoconutQuality))))
-                .InsertInstructions(
-                    new CodeInstruction(OpCodes.Ldc_I4, 791));
+                .Insert(new[] { new CodeInstruction(OpCodes.Ldc_I4, 791) });
         }
         catch (Exception ex)
         {

@@ -32,7 +32,7 @@ internal sealed class CombinedRingGetOneFromPatcher : HarmonyPatcher
         }
 
         __instance.ParentSheetIndex = Globals.InfinityBandIndex.Value;
-        ModEntry.ModHelper.Reflection.GetField<NetInt>(__instance, nameof(Ring.indexInTileSheet)).GetValue()
+        ModHelper.Reflection.GetField<NetInt>(__instance, nameof(Ring.indexInTileSheet)).GetValue()
             .Set(Globals.InfinityBandIndex.Value);
         return true; // run original logic
     }

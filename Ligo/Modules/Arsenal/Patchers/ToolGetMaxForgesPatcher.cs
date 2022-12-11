@@ -29,7 +29,7 @@ internal sealed class ToolGetMaxForgesPatcher : HarmonyPatcher
         {
             switch (__instance)
             {
-                case MeleeWeapon weapon when ModEntry.Config.Arsenal.Weapons.RebalancedWeapons:
+                case MeleeWeapon weapon when ArsenalModule.Config.Weapons.RebalancedWeapons:
                     __result = weapon.getItemLevel() switch
                     {
                         >= 6 => 3,
@@ -38,7 +38,7 @@ internal sealed class ToolGetMaxForgesPatcher : HarmonyPatcher
                         _ => 0,
                     };
                     break;
-                case Slingshot when ModEntry.Config.Arsenal.Slingshots.AllowForges:
+                case Slingshot when ArsenalModule.Config.Slingshots.AllowForges:
                     __result = __instance.InitialParentTileIndex switch
                     {
                         Constants.BasicSlingshotIndex => 1,

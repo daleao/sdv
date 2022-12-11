@@ -46,11 +46,10 @@ public abstract class Ultimate : SmartEnum<Ultimate>, IUltimate
     protected Ultimate(string name, int value, Color meterColor, Color overlayColor)
         : base(name, value)
     {
-        this.BuffId = ModEntry.Manifest.UniqueID.GetHashCode() + this.Value + 4;
+        this.BuffId = Manifest.UniqueID.GetHashCode() + this.Value + 4;
         this.BuffSheetIndex = this.Value + 22;
         this.Hud = new UltimateHud(this, meterColor);
         this.Overlay = new UltimateOverlay(overlayColor);
-        this.Profession = Professions.Profession.FromValue(value);
     }
 
     /// <inheritdoc cref="OnActivated"/>
@@ -72,13 +71,13 @@ public abstract class Ultimate : SmartEnum<Ultimate>, IUltimate
     internal static event EventHandler<IUltimateEmptiedEventArgs>? Emptied;
 
     /// <inheritdoc />
-    public IProfession Profession { get; }
+    public abstract IProfession Profession { get; }
 
     /// <inheritdoc />
-    public virtual string DisplayName => ModEntry.i18n.Get(this.Name.ToLower() + ".title");
+    public virtual string DisplayName => i18n.Get(this.Name.ToLower() + ".title");
 
     /// <inheritdoc />
-    public virtual string Description => ModEntry.i18n.Get(this.Name.ToLower() + ".desc");
+    public virtual string Description => i18n.Get(this.Name.ToLower() + ".desc");
 
     /// <inheritdoc />
     public int Index => this.Value;
@@ -99,7 +98,7 @@ public abstract class Ultimate : SmartEnum<Ultimate>, IUltimate
 
             if (value <= 0)
             {
-                ModEntry.Events.Disable<UltimateGaugeShakeUpdateTickedEvent>();
+                EventManager.Disable<UltimateGaugeShakeUpdateTickedEvent>();
                 this.Hud.ForceStopShake();
 
                 if (this.IsActive)
@@ -109,7 +108,7 @@ public abstract class Ultimate : SmartEnum<Ultimate>, IUltimate
 
                 if (!Game1.currentLocation.IsDungeon())
                 {
-                    ModEntry.Events.Enable<UltimateGaugeFadeOutUpdateTickedEvent>();
+                    EventManager.Enable<UltimateGaugeFadeOutUpdateTickedEvent>();
                 }
 
                 this.OnEmptied();
@@ -119,13 +118,13 @@ public abstract class Ultimate : SmartEnum<Ultimate>, IUltimate
             {
                 var delta = value - this._chargeValue;
                 var scaledDelta = delta * ((double)this.MaxValue / BaseMaxValue) * (delta >= 0
-                    ? ModEntry.Config.Professions.SpecialGainFactor
-                    : ModEntry.Config.Professions.SpecialDrainFactor);
+                    ? ProfessionsModule.Config.SpecialGainFactor
+                    : ProfessionsModule.Config.SpecialDrainFactor);
                 value = Math.Min(scaledDelta + this._chargeValue, this.MaxValue);
 
                 if (this._chargeValue == 0f)
                 {
-                    ModEntry.Events.Enable<UltimateMeterRenderingHudEvent>();
+                    EventManager.Enable<UltimateMeterRenderingHudEvent>();
                     this.OnChargeInitiated(value);
                 }
 
@@ -134,8 +133,8 @@ public abstract class Ultimate : SmartEnum<Ultimate>, IUltimate
                     this.OnChargeIncreased(this._chargeValue, value);
                     if (value >= this.MaxValue)
                     {
-                        ModEntry.Events.Enable<UltimateButtonsChangedEvent>();
-                        ModEntry.Events.Enable<UltimateGaugeShakeUpdateTickedEvent>();
+                        EventManager.Enable<UltimateButtonsChangedEvent>();
+                        EventManager.Enable<UltimateGaugeShakeUpdateTickedEvent>();
                         this.OnFullyCharged();
                     }
                 }
@@ -175,7 +174,7 @@ public abstract class Ultimate : SmartEnum<Ultimate>, IUltimate
     /// <summary>Gets the glow color applied to the player while this Ultimate is active.</summary>
     internal abstract Color GlowColor { get; }
 
-    private static int ActivationTimerMax => (int)(ModEntry.Config.Professions.SpecialActivationDelay * 60);
+    private static int ActivationTimerMax => (int)(ProfessionsModule.Config.SpecialActivationDelay * 60);
 
     /// <summary>Activates the <see cref="Ultimate"/> for the local player.</summary>
     internal virtual void Activate()
@@ -183,17 +182,17 @@ public abstract class Ultimate : SmartEnum<Ultimate>, IUltimate
         this.IsActive = true;
 
         // interrupt fade out if necessary
-        ModEntry.Events.Disable<UltimateOverlayFadeOutUpdateTickedEvent>();
+        EventManager.Disable<UltimateOverlayFadeOutUpdateTickedEvent>();
 
         // stop updating, awaiting activation and shaking the hud meter
-        ModEntry.Events.Disable<UltimateButtonsChangedEvent>();
-        ModEntry.Events.Disable<UltimateGaugeShakeUpdateTickedEvent>();
-        ModEntry.Events.Disable<UltimateInputUpdateTickedEvent>();
+        EventManager.Disable<UltimateButtonsChangedEvent>();
+        EventManager.Disable<UltimateGaugeShakeUpdateTickedEvent>();
+        EventManager.Disable<UltimateInputUpdateTickedEvent>();
 
         // fade in overlay and begin countdown
-        ModEntry.Events.Enable<UltimateActiveUpdateTickedEvent>();
-        ModEntry.Events.Enable<UltimateOverlayFadeInUpdateTickedEvent>();
-        ModEntry.Events.Enable<UltimateOverlayRenderedWorldEvent>();
+        EventManager.Enable<UltimateActiveUpdateTickedEvent>();
+        EventManager.Enable<UltimateOverlayFadeInUpdateTickedEvent>();
+        EventManager.Enable<UltimateOverlayRenderedWorldEvent>();
 
         // play sound effect
         this.ActivationSfx.Play();
@@ -212,10 +211,10 @@ public abstract class Ultimate : SmartEnum<Ultimate>, IUltimate
         this.ChargeValue = 0;
 
         // fade out overlay
-        ModEntry.Events.Enable<UltimateOverlayFadeOutUpdateTickedEvent>();
+        EventManager.Enable<UltimateOverlayFadeOutUpdateTickedEvent>();
 
         // stop countdown
-        ModEntry.Events.Disable<UltimateActiveUpdateTickedEvent>();
+        EventManager.Disable<UltimateActiveUpdateTickedEvent>();
 
         // stop glowing if necessary
         Game1.player.stopGlowing();
@@ -230,17 +229,17 @@ public abstract class Ultimate : SmartEnum<Ultimate>, IUltimate
     /// <summary>Detects and handles activation input.</summary>
     internal void CheckForActivation()
     {
-        if (!ModEntry.Config.Professions.EnableSpecials)
+        if (!ProfessionsModule.Config.EnableSpecials)
         {
             return;
         }
 
-        if (ModEntry.Config.Professions.SpecialActivationKey.JustPressed())
+        if (ProfessionsModule.Config.SpecialActivationKey.JustPressed())
         {
-            if (ModEntry.Config.Professions.HoldKeyToActivateSpecial)
+            if (ProfessionsModule.Config.HoldKeyToActivateSpecial)
             {
                 this._activationTimer = ActivationTimerMax;
-                ModEntry.Events.Enable<UltimateInputUpdateTickedEvent>();
+                EventManager.Enable<UltimateInputUpdateTickedEvent>();
             }
             else if (this.CanActivate)
             {
@@ -251,10 +250,10 @@ public abstract class Ultimate : SmartEnum<Ultimate>, IUltimate
                 Game1.playSound("cancel");
             }
         }
-        else if (ModEntry.Config.Professions.SpecialActivationKey.GetState() == SButtonState.Released && this._activationTimer > 0)
+        else if (ProfessionsModule.Config.SpecialActivationKey.GetState() == SButtonState.Released && this._activationTimer > 0)
         {
             this._activationTimer = -1;
-            ModEntry.Events.Disable<UltimateInputUpdateTickedEvent>();
+            EventManager.Disable<UltimateInputUpdateTickedEvent>();
         }
     }
 
@@ -292,7 +291,7 @@ public abstract class Ultimate : SmartEnum<Ultimate>, IUltimate
             LocalizedContentManager.LanguageCode.fr or
             LocalizedContentManager.LanguageCode.es or
             LocalizedContentManager.LanguageCode.pt
-            ? ModEntry.i18n.Get("article.definite.female")
+            ? i18n.Get("article.definite.female")
             : string.Empty;
     }
 

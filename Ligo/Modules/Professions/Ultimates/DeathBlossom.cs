@@ -17,8 +17,11 @@ public sealed class DeathBlossom : Ultimate
     }
 
     /// <inheritdoc />
+    public override IProfession Profession => Professions.Profession.Desperado;
+
+    /// <inheritdoc />
     internal override int MillisecondsDuration =>
-        (int)(15000 * ((double)this.MaxValue / BaseMaxValue) / ModEntry.Config.Professions.SpecialDrainFactor);
+        (int)(15000 * ((double)this.MaxValue / BaseMaxValue) / ProfessionsModule.Config.SpecialDrainFactor);
 
     /// <inheritdoc />
     internal override Sfx ActivationSfx => Sfx.DesperadoBlossom;

@@ -45,14 +45,17 @@ internal sealed class ShopMenuTryToPurchaseItemPatcher : HarmonyPatcher
                     {
                         var resumeExecution = generator.DefineLabel();
                         helper
-                            .Advance()
+                            .Move()
                             .AddLabels(resumeExecution)
-                            .InsertInstructions(
-                                new CodeInstruction(OpCodes.Ldarg_0),
-                                new CodeInstruction(OpCodes.Ldarg_1),
-                                new CodeInstruction(
-                                    OpCodes.Call,
-                                    typeof(ShopMenuTryToPurchaseItemPatcher).RequireMethod(nameof(TryToPurchaseItemSubroutine))));
+                            .Insert(
+                                new[]
+                                {
+                                    new CodeInstruction(OpCodes.Ldarg_0), new CodeInstruction(OpCodes.Ldarg_1),
+                                    new CodeInstruction(
+                                        OpCodes.Call,
+                                        typeof(ShopMenuTryToPurchaseItemPatcher).RequireMethod(
+                                            nameof(TryToPurchaseItemSubroutine))),
+                                });
                     });
         }
         catch (Exception ex)
@@ -66,19 +69,19 @@ internal sealed class ShopMenuTryToPurchaseItemPatcher : HarmonyPatcher
 
     private static void TryToPurchaseItemSubroutine(ShopMenu menu, ISalable item)
     {
-        var isDeductibleToolExpense = item is Tool && ModEntry.Config.Taxes.DeductibleToolExpenses;
+        var isDeductibleToolExpense = item is Tool && TaxesModule.Config.DeductibleToolExpenses;
         if (!isDeductibleToolExpense)
         {
             var isDeductibleSeedExpense = item is SObject { Category: SObject.SeedsCategory } &&
-                                          ModEntry.Config.Taxes.DeductibleSeedExpenses;
+                                          TaxesModule.Config.DeductibleSeedExpenses;
             if (!isDeductibleSeedExpense)
             {
                 var isDeductibleAnimalExpense = item is SObject { ParentSheetIndex: 104 or 178 } &&
-                                                ModEntry.Config.Taxes.DeductibleAnimalExpenses; // hay or heater
+                                                TaxesModule.Config.DeductibleAnimalExpenses; // hay or heater
                 if (!isDeductibleAnimalExpense)
                 {
                     var isDeductibleOtherExpense =
-                        item is SObject obj && obj.Name.IsIn(ModEntry.Config.Taxes.DeductibleObjects);
+                        item is SObject obj && obj.Name.IsIn(TaxesModule.Config.DeductibleObjects);
                     if (!isDeductibleOtherExpense)
                     {
                         return;

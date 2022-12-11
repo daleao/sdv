@@ -2,6 +2,16 @@
 
 #region using directives
 
+using System.Collections.Generic;
+using System.Linq;
+using DaLion.Ligo.Modules.Arsenal;
+using DaLion.Ligo.Modules.Ponds;
+using DaLion.Ligo.Modules.Professions;
+using DaLion.Ligo.Modules.Rings;
+using DaLion.Ligo.Modules.Taxes;
+using DaLion.Ligo.Modules.Tools;
+using DaLion.Ligo.Modules.Tweex;
+using DaLion.Shared.Configs;
 using Newtonsoft.Json;
 using StardewModdingAPI.Utilities;
 
@@ -80,35 +90,56 @@ public sealed class ModConfig
 
     /// <summary>Gets the Arsenal module config settings.</summary>
     [JsonProperty]
-    public Modules.Arsenal.Config Arsenal { get; internal set; } = new();
+    public ArsenalConfig Arsenal { get; internal set; } = new();
 
     /// <summary>Gets the Ponds module config settings.</summary>
     [JsonProperty]
-    public Modules.Ponds.Config Ponds { get; internal set; } = new();
+    public PondsConfig Ponds { get; internal set; } = new();
 
     /// <summary>Gets the Professions module config settings.</summary>
     [JsonProperty]
-    public Modules.Professions.Config Professions { get; internal set; } = new();
+    public ProfessionsConfig Professions { get; internal set; } = new();
 
     /// <summary>Gets the Rings module config settings.</summary>
     [JsonProperty]
-    public Modules.Rings.Config Rings { get; internal set; } = new();
+    public RingsConfig Rings { get; internal set; } = new();
 
     /// <summary>Gets the Taxes module config settings.</summary>
     [JsonProperty]
-    public Modules.Taxes.Config Taxes { get; internal set; } = new();
+    public TaxesConfig Taxes { get; internal set; } = new();
 
     /// <summary>Gets the Tools module config settings.</summary>
     [JsonProperty]
-    public Modules.Tools.Config Tools { get; internal set; } = new();
+    public ToolsConfig Tools { get; internal set; } = new();
 
     /// <summary>Gets the Tweex module config settings.</summary>
     [JsonProperty]
-    public Modules.Tweex.Config Tweex { get; internal set; } = new();
+    public TweexConfig Tweex { get; internal set; } = new();
 
     #endregion config sub-modules
 
     /// <summary>Gets the key used to trigger debug features.</summary>
     [JsonProperty]
     public KeybindList DebugKey { get; internal set; } = KeybindList.Parse("LeftControl");
+
+    /// <summary>Validates all internal configs and overwrites the user's config file if any invalid settings were found.</summary>
+    /// <param name="helper">Provides simplified APIs for writing mods.</param>
+    internal void Validate(IModHelper helper)
+    {
+        if (!this.List().Aggregate(true, (flag, config) => flag | config.Validate()))
+        {
+            helper.WriteConfig(this);
+        }
+    }
+
+    private IEnumerable<Config> List()
+    {
+        yield return this.Arsenal;
+        yield return this.Professions;
+        yield return this.Rings;
+        yield return this.Ponds;
+        yield return this.Taxes;
+        yield return this.Tools;
+        yield return this.Tweex;
+    }
 }

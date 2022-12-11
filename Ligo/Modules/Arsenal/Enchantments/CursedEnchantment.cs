@@ -48,7 +48,7 @@ public class CursedEnchantment : BaseWeaponEnchantment
         }
 
         who.Write(DataFields.Cursed, true.ToString());
-        ModEntry.Events.Enable<CurseUpdateTickedEvent>();
+        EventManager.Enable<CurseUpdateTickedEvent>();
         Log.D($"{who.Name} has been cursed!");
     }
 
@@ -63,13 +63,9 @@ public class CursedEnchantment : BaseWeaponEnchantment
     protected override void _OnMonsterSlay(Monster m, GameLocation location, Farmer who)
     {
         base._OnMonsterSlay(m, location, who);
-        if (who.CurrentTool is not MeleeWeapon { InitialParentTileIndex: Constants.DarkSwordIndex } darkSword)
+        if (who.CurrentTool is MeleeWeapon { InitialParentTileIndex: Constants.DarkSwordIndex } darkSword)
         {
-            return;
+            darkSword.Increment(DataFields.CursePoints, 20);
         }
-
-        darkSword.Increment(DataFields.CursePoints, 20);
-        darkSword.minDamage.Value += 1;
-        darkSword.maxDamage.Value += 1;
     }
 }

@@ -22,7 +22,7 @@ internal sealed class BluePrintCtorPatcher : HarmonyPatcher
     [HarmonyPostfix]
     private static void BluePrintCtorPostfix(BluePrint __instance)
     {
-        if (!ModEntry.Config.Arsenal.DwarvishCrafting || __instance.name != "Island Obelisk" ||
+        if (!ArsenalModule.Config.DwarvishCrafting || __instance.name != "Island Obelisk" ||
             !__instance.itemsRequired.Remove(Constants.DragonToothIndex))
         {
             return;

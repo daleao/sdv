@@ -22,14 +22,14 @@ internal sealed class FarmerCheckForLevelGainPatcher : HarmonyPatcher
     [HarmonyPostfix]
     private static void FarmerCheckForLevelGainPostfix(ref int __result, int oldXP, int newXP)
     {
-        if (!ModEntry.Config.Professions.EnablePrestige)
+        if (!ProfessionsModule.Config.EnablePrestige)
         {
             return;
         }
 
         for (var i = 1; i <= 10; i++)
         {
-            var requiredExpForThisLevel = Constants.ExpAtLevel10 + (ModEntry.Config.Professions.RequiredExpPerExtendedLevel * i);
+            var requiredExpForThisLevel = Constants.ExpAtLevel10 + (ProfessionsModule.Config.RequiredExpPerExtendedLevel * i);
             if (oldXP >= requiredExpForThisLevel)
             {
                 continue;

@@ -19,7 +19,7 @@ internal sealed class DemolitionistUpdateTickedEvent : UpdateTickedEvent
     internal DemolitionistUpdateTickedEvent(EventManager manager)
         : base(manager)
     {
-        this._buffId = (ModEntry.Manifest.UniqueID + Profession.Demolitionist).GetHashCode();
+        this._buffId = (Manifest.UniqueID + Profession.Demolitionist).GetHashCode();
     }
 
     /// <inheritdoc />
@@ -53,13 +53,13 @@ internal sealed class DemolitionistUpdateTickedEvent : UpdateTickedEvent
                 0,
                 1,
                 "Demolitionist",
-                ModEntry.i18n.Get(
+                i18n.Get(
                     "demolitionist.title" + (Game1.player.IsMale ? ".male" : ".female")))
             {
                 which = this._buffId,
                 sheetIndex = Profession.DemolitionistExcitedSheetIndex,
                 millisecondsDuration = 555,
-                description = ModEntry.i18n.Get("demolitionist.buff.desc"),
+                description = i18n.Get("demolitionist.buff.desc"),
             });
 
         var decay = excitedness >= 4 ? 2 : 1;
