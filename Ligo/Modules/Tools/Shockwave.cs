@@ -18,7 +18,7 @@ internal class Shockwave
 {
     private const int ShockwaveDelay = 150;
 
-    private readonly IEffect? _effect;
+    private readonly IToolEffect? _effect;
     private readonly Vector2 _epicenter;
     private readonly Farmer _farmer;
     private readonly uint _finalRadius;

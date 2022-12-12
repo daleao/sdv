@@ -66,9 +66,11 @@ internal sealed class NewForgeMenuUpdatePatcher : HarmonyPatcher
                         new CodeInstruction(OpCodes.Ldloc_S, helper.Locals[15]), new CodeInstruction(
                             OpCodes.Callvirt,
                             typeof(Item).RequirePropertyGetter(nameof(Item.ParentSheetIndex))),
-                        new CodeInstruction(OpCodes.Call,
+                        new CodeInstruction(
+                            OpCodes.Call,
                             typeof(Globals).RequirePropertyGetter(nameof(Globals.InfinityBandIndex))),
-                        new CodeInstruction(OpCodes.Call,
+                        new CodeInstruction(
+                            OpCodes.Call,
                             typeof(int?).RequirePropertyGetter(nameof(Nullable<int>.Value))),
                         new CodeInstruction(OpCodes.Bne_Un_S, vanillaUnforge), new CodeInstruction(OpCodes.Ldarg_0),
                         new CodeInstruction(OpCodes.Ldloc_S, helper.Locals[15]), new CodeInstruction(

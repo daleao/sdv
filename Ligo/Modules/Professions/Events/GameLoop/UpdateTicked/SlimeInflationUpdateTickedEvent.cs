@@ -23,7 +23,9 @@ internal sealed class SlimeInflationUpdateTickedEvent : UpdateTickedEvent
     /// <inheritdoc />
     protected override void OnUpdateTickedImpl(object? sender, UpdateTickedEventArgs e)
     {
-        var uninflated = GreenSlime_Piped.Values.Select(pair => pair.Key).Where(slime => !slime.Get_Inflated())
+        var uninflated = GreenSlime_Piped.Values
+            .Select(pair => pair.Value)
+            .Where(piped => piped.PipeTimer > 0 && !piped.Inflated)
             .ToArray();
         if (uninflated.Length == 0)
         {

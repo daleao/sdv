@@ -14,7 +14,7 @@ using StardewValley.Tools;
 #endregion using directives
 
 /// <summary>Applies <see cref="Axe"/> effects.</summary>
-internal sealed class AxeEffect : IEffect
+internal sealed class AxeEffect : IToolEffect
 {
     /// <summary>Initializes a new instance of the <see cref="AxeEffect"/> class.</summary>
     /// <param name="config">The mod configs for the <see cref="Axe"/>.</param>

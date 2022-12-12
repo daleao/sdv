@@ -34,16 +34,16 @@ internal sealed class MonsterFindPlayerPatcher : HarmonyPatcher
         {
             var location = Game1.currentLocation;
             Farmer? target = null;
-            if (__instance is GreenSlime slime && slime.Get_Piper() is not null)
+            if (__instance is GreenSlime slime)
             {
-                var aggroee = slime.GetClosestCharacter(location.characters.OfType<Monster>().Where(m => !m.IsSlime()));
-                if (aggroee is not null)
+                var piped = slime.Get_Piped();
+                if (piped is not null)
                 {
-                    var fakeFarmer = slime.Get_FakeFarmer();
-                    if (fakeFarmer is not null)
+                    var aggroee = slime.GetClosestCharacter(location.characters.OfType<Monster>().Where(m => !m.IsSlime()));
+                    if (aggroee is not null)
                     {
-                        fakeFarmer.Position = aggroee.Position;
-                        target = fakeFarmer;
+                        piped.FakeFarmer.Position = aggroee.Position;
+                        target = piped.FakeFarmer;
                     }
                 }
             }
@@ -62,7 +62,7 @@ internal sealed class MonsterFindPlayerPatcher : HarmonyPatcher
             }
 
             __result = target ?? (Context.IsMultiplayer
-                ? __instance.GetClosestFarmer(predicate: f => !f.Get_IsFake().Value && !f.IsInAmbush())
+                ? __instance.GetClosestFarmer(predicate: f => f is not FakeFarmer && !f.IsInAmbush())
                 : Game1.player);
             __instance.Set_Target(__result);
             return false; // don't run original logic

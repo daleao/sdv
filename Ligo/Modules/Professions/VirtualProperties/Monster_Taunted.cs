@@ -25,7 +25,7 @@ internal static class Monster_Taunted
         holder.Taunter = taunter;
         holder.FakeFarmer = taunter is null
             ? null
-            : new Farmer { UniqueMultiplayerID = monster.GetHashCode(), currentLocation = monster.currentLocation };
+            : new FakeFarmer { UniqueMultiplayerID = monster.GetHashCode(), currentLocation = monster.currentLocation };
     }
 
     internal static Farmer? Get_FakeFarmer(this Monster monster)
@@ -38,6 +38,6 @@ internal static class Monster_Taunted
     {
         public Monster? Taunter { get; internal set; }
 
-        public Farmer? FakeFarmer { get; internal set; }
+        public FakeFarmer? FakeFarmer { get; internal set; }
     }
 }

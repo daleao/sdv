@@ -101,8 +101,8 @@ Weapon stats have been rebalanced across the board:
 
  - **Clubs** are your general unreliable, imprecise and sluggish, but huge-damage-potential, heavy and larger-hit-box weapons.
  - **Daggers** are the opposite of clubs, being the quick, precise, but short-range and generally lower damage potential weapons.
- - **Stabbing Swords** are somewhere in the middle, with average damage, speed and precision.
- - **Defense Swords** are marginally weaker and slower than their offensive counterpart, but are otherwise heavier, sturdier and wider. They are somewhere in-between stabbing swords and clubs. 
+ - **Offensive Swords** are somewhere in the middle, with average damage, speed and precision.
+ - **Defensive Swords** are marginally weaker and slower than their offensive counterpart, but are otherwise heavier, sturdier and wider. They are somewhere in-between Offensive Swords and Clubs. 
 
 Weapons are categorized by diffrent tiers, [color-coded for your convenience][tropes:color-coded]:
 
@@ -126,6 +126,8 @@ Masterwork weapons have fixed stats. These are weapons created by the Dwarven ra
 Last but not least, Legendary weapons, will require [considerable work to obtain](#infinity-one).
 
 All weapons have been removed from Mine chests. They will still offer valuable loot, but weapons will require some work to obtain.
+
+Weapon tooltips have also been improved for clarity, so you should always know exactly what each stat means.
 
 ### Weapon Retextures
 
@@ -220,7 +222,7 @@ Enchantments have been almost entirely overhauled. Hopefully these enchantments 
 | Tribute | Attacks that would leave an enemy below 10% max health immediately execute the enemy, converting the remaining health into gold. |
 | Bloodthirsty | Attacks on-hit steal 5% of enemies' current health. Excess healing is converted into a shield for up to 20% of (the player's) max health, which slowly decays after not dealing or taking damage for 25s. |
 
-\* **Stabbing swords:** Dash distance +20%. **Defense swwords:** Successful parries stun enemies for 1s. **Daggers:** Quick stab hit count +2. **Clubs:** Smash AoE + 50%.
+\* **Offensive Swords:** Dash distance +20%. **Defensive Swords:** Successful parries stun enemies for 1s. **Daggers:** Quick stab hit count +2. **Clubs:** Smash AoE + 50%.
 
 ### Slingshot Enchantments
 

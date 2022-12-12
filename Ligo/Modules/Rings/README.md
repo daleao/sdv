@@ -21,14 +21,6 @@ In addition, new progressive crafting recipes are added for each of the gemstone
     - **Aquamarine and Jade:** *combat level 4, requires Iron Bars.*
     - **Emerald and Ruby:** *combat level 6, requires Gold Bars.*
 
-## Infinity Band
-
-In vanilla, the Iridium Band is an instant 3-rings-in-1 which can also be forged to get a 4-rings-in-1. It completely triviliazes the Glow Ring, Magnet Ring and even the brand new Glowstone Ring, introduced in patch 1.5. This module aims to solve all of these issues while also alluding to everyone's favorite cinematic universe.
-
-The Iridium Band has been completely overhauled. Initially, a newly crafted Iridium Band will grant no effects at all. Only with access to the Forge will you be able to awaken its true form by infusing it with a Galaxy Soul to transform it into an **Infinity Band**.
-
-The Infinity Band likewise does nothing on its own, but it serves as a vessel for up to **four** gemstones. To add a gemstone to the Infinity Band, you must fuse it with a corresponding gemstone ring at the Forge. The same type of gemstone can be added more than once, compounding the effect. Alternatively, combining different gemstones will potentially lead to powerful **Resonances**.
-
 ### Gemstone Rebalance
 
 There are two problematic gemstones in vanilla: Jade and Topaz. This modules rebalances their effects to be on-par with the ubiquitous Ruby.
@@ -38,6 +30,14 @@ There are two problematic gemstones in vanilla: Jade and Topaz. This modules reb
 To achieve the same balance for gemstone enchantments, make sure to enable the [Arsenal](../Arsenal) module.
 
 Finally, this module also introduces the Garnet Ring. This ring adds cooldown reduction as the seventh combat stat, compensating for the removed Acrobat profession by the [Professions](../Professions) module and completing the 7-note Diatonic Gemstone Scale (see below). Garnet Rings must be crafted from mined Garnet gemstones, added via an included [Custom Ore Nodes](https://www.nexusmods.com/stardewvalley/mods/5966) content pack. If you don't install Custom Ore Nodes, Garnets will be unobtainable in-game.
+
+## Infinity Band
+
+In vanilla, the Iridium Band is an instant 3-rings-in-1 which can also be forged to get a 4-rings-in-1. It completely triviliazes the Glow Ring, Magnet Ring and even the brand new Glowstone Ring, introduced in patch 1.5. This module aims to solve all of these issues while also alluding to everyone's favorite cinematic universe.
+
+The Iridium Band has been completely overhauled. Initially, a newly crafted Iridium Band will grant no effects at all. Only with access to the Forge will you be able to awaken its true form by infusing it with a Galaxy Soul to transform it into an **Infinity Band**.
+
+The Infinity Band likewise does nothing on its own, but it serves as a vessel for up to **four** gemstones. To add a gemstone to the Infinity Band, you must fuse it with a corresponding gemstone ring at the Forge. The same type of gemstone can be added more than once, compounding the effect. Alternatively, combining different gemstones will potentially lead to powerful **Resonances**.
 
 ### Resonance
 

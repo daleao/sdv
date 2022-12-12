@@ -1,6 +1,6 @@
 # Ligo Professions Change Log
 
-## 1.0.0 (Unreleased)
+## 0.9.0 (Unreleased)
 
 ### Added
 
@@ -9,6 +9,7 @@
 * Prospector profession, likewise, now has a chance, proportional to the Treasure Hunt Streak, to spawn additional ore nodes when entering a new mine level.
 * Added golden versions of profession icons for Prestiged professions.
 * Added config setting to disable Bee House being affected by Producer profession.
+* Added API for custom Skill mods to register prestiged professions.
 
 ### Removed
 
@@ -31,6 +32,7 @@
 * Fixed an issue with Automated Junimo Chests being unable to decide their owner.
 * Fixed a bug where Conservationist Trash Collected would not reset if no trash was collected during the season.
 * Fixed a bug where Tapper perk would incorrectly apply to tapped Mushroom Trees in Winter, causing multiple progressively shortened harvests.
+* Fixed a bug where the Piper Concerto super ability caused all Slimes in the Hutch to disappear.
 * Crab Pots now correctly trap Seaweed instead of Green Algae in the Beach farm map.
 * Fixed a bug where Special Abiltiy charge would still accumulate with Enable Specials config set to false.
 * Fixed a possible NullReferenceException when shooting at Slimes.

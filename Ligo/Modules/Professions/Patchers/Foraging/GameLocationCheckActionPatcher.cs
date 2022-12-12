@@ -94,7 +94,7 @@ internal sealed class GameLocationCheckActionPatcher : HarmonyPatcher
                 .FindProfessionCheck(Farmer.botanist, ILHelper.SearchOption.First) // return to botanist check
                 .Move(-1) // retreat to start of check
                 .Match(new[] { new CodeInstruction(OpCodes.Br_S) }, out var count)
-                .Copy( // copy entire section until done setting quality
+                .Copy(// copy entire section until done setting quality
                     out copy,
                     count,
                     true)

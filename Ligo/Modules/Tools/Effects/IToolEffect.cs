@@ -8,7 +8,7 @@ using StardewValley.TerrainFeatures;
 #endregion using directives
 
 /// <summary>Interface for applying a <see cref="Tool"/>'s effects.</summary>
-internal interface IEffect
+internal interface IToolEffect
 {
     /// <summary>Applies the <paramref name="tool"/> to the <paramref name="tile"/>.</summary>
     /// <param name="tile">The tile to modify.</param>

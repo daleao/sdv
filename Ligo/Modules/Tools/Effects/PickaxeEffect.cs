@@ -16,7 +16,7 @@ using xTile.Dimensions;
 #endregion using directives
 
 /// <summary>Applies <see cref="Pickaxe"/> effects.</summary>
-internal sealed class PickaxeEffect : IEffect
+internal sealed class PickaxeEffect : IToolEffect
 {
     /// <summary>Initializes a new instance of the <see cref="PickaxeEffect"/> class.</summary>
     /// <param name="config">The mod configs for the <see cref="Axe"/>.</param>

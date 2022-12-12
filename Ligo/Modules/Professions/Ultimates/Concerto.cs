@@ -65,7 +65,7 @@ public sealed class Concerto : Ultimate
                 }
             }
 
-            slime.Set_Piper(Game1.player);
+            slime.Set_Piped(Game1.player);
         }
 
         var bigSlimes = Game1.currentLocation.characters.OfType<BigSlime>().ToList();

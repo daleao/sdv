@@ -23,13 +23,10 @@ internal sealed class CharacterInitNetFieldsPatcher : HarmonyPatcher
     [HarmonyPostfix]
     private static void CharacterInitNetFieldsPostfix(Character __instance)
     {
-        if (__instance is not Farmer farmer || farmer.Name is null)
+        if (__instance is Farmer { Name: { } } farmer)
         {
-            return;
+            __instance.NetFields.AddFields(farmer.Get_UltimateIndex());
         }
-
-        __instance.NetFields.AddFields(farmer.Get_UltimateIndex());
-        __instance.NetFields.AddFields(farmer.Get_IsFake());
     }
 
     #endregion harmony patches

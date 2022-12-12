@@ -40,7 +40,8 @@ internal sealed class MeleeWeaponDoAnimateSpecialMovePatcher : HarmonyPatcher
                 {
                     helper
                         // find index of acrobat check
-                        .FindProfessionCheck(Farmer.acrobat,
+                        .FindProfessionCheck(
+                            Farmer.acrobat,
                             i == 0 ? ILHelper.SearchOption.First : ILHelper.SearchOption.Next)
                         .Move(-2)
                         .StripLabels(out var labels) // backup and remove branch labels

@@ -30,13 +30,13 @@ internal sealed class GreenSlimeUpdatePatcher : HarmonyPatcher
     [HarmonyPostfix]
     private static void GreenSlimeUpdatePostfix(GreenSlime __instance, GameTime time)
     {
-        var pipeTimer = __instance.Get_PipeTimer();
-        if (pipeTimer.Value <= 0)
+        var piped = __instance.Get_Piped();
+        if (piped is null)
         {
             return;
         }
 
-        pipeTimer.Value -= time.ElapsedGameTime.Milliseconds;
+        __instance.Get_Piped()!.PipeTimer -= time.ElapsedGameTime.Milliseconds;
         foreach (var monster in __instance.currentLocation.characters.OfType<Monster>().Where(m => !m.IsSlime()))
         {
             var monsterBox = monster.GetBoundingBox();
@@ -74,9 +74,7 @@ internal sealed class GreenSlimeUpdatePatcher : HarmonyPatcher
                 new Color(255, 130, 0),
                 1f,
                 monster));
-
-            var piper = __instance.Get_Piper()!;
-            monster.setInvincibleCountdown(piper.Get_Ultimate() is Concerto { IsActive: true } ? 300 : 450);
+            monster.setInvincibleCountdown(piped.Piper.Get_Ultimate() is Concerto { IsActive: true } ? 300 : 450);
 
             // aggro monsters
             if (monster.Get_Taunter() is null)

@@ -176,7 +176,8 @@ internal sealed class SkillsPageDrawPatcher : HarmonyPatcher
                     {
                         new CodeInstruction(OpCodes.Ldarg_0),
                         new CodeInstruction(OpCodes.Ldfld, typeof(SkillsPage).RequireField("hoverText")),
-                        new CodeInstruction(OpCodes.Callvirt,
+                        new CodeInstruction(
+                            OpCodes.Callvirt,
                             typeof(string).RequirePropertyGetter(nameof(string.Length))),
                     },
                     ILHelper.SearchOption.Last)

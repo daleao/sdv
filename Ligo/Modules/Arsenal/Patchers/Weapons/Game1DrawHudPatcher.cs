@@ -50,7 +50,6 @@ internal sealed class Game1DrawHudPatcher : HarmonyPatcher
                     {
                         new CodeInstruction(OpCodes.Callvirt),
                         new CodeInstruction(OpCodes.Br_S),
-
                     },
                     out var count)
                 .Remove(count)

@@ -28,7 +28,7 @@ internal sealed class MonsterTakeDamagePatcher : HarmonyPatcher
     [HarmonyPostfix]
     private static void MonsterTakeDamagePostfix(Monster __instance)
     {
-        if (__instance is not GreenSlime slime || slime.Get_Piper() is null ||
+        if (__instance is not GreenSlime slime || slime.Get_Piped() is null ||
             slime.Health > 0)
         {
             return;

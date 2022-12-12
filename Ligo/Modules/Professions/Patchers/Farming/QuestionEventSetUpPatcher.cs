@@ -41,8 +41,9 @@ internal sealed class QuestionEventSetUpPatcher : HarmonyPatcher
                 .Match(
                     new[]
                     {
-                        new CodeInstruction(OpCodes.Ldc_R8, 0.0055)
-                    }) // find index of loading base pregnancy chance
+                        // find index of loading base pregnancy chance
+                        new CodeInstruction(OpCodes.Ldc_R8, 0.0055),
+                    })
                 .AddLabels(isNotBreeder) // branch here if player is not breeder
                 .Move()
                 .AddLabels(resumeExecution) // branch here to resume execution

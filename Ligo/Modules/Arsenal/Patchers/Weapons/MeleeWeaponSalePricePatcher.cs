@@ -4,9 +4,7 @@ namespace DaLion.Ligo.Modules.Arsenal.Patchers.Weapons;
 #region using directives
 
 using System.Reflection;
-using DaLion.Ligo.Modules.Arsenal.VirtualProperties;
 using DaLion.Shared.Harmony;
-using Extensions;
 using HarmonyLib;
 using StardewValley.Tools;
 
