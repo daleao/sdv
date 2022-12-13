@@ -1,6 +1,10 @@
 # Modular Overhaul Change Logs
 
-## Release Highlights
+## Revision Highlights
+
+* Hotfix for broken Luck Skill integration.
+
+## Minor Release Highlights
 
 * Initial release of Modular Gameplay Overhaul.
 * Initial release of the [Arsenal](Modules/Arsenal/README.md) module. Check it out for tons of new features.
