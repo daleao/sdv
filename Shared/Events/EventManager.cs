@@ -445,7 +445,7 @@ internal sealed class EventManager
         foreach (var type in eventTypes)
         {
 #if RELEASE
-            var debugAttribute = e.GetCustomAttribute<DebugAttribute>();
+            var debugAttribute = type.GetCustomAttribute<DebugAttribute>();
             if (debugAttribute is not null)
             {
                 continue;

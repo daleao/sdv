@@ -97,7 +97,7 @@ internal sealed class Harmonizer
         foreach (var type in patchTypes)
         {
 #if RELEASE
-            var debugAttribute = p.GetCustomAttribute<DebugAttribute>();
+            var debugAttribute = type.GetCustomAttribute<DebugAttribute>();
             if (debugAttribute is not null)
             {
                 continue;

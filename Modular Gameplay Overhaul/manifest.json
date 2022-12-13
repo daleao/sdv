@@ -3,7 +3,7 @@
   "UniqueID": "DaLion.Overhaul",
   "Name": "Modular Gameplay Overhaul",
   "Author": "DaLion",
-  "Version": "0.9.0-Debug",
+  "Version": "0.9.0",
   "Description": "An immersive gameplay overhaul, broken down into modules.",
   "MinimumApiVersion": "3.18.0",
   "EntryDll": "TheOverhaul.dll",

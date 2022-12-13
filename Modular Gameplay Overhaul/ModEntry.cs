@@ -12,13 +12,11 @@ namespace DaLion.Overhaul;
 #region using directives
 
 using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
 using DaLion.Shared.Events;
-using DaLion.Shared.Extensions.SMAPI;
+using DaLion.Shared.Integrations;
 using DaLion.Shared.ModData;
 using DaLion.Shared.Networking;
 using DaLion.Shared.Reflection;
-using Shared.Integrations;
 
 #endregion using directives
 

@@ -129,7 +129,6 @@ internal sealed class CommandHandler
             return;
         }
 
-
         if (!this._conditional?.Invoke() ?? false)
         {
             return;
@@ -160,7 +159,7 @@ internal sealed class CommandHandler
             try
             {
 #if RELEASE
-                var debugAttribute = c.GetCustomAttribute<DebugAttribute>();
+                var debugAttribute = type.GetCustomAttribute<DebugAttribute>();
                 if (debugAttribute is not null)
                 {
                     continue;
