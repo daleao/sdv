@@ -14,7 +14,7 @@
 
 ## Detailed Change Logs
 
-Please refer to the change logs of specific modules:
+Please refer to the change logs of specific modules for details:
 
 * [Professions](Modules/Professions/CHANGELOG.md)
 * [Arsenal](Modules/Arsenal/CHANGELOG.md)
