@@ -39,7 +39,7 @@ public class Skill : SmartEnum<Skill>, ISkill
     public static readonly Skill Combat = new("Combat", Farmer.combatSkill);
 
     /// <summary>The Luck skill, if loaded.</summary>
-    public static readonly Skill Luck = new LuckSkill();
+    public static Skill Luck = new("Luck", Farmer.luckSkill);
 
     #endregion enum entries
 

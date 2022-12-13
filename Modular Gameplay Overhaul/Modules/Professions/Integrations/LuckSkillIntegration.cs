@@ -29,8 +29,8 @@ internal sealed class LuckSkillIntegration : BaseIntegration<ILuckSkillApi>
             return;
         }
 
-        var luckSkill = new LuckSkill();
-        SCSkill.Loaded["spacechase0.LuckSkill"] = luckSkill;
+        Skill.Luck = new LuckSkill();
+        SCSkill.Loaded["spacechase0.LuckSkill"] = Skill.Luck;
     }
 
     /// <inheritdoc />

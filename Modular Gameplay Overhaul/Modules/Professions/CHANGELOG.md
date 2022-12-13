@@ -1,6 +1,12 @@
 # Professions Module Change Log
 
-## 0.9.0 (Unreleased)
+## 0.9.1
+
+### Fixed
+
+* Fixed an issue with Luck Skill integration.
+
+## 0.9.0 (Initial release)
 
 ### Added
 

@@ -23,11 +23,7 @@ internal sealed class ProfessionGameLaunchedEvent : GameLaunchedEvent
     {
         var registry = ModHelper.ModRegistry;
 
-        // add SpaceCore integration
-        if (registry.IsLoaded("spacechase0.SpaceCore"))
-        {
-            new Integrations.SpaceCoreIntegration(registry).Register();
-        }
+        new Integrations.SpaceCoreIntegration(registry).Register();
 
         // add Luck Skill integration
         if (registry.IsLoaded("spacechase0.LuckSkill"))

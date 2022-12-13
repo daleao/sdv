@@ -25,11 +25,14 @@ internal sealed class SpaceCoreSaveLoadedEvent : SaveLoadedEvent
     /// <inheritdoc />
     protected override void OnSaveLoadedImpl(object? sender, SaveLoadedEventArgs e)
     {
+        // load custom skills
+        SpaceCoreIntegration.LoadSpaceCoreSkills();
+        if (LuckSkillIntegration.Api is not null && !SCSkill.Loaded.ContainsKey("spacechase0.LuckSkill"))
+        {
+            LuckSkillIntegration.LoadLuckSkill();
+        }
+
         // revalidate levels
         SCSkill.Loaded.Values.ForEach(s => s.Revalidate());
-
-        // load custom skills
-        LuckSkillIntegration.LoadLuckSkill();
-        SpaceCoreIntegration.LoadSpaceCoreSkills();
     }
 }

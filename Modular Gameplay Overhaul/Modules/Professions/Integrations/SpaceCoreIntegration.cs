@@ -32,16 +32,9 @@ internal sealed class SpaceCoreIntegration : BaseIntegration<ISpaceCoreApi>
 
         foreach (var skillId in Api.GetCustomSkills())
         {
-            if (SCSkill.Loaded.ContainsKey(skillId))
+            if (!SCSkill.Loaded.ContainsKey(skillId))
             {
-                continue;
-            }
-
-            var customSkill = new SCSkill(skillId);
-            SCSkill.Loaded[skillId] = customSkill;
-            foreach (var profession in customSkill.Professions)
-            {
-                SCProfession.Loaded[profession.Id] = (SCProfession)profession;
+                SCSkill.Loaded[skillId] = new SCSkill(skillId);
             }
         }
     }

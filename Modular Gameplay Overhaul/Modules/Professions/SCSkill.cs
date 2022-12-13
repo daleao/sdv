@@ -29,11 +29,7 @@ public sealed class SCSkill : ISkill
         var i = 0;
         foreach (var profession in skill.Professions)
         {
-            this.Professions.Add(
-                new SCProfession(
-                    profession,
-                    i++ < 2 ? 5 : 10,
-                    this));
+            this.Professions.Add(new SCProfession(profession, i++ < 2 ? 5 : 10, this));
         }
 
         if (this.Professions.Count != 6)
@@ -47,6 +43,11 @@ public sealed class SCSkill : ISkill
             new ProfessionPair(this.Professions[2], this.Professions[3], this.Professions[0], 10);
         this.ProfessionPairs[this.Professions[1].Id] =
             new ProfessionPair(this.Professions[4], this.Professions[5], this.Professions[1], 10);
+
+        foreach (var profession in this.Professions)
+        {
+            SCProfession.Loaded[profession.Id] = (SCProfession)profession;
+        }
 
         SpaceCoreMap.TryAdd(this, skill);
     }
