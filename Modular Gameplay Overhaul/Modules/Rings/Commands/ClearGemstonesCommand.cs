@@ -26,7 +26,13 @@ internal sealed class ClearGemstonesCommand : ConsoleCommand
     /// <inheritdoc />
     public override void Callback(string[] args)
     {
-        if (Game1.player.CurrentItem is not CombinedRing combined || combined.ParentSheetIndex != Globals.InfinityBandIndex)
+        if (!Globals.InfinityBandIndex.HasValue)
+        {
+            Log.W("The Infinity Band is not loaded.");
+            return;
+        }
+
+        if (Game1.player.CurrentItem is not CombinedRing combined || combined.ParentSheetIndex != Globals.InfinityBandIndex.Value)
         {
             Log.W("You must select an Infinity Band first.");
             return;

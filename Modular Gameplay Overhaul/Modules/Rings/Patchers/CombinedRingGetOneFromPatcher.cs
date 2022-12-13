@@ -26,7 +26,7 @@ internal sealed class CombinedRingGetOneFromPatcher : HarmonyPatcher
     [HarmonyPriority(Priority.HigherThanNormal)]
     private static bool CombinedRingGetOneFromPrefix(CombinedRing __instance, Item source)
     {
-        if (source.ParentSheetIndex != Globals.InfinityBandIndex)
+        if (!Globals.InfinityBandIndex.HasValue || source.ParentSheetIndex != Globals.InfinityBandIndex)
         {
             return true; // run original logic
         }

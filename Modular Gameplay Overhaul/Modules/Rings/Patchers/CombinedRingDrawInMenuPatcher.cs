@@ -45,7 +45,7 @@ internal sealed class CombinedRingDrawInMenuPatcher : HarmonyPatcher
         Color color,
         bool drawShadow)
     {
-        if (__instance.ParentSheetIndex != Globals.InfinityBandIndex)
+        if (!Globals.InfinityBandIndex.HasValue || __instance.ParentSheetIndex != Globals.InfinityBandIndex.Value)
         {
             return true; // run original logic
         }
@@ -171,7 +171,8 @@ internal sealed class CombinedRingDrawInMenuPatcher : HarmonyPatcher
         float transparency,
         float layerDepth)
     {
-        if (__instance.ParentSheetIndex != Globals.InfinityBandIndex || !VanillaTweaksIntegration.RingsCategoryEnabled)
+        if (!Globals.InfinityBandIndex.HasValue || __instance.ParentSheetIndex != Globals.InfinityBandIndex.Value ||
+            !VanillaTweaksIntegration.RingsCategoryEnabled)
         {
             return;
         }

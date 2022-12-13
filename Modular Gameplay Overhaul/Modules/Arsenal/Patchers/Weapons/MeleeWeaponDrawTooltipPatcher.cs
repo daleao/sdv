@@ -29,6 +29,11 @@ internal sealed class MeleeWeaponDrawTooltipPatcher : HarmonyPatcher
     private static bool MeleeWeaponDrawTooltipPrefix(
         MeleeWeapon __instance, SpriteBatch spriteBatch, ref int x, ref int y, SpriteFont font, float alpha)
     {
+        if (!ArsenalModule.Config.Weapons.RebalancedStats)
+        {
+            return true; // run original logic
+        }
+
         try
         {
             // write description

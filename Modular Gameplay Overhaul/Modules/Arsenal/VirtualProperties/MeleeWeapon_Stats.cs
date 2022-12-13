@@ -20,7 +20,7 @@ internal static class MeleeWeapon_Stats
 
     internal static int Get_MinDamage(this MeleeWeapon weapon)
     {
-        if (weapon.InitialParentTileIndex == Constants.InsectHeadIndex)
+        if (weapon.InitialParentTileIndex == Constants.InsectHeadIndex && ArsenalModule.Config.Weapons.RebalancedStats)
         {
             var caveInsectsKilled = Game1.stats.getMonstersKilled("Grub") +
                                     Game1.stats.getMonstersKilled("Fly") +
@@ -39,7 +39,7 @@ internal static class MeleeWeapon_Stats
 
     internal static int Get_MaxDamage(this MeleeWeapon weapon)
     {
-        if (weapon.InitialParentTileIndex == Constants.InsectHeadIndex)
+        if (weapon.InitialParentTileIndex == Constants.InsectHeadIndex && ArsenalModule.Config.Weapons.RebalancedStats)
         {
             var caveInsectsKilled = Game1.stats.getMonstersKilled("Grub") +
                                     Game1.stats.getMonstersKilled("Fly") +

@@ -46,7 +46,7 @@ internal sealed class RingOnUnequipPatcher : HarmonyPatcher
                 who.critPowerModifier -= 0.5f;
                 return false; // don't run original logic
             default:
-                if (__instance.ParentSheetIndex != Globals.GarnetRingIndex)
+                if (!Globals.GarnetRingIndex.HasValue || __instance.ParentSheetIndex != Globals.GarnetRingIndex)
                 {
                     return true; // run original logic
                 }

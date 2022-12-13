@@ -66,10 +66,6 @@ public sealed class ModConfig
     [JsonProperty]
     public bool EnableRings { get; internal set; } = false;
 
-    /// <summary>Gets a value indicating whether the Slingshots module is enabled.</summary>
-    [JsonProperty]
-    public bool EnableSlingshots { get; internal set; } = false;
-
     /// <summary>Gets a value indicating whether the Taxes module is enabled.</summary>
     [JsonProperty]
     public bool EnableTaxes { get; internal set; } = false;

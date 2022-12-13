@@ -1,5 +1,12 @@
 # Rings Module Change Log
 
+## 0.9.2
+
+### Fixed
+
+* Fixed a null-reference exception when unforging rings.
+* Added even more robust null-checking for custom JA items to avoid issues.
+
 ## 0.9.0 (Initial release)
 
 ### Added

@@ -234,11 +234,18 @@ internal sealed class FishPondGetFishProducePatcher : HarmonyPatcher
                 if (producedRoes.Sum() > 0)
                 {
                     var roeIndex = fish.Name.Contains("Squid") ? Constants.SquidInkIndex : Constants.RoeIndex;
-                    for (var i = 0; i < 4; i++)
+                    for (var i = 3; i >= 0; i--)
                     {
-                        if (producedRoes[i] > 0)
+                        if (producedRoes[i] <= 0)
                         {
-                            held.Add(new SObject(roeIndex, producedRoes[i], quality: i == 3 ? 4 : i));
+                            continue;
+                        }
+
+                        var producedWithThisQuality = random.Next(producedRoes[i]);
+                        held.Add(new SObject(roeIndex, producedWithThisQuality, quality: i == 3 ? 4 : i));
+                        if (i > 0)
+                        {
+                            producedRoes[i - 1] += producedRoes[i] - producedWithThisQuality;
                         }
                     }
                 }

@@ -57,7 +57,8 @@ internal sealed class GameLocationAnswerDialogueActionPatcher : HarmonyPatcher
                     break;
                 }
 
-                case "Blacksmith_Forge":
+                case "Blacksmith_Forge" when Globals.DwarvishBlueprintIndex.HasValue &&
+                                             Globals.DwarvenScrapIndex.HasValue && Globals.ElderwoodIndex.HasValue:
                 {
                     Game1.activeClickableMenu = new ShopMenu(
                         GetBlacksmithForgeStock(), 0, "ClintForge");

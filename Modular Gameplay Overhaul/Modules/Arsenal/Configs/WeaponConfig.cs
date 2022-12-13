@@ -43,11 +43,11 @@ public sealed class WeaponConfig
 
     /// <summary>Gets a value indicating whether to apply the corresponding weapon rebalance.</summary>
     [JsonProperty]
-    public bool RebalancedWeapons { get; internal set; } = true;
+    public bool RebalancedStats { get; internal set; } = true;
 
     /// <summary>Gets a value indicating whether to apply the corresponding weapon retexture.</summary>
     [JsonProperty]
-    public bool RetexturedWeapons { get; internal set; } = true;
+    public bool Retextures { get; internal set; } = true;
 
     /// <summary>Gets a value indicating whether enable new overhauled enchantments for melee weapons, and rebalance some old ones.</summary>
     [JsonProperty]

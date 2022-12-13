@@ -23,7 +23,7 @@ internal sealed class EmeraldEnchantmentApplyToPatcher : HarmonyPatcher
     [HarmonyPrefix]
     private static bool EmeraldEnchantmentApplyToPrefix(EmeraldEnchantment __instance, Item item)
     {
-        if (item is not MeleeWeapon weapon || !ArsenalModule.Config.Weapons.RebalancedWeapons)
+        if (item is not MeleeWeapon weapon || !ArsenalModule.Config.Weapons.RebalancedStats)
         {
             return true; // run original logic
         }

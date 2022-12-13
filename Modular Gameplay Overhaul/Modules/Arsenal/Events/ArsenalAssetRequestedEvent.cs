@@ -213,7 +213,7 @@ internal sealed class ArsenalAssetRequestedEvent : AssetRequestedEvent
     /// <summary>Edits weapons data with rebalanced stats.</summary>
     private static void EditWeaponsData(IAssetData asset)
     {
-        if (!ArsenalModule.Config.Weapons.RebalancedWeapons &&
+        if (!ArsenalModule.Config.Weapons.RebalancedStats &&
             !ArsenalModule.Config.Weapons.BringBackStabbySwords && !ArsenalModule.Config.DwarvishCrafting &&
             !ArsenalModule.Config.InfinityPlusOne)
         {
@@ -226,7 +226,7 @@ internal sealed class ArsenalAssetRequestedEvent : AssetRequestedEvent
         {
             var fields = data[key].Split('/');
 
-            if (ArsenalModule.Config.Weapons.RebalancedWeapons)
+            if (ArsenalModule.Config.Weapons.RebalancedStats)
             {
                 EditSpecificWeapon(key, fields);
             }
@@ -273,13 +273,13 @@ internal sealed class ArsenalAssetRequestedEvent : AssetRequestedEvent
     /// <summary>Edits weapons tilesheet with touched up textures.</summary>
     private static void EditWeaponsTileSheetEarly(IAssetData asset)
     {
-        if (!ArsenalModule.Config.Weapons.RetexturedWeapons && !ArsenalModule.Config.InfinityPlusOne)
+        if (!ArsenalModule.Config.Weapons.Retextures && !ArsenalModule.Config.InfinityPlusOne)
         {
             return;
         }
 
         var editor = asset.AsImage();
-        if (ArsenalModule.Config.Weapons.RetexturedWeapons)
+        if (ArsenalModule.Config.Weapons.Retextures)
         {
             editor.PatchImage(ModHelper.ModContent.Load<Texture2D>("assets/sprites/weapons"));
         }

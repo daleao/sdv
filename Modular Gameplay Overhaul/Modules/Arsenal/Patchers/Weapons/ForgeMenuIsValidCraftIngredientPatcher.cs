@@ -23,7 +23,7 @@ internal sealed class ForgeMenuIsValidCraftIngredientPatcher : HarmonyPatcher
     [HarmonyPostfix]
     private static void ForgeMenuIsValidCraftIngredientPostfix(ref bool __result, Item item)
     {
-        if (item.ParentSheetIndex == Globals.HeroSoulIndex)
+        if (Globals.HeroSoulIndex.HasValue && item.ParentSheetIndex == Globals.HeroSoulIndex.Value)
         {
             __result = true;
         }

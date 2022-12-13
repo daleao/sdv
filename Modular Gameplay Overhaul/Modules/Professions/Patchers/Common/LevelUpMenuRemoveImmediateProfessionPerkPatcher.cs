@@ -67,11 +67,11 @@ internal sealed class LevelUpMenuRemoveImmediateProfessionPerkPatcher : HarmonyP
             })
             .When(Profession.Prospector).Then(() =>
             {
-                EventManager.Disable<ProspectorHuntRenderedHudEvent>();
+                EventManager.Disable<ProspectorRenderedHudEvent>();
             })
             .When(Profession.Scavenger).Then(() =>
             {
-                EventManager.Disable<ScavengerHuntRenderedHudEvent>();
+                EventManager.Disable<ScavengerRenderedHudEvent>();
             });
 
         // unregister Ultimate

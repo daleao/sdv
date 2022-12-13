@@ -33,7 +33,7 @@ internal static class Farmer_CooldownReduction
         {
             CooldownReduction = rings.WhereNotNull().Aggregate(
                 0,
-                (cdr, ring) => cdr + (ring.ParentSheetIndex == Globals.GarnetRingIndex ? 1 : 0)),
+                (cdr, ring) => cdr + (ring.ParentSheetIndex == Globals.GarnetRingIndex!.Value ? 1 : 0)),
         };
     }
 

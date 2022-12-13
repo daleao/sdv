@@ -31,12 +31,12 @@ internal sealed class ProfessionSaveLoadedEvent : SaveLoadedEvent
 
         if (player.HasProfession(Profession.Prospector))
         {
-            this.Manager.Enable<ProspectorHuntRenderedHudEvent>();
+            this.Manager.Enable<ProspectorRenderedHudEvent>();
         }
 
         if (player.HasProfession(Profession.Scavenger))
         {
-            this.Manager.Enable<ScavengerHuntRenderedHudEvent>();
+            this.Manager.Enable<ScavengerRenderedHudEvent>();
         }
 
         this.Manager.Enable<PrestigeAchievementOneSecondUpdateTickedEvent>();

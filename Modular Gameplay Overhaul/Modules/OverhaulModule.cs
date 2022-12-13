@@ -95,6 +95,7 @@ internal abstract class OverhaulModule : SmartEnum<OverhaulModule>
             this.EntryCommand,
             () => this.IsActive);
         this.IsActive = true;
+        this.InvalidateAssets();
     }
 
     /// <summary>Deactivates the module.</summary>
@@ -109,6 +110,11 @@ internal abstract class OverhaulModule : SmartEnum<OverhaulModule>
         EventManager.UnmanageNamespace(this.Namespace);
         this._harmonizer = this._harmonizer.Unapply();
         this.IsActive = false;
+        this.InvalidateAssets();
+    }
+
+    protected virtual void InvalidateAssets()
+    {
     }
 
     #region implementations
@@ -123,6 +129,16 @@ internal abstract class OverhaulModule : SmartEnum<OverhaulModule>
 
         /// <summary>Gets the config instance for the <see cref="OverhaulModule.ProfessionsModule"/>.</summary>
         internal static ProfessionsConfig Config => ModEntry.Config.Professions;
+
+        protected override void InvalidateAssets()
+        {
+            ModHelper.GameContent.InvalidateCache("Data/achievements");
+            ModHelper.GameContent.InvalidateCache("Data/FishPondData");
+            ModHelper.GameContent.InvalidateCache("Data/mail");
+            ModHelper.GameContent.InvalidateCache("LooseSprite/Cursors");
+            ModHelper.GameContent.InvalidateCache("TileSheets/BuffsIcons");
+            ModHelper.GameContent.InvalidateCache("TileSheets/weapons");
+        }
     }
 
     internal sealed class ArsenalModule : OverhaulModule
@@ -135,6 +151,20 @@ internal abstract class OverhaulModule : SmartEnum<OverhaulModule>
 
         /// <summary>Gets the config instance for the <see cref="OverhaulModule.ArsenalModule"/>.</summary>
         internal static ArsenalConfig Config => ModEntry.Config.Arsenal;
+
+        protected override void InvalidateAssets()
+        {
+            ModHelper.GameContent.InvalidateCache("Data/ObjectInformation");
+            ModHelper.GameContent.InvalidateCache("Data/Events/AdventureGuild");
+            ModHelper.GameContent.InvalidateCache("Data/Events/Blacksmith");
+            ModHelper.GameContent.InvalidateCache("Data/Events/WizardHouse");
+            ModHelper.GameContent.InvalidateCache("Data/Monsters");
+            ModHelper.GameContent.InvalidateCache("Data/weapons");
+            ModHelper.GameContent.InvalidateCache("Strings/Locations");
+            ModHelper.GameContent.InvalidateCache("TileSheets/BuffsIcons");
+            ModHelper.GameContent.InvalidateCache("TileSheets/Projectiles");
+            ModHelper.GameContent.InvalidateCache("TileSheets/weapons");
+        }
     }
 
     internal sealed class RingsModule : OverhaulModule
@@ -147,6 +177,13 @@ internal abstract class OverhaulModule : SmartEnum<OverhaulModule>
 
         /// <summary>Gets the config instance for the <see cref="OverhaulModule.RingsModule"/>.</summary>
         internal static RingsConfig Config => ModEntry.Config.Rings;
+
+        protected override void InvalidateAssets()
+        {
+            ModHelper.GameContent.InvalidateCache("Data/ObjectInformation");
+            ModHelper.GameContent.InvalidateCache("Data/CraftingRecipes");
+            ModHelper.GameContent.InvalidateCache("Maps/springobjects");
+        }
     }
 
     internal sealed class PondsModule : OverhaulModule
@@ -159,6 +196,11 @@ internal abstract class OverhaulModule : SmartEnum<OverhaulModule>
 
         /// <summary>Gets the config instance for the <see cref="OverhaulModule.PondsModule"/>.</summary>
         internal static PondsConfig Config => ModEntry.Config.Ponds;
+
+        protected override void InvalidateAssets()
+        {
+            ModHelper.GameContent.InvalidateCache("Data/FishPondData");
+        }
     }
 
     internal sealed class TaxesModule : OverhaulModule
@@ -171,6 +213,11 @@ internal abstract class OverhaulModule : SmartEnum<OverhaulModule>
 
         /// <summary>Gets the config instance for the <see cref="OverhaulModule.TaxesModule"/>.</summary>
         internal static TaxesConfig Config => ModEntry.Config.Taxes;
+
+        protected override void InvalidateAssets()
+        {
+            ModHelper.GameContent.InvalidateCache("Data/mail");
+        }
     }
 
     internal sealed class ToolsModule : OverhaulModule
@@ -183,6 +230,11 @@ internal abstract class OverhaulModule : SmartEnum<OverhaulModule>
 
         /// <summary>Gets the config instance for the <see cref="OverhaulModule.ToolsModule"/>.</summary>
         internal static ToolsConfig Config => ModEntry.Config.Tools;
+
+        protected override void InvalidateAssets()
+        {
+            ModHelper.GameContent.InvalidateCache("Data/weapons");
+        }
     }
 
     internal sealed class TweexModule : OverhaulModule

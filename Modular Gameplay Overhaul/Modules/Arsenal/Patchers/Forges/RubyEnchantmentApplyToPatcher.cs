@@ -25,7 +25,7 @@ internal sealed class RubyEnchantmentApplyToPatcher : HarmonyPatcher
     [HarmonyPrefix]
     private static bool RubyEnchantmentApplyToPrefix(RubyEnchantment __instance, Item item)
     {
-        if (item is not MeleeWeapon weapon || !ArsenalModule.Config.Weapons.RebalancedWeapons)
+        if (item is not MeleeWeapon weapon || !ArsenalModule.Config.Weapons.RebalancedStats)
         {
             return true; // run original logic
         }

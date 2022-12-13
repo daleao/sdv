@@ -133,7 +133,7 @@ internal static class MeleeWeaponExtensions
             weapon.maxDamage.Value = initialMaxDamage;
         }
         else if (!weapon.IsUnique() && (!ArsenalModule.Config.DwarvishCrafting || !weapon.CanBeCrafted()) &&
-                 ArsenalModule.Config.Weapons.RebalancedWeapons && WeaponTier.GetFor(weapon) > WeaponTier.Untiered)
+                 ArsenalModule.Config.Weapons.RebalancedStats && WeaponTier.GetFor(weapon) > WeaponTier.Untiered)
         {
             weapon.RandomizeDamage();
         }
@@ -201,7 +201,7 @@ internal static class MeleeWeaponExtensions
     /// <param name="weapon">The <see cref="MeleeWeapon"/>.</param>
     internal static void AddIntrinsicEnchantments(this MeleeWeapon weapon)
     {
-        if (ArsenalModule.Config.Weapons.RebalancedWeapons)
+        if (ArsenalModule.Config.Weapons.RebalancedStats)
         {
             switch (weapon.InitialParentTileIndex)
             {

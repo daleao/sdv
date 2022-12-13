@@ -26,18 +26,12 @@ internal sealed class FarmerFoundArtifactPatcher : HarmonyPatcher
     [HarmonyPrefix]
     private static bool FarmerFoundArtifactPrefix(Farmer __instance, int index)
     {
-        if (Globals.DwarvishBlueprintIndex.HasValue || index != Globals.DwarvishBlueprintIndex!.Value)
+        if (!Globals.DwarvishBlueprintIndex.HasValue || index != Globals.DwarvishBlueprintIndex.Value)
         {
             return true; // run original logic
         }
 
-        if (!Globals.ElderwoodIndex.HasValue)
-        {
-            return false; // don't run original logic
-        }
-
-        var player = Game1.player;
-        var found = player.Read(DataFields.BlueprintsFound).ParseList<int>();
+        var found = __instance.Read(DataFields.BlueprintsFound).ParseList<int>();
         int blueprint;
         if (!found.ContainsAny(Constants.ElfBladeIndex, Constants.ForestSwordIndex))
         {
@@ -48,21 +42,21 @@ internal sealed class FarmerFoundArtifactPatcher : HarmonyPatcher
             blueprint = found.Contains(Constants.ElfBladeIndex) ? Constants.ForestSwordIndex : Constants.ElfBladeIndex;
         }
 
-        player.Append(DataFields.BlueprintsFound, blueprint.ToString());
-        if (player.Read(DataFields.BlueprintsFound).ParseList<int>().Count == 6)
+        __instance.Append(DataFields.BlueprintsFound, blueprint.ToString());
+        if (__instance.Read(DataFields.BlueprintsFound).ParseList<int>().Count == 6)
         {
-            player.completeQuest(Constants.ForgeNextQuestId);
+            __instance.completeQuest(Constants.ForgeNextQuestId);
         }
 
-        if (!player.hasOrWillReceiveMail("dwarvishBlueprintFound"))
+        if (!__instance.hasOrWillReceiveMail("dwarvishBlueprintFound"))
         {
             Game1.player.mailReceived.Add("dwarvishBlueprintFound");
         }
 
-        player.holdUpItemThenMessage(new SObject(Globals.DwarvishBlueprintIndex.Value, 1));
+        __instance.holdUpItemThenMessage(new SObject(Globals.DwarvishBlueprintIndex.Value, 1));
         if (Context.IsMultiplayer)
         {
-            Broadcaster.SendPublicChat(I18n.Get("blueprint.found.global", new { who = player.Name }));
+            Broadcaster.SendPublicChat(I18n.Get("blueprint.found.global", new { who = __instance.Name }));
         }
 
         return false; // don't run original logic

@@ -1,6 +1,12 @@
 ﻿# Ponds Module Change Log
 
-## 1.0.0
+## 0.9.2
+
+### Changed
+
+* The quality of produced roe is now less than or equal to the quality of the fish which produced it, instead of always being equal to it.
+
+## 0.9.0
 
 ### Added
 

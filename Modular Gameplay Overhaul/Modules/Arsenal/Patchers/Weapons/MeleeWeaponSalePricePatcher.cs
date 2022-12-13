@@ -25,7 +25,7 @@ internal sealed class MeleeWeaponSalePricePatcher : HarmonyPatcher
     [HarmonyPrefix]
     private static bool MeleeWeaponGetItemLevelPrefix(MeleeWeapon __instance, ref int __result)
     {
-        if (!ArsenalModule.Config.Weapons.RebalancedWeapons)
+        if (!ArsenalModule.Config.Weapons.RebalancedStats)
         {
             return true; // run original logic
         }

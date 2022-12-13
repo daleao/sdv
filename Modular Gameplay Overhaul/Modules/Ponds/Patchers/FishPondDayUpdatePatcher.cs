@@ -132,7 +132,7 @@ internal sealed class FishPondDayUpdatePatcher : HarmonyPatcher
 #endif
     }
 
-    /// <summary>Spontaneously grow algae + calculate roe production.</summary>
+    /// <summary>Spontaneously grow algae.</summary>
     [HarmonyPostfix]
     private static void FishPondDayUpdatePostfix(FishPond __instance, ref FishPondData? ____fishPondData)
     {

@@ -50,7 +50,7 @@ internal sealed class ScavengerRenderedHudEvent : RenderedHudEvent
             Globals.Pointer.Value.DrawAsTrackingPointer(bush.tilePosition.Value, Color.Yellow);
             if (shouldHighlightOnScreen)
             {
-                Globals.Pointer.Value.DrawOverTile(bush.tilePosition.Value, Color.Yellow);
+                Globals.Pointer.Value.DrawOverTile(bush.tilePosition.Value + new Vector2(0.5f, -1f), Color.Yellow);
             }
         }
 

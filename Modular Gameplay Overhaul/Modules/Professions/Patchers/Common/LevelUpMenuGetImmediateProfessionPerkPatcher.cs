@@ -70,11 +70,11 @@ internal sealed class LevelUpMenuGetImmediateProfessionPerkPatcher : HarmonyPatc
             })
             .When(Profession.Prospector).Then(() =>
             {
-                EventManager.Enable<ProspectorHuntRenderedHudEvent>();
+                EventManager.Enable<ProspectorRenderedHudEvent>();
             })
             .When(Profession.Scavenger).Then(() =>
             {
-                EventManager.Enable<ScavengerHuntRenderedHudEvent>();
+                EventManager.Enable<ScavengerRenderedHudEvent>();
             });
 
         if (whichProfession is < 26 or >= 30 || Game1.player.Get_Ultimate() is not null)

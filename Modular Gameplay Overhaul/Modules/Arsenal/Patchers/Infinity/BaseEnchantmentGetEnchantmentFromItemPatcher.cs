@@ -24,12 +24,12 @@ internal sealed class BaseEnchantmentGetEnchantmentFromItemPatcher : HarmonyPatc
     [HarmonyPostfix]
     private static void BaseEnchantmentGetEnchantmentFromItemPostfix(ref BaseEnchantment? __result, Item? base_item, Item item)
     {
-        if (__result is not null)
+        if (__result is not null || !Globals.HeroSoulIndex.HasValue)
         {
             return;
         }
 
-        if (item.ParentSheetIndex == Globals.HeroSoulIndex)
+        if (item.ParentSheetIndex == Globals.HeroSoulIndex.Value)
         {
             __result = new InfinityEnchantment();
         }

@@ -25,7 +25,7 @@ internal sealed class ToolButtonPressedEvent : ButtonPressedEvent
     /// <inheritdoc />
     protected override void OnButtonPressedImpl(object? sender, ButtonPressedEventArgs e)
     {
-        if (!Context.IsWorldReady)
+        if (!Context.IsWorldReady || Game1.activeClickableMenu is not null)
         {
             return;
         }

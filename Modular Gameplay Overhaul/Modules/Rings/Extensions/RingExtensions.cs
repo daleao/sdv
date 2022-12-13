@@ -32,8 +32,8 @@ internal static class RingExtensions
     /// </returns>
     internal static bool IsCombinedInfinityBand(this Ring ring, [NotNullWhen(true)] out CombinedRing? infinity)
     {
-        if (ring is CombinedRing combined && combined.ParentSheetIndex == Globals.InfinityBandIndex &&
-            combined.combinedRings.Count > 0)
+        if (Globals.InfinityBandIndex.HasValue && ring is CombinedRing combined &&
+            combined.ParentSheetIndex == Globals.InfinityBandIndex.Value && combined.combinedRings.Count > 0)
         {
             infinity = combined;
         }

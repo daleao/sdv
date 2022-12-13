@@ -33,13 +33,14 @@ internal sealed class ForgeMenuUpdatePatcher : HarmonyPatcher
     {
         var helper = new ILHelper(original, instructions);
 
-        // Injected: if (ArsenalModule.Config.Slingshots.TheOneInfinityBand && ring.ParentSheetIndex == Globals.InfinityBandIndex.Value)
+        // Injected: if (ModEntry.Config.Rings.TheOneInfinityBand && Globals.InfinityBandIndex.Value && ring.ParentSheetIndex == Globals.InfinityBandIndex.Value)
         //               UnforgeInfinityBand(ring);
         //           else ...
         // After: if (leftIngredientSpot.item is CombinedRing ring)
         try
         {
             var vanillaUnforge = generator.DefineLabel();
+            var infinityBandIndex = generator.DeclareLocal(typeof(int?));
             helper
                 .Match(
                     new[] { new CodeInstruction(OpCodes.Stloc_S, helper.Locals[14]) }) // local 14 = CombinedRing ring
@@ -58,12 +59,22 @@ internal sealed class ForgeMenuUpdatePatcher : HarmonyPatcher
                             OpCodes.Callvirt,
                             typeof(RingsConfig).RequirePropertyGetter(nameof(RingsConfig.TheOneInfinityBand))),
                         new CodeInstruction(OpCodes.Brfalse_S, vanillaUnforge),
-                        new CodeInstruction(OpCodes.Ldloc_S, helper.Locals[14]), new CodeInstruction(
+                        new CodeInstruction(
+                            OpCodes.Call,
+                            typeof(Globals).RequirePropertyGetter(nameof(Globals.InfinityBandIndex))),
+                        new CodeInstruction(OpCodes.Stloc_S, infinityBandIndex),
+                        new CodeInstruction(OpCodes.Ldloca_S, infinityBandIndex),
+                        new CodeInstruction(OpCodes.Call, typeof(int?).RequirePropertyGetter(nameof(Nullable<int>.HasValue))),
+                        new CodeInstruction(OpCodes.Brfalse_S, vanillaUnforge),
+                        new CodeInstruction(OpCodes.Ldloc_S, helper.Locals[14]),
+                        new CodeInstruction(
                             OpCodes.Callvirt,
                             typeof(Item).RequirePropertyGetter(nameof(Item.ParentSheetIndex))),
                         new CodeInstruction(
                             OpCodes.Call,
                             typeof(Globals).RequirePropertyGetter(nameof(Globals.InfinityBandIndex))),
+                        new CodeInstruction(OpCodes.Stloc_S, infinityBandIndex),
+                        new CodeInstruction(OpCodes.Ldloca_S, infinityBandIndex),
                         new CodeInstruction(
                             OpCodes.Call,
                             typeof(int?).RequirePropertyGetter(nameof(Nullable<int>.Value))),

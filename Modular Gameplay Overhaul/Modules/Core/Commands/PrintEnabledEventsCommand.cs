@@ -5,6 +5,7 @@
 using System.Linq;
 using DaLion.Shared.Attributes;
 using DaLion.Shared.Commands;
+using DaLion.Shared.Events;
 
 #endregion using directives
 
@@ -29,7 +30,7 @@ internal sealed class PrintEnabledEventsCommand : ConsoleCommand
     public override void Callback(string[] args)
     {
         var message = "Enabled events:";
-        var events = EventManager.Enabled.ToList();
+        var events = ModEntry.EventManager.Enabled.Cast<ManagedEvent>().ToList();
         events.Sort();
         message = events.Aggregate(
             message,

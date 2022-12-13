@@ -25,7 +25,7 @@ internal sealed class CombinedRingLoadDisplayFieldsPatcher : HarmonyPatcher
     [HarmonyPriority(Priority.HigherThanNormal)]
     private static bool CombinedRingsLoadDisplayFieldsPrefix(CombinedRing __instance, ref bool __result)
     {
-        if (__instance.ParentSheetIndex != Globals.InfinityBandIndex)
+        if (!Globals.InfinityBandIndex.HasValue || __instance.ParentSheetIndex != Globals.InfinityBandIndex.Value)
         {
             return true; // don't run original logic
         }

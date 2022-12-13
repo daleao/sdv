@@ -42,7 +42,7 @@ internal sealed class AddGemstonesCommand : ConsoleCommand
             return;
         }
 
-        if (Game1.player.CurrentItem is not Ring ring || ring.ParentSheetIndex != Globals.InfinityBandIndex)
+        if (Game1.player.CurrentItem is not Ring ring || ring.ParentSheetIndex != Globals.InfinityBandIndex.Value)
         {
             Log.W("You must select an Infinity Band first.");
             return;
@@ -60,7 +60,7 @@ internal sealed class AddGemstonesCommand : ConsoleCommand
                 "emerald" => Constants.EmeraldRingIndex,
                 "amethyst" => Constants.AmethystRingIndex,
                 "topaz" => Constants.TopazRingIndex,
-                "garnet" => Globals.GarnetRingIndex,
+                "garnet" => Globals.GarnetRingIndex!.Value,
                 _ => -1,
             };
 
@@ -71,7 +71,7 @@ internal sealed class AddGemstonesCommand : ConsoleCommand
                 continue;
             }
 
-            band.combinedRings.Add(new Ring(ringIndex!.Value));
+            band.combinedRings.Add(new Ring(ringIndex));
             Log.I($"{args[0].FirstCharToUpper()} was added to the Infinity Band.");
 
             args = args.Skip(1).ToArray();

@@ -25,12 +25,12 @@ internal sealed class ForgeMenuGetForgeCostPatcher : HarmonyPatcher
     [HarmonyPrefix]
     private static bool ForgeMenuGetForgeCostPrefix(ref int __result, Item left_item, Item right_item)
     {
-        if (!RingsModule.Config.TheOneInfinityBand || left_item is not Ring left)
+        if (!RingsModule.Config.TheOneInfinityBand || !Globals.InfinityBandIndex.HasValue || left_item is not Ring left)
         {
             return true; // run original logic
         }
 
-        if (left.ParentSheetIndex == Globals.InfinityBandIndex && right_item is Ring right && right.IsGemRing())
+        if (left.ParentSheetIndex == Globals.InfinityBandIndex.Value && right_item is Ring right && right.IsGemRing())
         {
             __result = 10;
             return false; // don't run original logic

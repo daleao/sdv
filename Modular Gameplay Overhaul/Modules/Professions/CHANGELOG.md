@@ -1,5 +1,12 @@
 # Professions Module Change Log
 
+## 0.9.2
+
+### Fixed
+
+* Fixed Scavenger and Prospector tracking arrows not being displayed.
+* Improved tracking arrow position for tracked bushes on-screen.
+
 ## 0.9.1
 
 ### Fixed

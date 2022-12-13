@@ -88,7 +88,6 @@ internal abstract class HarmonyPatcher : IHarmonyPatcher
         {
             harmony.CreateReversePatcher(this.Target, this.Reverse).Patch();
         }
-
         harmony.Patch(this.Target, this.Prefix, this.Postfix, this.Transpiler, this.Finalizer);
     }
 

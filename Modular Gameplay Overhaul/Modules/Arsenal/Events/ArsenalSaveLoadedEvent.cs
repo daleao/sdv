@@ -50,7 +50,7 @@ internal sealed class ArsenalSaveLoadedEvent : SaveLoadedEvent
                     weapon.type.Value = MeleeWeapon.stabbingSword;
                 }
 
-                if (ArsenalModule.Config.Weapons.RebalancedWeapons)
+                if (ArsenalModule.Config.Weapons.RebalancedStats)
                 {
                     weapon.RefreshStats();
                 }
@@ -75,7 +75,7 @@ internal sealed class ArsenalSaveLoadedEvent : SaveLoadedEvent
                     weapon.type.Value = MeleeWeapon.stabbingSword;
                 }
 
-                if (ArsenalModule.Config.Weapons.RebalancedWeapons)
+                if (ArsenalModule.Config.Weapons.RebalancedStats)
                 {
                     weapon.RefreshStats();
                 }

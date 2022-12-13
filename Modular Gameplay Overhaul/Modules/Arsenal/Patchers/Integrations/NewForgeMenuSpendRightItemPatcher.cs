@@ -29,7 +29,7 @@ internal sealed class NewForgeMenuSpendRightItemPatcher : HarmonyPatcher
     {
         try
         {
-            return __instance.rightIngredientSpot.item?.ParentSheetIndex != Globals.HeroSoulIndex;
+            return !Globals.HeroSoulIndex.HasValue || __instance.rightIngredientSpot.item?.ParentSheetIndex != Globals.HeroSoulIndex.Value;
         }
         catch (Exception ex)
         {

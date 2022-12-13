@@ -11,7 +11,6 @@ using HarmonyLib;
 #endregion using directives
 
 [UsedImplicitly]
-[ImplicitIgnore]
 [Debug]
 internal sealed class DebugPatcher : HarmonyPatcher
 {

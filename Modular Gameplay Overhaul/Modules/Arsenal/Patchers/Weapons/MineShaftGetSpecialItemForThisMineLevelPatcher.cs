@@ -27,7 +27,7 @@ internal sealed class MineShaftGetSpecialItemForThisMineLevelPatcher : HarmonyPa
     [HarmonyPrefix]
     private static bool MineShaftGetSpecialItemForThisMineLevelPrefix(ref Item __result, int level)
     {
-        if (!ArsenalModule.Config.Weapons.RebalancedWeapons)
+        if (!ArsenalModule.Config.Weapons.RebalancedStats)
         {
             return true; // run original logic
         }

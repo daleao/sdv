@@ -26,19 +26,19 @@ internal sealed class RingCanCombinePatcher : HarmonyPatcher
     [HarmonyPriority(Priority.HigherThanNormal)]
     private static bool RingCanCombinePrefix(Ring __instance, ref bool __result, Ring ring)
     {
-        if (!RingsModule.Config.TheOneInfinityBand)
+        if (!RingsModule.Config.TheOneInfinityBand || !Globals.InfinityBandIndex.HasValue)
         {
             return true; // run original logic
         }
 
         if (__instance.ParentSheetIndex == Constants.IridiumBandIndex ||
             ring.ParentSheetIndex == Constants.IridiumBandIndex ||
-            ring.ParentSheetIndex == Globals.InfinityBandIndex)
+            ring.ParentSheetIndex == Globals.InfinityBandIndex.Value)
         {
             return false; // don't run original logic
         }
 
-        if (__instance.ParentSheetIndex != Globals.InfinityBandIndex)
+        if (__instance.ParentSheetIndex != Globals.InfinityBandIndex.Value)
         {
             return true; // run original logic
         }

@@ -32,7 +32,8 @@ internal sealed class ChestPerformOpenChestPatcher : HarmonyPatcher
     [System.Diagnostics.CodeAnalysis.SuppressMessage("StyleCop.CSharp.NamingRules", "SA1300:Element should begin with upper-case letter", Justification = "Preference for internal functions.")]
     private static void ChestPerformOpenChestPostfix(Chest __instance)
     {
-        if (!ArsenalModule.Config.DwarvishCrafting || !Globals.DwarvishBlueprintIndex.HasValue)
+        if (!ArsenalModule.Config.DwarvishCrafting || !Globals.DwarvishBlueprintIndex.HasValue ||
+            !Globals.DwarvenScrapIndex.HasValue)
         {
             return;
         }
@@ -55,7 +56,7 @@ internal sealed class ChestPerformOpenChestPatcher : HarmonyPatcher
         if (found.ContainsAll(volcanoBlueprints) || !player.canUnderstandDwarves)
         {
             var material = weapon.Name.StartsWith("Dwarven")
-                ? Globals.DwarvenScrapIndex!.Value
+                ? Globals.DwarvenScrapIndex.Value
                 : Constants.DragonToothIndex;
             __instance.items.Add(new SObject(material, 1));
             return;

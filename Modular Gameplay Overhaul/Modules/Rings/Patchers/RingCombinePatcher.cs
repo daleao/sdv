@@ -28,7 +28,8 @@ internal sealed class RingCombinePatcher : HarmonyPatcher
     [HarmonyPriority(Priority.HigherThanNormal)]
     private static bool RingCombinePrefix(Ring __instance, ref Ring __result, Ring ring)
     {
-        if (!RingsModule.Config.TheOneInfinityBand || __instance.ParentSheetIndex != Globals.InfinityBandIndex)
+        if (!RingsModule.Config.TheOneInfinityBand || !Globals.InfinityBandIndex.HasValue ||
+            __instance.ParentSheetIndex != Globals.InfinityBandIndex)
         {
             return true; // run original logic
         }

@@ -238,20 +238,20 @@ internal sealed partial class GenericModConfigMenuIntegration
             .AddCheckbox(
                 () => "Rebalance Weapons",
                 () => "Rebalances every melee weapon with stats well-suited for this mod's intended experience.",
-                config => config.Arsenal.Weapons.RebalancedWeapons,
+                config => config.Arsenal.Weapons.RebalancedStats,
                 (config, value) =>
                 {
-                    config.Arsenal.Weapons.RebalancedWeapons = value;
+                    config.Arsenal.Weapons.RebalancedStats = value;
                     ModHelper.GameContent.InvalidateCacheAndLocalized("Data/weapons");
                     Arsenal.Utils.UpdateAllWeapons();
                 })
             .AddCheckbox(
                 () => "Retexture Weapons",
                 () => "Slightly touches up many melee weapons, without changing the vanilla style, to be slightly more realistic or to reflect other changes made by this module.",
-                config => config.Arsenal.Weapons.RetexturedWeapons,
+                config => config.Arsenal.Weapons.Retextures,
                 (config, value) =>
                 {
-                    config.Arsenal.Weapons.RetexturedWeapons = value;
+                    config.Arsenal.Weapons.Retextures = value;
                     ModHelper.GameContent.InvalidateCacheAndLocalized("TileSheets/weapons");
                 })
             .AddCheckbox(
