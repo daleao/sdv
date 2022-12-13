@@ -15,8 +15,6 @@ internal sealed class HudPointer
 
     private readonly Texture2D _texture;
     private readonly Rectangle _srcRect;
-    private readonly float _scale;
-    private readonly float _rate;
 
     private float _height = -42f;
     private float _jerk = 1f;
@@ -30,9 +28,15 @@ internal sealed class HudPointer
     {
         this._texture = texture;
         this._srcRect = new Rectangle(0, 0, texture.Width, texture.Height);
-        this._scale = scale;
-        this._rate = rate;
+        this.Scale = scale;
+        this.BobRate = rate;
     }
+
+    /// <summary>Gets or sets the scale for drawing the pointer.</summary>
+    internal float Scale { get; set; }
+
+    /// <summary>Gets or sets the rate at which the pointer animates (higher is faster).</summary>
+    internal float BobRate { get; set; }
 
     /// <summary>Draw the pointer at the edge of the screen, pointing to a target tile off-screen.</summary>
     /// <param name="target">The target tile to point to.</param>
@@ -98,8 +102,8 @@ internal sealed class HudPointer
 
         var safePos = Utility.makeSafe(
             renderSize: new Vector2(
-                this._srcRect.Width * Game1.pixelZoom * this._scale,
-                this._srcRect.Height * Game1.pixelZoom * this._scale),
+                this._srcRect.Width * Game1.pixelZoom * this.Scale,
+                this._srcRect.Height * Game1.pixelZoom * this.Scale),
             renderPos: onScreenPosition);
 
         Game1.spriteBatch.Draw(
@@ -109,7 +113,7 @@ internal sealed class HudPointer
             color,
             rotation,
             new Vector2(2f, 2f),
-            Game1.pixelZoom * this._scale,
+            Game1.pixelZoom * this.Scale,
             SpriteEffects.None,
             1f);
     }
@@ -137,7 +141,7 @@ internal sealed class HudPointer
             color,
             (float)Math.PI,
             new Vector2(2f, 2f),
-            Game1.pixelZoom * this._scale,
+            Game1.pixelZoom * this.Scale,
             SpriteEffects.None,
             1f);
     }
@@ -146,7 +150,7 @@ internal sealed class HudPointer
     /// <param name="ticks">The number of ticks elapsed since the game started.</param>
     public void Update(uint ticks)
     {
-        if (ticks % (4f / this._rate) != 0)
+        if (ticks % (8f / this.BobRate) != 0)
         {
             return;
         }

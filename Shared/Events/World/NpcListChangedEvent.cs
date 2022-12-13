@@ -17,6 +17,12 @@ internal abstract class NpcListChangedEvent : ManagedEvent
         manager.ModEvents.World.NpcListChanged += this.OnNpcListChanged;
     }
 
+    /// <inheritdoc />
+    public override void Dispose()
+    {
+        this.Manager.ModEvents.World.NpcListChanged -= this.OnNpcListChanged;
+    }
+
     /// <inheritdoc cref="IWorldEvents.NpcListChanged"/>
     /// <param name="sender">The event sender.</param>
     /// <param name="e">The event arguments.</param>

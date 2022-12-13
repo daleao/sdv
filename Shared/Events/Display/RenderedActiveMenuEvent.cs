@@ -17,6 +17,12 @@ internal abstract class RenderedActiveMenuEvent : ManagedEvent
         manager.ModEvents.Display.RenderedActiveMenu += this.OnRenderedActiveMenu;
     }
 
+    /// <inheritdoc />
+    public override void Dispose()
+    {
+        this.Manager.ModEvents.Display.RenderedActiveMenu -= this.OnRenderedActiveMenu;
+    }
+
     /// <inheritdoc cref="IDisplayEvents.RenderedActiveMenu"/>
     /// <param name="sender">The event sender.</param>
     /// <param name="e">The event arguments.</param>

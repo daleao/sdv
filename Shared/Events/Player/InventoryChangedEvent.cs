@@ -17,6 +17,12 @@ internal abstract class InventoryChangedEvent : ManagedEvent
         manager.ModEvents.Player.InventoryChanged += this.OnInventoryChanged;
     }
 
+    /// <inheritdoc />
+    public override void Dispose()
+    {
+        this.Manager.ModEvents.Player.InventoryChanged -= this.OnInventoryChanged;
+    }
+
     /// <inheritdoc cref="IPlayerEvents.InventoryChanged"/>
     /// <param name="sender">The event sender.</param>
     /// <param name="e">The event arguments.</param>

@@ -47,7 +47,12 @@ internal sealed class ProspectorHunt : TreasureHunt
         }
 
         this.Location = location;
+#if DEBUG
+        this.TimeLimit = int.MaxValue;
+#elif RELEASE
         this.TimeLimit = (uint)(location.Objects.Count() * ProfessionsModule.Config.ProspectorHuntHandicap);
+        this.TimeLimit = Math.Max(this.TimeLimit, 30);
+#endif
         this.Elapsed = 0;
         EventManager.Enable<PointerUpdateTickedEvent>();
         EventManager.Enable<ProspectorHuntRenderedHudEvent>();

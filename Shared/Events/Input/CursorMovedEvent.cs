@@ -17,6 +17,12 @@ internal abstract class CursorMovedEvent : ManagedEvent
         manager.ModEvents.Input.CursorMoved += this.OnCursorMoved;
     }
 
+    /// <inheritdoc />
+    public override void Dispose()
+    {
+        this.Manager.ModEvents.Input.CursorMoved -= this.OnCursorMoved;
+    }
+
     /// <inheritdoc cref="IInputEvents.CursorMoved"/>
     /// <param name="sender">The event sender.</param>
     /// <param name="e">The event arguments.</param>

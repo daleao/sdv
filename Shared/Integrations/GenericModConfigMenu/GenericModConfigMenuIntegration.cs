@@ -46,7 +46,7 @@ internal sealed class GenericModConfigMenuIntegration<TConfig> : BaseIntegration
     public GenericModConfigMenuIntegration<TConfig> Register(bool titleScreenOnly = false)
     {
         this.AssertLoaded();
-        this.ModApi!.Register(this._consumerManifest, this._reset, this._saveAndApply, titleScreenOnly);
+        this.ModApi.Register(this._consumerManifest, this._reset, this._saveAndApply, titleScreenOnly);
         return this;
     }
 
@@ -55,7 +55,7 @@ internal sealed class GenericModConfigMenuIntegration<TConfig> : BaseIntegration
     public GenericModConfigMenuIntegration<TConfig> Unregister()
     {
         this.AssertLoaded();
-        this.ModApi!.Unregister(this._consumerManifest);
+        this.ModApi.Unregister(this._consumerManifest);
         return this;
     }
 
@@ -73,7 +73,7 @@ internal sealed class GenericModConfigMenuIntegration<TConfig> : BaseIntegration
     public GenericModConfigMenuIntegration<TConfig> AddPage(string pageId, Func<string>? pageTitle = null)
     {
         this.AssertLoaded();
-        this.ModApi!.AddPage(this._consumerManifest, pageId, pageTitle);
+        this.ModApi.AddPage(this._consumerManifest, pageId, pageTitle);
         return this;
     }
 
@@ -86,7 +86,7 @@ internal sealed class GenericModConfigMenuIntegration<TConfig> : BaseIntegration
         string pageId, Func<string> text, Func<string>? tooltip = null)
     {
         this.AssertLoaded();
-        this.ModApi!.AddPageLink(this._consumerManifest, pageId, text, tooltip);
+        this.ModApi.AddPageLink(this._consumerManifest, pageId, text, tooltip);
         return this;
     }
 
@@ -100,7 +100,7 @@ internal sealed class GenericModConfigMenuIntegration<TConfig> : BaseIntegration
     public GenericModConfigMenuIntegration<TConfig> AddSectionTitle(Func<string> text, Func<string>? tooltip = null)
     {
         this.AssertLoaded();
-        this.ModApi!.AddSectionTitle(this._consumerManifest, text, tooltip);
+        this.ModApi.AddSectionTitle(this._consumerManifest, text, tooltip);
         return this;
     }
 
@@ -110,7 +110,7 @@ internal sealed class GenericModConfigMenuIntegration<TConfig> : BaseIntegration
     public GenericModConfigMenuIntegration<TConfig> AddParagraph(Func<string> text)
     {
         this.AssertLoaded();
-        this.ModApi!.AddParagraph(this._consumerManifest, text);
+        this.ModApi.AddParagraph(this._consumerManifest, text);
         return this;
     }
 
@@ -129,7 +129,7 @@ internal sealed class GenericModConfigMenuIntegration<TConfig> : BaseIntegration
         string? id = null)
     {
         this.AssertLoaded();
-        this.ModApi!.AddBoolOption(
+        this.ModApi.AddBoolOption(
             this._consumerManifest,
             name: name,
             tooltip: tooltip,
@@ -162,7 +162,7 @@ internal sealed class GenericModConfigMenuIntegration<TConfig> : BaseIntegration
         string? id = null)
     {
         this.AssertLoaded();
-        this.ModApi!.AddTextOption(
+        this.ModApi.AddTextOption(
             this._consumerManifest,
             name: name,
             tooltip: tooltip,
@@ -190,7 +190,7 @@ internal sealed class GenericModConfigMenuIntegration<TConfig> : BaseIntegration
         string? id = null)
     {
         this.AssertLoaded();
-        this.ModApi!.AddTextOption(
+        this.ModApi.AddTextOption(
             this._consumerManifest,
             name: name,
             tooltip: tooltip,
@@ -220,7 +220,7 @@ internal sealed class GenericModConfigMenuIntegration<TConfig> : BaseIntegration
         string? id = null)
     {
         this.AssertLoaded();
-        this.ModApi!.AddNumberOption(
+        this.ModApi.AddNumberOption(
             this._consumerManifest,
             name: name,
             tooltip: tooltip,
@@ -254,7 +254,7 @@ internal sealed class GenericModConfigMenuIntegration<TConfig> : BaseIntegration
         string? id = null)
     {
         this.AssertLoaded();
-        this.ModApi!.AddNumberOption(
+        this.ModApi.AddNumberOption(
             this._consumerManifest,
             name: name,
             tooltip: tooltip,
@@ -283,7 +283,7 @@ internal sealed class GenericModConfigMenuIntegration<TConfig> : BaseIntegration
         string? id = null)
     {
         this.AssertLoaded();
-        this.ModApi!.AddKeybindList(
+        this.ModApi.AddKeybindList(
             this._consumerManifest,
             name: name,
             tooltip: tooltip,
@@ -299,7 +299,8 @@ internal sealed class GenericModConfigMenuIntegration<TConfig> : BaseIntegration
     /// <remarks>This lets you have different values per-field. Most mods should just set it once in <see cref="Register"/>.</remarks>
     public void SetTitleScreenOnlyForNextOptions(bool titleScreenOnly)
     {
-        this.ModApi!.SetTitleScreenOnlyForNextOptions(this._consumerManifest, titleScreenOnly);
+        this.AssertLoaded();
+        this.ModApi.SetTitleScreenOnlyForNextOptions(this._consumerManifest, titleScreenOnly);
     }
 
     /// <summary>Registers an action to invoke when a field's value is changed.</summary>
@@ -308,7 +309,7 @@ internal sealed class GenericModConfigMenuIntegration<TConfig> : BaseIntegration
     public GenericModConfigMenuIntegration<TConfig> OnFieldChanged(Action<string, object> action)
     {
         this.AssertLoaded();
-        this.ModApi!.OnFieldChanged(
+        this.ModApi.OnFieldChanged(
             this._consumerManifest,
             onChange: action);
 

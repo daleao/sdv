@@ -17,6 +17,12 @@ internal abstract class MouseWheelScrolledEvent : ManagedEvent
         manager.ModEvents.Input.MouseWheelScrolled += this.OnMouseWheelScrolled;
     }
 
+    /// <inheritdoc />
+    public override void Dispose()
+    {
+        this.Manager.ModEvents.Input.MouseWheelScrolled -= this.OnMouseWheelScrolled;
+    }
+
     /// <inheritdoc cref="IInputEvents.MouseWheelScrolled"/>
     /// <param name="sender">The event sender.</param>
     /// <param name="e">The event arguments.</param>

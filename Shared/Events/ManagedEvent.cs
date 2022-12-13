@@ -167,6 +167,9 @@ internal abstract class ManagedEvent : IManagedEvent, IComparable<ManagedEvent>,
         return obj is ManagedEvent other && this.Equals(other);
     }
 
+    /// <inheritdoc />
+    public abstract void Dispose();
+
     /// <summary>Invoked once when the event is enabled.</summary>
     protected virtual void OnEnabled()
     {

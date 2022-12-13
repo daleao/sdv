@@ -17,6 +17,12 @@ internal abstract class RenderingHudEvent : ManagedEvent
         manager.ModEvents.Display.RenderingHud += this.OnRenderingHud;
     }
 
+    /// <inheritdoc />
+    public override void Dispose()
+    {
+        this.Manager.ModEvents.Display.RenderingHud -= this.OnRenderingHud;
+    }
+
     /// <inheritdoc cref="IDisplayEvents.RenderingHud"/>
     /// <param name="sender">The event sender.</param>
     /// <param name="e">The event arguments.</param>

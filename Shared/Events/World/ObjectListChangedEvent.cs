@@ -17,6 +17,12 @@ internal abstract class ObjectListChangedEvent : ManagedEvent
         manager.ModEvents.World.ObjectListChanged += this.OnObjectListChanged;
     }
 
+    /// <inheritdoc />
+    public override void Dispose()
+    {
+        this.Manager.ModEvents.World.ObjectListChanged -= this.OnObjectListChanged;
+    }
+
     /// <inheritdoc cref="IWorldEvents.ObjectListChanged"/>
     /// <param name="sender">The event sender.</param>
     /// <param name="e">The event arguments.</param>

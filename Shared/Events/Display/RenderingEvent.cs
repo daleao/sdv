@@ -17,6 +17,12 @@ internal abstract class RenderingEvent : ManagedEvent
         manager.ModEvents.Display.Rendering += this.OnRendering;
     }
 
+    /// <inheritdoc />
+    public override void Dispose()
+    {
+        this.Manager.ModEvents.Display.Rendering -= this.OnRendering;
+    }
+
     /// <inheritdoc cref="IDisplayEvents.Rendering"/>
     /// <param name="sender">The event sender.</param>
     /// <param name="e">The event arguments.</param>

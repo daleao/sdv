@@ -17,6 +17,12 @@ internal abstract class WindowResizedEvent : ManagedEvent
         manager.ModEvents.Display.WindowResized += this.OnWindowResized;
     }
 
+    /// <inheritdoc />
+    public override void Dispose()
+    {
+        this.Manager.ModEvents.Display.WindowResized -= this.OnWindowResized;
+    }
+
     /// <inheritdoc cref="IDisplayEvents.WindowResized"/>
     /// <param name="sender">The event sender.</param>
     /// <param name="e">The event arguments.</param>

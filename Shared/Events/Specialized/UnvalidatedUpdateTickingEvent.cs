@@ -17,6 +17,12 @@ internal abstract class UnvalidatedUpdateTickingEvent : ManagedEvent
         //manager.ModEvents.Specialized.UnvalidatedUpdateTicking += this.OnUnvalidatedUpdateTicking;
     }
 
+    /// <inheritdoc />
+    public override void Dispose()
+    {
+        //this.Manager.ModEvents.Specialized.UnvalidatedUpdateTicking -= this.OnUnvalidatedUpdateTicking;
+    }
+
     /// <inheritdoc cref="ISpecializedEvents.UnvalidatedUpdateTicking"/>
     /// <param name="sender">The event sender.</param>
     /// <param name="e">The event arguments.</param>

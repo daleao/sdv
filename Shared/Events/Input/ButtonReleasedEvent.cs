@@ -17,6 +17,12 @@ internal abstract class ButtonReleasedEvent : ManagedEvent
         manager.ModEvents.Input.ButtonReleased += this.OnButtonReleased;
     }
 
+    /// <inheritdoc />
+    public override void Dispose()
+    {
+        this.Manager.ModEvents.Input.ButtonReleased -= this.OnButtonReleased;
+    }
+
     /// <inheritdoc cref="IInputEvents.ButtonReleased"/>
     /// <param name="sender">The event sender.</param>
     /// <param name="e">The event arguments.</param>

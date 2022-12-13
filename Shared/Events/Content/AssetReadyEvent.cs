@@ -17,6 +17,12 @@ internal abstract class AssetReadyEvent : ManagedEvent
         manager.ModEvents.Content.AssetReady += this.OnAssetReady;
     }
 
+    /// <inheritdoc />
+    public override void Dispose()
+    {
+        this.Manager.ModEvents.Content.AssetReady -= this.OnAssetReady;
+    }
+
     /// <inheritdoc cref="IContentEvents.AssetReady"/>
     /// <param name="sender">The event sender.</param>
     /// <param name="e">The event data.</param>

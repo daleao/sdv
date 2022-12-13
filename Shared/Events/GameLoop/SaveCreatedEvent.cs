@@ -20,6 +20,12 @@ internal abstract class SaveCreatedEvent : ManagedEvent
     /// <inheritdoc />
     public override bool IsEnabled => Context.IsMainPlayer;
 
+    /// <inheritdoc />
+    public override void Dispose()
+    {
+        this.Manager.ModEvents.GameLoop.SaveCreated -= this.OnSaveCreated;
+    }
+
     /// <inheritdoc cref="IGameLoopEvents.SaveCreated"/>
     /// <param name="sender">The event sender.</param>
     /// <param name="e">The event data.</param>

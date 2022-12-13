@@ -10,7 +10,7 @@ using Microsoft.Xna.Framework.Graphics;
 /// <summary>Holds global variables that may be used by different modules.</summary>
 internal sealed class Globals
 {
-    /// <summary>Gets the <see cref="HudPointer"/> which points at various points of interest.</summary>
+    /// <summary>Gets or sets the <see cref="HudPointer"/> which points at various points of interest.</summary>
     internal static Lazy<HudPointer> Pointer { get; } = new(() => new HudPointer(
         ModHelper.GameContent.Load<Texture2D>($"{Manifest.UniqueID}/HudPointer"),
         ProfessionsModule.Config.TrackPointerScale,

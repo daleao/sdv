@@ -33,7 +33,7 @@ internal sealed class DoStunCommand : ConsoleCommand
     {
         if (args.Length == 0 || !int.TryParse(args[0], out var duration))
         {
-            duration = 10000;
+            duration = 100000;
         }
 
         Game1.currentLocation.characters.OfType<Monster>().ForEach(m => m.Stun(duration));

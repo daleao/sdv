@@ -17,6 +17,12 @@ internal abstract class TerrainFeatureListChangedEvent : ManagedEvent
         manager.ModEvents.World.TerrainFeatureListChanged += this.OnTerrainFeatureListChanged;
     }
 
+    /// <inheritdoc />
+    public override void Dispose()
+    {
+        this.Manager.ModEvents.World.TerrainFeatureListChanged -= this.OnTerrainFeatureListChanged;
+    }
+
     /// <inheritdoc cref="IWorldEvents.TerrainFeatureListChanged"/>
     /// <param name="sender">The event sender.</param>
     /// <param name="e">The event arguments.</param>

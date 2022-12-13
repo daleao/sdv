@@ -17,6 +17,12 @@ internal abstract class RenderingWorldEvent : ManagedEvent
         manager.ModEvents.Display.RenderingWorld += this.OnRenderingWorld;
     }
 
+    /// <inheritdoc />
+    public override void Dispose()
+    {
+        this.Manager.ModEvents.Display.RenderingWorld -= this.OnRenderingWorld;
+    }
+
     /// <inheritdoc cref="IDisplayEvents.RenderingWorld"/>
     /// <param name="sender">The event sender.</param>
     /// <param name="e">The event arguments.</param>

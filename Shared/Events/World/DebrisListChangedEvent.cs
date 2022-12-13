@@ -17,6 +17,12 @@ internal abstract class DebrisListChangedEvent : ManagedEvent
         manager.ModEvents.World.DebrisListChanged += this.OnDebrisListChanged;
     }
 
+    /// <inheritdoc />
+    public override void Dispose()
+    {
+        this.Manager.ModEvents.World.DebrisListChanged -= this.OnDebrisListChanged;
+    }
+
     /// <inheritdoc cref="IWorldEvents.DebrisListChanged"/>
     /// <param name="sender">The event sender.</param>
     /// <param name="e">The event arguments.</param>

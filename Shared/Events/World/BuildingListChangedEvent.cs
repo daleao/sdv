@@ -17,6 +17,12 @@ internal abstract class BuildingListChangedEvent : ManagedEvent
         manager.ModEvents.World.BuildingListChanged += this.OnBuildingListChanged;
     }
 
+    /// <inheritdoc />
+    public override void Dispose()
+    {
+        this.Manager.ModEvents.World.BuildingListChanged -= this.OnBuildingListChanged;
+    }
+
     /// <inheritdoc cref="IWorldEvents.BuildingListChanged"/>
     /// <param name="sender">The event sender.</param>
     /// <param name="e">The event arguments.</param>

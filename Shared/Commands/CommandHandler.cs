@@ -8,6 +8,7 @@ using System.Reflection;
 using DaLion.Shared.Attributes;
 using DaLion.Shared.Extensions.Collections;
 using HarmonyLib;
+using StardewModdingAPI;
 
 #endregion using directives
 
@@ -20,6 +21,9 @@ internal sealed class CommandHandler
     /// <summary>Cache of handled <see cref="IConsoleCommand"/> instances.</summary>
     private readonly Dictionary<string, IConsoleCommand> _handledCommands = new();
 
+    /// <summary>An optional conditional expression that prevents the entry command from being executed.</summary>
+    private Func<bool>? _conditional;
+
     /// <summary>Initializes a new instance of the <see cref="CommandHandler"/> class.</summary>
     /// <param name="helper">The <see cref="ICommandHelper"/> API for the current mod.</param>
     internal CommandHandler(ICommandHelper helper)
@@ -28,42 +32,62 @@ internal sealed class CommandHandler
     }
 
     /// <summary>Gets the <see cref="string"/> used as entry for all handled <see cref="IConsoleCommand"/>s.</summary>
-    public string EntryCommand { get; private set; } = null!; // set in register
+    internal string EntryCommand { get; private set; } = null!; // set in register
 
     /// <summary>Gets the human-readable name of the providing mod.</summary>
-    public string Mod { get; private set; } = null!; // set in register
+    internal string Mod { get; private set; } = null!; // set in register
 
     /// <summary>Implicitly registers <see cref="IConsoleCommand"/> types in the specified namespace.</summary>
     /// <param name="helper">The <see cref="ICommandHelper"/> API for the current mod.</param>
     /// <param name="namespace">The desired namespace.</param>
-    /// <param name="entry">The <see cref="string"/> used as entry for all handled <see cref="IConsoleCommand"/>s.</param>
     /// <param name="mod">Human-readable name of the providing mod.</param>
-    internal static void FromNamespace(ICommandHelper helper, string @namespace, string entry, string mod)
+    /// <param name="entry">The <see cref="string"/> used as entry for all handled <see cref="IConsoleCommand"/>s.</param>
+    /// <param name="conditional">An optional conditional expression that prevents the entry command from being executed.</param>
+    /// <returns>The <see cref="CommandHandler"/> instance.</returns>
+    internal static CommandHandler FromNamespace(ICommandHelper helper, string @namespace, string mod, string entry, Func<bool>? conditional = null)
     {
         Log.D($"[CommandHandler]: Gathering commands in {@namespace}...");
-        new CommandHandler(helper).HandleImplicitly(helper, t => t.Namespace?.StartsWith(@namespace) == true).Register(entry, mod);
+        return new CommandHandler(helper)
+            .HandleImplicitly(t => t.Namespace?.StartsWith(@namespace) == true)
+            .Register(mod, entry, conditional);
     }
 
     /// <summary>Implicitly registers <see cref="IConsoleCommand"/> types with the specified attribute.</summary>
     /// <typeparam name="TAttribute">An <see cref="Attribute"/> type.</typeparam>
     /// <param name="helper">The <see cref="ICommandHelper"/> API for the current mod.</param>
-    internal static void WithAttribute<TAttribute>(ICommandHelper helper)
+    /// <param name="mod">Human-readable name of the providing mod.</param>
+    /// <param name="entry">The <see cref="string"/> used as entry for all handled <see cref="IConsoleCommand"/>s.</param>
+    /// <param name="conditional">An optional conditional expression that prevents the entry command from being executed.</param>
+    /// <returns>The <see cref="CommandHandler"/> instance.</returns>
+    internal static CommandHandler WithAttribute<TAttribute>(ICommandHelper helper, string mod, string entry, Func<bool>? conditional = null)
         where TAttribute : Attribute
     {
         Log.D($"[CommandHandler]: Gathering commands with {nameof(TAttribute)}...");
-        new CommandHandler(helper).HandleImplicitly(helper, t => t.GetCustomAttribute<TAttribute>() is not null);
+        return new CommandHandler(helper)
+            .HandleImplicitly(t => t.GetCustomAttribute<TAttribute>() is not null)
+            .Register(mod, entry, conditional);
     }
 
     /// <summary>Registers the entry command and name for this module.</summary>
-    /// <param name="entry">The <see cref="string"/> used as entry for all handled <see cref="IConsoleCommand"/>s.</param>
     /// <param name="mod">Human-readable name of the providing mod.</param>
-    internal void Register(string entry, string mod)
+    /// <param name="entry">The <see cref="string"/> used as entry for all handled <see cref="IConsoleCommand"/>s.</param>
+    /// <param name="conditional">An optional conditional expression that prevents the entry command from being executed.</param>
+    /// <returns>The <see cref="CommandHandler"/> instance.</returns>
+    internal CommandHandler Register(string mod, string entry, Func<bool>? conditional = null)
     {
-        this.EntryCommand = entry;
+        if (this._handledCommands.Count == 0)
+        {
+            Log.D($"The mod {mod} did not provide any console commands.");
+            return this;
+        }
+
         this.Mod = mod;
+        this.EntryCommand = entry;
+        this._conditional = conditional;
         var documentation =
             $"The entry point for all {mod} console commands. Type `{entry} help` to list available commands.";
         this._commandHelper.Add(entry, documentation, this.Entry);
+        return this;
     }
 
     /// <summary>Handles the entry command for this module, delegating to the appropriate <see cref="IConsoleCommand"/>.</summary>
@@ -105,9 +129,15 @@ internal sealed class CommandHandler
             return;
         }
 
+
+        if (!this._conditional?.Invoke() ?? false)
+        {
+            return;
+        }
+
         if (!Context.IsWorldReady)
         {
-            Log.W("You must load a save before running this command.");
+            Log.W("You must load a save before running a command.");
             return;
         }
 
@@ -115,18 +145,17 @@ internal sealed class CommandHandler
     }
 
     /// <summary>Implicitly handles <see cref="IConsoleCommand"/> types using reflection.</summary>
-    /// <param name="helper">The <see cref="ICommandHelper"/> API for the current mod.</param>
     /// <param name="predicate">An optional condition with which to limit the scope of handled <see cref="IConsoleCommand"/>s.</param>
-    private CommandHandler HandleImplicitly(ICommandHelper helper, Func<Type, bool>? predicate = null)
+    private CommandHandler HandleImplicitly(Func<Type, bool>? predicate = null)
     {
-        predicate ??= t => true;
+        predicate ??= _ => true;
         var commandTypes = AccessTools
             .GetTypesFromAssembly(Assembly.GetAssembly(typeof(IConsoleCommand)))
             .Where(t => t.IsAssignableTo(typeof(IConsoleCommand)) && !t.IsAbstract && predicate(t))
             .ToArray();
 
         Log.D($"[CommandHandler]: Found {commandTypes.Length} command classes. Instantiating commands...");
-        foreach (var c in commandTypes)
+        foreach (var type in commandTypes)
         {
             try
             {
@@ -138,13 +167,13 @@ internal sealed class CommandHandler
                 }
 #endif
 
-                var deprecatedAttr = c.GetCustomAttribute<ImplicitIgnoreAttribute>();
-                if (deprecatedAttr is not null)
+                var implicitIgnoreAttribute = type.GetCustomAttribute<ImplicitIgnoreAttribute>();
+                if (implicitIgnoreAttribute is not null)
                 {
                     continue;
                 }
 
-                var command = (IConsoleCommand)c
+                var command = (IConsoleCommand)type
                     .GetConstructor(
                         BindingFlags.Instance | BindingFlags.NonPublic,
                         null,
@@ -160,7 +189,7 @@ internal sealed class CommandHandler
             }
             catch (Exception ex)
             {
-                Log.E($"[CommandHandler]: Failed to handle {c.Name}.\n{ex}");
+                Log.E($"[CommandHandler]: Failed to handle {type.Name}.\n{ex}");
             }
         }
 

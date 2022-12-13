@@ -17,6 +17,12 @@ internal abstract class UpdateTickedEvent : ManagedEvent
         manager.ModEvents.GameLoop.UpdateTicked += this.OnUpdateTicked;
     }
 
+    /// <inheritdoc />
+    public override void Dispose()
+    {
+        this.Manager.ModEvents.GameLoop.UpdateTicked -= this.OnUpdateTicked;
+    }
+
     /// <inheritdoc cref="IGameLoopEvents.UpdateTicked"/>
     /// <param name="sender">The event sender.</param>
     /// <param name="e">The event arguments.</param>

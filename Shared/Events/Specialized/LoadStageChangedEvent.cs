@@ -2,6 +2,7 @@
 
 #region using directives
 
+using System.Diagnostics;
 using StardewModdingAPI.Events;
 
 #endregion region using directives
@@ -15,6 +16,12 @@ internal abstract class LoadStageChangedEvent : ManagedEvent
         : base(manager)
     {
         //manager.ModEvents.Specialized.LoadStageChanged += this.OnLoadStageChanged;
+    }
+
+    /// <inheritdoc />
+    public override void Dispose()
+    {
+        //this.Manager.ModEvents.Specialized.LoadStageChanged -= this.OnLoadStageChanged;
     }
 
     /// <inheritdoc cref="ISpecializedEvents.LoadStageChanged"/>

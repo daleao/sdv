@@ -32,4 +32,9 @@ internal interface IHarmonyPatcher
     /// <param name="harmony">The <see cref="Harmony"/> instance for this mod.</param>
     /// <returns><see langword="true"/> if the patch was applied successfully, otherwise <see langword="false"/>.</returns>
     bool Apply(Harmony harmony);
+
+    /// <summary>Unapplies internally-defined Harmony patches.</summary>
+    /// <param name="harmony">The <see cref="Harmony"/> instance for this mod.</param>
+    /// <returns><see langword="true"/> if the patch was unapplied successfully, otherwise <see langword="false"/>.</returns>
+    bool Unapply(Harmony harmony);
 }

@@ -20,6 +20,12 @@ internal abstract class ModMessageReceivedEvent : ManagedEvent
     /// <inheritdoc />
     public override bool IsEnabled => Context.IsMultiplayer && base.IsEnabled;
 
+    /// <inheritdoc />
+    public override void Dispose()
+    {
+        this.Manager.ModEvents.Multiplayer.ModMessageReceived -= this.OnModMessageReceived;
+    }
+
     /// <inheritdoc cref="IMultiplayerEvents.ModMessageReceived"/>
     /// <param name="sender">The event sender.</param>
     /// <param name="e">The event arguments.</param>

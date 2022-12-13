@@ -1,8 +1,0 @@
-﻿{
-    "Name": "Garnet",
-    "Category": "Gem",
-    "Edibility": -300,
-    "Price": 300,
-    "Recipe": null,
-    "TranslationKey": "gems.garnet"
-}

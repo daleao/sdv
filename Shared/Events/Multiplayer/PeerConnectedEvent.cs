@@ -20,6 +20,12 @@ internal abstract class PeerConnectedEvent : ManagedEvent
     /// <inheritdoc />
     public override bool IsEnabled => Context.IsMultiplayer && base.IsEnabled;
 
+    /// <inheritdoc />
+    public override void Dispose()
+    {
+        this.Manager.ModEvents.Multiplayer.PeerConnected -= this.OnPeerConnected;
+    }
+
     /// <inheritdoc cref="IMultiplayerEvents.PeerConnected"/>
     /// <param name="sender">The event sender.</param>
     /// <param name="e">The event arguments.</param>

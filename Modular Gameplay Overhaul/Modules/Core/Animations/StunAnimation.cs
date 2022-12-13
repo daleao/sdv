@@ -120,6 +120,7 @@ public class StunAnimation : TemporaryAnimatedSprite
 
                     break;
 
+                case Mummy:
                 case RockGolem:
                     offset.Y -= 32f;
                     break;

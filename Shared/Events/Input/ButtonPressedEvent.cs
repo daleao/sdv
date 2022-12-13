@@ -17,6 +17,12 @@ internal abstract class ButtonPressedEvent : ManagedEvent
         manager.ModEvents.Input.ButtonPressed += this.OnButtonPressed;
     }
 
+    /// <inheritdoc />
+    public override void Dispose()
+    {
+        this.Manager.ModEvents.Input.ButtonPressed -= this.OnButtonPressed;
+    }
+
     /// <inheritdoc cref="IInputEvents.ButtonPressed"/>
     /// <param name="sender">The event sender.</param>
     /// <param name="e">The event arguments.</param>

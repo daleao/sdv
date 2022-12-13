@@ -17,6 +17,12 @@ internal abstract class LocationListChangedEvent : ManagedEvent
         manager.ModEvents.World.LocationListChanged += this.OnLocationListChanged;
     }
 
+    /// <inheritdoc />
+    public override void Dispose()
+    {
+        this.Manager.ModEvents.World.LocationListChanged -= this.OnLocationListChanged;
+    }
+
     /// <inheritdoc cref="IWorldEvents.LocationListChanged"/>
     /// <param name="sender">The event sender.</param>
     /// <param name="e">The event arguments.</param>

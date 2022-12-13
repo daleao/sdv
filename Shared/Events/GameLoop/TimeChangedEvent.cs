@@ -17,6 +17,12 @@ internal abstract class TimeChangedEvent : ManagedEvent
         manager.ModEvents.GameLoop.TimeChanged += this.OnTimeChanged;
     }
 
+    /// <inheritdoc />
+    public override void Dispose()
+    {
+        this.Manager.ModEvents.GameLoop.TimeChanged -= this.OnTimeChanged;
+    }
+
     /// <inheritdoc cref="IGameLoopEvents.TimeChanged"/>
     /// <param name="sender">The event sender.</param>
     /// <param name="e">The event data.</param>

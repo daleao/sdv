@@ -17,6 +17,12 @@ internal abstract class FurnitureListChangedEvent : ManagedEvent
         manager.ModEvents.World.FurnitureListChanged += this.OnFurnitureListChanged;
     }
 
+    /// <inheritdoc />
+    public override void Dispose()
+    {
+        this.Manager.ModEvents.World.FurnitureListChanged -= this.OnFurnitureListChanged;
+    }
+
     /// <inheritdoc cref="IWorldEvents.FurnitureListChanged"/>
     /// <param name="sender">The event sender.</param>
     /// <param name="e">The event arguments.</param>

@@ -17,6 +17,12 @@ internal abstract class AssetsInvalidatedEvent : ManagedEvent
         manager.ModEvents.Content.AssetsInvalidated += this.OnAssetsInvalidated;
     }
 
+    /// <inheritdoc />
+    public override void Dispose()
+    {
+        this.Manager.ModEvents.Content.AssetsInvalidated -= this.OnAssetsInvalidated;
+    }
+
     /// <inheritdoc cref="IContentEvents.AssetsInvalidated"/>
     /// <param name="sender">The event sender.</param>
     /// <param name="e">The event data.</param>

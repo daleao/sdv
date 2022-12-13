@@ -17,6 +17,12 @@ internal abstract class SavedEvent : ManagedEvent
         manager.ModEvents.GameLoop.Saved += this.OnSaved;
     }
 
+    /// <inheritdoc />
+    public override void Dispose()
+    {
+        this.Manager.ModEvents.GameLoop.Saved -= this.OnSaved;
+    }
+
     /// <inheritdoc cref="IGameLoopEvents.Saved"/>
     /// <param name="sender">The event sender.</param>
     /// <param name="e">The event data.</param>

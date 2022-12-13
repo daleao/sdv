@@ -17,6 +17,12 @@ internal abstract class ChestInventoryChangedEvent : ManagedEvent
         manager.ModEvents.World.ChestInventoryChanged += this.OnChestInventoryChanged;
     }
 
+    /// <inheritdoc />
+    public override void Dispose()
+    {
+        this.Manager.ModEvents.World.ChestInventoryChanged -= this.OnChestInventoryChanged;
+    }
+
     /// <inheritdoc cref="IWorldEvents.ChestInventoryChanged"/>
     /// <param name="sender">The event sender.</param>
     /// <param name="e">The event arguments.</param>

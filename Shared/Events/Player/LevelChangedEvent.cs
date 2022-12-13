@@ -17,6 +17,12 @@ internal abstract class LevelChangedEvent : ManagedEvent
         manager.ModEvents.Player.LevelChanged += this.OnLevelChanged;
     }
 
+    /// <inheritdoc />
+    public override void Dispose()
+    {
+        this.Manager.ModEvents.Player.LevelChanged -= this.OnLevelChanged;
+    }
+
     /// <inheritdoc cref="IPlayerEvents.LevelChanged"/>
     /// <param name="sender">The event sender.</param>
     /// <param name="e">The event arguments.</param>

@@ -8,6 +8,7 @@ using System.Reflection;
 using DaLion.Shared.Attributes;
 using DaLion.Shared.Extensions.Reflection;
 using HarmonyLib;
+using StardewModdingAPI;
 
 #endregion using directives
 
@@ -22,65 +23,78 @@ internal sealed class Harmonizer
 
     /// <summary>Initializes a new instance of the <see cref="Harmonizer"/> class.</summary>
     /// <param name="modRegistry">API for fetching metadata about loaded mods.</param>
-    /// <param name="uniqueId">The unique ID of the declaring module.</param>
-    internal Harmonizer(IModRegistry modRegistry, string uniqueId)
+    /// <param name="harmonyId">The unique ID of the declaring module.</param>
+    internal Harmonizer(IModRegistry modRegistry, string harmonyId)
     {
         this._modRegistry = modRegistry;
-        this.UniqueId = uniqueId;
-        this.Harmony = new Harmony(uniqueId);
+        this.HarmonyId = harmonyId;
+        this.Harmony = new Harmony(harmonyId);
     }
 
     /// <inheritdoc cref="HarmonyLib.Harmony"/>
     internal Harmony Harmony { get; }
 
     /// <summary>Gets the unique ID of the <see cref="HarmonyLib.Harmony"/> instance.</summary>
-    internal string UniqueId { get; }
+    internal string HarmonyId { get; }
 
     /// <summary>Implicitly applies<see cref="IHarmonyPatcher"/> types in the assembly using reflection.</summary>
     /// <param name="modRegistry">API for fetching metadata about loaded mods.</param>
-    /// <param name="uniqueId">The unique ID of the declaring module.</param>
-    internal static void ApplyAll(IModRegistry modRegistry, string uniqueId)
+    /// <param name="harmonyId">The unique ID of the declaring mod.</param>
+    /// <returns>The <see cref="Harmonizer"/> instance.</returns>
+    internal static Harmonizer ApplyAll(IModRegistry modRegistry, string harmonyId)
     {
         Log.D("[Harmonizer]: Gathering all patches...");
-        new Harmonizer(modRegistry, uniqueId).ApplyImplicitly();
+        return new Harmonizer(modRegistry, harmonyId).ApplyImplicitly();
     }
 
-    /// <summary>Implicitly applies<see cref="IHarmonyPatcher"/> types in the specified namespace.</summary>
+    /// <summary>Implicitly applies <see cref="IHarmonyPatcher"/> types in the specified namespace.</summary>
     /// <param name="modRegistry">API for fetching metadata about loaded mods.</param>
-    /// <param name="uniqueId">The unique ID of the declaring module.</param>
     /// <param name="namespace">The desired namespace.</param>
-    internal static void ApplyFromNamespace(IModRegistry modRegistry, string uniqueId, string? @namespace = null)
+    /// <param name="harmonyId">The unique ID of the declaring mod. Defaults to <paramref name="namespace"/> if null.</param>
+    /// <returns>The <see cref="Harmonizer"/> instance.</returns>
+    internal static Harmonizer FromNamespace(IModRegistry modRegistry, string @namespace, string? harmonyId = null)
     {
-        @namespace ??= uniqueId;
         Log.D($"[Harmonizer]: Gathering patches in {@namespace}...");
-        new Harmonizer(modRegistry, uniqueId).ApplyImplicitly(t => t.Namespace?.StartsWith(@namespace) == true);
+        return new Harmonizer(modRegistry, harmonyId ?? @namespace)
+            .ApplyImplicitly(t => t.Namespace?.StartsWith(@namespace) == true);
     }
 
     /// <summary>Implicitly applies<see cref="IHarmonyPatcher"/> types with the specified attribute.</summary>
     /// <param name="modRegistry">API for fetching metadata about loaded mods.</param>
-    /// <param name="uniqueId">The unique ID of the declaring module.</param>
+    /// <param name="harmonyId">The unique ID of the declaring mod.</param>
     /// <typeparam name="TAttribute">An <see cref="Attribute"/> type.</typeparam>
-    internal static void ApplyWithAttribute<TAttribute>(IModRegistry modRegistry, string uniqueId)
+    /// <returns>The <see cref="Harmonizer"/> instance.</returns>
+    internal static Harmonizer WithAttribute<TAttribute>(IModRegistry modRegistry, string harmonyId)
         where TAttribute : Attribute
     {
         Log.D($"[Harmonizer]: Gathering patches with {nameof(TAttribute)}...");
-        new Harmonizer(modRegistry, uniqueId).ApplyImplicitly(t => t.GetCustomAttribute<TAttribute>() is not null);
+        return new Harmonizer(modRegistry, harmonyId)
+            .ApplyImplicitly(t => t.GetCustomAttribute<TAttribute>() is not null);
+    }
+
+    /// <summary>Unapplies all <see cref="IHarmonyPatcher"/>s applied by this instance.</summary>
+    /// <returns>Always <see langword="null"/>.</returns>
+    internal Harmonizer? Unapply()
+    {
+        this.Harmony.UnpatchAll(this.HarmonyId);
+        return null;
     }
 
     /// <summary>Instantiates and applies <see cref="IHarmonyPatcher"/> classes using reflection.</summary>
     /// <param name="predicate">An optional condition with which to limit the scope of applied <see cref="IHarmonyPatcher"/>es.</param>
-    private void ApplyImplicitly(Func<Type, bool>? predicate = null)
+    /// <returns>The <see cref="Harmonizer"/> instance.</returns>
+    private Harmonizer ApplyImplicitly(Func<Type, bool>? predicate = null)
     {
         this.StartWatch();
 
-        predicate ??= t => true;
+        predicate ??= _ => true;
         var patchTypes = AccessTools
             .GetTypesFromAssembly(Assembly.GetAssembly(typeof(IHarmonyPatcher)))
             .Where(t => t.IsAssignableTo(typeof(IHarmonyPatcher)) && !t.IsAbstract && predicate(t))
             .ToArray();
 
         Log.D($"[Harmonizer]: Found {patchTypes.Length} patch classes. Applying patches...");
-        foreach (var p in patchTypes)
+        foreach (var type in patchTypes)
         {
 #if RELEASE
             var debugAttribute = p.GetCustomAttribute<DebugAttribute>();
@@ -90,36 +104,36 @@ internal sealed class Harmonizer
             }
 #endif
 
-            var deprecatedAttr = p.GetCustomAttribute<ImplicitIgnoreAttribute>();
-            if (deprecatedAttr is not null)
+            var implicitIgnoreAttribute = type.GetCustomAttribute<ImplicitIgnoreAttribute>();
+            if (implicitIgnoreAttribute is not null)
             {
                 continue;
             }
 
-            var integrationAttr = p.GetCustomAttribute<RequiresModAttribute>();
-            if (integrationAttr is not null)
+            var requiresModAttribute = type.GetCustomAttribute<RequiresModAttribute>();
+            if (requiresModAttribute is not null)
             {
-                if (!this._modRegistry.IsLoaded(integrationAttr.UniqueId))
+                if (!this._modRegistry.IsLoaded(requiresModAttribute.UniqueId))
                 {
                     Log.D(
-                        $"[Harmonizer]: The target mod {integrationAttr.UniqueId} is not loaded. {p.Name} will be ignored.");
+                        $"[Harmonizer]: The target mod {requiresModAttribute.UniqueId} is not loaded. {type.Name} will be ignored.");
                     continue;
                 }
 
-                if (!string.IsNullOrEmpty(integrationAttr.Version) &&
-                    this._modRegistry.Get(integrationAttr.UniqueId)!.Manifest.Version.IsOlderThan(
-                        integrationAttr.Version))
+                if (!string.IsNullOrEmpty(requiresModAttribute.Version) &&
+                    this._modRegistry.Get(requiresModAttribute.UniqueId)!.Manifest.Version.IsOlderThan(
+                        requiresModAttribute.Version))
                 {
                     Log.W(
-                        $"[Harmonizer]: The integration patch {p.Name} will be ignored because the installed version of {integrationAttr.UniqueId} is older than minimum supported version." +
-                        $" Please update {integrationAttr.UniqueId} in order to enable integrations with {this.UniqueId}.");
+                        $"[Harmonizer]: The integration patch {type.Name} will be ignored because the installed version of {requiresModAttribute.UniqueId} is older than minimum supported version." +
+                        $" Please update {requiresModAttribute.UniqueId} in order to enable integrations with {this.HarmonyId}.");
                     continue;
                 }
             }
 
             try
             {
-                var patch = (IHarmonyPatcher?)p
+                var patch = (IHarmonyPatcher?)type
                     .GetConstructor(BindingFlags.Instance | BindingFlags.NonPublic, null, Type.EmptyTypes, null)
                     ?.Invoke(Array.Empty<object>());
                 if (patch is null)
@@ -129,21 +143,22 @@ internal sealed class Harmonizer
 
                 if (patch.Apply(this.Harmony))
                 {
-                    Log.D($"[Harmonizer]: Applied {p.Name} to {patch.Target.GetFullName()}.");
+                    Log.D($"[Harmonizer]: Applied {type.Name} to {patch.Target.GetFullName()}.");
                 }
                 else
                 {
-                    Log.W($"[Harmonizer]: {p.Name} was not applied.");
+                    Log.W($"[Harmonizer]: {type.Name} was not applied.");
                 }
             }
             catch (Exception ex)
             {
-                Log.E($"[Harmonizer]: Failed to apply {p.Name}.\nHarmony returned {ex}");
+                Log.E($"[Harmonizer]: Failed to apply {type.Name}.\nHarmony returned {ex}");
             }
         }
 
         this.StopWatch();
         this.PrintSummary();
+        return this;
     }
 
     [Conditional("DEBUG")]
@@ -162,12 +177,12 @@ internal sealed class Harmonizer
     private void PrintSummary()
     {
         var methodsPatched = this.Harmony.GetPatchedMethods().Count();
-        var appliedPrefixes = this.Harmony.GetAllPrefixes(p => p.owner == this.UniqueId).Count();
-        var appliedPostfixes = this.Harmony.GetAllPostfixes(p => p.owner == this.UniqueId).Count();
-        var appliedTranspilers = this.Harmony.GetAllTranspilers(p => p.owner == this.UniqueId).Count();
-        var appliedFinalizers = this.Harmony.GetAllFinalizers(p => p.owner == this.UniqueId).Count();
+        var appliedPrefixes = this.Harmony.GetAllPrefixes(p => p.owner == this.HarmonyId).Count();
+        var appliedPostfixes = this.Harmony.GetAllPostfixes(p => p.owner == this.HarmonyId).Count();
+        var appliedTranspilers = this.Harmony.GetAllTranspilers(p => p.owner == this.HarmonyId).Count();
+        var appliedFinalizers = this.Harmony.GetAllFinalizers(p => p.owner == this.HarmonyId).Count();
         var totalApplied = appliedPrefixes + appliedPostfixes + appliedTranspilers + appliedFinalizers;
-        Log.A($"[Harmonizer]: {this.UniqueId} patching completed in {this._sw.ElapsedMilliseconds}ms." +
+        Log.A($"[Harmonizer]: {this.HarmonyId} patching completed in {this._sw.ElapsedMilliseconds}ms." +
               $"\nApplied {totalApplied} patches to {methodsPatched} methods, of which" +
               $"\n\t- {appliedPrefixes} prefixes" +
               $"\n\t- {appliedPostfixes} postfixes" +

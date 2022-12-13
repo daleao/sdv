@@ -83,6 +83,42 @@ internal sealed class EventManager
         this.ManageImplicitly(t => t.GetCustomAttribute<TAttribute>() is not null);
     }
 
+    /// <summary>Disposes the <paramref name="event"/> instance and removes it from the cache.</summary>
+    /// <param name="event">An <see cref="IManagedEvent"/> instance.</param>
+    internal void Unmanage(IManagedEvent @event)
+    {
+        @event.Dispose();
+        this._eventCache.Remove(@event.GetType());
+        Log.D($"[EventManager]: No longer managing {@event.GetType().Name}.");
+    }
+
+    /// <summary>Disposes all <see cref="IManagedEvent"/> instances and clear the event cache.</summary>
+    internal void UnmanageAll()
+    {
+        this._eventCache.ForEach(pair => pair.Value.Dispose());
+        this._eventCache.Clear();
+        Log.D("[EventManager]: No longer managing events.");
+    }
+
+    /// <summary>Disposes all <see cref="IManagedEvent"/> instances belonging to the specified namespace and removes them from the cache.</summary>
+    /// <param name="namespace">The desired namespace.</param>
+    internal void UnmanageNamespace(string @namespace)
+    {
+        var toUnmanage = this.GetAllForNamespace(@namespace).ToList();
+        toUnmanage.ForEach(this.Unmanage);
+        Log.D($"[EventManager]: No longer managing events in {@namespace}.");
+    }
+
+    /// <summary>Disposes all <see cref="IManagedEvent"/> instances with the specified attribute type.</summary>
+    /// <typeparam name="TAttribute">An <see cref="Attribute"/> type.</typeparam>
+    internal void UnmanageWithAttribute<TAttribute>()
+        where TAttribute : Attribute
+    {
+        var toUnmanage = this.GetAllWithAttribute<TAttribute>().ToList();
+        toUnmanage.ForEach(this.Unmanage);
+        Log.D($"[EventManager]: No longer managing events with {nameof(TAttribute)}.");
+    }
+
     /// <summary>Enable a single <see cref="IManagedEvent"/>.</summary>
     /// <param name="type">A <see cref="IManagedEvent"/> type to enable.</param>
     /// <returns><see langword="true"/> if the event's enabled status was changed, otherwise <see langword="false"/>.</returns>
@@ -346,6 +382,27 @@ internal sealed class EventManager
             : (TEvent?)this.CreateEventInstance(typeof(TEvent));
     }
 
+    /// <summary>Enumerates all managed <see cref="IManagedEvent"/> instances declared in the specified <paramref name="namespace"/>.</summary>
+    /// <param name="namespace">The desired namespace.</param>
+    /// <returns>An <see cref="IEnumerable{T}"/> of <see cref="IManagedEvent"/>s.</returns>
+    internal IEnumerable<IManagedEvent> GetAllForNamespace(string @namespace)
+    {
+        return this._eventCache
+            .Where(pair => pair.Key.Namespace?.StartsWith(@namespace) ?? false)
+            .Select(pair => pair.Value);
+    }
+
+    /// <summary>Enumerates all managed <see cref="IManagedEvent"/> instances with the specified <typeparamref name="TAttribute"/>.</summary>
+    /// <typeparam name="TAttribute">An <see cref="Attribute"/> type.</typeparam>
+    /// <returns>An <see cref="IEnumerable{T}"/> of <see cref="IManagedEvent"/>s.</returns>
+    internal IEnumerable<IManagedEvent> GetAllWithAttribute<TAttribute>()
+        where TAttribute : Attribute
+    {
+        return this._eventCache
+            .Where(pair => pair.Key.GetCustomAttribute<TAttribute>() is not null)
+            .Select(pair => pair.Value);
+    }
+
     /// <summary>Determines whether the specified <see cref="IManagedEvent"/> type is enabled.</summary>
     /// <typeparam name="TEvent">A type implementing <see cref="IManagedEvent"/>.</typeparam>
     /// <returns><see langword="true"/> if the <see cref="IManagedEvent"/> is enabled for the local screen, otherwise <see langword="false"/>.</returns>
@@ -385,7 +442,7 @@ internal sealed class EventManager
             .ToArray();
 
         Log.D($"[EventManager]: Found {eventTypes.Length} event classes that should be enabled. Instantiating events...");
-        foreach (var e in eventTypes)
+        foreach (var type in eventTypes)
         {
 #if RELEASE
             var debugAttribute = e.GetCustomAttribute<DebugAttribute>();
@@ -395,19 +452,19 @@ internal sealed class EventManager
             }
 #endif
 
-            var deprecatedAttr = e.GetCustomAttribute<ImplicitIgnoreAttribute>();
+            var deprecatedAttr = type.GetCustomAttribute<ImplicitIgnoreAttribute>();
             if (deprecatedAttr is not null)
             {
                 continue;
             }
 
-            var integrationAttr = e.GetCustomAttribute<RequiresModAttribute>();
+            var integrationAttr = type.GetCustomAttribute<RequiresModAttribute>();
             if (integrationAttr is not null)
             {
                 if (!this._modRegistry.IsLoaded(integrationAttr.UniqueId))
                 {
                     Log.D(
-                        $"[EventManager]: The target mod {integrationAttr.UniqueId} is not loaded. {e.Name} will be ignored.");
+                        $"[EventManager]: The target mod {integrationAttr.UniqueId} is not loaded. {type.Name} will be ignored.");
                     continue;
                 }
 
@@ -416,20 +473,20 @@ internal sealed class EventManager
                         integrationAttr.Version))
                 {
                     Log.W(
-                        $"[EventManager]: The integration event {e.Name} will be ignored because the installed version of {integrationAttr.UniqueId} is older than minimum supported version." +
+                        $"[EventManager]: The integration event {type.Name} will be ignored because the installed version of {integrationAttr.UniqueId} is older than minimum supported version." +
                         $" Please update {integrationAttr.UniqueId} in order to enable integrations with this mod.");
                     continue;
                 }
             }
 
-            var instance = this.CreateEventInstance(e);
+            var instance = this.GetCachedEvent(type);
             if (instance is null)
             {
-                Log.E($"[EventManager]: Failed to create {e.Name}.");
+                Log.E($"[EventManager]: Failed to create {type.Name}.");
                 continue;
             }
 
-            this.Manage(instance);
+            Log.D($"[EventManager]: Now managing {type.Name}.");
         }
     }
 
@@ -438,17 +495,19 @@ internal sealed class EventManager
     /// <returns>The cached <see cref="IManagedEvent"/> instance, or <see langword="null"/> if one could not be created.</returns>
     private IManagedEvent? GetCachedEvent(Type type)
     {
-        if (!this._eventCache.TryGetValue(type, out var instance))
+        if (this._eventCache.TryGetValue(type, out var instance))
         {
-            instance = this.CreateEventInstance(type);
-            if (instance is null)
-            {
-                return null;
-            }
-
-            this._eventCache.Add(type, instance);
-            Log.D($"[EventManager]: Now managing {type.Name}.");
+            return instance;
         }
+
+        instance = this.CreateEventInstance(type);
+        if (instance is null)
+        {
+            return null;
+        }
+
+        this._eventCache.Add(type, instance);
+        Log.D($"[EventManager]: Now managing {type.Name}.");
 
         return instance;
     }
@@ -476,30 +535,30 @@ internal sealed class EventManager
         }
 #endif
 
-        var deprecatedAttr = type.GetCustomAttribute<ImplicitIgnoreAttribute>();
-        if (deprecatedAttr is not null)
+        var implicitIgnoreAttribute = type.GetCustomAttribute<ImplicitIgnoreAttribute>();
+        if (implicitIgnoreAttribute is not null)
         {
-            Log.D($"[EventManager]: {type.Name} is deprecated.");
+            Log.D($"[EventManager]: {type.Name} is will be ignored.");
             return null;
         }
 
-        var integrationAttr = type.GetCustomAttribute<RequiresModAttribute>();
-        if (integrationAttr is not null)
+        var requiresModAttribute = type.GetCustomAttribute<RequiresModAttribute>();
+        if (requiresModAttribute is not null)
         {
-            if (!this._modRegistry.IsLoaded(integrationAttr.UniqueId))
+            if (!this._modRegistry.IsLoaded(requiresModAttribute.UniqueId))
             {
                 Log.D(
-                    $"[EventManager]: The target mod {integrationAttr.UniqueId} is not loaded. {type.Name} will be ignored.");
+                    $"[EventManager]: The target mod {requiresModAttribute.UniqueId} is not loaded. {type.Name} will be ignored.");
                 return null;
             }
 
-            if (!string.IsNullOrEmpty(integrationAttr.Version) &&
-                this._modRegistry.Get(integrationAttr.UniqueId)!.Manifest.Version.IsOlderThan(
-                    integrationAttr.Version))
+            if (!string.IsNullOrEmpty(requiresModAttribute.Version) &&
+                this._modRegistry.Get(requiresModAttribute.UniqueId)!.Manifest.Version.IsOlderThan(
+                    requiresModAttribute.Version))
             {
                 Log.W(
-                    $"[EventManager]: The integration event {type.Name} will be ignored because the installed version of {integrationAttr.UniqueId} is older than minimum supported version." +
-                    $" Please update {integrationAttr.UniqueId} in order to enable integrations with this mod.");
+                    $"[EventManager]: The integration event {type.Name} will be ignored because the installed version of {requiresModAttribute.UniqueId} is older than minimum supported version." +
+                    $" Please update {requiresModAttribute.UniqueId} in order to enable integrations with this mod.");
                 return null;
             }
         }

@@ -17,6 +17,12 @@ internal abstract class ReturnedToTitleEvent : ManagedEvent
         manager.ModEvents.GameLoop.ReturnedToTitle += this.OnReturnedToTitle;
     }
 
+    /// <inheritdoc />
+    public override void Dispose()
+    {
+        this.Manager.ModEvents.GameLoop.ReturnedToTitle -= this.OnReturnedToTitle;
+    }
+
     /// <inheritdoc cref="IGameLoopEvents.ReturnedToTitle"/>
     /// <param name="sender">The event sender.</param>
     /// <param name="e">The event data.</param>

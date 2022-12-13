@@ -17,6 +17,12 @@ internal abstract class OneSecondUpdateTickingEvent : ManagedEvent
         manager.ModEvents.GameLoop.OneSecondUpdateTicking += this.OnOneSecondUpdateTicking;
     }
 
+    /// <inheritdoc />
+    public override void Dispose()
+    {
+        this.Manager.ModEvents.GameLoop.OneSecondUpdateTicking -= this.OnOneSecondUpdateTicking;
+    }
+
     /// <inheritdoc cref="IGameLoopEvents.OneSecondUpdateTicking"/>
     /// <param name="sender">The event sender.</param>
     /// <param name="e">The event arguments.</param>

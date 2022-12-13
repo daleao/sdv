@@ -15,24 +15,23 @@ public abstract class BaseIntegration : IModIntegration
     /// <param name="modId">The mod's unique ID.</param>
     /// <param name="minVersion">The minimum version of the mod that's supported.</param>
     /// <param name="modRegistry">An API for fetching metadata about loaded mods.</param>
-    protected BaseIntegration(string name, string modId, string minVersion, IModRegistry modRegistry)
+    protected BaseIntegration(string name, string modId, string? minVersion, IModRegistry modRegistry)
     {
-        // init
         this.ModName = name;
         this.ModId = modId;
         this.ModRegistry = modRegistry;
 
-        // validate mod
         var manifest = modRegistry.Get(this.ModId)?.Manifest;
         if (manifest is null)
         {
             return;
         }
 
-        if (manifest.Version.IsOlderThan(minVersion))
+        if (!string.IsNullOrEmpty(minVersion) && manifest.Version.IsOlderThan(minVersion))
         {
             Log.W(
-                $"Detected {name} {manifest.Version}, but need {minVersion} or later. Disabled integration with this mod.");
+                $"Integration for {name} will not be initialized because the installed version is older than the minimum version required." +
+                $"\n\tInstalled version: {manifest.Version}\n\tMinimum version: {minVersion}");
             return;
         }
 
@@ -42,14 +41,30 @@ public abstract class BaseIntegration : IModIntegration
     /// <summary>Gets a human-readable name for the mod.</summary>
     public string ModName { get; }
 
-    /// <summary>Gets a value indicating whether determines whether the mod is available.</summary>
+    /// <summary>Gets a value indicating whether the mod is available.</summary>
     public virtual bool IsLoaded { get; }
+
+    /// <summary>Gets a value indicating whether the integration has been registered.</summary>
+    public bool Registered { get; private set; }
 
     /// <summary>Gets the mod's unique ID.</summary>
     protected string ModId { get; }
 
     /// <summary>Gets aPI for fetching metadata about loaded mods.</summary>
     protected IModRegistry ModRegistry { get; }
+
+    /// <summary>Registers the integration and performs initial setup.</summary>
+    internal void Register()
+    {
+        this.AssertLoaded();
+        this.RegisterImpl();
+        this.Registered = true;
+    }
+
+    /// <inheritdoc cref="Register"/>
+    protected virtual void RegisterImpl()
+    {
+    }
 
     /// <summary>Try to get an API for the mod.</summary>
     /// <typeparam name="TApi">The API type.</typeparam>
@@ -90,6 +105,7 @@ public abstract class BaseIntegration<TApi> : BaseIntegration
         if (base.IsLoaded && this.TryGetApi<TApi>(out var api))
         {
             this.ModApi = api;
+            this.IsLoaded = true;
         }
         else
         {
@@ -102,7 +118,7 @@ public abstract class BaseIntegration<TApi> : BaseIntegration
 
     /// <inheritdoc />
     [MemberNotNullWhen(true, nameof(ModApi))]
-    public override bool IsLoaded => this.ModApi != null;
+    public override bool IsLoaded { get; }
 
     /// <summary>Assert that the integration is loaded.</summary>
     /// <exception cref="InvalidOperationException">The integration isn't loaded.</exception>

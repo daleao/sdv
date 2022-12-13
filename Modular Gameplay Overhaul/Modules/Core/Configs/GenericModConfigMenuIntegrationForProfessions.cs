@@ -79,7 +79,11 @@ internal sealed partial class GenericModConfigMenuIntegration
                 () => "Tracking Pointer Scale",
                 () => "Changes the size of the pointer used to track objects by Prospector and Scavenger professions.",
                 config => config.Professions.TrackPointerScale,
-                (config, value) => config.Professions.TrackPointerScale = value,
+                (config, value) =>
+                {
+                    config.Professions.TrackPointerScale = value;
+                    Globals.Pointer.Value.Scale = value;
+                },
                 0.2f,
                 2f,
                 0.2f)
@@ -87,7 +91,11 @@ internal sealed partial class GenericModConfigMenuIntegration
                 () => "Track Pointer Bobbing Rate",
                 () => "Changes the speed at which the tracking pointer bounces up and down (higher is faster).",
                 config => config.Professions.TrackPointerBobbingRate,
-                (config, value) => config.Professions.TrackPointerBobbingRate = value,
+                (config, value) =>
+                {
+                    config.Professions.TrackPointerBobbingRate = value;
+                    Globals.Pointer.Value.BobRate = value;
+                },
                 0.5f,
                 2f,
                 0.05f)

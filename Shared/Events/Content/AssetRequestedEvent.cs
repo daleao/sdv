@@ -23,6 +23,12 @@ internal abstract class AssetRequestedEvent : ManagedEvent
         manager.ModEvents.Content.AssetRequested += this.OnAssetRequested;
     }
 
+    /// <inheritdoc />
+    public override void Dispose()
+    {
+        this.Manager.ModEvents.Content.AssetRequested -= this.OnAssetRequested;
+    }
+
     /// <inheritdoc cref="IContentEvents.AssetRequested"/>
     /// <param name="sender">The event sender.</param>
     /// <param name="e">The event data.</param>

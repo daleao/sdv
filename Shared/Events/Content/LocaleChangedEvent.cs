@@ -17,6 +17,12 @@ internal abstract class LocaleChangedEvent : ManagedEvent
         manager.ModEvents.Content.LocaleChanged += this.OnLocaleChanged;
     }
 
+    /// <inheritdoc />
+    public override void Dispose()
+    {
+        this.Manager.ModEvents.Content.LocaleChanged -= this.OnLocaleChanged;
+    }
+
     /// <inheritdoc cref="IContentEvents.LocaleChanged"/>
     /// <param name="sender">The event sender.</param>
     /// <param name="e">The event data.</param>

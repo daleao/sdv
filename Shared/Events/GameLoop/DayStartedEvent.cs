@@ -17,6 +17,12 @@ internal abstract class DayStartedEvent : ManagedEvent
         manager.ModEvents.GameLoop.DayStarted += this.OnDayStarted;
     }
 
+    /// <inheritdoc />
+    public override void Dispose()
+    {
+        this.Manager.ModEvents.GameLoop.DayStarted -= this.OnDayStarted;
+    }
+
     /// <summary>Raised after a new in-game day starts, or after connecting to a multiplayer world.</summary>
     /// <param name="sender">The event sender.</param>
     /// <param name="e">The event arguments.</param>

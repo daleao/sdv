@@ -17,6 +17,12 @@ internal abstract class DayEndingEvent : ManagedEvent
         manager.ModEvents.GameLoop.DayEnding += this.OnDayEnding;
     }
 
+    /// <inheritdoc />
+    public override void Dispose()
+    {
+        this.Manager.ModEvents.GameLoop.DayEnding -= this.OnDayEnding;
+    }
+
     /// <inheritdoc cref="IGameLoopEvents.DayEnding"/>
     /// <param name="sender">The event sender.</param>
     /// <param name="e">The event arguments.</param>

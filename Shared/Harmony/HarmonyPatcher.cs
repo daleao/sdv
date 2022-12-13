@@ -53,6 +53,21 @@ internal abstract class HarmonyPatcher : IHarmonyPatcher
     }
 
     /// <inheritdoc />
+    bool IHarmonyPatcher.Unapply(Harmony harmony)
+    {
+        try
+        {
+            this.UnapplyImpl(harmony);
+            return true;
+        }
+        catch (Exception ex)
+        {
+            Log.E(ex.ToString());
+            return false;
+        }
+    }
+
+    /// <inheritdoc />
     public override string ToString()
     {
         return this.GetType().Name;
@@ -75,6 +90,26 @@ internal abstract class HarmonyPatcher : IHarmonyPatcher
         }
 
         harmony.Patch(this.Target, this.Prefix, this.Postfix, this.Transpiler, this.Finalizer);
+    }
+
+    /// <summary>Applies internally-defined Harmony patches.</summary>
+    /// <param name="harmony">The <see cref="Harmony"/> instance for this mod.</param>
+    protected virtual void UnapplyImpl(Harmony harmony)
+    {
+        if (this.Prefix is not null)
+        {
+            harmony.Unpatch(this.Target, this.Prefix.method);
+        }
+
+        if (this.Postfix is not null)
+        {
+            harmony.Unpatch(this.Target, this.Postfix.method);
+        }
+
+        if (this.Transpiler is not null)
+        {
+            harmony.Unpatch(this.Target, this.Transpiler.method);
+        }
     }
 
     /// <summary>Gets a constructor and asserts that it was found.</summary>

@@ -17,6 +17,12 @@ internal abstract class WarpedEvent : ManagedEvent
         manager.ModEvents.Player.Warped += this.OnWarped;
     }
 
+    /// <inheritdoc />
+    public override void Dispose()
+    {
+        this.Manager.ModEvents.Player.Warped -= this.OnWarped;
+    }
+
     /// <inheritdoc cref="IPlayerEvents.Warped"/>
     /// <param name="sender">The event sender.</param>
     /// <param name="e">The event arguments.</param>

@@ -17,6 +17,12 @@ internal abstract class ButtonsChangedEvent : ManagedEvent
         manager.ModEvents.Input.ButtonsChanged += this.OnButtonsChanged;
     }
 
+    /// <inheritdoc />
+    public override void Dispose()
+    {
+        this.Manager.ModEvents.Input.ButtonsChanged -= this.OnButtonsChanged;
+    }
+
     /// <inheritdoc cref="IInputEvents.ButtonsChanged"/>
     /// <param name="sender">The event sender.</param>
     /// <param name="e">The event arguments.</param>

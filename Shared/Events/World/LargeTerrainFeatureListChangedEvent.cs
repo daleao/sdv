@@ -17,6 +17,12 @@ internal abstract class LargeTerrainFeatureListChangedEvent : ManagedEvent
         manager.ModEvents.World.LargeTerrainFeatureListChanged += this.OnLargeTerrainFeatureListChanged;
     }
 
+    /// <inheritdoc />
+    public override void Dispose()
+    {
+        this.Manager.ModEvents.World.LargeTerrainFeatureListChanged -= this.OnLargeTerrainFeatureListChanged;
+    }
+
     /// <inheritdoc cref="IWorldEvents.LargeTerrainFeatureListChanged"/>
     /// <param name="sender">The event sender.</param>
     /// <param name="e">The event arguments.</param>

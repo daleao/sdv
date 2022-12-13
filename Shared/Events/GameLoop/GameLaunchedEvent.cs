@@ -18,6 +18,12 @@ internal abstract class GameLaunchedEvent : ManagedEvent
         manager.ModEvents.GameLoop.GameLaunched += this.OnGameLaunched;
     }
 
+    /// <inheritdoc />
+    public override void Dispose()
+    {
+        this.Manager.ModEvents.GameLoop.GameLaunched -= this.OnGameLaunched;
+    }
+
     /// <inheritdoc cref="IGameLoopEvents.GameLaunched"/>
     /// <param name="sender">The event sender.</param>
     /// <param name="e">The event data.</param>

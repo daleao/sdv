@@ -17,6 +17,12 @@ internal abstract class MenuChangedEvent : ManagedEvent
         manager.ModEvents.Display.MenuChanged += this.OnMenuChanged;
     }
 
+    /// <inheritdoc />
+    public override void Dispose()
+    {
+        this.Manager.ModEvents.Display.MenuChanged -= this.OnMenuChanged;
+    }
+
     /// <inheritdoc cref="IDisplayEvents.MenuChanged"/>
     /// <param name="sender">The event sender.</param>
     /// <param name="e">The event arguments.</param>

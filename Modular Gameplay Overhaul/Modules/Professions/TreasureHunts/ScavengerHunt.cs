@@ -71,9 +71,13 @@ internal sealed class ScavengerHunt : TreasureHunt
 
         this.Location = location;
         this.Location.MakeTileDiggable(this.TreasureTile.Value);
+#if DEBUG
+        this.TimeLimit = int.MaxValue;
+#elif RELEASE
         this.TimeLimit = (uint)(location.Map.DisplaySize.Area / Math.Pow(Game1.tileSize, 2) / 100 *
                                 ProfessionsModule.Config.ScavengerHuntHandicap);
         this.TimeLimit = Math.Max(this.TimeLimit, 30);
+#endif
         this.Elapsed = 0;
         EventManager.Enable<PointerUpdateTickedEvent>();
         EventManager.Enable<ScavengerHuntRenderedHudEvent>();

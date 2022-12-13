@@ -36,6 +36,7 @@
 * Crab Pots now correctly trap Seaweed instead of Green Algae in the Beach farm map.
 * Fixed a bug where Special Abiltiy charge would still accumulate with Enable Specials config set to false.
 * Fixed a possible NullReferenceException when shooting at Slimes.
+* Fixed TrackerPointerScale and TrackerPointerBobbingRate config settings.
 * Added a setter to the CustomArtisanMachines config, preventing it from being reset on game load.
 * The print_fishdex console command now takes into account the value of AnglerMultiplierCap config.
 * Fixed some translation errors.
