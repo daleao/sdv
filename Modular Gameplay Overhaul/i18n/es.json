@@ -1,0 +1,249 @@
+﻿{
+  // ***************** //
+  // ** PROFESSIONS ** //
+  // ***************** //
+
+  // farming
+  "harvester.title.male": "Cultivador",
+  "harvester.title.female": "Cultivadora",
+  "harvester.desc": "10% de probabilidad de rendimiento adicional de los cultivos cosechados.",
+  "harvester.desc.prestiged": "10% >> 20% de probabilidad de rendimiento adicional de los cultivos cosechados.",
+  "agriculturist.title.male": "Agricultor",
+  "agriculturist.title.female": "Agricultora",
+  "agriculturist.desc": "Las plantas maduran un 10% mas rápido. Permite cultivos de la más alta calidad de forma orgánica sin fertilizantes.",
+  "agriculturist.desc.prestiged": "Las plantas maduran un 10% >> 20% mas rápido.",
+  "artisan.title.male": "Artesano",
+  "artisan.title.female": "Artesana",
+  "artisan.desc": "Todas las máquinas artesanales foncionan un 10% más rápido. La calidad del produto final es mejor o igual que la calidad de la materia prima.",
+  "artisan.desc.prestiged": "Todas las máquinas artesanales foncionan un 10% >> 25% más rápido.",
+
+  "rancher.title.male": "Ranchero",
+  "rancher.title.female": "Ranchera",
+  "rancher.desc": "La amistad con todos los animales crece un 2× más rápido.",
+  "rancher.desc.prestiged": "La amistad con todos los animales crece un 2× >> 3×.",
+  "breeder.title.male": "Criador",
+  "breeder.title.female": "Criadora",
+  "breeder.desc": "Incubación 2× más rápida y embarazo natural 3× más probable. Aumenta el valor de los animales con una gran amistad.",
+  "breeder.desc.prestiged": "Incubación 2× >> 3× más rápida y embarazo natural 3× >> 5× más probable.",
+  "produtor.title.male": "Productor",
+  "produtor.title.female": "Productora",
+  "producer.desc": "Los animales felices producem el 2× a menudo. Los productos de origen animal valen un 5% a más por cada establo ou gallinero lleno.",
+  "producer.desc.prestiged": "Los animales felices producem el 2× >> 3× a menudo.",
+
+  // foraging
+  "forager.title.male": "Forrajeador",
+  "forager.title.female": "Forrajeadora",
+  "forager.desc": "20% de probabilidad del doble de rendimiento de forrajes.",
+  "forager.desc.prestiged": "20% >> 40% de probabilidad del doble de rendimiento de forrajes.",
+  "ecologist.title.male": "Ecologista",
+  "ecologist.title.female": "Ecologista",
+  "ecologist.desc": "Las bayas silvestres restauran un 50% más salud y energía. Identifique progresivamente forrajes de mayor calidad.",
+  "ecologist.desc.prestiged": "Las bayas silvestres restauran un 50% >> 100% más salud y energía.",
+  "scavenger.title.male": "Rastreador",
+  "scavenger.title.female": "Rastreadora",
+  "scavenger.desc": "Revela la ubicación de forrajes. Ocasionalmente rastrea el tesoro enterrado.",
+  "scavenger.desc.prestiged": "El tiempo se congela durante las búsquedas de tesoro.",
+  "scavenger.huntstarted": "Tus sentidos de Rastreador están hormigueando...",
+  "scavenger.huntfailed": "El hormigueo se desvanece.",
+
+  "lenhador.title.male": "Leñador",
+  "lenhador.title.female": "Leñadora",
+  "lumberjack.desc": "Los arboles talados producen un 25% más de madera.",
+  "lumberjack.desc.prestiged": "Los arboles talados producen un 25% >> 40% más de madera.",
+  "arborist.title.male": "Arbolista",
+  "arborist.title.female": "Arbolista",
+  "arborist.desc": "Todos los arboles crecen más rápido. Los arboles normales pueden producir madera dura.",
+  "arborist.desc.prestiged": "Los arboles normales producen el doble de madera dura.",
+  "tapper.title.male": "Resinador",
+  "tapper.title.female": "Resinadora",
+  "tapper.desc": "Los grifos de resina son más fáciles de fabricar y proporcionan resina un 25% más rápido.",
+  "tapper.desc.prestiged": "Los grifos de resina proporcionan resina un 25% >> 50% más rápido.",
+
+  // mining
+  "miner.title.male": "Minero",
+  "miner.title.female": "Minera",
+  "miner.desc": "1 mena más por veta.",
+  "miner.desc.prestiged": "+1 >> +2 menas más por veta.",
+  "spelunker.title.male": "Espeleólogo",
+  "spelunker.title.female": "Espeleóloga",
+  "spelunker.desc": "La probabilidad de encontrar escaleras y pozos aumenta en un 1% por cada piso de la mina. Velocidad +1 cada cinco pisos.",
+  "spelunker.desc.prestiged": "Restaura algo de HP y Aguante en cada nivel de mina.",
+  "spelunker.buff.desc": "Probabilidad de escaleras +{{ladderChance}}%. +{{speed}} Velocidad.",
+  "prospector.title.male": "Buscador",
+  "prospector.title.female": "Buscadora",
+  "prospector.desc": "Revela la ubicación de escaleras y vetas mineras. Ocasionalmente rastrea minerales valiosos en piedras comunes.",
+  "prospector.desc.prestiged": "El tiempo se congela durante las búsquedas de prospector.",
+  "prospector.huntstarted": "Tus sentidos de Prospector están hormigueando...",
+  "prospector.huntfailed": "El hormigueo se desvanece.",
+
+  "blaster.title.male": "Detonator",
+  "blaster.title.female": "Detonatora",
+  "blaster.desc": "Fabrica el doble de explosivos. Las rocas voladas producen el 2× de carbón.",
+  "blaster.desc.prestiged": "Las rocas voladas producen el 2× >> 3× de carbón.",
+  "demolitionist.title.male": "Demolicionista",
+  "demolitionist.title.female": "Demolicionista",
+  "demolitionist.desc": "Radio de la bomba +1. Las rocas voladas generan un 20% más de recursos.",
+  "demolitionist.desc.prestiged": "Las rocas voladas generan un 20% >> 40% más de recursos.",
+  "demolitionist.buff.desc": "¡A tope!",
+  "gemologist.title.male": "Gemólogo",
+  "gemologist.title.female": "Gemóloga",
+  "gemologist.desc": "Identifique progresivamente minerales de mayor calidad. Los cristalarios producem un 25% más rápido.",
+  "gemologist.desc.prestiged": "Los cristalarios producem un  25% >> 50% más rápido.",
+
+  // fishing
+  "fisher.title.male": "Pescador",
+  "fisher.title.female": "Pescadora",
+  "fisher.desc": "Los peces muerden más rápido. Reduce la probabilidad de pescar basura.",
+  "fisher.desc.prestiged": "Los peces siempre muerden al instante",
+  "angler.title.male": "Pesquero",
+  "angler.title.female": "Pesquera",
+  "angler.desc": "Los peces valen un 1% más por cada pez de tamaño máximo capturado y un 5% más por cada pez legendario capturado.",
+  "angler.desc.prestiged": "Puede volver a atrapar peces legendarios.",
+  "aquarist.title.male": "Acuarista",
+  "aquarist.title.female": "Acuarista",
+  "aquarist.desc": "Capacidad máxima del estanque de peces +2. La barra de captura disminuye más lentamente para cada especie de pez que se cría en un estanque.",
+  "aquarist.desc.prestiged": "Puede criar peces legendarios en estanques de peces.",
+
+  "trapper.title.male": "Trampero",
+  "trapper.title.female": "Trampera",
+  "trapper.desc": "Las trampa para cangrejos son más fáciles de fabricar y pueden atrapar peces de más alta calidad.",
+  "trapper.desc.prestiged": "Las trampas pueden atrapar peces de la mejor calidad.",
+  "luremaster.title.male": "As del señuelo",
+  "luremaster.title.female": "As del señuelo",
+  "luremaster.desc": "Las trampas para cangrejos ya no producen basura. Utilice diferentes cebos para atraer pescas diferentes.",
+  "luremaster.desc.prestiged": "60% de probabilidad de conservar el cebo de las trampas para cangrejos.",
+  "conservationist.title.male": "Ambientalista",
+  "conservationist.title.female": "Ambientalista",
+  "conservationist.desc": "Las trampas para cangrejos sin cebo pueden atrapar basura. Gánate las deducciones de impuestos al limpiar las aguas del Valle.",
+  "conservationist.desc.prestiged": "Gánate también el favor de los aldeanos al limpiar las aguas del Valle.",
+  "conservationist.mail": "Ministerio de Hacienda^Agencia Estatal de Administración Tributaria^^^{{honorific}} @,^^Nos complace informarle que, después de revisar sus actividades ambientales, hemos verificado que califica para una deducción de su impuesto sobre la renta del {{taxBonus}} conforme a la sección 501(c)(3) del Código de Impuestos y Contribuciones de Ferngill. Como tal, todos los ingresos imponibles de {{farm}} se incrementarán en la cantidad antes mencionada, válido durante la actual temporada de {{season}}.^^Guarde esta carta en sus registros permanentes en caso de que necesite resolver cualquier pregunta relacionada con su estado fiscal.^^^Atentamente,^^Laura D. Pretto^Directora Ejecutiva, Agencia Estatal de Administración Tributaria[#]Taxation Deduction",
+  "conservationist.mail.max": "Ministerio de Hacienda^Agencia Estatal de Administración Tributaria^^^{{honorific}} @,^^Nos complace informarle que, después de revisar sus actividades ambientales, hemos determinado que califica para la deducción máxima de su impuesto sobre la renta del {{taxBonus}} conforme a la sección 501(c)(3) del Código de Impuestos y Contribuciones de Ferngill. Como tal, todos los ingresos imponibles de {{farm}} se incrementarán en la cantidad antes mencionada, válido durante la actual temporada de {{season}}.^^Guarde esta carta en sus registros permanentes si necesita resolver alguna pregunta sobre su estado fiscal.^^^Atentamente,^^Laura D. Pretto^Directora ejecutiva, Agencia Estatal de Administración Tributaria[#]Taxation Deduction",
+
+  // combat
+  "fighter.title.male": "Luchador",
+  "fighter.title.female": "Luchadora",
+  "fighter.desc": "Daño +10%. +15 HP.",
+  "fighter.desc.prestiged": "Daño +10% >> +15%.",
+  "brute.title.male": "Bestia",
+  "brute.title.female": "Amazona",
+  "brute.desc": "Aumenta la ira al recibir daño, aumentando la destreza de combate. +25 HP.",
+  "brute.desc.prestiged": "La ira también otorga velocidad de ataque.",
+  "brute.buff.title": "Ira",
+  "brute.buff.desc": "Daño +{{damage}}%.",
+  "brute.buff.desc.prestiged": "Daño +{{damage}}%. Velocidad de ataque +{{speed}}%.",
+  "poacher.title.male": "Guerrillero",
+  "poacher.title.female": "Guerrillera",
+  "poacher.desc": "Probabilidad de golpe crítico +50%. Los golpes críticos pueden pinchar objetos.",
+  "poacher.desc.prestiged": "Reinicia el enfriamento de los ataques especiales al pinchar un objeto.",
+
+  "rascal.title.male": "Bribón",
+  "rascal.title.female": "Bribona",
+  "rascal.desc": "Los tirachinas ganan una ranura de munición adicional. 35% de probabilidad de recuperar la munición.",
+  "rascal.desc.prestiged": "35% >> 70% de probabilidad de recuperar la munición.",
+  "desperado.title.male": "Forajido",
+  "desperado.title.female": "Forajida",
+  "desperado.desc": "Puede sobrecargar el tirachinas para disparar con más potencia.",
+  "desperado.desc.prestiged": "Sobrecargue el doble de rápido.",
+  "piper.title.male": "Encantador de Babas",
+  "piper.title.female": "Encantadora de Babas",
+  "piper.desc": "Atrae más Babas en lugares peligrosos. Chance de obtener efectos aleatorios al eliminar Babas",
+  "piper.desc.prestiged": "Chance de también recuperar un poco de salud y energía al eliminar Babas.",
+  "piper.buff": "Pringue de baba",
+
+
+  // *************** //
+  // ** ULTIMATES ** //
+  // *************** //
+
+  "frenzy.title": "Furia Inmortal",
+  "frenzy.desc": "La ira se acumula el doble de rápido. Imune a los desmayos.",
+  "ambush.title": "Emboscada",
+  "ambush.desc.hidden": "Invisible.",
+  "ambush.desc.revealed": "Potencia de los golpes críticos ×2.",
+  "blossom.title": "Flor de la muerte",
+  "blossom.desc": "Habilita recarga automática. Dispara ocho tiros a tu alrededor a la vez.",
+  "concerto.title.male": "Concierto de Hamelin",
+  "concerto.title.female": "Fiebre Feromoniosa",
+  "concerto.desc": "Encanta las Baba cercanas. Las Babas encantadas aumentan de tamaño y poder y acechan a otros enemigos.",
+
+  "ulti.canteat": "Imposible hacer eso ahora.",
+
+
+  // ************** //
+  // ** PRESTIGE ** //
+  // ************** //
+
+  "prestige.dogstatue.first": "-Estatua del prestigio-^La estatua puede restablecer una habilidad a cero mientras se mantienen todas las profesiones adquiridas.",
+  "prestige.dogstatue.forget": "^Todas las recetas asociadas serán olvidadas.",
+  "prestige.dogstatue.offer": "^¿Hacer una ofrenda?",
+  "prestige.dogstatue.which": "¿Qué habilidad te gustaría restablecer?",
+  "prestige.dogstatue.cost": "({{cost}}G)",
+  "prestige.dogstatue.dismiss": "Vuelve mañana.",
+  "prestige.dogstatue.what": "-Estatua del prestigio-^...",
+  "prestige.dogstatue.respec": "Cambiar las profesiones de prestigio",
+  "prestige.dogstatue.changeult": "Cambiar el supermodo de combate",
+  "prestige.dogstatue.replace": "Actualmente registrado {{pronoun}} {{ultimate}} de {{profession}}. ¿Reemplazar?",
+  "prestige.dogstatue.choice": "{{ultimate}} de {{profession}}",
+  "prestige.dogstatue.fledged": "¡Guau! ¡Guau! (Ahora eres {{pronoun}} {{profession}} de pleno derecho.)",
+  "prestige.dogstatue.cancel": "He cambiado de idea...",
+  "prestige.skillpage.tooltip": "{{count}}/4 profesiones adquiridas:",
+  "prestige.levelup.tooltip:5": "Ya tienes todas las profesiones en esta rama.",
+  "prestige.levelup.tooltip:10": "Ya tienes esta profesión.",
+  "prestige.levelup.question": "Actualmente registrado en {{pronoun}} {{oldUltimate}} de {{oldProfession}}. ¿Reemplazar con el {{newUltimate}} de {{newProfession}}?",
+  "prestige.levelup.unlocked": "Ahora puedes continuar a desarrollar tu habilidad {{skill}} aún más.",
+  "prestige.levelup.prestige": "Elige una profesión para prestigiar:",
+  "prestige.achievement.title.male": "Manitas",
+  "prestige.achievement.title.female": "Manitas",
+  "prestige.achievement.desc": "Adquira todas las profesiones en todas las habilidades.",
+
+  // ********* //
+  // * RINGS * //
+  // ********* //
+
+  "gems.ruby.name": "Rubí",
+  "gems.aquamarine.name": "Aguamarina",
+  "gems.jade.name": "Jade",
+  "gems.emerald.name": "Esmeralda",
+  "gems.amethyst.name": "Amatista",
+  "gems.topaz.name": "Topacio",
+  "gems.garnet.name": "Granate",
+  "gems.garnet.description": "El homónimo de una hermosa princesa.",
+  "rings.jade.description": "Aumenta la potencia de los golpes críticos en un 50%.",
+  "rings.topaz.description.resist": "Aumenta la resistencia en un 10%.",
+  "rings.topaz.description.defense": "Aumenta la defensa en 1.",
+  "rings.garnet.name": "Anel de Granate",
+  "rings.garnet.description": "Disminuye el enfriamiento del movimiento especial en un 10%.",
+  "rings.iridium.description": "Un anillo hecho de iridio.",
+
+  // *********** //
+  // ** TAXES ** //
+  // *********** //
+
+  "tax.intro": "Ministerio de Hacienda^Agencia Estatal de Administración Tributaria de Ferngill^^^{{honorific}} @,^^Le informamos que su solicitud de cambio de domicilio a Pueblo Pelícano, Stardew Valley ha sido radicada y registrada. Toda la correspondencia futura se enviará a {{farm}}.^^Tenga en cuenta que las contribuciones del impuesto federal sobre la renta vencen el día 2 de cada temporada. Para su comodidad, sus obligaciones vencidas se deducirán automáticamente de su saldo. Si este saldo es insuficiente, automáticamente se emitirá un préstamo a su nombre, sujeto a una tasa de interés nominal de {{interés}} por año.^^^Atentamente,^^Laura D. Pretto^Directora ejecutiva, Agencia Estatal de Administración Tributaria[#]Taxation Intro",
+  "tax.notice": "Ministerio de Hacienda^Agencia Estatal de Administración Tributaria de Ferngill^^^{{honorific}} @,^^Le informamos que su impuesto sobre la renta total adeudado para la temporada de cierre por la cantidad de {{due}}g ha sido deducido automáticamente de su saldo para su conveniencia.^^Guarde esta carta en sus registros permanentes en caso de que necesite resolver alguna pregunta sobre su estado fiscal.^^^Atentamente,^^Laura D. Pretto^Directora Ejecutiva, Agencia Estatal de Administración Tributaria[#]Taxation Notice",
+  "tax.outstanding": "Ministerio de Hacienda^SAgencia Estatal de Administración Tributaria de Ferngill^^^{{honorific}} @,^^Le informamos que su impuesto sobre la renta total adeudado para la temporada de cierre por la cantidad de {{due}}g no se pudo deducir completamente de su saldo. Por lo tanto, todos los ingresos futuros de {{farm}} se incautarán hasta que se liquide su deuda pendiente por un monto de {{outstanding}}. Recordamos que le conviene liquidar cualquier deuda pendiente lo antes posible para evitar acumular intereses a una tasa de {{interestRate}} por año.^^Guarde esta carta en sus registros permanentes en caso de que necesite resolver cualquier pregunta sobre su estado fiscal.^^^Atentamente,^^Laura D. Pretto^Directora Ejecutiva, Agencia Estatal de Administración Tributaria[#]Taxation Outstanding",
+  "tax.deduction": "Ministerio de Hacienda^Agencia Estatal de Administración Tributaria de Ferngill^^^{{honorific}} @,^^Nos complace informarle que, después de revisar sus actividades ambientales, hemos verificado que califica para una deducción de su impuesto sobre la renta del {{deductible}} conforme a la sección 501(c)(3) del Código de Impuestos y Contribuciones de Ferngill.^^Guarde esta carta en sus registros permanentes en caso de que necesite resolver cualquier pregunta relacionada con su estado fiscal.^^^Atentamente,^^Laura D. Pretto^Directora Ejecutiva, Agencia Estatal de Administración Tributaria[#]Taxation Deduction",
+  "tax.deduction.max": "Ministerio de Hacienda^Agencia Estatal de Administración Tributaria de Ferngill^^^{{honorific}} @,^^Nos complace informarle que, después de revisar sus actividades ambientales, hemos determinado que califica para la deducción total de su impuesto sobre la renta conforme a la sección 501(c)(3) del Código de Impuestos y Contribuciones de Ferngill. Como tal, no se realizará ningún cargo a su saldo en relación con la temporada de cierre.^^Guarde esta carta en sus registros permanentes si necesita resolver alguna pregunta sobre su estado fiscal.^^^Atentamente,^^Laura D. Pretto^Directora ejecutiva, Agencia Estatal de Administración Tributaria[#]Taxation Deduction",
+  "debt.debit": "Su saldo fue debitado por {{amount}}g hacia deudas pendientes.",
+  "honorific.male": "Estimado",
+  "honorific.female": "Estimata",
+
+  // **************** //
+  // ** UI STRINGS ** //
+  // **************** //
+
+  "ui.itemhover.damage": "{{amount}} Damage",
+  "ui.itemhover.precision": "{{amount}} Precision",
+  "ui.itemhover.cdr": "{{amount}} Cooldown Reduction",
+
+  "article.definite.male": "en el",
+  "article.definite.female": "en la",
+  "article.indefinite.male": "un",
+  "article.indefinite.female": "una",
+
+  // ********* //
+  // * PONDS * //
+  // ********* //
+
+  "algae": "Algas"
+}

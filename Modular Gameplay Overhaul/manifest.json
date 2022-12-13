@@ -1,0 +1,61 @@
+{
+  "$schema": "https://smapi.io/schemas/manifest.json",
+  "UniqueID": "DaLion.Overhaul",
+  "Name": "Modular Gameplay Overhaul",
+  "Author": "DaLion",
+  "Version": "0.9.0-Debug",
+  "Description": "An immersive gameplay overhaul, broken down into modules.",
+  "MinimumApiVersion": "3.18.0",
+  "EntryDll": "TheOverhaul.dll",
+  "Dependencies": [
+    {
+      "UniqueID": "BBR.BetterRings",
+      "IsRequired": false
+    },
+    {
+      "UniqueID": "blueberry.LoveOfCooking",
+      "MinimumVersion": "1.0.28",
+      "IsRequired": false
+    },
+    {
+      "UniqueID": "leclair.bettercrafting",
+      "MinimumVersion": "1.0.0",
+      "IsRequired": false
+    },
+    {
+      "UniqueID": "Pathoschild.Automate",
+      "IsRequired": false
+    },
+    {
+      "UniqueID": "spacechase0.GenericModConfigMenu",
+      "MinimumVersion": "1.8.0",
+      "IsRequired": true
+    },
+    {
+      "UniqueID": "spacechase0.JsonAssets",
+      "MinimumVersion": "1.10.7",
+      "IsRequired": false
+    },
+    {
+      "UniqueID": "spacechase0.LuckSkill",
+      "IsRequired": false
+    },
+    {
+      "UniqueID": "spacechase0.MoonMisadventures",
+      "IsRequired": false
+    },
+    {
+      "UniqueID": "spacechase0.SpaceCore",
+      "MinimumVersion": "1.8.1",
+      "IsRequired": true
+    },
+    {
+      "UniqueID": "TehPers.FishingOverhaul",
+      "MinimumVersion": "3.2.1",
+      "IsRequired": false
+    }
+  ],
+  "UpdateKeys": [
+    "Nexus:14470"
+  ]
+}
