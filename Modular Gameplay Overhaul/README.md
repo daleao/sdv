@@ -18,7 +18,7 @@ This mod is the culmination of over a year of work. Please take the time to read
 
 ## Current Modules
 
-The available modules are listed below. **Please read this page carefuly in its entirety.** Modules can be toggled on or off individually, but **you must restart the game for those changes to take effect**. Some modules require specific enabling/disabling instructions you should pay attention to. These requirements are listed below.
+The available modules are listed below. **Please read this page carefuly in its entirety.** Modules can be toggled on or off in the title screen via GMCM. Each module is itself highly configurable, and will be added to the GMCM menu if enabled. Some modules require specific enabling/disabling instructions you should pay attention to. These requirements will be mentioned below.
 
 All modules should be fully multiplayer and splitscreen-ready so long as all players have it installed. Unless explicitly stated otherwise, none of the modules are Android-compatible. Please refer to each module's specific documentation page for further details and compatibility information.
 
