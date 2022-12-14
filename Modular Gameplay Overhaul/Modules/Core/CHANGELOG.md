@@ -1,6 +1,10 @@
 ﻿# Modular Overhaul Core Change Log
 
-## 0.9.2
+## 0.9.3
+
+### Changed
+
+* Renamed the mod folder to be less vague.
 
 ### Added
 

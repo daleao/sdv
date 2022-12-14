@@ -23,16 +23,13 @@ internal sealed partial class GenericModConfigMenuIntegration
                 () =>
                     "If using mouse and keyboard, turn to face towards the current cursor position before swinging your tools.",
                 config => config.Arsenal.FaceMouseCursor,
-                (config, value) =>
-                {
-                    config.Arsenal.FaceMouseCursor = value;
-                })
+                (config, value) => config.Arsenal.FaceMouseCursor = value)
             .AddCheckbox(
                 () => "Slick Moves",
                 () =>
                     "Allows the farmer to drift when using weapons while running.",
                 config => config.Arsenal.SlickMoves,
-                (config, value) => config.Arsenal.FaceMouseCursor = value)
+                (config, value) => config.Arsenal.SlickMoves = value)
 
             .AddSectionTitle(() => "Forge Settings")
             .AddCheckbox(

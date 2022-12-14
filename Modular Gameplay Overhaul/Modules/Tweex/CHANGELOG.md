@@ -1,5 +1,11 @@
 # Tweex Module Change Log
 
+## 0.9.3
+
+### Fixed
+
+* Fixed Mill output quality compatibility with More Fertilizers.
+
 ## 0.9.0 (Initial release)
 
 ### Added

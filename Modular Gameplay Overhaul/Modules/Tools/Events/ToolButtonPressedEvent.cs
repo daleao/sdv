@@ -25,14 +25,15 @@ internal sealed class ToolButtonPressedEvent : ButtonPressedEvent
     /// <inheritdoc />
     protected override void OnButtonPressedImpl(object? sender, ButtonPressedEventArgs e)
     {
-        if (!Context.IsWorldReady || Game1.activeClickableMenu is not null)
+        if (!Context.IsWorldReady || Game1.activeClickableMenu is not null || !e.Button.IsUseToolButton() ||
+            Game1.options.gamepadControls)
         {
             return;
         }
 
         var player = Game1.player;
-        if (e.Button.IsUseToolButton() && !Game1.options.gamepadControls &&
-            player.CurrentTool is Axe or Hoe or Pickaxe or WateringCan && !player.UsingTool && !player.isRidingHorse())
+        if (player.CurrentTool is Axe or Hoe or Pickaxe or WateringCan && !player.UsingTool &&
+            !player.isRidingHorse() && player.CanMove)
         {
             player.FaceTowardsTile(Game1.currentCursorTile);
         }

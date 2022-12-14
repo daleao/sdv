@@ -9,6 +9,7 @@
 ### Fixed
 
 * Added even more robust null-checking for custom JA items to avoid issues.
+* Fixed SlickMoves config setting in GMCM which was incorrectly mapped to FaceMouseCursor.
 
 ### Fixed
 

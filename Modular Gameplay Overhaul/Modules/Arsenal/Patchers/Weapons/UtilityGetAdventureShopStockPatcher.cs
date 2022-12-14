@@ -25,16 +25,18 @@ internal sealed class UtilityGetAdventureShopStockPatcher : HarmonyPatcher
 
     /// <summary>More consistent Adventurer Guild shop.</summary>
     [HarmonyPrefix]
-    private static bool UtilityGetAdventureShopStockPrefix(Dictionary<ISalable, int[]> __result)
+    private static bool UtilityGetAdventureShopStockPrefix(ref Dictionary<ISalable, int[]> __result)
     {
         if (!ArsenalModule.Config.Weapons.RebalancedStats)
         {
             return true; // run original logic
         }
 
-        var stock = new Dictionary<ISalable, int[]>();
+        var stock = new Dictionary<ISalable, int[]>
+        {
+            { new MeleeWeapon(Constants.WoodenBladeIndex), new[] { 200, int.MaxValue } },
+        };
 
-        stock.Add(new MeleeWeapon(Constants.WoodenBladeIndex), new[] { 200, int.MaxValue });
         if (MineShaft.lowestLevelReached >= 20)
         {
             stock.Add(new MeleeWeapon(Constants.SteelSmallswordIndex), new[] { 500, int.MaxValue });

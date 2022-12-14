@@ -3,10 +3,10 @@
   "UniqueID": "DaLion.Overhaul",
   "Name": "Modular Gameplay Overhaul",
   "Author": "DaLion",
-  "Version": "0.9.2",
+  "Version": "0.9.3",
   "Description": "An immersive gameplay overhaul, broken down into modules.",
   "MinimumApiVersion": "3.18.0",
-  "EntryDll": "TheOverhaul.dll",
+  "EntryDll": "ModularOverhaul.dll",
   "Dependencies": [
     {
       "UniqueID": "BBR.BetterRings",

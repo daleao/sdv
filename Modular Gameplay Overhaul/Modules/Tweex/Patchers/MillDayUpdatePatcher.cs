@@ -21,12 +21,14 @@ internal sealed class MillDayUpdatePatcher : HarmonyPatcher
     internal MillDayUpdatePatcher()
     {
         this.Target = this.RequireMethod<Mill>(nameof(Mill.dayUpdate));
+        this.Transpiler!.after = new[] { "atravita.MoreFertilizers" };
     }
 
     #region harmony patches
 
     /// <summary>Mills preserve quality.</summary>
     [HarmonyTranspiler]
+    [HarmonyAfter("atravita.MoreFertilizers")]
     private static IEnumerable<CodeInstruction>? MillDayUpdateTranspiler(
         IEnumerable<CodeInstruction> instructions, ILGenerator generator, MethodBase original)
     {

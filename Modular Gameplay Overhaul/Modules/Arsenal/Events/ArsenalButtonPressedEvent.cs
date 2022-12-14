@@ -6,6 +6,7 @@ using DaLion.Shared.Enums;
 using DaLion.Shared.Events;
 using DaLion.Shared.Extensions.Stardew;
 using StardewModdingAPI.Events;
+using StardewValley.Tools;
 
 #endregion using directives
 
@@ -25,13 +26,14 @@ internal sealed class ArsenalButtonPressedEvent : ButtonPressedEvent
     /// <inheritdoc />
     protected override void OnButtonPressedImpl(object? sender, ButtonPressedEventArgs e)
     {
-        if (!Context.IsWorldReady || Game1.activeClickableMenu is not null)
+        if (!Context.IsWorldReady || Game1.activeClickableMenu is not null ||
+            !(e.Button.IsActionButton() || e.Button.IsUseToolButton()))
         {
             return;
         }
 
         var player = Game1.player;
-        if (!(e.Button.IsActionButton() || e.Button.IsUseToolButton()) || player.UsingTool || player.isRidingHorse() ||
+        if (player.CurrentTool is not (MeleeWeapon or Slingshot) || player.UsingTool || player.isRidingHorse() ||
             !player.CanMove)
         {
             return;

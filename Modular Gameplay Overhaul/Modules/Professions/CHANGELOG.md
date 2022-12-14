@@ -6,6 +6,7 @@
 
 * Fixed Scavenger and Prospector tracking arrows not being displayed.
 * Improved tracking arrow position for tracked bushes on-screen.
+* Replaced an incorrect FieldGetter with the correct PropertyGetterGetter in Automate integration.
 
 ## 0.9.1
 
