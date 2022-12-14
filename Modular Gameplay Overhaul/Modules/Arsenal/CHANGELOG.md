@@ -1,5 +1,11 @@
 ﻿# Arsenal Change Log
 
+## 0.9.3
+
+### Fixed
+
+* Fixed null-reference exception when opening Marlon's shop (forgot to pass `__result` by `ref`).
+
 ## 0.9.2
 
 ### Changed
