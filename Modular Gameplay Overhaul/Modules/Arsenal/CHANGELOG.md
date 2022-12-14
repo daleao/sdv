@@ -5,6 +5,7 @@
 ### Fixed
 
 * Fixed null-reference exception when opening Marlon's shop (forgot to pass `__result` by `ref`).
+* Control settings now apply only to weapons, as they should.
 
 ## 0.9.2
 

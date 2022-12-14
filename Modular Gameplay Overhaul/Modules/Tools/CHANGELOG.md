@@ -1,5 +1,11 @@
 ﻿# Tools Module Change Log
 
+## 0.9.3
+
+### Fixed
+
+* Control settings now apply only to weapons, as they should.
+
 ## 0.9.0 (Initial release)
 
 ### Added
