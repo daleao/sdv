@@ -56,7 +56,8 @@ internal sealed class LevelUpMenuCtorPatcher : HarmonyPatcher
                     })
                 .Move(3)
                 .Insert(
-                    new[] {
+                    new[]
+                    {
                         new CodeInstruction(OpCodes.Rem_Un),
                         new CodeInstruction(OpCodes.Ldc_I4_0),
                     })

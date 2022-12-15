@@ -62,8 +62,12 @@ internal sealed class TreeTickUpdatePatcher : HarmonyPatcher
                             .AddLabels(resumeExecution)
                             .Insert(new[] { new CodeInstruction(OpCodes.Br_S, resumeExecution) })
                             .Insert(
-                                new[] { new CodeInstruction(OpCodes.Pop),
-                                    new CodeInstruction(OpCodes.Ldc_R8, 1.4), },
+                                new[]
+                                {
+                                    new CodeInstruction(OpCodes.Pop),
+                                    new CodeInstruction(OpCodes.Ldc_R8, 1.4),
+
+                                },
                                 new[] { isPrestiged });
                     });
         }
@@ -140,8 +144,11 @@ internal sealed class TreeTickUpdatePatcher : HarmonyPatcher
                             .AddLabels(resumeExecution1)
                             .FindProfessionCheck(Profession.Arborist.Value)
                             .Match(
-                                new[] { new CodeInstruction(OpCodes.Ldc_R4, 0.25f),
-                                    new CodeInstruction(OpCodes.Mul), })
+                                new[]
+                                {
+                                    new CodeInstruction(OpCodes.Ldc_R4, 0.25f),
+                                    new CodeInstruction(OpCodes.Mul),
+                                })
                             .AddLabels(notPrestigedArborist2)
                             .Insert(checkForPrestigedArboristInstructions)
                             .Insert(

@@ -261,7 +261,7 @@ internal abstract class OverhaulModule : SmartEnum<OverhaulModule>
     {
         /// <summary>Initializes a new instance of the <see cref="OverhaulModule.CoreModule"/> class.</summary>
         internal CoreModule()
-            : base("Core", 0, "core")
+            : base("Core", 0, "overhaul")
         {
         }
 

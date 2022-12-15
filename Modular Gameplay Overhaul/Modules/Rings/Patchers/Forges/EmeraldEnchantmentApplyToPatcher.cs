@@ -42,7 +42,6 @@ internal sealed class EmeraldEnchantmentApplyToPatcher : HarmonyPatcher
         }
 
         tool.UpdateResonatingChord<EmeraldEnchantment>(chord);
-        tool.Invalidate();
     }
 
     #endregion harmony patches

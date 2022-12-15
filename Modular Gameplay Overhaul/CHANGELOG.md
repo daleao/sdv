@@ -1,10 +1,10 @@
 # Modular Overhaul Change Logs
 
-## Revision Highlights
+## Revision 0.9.5 Highlights
 
-* Tons of bugfixes.
+* Added console commands for initializing Arsenal on existing saves, and reverting existing saves back to Vanilla status after disabling Arsenal.
 
-## Minor Release Highlights
+## Minor Release 0.9 Highlights
 
 * Initial release of Modular Gameplay Overhaul.
 * Initial release of the [Arsenal](Modules/Arsenal/README.md) module. Check it out for tons of new features.

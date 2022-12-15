@@ -15,14 +15,14 @@ using StardewValley.Tools;
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class StabbySwordSpecialUpdateTickingEvent : UpdateTickingEvent
+internal sealed class StabbingSwordSpecialUpdateTickingEvent : UpdateTickingEvent
 {
     private static int _currentFrame = -1;
     private static int _animationFrames;
 
-    /// <summary>Initializes a new instance of the <see cref="StabbySwordSpecialUpdateTickingEvent"/> class.</summary>
+    /// <summary>Initializes a new instance of the <see cref="StabbingSwordSpecialUpdateTickingEvent"/> class.</summary>
     /// <param name="manager">The <see cref="EventManager"/> instance that manages this event.</param>
-    internal StabbySwordSpecialUpdateTickingEvent(EventManager manager)
+    internal StabbingSwordSpecialUpdateTickingEvent(EventManager manager)
         : base(manager)
     {
     }

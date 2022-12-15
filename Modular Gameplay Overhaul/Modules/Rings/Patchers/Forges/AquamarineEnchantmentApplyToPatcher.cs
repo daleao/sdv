@@ -43,7 +43,6 @@ internal sealed class AquamarineEnchantmentApplyToPatcher : HarmonyPatcher
         }
 
         tool.UpdateResonatingChord<AquamarineEnchantment>(chord);
-        tool.Invalidate();
     }
 
     #endregion harmony patches

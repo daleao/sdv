@@ -4,14 +4,15 @@
 
 using System.Diagnostics;
 using DaLion.Shared.Attributes;
+using DaLion.Shared.Extensions.Reflection;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
-using Shared.Extensions.Reflection;
 
 #endregion using directives
 
 [UsedImplicitly]
 [Debug]
+[ImplicitIgnore]
 internal sealed class DebugPatcher : HarmonyPatcher
 {
     /// <summary>Initializes a new instance of the <see cref="DebugPatcher"/> class.</summary>
@@ -23,7 +24,7 @@ internal sealed class DebugPatcher : HarmonyPatcher
 
     /// <summary>Placeholder patch for debugging.</summary>
     [HarmonyPrefix]
-    private static bool DebugPrefix(Tool __instance)
+    private static bool DebugPrefix(object __instance)
     {
         var caller = new StackTrace().GetFrame(1)?.GetMethod()?.GetFullName();
         Log.D($"{caller} prefix called!");

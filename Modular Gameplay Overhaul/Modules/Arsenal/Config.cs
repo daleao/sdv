@@ -81,7 +81,7 @@ public sealed class Config : Shared.Configs.Config
 
         if (this.Weapons.GalaxySwordType == WeaponType.StabbingSword)
         {
-            Collections.StabbySwords.Add(Constants.GalaxySwordIndex);
+            Collections.StabbingSwords.Add(Constants.GalaxySwordIndex);
         }
         else if (this.Weapons.GalaxySwordType != WeaponType.DefenseSword)
         {
@@ -92,7 +92,7 @@ public sealed class Config : Shared.Configs.Config
 
         if (this.Weapons.InfinityBladeType == WeaponType.StabbingSword)
         {
-            Collections.StabbySwords.Add(Constants.InfinityBladeIndex);
+            Collections.StabbingSwords.Add(Constants.InfinityBladeIndex);
         }
         else if (this.Weapons.InfinityBladeType != WeaponType.DefenseSword)
         {

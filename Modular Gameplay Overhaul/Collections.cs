@@ -133,8 +133,8 @@ internal static class Collections
         { Constants.GlacierfishJrIndex, Constants.GlacierfishIndex },
     };
 
-    /// <summary>Gets the swords that should be converted to stabby swords.</summary>
-    internal static ISet<int> StabbySwords { get; } = new HashSet<int>
+    /// <summary>Gets the swords that should be converted to Stabbing swords.</summary>
+    internal static ISet<int> StabbingSwords { get; } = new HashSet<int>
     {
         Constants.SteelSmallswordIndex,
         Constants.CutlassIndex,

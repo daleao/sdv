@@ -47,8 +47,11 @@ internal sealed class NewForgeMenuUpdatePatcher : HarmonyPatcher
             var vanillaUnforge = generator.DefineLabel();
             helper
                 .Match(
-                    new[] { new CodeInstruction(OpCodes.Pop),
-                        new CodeInstruction(OpCodes.Br) },
+                    new[]
+                    {
+                        new CodeInstruction(OpCodes.Pop),
+                        new CodeInstruction(OpCodes.Br),
+                    },
                     ILHelper.SearchOption.Last)
                 .Move()
                 .GetOperand(out var resumeExecution)

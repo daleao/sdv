@@ -1,5 +1,19 @@
 ﻿# Arsenal Change Log
 
+## 0.9.5
+
+### Added
+
+* Added Initialize command to apply all necessary configurations to weapons and farmers on existing saves.
+
+### Fixed
+
+* Club second combo hit now actually does damage.
+
+### Removed
+
+* Removed automatic initialization script from SaveLoaded event. This was inefficient and unreliable. Replaced with manual console command.
+
 ## 0.9.4
 
 ### Added

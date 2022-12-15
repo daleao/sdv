@@ -9,6 +9,7 @@ using StardewModdingAPI.Events;
 #endregion using directives
 
 [UsedImplicitly]
+[AlwaysEnabledEvent]
 [Debug]
 internal sealed class DebugUpdateTickedEvent : UpdateTickedEvent
 {
@@ -22,5 +23,9 @@ internal sealed class DebugUpdateTickedEvent : UpdateTickedEvent
     /// <inheritdoc />
     protected override void OnUpdateTickedImpl(object? sender, UpdateTickedEventArgs e)
     {
+        if (!Context.IsWorldReady)
+        {
+            return;
+        }
     }
 }

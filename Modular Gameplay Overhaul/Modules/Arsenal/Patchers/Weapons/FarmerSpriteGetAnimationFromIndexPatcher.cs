@@ -4,7 +4,6 @@
 
 using System.Reflection;
 using DaLion.Overhaul.Modules.Arsenal.Extensions;
-using DaLion.Overhaul.Modules.Arsenal.VirtualProperties;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
 using StardewValley;
@@ -42,10 +41,10 @@ internal sealed class FarmerSpriteGetAnimationFromIndexPatcher : HarmonyPatcher
             }
 
             var type = weapon.type.Value;
-            var hitStep = owner.Get_CurrentHitStep();
+            var hitStep = ArsenalModule.State.ComboHitStep;
             if (type == MeleeWeapon.club && hitStep == weapon.GetFinalHitStep() - 1)
             {
-                owner.QueueOverheadSwipe(weapon);
+                owner.QueueSmash(weapon);
             }
             else if ((int)hitStep % 2 == 0 || weapon.isScythe())
             {
@@ -53,7 +52,7 @@ internal sealed class FarmerSpriteGetAnimationFromIndexPatcher : HarmonyPatcher
             }
             else
             {
-                owner.QueueBackwardSwipe(weapon);
+                owner.QueueReverseSwipe(weapon);
             }
 
             return false; // don't run original logic

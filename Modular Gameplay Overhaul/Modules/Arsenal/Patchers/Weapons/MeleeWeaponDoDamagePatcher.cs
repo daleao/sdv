@@ -25,7 +25,7 @@ internal sealed class MeleeWeaponDoDamagePatcher : HarmonyPatcher
 
     #region harmony patches
 
-    /// <summary>Override `special = false` for stabby sword + inject resonance bonuses.</summary>
+    /// <summary>Override `special = false` for Stabbing sword + inject resonance bonuses.</summary>
     [HarmonyTranspiler]
     private static IEnumerable<CodeInstruction>? MeleeWeaponDoDamageTranspiler(
         IEnumerable<CodeInstruction> instructions,
@@ -66,7 +66,7 @@ internal sealed class MeleeWeaponDoDamagePatcher : HarmonyPatcher
         }
         catch (Exception ex)
         {
-            Log.E($"Failed to prevent special stabby sword override.\nHelper returned {ex}");
+            Log.E($"Failed to prevent special Stabbing sword override.\nHelper returned {ex}");
             return null;
         }
 

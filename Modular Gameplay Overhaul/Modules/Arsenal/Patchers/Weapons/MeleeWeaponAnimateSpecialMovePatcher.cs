@@ -20,7 +20,7 @@ internal sealed class MeleeWeaponAnimateSpecialMovePatcher : HarmonyPatcher
 
     #region harmony patches
 
-    /// <summary>Trigger stabby sword lunge.</summary>
+    /// <summary>Trigger Stabbing sword lunge.</summary>
     [HarmonyPrefix]
     private static bool MeleeWeaponAnimateSpecalMovePrefix(MeleeWeapon __instance, ref Farmer ___lastUser, Farmer who)
     {
@@ -31,7 +31,7 @@ internal sealed class MeleeWeaponAnimateSpecialMovePatcher : HarmonyPatcher
         }
 
         ___lastUser = who;
-        EventManager.Enable<StabbySwordSpecialUpdateTickingEvent>();
+        EventManager.Enable<StabbingSwordSpecialUpdateTickingEvent>();
         return false; // don't run original logic
     }
 
