@@ -34,6 +34,7 @@
 * Fixed special item hold up message for first Galaxy weapon not being displayed.
 * Fixed Mine chests changes not being applied as intended with the Weapon Rebalance setting.
 * Players on existing save files that have already obtained the Galaxy Sword should now be able to obtain the remaining Galaxy weapons.
+* Fixed a bug in the monster stat randomization logic, which was generating monsters with current HP higher than max HP.
 
 ## 0.9.3
 
