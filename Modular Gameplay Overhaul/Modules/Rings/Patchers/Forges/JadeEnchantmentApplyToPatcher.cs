@@ -42,7 +42,6 @@ internal sealed class JadeEnchantmentApplyToPatcher : HarmonyPatcher
         }
 
         tool.UpdateResonatingChord<JadeEnchantment>(chord);
-        tool.Invalidate();
     }
 
     #endregion harmony patches

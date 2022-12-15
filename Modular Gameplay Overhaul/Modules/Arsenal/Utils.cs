@@ -12,7 +12,51 @@ using StardewValley.Tools;
 internal static class Utils
 {
     /// <summary>Converts the config-specified defensive swords into stabbing swords throughout the world.</summary>
-    internal static void ConvertAllStabbySwords()
+    internal static void AddAllIntrinsicEnchantments()
+    {
+        if (Context.IsMainPlayer)
+        {
+            Utility.iterateAllItems(item =>
+            {
+                if (item is MeleeWeapon weapon)
+                {
+                    weapon.AddIntrinsicEnchantments();
+                }
+            });
+        }
+        else
+        {
+            foreach (var weapon in Game1.player.Items.OfType<MeleeWeapon>())
+            {
+                weapon.AddIntrinsicEnchantments();
+            }
+        }
+    }
+
+    /// <summary>Reverts all stabbing sword back into vanilla defensive swords.</summary>
+    internal static void RemoveAllIntrinsicEnchantments()
+    {
+        if (Context.IsMainPlayer)
+        {
+            Utility.iterateAllItems(item =>
+            {
+                if (item is MeleeWeapon weapon)
+                {
+                    weapon.AddIntrinsicEnchantments();
+                }
+            });
+        }
+        else
+        {
+            foreach (var weapon in Game1.player.Items.OfType<MeleeWeapon>())
+            {
+                weapon.AddIntrinsicEnchantments();
+            }
+        }
+    }
+
+    /// <summary>Converts the config-specified defensive swords into stabbing swords throughout the world.</summary>
+    internal static void ConvertAllStabbingSwords()
     {
         if (Context.IsMainPlayer)
         {
@@ -23,7 +67,7 @@ internal static class Utils
                     return;
                 }
 
-                if (Collections.StabbySwords.Contains(sword.InitialParentTileIndex))
+                if (Collections.StabbingSwords.Contains(sword.InitialParentTileIndex))
                 {
                     sword.type.Value = MeleeWeapon.stabbingSword;
                 }
@@ -33,7 +77,7 @@ internal static class Utils
         {
             foreach (var sword in Game1.player.Items.OfType<MeleeWeapon>().Where(w =>
                          w.type.Value == MeleeWeapon.defenseSword &&
-                         Collections.StabbySwords.Contains(w.InitialParentTileIndex)))
+                         Collections.StabbingSwords.Contains(w.InitialParentTileIndex)))
             {
                 sword.type.Value = MeleeWeapon.stabbingSword;
             }
@@ -41,7 +85,7 @@ internal static class Utils
     }
 
     /// <summary>Reverts all stabbing sword back into vanilla defensive swords.</summary>
-    internal static void RevertAllStabbySwords()
+    internal static void RevertAllStabbingSwords()
     {
         if (Context.IsMainPlayer)
         {

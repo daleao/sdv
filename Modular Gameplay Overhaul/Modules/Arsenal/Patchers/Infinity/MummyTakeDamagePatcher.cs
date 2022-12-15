@@ -52,7 +52,8 @@ internal sealed class MummyTakeDamagePatcher : HarmonyPatcher
                                 .MakeGenericMethod(typeof(CrusaderEnchantment))),
                     })
                 .Match(
-                    new[] {
+                    new[]
+                    {
                         new CodeInstruction(OpCodes.Brfalse_S),
                         new CodeInstruction(OpCodes.Ldarg_S),
                     },

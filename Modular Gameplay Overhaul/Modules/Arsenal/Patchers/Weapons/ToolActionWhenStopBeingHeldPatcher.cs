@@ -2,7 +2,6 @@
 
 #region using directives
 
-using DaLion.Overhaul.Modules.Arsenal.VirtualProperties;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
 using StardewValley;
@@ -25,9 +24,9 @@ internal sealed class ToolActionWhenStopBeingHeldPatcher : HarmonyPatcher
     [HarmonyPostfix]
     private static void ToolActionWhenStopBeingHeldPostfix(Tool __instance, Farmer who)
     {
-        if (__instance is MeleeWeapon)
+        if (__instance is MeleeWeapon && who.IsLocalPlayer)
         {
-            who.Set_CurrentHitStep(ComboHitStep.Idle);
+            ArsenalModule.State.ComboHitStep = ComboHitStep.Idle;
         }
     }
 

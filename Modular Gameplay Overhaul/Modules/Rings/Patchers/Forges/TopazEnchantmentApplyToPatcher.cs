@@ -42,7 +42,6 @@ internal sealed class TopazEnchantmentApplyToPatcher : HarmonyPatcher
         }
 
         tool.UpdateResonatingChord<TopazEnchantment>(chord);
-        tool.Invalidate();
     }
 
     #endregion harmony patches

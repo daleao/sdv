@@ -2,7 +2,6 @@
 
 #region using directives
 
-using DaLion.Overhaul.Modules.Arsenal.VirtualProperties;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
 using StardewValley;
@@ -20,13 +19,13 @@ internal sealed class FarmerCanMoveNowPatcher : HarmonyPatcher
 
     #region harmony patches
 
-    /// <summary>Reset combo hit counter.</summary>
+    /// <summary>Reset animation state.</summary>
     [HarmonyPostfix]
     private static void FarmerCanMoveNowPostfix(Farmer who)
     {
         if (who.IsLocalPlayer)
         {
-            who.Set_IsAnimating(false);
+            ArsenalModule.State.FarmerAnimating = false;
         }
     }
 

@@ -42,7 +42,6 @@ internal sealed class AmethystEnchantmentApplyToPatcher : HarmonyPatcher
         }
 
         tool.UpdateResonatingChord<AmethystEnchantment>(chord);
-        tool.Invalidate();
     }
 
     #endregion harmony patches

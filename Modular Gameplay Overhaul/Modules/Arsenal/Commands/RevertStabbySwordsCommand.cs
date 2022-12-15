@@ -7,11 +7,11 @@ using DaLion.Shared.Commands;
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class RevertStabbySwordsCommand : ConsoleCommand
+internal sealed class RevertStabbingSwordsCommand : ConsoleCommand
 {
-    /// <summary>Initializes a new instance of the <see cref="RevertStabbySwordsCommand"/> class.</summary>
+    /// <summary>Initializes a new instance of the <see cref="RevertStabbingSwordsCommand"/> class.</summary>
     /// <param name="handler">The <see cref="CommandHandler"/> instance that handles this command.</param>
-    internal RevertStabbySwordsCommand(CommandHandler handler)
+    internal RevertStabbingSwordsCommand(CommandHandler handler)
         : base(handler)
     {
     }
@@ -25,6 +25,6 @@ internal sealed class RevertStabbySwordsCommand : ConsoleCommand
     /// <inheritdoc />
     public override void Callback(string[] args)
     {
-        Utils.RevertAllStabbySwords();
+        Utils.RevertAllStabbingSwords();
     }
 }

@@ -349,7 +349,7 @@ internal sealed class ArsenalAssetRequestedEvent : AssetRequestedEvent
                 fields[MinDamage] = 2.ToString();
                 fields[MaxDamage] = 5.ToString();
                 fields[Knockback] = 0.5.ToString(CultureInfo.InvariantCulture);
-                fields[Speed] = 0.ToString();
+                fields[Speed] = 1.ToString();
                 fields[Precision] = 0.ToString();
                 fields[Defense] = 0.ToString();
                 fields[BaseDropLevel] = (-1).ToString();

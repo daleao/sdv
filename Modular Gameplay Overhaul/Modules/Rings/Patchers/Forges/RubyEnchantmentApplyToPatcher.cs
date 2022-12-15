@@ -42,7 +42,6 @@ internal sealed class RubyEnchantmentApplyToPatcher : HarmonyPatcher
         }
 
         tool.UpdateResonatingChord<RubyEnchantment>(chord);
-        tool.Invalidate();
     }
 
     #endregion harmony patches

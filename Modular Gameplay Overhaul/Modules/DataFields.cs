@@ -24,7 +24,6 @@ internal sealed class DataFields
     internal const string BaseMaxDamage = "BaseMaxDamage";
 
     // farmer
-    internal const string ArsenalInitialized = "ArsenalInitialized";
     internal const string GalaxyArsenalObtained = "GalaxyArsenalObtained";
     internal const string Cursed = "Cursed";
     internal const string BlueprintsFound = "BlueprintsFound";

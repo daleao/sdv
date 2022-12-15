@@ -5,6 +5,7 @@
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
+using System.Linq;
 using DaLion.Overhaul.Modules.Arsenal.Enchantments;
 using DaLion.Overhaul.Modules.Arsenal.VirtualProperties;
 using DaLion.Shared;
@@ -206,7 +207,10 @@ internal static class MeleeWeaponExtensions
             switch (weapon.InitialParentTileIndex)
             {
                 case Constants.LavaKatanaIndex when !weapon.hasEnchantmentOfType<LavaEnchantment>():
-                    weapon.enchantments.Add(new LavaEnchantment());
+                    weapon.AddEnchantment(new LavaEnchantment());
+                    break;
+                case Constants.ObsidianEdgeIndex when !weapon.hasEnchantmentOfType<ObsidianEnchantment>():
+                    weapon.AddEnchantment(new ObsidianEnchantment());
                     break;
             }
         }
@@ -216,20 +220,73 @@ internal static class MeleeWeaponExtensions
             switch (weapon.InitialParentTileIndex)
             {
                 case Constants.DarkSwordIndex when !weapon.hasEnchantmentOfType<CursedEnchantment>():
-                    weapon.enchantments.Add(new CursedEnchantment());
+                    weapon.AddEnchantment(new CursedEnchantment());
                     break;
                 case Constants.HolyBladeIndex when !weapon.hasEnchantmentOfType<BlessedEnchantment>():
-                    weapon.enchantments.Add(new BlessedEnchantment());
+                    weapon.AddEnchantment(new BlessedEnchantment());
                     break;
                 case Constants.InfinityBladeIndex:
                 case Constants.InfinityDaggerIndex:
                 case Constants.InfinityGavelIndex:
                     if (!weapon.hasEnchantmentOfType<InfinityEnchantment>())
                     {
-                        weapon.enchantments.Add(new InfinityEnchantment());
+                        weapon.AddEnchantment(new InfinityEnchantment());
                     }
 
                     break;
+            }
+        }
+    }
+
+    /// <summary>Adds hidden weapon enchantments related to Infinity +1.</summary>
+    /// <param name="weapon">The <see cref="MeleeWeapon"/>.</param>
+    internal static void RemoveIntrinsicEnchantments(this MeleeWeapon weapon)
+    {
+        if (ArsenalModule.Config.Weapons.RebalancedStats)
+        {
+            BaseEnchantment? enchantment = null;
+            switch (weapon.InitialParentTileIndex)
+            {
+                case Constants.LavaKatanaIndex when !weapon.hasEnchantmentOfType<LavaEnchantment>():
+                    enchantment = weapon.GetEnchantmentOfType<LavaEnchantment>();
+                    break;
+                case Constants.ObsidianEdgeIndex when !weapon.hasEnchantmentOfType<ObsidianEnchantment>():
+                    enchantment = weapon.GetEnchantmentOfType<ObsidianEnchantment>();
+                    break;
+            }
+
+            if (enchantment is not null)
+            {
+                weapon.RemoveEnchantment(enchantment);
+            }
+        }
+
+        if (ArsenalModule.Config.InfinityPlusOne)
+        {
+            BaseEnchantment? enchantment = null;
+            switch (weapon.InitialParentTileIndex)
+            {
+                case Constants.DarkSwordIndex when weapon.hasEnchantmentOfType<CursedEnchantment>():
+                    enchantment = weapon.GetEnchantmentOfType<CursedEnchantment>();
+                    break;
+                case Constants.HolyBladeIndex when weapon.hasEnchantmentOfType<BlessedEnchantment>():
+                    enchantment = weapon.GetEnchantmentOfType<BlessedEnchantment>();
+                    weapon.Write(DataFields.CursePoints, null);
+                    break;
+                case Constants.InfinityBladeIndex:
+                case Constants.InfinityDaggerIndex:
+                case Constants.InfinityGavelIndex:
+                    if (!weapon.hasEnchantmentOfType<InfinityEnchantment>())
+                    {
+                        enchantment = weapon.GetEnchantmentOfType<InfinityEnchantment>();
+                    }
+
+                    break;
+            }
+
+            if (enchantment is not null)
+            {
+                weapon.RemoveEnchantment(enchantment);
             }
         }
     }

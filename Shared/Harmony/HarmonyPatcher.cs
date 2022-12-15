@@ -5,7 +5,6 @@
 using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
-using DaLion.Shared.Attributes;
 using DaLion.Shared.Extensions.Reflection;
 using HarmonyLib;
 
@@ -43,11 +42,6 @@ internal abstract class HarmonyPatcher : IHarmonyPatcher
     {
         try
         {
-            if (this.GetType().GetCustomAttribute<DebugAttribute>() is not null && this.Target is null)
-            {
-                return false;
-            }
-
             this.ApplyImpl(harmony);
             return true;
         }

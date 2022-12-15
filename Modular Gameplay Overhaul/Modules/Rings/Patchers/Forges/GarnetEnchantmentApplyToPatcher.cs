@@ -43,7 +43,6 @@ internal sealed class GarnetEnchantmentApplyToPatcher : HarmonyPatcher
         }
 
         tool.UpdateResonatingChord<GarnetEnchantment>(chord);
-        tool.Invalidate();
     }
 
     #endregion harmony patches

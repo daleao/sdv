@@ -55,6 +55,5 @@ internal class RingGameLaunchedEvent : GameLaunchedEvent
         {
             Log.W("Json Assets was not loaded. Features from the Rings module will not work correctly.");
         }
-
     }
 }

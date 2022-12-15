@@ -64,8 +64,11 @@ internal sealed class ResourceClumpPerformToolAction : HarmonyPatcher
                 .Move()
                 .AddLabels(resumeExecution1)
                 .Match(
-                    new[] { new CodeInstruction(OpCodes.Ldc_I4_1),
-                        new CodeInstruction(OpCodes.Add), })
+                    new[]
+                    {
+                        new CodeInstruction(OpCodes.Ldc_I4_1),
+                        new CodeInstruction(OpCodes.Add),
+                    })
                 .Move()
                 .AddLabels(resumeExecution2)
                 .Insert(

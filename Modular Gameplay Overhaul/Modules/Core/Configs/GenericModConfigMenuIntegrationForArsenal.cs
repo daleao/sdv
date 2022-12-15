@@ -144,6 +144,15 @@ internal sealed partial class GenericModConfigMenuIntegration
                         new JsonAssetsIntegration(ModHelper.ModRegistry).Register();
                     }
 
+                    if (value)
+                    {
+                        Arsenal.Utils.RemoveAllIntrinsicEnchantments();
+                    }
+                    else
+                    {
+                        Arsenal.Utils.AddAllIntrinsicEnchantments();
+                    }
+
                     ModHelper.GameContent.InvalidateCacheAndLocalized("Data/Events/WizardHouse");
                     ModHelper.GameContent.InvalidateCacheAndLocalized("Data/ObjectInformation");
                     ModHelper.GameContent.InvalidateCacheAndLocalized("Data/weapons");
@@ -209,7 +218,7 @@ internal sealed partial class GenericModConfigMenuIntegration
                 config => config.Arsenal.Weapons.DefenseImprovesParry,
                 (config, value) => config.Arsenal.Weapons.DefenseImprovesParry = value)
             .AddCheckbox(
-                () => "Bring Back Stabby Swords",
+                () => "Bring Back Stabbing Swords",
                 () =>
                     "Replace the defensive special move of some swords with an offensive lunge move.\nAFTER DISABLING THIS SETTING YOU MUST TRASH ALL OWNED STABBING SWORDS.",
                 config => config.Arsenal.Weapons.BringBackStabbySwords,
@@ -217,20 +226,21 @@ internal sealed partial class GenericModConfigMenuIntegration
                 {
                     if (ArsenalModule.Config.Weapons.BringBackStabbySwords != value && !Context.IsWorldReady)
                     {
-                        Log.W("The Stabby Swords option can only be changed in-game.");
+                        Log.W("The Stabbing Swords option can only be changed in-game.");
                         return;
                     }
 
                     config.Arsenal.Weapons.BringBackStabbySwords = value;
-                    ModHelper.GameContent.InvalidateCacheAndLocalized("Data/weapons");
                     if (value)
                     {
-                        Arsenal.Utils.ConvertAllStabbySwords();
+                        Arsenal.Utils.ConvertAllStabbingSwords();
                     }
                     else
                     {
-                        Arsenal.Utils.RevertAllStabbySwords();
+                        Arsenal.Utils.RevertAllStabbingSwords();
                     }
+
+                    ModHelper.GameContent.InvalidateCacheAndLocalized("Data/weapons");
                 })
             .AddCheckbox(
                 () => "Rebalance Weapons",

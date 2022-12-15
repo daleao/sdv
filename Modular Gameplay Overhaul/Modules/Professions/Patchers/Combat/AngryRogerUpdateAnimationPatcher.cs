@@ -49,8 +49,11 @@ internal sealed class AngryRogerUpdateAnimationPatcher : HarmonyPatcher
                     },
                     ILHelper.SearchOption.Last)
                 .Match(
-                    new[] { new CodeInstruction(OpCodes.Ldarg_0),
-                        new CodeInstruction(OpCodes.Ldarg_0), },
+                    new[]
+                    {
+                        new CodeInstruction(OpCodes.Ldarg_0),
+                        new CodeInstruction(OpCodes.Ldarg_0),
+                    },
                     ILHelper.SearchOption.Previous)
                 .StripLabels(out var labels)
                 .Insert(

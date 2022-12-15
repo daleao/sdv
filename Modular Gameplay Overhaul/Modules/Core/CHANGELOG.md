@@ -1,5 +1,11 @@
 ﻿# Modular Overhaul Core Change Log
 
+## 0.9.5
+
+### Added
+
+* Added Revert command, complementary to the Initialize command from Arsenal. This will undo the changes made by Arsenal to resolve possible issues after disabling the module.
+
 ## 0.9.4
 
 ### Added

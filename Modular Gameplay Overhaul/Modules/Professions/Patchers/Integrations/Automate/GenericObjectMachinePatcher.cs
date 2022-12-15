@@ -81,8 +81,11 @@ internal sealed class GenericObjectMachinePatcher : HarmonyPatcher
         {
             helper
                 .Match(
-                    new[] { new CodeInstruction(OpCodes.Ldc_I4_1),
-                        new CodeInstruction(OpCodes.Ret), },
+                    new[]
+                    {
+                        new CodeInstruction(OpCodes.Ldc_I4_1),
+                        new CodeInstruction(OpCodes.Ret),
+                    },
                     ILHelper.SearchOption.Last)
                 .Insert(
                     new[]

@@ -31,7 +31,7 @@ internal sealed class MeleeWeaponCtorPatcher : HarmonyPatcher
             return;
         }
 
-        if (Collections.StabbySwords.Contains(__instance.InitialParentTileIndex))
+        if (Collections.StabbingSwords.Contains(__instance.InitialParentTileIndex))
         {
             __instance.type.Value = MeleeWeapon.stabbingSword;
         }

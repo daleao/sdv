@@ -99,8 +99,11 @@ internal sealed class SkillsPageDrawPatcher : HarmonyPatcher
             var resumeExecution = generator.DefineLabel();
             helper
                 .Match(
-                    new[] { new CodeInstruction(OpCodes.Cgt),
-                        new CodeInstruction(OpCodes.Stloc_S, helper.Locals[6]), })
+                    new[]
+                    {
+                        new CodeInstruction(OpCodes.Cgt),
+                        new CodeInstruction(OpCodes.Stloc_S, helper.Locals[6]),
+                    })
                 .ReplaceWith(new CodeInstruction(OpCodes.Bgt_S, setTrue))
                 .Move()
                 .AddLabels(resumeExecution)

@@ -3,7 +3,6 @@
 #region using directives
 
 using System.Reflection;
-using DaLion.Overhaul.Modules.Arsenal.VirtualProperties;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
 using Microsoft.Xna.Framework;
@@ -30,7 +29,7 @@ internal sealed class MeleeWeaponDrawDuringUsePatcher : HarmonyPatcher
 
     #region harmony patches
 
-    /// <summary>Draw weapon during stabby sword lunge.</summary>
+    /// <summary>Draw weapon during Stabbing sword lunge.</summary>
     [HarmonyPrefix]
     private static bool MeleeWeaponDrawDuringUsePrefix(
         Vector2 ___center,
@@ -43,7 +42,7 @@ internal sealed class MeleeWeaponDrawDuringUsePatcher : HarmonyPatcher
         int type,
         bool isOnSpecial)
     {
-        if (type == MeleeWeapon.dagger || (isOnSpecial && type != MeleeWeapon.stabbingSword))
+        if (type == MeleeWeapon.dagger || (isOnSpecial && type != MeleeWeapon.stabbingSword) || !f.IsLocalPlayer)
         {
             return true; // run original logic
         }
@@ -63,7 +62,7 @@ internal sealed class MeleeWeaponDrawDuringUsePatcher : HarmonyPatcher
                 return false; // don't run original logic
             }
 
-            var hitstep = f.Get_CurrentHitStep();
+            var hitstep = ArsenalModule.State.ComboHitStep;
             var finalHitStep = ((WeaponType)type).GetFinalHitStep();
             var numFramesBeforeFinalHit = ((int)finalHitStep - 1) * 6;
             if (type == MeleeWeapon.club && (frameOfFarmerAnimation >= numFramesBeforeFinalHit || hitstep == finalHitStep))

@@ -70,7 +70,7 @@ internal sealed partial class GenericModConfigMenuIntegration
             .AddCheckbox(
                 () => OverhaulModule.Arsenal.DisplayName,
                 () => "Whether to enable the Arsenal module. This will overhaul weapon enchantments and introduce new weapon mechanics like combo hits. This will also make Slingshots more on par with other weapons by allowing critical hits, enchantments and other features. " +
-                      "Before disabling this module make sure to disable the `BringBangStabbySwords` setting to avoid being stuck with unusable weapons. ",
+                      "Before disabling this module make sure to disable the `BringBangStabbingSwords` setting to avoid being stuck with unusable weapons. ",
                 config => config.EnableArsenal,
                 (config, value) =>
                 {

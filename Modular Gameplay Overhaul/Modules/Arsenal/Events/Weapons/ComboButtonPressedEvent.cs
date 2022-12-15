@@ -34,7 +34,7 @@ internal sealed class ComboButtonPressedEvent : ButtonPressedEvent
             return;
         }
 
-        var hitStep = player.Get_CurrentHitStep();
+        var hitStep = ArsenalModule.State.ComboHitStep;
         if (hitStep == ComboHitStep.Idle)
         {
             return;
@@ -47,7 +47,7 @@ internal sealed class ComboButtonPressedEvent : ButtonPressedEvent
             return;
         }
 
-        if (!player.Get_IsAnimating())
+        if (!ArsenalModule.State.FarmerAnimating)
         {
             return;
         }
@@ -57,7 +57,7 @@ internal sealed class ComboButtonPressedEvent : ButtonPressedEvent
         var type = weapon.type.Value;
         if (type == MeleeWeapon.club && hitStep == finalHitStep - 1)
         {
-            player.QueueOverheadSwipe(weapon);
+            player.QueueSmash(weapon);
         }
         else if ((int)hitStep % 2 == 0)
         {
@@ -65,7 +65,7 @@ internal sealed class ComboButtonPressedEvent : ButtonPressedEvent
         }
         else
         {
-            player.QueueBackwardSwipe(weapon);
+            player.QueueReverseSwipe(weapon);
         }
     }
 }

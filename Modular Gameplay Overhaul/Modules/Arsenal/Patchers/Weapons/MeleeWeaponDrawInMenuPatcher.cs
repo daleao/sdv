@@ -31,7 +31,7 @@ internal sealed class MeleeWeaponDrawInMenuPatcher : HarmonyPatcher
 
     #region harmony patches
 
-    /// <summary>Draw stabby sword cooldown.</summary>
+    /// <summary>Draw Stabbing sword cooldown.</summary>
     [HarmonyTranspiler]
     private static IEnumerable<CodeInstruction>? MeleeWeaponDrawInMenuTranspiler(
         IEnumerable<CodeInstruction> instructions, ILGenerator generator, MethodBase original)
