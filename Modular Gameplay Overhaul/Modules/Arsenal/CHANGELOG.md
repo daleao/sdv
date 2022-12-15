@@ -11,7 +11,7 @@
 * Slingshot special move cooldown is now a property of Farmer and not Slingshot, as it should be.
 * Default values for difficulty sliders are now set to 1.
 * The base damage of some starter weapons has been slightly increased.
-* 
+
 ### Fixed
 
 * Fixed Slick Moves applying to Scythe.
@@ -19,6 +19,7 @@
 * Fixed Galaxy Slingshot being instantiated as Melee Weapon.
 * Fixed special item hold up message for first Galaxy weapon not being displayed.
 * Fixed Mine chests changes not being applied as intended with the Weapon Rebalance setting.
+* Players on existing save files that have already obtained the Galaxy Sword should now be able to obtain the remaining Galaxy weapons.
 
 ## 0.9.3
 
