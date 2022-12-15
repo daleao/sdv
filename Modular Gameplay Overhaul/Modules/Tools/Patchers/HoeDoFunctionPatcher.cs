@@ -49,17 +49,19 @@ internal sealed class HoeDoFunctionPatcher : HarmonyPatcher
                     {
                         new CodeInstruction(
                             OpCodes.Call,
-                            typeof(ModEntry).RequirePropertyGetter(nameof(Config))),
+                            typeof(ModEntry).RequirePropertyGetter(nameof(ModEntry.Config))),
                         new CodeInstruction(
                             OpCodes.Callvirt,
                             typeof(ModConfig).RequirePropertyGetter(nameof(ModConfig.Tools))),
                         new CodeInstruction(
                             OpCodes.Callvirt,
-                            typeof(ToolsConfig).RequirePropertyGetter(nameof(ToolsConfig.Hoe))),
+                            typeof(Config).RequirePropertyGetter(nameof(Config.Hoe))),
                         new CodeInstruction(
                             OpCodes.Callvirt,
                             typeof(HoeConfig).RequirePropertyGetter(nameof(HoeConfig.BaseStaminaMultiplier))),
-                        new CodeInstruction(OpCodes.Mul), new CodeInstruction(OpCodes.Ldc_R4, 1f), new CodeInstruction(
+                        new CodeInstruction(OpCodes.Mul),
+                        new CodeInstruction(OpCodes.Ldc_R4, 1f),
+                        new CodeInstruction(
                             OpCodes.Call,
                             typeof(Math).RequireMethod(nameof(Math.Max), new[] { typeof(float), typeof(float) })),
                     });

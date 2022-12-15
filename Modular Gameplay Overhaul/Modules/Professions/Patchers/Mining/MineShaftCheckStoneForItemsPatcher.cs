@@ -6,7 +6,6 @@ using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
 using DaLion.Overhaul.Modules.Professions.Extensions;
-using DaLion.Overhaul.Modules.Professions.VirtualProperties;
 using DaLion.Shared.Extensions.Reflection;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
@@ -72,12 +71,19 @@ internal sealed class MineShaftCheckStoneForItemsPatcher : HarmonyPatcher
                     {
                         new CodeInstruction(OpCodes.Brfalse_S, resumeExecution),
                         new CodeInstruction(OpCodes.Ldloc_3), // local 3 = chanceForLadderDown
-                        new CodeInstruction(OpCodes.Ldarg_S, (byte)4), new CodeInstruction(
+                        new CodeInstruction(
                             OpCodes.Call,
-                            typeof(Farmer_SpelunkerLadderStreak).RequireMethod(nameof(Farmer_SpelunkerLadderStreak
-                                .Get_SpelunkerLadderStreak))),
-                        new CodeInstruction(OpCodes.Conv_R8), new CodeInstruction(OpCodes.Ldc_R8, 0.005),
-                        new CodeInstruction(OpCodes.Mul), new CodeInstruction(OpCodes.Add),
+                            typeof(ModEntry).RequirePropertyGetter(nameof(ModEntry.State))),
+                        new CodeInstruction(
+                            OpCodes.Callvirt,
+                            typeof(ModState).RequirePropertyGetter(nameof(ModState.Professions))),
+                        new CodeInstruction(
+                            OpCodes.Callvirt,
+                            typeof(State).RequirePropertyGetter(nameof(State.SpelunkerLadderStreak))),
+                        new CodeInstruction(OpCodes.Conv_R8),
+                        new CodeInstruction(OpCodes.Ldc_R8, 0.005),
+                        new CodeInstruction(OpCodes.Mul),
+                        new CodeInstruction(OpCodes.Add),
                         new CodeInstruction(OpCodes.Stloc_3),
                     });
         }

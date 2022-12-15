@@ -48,7 +48,8 @@ internal sealed class FishingRodPlayerCaughtFishEndFunctionPatcher : HarmonyPatc
                 .Insert(
                     new[]
                     {
-                        new CodeInstruction(OpCodes.Ldarg_0), new CodeInstruction(
+                        new CodeInstruction(OpCodes.Ldarg_0),
+                        new CodeInstruction(
                             OpCodes.Call,
                             typeof(FishingRod).RequireMethod(nameof(FishingRod.getLastFarmerToUse))),
                         new CodeInstruction(OpCodes.Ldfld, typeof(Farmer).RequireField(nameof(Farmer.fishCaught))),

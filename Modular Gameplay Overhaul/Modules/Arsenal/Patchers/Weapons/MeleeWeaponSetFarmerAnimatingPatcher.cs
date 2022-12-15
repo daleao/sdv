@@ -38,7 +38,8 @@ internal sealed class MeleeWeaponSetFarmerAnimatingPatcher : HarmonyPatcher
                 .Match(
                     new[]
                     {
-                        new CodeInstruction(OpCodes.Ldarg_1), new CodeInstruction(
+                        new CodeInstruction(OpCodes.Ldarg_1),
+                        new CodeInstruction(
                             OpCodes.Callvirt,
                             typeof(Farmer).RequirePropertyGetter(nameof(Farmer.addedSpeed))),
                     })
@@ -60,7 +61,8 @@ internal sealed class MeleeWeaponSetFarmerAnimatingPatcher : HarmonyPatcher
                 .Match(
                     new[]
                     {
-                        new CodeInstruction(OpCodes.Ldarg_1), new CodeInstruction(
+                        new CodeInstruction(OpCodes.Ldarg_1),
+                        new CodeInstruction(
                             OpCodes.Callvirt,
                             typeof(Farmer).RequirePropertyGetter(nameof(Farmer.IsLocalPlayer))),
                     },

@@ -237,7 +237,7 @@ internal sealed class GameLocationAnswerDialogueActionPatcher : HarmonyPatcher
         }
 
         // prepare to prestige at night
-        player.Get_SkillsToReset().Enqueue(skill);
+        ProfessionsModule.State.SkillsToReset.Enqueue(skill);
 
         // play sound effect
         Sfx.DogStatuePrestige.Play();
@@ -249,7 +249,7 @@ internal sealed class GameLocationAnswerDialogueActionPatcher : HarmonyPatcher
         DelayedAction.playSoundAfterDelay("dog_bark", 1300);
         DelayedAction.playSoundAfterDelay("dog_bark", 1900);
 
-        player.Set_UsedStatueToday(true);
+        ProfessionsModule.State.UsedStatueToday = true;
     }
 
     private static void HandlePrestigeRespec(Skill skill)
@@ -281,7 +281,7 @@ internal sealed class GameLocationAnswerDialogueActionPatcher : HarmonyPatcher
         DelayedAction.playSoundAfterDelay("dog_bark", 1300);
         DelayedAction.playSoundAfterDelay("dog_bark", 1900);
 
-        player.Set_UsedStatueToday(true);
+        ProfessionsModule.State.UsedStatueToday = true;
     }
 
     private static void HandleChangeUlti(Farmer who, string choice)
@@ -311,7 +311,7 @@ internal sealed class GameLocationAnswerDialogueActionPatcher : HarmonyPatcher
         DelayedAction.playSoundAfterDelay("dog_bark", 1300);
         DelayedAction.playSoundAfterDelay("dog_bark", 1900);
 
-        who.Set_UsedStatueToday(true);
+        ProfessionsModule.State.UsedStatueToday = true;
     }
 
     #endregion dialog handlers

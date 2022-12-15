@@ -246,7 +246,7 @@ internal sealed class MeleeWeaponDrawTooltipPatcher : HarmonyPatcher
 
                 Utility.drawTextWithShadow(
                     spriteBatch,
-                    Config.EnableArsenal && ArsenalModule.Config.OverhauledDefense
+                    ModEntry.Config.EnableArsenal && ArsenalModule.Config.OverhauledDefense
                         ? I18n.Get("ui.itemhover.resist", new { amount = $"{resistance:+#%;-#%}" })
                         : Game1.content.LoadString("ItemHover_DefenseBonus", __instance.addedDefense.Value),
                     font,

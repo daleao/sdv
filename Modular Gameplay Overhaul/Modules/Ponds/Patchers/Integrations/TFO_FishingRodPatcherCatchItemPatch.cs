@@ -2,6 +2,7 @@
 
 #region using directives
 
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
 using DaLion.Overhaul.Modules.Professions.Extensions;
@@ -18,7 +19,7 @@ using StardewValley.Buildings;
 
 [UsedImplicitly]
 [RequiresMod("TehPers.FishingOverhaul")]
-[System.Diagnostics.CodeAnalysis.SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1649:File name should match first type name", Justification = "Integration patch.")]
+[SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1649:File name should match first type name", Justification = "Integration patch.")]
 internal sealed class FishingRodPatcherCatchItemPatcher : HarmonyPatcher
 {
     /// <summary>Initializes a new instance of the <see cref="FishingRodPatcherCatchItemPatcher"/> class.</summary>

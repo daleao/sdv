@@ -46,7 +46,8 @@ internal sealed class InseminationSyringeOverridesDoFunctionPatcher : HarmonyPat
                 .Match(
                     new[]
                     {
-                        new CodeInstruction(OpCodes.Ldloc_1), new CodeInstruction(OpCodes.Ldloc_S, daysUntilBirth),
+                        new CodeInstruction(OpCodes.Ldloc_1),
+                        new CodeInstruction(OpCodes.Ldloc_S, daysUntilBirth),
                         new CodeInstruction(OpCodes.Call),
                     })
                 .StripLabels(out var labels)
@@ -59,7 +60,8 @@ internal sealed class InseminationSyringeOverridesDoFunctionPatcher : HarmonyPat
                     new[]
                     {
                         new CodeInstruction(OpCodes.Brfalse_S, isNotBreeder),
-                        new CodeInstruction(OpCodes.Ldloc_S, daysUntilBirth), new CodeInstruction(OpCodes.Conv_R8),
+                        new CodeInstruction(OpCodes.Ldloc_S, daysUntilBirth),
+                        new CodeInstruction(OpCodes.Conv_R8),
                         new CodeInstruction(OpCodes.Ldarg_S, (byte)5),
                     })
                 .InsertProfessionCheck(Profession.Breeder.Value + 100, forLocalPlayer: false)
@@ -67,7 +69,8 @@ internal sealed class InseminationSyringeOverridesDoFunctionPatcher : HarmonyPat
                     new[]
                     {
                         new CodeInstruction(OpCodes.Brfalse_S, isNotPrestiged),
-                        new CodeInstruction(OpCodes.Ldc_R8, 3.0), new CodeInstruction(OpCodes.Br_S, resumeDivision),
+                        new CodeInstruction(OpCodes.Ldc_R8, 3.0),
+                        new CodeInstruction(OpCodes.Br_S, resumeDivision),
                     })
                 .Insert(
                     new[] { new CodeInstruction(OpCodes.Ldc_R8, 2.0) },
@@ -75,10 +78,12 @@ internal sealed class InseminationSyringeOverridesDoFunctionPatcher : HarmonyPat
                 .Insert(
                     new[]
                     {
-                        new CodeInstruction(OpCodes.Div), new CodeInstruction(
+                        new CodeInstruction(OpCodes.Div),
+                        new CodeInstruction(
                             OpCodes.Call,
                             typeof(Math).RequireMethod(nameof(Math.Round), new[] { typeof(double) })),
-                        new CodeInstruction(OpCodes.Conv_I4), new CodeInstruction(OpCodes.Stloc_S, daysUntilBirth),
+                        new CodeInstruction(OpCodes.Conv_I4),
+                        new CodeInstruction(OpCodes.Stloc_S, daysUntilBirth),
                     },
                     new[] { resumeDivision });
         }

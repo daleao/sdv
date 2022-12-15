@@ -40,7 +40,11 @@ internal sealed class MillDayUpdatePatcher : HarmonyPatcher
             var @break = generator.DefineLabel();
             helper
                 .ForEach(
-                    new[] { new CodeInstruction(OpCodes.Newobj), new CodeInstruction(OpCodes.Stloc_1) },
+                    new[]
+                    {
+                        new CodeInstruction(OpCodes.Newobj),
+                        new CodeInstruction(OpCodes.Stloc_1),
+                    },
                     () =>
                     {
                         var popThenBreak = generator.DefineLabel();
@@ -51,14 +55,14 @@ internal sealed class MillDayUpdatePatcher : HarmonyPatcher
                                 {
                                     new CodeInstruction(
                                         OpCodes.Call,
-                                        typeof(ModEntry).RequirePropertyGetter(nameof(Config))),
+                                        typeof(ModEntry).RequirePropertyGetter(nameof(ModEntry.Config))),
                                     new CodeInstruction(
                                         OpCodes.Callvirt,
                                         typeof(ModConfig).RequirePropertyGetter(nameof(ModConfig.Tweex))),
                                     new CodeInstruction(
                                         OpCodes.Callvirt,
-                                        typeof(TweexConfig).RequirePropertyGetter(
-                                            nameof(TweexConfig.MillsPreserveQuality))),
+                                        typeof(Config).RequirePropertyGetter(
+                                            nameof(Config.MillsPreserveQuality))),
                                     new CodeInstruction(OpCodes.Brfalse_S, @break),
                                     new CodeInstruction(OpCodes.Ldloc_1),
                                     new CodeInstruction(OpCodes.Castclass, typeof(SObject)),
@@ -69,14 +73,16 @@ internal sealed class MillDayUpdatePatcher : HarmonyPatcher
                                         typeof(NetFieldBase<Chest, NetRef<Chest>>).RequirePropertyGetter(
                                             nameof(NetFieldBase<Chest, NetRef<Chest>>.Value))),
                                     new CodeInstruction(OpCodes.Ldfld, typeof(Chest).RequireField(nameof(Chest.items))),
-                                    new CodeInstruction(OpCodes.Ldloc_0), new CodeInstruction(
+                                    new CodeInstruction(OpCodes.Ldloc_0),
+                                    new CodeInstruction(
                                         OpCodes.Callvirt,
                                         typeof(NetList<Item, NetRef<Item>>).RequirePropertyGetter("Item")),
                                     new CodeInstruction(OpCodes.Isinst, typeof(SObject)),
                                     new CodeInstruction(OpCodes.Stloc_S, input),
                                     new CodeInstruction(OpCodes.Ldloc_S, input),
                                     new CodeInstruction(OpCodes.Brfalse_S, popThenBreak),
-                                    new CodeInstruction(OpCodes.Ldloc_S, input), new CodeInstruction(
+                                    new CodeInstruction(OpCodes.Ldloc_S, input),
+                                    new CodeInstruction(
                                         OpCodes.Callvirt,
                                         typeof(SObject).RequirePropertyGetter(nameof(SObject.Quality))),
                                     new CodeInstruction(

@@ -35,13 +35,19 @@ internal sealed class ArsenalGameLaunchedEvent : GameLaunchedEvent
             Log.W("Json Assets was not loaded. Features from the Arsenal module will be disabled.");
             ArsenalModule.Config.DwarvishCrafting = false;
             ArsenalModule.Config.InfinityPlusOne = false;
-            ModHelper.WriteConfig(Config);
+            ModHelper.WriteConfig(ModEntry.Config);
         }
 
         // add SVE integration
         if (registry.IsLoaded("FlashShifter.StardewValleyExpandedCP"))
         {
             new Integrations.StardewValleyExpandedIntegration(registry).Register();
+        }
+
+        // add Vanilla Tweaks integration
+        if (registry.IsLoaded("Taiyo.VanillaTweaks"))
+        {
+            new Integrations.VanillaTweaksIntegration(registry).Register();
         }
     }
 }

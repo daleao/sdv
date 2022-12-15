@@ -50,19 +50,22 @@ internal sealed class MonsterTakeDamagePatcher : HarmonyPatcher
                 .Insert(
                     new[]
                     {
-                        new CodeInstruction(OpCodes.Call, typeof(ModEntry).RequirePropertyGetter(nameof(Config))),
+                        new CodeInstruction(OpCodes.Call, typeof(ModEntry).RequirePropertyGetter(nameof(ModEntry.Config))),
                         new CodeInstruction(
                             OpCodes.Callvirt,
                             typeof(ModConfig).RequirePropertyGetter(nameof(ModConfig.Arsenal))),
                         new CodeInstruction(
                             OpCodes.Callvirt,
-                            typeof(ArsenalConfig).RequirePropertyGetter(nameof(ArsenalConfig.OverhauledDefense))),
-                        new CodeInstruction(OpCodes.Brfalse_S, mitigateDamage), new CodeInstruction(OpCodes.Ldarg_0),
+                            typeof(Config).RequirePropertyGetter(nameof(Config.OverhauledDefense))),
+                        new CodeInstruction(OpCodes.Brfalse_S, mitigateDamage),
+                        new CodeInstruction(OpCodes.Ldarg_0),
                         new CodeInstruction(
                             OpCodes.Call,
                             typeof(Monster_GotCrit).RequireMethod(nameof(Monster_GotCrit.Get_GotCrit))),
-                        new CodeInstruction(OpCodes.Brfalse_S, mitigateDamage), new CodeInstruction(OpCodes.Ldarg_1),
-                        new CodeInstruction(OpCodes.Stloc_0), new CodeInstruction(OpCodes.Br_S, resumeExecution),
+                        new CodeInstruction(OpCodes.Brfalse_S, mitigateDamage),
+                        new CodeInstruction(OpCodes.Ldarg_1),
+                        new CodeInstruction(OpCodes.Stloc_0),
+                        new CodeInstruction(OpCodes.Br_S, resumeExecution),
                     })
                 .Remove()
                 .AddLabels(mitigateDamage)
@@ -70,14 +73,16 @@ internal sealed class MonsterTakeDamagePatcher : HarmonyPatcher
                 .Insert(
                     new[]
                     {
-                        new CodeInstruction(OpCodes.Conv_R4), new CodeInstruction(OpCodes.Ldc_R4, 10f),
+                        new CodeInstruction(OpCodes.Conv_R4),
+                        new CodeInstruction(OpCodes.Ldc_R4, 10f),
                         new CodeInstruction(OpCodes.Ldc_R4, 10f),
                     })
                 .Match(new[] { new CodeInstruction(OpCodes.Sub) })
                 .Insert(
                     new[]
                     {
-                        new CodeInstruction(OpCodes.Conv_R4), new CodeInstruction(OpCodes.Add),
+                        new CodeInstruction(OpCodes.Conv_R4),
+                        new CodeInstruction(OpCodes.Add),
                         new CodeInstruction(OpCodes.Div),
                     })
                 .ReplaceWith(new CodeInstruction(OpCodes.Mul))

@@ -2,7 +2,6 @@
 
 #region using directives
 
-using DaLion.Overhaul.Modules.Core.VirtualProperties;
 using DaLion.Shared.Events;
 using StardewModdingAPI.Events;
 
@@ -29,9 +28,8 @@ internal sealed class BloodthirstyUpdateTickedEvent : UpdateTickedEvent
             return;
         }
 
-        Game1.player.Increment_SecondsOutOfCombat();
         // decay counter every 5 seconds after 25 seconds out of combat
-        if (Game1.player.Get_SecondsOutOfCombat() > 30 && e.IsMultipleOf(300))
+        if (++ModEntry.State.SecondsOutOfCombat > 30 && e.IsMultipleOf(300))
         {
             player.health = Math.Max(player.health - Math.Max(player.maxHealth / 100, 1), player.maxHealth);
         }

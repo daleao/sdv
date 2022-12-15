@@ -3,6 +3,7 @@
 #region using directives
 
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using System.Reflection.Emit;
 using DaLion.Overhaul.Modules.Tweex.Extensions;
@@ -15,7 +16,7 @@ using HarmonyLib;
 
 [UsedImplicitly]
 [RequiresMod("Pathoschild.Automate")]
-[System.Diagnostics.CodeAnalysis.SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1649:File name should match first type name", Justification = "Integration patch.")]
+[SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1649:File name should match first type name", Justification = "Integration patch.")]
 internal sealed class BeeHouseMachineGetOutputPatcher : HarmonyPatcher
 {
     /// <summary>Initializes a new instance of the <see cref="BeeHouseMachineGetOutputPatcher"/> class.</summary>
@@ -46,7 +47,9 @@ internal sealed class BeeHouseMachineGetOutputPatcher : HarmonyPatcher
                 .Insert(
                     new[]
                     {
-                        new CodeInstruction(OpCodes.Dup), new CodeInstruction(OpCodes.Ldarg_0), new CodeInstruction(
+                        new CodeInstruction(OpCodes.Dup),
+                        new CodeInstruction(OpCodes.Ldarg_0),
+                        new CodeInstruction(
                             OpCodes.Call,
                             "Pathoschild.Stardew.Automate.Framework.BaseMachine`1"
                                 .ToType()

@@ -35,7 +35,7 @@ internal sealed class GameLocationPerformActionPatcher : HarmonyPatcher
         try
         {
             string message;
-            if (!ProfessionsModule.Config.AllowMultiplePrestige && who.Get_HasSkillsToReset())
+            if (!ProfessionsModule.Config.AllowMultiplePrestige && ProfessionsModule.State.SkillsToReset.Count > 0)
             {
                 message = I18n.Get("prestige.dogstatue.dismiss");
                 Game1.drawObjectDialogue(message);

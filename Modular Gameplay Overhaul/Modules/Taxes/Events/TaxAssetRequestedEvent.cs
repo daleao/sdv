@@ -2,7 +2,6 @@
 
 #region using directives
 
-using DaLion.Overhaul.Modules.Taxes.VirtualProperties;
 using DaLion.Shared.Content;
 using DaLion.Shared.Events;
 using DaLion.Shared.Extensions.Stardew;
@@ -28,7 +27,7 @@ internal sealed class TaxAssetRequestedEvent : AssetRequestedEvent
         // patch mail from the Ferngill Revenue Service
         var data = asset.AsDictionary<string, string>().Data;
 
-        var due = Game1.player.Get_LatestDue().ToString();
+        var due = TaxesModule.State.LatestAmountDue.ToString();
         var deductions = Game1.player.Read<float>(DataFields.PercentDeductions);
         var outstanding = Game1.player.Read(DataFields.DebtOutstanding);
 

@@ -22,7 +22,31 @@ internal class RingGameLaunchedEvent : GameLaunchedEvent
     {
         var registry = ModHelper.ModRegistry;
 
-        // add Garnet ring
+        // add Better Crafting integration
+        if (registry.IsLoaded("leclair.bettercrafting"))
+        {
+            new Integrations.BetterCraftingIntegration(registry).Register();
+        }
+
+        // add Wear More Rings integration
+        if (registry.IsLoaded("bcmpinc.WearMoreRings"))
+        {
+            new Integrations.WearMoreRingsIntegration(registry).Register();
+        }
+
+        // add Better Rings integration
+        if (registry.IsLoaded("BBR.BetterRings"))
+        {
+            new Integrations.BetterRingsIntegration(registry).Register();
+        }
+
+        // add Vanilla Tweaks integration
+        if (registry.IsLoaded("Taiyo.VanillaTweaks"))
+        {
+            new Integrations.VanillaTweaksIntegration(registry).Register();
+        }
+
+        // add Garnet Ring and Infinity Band
         if (registry.IsLoaded("spacechase0.JsonAssets"))
         {
             new Integrations.JsonAssetsIntegration(registry).Register();
@@ -32,10 +56,5 @@ internal class RingGameLaunchedEvent : GameLaunchedEvent
             Log.W("Json Assets was not loaded. Features from the Rings module will not work correctly.");
         }
 
-        // add Better Crafting integration
-        if (registry.IsLoaded("leclair.bettercrafting"))
-        {
-            new Integrations.BetterCraftingIntegration(registry).Register();
-        }
     }
 }

@@ -5,7 +5,6 @@
 using System.Linq;
 using DaLion.Overhaul.Modules.Tools.Configs;
 using DaLion.Overhaul.Modules.Tools.Integrations;
-using DaLion.Shared.Configs;
 using HarmonyLib;
 using Newtonsoft.Json;
 using StardewModdingAPI.Utilities;
@@ -13,7 +12,7 @@ using StardewModdingAPI.Utilities;
 #endregion using directives
 
 /// <summary>The user-configurable settings for Tools.</summary>
-public sealed class ToolsConfig : Config
+public sealed class Config : Shared.Configs.Config
 {
     /// <inheritdoc cref="AxeConfig"/>
     [JsonProperty]

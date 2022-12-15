@@ -2,6 +2,7 @@
 
 #region using directives
 
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using DaLion.Overhaul.Modules.Tools.Integrations;
 using DaLion.Shared.Commands;
@@ -26,7 +27,7 @@ internal sealed class UpgradeToolsCommand : ConsoleCommand
     public override string Documentation => "Set the upgrade level of the currently held tool." + this.GetUsage();
 
     /// <inheritdoc />
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("StyleCop.CSharp.SpacingRules", "SA1012:Opening braces should be spaced correctly", Justification = "Paradoxical.")]
+    [SuppressMessage("StyleCop.CSharp.SpacingRules", "SA1012:Opening braces should be spaced correctly", Justification = "Paradoxical.")]
     public override void Callback(string[] args)
     {
         if (Game1.player.CurrentTool is not ({ } tool and (Axe or Hoe or Pickaxe or WateringCan or FishingRod)))

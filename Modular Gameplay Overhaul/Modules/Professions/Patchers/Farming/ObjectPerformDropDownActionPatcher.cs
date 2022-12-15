@@ -45,7 +45,8 @@ internal sealed class ObjectPerformDropDownActionPatcher : HarmonyPatcher
                 .Match(
                     new[]
                     {
-                        new CodeInstruction(OpCodes.Ldc_I4_4), new CodeInstruction(
+                        new CodeInstruction(OpCodes.Ldc_I4_4),
+                        new CodeInstruction(
                             OpCodes.Call,
                             typeof(Utility).RequireMethod(
                                 nameof(Utility.CalculateMinutesUntilMorning),
@@ -63,7 +64,8 @@ internal sealed class ObjectPerformDropDownActionPatcher : HarmonyPatcher
                             typeof(SObjectExtensions).RequireMethod(
                                 nameof(SObjectExtensions.DoesOwnerHaveProfession),
                                 new[] { typeof(SObject), typeof(int), typeof(bool) })),
-                        new CodeInstruction(OpCodes.Brfalse_S, isNotProducer), new CodeInstruction(OpCodes.Ldarg_0),
+                        new CodeInstruction(OpCodes.Brfalse_S, isNotProducer),
+                        new CodeInstruction(OpCodes.Ldarg_0),
                         new CodeInstruction(OpCodes.Ldc_I4_3),
                         new CodeInstruction(OpCodes.Ldc_I4_1), // true for prestiged
                         new CodeInstruction(
@@ -71,8 +73,10 @@ internal sealed class ObjectPerformDropDownActionPatcher : HarmonyPatcher
                             typeof(SObjectExtensions).RequireMethod(
                                 nameof(SObjectExtensions.DoesOwnerHaveProfession),
                                 new[] { typeof(SObject), typeof(int), typeof(bool) })),
-                        new CodeInstruction(OpCodes.Brfalse_S, isNotPrestiged), new CodeInstruction(OpCodes.Ldc_I4_1),
-                        new CodeInstruction(OpCodes.Br_S, resumeExecution), new CodeInstruction(OpCodes.Ldc_I4_2),
+                        new CodeInstruction(OpCodes.Brfalse_S, isNotPrestiged),
+                        new CodeInstruction(OpCodes.Ldc_I4_1),
+                        new CodeInstruction(OpCodes.Br_S, resumeExecution),
+                        new CodeInstruction(OpCodes.Ldc_I4_2),
                         new CodeInstruction(OpCodes.Br_S, resumeExecution),
                     })
                 .Move(-2)

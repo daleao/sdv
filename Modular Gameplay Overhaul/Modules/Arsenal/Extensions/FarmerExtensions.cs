@@ -27,6 +27,11 @@ internal static class FarmerExtensions
             modifier *= weapon.Get_EffectiveSwingSpeed();
         }
 
+        if (ModEntry.Config.EnableProfessions && farmer.professions.Contains(Farmer.brute))
+        {
+            modifier *= 1f - (ProfessionsModule.State.BruteRageCounter * 0.005f);
+        }
+
         modifier *= 1f / (1f + farmer.weaponSpeedModifier);
         return modifier;
     }

@@ -30,7 +30,8 @@ internal static class IlHelperExtensions
                 new[]
                 {
                     new CodeInstruction(OpCodes.Ldfld, typeof(Farmer).RequireField(nameof(Farmer.professions))),
-                    helper.LdcFromInt(index), new CodeInstruction(
+                    helper.LdcFromInt(index),
+                    new CodeInstruction(
                         OpCodes.Callvirt,
                         typeof(NetList<int, NetInt>).RequireMethod(nameof(NetList<int, NetInt>.Contains))),
                 },

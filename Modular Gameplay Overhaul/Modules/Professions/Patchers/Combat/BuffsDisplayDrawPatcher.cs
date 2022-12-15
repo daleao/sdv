@@ -4,7 +4,6 @@
 
 using System.Collections.Generic;
 using System.Linq;
-using DaLion.Overhaul.Modules.Professions.VirtualProperties;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
 using Microsoft.Xna.Framework;
@@ -34,7 +33,7 @@ internal sealed class BuffsDisplayDrawPatcher : HarmonyPatcher
             return;
         }
 
-        var counter = Game1.player.Get_BruteRageCounter();
+        var counter = ProfessionsModule.State.BruteRageCounter;
         b.DrawString(
             Game1.tinyFont,
             counter.ToString(),

@@ -39,7 +39,7 @@ internal sealed class ObjectDayUpdatePatcher : HarmonyPatcher
                 return;
             }
 
-            __instance.heldObject.Value.Quality = Config.EnableProfessions
+            __instance.heldObject.Value.Quality = ModEntry.Config.EnableProfessions
                 ? Math.Max(
                     Game1.player.GetEcologistForageQuality(),
                     __instance.GetQualityFromAge())

@@ -331,7 +331,7 @@ internal sealed class ArsenalAssetRequestedEvent : AssetRequestedEvent
             #region swords
 
             case 0: // rusty sword (removed)
-                fields[MinDamage] = 1.ToString();
+                fields[MinDamage] = 2.ToString();
                 fields[MaxDamage] = 5.ToString();
                 fields[Knockback] = 0.75.ToString(CultureInfo.InvariantCulture);
                 fields[Speed] = (-1).ToString();
@@ -346,8 +346,8 @@ internal sealed class ArsenalAssetRequestedEvent : AssetRequestedEvent
 
             // BASIC SWORDS
             case 12: // wooden blade
-                fields[MinDamage] = 1.ToString();
-                fields[MaxDamage] = 3.ToString();
+                fields[MinDamage] = 2.ToString();
+                fields[MaxDamage] = 5.ToString();
                 fields[Knockback] = 0.5.ToString(CultureInfo.InvariantCulture);
                 fields[Speed] = 0.ToString();
                 fields[Precision] = 0.ToString();
@@ -359,8 +359,8 @@ internal sealed class ArsenalAssetRequestedEvent : AssetRequestedEvent
                 fields[CritPower] = 1.5.ToString(CultureInfo.InvariantCulture);
                 break;
             case 11: // steel smallsword
-                fields[MinDamage] = 6.ToString();
-                fields[MaxDamage] = 10.ToString();
+                fields[MinDamage] = 8.ToString();
+                fields[MaxDamage] = 12.ToString();
                 fields[Knockback] = 0.75.ToString(CultureInfo.InvariantCulture);
                 fields[Speed] = 1.ToString();
                 fields[Precision] = 0.ToString();
@@ -372,8 +372,8 @@ internal sealed class ArsenalAssetRequestedEvent : AssetRequestedEvent
                 fields[CritPower] = 2.0.ToString(CultureInfo.InvariantCulture);
                 break;
             case 44: // cutlass
-                fields[MinDamage] = 18.ToString();
-                fields[MaxDamage] = 24.ToString();
+                fields[MinDamage] = 20.ToString();
+                fields[MaxDamage] = 26.ToString();
                 fields[Knockback] = 0.75.ToString(CultureInfo.InvariantCulture);
                 fields[Speed] = 0.ToString();
                 fields[Precision] = 0.ToString();
@@ -411,8 +411,8 @@ internal sealed class ArsenalAssetRequestedEvent : AssetRequestedEvent
                 fields[CritPower] = 2.4.ToString(CultureInfo.InvariantCulture);
                 break;
             case 1: // silver saber
-                fields[MinDamage] = 5.ToString();
-                fields[MaxDamage] = 8.ToString();
+                fields[MinDamage] = 7.ToString();
+                fields[MaxDamage] = 13.ToString();
                 fields[Knockback] = 0.7875.ToString(CultureInfo.InvariantCulture);
                 fields[Speed] = 0.ToString();
                 fields[Precision] = 0.ToString();
@@ -424,8 +424,8 @@ internal sealed class ArsenalAssetRequestedEvent : AssetRequestedEvent
                 fields[CritPower] = 2.0.ToString(CultureInfo.InvariantCulture);
                 break;
             case 6: // iron edge
-                fields[MinDamage] = 15.ToString();
-                fields[MaxDamage] = 20.ToString();
+                fields[MinDamage] = 18.ToString();
+                fields[MaxDamage] = 28.ToString();
                 fields[Knockback] = 0.935.ToString(CultureInfo.InvariantCulture);
                 fields[Speed] = (-1).ToString();
                 fields[Defense] = 2.ToString();
@@ -437,7 +437,7 @@ internal sealed class ArsenalAssetRequestedEvent : AssetRequestedEvent
                 break;
             case 10: // claymore
                 fields[MinDamage] = 28.ToString();
-                fields[MaxDamage] = 38.ToString();
+                fields[MaxDamage] = 42.ToString();
                 fields[Knockback] = 1.125.ToString(CultureInfo.InvariantCulture);
                 fields[Speed] = (-3).ToString();
                 fields[Defense] = 3.ToString();
@@ -448,8 +448,8 @@ internal sealed class ArsenalAssetRequestedEvent : AssetRequestedEvent
                 fields[CritPower] = 2.5.ToString(CultureInfo.InvariantCulture);
                 break;
             case 52: // tempered broadsword
-                fields[MinDamage] = 38.ToString();
-                fields[MaxDamage] = 52.ToString();
+                fields[MinDamage] = 36.ToString();
+                fields[MaxDamage] = 58.ToString();
                 fields[Knockback] = 1.ToString(CultureInfo.InvariantCulture);
                 fields[Speed] = (-2).ToString();
                 fields[Defense] = 3.ToString();

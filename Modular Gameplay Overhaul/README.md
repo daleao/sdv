@@ -34,7 +34,9 @@ All modules should be fully multiplayer and splitscreen-ready so long as all pla
 
 - **[Tools](Modules/Tools)** is a simple mod which allows for chargeable resource tools and customizable farming tools. It also extends the available pool of tool enchantments.
 
-- **[Tweaks](Modules/Tweex)** is the final module, and serves as a repository for smaller tweaks and fixes to inconsistencies not large enough to merit a separate module.
+- **[Tweex](Modules/Tweex)** is the final module, and serves as a repository for smaller tweaks and fixes to inconsistencies not large enough to merit a separate module.
+
+Please note that only the Professions and Tweex modules are enabled by default.
 
 ## Installation & Update
 

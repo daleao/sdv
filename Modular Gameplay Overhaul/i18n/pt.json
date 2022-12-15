@@ -14,8 +14,8 @@
   "agriculturist.desc.prestiged": "As safras crescem 10% >> 20% mais rápido.",
   "artisan.title.male": "Artesão",
   "artisan.title.female": "Artesã",
-  "artisan.desc": "Todas as máquinas artesanais trabalham 10% mais rápido. A qualidade do produto final é sempre superior ou igual à qualidade da matéria prima.",
-  "artisan.desc.prestiged": "Todas las máquinas artesanales foncionan un 10% >> 25% más rápido.",
+  "artisan.desc": "Todas as máquinas artesanais trabalham 10% mais rápido. A qualidade do produto final é sempre igual ou superior à qualidade da matéria prima.",
+  "artisan.desc.prestiged": "Todas as máquinas artesanais trabalham 10% >> 25% mais rápido.",
 
   "rancher.title.male": "Rancheiro",
   "rancher.title.female": "Rancheira",
@@ -41,15 +41,15 @@
   "ecologist.desc.prestiged": "Bagas silvestres restauram 50% >> 100% mais vida e energia.",
   "scavenger.title.male": "Rastreador",
   "scavenger.title.female": "Rastreadora",
-  "scavenger.desc": "Revela a localização de itens foragáveis. Ocasionalmente rastreia tesouros enterrados.",
+  "scavenger.desc": "Revela a localização de itens forageáveis. Ocasionalmente rastreia tesouros enterrados.",
   "scavenger.desc.prestiged": "O tempo congela durante as caças ao tesouro.",
   "scavenger.huntstarted": "Seus sentidos de Rastreador estão formigando...",
   "scavenger.huntfailed": "O formigamento some.",
 
   "lumberjack.title.male": "Lenhador",
   "lumberjack.title.female": "Lenhadora",
-  "lumberjack.desc": "Árvores abatidas rendem 25% mais madeira.",
-  "lumberjack.desc.prestiged": "Árvores abatidas rendem 25% >> 40% mais madeira.",
+  "lumberjack.desc": "Árvores derrubadas rendem 25% mais madeira.",
+  "lumberjack.desc.prestiged": "Árvores derrubadas rendem 25% >> 40% mais madeira.",
   "arborist.title.male": "Arborista",
   "arborist.title.female": "Arborista",
   "arborist.desc": "Todas as árvores crescem mais rápido. Árvores normais podem render madeira de lei.",
@@ -66,14 +66,14 @@
   "miner.desc.prestiged": "+1 >> +2 minérios por veia.",
   "spelunker.title.male": "Espeleólogo",
   "spelunker.title.female": "Espeleóloga",
-  "spelunker.desc": "A chance de encontrar escadas e poços aumenta em 1% a cada andar da mina. Velocidade +1 a cada cinco andares.",
-  "spelunker.desc.prestiged": "Restaura um pouco de vida a cada andar da mina.",
+  "spelunker.desc": "A chance de encontrar escadas e poços aumenta a cada andar da mina. Velocidade +1 a cada 5 andares.",
+  "spelunker.desc.prestiged": "Restaura um pouco de vida e energia a cada andar da mina.",
   "spelunker.buff.desc": "Chance de escada +{{ladderChance}}%. +{{speed}} Velocidade.",
   "prospector.title.male": "Prospector",
   "prospector.title.female": "Prospectora",
   "prospector.desc": "Revela a localizações de escadas e veias de mineração. Ocasionalmente rastreia minerais valiosos em pedras comuns.",
   "prospector.desc.prestiged": "O tempo congela durante as caças de prospector.",
-  "prospector.huntstarted": "Seus sentidos do Prospector estão formigando...",
+  "prospector.huntstarted": "Seus sentidos de Prospector estão formigando...",
   "prospector.huntfailed": "O formigamento some.",
 
   "blaster.title.male": "Detonador",
@@ -139,14 +139,14 @@
   "rascal.title.male": "Patife",
   "rascal.title.female": "Patife",
   "rascal.desc": "Estilingues acomodam até duas munições. 35% de chance to recuperar munições.",
-  "rascal.desc.prestiged": "35% >> 70% de chance to recuperar munições.",
+  "rascal.desc.prestiged": "35% >> 70% de chance de recuperar munições.",
   "desperado.title.male": "Foragido",
   "desperado.title.female": "Foragida",
-  "desperado.desc": "Pode sobrecarregar estilingues para disparar com mais potência.",
-  "desperado.desc.prestiged": "Sobrecarregue duas vezes mais rápido.",
+  "desperado.desc": "Dispare mais rápido com pouca vida. Pode sobrecarregar estilingues para disparar com mais potência.",
+  "desperado.desc.prestiged": "Tiros sobrecarregados perfuram inimigos.",
   "piper.title.male": "Encantador de Gosmas",
   "piper.title.female": "Encantadora de Gosmas",
-  "piper.desc": "Atrae mais Gosmas em lugares perigosos. Chance de ganhar efeitos aleatórios ao eliminar Gosmas.",
+  "piper.desc": "Atrae gosmas aliadas quando há inimigos próximos. Chance de ganhar efeitos aleatórios ao eliminar Gosmas.",
   "piper.desc.prestiged": "Chance de também recuperar vida e energia ao eliminar Gosmas.",
   "piper.buff": "Coberto de gosma",
 
@@ -155,7 +155,7 @@
   // ** ULTIMATES ** //
   // *************** //
 
-  "frenzy.title": "Fúria Imorredoura",
+  "frenzy.title": "Fúria Imortal",
   "frenzy.desc": "A ira se acumula duas vezes mais rápido. Imune a desmaio.",
   "ambush.title": "Emboscada",
   "ambush.desc.hidden": "Invisível.",
@@ -163,8 +163,8 @@
   "blossom.title": "Flor da morte",
   "blossom.desc": "Habilita a recarga automática. Dispara oito tiros ao redor de uma só vez.",
   "concerto.title.male": "Concerto de Hamelin",
-  "concerto.title.female": "Febre Feromoniosa",
-  "concerto.desc": "Encanta as Gosmas próximas. Gosmas encantadas aumentam em tamanho e poder e perseguem outros inimigos.",
+  "concerto.title.female": "Febre de Feromônios",
+  "concerto.desc": "Gosmas próximas ficam mais fortes e encantadas.",
 
   "ulti.canteat": "Impossível fazer isso agora.",
 
@@ -196,25 +196,108 @@
   "prestige.achievement.title.female": "Maria-faz-tudo",
   "prestige.achievement.desc": "Adquira todas as profissões em todas as habilidades.",
 
+  // *********** //
+  // * ARSENAL * //
+  // *********** //
+
+  "weapons.dwarven.prefix": "Anã",
+  "weapons.elven.prefix": "Élfica",
+  "weapons.darksword.name": "Lâmina da Ruína",
+  "weapons.darksword.desc": "Uma lâmina amaldiçoada. Se torna mais poderosa ao consumir a força vital de inimigos derrotados.",
+  "weapons.darksword.found": "Tem algo mais atrás da estátua.",
+  "weapons.darksword.chill": "Você sente um arrepio sinistro descer sua espinha.",
+  "weapons.darksword.question": "O que quer que seja é melhor você deixar em paz...",
+  "weapons.darksword.grabit": "Pegar",
+  "weapons.darksword.leaveit": "Deixar",
+  "weapons.darksword.holdupmessage": "Você descobre uma antiga espada. Enquanto a puxa, a lâmina começa a brilhar com uma cor vermelho-sangue, e você sente que toda a paz, esperança e felicidade froam drenadas do mundod...^^     Você obteve a ={{darksword}}=  ^",
+  "weapons.darksword.cantdeposit": "A {{darksword}} não pode ser largada.",
+  "weapons.holyblade.name": "Lâmina do Amanhecer",
+  "weapons.holyblade.desc": "Uma Lâmina abençoada, dada àqueles que demonstraram virtudes honrosas.",
+  "weapons.holyblade.holdupmessage": "A {{darksword}} está reagindo ao Altar de Yoba! A energia sisistra começou a sumir, e em seu lugar uma sensação quente atravessa sua palma...^^     Você obteve a ={{holyblade}}=  ^",
+  "weapons.insecthead.extradesc": " Causa dano proporcional ao número de insetos mortos.",
+  "weapons.obsidianedge.extradesc": " Corta através da armadura inimiga.",
+  "weapons.iridiumneedle.extradesc": " Garante um acerto crítico.",
+  "slingshots.infinity.name": "Estilingue do Infinito",
+  "slingshots.infinity.desc": "A verdadeira forma do Estilingue da galáxia.",
+  "objects.galaxysoul.desc": "O núcleo materializado de uma minúscula galáxia.",
+
+  "blueprint.found.first": "Você encontrou um Projeto Antigo! Está desbotado, mas você reconhece o formato de {{type}} próximo a alguns símbolos dos Anões. Talvez o artesão correto possa entender alguma coisa.",
+  "blueprint.found.local": "Você encontrou um Projeto Anão.",
+  "blueprint.found.global": "{who} encontrou um Projeto Anão.",
+  "blacksmith.forge.option": "Forja",
+  "blacksmith.forge.explanation": "Eu poderia frojar algumas armas novas baseadas nesses projetos que você encontrou. Se eu tivesse esses materiais estranhos.",
+  "blacksmith.forge.confirmation": "Oh, você encontrou alguns! Vou começar a trabalhar nisso assim que puder. Deve estar pronto em alguns dias.",
+
+  "dialogue.clint.blueprint.notdone": "Ei @. Ainda não acabei de decifrar aquele projeto seu.$0#$b#Talvez amanhã...$2",
+  "dialogue.clint.blueprint.done": "Ei @. Eu acabei de traduzir aquele projeto antigo.$0#$b#Me desculpe por demorar tanto.$2#$b#Era uma receita para uma arma feita de alguns materiais estranhos.$0#$b#Quem escreveu era claramente um mestre ferreiro. As técnicas descritas aqui são bem notáveis.$2#$b#Eu adoraria tentar fazer isso, mas não tenho idéia de onde achar estes materiais.#$b#De qualquer forma, aqui está seu livro de volta. Se você encontrar alguma coisa dessas traga de volta e te farei aquela arma de graça.",
+  "dialogue.gil.chivalry": "Um verdadeiro aventureiro deve viver pelas cinco virtudes honráveis: Honra, Compaixão, Generosidade, Bravura, e Conhecimento. Só então poderá se tornar um Heói aos olhos de Yoba.#$bPelo menos é o que minha mãe costuma dizer.",
+  "dialogue.wizard.curse.canthelp": "Me desculpe @. Receio que nem mesmo o arcano possa te ajudar agora.#$b#Sua única esperança é procurar um poder maior.",
+
+  "events.forge.intro": "distantBanjo/3 15/farmer 5 19 0 Clint 3 13 2/skippable/pause 1000/speak Clint \"Oh, ei @.$1\"/move farmer 0 -4 3/move farmer -2 0 0/pause 500/speak Clint \"Você tem uma ferramenta que precisa ser melhorada?\"/pause 500/speak Clint \"O que é isso, um porjeto antigo?\"/pause 1000/speak Clint \"Eu adoraria te ajudar, @, mas não consigo entender nada dessas inscrições...$2\"/pause 1000/speak Clint \"Como é? Você tem o guia de tradução para isso?$0#$b#Mas isso vai levar dias para decifrar...$2\"/pause 500/speak Clint \"Oh certo. Começarei a trabalhar nisso esta noite. Venha me ver de novo em alguns dias.\"/pause 500/addQuest 144701/end",
+  "events.curse.intro": "WizardSong/-1000 -1000/farmer 8 24 0 Wizard 10 15 2/skippable/showFrame Wizard 20/viewport 8 18 true/move farmer 0 -3 0/pause 2000/speak Wizard \"@, Estou feliz por ter vindo.\"/pause 300/showFrame Wizard 16/pause 500/speak Wizard \"Estive sentindo uma perturbação no arcano, mas não sabia o que era até você entrar.\"/pause 500/showFrame Wizard 0/pause 500/move Wizard -2 0 3/move Wizard 0 3 2/pause 1000/speak Wizard \"Essa espada estranha...\"/move Wizard 0 1 2/pause 300/speak Wizard \"Conte-me, como você a obteve?\"/pause 1500/speak Wizard \"Entendo.\"/pause 500/move Wizard 0 -1 0/speak Wizard \"A quantidade de energia maliciosa emanando disso só pode significar uma coisa.\"/pause 500/faceDirection Wizard 2 true/pause 500/speak Wizard \"Essa deve ser a espada do Herói Arruinado.$1\"/pause 1000/move Wizard 0 1 2/pause 200/speak Wizard \"A história conta que o herói Viego empunhava uma magnífica lâmina dourada, dada a ele pelo próprio Yoba.\"/pause 200/showFrame Wizard 18/pause 200/speak Wizard \"Mas quando sua amada esposa faleceu, Viego enlouqueceu e foi consumido por mágoa.\"/pause 500/showFrame Wizard 0/pause 500/move Wizard -2 0 3/pause 200/speak Wizard \"Ele recorreu a feitiçaria, obcecado pelo pensamento de ressucitá-la.#$b#Mesmo que a grande custo, ele eventualmente conseguiu.\"/pause 200/move Wizard 2 0 1/pause 200/speak Wizard \"Por um breve momento, do corpo de sua esposa surgiu um espectro assustador de sombras e ódio.#$b#Confusa por ser tirada da morte, ela tomou a espada do próprio Viego e perfurou seu coração.\"/faceDirection Wizard 2 true/speak Wizard \"E naquele momento, a magia negra de Viego e o poder sagrado de Yoba colidiram, uma névoa escura derramou do coração de Viego, e ele se tornou o Herói Arruinado, preso como um morto-vivo.\"/move Wizard 0 -1 0/speak Wizard \"Eu mesmo não acreditava nas histórias. Mas se a espada é real, talvez Viego ainda esteja por aí, porcurando por ela.\"/pause 1500/move Wizard 0 2 2/speak Wizard \"Essa espada eventualmente vai te consumir, @, assim como fez com Viego.#$b#É indispensável que você se livre dela. E o que quer que faça, você não deve usá-la.\"/pause 500/addQuest 144703/end",
+  "events.curse.intro.sve": "WizardSong/-1000 -1000/farmer 8 24 0 Wizard 10 15 2/skippable/showFrame Wizard 20/viewport 8 18 true/move farmer 0 -3 0/pause 2000/speak Wizard \"@, Estou feliz por ter vindo.\"/pause 300/showFrame Wizard 16/pause 500/speak Wizard \"Estive sentindo uma perturbação no arcano, mas não sabia o que era até você entrar.\"/pause 500/showFrame Wizard 0/pause 500/move Wizard -2 0 3/move Wizard 0 3 2/pause 1000/speak Wizard \"Essa espada estranha...\"/move Wizard 0 1 2/pause 300/speak Wizard \"Conte-me, como você a obteve?\"/pause 1500/speak Wizard \"Entendo.\"/pause 500/move Wizard 0 -1 0/speak Wizard \"A quantidade de energia maliciosa emanando disso só pode significar uma coisa.\"/pause 500/faceDirection Wizard 2 true/pause 500/speak Wizard \"Essa deve ser a espada do Herói Arruinado.$3\"/pause 1000/move Wizard 0 1 2/pause 200/speak Wizard \"A história conta que o herói Viego empunhava uma magnífica lâmina dourada, dada a ele pelo próprio Yoba.\"/pause 200/showFrame Wizard 18/pause 200/speak Wizard \"Mas quando sua amada esposa faleceu, Viego enlouqueceu e foi consumido por mágoa.\"/pause 500/showFrame Wizard 0/pause 500/move Wizard -2 0 3/pause 200/speak Wizard \"Ele recorreu a feitiçaria, obcecado pelo pensamento de ressucitá-la.#$b#Mesmo que a grande custo, ele eventualmente conseguiu.\"/pause 200/move Wizard 2 0 1/pause 200/speak Wizard \"Por um breve momento, do corpo de sua esposa surgiu um espectro assustador de sombras e ódio.#$b#Confusa por ser tirada da morte, ela tomou a espada do próprio Viego e perfurou seu coração.\"/faceDirection Wizard 2 true/speak Wizard \"E naquele momento, a magia negra de Viego e o poder sagrado de Yoba colidiram, uma névoa escura derramou do coração de Viego, e ele se tornou o Herói Arruinado, preso como um morto-vivo.\"/move Wizard 0 -1 0/speak Wizard \"Eu mesmo não acreditava nas histórias. Mas se a espada é real, talvez Viego ainda esteja por aí, porcurando por ela.\"/pause 1500/move Wizard 0 2 2/speak Wizard \"Essa espada eventualmente vai te consumir, @, assim como fez com Viego.#$b#É indispensável que você se livre dela. E o que quer que faça, você não deve usá-la.\"/pause 500/addQuest 144703/end",
+  "events.100162.sword": "MarlonsTheme/21 9/farmer -100 -100 0 Marlon 23 6 2/addQuest 14/skippable/pause 1000/move Marlon 0 2 2/pause 500/showFrame Marlon 4/pause 1000/speak Marlon \"Hmmm... \"/pause 500/warp farmer 18 13/playSound stoneStep/move farmer 0 -3 1/move farmer 5 0 0/pause 500/showFrame Marlon 0/pause 500/speak Marlon \"...Eu estava apenas espiando nessa velha mina.#$b#Está abandonada a décadas.\"/pause 500/showFrame Marlon 4/speak Marlon \"Ainda assim, deve ter bons minérios lá embaixo.#$b#Mas um lugar escuro, não perturbado por tanto tempo... Receio que minérios não são a única coisa que irá encontrar...\"/pause 500/showFrame Marlon 0/pause 500/speak Marlon \"Aqui, pegue isto. Você pode precisar.\"/pause 500/playSound dwop/faceDirection farmer 1 true/pause 50/faceDirection farmer 2/itemAboveHead sword/pause 3300/awardFestivalPrize sword/pause 300/faceDirection farmer 1 true/pause 100/faceDirection farmer 0/pause 500/speak Marlon \"O nome é Marlon, a propósito. Eu dirijo a guilda dos aventureiros lá fora.#$b#Vou ficar de olho em você. Prove-se e posso pensar em te fazer um membro.\"/pause 500/end",
+  "events.100162.nosword": "MarlonsTheme/21 9/farmer -100 -100 0 Marlon 23 6 2/addQuest 14/skippable/pause 1000/move Marlon 0 2 2/pause 500/showFrame Marlon 4/pause 1000/speak Marlon \"Hmmm... \"/pause 500/warp farmer 18 13/playSound stoneStep/move farmer 0 -3 1/move farmer 5 0 0/pause 500/showFrame Marlon 0/pause 500/speak Marlon \"...Eu estava apenas espiando nessa velha mina.#$b#Está abandonada a décadas.\"/pause 500/showFrame Marlon 4/speak Marlon \"Ainda assim, deve ter bons minérios lá embaixo.#$b#Mas um lugar escuro, não perturbado por tanto tempo... Receio que minérios não são a única coisa que irá encontrar...\"/pause 500/showFrame Marlon 0/pause 500/speak Marlon \"É melhor você saber como balançar essa arma. Você pode precisar.\"/pause 500/speak Marlon \"O nome é Marlon, a propósito. Eu dirijo a guilda dos aventureiros lá fora.#$b#Vou ficar de olho em você. Prove-se e posso pensar em te fazer um membro.\"/pause 500/end",
+  "events.100162.sword.sve": "MarlonsTheme/21 9/farmer -100 -100 0 MarlonFay 23 6 2/addQuest 14/skippable/pause 1000/move MarlonFay 0 2 2/pause 500/showFrame MarlonFay 19/pause 1000/speak MarlonFay \"Hmmm... \"/pause 500/warp farmer 18 13/playSound stoneStep/move farmer 0 -3 1/move farmer 5 0 0/pause 500/showFrame MarlonFay 0/pause 500/speak MarlonFay \"...Eu estava apenas me perguntando o quão fundo essa mina vai.#$b#Eu vou dar conta de alguns dos monstros aqui antes que eles comecem a subir até o vale.$1#$b#Você parece preocupado. Posso ser velho, mas a idade não tomou de mim nada da minha habilidade com a espada, ainda.$0\"/pause 500/showFrame MarlonFay 18/pause 2000/showFrame MarlonFay 0/pause 500/speak MarlonFay \"Como líder da guilda dos aventureiros eu encontrei muitos lutadores na minha época. Eu reconheço esse olhar em seus olhos.$2\"/pause 1500/speak MarlonFay \"Pegue isto. É uma espada de treino que pode não parecer muito, mas você será capaz de lutar contra os monstros aqui.\"/playSound dwop/faceDirection farmer 1 true/pause 50/faceDirection farmer 2/itemAboveHead sword/pause 3300/awardFestivalPrize sword/pause 300/faceDirection farmer 1 true/pause 100/faceDirection farmer 0/pause 500/speak MarlonFay \"Vou ficar de olho em você. Prove-se e posso pensar em te fazer um membro.\"/pause 750/end",
+  "events.100162.nosword.sve": "MarlonsTheme/21 9/farmer -100 -100 0 MarlonFay 23 6 2/addQuest 14/skippable/pause 1000/move MarlonFay 0 2 2/pause 500/showFrame MarlonFay 19/pause 1000/speak MarlonFay \"Hmmm... \"/pause 500/warp farmer 18 13/playSound stoneStep/move farmer 0 -3 1/move farmer 5 0 0/pause 500/showFrame MarlonFay 0/pause 500/speak MarlonFay \"...Eu estava apenas me perguntando o quão fundo essa mina vai.#$b#Eu vou dar conta de alguns dos monstros aqui antes que eles comecem a subir até o vale.$1#$b#Você parece preocupado. Posso ser velho, mas a idade não tomou de mim nada da minha habilidade com a espada, ainda.$0\"/pause 500/showFrame MarlonFay 18/pause 2000/showFrame MarlonFay 0/pause 500/speak MarlonFay \"Como líder da guilda dos aventureiros eu encontrei muitos lutadores na minha época. Eu reconheço esse olhar em seus olhos.$2\"/pause 300/showFrame MarlonFay 19/pause 1000/showFrame MarlonFat 0/pause 300/speak MarlonFay \"Prove que pode balançar essa arma e posso pensar em te fazer um membro.\"/pause 750/end",
+  "events.1337098.nopurchase": "MarlonsTheme/-500 -500/farmer -200 -200 0 MarlonFay 4 11 2/viewport 6 13 true/skippable/pause 2000/warp farmer 6 19/playSound doorClose/pause 500/showFrame MarlonFay 17/pause 150/textAboveHead MarlonFay \"Você encontrou algo!\"/pause 350/move farmer 0 -5 3/move farmer -2 0 0/move farmer 0 -1 0/showFrame MarlonFay 0/pause 500/speak MarlonFay \"Essa arma! Não há engano!$1#$b#Você recebeu uma Espada da Galáxia!\"/pause 1000/showFrame MarlonFay 18/pause 1000/speak MarlonFay \"Você se provou digno, @. Isso é uma verdadeira honra.$2#$b#Eu obtive minha primeira arma da galáxia depois de uma noite de duras batalhas em Castle Village.#$b#Havia uma luz roxa cegante e uma espada caiu lentamente em minhas mãos. Eu senti o poder dos cosmos por um segundo.#$b#Magos e estudiosos acreditam que Yoba presenteia essas armas aos verdadeiros pacificadores da humanidade.\"/pause 1200/speak MarlonFay \"Estou orgulhoso de você!$1\"/showFrame MarlonFay 0/pause 500/end",
+
+  "fromcsfiles.MeleeWeapon.cs.14122": "O fragmento prismático brilha, absorve o irídio em sua mochila e se transforma diante de seus olhos!^^     Você obteve ={{galaxyWeapon}}=  ^",
+  "locations.Town.DwarfGrave.Translated": "     Você traduz a língua anã:     \n\nEntre trigêmeas perdidas nas areias\ntraga um arco-íris forjado da terra\nsuplique aos céus! reclame o que é seu\ndeixe trovões ruírem e rugirem seu nome\nse o coração for puro e a consciência limpa\ne fé tiver sem dúvida nem medo\nque as estrelas chovam aquele selo\ne abençoa-te com o aço do paraíso.",
+  "locations.SeedShop.Yoba": "Nenhum mal deve tocar os verdadeiros Heróis de Yoba.",
+
+  "mail.curse.intro": "{{honorific}} @, Devo te encontrar com urgência.^Por favor venha me ver na torre assim que possível.^   -M. Rasmodius, Mago%%[#]Herói Arruinado",
+
+  "quests.forge.intro": "Basic/Um Legado Anão/Clint te disse que ele acabaria de traduzir aquele velho projeto em alguns dias./Visite Clint para perguntar sobre o projeto./null/144701/0/-1/false",
+  "quests.forge.part2": "Basic/Um Legado Anão II/Aquele projeto antigo era uma receita para uma poderosa arma anã! Talvez hajam outros?/Encontre os projetos Anões restantes e leve-os ao Clint./null/144701/0/-1/false",
+  "quests.curse": "Basic/A Lâmina do Herói Arruinado/A arma que você encontrou carrega a maldição do Herói Arruinado! Você já pode sentir sua força vital sendo drenada. É melhor encontrar algum jeito de quebrar essa maldição, e rápido!/Encontre uma maneira de quebrar a maldição da Lâmina Arruinada./null/-1/0/-1/false",
+
+  // json assets
+  "objects.dwarvishblueprint.name": "Projeto Anão",
+  "objects.dwarvishblueprint.description": "Está desbotado, mas ainda legível.",
+  "objects.herosoul.name": "Alma do Herói",
+  "objects.herosoul.description": "A Essência materializada de um herói.",
+  "objects.dwarvenscrap.name": "Sucata Anã",
+  "objects.dwarvenscrap.description": "Parece antigo, porém um pouco futurista.",
+  "objects.elderwood.name": "Madeira Anciã",
+  "objects.elderwood.description": "Um pedaço de madeira encantada.",
+
   // ********* //
   // * RINGS * //
   // ********* //
 
+  "gems.ruby.name": "Rubi",
+  "gems.aquamarine.name": "Água-marinha",
+  "gems.jade.name": "Jade",
+  "gems.emerald.name": "Esmeralda",
+  "gems.amethyst.name": "Ametista",
+  "gems.topaz.name": "Topázio",
   "gems.garnet.name": "Granada",
-  "gems.garnet.description": "O homônimo de uma linda princesa.",
-  "resonance.ruby": "Resonância Rubi",
-  "resonance.aquamarine": "Resonância Água-marinha",
-  "resonance.jade": "Resonânce de Jade",
-  "resonance.emerald": "Resonância Esmeralda",
-  "resonance.amethyst": "Resonância de Ametista",
-  "resonance.topaz": "Resonância Topázio",
-  "resonance.garnet": "Resonância Granada",
-  "rings.jade.description": "Aumenta ataque crítico em 50%.",
+  "gems.garnet.description": "O homônimo de uma linda princesa de uma terra distante.",
+  "rings.jade.description": "Aumenta o dano do ataque crítico em 50%.",
   "rings.topaz.description.resist": "Aumenta a resistência em 10%.",
   "rings.topaz.description.defense": "Aumenta a defesa em 1.",
-  "rings.garnet.name": "Garnet Ring",
+  "rings.garnet.name": "Anel de Granada",
   "rings.garnet.description": "Diminue o tempo de recarga dos golpes especiais em 10%.",
-  "rings.iridium.description": "Um anel de irídio.",
+  "rings.iridium.description": "Um anel comum feito de irídio.",
+  "rings.infinity.name": "Anel do Infinito",
+  "rings.infinity.description": "Um recepiente de grande poder",
+  "global.infinitycraft": "{{who}} forjou um Anel do Infinito.",
+
+  // **************** //
+  // * ENCHANTMENTS * //
+  // **************** //
+
+  "enchantments.carving": "Perfurador",
+  "enchantments.cleaving": "Clivagem",
+  "enchantments.energized": "Energizado",
+  "enchantments.tribute": "Tributo",
+  "enchantments.vampiric": "Sedento",
+  "enchantments.engorging": "Glutão",
+  "enchantments.gatling": "Metralha",
+  "enchantments.preserving": "Preservador",
+  "enchantments.quincy": "Quincy",
+  "enchantments.spreading": "Espalhante",
 
   // *********** //
   // ** TAXES ** //
@@ -233,9 +316,18 @@
   // ** UI STRINGS ** //
   // **************** //
 
-  "ui.itemhover.damage": "{{amount}} Damage",
-  "ui.itemhover.precision": "{{amount}} Precision",
-  "ui.itemhover.cdr": "{{amount}} Cooldown Reduction",
+  "config.module.enable": "Opções de configuração para o módulo {{module}} não aparecerão até você reabrir o menu do GMCM.",
+  "config.module.disable": "Disabilitar o módulo {{module}} requer reiniciar o jogo.",
+
+  "ui.itemhover.damage": "{{amount}} Dano",
+  "ui.itemhover.crate": "{{amount}} Chance Crítica",
+  "ui.itemhover.cpow": "{{amount}} Dano Crítico",
+  "ui.itemhover.knockback": "{{amount}} Repulsão",
+  "ui.itemhover.firespeed": "{{amount}} Velocidade",
+  "ui.itemhover.swingspeed": "{{amount}} Velocidade",
+  "ui.itemhover.cdr": "{{amount}} Tempo de Recarga",
+  "ui.itemhover.resist": "{{amount}} Resistência",
+  "ui.itemhover.precision": "{{amount}} Precisão",
 
   "article.definite.male": "ao",
   "article.definite.female": "à",

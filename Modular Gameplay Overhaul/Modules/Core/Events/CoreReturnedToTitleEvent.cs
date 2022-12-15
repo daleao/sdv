@@ -22,5 +22,6 @@ internal sealed class CoreReturnedToTitleEvent : ReturnedToTitleEvent
     protected override void OnReturnedToTitleImpl(object? sender, ReturnedToTitleEventArgs e)
     {
         this.Manager.Reset();
+        PerScreenState.ResetAllScreens();
     }
 }

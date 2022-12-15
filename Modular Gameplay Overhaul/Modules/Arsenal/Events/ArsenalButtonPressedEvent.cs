@@ -33,10 +33,35 @@ internal sealed class ArsenalButtonPressedEvent : ButtonPressedEvent
         }
 
         var player = Game1.player;
-        if (player.CurrentTool is not (MeleeWeapon or Slingshot) || player.UsingTool || player.isRidingHorse() ||
-            !player.CanMove)
+        var tool = player.CurrentTool;
+        if (tool is not (MeleeWeapon or Slingshot) || player.UsingTool || player.isRidingHorse() || !player.CanMove)
         {
             return;
+        }
+
+        if (e.Button.IsActionButton())
+        {
+            switch (tool)
+            {
+                case MeleeWeapon weapon:
+                    if (weapon.isScythe())
+                    {
+                        return;
+                    }
+
+                    switch (weapon.type.Value)
+                    {
+                        case MeleeWeapon.stabbingSword when MeleeWeapon.attackSwordCooldown > 0:
+                        case MeleeWeapon.defenseSword when MeleeWeapon.defenseCooldown > 0:
+                        case MeleeWeapon.dagger when MeleeWeapon.daggerCooldown > 0:
+                        case MeleeWeapon.club when MeleeWeapon.clubCooldown > 0:
+                            return;
+                    }
+
+                    break;
+                case Slingshot when ArsenalModule.State.SlingshotCooldown > 0:
+                    return;
+            }
         }
 
         var originalDirection = (FacingDirection)player.FacingDirection;

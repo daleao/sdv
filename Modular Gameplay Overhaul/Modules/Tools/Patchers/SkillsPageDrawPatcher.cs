@@ -38,7 +38,11 @@ internal sealed class SkillsPageDrawPatcher : HarmonyPatcher
             var resumeExecution = generator.DefineLabel();
             helper
                 .Match(
-                    new[] { new CodeInstruction(OpCodes.Cgt), new CodeInstruction(OpCodes.Stloc_S, helper.Locals[6]), })
+                    new[]
+                    {
+                        new CodeInstruction(OpCodes.Cgt),
+                        new CodeInstruction(OpCodes.Stloc_S, helper.Locals[6]),
+                    })
                 .ReplaceWith(new CodeInstruction(OpCodes.Bgt_S, setTrue))
                 .Move()
                 .AddLabels(resumeExecution)
@@ -62,7 +66,8 @@ internal sealed class SkillsPageDrawPatcher : HarmonyPatcher
                 .Insert(
                     new[]
                     {
-                        new CodeInstruction(OpCodes.Ldloc_S, currentTool), new CodeInstruction(
+                        new CodeInstruction(OpCodes.Ldloc_S, currentTool),
+                        new CodeInstruction(
                             OpCodes.Callvirt,
                             typeof(Tool)
                                 .RequireMethod(nameof(Tool.hasEnchantmentOfType))
@@ -73,7 +78,8 @@ internal sealed class SkillsPageDrawPatcher : HarmonyPatcher
                 .Insert(
                     new[]
                     {
-                        new CodeInstruction(OpCodes.Ldc_I4_1), new CodeInstruction(OpCodes.Br_S, resumeExecution),
+                        new CodeInstruction(OpCodes.Ldc_I4_1),
+                        new CodeInstruction(OpCodes.Br_S, resumeExecution),
                     },
                     new[] { setTrue })
                 .Insert(
@@ -93,7 +99,8 @@ internal sealed class SkillsPageDrawPatcher : HarmonyPatcher
             var resumeExecution = generator.DefineLabel();
             helper
                 .Match(
-                    new[] { new CodeInstruction(OpCodes.Cgt), new CodeInstruction(OpCodes.Stloc_S, helper.Locals[6]), })
+                    new[] { new CodeInstruction(OpCodes.Cgt),
+                        new CodeInstruction(OpCodes.Stloc_S, helper.Locals[6]), })
                 .ReplaceWith(new CodeInstruction(OpCodes.Bgt_S, setTrue))
                 .Move()
                 .AddLabels(resumeExecution)
@@ -107,7 +114,8 @@ internal sealed class SkillsPageDrawPatcher : HarmonyPatcher
                         new CodeInstruction(OpCodes.Stloc_S, currentTool),
                         new CodeInstruction(OpCodes.Ldloc_S, currentTool),
                         new CodeInstruction(OpCodes.Brfalse_S, setFalse),
-                        new CodeInstruction(OpCodes.Ldloc_S, currentTool), new CodeInstruction(
+                        new CodeInstruction(OpCodes.Ldloc_S, currentTool),
+                        new CodeInstruction(
                             OpCodes.Callvirt,
                             typeof(Tool)
                                 .RequireMethod(nameof(Tool.hasEnchantmentOfType))
@@ -117,7 +125,8 @@ internal sealed class SkillsPageDrawPatcher : HarmonyPatcher
                 .Insert(
                     new[]
                     {
-                        new CodeInstruction(OpCodes.Ldc_I4_1), new CodeInstruction(OpCodes.Br_S, resumeExecution),
+                        new CodeInstruction(OpCodes.Ldc_I4_1),
+                        new CodeInstruction(OpCodes.Br_S, resumeExecution),
                     },
                     new[] { setTrue })
                 .Insert(
@@ -137,7 +146,8 @@ internal sealed class SkillsPageDrawPatcher : HarmonyPatcher
             var resumeExecution = generator.DefineLabel();
             helper
                 .Match(
-                    new[] { new CodeInstruction(OpCodes.Cgt), new CodeInstruction(OpCodes.Stloc_S, helper.Locals[6]), })
+                    new[] { new CodeInstruction(OpCodes.Cgt),
+                        new CodeInstruction(OpCodes.Stloc_S, helper.Locals[6]), })
                 .ReplaceWith(new CodeInstruction(OpCodes.Bgt_S, setTrue))
                 .Move()
                 .AddLabels(resumeExecution)
@@ -151,7 +161,8 @@ internal sealed class SkillsPageDrawPatcher : HarmonyPatcher
                         new CodeInstruction(OpCodes.Stloc_S, currentTool),
                         new CodeInstruction(OpCodes.Ldloc_S, currentTool),
                         new CodeInstruction(OpCodes.Brfalse_S, setFalse),
-                        new CodeInstruction(OpCodes.Ldloc_S, currentTool), new CodeInstruction(
+                        new CodeInstruction(OpCodes.Ldloc_S, currentTool),
+                        new CodeInstruction(
                             OpCodes.Callvirt,
                             typeof(Tool)
                                 .RequireMethod(nameof(Tool.hasEnchantmentOfType))
@@ -161,7 +172,8 @@ internal sealed class SkillsPageDrawPatcher : HarmonyPatcher
                 .Insert(
                     new[]
                     {
-                        new CodeInstruction(OpCodes.Ldc_I4_1), new CodeInstruction(OpCodes.Br_S, resumeExecution),
+                        new CodeInstruction(OpCodes.Ldc_I4_1),
+                        new CodeInstruction(OpCodes.Br_S, resumeExecution),
                     },
                     new[] { setTrue })
                 .Insert(

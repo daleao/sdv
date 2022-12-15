@@ -32,7 +32,7 @@ public class CarvingEnchantment : BaseWeaponEnchantment
                 bug.isArmoredBug.Value = false;
                 break;
             case RockCrab crab:
-                crab.Increment_Carved();
+                crab.IncrementCarved();
                 if (crab.Get_Carved() > 3)
                 {
                     Reflector

@@ -3,13 +3,12 @@
 #region using directives
 
 using System.Collections.Generic;
-using DaLion.Shared.Configs;
 using Newtonsoft.Json;
 
 #endregion using directives
 
 /// <summary>The user-configurable settings for Tweex.</summary>
-public sealed class TweexConfig : Config
+public sealed class Config : Shared.Configs.Config
 {
     /// <summary>Gets the degree to which Bee House age improves honey quality.</summary>
     [JsonProperty]

@@ -47,7 +47,8 @@ internal sealed class BushMachineGetOutputPatcher : HarmonyPatcher
                 .Insert(
                     new[]
                     {
-                        new CodeInstruction(OpCodes.Ldarg_0), new CodeInstruction(
+                        new CodeInstruction(OpCodes.Ldarg_0),
+                        new CodeInstruction(
                             OpCodes.Call,
                             "Pathoschild.Stardew.Automate.Framework.BaseMachine`1".ToType()
                                 .MakeGenericType(typeof(SObject))

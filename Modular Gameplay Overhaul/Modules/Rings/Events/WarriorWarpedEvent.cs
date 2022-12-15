@@ -3,7 +3,6 @@
 #region using directives
 
 using DaLion.Overhaul.Modules.Professions.Extensions;
-using DaLion.Overhaul.Modules.Rings.VirtualProperties;
 using DaLion.Shared.Events;
 using DaLion.Shared.Extensions.Stardew;
 using StardewModdingAPI.Events;
@@ -23,7 +22,7 @@ internal sealed class WarriorWarpedEvent : WarpedEvent
     /// <inheritdoc />
     protected override void OnWarpedImpl(object? sender, WarpedEventArgs e)
     {
-        if (Game1.player.Get_WarriorKillCount() <= 0)
+        if (RingsModule.State.WarriorKillCount <= 0)
         {
             this.Disable();
             return;
@@ -34,7 +33,7 @@ internal sealed class WarriorWarpedEvent : WarpedEvent
             return;
         }
 
-        Game1.player.Set_WarriorKillCount(0);
+        RingsModule.State.WarriorKillCount = 0;
         this.Disable();
     }
 }

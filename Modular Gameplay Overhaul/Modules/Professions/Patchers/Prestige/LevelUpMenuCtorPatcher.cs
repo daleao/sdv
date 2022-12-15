@@ -51,11 +51,15 @@ internal sealed class LevelUpMenuCtorPatcher : HarmonyPatcher
                     {
                         new CodeInstruction(OpCodes.Ldarg_0),
                         new CodeInstruction(OpCodes.Ldfld, typeof(LevelUpMenu).RequireField("currentLevel")),
-                        new CodeInstruction(OpCodes.Ldc_I4_5), new CodeInstruction(OpCodes.Beq_S),
+                        new CodeInstruction(OpCodes.Ldc_I4_5),
+                        new CodeInstruction(OpCodes.Beq_S),
                     })
                 .Move(3)
                 .Insert(
-                    new[] { new CodeInstruction(OpCodes.Rem_Un), new CodeInstruction(OpCodes.Ldc_I4_0), })
+                    new[] {
+                        new CodeInstruction(OpCodes.Rem_Un),
+                        new CodeInstruction(OpCodes.Ldc_I4_0),
+                    })
                 .Match(new[] { new CodeInstruction(OpCodes.Ldc_I4_S, 10) }, out var count)
                 .Remove(count);
         }

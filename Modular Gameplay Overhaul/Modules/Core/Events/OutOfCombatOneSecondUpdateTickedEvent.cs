@@ -2,7 +2,6 @@
 
 #region using directives
 
-using DaLion.Overhaul.Modules.Core.VirtualProperties;
 using DaLion.Shared.Events;
 using StardewModdingAPI.Events;
 
@@ -21,12 +20,12 @@ internal sealed class OutOfCombatOneSecondUpdateTickedEvent : OneSecondUpdateTic
     /// <inheritdoc />
     protected override void OnDisabled()
     {
-        Game1.player.Set_SecondsOutOfCombat(int.MaxValue);
+        State.SecondsOutOfCombat = int.MaxValue;
     }
 
     /// <inheritdoc />
     protected override void OnOneSecondUpdateTickedImpl(object? sender, OneSecondUpdateTickedEventArgs e)
     {
-        Game1.player.Increment_SecondsOutOfCombat();
+        State.SecondsOutOfCombat++;
     }
 }

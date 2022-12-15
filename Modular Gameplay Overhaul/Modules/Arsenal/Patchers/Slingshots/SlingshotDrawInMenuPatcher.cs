@@ -2,7 +2,6 @@
 
 #region using directives
 
-using DaLion.Overhaul.Modules.Arsenal.VirtualProperties;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
 using Microsoft.Xna.Framework;
@@ -45,13 +44,12 @@ internal sealed class SlingshotDrawInMenuPatcher : HarmonyPatcher
                 Color.White);
         }
 
-        var cooldown = __instance.Get_SpecialCooldown();
-        if (cooldown <= 0)
+        if (ArsenalModule.State.SlingshotCooldown <= 0)
         {
             return;
         }
 
-        var cooldownPct = __instance.Get_SpecialCooldown() / Constants.SlingshotCooldownTime;
+        var cooldownPct = ArsenalModule.State.SlingshotCooldown / Constants.SlingshotCooldownTime;
         var drawingAsDebris = drawShadow && drawStackNumber == StackDrawType.Hide;
 
         // ReSharper disable once CompareOfFloatsByEqualityOperator

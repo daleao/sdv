@@ -2,7 +2,6 @@
 
 #region using directives
 
-using DaLion.Overhaul.Modules.Core.VirtualProperties;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
 using Microsoft.Xna.Framework;
@@ -28,9 +27,12 @@ internal sealed class GameLocationDamageMonsterPatcher : HarmonyPatcher
 
     /// <summary>Reset seconds out of combat.</summary>
     [HarmonyPostfix]
-    private static void GameLocationDamageMonsterPostfix(Farmer __instance)
+    private static void GameLocationDamageMonsterPostfix(Farmer who)
     {
-        __instance.Set_SecondsOutOfCombat(0);
+        if (who.IsLocalPlayer)
+        {
+            State.SecondsOutOfCombat = 0;
+        }
     }
 
     #endregion harmony patches

@@ -2,6 +2,7 @@
 
 #region using directives
 
+using System.Diagnostics.CodeAnalysis;
 using System.Xml.Serialization;
 using Microsoft.Xna.Framework;
 using StardewValley.Projectiles;
@@ -56,7 +57,7 @@ public class BaseSlingshotEnchantment : BaseEnchantment
     }
 
     /// <inheritdoc cref="OnFire"/>
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("StyleCop.CSharp.NamingRules", "SA1300:Element should begin with upper-case letter", Justification = "Copies vanilla style.")]
+    [SuppressMessage("StyleCop.CSharp.NamingRules", "SA1300:Element should begin with upper-case letter", Justification = "Copies vanilla style.")]
     protected virtual void _OnFire(
         Slingshot slingshot,
         BasicProjectile projectile,

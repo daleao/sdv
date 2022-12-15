@@ -5,7 +5,6 @@
 using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
-using DaLion.Overhaul.Modules.Professions.VirtualProperties;
 using DaLion.Shared.Extensions.Reflection;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
@@ -31,7 +30,7 @@ internal sealed class GreenSlimeOnDealContactDamagePatcher : HarmonyPatcher
     {
         var helper = new ILHelper(original, instructions);
 
-        // Injected: if (who.professions.Contains(<piper_id>) && !who.professions.Contains(100 + <piper_id>)) return;
+        // Injected: if (who.professions.Contains(<piper_id>) && ProfessionsModule.State.PiperBuffs.Count == 0) return;
         try
         {
             var resumeExecution = generator.DefineLabel();
@@ -40,15 +39,21 @@ internal sealed class GreenSlimeOnDealContactDamagePatcher : HarmonyPatcher
                 .GetOperand(out var returnLabel) // get return label
                 .Return()
                 .AddLabels(resumeExecution)
-                .Insert(new[] { new CodeInstruction(OpCodes.Ldarg_1) }) // arg 1 = Farmer who
                 .Insert(
                     new[]
                     {
                         new CodeInstruction(
                             OpCodes.Call,
-                            typeof(Farmer_PiperBuffs).RequireMethod(nameof(Farmer_PiperBuffs.HasAnyPiperBuffs))),
-                    })
-                .Insert(new[] { new CodeInstruction(OpCodes.Brtrue_S, returnLabel) });
+                            typeof(ModEntry).RequirePropertyGetter(nameof(ModEntry.State))),
+                        new CodeInstruction(
+                            OpCodes.Callvirt,
+                            typeof(ModState).RequirePropertyGetter(nameof(ModState.Professions))),
+                        new CodeInstruction(
+                            OpCodes.Callvirt,
+                            typeof(State).RequirePropertyGetter(nameof(State.PiperBuffs))),
+                        new CodeInstruction(OpCodes.Ldlen),
+                        new CodeInstruction(OpCodes.Brfalse_S, returnLabel),
+                    });
         }
         catch (Exception ex)
         {

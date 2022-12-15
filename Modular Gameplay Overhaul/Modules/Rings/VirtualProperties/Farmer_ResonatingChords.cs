@@ -17,14 +17,14 @@ using StardewValley.Objects;
 // ReSharper disable once InconsistentNaming
 internal static class Farmer_ResonatingChords
 {
-    internal static ConditionalWeakTable<Farmer, List<Chord>> ChordsByFarmer { get; } = new();
+    internal static ConditionalWeakTable<Farmer, List<Chord>> Values { get; } = new();
 
     internal static List<Chord> Get_ResonatingChords(this Farmer farmer)
     {
-        return ChordsByFarmer.GetValue(farmer, GetChords);
+        return Values.GetValue(farmer, Create);
     }
 
-    private static List<Chord> GetChords(Farmer farmer)
+    private static List<Chord> Create(Farmer farmer)
     {
         var rings = WearMoreRingsIntegration.Api?.GetAllRings(farmer) ??
                     farmer.leftRing.Value.Collect(farmer.rightRing.Value);

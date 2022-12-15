@@ -3,7 +3,6 @@
 #region using directives
 
 using System.Linq;
-using DaLion.Overhaul.Modules.Tools.VirtualProperties;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
 using StardewValley.Tools;
@@ -41,7 +40,8 @@ internal sealed class ToolEndUsingPatcher : HarmonyPatcher
             _ => 1,
         };
 
-        who.Get_Shockwaves().Add(new Shockwave(radius, who, Game1.currentGameTime.TotalGameTime.TotalMilliseconds));
+        ToolsModule.State.Shockwaves.Add(
+            new Shockwave(radius, who, Game1.currentGameTime.TotalGameTime.TotalMilliseconds));
     }
 
     #endregion harmony patches

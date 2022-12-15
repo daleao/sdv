@@ -4,7 +4,6 @@
 
 using System.Linq;
 using DaLion.Overhaul.Modules.Professions.Extensions;
-using DaLion.Overhaul.Modules.Professions.Integrations;
 using DaLion.Shared.Extensions;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
@@ -38,17 +37,17 @@ internal sealed class SkillsPagePerformHoverActionPatcher : HarmonyPatcher
 
         var bounds = ProfessionsModule.Config.PrestigeProgressionStyle switch
         {
-            ProfessionsConfig.ProgressionStyle.StackedStars => new Rectangle(
+            Config.ProgressionStyle.StackedStars => new Rectangle(
                 __instance.xPositionOnScreen + __instance.width + Textures.ProgressionHorizontalOffset - 14,
                 __instance.yPositionOnScreen + IClickableMenu.spaceToClearTopBorder + IClickableMenu.borderWidth + Textures.ProgressionVerticalOffset - 4,
                 (int)(Textures.StarsWidth * Textures.StarsScale),
                 (int)(Textures.StarsWidth * Textures.StarsScale)),
-            ProfessionsConfig.ProgressionStyle.Gen3Ribbons => new Rectangle(
+            Config.ProgressionStyle.Gen3Ribbons => new Rectangle(
                 __instance.xPositionOnScreen + __instance.width + Textures.ProgressionHorizontalOffset,
                 __instance.yPositionOnScreen + IClickableMenu.spaceToClearTopBorder + IClickableMenu.borderWidth + Textures.ProgressionVerticalOffset,
                 (int)(Textures.RibbonWidth * Textures.RibbonScale),
                 (int)(Textures.RibbonWidth * Textures.RibbonScale)),
-            ProfessionsConfig.ProgressionStyle.Gen4Ribbons => new Rectangle(
+            Config.ProgressionStyle.Gen4Ribbons => new Rectangle(
                 __instance.xPositionOnScreen + __instance.width + Textures.ProgressionHorizontalOffset,
                 __instance.yPositionOnScreen + IClickableMenu.spaceToClearTopBorder + IClickableMenu.borderWidth + Textures.ProgressionVerticalOffset,
                 (int)(Textures.RibbonWidth * Textures.RibbonScale),
@@ -74,39 +73,8 @@ internal sealed class SkillsPagePerformHoverActionPatcher : HarmonyPatcher
                 continue;
             }
 
-            bounds.Width = ProfessionsModule.Config.PrestigeProgressionStyle is ProfessionsConfig.ProgressionStyle.Gen3Ribbons
-                or ProfessionsConfig.ProgressionStyle.Gen4Ribbons
-                ? (int)(Textures.RibbonWidth * Textures.RibbonScale)
-                : (int)(((Textures.SingleStarWidth / 2 * count) + 4) * Textures.StarsScale);
-            if (!bounds.Contains(x, y))
-            {
-                continue;
-            }
-
-            ___hoverText = I18n.Get("prestige.skillpage.tooltip", new { count });
-            ___hoverText = professionsForThisSkill
-                .Select(p => p.Title)
-                .Aggregate(___hoverText, (current, name) => current + $"\n• {name}");
-        }
-
-        if (SpaceCoreIntegration.Api is null)
-        {
-            return;
-        }
-
-        foreach (var skill in SCSkill.Loaded.Values)
-        {
-            bounds.Y += 56;
-            var professionsForThisSkill =
-                Game1.player.GetProfessionsForSkill(skill, true);
-            var count = professionsForThisSkill.Length;
-            if (count == 0)
-            {
-                continue;
-            }
-
-            bounds.Width = ProfessionsModule.Config.PrestigeProgressionStyle is ProfessionsConfig.ProgressionStyle.Gen3Ribbons
-                or ProfessionsConfig.ProgressionStyle.Gen4Ribbons
+            bounds.Width = ProfessionsModule.Config.PrestigeProgressionStyle is Config.ProgressionStyle.Gen3Ribbons
+                or Config.ProgressionStyle.Gen4Ribbons
                 ? (int)(Textures.RibbonWidth * Textures.RibbonScale)
                 : (int)(((Textures.SingleStarWidth / 2 * count) + 4) * Textures.StarsScale);
             if (!bounds.Contains(x, y))

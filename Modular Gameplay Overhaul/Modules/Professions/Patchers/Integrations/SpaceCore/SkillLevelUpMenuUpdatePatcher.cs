@@ -76,11 +76,14 @@ internal sealed class SkillLevelUpMenuUpdatePatcher : HarmonyPatcher
                 .Insert(
                     new[]
                     {
-                        new CodeInstruction(OpCodes.Ldloc_1), new CodeInstruction(OpCodes.Ldarg_0), new CodeInstruction(
+                        new CodeInstruction(OpCodes.Ldloc_1),
+                        new CodeInstruction(OpCodes.Ldarg_0),
+                        new CodeInstruction(
                             OpCodes.Ldfld,
                             typeof(SkillLevelUpMenu)
                                 .RequireField("currentSkill")),
-                        new CodeInstruction(OpCodes.Ldarg_0), new CodeInstruction(
+                        new CodeInstruction(OpCodes.Ldarg_0),
+                        new CodeInstruction(
                             OpCodes.Ldfld,
                             typeof(SkillLevelUpMenu)
                                 .RequireField("currentLevel")),
@@ -173,12 +176,14 @@ internal sealed class SkillLevelUpMenuUpdatePatcher : HarmonyPatcher
                 .Insert(
                     new[]
                     {
-                        new CodeInstruction(OpCodes.Ldarg_0), new CodeInstruction(OpCodes.Ldfld, "SkillLevelUpMenu"
+                        new CodeInstruction(OpCodes.Ldarg_0),
+                        new CodeInstruction(OpCodes.Ldfld, "SkillLevelUpMenu"
                             .ToType()
                             .RequireField("professionsToChoose")),
                         new CodeInstruction(OpCodes.Ldc_I4_0),
                         new CodeInstruction(OpCodes.Callvirt, typeof(List<int>).RequirePropertyGetter("Item")),
-                        new CodeInstruction(OpCodes.Ldarg_0), new CodeInstruction(OpCodes.Ldfld, "SkillLevelUpMenu"
+                        new CodeInstruction(OpCodes.Ldarg_0),
+                        new CodeInstruction(OpCodes.Ldfld, "SkillLevelUpMenu"
                             .ToType()
                             .RequireField("currentLevel")),
                         new CodeInstruction(
@@ -195,12 +200,14 @@ internal sealed class SkillLevelUpMenuUpdatePatcher : HarmonyPatcher
                 .Insert(
                     new[]
                     {
-                        new CodeInstruction(OpCodes.Ldarg_0), new CodeInstruction(OpCodes.Ldfld, "SkillLevelUpMenu"
+                        new CodeInstruction(OpCodes.Ldarg_0),
+                        new CodeInstruction(OpCodes.Ldfld, "SkillLevelUpMenu"
                             .ToType()
                             .RequireField("professionsToChoose")),
                         new CodeInstruction(OpCodes.Ldc_I4_1),
                         new CodeInstruction(OpCodes.Callvirt, typeof(List<int>).RequirePropertyGetter("Item")),
-                        new CodeInstruction(OpCodes.Ldarg_0), new CodeInstruction(OpCodes.Ldfld, "SkillLevelUpMenu"
+                        new CodeInstruction(OpCodes.Ldarg_0),
+                        new CodeInstruction(OpCodes.Ldfld, "SkillLevelUpMenu"
                             .ToType()
                             .RequireField("currentLevel")),
                         new CodeInstruction(

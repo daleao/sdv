@@ -3,7 +3,6 @@
 #region using directives
 
 using System.Linq;
-using DaLion.Overhaul.Modules.Tools.VirtualProperties;
 using DaLion.Shared.Events;
 using StardewModdingAPI.Events;
 
@@ -20,7 +19,7 @@ internal sealed class ShockwaveUpdateTickedEvent : UpdateTickedEvent
     }
 
     /// <inheritdoc />
-    public override bool IsEnabled => Game1.player.Get_HasShockwave();
+    public override bool IsEnabled => ToolsModule.State.Shockwaves.Count > 0;
 
     /// <inheritdoc />
     protected override void OnUpdateTickedImpl(object? sender, UpdateTickedEventArgs e)
@@ -30,7 +29,7 @@ internal sealed class ShockwaveUpdateTickedEvent : UpdateTickedEvent
             return;
         }
 
-        var shockwaves = Game1.player.Get_Shockwaves().ToList();
+        var shockwaves = ToolsModule.State.Shockwaves.ToList();
         shockwaves.ForEach(wave => wave.Update(Game1.currentGameTime.TotalGameTime.TotalMilliseconds));
     }
 }

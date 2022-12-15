@@ -70,7 +70,7 @@ internal class MonsterMovePositionPatcher : HarmonyPatcher
 
     private static void CollisionDetectedSubroutine(Monster monster)
     {
-        if (monster.Health <= 0 || !monster.Get_WasKnockedBack())
+        if (monster.Health <= 0 || !monster.Get_KnockedBack())
         {
             return;
         }
@@ -92,7 +92,7 @@ internal class MonsterMovePositionPatcher : HarmonyPatcher
             Color.White,
             1f,
             monster));
-        monster.Set_WasKnockedBack(false);
+        monster.Set_KnockedBack(false);
     }
 
     #endregion injected subroutines

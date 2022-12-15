@@ -43,16 +43,17 @@ internal sealed class ToolAddEnchantmentPatcher : HarmonyPatcher
                 .Insert(
                     new[]
                     {
-                        new CodeInstruction(OpCodes.Brtrue_S, isWeapon), new CodeInstruction(OpCodes.Ldarg_0),
+                        new CodeInstruction(OpCodes.Brtrue_S, isWeapon),
+                        new CodeInstruction(OpCodes.Ldarg_0),
                         new CodeInstruction(OpCodes.Isinst, typeof(Slingshot)),
                         new CodeInstruction(OpCodes.Brfalse, resumeExecution),
-                        new CodeInstruction(OpCodes.Call, typeof(ModEntry).RequirePropertyGetter(nameof(Config))),
+                        new CodeInstruction(OpCodes.Call, typeof(ModEntry).RequirePropertyGetter(nameof(ModEntry.Config))),
                         new CodeInstruction(
                             OpCodes.Callvirt,
                             typeof(ModConfig).RequirePropertyGetter(nameof(ModConfig.Arsenal))),
                         new CodeInstruction(
                             OpCodes.Callvirt,
-                            typeof(ArsenalConfig).RequirePropertyGetter(nameof(ArsenalConfig.Slingshots))),
+                            typeof(Config).RequirePropertyGetter(nameof(Config.Slingshots))),
                         new CodeInstruction(
                             OpCodes.Callvirt,
                             typeof(SlingshotConfig).RequirePropertyGetter(nameof(SlingshotConfig.AllowForges))),

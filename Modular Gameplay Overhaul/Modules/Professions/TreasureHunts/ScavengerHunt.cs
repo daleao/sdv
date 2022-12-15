@@ -523,7 +523,7 @@ internal sealed class ScavengerHunt : TreasureHunt
         // forest sword
         if (this.Random.NextDouble() < 0.25 * luckModifier)
         {
-            if (Config.EnableArsenal && ArsenalModule.Config.DwarvishCrafting && Globals.DwarvishBlueprintIndex.HasValue)
+            if (ModEntry.Config.EnableArsenal && ArsenalModule.Config.DwarvishCrafting && Globals.DwarvishBlueprintIndex.HasValue)
             {
                 if (!Game1.player.Read(DataFields.BlueprintsFound).ParseList<int>()
                         .Contains(Constants.ForestSwordIndex))
@@ -544,7 +544,7 @@ internal sealed class ScavengerHunt : TreasureHunt
         // elf blade
         if (this.Random.NextDouble() < 0.25 * luckModifier)
         {
-            if (Config.EnableArsenal && ArsenalModule.Config.DwarvishCrafting && Globals.DwarvishBlueprintIndex.HasValue)
+            if (ModEntry.Config.EnableArsenal && ArsenalModule.Config.DwarvishCrafting && Globals.DwarvishBlueprintIndex.HasValue)
             {
                 if (!Game1.player.Read(DataFields.BlueprintsFound).ParseList<int>()
                         .Contains(Constants.ElfBladeIndex))

@@ -15,7 +15,7 @@ internal static class FruitTreeExtensions
     internal static int GetQualityFromAge(this FruitTree fruitTree)
     {
         var skillFactor = 1f + (Game1.player.FarmingLevel * 0.1f);
-        if (Config.EnableProfessions && Game1.player.professions.Contains(Farmer.lumberjack))
+        if (ModEntry.Config.EnableProfessions && Game1.player.professions.Contains(Farmer.lumberjack))
         {
             skillFactor++;
         }

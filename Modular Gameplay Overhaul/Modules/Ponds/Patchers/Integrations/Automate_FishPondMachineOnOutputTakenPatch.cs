@@ -2,6 +2,7 @@
 
 #region using directives
 
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Reflection;
 using DaLion.Shared.Attributes;
@@ -19,7 +20,7 @@ using StardewValley.Objects;
 
 [UsedImplicitly]
 [RequiresMod("Pathoschild.Automate")]
-[System.Diagnostics.CodeAnalysis.SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1649:File name should match first type name", Justification = "Integration patch.")]
+[SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1649:File name should match first type name", Justification = "Integration patch.")]
 internal sealed class FishPondMachineOnOutputTakenPatcher : HarmonyPatcher
 {
     /// <summary>Initializes a new instance of the <see cref="FishPondMachineOnOutputTakenPatcher"/> class.</summary>

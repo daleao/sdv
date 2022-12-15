@@ -65,7 +65,8 @@ internal sealed class GameLocationBlacksmithPatcher : HarmonyPatcher
                 .Insert(
                     new[]
                     {
-                        new CodeInstruction(OpCodes.Ldarg_0), new CodeInstruction(
+                        new CodeInstruction(OpCodes.Ldarg_0),
+                        new CodeInstruction(
                             OpCodes.Call,
                             typeof(GameLocationBlacksmithPatcher).RequireMethod(
                                 nameof(CreateBlacksmithQuestionDialogue))),

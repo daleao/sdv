@@ -118,12 +118,19 @@ internal sealed class GameLocationDamageMonsterPatcher : HarmonyPatcher
                 .Insert(
                     new[]
                     {
-                        new CodeInstruction(OpCodes.Ldarg_S, (byte)10), new CodeInstruction(
+                        new CodeInstruction(
                             OpCodes.Call,
-                            typeof(Farmer_BruteCounters).RequireMethod(
-                                nameof(Farmer_BruteCounters.Get_BruteRageCounter))),
-                        new CodeInstruction(OpCodes.Conv_R4), new CodeInstruction(OpCodes.Ldc_R4, 0.01f),
-                        new CodeInstruction(OpCodes.Mul), new CodeInstruction(OpCodes.Add),
+                            typeof(ModEntry).RequirePropertyGetter(nameof(ModEntry.State))),
+                        new CodeInstruction(
+                            OpCodes.Callvirt,
+                            typeof(ModState).RequirePropertyGetter(nameof(ModState.Professions))),
+                        new CodeInstruction(
+                            OpCodes.Callvirt,
+                            typeof(State).RequirePropertyGetter(nameof(State.BruteRageCounter))),
+                        new CodeInstruction(OpCodes.Conv_R4),
+                        new CodeInstruction(OpCodes.Ldc_R4, 0.01f),
+                        new CodeInstruction(OpCodes.Mul),
+                        new CodeInstruction(OpCodes.Add),
                     });
         }
         catch (Exception ex)
@@ -162,14 +169,17 @@ internal sealed class GameLocationDamageMonsterPatcher : HarmonyPatcher
                     new[]
                     {
                         // check for ambush
-                        new CodeInstruction(OpCodes.Ldarg_S, (byte)10), new CodeInstruction(
+                        new CodeInstruction(OpCodes.Ldarg_S, (byte)10),
+                        new CodeInstruction(
                             OpCodes.Call,
                             typeof(Farmer_Ultimate).RequireMethod(nameof(Farmer_Ultimate.Get_Ultimate))),
                         new CodeInstruction(OpCodes.Isinst, typeof(Ambush)),
-                        new CodeInstruction(OpCodes.Stloc_S, ambush), new CodeInstruction(OpCodes.Ldloc_S, ambush),
+                        new CodeInstruction(OpCodes.Stloc_S, ambush),
+                        new CodeInstruction(OpCodes.Ldloc_S, ambush),
                         new CodeInstruction(OpCodes.Brfalse_S, dontBuffCritPow),
                         // check for crit. pow. buff
-                        new CodeInstruction(OpCodes.Ldloc_S, ambush), new CodeInstruction(
+                        new CodeInstruction(OpCodes.Ldloc_S, ambush),
+                        new CodeInstruction(
                             OpCodes.Call,
                             typeof(Ambush).RequirePropertyGetter(nameof(Ambush.IsGrantingCritBuff))),
                         new CodeInstruction(OpCodes.Brfalse_S, dontBuffCritPow),
@@ -195,10 +205,12 @@ internal sealed class GameLocationDamageMonsterPatcher : HarmonyPatcher
                     new[]
                     {
                         // monster.Health <= 0
-                        new CodeInstruction(OpCodes.Ldloc_2), new CodeInstruction(
+                        new CodeInstruction(OpCodes.Ldloc_2),
+                        new CodeInstruction(
                             OpCodes.Callvirt,
                             typeof(Monster).RequirePropertyGetter(nameof(Monster.Health))),
-                        new CodeInstruction(OpCodes.Ldc_I4_0), new CodeInstruction(OpCodes.Bgt),
+                        new CodeInstruction(OpCodes.Ldc_I4_0),
+                        new CodeInstruction(OpCodes.Bgt),
                     },
                     ILHelper.SearchOption.First)
                 .StripLabels(out var labels) // backup and remove branch labels
@@ -265,8 +277,8 @@ internal sealed class GameLocationDamageMonsterPatcher : HarmonyPatcher
 
     private static void HandleBrute(Monster monster, Farmer who, Ultimate? ultimate)
     {
-        if (who.CurrentTool is not MeleeWeapon weapon || ultimate != Ultimate.BruteFrenzy || monster.Health > 0 ||
-            !ProfessionsModule.Config.EnableSpecials)
+        if (!ProfessionsModule.Config.EnableSpecials || who.CurrentTool is not MeleeWeapon weapon ||
+            ultimate is not Frenzy frenzy || monster.Health > 0)
         {
             return;
         }
@@ -274,7 +286,7 @@ internal sealed class GameLocationDamageMonsterPatcher : HarmonyPatcher
         if (ultimate.IsActive)
         {
             // increment kill count
-            who.Increment_BruteKillCounter();
+            frenzy.KillCount++;
         }
         else
         {
@@ -323,7 +335,7 @@ internal sealed class GameLocationDamageMonsterPatcher : HarmonyPatcher
         // add Piper buffs
         if (r.NextDouble() < 0.16667 + (who.DailyLuck / 2.0))
         {
-            var applied = who.Get_PiperBuffs();
+            var applied = ProfessionsModule.State.PiperBuffs;
             var whatToBuff = r.Next(applied.Length);
             if (whatToBuff is not (3 or 6))
             {

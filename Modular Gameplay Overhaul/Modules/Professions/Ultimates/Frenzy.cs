@@ -3,7 +3,6 @@
 #region using directives
 
 using DaLion.Overhaul.Modules.Professions.Sounds;
-using DaLion.Overhaul.Modules.Professions.VirtualProperties;
 using Microsoft.Xna.Framework;
 
 #endregion using directives
@@ -30,12 +29,15 @@ public sealed class Frenzy : Ultimate
     /// <inheritdoc />
     internal override Color GlowColor => Color.OrangeRed;
 
+    /// <summary>Gets or sets the number of enemies defeated while active.</summary>
+    internal int KillCount { get; set; }
+
     /// <inheritdoc />
     internal override void Activate()
     {
         base.Activate();
 
-        Game1.player.Set_BruteKillCounter(0);
+        this.KillCount = 0;
         Game1.buffsDisplay.removeOtherBuff(this.BuffId);
         Game1.buffsDisplay.addOtherBuff(
             new Buff(
@@ -71,7 +73,7 @@ public sealed class Frenzy : Ultimate
         Game1.buffsDisplay.removeOtherBuff(this.BuffId);
 
         var who = Game1.player;
-        var healed = (int)(who.maxHealth * Game1.player.Get_BruteKillCounter() * 0.05f);
+        var healed = (int)(who.maxHealth * this.KillCount * 0.05f);
         who.health = Math.Min(who.health + healed, who.maxHealth);
         who.currentLocation.debris.Add(new Debris(
             healed,

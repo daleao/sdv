@@ -32,7 +32,7 @@ internal sealed class DoTaxesCommand : ConsoleCommand
         var forClosingSeason = Game1.dayOfMonth == 1;
         var seasonIncome = player.Read<int>(DataFields.SeasonIncome);
         var deductibleExpenses = player.Read<int>(DataFields.BusinessExpenses);
-        var deductiblePct = Config.EnableProfessions && player.professions.Contains(Farmer.mariner)
+        var deductiblePct = ModEntry.Config.EnableProfessions && player.professions.Contains(Farmer.mariner)
             ? forClosingSeason
                 ? player.Read<float>(DataFields.PercentDeductions)
                 // ReSharper disable once PossibleLossOfFraction

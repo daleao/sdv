@@ -81,18 +81,21 @@ internal sealed class GenericObjectMachinePatcher : HarmonyPatcher
         {
             helper
                 .Match(
-                    new[] { new CodeInstruction(OpCodes.Ldc_I4_1), new CodeInstruction(OpCodes.Ret), },
+                    new[] { new CodeInstruction(OpCodes.Ldc_I4_1),
+                        new CodeInstruction(OpCodes.Ret), },
                     ILHelper.SearchOption.Last)
                 .Insert(
                     new[]
                     {
-                        new CodeInstruction(OpCodes.Ldarg_0), new CodeInstruction(
+                        new CodeInstruction(OpCodes.Ldarg_0),
+                        new CodeInstruction(
                             OpCodes.Call,
                             "Pathoschild.Stardew.Automate.Framework.BaseMachine`1"
                                 .ToType()
                                 .MakeGenericType(typeof(SObject))
                                 .RequirePropertyGetter("Machine")),
-                        new CodeInstruction(OpCodes.Ldarg_0), new CodeInstruction(
+                        new CodeInstruction(OpCodes.Ldarg_0),
+                        new CodeInstruction(
                             OpCodes.Call,
                             "Pathoschild.Stardew.Automate.Framework.BaseMachine"
                                 .ToType()

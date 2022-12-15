@@ -47,13 +47,13 @@ internal sealed class EventCommandItemAboveHeadPatcher : HarmonyPatcher
                     {
                         new CodeInstruction(
                             OpCodes.Call,
-                            typeof(ModEntry).RequirePropertyGetter(nameof(Config))),
+                            typeof(ModEntry).RequirePropertyGetter(nameof(ModEntry.Config))),
                         new CodeInstruction(
                             OpCodes.Callvirt,
                             typeof(ModConfig).RequirePropertyGetter(nameof(ModConfig.Arsenal))),
                         new CodeInstruction(
                             OpCodes.Callvirt,
-                            typeof(ArsenalConfig).RequirePropertyGetter(nameof(ArsenalConfig.WoodyReplacesRusty))),
+                            typeof(Config).RequirePropertyGetter(nameof(Config.WoodyReplacesRusty))),
                         new CodeInstruction(OpCodes.Brfalse_S, rusty),
                         new CodeInstruction(OpCodes.Ldc_I4_S, Constants.WoodenBladeIndex),
                         new CodeInstruction(OpCodes.Br_S, resumeExecution),

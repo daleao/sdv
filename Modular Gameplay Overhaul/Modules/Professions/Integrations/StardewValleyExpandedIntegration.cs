@@ -2,6 +2,7 @@
 
 #region using directives
 
+using System.Diagnostics.CodeAnalysis;
 using DaLion.Shared.Extensions.SMAPI;
 using DaLion.Shared.Integrations;
 
@@ -20,13 +21,13 @@ internal sealed class StardewValleyExpandedIntegration : BaseIntegration
     internal static new bool IsLoaded { get; private set; }
 
     /// <summary>Gets the value of the <c>DisableGaldoranTheme</c> config setting.</summary>
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1623:Property summary documentation should match accessors", Justification = "Doesn't make sense in this context.")]
+    [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1623:Property summary documentation should match accessors", Justification = "Doesn't make sense in this context.")]
     internal static bool DisabeGaldoranTheme => ModHelper
         .ReadContentPackConfig("FlashShifter.StardewValleyExpandedCP")
         ?.Value<bool?>("DisableGaldoranTheme") == true;
 
     /// <summary>Gets the value of the <c>UseGaldoranThemeAllTimes</c> config setting.</summary>
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1623:Property summary documentation should match accessors", Justification = "Doesn't make sense in this context.")]
+    [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1623:Property summary documentation should match accessors", Justification = "Doesn't make sense in this context.")]
     internal static bool UseGaldoranThemeAllTimes => ModHelper
         .ReadContentPackConfig("FlashShifter.StardewValleyExpandedCP")
         ?.Value<bool?>("UseGaldoranThemeAllTimes") == true;

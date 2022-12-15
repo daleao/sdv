@@ -40,7 +40,8 @@ internal sealed class FishingRodOpenTreasureMenuEndFunctionPatcher : HarmonyPatc
                         new CodeInstruction(
                             OpCodes.Ldfld,
                             typeof(Farmer).RequireField(nameof(Farmer.specialItems))),
-                        new CodeInstruction(OpCodes.Ldc_I4_S), new CodeInstruction(
+                        new CodeInstruction(OpCodes.Ldc_I4_S),
+                        new CodeInstruction(
                             OpCodes.Callvirt,
                             typeof(NetIntList).RequireMethod(nameof(NetIntList.Contains))),
                     })

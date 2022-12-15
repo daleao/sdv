@@ -50,7 +50,8 @@ internal sealed class PregnancyControllerAddNewHatchedAnimalPatcher : HarmonyPat
                 .Insert(
                     new[]
                     {
-                        new CodeInstruction(OpCodes.Ldloc_1), new CodeInstruction(
+                        new CodeInstruction(OpCodes.Ldloc_1),
+                        new CodeInstruction(
                             OpCodes.Call,
                             typeof(PregnancyControllerAddNewHatchedAnimalPatcher)
                                 .RequireMethod(nameof(AddNewHatchedAnimalSubroutine))),

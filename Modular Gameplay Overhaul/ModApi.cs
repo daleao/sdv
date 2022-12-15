@@ -306,7 +306,7 @@ public sealed class ModApi
     /// <returns>The <see cref="ModConfig"/> instance.</returns>
     public ModConfig GetConfig()
     {
-        return Config;
+        return ModEntry.Config;
     }
 
     #endregion configs

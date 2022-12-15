@@ -3,7 +3,6 @@
 #region using directives
 
 using System.Collections.Generic;
-using DaLion.Overhaul.Modules.Rings.VirtualProperties;
 using DaLion.Shared.Events;
 using Microsoft.Xna.Framework;
 using StardewModdingAPI.Events;
@@ -32,7 +31,7 @@ internal sealed class WarriorUpdateTickedEvent : UpdateTickedEvent
     /// <inheritdoc />
     protected override void OnUpdateTickedImpl(object? sender, UpdateTickedEventArgs e)
     {
-        var killCount = Game1.player.Get_WarriorKillCount();
+        var killCount = RingsModule.State.WarriorKillCount;
         if (killCount < 10)
         {
             return;

@@ -45,14 +45,16 @@ internal sealed class FeedingBasketOverridesDoFunctionPatcher : HarmonyPatcher
                 .Match(
                     new[]
                     {
-                        new CodeInstruction(OpCodes.Ldloc_1), new CodeInstruction(
+                        new CodeInstruction(OpCodes.Ldloc_1),
+                        new CodeInstruction(
                             OpCodes.Callvirt,
                             typeof(FarmAnimal).RequireMethod(nameof(FarmAnimal.isCoopDweller))),
                     })
                 .Match(
                     new[]
                     {
-                        new CodeInstruction(OpCodes.Ldloc_S, helper.Locals[7]), new CodeInstruction(OpCodes.Ldsfld),
+                        new CodeInstruction(OpCodes.Ldloc_S, helper.Locals[7]),
+                        new CodeInstruction(OpCodes.Ldsfld),
                         new CodeInstruction(OpCodes.Ldfld),
                     })
                 .Match(new[] { new CodeInstruction(OpCodes.Brfalse_S) }, ILHelper.SearchOption.Previous)

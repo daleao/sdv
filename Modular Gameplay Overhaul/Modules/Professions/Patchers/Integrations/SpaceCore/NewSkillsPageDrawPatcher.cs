@@ -48,27 +48,29 @@ internal sealed class NewSkillsPageDrawPatcher : HarmonyPatcher
                 .Insert(
                     new[]
                     {
-                        new CodeInstruction(OpCodes.Call, typeof(ModEntry).RequirePropertyGetter(nameof(Config))),
+                        new CodeInstruction(OpCodes.Call, typeof(ModEntry).RequirePropertyGetter(nameof(ModEntry.Config))),
                         new CodeInstruction(
                             OpCodes.Callvirt,
                             typeof(ModConfig).RequirePropertyGetter(nameof(ModConfig.Professions))),
                         new CodeInstruction(
                             OpCodes.Callvirt,
-                            typeof(ProfessionsConfig).RequirePropertyGetter(nameof(ProfessionsConfig.EnablePrestige))),
+                            typeof(Config).RequirePropertyGetter(nameof(Config.EnablePrestige))),
                         new CodeInstruction(OpCodes.Brfalse_S, resumeExecution),
-                        new CodeInstruction(OpCodes.Call, typeof(ModEntry).RequirePropertyGetter(nameof(Config))),
+                        new CodeInstruction(OpCodes.Call, typeof(ModEntry).RequirePropertyGetter(nameof(ModEntry.Config))),
                         new CodeInstruction(
                             OpCodes.Callvirt,
                             typeof(ModConfig).RequirePropertyGetter(nameof(ModConfig.Professions))),
                         new CodeInstruction(
                             OpCodes.Callvirt,
-                            typeof(ProfessionsConfig).RequirePropertyGetter(
-                                nameof(ProfessionsConfig.PrestigeProgressionStyle))),
-                        new CodeInstruction(OpCodes.Ldc_I4_0), new CodeInstruction(OpCodes.Beq_S, notRibbons),
+                            typeof(Config).RequirePropertyGetter(
+                                nameof(Config.PrestigeProgressionStyle))),
+                        new CodeInstruction(OpCodes.Ldc_I4_0),
+                        new CodeInstruction(OpCodes.Beq_S, notRibbons),
                         new CodeInstruction(
                             OpCodes.Ldc_I4_S,
                             (int)((Textures.RibbonWidth + 5) * Textures.RibbonScale)),
-                        new CodeInstruction(OpCodes.Sub), new CodeInstruction(OpCodes.Br_S, resumeExecution),
+                        new CodeInstruction(OpCodes.Sub),
+                        new CodeInstruction(OpCodes.Br_S, resumeExecution),
                     })
                 .Insert(
                     new[]
@@ -100,7 +102,8 @@ internal sealed class NewSkillsPageDrawPatcher : HarmonyPatcher
                 .Match(
                     new[]
                     {
-                        new CodeInstruction(OpCodes.Ldloc_S, levelIndex), new CodeInstruction(OpCodes.Ldc_I4_S, 9),
+                        new CodeInstruction(OpCodes.Ldloc_S, levelIndex),
+                        new CodeInstruction(OpCodes.Ldc_I4_S, 9),
                         new CodeInstruction(OpCodes.Bne_Un),
                     },
                     ILHelper.SearchOption.First)
@@ -146,7 +149,8 @@ internal sealed class NewSkillsPageDrawPatcher : HarmonyPatcher
                 .Insert(
                     new[]
                     {
-                        new CodeInstruction(OpCodes.Ldloc_S, skillLevel), new CodeInstruction(OpCodes.Ldc_I4_S, 20),
+                        new CodeInstruction(OpCodes.Ldloc_S, skillLevel),
+                        new CodeInstruction(OpCodes.Ldc_I4_S, 20),
                         new CodeInstruction(OpCodes.Beq_S, isSkillLevel20),
                     })
                 .Move()

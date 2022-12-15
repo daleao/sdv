@@ -6,7 +6,6 @@ using System.Collections.Generic;
 using System.Linq;
 using DaLion.Overhaul.Modules.Tools.Effects;
 using DaLion.Overhaul.Modules.Tools.Extensions;
-using DaLion.Overhaul.Modules.Tools.VirtualProperties;
 using DaLion.Shared.Classes;
 using Microsoft.Xna.Framework;
 using StardewValley.Tools;
@@ -136,7 +135,7 @@ internal class Shockwave
         }
 
         Log.D(this._tileGrids[^1].ToString());
-        this._farmer.Get_Shockwaves().Remove(this);
+        ToolsModule.State.Shockwaves.Remove(this);
     }
 
     /// <summary>

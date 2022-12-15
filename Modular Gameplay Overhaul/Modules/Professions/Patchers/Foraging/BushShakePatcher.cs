@@ -72,7 +72,8 @@ internal sealed class BushShakePatcher : HarmonyPatcher
                     {
                         new CodeInstruction(OpCodes.Brfalse_S, dontIncreaseEcologistCounter),
                         new CodeInstruction(OpCodes.Call, typeof(Game1).RequirePropertyGetter(nameof(Game1.player))),
-                        new CodeInstruction(OpCodes.Ldstr, DataFields.EcologistItemsForaged), new CodeInstruction(
+                        new CodeInstruction(OpCodes.Ldstr, DataFields.EcologistItemsForaged),
+                        new CodeInstruction(
                             OpCodes.Call,
                             typeof(ModDataIO)
                                 .RequireMethod(nameof(ModDataIO.Increment), new[] { typeof(Farmer), typeof(string) })

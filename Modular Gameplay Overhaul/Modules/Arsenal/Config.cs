@@ -3,13 +3,12 @@
 #region using directives
 
 using DaLion.Overhaul.Modules.Arsenal.Configs;
-using DaLion.Shared.Configs;
 using Newtonsoft.Json;
 
 #endregion using directives
 
 /// <summary>The user-configurable settings for Arsenal.</summary>
-public sealed class ArsenalConfig : Config
+public sealed class Config : Shared.Configs.Config
 {
     /// <inheritdoc cref="SlingshotConfig"/>
     [JsonProperty]
@@ -45,7 +44,7 @@ public sealed class ArsenalConfig : Config
 
     /// <summary>Gets increases the health of all monsters.</summary>
     [JsonProperty]
-    public float MonsterHealthMultiplier { get; internal set; } = 2f;
+    public float MonsterHealthMultiplier { get; internal set; } = 1f;
 
     /// <summary>Gets increases the damage dealt by all monsters.</summary>
     [JsonProperty]
@@ -53,7 +52,7 @@ public sealed class ArsenalConfig : Config
 
     /// <summary>Gets increases the resistance of all monsters.</summary>
     [JsonProperty]
-    public float MonsterDefenseMultiplier { get; internal set; } = 1.5f;
+    public float MonsterDefenseMultiplier { get; internal set; } = 1f;
 
     /// <summary>Gets a value indicating whether randomizes monster stats to add variability to monster encounters.</summary>
     [JsonProperty]

@@ -1,5 +1,12 @@
 # Rings Module Change Log
 
+## 0.9.4
+
+### Fixed
+
+* Added one last null-check that was missing.
+* Fixed Better Rings and Vanilla Tweaks integrations not being loaded.
+
 ## 0.9.2
 
 ### Fixed

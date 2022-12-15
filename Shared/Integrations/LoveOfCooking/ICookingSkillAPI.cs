@@ -1,4 +1,5 @@
 ﻿#pragma warning disable CS1591
+#pragma warning disable SA1602 // Enumeration items should be documented
 namespace DaLion.Shared.Integrations.LoveOfCooking;
 
 #region using directives
@@ -10,7 +11,6 @@ using System.Collections.Generic;
 /// <summary>The API provided by Love Of Cooking.</summary>
 public interface ICookingSkillApi
 {
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1602:Enumeration items should be documented", Justification = "Third-party.")]
     public enum Profession
     {
         ImprovedOil,

@@ -88,9 +88,11 @@ internal sealed class LevelUpMenuDrawPatcher : HarmonyPatcher
                 .Insert(
                     new[]
                     {
-                        new CodeInstruction(OpCodes.Ldarg_0), new CodeInstruction(OpCodes.Ldarg_0),
+                        new CodeInstruction(OpCodes.Ldarg_0),
+                        new CodeInstruction(OpCodes.Ldarg_0),
                         new CodeInstruction(OpCodes.Ldfld, typeof(LevelUpMenu).RequireField("currentLevel")),
-                        new CodeInstruction(OpCodes.Ldarg_1), new CodeInstruction(
+                        new CodeInstruction(OpCodes.Ldarg_1),
+                        new CodeInstruction(
                             OpCodes.Call,
                             typeof(LevelUpMenuDrawPatcher).RequireMethod(nameof(DrawSubroutine))),
                     });

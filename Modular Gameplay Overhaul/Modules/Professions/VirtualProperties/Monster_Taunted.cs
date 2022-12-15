@@ -4,7 +4,6 @@
 
 using System.Runtime.CompilerServices;
 using StardewValley.Monsters;
-using StardewValley.Network;
 
 #endregion using directives
 

@@ -65,17 +65,19 @@ internal sealed class PickaxeDoFunctionPatcher : HarmonyPatcher
                     {
                         new CodeInstruction(
                             OpCodes.Call,
-                            typeof(ModEntry).RequirePropertyGetter(nameof(Config))),
+                            typeof(ModEntry).RequirePropertyGetter(nameof(ModEntry.Config))),
                         new CodeInstruction(
                             OpCodes.Callvirt,
                             typeof(ModConfig).RequirePropertyGetter(nameof(ModConfig.Tools))),
                         new CodeInstruction(
                             OpCodes.Callvirt,
-                            typeof(ToolsConfig).RequirePropertyGetter(nameof(ToolsConfig.Pick))),
+                            typeof(Config).RequirePropertyGetter(nameof(Config.Pick))),
                         new CodeInstruction(
                             OpCodes.Callvirt,
                             typeof(PickaxeConfig).RequirePropertyGetter(nameof(AxeConfig.BaseStaminaMultiplier))),
-                        new CodeInstruction(OpCodes.Mul), new CodeInstruction(OpCodes.Ldc_R4, 1f), new CodeInstruction(
+                        new CodeInstruction(OpCodes.Mul),
+                        new CodeInstruction(OpCodes.Ldc_R4, 1f),
+                        new CodeInstruction(
                             OpCodes.Call,
                             typeof(Math).RequireMethod(nameof(Math.Max), new[] { typeof(float), typeof(float) })),
                     });

@@ -4,7 +4,6 @@
 
 using DaLion.Overhaul.Modules.Professions.Events.GameLoop;
 using DaLion.Overhaul.Modules.Professions.Extensions;
-using DaLion.Overhaul.Modules.Professions.VirtualProperties;
 using DaLion.Shared.Classes;
 using DaLion.Shared.Extensions.Stardew;
 using DaLion.Shared.Harmony;
@@ -441,12 +440,12 @@ internal sealed class GameLocationExplodePatcher : HarmonyPatcher
         var distanceFromEpicenter = (int)(tileLocation - who.getTileLocation()).Length();
         if (distanceFromEpicenter < (radius * 2) + 1)
         {
-            who.Set_DemolitionistExcitedness(4);
+            ProfessionsModule.State.DemolitionistExcitedness = 4;
         }
 
         if (distanceFromEpicenter < radius + 1)
         {
-            who.Increment_DemolitionistExcitedness(2);
+            ProfessionsModule.State.DemolitionistExcitedness += 2;
         }
 
         EventManager.Enable<DemolitionistUpdateTickedEvent>();

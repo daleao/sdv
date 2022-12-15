@@ -49,18 +49,20 @@ internal sealed class WateringCanDoFunctionPatcher : HarmonyPatcher
                     {
                         new CodeInstruction(
                             OpCodes.Call,
-                            typeof(ModEntry).RequirePropertyGetter(nameof(Config))),
+                            typeof(ModEntry).RequirePropertyGetter(nameof(ModEntry.Config))),
                         new CodeInstruction(
                             OpCodes.Callvirt,
                             typeof(ModConfig).RequirePropertyGetter(nameof(ModConfig.Tools))),
                         new CodeInstruction(
                             OpCodes.Callvirt,
-                            typeof(ToolsConfig).RequirePropertyGetter(nameof(ToolsConfig.Can))),
+                            typeof(Config).RequirePropertyGetter(nameof(Config.Can))),
                         new CodeInstruction(
                             OpCodes.Callvirt,
                             typeof(WateringCanConfig).RequirePropertyGetter(
                                 nameof(WateringCanConfig.BaseStaminaMultiplier))),
-                        new CodeInstruction(OpCodes.Mul), new CodeInstruction(OpCodes.Ldc_R4, 1f), new CodeInstruction(
+                        new CodeInstruction(OpCodes.Mul),
+                        new CodeInstruction(OpCodes.Ldc_R4, 1f),
+                        new CodeInstruction(
                             OpCodes.Call,
                             typeof(Math).RequireMethod(nameof(Math.Max), new[] { typeof(float), typeof(float) })),
                     });

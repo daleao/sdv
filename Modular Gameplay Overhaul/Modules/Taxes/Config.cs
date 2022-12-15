@@ -2,13 +2,12 @@
 
 #region using directives
 
-using DaLion.Shared.Configs;
 using Newtonsoft.Json;
 
 #endregion using directives
 
 /// <summary>The user-configurable settings for Taxes.</summary>
-public sealed class TaxesConfig : Config
+public sealed class Config : Shared.Configs.Config
 {
     /// <summary>
     ///     Gets the interest rate charged annually over any outstanding debt. Interest is accrued daily at a rate of 1/112 the

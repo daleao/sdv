@@ -4,7 +4,6 @@
 
 using DaLion.Overhaul.Modules.Professions.Events.GameLoop;
 using DaLion.Overhaul.Modules.Professions.Extensions;
-using DaLion.Overhaul.Modules.Professions.VirtualProperties;
 using DaLion.Shared.Events;
 using DaLion.Shared.Extensions.Stardew;
 using StardewModdingAPI.Events;
@@ -33,7 +32,7 @@ internal sealed class BruteWarpedEvent : WarpedEvent
         }
         else
         {
-            e.Player.Set_BruteRageCounter(0);
+            ProfessionsModule.State.BruteRageCounter = 0;
             this.Manager.Enable<BruteUpdateTickedEvent>();
         }
     }

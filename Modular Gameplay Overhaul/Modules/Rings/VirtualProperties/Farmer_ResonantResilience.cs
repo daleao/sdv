@@ -17,7 +17,7 @@ internal static class Farmer_ResonantResilience
         return Values.GetValue(farmer, Create).ResonantResilience;
     }
 
-    internal static void Increment_ResonantResilience(this Farmer farmer, float amount)
+    internal static void IncrementResonantResilience(this Farmer farmer, float amount)
     {
         Values.GetValue(farmer, Create).ResonantResilience += amount;
     }

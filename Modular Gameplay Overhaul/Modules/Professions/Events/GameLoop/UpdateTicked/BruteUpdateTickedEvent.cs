@@ -2,9 +2,7 @@
 
 #region using directives
 
-using DaLion.Overhaul.Modules.Core.VirtualProperties;
 using DaLion.Overhaul.Modules.Professions.Extensions;
-using DaLion.Overhaul.Modules.Professions.VirtualProperties;
 using DaLion.Shared.Events;
 using StardewModdingAPI.Events;
 
@@ -26,16 +24,16 @@ internal sealed class BruteUpdateTickedEvent : UpdateTickedEvent
     protected override void OnUpdateTickedImpl(object? sender, UpdateTickedEventArgs e)
     {
         var player = Game1.player;
-        if (player.Get_BruteRageCounter() <= 0)
+        if (ProfessionsModule.State.BruteRageCounter <= 0)
         {
             return;
         }
 
         // decay counter every 5 seconds after 25 seconds out of combat
         if ((Game1.game1.IsActiveNoOverlay || !Game1.options.pauseWhenOutOfFocus) && Game1.shouldTimePass() &&
-            e.IsMultipleOf(300) && player.Get_SecondsOutOfCombat() > 25)
+            e.IsMultipleOf(300) && ModEntry.State.SecondsOutOfCombat > 25)
         {
-            player.Decrement_BruteRageCounter();
+            ProfessionsModule.State.BruteRageCounter--;
         }
 
         if (player.hasBuff(this._buffId))
@@ -43,7 +41,7 @@ internal sealed class BruteUpdateTickedEvent : UpdateTickedEvent
             return;
         }
 
-        var magnitude = player.Get_BruteRageCounter() * 0.01f;
+        var magnitude = ProfessionsModule.State.BruteRageCounter * 0.01f;
         Game1.buffsDisplay.addOtherBuff(
             new Buff(
                 0,

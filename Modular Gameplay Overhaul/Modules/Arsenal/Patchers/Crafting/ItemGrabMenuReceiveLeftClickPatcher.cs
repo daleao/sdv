@@ -51,11 +51,13 @@ internal sealed class ItemGrabMenuReceiveLeftClickPatcher : HarmonyPatcher
                         new CodeInstruction(OpCodes.Stloc_S, dwarvenBlueprintIndex),
                         new CodeInstruction(OpCodes.Ldloca_S, dwarvenBlueprintIndex),
                         new CodeInstruction(OpCodes.Call, typeof(int?).RequirePropertyGetter(nameof(Nullable<int>.HasValue))),
-                        new CodeInstruction(OpCodes.Brfalse_S, foundNothing), new CodeInstruction(OpCodes.Ldarg_0),
+                        new CodeInstruction(OpCodes.Brfalse_S, foundNothing),
+                        new CodeInstruction(OpCodes.Ldarg_0),
                         new CodeInstruction(
                             OpCodes.Ldfld,
                             typeof(ItemGrabMenu).RequireField(nameof(ItemGrabMenu.heldItem))),
-                        new CodeInstruction(OpCodes.Isinst, typeof(SObject)), new CodeInstruction(
+                        new CodeInstruction(OpCodes.Isinst, typeof(SObject)),
+                        new CodeInstruction(
                             OpCodes.Call,
                             typeof(Globals).RequirePropertyGetter(nameof(Globals.DwarvishBlueprintIndex))),
                         new CodeInstruction(OpCodes.Stloc_S, dwarvenBlueprintIndex),
@@ -74,7 +76,8 @@ internal sealed class ItemGrabMenuReceiveLeftClickPatcher : HarmonyPatcher
                 .Insert(
                     new[]
                     {
-                        new CodeInstruction(OpCodes.Ldarg_0), new CodeInstruction(
+                        new CodeInstruction(OpCodes.Ldarg_0),
+                        new CodeInstruction(
                             OpCodes.Ldfld,
                             typeof(ItemGrabMenu).RequireField(nameof(ItemGrabMenu.heldItem))),
                     });

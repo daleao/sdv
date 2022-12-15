@@ -3,6 +3,7 @@
 #region using directives
 
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using System.Reflection.Emit;
 using DaLion.Shared.Attributes;
@@ -29,7 +30,7 @@ internal sealed class GreenSlimeDrawPatcher : HarmonyPatcher
 
     /// <summary>Patch to fix Green Slime eye and antenna position when inflated.</summary>
     [HarmonyTranspiler]
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("StyleCop.CSharp.ReadabilityRules", "SA1114:Parameter list should follow declaration", Justification = "Transpiler benefits from line-by-line commentary.")]
+    [SuppressMessage("StyleCop.CSharp.ReadabilityRules", "SA1114:Parameter list should follow declaration", Justification = "Transpiler benefits from line-by-line commentary.")]
     private static IEnumerable<CodeInstruction>? GreenSlimeDrawTranspiler(
         IEnumerable<CodeInstruction> instructions, ILGenerator generator, MethodBase original)
     {
@@ -64,7 +65,8 @@ internal sealed class GreenSlimeDrawPatcher : HarmonyPatcher
                     new[]
                     {
                         // insert custom offset
-                        new CodeInstruction(OpCodes.Ldarg_0), new CodeInstruction(
+                        new CodeInstruction(OpCodes.Ldarg_0),
+                        new CodeInstruction(
                             OpCodes.Call,
                             typeof(GreenSlimeDrawPatcher).RequireMethod(nameof(GetAntennaeOffset))),
                     })
@@ -76,7 +78,8 @@ internal sealed class GreenSlimeDrawPatcher : HarmonyPatcher
                     new[]
                     {
                         // insert custom offset
-                        new CodeInstruction(OpCodes.Ldarg_0), new CodeInstruction(
+                        new CodeInstruction(OpCodes.Ldarg_0),
+                        new CodeInstruction(
                             OpCodes.Call,
                             typeof(GreenSlimeDrawPatcher).RequireMethod(nameof(GetEyesOffset))),
                     })

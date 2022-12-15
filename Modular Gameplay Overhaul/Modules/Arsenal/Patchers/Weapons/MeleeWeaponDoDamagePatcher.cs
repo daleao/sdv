@@ -55,7 +55,9 @@ internal sealed class MeleeWeaponDoDamagePatcher : HarmonyPatcher
                             OpCodes.Call,
                             typeof(NetFieldBase<int, NetInt>).RequireMethod("op_Implicit")),
                         new CodeInstruction(OpCodes.Ldc_I4_0), // 0 = MeleeWeapon.stabbingSword
-                        new CodeInstruction(OpCodes.Ceq), new CodeInstruction(OpCodes.Ldarg_0), new CodeInstruction(
+                        new CodeInstruction(OpCodes.Ceq),
+                        new CodeInstruction(OpCodes.Ldarg_0),
+                        new CodeInstruction(
                             OpCodes.Ldfld,
                             typeof(MeleeWeapon).RequireField(nameof(MeleeWeapon.isOnSpecial))),
                         new CodeInstruction(OpCodes.And),
@@ -68,7 +70,7 @@ internal sealed class MeleeWeaponDoDamagePatcher : HarmonyPatcher
             return null;
         }
 
-        if (!Config.EnableRings)
+        if (!ModEntry.Config.EnableRings)
         {
             return helper.Flush();
         }

@@ -3,6 +3,7 @@
 #region using directives
 
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using Ardalis.SmartEnum;
 using DaLion.Shared.Extensions;
@@ -39,6 +40,7 @@ public class Skill : SmartEnum<Skill>, ISkill
     public static readonly Skill Combat = new("Combat", Farmer.combatSkill);
 
     /// <summary>The Luck skill, if loaded.</summary>
+    [SuppressMessage("StyleCop.CSharp.MaintainabilityRules", "SA1401:FieldsMustBePrivate", Justification = "Enum value must be field.")]
     public static Skill Luck = new("Luck", Farmer.luckSkill);
 
     #endregion enum entries

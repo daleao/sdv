@@ -17,10 +17,15 @@ internal static class Farmer_CooldownReduction
 
     internal static float Get_CooldownReduction(this Farmer farmer)
     {
+        if (!Globals.GarnetRingIndex.HasValue)
+        {
+            return 1f;
+        }
+
         return 1f - (Values.GetValue(farmer, Create).CooldownReduction * 0.1f);
     }
 
-    internal static void Increment_CooldownReduction(this Farmer farmer, float amount = 1f)
+    internal static void IncrementCooldownReduction(this Farmer farmer, float amount = 1f)
     {
         Values.GetValue(farmer, Create).CooldownReduction += amount;
     }

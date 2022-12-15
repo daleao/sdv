@@ -40,7 +40,8 @@ internal sealed class Game1DrawHudPatcher : HarmonyPatcher
                 .Match(
                     new[]
                     {
-                        new CodeInstruction(OpCodes.Ldc_I4_1), new CodeInstruction(
+                        new CodeInstruction(OpCodes.Ldc_I4_1),
+                        new CodeInstruction(
                             OpCodes.Stsfld,
                             typeof(Game1).RequireField(nameof(Game1.showingHealth))),
                     })
@@ -56,7 +57,8 @@ internal sealed class Game1DrawHudPatcher : HarmonyPatcher
                 .Insert(
                     new[]
                     {
-                        new CodeInstruction(OpCodes.Ldloc_1), new CodeInstruction(
+                        new CodeInstruction(OpCodes.Ldloc_1),
+                        new CodeInstruction(
                             OpCodes.Call,
                             typeof(Game1DrawHudPatcher).RequireMethod(nameof(DrawHealthBarSubroutine))),
                     });

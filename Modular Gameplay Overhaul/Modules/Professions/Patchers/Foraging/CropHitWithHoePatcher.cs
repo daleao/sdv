@@ -43,7 +43,8 @@ internal sealed class CropHitWithHoePatcher : HarmonyPatcher
                 .Insert(
                     new[]
                     {
-                        new CodeInstruction(OpCodes.Brfalse_S, resumeExecution), new CodeInstruction(OpCodes.Ldloc_0),
+                        new CodeInstruction(OpCodes.Brfalse_S, resumeExecution),
+                        new CodeInstruction(OpCodes.Ldloc_0),
                         new CodeInstruction(OpCodes.Call, typeof(Game1).RequirePropertyGetter(nameof(Game1.player))),
                         new CodeInstruction(
                             OpCodes.Call,

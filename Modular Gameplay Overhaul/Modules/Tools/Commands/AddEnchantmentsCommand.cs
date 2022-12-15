@@ -2,6 +2,7 @@
 
 #region using directives
 
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using DaLion.Shared.Commands;
 using StardewValley.Tools;
@@ -25,7 +26,7 @@ internal sealed class AddEnchantmentsCommand : ConsoleCommand
     public override string Documentation => "Add the specified enchantment to the selected tool." + this.GetUsage();
 
     /// <inheritdoc />
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("StyleCop.CSharp.SpacingRules", "SA1012:Opening braces should be spaced correctly", Justification = "Paradoxical.")]
+    [SuppressMessage("StyleCop.CSharp.SpacingRules", "SA1012:Opening braces should be spaced correctly", Justification = "Paradoxical.")]
     public override void Callback(string[] args)
     {
         if (args.Length == 0)

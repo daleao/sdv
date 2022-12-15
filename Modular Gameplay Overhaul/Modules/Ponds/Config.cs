@@ -2,13 +2,12 @@
 
 #region using directives
 
-using DaLion.Shared.Configs;
 using Newtonsoft.Json;
 
 #endregion using directives
 
 /// <summary>The user-configurable settings for Ponds.</summary>
-public sealed class PondsConfig : Config
+public sealed class Config : Shared.Configs.Config
 {
     /// <summary>Gets the number of days until an empty pond will begin spawning algae.</summary>
     [JsonProperty]

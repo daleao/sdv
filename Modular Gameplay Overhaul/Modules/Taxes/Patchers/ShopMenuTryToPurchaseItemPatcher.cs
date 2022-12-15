@@ -50,7 +50,8 @@ internal sealed class ShopMenuTryToPurchaseItemPatcher : HarmonyPatcher
                             .Insert(
                                 new[]
                                 {
-                                    new CodeInstruction(OpCodes.Ldarg_0), new CodeInstruction(OpCodes.Ldarg_1),
+                                    new CodeInstruction(OpCodes.Ldarg_0),
+                                    new CodeInstruction(OpCodes.Ldarg_1),
                                     new CodeInstruction(
                                         OpCodes.Call,
                                         typeof(ShopMenuTryToPurchaseItemPatcher).RequireMethod(

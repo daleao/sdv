@@ -1,5 +1,13 @@
 ﻿# Tools Module Change Log
 
+## 0.9.4
+
+### Fixed
+
+* Fixed a bug preventing weapons from destroying bushes and other location objects.
+* Fixed a bug with Scythe ClearTreeSaplings setting.
+* Scythe can now receive the Haymaker enchantment as intended.
+
 ## 0.9.3
 
 ### Fixed

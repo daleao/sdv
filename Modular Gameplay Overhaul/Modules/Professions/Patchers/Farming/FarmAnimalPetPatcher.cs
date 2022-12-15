@@ -71,7 +71,8 @@ internal sealed class FarmAnimalPetPatcher : HarmonyPatcher
             helper
                 .FindProfessionCheck(Profession.Rancher.Value, ILHelper.SearchOption.Previous) // go back and find the inserted rancher check
                 .Match(
-                    new[] { new CodeInstruction(OpCodes.Ldc_I4_S, 15), new CodeInstruction(OpCodes.Add), })
+                    new[] { new CodeInstruction(OpCodes.Ldc_I4_S, 15),
+                        new CodeInstruction(OpCodes.Add), })
                 .Move(2)
                 .AddLabels(isNotPrestiged)
                 .Insert(new[] { new CodeInstruction(OpCodes.Ldarg_1) }) // arg 1 = Farmer who
@@ -80,7 +81,8 @@ internal sealed class FarmAnimalPetPatcher : HarmonyPatcher
                     new[]
                     {
                         new CodeInstruction(OpCodes.Brfalse_S, isNotPrestiged),
-                        new CodeInstruction(OpCodes.Ldc_I4_S, 15), new CodeInstruction(OpCodes.Add),
+                        new CodeInstruction(OpCodes.Ldc_I4_S, 15),
+                        new CodeInstruction(OpCodes.Add),
                     });
         }
         catch (Exception ex)

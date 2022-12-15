@@ -50,8 +50,10 @@ internal sealed class PropagatorPopExtraHeldMushroomsPatcher : HarmonyPatcher
                 .Insert(
                     new[]
                     {
-                        new CodeInstruction(OpCodes.Brfalse_S, isNotPrestiged), new CodeInstruction(OpCodes.Cgt_Un),
-                        new CodeInstruction(OpCodes.Not), new CodeInstruction(OpCodes.Br_S, resumeExecution),
+                        new CodeInstruction(OpCodes.Brfalse_S, isNotPrestiged),
+                        new CodeInstruction(OpCodes.Cgt_Un),
+                        new CodeInstruction(OpCodes.Not),
+                        new CodeInstruction(OpCodes.Br_S, resumeExecution),
                     })
                 .Insert(
                     new[] { new CodeInstruction(OpCodes.Clt_Un) },
@@ -80,7 +82,8 @@ internal sealed class PropagatorPopExtraHeldMushroomsPatcher : HarmonyPatcher
                 .Insert(
                     new[]
                     {
-                        new CodeInstruction(OpCodes.Ldarg_0), new CodeInstruction(
+                        new CodeInstruction(OpCodes.Ldarg_0),
+                        new CodeInstruction(
                             OpCodes.Call,
                             typeof(PropagatorPopExtraHeldMushroomsPatcher)
                                 .RequireMethod(nameof(PopExtraHeldMushroomsSubroutine))),

@@ -1,5 +1,11 @@
 ﻿namespace DaLion.Shared.Extensions;
 
+#region using directives
+
+using System.Diagnostics.CodeAnalysis;
+
+#endregion using directives
+
 /// <summary>Extensions for the <see cref="Range"/> struct.</summary>
 public static class RangeExtensions
 {
@@ -13,7 +19,7 @@ public static class RangeExtensions
 }
 
 /// <summary>Allows enumerating <see cref="int"/>s.</summary>
-[System.Diagnostics.CodeAnalysis.SuppressMessage("StyleCop.CSharp.OrderingRules", "SA1201:Elements should appear in the correct order", Justification = "Preference for class required by struct extension class.")]
+[SuppressMessage("StyleCop.CSharp.OrderingRules", "SA1201:Elements should appear in the correct order", Justification = "Preference for class required by struct extension class.")]
 public ref struct CustomIntEnumerator
 {
     private readonly int _end;

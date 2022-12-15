@@ -59,15 +59,16 @@ internal sealed class FarmerTakeDamagePatcher : HarmonyPatcher
                 .Insert(
                     new[]
                     {
-                        new CodeInstruction(OpCodes.Call, typeof(ModEntry).RequirePropertyGetter(nameof(Config))),
+                        new CodeInstruction(OpCodes.Call, typeof(ModEntry).RequirePropertyGetter(nameof(ModEntry.Config))),
                         new CodeInstruction(
                             OpCodes.Callvirt,
                             typeof(ModConfig).RequirePropertyGetter(nameof(ModConfig.Arsenal))),
                         new CodeInstruction(
                             OpCodes.Callvirt,
-                            typeof(ArsenalConfig).RequirePropertyGetter(nameof(ArsenalConfig.OverhauledDefense))),
+                            typeof(Config).RequirePropertyGetter(nameof(Config.OverhauledDefense))),
                         new CodeInstruction(OpCodes.Brfalse_S, useVanillaResilience),
-                        new CodeInstruction(OpCodes.Ldarg_0), new CodeInstruction(
+                        new CodeInstruction(OpCodes.Ldarg_0),
+                        new CodeInstruction(
                             OpCodes.Call,
                             typeof(FarmerExtensions).RequireMethod(nameof(FarmerExtensions.GetOverhauledResilience))),
                         new CodeInstruction(OpCodes.Stloc_S, floatResilience),
@@ -111,16 +112,19 @@ internal sealed class FarmerTakeDamagePatcher : HarmonyPatcher
                 .Insert(
                     new[]
                     {
-                        new CodeInstruction(OpCodes.Call, typeof(ModEntry).RequirePropertyGetter(nameof(Config))),
+                        new CodeInstruction(OpCodes.Call, typeof(ModEntry).RequirePropertyGetter(nameof(ModEntry.Config))),
                         new CodeInstruction(
                             OpCodes.Callvirt,
                             typeof(ModConfig).RequirePropertyGetter(nameof(ModConfig.Arsenal))),
                         new CodeInstruction(
                             OpCodes.Callvirt,
-                            typeof(ArsenalConfig).RequirePropertyGetter(nameof(ArsenalConfig.OverhauledDefense))),
-                        new CodeInstruction(OpCodes.Brfalse_S, useLinearScaling), new CodeInstruction(OpCodes.Ldarg_1),
-                        new CodeInstruction(OpCodes.Conv_R4), new CodeInstruction(OpCodes.Ldloc_S, floatResilience),
-                        new CodeInstruction(OpCodes.Mul), new CodeInstruction(OpCodes.Conv_I4),
+                            typeof(Config).RequirePropertyGetter(nameof(Config.OverhauledDefense))),
+                        new CodeInstruction(OpCodes.Brfalse_S, useLinearScaling),
+                        new CodeInstruction(OpCodes.Ldarg_1),
+                        new CodeInstruction(OpCodes.Conv_R4),
+                        new CodeInstruction(OpCodes.Ldloc_S, floatResilience),
+                        new CodeInstruction(OpCodes.Mul),
+                        new CodeInstruction(OpCodes.Conv_I4),
                         new CodeInstruction(OpCodes.Starg_S, (byte)1),
                         new CodeInstruction(OpCodes.Br_S, resumeExecution),
                     })

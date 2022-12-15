@@ -44,7 +44,8 @@ internal sealed class GameLocationBreakStonePatcher : HarmonyPatcher
                     new[]
                     {
                         new CodeInstruction(OpCodes.Brfalse_S, isNotPrestiged),
-                        new CodeInstruction(OpCodes.Ldc_I4_1), new CodeInstruction(OpCodes.Add),
+                        new CodeInstruction(OpCodes.Ldc_I4_1),
+                        new CodeInstruction(OpCodes.Add),
                     });
         }
         catch (Exception ex)

@@ -1,0 +1,9 @@
+﻿namespace DaLion.Overhaul.Modules.Taxes;
+
+/// <summary>The ephemeral runtime state for Taxes.</summary>
+internal sealed class State
+{
+    internal int LatestAmountDue { get; set; }
+
+    internal int LatestAmountCharged { get; set; }
+}

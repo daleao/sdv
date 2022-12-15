@@ -5,7 +5,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using DaLion.Overhaul.Modules.Professions.Extensions;
-using DaLion.Overhaul.Modules.Professions.VirtualProperties;
 using DaLion.Shared.Extensions.Collections;
 using StardewValley;
 
@@ -130,7 +129,7 @@ public interface ISkill
             return false;
         }
 
-        var alreadyResetThisSkill = farmer.Get_SkillsToReset().Contains(this);
+        var alreadyResetThisSkill = ProfessionsModule.State.SkillsToReset.Contains(this);
         if (alreadyResetThisSkill)
         {
             Log.D($"{this.StringId} skill has already been marked for reset tonight.");

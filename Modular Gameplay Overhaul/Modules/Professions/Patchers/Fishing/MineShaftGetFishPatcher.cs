@@ -57,7 +57,8 @@ internal sealed class MineShaftGetFishPatcher : HarmonyPatcher
                                 new[]
                                 {
                                     new CodeInstruction(OpCodes.Brfalse_S, isNotFisher),
-                                    new CodeInstruction(OpCodes.Ldc_R8, 2.0), new CodeInstruction(OpCodes.Mul),
+                                    new CodeInstruction(OpCodes.Ldc_R8, 2.0),
+                                    new CodeInstruction(OpCodes.Mul),
                                 });
                     });
         }

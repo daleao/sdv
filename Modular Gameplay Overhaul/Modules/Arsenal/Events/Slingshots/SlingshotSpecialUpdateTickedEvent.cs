@@ -57,20 +57,20 @@ internal sealed class SlingshotSpecialUpdateTickedEvent : UpdateTickedEvent
                 slingshot.Set_IsOnSpecial(false);
                 user.forceCanMove();
 #if RELEASE
-                slingshot.Set_SpecialCooldown(SlingshotCooldown);
-                if (!Config.EnableProfessions && user.professions.Contains(Farmer.acrobat))
+                ArsenalModule.State.SlingshotCooldown = SlingshotCooldown;
+                if (!ModEntry.Config.EnableProfessions && user.professions.Contains(Farmer.acrobat))
                 {
-                    slingshot.Halve_SpecialCooldown();
+                    ArsenalModule.State.SlingshotCooldown /= 2;
                 }
 
                 if (slingshot.hasEnchantmentOfType<ArtfulEnchantment>())
                 {
-                    slingshot.Halve_SpecialCooldown();
+                    ArsenalModule.State.SlingshotCooldown /= 2;
                 }
 
-                slingshot.Set_SpecialCooldown((int)(slingshot.Get_SpecialCooldown() *
-                                                    slingshot.Get_EffectiveCooldownReduction() *
-                                                    user.Get_CooldownReduction()));
+                ArsenalModule.State.SlingshotCooldown = (int)(ArsenalModule.State.SlingshotCooldown *
+                                                              slingshot.Get_EffectiveCooldownReduction() *
+                                                              user.Get_CooldownReduction());
 #endif
                 _currentFrame = -1;
             }
@@ -101,8 +101,8 @@ internal sealed class SlingshotSpecialUpdateTickedEvent : UpdateTickedEvent
         else
         {
 #if RELEASE
-            slingshot.Decrement_SpecialCooldown(Game1.currentGameTime.ElapsedGameTime.Milliseconds);
-            if (slingshot.Get_SpecialCooldown() > 0)
+            ArsenalModule.State.SlingshotCooldown -= Game1.currentGameTime.ElapsedGameTime.Milliseconds;
+            if (ArsenalModule.State.SlingshotCooldown > 0)
             {
                 return;
             }

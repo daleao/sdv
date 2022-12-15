@@ -3,14 +3,13 @@
 #region using directives
 
 using System.Collections.Generic;
-using DaLion.Shared.Configs;
 using Newtonsoft.Json;
 using StardewModdingAPI.Utilities;
 
 #endregion using directives
 
 /// <summary>The user-configurable settings for Professions.</summary>
-public sealed class ProfessionsConfig : Config
+public sealed class Config : Shared.Configs.Config
 {
     #region dropdown enums
 

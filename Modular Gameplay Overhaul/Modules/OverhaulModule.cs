@@ -4,13 +4,6 @@
 
 using System.Diagnostics.CodeAnalysis;
 using Ardalis.SmartEnum;
-using DaLion.Overhaul.Modules.Arsenal;
-using DaLion.Overhaul.Modules.Ponds;
-using DaLion.Overhaul.Modules.Professions;
-using DaLion.Overhaul.Modules.Rings;
-using DaLion.Overhaul.Modules.Taxes;
-using DaLion.Overhaul.Modules.Tools;
-using DaLion.Overhaul.Modules.Tweex;
 using DaLion.Shared.Commands;
 using DaLion.Shared.Harmony;
 
@@ -128,7 +121,10 @@ internal abstract class OverhaulModule : SmartEnum<OverhaulModule>
         }
 
         /// <summary>Gets the config instance for the <see cref="OverhaulModule.ProfessionsModule"/>.</summary>
-        internal static ProfessionsConfig Config => ModEntry.Config.Professions;
+        internal static Professions.Config Config => ModEntry.Config.Professions;
+
+        /// <summary>Gets the ephemeral runtime state for the <see cref="OverhaulModule.ProfessionsModule"/>.</summary>
+        internal static Professions.State State => ModEntry.State.Professions;
 
         protected override void InvalidateAssets()
         {
@@ -150,7 +146,10 @@ internal abstract class OverhaulModule : SmartEnum<OverhaulModule>
         }
 
         /// <summary>Gets the config instance for the <see cref="OverhaulModule.ArsenalModule"/>.</summary>
-        internal static ArsenalConfig Config => ModEntry.Config.Arsenal;
+        internal static Arsenal.Config Config => ModEntry.Config.Arsenal;
+
+        /// <summary>Gets the ephemeral runtime state for the <see cref="OverhaulModule.ArsenalModule"/>.</summary>
+        internal static Arsenal.State State => ModEntry.State.Arsenal;
 
         protected override void InvalidateAssets()
         {
@@ -176,7 +175,10 @@ internal abstract class OverhaulModule : SmartEnum<OverhaulModule>
         }
 
         /// <summary>Gets the config instance for the <see cref="OverhaulModule.RingsModule"/>.</summary>
-        internal static RingsConfig Config => ModEntry.Config.Rings;
+        internal static Rings.Config Config => ModEntry.Config.Rings;
+
+        /// <summary>Gets the ephemeral runtime state for the <see cref="OverhaulModule.RingsModule"/>.</summary>
+        internal static Rings.State State => ModEntry.State.Rings;
 
         protected override void InvalidateAssets()
         {
@@ -195,7 +197,7 @@ internal abstract class OverhaulModule : SmartEnum<OverhaulModule>
         }
 
         /// <summary>Gets the config instance for the <see cref="OverhaulModule.PondsModule"/>.</summary>
-        internal static PondsConfig Config => ModEntry.Config.Ponds;
+        internal static Ponds.Config Config => ModEntry.Config.Ponds;
 
         protected override void InvalidateAssets()
         {
@@ -212,7 +214,10 @@ internal abstract class OverhaulModule : SmartEnum<OverhaulModule>
         }
 
         /// <summary>Gets the config instance for the <see cref="OverhaulModule.TaxesModule"/>.</summary>
-        internal static TaxesConfig Config => ModEntry.Config.Taxes;
+        internal static Taxes.Config Config => ModEntry.Config.Taxes;
+
+        /// <summary>Gets the ephemeral runtime state for the <see cref="OverhaulModule.TaxesModule"/>.</summary>
+        internal static Taxes.State State => ModEntry.State.Taxes;
 
         protected override void InvalidateAssets()
         {
@@ -229,7 +234,10 @@ internal abstract class OverhaulModule : SmartEnum<OverhaulModule>
         }
 
         /// <summary>Gets the config instance for the <see cref="OverhaulModule.ToolsModule"/>.</summary>
-        internal static ToolsConfig Config => ModEntry.Config.Tools;
+        internal static Tools.Config Config => ModEntry.Config.Tools;
+
+        /// <summary>Gets the ephemeral runtime state for the <see cref="OverhaulModule.ToolsModule"/>.</summary>
+        internal static Tools.State State => ModEntry.State.Tools;
 
         protected override void InvalidateAssets()
         {
@@ -246,7 +254,7 @@ internal abstract class OverhaulModule : SmartEnum<OverhaulModule>
         }
 
         /// <summary>Gets the config instance for the <see cref="OverhaulModule.TweexModule"/>.</summary>
-        internal static TweexConfig Config => ModEntry.Config.Tweex;
+        internal static Tweex.Config Config => ModEntry.Config.Tweex;
     }
 
     private sealed class CoreModule : OverhaulModule

@@ -38,7 +38,7 @@ public sealed class SpreadingEnchantment : BaseSlingshotEnchantment
     {
         var velocity = new Vector2(xVelocity, yVelocity);
         damageBase = (int)(damageBase * 0.6f);
-        var overcharge = Config.EnableProfessions && firer.professions.Contains(Farmer.desperado)
+        var overcharge = ModEntry.Config.EnableProfessions && firer.professions.Contains(Farmer.desperado)
             ? slingshot.GetOvercharge(firer)
             : 1f;
 

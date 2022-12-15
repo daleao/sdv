@@ -8,22 +8,22 @@ using StardewValley.Monsters;
 #endregion using directives
 
 // ReSharper disable once InconsistentNaming
-internal static class Monster_WasKnockedBack
+internal static class Monster_KnockedBack
 {
     internal static ConditionalWeakTable<Monster, Holder> Values { get; } = new();
 
-    internal static bool Get_WasKnockedBack(this Monster monster)
+    internal static bool Get_KnockedBack(this Monster monster)
     {
-        return Values.GetOrCreateValue(monster).WasKnockedBack;
+        return Values.GetOrCreateValue(monster).KnockedBack;
     }
 
-    internal static void Set_WasKnockedBack(this Monster monster, bool value)
+    internal static void Set_KnockedBack(this Monster monster, bool value)
     {
-        Values.GetOrCreateValue(monster).WasKnockedBack = value;
+        Values.GetOrCreateValue(monster).KnockedBack = value;
     }
 
     internal class Holder
     {
-        public bool WasKnockedBack { get; internal set; }
+        public bool KnockedBack { get; internal set; }
     }
 }

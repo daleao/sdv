@@ -43,7 +43,8 @@ internal sealed class MonsterParseMonsterInfoPatcher : HarmonyPatcher
     [HarmonyPostfix]
     private static void MonsterParseMonsterInfoPostfix(Monster __instance)
     {
-        __instance.Health = (int)Math.Round(__instance.Health * ArsenalModule.Config.MonsterHealthMultiplier);
+        __instance.MaxHealth = (int)Math.Round(__instance.Health * ArsenalModule.Config.MonsterHealthMultiplier);
+
         __instance.DamageToFarmer =
             (int)Math.Round(__instance.DamageToFarmer * ArsenalModule.Config.MonsterDamageMultiplier);
         __instance.resilience.Value =
@@ -53,6 +54,8 @@ internal sealed class MonsterParseMonsterInfoPatcher : HarmonyPatcher
         {
             __instance.RandomizeStats();
         }
+
+        __instance.Health = __instance.MaxHealth;
     }
 
     #endregion harmony patches

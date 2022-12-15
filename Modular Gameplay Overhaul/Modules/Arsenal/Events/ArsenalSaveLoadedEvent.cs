@@ -25,12 +25,13 @@ internal sealed class ArsenalSaveLoadedEvent : SaveLoadedEvent
     /// <inheritdoc />
     protected override void OnSaveLoadedImpl(object? sender, SaveLoadedEventArgs e)
     {
-        if (Game1.player.Read<bool>(DataFields.Cursed))
+        var player = Game1.player;
+        if (player.Read<bool>(DataFields.Cursed))
         {
             this.Manager.Enable<CurseUpdateTickedEvent>();
         }
 
-        if (Game1.player.Read<bool>(DataFields.ArsenalInitialized))
+        if (player.Read<bool>(DataFields.ArsenalInitialized))
         {
             return;
         }
@@ -82,6 +83,11 @@ internal sealed class ArsenalSaveLoadedEvent : SaveLoadedEvent
             }
         }
 
-        Game1.player.Write(DataFields.ArsenalInitialized, true.ToString());
+        player.Write(DataFields.ArsenalInitialized, true.ToString());
+
+        if (player.mailReceived.Contains("galaxySword"))
+        {
+            player.WriteIfNotExists(DataFields.GalaxyArsenalObtained, Constants.GalaxySwordIndex.ToString());
+        }
     }
 }

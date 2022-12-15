@@ -2,7 +2,6 @@
 
 #region using directives
 
-using DaLion.Overhaul.Modules.Core.VirtualProperties;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
 
@@ -23,7 +22,10 @@ internal sealed class FarmerTakeDamagePatcher : HarmonyPatcher
     [HarmonyPostfix]
     private static void FarmerTakeDamagePostfix(Farmer __instance)
     {
-        __instance.Set_SecondsOutOfCombat(0);
+        if (__instance.IsLocalPlayer)
+        {
+            State.SecondsOutOfCombat = 0;
+        }
     }
 
     #endregion harmony patches

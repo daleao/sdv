@@ -5,7 +5,6 @@
 using System.Globalization;
 using System.Linq;
 using DaLion.Overhaul.Modules.Professions.Extensions;
-using DaLion.Overhaul.Modules.Taxes.VirtualProperties;
 using DaLion.Shared.Events;
 using DaLion.Shared.Extensions.SMAPI;
 using DaLion.Shared.Extensions.Stardew;
@@ -44,7 +43,7 @@ internal sealed class TaxDayEndingEvent : DayEndingEvent
         var dayIncome = amountSold;
         switch (Game1.dayOfMonth)
         {
-            case 28 when Config.EnableProfessions && player.professions.Contains(Farmer.mariner):
+            case 28 when ModEntry.Config.EnableProfessions && player.professions.Contains(Farmer.mariner):
             {
                 var deductible = player.GetConservationistPriceMultiplier() - 1;
                 if (deductible <= 0f)
@@ -73,7 +72,7 @@ internal sealed class TaxDayEndingEvent : DayEndingEvent
                 }
 
                 var amountDue = RevenueService.CalculateTaxes(player);
-                player.Set_LatestDue(amountDue);
+                TaxesModule.State.LatestAmountDue = amountDue;
                 if (amountDue <= 0)
                 {
                     break;
@@ -131,7 +130,7 @@ internal sealed class TaxDayEndingEvent : DayEndingEvent
             }
 
             var toDebit = amountSold - dayIncome;
-            player.Set_LatestCharge(toDebit);
+            TaxesModule.State.LatestAmountCharged = toDebit;
             player.Write(DataFields.DebtOutstanding, debtOutstanding.ToString());
             this.Manager.Enable<TaxDayStartedEvent>();
         }

@@ -15,10 +15,10 @@ internal static class MonsterExtensions
     internal static void RandomizeStats(this Monster monster)
     {
         var r = new Random(Guid.NewGuid().GetHashCode());
-        var mean = 1d + (Game1.player.DailyLuck * 3d);
+        var mean = 1d - (Game1.player.DailyLuck * 3d);
 
-        var g = Math.Max(r.NextGaussian(mean, 0.5), 0.5);
-        monster.Health = (int)Math.Round(monster.Health * g);
+        var g = Math.Max(r.NextGaussian(mean, 0.5), 0.25);
+        monster.MaxHealth = (int)Math.Round(monster.MaxHealth * g);
 
         g = Math.Max(r.NextGaussian(mean, 0.5), 0.5);
         monster.DamageToFarmer = (int)Math.Round(monster.DamageToFarmer * g);

@@ -219,7 +219,8 @@ internal sealed class GameLocationCheckActionPatcher : HarmonyPatcher
                 .Insert(
                     new[]
                     {
-                        new CodeInstruction(OpCodes.Ldc_R8, 0.4), new CodeInstruction(OpCodes.Br_S, resumeExecution),
+                        new CodeInstruction(OpCodes.Ldc_R8, 0.4),
+                        new CodeInstruction(OpCodes.Br_S, resumeExecution),
                     })
                 .Move()
                 .AddLabels(resumeExecution);

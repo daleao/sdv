@@ -104,13 +104,13 @@ internal sealed class ToolForgePatcher : HarmonyPatcher
                 .Insert(
                     new[]
                     {
-                        new CodeInstruction(OpCodes.Call, typeof(ModEntry).RequirePropertyGetter(nameof(Config))),
+                        new CodeInstruction(OpCodes.Call, typeof(ModEntry).RequirePropertyGetter(nameof(ModEntry.Config))),
                         new CodeInstruction(
                             OpCodes.Callvirt,
                             typeof(ModConfig).RequirePropertyGetter(nameof(ModConfig.Arsenal))),
                         new CodeInstruction(
                             OpCodes.Callvirt,
-                            typeof(ArsenalConfig).RequirePropertyGetter(nameof(ArsenalConfig.InfinityPlusOne))),
+                            typeof(Config).RequirePropertyGetter(nameof(Config.InfinityPlusOne))),
                         new CodeInstruction(OpCodes.Brfalse_S, checkForGalaxy),
                         new CodeInstruction(OpCodes.Isinst, typeof(InfinityEnchantment)),
                         new CodeInstruction(OpCodes.Br_S, resumeExecution),
@@ -120,7 +120,8 @@ internal sealed class ToolForgePatcher : HarmonyPatcher
                 .Match(
                     new[]
                     {
-                        new CodeInstruction(OpCodes.Ldarg_0), new CodeInstruction(
+                        new CodeInstruction(OpCodes.Ldarg_0),
+                        new CodeInstruction(
                             OpCodes.Call,
                             typeof(Tool)
                                 .RequireMethod(nameof(Tool.GetEnchantmentOfType))

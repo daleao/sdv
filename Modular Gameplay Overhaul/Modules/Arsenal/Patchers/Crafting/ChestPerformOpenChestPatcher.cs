@@ -2,6 +2,7 @@
 
 #region using directives
 
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using DaLion.Overhaul.Modules.Arsenal.Extensions;
 using DaLion.Shared.Extensions;
@@ -29,7 +30,7 @@ internal sealed class ChestPerformOpenChestPatcher : HarmonyPatcher
 
     /// <summary>Inject blueprint chest rewards.</summary>
     [HarmonyPostfix]
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("StyleCop.CSharp.NamingRules", "SA1300:Element should begin with upper-case letter", Justification = "Preference for internal functions.")]
+    [SuppressMessage("StyleCop.CSharp.NamingRules", "SA1300:Element should begin with upper-case letter", Justification = "Preference for internal functions.")]
     private static void ChestPerformOpenChestPostfix(Chest __instance)
     {
         if (!ArsenalModule.Config.DwarvishCrafting || !Globals.DwarvishBlueprintIndex.HasValue ||

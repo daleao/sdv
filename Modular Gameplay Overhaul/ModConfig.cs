@@ -4,14 +4,6 @@
 
 using System.Collections.Generic;
 using System.Linq;
-using DaLion.Overhaul.Modules.Arsenal;
-using DaLion.Overhaul.Modules.Ponds;
-using DaLion.Overhaul.Modules.Professions;
-using DaLion.Overhaul.Modules.Rings;
-using DaLion.Overhaul.Modules.Taxes;
-using DaLion.Overhaul.Modules.Tools;
-using DaLion.Overhaul.Modules.Tweex;
-using DaLion.Shared.Configs;
 using Newtonsoft.Json;
 using StardewModdingAPI.Utilities;
 
@@ -86,31 +78,31 @@ public sealed class ModConfig
 
     /// <summary>Gets the Arsenal module config settings.</summary>
     [JsonProperty]
-    public ArsenalConfig Arsenal { get; internal set; } = new();
+    public Modules.Arsenal.Config Arsenal { get; internal set; } = new();
 
     /// <summary>Gets the Ponds module config settings.</summary>
     [JsonProperty]
-    public PondsConfig Ponds { get; internal set; } = new();
+    public Modules.Ponds.Config Ponds { get; internal set; } = new();
 
     /// <summary>Gets the Professions module config settings.</summary>
     [JsonProperty]
-    public ProfessionsConfig Professions { get; internal set; } = new();
+    public Modules.Professions.Config Professions { get; internal set; } = new();
 
     /// <summary>Gets the Rings module config settings.</summary>
     [JsonProperty]
-    public RingsConfig Rings { get; internal set; } = new();
+    public Modules.Rings.Config Rings { get; internal set; } = new();
 
     /// <summary>Gets the Taxes module config settings.</summary>
     [JsonProperty]
-    public TaxesConfig Taxes { get; internal set; } = new();
+    public Modules.Taxes.Config Taxes { get; internal set; } = new();
 
     /// <summary>Gets the Tools module config settings.</summary>
     [JsonProperty]
-    public ToolsConfig Tools { get; internal set; } = new();
+    public Modules.Tools.Config Tools { get; internal set; } = new();
 
     /// <summary>Gets the Tweex module config settings.</summary>
     [JsonProperty]
-    public TweexConfig Tweex { get; internal set; } = new();
+    public Modules.Tweex.Config Tweex { get; internal set; } = new();
 
     #endregion config sub-modules
 
@@ -128,7 +120,7 @@ public sealed class ModConfig
         }
     }
 
-    private IEnumerable<Config> List()
+    private IEnumerable<Shared.Configs.Config> List()
     {
         yield return this.Arsenal;
         yield return this.Professions;

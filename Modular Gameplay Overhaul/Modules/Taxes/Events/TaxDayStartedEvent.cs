@@ -2,7 +2,6 @@
 
 #region using directives
 
-using DaLion.Overhaul.Modules.Taxes.VirtualProperties;
 using DaLion.Shared.Events;
 using StardewModdingAPI.Events;
 
@@ -21,7 +20,7 @@ internal sealed class TaxDayStartedEvent : DayStartedEvent
     /// <inheritdoc />
     protected override void OnDayStartedImpl(object? sender, DayStartedEventArgs e)
     {
-        var toDebit = Game1.player.Get_LatestCharge();
+        var toDebit = TaxesModule.State.LatestAmountCharged;
         if (toDebit <= 0)
         {
             return;
@@ -34,7 +33,7 @@ internal sealed class TaxDayStartedEvent : DayStartedEvent
                     "debt.debit",
                     new { amount = toDebit.ToString() }),
                 HUDMessage.newQuest_type) { timeLeft = HUDMessage.defaultTime * 2 });
-        Game1.player.Set_LatestCharge(0);
+        TaxesModule.State.LatestAmountCharged = 0;
         this.Disable();
     }
 }

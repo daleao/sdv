@@ -64,16 +64,19 @@ internal sealed class GameLocationDamageMonsterPatcher : HarmonyPatcher
                     new[]
                     {
                         new CodeInstruction(OpCodes.Ldarg_S, (byte)10), // arg 10 = Farmer who
-                        new CodeInstruction(OpCodes.Brfalse_S, skip), new CodeInstruction(OpCodes.Ldarg_S, (byte)10),
+                        new CodeInstruction(OpCodes.Brfalse_S, skip),
+                        new CodeInstruction(OpCodes.Ldarg_S, (byte)10),
                         new CodeInstruction(
                             OpCodes.Callvirt,
                             typeof(Farmer).RequirePropertyGetter(nameof(Farmer.CurrentTool))),
                         new CodeInstruction(OpCodes.Isinst, typeof(MeleeWeapon)),
-                        new CodeInstruction(OpCodes.Brfalse_S, skip), new CodeInstruction(OpCodes.Ldarg_S, (byte)10),
+                        new CodeInstruction(OpCodes.Brfalse_S, skip),
+                        new CodeInstruction(OpCodes.Ldarg_S, (byte)10),
                         new CodeInstruction(
                             OpCodes.Callvirt,
                             typeof(Farmer).RequirePropertyGetter(nameof(Farmer.CurrentTool))),
-                        new CodeInstruction(OpCodes.Isinst, typeof(MeleeWeapon)), new CodeInstruction(OpCodes.Ldloc_2),
+                        new CodeInstruction(OpCodes.Isinst, typeof(MeleeWeapon)),
+                        new CodeInstruction(OpCodes.Ldloc_2),
                         new CodeInstruction(
                             OpCodes.Call,
                             typeof(GameLocationDamageMonsterPatcher).RequireMethod(nameof(IsClubSmashHittingDuggy))),
@@ -107,11 +110,13 @@ internal sealed class GameLocationDamageMonsterPatcher : HarmonyPatcher
                             OpCodes.Callvirt,
                             typeof(Farmer).RequirePropertyGetter(nameof(Farmer.CurrentTool))),
                         new CodeInstruction(OpCodes.Isinst, typeof(MeleeWeapon)),
-                        new CodeInstruction(OpCodes.Brfalse_S, notCrit), new CodeInstruction(OpCodes.Ldarg_S, (byte)10),
+                        new CodeInstruction(OpCodes.Brfalse_S, notCrit),
+                        new CodeInstruction(OpCodes.Ldarg_S, (byte)10),
                         new CodeInstruction(
                             OpCodes.Callvirt,
                             typeof(Farmer).RequirePropertyGetter(nameof(Farmer.CurrentTool))),
-                        new CodeInstruction(OpCodes.Isinst, typeof(MeleeWeapon)), new CodeInstruction(OpCodes.Ldloc_2),
+                        new CodeInstruction(OpCodes.Isinst, typeof(MeleeWeapon)),
+                        new CodeInstruction(OpCodes.Ldloc_2),
                         new CodeInstruction(
                             OpCodes.Call,
                             typeof(GameLocationDamageMonsterPatcher).RequireMethod(nameof(IsClubSmashHittingDuggy))),
@@ -133,14 +138,16 @@ internal sealed class GameLocationDamageMonsterPatcher : HarmonyPatcher
                     new[]
                     {
                         new CodeInstruction(OpCodes.Ldloc_S, helper.Locals[8]),
-                        new CodeInstruction(OpCodes.Ldc_I4_0), new CodeInstruction(OpCodes.Ble),
+                        new CodeInstruction(OpCodes.Ldc_I4_0),
+                        new CodeInstruction(OpCodes.Ble),
                     },
                     ILHelper.SearchOption.First)
                 .StripLabels(out var labels)
                 .Insert(
                     new[]
                     {
-                        new CodeInstruction(OpCodes.Ldloc_2), new CodeInstruction(OpCodes.Ldarg_S, (byte)10),
+                        new CodeInstruction(OpCodes.Ldloc_2),
+                        new CodeInstruction(OpCodes.Ldarg_S, (byte)10),
                         new CodeInstruction(
                             OpCodes.Call,
                             typeof(GameLocationDamageMonsterPatcher).RequireMethod(nameof(DoSlingshotSpecial))),
@@ -162,7 +169,8 @@ internal sealed class GameLocationDamageMonsterPatcher : HarmonyPatcher
                     new[]
                     {
                         new CodeInstruction(OpCodes.Ldloc_S, helper.Locals[6]),
-                        new CodeInstruction(OpCodes.Ldarg_S, (byte)5), new CodeInstruction(OpCodes.Call),
+                        new CodeInstruction(OpCodes.Ldarg_S, (byte)5),
+                        new CodeInstruction(OpCodes.Call),
                         new CodeInstruction(OpCodes.Stloc_S, helper.Locals[6]),
                     },
                     ILHelper.SearchOption.First)
@@ -170,11 +178,12 @@ internal sealed class GameLocationDamageMonsterPatcher : HarmonyPatcher
                 .Insert(
                     new[]
                     {
-                        new CodeInstruction(OpCodes.Ldloc_2), new CodeInstruction(OpCodes.Ldc_I4_1),
+                        new CodeInstruction(OpCodes.Ldloc_2),
+                        new CodeInstruction(OpCodes.Ldc_I4_1),
                         new CodeInstruction(
                             OpCodes.Call,
-                            typeof(Monster_WasKnockedBack).RequireMethod(nameof(Monster_WasKnockedBack
-                                .Set_WasKnockedBack))),
+                            typeof(Monster_KnockedBack).RequireMethod(nameof(Monster_KnockedBack
+                                .Set_KnockedBack))),
                     });
         }
         catch (Exception ex)
@@ -193,7 +202,8 @@ internal sealed class GameLocationDamageMonsterPatcher : HarmonyPatcher
                 .Insert(
                     new[]
                     {
-                        new CodeInstruction(OpCodes.Ldloc_2), new CodeInstruction(OpCodes.Ldc_I4_1),
+                        new CodeInstruction(OpCodes.Ldloc_2),
+                        new CodeInstruction(OpCodes.Ldc_I4_1),
                         new CodeInstruction(
                             OpCodes.Call,
                             typeof(Monster_GotCrit).RequireMethod(nameof(Monster_GotCrit.Set_GotCrit))),

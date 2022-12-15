@@ -67,6 +67,11 @@ internal sealed class MeleeWeaponDoDamagePatcher : HarmonyPatcher
 
     private static List<Vector2> ListInnerTiles(Rectangle rectange, MeleeWeapon weapon)
     {
+        if (!weapon.isScythe())
+        {
+            return Utility.getListOfTileLocationsForBordersOfNonTileRectangle(rectange);
+        }
+
         uint radius = weapon.InitialParentTileIndex switch
         {
             Constants.ScytheIndex => ToolsModule.Config.Scythe.RegularRadius,

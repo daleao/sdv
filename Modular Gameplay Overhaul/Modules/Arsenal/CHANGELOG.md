@@ -1,5 +1,25 @@
 ﻿# Arsenal Change Log
 
+## 0.9.4
+
+### Added
+
+* If SVE is installed and Infinity +1 feature is enabled, Tempered Galaxy weapons will now be automatically removed from Alesia and Isaac's shops, so users no longer have to manually remove them from SVE's shop.json file. 
+
+### Changed
+
+* Slingshot special move cooldown is now a property of Farmer and not Slingshot, as it should be.
+* Default values for difficulty sliders are now set to 1.
+* The base damage of some starter weapons has been slightly increased.
+* 
+### Fixed
+
+* Fixed Slick Moves applying to Scythe.
+* Fixed Brute prestige perk not applying with Arsenal module enabled.
+* Fixed Galaxy Slingshot being instantiated as Melee Weapon.
+* Fixed special item hold up message for first Galaxy weapon not being displayed.
+* Fixed Mine chests changes not being applied as intended with the Weapon Rebalance setting.
+
 ## 0.9.3
 
 ### Fixed

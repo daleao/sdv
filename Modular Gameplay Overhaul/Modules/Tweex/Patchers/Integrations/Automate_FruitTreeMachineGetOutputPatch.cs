@@ -3,6 +3,7 @@
 #region using directives
 
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using System.Reflection.Emit;
 using DaLion.Overhaul.Modules.Tweex.Extensions;
@@ -15,7 +16,7 @@ using HarmonyLib;
 
 [UsedImplicitly]
 [RequiresMod("Pathoschild.Automate")]
-[System.Diagnostics.CodeAnalysis.SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1649:File name should match first type name", Justification = "Integration patch.")]
+[SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1649:File name should match first type name", Justification = "Integration patch.")]
 internal sealed class FruitTreeMachineGetOutputPatcher : HarmonyPatcher
 {
     /// <summary>Initializes a new instance of the <see cref="FruitTreeMachineGetOutputPatcher"/> class.</summary>
@@ -47,7 +48,11 @@ internal sealed class FruitTreeMachineGetOutputPatcher : HarmonyPatcher
         {
             helper
                 .Match(
-                    new[] { new CodeInstruction(OpCodes.Ldc_I4_0), new CodeInstruction(OpCodes.Stloc_1), })
+                    new[]
+                    {
+                        new CodeInstruction(OpCodes.Ldc_I4_0),
+                        new CodeInstruction(OpCodes.Stloc_1),
+                    })
                 .StripLabels(out var labels)
                 .ReplaceWith(new CodeInstruction(
                     OpCodes.Call,

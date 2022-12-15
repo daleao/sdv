@@ -3,6 +3,7 @@
 #region using directives
 
 using System.Collections.Generic;
+using System.Reflection;
 using DaLion.Shared.Extensions.Collections;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
@@ -32,33 +33,41 @@ internal sealed class MineShaftGetSpecialItemForThisMineLevelPatcher : HarmonyPa
             return true; // run original logic
         }
 
-        var r = new Random(Guid.NewGuid().GetHashCode());
-        if (Game1.mine is null)
+        try
         {
-            __result = new SObject(SObject.coal, 1);
-            return false; // don't run original logic
-        }
-
-        if (Game1.mine.GetAdditionalDifficulty() > 0)
-        {
-            __result = ChooseHardMode(r);
-            return false; // don't run original logic
-        }
-
-        switch (r.Next(3))
-        {
-            case 0:
-                __result = ChooseBoots(level, r);
-                return false; // don't run original logic
-            case 1:
-                __result = ChooseRing(level, r);
-                return false; // don't run original logic
-            case 2:
-                __result = ChooseWeapon(level, r);
-                return false; // don't run original logic
-            default:
+            var r = new Random(Guid.NewGuid().GetHashCode());
+            if (Game1.mine is null)
+            {
                 __result = new SObject(SObject.coal, 1);
                 return false; // don't run original logic
+            }
+
+            if (Game1.mine.GetAdditionalDifficulty() > 0)
+            {
+                __result = ChooseHardMode(r);
+                return false; // don't run original logic
+            }
+
+            switch (r.Next(3))
+            {
+                case 0:
+                    __result = ChooseBoots(level);
+                    return false; // don't run original logic
+                case 1:
+                    __result = ChooseRing(level);
+                    return false; // don't run original logic
+                case 2:
+                    __result = ChooseWeapon(level, r);
+                    return false; // don't run original logic
+                default:
+                    __result = new SObject(SObject.coal, 1);
+                    return false; // don't run original logic
+            }
+        }
+        catch (Exception ex)
+        {
+            Log.E($"Failed in {MethodBase.GetCurrentMethod()?.Name}:\n{ex}");
+            return true; // default to original logic
         }
     }
 
@@ -66,7 +75,7 @@ internal sealed class MineShaftGetSpecialItemForThisMineLevelPatcher : HarmonyPa
 
     #region injected subroutines
 
-    private static Item ChooseBoots(int level, Random r)
+    private static Item ChooseBoots(int level)
     {
         var possibles = new List<Item>();
         switch (level)
@@ -88,7 +97,7 @@ internal sealed class MineShaftGetSpecialItemForThisMineLevelPatcher : HarmonyPa
         return possibles.Choose();
     }
 
-    private static Item ChooseRing(int level, Random r)
+    private static Item ChooseRing(int level)
     {
         var possibles = new List<Item>();
         switch (level)

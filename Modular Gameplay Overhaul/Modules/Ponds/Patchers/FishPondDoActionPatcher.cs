@@ -81,7 +81,8 @@ internal sealed class FishPondDoActionPatcher : HarmonyPatcher
                             OpCodes.Call,
                             typeof(FishPondExtensions).RequireMethod(nameof(FishPondExtensions.RewardExp))),
                         new CodeInstruction(OpCodes.Ldarg_0),
-                        new CodeInstruction(OpCodes.Ldarg_2), new CodeInstruction(
+                        new CodeInstruction(OpCodes.Ldarg_2),
+                        new CodeInstruction(
                             OpCodes.Call,
                             typeof(FishPondExtensions).RequireMethod(nameof(FishPondExtensions.OpenChumBucketMenu))),
                     });
@@ -152,10 +153,13 @@ internal sealed class FishPondDoActionPatcher : HarmonyPatcher
                 .Insert(
                     new[]
                     {
-                        new CodeInstruction(OpCodes.Ldarg_0), new CodeInstruction(OpCodes.Ldarg_2), new CodeInstruction(
+                        new CodeInstruction(OpCodes.Ldarg_0),
+                        new CodeInstruction(OpCodes.Ldarg_2),
+                        new CodeInstruction(
                             OpCodes.Call,
                             typeof(FishPondDoActionPatcher).RequireMethod(nameof(TryThrowMetalIntoPond))),
-                        new CodeInstruction(OpCodes.Brfalse_S, resumeExecution), new CodeInstruction(OpCodes.Ldc_I4_1),
+                        new CodeInstruction(OpCodes.Brfalse_S, resumeExecution),
+                        new CodeInstruction(OpCodes.Ldc_I4_1),
                         new CodeInstruction(OpCodes.Ret),
                     },
                     labels);

@@ -84,7 +84,8 @@ internal sealed class ObjectCheckForActionPatcher : HarmonyPatcher
                 .Insert(
                     new[]
                     {
-                        new CodeInstruction(OpCodes.Ldarg_0), new CodeInstruction(
+                        new CodeInstruction(OpCodes.Ldarg_0),
+                        new CodeInstruction(
                             OpCodes.Call,
                             typeof(Extensions.SObjectExtensions).RequireMethod(nameof(Extensions.SObjectExtensions
                                 .GetQualityFromAge))),

@@ -24,5 +24,6 @@ internal sealed class BetterRingsIntegration : BaseIntegration
     {
         this.AssertLoaded();
         IsLoaded = true;
+        ModHelper.GameContent.InvalidateCache("Maps/springobjects");
     }
 }

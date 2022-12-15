@@ -1,5 +1,11 @@
 # Professions Module Change Log
 
+## 0.9.4
+
+### Fixed
+
+* Fixed the order of displayed Prestige ribbons in Skills page.
+
 ## 0.9.2
 
 ### Fixed

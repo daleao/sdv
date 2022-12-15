@@ -49,7 +49,8 @@ internal sealed class GameLocationGetFishPatcher : HarmonyPatcher
                     new[]
                     {
                         // set hasRerolled to false
-                        new CodeInstruction(OpCodes.Ldc_I4_0), new CodeInstruction(OpCodes.Stloc_S, hasRerolled),
+                        new CodeInstruction(OpCodes.Ldc_I4_0),
+                        new CodeInstruction(OpCodes.Stloc_S, hasRerolled),
                     })
                 .Match(
                     new[]
@@ -70,10 +71,12 @@ internal sealed class GameLocationGetFishPatcher : HarmonyPatcher
                     {
                         new CodeInstruction(OpCodes.Ldarg_S, (byte)4), // arg 4 = Farmer who
                         new CodeInstruction(OpCodes.Ldloc_1), // local 1 = whichFish
-                        new CodeInstruction(OpCodes.Ldloc_S, hasRerolled), new CodeInstruction(
+                        new CodeInstruction(OpCodes.Ldloc_S, hasRerolled),
+                        new CodeInstruction(
                             OpCodes.Call,
                             typeof(GameLocationGetFishPatcher).RequireMethod(nameof(ShouldRerollFish))),
-                        new CodeInstruction(OpCodes.Brfalse_S, shouldntReroll), new CodeInstruction(OpCodes.Ldc_I4_1),
+                        new CodeInstruction(OpCodes.Brfalse_S, shouldntReroll),
+                        new CodeInstruction(OpCodes.Ldc_I4_1),
                         new CodeInstruction(OpCodes.Stloc_S, hasRerolled), // set hasRerolled to true
                         new CodeInstruction(OpCodes.Br, startOfFishRoll),
                     })

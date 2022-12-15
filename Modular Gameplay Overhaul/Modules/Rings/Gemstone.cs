@@ -355,13 +355,13 @@ public abstract class Gemstone : SmartEnum<Gemstone>, IEquatable<Gemstone>, ICom
         /// <inheritdoc />
         internal override void Resonate(Farmer who, float amplitude)
         {
-            who.Increment_CooldownReduction(amplitude);
+            who.IncrementCooldownReduction(amplitude);
         }
 
         /// <inheritdoc />
         internal override void Dissonate(Farmer who, float amplitude)
         {
-            who.Increment_CooldownReduction(-amplitude);
+            who.IncrementCooldownReduction(-amplitude);
         }
 
         /// <inheritdoc />
@@ -483,9 +483,9 @@ public abstract class Gemstone : SmartEnum<Gemstone>, IEquatable<Gemstone>, ICom
         {
             if (RingsModule.Config.RebalancedRings)
             {
-                if (Config.EnableArsenal && ArsenalModule.Config.OverhauledDefense)
+                if (ModEntry.Config.EnableArsenal && ArsenalModule.Config.OverhauledDefense)
                 {
-                    who.Increment_ResonantResilience(amplitude);
+                    who.IncrementResonantResilience(amplitude);
                 }
                 else
                 {
@@ -503,9 +503,9 @@ public abstract class Gemstone : SmartEnum<Gemstone>, IEquatable<Gemstone>, ICom
         {
             if (RingsModule.Config.RebalancedRings)
             {
-                if (Config.EnableArsenal && ArsenalModule.Config.OverhauledDefense)
+                if (ModEntry.Config.EnableArsenal && ArsenalModule.Config.OverhauledDefense)
                 {
-                    who.Increment_ResonantResilience(-amplitude);
+                    who.IncrementResonantResilience(-amplitude);
                 }
                 else
                 {
@@ -523,7 +523,7 @@ public abstract class Gemstone : SmartEnum<Gemstone>, IEquatable<Gemstone>, ICom
         {
             if (RingsModule.Config.RebalancedRings)
             {
-                if (Config.EnableArsenal && ArsenalModule.Config.OverhauledDefense)
+                if (ModEntry.Config.EnableArsenal && ArsenalModule.Config.OverhauledDefense)
                 {
                     buffer.DefenseModifier += 0.1f * magnitude;
                 }

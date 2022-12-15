@@ -2,6 +2,7 @@
 
 #region using directives
 
+using System.Diagnostics.CodeAnalysis;
 using DaLion.Shared.Extensions.SMAPI;
 using DaLion.Shared.Integrations;
 
@@ -18,7 +19,7 @@ internal sealed class VanillaTweaksIntegration : BaseIntegration
     }
 
     /// <summary>Gets the value of the <c>RingsCategoryEnabled</c> config setting.</summary>
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1623:Property summary documentation should match accessors", Justification = "Doesn't make sense in this context.")]
+    [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1623:Property summary documentation should match accessors", Justification = "Doesn't make sense in this context.")]
     internal static bool RingsCategoryEnabled { get; private set; }
 
     /// <inheritdoc />
@@ -28,5 +29,6 @@ internal sealed class VanillaTweaksIntegration : BaseIntegration
         RingsCategoryEnabled = ModHelper
             .ReadContentPackConfig("Taiyo.VanillaTweaks")?
             .Value<bool>("RingsCategoryEnabled") == true;
+        ModHelper.GameContent.InvalidateCache("Maps/springobjects");
     }
 }

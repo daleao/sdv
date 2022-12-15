@@ -33,7 +33,7 @@ internal sealed class SkillsPageCtorPatcher : HarmonyPatcher
         }
 
         __instance.width += 48;
-        if (ProfessionsModule.Config.PrestigeProgressionStyle == ProfessionsConfig.ProgressionStyle.StackedStars)
+        if (ProfessionsModule.Config.PrestigeProgressionStyle == Config.ProgressionStyle.StackedStars)
         {
             __instance.width += 24;
         }

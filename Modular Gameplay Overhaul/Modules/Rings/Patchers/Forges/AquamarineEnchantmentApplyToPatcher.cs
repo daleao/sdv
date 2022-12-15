@@ -29,7 +29,7 @@ internal sealed class AquamarineEnchantmentApplyToPatcher : HarmonyPatcher
     private static void AquamarineEnchantmentApplyToPostfix(Item item)
     {
         var player = Game1.player;
-        if (!Config.EnableArsenal || item is not (Tool tool and (MeleeWeapon or Slingshot)) || tool != player.CurrentTool)
+        if (!ModEntry.Config.EnableArsenal || item is not (Tool tool and (MeleeWeapon or Slingshot)) || tool != player.CurrentTool)
         {
             return;
         }

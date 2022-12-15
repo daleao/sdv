@@ -31,7 +31,7 @@ internal sealed class CombinedRingOnUnequipPatcher : HarmonyPatcher
         }
 
         chord.Unapply(who.currentLocation, who);
-        if (Config.EnableArsenal && who.CurrentTool is { } tool && chord.Root is not null &&
+        if (ModEntry.Config.EnableArsenal && who.CurrentTool is { } tool && chord.Root is not null &&
             tool.Get_ResonatingChord(chord.Root.EnchantmentType) == chord)
         {
             tool.UnsetResonatingChord(chord.Root.EnchantmentType);

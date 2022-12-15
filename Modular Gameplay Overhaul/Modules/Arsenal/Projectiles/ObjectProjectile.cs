@@ -182,7 +182,7 @@ internal sealed class ObjectProjectile : BasicProjectile
             true,
             this.Firer);
 
-        if (!Config.EnableProfessions)
+        if (!ModEntry.Config.EnableProfessions)
         {
             return;
         }
@@ -228,7 +228,7 @@ internal sealed class ObjectProjectile : BasicProjectile
     public override void behaviorOnCollisionWithOther(GameLocation location)
     {
         base.behaviorOnCollisionWithOther(location);
-        if (!Config.EnableProfessions)
+        if (!ModEntry.Config.EnableProfessions)
         {
             return;
         }

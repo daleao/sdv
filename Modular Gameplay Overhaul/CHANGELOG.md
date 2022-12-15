@@ -2,7 +2,7 @@
 
 ## Revision Highlights
 
-* Hotfix for broken Luck Skill integration.
+* Tons of bugfixes.
 
 ## Minor Release Highlights
 

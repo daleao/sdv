@@ -4,9 +4,9 @@
 
 using System.Diagnostics;
 using DaLion.Shared.Attributes;
-using DaLion.Shared.Extensions.Reflection;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
+using Shared.Extensions.Reflection;
 
 #endregion using directives
 
@@ -23,19 +23,19 @@ internal sealed class DebugPatcher : HarmonyPatcher
 
     /// <summary>Placeholder patch for debugging.</summary>
     [HarmonyPrefix]
-    internal static bool DebugPrefix()
+    private static bool DebugPrefix(Tool __instance)
     {
         var caller = new StackTrace().GetFrame(1)?.GetMethod()?.GetFullName();
-        //Log.D($"{caller} prefix called!");
+        Log.D($"{caller} prefix called!");
         return true;
     }
 
     /// <summary>Placeholder patch for debugging.</summary>
     [HarmonyPostfix]
-    internal static void DebugPostfix()
+    private static void DebugPostfix(object __instance)
     {
         var caller = new StackTrace().GetFrame(1)?.GetMethod()?.GetFullName();
-        //Log.D($"{caller} postfix called!");
+        Log.D($"{caller} postfix called!");
     }
 
     #endregion harmony patches

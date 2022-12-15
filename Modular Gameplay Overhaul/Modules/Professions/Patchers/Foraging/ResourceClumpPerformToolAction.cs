@@ -5,7 +5,6 @@
 using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
-using DaLion.Overhaul.Modules.Core.Extensions;
 using DaLion.Overhaul.Modules.Professions.Extensions;
 using DaLion.Shared.Extensions.Reflection;
 using DaLion.Shared.Harmony;
@@ -65,7 +64,8 @@ internal sealed class ResourceClumpPerformToolAction : HarmonyPatcher
                 .Move()
                 .AddLabels(resumeExecution1)
                 .Match(
-                    new[] { new CodeInstruction(OpCodes.Ldc_I4_1), new CodeInstruction(OpCodes.Add), })
+                    new[] { new CodeInstruction(OpCodes.Ldc_I4_1),
+                        new CodeInstruction(OpCodes.Add), })
                 .Move()
                 .AddLabels(resumeExecution2)
                 .Insert(
@@ -82,7 +82,8 @@ internal sealed class ResourceClumpPerformToolAction : HarmonyPatcher
                 .Insert(
                     new[]
                     {
-                        new CodeInstruction(OpCodes.Bgt_S, resumeExecution2), new CodeInstruction(OpCodes.Ldc_I4_1),
+                        new CodeInstruction(OpCodes.Bgt_S, resumeExecution2),
+                        new CodeInstruction(OpCodes.Ldc_I4_1),
                         new CodeInstruction(OpCodes.Add),
                     });
         }

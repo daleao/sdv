@@ -22,7 +22,7 @@ internal static class Monster_Carved
         Values.GetOrCreateValue(monster).Carved = value;
     }
 
-    internal static void Increment_Carved(this Monster monster, int amount = 1)
+    internal static void IncrementCarved(this Monster monster, int amount = 1)
     {
         Values.GetOrCreateValue(monster).Carved += amount;
     }

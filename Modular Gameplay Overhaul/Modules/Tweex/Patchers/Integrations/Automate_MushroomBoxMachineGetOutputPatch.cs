@@ -2,6 +2,7 @@
 
 #region using directives
 
+using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using DaLion.Overhaul.Modules.Professions.Extensions;
 using DaLion.Overhaul.Modules.Tweex.Extensions;
@@ -15,7 +16,7 @@ using HarmonyLib;
 
 [UsedImplicitly]
 [RequiresMod("Pathoschild.Automate")]
-[System.Diagnostics.CodeAnalysis.SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1649:File name should match first type name", Justification = "Integration patch.")]
+[SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1649:File name should match first type name", Justification = "Integration patch.")]
 internal sealed class MushroomBoxMachineGetOutputPatcher : HarmonyPatcher
 {
     /// <summary>Initializes a new instance of the <see cref="MushroomBoxMachineGetOutputPatcher"/> class.</summary>
@@ -42,14 +43,14 @@ internal sealed class MushroomBoxMachineGetOutputPatcher : HarmonyPatcher
                 return;
             }
 
-            var owner = Config.EnableProfessions && !ProfessionsModule.Config.LaxOwnershipRequirements
+            var owner = ModEntry.Config.EnableProfessions && !ProfessionsModule.Config.LaxOwnershipRequirements
                 ? machine.GetOwner()
                 : Game1.player;
             if (!owner.professions.Contains(Farmer.botanist))
             {
                 held.Quality = held.GetQualityFromAge();
             }
-            else if (Config.EnableProfessions)
+            else if (ModEntry.Config.EnableProfessions)
             {
                 held.Quality = Math.Max(owner.GetEcologistForageQuality(), held.Quality);
             }

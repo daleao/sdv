@@ -73,7 +73,7 @@ internal sealed class StabbySwordSpecialUpdateTickingEvent : UpdateTickingEvent
             user.forceCanMove();
 #if RELEASE
             MeleeWeapon.attackSwordCooldown = MeleeWeapon.attackSwordCooldownTime;
-            if (!Config.EnableProfessions && user.professions.Contains(Farmer.acrobat))
+            if (!ModEntry.Config.EnableProfessions && user.professions.Contains(Farmer.acrobat))
             {
                 MeleeWeapon.attackSwordCooldown /= 2;
             }

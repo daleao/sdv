@@ -275,7 +275,7 @@ internal sealed class RingDrawTooltipPatcher : HarmonyPatcher
                 false,
                 1f);
 
-            var text = Config.EnableArsenal && ArsenalModule.Config.OverhauledDefense
+            var text = ModEntry.Config.EnableArsenal && ArsenalModule.Config.OverhauledDefense
                 ? I18n.Get("ui.itemhover.resist", new { amount })
                 : Game1.content.LoadString("ItemHover_DefenseBonus", buffer.DefenseModifier);
             var width = font.MeasureString(text).X;

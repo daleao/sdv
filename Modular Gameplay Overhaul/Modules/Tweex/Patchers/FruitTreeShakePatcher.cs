@@ -43,7 +43,8 @@ internal sealed class FruitTreeShakePatcher : HarmonyPatcher
         {
             helper
                 .Match(
-                    new[] { new CodeInstruction(OpCodes.Ldc_I4_0), new CodeInstruction(OpCodes.Stloc_0), })
+                    new[] { new CodeInstruction(OpCodes.Ldc_I4_0),
+                        new CodeInstruction(OpCodes.Stloc_0), })
                 .StripLabels(out var labels)
                 .ReplaceWith(new CodeInstruction(
                     OpCodes.Call,

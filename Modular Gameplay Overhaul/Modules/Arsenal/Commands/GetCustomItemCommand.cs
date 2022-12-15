@@ -93,10 +93,20 @@ internal sealed class GetCustomItemCommand : ConsoleCommand
                     Constants.DragontoothShivIndex,
                 };
 
-                if (args.Length > 1 && args[1] == "all")
+                if (args.Length > 1)
                 {
-                    player.Write(DataFields.BlueprintsFound, string.Join(',', allBlueprints));
-                    Log.I($"Added all Dwarvish Blueprints to {player.Name}.");
+                    switch (args[1].ToLowerInvariant())
+                    {
+                        case "all":
+                            player.Write(DataFields.BlueprintsFound, string.Join(',', allBlueprints));
+                            Log.I($"Added all Dwarvish Blueprints to {player.Name}.");
+                            break;
+                        case "none":
+                            player.Write(DataFields.BlueprintsFound, null);
+                            Log.I($"Removed all Dwarvish Blueprints from {player.Name}.");
+                            break;
+                    }
+
                     return;
                 }
 

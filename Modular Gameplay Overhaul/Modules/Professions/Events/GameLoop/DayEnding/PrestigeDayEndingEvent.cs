@@ -3,7 +3,6 @@
 #region using directives
 
 using System.Collections.Generic;
-using DaLion.Overhaul.Modules.Professions.VirtualProperties;
 using DaLion.Shared.Events;
 using StardewModdingAPI.Events;
 using StardewValley;
@@ -21,10 +20,10 @@ internal sealed class PrestigeDayEndingEvent : DayEndingEvent
     }
 
     /// <inheritdoc />
-    public override bool IsEnabled => Game1.player.Get_HasSkillsToReset();
+    public override bool IsEnabled => ProfessionsModule.State.SkillsToReset.Count > 0;
 
     /// <summary>Gets the current reset queue.</summary>
-    private static Queue<ISkill> ToReset => Game1.player.Get_SkillsToReset();
+    private static Queue<ISkill> ToReset => ProfessionsModule.State.SkillsToReset;
 
     /// <inheritdoc />
     protected override void OnDayEndingImpl(object? sender, DayEndingEventArgs e)

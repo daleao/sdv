@@ -56,13 +56,13 @@ internal sealed class NewForgeMenuUpdatePatcher : HarmonyPatcher
                 .Insert(
                     new[]
                     {
-                        new CodeInstruction(OpCodes.Call, typeof(ModEntry).RequirePropertyGetter(nameof(Config))),
+                        new CodeInstruction(OpCodes.Call, typeof(ModEntry).RequirePropertyGetter(nameof(ModEntry.Config))),
                         new CodeInstruction(
                             OpCodes.Callvirt,
                             typeof(ModConfig).RequirePropertyGetter(nameof(ModConfig.Rings))),
                         new CodeInstruction(
                             OpCodes.Callvirt,
-                            typeof(RingsConfig).RequirePropertyGetter(nameof(RingsConfig.TheOneInfinityBand))),
+                            typeof(Config).RequirePropertyGetter(nameof(Config.TheOneInfinityBand))),
                         new CodeInstruction(OpCodes.Brfalse_S, vanillaUnforge),
                         new CodeInstruction(
                             OpCodes.Call,
@@ -83,8 +83,10 @@ internal sealed class NewForgeMenuUpdatePatcher : HarmonyPatcher
                         new CodeInstruction(
                             OpCodes.Call,
                             typeof(int?).RequirePropertyGetter(nameof(Nullable<int>.Value))),
-                        new CodeInstruction(OpCodes.Bne_Un_S, vanillaUnforge), new CodeInstruction(OpCodes.Ldarg_0),
-                        new CodeInstruction(OpCodes.Ldloc_S, helper.Locals[15]), new CodeInstruction(
+                        new CodeInstruction(OpCodes.Bne_Un_S, vanillaUnforge),
+                        new CodeInstruction(OpCodes.Ldarg_0),
+                        new CodeInstruction(OpCodes.Ldloc_S, helper.Locals[15]),
+                        new CodeInstruction(
                             OpCodes.Call,
                             typeof(NewForgeMenuUpdatePatcher).RequireMethod(nameof(UnforgeInfinityBand))),
                         new CodeInstruction(OpCodes.Br_S, resumeExecution),

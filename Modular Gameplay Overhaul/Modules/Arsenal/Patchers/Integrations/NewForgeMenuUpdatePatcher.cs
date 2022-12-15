@@ -47,7 +47,8 @@ internal sealed class NewForgeMenuUpdatePatcher : HarmonyPatcher
             var vanillaUnforge = generator.DefineLabel();
             helper
                 .Match(
-                    new[] { new CodeInstruction(OpCodes.Pop), new CodeInstruction(OpCodes.Br) },
+                    new[] { new CodeInstruction(OpCodes.Pop),
+                        new CodeInstruction(OpCodes.Br) },
                     ILHelper.SearchOption.Last)
                 .Move()
                 .GetOperand(out var resumeExecution)
@@ -63,21 +64,24 @@ internal sealed class NewForgeMenuUpdatePatcher : HarmonyPatcher
                 .Insert(
                     new[]
                     {
-                        new CodeInstruction(OpCodes.Call, typeof(ModEntry).RequirePropertyGetter(nameof(Config))),
+                        new CodeInstruction(OpCodes.Call, typeof(ModEntry).RequirePropertyGetter(nameof(ModEntry.Config))),
                         new CodeInstruction(
                             OpCodes.Callvirt,
                             typeof(ModConfig).RequirePropertyGetter(nameof(ModConfig.Arsenal))),
                         new CodeInstruction(
                             OpCodes.Callvirt,
-                            typeof(ArsenalConfig).RequirePropertyGetter(nameof(ArsenalConfig.InfinityPlusOne))),
+                            typeof(Config).RequirePropertyGetter(nameof(Config.InfinityPlusOne))),
                         new CodeInstruction(OpCodes.Brfalse_S, vanillaUnforge),
-                        new CodeInstruction(OpCodes.Ldloc_S, helper.Locals[10]), new CodeInstruction(
+                        new CodeInstruction(OpCodes.Ldloc_S, helper.Locals[10]),
+                        new CodeInstruction(
                             OpCodes.Call,
                             typeof(Tool)
                                 .RequireMethod(nameof(Tool.hasEnchantmentOfType))
                                 .MakeGenericMethod(typeof(BlessedEnchantment))),
-                        new CodeInstruction(OpCodes.Brfalse_S, vanillaUnforge), new CodeInstruction(OpCodes.Ldarg_0),
-                        new CodeInstruction(OpCodes.Ldloc_3, helper.Locals[10]), new CodeInstruction(
+                        new CodeInstruction(OpCodes.Brfalse_S, vanillaUnforge),
+                        new CodeInstruction(OpCodes.Ldarg_0),
+                        new CodeInstruction(OpCodes.Ldloc_3, helper.Locals[10]),
+                        new CodeInstruction(
                             OpCodes.Call,
                             typeof(NewForgeMenuUpdatePatcher).RequireMethod(nameof(UnforgeHolyBlade))),
                         new CodeInstruction(OpCodes.Br, resumeExecution),
@@ -110,7 +114,8 @@ internal sealed class NewForgeMenuUpdatePatcher : HarmonyPatcher
                 .Insert(
                     new[]
                     {
-                        new CodeInstruction(OpCodes.Ldarg_0), new CodeInstruction(
+                        new CodeInstruction(OpCodes.Ldarg_0),
+                        new CodeInstruction(
                             OpCodes.Ldfld,
                             "SpaceCore.Interface.NewForgeMenu"
                                 .ToType()
@@ -122,18 +127,20 @@ internal sealed class NewForgeMenuUpdatePatcher : HarmonyPatcher
                         new CodeInstruction(OpCodes.Stloc_S, slingshot),
                         new CodeInstruction(OpCodes.Ldloc_S, slingshot),
                         new CodeInstruction(OpCodes.Brfalse, elseIfCombinedRing),
-                        new CodeInstruction(OpCodes.Call, typeof(ModEntry).RequirePropertyGetter(nameof(Config))),
+                        new CodeInstruction(OpCodes.Call, typeof(ModEntry).RequirePropertyGetter(nameof(ModEntry.Config))),
                         new CodeInstruction(
                             OpCodes.Callvirt,
                             typeof(ModConfig).RequirePropertyGetter(nameof(ModConfig.Arsenal))),
                         new CodeInstruction(
                             OpCodes.Callvirt,
-                            typeof(ArsenalConfig).RequirePropertyGetter(nameof(ArsenalConfig.Slingshots))),
+                            typeof(Config).RequirePropertyGetter(nameof(Config.Slingshots))),
                         new CodeInstruction(
                             OpCodes.Callvirt,
                             typeof(SlingshotConfig).RequirePropertyGetter(nameof(SlingshotConfig.AllowForges))),
-                        new CodeInstruction(OpCodes.Brfalse, elseIfCombinedRing), new CodeInstruction(OpCodes.Ldarg_0),
-                        new CodeInstruction(OpCodes.Ldloc_S, slingshot), new CodeInstruction(
+                        new CodeInstruction(OpCodes.Brfalse, elseIfCombinedRing),
+                        new CodeInstruction(OpCodes.Ldarg_0),
+                        new CodeInstruction(OpCodes.Ldloc_S, slingshot),
+                        new CodeInstruction(
                             OpCodes.Call,
                             typeof(NewForgeMenuUpdatePatcher).RequireMethod(nameof(UnforgeSlingshot))),
                     },

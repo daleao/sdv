@@ -118,7 +118,8 @@ internal sealed class CropHarvestPatcher : HarmonyPatcher
                     {
                         // find index of Crop.fertilizerQualityLevel >= 3
                         new CodeInstruction(OpCodes.Ldloc_S, fertilizerQualityLevel),
-                        new CodeInstruction(OpCodes.Ldc_I4_3), new CodeInstruction(OpCodes.Blt_S),
+                        new CodeInstruction(OpCodes.Ldc_I4_3),
+                        new CodeInstruction(OpCodes.Blt_S),
                     })
                 .InsertProfessionCheck(Profession.Agriculturist.Value)
                 .Insert(new[] { new CodeInstruction(OpCodes.Brtrue_S, isAgriculturist) })
@@ -165,7 +166,8 @@ internal sealed class CropHarvestPatcher : HarmonyPatcher
                     new[]
                     {
                         new CodeInstruction(OpCodes.Ldarg_S, (byte)4), // arg 4 = JunimoHarvester junimoHarvester
-                        new CodeInstruction(OpCodes.Ldloc_S, random2), new CodeInstruction(
+                        new CodeInstruction(OpCodes.Ldloc_S, random2),
+                        new CodeInstruction(
                             OpCodes.Call,
                             typeof(CropHarvestPatcher).RequireMethod(nameof(ShouldIncreaseHarvestYield))),
                         new CodeInstruction(OpCodes.Brfalse_S, dontIncreaseNumToHarvest),

@@ -187,7 +187,8 @@ internal sealed class FishPondDayUpdatePatcher : HarmonyPatcher
                 .Match(
                     new[]
                     {
-                        new CodeInstruction(OpCodes.Ldloc_0), new CodeInstruction(
+                        new CodeInstruction(OpCodes.Ldloc_0),
+                        new CodeInstruction(
                             OpCodes.Callvirt,
                             typeof(Random).RequireMethod(nameof(Random.NextDouble))),
                     })
@@ -196,7 +197,8 @@ internal sealed class FishPondDayUpdatePatcher : HarmonyPatcher
                 .Match(
                     new[]
                     {
-                        new CodeInstruction(OpCodes.Ldarg_0), new CodeInstruction(
+                        new CodeInstruction(OpCodes.Ldarg_0),
+                        new CodeInstruction(
                             OpCodes.Ldfld,
                             typeof(FishPond).RequireField(nameof(FishPond.daysSinceSpawn))),
                     })

@@ -4,6 +4,7 @@
 #pragma warning disable SA1614 // Element parameter documentation should have text
 #pragma warning disable SA1615 // Element return value should be documented
 #pragma warning disable SA1649 // File name should match first type name
+#pragma warning disable SA1201 // Elements should appear in the correct order
 namespace DaLion.Shared.Integrations.BetterCrafting;
 
 #region using directives
@@ -419,7 +420,6 @@ public interface IRecipe
     /// <summary>
     /// Gets the texture to use when drawing this recipe in the menu.
     /// </summary>
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("StyleCop.CSharp.OrderingRules", "SA1201:Elements should appear in the correct order", Justification = "Different region.")]
     Texture2D Texture { get; }
 
     /// <summary>

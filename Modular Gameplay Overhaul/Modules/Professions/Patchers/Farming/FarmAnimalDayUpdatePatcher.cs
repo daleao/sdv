@@ -46,7 +46,8 @@ internal sealed class FarmAnimalDayUpdatePatcher : HarmonyPatcher
                     new[]
                     {
                         // find index of FarmAnimal.type.Value.Equals("Sheep")
-                        new CodeInstruction(OpCodes.Ldstr, "Sheep"), new CodeInstruction(
+                        new CodeInstruction(OpCodes.Ldstr, "Sheep"),
+                        new CodeInstruction(
                             OpCodes.Callvirt,
                             typeof(string).RequireMethod(nameof(string.Equals), new[] { typeof(string) })),
                     })

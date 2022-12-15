@@ -32,7 +32,7 @@ internal sealed partial class GenericModConfigMenuIntegration
                 config => config.Professions.PrestigeProgressionStyle.ToString(),
                 (config, value) =>
                 {
-                    config.Professions.PrestigeProgressionStyle = Enum.Parse<Professions.ProfessionsConfig.ProgressionStyle>(value);
+                    config.Professions.PrestigeProgressionStyle = Enum.Parse<Professions.Config.ProgressionStyle>(value);
                     ModHelper.GameContent.InvalidateCacheAndLocalized(
                         $"{Manifest.UniqueID}/PrestigeProgression");
                 },

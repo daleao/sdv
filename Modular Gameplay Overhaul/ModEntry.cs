@@ -17,6 +17,7 @@ using DaLion.Shared.Integrations;
 using DaLion.Shared.ModData;
 using DaLion.Shared.Networking;
 using DaLion.Shared.Reflection;
+using StardewModdingAPI.Utilities;
 
 #endregion using directives
 
@@ -28,6 +29,16 @@ public sealed class ModEntry : Mod
 
     /// <summary>Gets or sets the <see cref="ModConfig"/> instance.</summary>
     internal static ModConfig Config { get; set; } = null!; // set in Entry
+
+    /// <summary>Gets the <see cref="PerScreen{T}"/> <see cref="ModState"/>.</summary>
+    internal static PerScreen<ModState> PerScreenState { get; private set; } = null!; // set in Entry
+
+    /// <summary>Gets or sets the <see cref="ModState"/> of the local player.</summary>
+    internal static ModState State
+    {
+        get => PerScreenState.Value;
+        set => PerScreenState.Value = value;
+    }
 
     /// <summary>Gets the <see cref="Shared.Events.EventManager"/> instance.</summary>
     internal static EventManager EventManager { get; private set; } = null!; // set in Entry
@@ -65,6 +76,9 @@ public sealed class ModEntry : Mod
         // get configs
         Config = helper.ReadConfig<ModConfig>();
         Config.Validate(helper);
+
+        // initialize mod state
+        PerScreenState = new PerScreen<ModState>(() => new ModState());
 
         // initialize event manager
         EventManager = new EventManager(helper.Events, helper.ModRegistry);

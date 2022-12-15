@@ -33,7 +33,7 @@ internal sealed class MeleeWeaponCheckForSpecialItemHoldUpMessagePatcher : Harmo
         if (__instance.isGalaxyWeapon())
         {
             var count = Game1.player.Read(DataFields.GalaxyArsenalObtained).ParseList<int>().Count;
-            __result = count == 0
+            __result = count == 1
                 ? I18n.Get("fromcsfiles.MeleeWeapon.cs.14122", new { galaxyWeapon = __instance.DisplayName })
                 : (string?)null;
             return false; // don't run original logic

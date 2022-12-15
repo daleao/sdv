@@ -44,7 +44,8 @@ internal sealed class FishPondIsLegalFishForPondsPatcher : HarmonyPatcher
                 .Insert(
                     new[]
                     {
-                        new CodeInstruction(OpCodes.Ldarg_0), new CodeInstruction(
+                        new CodeInstruction(OpCodes.Ldarg_0),
+                        new CodeInstruction(
                             OpCodes.Call,
                             typeof(FishPondIsLegalFishForPondsPatcher).RequireMethod(nameof(CanRaiseLegendaryFish))),
                         new CodeInstruction(OpCodes.Brtrue_S, resumeExecution),

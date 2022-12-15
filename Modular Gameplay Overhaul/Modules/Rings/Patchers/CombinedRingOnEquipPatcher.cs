@@ -32,7 +32,7 @@ internal sealed class CombinedRingOnEquipPatcher : HarmonyPatcher
         }
 
         chord.Apply(who.currentLocation, who);
-        if (Config.EnableArsenal && who.CurrentTool is { } tool && chord.Root is not null &&
+        if (ModEntry.Config.EnableArsenal && who.CurrentTool is { } tool && chord.Root is not null &&
             tool.CanResonateWith(chord.Root))
         {
             tool.UpdateResonatingChord(chord);

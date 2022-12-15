@@ -2,7 +2,6 @@
 
 #region using directives
 
-using DaLion.Overhaul.Modules.Professions.VirtualProperties;
 using DaLion.Shared.Events;
 using StardewModdingAPI.Events;
 
@@ -21,7 +20,7 @@ internal sealed class PrestigeDayStartedEvent : DayStartedEvent
     /// <inheritdoc />
     protected override void OnDayStartedImpl(object? sender, DayStartedEventArgs e)
     {
-        Game1.player.Set_UsedStatueToday(false);
+        ProfessionsModule.State.UsedStatueToday = false;
         this.Disable();
     }
 }

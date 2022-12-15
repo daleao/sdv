@@ -2,7 +2,6 @@
 
 #region using directives
 
-using DaLion.Overhaul.Modules.Professions.VirtualProperties;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
 
@@ -26,7 +25,7 @@ internal sealed class BuffRemoveBuffPatcher : HarmonyPatcher
     {
         if (__instance.which == PiperBuffId && __instance.millisecondsDuration <= 0)
         {
-            Array.Clear(Game1.player.Get_PiperBuffs(), 0, 12);
+            Array.Clear(ProfessionsModule.State.PiperBuffs, 0, 12);
         }
     }
 

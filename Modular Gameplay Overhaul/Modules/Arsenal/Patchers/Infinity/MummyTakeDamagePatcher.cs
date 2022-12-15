@@ -52,7 +52,10 @@ internal sealed class MummyTakeDamagePatcher : HarmonyPatcher
                                 .MakeGenericMethod(typeof(CrusaderEnchantment))),
                     })
                 .Match(
-                    new[] { new CodeInstruction(OpCodes.Brfalse_S), new CodeInstruction(OpCodes.Ldarg_S) },
+                    new[] {
+                        new CodeInstruction(OpCodes.Brfalse_S),
+                        new CodeInstruction(OpCodes.Ldarg_S),
+                    },
                     ILHelper.SearchOption.Previous)
                 .GetOperand(out var resumeExecution)
                 .Insert(
@@ -72,19 +75,22 @@ internal sealed class MummyTakeDamagePatcher : HarmonyPatcher
                     new[]
                     {
                         // or meleeWeapon.hasEnchantmentOfType<CursedEnchantment>()
-                        new CodeInstruction(OpCodes.Ldloc_S, meleeWeapon), new CodeInstruction(
+                        new CodeInstruction(OpCodes.Ldloc_S, meleeWeapon),
+                        new CodeInstruction(
                             OpCodes.Callvirt,
                             typeof(Tool).RequireMethod(nameof(Tool.hasEnchantmentOfType))
                                 .MakeGenericMethod(typeof(CursedEnchantment))),
                         new CodeInstruction(OpCodes.Brtrue_S, makeJucier),
                         // or meleeWeapon.hasEnchantmentOfType<BlessedEnchantment>()
-                        new CodeInstruction(OpCodes.Ldloc_S, meleeWeapon), new CodeInstruction(
+                        new CodeInstruction(OpCodes.Ldloc_S, meleeWeapon),
+                        new CodeInstruction(
                             OpCodes.Callvirt,
                             typeof(Tool).RequireMethod(nameof(Tool.hasEnchantmentOfType))
                                 .MakeGenericMethod(typeof(BlessedEnchantment))),
                         new CodeInstruction(OpCodes.Brtrue_S, makeJucier),
                         // or meleeWeapon.hasEnchantmentOfType<InfinityEnchantment>()
-                        new CodeInstruction(OpCodes.Ldloc_S, meleeWeapon), new CodeInstruction(
+                        new CodeInstruction(OpCodes.Ldloc_S, meleeWeapon),
+                        new CodeInstruction(
                             OpCodes.Callvirt,
                             typeof(Tool).RequireMethod(nameof(Tool.hasEnchantmentOfType))
                                 .MakeGenericMethod(typeof(InfinityEnchantment))),

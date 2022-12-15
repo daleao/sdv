@@ -77,12 +77,14 @@ internal sealed class MeleeWeaponDoAnimateSpecialMovePatcher : HarmonyPatcher
                 .Insert(
                     new[]
                     {
-                        new CodeInstruction(OpCodes.Ldarg_0), new CodeInstruction(
+                        new CodeInstruction(OpCodes.Ldarg_0),
+                        new CodeInstruction(
                             OpCodes.Call,
                             typeof(MeleeWeapon)
                                 .RequireMethod(nameof(MeleeWeapon.hasEnchantmentOfType))
                                 .MakeGenericMethod(typeof(ReduxArtfulEnchantment))),
-                        new CodeInstruction(OpCodes.Brfalse_S, notInfinity), new CodeInstruction(OpCodes.Ldc_I4_6),
+                        new CodeInstruction(OpCodes.Brfalse_S, notInfinity),
+                        new CodeInstruction(OpCodes.Ldc_I4_6),
                         new CodeInstruction(OpCodes.Br_S, resumeExecution),
                     })
                 .Move()

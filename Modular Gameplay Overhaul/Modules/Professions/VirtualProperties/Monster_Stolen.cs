@@ -14,16 +14,16 @@ internal static class Monster_Stolen
 
     internal static bool Get_Stolen(this Monster monster)
     {
-        return Values.GetOrCreateValue(monster).WasStolen;
+        return Values.GetOrCreateValue(monster).Stolen;
     }
 
     internal static void Set_Stolen(this Monster monster, bool value)
     {
-        Values.GetOrCreateValue(monster).WasStolen = value;
+        Values.GetOrCreateValue(monster).Stolen = value;
     }
 
     internal class Holder
     {
-        public bool WasStolen { get; internal set; }
+        public bool Stolen { get; internal set; }
     }
 }

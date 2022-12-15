@@ -2,13 +2,12 @@
 
 #region using directives
 
-using DaLion.Shared.Configs;
 using Newtonsoft.Json;
 
 #endregion using directives
 
 /// <summary>The user-configurable settings for Rings.</summary>
-public sealed class RingsConfig : Config
+public sealed class Config : Shared.Configs.Config
 {
     /// <summary>Gets a value indicating whether to improve certain underwhelming rings.</summary>
     [JsonProperty]

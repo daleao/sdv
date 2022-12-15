@@ -47,13 +47,16 @@ internal sealed class MeleeWeaponTriggerClubFunctionPatcher : HarmonyPatcher
                 .Insert(
                     new[]
                     {
-                        new CodeInstruction(OpCodes.Ldarg_0), new CodeInstruction(
+                        new CodeInstruction(OpCodes.Ldarg_0),
+                        new CodeInstruction(
                             OpCodes.Call,
                             typeof(MeleeWeapon)
                                 .RequireMethod(nameof(MeleeWeapon.hasEnchantmentOfType))
                                 .MakeGenericMethod(typeof(ReduxArtfulEnchantment))),
-                        new CodeInstruction(OpCodes.Brfalse_S, notInfinity), new CodeInstruction(OpCodes.Ldloca_S, aoe),
-                        new CodeInstruction(OpCodes.Ldc_I4_S, 96), new CodeInstruction(OpCodes.Ldc_I4_S, 96),
+                        new CodeInstruction(OpCodes.Brfalse_S, notInfinity),
+                        new CodeInstruction(OpCodes.Ldloca_S, aoe),
+                        new CodeInstruction(OpCodes.Ldc_I4_S, 96),
+                        new CodeInstruction(OpCodes.Ldc_I4_S, 96),
                         new CodeInstruction(
                             OpCodes.Call,
                             typeof(Rectangle).RequireMethod(

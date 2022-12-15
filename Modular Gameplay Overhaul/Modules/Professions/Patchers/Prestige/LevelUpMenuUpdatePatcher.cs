@@ -66,13 +66,15 @@ internal sealed class LevelUpMenuUpdatePatcher : HarmonyPatcher
                     {
                         new CodeInstruction(OpCodes.Ldarg_0),
                         new CodeInstruction(OpCodes.Ldfld, typeof(LevelUpMenu).RequireField("currentLevel")),
-                        new CodeInstruction(OpCodes.Ldc_I4_5), new CodeInstruction(OpCodes.Bne_Un_S),
+                        new CodeInstruction(OpCodes.Ldc_I4_5),
+                        new CodeInstruction(OpCodes.Bne_Un_S),
                     })
                 .Match(new[] { new CodeInstruction(OpCodes.Bne_Un_S) })
                 .Insert(
                     new[]
                     {
-                        new CodeInstruction(OpCodes.Beq_S, isLevel5), new CodeInstruction(OpCodes.Ldarg_0),
+                        new CodeInstruction(OpCodes.Beq_S, isLevel5),
+                        new CodeInstruction(OpCodes.Ldarg_0),
                         new CodeInstruction(OpCodes.Ldfld, typeof(LevelUpMenu).RequireField("currentLevel")),
                         new CodeInstruction(OpCodes.Ldc_I4_S, 15),
                     })
@@ -99,7 +101,9 @@ internal sealed class LevelUpMenuUpdatePatcher : HarmonyPatcher
                         new CodeInstruction(OpCodes.Ldfld, typeof(Farmer).RequireField(nameof(Farmer.professions))),
                         new CodeInstruction(OpCodes.Ldarg_0),
                         new CodeInstruction(OpCodes.Ldfld, typeof(LevelUpMenu).RequireField("currentSkill")),
-                        new CodeInstruction(OpCodes.Ldc_I4_6), new CodeInstruction(OpCodes.Mul), new CodeInstruction(
+                        new CodeInstruction(OpCodes.Ldc_I4_6),
+                        new CodeInstruction(OpCodes.Mul),
+                        new CodeInstruction(
                             OpCodes.Callvirt,
                             typeof(NetList<int, NetInt>).RequireMethod(nameof(NetList<int, NetInt>.Contains))),
                     },
@@ -219,7 +223,8 @@ internal sealed class LevelUpMenuUpdatePatcher : HarmonyPatcher
                                         typeof(Farmer).RequireField(nameof(Farmer.professions))),
                                     new CodeInstruction(OpCodes.Ldc_I4_S, 100),
                                     new CodeInstruction(OpCodes.Ldloc_S, chosenProfession),
-                                    new CodeInstruction(OpCodes.Add), new CodeInstruction(
+                                    new CodeInstruction(OpCodes.Add),
+                                    new CodeInstruction(
                                         OpCodes.Callvirt,
                                         typeof(NetList<int, NetInt>).RequireMethod(nameof(NetList<int, NetInt>.Add))),
                                 },
@@ -305,7 +310,8 @@ internal sealed class LevelUpMenuUpdatePatcher : HarmonyPatcher
                         new CodeInstruction(OpCodes.Brfalse_S, dontProposeFinalQuestion),
                         // if so, push the chosen profession onto the stack and call ProposeFinalQuestion()
                         new CodeInstruction(OpCodes.Ldloc_S, chosenProfession),
-                        new CodeInstruction(OpCodes.Ldloc_S, shouldCongratulateFullSkillMastery), new CodeInstruction(
+                        new CodeInstruction(OpCodes.Ldloc_S, shouldCongratulateFullSkillMastery),
+                        new CodeInstruction(
                             OpCodes.Call,
                             typeof(LevelUpMenuUpdatePatcher).RequireMethod(nameof(ProposeFinalQuestion))),
                         new CodeInstruction(OpCodes.Br_S, resumeExecution),
@@ -319,7 +325,8 @@ internal sealed class LevelUpMenuUpdatePatcher : HarmonyPatcher
                         new CodeInstruction(OpCodes.Ldloc_S, shouldCongratulateFullSkillMastery),
                         new CodeInstruction(OpCodes.Brfalse_S, dontCongratulateOnFullPrestige),
                         // if so, push the chosen profession onto the stack and call CongratulateOnFullPrestige()
-                        new CodeInstruction(OpCodes.Ldloc_S, chosenProfession), new CodeInstruction(
+                        new CodeInstruction(OpCodes.Ldloc_S, chosenProfession),
+                        new CodeInstruction(
                             OpCodes.Call,
                             typeof(LevelUpMenuUpdatePatcher).RequireMethod(nameof(CongratulateOnFullSkillMastery))),
                     },
@@ -380,7 +387,11 @@ internal sealed class LevelUpMenuUpdatePatcher : HarmonyPatcher
                         new CodeInstruction(OpCodes.Brtrue, skip),
                     })
                 .Match(
-                    new[] { new CodeInstruction(OpCodes.Ldarg_0), new CodeInstruction(OpCodes.Ldc_I4, 512) })
+                    new[]
+                    {
+                        new CodeInstruction(OpCodes.Ldarg_0),
+                        new CodeInstruction(OpCodes.Ldc_I4, 512),
+                    })
                 .AddLabels(skip);
         }
         catch (Exception ex)

@@ -41,12 +41,12 @@ internal sealed class NewSkillsPagePerformHoverActionPatcher : HarmonyPatcher
 
         var bounds = ProfessionsModule.Config.PrestigeProgressionStyle switch
         {
-            ProfessionsConfig.ProgressionStyle.StackedStars => new Rectangle(
+            Config.ProgressionStyle.StackedStars => new Rectangle(
                 __instance.xPositionOnScreen + __instance.width + Textures.ProgressionHorizontalOffset - 22,
                 __instance.yPositionOnScreen + IClickableMenu.spaceToClearTopBorder + IClickableMenu.borderWidth + Textures.ProgressionVerticalOffset + 8,
                 0,
                 (int)(Textures.SingleStarWidth * Textures.StarsScale)),
-            ProfessionsConfig.ProgressionStyle.Gen3Ribbons or ProfessionsConfig.ProgressionStyle.Gen4Ribbons => new Rectangle(
+            Config.ProgressionStyle.Gen3Ribbons or Config.ProgressionStyle.Gen4Ribbons => new Rectangle(
                 __instance.xPositionOnScreen + __instance.width + Textures.ProgressionHorizontalOffset,
                 __instance.yPositionOnScreen + IClickableMenu.spaceToClearTopBorder + IClickableMenu.borderWidth + Textures.ProgressionVerticalOffset,
                 (int)(Textures.RibbonWidth * Textures.RibbonScale),
@@ -72,8 +72,8 @@ internal sealed class NewSkillsPagePerformHoverActionPatcher : HarmonyPatcher
                 continue;
             }
 
-            bounds.Width = ProfessionsModule.Config.PrestigeProgressionStyle is ProfessionsConfig.ProgressionStyle.Gen3Ribbons
-                or ProfessionsConfig.ProgressionStyle.Gen4Ribbons
+            bounds.Width = ProfessionsModule.Config.PrestigeProgressionStyle is Config.ProgressionStyle.Gen3Ribbons
+                or Config.ProgressionStyle.Gen4Ribbons
                 ? (int)(Textures.RibbonWidth * Textures.RibbonScale)
                 : (int)(((Textures.SingleStarWidth / 2 * count) + 4) * Textures.StarsScale);
             if (!bounds.Contains(x, y))
@@ -92,9 +92,16 @@ internal sealed class NewSkillsPagePerformHoverActionPatcher : HarmonyPatcher
             return;
         }
 
-        foreach (var skill in SCSkill.Loaded.Values)
+        var customSkills = SpaceCoreIntegration.Api.GetCustomSkills().Select(name => SCSkill.Loaded[name]);
+        if (LuckSkillIntegration.Api is not null)
+        {
+            customSkills = SCSkill.Loaded["spacechase0.LuckSkill"].Collect(customSkills);
+        }
+
+        foreach (var skill in customSkills)
         {
             bounds.Y += 56;
+
             var professionsForThisSkill =
                 Game1.player.GetProfessionsForSkill(skill, true);
             var count = professionsForThisSkill.Length;
@@ -103,8 +110,8 @@ internal sealed class NewSkillsPagePerformHoverActionPatcher : HarmonyPatcher
                 continue;
             }
 
-            bounds.Width = ProfessionsModule.Config.PrestigeProgressionStyle is ProfessionsConfig.ProgressionStyle.Gen3Ribbons
-                or ProfessionsConfig.ProgressionStyle.Gen4Ribbons
+            bounds.Width = ProfessionsModule.Config.PrestigeProgressionStyle is Config.ProgressionStyle.Gen3Ribbons
+                or Config.ProgressionStyle.Gen4Ribbons
                 ? (int)(Textures.RibbonWidth * Textures.RibbonScale)
                 : (int)(((Textures.SingleStarWidth / 2 * count) + 4) * Textures.StarsScale);
             if (!bounds.Contains(x, y))

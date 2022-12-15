@@ -46,7 +46,8 @@ internal sealed class ObjectPlacementActionPatcher : HarmonyPatcher
                             .Match(
                                 new[]
                                 {
-                                    new CodeInstruction(OpCodes.Dup), new CodeInstruction(OpCodes.Ldc_R4, 0.5f),
+                                    new CodeInstruction(OpCodes.Dup),
+                                    new CodeInstruction(OpCodes.Ldc_R4, 0.5f),
                                     new CodeInstruction(
                                         OpCodes.Stfld,
                                         typeof(TemporaryAnimatedSprite).RequireField(nameof(TemporaryAnimatedSprite
@@ -64,16 +65,17 @@ internal sealed class ObjectPlacementActionPatcher : HarmonyPatcher
                             .Insert(
                                 new[]
                                 {
-                                    new CodeInstruction(OpCodes.Brfalse_S, resumeExecution), new CodeInstruction(
+                                    new CodeInstruction(OpCodes.Brfalse_S, resumeExecution),
+                                    new CodeInstruction(
                                         OpCodes.Call,
-                                        typeof(ModEntry).RequirePropertyGetter(nameof(Config))),
+                                        typeof(ModEntry).RequirePropertyGetter(nameof(ModEntry.Config))),
                                     new CodeInstruction(
                                         OpCodes.Callvirt,
                                         typeof(ModConfig).RequirePropertyGetter(nameof(ModConfig.Professions))),
                                     new CodeInstruction(
                                         OpCodes.Callvirt,
-                                        typeof(ProfessionsConfig).RequirePropertyGetter(
-                                            nameof(ProfessionsConfig.ModKey))),
+                                        typeof(Config).RequirePropertyGetter(
+                                            nameof(Config.ModKey))),
                                     new CodeInstruction(
                                         OpCodes.Call,
                                         typeof(KeybindList).RequireMethod(nameof(KeybindList.IsDown))),
@@ -82,7 +84,8 @@ internal sealed class ObjectPlacementActionPatcher : HarmonyPatcher
                             .Match(
                                 new[]
                                 {
-                                    new CodeInstruction(OpCodes.Dup), new CodeInstruction(OpCodes.Ldloc_1),
+                                    new CodeInstruction(OpCodes.Dup),
+                                    new CodeInstruction(OpCodes.Ldloc_1),
                                     new CodeInstruction(
                                         OpCodes.Stfld,
                                         typeof(TemporaryAnimatedSprite).RequireField(nameof(TemporaryAnimatedSprite

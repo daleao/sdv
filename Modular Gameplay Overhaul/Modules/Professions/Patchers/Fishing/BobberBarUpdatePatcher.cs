@@ -76,7 +76,8 @@ internal sealed class BobberBarUpdatePatcher : HarmonyPatcher
                 .Insert(
                     new[]
                     {
-                        new CodeInstruction(OpCodes.Brfalse_S, isNotAquarist), new CodeInstruction(OpCodes.Ldarg_0),
+                        new CodeInstruction(OpCodes.Brfalse_S, isNotAquarist),
+                        new CodeInstruction(OpCodes.Ldarg_0),
                         new CodeInstruction(OpCodes.Ldarg_0),
                         new CodeInstruction(OpCodes.Ldfld, typeof(BobberBar).RequireField("distanceFromCatching")),
                         new CodeInstruction(OpCodes.Call, typeof(Game1).RequirePropertyGetter(nameof(Game1.player))),
