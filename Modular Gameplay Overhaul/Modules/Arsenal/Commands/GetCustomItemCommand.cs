@@ -9,6 +9,7 @@ using DaLion.Shared.Commands;
 using DaLion.Shared.Extensions;
 using DaLion.Shared.Extensions.Stardew;
 using DaLion.Shared.Networking;
+using StardewValley.Tools;
 
 #endregion using directives
 
@@ -37,7 +38,7 @@ internal sealed class GetCustomItemCommand : ConsoleCommand
             Log.W("You must specify one of \"Hero Soul\", \"Dwarvish Scrap\" or \"Dwarvish Blueprint\".");
         }
 
-        SObject? @object = null;
+        Item? item = null;
         switch (args[0].ToLowerInvariant())
         {
             case "herosoul":
@@ -48,7 +49,7 @@ internal sealed class GetCustomItemCommand : ConsoleCommand
                     return;
                 }
 
-                @object = new SObject(Globals.HeroSoulIndex.Value, 1);
+                item = new SObject(Globals.HeroSoulIndex.Value, 1);
                 break;
             case "dwarvenscrap":
             case "scrap":
@@ -58,7 +59,7 @@ internal sealed class GetCustomItemCommand : ConsoleCommand
                     return;
                 }
 
-                @object = new SObject(Globals.DwarvenScrapIndex.Value, 10);
+                item = new SObject(Globals.DwarvenScrapIndex.Value, 10);
                 break;
             case "fairywood":
             case "elderwood":
@@ -69,7 +70,7 @@ internal sealed class GetCustomItemCommand : ConsoleCommand
                     return;
                 }
 
-                @object = new SObject(Globals.ElderwoodIndex.Value, 10);
+                item = new SObject(Globals.ElderwoodIndex.Value, 10);
                 break;
             case "dwarvish blueprint":
             case "blueprint":
@@ -113,10 +114,7 @@ internal sealed class GetCustomItemCommand : ConsoleCommand
                 var notFound = allBlueprints.Except(player.Read(DataFields.BlueprintsFound).ParseList<int>()).ToArray();
                 var chosen = Game1.random.Next(notFound.Length);
                 player.Append(DataFields.BlueprintsFound, chosen.ToString());
-                if (!player.hasOrWillReceiveMail("dwarvishBlueprintFound"))
-                {
-                    Game1.player.mailReceived.Add("dwarvishBlueprintFound");
-                }
+                ModHelper.GameContent.InvalidateCache("Data/Events/Blacksmith");
 
                 player.holdUpItemThenMessage(new SObject(Globals.DwarvishBlueprintIndex.Value, 1));
                 if (Context.IsMultiplayer)
@@ -126,14 +124,21 @@ internal sealed class GetCustomItemCommand : ConsoleCommand
 
                 player.addItemToInventoryBool(new SObject(Globals.DwarvishBlueprintIndex.Value, 1));
                 return;
+            case "blade":
+            case "ruin":
+            case "ruined":
+            case "curse":
+            case "cursed":
+                item = new MeleeWeapon(Constants.DarkSwordIndex);
+                break;
             default:
                 Log.W($"Invalid item {args[0]} will be ignored.");
                 break;
         }
 
-        if (@object is not null)
+        if (item is not null)
         {
-            Utility.CollectOrDrop(@object);
+            Utility.CollectOrDrop(item);
         }
     }
 }

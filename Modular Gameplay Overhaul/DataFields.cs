@@ -1,4 +1,4 @@
-﻿namespace DaLion.Overhaul.Modules;
+﻿namespace DaLion.Overhaul;
 
 /// <summary>Holds the string IDs of mod data fields used by all the modules.</summary>
 internal sealed class DataFields

@@ -80,7 +80,7 @@ internal sealed class GameLocationExplodePatcher : HarmonyPatcher
                                 __instance);
                         }
 
-                        Reflector.GetStaticFieldGetter<Multiplayer>(typeof(Game1), "multiplyer").Invoke()
+                        Reflector.GetStaticFieldGetter<Multiplayer>(typeof(Game1), "multiplayer").Invoke()
                             .broadcastSprites(
                                 __instance,
                                 new TemporaryAnimatedSprite(
@@ -122,7 +122,7 @@ internal sealed class GameLocationExplodePatcher : HarmonyPatcher
                                 __instance);
                         }
 
-                        Reflector.GetStaticFieldGetter<Multiplayer>(typeof(Game1), "multiplyer").Invoke()
+                        Reflector.GetStaticFieldGetter<Multiplayer>(typeof(Game1), "multiplayer").Invoke()
                             .broadcastSprites(
                                 __instance,
                                 new TemporaryAnimatedSprite(

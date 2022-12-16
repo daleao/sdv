@@ -10,7 +10,6 @@ using StardewValley.Tools;
 #endregion using directives
 
 [UsedImplicitly]
-[Debug]
 internal sealed class SwordBlessCommand : ConsoleCommand
 {
     /// <summary>Initializes a new instance of the <see cref="SwordBlessCommand"/> class.</summary>

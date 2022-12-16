@@ -54,7 +54,7 @@ internal sealed class AddProfessionsCommand : ConsoleCommand
                     range = range.Concat(Profession.GetRange(true)).ToArray();
                 }
 
-                range = range.Concat(SCProfession.Loaded.Values.Select(p => p.Id)).ToArray();
+                range = range.Concat(SCProfession.List.Select(p => p.Id)).ToArray();
 
                 professionsToAdd.AddRange(range);
                 Log.I($"Added all {(prestige ? "prestiged " : string.Empty)}professions to {Game1.player.Name}.");
@@ -81,7 +81,7 @@ internal sealed class AddProfessionsCommand : ConsoleCommand
             }
             else
             {
-                var customProfession = SCProfession.Loaded.Values.FirstOrDefault(p =>
+                var customProfession = SCProfession.List.FirstOrDefault(p =>
                     string.Equals(arg, p.StringId.TrimAll(), StringComparison.InvariantCultureIgnoreCase) ||
                     string.Equals(arg, p.Title.TrimAll(), StringComparison.InvariantCultureIgnoreCase));
                 if (customProfession is null)

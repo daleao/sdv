@@ -65,7 +65,7 @@ internal abstract class ManagedEvent : IManagedEvent, IComparable<ManagedEvent>,
         }
 
         this.OnEnabled();
-        return true;
+        return this._enabled.Value;
     }
 
     /// <inheritdoc />
@@ -102,7 +102,7 @@ internal abstract class ManagedEvent : IManagedEvent, IComparable<ManagedEvent>,
         }
 
         this.OnDisabled();
-        return true;
+        return !this._enabled.Value;
     }
 
     /// <inheritdoc />

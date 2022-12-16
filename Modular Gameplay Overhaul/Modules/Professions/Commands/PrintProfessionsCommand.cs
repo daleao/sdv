@@ -36,9 +36,9 @@ internal sealed class PrintProfessionsCommand : ConsoleCommand
         foreach (var pid in Game1.player.professions)
         {
             string name;
-            if (Profession.TryFromValue(pid > 100 ? pid - 100 : pid, out var profession))
+            if (Profession.TryFromValue(pid >= 100 ? pid - 100 : pid, out var profession))
             {
-                name = profession.StringId + (pid > 100 ? " (P)" : Empty);
+                name = profession.StringId + (pid >= 100 ? " (P)" : Empty);
             }
             else if (SCProfession.Loaded.ContainsKey(pid))
             {

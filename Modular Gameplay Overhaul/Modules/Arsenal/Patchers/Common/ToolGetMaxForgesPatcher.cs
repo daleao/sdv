@@ -1,4 +1,4 @@
-﻿namespace DaLion.Overhaul.Modules.Arsenal.Patchers;
+﻿namespace DaLion.Overhaul.Modules.Arsenal.Patchers.Common;
 
 #region using directives
 

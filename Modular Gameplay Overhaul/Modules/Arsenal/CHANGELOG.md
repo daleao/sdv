@@ -1,5 +1,19 @@
 ﻿# Arsenal Change Log
 
+## 0.9.7
+
+### Fixed
+
+* Fixed an error that may be thrown when playing the hold-up-item animation.
+
+## 0.9.6
+
+### Fixed
+
+* The event which counts the days left until Clint finishes translating the blueprints should now trigger correctly.
+* Fixed a compatibility issue with any modded recipes containing Dragon Tooth.
+* Fixed a null-reference exception when farmer takes damage from bombs and maybe other sources too.
+
 ## 0.9.5
 
 ### Added

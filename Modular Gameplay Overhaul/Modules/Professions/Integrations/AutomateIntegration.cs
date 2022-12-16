@@ -72,7 +72,7 @@ internal sealed class AutomateIntegration : BaseIntegration
             foreach (var group in machineGroups)
             {
                 var groupLocationKey = Reflector
-                    .GetUnboundFieldGetter<object, string?>(group, "LocationKey")
+                    .GetUnboundPropertyGetter<object, string?>(group, "LocationKey")
                     .Invoke(group);
                 if (groupLocationKey != machineLocationKey)
                 {
@@ -177,7 +177,7 @@ internal sealed class AutomateIntegration : BaseIntegration
             foreach (var group in machineGroups)
             {
                 var groupLocationKey = Reflector
-                    .GetUnboundFieldGetter<object, string?>(group, "LocationKey")
+                    .GetUnboundPropertyGetter<object, string?>(group, "LocationKey")
                     .Invoke(group);
                 if (groupLocationKey != machineLocationKey)
                 {

@@ -2,7 +2,7 @@
 
 ## Revision 0.9.5 Highlights
 
-* Added console commands for initializing Arsenal on existing saves, and reverting existing saves back to Vanilla status after disabling Arsenal.
+    * Added console commands for initializing Arsenal on existing saves, and reverting existing saves back to Vanilla status after disabling Arsenal.
 
 ## Minor Release 0.9 Highlights
 

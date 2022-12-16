@@ -6,6 +6,7 @@ using System.Globalization;
 using DaLion.Overhaul.Modules.Arsenal.Integrations;
 using DaLion.Shared.Content;
 using DaLion.Shared.Events;
+using DaLion.Shared.Extensions.Stardew;
 using HarmonyLib;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -119,14 +120,14 @@ internal sealed class ArsenalAssetRequestedEvent : AssetRequestedEvent
     /// <summary>Edits events data with custom Dwarvish Blueprint introduction event.</summary>
     private static void EditBlacksmithEventsData(IAssetData asset)
     {
-        if (!ArsenalModule.Config.DwarvishCrafting)
+        if (!Context.IsWorldReady || !ArsenalModule.Config.DwarvishCrafting ||
+            !string.IsNullOrEmpty(Game1.player.Read(DataFields.BlueprintsFound)) || !Game1.player.canUnderstandDwarves)
         {
             return;
         }
 
         var data = asset.AsDictionary<string, string>().Data;
-        data["144701/n dwarvishBlueprintFound/n canUnderstandDwarves/f Clint 1500/p Clint"] =
-            I18n.Get("events.forge.intro");
+        data["144701/f Clint 1500/p Clint"] = I18n.Get("events.forge.intro");
     }
 
     /// <summary>Edits events data with custom Blade of Ruin introduction event.</summary>
@@ -228,7 +229,7 @@ internal sealed class ArsenalAssetRequestedEvent : AssetRequestedEvent
 
             if (ArsenalModule.Config.Weapons.RebalancedStats)
             {
-                EditSpecificWeapon(key, fields);
+                EditSingleWeapon(key, fields);
             }
 
             if (ArsenalModule.Config.DwarvishCrafting)
@@ -324,7 +325,7 @@ internal sealed class ArsenalAssetRequestedEvent : AssetRequestedEvent
 
     #region helpers
 
-    private static void EditSpecificWeapon(int key, string[] fields)
+    private static void EditSingleWeapon(int key, string[] fields)
     {
         switch (key)
         {

@@ -3,6 +3,7 @@
 #region using directives
 
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
 using DaLion.Shared.Extensions;
@@ -84,8 +85,9 @@ internal sealed class GameLocationPerformTouchActionPatcher : HarmonyPatcher
 
     private static bool DoesPlayerMeetGalaxyConditions()
     {
-        if (Game1.player.ActiveObject is null ||
-            !Utility.IsNormalObjectAtParentSheetIndex(Game1.player.ActiveObject, SObject.prismaticShardIndex))
+        var player = Game1.player;
+        if (player.ActiveObject is null ||
+            !Utility.IsNormalObjectAtParentSheetIndex(player.ActiveObject, SObject.prismaticShardIndex))
         {
             return false;
         }
@@ -95,13 +97,15 @@ internal sealed class GameLocationPerformTouchActionPatcher : HarmonyPatcher
             return true;
         }
 
-        if (!Game1.player.hasItemInInventory(SObject.iridiumBar, ArsenalModule.Config.IridiumBarsRequiredForGalaxyArsenal))
+        if (player.Items.Sum(item =>
+                item is SObject { ParentSheetIndex: SObject.iridiumBar } iridium ? iridium.Stack : 0) <
+            ArsenalModule.Config.IridiumBarsRequiredForGalaxyArsenal)
         {
             return false;
         }
 
-        var obtained = Game1.player.Read(DataFields.GalaxyArsenalObtained).ParseList<int>();
-        return obtained.Count < 4 && Game1.player.ActiveObject.Stack >= obtained.Count + 1;
+        var obtained = player.Read(DataFields.GalaxyArsenalObtained).ParseList<int>();
+        return obtained.Count < 4 && player.ActiveObject.Stack >= obtained.Count + 1;
     }
 
     #endregion injected subroutines

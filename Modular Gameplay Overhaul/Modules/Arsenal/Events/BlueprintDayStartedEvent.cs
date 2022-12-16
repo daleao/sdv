@@ -21,7 +21,7 @@ internal sealed class BlueprintDayStartedEvent : DayStartedEvent
     /// <inheritdoc />
     protected override void OnEnabled()
     {
-        Game1.player.Write(DataFields.DaysLeftTranslating, Game1.random.Next(5, 8).ToString());
+        Game1.player.Write(DataFields.DaysLeftTranslating, Game1.random.Next(4, 9).ToString());
     }
 
     /// <inheritdoc />

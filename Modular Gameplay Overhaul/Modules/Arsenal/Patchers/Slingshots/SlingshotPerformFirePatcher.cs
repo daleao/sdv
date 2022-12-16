@@ -45,13 +45,13 @@ internal sealed class SlingshotPerformFirePatcher : HarmonyPatcher
         GameLocation location,
         Farmer who)
     {
+        if (__instance.Get_IsOnSpecial())
+        {
+            return false; // don't run original logic
+        }
+
         try
         {
-            if (__instance.Get_IsOnSpecial())
-            {
-                return false; // don't run original logic
-            }
-
             var canDoQuincy = __instance.hasEnchantmentOfType<QuincyEnchantment>() && location.HasMonsters();
             if (__instance.attachments[0] is null && !canDoQuincy && !who.IsSteppingOnSnow())
             {

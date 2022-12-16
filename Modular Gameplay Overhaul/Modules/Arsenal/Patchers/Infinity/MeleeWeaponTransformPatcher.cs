@@ -2,6 +2,7 @@
 
 #region using directives
 
+using System.Reflection;
 using DaLion.Overhaul.Modules.Arsenal.Enchantments;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
@@ -22,35 +23,43 @@ internal sealed class MeleeWeaponTransformPatcher : HarmonyPatcher
 
     /// <summary>Convert cursed -> blessed enchantment + galaxysoul -> infinity enchatnment.</summary>
     [HarmonyPrefix]
-    private static bool MeleeWeaponTransformPostfix(MeleeWeapon __instance, int newIndex)
+    private static bool MeleeWeaponTransformPrefix(MeleeWeapon __instance, int newIndex)
     {
         if (!ArsenalModule.Config.InfinityPlusOne)
         {
             return true; // run original logic
         }
 
-        __instance.CurrentParentTileIndex = newIndex;
-        __instance.InitialParentTileIndex = newIndex;
-        __instance.IndexOfMenuItemView = newIndex;
-        __instance.appearance.Value = -1;
-        switch (newIndex)
+        try
         {
-            // dark sword -> holy blade
-            case Constants.HolyBladeIndex:
-                __instance.RemoveEnchantment(__instance.GetEnchantmentOfType<CursedEnchantment>());
-                __instance.AddEnchantment(new BlessedEnchantment());
-                break;
-            // galaxy -> infinity
-            case Constants.InfinityBladeIndex:
-            case Constants.InfinityDaggerIndex:
-            case Constants.InfinityGavelIndex:
-                __instance.RemoveEnchantment(__instance.GetEnchantmentOfType<GalaxySoulEnchantment>());
-                __instance.AddEnchantment(new InfinityEnchantment());
-                break;
-        }
+            __instance.CurrentParentTileIndex = newIndex;
+            __instance.InitialParentTileIndex = newIndex;
+            __instance.IndexOfMenuItemView = newIndex;
+            __instance.appearance.Value = -1;
+            switch (newIndex)
+            {
+                // dark sword -> holy blade
+                case Constants.HolyBladeIndex:
+                    __instance.RemoveEnchantment(__instance.GetEnchantmentOfType<CursedEnchantment>());
+                    __instance.AddEnchantment(new BlessedEnchantment());
+                    break;
+                // galaxy -> infinity
+                case Constants.InfinityBladeIndex:
+                case Constants.InfinityDaggerIndex:
+                case Constants.InfinityGavelIndex:
+                    __instance.RemoveEnchantment(__instance.GetEnchantmentOfType<GalaxySoulEnchantment>());
+                    __instance.AddEnchantment(new InfinityEnchantment());
+                    break;
+            }
 
-        __instance.RecalculateAppliedForges();
-        return false; // don't run original logic
+            __instance.RecalculateAppliedForges();
+            return false; // don't run original logic
+        }
+        catch (Exception ex)
+        {
+            Log.E($"Failed in {MethodBase.GetCurrentMethod()?.Name}:\n{ex}");
+            return true; // default to original logic
+        }
     }
 
     #endregion harmony patches

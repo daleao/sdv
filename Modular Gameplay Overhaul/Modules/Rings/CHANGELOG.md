@@ -1,5 +1,11 @@
 # Rings Module Change Log
 
+## 0.9.6
+
+### Fixed
+
+* Fixed a display bug with Infinity Band gemstones.
+
 ## 0.9.4
 
 ### Fixed

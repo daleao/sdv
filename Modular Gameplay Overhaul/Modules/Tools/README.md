@@ -33,7 +33,7 @@ Like the Tractor Mod, what the shockwave actually does can also be configured. B
 
 The area of effect of Hoe and Watering Can may be customized by setting a length and radius for each upgrade level. Note that the radius adds to both side of the farmer, such that a radius of 1 yields an area 3 tiles wide.
 
-The radius of the Scythe and Golden Scythe can also be configured.
+The radius of the Scythe and Golden Scythe can also be configured. By default, a regular Scythe will have twice the range of a sword, and a Golden Scythe will have twice the range of a regular Scythe. Setting the ranges to zero reverts them back to vanilla status.
 
 ## Enchantments
 

@@ -115,7 +115,7 @@ internal static class FishPondExtensions
     /// <returns>Always <see langword="true"/> (required by vanilla code).</returns>
     internal static bool OpenChumBucketMenu(this FishPond pond, Farmer who)
     {
-        var held = pond.DeserializeObjectListData(DataFields.ItemsHeld);
+        var held = pond.DeserializeHeldItems();
         if (held.Count == 0)
         {
             if (who.addItemToInventoryBool(pond.output.Value))
@@ -172,15 +172,14 @@ internal static class FishPondExtensions
     }
 
     /// <summary>
-    ///     Reads a serialized item list from the <paramref name="pond"/>'s <seealso cref="ModDataDictionary"/> and
+    ///     Reads the serialized held item list from the <paramref name="pond"/>'s <seealso cref="ModDataDictionary"/> and
     ///     returns a deserialized <see cref="List{T}"/> of <seealso cref="SObject"/>s.
     /// </summary>
     /// <param name="pond">The <see cref="FishPond"/>.</param>
-    /// <param name="field">The data field.</param>
     /// <returns>A <see cref="List{T}"/> of <see cref="Item"/>s which were encoded in <paramref name="field"/>.</returns>
-    internal static List<Item> DeserializeObjectListData(this FishPond pond, string field)
+    internal static List<Item> DeserializeHeldItems(this FishPond pond)
     {
-        return pond.Read(field)
+        return pond.Read(DataFields.ItemsHeld)
             .ParseList<string>(";")
             .Select(s => s?.ParseTuple<int, int, int>())
             .WhereNotNull()

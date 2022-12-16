@@ -18,7 +18,7 @@ internal sealed class BecomeVirtuousCommand : ConsoleCommand
     }
 
     /// <inheritdoc />
-    public override string[] Triggers { get; } = { "chivalrous", "virtuous" };
+    public override string[] Triggers { get; } = { "chivalrous", "virtuous", "chivarly", "virtue" };
 
     /// <inheritdoc />
     public override string Documentation => "Set all the player's virtue targets as complete.";

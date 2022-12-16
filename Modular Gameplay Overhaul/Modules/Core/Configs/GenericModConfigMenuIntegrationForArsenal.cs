@@ -47,6 +47,11 @@ internal sealed partial class GenericModConfigMenuIntegration
                 {
                     config.Arsenal.OverhauledDefense = value;
                     ModHelper.GameContent.InvalidateCacheAndLocalized("Data/ObjectInformation");
+                    if (!Context.IsWorldReady)
+                    {
+                        return;
+                    }
+
                     Utility.iterateAllItems(item =>
                     {
                         if (item is not Ring { ParentSheetIndex: Constants.TopazRingIndex } topaz)
@@ -144,15 +149,6 @@ internal sealed partial class GenericModConfigMenuIntegration
                         new JsonAssetsIntegration(ModHelper.ModRegistry).Register();
                     }
 
-                    if (value)
-                    {
-                        Arsenal.Utils.RemoveAllIntrinsicEnchantments();
-                    }
-                    else
-                    {
-                        Arsenal.Utils.AddAllIntrinsicEnchantments();
-                    }
-
                     ModHelper.GameContent.InvalidateCacheAndLocalized("Data/Events/WizardHouse");
                     ModHelper.GameContent.InvalidateCacheAndLocalized("Data/ObjectInformation");
                     ModHelper.GameContent.InvalidateCacheAndLocalized("Data/weapons");
@@ -162,6 +158,20 @@ internal sealed partial class GenericModConfigMenuIntegration
                     if (VanillaTweaksIntegration.WeaponsCategoryEnabled)
                     {
                         ModHelper.GameContent.InvalidateCacheAndLocalized("TileSheets/weapons");
+                    }
+
+                    if (!Context.IsWorldReady)
+                    {
+                        return;
+                    }
+
+                    if (value)
+                    {
+                        Arsenal.Utils.RemoveAllIntrinsicEnchantments();
+                    }
+                    else
+                    {
+                        Arsenal.Utils.AddAllIntrinsicEnchantments();
                     }
                 })
 
@@ -231,6 +241,12 @@ internal sealed partial class GenericModConfigMenuIntegration
                     }
 
                     config.Arsenal.Weapons.BringBackStabbySwords = value;
+                    ModHelper.GameContent.InvalidateCacheAndLocalized("Data/weapons");
+                    if (!Context.IsWorldReady)
+                    {
+                        return;
+                    }
+
                     if (value)
                     {
                         Arsenal.Utils.ConvertAllStabbingSwords();
@@ -240,7 +256,6 @@ internal sealed partial class GenericModConfigMenuIntegration
                         Arsenal.Utils.RevertAllStabbingSwords();
                     }
 
-                    ModHelper.GameContent.InvalidateCacheAndLocalized("Data/weapons");
                 })
             .AddCheckbox(
                 () => "Rebalance Weapons",
@@ -250,7 +265,10 @@ internal sealed partial class GenericModConfigMenuIntegration
                 {
                     config.Arsenal.Weapons.RebalancedStats = value;
                     ModHelper.GameContent.InvalidateCacheAndLocalized("Data/weapons");
-                    Arsenal.Utils.UpdateAllWeapons();
+                    if (Context.IsWorldReady)
+                    {
+                        Arsenal.Utils.RefreshAllWeapons();
+                    }
                 })
             .AddCheckbox(
                 () => "Retexture Weapons",

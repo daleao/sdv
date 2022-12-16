@@ -22,9 +22,20 @@ internal sealed class ArsenalSaveLoadedEvent : SaveLoadedEvent
     /// <inheritdoc />
     protected override void OnSaveLoadedImpl(object? sender, SaveLoadedEventArgs e)
     {
-        if (Game1.player.Read<bool>(DataFields.Cursed))
+        var player = Game1.player;
+        if (player.Read<bool>(DataFields.Cursed))
         {
             this.Manager.Enable<CurseUpdateTickedEvent>();
+        }
+
+        if (player.canUnderstandDwarves)
+        {
+            ModHelper.GameContent.InvalidateCache("Data/Events/Blacksmith");
+        }
+
+        if (player.Read(DataFields.DaysLeftTranslating, -1) > 0)
+        {
+            this.Manager.Enable<BlueprintDayStartedEvent>();
         }
     }
 }

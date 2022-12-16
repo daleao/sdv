@@ -277,7 +277,7 @@ internal sealed class RingDrawTooltipPatcher : HarmonyPatcher
 
             var text = ModEntry.Config.EnableArsenal && ArsenalModule.Config.OverhauledDefense
                 ? I18n.Get("ui.itemhover.resist", new { amount })
-                : Game1.content.LoadString("ItemHover_DefenseBonus", buffer.DefenseModifier);
+                : Game1.content.LoadString("Strings\\UI:ItemHover_DefenseBonus", buffer.DefenseModifier);
             var width = font.MeasureString(text).X;
             maxWidth = (int)Math.Max(width, maxWidth);
             Utility.drawTextWithShadow(spriteBatch, text, font, new Vector2(x + 68, y + 28), co * 0.9f * alpha);

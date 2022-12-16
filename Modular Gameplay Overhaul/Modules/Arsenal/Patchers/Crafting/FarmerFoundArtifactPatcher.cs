@@ -2,6 +2,7 @@
 
 #region using directives
 
+using System.Reflection;
 using DaLion.Shared.Extensions;
 using DaLion.Shared.Extensions.Collections;
 using DaLion.Shared.Extensions.Stardew;
@@ -31,35 +32,42 @@ internal sealed class FarmerFoundArtifactPatcher : HarmonyPatcher
             return true; // run original logic
         }
 
-        var found = __instance.Read(DataFields.BlueprintsFound).ParseList<int>();
-        int blueprint;
-        if (!found.ContainsAny(Constants.ElfBladeIndex, Constants.ForestSwordIndex))
+        try
         {
-            blueprint = Game1.random.NextDouble() < 0.5 ? Constants.ElfBladeIndex : Constants.ForestSwordIndex;
-        }
-        else
-        {
-            blueprint = found.Contains(Constants.ElfBladeIndex) ? Constants.ForestSwordIndex : Constants.ElfBladeIndex;
-        }
+            var found = __instance.Read(DataFields.BlueprintsFound).ParseList<int>();
+            int blueprint;
+            if (!found.ContainsAny(Constants.ElfBladeIndex, Constants.ForestSwordIndex))
+            {
+                blueprint = Game1.random.NextDouble() < 0.5 ? Constants.ElfBladeIndex : Constants.ForestSwordIndex;
+            }
+            else
+            {
+                blueprint = found.Contains(Constants.ElfBladeIndex)
+                    ? Constants.ForestSwordIndex
+                    : Constants.ElfBladeIndex;
+            }
 
-        __instance.Append(DataFields.BlueprintsFound, blueprint.ToString());
-        if (__instance.Read(DataFields.BlueprintsFound).ParseList<int>().Count == 6)
-        {
-            __instance.completeQuest(Constants.ForgeNextQuestId);
-        }
+            __instance.Append(DataFields.BlueprintsFound, blueprint.ToString());
+            if (__instance.Read(DataFields.BlueprintsFound).ParseList<int>().Count == 6)
+            {
+                __instance.completeQuest(Constants.ForgeNextQuestId);
+            }
 
-        if (!__instance.hasOrWillReceiveMail("dwarvishBlueprintFound"))
-        {
-            Game1.player.mailReceived.Add("dwarvishBlueprintFound");
-        }
+            ModHelper.GameContent.InvalidateCache("Data/Events/Blacksmith");
 
-        __instance.holdUpItemThenMessage(new SObject(Globals.DwarvishBlueprintIndex.Value, 1));
-        if (Context.IsMultiplayer)
-        {
-            Broadcaster.SendPublicChat(I18n.Get("blueprint.found.global", new { who = __instance.Name }));
-        }
+            __instance.holdUpItemThenMessage(new SObject(Globals.DwarvishBlueprintIndex.Value, 1));
+            if (Context.IsMultiplayer)
+            {
+                Broadcaster.SendPublicChat(I18n.Get("blueprint.found.global", new { who = __instance.Name }));
+            }
 
-        return false; // don't run original logic
+            return false; // don't run original logic
+        }
+        catch (Exception ex)
+        {
+            Log.E($"Failed in {MethodBase.GetCurrentMethod()?.Name}:\n{ex}");
+            return true; // default to original logic
+        }
     }
 
     #endregion harmony patches

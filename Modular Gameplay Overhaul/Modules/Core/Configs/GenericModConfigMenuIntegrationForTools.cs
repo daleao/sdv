@@ -649,14 +649,30 @@ internal sealed partial class GenericModConfigMenuIntegration
                 () => "Regular Scythe Radius",
                 () => "Sets the area of effect of the regular Scythe.",
                 config => config.Tools.Scythe.RegularRadius,
-                (config, value) => config.Tools.Scythe.RegularRadius = (uint)value,
+                (config, value) =>
+                {
+                    config.Tools.Scythe.RegularRadius = (uint)value;
+                    ModHelper.GameContent.InvalidateCache("Data/weapons");
+                    if (Context.IsWorldReady)
+                    {
+                        Utils.RevalidateScythes();
+                    }
+                },
                 0,
                 10)
             .AddNumberField(
                 () => "Golden Scythe Radius",
                 () => "Sets the area of effect of the Golden Scythe.",
                 config => config.Tools.Scythe.GoldRadius,
-                (config, value) => config.Tools.Scythe.GoldRadius = (uint)value,
+                (config, value) =>
+                {
+                    config.Tools.Scythe.GoldRadius = (uint)value;
+                    ModHelper.GameContent.InvalidateCache("Data/weapons");
+                    if (Context.IsWorldReady)
+                    {
+                        Utils.RevalidateScythes();
+                    }
+                },
                 0,
                 10)
             .AddCheckbox(

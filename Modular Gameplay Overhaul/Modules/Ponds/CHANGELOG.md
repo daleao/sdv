@@ -1,5 +1,11 @@
 ﻿# Ponds Module Change Log
 
+## 0.9.6
+
+### Fixed
+
+* "Fixed" (but not really) an error thrown during Fish Pond production logic. This is actually caused by vanilla's `Utility.consolidateStacks` method, which deletes non-colored Roe from the produce list for some reason. Because this just slightly nerfs Fish Pond production, and they're slightly too strong, I'm choosing to embrace the bug and just hide the error.
+
 ## 0.9.2
 
 ### Changed

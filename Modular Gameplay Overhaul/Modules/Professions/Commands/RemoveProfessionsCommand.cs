@@ -57,7 +57,7 @@ internal sealed class RemoveProfessionsCommand : ConsoleCommand
                 var range = Game1.player.professions
                     .Where(pid =>
                         !Profession.TryFromValue(pid, out _) &&
-                        SCProfession.Loaded.Values.All(p => pid != p.Id))
+                        SCProfession.List.All(p => pid != p.Id))
                     .ToArray();
 
                 professionsToRemove.AddRange(range);
@@ -72,7 +72,7 @@ internal sealed class RemoveProfessionsCommand : ConsoleCommand
             }
             else
             {
-                var customProfession = SCProfession.Loaded.Values.FirstOrDefault(p =>
+                var customProfession = SCProfession.List.FirstOrDefault(p =>
                     string.Equals(arg, p.StringId.TrimAll(), StringComparison.InvariantCultureIgnoreCase) ||
                     string.Equals(arg, p.Title.TrimAll(), StringComparison.InvariantCultureIgnoreCase));
                 if (customProfession is null)

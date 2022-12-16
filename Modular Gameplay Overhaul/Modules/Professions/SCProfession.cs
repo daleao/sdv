@@ -3,6 +3,7 @@
 #region using directives
 
 using System.Collections.Generic;
+using System.Linq;
 using DaLion.Shared.Classes;
 
 #endregion using directives
@@ -54,6 +55,9 @@ public sealed class SCProfession : IProfession
         SpaceCoreMap.TryAdd(this, profession);
     }
 
+    /// <summary>Enumerates all the loaded instances of <see cref="SCProfession"/>.</summary>
+    public static IEnumerable<SCProfession> List => Loaded.Values;
+
     /// <inheritdoc />
     public int Id { get; }
 
@@ -91,5 +95,13 @@ public sealed class SCProfession : IProfession
     public string GetDescription(bool prestiged = false)
     {
         return this._descriptionGetter.Invoke();
+    }
+
+    /// <summary>Enumerates all the ids of loaded <see cref="SCProfession"/> instances.</summary>
+    /// <param name="prestige">Whether to enumerate prestige professions instead.</param>
+    /// <returns>A <see cref="IEnumerable{T}"/> of all loaded SpaceCore profession indices.</returns>
+    public static IEnumerable<int> GetAllIds(bool prestige = false)
+    {
+        return List.Select(p => prestige ? p.Id + 100 : p.Id);
     }
 }

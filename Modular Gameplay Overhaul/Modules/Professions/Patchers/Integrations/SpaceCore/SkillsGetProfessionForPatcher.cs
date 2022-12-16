@@ -44,41 +44,40 @@ internal sealed class SkillsGetProfessionForPatcher : HarmonyPatcher
             return false; // don't run original logic
         }
 
-        if (!SCProfession.Loaded.TryGetValue(tierOneIndex, out var tierOneProfession) &&
-            !SCProfession.Loaded.TryGetValue(tierOneIndex - 100, out tierOneProfession))
+        if (!SCProfession.Loaded.TryGetValue(tierOneIndex, out var tierOneProfession))
         {
             Log.W($"The profession {tierOneIndex} was not found within the loaded SpaceCore professions.");
             return true; // run original logic
         }
 
-        if (level == 5)
+        switch (level)
         {
-            __result = tierOneProfession.ToSpaceCore();
-            return false; // don't run original logic
-        }
-
-        if (level == 10)
-        {
-            var tierTwoIndex = Game1.player.GetCurrentProfessionForBranch(tierOneProfession);
-            if (tierTwoIndex == -1)
+            case 5:
+                __result = tierOneProfession.ToSpaceCore();
+                return false; // don't run original logic
+            case 10:
             {
-                __result = null;
+                var tierTwoIndex = Game1.player.GetCurrentProfessionForBranch(tierOneProfession);
+                if (tierTwoIndex == -1)
+                {
+                    __result = null;
+                    return false; // don't run original logic
+                }
+
+                if (!SCProfession.Loaded.TryGetValue(tierTwoIndex, out var tierTwoProfession))
+                {
+                    Log.W($"The profession {tierTwoIndex} was not found within the loaded SpaceCore professions.");
+                    return true; // run original logic
+                }
+
+                __result = tierTwoProfession.ToSpaceCore();
                 return false; // don't run original logic
             }
 
-            if (!SCProfession.Loaded.TryGetValue(tierTwoIndex, out var tierTwoProfession) &&
-                !SCProfession.Loaded.TryGetValue(tierTwoIndex - 100, out tierTwoProfession))
-            {
-                Log.W($"The profession {tierTwoIndex} was not found within the loaded SpaceCore professions.");
-                return true; // run original logic
-            }
-
-            __result = tierTwoProfession.ToSpaceCore();
-            return false; // don't run original logic
+            default:
+                __result = null;
+                return false; // don't run original logic
         }
-
-        __result = null;
-        return false; // don't run original logic
     }
 
     #endregion harmony patches

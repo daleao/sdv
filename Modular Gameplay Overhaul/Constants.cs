@@ -1,5 +1,4 @@
 ﻿#pragma warning disable CS1591
-
 namespace DaLion.Overhaul;
 
 /// <summary>Holds constants shared by different modules.</summary>
@@ -59,6 +58,7 @@ public sealed class Constants
     public const int SeaweedIndex = 152;
     public const int GreenAlgaeIndex = 153;
     public const int WhiteAlgaeIndex = 157;
+    public const int CoralIndex = 393;
     public const int SturgeonIndex = 698;
     public const int RoeIndex = 812;
     public const int SquidInkIndex = 814;

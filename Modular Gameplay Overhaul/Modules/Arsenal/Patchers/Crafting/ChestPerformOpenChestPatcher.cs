@@ -114,10 +114,7 @@ internal sealed class ChestPerformOpenChestPatcher : HarmonyPatcher
             player.completeQuest(Constants.ForgeNextQuestId);
         }
 
-        if (!player.hasOrWillReceiveMail("dwarvishBlueprintFound"))
-        {
-            Game1.player.mailReceived.Add("dwarvishBlueprintFound");
-        }
+        ModHelper.GameContent.InvalidateCache("Data/Events/Blacksmith");
 
         player.holdUpItemThenMessage(new SObject(Globals.DwarvishBlueprintIndex.Value, 1));
         if (Context.IsMultiplayer)

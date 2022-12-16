@@ -67,7 +67,7 @@ internal static class FarmerExtensions
         var allProfessions = Enumerable.Range(0, 30);
         if (includeCustom)
         {
-            allProfessions = allProfessions.Concat(SCProfession.Loaded.Values.Select(p => p.Id));
+            allProfessions = allProfessions.Concat(SCProfession.List.Select(p => p.Id));
         }
 
         return allProfessions.All(farmer.professions.Contains);
@@ -82,11 +82,13 @@ internal static class FarmerExtensions
     /// <returns>The last acquired profession index, or -1 if none was found.</returns>
     internal static int GetCurrentBranchForSkill(this Farmer farmer, ISkill skill)
     {
-        return farmer.professions
-            .Where(pid =>
-                pid.IsIn(skill.TierOneProfessionIds.Concat(skill.TierOneProfessionIds.Select(id => id + 100))))
+        var branch = farmer.professions
+            .Intersect(skill.TierOneProfessionIds.Concat(skill.TierOneProfessionIds.Select(id => id + 100)))
             .DefaultIfEmpty(-1)
             .Last();
+
+        var allPrestiged = Profession.GetRange(true).Concat(SCProfession.GetAllIds(true)).ToHashSet();
+        return allPrestiged.Contains(branch) ? branch - 100 : branch;
     }
 
     /// <summary>
@@ -98,11 +100,13 @@ internal static class FarmerExtensions
     /// <returns>The last acquired profession index, or -1 if none was found.</returns>
     internal static int GetCurrentProfessionForBranch(this Farmer farmer, IProfession branch)
     {
-        return farmer.professions
-            .Where(pid =>
-                pid.IsIn(branch.BranchingProfessions.Concat(branch.BranchingProfessions.Select(id => id + 100))))
+        var current = farmer.professions
+            .Intersect(branch.BranchingProfessions.Concat(branch.BranchingProfessions.Select(id => id + 100)))
             .DefaultIfEmpty(-1)
             .Last();
+
+        var allPrestiged = Profession.GetRange(true).Concat(SCProfession.GetAllIds(true)).ToHashSet();
+        return allPrestiged.Contains(current) ? current - 100 : current;
     }
 
     /// <summary>Gets all the <paramref name="farmer"/>'s professions associated with a specific <paramref name="skill"/>.</summary>

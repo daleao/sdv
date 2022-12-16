@@ -27,7 +27,7 @@ internal sealed class MeleeWeaponGetNumberOfDescriptionCategoriesPatcher : Harmo
     {
         try
         {
-            __result = __instance.Count_NonZeroStats();
+            __result = __instance.CountNonZeroStats();
             if (__instance.hasEnchantmentOfType<DiamondEnchantment>())
             {
                 __result++;

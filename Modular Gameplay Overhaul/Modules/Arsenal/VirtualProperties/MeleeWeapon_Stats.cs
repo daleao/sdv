@@ -138,7 +138,12 @@ internal static class MeleeWeapon_Stats
         return Values.GetValue(weapon, Create).Resilience * 0.1f;
     }
 
-    internal static int Count_NonZeroStats(this MeleeWeapon weapon)
+    internal static int Get_Level(this MeleeWeapon weapon)
+    {
+        return Values.GetValue(weapon, Create).Level;
+    }
+
+    internal static int CountNonZeroStats(this MeleeWeapon weapon)
     {
         var count = 1;
 
@@ -173,11 +178,6 @@ internal static class MeleeWeapon_Stats
         }
 
         return count;
-    }
-
-    internal static int Get_Level(this MeleeWeapon weapon)
-    {
-        return Values.GetValue(weapon, Create).Level;
     }
 
     internal static void Invalidate(this MeleeWeapon weapon)

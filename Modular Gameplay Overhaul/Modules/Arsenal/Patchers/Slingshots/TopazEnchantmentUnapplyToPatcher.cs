@@ -29,7 +29,6 @@ internal sealed class TopazEnchantmentUnapplyToPatcher : HarmonyPatcher
         }
 
         Game1.player.resilience -= __instance.GetLevel();
-
         return false; // don't run original logic
     }
 

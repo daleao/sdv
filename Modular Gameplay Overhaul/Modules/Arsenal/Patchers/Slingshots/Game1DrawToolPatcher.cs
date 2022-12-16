@@ -26,13 +26,13 @@ internal sealed class Game1DrawToolPatcher : HarmonyPatcher
     [HarmonyPrefix]
     private static bool Game1DrawToolPrefix(Farmer f)
     {
+        if (f.CurrentTool is not Slingshot slingshot || !slingshot.Get_IsOnSpecial())
+        {
+            return true; // run original logic
+        }
+
         try
         {
-            if (f.CurrentTool is not Slingshot slingshot || !slingshot.Get_IsOnSpecial())
-            {
-                return true; // run original logic
-            }
-
             var position = f.getLocalPosition(Game1.viewport) + f.jitter + f.armOffset;
             var sourceRect = Game1.getSourceRectForStandardTileSheet(
                 Tool.weaponsTexture,

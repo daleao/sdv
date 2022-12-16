@@ -2,6 +2,7 @@
 
 #region using directives
 
+using System.Reflection;
 using DaLion.Shared.Extensions;
 using DaLion.Shared.Extensions.Stardew;
 using DaLion.Shared.Harmony;
@@ -30,34 +31,42 @@ internal sealed class MeleeWeaponCheckForSpecialItemHoldUpMessagePatcher : Harmo
             return true; // run original logic
         }
 
-        if (__instance.isGalaxyWeapon())
+        try
         {
-            var count = Game1.player.Read(DataFields.GalaxyArsenalObtained).ParseList<int>().Count;
-            __result = count == 1
-                ? I18n.Get("fromcsfiles.MeleeWeapon.cs.14122", new { galaxyWeapon = __instance.DisplayName })
-                : (string?)null;
+            if (__instance.isGalaxyWeapon())
+            {
+                var count = Game1.player.Read(DataFields.GalaxyArsenalObtained).ParseList<int>().Count;
+                __result = count == 1
+                    ? I18n.Get("fromcsfiles.MeleeWeapon.cs.14122", new { galaxyWeapon = __instance.DisplayName })
+                    : (string?)null;
+                return false; // don't run original logic
+            }
+
+            switch (__instance.InitialParentTileIndex)
+            {
+                case Constants.DarkSwordIndex:
+                {
+                    var darkSword = I18n.Get("darksword.name");
+                    __result = I18n.Get("darksword.holdupmessage", new { darkSword });
+                    break;
+                }
+
+                case Constants.HolyBladeIndex:
+                {
+                    var darkSword = I18n.Get("darksword.name");
+                    var holyBlade = I18n.Get("holyblade.name");
+                    __result = I18n.Get("holyblade.holdupmessage", new { darkSword, holyBlade });
+                    break;
+                }
+            }
+
             return false; // don't run original logic
         }
-
-        switch (__instance.InitialParentTileIndex)
+        catch (Exception ex)
         {
-            case Constants.DarkSwordIndex:
-            {
-                var darkSword = I18n.Get("darksword.name");
-                __result = I18n.Get("darksword.holdupmessage", new { darkSword });
-                break;
-            }
-
-            case Constants.HolyBladeIndex:
-            {
-                var darkSword = I18n.Get("darksword.name");
-                var holyBlade = I18n.Get("holyblade.name");
-                __result = I18n.Get("holyblade.holdupmessage", new { darkSword, holyBlade });
-                break;
-            }
+            Log.E($"Failed in {MethodBase.GetCurrentMethod()?.Name}:\n{ex}");
+            return true; // default to original logic
         }
-
-        return false; // don't run original logic
     }
 
     #endregion harmony patches

@@ -26,7 +26,7 @@ internal static class Farmer_Ultimate
     {
         farmer.Write(DataFields.UltimateIndex, value?.Index.ToString() ?? string.Empty);
         Values.AddOrUpdate(farmer, Create(farmer));
-        Log.W($"{farmer.Name}'s Ultimate was set to {value}.");
+        Log.I($"{farmer.Name}'s Ultimate was set to {value}.");
 
         if (value is not null)
         {

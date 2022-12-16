@@ -119,6 +119,14 @@ internal static class MeleeWeaponExtensions
         weapon.critChance.Value = (float)Convert.ToDouble(split[12], CultureInfo.InvariantCulture);
         weapon.critMultiplier.Value = (float)Convert.ToDouble(split[13], CultureInfo.InvariantCulture);
 
+        if (weapon.isScythe())
+        {
+            weapon.minDamage.Value = Convert.ToInt32(split[2]);
+            weapon.maxDamage.Value = Convert.ToInt32(split[3]);
+            MeleeWeapon_Stats.Invalidate(weapon);
+            return;
+        }
+
         if (force)
         {
             weapon.RandomizeDamage();

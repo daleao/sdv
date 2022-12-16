@@ -38,16 +38,16 @@ internal sealed class FishPondGetFishProducePatcher : HarmonyPatcher
 
         try
         {
-            var held = __instance.DeserializeObjectListData(DataFields.ItemsHeld);
+            var fish = __instance.GetFishObject();
+            var held = __instance.DeserializeHeldItems();
             if (__instance.output.Value is not null)
             {
                 held.Add(__instance.output.Value);
             }
 
-            var fish = __instance.GetFishObject();
             __result = null;
             // handle algae, which have no fish pond data
-            if (__instance.HasAlgae())
+            if (fish.IsAlgae())
             {
                 var algaeStacks = new[] { 0, 0, 0 }; // green, white, seaweed
                 var population = __instance.Read<int>(DataFields.GreenAlgaeLivingHere);
@@ -148,7 +148,7 @@ internal sealed class FishPondGetFishProducePatcher : HarmonyPatcher
             }
 
             // handle roe or ink
-            if (fish.Name == "Coral")
+            if (fish.ParentSheetIndex == Constants.CoralIndex)
             {
                 var algaeStacks = new[] { 0, 0, 0 }; // green, white, seaweed
                 var chance = __instance.GetRoeChance(fish.Price);
@@ -282,8 +282,13 @@ internal sealed class FishPondGetFishProducePatcher : HarmonyPatcher
 
             // choose output
             Utility.consolidateStacks(held);
-            __result = held.OrderByDescending(h => h.salePrice()).First() as SObject;
-            held.Remove(__result!);
+            __result = held.OrderByDescending(h => h.salePrice()).FirstOrDefault() as SObject;
+            if (__result is null)
+            {
+                return false; // don't run original logic
+            }
+
+            held.Remove(__result);
             if (held.Count > 0)
             {
                 var serialized = held.Take(36).Select(p => $"{p.ParentSheetIndex},{p.Stack},{((SObject)p).Quality}");
@@ -294,7 +299,7 @@ internal sealed class FishPondGetFishProducePatcher : HarmonyPatcher
                 __instance.Write(DataFields.ItemsHeld, null);
             }
 
-            if (__result!.ParentSheetIndex != Constants.RoeIndex)
+            if (__result.ParentSheetIndex != Constants.RoeIndex)
             {
                 return false; // don't run original logic
             }

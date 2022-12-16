@@ -23,17 +23,6 @@ internal sealed class LevelUpMenuCtorPatcher : HarmonyPatcher
 
     #region harmony patches
 
-    [HarmonyPostfix]
-    private static void LevelUpMenuCtorTranspiler(LevelUpMenu __instance, int skill, int level)
-    {
-        if (!__instance.isProfessionChooser || level <= 10)
-        {
-            return;
-        }
-
-        ModHelper.GameContent.InvalidateCache("LooseSprites/Cursors");
-    }
-
     /// <summary>Patch to prevent duplicate profession acquisition + display end of level up dialogues.</summary>
     [HarmonyTranspiler]
     private static IEnumerable<CodeInstruction>? LevelUpMenuCtorTranspiler(

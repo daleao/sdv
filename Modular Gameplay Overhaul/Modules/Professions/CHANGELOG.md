@@ -1,5 +1,23 @@
 # Professions Module Change Log
 
+## 0.9.6
+
+### Added
+
+* Added OnProfessionAdded and OnProfessionRemoved events. So far they only serve to invalidate the cache of profession icons, but will likely be useful in the future.
+
+### Changed
+
+* Lowered the log level of Ultimate setter from Warn to Info.
+
+### Fixed
+
+* The level 20 prestige choices should now accurately reflect the prestige branch chosen at level 15.
+* The profession choice menu should now correctly display prestige profession icons.
+* The skills page profession icons should now also correctly display the prestige choices made on the night previous.
+* Replaced two more incorrect FieldGetters with the correct PropertyGetterGetter in Automate integration.
+* Fixed a typo in "multiplyer" FieldGetter.
+
 ## 0.9.4
 
 ### Fixed
