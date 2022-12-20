@@ -22,7 +22,7 @@ public sealed class Config : Shared.Configs.Config
     [JsonProperty]
     public bool FaceMouseCursor { get; internal set; } = true;
 
-    /// <summary>Gets a value indicating whether to allow drifting in the movement direction when using weapons.</summary>
+    /// <summary>Gets a value indicating whether to allow drifting in the movement direction when swinging weapons.</summary>
     [JsonProperty]
     public bool SlickMoves { get; internal set; } = true;
 

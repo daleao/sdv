@@ -23,7 +23,13 @@ internal static class Slingshot_Stats
 
     internal static float Get_RelativeDamageModifier(this Slingshot slingshot)
     {
-        return Values.GetValue(slingshot, Create).Damage;
+        return Values.GetValue(slingshot, Create).Damage + slingshot.InitialParentTileIndex switch
+        {
+            Constants.MasterSlingshotIndex => 0.5f,
+            Constants.GalaxySlingshotIndex => 1f,
+            Constants.InfinitySlingshotIndex => 1.5f,
+            _ => 0f,
+        };
     }
 
     internal static float Get_EffectiveKnockbackModifer(this Slingshot slingshot)
@@ -33,7 +39,13 @@ internal static class Slingshot_Stats
 
     internal static float Get_RelativeKnockbackModifer(this Slingshot slingshot)
     {
-        return Values.GetValue(slingshot, Create).Knockback;
+        return Values.GetValue(slingshot, Create).Knockback + slingshot.InitialParentTileIndex switch
+        {
+            Constants.MasterSlingshotIndex => 0.1f,
+            Constants.GalaxySlingshotIndex => 0.2f,
+            Constants.InfinitySlingshotIndex => 0.25f,
+            _ => 0f,
+        }; ;
     }
 
     internal static float Get_EffectiveCritChanceModifier(this Slingshot slingshot)

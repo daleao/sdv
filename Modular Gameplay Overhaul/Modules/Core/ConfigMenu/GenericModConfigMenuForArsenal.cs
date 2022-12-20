@@ -26,8 +26,7 @@ internal sealed partial class GenericModConfigMenuForOverhaul
                 (config, value) => config.Arsenal.FaceMouseCursor = value)
             .AddCheckbox(
                 () => "Slick Moves",
-                () =>
-                    "Allows the farmer to drift when using weapons while running.",
+                () => "Drift in the current running direction when swinging a weapon for more fluid combat movement.",
                 config => config.Arsenal.SlickMoves,
                 (config, value) => config.Arsenal.SlickMoves = value)
 

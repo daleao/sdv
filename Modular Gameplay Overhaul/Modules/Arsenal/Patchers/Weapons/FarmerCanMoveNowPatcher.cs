@@ -4,6 +4,7 @@
 
 using DaLion.Shared.Harmony;
 using HarmonyLib;
+using Microsoft.Xna.Framework;
 using StardewValley;
 
 #endregion using directives
@@ -23,9 +24,15 @@ internal sealed class FarmerCanMoveNowPatcher : HarmonyPatcher
     [HarmonyPostfix]
     private static void FarmerCanMoveNowPostfix(Farmer who)
     {
-        if (who.IsLocalPlayer)
+        if (!who.IsLocalPlayer)
         {
-            ArsenalModule.State.FarmerAnimating = false;
+            return;
+        }
+
+        ArsenalModule.State.FarmerAnimating = false;
+        if (ArsenalModule.Config.SlickMoves)
+        {
+            ArsenalModule.State.DriftVelocity = Vector2.Zero;
         }
     }
 

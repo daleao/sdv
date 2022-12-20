@@ -71,7 +71,7 @@ internal sealed class ArsenalButtonPressedEvent : ButtonPressedEvent
             player.FaceTowardsTile(Game1.currentCursorTile);
         }
 
-        if (!player.isMoving() || !player.running || !ArsenalModule.Config.SlickMoves)
+        if (!e.Button.IsUseToolButton() || !player.isMoving() || !player.running || !ArsenalModule.Config.SlickMoves)
         {
             return;
         }
@@ -83,7 +83,8 @@ internal sealed class ArsenalButtonPressedEvent : ButtonPressedEvent
             directionVector *= -1f;
         }
 
-        var driftTrajectory = directionVector * (1f + (Game1.player.addedSpeed * 0.1f)) * 2f;
-        player.setTrajectory(driftTrajectory);
+        var driftVelocity = directionVector * (1f + (Game1.player.addedSpeed * 0.1f)) * 3f;
+        ArsenalModule.State.DriftVelocity = driftVelocity;
+        this.Manager.Enable<SlickMovesUpdateTickingEvent>();
     }
 }

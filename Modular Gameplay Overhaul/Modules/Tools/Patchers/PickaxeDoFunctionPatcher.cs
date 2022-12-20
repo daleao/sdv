@@ -47,7 +47,7 @@ internal sealed class PickaxeDoFunctionPatcher : HarmonyPatcher
         MethodBase original)
     {
         var helper = new ILHelper(original, instructions);
-        return null;
+        
         // From: who.Stamina -= (float)(2 * power) - (float)who.<SkillLevel> * 0.1f;
         // To: who.Stamina -= Math.Max(((float)(2 * power) - (float)who.<SkillLevel> * 0.1f) * PickaxeConfig.BaseStaminaMultiplier, 0.1f);
         try

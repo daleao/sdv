@@ -63,7 +63,6 @@ internal static class SlingshotExtensions
     internal static void DoDamage(this Slingshot slingshot, int x, int y, Farmer who)
     {
         var areaOfEffect = slingshot.GetAreaOfEffect(who);
-        Log.D(areaOfEffect.ToString());
         var damage = 10 * slingshot.InitialParentTileIndex switch
         {
             Constants.MasterSlingshotIndex => 2,

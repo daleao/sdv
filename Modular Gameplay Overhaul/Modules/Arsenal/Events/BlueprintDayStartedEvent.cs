@@ -31,7 +31,18 @@ internal sealed class BlueprintDayStartedEvent : DayStartedEvent
     {
         var player = Game1.player;
         player.Increment(DataFields.DaysLeftTranslating, -1);
-        if (player.Read<int>(DataFields.DaysLeftTranslating) <= 0)
+        if (Game1.random.NextDouble() < (player.getFriendshipHeartLevelForNPC("Clint") - 6) / 10d)
+        {
+            player.Increment(DataFields.DaysLeftTranslating, -1);
+        }
+
+        var daysLeft = player.Read<int>(DataFields.DaysLeftTranslating);
+#if DEBUG
+        Log.D($"T - {daysLeft} days left until Clint is done deciphering the blueprint.");
+#elif RELEASE
+        Log.T($"T - {daysLeft} days left until Clint is done deciphering the blueprint.");
+#endif
+        if (daysLeft <= 0)
         {
             this.Disable();
         }

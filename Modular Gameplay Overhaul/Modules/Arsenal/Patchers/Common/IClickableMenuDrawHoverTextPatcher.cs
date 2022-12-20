@@ -78,54 +78,54 @@ internal sealed class IClickableMenuDrawHoverTextPatcher : HarmonyPatcher
 
     private static Color GetTitleColorFor(Item? item)
     {
-        if (item is null || !ArsenalModule.Config.ColorCodedForYourConvenience)
+        if (item is not Tool tool || !ArsenalModule.Config.ColorCodedForYourConvenience)
         {
             return Game1.textColor;
         }
 
-        switch (item)
+        var tier = WeaponTier.GetFor(tool);
+        if (tier == WeaponTier.Untiered)
         {
-            case MeleeWeapon weapon:
-                var tier = WeaponTier.GetFor(weapon);
-                if (tier < WeaponTier.Legendary)
-                {
-                    return tier.Color;
-                }
-
-                if (weapon.isGalaxyWeapon())
-                {
-                    return Color.DarkViolet;
-                }
-
-                if (weapon.IsInfinityWeapon())
-                {
-                    return Color.DeepPink;
-                }
-
-                switch (weapon.InitialParentTileIndex)
-                {
-                    case Constants.DarkSwordIndex:
-                        return Color.DarkSlateGray;
-                    case Constants.HolyBladeIndex:
-                        return Color.Gold;
-                }
-
-                goto default;
-            case Slingshot slingshot:
-                switch (slingshot.InitialParentTileIndex)
-                {
-                    case Constants.GalaxySlingshotIndex:
-                        return Color.Purple;
-                    case Constants.InfinitySlingshotIndex:
-                        return Color.DeepPink;
-                    case Constants.MasterSlingshotIndex:
-                        return Color.Green;
-                }
-
-                goto default;
-            default:
-                return Game1.textColor;
+            return Game1.textColor;
         }
+
+        if (tier < WeaponTier.Legendary)
+        {
+            return tier.Color;
+        }
+
+        if (tool is MeleeWeapon weapon)
+        {
+            if (weapon.isGalaxyWeapon())
+            {
+                return Color.DarkViolet;
+            }
+
+            if (weapon.IsInfinityWeapon())
+            {
+                return Color.DeepPink;
+            }
+
+            switch (weapon.InitialParentTileIndex)
+            {
+                case Constants.DarkSwordIndex:
+                    return Color.DarkSlateGray;
+                case Constants.HolyBladeIndex:
+                    return Color.Gold;
+            }
+        }
+        else if (tool is Slingshot slingshot)
+        {
+            switch (slingshot.InitialParentTileIndex)
+            {
+                case Constants.GalaxySlingshotIndex:
+                    return Color.DarkViolet;
+                case Constants.InfinitySlingshotIndex:
+                    return Color.DeepPink;
+            }
+        }
+
+        return Game1.textColor;
     }
 
     #endregion injected subroutines

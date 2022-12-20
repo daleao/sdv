@@ -247,8 +247,8 @@
 
   "mail.curse.intro": "Dear @, I must see you about a matter of utmost urgency.^Please come see me at the tower at your earliest convenience.^   -M. Rasmodius, Wizard%%[#]Ruined Hero",
 
-  "quests.forge.intro": "Basic/A Dwarven Legacy/Clint told you he'd finish translating that old blueprint in a couple of days./Visit Clint to ask about the blueprint./null/144701/0/-1/false",
-  "quests.forge.part2": "Basic/A Dwarven Legacy II/That old blueprint turned out to be a recipe for a powerful ancient weapon! Maybe there are others?/Find the remaining Dwarvish blueprints and take them to Clint./null/144701/0/-1/false",
+  "quests.forge.intro": "Basic/A Dwarven Legacy/Clint told you he'd finish translating that old blueprint in a couple of days./Visit Clint to ask about the blueprint./Blacksmith/144702/0/-1/false",
+  "quests.forge.next": "Basic/A Dwarven Legacy II/That old blueprint turned out to be a recipe for a powerful ancient weapon! Could there be others?/Find the remaining Dwarvish blueprints./null/-1/0/-1/false",
   "quests.curse": "Basic/The Blade of the Ruined Hero/The weapon you found carries the curse of the Ruined Hero! You can already feel it draining away your life energy. Better find some way to lift that curse, and fast!/Find a way to lift the Ruined Blade's curse./null/-1/0/-1/false",
 
   // json assets

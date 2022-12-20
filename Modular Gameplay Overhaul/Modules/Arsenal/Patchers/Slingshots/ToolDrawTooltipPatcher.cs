@@ -57,7 +57,8 @@ internal sealed class ToolDrawTooltipPatcher : HarmonyPatcher
             Color co;
 
             // write bonus damage
-            if (slingshot.hasEnchantmentOfType<RubyEnchantment>())
+            if (slingshot.InitialParentTileIndex != Constants.BasicSlingshotIndex ||
+                slingshot.hasEnchantmentOfType<RubyEnchantment>())
             {
                 var amount = $"+{slingshot.Get_RelativeDamageModifier():0%}";
                 co = new Color(0, 120, 120);
@@ -84,7 +85,8 @@ internal sealed class ToolDrawTooltipPatcher : HarmonyPatcher
             }
 
             // write bonus knockback
-            if (__instance.hasEnchantmentOfType<AmethystEnchantment>())
+            if (slingshot.InitialParentTileIndex != Constants.BasicSlingshotIndex ||
+                __instance.hasEnchantmentOfType<AmethystEnchantment>())
             {
                 var amount = $"+{slingshot.Get_RelativeKnockbackModifer():0%}";
                 co = new Color(0, 120, 120);

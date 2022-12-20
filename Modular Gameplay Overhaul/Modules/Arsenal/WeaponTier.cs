@@ -9,7 +9,7 @@ using StardewValley.Tools;
 
 #endregion using directives
 
-/// <summary>The tier of a <see cref="MeleeWeapon"/>.</summary>
+/// <summary>The tier of a <see cref="MeleeWeapon"/> or <see cref="Slingshot"/>.</summary>
 public sealed class WeaponTier : SmartEnum<WeaponTier>
 {
     #region enum values
@@ -67,6 +67,7 @@ public sealed class WeaponTier : SmartEnum<WeaponTier>
             { Constants.BoneSwordIndex, Rare },
             { Constants.FemurIndex, Rare },
             { Constants.CrystalDaggerIndex, Rare },
+            { Constants.MasterSlingshotIndex, Rare },
 
             { Constants.SteelFalchionIndex, Epic },
             { Constants.TemperedBroadswordIndex, Epic },
@@ -100,9 +101,11 @@ public sealed class WeaponTier : SmartEnum<WeaponTier>
             { Constants.GalaxySwordIndex, Legendary },
             { Constants.GalaxyHammerIndex, Legendary },
             { Constants.GalaxyDaggerIndex, Legendary },
+            { Constants.GalaxySlingshotIndex, Legendary },
             { Constants.InfinityBladeIndex, Legendary },
             { Constants.InfinityGavelIndex, Legendary },
             { Constants.InfinityDaggerIndex, Legendary },
+            { Constants.InfinitySlingshotIndex, Legendary },
         };
 #pragma warning restore SA1509 // Opening braces should not be preceded by blank line
     }
@@ -152,11 +155,11 @@ public sealed class WeaponTier : SmartEnum<WeaponTier>
     /// <summary>Gets the sell price of a weapon at this tier.</summary>
     public int Price { get; }
 
-    /// <summary>Gets the corresponding <see cref="WeaponTier"/> for the specified <paramref name="weapon"/>.</summary>
-    /// <param name="weapon">The <see cref="MeleeWeapon"/>.</param>
+    /// <summary>Gets the corresponding <see cref="WeaponTier"/> for the specified <paramref name="tool"/>.</summary>
+    /// <param name="tool">A <see cref="MeleeWeapon"/> or <see cref="Slingshot"/>.</param>
     /// <returns>A <see cref="WeaponTier"/>.</returns>
-    public static WeaponTier GetFor(MeleeWeapon weapon)
+    public static WeaponTier GetFor(Tool tool)
     {
-        return TierByWeapon.TryGetValue(weapon.InitialParentTileIndex, out var tier) ? tier : Untiered;
+        return TierByWeapon.TryGetValue(tool.InitialParentTileIndex, out var tier) ? tier : Untiered;
     }
 }

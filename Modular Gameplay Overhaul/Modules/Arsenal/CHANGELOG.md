@@ -1,5 +1,16 @@
 ﻿# Arsenal Change Log
 
+## 0.9.8
+
+### Added
+
+* The natural damage and knockback modifiers of advanced slingshots now display in the tooltip.
+
+### Changed
+
+* Improvements to Slick Moves. Can now drift in the parallel direction (i.e., when swinging directly in front or behind you). Before, drifting only worked for perpendicular directions (i.e., when swinging to the sides). Also increased the drift velocity slightly. Finally, the drift now comes to a halt at the end of the animation, removing the unimmersive impression of buttery floor.
+* Clints follow-up quest now begins correctly.
+
 ## 0.9.7
 
 ### Changed

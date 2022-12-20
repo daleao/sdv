@@ -1,9 +1,8 @@
 # Modular Overhaul Change Logs
 
-## Revision 7 Highlights
+## Revision 8 Highlights
 
-* The Dwarfish Legacy quest should finally be working.
-* Fixed bug causing low crit. damage.
+* Improvements to Slick Moves.
 
 ## Minor Release 9 Highlights
 

@@ -8,7 +8,7 @@ using StardewValley.Tools;
 
 #endregion using directives
 
-/// <summary>The type of a <see cref="MeleeWeapon"/>.</summary>
+/// <summary>The type of a <see cref="MeleeWeapon"/> or <see cref="Slingshot"/>.</summary>
 [EnumExtensions]
 public enum WeaponType
 {

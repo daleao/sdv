@@ -87,6 +87,7 @@ internal sealed class MeleeWeaponSetFarmerAnimatingPatcher : HarmonyPatcher
                 .Move(2)
                 .GetOperand(out var skipCheckEnchantments)
                 .Move()
+                .AddLabels(doCheckEnchantments)
                 .Insert(
                     new[]
                     {
