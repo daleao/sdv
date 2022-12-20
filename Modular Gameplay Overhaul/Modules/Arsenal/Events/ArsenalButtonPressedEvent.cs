@@ -26,8 +26,9 @@ internal sealed class ArsenalButtonPressedEvent : ButtonPressedEvent
     /// <inheritdoc />
     protected override void OnButtonPressedImpl(object? sender, ButtonPressedEventArgs e)
     {
-        if (!Context.IsWorldReady || Game1.activeClickableMenu is not null ||
-            !(e.Button.IsActionButton() || e.Button.IsUseToolButton()))
+        var isActionButton = e.Button.IsActionButton();
+        var isUseToolButton = e.Button.IsUseToolButton();
+        if (!Context.IsWorldReady || Game1.activeClickableMenu is not null || !(isActionButton || isUseToolButton))
         {
             return;
         }
@@ -39,7 +40,7 @@ internal sealed class ArsenalButtonPressedEvent : ButtonPressedEvent
             return;
         }
 
-        if (e.Button.IsActionButton())
+        if (isActionButton)
         {
             switch (tool)
             {
@@ -63,6 +64,10 @@ internal sealed class ArsenalButtonPressedEvent : ButtonPressedEvent
                     return;
             }
         }
+        else if (isUseToolButton && tool is MeleeWeapon && ArsenalModule.State.ComboCooldown > 0)
+        {
+            return;
+        }
 
         var originalDirection = (FacingDirection)player.FacingDirection;
         if (!Game1.options.gamepadControls && ArsenalModule.Config.FaceMouseCursor)
@@ -71,7 +76,7 @@ internal sealed class ArsenalButtonPressedEvent : ButtonPressedEvent
             player.FaceTowardsTile(Game1.currentCursorTile);
         }
 
-        if (!e.Button.IsUseToolButton() || !player.isMoving() || !player.running || !ArsenalModule.Config.SlickMoves)
+        if (!isUseToolButton || !player.isMoving() || !player.running || !ArsenalModule.Config.SlickMoves)
         {
             return;
         }
