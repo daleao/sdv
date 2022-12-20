@@ -1,4 +1,4 @@
-﻿namespace DaLion.Overhaul.Modules.Arsenal.Patchers.Forges;
+﻿namespace DaLion.Overhaul.Modules.Arsenal.Patchers.Enchantments;
 
 #region using directives
 
@@ -11,21 +11,21 @@ using StardewValley.Tools;
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class RubyEnchantmentApplyToPatcher : HarmonyPatcher
+internal sealed class RubyEnchantmentUnapplyToPatcher : HarmonyPatcher
 {
-    /// <summary>Initializes a new instance of the <see cref="RubyEnchantmentApplyToPatcher"/> class.</summary>
-    internal RubyEnchantmentApplyToPatcher()
+    /// <summary>Initializes a new instance of the <see cref="RubyEnchantmentUnapplyToPatcher"/> class.</summary>
+    internal RubyEnchantmentUnapplyToPatcher()
     {
-        this.Target = this.RequireMethod<RubyEnchantment>("_ApplyTo");
+        this.Target = this.RequireMethod<RubyEnchantment>("_UnapplyTo");
     }
 
     #region harmony patches
 
     /// <summary>Adjust Ruby enchant for randomized weapons.</summary>
     [HarmonyPrefix]
-    private static bool RubyEnchantmentApplyToPrefix(RubyEnchantment __instance, Item item)
+    private static bool RubyEnchantmentUnapplyToPrefix(RubyEnchantment __instance, Item item)
     {
-        if (item is not MeleeWeapon weapon || !ArsenalModule.Config.Weapons.RebalancedStats)
+        if (item is not MeleeWeapon weapon || !ArsenalModule.Config.Weapons.EnableRebalance)
         {
             return true; // run original logic
         }
@@ -33,10 +33,10 @@ internal sealed class RubyEnchantmentApplyToPatcher : HarmonyPatcher
         var data = ModHelper.GameContent
             .Load<Dictionary<int, string>>("Data/weapons")[weapon.InitialParentTileIndex]
             .Split('/');
-        weapon.minDamage.Value +=
+        weapon.minDamage.Value -=
             (int)Math.Min(
                 weapon.Read(DataFields.BaseMinDamage, Convert.ToInt32(data[2])) * __instance.GetLevel() * 0.1f, 1);
-        weapon.maxDamage.Value +=
+        weapon.maxDamage.Value -=
             (int)Math.Min(
                 weapon.Read(DataFields.BaseMaxDamage, Convert.ToInt32(data[3])) * __instance.GetLevel() * 0.1f, 1);
         return false; // don't run original logic

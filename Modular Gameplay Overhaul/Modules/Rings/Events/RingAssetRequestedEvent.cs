@@ -72,7 +72,7 @@ internal class RingAssetRequestedEvent : AssetRequestedEvent
         if (RingsModule.Config.RebalancedRings)
         {
             fields = data[Constants.TopazRingIndex].Split('/');
-            fields[5] = ModEntry.Config.EnableArsenal && ArsenalModule.Config.OverhauledDefense
+            fields[5] = ArsenalModule.IsEnabled && ArsenalModule.Config.OverhauledDefense
                 ? I18n.Get("rings.topaz.description.resist")
                 : I18n.Get("rings.topaz.description.defense");
             data[Constants.TopazRingIndex] = string.Join('/', fields);
@@ -96,8 +96,8 @@ internal class RingAssetRequestedEvent : AssetRequestedEvent
         var editor = asset.AsImage();
         Rectangle sourceArea, targetArea;
 
-        var sourceY = VanillaTweaksIntegration.RingsCategoryEnabled
-            ? 32 : BetterRingsIntegration.IsLoaded
+        var sourceY = VanillaTweaksIntegration.Instance?.RingsCategoryEnabled == true
+            ? 32 : BetterRingsIntegration.Instance?.IsLoaded == true
                 ? 16 : 0;
         if (RingsModule.Config.CraftableGemRings)
         {

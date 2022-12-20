@@ -24,14 +24,16 @@ internal sealed class MeleeWeaponCtorPatcher : HarmonyPatcher
     [HarmonyPostfix]
     private static void MeleeWeaponCtorPostfix(MeleeWeapon __instance)
     {
-        if (__instance.InitialParentTileIndex == Constants.InsectHeadIndex)
+        if (ArsenalModule.Config.Weapons.EnableRebalance &&
+            __instance.InitialParentTileIndex == Constants.InsectHeadIndex)
         {
             __instance.type.Value = MeleeWeapon.dagger;
             __instance.specialItem = true;
             return;
         }
 
-        if (Collections.StabbingSwords.Contains(__instance.InitialParentTileIndex))
+        if (ArsenalModule.Config.Weapons.EnableStabbySwords &&
+            Collections.StabbingSwords.Contains(__instance.InitialParentTileIndex))
         {
             __instance.type.Value = MeleeWeapon.stabbingSword;
         }

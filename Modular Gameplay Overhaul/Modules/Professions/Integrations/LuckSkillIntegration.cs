@@ -2,42 +2,32 @@
 
 #region using directives
 
-using System.Diagnostics.CodeAnalysis;
+using DaLion.Shared.Attributes;
 using DaLion.Shared.Integrations;
 using DaLion.Shared.Integrations.LuckSkill;
 
 #endregion using directives
 
-internal sealed class LuckSkillIntegration : BaseIntegration<ILuckSkillApi>
+[RequiresMod("spacechase0.LuckSkill", "Luck Skill", "1.2.3")]
+internal sealed class LuckSkillIntegration : ModIntegration<LuckSkillIntegration, ILuckSkillApi>
 {
-    /// <summary>Initializes a new instance of the <see cref="LuckSkillIntegration"/> class.</summary>
-    /// <param name="modRegistry">An API for fetching metadata about loaded mods.</param>
-    internal LuckSkillIntegration(IModRegistry modRegistry)
-        : base("LuckSkill", "spacechase0.LuckSkill", "1.2.3", modRegistry)
+    private LuckSkillIntegration()
+        : base("spacechase0.LuckSkill", "Luck Skill", "1.2.3", ModHelper.ModRegistry)
     {
-        ModEntry.Integrations[this.ModName] = this;
     }
 
-    /// <summary>Gets the <see cref="ILuckSkillApi"/>.</summary>
-    internal static ILuckSkillApi? Api { get; private set; }
-
     /// <summary>Instantiates and caches the <see cref="LuckSkill"/> instance.</summary>
-    internal static void LoadLuckSkill()
+    internal void LoadLuckSkill()
     {
+        this.AssertLoaded();
+
         if (SCSkill.Loaded.ContainsKey("spacechase0.LuckSkill"))
         {
             return;
         }
 
-        Skill.Luck = new LuckSkill();
-        SCSkill.Loaded["spacechase0.LuckSkill"] = Skill.Luck;
-    }
-
-    /// <inheritdoc />
-    [MemberNotNull(nameof(Api))]
-    protected override void RegisterImpl()
-    {
-        this.AssertLoaded();
-        Api = this.ModApi;
+        var luckSkill = new LuckSkill();
+        Skill.Luck = luckSkill;
+        SCSkill.Loaded["spacechase0.LuckSkill"] = luckSkill;
     }
 }

@@ -173,7 +173,7 @@ internal sealed class SlingshotPerformFirePatcher : HarmonyPatcher
             }
 
             // calculate overcharge
-            var overcharge = ModEntry.Config.EnableProfessions && who.professions.Contains(Farmer.desperado)
+            var overcharge = ProfessionsModule.IsEnabled && who.professions.Contains(Farmer.desperado)
                 ? __instance.GetOvercharge(who)
                 : 1f;
 

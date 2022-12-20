@@ -22,7 +22,7 @@ internal sealed class MeleeWeaponGetAreaOfEffectPatcher : HarmonyPatcher
 
     #region harmony patches
 
-    /// <summary>Fix Stabbing sword hitbox during lunge.</summary>
+    /// <summary>Fix Stabbing Sword hitbox during lunge.</summary>
     [HarmonyPrefix]
     private static bool MeleeWeaponGetAreaOfEffectPrefix(
         MeleeWeapon __instance,

@@ -5,6 +5,7 @@
 using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
+using DaLion.Overhaul.Modules.Arsenal.Configs;
 using DaLion.Shared.Extensions.Reflection;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
@@ -27,24 +28,39 @@ internal sealed class MeleeWeaponSetFarmerAnimatingPatcher : HarmonyPatcher
     /// <summary>Movement speed does not affect swing speed + remove weapon enchantment OnSwing effect.</summary>
     [HarmonyTranspiler]
     private static IEnumerable<CodeInstruction>? MeleeWeaponSetFarmerAnimatingTranspiler(
-        IEnumerable<CodeInstruction> instructions, MethodBase original)
+        IEnumerable<CodeInstruction> instructions, ILGenerator generator, MethodBase original)
     {
         var helper = new ILHelper(original, instructions);
 
         // Removed: swipeSpeed -= who.addedSpeed * 40;
         try
         {
+            var skipMovementSpeed = generator.DefineLabel();
             helper
                 .Match(
                     new[]
                     {
-                        new CodeInstruction(OpCodes.Ldarg_1),
-                        new CodeInstruction(
+                        new CodeInstruction(OpCodes.Ldarg_1), new CodeInstruction(
                             OpCodes.Callvirt,
                             typeof(Farmer).RequirePropertyGetter(nameof(Farmer.addedSpeed))),
                     })
-                .Match(new[] { new CodeInstruction(OpCodes.Sub) }, out var count)
-                .Remove(count);
+                .Insert(
+                    new[]
+                    {
+                        new CodeInstruction(OpCodes.Call, typeof(ModEntry).RequirePropertyGetter(nameof(ModEntry.Config))),
+                        new CodeInstruction(
+                            OpCodes.Callvirt,
+                            typeof(ModConfig).RequirePropertyGetter(nameof(ModConfig.Arsenal))),
+                        new CodeInstruction(
+                            OpCodes.Callvirt,
+                            typeof(Config).RequirePropertyGetter(nameof(Config.Weapons))),
+                        new CodeInstruction(
+                            OpCodes.Callvirt,
+                            typeof(WeaponConfig).RequirePropertyGetter(nameof(WeaponConfig.EnableRebalance))),
+                        new CodeInstruction(OpCodes.Brtrue_S, skipMovementSpeed),
+                    })
+                .Match(new[] { new CodeInstruction(OpCodes.Conv_R4) })
+                .AddLabels(skipMovementSpeed);
         }
         catch (Exception ex)
         {
@@ -53,10 +69,11 @@ internal sealed class MeleeWeaponSetFarmerAnimatingPatcher : HarmonyPatcher
         }
 
         // From: if (who.IsLocalPlayer)
-        // To: if (who.IsLocalPlayer && this.type.Value == MeleeWeapon.dagger)
+        // To: if (who.IsLocalPlayer && (this.type.Value == MeleeWeapon.dagger || !ArsenalModule.Config.Weapons.EnableComboHits))
         // Before: foreach (BaseEnchantment enchantment in enchantments) if (enchantment is BaseWeaponEnchantment) (enchantment as BaseWeaponEnchantment).OnSwing(this, who);
         try
         {
+            var doCheckEnchantments = generator.DefineLabel();
             helper
                 .Match(
                     new[]
@@ -68,7 +85,7 @@ internal sealed class MeleeWeaponSetFarmerAnimatingPatcher : HarmonyPatcher
                     },
                     ILHelper.SearchOption.First)
                 .Move(2)
-                .GetOperand(out var resumeExecution)
+                .GetOperand(out var skipCheckEnchantments)
                 .Move()
                 .Insert(
                     new[]
@@ -79,7 +96,18 @@ internal sealed class MeleeWeaponSetFarmerAnimatingPatcher : HarmonyPatcher
                             OpCodes.Call,
                             typeof(NetFieldBase<int, NetInt>).RequireMethod("op_Implicit")),
                         new CodeInstruction(OpCodes.Ldc_I4_1), // 1 = MeleeWeapon.dagger
-                        new CodeInstruction(OpCodes.Bne_Un_S, resumeExecution),
+                        new CodeInstruction(OpCodes.Beq_S, doCheckEnchantments),
+                        new CodeInstruction(OpCodes.Call, typeof(ModEntry).RequirePropertyGetter(nameof(ModEntry.Config))),
+                        new CodeInstruction(
+                            OpCodes.Callvirt,
+                            typeof(ModConfig).RequirePropertyGetter(nameof(ModConfig.Arsenal))),
+                        new CodeInstruction(
+                            OpCodes.Callvirt,
+                            typeof(Config).RequirePropertyGetter(nameof(Config.Weapons))),
+                        new CodeInstruction(
+                            OpCodes.Callvirt,
+                            typeof(WeaponConfig).RequirePropertyGetter(nameof(WeaponConfig.EnableComboHits))),
+                        new CodeInstruction(OpCodes.Brtrue_S, skipCheckEnchantments),
                     });
         }
         catch (Exception ex)

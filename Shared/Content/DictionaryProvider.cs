@@ -3,6 +3,7 @@
 #region using directives
 
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using StardewModdingAPI.Events;
 
 #endregion using directivese
@@ -16,6 +17,7 @@ public record DictionaryProvider<TKey, TValue>(Func<Dictionary<TKey, TValue>>? L
     where TKey : notnull
 {
     /// <inheritdoc />
+    [SuppressMessage("StyleCop.CSharp.NamingRules", "SA1300:Element should begin with upper-case letter", Justification = "Preference for inner functions.")]
     public void Provide(AssetRequestedEventArgs e)
     {
         e.LoadFrom(this.Load ?? fallback, this.Priority);

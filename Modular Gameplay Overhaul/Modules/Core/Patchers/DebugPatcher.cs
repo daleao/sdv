@@ -2,9 +2,7 @@
 
 #region using directives
 
-using System.Diagnostics;
 using DaLion.Shared.Attributes;
-using DaLion.Shared.Extensions.Reflection;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
 
@@ -26,8 +24,8 @@ internal sealed class DebugPatcher : HarmonyPatcher
     [HarmonyPrefix]
     private static bool DebugPrefix(object __instance)
     {
-        var caller = new StackTrace().GetFrame(1)?.GetMethod()?.GetFullName();
-        Log.D($"{caller} prefix called!");
+        //var caller = new StackTrace().GetFrame(1)?.GetMethod()?.GetFullName();
+        //Log.D($"{caller} prefix called!");
         return true;
     }
 
@@ -35,8 +33,8 @@ internal sealed class DebugPatcher : HarmonyPatcher
     [HarmonyPostfix]
     private static void DebugPostfix(object __instance)
     {
-        var caller = new StackTrace().GetFrame(1)?.GetMethod()?.GetFullName();
-        Log.D($"{caller} postfix called!");
+        //var caller = new StackTrace().GetFrame(1)?.GetMethod()?.GetFullName();
+        //Log.D($"{caller} postfix called!");
     }
 
     #endregion harmony patches

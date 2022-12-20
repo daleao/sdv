@@ -13,26 +13,7 @@ using HarmonyLib;
 /// <summary>Throws <see cref="Exception"/>s not available in <see cref="ThrowHelper"/>.</summary>
 public static class ThrowHelperExtensions
 {
-    /// <summary>
-    ///     Throws a new <see cref="FileLoadException"/>.
-    /// </summary>
-    /// <exception cref="FileLoadException">Thrown with no parameters.</exception>
-    [DoesNotReturn]
-    public static void ThrowFileLoadException()
-    {
-        throw new FileLoadException();
-    }
-
-    /// <summary>
-    ///     Throws a new <see cref="FileLoadException"/>.
-    /// </summary>
-    /// <param name="message">The message to include in the exception.</param>
-    /// <exception cref="FileLoadException">Thrown with the specified parameters.</exception>
-    [DoesNotReturn]
-    public static void ThrowFileLoadException(string? message)
-    {
-        throw new FileLoadException(message);
-    }
+    #region standard exceptions
 
     /// <summary>
     ///     Throws a new <see cref="FileLoadException"/>.
@@ -41,7 +22,7 @@ public static class ThrowHelperExtensions
     /// <param name="innerException">The inner <see cref="Exception"/> to include.</param>
     /// <exception cref="FileLoadException">Thrown with the specified parameters.</exception>
     [DoesNotReturn]
-    public static void ThrowFileLoadException(string? message, Exception? innerException)
+    public static void ThrowFileLoadException(string? message = null, Exception? innerException = null)
     {
         throw new FileLoadException(message, innerException);
     }
@@ -49,32 +30,11 @@ public static class ThrowHelperExtensions
     /// <summary>
     ///     Throws a new <see cref="IndexOutOfRangeException"/>.
     /// </summary>
-    /// <exception cref="IndexOutOfRangeException">Thrown with no parameters.</exception>
-    [DoesNotReturn]
-    public static void ThrowIndexOutOfRangeException()
-    {
-        throw new IndexOutOfRangeException();
-    }
-
-    /// <summary>
-    ///     Throws a new <see cref="IndexOutOfRangeException"/>.
-    /// </summary>
-    /// <param name="message">The message to include in the exception.</param>
-    /// <exception cref="IndexOutOfRangeException">Thrown with the specified parameters.</exception>
-    [DoesNotReturn]
-    public static void ThrowIndexOutOfRangeException(string? message)
-    {
-        throw new IndexOutOfRangeException(message);
-    }
-
-    /// <summary>
-    ///     Throws a new <see cref="IndexOutOfRangeException"/>.
-    /// </summary>
     /// <param name="message">The message to include in the exception.</param>
     /// <param name="innerException">The inner <see cref="Exception"/> to include.</param>
     /// <exception cref="IndexOutOfRangeException">Thrown with the specified parameters.</exception>
     [DoesNotReturn]
-    public static void ThrowIndexOutOfRangeException(string? message, Exception? innerException)
+    public static void ThrowIndexOutOfRangeException(string? message = null, Exception? innerException = null)
     {
         throw new IndexOutOfRangeException(message, innerException);
     }
@@ -82,32 +42,11 @@ public static class ThrowHelperExtensions
     /// <summary>
     ///     Throws a new <see cref="MissingMethodException"/>.
     /// </summary>
-    /// <exception cref="MissingMethodException">Thrown with no parameters.</exception>
-    [DoesNotReturn]
-    public static void ThrowMissingMethodException()
-    {
-        throw new MissingMethodException();
-    }
-
-    /// <summary>
-    ///     Throws a new <see cref="MissingMethodException"/>.
-    /// </summary>
-    /// <param name="message">The message to include in the exception.</param>
-    /// <exception cref="MissingMethodException">Thrown with the specified parameters.</exception>
-    [DoesNotReturn]
-    public static void ThrowMissingMethodException(string? message)
-    {
-        throw new MissingMethodException(message);
-    }
-
-    /// <summary>
-    ///     Throws a new <see cref="MissingMethodException"/>.
-    /// </summary>
     /// <param name="message">The message to include in the exception.</param>
     /// <param name="innerException">The inner <see cref="Exception"/> to include.</param>
     /// <exception cref="MissingMethodException">Thrown with the specified parameters.</exception>
     [DoesNotReturn]
-    public static void ThrowMissingMethodException(string? message, Exception? innerException)
+    public static void ThrowMissingMethodException(string? message = null, Exception? innerException = null)
     {
         throw new MissingMethodException(message, innerException);
     }
@@ -115,35 +54,43 @@ public static class ThrowHelperExtensions
     /// <summary>
     ///     Throws a new <see cref="NotImplementedException"/>.
     /// </summary>
-    /// <exception cref="NotImplementedException">Thrown with no parameters.</exception>
-    [DoesNotReturn]
-    public static void ThrowNotImplementedException()
-    {
-        throw new NotImplementedException();
-    }
-
-    /// <summary>
-    ///     Throws a new <see cref="NotImplementedException"/>.
-    /// </summary>
-    /// <param name="message">The message to include in the exception.</param>
-    /// <exception cref="NotImplementedException">Thrown with the specified parameters.</exception>
-    [DoesNotReturn]
-    public static void ThrowNotImplementedException(string? message)
-    {
-        throw new NotImplementedException(message);
-    }
-
-    /// <summary>
-    ///     Throws a new <see cref="NotImplementedException"/>.
-    /// </summary>
     /// <param name="message">The message to include in the exception.</param>
     /// <param name="innerException">The inner <see cref="Exception"/> to include.</param>
     /// <exception cref="NotImplementedException">Thrown with the specified parameters.</exception>
     [DoesNotReturn]
-    public static void ThrowNotImplementedException(string? message, Exception? innerException)
+    public static void ThrowNotImplementedException(string? message = null, Exception? innerException = null)
     {
         throw new NotImplementedException(message, innerException);
     }
+
+    /// <summary>
+    ///     Throws a new <see cref="NotImplementedException"/>.
+    /// </summary>
+    /// <param name="fullTypeName">The name of the type which failed to initialize.</param>
+    /// <param name="innerException">The inner <see cref="Exception"/> to include.</param>
+    /// <exception cref="NotImplementedException">Thrown with the specified parameters.</exception>
+    [DoesNotReturn]
+    public static void ThrowTypeInitializationException(string? fullTypeName = null, Exception? innerException = null)
+    {
+        throw new TypeInitializationException(fullTypeName, innerException);
+    }
+
+    /// <summary>
+    ///     Throws a new <see cref="NotImplementedException"/>.
+    /// </summary>
+    /// <typeparam name="T">The type which failed to initialize.</typeparam>
+    /// <param name="innerException">The inner <see cref="Exception"/> to include.</param>
+    /// <returns>Nothing.</returns>
+    /// <exception cref="NotImplementedException">Thrown with the specified parameters.</exception>
+    [DoesNotReturn]
+    public static T ThrowTypeInitializationException<T>(Exception? innerException = null)
+    {
+        throw new TypeInitializationException(nameof(T), innerException);
+    }
+
+    #endregion standard exceptions
+
+    #region custom exceptions
 
     /// <summary>
     ///     Throws a new <see cref="UnexpectedEnumValueException{T}"/>.
@@ -258,4 +205,6 @@ public static class ThrowHelperExtensions
     {
         throw new MissingTypeException(name);
     }
+
+    #endregion custom exceptions
 }

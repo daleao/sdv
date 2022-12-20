@@ -177,15 +177,15 @@ internal sealed class ProfessionAssetRequestedEvent : AssetRequestedEvent
     private static string ProvideUltimateMeter()
     {
         var path = "assets/hud/gauge";
-        if (StardewValleyExpandedIntegration.IsLoaded)
+        if (StardewValleyExpandedIntegration.Instance?.IsLoaded == true)
         {
-            if (!StardewValleyExpandedIntegration.DisabeGaldoranTheme &&
+            if (!StardewValleyExpandedIntegration.Instance.DisabeGaldoranTheme &&
                 (Game1.currentLocation?.NameOrUniqueName.IsIn(
                      "Custom_CastleVillageOutpost",
                      "Custom_CrimsonBadlands",
                      "Custom_IridiumQuarry",
                      "Custom_TreasureCave") == true ||
-                 StardewValleyExpandedIntegration.UseGaldoranThemeAllTimes))
+                 StardewValleyExpandedIntegration.Instance.UseGaldoranThemeAllTimes))
             {
                 return path + "_galdora.png";
             }
@@ -193,7 +193,7 @@ internal sealed class ProfessionAssetRequestedEvent : AssetRequestedEvent
 
         if (ModHelper.ModRegistry.IsLoaded("ManaKirel.VMI"))
         {
-            path += "_vintange_pink";
+            path += "_vintage_pink";
         }
         else if (ModHelper.ModRegistry.IsLoaded("ManaKirel.VintageInterface2"))
         {

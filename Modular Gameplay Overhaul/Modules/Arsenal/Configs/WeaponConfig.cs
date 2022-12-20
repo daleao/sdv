@@ -12,7 +12,7 @@ public sealed class WeaponConfig
 {
     /// <summary>Gets a value indicating whether to replace vanilla weapon spam with a more strategic combo system.</summary>
     [JsonProperty]
-    public bool AllowComboHits { get; internal set; } = true;
+    public bool EnableComboHits { get; internal set; } = true;
 
     /// <summary>Gets the number of hits in each weapon type's combo.</summary>
     [JsonProperty]
@@ -31,7 +31,7 @@ public sealed class WeaponConfig
 
     /// <summary>Gets a value indicating whether replace the defensive special move of some swords with an offensive lunge move.</summary>
     [JsonProperty]
-    public bool BringBackStabbySwords { get; internal set; } = true;
+    public bool EnableStabbySwords { get; internal set; } = true;
 
     /// <summary>Gets a value indicating whether replace the defensive special move of some swords with an offensive lunge move.</summary>
     [JsonProperty]
@@ -43,13 +43,13 @@ public sealed class WeaponConfig
 
     /// <summary>Gets a value indicating whether to apply the corresponding weapon rebalance.</summary>
     [JsonProperty]
-    public bool RebalancedStats { get; internal set; } = true;
+    public bool EnableRebalance { get; internal set; } = true;
 
     /// <summary>Gets a value indicating whether to apply the corresponding weapon retexture.</summary>
     [JsonProperty]
-    public bool Retextures { get; internal set; } = true;
+    public bool EnableRetexture { get; internal set; } = true;
 
     /// <summary>Gets a value indicating whether enable new overhauled enchantments for melee weapons, and rebalance some old ones.</summary>
     [JsonProperty]
-    public bool OverhauledEnchants { get; internal set; } = true;
+    public bool EnableEnchants { get; internal set; } = true;
 }

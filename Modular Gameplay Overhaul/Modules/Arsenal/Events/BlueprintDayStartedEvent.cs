@@ -21,7 +21,9 @@ internal sealed class BlueprintDayStartedEvent : DayStartedEvent
     /// <inheritdoc />
     protected override void OnEnabled()
     {
-        Game1.player.Write(DataFields.DaysLeftTranslating, Game1.random.Next(4, 9).ToString());
+        Game1.player.WriteIfNotExists(
+            DataFields.DaysLeftTranslating,
+            (14 - Game1.player.getFriendshipHeartLevelForNPC("Clint")).ToString());
     }
 
     /// <inheritdoc />
@@ -29,13 +31,9 @@ internal sealed class BlueprintDayStartedEvent : DayStartedEvent
     {
         var player = Game1.player;
         player.Increment(DataFields.DaysLeftTranslating, -1);
-        if (player.Read<int>(DataFields.DaysLeftTranslating) > 0)
+        if (player.Read<int>(DataFields.DaysLeftTranslating) <= 0)
         {
-            return;
+            this.Disable();
         }
-
-        player.Write(DataFields.DaysLeftTranslating, null);
-        player.Write(DataFields.ReadyToForge, true.ToString());
-        this.Disable();
     }
 }

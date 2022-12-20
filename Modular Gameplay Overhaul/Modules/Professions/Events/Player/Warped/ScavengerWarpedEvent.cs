@@ -36,7 +36,7 @@ internal sealed class ScavengerWarpedEvent : WarpedEvent
             scavengerHunt.Fail();
         }
 
-        if (!e.NewLocation.IsOutdoors ||
+        if (e.NewLocation.currentEvent is not null || !e.NewLocation.IsOutdoors ||
             (e.NewLocation.IsFarm && !ProfessionsModule.Config.AllowScavengerHuntsOnFarm) ||
             scavengerHunt.TryStart(e.NewLocation))
         {

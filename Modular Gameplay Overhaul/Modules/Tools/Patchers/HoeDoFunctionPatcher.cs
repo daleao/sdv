@@ -24,7 +24,7 @@ internal sealed class HoeDoFunctionPatcher : HarmonyPatcher
 
     #region harmony patches
 
-    /// <summary>Apply base stamina multiplier.</summary>
+    /// <summary>Apply base stamina multiplier + stamina cost cap.</summary>
     [HarmonyTranspiler]
     private static IEnumerable<CodeInstruction>? HoeDoFunctionTranspiler(
         IEnumerable<CodeInstruction> instructions,
@@ -44,6 +44,7 @@ internal sealed class HoeDoFunctionPatcher : HarmonyPatcher
                             OpCodes.Callvirt,
                             typeof(Farmer).RequirePropertySetter(nameof(Farmer.Stamina))),
                     })
+                .Move(-1)
                 .Insert(
                     new[]
                     {
@@ -60,7 +61,7 @@ internal sealed class HoeDoFunctionPatcher : HarmonyPatcher
                             OpCodes.Callvirt,
                             typeof(HoeConfig).RequirePropertyGetter(nameof(HoeConfig.BaseStaminaMultiplier))),
                         new CodeInstruction(OpCodes.Mul),
-                        new CodeInstruction(OpCodes.Ldc_R4, 1f),
+                        new CodeInstruction(OpCodes.Ldc_R4, 0.1f),
                         new CodeInstruction(
                             OpCodes.Call,
                             typeof(Math).RequireMethod(nameof(Math.Max), new[] { typeof(float), typeof(float) })),

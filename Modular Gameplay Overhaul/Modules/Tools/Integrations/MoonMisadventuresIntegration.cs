@@ -2,27 +2,34 @@
 
 #region using directives
 
+using DaLion.Overhaul.Modules.Core.ConfigMenu;
+using DaLion.Shared.Attributes;
 using DaLion.Shared.Integrations;
 
 #endregion using directives
 
-internal sealed class MoonMisadventuresIntegration : BaseIntegration
+[RequiresMod("spacechase0.MoonMisadventures", "Moon Misadventures")]
+internal sealed class MoonMisadventuresIntegration : ModIntegration<MoonMisadventuresIntegration>
 {
-    /// <summary>Initializes a new instance of the <see cref="MoonMisadventuresIntegration"/> class.</summary>
-    /// <param name="modRegistry">An API for fetching metadata about loaded mods.</param>
-    internal MoonMisadventuresIntegration(IModRegistry modRegistry)
-        : base("MoonMisadventures", "spacechase0.MoonMisadventures", null, modRegistry)
+    private MoonMisadventuresIntegration()
+        : base("spacechase0.MoonMisadventures", "Moon Misadventures", null, ModHelper.ModRegistry)
     {
-        ModEntry.Integrations[this.ModName] = this;
     }
 
-    /// <inheritdoc cref="BaseIntegration.IsLoaded"/>
-    internal static new bool IsLoaded { get; private set; }
-
     /// <inheritdoc />
-    protected override void RegisterImpl()
+    protected override bool RegisterImpl()
     {
-        this.AssertLoaded();
-        IsLoaded = true;
+        if (!this.IsLoaded)
+        {
+            return false;
+        }
+
+        if (ModEntry.Config.Tools.Validate())
+        {
+            return true;
+        }
+
+        GenericModConfigMenuForOverhaul.Instance!.Reload();
+        return true;
     }
 }

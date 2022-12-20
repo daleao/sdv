@@ -35,13 +35,13 @@ internal sealed class ItemGrabMenuReceiveLeftClickPatcher : HarmonyPatcher
         {
             var foundLostBook = generator.DefineLabel();
             var dwarvenBlueprintIndex = generator.DeclareLocal(typeof(int?));
+            var heldItemIndex = generator.DeclareLocal(typeof(int));
             helper
                 .Match(new[] { new CodeInstruction(OpCodes.Ldc_I4_S, 102) })
                 .Match(new[] { new CodeInstruction(OpCodes.Brfalse_S) })
                 .GetOperand(out var foundNothing)
                 .ReplaceWith(new CodeInstruction(OpCodes.Brtrue_S, foundLostBook))
                 .Move()
-                .AddLabels(foundLostBook)
                 .Insert(
                     new[]
                     {
@@ -50,7 +50,9 @@ internal sealed class ItemGrabMenuReceiveLeftClickPatcher : HarmonyPatcher
                             typeof(Globals).RequirePropertyGetter(nameof(Globals.DwarvishBlueprintIndex))),
                         new CodeInstruction(OpCodes.Stloc_S, dwarvenBlueprintIndex),
                         new CodeInstruction(OpCodes.Ldloca_S, dwarvenBlueprintIndex),
-                        new CodeInstruction(OpCodes.Call, typeof(int?).RequirePropertyGetter(nameof(Nullable<int>.HasValue))),
+                        new CodeInstruction(
+                            OpCodes.Call,
+                            typeof(int?).RequirePropertyGetter(nameof(Nullable<int>.HasValue))),
                         new CodeInstruction(OpCodes.Brfalse_S, foundNothing),
                         new CodeInstruction(OpCodes.Ldarg_0),
                         new CodeInstruction(
@@ -62,25 +64,31 @@ internal sealed class ItemGrabMenuReceiveLeftClickPatcher : HarmonyPatcher
                             typeof(Globals).RequirePropertyGetter(nameof(Globals.DwarvishBlueprintIndex))),
                         new CodeInstruction(OpCodes.Stloc_S, dwarvenBlueprintIndex),
                         new CodeInstruction(OpCodes.Ldloca_S, dwarvenBlueprintIndex),
-                        new CodeInstruction(OpCodes.Call, typeof(int?).RequirePropertyGetter(nameof(Nullable<int>.Value))),
+                        new CodeInstruction(
+                            OpCodes.Call,
+                            typeof(int?).RequirePropertyGetter(nameof(Nullable<int>.Value))),
                         new CodeInstruction(
                             OpCodes.Call,
                             typeof(Utility).RequireMethod(nameof(Utility.IsNormalObjectAtParentSheetIndex))),
                         new CodeInstruction(OpCodes.Brfalse_S, foundNothing),
                     })
-                .Match(new[] { new CodeInstruction(OpCodes.Ldc_I4_S, 102) })
-                .ReplaceWith(
-                    new CodeInstruction(
-                        OpCodes.Callvirt,
-                        typeof(Item).RequirePropertyGetter(nameof(Item.ParentSheetIndex))))
                 .Insert(
                     new[]
                     {
                         new CodeInstruction(OpCodes.Ldarg_0),
                         new CodeInstruction(
                             OpCodes.Ldfld,
-                            typeof(ItemGrabMenu).RequireField(nameof(ItemGrabMenu.heldItem))),
-                    });
+                            typeof(MenuWithInventory).RequireField(nameof(MenuWithInventory.heldItem))),
+                        new CodeInstruction(
+                            OpCodes.Callvirt,
+                            typeof(Item).RequirePropertyGetter(nameof(Item.ParentSheetIndex))),
+                        new CodeInstruction(OpCodes.Stloc_S, heldItemIndex),
+                    },
+                    new[] { foundLostBook })
+                .Match(new[] { new CodeInstruction(OpCodes.Ldc_I4_S, 102) })
+                .ReplaceWith(
+                    new CodeInstruction(
+                        OpCodes.Ldloc_S, heldItemIndex));
         }
         catch (Exception ex)
         {

@@ -1,4 +1,4 @@
-﻿namespace DaLion.Overhaul.Modules.Core.Configs;
+﻿namespace DaLion.Overhaul.Modules.Core.ConfigMenu;
 
 #region using directives
 
@@ -11,12 +11,12 @@ using StardewValley.Buildings;
 #endregion using directives
 
 /// <summary>Constructs the GenericModConfigMenu integration.</summary>
-internal sealed partial class GenericModConfigMenuIntegration
+internal sealed partial class GenericModConfigMenuForOverhaul
 {
     /// <summary>Register the config menu if available.</summary>
     private void RegisterProfessions()
     {
-        this._configMenu
+        this
             .AddPage(OverhaulModule.Professions.Namespace, () => "Profession Settings")
 
             // controls and ui settings
@@ -32,7 +32,7 @@ internal sealed partial class GenericModConfigMenuIntegration
                 config => config.Professions.PrestigeProgressionStyle.ToString(),
                 (config, value) =>
                 {
-                    config.Professions.PrestigeProgressionStyle = Enum.Parse<Professions.Config.ProgressionStyle>(value);
+                    config.Professions.PrestigeProgressionStyle = Enum.Parse<Config.ProgressionStyle>(value);
                     ModHelper.GameContent.InvalidateCacheAndLocalized(
                         $"{Manifest.UniqueID}/PrestigeProgression");
                 },
@@ -66,7 +66,7 @@ internal sealed partial class GenericModConfigMenuIntegration
 
         if (ModHelper.ModRegistry.IsLoaded("Pathoschild.Automate"))
         {
-            this._configMenu.AddCheckbox(
+            this.AddCheckbox(
                 () => "Lax Ownership Requirements",
                 () =>
                     "If enabled, machine and building ownerhsip will be ignored when determining whether to apply certain profession bonuses.",
@@ -74,7 +74,7 @@ internal sealed partial class GenericModConfigMenuIntegration
                 (config, value) => config.Professions.LaxOwnershipRequirements = value);
         }
 
-        this._configMenu
+        this
             .AddNumberField(
                 () => "Tracking Pointer Scale",
                 () => "Changes the size of the pointer used to track objects by Prospector and Scavenger professions.",
@@ -82,7 +82,10 @@ internal sealed partial class GenericModConfigMenuIntegration
                 (config, value) =>
                 {
                     config.Professions.TrackPointerScale = value;
-                    Globals.Pointer.Value.Scale = value;
+                    if (Globals.Pointer.IsValueCreated)
+                    {
+                        Globals.Pointer.Value.Scale = value;
+                    }
                 },
                 0.2f,
                 2f,
@@ -94,7 +97,10 @@ internal sealed partial class GenericModConfigMenuIntegration
                 (config, value) =>
                 {
                     config.Professions.TrackPointerBobbingRate = value;
-                    Globals.Pointer.Value.BobRate = value;
+                    if (Globals.Pointer.IsValueCreated)
+                    {
+                        Globals.Pointer.Value.BobRate = value;
+                    }
                 },
                 0.5f,
                 2f,
@@ -347,7 +353,7 @@ internal sealed partial class GenericModConfigMenuIntegration
             }
 
             var skill = SCSkill.Loaded[skillId];
-            this._configMenu
+            this
                 .AddNumberField(
                     () => $"Base {skill.DisplayName} Experience Multiplier",
                     () => $"Multiplies all skill experience gained for {skill.StringId} from the start of the game.",

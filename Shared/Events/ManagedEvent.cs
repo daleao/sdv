@@ -57,7 +57,7 @@ internal abstract class ManagedEvent : IManagedEvent, IComparable<ManagedEvent>,
     }
 
     /// <inheritdoc />
-    public virtual bool Enable()
+    public bool Enable()
     {
         if (this._enabled.Value || !(this._enabled.Value = true))
         {
@@ -94,7 +94,7 @@ internal abstract class ManagedEvent : IManagedEvent, IComparable<ManagedEvent>,
     }
 
     /// <inheritdoc />
-    public virtual bool Disable()
+    public bool Disable()
     {
         if (!this._enabled.Value || (this._enabled.Value = false))
         {

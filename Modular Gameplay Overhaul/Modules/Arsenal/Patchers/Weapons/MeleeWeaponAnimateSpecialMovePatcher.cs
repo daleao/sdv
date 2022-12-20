@@ -20,12 +20,11 @@ internal sealed class MeleeWeaponAnimateSpecialMovePatcher : HarmonyPatcher
 
     #region harmony patches
 
-    /// <summary>Trigger Stabbing sword lunge.</summary>
+    /// <summary>Trigger Stabbing Sword lunge.</summary>
     [HarmonyPrefix]
     private static bool MeleeWeaponAnimateSpecalMovePrefix(MeleeWeapon __instance, ref Farmer ___lastUser, Farmer who)
     {
-        if (__instance.type.Value != MeleeWeapon.stabbingSword || MeleeWeapon.attackSwordCooldown > 0 ||
-            !ArsenalModule.Config.Weapons.BringBackStabbySwords)
+        if (__instance.type.Value != MeleeWeapon.stabbingSword || MeleeWeapon.attackSwordCooldown > 0)
         {
             return true; // run original logic
         }

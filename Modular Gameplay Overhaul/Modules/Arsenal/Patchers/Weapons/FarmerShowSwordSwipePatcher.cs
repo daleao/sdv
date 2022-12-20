@@ -23,11 +23,11 @@ internal sealed class FarmerShowSwordSwipePatcher : HarmonyPatcher
 
     #region harmony patches
 
-    /// <summary>Reset combo hit counter.</summary>
+    /// <summary>Show combo swipe.</summary>
     [HarmonyPrefix]
     private static bool FarmerShowSwordSwipePrefix(Farmer who)
     {
-        if (who.CurrentTool is not MeleeWeapon weapon)
+        if (who.CurrentTool is not MeleeWeapon weapon || !ArsenalModule.Config.Weapons.EnableComboHits)
         {
             return true; // run original logic
         }

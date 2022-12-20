@@ -1,4 +1,4 @@
-
+﻿
 <div align="center">
 
 # ![](https://stardewvalleywiki.com/mediawiki/images/d/da/Steel_Smallsword.png) Modular Overhaul :: Arsenal ![](https://stardewvalleywiki.com/mediawiki/images/6/63/Master_Slingshot.png)
@@ -83,7 +83,7 @@ Introducing weapon combos to replace weapon spamming. These are short bursts of 
     - **Clubs** can perform up to 2 hits, being one horizontal swipe and one vertical swipe.
     - **Daggers** do not have a limit, and behave as in vanilla.
 
-Swing speed bonuses from emerald rings and forges will affect every frame of the attack animation, as well as the cooldown in between combos. This makes speed a significantly more valuable stat.
+If combo hits are enabled, swing speed bonuses from emerald will affect every frame of the attack animation, as well as the cooldown in between combos. This makes speed a significantly more valuable stat.
 
 ### Offensive & Defensive Swords
 
@@ -275,6 +275,8 @@ Last but not least, this module offers three sliders to taylor monster difficult
 - **Not** compatible with other mods that overhaul slingshots, such as [Better Slingshots][mod:better-slingshots] or [Enhanced Slingshots][mod:enhanced-slingshots].
 - **Not** compatible with the likes of [Combat Controls][mod:combat-controls] or [Combat Controls Redux][mod:combat-controls-redux], as those features are already included in this and other modules.
 - Compatible with [Advanced Melee Framework][mod:amf] and related content packs, but I do not recommend using both together.
+- Compatible with [Stardew Valley Expanded][mod:sve]﻿﻿ and will overwrite the changes to weapons stats from that mod, and prevent Tempered Galaxy Weapons from appearing in shops.
+- Compatible with [Vanilla Tweaks][mod:vanilla-tweaks], and will use compatible textures if that mod is installed.
 
 <!-- MARKDOWN LINKS & IMAGES -->
 [shield:common]: <https://img.shields.io/badge/Common-white?style=flat>
@@ -292,4 +294,6 @@ Last but not least, this module offers three sliders to taylor monster difficult
 [mod:combat-controls]: <https://www.nexusmods.com/stardewvalley/mods/2590> "Combat Controls - Fixed Mouse Click"
 [mod:combat-controls-redux]: <https://www.nexusmods.com/stardewvalley/mods/10496> "Combat Controls Redux"
 [mod:amf]: <https://www.nexusmods.com/stardewvalley/mods/7886> "Advanced Melee Framework"
+[mod:vanilla-tweaks]: <https://www.nexusmods.com/stardewvalley/mods/10852> "Vanilla Tweaks"
+[mod:sve]: <https://www.nexusmods.com/stardewvalley/mods/3753> "Stardew Valley Expanded"
 [tropes:color-coded]: <https://tvtropes.org/pmwiki/pmwiki.php/Main/ColourCodedForYourConvenience> "Color-Coded for Your Convenience"

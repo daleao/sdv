@@ -87,15 +87,18 @@ internal sealed class NewSkillsPagePerformHoverActionPatcher : HarmonyPatcher
                 .Aggregate(___hoverText, (current, name) => current + $"\n• {name}");
         }
 
-        if (SpaceCoreIntegration.Api is null)
+        if (SCSkill.Loaded.Count == 0)
         {
             return;
         }
 
-        var customSkills = SpaceCoreIntegration.Api.GetCustomSkills().Select(name => SCSkill.Loaded[name]);
-        if (LuckSkillIntegration.Api is not null)
+        var customSkills = SpaceCoreIntegration.Instance!.ModApi!
+            .GetCustomSkills()
+            .Select(name => SCSkill.Loaded[name]);
+        if (SCSkill.Loaded.TryGetValue("spacechase0.LuckSkill", out var luckSkill))
         {
-            customSkills = SCSkill.Loaded["spacechase0.LuckSkill"].Collect(customSkills);
+            // luck skill must be enumerated first
+            customSkills = luckSkill.Collect(customSkills);
         }
 
         foreach (var skill in customSkills)

@@ -40,7 +40,7 @@ internal sealed class PrintSkillLevelsCommand : ConsoleCommand
         Log.I(
             $"Combat level: {Game1.player.GetUnmodifiedSkillLevel(Skill.Combat)} ({Game1.player.experiencePoints[Skill.Combat]} exp)");
 
-        if (LuckSkillIntegration.Api is not null)
+        if (LuckSkillIntegration.Instance?.IsRegistered == true)
         {
             Log.I(
                 $"Luck level: {Game1.player.GetUnmodifiedSkillLevel(Skill.Luck)} ({Game1.player.experiencePoints[Skill.Luck]} exp)");

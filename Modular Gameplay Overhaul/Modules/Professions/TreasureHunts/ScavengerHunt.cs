@@ -9,6 +9,7 @@ using DaLion.Overhaul.Modules.Professions.Events.GameLoop;
 using DaLion.Overhaul.Modules.Professions.Extensions;
 using DaLion.Overhaul.Modules.Professions.VirtualProperties;
 using DaLion.Shared.Extensions;
+using DaLion.Shared.Extensions.Collections;
 using DaLion.Shared.Extensions.Stardew;
 using DaLion.Shared.Networking;
 using Microsoft.Xna.Framework;
@@ -332,6 +333,27 @@ internal sealed class ScavengerHunt : TreasureHunt
         }
 
         this.AddSeedsToTreasures(treasures);
+
+#if DEBUG
+        if (ArsenalModule.IsEnabled && ArsenalModule.Config.DwarvishCrafting && Globals.DwarvishBlueprintIndex.HasValue)
+        {
+            if (!Game1.player.Read(DataFields.BlueprintsFound).ParseList<int>()
+                    .ContainsAll(Constants.ElfBladeIndex, Constants.ForestSwordIndex))
+            {
+                treasures.Add(new SObject(Globals.DwarvishBlueprintIndex.Value, 1));
+                treasures.Add(new SObject(102, 1)); // lost book, for comparison
+            }
+            else if (Globals.ElderwoodIndex.HasValue)
+            {
+                treasures.Add(new SObject(Globals.ElderwoodIndex.Value, 1));
+            }
+        }
+        else
+        {
+            treasures.Add(new MeleeWeapon(Constants.ElfBladeIndex));
+        }
+#endif
+
         return treasures;
     }
 
@@ -523,7 +545,7 @@ internal sealed class ScavengerHunt : TreasureHunt
         // forest sword
         if (this.Random.NextDouble() < 0.25 * luckModifier)
         {
-            if (ModEntry.Config.EnableArsenal && ArsenalModule.Config.DwarvishCrafting && Globals.DwarvishBlueprintIndex.HasValue)
+            if (ArsenalModule.IsEnabled && ArsenalModule.Config.DwarvishCrafting && Globals.DwarvishBlueprintIndex.HasValue)
             {
                 if (!Game1.player.Read(DataFields.BlueprintsFound).ParseList<int>()
                         .Contains(Constants.ForestSwordIndex))
@@ -544,7 +566,7 @@ internal sealed class ScavengerHunt : TreasureHunt
         // elf blade
         if (this.Random.NextDouble() < 0.25 * luckModifier)
         {
-            if (ModEntry.Config.EnableArsenal && ArsenalModule.Config.DwarvishCrafting && Globals.DwarvishBlueprintIndex.HasValue)
+            if (ArsenalModule.IsEnabled && ArsenalModule.Config.DwarvishCrafting && Globals.DwarvishBlueprintIndex.HasValue)
             {
                 if (!Game1.player.Read(DataFields.BlueprintsFound).ParseList<int>()
                         .Contains(Constants.ElfBladeIndex))

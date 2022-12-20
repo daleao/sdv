@@ -2,35 +2,35 @@
 
 #region using directives
 
-using System.Diagnostics.CodeAnalysis;
 using System.IO;
+using DaLion.Shared.Attributes;
 using DaLion.Shared.Integrations;
 using DaLion.Shared.Integrations.JsonAssets;
 
 #endregion using directives
 
-internal sealed class JsonAssetsIntegration : BaseIntegration<IJsonAssetsApi>
+[RequiresMod("spacechase0.JsonAssets", "Json Assets", "1.10.7")]
+internal sealed class JsonAssetsIntegration : ModIntegration<JsonAssetsIntegration, IJsonAssetsApi>
 {
-    /// <summary>Initializes a new instance of the <see cref="JsonAssetsIntegration"/> class.</summary>
-    /// <param name="modRegistry">An API for fetching metadata about loaded mods.</param>
-    internal JsonAssetsIntegration(IModRegistry modRegistry)
-        : base("JsonAssets", "spacechase0.JsonAssets", "1.10.7", modRegistry)
+    private JsonAssetsIntegration()
+        : base("spacechase0.JsonAssets", "Json Assets", "1.10.7", ModHelper.ModRegistry)
     {
-        ModEntry.Integrations[this.ModName] = this;
     }
 
-    /// <summary>Gets the <see cref="IJsonAssetsApi"/>.</summary>
-    internal static IJsonAssetsApi? Api { get; private set; }
-
     /// <inheritdoc />
-    [MemberNotNull(nameof(Api))]
-    protected override void RegisterImpl()
+    protected override bool RegisterImpl()
     {
-        this.AssertLoaded();
-        Api = this.ModApi;
+        if (this.IsLoaded)
+        {
+            this.ModApi.LoadAssets(Path.Combine(ModHelper.DirectoryPath, "assets", "json-assets", "Arsenal"), I18n);
+            this.ModApi.IdsAssigned += this.OnIdsAssigned;
+            return true;
+        }
 
-        this.ModApi.LoadAssets(Path.Combine(ModHelper.DirectoryPath, "assets", "json-assets", "Arsenal"), I18n);
-        this.ModApi.IdsAssigned += this.OnIdsAssigned;
+        ArsenalModule.Config.DwarvishCrafting = false;
+        ArsenalModule.Config.InfinityPlusOne = false;
+        ModHelper.WriteConfig(ModEntry.Config);
+        return false;
     }
 
     /// <summary>Gets assigned IDs.</summary>
@@ -41,6 +41,9 @@ internal sealed class JsonAssetsIntegration : BaseIntegration<IJsonAssetsApi>
         Globals.DwarvenScrapIndex = this.ModApi.GetObjectId("Dwarven Scrap");
         Globals.ElderwoodIndex = this.ModApi.GetObjectId("Elderwood");
         Globals.DwarvishBlueprintIndex = this.ModApi.GetObjectId("Dwarvish Blueprint");
+        Log.T("The IDs for custom items in the Arsenal module have been assigned.");
+
+        // reload the monsters data so that Dwarven Scrap Metal is added to Dwarven Sentinel's drop list
         ModHelper.GameContent.InvalidateCache("Data/Monsters");
     }
 }

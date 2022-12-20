@@ -23,17 +23,13 @@ internal sealed class ArsenalSaveLoadedEvent : SaveLoadedEvent
     protected override void OnSaveLoadedImpl(object? sender, SaveLoadedEventArgs e)
     {
         var player = Game1.player;
-        if (player.Read<bool>(DataFields.Cursed))
-        {
-            this.Manager.Enable<CurseUpdateTickedEvent>();
-        }
 
-        if (player.canUnderstandDwarves)
+        if (!string.IsNullOrEmpty(player.Read(DataFields.BlueprintsFound)) && player.canUnderstandDwarves)
         {
             ModHelper.GameContent.InvalidateCache("Data/Events/Blacksmith");
         }
 
-        if (player.Read(DataFields.DaysLeftTranslating, -1) > 0)
+        if (player.hasQuest(Constants.ForgeIntroQuestId))
         {
             this.Manager.Enable<BlueprintDayStartedEvent>();
         }

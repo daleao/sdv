@@ -142,7 +142,7 @@ internal static class MeleeWeaponExtensions
             weapon.maxDamage.Value = initialMaxDamage;
         }
         else if (!weapon.IsUnique() && (!ArsenalModule.Config.DwarvishCrafting || !weapon.CanBeCrafted()) &&
-                 ArsenalModule.Config.Weapons.RebalancedStats && WeaponTier.GetFor(weapon) > WeaponTier.Untiered)
+                 ArsenalModule.Config.Weapons.EnableRebalance && WeaponTier.GetFor(weapon) > WeaponTier.Untiered)
         {
             weapon.RandomizeDamage();
         }
@@ -210,7 +210,7 @@ internal static class MeleeWeaponExtensions
     /// <param name="weapon">The <see cref="MeleeWeapon"/>.</param>
     internal static void AddIntrinsicEnchantments(this MeleeWeapon weapon)
     {
-        if (ArsenalModule.Config.Weapons.RebalancedStats)
+        if (ArsenalModule.Config.Weapons.EnableRebalance)
         {
             switch (weapon.InitialParentTileIndex)
             {
@@ -250,7 +250,7 @@ internal static class MeleeWeaponExtensions
     /// <param name="weapon">The <see cref="MeleeWeapon"/>.</param>
     internal static void RemoveIntrinsicEnchantments(this MeleeWeapon weapon)
     {
-        if (ArsenalModule.Config.Weapons.RebalancedStats)
+        if (ArsenalModule.Config.Weapons.EnableRebalance)
         {
             BaseEnchantment? enchantment = null;
             switch (weapon.InitialParentTileIndex)
@@ -279,7 +279,6 @@ internal static class MeleeWeaponExtensions
                     break;
                 case Constants.HolyBladeIndex when weapon.hasEnchantmentOfType<BlessedEnchantment>():
                     enchantment = weapon.GetEnchantmentOfType<BlessedEnchantment>();
-                    weapon.Write(DataFields.CursePoints, null);
                     break;
                 case Constants.InfinityBladeIndex:
                 case Constants.InfinityDaggerIndex:

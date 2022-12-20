@@ -31,7 +31,7 @@ internal sealed class EventCtorPatcher : HarmonyPatcher
             return;
         }
 
-        if (StardewValleyExpandedIntegration.IsLoaded)
+        if (StardewValleyExpandedIntegration.Instance?.IsLoaded == true)
         {
             eventString = I18n.Get(
                 Game1.player.Items.Any(item => item is MeleeWeapon weapon && !weapon.isScythe())

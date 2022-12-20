@@ -30,7 +30,7 @@ internal static class RevenueService
     internal static int CalculateTaxes(Farmer who)
     {
         var income = who.Read<int>(DataFields.SeasonIncome);
-        var expenses = who.Read<int>(DataFields.BusinessExpenses);
+        var expenses = Math.Min(who.Read<int>(DataFields.BusinessExpenses), income);
         var deductions = who.Read<float>(DataFields.PercentDeductions);
         var taxable = (int)((income - expenses) * (1f - deductions));
 

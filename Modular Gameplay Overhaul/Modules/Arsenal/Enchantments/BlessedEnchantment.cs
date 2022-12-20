@@ -49,10 +49,8 @@ public class BlessedEnchantment : BaseWeaponEnchantment
             return;
         }
 
-        who.Write(DataFields.Cursed, null);
-        who.Write(DataFields.CursePoints, null);
         EventManager.Disable<CurseUpdateTickedEvent>();
-        Log.D($"{who.Name}'s curse was lifted!");
+        who.CurrentTool.Write(DataFields.CursePoints, null);
     }
 
     /// <inheritdoc />

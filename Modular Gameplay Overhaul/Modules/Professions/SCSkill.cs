@@ -150,7 +150,7 @@ public sealed class SCSkill : ISkill
     /// <inheritdoc />
     public void ForgetRecipes(bool saveForRecovery = true)
     {
-        if (this.StringId != "blueberry.LoveOfCooking.CookingSkill" || LoveOfCookingIntegration.Api is null)
+        if (this.StringId != "blueberry.LoveOfCooking.CookingSkill" || LoveOfCookingIntegration.Instance?.IsLoaded != true)
         {
             return;
         }
@@ -160,7 +160,7 @@ public sealed class SCSkill : ISkill
             .ParseDictionary<string, int>();
 
         // remove associated cooking recipes
-        var cookingRecipes = LoveOfCookingIntegration.Api
+        var cookingRecipes = LoveOfCookingIntegration.Instance.ModApi!
             .GetAllLevelUpRecipes().Values
             .SelectMany(r => r)
             .Select(r => "blueberry.cac." + r)

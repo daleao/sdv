@@ -29,7 +29,7 @@ internal sealed class BaseWeaponEnchantmentCanApplyToPatcher : HarmonyPatcher
             return true; // run original logic
         }
 
-        __result = __instance.IsForge() && ArsenalModule.Config.Slingshots.AllowForges;
+        __result = __instance.IsForge() && ArsenalModule.Config.Slingshots.EnableForges;
         return false; // don't run original logic
     }
 

@@ -1,4 +1,4 @@
-﻿namespace DaLion.Overhaul.Modules.Core.Configs;
+﻿namespace DaLion.Overhaul.Modules.Core.ConfigMenu;
 
 #region using directives
 
@@ -8,12 +8,12 @@ using DaLion.Shared.Extensions.SMAPI;
 #endregion using directives
 
 /// <summary>Constructs the GenericModConfigMenu integration.</summary>
-internal sealed partial class GenericModConfigMenuIntegration
+internal sealed partial class GenericModConfigMenuForOverhaul
 {
     /// <summary>Register the Rings menu.</summary>
     private void RegisterRings()
     {
-        this._configMenu
+        this
             .AddPage(OverhaulModule.Rings.Namespace, () => "Ring Settings")
 
             .AddCheckbox(
@@ -69,10 +69,9 @@ internal sealed partial class GenericModConfigMenuIntegration
                     ModHelper.GameContent.InvalidateCacheAndLocalized("Data/CraftingRecipes");
                     ModHelper.GameContent.InvalidateCacheAndLocalized("Data/ObjectInformation");
                     ModHelper.GameContent.InvalidateCacheAndLocalized("Maps/springobjects");
-                    if (value && !Globals.InfinityBandIndex.HasValue &&
-                        (!Integrations.TryGetValue("JsonAssets", out var integration) || !integration.Registered))
+                    if (value && !Globals.InfinityBandIndex.HasValue && JsonAssetsIntegration.Instance?.IsRegistered == false)
                     {
-                        new JsonAssetsIntegration(ModHelper.ModRegistry).Register();
+                        JsonAssetsIntegration.Instance.Register();
                     }
                 })
             .AddCheckbox(

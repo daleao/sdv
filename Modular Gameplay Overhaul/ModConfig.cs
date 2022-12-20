@@ -24,13 +24,13 @@ public sealed class ModConfig
     [JsonProperty]
     public bool EnableArsenal { get; internal set; } = true;
 
-    /// <summary>Gets a value indicating whether the Ponds module is enabled.</summary>
-    [JsonProperty]
-    public bool EnablePonds { get; internal set; } = true;
-
     /// <summary>Gets a value indicating whether the Rings module is enabled.</summary>
     [JsonProperty]
     public bool EnableRings { get; internal set; } = true;
+
+    /// <summary>Gets a value indicating whether the Ponds module is enabled.</summary>
+    [JsonProperty]
+    public bool EnablePonds { get; internal set; } = true;
 
     /// <summary>Gets a value indicating whether the Taxes module is enabled.</summary>
     [JsonProperty]
@@ -50,13 +50,13 @@ public sealed class ModConfig
     [JsonProperty]
     public bool EnableArsenal { get; internal set; } = false;
 
-    /// <summary>Gets a value indicating whether the Ponds module is enabled.</summary>
-    [JsonProperty]
-    public bool EnablePonds { get; internal set; } = false;
-
     /// <summary>Gets a value indicating whether the Rings module is enabled.</summary>
     [JsonProperty]
     public bool EnableRings { get; internal set; } = false;
+
+    /// <summary>Gets a value indicating whether the Ponds module is enabled.</summary>
+    [JsonProperty]
+    public bool EnablePonds { get; internal set; } = false;
 
     /// <summary>Gets a value indicating whether the Taxes module is enabled.</summary>
     [JsonProperty]
@@ -108,7 +108,7 @@ public sealed class ModConfig
 
     /// <summary>Gets the key used to trigger debug features.</summary>
     [JsonProperty]
-    public KeybindList DebugKey { get; internal set; } = KeybindList.Parse("Tab");
+    public KeybindList DebugKey { get; internal set; } = KeybindList.Parse("OemTilde");
 
     /// <summary>Validates all internal configs and overwrites the user's config file if any invalid settings were found.</summary>
     /// <param name="helper">Provides simplified APIs for writing mods.</param>

@@ -28,7 +28,7 @@ internal sealed class TopazEnchantmentUnapplyToPatcher : HarmonyPatcher
     private static void TopazEnchantmentUnapplyToPostfix(Item item)
     {
         var player = Game1.player;
-        if (!ModEntry.Config.EnableArsenal || item is not (Tool tool and (MeleeWeapon or Slingshot)) || tool != player.CurrentTool)
+        if (!ArsenalModule.IsEnabled || item is not (Tool tool and (MeleeWeapon or Slingshot)) || tool != player.CurrentTool)
         {
             return;
         }

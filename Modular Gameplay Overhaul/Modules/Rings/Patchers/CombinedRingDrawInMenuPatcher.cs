@@ -74,8 +74,11 @@ internal sealed class CombinedRingDrawInMenuPatcher : HarmonyPatcher
             scaleSize = 1f;
             location.Y -= (oldScaleSize - 1f) * 32f;
 
+            var usingBetterRings = BetterRingsIntegration.Instance?.IsLoaded == true;
+            var usingVanillaTweaks = VanillaTweaksIntegration.Instance?.RingsCategoryEnabled == true;
+
             // better rings needs to draw the ring underneath the gems, but after the scale hover is converted to y-displacement
-            if (BetterRingsIntegration.IsLoaded)
+            if (usingBetterRings)
             {
                 RingDrawInMenuPatcher.RingDrawInMenuReverse(
                     __instance,
@@ -93,12 +96,12 @@ internal sealed class CombinedRingDrawInMenuPatcher : HarmonyPatcher
 
             // draw top gem
             var gemColor = Gemstone.FromRing(__instance.combinedRings[0].ParentSheetIndex).Color * transparency;
-            offset = VanillaTweaksIntegration.RingsCategoryEnabled
+            offset = usingVanillaTweaks
                 ? new Vector2(24f, 6f)
-                : BetterRingsIntegration.IsLoaded
+                : usingBetterRings
                     ? new Vector2(24f, 4f) : new Vector2(24f, 12f);
 
-            var sourceY = BetterRingsIntegration.IsLoaded ? 4 : 0;
+            var sourceY = usingBetterRings ? 4 : 0;
             __state = location + (offset * scaleSize);
             spriteBatch.Draw(
                 Textures.GemstonesTx,
@@ -115,8 +118,7 @@ internal sealed class CombinedRingDrawInMenuPatcher : HarmonyPatcher
             {
                 // draw bottom gem (or left, in case of better rings)
                 gemColor = Gemstone.FromRing(__instance.combinedRings[1].ParentSheetIndex).Color * transparency;
-                offset = BetterRingsIntegration.IsLoaded
-                    ? new Vector2(28f, 20f) : new Vector2(24f, 44f);
+                offset = usingBetterRings ? new Vector2(28f, 20f) : new Vector2(24f, 44f);
                 spriteBatch.Draw(
                     Textures.GemstonesTx,
                     location + (offset * scaleSize),
@@ -133,9 +135,9 @@ internal sealed class CombinedRingDrawInMenuPatcher : HarmonyPatcher
             {
                 // draw left gem (or right, in case of better rings)
                 gemColor = Gemstone.FromRing(__instance.combinedRings[2].ParentSheetIndex).Color * transparency;
-                offset = VanillaTweaksIntegration.RingsCategoryEnabled
+                offset = usingVanillaTweaks
                     ? new Vector2(3f, 25f)
-                    : BetterRingsIntegration.IsLoaded
+                    : usingBetterRings
                         ? new Vector2(40f, 8f) : new Vector2(8f, 28f);
                 spriteBatch.Draw(
                     Textures.GemstonesTx,
@@ -153,9 +155,9 @@ internal sealed class CombinedRingDrawInMenuPatcher : HarmonyPatcher
             {
                 // draw right gem (or bottom, in case of better rings)
                 gemColor = Gemstone.FromRing(__instance.combinedRings[3].ParentSheetIndex).Color * transparency;
-                offset = VanillaTweaksIntegration.RingsCategoryEnabled
+                offset = usingVanillaTweaks
                     ? new Vector2(45f, 25f)
-                    : BetterRingsIntegration.IsLoaded
+                    : usingBetterRings
                         ? new Vector2(44f, 24f) : new Vector2(40f, 28f);
                 spriteBatch.Draw(
                     Textures.GemstonesTx,
@@ -170,7 +172,7 @@ internal sealed class CombinedRingDrawInMenuPatcher : HarmonyPatcher
             }
 
             // if better rings is not loaded, then the ring must be drawn over the gems
-            if (!BetterRingsIntegration.IsLoaded)
+            if (!usingBetterRings)
             {
                 RingDrawInMenuPatcher.RingDrawInMenuReverse(
                     __instance,
@@ -204,7 +206,7 @@ internal sealed class CombinedRingDrawInMenuPatcher : HarmonyPatcher
         float layerDepth)
     {
         if (!Globals.InfinityBandIndex.HasValue || __instance.ParentSheetIndex != Globals.InfinityBandIndex.Value ||
-            !VanillaTweaksIntegration.RingsCategoryEnabled)
+            VanillaTweaksIntegration.Instance?.RingsCategoryEnabled != true)
         {
             return;
         }

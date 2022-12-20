@@ -33,7 +33,7 @@ internal sealed class ProspectorWarpedEvent : WarpedEvent
             prospectorHunt.Fail();
         }
 
-        if (e.NewLocation is not MineShaft shaft ||
+        if (e.NewLocation.currentEvent is not null || e.NewLocation is not MineShaft shaft ||
             (!shaft.IsTreasureOrSafeRoom() && prospectorHunt.TryStart(e.NewLocation)))
         {
             return;

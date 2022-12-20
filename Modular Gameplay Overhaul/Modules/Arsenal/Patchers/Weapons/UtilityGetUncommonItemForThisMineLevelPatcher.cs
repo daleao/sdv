@@ -24,7 +24,7 @@ internal sealed class UtilityGetUncommonItemForThisMineLevelPatcher : HarmonyPat
     [HarmonyPostfix]
     private static void UtilityGetUncommonItemForThisMineLevelPostfix(Item __result)
     {
-        if (ArsenalModule.Config.Weapons.RebalancedStats && __result is MeleeWeapon weapon)
+        if (ArsenalModule.Config.Weapons.EnableRebalance && __result is MeleeWeapon weapon)
         {
             weapon.RefreshStats();
         }

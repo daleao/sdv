@@ -240,7 +240,7 @@ internal sealed class SkillLevelUpMenuUpdatePatcher : HarmonyPatcher
 
     private static object? ChooseProfessionPair(object skillInstance, string skillId, int currentLevel)
     {
-        if (currentLevel is not (5 or 10) || SpaceCoreIntegration.Api is null || !SCSkill.Loaded.ContainsKey(skillId))
+        if (currentLevel is not (5 or 10) || !SCSkill.Loaded.ContainsKey(skillId))
         {
             return null;
         }
@@ -268,8 +268,8 @@ internal sealed class SkillLevelUpMenuUpdatePatcher : HarmonyPatcher
         var secondStringId = Reflector
             .GetUnboundPropertyGetter<object, string>(second, "Id")
             .Invoke(second);
-        var firstId = SpaceCoreIntegration.Api.GetProfessionId(skillId, firstStringId);
-        var secondId = SpaceCoreIntegration.Api.GetProfessionId(skillId, secondStringId);
+        var firstId = SpaceCoreIntegration.Instance!.ModApi!.GetProfessionId(skillId, firstStringId);
+        var secondId = SpaceCoreIntegration.Instance.ModApi.GetProfessionId(skillId, secondStringId);
         var branch = Game1.player.GetMostRecentProfession(firstId.Collect(secondId));
         return branch == firstId ? professionPairs[1] : professionPairs[2];
     }

@@ -120,6 +120,9 @@ internal abstract class OverhaulModule : SmartEnum<OverhaulModule>
         {
         }
 
+        /// <summary>Gets a value indicating whether the <see cref="OverhaulModule.ProfessionsModule"/> is enabled.</summary>
+        internal static bool IsEnabled => ModEntry.Config.EnableProfessions;
+
         /// <summary>Gets the config instance for the <see cref="OverhaulModule.ProfessionsModule"/>.</summary>
         internal static Professions.Config Config => ModEntry.Config.Professions;
 
@@ -144,6 +147,9 @@ internal abstract class OverhaulModule : SmartEnum<OverhaulModule>
             : base("Arsenal", 2, "ars")
         {
         }
+
+        /// <summary>Gets a value indicating whether the <see cref="OverhaulModule.ArsenalModule"/> is enabled.</summary>
+        internal static bool IsEnabled => ModEntry.Config.EnableArsenal;
 
         /// <summary>Gets the config instance for the <see cref="OverhaulModule.ArsenalModule"/>.</summary>
         internal static Arsenal.Config Config => ModEntry.Config.Arsenal;
@@ -174,6 +180,9 @@ internal abstract class OverhaulModule : SmartEnum<OverhaulModule>
         {
         }
 
+        /// <summary>Gets a value indicating whether the <see cref="OverhaulModule.RingsModule"/> is enabled.</summary>
+        internal static bool IsEnabled => ModEntry.Config.EnableRings;
+
         /// <summary>Gets the config instance for the <see cref="OverhaulModule.RingsModule"/>.</summary>
         internal static Rings.Config Config => ModEntry.Config.Rings;
 
@@ -196,6 +205,9 @@ internal abstract class OverhaulModule : SmartEnum<OverhaulModule>
         {
         }
 
+        /// <summary>Gets a value indicating whether the <see cref="OverhaulModule.PondsModule"/> is enabled.</summary>
+        internal static bool IsEnabled => ModEntry.Config.EnablePonds;
+
         /// <summary>Gets the config instance for the <see cref="OverhaulModule.PondsModule"/>.</summary>
         internal static Ponds.Config Config => ModEntry.Config.Ponds;
 
@@ -212,6 +224,9 @@ internal abstract class OverhaulModule : SmartEnum<OverhaulModule>
             : base("Taxes", 5, "tax")
         {
         }
+
+        /// <summary>Gets a value indicating whether the <see cref="OverhaulModule.TaxesModule"/> is enabled.</summary>
+        internal static bool IsEnabled => ModEntry.Config.EnableTaxes;
 
         /// <summary>Gets the config instance for the <see cref="OverhaulModule.TaxesModule"/>.</summary>
         internal static Taxes.Config Config => ModEntry.Config.Taxes;
@@ -233,6 +248,9 @@ internal abstract class OverhaulModule : SmartEnum<OverhaulModule>
         {
         }
 
+        /// <summary>Gets a value indicating whether the <see cref="OverhaulModule.ToolsModule"/> is enabled.</summary>
+        internal static bool IsEnabled => ModEntry.Config.EnableTools;
+
         /// <summary>Gets the config instance for the <see cref="OverhaulModule.ToolsModule"/>.</summary>
         internal static Tools.Config Config => ModEntry.Config.Tools;
 
@@ -252,6 +270,9 @@ internal abstract class OverhaulModule : SmartEnum<OverhaulModule>
             : base("Tweex", 7, "tweex")
         {
         }
+
+        /// <summary>Gets a value indicating whether the <see cref="OverhaulModule.TweexModule"/> is enabled.</summary>
+        internal static bool IsEnabled => ModEntry.Config.EnableTweex;
 
         /// <summary>Gets the config instance for the <see cref="OverhaulModule.TweexModule"/>.</summary>
         internal static Tweex.Config Config => ModEntry.Config.Tweex;

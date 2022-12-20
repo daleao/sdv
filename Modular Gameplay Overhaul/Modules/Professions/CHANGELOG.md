@@ -1,5 +1,17 @@
 # Professions Module Change Log
 
+## 0.9.7
+
+### Changed
+
+* Custom skills are now loaded on 2nd SecondUpdateTicked instead of SaveLoaded.
+
+### Fixed
+
+* Fixed a typo causing a Null-Reference Exception when resetting a custom skill.
+* Treasure hunts will no longer trigger during cutscenes.
+* Fixed an incorrect patch target which should allow taunted monsters to reset their aggro when the taunter dies.
+
 ## 0.9.6
 
 ### Added

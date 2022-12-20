@@ -58,7 +58,7 @@ internal sealed class SlingshotSpecialUpdateTickedEvent : UpdateTickedEvent
                 user.forceCanMove();
 #if RELEASE
                 ArsenalModule.State.SlingshotCooldown = SlingshotCooldown;
-                if (!ModEntry.Config.EnableProfessions && user.professions.Contains(Farmer.acrobat))
+                if (!ProfessionsModule.IsEnabled && user.professions.Contains(Farmer.acrobat))
                 {
                     ArsenalModule.State.SlingshotCooldown /= 2;
                 }

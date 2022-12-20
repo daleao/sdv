@@ -2,6 +2,7 @@
 
 #region using directives
 
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Reflection;
 using DaLion.Shared.Harmony;
@@ -24,6 +25,7 @@ internal sealed class ShopMenuChargePlayerPatcher : HarmonyPatcher
 
     /// <summary>Set up Clint's forge shop.</summary>
     [HarmonyPrefix]
+    [SuppressMessage("StyleCop.CSharp.NamingRules", "SA1300:Element should begin with upper-case letter", Justification = "Preference for inner functions.")]
     private static bool ShopMenuChargePlayerPrefix(Farmer who, int currencyType, int amount)
     {
         try

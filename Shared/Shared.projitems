@@ -15,6 +15,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Classes\BiMap.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Classes\CircleTileGrid.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Classes\Countdown.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Classes\Singleton.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Commands\ConsoleCommand.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Commands\CommandHandler.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Commands\IConsoleCommand.cs" />
@@ -41,6 +42,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Events\Content\AssetsInvalidatedEvent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Events\Content\LocaleChangedEvent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Events\AlwaysEnabledEventAttribute.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Events\Custom\FirstSecondUpdateTickedEvent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Events\Input\ButtonReleasedEvent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Events\Input\ButtonPressedEvent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Events\Input\ButtonsChangedEvent.cs" />
@@ -145,7 +147,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Harmony\PatternNotFoundException.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Integrations\Automate\IAutomate.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Integrations\Automate\IAutomateApi.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Integrations\BaseIntegration.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Integrations\ModIntegration.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Integrations\BetterCrafting\IBetterCrafting.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Integrations\BetterCrafting\IBetterCraftingApi.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Integrations\CustomOreNodes\ICustomOreNodesApi.cs" />

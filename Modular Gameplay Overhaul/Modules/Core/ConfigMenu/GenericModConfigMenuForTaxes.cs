@@ -1,12 +1,12 @@
-﻿namespace DaLion.Overhaul.Modules.Core.Configs;
+﻿namespace DaLion.Overhaul.Modules.Core.ConfigMenu;
 
 /// <summary>Constructs the GenericModConfigMenu integration.</summary>
-internal sealed partial class GenericModConfigMenuIntegration
+internal sealed partial class GenericModConfigMenuForOverhaul
 {
     /// <summary>Register the Taxes menu.</summary>
     private void RegisterTaxes()
     {
-        this._configMenu
+        this
             .AddPage(OverhaulModule.Taxes.Namespace, () => "Tax Settings")
 
             .AddNumberField(

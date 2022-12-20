@@ -42,21 +42,14 @@ public class CursedEnchantment : BaseWeaponEnchantment
     protected override void _OnEquip(Farmer who)
     {
         base._OnEquip(who);
-        if (who.Read<bool>(DataFields.Cursed))
-        {
-            return;
-        }
-
-        who.Write(DataFields.Cursed, true.ToString());
         EventManager.Enable<CurseUpdateTickedEvent>();
-        Log.D($"{who.Name} has been cursed!");
     }
 
     /// <inheritdoc />
-    protected override void _OnDealDamage(Monster monster, GameLocation location, Farmer who, ref int amount)
+    protected override void _OnUnequip(Farmer who)
     {
-        base._OnDealDamage(monster, location, who, ref amount);
-        who.health = Math.Max(who.health - (int)(who.maxHealth * 0.01f), 0);
+        base._OnUnequip(who);
+        EventManager.Disable<CurseUpdateTickedEvent>();
     }
 
     /// <inheritdoc />
@@ -65,7 +58,7 @@ public class CursedEnchantment : BaseWeaponEnchantment
         base._OnMonsterSlay(m, location, who);
         if (who.CurrentTool is MeleeWeapon { InitialParentTileIndex: Constants.DarkSwordIndex } darkSword)
         {
-            darkSword.Increment(DataFields.CursePoints, 20);
+            darkSword.Increment(DataFields.CursePoints);
         }
     }
 }

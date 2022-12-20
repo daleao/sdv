@@ -1,10 +1,11 @@
 # Modular Overhaul Change Logs
 
-## Revision 0.9.5 Highlights
+## Revision 7 Highlights
 
-    * Added console commands for initializing Arsenal on existing saves, and reverting existing saves back to Vanilla status after disabling Arsenal.
+* The Dwarfish Legacy quest should finally be working.
+* Fixed bug causing low crit. damage.
 
-## Minor Release 0.9 Highlights
+## Minor Release 9 Highlights
 
 * Initial release of Modular Gameplay Overhaul.
 * Initial release of the [Arsenal](Modules/Arsenal/README.md) module. Check it out for tons of new features.

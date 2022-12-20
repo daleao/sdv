@@ -18,7 +18,7 @@ internal sealed class FarmerCanUnderstandDwarvesSetterPatcher : HarmonyPatcher
 
     #region harmony patches
 
-    /// <summary>Double stamina consumption when cursed.</summary>
+    /// <summary>Try to patch in Clint's event.</summary>
     [HarmonyPostfix]
     private static void FarmerStaminaSetterPostfix()
     {

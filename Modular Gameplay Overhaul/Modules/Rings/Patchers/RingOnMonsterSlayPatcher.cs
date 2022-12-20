@@ -40,6 +40,8 @@ internal sealed class RingOnMonsterSlayPatcher : HarmonyPatcher
                 RingsModule.State.SavageExcitedness = 9;
                 EventManager.Enable<SavageUpdateTickedEvent>();
                 break;
+            default:
+                return true; // run original logic
         }
 
         return false; // don't run original logic

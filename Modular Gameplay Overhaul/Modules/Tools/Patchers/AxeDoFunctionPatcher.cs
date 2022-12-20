@@ -40,7 +40,7 @@ internal sealed class AxeDoFunctionPatcher : HarmonyPatcher
             (float)Math.Pow(ToolsModule.Config.StaminaCostMultiplier, power);
     }
 
-    /// <summary>Apply base stamina multiplier.</summary>
+    /// <summary>Apply base stamina multiplier + stamina cost cap.</summary>
     [HarmonyTranspiler]
     private static IEnumerable<CodeInstruction>? AxeDoFunctionTranspiler(
         IEnumerable<CodeInstruction> instructions,
@@ -48,8 +48,8 @@ internal sealed class AxeDoFunctionPatcher : HarmonyPatcher
     {
         var helper = new ILHelper(original, instructions);
 
-        // From: who.Stamina -= (float)(2 * power) - (float)who.<SkillLevel> * 0.1f;
-        // To: who.Stamina -= Math.Max(((float)(2 * power) - (float)who.<SkillLevel> * 0.1f) * AxeConfig.BaseStaminaMultiplier, 0.1f);
+        //// From: who.Stamina -= (float)(2 * power) - (float)who.<SkillLevel> * 0.1f;
+        //// To: who.Stamina -= Math.Max(((float)(2 * power) - (float)who.<SkillLevel> * 0.1f) * AxeConfig.BaseStaminaMultiplier, 0.1f);
         try
         {
             helper
@@ -60,6 +60,7 @@ internal sealed class AxeDoFunctionPatcher : HarmonyPatcher
                             OpCodes.Callvirt,
                             typeof(Farmer).RequirePropertySetter(nameof(Farmer.Stamina))),
                     })
+                .Move(-1) // OpCodes.Sub
                 .Insert(
                     new[]
                     {
@@ -76,7 +77,7 @@ internal sealed class AxeDoFunctionPatcher : HarmonyPatcher
                             OpCodes.Callvirt,
                             typeof(AxeConfig).RequirePropertyGetter(nameof(AxeConfig.BaseStaminaMultiplier))),
                         new CodeInstruction(OpCodes.Mul),
-                        new CodeInstruction(OpCodes.Ldc_R4, 1f),
+                        new CodeInstruction(OpCodes.Ldc_R4, 0.1f),
                         new CodeInstruction(
                             OpCodes.Call,
                             typeof(Math).RequireMethod(nameof(Math.Max), new[] { typeof(float), typeof(float) })),

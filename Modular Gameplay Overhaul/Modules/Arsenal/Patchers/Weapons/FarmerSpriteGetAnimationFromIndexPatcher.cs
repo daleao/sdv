@@ -22,11 +22,11 @@ internal sealed class FarmerSpriteGetAnimationFromIndexPatcher : HarmonyPatcher
 
     #region harmony patches
 
-    /// <summary>Overhaul weapon swing speed to scale better with bonuses.</summary>
+    /// <summary>Do weapon combo.</summary>
     [HarmonyPrefix]
     private static bool FarmerSpriteGetAnimationFromIndexPrefix(int index, FarmerSprite requester)
     {
-        if (index is not (248 or 240 or 232 or 256))
+        if (index is not (248 or 240 or 232 or 256) || !ArsenalModule.Config.Weapons.EnableComboHits)
         {
             return true; // run original logic
         }

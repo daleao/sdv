@@ -94,9 +94,6 @@ public sealed class Constants
     public const int BrokenTridentIndex = 51;
     public const int NeptunesGlaiveIndex = 14;
 
-    public const int ForestSwordIndex = 15;
-    public const int ElfBladeIndex = 20;
-
     public const int BoneSwordIndex = 5;
     public const int OssifiedBladeIndex = 60;
     public const int FemurIndex = 31;
@@ -110,6 +107,8 @@ public sealed class Constants
     public const int IridiumNeedleIndex = 61;
     public const int InsectHeadIndex = 13;
 
+    public const int ForestSwordIndex = 15;
+    public const int ElfBladeIndex = 20;
     public const int DwarfSwordIndex = 54;
     public const int DwarfHammerIndex = 55;
     public const int DwarfDaggerIndex = 56;

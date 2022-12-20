@@ -2,8 +2,8 @@
 
 #region using directives
 
+using DaLion.Overhaul.Modules.Arsenal.Events;
 using DaLion.Shared.Harmony;
-using Events;
 using HarmonyLib;
 
 #endregion using directives
@@ -23,7 +23,7 @@ internal sealed class EventEndBehaviorsPatch : HarmonyPatcher
     [HarmonyPostfix]
     private static void EventEndBehaviorsPostfix(Event __instance)
     {
-        if (ArsenalModule.Config.DwarvishCrafting && __instance.id == Constants.ForgeIntroQuestId)
+        if (__instance.id == Constants.ForgeIntroQuestId)
         {
             EventManager.Enable<BlueprintDayStartedEvent>();
         }

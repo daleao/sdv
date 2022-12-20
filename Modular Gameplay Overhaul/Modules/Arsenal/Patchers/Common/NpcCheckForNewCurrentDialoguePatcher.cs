@@ -39,13 +39,15 @@ internal sealed class NpcCheckForNewCurrentDialoguePatcher : HarmonyPatcher
                         return false; // don't run original logic
                     }
 
-                    if (player.Read<bool>(DataFields.ReadyToForge))
+                    if (player.Read(DataFields.DaysLeftTranslating, int.MaxValue) <= 0)
                     {
                         __instance.CurrentDialogue.Clear();
                         __instance.CurrentDialogue.Push(new Dialogue(
                             I18n.Get("dialogue.clint.blueprint.done"),
                             __instance));
                         player.completeQuest(Constants.ForgeIntroQuestId);
+                        player.mailReceived.Add("clintForge");
+                        player.Write(DataFields.DaysLeftTranslating, null);
                         return false; // don't run original logic
                     }
 

@@ -7,7 +7,6 @@ using StardewModdingAPI.Events;
 #endregion using directives
 
 /// <summary>Wrapper for <see cref="IGameLoopEvents.GameLaunched"/> allowing dynamic enabling / disabling.</summary>
-[AlwaysEnabledEvent]
 internal abstract class GameLaunchedEvent : ManagedEvent
 {
     /// <summary>Initializes a new instance of the <see cref="GameLaunchedEvent"/> class.</summary>
@@ -30,9 +29,17 @@ internal abstract class GameLaunchedEvent : ManagedEvent
     internal void OnGameLaunched(object? sender, GameLaunchedEventArgs e)
     {
         this.OnGameLaunchedImpl(sender, e);
-        this.Manager.ModEvents.GameLoop.GameLaunched -= this.OnGameLaunched;
+        this.Dispose();
     }
 
     /// <inheritdoc cref="OnGameLaunched"/>
     protected abstract void OnGameLaunchedImpl(object? sender, GameLaunchedEventArgs e);
+
+    protected sealed override void OnEnabled()
+    {
+    }
+
+    protected sealed override void OnDisabled()
+    {
+    }
 }

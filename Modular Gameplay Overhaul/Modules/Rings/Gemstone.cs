@@ -483,7 +483,7 @@ public abstract class Gemstone : SmartEnum<Gemstone>, IEquatable<Gemstone>, ICom
         {
             if (RingsModule.Config.RebalancedRings)
             {
-                if (ModEntry.Config.EnableArsenal && ArsenalModule.Config.OverhauledDefense)
+                if (ArsenalModule.IsEnabled && ArsenalModule.Config.OverhauledDefense)
                 {
                     who.IncrementResonantResilience(amplitude);
                 }
@@ -503,7 +503,7 @@ public abstract class Gemstone : SmartEnum<Gemstone>, IEquatable<Gemstone>, ICom
         {
             if (RingsModule.Config.RebalancedRings)
             {
-                if (ModEntry.Config.EnableArsenal && ArsenalModule.Config.OverhauledDefense)
+                if (ArsenalModule.IsEnabled && ArsenalModule.Config.OverhauledDefense)
                 {
                     who.IncrementResonantResilience(-amplitude);
                 }
@@ -523,7 +523,7 @@ public abstract class Gemstone : SmartEnum<Gemstone>, IEquatable<Gemstone>, ICom
         {
             if (RingsModule.Config.RebalancedRings)
             {
-                if (ModEntry.Config.EnableArsenal && ArsenalModule.Config.OverhauledDefense)
+                if (ArsenalModule.IsEnabled && ArsenalModule.Config.OverhauledDefense)
                 {
                     buffer.DefenseModifier += 0.1f * magnitude;
                 }

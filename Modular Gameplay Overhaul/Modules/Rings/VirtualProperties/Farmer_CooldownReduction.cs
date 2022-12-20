@@ -32,7 +32,7 @@ internal static class Farmer_CooldownReduction
 
     private static Holder Create(Farmer farmer)
     {
-        var rings = WearMoreRingsIntegration.Api?.GetAllRings(farmer) ??
+        var rings = WearMoreRingsIntegration.Instance?.ModApi?.GetAllRings(farmer) ??
                     farmer.leftRing.Value.Collect(farmer.rightRing.Value);
         return new Holder
         {

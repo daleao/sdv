@@ -44,16 +44,16 @@ internal sealed class UpgradeToolsCommand : ConsoleCommand
 
         if (!Enum.TryParse<UpgradeLevel>(args[0], true, out var upgradeLevel))
         {
-            Log.W($"Invalid upgrade level {args[0]}. Please specify a valid quality." + this.GetUsage());
+            Log.W($"Invalid upgrade level {args[0]}." + this.GetUsage());
             return;
         }
 
         switch (upgradeLevel)
         {
             case UpgradeLevel.Enchanted:
-                Log.W("To add enchantments please use the `add_enchantment` command instead.");
+                Log.W("To add enchantments use the `add_enchantment` command instead.");
                 return;
-            case > UpgradeLevel.Iridium when !MoonMisadventuresIntegration.IsLoaded:
+            case > UpgradeLevel.Iridium when MoonMisadventuresIntegration.Instance?.IsLoaded == true:
                 Log.W("You must have `Moon Misadventures` mod installed to set this upgrade level.");
                 return;
         }
@@ -67,7 +67,7 @@ internal sealed class UpgradeToolsCommand : ConsoleCommand
         var result = $"\n\nUsage: {this.Handler.EntryCommand} {this.Triggers.FirstOrDefault()} <level>";
         result += "\n\nParameters:";
         result += "\n\t- <level>: one of 'copper', 'steel', 'gold', 'iridium'";
-        if (MoonMisadventuresIntegration.IsLoaded)
+        if (MoonMisadventuresIntegration.Instance?.IsLoaded == true)
         {
             result += ", 'radioactive', 'mythicite'";
         }

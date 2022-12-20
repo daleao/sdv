@@ -94,7 +94,7 @@ internal sealed class GameLocationAnswerDialogueActionPatcher : HarmonyPatcher
                     {
                         if (questionAndAnswer.Contains("skillReset_"))
                         {
-                            HandleSkillReset(skill);
+                            HandleSkillReset(customSkill);
                         }
                     }
 

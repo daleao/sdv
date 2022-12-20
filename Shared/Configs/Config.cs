@@ -4,7 +4,7 @@
 public abstract class Config
 {
     /// <summary>Validate the config settings, replacing invalid values if necessary.</summary>
-    /// <returns><see langword="true"/> if all config settings are valid don't need rewriting, otherwise <see langword="false"/>.</returns>
+    /// <returns><see langword="true"/> if all config settings are valid and don't need rewriting, otherwise <see langword="false"/>.</returns>
     internal virtual bool Validate()
     {
         return true;

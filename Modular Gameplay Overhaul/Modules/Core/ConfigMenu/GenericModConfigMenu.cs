@@ -1,46 +1,28 @@
-﻿namespace DaLion.Overhaul.Modules.Core.Configs;
+﻿namespace DaLion.Overhaul.Modules.Core.ConfigMenu;
 
 #region using directives
 
+using System.Linq;
+using DaLion.Shared.Extensions;
 using DaLion.Shared.Integrations.GenericModConfigMenu;
 
 #endregion using directives
 
 /// <summary>Constructs the GenericModConfigMenu integration.</summary>
-internal sealed partial class GenericModConfigMenuIntegration
+internal sealed partial class GenericModConfigMenuForOverhaul : GenericModConfigMenuIntegration<GenericModConfigMenuForOverhaul, ModConfig>
 {
-    /// <summary>The Generic Mod Config Menu integration.</summary>
-    private readonly GenericModConfigMenuIntegration<ModConfig> _configMenu;
+    private static bool _reload;
 
-    /// <summary>Initializes a new instance of the <see cref="GenericModConfigMenuIntegration"/> class.</summary>
-    /// <param name="modRegistry">API for fetching metadata about loaded mods.</param>
-    /// <param name="manifest">The mod manifest.</param>
-    /// <param name="getConfig">Get the current config model.</param>
-    /// <param name="reset">Reset the config model to the default values.</param>
-    /// <param name="saveAndApply">Save and apply the current config model.</param>
-    internal GenericModConfigMenuIntegration(
-        IModRegistry modRegistry,
-        IManifest manifest,
-        Func<ModConfig> getConfig,
-        Action reset,
-        Action saveAndApply)
+    private GenericModConfigMenuForOverhaul()
+        : base(ModHelper.ModRegistry, Manifest)
     {
-        this._configMenu =
-            new GenericModConfigMenuIntegration<ModConfig>(modRegistry, manifest, getConfig, reset, saveAndApply);
-        Integrations["GMCM"] = this._configMenu;
     }
 
-    /// <summary>Register the core config menu, if it is available.</summary>
-    internal void Register()
+    /// <summary>Registers the integration and performs initial setup.</summary>
+    internal new void Register()
     {
-        // get config menu
-        if (!this._configMenu.IsLoaded)
-        {
-            return;
-        }
-
         // register
-        this._configMenu
+        this
             .Register(titleScreenOnly: true)
 
             .AddParagraph(
@@ -64,7 +46,6 @@ internal sealed partial class GenericModConfigMenuIntegration
                     }
 
                     config.EnableProfessions = value;
-                    this.Reload();
                 },
                 OverhaulModule.Professions.Namespace)
             .AddCheckbox(
@@ -84,7 +65,6 @@ internal sealed partial class GenericModConfigMenuIntegration
                     }
 
                     config.EnableArsenal = value;
-                    this.Reload();
                 },
                 OverhaulModule.Arsenal.Namespace)
             .AddCheckbox(
@@ -104,7 +84,6 @@ internal sealed partial class GenericModConfigMenuIntegration
                     }
 
                     config.EnableRings = value;
-                    this.Reload();
                 },
                 OverhaulModule.Rings.Namespace)
             .AddCheckbox(
@@ -124,7 +103,6 @@ internal sealed partial class GenericModConfigMenuIntegration
                     }
 
                     config.EnablePonds = value;
-                    this.Reload();
                 },
                 OverhaulModule.Ponds.Namespace)
             .AddCheckbox(
@@ -144,7 +122,6 @@ internal sealed partial class GenericModConfigMenuIntegration
                     }
 
                     config.EnableTaxes = value;
-                    this.Reload();
                 },
                 OverhaulModule.Taxes.Namespace)
             .AddCheckbox(
@@ -164,7 +141,6 @@ internal sealed partial class GenericModConfigMenuIntegration
                     }
 
                     config.EnableTools = value;
-                    this.Reload();
                 },
                 OverhaulModule.Tools.Namespace)
             .AddCheckbox(
@@ -184,46 +160,45 @@ internal sealed partial class GenericModConfigMenuIntegration
                     }
 
                     config.EnableTweex = value;
-                    this.Reload();
                 },
                 OverhaulModule.Tweex.Namespace);
 
-        this._configMenu.SetTitleScreenOnlyForNextOptions(false);
+        this.SetTitleScreenOnlyForNextOptions(false);
 
         // add page links
         if (Config.EnableArsenal)
         {
-            this._configMenu.AddPageLink(OverhaulModule.Arsenal.Namespace, () => "Go to Arsenal settings");
+            this.AddPageLink(OverhaulModule.Arsenal.Namespace, () => "Go to Arsenal settings");
         }
 
         if (Config.EnablePonds)
         {
-            this._configMenu.AddPageLink(OverhaulModule.Ponds.Namespace, () => "Go to Pond settings");
+            this.AddPageLink(OverhaulModule.Ponds.Namespace, () => "Go to Pond settings");
         }
 
         if (Config.EnableProfessions)
         {
-            this._configMenu.AddPageLink(OverhaulModule.Professions.Namespace, () => "Go to Profession settings");
+            this.AddPageLink(OverhaulModule.Professions.Namespace, () => "Go to Profession settings");
         }
 
         if (Config.EnableRings)
         {
-            this._configMenu.AddPageLink(OverhaulModule.Rings.Namespace, () => "Go to Ring settings");
+            this.AddPageLink(OverhaulModule.Rings.Namespace, () => "Go to Ring settings");
         }
 
         if (Config.EnableTools)
         {
-            this._configMenu.AddPageLink(OverhaulModule.Tools.Namespace, () => "Go to Tool settings");
+            this.AddPageLink(OverhaulModule.Tools.Namespace, () => "Go to Tool settings");
         }
 
         if (Config.EnableTaxes)
         {
-            this._configMenu.AddPageLink(OverhaulModule.Taxes.Namespace, () => "Go to Tax settings");
+            this.AddPageLink(OverhaulModule.Taxes.Namespace, () => "Go to Tax settings");
         }
 
         if (Config.EnableTweex)
         {
-            this._configMenu.AddPageLink(OverhaulModule.Tweex.Namespace, () => "Go to Tweak settings");
+            this.AddPageLink(OverhaulModule.Tweex.Namespace, () => "Go to Tweak settings");
         }
 
         // add page contents
@@ -261,13 +236,45 @@ internal sealed partial class GenericModConfigMenuIntegration
         {
             this.RegisterTweex();
         }
+
+        this.OnFieldChanged((field, _) =>
+        {
+            if (field.IsIn(OverhaulModule.List.Select(m => m.Namespace)))
+            {
+                _reload = true;
+            }
+        });
     }
 
-    /// <summary>Reload the core config menu.</summary>
+    /// <summary>Resets the mod config menu.</summary>
     internal void Reload()
     {
-        this._configMenu.Unregister();
-        this.Register();
-        Log.D("The mod config menu was reset.");
+        this.Unregister().Register();
+        Log.D("The Modular Overhaul config menu has been reloaded.");
+    }
+
+    /// <inheritdoc />
+    protected override ModConfig GetConfig()
+    {
+        return Config;
+    }
+
+    /// <inheritdoc />
+    protected override void ResetConfig()
+    {
+        Config = new ModConfig();
+    }
+
+    /// <inheritdoc />
+    protected override void SaveAndApply()
+    {
+        ModHelper.WriteConfig(Config);
+        if (!_reload)
+        {
+            return;
+        }
+
+        this.Reload();
+        _reload = false;
     }
 }

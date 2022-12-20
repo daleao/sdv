@@ -26,6 +26,11 @@ internal sealed class MeleeWeaponRecalculateAppliedForgesPatcher : HarmonyPatche
     [HarmonyPrefix]
     private static bool MeleeWeaponRecalculateAppliedForgedPrefix(MeleeWeapon __instance, bool force)
     {
+        if (!ArsenalModule.Config.Weapons.EnableRebalance)
+        {
+            return true; // run original logic
+        }
+
         if (__instance.enchantments.Count == 0 && !force)
         {
             return false; // don't run original logic

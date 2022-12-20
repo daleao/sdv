@@ -1,5 +1,17 @@
 ﻿# Taxes Module Change Log
 
+## 0.9.7
+
+### Added
+
+* Added season name to console outputs.
+* Added SetExpenses command.
+
+### Fixed
+
+* Business expenses will now correctly reset at the close of the season.
+* Prevent business expenses from being greater than due taxes.
+
 ## 0.9.0 (Initial release)
 
 ### Added

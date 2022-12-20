@@ -38,7 +38,7 @@ internal sealed class ToolCanAddEnchantmentPatcher : HarmonyPatcher
 
         if (enchantment.IsForge())
         {
-            __result = ArsenalModule.Config.Slingshots.AllowForges;
+            __result = ArsenalModule.Config.Slingshots.EnableForges;
             return false; // don't run original logic
         }
 

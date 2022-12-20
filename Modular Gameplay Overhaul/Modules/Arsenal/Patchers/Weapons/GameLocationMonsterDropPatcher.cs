@@ -25,6 +25,11 @@ internal sealed class GameLocationMonsterDropPatcher : HarmonyPatcher
     [HarmonyPostfix]
     private static void GameLocationMonsterDropPostfix(GameLocation __instance, Monster monster, int x, int y, Farmer who)
     {
+        if (!ArsenalModule.Config.Weapons.EnableRebalance)
+        {
+            return;
+        }
+
         switch (monster)
         {
             case ShadowBrute:

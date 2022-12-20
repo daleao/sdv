@@ -12,10 +12,10 @@ using StardewValley.Monsters;
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class MonsterTakeDamagePatcher : HarmonyPatcher
+internal sealed class GreenSlimeTakeDamagePatcher : HarmonyPatcher
 {
-    /// <summary>Initializes a new instance of the <see cref="MonsterTakeDamagePatcher"/> class.</summary>
-    internal MonsterTakeDamagePatcher()
+    /// <summary>Initializes a new instance of the <see cref="GreenSlimeTakeDamagePatcher"/> class.</summary>
+    internal GreenSlimeTakeDamagePatcher()
     {
         this.Target = this.RequireMethod<Monster>(
             nameof(Monster.takeDamage),
@@ -24,18 +24,17 @@ internal sealed class MonsterTakeDamagePatcher : HarmonyPatcher
 
     #region harmony patches
 
-    /// <summary>Patch to reset monster aggro.</summary>
+    /// <summary>Patch to reset monster aggro when a piped slime is defeated.</summary>
     [HarmonyPostfix]
-    private static void MonsterTakeDamagePostfix(Monster __instance)
+    private static void MonsterTakeDamagePostfix(GreenSlime __instance)
     {
-        if (__instance is not GreenSlime slime || slime.Get_Piped() is null ||
-            slime.Health > 0)
+        if (__instance.Get_Piped() is null || __instance.Health > 0)
         {
             return;
         }
 
-        foreach (var monster in slime.currentLocation.characters.OfType<Monster>()
-                     .Where(m => !m.IsSlime() && m.Get_Taunter() == slime))
+        foreach (var monster in __instance.currentLocation.characters.OfType<Monster>()
+                     .Where(m => !m.IsSlime() && m.Get_Taunter() == __instance))
         {
             monster.Set_Taunter(null);
         }

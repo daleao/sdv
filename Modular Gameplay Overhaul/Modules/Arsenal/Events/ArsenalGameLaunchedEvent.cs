@@ -2,6 +2,7 @@
 
 #region using directives
 
+using DaLion.Overhaul.Modules.Arsenal.Integrations;
 using DaLion.Shared.Events;
 using StardewModdingAPI.Events;
 
@@ -20,34 +21,12 @@ internal sealed class ArsenalGameLaunchedEvent : GameLaunchedEvent
     /// <inheritdoc />
     protected override void OnGameLaunchedImpl(object? sender, GameLaunchedEventArgs e)
     {
-        var registry = ModHelper.ModRegistry;
+        // hard dependencies
+        SpaceCoreIntegration.Instance!.Register();
 
-        // register custom enchants
-        new Integrations.SpaceCoreIntegration(registry).Register();
-
-        // add custom items
-        if (registry.IsLoaded("spacechase0.JsonAssets"))
-        {
-            new Integrations.JsonAssetsIntegration(registry).Register();
-        }
-        else
-        {
-            Log.W("Json Assets was not loaded. Features from the Arsenal module will be disabled.");
-            ArsenalModule.Config.DwarvishCrafting = false;
-            ArsenalModule.Config.InfinityPlusOne = false;
-            ModHelper.WriteConfig(ModEntry.Config);
-        }
-
-        // add SVE integration
-        if (registry.IsLoaded("FlashShifter.StardewValleyExpandedCP"))
-        {
-            new Integrations.StardewValleyExpandedIntegration(registry).Register();
-        }
-
-        // add Vanilla Tweaks integration
-        if (registry.IsLoaded("Taiyo.VanillaTweaks"))
-        {
-            new Integrations.VanillaTweaksIntegration(registry).Register();
-        }
+        // soft dependencies or integrations
+        JsonAssetsIntegration.Instance?.Register();
+        StardewValleyExpandedIntegration.Instance?.Register();
+        VanillaTweaksIntegration.Instance?.Register();
     }
 }

@@ -175,7 +175,7 @@ internal sealed class SetModDataCommand : ConsoleCommand
         Game1.player.Write(DataFields.ConservationistTrashCollectedThisSeason, value?.ToString());
         if (value.HasValue)
         {
-            Log.I($"Conservationist trash collected in the current season was set to {value}.");
+            Log.I($"Conservationist trash collected in the current season ({Game1.CurrentSeasonDisplayName}) was set to {value}.");
         }
     }
 

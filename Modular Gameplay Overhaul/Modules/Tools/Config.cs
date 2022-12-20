@@ -64,11 +64,13 @@ public sealed class Config : Shared.Configs.Config
         var isValid = true;
 
         Log.T("Verifying tool configs...");
+
+        var isMoonMisadventuresLoaded = MoonMisadventuresIntegration.Instance?.IsLoaded == true;
         if (this.Axe.RadiusAtEachPowerLevel.Length < 5)
         {
             Log.W("Missing values in Axe.RadiusAtEachPowerLevel. The default values will be restored.");
             this.Axe.RadiusAtEachPowerLevel = new uint[] { 1, 2, 3, 4, 5 };
-            if (MoonMisadventuresIntegration.IsLoaded)
+            if (isMoonMisadventuresLoaded)
             {
                 this.Axe.RadiusAtEachPowerLevel.AddRangeToArray(new uint[] { 6, 7 });
             }
@@ -80,7 +82,7 @@ public sealed class Config : Shared.Configs.Config
         {
             Log.W("Missing values Pickaxe.RadiusAtEachPowerLevel. The default values will be restored.");
             this.Pick.RadiusAtEachPowerLevel = new uint[] { 1, 2, 3, 4, 5 };
-            if (MoonMisadventuresIntegration.IsLoaded)
+            if (isMoonMisadventuresLoaded)
             {
                 this.Pick.RadiusAtEachPowerLevel.AddRangeToArray(new uint[] { 6, 7 });
             }
@@ -96,7 +98,7 @@ public sealed class Config : Shared.Configs.Config
                 new uint[] { 3, 0 }, new uint[] { 5, 0 }, new uint[] { 3, 1 }, new uint[] { 6, 1 }, new uint[] { 5, 2 },
             };
 
-            if (MoonMisadventuresIntegration.IsLoaded)
+            if (isMoonMisadventuresLoaded)
             {
                 this.Hoe.AffectedTiles.AddRangeToArray(new[] { new uint[] { 7, 3 }, new uint[] { 9, 4 } });
             }
@@ -112,7 +114,7 @@ public sealed class Config : Shared.Configs.Config
                 new uint[] { 3, 0 }, new uint[] { 5, 0 }, new uint[] { 3, 1 }, new uint[] { 6, 1 }, new uint[] { 5, 2 },
             };
 
-            if (MoonMisadventuresIntegration.IsLoaded)
+            if (isMoonMisadventuresLoaded)
             {
                 this.Can.AffectedTiles.AddRangeToArray(new[] { new uint[] { 7, 3 }, new uint[] { 9, 4 } });
             }
@@ -143,7 +145,7 @@ public sealed class Config : Shared.Configs.Config
             isValid = false;
         }
 
-        if (MoonMisadventuresIntegration.IsLoaded)
+        if (isMoonMisadventuresLoaded)
         {
             Log.I("Moon Misadventures detected.");
 

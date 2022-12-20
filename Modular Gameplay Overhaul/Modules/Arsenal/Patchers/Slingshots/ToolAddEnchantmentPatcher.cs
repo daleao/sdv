@@ -32,7 +32,7 @@ internal sealed class ToolAddEnchantmentPatcher : HarmonyPatcher
         var helper = new ILHelper(original, instructions);
 
         // From: if (this is MeleeWeapon ...
-        // To: if (this is MeleeWeapon || this is Slingshot && ArsenalModule.Config.Slingshots.AllowForges ...
+        // To: if (this is MeleeWeapon || this is Slingshot && ArsenalModule.Config.Slingshots.EnableForges ...
         try
         {
             var isWeapon = generator.DefineLabel();
@@ -56,7 +56,7 @@ internal sealed class ToolAddEnchantmentPatcher : HarmonyPatcher
                             typeof(Config).RequirePropertyGetter(nameof(Config.Slingshots))),
                         new CodeInstruction(
                             OpCodes.Callvirt,
-                            typeof(SlingshotConfig).RequirePropertyGetter(nameof(SlingshotConfig.AllowForges))),
+                            typeof(SlingshotConfig).RequirePropertyGetter(nameof(SlingshotConfig.EnableForges))),
                     })
                 .Move()
                 .AddLabels(isWeapon);

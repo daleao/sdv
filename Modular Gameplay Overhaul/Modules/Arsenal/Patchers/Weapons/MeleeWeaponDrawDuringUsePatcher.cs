@@ -29,7 +29,7 @@ internal sealed class MeleeWeaponDrawDuringUsePatcher : HarmonyPatcher
 
     #region harmony patches
 
-    /// <summary>Draw weapon during Stabbing sword lunge.</summary>
+    /// <summary>Draw during combos + stabby lunge.</summary>
     [HarmonyPrefix]
     private static bool MeleeWeaponDrawDuringUsePrefix(
         Vector2 ___center,
@@ -60,6 +60,11 @@ internal sealed class MeleeWeaponDrawDuringUsePatcher : HarmonyPatcher
                     f,
                     sourceRect);
                 return false; // don't run original logic
+            }
+
+            if (!ArsenalModule.Config.Weapons.EnableComboHits)
+            {
+                return true; // run original logic
             }
 
             var hitstep = ArsenalModule.State.ComboHitStep;

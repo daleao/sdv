@@ -96,7 +96,7 @@ internal sealed class NewForgeMenuUpdatePatcher : HarmonyPatcher
             return null;
         }
 
-        // Injected: else if (leftIngredientSpot.item is Slingshot slingshot && ArsenalModule.Config.Slingshots.AllowForges)
+        // Injected: else if (leftIngredientSpot.item is Slingshot slingshot && ArsenalModule.Config.Slingshots.EnableForges)
         //             UnforgeSlingshot(leftIngredientSpot.item);
         // Between: MeleeWeapon and CombinedRing unforge behaviors...
         try
@@ -139,7 +139,7 @@ internal sealed class NewForgeMenuUpdatePatcher : HarmonyPatcher
                             typeof(Config).RequirePropertyGetter(nameof(Config.Slingshots))),
                         new CodeInstruction(
                             OpCodes.Callvirt,
-                            typeof(SlingshotConfig).RequirePropertyGetter(nameof(SlingshotConfig.AllowForges))),
+                            typeof(SlingshotConfig).RequirePropertyGetter(nameof(SlingshotConfig.EnableForges))),
                         new CodeInstruction(OpCodes.Brfalse, elseIfCombinedRing),
                         new CodeInstruction(OpCodes.Ldarg_0),
                         new CodeInstruction(OpCodes.Ldloc_S, slingshot),

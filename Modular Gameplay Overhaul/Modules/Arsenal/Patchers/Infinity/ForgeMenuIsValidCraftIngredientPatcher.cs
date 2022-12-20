@@ -1,4 +1,6 @@
-﻿namespace DaLion.Overhaul.Modules.Arsenal.Patchers.Weapons;
+﻿namespace DaLion.Overhaul.Modules.Arsenal.Patchers.Infinity;
+
+using DaLion.Overhaul;
 
 #region using directives
 

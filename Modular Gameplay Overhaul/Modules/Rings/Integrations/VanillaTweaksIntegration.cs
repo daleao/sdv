@@ -2,33 +2,39 @@
 
 #region using directives
 
-using System.Diagnostics.CodeAnalysis;
+using DaLion.Shared.Attributes;
 using DaLion.Shared.Extensions.SMAPI;
 using DaLion.Shared.Integrations;
 
 #endregion using directives
 
-internal sealed class VanillaTweaksIntegration : BaseIntegration
+[RequiresMod("Taiyo.VanillaTweaks", "Vanilla Tweaks")]
+internal sealed class VanillaTweaksIntegration : ModIntegration<VanillaTweaksIntegration>
 {
-    /// <summary>Initializes a new instance of the <see cref="VanillaTweaksIntegration"/> class.</summary>
-    /// <param name="modRegistry">An API for fetching metadata about loaded mods.</param>
-    internal VanillaTweaksIntegration(IModRegistry modRegistry)
-        : base("VanillaTweaks", "Taiyo.VanillaTweaks", null, modRegistry)
+    private VanillaTweaksIntegration()
+        : base("Taiyo.VanillaTweaks", "Vanilla Tweaks", null, ModHelper.ModRegistry)
     {
-        ModEntry.Integrations[this.ModName] = this;
     }
 
-    /// <summary>Gets the value of the <c>RingsCategoryEnabled</c> config setting.</summary>
-    [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1623:Property summary documentation should match accessors", Justification = "Doesn't make sense in this context.")]
-    internal static bool RingsCategoryEnabled { get; private set; }
+    /// <summary>Gets a value indicating whether the <c>RingsCategoryEnabled</c> config setting is enabled.</summary>
+    internal bool RingsCategoryEnabled { get; private set; }
 
     /// <inheritdoc />
-    protected override void RegisterImpl()
+    protected override bool RegisterImpl()
     {
-        this.AssertLoaded();
-        RingsCategoryEnabled = ModHelper
-            .ReadContentPackConfig("Taiyo.VanillaTweaks")?
-            .Value<bool>("RingsCategoryEnabled") == true;
-        ModHelper.GameContent.InvalidateCache("Maps/springobjects");
+        if (!this.IsLoaded)
+        {
+            return false;
+        }
+
+        if (ModHelper.ReadContentPackConfig("Taiyo.VanillaTweaks") is { } jObject)
+        {
+            this.RingsCategoryEnabled = jObject.Value<bool>("RingsCategoryEnabled");
+            ModHelper.GameContent.InvalidateCache("Maps/springobjects");
+            return true;
+        }
+
+        Log.W("Failed to read Vanilla Tweaks config settings.");
+        return false;
     }
 }

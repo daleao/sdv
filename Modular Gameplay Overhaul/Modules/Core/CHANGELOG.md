@@ -1,5 +1,15 @@
 ﻿# Modular Overhaul Core Change Log
 
+## 0.9.7
+
+### Changed
+
+* Mod integrations now use the Singleton pattern.
+
+### Added
+
+* Added FirstSecondUpdateTickedEvent.
+
 ## 0.9.5
 
 ### Added

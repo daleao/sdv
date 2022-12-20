@@ -86,8 +86,7 @@ internal sealed class GameLocationPerformActionPatcher : HarmonyPatcher
                         Game1.drawObjectDialogue(Game1.content.LoadString("Strings\\StringsFromCSFiles:Crop.cs.588"));
                     }
                 }
-                else if (Game1.game1.IsCommunityCenterComplete() && !who.hasOrWillReceiveMail("gotDarkSword") &&
-                         !who.isInventoryFull())
+                else if (!who.hasOrWillReceiveMail("gotDarkSword") && !who.isInventoryFull())
                 {
                     ProposeGrabDarkSword(__instance);
                 }
@@ -119,16 +118,16 @@ internal sealed class GameLocationPerformActionPatcher : HarmonyPatcher
     {
         Game1.multipleDialogues(new string[]
         {
-            I18n.Get("darksword.found"),
-            I18n.Get("darksword.chill"),
+            I18n.Get("weapons.darksword.found"),
+            I18n.Get("weapons.darksword.chill"),
         });
 
         Game1.afterDialogues = () => location.createQuestionDialogue(
-            I18n.Get("darksword.question"),
+            I18n.Get("weapons.darksword.question"),
             new Response[]
             {
-                new("GrabIt", I18n.Get("darksword.grabit")),
-                new("LeaveIt", I18n.Get("darksword.leaveit")),
+                new("GrabIt", I18n.Get("weapons.darksword.grabit")),
+                new("LeaveIt", I18n.Get("weapons.darksword.leaveit")),
             },
             "DarkSword");
     }

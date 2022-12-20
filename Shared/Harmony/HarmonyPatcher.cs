@@ -19,6 +19,9 @@ internal abstract class HarmonyPatcher : IHarmonyPatcher
         (this.Prefix, this.Postfix, this.Transpiler, this.Finalizer, this.Reverse) = this.GetHarmonyMethods();
     }
 
+    /// <summary>Gets the method that is currently being patched.</summary>
+    public static MethodBase? NowPatching { get; protected set; }
+
     /// <inheritdoc />
     public MethodBase Target { get; protected set; } = null!; // initialized in derived class
 
@@ -84,6 +87,8 @@ internal abstract class HarmonyPatcher : IHarmonyPatcher
     /// <param name="harmony">The <see cref="Harmony"/> instance for this mod.</param>
     protected virtual void ApplyImpl(Harmony harmony)
     {
+        NowPatching = this.Target;
+
         if (this.Reverse is not null)
         {
             harmony.CreateReversePatcher(this.Target, this.Reverse).Patch();

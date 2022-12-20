@@ -10,6 +10,7 @@ using StardewValley.Tools;
 #endregion using directives
 
 [UsedImplicitly]
+[Debug]
 internal sealed class SwordBlessCommand : ConsoleCommand
 {
     /// <summary>Initializes a new instance of the <see cref="SwordBlessCommand"/> class.</summary>
@@ -28,15 +29,16 @@ internal sealed class SwordBlessCommand : ConsoleCommand
     /// <inheritdoc />
     public override void Callback(string[] args)
     {
-        if (Game1.player.CurrentTool is not MeleeWeapon { InitialParentTileIndex: Constants.DarkSwordIndex })
+        var player = Game1.player;
+        if (player.CurrentTool is not MeleeWeapon { InitialParentTileIndex: Constants.DarkSwordIndex })
         {
-            Game1.player.CurrentTool = new MeleeWeapon(Constants.DarkSwordIndex);
+            player.CurrentTool = new MeleeWeapon(Constants.DarkSwordIndex);
         }
 
-        Game1.player.Halt();
-        Game1.player.faceDirection(2);
-        Game1.player.showCarrying();
-        Game1.player.jitterStrength = 1f;
+        player.Halt();
+        player.faceDirection(2);
+        player.showCarrying();
+        player.jitterStrength = 1f;
         Game1.pauseThenDoFunction(3000, Utils.GetHolyBlade);
         Game1.changeMusicTrack("none", false, Game1.MusicContext.Event);
         Game1.currentLocation.playSound("crit");

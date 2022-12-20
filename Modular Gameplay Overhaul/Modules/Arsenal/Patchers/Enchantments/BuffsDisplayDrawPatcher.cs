@@ -1,4 +1,4 @@
-﻿namespace DaLion.Overhaul.Modules.Arsenal.Patchers.Weapons;
+﻿namespace DaLion.Overhaul.Modules.Arsenal.Patchers.Enchantments;
 
 #region using directives
 

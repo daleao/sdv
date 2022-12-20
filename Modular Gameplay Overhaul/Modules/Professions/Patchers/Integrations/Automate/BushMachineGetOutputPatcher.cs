@@ -78,7 +78,7 @@ internal sealed class BushMachineGetOutputPatcher : HarmonyPatcher
 
     private static int GetOutputSubroutine(Bush machine)
     {
-        var chest = AutomateIntegration.GetClosestContainerTo(machine);
+        var chest = AutomateIntegration.Instance?.GetClosestContainerTo(machine);
         var user = ProfessionsModule.Config.LaxOwnershipRequirements ? Game1.player : chest?.GetOwner() ?? Game1.MasterPlayer;
         return user.HasProfession(Profession.Ecologist) ? user.GetEcologistForageQuality() : SObject.lowQuality;
     }

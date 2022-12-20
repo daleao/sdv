@@ -2,39 +2,38 @@
 
 #region using directives
 
-using System.Diagnostics.CodeAnalysis;
 using System.IO;
+using DaLion.Shared.Attributes;
 using DaLion.Shared.Integrations;
 using DaLion.Shared.Integrations.JsonAssets;
 
 #endregion using directives
 
-internal sealed class JsonAssetsIntegration : BaseIntegration<IJsonAssetsApi>
+[RequiresMod("spacechase0.JsonAssets", "Json Assets", "1.10.7")]
+internal sealed class JsonAssetsIntegration : ModIntegration<JsonAssetsIntegration, IJsonAssetsApi>
 {
-    /// <summary>Initializes a new instance of the <see cref="JsonAssetsIntegration"/> class.</summary>
-    /// <param name="modRegistry">An API for fetching metadata about loaded mods.</param>
-    internal JsonAssetsIntegration(IModRegistry modRegistry)
-        : base("JsonAssets", "spacechase0.JsonAssets", "1.10.7", modRegistry)
+    internal JsonAssetsIntegration()
+        : base("spacechase0.JsonAssets", "Json Assets", "1.10.7", ModHelper.ModRegistry)
     {
-        ModEntry.Integrations[this.ModName] = this;
     }
 
-    /// <summary>Gets the <see cref="IJsonAssetsApi"/>.</summary>
-    internal static IJsonAssetsApi? Api { get; private set; }
-
     /// <inheritdoc />
-    [MemberNotNull(nameof(Api))]
-    protected override void RegisterImpl()
+    protected override bool RegisterImpl()
     {
-        this.AssertLoaded();
-        Api = this.ModApi;
+        if (this.IsLoaded)
+        {
+            var subFolder = VanillaTweaksIntegration.Instance?.RingsCategoryEnabled == true
+                ? "VanillaTweaks"
+                : BetterRingsIntegration.Instance?.IsLoaded == true
+                    ? "BetterRings" : "Vanilla";
+            this.ModApi.LoadAssets(Path.Combine(ModHelper.DirectoryPath, "assets", "json-assets", "Rings", subFolder), I18n);
+            this.ModApi.IdsAssigned += this.OnIdsAssigned;
+            return true;
+        }
 
-        var subFolder = VanillaTweaksIntegration.RingsCategoryEnabled
-            ? "VanillaTweaks"
-            : BetterRingsIntegration.IsLoaded
-                ? "BetterRings" : "Vanilla";
-        this.ModApi.LoadAssets(Path.Combine(ModHelper.DirectoryPath, "assets", "json-assets", "Rings", subFolder), I18n);
-        this.ModApi.IdsAssigned += this.OnIdsAssigned;
+        RingsModule.Config.TheOneInfinityBand = false;
+        ModHelper.WriteConfig(ModEntry.Config);
+        return false;
     }
 
     /// <summary>Gets assigned IDs.</summary>
@@ -48,5 +47,6 @@ internal sealed class JsonAssetsIntegration : BaseIntegration<IJsonAssetsApi>
         Globals.GarnetIndex = this.ModApi.GetObjectId("Garnet");
         Globals.GarnetRingIndex = this.ModApi.GetObjectId("Garnet Ring");
         Globals.InfinityBandIndex = this.ModApi.GetObjectId("Infinity Band");
+        Log.D("The IDs for custom items in the Rings module have been assigned.");
     }
 }

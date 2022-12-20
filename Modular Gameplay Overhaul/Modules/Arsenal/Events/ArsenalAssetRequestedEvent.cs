@@ -72,7 +72,7 @@ internal sealed class ArsenalAssetRequestedEvent : AssetRequestedEvent
     /// <summary>Patches buffs icons with energized buff icon.</summary>
     private static void EditBuffsIconsTileSheet(IAssetData asset)
     {
-        if (!ArsenalModule.Config.Weapons.OverhauledEnchants)
+        if (!ArsenalModule.Config.Weapons.EnableEnchants)
         {
             return;
         }
@@ -121,7 +121,7 @@ internal sealed class ArsenalAssetRequestedEvent : AssetRequestedEvent
     private static void EditBlacksmithEventsData(IAssetData asset)
     {
         if (!Context.IsWorldReady || !ArsenalModule.Config.DwarvishCrafting ||
-            !string.IsNullOrEmpty(Game1.player.Read(DataFields.BlueprintsFound)) || !Game1.player.canUnderstandDwarves)
+            string.IsNullOrEmpty(Game1.player.Read(DataFields.BlueprintsFound)) || !Game1.player.canUnderstandDwarves)
         {
             return;
         }
@@ -139,7 +139,7 @@ internal sealed class ArsenalAssetRequestedEvent : AssetRequestedEvent
         }
 
         var data = asset.AsDictionary<string, string>().Data;
-        data["144703/n darkSwordFound/p Wizard"] = StardewValleyExpandedIntegration.IsLoaded
+        data["144703/n darkSwordFound/p Wizard"] = StardewValleyExpandedIntegration.Instance?.IsLoaded == true
             ? I18n.Get("events.curse.intro")
             : I18n.Get("events.curse.intro.sve");
     }
@@ -214,8 +214,8 @@ internal sealed class ArsenalAssetRequestedEvent : AssetRequestedEvent
     /// <summary>Edits weapons data with rebalanced stats.</summary>
     private static void EditWeaponsData(IAssetData asset)
     {
-        if (!ArsenalModule.Config.Weapons.RebalancedStats &&
-            !ArsenalModule.Config.Weapons.BringBackStabbySwords && !ArsenalModule.Config.DwarvishCrafting &&
+        if (!ArsenalModule.Config.Weapons.EnableRebalance &&
+            !ArsenalModule.Config.Weapons.EnableStabbySwords && !ArsenalModule.Config.DwarvishCrafting &&
             !ArsenalModule.Config.InfinityPlusOne)
         {
             return;
@@ -227,7 +227,7 @@ internal sealed class ArsenalAssetRequestedEvent : AssetRequestedEvent
         {
             var fields = data[key].Split('/');
 
-            if (ArsenalModule.Config.Weapons.RebalancedStats)
+            if (ArsenalModule.Config.Weapons.EnableRebalance)
             {
                 EditSingleWeapon(key, fields);
             }
@@ -274,13 +274,13 @@ internal sealed class ArsenalAssetRequestedEvent : AssetRequestedEvent
     /// <summary>Edits weapons tilesheet with touched up textures.</summary>
     private static void EditWeaponsTileSheetEarly(IAssetData asset)
     {
-        if (!ArsenalModule.Config.Weapons.Retextures && !ArsenalModule.Config.InfinityPlusOne)
+        if (!ArsenalModule.Config.Weapons.EnableRetexture && !ArsenalModule.Config.InfinityPlusOne)
         {
             return;
         }
 
         var editor = asset.AsImage();
-        if (ArsenalModule.Config.Weapons.Retextures)
+        if (ArsenalModule.Config.Weapons.EnableRetexture)
         {
             editor.PatchImage(ModHelper.ModContent.Load<Texture2D>("assets/sprites/weapons"));
         }
@@ -294,7 +294,7 @@ internal sealed class ArsenalAssetRequestedEvent : AssetRequestedEvent
     /// <summary>Edits weapons tilesheet with touched up textures.</summary>
     private static void EditWeaponsTileSheetLate(IAssetData asset)
     {
-        if (!VanillaTweaksIntegration.WeaponsCategoryEnabled)
+        if (VanillaTweaksIntegration.Instance?.WeaponsCategoryEnabled != true)
         {
             return;
         }
@@ -349,7 +349,7 @@ internal sealed class ArsenalAssetRequestedEvent : AssetRequestedEvent
             case 12: // wooden blade
                 fields[MinDamage] = 2.ToString();
                 fields[MaxDamage] = 5.ToString();
-                fields[Knockback] = 0.5.ToString(CultureInfo.InvariantCulture);
+                fields[Knockback] = 0.75.ToString(CultureInfo.InvariantCulture);
                 fields[Speed] = 1.ToString();
                 fields[Precision] = 0.ToString();
                 fields[Defense] = 0.ToString();
@@ -388,7 +388,7 @@ internal sealed class ArsenalAssetRequestedEvent : AssetRequestedEvent
             case 49: // rapier
                 fields[MinDamage] = 30.ToString();
                 fields[MaxDamage] = 40.ToString();
-                fields[Knockback] = 0.6.ToString(CultureInfo.InvariantCulture);
+                fields[Knockback] = 0.55.ToString(CultureInfo.InvariantCulture);
                 fields[Speed] = 2.ToString();
                 fields[Precision] = 2.ToString();
                 fields[Defense] = 0.ToString();
@@ -401,7 +401,7 @@ internal sealed class ArsenalAssetRequestedEvent : AssetRequestedEvent
             case 50: // steel falchion
                 fields[MinDamage] = 40.ToString();
                 fields[MaxDamage] = 54.ToString();
-                fields[Knockback] = 0.75.ToString(CultureInfo.InvariantCulture);
+                fields[Knockback] = 0.7.ToString(CultureInfo.InvariantCulture);
                 fields[Speed] = 1.ToString();
                 fields[Precision] = 0.ToString();
                 fields[Defense] = 0.ToString();
@@ -573,7 +573,7 @@ internal sealed class ArsenalAssetRequestedEvent : AssetRequestedEvent
             case 9: // lava katana
                 fields[MinDamage] = 95.ToString();
                 fields[MaxDamage] = 110.ToString();
-                fields[Knockback] = 0.75.ToString(CultureInfo.InvariantCulture);
+                fields[Knockback] = 0.65.ToString(CultureInfo.InvariantCulture);
                 fields[Speed] = 1.ToString();
                 fields[Precision] = 1.ToString();
                 fields[Defense] = 0.ToString();

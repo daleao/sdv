@@ -48,12 +48,16 @@ internal sealed class FarmerFoundArtifactPatcher : HarmonyPatcher
             }
 
             __instance.Append(DataFields.BlueprintsFound, blueprint.ToString());
-            if (__instance.Read(DataFields.BlueprintsFound).ParseList<int>().Count == 6)
+            var count = __instance.Read(DataFields.BlueprintsFound).ParseList<int>().Count;
+            switch (count)
             {
-                __instance.completeQuest(Constants.ForgeNextQuestId);
+                case 8:
+                    __instance.completeQuest(Constants.ForgeNextQuestId);
+                    break;
+                case 1:
+                    ModHelper.GameContent.InvalidateCache("Data/Events/Blacksmith");
+                    break;
             }
-
-            ModHelper.GameContent.InvalidateCache("Data/Events/Blacksmith");
 
             __instance.holdUpItemThenMessage(new SObject(Globals.DwarvishBlueprintIndex.Value, 1));
             if (Context.IsMultiplayer)

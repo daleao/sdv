@@ -8,6 +8,7 @@ using System.Reflection;
 using System.Runtime.CompilerServices;
 using DaLion.Shared.Attributes;
 using DaLion.Shared.Extensions.Collections;
+using DaLion.Shared.Extensions.Reflection;
 using HarmonyLib;
 using StardewModdingAPI.Events;
 
@@ -437,7 +438,8 @@ internal sealed class EventManager
                             null,
                             new[] { this.GetType() },
                             null) is not null &&
-                        (t.GetCustomAttribute<AlwaysEnabledEventAttribute>() is not null ||
+                        (t.IsAssignableToAnyOf(typeof(GameLaunchedEvent), typeof(FirstSecondUpdateTickedEvent)) ||
+                         t.GetCustomAttribute<AlwaysEnabledEventAttribute>() is not null ||
                          t.GetProperty(nameof(IManagedEvent.IsEnabled))?.DeclaringType == t))
             .ToArray();
 
@@ -458,23 +460,23 @@ internal sealed class EventManager
                 continue;
             }
 
-            var integrationAttr = type.GetCustomAttribute<RequiresModAttribute>();
-            if (integrationAttr is not null)
+            var requiresModAttribute = type.GetCustomAttribute<RequiresModAttribute>();
+            if (requiresModAttribute is not null)
             {
-                if (!this._modRegistry.IsLoaded(integrationAttr.UniqueId))
+                if (!this._modRegistry.IsLoaded(requiresModAttribute.UniqueId))
                 {
                     Log.D(
-                        $"[EventManager]: The target mod {integrationAttr.UniqueId} is not loaded. {type.Name} will be ignored.");
+                        $"[EventManager]: The target mod {requiresModAttribute.UniqueId} is not loaded. {type.Name} will be ignored.");
                     continue;
                 }
 
-                if (!string.IsNullOrEmpty(integrationAttr.Version) &&
-                    this._modRegistry.Get(integrationAttr.UniqueId)!.Manifest.Version.IsOlderThan(
-                        integrationAttr.Version))
+                if (!string.IsNullOrEmpty(requiresModAttribute.Version) &&
+                    this._modRegistry.Get(requiresModAttribute.UniqueId)!.Manifest.Version.IsOlderThan(
+                        requiresModAttribute.Version))
                 {
                     Log.W(
-                        $"[EventManager]: The integration event {type.Name} will be ignored because the installed version of {integrationAttr.UniqueId} is older than minimum supported version." +
-                        $" Please update {integrationAttr.UniqueId} in order to enable integrations with this mod.");
+                        $"[EventManager]: The integration event {type.Name} will be ignored because the installed version of {requiresModAttribute.UniqueId} is older than minimum supported version." +
+                        $" Please update {requiresModAttribute.UniqueId} in order to enable integrations with this mod.");
                     continue;
                 }
             }

@@ -310,16 +310,16 @@ public sealed class Chord : IChord
             });
         });
 
-        if (this.Notes.Length == 4 && distinctNotes.Length == 2 &&
-            distinctNotes.All(d => this.Notes.Count(n => n == d) == 2))
-        {
-            this.ResonanceByGemstone.ForEach(pair => this.ResonanceByGemstone[pair.Key] *= 2f);
-        }
-
         if (this.Root is not null)
         {
             this.Amplitude = this.ResonanceByGemstone[this.Root];
             this._period = 360d / this.Root.Frequency;
+        }
+
+        if (this.Notes.Length == 4 && distinctNotes.Length == 2 &&
+            distinctNotes.All(d => this.Notes.Count(n => n == d) == 2))
+        {
+            this.ResonanceByGemstone.ForEach(pair => this.ResonanceByGemstone[pair.Key] *= 2f);
         }
     }
 

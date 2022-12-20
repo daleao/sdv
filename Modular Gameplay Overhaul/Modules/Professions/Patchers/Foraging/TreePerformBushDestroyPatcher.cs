@@ -56,7 +56,8 @@ internal sealed class TreePerformBushDestroyPatcher : HarmonyPatcher
                 .AddLabels(resumeExecution)
                 .Insert(new[] { new CodeInstruction(OpCodes.Br_S, resumeExecution) })
                 .Insert(
-                    new[] {
+                    new[]
+                    {
                         new CodeInstruction(OpCodes.Pop),
                         new CodeInstruction(OpCodes.Ldc_R8, 1.4),
                     },

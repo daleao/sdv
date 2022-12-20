@@ -29,7 +29,7 @@ internal sealed class MineShaftAddLevelChestsPatcher : HarmonyPatcher
     [HarmonyPrefix]
     private static bool MineShaftAddLevelChestsPrefix(MineShaft __instance)
     {
-        if (!ArsenalModule.Config.Weapons.RebalancedStats)
+        if (!ArsenalModule.Config.Weapons.EnableRebalance)
         {
             return true; // run original logic
         }

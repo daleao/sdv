@@ -24,6 +24,47 @@ internal sealed class MonsterTakeDamagePatcher : HarmonyPatcher
             new[] { typeof(int), typeof(int), typeof(int), typeof(bool), typeof(double), typeof(string) });
     }
 
+    /// <inheritdoc />
+    protected override void ApplyImpl(Harmony harmony)
+    {
+        base.ApplyImpl(harmony);
+        foreach (var target in TargetMethods())
+        {
+            this.Target = target;
+            base.ApplyImpl(harmony);
+        }
+    }
+
+    /// <inheritdoc />
+    protected override void UnapplyImpl(Harmony harmony)
+    {
+        base.UnapplyImpl(harmony);
+        foreach (var target in TargetMethods())
+        {
+            this.Target = target;
+            base.UnapplyImpl(harmony);
+        }
+    }
+
+    [HarmonyTargetMethods]
+    private static IEnumerable<MethodBase> TargetMethods()
+    {
+        var types = new[]
+        {
+            typeof(AngryRoger), typeof(Bat), typeof(BigSlime), typeof(BlueSquid), typeof(Bug), typeof(Duggy),
+            typeof(DwarvishSentry), typeof(Fly), typeof(Ghost), typeof(GreenSlime), typeof(Grub), typeof(LavaCrab),
+            typeof(Mummy), typeof(RockCrab), typeof(RockGolem), typeof(ShadowGirl), typeof(ShadowGuy),
+            typeof(ShadowShaman), typeof(SquidKid), typeof(Serpent),
+        };
+
+        foreach (var type in types)
+        {
+            yield return type.RequireMethod(
+                "takeDamage",
+                new[] { typeof(int), typeof(int), typeof(int), typeof(bool), typeof(double), typeof(Farmer) });
+        }
+    }
+
     #region harmony patches
 
     /// <summary>Record overkill.</summary>
@@ -40,60 +81,60 @@ internal sealed class MonsterTakeDamagePatcher : HarmonyPatcher
     {
         var helper = new ILHelper(original, instructions);
 
-        // From: int actualDamage = Math.Max(1, damage - (int)resilience);
-        // To: int actualDamage = this.get_GotCrit() && ModEntry.Confi.Arsenal.OverhauledDefense ? damage : damage * 10 / (10 + (int)resilience);
+        // Injected: ModEntry.Confi.Arsenal.OverhauledDefense ? DoOverhauledDefense(this, damage) : continue
+        // At: start of method
         try
         {
-            var mitigateDamage = generator.DefineLabel();
+            var doVanillaDefense = generator.DefineLabel();
             var resumeExecution = generator.DefineLabel();
             helper
+                .Match(
+                    new[]
+                    {
+                        new CodeInstruction(OpCodes.Ldc_I4_1),
+                        new CodeInstruction(OpCodes.Ldarg_1),
+                        new CodeInstruction(OpCodes.Ldarg_0),
+                        new CodeInstruction(
+                            OpCodes.Ldfld,
+                            typeof(Monster).RequireField(nameof(Monster.resilience))),
+                        new CodeInstruction(OpCodes.Call),
+                        new CodeInstruction(OpCodes.Sub),
+                        new CodeInstruction(
+                            OpCodes.Call,
+                            typeof(Math).RequireMethod(nameof(Math.Max), new[] { typeof(int), typeof(int) })),
+                    },
+                    ILHelper.SearchOption.First)
+                .StripLabels(out var labels)
+                .AddLabels(doVanillaDefense)
                 .Insert(
                     new[]
                     {
-                        new CodeInstruction(OpCodes.Call, typeof(ModEntry).RequirePropertyGetter(nameof(ModEntry.Config))),
+                        new CodeInstruction(
+                            OpCodes.Call,
+                            typeof(ModEntry).RequirePropertyGetter(nameof(ModEntry.Config))),
                         new CodeInstruction(
                             OpCodes.Callvirt,
                             typeof(ModConfig).RequirePropertyGetter(nameof(ModConfig.Arsenal))),
                         new CodeInstruction(
                             OpCodes.Callvirt,
                             typeof(Config).RequirePropertyGetter(nameof(Config.OverhauledDefense))),
-                        new CodeInstruction(OpCodes.Brfalse_S, mitigateDamage),
+                        new CodeInstruction(OpCodes.Brfalse_S, doVanillaDefense),
                         new CodeInstruction(OpCodes.Ldarg_0),
+                        new CodeInstruction(OpCodes.Ldarg_1),
                         new CodeInstruction(
                             OpCodes.Call,
-                            typeof(Monster_GotCrit).RequireMethod(nameof(Monster_GotCrit.Get_GotCrit))),
-                        new CodeInstruction(OpCodes.Brfalse_S, mitigateDamage),
-                        new CodeInstruction(OpCodes.Ldarg_1),
+                            typeof(MonsterTakeDamagePatcher).RequireMethod(nameof(DoOverhauledDefense))),
                         new CodeInstruction(OpCodes.Stloc_0),
                         new CodeInstruction(OpCodes.Br_S, resumeExecution),
-                    })
-                .Remove()
-                .AddLabels(mitigateDamage)
+                    },
+                    labels)
+                .Match(new[] { new CodeInstruction(OpCodes.Stloc_0) })
                 .Move()
-                .Insert(
-                    new[]
-                    {
-                        new CodeInstruction(OpCodes.Conv_R4),
-                        new CodeInstruction(OpCodes.Ldc_R4, 10f),
-                        new CodeInstruction(OpCodes.Ldc_R4, 10f),
-                    })
-                .Match(new[] { new CodeInstruction(OpCodes.Sub) })
-                .Insert(
-                    new[]
-                    {
-                        new CodeInstruction(OpCodes.Conv_R4),
-                        new CodeInstruction(OpCodes.Add),
-                        new CodeInstruction(OpCodes.Div),
-                    })
-                .ReplaceWith(new CodeInstruction(OpCodes.Mul))
-                .Move()
-                .ReplaceWith(new CodeInstruction(OpCodes.Conv_I4))
-                .Move(2)
                 .AddLabels(resumeExecution);
         }
         catch (Exception ex)
         {
-            Log.E($"Failed adding crit. ignore defense option.\nHelper returned {ex}");
+            Log.E($"Failed adding overhauled monster defense.\nHelper returned {ex}");
             return null;
         }
 
@@ -101,4 +142,15 @@ internal sealed class MonsterTakeDamagePatcher : HarmonyPatcher
     }
 
     #endregion harmony patches
+
+    #region injected subroutines
+
+    private static int DoOverhauledDefense(Monster monster, int damage)
+    {
+        return monster.Get_GotCrit()
+            ? damage
+            : (int)(damage * (10f / (10f + monster.resilience.Value)));
+    }
+
+    #endregion injected subroutines
 }

@@ -176,7 +176,7 @@ internal static class FishPondExtensions
     ///     returns a deserialized <see cref="List{T}"/> of <seealso cref="SObject"/>s.
     /// </summary>
     /// <param name="pond">The <see cref="FishPond"/>.</param>
-    /// <returns>A <see cref="List{T}"/> of <see cref="Item"/>s which were encoded in <paramref name="field"/>.</returns>
+    /// <returns>A <see cref="List{T}"/> of <see cref="Item"/>s encoded in the <paramref name="pond"/>'s held items data.</returns>
     internal static List<Item> DeserializeHeldItems(this FishPond pond)
     {
         return pond.Read(DataFields.ItemsHeld)

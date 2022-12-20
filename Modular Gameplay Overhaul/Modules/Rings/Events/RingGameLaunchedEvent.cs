@@ -2,6 +2,7 @@
 
 #region using directives
 
+using DaLion.Overhaul.Modules.Rings.Integrations;
 using DaLion.Shared.Events;
 using StardewModdingAPI.Events;
 
@@ -20,40 +21,17 @@ internal class RingGameLaunchedEvent : GameLaunchedEvent
     /// <inheritdoc />
     protected override void OnGameLaunchedImpl(object? sender, GameLaunchedEventArgs e)
     {
-        var registry = ModHelper.ModRegistry;
+        // only soft dependencies
+        BetterCraftingIntegration.Instance?.Register();
+        WearMoreRingsIntegration.Instance?.Register();
+        BetterRingsIntegration.Instance?.Register();
 
-        // add Better Crafting integration
-        if (registry.IsLoaded("leclair.bettercrafting"))
+        // these two are mutually exclusive
+        if (BetterRingsIntegration.Instance?.IsRegistered != true)
         {
-            new Integrations.BetterCraftingIntegration(registry).Register();
-        }
-
-        // add Wear More Rings integration
-        if (registry.IsLoaded("bcmpinc.WearMoreRings"))
-        {
-            new Integrations.WearMoreRingsIntegration(registry).Register();
+            VanillaTweaksIntegration.Instance?.Register();
         }
 
-        // add Better Rings integration
-        if (registry.IsLoaded("BBR.BetterRings"))
-        {
-            new Integrations.BetterRingsIntegration(registry).Register();
-        }
-
-        // add Vanilla Tweaks integration
-        if (registry.IsLoaded("Taiyo.VanillaTweaks"))
-        {
-            new Integrations.VanillaTweaksIntegration(registry).Register();
-        }
-
-        // add Garnet Ring and Infinity Band
-        if (registry.IsLoaded("spacechase0.JsonAssets"))
-        {
-            new Integrations.JsonAssetsIntegration(registry).Register();
-        }
-        else
-        {
-            Log.W("Json Assets was not loaded. Features from the Rings module will not work correctly.");
-        }
+        JsonAssetsIntegration.Instance?.Register();
     }
 }

@@ -72,7 +72,7 @@ internal sealed class ObjectProjectile : BasicProjectile
         this.Damage = (int)(this.damageToFarmer.Value * source.Get_EffectiveDamageModifier() * (1f + firer.attackIncreaseModifier) * overcharge);
         this.Knockback = knockback * source.Get_EffectiveKnockbackModifer() * (1f + firer.knockbackModifier) * overcharge;
 
-        var canCrit = ArsenalModule.Config.Slingshots.AllowCrits;
+        var canCrit = ArsenalModule.Config.Slingshots.EnableCrits;
         this.CritChance = canCrit
             ? 0.025f * source.Get_EffectiveCritChanceModifier() * (1f + firer.critChanceModifier)
             : 0f;
@@ -182,7 +182,7 @@ internal sealed class ObjectProjectile : BasicProjectile
             true,
             this.Firer);
 
-        if (!ModEntry.Config.EnableProfessions)
+        if (!ProfessionsModule.IsEnabled)
         {
             return;
         }
@@ -228,7 +228,7 @@ internal sealed class ObjectProjectile : BasicProjectile
     public override void behaviorOnCollisionWithOther(GameLocation location)
     {
         base.behaviorOnCollisionWithOther(location);
-        if (!ModEntry.Config.EnableProfessions)
+        if (!ProfessionsModule.IsEnabled)
         {
             return;
         }

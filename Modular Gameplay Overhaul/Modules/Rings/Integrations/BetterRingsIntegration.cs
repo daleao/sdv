@@ -2,28 +2,28 @@
 
 #region using directives
 
+using DaLion.Shared.Attributes;
 using DaLion.Shared.Integrations;
 
 #endregion using directives
 
-internal sealed class BetterRingsIntegration : BaseIntegration
+[RequiresMod("BBR.BetterRings", "Better Rings")]
+internal sealed class BetterRingsIntegration : ModIntegration<BetterRingsIntegration>
 {
-    /// <summary>Initializes a new instance of the <see cref="BetterRingsIntegration"/> class.</summary>
-    /// <param name="modRegistry">An API for fetching metadata about loaded mods.</param>
-    internal BetterRingsIntegration(IModRegistry modRegistry)
-        : base("BetterRings", "BBR.BetterRings", null, modRegistry)
+    private BetterRingsIntegration()
+        : base("BBR.BetterRings", "Better Rings", null, ModHelper.ModRegistry)
     {
-        ModEntry.Integrations[this.ModName] = this;
     }
 
-    /// <inheritdoc cref="BaseIntegration.IsLoaded"/>
-    internal static new bool IsLoaded { get; private set; }
-
     /// <inheritdoc />
-    protected override void RegisterImpl()
+    protected override bool RegisterImpl()
     {
-        this.AssertLoaded();
-        IsLoaded = true;
+        if (!this.IsLoaded)
+        {
+            return false;
+        }
+
         ModHelper.GameContent.InvalidateCache("Maps/springobjects");
+        return true;
     }
 }

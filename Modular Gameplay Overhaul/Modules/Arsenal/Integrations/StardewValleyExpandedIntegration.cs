@@ -2,26 +2,32 @@
 
 #region using directives
 
+using DaLion.Overhaul.Modules.Arsenal.Events;
+using DaLion.Shared.Attributes;
 using DaLion.Shared.Integrations;
 
 #endregion using directives
 
-internal sealed class StardewValleyExpandedIntegration : BaseIntegration
+[RequiresMod("FlashShifter.StardewValleyExpandedCP", "StardewValleyExpanded")]
+internal sealed class StardewValleyExpandedIntegration : ModIntegration<StardewValleyExpandedIntegration>
 {
-    /// <summary>Initializes a new instance of the <see cref="StardewValleyExpandedIntegration"/> class.</summary>
-    /// <param name="modRegistry">An API for fetching metadata about loaded mods.</param>
-    internal StardewValleyExpandedIntegration(IModRegistry modRegistry)
-        : base("StardewValleyExpanded", "FlashShifter.StardewValleyExpandedCP", null, modRegistry)
+    private StardewValleyExpandedIntegration()
+        : base(
+            "FlashShifter.StardewValleyExpandedCP",
+            "StardewValleyExpanded",
+            null,
+            ModHelper.ModRegistry)
     {
     }
 
-    /// <inheritdoc cref="BaseIntegration.IsLoaded"/>
-    internal static new bool IsLoaded { get; private set; }
-
-    /// <inheritdoc />
-    protected override void RegisterImpl()
+    protected override bool RegisterImpl()
     {
-        this.AssertLoaded();
-        IsLoaded = true;
+        if (!this.IsLoaded)
+        {
+            return false;
+        }
+
+        EventManager.Enable<SveWarpedEvent>();
+        return true;
     }
 }

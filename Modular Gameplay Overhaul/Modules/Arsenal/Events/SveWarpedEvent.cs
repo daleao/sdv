@@ -9,7 +9,6 @@ using StardewModdingAPI.Events;
 #endregion using directives
 
 [UsedImplicitly]
-[AlwaysEnabledEvent]
 internal sealed class SveWarpedEvent : WarpedEvent
 {
     /// <summary>Initializes a new instance of the <see cref="SveWarpedEvent"/> class.</summary>
@@ -20,9 +19,6 @@ internal sealed class SveWarpedEvent : WarpedEvent
     }
 
     /// <inheritdoc />
-    public override bool IsEnabled => ArsenalModule.Config.InfinityPlusOne && StardewValleyExpandedIntegration.IsLoaded;
-
-    /// <inheritdoc />
     protected override void OnWarpedImpl(object? sender, WarpedEventArgs e)
     {
         if (e.NewLocation.Name != "Custom_TreasureCave")
@@ -30,6 +26,6 @@ internal sealed class SveWarpedEvent : WarpedEvent
             return;
         }
 
-        e.NewLocation.setTileProperty(10, 7, "Buildings", "Success", $"W {0} 1");
+        e.NewLocation.setTileProperty(10, 7, "Buildings", "Success", $"W {Constants.ObsidianEdgeIndex} 1");
     }
 }

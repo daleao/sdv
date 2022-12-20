@@ -29,7 +29,7 @@ internal sealed class MeleeWeaponDrawTooltipPatcher : HarmonyPatcher
     private static bool MeleeWeaponDrawTooltipPrefix(
         MeleeWeapon __instance, SpriteBatch spriteBatch, ref int x, ref int y, SpriteFont font, float alpha)
     {
-        if (!ArsenalModule.Config.Weapons.RebalancedStats)
+        if (!ArsenalModule.Config.Weapons.EnableRebalance)
         {
             return true; // run original logic
         }
@@ -246,7 +246,7 @@ internal sealed class MeleeWeaponDrawTooltipPatcher : HarmonyPatcher
 
                 Utility.drawTextWithShadow(
                     spriteBatch,
-                    ModEntry.Config.EnableArsenal && ArsenalModule.Config.OverhauledDefense
+                    ArsenalModule.IsEnabled && ArsenalModule.Config.OverhauledDefense
                         ? I18n.Get("ui.itemhover.resist", new { amount = $"{resistance:+#%;-#%}" })
                         : Game1.content.LoadString("ItemHover_DefenseBonus", __instance.addedDefense.Value),
                     font,

@@ -140,7 +140,7 @@ internal sealed class GenericObjectMachinePatcher : HarmonyPatcher
         }
 
         var output = machine.heldObject.Value;
-        var chest = AutomateIntegration.GetClosestContainerTo(machine, location);
+        var chest = AutomateIntegration.Instance?.GetClosestContainerTo(machine, location);
         var user = ProfessionsModule.Config.LaxOwnershipRequirements ? Game1.player : chest?.GetOwner() ?? Game1.MasterPlayer;
         if (user.HasProfession(Profession.Artisan) ||
             (ProfessionsModule.Config.LaxOwnershipRequirements && Game1.game1.DoesAnyPlayerHaveProfession(Profession.Artisan, out _)))

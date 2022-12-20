@@ -2,6 +2,7 @@
 
 #region using directives
 
+using DaLion.Overhaul.Modules.Tools.Integrations;
 using DaLion.Shared.Events;
 using StardewModdingAPI.Events;
 
@@ -20,12 +21,7 @@ internal class ToolGameLaunchedEvent : GameLaunchedEvent
     /// <inheritdoc />
     protected override void OnGameLaunchedImpl(object? sender, GameLaunchedEventArgs e)
     {
-        var registry = ModHelper.ModRegistry;
-
-        // add Mood Misadventures integration
-        if (registry.IsLoaded("spacechase0.MoonMisadventures"))
-        {
-            new Integrations.MoonMisadventuresIntegration(registry).Register();
-        }
+        // only soft dependencies
+        MoonMisadventuresIntegration.Instance?.Register();
     }
 }

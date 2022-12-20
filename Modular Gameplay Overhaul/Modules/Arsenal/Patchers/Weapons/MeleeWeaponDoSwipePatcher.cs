@@ -3,6 +3,7 @@
 #region using directives
 
 using System.Reflection;
+using DaLion.Shared.Extensions.Stardew;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
 using Microsoft.Xna.Framework;
@@ -90,6 +91,14 @@ internal sealed class MeleeWeaponDoSwipePatcher : HarmonyPatcher
 
                     break;
             }
+
+            if (ArsenalModule.Config.Weapons.EnableComboHits)
+            {
+                return false; // don't run original logic
+            }
+
+            var sound = __instance.IsClub() ? "clubswipe" : __instance.InitialParentTileIndex == Constants.LavaKatanaIndex ? "fireball" : "swordswipe";
+            f.currentLocation.localSound(sound);
 
             return false; // don't run original logic
         }

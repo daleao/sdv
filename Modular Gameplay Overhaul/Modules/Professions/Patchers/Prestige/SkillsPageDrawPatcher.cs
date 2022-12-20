@@ -311,7 +311,7 @@ internal sealed class SkillsPageDrawPatcher : HarmonyPatcher
                 1f);
         }
 
-        if (SpaceCoreIntegration.Api is null)
+        if (SCSkill.Loaded.Count == 0)
         {
             return;
         }
@@ -321,10 +321,13 @@ internal sealed class SkillsPageDrawPatcher : HarmonyPatcher
             position.X += 2; // not sure why but custom skill ribbons render with a small offset
         }
 
-        var customSkills = SpaceCoreIntegration.Api.GetCustomSkills().Select(name => SCSkill.Loaded[name]);
-        if (LuckSkillIntegration.Api is not null)
+        var customSkills = SpaceCoreIntegration.Instance!.ModApi!
+            .GetCustomSkills()
+            .Select(name => SCSkill.Loaded[name]);
+        if (SCSkill.Loaded.TryGetValue("spacechase0.LuckSkill", out var luckSkill))
         {
-            customSkills = SCSkill.Loaded["spacechase0.LuckSkill"].Collect(customSkills);
+            // luck skill must be enumerated first
+            customSkills = luckSkill.Collect(customSkills);
         }
 
         foreach (var skill in customSkills)

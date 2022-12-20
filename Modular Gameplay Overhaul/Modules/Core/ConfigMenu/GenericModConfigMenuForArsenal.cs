@@ -1,4 +1,4 @@
-﻿namespace DaLion.Overhaul.Modules.Core.Configs;
+﻿namespace DaLion.Overhaul.Modules.Core.ConfigMenu;
 
 #region using directives
 
@@ -9,12 +9,12 @@ using StardewValley.Objects;
 #endregion using directives
 
 /// <summary>Constructs the GenericModConfigMenu integration.</summary>
-internal sealed partial class GenericModConfigMenuIntegration
+internal sealed partial class GenericModConfigMenuForOverhaul
 {
     /// <summary>Register the Arsenal config menu.</summary>
     private void RegisterArsenal()
     {
-        this._configMenu
+        this
             .AddPage(OverhaulModule.Arsenal.Namespace, () => "Arsenal Settings")
 
             .AddSectionTitle(() => "Movement Settings")
@@ -119,10 +119,9 @@ internal sealed partial class GenericModConfigMenuIntegration
                     }
 
                     config.Arsenal.DwarvishCrafting = value;
-                    if (value && !Globals.DwarvenScrapIndex.HasValue &&
-                        (!Integrations.TryGetValue("JsonAssets", out var integration) || !integration.Registered))
+                    if (value && !Globals.DwarvenScrapIndex.HasValue && JsonAssetsIntegration.Instance?.IsRegistered == false)
                     {
-                        new JsonAssetsIntegration(ModHelper.ModRegistry).Register();
+                        JsonAssetsIntegration.Instance.Register();
                     }
 
                     ModHelper.GameContent.InvalidateCacheAndLocalized("Data/Events/Blacksmith");
@@ -143,10 +142,9 @@ internal sealed partial class GenericModConfigMenuIntegration
                     }
 
                     config.Arsenal.InfinityPlusOne = value;
-                    if (value && !Globals.HeroSoulIndex.HasValue &&
-                        (!Integrations.TryGetValue("JsonAssets", out var integration) || !integration.Registered))
+                    if (value && !Globals.HeroSoulIndex.HasValue && JsonAssetsIntegration.Instance?.IsRegistered == false)
                     {
-                        new JsonAssetsIntegration(ModHelper.ModRegistry).Register();
+                        JsonAssetsIntegration.Instance.Register();
                     }
 
                     ModHelper.GameContent.InvalidateCacheAndLocalized("Data/Events/WizardHouse");
@@ -154,10 +152,10 @@ internal sealed partial class GenericModConfigMenuIntegration
                     ModHelper.GameContent.InvalidateCacheAndLocalized("Data/weapons");
                     ModHelper.GameContent.InvalidateCacheAndLocalized("Strings/Locations");
                     ModHelper.GameContent.InvalidateCacheAndLocalized("Strings/StringsFromCSFiles");
-                    ModHelper.GameContent.InvalidateCacheAndLocalized("TileSheets/Projectiles");
-                    if (VanillaTweaksIntegration.WeaponsCategoryEnabled)
+                    ModHelper.GameContent.InvalidateCache("TileSheets/Projectiles");
+                    if (VanillaTweaksIntegration.Instance?.IsRegistered == true)
                     {
-                        ModHelper.GameContent.InvalidateCacheAndLocalized("TileSheets/weapons");
+                        ModHelper.GameContent.InvalidateCache("TileSheets/weapons");
                     }
 
                     if (!Context.IsWorldReady)
@@ -183,25 +181,25 @@ internal sealed partial class GenericModConfigMenuIntegration
             .AddPage(OverhaulModule.Arsenal + "/Slingshots", () => "Slingshot Settings")
             .AddPageLink(OverhaulModule.Arsenal.Namespace, () => "Back to Arsenal settings")
             .AddCheckbox(
-                () => "Allow Crits",
+                () => "Enable Crits",
                 () => "Allow slingshots to deal critical damage and be affected by critical modifiers.",
-                config => config.Arsenal.Slingshots.AllowCrits,
-                (config, value) => config.Arsenal.Slingshots.AllowCrits = value)
+                config => config.Arsenal.Slingshots.EnableCrits,
+                (config, value) => config.Arsenal.Slingshots.EnableCrits = value)
             .AddCheckbox(
-                () => "Allow Enchants",
+                () => "Enable Enchantments",
                 () => "Allow slingshots to be enchanted with weapon enchantments (Prismatic Shard) at the Forge.",
-                config => config.Arsenal.Slingshots.AllowEnchants,
-                (config, value) => config.Arsenal.Slingshots.AllowEnchants = value)
+                config => config.Arsenal.Slingshots.EnableEnchants,
+                (config, value) => config.Arsenal.Slingshots.EnableEnchants = value)
             .AddCheckbox(
-                () => "Allow Forges",
+                () => "Enable Forges",
                 () => "Allow slingshots to be enchanted with weapon forges (gemstones) at the Forge.",
-                config => config.Arsenal.Slingshots.AllowForges,
-                (config, value) => config.Arsenal.Slingshots.AllowForges = value)
+                config => config.Arsenal.Slingshots.EnableForges,
+                (config, value) => config.Arsenal.Slingshots.EnableForges = value)
             .AddCheckbox(
-                () => "Allow Special Move",
+                () => "Enable Special Move",
                 () => "Enables a custom stunning smack special move for slingshots.",
-                config => config.Arsenal.Slingshots.AllowSpecial,
-                (config, value) => config.Arsenal.Slingshots.AllowSpecial = value)
+                config => config.Arsenal.Slingshots.EnableSpecialMove,
+                (config, value) => config.Arsenal.Slingshots.EnableSpecialMove = value)
             .AddCheckbox(
                 () => "Remove Grace Period",
                 () => "Allows slingshot projectiles to hit targets before the 100ms grace period.",
@@ -212,10 +210,10 @@ internal sealed partial class GenericModConfigMenuIntegration
             .AddPage(OverhaulModule.Arsenal + "/Weapons", () => "Weapon Settings")
             .AddPageLink(OverhaulModule.Arsenal.Namespace, () => "Back to Arsenal settings")
             .AddCheckbox(
-                () => "Allow Combo Hits",
+                () => "Enable Combo Hits",
                 () => "Replaces vanilla weapon spam with a more strategic combo system.",
-                config => config.Arsenal.Weapons.AllowComboHits,
-                (config, value) => config.Arsenal.Weapons.AllowComboHits = value)
+                config => config.Arsenal.Weapons.EnableComboHits,
+                (config, value) => config.Arsenal.Weapons.EnableComboHits = value)
             .AddCheckbox(
                 () => "Grounded Club Smash",
                 () =>
@@ -228,19 +226,19 @@ internal sealed partial class GenericModConfigMenuIntegration
                 config => config.Arsenal.Weapons.DefenseImprovesParry,
                 (config, value) => config.Arsenal.Weapons.DefenseImprovesParry = value)
             .AddCheckbox(
-                () => "Bring Back Stabbing Swords",
+                () => "Enable Stabbing Swords",
                 () =>
                     "Replace the defensive special move of some swords with an offensive lunge move.\nAFTER DISABLING THIS SETTING YOU MUST TRASH ALL OWNED STABBING SWORDS.",
-                config => config.Arsenal.Weapons.BringBackStabbySwords,
+                config => config.Arsenal.Weapons.EnableStabbySwords,
                 (config, value) =>
                 {
-                    if (ArsenalModule.Config.Weapons.BringBackStabbySwords != value && !Context.IsWorldReady)
+                    if (ArsenalModule.Config.Weapons.EnableStabbySwords != value && !Context.IsWorldReady)
                     {
                         Log.W("The Stabbing Swords option can only be changed in-game.");
                         return;
                     }
 
-                    config.Arsenal.Weapons.BringBackStabbySwords = value;
+                    config.Arsenal.Weapons.EnableStabbySwords = value;
                     ModHelper.GameContent.InvalidateCacheAndLocalized("Data/weapons");
                     if (!Context.IsWorldReady)
                     {
@@ -258,34 +256,38 @@ internal sealed partial class GenericModConfigMenuIntegration
 
                 })
             .AddCheckbox(
-                () => "Rebalance Weapons",
+                () => "Enable Rebalance",
                 () => "Rebalances every melee weapon with stats well-suited for this mod's intended experience.",
-                config => config.Arsenal.Weapons.RebalancedStats,
+                config => config.Arsenal.Weapons.EnableRebalance,
                 (config, value) =>
                 {
-                    config.Arsenal.Weapons.RebalancedStats = value;
-                    ModHelper.GameContent.InvalidateCacheAndLocalized("Data/weapons");
-                    if (Context.IsWorldReady)
+                    if (value && !config.Arsenal.Weapons.EnableRebalance)
                     {
-                        Arsenal.Utils.RefreshAllWeapons();
+                        ModHelper.GameContent.InvalidateCacheAndLocalized("Data/weapons");
+                        if (Context.IsWorldReady)
+                        {
+                            Arsenal.Utils.RefreshAllWeapons();
+                        }
                     }
+
+                    config.Arsenal.Weapons.EnableRebalance = value;
                 })
             .AddCheckbox(
-                () => "Retexture Weapons",
+                () => "Enable Retexture",
                 () => "Slightly touches up many melee weapons, without changing the vanilla style, to be slightly more realistic or to reflect other changes made by this module.",
-                config => config.Arsenal.Weapons.Retextures,
+                config => config.Arsenal.Weapons.EnableRetexture,
                 (config, value) =>
                 {
-                    config.Arsenal.Weapons.Retextures = value;
+                    config.Arsenal.Weapons.EnableRetexture = value;
                     ModHelper.GameContent.InvalidateCacheAndLocalized("TileSheets/weapons");
                 })
             .AddCheckbox(
-                () => "Overhauled Enchantments",
+                () => "Enable Enchantments",
                 () => "Replaces boring old enchantments with exciting new ones.",
-                config => config.Arsenal.Weapons.OverhauledEnchants,
+                config => config.Arsenal.Weapons.EnableEnchants,
                 (config, value) =>
                 {
-                    config.Arsenal.Weapons.OverhauledEnchants = value;
+                    config.Arsenal.Weapons.EnableEnchants = value;
                     ModHelper.GameContent.InvalidateCacheAndLocalized("TileSheets/BuffsIcons");
                 });
     }

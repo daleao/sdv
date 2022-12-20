@@ -2,9 +2,27 @@
 
 ## 0.9.7
 
+### Changed
+
+* SVE's Treasure Cave now rewards an Obsidian Edge instead of Galaxy Slingshot.
+* Clint's forging quest is no longer random, and now takes less time the higher your friendship with him.
+* Changed the knockback of some weapons:
+    * Wooden Blade: +0.25
+    * Rapier: -0.05
+    * Steel Falchion: -0.05
+    * Katana: -0.2
+* The Dark Sword's curse has been changed. No longer affects stamina consumption. Now, as the curse strengthens the sword will gain a progressively higher chance to auto-equip itself, preventing you from using other weapons.
+* Community Center is no longer a requirement for obtaining the Dark Sword.
+
 ### Fixed
 
-* Fixed an error that may be thrown when playing the hold-up-item animation.
+* Fixed an issue which caused critical hits to deal absurdly low damage.
+* Fixed an error that could be thrown when playing the hold-up-item animation.
+* Clint's forging quest was still bugged. Now tested.
+* Fixed a Null-Reference Exception when attempting to grab the Dwarvish Blueprint from a Scavenger Hunt chest.
+* Fixed a Null-Reference Exception in pirate treasure menu when a Neptune's Glaive is produced.
+* Fixed missing patch targets for allowing crits to ignore monster defense.
+* Added config checks to logic that was missing it.
 
 ## 0.9.6
 

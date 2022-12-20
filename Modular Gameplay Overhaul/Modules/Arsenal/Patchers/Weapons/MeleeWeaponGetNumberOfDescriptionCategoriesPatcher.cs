@@ -25,6 +25,11 @@ internal sealed class MeleeWeaponGetNumberOfDescriptionCategoriesPatcher : Harmo
     [HarmonyPrefix]
     private static bool MeleeWeaponGetNumberOfDescriptionCategoriesPrefix(MeleeWeapon __instance, ref int __result)
     {
+        if (!ArsenalModule.Config.Weapons.EnableRebalance)
+        {
+            return true; // run original logic
+        }
+
         try
         {
             __result = __instance.CountNonZeroStats();

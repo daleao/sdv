@@ -19,7 +19,7 @@ internal sealed class Game1ActiveClickbleMenuSetterPatcher : HarmonyPatcher
 
     #region harmony patches
 
-    /// <summary>Double stamina consumption when cursed.</summary>
+    /// <summary>Reload profession sprites on level-up.</summary>
     [HarmonyPostfix]
     private static void FarmerStaminaSetterPostfix(IClickableMenu value)
     {

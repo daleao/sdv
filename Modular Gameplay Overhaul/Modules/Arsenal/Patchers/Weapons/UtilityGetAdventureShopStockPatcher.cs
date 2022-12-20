@@ -28,7 +28,7 @@ internal sealed class UtilityGetAdventureShopStockPatcher : HarmonyPatcher
     [HarmonyPrefix]
     private static bool UtilityGetAdventureShopStockPrefix(ref Dictionary<ISalable, int[]> __result)
     {
-        if (!ArsenalModule.Config.Weapons.RebalancedStats)
+        if (!ArsenalModule.Config.Weapons.EnableRebalance)
         {
             return true; // run original logic
         }

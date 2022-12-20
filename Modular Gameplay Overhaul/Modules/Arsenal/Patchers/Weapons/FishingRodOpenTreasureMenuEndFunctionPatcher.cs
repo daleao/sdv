@@ -31,6 +31,8 @@ internal sealed class FishingRodOpenTreasureMenuEndFunctionPatcher : HarmonyPatc
     {
         var helper = new ILHelper(original, instructions);
 
+        // Injected: this.lastUser.specialItems.Add(14);
+        // After: list.Add(new MeleeWeapon(14) { specialItem = true };
         try
         {
             helper
@@ -40,7 +42,7 @@ internal sealed class FishingRodOpenTreasureMenuEndFunctionPatcher : HarmonyPatc
                         new CodeInstruction(
                             OpCodes.Ldfld,
                             typeof(Farmer).RequireField(nameof(Farmer.specialItems))),
-                        new CodeInstruction(OpCodes.Ldc_I4_S),
+                        new CodeInstruction(OpCodes.Ldc_I4_S, Constants.NeptunesGlaiveIndex),
                         new CodeInstruction(
                             OpCodes.Callvirt,
                             typeof(NetIntList).RequireMethod(nameof(NetIntList.Contains))),
@@ -54,7 +56,8 @@ internal sealed class FishingRodOpenTreasureMenuEndFunctionPatcher : HarmonyPatc
                     {
                         new CodeInstruction(OpCodes.Ldarg_0),
                         new CodeInstruction(OpCodes.Ldfld, typeof(Tool).RequireField("lastUser")),
-                        new CodeInstruction(OpCodes.Ldc_I4_S, 14),
+                        new CodeInstruction(OpCodes.Ldfld, typeof(Farmer).RequireField(nameof(Farmer.specialItems))),
+                        new CodeInstruction(OpCodes.Ldc_I4_S, Constants.NeptunesGlaiveIndex),
                         new CodeInstruction(
                             OpCodes.Callvirt,
                             typeof(NetIntList).RequireMethod(nameof(NetIntList.Add))),
@@ -62,7 +65,7 @@ internal sealed class FishingRodOpenTreasureMenuEndFunctionPatcher : HarmonyPatc
         }
         catch (Exception ex)
         {
-            Log.E($"Failed adding Neptune Glaive to unique list.\nHelper returned {ex}");
+            Log.E($"Failed adding Neptune Glaive to special item list.\nHelper returned {ex}");
             return null;
         }
 

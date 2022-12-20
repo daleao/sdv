@@ -48,7 +48,7 @@ internal sealed class RevalidateItemsCommand : ConsoleCommand
             Game1.player.Items.OfType<MeleeWeapon>().ForEach(RevalidateSingleWeapon);
         }
 
-        if (Config.EnableArsenal && Game1.player.hasOrWillReceiveMail("galaxySword"))
+        if (ArsenalModule.IsEnabled && Game1.player.hasOrWillReceiveMail("galaxySword"))
         {
             Game1.player.WriteIfNotExists(DataFields.GalaxyArsenalObtained, Constants.GalaxySwordIndex.ToString());
         }
@@ -65,37 +65,37 @@ internal sealed class RevalidateItemsCommand : ConsoleCommand
             return;
         }
 
-        if (!Config.EnableArsenal)
+        if (!ArsenalModule.IsEnabled)
         {
             weapon.RemoveIntrinsicEnchantments();
         }
-        else if (ArsenalModule.Config.InfinityPlusOne || ArsenalModule.Config.Weapons.RebalancedStats)
+        else if (ArsenalModule.Config.InfinityPlusOne || ArsenalModule.Config.Weapons.EnableRebalance)
         {
             weapon.RemoveIntrinsicEnchantments();
             weapon.AddIntrinsicEnchantments();
         }
 
-        if (Config.EnableArsenal && ArsenalModule.Config.Weapons.BringBackStabbySwords &&
+        if (ArsenalModule.IsEnabled && ArsenalModule.Config.Weapons.EnableStabbySwords &&
             Collections.StabbingSwords.Contains(weapon.InitialParentTileIndex))
         {
             weapon.type.Value = MeleeWeapon.stabbingSword;
         }
-        else if ((!Config.EnableArsenal || !ArsenalModule.Config.Weapons.BringBackStabbySwords) &&
+        else if ((!ArsenalModule.IsEnabled || !ArsenalModule.Config.Weapons.EnableStabbySwords) &&
                  weapon.type.Value == MeleeWeapon.stabbingSword)
         {
             weapon.type.Value = MeleeWeapon.defenseSword;
         }
 
-        if (Config.EnableArsenal && ArsenalModule.Config.Weapons.RebalancedStats)
+        if (ArsenalModule.IsEnabled && ArsenalModule.Config.Weapons.EnableRebalance)
         {
             weapon.RefreshStats();
         }
-        else if (!Config.EnableArsenal || !ArsenalModule.Config.Weapons.RebalancedStats)
+        else if (!ArsenalModule.IsEnabled || !ArsenalModule.Config.Weapons.EnableRebalance)
         {
             weapon.RecalculateAppliedForges(true);
         }
 
-        if (!Config.EnableArsenal && weapon.InitialParentTileIndex == Constants.GalaxySwordIndex && !Game1.player.hasOrWillReceiveMail("galaxySword"))
+        if (!ArsenalModule.IsEnabled && weapon.InitialParentTileIndex == Constants.GalaxySwordIndex && !Game1.player.hasOrWillReceiveMail("galaxySword"))
         {
             Game1.player.mailReceived.Add("galaxySword");
         }

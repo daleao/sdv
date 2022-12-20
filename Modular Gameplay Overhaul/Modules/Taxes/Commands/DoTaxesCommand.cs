@@ -3,6 +3,7 @@
 #region using directives
 
 using DaLion.Shared.Commands;
+using DaLion.Shared.Enums;
 using DaLion.Shared.Extensions.Stardew;
 using static System.FormattableString;
 
@@ -28,11 +29,17 @@ internal sealed class DoTaxesCommand : ConsoleCommand
     /// <inheritdoc />
     public override void Callback(string[] args)
     {
+        if (!Enum.TryParse<Season>(Game1.currentSeason, true, out var currentSeason))
+        {
+            Log.E($"Failed to parse the current season {Game1.currentSeason}");
+            return;
+        }
+
         var player = Game1.player;
         var forClosingSeason = Game1.dayOfMonth == 1;
         var seasonIncome = player.Read<int>(DataFields.SeasonIncome);
         var deductibleExpenses = player.Read<int>(DataFields.BusinessExpenses);
-        var deductiblePct = ModEntry.Config.EnableProfessions && player.professions.Contains(Farmer.mariner)
+        var deductiblePct = ProfessionsModule.IsEnabled && player.professions.Contains(Farmer.mariner)
             ? forClosingSeason
                 ? player.Read<float>(DataFields.PercentDeductions)
                 // ReSharper disable once PossibleLossOfFraction
@@ -62,7 +69,7 @@ internal sealed class DoTaxesCommand : ConsoleCommand
         var debt = player.Read<int>(DataFields.DebtOutstanding);
         Log.I(
             "Accounting " + (forClosingSeason ? "report" : "projections") + " for the " +
-            (forClosingSeason ? "closing" : "current") + " season:" +
+            (forClosingSeason ? $"closing {currentSeason.Previous()}" : $"current {currentSeason}") + " season:" +
             $"\n\t- Income (season-to-date): {seasonIncome}g" +
             $"\n\t- Business expenses: {deductibleExpenses}g" +
             CurrentCulture($"\n\t- Eligible deductions: {deductiblePct:0%}") +

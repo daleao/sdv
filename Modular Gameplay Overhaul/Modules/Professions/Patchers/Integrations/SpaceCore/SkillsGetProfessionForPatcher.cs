@@ -33,7 +33,7 @@ internal sealed class SkillsGetProfessionForPatcher : HarmonyPatcher
         var scSkill = SCSkill.FromSpaceCore(skill);
         if (scSkill is null)
         {
-            Log.W($"The SpaceCore skill {skill.Id} was somehow not properly loaded.");
+            Log.W($"The SpaceCore skill {skill.Id} is loaded, but fa.");
             return true; // run original logic
         }
 

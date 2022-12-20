@@ -1,12 +1,12 @@
-﻿namespace DaLion.Overhaul.Modules.Core.Configs;
+﻿namespace DaLion.Overhaul.Modules.Core.ConfigMenu;
 
 /// <summary>Constructs the GenericModConfigMenu integration.</summary>
-internal sealed partial class GenericModConfigMenuIntegration
+internal sealed partial class GenericModConfigMenuForOverhaul
 {
     /// <summary>Register the Tweex menu.</summary>
     private void RegisterTweex()
     {
-        this._configMenu
+        this
             .AddPage(OverhaulModule.Tweex.Namespace, () => "Tweak Settings")
 
             .AddNumberField(

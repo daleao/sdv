@@ -49,7 +49,7 @@ internal sealed class BaseEnchantmentGetAvailableEnchantmentsPatcher : HarmonyPa
                             typeof(Config).RequirePropertyGetter(nameof(Config.Weapons))),
                         new CodeInstruction(
                             OpCodes.Callvirt,
-                            typeof(WeaponConfig).RequirePropertyGetter(nameof(WeaponConfig.OverhauledEnchants))),
+                            typeof(WeaponConfig).RequirePropertyGetter(nameof(WeaponConfig.EnableEnchants))),
                         new CodeInstruction(OpCodes.Brtrue_S, newWeaponEnchants),
                     })
                 .Move(12)
@@ -105,7 +105,7 @@ internal sealed class BaseEnchantmentGetAvailableEnchantmentsPatcher : HarmonyPa
                             typeof(List<BaseEnchantment>).RequireMethod(nameof(List<BaseEnchantment>.Add))),
                         // add preserving enchant
                         new(OpCodes.Ldsfld, typeof(BaseEnchantment).RequireField("_enchantments")),
-                        new(OpCodes.Newobj, typeof(Enchantments.PreservingEnchantment).RequireConstructor()), new(
+                        new(OpCodes.Newobj, typeof(PreservingEnchantment).RequireConstructor()), new(
                             OpCodes.Callvirt,
                             typeof(List<BaseEnchantment>).RequireMethod(nameof(List<BaseEnchantment>.Add))),
                         // add quincy enchant

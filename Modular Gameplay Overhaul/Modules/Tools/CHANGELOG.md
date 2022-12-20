@@ -1,5 +1,11 @@
 ﻿# Tools Module Change Log
 
+## 0.9.7
+
+### Fixed
+
+* Fixed a bug causing player Stamina to get stuck at 1 and not continue below 0.
+
 ## 0.9.4
 
 ### Fixed

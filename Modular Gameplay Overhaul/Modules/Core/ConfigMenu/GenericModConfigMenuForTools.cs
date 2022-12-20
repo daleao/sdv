@@ -1,4 +1,4 @@
-﻿namespace DaLion.Overhaul.Modules.Core.Configs;
+﻿namespace DaLion.Overhaul.Modules.Core.ConfigMenu;
 
 #region using directives
 
@@ -9,18 +9,19 @@ using HarmonyLib;
 #endregion using directives
 
 /// <summary>Constructs the GenericModConfigMenu integration.</summary>
-internal sealed partial class GenericModConfigMenuIntegration
+internal sealed partial class GenericModConfigMenuForOverhaul
 {
     /// <summary>Register the config menu if available.</summary>
     private void RegisterTools()
     {
         var allowedUpgrades = new[] { "Copper", "Steel", "Gold", "Iridium" };
-        if (MoonMisadventuresIntegration.IsLoaded)
+        var isMoonMisadventuresLoaded = MoonMisadventuresIntegration.Instance?.IsLoaded == true;
+        if (isMoonMisadventuresLoaded)
         {
             allowedUpgrades.AddRangeToArray(new[] { "Radioactive", "Mythicite" });
         }
 
-        this._configMenu
+        this
             .AddPage(OverhaulModule.Tools.Namespace, () => "Tool Settings")
 
             // general
@@ -116,9 +117,9 @@ internal sealed partial class GenericModConfigMenuIntegration
                 1,
                 10);
 
-        if (MoonMisadventuresIntegration.IsLoaded)
+        if (isMoonMisadventuresLoaded)
         {
-            this._configMenu
+            this
                 .AddNumberField(
                     () => "Radioactive Radius",
                     () => "The radius of affected tiles for the Radioactive Axe.",
@@ -135,12 +136,12 @@ internal sealed partial class GenericModConfigMenuIntegration
                     10);
         }
 
-        this._configMenu
+        this
             .AddNumberField(
                 () => "Reaching Radius",
                 () => "The radius of affected tiles for the Axe with Reaching Enchantment.",
-                config => (int)config.Tools.Axe.RadiusAtEachPowerLevel[MoonMisadventuresIntegration.IsLoaded ? 6 : 4],
-                (config, value) => config.Tools.Axe.RadiusAtEachPowerLevel[MoonMisadventuresIntegration.IsLoaded ? 6 : 4] =
+                config => (int)config.Tools.Axe.RadiusAtEachPowerLevel[isMoonMisadventuresLoaded ? 6 : 4],
+                (config, value) => config.Tools.Axe.RadiusAtEachPowerLevel[isMoonMisadventuresLoaded ? 6 : 4] =
                     (uint)value,
                 1,
                 10)
@@ -238,58 +239,58 @@ internal sealed partial class GenericModConfigMenuIntegration
             .AddNumberField(
                 () => "Copper Radius",
                 () => "The radius of affected tiles for the Copper Pick.",
-                config => (int)config.Tools.Axe.RadiusAtEachPowerLevel[0],
-                (config, value) => config.Tools.Axe.RadiusAtEachPowerLevel[0] = (uint)value,
+                config => (int)config.Tools.Pick.RadiusAtEachPowerLevel[0],
+                (config, value) => config.Tools.Pick.RadiusAtEachPowerLevel[0] = (uint)value,
                 1,
                 10)
             .AddNumberField(
                 () => "Steel Radius",
                 () => "The radius of affected tiles for the Steel Pick.",
-                config => (int)config.Tools.Axe.RadiusAtEachPowerLevel[1],
-                (config, value) => config.Tools.Axe.RadiusAtEachPowerLevel[1] = (uint)value,
+                config => (int)config.Tools.Pick.RadiusAtEachPowerLevel[1],
+                (config, value) => config.Tools.Pick.RadiusAtEachPowerLevel[1] = (uint)value,
                 1,
                 10)
             .AddNumberField(
                 () => "Gold Radius",
                 () => "The radius of affected tiles for the Gold Pick.",
-                config => (int)config.Tools.Axe.RadiusAtEachPowerLevel[2],
-                (config, value) => config.Tools.Axe.RadiusAtEachPowerLevel[2] = (uint)value,
+                config => (int)config.Tools.Pick.RadiusAtEachPowerLevel[2],
+                (config, value) => config.Tools.Pick.RadiusAtEachPowerLevel[2] = (uint)value,
                 1,
                 10)
             .AddNumberField(
                 () => "Iridium Radius",
                 () => "The radius of affected tiles for the Iridium Pick.",
-                config => (int)config.Tools.Axe.RadiusAtEachPowerLevel[3],
-                (config, value) => config.Tools.Axe.RadiusAtEachPowerLevel[3] = (uint)value,
+                config => (int)config.Tools.Pick.RadiusAtEachPowerLevel[3],
+                (config, value) => config.Tools.Pick.RadiusAtEachPowerLevel[3] = (uint)value,
                 1,
                 10);
 
-        if (MoonMisadventuresIntegration.IsLoaded)
+        if (isMoonMisadventuresLoaded)
         {
-            this._configMenu
+            this
                 .AddNumberField(
                     () => "Radioactive Radius",
                     () => "The radius of affected tiles for the Radioactive Pick.",
-                    config => (int)config.Tools.Axe.RadiusAtEachPowerLevel[4],
-                    (config, value) => config.Tools.Axe.RadiusAtEachPowerLevel[4] = (uint)value,
+                    config => (int)config.Tools.Pick.RadiusAtEachPowerLevel[4],
+                    (config, value) => config.Tools.Pick.RadiusAtEachPowerLevel[4] = (uint)value,
                     1,
                     10)
                 .AddNumberField(
                     () => "Mythicite Radius",
                     () => "The radius of affected tiles for the Mythicite Pick.",
-                    config => (int)config.Tools.Axe.RadiusAtEachPowerLevel[5],
-                    (config, value) => config.Tools.Axe.RadiusAtEachPowerLevel[5] = (uint)value,
+                    config => (int)config.Tools.Pick.RadiusAtEachPowerLevel[5],
+                    (config, value) => config.Tools.Pick.RadiusAtEachPowerLevel[5] = (uint)value,
                     1,
                     10);
         }
 
-        this._configMenu
+        this
             .AddNumberField(
                 () => "Reaching Radius",
                 () => "The radius of affected tiles for the Pick with Reaching Enchantment.",
-                config => (int)config.Tools.Axe.RadiusAtEachPowerLevel[MoonMisadventuresIntegration.IsLoaded ? 6 : 4],
+                config => (int)config.Tools.Pick.RadiusAtEachPowerLevel[isMoonMisadventuresLoaded ? 6 : 4],
                 (config, value) =>
-                    config.Tools.Pick.RadiusAtEachPowerLevel[MoonMisadventuresIntegration.IsLoaded ? 6 : 4] = (uint)value,
+                    config.Tools.Pick.RadiusAtEachPowerLevel[isMoonMisadventuresLoaded ? 6 : 4] = (uint)value,
                 1,
                 10)
             .AddCheckbox(
@@ -419,10 +420,10 @@ internal sealed partial class GenericModConfigMenuIntegration
                 0,
                 7);
 
-        switch (MoonMisadventuresIntegration.IsLoaded)
+        switch (isMoonMisadventuresLoaded)
         {
             case false:
-                this._configMenu
+                this
                     .AddNumberField(
                         () => "Reaching Length",
                         () => "The length of affected tiles for the Hoe when Reaching Enchantment is applied.",
@@ -440,7 +441,7 @@ internal sealed partial class GenericModConfigMenuIntegration
                         7);
                 break;
             case true:
-                this._configMenu
+                this
                     .AddNumberField(
                         () => "Radioactive Length",
                         () => "The length of affected tiles for the Radioactive Hoe.",
@@ -487,7 +488,7 @@ internal sealed partial class GenericModConfigMenuIntegration
                 break;
         }
 
-        this._configMenu
+        this
             .AddCheckbox(
                 () => "Allow Master Enchantment",
                 () => "Whether the Hoe can be enchanted with Master.",
@@ -560,10 +561,10 @@ internal sealed partial class GenericModConfigMenuIntegration
                 0,
                 7);
 
-        switch (MoonMisadventuresIntegration.IsLoaded)
+        switch (isMoonMisadventuresLoaded)
         {
             case false:
-                this._configMenu
+                this
                     .AddNumberField(
                         () => "Reaching Length",
                         () => "The length of affected tiles for the Watering Can when Reaching Enchantment is applied.",
@@ -581,7 +582,7 @@ internal sealed partial class GenericModConfigMenuIntegration
                         7);
                 break;
             case true:
-                this._configMenu
+                this
                     .AddNumberField(
                         () => "Radioactive Length",
                         () => "The length of affected tiles for the Radioactive Watering Can.",
@@ -630,7 +631,7 @@ internal sealed partial class GenericModConfigMenuIntegration
                 break;
         }
 
-        this._configMenu
+        this
             .AddCheckbox(
                 () => "Allow Master Enchantment",
                 () => "Whether the Watering Can can be enchanted with Master.",

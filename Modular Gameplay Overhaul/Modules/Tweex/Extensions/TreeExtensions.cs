@@ -45,7 +45,7 @@ internal static class TreeExtensions
     internal static int GetQualityFromAge(this Tree tree)
     {
         var skillFactor = 1f + (Game1.player.ForagingLevel * 0.1f);
-        if (ModEntry.Config.EnableProfessions && Game1.player.professions.Contains(Farmer.lumberjack))
+        if (ProfessionsModule.IsEnabled && Game1.player.professions.Contains(Farmer.lumberjack))
         {
             skillFactor++;
         }

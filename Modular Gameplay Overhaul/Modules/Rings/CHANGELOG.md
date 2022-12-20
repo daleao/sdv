@@ -1,5 +1,15 @@
 # Rings Module Change Log
 
+## 0.9.7
+
+### Changed
+
+* The ternary chord now gives higher amplitude than a double power-chord.
+
+### Fixed
+
+* Fixed a bug preventing the MonsterSlay event of various rings like Napalm from triggering.
+
 ## 0.9.6
 
 ### Fixed

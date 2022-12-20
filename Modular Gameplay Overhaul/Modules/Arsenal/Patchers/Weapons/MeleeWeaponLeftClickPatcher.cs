@@ -21,9 +21,9 @@ internal sealed class MeleeWeaponLeftClickPatcher : HarmonyPatcher
 
     /// <summary>Eliminate dumb vanilla weapon spam.</summary>
     [HarmonyPrefix]
-    private static bool MeleeWeaponLeftClickPrefix(MeleeWeapon __instance, ref bool ___anotherClick, Farmer who)
+    private static bool MeleeWeaponLeftClickPrefix(MeleeWeapon __instance)
     {
-        return __instance.type.Value == MeleeWeapon.dagger;
+        return __instance.type.Value == MeleeWeapon.dagger || !ArsenalModule.Config.Weapons.EnableComboHits;
     }
 
     #endregion harmony patches

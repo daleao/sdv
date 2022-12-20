@@ -1,4 +1,4 @@
-﻿namespace DaLion.Overhaul.Modules.Arsenal.Patchers.Forges;
+﻿namespace DaLion.Overhaul.Modules.Arsenal.Patchers.Enchantments;
 
 #region using directives
 
@@ -23,7 +23,7 @@ internal sealed class EmeraldEnchantmentApplyToPatcher : HarmonyPatcher
     [HarmonyPrefix]
     private static bool EmeraldEnchantmentApplyToPrefix(EmeraldEnchantment __instance, Item item)
     {
-        if (item is not MeleeWeapon weapon || !ArsenalModule.Config.Weapons.RebalancedStats)
+        if (item is not MeleeWeapon weapon || !ArsenalModule.Config.Weapons.EnableRebalance)
         {
             return true; // run original logic
         }

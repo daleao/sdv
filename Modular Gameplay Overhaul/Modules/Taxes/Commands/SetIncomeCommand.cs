@@ -26,8 +26,7 @@ internal sealed class SetIncomeCommand : ConsoleCommand
     /// <inheritdoc />
     public override void Callback(string[] args)
     {
-        if (args.Length == 0 || (!int.TryParse(args[0], out _) &&
-                                 string.Equals(args[0], "clear", StringComparison.InvariantCultureIgnoreCase)))
+        if (args.Length == 0 || !int.TryParse(args[0], out _))
         {
             Log.W("You must specify an integer value.");
             return;
@@ -38,9 +37,7 @@ internal sealed class SetIncomeCommand : ConsoleCommand
             Log.W("Additional arguments will be ignored.");
         }
 
-        Game1.player.Write(
-            DataFields.SeasonIncome,
-            string.Equals(args[0], "clear", StringComparison.InvariantCultureIgnoreCase) ? string.Empty : args[0]);
+        Game1.player.Write(DataFields.SeasonIncome, args[0]);
         Log.I($"{Game1.player.Name}'s season income has been set to {args[0]}.");
     }
 }

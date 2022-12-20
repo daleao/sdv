@@ -56,6 +56,7 @@ public sealed class SCProfession : IProfession
     }
 
     /// <summary>Enumerates all the loaded instances of <see cref="SCProfession"/>.</summary>
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1623:Property summary documentation should match accessors", Justification = "Enumerator.")]
     public static IEnumerable<SCProfession> List => Loaded.Values;
 
     /// <inheritdoc />
@@ -76,6 +77,14 @@ public sealed class SCProfession : IProfession
     /// <summary>Gets professions for loaded <see cref="SCSkill"/>s.</summary>
     internal static Dictionary<int, SCProfession> Loaded { get; } = new();
 
+    /// <summary>Enumerates all the ids of loaded <see cref="SCProfession"/> instances.</summary>
+    /// <param name="prestige">Whether to enumerate prestige professions instead.</param>
+    /// <returns>A <see cref="IEnumerable{T}"/> of all loaded SpaceCore profession indices.</returns>
+    public static IEnumerable<int> GetAllIds(bool prestige = false)
+    {
+        return List.Select(p => prestige ? p.Id + 100 : p.Id);
+    }
+
     /// <summary>Gets the <see cref="SCProfession"/> equivalent to the specified <see cref="SpaceCore.Skills.Skill.Profession"/>.</summary>
     /// <param name="profession">The <see cref="SpaceCore.Skills.Skill.Profession"/>.</param>
     /// <returns>The equivalent <see cref="SCProfession"/>.</returns>
@@ -95,13 +104,5 @@ public sealed class SCProfession : IProfession
     public string GetDescription(bool prestiged = false)
     {
         return this._descriptionGetter.Invoke();
-    }
-
-    /// <summary>Enumerates all the ids of loaded <see cref="SCProfession"/> instances.</summary>
-    /// <param name="prestige">Whether to enumerate prestige professions instead.</param>
-    /// <returns>A <see cref="IEnumerable{T}"/> of all loaded SpaceCore profession indices.</returns>
-    public static IEnumerable<int> GetAllIds(bool prestige = false)
-    {
-        return List.Select(p => prestige ? p.Id + 100 : p.Id);
     }
 }

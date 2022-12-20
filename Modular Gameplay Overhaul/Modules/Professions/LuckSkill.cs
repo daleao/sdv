@@ -84,7 +84,7 @@ public sealed class LuckSkill : Skill
     /// <inheritdoc />
     public override void Revalidate()
     {
-        if (LuckSkillIntegration.Api is null)
+        if (LuckSkillIntegration.Instance?.IsRegistered != true)
         {
             this.Reset();
             return;

@@ -43,7 +43,7 @@ internal sealed class ToolAssetRequestedEvent : AssetRequestedEvent
                 case Constants.ScytheIndex when ToolsModule.Config.Scythe.RegularRadius > 0:
                     fields[Aoe] = (ToolsModule.Config.Scythe.RegularRadius * Game1.tileSize).ToString();
 
-                    if (ModEntry.Config.EnableArsenal && ArsenalModule.Config.Weapons.RebalancedStats)
+                    if (ArsenalModule.IsEnabled && ArsenalModule.Config.Weapons.EnableRebalance)
                     {
                         fields[MinDamage] = 1.ToString();
                         fields[MaxDamage] = 1.ToString();
@@ -56,7 +56,7 @@ internal sealed class ToolAssetRequestedEvent : AssetRequestedEvent
                 case Constants.GoldenScytheIndex when ToolsModule.Config.Scythe.GoldRadius > 0:
                     fields[Aoe] = (ToolsModule.Config.Scythe.GoldRadius * Game1.tileSize).ToString();
 
-                    if (ModEntry.Config.EnableArsenal && ArsenalModule.Config.Weapons.RebalancedStats)
+                    if (ArsenalModule.IsEnabled && ArsenalModule.Config.Weapons.EnableRebalance)
                     {
                         fields[MinDamage] = 13.ToString();
                         fields[MaxDamage] = 13.ToString();

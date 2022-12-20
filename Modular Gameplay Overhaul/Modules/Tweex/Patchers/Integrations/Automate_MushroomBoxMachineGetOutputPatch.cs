@@ -43,14 +43,14 @@ internal sealed class MushroomBoxMachineGetOutputPatcher : HarmonyPatcher
                 return;
             }
 
-            var owner = ModEntry.Config.EnableProfessions && !ProfessionsModule.Config.LaxOwnershipRequirements
+            var owner = ProfessionsModule.IsEnabled && !ProfessionsModule.Config.LaxOwnershipRequirements
                 ? machine.GetOwner()
                 : Game1.player;
             if (!owner.professions.Contains(Farmer.botanist))
             {
                 held.Quality = held.GetQualityFromAge();
             }
-            else if (ModEntry.Config.EnableProfessions)
+            else if (ProfessionsModule.IsEnabled)
             {
                 held.Quality = Math.Max(owner.GetEcologistForageQuality(), held.Quality);
             }

@@ -119,7 +119,7 @@ internal static class Utils
                     return;
                 }
 
-                weapon.RefreshStats();
+                weapon.RefreshStats(true);
                 MeleeWeapon_Stats.Invalidate(weapon);
             });
         }
@@ -127,7 +127,7 @@ internal static class Utils
         {
             foreach (var weapon in Game1.player.Items.OfType<MeleeWeapon>())
             {
-                weapon.RefreshStats();
+                weapon.RefreshStats(true);
                 MeleeWeapon_Stats.Invalidate(weapon);
             }
         }

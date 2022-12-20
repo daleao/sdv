@@ -43,7 +43,7 @@ internal sealed class TaxDayEndingEvent : DayEndingEvent
         var dayIncome = amountSold;
         switch (Game1.dayOfMonth)
         {
-            case 28 when ModEntry.Config.EnableProfessions && player.professions.Contains(Farmer.mariner):
+            case 28 when ProfessionsModule.IsEnabled && player.professions.Contains(Farmer.mariner):
             {
                 var deductible = player.GetConservationistPriceMultiplier() - 1;
                 if (deductible <= 0f)
@@ -64,7 +64,7 @@ internal sealed class TaxDayEndingEvent : DayEndingEvent
                 break;
             }
 
-            case 1 when player.Read<float>(DataFields.PercentDeductions) < 1f:
+            case 1:
             {
                 if (Game1.currentSeason == "spring" && Game1.year == 1)
                 {
@@ -75,6 +75,8 @@ internal sealed class TaxDayEndingEvent : DayEndingEvent
                 TaxesModule.State.LatestAmountDue = amountDue;
                 if (amountDue <= 0)
                 {
+                    player.Write(DataFields.SeasonIncome, "0");
+                    player.Write(DataFields.BusinessExpenses, "0");
                     break;
                 }
 
@@ -105,6 +107,7 @@ internal sealed class TaxDayEndingEvent : DayEndingEvent
                 }
 
                 player.Write(DataFields.SeasonIncome, "0");
+                player.Write(DataFields.BusinessExpenses, "0");
                 break;
             }
         }

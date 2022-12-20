@@ -20,7 +20,7 @@ internal static class MeleeWeapon_Stats
 
     internal static int Get_MinDamage(this MeleeWeapon weapon)
     {
-        if (weapon.InitialParentTileIndex == Constants.InsectHeadIndex && ArsenalModule.Config.Weapons.RebalancedStats)
+        if (weapon.InitialParentTileIndex == Constants.InsectHeadIndex && ArsenalModule.Config.Weapons.EnableRebalance)
         {
             var caveInsectsKilled = Game1.stats.getMonstersKilled("Grub") +
                                     Game1.stats.getMonstersKilled("Fly") +
@@ -31,7 +31,7 @@ internal static class MeleeWeapon_Stats
         var minDamage = Values.GetValue(weapon, Create).MinDamage;
         if (weapon.hasEnchantmentOfType<CursedEnchantment>())
         {
-            minDamage += weapon.Read<int>(DataFields.CursePoints) / 20;
+            minDamage += weapon.Read<int>(DataFields.CursePoints) / 5;
         }
 
         return minDamage;
@@ -39,7 +39,7 @@ internal static class MeleeWeapon_Stats
 
     internal static int Get_MaxDamage(this MeleeWeapon weapon)
     {
-        if (weapon.InitialParentTileIndex == Constants.InsectHeadIndex && ArsenalModule.Config.Weapons.RebalancedStats)
+        if (weapon.InitialParentTileIndex == Constants.InsectHeadIndex && ArsenalModule.Config.Weapons.EnableRebalance)
         {
             var caveInsectsKilled = Game1.stats.getMonstersKilled("Grub") +
                                     Game1.stats.getMonstersKilled("Fly") +
@@ -50,7 +50,7 @@ internal static class MeleeWeapon_Stats
         var maxDamage = Values.GetValue(weapon, Create).MaxDamage;
         if (weapon.hasEnchantmentOfType<CursedEnchantment>())
         {
-            maxDamage += weapon.Read<int>(DataFields.CursePoints) / 20;
+            maxDamage += weapon.Read<int>(DataFields.CursePoints) / 5;
         }
 
         return maxDamage;
@@ -93,7 +93,7 @@ internal static class MeleeWeapon_Stats
 
     internal static float Get_EffectiveCritPower(this MeleeWeapon weapon)
     {
-        return Values.GetValue(weapon, Create).CritChance;
+        return Values.GetValue(weapon, Create).CritPower;
     }
 
     internal static float Get_RelativeCritPower(this MeleeWeapon weapon)

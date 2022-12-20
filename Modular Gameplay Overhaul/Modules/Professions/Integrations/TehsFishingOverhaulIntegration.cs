@@ -5,6 +5,7 @@
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using DaLion.Overhaul.Modules.Professions.Extensions;
+using DaLion.Shared.Attributes;
 using DaLion.Shared.Integrations;
 using DaLion.Shared.Integrations.TehsFishingOverhaul;
 using HarmonyLib;
@@ -13,7 +14,8 @@ using StardewValley.Tools;
 
 #endregion using directives
 
-internal sealed class TehsFishingOverhaulIntegration : BaseIntegration<ISimplifiedFishingApi>
+[RequiresMod("TehPers.FishingOverhaul", "Teh's Fishing Overhaul", "3.2.0")]
+internal sealed class TehsFishingOverhaulIntegration : ModIntegration<TehsFishingOverhaulIntegration, ISimplifiedFishingApi>
 {
     private static readonly Func<object?, double> GetTreasureBaseChance;
 
@@ -85,24 +87,20 @@ internal sealed class TehsFishingOverhaulIntegration : BaseIntegration<ISimplifi
         GetTreasurePirateFactor = fishingApi => getTreasurePirateFactorLazily.Value(fishingApi);
     }
 
-    internal TehsFishingOverhaulIntegration(
-        IModRegistry modRegistry,
-        IModEvents events)
-        : base(
-            "Teh's Fishing Overhaul",
-            "TehPers.FishingOverhaul",
-            "3.2.0",
-            modRegistry)
+    private TehsFishingOverhaulIntegration()
+        : base("TehPers.FishingOverhaul", "Teh's Fishing Overhaul", "3.2.0", ModHelper.ModRegistry)
     {
-        this._events = events;
-        this._rawApi = modRegistry.GetApi("TehPers.FishingOverhaul");
-        ModEntry.Integrations[this.ModName] = this;
+        this._events = ModHelper.Events;
+        this._rawApi = this.ModRegistry.GetApi("TehPers.FishingOverhaul");
     }
 
     /// <inheritdoc />
-    protected override void RegisterImpl()
+    protected override bool RegisterImpl()
     {
-        this.AssertLoaded();
+        if (!this.IsLoaded)
+        {
+            return false;
+        }
 
         // add Fisher perks
         this.ModApi.ModifyChanceForFish(
@@ -167,5 +165,7 @@ internal sealed class TehsFishingOverhaulIntegration : BaseIntegration<ISimplifi
             // update previous state
             hadPrestigedAngler = hasPrestigedAngler;
         };
+
+        return true;
     }
 }

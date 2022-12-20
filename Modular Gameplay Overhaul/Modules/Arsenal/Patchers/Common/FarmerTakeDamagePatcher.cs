@@ -24,7 +24,7 @@ internal sealed class FarmerTakeDamagePatcher : HarmonyPatcher
 
     #region harmony patches
 
-    /// <summary>Grant i-frames during Stabbing sword lunge.</summary>
+    /// <summary>Grant i-frames during Stabbing Sword lunge.</summary>
     [HarmonyPrefix]
     private static bool FarmerTakeDamagePrefix(Farmer __instance)
     {

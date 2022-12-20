@@ -113,7 +113,7 @@ public static class TypeExtensions
     /// <param name="type">The <see cref="Type"/>.</param>
     /// <param name="name">The field name.</param>
     /// <returns>The corresponding <see cref="FieldInfo"/>, if found.</returns>
-    /// <exception cref="MissingMethodException">If a matching field is not found.</exception>
+    /// <exception cref="MissingFieldException">If a matching field is not found.</exception>
     [DebuggerStepThrough]
     public static FieldInfo RequireField(this Type type, string name)
     {

@@ -11,9 +11,7 @@ namespace DaLion.Overhaul;
 
 #region using directives
 
-using System.Collections.Generic;
 using DaLion.Shared.Events;
-using DaLion.Shared.Integrations;
 using DaLion.Shared.ModData;
 using DaLion.Shared.Networking;
 using DaLion.Shared.Reflection;
@@ -48,9 +46,6 @@ public sealed class ModEntry : Mod
 
     /// <summary>Gets the <see cref="Broadcaster"/> instance.</summary>
     internal static Broadcaster Broadcaster { get; private set; } = null!; // set in Entry
-
-    /// <summary>Gets the cache of <see cref="BaseIntegration"/>s.</summary>
-    internal static Dictionary<string, BaseIntegration> Integrations { get; } = new();
 
     /// <summary>Gets the <see cref="IModHelper"/> API.</summary>
     internal static IModHelper ModHelper => Instance.Helper;
