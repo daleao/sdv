@@ -16,6 +16,8 @@ Federal obligations will be deducted automatically from the farmer's balance. Ho
 
 If the [Professions](../Professions) module is enabled and the player has the Conservationist profession, the professions' tax deduction perk will change from a % value increase to all items, to a more immersive % deduction of taxable income. Environmentalist activities can be used to deduct taxable income up to 100%. This means that farmers can be tax-exempt by collecting enough trash from oceans or rivers (it is recommended to decrease the default Professions setting for TrashNeededPerTaxBonusPct, as the TaxBonusCeiling setting will be overridden to 100%).
 
+(NEW) You can now deduct your business expenses from your taxable income. Any income spent on farm buildings, tool upgrades, animals or seed purchases (configurable) will be automatically deducted. You don't even need to be a tax evader in this economy.
+
 ## Compatibility
 
 Should be compatible with anything (including [Ferngill Revenue Service](https://www.nexusmods.com/stardewvalley/mods/7566, but please don't try using both together).

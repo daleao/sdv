@@ -12,11 +12,12 @@ This module is inspired by the tool progression system of old Harvest Moon: Frie
   <img src="resources/cover.gif" align="center" height="auto" width="80%" alt="Logo">
 </figure>
 
-This module provides three main features:
-1. Allows the Axe and Pickaxe to be charged according to the tool's upgrade level.
+This module provides four main features (and one minor feature):
+1. Allows the Axe and Pickaxe to be charged according to the tool's upgrade level, just like Hoe and Watering Can.
 2. Allows customizing the area of effect of the Hoe and Watering Can.
-3. Extends certain tool enchantments, allowing them to be applied to other tools.
-4. Causes the farmer to face the mouse cursor before using a tool.
+3. Allows customizing the range of Scythe and Golden Scythe.
+4. Extends certain tool enchantments, allowing them to be applied to a greater variety of tools.
+5. Causes the farmer to automatically face the mouse cursor before using a tool.
 
 All features can be toggled on or off.
 
@@ -25,9 +26,9 @@ All features can be toggled on or off.
 Charging up the Axe or Pickaxe will release a shockwave which spreads the tool's effect around an area. The shape of the shockwave is similar to a bomb explosion, but the radius can be configured for each upgrade level.
 
 Up to **seven** upgrade levels are supported, which includes the Reaching Enchantment and the two extra levels from [Moon Misadventures](https://www.nexusmods.com/stardewvalley/mods/10612).
-All radius values should be positive whole numbers (obviously). By default, the radius at each levels is equal to the tool's upgrade level.
+All radius values should be positive whole numbers (obviously). By default, the radius at each level is equal to the tool's upgrade level.
 
-Like the Tractor Mod, what the shockwave actually does can also be configured. By default it is set to only clear debris (like stones and twigs), weeds, dead crops and resource clumps (like stumps, logs and boulders), as well as mining nodes. You can optionally choose to let them affect other objects or terrain features, such as trees, live crops, and flooring; anything their corresponding tools ordinarily can do.
+Like the Tractor Mod, what the shockwave actually does can also be configured. By default it is set to only clear debris (like stones and twigs), weeds, dead crops and resource clumps (like stumps, logs and boulders), as well as mining nodes. You can optionally choose to let it affect other objects or terrain features, such as trees, live crops, and flooring; anything their corresponding tools ordinarily can do.
 
 ## Farming Tools
 

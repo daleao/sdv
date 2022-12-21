@@ -1,5 +1,11 @@
 ﻿# Arsenal Change Log
 
+## 0.9.9
+
+### Fixed
+
+* Small fix for Slick Moves to prevent the player from sliding during combo cooldown.
+
 ## 0.9.8
 
 ### Added
@@ -9,7 +15,7 @@
 ### Changed
 
 * Improvements to Slick Moves. Can now drift in the parallel direction (i.e., when swinging directly in front or behind you). Before, drifting only worked for perpendicular directions (i.e., when swinging to the sides). Also increased the drift velocity slightly. Finally, the drift now comes to a halt at the end of the animation, removing the unimmersive impression of buttery floor.
-* Clints follow-up quest now begins correctly.
+* Clint's follow-up quest now begins correctly.
 
 ## 0.9.7
 

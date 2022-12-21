@@ -14,7 +14,7 @@ This module makes Fish Ponds useful and immersive by implementing the following 
 4. After 3 days, empty ponds will spontaneously grow algae/seaweed. New algae/seaweed spawn every 2 days, and produce a random amount of algae/seaweed depending on population. Note that seaweed, green algae and white algae will all grow simultaneously in the same pond. Algae/seaweed ponds have population gates and quests, but their population can only increase naturally; i.e. you cannot manually place more algae/seaweed in the pond.
 5. Ponds containing Radioactive or Mutant fish species will enrich any ores or metal bars dropped inside, converting them to radioactive counterparts after some days.
 
-This module is intended to complemented the [Professions](../Professions) module and its Aquarist profession, but can be used without it.
+This module is intended to complement the [Professions](../Professions) module and its Aquarist profession, but can be used without it.
 
 **Before disabling this module, please manually fish out and then ***clear*** every Fish Pond instance to reset mod data in order to prevent issues.**
 

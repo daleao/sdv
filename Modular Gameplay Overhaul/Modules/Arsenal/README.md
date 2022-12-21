@@ -91,7 +91,7 @@ In vanilla game code we can find traces of an abandoned fourth weapon type: **St
 
 Swords are now split between **offensive** and **defensive** archetypes. Defensive swwords retain the parry special move, while offensive swords gain a new stabbing thrust move. This move allows quick repositioning and also grants invincibility frames.
 
-To improve the defensive parry move, parry damage is increased by 10% for every defense point. This adds offensive value to the defense stat itself and makes defensive builds more viable. Note that the introduction of weapon combos also adds to the value of a defensive move.
+To improve the defensive parry move, parry damage is increased by 10% for every defense point. This adds offensive value to the defense stat itself and makes defensive builds more viable. Note that the introduction of weapon combos also adds to the value of a defensive move (you need to protect yourself during combo downtime).
 
 Lastly, there is also the option to make the club smash attack more immersive, after all a ground-shaking smash attack should do critical damage to all enemies underground, and should not do any damage at all to enemies in the air.
 
@@ -100,7 +100,7 @@ Lastly, there is also the option to make the club smash attack more immersive, a
 Weapon stats have been rebalanced across the board:
 
  - **Clubs** are your general unreliable, imprecise and sluggish, but huge-damage-potential, heavy and larger-hit-box weapons.
- - **Daggers** are the opposite of clubs, being the quick, precise, but short-range and generally lower damage potential weapons.
+ - **Daggers** are the opposite of clubs, being the quick, precise, but short-range and generally-lower-damage potential weapons.
  - **Offensive Swords** are somewhere in the middle, with average damage, speed and precision.
  - **Defensive Swords** are marginally weaker and slower than their offensive counterpart, but are otherwise heavier, sturdier and wider. They are somewhere in-between Offensive Swords and Clubs. 
 
@@ -195,6 +195,7 @@ Defense in vanilla is linearly subtracted from damage. There are several problem
 This module introduces an exponential and multiplicative defense model:
 ```
 resistance = 10 / (10 + defense)
+damage = rawDamage * resistance
 ```
 One point of defense will now reduce incoming damage by 10% regardless of the enemy's damage, making it a consistently valuable stat throughout the game. Subsequent points in defense, however, will have diminishing returns, such that 100% damage negation is no longer possible to achieve.
 
@@ -204,9 +205,9 @@ Note that this change applies to monsters as well as players! It is also signifi
 
 ### Gemstone Forges
 
-Forges have been touched slightly. Analogous to its [Rings](../Rings) counterpart, the Jade enchantment has received a significant buff, from +10% to +50% crit. power. If the Rings module is enabled, a new forge will also be added for the Garnet gemstone, granting 10% cooldown reduction. The number of allowed forges for melee weapons now also depends on the weapon's level.
+Forges have been touched slightly. Analogous to its [Rings](../Rings) counterpart, the Jade enchantment has received a significant buff, from +10% to +50% crit. power. If the Rings module is enabled, a new forge will also be added for the Garnet gemstone, granting 10% cooldown reduction.
 
-For slingshots, the number of allowed forges likewise depends on the slingshot.
+The number of allowed forges for melee weapons now also depends on the weapon's level (up to three). Likewise for slingshots, the number of allowed forges increases by one with each upgrade.
 
 ### Weapon Enchantments
 
