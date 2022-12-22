@@ -83,7 +83,7 @@ internal sealed class LevelUpMenuDrawPatcher : HarmonyPatcher
                     ILHelper.SearchOption.First)
                 .Move()
                 .GetOperand(out var isNotProfessionChooser)
-                .FindLabel((Label)isNotProfessionChooser)
+                .MatchLabel((Label)isNotProfessionChooser)
                 .Move(-1)
                 .Insert(
                     new[]

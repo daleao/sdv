@@ -24,6 +24,7 @@ internal sealed class DialogueChooseResponsePatcher : HarmonyPatcher
     private static void EventAnswerDialoguePostfix(Dialogue __instance, Response response)
     {
         var speakerName = __instance.speaker.Name;
+        var player = Game1.player;
         switch (response.responseKey)
         {
         // HONOR //
@@ -46,7 +47,9 @@ internal sealed class DialogueChooseResponsePatcher : HarmonyPatcher
             // Event ID: 288847 (Alex 8 hearts) | Location: Beach
             case "event_box1" when speakerName == "Alex":
 
-                Game1.player.Increment(DataFields.ProvenHonor);
+                player.Increment(DataFields.ProvenHonor);
+                Virtue.Honor.CheckForCompletion(player);
+
                 return;
 
             // Event ID: 7 (Maru 4 hearts) | Location: Hospital
@@ -61,7 +64,7 @@ internal sealed class DialogueChooseResponsePatcher : HarmonyPatcher
             // Event ID: 100 (Kent 3 hearts) | Location: SamHouse
             case "event_popcorn3" when speakerName == "Kent":
 
-                Game1.player.Increment(DataFields.ProvenHonor, -1);
+                player.Increment(DataFields.ProvenHonor, -1);
                 return;
 
         // COMPASSION //
@@ -81,7 +84,9 @@ internal sealed class DialogueChooseResponsePatcher : HarmonyPatcher
             // Event ID: 502969 (Linus 0 hearts) | Location: Town
             case "quickResponse3" when speakerName == "Linus":
 
-                Game1.player.Increment(DataFields.ProvenCompassion);
+                player.Increment(DataFields.ProvenCompassion);
+                Virtue.Compassion.CheckForCompletion(player);
+
                 return;
 
             // Event ID: 13 (Haley 6 hearts) | Location: Beach
@@ -90,7 +95,7 @@ internal sealed class DialogueChooseResponsePatcher : HarmonyPatcher
             // Event ID: 288847 (Alex 8 hearts) | Location: Beach
             case "event_box4" when speakerName == "Alex":
 
-                Game1.player.Increment(DataFields.ProvenCompassion, -1);
+                player.Increment(DataFields.ProvenCompassion, -1);
                 return;
 
         // WISDOM //
@@ -116,7 +121,9 @@ internal sealed class DialogueChooseResponsePatcher : HarmonyPatcher
             // Event ID: 97 (Clint 3 hearts) | Location: Saloon
             case "event_advice2" when speakerName == "Clint":
 
-                Game1.player.Increment(DataFields.ProvenWisdom);
+                player.Increment(DataFields.ProvenWisdom);
+                Virtue.Wisdom.CheckForCompletion(player);
+
                 return;
 
             // Event ID: 56 (Harvey 2 hearts) | Location: JoshHouse

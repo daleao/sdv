@@ -2,9 +2,18 @@
 
 ## 0.9.9
 
+### Added
+
+* Ruined Blade quest-line is now fully implemented.
+
+### Changed
+
+* Few translations changed.
+
 ### Fixed
 
 * Small fix for Slick Moves to prevent the player from sliding during combo cooldown.
+* Scythes can no longer perform the stabby special move.
 
 ## 0.9.8
 

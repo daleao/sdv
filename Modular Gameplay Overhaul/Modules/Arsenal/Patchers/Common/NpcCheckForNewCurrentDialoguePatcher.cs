@@ -53,7 +53,7 @@ internal sealed class NpcCheckForNewCurrentDialoguePatcher : HarmonyPatcher
 
                     break;
 
-                case "Wizard" when player.hasQuest(Constants.CurseQuestId):
+                case "Wizard" when player.hasQuest(Constants.VirtuesIntroQuestId):
                     __instance.CurrentDialogue.Clear();
                     __instance.CurrentDialogue.Push(new Dialogue(
                         I18n.Get("dialogue.wizard.curse.canthelp"),

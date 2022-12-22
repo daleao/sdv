@@ -123,6 +123,7 @@ internal static class MeleeWeaponExtensions
         {
             weapon.minDamage.Value = Convert.ToInt32(split[2]);
             weapon.maxDamage.Value = Convert.ToInt32(split[3]);
+            weapon.type.Set(3);
             MeleeWeapon_Stats.Invalidate(weapon);
             return;
         }

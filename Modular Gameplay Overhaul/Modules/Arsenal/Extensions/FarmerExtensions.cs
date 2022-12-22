@@ -146,18 +146,6 @@ internal static class FarmerExtensions
         return count;
     }
 
-    /// <summary>Determines whether the <paramref name="farmer"/> has proven the 5 chivalric virtues.</summary>
-    /// <param name="farmer">The <see cref="Farmer"/>.</param>
-    /// <returns><see langword="true"/> if the <paramref name="farmer"/> has proved all 5 chivalric virtues, otherwise <see langword="false"/>.</returns>
-    internal static bool HasProvenChivalricVirtues(this Farmer farmer)
-    {
-        return farmer.Read<int>(DataFields.ProvenHonor) >= 3 &&
-               farmer.Read<int>(DataFields.ProvenCompassion) >= 3 &&
-               farmer.Read<int>(DataFields.ProvenWisdom) >= 3 &&
-               farmer.mailReceived.Contains("pamHouseUpgrade") &&
-               farmer.NumMonsterSlayerQuestsCompleted() >= 5;
-    }
-
     #region combo framework
 
     internal static void QueueForwardSwipe(this Farmer farmer, MeleeWeapon weapon)

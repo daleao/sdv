@@ -23,6 +23,7 @@ internal sealed class EventAnswerDialoguePatcher : HarmonyPatcher
     [HarmonyPostfix]
     private static void EventAnswerDialoguePostfix(Event __instance, int answerChoice)
     {
+        var player = Game1.player;
         switch (__instance.id)
         {
         // HONOR //
@@ -33,7 +34,9 @@ internal sealed class EventAnswerDialoguePatcher : HarmonyPatcher
             // Sam 3 hearts | Location: Beach
             // Alex 4 hearts | Location: Town
             case 733330 or 2481135 when answerChoice == 0:
-                Game1.player.Increment(DataFields.ProvenHonor);
+
+                player.Increment(DataFields.ProvenHonor);
+                Virtue.Honor.CheckForCompletion(player);
                 return;
 
         // COMPASSION //
@@ -49,13 +52,15 @@ internal sealed class EventAnswerDialoguePatcher : HarmonyPatcher
 
             // Shane 6 hearts | Location: Forest
             case 3910975 when answerChoice is 1 or 3:
-                Game1.player.Increment(DataFields.ProvenCompassion);
+
+                player.Increment(DataFields.ProvenCompassion);
+                Virtue.Compassion.CheckForCompletion(player);
                 return;
 
             // Pam 9 hearts | Location: Trailer_Big
             case 503180 when answerChoice == 1:
 
-                Game1.player.Increment(DataFields.ProvenCompassion, -1);
+                player.Increment(DataFields.ProvenCompassion, -1);
                 return;
 
             // WISDOM //
@@ -63,7 +68,8 @@ internal sealed class EventAnswerDialoguePatcher : HarmonyPatcher
             // Sebastian 6 hearts | Location: SebastianRoom
             case 27 when answerChoice == 2:
 
-                Game1.player.Increment(DataFields.ProvenWisdom);
+                player.Increment(DataFields.ProvenWisdom);
+                Virtue.Wisdom.CheckForCompletion(player);
                 return;
         }
     }

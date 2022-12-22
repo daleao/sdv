@@ -31,6 +31,10 @@ internal sealed class DataFields
     internal const string ProvenHonor = "ProvenHonor"; // max 8 points (-4)
     internal const string ProvenCompassion = "ProvenCompassion"; // max 9 points (-3)
     internal const string ProvenWisdom = "ProvenWisdom"; // max 8 points (-1)
+    internal const string ProvenGenerosity = "ProvenGenerosity"; // awarded before the mail flag `pamHouseUpgrade`
+    internal const string ProvenValor = "ProvenValor"; // awarded after 5th monster slayer quest completion
+    internal const string TalkedToGil = "TalkedToGil";
+    internal const string TalkedToYoba = "TalkedToYoba";
 
     #endregion arsenal
 

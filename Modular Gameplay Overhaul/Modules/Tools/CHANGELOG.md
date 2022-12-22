@@ -1,5 +1,11 @@
 ﻿# Tools Module Change Log
 
+## 0.9.9
+
+### Fixed
+
+* No longer changes the stats of scythes (which means they no longer need to be revalidated).
+
 ## 0.9.7
 
 ### Fixed

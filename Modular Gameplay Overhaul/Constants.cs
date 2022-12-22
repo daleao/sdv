@@ -156,7 +156,9 @@ public sealed class Constants
     // quests
     public const int ForgeIntroQuestId = 144701;
     public const int ForgeNextQuestId = 144702;
-    public const int CurseQuestId = 144703;
+    public const int VirtuesIntroQuestId = 144703;
+    public const int VirtuesNextQuestId = 144704;
+    public const int VirtuesLastQuestId = 144705;
 
     // other
     public const int ExpAtLevel10 = 15000;

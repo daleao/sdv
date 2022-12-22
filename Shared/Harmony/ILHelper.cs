@@ -161,7 +161,7 @@ public sealed class ILHelper
     /// <param name="label">The <see cref="Label"/> object to match.</param>
     /// <param name="search">The <see cref="SearchOption"/>.</param>
     /// <returns>The <see cref="ILHelper"/> instance.</returns>
-    public ILHelper FindLabel(Label label, SearchOption search = SearchOption.Next)
+    public ILHelper MatchLabel(Label label, SearchOption search = SearchOption.Next)
     {
         var index = -1;
         switch (search)
@@ -207,9 +207,9 @@ public sealed class ILHelper
     /// <param name="count">The number of instructions until the specified of <paramref name="label"/>.</param>
     /// <param name="search">The <see cref="SearchOption"/>.</param>
     /// <returns>The <see cref="ILHelper"/> instance.</returns>
-    public ILHelper FindLabel(Label label, out int count, SearchOption search = SearchOption.Next)
+    public ILHelper MatchLabel(Label label, out int count, SearchOption search = SearchOption.Next)
     {
-        this.FindLabel(label, search);
+        this.MatchLabel(label, search);
         var end = this._indexStack.Pop() + 1;
         count = end - this.CurrentIndex;
         return this;

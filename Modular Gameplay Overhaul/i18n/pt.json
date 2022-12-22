@@ -52,7 +52,7 @@
   "lumberjack.desc.prestiged": "Árvores derrubadas rendem 25% >> 40% mais madeira.",
   "arborist.title.male": "Arborista",
   "arborist.title.female": "Arborista",
-  "arborist.desc": "Todas as árvores crescem mais rápido. Árvores normais podem render madeira de lei.",
+  "arborist.desc": "Todas as árvores crescem mais rápido. Árvores normais podem render madeira da lei.",
   "arborist.desc.prestiged": "Árvores normais rendem o dobro de madeira da lei.",
   "tapper.title.male": "Seringueiro",
   "tapper.title.female": "Seringueira",
@@ -230,8 +230,8 @@
 
   "dialogue.clint.blueprint.notdone": "Ei @. Ainda não acabei de decifrar aquele projeto seu.$0#$b#Talvez amanhã...$2",
   "dialogue.clint.blueprint.done": "Ei @. Eu acabei de traduzir aquele projeto antigo.$0#$b#Me desculpe por demorar tanto.$2#$b#Era uma receita para uma arma feita de alguns materiais estranhos.$0#$b#Quem escreveu era claramente um mestre ferreiro. As técnicas descritas aqui são bem notáveis.$2#$b#Eu adoraria tentar fazer isso, mas não tenho idéia de onde achar estes materiais.#$b#De qualquer forma, aqui está seu livro de volta. Se você encontrar alguma coisa dessas traga de volta e te farei aquela arma de graça.",
-  "dialogue.gil.chivalry": "Um verdadeiro aventureiro deve viver pelas cinco virtudes honráveis: Honra, Compaixão, Generosidade, Bravura, e Conhecimento. Só então poderá se tornar um Heói aos olhos de Yoba.#$bPelo menos é o que minha mãe costuma dizer.",
-  "dialogue.wizard.curse.canthelp": "Me desculpe @. Receio que nem mesmo o arcano possa te ajudar agora.#$b#Sua única esperança é procurar um poder maior.",
+  "dialogue.gil.comebacklater": "Um aventureiro deve viver pelas cinco virtudes heróicas: Honra, Compaixão, Sabedoria, Generosidade e Bravura. Só então será um herói aos olhos de Yoba.#$bPelo menos é o que minha mãe costumava dizer.",
+  "dialogue.wizard.curse.canthelp": "Me desculpe @. Receio que nem mesmo o arcano possa te ajudar agora.#$b#Sua única esperança é buscar o divino.",
 
   "events.forge.intro": "distantBanjo/3 15/farmer 5 19 0 Clint 3 13 2/skippable/pause 1000/speak Clint \"Oh, ei @.$1\"/move farmer 0 -4 3/move farmer -2 0 0/pause 500/speak Clint \"Você tem uma ferramenta que precisa ser melhorada?\"/pause 500/speak Clint \"O que é isso, um porjeto antigo?\"/pause 1000/speak Clint \"Eu adoraria te ajudar, @, mas não consigo entender nada dessas inscrições...$2\"/pause 1000/speak Clint \"Como é? Você tem o guia de tradução para isso?$0#$b#Mas isso vai levar dias para decifrar...$2\"/pause 500/speak Clint \"Oh certo. Começarei a trabalhar nisso esta noite. Venha me ver de novo em alguns dias.\"/pause 500/addQuest 144701/end",
   "events.curse.intro": "WizardSong/-1000 -1000/farmer 8 24 0 Wizard 10 15 2/skippable/showFrame Wizard 20/viewport 8 18 true/move farmer 0 -3 0/pause 2000/speak Wizard \"@, Estou feliz por ter vindo.\"/pause 300/showFrame Wizard 16/pause 500/speak Wizard \"Estive sentindo uma perturbação no arcano, mas não sabia o que era até você entrar.\"/pause 500/showFrame Wizard 0/pause 500/move Wizard -2 0 3/move Wizard 0 3 2/pause 1000/speak Wizard \"Essa espada estranha...\"/move Wizard 0 1 2/pause 300/speak Wizard \"Conte-me, como você a obteve?\"/pause 1500/speak Wizard \"Entendo.\"/pause 500/move Wizard 0 -1 0/speak Wizard \"A quantidade de energia maliciosa emanando disso só pode significar uma coisa.\"/pause 500/faceDirection Wizard 2 true/pause 500/speak Wizard \"Essa deve ser a espada do Herói Arruinado.$1\"/pause 1000/move Wizard 0 1 2/pause 200/speak Wizard \"A história conta que o herói Viego empunhava uma magnífica lâmina dourada, dada a ele pelo próprio Yoba.\"/pause 200/showFrame Wizard 18/pause 200/speak Wizard \"Mas quando sua amada esposa faleceu, Viego enlouqueceu e foi consumido por mágoa.\"/pause 500/showFrame Wizard 0/pause 500/move Wizard -2 0 3/pause 200/speak Wizard \"Ele recorreu a feitiçaria, obcecado pelo pensamento de ressucitá-la.#$b#Mesmo que a grande custo, ele eventualmente conseguiu.\"/pause 200/move Wizard 2 0 1/pause 200/speak Wizard \"Por um breve momento, do corpo de sua esposa surgiu um espectro assustador de sombras e ódio.#$b#Confusa por ser tirada da morte, ela tomou a espada do próprio Viego e perfurou seu coração.\"/faceDirection Wizard 2 true/speak Wizard \"E naquele momento, a magia negra de Viego e o poder sagrado de Yoba colidiram, uma névoa escura derramou do coração de Viego, e ele se tornou o Herói Arruinado, preso como um morto-vivo.\"/move Wizard 0 -1 0/speak Wizard \"Eu mesmo não acreditava nas histórias. Mas se a espada é real, talvez Viego ainda esteja por aí, porcurando por ela.\"/pause 1500/move Wizard 0 2 2/speak Wizard \"Essa espada eventualmente vai te consumir, @, assim como fez com Viego.#$b#É indispensável que você se livre dela. E o que quer que faça, você não deve usá-la.\"/pause 500/addQuest 144703/end",
@@ -244,23 +244,30 @@
 
   "fromcsfiles.MeleeWeapon.cs.14122": "O fragmento prismático brilha, absorve o irídio em sua mochila e se transforma diante de seus olhos!^^     Você obteve ={{galaxyWeapon}}=  ^",
   "locations.Town.DwarfGrave.Translated": "     Você traduz a língua anã:     \n\nEntre trigêmeas perdidas nas areias\ntraga um arco-íris forjado da terra\nsuplique aos céus! reclame o que é seu\ndeixe trovões ruírem e rugirem seu nome\nse o coração for puro e a consciência limpa\ne fé tiver sem dúvida nem medo\nque as estrelas chovam aquele selo\ne abençoa-te com o aço do paraíso.",
-  "locations.SeedShop.Yoba": "Nenhum mal deve tocar os verdadeiros Heróis de Yoba.",
+  "locations.SeedShop.Yoba": "Nenhum mal tocará o verdadeiro Herói de Yoba.",
 
   "mail.curse.intro": "{{honorific}} @, Devo te encontrar com urgência.^Por favor venha me ver na torre assim que possível.^   -M. Rasmodius, Mago%%[#]Herói Arruinado",
 
   "quests.forge.intro": "Basic/Um Legado dos Anões/Clint te disse que ele acabaria de traduzir aquela velha planta em alguns dias./Visite Clint para perguntar sobre a planta./null/144702/0/-1/false",
-  "quests.forge.part2": "Basic/Um Legado dos Anões II/Aquela planta antiga era uma receita para uma poderosa arma anã! Talvez hajam outras?/Encontre as plantas restantes./null/-1/0/-1/false",
-  "quests.curse": "Basic/A Lâmina do Herói Arruinado/A arma que você encontrou carrega a maldição do Herói Arruinado! Você já pode sentir sua força vital sendo drenada. É melhor encontrar algum jeito de quebrar essa maldição, e rápido!/Encontre uma maneira de quebrar a maldição da Lâmina Arruinada./null/-1/0/-1/false",
+  "quests.forge.next": "Basic/Um Legado dos Anões II/Aquela planta antiga era uma receita para uma poderosa arma anã! Talvez hajam outras?/Encontre as plantas restantes./null/-1/0/-1/false",
+  "quests.virtues.intro": "Basic/A Lâmina do Herói Arruinado/A arma que você encontrou carrega a maldição do Herói Arruinado! Você já pode sentir sua força vital sendo drenada. É melhor encontrar algum jeito de quebrar essa maldição, e rápido!/Encontre uma maneira de quebrar a maldição da Lâmina Arruinada./null/144704/0/-1/false",
+  "quests.virtues.next": "Basic/A Lâmina do Herói Arruinado/Você aprendeu que os heróis abençoados de Yoba recebem a sua proteção contra o mal. Para receber a benção de Yoba, você deve provar que vive pelas cinco virtudes heróicas./Prove as cinco virtudes heróicas./null/144705/0/-1/false",
+  "quests.virtues.last": "Basic/A Lâmina do Herói Arruinado/Você aprendeu que os heróis abençoados de Yoba recebem a sua proteção contra o mal. Para receber a benção de Yoba, você deve provar que vive pelas cinco virtudes heróicas./Leve a Lâmina Arruinada até um altar de Yoba./null/-1/0/-1/false",
+  "quests.virtues.honor": "Basic/Provando Honra/Prove a sua honra aos olhos de Yoba./Prova a sua honra./null/-1/0/-1/false",
+  "quests.virtues.compassion": "Basic/Provando Compaixão/Prove a sua compaixão aos olhos de Yoba./Prove a sua compaixão./null/-1/0/-1/false",
+  "quests.virtues.wisdom": "Basic/Provando Sabedoria/Prove a sua sabedoria aos olhos de Yoba./Prove a sua sabedoria./null/-1/0/-1/false",
+  "quests.virtues.generosity": "Basic/Provando Generosidade/Prove a sua generosidade aos olhos de Yoba./Prove a sua generosidade./null/-1/0/-1/false",
+  "quests.virtues.valor": "Basic/Provando Bravura/Prove a sua bravura aos olhos de Yoba./Prove a sua bravura./null/-1/0/-1/false",
 
   // json assets
-  "objects.dwarvishblueprint.name": "Projeto Anão",
+  "objects.dwarvishblueprint.name": "Antigo Plano Anão",
   "objects.dwarvishblueprint.description": "Está desbotado, mas ainda legível.",
   "objects.herosoul.name": "Alma do Herói",
-  "objects.herosoul.description": "A Essência materializada de um herói.",
+  "objects.herosoul.description": "A essência materializada de um herói.",
   "objects.dwarvenscrap.name": "Sucata Anã",
-  "objects.dwarvenscrap.description": "Parece antigo, porém um pouco futurista.",
+  "objects.dwarvenscrap.description": "Parece antigo, e ao mesmo tempo futurista.",
   "objects.elderwood.name": "Madeira Anciã",
-  "objects.elderwood.description": "Um pedaço de madeira encantada.",
+  "objects.elderwood.description": "Um pedaço de madeira encantada por uma raça antiga.",
 
   // ********* //
   // * RINGS * //

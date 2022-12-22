@@ -59,12 +59,6 @@ internal sealed class RevalidateItemsCommand : ConsoleCommand
 
     private static void RevalidateSingleWeapon(MeleeWeapon weapon)
     {
-        if (weapon.isScythe())
-        {
-            Tools.Utils.RevalidateScythes();
-            return;
-        }
-
         if (!ArsenalModule.IsEnabled)
         {
             weapon.RemoveIntrinsicEnchantments();

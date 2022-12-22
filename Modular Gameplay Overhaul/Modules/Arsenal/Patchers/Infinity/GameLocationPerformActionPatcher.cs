@@ -3,7 +3,6 @@
 #region using directives
 
 using System.Reflection;
-using DaLion.Overhaul.Modules.Arsenal.Extensions;
 using DaLion.Shared.Extensions.Stardew;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
@@ -37,8 +36,7 @@ internal sealed class GameLocationPerformActionPatcher : HarmonyPatcher
         {
             if (action.StartsWith("Yoba"))
             {
-                if (who.CurrentTool is MeleeWeapon { InitialParentTileIndex: Constants.DarkSwordIndex } &&
-                    !who.mailReceived.Contains("gotHolyBlade") && who.HasProvenChivalricVirtues())
+                if (who.hasQuest(Constants.VirtuesLastQuestId) && who.CurrentTool is MeleeWeapon { InitialParentTileIndex: Constants.DarkSwordIndex })
                 {
                     who.Halt();
                     who.faceDirection(2);
@@ -63,6 +61,20 @@ internal sealed class GameLocationPerformActionPatcher : HarmonyPatcher
                 else
                 {
                     Game1.drawObjectDialogue(Game1.content.LoadString("Strings\\Locations:SeedShop_Yoba"));
+                    if (!who.hasQuest(Constants.VirtuesIntroQuestId))
+                    {
+                        return false; // don't run original logic
+                    }
+
+                    if (who.Read<bool>(DataFields.TalkedToGil))
+                    {
+                        who.completeQuest(Constants.VirtuesIntroQuestId);
+                        who.Write(DataFields.TalkedToGil, null);
+                    }
+                    else
+                    {
+                        who.Write(DataFields.TalkedToYoba, true.ToString());
+                    }
                 }
             }
             else if (action.StartsWith("GoldenScythe"))

@@ -145,7 +145,6 @@ internal static class Utils
         Game1.flashAlpha = 1f;
         player.holdUpItemThenMessage(new MeleeWeapon(Constants.HolyBladeIndex));
         darkSword.transform(Constants.HolyBladeIndex);
-        player.mailReceived.Add("gotHolyBlade");
         player.jitterStrength = 0f;
         Game1.screenGlowHold = false;
     }
