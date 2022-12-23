@@ -2,7 +2,7 @@
 
 ## Revision 9 Highlights
 
-* The Blade of Ruin quest-line is now fully implemented.
+* The Blade of Ruin quest-line is now fully realized.
 
 ## Minor Release 9 Highlights
 
