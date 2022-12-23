@@ -144,5 +144,6 @@ internal static class Collections
         Constants.ForestSwordIndex,
         Constants.LavaKatanaIndex,
         Constants.DragontoothCutlassIndex,
+        Constants.DarkSwordIndex,
     };
 }

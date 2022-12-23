@@ -3,6 +3,7 @@
 #region using directives
 
 using System.Xml.Serialization;
+using DaLion.Overhaul.Modules.Arsenal.Events;
 using Microsoft.Xna.Framework;
 using StardewValley.Monsters;
 
@@ -29,6 +30,11 @@ public class BloodthirstyEnchantment : BaseWeaponEnchantment
         who.health = Math.Min(who.health + lifeSteal, (int)(who.maxHealth * 1.2f));
         location.debris.Add(
             new Debris(amount, new Vector2(who.getStandingX(), who.getStandingY()), Color.Lime, 1f, who));
+        if (who.health > who.maxHealth)
+        {
+            EventManager.Enable<BloodthirstyUpdateTickedEvent>();
+        }
+
         //Game1.playSound("healSound");
     }
 }

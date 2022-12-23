@@ -42,11 +42,12 @@ internal sealed class ArsenalAssetRequestedEvent : AssetRequestedEvent
     internal ArsenalAssetRequestedEvent(EventManager manager)
         : base(manager)
     {
-        this.Edit("Characters/Dialogue/Gil", new AssetEditor(EditGilDialogue, AssetEditPriority.Default));
+        this.Edit("Characters/Dialogue/Gil", new AssetEditor(EditGilDialogue, AssetEditPriority.Late));
         this.Edit("Data/ObjectInformation", new AssetEditor(EditObjectInformationData, AssetEditPriority.Default));
         this.Edit("Data/Events/AdventureGuild", new AssetEditor(EditSveEventsData, AssetEditPriority.Late));
         this.Edit("Data/Events/Blacksmith", new AssetEditor(EditBlacksmithEventsData, AssetEditPriority.Default));
         this.Edit("Data/Events/WizardHouse", new AssetEditor(EditWizardEventsData, AssetEditPriority.Default));
+        this.Edit("Data/mail", new AssetEditor(EditMailData, AssetEditPriority.Default));
         this.Edit("Data/Monsters", new AssetEditor(EditMonstersData, AssetEditPriority.Late));
         this.Edit("Data/Quests", new AssetEditor(EditQuestsData, AssetEditPriority.Default));
         this.Edit("Data/weapons", new AssetEditor(EditWeaponsData, AssetEditPriority.Late));
@@ -70,11 +71,17 @@ internal sealed class ArsenalAssetRequestedEvent : AssetRequestedEvent
 
     #region editor callbacks
 
-    /// <summary>Patches custom Gil dialogue.</summary>
-    private static void EditGilDialogue(IAssetData asset)
+    /// <summary>Edits events data with custom Dwarvish Blueprint introduction event.</summary>
+    private static void EditBlacksmithEventsData(IAssetData asset)
     {
+        if (!Context.IsWorldReady || !ArsenalModule.Config.DwarvishCrafting ||
+            string.IsNullOrEmpty(Game1.player.Read(DataFields.BlueprintsFound)) || !Game1.player.canUnderstandDwarves)
+        {
+            return;
+        }
+
         var data = asset.AsDictionary<string, string>().Data;
-        data["ComeBackLater"] = I18n.Get("dialogue.gil.comebacklater");
+        data["144701/f Clint 1500/p Clint"] = I18n.Get("events.forge.intro");
     }
 
     /// <summary>Patches buffs icons with energized buff icon.</summary>
@@ -96,6 +103,14 @@ internal sealed class ArsenalAssetRequestedEvent : AssetRequestedEvent
             targetArea);
     }
 
+    /// <summary>Patches custom Gil dialogue.</summary>
+    private static void EditGilDialogue(IAssetData asset)
+    {
+        var data = asset.AsDictionary<string, string>().Data;
+        data[StardewValleyExpandedIntegration.Instance?.IsLoaded == true ? "Snoring" : "ComeBackLater"] =
+            I18n.Get("dialogue.gil.virtues");
+    }
+
     /// <summary>Edits location string data with custom legendary sword rhyme.</summary>
     private static void EditLocationsStrings(IAssetData asset)
     {
@@ -109,71 +124,11 @@ internal sealed class ArsenalAssetRequestedEvent : AssetRequestedEvent
         data["SeedShop_Yoba"] = I18n.Get("locations.SeedShop.Yoba");
     }
 
-    /// <summary>Edits galaxy soul description.</summary>
-    private static void EditObjectInformationData(IAssetData asset)
-    {
-        if (!ArsenalModule.Config.InfinityPlusOne)
-        {
-            return;
-        }
-
-        var data = asset.AsDictionary<int, string>().Data;
-
-        // edit galaxy soul description
-        var fields = data[Constants.GalaxySoulIndex].Split('/');
-        fields[5] = I18n.Get("objects.galaxysoul.desc");
-        data[Constants.GalaxySoulIndex] = string.Join('/', fields);
-    }
-
-    /// <summary>Edits events data with custom Dwarvish Blueprint introduction event.</summary>
-    private static void EditBlacksmithEventsData(IAssetData asset)
-    {
-        if (!Context.IsWorldReady || !ArsenalModule.Config.DwarvishCrafting ||
-            string.IsNullOrEmpty(Game1.player.Read(DataFields.BlueprintsFound)) || !Game1.player.canUnderstandDwarves)
-        {
-            return;
-        }
-
-        var data = asset.AsDictionary<string, string>().Data;
-        data["144701/f Clint 1500/p Clint"] = I18n.Get("events.forge.intro");
-    }
-
-    /// <summary>Edits events data with custom Blade of Ruin introduction event.</summary>
-    private static void EditWizardEventsData(IAssetData asset)
-    {
-        if (!ArsenalModule.Config.InfinityPlusOne)
-        {
-            return;
-        }
-
-        var data = asset.AsDictionary<string, string>().Data;
-        data["144703/n darkSwordFound/p Wizard"] = StardewValleyExpandedIntegration.Instance?.IsLoaded == true
-            ? I18n.Get("events.curse.intro")
-            : I18n.Get("events.curse.intro.sve");
-    }
-
-    /// <summary>Edits Marlon's Galaxy Sword event in SVE, removing references to purchasable Galaxy weapons.</summary>
-    private static void EditSveEventsData(IAssetData asset)
+    /// <summary>Patches mail data with mail from the Ferngill Revenue Service.</summary>
+    private static void EditMailData(IAssetData asset)
     {
         var data = asset.AsDictionary<string, string>().Data;
-        if (data.ContainsKey("1337098") && ArsenalModule.Config.InfinityPlusOne)
-        {
-            data["1337098"] = I18n.Get("events.1337098.nopurchase");
-        }
-    }
-
-    /// <summary>Edits quests data with custom Dwarvish Blueprint introduction quest.</summary>
-    private static void EditQuestsData(IAssetData asset)
-    {
-        if (!ArsenalModule.Config.DwarvishCrafting)
-        {
-            return;
-        }
-
-        var data = asset.AsDictionary<int, string>().Data;
-        data[Constants.ForgeIntroQuestId] = I18n.Get("quests.forge.intro");
-        data[Constants.ForgeNextQuestId] = I18n.Get("quests.forge.next");
-        data[Constants.VirtuesIntroQuestId] = I18n.Get("quests.curse");
+        data["viegoCurse"] = I18n.Get("mail.curse.intro");
     }
 
     /// <summary>Edits monsters data for ancient weapon crafting materials.</summary>
@@ -202,6 +157,22 @@ internal sealed class ArsenalAssetRequestedEvent : AssetRequestedEvent
         data["Dwarvish Sentry"] = string.Join('/', fields);
     }
 
+    /// <summary>Edits galaxy soul description.</summary>
+    private static void EditObjectInformationData(IAssetData asset)
+    {
+        if (!ArsenalModule.Config.InfinityPlusOne)
+        {
+            return;
+        }
+
+        var data = asset.AsDictionary<int, string>().Data;
+
+        // edit galaxy soul description
+        var fields = data[Constants.GalaxySoulIndex].Split('/');
+        fields[5] = I18n.Get("objects.galaxysoul.desc");
+        data[Constants.GalaxySoulIndex] = string.Join('/', fields);
+    }
+
     /// <summary>Adds the infinity enchantment projectile.</summary>
     private static void EditProjectilesTileSheet(IAssetData asset)
     {
@@ -217,6 +188,37 @@ internal sealed class ArsenalAssetRequestedEvent : AssetRequestedEvent
             ModHelper.ModContent.Load<Texture2D>("assets/sprites/projectiles"),
             sourceArea,
             targetArea);
+    }
+
+    /// <summary>Edits quests data with custom Dwarvish Blueprint introduction quest.</summary>
+    private static void EditQuestsData(IAssetData asset)
+    {
+        if (!ArsenalModule.Config.DwarvishCrafting)
+        {
+            return;
+        }
+
+        var data = asset.AsDictionary<int, string>().Data;
+        data[Constants.ForgeIntroQuestId] = I18n.Get("quests.forge.intro");
+        data[Constants.ForgeNextQuestId] = I18n.Get("quests.forge.next");
+        data[Constants.VirtuesIntroQuestId] = I18n.Get("quests.curse.intro");
+        data[Constants.VirtuesNextQuestId] = I18n.Get("quests.curse.next");
+        data[Constants.VirtuesLastQuestId] = I18n.Get("quests.curse.last");
+        data[Virtue.Honor] = I18n.Get("quests.virtues.honor");
+        data[Virtue.Compassion] = I18n.Get("quests.virtues.compassion");
+        data[Virtue.Wisdom] = I18n.Get("quests.virtues.wisdom");
+        data[Virtue.Generosity] = I18n.Get("quests.virtues.generosity");
+        data[Virtue.Valor] = I18n.Get("quests.virtues.valor");
+    }
+
+    /// <summary>Edits Marlon's Galaxy Sword event in SVE, removing references to purchasable Galaxy weapons.</summary>
+    private static void EditSveEventsData(IAssetData asset)
+    {
+        var data = asset.AsDictionary<string, string>().Data;
+        if (data.ContainsKey("1337098") && ArsenalModule.Config.InfinityPlusOne)
+        {
+            data["1337098"] = I18n.Get("events.1337098.nopurchase");
+        }
     }
 
     /// <summary>Edits weapons data with rebalanced stats.</summary>
@@ -327,6 +329,20 @@ internal sealed class ArsenalAssetRequestedEvent : AssetRequestedEvent
             targetArea = new Rectangle(64, 32, 16, 16);
             editor.PatchImage(sourceTx, sourceArea, targetArea);
         }
+    }
+
+    /// <summary>Edits events data with custom Blade of Ruin introduction event.</summary>
+    private static void EditWizardEventsData(IAssetData asset)
+    {
+        if (!ArsenalModule.Config.InfinityPlusOne)
+        {
+            return;
+        }
+
+        var data = asset.AsDictionary<string, string>().Data;
+        data["144703/n viegoCurse/p Wizard"] = StardewValleyExpandedIntegration.Instance?.IsLoaded == true
+            ? I18n.Get("events.curse.intro.sve")
+            : I18n.Get("events.curse.intro");
     }
 
     #endregion editor callbacks

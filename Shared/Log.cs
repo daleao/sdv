@@ -31,7 +31,11 @@ public static class Log
     /// <param name="message">The message.</param>
     public static void T(string message)
     {
+#if DEBUG
+        D(message);
+#else
         _monitor.Log(message);
+#endif
     }
 
     /// <summary>Logs a message as info.</summary>

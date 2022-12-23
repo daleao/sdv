@@ -3,6 +3,7 @@
 #region using directives
 
 using System.Reflection;
+using DaLion.Shared.Extensions.Collections;
 using DaLion.Shared.Extensions.Stardew;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
@@ -36,9 +37,13 @@ internal sealed class GameLocationPerformActionPatcher : HarmonyPatcher
         {
             if (action.StartsWith("Yoba"))
             {
-                if (who.hasQuest(Constants.VirtuesLastQuestId) && who.CurrentTool is MeleeWeapon { InitialParentTileIndex: Constants.DarkSwordIndex })
+                if (who.hasQuest(Constants.VirtuesLastQuestId) && who.CurrentTool is MeleeWeapon
+                    {
+                        InitialParentTileIndex: Constants.DarkSwordIndex
+                    })
                 {
                     who.Halt();
+                    who.CanMove = false;
                     who.faceDirection(2);
                     who.showCarrying();
                     who.jitterStrength = 1f;
@@ -57,6 +62,7 @@ internal sealed class GameLocationPerformActionPatcher : HarmonyPatcher
                     Game1.afterDialogues = (Game1.afterFadeFunction)Delegate.Combine(
                         Game1.afterDialogues,
                         (Game1.afterFadeFunction)(() => Game1.stopMusicTrack(Game1.MusicContext.Event)));
+                    who.completeQuest(Constants.VirtuesLastQuestId);
                 }
                 else
                 {
@@ -69,6 +75,12 @@ internal sealed class GameLocationPerformActionPatcher : HarmonyPatcher
                     if (who.Read<bool>(DataFields.TalkedToGil))
                     {
                         who.completeQuest(Constants.VirtuesIntroQuestId);
+                        who.addQuest(Virtue.Honor);
+                        who.addQuest(Virtue.Compassion);
+                        who.addQuest(Virtue.Wisdom);
+                        who.addQuest(Virtue.Generosity);
+                        who.addQuest(Virtue.Valor);
+                        Virtue.List.ForEach(virtue => virtue.CheckForCompletion(Game1.player));
                         who.Write(DataFields.TalkedToGil, null);
                     }
                     else
@@ -98,7 +110,7 @@ internal sealed class GameLocationPerformActionPatcher : HarmonyPatcher
                         Game1.drawObjectDialogue(Game1.content.LoadString("Strings\\StringsFromCSFiles:Crop.cs.588"));
                     }
                 }
-                else if (!who.hasOrWillReceiveMail("gotDarkSword") && !who.isInventoryFull())
+                else if (!who.hasOrWillReceiveMail("viegoCurse") && !who.isInventoryFull())
                 {
                     ProposeGrabDarkSword(__instance);
                 }

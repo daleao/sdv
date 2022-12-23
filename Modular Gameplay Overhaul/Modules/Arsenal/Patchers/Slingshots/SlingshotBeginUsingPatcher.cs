@@ -1,9 +1,8 @@
-﻿namespace DaLion.Overhaul.Modules.Professions.Patchers.Combat;
+﻿namespace DaLion.Overhaul.Modules.Arsenal.Patchers.Slingshots;
 
 #region using directives
 
-using DaLion.Overhaul.Modules.Professions.Events.GameLoop;
-using DaLion.Overhaul.Modules.Professions.Extensions;
+using DaLion.Overhaul.Modules.Arsenal.Events;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
 using StardewValley.Tools;
@@ -21,13 +20,13 @@ internal sealed class SlingshotBeginUsingPatcher : HarmonyPatcher
 
     #region harmony patches
 
-    /// <summary>Patch to trigger Desperado overcharge.</summary>
+    /// <summary>Override bullseye.</summary>
     [HarmonyPostfix]
     private static void SlingshotBeginUsingPostfix()
     {
-        if (Game1.player.HasProfession(Profession.Desperado))
+        if (ArsenalModule.Config.Slingshots.BullseyeReplacesCursor)
         {
-            EventManager.Enable<DesperadoUpdateTickedEvent>();
+            EventManager.Enable<BullseyeRenderedEvent>();
         }
     }
 

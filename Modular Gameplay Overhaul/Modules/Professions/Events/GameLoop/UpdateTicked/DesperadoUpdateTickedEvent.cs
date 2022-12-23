@@ -52,7 +52,7 @@ internal sealed class DesperadoUpdateTickedEvent : UpdateTickedEvent
             return;
         }
 
-        var overchargePct = slingshot.GetOvercharge(firer) - 1f;
+        var overchargePct = slingshot.GetOvercharge() - 1f;
         if (overchargePct <= 0f)
         {
             return;

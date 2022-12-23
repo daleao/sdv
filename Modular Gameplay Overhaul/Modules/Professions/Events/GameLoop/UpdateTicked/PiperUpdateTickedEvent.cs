@@ -5,6 +5,7 @@
 using DaLion.Overhaul.Modules.Professions.Ultimates;
 using DaLion.Overhaul.Modules.Professions.VirtualProperties;
 using DaLion.Shared.Events;
+using DaLion.Shared.Extensions.Stardew;
 using StardewModdingAPI.Events;
 
 #endregion using directives
@@ -30,7 +31,7 @@ internal sealed class PiperUpdateTickedEvent : UpdateTickedEvent
         }
 
         // countdown contact timer
-        if ((Game1.game1.IsActiveNoOverlay || !Game1.options.pauseWhenOutOfFocus) && Game1.shouldTimePass())
+        if (Game1.game1.ShouldTimePass())
         {
             concerto.SlimeContactTimer--;
         }

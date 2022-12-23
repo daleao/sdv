@@ -2,6 +2,7 @@
 
 #region using directives
 
+using System.Diagnostics;
 using DaLion.Overhaul.Modules.Arsenal.Extensions;
 using DaLion.Overhaul.Modules.Arsenal.VirtualProperties;
 using DaLion.Overhaul.Modules.Rings.VirtualProperties;
@@ -31,7 +32,12 @@ internal sealed class SlingshotSpecialUpdateTickedEvent : UpdateTickedEvent
     protected override void OnUpdateTickedImpl(object? sender, UpdateTickedEventArgs e)
     {
         var user = Game1.player;
-        var slingshot = (Slingshot)user.CurrentTool;
+        if (user.CurrentTool is not Slingshot slingshot)
+        {
+            this.Disable();
+            return;
+        }
+
         if (slingshot.Get_IsOnSpecial())
         {
             _currentFrame++;
@@ -56,22 +62,7 @@ internal sealed class SlingshotSpecialUpdateTickedEvent : UpdateTickedEvent
                 user.completelyStopAnimatingOrDoingAction();
                 slingshot.Set_IsOnSpecial(false);
                 user.forceCanMove();
-#if RELEASE
-                ArsenalModule.State.SlingshotCooldown = SlingshotCooldown;
-                if (!ProfessionsModule.IsEnabled && user.professions.Contains(Farmer.acrobat))
-                {
-                    ArsenalModule.State.SlingshotCooldown /= 2;
-                }
-
-                if (slingshot.hasEnchantmentOfType<ArtfulEnchantment>())
-                {
-                    ArsenalModule.State.SlingshotCooldown /= 2;
-                }
-
-                ArsenalModule.State.SlingshotCooldown = (int)(ArsenalModule.State.SlingshotCooldown *
-                                                              slingshot.Get_EffectiveCooldownReduction() *
-                                                              user.Get_CooldownReduction());
-#endif
+                DoCooldown(user, slingshot);
                 _currentFrame = -1;
             }
             else
@@ -100,16 +91,39 @@ internal sealed class SlingshotSpecialUpdateTickedEvent : UpdateTickedEvent
         }
         else
         {
-#if RELEASE
-            ArsenalModule.State.SlingshotCooldown -= Game1.currentGameTime.ElapsedGameTime.Milliseconds;
-            if (ArsenalModule.State.SlingshotCooldown > 0)
+            DoCooldown(user, slingshot);
+            this.Disable();
+        }
+    }
+
+    [Conditional("RELEASE")]
+    private static void DoCooldown(Farmer user, Slingshot slingshot)
+    {
+        if (slingshot.Get_IsOnSpecial())
+        {
+
+            ArsenalModule.State.SlingshotCooldown = SlingshotCooldown;
+            if (!ProfessionsModule.IsEnabled && user.professions.Contains(Farmer.acrobat))
             {
-                return;
+                ArsenalModule.State.SlingshotCooldown /= 2;
             }
 
-            Game1.playSound("objectiveComplete");
-#endif
-            this.Disable();
+            if (slingshot.hasEnchantmentOfType<ArtfulEnchantment>())
+            {
+                ArsenalModule.State.SlingshotCooldown /= 2;
+            }
+
+            ArsenalModule.State.SlingshotCooldown = (int)(ArsenalModule.State.SlingshotCooldown *
+                                                          slingshot.Get_EffectiveCooldownReduction() *
+                                                          user.Get_CooldownReduction());
+        }
+        else
+        {
+            ArsenalModule.State.SlingshotCooldown -= Game1.currentGameTime.ElapsedGameTime.Milliseconds;
+            if (ArsenalModule.State.SlingshotCooldown <= 0)
+            {
+                Game1.playSound("objectiveComplete");
+            }
         }
     }
 }

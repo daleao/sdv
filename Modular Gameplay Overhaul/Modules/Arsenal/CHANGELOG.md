@@ -5,15 +5,22 @@
 ### Added
 
 * Ruined Blade quest-line is now fully implemented.
+* Added option to draw bulls-eye instead of mouse cursor while firing a slingshot.
 
 ### Changed
 
 * Few translations changed.
+* Reduced the aura on the Blade of Ruin texture.
 
 ### Fixed
 
 * Small fix for Slick Moves to prevent the player from sliding during combo cooldown.
 * Scythes can no longer perform the stabby special move.
+* The item hold up animation now plays correctly when obtaining the Blade of Ruin.
+* The Blade of Ruin is now a Stabbing Sword, as it should.
+* No longer triggers stabbing special move when obtaining the Blade of Dawn.
+* Fixed possible bug with Bloodthirsty enchantment.
+* Fixed some incorrect translation keys.
 
 ## 0.9.8
 

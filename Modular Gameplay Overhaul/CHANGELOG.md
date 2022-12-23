@@ -1,8 +1,8 @@
 # Modular Overhaul Change Logs
 
-## Revision 8 Highlights
+## Revision 9 Highlights
 
-* Improvements to Slick Moves.
+* The Blade of Ruin quest-line is now fully implemented.
 
 ## Minor Release 9 Highlights
 

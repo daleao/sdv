@@ -11,4 +11,12 @@ public static class Game1Extensions
         return Context.IsWorldReady && (Game1.MasterPlayer.hasCompletedCommunityCenter() ||
                Game1.MasterPlayer.mailReceived.Contains("ccIsComplete"));
     }
+
+    /// <summary>Determines whether the game is active and time should pass.</summary>
+    /// <param name="game1">The <see cref="Game1"/> instance.</param>
+    /// <returns><see langword="true"/> if the game is active and time should pass, otherwise <see langword="false"/>.</returns>
+    public static bool ShouldTimePass(this Game1 game1)
+    {
+        return (Game1.game1.IsActiveNoOverlay || !Game1.options.pauseWhenOutOfFocus) && Game1.shouldTimePass();
+    }
 }

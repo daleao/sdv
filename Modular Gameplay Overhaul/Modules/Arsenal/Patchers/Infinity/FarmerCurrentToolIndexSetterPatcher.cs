@@ -28,7 +28,7 @@ internal sealed class FarmerCurrentToolIndexSetterPatcher : HarmonyPatcher
     private static void FarmerCurrentToolIndexPostfix(Farmer __instance, ref int value)
     {
         if (!__instance.Read<bool>(DataFields.Cursed) || __instance.Items[value] is not MeleeWeapon weapon ||
-            weapon.InitialParentTileIndex == Constants.DarkSwordIndex)
+            weapon.InitialParentTileIndex == Constants.DarkSwordIndex || weapon.isScythe())
         {
             return;
         }

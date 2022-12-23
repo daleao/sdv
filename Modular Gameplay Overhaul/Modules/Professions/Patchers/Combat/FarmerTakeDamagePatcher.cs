@@ -5,6 +5,7 @@
 using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
+using DaLion.Overhaul.Modules.Professions.Events.GameLoop;
 using DaLion.Overhaul.Modules.Professions.Extensions;
 using DaLion.Overhaul.Modules.Professions.Ultimates;
 using DaLion.Overhaul.Modules.Professions.VirtualProperties;
@@ -187,6 +188,7 @@ internal sealed class FarmerTakeDamagePatcher : HarmonyPatcher
 
         var frenzy = farmer.Get_Ultimate() as Frenzy;
         ProfessionsModule.State.BruteRageCounter += frenzy?.IsActive == true ? 2 : 1;
+        EventManager.Enable<BruteUpdateTickedEvent>();
         if (frenzy?.IsActive == false)
         {
             frenzy.ChargeValue += damage / 4.0;

@@ -83,7 +83,7 @@ public sealed class ModApi
             return 0f;
         }
 
-        return slingshot.GetOvercharge(farmer);
+        return slingshot.GetOvercharge();
     }
 
     /// <summary>Sets a flag to allow the specified SpaceCore skill to level past 10 and offer prestige professions.</summary>

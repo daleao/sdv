@@ -37,11 +37,7 @@ internal sealed class BlueprintDayStartedEvent : DayStartedEvent
         }
 
         var daysLeft = player.Read<int>(DataFields.DaysLeftTranslating);
-#if DEBUG
-        Log.D($"T - {daysLeft} days left until Clint is done deciphering the blueprint.");
-#elif RELEASE
         Log.T($"T - {daysLeft} days left until Clint is done deciphering the blueprint.");
-#endif
         if (daysLeft <= 0)
         {
             this.Disable();

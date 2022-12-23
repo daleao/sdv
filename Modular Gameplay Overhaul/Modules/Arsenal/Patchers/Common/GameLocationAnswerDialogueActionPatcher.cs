@@ -46,9 +46,10 @@ internal sealed class GameLocationAnswerDialogueActionPatcher : HarmonyPatcher
             {
                 case "DarkSword_GrabIt":
                 {
+                    Game1.activeClickableMenu.exitThisMenuNoSound();
                     Game1.playSound("parry");
                     Game1.player.addItemByMenuIfNecessaryElseHoldUp(new MeleeWeapon(Constants.DarkSwordIndex));
-                    Game1.player.mailReceived.Add("gotDarkSword");
+                    Game1.player.mailForTomorrow.Add("viegoCurse");
                     break;
                 }
 

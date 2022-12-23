@@ -39,7 +39,7 @@ public sealed class SpreadingEnchantment : BaseSlingshotEnchantment
         var velocity = new Vector2(xVelocity, yVelocity);
         damageBase = (int)(damageBase * 0.6f);
         var overcharge = ProfessionsModule.IsEnabled && firer.professions.Contains(Farmer.desperado)
-            ? slingshot.GetOvercharge(firer)
+            ? slingshot.GetOvercharge()
             : 1f;
 
         // do clockwise projectile

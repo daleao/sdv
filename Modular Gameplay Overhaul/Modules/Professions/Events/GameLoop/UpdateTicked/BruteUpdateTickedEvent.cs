@@ -2,8 +2,10 @@
 
 #region using directives
 
+using DaLion.Overhaul.Modules.Core.Events;
 using DaLion.Overhaul.Modules.Professions.Extensions;
 using DaLion.Shared.Events;
+using DaLion.Shared.Extensions.Stardew;
 using StardewModdingAPI.Events;
 
 #endregion using directives
@@ -21,17 +23,23 @@ internal sealed class BruteUpdateTickedEvent : UpdateTickedEvent
     }
 
     /// <inheritdoc />
+    protected override void OnEnabled()
+    {
+        this.Manager.Enable<OutOfCombatOneSecondUpdateTickedEvent>();
+    }
+
+    /// <inheritdoc />
     protected override void OnUpdateTickedImpl(object? sender, UpdateTickedEventArgs e)
     {
         var player = Game1.player;
         if (ProfessionsModule.State.BruteRageCounter <= 0)
         {
+            this.Disable();
             return;
         }
 
         // decay counter every 5 seconds after 25 seconds out of combat
-        if ((Game1.game1.IsActiveNoOverlay || !Game1.options.pauseWhenOutOfFocus) && Game1.shouldTimePass() &&
-            e.IsMultipleOf(300) && ModEntry.State.SecondsOutOfCombat > 25)
+        if (Game1.game1.ShouldTimePass() && ModEntry.State.SecondsOutOfCombat > 25 && e.IsMultipleOf(300))
         {
             ProfessionsModule.State.BruteRageCounter--;
         }
@@ -65,10 +73,10 @@ internal sealed class BruteUpdateTickedEvent : UpdateTickedEvent
                 sheetIndex = Profession.BruteRageSheetIndex,
                 millisecondsDuration = 0,
                 description = Game1.player.HasProfession(Profession.Brute, true)
-                    ? I18n.Get("brute.buff.desc", new { damage = magnitude.ToString("0.0") })
+                    ? I18n.Get("brute.buff.desc", new { damage = magnitude.ToString("P0") })
                     : I18n.Get(
                         "brute.buff.desc.prestiged",
-                        new { damage = magnitude.ToString("0.0"), speed = (magnitude / 2f).ToString("0.0") }),
+                        new { damage = magnitude.ToString("P1"), speed = (magnitude / 2f).ToString("P1") }),
             });
     }
 }

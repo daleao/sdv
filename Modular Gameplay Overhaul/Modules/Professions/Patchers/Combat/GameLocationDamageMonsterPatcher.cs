@@ -7,6 +7,7 @@ using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
 using System.Text;
+using DaLion.Overhaul.Modules.Professions.Events.GameLoop;
 using DaLion.Overhaul.Modules.Professions.Events.GameLoop.DayEnding;
 using DaLion.Overhaul.Modules.Professions.Extensions;
 using DaLion.Overhaul.Modules.Professions.Sounds;
@@ -283,7 +284,7 @@ internal sealed class GameLocationDamageMonsterPatcher : HarmonyPatcher
             return;
         }
 
-        if (ultimate.IsActive)
+        if (frenzy.IsActive)
         {
             // increment kill count
             frenzy.KillCount++;
@@ -291,7 +292,7 @@ internal sealed class GameLocationDamageMonsterPatcher : HarmonyPatcher
         else
         {
             // increment ultimate
-            ultimate.ChargeValue += weapon.IsClub() ? 3 : 2; // more if wielding a club
+            frenzy.ChargeValue += weapon.IsClub() ? 3 : 2; // more if wielding a club
         }
     }
 

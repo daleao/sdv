@@ -109,7 +109,7 @@ internal static class MeleeWeaponExtensions
         }
 
         var split = data[weapon.InitialParentTileIndex].Split('/');
-
+        weapon.BaseName = split[0];
         weapon.knockback.Value = (float)Convert.ToDouble(split[4], CultureInfo.InvariantCulture);
         weapon.speed.Value = Convert.ToInt32(split[5]);
         weapon.addedPrecision.Value = Convert.ToInt32(split[6]);

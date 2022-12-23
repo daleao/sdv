@@ -143,7 +143,7 @@ internal sealed class SlingshotPerformFirePatcher : HarmonyPatcher
             }
 
             // calculate overcharge
-            var overcharge = who.HasProfession(Profession.Desperado) ? __instance.GetOvercharge(who) : 1f;
+            var overcharge = who.HasProfession(Profession.Desperado) ? __instance.GetOvercharge() : 1f;
 
             // adjust velocity
             if (overcharge > 1f)

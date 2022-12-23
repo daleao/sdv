@@ -4,7 +4,6 @@
 
 using System.Linq;
 using Ardalis.SmartEnum;
-using DaLion.Shared.Extensions;
 using DaLion.Shared.Extensions.Stardew;
 
 #endregion using directives
@@ -19,14 +18,14 @@ public class Virtue : SmartEnum<Virtue>
     ///     Yet one can lose it, and whoever does so shall have sullied his name for all eternity. A truly honorable man always
     ///     stands behind his actions, faces every challenge and refuses to lie.
     /// </summary>
-    public static readonly Virtue Honor = new("Honor", "Honor".GetDeterministicHashCode());
+    public static readonly Virtue Honor = new("Honor", 144706);
 
     /// <summary>
     ///     There are many traits that bear witness to a man's true nature. Compassion is what separates men from beasts.
     ///     Whoever feels sympathy for his fellow man will never turn a blind eye to misfortune. He will always stand in
     ///     defense of the wronged.
     /// </summary>
-    public static readonly Virtue Compassion = new("Honor", "Honor".GetDeterministicHashCode());
+    public static readonly Virtue Compassion = new("Compassion", 144707);
 
     /// <summary>
     ///     Wisdom is a virtue which one should strive to cultivate throughout one's life, for it is impossible to be so wise
@@ -34,19 +33,19 @@ public class Virtue : SmartEnum<Virtue>
     ///     Remember, wise choices are not those which make our lives easier or simpler. Often, they make them more complicated.
     ///     But always, they make us better.
     /// </summary>
-    public static readonly Virtue Wisdom = new("Honor", "Honor".GetDeterministicHashCode());
+    public static readonly Virtue Wisdom = new("Wisdom", 144708);
 
     /// <summary>
     ///     No man can be called good who does not share his prosperity with others. Generosity is required for dignity
     ///     in life and peace in death.
     /// </summary>
-    public static readonly Virtue Generosity = new("Honor", "Honor".GetDeterministicHashCode());
+    public static readonly Virtue Generosity = new("Generosity", 144709);
 
     /// <summary>
     ///     Valor does not make one good, yet how many good men have you met in your life's journey who were cowards?
     ///     Those who posses valor do not hesitate to stand against the majority, no matter what the consequences.
     /// </summary>
-    public static readonly Virtue Valor = new("Honor", "Honor".GetDeterministicHashCode());
+    public static readonly Virtue Valor = new("Valor", 144710);
 
     #endregion enum values
 

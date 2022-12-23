@@ -40,12 +40,13 @@ internal sealed class MeleeWeaponRecalculateAppliedForgesPatcher : HarmonyPatche
         {
             // this should not longer be necessary given that all stats are refreshed and forges don't have unapply effects
             // and even if they did, they shouldn't need to be unapplied anyway
-            //foreach (var enchantment in __instance.enchantments.Where(e => e.IsForge()))
-            //{
-            //    enchantment.UnapplyTo(__instance);
-            //}
+            foreach (var enchantment in __instance.enchantments.Where(e => e.IsForge()))
+            {
+                enchantment.UnapplyTo(__instance);
+            }
 
             __instance.RefreshStats();
+
             foreach (var enchantment in __instance.enchantments.Where(e => e.IsForge()))
             {
                 enchantment.ApplyTo(__instance);

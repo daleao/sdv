@@ -28,4 +28,8 @@ public sealed class SlingshotConfig
     /// <summary>Gets a value indicating whether to enable the custom slingshot stun smack special move.</summary>
     [JsonProperty]
     public bool EnableSpecialMove { get; internal set; } = true;
+
+    /// <summary>Gets a value indicating whether to replace the mouse cursor with a bulls-eye while firing.</summary>
+    [JsonProperty]
+    public bool BullseyeReplacesCursor { get; internal set; } = true;
 }

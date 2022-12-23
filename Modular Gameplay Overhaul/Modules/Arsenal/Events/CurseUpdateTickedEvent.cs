@@ -2,12 +2,10 @@
 
 #region using directives
 
-using System.Linq;
+using DaLion.Overhaul.Modules.Arsenal.Enchantments;
 using DaLion.Shared.Events;
 using DaLion.Shared.Extensions.Stardew;
-using Enchantments;
 using StardewModdingAPI.Events;
-using StardewValley.Locations;
 using StardewValley.Tools;
 
 #endregion using directives
@@ -26,8 +24,7 @@ internal sealed class CurseUpdateTickedEvent : UpdateTickedEvent
     protected override void OnUpdateTickedImpl(object? sender, UpdateTickedEventArgs e)
     {
         var player = Game1.player;
-        if ((!Game1.game1.IsActiveNoOverlay && Game1.options.pauseWhenOutOfFocus) || !Game1.shouldTimePass() ||
-            !e.IsMultipleOf(300))
+        if (!Game1.game1.ShouldTimePass() || !e.IsMultipleOf(300))
         {
             return;
         }

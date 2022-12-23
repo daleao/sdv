@@ -1,4 +1,4 @@
-﻿namespace DaLion.Shared.Extensions.SMAPI;
+﻿ namespace DaLion.Shared.Extensions.SMAPI;
 
 #region using directives
 

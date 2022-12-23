@@ -11,11 +11,10 @@ internal static class SlingshotExtensions
 {
     /// <summary>Determines the extra power of shots fired by <see cref="Profession.Desperado"/>.</summary>
     /// <param name="slingshot">The <see cref="Slingshot"/>.</param>
-    /// <param name="who">The <see cref="Farmer"/> using the <paramref name="slingshot"/>.</param>
     /// <returns>A value between 1 and 2.</returns>
-    internal static float GetOvercharge(this Slingshot slingshot, Farmer who)
+    internal static float GetOvercharge(this Slingshot slingshot)
     {
-        if (slingshot.pullStartTime < 0.0 || slingshot.CanAutoFire())
+        if (Game1.options.useLegacySlingshotFiring || slingshot.pullStartTime < 0.0 || slingshot.CanAutoFire())
         {
             return 1f;
         }

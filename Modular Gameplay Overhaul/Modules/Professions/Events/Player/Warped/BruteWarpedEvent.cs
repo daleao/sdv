@@ -2,7 +2,6 @@
 
 #region using directives
 
-using DaLion.Overhaul.Modules.Professions.Events.GameLoop;
 using DaLion.Overhaul.Modules.Professions.Extensions;
 using DaLion.Shared.Events;
 using DaLion.Shared.Extensions.Stardew;
@@ -21,19 +20,14 @@ internal sealed class BruteWarpedEvent : WarpedEvent
     }
 
     /// <inheritdoc />
-    public override bool IsEnabled => Game1.player.HasProfession(Profession.Brute);
+    public override bool IsEnabled => ProfessionsModule.State.BruteRageCounter > 0;
 
     /// <inheritdoc />
     protected override void OnWarpedImpl(object? sender, WarpedEventArgs e)
     {
-        if (e.NewLocation.IsDungeon() || e.NewLocation.HasMonsters())
-        {
-            this.Manager.Enable<BruteUpdateTickedEvent>();
-        }
-        else
+        if (!e.NewLocation.IsDungeon() && !e.NewLocation.HasMonsters())
         {
             ProfessionsModule.State.BruteRageCounter = 0;
-            this.Manager.Enable<BruteUpdateTickedEvent>();
         }
     }
 }

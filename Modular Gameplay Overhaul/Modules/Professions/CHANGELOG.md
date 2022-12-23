@@ -1,5 +1,13 @@
 # Professions Module Change Log
 
+## 0.9.9
+
+### Fixed
+
+* Fixed the display of Brute and Spelunker buffs.
+* Brute buff now activates in a more clever way.
+* Desperado Overcharge meter no longer renders in legacy firing mode.
+
 ## 0.9.7
 
 ### Changed

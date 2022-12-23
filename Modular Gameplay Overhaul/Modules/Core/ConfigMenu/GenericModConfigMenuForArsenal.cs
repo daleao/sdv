@@ -204,6 +204,11 @@ internal sealed partial class GenericModConfigMenuForOverhaul
                 () => "Allows slingshot projectiles to hit targets before the 100ms grace period.",
                 config => config.Arsenal.Slingshots.DisableGracePeriod,
                 (config, value) => config.Arsenal.Slingshots.DisableGracePeriod = value)
+            .AddCheckbox(
+                () => "Bullseye Replaces Cursor",
+                () => "Draws a bulls-eye instead of the mouse cursor while firing a slingshot.",
+                config => config.Arsenal.Slingshots.BullseyeReplacesCursor,
+                (config, value) => config.Arsenal.Slingshots.BullseyeReplacesCursor = value)
 
             // weapon settings
             .AddPage(OverhaulModule.Arsenal + "/Weapons", () => "Weapon Settings")

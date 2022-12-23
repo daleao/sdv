@@ -35,7 +35,7 @@ internal sealed class SpelunkerUpdateTickedEvent : UpdateTickedEvent
             return;
         }
 
-        var ladderChance = (ProfessionsModule.State.SpelunkerLadderStreak * 0.5f).ToString("0.0");
+        var ladderChance = (ProfessionsModule.State.SpelunkerLadderStreak * 0.5f).ToString("P1");
         var speed = Math.Min(
             (ProfessionsModule.State.SpelunkerLadderStreak / 10) + 1,
             (int)ProfessionsModule.Config.SpelunkerSpeedCap);

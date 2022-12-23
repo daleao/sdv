@@ -2,6 +2,7 @@
 
 #region using directives
 
+using System.Diagnostics;
 using DaLion.Overhaul.Modules.Arsenal.Enchantments;
 using DaLion.Overhaul.Modules.Arsenal.VirtualProperties;
 using DaLion.Overhaul.Modules.Rings.VirtualProperties;
@@ -28,66 +29,60 @@ internal sealed class StabbingSwordSpecialUpdateTickingEvent : UpdateTickingEven
     }
 
     /// <inheritdoc />
+    protected override void OnEnabled()
+    {
+        var user = Game1.player;
+        var sword = (MeleeWeapon)user.CurrentTool;
+        Reflector
+            .GetUnboundMethodDelegate<Action<MeleeWeapon, Farmer>>(sword, "beginSpecialMove")
+            .Invoke(sword, user);
+
+        var facingDirection = (FacingDirection)user.FacingDirection;
+        var facingVector = facingDirection.ToVector();
+        if (facingDirection.IsVertical())
+        {
+            facingVector *= -1f;
+        }
+
+        var trajectory = facingVector * (20f + (Game1.player.addedSpeed * 2f));
+        user.setTrajectory(trajectory);
+
+        _animationFrames =
+            sword.hasEnchantmentOfType<ReduxArtfulEnchantment>()
+                ? 24
+                : 16; // don't ask me why but this translated exactly to (5 tiles : 4 tiles)
+        var frame = (FacingDirection)user.FacingDirection switch
+        {
+            FacingDirection.Up => 276,
+            FacingDirection.Right => 274,
+            FacingDirection.Down => 272,
+            FacingDirection.Left => 278,
+            _ => ThrowHelperExtensions.ThrowUnexpectedEnumValueException<FacingDirection, int>(
+                (FacingDirection)user.FacingDirection),
+        };
+
+        user.FarmerSprite.setCurrentFrame(frame, 0, 15, 2, user.FacingDirection == 3, true);
+        Game1.playSound(sword.CurrentParentTileIndex == Constants.LavaKatanaIndex ? "fireball" : "daggerswipe");
+    }
+
+    /// <inheritdoc />
+    protected override void OnDisabled()
+    {
+        var user = Game1.player;
+        user.completelyStopAnimatingOrDoingAction();
+        user.setTrajectory(Vector2.Zero);
+        user.forceCanMove();
+        _currentFrame = 0;
+    }
+
+    /// <inheritdoc />
     protected override void OnUpdateTickingImpl(object? sender, UpdateTickingEventArgs e)
     {
         var user = Game1.player;
         var sword = (MeleeWeapon)user.CurrentTool;
-        _currentFrame++;
-        if (_currentFrame == 0)
+        if (++_currentFrame > _animationFrames)
         {
-            Reflector
-                .GetUnboundMethodDelegate<Action<MeleeWeapon, Farmer>>(sword, "beginSpecialMove")
-                .Invoke(sword, user);
-
-            var facingDirection = (FacingDirection)user.FacingDirection;
-            var facingVector = facingDirection.ToVector();
-            if (facingDirection.IsVertical())
-            {
-                facingVector *= -1f;
-            }
-
-            var trajectory = facingVector * (20f + (Game1.player.addedSpeed * 2f));
-            user.setTrajectory(trajectory);
-
-            _animationFrames =
-                sword.hasEnchantmentOfType<ReduxArtfulEnchantment>()
-                    ? 24
-                    : 16; // don't ask me why but this translated exactly to (5 tiles : 4 tiles)
-            var frame = (FacingDirection)user.FacingDirection switch
-            {
-                FacingDirection.Up => 276,
-                FacingDirection.Right => 274,
-                FacingDirection.Down => 272,
-                FacingDirection.Left => 278,
-                _ => ThrowHelperExtensions.ThrowUnexpectedEnumValueException<FacingDirection, int>(
-                    (FacingDirection)user.FacingDirection),
-            };
-
-            user.FarmerSprite.setCurrentFrame(frame, 0, 15, 2, user.FacingDirection == 3, true);
-            Game1.playSound(sword.CurrentParentTileIndex == Constants.LavaKatanaIndex ? "fireball" : "daggerswipe");
-        }
-        else if (_currentFrame > _animationFrames)
-        {
-            user.completelyStopAnimatingOrDoingAction();
-            user.setTrajectory(Vector2.Zero);
-            user.forceCanMove();
-#if RELEASE
-            MeleeWeapon.attackSwordCooldown = MeleeWeapon.attackSwordCooldownTime;
-            if (!ProfessionsModule.IsEnabled && user.professions.Contains(Farmer.acrobat))
-            {
-                MeleeWeapon.attackSwordCooldown /= 2;
-            }
-
-            if (sword.hasEnchantmentOfType<ArtfulEnchantment>())
-            {
-                MeleeWeapon.attackSwordCooldown /= 2;
-            }
-
-            MeleeWeapon.attackSwordCooldown = (int)(MeleeWeapon.attackSwordCooldown *
-                                                    sword.Get_EffectiveCooldownReduction() *
-                                                    user.Get_CooldownReduction());
-#endif
-            _currentFrame = -1;
+            DoCooldown(user, sword);
             this.Disable();
         }
         else
@@ -108,5 +103,24 @@ internal sealed class StabbingSwordSpecialUpdateTickingEvent : UpdateTickingEven
             sword.DoDamage(user.currentLocation, (int)x, (int)y, user.FacingDirection, 1, user);
             sword.isOnSpecial = true;
         }
+    }
+
+    [Conditional("RELEASE")]
+    private static void DoCooldown(Farmer user, MeleeWeapon sword)
+    {
+        MeleeWeapon.attackSwordCooldown = MeleeWeapon.attackSwordCooldownTime;
+        if (!ProfessionsModule.IsEnabled && user.professions.Contains(Farmer.acrobat))
+        {
+            MeleeWeapon.attackSwordCooldown /= 2;
+        }
+
+        if (sword.hasEnchantmentOfType<ArtfulEnchantment>())
+        {
+            MeleeWeapon.attackSwordCooldown /= 2;
+        }
+
+        MeleeWeapon.attackSwordCooldown = (int)(MeleeWeapon.attackSwordCooldown *
+                                                sword.Get_EffectiveCooldownReduction() *
+                                                user.Get_CooldownReduction());
     }
 }

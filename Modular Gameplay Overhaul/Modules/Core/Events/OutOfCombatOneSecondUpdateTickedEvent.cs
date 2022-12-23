@@ -26,6 +26,9 @@ internal sealed class OutOfCombatOneSecondUpdateTickedEvent : OneSecondUpdateTic
     /// <inheritdoc />
     protected override void OnOneSecondUpdateTickedImpl(object? sender, OneSecondUpdateTickedEventArgs e)
     {
-        State.SecondsOutOfCombat++;
+        if (++State.SecondsOutOfCombat > 300)
+        {
+            this.Disable();
+        }
     }
 }

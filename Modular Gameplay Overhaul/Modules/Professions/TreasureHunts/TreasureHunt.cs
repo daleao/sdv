@@ -3,6 +3,7 @@
 #region using directives
 
 using DaLion.Overhaul.Modules.Professions.Events.TreasureHunt;
+using DaLion.Shared.Extensions.Stardew;
 using Microsoft.Xna.Framework;
 
 #endregion using directives
@@ -80,7 +81,7 @@ internal abstract class TreasureHunt : ITreasureHunt
     /// <param name="ticks">The number of ticks elapsed since the game started.</param>
     internal void Update(uint ticks)
     {
-        if ((!Game1.game1.IsActiveNoOverlay && Game1.options.pauseWhenOutOfFocus) || !Game1.shouldTimePass())
+        if (!Game1.game1.ShouldTimePass())
         {
             return;
         }

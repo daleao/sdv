@@ -2,9 +2,11 @@
 
 #region using directives
 
+using System.Linq;
 using DaLion.Shared.Events;
 using DaLion.Shared.Extensions.Stardew;
 using StardewModdingAPI.Events;
+using StardewValley.Tools;
 
 #endregion using directives
 
@@ -23,7 +25,6 @@ internal sealed class ArsenalSaveLoadedEvent : SaveLoadedEvent
     protected override void OnSaveLoadedImpl(object? sender, SaveLoadedEventArgs e)
     {
         var player = Game1.player;
-
         if (!string.IsNullOrEmpty(player.Read(DataFields.BlueprintsFound)) && player.canUnderstandDwarves)
         {
             ModHelper.GameContent.InvalidateCache("Data/Events/Blacksmith");
@@ -32,6 +33,13 @@ internal sealed class ArsenalSaveLoadedEvent : SaveLoadedEvent
         if (player.hasQuest(Constants.ForgeIntroQuestId))
         {
             this.Manager.Enable<BlueprintDayStartedEvent>();
+        }
+
+        if (player.Items.FirstOrDefault(
+                item => item is MeleeWeapon { InitialParentTileIndex: Constants.DarkSwordIndex }) is not null &&
+            !player.hasOrWillReceiveMail("viegoCurse"))
+        {
+            player.mailForTomorrow.Add("viegoCurse");
         }
     }
 }

@@ -3,6 +3,7 @@
 #region using directives
 
 using DaLion.Shared.Commands;
+using DaLion.Shared.Extensions.Collections;
 using DaLion.Shared.Extensions.Stardew;
 
 #endregion using directives
@@ -18,7 +19,7 @@ internal sealed class AdvanceQuestCommand : ConsoleCommand
     }
 
     /// <inheritdoc />
-    public override string[] Triggers { get; } = { "advance_quest", "adv" };
+    public override string[] Triggers { get; } = { "advance_quest", "advance", "adv" };
 
     /// <inheritdoc />
     public override string Documentation => "Forcefully advances the specified quest-line (either Clint's Forge or Yoba's Virtues).";
@@ -51,27 +52,23 @@ internal sealed class AdvanceQuestCommand : ConsoleCommand
             case "yoba":
             case "virtues":
             case "chivalry":
+                if (player.hasQuest(Constants.VirtuesIntroQuestId))
+                {
+                    player.completeQuest(Constants.VirtuesIntroQuestId);
+                    player.addQuest(Virtue.Honor);
+                    player.addQuest(Virtue.Compassion);
+                    player.addQuest(Virtue.Wisdom);
+                    player.addQuest(Virtue.Generosity);
+                    player.addQuest(Virtue.Valor);
+                }
+
                 player.Write(DataFields.ProvenHonor, int.MaxValue.ToString());
                 player.Write(DataFields.ProvenCompassion, int.MaxValue.ToString());
                 player.Write(DataFields.ProvenWisdom, int.MaxValue.ToString());
-                player.mailReceived.Add("Gil_Slime Charmer Ring");
-                player.mailReceived.Add("Gil_Savage Ring");
-                player.mailReceived.Add("Gil_Skeleton Mask");
-                player.mailReceived.Add("Gil_Insect Head");
-                player.mailReceived.Add("Gil_Vampire Ring");
-                player.mailReceived.Add("Gil_Hard Hat");
-                player.mailReceived.Add("Gil_Burglar's Ring");
-                player.mailReceived.Add("Gil_Crabshell Ring");
-                player.mailReceived.Add("Gil_Arcane Hat");
-                player.mailReceived.Add("Gil_Knight's Helmet");
-                player.mailReceived.Add("Gil_Napalm Ring");
-                player.mailReceived.Add("Gil_Telephone");
-                player.mailReceived.Add("pamHouseUpgrade");
-                if (player.hasQuest(Constants.VirtuesIntroQuestId))
-                {
-                    player.completeQuest(Constants.ForgeIntroQuestId);
-                }
-
+                player.Write(DataFields.ProvenGenerosity, true.ToString());
+                player.Write(DataFields.ProvenValor, true.ToString());
+                Virtue.List.ForEach(virtue => virtue.CheckForCompletion(Game1.player));
+                player.completeQuest(Constants.VirtuesNextQuestId);
                 break;
         }
     }

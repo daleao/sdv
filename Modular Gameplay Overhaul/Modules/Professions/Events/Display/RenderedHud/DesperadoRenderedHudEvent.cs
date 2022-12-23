@@ -31,7 +31,7 @@ internal sealed class DesperadoRenderedHudEvent : RenderedHudEvent
             return;
         }
 
-        var percent = slingshot.GetOvercharge(Game1.player) - 1f;
+        var percent = slingshot.GetOvercharge() - 1f;
         if (percent <= 0f)
         {
             return;

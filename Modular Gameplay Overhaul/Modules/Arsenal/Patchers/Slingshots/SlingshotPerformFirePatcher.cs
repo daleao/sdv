@@ -5,6 +5,7 @@
 using System.Linq;
 using System.Reflection;
 using DaLion.Overhaul.Modules.Arsenal.Enchantments;
+using DaLion.Overhaul.Modules.Arsenal.Events;
 using DaLion.Overhaul.Modules.Arsenal.Extensions;
 using DaLion.Overhaul.Modules.Arsenal.Projectiles;
 using DaLion.Overhaul.Modules.Arsenal.VirtualProperties;
@@ -49,6 +50,8 @@ internal sealed class SlingshotPerformFirePatcher : HarmonyPatcher
         {
             return false; // don't run original logic
         }
+
+        EventManager.Disable<BullseyeRenderedEvent>();
 
         try
         {
@@ -174,7 +177,7 @@ internal sealed class SlingshotPerformFirePatcher : HarmonyPatcher
 
             // calculate overcharge
             var overcharge = ProfessionsModule.IsEnabled && who.professions.Contains(Farmer.desperado)
-                ? __instance.GetOvercharge(who)
+                ? __instance.GetOvercharge()
                 : 1f;
 
             // adjust velocity

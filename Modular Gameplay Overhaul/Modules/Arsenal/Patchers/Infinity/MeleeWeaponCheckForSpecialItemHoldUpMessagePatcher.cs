@@ -46,16 +46,16 @@ internal sealed class MeleeWeaponCheckForSpecialItemHoldUpMessagePatcher : Harmo
             {
                 case Constants.DarkSwordIndex:
                 {
-                    var darkSword = I18n.Get("darksword.name");
-                    __result = I18n.Get("darksword.holdupmessage", new { darkSword });
+                    var darkSword = I18n.Get("weapons.darksword.name");
+                    __result = I18n.Get("weapons.darksword.holdupmessage", new { darkSword });
                     break;
                 }
 
                 case Constants.HolyBladeIndex:
                 {
-                    var darkSword = I18n.Get("darksword.name");
-                    var holyBlade = I18n.Get("holyblade.name");
-                    __result = I18n.Get("holyblade.holdupmessage", new { darkSword, holyBlade });
+                    var darkSword = I18n.Get("weapons.darksword.name");
+                    var holyBlade = I18n.Get("weapons.holyblade.name");
+                    __result = I18n.Get("weapons.holyblade.holdupmessage", new { darkSword, holyBlade });
                     break;
                 }
             }
