@@ -206,7 +206,7 @@ internal sealed partial class GenericModConfigMenuForOverhaul
                 (config, value) => config.Arsenal.Slingshots.DisableGracePeriod = value)
             .AddCheckbox(
                 () => "Bullseye Replaces Cursor",
-                () => "Draws a bulls-eye instead of the mouse cursor while firing a slingshot.",
+                () => "Draws a bulls-eye instead of the mouse cursor while firing a slingshot. This option does not support pull-back firing for obvious reasons.",
                 config => config.Arsenal.Slingshots.BullseyeReplacesCursor,
                 (config, value) => config.Arsenal.Slingshots.BullseyeReplacesCursor = value)
 

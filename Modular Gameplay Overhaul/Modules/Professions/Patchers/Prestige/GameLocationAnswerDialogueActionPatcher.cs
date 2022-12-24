@@ -96,6 +96,10 @@ internal sealed class GameLocationAnswerDialogueActionPatcher : HarmonyPatcher
                         {
                             HandleSkillReset(customSkill);
                         }
+                        else if (questionAndAnswer.Contains("prestigeRespec_"))
+                        {
+                            // implement...
+                        }
                     }
 
                     break;

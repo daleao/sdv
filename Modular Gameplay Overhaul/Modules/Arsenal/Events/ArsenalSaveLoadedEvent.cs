@@ -41,5 +41,11 @@ internal sealed class ArsenalSaveLoadedEvent : SaveLoadedEvent
         {
             player.mailForTomorrow.Add("viegoCurse");
         }
+
+        if (Game1.options.useLegacySlingshotFiring)
+        {
+            ModEntry.Config.Arsenal.Slingshots.BullseyeReplacesCursor = false;
+            ModHelper.WriteConfig(ModEntry.Config);
+        }
     }
 }

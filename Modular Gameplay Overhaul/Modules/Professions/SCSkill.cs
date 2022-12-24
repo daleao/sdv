@@ -14,6 +14,7 @@ using StardewValley;
 #endregion using directives
 
 /// <summary>Represents a SpaceCore-provided custom skill.</summary>
+// ReSharper disable once InconsistentNaming
 public sealed class SCSkill : ISkill
 {
     private static readonly BiMap<SCSkill, SpaceCore.Skills.Skill> SpaceCoreMap = new();
@@ -125,8 +126,6 @@ public sealed class SCSkill : ISkill
     /// <inheritdoc />
     public void Reset()
     {
-        var farmer = Game1.player;
-
         // reset skill level and experience
         this.AddExperience(-this.CurrentExp);
 
@@ -144,7 +143,7 @@ public sealed class SCSkill : ISkill
             this.ForgetRecipes();
         }
 
-        Log.D($"{farmer.Name}'s {this.DisplayName} skill has been reset.");
+        Log.D($"{Game1.player.Name}'s {this.DisplayName} skill has been reset.");
     }
 
     /// <inheritdoc />

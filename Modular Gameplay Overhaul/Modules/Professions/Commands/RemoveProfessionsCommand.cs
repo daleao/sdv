@@ -41,12 +41,13 @@ internal sealed class RemoveProfessionsCommand : ConsoleCommand
         {
             if (string.Equals(arg, "all", StringComparison.InvariantCultureIgnoreCase))
             {
-                var range = Profession
-                    .GetRange()
-                    .Concat(SCProfession.Loaded.Values.Select(p => p.Id))
-                    .ToArray();
+                Game1.player.professions.Clear();
+                LevelUpMenu.RevalidateHealth(Game1.player);
+                if (professionsToRemove.Intersect(Profession.GetRange(true)).Any())
+                {
+                    ModHelper.GameContent.InvalidateCache("LooseSprites/Cursors");
+                }
 
-                professionsToRemove.AddRange(range);
                 Log.I($"Removed all professions from {Game1.player.Name}.");
                 break;
             }

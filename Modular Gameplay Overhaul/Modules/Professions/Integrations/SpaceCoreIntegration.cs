@@ -23,10 +23,13 @@ internal sealed class SpaceCoreIntegration : ModIntegration<SpaceCoreIntegration
         foreach (var skillId in this.ModApi.GetCustomSkills())
         {
             // checking if the skill is loaded first avoids re-instantiating the skill
-            if (!SCSkill.Loaded.ContainsKey(skillId))
+            if (SCSkill.Loaded.ContainsKey(skillId))
             {
-                SCSkill.Loaded[skillId] = new SCSkill(skillId);
+                continue;
             }
+
+            SCSkill.Loaded[skillId] = new SCSkill(skillId);
+            Log.T($"Successfully loaded the custom skill {skillId}.");
         }
     }
 }

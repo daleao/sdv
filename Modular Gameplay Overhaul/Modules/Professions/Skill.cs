@@ -140,6 +140,7 @@ public class Skill : SmartEnum<Skill>, ISkill
             .When(Mining).Then(() => farmer.miningLevel.Value = level)
             .When(Combat).Then(() => farmer.combatLevel.Value = level)
             .When(Luck).Then(() => farmer.luckLevel.Value = level);
+        Game1.player.experiencePoints[this] = ISkill.ExperienceByLevel[level];
     }
 
     /// <inheritdoc />

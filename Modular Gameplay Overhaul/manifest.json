@@ -3,7 +3,7 @@
   "UniqueID": "DaLion.Overhaul",
   "Name": "Modular Gameplay Overhaul",
   "Author": "DaLion",
-  "Version": "0.9.9",
+  "Version": "0.9.9-Debug",
   "Description": "An immersive gameplay overhaul, broken down into modules.",
   "MinimumApiVersion": "3.18.0",
   "EntryDll": "ModularOverhaul.dll",
@@ -29,7 +29,7 @@
     {
       "UniqueID": "spacechase0.GenericModConfigMenu",
       "MinimumVersion": "1.8.0",
-      "IsRequired": true
+      "IsRequired": false
     },
     {
       "UniqueID": "spacechase0.JsonAssets",
