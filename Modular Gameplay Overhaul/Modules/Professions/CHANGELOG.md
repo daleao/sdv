@@ -2,6 +2,10 @@
 
 ## 1.0.0
 
+### Changed
+
+* Reduced the spawn chance of extra mining nodes by Prospector.
+
 ### Fixed
 
 * Fixed the range for triggering Demolitionist's Get Excited buff.
