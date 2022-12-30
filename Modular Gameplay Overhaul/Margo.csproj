@@ -86,7 +86,7 @@
       <Private>false</Private>
     </Reference>
     <!--<Reference Include="GenericModConfigMenu">
-      <HintPath>$(GamePath)\Mods - Build\_dependencies\GenericModConfigMenu.dll</HintPath>
+      <HintPath>dependencies\GenericModConfigMenu.dll</HintPath>
       <Private>false</Private>
     </Reference>-->
     <!--

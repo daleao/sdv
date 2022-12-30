@@ -224,26 +224,36 @@ internal static class MeleeWeaponExtensions
             }
         }
 
-        if (ArsenalModule.Config.InfinityPlusOne)
+        if (!ArsenalModule.Config.InfinityPlusOne)
         {
-            switch (weapon.InitialParentTileIndex)
-            {
-                case Constants.DarkSwordIndex when !weapon.hasEnchantmentOfType<CursedEnchantment>():
-                    weapon.AddEnchantment(new CursedEnchantment());
-                    break;
-                case Constants.HolyBladeIndex when !weapon.hasEnchantmentOfType<BlessedEnchantment>():
-                    weapon.AddEnchantment(new BlessedEnchantment());
-                    break;
-                case Constants.InfinityBladeIndex:
-                case Constants.InfinityDaggerIndex:
-                case Constants.InfinityGavelIndex:
-                    if (!weapon.hasEnchantmentOfType<InfinityEnchantment>())
-                    {
-                        weapon.AddEnchantment(new InfinityEnchantment());
-                    }
+            return;
+        }
 
-                    break;
-            }
+        switch (weapon.InitialParentTileIndex)
+        {
+            case Constants.DarkSwordIndex when !weapon.hasEnchantmentOfType<CursedEnchantment>():
+                weapon.AddEnchantment(new CursedEnchantment());
+                weapon.specialItem = true;
+                break;
+            case Constants.HolyBladeIndex when !weapon.hasEnchantmentOfType<BlessedEnchantment>():
+                weapon.AddEnchantment(new BlessedEnchantment());
+                weapon.specialItem = true;
+                break;
+            case Constants.GalaxySwordIndex:
+            case Constants.GalaxyDaggerIndex:
+            case Constants.GalaxyHammerIndex:
+                weapon.specialItem = true;
+                break;
+            case Constants.InfinityBladeIndex:
+            case Constants.InfinityDaggerIndex:
+            case Constants.InfinityGavelIndex:
+                if (!weapon.hasEnchantmentOfType<InfinityEnchantment>())
+                {
+                    weapon.AddEnchantment(new InfinityEnchantment());
+                }
+
+                weapon.specialItem = true;
+                break;
         }
     }
 

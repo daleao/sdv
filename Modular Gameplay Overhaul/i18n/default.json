@@ -211,7 +211,7 @@
   "weapons.darksword.holdupmessage": "You reach out and discover an old-looking sword. As you grab it, the blade begins to glow a sickly green color. Suddenly you feel as if all the peace, hope and happiness were drained from the world...^^     You obtain the ={{darksword}}=  ^",
   "weapons.darksword.cantdeposit": "The {{darksword}} cannot be relinquished.",
   "weapons.holyblade.name": "Blade of Dawn",
-  "weapons.holyblade.desc": "A blessed blade, granted to those who demonstrate heroic virtues.",
+  "weapons.holyblade.desc": "A blessed blade, granted to a virtuous hero.",
   "weapons.holyblade.holdupmessage": "The {{darksword}} is reacting to the Altar of Yoba! The blade's sinister energy begins to fade, and in its place a warm sensation seeps through your palm...^^     You obtain the ={{holyblade}}=  ^",
   "weapons.insecthead.extradesc": " Deals damage proportional to the number of insects slain.",
   "weapons.obsidianedge.extradesc": " Cuts through enemy armor.",
