@@ -1,5 +1,15 @@
 ﻿# Arsenal Change Log
 
+## 1.0.1
+
+### Changed
+
+* Minimal edits to Blade of Dawn description.
+
+### Fixed
+
+* Galaxy and Infinity weapons, Blade of Ruin and Blade of Dawn are now marked as Special and cannot be trashed.
+
 ## 1.0.0
 
 ### Added

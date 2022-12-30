@@ -111,7 +111,7 @@ internal sealed class IClickableMenuDrawHoverTextPatcher : HarmonyPatcher
                 case Constants.DarkSwordIndex:
                     return Color.DarkSlateGray;
                 case Constants.HolyBladeIndex:
-                    return Color.Yellow;
+                    return Color.Gold;
             }
         }
         else if (tool is Slingshot slingshot)

@@ -1,5 +1,9 @@
 # Modular Overhaul Change Logs
 
+## Revision 1 Highlights
+
+* Legendary weapons are now marked as Special.
+
 ## Major Release 1 Highlights
 
 * Official release of Modular Gameplay Overhaul.
