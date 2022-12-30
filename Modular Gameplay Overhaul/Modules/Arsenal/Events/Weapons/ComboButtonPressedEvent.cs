@@ -3,7 +3,6 @@
 #region using directives
 
 using DaLion.Overhaul.Modules.Arsenal.Extensions;
-using DaLion.Overhaul.Modules.Arsenal.VirtualProperties;
 using DaLion.Shared.Events;
 using StardewModdingAPI.Events;
 using StardewValley;
@@ -22,19 +21,13 @@ internal sealed class ComboButtonPressedEvent : ButtonPressedEvent
     }
 
     /// <inheritdoc />
-    public override bool IsEnabled => ArsenalModule.Config.Weapons.EnableComboHits;
+    public override bool IsEnabled => Context.IsWorldReady && Game1.activeClickableMenu is null && ArsenalModule.Config.Weapons.EnableComboHits;
 
     /// <inheritdoc />
     protected override void OnButtonPressedImpl(object? sender, ButtonPressedEventArgs e)
     {
-        if (!ArsenalModule.Config.Weapons.EnableComboHits)
-        {
-            return;
-        }
-
         var player = Game1.player;
-        if (!Context.IsWorldReady || Game1.activeClickableMenu is not null || !e.Button.IsUseToolButton() ||
-            player.CurrentTool is not MeleeWeapon weapon || weapon.isScythe())
+        if (!e.Button.IsUseToolButton() || player.CurrentTool is not MeleeWeapon weapon || weapon.isScythe())
         {
             return;
         }

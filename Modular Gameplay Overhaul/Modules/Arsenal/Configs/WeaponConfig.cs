@@ -10,6 +10,20 @@ using Newtonsoft.Json;
 /// <summary>Configs related to <see cref="StardewValley.Tools.MeleeWeapon"/>s.</summary>
 public sealed class WeaponConfig
 {
+    #region dropdown enums
+
+    /// <summary>The style used to display stat bonuses in weapon tooltips.</summary>
+    public enum TooltipStyle
+    {
+        /// <summary>Display the absolute value of the stat, minus it's default value for the weapon type.</summary>
+        Absolute,
+
+        /// <summary>Display the relative value of the stat, with respect to the default value for the weapon type.</summary>
+        Relative,
+    }
+
+    #endregion dropdown enums
+
     /// <summary>Gets a value indicating whether to replace vanilla weapon spam with a more strategic combo system.</summary>
     [JsonProperty]
     public bool EnableComboHits { get; internal set; } = true;
@@ -52,4 +66,8 @@ public sealed class WeaponConfig
     /// <summary>Gets a value indicating whether enable new overhauled enchantments for melee weapons, and rebalance some old ones.</summary>
     [JsonProperty]
     public bool EnableEnchants { get; internal set; } = true;
+
+    /// <summary>Gets the style of the tooltips for displaying stat bonuses for weapons.</summary>
+    [JsonProperty]
+    public TooltipStyle WeaponTooltipStyle { get; internal set; } = TooltipStyle.Absolute;
 }

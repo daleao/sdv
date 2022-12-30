@@ -137,7 +137,7 @@ internal sealed class MeleeWeaponDoDamagePatcher : HarmonyPatcher
                 .ReplaceWith(
                     new CodeInstruction(
                         OpCodes.Call,
-                        typeof(MeleeWeapon_Stats).RequireMethod(nameof(MeleeWeapon_Stats.Get_AbsoluteKnockback))))
+                        typeof(MeleeWeapon_Stats).RequireMethod(nameof(MeleeWeapon_Stats.Get_EffectiveKnockback))))
                 .Move()
                 .Remove();
         }

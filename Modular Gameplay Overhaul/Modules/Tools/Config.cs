@@ -90,33 +90,33 @@ public sealed class Config : Shared.Configs.Config
             isValid = false;
         }
 
-        if (this.Hoe.AffectedTiles.Length < 5 || this.Hoe.AffectedTiles.Any(row => row.Length != 2))
+        if (this.Hoe.AffectedTilesAtEachPowerLevel.Length < 5)
         {
-            Log.W("Incorrect or missing values in Hoe.AffectedTiles. The default values will be restored.");
-            this.Hoe.AffectedTiles = new[]
+            Log.W("Missing values in Hoe.AffectedTilesAtEachPowerLevel. The default values will be restored.");
+            this.Hoe.AffectedTilesAtEachPowerLevel = new (uint, uint)[]
             {
-                new uint[] { 3, 0 }, new uint[] { 5, 0 }, new uint[] { 3, 1 }, new uint[] { 6, 1 }, new uint[] { 5, 2 },
+                (3, 0), (5, 0), (3, 1), (6, 1), (5, 2),
             };
 
             if (isMoonMisadventuresLoaded)
             {
-                this.Hoe.AffectedTiles.AddRangeToArray(new[] { new uint[] { 7, 3 }, new uint[] { 9, 4 } });
+                this.Hoe.AffectedTilesAtEachPowerLevel.AddRangeToArray(new (uint, uint)[] { (7, 3), (9, 4) });
             }
 
             isValid = false;
         }
 
-        if (this.Can.AffectedTiles.Length < 5 || this.Can.AffectedTiles.Any(row => row.Length != 2))
+        if (this.Can.AffectedTilesAtEachPowerLevel.Length < 5)
         {
-            Log.W("Incorrect or missing values in Can.AffectedTiles. The default values will be restored.");
-            this.Can.AffectedTiles = new[]
+            Log.W("Missing values in Can.AffectedTilesAtEachPowerLevel. The default values will be restored.");
+            this.Can.AffectedTilesAtEachPowerLevel = new (uint, uint)[]
             {
-                new uint[] { 3, 0 }, new uint[] { 5, 0 }, new uint[] { 3, 1 }, new uint[] { 6, 1 }, new uint[] { 5, 2 },
+                (3, 0), (5, 0), (3, 1), (6, 1), (5, 2),
             };
 
             if (isMoonMisadventuresLoaded)
             {
-                this.Can.AffectedTiles.AddRangeToArray(new[] { new uint[] { 7, 3 }, new uint[] { 9, 4 } });
+                this.Can.AffectedTilesAtEachPowerLevel.AddRangeToArray(new (uint, uint)[] { (7, 3), (9, 4) });
             }
 
             isValid = false;
@@ -182,40 +182,36 @@ public sealed class Config : Shared.Configs.Config
                     break;
             }
 
-            switch (this.Hoe.AffectedTiles.Length)
+            switch (this.Hoe.AffectedTilesAtEachPowerLevel.Length)
             {
                 case < 7:
                     Log.I("Adding default length and radius values for higher Hoe upgrades.");
-                    this.Hoe.AffectedTiles = this.Hoe.AffectedTiles.AddRangeToArray(new[]
-                    {
-                        new uint[] { 7, 3 }, new uint[] { 9, 4 },
-                    });
+                    this.Hoe.AffectedTilesAtEachPowerLevel =
+                        this.Hoe.AffectedTilesAtEachPowerLevel.AddRangeToArray(new (uint, uint)[] { (7, 3), (9, 4), });
                     isValid = false;
                     break;
 
                 case > 7:
-                    Log.W("Too many values in Hoe.AffectedTiles. Additional values will be removed.");
-                    this.Hoe.AffectedTiles =
-                        this.Hoe.AffectedTiles.Take(7).ToArray();
+                    Log.W("Too many values in Hoe.AffectedTilesAtEachPowerLevel. Additional values will be removed.");
+                    this.Hoe.AffectedTilesAtEachPowerLevel =
+                        this.Hoe.AffectedTilesAtEachPowerLevel.Take(7).ToArray();
                     isValid = false;
                     break;
             }
 
-            switch (this.Can.AffectedTiles.Length)
+            switch (this.Can.AffectedTilesAtEachPowerLevel.Length)
             {
                 case < 7:
                     Log.I("Adding default length and radius values for higher Watering Can upgrades.");
-                    this.Can.AffectedTiles = this.Can.AffectedTiles.AddRangeToArray(new[]
-                    {
-                        new uint[] { 7, 3 }, new uint[] { 9, 4 },
-                    });
+                    this.Can.AffectedTilesAtEachPowerLevel =
+                        this.Can.AffectedTilesAtEachPowerLevel.AddRangeToArray(new (uint, uint)[] { (7, 3), (9, 4), });
                     isValid = false;
                     break;
 
                 case > 7:
-                    Log.W("Too many values in Can.AffectedTiles. Additional values will be removed.");
-                    this.Can.AffectedTiles =
-                        this.Can.AffectedTiles.Take(7).ToArray();
+                    Log.W("Too many values in Can.AffectedTilesAtEachPowerLevel. Additional values will be removed.");
+                    this.Can.AffectedTilesAtEachPowerLevel =
+                        this.Can.AffectedTilesAtEachPowerLevel.Take(7).ToArray();
                     isValid = false;
                     break;
             }
@@ -237,19 +233,19 @@ public sealed class Config : Shared.Configs.Config
                 isValid = false;
             }
 
-            if (this.Hoe.AffectedTiles.Length > 5)
+            if (this.Hoe.AffectedTilesAtEachPowerLevel.Length > 5)
             {
-                Log.W("Too many values in Hoe.AffectedTiles. Additional values will be removed.");
-                this.Hoe.AffectedTiles =
-                    this.Hoe.AffectedTiles.Take(7).ToArray();
+                Log.W("Too many values in Hoe.AffectedTilesAtEachPowerLevel. Additional values will be removed.");
+                this.Hoe.AffectedTilesAtEachPowerLevel =
+                    this.Hoe.AffectedTilesAtEachPowerLevel.Take(7).ToArray();
                 isValid = false;
             }
 
-            if (this.Can.AffectedTiles.Length > 5)
+            if (this.Can.AffectedTilesAtEachPowerLevel.Length > 5)
             {
-                Log.W("Too many values in Can.AffectedTiles. Additional values will be removed.");
-                this.Can.AffectedTiles =
-                    this.Can.AffectedTiles.Take(7).ToArray();
+                Log.W("Too many values in Can.AffectedTilesAtEachPowerLevel. Additional values will be removed.");
+                this.Can.AffectedTilesAtEachPowerLevel =
+                    this.Can.AffectedTilesAtEachPowerLevel.Take(7).ToArray();
                 isValid = false;
             }
         }

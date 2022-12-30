@@ -2,6 +2,7 @@
 
 #region using directives
 
+using DaLion.Overhaul.Modules.Arsenal.Configs;
 using DaLion.Overhaul.Modules.Arsenal.Integrations;
 using DaLion.Shared.Extensions.SMAPI;
 using StardewValley.Objects;
@@ -292,6 +293,13 @@ internal sealed partial class GenericModConfigMenuCore
                 {
                     config.Arsenal.Weapons.EnableEnchants = value;
                     ModHelper.GameContent.InvalidateCache("TileSheets/BuffsIcons");
-                });
+                })
+            .AddDropdown(
+                () => "Tooltip Style",
+                () => "Determines the sprite that appears next to skill bars.",
+                config => config.Arsenal.Weapons.WeaponTooltipStyle.ToString(),
+                (config, value) => config.Arsenal.Weapons.WeaponTooltipStyle = Enum.Parse<WeaponConfig.TooltipStyle>(value),
+                new[] { "Absolute", "Relative" },
+                null);
     }
 }

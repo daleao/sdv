@@ -6,8 +6,10 @@ using DaLion.Overhaul.Modules.Professions.Extensions;
 using DaLion.Overhaul.Modules.Professions.VirtualProperties;
 using DaLion.Shared.Events;
 using DaLion.Shared.Extensions.Stardew;
+using Microsoft.Xna.Framework;
 using StardewModdingAPI.Events;
 using StardewValley.Locations;
+using xTile.Dimensions;
 
 #endregion using directives
 
@@ -40,7 +42,7 @@ internal sealed class ProspectorWarpedEvent : WarpedEvent
         }
 
         var streak = e.Player.Read<int>(DataFields.ProspectorHuntStreak);
-        if (streak > 0)
+        if (streak > 1)
         {
             TrySpawnOreNodes(streak / 2, shaft);
         }
@@ -52,7 +54,11 @@ internal sealed class ProspectorWarpedEvent : WarpedEvent
         {
             var tile = shaft.getRandomTile();
             if (!shaft.isTileLocationTotallyClearAndPlaceable(tile) || !shaft.isTileOnClearAndSolidGround(tile) ||
-                shaft.doesTileHaveProperty((int)tile.X, (int)tile.Y, "Diggable", "Back") != null)
+                !shaft.isTileLocationOpen(new Location((int)tile.X, (int)tile.Y)) ||
+                shaft.isTileOccupied(new Vector2(tile.X, tile.Y)) ||
+                shaft.getTileIndexAt((int)tile.X, (int)tile.Y, "Back") == -1 ||
+                shaft.doesTileHaveProperty((int)tile.X, (int)tile.Y, "Diggable", "Back") != null ||
+                shaft.doesTileHaveProperty((int)tile.X, (int)tile.Y, "Type", "Back") == "Dirt")
             {
                 continue;
             }
@@ -63,17 +69,23 @@ internal sealed class ProspectorWarpedEvent : WarpedEvent
                 ore.ParentSheetIndex = 668;
             }
 
-            Utility.recursiveObjectPlacement(
-                ore,
-                (int)tile.X,
-                (int)tile.Y,
-                0.949999988079071,
-                0.30000001192092896,
-                shaft,
-                "Dirt",
-                ore.ParentSheetIndex == 668 ? 1 : 0,
-                0.05000000074505806,
-                ore.ParentSheetIndex != 668 ? 1 : 2);
+            var orePosition = new Vector2(tile.X, tile.Y);
+            shaft.objects.Add(
+                orePosition,
+                new SObject(
+                    orePosition,
+                    ore.ParentSheetIndex +
+                    (Game1.random.Next(ore.ParentSheetIndex == 668 ? 2 : 1) * ore.ParentSheetIndex) != 668
+                        ? 1
+                        : 2,
+                    ore.Name,
+                    ore.CanBeSetDown,
+                    ore.CanBeGrabbed,
+                    ore.IsHoeDirt,
+                    ore.IsSpawnedObject)
+                {
+                    Fragility = ore.Fragility, MinutesUntilReady = ore.MinutesUntilReady,
+                });
         }
     }
 }

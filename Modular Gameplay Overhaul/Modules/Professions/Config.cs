@@ -252,7 +252,7 @@ public sealed class Config : Shared.Configs.Config
         };
 
     /// <summary>
-    ///     Gets determines the sprite that appears next to skill bars. Accepted values: "StackedStars", "Gen3Ribbons",
+    ///     Gets the style of the sprite that appears next to skill bars. Accepted values: "StackedStars", "Gen3Ribbons",
     ///     "Gen4Ribbons".
     /// </summary>
     [JsonProperty]

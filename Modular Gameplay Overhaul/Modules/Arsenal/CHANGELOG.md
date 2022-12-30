@@ -2,6 +2,10 @@
 
 ## 1.0.1
 
+### Added
+
+* Added an option to change the display style of weapon tooltips between relative and absolute values.
+
 ### Changed
 
 * Minimal edits to Blade of Dawn description.
@@ -9,6 +13,8 @@
 ### Fixed
 
 * Galaxy and Infinity weapons, Blade of Ruin and Blade of Dawn are now marked as Special and cannot be trashed.
+* Fixed a bug with Garnet resonance.
+* Improved the response of FaceMouseCursor feature in-between combo hits.
 
 ## 1.0.0
 

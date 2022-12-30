@@ -28,7 +28,7 @@ internal sealed class AmethystEnchantmentApplyToPatcher : HarmonyPatcher
             return true; // run original logic
         }
 
-        weapon.knockback.Value += __instance.GetLevel() * 0.1f;
+        weapon.knockback.Value += 0.1f * __instance.GetLevel();
         return false; // don't run original logic
     }
 

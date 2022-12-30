@@ -1,5 +1,11 @@
 # Professions Module Change Log
 
+## 1.0.1
+
+### Changed
+
+* Prospector ore spawning chance is no longer recursive, which should dramatically reduce the odds of extra node spawns.
+
 ## 1.0.0
 
 ### Changed

@@ -25,7 +25,7 @@ internal sealed class JadeEnchantmentUnapplyToPatcher : HarmonyPatcher
 
     /// <summary>Remove resonance with Jade chord.</summary>
     [HarmonyPostfix]
-    private static void JadeEnchantmentUnpplyToPostfix(Item item)
+    private static void JadeEnchantmentUnapplyToPostfix(Item item)
     {
         var player = Game1.player;
         if (!ArsenalModule.IsEnabled || item is not (Tool tool and (MeleeWeapon or Slingshot)) || tool != player.CurrentTool)

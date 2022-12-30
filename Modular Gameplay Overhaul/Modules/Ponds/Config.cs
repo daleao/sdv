@@ -17,7 +17,7 @@ public sealed class Config : Shared.Configs.Config
     [JsonProperty]
     public float RoeProductionChanceMultiplier { get; internal set; } = 1f;
 
-    /// <summary>Gets aa value indicating whether the quality of produced roe should be always the same as the quality of the producing fish. If set to false, then the quality will be less than or equal to that of the producing fish.</summary>
+    /// <summary>Gets a value indicating whether the quality of produced roe should be always the same as the quality of the producing fish. If set to false, then the quality will be less than or equal to that of the producing fish.</summary>
     [JsonProperty]
     public bool RoeAlwaysSameQualityAsFish { get; internal set; } = false;
 }

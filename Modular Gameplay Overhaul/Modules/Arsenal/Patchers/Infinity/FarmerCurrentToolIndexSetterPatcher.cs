@@ -22,12 +22,15 @@ internal sealed class FarmerCurrentToolIndexSetterPatcher : HarmonyPatcher
 
     #region harmony patches
 
-    /// <summary>Double stamina consumption when cursed.</summary>
+    /// <summary>Auto-equip cursed weapon.</summary>
     [HarmonyPrefix]
     [SuppressMessage("StyleCop.CSharp.NamingRules", "SA1300:Element should begin with upper-case letter", Justification = "Preference for inner functions.")]
     private static void FarmerCurrentToolIndexPostfix(Farmer __instance, ref int value)
     {
-        if (!__instance.Read<bool>(DataFields.Cursed) || __instance.Items[value] is not MeleeWeapon weapon ||
+
+        if (!__instance.Read<bool>(DataFields.Cursed) ||
+            value < 0 || value >= __instance.Items.Count ||
+            __instance.Items[value] is not MeleeWeapon weapon ||
             weapon.InitialParentTileIndex == Constants.DarkSwordIndex || weapon.isScythe())
         {
             return;

@@ -1,5 +1,15 @@
 ﻿# Tools Module Change Log
 
+## 1.0.1
+
+### Changed
+
+* Affected tile settings for Hoe and Watering Can now use named tuple array instead of jagged array. This is more efficient and more legible.
+
+### Fixed
+
+* Added a failsafe for an Index Out Of Range exception that may occur with Moon Misadventures installed.
+
 ## 0.9.9
 
 ### Fixed

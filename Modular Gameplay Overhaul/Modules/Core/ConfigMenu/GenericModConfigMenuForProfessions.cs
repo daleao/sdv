@@ -26,24 +26,6 @@ internal sealed partial class GenericModConfigMenuCore
                 () => "The key used by Prospector, Scavenger and Rascal professions to enable active effects.",
                 config => config.Professions.ModKey,
                 (config, value) => config.Professions.ModKey = value)
-            .AddDropdown(
-                () => "Progression Style",
-                () => "Determines the sprite that appears next to skill bars.",
-                config => config.Professions.PrestigeProgressionStyle.ToString(),
-                (config, value) =>
-                {
-                    config.Professions.PrestigeProgressionStyle = Enum.Parse<Config.ProgressionStyle>(value);
-                    ModHelper.GameContent.InvalidateCacheAndLocalized(
-                        $"{Manifest.UniqueID}/PrestigeProgression");
-                },
-                new[] { "StackedStars", "Gen3Ribbons", "Gen4Ribbons" },
-                value => value switch
-                {
-                    "StackedStars" => "Stacked Stars",
-                    "Gen3Ribbons" => "Gen 3 Ribbons",
-                    "Gen4Ribbons" => "Gen 4 Ribbons",
-                    _ => ThrowHelper.ThrowArgumentOutOfRangeException<string>(nameof(value), value, null),
-                })
 
             // professions
             .AddSectionTitle(() => "Profession Settings")
@@ -306,6 +288,24 @@ internal sealed partial class GenericModConfigMenuCore
                 0,
                 100000,
                 10000)
+            .AddDropdown(
+                () => "Progression Style",
+                () => "Determines the style of the sprite that appears next to skill bars, and indicates the skill reset progression.",
+                config => config.Professions.PrestigeProgressionStyle.ToString(),
+                (config, value) =>
+                {
+                    config.Professions.PrestigeProgressionStyle = Enum.Parse<Config.ProgressionStyle>(value);
+                    ModHelper.GameContent.InvalidateCacheAndLocalized(
+                        $"{Manifest.UniqueID}/PrestigeProgression");
+                },
+                new[] { "StackedStars", "Gen3Ribbons", "Gen4Ribbons" },
+                value => value switch
+                {
+                    "StackedStars" => "Stacked Stars",
+                    "Gen3Ribbons" => "Gen 3 Ribbons",
+                    "Gen4Ribbons" => "Gen 4 Ribbons",
+                    _ => ThrowHelper.ThrowArgumentOutOfRangeException<string>(nameof(value), value, null),
+                })
 
             // difficulty settings
             .AddSectionTitle(() => "Difficulty Settings")

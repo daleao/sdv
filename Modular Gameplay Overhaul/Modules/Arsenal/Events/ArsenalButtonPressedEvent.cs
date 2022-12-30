@@ -64,10 +64,6 @@ internal sealed class ArsenalButtonPressedEvent : ButtonPressedEvent
                     return;
             }
         }
-        else if (isUseToolButton && tool is MeleeWeapon && ArsenalModule.State.ComboCooldown > 0)
-        {
-            return;
-        }
 
         var originalDirection = (FacingDirection)player.FacingDirection;
         if (!Game1.options.gamepadControls && ArsenalModule.Config.FaceMouseCursor)
