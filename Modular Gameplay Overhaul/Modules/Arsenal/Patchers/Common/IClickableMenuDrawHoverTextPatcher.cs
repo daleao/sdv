@@ -78,7 +78,7 @@ internal sealed class IClickableMenuDrawHoverTextPatcher : HarmonyPatcher
 
     private static Color GetTitleColorFor(Item? item)
     {
-        if (item is not Tool tool || !ArsenalModule.Config.ColorCodedForYourConvenience)
+        if (item is not (Tool tool and (MeleeWeapon or Slingshot)) || !ArsenalModule.Config.ColorCodedForYourConvenience)
         {
             return Game1.textColor;
         }
@@ -111,7 +111,7 @@ internal sealed class IClickableMenuDrawHoverTextPatcher : HarmonyPatcher
                 case Constants.DarkSwordIndex:
                     return Color.DarkSlateGray;
                 case Constants.HolyBladeIndex:
-                    return Color.Gold;
+                    return Color.Yellow;
             }
         }
         else if (tool is Slingshot slingshot)

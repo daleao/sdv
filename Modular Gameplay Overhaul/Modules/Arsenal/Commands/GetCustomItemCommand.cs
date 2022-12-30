@@ -7,6 +7,7 @@ using System.Linq;
 using DaLion.Shared.Attributes;
 using DaLion.Shared.Commands;
 using DaLion.Shared.Extensions;
+using DaLion.Shared.Extensions.SMAPI;
 using DaLion.Shared.Extensions.Stardew;
 using DaLion.Shared.Networking;
 using StardewValley.Tools;
@@ -114,7 +115,7 @@ internal sealed class GetCustomItemCommand : ConsoleCommand
                 var notFound = allBlueprints.Except(player.Read(DataFields.BlueprintsFound).ParseList<int>()).ToArray();
                 var chosen = Game1.random.Next(notFound.Length);
                 player.Append(DataFields.BlueprintsFound, chosen.ToString());
-                ModHelper.GameContent.InvalidateCache("Data/Events/Blacksmith");
+                ModHelper.GameContent.InvalidateCacheAndLocalized("Data/Events/Blacksmith");
 
                 player.holdUpItemThenMessage(new SObject(Globals.DwarvishBlueprintIndex.Value, 1));
                 if (Context.IsMultiplayer)

@@ -105,7 +105,7 @@ internal class Shockwave
                 this._effect!.Apply(tile, tileObj, tileFeature, this._tool, this._location, this._farmer);
             });
 
-            var pixelPos = new Vector2(tile.X * Game1.tileSize, tile.Y * Game1.tileSize);
+            var pixelPosition = new Vector2(tile.X * Game1.tileSize, tile.Y * Game1.tileSize);
 
             if ((this._tool is Axe && !ToolsModule.Config.Axe.PlayShockwaveAnimation) ||
                 (this._tool is Pickaxe && !ToolsModule.Config.Pick.PlayShockwaveAnimation))
@@ -115,14 +115,14 @@ internal class Shockwave
 
             this._location.temporarySprites.Add(new TemporaryAnimatedSprite(
                 12,
-                pixelPos,
+                pixelPosition,
                 Color.White,
                 8,
                 Game1.random.NextDouble() < 0.5,
                 50f));
             this._location.temporarySprites.Add(new TemporaryAnimatedSprite(
                 6,
-                pixelPos,
+                pixelPosition,
                 Color.White,
                 8,
                 Game1.random.NextDouble() < 0.5,

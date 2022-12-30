@@ -42,7 +42,7 @@ internal sealed class ProspectorWarpedEvent : WarpedEvent
         var streak = e.Player.Read<int>(DataFields.ProspectorHuntStreak);
         if (streak > 0)
         {
-            TrySpawnOreNodes(streak * 2, shaft);
+            TrySpawnOreNodes(streak / 2, shaft);
         }
     }
 

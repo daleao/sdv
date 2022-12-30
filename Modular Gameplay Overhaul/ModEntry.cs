@@ -11,6 +11,7 @@ namespace DaLion.Overhaul;
 
 #region using directives
 
+using System.Diagnostics;
 using DaLion.Shared.Events;
 using DaLion.Shared.ModData;
 using DaLion.Shared.Networking;
@@ -22,6 +23,9 @@ using StardewModdingAPI.Utilities;
 /// <summary>The mod entry point.</summary>
 public sealed class ModEntry : Mod
 {
+    /// <inheritdoc cref="Stopwatch"/>
+    private readonly Stopwatch _sw = new();
+
     /// <summary>Gets the static <see cref="ModEntry"/> instance.</summary>
     internal static ModEntry Instance { get; private set; } = null!; // set in Entry
 
@@ -60,6 +64,8 @@ public sealed class ModEntry : Mod
     /// <param name="helper">Provides simplified APIs for writing mods.</param>
     public override void Entry(IModHelper helper)
     {
+        this.StartWatch();
+
         Instance = this;
 
         // initialize logger
@@ -123,28 +129,47 @@ public sealed class ModEntry : Mod
         }
 
         // validate multiplayer
-        if (!Context.IsMultiplayer || Context.IsMainPlayer || Context.IsSplitScreen)
+        if (Context.IsMultiplayer && !Context.IsMainPlayer && !Context.IsSplitScreen)
         {
-            return;
+            var host = helper.Multiplayer.GetConnectedPlayer(Game1.MasterPlayer.UniqueMultiplayerID)!;
+            var hostMod = host.GetMod(this.ModManifest.UniqueID);
+            if (hostMod is null)
+            {
+                Log.W(
+                    "Modular Overhaul was not installed by the session host. Most features will not work properly.");
+            }
+            else if (!hostMod.Version.Equals(this.ModManifest.Version))
+            {
+                Log.W(
+                    $"The session host has a different version of Modular Overhaul installed. Some features may not work properly.\n\tHost version: {hostMod.Version}\n\tLocal version: {this.ModManifest.Version}");
+            }
         }
 
-        var host = helper.Multiplayer.GetConnectedPlayer(Game1.MasterPlayer.UniqueMultiplayerID)!;
-        var hostMod = host.GetMod(this.ModManifest.UniqueID);
-        if (hostMod is null)
-        {
-            Log.W(
-                "Modular Overhaul was not installed by the session host. Most features will not work properly.");
-        }
-        else if (!hostMod.Version.Equals(this.ModManifest.Version))
-        {
-            Log.W(
-                $"The session host has a different version of Modular Overhaul installed. Some features may not work properly.\n\tHost version: {hostMod.Version}\n\tLocal version: {this.ModManifest.Version}");
-        }
+        this.StopWatch();
+        this.LogStats();
     }
 
     /// <inheritdoc />
     public override object GetApi()
     {
         return new ModApi();
+    }
+
+    [Conditional("DEBUG")]
+    private void StartWatch()
+    {
+        this._sw.Start();
+    }
+
+    [Conditional("DEBUG")]
+    private void StopWatch()
+    {
+        this._sw.Stop();
+    }
+
+    [Conditional("DEBUG")]
+    private void LogStats()
+    {
+        Log.A($"[Entry]: Initialization completed in {this._sw.ElapsedMilliseconds}ms.");
     }
 }

@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using DaLion.Shared.Commands;
 using DaLion.Shared.Extensions;
+using DaLion.Shared.Extensions.SMAPI;
 using StardewValley.Menus;
 
 #endregion using directives
@@ -45,7 +46,7 @@ internal sealed class RemoveProfessionsCommand : ConsoleCommand
                 LevelUpMenu.RevalidateHealth(Game1.player);
                 if (professionsToRemove.Intersect(Profession.GetRange(true)).Any())
                 {
-                    ModHelper.GameContent.InvalidateCache("LooseSprites/Cursors");
+                    ModHelper.GameContent.InvalidateCacheAndLocalized("LooseSprites/Cursors");
                 }
 
                 Log.I($"Removed all professions from {Game1.player.Name}.");
@@ -95,7 +96,7 @@ internal sealed class RemoveProfessionsCommand : ConsoleCommand
         LevelUpMenu.RevalidateHealth(Game1.player);
         if (professionsToRemove.Intersect(Profession.GetRange(true)).Any())
         {
-            ModHelper.GameContent.InvalidateCache("LooseSprites/Cursors");
+            ModHelper.GameContent.InvalidateCacheAndLocalized("LooseSprites/Cursors");
         }
     }
 

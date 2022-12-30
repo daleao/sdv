@@ -2,6 +2,7 @@
 
 #region using directives
 
+using DaLion.Overhaul.Modules.Arsenal.Extensions;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
 using StardewValley.Tools;
@@ -30,6 +31,16 @@ internal sealed class AmethystEnchantmentUnapplyToPatcher : HarmonyPatcher
 
         weapon.knockback.Value -= __instance.GetLevel() * 0.1f;
         return false; // don't run original logic
+    }
+
+    /// <summary>Reset cached stats.</summary>
+    [HarmonyPostfix]
+    private static void AquamarineEnchantmentUnapplyPostfix(Item item)
+    {
+        if (item is Tool tool and (MeleeWeapon or Slingshot))
+        {
+            tool.Invalidate();
+        }
     }
 
     #endregion harmony patches

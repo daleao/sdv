@@ -7,6 +7,7 @@ using System.Linq;
 using DaLion.Overhaul.Modules.Arsenal.Extensions;
 using DaLion.Shared.Extensions;
 using DaLion.Shared.Extensions.Collections;
+using DaLion.Shared.Extensions.SMAPI;
 using DaLion.Shared.Extensions.Stardew;
 using DaLion.Shared.Harmony;
 using DaLion.Shared.Networking;
@@ -116,7 +117,7 @@ internal sealed class ChestPerformOpenChestPatcher : HarmonyPatcher
                 player.completeQuest(Constants.ForgeNextQuestId);
                 break;
             case 1:
-                ModHelper.GameContent.InvalidateCache("Data/Events/Blacksmith");
+                ModHelper.GameContent.InvalidateCacheAndLocalized("Data/Events/Blacksmith");
                 break;
         }
 

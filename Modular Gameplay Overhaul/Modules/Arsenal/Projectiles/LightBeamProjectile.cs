@@ -4,6 +4,7 @@
 
 using DaLion.Overhaul.Modules.Arsenal.Enchantments;
 using DaLion.Overhaul.Modules.Arsenal.VirtualProperties;
+using DaLion.Shared.Extensions;
 using Microsoft.Xna.Framework;
 using StardewValley;
 using StardewValley.Monsters;
@@ -83,21 +84,5 @@ internal sealed class LightBeamProjectile : BasicProjectile
             0f,
             true,
             this.Firer);
-    }
-
-    /// <summary>Replaces BasicProjectile.explosionAnimation.</summary>
-    /// <param name="location">The <see cref="GameLocation"/>.</param>
-    public void ExplosionAnimation(GameLocation location)
-    {
-        //location.temporarySprites.Add(
-        //    new TemporaryAnimatedSprite(
-        //        $"{Manifest.UniqueID}/LightBeamCollisionAnimation",
-        //        new Rectangle(0, 0, 128, 128),
-        //        50f,
-        //        5,
-        //        1,
-        //        this.position,
-        //        false,
-        //        Game1.random.NextBool()));
     }
 }

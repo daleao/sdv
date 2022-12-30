@@ -70,7 +70,7 @@ public sealed class StatBuffer
     public float DamageModifier { get => this._stats[0]; set => this._stats[0] = value; }
 
     /// <summary>Gets or sets the added defense.</summary>
-    public float DefenseModifier { get => (int)this._stats[7]; set => this._stats[7] = value; }
+    public float DefenseModifier { get => this._stats[7]; set => this._stats[7] = value; }
 
     /// <summary>Gets or sets the knockback modifier.</summary>
     public float KnockbackModifier { get => this._stats[4]; set => this._stats[4] = value; }

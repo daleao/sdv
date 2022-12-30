@@ -30,7 +30,7 @@ internal sealed class VanillaTweaksIntegration : ModIntegration<VanillaTweaksInt
         if (ModHelper.ReadContentPackConfig("Taiyo.VanillaTweaks") is { } jObject)
         {
             this.RingsCategoryEnabled = jObject.Value<bool>("RingsCategoryEnabled");
-            ModHelper.GameContent.InvalidateCache("Maps/springobjects");
+            ModHelper.GameContent.InvalidateCacheAndLocalized("Maps/springobjects");
             return true;
         }
 

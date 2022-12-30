@@ -4,6 +4,7 @@
 
 using System.Linq;
 using DaLion.Shared.Events;
+using DaLion.Shared.Extensions.SMAPI;
 using DaLion.Shared.Extensions.Stardew;
 using StardewModdingAPI.Events;
 using StardewValley.Tools;
@@ -27,7 +28,7 @@ internal sealed class ArsenalSaveLoadedEvent : SaveLoadedEvent
         var player = Game1.player;
         if (!string.IsNullOrEmpty(player.Read(DataFields.BlueprintsFound)) && player.canUnderstandDwarves)
         {
-            ModHelper.GameContent.InvalidateCache("Data/Events/Blacksmith");
+            ModHelper.GameContent.InvalidateCacheAndLocalized("Data/Events/Blacksmith");
         }
 
         if (player.hasQuest(Constants.ForgeIntroQuestId))

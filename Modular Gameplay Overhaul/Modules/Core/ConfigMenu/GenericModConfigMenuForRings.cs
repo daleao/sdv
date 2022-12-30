@@ -8,7 +8,7 @@ using DaLion.Shared.Extensions.SMAPI;
 #endregion using directives
 
 /// <summary>Constructs the GenericModConfigMenu integration.</summary>
-internal sealed partial class GenericModConfigMenuForOverhaul
+internal sealed partial class GenericModConfigMenuCore
 {
     /// <summary>Register the Rings menu.</summary>
     private void RegisterRings()

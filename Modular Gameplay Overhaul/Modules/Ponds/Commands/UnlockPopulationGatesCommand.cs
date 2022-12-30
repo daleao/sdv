@@ -25,12 +25,12 @@ internal sealed class UnlockPopulationGatesCommand : ConsoleCommand
 
     /// <inheritdoc />
     public override string Documentation =>
-        "Unlock all population gates for the nearest pond and set max occupants to the maximum value.";
+        "Unlock the specified population gate for the nearest pond, or the all gates if none are specified, and set the max occupants to the maximum value.";
 
     /// <inheritdoc />
     public override void Callback(string[] args)
     {
-        if (args.Length > 0)
+        if (args.Length > 1)
         {
             Log.W("Additional arguments will be ignored.");
         }
@@ -56,7 +56,31 @@ internal sealed class UnlockPopulationGatesCommand : ConsoleCommand
         }
 
         var data = nearest.GetFishPondData();
-        nearest.lastUnlockedPopulationGate.Value = data.PopulationGates.Keys.Max();
+        int gate;
+        switch (args.Length)
+        {
+            case > 0 when int.TryParse(args[0], out var gateIndex) && gateIndex > 0:
+                gate = gateIndex <= data.PopulationGates.Keys.Count
+                    ? data.PopulationGates.Keys.ElementAt(gateIndex - 1)
+                    : data.PopulationGates.Keys.Max();
+                break;
+            case > 0:
+                Log.W($"{args[0]} is not a valid population gate.");
+                return;
+            default:
+                gate = data.PopulationGates.Keys.Max();
+                break;
+        }
+
+        nearest.lastUnlockedPopulationGate.Value = gate;
         nearest.UpdateMaximumOccupancy();
+        if (args.Length > 0)
+        {
+            Log.I($"Unlocked {args[0]} population gates for nearby {nearest.GetFishObject().Name} pond.");
+        }
+        else
+        {
+            Log.I($"Unlocked all population gates for nearby {nearest.GetFishObject().Name} pond.");
+        }
     }
 }

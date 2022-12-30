@@ -117,15 +117,16 @@ internal sealed class PondQueryMenuDrawPatcher : HarmonyPatcher
             // draw fish
             int x = 0, y = 0, seaweedCount = 0, greenAlgaeCount = 0, whiteAlgaeCount = 0, familyCount = 0;
             var slotsToDraw = ____pond.maxOccupants.Value;
-            var columns = Math.Max((int)Math.Ceiling(slotsToDraw / 2f), 2);
+            var columns = (int)Math.Ceiling(slotsToDraw / 2f);
             var slotSpacing = 18 - columns;
             var xOffset = columns switch
             {
-                7 => -52,
                 6 => -20,
+                5 => 6,
                 4 => 36,
                 3 => 70,
-                2 => 76,
+                2 => 44,
+                1 => 8,
                 _ => 0,
             };
 

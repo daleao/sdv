@@ -206,7 +206,7 @@ internal sealed class CombinedRingDrawInMenuPatcher : HarmonyPatcher
         float layerDepth)
     {
         if (!Globals.InfinityBandIndex.HasValue || __instance.ParentSheetIndex != Globals.InfinityBandIndex.Value ||
-            VanillaTweaksIntegration.Instance?.RingsCategoryEnabled != true)
+            __instance.combinedRings.Count == 0 || VanillaTweaksIntegration.Instance?.RingsCategoryEnabled != true)
         {
             return;
         }

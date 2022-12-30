@@ -231,6 +231,7 @@ internal static class MeleeWeapon_Stats
             holder.SwingSpeed += (float)(weapon.GetEnchantmentLevel<AmethystEnchantment>() * emeraldChord.Amplitude);
         }
 
+        holder.CooldownReduction = weapon.GetEnchantmentLevel<GarnetEnchantment>();
         if (weapon.Get_ResonatingChord<GarnetEnchantment>() is { } garnetChord)
         {
             holder.CooldownReduction = (float)(weapon.GetEnchantmentLevel<GarnetEnchantment>() * garnetChord.Amplitude);

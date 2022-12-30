@@ -11,6 +11,7 @@ using DaLion.Overhaul.Modules.Professions.Ultimates;
 using DaLion.Overhaul.Modules.Professions.VirtualProperties;
 using DaLion.Shared.Extensions;
 using DaLion.Shared.Extensions.Collections;
+using DaLion.Shared.Extensions.SMAPI;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
 using StardewValley.Menus;
@@ -35,7 +36,7 @@ internal sealed class LevelUpMenuRemoveImmediateProfessionPerkPatcher : HarmonyP
     {
         if (whichProfession.IsIn(Profession.GetRange(true)))
         {
-            ModHelper.GameContent.InvalidateCache("LooseSprites/Cursors");
+            ModHelper.GameContent.InvalidateCacheAndLocalized("LooseSprites/Cursors");
         }
 
         if (!Profession.TryFromValue(whichProfession, out var profession) ||

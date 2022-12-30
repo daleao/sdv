@@ -25,9 +25,9 @@
 	<li><a href="#prestige">Prestige</a></li>
 	<li><a href="#special-abilities">Special Abilities</a></li>
 	<li><a href="#compatibility">Compatibility</a></li>
-	<li><a href="#f-a-q">FAQ</a></li>
+	<li><a href="#faq">F.A.Q.</a></li>
 	<li><a href="#recommended-mods">Recommended Mods</a></li>
-	<li><a href="#for-c#-developers">For C# Developers</a></li>
+	<li><a href="#for-c-developers">For C# Developers</a></li>
 </ol>
 </details>
 

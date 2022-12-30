@@ -9,6 +9,7 @@ using DaLion.Shared.Comparers;
 using DaLion.Shared.Events;
 using DaLion.Shared.Extensions;
 using DaLion.Shared.Extensions.Collections;
+using DaLion.Shared.Extensions.SMAPI;
 using Netcode;
 using StardewModdingAPI.Events;
 
@@ -92,7 +93,7 @@ internal sealed class ProfessionSaveLoadedEvent : SaveLoadedEvent
     {
         if (which.IsIn(Profession.GetRange(true)))
         {
-            ModHelper.GameContent.InvalidateCache("LooseSprites/Cursors");
+            ModHelper.GameContent.InvalidateCacheAndLocalized("LooseSprites/Cursors");
         }
     }
 
@@ -102,7 +103,7 @@ internal sealed class ProfessionSaveLoadedEvent : SaveLoadedEvent
     {
         if (which.IsIn(Profession.GetRange(true)))
         {
-            ModHelper.GameContent.InvalidateCache("LooseSprites/Cursors");
+            ModHelper.GameContent.InvalidateCacheAndLocalized("LooseSprites/Cursors");
         }
     }
 }

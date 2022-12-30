@@ -7,6 +7,7 @@ using System.Linq;
 using DaLion.Overhaul.Modules.Professions.Extensions;
 using DaLion.Shared.Commands;
 using DaLion.Shared.Extensions;
+using DaLion.Shared.Extensions.SMAPI;
 using StardewValley.Menus;
 
 #endregion using directives
@@ -117,7 +118,7 @@ internal sealed class AddProfessionsCommand : ConsoleCommand
         LevelUpMenu.RevalidateHealth(Game1.player);
         if (professionsToAdd.Intersect(Profession.GetRange(true)).Any())
         {
-            ModHelper.GameContent.InvalidateCache("LooseSprites/Cursors");
+            ModHelper.GameContent.InvalidateCacheAndLocalized("LooseSprites/Cursors");
         }
     }
 

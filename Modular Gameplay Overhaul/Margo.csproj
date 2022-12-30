@@ -3,14 +3,14 @@
   <PropertyGroup>
     <!-- metadata -->
     <Authors>DaLion</Authors>
-    <AssemblyName>ModularOverhaul</AssemblyName>
+    <AssemblyName>DaLion.Overhaul</AssemblyName>
     <RootNamespace>DaLion.Overhaul</RootNamespace>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
     <RepositoryUrl>https://gitlab.com/daleao/sdv-mods</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <UpdateKeys>Nexus:14470</UpdateKeys>
-    <Version>0.9.9</Version>
+    <Version>1.0.0</Version>
 
     <!-- build settings -->
     <TargetFramework>net5.0</TargetFramework>

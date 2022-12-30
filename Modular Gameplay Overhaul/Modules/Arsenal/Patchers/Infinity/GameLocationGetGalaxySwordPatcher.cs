@@ -41,7 +41,7 @@ internal sealed class GameLocationGetGalaxySwordPatcher : HarmonyPatcher
             var player = Game1.player;
             var obtained = player.Read(DataFields.GalaxyArsenalObtained).ParseList<int>();
             int? chosen = null;
-            foreach (var item in player.Items.Where(i => i is MeleeWeapon or Slingshot))
+            foreach (var item in player.Items.Where(i => (i is MeleeWeapon weapon && !weapon.isScythe()) || i is Slingshot))
             {
                 var type = item is MeleeWeapon weapon ? (WeaponType)weapon.type.Value : WeaponType.Slingshot;
                 var galaxy = galaxyFromWeaponType(type);
@@ -63,7 +63,6 @@ internal sealed class GameLocationGetGalaxySwordPatcher : HarmonyPatcher
             Item chosenAsItem = chosen.Value == Constants.GalaxySlingshotIndex
                 ? new Slingshot(chosen.Value)
                 : new MeleeWeapon(chosen.Value);
-            player.Append(DataFields.GalaxyArsenalObtained, chosen.Value.ToString());
 
             Game1.flashAlpha = 1f;
             player.holdUpItemThenMessage(chosenAsItem);
@@ -73,13 +72,15 @@ internal sealed class GameLocationGetGalaxySwordPatcher : HarmonyPatcher
                 player.reduceActiveItemByOne();
             }
 
-            player.Items.First(i => i.ParentSheetIndex == SObject.iridiumBar).Stack -=
+            player.Items.First(i => i?.ParentSheetIndex == SObject.iridiumBar).Stack -=
                 ArsenalModule.Config.IridiumBarsRequiredForGalaxyArsenal;
 
             if (!player.addItemToInventoryBool(chosenAsItem))
             {
                 Game1.createItemDebris(chosenAsItem, Game1.player.getStandingPosition(), 1);
             }
+
+            player.Append(DataFields.GalaxyArsenalObtained, chosen.Value.ToString());
 
             //player.mailReceived.Add("galaxySword"); --> don't add mail to prevent galaxy weapons from appearing in stores
             player.jitterStrength = 0f;

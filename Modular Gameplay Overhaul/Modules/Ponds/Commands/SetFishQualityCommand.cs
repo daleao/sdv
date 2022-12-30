@@ -81,6 +81,6 @@ internal sealed class SetFishQualityCommand : ConsoleCommand
         var fishQualities = new int[4];
         fishQualities[newQuality == Quality.Iridium ? 3 : (int)newQuality] += nearest.FishCount - familyCount;
         nearest.Write(DataFields.FishQualities, string.Join(',', fishQualities));
-        Log.I($"The quality of fish in nearby {nearest.GetFishObject().Name} Pond have been set to {newQuality}.");
+        Log.I($"The quality of fish in nearby {nearest.GetFishObject().Name} pond have been set to {newQuality}.");
     }
 }

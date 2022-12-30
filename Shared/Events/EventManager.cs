@@ -125,7 +125,7 @@ internal sealed class EventManager
     /// <returns><see langword="true"/> if the event's enabled status was changed, otherwise <see langword="false"/>.</returns>
     internal bool Enable(Type type)
     {
-        if (this.GetCachedEvent(type)?.Enable() == true)
+        if (this.GetOrCreate(type)?.Enable() == true)
         {
             Log.D($"[EventManager]: Enabled {type.Name}.");
             return true;
@@ -160,7 +160,7 @@ internal sealed class EventManager
     /// <returns><see langword="true"/> if the event's enabled status was changed, otherwise <see langword="false"/>.</returns>
     internal bool EnableForScreen(Type type, int screenId)
     {
-        if (this.GetCachedEvent(type)?.EnableForScreen(screenId) == true)
+        if (this.GetOrCreate(type)?.EnableForScreen(screenId) == true)
         {
             Log.D($"[EventManager]: Enabled {type.Name}.");
             return true;
@@ -195,7 +195,7 @@ internal sealed class EventManager
     /// <param name="type">A <see cref="IManagedEvent"/> type to enable.</param>
     internal void EnableForAllScreens(Type type)
     {
-        this.GetCachedEvent(type)?.EnableForAllScreens();
+        this.GetOrCreate(type)?.EnableForAllScreens();
         Log.D($"[EventManager]: Enabled {type.Name} for all screens.");
     }
 
@@ -222,7 +222,7 @@ internal sealed class EventManager
     /// <returns><see langword="true"/> if the event's enabled status was changed, otherwise <see langword="false"/>.</returns>
     internal bool Disable(Type type)
     {
-        if (this.GetCachedEvent(type)?.Disable() == true)
+        if (this.GetOrCreate(type)?.Disable() == true)
         {
             Log.D($"[EventManager]: Disabled {type.Name}.");
             return true;
@@ -257,7 +257,7 @@ internal sealed class EventManager
     /// <returns><see langword="true"/> if the event's enabled status was changed, otherwise <see langword="false"/>.</returns>
     internal bool DisableForScreen(Type type, int screenId)
     {
-        if (this.GetCachedEvent(type)?.DisableForScreen(screenId) == true)
+        if (this.GetOrCreate(type)?.DisableForScreen(screenId) == true)
         {
             Log.D($"[EventManager]: Disabled {type.Name}.");
             return true;
@@ -292,7 +292,7 @@ internal sealed class EventManager
     /// <param name="type">A <see cref="IManagedEvent"/> type to disable.</param>
     internal void DisableForAllScreens(Type type)
     {
-        this.GetCachedEvent(type)?.DisableForAllScreens();
+        this.GetOrCreate(type)?.DisableForAllScreens();
         Log.D($"[EventManager]: Enabled {type.Name} for all screens.");
     }
 
@@ -372,17 +372,6 @@ internal sealed class EventManager
         Log.D("[EventManager]: Reset all managed events for all screens.");
     }
 
-    /// <summary>Gets the instance of the specified <see cref="IManagedEvent"/> type.</summary>
-    /// <typeparam name="TEvent">A type implementing <see cref="IManagedEvent"/>.</typeparam>
-    /// <returns>The instance of type <typeparamref name="TEvent"/>.</returns>
-    internal TEvent? Get<TEvent>()
-        where TEvent : IManagedEvent
-    {
-        return this._eventCache.TryGetValue(typeof(TEvent), out var instance)
-            ? (TEvent)instance
-            : (TEvent?)this.CreateEventInstance(typeof(TEvent));
-    }
-
     /// <summary>Enumerates all managed <see cref="IManagedEvent"/> instances declared in the specified <paramref name="namespace"/>.</summary>
     /// <param name="namespace">The desired namespace.</param>
     /// <returns>An <see cref="IEnumerable{T}"/> of <see cref="IManagedEvent"/>s.</returns>
@@ -410,7 +399,7 @@ internal sealed class EventManager
     internal bool IsEnabled<TEvent>()
         where TEvent : IManagedEvent
     {
-        return this.Get<TEvent>()?.IsEnabled == true;
+        return this._eventCache.TryGetValue(typeof(TEvent), out var @event) && @event.IsEnabled;
     }
 
     /// <summary>Determines whether the specified <see cref="IManagedEvent"/> type is enabled for a specific screen.</summary>
@@ -420,7 +409,7 @@ internal sealed class EventManager
     internal bool IsEnabledForScreen<TEvent>(int screenId)
         where TEvent : IManagedEvent
     {
-        return this.Get<TEvent>()?.IsEnabledForScreen(screenId) == true;
+        return this._eventCache.TryGetValue(typeof(TEvent), out var @event) && @event.IsEnabledForScreen(screenId);
     }
 
     /// <summary>Instantiates and manages <see cref="IManagedEvent"/> classes using reflection.</summary>
@@ -443,7 +432,13 @@ internal sealed class EventManager
                          t.GetProperty(nameof(IManagedEvent.IsEnabled))?.DeclaringType == t))
             .ToArray();
 
-        Log.D($"[EventManager]: Found {eventTypes.Length} event classes that should be enabled. Instantiating events...");
+        Log.D($"[EventManager]: Found {eventTypes.Length} event classes that should be enabled.");
+        if (eventTypes.Length == 0)
+        {
+            return;
+        }
+
+        Log.D("[EventManager]: Instantiating events....");
         foreach (var type in eventTypes)
         {
 #if RELEASE
@@ -481,30 +476,24 @@ internal sealed class EventManager
                 }
             }
 
-            var instance = this.GetCachedEvent(type);
-            if (instance is null)
-            {
-                Log.E($"[EventManager]: Failed to create {type.Name}.");
-                continue;
-            }
-
-            Log.D($"[EventManager]: Now managing {type.Name}.");
+            this.GetOrCreate(type);
         }
     }
 
     /// <summary>Retrieves an existing event instance from the cache, or caches a new instance.</summary>
     /// <param name="type">A type implementing <see cref="IManagedEvent"/>.</param>
     /// <returns>The cached <see cref="IManagedEvent"/> instance, or <see langword="null"/> if one could not be created.</returns>
-    private IManagedEvent? GetCachedEvent(Type type)
+    private IManagedEvent? GetOrCreate(Type type)
     {
         if (this._eventCache.TryGetValue(type, out var instance))
         {
             return instance;
         }
 
-        instance = this.CreateEventInstance(type);
+        instance = this.Create(type);
         if (instance is null)
         {
+            Log.E($"[EventManager]: Failed to create {type.Name}.");
             return null;
         }
 
@@ -514,10 +503,18 @@ internal sealed class EventManager
         return instance;
     }
 
+    /// <summary>Retrieves an existing event instance from the cache, or caches a new instance.</summary>
+    /// <typeparam name="TEvent">A type implementing <see cref="IManagedEvent"/>.</typeparam>
+    /// <returns>The cached <see cref="IManagedEvent"/> instance, or <see langword="null"/> if one could not be created.</returns>
+    private IManagedEvent? GetOrCreate<TEvent>()
+    {
+        return this.GetOrCreate(typeof(TEvent));
+    }
+
     /// <summary>Instantiates a new <see cref="IManagedEvent"/> instance of the specified <paramref name="type"/>.</summary>
     /// <param name="type">A type implementing <see cref="IManagedEvent"/>.</param>
     /// <returns>A <see cref="IManagedEvent"/> instance of the specified <paramref name="type"/>.</returns>
-    private IManagedEvent? CreateEventInstance(Type type)
+    private IManagedEvent? Create(Type type)
     {
         if (!type.IsAssignableTo(typeof(IManagedEvent)) || type.IsAbstract || type.GetConstructor(
                 BindingFlags.Instance | BindingFlags.NonPublic,

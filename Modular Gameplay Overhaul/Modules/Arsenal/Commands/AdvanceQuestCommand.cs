@@ -54,12 +54,12 @@ internal sealed class AdvanceQuestCommand : ConsoleCommand
             case "chivalry":
                 if (player.hasQuest(Constants.VirtuesIntroQuestId))
                 {
-                    player.completeQuest(Constants.VirtuesIntroQuestId);
                     player.addQuest(Virtue.Honor);
                     player.addQuest(Virtue.Compassion);
                     player.addQuest(Virtue.Wisdom);
                     player.addQuest(Virtue.Generosity);
                     player.addQuest(Virtue.Valor);
+                    player.completeQuest(Constants.VirtuesIntroQuestId);
                 }
 
                 player.Write(DataFields.ProvenHonor, int.MaxValue.ToString());

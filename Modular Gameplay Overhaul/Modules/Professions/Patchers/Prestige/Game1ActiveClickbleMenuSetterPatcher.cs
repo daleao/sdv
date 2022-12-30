@@ -2,6 +2,7 @@
 
 #region using directives
 
+using DaLion.Shared.Extensions.SMAPI;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
 using StardewValley.Menus;
@@ -31,7 +32,7 @@ internal sealed class Game1ActiveClickbleMenuSetterPatcher : HarmonyPatcher
         var level = Reflector.GetUnboundFieldGetter<LevelUpMenu, int>(value, "currentLevel").Invoke(levelup);
         if (level > 10)
         {
-            ModHelper.GameContent.InvalidateCache("LooseSprites/Cursors");
+            ModHelper.GameContent.InvalidateCacheAndLocalized("LooseSprites/Cursors");
         }
     }
 

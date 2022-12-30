@@ -35,6 +35,9 @@ internal static class Collections
         "Glacierfish Jr.", // qi extended
         "Radioactive Carp", // qi extended
         "Pufferchick", // stardew aquarium
+        "Deep Ridge Angler", // ridgeside
+        "Sockeye Salmon", // ridgeside
+        "Waterfall Snakehead", // ridgeside
     };
 
     /// <summary>Gets the resource that should spawn from a given stone.</summary>

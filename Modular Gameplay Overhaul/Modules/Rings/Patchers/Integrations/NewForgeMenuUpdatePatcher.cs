@@ -1,7 +1,5 @@
 ﻿namespace DaLion.Overhaul.Modules.Rings.Patchers;
 
-using System;
-
 #region using directives
 
 using System.Collections.Generic;
@@ -109,17 +107,17 @@ internal sealed class NewForgeMenuUpdatePatcher : HarmonyPatcher
 
     private static void UnforgeInfinityBand(IClickableMenu menu, CombinedRing infinity)
     {
-        var combinedRings = new List<Ring>(infinity.combinedRings);
+        var combinedRings = infinity.combinedRings.ToList();
         infinity.combinedRings.Clear();
         foreach (var gemstone in combinedRings.Select(ring => Gemstone.FromRing(ring.ParentSheetIndex)))
         {
-            Utility.CollectOrDrop(new SObject(gemstone, 1));
+            Utility.CollectOrDrop(new SObject(gemstone.ObjectIndex, 1));
             Utility.CollectOrDrop(new SObject(848, 5));
         }
 
         Utility.CollectOrDrop(new Ring(Globals.InfinityBandIndex!.Value));
         Reflector
-            .GetUnboundFieldGetter<object, ClickableTextureComponent>(menu, "leftIngredientSpot")
+            .GetUnboundFieldGetter<IClickableMenu, ClickableTextureComponent>(menu, "leftIngredientSpot")
             .Invoke(menu).item = null;
         Game1.playSound("coin");
     }

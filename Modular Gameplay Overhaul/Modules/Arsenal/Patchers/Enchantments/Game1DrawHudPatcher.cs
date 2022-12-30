@@ -94,7 +94,7 @@ internal sealed class Game1DrawHudPatcher : HarmonyPatcher
         topOfBar.Y = Game1.graphics.GraphicsDevice.Viewport.TitleSafeArea.Bottom - 240 - bonusHeight;
 
         var color = player.health < 20
-            ? Color.Pink * ((float)Math.Sin(Game1.currentGameTime.TotalGameTime.TotalMilliseconds / (player.health * 50f)) / 4f + 0.9f)
+            ? Color.Pink * (((float)Math.Sin(Game1.currentGameTime.TotalGameTime.TotalMilliseconds / (player.health * 50f)) / 4f) + 0.9f)
             : Color.White;
         Game1.spriteBatch.Draw(
             Game1.mouseCursors,
@@ -108,7 +108,7 @@ internal sealed class Game1DrawHudPatcher : HarmonyPatcher
             1f);
 
         color = player.health < 20
-            ? Color.Pink * ((float)Math.Sin(Game1.currentGameTime.TotalGameTime.TotalMilliseconds / (player.health * 50f)) / 4f + 0.9f)
+            ? Color.Pink * (((float)Math.Sin(Game1.currentGameTime.TotalGameTime.TotalMilliseconds / (player.health * 50f)) / 4f) + 0.9f)
             : Color.White;
         Game1.spriteBatch.Draw(
             Game1.mouseCursors,
@@ -121,7 +121,7 @@ internal sealed class Game1DrawHudPatcher : HarmonyPatcher
             color);
 
         color = player.health < 20
-            ? Color.Pink * ((float)Math.Sin(Game1.currentGameTime.TotalGameTime.TotalMilliseconds / (player.health * 50f)) / 4f + 0.9f)
+            ? Color.Pink * (((float)Math.Sin(Game1.currentGameTime.TotalGameTime.TotalMilliseconds / (player.health * 50f)) / 4f) + 0.9f)
             : Color.White;
         Game1.spriteBatch.Draw(
             Game1.mouseCursors,

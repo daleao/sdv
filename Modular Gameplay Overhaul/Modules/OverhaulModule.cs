@@ -5,6 +5,7 @@
 using System.Diagnostics.CodeAnalysis;
 using Ardalis.SmartEnum;
 using DaLion.Shared.Commands;
+using DaLion.Shared.Extensions.SMAPI;
 using DaLion.Shared.Harmony;
 
 #endregion using directives
@@ -106,6 +107,7 @@ internal abstract class OverhaulModule : SmartEnum<OverhaulModule>
         this.InvalidateAssets();
     }
 
+    /// <summary>Causes SMAPI to reload all assets edited by this module.</summary>
     protected virtual void InvalidateAssets()
     {
     }
@@ -129,12 +131,13 @@ internal abstract class OverhaulModule : SmartEnum<OverhaulModule>
         /// <summary>Gets the ephemeral runtime state for the <see cref="OverhaulModule.ProfessionsModule"/>.</summary>
         internal static Professions.State State => ModEntry.State.Professions;
 
+        /// <inheritdoc />
         protected override void InvalidateAssets()
         {
-            ModHelper.GameContent.InvalidateCache("Data/achievements");
-            ModHelper.GameContent.InvalidateCache("Data/FishPondData");
-            ModHelper.GameContent.InvalidateCache("Data/mail");
-            ModHelper.GameContent.InvalidateCache("LooseSprite/Cursors");
+            ModHelper.GameContent.InvalidateCacheAndLocalized("Data/achievements");
+            ModHelper.GameContent.InvalidateCacheAndLocalized("Data/FishPondData");
+            ModHelper.GameContent.InvalidateCacheAndLocalized("Data/mail");
+            ModHelper.GameContent.InvalidateCacheAndLocalized("LooseSprite/Cursors");
             ModHelper.GameContent.InvalidateCache("TileSheets/BuffsIcons");
             ModHelper.GameContent.InvalidateCache("TileSheets/weapons");
         }
@@ -157,15 +160,16 @@ internal abstract class OverhaulModule : SmartEnum<OverhaulModule>
         /// <summary>Gets the ephemeral runtime state for the <see cref="OverhaulModule.ArsenalModule"/>.</summary>
         internal static Arsenal.State State => ModEntry.State.Arsenal;
 
+        /// <inheritdoc />
         protected override void InvalidateAssets()
         {
-            ModHelper.GameContent.InvalidateCache("Data/ObjectInformation");
-            ModHelper.GameContent.InvalidateCache("Data/Events/AdventureGuild");
-            ModHelper.GameContent.InvalidateCache("Data/Events/Blacksmith");
-            ModHelper.GameContent.InvalidateCache("Data/Events/WizardHouse");
-            ModHelper.GameContent.InvalidateCache("Data/Monsters");
-            ModHelper.GameContent.InvalidateCache("Data/weapons");
-            ModHelper.GameContent.InvalidateCache("Strings/Locations");
+            ModHelper.GameContent.InvalidateCacheAndLocalized("Data/ObjectInformation");
+            ModHelper.GameContent.InvalidateCacheAndLocalized("Data/Events/AdventureGuild");
+            ModHelper.GameContent.InvalidateCacheAndLocalized("Data/Events/Blacksmith");
+            ModHelper.GameContent.InvalidateCacheAndLocalized("Data/Events/WizardHouse");
+            ModHelper.GameContent.InvalidateCacheAndLocalized("Data/Monsters");
+            ModHelper.GameContent.InvalidateCacheAndLocalized("Data/weapons");
+            ModHelper.GameContent.InvalidateCacheAndLocalized("Strings/Locations");
             ModHelper.GameContent.InvalidateCache("TileSheets/BuffsIcons");
             ModHelper.GameContent.InvalidateCache("TileSheets/Projectiles");
             ModHelper.GameContent.InvalidateCache("TileSheets/weapons");
@@ -189,11 +193,12 @@ internal abstract class OverhaulModule : SmartEnum<OverhaulModule>
         /// <summary>Gets the ephemeral runtime state for the <see cref="OverhaulModule.RingsModule"/>.</summary>
         internal static Rings.State State => ModEntry.State.Rings;
 
+        /// <inheritdoc />
         protected override void InvalidateAssets()
         {
-            ModHelper.GameContent.InvalidateCache("Data/ObjectInformation");
-            ModHelper.GameContent.InvalidateCache("Data/CraftingRecipes");
-            ModHelper.GameContent.InvalidateCache("Maps/springobjects");
+            ModHelper.GameContent.InvalidateCacheAndLocalized("Data/CraftingRecipes");
+            ModHelper.GameContent.InvalidateCacheAndLocalized("Data/ObjectInformation");
+            ModHelper.GameContent.InvalidateCacheAndLocalized("Maps/springobjects");
         }
     }
 
@@ -211,6 +216,7 @@ internal abstract class OverhaulModule : SmartEnum<OverhaulModule>
         /// <summary>Gets the config instance for the <see cref="OverhaulModule.PondsModule"/>.</summary>
         internal static Ponds.Config Config => ModEntry.Config.Ponds;
 
+        /// <inheritdoc />
         protected override void InvalidateAssets()
         {
             ModHelper.GameContent.InvalidateCache("Data/FishPondData");
@@ -234,9 +240,10 @@ internal abstract class OverhaulModule : SmartEnum<OverhaulModule>
         /// <summary>Gets the ephemeral runtime state for the <see cref="OverhaulModule.TaxesModule"/>.</summary>
         internal static Taxes.State State => ModEntry.State.Taxes;
 
+        /// <inheritdoc />
         protected override void InvalidateAssets()
         {
-            ModHelper.GameContent.InvalidateCache("Data/mail");
+            ModHelper.GameContent.InvalidateCacheAndLocalized("Data/mail");
         }
     }
 
@@ -257,9 +264,10 @@ internal abstract class OverhaulModule : SmartEnum<OverhaulModule>
         /// <summary>Gets the ephemeral runtime state for the <see cref="OverhaulModule.ToolsModule"/>.</summary>
         internal static Tools.State State => ModEntry.State.Tools;
 
+        /// <inheritdoc />
         protected override void InvalidateAssets()
         {
-            ModHelper.GameContent.InvalidateCache("Data/weapons");
+            ModHelper.GameContent.InvalidateCacheAndLocalized("Data/weapons");
         }
     }
 
@@ -282,10 +290,11 @@ internal abstract class OverhaulModule : SmartEnum<OverhaulModule>
     {
         /// <summary>Initializes a new instance of the <see cref="OverhaulModule.CoreModule"/> class.</summary>
         internal CoreModule()
-            : base("Core", 0, "overhaul")
+            : base("Core", 0, "margo")
         {
         }
 
+        /// <inheritdoc />
         internal override void Activate(IModHelper helper)
         {
             base.Activate(helper);

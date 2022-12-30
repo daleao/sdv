@@ -9,7 +9,7 @@ using StardewValley.Objects;
 #endregion using directives
 
 /// <summary>Constructs the GenericModConfigMenu integration.</summary>
-internal sealed partial class GenericModConfigMenuForOverhaul
+internal sealed partial class GenericModConfigMenuCore
 {
     /// <summary>Register the Arsenal config menu.</summary>
     private void RegisterArsenal()
@@ -257,7 +257,6 @@ internal sealed partial class GenericModConfigMenuForOverhaul
                     {
                         Arsenal.Utils.RevertAllStabbingSwords();
                     }
-
                 })
             .AddCheckbox(
                 () => "Enable Rebalance",
@@ -283,7 +282,7 @@ internal sealed partial class GenericModConfigMenuForOverhaul
                 (config, value) =>
                 {
                     config.Arsenal.Weapons.EnableRetexture = value;
-                    ModHelper.GameContent.InvalidateCacheAndLocalized("TileSheets/weapons");
+                    ModHelper.GameContent.InvalidateCache("TileSheets/weapons");
                 })
             .AddCheckbox(
                 () => "Enable Enchantments",
@@ -292,7 +291,7 @@ internal sealed partial class GenericModConfigMenuForOverhaul
                 (config, value) =>
                 {
                     config.Arsenal.Weapons.EnableEnchants = value;
-                    ModHelper.GameContent.InvalidateCacheAndLocalized("TileSheets/BuffsIcons");
+                    ModHelper.GameContent.InvalidateCache("TileSheets/BuffsIcons");
                 });
     }
 }

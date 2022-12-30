@@ -208,7 +208,7 @@
   "weapons.darksword.question": "Whatever it is you should probably leave it alone...",
   "weapons.darksword.grabit": "Grab it",
   "weapons.darksword.leaveit": "Leave it",
-  "weapons.darksword.holdupmessage": "You reach out and discover an old-looking sword. As you grab it, the blade begins to glow an sickly green color, and you feel as if all the peace, hope and happiness were drained from the world...^^     You obtain the ={{darksword}}=  ^",
+  "weapons.darksword.holdupmessage": "You reach out and discover an old-looking sword. As you grab it, the blade begins to glow a sickly green color. Suddenly you feel as if all the peace, hope and happiness were drained from the world...^^     You obtain the ={{darksword}}=  ^",
   "weapons.darksword.cantdeposit": "The {{darksword}} cannot be relinquished.",
   "weapons.holyblade.name": "Blade of Dawn",
   "weapons.holyblade.desc": "A blessed blade, granted to those who demonstrate heroic virtues.",
@@ -229,7 +229,7 @@
 
   "dialogue.clint.blueprint.notdone": "Hey @. I'm still not done deciphering that blueprint of yours.$0#$b#Maybe tomorrow...$2",
   "dialogue.clint.blueprint.done": "Hey @. I finished translating that old blueprint.$0#$b#Sorry it took so long.$2#$b#It turned out to be a recipe for a weapon made out of some strange materials.$0#$b#Whoever wrote it clearly was a master blacksmith. The techniques described in here are quite remarkable.$2#$b#I'd actually love to have a go at making this, but I've no idea where to find these materials.#$b#Anyway, here's your book back. If you do come across this stuff bring it back here and I'll make you that weapon for free.",
-  "dialogue.gil.virtues": "A true adventurer should live by the five heroic virtues: Honor, Compassion, Wisdom, Generosity and Valor. Only then will they become heroes in the eyes of Yoba.#$b#At least that's what my momma used to say.",
+  "dialogue.gil.virtues": "A true adventurer should live by the Five Heroic Virtues: Honor, Compassion, Wisdom, Generosity and Valor. Those who do are deemed heroes in the eyes of Yoba, bound to always return safely from their adventures.#$b#At least that's what my momma used to say.",
   "dialogue.wizard.curse.canthelp": "I'm sorry, @. I'm afraid even the arcane cannot help you now.#$b#Your only hope is to seek the divine.",
 
   "events.forge.intro": "distantBanjo/3 15/farmer 5 19 0 Clint 3 13 2/skippable/pause 1000/speak Clint \"Oh, hey @.$1\"/move farmer 0 -4 3/move farmer -2 0 0/pause 500/speak Clint \"What's up, you got a tool that needs upgrading?\"/pause 500/speak Clint \"What's this, an old blueprint?\"/pause 1000/speak Clint \"I'd love to help you out, @, but I can't understand any of these scribbles...$2\"/pause 1000/speak Clint \"What's that? You say you have the translation guide for this?$0#$b#But that'll take days to decipher...$2\"/pause 500/speak Clint \"Oh alright. I'll get started on this tonight. Come see me again in a couple of days.\"/pause 500/addQuest 144701/end",
@@ -243,20 +243,32 @@
 
   "fromcsfiles.MeleeWeapon.cs.14122": "The prismatic shard glows bright, absorbs the iridium in your backpack and transforms before your very eyes!^^     You obtain the ={{galaxyWeapon}}=  ^",
   "locations.Town.DwarfGrave.Translated": "     You translate the dwarvish:     \n\n'twixt golden triplets lost in sand\nbring forth a rainbow forged from land\nbeseech the heavens! stake thy claim\nlet thunders bruit and roar thy name\nif heart be pure and conscious clear\nand faith hath neither doubt nor fear\nstars shall rain down yonder seal\nand bestow thee with heaven steel",
-  "locations.SeedShop.Yoba": "No evil shall touch a true Hero of Yoba.",
+  "locations.SeedShop.Yoba": "\"No evil shall touch a true Hero of Yoba.\"",
 
   "mail.curse.intro": "Dear @, I must see you about a matter of utmost urgency.^Please come see me at the tower at your earliest convenience.^   -M. Rasmodius, Wizard[#]Ruined Hero",
 
   "quests.forge.intro": "Basic/A Dwarven Legacy/Clint told you he'd finish translating that old blueprint in a couple of days./Visit Clint to ask about the blueprint./Blacksmith/144702/0/-1/false",
   "quests.forge.next": "Basic/A Dwarven Legacy II/That old blueprint turned out to be a recipe for a powerful ancient weapon! Could there be others?/Find the remaining Dwarvish blueprints./null/-1/0/-1/false",
   "quests.curse.intro": "Basic/The Blade of the Ruined Hero/The weapon you found carries the curse of the Ruined Hero! You can already feel it draining away your life energy. Better find some way to lift that curse, and fast!/Find a way to lift the Ruined Blade's curse./null/144704/0/-1/false",
-  "quests.curse.next": "Basic/The Blade of the Ruined Hero/You learned that heroes favored by Yoba receive his protection from evil. To request Yoba's favor you must prove to live by the five heroic virtues./Prove the five heroic virtues./null/144705/0/-1/false",
-  "quests.curse.last": "Basic/The Blade of the Ruined Hero/You learned that heroes favored by Yoba receive his protection from evil. To request Yoba's favor you must prove to live by the five heroic virtues./Take the Blade of Ruin to an altar of Yoba./null/-1/0/-1/false",
-  "quests.virtues.honor": "Basic/Proving Honor/Prove your honor in the eyes of Yoba./Prove your honor./null/-1/0/-1/false",
-  "quests.virtues.compassion": "Basic/Proving Compassion/Prove your compassion in the eyes of Yoba./Prove your compassion./null/-1/0/-1/false",
-  "quests.virtues.wisdom": "Basic/Proving Wisdom/Prove your wisdom in the eyes of Yoba./Prove your wisdom./null/-1/0/-1/false",
-  "quests.virtues.generosity": "Basic/Proving Generosity/Prove your generosity in the eyes of Yoba./Prove your generosity./null/-1/0/-1/false",
-  "quests.virtues.valor": "Basic/Proving Valor/Prove your valor in the eyes of Yoba./Prove your valor./null/-1/0/-1/false",
+  "quests.curse.next": "Basic/The Blade of the Ruined Hero/Those who embody the virtues of a true hero are cleansed of all evil by Yoba's divine power./Prove that you live by the Five Heroic Virtues./null/144705/0/-1/false",
+  "quests.curse.last": "Basic/The Blade of the Ruined Hero/Those who embody the virtues of a true hero are cleansed of all evil by Yoba's divine power./Take the Blade of Ruin to the altar of Yoba./null/-1/0/-1/false",
+  "quests.virtues.honor": "Basic/Trial of Honor/Honor cannot be purchased. Honor also cannot be sold, for its value is greater than all the treasure in the world. Yet one can lose it, and whoever does so shall have sullied his name for all eternity. A truly honorable person always stands behind their actions, faces every challenge and refuses to lie./Wait for a chance to prove your Honor./null/-1/0/-1/false",
+  "quests.virtues.compassion": "Basic/Trial of Compassion/There are many traits that bear witness to a person's true nature. Compassion is what separates men from beasts. Whoever feels sympathy for their fellow man will never turn a blind eye to misfortune. They will always stand in defense of the wronged./Wait for a chance to demonstrate Compassion./null/-1/0/-1/false",
+  "quests.virtues.wisdom": "Basic/Trial of Wisdom/Wisdom is a virtue which one should strive to cultivate throughout one's life, for it is impossible to be so wise one cannot become even wiser. The wise know this... As we journey through life, we should seek to make wise choices. Remember, wise choices are not those which make our lives easier or simpler. Often, they make them more complicated. But always, they make us better./Wait for a chance to prove your Wisdom./null/-1/0/-1/false",
+  "quests.virtues.generosity": "Basic/Trial of Generosity/No person can be called good who does not share their prosperity with others. Generosity is required for dignity in life and peace in death./Wait for a chance to prove your Generosity./null/-1/0/-1/false",
+  "quests.virtues.valor": "Basic/Trial of Valor/Valor does not make one good, yet how many good men have you met in your life's journey who were cowards? Those who posses valor do not hesitate to stand against the majority, no matter what the consequences./Wait for a chance to prove your Valor./null/-1/0/-1/false",
+
+  "yoba.question": "There are additional inscriptions on the altar...",
+  "virtues.honor.name": "Honor",
+  "virtues.compassion.name": "Compassion",
+  "virtues.wisdom.name": "Wisdom",
+  "virtues.generosity.name": "Generosity",
+  "virtues.valor.name": "Valor",
+  "virtues.honor.flavor": "\"Honor cannot be purchased. Honor also cannot be sold, for its value is greater than all the treasure in the world. Yet one can lose it, and whoever does so shall have sullied his name for all eternity. A truly honorable person always stands behind their actions, faces every challenge and refuses to lie.\"",
+  "virtues.compassion.flavor": "\"There are many traits that bear witness to a person's true nature. Compassion is what separates men from beasts. Whoever feels sympathy for their fellow man will never turn a blind eye to misfortune. They will always stand in defense of the wronged.\"",
+  "virtues.wisdom.flavor": "\"Wisdom is a virtue which one should strive to cultivate throughout one's life, for it is impossible to be so wise one cannot become even wiser. The wise know this... As we journey through life, we should seek to make wise choices. Remember, wise choices are not those which make our lives easier or simpler. Often, they make them more complicated. But always, they make us better.\"",
+  "virtues.generosity.flavor": "\"No person can be called good who does not share their prosperity with others. Generosity is required for dignity in life and peace in death.\"",
+  "virtues.valor.flavor": "\"Valor does not make one good, yet how many good men have you met in your life's journey who were cowards? Those who posses valor do not hesitate to stand against the majority, no matter what the consequences.\"",
 
   // json assets
   "objects.dwarvishblueprint.name": "Old Dwarvish Blueprint",

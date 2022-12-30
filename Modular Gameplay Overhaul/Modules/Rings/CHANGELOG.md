@@ -1,5 +1,13 @@
 # Rings Module Change Log
 
+## 1.0.0
+
+### Fixed
+
+* Fixed an issue with the display of topaz bonuses in Infinity Band tooltip.
+* Fixed an issue when unforging Infinity Band.
+* Fixed an issue when rendering an unforged Infinity Band.
+
 ## 0.9.7
 
 ### Changed

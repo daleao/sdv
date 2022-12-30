@@ -44,5 +44,6 @@ internal sealed class UpdateMaxOccupancyCommand : ConsoleCommand
         }
 
         ponds.ForEach(p => p.UpdateMaximumOccupancy());
+        Log.I($"Maximum occupancy updated for {ponds.Count} Fish Ponds.");
     }
 }

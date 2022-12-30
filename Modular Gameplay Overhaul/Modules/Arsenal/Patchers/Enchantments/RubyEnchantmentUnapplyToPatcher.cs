@@ -3,6 +3,7 @@
 #region using directives
 
 using System.Collections.Generic;
+using DaLion.Overhaul.Modules.Arsenal.Extensions;
 using DaLion.Shared.Extensions.Stardew;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
@@ -34,12 +35,20 @@ internal sealed class RubyEnchantmentUnapplyToPatcher : HarmonyPatcher
             .Load<Dictionary<int, string>>("Data/weapons")[weapon.InitialParentTileIndex]
             .Split('/');
         weapon.minDamage.Value -=
-            (int)Math.Min(
-                weapon.Read(DataFields.BaseMinDamage, Convert.ToInt32(data[2])) * __instance.GetLevel() * 0.1f, 1);
+            (int)(weapon.Read(DataFields.BaseMinDamage, Convert.ToInt32(data[2])) * __instance.GetLevel() * 0.1f);
         weapon.maxDamage.Value -=
-            (int)Math.Min(
-                weapon.Read(DataFields.BaseMaxDamage, Convert.ToInt32(data[3])) * __instance.GetLevel() * 0.1f, 1);
+            (int)(weapon.Read(DataFields.BaseMaxDamage, Convert.ToInt32(data[3])) * __instance.GetLevel() * 0.1f);
         return false; // don't run original logic
+    }
+
+    /// <summary>Reset cached stats.</summary>
+    [HarmonyPostfix]
+    private static void RubyEnchantmentUnapplyPostfix(Item item)
+    {
+        if (item is Tool tool and (MeleeWeapon or Slingshot))
+        {
+            tool.Invalidate();
+        }
     }
 
     #endregion harmony patches

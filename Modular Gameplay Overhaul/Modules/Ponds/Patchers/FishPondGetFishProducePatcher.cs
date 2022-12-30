@@ -241,7 +241,9 @@ internal sealed class FishPondGetFishProducePatcher : HarmonyPatcher
                             continue;
                         }
 
-                        var producedWithThisQuality = random.Next(producedRoes[i]);
+                        var producedWithThisQuality = PondsModule.Config.RoeAlwaysSameQualityAsFish
+                            ? producedRoes[i]
+                            : random.Next(producedRoes[i]);
                         held.Add(new SObject(roeIndex, producedWithThisQuality, quality: i == 3 ? 4 : i));
                         if (i > 0)
                         {

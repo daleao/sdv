@@ -15,8 +15,7 @@ internal static class Monster_Feared
 
     internal static NetInt Get_FearTimer(this Monster monster)
     {
-        var holder = Values.GetOrCreateValue(monster);
-        return holder.FearTimer;
+        return Values.GetOrCreateValue(monster).FearTimer;
     }
 
     // Net types are readonly
@@ -26,8 +25,7 @@ internal static class Monster_Feared
 
     internal static NetInt Get_FearIntensity(this Monster monster)
     {
-        var holder = Values.GetOrCreateValue(monster);
-        return holder.FearIntensity;
+        return Values.GetOrCreateValue(monster).FearIntensity;
     }
 
     // Net types are readonly
@@ -37,14 +35,12 @@ internal static class Monster_Feared
 
     internal static Farmer Get_Fearer(this Monster monster)
     {
-        var holder = Values.GetOrCreateValue(monster);
-        return holder.Fearer;
+        return Values.GetOrCreateValue(monster).Fearer;
     }
 
     internal static void Set_Fearer(this Monster monster, Farmer fearer)
     {
-        var holder = Values.GetOrCreateValue(monster);
-        holder.Fearer = fearer;
+        Values.GetOrCreateValue(monster).Fearer = fearer;
     }
 
     internal class Holder

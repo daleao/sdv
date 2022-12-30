@@ -58,7 +58,7 @@ internal sealed class CommunityUpgradeAcceptPatcher : HarmonyPatcher
     private static void CheckForGenerosityCompletion()
     {
         var player = Game1.player;
-        player.Write(DataFields.ProvenGenerosity, true.ToString());
+        player.WriteIfNotExists(DataFields.ProvenGenerosity, true.ToString());
         Virtue.Generosity.CheckForCompletion(player);
     }
 

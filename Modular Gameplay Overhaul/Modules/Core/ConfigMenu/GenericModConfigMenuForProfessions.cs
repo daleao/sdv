@@ -11,7 +11,7 @@ using StardewValley.Buildings;
 #endregion using directives
 
 /// <summary>Constructs the GenericModConfigMenu integration.</summary>
-internal sealed partial class GenericModConfigMenuForOverhaul
+internal sealed partial class GenericModConfigMenuCore
 {
     /// <summary>Register the config menu if available.</summary>
     private void RegisterProfessions()
@@ -129,16 +129,16 @@ internal sealed partial class GenericModConfigMenuForOverhaul
                 config => config.Professions.ScavengerHuntHandicap,
                 (config, value) => config.Professions.ScavengerHuntHandicap = value,
                 1f,
-                10f,
-                0.5f)
+                3f,
+                0.2f)
             .AddNumberField(
                 () => "Prospector Hunt Handicap",
                 () => "Increase this number if you find that Prospector hunts end too quickly.",
                 config => config.Professions.ProspectorHuntHandicap,
                 (config, value) => config.Professions.ProspectorHuntHandicap = value,
                 1f,
-                10f,
-                0.5f)
+                3f,
+                0.2f)
             .AddNumberField(
                 () => "Treasure Detection Distance",
                 () => "How close you must be to the treasure tile to reveal it's location, in tiles.",

@@ -1,12 +1,12 @@
 {
   "$schema": "https://smapi.io/schemas/manifest.json",
   "UniqueID": "DaLion.Overhaul",
-  "Name": "Modular Gameplay Overhaul",
+  "Name": "MARGO :: Modular Gameplay Overhaul",
   "Author": "DaLion",
-  "Version": "0.9.9-Debug",
+  "Version": "1.0.0",
   "Description": "An immersive gameplay overhaul, broken down into modules.",
   "MinimumApiVersion": "3.18.0",
-  "EntryDll": "ModularOverhaul.dll",
+  "EntryDll": "DaLion.Overhaul.dll",
   "Dependencies": [
     {
       "UniqueID": "BBR.BetterRings",

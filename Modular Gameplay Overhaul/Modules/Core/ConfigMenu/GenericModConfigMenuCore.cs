@@ -9,11 +9,11 @@ using DaLion.Shared.Integrations.GenericModConfigMenu;
 #endregion using directives
 
 /// <summary>Constructs the GenericModConfigMenu integration.</summary>
-internal sealed partial class GenericModConfigMenuForOverhaul : GenericModConfigMenuIntegration<GenericModConfigMenuForOverhaul, ModConfig>
+internal sealed partial class GenericModConfigMenuCore : GenericModConfigMenuIntegration<GenericModConfigMenuCore, ModConfig>
 {
     private static bool _reload;
 
-    private GenericModConfigMenuForOverhaul()
+    private GenericModConfigMenuCore()
         : base(ModHelper.ModRegistry, Manifest)
     {
     }

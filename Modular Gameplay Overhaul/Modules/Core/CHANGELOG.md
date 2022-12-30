@@ -1,5 +1,19 @@
 ﻿# Modular Overhaul Core Change Log
 
+## 1.0.0
+
+### Changed
+
+* Rebranded as MARGO.
+
+### Fixed
+
+* Fixed a possible memory leak in the shared Event Manager logic.
+
+### Removed
+
+* Removed Generic Mod Config Menu as a hard requirement.
+
 ## 0.9.7
 
 ### Changed

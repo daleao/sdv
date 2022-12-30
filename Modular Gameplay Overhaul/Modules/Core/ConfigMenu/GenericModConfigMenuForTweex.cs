@@ -1,7 +1,7 @@
 ﻿namespace DaLion.Overhaul.Modules.Core.ConfigMenu;
 
 /// <summary>Constructs the GenericModConfigMenu integration.</summary>
-internal sealed partial class GenericModConfigMenuForOverhaul
+internal sealed partial class GenericModConfigMenuCore
 {
     /// <summary>Register the Tweex menu.</summary>
     private void RegisterTweex()

@@ -3,6 +3,7 @@
 #region using directives
 
 using DaLion.Shared.Attributes;
+using DaLion.Shared.Extensions.SMAPI;
 using DaLion.Shared.Integrations;
 
 #endregion using directives
@@ -23,7 +24,7 @@ internal sealed class BetterRingsIntegration : ModIntegration<BetterRingsIntegra
             return false;
         }
 
-        ModHelper.GameContent.InvalidateCache("Maps/springobjects");
+        ModHelper.GameContent.InvalidateCacheAndLocalized("Maps/springobjects");
         return true;
     }
 }

@@ -99,7 +99,7 @@ internal sealed class QuincyProjectile : BasicProjectile
         //location.temporarySprites.Add(
         //    new TemporaryAnimatedSprite(
         //        $"{Manifest.UniqueID}/QuincyCollisionAnimation",
-        //        new Rectangle(0, 0, 64, 64),
+        //        new Rectangle(    0, 0, 64, 64),
         //        50f,
         //        1,
         //        1,

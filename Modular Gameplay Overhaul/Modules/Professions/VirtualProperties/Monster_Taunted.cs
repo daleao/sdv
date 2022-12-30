@@ -14,8 +14,7 @@ internal static class Monster_Taunted
 
     internal static Monster? Get_Taunter(this Monster monster)
     {
-        var holder = Values.GetOrCreateValue(monster);
-        return holder.Taunter;
+        return Values.GetOrCreateValue(monster).Taunter;
     }
 
     internal static void Set_Taunter(this Monster monster, Monster? taunter)
@@ -29,8 +28,7 @@ internal static class Monster_Taunted
 
     internal static Farmer? Get_FakeFarmer(this Monster monster)
     {
-        var holder = Values.GetOrCreateValue(monster);
-        return holder.FakeFarmer;
+        return Values.GetOrCreateValue(monster).FakeFarmer;
     }
 
     internal class Holder

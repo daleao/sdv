@@ -1,5 +1,11 @@
 # Professions Module Change Log
 
+## 1.0.0
+
+### Fixed
+
+* Fixed the range for triggering Demolitionist's Get Excited buff.
+
 ## 0.9.9
 
 ### Fixed

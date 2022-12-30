@@ -102,7 +102,7 @@ internal sealed class ForgeMenuUpdatePatcher : HarmonyPatcher
 
     private static void UnforgeInfinityBand(ForgeMenu menu, CombinedRing infinity)
     {
-        var combinedRings = new List<Ring>(infinity.combinedRings);
+        var combinedRings = infinity.combinedRings.ToList();
         infinity.combinedRings.Clear();
         foreach (var gemstone in combinedRings.Select(ring => Gemstone.FromRing(ring.ParentSheetIndex)))
         {

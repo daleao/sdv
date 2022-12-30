@@ -1,5 +1,17 @@
 ﻿# Ponds Module Change Log
 
+## 1.0.0
+
+### Added
+
+* Added DaysUntilAlgaeSpawn setting to the GMCM menu.
+* Added RoeAlwaysSameQualityAsFish setting.
+
+### Fixed
+
+* Fixed an issue which caused invalid mod data leftover after changing a pond's fish type.
+* Adjustments to the positioning of fish in Pond Query Menu.
+
 ## 0.9.6
 
 ### Fixed

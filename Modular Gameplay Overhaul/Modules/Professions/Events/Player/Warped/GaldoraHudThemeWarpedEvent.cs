@@ -5,7 +5,6 @@
 using DaLion.Shared.Attributes;
 using DaLion.Shared.Events;
 using DaLion.Shared.Extensions;
-using DaLion.Shared.Extensions.SMAPI;
 using StardewModdingAPI.Events;
 
 #endregion using directives
@@ -36,7 +35,7 @@ internal sealed class GaldoraHudThemeWarpedEvent : WarpedEvent
                 "Custom_IridiumQuarry",
                 "Custom_TreasureCave"))
         {
-            ModHelper.GameContent.InvalidateCacheAndLocalized($"{Manifest.UniqueID}/UltimateMeter");
+            ModHelper.GameContent.InvalidateCache($"{Manifest.UniqueID}/UltimateMeter");
         }
     }
 }

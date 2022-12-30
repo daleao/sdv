@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using DaLion.Shared.Extensions;
+using DaLion.Shared.Extensions.Collections;
 using DaLion.Shared.Extensions.Stardew;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
@@ -40,16 +41,22 @@ internal sealed class GameLocationAnswerDialogueActionPatcher : HarmonyPatcher
             return true; // run original logic
         }
 
+        if (!questionAndAnswer.ContainsAnyOf("DarkSword_", "Blacksmith_", "Yoba_"))
+        {
+            return true; // run original logic
+        }
+
         try
         {
+            var player = Game1.player;
             switch (questionAndAnswer)
             {
                 case "DarkSword_GrabIt":
                 {
                     Game1.activeClickableMenu.exitThisMenuNoSound();
                     Game1.playSound("parry");
-                    Game1.player.addItemByMenuIfNecessaryElseHoldUp(new MeleeWeapon(Constants.DarkSwordIndex));
-                    Game1.player.mailForTomorrow.Add("viegoCurse");
+                    player.addItemByMenuIfNecessaryElseHoldUp(new MeleeWeapon(Constants.DarkSwordIndex));
+                    player.mailForTomorrow.Add("viegoCurse");
                     break;
                 }
 
@@ -68,7 +75,52 @@ internal sealed class GameLocationAnswerDialogueActionPatcher : HarmonyPatcher
 
                 default:
                 {
-                    return true; // run original logic
+                    var split = questionAndAnswer.Split('_');
+                    if (split[0] != "Yoba")
+                    {
+                        return true; // run original logic
+                    }
+
+                    switch (split[1])
+                    {
+                        case "Honor":
+                            Game1.drawObjectDialogue(Virtue.Honor.FlavorText);
+                            player.Write(DataFields.HasReadHonor, true.ToString());
+                            break;
+                        case "Compassion":
+                            Game1.drawObjectDialogue(Virtue.Compassion.FlavorText);
+                            player.Write(DataFields.HasReadCompassion, true.ToString());
+                            break;
+                        case "Wisdom":
+                            Game1.drawObjectDialogue(Virtue.Wisdom.FlavorText);
+                            player.Write(DataFields.HasReadWisdom, true.ToString());
+                            break;
+                        case "Generosity":
+                            Game1.drawObjectDialogue(Virtue.Generosity.FlavorText);
+                            player.Write(DataFields.HasReadGenerosity, true.ToString());
+                            break;
+                        case "Valor":
+                            Game1.drawObjectDialogue(Virtue.Valor.FlavorText);
+                            player.Write(DataFields.HasReadValor, true.ToString());
+                            break;
+                    }
+
+                    if (player.Read<bool>(DataFields.HasReadHonor) &&
+                        player.Read<bool>(DataFields.HasReadCompassion) &&
+                        player.Read<bool>(DataFields.HasReadWisdom) &&
+                        player.Read<bool>(DataFields.HasReadGenerosity) &&
+                        player.Read<bool>(DataFields.HasReadValor))
+                    {
+                        player.addQuest(Virtue.Honor);
+                        player.addQuest(Virtue.Compassion);
+                        player.addQuest(Virtue.Wisdom);
+                        player.addQuest(Virtue.Generosity);
+                        player.addQuest(Virtue.Valor);
+                        player.completeQuest(Constants.VirtuesIntroQuestId);
+                        Virtue.List.ForEach(virtue => virtue.CheckForCompletion(Game1.player));
+                    }
+
+                    return false; // don't run original logic
                 }
             }
 

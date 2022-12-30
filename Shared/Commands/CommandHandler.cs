@@ -154,6 +154,12 @@ internal sealed class CommandHandler
             .ToArray();
 
         Log.D($"[CommandHandler]: Found {commandTypes.Length} command classes. Instantiating commands...");
+        if (commandTypes.Length == 0)
+        {
+            return this;
+        }
+
+        Log.D($"[CommandHandler]: Instantiating commands...");
         foreach (var type in commandTypes)
         {
             try

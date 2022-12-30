@@ -40,11 +40,11 @@
       </ul>
     </li>
     <li>
-      <a href="#general-combat-changes">Enchantments & Forges</a>
+      <a href="#enchantments-forges">Enchantments & Forges</a>
       <ul>
-        <li><a href="#knockback-damage">Gemstone Forges</a></li>
-        <li><a href="#defense-overhaul">Weapon Enchantments</a></li>
-        <li><a href="#defense-overhaul">Slingshot Enchantments</a></li>
+        <li><a href="#gemstone-forges">Gemstone Forges</a></li>
+        <li><a href="#weapon-enchantments">Weapon Enchantments</a></li>
+        <li><a href="#slingshot-enchantments">Slingshot Enchantments</a></li>
       </ul>
     </li>
     <li><a href="#infinity-1">Infinity +1</a></li>
@@ -55,7 +55,8 @@
         <li><a href="#difficulty-sliders">Difficulty Sliders</a></li>
       </ul>
     </li>
-    <li><a href="#recommended-mods">Compatibility</a></li>
+    <li><a href="#compatibility">Compatibility</a></li>
+    <li><a href="#faq">F.A.Q.</a></li>
   </ol>
 </details>
 
@@ -278,6 +279,70 @@ Last but not least, this module offers three sliders to taylor monster difficult
 - Compatible with [Advanced Melee Framework][mod:amf] and related content packs, but I do not recommend using both together.
 - Compatible with [Stardew Valley Expanded][mod:sve]﻿﻿ and will overwrite the changes to weapons stats from that mod, and prevent Tempered Galaxy Weapons from appearing in shops.
 - Compatible with [Vanilla Tweaks][mod:vanilla-tweaks], and will use compatible textures if that mod is installed.
+
+## F.A.Q.
+
+**How do I unlock Clint's Forging mechanic?**
+
+Have the Dwarvish Translation Guide and at least 6 hearts with Clint, then enter Clint's shop once you have found the first Dwarvish Blueprint.
+
+**Where can I find the Dwarvish Blueprints?﻿**
+
+They can be found along with their corresponding crafting materials, described above in the Weapons section.
+
+**Where can I find the Blade of Ruin?**
+
+At the end of the single-floor [Quarry Mine](https://stardewvalleywiki.com/Quarry_Mine) from the statue of the Grim Reaper.
+
+**How do I lift the Ruined Blade's curse?**
+
+Prove your Honor, Compassion and Wisdom by selecting certain responses during character heart events (you will have at least 8 chances to prove each of these virtues at least 3 times). Prove your Valor by completing at least 5 monster slayer quests. Finally, prove your Generosity by purchasing the house upgrade for Pam. When you are ready, approach Yoba's altar in Pierre's house.
+
+**What are the IDs of heart events related the Blade of Ruin?**
+
+The following events provide chances to demonstrate your virtues. You can use these IDs in conjunction with the `debug ebi <id>` command to replay these events, provided that the Event Repeater mod is installed.
+
+
+Events where you may demonstrate Honor:
+7 - Maru 4 hearts
+16 - Pierre 6 hearts
+27 - Sebastian 6 hearts
+36 - Penny 6 hearts
+46 - Sam 4 hearts
+58 - Harvey 6 hearts
+100 - Kent 3 hearts
+288847 - Alex 8 hearts
+2481135 - Alex 4 hearts
+733330 - Sam 3 hearts
+
+Events where you may demonstrate Compassion:
+13 - Haley 6 hearts
+27 - Sebastian 6 hearts
+51 - Leah 4 hearts
+100 - Kent 3 hearts
+288847 - Alex 8 hearts
+502969 - Linus 0 hearts
+503180 - Pam 9 hearts
+733330 - Sam 3 hearts
+3910975 - Shane 6 hearts
+
+Events where you may demonstrate Wisdom:
+11 - Haley 2 hearts
+21 - Alex 5 hearts
+25 - Demetrius 3 hearts
+27 - Sebastian 6 hearts
+34 - Penny 2 hearts
+50 - Leah 2 hearts
+56 - Harvey 2 hearts
+97 - Clint 3 hearts
+
+**How do I obtain the Infinity weapons?**
+
+Unforge the Blade of Dawn to obtain a Hero Soul, and then forge that into any Galaxy weapon after 3 Galaxy Souls.
+
+**What other unique or mythic weapons can be found?**
+
+You can still obtain the Neptune's Glaive and Broken Trident from Fishing Chests. The Lava Katana can be dropped from Magma Sprites, and the Obsidian Edge can be dropped from Shadow people in the dangerous Mines. Lastly, the Insect Head can potentially become your strongest weapon.
 
 <!-- MARKDOWN LINKS & IMAGES -->
 [shield:common]: <https://img.shields.io/badge/Common-white?style=flat>

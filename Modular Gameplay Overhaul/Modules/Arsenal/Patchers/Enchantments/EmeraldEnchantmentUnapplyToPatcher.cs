@@ -2,6 +2,7 @@
 
 #region using directives
 
+using DaLion.Overhaul.Modules.Arsenal.Extensions;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
 using StardewValley.Tools;
@@ -30,6 +31,16 @@ internal sealed class EmeraldEnchantmentUnapplyToPatcher : HarmonyPatcher
 
         weapon.speed.Value -= __instance.GetLevel();
         return false; // don't run original logic
+    }
+
+    /// <summary>Reset cached stats.</summary>
+    [HarmonyPostfix]
+    private static void EmeraldEnchantmentUnapplyPostfix(Item item)
+    {
+        if (item is Tool tool and (MeleeWeapon or Slingshot))
+        {
+            tool.Invalidate();
+        }
     }
 
     #endregion harmony patches

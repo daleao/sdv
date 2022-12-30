@@ -3,6 +3,8 @@
 #region using directives
 
 using System.Xml.Serialization;
+using DaLion.Overhaul.Modules.Arsenal.Extensions;
+using StardewValley.Tools;
 
 #endregion using directives
 
@@ -32,5 +34,9 @@ public class GarnetEnchantment : BaseWeaponEnchantment
     protected override void _UnapplyTo(Item item)
     {
         base._UnapplyTo(item);
+        if (item is Tool tool and (MeleeWeapon or Slingshot))
+        {
+            tool.Invalidate();
+        }
     }
 }

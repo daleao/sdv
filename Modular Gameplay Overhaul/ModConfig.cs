@@ -108,7 +108,7 @@ public sealed class ModConfig
 
     /// <summary>Gets the key used to trigger debug features.</summary>
     [JsonProperty]
-    public KeybindList DebugKey { get; internal set; } = KeybindList.Parse("OemTilde");
+    public KeybindList DebugKey { get; internal set; } = KeybindList.Parse("LeftAlt");
 
     /// <summary>Validates all internal configs and overwrites the user's config file if any invalid settings were found.</summary>
     /// <param name="helper">Provides simplified APIs for writing mods.</param>
@@ -120,7 +120,9 @@ public sealed class ModConfig
         }
     }
 
-    private IEnumerable<Shared.Configs.Config> List()
+    /// <summary>Enumerates all individual module <see cref="Shared.Configs.Config"/>s.</summary>
+    /// <returns>A <see cref="IEnumerable{T}"/> of <see cref="Shared.Configs.Config"/>s.</returns>
+    internal IEnumerable<Shared.Configs.Config> List()
     {
         yield return this.Arsenal;
         yield return this.Professions;

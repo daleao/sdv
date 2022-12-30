@@ -4,6 +4,7 @@
 
 using System.IO;
 using DaLion.Shared.Attributes;
+using DaLion.Shared.Extensions.SMAPI;
 using DaLion.Shared.Integrations;
 using DaLion.Shared.Integrations.JsonAssets;
 
@@ -44,6 +45,6 @@ internal sealed class JsonAssetsIntegration : ModIntegration<JsonAssetsIntegrati
         Log.T("The IDs for custom items in the Arsenal module have been assigned.");
 
         // reload the monsters data so that Dwarven Scrap Metal is added to Dwarven Sentinel's drop list
-        ModHelper.GameContent.InvalidateCache("Data/Monsters");
+        ModHelper.GameContent.InvalidateCacheAndLocalized("Data/Monsters");
     }
 }

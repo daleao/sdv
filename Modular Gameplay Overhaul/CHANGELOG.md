@@ -1,13 +1,9 @@
 # Modular Overhaul Change Logs
 
-## Revision 9 Highlights
+## Major Release 1 Highlights
 
-* The Blade of Ruin quest-line is now fully realized.
-
-## Minor Release 9 Highlights
-
-* Initial release of Modular Gameplay Overhaul.
-* Initial release of the [Arsenal](Modules/Arsenal/README.md) module. Check it out for tons of new features.
+* Official release of Modular Gameplay Overhaul.
+* Official release of the [Arsenal](Modules/Arsenal/README.md) module.
 * Changes to Slingshot [Professions](Modules/Professions/README.md) to accomodate the changes introduced by Arsenal.
 * New icons for prestiged professions.
 * Introduction of Gemstone Music Theory in the [Rings](Modules/Rings/README.md) module.

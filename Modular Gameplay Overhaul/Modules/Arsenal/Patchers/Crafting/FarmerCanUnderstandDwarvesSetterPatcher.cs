@@ -2,6 +2,7 @@
 
 #region using directives
 
+using DaLion.Shared.Extensions.SMAPI;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
 
@@ -22,7 +23,7 @@ internal sealed class FarmerCanUnderstandDwarvesSetterPatcher : HarmonyPatcher
     [HarmonyPostfix]
     private static void FarmerStaminaSetterPostfix()
     {
-        ModHelper.GameContent.InvalidateCache("Data/Events/Blacksmith");
+        ModHelper.GameContent.InvalidateCacheAndLocalized("Data/Events/Blacksmith");
     }
 
     #endregion harmony patches

@@ -438,17 +438,20 @@ internal sealed class GameLocationExplodePatcher : HarmonyPatcher
 
         // get excited speed buff
         var distanceFromEpicenter = (int)(tileLocation - who.getTileLocation()).Length();
-        if (distanceFromEpicenter < (radius * 2) + 1)
+        if (distanceFromEpicenter <= radius + 1)
         {
             ProfessionsModule.State.DemolitionistExcitedness = 4;
         }
 
-        if (distanceFromEpicenter < radius + 1)
+        if (distanceFromEpicenter <= (radius / 2) + 1)
         {
             ProfessionsModule.State.DemolitionistExcitedness += 2;
         }
 
-        EventManager.Enable<DemolitionistUpdateTickedEvent>();
+        if (ProfessionsModule.State.DemolitionistExcitedness > 0)
+        {
+            EventManager.Enable<DemolitionistUpdateTickedEvent>();
+        }
     }
 
     #endregion harmony patches

@@ -78,6 +78,7 @@ internal sealed class ObjectProjectile : BasicProjectile
             ? 2f * source.Get_EffectiveCritPowerModifier() * (1f + firer.critPowerModifier)
             : 0f;
 
+        this.CanPierce = !this.IsSquishy() && ammo.ParentSheetIndex != Constants.ExplosiveAmmoIndex;
         if (this.IsSquishy())
         {
             Reflector
@@ -111,6 +112,8 @@ internal sealed class ObjectProjectile : BasicProjectile
     public float CritChance { get; }
 
     public float CritPower { get; }
+
+    public bool CanPierce { get; }
 
     public bool DidBounce { get; private set; }
 
@@ -178,7 +181,7 @@ internal sealed class ObjectProjectile : BasicProjectile
         }
 
         // check for piercing
-        if (this.Firer.HasProfession(Profession.Desperado, true) && !this.IsSquishy() &&
+        if (this.Firer.HasProfession(Profession.Desperado, true) && this.CanPierce &&
             Game1.random.NextDouble() < this.Overcharge - 1f)
         {
             this.Damage = (int)(this.Damage * 0.8f);

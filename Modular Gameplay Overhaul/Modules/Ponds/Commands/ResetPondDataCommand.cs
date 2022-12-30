@@ -51,5 +51,6 @@ internal sealed class ResetPondDataCommand : ConsoleCommand
         nearest.Write(DataFields.CheckedToday, null);
         nearest.Write(DataFields.ItemsHeld, null);
         nearest.Write(DataFields.MetalsHeld, null);
+        Log.I($"The mod data for nearby {nearest.GetFishObject().Name} pond has been reset.");
     }
 }

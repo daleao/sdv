@@ -20,19 +20,11 @@ internal sealed class FishPondOnFishTypeChangedPatcher : HarmonyPatcher
 
     #region harmony patches
 
-    /// <summary>Record pre-reset state.</summary>
-    [HarmonyPrefix]
-    // ReSharper disable once RedundantAssignment
-    private static void FishPondOnFishTypeChangedPrefix(FishPond __instance, ref int __state)
-    {
-        __state = __instance.fishType.Value;
-    }
-
     /// <summary>Reset Fish Pond data.</summary>
     [HarmonyPostfix]
-    private static void FishPondOnFishTypeChangedPostfix(FishPond __instance, int __state)
+    private static void FishPondOnFishTypeChangedPostfix(FishPond __instance, int old_value, int new_value)
     {
-        if (__state <= 0 || __instance.fishType.Value > 0)
+        if (old_value < 0 || new_value >= 0)
         {
             return;
         }

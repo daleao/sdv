@@ -81,6 +81,7 @@ internal sealed class ObjectProjectile : BasicProjectile
             : 0f;
 
         this.CanBeRecovered = canRecover && !this.IsSquishy() && ammo.ParentSheetIndex != Constants.ExplosiveAmmoIndex;
+        this.CanPierce = !this.IsSquishy() && ammo.ParentSheetIndex != Constants.ExplosiveAmmoIndex;
         if (this.IsSquishy())
         {
             Reflector
@@ -120,9 +121,11 @@ internal sealed class ObjectProjectile : BasicProjectile
 
     public bool DidBounce { get; private set; }
 
-    public bool DidPierce { get; private set; }
+    public bool CanPierce { get; }
 
     public bool CanBeRecovered { get; }
+
+    public bool DidPierce { get; private set; }
 
     public int Index => this.currentTileSheetIndex.Value;
 
@@ -193,7 +196,7 @@ internal sealed class ObjectProjectile : BasicProjectile
         }
 
         // check for piercing
-        if (this.Firer.professions.Contains(Farmer.desperado + 100) && !this.IsSquishy() &&
+        if (this.Firer.professions.Contains(Farmer.desperado + 100) && this.CanPierce &&
             Game1.random.NextDouble() < this.Overcharge - 1f)
         {
             this.Damage = (int)(this.Damage * 0.8f);

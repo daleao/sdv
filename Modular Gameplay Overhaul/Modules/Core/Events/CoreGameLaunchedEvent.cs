@@ -22,6 +22,6 @@ internal sealed class CoreGameLaunchedEvent : GameLaunchedEvent
     protected override void OnGameLaunchedImpl(object? sender, GameLaunchedEventArgs e)
     {
         // config menu
-        GenericModConfigMenuForOverhaul.Instance?.Register();
+        GenericModConfigMenuCore.Instance?.Register();
     }
 }

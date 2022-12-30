@@ -94,6 +94,12 @@ internal sealed class Harmonizer
             .ToArray();
 
         Log.D($"[Harmonizer]: Found {patchTypes.Length} patch classes. Applying patches...");
+        if (patchTypes.Length == 0)
+        {
+            return this;
+        }
+
+        Log.D("[Harmonizer]: Applying patches...");
         foreach (var type in patchTypes)
         {
 #if RELEASE
@@ -157,7 +163,7 @@ internal sealed class Harmonizer
         }
 
         this.StopWatch();
-        this.PrintSummary();
+        this.LogStats();
         return this;
     }
 
@@ -174,7 +180,7 @@ internal sealed class Harmonizer
     }
 
     [Conditional("DEBUG")]
-    private void PrintSummary()
+    private void LogStats()
     {
         var methodsPatched = this.Harmony.GetPatchedMethods().Count();
         var appliedPrefixes = this.Harmony.GetAllPrefixes(p => p.owner == this.HarmonyId).Count();

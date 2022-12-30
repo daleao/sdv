@@ -57,6 +57,38 @@ public class Virtue : SmartEnum<Virtue>
     {
     }
 
+    /// <summary>Gets the localized display name for this <see cref="Virtue"/>.</summary>
+    internal string DisplayName
+    {
+        get
+        {
+            var text = string.Empty;
+            this
+                .When(Honor).Then(() => text = I18n.Get("virtues.honor.name"))
+                .When(Compassion).Then(() => text = I18n.Get("virtues.compassion.name"))
+                .When(Wisdom).Then(() => text = I18n.Get("virtues.wisdom.name"))
+                .When(Generosity).Then(() => text = I18n.Get("virtues.generosity.name"))
+                .When(Valor).Then(() => text = I18n.Get("virtues.valor.name"));
+            return text;
+        }
+    }
+
+    /// <summary>Gets the localized flavor inscription text for this <see cref="Virtue"/>.</summary>
+    internal string FlavorText
+    {
+        get
+        {
+            var text = string.Empty;
+            this
+                .When(Honor).Then(() => text = I18n.Get("virtues.honor.flavor"))
+                .When(Compassion).Then(() => text = I18n.Get("virtues.compassion.flavor"))
+                .When(Wisdom).Then(() => text = I18n.Get("virtues.wisdom.flavor"))
+                .When(Generosity).Then(() => text = I18n.Get("virtues.generosity.flavor"))
+                .When(Valor).Then(() => text = I18n.Get("virtues.valor.flavor"));
+            return text;
+        }
+    }
+
     /// <summary>Checks if the <paramref name="farmer"/> has met the conditions for all virtues.</summary>
     /// <param name="farmer">The <see cref="Farmer"/>.</param>
     /// <returns><see langword="true"/> if all five virtue's conditions have been met, otherwise <see langword="false"/>.</returns>
@@ -65,7 +97,7 @@ public class Virtue : SmartEnum<Virtue>
         return List.All(virtue => virtue.ProvenBy(farmer));
     }
 
-    /// <summary>Checks if the <paramref name="farmer"/> has met the condition for this virtue.</summary>
+    /// <summary>Checks if the <paramref name="farmer"/> has met the condition for this <see cref="Virtue"/>.</summary>
     /// <param name="farmer">The <see cref="Farmer"/>.</param>
     /// <returns><see langword="true"/> if the virtue's condition has been met, otherwise <see langword="false"/>.</returns>
     internal bool ProvenBy(Farmer farmer)
@@ -80,7 +112,7 @@ public class Virtue : SmartEnum<Virtue>
         return proven;
     }
 
-    /// <summary>Marks the corresponding quest as complete if the virtue has been proven.</summary>
+    /// <summary>Marks the corresponding quest as complete if this <see cref="Virtue"/> has been proven.</summary>
     /// <param name="farmer">The <see cref="Farmer"/>.</param>
     internal void CheckForCompletion(Farmer farmer)
     {

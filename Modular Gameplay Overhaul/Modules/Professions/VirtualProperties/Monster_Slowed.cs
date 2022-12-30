@@ -15,8 +15,7 @@ internal static class Monster_Slowed
 
     internal static NetInt Get_SlowTimer(this Monster monster)
     {
-        var holder = Values.GetOrCreateValue(monster);
-        return holder.SlowTimer;
+        return Values.GetOrCreateValue(monster).SlowTimer;
     }
 
     // Net types are readonly
@@ -26,8 +25,7 @@ internal static class Monster_Slowed
 
     internal static NetInt Get_SlowIntensity(this Monster monster)
     {
-        var holder = Values.GetOrCreateValue(monster);
-        return holder.SlowIntensity;
+        return Values.GetOrCreateValue(monster).SlowIntensity;
     }
 
     // Net types are readonly
@@ -37,14 +35,12 @@ internal static class Monster_Slowed
 
     internal static Farmer Get_Slower(this Monster monster)
     {
-        var holder = Values.GetOrCreateValue(monster);
-        return holder.Slower;
+        return Values.GetOrCreateValue(monster).Slower;
     }
 
     internal static void Set_Slower(this Monster monster, Farmer slower)
     {
-        var holder = Values.GetOrCreateValue(monster);
-        holder.Slower = slower;
+        Values.GetOrCreateValue(monster).Slower = slower;
     }
 
     internal class Holder

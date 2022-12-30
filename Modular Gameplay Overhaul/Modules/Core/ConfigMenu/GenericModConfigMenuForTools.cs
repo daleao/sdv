@@ -9,7 +9,7 @@ using HarmonyLib;
 #endregion using directives
 
 /// <summary>Constructs the GenericModConfigMenu integration.</summary>
-internal sealed partial class GenericModConfigMenuForOverhaul
+internal sealed partial class GenericModConfigMenuCore
 {
     /// <summary>Register the config menu if available.</summary>
     private void RegisterTools()

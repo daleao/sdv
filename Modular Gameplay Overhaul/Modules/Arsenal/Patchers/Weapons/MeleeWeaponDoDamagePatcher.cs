@@ -182,7 +182,7 @@ internal sealed class MeleeWeaponDoDamagePatcher : HarmonyPatcher
                         OpCodes.Call,
                         typeof(MeleeWeapon_Stats).RequireMethod(nameof(MeleeWeapon_Stats.Get_EffectiveCritPower))))
                 .Move()
-                .Remove(); ;
+                .Remove();
         }
         catch (Exception ex)
         {

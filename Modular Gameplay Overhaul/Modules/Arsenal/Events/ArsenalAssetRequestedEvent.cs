@@ -58,6 +58,9 @@ internal sealed class ArsenalAssetRequestedEvent : AssetRequestedEvent
         this.Edit("TileSheets/weapons", new AssetEditor(EditWeaponsTileSheetLate, AssetEditPriority.Late));
 
         this.Provide(
+            $"{Manifest.UniqueID}/BeamCollisionAnimation",
+            new ModTextureProvider(() => "assets/animations/beam.png", Priority: AssetLoadPriority.Medium));
+        this.Provide(
             $"{Manifest.UniqueID}/InfinityCollisionAnimation",
             new ModTextureProvider(() => "assets/animations/infinity.png", AssetLoadPriority.Medium));
         this.Provide(

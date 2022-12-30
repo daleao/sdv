@@ -7,6 +7,7 @@ using DaLion.Overhaul;
 using DaLion.Overhaul.Modules.Arsenal.Extensions;
 using DaLion.Shared.Commands;
 using DaLion.Shared.Extensions.Collections;
+using DaLion.Shared.Extensions.SMAPI;
 using DaLion.Shared.Extensions.Stardew;
 using StardewValley;
 using StardewValley.Tools;
@@ -32,7 +33,7 @@ internal sealed class RevalidateItemsCommand : ConsoleCommand
     /// <inheritdoc />
     public override void Callback(string[] args)
     {
-        ModHelper.GameContent.InvalidateCache("Data/weapons");
+        ModHelper.GameContent.InvalidateCacheAndLocalized("Data/weapons");
         if (Context.IsMainPlayer)
         {
             Utility.iterateAllItems(item =>
