@@ -82,13 +82,13 @@
 
   <ItemGroup>
     <Reference Include="SpaceCore">
-      <HintPath>$(GamePath)\Mods - Build\_dependencies\SpaceCore.dll</HintPath>
+      <HintPath>dependencies\SpaceCore.dll</HintPath>
       <Private>false</Private>
     </Reference>
-    <Reference Include="GenericModConfigMenu">
+    <!--<Reference Include="GenericModConfigMenu">
       <HintPath>$(GamePath)\Mods - Build\_dependencies\GenericModConfigMenu.dll</HintPath>
       <Private>false</Private>
-    </Reference>
+    </Reference>-->
     <!--
     <Reference Include="SMAPI.Toolkit">
       <HintPath>$(GamePath)\smapi-internal\Pintail.dll</HintPath>
@@ -105,6 +105,12 @@
     <Compile Remove="resources\**" />
     <EmbeddedResource Remove="resources\**" />
     <None Remove="resources\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="dependencies\**" />
+    <EmbeddedResource Remove="dependencies\**" />
+    <None Remove="dependencies\**" />
   </ItemGroup>
 
   <!-- global usings directives -->
