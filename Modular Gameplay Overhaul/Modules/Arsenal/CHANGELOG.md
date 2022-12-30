@@ -15,7 +15,7 @@
 
 * Garnet Enchantment can now be applied to weapons correctly.
 * Garnet Enchantment's effect will now apply correctly.
-* Fixed an issue where holding anything besides a weapon or slingshot would cause the player the take 0 damage.
+* Fixed an issue where holding anything besides a weapon or slingshot would cause the player to take 0 damage.
 * Fixed a possible Null-Reference Exception when receiving a Galaxy weapon.
 * Infinity weapons now have 4 forge slots as advertised under the rebalance.
 * Fixed a bug with Ruby Enchantment applying only a single point of damage.
