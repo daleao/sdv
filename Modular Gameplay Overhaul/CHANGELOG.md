@@ -1,10 +1,17 @@
 # Modular Overhaul Change Logs
 
-## Revision 1 Highlights
+## Revision 1.0.1 Highlights
 
-* Legendary weapons are now marked as Special.
+* You can now toggle between Abolute and Relative weapon stat tooltips.
+* Legendary weapons can no longer be sold or trashed.
+* Enchanted weapons now sell for a premium (+1000g).
+* Legendary weapons now have a colorful swipe effect. Also, fixed the direction of the swipe effect during back-hand swipes.
+* Improved the responsiveness of FaceMouseCursor during combos.
+* Fixed some bugs related to Garnet forge and Garnet resonance.
+* Now supports modded tool upgrades from Love Of Cooking and drbirbdev's Panning and Ranching Tool Upgrades.
+* Dramatically reduced the odds of Prospector spawning bonus mining nodes.
 
-## Major Release 1 Highlights
+## Major Release 1.0.0 Highlights
 
 * Official release of Modular Gameplay Overhaul.
 * Official release of the [Arsenal](Modules/Arsenal/README.md) module.

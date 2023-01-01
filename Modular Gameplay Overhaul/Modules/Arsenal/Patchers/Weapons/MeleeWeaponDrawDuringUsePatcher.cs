@@ -67,7 +67,7 @@ internal sealed class MeleeWeaponDrawDuringUsePatcher : HarmonyPatcher
                 return true; // run original logic
             }
 
-            var hitstep = ArsenalModule.State.ComboHitStep;
+            var hitstep = ArsenalModule.State.ComboHitQueued;
             var finalHitStep = ((WeaponType)type).GetFinalHitStep();
             var numFramesBeforeFinalHit = ((int)finalHitStep - 1) * 6;
             if (type == MeleeWeapon.club && (frameOfFarmerAnimation >= numFramesBeforeFinalHit || hitstep == finalHitStep))

@@ -10,15 +10,26 @@ using Microsoft.Xna.Framework;
 /// <summary>The ephemeral runtime state for Arsenal.</summary>
 internal sealed class State
 {
+    private ComboHitStep _hitQueued;
     private ComboHitStep _hitStep;
     private bool _animating;
+
+    internal ComboHitStep ComboHitQueued
+    {
+        get => this._hitQueued;
+        set
+        {
+            Log.D($"Queued {value}");
+            this._hitQueued = value;
+        }
+    }
 
     internal ComboHitStep ComboHitStep
     {
         get => this._hitStep;
         set
         {
-            Log.D($"{value}");
+            Log.D($"Doing {value}");
             this._hitStep = value;
         }
     }

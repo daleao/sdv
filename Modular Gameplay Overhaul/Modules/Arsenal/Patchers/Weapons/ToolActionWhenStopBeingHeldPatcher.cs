@@ -24,10 +24,13 @@ internal sealed class ToolActionWhenStopBeingHeldPatcher : HarmonyPatcher
     [HarmonyPostfix]
     private static void ToolActionWhenStopBeingHeldPostfix(Tool __instance, Farmer who)
     {
-        if (__instance is MeleeWeapon && who.IsLocalPlayer)
+        if (__instance is not MeleeWeapon || !who.IsLocalPlayer)
         {
-            ArsenalModule.State.ComboHitStep = ComboHitStep.Idle;
+            return;
         }
+
+        ArsenalModule.State.ComboHitQueued = ComboHitStep.Idle;
+        ArsenalModule.State.ComboHitStep = ComboHitStep.Idle;
     }
 
     #endregion harmony patches

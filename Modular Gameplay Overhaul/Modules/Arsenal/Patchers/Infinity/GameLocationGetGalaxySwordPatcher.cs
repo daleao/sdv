@@ -81,8 +81,11 @@ internal sealed class GameLocationGetGalaxySwordPatcher : HarmonyPatcher
             }
 
             player.Append(DataFields.GalaxyArsenalObtained, chosen.Value.ToString());
+            if (!player.mailReceived.Contains("galaxySword"))
+            {
+                player.mailReceived.Add("galaxySword");
+            }
 
-            //player.mailReceived.Add("galaxySword"); --> don't add mail to prevent galaxy weapons from appearing in stores
             player.jitterStrength = 0f;
             Game1.screenGlowHold = false;
             Reflector.GetStaticFieldGetter<Multiplayer>(typeof(Game1), "multiplayer").Invoke()

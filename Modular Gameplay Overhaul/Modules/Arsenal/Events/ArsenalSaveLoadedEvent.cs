@@ -6,6 +6,7 @@ using System.Linq;
 using DaLion.Shared.Events;
 using DaLion.Shared.Extensions.SMAPI;
 using DaLion.Shared.Extensions.Stardew;
+using Extensions;
 using StardewModdingAPI.Events;
 using StardewValley.Tools;
 
@@ -40,7 +41,17 @@ internal sealed class ArsenalSaveLoadedEvent : SaveLoadedEvent
                 item => item is MeleeWeapon { InitialParentTileIndex: Constants.DarkSwordIndex }) is not null &&
             !player.hasOrWillReceiveMail("viegoCurse"))
         {
-            player.mailForTomorrow.Add("viegoCurse");
+            Game1.addMailForTomorrow("viegoCurse");
+        }
+
+        if (Game1.MasterPlayer.mailReceived.Contains("pamHouseUpgrade"))
+        {
+            player.WriteIfNotExists(DataFields.ProvenGenerosity, true.ToString());
+        }
+
+        if (player.NumMonsterSlayerQuestsCompleted() >= 5)
+        {
+            player.WriteIfNotExists(DataFields.ProvenValor, true.ToString());
         }
 
         if (Game1.options.useLegacySlingshotFiring)

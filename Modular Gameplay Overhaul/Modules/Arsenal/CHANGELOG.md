@@ -5,6 +5,9 @@
 ### Added
 
 * Added an option to change the display style of weapon tooltips between relative and absolute values.
+* Added colorful swipe effect for Blade of Ruin and Blade of Dawn, as well as Infinity Gavel smash hit.
+* Legendary weapons can no longer be sold.
+* Enchanted weapons now sell for a premium (+1000g).
 
 ### Changed
 
@@ -15,6 +18,9 @@
 * Galaxy and Infinity weapons, Blade of Ruin and Blade of Dawn are now marked as Special and cannot be trashed.
 * Fixed a bug with Garnet resonance.
 * Improved the response of FaceMouseCursor feature in-between combo hits.
+* Fixed the direction of the swipe effect on backhand sword swipes.
+* No longer conflicts with Love Of Cooking's Frying Pan upgrades or drbirbdev's Panning and Ranching Tool Upgrades.
+* No longer prevents players from receiving the Galaxy Sword mail flag.
 
 ## 1.0.0
 

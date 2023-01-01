@@ -171,7 +171,11 @@ internal static class FarmerExtensions
             case Game1.up:
                 outFrames.AddRange(new[]
                 {
-                    new AnimationFrame(36, (int)(65 * modifier), true, flip: false, Farmer.showSwordSwipe),
+                    new AnimationFrame(36, (int)(65 * modifier), true, flip: false, who =>
+                    {
+                        ArsenalModule.State.ComboHitStep++;
+                        Farmer.showSwordSwipe(who);
+                    }),
                     new AnimationFrame(37, (int)(65 * modifier), true, flip: false,  who =>
                     {
                         Farmer.showSwordSwipe(who);
@@ -197,7 +201,11 @@ internal static class FarmerExtensions
             case Game1.right:
                 outFrames.AddRange(new[]
                 {
-                    new AnimationFrame(30, (int)(65 * modifier), true, flip: false, Farmer.showSwordSwipe),
+                    new AnimationFrame(30, (int)(65 * modifier), true, flip: false, who =>
+                    {
+                        ArsenalModule.State.ComboHitStep++;
+                        Farmer.showSwordSwipe(who);
+                    }),
                     new AnimationFrame(31, (int)(55 * modifier), true, flip: false, who =>
                     {
                         Farmer.showSwordSwipe(who);
@@ -223,7 +231,11 @@ internal static class FarmerExtensions
             case Game1.down:
                 outFrames.AddRange(new[]
                 {
-                    new AnimationFrame(24, (int)(65 * modifier), true, flip: false, Farmer.showSwordSwipe),
+                    new AnimationFrame(24, (int)(65 * modifier), true, flip: false, who =>
+                    {
+                        ArsenalModule.State.ComboHitStep++;
+                        Farmer.showSwordSwipe(who);
+                    }),
                     new AnimationFrame(25, (int)(55 * modifier), true, flip: false,  who =>
                     {
                         Farmer.showSwordSwipe(who);
@@ -249,7 +261,11 @@ internal static class FarmerExtensions
             case Game1.left:
                 outFrames.AddRange(new[]
                 {
-                    new AnimationFrame(30, (int)(65 * modifier), true, flip: true, Farmer.showSwordSwipe),
+                    new AnimationFrame(30, (int)(65 * modifier), true, flip: true, who =>
+                    {
+                        ArsenalModule.State.ComboHitStep++;
+                        Farmer.showSwordSwipe(who);
+                    }),
                     new AnimationFrame(31, (int)(55 * modifier), true, flip: true,  who =>
                     {
                         Farmer.showSwordSwipe(who);
@@ -276,7 +292,7 @@ internal static class FarmerExtensions
         Reflector
             .GetUnboundFieldSetter<FarmerSprite, int>(sprite, "currentAnimationFrames")
             .Invoke(sprite, sprite.CurrentAnimation.Count);
-        ArsenalModule.State.ComboHitStep++;
+        ArsenalModule.State.ComboHitQueued++;
         ArsenalModule.State.FarmerAnimating = true;
     }
 
@@ -303,7 +319,11 @@ internal static class FarmerExtensions
             case Game1.up:
                 outFrames.AddRange(new[]
                 {
-                    new AnimationFrame(41, (int)(65 * modifier), true, flip: false, Farmer.showSwordSwipe),
+                    new AnimationFrame(41, (int)(65 * modifier), true, flip: false, who =>
+                    {
+                        ArsenalModule.State.ComboHitStep++;
+                        Farmer.showSwordSwipe(who);
+                    }),
                     new AnimationFrame(40, (int)(55 * modifier), true, flip: false, who =>
                     {
                         Farmer.showSwordSwipe(who);
@@ -329,7 +349,11 @@ internal static class FarmerExtensions
             case Game1.right:
                 outFrames.AddRange(new[]
                 {
-                    new AnimationFrame(35, (int)(65 * modifier), true, flip: false, Farmer.showSwordSwipe),
+                    new AnimationFrame(35, (int)(65 * modifier), true, flip: false, who =>
+                    {
+                        ArsenalModule.State.ComboHitStep++;
+                        Farmer.showSwordSwipe(who);
+                    }),
                     new AnimationFrame(34, (int)(55 * modifier), true, flip: false, who =>
                     {
                         Farmer.showSwordSwipe(who);
@@ -355,7 +379,11 @@ internal static class FarmerExtensions
             case Game1.down:
                 outFrames.AddRange(new[]
                 {
-                    new AnimationFrame(29, (int)(55 * modifier), true, flip: false, Farmer.showSwordSwipe),
+                    new AnimationFrame(29, (int)(55 * modifier), true, flip: false, who =>
+                    {
+                        ArsenalModule.State.ComboHitStep++;
+                        Farmer.showSwordSwipe(who);
+                    }),
                     new AnimationFrame(28, (int)(45 * modifier), true, flip: false, who =>
                     {
                         Farmer.showSwordSwipe(who);
@@ -381,7 +409,11 @@ internal static class FarmerExtensions
             case Game1.left:
                 outFrames.AddRange(new[]
                 {
-                    new AnimationFrame(35, (int)(65 * modifier), true, flip: true, Farmer.showSwordSwipe),
+                    new AnimationFrame(35, (int)(65 * modifier), true, flip: true, who =>
+                    {
+                        ArsenalModule.State.ComboHitStep++;
+                        Farmer.showSwordSwipe(who);
+                    }),
                     new AnimationFrame(34, (int)(55 * modifier), true, flip: true, who =>
                     {
                         Farmer.showSwordSwipe(who);
@@ -408,7 +440,7 @@ internal static class FarmerExtensions
         Reflector
             .GetUnboundFieldSetter<FarmerSprite, int>(sprite, "currentAnimationFrames")
             .Invoke(sprite, sprite.CurrentAnimation.Count);
-        ArsenalModule.State.ComboHitStep++;
+        ArsenalModule.State.ComboHitQueued++;
         ArsenalModule.State.FarmerAnimating = true;
     }
 
@@ -436,7 +468,11 @@ internal static class FarmerExtensions
             case Game1.up:
                 outFrames.AddRange(new[]
                 {
-                    new AnimationFrame(36, (int)(windup * modifier), false, flip: false, DamageDuringSmash),
+                    new AnimationFrame(36, (int)(windup * modifier), false, flip: false, who =>
+                    {
+                        ArsenalModule.State.ComboHitStep++;
+                        who.DamageDuringSmash();
+                    }),
                     new AnimationFrame(37, (int)(50 * halfModifier), false, flip: false, who =>
                     {
                         who.DamageDuringSmash();
@@ -465,7 +501,11 @@ internal static class FarmerExtensions
             case Game1.right:
                 outFrames.AddRange(new[]
                 {
-                    new AnimationFrame(48, (int)(windup * modifier), false, flip: false, DamageDuringSmash),
+                    new AnimationFrame(48, (int)(windup * modifier), false, flip: false, who =>
+                    {
+                        ArsenalModule.State.ComboHitStep++;
+                        who.DamageDuringSmash();
+                    }),
                     new AnimationFrame(49, (int)(50 * halfModifier), false, flip: false, who =>
                     {
                         who.DamageDuringSmash();
@@ -490,7 +530,11 @@ internal static class FarmerExtensions
             case Game1.down:
                 outFrames.AddRange(new[]
                 {
-                    new AnimationFrame(66, (int)(windup * modifier), false, flip: false, DamageDuringSmash),
+                    new AnimationFrame(66, (int)(windup * modifier), false, flip: false, who =>
+                    {
+                        ArsenalModule.State.ComboHitStep++;
+                        who.DamageDuringSmash();
+                    }),
                     new AnimationFrame(67, (int)(50 * halfModifier), false, flip: false, who =>
                     {
                         who.DamageDuringSmash();
@@ -515,7 +559,11 @@ internal static class FarmerExtensions
             case Game1.left:
                 outFrames.AddRange(new[]
                 {
-                    new AnimationFrame(48, (int)(windup * modifier), false, flip: true, DamageDuringSmash),
+                    new AnimationFrame(48, (int)(windup * modifier), false, flip: true, who =>
+                    {
+                        ArsenalModule.State.ComboHitStep++;
+                        who.DamageDuringSmash();
+                    }),
                     new AnimationFrame(49, (int)(50 * halfModifier), false, flip: true, who =>
                     {
                         who.DamageDuringSmash();
@@ -541,7 +589,7 @@ internal static class FarmerExtensions
         Reflector
             .GetUnboundFieldSetter<FarmerSprite, int>(sprite, "currentAnimationFrames")
             .Invoke(sprite, sprite.CurrentAnimation.Count);
-        ArsenalModule.State.ComboHitStep++;
+        ArsenalModule.State.ComboHitQueued++;
         ArsenalModule.State.FarmerAnimating = true;
     }
 
@@ -566,7 +614,11 @@ internal static class FarmerExtensions
             case Game1.up:
                 outFrames.AddRange(new[]
                 {
-                    new AnimationFrame(38, (int)(50 * halfModifier), true, flip: false, DamageDuringThrust),
+                    new AnimationFrame(38, (int)(50 * halfModifier), true, flip: false, who =>
+                    {
+                        ArsenalModule.State.ComboHitStep++;
+                        who.DamageDuringThrust();
+                    }),
                     new AnimationFrame(40, (int)(120 * halfModifier), true, flip: false, who =>
                     {
                         who.DamageDuringThrust();
@@ -586,7 +638,11 @@ internal static class FarmerExtensions
             case Game1.right:
                 outFrames.AddRange(new[]
                 {
-                    new AnimationFrame(33, (int)(50 * halfModifier), false, flip: false, DamageDuringThrust),
+                    new AnimationFrame(33, (int)(50 * halfModifier), false, flip: false, who =>
+                    {
+                        ArsenalModule.State.ComboHitStep++;
+                        who.DamageDuringThrust();
+                    }),
                     new AnimationFrame(34, (int)(120 * halfModifier), false, flip: false, who =>
                     {
                         who.DamageDuringThrust();
@@ -606,7 +662,11 @@ internal static class FarmerExtensions
             case Game1.down:
                 outFrames.AddRange(new[]
                 {
-                    new AnimationFrame(25, (int)(50 * halfModifier), true, flip: false, DamageDuringSmash),
+                    new AnimationFrame(25, (int)(50 * halfModifier), true, flip: false, who =>
+                    {
+                        ArsenalModule.State.ComboHitStep++;
+                        who.DamageDuringThrust();
+                    }),
                     new AnimationFrame(27, (int)(120 * halfModifier), true, flip: false, who =>
                     {
                         who.DamageDuringThrust();
@@ -626,7 +686,11 @@ internal static class FarmerExtensions
             case Game1.left:
                 outFrames.AddRange(new[]
                 {
-                    new AnimationFrame(38, (int)(50 * halfModifier), false, flip: true, DamageDuringThrust),
+                    new AnimationFrame(38, (int)(50 * halfModifier), false, flip: true, who =>
+                    {
+                        ArsenalModule.State.ComboHitStep++;
+                        who.DamageDuringThrust();
+                    }),
                     new AnimationFrame(40, (int)(120 * halfModifier), false, flip: true, who =>
                     {
                         who.DamageDuringThrust();
@@ -647,7 +711,7 @@ internal static class FarmerExtensions
         Reflector
             .GetUnboundFieldSetter<FarmerSprite, int>(sprite, "currentAnimationFrames")
             .Invoke(sprite, sprite.CurrentAnimation.Count);
-        ArsenalModule.State.ComboHitStep++;
+        ArsenalModule.State.ComboHitQueued++;
         ArsenalModule.State.FarmerAnimating = true;
     }
 

@@ -10,7 +10,7 @@
     <RepositoryType>git</RepositoryType>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <UpdateKeys>Nexus:14470</UpdateKeys>
-    <Version>1.0.1</Version>
+    <Version>1.0.2</Version>
 
     <!-- build settings -->
     <TargetFramework>net5.0</TargetFramework>

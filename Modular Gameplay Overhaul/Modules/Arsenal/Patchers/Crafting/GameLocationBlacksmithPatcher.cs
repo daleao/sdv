@@ -10,6 +10,7 @@ using DaLion.Shared.Extensions.Stardew;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
 using Netcode;
+using Professions.Integrations;
 using StardewValley.Tools;
 
 #endregion using directives
@@ -90,7 +91,7 @@ internal sealed class GameLocationBlacksmithPatcher : HarmonyPatcher
         var responses = new List<Response>();
         responses.Add(new Response("Shop", Game1.content.LoadString("Strings\\Locations:Blacksmith_Clint_Shop")));
 
-        if (HasUpgradeableToolsInInventory(Game1.player))
+        if (HasUpgradeableToolInInventory(Game1.player))
         {
             responses.Add(new Response(
                 "Upgrade",
@@ -104,7 +105,7 @@ internal sealed class GameLocationBlacksmithPatcher : HarmonyPatcher
                 Game1.content.LoadString("Strings\\Locations:Blacksmith_Clint_Geodes")));
         }
 
-        if (ArsenalModule.Config.DwarvishCrafting && Game1.player.hasOrWillReceiveMail("clintForge"))
+        if (ArsenalModule.Config.DwarvishCrafting && Game1.player.mailReceived.Contains("clintForge"))
         {
             responses.Add(new Response("Forge", I18n.Get("blacksmith.forge.option")));
         }
@@ -113,12 +114,21 @@ internal sealed class GameLocationBlacksmithPatcher : HarmonyPatcher
         location.createQuestionDialogue(string.Empty, responses.ToArray(), "Blacksmith");
     }
 
-    private static bool HasUpgradeableToolsInInventory(Farmer farmer)
+    private static bool HasUpgradeableToolInInventory(Farmer farmer)
     {
         return farmer.getToolFromName("Axe") is Axe { UpgradeLevel: < 4 } ||
                farmer.getToolFromName("Pickaxe") is Pickaxe { UpgradeLevel: < 4 } ||
                farmer.getToolFromName("Hoe") is Hoe { UpgradeLevel: < 4 } ||
-               farmer.getToolFromName("Watering Can") is WateringCan { UpgradeLevel: < 4 };
+               farmer.getToolFromName("Watering Can") is WateringCan { UpgradeLevel: < 4 } ||
+               farmer.trashCanLevel < 4 ||
+               (LoveOfCookingIntegration.Instance?.IsLoaded == true && Reflector
+                   .GetStaticMethodDelegate<Func<bool>>("LoveOfCooking.Objects.CookingTool".ToType(), "CanBeUpgraded")
+                   .Invoke()) ||
+               (ModHelper.ModRegistry.IsLoaded("drbirbdev.PanningUpgrades") &&
+                farmer.getToolFromName("UpgradeablePan") is Pan { UpgradeLevel: < 4 }) ||
+               (ModHelper.ModRegistry.IsLoaded("drbirbdev.RanchingToolUpgrades") &&
+                (farmer.getToolFromName("UpgradeablePail") is MilkPail { UpgradeLevel: < 4 } ||
+                 farmer.getToolFromName("UpgradeableShears") is Shears { UpgradeLevel: < 4 }));
     }
 
     private static bool HasGeodeInInventory(Farmer farmer)

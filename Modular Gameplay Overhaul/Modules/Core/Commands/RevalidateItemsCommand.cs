@@ -49,7 +49,7 @@ internal sealed class RevalidateItemsCommand : ConsoleCommand
             Game1.player.Items.OfType<MeleeWeapon>().ForEach(RevalidateSingleWeapon);
         }
 
-        if (ArsenalModule.IsEnabled && Game1.player.hasOrWillReceiveMail("galaxySword"))
+        if (ArsenalModule.IsEnabled && Game1.player.mailReceived.Contains("galaxySword"))
         {
             Game1.player.WriteIfNotExists(DataFields.GalaxyArsenalObtained, Constants.GalaxySwordIndex.ToString());
         }
@@ -90,9 +90,10 @@ internal sealed class RevalidateItemsCommand : ConsoleCommand
             weapon.RecalculateAppliedForges(true);
         }
 
-        if (!ArsenalModule.IsEnabled && weapon.InitialParentTileIndex == Constants.GalaxySwordIndex && !Game1.player.hasOrWillReceiveMail("galaxySword"))
+        if (ArsenalModule.IsEnabled && ArsenalModule.Config.InfinityPlusOne && (weapon.isGalaxyWeapon() || weapon.IsInfinityWeapon()
+            || weapon.InitialParentTileIndex is Constants.DarkSwordIndex or Constants.HolyBladeIndex))
         {
-            Game1.player.mailReceived.Add("galaxySword");
+            weapon.specialItem = true;
         }
     }
 }

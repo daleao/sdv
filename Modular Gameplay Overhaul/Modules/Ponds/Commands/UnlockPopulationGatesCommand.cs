@@ -74,13 +74,8 @@ internal sealed class UnlockPopulationGatesCommand : ConsoleCommand
 
         nearest.lastUnlockedPopulationGate.Value = gate;
         nearest.UpdateMaximumOccupancy();
-        if (args.Length > 0)
-        {
-            Log.I($"Unlocked {args[0]} population gates for nearby {nearest.GetFishObject().Name} pond.");
-        }
-        else
-        {
-            Log.I($"Unlocked all population gates for nearby {nearest.GetFishObject().Name} pond.");
-        }
+        Log.I(args.Length > 0
+            ? $"Unlocked {args[0]} population gates for nearby {nearest.GetFishObject().Name} pond."
+            : $"Unlocked all population gates for nearby {nearest.GetFishObject().Name} pond.");
     }
 }

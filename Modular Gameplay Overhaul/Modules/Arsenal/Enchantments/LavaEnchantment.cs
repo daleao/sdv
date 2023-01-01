@@ -3,8 +3,6 @@
 #region using directives
 
 using System.Xml.Serialization;
-using Microsoft.Xna.Framework;
-using StardewValley.Monsters;
 
 #endregion using directives
 

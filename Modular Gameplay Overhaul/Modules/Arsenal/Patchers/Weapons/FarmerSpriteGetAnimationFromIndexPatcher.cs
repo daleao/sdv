@@ -41,7 +41,7 @@ internal sealed class FarmerSpriteGetAnimationFromIndexPatcher : HarmonyPatcher
             }
 
             var type = weapon.type.Value;
-            var hitStep = ArsenalModule.State.ComboHitStep;
+            var hitStep = ArsenalModule.State.ComboHitQueued;
             if (type == MeleeWeapon.club && hitStep == weapon.GetFinalHitStep() - 1)
             {
                 owner.QueueSmash(weapon);

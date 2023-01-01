@@ -32,7 +32,7 @@ internal sealed class ComboButtonPressedEvent : ButtonPressedEvent
             return;
         }
 
-        var hitStep = ArsenalModule.State.ComboHitStep;
+        var hitStep = ArsenalModule.State.ComboHitQueued;
         if (hitStep == ComboHitStep.Idle)
         {
             return;

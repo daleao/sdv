@@ -9,6 +9,8 @@ using DaLion.Shared.Extensions.Collections;
 using DaLion.Shared.Extensions.Reflection;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
+using Shared.Extensions;
+using StardewValley.Tools;
 
 #endregion using directives
 
@@ -39,7 +41,9 @@ internal sealed class STF_UtilityGetShopStockPatcher : HarmonyPatcher
             return;
         }
 
-        var toRemove = __result.Keys.Where(key => key.Name.Contains("Tempered Galaxy")).ToArray();
+        var toRemove = __result.Keys
+            .Where(key => key is MeleeWeapon or Slingshot && key.Name.ContainsAnyOf("Galaxy", "Infinity"))
+            .ToArray();
         if (toRemove.Length == 0)
         {
             return;
