@@ -7,7 +7,7 @@
   "harvester.title.male": "收获者",
   "harvester.title.female": "收获者",
   "harvester.desc": "收获作物有10%的机会获得额外的产量。",
-  "harvester.desc.prestiged": "10%>>20%机会获得额外的产量.",
+  "harvester.desc.prestiged": "10%>>20%机会获得额外的产量。",
   "agriculturist.title.male": "农业学家",
   "agriculturist.title.female": "农业学家",
   "agriculturist.desc": "作物生长速率增加10%。没有施加化肥时有几率收货铱星作物。",
@@ -84,7 +84,7 @@
   "demolitionist.title.female": "爆破专家",
   "demolitionist.desc": "炸弹半径+1，爆破的资源增加20%。",
   "demolitionist.desc.prestiged": "爆破的资源增加20%>>40%。",
-  "demolitionist.buff.desc": "燃烧吧，炸弹之魂!",
+  "demolitionist.buff.desc": "燃烧吧，炸弹之魂！",
   "gemologist.title.male": "宝石专家",
   "gemologist.title.female": "宝石专家",
   "gemologist.desc": "随着时间的推移，学会识别更高质量的矿物质，宝石复制机工作速度提高25%。",
@@ -196,6 +196,93 @@
   "prestige.achievement.title.female": "无所不能",
   "prestige.achievement.desc": "掌握每一项技能的所有职业。",
 
+
+  // *********** //
+  // * ARSENAL * //
+  // *********** //
+
+  "weapons.dwarven.prefix": "矮人",
+  "weapons.elven.prefix": "小精灵",
+  "weapons.darksword.name": "堕落之刃",
+  "weapons.darksword.desc": "一把被诅咒的剑。它通过消耗敌人的生命力量而变得更加强大。",
+  "weapons.darksword.found": "雕像后面还有别的奇怪东西 。",
+  "weapons.darksword.chill": "你感到脊梁上有一股邪恶的寒意袭来。",
+  "weapons.darksword.question": "不管它是什么，你应该别管它...",
+  "weapons.darksword.grabit": "拿走它",
+  "weapons.darksword.leaveit": "远离它",
+  "weapons.darksword.holdupmessage": "你发现一把看起来很古老的剑。当你抓住它时，刀刃开始发出病态的颜色。你觉得好像所有的和平、希望和幸福都被从世界上抽干了。...^^     你获得 ={{darksword}}=  ^",
+  "weapons.darksword.cantdeposit": "{{darksword}}不能被丢弃。",
+  "weapons.holyblade.name": "黎明之刃",
+  "weapons.holyblade.desc": "一把被祝福的武器，授予一个有德行的英雄。",
+  "weapons.holyblade.holdupmessage": "{{darksword}}对由巴祭坛有反应！刀刃的邪恶能量开始消退，取而代之的，是温暖的感觉渗入你的手掌...^^     您获得 ={{holyblade}}=  ^",
+  "weapons.insecthead.extradesc": " 造成伤害与杀死的虫类数量成正比。",
+  "weapons.obsidianedge.extradesc": "切开敌人的盔甲。",
+  "weapons.iridiumneedle.extradesc": "保证暴击。",
+  "slingshots.infinity.name": "无限弹弓",
+  "slingshots.infinity.desc": "这是银河弹弓的真实形态。",
+  "objects.galaxysoul.desc": "这是小型星系的核心。",
+
+  "blueprint.found.first": "你发现了一张古老的矮人蓝图！它已经褪色了，但可以在一些矮人符号旁边识别出{{type}}的形状。也许铁匠可以从中得到一些启发。",
+  "blueprint.found.local": "你发现了一张古老的矮人蓝图。",
+  "blueprint.found.global": "{who}发现了一张古老的矮人蓝图。",
+  "blacksmith.forge.option": "锻造",
+  "blacksmith.forge.explanation": "我可以根据你找到的那些蓝图，锻造一些新武器。如果我有这些奇怪的材料就好了。",
+  "blacksmith.forge.confirmation": "哦，你找到了一些奇怪的材料！我会尽快开始。应该在几天内就能好。",
+
+  "dialogue.clint.blueprint.notdone": "嘿，@。我还没有完成破译你的蓝图.$0#$b#也许明天...$2",
+  "dialogue.clint.blueprint.done": "嘿，@。我破译了那张旧蓝图。$0#$b#抱歉花了这么长时间。$2#$b#原来它是用一些奇怪的材料制成的武器的配方.$0#$b#画这个的人，是铁匠大师。$2#$b#我真的很想尝试一下，但我不知道在哪里可以找到这些材料.#$b#无论如何，图纸是你找回来的。如果你拿到这些材料，把它带回这里，我会免费为你制造这个武器。",
+  "dialogue.gil.virtues": "一个真正的英雄，应该遵循五种英雄美德：荣誉，怜悯，智慧，慷慨和勇敢。只有这样，他们才会成为由巴眼中的英雄#$b#至少我妈妈是这么说的。",
+  "dialogue.wizard.curse.canthelp": "对不起，@。恐怕现在连魔法都帮不了你#$b#你唯一的希望就是求助于神灵。",
+
+  "events.forge.intro": "distantBanjo/3 15/farmer 5 19 0 Clint 3 13 2/skippable/pause 1000/speak Clint \"嗯，嘿 @.$1\"/move farmer 0 -4 3/move farmer -2 0 0/pause 500/speak Clint \"怎么了？你有一个需要升级的工具?\"/pause 500/speak Clint \"这是什么？一张古老的矮人蓝图?\"/pause 1000/speak Clint \"我很乐意帮助你，@，但我看不懂这些涂鸦...$2\"/pause 1000/speak Clint \"什么？你说你有这方面的翻译指南?$0#$b#但这需要几天时间才能破译...$2\"/pause 500/speak Clint \"哦，好吧。我今晚就要开始破解这个了。过几天再来找我吧.\"/pause 500/addQuest 144701/end",
+  "events.curse.intro": "WizardSong/-1000 -1000/farmer 8 24 0 Wizard 10 15 2/skippable/showFrame Wizard 20/viewport 8 18 true/move farmer 0 -3 0/pause 2000/speak Wizard \"@，我很高兴你来了.\"/pause 300/showFrame Wizard 16/pause 500/speak Wizard \"我一直在魔力中感到不安，但直到你走进来才知道那是什么.\"/pause 500/showFrame Wizard 0/pause 500/move Wizard -2 0 3/move Wizard 0 3 2/pause 1000/speak Wizard \"那把奇怪的剑...\"/move Wizard 0 1 2/pause 300/speak Wizard \"告诉我，你是怎么得到它的?\"/pause 1500/speak Wizard \"我明白了.\"/pause 500/move Wizard 0 -1 0/speak Wizard \"从中散发出来的邪恶能量只能意味着一件事.\"/pause 500/faceDirection Wizard 2 true/pause 500/speak Wizard \"那一定是堕落的英雄之剑.$1\"/pause 1000/move Wizard 0 1 2/pause 200/speak Wizard \"传说中，主人公维埃戈曾经挥舞着一把华丽的金色巨剑，这是由巴本人送给他的神器。.\"/pause 200/showFrame Wizard 18/pause 200/speak Wizard \"但当他心爱的妻子去世时，维埃戈变得疯狂，被悲伤所吞噬。.\"/pause 500/showFrame Wizard 0/pause 500/move Wizard -2 0 3/pause 200/speak Wizard \"他转向巫术，痴迷于复活她.#$b#尽管付出了巨大的代价，他最终还是成功了。.\"/pause 200/move Wizard 2 0 1/pause 200/speak Wizard \"就在那一瞬间，他妻子的身体升起了可怕的阴影和愤怒的幽灵#$b#对被从死亡中撕裂感到困惑，她拿起维埃戈自己的利刃，用它刺穿了他的心脏。.\"/faceDirection Wizard 2 true/speak Wizard \"而就在这时，维埃戈的黑暗巫术和由巴的神力发生冲突，一团黑雾从维埃戈的心中涌出，他成为了被困在不死中的堕落英雄.\"/move Wizard 0 -1 0/speak Wizard \"我自己也不相信这些故事。但如果巨剑是真的，那么也许维埃戈本人仍然在寻找它.\"/pause 1500/move Wizard 0 2 2/speak Wizard \"那把剑最终会吞噬你，@，就像它所做的维埃戈一样.#$b#你必须摆脱它。无论你做什么，你都不能使用它.\"/pause 500/addQuest 144703/end",
+  "events.curse.intro.sve": "WizardSong/-1000 -1000/farmer 8 24 0 Wizard 10 15 2/skippable/showFrame Wizard 20/viewport 8 18 true/move farmer 0 -3 0/pause 2000/speak Wizard \"@，我很高兴你来了.\"/pause 300/showFrame Wizard 16/pause 500/speak Wizard \"我一直在魔力中感到不安，但直到你走进来才知道那是什么.\"/pause 500/showFrame Wizard 0/pause 500/move Wizard -2 0 3/move Wizard 0 3 2/pause 1000/speak Wizard \"那把奇怪的剑...\"/move Wizard 0 1 2/pause 300/speak Wizard \"告诉我，你是怎么得到它的?\"/pause 1500/speak Wizard \"我明白了.\"/pause 500/move Wizard 0 -1 0/speak Wizard \"从中散发出来的邪恶能量只能意味着一件事.\"/pause 500/faceDirection Wizard 2 true/pause 500/speak Wizard \"那一定是堕落的英雄之剑.$3\"/pause 1000/move Wizard 0 1 2/pause 200/speak Wizard \"传说中，主人公维埃戈曾经挥舞着一把华丽的金色巨剑，这是由巴本人送给他的神器。.\"/pause 200/showFrame Wizard 18/pause 200/speak Wizard \"但当他心爱的妻子去世时，维埃戈变得疯狂，被悲伤所吞噬。.\"/pause 500/showFrame Wizard 0/pause 500/move Wizard -2 0 3/pause 200/speak Wizard \"他转向巫术，痴迷于复活她.#$b#尽管付出了巨大的代价，他最终还是成功了。.\"/pause 200/move Wizard 2 0 1/pause 200/speak Wizard \"就在那一瞬间，他妻子的身体升起了可怕的阴影和愤怒的幽灵#$b#对被从死亡中撕裂感到困惑，她拿起维埃戈自己的利刃，用它刺穿了他的心脏。.\"/faceDirection Wizard 2 true/speak Wizard \"而就在这时，维埃戈的黑暗巫术和由巴的神力发生冲突，一团黑雾从维埃戈的心中涌出，他成为了被困在不死中的堕落英雄.\"/move Wizard 0 -1 0/speak Wizard \"我自己也不相信这些故事。但如果巨剑是真的，那么也许维埃戈本人仍然在寻找它.\"/pause 1500/move Wizard 0 2 2/speak Wizard \"那把剑最终会吞噬你，@，就像它所做的维埃戈一样.#$b#你必须摆脱它。无论你做什么，你都不能使用它.\"/pause 500/addQuest 144703/end",
+  "events.100162.sword": "MarlonsTheme/21 9/farmer -100 -100 0 Marlon 23 6 2/addQuest 14/skippable/pause 1000/move Marlon 0 2 2/pause 500/showFrame Marlon 4/pause 1000/speak Marlon \"嗯嗯... \"/pause 500/warp farmer 18 13/playSound stoneStep/move farmer 0 -3 1/move farmer 5 0 0/pause 500/showFrame Marlon 0/pause 500/speak Marlon \"...我凝视着这个古老的矿井#$b#它已经被遗弃了几十年.\"/pause 500/showFrame Marlon 4/speak Marlon \"不过，那里可能还有好矿石#$b#但是一个黑暗的地方，长时间没有清理......恐怕矿石不是你唯一能找到的东西...\"/pause 500/showFrame Marlon 0/pause 500/speak Marlon \"在这里，拿着这个。您可能需要它.\"/pause 500/playSound dwop/faceDirection farmer 1 true/pause 50/faceDirection farmer 2/itemAboveHead sword/pause 3300/awardFestivalPrize sword/pause 300/faceDirection farmer 1 true/pause 100/faceDirection farmer 0/pause 500/speak Marlon \"顺便说一下，我叫马龙。我就在外面经营冒险家公会#$b#我会盯着你的。证明你自己，我可能会考虑让你成为会员.\"/pause 500/end",
+  "events.100162.nosword": "MarlonsTheme/21 9/farmer -100 -100 0 Marlon 23 6 2/addQuest 14/skippable/pause 1000/move Marlon 0 2 2/pause 500/showFrame Marlon 4/pause 1000/speak Marlon \"嗯嗯... \"/pause 500/warp farmer 18 13/playSound stoneStep/move farmer 0 -3 1/move farmer 5 0 0/pause 500/showFrame Marlon 0/pause 500/speak Marlon \"...我凝视着这个古老的矿井#$b#它已经被遗弃了几十年.\"/pause 500/showFrame Marlon 4/speak Marlon \"不过，那里可能还有好矿石#$b#但是一个黑暗的地方，长时间没有清理......恐怕矿石不是你唯一能找到的东西...\"/pause 500/showFrame Marlon 0/pause 500/speak Marlon \"你应该知道如何挥舞武器吧？你可能需要这个.\"/pause 500/speak Marlon \"顺便说一下，我叫马龙。我就在外面经营冒险家公会#$b#我会盯着你的。证明你自己，我可能会考虑让你成为会员.\"/pause 500/end",
+  "events.100162.sword.sve": "MarlonsTheme/21 9/farmer -100 -100 0 MarlonFay 23 6 2/addQuest 14/skippable/pause 1000/move MarlonFay 0 2 2/pause 500/showFrame MarlonFay 19/pause 1000/speak MarlonFay \"嗯嗯... \"/pause 500/warp farmer 18 13/playSound stoneStep/move farmer 0 -3 1/move farmer 5 0 0/pause 500/showFrame MarlonFay 0/pause 500/speak MarlonFay \"...我想知道这个矿井往下，能走多远.#$b#我要在它们开始爬进山谷之前，处理掉这里的一些怪物.$1#$b#你似乎很担心，. 我可能老了，但还不错，年龄还没有剥夺我用剑的技巧。.$0\"/pause 500/showFrame MarlonFay 18/pause 2000/showFrame MarlonFay 0/pause 500/speak MarlonFay \"作为冒险家公会的会长，我遇到过很多战士。我熟悉你的眼神.$2\"/pause 1500/speak MarlonFay \"拿着这个。这是一种训练武器。它可能看起来一般，但你可以用它在这里与怪物战斗。.\"/playSound dwop/faceDirection farmer 1 true/pause 50/faceDirection farmer 2/itemAboveHead sword/pause 3300/awardFestivalPrize sword/pause 300/faceDirection farmer 1 true/pause 100/faceDirection farmer 0/pause 500/speak MarlonFay \"我会盯着你的。证明你自己，我可能会考虑让你成为会员.\"/pause 750/end",
+  "events.100162.nosword.sve": "MarlonsTheme/21 9/farmer -100 -100 0 MarlonFay 23 6 2/addQuest 14/skippable/pause 1000/move MarlonFay 0 2 2/pause 500/showFrame MarlonFay 19/pause 1000/speak MarlonFay \"嗯嗯... \"/pause 500/warp farmer 18 13/playSound stoneStep/move farmer 0 -3 1/move farmer 5 0 0/pause 500/showFrame MarlonFay 0/pause 500/speak MarlonFay \"...我想知道这个矿井往下，能走多远.#$b#我要在它们开始爬进山谷之前，处理掉这里的一些怪物.$1#$b#你似乎很担心，. 我可能老了，但还不错，年龄还没有剥夺我用剑的技巧。.$0\"/pause 500/showFrame MarlonFay 18/pause 2000/showFrame MarlonFay 0/pause 500/speak MarlonFay \"作为冒险家公会的会长，我遇到过很多战士。我熟悉你的眼神.$2\"/pause 300/showFrame MarlonFay 19/pause 1000/showFrame MarlonFat 0/pause 300/speak MarlonFay \"向我证明，你可以挥舞那把武器，我可能会考虑让你成为会员.\"/pause 750/end",
+  "events.1337098.nopurchase": "MarlonsTheme/-500 -500/farmer -200 -200 0 MarlonFay 4 11 2/viewport 6 13 true/skippable/pause 2000/warp farmer 6 19/playSound doorClose/pause 500/showFrame MarlonFay 17/pause 150/textAboveHead MarlonFay \"你找到了一些东西！\"/pause 350/move farmer 0 -5 3/move farmer -2 0 0/move farmer 0 -1 0/showFrame MarlonFay 0/pause 500/speak MarlonFay \"那个武器！没有错！$1#$b#你得到了一把银河剑！\"/pause 1000/showFrame MarlonFay 18/pause 1000/speak MarlonFay \"你的能力被承认了，@。$2#$b#很久之前在城堡村经过一夜的艰苦战斗后，我获得了我的第一把银河武器.#$b#当剑慢慢落入我的手中时，有一道紫色的耀眼光芒。#$b#巫师和学者认为，由巴将这些武器赠送给真正维护和平的人类.\"/pause 1200/speak MarlonFay \"我为你感到骄傲！$1\"/showFrame MarlonFay 0/pause 500/end",
+
+  "fromcsfiles.MeleeWeapon.cs.14122": "五彩碎片发出明亮的光芒，吸收背包中的铱条，并在您眼前变形！^^     你获得了 ={{galaxyWeapon}}=  ^",
+  "locations.Town.DwarfGrave.Translated": "     你翻译了矮人语:     \n\n'金色三胞胎迷失在沙漠里\n带这大陆上出产的彩虹\n向天祈祷，倾诉你的要求\n让雷声吼咆哮你的名字\n如果心是纯洁的、有意识的、清晰的\n信仰既不怀疑也不恐惧\n星辰将下雨\n并赐予你来自天堂的钢铁",
+  "locations.SeedShop.Yoba": "任何邪恶，都不能触及由巴佑护的英雄。",
+
+  "mail.curse.intro": "亲爱的@，我有最紧急的事情，必须见你^请尽早来塔楼见我.^   -M. 拉斯莫迪斯，巫师[#]堕落英雄",
+
+  "quests.forge.intro": "Basic/矮人的遗产/克林特告诉你，他会在几天内完成旧蓝图的破解./向克林特询问蓝图的事./Blacksmith/144702/0/-1/false",
+  "quests.forge.next": "Basic/矮人的遗产 II/那张古老的蓝图，竟然是一件强大的古代武器的配方！会不会还有其它的?/查找剩下的矮人蓝图./null/-1/0/-1/false",
+  "quests.curse.intro": "Basic/堕落的英雄之刃/你找到的武器带有堕落英雄的诅咒！你已经可以感觉到它消耗了你的生命能量。最好找到一些方法来解除诅咒，而且要快！/想办法解除堕落之刃的诅咒./null/144704/0/-1/false",
+  "quests.curse.next": "Basic/堕落的英雄之刃/你了解到，受到由巴青睐的英雄会得到他的保护，免受邪恶的侵害。要请求由巴的青睐，你必须证明自己具备五种英雄的美德./证明五种英雄的美德./null/144705/0/-1/false",
+  "quests.curse.last": "Basic/堕落的英雄之刃/你了解到，受到由巴青睐的英雄会得到他的保护，免受邪恶的侵害。要请求由巴的青睐，你必须证明自己具备五种英雄的美德./将堕落之刃带去由巴的祭坛./null/-1/0/-1/false",
+  "quests.virtues.honor": "Basic/荣誉之证/在由巴的注视下证明你的荣誉./证明你的荣誉./null/-1/0/-1/false",
+  "quests.virtues.compassion": "Basic/怜悯之证/在由巴的注视下证明你的怜悯./证明你的怜悯./null/-1/0/-1/false",
+  "quests.virtues.wisdom": "Basic/智慧之证/在由巴的注视下证明你的智慧./证明你的智慧./null/-1/0/-1/false",
+  "quests.virtues.generosity": "Basic/慷慨之证/在由巴的注视下证明你的慷慨./证明你的慷慨./null/-1/0/-1/false",
+  "quests.virtues.valor": "Basic/勇气之证/在由巴的注视下证明你的勇气./证明你的勇气./null/-1/0/-1/false",
+
+  "yoba.question": "祭坛上还有其他铭文...",
+  "virtues.honor.name": "荣誉",
+  "virtues.compassion.name": "怜悯",
+  "virtues.wisdom.name": "智慧",
+  "virtues.generosity.name": "慷慨",
+  "virtues.valor.name": "勇气",
+  "virtues.honor.flavor": "\"荣誉不能购买。荣誉也不能出售，因為它的价值比世界上所有的宝藏都大。然而，一个人可能会失去它，无论谁这样做，都将永远玷污他的名。一个真正可敬的人总是站在自己的行为背后，面对每一个挑战，拒绝撒谎.\"",
+  "virtues.compassion.flavor": "\"有许多特征可以见证一个人的真实本性。怜悯心是人与野兽的区别。谁怜悯他们的同胞，谁就永远不会对不幸视而不见。他们将永远为被冤枉的人辩护.\"",
+  "virtues.wisdom.flavor": "\"智慧是一种美德，一个人一生都应该努力培养。因为没有智慧，一个人就不能变得更聪明。智者知道这一点...当我们在人生的旅途中，我们应该寻求做出明智的选择。请记住，明智的选择不是那些让我们的生活更轻松或更简单的选择。通常，它们使它们更加复杂。但总是，他们让我们变得更好.\"",
+  "virtues.generosity.flavor": "\"一个人不与他人分享他们的财富，就不能被称为好人。慷慨是生命尊严和死亡和平所必需的.\"",
+  "virtues.valor.flavor": "\"勇气不会使人成为好人，但在你的人生旅途中，你遇到过多少懦夫是好人？那些拥有勇气的人毫不犹豫地反对大多数不公，无论后果如何.\"",
+
+  // json assets
+  "objects.dwarvishblueprint.name": "古老的矮人蓝图",
+  "objects.dwarvishblueprint.description": "它已褪色，但仍然清晰易读。",
+  "objects.herosoul.name": "英雄之魂",
+  "objects.herosoul.description": "英雄之魂的物质化具象。",
+  "objects.dwarvenscrap.name": "矮人废金属",
+  "objects.dwarvenscrap.description": "它看起来很古老，还有点未来感。",
+  "objects.elderwood.name": "接骨木",
+  "objects.elderwood.description": "一块被古代种族进行了附魔的木头。",
+
+
   // ********* //
   // * RINGS * //
   // ********* //
@@ -214,6 +301,26 @@
   "rings.garnet.name": "石榴石戒指",
   "rings.garnet.description": "特殊招式冷却时间减少10%。",
   "rings.iridium.description": "由铱制成的戒指。",
+  "rings.infinity.name": "无限戒指",
+  "rings.infinity.description": "可以承载强大的力量。",
+  "global.infinitycraft": "{{who}}锻造了无限戒指。",
+
+
+  // **************** //
+  // * ENCHANTMENTS * //
+  // **************** //
+
+  "enchantments.carving": "破甲",
+  "enchantments.cleaving": "撕裂",
+  "enchantments.energized": "电击",
+  "enchantments.tribute": "献祭",
+  "enchantments.vampiric": "嗜血",
+  "enchantments.engorging": "充能",
+  "enchantments.gatling": "加特林",
+  "enchantments.preserving": "节约弹药",
+  "enchantments.quincy": "能量弹",
+  "enchantments.spreading": "漫射",
+
 
   // *********** //
   // ** TAXES ** //
@@ -228,13 +335,21 @@
   "honorific.male": "亲爱的",
   "honorific.female": "亲爱的",
 
+
   // ************** //
   // * UI STRINGS * //
   // ************** //
 
   "ui.itemhover.damage": "{{amount}}损害",
-  "ui.itemhover.precision": "{{amount}}精确",
+  "ui.itemhover.crate": "{{amount}}关键机会",
+  "ui.itemhover.cpow": "{{amount}}暴击伤害",
+  "ui.itemhover.knockback": "{{amount}}击退",
+  "ui.itemhover.firespeed": "{{amount}}发射速度",
+  "ui.itemhover.swingspeed": "{{amount}}挥动速度",
   "ui.itemhover.cdr": "{{amount}}冷却缩减",
+  "ui.itemhover.resist": "{{amount}}抗性",
+  "ui.itemhover.precision": "{{amount}}精确",
+
 
   // ********* //
   // * PONDS * //

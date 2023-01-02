@@ -1,5 +1,11 @@
 ﻿# Arsenal Change Log
 
+## 1.0.2
+
+### Fixed
+
+* Fixed the overlaping ammo stacks displaying on slingshots with double ammo.
+
 ## 1.0.1
 
 ### Added

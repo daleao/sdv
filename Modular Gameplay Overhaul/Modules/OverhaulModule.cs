@@ -90,6 +90,7 @@ internal abstract class OverhaulModule : SmartEnum<OverhaulModule>
             () => this.IsActive);
         this.IsActive = true;
         this.InvalidateAssets();
+        Log.T($"{this.Name} module activated.");
     }
 
     /// <summary>Deactivates the module.</summary>
@@ -105,6 +106,7 @@ internal abstract class OverhaulModule : SmartEnum<OverhaulModule>
         this._harmonizer = this._harmonizer.Unapply();
         this.IsActive = false;
         this.InvalidateAssets();
+        Log.T($"{this.Name} module deactivated.");
     }
 
     /// <summary>Causes SMAPI to reload all assets edited by this module.</summary>

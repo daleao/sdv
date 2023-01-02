@@ -168,6 +168,7 @@
 
   "ulti.canteat": "Can't do that now.",
 
+
   // ************** //
   // ** PRESTIGE ** //
   // ************** //
@@ -194,6 +195,7 @@
   "prestige.achievement.title.male": "Jack-Of-All-Trades",
   "prestige.achievement.title.female": "Jill-Of-All-Trades",
   "prestige.achievement.desc": "Acquire all professions in every skill.",
+
 
   // *********** //
   // * ARSENAL * //
@@ -280,6 +282,7 @@
   "objects.elderwood.name": "Elderwood",
   "objects.elderwood.description": "A piece of wood enchanted by an ancient magical race.",
 
+
   // ********* //
   // * RINGS * //
   // ********* //
@@ -302,6 +305,7 @@
   "rings.infinity.description": "A vessel for great power.",
   "global.infinitycraft": "{{who}} forged an Infinity Band.",
 
+
   // **************** //
   // * ENCHANTMENTS * //
   // **************** //
@@ -317,6 +321,7 @@
   "enchantments.quincy": "Quincy",
   "enchantments.spreading": "Spreading",
 
+
   // *********** //
   // ** TAXES ** //
   // *********** //
@@ -330,12 +335,10 @@
   "honorific.male": "Dear",
   "honorific.female": "Dear",
 
+
   // ************** //
   // * UI STRINGS * //
   // ************** //
-
-  "config.module.enable": "Configuration options for {{module}} will not appear until you re-open the GMCM menu.",
-  "config.module.disable": "Disabling the {{module}} module requires re-launching the game.",
 
   "ui.itemhover.damage": "{{amount}} Damage",
   "ui.itemhover.crate": "{{amount}} Crit. Chance",
@@ -346,6 +349,7 @@
   "ui.itemhover.cdr": "{{amount}} Cooldown",
   "ui.itemhover.resist": "{{amount}} Resistance",
   "ui.itemhover.precision": "{{amount}} Precision",
+
 
   // ********* //
   // * PONDS * //

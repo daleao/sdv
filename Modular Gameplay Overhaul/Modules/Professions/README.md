@@ -256,6 +256,8 @@ To consume the API, copy both interfaces from the [Shared.Integrations.ModularOv
 - [Artisan Valley][mod:artisan-valley] to add more variety to Artisan and Producer products.
 - [Slime Produce][mod:slime-produce] (makes Slime ranching more interesting and profitable).
 - [Ostrich Mayo and Golden Mayo][mod:new-mayo] (better consistency for Ostrich and Golden eggs in combination with Artisan profession).
+- [Skill Training][mod:skill-training] (immersively speed-up your skill resets).
+- [Tap Giant Crops][mod:tap-giant-crops] (do more with the Tapper profession).﻿
 
 
 <!-- MARKDOWN LINKS & IMAGES -->
@@ -304,6 +306,8 @@ To consume the API, copy both interfaces from the [Shared.Integrations.ModularOv
 [mod:icons-redone]: <https://www.nexusmods.com/stardewvalley/mods/4163> "Profession Icons Redone"
 [mod:vintage-ui]: <https://www.nexusmods.com/stardewvalley/mods/4697> "Vintage Interface"
 [mod:cjb-cheats]: <https://www.nexusmods.com/stardewvalley/mods/4> "CJB Cheats Menu"
+[mod:tap-giant-crops]: <https://www.nexusmods.com/stardewvalley/mods/13052> "Tap Giant Crops"
+[mod:skill-training]: <https://www.nexusmods.com/stardewvalley/mods/14452> "Skill Training"
 
 <!-- USER LINKS -->
 [user:enai]: <https://www.nexusmods.com/skyrimspecialedition/users/3959191> "Enai Siaion"

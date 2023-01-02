@@ -196,6 +196,7 @@
   "prestige.achievement.title.female": "Manitas",
   "prestige.achievement.desc": "Adquira todas las profesiones en todas las habilidades.",
 
+
   // ********* //
   // * RINGS * //
   // ********* //
@@ -215,6 +216,7 @@
   "rings.garnet.description": "Disminuye el enfriamiento del movimiento especial en un 10%.",
   "rings.iridium.description": "Un anillo hecho de iridio.",
 
+
   // *********** //
   // ** TAXES ** //
   // *********** //
@@ -228,6 +230,7 @@
   "honorific.male": "Estimado",
   "honorific.female": "Estimata",
 
+
   // **************** //
   // ** UI STRINGS ** //
   // **************** //
@@ -240,6 +243,7 @@
   "article.definite.female": "en la",
   "article.indefinite.male": "un",
   "article.indefinite.female": "una",
+
 
   // ********* //
   // * PONDS * //

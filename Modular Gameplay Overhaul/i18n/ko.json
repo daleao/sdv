@@ -196,6 +196,7 @@
   "prestige.achievement.title.female": "재주꾼",
   "prestige.achievement.desc": "모든 직업의 모든 스킬을 습득하기",
 
+
   // ********* //
   // * RINGS * //
   // ********* //
@@ -215,6 +216,7 @@
   "rings.garnet.description": "필살기 쿨타임 10% 감소.",
   "rings.iridium.description": "이리듐으로 만든 반지.",
 
+
   // *********** //
   // ** TAXES ** //
   // *********** //
@@ -228,6 +230,7 @@
   "honorific.male": "친애하는",
   "honorific.female": "친애하는",
 
+
   // ************** //
   // * UI STRINGS * //
   // ************** //
@@ -235,6 +238,7 @@
   "ui.itemhover.damage": "{{amount}} 손상",
   "ui.itemhover.precision": "{{amount}} 정도",
   "ui.itemhover.cdr": "{{amount}} 재사용 대기시간 감소",
+
 
   // ********* //
   // * PONDS * //

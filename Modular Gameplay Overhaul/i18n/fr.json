@@ -196,6 +196,7 @@
   "prestige.achievement.title.female": "Touche-à-tout",
   "prestige.achievement.desc": "Acquérir tous les professions dans toutes les compétences.",
 
+
   // ********* //
   // * RINGS * //
   // ********* //
@@ -215,6 +216,7 @@
   "rings.garnet.description": "Diminue le temps de recharge des coups spéciaux de 10 %.",
   "rings.iridium.description": "Une bague en iridium.",
 
+
   // *********** //
   // ** TAXES ** //
   // *********** //
@@ -227,6 +229,7 @@
   "debt.debit": "Votre solde a été débité de {{amount}} g pour des dettes impayées.",
   "honorific.male": "Monsieur",
   "honorific.female": "Madame",
+
 
   // **************** //
   // ** UI STRINGS ** //
@@ -245,6 +248,7 @@
   "season.summer": "estivale",
   "season.fall": "d'automne",
   "season.winter": "d'hiver",
+
 
   // ********* //
   // * PONDS * //

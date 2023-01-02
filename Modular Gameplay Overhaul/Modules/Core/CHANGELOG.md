@@ -1,5 +1,9 @@
 ﻿# Modular Overhaul Core Change Log
 
+## 1.0.2
+
+* Added Chinese translation by [xuzhi1977](https://www.nexusmods.com/stardewvalley/users/136644498).
+
 ## 1.0.0
 
 ### Changed

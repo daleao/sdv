@@ -196,6 +196,7 @@
   "prestige.achievement.title.female": "Maria-faz-tudo",
   "prestige.achievement.desc": "Adquira todas as profissões em todas as habilidades.",
 
+
   // *********** //
   // * ARSENAL * //
   // *********** //
@@ -281,6 +282,7 @@
   "objects.elderwood.name": "Madeira Anciã",
   "objects.elderwood.description": "Um pedaço de madeira encantada por uma raça antiga.",
 
+
   // ********* //
   // * RINGS * //
   // ********* //
@@ -303,6 +305,7 @@
   "rings.infinity.description": "Um recepiente de grande poder",
   "global.infinitycraft": "{{who}} forjou um Anel do Infinito.",
 
+
   // **************** //
   // * ENCHANTMENTS * //
   // **************** //
@@ -318,6 +321,7 @@
   "enchantments.quincy": "Quincy",
   "enchantments.spreading": "Espalhante",
 
+
   // *********** //
   // ** TAXES ** //
   // *********** //
@@ -331,12 +335,10 @@
   "honorific.male": "Caro",
   "honorific.female": "Cara",
 
+
   // **************** //
   // ** UI STRINGS ** //
   // **************** //
-
-  "config.module.enable": "Opções de configuração para o módulo {{module}} não aparecerão até você reabrir o menu do GMCM.",
-  "config.module.disable": "Disabilitar o módulo {{module}} requer reiniciar o jogo.",
 
   "ui.itemhover.damage": "{{amount}} Dano",
   "ui.itemhover.crate": "{{amount}} Chance Crítica",
@@ -352,6 +354,7 @@
   "article.definite.female": "à",
   "article.indefinite.male": "um",
   "article.indefinite.female": "uma",
+
 
   // ********* //
   // * PONDS * //
