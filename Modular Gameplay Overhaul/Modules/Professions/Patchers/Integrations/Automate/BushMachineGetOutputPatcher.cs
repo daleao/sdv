@@ -42,7 +42,7 @@ internal sealed class BushMachineGetOutputPatcher : HarmonyPatcher
         try
         {
             helper
-                .FindProfessionCheck(Profession.Ecologist.Value) // find index of ecologist check
+                .MatchProfessionCheck(Profession.Ecologist.Value) // find index of ecologist check
                 .Move(-1)
                 .Insert(
                     new[]

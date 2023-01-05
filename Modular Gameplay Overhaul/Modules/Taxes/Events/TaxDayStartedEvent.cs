@@ -20,7 +20,7 @@ internal sealed class TaxDayStartedEvent : DayStartedEvent
     /// <inheritdoc />
     protected override void OnDayStartedImpl(object? sender, DayStartedEventArgs e)
     {
-        var toDebit = TaxesModule.State.LatestAmountCharged;
+        var toDebit = TaxesModule.State.LatestAmountWithheld;
         if (toDebit <= 0)
         {
             return;
@@ -33,7 +33,7 @@ internal sealed class TaxDayStartedEvent : DayStartedEvent
                     "debt.debit",
                     new { amount = toDebit.ToString() }),
                 HUDMessage.newQuest_type) { timeLeft = HUDMessage.defaultTime * 2 });
-        TaxesModule.State.LatestAmountCharged = 0;
+        TaxesModule.State.LatestAmountWithheld = 0;
         this.Disable();
     }
 }

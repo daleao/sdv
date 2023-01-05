@@ -41,7 +41,7 @@ internal sealed class HostRequestedModMessageReceivedEvent : ModMessageReceivedE
         switch (request)
         {
             case "HuntIsOn":
-                Log.D($"Prestiged treasure hunter {who.Name} is hunting for treasure.");
+                Log.D($"[Prestige]: {who.Name} is hunting for treasure. Time will be frozen for the duration.");
                 this.Manager.Enable<PrestigeTreasureHuntUpdateTickedEvent>();
                 break;
         }

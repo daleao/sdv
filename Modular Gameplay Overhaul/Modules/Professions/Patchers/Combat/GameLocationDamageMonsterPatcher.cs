@@ -56,7 +56,7 @@ internal sealed class GameLocationDamageMonsterPatcher : HarmonyPatcher
         try
         {
             helper
-                .FindProfessionCheck(Farmer.scout) // find index of scout check
+                .MatchProfessionCheck(Farmer.scout) // find index of scout check
                 .Move()
                 .SetOperand(Profession.Poacher.Value); // replace with Poacher check
         }
@@ -73,7 +73,7 @@ internal sealed class GameLocationDamageMonsterPatcher : HarmonyPatcher
             var isNotPrestiged = generator.DefineLabel();
             var resumeExecution = generator.DefineLabel();
             helper
-                .FindProfessionCheck(Profession.Fighter.Value) // find index of brute check
+                .MatchProfessionCheck(Profession.Fighter.Value) // find index of brute check
                 .Match(new[] { new CodeInstruction(OpCodes.Ldc_R4, 1.1f) }) // brute damage multiplier
                 .AddLabels(isNotPrestiged)
                 .Insert(new[] { new CodeInstruction(OpCodes.Ldarg_S, (byte)10) }) // arg 10 = Farmer who
@@ -100,7 +100,7 @@ internal sealed class GameLocationDamageMonsterPatcher : HarmonyPatcher
         try
         {
             helper
-                .FindProfessionCheck(Profession.Brute.Value) // find index of brute check
+                .MatchProfessionCheck(Profession.Brute.Value) // find index of brute check
                 .Move(-2)
                 .GetOperand(out var dontBuffDamage)
                 .Insert(
@@ -147,7 +147,7 @@ internal sealed class GameLocationDamageMonsterPatcher : HarmonyPatcher
         {
             var ambush = generator.DeclareLocal(typeof(Ambush));
             helper
-                .FindProfessionCheck(Farmer.desperado) // find index of desperado check
+                .MatchProfessionCheck(Farmer.desperado) // find index of desperado check
                 .Match(new[] { new CodeInstruction(OpCodes.Brfalse_S) }, ILHelper.SearchOption.Previous)
                 .GetOperand(out var dontBuffCritPow)
                 .Match(new[] { new CodeInstruction(OpCodes.Ldnull) }, ILHelper.SearchOption.Previous)
@@ -304,7 +304,7 @@ internal sealed class GameLocationDamageMonsterPatcher : HarmonyPatcher
             TrySteal(monster, who, r);
 
             // increment Poacher ultimate meter
-            if (ultimate == Ultimate.PoacherAmbush && ultimate.IsActive)
+            if (ultimate is Ambush && !ultimate.IsActive)
             {
                 ultimate.ChargeValue += critMultiplier;
             }

@@ -30,7 +30,7 @@ internal sealed class BushMachineOnOutputReducedPatcher : HarmonyPatcher
     [HarmonyPostfix]
     private static void BushMachineOnOutputReducedPostfix(object __instance)
     {
-        if (!TweexModule.Config.BerryBushesRewardExp)
+        if (TweexModule.Config.BerryBushExpReward <= 0)
         {
             return;
         }
@@ -43,7 +43,7 @@ internal sealed class BushMachineOnOutputReducedPatcher : HarmonyPatcher
             return;
         }
 
-        Game1.MasterPlayer.gainExperience(Farmer.foragingSkill, 5);
+        Game1.MasterPlayer.gainExperience(Farmer.foragingSkill, (int)TweexModule.Config.BerryBushExpReward);
     }
 
     #endregion harmony patches

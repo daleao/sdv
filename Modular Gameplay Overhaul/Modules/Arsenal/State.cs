@@ -19,7 +19,7 @@ internal sealed class State
         get => this._hitQueued;
         set
         {
-            Log.D($"Queued {value}");
+            Log.D($"[Combo]: Queued {value}");
             this._hitQueued = value;
         }
     }
@@ -29,7 +29,7 @@ internal sealed class State
         get => this._hitStep;
         set
         {
-            Log.D($"Doing {value}");
+            Log.D($"[Combo]: Doing {value}");
             this._hitStep = value;
         }
     }

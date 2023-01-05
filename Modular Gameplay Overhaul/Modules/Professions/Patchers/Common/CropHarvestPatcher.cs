@@ -40,7 +40,7 @@ internal sealed class CropHarvestPatcher : HarmonyPatcher
         try
         {
             helper
-                .FindProfessionCheck(Farmer.botanist) // find index of botanist check
+                .MatchProfessionCheck(Farmer.botanist) // find index of botanist check
                 .Match(new[] { new CodeInstruction(OpCodes.Ldc_I4_4) }) // start of obj.Quality = 4
                 .ReplaceWith(
                     // replace with custom quality

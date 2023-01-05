@@ -36,7 +36,7 @@ internal sealed class ProspectorWarpedEvent : WarpedEvent
         }
 
         if (e.NewLocation.currentEvent is not null || e.NewLocation is not MineShaft shaft ||
-            (!shaft.IsTreasureOrSafeRoom() && prospectorHunt.TryStart(e.NewLocation)))
+            shaft.IsTreasureOrSafeRoom() || prospectorHunt.TryStart(e.NewLocation))
         {
             return;
         }
@@ -53,39 +53,15 @@ internal sealed class ProspectorWarpedEvent : WarpedEvent
         for (var i = 0; i < amount; i++)
         {
             var tile = shaft.getRandomTile();
-            if (!shaft.isTileLocationTotallyClearAndPlaceable(tile) || !shaft.isTileOnClearAndSolidGround(tile) ||
-                !shaft.isTileLocationOpen(new Location((int)tile.X, (int)tile.Y)) ||
-                shaft.isTileOccupied(new Vector2(tile.X, tile.Y)) ||
-                shaft.getTileIndexAt((int)tile.X, (int)tile.Y, "Back") == -1 ||
-                shaft.doesTileHaveProperty((int)tile.X, (int)tile.Y, "Diggable", "Back") != null ||
-                shaft.doesTileHaveProperty((int)tile.X, (int)tile.Y, "Type", "Back") == "Dirt")
+            if (shaft.isTileLocationTotallyClearAndPlaceable(tile) && shaft.isTileOnClearAndSolidGround(tile) &&
+                shaft.doesTileHaveProperty((int)tile.X, (int)tile.Y, "Diggable", "Back") == null &&
+                shaft.isTileLocationOpen(new Location((int)tile.X, (int)tile.Y)) &&
+                !shaft.isTileOccupied(new Vector2(tile.X, tile.Y)) &&
+                shaft.getTileIndexAt((int)tile.X, (int)tile.Y, "Back") != -1 &&
+                shaft.doesTileHaveProperty((int)tile.X, (int)tile.Y, "Type", "Back") != "Dirt")
             {
-                continue;
+                shaft.placeAppropriateOreAt(new Vector2(tile.X, tile.Y));
             }
-
-            var ore = shaft.getAppropriateOre(tile);
-            if (ore.ParentSheetIndex == 670)
-            {
-                ore.ParentSheetIndex = 668;
-            }
-
-            var orePosition = new Vector2(tile.X, tile.Y);
-            shaft.objects.Add(
-                orePosition,
-                new SObject(
-                    orePosition,
-                    ore.ParentSheetIndex +
-                    (Game1.random.Next(ore.ParentSheetIndex == 668 ? 2 : 1) * ore.ParentSheetIndex) != 668
-                        ? 1
-                        : 2,
-                    ore.Name,
-                    ore.CanBeSetDown,
-                    ore.CanBeGrabbed,
-                    ore.IsHoeDirt,
-                    ore.IsSpawnedObject)
-                {
-                    Fragility = ore.Fragility, MinutesUntilReady = ore.MinutesUntilReady,
-                });
         }
     }
 }

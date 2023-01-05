@@ -5,5 +5,5 @@ internal sealed class State
 {
     internal int LatestAmountDue { get; set; }
 
-    internal int LatestAmountCharged { get; set; }
+    internal int LatestAmountWithheld { get; set; }
 }

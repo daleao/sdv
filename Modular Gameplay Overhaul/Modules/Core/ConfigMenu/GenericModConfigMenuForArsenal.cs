@@ -2,6 +2,7 @@
 
 #region using directives
 
+using Arsenal;
 using DaLion.Overhaul.Modules.Arsenal.Configs;
 using DaLion.Overhaul.Modules.Arsenal.Integrations;
 using DaLion.Shared.Extensions.SMAPI;
@@ -252,11 +253,11 @@ internal sealed partial class GenericModConfigMenuCore
 
                     if (value)
                     {
-                        Arsenal.Utils.ConvertAllStabbingSwords();
+                        Utils.ConvertAllStabbingSwords();
                     }
                     else
                     {
-                        Arsenal.Utils.RevertAllStabbingSwords();
+                        Utils.RevertAllStabbingSwords();
                     }
                 })
             .AddCheckbox(
@@ -265,12 +266,12 @@ internal sealed partial class GenericModConfigMenuCore
                 config => config.Arsenal.Weapons.EnableRebalance,
                 (config, value) =>
                 {
-                    if (value && !config.Arsenal.Weapons.EnableRebalance)
+                    if (value != config.Arsenal.Weapons.EnableRebalance)
                     {
                         ModHelper.GameContent.InvalidateCacheAndLocalized("Data/weapons");
                         if (Context.IsWorldReady)
                         {
-                            Arsenal.Utils.RefreshAllWeapons();
+                            Utils.RefreshAllWeapons(value ? RefreshOption.Randomized : RefreshOption.FromData);
                         }
                     }
 

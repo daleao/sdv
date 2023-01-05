@@ -41,13 +41,13 @@ internal sealed class ObjectCheckForActionPatcher : HarmonyPatcher
             return;
         }
 
-        if (__instance.name.Contains("Tapper") && TweexModule.Config.TappersRewardExp)
+        if (__instance.name.Contains("Tapper") && TweexModule.Config.TapperExpReward > 0)
         {
-            Game1.player.gainExperience(Farmer.foragingSkill, 5);
+            Game1.player.gainExperience(Farmer.foragingSkill, (int)TweexModule.Config.TapperExpReward);
         }
-        else if (__instance.name.Contains("Mushroom Box") && TweexModule.Config.MushroomBoxesRewardExp)
+        else if (__instance.name.Contains("Mushroom Box") && TweexModule.Config.MushroomBoxExpReward > 0)
         {
-            Game1.player.gainExperience(Farmer.foragingSkill, 1);
+            Game1.player.gainExperience(Farmer.foragingSkill, (int)TweexModule.Config.MushroomBoxExpReward);
         }
     }
 

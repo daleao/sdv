@@ -250,7 +250,7 @@ internal sealed partial class GenericModConfigMenuCore : GenericModConfigMenuInt
     internal void Reload()
     {
         this.Unregister().Register();
-        Log.D("The Modular Overhaul config menu has been reloaded.");
+        Log.D("[GMCM]: The Modular Overhaul config menu has been reloaded.");
     }
 
     /// <inheritdoc />

@@ -143,7 +143,7 @@ public sealed class SCSkill : ISkill
             this.ForgetRecipes();
         }
 
-        Log.D($"{Game1.player.Name}'s {this.DisplayName} skill has been reset.");
+        Log.D($"[Prestige]: {Game1.player.Name}'s {this.DisplayName} skill has been reset.");
     }
 
     /// <inheritdoc />

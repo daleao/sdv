@@ -29,7 +29,7 @@ internal sealed class SpaceCoreIntegration : ModIntegration<SpaceCoreIntegration
             }
 
             SCSkill.Loaded[skillId] = new SCSkill(skillId);
-            Log.T($"Successfully loaded the custom skill {skillId}.");
+            Log.T($"[Professions]: Successfully loaded the custom skill {skillId}.");
         }
     }
 }

@@ -21,7 +21,7 @@ internal sealed class TreeDayUpdatePatcher : HarmonyPatcher
 
     #region harmony patches
 
-    /// <summary>Ages tapper trees.</summary>
+    /// <summary>Age trees for quality tapper.</summary>
     [HarmonyPostfix]
     private static void TreeDayUpdatePostfix(Tree __instance)
     {

@@ -43,9 +43,7 @@ internal sealed class ObjectDayUpdatePatcher : HarmonyPatcher
                 ? Math.Max(
                     Game1.player.GetEcologistForageQuality(),
                     __instance.GetQualityFromAge())
-                : Game1.player.professions.Contains(Farmer.botanist)
-                    ? SObject.bestQuality
-                    : __instance.GetQualityFromAge();
+                : __instance.GetQualityFromAge();
         }
     }
 

@@ -10,6 +10,8 @@ using Newtonsoft.Json;
 /// <summary>The user-configurable settings for Tweex.</summary>
 public sealed class Config : Shared.Configs.Config
 {
+    #region quality settings
+
     /// <summary>Gets the degree to which Bee House age improves honey quality.</summary>
     [JsonProperty]
     public float BeeHouseAgingFactor { get; internal set; } = 1f;
@@ -26,21 +28,31 @@ public sealed class Config : Shared.Configs.Config
     [JsonProperty]
     public float FruitTreeAgingFactor { get; internal set; } = 1f;
 
+    /// <summary>Gets the degree to which Tea Bush age improves Tea Leaf quality.</summary>
+    [JsonProperty]
+    public float TeaBushAgingFactor { get; internal set; } = 1f;
+
     /// <summary>Gets a value indicating whether determines whether age-dependent qualities should be deterministic (true) or stochastic/random (false).</summary>
     [JsonProperty]
     public bool DeterministicAgeQuality { get; internal set; } = true;
 
-    /// <summary>Gets a value indicating whether if wild forage rewards experience, berry bushes should qualify.</summary>
-    [JsonProperty]
-    public bool BerryBushesRewardExp { get; internal set; } = true;
+    #endregion quality settings
 
-    /// <summary>Gets a value indicating whether if fruit bat cave rewards experience, so should mushroom cave.</summary>
-    [JsonProperty]
-    public bool MushroomBoxesRewardExp { get; internal set; } = true;
+    #region exp settings
 
-    /// <summary>Gets a value indicating whether if crab pots reward experience, so should tappers.</summary>
+    /// <summary>Gets the amount of Foraging experience rewarded for harvesting berry bushes. Set to zero to disable.</summary>
     [JsonProperty]
-    public bool TappersRewardExp { get; internal set; } = true;
+    public uint BerryBushExpReward { get; internal set; } = 5;
+
+    /// <summary>Gets the amount of Foraging experience rewarded for harvesting Mushroom Boxes. Set to zero to disable.</summary>
+    [JsonProperty]
+    public uint MushroomBoxExpReward { get; internal set; } = 1;
+
+    /// <summary>Gets the amount of Foraging experience rewarded for harvesting Tappers. Set to zero to disable.</summary>
+    [JsonProperty]
+    public uint TapperExpReward { get; internal set; } = 5;
+
+    #endregion exp settings
 
     /// <summary>Gets a value indicating whether if regular trees can't grow in winter, neither should fruit trees.</summary>
     [JsonProperty]

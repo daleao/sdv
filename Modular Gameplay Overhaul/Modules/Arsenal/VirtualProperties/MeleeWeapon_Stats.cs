@@ -27,6 +27,7 @@ internal static class MeleeWeapon_Stats
             var caveInsectsKilled = Game1.stats.getMonstersKilled("Grub") +
                                     Game1.stats.getMonstersKilled("Fly") +
                                     Game1.stats.getMonstersKilled("Bug");
+            // ReSharper disable once PossibleLossOfFraction
             return (int)(caveInsectsKilled / 5 * 0.85);
         }
 

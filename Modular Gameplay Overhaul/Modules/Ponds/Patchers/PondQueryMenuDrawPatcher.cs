@@ -119,17 +119,6 @@ internal sealed class PondQueryMenuDrawPatcher : HarmonyPatcher
             var slotsToDraw = ____pond.maxOccupants.Value;
             var columns = (int)Math.Ceiling(slotsToDraw / 2f);
             var slotSpacing = 18 - columns;
-            var xOffset = columns switch
-            {
-                6 => -20,
-                5 => 6,
-                4 => 36,
-                3 => 70,
-                2 => 44,
-                1 => 8,
-                _ => 0,
-            };
-
             SObject? itemToDraw = null;
             if (isAlgaePond)
             {
@@ -152,7 +141,7 @@ internal sealed class PondQueryMenuDrawPatcher : HarmonyPatcher
                 var yOffset = (float)Math.Sin(____age + (x * 0.75f) + (y * 0.25f)) * 2f;
                 var yPos = __instance.yPositionOnScreen + (int)(yOffset * 4f) + (y * slotSpacing * 4f) + 275.2f;
                 var xPos = __instance.xPositionOnScreen + (PondQueryMenu.width / 2) -
-                    (slotSpacing * Math.Min(slotsToDraw, 5) * 2f) + (x * slotSpacing * 4f) - 12f + xOffset;
+                           (columns * slotSpacing * 2f) + (x * slotSpacing * 4f);
 
                 if (isAlgaePond)
                 {
@@ -242,8 +231,7 @@ internal sealed class PondQueryMenuDrawPatcher : HarmonyPatcher
                         var yOffset = (float)Math.Sin(____age + (x * 0.75f) + (y * 0.25f)) * 2f;
                         var yPos = __instance.yPositionOnScreen + (int)(yOffset * 4f) + (y * slotSpacing * 4f) + 270.2f;
                         var xPos = __instance.xPositionOnScreen + (PondQueryMenu.width / 2) -
-                            (slotSpacing * Math.Min(slotsToDraw, 5) * 2f) + (x * slotSpacing * 4f) + 4f + xOffset;
-
+                            (columns * slotSpacing * 2f) + (x * slotSpacing * 4f) + 16f;
                         var quality = numBestQuality-- > 0
                             ? SObject.bestQuality
                             : numHighQuality-- > 0
@@ -303,9 +291,7 @@ internal sealed class PondQueryMenuDrawPatcher : HarmonyPatcher
                             var yPos = __instance.yPositionOnScreen + (int)(yOffset * 4f) + (y * 4 * slotSpacing) +
                                        270.2f;
                             var xPos = __instance.xPositionOnScreen + (PondQueryMenu.width / 2) -
-                                       (slotSpacing * Math.Min(slotsToDraw, 5) * 4f * 0.5f) + (x * slotSpacing * 4f) +
-                                       4f +
-                                       xOffset;
+                                (columns * slotSpacing * 2f) + (x * slotSpacing * 4f) + 16f;
 
                             var quality = numBestFamilyQuality-- > 0
                                 ? SObject.bestQuality

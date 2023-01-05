@@ -14,7 +14,7 @@ public sealed class Config : Shared.Configs.Config
     ///     annual rate.
     /// </summary>
     [JsonProperty]
-    public float AnnualInterest { get; internal set; } = 0.06f;
+    public float AnnualInterest { get; internal set; } = 0.11f;
 
     /// <summary>Gets the taxable percentage of shipped products at the highest tax bracket.</summary>
     [JsonProperty]

@@ -5,7 +5,6 @@
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
-using System.Linq;
 using DaLion.Overhaul.Modules.Arsenal.Enchantments;
 using DaLion.Overhaul.Modules.Arsenal.VirtualProperties;
 using DaLion.Shared;
@@ -99,8 +98,8 @@ internal static class MeleeWeaponExtensions
 
     /// <summary>Refreshes the stats of the specified <paramref name="weapon"/>.</summary>
     /// <param name="weapon">The <see cref="MeleeWeapon"/>.</param>
-    /// <param name="force">Whether to force a stat refresh, even if initial stats have already been cached for the <paramref name="weapon"/>.</param>
-    internal static void RefreshStats(this MeleeWeapon weapon, bool force = false)
+    /// <param name="option">The <see cref="RefreshOption"/>.</param>
+    internal static void RefreshStats(this MeleeWeapon weapon, RefreshOption option = RefreshOption.Initial)
     {
         var data = ModHelper.GameContent.Load<Dictionary<int, string>>("Data/weapons");
         if (!data.ContainsKey(weapon.InitialParentTileIndex))
@@ -128,10 +127,22 @@ internal static class MeleeWeaponExtensions
             return;
         }
 
-        if (force)
+        if (option == RefreshOption.FromData)
+        {
+            weapon.minDamage.Value = Convert.ToInt32(split[2]);
+            weapon.maxDamage.Value = Convert.ToInt32(split[3]);
+            MeleeWeapon_Stats.Invalidate(weapon);
+            weapon.Write(DataFields.BaseMinDamage, weapon.minDamage.Value.ToString());
+            weapon.Write(DataFields.BaseMaxDamage, weapon.maxDamage.Value.ToString());
+            return;
+        }
+
+        if (option == RefreshOption.Randomized)
         {
             weapon.RandomizeDamage();
             MeleeWeapon_Stats.Invalidate(weapon);
+            weapon.Write(DataFields.BaseMinDamage, weapon.minDamage.Value.ToString());
+            weapon.Write(DataFields.BaseMaxDamage, weapon.maxDamage.Value.ToString());
             return;
         }
 
@@ -141,9 +152,12 @@ internal static class MeleeWeaponExtensions
         {
             weapon.minDamage.Value = initialMinDamage;
             weapon.maxDamage.Value = initialMaxDamage;
+            MeleeWeapon_Stats.Invalidate(weapon);
+            return;
         }
-        else if (!weapon.IsUnique() && (!ArsenalModule.Config.DwarvishCrafting || !weapon.CanBeCrafted()) &&
-                 ArsenalModule.Config.Weapons.EnableRebalance && WeaponTier.GetFor(weapon) > WeaponTier.Untiered)
+
+        if (!weapon.IsUnique() && (!ArsenalModule.Config.DwarvishCrafting || !weapon.CanBeCrafted()) &&
+            ArsenalModule.Config.Weapons.EnableRebalance && WeaponTier.GetFor(weapon) > WeaponTier.Untiered)
         {
             weapon.RandomizeDamage();
         }
@@ -153,6 +167,8 @@ internal static class MeleeWeaponExtensions
             weapon.maxDamage.Value = Convert.ToInt32(split[3]);
         }
 
+        weapon.Write(DataFields.BaseMinDamage, weapon.minDamage.Value.ToString());
+        weapon.Write(DataFields.BaseMaxDamage, weapon.maxDamage.Value.ToString());
         MeleeWeapon_Stats.Invalidate(weapon);
     }
 
@@ -196,8 +212,6 @@ internal static class MeleeWeaponExtensions
 
         weapon.minDamage.Value = (int)Math.Max(minDamage, 1);
         weapon.maxDamage.Value = (int)Math.Max(maxDamage, 3);
-        weapon.Write(DataFields.BaseMinDamage, weapon.minDamage.Value.ToString());
-        weapon.Write(DataFields.BaseMaxDamage, weapon.maxDamage.Value.ToString());
 
         int getBaseDamage(int level, bool dangerous)
         {

@@ -42,7 +42,7 @@ internal sealed class JsonAssetsIntegration : ModIntegration<JsonAssetsIntegrati
         Globals.DwarvenScrapIndex = this.ModApi.GetObjectId("Dwarven Scrap");
         Globals.ElderwoodIndex = this.ModApi.GetObjectId("Elderwood");
         Globals.DwarvishBlueprintIndex = this.ModApi.GetObjectId("Dwarvish Blueprint");
-        Log.T("The IDs for custom items in the Arsenal module have been assigned.");
+        Log.T("[Arsenal]: The IDs for custom items in the Arsenal module have been assigned.");
 
         // reload the monsters data so that Dwarven Scrap Metal is added to Dwarven Sentinel's drop list
         ModHelper.GameContent.InvalidateCacheAndLocalized("Data/Monsters");

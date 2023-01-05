@@ -422,7 +422,7 @@ internal sealed class LevelUpMenuUpdatePatcher : HarmonyPatcher
         }
 
         var hasAllProfessions = Game1.player.HasAllProfessionsInSkill(skill);
-        Log.D($"Farmer {Game1.player.Name} " + (hasAllProfessions
+        Log.D($"[Prestige]:: Farmer {Game1.player.Name} " + (hasAllProfessions
             ? $" has acquired all professions in the {skill} skill and may now gain extended levels."
             : $" does not yet have all professions in the {skill} skill."));
         if (hasAllProfessions)
@@ -434,7 +434,7 @@ internal sealed class LevelUpMenuUpdatePatcher : HarmonyPatcher
             ',',
             Game1.player.GetMissingProfessionsInSkill(skill)
                 .Select(p => p.Title));
-        Log.D($"Missing professions: {missingProfessionNames}");
+        Log.D($"[Prestige]:: Missing professions: {missingProfessionNames}");
         return false;
     }
 

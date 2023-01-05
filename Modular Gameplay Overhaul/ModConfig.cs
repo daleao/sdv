@@ -118,6 +118,8 @@ public sealed class ModConfig
         {
             helper.WriteConfig(this);
         }
+
+
     }
 
     /// <summary>Enumerates all individual module <see cref="Shared.Configs.Config"/>s.</summary>

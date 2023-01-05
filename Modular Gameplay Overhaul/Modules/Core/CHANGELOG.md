@@ -2,7 +2,10 @@
 
 ## 1.0.2
 
-* Added Chinese translation by [xuzhi1977](https://www.nexusmods.com/stardewvalley/users/136644498).
+* Added Chinese translations by [xuzhi1977](https://www.nexusmods.com/users/136644498).
+* Added Korean translations by [BrightEast99](https://www.nexusmods.com/users/158443518).
+* Added Spanish and French translations.
+* Updated Portuguese translation.
 
 ## 1.0.0
 

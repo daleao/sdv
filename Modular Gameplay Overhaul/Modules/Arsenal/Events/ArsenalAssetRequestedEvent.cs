@@ -851,7 +851,7 @@ internal sealed class ArsenalAssetRequestedEvent : AssetRequestedEvent
 
             // UNIQUE DAGGERS
             case Constants.InsectHeadIndex:
-                fields[Description] += I18n.Get("weapons.insecthead.desc");
+                fields[Description] += I18n.Get("weapons.insecthead.extradesc");
                 fields[MinDamage] = 1.ToString();
                 fields[MaxDamage] = 3.ToString();
                 fields[Knockback] = 0.1.ToString(CultureInfo.InvariantCulture);

@@ -66,7 +66,7 @@ internal sealed class BruteUpdateTickedEvent : UpdateTickedEvent
                 0,
                 1,
                 "Brute",
-                I18n.Get("brute.title" + (Game1.player.IsMale ? ".title" : ".female")) + " " +
+                I18n.Get("brute.title" + (Game1.player.IsMale ? ".male" : ".female")) + " " +
                 I18n.Get("brute.buff.name"))
             {
                 which = this._buffId,

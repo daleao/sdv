@@ -1,5 +1,11 @@
 # Rings Module Change Log
 
+## 1.0.2
+
+### Fixed
+
+* Apparently there was still a possible Null-Reference Exception in SpaceCore's NewForgeMenu.
+
 ## 1.0.0
 
 ### Fixed

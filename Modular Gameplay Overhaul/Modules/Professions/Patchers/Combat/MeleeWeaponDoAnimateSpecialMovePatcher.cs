@@ -40,7 +40,7 @@ internal sealed class MeleeWeaponDoAnimateSpecialMovePatcher : HarmonyPatcher
                 {
                     helper
                         // find index of acrobat check
-                        .FindProfessionCheck(
+                        .MatchProfessionCheck(
                             Farmer.acrobat,
                             i == 0 ? ILHelper.SearchOption.First : ILHelper.SearchOption.Next)
                         .Move(-2)

@@ -77,7 +77,7 @@ internal sealed class CommandHandler
     {
         if (this._handledCommands.Count == 0)
         {
-            Log.D($"The mod {mod} did not provide any console commands.");
+            Log.D($"[CommandHandler]: The mod {mod} did not provide any console commands.");
             return this;
         }
 

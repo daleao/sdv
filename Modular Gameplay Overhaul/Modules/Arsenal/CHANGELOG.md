@@ -2,9 +2,15 @@
 
 ## 1.0.2
 
+### Added
+
+* Defense overhaul setting now also reduces Jinxed debuff from -8 to -5 defense.
+
 ### Fixed
 
 * Fixed the overlaping ammo stacks displaying on slingshots with double ammo.
+* Fixed the shop selling logic which was messed up in 1.0.1.
+* Fixed the tooltip of weapons enchanted with Diamond.
 
 ## 1.0.1
 

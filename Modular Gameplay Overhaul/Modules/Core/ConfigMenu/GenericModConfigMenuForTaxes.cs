@@ -23,7 +23,8 @@ internal sealed partial class GenericModConfigMenuCore
                 config => config.Taxes.AnnualInterest,
                 (config, value) => config.Taxes.AnnualInterest = value,
                 0f,
-                2f)
+                20f,
+                0.5f)
             .AddCheckbox(
                 () => "Deductible Building Expenses",
                 () => "Whether or not any gold spent constructing farm buildings is tax-deductible.",

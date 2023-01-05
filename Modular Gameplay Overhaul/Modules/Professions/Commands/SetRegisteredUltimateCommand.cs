@@ -21,7 +21,7 @@ internal sealed class SetRegisteredUltimateCommand : ConsoleCommand
     }
 
     /// <inheritdoc />
-    public override string[] Triggers { get; } = { "set_ult" };
+    public override string[] Triggers { get; } = { "register_ult", "set_ult", "register" };
 
     /// <inheritdoc />
     public override string Documentation => "Change the player's currently registered Special Ability.";

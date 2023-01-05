@@ -108,7 +108,8 @@ internal static class Utils
     }
 
     /// <summary>Refreshes the stats of the all <see cref="MeleeWeapon"/>s in existence.</summary>
-    internal static void RefreshAllWeapons()
+    /// <param name="option">The <see cref="RefreshOption"/>.</param>
+    internal static void RefreshAllWeapons(RefreshOption option)
     {
         if (Context.IsMainPlayer)
         {
@@ -119,7 +120,7 @@ internal static class Utils
                     return;
                 }
 
-                weapon.RefreshStats(true);
+                weapon.RefreshStats(option);
                 MeleeWeapon_Stats.Invalidate(weapon);
             });
         }
@@ -127,7 +128,7 @@ internal static class Utils
         {
             foreach (var weapon in Game1.player.Items.OfType<MeleeWeapon>())
             {
-                weapon.RefreshStats(true);
+                weapon.RefreshStats(option);
                 MeleeWeapon_Stats.Invalidate(weapon);
             }
         }

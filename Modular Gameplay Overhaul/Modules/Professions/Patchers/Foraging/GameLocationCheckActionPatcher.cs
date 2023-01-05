@@ -42,7 +42,7 @@ internal sealed class GameLocationCheckActionPatcher : HarmonyPatcher
         try
         {
             helper
-                .FindProfessionCheck(Farmer.botanist, ILHelper.SearchOption.First) // find index of botanist check
+                .MatchProfessionCheck(Farmer.botanist, ILHelper.SearchOption.First) // find index of botanist check
                 .Match(new[] { new CodeInstruction(OpCodes.Ldarg_0) }) // start of objects[key].isForage() check
                 .Match(
                     new[]
@@ -91,7 +91,7 @@ internal sealed class GameLocationCheckActionPatcher : HarmonyPatcher
         {
             var gemologistCheck = generator.DefineLabel();
             helper
-                .FindProfessionCheck(Farmer.botanist, ILHelper.SearchOption.First) // return to botanist check
+                .MatchProfessionCheck(Farmer.botanist, ILHelper.SearchOption.First) // return to botanist check
                 .Move(-1) // retreat to start of check
                 .Match(new[] { new CodeInstruction(OpCodes.Br_S) }, out var count)
                 .Copy(// copy entire section until done setting quality
@@ -202,7 +202,7 @@ internal sealed class GameLocationCheckActionPatcher : HarmonyPatcher
             var isNotPrestiged = generator.DefineLabel();
             var resumeExecution = generator.DefineLabel();
             helper
-                .FindProfessionCheck(Profession.Forager.Value)
+                .MatchProfessionCheck(Profession.Forager.Value)
                 .Move(-1)
                 .Match(new[] { new CodeInstruction(OpCodes.Brfalse_S) }, out var steps)
                 .Copy(out copy, steps, true, true)

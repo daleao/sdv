@@ -32,7 +32,7 @@ internal sealed class PrestigeDayEndingEvent : DayEndingEvent
         {
             var toReset = ToReset.Dequeue();
             toReset.Reset();
-            Log.D($"{Game1.player.Name}'s {toReset.DisplayName} skill has been reset.");
+            Log.D($"[Prestige]: {Game1.player.Name}'s {toReset.DisplayName} skill has been reset.");
         }
     }
 }

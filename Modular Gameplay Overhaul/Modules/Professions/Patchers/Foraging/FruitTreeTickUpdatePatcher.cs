@@ -44,7 +44,7 @@ internal sealed class FruitTreeTickUpdatePatcher : HarmonyPatcher
                         var isPrestiged = generator.DefineLabel();
                         var resumeExecution = generator.DefineLabel();
                         helper
-                            .FindProfessionCheck(Profession.Lumberjack.Value)
+                            .MatchProfessionCheck(Profession.Lumberjack.Value)
                             .Move()
                             .Insert(
                                 new[]

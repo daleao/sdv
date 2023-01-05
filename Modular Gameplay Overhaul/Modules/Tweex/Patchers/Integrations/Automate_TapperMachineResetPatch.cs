@@ -26,11 +26,11 @@ internal sealed class TapperMachineResetPatcher : HarmonyPatcher
 
     #region harmony patches
 
-    /// <summary>Adds foraging experience for automated tappers.</summary>
+    /// <summary>Adds foraging experience for automated Tappers.</summary>
     [HarmonyPostfix]
     private static void TapperMachineResetPostfix(object __instance)
     {
-        if (!TweexModule.Config.TappersRewardExp)
+        if (TweexModule.Config.TapperExpReward <= 0)
         {
             return;
         }
@@ -39,7 +39,7 @@ internal sealed class TapperMachineResetPatcher : HarmonyPatcher
             .GetUnboundPropertyGetter<object, SObject>(__instance, "Machine")
             .Invoke(__instance)
             .GetOwner()
-            .gainExperience(Farmer.foragingSkill, 5);
+            .gainExperience(Farmer.foragingSkill, (int)TweexModule.Config.TapperExpReward);
     }
 
     #endregion harmony patches

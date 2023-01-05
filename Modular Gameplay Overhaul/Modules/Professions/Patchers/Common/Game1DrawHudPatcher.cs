@@ -36,7 +36,7 @@ internal sealed class Game1DrawHudPatcher : HarmonyPatcher
         try
         {
             helper
-                .FindProfessionCheck(Farmer.tracker) // find index of tracker check
+                .MatchProfessionCheck(Farmer.tracker) // find index of tracker check
                 .Move(-1)
                 .GetLabels(out var leave) // the exception block leave opcode destination
                 .GoTo(helper.LastIndex)

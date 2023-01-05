@@ -3,6 +3,7 @@
 #region using directives
 
 using System.Linq;
+using Arsenal;
 using DaLion.Overhaul;
 using DaLion.Overhaul.Modules.Arsenal.Extensions;
 using DaLion.Shared.Commands;
@@ -25,7 +26,7 @@ internal sealed class RevalidateItemsCommand : ConsoleCommand
     }
 
     /// <inheritdoc />
-    public override string[] Triggers { get; } = { "revalidate_items", "revalidate", "reval" };
+    public override string[] Triggers { get; } = { "revalidate_items", "revalidate", "reval", "rev" };
 
     /// <inheritdoc />
     public override string Documentation => "Applies or removes persistent changes made by modules to existing items.";
@@ -60,13 +61,13 @@ internal sealed class RevalidateItemsCommand : ConsoleCommand
 
     private static void RevalidateSingleWeapon(MeleeWeapon weapon)
     {
+        weapon.RecalculateAppliedForges();
         if (!ArsenalModule.IsEnabled)
         {
             weapon.RemoveIntrinsicEnchantments();
         }
         else if (ArsenalModule.Config.InfinityPlusOne || ArsenalModule.Config.Weapons.EnableRebalance)
         {
-            weapon.RemoveIntrinsicEnchantments();
             weapon.AddIntrinsicEnchantments();
         }
 
@@ -79,15 +80,6 @@ internal sealed class RevalidateItemsCommand : ConsoleCommand
                  weapon.type.Value == MeleeWeapon.stabbingSword)
         {
             weapon.type.Value = MeleeWeapon.defenseSword;
-        }
-
-        if (ArsenalModule.IsEnabled && ArsenalModule.Config.Weapons.EnableRebalance)
-        {
-            weapon.RefreshStats();
-        }
-        else if (!ArsenalModule.IsEnabled || !ArsenalModule.Config.Weapons.EnableRebalance)
-        {
-            weapon.RecalculateAppliedForges(true);
         }
 
         if (ArsenalModule.IsEnabled && ArsenalModule.Config.InfinityPlusOne && (weapon.isGalaxyWeapon() || weapon.IsInfinityWeapon()

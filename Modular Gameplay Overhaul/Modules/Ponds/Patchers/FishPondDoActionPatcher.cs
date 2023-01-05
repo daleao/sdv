@@ -191,8 +191,8 @@ internal sealed class FishPondDoActionPatcher : HarmonyPatcher
                 .Select(li => li?.ParseTuple<int, int>())
                 .WhereNotNull()
                 .ToList();
-        var count = heldMinerals.Sum(m => new SObject(m.Item1, 1).Name.Contains("Bar") ? 5 : 1);
-        if (count >= 20)
+        var count = heldMinerals.Sum(m => new SObject(m.Item1, 1).Name.Contains("Bar") ? 4 : 1);
+        if (count >= 40)
         {
             Game1.drawObjectDialogue(Game1.content.LoadString("Strings\\Buildings:PondFull"));
             return true;

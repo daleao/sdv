@@ -34,7 +34,7 @@ internal sealed class FarmAnimalPetPatcher : HarmonyPatcher
         try
         {
             helper
-                .FindProfessionCheck(Farmer.shepherd) // find index of shepherd check
+                .MatchProfessionCheck(Farmer.shepherd) // find index of shepherd check
                 .Move()
                 .SetOpCode(OpCodes.Ldc_I4_0) // replace with rancher check
                 .Match(new[] { new CodeInstruction(OpCodes.Brfalse_S) })
@@ -69,7 +69,7 @@ internal sealed class FarmAnimalPetPatcher : HarmonyPatcher
         {
             var isNotPrestiged = generator.DefineLabel();
             helper
-                .FindProfessionCheck(Profession.Rancher.Value, ILHelper.SearchOption.Previous) // go back and find the inserted rancher check
+                .MatchProfessionCheck(Profession.Rancher.Value, ILHelper.SearchOption.Previous) // go back and find the inserted rancher check
                 .Match(
                     new[]
                     {

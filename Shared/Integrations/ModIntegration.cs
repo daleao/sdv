@@ -71,18 +71,18 @@ public abstract class ModIntegration<TIntegration> : IModIntegration
     {
         if (!this.IsRegistered && (this.IsRegistered = this.RegisterImpl()))
         {
-            Log.T($"[Integrations] The {this.ModName} integration has been registered.");
+            Log.T($"[Integrations]: The {this.ModName} integration has been registered.");
             return;
         }
 
         if (this.IsRegistered)
         {
-            Log.T($"[Integrations] The {this.ModName} integration is already registered.");
+            Log.T($"[Integrations]: The {this.ModName} integration is already registered.");
             return;
         }
 
         Log.W(
-            $"[Integrations] The {this.ModName} integration could not be registered. Some mod features have been disabled or will not work correctly.");
+            $"[Integrations]: The {this.ModName} integration could not be registered. Some mod features have been disabled or will not work correctly.");
     }
 
     /// <inheritdoc cref="Register"/>

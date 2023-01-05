@@ -7,8 +7,9 @@ internal sealed partial class GenericModConfigMenuCore
     private void RegisterTweex()
     {
         this
-            .AddPage(OverhaulModule.Tweex.Namespace, () => "Tweak Settings")
+            .AddPage(OverhaulModule.Tweex.Namespace, () => "Tweex Settings")
 
+            .AddSectionTitle(() => "Quality Settings")
             .AddNumberField(
                 () => "Tree Aging Factor",
                 () => "The degree to which Tree age improves sap quality. Lower values mean that more time is needed for sap to improve. Set to zero to disable quality sap.",
@@ -37,26 +38,43 @@ internal sealed partial class GenericModConfigMenuCore
                 (config, value) => config.Tweex.MushroomBoxAgingFactor = value,
                 0.1f,
                 2f)
+            .AddNumberField(
+                () => "Tea Bush Aging Factor",
+                () => "The degree to which Tea Bush age improves Tea Leaf quality. Lower values mean that more time is needed for tea leaves to improve. Set to zero to disable quality tea leaves.",
+                config => config.Tweex.TeaBushAgingFactor,
+                (config, value) => config.Tweex.TeaBushAgingFactor = value,
+                0.1f,
+                2f)
             .AddCheckbox(
                 () => "Deterministic Age Quality",
                 () => "Whether age-dependent qualities should be deterministic (true) or stochastic (false).",
                 config => config.Tweex.DeterministicAgeQuality,
                 (config, value) => config.Tweex.DeterministicAgeQuality = value)
-            .AddCheckbox(
-                () => "Berry Bushes Reward Exp",
-                () => "Gain foraging experience when a berry bush is harvested.",
-                config => config.Tweex.BerryBushesRewardExp,
-                (config, value) => config.Tweex.BerryBushesRewardExp = value)
-            .AddCheckbox(
-                () => "Mushroom Boxes Reward Exp",
-                () => "Gain foraging experience when a mushroom box is harvested.",
-                config => config.Tweex.MushroomBoxesRewardExp,
-                (config, value) => config.Tweex.MushroomBoxesRewardExp = value)
-            .AddCheckbox(
+
+            .AddSectionTitle(() => "Experience Settings")
+            .AddNumberField(
+                () => "Berry Bush Exp Reward",
+                () => "The amount of Foraging experience rewarded when a berry bush is harvested. Set to zero to disable.",
+                config => (int)config.Tweex.BerryBushExpReward,
+                (config, value) => config.Tweex.BerryBushExpReward = (uint)value,
+                0,
+                10)
+            .AddNumberField(
+                () => "Mushroom Box Exp Reward",
+                () => "The amount of Foraging experience rewarded when a Mushroom Box is harvested. Set to zero to disable.",
+                config => (int)config.Tweex.MushroomBoxExpReward,
+                (config, value) => config.Tweex.MushroomBoxExpReward = (uint)value,
+                0,
+                10)
+            .AddNumberField(
                 () => "Tappers Reward Exp",
-                () => "Gain foraging experience when a tapper is harvested.",
-                config => config.Tweex.TappersRewardExp,
-                (config, value) => config.Tweex.TappersRewardExp = value)
+                () => "The amount of Foraging experience rewarded when a Tapper is harvested. Set to zero to disable.",
+                config => (int)config.Tweex.TapperExpReward,
+                (config, value) => config.Tweex.TapperExpReward = (uint)value,
+                0,
+                10)
+
+            .AddSectionTitle(() => "Misc. Settings")
             .AddCheckbox(
                 () => "Prevent Fruit Tree Growth in Winter",
                 () => "Regular trees can't grow in winter. Why should fruit trees be any different?",

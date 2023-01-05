@@ -1,5 +1,12 @@
 # Professions Module Change Log
 
+## 1.0.2
+
+### Fixed
+
+* Fixed buggy nodes being spawned by Prospector.
+* Fixed a typo in Brute's Rage buff.
+
 ## 1.0.1
 
 ### Changed

@@ -36,18 +36,19 @@ internal static class RevenueService
 
         var dueF = 0f;
         var bracket = 0f;
+        var temp = taxable;
         for (var i = 0; i < 7; i++)
         {
             bracket = Brackets[i];
             var threshold = Thresholds[bracket];
-            if (taxable > threshold)
+            if (temp > threshold)
             {
                 dueF += threshold * bracket;
-                taxable -= threshold;
+                temp -= threshold;
             }
             else
             {
-                dueF += taxable * bracket;
+                dueF += temp * bracket;
                 break;
             }
         }

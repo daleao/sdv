@@ -134,7 +134,7 @@ internal class Shockwave
             return;
         }
 
-        Log.D(this._tileGrids[^1].ToString());
+        //Log.D(this._tileGrids[^1].ToString());
         ToolsModule.State.Shockwaves.Remove(this);
     }
 

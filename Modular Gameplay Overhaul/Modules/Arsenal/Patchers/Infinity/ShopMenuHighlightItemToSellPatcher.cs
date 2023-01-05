@@ -24,7 +24,11 @@ internal sealed class ShopMenuHighlightItemToSellPatcher : HarmonyPatcher
     [HarmonyPostfix]
     private static void ShopMenuHighlightItemToSellPostfix(ref bool __result, Item i)
     {
-        __result = !__result || i is not MeleeWeapon weapon || WeaponTier.GetFor(weapon) < WeaponTier.Legendary;
+        if (__result && i is MeleeWeapon weapon)
+        {
+            __result = WeaponTier.GetFor(weapon) < WeaponTier.Legendary;
+        }
+
     }
 
     #endregion harmony patches

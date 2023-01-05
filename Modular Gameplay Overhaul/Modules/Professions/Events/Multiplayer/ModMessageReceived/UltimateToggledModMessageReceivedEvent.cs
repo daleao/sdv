@@ -41,15 +41,15 @@ internal sealed class UltimateToggledModMessageReceivedEvent : ModMessageReceive
         switch (newState)
         {
             case "Active":
-                Log.D($"{who.Name} activated their Ultimate ability.");
                 var index = who.Read<int>(DataFields.UltimateIndex);
-                var glowingColor = Ultimate.FromValue(index).GlowColor;
-                who.startGlowing(glowingColor, false, 0.05f);
+                var ultimate = Ultimate.FromValue(index);
+                Log.D($"[Ultimate]: {who.Name} activated {ultimate.Name}.");
+                who.startGlowing(ultimate.GlowColor, false, 0.05f);
 
                 break;
 
             case "Inactive":
-                Log.D($"{who.Name}'s Ultimate ability has ended.");
+                Log.D($"[Ultimate]: {who.Name}'s Ultimate has ended.");
                 who.stopGlowing();
 
                 break;

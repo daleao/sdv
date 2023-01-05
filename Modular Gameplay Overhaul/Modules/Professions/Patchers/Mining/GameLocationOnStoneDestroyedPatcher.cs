@@ -34,7 +34,7 @@ internal sealed class GameLocationOnStoneDestroyedPatcher : HarmonyPatcher
         try
         {
             helper
-                .FindProfessionCheck(Farmer.burrower) // find index of prospector check
+                .MatchProfessionCheck(Farmer.burrower) // find index of prospector check
                 .Move(-1)
                 .Match(new[] { new CodeInstruction(OpCodes.Mul) }, out var count)
                 .Remove(count); // remove this check

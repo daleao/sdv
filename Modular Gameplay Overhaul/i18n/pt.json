@@ -231,7 +231,7 @@
 
   "dialogue.clint.blueprint.notdone": "Ei @. Ainda não acabei de decifrar aquele projeto seu.$0#$b#Talvez amanhã...$2",
   "dialogue.clint.blueprint.done": "Ei @. Eu acabei de traduzir aquele projeto antigo.$0#$b#Me desculpe por demorar tanto.$2#$b#Era uma receita para uma arma feita de alguns materiais estranhos.$0#$b#Quem escreveu era claramente um mestre ferreiro. As técnicas descritas aqui são bem notáveis.$2#$b#Eu adoraria tentar fazer isso, mas não tenho idéia de onde achar estes materiais.#$b#De qualquer forma, aqui está seu livro de volta. Se você encontrar alguma coisa dessas traga de volta e te farei aquela arma de graça.",
-  "dialogue.gil.virtues": "Um aventureiro deve viver pelas cinco virtudes heróicas: Honra, Compaixão, Sabedoria, Generosidade e Bravura. Aqueles que o fazem são considerados heróis aos olhos de Yoba, e recebem sua benção para sempre retornarem com segurança de suas aventuras.#$b#Pelo menos é o que minha mãe costumava dizer.",
+  "dialogue.gil.virtues": "Um aventureiro deve viver pelas cinco virtudes heróicas: Honra, Compaixão, Sabedoria, Generosidade e Valentia. Aqueles que o fazem são considerados heróis aos olhos de Yoba, e recebem sua benção para sempre retornarem com segurança de suas aventuras.#$b#Pelo menos é o que minha mãe costumava dizer.",
   "dialogue.wizard.curse.canthelp": "Me desculpe @. Receio que nem mesmo o arcano possa te ajudar agora.#$b#Sua única esperança é buscar o divino.",
 
   "events.forge.intro": "distantBanjo/3 15/farmer 5 19 0 Clint 3 13 2/skippable/pause 1000/speak Clint \"Oh, ei @.$1\"/move farmer 0 -4 3/move farmer -2 0 0/pause 500/speak Clint \"Você tem uma ferramenta que precisa ser melhorada?\"/pause 500/speak Clint \"O que é isso, um porjeto antigo?\"/pause 1000/speak Clint \"Eu adoraria te ajudar, @, mas não consigo entender nada dessas inscrições...$2\"/pause 1000/speak Clint \"Como é? Você tem o guia de tradução para isso?$0#$b#Mas isso vai levar dias para decifrar...$2\"/pause 500/speak Clint \"Oh certo. Começarei a trabalhar nisso esta noite. Venha me ver de novo em alguns dias.\"/pause 500/addQuest 144701/end",
@@ -254,32 +254,32 @@
   "quests.curse.intro": "Basic/A Lâmina do Herói Arruinado/A arma que você encontrou carrega a maldição do Herói Arruinado! Você já pode sentir sua força vital sendo drenada. É melhor encontrar algum jeito de quebrar essa maldição, e rápido!/Encontre uma maneira de quebrar a maldição da Lâmina Arruinada./null/144704/0/-1/false",
   "quests.curse.next": "Basic/A Lâmina do Herói Arruinado/Aqueles que encorporam as virtudes de um verdadeiro herói são purificados pelo poder divino de Yoba./Prove que você vive de acordo com as cinco virtudes heróicas./null/144705/0/-1/false",
   "quests.curse.last": "Basic/A Lâmina do Herói Arruinado/Prove que você vive de acordo com as cinco virtudes heróicas./Leve a Lâmina Arruinada até o altar de Yoba./null/-1/0/-1/false",
-  "quests.virtues.honor": "Basic/Prova de Honra/Honra não pode ser comprada. Honra também não pode ser vendida, pois seu valor é maior que todo o tesouro do mundo. No entanto, pode-se perdê-lo, e quem o fizer terá manchado seu nome por toda a eternidade. Uma pessoa verdadeiramente honrada sempre defende suas ações, enfrenta todos os desafios e se recusa a mentir./Aguarde por uma oportunidade de provar a sua honra./null/-1/0/-1/false",
-  "quests.virtues.compassion": "Basic/Prova de Compaixão/Existem muitos traços que testemunham a verdadeira natureza de uma pessoa. Compaixão é o que separa os homens das bestas. Quem sente simpatia pelo próximo jamais fechará os olhos ao infortúnio. Ele sempre estará em defesa dos injustiçados./Aguarde por uma oprtunidade para demonstrar compaixão./null/-1/0/-1/false",
-  "quests.virtues.wisdom": "Basic/Prova de Sabedoria/Sabedoria é uma virtude que se deve buscar cultivar ao longo da vida, pois é impossível ser tão sábio que não se torne ainda mais sábio. Os sábios sabem disso... Em nossa jornada pela vida, devemos procurar fazer escolhas sábias. Lembre-se, escolhas sábias não são aquelas que tornam nossa vida mais fácil ou simples. Muitas vezes, elas a tornam mais complicada. Mas sempre, elas nos tornam melhores./Aguarde por uma oportunidade de provar a sua sabedoria./null/-1/0/-1/false",
-  "quests.virtues.generosity": "Basic/Prova de Generosidade/Nenhuma pessoa pode ser considerada boa que não compartilha sua prosperidade com os outros. Generosidade é necessária para dignidade na vida e paz na morte./Aguarde por uma oportunidade de provar a sua generosidade./null/-1/0/-1/false",
-  "quests.virtues.valor": "Basic/Prova de Bravura/A bravura não torna ninguém bom, mas quantos homens bons você conheceu na jornada de sua vida que eram covardes? Aqueles que possuem bravura não hesitam em enfrentar a maioria, não importa quais sejam as consequências./Aguarde por uma oportunidade de provar a sua bravura./null/-1/0/-1/false",
+  "quests.virtues.honor": "Basic/Prova de honra/Honra não pode ser comprada. Honra também não pode ser vendida, pois seu valor é maior que todo o tesouro do mundo. No entanto, pode-se perdê-lo, e quem o fizer terá manchado seu nome por toda a eternidade. Uma pessoa verdadeiramente honrada sempre defende suas ações, enfrenta todos os desafios e se recusa a mentir./Aguarde por uma oportunidade de provar a sua honra./null/-1/0/-1/false",
+  "quests.virtues.compassion": "Basic/Prova de compaixão/Existem muitos traços que testemunham a verdadeira natureza de uma pessoa. Compaixão é o que separa os homens das bestas. Quem sente simpatia pelo próximo jamais fechará os olhos ao infortúnio. Ele sempre estará em defesa dos injustiçados./Aguarde por uma oprtunidade para demonstrar compaixão./null/-1/0/-1/false",
+  "quests.virtues.wisdom": "Basic/Prova de sabedoria/Sabedoria é uma virtude que se deve buscar cultivar ao longo da vida, pois é impossível ser tão sábio que não se torne ainda mais sábio. Os sábios sabem disso... Em nossa jornada pela vida, devemos procurar fazer escolhas sábias. Lembre-se, escolhas sábias não são aquelas que tornam nossa vida mais fácil ou simples. Muitas vezes, elas a tornam mais complicada. Mas sempre, elas nos tornam melhores./Aguarde por uma oportunidade de provar a sua sabedoria./null/-1/0/-1/false",
+  "quests.virtues.generosity": "Basic/Prova de generosidade/Nenhuma pessoa pode ser considerada boa que não compartilha sua prosperidade com os outros. Generosidade é necessária para dignidade na vida e paz na morte./Aguarde por uma oportunidade de provar a sua generosidade./null/-1/0/-1/false",
+  "quests.virtues.valor": "Basic/Prova de valentia/A Valentia não torna ninguém bom, mas quantos homens bons você conheceu na jornada de sua vida que eram covardes? Aqueles que possuem Valentia não hesitam em enfrentar a maioria, não importa quais sejam as consequências./Aguarde por uma oportunidade de provar a sua valentia./null/-1/0/-1/false",
 
   "yoba.question": "Há inscrições adicionais no altar...",
   "virtues.honor.name": "Honra",
   "virtues.compassion.name": "Compaixão",
   "virtues.wisdom.name": "Sabedoria",
   "virtues.generosity.name": "Generosidade",
-  "virtues.valor.name": "Bravura",
+  "virtues.valor.name": "Valentia",
   "virtues.honor.flavor": "\"Honra não pode ser comprada. Honra também não pode ser vendida, pois seu valor é maior que todo o tesouro do mundo. No entanto, pode-se perdê-lo, e quem o fizer terá manchado seu nome por toda a eternidade. Uma pessoa verdadeiramente honrada sempre defende suas ações, enfrenta todos os desafios e se recusa a mentir.\"",
   "virtues.compassion.flavor": "\"Existem muitos traços que testemunham a verdadeira natureza de uma pessoa. Compaixão é o que separa os homens das bestas. Quem sente simpatia pelo próximo jamais fechará os olhos ao infortúnio. Ele sempre estará em defesa dos injustiçados.\"",
   "virtues.wisdom.flavor": "\"Sabedoria é uma virtude que se deve buscar cultivar ao longo da vida, pois é impossível ser tão sábio que não se torne ainda mais sábio. Os sábios sabem disso... Em nossa jornada pela vida, devemos procurar fazer escolhas sábias. Lembre-se, escolhas sábias não são aquelas que tornam nossa vida mais fácil ou simples. Muitas vezes, elas a tornam mais complicada. Mas sempre, elas nos tornam melhores.\"",
   "virtues.generosity.flavor": "\"Nenhuma pessoa pode ser considerada boa que não compartilha sua prosperidade com os outros. Generosidade é necessária para dignidade na vida e paz na morte.\"",
-  "virtues.valor.flavor": "\"A bravura não torna ninguém bom, mas quantos homens bons você conheceu na jornada de sua vida que eram covardes? Aqueles que possuem bravura não hesitam em enfrentar a maioria, não importa quais sejam as consequências.\"",
+  "virtues.valor.flavor": "\"A Valentia não torna ninguém bom, mas quantos homens bons você conheceu na jornada de sua vida que eram covardes? Aqueles que possuem Valentia não hesitam em enfrentar a maioria, não importa quais sejam as consequências.\"",
 
   // json assets
-  "objects.dwarvishblueprint.name": "Antigo Plano Anão",
+  "objects.dwarvishblueprint.name": "Antigo plano anão",
   "objects.dwarvishblueprint.description": "Está desbotado, mas ainda legível.",
-  "objects.herosoul.name": "Alma do Herói",
+  "objects.herosoul.name": "Alma do herói",
   "objects.herosoul.description": "A essência materializada de um herói.",
-  "objects.dwarvenscrap.name": "Sucata Anã",
+  "objects.dwarvenscrap.name": "Sucata dos anões",
   "objects.dwarvenscrap.description": "Parece antigo, e ao mesmo tempo futurista.",
-  "objects.elderwood.name": "Madeira Anciã",
+  "objects.elderwood.name": "Madeira anciã",
   "objects.elderwood.description": "Um pedaço de madeira encantada por uma raça antiga.",
 
 
@@ -302,7 +302,7 @@
   "rings.garnet.description": "Diminue o tempo de recarga dos golpes especiais em 10%.",
   "rings.iridium.description": "Um anel comum feito de irídio.",
   "rings.infinity.name": "Anel do Infinito",
-  "rings.infinity.description": "Um recepiente de grande poder",
+  "rings.infinity.description": "Um recepiente para um grande poder.",
   "global.infinitycraft": "{{who}} forjou um Anel do Infinito.",
 
 
@@ -310,16 +310,16 @@
   // * ENCHANTMENTS * //
   // **************** //
 
-  "enchantments.carving": "Perfurador",
-  "enchantments.cleaving": "Clivagem",
+  "enchantments.carving": "Perfurante",
+  "enchantments.cleaving": "Clivante",
   "enchantments.energized": "Energizado",
   "enchantments.tribute": "Tributo",
   "enchantments.vampiric": "Sedento",
   "enchantments.engorging": "Glutão",
   "enchantments.gatling": "Metralha",
-  "enchantments.preserving": "Preservador",
+  "enchantments.preserving": "Preservante",
   "enchantments.quincy": "Quincy",
-  "enchantments.spreading": "Espalhante",
+  "enchantments.spreading": "Espingarda",
 
 
   // *********** //
@@ -341,9 +341,9 @@
   // **************** //
 
   "ui.itemhover.damage": "{{amount}} Dano",
-  "ui.itemhover.crate": "{{amount}} Chance Crítica",
-  "ui.itemhover.cpow": "{{amount}} Dano Crítico",
-  "ui.itemhover.knockback": "{{amount}} Repulsão",
+  "ui.itemhover.crate": "{{amount}} Chance de crítico",
+  "ui.itemhover.cpow": "{{amount}} Poder crítico",
+  "ui.itemhover.knockback": "{{amount}} Rebote",
   "ui.itemhover.firespeed": "{{amount}} Velocidade",
   "ui.itemhover.swingspeed": "{{amount}} Velocidade",
   "ui.itemhover.cdr": "{{amount}} Tempo de Recarga",

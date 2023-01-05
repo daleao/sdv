@@ -49,18 +49,19 @@ internal sealed class DoTaxesCommand : ConsoleCommand
 
         var dueF = 0f;
         var bracket = 0f;
+        var temp = taxable;
         for (var i = 0; i < 7; i++)
         {
             bracket = RevenueService.Brackets[i];
             var threshold = RevenueService.Thresholds[bracket];
-            if (taxable > threshold)
+            if (temp > threshold)
             {
                 dueF += threshold * bracket;
-                taxable -= threshold;
+                temp -= threshold;
             }
             else
             {
-                dueF += taxable * bracket;
+                dueF += temp * bracket;
                 break;
             }
         }

@@ -31,7 +31,7 @@ internal sealed class UpdateDataModMessageReceivedEvent : ModMessageReceivedEven
         var who = Game1.getFarmer(e.FromPlayerID);
         if (who is null)
         {
-            Log.W($"Unknown player {e.FromPlayerID} tried to update the mod data.");
+            Log.W($"[Data]: Unknown player {e.FromPlayerID} tried to update the mod data.");
             return;
         }
 
@@ -42,18 +42,18 @@ internal sealed class UpdateDataModMessageReceivedEvent : ModMessageReceivedEven
         switch (operation)
         {
             case "Write":
-                Log.D($"{who.Name} requested to write {value} to {field}.");
+                Log.D($"[Data]: {who.Name} requested to write {value} to {field}.");
                 ModDataIO.Write(who, field, value);
                 break;
 
             case "Increment":
-                Log.D($"{who.Name} requested to increment {field} by {value}.");
+                Log.D($"[Data]: {who.Name} requested to increment {field} by {value}.");
                 var parsedValue = e.ReadAs<int>();
                 ModDataIO.Increment(who, field, parsedValue);
                 break;
 
             case "Append":
-                Log.D($"{who.Name} requested to append {value} to {field}.");
+                Log.D($"[Data]: {who.Name} requested to append {value} to {field}.");
                 ModDataIO.Append(who, field, value);
                 break;
         }

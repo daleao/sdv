@@ -109,14 +109,14 @@ public interface ISkill
         var isSkillLevelTen = this.CurrentLevel >= 10;
         if (!isSkillLevelTen)
         {
-            Log.D($"{this.StringId} skill cannot be reset because it's level is lower than 10.");
+            Log.D($"[Prestige]: {this.StringId} skill cannot be reset because it's level is lower than 10.");
             return false;
         }
 
         var justLeveledUp = this.NewLevels.Contains(10);
         if (justLeveledUp)
         {
-            Log.D($"{this.StringId} skill cannot be reset because {farmer.Name} has not yet seen the level-up menu.");
+            Log.D($"[Prestige]: {this.StringId} skill cannot be reset because {farmer.Name} has not yet seen the level-up menu.");
             return false;
         }
 
@@ -125,14 +125,14 @@ public interface ISkill
         if (!hasProfessionsLeftToAcquire)
         {
             Log.D(
-                $"{this.StringId} skill cannot be reset because {farmer.Name} either already has all professions in the skill, or has none at all.");
+                $"[Prestige]: {this.StringId} skill cannot be reset because {farmer.Name} either already has all professions in the skill, or has none at all.");
             return false;
         }
 
         var alreadyResetThisSkill = ProfessionsModule.State.SkillsToReset.Contains(this);
         if (alreadyResetThisSkill)
         {
-            Log.D($"{this.StringId} skill has already been marked for reset tonight.");
+            Log.D($"[Prestige]: {this.StringId} skill has already been marked for reset tonight.");
             return false;
         }
 

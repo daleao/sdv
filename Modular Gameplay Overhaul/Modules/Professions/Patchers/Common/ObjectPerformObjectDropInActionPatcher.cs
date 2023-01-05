@@ -139,7 +139,7 @@ internal sealed class ObjectPerformObjectDropInActionPatcher : HarmonyPatcher
                         var notPrestigedBreeder = generator.DefineLabel();
                         var resumeExecution = generator.DefineLabel();
                         helper
-                            .FindProfessionCheck(Profession.Breeder.Value)
+                            .MatchProfessionCheck(Profession.Breeder.Value)
                             .Match(new[] { new CodeInstruction(OpCodes.Ldloc_0) }, ILHelper.SearchOption.Previous)
                             .Match(new[] { new CodeInstruction(OpCodes.Brfalse_S) }, out var steps)
                             .Copy(
