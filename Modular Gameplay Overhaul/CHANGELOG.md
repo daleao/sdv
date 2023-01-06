@@ -1,15 +1,17 @@
 # Modular Overhaul Change Logs
 
-## Revision 1.0.1 Highlights
+## Revision 1.0.2 Highlights
 
-* You can now toggle between Abolute and Relative weapon stat tooltips.
-* Legendary weapons can no longer be sold or trashed.
-* Enchanted weapons now sell for a premium (+1000g).
-* Legendary weapons now have a colorful swipe effect. Also, fixed the direction of the swipe effect during back-hand swipes.
-* Improved the responsiveness of FaceMouseCursor during combos.
-* Fixed some bugs related to Garnet forge and Garnet resonance.
-* Now supports modded tool upgrades from Love Of Cooking and drbirbdev's Panning and Ranching Tool Upgrades.
-* Dramatically reduced the odds of Prospector spawning bonus mining nodes.
+* [Arsenal] Added Chinese, Korean, Spanish and French translations. Also updated Portuguese translation and fixed some typos in the default English version.
+* [Arsenal] Added Better Chests support, which should prevent accidentally depositing the Dark Sword.
+* [Ponds] Radioactive ponds can now hold twice as much ore (up to 40), and 120% more bars (up to 10).
+* [Ponds] Algae produced by Algae ponds now stacks correctly, so you wont lose algae by not collecting for long periods of time.
+* [Professions] Fixed Custom Ore Nodes integration and added Custom Resource Clumps integration.
+* [Professions] Prospector now also tracks Resource Clumps containing special minerals (i.e. those from Custom Resource Clumps).
+* [Taxes] In addition to interest, outstanding debt now suffers additional penalties at each season close. The penalty amount is the lesser of 100g or 5% of the outstanding amount. 
+* [Taxes] Taxes now apply to items sold via Mini-Shipping Bin.
+* [Tweex] Added option to age Tea Bushes, just like Bee Hives and Mushroom Boxes. Tea Bushes will produce higher quality Tea Leaves as they mature, with a small benefit from Farming and Foraging skills.
+* [Tweex] You can now set the amount of exp rewarded for harvesting Berry Bushes, Mushroom Boxes and Tappers.
 
 ## Major Release 1.0.0 Highlights
 

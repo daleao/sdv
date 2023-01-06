@@ -8,6 +8,7 @@
 * Added Korean translations by [BrightEast99](https://www.nexusmods.com/users/158443518).
 * Added Spanish and French translations.
 * Revalidate console command now also removes Dark Swords from chests.
+* Added support for Better Chests to prevent accidentally depositing the Dark Sword.
 
 ### Changed
 

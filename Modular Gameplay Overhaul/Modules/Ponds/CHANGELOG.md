@@ -10,7 +10,7 @@
 ### Fixed
 
 * Fixed *again* positioning of fishes in Pond Query Menu.
-* Algae produced by Algae ponds now stacks correctly.
+* Algae produced by Algae ponds now stacks correctly, so you wont lose algae by not collecting for long periods of time.
 * Fixed a typo in Reflector logic which caused an exception to be thrown with Teh's Fishing Overhaul.
 * TFO integration should now handle Algae correctly.
 
