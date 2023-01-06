@@ -1,5 +1,10 @@
 # Modular Overhaul Change Logs
 
+## Revision 1.0.3 Highlights
+
+* Added Russian translations by [pavlo2906](https://www.nexusmods.com/stardewvalley/users/46516077).
+* Fixed update keys for this and all optional files.
+
 ## Hotfix 1.0.3 Highlights
 
 * [Arsenal] Fixed error when opnening Clint's shop menu.
