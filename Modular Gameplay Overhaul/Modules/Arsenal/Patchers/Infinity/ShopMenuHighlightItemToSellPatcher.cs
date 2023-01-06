@@ -28,7 +28,6 @@ internal sealed class ShopMenuHighlightItemToSellPatcher : HarmonyPatcher
         {
             __result = WeaponTier.GetFor(weapon) < WeaponTier.Legendary;
         }
-
     }
 
     #endregion harmony patches

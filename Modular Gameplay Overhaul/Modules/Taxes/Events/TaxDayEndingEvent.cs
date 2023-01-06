@@ -9,6 +9,7 @@ using DaLion.Shared.Events;
 using DaLion.Shared.Extensions.SMAPI;
 using DaLion.Shared.Extensions.Stardew;
 using StardewModdingAPI.Events;
+using StardewValley.Objects;
 
 #endregion using directives
 
@@ -35,6 +36,16 @@ internal sealed class TaxDayEndingEvent : DayEndingEvent
 
         var amountSold = Game1.getFarm().getShippingBin(player).Sum(item =>
             item is SObject obj ? obj.sellToStorePrice() * obj.Stack : item.salePrice() / 2);
+        Utility.ForAllLocations(location =>
+        {
+            amountSold += location.Objects.Values
+                .OfType<Chest>()
+                .Where(c => c.SpecialChestType == Chest.SpecialChestTypes.MiniShippingBin)
+                .Sum(miniBin => miniBin
+                    .GetItemsForPlayer(player.UniqueMultiplayerID)
+                    .Sum(item => item is SObject obj ? obj.sellToStorePrice() * obj.Stack : item.salePrice() / 2));
+        });
+
         if (amountSold > 0 && !player.hasOrWillReceiveMail($"{Manifest.UniqueID}/TaxIntro"))
         {
             player.mailForTomorrow.Add($"{Manifest.UniqueID}/TaxIntro");

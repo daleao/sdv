@@ -2,10 +2,16 @@
 
 ## 1.0.2
 
+### Added
+
+* Prospector now also tracks Resource Clumps.
+* Added Custom Resource Clumps integration.
+
 ### Fixed
 
 * Fixed buggy nodes being spawned by Prospector.
 * Fixed a typo in Brute's Rage buff.
+* Fixed Custom Ore Nodes integration.
 
 ## 1.0.1
 

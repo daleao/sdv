@@ -11,6 +11,8 @@
 * Fixed the overlaping ammo stacks displaying on slingshots with double ammo.
 * Fixed the shop selling logic which was messed up in 1.0.1.
 * Fixed the tooltip of weapons enchanted with Diamond.
+* Dark Sword should now be immune from accidental deposit by Better Chests' stack feature.
+* Clint's menu should now support mod geodes like Kaya's.
 
 ## 1.0.1
 

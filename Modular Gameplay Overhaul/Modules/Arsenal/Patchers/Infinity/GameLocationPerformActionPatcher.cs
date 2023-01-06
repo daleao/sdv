@@ -58,7 +58,7 @@ internal sealed class GameLocationPerformActionPatcher : HarmonyPatcher
 
     #endregion harmony patches
 
-    #region injected subroutines
+    #region handlers
 
     private static void HandleYobaAltar(GameLocation location, Farmer who)
     {
@@ -158,5 +158,5 @@ internal sealed class GameLocationPerformActionPatcher : HarmonyPatcher
             "DarkSword");
     }
 
-    #endregion injected subroutines
+    #endregion handlers
 }

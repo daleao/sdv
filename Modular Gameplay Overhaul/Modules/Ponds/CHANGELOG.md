@@ -5,10 +5,14 @@
 ### Changed
 
 * Decreased the volume of metal bars thrown into radioactive ponds from 5 to 4 and doubled the capacity to 40 volume units. Each radioactive pond can now hold 40 ores, 10 bars, or a combination of both, for enrichment.
+* Extracted subroutines out of monolithic patches.
 
 ### Fixed
 
 * Fixed *again* positioning of fishes in Pond Query Menu.
+* Algae produced by Algae ponds now stacks correctly.
+* Fixed a typo in Reflector logic which caused an exception to be thrown with Teh's Fishing Overhaul.
+* TFO integration should now handle Algae correctly.
 
 ## 1.0.0
 

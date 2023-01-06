@@ -23,9 +23,12 @@ internal sealed class ItemGrabMenuCtorPatcher : HarmonyPatcher
 
     /// <summary>Replace highlighting method.</summary>
     [HarmonyPrefix]
-    private static void ItemGrabMenuCtorPrefix(ref InventoryMenu.highlightThisItem? highlightFunction)
+    private static void ItemGrabMenuCtorPrefix(ItemGrabMenu __instance, ref InventoryMenu.highlightThisItem? highlightFunction)
     {
-        highlightFunction = HighlightAllButDarkSword;
+        if (__instance.GetType().FullName?.Contains("CJBItemSpawner") == false)
+        {
+            highlightFunction = HighlightAllButDarkSword;
+        }
     }
 
     #endregion harmony patches

@@ -121,6 +121,9 @@ internal static class Collections
         46, // mystic stone
     };
 
+    /// <summary>Gets or sets the ids of (valuable) resource clumps.</summary>
+    internal static IReadOnlySet<int> ResourceClumpIds { get; set; } = new HashSet<int>();
+
     /// <summary>Gets the corresponding extended family pair by legendary fish id.</summary>
     internal static IReadOnlyDictionary<int, int> ExtendedFamilyPairs { get; } = new Dictionary<int, int>
     {

@@ -13,6 +13,7 @@
 ### Fixed
 
 * Fixed the taxable amount displayed in the logs (should have no effect on gameplay).
+* Taxes now apply to items sold via Mini-Shipping Bin.
 
 ## 0.9.7
 

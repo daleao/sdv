@@ -37,43 +37,54 @@ internal sealed class FishPondSpawnFishPatcher : HarmonyPatcher
         }
 
         var r = new Random(Guid.NewGuid().GetHashCode());
+        if (__instance.HasAlgae())
+        {
+            SpawnAlgae(__instance, r);
+        }
+        else
+        {
+            SpawnFish(__instance, r);
+        }
+    }
+
+    #endregion harmony patches
+
+    #region handlers
+
+    private static void SpawnAlgae(FishPond pond, Random r)
+    {
         try
         {
-            if (__instance.fishType.Value.IsAlgaeIndex())
+            var spawned = r.NextAlgae(pond.fishType.Value);
+            switch (spawned)
             {
-                var spawned = r.NextAlgae(__instance.fishType.Value);
-                switch (spawned)
-                {
-                    case Constants.SeaweedIndex:
-                        __instance.Increment(DataFields.SeaweedLivingHere);
-                        break;
-                    case Constants.GreenAlgaeIndex:
-                        __instance.Increment(DataFields.GreenAlgaeLivingHere);
-                        break;
-                    case Constants.WhiteAlgaeIndex:
-                        __instance.Increment(DataFields.WhiteAlgaeLivingHere);
-                        break;
-                }
+                case Constants.SeaweedIndex:
+                    pond.Increment(DataFields.SeaweedLivingHere);
+                    break;
+                case Constants.GreenAlgaeIndex:
+                    pond.Increment(DataFields.GreenAlgaeLivingHere);
+                    break;
+                case Constants.WhiteAlgaeIndex:
+                    pond.Increment(DataFields.WhiteAlgaeLivingHere);
+                    break;
+            }
 
-                var total = __instance.Read<int>(DataFields.SeaweedLivingHere) +
-                            __instance.Read<int>(DataFields.GreenAlgaeLivingHere) +
-                            __instance.Read<int>(DataFields.WhiteAlgaeLivingHere);
-                if (total != __instance.FishCount)
-                {
-                    ThrowHelper.ThrowInvalidDataException(
-                        "Mismatch between algae population data and actual population.");
-                }
-
-                return;
+            var total = pond.Read<int>(DataFields.SeaweedLivingHere) +
+                        pond.Read<int>(DataFields.GreenAlgaeLivingHere) +
+                        pond.Read<int>(DataFields.WhiteAlgaeLivingHere);
+            if (total != pond.FishCount)
+            {
+                ThrowHelper.ThrowInvalidDataException(
+                    "Mismatch between algae population data and actual population.");
             }
         }
         catch (InvalidDataException ex)
         {
             Log.W($"{ex}\nThe data will be reset.");
-            __instance.Write(DataFields.SeaweedLivingHere, null);
-            __instance.Write(DataFields.GreenAlgaeLivingHere, null);
-            __instance.Write(DataFields.WhiteAlgaeLivingHere, null);
-            var field = __instance.fishType.Value switch
+            pond.Write(DataFields.SeaweedLivingHere, null);
+            pond.Write(DataFields.GreenAlgaeLivingHere, null);
+            pond.Write(DataFields.WhiteAlgaeLivingHere, null);
+            var field = pond.fishType.Value switch
             {
                 Constants.SeaweedIndex => DataFields.SeaweedLivingHere,
                 Constants.GreenAlgaeIndex => DataFields.GreenAlgaeLivingHere,
@@ -81,24 +92,29 @@ internal sealed class FishPondSpawnFishPatcher : HarmonyPatcher
                 _ => string.Empty,
             };
 
-            __instance.Write(field, __instance.FishCount.ToString());
+            pond.Write(field, pond.FishCount.ToString());
         }
+    }
 
+    private static void SpawnFish(FishPond pond, Random r)
+    {
         try
         {
             var forFamily = false;
             var familyCount = 0;
-            if (__instance.HasLegendaryFish())
+            if (pond.HasLegendaryFish())
             {
-                familyCount = __instance.Read<int>(DataFields.FamilyLivingHere);
-                if (familyCount < 0 || familyCount > __instance.FishCount)
+                familyCount = pond.Read<int>(DataFields.FamilyLivingHere);
+                if (familyCount < 0 || familyCount > pond.FishCount)
                 {
                     ThrowHelper.ThrowInvalidDataException(
                         "FamilyLivingHere data is negative or greater than actual population.");
                 }
 
                 if (familyCount > 0 &&
-                    Game1.random.NextDouble() < (double)familyCount / (__instance.FishCount - 1)) // fish pond count has already been incremented at this point, so we consider -1
+                    Game1.random.NextDouble() <
+                    (double)familyCount /
+                    (pond.FishCount - 1)) // fish pond count has already been incremented at this point, so we consider -1
                 {
                     forFamily = true;
                 }
@@ -106,12 +122,12 @@ internal sealed class FishPondSpawnFishPatcher : HarmonyPatcher
 
             var @default = forFamily
                 ? $"{familyCount},0,0,0"
-                : $"{__instance.FishCount - familyCount - 1},0,0,0";
-            var qualities = __instance
+                : $"{pond.FishCount - familyCount - 1},0,0,0";
+            var qualities = pond
                 .Read(forFamily ? DataFields.FamilyQualities : DataFields.FishQualities, @default)
                 .ParseList<int>();
             if (qualities.Count != 4 ||
-                qualities.Sum() != (forFamily ? familyCount : __instance.FishCount - familyCount - 1))
+                qualities.Sum() != (forFamily ? familyCount : pond.FishCount - familyCount - 1))
             {
                 ThrowHelper.ThrowInvalidDataException("Mismatch between FishQualities data and actual population.");
             }
@@ -119,11 +135,11 @@ internal sealed class FishPondSpawnFishPatcher : HarmonyPatcher
             if (qualities.Sum() == 0)
             {
                 qualities[0]++;
-                __instance.Write(forFamily ? DataFields.FamilyQualities : DataFields.FishQualities, string.Join(',', qualities));
+                pond.Write(forFamily ? DataFields.FamilyQualities : DataFields.FishQualities, string.Join(',', qualities));
                 return;
             }
 
-            var roll = r.Next(forFamily ? familyCount : __instance.FishCount - familyCount - 1);
+            var roll = r.Next(forFamily ? familyCount : pond.FishCount - familyCount - 1);
             var fishlingQuality = roll < qualities[3]
                 ? SObject.bestQuality
                 : roll < qualities[3] + qualities[2]
@@ -133,7 +149,7 @@ internal sealed class FishPondSpawnFishPatcher : HarmonyPatcher
                         : SObject.lowQuality;
 
             if (ProfessionsModule.IsEnabled && fishlingQuality < SObject.bestQuality && Game1.random.NextDouble() < 0.5 &&
-                (__instance.GetOwner().HasProfession(Profession.Aquarist) ||
+                (pond.GetOwner().HasProfession(Profession.Aquarist) ||
                  (ProfessionsModule.Config.LaxOwnershipRequirements &&
                   Game1.game1.DoesAnyPlayerHaveProfession(Profession.Aquarist, out _))))
             {
@@ -141,16 +157,16 @@ internal sealed class FishPondSpawnFishPatcher : HarmonyPatcher
             }
 
             qualities[fishlingQuality == SObject.bestQuality ? 3 : fishlingQuality]++;
-            __instance.Write(forFamily ? DataFields.FamilyQualities : DataFields.FishQualities, string.Join(',', qualities));
+            pond.Write(forFamily ? DataFields.FamilyQualities : DataFields.FishQualities, string.Join(',', qualities));
         }
         catch (InvalidDataException ex)
         {
             Log.W($"{ex}\nThe data will be reset.");
-            __instance.Write(DataFields.FishQualities, $"{__instance.FishCount},0,0,0");
-            __instance.Write(DataFields.FamilyQualities, null);
-            __instance.Write(DataFields.FamilyLivingHere, null);
+            pond.Write(DataFields.FishQualities, $"{pond.FishCount},0,0,0");
+            pond.Write(DataFields.FamilyQualities, null);
+            pond.Write(DataFields.FamilyLivingHere, null);
         }
     }
 
-    #endregion harmony patches
+    #endregion handlers
 }

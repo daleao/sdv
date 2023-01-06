@@ -2,10 +2,20 @@
 
 ## 1.0.2
 
+### Added
+
 * Added Chinese translations by [xuzhi1977](https://www.nexusmods.com/users/136644498).
 * Added Korean translations by [BrightEast99](https://www.nexusmods.com/users/158443518).
 * Added Spanish and French translations.
+* Revalidate console command now also removes Dark Swords from chests.
+
+### Changed
+
 * Updated Portuguese translation.
+
+### Fixed
+
+* Fixed some typos in default (English) localization.
 
 ## 1.0.0
 

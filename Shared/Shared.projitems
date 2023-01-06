@@ -147,6 +147,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Harmony\PatternNotFoundException.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Integrations\Automate\IAutomate.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Integrations\Automate\IAutomateApi.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Integrations\CustomResourceNodes\ICustomResourceClumpsApi.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Integrations\ModIntegration.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Integrations\BetterCrafting\IBetterCrafting.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Integrations\BetterCrafting\IBetterCraftingApi.cs" />

@@ -31,7 +31,7 @@ internal sealed class ProspectorRenderedHudEvent : RenderedHudEvent
 
         var shouldHighlightOnScreen = ProfessionsModule.Config.ModKey.IsDown();
 
-        // reveal on-screen trackable objects
+        // track objects, such as ore nodes
         foreach (var (tile, _) in Game1.currentLocation.Objects.Pairs.Where(p =>
                      p.Value.ShouldBeTrackedBy(Profession.Prospector)))
         {
@@ -42,7 +42,19 @@ internal sealed class ProspectorRenderedHudEvent : RenderedHudEvent
             }
         }
 
-        // reveal on-screen panning point
+        // track resource clumps
+        foreach (var clump in Game1.currentLocation.resourceClumps.Where(c =>
+                     Collections.ResourceClumpIds.Contains(c.parentSheetIndex.Value)))
+        {
+            var tile = clump.tile.Value + new Vector2(0.5f, 0f);
+            tile.TrackWhenOffScreen(Color.Yellow);
+            if (shouldHighlightOnScreen)
+            {
+                tile.TrackWhenOnScreen(Color.Yellow);
+            }
+        }
+
+        // track panning spots
         if (!Game1.currentLocation.orePanPoint.Value.Equals(Point.Zero))
         {
             var tile = Game1.currentLocation.orePanPoint.Value.ToVector2() * 64f;
@@ -58,6 +70,7 @@ internal sealed class ProspectorRenderedHudEvent : RenderedHudEvent
             return;
         }
 
+        // track mine ladders and shafts
         foreach (var tile in shaft.GetLadderTiles())
         {
             tile.TrackWhenOffScreen(Color.Lime);

@@ -169,7 +169,7 @@ internal sealed class Reflector
             type,
             name,
             false,
-            () => type.RequirePropertyGetter(name).CompileUnboundDelegate<Action<TInstance, TProperty>>());
+            () => type.RequirePropertySetter(name).CompileUnboundDelegate<Action<TInstance, TProperty>>());
     }
 
     /// <summary>Gets a delegate which sets the value of a static property.</summary>
@@ -184,7 +184,7 @@ internal sealed class Reflector
             type,
             name,
             true,
-            () => type.RequirePropertyGetter(name).CompileStaticDelegate<Action<TProperty>>());
+            () => type.RequirePropertySetter(name).CompileStaticDelegate<Action<TProperty>>());
     }
 
     /// <summary>Gets a delegate which sets the value of a static property.</summary>

@@ -2,6 +2,7 @@
 
 #region using directives
 
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -46,234 +47,28 @@ internal sealed class FishPondGetFishProducePatcher : HarmonyPatcher
             }
 
             __result = null;
-            // handle algae, which have no fish pond data
+            // handle algae, which have no fish pond data, first
             if (fish.IsAlgae())
             {
-                var algaeStacks = new[] { 0, 0, 0 }; // green, white, seaweed
-                var population = __instance.Read<int>(DataFields.GreenAlgaeLivingHere);
-                var chance = Utility.Lerp(0.15f, 0.95f, population / (float)__instance.currentOccupants.Value);
-                for (var i = 0; i < population; i++)
-                {
-                    if (random.NextDouble() < chance)
-                    {
-                        algaeStacks[0]++;
-                    }
-                }
-
-                population = __instance.Read<int>(DataFields.WhiteAlgaeLivingHere);
-                chance = Utility.Lerp(0.15f, 0.95f, population / (float)__instance.currentOccupants.Value);
-                for (var i = 0; i < population; i++)
-                {
-                    if (random.NextDouble() < chance)
-                    {
-                        algaeStacks[1]++;
-                    }
-                }
-
-                population = __instance.Read<int>(DataFields.SeaweedLivingHere);
-                chance = Utility.Lerp(0.15f, 0.95f, population / (float)__instance.currentOccupants.Value);
-                for (var i = 0; i < population; i++)
-                {
-                    if (random.NextDouble() < chance)
-                    {
-                        algaeStacks[2]++;
-                    }
-                }
-
-                if (algaeStacks.Sum() > 0)
-                {
-                    if (algaeStacks[0] > 0)
-                    {
-                        held.Add(new SObject(Constants.GreenAlgaeIndex, algaeStacks[0]));
-                    }
-
-                    if (algaeStacks[1] > 0)
-                    {
-                        held.Add(new SObject(Constants.WhiteAlgaeIndex, algaeStacks[1]));
-                    }
-
-                    if (algaeStacks[2] > 0)
-                    {
-                        held.Add(new SObject(Constants.SeaweedIndex, algaeStacks[2]));
-                    }
-
-                    __result = __instance.fishType.Value switch
-                    {
-                        Constants.GreenAlgaeIndex when algaeStacks[0] > 0 => new SObject(
-                            Constants.GreenAlgaeIndex,
-                            algaeStacks[0]),
-                        Constants.WhiteAlgaeIndex when algaeStacks[1] > 0 => new SObject(
-                            Constants.WhiteAlgaeIndex,
-                            algaeStacks[1]),
-                        Constants.SeaweedIndex when algaeStacks[2] > 0 => new SObject(
-                            Constants.SeaweedIndex,
-                            algaeStacks[2]),
-                        _ => null,
-                    };
-
-                    if (__result is null)
-                    {
-                        var max = algaeStacks.ToList().IndexOfMax();
-                        __result = max switch
-                        {
-                            0 => new SObject(Constants.GreenAlgaeIndex, algaeStacks[0]),
-                            1 => new SObject(Constants.WhiteAlgaeIndex, algaeStacks[1]),
-                            2 => new SObject(Constants.SeaweedIndex, algaeStacks[2]),
-                            _ => null,
-                        };
-                    }
-                }
-
-                if (__result is not null)
-                {
-                    held.Remove(__result);
-                }
-
-                var serialized = held.Take(36).Select(p => $"{p.ParentSheetIndex},{p.Stack},0");
-                __instance.Write(DataFields.ItemsHeld, string.Join(';', serialized));
+                ProduceForAlgae(__instance, ref __result, held, random);
                 return false; // don't run original logic
             }
 
-            // handle fish pond data
-            var fishPondData = __instance.GetFishPondData();
-            if (fishPondData is not null)
-            {
-                held.AddRange(from item in fishPondData.ProducedItems.Where(item =>
-                        item.ItemID is not Constants.RoeIndex or Constants.SquidInkIndex &&
-                        __instance.currentOccupants.Value >= item.RequiredPopulation &&
-                        random.NextDouble() < Utility.Lerp(0.15f, 0.95f, __instance.currentOccupants.Value / 10f) &&
-                        random.NextDouble() < item.Chance)
-                    let stack = random.Next(item.MinQuantity, item.MaxQuantity + 1)
-                    select new SObject(item.ItemID, stack));
-            }
+            ProduceFromPondData(__instance, held, random);
 
-            // handle roe or ink
+            // handle roe/ink
             if (fish.ParentSheetIndex == Constants.CoralIndex)
             {
-                var algaeStacks = new[] { 0, 0, 0 }; // green, white, seaweed
-                var chance = __instance.GetRoeChance(fish.Price);
-                for (var i = 0; i < __instance.FishCount; i++)
-                {
-                    if (random.NextDouble() < chance)
-                    {
-                        switch (random.NextAlgae())
-                        {
-                            case Constants.GreenAlgaeIndex:
-                                algaeStacks[0]++;
-                                break;
-                            case Constants.WhiteAlgaeIndex:
-                                algaeStacks[1]++;
-                                break;
-                            case Constants.SeaweedIndex:
-                                algaeStacks[2]++;
-                                break;
-                        }
-                    }
-                }
-
-                if (algaeStacks[0] > 0)
-                {
-                    held.Add(new SObject(Constants.GreenAlgaeIndex, algaeStacks[0]));
-                }
-
-                if (algaeStacks[1] > 0)
-                {
-                    held.Add(new SObject(Constants.WhiteAlgaeIndex, algaeStacks[1]));
-                }
-
-                if (algaeStacks[2] > 0)
-                {
-                    held.Add(new SObject(Constants.SeaweedIndex, algaeStacks[2]));
-                }
+                ProduceForCoral(__instance, held, __instance.GetRoeChance(fish.Price), random);
             }
             else
             {
-                var fishQualities = __instance.Read(
-                        DataFields.FishQualities,
-                        $"{__instance.FishCount - __instance.Read<int>(DataFields.FamilyLivingHere)},0,0,0")
-                    .ParseList<int>();
-                if (fishQualities.Count != 4)
-                {
-                    ThrowHelper.ThrowInvalidDataException("FishQualities data had incorrect number of values.");
-                }
-
-                var familyQualities =
-                    __instance.Read(DataFields.FamilyQualities, "0,0,0,0").ParseList<int>();
-                if (familyQualities.Count != 4)
-                {
-                    ThrowHelper.ThrowInvalidDataException("FamilyQualities data had incorrect number of values.");
-                }
-
-                var totalQualities = fishQualities.Zip(familyQualities, (first, second) => first + second).ToList();
-                if (totalQualities.Sum() != __instance.FishCount)
-                {
-                    ThrowHelper.ThrowInvalidDataException("Quality data had incorrect number of values.");
-                }
-
-                var productionChancePerFish = __instance.GetRoeChance(fish.Price);
-                var producedRoes = new int[4];
-                for (var i = 0; i < 4; i++)
-                {
-                    while (totalQualities[i]-- > 0)
-                    {
-                        if (random.NextDouble() < productionChancePerFish)
-                        {
-                            producedRoes[i]++;
-                        }
-                    }
-                }
-
-                if (fish.ParentSheetIndex == Constants.SturgeonIndex)
-                {
-                    for (var i = 0; i < 4; i++)
-                    {
-                        producedRoes[i] += random.Next(producedRoes[i]);
-                    }
-                }
-
-                if (producedRoes.Sum() > 0)
-                {
-                    var roeIndex = fish.Name.Contains("Squid") ? Constants.SquidInkIndex : Constants.RoeIndex;
-                    for (var i = 3; i >= 0; i--)
-                    {
-                        if (producedRoes[i] <= 0)
-                        {
-                            continue;
-                        }
-
-                        var producedWithThisQuality = PondsModule.Config.RoeAlwaysSameQualityAsFish
-                            ? producedRoes[i]
-                            : random.Next(producedRoes[i]);
-                        held.Add(new SObject(roeIndex, producedWithThisQuality, quality: i == 3 ? 4 : i));
-                        if (i > 0)
-                        {
-                            producedRoes[i - 1] += producedRoes[i] - producedWithThisQuality;
-                        }
-                    }
-                }
+                ProduceRoe(__instance, fish, held, random);
 
                 // check for enriched metals
                 if (__instance.IsRadioactive())
                 {
-                    var heldMetals =
-                        __instance.Read(DataFields.MetalsHeld)
-                            .ParseList<string>(";")
-                            .Select(li => li?.ParseTuple<int, int>())
-                            .WhereNotNull()
-                            .ToList();
-                    var readyToHarvest = heldMetals.Where(m => m.Item2 <= 0).ToList();
-                    if (readyToHarvest.Count > 0)
-                    {
-                        held.AddRange(readyToHarvest.Select(m =>
-                            m.Item1.IsOre()
-                                ? new SObject(Constants.RadioactiveOreIndex, 1)
-                                : new SObject(Constants.RadioactiveBarIndex, 1)));
-                        heldMetals = heldMetals.Except(readyToHarvest).ToList();
-                    }
-
-                    __instance.Write(
-                        DataFields.MetalsHeld,
-                        string.Join(';', heldMetals.Select(m => string.Join(',', m.Item1, m.Item2))));
+                    ProduceRadioactive(__instance, held);
                 }
             }
 
@@ -343,4 +138,238 @@ internal sealed class FishPondGetFishProducePatcher : HarmonyPatcher
     }
 
     #endregion harmony patches
+
+    #region handlers
+
+    private static void ProduceFromPondData(FishPond pond, List<Item> held, Random r)
+    {
+        var fishPondData = pond.GetFishPondData();
+        if (fishPondData is not null)
+        {
+            held.AddRange(from item in fishPondData.ProducedItems.Where(item =>
+                    item.ItemID is not Constants.RoeIndex or Constants.SquidInkIndex &&
+                    pond.currentOccupants.Value >= item.RequiredPopulation &&
+                    r.NextDouble() < Utility.Lerp(0.15f, 0.95f, pond.currentOccupants.Value / 10f) &&
+                    r.NextDouble() < item.Chance)
+                let stack = r.Next(item.MinQuantity, item.MaxQuantity + 1)
+                select new SObject(item.ItemID, stack));
+        }
+    }
+
+    private static void ProduceRoe(FishPond pond, SObject fish, List<Item> held, Random r)
+    {
+        var fishQualities = pond.Read(
+                DataFields.FishQualities,
+                $"{pond.FishCount - pond.Read<int>(DataFields.FamilyLivingHere)},0,0,0")
+            .ParseList<int>();
+        if (fishQualities.Count != 4)
+        {
+            ThrowHelper.ThrowInvalidDataException("FishQualities data had incorrect number of values.");
+        }
+
+        var familyQualities =
+            pond.Read(DataFields.FamilyQualities, "0,0,0,0").ParseList<int>();
+        if (familyQualities.Count != 4)
+        {
+            ThrowHelper.ThrowInvalidDataException("FamilyQualities data had incorrect number of values.");
+        }
+
+        var totalQualities = fishQualities.Zip(familyQualities, (first, second) => first + second).ToList();
+        if (totalQualities.Sum() != pond.FishCount)
+        {
+            ThrowHelper.ThrowInvalidDataException("Quality data had incorrect number of values.");
+        }
+
+        var productionChancePerFish = pond.GetRoeChance(fish.Price);
+        var producedRoes = new int[4];
+        for (var i = 0; i < 4; i++)
+        {
+            while (totalQualities[i]-- > 0)
+            {
+                if (r.NextDouble() < productionChancePerFish)
+                {
+                    producedRoes[i]++;
+                }
+            }
+        }
+
+        if (fish.ParentSheetIndex == Constants.SturgeonIndex)
+        {
+            for (var i = 0; i < 4; i++)
+            {
+                producedRoes[i] += r.Next(producedRoes[i]);
+            }
+        }
+
+        if (producedRoes.Sum() > 0)
+        {
+            var roeIndex = fish.Name.Contains("Squid") ? Constants.SquidInkIndex : Constants.RoeIndex;
+            for (var i = 3; i >= 0; i--)
+            {
+                if (producedRoes[i] <= 0)
+                {
+                    continue;
+                }
+
+                var producedWithThisQuality = PondsModule.Config.RoeAlwaysSameQualityAsFish
+                    ? producedRoes[i]
+                    : r.Next(producedRoes[i]);
+                held.Add(new SObject(roeIndex, producedWithThisQuality, quality: i == 3 ? 4 : i));
+                if (i > 0)
+                {
+                    producedRoes[i - 1] += producedRoes[i] - producedWithThisQuality;
+                }
+            }
+        }
+    }
+
+    private static void ProduceForAlgae(FishPond pond, ref SObject? result, List<Item> held, Random r)
+    {
+        var algaeStacks = new[] { 0, 0, 0 }; // green, white, seaweed
+        var population = pond.Read<int>(DataFields.GreenAlgaeLivingHere);
+        var chance = Utility.Lerp(0.15f, 0.95f, population / (float)pond.currentOccupants.Value);
+        for (var i = 0; i < population; i++)
+        {
+            if (r.NextDouble() < chance)
+            {
+                algaeStacks[0]++;
+            }
+        }
+
+        population = pond.Read<int>(DataFields.WhiteAlgaeLivingHere);
+        chance = Utility.Lerp(0.15f, 0.95f, population / (float)pond.currentOccupants.Value);
+        for (var i = 0; i < population; i++)
+        {
+            if (r.NextDouble() < chance)
+            {
+                algaeStacks[1]++;
+            }
+        }
+
+        population = pond.Read<int>(DataFields.SeaweedLivingHere);
+        chance = Utility.Lerp(0.15f, 0.95f, population / (float)pond.currentOccupants.Value);
+        for (var i = 0; i < population; i++)
+        {
+            if (r.NextDouble() < chance)
+            {
+                algaeStacks[2]++;
+            }
+        }
+
+        if (algaeStacks.Sum() > 0)
+        {
+            if (algaeStacks[0] > 0)
+            {
+                held.Add(new SObject(Constants.GreenAlgaeIndex, algaeStacks[0]));
+            }
+
+            if (algaeStacks[1] > 0)
+            {
+                held.Add(new SObject(Constants.WhiteAlgaeIndex, algaeStacks[1]));
+            }
+
+            if (algaeStacks[2] > 0)
+            {
+                held.Add(new SObject(Constants.SeaweedIndex, algaeStacks[2]));
+            }
+
+            result = pond.fishType.Value switch
+            {
+                Constants.GreenAlgaeIndex when algaeStacks[0] > 0 => new SObject(
+                    Constants.GreenAlgaeIndex,
+                    algaeStacks[0]),
+                Constants.WhiteAlgaeIndex when algaeStacks[1] > 0 => new SObject(
+                    Constants.WhiteAlgaeIndex,
+                    algaeStacks[1]),
+                Constants.SeaweedIndex when algaeStacks[2] > 0 => new SObject(
+                    Constants.SeaweedIndex,
+                    algaeStacks[2]),
+                _ => null,
+            };
+
+            if (result is null)
+            {
+                var max = algaeStacks.ToList().IndexOfMax();
+                result = max switch
+                {
+                    0 => new SObject(Constants.GreenAlgaeIndex, algaeStacks[0]),
+                    1 => new SObject(Constants.WhiteAlgaeIndex, algaeStacks[1]),
+                    2 => new SObject(Constants.SeaweedIndex, algaeStacks[2]),
+                    _ => null,
+                };
+            }
+        }
+
+        if (result is not null)
+        {
+            held.Remove(result);
+        }
+
+        Utility.consolidateStacks(held);
+        var serialized = held.Take(36).Select(p => $"{p.ParentSheetIndex},{p.Stack},0");
+        pond.Write(DataFields.ItemsHeld, string.Join(';', serialized));
+    }
+
+    private static void ProduceForCoral(FishPond pond, List<Item> held, double chance, Random r)
+    {
+        var algaeStacks = new[] { 0, 0, 0 }; // green, white, seaweed
+        for (var i = 0; i < pond.FishCount; i++)
+        {
+            if (r.NextDouble() < chance)
+            {
+                switch (r.NextAlgae())
+                {
+                    case Constants.GreenAlgaeIndex:
+                        algaeStacks[0]++;
+                        break;
+                    case Constants.WhiteAlgaeIndex:
+                        algaeStacks[1]++;
+                        break;
+                    case Constants.SeaweedIndex:
+                        algaeStacks[2]++;
+                        break;
+                }
+            }
+        }
+
+        if (algaeStacks[0] > 0)
+        {
+            held.Add(new SObject(Constants.GreenAlgaeIndex, algaeStacks[0]));
+        }
+
+        if (algaeStacks[1] > 0)
+        {
+            held.Add(new SObject(Constants.WhiteAlgaeIndex, algaeStacks[1]));
+        }
+
+        if (algaeStacks[2] > 0)
+        {
+            held.Add(new SObject(Constants.SeaweedIndex, algaeStacks[2]));
+        }
+    }
+
+    private static void ProduceRadioactive(FishPond pond, List<Item> held)
+    {
+        var heldMetals =
+            pond.Read(DataFields.MetalsHeld)
+                .ParseList<string>(";")
+                .Select(li => li?.ParseTuple<int, int>())
+                .WhereNotNull()
+                .ToList();
+        var readyToHarvest = heldMetals.Where(m => m.Item2 <= 0).ToList();
+        if (readyToHarvest.Count > 0)
+        {
+            held.AddRange(readyToHarvest.Select(m =>
+                m.Item1.IsOre()
+                    ? new SObject(Constants.RadioactiveOreIndex, 1)
+                    : new SObject(Constants.RadioactiveBarIndex, 1)));
+            heldMetals = heldMetals.Except(readyToHarvest).ToList();
+        }
+
+        pond.Write(
+            DataFields.MetalsHeld,
+            string.Join(';', heldMetals.Select(m => string.Join(',', m.Item1, m.Item2))));
+    }
+
+    #endregion handlers
 }

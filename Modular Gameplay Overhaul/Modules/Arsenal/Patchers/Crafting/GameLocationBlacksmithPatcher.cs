@@ -3,10 +3,10 @@
 #region using directives
 
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
 using DaLion.Shared.Extensions.Reflection;
-using DaLion.Shared.Extensions.Stardew;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
 using Netcode;
@@ -135,7 +135,8 @@ internal sealed class GameLocationBlacksmithPatcher : HarmonyPatcher
     {
         return farmer.hasItemInInventory(535, 1) || farmer.hasItemInInventory(536, 1) ||
                farmer.hasItemInInventory(537, 1) || farmer.hasItemInInventory(749, 1) ||
-               farmer.hasItemInInventory(275, 1) || farmer.hasItemInInventory(791, 1);
+               farmer.hasItemInInventory(275, 1) || farmer.hasItemInInventory(791, 1) ||
+               farmer.Items.Any(i => i.HasContextTag("geode_item"));
     }
 
     #endregion injected subroutines
