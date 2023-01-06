@@ -36,6 +36,7 @@ internal sealed class MeleeWeaponCtorPatcher : HarmonyPatcher
             Collections.StabbingSwords.Contains(__instance.InitialParentTileIndex))
         {
             __instance.type.Value = MeleeWeapon.stabbingSword;
+            Log.D($"The type of {__instance.Name} was converted to Stabbing sword.");
         }
 
         __instance.AddIntrinsicEnchantments();

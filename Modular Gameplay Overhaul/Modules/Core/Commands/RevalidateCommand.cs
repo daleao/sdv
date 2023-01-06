@@ -101,11 +101,13 @@ internal sealed class RevalidateCommand : ConsoleCommand
             Collections.StabbingSwords.Contains(weapon.InitialParentTileIndex))
         {
             weapon.type.Value = MeleeWeapon.stabbingSword;
+            Log.D($"The type of {weapon.Name} was converted to Stabbing sword.");
         }
         else if ((!ArsenalModule.IsEnabled || !ArsenalModule.Config.Weapons.EnableStabbySwords) &&
                  weapon.type.Value == MeleeWeapon.stabbingSword)
         {
             weapon.type.Value = MeleeWeapon.defenseSword;
+            Log.D($"The type of {weapon.Name} was converted to Defense sword.");
         }
 
         if (ArsenalModule.IsEnabled && ArsenalModule.Config.InfinityPlusOne && (weapon.isGalaxyWeapon() || weapon.IsInfinityWeapon()
