@@ -52,7 +52,7 @@ internal sealed class Harmonizer
     /// <param name="namespace">The desired namespace.</param>
     /// <param name="harmonyId">The unique ID of the declaring mod. Defaults to <paramref name="namespace"/> if null.</param>
     /// <returns>The <see cref="Harmonizer"/> instance.</returns>
-    internal static Harmonizer FromNamespace(IModRegistry modRegistry, string @namespace, string? harmonyId = null)
+    internal static Harmonizer ApplyFromNamespace(IModRegistry modRegistry, string @namespace, string? harmonyId = null)
     {
         Log.D($"[Harmonizer]: Gathering patches in {@namespace}...");
         return new Harmonizer(modRegistry, harmonyId ?? @namespace)
@@ -64,7 +64,7 @@ internal sealed class Harmonizer
     /// <param name="harmonyId">The unique ID of the declaring mod.</param>
     /// <typeparam name="TAttribute">An <see cref="Attribute"/> type.</typeparam>
     /// <returns>The <see cref="Harmonizer"/> instance.</returns>
-    internal static Harmonizer WithAttribute<TAttribute>(IModRegistry modRegistry, string harmonyId)
+    internal static Harmonizer ApplyWithAttribute<TAttribute>(IModRegistry modRegistry, string harmonyId)
         where TAttribute : Attribute
     {
         Log.D($"[Harmonizer]: Gathering patches with {nameof(TAttribute)}...");

@@ -136,7 +136,7 @@ internal sealed class GameLocationBlacksmithPatcher : HarmonyPatcher
         return farmer.hasItemInInventory(535, 1) || farmer.hasItemInInventory(536, 1) ||
                farmer.hasItemInInventory(537, 1) || farmer.hasItemInInventory(749, 1) ||
                farmer.hasItemInInventory(275, 1) || farmer.hasItemInInventory(791, 1) ||
-               farmer.Items.Any(i => i.HasContextTag("geode_item"));
+               farmer.Items.Any(i => i?.HasContextTag("geode_item") == true);
     }
 
     #endregion injected subroutines

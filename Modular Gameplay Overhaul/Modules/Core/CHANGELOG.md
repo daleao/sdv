@@ -1,5 +1,15 @@
 ﻿# Modular Overhaul Core Change Log
 
+## 1.0.3
+
+### Added
+
+* Added Russian translations by [pavlo2906](https://www.nexusmods.com/stardewvalley/users/46516077).
+
+### Fixed
+* Added dependencies for Custom Ore Nodes and Custom Resource Clumps.
+* Fixed update keys for this and optional files.
+
 ## 1.0.2
 
 ### Added

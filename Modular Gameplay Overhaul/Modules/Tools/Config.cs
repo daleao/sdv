@@ -46,7 +46,7 @@ public sealed class Config : Shared.Configs.Config
     [JsonProperty]
     public bool HideAffectedTiles { get; internal set; } = false;
 
-    /// <summary>Gets how much stamina the shockwave should consume.</summary>
+    /// <summary>Gets a value which multiplies the stamina consumption for a <see cref="Shockwave"/>.</summary>
     [JsonProperty]
     public float StaminaCostMultiplier { get; internal set; } = 1f;
 

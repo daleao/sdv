@@ -1,5 +1,9 @@
 ﻿# Arsenal Change Log
 
+## 1.0.3-Hotfix
+
+Hotfix for Null-Reference Exception when opening Clint's shop menu.
+
 ## 1.0.2
 
 ### Added

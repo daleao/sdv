@@ -1,5 +1,9 @@
 # Modular Overhaul Change Logs
 
+## Hotfix 1.0.3 Highlights
+
+* [Arsenal] Fixed error when opnening Clint's shop menu.
+
 ## Revision 1.0.2 Highlights
 
 * [Arsenal] Added Chinese, Korean, Spanish and French translations. Also updated Portuguese translation and fixed some typos in the default English version.

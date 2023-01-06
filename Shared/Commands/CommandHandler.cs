@@ -37,6 +37,20 @@ internal sealed class CommandHandler
     /// <summary>Gets the human-readable name of the providing mod.</summary>
     internal string Mod { get; private set; } = null!; // set in register
 
+    /// <summary>Implicitly registers all <see cref="IConsoleCommand"/> types in the assembly using reflection.</summary>
+    /// <param name="helper">The <see cref="ICommandHelper"/> API for the current mod.</param>
+    /// <param name="mod">Human-readable name of the providing mod.</param>
+    /// <param name="entry">The <see cref="string"/> used as entry for all handled <see cref="IConsoleCommand"/>s.</param>
+    /// <param name="conditional">An optional conditional expression that prevents the entry command from being executed.</param>
+    /// <returns>The <see cref="CommandHandler"/> instance.</returns>
+    internal static CommandHandler HandeAll(ICommandHelper helper, string mod, string entry, Func<bool>? conditional = null)
+    {
+        Log.D($"[CommandHandler]: Gathering all commands...");
+        return new CommandHandler(helper)
+            .HandleImplicitly()
+            .Register(mod, entry, conditional);
+    }
+
     /// <summary>Implicitly registers <see cref="IConsoleCommand"/> types in the specified namespace.</summary>
     /// <param name="helper">The <see cref="ICommandHelper"/> API for the current mod.</param>
     /// <param name="namespace">The desired namespace.</param>
@@ -44,7 +58,7 @@ internal sealed class CommandHandler
     /// <param name="entry">The <see cref="string"/> used as entry for all handled <see cref="IConsoleCommand"/>s.</param>
     /// <param name="conditional">An optional conditional expression that prevents the entry command from being executed.</param>
     /// <returns>The <see cref="CommandHandler"/> instance.</returns>
-    internal static CommandHandler FromNamespace(ICommandHelper helper, string @namespace, string mod, string entry, Func<bool>? conditional = null)
+    internal static CommandHandler HandleFromNamespace(ICommandHelper helper, string @namespace, string mod, string entry, Func<bool>? conditional = null)
     {
         Log.D($"[CommandHandler]: Gathering commands in {@namespace}...");
         return new CommandHandler(helper)
@@ -59,7 +73,7 @@ internal sealed class CommandHandler
     /// <param name="entry">The <see cref="string"/> used as entry for all handled <see cref="IConsoleCommand"/>s.</param>
     /// <param name="conditional">An optional conditional expression that prevents the entry command from being executed.</param>
     /// <returns>The <see cref="CommandHandler"/> instance.</returns>
-    internal static CommandHandler WithAttribute<TAttribute>(ICommandHelper helper, string mod, string entry, Func<bool>? conditional = null)
+    internal static CommandHandler HandleWithAttribute<TAttribute>(ICommandHelper helper, string mod, string entry, Func<bool>? conditional = null)
         where TAttribute : Attribute
     {
         Log.D($"[CommandHandler]: Gathering commands with {nameof(TAttribute)}...");

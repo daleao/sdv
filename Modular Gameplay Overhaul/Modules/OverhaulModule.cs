@@ -81,8 +81,8 @@ internal abstract class OverhaulModule : SmartEnum<OverhaulModule>
         }
 
         EventManager.ManageNamespace(this.Namespace);
-        this._harmonizer = Harmonizer.FromNamespace(helper.ModRegistry, this.Namespace);
-        this._commandHandler ??= CommandHandler.FromNamespace(
+        this._harmonizer = Harmonizer.ApplyFromNamespace(helper.ModRegistry, this.Namespace);
+        this._commandHandler ??= CommandHandler.HandleFromNamespace(
             helper.ConsoleCommands,
             this.Namespace,
             this.DisplayName,

@@ -1,11 +1,11 @@
 {
   "Name": "[CON] Garnet Node",
   "Author": "DaLion",
-  "Version": "1.0.0",
+  "Version": "1.0.1",
   "Description": "Adds nodes for Garnet gemstone.",
-  "UniqueID": "DaLion.Arsenal.CON",
+  "UniqueID": "DaLion.GarnetNode",
   "MinimumApiVersion": "3.9.0",
-  "UpdateKeys": ["Nexus:???"],
+  "UpdateKeys": ["Nexus:14470@GarnetNode"],
   "ContentPackFor": {
     "UniqueID": "aedenthorn.CustomOreNodes",
     "MinimumVersion": "2.0.2"

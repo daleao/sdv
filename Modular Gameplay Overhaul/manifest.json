@@ -3,11 +3,21 @@
   "UniqueID": "DaLion.Overhaul",
   "Name": "MARGO :: Modular Gameplay Overhaul",
   "Author": "DaLion",
-  "Version": "1.0.2-Debug",
+  "Version": "1.0.3-Debug",
   "Description": "An immersive gameplay overhaul, broken down into modules.",
   "MinimumApiVersion": "3.18.0",
   "EntryDll": "DaLion.Overhaul.dll",
   "Dependencies": [
+    {
+      "UniqueID": "aedenthorn.CustomOreNodes",
+      "MinimumVersion": "2.1.1",
+      "IsRequired": false
+    },
+    {
+      "UniqueID": "aedenthorn.CustomResourceClumps",
+      "MinimumVersion": "0.7.0",
+      "IsRequired": false
+    },
     {
       "UniqueID": "BBR.BetterRings",
       "IsRequired": false
@@ -56,6 +66,6 @@
     }
   ],
   "UpdateKeys": [
-    "Nexus:14470"
+    "Nexus:14470@Main"
   ]
 }
