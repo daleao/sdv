@@ -7,7 +7,6 @@ using System.Linq;
 using System.Reflection;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
-using Shared.Extensions.Stardew;
 using StardewValley.Tools;
 
 #endregion using directives

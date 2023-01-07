@@ -6,11 +6,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
+using DaLion.Overhaul.Modules.Professions.Integrations;
 using DaLion.Shared.Extensions.Reflection;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
 using Netcode;
-using Professions.Integrations;
 using StardewValley.Tools;
 
 #endregion using directives

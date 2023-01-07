@@ -27,7 +27,6 @@ internal sealed class FarmerCurrentToolIndexSetterPatcher : HarmonyPatcher
     [SuppressMessage("StyleCop.CSharp.NamingRules", "SA1300:Element should begin with upper-case letter", Justification = "Preference for inner functions.")]
     private static void FarmerCurrentToolIndexPostfix(Farmer __instance, ref int value)
     {
-
         if (!__instance.Read<bool>(DataFields.Cursed) ||
             value < 0 || value >= __instance.Items.Count ||
             __instance.Items[value] is not MeleeWeapon weapon ||

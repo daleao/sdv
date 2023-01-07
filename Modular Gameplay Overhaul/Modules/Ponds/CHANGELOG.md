@@ -1,5 +1,11 @@
 ﻿# Ponds Module Change Log
 
+## 1.0.4
+
+### Fixed
+
+* Fixed a major typo in Fish Pond Mod Data, which caused FamilyLivingHere and DaysEmpty data fields to overwrite each other. I can't begin to imagine all the problems this was causing, but I recommend everyone reset their ponds to be sure.
+
 ## 1.0.2
 
 ### Changed

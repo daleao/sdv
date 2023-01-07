@@ -4,6 +4,7 @@
 
 using DaLion.Overhaul.Modules.Arsenal.Events;
 using DaLion.Shared.Harmony;
+using Events.Weapons;
 using HarmonyLib;
 using StardewValley.Tools;
 

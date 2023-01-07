@@ -1,9 +1,10 @@
-﻿namespace DaLion.Overhaul.Modules.Arsenal.Events;
+﻿namespace DaLion.Overhaul.Modules.Arsenal.Events.Weapons;
 
 #region using directives
 
 using DaLion.Overhaul.Modules.Arsenal.Extensions;
 using DaLion.Shared.Events;
+using DaLion.Shared.Extensions.Stardew;
 using StardewModdingAPI.Events;
 using StardewValley;
 using StardewValley.Tools;
@@ -32,6 +33,9 @@ internal sealed class ComboButtonPressedEvent : ButtonPressedEvent
             return;
         }
 
+        ArsenalModule.State.ToolButtonHeld = true;
+        this.Manager.Enable<ComboButtonReleasedEvent>();
+
         var hitStep = ArsenalModule.State.ComboHitQueued;
         if (hitStep == ComboHitStep.Idle)
         {
@@ -52,8 +56,7 @@ internal sealed class ComboButtonPressedEvent : ButtonPressedEvent
 
         ModHelper.Input.Suppress(e.Button);
 
-        var type = weapon.type.Value;
-        if (type == MeleeWeapon.club && hitStep == finalHitStep - 1)
+        if (weapon.IsClub() && hitStep == finalHitStep - 1)
         {
             player.QueueSmash(weapon);
         }

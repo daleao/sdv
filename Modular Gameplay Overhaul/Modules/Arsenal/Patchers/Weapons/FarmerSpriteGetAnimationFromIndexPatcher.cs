@@ -4,6 +4,7 @@
 
 using System.Reflection;
 using DaLion.Overhaul.Modules.Arsenal.Extensions;
+using DaLion.Shared.Extensions.Stardew;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
 using StardewValley;
@@ -40,9 +41,8 @@ internal sealed class FarmerSpriteGetAnimationFromIndexPatcher : HarmonyPatcher
                 return true; // run original logic
             }
 
-            var type = weapon.type.Value;
             var hitStep = ArsenalModule.State.ComboHitQueued;
-            if (type == MeleeWeapon.club && hitStep == weapon.GetFinalHitStep() - 1)
+            if (weapon.IsClub() && hitStep == weapon.GetFinalHitStep() - 1)
             {
                 owner.QueueSmash(weapon);
             }

@@ -45,7 +45,7 @@ internal static class Slingshot_Stats
             Constants.GalaxySlingshotIndex => 0.2f,
             Constants.InfinitySlingshotIndex => 0.25f,
             _ => 0f,
-        }; ;
+        };
     }
 
     internal static float Get_EffectiveCritChanceModifier(this Slingshot slingshot)

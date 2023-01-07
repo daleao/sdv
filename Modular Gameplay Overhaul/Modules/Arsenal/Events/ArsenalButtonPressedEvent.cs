@@ -1,5 +1,7 @@
 ﻿namespace DaLion.Overhaul.Modules.Arsenal.Events;
 
+using DaLion.Overhaul.Modules.Arsenal.Events.Weapons;
+
 #region using directives
 
 using DaLion.Shared.Enums;

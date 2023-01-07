@@ -1,5 +1,16 @@
 ﻿# Arsenal Change Log
 
+## 1.0.4
+
+### Added
+
+* Added SwipeHold config. You can now hold the tool button to perform a continuous combo instead of spam-clicking.
+* Added CustomStabbingSwords config. Users can now register swords from their modlist to be treated as Stabbing swords. **Do not enter vanilla swords here, or non-sword weapons.**
+
+### Fixed
+
+* Fixed shipping bin logic, which was also messed up by the Dark Sword.
+
 ## 1.0.3-Hotfix
 
 Hotfix for Null-Reference Exception when opening Clint's shop menu.

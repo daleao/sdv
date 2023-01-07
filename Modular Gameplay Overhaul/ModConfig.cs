@@ -108,7 +108,7 @@ public sealed class ModConfig
 
     /// <summary>Gets the key used to trigger debug features.</summary>
     [JsonProperty]
-    public KeybindList DebugKey { get; internal set; } = KeybindList.Parse("LeftAlt");
+    public KeybindList DebugKey { get; internal set; } = KeybindList.Parse("RightShift, RightShoulder");
 
     /// <summary>Validates all internal configs and overwrites the user's config file if any invalid settings were found.</summary>
     /// <param name="helper">Provides simplified APIs for writing mods.</param>
@@ -118,8 +118,6 @@ public sealed class ModConfig
         {
             helper.WriteConfig(this);
         }
-
-
     }
 
     /// <summary>Enumerates all individual module <see cref="Shared.Configs.Config"/>s.</summary>

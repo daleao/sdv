@@ -67,7 +67,8 @@ internal static class Utils
                     return;
                 }
 
-                if (Collections.StabbingSwords.Contains(sword.InitialParentTileIndex))
+                if (Collections.StabbingSwords.Contains(sword.InitialParentTileIndex) ||
+                    ArsenalModule.Config.Weapons.CustomStabbingSwords.Contains(sword.Name))
                 {
                     sword.type.Value = MeleeWeapon.stabbingSword;
                 }
@@ -77,7 +78,8 @@ internal static class Utils
         {
             foreach (var sword in Game1.player.Items.OfType<MeleeWeapon>().Where(w =>
                          w.type.Value == MeleeWeapon.defenseSword &&
-                         Collections.StabbingSwords.Contains(w.InitialParentTileIndex)))
+                         (Collections.StabbingSwords.Contains(w.InitialParentTileIndex) ||
+                         ArsenalModule.Config.Weapons.CustomStabbingSwords.Contains(w.Name))))
             {
                 sword.type.Value = MeleeWeapon.stabbingSword;
             }

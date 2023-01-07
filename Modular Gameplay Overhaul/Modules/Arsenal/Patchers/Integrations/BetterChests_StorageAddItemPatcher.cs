@@ -2,6 +2,7 @@
 
 #region using directives
 
+using System.Diagnostics.CodeAnalysis;
 using DaLion.Shared.Attributes;
 using DaLion.Shared.Extensions.Reflection;
 using DaLion.Shared.Harmony;
@@ -12,6 +13,7 @@ using StardewValley.Tools;
 
 [UsedImplicitly]
 [RequiresMod("furyx639.BetterChests")]
+[SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1649:File name should match first type name", Justification = "Integration patch specifies the mod in file name but not class to avoid breaking pattern.")]
 internal sealed class StorageAddItemPatcher : HarmonyPatcher
 {
     /// <summary>Initializes a new instance of the <see cref="StorageAddItemPatcher"/> class.</summary>

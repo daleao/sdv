@@ -611,7 +611,6 @@ internal sealed partial class GenericModConfigMenuCore
         }
         else
         {
-
             this
                 .AddNumberField(
                     () => "Reaching Length",

@@ -2,7 +2,7 @@
 
 #region using directives
 
-using DaLion.Overhaul.Modules.Arsenal.Events;
+using DaLion.Overhaul.Modules.Arsenal.Events.Slingshots;
 using DaLion.Overhaul.Modules.Arsenal.VirtualProperties;
 using DaLion.Shared.Enums;
 using DaLion.Shared.Exceptions;

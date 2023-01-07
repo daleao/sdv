@@ -2,7 +2,7 @@
 
 #region using directives
 
-using DaLion.Overhaul.Modules.Arsenal.Events;
+using DaLion.Overhaul.Modules.Arsenal.Events.Slingshots;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
 using StardewValley.Tools;

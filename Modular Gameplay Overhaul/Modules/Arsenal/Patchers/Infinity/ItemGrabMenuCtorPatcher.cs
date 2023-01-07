@@ -25,7 +25,9 @@ internal sealed class ItemGrabMenuCtorPatcher : HarmonyPatcher
     [HarmonyPrefix]
     private static void ItemGrabMenuCtorPrefix(ItemGrabMenu __instance, ref InventoryMenu.highlightThisItem? highlightFunction)
     {
-        if (__instance.GetType().FullName?.Contains("CJBItemSpawner") == false)
+        if (__instance.GetType().FullName?.Contains("CJBItemSpawner") == false &&
+            highlightFunction?.Method.Name != "highlightShippableObjects" &&
+            highlightFunction?.Method.DeclaringType?.Name.Contains("Shipping") == false)
         {
             highlightFunction = HighlightAllButDarkSword;
         }

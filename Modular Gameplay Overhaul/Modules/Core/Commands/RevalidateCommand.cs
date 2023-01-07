@@ -79,7 +79,10 @@ internal sealed class RevalidateCommand : ConsoleCommand
         }
 
         Log.W($"{removed} Dark Swords were removed from Chests.");
-        if (Game1.player.hasOrWillReceiveMail("viegoCurse") && Game1.player.Items.FirstOrDefault(i => i is MeleeWeapon {InitialParentTileIndex: Constants.DarkSwordIndex}) is null && !Game1.player.addItemToInventoryBool(new MeleeWeapon(Constants.DarkSwordIndex)))
+        if (Game1.player.hasOrWillReceiveMail("viegoCurse") &&
+            Game1.player.Items.FirstOrDefault(
+                i => i is MeleeWeapon { InitialParentTileIndex: Constants.DarkSwordIndex }) is null &&
+            !Game1.player.addItemToInventoryBool(new MeleeWeapon(Constants.DarkSwordIndex)))
         {
             Log.E($"Failed adding Dark Sword to {Game1.player.Name}. Use CJB Item Spawner to obtain a new copy.");
         }
@@ -98,7 +101,8 @@ internal sealed class RevalidateCommand : ConsoleCommand
         }
 
         if (ArsenalModule.IsEnabled && ArsenalModule.Config.Weapons.EnableStabbySwords &&
-            Collections.StabbingSwords.Contains(weapon.InitialParentTileIndex))
+            (Collections.StabbingSwords.Contains(weapon.InitialParentTileIndex) ||
+             ArsenalModule.Config.Weapons.CustomStabbingSwords.Contains(weapon.Name)))
         {
             weapon.type.Value = MeleeWeapon.stabbingSword;
             Log.D($"The type of {weapon.Name} was converted to Stabbing sword.");

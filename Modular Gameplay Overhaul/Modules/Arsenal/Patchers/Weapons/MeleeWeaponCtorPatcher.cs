@@ -2,6 +2,7 @@
 
 #region using directives
 
+using System.Linq;
 using DaLion.Overhaul.Modules.Arsenal.Extensions;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
@@ -33,7 +34,8 @@ internal sealed class MeleeWeaponCtorPatcher : HarmonyPatcher
         }
 
         if (ArsenalModule.Config.Weapons.EnableStabbySwords &&
-            Collections.StabbingSwords.Contains(__instance.InitialParentTileIndex))
+            (Collections.StabbingSwords.Contains(__instance.InitialParentTileIndex) ||
+            ArsenalModule.Config.Weapons.CustomStabbingSwords.Contains(__instance.Name)))
         {
             __instance.type.Value = MeleeWeapon.stabbingSword;
             Log.D($"The type of {__instance.Name} was converted to Stabbing sword.");

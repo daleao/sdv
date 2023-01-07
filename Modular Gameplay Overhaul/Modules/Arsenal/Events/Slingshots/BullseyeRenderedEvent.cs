@@ -1,4 +1,4 @@
-﻿namespace DaLion.Overhaul.Modules.Arsenal.Events;
+﻿namespace DaLion.Overhaul.Modules.Arsenal.Events.Slingshots;
 
 #region using directives
 

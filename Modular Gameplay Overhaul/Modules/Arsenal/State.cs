@@ -2,7 +2,7 @@
 
 #region using directives
 
-using DaLion.Overhaul.Modules.Arsenal.Events;
+using DaLion.Overhaul.Modules.Arsenal.Events.Weapons;
 using Microsoft.Xna.Framework;
 
 #endregion using directives
@@ -13,6 +13,8 @@ internal sealed class State
     private ComboHitStep _hitQueued;
     private ComboHitStep _hitStep;
     private bool _animating;
+
+    internal bool ToolButtonHeld { get; set; }
 
     internal ComboHitStep ComboHitQueued
     {

@@ -46,7 +46,7 @@ internal sealed class DataFields
     internal const string FishQualities = "FishQualities";
     internal const string FamilyQualities = "FamilyQualities";
     internal const string FamilyLivingHere = "FamilyLivingHere";
-    internal const string DaysEmpty = "FamilyLivingHere";
+    internal const string DaysEmpty = "DaysEmpty";
     internal const string SeaweedLivingHere = "SeaweedLivingHere";
     internal const string GreenAlgaeLivingHere = "GreenAlgaeLivingHere";
     internal const string WhiteAlgaeLivingHere = "WhiteAlgaeLivingHere";

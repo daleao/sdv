@@ -47,13 +47,20 @@ public sealed class WeaponConfig
     [JsonProperty]
     public bool EnableStabbySwords { get; internal set; } = true;
 
-    /// <summary>Gets a value indicating whether replace the defensive special move of some swords with an offensive lunge move.</summary>
+    /// <summary>Gets a value indicating the weapon type of the Galaxy Sword.</summary>
     [JsonProperty]
     public WeaponType GalaxySwordType { get; internal set; } = WeaponType.StabbingSword;
 
-    /// <summary>Gets a value indicating whether replace the defensive special move of some swords with an offensive lunge move.</summary>
+    /// <summary>Gets a value indicating the weapon type of the Infinity Blade.</summary>
     [JsonProperty]
     public WeaponType InfinityBladeType { get; internal set; } = WeaponType.StabbingSword;
+
+    /// <summary>Gets a set of user-defined modded swords which should be treated as Stabby swords.</summary>
+    [JsonProperty]
+    public string[] CustomStabbingSwords { get; internal set; } =
+    {
+        "Strawblaster",
+    };
 
     /// <summary>Gets a value indicating whether to apply the corresponding weapon rebalance.</summary>
     [JsonProperty]
@@ -70,4 +77,8 @@ public sealed class WeaponConfig
     /// <summary>Gets the style of the tooltips for displaying stat bonuses for weapons.</summary>
     [JsonProperty]
     public TooltipStyle WeaponTooltipStyle { get; internal set; } = TooltipStyle.Absolute;
+
+    /// <summary>Gets a value indicating whether to keep swiping while the "use tool" key is held.</summary>
+    [JsonProperty]
+    public bool SwipeHold { get; internal set; } = true;
 }

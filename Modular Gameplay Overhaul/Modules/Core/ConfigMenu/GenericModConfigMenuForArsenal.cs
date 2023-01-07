@@ -2,7 +2,7 @@
 
 #region using directives
 
-using Arsenal;
+using DaLion.Overhaul.Modules.Arsenal;
 using DaLion.Overhaul.Modules.Arsenal.Configs;
 using DaLion.Overhaul.Modules.Arsenal.Integrations;
 using DaLion.Shared.Extensions.SMAPI;

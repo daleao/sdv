@@ -1,5 +1,9 @@
 ﻿# Modular Overhaul Core Change Log
 
+## 1.0.4
+
+* Default DebugKey changed to RightShift / RightShoulder.
+
 ## 1.0.3
 
 ### Added

@@ -23,7 +23,7 @@ internal sealed class BuffCtorPatcher : HarmonyPatcher
 
     #region harmony patches
 
-    /// <summary>Adjust Jinxed debuff for defense overhaul.5</summary>
+    /// <summary>Adjust Jinxed debuff for defense overhaul.</summary>
     [HarmonyTranspiler]
     private static IEnumerable<CodeInstruction>? BuffCtorPostfix(
         IEnumerable<CodeInstruction> instructions, ILGenerator generator, MethodBase original)

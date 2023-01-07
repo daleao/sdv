@@ -3,10 +3,10 @@
 #region using directives
 
 using System.Linq;
+using DaLion.Overhaul.Modules.Arsenal.Extensions;
 using DaLion.Shared.Events;
 using DaLion.Shared.Extensions.SMAPI;
 using DaLion.Shared.Extensions.Stardew;
-using Extensions;
 using StardewModdingAPI.Events;
 using StardewValley.Tools;
 

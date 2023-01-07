@@ -5,7 +5,7 @@
 using System.Linq;
 using System.Reflection;
 using DaLion.Overhaul.Modules.Arsenal.Enchantments;
-using DaLion.Overhaul.Modules.Arsenal.Events;
+using DaLion.Overhaul.Modules.Arsenal.Events.Slingshots;
 using DaLion.Overhaul.Modules.Arsenal.Extensions;
 using DaLion.Overhaul.Modules.Arsenal.Projectiles;
 using DaLion.Overhaul.Modules.Arsenal.VirtualProperties;

@@ -192,7 +192,14 @@ internal static class FarmerExtensions
                     }),
                     new AnimationFrame(39, (int)(30 * halfModifier), true, flip: false, Farmer.showSwordSwipe),
                     new AnimationFrame(40, (int)(30 * halfModifier), true, flip: false, Farmer.showSwordSwipe),
-                    new AnimationFrame(41, (int)(cooldown * modifier), true, flip: false, Farmer.showSwordSwipe),
+                    new AnimationFrame(41, (int)(cooldown * modifier), true, flip: false, who =>
+                    {
+                        Farmer.showSwordSwipe(who);
+                        if (ArsenalModule.Config.Weapons.SwipeHold && ArsenalModule.State.ToolButtonHeld)
+                        {
+                            who.QueueNextAfterForwardSwipe(weapon);
+                        }
+                    }),
                     new AnimationFrame(41, 0, true, flip: false, Farmer.canMoveNow, behaviorAtEndOfFrame: true),
                 });
 
@@ -222,7 +229,14 @@ internal static class FarmerExtensions
                     }),
                     new AnimationFrame(33, (int)(30 * halfModifier), true, flip: false, Farmer.showSwordSwipe),
                     new AnimationFrame(34, (int)(30 * halfModifier), true, flip: false, Farmer.showSwordSwipe),
-                    new AnimationFrame(35, (int)(cooldown * modifier), true, flip: false, Farmer.showSwordSwipe),
+                    new AnimationFrame(35, (int)(cooldown * modifier), true, flip: false, who =>
+                    {
+                        Farmer.showSwordSwipe(who);
+                        if (ArsenalModule.Config.Weapons.SwipeHold && ArsenalModule.State.ToolButtonHeld)
+                        {
+                            who.QueueNextAfterForwardSwipe(weapon);
+                        }
+                    }),
                     new AnimationFrame(35, 0, true, flip: false, Farmer.canMoveNow, behaviorAtEndOfFrame: true),
                 });
 
@@ -252,7 +266,14 @@ internal static class FarmerExtensions
                     }),
                     new AnimationFrame(27, (int)(30 * halfModifier), true, flip: false, Farmer.showSwordSwipe),
                     new AnimationFrame(28, (int)(30 * halfModifier), true, flip: false, Farmer.showSwordSwipe),
-                    new AnimationFrame(29, (int)(cooldown * modifier), true, flip: false, Farmer.showSwordSwipe),
+                    new AnimationFrame(29, (int)(cooldown * modifier), true, flip: false, who =>
+                    {
+                        Farmer.showSwordSwipe(who);
+                        if (ArsenalModule.Config.Weapons.SwipeHold && ArsenalModule.State.ToolButtonHeld)
+                        {
+                            who.QueueNextAfterForwardSwipe(weapon);
+                        }
+                    }),
                     new AnimationFrame(29, 0, true, flip: false, Farmer.canMoveNow, behaviorAtEndOfFrame: true),
                 });
 
@@ -282,7 +303,14 @@ internal static class FarmerExtensions
                     }),
                     new AnimationFrame(33, (int)(30 * halfModifier), true, flip: true, Farmer.showSwordSwipe),
                     new AnimationFrame(34, (int)(30 * halfModifier), true, flip: true, Farmer.showSwordSwipe),
-                    new AnimationFrame(35, (int)(cooldown * modifier), true, flip: true, Farmer.showSwordSwipe),
+                    new AnimationFrame(35, (int)(cooldown * modifier), true, flip: true, who =>
+                    {
+                        Farmer.showSwordSwipe(who);
+                        if (ArsenalModule.Config.Weapons.SwipeHold && ArsenalModule.State.ToolButtonHeld)
+                        {
+                            who.QueueNextAfterForwardSwipe(weapon);
+                        }
+                    }),
                     new AnimationFrame(35, 0, true, flip: true, Farmer.canMoveNow, behaviorAtEndOfFrame: true),
                 });
 
@@ -301,7 +329,7 @@ internal static class FarmerExtensions
         var sprite = farmer.FarmerSprite;
         var modifier = farmer.GetTotalSwingSpeedModifier(weapon);
         var halfModifier = 1f - ((1f - modifier) / 2f);
-        var cooldown = weapon.IsClub() ? 250 : 50;
+        const int cooldown = 50;
         var sound = weapon.InitialParentTileIndex == Constants.LavaKatanaIndex ? "fireball" : "swordswipe";
         sprite.loopThisAnimation = false;
         var outFrames = sprite.currentAnimation;
@@ -340,7 +368,14 @@ internal static class FarmerExtensions
                     }),
                     new AnimationFrame(38, (int)(30 * halfModifier), true, flip: false, Farmer.showSwordSwipe),
                     new AnimationFrame(37, (int)(30 * halfModifier), true, flip: false, Farmer.showSwordSwipe),
-                    new AnimationFrame(36, (int)(cooldown * modifier), true, flip: false, Farmer.showSwordSwipe),
+                    new AnimationFrame(36, (int)(cooldown * modifier), true, flip: false, who =>
+                    {
+                        Farmer.showSwordSwipe(who);
+                        if (ArsenalModule.Config.Weapons.SwipeHold && ArsenalModule.State.ToolButtonHeld)
+                        {
+                            who.QueueNextAfterReverseSwipe(weapon);
+                        }
+                    }),
                     new AnimationFrame(36, 0, true, flip: false, Farmer.canMoveNow, behaviorAtEndOfFrame: true),
                 });
 
@@ -370,7 +405,14 @@ internal static class FarmerExtensions
                     }),
                     new AnimationFrame(32, (int)(30 * halfModifier), true, flip: false, Farmer.showSwordSwipe),
                     new AnimationFrame(31, (int)(30 * halfModifier), true, flip: false, Farmer.showSwordSwipe),
-                    new AnimationFrame(30, (int)(cooldown * modifier), true, flip: false, Farmer.showSwordSwipe),
+                    new AnimationFrame(30, (int)(cooldown * modifier), true, flip: false, who =>
+                    {
+                        Farmer.showSwordSwipe(who);
+                        if (ArsenalModule.Config.Weapons.SwipeHold && ArsenalModule.State.ToolButtonHeld)
+                        {
+                            who.QueueNextAfterReverseSwipe(weapon);
+                        }
+                    }),
                     new AnimationFrame(30, 0, true, flip: false, Farmer.canMoveNow, behaviorAtEndOfFrame: true),
                 });
 
@@ -400,7 +442,14 @@ internal static class FarmerExtensions
                     }),
                     new AnimationFrame(26, (int)(30 * halfModifier), true, flip: false, Farmer.showSwordSwipe),
                     new AnimationFrame(25, (int)(30 * halfModifier), true, flip: false, Farmer.showSwordSwipe),
-                    new AnimationFrame(24, (int)(cooldown * modifier), true, flip: false, Farmer.showSwordSwipe),
+                    new AnimationFrame(24, (int)(cooldown * modifier), true, flip: false, who =>
+                    {
+                        Farmer.showSwordSwipe(who);
+                        if (ArsenalModule.Config.Weapons.SwipeHold && ArsenalModule.State.ToolButtonHeld)
+                        {
+                            who.QueueNextAfterReverseSwipe(weapon);
+                        }
+                    }),
                     new AnimationFrame(24, 0, true, flip: false, Farmer.canMoveNow, behaviorAtEndOfFrame: true),
                 });
 
@@ -430,7 +479,14 @@ internal static class FarmerExtensions
                     }),
                     new AnimationFrame(32, (int)(30 * halfModifier), true, flip: true, Farmer.showSwordSwipe),
                     new AnimationFrame(31, (int)(30 * halfModifier), true, flip: true, Farmer.showSwordSwipe),
-                    new AnimationFrame(30, (int)(cooldown * modifier), true, flip: true, Farmer.showSwordSwipe),
+                    new AnimationFrame(30, (int)(cooldown * modifier), true, flip: true, who =>
+                    {
+                        Farmer.showSwordSwipe(who);
+                        if (ArsenalModule.Config.Weapons.SwipeHold && ArsenalModule.State.ToolButtonHeld)
+                        {
+                            who.QueueNextAfterReverseSwipe(weapon);
+                        }
+                    }),
                     new AnimationFrame(30, 0, true, flip: true, Farmer.canMoveNow, behaviorAtEndOfFrame: true),
                 });
 
@@ -521,7 +577,11 @@ internal static class FarmerExtensions
 
                         who.currentLocation.localSound(sound);
                     }),
-                    new AnimationFrame(51, (int)(50 * halfModifier), false, flip: false, DamageDuringSmash),
+                    new AnimationFrame(51, (int)(50 * halfModifier), false, flip: false, who =>
+                    {
+                        who.DamageDuringSmash();
+                        Farmer.useTool(who);
+                    }),
                     new AnimationFrame(52, (int)(cooldown * modifier), false, flip: false, Farmer.canMoveNow, behaviorAtEndOfFrame: true),
                 });
 
@@ -550,7 +610,11 @@ internal static class FarmerExtensions
 
                         who.currentLocation.localSound(sound);
                     }),
-                    new AnimationFrame(69, (int)(50 * halfModifier), false, flip: false, DamageDuringSmash),
+                    new AnimationFrame(69, (int)(50 * halfModifier), false, flip: false, who =>
+                    {
+                        who.DamageDuringSmash();
+                        Farmer.useTool(who);
+                    }),
                     new AnimationFrame(70, (int)(cooldown * modifier), false, flip: false, Farmer.canMoveNow, behaviorAtEndOfFrame: true),
                 });
 
@@ -579,7 +643,11 @@ internal static class FarmerExtensions
 
                         who.currentLocation.localSound(sound);
                     }),
-                    new AnimationFrame(51, (int)(50 * halfModifier), false, flip: true, DamageDuringSmash),
+                    new AnimationFrame(51, (int)(50 * halfModifier), false, flip: true, who =>
+                    {
+                        who.DamageDuringSmash();
+                        Farmer.useTool(who);
+                    }),
                     new AnimationFrame(52, (int)(cooldown * modifier), false, flip: true, Farmer.canMoveNow, behaviorAtEndOfFrame: true),
                 });
 
@@ -713,6 +781,37 @@ internal static class FarmerExtensions
             .Invoke(sprite, sprite.CurrentAnimation.Count);
         ArsenalModule.State.ComboHitQueued++;
         ArsenalModule.State.FarmerAnimating = true;
+    }
+
+    private static void QueueNextAfterForwardSwipe(this Farmer farmer, MeleeWeapon weapon)
+    {
+        var hitStep = ArsenalModule.State.ComboHitQueued;
+        var finalHitStep = weapon.GetFinalHitStep();
+        if (hitStep >= finalHitStep)
+        {
+            return;
+        }
+
+        if (weapon.IsClub() && hitStep == finalHitStep - 1)
+        {
+            farmer.QueueSmash(weapon);
+        }
+        else
+        {
+            farmer.QueueReverseSwipe(weapon);
+        }
+    }
+
+    private static void QueueNextAfterReverseSwipe(this Farmer farmer, MeleeWeapon weapon)
+    {
+        var hitStep = ArsenalModule.State.ComboHitQueued;
+        var finalHitStep = weapon.GetFinalHitStep();
+        if (hitStep >= finalHitStep)
+        {
+            return;
+        }
+
+        farmer.QueueForwardSwipe(weapon);
     }
 
     private static void DamageDuringSmash(this Farmer who)
