@@ -62,13 +62,13 @@ public sealed class PickaxeConfig
     [JsonProperty]
     public bool PlayShockwaveAnimation { get; internal set; } = true;
 
-    /// <summary>Gets a value indicating whether the Pick can be enchanted with Reaching.</summary>
-    [JsonProperty]
-    public bool AllowReachingEnchantment { get; internal set; } = true;
-
     /// <summary>Gets a value indicating whether the Pick can be enchanted with Master.</summary>
     [JsonProperty]
     public bool AllowMasterEnchantment { get; internal set; } = true;
+
+    /// <summary>Gets a value indicating whether the Pick can be enchanted with Reaching.</summary>
+    [JsonProperty]
+    public bool AllowReachingEnchantment { get; internal set; } = true;
 
     /// <summary>Gets the multiplier to base stamina consumed by the <see cref="Axe"/>.</summary>
     [JsonProperty]

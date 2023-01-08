@@ -195,9 +195,9 @@ internal static class FarmerExtensions
                     new AnimationFrame(41, (int)(cooldown * modifier), true, flip: false, who =>
                     {
                         Farmer.showSwordSwipe(who);
-                        if (ArsenalModule.Config.Weapons.SwipeHold && ArsenalModule.State.ToolButtonHeld)
+                        if (ArsenalModule.Config.Weapons.SwipeHold && ArsenalModule.State.HoldingWeaponSwing)
                         {
-                            who.QueueNextAfterForwardSwipe(weapon);
+                            who.QueueNextSwipeAfterForward(weapon);
                         }
                     }),
                     new AnimationFrame(41, 0, true, flip: false, Farmer.canMoveNow, behaviorAtEndOfFrame: true),
@@ -232,9 +232,9 @@ internal static class FarmerExtensions
                     new AnimationFrame(35, (int)(cooldown * modifier), true, flip: false, who =>
                     {
                         Farmer.showSwordSwipe(who);
-                        if (ArsenalModule.Config.Weapons.SwipeHold && ArsenalModule.State.ToolButtonHeld)
+                        if (ArsenalModule.Config.Weapons.SwipeHold && ArsenalModule.State.HoldingWeaponSwing)
                         {
-                            who.QueueNextAfterForwardSwipe(weapon);
+                            who.QueueNextSwipeAfterForward(weapon);
                         }
                     }),
                     new AnimationFrame(35, 0, true, flip: false, Farmer.canMoveNow, behaviorAtEndOfFrame: true),
@@ -269,9 +269,9 @@ internal static class FarmerExtensions
                     new AnimationFrame(29, (int)(cooldown * modifier), true, flip: false, who =>
                     {
                         Farmer.showSwordSwipe(who);
-                        if (ArsenalModule.Config.Weapons.SwipeHold && ArsenalModule.State.ToolButtonHeld)
+                        if (ArsenalModule.Config.Weapons.SwipeHold && ArsenalModule.State.HoldingWeaponSwing)
                         {
-                            who.QueueNextAfterForwardSwipe(weapon);
+                            who.QueueNextSwipeAfterForward(weapon);
                         }
                     }),
                     new AnimationFrame(29, 0, true, flip: false, Farmer.canMoveNow, behaviorAtEndOfFrame: true),
@@ -306,9 +306,9 @@ internal static class FarmerExtensions
                     new AnimationFrame(35, (int)(cooldown * modifier), true, flip: true, who =>
                     {
                         Farmer.showSwordSwipe(who);
-                        if (ArsenalModule.Config.Weapons.SwipeHold && ArsenalModule.State.ToolButtonHeld)
+                        if (ArsenalModule.Config.Weapons.SwipeHold && ArsenalModule.State.HoldingWeaponSwing)
                         {
-                            who.QueueNextAfterForwardSwipe(weapon);
+                            who.QueueNextSwipeAfterForward(weapon);
                         }
                     }),
                     new AnimationFrame(35, 0, true, flip: true, Farmer.canMoveNow, behaviorAtEndOfFrame: true),
@@ -322,6 +322,7 @@ internal static class FarmerExtensions
             .Invoke(sprite, sprite.CurrentAnimation.Count);
         ArsenalModule.State.ComboHitQueued++;
         ArsenalModule.State.FarmerAnimating = true;
+        Log.D("[Combo]: Queued Forward Slash");
     }
 
     internal static void QueueReverseSwipe(this Farmer farmer, MeleeWeapon weapon)
@@ -371,9 +372,9 @@ internal static class FarmerExtensions
                     new AnimationFrame(36, (int)(cooldown * modifier), true, flip: false, who =>
                     {
                         Farmer.showSwordSwipe(who);
-                        if (ArsenalModule.Config.Weapons.SwipeHold && ArsenalModule.State.ToolButtonHeld)
+                        if (ArsenalModule.Config.Weapons.SwipeHold && ArsenalModule.State.HoldingWeaponSwing)
                         {
-                            who.QueueNextAfterReverseSwipe(weapon);
+                            who.QueueNextSwipeAfterReverse(weapon);
                         }
                     }),
                     new AnimationFrame(36, 0, true, flip: false, Farmer.canMoveNow, behaviorAtEndOfFrame: true),
@@ -408,9 +409,9 @@ internal static class FarmerExtensions
                     new AnimationFrame(30, (int)(cooldown * modifier), true, flip: false, who =>
                     {
                         Farmer.showSwordSwipe(who);
-                        if (ArsenalModule.Config.Weapons.SwipeHold && ArsenalModule.State.ToolButtonHeld)
+                        if (ArsenalModule.Config.Weapons.SwipeHold && ArsenalModule.State.HoldingWeaponSwing)
                         {
-                            who.QueueNextAfterReverseSwipe(weapon);
+                            who.QueueNextSwipeAfterReverse(weapon);
                         }
                     }),
                     new AnimationFrame(30, 0, true, flip: false, Farmer.canMoveNow, behaviorAtEndOfFrame: true),
@@ -445,9 +446,9 @@ internal static class FarmerExtensions
                     new AnimationFrame(24, (int)(cooldown * modifier), true, flip: false, who =>
                     {
                         Farmer.showSwordSwipe(who);
-                        if (ArsenalModule.Config.Weapons.SwipeHold && ArsenalModule.State.ToolButtonHeld)
+                        if (ArsenalModule.Config.Weapons.SwipeHold && ArsenalModule.State.HoldingWeaponSwing)
                         {
-                            who.QueueNextAfterReverseSwipe(weapon);
+                            who.QueueNextSwipeAfterReverse(weapon);
                         }
                     }),
                     new AnimationFrame(24, 0, true, flip: false, Farmer.canMoveNow, behaviorAtEndOfFrame: true),
@@ -482,9 +483,9 @@ internal static class FarmerExtensions
                     new AnimationFrame(30, (int)(cooldown * modifier), true, flip: true, who =>
                     {
                         Farmer.showSwordSwipe(who);
-                        if (ArsenalModule.Config.Weapons.SwipeHold && ArsenalModule.State.ToolButtonHeld)
+                        if (ArsenalModule.Config.Weapons.SwipeHold && ArsenalModule.State.HoldingWeaponSwing)
                         {
-                            who.QueueNextAfterReverseSwipe(weapon);
+                            who.QueueNextSwipeAfterReverse(weapon);
                         }
                     }),
                     new AnimationFrame(30, 0, true, flip: true, Farmer.canMoveNow, behaviorAtEndOfFrame: true),
@@ -498,6 +499,7 @@ internal static class FarmerExtensions
             .Invoke(sprite, sprite.CurrentAnimation.Count);
         ArsenalModule.State.ComboHitQueued++;
         ArsenalModule.State.FarmerAnimating = true;
+        Log.D("[Combo]: Queued Backslash");
     }
 
     internal static void QueueSmash(this Farmer farmer, MeleeWeapon weapon)
@@ -659,6 +661,7 @@ internal static class FarmerExtensions
             .Invoke(sprite, sprite.CurrentAnimation.Count);
         ArsenalModule.State.ComboHitQueued++;
         ArsenalModule.State.FarmerAnimating = true;
+        Log.D("[Combo]: Queued Smash");
     }
 
     internal static void QueueThrust(this Farmer farmer, MeleeWeapon weapon)
@@ -783,7 +786,7 @@ internal static class FarmerExtensions
         ArsenalModule.State.FarmerAnimating = true;
     }
 
-    private static void QueueNextAfterForwardSwipe(this Farmer farmer, MeleeWeapon weapon)
+    private static void QueueNextSwipeAfterForward(this Farmer farmer, MeleeWeapon weapon)
     {
         var hitStep = ArsenalModule.State.ComboHitQueued;
         var finalHitStep = weapon.GetFinalHitStep();
@@ -796,17 +799,17 @@ internal static class FarmerExtensions
         {
             farmer.QueueSmash(weapon);
         }
-        else
+        else if ((int)hitStep % 2 == 1)
         {
             farmer.QueueReverseSwipe(weapon);
         }
     }
 
-    private static void QueueNextAfterReverseSwipe(this Farmer farmer, MeleeWeapon weapon)
+    private static void QueueNextSwipeAfterReverse(this Farmer farmer, MeleeWeapon weapon)
     {
         var hitStep = ArsenalModule.State.ComboHitQueued;
         var finalHitStep = weapon.GetFinalHitStep();
-        if (hitStep >= finalHitStep)
+        if (hitStep >= finalHitStep || (int)hitStep % 2 != 0)
         {
             return;
         }

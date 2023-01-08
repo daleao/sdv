@@ -197,6 +197,7 @@ internal sealed class FarmerShowSwordSwipePatcher : HarmonyPatcher
                 {
                     Constants.DarkSwordIndex => Color.DarkSlateGray,
                     Constants.HolyBladeIndex => Color.Gold,
+                    Constants.LavaKatanaIndex => Color.Orange,
                     _ => tempSprite.color,
                 };
 

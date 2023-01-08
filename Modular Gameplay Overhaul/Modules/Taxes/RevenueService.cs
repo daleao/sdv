@@ -3,8 +3,10 @@
 #region using directives
 
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using DaLion.Shared.Enums;
 using DaLion.Shared.Extensions.Stardew;
+using StardewValley.Objects;
 using static System.FormattableString;
 
 #endregion using directives
@@ -23,6 +25,8 @@ internal static class RevenueService
         { 0.35f, 523600 },
         { 0.37f, int.MaxValue },
     };
+
+    internal static HashSet<WeakReference<Chest>> MiniShippingBins = new();
 
     /// <summary>Calculates due income tax for the <paramref name="who"/>.</summary>
     /// <param name="who">The <see cref="Farmer"/>.</param>

@@ -159,9 +159,9 @@ public class Skill : SmartEnum<Skill>, ISkill
 
         // reset new levels
         var toRemove = farmer.newLevels.Where(p => p.X == this);
-        foreach (var item in toRemove)
+        foreach (var level in toRemove)
         {
-            farmer.newLevels.Remove(item);
+            farmer.newLevels.Remove(level);
         }
 
         // reset skill experience

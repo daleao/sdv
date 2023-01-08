@@ -215,6 +215,35 @@ internal sealed class GameLocationDamageMonsterPatcher : HarmonyPatcher
             return null;
         }
 
+        try
+        {
+            helper
+                .Match(
+                    new[]
+                    {
+                        new CodeInstruction(OpCodes.Ldarg_S, (byte)10),
+                        new CodeInstruction(OpCodes.Callvirt),
+                        new CodeInstruction(OpCodes.Callvirt),
+                        new CodeInstruction(OpCodes.Ldstr, "Galaxy Sword"),
+                    })
+                .Match(
+                    new[]
+                    {
+                        new CodeInstruction(
+                            OpCodes.Callvirt,
+                            typeof(Multiplayer).RequireMethod(
+                                nameof(Multiplayer.broadcastSprites),
+                                new[] { typeof(GameLocation), typeof(TemporaryAnimatedSprite[]) })),
+                    },
+                    out var count)
+                .Remove(count);
+        }
+        catch (Exception ex)
+        {
+            Log.E($"Failed removing arbitrary Galaxy Sword hit animation.\nHelper returned {ex}");
+            return null;
+        }
+
         return helper.Flush();
     }
 

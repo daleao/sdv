@@ -17,7 +17,7 @@ using StardewValley.TerrainFeatures;
 public static class SObjectExtensions
 {
     /// <summary>Gets the ids of animal products and derived artisan goods.</summary>
-    public static IReadOnlySet<int> AnimalDerivedProductIds { get; } = new HashSet<int>
+    private static readonly IReadOnlySet<int> AnimalDerivedProductIds = new HashSet<int>
     {
         107, // dinosaur egg
         306, // mayonnaise
