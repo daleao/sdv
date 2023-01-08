@@ -2,7 +2,7 @@
 using System;
 using System.Collections;
 using System.Linq;
-using BetterMeadIcons.Content;
+using DaLion.Meads.Content;
 using HarmonyLib;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -12,14 +12,14 @@ using StardewValley;
 using StardewValley.Objects;
 using SObject = StardewValley.Object;
 
-namespace BetterMeadIcons;
+namespace DaLion.Meads;
 
 internal static class HarmonyPatcher
 {
     private delegate bool GetDrawInfoDelegate(SObject output, out Texture2D textureSheet, out Rectangle mainPosition,
         out Rectangle iconPosition);
 
-    private static readonly GetDrawInfoDelegate _GetDrawInfo = "BetterArtisanGoodIcons.ArtisanGoodsManager".ToType()
+    private static readonly GetDrawInfoDelegate GetDrawInfo = "BetterArtisanGoodIcons.ArtisanGoodsManager".ToType()
         .RequireMethod("GetDrawInfo").CreateDelegate<GetDrawInfoDelegate>();
 
     internal static void Apply(Harmony harmony)
@@ -108,7 +108,7 @@ internal static class HarmonyPatcher
         if (__instance.heldObject.Value is not
             { ParentSheetIndex: Globals.MEAD_INDEX_I, preservedParentSheetIndex.Value: > 0 } mead) return true; // run original logic
 
-        var got = _GetDrawInfo(__instance, out var spritesheet, out var sourceRectangle, out _);
+        var got = GetDrawInfo(__instance, out var spritesheet, out var sourceRectangle, out _);
         if (!got) return true; // run original logic
 
         // draw the furniture
@@ -191,7 +191,7 @@ internal static class HarmonyPatcher
         if (!__instance.bigCraftable.Value || !__instance.readyForHarvest.Value || __instance.heldObject.Value is not
             { ParentSheetIndex: Globals.MEAD_INDEX_I, preservedParentSheetIndex.Value: > 0 } mead) return true; // run original logic
 
-        var got = _GetDrawInfo(__instance, out var spritesheet, out var sourceRectangle, out _);
+        var got = GetDrawInfo(__instance, out var spritesheet, out var sourceRectangle, out _);
         if (!got) return true; // run original logic
 
         var (sx, sy) = __instance.getScale() * Game1.pixelZoom;
@@ -272,7 +272,7 @@ internal static class HarmonyPatcher
 
         if (__instance is not { ParentSheetIndex: Globals.MEAD_INDEX_I, preservedParentSheetIndex.Value: > 0 } mead) return true; // run original logic
 
-        var got = _GetDrawInfo(__instance, out var spritesheet, out var sourceRectangle, out _);
+        var got = GetDrawInfo(__instance, out var spritesheet, out var sourceRectangle, out _);
         if (!got) return true; // run original logic
 
         if (__instance.Fragility != 2)
@@ -321,7 +321,7 @@ internal static class HarmonyPatcher
     {
         if (__instance is not { ParentSheetIndex: Globals.MEAD_INDEX_I, preservedParentSheetIndex.Value: > 0 } mead) return true; // run original logic
 
-        var got = _GetDrawInfo(__instance, out var spritesheet, out var sourceRectangle, out _);
+        var got = GetDrawInfo(__instance, out var spritesheet, out var sourceRectangle, out _);
         if (!got) return true; // run original logic
 
         if (drawShadow)
@@ -405,7 +405,7 @@ internal static class HarmonyPatcher
     {
         if (__instance is not { ParentSheetIndex: Globals.MEAD_INDEX_I, preservedParentSheetIndex.Value: > 0 } mead) return true; // run original logic
 
-        var got = _GetDrawInfo(__instance, out var spritesheet, out var sourceRectangle, out _);
+        var got = GetDrawInfo(__instance, out var spritesheet, out var sourceRectangle, out _);
         if (!got) return true; // run original logic
 
         spriteBatch.Draw(

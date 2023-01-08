@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace BetterMeadIcons;
+namespace DaLion.Meads;
 
 internal class Globals
 {

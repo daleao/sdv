@@ -1,8 +1,7 @@
-using System;
 using System.Collections.Generic;
 using StardewModdingAPI;
 
-namespace BetterMeadIcons.Content;
+namespace DaLion.Meads.Content;
 
 internal abstract class TextureDataContentSource : IContentSource
 {
@@ -12,7 +11,7 @@ internal abstract class TextureDataContentSource : IContentSource
 
 	public abstract IManifest GetManifest();
 
-	public Tuple<string, List<string>, object> GetData()
+	public (string, List<string>, object) GetData()
 	{
 		return new(TextureData.Mead, TextureData.Flowers, Globals.MeadAsArtisanGoodEnum);
 	}

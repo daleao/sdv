@@ -1,6 +1,6 @@
 using StardewModdingAPI;
 
-namespace BetterMeadIcons.Content;
+namespace DaLion.Meads.Content;
 
 internal interface IContentSource
 {

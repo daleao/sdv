@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace BetterMeadIcons.Content;
+namespace DaLion.Meads.Content;
 
 internal class CustomTextureData
 {

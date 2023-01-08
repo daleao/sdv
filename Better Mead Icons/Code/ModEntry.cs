@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using StardewModdingAPI;
 
-namespace BetterMeadIcons;
+namespace DaLion.Meads;
 
 /// <summary>The mod entry point.</summary>
 public class ModEntry : Mod
