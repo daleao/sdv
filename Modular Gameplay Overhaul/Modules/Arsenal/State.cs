@@ -14,7 +14,7 @@ internal sealed class State
     private ComboHitStep _hitStep;
     private bool _animating;
 
-    internal bool ToolButtonHeld { get; set; }
+    internal bool HoldingWeaponSwing { get; set; }
 
     internal ComboHitStep ComboHitQueued
     {

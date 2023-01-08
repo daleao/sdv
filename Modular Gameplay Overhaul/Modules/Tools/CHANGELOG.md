@@ -1,5 +1,11 @@
 ﻿# Tools Module Change Log
 
+## 1.0.4
+
+### Fixed
+
+* The AllowMasterEnchantment config should now work correctly.
+
 ## 1.0.1
 
 ### Changed

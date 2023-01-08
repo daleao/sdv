@@ -19,7 +19,7 @@ internal sealed class ResetSkillLevelsCommand : ConsoleCommand
     }
 
     /// <inheritdoc />
-    public override string[] Triggers { get; } = { "reset_levels", "reset_skills" };
+    public override string[] Triggers { get; } = { "reset_levels", "reset_skills", "reset" };
 
     /// <inheritdoc />
     public override string Documentation =>

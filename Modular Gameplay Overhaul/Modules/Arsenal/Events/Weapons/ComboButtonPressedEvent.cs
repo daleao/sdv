@@ -33,7 +33,7 @@ internal sealed class ComboButtonPressedEvent : ButtonPressedEvent
             return;
         }
 
-        ArsenalModule.State.ToolButtonHeld = true;
+        ArsenalModule.State.HoldingWeaponSwing = true;
         this.Manager.Enable<ComboButtonReleasedEvent>();
 
         var hitStep = ArsenalModule.State.ComboHitQueued;

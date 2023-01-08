@@ -25,7 +25,7 @@ internal sealed class ComboButtonReleasedEvent : ButtonReleasedEvent
             return;
         }
 
-        ArsenalModule.State.ToolButtonHeld = false;
+        ArsenalModule.State.HoldingWeaponSwing = false;
         this.Disable();
     }
 }

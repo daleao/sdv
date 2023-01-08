@@ -6,6 +6,7 @@
 
 * Added SwipeHold config. You can now hold the tool button to perform a continuous combo instead of spam-clicking.
 * Added CustomStabbingSwords config. Users can now register swords from their modlist to be treated as Stabbing swords. **Do not enter vanilla swords here, or non-sword weapons.**
+* Lava Katana swing effect is now orange-ish.
 
 ### Fixed
 
