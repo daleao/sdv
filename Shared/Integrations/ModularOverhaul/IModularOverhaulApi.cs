@@ -101,7 +101,7 @@ public interface IModularOverhaulApi
 
     #endregion treasure hunts
 
-    #region ultimate
+    #region ultimates
 
     /// <summary>Gets the <paramref name="farmer"/>'s currently registered <see cref="IModularOverhaul.IUltimate"/>, if any.</summary>
     /// <param name="farmer">The <see cref="Farmer"/>.</param>
@@ -138,14 +138,14 @@ public interface IModularOverhaulApi
     /// <returns>A new <see cref="IManagedEvent"/> instance which encapsulates the specified <paramref name="callback"/>.</returns>
     IModularOverhaul.IManagedEvent RegisterUltimateEmptiedEvent(Action<object?, IModularOverhaul.IUltimateEmptiedEventArgs> callback);
 
-    #endregion ultimate
+    #endregion ultimates
 
-    #region resonance
+    #region resonances
 
     /// <summary>Gets the <see cref="IModularOverhaul.IChord"/> for the specified <paramref name="ring"/>, if any.</summary>
     /// <param name="ring">A <see cref="CombinedRing"/> which possibly contains a <see cref="IModularOverhaul.IChord"/>.</param>
-    /// <returns>The <see cref="IModularOverhaul.IChord"/> instance if the <paramref name="ring"/> is an Infinity Band with at least two gemstone, otherwise <see langword="null"/>.</returns>
+    /// <returns>The <see cref="IModularOverhaul.IChord"/> instance if the <paramref name="ring"/> is an Infinity Band with at least two resonating gemstones, otherwise <see langword="null"/>.</returns>
     public IModularOverhaul.IChord? GetChord(CombinedRing ring);
 
-    #endregion resonance
+    #endregion resonances
 }
