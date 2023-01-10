@@ -199,7 +199,8 @@ public class Skill : SmartEnum<Skill>, ISkill
                 key => farmer.craftingRecipes[key]);
         foreach (var (key, value) in CraftingRecipe.craftingRecipes)
         {
-            if (!value.Split('/')[4].Contains(this.StringId) || !craftingRecipes.ContainsKey(key))
+            if (!value.SplitWithoutAllocation('/')[4].ToString().Contains(this.StringId) ||
+                !craftingRecipes.ContainsKey(key))
             {
                 continue;
             }
@@ -222,7 +223,8 @@ public class Skill : SmartEnum<Skill>, ISkill
                 key => farmer.cookingRecipes[key]);
         foreach (var (key, value) in CraftingRecipe.cookingRecipes)
         {
-            if (!value.Split('/')[3].Contains(this.StringId) || !cookingRecipes.ContainsKey(key))
+            if (!value.SplitWithoutAllocation('/')[3].ToString().Contains(this.StringId) ||
+                !cookingRecipes.ContainsKey(key))
             {
                 continue;
             }

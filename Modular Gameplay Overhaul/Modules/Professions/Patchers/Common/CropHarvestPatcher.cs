@@ -67,10 +67,10 @@ internal sealed class CropHarvestPatcher : HarmonyPatcher
         // Note: this particular method is too edgy for Harmony's AccessTools, so we use some old-fashioned reflection trickery to find this particular overload of FarmerExtensions.IncrementData<T>
         try
         {
-            var incrementMethod = typeof(DaLion.Shared.Extensions.Stardew.FarmerExtensions)
+            var incrementMethod = typeof(Shared.Extensions.Stardew.FarmerExtensions)
                                       .GetMethods()
                                       .FirstOrDefault(mi =>
-                                          mi.Name.Contains(nameof(DaLion.Shared.Extensions.Stardew.FarmerExtensions.Increment)) && mi.GetGenericArguments().Length > 0)?
+                                          mi.Name.Contains(nameof(Shared.Extensions.Stardew.FarmerExtensions.Increment)) && mi.GetGenericArguments().Length > 0)?
                                       .MakeGenericMethod(typeof(uint)) ??
                                   ThrowHelper.ThrowMissingMethodException<MethodInfo>("Increment method not found.");
 

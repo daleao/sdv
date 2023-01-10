@@ -12,6 +12,7 @@ using DaLion.Shared.Harmony;
 using HarmonyLib;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Shared.Extensions;
 using StardewValley.Menus;
 
 #endregion using directives
@@ -84,7 +85,7 @@ internal sealed class CollectionsPageDrawPatcher : HarmonyPatcher
 
         var currentPage = page.currentPage;
         foreach (var c in from c in page.collections[currentTab][currentPage]
-                 let index = Convert.ToInt32(c.name.Split(' ')[0])
+                 let index = int.Parse(c.name.SplitWithoutAllocation(' ')[0])
                  where Game1.player.HasCaughtMaxSized(index)
                  select c)
         {

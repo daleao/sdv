@@ -53,26 +53,28 @@ internal sealed class PrintFishingAuditCommand : ConsoleCommand
                 continue;
             }
 
-            var dataFields = specificFishData.Split('/');
-            if (Collections.LegendaryFishNames.Contains(dataFields[0]))
+            var dataFields = specificFishData.SplitWithoutAllocation('/');
+            var name = dataFields[0].ToString();
+            if (Collections.LegendaryFishNames.Contains(name))
             {
                 numLegendaryCaught++;
             }
             else
             {
-                if (value[1] > Convert.ToInt32(dataFields[4]))
+                var caught = int.Parse(dataFields[4]);
+                if (value[1] > caught)
                 {
                     numMaxSizedCaught++;
                 }
                 else
                 {
                     nonMaxSizedCaught.Add(
-                        dataFields[0],
-                        new Tuple<int, int>(value[1], Convert.ToInt32(dataFields[4])));
+                        name,
+                        new Tuple<int, int>(value[1], caught));
                 }
             }
 
-            caughtFishNames.Add(dataFields[0]);
+            caughtFishNames.Add(name);
         }
 
         var priceMultiplier = Game1.player.HasProfession(Profession.Angler)
@@ -87,8 +89,8 @@ internal sealed class PrintFishingAuditCommand : ConsoleCommand
                 $"\n\t- {fish} (current: {nonMaxSizedCaught[fish].Item1}, max: {nonMaxSizedCaught[fish].Item2})");
 
         var seasonFish = from specificFishData in fishData.Values
-            where specificFishData.Split('/')[6].Contains(Game1.currentSeason)
-            select specificFishData.Split('/')[0];
+            where specificFishData.SplitWithoutAllocation('/')[6].ToString().Contains(Game1.currentSeason)
+            select specificFishData.SplitWithoutAllocation('/')[0].ToString();
 
         result += "\n\nThe following fish can be caught this season:";
         result = seasonFish.Except(caughtFishNames).Aggregate(result, (current, fish) => current + $"\n\t- {fish}");

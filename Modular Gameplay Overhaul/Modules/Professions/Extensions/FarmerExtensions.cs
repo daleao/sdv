@@ -221,8 +221,8 @@ internal static class FarmerExtensions
             return false;
         }
 
-        var dataFields = specificFishData.Split('/');
-        return farmer.fishCaught[index][1] >= Convert.ToInt32(dataFields[4]);
+        var dataFields = specificFishData.SplitWithoutAllocation('/');
+        return farmer.fishCaught[index][1] >= int.Parse(dataFields[4]);
     }
 
     /// <summary>Gets the price bonus applied to animal produce sold by <see cref="Profession.Producer"/>.</summary>
@@ -266,12 +266,12 @@ internal static class FarmerExtensions
                 continue;
             }
 
-            var dataFields = specificFishData.Split('/');
-            if (Collections.LegendaryFishNames.Contains(dataFields[0]))
+            var dataFields = specificFishData.SplitWithoutAllocation('/');
+            if (Collections.LegendaryFishNames.Contains(dataFields[0].ToString()))
             {
                 bonus += 0.05f;
             }
-            else if (value[1] >= Convert.ToInt32(dataFields[4]))
+            else if (value[1] >= int.Parse(dataFields[4]))
             {
                 bonus += 0.01f;
             }

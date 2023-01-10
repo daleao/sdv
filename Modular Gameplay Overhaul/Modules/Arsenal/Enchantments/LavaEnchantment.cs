@@ -41,7 +41,7 @@ public class LavaEnchantment : BaseWeaponEnchantment
     {
         var monsterBox = monster.GetBoundingBox();
         var sprites = new TemporaryAnimatedSprite(
-            360,
+            362,
             Game1.random.Next(50, 120),
             2,
             1,

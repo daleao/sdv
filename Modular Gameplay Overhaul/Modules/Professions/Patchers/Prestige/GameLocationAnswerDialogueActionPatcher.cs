@@ -71,7 +71,7 @@ internal sealed class GameLocationAnswerDialogueActionPatcher : HarmonyPatcher
                 default:
                 {
                     // if cancel do nothing
-                    var skillName = questionAndAnswer.Split('_')[1];
+                    var skillName = questionAndAnswer.SplitWithoutAllocation('_')[1].ToString();
                     if (skillName is "cancel" or "Yes")
                     {
                         __result = true;
@@ -299,7 +299,7 @@ internal sealed class GameLocationAnswerDialogueActionPatcher : HarmonyPatcher
         player.Money = Math.Max(0, player.Money - (int)ProfessionsModule.Config.ChangeUltCost);
 
         // change ultimate
-        var chosenUltimate = Ultimate.FromName(choice.Split("_")[1]);
+        var chosenUltimate = Ultimate.FromName(choice.SplitWithoutAllocation('_')[1].ToString());
         player.Set_Ultimate(chosenUltimate);
 
         // play sound effect

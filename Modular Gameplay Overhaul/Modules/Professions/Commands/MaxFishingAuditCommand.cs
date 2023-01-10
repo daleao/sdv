@@ -36,17 +36,17 @@ internal sealed class MaxFishingAuditCommand : ConsoleCommand
             .ToDictionary(p => p.Key, p => p.Value);
         foreach (var (key, value) in fishData)
         {
-            var dataFields = value.Split('/');
+            var dataFields = value.SplitWithoutAllocation('/');
             if (Game1.player.fishCaught.ContainsKey(key))
             {
                 var caught = Game1.player.fishCaught[key];
-                caught[1] = Convert.ToInt32(dataFields[4]) + 1;
+                caught[1] = int.Parse(dataFields[4]) + 1;
                 Game1.player.fishCaught[key] = caught;
                 Game1.stats.checkForFishingAchievements();
             }
             else
             {
-                Game1.player.fishCaught.Add(key, new[] { 1, Convert.ToInt32(dataFields[4]) + 1 });
+                Game1.player.fishCaught.Add(key, new[] { 1, int.Parse(dataFields[4]) + 1 });
             }
         }
     }

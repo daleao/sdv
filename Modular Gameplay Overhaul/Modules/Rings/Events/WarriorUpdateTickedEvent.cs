@@ -5,6 +5,7 @@
 using System.Collections.Generic;
 using DaLion.Shared.Events;
 using Microsoft.Xna.Framework;
+using Shared.Extensions;
 using StardewModdingAPI.Events;
 
 #endregion using directives
@@ -23,8 +24,10 @@ internal sealed class WarriorUpdateTickedEvent : UpdateTickedEvent
     {
         this._buffId = (Manifest.UniqueID + "Warrior").GetHashCode();
         this._buffSource =
-            ModHelper.GameContent.Load<Dictionary<int, string>>("Data/ObjectInformation")[Constants.WarriorRingIndex]
-                .Split('/')[0];
+            ModHelper.GameContent
+                .Load<Dictionary<int, string>>("Data/ObjectInformation")[Constants.WarriorRingIndex]
+                .SplitWithoutAllocation('/')[0]
+                .ToString();
         this._buffDescription = Game1.content.LoadString("Strings\\StringsFromCSFiles:Buff.cs.468");
     }
 

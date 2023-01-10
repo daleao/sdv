@@ -83,9 +83,9 @@ internal sealed class CrabPotCheckForActionPatcher : HarmonyPatcher
                 Game1.content.Load<Dictionary<int, string>>(PathUtilities.NormalizeAssetName("Data/Fish"));
             if (fishData.TryGetValue(item.ParentSheetIndex, out var specificFishData))
             {
-                var fields = specificFishData.Split('/');
-                var minFishSize = Convert.ToInt32(fields[3]);
-                var maxFishSize = Convert.ToInt32(fields[4]);
+                var fields = specificFishData.SplitWithoutAllocation('/');
+                var minFishSize = int.Parse(fields[3]);
+                var maxFishSize = int.Parse(fields[4]);
                 who.caughtFish(item.ParentSheetIndex, Game1.random.Next(minFishSize, maxFishSize + 1));
             }
 

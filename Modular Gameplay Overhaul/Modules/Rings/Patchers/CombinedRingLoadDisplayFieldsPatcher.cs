@@ -4,6 +4,7 @@
 
 using DaLion.Shared.Harmony;
 using HarmonyLib;
+using Shared.Extensions;
 using StardewValley.Objects;
 
 #endregion using directives
@@ -36,9 +37,9 @@ internal sealed class CombinedRingLoadDisplayFieldsPatcher : HarmonyPatcher
             return false; // don't run original logic
         }
 
-        var data = Game1.objectInformation[__instance.indexInTileSheet.Value].Split('/');
-        __instance.displayName = data[4];
-        __instance.description = data[5];
+        var data = Game1.objectInformation[__instance.indexInTileSheet.Value].SplitWithoutAllocation('/');
+        __instance.displayName = data[4].ToString();
+        __instance.description = data[5].ToString();
         __result = true;
         return false; // don't run original logic
     }

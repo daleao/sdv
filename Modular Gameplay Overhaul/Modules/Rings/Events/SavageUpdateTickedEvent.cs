@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using DaLion.Shared.Events;
 using Microsoft.Xna.Framework;
+using Shared.Extensions;
 using StardewModdingAPI.Events;
 
 #endregion using directives
@@ -24,8 +25,10 @@ internal sealed class SavageUpdateTickedEvent : UpdateTickedEvent
     {
         this._buffId = (Manifest.UniqueID + "Savage").GetHashCode();
         this._buffSource =
-            ModHelper.GameContent.Load<Dictionary<int, string>>("Data/ObjectInformation")[Constants.SavangeRingIndex]
-                .Split('/')[0];
+            ModHelper.GameContent
+                .Load<Dictionary<int, string>>("Data/ObjectInformation")[Constants.SavangeRingIndex]
+                .SplitWithoutAllocation('/')[0]
+                .ToString();
         this._buffDescription = Game1.content.LoadString("Strings\\StringsFromCSFiles:Buff.cs.472");
     }
 

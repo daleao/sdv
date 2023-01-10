@@ -3,10 +3,11 @@
 #region using directives
 
 using System.Collections.Generic;
-using System.Globalization;
 using DaLion.Overhaul.Modules.Professions.Extensions;
 using DaLion.Overhaul.Modules.Professions.VirtualProperties;
 using DaLion.Shared.Events;
+using DaLion.Shared.Extensions;
+using DaLion.Shared.Extensions.Memory;
 using DaLion.Shared.Extensions.Stardew;
 using Microsoft.Xna.Framework;
 using StardewModdingAPI.Events;
@@ -59,13 +60,13 @@ internal sealed class ScavengerWarpedEvent : WarpedEvent
             return;
         }
 
-        var rawData = locationData[location.Name].Split('/')[Utility.getSeasonNumber(location.GetSeasonForLocation())];
-        if (rawData.Equals("-1") || location.numberOfSpawnedObjectsOnMap >= 6)
+        var rawData = locationData[location.Name].SplitWithoutAllocation('/')[Utility.getSeasonNumber(location.GetSeasonForLocation())];
+        if (rawData == "-1" || location.numberOfSpawnedObjectsOnMap >= 6)
         {
             return;
         }
 
-        var split = rawData.Split(' ');
+        var split = new SpanSplitter(rawData, ' ');
         var numberToSpawn = r.Next(1, Math.Min(5, 7 - amount));
         for (var i = 0; i < numberToSpawn; i++)
         {
@@ -78,13 +79,13 @@ internal sealed class ScavengerWarpedEvent : WarpedEvent
                 var whichObject = r.Next(split.Length / 2) * 2;
                 if (@object != null || location.doesTileHaveProperty(x, y, "Spawnable", "Back") == null ||
                     location.doesEitherTileOrTileIndexPropertyEqual(x, y, "Spawnable", "Back", "F") ||
-                    r.NextDouble() > Convert.ToDouble(split[whichObject + 1], CultureInfo.InvariantCulture) ||
+                    r.NextDouble() > double.Parse(split[whichObject + 1]) ||
                     !location.isTileLocationTotallyClearAndPlaceable(x, y) || location.getTileIndexAt(x, y, "AlwaysFront") != -1 ||
                     location.getTileIndexAt(x, y, "Front") != -1 || location.isBehindBush(position) ||
                     (Game1.random.NextDouble() > 0.1 && location.isBehindTree(position)) || !location.dropObject(
                         new SObject(
                             position,
-                            Convert.ToInt32(split[whichObject]),
+                            int.Parse(split[whichObject]),
                             null,
                             canBeSetDown: false,
                             canBeGrabbed: true,

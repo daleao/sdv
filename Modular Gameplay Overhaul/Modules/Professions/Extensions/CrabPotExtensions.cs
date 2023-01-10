@@ -4,7 +4,9 @@
 
 using System.Collections.Generic;
 using System.Linq;
+using DaLion.Shared.Extensions;
 using DaLion.Shared.Extensions.Collections;
+using DaLion.Shared.Extensions.Memory;
 using DaLion.Shared.Extensions.Stardew;
 using Microsoft.Xna.Framework;
 using StardewValley.Locations;
@@ -115,8 +117,8 @@ internal static class CrabPotExtensions
         var counter = 0;
         foreach (var key in keys)
         {
-            var specificFishDataFields = fishData[Convert.ToInt32(key)].Split('/');
-            if (Collections.LegendaryFishNames.Contains(specificFishDataFields[0]))
+            var specificFishDataFields = fishData[Convert.ToInt32(key)].SplitWithoutAllocation('/');
+            if (Collections.LegendaryFishNames.Contains(specificFishDataFields[0].ToString()))
             {
                 continue;
             }
@@ -124,7 +126,6 @@ internal static class CrabPotExtensions
             var specificFishLocation = Convert.ToInt32(rawFishDataWithLocation[key]);
             if (!crabPot.HasMagicBait() &&
                 (!IsCorrectLocationAndTimeForThisFish(
-                     specificFishDataFields,
                      specificFishLocation,
                      crabPot.TileLocation,
                      location) ||
@@ -133,7 +134,7 @@ internal static class CrabPotExtensions
                 continue;
             }
 
-            if (r.NextDouble() > Convert.ToDouble(specificFishDataFields[10]))
+            if (r.NextDouble() > double.Parse(specificFishDataFields[10]))
             {
                 continue;
             }
@@ -172,7 +173,7 @@ internal static class CrabPotExtensions
             }
 
             var shouldCatchOceanFish = crabPot.ShouldCatchOceanFish(location);
-            var rawSplit = value.Split('/');
+            var rawSplit = value.SplitWithoutAllocation('/');
             if ((rawSplit[4] == "ocean" && !shouldCatchOceanFish) ||
                 (rawSplit[4] == "freshwater" && shouldCatchOceanFish))
             {
@@ -185,7 +186,7 @@ internal static class CrabPotExtensions
                 continue;
             }
 
-            if (r.NextDouble() < Convert.ToDouble(rawSplit[2]))
+            if (r.NextDouble() < double.Parse(rawSplit[2]))
             {
                 return key;
             }
@@ -318,7 +319,7 @@ internal static class CrabPotExtensions
 
     /// <summary>Converts raw fish data into a look-up for fishing locations by fish indices.</summary>
     /// <param name="rawFishData">String array of available fish indices and fishing locations.</param>
-    private static Dictionary<string, string> GetRawFishDataWithLocation(string[] rawFishData)
+    private static Dictionary<string, string> GetRawFishDataWithLocation(SpanSplitter rawFishData)
     {
         Dictionary<string, string> rawFishDataWithLocation = new();
         if (rawFishData.Length <= 1)
@@ -328,24 +329,22 @@ internal static class CrabPotExtensions
 
         for (var i = 0; i < rawFishData.Length; i += 2)
         {
-            rawFishDataWithLocation[rawFishData[i]] = rawFishData[i + 1];
+            rawFishDataWithLocation[rawFishData[i].ToString()] = rawFishData[i + 1].ToString();
         }
 
         return rawFishDataWithLocation;
     }
 
     /// <summary>Determines whether the current fishing location and game time match the specific fish data.</summary>
-    /// <param name="specificFishData">Raw game file data for this fish.</param>
     /// <param name="specificFishLocation">The fishing location index for this fish.</param>
     /// <param name="tileLocation">The crab pot tile location.</param>
     /// <param name="location">The game location of the crab pot.</param>
     /// <returns><see langword="true"/> if the <paramref name="location"/> matches the <paramref name="specificFishLocation"/>.</returns>
     /// <remarks>
     ///     The time portion is doesn't actually make sense for <see cref="CrabPot"/>s since they (theoretically) update only once during the
-    ///     night. Therefore <paramref name="specificFishData"/> is ignored.
+    ///     night.
     /// </remarks>
-    private static bool IsCorrectLocationAndTimeForThisFish(
-        string[] specificFishData, int specificFishLocation, Vector2 tileLocation, GameLocation location)
+    private static bool IsCorrectLocationAndTimeForThisFish(int specificFishLocation, Vector2 tileLocation, GameLocation location)
     {
         return specificFishLocation == -1 ||
                specificFishLocation ==
@@ -355,15 +354,16 @@ internal static class CrabPotExtensions
     /// <summary>Determines whether the current weather matches the specific fish data.</summary>
     /// <param name="specificFishData">Raw game file data for this fish.</param>
     /// <param name="location">The <see cref="GameLocation"/> of the <see cref="CrabPot"/> which would catch the fish.</param>
-    private static bool IsCorrectWeatherForThisFish(string[] specificFishData, GameLocation location)
+    private static bool IsCorrectWeatherForThisFish(SpanSplitter specificFishData, GameLocation location)
     {
-        if (specificFishData[7] == "both")
+        var weather = specificFishData[7].ToString();
+        if (weather == "both")
         {
             return true;
         }
 
-        return (specificFishData[7] == "rainy" && !Game1.IsRainingHere(location)) ||
-               (specificFishData[7] == "sunny" && Game1.IsRainingHere(location));
+        return (weather == "rainy" && !Game1.IsRainingHere(location)) ||
+               (weather == "sunny" && Game1.IsRainingHere(location));
     }
 
     #endregion private methods

@@ -208,6 +208,7 @@ The following mods are **not** compatible:
 - [Better Slingshots][mod:better-slingshots], [Ring Overhaul][mod:ring-overhaul], or any mod that affects Slingshot behavior.
 - [Quality Artisan Products][mod:qap] and [Quality Artisan Products for Artisan Valley][mod:qap-av], as they will be overriden by this mod's changes to the Artisan profession (use [Flower Meads][mod:flower-meads] instead for the namesake feature).
 - [All Professions][mod:all-professions] and [Skill Prestige][mod:prestige], as they conflict with this mod's Prestige system. You could potentially use them if you disable this mod's Prestige system, but I will not provide support in case of bugs.
+- [Yet Another Harvest With Scythe Mod][mod:yahwsm] will not apply modded profession perks. Use instead the feature included in CJB Cheats Menu.
 
 ## F.A.Q.
 
@@ -308,6 +309,7 @@ To consume the API, copy both interfaces from the [Shared.Integrations.ModularOv
 [mod:cjb-cheats]: <https://www.nexusmods.com/stardewvalley/mods/4> "CJB Cheats Menu"
 [mod:tap-giant-crops]: <https://www.nexusmods.com/stardewvalley/mods/13052> "Tap Giant Crops"
 [mod:skill-training]: <https://www.nexusmods.com/stardewvalley/mods/14452> "Skill Training"
+[mod:yahwsm]: <https://www.nexusmods.com/stardewvalley/mods/2731> "Yet Another Harvest With Scythe Mod"
 
 <!-- USER LINKS -->
 [user:enai]: <https://www.nexusmods.com/skyrimspecialedition/users/3959191> "Enai Siaion"

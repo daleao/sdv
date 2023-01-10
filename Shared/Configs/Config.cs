@@ -9,9 +9,4 @@ public abstract class Config
     {
         return true;
     }
-
-    //public override string ToString()
-    //{
-    //    return base.ToString();
-    //}
 }

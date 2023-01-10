@@ -4,6 +4,7 @@
 
 using DaLion.Overhaul.Modules.Professions.Events.GameLoop;
 using DaLion.Shared.Events;
+using DaLion.Shared.Extensions;
 using StardewModdingAPI.Events;
 
 #endregion using directives
@@ -29,8 +30,7 @@ internal sealed class HostRequestedModMessageReceivedEvent : ModMessageReceivedE
             return;
         }
 
-        var split = e.ReadAs<string>().Split('/');
-        var request = split[0];
+        var request = e.ReadAs<string>().SplitWithoutAllocation('/')[0].ToString();
         var who = Game1.getFarmer(e.FromPlayerID);
         if (who is null)
         {

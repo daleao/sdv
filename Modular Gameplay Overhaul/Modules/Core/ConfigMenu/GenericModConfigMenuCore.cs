@@ -4,6 +4,7 @@
 
 using System.Linq;
 using DaLion.Shared.Extensions;
+using DaLion.Shared.Extensions.SMAPI;
 using DaLion.Shared.Integrations.GenericModConfigMenu;
 
 #endregion using directives
@@ -269,6 +270,7 @@ internal sealed partial class GenericModConfigMenuCore : GenericModConfigMenuInt
     protected override void SaveAndApply()
     {
         ModHelper.WriteConfig(Config);
+        ModHelper.LogConfig(Config);
         if (!_reload)
         {
             return;

@@ -38,7 +38,7 @@ internal sealed class BullseyeRenderedEvent : RenderedEvent
             Color.White,
             0f,
             new Vector2(32f, 32f),
-            1f,
+            Game1.pixelZoom,
             SpriteEffects.None,
             0.999999f);
     }

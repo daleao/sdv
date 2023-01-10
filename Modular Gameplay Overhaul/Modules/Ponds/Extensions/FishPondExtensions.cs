@@ -138,15 +138,15 @@ internal static class FishPondExtensions
                     if (h.ParentSheetIndex == Constants.RoeIndex)
                     {
                         var fishIndex = pond.fishType.Value;
-                        var split = Game1.objectInformation[fishIndex].Split('/');
+                        var split = Game1.objectInformation[fishIndex].SplitWithoutAllocation('/');
                         var c = fishIndex == 698
                             ? new Color(61, 55, 42)
                             : TailoringMenu.GetDyeColor(pond.GetFishObject()) ?? Color.Orange;
                         var o = new ColoredObject(Constants.RoeIndex, h.Stack, c);
-                        o.name = split[0] + " Roe";
+                        o.name = split[0].ToString() + " Roe";
                         o.preserve.Value = SObject.PreserveType.Roe;
                         o.preservedParentSheetIndex.Value = fishIndex;
-                        o.Price += Convert.ToInt32(split[1]) / 2;
+                        o.Price += int.Parse(split[1]) / 2;
                         o.Quality = ((SObject)h).Quality;
                         inventory.Add(o);
                     }

@@ -107,21 +107,21 @@ internal static class MeleeWeaponExtensions
             return;
         }
 
-        var split = data[weapon.InitialParentTileIndex].Split('/');
-        weapon.BaseName = split[0];
-        weapon.knockback.Value = (float)Convert.ToDouble(split[4], CultureInfo.InvariantCulture);
-        weapon.speed.Value = Convert.ToInt32(split[5]);
-        weapon.addedPrecision.Value = Convert.ToInt32(split[6]);
-        weapon.addedDefense.Value = Convert.ToInt32(split[7]);
-        weapon.type.Set(Convert.ToInt32(split[8]));
-        weapon.addedAreaOfEffect.Value = Convert.ToInt32(split[11]);
-        weapon.critChance.Value = (float)Convert.ToDouble(split[12], CultureInfo.InvariantCulture);
-        weapon.critMultiplier.Value = (float)Convert.ToDouble(split[13], CultureInfo.InvariantCulture);
+        var split = data[weapon.InitialParentTileIndex].SplitWithoutAllocation('/');
+        weapon.BaseName = split[0].ToString();
+        weapon.knockback.Value = float.Parse(split[4]);
+        weapon.speed.Value = int.Parse(split[5]);
+        weapon.addedPrecision.Value = int.Parse(split[6]);
+        weapon.addedDefense.Value = int.Parse(split[7]);
+        weapon.type.Set(int.Parse(split[8]));
+        weapon.addedAreaOfEffect.Value = int.Parse(split[11]);
+        weapon.critChance.Value = float.Parse(split[12]);
+        weapon.critMultiplier.Value = float.Parse(split[13]);
 
         if (weapon.isScythe())
         {
-            weapon.minDamage.Value = Convert.ToInt32(split[2]);
-            weapon.maxDamage.Value = Convert.ToInt32(split[3]);
+            weapon.minDamage.Value = int.Parse(split[2]);
+            weapon.maxDamage.Value = int.Parse(split[3]);
             weapon.type.Set(3);
             MeleeWeapon_Stats.Invalidate(weapon);
             return;
@@ -129,8 +129,8 @@ internal static class MeleeWeaponExtensions
 
         if (option == RefreshOption.FromData)
         {
-            weapon.minDamage.Value = Convert.ToInt32(split[2]);
-            weapon.maxDamage.Value = Convert.ToInt32(split[3]);
+            weapon.minDamage.Value = int.Parse(split[2]);
+            weapon.maxDamage.Value = int.Parse(split[3]);
             MeleeWeapon_Stats.Invalidate(weapon);
             weapon.Write(DataFields.BaseMinDamage, weapon.minDamage.Value.ToString());
             weapon.Write(DataFields.BaseMaxDamage, weapon.maxDamage.Value.ToString());
@@ -163,8 +163,8 @@ internal static class MeleeWeaponExtensions
         }
         else
         {
-            weapon.minDamage.Value = Convert.ToInt32(split[2]);
-            weapon.maxDamage.Value = Convert.ToInt32(split[3]);
+            weapon.minDamage.Value = int.Parse(split[2]);
+            weapon.maxDamage.Value = int.Parse(split[3]);
         }
 
         weapon.Write(DataFields.BaseMinDamage, weapon.minDamage.Value.ToString());
