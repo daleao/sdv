@@ -5,6 +5,7 @@ namespace DaLion.Overhaul.Modules.Arsenal.VirtualProperties;
 
 using System.Runtime.CompilerServices;
 using DaLion.Overhaul.Modules.Arsenal.Enchantments;
+using DaLion.Overhaul.Modules.Arsenal.Extensions;
 using DaLion.Overhaul.Modules.Rings.VirtualProperties;
 using StardewValley;
 using StardewValley.Tools;
@@ -96,6 +97,48 @@ internal static class Slingshot_Stats
     internal static float Get_RelativeResilience(this Slingshot slingshot)
     {
         return Values.GetValue(slingshot, Create).Resilience * 0.1f;
+    }
+
+    internal static int CountNonZeroStats(this Slingshot slingshot)
+    {
+        var count = 0;
+
+        if (Values.GetValue(slingshot, Create).Damage > 0 || slingshot.InitialParentTileIndex != Constants.BasicSlingshotIndex)
+        {
+            count++;
+        }
+
+        if (Values.GetValue(slingshot, Create).Knockback > 0 || slingshot.InitialParentTileIndex != Constants.BasicSlingshotIndex)
+        {
+            count++;
+        }
+
+        if (Values.GetValue(slingshot, Create).CritChance > 0)
+        {
+            count++;
+        }
+
+        if (Values.GetValue(slingshot, Create).CritPower > 0)
+        {
+            count++;
+        }
+
+        if (Values.GetValue(slingshot, Create).FireSpeed > 0)
+        {
+            count++;
+        }
+
+        if (Values.GetValue(slingshot, Create).CooldownReduction > 0)
+        {
+            count++;
+        }
+
+        if (Values.GetValue(slingshot, Create).Resilience > 0)
+        {
+            count++;
+        }
+
+        return count;
     }
 
     internal static void Invalidate(this Slingshot slingshot)

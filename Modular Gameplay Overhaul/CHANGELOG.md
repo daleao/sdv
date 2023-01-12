@@ -1,8 +1,9 @@
 # Modular Overhaul Change Logs
 
-## Revision 1.0.4 Highlights
+## Minor release 1.1.x Highlights
 
-* Added SwipeHold config to Arsenal. You can now perform combos by just holding the tool key.
+* Nerfs for Agriculturist and Artisan.
+* Added hold-to-attack option for melee weapons so you no longer have to spam click (but still should, to take advantage of attack drifting).
 
 ## Major Release 1.x.x Highlights
 

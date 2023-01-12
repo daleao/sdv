@@ -1,5 +1,17 @@
 ﻿# Modular Overhaul Core Change Log
 
+## 1.1.0
+
+### Changed
+
+* Now using `ReadOnySpan` to split strings.
+
+### Fixed
+
+* Now handles empty arguments in console commands.
+* Players now hold their own mod data, rather than concentrating all data on the main player. This fixes some syncronization issues in splitscreen.
+* Added parameterless constructors to mod projectiles, which apparently is required by the game for multiplayer syncronization. 
+
 ## 1.0.4
 
 * Default DebugKey changed to RightShift / RightShoulder.

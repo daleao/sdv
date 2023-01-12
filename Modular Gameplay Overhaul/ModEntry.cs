@@ -73,7 +73,7 @@ public sealed class ModEntry : Mod
         Log.Init(this.Monitor);
 
         // initialize data
-        ModDataIO.Init(helper.Multiplayer, this.ModManifest.UniqueID);
+        ModDataIO.Init(this.ModManifest.UniqueID);
 
         // get configs
         Config = helper.ReadConfig<ModConfig>();

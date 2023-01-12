@@ -23,22 +23,21 @@ internal sealed class BullseyeRenderedEvent : RenderedEvent
     /// <inheritdoc />
     protected override void OnRenderedImpl(object? sender, RenderedEventArgs e)
     {
-        if (Game1.player.CurrentTool is not Slingshot slingshot)
+        if (Game1.player.CurrentTool is not Slingshot)
         {
             this.Disable();
             return;
         }
 
-        var mouseX = slingshot.aimPos.X;
-        var mouseY = slingshot.aimPos.Y;
+        var cursorPosition = new Vector2(Game1.getMouseX(), Game1.getMouseY());
         e.SpriteBatch.Draw(
             Game1.mouseCursors,
-            Game1.GlobalToLocal(Game1.viewport, new Vector2(mouseX, mouseY)),
+            cursorPosition,
             Game1.getSourceRectForStandardTileSheet(Game1.mouseCursors, 43),
             Color.White,
             0f,
             new Vector2(32f, 32f),
-            Game1.pixelZoom,
+            1f,
             SpriteEffects.None,
             0.999999f);
     }

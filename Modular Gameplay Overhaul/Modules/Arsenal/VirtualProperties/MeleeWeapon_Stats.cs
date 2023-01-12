@@ -10,8 +10,8 @@ using DaLion.Overhaul.Modules.Arsenal.Enchantments;
 using DaLion.Overhaul.Modules.Arsenal.Extensions;
 using DaLion.Overhaul.Modules.Rings.VirtualProperties;
 using DaLion.Shared.Exceptions;
+using DaLion.Shared.Extensions;
 using DaLion.Shared.Extensions.Stardew;
-using Shared.Extensions;
 using StardewValley.Tools;
 
 #endregion using directives

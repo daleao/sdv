@@ -14,7 +14,7 @@
   "agriculturist.desc.prestiged": "作物生长速率增加10%>>20%。",
   "artisan.title.male": "工匠",
   "artisan.title.female": "工匠",
-  "artisan.desc": "所有处理工匠物品的设备的工作速度提高10%。工匠物品的设备输出的品质等于或优于投入的工匠物品的品质。",
+  "artisan.desc": "所有处理工匠物品的设备的工作速度提高10%。工匠生产输出的质量与输入项目的质量相似。",
   "artisan.desc.prestiged": "所有处理工匠物品的设备的工作速度提高10%>>25%。",
 
   "rancher.title.male": "牧场主",

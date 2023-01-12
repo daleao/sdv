@@ -4,10 +4,10 @@
 
 using System.Collections.Generic;
 using DaLion.Overhaul.Modules.Arsenal.Extensions;
+using DaLion.Shared.Extensions;
 using DaLion.Shared.Extensions.Stardew;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
-using Shared.Extensions;
 using StardewValley.Tools;
 
 #endregion using directives

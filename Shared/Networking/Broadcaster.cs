@@ -116,11 +116,11 @@ public sealed class Broadcaster
     /// <param name="messageType">The message type.</param>
     /// <param name="playerId">The unique ID of the recipient player.</param>
     /// <returns>A <see cref="Task"/> that should resolve to the peer's response.</returns>
-    public async Task<string> RequestAsync(string message, string messageType, long playerId)
+    public Task<string> RequestAsync(string message, string messageType, long playerId)
     {
         this._helper.SendMessage(message, messageType, new[] { this._modId }, new[] { playerId });
-
+        Log.D($"{messageType}:{message} request was sent to {playerId}.");
         this.ResponseReceived = new TaskCompletionSource<string>();
-        return await this.ResponseReceived.Task;
+        return this.ResponseReceived.Task;
     }
 }

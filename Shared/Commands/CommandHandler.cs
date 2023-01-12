@@ -109,7 +109,7 @@ internal sealed class CommandHandler
     /// <param name="args">The supplied arguments.</param>
     internal void Entry(string command, string[] args)
     {
-        if (args.Length == 0)
+        if (args.Length == 0 || string.IsNullOrEmpty(args[0]))
         {
             Log.I(
                 $"This is the entry point for all {this.Mod} console commands. Use it by specifying a command to be executed. " +

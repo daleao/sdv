@@ -5,6 +5,7 @@ namespace DaLion.Overhaul.Modules.Professions.Extensions;
 
 using System.Collections.Generic;
 using System.Linq;
+using DaLion.Overhaul.Modules.Professions.Events.Player;
 using DaLion.Overhaul.Modules.Professions.Ultimates;
 using DaLion.Overhaul.Modules.Professions.VirtualProperties;
 using DaLion.Shared.Extensions;
@@ -162,28 +163,37 @@ internal static class FarmerExtensions
     /// <param name="farmer">The <see cref="Farmer"/>.</param>
     internal static void RevalidateUltimate(this Farmer farmer)
     {
-        var ultimateIndex = farmer.Read(DataFields.UltimateIndex, -1);
-        switch (ultimateIndex)
+        var currentIndex = farmer.Read(DataFields.UltimateIndex, -1);
+        var newIndex = currentIndex;
+        switch (currentIndex)
         {
             case < 0 when farmer.professions.Any(p => p is >= 26 and < 30):
+            {
                 Log.W(
                     $"{farmer.Name} is eligible for Ultimate but is not currently registered to any. The registered Ultimate will be set to a default value.");
-                ultimateIndex = farmer.professions.First(p => p is >= 26 and < 30);
+                newIndex = farmer.professions.First(p => p is >= 26 and < 30);
                 break;
-            case >= 0 when !farmer.professions.Contains(ultimateIndex):
+            }
+
+            case >= 0 when !farmer.professions.Contains(currentIndex):
             {
-                Log.W($"{farmer.Name} is registered to Ultimate index {ultimateIndex} but is missing the corresponding profession. The registered Ultimate will be reset.");
-                ultimateIndex = farmer.professions.Any(p => p is >= 26 and < 30)
+                Log.W($"{farmer.Name} is registered to Ultimate index {currentIndex} but is missing the corresponding profession. The registered Ultimate will be reset.");
+                newIndex = farmer.professions.Any(p => p is >= 26 and < 30)
                     ? farmer.professions.First(p => p is >= 26 and < 30)
                     : -1;
-
                 break;
             }
         }
 
-        if (ultimateIndex > 0)
+        if (newIndex != currentIndex)
         {
-            farmer.Set_Ultimate(Ultimate.FromValue(ultimateIndex));
+            farmer.Write(DataFields.UltimateIndex, newIndex.ToString());
+            currentIndex = newIndex;
+        }
+
+        if (currentIndex > 0)
+        {
+            EventManager.Enable<UltimateWarpedEvent>();
         }
     }
 

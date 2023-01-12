@@ -32,7 +32,8 @@ internal sealed class SwordCurseCommand : ConsoleCommand
         var player = Game1.player;
         if (player.CurrentTool is not MeleeWeapon { InitialParentTileIndex: Constants.DarkSwordIndex })
         {
-            player.CurrentTool = new MeleeWeapon(Constants.DarkSwordIndex);
+            Log.W("You must hold the cursed blade to use this command.");
+            return;
         }
 
         if (args.Length == 0 || !int.TryParse(args[0], out var points))

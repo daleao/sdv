@@ -17,8 +17,7 @@ public static class MemoryExtensions
 }
 
 /// <summary>Used for enumerating and accessing slices of <see cref="ReadOnlySpan{T}"/>.</summary>
-[SuppressMessage("StyleCop.CSharp.OrderingRules", "SA1201:Elements should appear in the correct order",
-    Justification = "Preference for struct required by extension class.")]
+[SuppressMessage("StyleCop.CSharp.OrderingRules", "SA1201:Elements should appear in the correct order", Justification = "Preference for struct required by extension class.")]
 public ref struct SpanSplitter
 {
     private readonly char _splitter;
@@ -32,14 +31,13 @@ public ref struct SpanSplitter
         this._span = span;
         this._splitter = splitter;
         this.Current = default;
-
-        var index = span.IndexOf(splitter);
         if (span.Length == 0)
         {
             return;
         }
 
         this.Length++;
+        var index = span.IndexOf(splitter);
         if (index < 0)
         {
             return;
@@ -65,18 +63,51 @@ public ref struct SpanSplitter
     {
         get
         {
-            var span = this._span;
-            while (span.Length > 0 && index-- >= 0)
+            if (index >= this._span.Length)
             {
-                if (index == 0)
-                {
-                    return span[..span.IndexOf(this._splitter)];
-                }
-
-                span = span[(span.IndexOf(this._splitter) + 1)..];
+                return ThrowHelper.ThrowArgumentOutOfRangeException<string>();
             }
 
-            return ThrowHelper.ThrowArgumentOutOfRangeException<string>();
+            if (index == 0)
+            {
+                return this._span[..this._span.IndexOf(this._splitter)];
+            }
+
+            if (index == this.Length - 1)
+            {
+                return this._span[(this._span.LastIndexOf(this._splitter) + 1)..];
+            }
+
+            var mid = this.Length / 2;
+            var span = this._span;
+            if (index <= mid)
+            {
+                span = span[(span.IndexOf(this._splitter) + 1)..];
+                for (var i = 1; i <= index; i++)
+                {
+                    if (i == index)
+                    {
+                        return span[..span.IndexOf(this._splitter)];
+                    }
+
+                    span = span[(span.IndexOf(this._splitter) + 1)..];
+                }
+            }
+            else
+            {
+                span = span[..span.LastIndexOf(this._splitter)];
+                for (var i = this.Length - 2; i >= index; i--)
+                {
+                    if (i == index)
+                    {
+                        return span[(span.LastIndexOf(this._splitter) + 1)..];
+                    }
+
+                    span = span[..span.LastIndexOf(this._splitter)];
+                }
+            }
+
+            return string.Empty;
         }
     }
 

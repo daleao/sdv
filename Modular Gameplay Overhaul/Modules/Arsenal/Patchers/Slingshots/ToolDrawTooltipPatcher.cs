@@ -37,7 +37,7 @@ internal sealed class ToolDrawTooltipPatcher : HarmonyPatcher
         float alpha,
         StringBuilder? overrideText)
     {
-        if (__instance is not Slingshot slingshot || slingshot.enchantments.Count == 0)
+        if (__instance is not Slingshot slingshot)
         {
             return true; // run original logic
         }

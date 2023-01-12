@@ -14,7 +14,7 @@
   "agriculturist.desc.prestiged": "Crops grow 10% >> 20% faster.",
   "artisan.title.male": "Artisan",
   "artisan.title.female": "Artisan",
-  "artisan.desc": "All artisan machines work 10% faster. Machine output quality is equal to or better than input ingredient quality.",
+  "artisan.desc": "All artisan machines work 10% faster. Machine output quality is can be as good as input ingredient quality.",
   "artisan.desc.prestiged": "All artisan machines work 10% >> 25% faster.",
 
   "rancher.title.male": "Rancher",

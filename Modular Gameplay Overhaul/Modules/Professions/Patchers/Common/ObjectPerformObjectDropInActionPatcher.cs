@@ -51,15 +51,25 @@ internal sealed class ObjectPerformObjectDropInActionPatcher : HarmonyPatcher
 
         var user = who;
         var owner = ProfessionsModule.Config.LaxOwnershipRequirements ? Game1.player : __instance.GetOwner();
+        var r = new Random(Guid.NewGuid().GetHashCode());
 
         // artisan users can preserve the input quality
         if (user.HasProfession(Profession.Artisan))
         {
             // golden mayonnaise is always iridium quality
-            held.Quality = __instance.ParentSheetIndex == (int)Machine.MayonnaiseMachine && dropIn.ParentSheetIndex == Constants.GoldenEggIndex &&
+            held.Quality = __instance.ParentSheetIndex == (int)Machine.MayonnaiseMachine &&
+                           dropIn.ParentSheetIndex == Constants.GoldenEggIndex &&
                            !ModHelper.ModRegistry.IsLoaded("ughitsmegan.goldenmayoForProducerFrameworkMod")
                 ? SObject.bestQuality
                 : dropIn.Quality;
+            if (r.NextDouble() > who.FarmingLevel / 30d)
+            {
+                held.Quality = (int)((Quality)held.Quality).Decrement();
+                if (r.NextDouble() > who.FarmingLevel / 15d)
+                {
+                    held.Quality = (int)((Quality)held.Quality).Decrement();
+                }
+            }
         }
 
         // artisan-owned machines work faster and may upgrade quality

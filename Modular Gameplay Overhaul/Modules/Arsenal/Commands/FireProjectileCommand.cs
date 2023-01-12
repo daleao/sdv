@@ -30,11 +30,7 @@ internal sealed class FireProjectileCommand : ConsoleCommand
     /// <inheritdoc />
     public override void Callback(string[] args)
     {
-        if (args.Length > 2)
-        {
-            Log.W("Additional arguments beyond the second will be ignored.");
-        }
-        else if (args.Length == 0)
+        if (args.Length == 0 || string.IsNullOrEmpty(args[0]))
         {
             Log.W("You must specify a projectile sheet index.");
             return;
@@ -45,6 +41,11 @@ internal sealed class FireProjectileCommand : ConsoleCommand
             Log.W(
                 "Specified index either could not be parsed or was outside the tilesheet range. Please enter a valid integer index between 0 and 15.");
             return;
+        }
+
+        if (args.Length > 2)
+        {
+            Log.W("Additional arguments beyond the second will be ignored.");
         }
 
         var tail = 0;

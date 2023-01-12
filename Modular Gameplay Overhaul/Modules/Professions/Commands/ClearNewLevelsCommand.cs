@@ -28,7 +28,7 @@ internal sealed class ClearNewLevelsCommand : ConsoleCommand
     /// <inheritdoc />
     public override void Callback(string[] args)
     {
-        if (args.Length == 0)
+        if (args.Length == 0 || string.IsNullOrEmpty(args[0]))
         {
             Game1.player.newLevels.Clear();
         }

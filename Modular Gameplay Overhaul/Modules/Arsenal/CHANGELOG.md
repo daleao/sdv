@@ -1,5 +1,12 @@
 ﻿# Arsenal Change Log
 
+## 1.1.0
+
+### Fixed
+
+* Fixed out-of-bounds tooltip elements for slingshots higher than basic.
+* Fixed bullseye position while aiming.
+
 ## 1.0.4
 
 ### Added

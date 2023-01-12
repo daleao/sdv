@@ -14,7 +14,7 @@
   "agriculturist.desc.prestiged": "Les cultures poussent 10 % >> 20 % plus vite.",
   "artisan.title.male": "Artisan",
   "artisan.title.female": "Artisane",
-  "artisan.desc": "Toutes les machines artisanales fonctionnent 10 % plus vite. La qualité de sorite des machines est égale ou supérieure que la qualité de l’ingrédient d’entrée.",
+  "artisan.desc": "Toutes les machines artisanales fonctionnent 10 % plus vite. La qualité de sortie des machines peut être aussi bonne que la qualité de l’ingrédient d’entrée.",
   "artisan.desc.prestiged": "Toutes les machines artisanales fonctionnent 10 % >> 25 % plus vite.",
 
   "rancher.title.male": "Cowboy",

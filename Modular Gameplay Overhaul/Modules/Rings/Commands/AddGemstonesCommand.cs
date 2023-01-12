@@ -36,7 +36,7 @@ internal sealed class AddGemstonesCommand : ConsoleCommand
             return;
         }
 
-        if (args.Length == 0)
+        if (args.Length == 0 || string.IsNullOrEmpty(args[0]))
         {
             Log.W("No gemstones were specified.");
             return;

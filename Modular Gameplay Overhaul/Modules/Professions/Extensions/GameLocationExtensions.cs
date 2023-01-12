@@ -5,8 +5,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using DaLion.Shared.Extensions;
+using DaLion.Shared.Extensions.Memory;
 using Microsoft.Xna.Framework;
-using Shared.Extensions.Memory;
 using StardewModdingAPI.Utilities;
 using StardewValley.Locations;
 using StardewValley.TerrainFeatures;

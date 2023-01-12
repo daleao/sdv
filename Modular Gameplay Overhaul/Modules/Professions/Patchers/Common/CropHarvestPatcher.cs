@@ -105,37 +105,43 @@ internal sealed class CropHarvestPatcher : HarmonyPatcher
             return null;
         }
 
-        // From: if (fertilizerQualityLevel >= 3 && random2.NextDouble() < chanceForGoldQuality / 2.0)
-        // To: if (Game1.player.professions.Contains(<agriculturist_id>) || fertilizerQualityLevel >= 3) && random2.NextDouble() < chanceForGoldQuality / 2.0)
-        var random2 = helper.Locals[9];
-        try
-        {
-            var fertilizerQualityLevel = helper.Locals[8];
-            var isAgriculturist = generator.DefineLabel();
-            helper
-                .Match(
-                    new[]
-                    {
-                        // find index of Crop.fertilizerQualityLevel >= 3
-                        new CodeInstruction(OpCodes.Ldloc_S, fertilizerQualityLevel),
-                        new CodeInstruction(OpCodes.Ldc_I4_3),
-                        new CodeInstruction(OpCodes.Blt_S),
-                    })
-                .InsertProfessionCheck(Profession.Agriculturist.Value)
-                .Insert(new[] { new CodeInstruction(OpCodes.Brtrue_S, isAgriculturist) })
-                .Match(
-                    new[]
-                    {
-                        // find start of dice roll
-                        new CodeInstruction(OpCodes.Ldloc_S, random2),
-                    })
-                .AddLabels(isAgriculturist); // branch here if player is agriculturist
-        }
-        catch (Exception ex)
-        {
-            Log.E($"Failed adding modded Agriculturist crop harvest quality.\nHelper returned {ex}");
-            return null;
-        }
+        //// Injected: or (Game1.player.professions.Contains(<agriculturist_id>) && random2.NextDouble() < chanceForGoldQuality / 3.0)
+        //// After: if (fertilizerQualityLevel >= 3 && random2.NextDouble() < chanceForGoldQuality / 2.0)
+        //try
+        //{
+        //    var setIridiumQuality = generator.DefineLabel();
+        //    helper
+        //        .Match(
+        //            new[]
+        //            {
+        //                // find index of Crop.fertilizerQualityLevel >= 3
+        //                new CodeInstruction(OpCodes.Ldloc_S, helper.Locals[8]),
+        //                new CodeInstruction(OpCodes.Ldc_I4_3),
+        //                new CodeInstruction(OpCodes.Blt_S),
+        //            })
+        //        .Match(
+        //            new[] { new CodeInstruction(OpCodes.Bge_Un_S), })
+        //        .GetLabels(out var checkForGoldQuality)
+        //        .ReplaceWith(new CodeInstruction(OpCodes.Blt_S, setIridiumQuality))
+        //        .Move()
+        //        .AddLabels(setIridiumQuality)
+        //        .InsertProfessionCheck(Profession.Agriculturist.Value)
+        //        .Insert(new[]
+        //        {
+        //            new CodeInstruction(OpCodes.Brfalse_S, checkForGoldQuality),
+        //            new CodeInstruction(OpCodes.Ldloc_S, helper.Locals[9]),
+        //            new CodeInstruction(OpCodes.Callvirt, typeof(Random).RequireMethod(nameof(Random.NextDouble))),
+        //            new CodeInstruction(OpCodes.Ldloc_S, helper.Locals[10]),
+        //            new CodeInstruction(OpCodes.Ldc_R8, 3d),
+        //            new CodeInstruction(OpCodes.Div),
+        //            new CodeInstruction(OpCodes.Bge_Un_S, checkForGoldQuality),
+        //        });
+        //}
+        //catch (Exception ex)
+        //{
+        //    Log.E($"Failed adding modded Agriculturist crop harvest quality.\nHelper returned {ex}");
+        //    return null;
+        //}
 
         // Injected: if (ShouldIncreaseHarvestYield(junimoHarvester, random2) numToHarvest++;
         // After: numToHarvest++;
@@ -166,7 +172,7 @@ internal sealed class CropHarvestPatcher : HarmonyPatcher
                     new[]
                     {
                         new CodeInstruction(OpCodes.Ldarg_S, (byte)4), // arg 4 = JunimoHarvester junimoHarvester
-                        new CodeInstruction(OpCodes.Ldloc_S, random2),
+                        new CodeInstruction(OpCodes.Ldloc_S, helper.Locals[9]),
                         new CodeInstruction(
                             OpCodes.Call,
                             typeof(CropHarvestPatcher).RequireMethod(nameof(ShouldIncreaseHarvestYield))),

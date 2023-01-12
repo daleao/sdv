@@ -43,7 +43,7 @@ public class LavaEnchantment : BaseWeaponEnchantment
         var sprites = new TemporaryAnimatedSprite(
             362,
             Game1.random.Next(50, 120),
-            2,
+            6,
             1,
             new Vector2(monsterBox.Center.X - 32, monsterBox.Center.Y - 32),
             flicker: false,

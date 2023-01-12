@@ -29,7 +29,7 @@ internal sealed class AddEnchantmentsCommand : ConsoleCommand
     [SuppressMessage("StyleCop.CSharp.SpacingRules", "SA1012:Opening braces should be spaced correctly", Justification = "Paradoxical.")]
     public override void Callback(string[] args)
     {
-        if (args.Length == 0)
+        if (args.Length == 0 || string.IsNullOrEmpty(args[0]))
         {
             Log.W("No enchantment was specified.");
             return;

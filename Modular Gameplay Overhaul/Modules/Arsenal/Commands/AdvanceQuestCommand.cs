@@ -28,7 +28,7 @@ internal sealed class AdvanceQuestCommand : ConsoleCommand
     public override void Callback(string[] args)
     {
         var player = Game1.player;
-        if (args.Length == 0)
+        if (args.Length == 0 || string.IsNullOrEmpty(args[0]))
         {
             Log.W("You must specify a quest-line to advance (either \"Forge\" or \"Ruin\".");
             return;

@@ -17,6 +17,13 @@ internal sealed class QuincyProjectile : BasicProjectile
     public const int TileSheetIndex = 14;
 
     /// <summary>Initializes a new instance of the <see cref="QuincyProjectile"/> class.</summary>
+    /// <remarks>Required for multiplayer syncing.</remarks>
+    public QuincyProjectile()
+        : base()
+    {
+    }
+
+    /// <summary>Initializes a new instance of the <see cref="QuincyProjectile"/> class.</summary>
     /// <param name="source">The <see cref="Slingshot"/> which fired this projectile.</param>
     /// <param name="firer">The <see cref="Farmer"/> who fired this projectile.</param>
     /// <param name="damage">The un-mitigated damage this projectile will cause.</param>
@@ -61,7 +68,7 @@ internal sealed class QuincyProjectile : BasicProjectile
         }
     }
 
-    public Farmer Firer { get; }
+    public Farmer? Firer { get; }
 
     public int Damage { get; }
 

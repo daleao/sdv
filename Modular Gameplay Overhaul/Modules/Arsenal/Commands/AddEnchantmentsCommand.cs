@@ -31,7 +31,7 @@ internal sealed class AddEnchantmentsCommand : ConsoleCommand
     /// <inheritdoc />
     public override void Callback(string[] args)
     {
-        if (args.Length == 0)
+        if (args.Length == 0 || string.IsNullOrEmpty(args[0]))
         {
             Log.W("No enchantment was specified.");
             return;

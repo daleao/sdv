@@ -2,6 +2,7 @@
 
 #region using directives
 
+using System.Linq;
 using System.Linq.Expressions;
 using DaLion.Shared.Extensions;
 
@@ -149,5 +150,13 @@ public static class ModDataDictionaryExtensions
         data[key] = add(num, amount).ToString();
 
         return data;
+    }
+
+    /// <summary>Gets a <see cref="string"/> representation of the <see cref="ModDataDictionary"/>.</summary>
+    /// <param name="data">The <see cref="ModDataDictionary"/>.</param>
+    /// <returns>A <see cref="string"/> representation of the <see cref="ModDataDictionary"/>.</returns>
+    public static string ToDebugString(this ModDataDictionary data)
+    {
+        return "\n\t-" + string.Join("\n\t-", data.Pairs.Select(p => p.Key + " = " + p.Value).ToArray());
     }
 }

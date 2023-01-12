@@ -14,7 +14,7 @@
   "agriculturist.desc.prestiged": "모든 작물이 10% >> 20% 더 빨리 자랍니다.",
   "artisan.title.male": "장인",
   "artisan.title.female": "장인",
-  "artisan.desc": "모든 장인 설비가 10% 더 빠르게 동작합니다. 투입한 재료의 품질 이상의 생산품을 제작합니다.",
+  "artisan.desc": "모든 장인 설비가 10% 더 빠르게 동작합니다. 투입된 자재의 품질만큼 좋은 제품을 생산합니다.",
   "artisan.desc.prestiged": "모든 장인 설비가 10% >> 25% 더 빠르게 동작합니다.",
 
   "rancher.title.male": "목축업자",

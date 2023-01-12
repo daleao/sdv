@@ -14,7 +14,7 @@
   "agriculturist.desc.prestiged": "Las plantas maduran un 10% >> 20% mas rápido.",
   "artisan.title.male": "Artesano",
   "artisan.title.female": "Artesana",
-  "artisan.desc": "Todas las máquinas artesanales foncionan un 10% más rápido. La calidad del produto final es mejor o igual que la calidad de la materia prima.",
+  "artisan.desc": "Todas las máquinas artesanales foncionan un 10% más rápido. La calidad del produto final puede ser tan buena cuanto la calidad de la materia prima.",
   "artisan.desc.prestiged": "Todas las máquinas artesanales foncionan un 10% >> 25% más rápido.",
 
   "rancher.title.male": "Ranchero",

@@ -1,5 +1,12 @@
 # Professions Module Change Log
 
+## 1.1.0
+
+## Changed
+
+* **Agriculturist:** The chance for Iridium Quality crops has been reduced to half of the chance with Deluxe Fertilizer.
+* **Artisan:** Effect changed from "output quality **is at least as good** as input quality" to "output quality **can be as good** as input quality". I.e., instead of simply preserving the quality of the input, there is now a formula in place to choose a quality that is lower than or equal to that of the input. The 5% promotion chance still applies.
+
 ## 1.0.2
 
 ### Added

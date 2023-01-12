@@ -31,7 +31,7 @@ internal sealed class RemoveProfessionsCommand : ConsoleCommand
     /// <inheritdoc />
     public override void Callback(string[] args)
     {
-        if (args.Length == 0)
+        if (args.Length == 0 || string.IsNullOrEmpty(args[0]))
         {
             Log.W("You must specify at least one profession." + this.GetUsage());
             return;

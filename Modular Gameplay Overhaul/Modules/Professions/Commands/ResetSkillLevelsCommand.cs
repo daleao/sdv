@@ -28,7 +28,7 @@ internal sealed class ResetSkillLevelsCommand : ConsoleCommand
     /// <inheritdoc />
     public override void Callback(string[] args)
     {
-        if (args.Length == 0)
+        if (args.Length == 0 || string.IsNullOrEmpty(args[0]))
         {
             Skill.List.ForEach(s => s.Reset());
             SCSkill.Loaded.ForEach(s => s.Value.Reset());

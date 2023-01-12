@@ -26,8 +26,6 @@ internal static class RevenueService
         { 0.37f, int.MaxValue },
     };
 
-    internal static HashSet<WeakReference<Chest>> MiniShippingBins = new();
-
     /// <summary>Calculates due income tax for the <paramref name="who"/>.</summary>
     /// <param name="who">The <see cref="Farmer"/>.</param>
     /// <returns>The amount of income tax due in gold.</returns>

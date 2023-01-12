@@ -8,7 +8,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
-using Memory;
+using DaLion.Shared.Extensions.Memory;
 
 #endregion using directives
 

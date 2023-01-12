@@ -91,7 +91,7 @@ internal sealed class FishingRodPatcherCatchItemPatcher : HarmonyPatcher
 
     #region handlers
 
-    private static void PullAlgae(FishPond pond, Action<object, Item> setFishItem, Action<object,int> setFishQuality, object fishCatch)
+    private static void PullAlgae(FishPond pond, Action<object, Item> setFishItem, Action<object, int> setFishQuality, object fishCatch)
     {
         setFishQuality(fishCatch, SObject.lowQuality);
         try

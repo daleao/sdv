@@ -28,7 +28,7 @@ internal sealed class SetModDataCommand : ConsoleCommand
     /// <inheritdoc />
     public override void Callback(string[] args)
     {
-        if (args.Length == 0)
+        if (args.Length == 0 || string.IsNullOrEmpty(args[0]))
         {
             Log.W("You must specify a data field and value." + this.GetUsage());
             return;

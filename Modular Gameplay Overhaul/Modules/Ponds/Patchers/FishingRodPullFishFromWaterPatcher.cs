@@ -128,7 +128,8 @@ internal sealed class FishingRodPullFishFromWaterPatcher : HarmonyPatcher
     {
         try
         {
-            var fishQualities = pond.Read(DataFields.FishQualities,
+            var fishQualities = pond.Read(
+                DataFields.FishQualities,
                 $"{pond.FishCount - pond.Read<int>(DataFields.FamilyLivingHere)},0,0,0").ParseList<int>();
             if (fishQualities.Count != 4 ||
                 fishQualities.Any(q =>

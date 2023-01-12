@@ -67,24 +67,4 @@ public class InfinityEnchantment : BaseWeaponEnchantment
             velocity.Y,
             rotation));
     }
-
-    /// <inheritdoc />
-    protected override void _OnDealDamage(Monster monster, GameLocation location, Farmer who, ref int amount)
-    {
-        var monsterBox = monster.GetBoundingBox();
-        var tempSprite = new TemporaryAnimatedSprite(
-            360,
-            Game1.random.Next(50, 120),
-            2,
-            2,
-            new Vector2(monsterBox.Center.X - 32, monsterBox.Center.Y - 32),
-            flicker: false,
-            flipped: false);
-        tempSprite.color = Color.HotPink;
-
-        Reflector
-            .GetStaticFieldGetter<Multiplayer>(typeof(Game1), "multiplayer")
-            .Invoke()
-            .broadcastSprites(location, tempSprite);
-    }
 }

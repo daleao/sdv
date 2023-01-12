@@ -4,8 +4,8 @@
 
 using System.Collections.Generic;
 using DaLion.Shared.Events;
+using DaLion.Shared.Extensions;
 using Microsoft.Xna.Framework;
-using Shared.Extensions;
 using StardewModdingAPI.Events;
 
 #endregion using directives
