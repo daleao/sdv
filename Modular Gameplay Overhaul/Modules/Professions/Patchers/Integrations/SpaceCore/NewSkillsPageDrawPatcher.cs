@@ -12,6 +12,7 @@ using DaLion.Shared.Harmony;
 using HarmonyLib;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using SpaceCore;
 using SpaceCore.Interface;
 using StardewValley.Menus;
 
@@ -203,7 +204,32 @@ internal sealed class NewSkillsPageDrawPatcher : HarmonyPatcher
         }
         catch (Exception ex)
         {
-            Log.E("Immersive Professions Failed patching to draw skills page prestige ribbons." +
+            Log.E("Professions module failed patching to draw skills page prestige ribbons." +
+                  "\n—-- Do NOT report this to SpaceCore's author. ---" +
+                  $"\nHelper returned {ex}");
+            return null;
+        }
+
+        // From: levelIndex < skill.ExperienceCurve.Length;
+        // To: levelIndex < 10;
+        try
+        {
+            helper
+                .Match(
+                    new[]
+                    {
+                        new CodeInstruction(
+                            OpCodes.Callvirt,
+                            typeof(Skills.Skill).RequirePropertyGetter(nameof(Skills.Skill.ExperienceCurve))),
+                    },
+                    ILHelper.SearchOption.First)
+                .Remove(3)
+                .Move(-1)
+                .ReplaceWith(new CodeInstruction(OpCodes.Ldc_I4_S, 10));
+        }
+        catch (Exception ex)
+        {
+            Log.E("Professions module failed patching to draw skills page prestige ribbons." +
                   "\n—-- Do NOT report this to SpaceCore's author. ---" +
                   $"\nHelper returned {ex}");
             return null;

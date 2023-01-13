@@ -118,7 +118,7 @@ public sealed class SCSkill : ISkill
     /// <inheritdoc />
     public void SetLevel(int level)
     {
-        level = Math.Min(level, 10);
+        level = Math.Min(level, this.CanPrestige ? 20 : 10);
         var diff = ISkill.ExperienceByLevel[level] - this.CurrentExp;
         this.AddExperience(diff);
     }

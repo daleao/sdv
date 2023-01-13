@@ -19,7 +19,7 @@ internal sealed class SetSkillLevelsCommand : ConsoleCommand
     }
 
     /// <inheritdoc />
-    public override string[] Triggers { get; } = { "set_levels", "set_skills" };
+    public override string[] Triggers { get; } = { "set_levels", "set_skills", "levelup", "skillup" };
 
     /// <inheritdoc />
     public override string Documentation =>

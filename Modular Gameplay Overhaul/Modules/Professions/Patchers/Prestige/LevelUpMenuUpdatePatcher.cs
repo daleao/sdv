@@ -269,7 +269,7 @@ internal sealed class LevelUpMenuUpdatePatcher : HarmonyPatcher
         }
 
         // Injected: if (shouldProposeFinalQuestion) ProposeFinalQuestion(chosenProfession)
-        // Aand: if (shouldCongratulateOnFullPrestige) CongratulateOnFullPrestige(chosenProfession)
+        // And: if (shouldCongratulateOnFullPrestige) CongratulateOnFullPrestige(chosenProfession)
         // Before: if (!isActive || !informationUp)
         try
         {
@@ -476,7 +476,7 @@ internal sealed class LevelUpMenuUpdatePatcher : HarmonyPatcher
             "prestige.levelup.unlocked",
             new { skill = Skill.FromValue(chosenProfession / 6).DisplayName }));
 
-        if (!Game1.player.HasAllProfessions())
+        if (!Game1.player.HasAllProfessions(true))
         {
             return;
         }
