@@ -30,7 +30,7 @@ internal sealed class PrintFishingAuditCommand : ConsoleCommand
         $"Check how many fish have been caught at max-size. Relevant for {Profession.Angler.Name}s.";
 
     /// <inheritdoc />
-    public override void Callback(string[] args)
+    public override void Callback(string trigger, string[] args)
     {
         if (!Game1.player.fishCaught.Pairs.Any())
         {

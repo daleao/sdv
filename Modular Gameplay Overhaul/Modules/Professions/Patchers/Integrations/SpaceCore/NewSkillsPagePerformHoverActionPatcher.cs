@@ -30,7 +30,7 @@ internal sealed class NewSkillsPagePerformHoverActionPatcher : HarmonyPatcher
     /// <summary>Patch to add prestige ribbon hover text + truncate profession descriptions in hover menu.</summary>
     [HarmonyPostfix]
     private static void NewSkillsPagePerformHoverActionPostfix(
-        IClickableMenu __instance, int x, int y, ref string ___hoverText)
+        NewSkillsPage __instance, int x, int y, ref string ___hoverText)
     {
         ___hoverText = ___hoverText.Truncate(90);
 
@@ -95,10 +95,10 @@ internal sealed class NewSkillsPagePerformHoverActionPatcher : HarmonyPatcher
         var customSkills = SpaceCoreIntegration.Instance!.ModApi!
             .GetCustomSkills()
             .Select(name => SCSkill.Loaded[name]);
-        if (SCSkill.Loaded.TryGetValue("spacechase0.LuckSkill", out var luckSkill))
+        if (LuckSkill.Instance is not null)
         {
             // luck skill must be enumerated first
-            customSkills = luckSkill.Collect(customSkills);
+            customSkills = LuckSkill.Instance.Collect(customSkills);
         }
 
         foreach (var skill in customSkills)

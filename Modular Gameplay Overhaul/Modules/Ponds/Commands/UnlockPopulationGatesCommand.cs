@@ -28,7 +28,7 @@ internal sealed class UnlockPopulationGatesCommand : ConsoleCommand
         "Unlock the specified population gate for the nearest pond, or the all gates if none are specified, and set the max occupants to the maximum value.";
 
     /// <inheritdoc />
-    public override void Callback(string[] args)
+    public override void Callback(string trigger, string[] args)
     {
         if (args.Length > 1)
         {

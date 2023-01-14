@@ -2,7 +2,6 @@
 
 #region using directives
 
-using DaLion.Shared.Extensions.Stardew;
 using StardewValley.TerrainFeatures;
 
 #endregion using directives

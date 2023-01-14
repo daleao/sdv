@@ -1,5 +1,11 @@
 # Professions Module Change Log
 
+## 1.1.1
+
+### Changed
+
+* Spelunker momentum is now gained on interaction with a ladder or sink hole, and not on player warped. This prevents exploiting other warp methods such as the elevator to rank up the buff for free.
+
 ## 1.1.0
 
 ## Changed

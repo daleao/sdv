@@ -27,7 +27,7 @@ internal sealed class PrintSkillLevelsCommand : ConsoleCommand
     public override string Documentation => "Print the player's current skill levels and experience.";
 
     /// <inheritdoc />
-    public override void Callback(string[] args)
+    public override void Callback(string trigger, string[] args)
     {
         Log.I(
             $"Farming level: {Game1.player.GetUnmodifiedSkillLevel(Skill.Farming)} ({Game1.player.experiencePoints[Skill.Farming]} exp)");

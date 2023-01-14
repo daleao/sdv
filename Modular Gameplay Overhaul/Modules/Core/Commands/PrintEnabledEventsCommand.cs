@@ -27,7 +27,7 @@ internal sealed class PrintEnabledEventsCommand : ConsoleCommand
     public override string Documentation => "Prints all currently subscribed mod events.";
 
     /// <inheritdoc />
-    public override void Callback(string[] args)
+    public override void Callback(string trigger, string[] args)
     {
         var message = "Enabled events:";
         var events = ModEntry.EventManager.Enabled.Cast<ManagedEvent>().ToList();

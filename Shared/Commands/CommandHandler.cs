@@ -154,7 +154,7 @@ internal sealed class CommandHandler
             return;
         }
 
-        handled.Callback(args.Skip(1).ToArray());
+        handled.Callback(args[0], args.Skip(1).ToArray());
     }
 
     /// <summary>Implicitly handles <see cref="IConsoleCommand"/> types using reflection.</summary>

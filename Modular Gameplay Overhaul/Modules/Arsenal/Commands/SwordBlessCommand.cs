@@ -27,7 +27,7 @@ internal sealed class SwordBlessCommand : ConsoleCommand
     public override string Documentation => "Transform a currently held Dark Sword into a Holy Blade.";
 
     /// <inheritdoc />
-    public override void Callback(string[] args)
+    public override void Callback(string trigger, string[] args)
     {
         var player = Game1.player;
         if (player.CurrentTool is not MeleeWeapon { InitialParentTileIndex: Constants.DarkSwordIndex })

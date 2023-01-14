@@ -29,7 +29,7 @@ internal sealed class TreasureHuntCommand : ConsoleCommand
         "Forcefully starts a treasure hunt with the target at the currently hovered tile, or changes the target tile if a hunt is already active.";
 
     /// <inheritdoc />
-    public override void Callback(string[] args)
+    public override void Callback(string trigger, string[] args)
     {
         var player = Game1.player;
         var location = player.currentLocation;

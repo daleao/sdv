@@ -27,7 +27,7 @@ internal sealed class SetSkillLevelsCommand : ConsoleCommand
         this.GetUsage();
 
     /// <inheritdoc />
-    public override void Callback(string[] args)
+    public override void Callback(string trigger, string[] args)
     {
         if (args.Length < 2 || args.Length % 2 != 0)
         {

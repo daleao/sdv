@@ -7,7 +7,6 @@ using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
 using System.Text;
-using DaLion.Overhaul.Modules.Professions.Events.GameLoop;
 using DaLion.Overhaul.Modules.Professions.Events.GameLoop.DayEnding;
 using DaLion.Overhaul.Modules.Professions.Extensions;
 using DaLion.Overhaul.Modules.Professions.Sounds;

@@ -25,7 +25,7 @@ internal sealed class MaxAnimalDispositionsCommand : ConsoleCommand
         $"Maxes-out the friendship and/or happiness of all owned animals. Relevant for {Profession.Breeder.Name} and {Profession.Producer.Name}.";
 
     /// <inheritdoc />
-    public override void Callback(string[] args)
+    public override void Callback(string trigger, string[] args)
     {
         var animals = Game1.getFarm().getAllFarmAnimals().Where(a =>
             a.ownerID.Value == Game1.player.UniqueMultiplayerID || !Context.IsMultiplayer).ToList();

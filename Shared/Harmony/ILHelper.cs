@@ -466,6 +466,7 @@ public sealed class ILHelper
     /// <returns>The <see cref="ILHelper"/> instance.</returns>
     public ILHelper ForEach(CodeInstruction[] pattern, Action action)
     {
+        this.GoTo(0);
         while (this.TryMoveNext(pattern))
         {
             action.Invoke();

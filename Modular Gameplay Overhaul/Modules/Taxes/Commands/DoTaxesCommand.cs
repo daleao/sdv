@@ -27,7 +27,7 @@ internal sealed class DoTaxesCommand : ConsoleCommand
         "Check accounting stats for the current season-to-date, or the closing season if checking on the 1st day of the season.";
 
     /// <inheritdoc />
-    public override void Callback(string[] args)
+    public override void Callback(string trigger, string[] args)
     {
         if (!Enum.TryParse<Season>(Game1.currentSeason, true, out var currentSeason))
         {

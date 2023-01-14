@@ -24,7 +24,7 @@ internal sealed class ClearGemstonesCommand : ConsoleCommand
     public override string Documentation => "Remove all gemstones from the selected infinity band.";
 
     /// <inheritdoc />
-    public override void Callback(string[] args)
+    public override void Callback(string trigger, string[] args)
     {
         if (!Globals.InfinityBandIndex.HasValue)
         {

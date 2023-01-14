@@ -22,15 +22,29 @@ internal sealed class RemoveProfessionsCommand : ConsoleCommand
     }
 
     /// <inheritdoc />
-    public override string[] Triggers { get; } = { "remove_professions", "remove_profs", "remove" };
+    public override string[] Triggers { get; } = { "remove_professions", "remove_profs", "remove", "clear" };
 
     /// <inheritdoc />
     public override string Documentation =>
         "Remove the specified professions from the player. Does not affect skill levels." + this.GetUsage();
 
     /// <inheritdoc />
-    public override void Callback(string[] args)
+    public override void Callback(string trigger, string[] args)
     {
+        if (trigger == "clear")
+        {
+            var shouldInvalidate = Game1.player.professions.Intersect(Profession.GetRange(true)).Any();
+            Game1.player.professions.Clear();
+            LevelUpMenu.RevalidateHealth(Game1.player);
+            if (shouldInvalidate)
+            {
+                ModHelper.GameContent.InvalidateCacheAndLocalized("LooseSprites/Cursors");
+            }
+
+            Log.I($"Cleared all professions from {Game1.player.Name}.");
+            return;
+        }
+
         if (args.Length == 0 || string.IsNullOrEmpty(args[0]))
         {
             Log.W("You must specify at least one profession." + this.GetUsage());
@@ -42,9 +56,10 @@ internal sealed class RemoveProfessionsCommand : ConsoleCommand
         {
             if (string.Equals(arg, "all", StringComparison.InvariantCultureIgnoreCase))
             {
+                var shouldInvalidate = Game1.player.professions.Intersect(Profession.GetRange(true)).Any();
                 Game1.player.professions.Clear();
                 LevelUpMenu.RevalidateHealth(Game1.player);
-                if (professionsToRemove.Intersect(Profession.GetRange(true)).Any())
+                if (shouldInvalidate)
                 {
                     ModHelper.GameContent.InvalidateCacheAndLocalized("LooseSprites/Cursors");
                 }

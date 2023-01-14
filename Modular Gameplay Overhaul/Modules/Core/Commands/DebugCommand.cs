@@ -25,7 +25,7 @@ internal sealed class DebugCommand : ConsoleCommand
     public override string Documentation => "Wildcard command for on-demand debugging.";
 
     /// <inheritdoc />
-    public override void Callback(string[] args)
+    public override void Callback(string trigger, string[] args)
     {
     }
 }

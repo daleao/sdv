@@ -28,7 +28,7 @@ internal sealed class FullyEnergizedCommand : ConsoleCommand
     public override string Documentation => "Fully energizes the player, if they currently hold an Energize-enchanted weapon.";
 
     /// <inheritdoc />
-    public override void Callback(string[] args)
+    public override void Callback(string trigger, string[] args)
     {
         var energized = (Game1.player.CurrentTool as MeleeWeapon)?.GetEnchantmentOfType<EnergizedEnchantment>();
         if (energized is null)

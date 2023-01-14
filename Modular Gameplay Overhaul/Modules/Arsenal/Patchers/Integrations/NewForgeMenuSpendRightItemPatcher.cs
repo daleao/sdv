@@ -25,7 +25,7 @@ internal sealed class NewForgeMenuSpendRightItemPatcher : HarmonyPatcher
 
     /// <summary>Prevent spending Hero Soul.</summary>
     [HarmonyPrefix]
-    private static bool NewForgeMenuSpendRightItemPrefix(ForgeMenu __instance)
+    private static bool NewForgeMenuSpendRightItemPrefix(NewForgeMenu __instance)
     {
         try
         {

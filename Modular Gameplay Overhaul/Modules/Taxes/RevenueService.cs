@@ -3,10 +3,8 @@
 #region using directives
 
 using System.Collections.Generic;
-using System.Runtime.CompilerServices;
 using DaLion.Shared.Enums;
 using DaLion.Shared.Extensions.Stardew;
-using StardewValley.Objects;
 using static System.FormattableString;
 
 #endregion using directives

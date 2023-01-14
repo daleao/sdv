@@ -1,13 +1,5 @@
 ﻿namespace DaLion.Shared.Extensions.Stardew;
 
-using System.Collections.Generic;
-using System.Linq;
-using StardewValley.Buildings;
-using StardewValley.Locations;
-
-using StardewValley.Objects;
-using xTile.Dimensions;
-
 /// <summary>Extensions for the <see cref="Game1"/> class.</summary>
 public static class Game1Extensions
 {

@@ -5,6 +5,7 @@ namespace DaLion.Overhaul.Modules.Professions.Extensions;
 
 using System.Collections.Generic;
 using System.Linq;
+using DaLion.Overhaul.Modules.Professions.Events.GameLoop;
 using DaLion.Overhaul.Modules.Professions.Events.Player;
 using DaLion.Overhaul.Modules.Professions.Ultimates;
 using DaLion.Overhaul.Modules.Professions.VirtualProperties;
@@ -338,6 +339,22 @@ internal static class FarmerExtensions
                 : SObject.highQuality
             : SObject.bestQuality;
     }
+
+    /// <summary>Applies <see cref="Profession.Spelunker"/> effects following interaction with a ladder or sink hole.</summary>
+    /// <param name="farmer">The <see cref="Farmer"/>.</param>
+    internal static void AddSpelunkerMomentum(this Farmer farmer)
+    {
+        ProfessionsModule.State.SpelunkerLadderStreak++;
+        EventManager.Enable<SpelunkerUpdateTickedEvent>();
+        if (!farmer.HasProfession(Profession.Spelunker, true))
+        {
+            return;
+        }
+
+        farmer.health = Math.Min(farmer.health + (int)(farmer.maxHealth * 0.025f), farmer.maxHealth);
+        farmer.Stamina = Math.Min(farmer.Stamina + (farmer.MaxStamina * 0.01f), farmer.MaxStamina);
+    }
+
 
     /// <summary>Enumerates the <see cref="GreenSlime"/>s currently inhabiting owned <see cref="SlimeHutch"/>es.</summary>
     /// <param name="farmer">The <see cref="Farmer"/>.</param>

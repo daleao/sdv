@@ -28,7 +28,7 @@ internal sealed class UpgradeToolsCommand : ConsoleCommand
 
     /// <inheritdoc />
     [SuppressMessage("StyleCop.CSharp.SpacingRules", "SA1012:Opening braces should be spaced correctly", Justification = "Paradoxical.")]
-    public override void Callback(string[] args)
+    public override void Callback(string trigger, string[] args)
     {
         if (Game1.player.CurrentTool is not ({ } tool and (Axe or Hoe or Pickaxe or WateringCan or FishingRod)))
         {

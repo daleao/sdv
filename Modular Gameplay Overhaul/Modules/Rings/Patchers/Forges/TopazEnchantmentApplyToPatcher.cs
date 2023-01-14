@@ -3,7 +3,6 @@
 #region using directives
 
 using System.Linq;
-using DaLion.Overhaul.Modules.Arsenal.Extensions;
 using DaLion.Overhaul.Modules.Rings.VirtualProperties;
 using DaLion.Shared.Extensions.Collections;
 using DaLion.Shared.Harmony;

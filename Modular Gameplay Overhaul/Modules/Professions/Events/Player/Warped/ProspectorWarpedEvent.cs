@@ -50,18 +50,24 @@ internal sealed class ProspectorWarpedEvent : WarpedEvent
 
     private static void TrySpawnOreNodes(int amount, MineShaft shaft)
     {
+        var count = 0;
         for (var i = 0; i < amount; i++)
         {
             var tile = shaft.getRandomTile();
-            if (shaft.isTileLocationTotallyClearAndPlaceable(tile) && shaft.isTileOnClearAndSolidGround(tile) &&
-                shaft.doesTileHaveProperty((int)tile.X, (int)tile.Y, "Diggable", "Back") == null &&
-                shaft.isTileLocationOpen(new Location((int)tile.X, (int)tile.Y)) &&
-                !shaft.isTileOccupied(new Vector2(tile.X, tile.Y)) &&
-                shaft.getTileIndexAt((int)tile.X, (int)tile.Y, "Back") != -1 &&
-                shaft.doesTileHaveProperty((int)tile.X, (int)tile.Y, "Type", "Back") != "Dirt")
+            if (!shaft.isTileLocationTotallyClearAndPlaceable(tile) || !shaft.isTileOnClearAndSolidGround(tile) ||
+                shaft.doesTileHaveProperty((int)tile.X, (int)tile.Y, "Diggable", "Back") != null ||
+                !shaft.isTileLocationOpen(new Location((int)tile.X, (int)tile.Y)) ||
+                shaft.isTileOccupied(new Vector2(tile.X, tile.Y)) ||
+                shaft.getTileIndexAt((int)tile.X, (int)tile.Y, "Back") == -1 ||
+                shaft.doesTileHaveProperty((int)tile.X, (int)tile.Y, "Type", "Back") == "Dirt")
             {
-                shaft.placeAppropriateOreAt(new Vector2(tile.X, tile.Y));
+                continue;
             }
+
+            shaft.placeAppropriateOreAt(new Vector2(tile.X, tile.Y));
+            count++;
         }
+
+        Log.D($"[Prospector]: Spawned {count} resource nodes.");
     }
 }

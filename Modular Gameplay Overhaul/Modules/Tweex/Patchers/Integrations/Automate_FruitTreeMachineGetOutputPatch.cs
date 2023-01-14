@@ -71,7 +71,7 @@ internal sealed class FruitTreeMachineGetOutputPatcher : HarmonyPatcher
         }
         catch (Exception ex)
         {
-            Log.E("Immersive Tweaks failed customizing automated fruit tree age quality factor." +
+            Log.E("Tweex module failed customizing automated fruit tree age quality factor." +
                   "\n—-- Do NOT report this to Automate's author. ---" +
                   $"\nHelper returned {ex}");
             return null;

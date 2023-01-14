@@ -25,7 +25,7 @@ internal sealed class OverHealCommand : ConsoleCommand
     public override string Documentation => "Heals the player, allowing health to go beyond the maximum value.";
 
     /// <inheritdoc />
-    public override void Callback(string[] args)
+    public override void Callback(string trigger, string[] args)
     {
         var player = Game1.player;
         if (args.Length == 0 || !int.TryParse(args[0], out var amount))

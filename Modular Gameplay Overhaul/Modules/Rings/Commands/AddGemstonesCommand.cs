@@ -28,7 +28,7 @@ internal sealed class AddGemstonesCommand : ConsoleCommand
     public override string Documentation => "Add the specified gemstones to the selected infinity band.";
 
     /// <inheritdoc />
-    public override void Callback(string[] args)
+    public override void Callback(string trigger, string[] args)
     {
         if (!RingsModule.Config.TheOneInfinityBand || !Globals.InfinityBandIndex.HasValue)
         {

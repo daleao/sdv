@@ -34,7 +34,7 @@ internal sealed class RevalidateCommand : ConsoleCommand
     public override string Documentation => "Applies or removes persistent changes made by modules to existing items.";
 
     /// <inheritdoc />
-    public override void Callback(string[] args)
+    public override void Callback(string trigger, string[] args)
     {
         ModHelper.GameContent.InvalidateCacheAndLocalized("Data/weapons");
         if (Context.IsMainPlayer)

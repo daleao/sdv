@@ -28,7 +28,7 @@ internal sealed class MaxFishingAuditCommand : ConsoleCommand
         $"Set all fish to seen and caught at max-size. Relevant for {Profession.Angler}s.";
 
     /// <inheritdoc />
-    public override void Callback(string[] args)
+    public override void Callback(string trigger, string[] args)
     {
         var fishData = Game1.content
             .Load<Dictionary<int, string>>(PathUtilities.NormalizeAssetName("Data/Fish"))

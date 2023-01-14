@@ -26,7 +26,7 @@ internal sealed class ResetSkillLevelsCommand : ConsoleCommand
         "Reset the level of the specified skills, or all skills if none are specified. Does not remove professions.";
 
     /// <inheritdoc />
-    public override void Callback(string[] args)
+    public override void Callback(string trigger, string[] args)
     {
         if (args.Length == 0 || string.IsNullOrEmpty(args[0]))
         {

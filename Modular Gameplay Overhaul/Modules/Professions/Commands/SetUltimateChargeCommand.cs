@@ -26,7 +26,7 @@ internal sealed class SetUltimateChargeCommand : ConsoleCommand
         "Max-out the player's Special Ability charge, or set it to the specified percentage.";
 
     /// <inheritdoc />
-    public override void Callback(string[] args)
+    public override void Callback(string trigger, string[] args)
     {
         var ultimate = Game1.player.Get_Ultimate();
         if (ultimate is null)

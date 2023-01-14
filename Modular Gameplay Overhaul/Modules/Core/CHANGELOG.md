@@ -5,6 +5,7 @@
 ### Changed
 
 * Now using `ReadOnySpan` to split strings.
+* Replace leftover reflected SpaceCore code with native.
 
 ### Fixed
 

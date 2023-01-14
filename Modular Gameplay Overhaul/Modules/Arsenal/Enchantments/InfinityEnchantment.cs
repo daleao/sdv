@@ -6,7 +6,6 @@ using System.Xml.Serialization;
 using DaLion.Overhaul.Modules.Arsenal.Projectiles;
 using DaLion.Shared.Enums;
 using Microsoft.Xna.Framework;
-using StardewValley.Monsters;
 using StardewValley.Tools;
 
 #endregion using directives

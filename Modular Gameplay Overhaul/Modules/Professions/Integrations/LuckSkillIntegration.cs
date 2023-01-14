@@ -21,7 +21,7 @@ internal sealed class LuckSkillIntegration : ModIntegration<LuckSkillIntegration
     {
         this.AssertLoaded();
 
-        if (SCSkill.Loaded.ContainsKey("spacechase0.LuckSkill"))
+        if (LuckSkill.Instance is not null)
         {
             return;
         }

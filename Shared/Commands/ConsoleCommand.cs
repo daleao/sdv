@@ -20,5 +20,5 @@ internal abstract class ConsoleCommand : IConsoleCommand
     protected CommandHandler Handler { get; }
 
     /// <inheritdoc />
-    public abstract void Callback(string[] args);
+    public abstract void Callback(string trigger, string[] args);
 }

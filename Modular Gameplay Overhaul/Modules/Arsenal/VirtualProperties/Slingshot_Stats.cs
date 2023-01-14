@@ -5,7 +5,6 @@ namespace DaLion.Overhaul.Modules.Arsenal.VirtualProperties;
 
 using System.Runtime.CompilerServices;
 using DaLion.Overhaul.Modules.Arsenal.Enchantments;
-using DaLion.Overhaul.Modules.Arsenal.Extensions;
 using DaLion.Overhaul.Modules.Rings.VirtualProperties;
 using StardewValley;
 using StardewValley.Tools;

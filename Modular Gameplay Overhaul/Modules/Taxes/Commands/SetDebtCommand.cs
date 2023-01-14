@@ -24,7 +24,7 @@ internal sealed class SetDebtCommand : ConsoleCommand
     public override string Documentation => "Set the player's current debt outstanding to the specified value.";
 
     /// <inheritdoc />
-    public override void Callback(string[] args)
+    public override void Callback(string trigger, string[] args)
     {
         if (args.Length == 0 || !int.TryParse(args[0], out _))
         {

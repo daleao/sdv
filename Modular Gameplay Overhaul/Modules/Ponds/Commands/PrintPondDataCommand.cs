@@ -28,7 +28,7 @@ internal sealed class PrintPondDataCommand : ConsoleCommand
     public override string Documentation => "Print all mod data fields for the nearest pond.";
 
     /// <inheritdoc />
-    public override void Callback(string[] args)
+    public override void Callback(string trigger, string[] args)
     {
         if (args.Length > 0)
         {

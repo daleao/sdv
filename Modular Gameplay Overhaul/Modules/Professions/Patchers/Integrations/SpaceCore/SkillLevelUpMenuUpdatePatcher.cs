@@ -2,14 +2,13 @@
 
 #region using directives
 
-using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
 using DaLion.Overhaul.Modules.Professions.Events.GameLoop;
 using DaLion.Overhaul.Modules.Professions.Extensions;
-using DaLion.Overhaul.Modules.Professions.Integrations;
 using DaLion.Shared.Attributes;
 using DaLion.Shared.Extensions;
 using DaLion.Shared.Extensions.Reflection;
@@ -17,7 +16,6 @@ using DaLion.Shared.Harmony;
 using HarmonyLib;
 using Microsoft.Xna.Framework;
 using Netcode;
-using SpaceCore;
 using SpaceCore.Interface;
 
 #endregion using directives
@@ -34,28 +32,6 @@ internal sealed class SkillLevelUpMenuUpdatePatcher : HarmonyPatcher
 
     #region harmony patches
 
-    /// <summary>Patch to idiot-proof the level-up menu. </summary>
-    [HarmonyPrefix]
-    private static void SkillLevelUpMenuUpdatePrefix(
-        int ___currentLevel,
-        bool ___hasUpdatedProfessions,
-        ref bool ___informationUp,
-        ref bool ___isActive,
-        ref bool ___isProfessionChooser,
-        List<int> ___professionsToChoose)
-    {
-        if (!___isProfessionChooser || !___hasUpdatedProfessions ||
-            !ShouldSuppressClick(___professionsToChoose[0], ___currentLevel) ||
-            !ShouldSuppressClick(___professionsToChoose[1], ___currentLevel))
-        {
-            return;
-        }
-
-        ___isActive = false;
-        ___informationUp = false;
-        ___isProfessionChooser = false;
-    }
-
     /// <summary>Patch to prevent duplicate profession acquisition.</summary>
     [HarmonyTranspiler]
     private static IEnumerable<CodeInstruction>? SkillLevelUpMenuUpdateTranspiler(
@@ -63,67 +39,42 @@ internal sealed class SkillLevelUpMenuUpdatePatcher : HarmonyPatcher
     {
         var helper = new ILHelper(original, instructions);
 
-        // From: if (pair2.Level == currentLevel)
-        // To: if (pair2.Level == currentLevel || pair2.Level == currentLevel + 10)
-        try
-        {
-            var isTheRightLevel = generator.DefineLabel();
-            helper
-                .Match(
-                    new[]
-                    {
-                        new CodeInstruction(OpCodes.Ldloc_3),
-                        new CodeInstruction(
-                            OpCodes.Callvirt,
-                            typeof(Skills.Skill.ProfessionPair).RequirePropertyGetter(nameof(Skills.Skill.ProfessionPair.Level))),
-                        new CodeInstruction(OpCodes.Ldarg_0),
-                        new CodeInstruction(OpCodes.Ldfld, typeof(SkillLevelUpMenu).RequireField("currentLevel")),
-                    })
-                .Match(new[] { new CodeInstruction(OpCodes.Bne_Un_S) })
-                .Insert(
-                    new[]
-                    {
-                        new CodeInstruction(OpCodes.Beq_S, isTheRightLevel), new CodeInstruction(OpCodes.Ldloc_3),
-                        new CodeInstruction(
-                            OpCodes.Callvirt,
-                            typeof(Skills.Skill.ProfessionPair).RequirePropertyGetter(nameof(Skills.Skill.ProfessionPair.Level))),
-                        new CodeInstruction(OpCodes.Ldarg_0),
-                        new CodeInstruction(OpCodes.Ldfld, typeof(SkillLevelUpMenu).RequireField("currentLevel")),
-                        new CodeInstruction(OpCodes.Ldc_I4_S, 10), new CodeInstruction(OpCodes.Add),
-                    })
-                .Move()
-                .AddLabels(isTheRightLevel);
-        }
-        catch (Exception ex)
-        {
-            Log.E($"Failed patching level 15 and 20 profession choices.\nHelper returned {ex}");
-            return null;
-        }
-
         // This injection chooses the correct 2nd-tier profession choices based on the last selected level 5 profession.
         // From: profPair = null; foreach ( ... )
         // To: profPair = ChooseProfessionPair(skill);
         try
         {
             helper
-                .Match(
-                    new[] { new CodeInstruction(OpCodes.Ldnull) }, ILHelper.SearchOption.First) // find index of initializing profPair to null
-                .ReplaceWith(
-                    new CodeInstruction(
-                        OpCodes.Call,
-                        typeof(SkillLevelUpMenuUpdatePatcher).RequireMethod(nameof(ChooseProfessionPair))))
-                .Insert(
+                .ForEach(
                     new[]
                     {
-                        new CodeInstruction(OpCodes.Ldloc_1),
-                        new CodeInstruction(OpCodes.Ldarg_0),
-                        new CodeInstruction(OpCodes.Ldfld, typeof(SkillLevelUpMenu).RequireField("currentSkill")),
-                        new CodeInstruction(OpCodes.Ldarg_0),
-                        new CodeInstruction(OpCodes.Ldfld, typeof(SkillLevelUpMenu).RequireField("currentLevel")),
-                    })
-                .Move(2)
-                .Match(new[] { new CodeInstruction(OpCodes.Endfinally) }, out var count)
-                .Remove(count); // remove the entire loop
+                        // find index of initializing profPair to null
+                        new CodeInstruction(OpCodes.Ldnull),
+                        new CodeInstruction(OpCodes.Stfld, typeof(SkillLevelUpMenu).RequireField("profPair")),
+                    },
+                    () =>
+                    {
+                        helper
+                            .ReplaceWith(
+                                new CodeInstruction(
+                                    OpCodes.Call,
+                                    typeof(SkillLevelUpMenuUpdatePatcher).RequireMethod(nameof(ChooseProfessionPair))))
+                            .Insert(
+                                new[]
+                                {
+                                    new CodeInstruction(OpCodes.Ldarg_0),
+                                    new CodeInstruction(
+                                        OpCodes.Ldfld,
+                                        typeof(SkillLevelUpMenu).RequireField("currentSkill")),
+                                    new CodeInstruction(OpCodes.Ldarg_0),
+                                    new CodeInstruction(
+                                        OpCodes.Ldfld,
+                                        typeof(SkillLevelUpMenu).RequireField("currentLevel")),
+                                })
+                            .Move(2)
+                            .Match(new[] { new CodeInstruction(OpCodes.Endfinally) }, out var count)
+                            .Remove(count); // remove the entire loop
+                    });
         }
         catch (Exception ex)
         {
@@ -134,32 +85,107 @@ internal sealed class SkillLevelUpMenuUpdatePatcher : HarmonyPatcher
             return null;
         }
 
-        var chosenProfession = generator.DeclareLocal(typeof(int));
-        var shouldCongratulateFullSkillMastery = generator.DeclareLocal(typeof(bool));
-
-        // From: Game1.player.professions.Add(professionsToChoose[i]);
-        // To: if (!Game1.player.professions.AddOrReplace(professionsToChoose[i]))
+        // Injected: if (ShouldSuppressBoth(professionsToChoose, currentLevel) { isActive = false; informationUp = false; isProfessionChooser = false; profPair = null; }
+        // After: professionsToChoose.Add...
+        // Remarks: This is equivalent to vanilla Prefix patch to idiot-proof the menu.
         try
         {
+            var resumeExecution = generator.DefineLabel();
             helper
-                .Repeat(
-                    2,
-                    _ =>
+                .ForEach(
+                    new[]
                     {
-                        var dontGetImmediatePerks = generator.DefineLabel();
-                        var isNotPrestigeLevel = generator.DefineLabel();
+                        new CodeInstruction(
+                            OpCodes.Callvirt,
+                            typeof(List<int>).RequireMethod(nameof(List<int>.Add))),
+                    },
+                    () =>
+                    {
                         helper
                             .Match(
                                 new[]
                                 {
-                                    // find index of adding a profession to the player's list of professions
                                     new CodeInstruction(
                                         OpCodes.Callvirt,
-                                        typeof(List<int>).RequirePropertyGetter("Item")),
-                                    new CodeInstruction(
-                                        OpCodes.Callvirt,
-                                        typeof(NetList<int, NetInt>).RequireMethod("Add")),
+                                        typeof(List<int>).RequireMethod(nameof(List<int>.Add))),
                                 })
+                            .Move()
+                            .AddLabels(resumeExecution)
+                            .Insert(
+                                new[]
+                                {
+                                    new CodeInstruction(OpCodes.Ldarg_0),
+                                    new CodeInstruction(
+                                        OpCodes.Ldfld,
+                                        typeof(SkillLevelUpMenu).RequireField("professionsToChoose")),
+                                    new CodeInstruction(OpCodes.Ldarg_0),
+                                    new CodeInstruction(
+                                        OpCodes.Ldfld,
+                                        typeof(SkillLevelUpMenu).RequireField("currentLevel")),
+                                    new CodeInstruction(
+                                        OpCodes.Call,
+                                        typeof(SkillLevelUpMenuUpdatePatcher)
+                                            .RequireMethod(nameof(ShouldSuppressBoth))),
+                                    new CodeInstruction(OpCodes.Brfalse_S, resumeExecution),
+                                    new CodeInstruction(OpCodes.Ldarg_0),
+                                    new CodeInstruction(OpCodes.Ldc_I4_0),
+                                    new CodeInstruction(
+                                        OpCodes.Stfld,
+                                        typeof(SkillLevelUpMenu).RequireField("isActive")),
+                                    new CodeInstruction(OpCodes.Ldarg_0),
+                                    new CodeInstruction(OpCodes.Ldc_I4_0),
+                                    new CodeInstruction(
+                                        OpCodes.Stfld,
+                                        typeof(SkillLevelUpMenu).RequireField("informationUp")),
+                                    new CodeInstruction(OpCodes.Ldarg_0),
+                                    new CodeInstruction(OpCodes.Ldc_I4_0),
+                                    new CodeInstruction(
+                                        OpCodes.Stfld,
+                                        typeof(SkillLevelUpMenu).RequireField("isProfessionChooser")),
+                                    new CodeInstruction(OpCodes.Ldarg_0),
+                                    new CodeInstruction(OpCodes.Ldnull),
+                                    new CodeInstruction(
+                                        OpCodes.Stfld,
+                                        typeof(SkillLevelUpMenu).RequireField("profPair")),
+                                });
+                    });
+        }
+        catch (Exception ex)
+        {
+            Log.E($"Failed idiot-proofing the menu.\nHelper returned {ex}");
+            return null;
+        }
+
+        var chosenProfession = generator.DeclareLocal(typeof(int));
+        var shouldCongratulateFullSkillMastery = generator.DeclareLocal(typeof(bool));
+
+        // From: Game1.player.professions.Add(professionsToChoose[i]);
+        //		  getImmediateProfessionPerk(professionsToChoose[i]);
+        // To: if (!Game1.player.professions.AddOrReplace(professionsToChoose[i])) getImmediateProfessionPerk(professionsToChoose[i]);
+        //     if (currentLevel > 10) Game1.player.professions.Add(100 + professionsToChoose[i]);
+        //		- and also -
+        // Injected: if (ShouldProposeFinalQuestion(professionsToChoose[i])) shouldProposeFinalQuestion = true;
+        //			  if (ShouldCongratulateOnFullPrestige(currentLevel, professionsToChoose[i])) shouldCongratulateOnFullPrestige = true;
+        // Before: isActive = false;
+        try
+        {
+            helper
+                .ForEach(
+                    new[]
+                    {
+                        // find index of adding a profession to the player's list of professions
+                        new CodeInstruction(
+                            OpCodes.Callvirt,
+                            typeof(List<int>).RequirePropertyGetter("Item")),
+                        new CodeInstruction(
+                            OpCodes.Callvirt,
+                            typeof(NetList<int, NetInt>).RequireMethod("Add")),
+                    },
+                    () => 
+                    {
+                        var dontGetImmediatePerks = generator.DefineLabel();
+                        var isNotPrestigeLevel = generator.DefineLabel();
+                        helper
                             .Move()
                             .Insert(
                                 new[]
@@ -371,38 +397,25 @@ internal sealed class SkillLevelUpMenuUpdatePatcher : HarmonyPatcher
 
     #region injected subroutines
 
-    private static object? ChooseProfessionPair(object skillInstance, string skillId, int currentLevel)
+    [SuppressMessage("StyleCop.CSharp.OrderingRules", "SA1202:Elements should be ordered by access", Justification = "Harmony-injected subroutine shared by a SpaceCore patch.")]
+    internal static object? ChooseProfessionPair(string skillId, int currentLevel)
     {
-        if (currentLevel is not (5 or 10) || !SCSkill.Loaded.ContainsKey(skillId))
+        if (currentLevel % 5 != 0 || !SCSkill.Loaded.TryGetValue(skillId, out var iSkill))
         {
             return null;
         }
 
-        var professionPairs = Reflector
-            .GetUnboundPropertyGetter<object, IEnumerable>(skillInstance, "ProfessionsForLevels")
-            .Invoke(skillInstance)
-            .Cast<object>()
-            .ToList();
+        var scSkill = (SCSkill)iSkill;
+        var skillInstance = scSkill.ToSpaceCore()!;
+        var professionPairs = skillInstance.ProfessionsForLevels.ToList();
         var levelFivePair = professionPairs[0];
-        if (currentLevel == 5)
+        if (currentLevel is 5 or 15)
         {
             return levelFivePair;
         }
 
-        var first = Reflector
-            .GetUnboundPropertyGetter<object, object>(levelFivePair, "First")
-            .Invoke(levelFivePair);
-        var second = Reflector
-            .GetUnboundPropertyGetter<object, object>(levelFivePair, "Second")
-            .Invoke(levelFivePair);
-        var firstStringId = Reflector
-            .GetUnboundPropertyGetter<object, string>(first, "Id")
-            .Invoke(first);
-        var secondStringId = Reflector
-            .GetUnboundPropertyGetter<object, string>(second, "Id")
-            .Invoke(second);
-        var firstId = SpaceCoreIntegration.Instance!.ModApi!.GetProfessionId(skillId, firstStringId);
-        var secondId = SpaceCoreIntegration.Instance.ModApi.GetProfessionId(skillId, secondStringId);
+        var firstId = levelFivePair.First.GetVanillaId();
+        var secondId = levelFivePair.Second.GetVanillaId();
         var branch = Game1.player.GetMostRecentProfession(firstId.Collect(secondId));
         return branch == firstId ? professionPairs[1] : professionPairs[2];
     }
@@ -454,6 +467,12 @@ internal sealed class SkillLevelUpMenuUpdatePatcher : HarmonyPatcher
         return SCProfession.Loaded.TryGetValue(hovered, out var profession) &&
                ((currentLevel == 5 && Game1.player.HasAllProfessionsBranchingFrom(profession)) ||
                 (currentLevel == 10 && Game1.player.HasProfession(profession)));
+    }
+
+    private static bool ShouldSuppressBoth(List<int> professionsToChoose, int currentLevel)
+    {
+        return ShouldSuppressClick(professionsToChoose[0], currentLevel) &&
+               ShouldSuppressClick(professionsToChoose[1], currentLevel);
     }
 
     #endregion injected subroutines

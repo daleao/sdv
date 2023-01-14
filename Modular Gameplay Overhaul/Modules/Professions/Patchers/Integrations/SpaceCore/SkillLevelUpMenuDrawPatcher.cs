@@ -82,12 +82,9 @@ internal sealed class SkillLevelUpMenuDrawPatcher : HarmonyPatcher
 
     #region injected subroutines
 
-    private static void DrawSubroutine(IClickableMenu menu, int currentLevel, SpriteBatch b)
+    private static void DrawSubroutine(SkillLevelUpMenu menu, int currentLevel, SpriteBatch b)
     {
-        var isProfessionChooser = Reflector
-            .GetUnboundFieldGetter<IClickableMenu, bool>(menu, "isProfessionChooser")
-            .Invoke(menu);
-        if (!ProfessionsModule.Config.EnablePrestige || !isProfessionChooser || currentLevel > 10)
+        if (!ProfessionsModule.Config.EnablePrestige || !menu.isProfessionChooser || currentLevel > 10)
         {
             return;
         }

@@ -28,7 +28,7 @@ internal sealed class FireProjectileCommand : ConsoleCommand
     public override string Documentation => "Fire the specified projectile.";
 
     /// <inheritdoc />
-    public override void Callback(string[] args)
+    public override void Callback(string trigger, string[] args)
     {
         if (args.Length == 0 || string.IsNullOrEmpty(args[0]))
         {

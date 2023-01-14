@@ -5,7 +5,6 @@
 using DaLion.Shared.Attributes;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
-using StardewValley;
 
 #endregion using directives
 

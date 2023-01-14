@@ -25,7 +25,7 @@ internal sealed class ResetPondDataCommand : ConsoleCommand
     public override string Documentation => "Reset custom mod data of nearest pond.";
 
     /// <inheritdoc />
-    public override void Callback(string[] args)
+    public override void Callback(string trigger, string[] args)
     {
         if (!Game1.player.currentLocation.Equals(Game1.getFarm()))
         {

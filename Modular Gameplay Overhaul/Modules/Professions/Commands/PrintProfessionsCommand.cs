@@ -24,7 +24,7 @@ internal sealed class PrintProfessionsCommand : ConsoleCommand
     public override string Documentation => "List the player's current professions.";
 
     /// <inheritdoc />
-    public override void Callback(string[] args)
+    public override void Callback(string trigger, string[] args)
     {
         if (Game1.player.professions.Count == 0)
         {
@@ -40,9 +40,15 @@ internal sealed class PrintProfessionsCommand : ConsoleCommand
             {
                 name = profession.StringId + (pid >= 100 ? " (P)" : Empty);
             }
-            else if (SCProfession.Loaded.ContainsKey(pid))
+            else if (SCProfession.Loaded.TryGetValue(pid, out var scProfession) || SCProfession.Loaded.TryGetValue(pid - 100, out scProfession))
             {
-                name = SCProfession.Loaded[pid].StringId + " (" + SCProfession.Loaded[pid].Skill.StringId + ')';
+                name = scProfession.StringId;
+                if (!SCProfession.Loaded.ContainsKey(pid))
+                {
+                    name += " (P)";
+                }
+
+                name += " (" + scProfession.Skill.StringId + ')';
             }
             else
             {

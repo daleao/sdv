@@ -28,7 +28,7 @@ internal sealed class RemoveEnchantmentsCommand : ConsoleCommand
 
     /// <inheritdoc />
     [SuppressMessage("StyleCop.CSharp.SpacingRules", "SA1012:Opening braces should be spaced correctly", Justification = "Paradoxical.")]
-    public override void Callback(string[] args)
+    public override void Callback(string trigger, string[] args)
     {
         if (args.Length == 0 || string.IsNullOrEmpty(args[0]))
         {

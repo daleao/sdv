@@ -28,7 +28,7 @@ internal sealed class PrintModDataCommand : ConsoleCommand
     public override string Documentation => "Print the current value of all mod data fields.";
 
     /// <inheritdoc />
-    public override void Callback(string[] args)
+    public override void Callback(string trigger, string[] args)
     {
         var player = Game1.player;
         var message = $"Farmer {player.Name}'s mod data:";

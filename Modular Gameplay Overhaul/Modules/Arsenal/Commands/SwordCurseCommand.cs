@@ -27,7 +27,7 @@ internal sealed class SwordCurseCommand : ConsoleCommand
     public override string Documentation => "Strengthen the curse of a currently held Dark Sword.";
 
     /// <inheritdoc />
-    public override void Callback(string[] args)
+    public override void Callback(string trigger, string[] args)
     {
         var player = Game1.player;
         if (player.CurrentTool is not MeleeWeapon { InitialParentTileIndex: Constants.DarkSwordIndex })

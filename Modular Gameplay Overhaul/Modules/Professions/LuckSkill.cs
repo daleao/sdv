@@ -76,10 +76,15 @@ public sealed class LuckSkill : Skill
         {
             SCProfession.Loaded[profession.Id] = (SCProfession)profession;
         }
+
+        Instance = this;
     }
 
     /// <inheritdoc />
     public override int MaxLevel => 10;
+
+    /// <summary>Gets the singleton <see cref="LuckSkill"/> instance.</summary>
+    internal static Skill? Instance { get; private set; }
 
     /// <inheritdoc />
     public override void Revalidate()

@@ -324,10 +324,10 @@ internal sealed class SkillsPageDrawPatcher : HarmonyPatcher
         var customSkills = SpaceCoreIntegration.Instance!.ModApi!
             .GetCustomSkills()
             .Select(name => SCSkill.Loaded[name]);
-        if (SCSkill.Loaded.TryGetValue("spacechase0.LuckSkill", out var luckSkill))
+        if (LuckSkill.Instance is not null)
         {
             // luck skill must be enumerated first
-            customSkills = luckSkill.Collect(customSkills);
+            customSkills = LuckSkill.Instance.Collect(customSkills);
         }
 
         foreach (var skill in customSkills)

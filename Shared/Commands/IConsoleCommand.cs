@@ -10,6 +10,7 @@ internal interface IConsoleCommand
     string Documentation { get; }
 
     /// <summary>The action that will be executed.</summary>
+    /// <param name="trigger">The trigger word.</param>
     /// <param name="args">The command arguments.</param>
-    void Callback(string[] args);
+    void Callback(string trigger, string[] args);
 }

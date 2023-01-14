@@ -1,10 +1,8 @@
 ﻿namespace DaLion.Overhaul.Modules.Rings.Patchers;
 
-using System.Linq;
-
 #region using directives
 
-using DaLion.Overhaul.Modules.Arsenal.Extensions;
+using System.Linq;
 using DaLion.Overhaul.Modules.Rings.VirtualProperties;
 using DaLion.Shared.Extensions.Collections;
 using DaLion.Shared.Harmony;

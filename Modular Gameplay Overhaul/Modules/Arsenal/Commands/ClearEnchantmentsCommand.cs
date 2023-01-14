@@ -24,7 +24,7 @@ internal sealed class ClearEnchantmentsCommand : ConsoleCommand
     public override string Documentation => "Remove all enchantments from the selected weapon or slingshot.";
 
     /// <inheritdoc />
-    public override void Callback(string[] args)
+    public override void Callback(string trigger, string[] args)
     {
         var tool = Game1.player.CurrentTool;
         if (tool is not (MeleeWeapon or Slingshot))

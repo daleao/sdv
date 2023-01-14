@@ -12,7 +12,6 @@ using DaLion.Shared.Harmony;
 using HarmonyLib;
 using Microsoft.Xna.Framework;
 using SpaceCore.Interface;
-using StardewValley.Menus;
 using StardewValley.Objects;
 
 #endregion using directives
@@ -105,7 +104,7 @@ internal sealed class NewForgeMenuUpdatePatcher : HarmonyPatcher
 
     #region injected subroutines
 
-    private static void UnforgeInfinityBand(IClickableMenu menu, CombinedRing infinity)
+    private static void UnforgeInfinityBand(NewForgeMenu menu, CombinedRing infinity)
     {
         var combinedRings = infinity.combinedRings.ToList();
         infinity.combinedRings.Clear();
@@ -116,9 +115,7 @@ internal sealed class NewForgeMenuUpdatePatcher : HarmonyPatcher
         }
 
         Utility.CollectOrDrop(new Ring(Globals.InfinityBandIndex!.Value));
-        Reflector
-            .GetUnboundFieldGetter<IClickableMenu, ClickableTextureComponent>(menu, "leftIngredientSpot")
-            .Invoke(menu).item = null;
+        menu.leftIngredientSpot.item = null;
         Game1.playSound("coin");
     }
 

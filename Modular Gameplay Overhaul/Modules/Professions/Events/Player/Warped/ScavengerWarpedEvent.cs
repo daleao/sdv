@@ -53,6 +53,8 @@ internal sealed class ScavengerWarpedEvent : WarpedEvent
 
     private static void TrySpawnForageables(int amount, GameLocation location)
     {
+        Log.D($"Trying to spawn extra forage in {location.Name}.");
+
         var r = new Random(Guid.NewGuid().GetHashCode());
         var locationData = Game1.content.Load<Dictionary<string, string>>("Data\\Locations");
         if (!locationData.ContainsKey(location.Name))
@@ -68,6 +70,7 @@ internal sealed class ScavengerWarpedEvent : WarpedEvent
 
         var split = new SpanSplitter(rawData, ' ');
         var numberToSpawn = r.Next(1, Math.Min(5, 7 - amount));
+        var count = 0;
         for (var i = 0; i < numberToSpawn; i++)
         {
             for (var j = 0; j < 11; j++)
@@ -99,8 +102,11 @@ internal sealed class ScavengerWarpedEvent : WarpedEvent
                 }
 
                 location.numberOfSpawnedObjectsOnMap++;
+                count++;
                 break;
             }
         }
+
+        Log.D($"[Scavenger]: Spawned {count} forages.");
     }
 }

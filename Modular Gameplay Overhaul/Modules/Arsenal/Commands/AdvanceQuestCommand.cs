@@ -25,7 +25,7 @@ internal sealed class AdvanceQuestCommand : ConsoleCommand
     public override string Documentation => "Forcefully advances the specified quest-line (either Clint's Forge or Yoba's Virtues).";
 
     /// <inheritdoc />
-    public override void Callback(string[] args)
+    public override void Callback(string trigger, string[] args)
     {
         var player = Game1.player;
         if (args.Length == 0 || string.IsNullOrEmpty(args[0]))

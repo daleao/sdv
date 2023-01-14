@@ -1,5 +1,11 @@
 # Rings Module Change Log
 
+## 1.1.1
+
+### Fixed
+
+* Added missing config checks to Better Crafting integration.
+
 ## 1.0.2
 
 ### Fixed

@@ -27,7 +27,7 @@ internal sealed class SetRegisteredUltimateCommand : ConsoleCommand
     public override string Documentation => "Change the player's currently registered Special Ability.";
 
     /// <inheritdoc />
-    public override void Callback(string[] args)
+    public override void Callback(string trigger, string[] args)
     {
         if (args.Length == 0 || string.IsNullOrEmpty(args[0]))
         {
