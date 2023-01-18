@@ -42,6 +42,10 @@ All tool enchantments are compatible. The Reaching Enchantment will work on char
 
 In addition, this module will allow the Swift Enchantment to be applied to the Watering Can, and the Master Enchantment to be applied to all tools, boosting the corresponding skill level by **one**. Lastly, the Haymaker Enchantment can now be applied to the Scythe and Golden Scythe.
 
+## Auto-Selection
+
+Hold the Mod Key (default LeftShift) and click on any tool in your toolbar or inventory to enable it for auto-selection. As long the current tool is itself enabled for auto-selection, pressing the tool-use button will cause the appropriate enabled tool to be intelligently selected for the target tile.
+
 ## Configs
 
 This section describes some of the configurable settings provided in configs.json:

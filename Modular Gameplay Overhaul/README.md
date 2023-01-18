@@ -32,7 +32,7 @@ All modules should be fully multiplayer and splitscreen-ready so long as all pla
 
 - **[Taxes](Modules/Taxes)** is a complement to the new Conservationist profession. It introduces a simple yet realistic taxation system as an added challenge and end-game gold sink. Because surely a nation at war would be all over your juicy farm income.
 
-- **[Tools](Modules/Tools)** is a simple mod which allows for chargeable resource tools and customizable farming tools. It also extends the available pool of tool enchantments.
+- **[Tools](Modules/Tools)** is a one-stop-shop for tool customization and quality-of-life. It can allow you to charge resource tools, customizable farming tools, extend the enchantment pool and intelligently auto-select the appropriate tool for any tile.
 
 - **[Tweex](Modules/Tweex)** is the final module, and serves as a repository for smaller tweaks and fixes to inconsistencies not large enough to merit a separate module.
 
