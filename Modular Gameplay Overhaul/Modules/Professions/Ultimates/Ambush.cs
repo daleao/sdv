@@ -24,7 +24,7 @@ public sealed class Ambush : Ultimate
 
     /// <inheritdoc />
     public override string Description =>
-        I18n.Get(this.Name.ToLower() + ".desc." + (this.IsGrantingCritBuff ? "revealed" : "hidden"));
+        I18n.Get(this.Name.ToLower() + ".desc." + (this.IsActive ? "hidden" : "revealed"));
 
     /// <inheritdoc />
     public override IProfession Profession => Professions.Profession.Poacher;
@@ -151,7 +151,7 @@ public sealed class Ambush : Ultimate
                 this.GetType().Name,
                 this.DisplayName)
             {
-                which = buffId,
+                which = buffId - 4,
                 sheetIndex = BackStabSheetIndex,
                 millisecondsDuration = timeLeft * 2,
                 description = this.Description,

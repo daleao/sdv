@@ -158,7 +158,7 @@ Note that, though all combat professions can be acquired via skill reset, only o
 
 - ![](resources/assets/sprites/loose/undyingrage.png)  **Undying Frenzy (Brute / Amazon)** - Doubles rage accumulation for 15s. Immune to passing out. When the effect ends, recovers 5% health for every enemy slain while the buff was active.
 	- Charged by taking damage or defeating enemies. Charges more quickly if enemies are defeated using a blunt weapon.
-- ![](resources/assets/sprites/loose/cloaking.png)  **Ambuscade (Bushwhacker)** - Become invisible and untargetable for 30s. Effect ends prematurely if the player attacks an enemy. When the effect ends, gain a 2x crit. power buff that lasts for twice the leftover invisibility duration. If an enemy is slain within 1.5s out of Ambush, immediately regain 20% special ability charge.
+- ![](resources/assets/sprites/loose/cloaking.png)  **Ambuscade (Bushwhacker)** - Become invisible and untargetable for 30s. Effect ends prematurely if the player attacks an enemy. When the effect ends, gain a 2x crit. power buff that lasts for twice the leftover invisibility duration. If an enemy is slain within 0.5s out of Ambush, immediately regain 25% special ability charge.
 	- Charged by scoring critical hits, and the charge amount is proportional to crit. power.
 - ![](resources/assets/sprites/loose/bullettime.png)  **Death Blossom (Desperado)** - For 15s enable auto-fire in eight directions at once.
 	- Journey of the Prairie King, "IRL".

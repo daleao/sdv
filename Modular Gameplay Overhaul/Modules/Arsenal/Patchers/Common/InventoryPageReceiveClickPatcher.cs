@@ -52,12 +52,12 @@ internal sealed class InventoryPageReceiveClickPatcher : HarmonyPatcher
 
         if (___hoveredItem is not (Tool tool and (MeleeWeapon or Slingshot)))
         {
-            return ToolsModule.IsEnabled;
+            return true; // run original logic
         }
 
         if (tool is MeleeWeapon weapon && weapon.isScythe())
         {
-            return ToolsModule.IsEnabled;
+            return true; // run original logic
         }
 
         if (ArsenalModule.State.SelectableArsenal == tool)

@@ -1,5 +1,12 @@
 ﻿# Arsenal Change Log
 
+## 1.2.1
+
+### Fixed
+
+* Fixed auto-selection preventing other LeftShift actions in inventory menu.
+* Fixed inverted swipe effect when swinging scythe.
+
 ## 1.2.0
 
 ### Added

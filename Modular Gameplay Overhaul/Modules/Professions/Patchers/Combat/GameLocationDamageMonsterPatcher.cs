@@ -322,12 +322,12 @@ internal sealed class GameLocationDamageMonsterPatcher : HarmonyPatcher
             ultimate.ChargeValue = 0;
         }
 
-        if (monster.Health > 0 || (!wasActive && !(ambush.SecondsOutOfAmbush <= 1.5d)))
+        if (monster.Health > 0 || !wasActive || ambush.SecondsOutOfAmbush > 0.5d)
         {
             return;
         }
 
-        ultimate.ChargeValue += ultimate.MaxValue / 5d;
+        ultimate.ChargeValue += ultimate.MaxValue / 4d;
         ambush.SecondsOutOfAmbush = double.MaxValue;
     }
 

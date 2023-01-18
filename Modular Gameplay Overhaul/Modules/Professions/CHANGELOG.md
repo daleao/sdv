@@ -1,14 +1,25 @@
 # Professions Module Change Log
 
+## 1.2.1
+
+### Changed
+
+* Changes to Pacher Ambush -> *If an enemy is slain within ~~1.5s~~ 0.5s out of Ambush, immediately regain ~~20%~~ 25% special ability charge.*
+
+### Fixed
+
+* Fixed a possible throw when poaching from a monster that has no item to drop.
+
 ## 1.2.0
 
-## Changed
+### Changed
 
 * Dramatically increased Blaster's chance of producing coal. Apparently the vanilla chance is so retardedly low that just doubling it doesn't make a noticeable difference.
 * Piper Slimes no longer take on the properties of Hutch Slimes, because I decided that wasn't really immersive. Piper Slimes are not summoned from the Hutch; they are attracted due to the Piper's "sliminess", and therefore they should be native to the current location.
 
 ### Fixed
 
+* The Prestige API should now be fully functional, so custom skill mod authors can now support prestige profession variants.
 * Fixed the Agriculturist perk, which I straight up forgot to include in 1.1.0.
 
 ## 1.1.1

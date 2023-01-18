@@ -28,7 +28,7 @@ internal sealed class RefreshWeaponCommand : ConsoleCommand
     /// <inheritdoc />
     public override void Callback(string trigger, string[] args)
     {
-        if (Game1.player.CurrentTool is not MeleeWeapon weapon)
+        if (Game1.player.CurrentTool is not MeleeWeapon weapon || weapon.isScythe())
         {
             Log.W("You must select a weapon first.");
             return;

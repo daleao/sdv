@@ -52,12 +52,12 @@ internal sealed class ToolbarReceiveClickPatcher : HarmonyPatcher
         if (___hoverItem is not (Tool tool
             and (Axe or Hoe or Pickaxe or WateringCan or FishingRod or MilkPail or Shears or MeleeWeapon)))
         {
-            return false; // don't run original logic
+            return true; // run original logic
         }
 
         if (tool is MeleeWeapon weapon && !weapon.isScythe())
         {
-            return false; // don't run original logic
+            return true; // run original logic
         }
 
         if (ToolsModule.State.SelectableTools.Contains(tool))

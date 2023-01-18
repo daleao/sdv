@@ -87,16 +87,10 @@ public static class EnumerableExtensions
         var count = 0;
         foreach (var element in enumerable)
         {
-
             if (r.Next(++count) == 0)
             {
                 selected = element;
             }
-        }
-
-        if (count == 0)
-        {
-            ThrowHelper.ThrowInvalidOperationException("Sequence was empty.");
         }
 
         return selected;
