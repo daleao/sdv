@@ -70,8 +70,40 @@ public static class EnumerableExtensions
         return enumerable.Where(e => e.HasValue).Select(e => e!.Value);
     }
 
+    /// <summary>Selects a random value from amongst the specified <paramref name="enumerable"/>.</summary>
+    /// <typeparam name="T">The type of elements in the <paramref name="enumerable"/>.</typeparam>
+    /// <param name="enumerable">An <see cref="IEnumerable{T}"/>.</param>
+    /// <param name="r">A <see cref="Random"/> number generator.</param>
+    /// <returns>A random <typeparamref name="T"/> element from within <paramref name="enumerable"/>.</returns>
+    public static T? Choose<T>(this IEnumerable<T> enumerable, Random? r = null)
+    {
+        r ??= new Random(Guid.NewGuid().GetHashCode());
+        if (enumerable is ICollection<T> collection)
+        {
+            return collection.ElementAt(r.Next(collection.Count));
+        }
+
+        var selected = default(T);
+        var count = 0;
+        foreach (var element in enumerable)
+        {
+
+            if (r.Next(++count) == 0)
+            {
+                selected = element;
+            }
+        }
+
+        if (count == 0)
+        {
+            ThrowHelper.ThrowInvalidOperationException("Sequence was empty.");
+        }
+
+        return selected;
+    }
+
     /// <summary>Calculates the standard deviation of the <paramref name="values"/>.</summary>
-    /// <param name="values">An <see cref="IEnumerable{T}"/> of <see cref="int"/> values..</param>
+    /// <param name="values">An <see cref="IEnumerable{T}"/> of <see cref="int"/> values.</param>
     /// <returns>The standard deviation of values in <paramref name="values"/>.</returns>
     public static double StandardDeviation(this IEnumerable<int> values)
     {
@@ -81,7 +113,7 @@ public static class EnumerableExtensions
     }
 
     /// <summary>Calculates the standard deviation of the <paramref name="values"/>.</summary>
-    /// <param name="values">An <see cref="IEnumerable{T}"/> of <see cref="float"/> values..</param>
+    /// <param name="values">An <see cref="IEnumerable{T}"/> of <see cref="float"/> values.</param>
     /// <returns>The standard deviation of values in <paramref name="values"/>.</returns>
     public static double StandardDeviation(this IEnumerable<float> values)
     {
@@ -91,7 +123,7 @@ public static class EnumerableExtensions
     }
 
     /// <summary>Calculates the standard deviation of the <paramref name="values"/>.</summary>
-    /// <param name="values">An <see cref="IEnumerable{T}"/> of <see cref="double"/> values..</param>
+    /// <param name="values">An <see cref="IEnumerable{T}"/> of <see cref="double"/> values.</param>
     /// <returns>The standard deviation of values in <paramref name="values"/>.</returns>
     public static double StandardDeviation(this IEnumerable<double> values)
     {
@@ -102,7 +134,7 @@ public static class EnumerableExtensions
 
     /// <summary>Calculates the standard deviation the <paramref name="values"/>.</summary>
     /// <typeparam name="TEnum">A type of <see cref="Enum"/>.</typeparam>
-    /// <param name="values">An <see cref="IEnumerable{T}"/> of <see cref="int"/> values..</param>
+    /// <param name="values">An <see cref="IEnumerable{T}"/> of <see cref="int"/> values.</param>
     /// <returns>The standard deviation of values in <paramref name="values"/>.</returns>
     public static double StandardDeviation<TEnum>(this IEnumerable<TEnum> values)
         where TEnum : Enum

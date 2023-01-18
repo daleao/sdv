@@ -30,6 +30,15 @@ public static class BuildingExtensions
         return Game1.getFarmerMaybeOffline(building.owner.Value) ?? Game1.MasterPlayer;
     }
 
+    /// <summary>Checks whether the <paramref name="building"/> is owned by the specified <see cref="Farmer"/>.</summary>
+    /// <param name="building">The <see cref="Building"/>.</param>
+    /// <param name="farmer">The <see cref="Farmer"/>.</param>
+    /// <returns><see langword="true"/> if the <paramref name="building"/>'s owned value is equal to the unique ID of the <paramref name="farmer"/>, otherwise <see langword="false"/>.</returns>
+    public static bool IsOwnedBy(this Building building, Farmer farmer)
+    {
+        return building.owner.Value == farmer.UniqueMultiplayerID;
+    }
+
     /// <summary>
     ///     Gets the tile distance between this <paramref name="building"/> and some <paramref name="other"/> in the
     ///     same <see cref="GameLocation"/>.
@@ -94,23 +103,18 @@ public static class BuildingExtensions
     ///     assumed to be the <see cref="Farm"/>.
     /// </remarks>
     public static TBuilding? GetClosestBuilding<TBuilding>(
-        this Building building, IEnumerable<TBuilding>? candidates = null, Func<TBuilding, bool>? predicate = null)
+        this Building building,
+        IEnumerable<TBuilding>? candidates = null,
+        Func<TBuilding, bool>? predicate = null)
         where TBuilding : Building
     {
         predicate ??= _ => true;
-        var candidatesArr = candidates?.ToArray() ??
-                            Game1.getFarm().buildings.OfType<TBuilding>().Where(t => predicate(t)).ToArray();
-        var distanceToClosest = double.MaxValue;
-        switch (candidatesArr.Length)
-        {
-            case 0:
-                return null;
-            case 1:
-                return candidatesArr[0];
-        }
-
+        candidates ??= Game1.getFarm().buildings
+            .OfType<TBuilding>()
+            .Where(t => predicate(t));
         TBuilding? closest = null;
-        foreach (var candidate in candidatesArr)
+        var distanceToClosest = double.MaxValue;
+        foreach (var candidate in candidates)
         {
             var distanceToThisCandidate = building.DistanceTo(candidate);
             if (distanceToThisCandidate >= distanceToClosest)
@@ -139,23 +143,18 @@ public static class BuildingExtensions
     ///     assumed to be the <see cref="Farm"/>.
     /// </remarks>
     public static TCharacter? GetClosestCharacter<TCharacter>(
-        this Building building, IEnumerable<TCharacter>? candidates = null, Func<TCharacter, bool>? predicate = null)
+        this Building building,
+        IEnumerable<TCharacter>? candidates = null,
+        Func<TCharacter, bool>? predicate = null)
         where TCharacter : Character
     {
         predicate ??= _ => true;
-        var candidatesArr = candidates?.ToArray() ??
-                            Game1.getFarm().characters.OfType<TCharacter>().Where(t => predicate(t)).ToArray();
-        var distanceToClosest = double.MaxValue;
-        switch (candidatesArr.Length)
-        {
-            case 0:
-                return null;
-            case 1:
-                return candidatesArr[0];
-        }
-
+        candidates ??= Game1.getFarm().characters
+            .OfType<TCharacter>()
+            .Where(t => predicate(t));
         TCharacter? closest = null;
-        foreach (var candidate in candidatesArr)
+        var distanceToClosest = double.MaxValue;
+        foreach (var candidate in candidates)
         {
             var distanceToThisCandidate = building.DistanceTo(candidate);
             if (distanceToThisCandidate >= distanceToClosest)
@@ -183,22 +182,16 @@ public static class BuildingExtensions
     ///     This version is required as <see cref="Farmer"/> references are stored in a different field of <see cref="GameLocation"/>.
     /// </remarks>
     public static Farmer? GetClosestFarmer(
-        this Building building, IEnumerable<Farmer>? candidates = null, Func<Farmer, bool>? predicate = null)
+        this Building building,
+        IEnumerable<Farmer>? candidates = null,
+        Func<Farmer, bool>? predicate = null)
     {
         predicate ??= _ => true;
-        var candidatesArr = candidates?.ToArray() ??
-                            Game1.getFarm().farmers.Where(t => predicate(t)).ToArray();
-        var distanceToClosest = double.MaxValue;
-        switch (candidatesArr.Length)
-        {
-            case 0:
-                return null;
-            case 1:
-                return candidatesArr[0];
-        }
-
+        candidates ??= Game1.getFarm().farmers
+            .Where(t => predicate(t));
         Farmer? closest = null;
-        foreach (var candidate in candidatesArr)
+        var distanceToClosest = double.MaxValue;
+        foreach (var candidate in candidates)
         {
             var distanceToThisCandidate = building.DistanceTo(candidate);
             if (distanceToThisCandidate >= distanceToClosest)
@@ -227,23 +220,18 @@ public static class BuildingExtensions
     ///     assumed to be the <see cref="Farm"/>.
     /// </remarks>
     public static TObject? GetClosestObject<TObject>(
-        this Building building, IEnumerable<TObject>? candidates = null, Func<TObject, bool>? predicate = null)
+        this Building building,
+        IEnumerable<TObject>? candidates = null,
+        Func<TObject, bool>? predicate = null)
         where TObject : SObject
     {
         predicate ??= _ => true;
-        var candidatesArr = candidates?.ToArray() ??
-                            Game1.getFarm().Objects.Values.OfType<TObject>().Where(o => predicate(o)).ToArray();
-        var distanceToClosest = double.MaxValue;
-        switch (candidatesArr.Length)
-        {
-            case 0:
-                return null;
-            case 1:
-                return candidatesArr[0];
-        }
-
+        candidates ??= Game1.getFarm().Objects.Values
+            .OfType<TObject>()
+            .Where(o => predicate(o));
         TObject? closest = null;
-        foreach (var candidate in candidatesArr)
+        var distanceToClosest = double.MaxValue;
+        foreach (var candidate in candidates)
         {
             var distanceToThisCandidate = building.DistanceTo(candidate);
             if (distanceToThisCandidate >= distanceToClosest)
@@ -272,23 +260,18 @@ public static class BuildingExtensions
     ///     assumed to be the <see cref="Farm"/>.
     /// </remarks>
     public static TTerrainFeature? GetClosestTerrainFeature<TTerrainFeature>(
-        this Building building, IEnumerable<TTerrainFeature>? candidates = null, Func<TTerrainFeature, bool>? predicate = null)
+        this Building building,
+        IEnumerable<TTerrainFeature>? candidates = null,
+        Func<TTerrainFeature, bool>? predicate = null)
         where TTerrainFeature : TerrainFeature
     {
         predicate ??= _ => true;
-        var candidatesArr = candidates?.ToArray() ??
-                            Game1.getFarm().terrainFeatures.Values.OfType<TTerrainFeature>().Where(t => predicate(t)).ToArray();
-        var distanceToClosest = double.MaxValue;
-        switch (candidatesArr.Length)
-        {
-            case 0:
-                return null;
-            case 1:
-                return candidatesArr[0];
-        }
-
+        candidates ??= Game1.getFarm().terrainFeatures.Values
+            .OfType<TTerrainFeature>()
+            .Where(t => predicate(t));
         TTerrainFeature? closest = null;
-        foreach (var candidate in candidatesArr)
+        var distanceToClosest = double.MaxValue;
+        foreach (var candidate in candidates)
         {
             var distanceToThisCandidate = building.DistanceTo(candidate);
             if (distanceToThisCandidate >= distanceToClosest)

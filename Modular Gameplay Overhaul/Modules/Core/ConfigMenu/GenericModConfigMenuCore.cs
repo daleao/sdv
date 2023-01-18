@@ -2,8 +2,6 @@
 
 #region using directives
 
-using System.Linq;
-using DaLion.Shared.Extensions;
 using DaLion.Shared.Extensions.SMAPI;
 using DaLion.Shared.Integrations.GenericModConfigMenu;
 
@@ -238,11 +236,17 @@ internal sealed partial class GenericModConfigMenuCore : GenericModConfigMenuInt
             this.RegisterTweex();
         }
 
-        this.OnFieldChanged((field, _) =>
+        this.OnFieldChanged((id, _) =>
         {
-            if (field.IsIn(OverhaulModule.List.Select(m => m.Namespace)))
+            foreach (var module in OverhaulModule.List)
             {
+                if (id != module.Namespace)
+                {
+                    continue;
+                }
+
                 _reload = true;
+                break;
             }
         });
     }

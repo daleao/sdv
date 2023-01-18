@@ -25,8 +25,8 @@ internal sealed class GameLocationExplodePatcher : HarmonyPatcher
     #region harmony patches
 
     /// <summary>Patch for Blaster double coal chance + Demolitionist speed burst.</summary>
-    [HarmonyPrefix]
-    private static void GameLocationExplodePrefix(
+    [HarmonyPostfix]
+    private static void GameLocationExplodePostfix(
         GameLocation __instance, Vector2 tileLocation, int radius, Farmer? who)
     {
         if (who is null)
@@ -46,6 +46,9 @@ internal sealed class GameLocationExplodePatcher : HarmonyPatcher
         var chanceModifier = (who.DailyLuck / 2.0) + (who.LuckLevel * 0.001) + (who.MiningLevel * 0.005);
         var r = new Random(Guid.NewGuid().GetHashCode());
         var circle = new CircleTileGrid(tileLocation, (uint)radius);
+
+        // this behemoth aggregates resource drops from at least 3 different vanilla methods
+        // it's not entirely clear when each one is used, but they are all replicated here to be sure
         foreach (var tile in circle.Tiles)
         {
             if (!__instance.objects.TryGetValue(tile, out var tileObj) || !tileObj.IsStone())
@@ -60,7 +63,7 @@ internal sealed class GameLocationExplodePatcher : HarmonyPatcher
                 {
                     // perform check from MineShaft.checkStoneForItems
                     // this method calls GameLocation.breakStone which also produces coal, but only outside which never applies here
-                    if (r.NextDouble() < 0.05 * (1.0 + chanceModifier) *
+                    if (r.NextDouble() < 0.5 * (1.0 + chanceModifier) * // we multiplied this by x10, from 0.05 to 0.5, because vanilla is super stingy and it's impossible to get any coal
                         (tileObj.ParentSheetIndex is 40 or 42 ? 1.2 : 0.8) &&
                         (r.NextDouble() < 0.25 || (isPrestigedBlaster && r.NextDouble() < 0.25)))
                     {
@@ -70,6 +73,7 @@ internal sealed class GameLocationExplodePatcher : HarmonyPatcher
                             tileY,
                             who.UniqueMultiplayerID,
                             __instance);
+                        Log.D("[Blaster]: Made extra coal from MineShaft.checkStoneForItems!");
                         if (isPrestigedBlaster)
                         {
                             Game1.createObjectDebris(
@@ -78,6 +82,7 @@ internal sealed class GameLocationExplodePatcher : HarmonyPatcher
                                 tileY,
                                 who.UniqueMultiplayerID,
                                 __instance);
+                            Log.D("[Blaster]: Made extra prestiged coal from MineShaft.checkStoneForItems!");
                         }
 
                         Reflector.GetStaticFieldGetter<Multiplayer>(typeof(Game1), "multiplayer").Invoke()
@@ -96,23 +101,12 @@ internal sealed class GameLocationExplodePatcher : HarmonyPatcher
                                     128));
                     }
 
-                    if (!isPrestigedBlaster)
+                    if (isPrestigedBlaster)
                     {
-                        continue;
-                    }
-
-                    // since I'm generous, add a whole third check for prestiged
-                    if (r.NextDouble() < 0.05 * (1.0 + chanceModifier) *
-                        (tileObj.ParentSheetIndex is 40 or 42 ? 1.2 : 0.8) &&
-                        (r.NextDouble() < 0.25 || (isPrestigedBlaster && r.NextDouble() < 0.25)))
-                    {
-                        Game1.createObjectDebris(
-                            SObject.coal,
-                            tileX,
-                            tileY,
-                            who.UniqueMultiplayerID,
-                            __instance);
-                        if (isPrestigedBlaster)
+                        // since I'm generous, add a whole third check for prestiged
+                        if (r.NextDouble() < 0.5 * (1.0 + chanceModifier) *
+                            (tileObj.ParentSheetIndex is 40 or 42 ? 1.2 : 0.8) &&
+                            (r.NextDouble() < 0.25 || (isPrestigedBlaster && r.NextDouble() < 0.25)))
                         {
                             Game1.createObjectDebris(
                                 SObject.coal,
@@ -120,22 +114,34 @@ internal sealed class GameLocationExplodePatcher : HarmonyPatcher
                                 tileY,
                                 who.UniqueMultiplayerID,
                                 __instance);
-                        }
+                            Log.D("[Blaster]: Made even more extra coal from MineShaft.checkStoneForItems!");
+                            if (isPrestigedBlaster)
+                            {
+                                Game1.createObjectDebris(
+                                    SObject.coal,
+                                    tileX,
+                                    tileY,
+                                    who.UniqueMultiplayerID,
+                                    __instance);
+                                Log.D(
+                                    "[Blaster]: Made even more extra prestiged coal from MineShaft.checkStoneForItems");
+                            }
 
-                        Reflector.GetStaticFieldGetter<Multiplayer>(typeof(Game1), "multiplayer").Invoke()
-                            .broadcastSprites(
-                                __instance,
-                                new TemporaryAnimatedSprite(
-                                    25,
-                                    new Vector2(tile.X * Game1.tileSize, tile.Y * Game1.tileSize),
-                                    Color.White,
-                                    8,
-                                    Game1.random.NextDouble() < 0.5,
-                                    80f,
-                                    0,
-                                    -1,
-                                    -1f,
-                                    128));
+                            Reflector.GetStaticFieldGetter<Multiplayer>(typeof(Game1), "multiplayer").Invoke()
+                                .broadcastSprites(
+                                    __instance,
+                                    new TemporaryAnimatedSprite(
+                                        25,
+                                        new Vector2(tile.X * Game1.tileSize, tile.Y * Game1.tileSize),
+                                        Color.White,
+                                        8,
+                                        Game1.random.NextDouble() < 0.5,
+                                        80f,
+                                        0,
+                                        -1,
+                                        -1f,
+                                        128));
+                        }
                     }
                 }
                 else
@@ -152,6 +158,7 @@ internal sealed class GameLocationExplodePatcher : HarmonyPatcher
                                 tileY,
                                 who.UniqueMultiplayerID,
                                 __instance);
+                            Log.D("[Blaster]: Made extra coal from GameLocation.OnStoneDestroyed!");
                             if (isPrestigedBlaster)
                             {
                                 Game1.createObjectDebris(
@@ -160,6 +167,7 @@ internal sealed class GameLocationExplodePatcher : HarmonyPatcher
                                     tileY,
                                     who.UniqueMultiplayerID,
                                     __instance);
+                                Log.D("[Blaster]: Made extra prestiged coal from GameLocation.OnStoneDestroyed!");
                             }
                         }
                     }
@@ -175,6 +183,7 @@ internal sealed class GameLocationExplodePatcher : HarmonyPatcher
                             tileY,
                             who.UniqueMultiplayerID,
                             __instance);
+                        Log.D("[Blaster]: Made extra coal from GameLocation.breakStone!");
                         if (isPrestigedBlaster)
                         {
                             Game1.createObjectDebris(
@@ -183,6 +192,7 @@ internal sealed class GameLocationExplodePatcher : HarmonyPatcher
                                 tileY,
                                 who.UniqueMultiplayerID,
                                 __instance);
+                            Log.D("[Blaster]: Made extra prestiged coal from GameLocation.breakStone!");
                         }
                     }
                 }
@@ -235,6 +245,7 @@ internal sealed class GameLocationExplodePatcher : HarmonyPatcher
                         tileY,
                         who.UniqueMultiplayerID,
                         __instance);
+                    Log.D("[Demolitionist]: Made extra geodes!");
                     if (isPrestigedDemolitionist)
                     {
                         Game1.createObjectDebris(
@@ -244,6 +255,7 @@ internal sealed class GameLocationExplodePatcher : HarmonyPatcher
                             tileY,
                             who.UniqueMultiplayerID,
                             __instance);
+                        Log.D("[Demolitionist]: Made extra prestiged geodes!");
                     }
                 }
 
@@ -252,19 +264,21 @@ internal sealed class GameLocationExplodePatcher : HarmonyPatcher
                     Game1.stats.DaysPlayed > 1)
                 {
                     Game1.createObjectDebris(
-                        390,
+                        SObject.stone,
                         tileX,
                         tileY,
                         who.UniqueMultiplayerID,
                         __instance);
+                    Log.D("[Demolitionist]: Made extra stone!");
                     if (isPrestigedDemolitionist)
                     {
                         Game1.createObjectDebris(
-                            390,
+                            SObject.stone,
                             tileX,
                             tileY,
                             who.UniqueMultiplayerID,
                             __instance);
+                        Log.D("[Demolitionist]: Made extra prestiged stone!");
                     }
                 }
             }
@@ -280,6 +294,7 @@ internal sealed class GameLocationExplodePatcher : HarmonyPatcher
                     (int)tile.Y,
                     who.UniqueMultiplayerID,
                     __instance);
+                Log.D("[Demolitionist]: Made extra stuff from VolcanoDungeon.breakStone!");
                 if (isPrestigedDemolitionist)
                 {
                     Game1.createObjectDebris(
@@ -288,6 +303,7 @@ internal sealed class GameLocationExplodePatcher : HarmonyPatcher
                         (int)tile.Y,
                         who.UniqueMultiplayerID,
                         __instance);
+                    Log.D("[Demolitionist]: Made extra prestiged stuff from VolcanoDungeon.breakStone!");
                 }
             }
 
@@ -304,6 +320,7 @@ internal sealed class GameLocationExplodePatcher : HarmonyPatcher
                     tileY,
                     who.UniqueMultiplayerID,
                     __instance);
+                Log.D($"[Demolitionist]: Made extra resource {resourceIndex} from GameLocation.breakStone!");
                 if (isPrestigedDemolitionist)
                 {
                     Game1.createObjectDebris(
@@ -312,25 +329,28 @@ internal sealed class GameLocationExplodePatcher : HarmonyPatcher
                         tileY,
                         who.UniqueMultiplayerID,
                         __instance);
+                    Log.D($"[Demolitionist]: Made extra prestiged resource {resourceIndex} from GameLocation.breakStone!");
                 }
             }
             else if (tileObj.ParentSheetIndex == 46 &&
                      r.NextDouble() < 0.25) // special case for mystic stone dropping prismatic shard
             {
                 Game1.createObjectDebris(
-                    74,
+                    SObject.prismaticShardIndex,
                     tileX,
                     tileY,
                     who.UniqueMultiplayerID,
                     __instance);
+                Log.D("[Demolitionist]: Made extra Prismatic Shard from GameLocation.breakStone!");
                 if (isPrestigedDemolitionist)
                 {
                     Game1.createObjectDebris(
-                        74,
+                        SObject.prismaticShardIndex,
                         tileX,
                         tileY,
                         who.UniqueMultiplayerID,
                         __instance);
+                    Log.D("[Demolitionist]: Made extra prestiged Prismatic Shard from GameLocation.breakStone!");
                 }
             }
             else if (__instance is MineShaft shaft)
@@ -355,6 +375,7 @@ internal sealed class GameLocationExplodePatcher : HarmonyPatcher
                         tileY,
                         who.UniqueMultiplayerID,
                         __instance);
+                    Log.D("[Demolitionist]: Made extra geode from GameLocation.breakStone!");
                     if (isPrestigedDemolitionist)
                     {
                         Game1.createObjectDebris(
@@ -363,6 +384,7 @@ internal sealed class GameLocationExplodePatcher : HarmonyPatcher
                             tileY,
                             who.UniqueMultiplayerID,
                             __instance);
+                        Log.D("[Demolitionist]: Made extra prestiged geode from GameLocation.breakStone!");
                     }
                 }
 
@@ -377,6 +399,7 @@ internal sealed class GameLocationExplodePatcher : HarmonyPatcher
                         tileY,
                         who.UniqueMultiplayerID,
                         __instance);
+                    Log.D("[Demolitionist]: Made extra Omni Geode from GameLocation.breakStone!");
                     if (isPrestigedDemolitionist)
                     {
                         Game1.createObjectDebris(
@@ -385,10 +408,11 @@ internal sealed class GameLocationExplodePatcher : HarmonyPatcher
                             tileY,
                             who.UniqueMultiplayerID,
                             __instance);
+                        Log.D("[Demolitionist]: Made extra prestiged Omni Geode from GameLocation.breakStone!");
                     }
                 }
 
-                // bonus resource
+                // bonus ore
                 if (r.NextDouble() <
                     0.05 * (1.0 + chanceModifier) * (tileObj.ParentSheetIndex is 40 or 42 ? 1.2 : 0.8) ||
                     (isPrestigedDemolitionist && r.NextDouble() < 0.05 * (1.0 + chanceModifier) *
@@ -400,6 +424,7 @@ internal sealed class GameLocationExplodePatcher : HarmonyPatcher
                         tileY,
                         who.UniqueMultiplayerID,
                         __instance);
+                    Log.D("[Demolitionist]: Made extra ore from GameLocation.breakStone!");
                     if (isPrestigedDemolitionist)
                     {
                         Game1.createObjectDebris(
@@ -408,6 +433,7 @@ internal sealed class GameLocationExplodePatcher : HarmonyPatcher
                             tileY,
                             who.UniqueMultiplayerID,
                             __instance);
+                        Log.D("[Demolitionist]: Made extra prestiged ore from GameLocation.breakStone!");
                     }
                 }
                 else if (r.NextDouble() < 0.5 || (isPrestigedDemolitionist && r.NextDouble() < 0.5))
@@ -418,6 +444,7 @@ internal sealed class GameLocationExplodePatcher : HarmonyPatcher
                         tileY,
                         1,
                         __instance);
+                    Log.D("[Demolitionist]: Made extra something...");
                     if (isPrestigedDemolitionist)
                     {
                         Game1.createDebris(
@@ -426,6 +453,7 @@ internal sealed class GameLocationExplodePatcher : HarmonyPatcher
                             tileY,
                             1,
                             __instance);
+                        Log.D("[Demolitionist]: Made extra prestiged something...");
                     }
                 }
             }

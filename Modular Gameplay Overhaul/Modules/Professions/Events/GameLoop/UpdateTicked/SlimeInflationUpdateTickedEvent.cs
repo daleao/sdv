@@ -2,7 +2,6 @@
 
 #region using directives
 
-using System.Linq;
 using DaLion.Overhaul.Modules.Professions.VirtualProperties;
 using DaLion.Shared.Events;
 using StardewModdingAPI.Events;
@@ -22,19 +21,21 @@ internal sealed class SlimeInflationUpdateTickedEvent : UpdateTickedEvent
     /// <inheritdoc />
     protected override void OnUpdateTickedImpl(object? sender, UpdateTickedEventArgs e)
     {
-        var uninflated = GreenSlime_Piped.Values
-            .Select(pair => pair.Value)
-            .Where(piped => piped.PipeTimer > 0 && !piped.Inflated)
-            .ToArray();
-        if (uninflated.Length == 0)
+        var count = 0;
+        foreach (var (_, piped) in GreenSlime_Piped.Values)
         {
-            this.Disable();
-            return;
+            if (piped.PipeTimer <= 0 || piped.Inflated)
+            {
+                continue;
+            }
+
+            piped.Inflate();
+            count++;
         }
 
-        foreach (var piped in uninflated)
+        if (count == 0)
         {
-            piped.Inflate();
+            this.Disable();
         }
     }
 }

@@ -36,7 +36,7 @@ internal sealed class UnlockPopulationGatesCommand : ConsoleCommand
         }
 
         var nearest = Game1.player.GetClosestBuilding<FishPond>(predicate: b =>
-            (b.owner.Value == Game1.player.UniqueMultiplayerID || !Context.IsMultiplayer) && !b.isUnderConstruction());
+            b.IsOwnedBy(Game1.player) && !b.isUnderConstruction());
         if (nearest is null)
         {
             Log.W("There are no owned ponds nearby.");

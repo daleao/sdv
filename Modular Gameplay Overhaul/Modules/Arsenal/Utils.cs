@@ -26,9 +26,12 @@ internal static class Utils
         }
         else
         {
-            foreach (var weapon in Game1.player.Items.OfType<MeleeWeapon>())
+            for (var i = 0; i < Game1.player.Items.Count; i++)
             {
-                weapon.AddIntrinsicEnchantments();
+                if (Game1.player.Items[i] is MeleeWeapon weapon)
+                {
+                    weapon.AddIntrinsicEnchantments();
+                }
             }
         }
     }
@@ -42,15 +45,18 @@ internal static class Utils
             {
                 if (item is MeleeWeapon weapon)
                 {
-                    weapon.AddIntrinsicEnchantments();
+                    weapon.RemoveIntrinsicEnchantments();
                 }
             });
         }
         else
         {
-            foreach (var weapon in Game1.player.Items.OfType<MeleeWeapon>())
+            for (var i = 0; i < Game1.player.Items.Count; i++)
             {
-                weapon.AddIntrinsicEnchantments();
+                if (Game1.player.Items[i] is MeleeWeapon weapon)
+                {
+                    weapon.RemoveIntrinsicEnchantments();
+                }
             }
         }
     }
@@ -76,12 +82,14 @@ internal static class Utils
         }
         else
         {
-            foreach (var sword in Game1.player.Items.OfType<MeleeWeapon>().Where(w =>
-                         w.type.Value == MeleeWeapon.defenseSword &&
-                         (Collections.StabbingSwords.Contains(w.InitialParentTileIndex) ||
-                         ArsenalModule.Config.Weapons.CustomStabbingSwords.Contains(w.Name))))
+            for (var i = 0; i < Game1.player.Items.Count; i++)
             {
-                sword.type.Value = MeleeWeapon.stabbingSword;
+                if (Game1.player.Items[i] is MeleeWeapon weapon && weapon.type.Value == MeleeWeapon.defenseSword &&
+                    (Collections.StabbingSwords.Contains(weapon.InitialParentTileIndex) ||
+                     ArsenalModule.Config.Weapons.CustomStabbingSwords.Contains(weapon.Name)))
+                {
+                    weapon.type.Value = MeleeWeapon.stabbingSword;
+                }
             }
         }
     }
@@ -101,10 +109,12 @@ internal static class Utils
         }
         else
         {
-            foreach (var sword in Game1.player.Items.OfType<MeleeWeapon>().Where(w =>
-                         w.type.Value == MeleeWeapon.stabbingSword))
+            for (var i = 0; i < Game1.player.Items.Count; i++)
             {
-                sword.type.Value = MeleeWeapon.defenseSword;
+                if (Game1.player.Items[i] is MeleeWeapon { type.Value: MeleeWeapon.stabbingSword } sword)
+                {
+                    sword.type.Value = MeleeWeapon.defenseSword;
+                }
             }
         }
     }
@@ -128,8 +138,13 @@ internal static class Utils
         }
         else
         {
-            foreach (var weapon in Game1.player.Items.OfType<MeleeWeapon>())
+            for (var i = 0; i < Game1.player.Items.Count; i++)
             {
+                if (Game1.player.Items[i] is not MeleeWeapon weapon)
+                {
+                    continue;
+                }
+
                 weapon.RefreshStats(option);
                 MeleeWeapon_Stats.Invalidate(weapon);
             }

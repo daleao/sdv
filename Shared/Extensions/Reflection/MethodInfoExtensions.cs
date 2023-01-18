@@ -39,8 +39,14 @@ public static class MethodInfoExtensions
         }
 
         var delegateInfo = typeof(TDelegate).GetMethodInfoFromDelegateType();
-        var methodParamTypes = method.GetParameters().Select(m => m.ParameterType).ToArray();
-        var delegateParamTypes = delegateInfo.GetParameters().Select(d => d.ParameterType).ToArray();
+        var methodParamTypes = method
+            .GetParameters()
+            .Select(m => m.ParameterType)
+            .ToArray();
+        var delegateParamTypes = delegateInfo
+            .GetParameters()
+            .Select(d => d.ParameterType)
+            .ToArray();
         if (delegateParamTypes.Length < 1)
         {
             ThrowHelper.ThrowInvalidOperationException(
@@ -48,7 +54,9 @@ public static class MethodInfoExtensions
         }
 
         var delegateInstanceType = delegateParamTypes[0];
-        delegateParamTypes = delegateParamTypes.Skip(1).ToArray();
+        delegateParamTypes = delegateParamTypes
+            .Skip(1)
+            .ToArray();
         if (delegateParamTypes.Length != methodParamTypes.Length)
         {
             ThrowHelper.ThrowInvalidOperationException(
@@ -84,7 +92,9 @@ public static class MethodInfoExtensions
 
         // collect args and target
         return Expression
-            .Lambda<TDelegate>(convertedCallExp, delegateTargetExp.Collect(args.Select(a => a.DelegateParamExp)))
+            .Lambda<TDelegate>(
+                convertedCallExp,
+                delegateTargetExp.Collect(args.Select(a => a.DelegateParamExp)))
             .CompileFast();
     }
 
@@ -101,8 +111,14 @@ public static class MethodInfoExtensions
         }
 
         var delegateInfo = typeof(TDelegate).GetMethodInfoFromDelegateType();
-        var methodParamTypes = method.GetParameters().Select(m => m.ParameterType).ToArray();
-        var delegateParamTypes = delegateInfo.GetParameters().Select(d => d.ParameterType).ToArray();
+        var methodParamTypes = method
+            .GetParameters()
+            .Select(m => m.ParameterType)
+            .ToArray();
+        var delegateParamTypes = delegateInfo
+            .GetParameters()
+            .Select(d => d.ParameterType)
+            .ToArray();
         if (delegateParamTypes.Length != methodParamTypes.Length)
         {
             ThrowHelper.ThrowInvalidOperationException(
@@ -123,7 +139,8 @@ public static class MethodInfoExtensions
         }).ToArray();
 
         // create method call
-        var callExp = Expression.Call(null, method, args.Select(a => a.ConvertedParamExp));
+        var callExp = Expression
+            .Call(null, method, args.Select(a => a.ConvertedParamExp));
 
         // convert return type if necessary
         var convertedCallExp = delegateInfo.ReturnType != method.ReturnType
@@ -131,6 +148,8 @@ public static class MethodInfoExtensions
             : (Expression)callExp;
 
         // collect args and target
-        return Expression.Lambda<TDelegate>(convertedCallExp, args.Select(a => a.DelegateParamExp)).CompileFast();
+        return Expression
+            .Lambda<TDelegate>(convertedCallExp, args.Select(a => a.DelegateParamExp))
+            .CompileFast();
     }
 }

@@ -56,7 +56,7 @@ internal sealed class GameLocationAnswerDialogueActionPatcher : HarmonyPatcher
                     Game1.activeClickableMenu.exitThisMenuNoSound();
                     Game1.playSound("parry");
                     player.addItemByMenuIfNecessaryElseHoldUp(new MeleeWeapon(Constants.DarkSwordIndex));
-                    player.mailForTomorrow.Add("viegoCurse");
+                    player.mailReceived.Add("gotDarkSword");
                     break;
                 }
 
@@ -76,7 +76,7 @@ internal sealed class GameLocationAnswerDialogueActionPatcher : HarmonyPatcher
                 default:
                 {
                     var split = questionAndAnswer.SplitWithoutAllocation('_');
-                    if (split[0] != "Yoba")
+                    if (!split[0].Equals("Yoba", StringComparison.Ordinal))
                     {
                         return true; // run original logic
                     }

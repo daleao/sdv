@@ -2,6 +2,7 @@
 
 #region using directives
 
+using System.Collections.Immutable;
 using System.Linq;
 using DaLion.Shared.Attributes;
 using DaLion.Shared.Integrations;
@@ -28,7 +29,9 @@ internal sealed class CustomOreNodesIntegration : ModIntegration<CustomOreNodesI
             .Concat(
                 this.ModApi
                     .GetCustomOreNodes()
-                    .Select(n => Reflector.GetUnboundFieldGetter<object, int>(n, "parentSheetIndex").Invoke(n)))
-            .ToHashSet();
+                    .Select(n => Reflector
+                        .GetUnboundFieldGetter<object, int>(n, "parentSheetIndex")
+                        .Invoke(n)))
+            .ToImmutableHashSet();
     }
 }

@@ -28,6 +28,10 @@ public sealed class WeaponConfig
     [JsonProperty]
     public bool EnableComboHits { get; internal set; } = true;
 
+    /// <summary>Gets a value indicating whether to keep swiping while the "use tool" key is held.</summary>
+    [JsonProperty]
+    public bool SwipeHold { get; internal set; } = true;
+
     /// <summary>Gets the number of hits in each weapon type's combo.</summary>
     [JsonProperty]
     public Dictionary<WeaponType, int> ComboHitsPerWeapon { get; internal set; } = new()
@@ -78,7 +82,7 @@ public sealed class WeaponConfig
     [JsonProperty]
     public TooltipStyle WeaponTooltipStyle { get; internal set; } = TooltipStyle.Absolute;
 
-    /// <summary>Gets a value indicating whether to keep swiping while the "use tool" key is held.</summary>
+    /// <summary>Gets a value indicating how close an enemy must be to auto-select a weapon, in tiles.</summary>
     [JsonProperty]
-    public bool SwipeHold { get; internal set; } = true;
+    public uint AutoSelectionRange { get; internal set; } = 2;
 }

@@ -105,7 +105,7 @@ internal sealed class UtilityGetAdventureShopStockPatcher : HarmonyPatcher
                 stock.Add(new Boots(514), new[] { 20000, int.MaxValue }); // space boots
             }
 
-            if (!ModEntry.Config.EnableRings || !RingsModule.Config.CraftableGemRings)
+            if (!RingsModule.IsEnabled || !RingsModule.Config.CraftableGemRings)
             {
                 stock.Add(new Ring(Constants.AmethystRingIndex), new[] { 1000, int.MaxValue });
                 stock.Add(new Ring(Constants.TopazRingIndex), new[] { 1000, int.MaxValue });
@@ -214,10 +214,13 @@ internal sealed class UtilityGetAdventureShopStockPatcher : HarmonyPatcher
             return;
         }
 
-        foreach (var galaxy in __result.Keys.Where(salable =>
-                     salable is MeleeWeapon weapon && weapon.isGalaxyWeapon()))
+        for (var i = __result.Count - 1; i >= 0; i--)
         {
-            __result.Remove(galaxy);
+            var salable = __result.ElementAt(i).Key;
+            if (salable is MeleeWeapon weapon && weapon.isGalaxyWeapon())
+            {
+                __result.Remove(salable);
+            }
         }
     }
 

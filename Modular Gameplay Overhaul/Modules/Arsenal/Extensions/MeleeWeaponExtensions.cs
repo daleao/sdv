@@ -337,9 +337,9 @@ internal static class MeleeWeaponExtensions
         swipeSpeed *= farmer.GetTotalSwingSpeedModifier();
         if (farmer.IsLocalPlayer)
         {
-            foreach (var enchantment in weapon.enchantments)
+            for (var i = 0; i < weapon.enchantments.Count; i++)
             {
-                if (enchantment is BaseWeaponEnchantment weaponEnchantment)
+                if (weapon.enchantments[i] is BaseWeaponEnchantment weaponEnchantment)
                 {
                     weaponEnchantment.OnSwing(weapon, farmer);
                 }

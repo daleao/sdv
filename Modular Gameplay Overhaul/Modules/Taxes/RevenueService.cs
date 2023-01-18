@@ -3,6 +3,7 @@
 #region using directives
 
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using DaLion.Shared.Enums;
 using DaLion.Shared.Extensions.Stardew;
 using static System.FormattableString;
@@ -13,7 +14,7 @@ internal static class RevenueService
 {
     internal static float[] Brackets { get; } = { 0.1f, 0.12f, 0.22f, 0.24f, 0.32f, 0.35f, 0.37f };
 
-    internal static IReadOnlyDictionary<float, int> Thresholds { get; } = new Dictionary<float, int>()
+    internal static ImmutableDictionary<float, int> Thresholds { get; } = new Dictionary<float, int>
     {
         { 0.1f, 9950 },
         { 0.12f, 40525 },
@@ -22,7 +23,7 @@ internal static class RevenueService
         { 0.32f, 209425 },
         { 0.35f, 523600 },
         { 0.37f, int.MaxValue },
-    };
+    }.ToImmutableDictionary();
 
     /// <summary>Calculates due income tax for the <paramref name="who"/>.</summary>
     /// <param name="who">The <see cref="Farmer"/>.</param>

@@ -233,7 +233,7 @@ public sealed class Config : Shared.Configs.Config
     public uint ChangeUltCost { get; internal set; } = 0;
 
     /// <summary>Gets a multiplier that will be applied to all skill experience gained from the start of the game.</summary>
-    /// <remarks>The order is Farming, Fishing, Foraging, Mining, Combat.</remarks>
+    /// <remarks>The order is Farming, Fishing, Foraging, Mining, Combat and Luck (if installed).</remarks>
     [JsonProperty]
     public float[] BaseSkillExpMultipliers { get; internal set; } = { 1f, 1f, 1f, 1f, 1f, 1f };
 

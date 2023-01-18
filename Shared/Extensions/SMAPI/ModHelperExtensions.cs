@@ -2,6 +2,7 @@
 
 #region using directives
 
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Reflection;
 using Newtonsoft.Json;
@@ -74,11 +75,12 @@ public static class ModHelperExtensions
     /// <typeparam name="TConfig">The type of the current <see cref="IMod"/>'s config object.</typeparam>
     /// <param name="helper">The <see cref="IModHelper"/> of the current <see cref="IMod"/>.</param>
     /// <param name="config">The current <see cref="IMod"/>'s config settings.</param>
+    [SuppressMessage("StyleCop.CSharp.NamingRules", "SA1300:Element should begin with upper-case letter", Justification = "Preference for inner functions.")]
     public static void LogConfig<TConfig>(this IModHelper helper, TConfig config)
     {
         JsonSerializerSettings ??= getSmapiSerializerSettings(helper.Data);
         var json = JsonConvert.SerializeObject(config, JsonSerializerSettings);
-        Log.T($"[Config]:\n{json}");
+        Log.T($"[Config]: Current settings:\n{json}");
 
         JsonSerializerSettings getSmapiSerializerSettings(IDataHelper dataHelper)
         {

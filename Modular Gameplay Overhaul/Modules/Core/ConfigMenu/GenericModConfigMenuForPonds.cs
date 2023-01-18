@@ -11,7 +11,7 @@ internal sealed partial class GenericModConfigMenuCore
             .AddNumberField(
                 () => "Days Until Algae Spawn",
                 () => "The number of days until an empty pond will begin spawning algae.",
-                config => (int)config.Ponds.DaysUntilAlgaeSpawn,
+                config => config.Ponds.DaysUntilAlgaeSpawn,
                 (config, value) => config.Ponds.DaysUntilAlgaeSpawn = (uint)value,
                 1,
                 5)

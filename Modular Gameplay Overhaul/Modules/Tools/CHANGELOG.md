@@ -1,5 +1,11 @@
 ﻿# Tools Module Change Log
 
+## 1.2.0
+
+### Added
+
+* Added tool auto-selection.
+
 ## 1.0.4
 
 ### Fixed

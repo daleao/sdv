@@ -37,8 +37,9 @@ internal sealed class FishPondGetFishPondDataPatcher : HarmonyPatcher
 
         var list = Game1.content.Load<List<FishPondData>>("Data\\FishPondData");
         var fish = __instance.GetFishObject();
-        foreach (var entry in list)
+        for (var i = 0; i < list.Count; i++)
         {
+            var entry = list[i];
             if (entry.RequiredTags.Any(required => !fish.HasContextTag(required)))
             {
                 continue;

@@ -2,9 +2,8 @@
 
 #region using directives
 
-using System.Linq;
 using DaLion.Shared.Commands;
-using DaLion.Shared.Extensions.Collections;
+using DaLion.Shared.Extensions.Stardew;
 using StardewValley.Buildings;
 
 #endregion using directives
@@ -33,17 +32,26 @@ internal sealed class UpdateMaxOccupancyCommand : ConsoleCommand
             Log.W("Additional arguments will be ignored.");
         }
 
-        var ponds = Game1.getFarm().buildings.OfType<FishPond>().Where(p =>
-                (p.owner.Value == Game1.player.UniqueMultiplayerID || !Context.IsMultiplayer) &&
-                !p.isUnderConstruction())
-            .ToHashSet();
-        if (ponds.Count == 0)
+        var count = 0;
+        foreach (var building in Game1.getFarm().buildings)
         {
-            Log.W("You don't own any Fish Ponds.");
-            return;
+            if (building is not FishPond pond || !pond.IsOwnedBy(Game1.player) ||
+                pond.isUnderConstruction())
+            {
+                continue;
+            }
+
+            pond.UpdateMaximumOccupancy();
+            count++;
         }
 
-        ponds.ForEach(p => p.UpdateMaximumOccupancy());
-        Log.I($"Maximum occupancy updated for {ponds.Count} Fish Ponds.");
+        if (count > 0)
+        {
+            Log.I($"Maximum occupancy updated for {count} Fish Ponds.");
+        }
+        else
+        {
+            Log.W("You don't own any Fish Ponds.");
+        }
     }
 }

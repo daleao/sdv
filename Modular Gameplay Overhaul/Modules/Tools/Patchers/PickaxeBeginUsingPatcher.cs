@@ -24,7 +24,7 @@ internal sealed class PickaxeBeginUsingPatcher : HarmonyPatcher
     private static bool PickaxeBeginUsingPrefix(Tool __instance, Farmer who)
     {
         if (!ToolsModule.Config.Pick.EnableCharging ||
-            (ToolsModule.Config.RequireModkey && !ToolsModule.Config.Modkey.IsDown()) ||
+            (ToolsModule.Config.ChargingRequiresModKey && !ToolsModule.Config.ModKey.IsDown()) ||
             __instance.UpgradeLevel < (int)ToolsModule.Config.Pick.RequiredUpgradeForCharging)
         {
             return true; // run original logic

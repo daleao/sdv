@@ -27,7 +27,7 @@ internal sealed class SlingshotCanAutoFirePatcher : HarmonyPatcher
     /// <summary>Patch to add Desperado auto-fire during Ultimate.</summary>
     [HarmonyPrefix]
     [HarmonyPriority(Priority.High)]
-    [HarmonyBefore("Overhaul.Modules.Arsenal")]
+    [HarmonyBefore("DaLion.Overhaul.Modules.Arsenal")]
     private static bool SlingshotCanAutoFirePrefix(Slingshot __instance, ref bool __result)
     {
         try

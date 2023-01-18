@@ -24,10 +24,11 @@ internal sealed class ProfessionAssetsInvalidatedEvent : AssetsInvalidatedEvent
     /// <inheritdoc />
     protected override void OnAssetsInvalidatedImpl(object? sender, AssetsInvalidatedEventArgs e)
     {
-        Textures.Refresh(e.NamesWithoutLocale.Where(name => name.IsEquivalentToAnyOf(
-            $"{Manifest.UniqueID}/SkillBars",
-            $"{Manifest.UniqueID}/UltimateMeter",
-            $"{Manifest.UniqueID}/PrestigeProgression"))
+        Textures.Refresh(e.NamesWithoutLocale
+            .Where(name => name.IsEquivalentToAnyOf(
+                $"{Manifest.UniqueID}/SkillBars",
+                $"{Manifest.UniqueID}/UltimateMeter",
+                $"{Manifest.UniqueID}/PrestigeProgression"))
             .ToImmutableHashSet());
     }
 }

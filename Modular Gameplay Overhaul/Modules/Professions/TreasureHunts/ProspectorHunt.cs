@@ -315,11 +315,11 @@ internal sealed class ProspectorHunt : TreasureHunt
 
                         if (this.Random.NextDouble() < 0.028 * mineLevel / 12)
                         {
-                            treasuresAndQuantities.Add(72, 1); // diamond
+                            treasuresAndQuantities.Add(SObject.diamondIndex, 1);
                         }
                         else
                         {
-                            treasuresAndQuantities.Add(80, this.Random.Next(1, 3)); // quartz
+                            treasuresAndQuantities.Add(SObject.quartzIndex, this.Random.Next(1, 3));
                         }
 
                         break;
@@ -339,12 +339,12 @@ internal sealed class ProspectorHunt : TreasureHunt
 
                         if (this.Random.NextDouble() < 0.01 * luckModifier * Math.Pow(2, streak))
                         {
-                            treasuresAndQuantities.Add(74, 1); // prismatic shard
+                            treasuresAndQuantities.Add(SObject.prismaticShardIndex, 1);
                         }
 
                         if (treasuresAndQuantities.Count == 0)
                         {
-                            treasuresAndQuantities.Add(72, 1); // consolation diamond
+                            treasuresAndQuantities.Add(SObject.diamondIndex, 1);
                         }
 
                         break;
@@ -354,9 +354,9 @@ internal sealed class ProspectorHunt : TreasureHunt
             }
         }
 
-        foreach (var p in treasuresAndQuantities)
+        foreach (var (treasure, quantity) in treasuresAndQuantities)
         {
-            switch (p.Key)
+            switch (treasure)
             {
                 case -1:
                     Game1.createItemDebris(
@@ -376,10 +376,10 @@ internal sealed class ProspectorHunt : TreasureHunt
 
                 default:
                     Game1.createMultipleObjectDebris(
-                        p.Key,
+                        treasure,
                         (int)this.TreasureTile!.Value.X,
                         (int)this.TreasureTile.Value.Y,
-                        p.Value,
+                        quantity,
                         Game1.player.UniqueMultiplayerID,
                         Game1.currentLocation);
                     break;

@@ -33,7 +33,8 @@ internal sealed class RubyEnchantmentUnapplyToPatcher : HarmonyPatcher
             return;
         }
 
-        var chord = player.Get_ResonatingChords()
+        var chord = player
+            .Get_ResonatingChords()
             .Where(c => c.Root == Gemstone.Ruby)
             .ArgMax(c => c.Amplitude);
         if (chord is null || tool.Get_ResonatingChord<RubyEnchantment>() != chord)

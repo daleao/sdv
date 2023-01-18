@@ -27,17 +27,17 @@ public sealed class SCSkill : ISkill
 
         var skill = SpaceCore.Skills.GetSkill(id);
         this.DisplayName = skill.GetName();
-        var i = 0;
-        foreach (var profession in skill.Professions)
-        {
-            this.Professions.Add(new SCProfession(profession, i++ < 2 ? 5 : 10, this));
-        }
-
-        if (this.Professions.Count != 6)
+        if (skill.Professions.Count != 6)
         {
             ThrowHelper.ThrowInvalidOperationException(
                 $"The custom skill {id} did not provide the expected number of professions.");
         }
+
+        for (var i = 0; i < 6; i++)
+        {
+            this.Professions.Add(new SCProfession(skill.Professions[i], i < 2 ? 5 : 10, this));
+        }
+
 
         this.ProfessionPairs[-1] = new ProfessionPair(this.Professions[0], this.Professions[1], null, 5);
         this.ProfessionPairs[this.Professions[0].Id] =
@@ -45,8 +45,9 @@ public sealed class SCSkill : ISkill
         this.ProfessionPairs[this.Professions[1].Id] =
             new ProfessionPair(this.Professions[4], this.Professions[5], this.Professions[1], 10);
 
-        foreach (var profession in this.Professions)
+        for (var i = 0; i < 6; i++)
         {
+            var profession = this.Professions[i];
             SCProfession.Loaded[profession.Id] = (SCProfession)profession;
         }
 
@@ -79,7 +80,8 @@ public sealed class SCSkill : ISkill
     public IEnumerable<int> NewLevels => Reflector
         .GetStaticFieldGetter<List<KeyValuePair<string, int>>>(typeof(SpaceCore.Skills), "NewLevels")
         .Invoke()
-        .Where(pair => pair.Key == this.StringId).Select(pair => pair.Value);
+        .Where(pair => pair.Key == this.StringId)
+        .Select(pair => pair.Value);
 
     /// <inheritdoc />
     public IList<IProfession> Professions { get; } = new List<IProfession>();
@@ -163,10 +165,10 @@ public sealed class SCSkill : ISkill
             .GetAllLevelUpRecipes().Values
             .SelectMany(r => r)
             .Select(r => "blueberry.cac." + r)
-            .ToList();
-        var knownCookingRecipes = farmer.cookingRecipes.Keys.Where(key => key.IsIn(cookingRecipes)).ToDictionary(
-            key => key,
-            key => farmer.cookingRecipes[key]);
+            .ToHashSet();
+        var knownCookingRecipes = farmer.cookingRecipes.Keys
+            .Where(key => cookingRecipes.Contains(key))
+            .ToDictionary(key => key, key => farmer.cookingRecipes[key]);
         foreach (var (key, value) in knownCookingRecipes)
         {
             if (saveForRecovery && !forgottenRecipesDict.TryAdd(key, value))

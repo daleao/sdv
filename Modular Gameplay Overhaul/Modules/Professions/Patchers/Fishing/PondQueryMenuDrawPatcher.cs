@@ -38,7 +38,7 @@ internal sealed class PondQueryMenuDrawPatcher : HarmonyPatcher
     /// <summary>Patch to adjust fish pond query menu for Aquarist increased max capacity.</summary>
     [HarmonyPrefix]
     [HarmonyPriority(Priority.HigherThanNormal)]
-    [HarmonyAfter("Overhaul.Modules.Ponds")]
+    [HarmonyAfter("DaLion.Overhaul.Modules.Ponds")]
     private static bool PondQueryMenuDrawPrefix(
         PondQueryMenu __instance,
         float ____age,

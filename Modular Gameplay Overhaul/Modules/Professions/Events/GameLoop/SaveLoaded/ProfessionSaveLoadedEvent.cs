@@ -56,8 +56,8 @@ internal sealed class ProfessionSaveLoadedEvent : SaveLoadedEvent
     /// <param name="newValues">The new list of values.</param>
     private void OnArrayReplaced(NetList<int, NetInt> list, IList<int> oldValues, IList<int> newValues)
     {
-        ISet<int> oldSet = new HashSet<int>(oldValues, new EquatableComparer<int>());
-        ISet<int> changed = new HashSet<int>(newValues, new EquatableComparer<int>());
+        var oldSet = new HashSet<int>(oldValues, new EquatableComparer<int>());
+        var changed = new HashSet<int>(newValues, new EquatableComparer<int>());
 
         foreach (var value in oldSet)
         {

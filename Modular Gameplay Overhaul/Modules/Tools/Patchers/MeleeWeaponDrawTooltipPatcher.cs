@@ -1,9 +1,7 @@
-﻿namespace DaLion.Overhaul.Modules.Tools.Patchers;
+﻿namespace DaLion.Overhaul.Modules.MeleeWeapons.Patchers;
 
 #region using directives
 
-using System.Linq;
-using System.Text;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
 using Microsoft.Xna.Framework;
@@ -13,10 +11,10 @@ using StardewValley.Tools;
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class ToolDrawTooltipPatcher : HarmonyPatcher
+internal sealed class MeleeWeaponDrawTooltipPatcher : HarmonyPatcher
 {
-    /// <summary>Initializes a new instance of the <see cref="ToolDrawTooltipPatcher"/> class.</summary>
-    internal ToolDrawTooltipPatcher()
+    /// <summary>Initializes a new instance of the <see cref="MeleeWeaponDrawTooltipPatcher"/> class.</summary>
+    internal MeleeWeaponDrawTooltipPatcher()
     {
         this.Target = this.RequireMethod<MeleeWeapon>(nameof(MeleeWeapon.drawTooltip));
     }
@@ -25,23 +23,28 @@ internal sealed class ToolDrawTooltipPatcher : HarmonyPatcher
 
     /// <summary>Draw Scythe enchantment effects in tooltip.</summary>
     [HarmonyPostfix]
-    private static void ToolDrawTooltipPostfix(
+    private static void MeleeWeaponDrawTooltipPostfix(
         MeleeWeapon __instance,
         SpriteBatch spriteBatch,
         ref int x,
         ref int y,
         SpriteFont font,
-        float alpha,
-        StringBuilder? overrideText)
+        float alpha)
     {
-        if (__instance is not MeleeWeapon weapon || !weapon.isScythe() || weapon.enchantments.Count == 0)
+        if (!__instance.isScythe() || __instance.enchantments.Count == 0)
         {
             return;
         }
 
         var co = new Color(120, 0, 210);
-        foreach (var enchantment in __instance.enchantments.Where(enchantment => enchantment.ShouldBeDisplayed()))
+        for (var i = 0; i < __instance.enchantments.Count; i++)
         {
+            var enchantment = __instance.enchantments[i];
+            if (!enchantment.ShouldBeDisplayed())
+            {
+                continue;
+            }
+
             Utility.drawWithShadow(
                 spriteBatch,
                 Game1.mouseCursors2,

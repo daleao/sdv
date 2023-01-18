@@ -7,7 +7,6 @@ using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using DaLion.Shared.Attributes;
 using DaLion.Shared.Extensions;
-using DaLion.Shared.Extensions.Collections;
 using DaLion.Shared.Extensions.Reflection;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
@@ -43,15 +42,14 @@ internal sealed class UtilityGetShopStockPatcher : HarmonyPatcher
             return;
         }
 
-        var toRemove = __result.Keys
-            .Where(key => key is MeleeWeapon or Slingshot && key.Name.ContainsAnyOf("Galaxy", "Infinity"))
-            .ToArray();
-        if (toRemove.Length == 0)
+        for (var i = __result.Count - 1; i >= 0; i--)
         {
-            return;
+            var salable = __result.ElementAt(i).Key;
+            if (salable is MeleeWeapon or Slingshot && salable.Name.ContainsAnyOf("Galaxy", "Infinity"))
+            {
+                __result.Remove(salable);
+            }
         }
-
-        toRemove.ForEach(key => __result.Remove(key));
     }
 
     #endregion harmony patches

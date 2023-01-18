@@ -40,7 +40,7 @@ public sealed class WeaponTier : SmartEnum<WeaponTier>
 
     #endregion enum values
 
-    private static readonly IReadOnlyDictionary<int, WeaponTier> TierByWeapon;
+    private static readonly Dictionary<int, WeaponTier> TierByWeapon;
 
     static WeaponTier()
     {

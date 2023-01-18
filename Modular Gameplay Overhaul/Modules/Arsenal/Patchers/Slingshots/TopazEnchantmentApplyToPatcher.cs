@@ -22,7 +22,7 @@ internal sealed class TopazEnchantmentApplyToPatcher : HarmonyPatcher
 
     /// <summary>Rebalances Topaz enchant.</summary>
     [HarmonyPrefix]
-    [HarmonyBefore("DaLion.Arsenal")]
+    [HarmonyBefore("DaLion.Overhaul.Modules.Arsenal")]
     private static bool TopazEnchantmentApplyToPrefix(TopazEnchantment __instance, Item item)
     {
         if (item is not Slingshot)

@@ -3,7 +3,6 @@
 #region using directives
 
 using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
 using DaLion.Overhaul.Modules.Professions.Extensions;
@@ -84,14 +83,17 @@ internal sealed class CollectionsPageDrawPatcher : HarmonyPatcher
         }
 
         var currentPage = page.currentPage;
-        foreach (var c in from c in page.collections[currentTab][currentPage]
-                 let index = int.Parse(c.name.SplitWithoutAllocation(' ')[0])
-                 where Game1.player.HasCaughtMaxSized(index)
-                 select c)
+        foreach (var component in page.collections[currentTab][currentPage])
         {
+            var index = int.Parse(component.name.SplitWithoutAllocation(' ')[0]);
+            if (!Game1.player.HasCaughtMaxSized(index))
+            {
+                continue;
+            }
+
             var destRect = new Rectangle(
-                c.bounds.Right - (Textures.MaxIconTx.Width * 2),
-                c.bounds.Bottom - (Textures.MaxIconTx.Height * 2),
+                component.bounds.Right - (Textures.MaxIconTx.Width * 2),
+                component.bounds.Bottom - (Textures.MaxIconTx.Height * 2),
                 Textures.MaxIconTx.Width * 2,
                 Textures.MaxIconTx.Height * 2);
             b.Draw(Textures.MaxIconTx, destRect, Color.White);

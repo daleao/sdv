@@ -9,6 +9,7 @@ using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 using DaLion.Shared.Extensions.Memory;
+using NetFabric.Hyperlinq;
 
 #endregion using directives
 
@@ -85,7 +86,9 @@ public static class StringExtensions
     /// <returns>An array of <see cref="string"/>s pertaining to the individual words in <paramref name="string"/>.</returns>
     public static string[] SplitCamelCase(this string @string)
     {
-        return Regex.Split(@string, @"([A-Z]+|[A-Z]?[a-z]+)(?=[A-Z]|\b)").Where(r => !string.IsNullOrEmpty(r))
+        return Regex
+            .Split(@string, @"([A-Z]+|[A-Z]?[a-z]+)(?=[A-Z]|\b)")
+            .Where(s => !string.IsNullOrEmpty(s))
             .ToArray();
     }
 
@@ -319,9 +322,9 @@ public static class StringExtensions
 
         var split = @string.Split(separator);
         var list = new List<T?>();
-        foreach (var item in split)
+        for (var i = 0; i < split.Length; i++)
         {
-            if (item.TryParse<T>(out var parsed))
+            if (split[i].TryParse<T>(out var parsed))
             {
                 list.Add(parsed);
                 continue;
@@ -358,12 +361,13 @@ public static class StringExtensions
 
         var pairs = @string
             .Split(new[] { pairSeparator }, StringSplitOptions.RemoveEmptyEntries)
+            .AsValueEnumerable()
             .Select(p => p.Split(new[] { keyValueSeparator }, StringSplitOptions.RemoveEmptyEntries));
 
         var dict = new Dictionary<TKey, TValue>();
-        foreach (var p in pairs)
+        foreach (var pair in pairs)
         {
-            if (p[0].TryParse<TKey>(out var key) && !dict.ContainsKey(key) && p[1].TryParse<TValue>(out var value))
+            if (pair[0].TryParse<TKey>(out var key) && !dict.ContainsKey(key) && pair[1].TryParse<TValue>(out var value))
             {
                 dict[key] = value;
                 continue;

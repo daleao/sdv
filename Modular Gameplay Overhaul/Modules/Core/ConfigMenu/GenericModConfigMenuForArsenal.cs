@@ -19,7 +19,25 @@ internal sealed partial class GenericModConfigMenuCore
         this
             .AddPage(OverhaulModule.Arsenal.Namespace, () => "Arsenal Settings")
 
-            .AddSectionTitle(() => "Movement Settings")
+            .AddSectionTitle(() => "Movement & Control Settings")
+            .AddKeyBinding(
+                () => "Mod Key",
+                () => "The key used for indicating the weapon or slingshot for auto-selection, if enabled.",
+                config => config.Tools.ModKey,
+                (config, value) => config.Tools.ModKey = value)
+            .AddCheckbox(
+                () => "Enable Auto-Selection",
+                () =>
+                    "The best selected weapon or slingshot will be automatically equiped near enemies.",
+                config => config.Tools.EnableAutoSelection,
+                (config, value) =>
+                {
+                    config.Tools.EnableAutoSelection = value;
+                    if (!value)
+                    {
+                        ArsenalModule.State.SelectableArsenal = null;
+                    }
+                })
             .AddCheckbox(
                 () => "Face Towards Mouse Cursor",
                 () =>
@@ -211,6 +229,13 @@ internal sealed partial class GenericModConfigMenuCore
                 () => "Draws a bulls-eye instead of the mouse cursor while firing a slingshot. This option does not support pull-back firing for obvious reasons.",
                 config => config.Arsenal.Slingshots.BullseyeReplacesCursor,
                 (config, value) => config.Arsenal.Slingshots.BullseyeReplacesCursor = value)
+            .AddNumberField(
+                () => "Auto-Selection Range",
+                () => "The minimum distance away from a monster to auto-select your chosen slingshot.",
+                config => config.Arsenal.Slingshots.AutoSelectionRange,
+                (config, value) => config.Arsenal.Slingshots.AutoSelectionRange = (uint)value,
+                2,
+                12)
 
             // weapon settings
             .AddPage(OverhaulModule.Arsenal + "/Weapons", () => "Weapon Settings")
@@ -220,6 +245,11 @@ internal sealed partial class GenericModConfigMenuCore
                 () => "Replaces vanilla weapon spam with a more strategic combo system.",
                 config => config.Arsenal.Weapons.EnableComboHits,
                 (config, value) => config.Arsenal.Weapons.EnableComboHits = value)
+            .AddCheckbox(
+                () => "Enable Hold Swipe",
+                () => "Allows performing combos by simply holding the tool button instead of spam-clicking.",
+                config => config.Arsenal.Weapons.SwipeHold,
+                (config, value) => config.Arsenal.Weapons.SwipeHold = value)
             .AddCheckbox(
                 () => "Grounded Club Smash",
                 () =>
@@ -301,6 +331,13 @@ internal sealed partial class GenericModConfigMenuCore
                 config => config.Arsenal.Weapons.WeaponTooltipStyle.ToString(),
                 (config, value) => config.Arsenal.Weapons.WeaponTooltipStyle = Enum.Parse<WeaponConfig.TooltipStyle>(value),
                 new[] { "Absolute", "Relative" },
-                null);
+                null)
+            .AddNumberField(
+                () => "Auto-Selection Range",
+                () => "The minimum distance away from a monster to auto-select your chosen weapon.",
+                config => config.Arsenal.Weapons.AutoSelectionRange,
+                (config, value) => config.Arsenal.Weapons.AutoSelectionRange = (uint)value,
+                1,
+                3);
     }
 }

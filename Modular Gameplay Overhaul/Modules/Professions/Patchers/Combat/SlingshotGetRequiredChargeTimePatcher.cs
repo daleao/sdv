@@ -24,7 +24,7 @@ internal sealed class SlingshotGetRequiredChargeTimePatcher : HarmonyPatcher
 
     /// <summary>Patch to reduce Slingshot charge time for Desperado.</summary>
     [HarmonyPostfix]
-    [HarmonyAfter("Overhaul.Modules.Arsenal")]
+    [HarmonyAfter("DaLion.Overhaul.Modules.Arsenal")]
     private static void SlingshotGetRequiredChargeTimePostfix(Slingshot __instance, ref float __result)
     {
         var firer = __instance.getLastFarmerToUse();

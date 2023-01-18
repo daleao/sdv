@@ -2,8 +2,8 @@
 
 #region using directives
 
-using System.Collections.Generic;
 using System.Linq;
+using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
 using HarmonyLib;
@@ -109,6 +109,8 @@ public static class CodeInstructionListExtensions
     /// <returns>An exact copy of <paramref name="instructions"/> in a new <see cref="List{T}"/> instance.</returns>
     public static List<CodeInstruction> Clone(this List<CodeInstruction> instructions)
     {
-        return instructions.Select(instruction => new CodeInstruction(instruction)).ToList();
+        return instructions
+            .Select(instruction => new CodeInstruction(instruction))
+            .ToList();
     }
 }

@@ -70,11 +70,6 @@ internal sealed class MeleeWeaponDoDamagePatcher : HarmonyPatcher
             return null;
         }
 
-        if (!ModEntry.Config.EnableRings)
-        {
-            return helper.Flush();
-        }
-
         // Inject resonance stat bonuses //
 
         try

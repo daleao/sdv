@@ -7,7 +7,6 @@ using System.Linq;
 using DaLion.Overhaul;
 using DaLion.Overhaul.Modules.Arsenal.Extensions;
 using DaLion.Shared.Commands;
-using DaLion.Shared.Extensions.Collections;
 using DaLion.Shared.Extensions.SMAPI;
 using DaLion.Shared.Extensions.Stardew;
 using StardewValley;
@@ -49,7 +48,13 @@ internal sealed class RevalidateCommand : ConsoleCommand
         }
         else
         {
-            Game1.player.Items.OfType<MeleeWeapon>().ForEach(RevalidateSingleWeapon);
+            for (var i = 0; i < Game1.player.Items.Count; i++)
+            {
+                if (Game1.player.Items[i] is MeleeWeapon weapon)
+                {
+                    RevalidateSingleWeapon(weapon);
+                }
+            }
         }
 
         if (ArsenalModule.IsEnabled && Game1.player.mailReceived.Contains("galaxySword"))
@@ -62,9 +67,13 @@ internal sealed class RevalidateCommand : ConsoleCommand
         {
             foreach (var chest in IterateAllChests())
             {
-                while (chest.items.FirstOrDefault(
-                           i => i is MeleeWeapon { InitialParentTileIndex: Constants.DarkSwordIndex }) is { } darkSword)
+                for (var i = chest.items.Count - 1; i >= 0; i--)
                 {
+                    if (chest.items[i] is not MeleeWeapon { InitialParentTileIndex: Constants.DarkSwordIndex } darkSword)
+                    {
+                        continue;
+                    }
+
                     chest.items.Remove(darkSword);
                     removed++;
                 }
@@ -79,12 +88,24 @@ internal sealed class RevalidateCommand : ConsoleCommand
         }
 
         Log.W($"{removed} Dark Swords were removed from Chests.");
-        if (Game1.player.hasOrWillReceiveMail("viegoCurse") &&
-            Game1.player.Items.FirstOrDefault(
-                i => i is MeleeWeapon { InitialParentTileIndex: Constants.DarkSwordIndex }) is null &&
-            !Game1.player.addItemToInventoryBool(new MeleeWeapon(Constants.DarkSwordIndex)))
+        if (!Game1.player.hasOrWillReceiveMail("viegoCurse"))
         {
-            Log.E($"Failed adding Dark Sword to {Game1.player.Name}. Use CJB Item Spawner to obtain a new copy.");
+            return;
+        }
+
+        {
+            for (var i = 0; i < Game1.player.Items.Count; i++)
+            {
+                if (Game1.player.Items[i] is MeleeWeapon { InitialParentTileIndex: Constants.DarkSwordIndex })
+                {
+                    break;
+                }
+
+                if (!Game1.player.addItemToInventoryBool(new MeleeWeapon(Constants.DarkSwordIndex)))
+                {
+                    Log.E($"Failed adding Dark Sword to {Game1.player.Name}. Use CJB Item Spawner to obtain a new copy.");
+                }
+            }
         }
     }
 
@@ -123,9 +144,10 @@ internal sealed class RevalidateCommand : ConsoleCommand
 
     private static IEnumerable<Chest> IterateAllChests()
     {
-        foreach (var location1 in Game1.locations)
+        for (var i = 0; i < Game1.locations.Count; i++)
         {
-            foreach (var @object in location1.objects.Values)
+            var location1 = Game1.locations[i];
+            foreach (var @object in location1.Objects.Values)
             {
                 if (@object is Chest chest1)
                 {
@@ -142,11 +164,15 @@ internal sealed class RevalidateCommand : ConsoleCommand
                 continue;
             }
 
-            foreach (var location2 in buildable.buildings
-                         .Where(b => b.indoors.Value is not null)
-                         .Select(b => b.indoors.Value))
+            for (var j = 0; j < buildable.buildings.Count; j++)
             {
-                foreach (var @object in location2.objects.Values)
+                var building = buildable.buildings[j];
+                if (building.indoors.Value is not { } location2)
+                {
+                    continue;
+                }
+
+                foreach (var @object in location2.Objects.Values)
                 {
                     if (@object is Chest chest1)
                     {

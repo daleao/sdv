@@ -181,7 +181,7 @@ internal sealed class SkillLevelUpMenuUpdatePatcher : HarmonyPatcher
                             OpCodes.Callvirt,
                             typeof(NetList<int, NetInt>).RequireMethod("Add")),
                     },
-                    () => 
+                    () =>
                     {
                         var dontGetImmediatePerks = generator.DefineLabel();
                         var isNotPrestigeLevel = generator.DefineLabel();
@@ -428,7 +428,7 @@ internal sealed class SkillLevelUpMenuUpdatePatcher : HarmonyPatcher
         }
 
         var hasAllProfessions = Game1.player.HasAllProfessionsInSkill(scSkill);
-        Log.D($"[Prestige]:: Farmer {Game1.player.Name} " + (hasAllProfessions
+        Log.D($"[Prestige]: Farmer {Game1.player.Name} " + (hasAllProfessions
             ? $" has acquired all professions in the {scSkill} skill and may now gain extended levels."
             : $" does not yet have all professions in the {scSkill} skill."));
         if (hasAllProfessions)
@@ -436,11 +436,14 @@ internal sealed class SkillLevelUpMenuUpdatePatcher : HarmonyPatcher
             return true;
         }
 
-        var missingProfessionNames = string.Join(
+#if DEBUG
+        var missing = string.Join(
             ',',
-            Game1.player.GetMissingProfessionsInSkill(scSkill)
+            Game1.player
+                .GetMissingProfessionsInSkill(scSkill)
                 .Select(p => p.Title));
-        Log.D($"[Prestige]:: Missing professions: {missingProfessionNames}");
+        Log.D($"[Prestige]: Missing professions: {missing}.");
+#endif
         return false;
     }
 

@@ -133,26 +133,27 @@ internal static class FishPondExtensions
             var inventory = new List<Item> { pond.output.Value };
             try
             {
-                foreach (var h in held)
+                for (var i = 0; i < held.Count; i++)
                 {
-                    if (h.ParentSheetIndex == Constants.RoeIndex)
+                    var item = held[i];
+                    if (item.ParentSheetIndex == Constants.RoeIndex)
                     {
                         var fishIndex = pond.fishType.Value;
                         var split = Game1.objectInformation[fishIndex].SplitWithoutAllocation('/');
                         var c = fishIndex == 698
                             ? new Color(61, 55, 42)
                             : TailoringMenu.GetDyeColor(pond.GetFishObject()) ?? Color.Orange;
-                        var o = new ColoredObject(Constants.RoeIndex, h.Stack, c);
+                        var o = new ColoredObject(Constants.RoeIndex, item.Stack, c);
                         o.name = split[0].ToString() + " Roe";
                         o.preserve.Value = SObject.PreserveType.Roe;
                         o.preservedParentSheetIndex.Value = fishIndex;
                         o.Price += int.Parse(split[1]) / 2;
-                        o.Quality = ((SObject)h).Quality;
+                        o.Quality = ((SObject)item).Quality;
                         inventory.Add(o);
                     }
                     else
                     {
-                        inventory.Add(h);
+                        inventory.Add(item);
                     }
                 }
 

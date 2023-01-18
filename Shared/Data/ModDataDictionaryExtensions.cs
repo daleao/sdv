@@ -2,8 +2,8 @@
 
 #region using directives
 
-using System.Linq;
 using System.Linq.Expressions;
+using System.Text;
 using DaLion.Shared.Extensions;
 
 #endregion using directives
@@ -157,6 +157,12 @@ public static class ModDataDictionaryExtensions
     /// <returns>A <see cref="string"/> representation of the <see cref="ModDataDictionary"/>.</returns>
     public static string ToDebugString(this ModDataDictionary data)
     {
-        return "\n\t-" + string.Join("\n\t-", data.Pairs.Select(p => p.Key + " = " + p.Value).ToArray());
+        StringBuilder sb = new();
+        foreach (var (key, value) in data.Pairs)
+        {
+            sb.Append("\n\t-" + key + " = " + value);
+        }
+
+        return sb.ToString();
     }
 }

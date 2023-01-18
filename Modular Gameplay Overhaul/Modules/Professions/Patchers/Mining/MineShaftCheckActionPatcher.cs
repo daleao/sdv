@@ -52,7 +52,6 @@ internal sealed class MineShaftCheckActionPatcher : HarmonyPatcher
                             OpCodes.Call,
                             typeof(FarmerExtensions).RequireMethod(nameof(FarmerExtensions.AddSpelunkerMomentum))),
                     });
-
         }
         catch (Exception ex)
         {

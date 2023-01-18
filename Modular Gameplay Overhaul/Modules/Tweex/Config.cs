@@ -63,7 +63,7 @@ public sealed class Config : Shared.Configs.Config
     public bool LargeProducsYieldQuantityOverQuality { get; internal set; } = true;
 
     /// <summary>
-    ///     Gets add custom mod Artisan machines to this list to make them compatible with
+    ///     Gets a list of Artisan machines which should be compatible with
     ///     LargeProductsYieldQuantityOverQuality.
     /// </summary>
     [JsonProperty]
@@ -71,7 +71,7 @@ public sealed class Config : Shared.Configs.Config
     {
         "Butter Churn", // artisan valley
         "Ice Cream Machine", // artisan valley
-        "Keg", // vanilla
+        "Keg", // vanilla, but artisan valley adds "kefir" item
         "Yogurt Jar", // artisan valley
     };
 

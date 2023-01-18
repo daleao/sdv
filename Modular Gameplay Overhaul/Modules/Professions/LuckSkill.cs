@@ -72,8 +72,9 @@ public sealed class LuckSkill : Skill
         this.ProfessionPairs[this.Professions[1].Id] =
             new ProfessionPair(this.Professions[4], this.Professions[5], this.Professions[1], 10);
 
-        foreach (var profession in this.Professions)
+        for (var i = 0; i < 6; i++)
         {
+            var profession = this.Professions[i];
             SCProfession.Loaded[profession.Id] = (SCProfession)profession;
         }
 

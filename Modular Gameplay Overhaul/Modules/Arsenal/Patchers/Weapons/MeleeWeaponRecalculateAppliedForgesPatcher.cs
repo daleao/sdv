@@ -2,7 +2,6 @@
 
 #region using directives
 
-using System.Linq;
 using System.Reflection;
 using DaLion.Overhaul.Modules.Arsenal.Extensions;
 using DaLion.Shared.Harmony;
@@ -40,16 +39,24 @@ internal sealed class MeleeWeaponRecalculateAppliedForgesPatcher : HarmonyPatche
         {
             // this should not longer be necessary given that all stats are refreshed and forges don't have unapply effects
             // and even if they did, they shouldn't need to be unapplied anyway
-            foreach (var enchantment in __instance.enchantments.Where(e => e.IsForge()))
+            for (var i = 0; i < __instance.enchantments.Count; i++)
             {
-                enchantment.UnapplyTo(__instance);
+                var enchantment = __instance.enchantments[i];
+                if (enchantment.IsForge())
+                {
+                    enchantment.UnapplyTo(__instance);
+                }
             }
 
             __instance.RefreshStats();
 
-            foreach (var enchantment in __instance.enchantments.Where(e => e.IsForge()))
+            for (var i = 0; i < __instance.enchantments.Count; i++)
             {
-                enchantment.ApplyTo(__instance);
+                var enchantment = __instance.enchantments[i];
+                if (enchantment.IsForge())
+                {
+                    enchantment.ApplyTo(__instance);
+                }
             }
 
             return false; // don't run original logic

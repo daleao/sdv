@@ -17,7 +17,7 @@ using StardewValley.TerrainFeatures;
 public static class SObjectExtensions
 {
     /// <summary>Gets the ids of animal products and derived artisan goods.</summary>
-    private static readonly IReadOnlySet<int> AnimalDerivedProductIds = new HashSet<int>
+    private static readonly HashSet<int> AnimalDerivedProductIds = new()
     {
         107, // dinosaur egg
         306, // mayonnaise
@@ -186,6 +186,15 @@ public static class SObjectExtensions
         return Game1.getFarmerMaybeOffline(@object.owner.Value) ?? Game1.MasterPlayer;
     }
 
+    /// <summary>Checks whether the <paramref name="object"/> is owned by the specified <see cref="Farmer"/>.</summary>
+    /// <param name="object">The <see cref="Building"/>.</param>
+    /// <param name="farmer">The <see cref="Farmer"/>.</param>
+    /// <returns><see langword="true"/> if the <paramref name="object"/>'s owner value is equal to the unique ID of the <paramref name="farmer"/>, otherwise <see langword="false"/>.</returns>
+    public static bool IsOwnedBy(this SObject @object, Farmer farmer)
+    {
+        return @object.owner.Value == farmer.UniqueMultiplayerID;
+    }
+
     /// <summary>
     ///     Gets the tile distance between this <paramref name="object"/> and the target <paramref name="building"/> in
     ///     the same <see cref="GameLocation"/>.
@@ -245,7 +254,10 @@ public static class SObjectExtensions
     /// <param name="predicate">An optional condition with which to filter out candidates.</param>
     /// <returns>The <see cref="Building"/> of type <typeparamref name="TBuilding"/> with the minimal distance to <paramref name="object"/>.</returns>
     public static TBuilding? GetClosestBuilding<TBuilding>(
-        this SObject @object, GameLocation location, IEnumerable<TBuilding>? candidates = null, Func<TBuilding, bool>? predicate = null)
+        this SObject @object,
+        GameLocation location,
+        IEnumerable<TBuilding>? candidates = null,
+        Func<TBuilding, bool>? predicate = null)
         where TBuilding : Building
     {
         if (location is not BuildableGameLocation buildable)
@@ -254,18 +266,12 @@ public static class SObjectExtensions
         }
 
         predicate ??= _ => true;
-        var candidatesArr = candidates?.ToArray() ?? buildable.buildings.OfType<TBuilding>().Where(t => predicate(t)).ToArray();
-        var distanceToClosest = double.MaxValue;
-        switch (candidatesArr.Length)
-        {
-            case 0:
-                return null;
-            case 1:
-                return candidatesArr[0];
-        }
-
+        candidates ??= buildable.buildings
+            .OfType<TBuilding>()
+            .Where(t => predicate(t));
         TBuilding? closest = null;
-        foreach (var candidate in candidatesArr)
+        var distanceToClosest = double.MaxValue;
+        foreach (var candidate in candidates)
         {
             var distanceToThisCandidate = @object.DistanceTo(candidate);
             if (distanceToThisCandidate >= distanceToClosest)
@@ -291,22 +297,19 @@ public static class SObjectExtensions
     /// <param name="predicate">An optional condition with which to filter out candidates.</param>
     /// <returns>The <see cref="Character"/> of type <typeparamref name="TCharacter"/> with the minimal distance to <paramref name="object"/>.</returns>
     public static TCharacter? GetClosestCharacter<TCharacter>(
-        this SObject @object, GameLocation location, IEnumerable<TCharacter>? candidates = null, Func<TCharacter, bool>? predicate = null)
+        this SObject @object,
+        GameLocation location,
+        IEnumerable<TCharacter>? candidates = null,
+        Func<TCharacter, bool>? predicate = null)
         where TCharacter : Character
     {
         predicate ??= _ => true;
-        var candidatesArr = candidates?.ToArray() ?? location.characters.OfType<TCharacter>().Where(t => predicate(t)).ToArray();
-        var distanceToClosest = double.MaxValue;
-        switch (candidatesArr.Length)
-        {
-            case 0:
-                return null;
-            case 1:
-                return candidatesArr[0];
-        }
-
+        candidates ??= location.characters
+            .OfType<TCharacter>()
+            .Where(t => predicate(t));
         TCharacter? closest = null;
-        foreach (var candidate in candidatesArr)
+        var distanceToClosest = double.MaxValue;
+        foreach (var candidate in candidates)
         {
             var distanceToThisCandidate = @object.DistanceTo(candidate);
             if (distanceToThisCandidate >= distanceToClosest)
@@ -332,21 +335,16 @@ public static class SObjectExtensions
     /// <returns>The <see cref="Farmer"/> with the minimal distance to <paramref name="object"/>.</returns>
     /// <remarks>This version is required as <see cref="Farmer"/> references are stored in a different field of <see cref="GameLocation"/>.</remarks>
     public static Farmer? GetClosestFarmer(
-        this SObject @object, GameLocation location, IEnumerable<Farmer>? candidates = null, Func<Farmer, bool>? predicate = null)
+        this SObject @object,
+        GameLocation location,
+        IEnumerable<Farmer>? candidates = null,
+        Func<Farmer, bool>? predicate = null)
     {
         predicate ??= _ => true;
-        var candidatesArr = candidates?.ToArray() ?? location.farmers.Where(f => predicate(f)).ToArray();
-        var distanceToClosest = double.MaxValue;
-        switch (candidatesArr.Length)
-        {
-            case 0:
-                return null;
-            case 1:
-                return candidatesArr[0];
-        }
-
+        candidates ??= location.farmers.Where(f => predicate(f));
         Farmer? closest = null;
-        foreach (var candidate in candidatesArr)
+        var distanceToClosest = double.MaxValue;
+        foreach (var candidate in candidates)
         {
             var distanceToThisCandidate = @object.DistanceTo(candidate);
             if (distanceToThisCandidate >= distanceToClosest)
@@ -372,23 +370,19 @@ public static class SObjectExtensions
     /// <param name="predicate">An optional condition with which to filter out candidates.</param>
     /// <returns>The <see cref="SObject"/> of type <typeparamref name="TObject"/> with the minimal distance to <paramref name="object"/>.</returns>
     public static TObject? GetClosestObject<TObject>(
-        this SObject @object, GameLocation location, IEnumerable<TObject>? candidates = null, Func<TObject, bool>? predicate = null)
+        this SObject @object,
+        GameLocation location,
+        IEnumerable<TObject>? candidates = null,
+        Func<TObject, bool>? predicate = null)
         where TObject : SObject
     {
         predicate ??= _ => true;
-        var candidatesArr = candidates?.ToArray() ??
-                            location.Objects.Values.OfType<TObject>().Where(o => predicate(o)).ToArray();
-        var distanceToClosest = double.MaxValue;
-        switch (candidatesArr.Length)
-        {
-            case 0:
-                return null;
-            case 1:
-                return candidatesArr[0];
-        }
-
+        candidates ??= location.Objects.Values
+            .OfType<TObject>()
+            .Where(o => predicate(o));
         TObject? closest = null;
-        foreach (var candidate in candidatesArr)
+        var distanceToClosest = double.MaxValue;
+        foreach (var candidate in candidates)
         {
             var distanceToThisCandidate = @object.DistanceTo(candidate);
             if (distanceToThisCandidate >= distanceToClosest)
@@ -414,23 +408,19 @@ public static class SObjectExtensions
     /// <param name="predicate">An optional condition with which to filter out candidates.</param>
     /// <returns>The <see cref="TerrainFeature"/> of type <typeparamref name="TTerrainFeature"/> with the minimal distance to <paramref name="object"/>.</returns>
     public static TTerrainFeature? GetClosestTerrainFeature<TTerrainFeature>(
-        this SObject @object, GameLocation location, IEnumerable<TTerrainFeature>? candidates = null, Func<TTerrainFeature, bool>? predicate = null)
+        this SObject @object,
+        GameLocation location,
+        IEnumerable<TTerrainFeature>? candidates = null,
+        Func<TTerrainFeature, bool>? predicate = null)
         where TTerrainFeature : TerrainFeature
     {
         predicate ??= _ => true;
-        var candidatesArr = candidates?.ToArray() ?? location.terrainFeatures.Values.OfType<TTerrainFeature>()
-            .Where(t => predicate(t)).ToArray();
-        var distanceToClosest = double.MaxValue;
-        switch (candidatesArr.Length)
-        {
-            case 0:
-                return null;
-            case 1:
-                return candidatesArr[0];
-        }
-
+        candidates ??= location.terrainFeatures.Values
+            .OfType<TTerrainFeature>()
+            .Where(t => predicate(t));
         TTerrainFeature? closest = null;
-        foreach (var candidate in candidatesArr)
+        var distanceToClosest = double.MaxValue;
+        foreach (var candidate in candidates)
         {
             var distanceToThisCandidate = @object.DistanceTo(candidate);
             if (distanceToThisCandidate >= distanceToClosest)

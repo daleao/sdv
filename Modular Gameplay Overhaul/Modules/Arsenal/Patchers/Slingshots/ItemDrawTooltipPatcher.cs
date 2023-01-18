@@ -3,6 +3,7 @@ namespace DaLion.Overhaul.Modules.Arsenal.Patchers.Slingshots;
 
 #region using directives
 
+using System.Runtime.CompilerServices;
 using System.Text;
 using DaLion.Shared.Exceptions;
 using DaLion.Shared.Harmony;
@@ -25,6 +26,7 @@ internal sealed class ItemDrawTooltipPatcher : HarmonyPatcher
     /// <summary>Stub for base <see cref="Item.drawTooltip"/>.</summary>
     /// <remarks>Required by <see cref="Tool.drawTooltip"/> prefix.</remarks>
     [HarmonyReversePatch]
+    [MethodImpl(MethodImplOptions.NoInlining)]
     internal static void ItemDrawTooltipReverse(
         object instance,
         SpriteBatch spriteBatch,

@@ -102,19 +102,127 @@ internal sealed class GetCustomItemCommand : ConsoleCommand
                         case "all":
                             player.Write(DataFields.BlueprintsFound, string.Join(',', allBlueprints));
                             Log.I($"Added all Dwarvish Blueprints to {player.Name}.");
-                            break;
+                            return;
                         case "none":
                             player.Write(DataFields.BlueprintsFound, null);
                             Log.I($"Removed all Dwarvish Blueprints from {player.Name}.");
-                            break;
-                    }
+                            return;
+                        default:
+                            var found = player.Read(DataFields.BlueprintsFound).ParseList<int>().ToHashSet();
+                            for (var i = 0; i < args.Length; i++)
+                            {
+                                switch (args[i].ToLowerInvariant())
+                                {
+                                    case "elfblade":
+                                    case "elfdagger":
+                                    case "elvenblade":
+                                    case "elvendagger":
+                                        if (found.Contains(Constants.ElfBladeIndex))
+                                        {
+                                            Log.W($"{player.Name} has already found the Elven Blade Blueprint.");
+                                            break;
+                                        }
 
-                    return;
+                                        player.Append(DataFields.BlueprintsFound, Constants.ElfBladeIndex.ToString());
+                                        Log.I($"Added the Elven Blade Blueprint to {player.Name}.");
+                                        break;
+                                    case "elfsword":
+                                    case "elvensword":
+                                    case "forestsword":
+                                        if (found.Contains(Constants.ElfBladeIndex))
+                                        {
+                                            Log.W($"{player.Name} has already found the Elven Sword Blueprint.");
+                                            break;
+                                        }
+
+                                        player.Append(DataFields.BlueprintsFound, Constants.ForestSwordIndex.ToString());
+                                        Log.I($"Added the Elven Sword Blueprint to {player.Name}.");
+                                        break;
+                                    case "dwarfsword":
+                                    case "dwarvensword":
+                                        if (found.Contains(Constants.ElfBladeIndex))
+                                        {
+                                            Log.W($"{player.Name} has already found the Dwarven Sword Blueprint.");
+                                            break;
+                                        }
+
+                                        player.Append(DataFields.BlueprintsFound, Constants.DwarfSwordIndex.ToString());
+                                        Log.I($"Added the Dwarven Sword Blueprint to {player.Name}.");
+                                        break;
+                                    case "dwarfdagger":
+                                    case "dwarvendagger":
+                                        if (found.Contains(Constants.ElfBladeIndex))
+                                        {
+                                            Log.W($"{player.Name} has already found the Dwarven Dagger Blueprint.");
+                                            break;
+                                        }
+
+                                        player.Append(DataFields.BlueprintsFound, Constants.DwarfDaggerIndex.ToString());
+                                        Log.I($"Added the Dwarven Dagger Blueprint to {player.Name}.");
+                                        break;
+                                    case "dwarfclub":
+                                    case "dwarvenclub":
+                                    case "dwarfhammer":
+                                    case "dwarvenhammer":
+                                        if (found.Contains(Constants.ElfBladeIndex))
+                                        {
+                                            Log.W($"{player.Name} has already found the Dwarven Hammer Blueprint.");
+                                            break;
+                                        }
+
+                                        player.Append(DataFields.BlueprintsFound, Constants.DwarfHammerIndex.ToString());
+                                        Log.I($"Added the Dwarven Hammer Blueprint to {player.Name}.");
+                                        break;
+                                    case "dragonsword":
+                                    case "dragoncutlass":
+                                    case "dragontoothsword":
+                                    case "dragontoothcutlass":
+                                        if (found.Contains(Constants.ElfBladeIndex))
+                                        {
+                                            Log.W($"{player.Name} has already found the Dragontooth Cutlass Blueprint.");
+                                            break;
+                                        }
+
+                                        player.Append(DataFields.BlueprintsFound, Constants.DragontoothCutlassIndex.ToString());
+                                        Log.I($"Added the Dragontooth Cutlass Blueprint to {player.Name}.");
+                                        break;
+                                    case "dragondagger":
+                                    case "dragonshiv":
+                                    case "dragontoothdagger":
+                                    case "dragontoothshiv":
+                                        if (found.Contains(Constants.ElfBladeIndex))
+                                        {
+                                            Log.W($"{player.Name} has already found the Dragontooth Shiv Blueprint.");
+                                            break;
+                                        }
+
+                                        player.Append(DataFields.BlueprintsFound, Constants.DragontoothShivIndex.ToString());
+                                        Log.I($"Added the Dragontooth Shiv Blueprint to {player.Name}.");
+                                        break;
+                                    case "dragonclub":
+                                    case "dragontoothclub":
+                                        if (found.Contains(Constants.ElfBladeIndex))
+                                        {
+                                            Log.W($"{player.Name} has already found the Dragontooth Club Blueprint.");
+                                            break;
+                                        }
+
+                                        player.Append(DataFields.BlueprintsFound, Constants.DragontoothClubIndex.ToString());
+                                        Log.I($"Added the Dragontooth Club Blueprints to {player.Name}.");
+                                        break;
+                                    default:
+                                        Log.W($"Ignoring unknown weapon '{args[i]}'.");
+                                        break;
+                                }
+                            }
+
+                            return;
+                    }
                 }
 
                 var notFound = allBlueprints.Except(player.Read(DataFields.BlueprintsFound).ParseList<int>()).ToArray();
                 var chosen = Game1.random.Next(notFound.Length);
-                player.Append(DataFields.BlueprintsFound, chosen.ToString());
+                player.Append(DataFields.BlueprintsFound, notFound[chosen].ToString());
                 ModHelper.GameContent.InvalidateCacheAndLocalized("Data/Events/Blacksmith");
 
                 player.holdUpItemThenMessage(new SObject(Globals.DwarvishBlueprintIndex.Value, 1));
@@ -131,6 +239,8 @@ internal sealed class GetCustomItemCommand : ConsoleCommand
             case "curse":
             case "cursed":
                 item = new MeleeWeapon(Constants.DarkSwordIndex);
+                Game1.player.mailReceived.Add("gotDarkSword");
+                Game1.player.mailForTomorrow.Add("viegoCurse");
                 break;
             default:
                 Log.W($"Invalid item {args[0]} will be ignored.");

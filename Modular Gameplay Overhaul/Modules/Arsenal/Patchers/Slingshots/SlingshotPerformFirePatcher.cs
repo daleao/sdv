@@ -39,7 +39,7 @@ internal sealed class SlingshotPerformFirePatcher : HarmonyPatcher
     /// <summary>Patch to add Rascal bonus range damage + perform Desperado perks and Ultimate.</summary>
     [HarmonyPrefix]
     [HarmonyPriority(Priority.High)]
-    [HarmonyAfter("Overhaul.Modules.Professions")]
+    [HarmonyAfter("DaLion.Overhaul.Modules.Professions")]
     private static bool SlingshotPerformFirePrefix(
         Slingshot __instance,
         ref bool ___canPlaySound,
@@ -309,9 +309,14 @@ internal sealed class SlingshotPerformFirePatcher : HarmonyPatcher
                 }
             }
 
-            foreach (var enchantment in __instance.enchantments.OfType<BaseSlingshotEnchantment>())
+            for (var i = 0; i < __instance.enchantments.Count; i++)
             {
-                enchantment.OnFire(
+                if (__instance.enchantments[i] is not BaseSlingshotEnchantment slingshotEnchantment)
+                {
+                    continue;
+                }
+
+                slingshotEnchantment.OnFire(
                     __instance,
                     projectile,
                     damageBase,

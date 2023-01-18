@@ -6,6 +6,7 @@ using System.Linq;
 using DaLion.Overhaul.Modules.Arsenal.VirtualProperties;
 using DaLion.Overhaul.Modules.Rings.VirtualProperties;
 using DaLion.Shared.Extensions.Stardew;
+using Shared.Extensions.Collections;
 using StardewValley.Tools;
 using static StardewValley.FarmerSprite;
 
@@ -183,11 +184,7 @@ internal static class FarmerExtensions
                     }),
                     new AnimationFrame(38, (int)(30 * halfModifier), true, flip: false, who =>
                     {
-                        foreach (var enchantment in weapon.enchantments.OfType<BaseWeaponEnchantment>())
-                        {
-                            enchantment.OnSwing(weapon, who);
-                        }
-
+                        weapon.enchantments.OfType<BaseWeaponEnchantment>().ForEach(e => e.OnSwing(weapon, who));
                         Farmer.showSwordSwipe(who);
                     }),
                     new AnimationFrame(39, (int)(30 * halfModifier), true, flip: false, Farmer.showSwordSwipe),
@@ -220,11 +217,7 @@ internal static class FarmerExtensions
                     }),
                     new AnimationFrame(32, (int)(30 * halfModifier), true, flip: false, who =>
                     {
-                        foreach (var enchantment in weapon.enchantments.OfType<BaseWeaponEnchantment>())
-                        {
-                            enchantment.OnSwing(weapon, who);
-                        }
-
+                        weapon.enchantments.OfType<BaseWeaponEnchantment>().ForEach(e => e.OnSwing(weapon, who));
                         Farmer.showSwordSwipe(who);
                     }),
                     new AnimationFrame(33, (int)(30 * halfModifier), true, flip: false, Farmer.showSwordSwipe),
@@ -257,11 +250,7 @@ internal static class FarmerExtensions
                     }),
                     new AnimationFrame(26, (int)(30 * halfModifier), true, flip: false, who =>
                     {
-                        foreach (var enchantment in weapon.enchantments.OfType<BaseWeaponEnchantment>())
-                        {
-                            enchantment.OnSwing(weapon, who);
-                        }
-
+                        weapon.enchantments.OfType<BaseWeaponEnchantment>().ForEach(e => e.OnSwing(weapon, who));
                         Farmer.showSwordSwipe(who);
                     }),
                     new AnimationFrame(27, (int)(30 * halfModifier), true, flip: false, Farmer.showSwordSwipe),
@@ -294,11 +283,7 @@ internal static class FarmerExtensions
                     }),
                     new AnimationFrame(32, (int)(30 * halfModifier), true, flip: true, who =>
                     {
-                        foreach (var enchantment in weapon.enchantments.OfType<BaseWeaponEnchantment>())
-                        {
-                            enchantment.OnSwing(weapon, who);
-                        }
-
+                        weapon.enchantments.OfType<BaseWeaponEnchantment>().ForEach(e => e.OnSwing(weapon, who));
                         Farmer.showSwordSwipe(who);
                     }),
                     new AnimationFrame(33, (int)(30 * halfModifier), true, flip: true, Farmer.showSwordSwipe),
@@ -360,11 +345,7 @@ internal static class FarmerExtensions
                     }),
                     new AnimationFrame(39, (int)(30 * halfModifier), true, flip: false, who =>
                     {
-                        foreach (var enchantment in weapon.enchantments.OfType<BaseWeaponEnchantment>())
-                        {
-                            enchantment.OnSwing(weapon, who);
-                        }
-
+                        weapon.enchantments.OfType<BaseWeaponEnchantment>().ForEach(e => e.OnSwing(weapon, who));
                         Farmer.showSwordSwipe(who);
                     }),
                     new AnimationFrame(38, (int)(30 * halfModifier), true, flip: false, Farmer.showSwordSwipe),
@@ -397,11 +378,7 @@ internal static class FarmerExtensions
                     }),
                     new AnimationFrame(33, (int)(30 * halfModifier), true, flip: false, who =>
                     {
-                        foreach (var enchantment in weapon.enchantments.OfType<BaseWeaponEnchantment>())
-                        {
-                            enchantment.OnSwing(weapon, who);
-                        }
-
+                        weapon.enchantments.OfType<BaseWeaponEnchantment>().ForEach(e => e.OnSwing(weapon, who));
                         Farmer.showSwordSwipe(who);
                     }),
                     new AnimationFrame(32, (int)(30 * halfModifier), true, flip: false, Farmer.showSwordSwipe),
@@ -434,11 +411,7 @@ internal static class FarmerExtensions
                     }),
                     new AnimationFrame(27, (int)(30 * halfModifier), true, flip: false, who =>
                     {
-                        foreach (var enchantment in weapon.enchantments.OfType<BaseWeaponEnchantment>())
-                        {
-                            enchantment.OnSwing(weapon, who);
-                        }
-
+                        weapon.enchantments.OfType<BaseWeaponEnchantment>().ForEach(e => e.OnSwing(weapon, who));
                         Farmer.showSwordSwipe(who);
                     }),
                     new AnimationFrame(26, (int)(30 * halfModifier), true, flip: false, Farmer.showSwordSwipe),
@@ -471,11 +444,7 @@ internal static class FarmerExtensions
                     }),
                     new AnimationFrame(33, (int)(30 * halfModifier), true, flip: true, who =>
                     {
-                        foreach (var enchantment in weapon.enchantments.OfType<BaseWeaponEnchantment>())
-                        {
-                            enchantment.OnSwing(weapon, who);
-                        }
-
+                        weapon.enchantments.OfType<BaseWeaponEnchantment>().ForEach(e => e.OnSwing(weapon, who));
                         Farmer.showSwordSwipe(who);
                     }),
                     new AnimationFrame(32, (int)(30 * halfModifier), true, flip: true, Farmer.showSwordSwipe),
@@ -539,11 +508,7 @@ internal static class FarmerExtensions
                     new AnimationFrame(38, (int)(50 * halfModifier), false, flip: false, who =>
                     {
                         who.DamageDuringSmash();
-                        foreach (var enchantment in weapon.enchantments.OfType<BaseWeaponEnchantment>())
-                        {
-                            enchantment.OnSwing(weapon, who);
-                        }
-
+                        weapon.enchantments.OfType<BaseWeaponEnchantment>().ForEach(e => e.OnSwing(weapon, who));
                         who.currentLocation.localSound(sound);
                     }),
                     new AnimationFrame(63, (int)(50 * halfModifier), false, flip: false, who =>
@@ -572,11 +537,7 @@ internal static class FarmerExtensions
                     new AnimationFrame(50, (int)(50 * halfModifier), false, flip: false, who =>
                     {
                         who.DamageDuringSmash();
-                        foreach (var enchantment in weapon.enchantments.OfType<BaseWeaponEnchantment>())
-                        {
-                            enchantment.OnSwing(weapon, who);
-                        }
-
+                        weapon.enchantments.OfType<BaseWeaponEnchantment>().ForEach(e => e.OnSwing(weapon, who));
                         who.currentLocation.localSound(sound);
                     }),
                     new AnimationFrame(51, (int)(50 * halfModifier), false, flip: false, who =>
@@ -605,11 +566,7 @@ internal static class FarmerExtensions
                     new AnimationFrame(68, (int)(50 * halfModifier), false, flip: false, who =>
                     {
                         who.DamageDuringSmash();
-                        foreach (var enchantment in weapon.enchantments.OfType<BaseWeaponEnchantment>())
-                        {
-                            enchantment.OnSwing(weapon, who);
-                        }
-
+                        weapon.enchantments.OfType<BaseWeaponEnchantment>().ForEach(e => e.OnSwing(weapon, who));
                         who.currentLocation.localSound(sound);
                     }),
                     new AnimationFrame(69, (int)(50 * halfModifier), false, flip: false, who =>
@@ -638,11 +595,7 @@ internal static class FarmerExtensions
                     new AnimationFrame(50, (int)(50 * halfModifier), false, flip: true, who =>
                     {
                         who.DamageDuringSmash();
-                        foreach (var enchantment in weapon.enchantments.OfType<BaseWeaponEnchantment>())
-                        {
-                            enchantment.OnSwing(weapon, who);
-                        }
-
+                        weapon.enchantments.OfType<BaseWeaponEnchantment>().ForEach(e => e.OnSwing(weapon, who));
                         who.currentLocation.localSound(sound);
                     }),
                     new AnimationFrame(51, (int)(50 * halfModifier), false, flip: true, who =>
@@ -693,11 +646,7 @@ internal static class FarmerExtensions
                     new AnimationFrame(40, (int)(120 * halfModifier), true, flip: false, who =>
                     {
                         who.DamageDuringThrust();
-                        foreach (var enchantment in weapon.enchantments.OfType<BaseWeaponEnchantment>())
-                        {
-                            enchantment.OnSwing(weapon, who);
-                        }
-
+                        weapon.enchantments.OfType<BaseWeaponEnchantment>().ForEach(e => e.OnSwing(weapon, who));
                         who.currentLocation.localSound("daggerswipe");
                     }),
                     new AnimationFrame(38, (int)(50 * halfModifier), true, flip: false, DamageDuringThrust),
@@ -717,11 +666,7 @@ internal static class FarmerExtensions
                     new AnimationFrame(34, (int)(120 * halfModifier), false, flip: false, who =>
                     {
                         who.DamageDuringThrust();
-                        foreach (var enchantment in weapon.enchantments.OfType<BaseWeaponEnchantment>())
-                        {
-                            enchantment.OnSwing(weapon, who);
-                        }
-
+                        weapon.enchantments.OfType<BaseWeaponEnchantment>().ForEach(e => e.OnSwing(weapon, who));
                         who.currentLocation.localSound("daggerswipe");
                     }),
                     new AnimationFrame(33, (int)(50 * halfModifier), false, flip: false, DamageDuringThrust),
@@ -741,11 +686,7 @@ internal static class FarmerExtensions
                     new AnimationFrame(27, (int)(120 * halfModifier), true, flip: false, who =>
                     {
                         who.DamageDuringThrust();
-                        foreach (var enchantment in weapon.enchantments.OfType<BaseWeaponEnchantment>())
-                        {
-                            enchantment.OnSwing(weapon, who);
-                        }
-
+                        weapon.enchantments.OfType<BaseWeaponEnchantment>().ForEach(e => e.OnSwing(weapon, who));
                         who.currentLocation.localSound("daggerswipe");
                     }),
                     new AnimationFrame(25, (int)(50 * halfModifier), true, flip: false, DamageDuringThrust),
@@ -765,11 +706,7 @@ internal static class FarmerExtensions
                     new AnimationFrame(40, (int)(120 * halfModifier), false, flip: true, who =>
                     {
                         who.DamageDuringThrust();
-                        foreach (var enchantment in weapon.enchantments.OfType<BaseWeaponEnchantment>())
-                        {
-                            enchantment.OnSwing(weapon, who);
-                        }
-
+                        weapon.enchantments.OfType<BaseWeaponEnchantment>().ForEach(e => e.OnSwing(weapon, who));
                         who.currentLocation.localSound("daggerswipe");
                     }),
                     new AnimationFrame(38, (int)(50 * halfModifier), false, flip: true, DamageDuringThrust),

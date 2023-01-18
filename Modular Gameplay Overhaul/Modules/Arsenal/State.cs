@@ -59,4 +59,6 @@ internal sealed class State
     internal int SlingshotCooldown { get; set; }
 
     internal Vector2 DriftVelocity { get; set; }
+
+    internal Tool? SelectableArsenal { get; set; }
 }

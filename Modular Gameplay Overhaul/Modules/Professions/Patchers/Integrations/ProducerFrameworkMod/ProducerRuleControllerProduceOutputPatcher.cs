@@ -29,7 +29,7 @@ internal sealed class ProducerRuleControllerProduceOutputPatcher : HarmonyPatche
 
     /// <summary>Patch to apply modded Artisan perks to PFM artisan machines.</summary>
     [HarmonyPostfix]
-    [HarmonyAfter("Overhaul.Modules.Tweex")]
+    [HarmonyAfter("DaLion.Overhaul.Modules.Tweex")]
     private static void ProducerRuleControllerProduceOutputPostfix(
         SObject producer, Farmer who, SObject? input, bool probe)
     {

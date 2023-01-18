@@ -32,4 +32,8 @@ public sealed class SlingshotConfig
     /// <summary>Gets a value indicating whether to replace the mouse cursor with a bulls-eye while firing.</summary>
     [JsonProperty]
     public bool BullseyeReplacesCursor { get; internal set; } = true;
+
+    /// <summary>Gets a value indicating how close an enemy must be to auto-select a slingshot, in tiles.</summary>
+    [JsonProperty]
+    public uint AutoSelectionRange { get; internal set; } = 4;
 }

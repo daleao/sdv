@@ -23,7 +23,7 @@ internal sealed class SlingshotGetRequiredChargeTimePatcher : HarmonyPatcher
 
     /// <summary>Apply Emerald Ring and Enchantment effects to Slingshot.</summary>
     [HarmonyPostfix]
-    [HarmonyBefore("Overhaul.Modules.Professions")]
+    [HarmonyBefore("DaLion.Overhaul.Modules.Professions")]
     private static void SlingshotGetRequiredChargeTimePostfix(Slingshot __instance, ref float __result)
     {
         var firer = __instance.getLastFarmerToUse();

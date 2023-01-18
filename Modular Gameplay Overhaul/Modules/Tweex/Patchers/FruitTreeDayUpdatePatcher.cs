@@ -24,7 +24,7 @@ internal sealed class FruitTreeDayUpdatePatcher : HarmonyPatcher
 
     /// <summary>Record growth stage.</summary>
     [HarmonyPrefix]
-    [HarmonyBefore("DaLion.Professions", "atravita.MoreFertilizers")]
+    [HarmonyBefore("DaLion.Overhaul.Modules.Professions", "atravita.MoreFertilizers")]
     private static void FruitTreeDayUpdatePrefix(FruitTree __instance, ref (int DaysUntilMature, int GrowthStage) __state)
     {
         __state.DaysUntilMature = __instance.daysUntilMature.Value;
@@ -33,7 +33,7 @@ internal sealed class FruitTreeDayUpdatePatcher : HarmonyPatcher
 
     /// <summary>Undo growth during winter.</summary>
     [HarmonyPostfix]
-    [HarmonyAfter("DaLion.Professions", "atravita.MoreFertilizers")]
+    [HarmonyAfter("DaLion.Overhaul.Modules.Professions", "atravita.MoreFertilizers")]
     private static void FruitTreeDayUpdatePostfix(FruitTree __instance, (int DaysUntilMature, int GrowthStage) __state)
     {
         if (!TweexModule.Config.PreventFruitTreeGrowthInWinter || __instance.growthStage.Value >= FruitTree.treeStage ||

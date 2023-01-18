@@ -13,6 +13,7 @@ using DaLion.Shared.Extensions.Stardew;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
 using Microsoft.Xna.Framework;
+using NetFabric.Hyperlinq;
 using StardewValley.Buildings;
 using StardewValley.Menus;
 using StardewValley.Objects;
@@ -88,7 +89,10 @@ internal sealed class FishPondGetFishProducePatcher : HarmonyPatcher
             held.Remove(__result);
             if (held.Count > 0)
             {
-                var serialized = held.Take(36).Select(p => $"{p.ParentSheetIndex},{p.Stack},{((SObject)p).Quality}");
+                var serialized = held
+                    .AsValueEnumerable()
+                    .Take(36)
+                    .Select(p => $"{p.ParentSheetIndex},{p.Stack},{((SObject)p).Quality}");
                 __instance.Write(DataFields.ItemsHeld, string.Join(';', serialized));
             }
             else
@@ -144,15 +148,21 @@ internal sealed class FishPondGetFishProducePatcher : HarmonyPatcher
     private static void ProduceFromPondData(FishPond pond, List<Item> held, Random r)
     {
         var fishPondData = pond.GetFishPondData();
-        if (fishPondData is not null)
+        if (fishPondData is null)
         {
-            held.AddRange(from item in fishPondData.ProducedItems.Where(item =>
-                    item.ItemID is not Constants.RoeIndex or Constants.SquidInkIndex &&
-                    pond.currentOccupants.Value >= item.RequiredPopulation &&
-                    r.NextDouble() < Utility.Lerp(0.15f, 0.95f, pond.currentOccupants.Value / 10f) &&
-                    r.NextDouble() < item.Chance)
-                let stack = r.Next(item.MinQuantity, item.MaxQuantity + 1)
-                select new SObject(item.ItemID, stack));
+            return;
+        }
+
+        for (var i = 0; i < fishPondData.ProducedItems.Count; i++)
+        {
+            var reward = fishPondData.ProducedItems[i];
+            if (reward.ItemID is not (Constants.RoeIndex or Constants.SquidInkIndex) &&
+                pond.currentOccupants.Value >= reward.RequiredPopulation &&
+                r.NextDouble() < Utility.Lerp(0.15f, 0.95f, pond.currentOccupants.Value / 10f) &&
+                r.NextDouble() < reward.Chance)
+            {
+                held.Add(new SObject(reward.ItemID, r.Next(reward.MinQuantity, reward.MaxQuantity + 1)));
+            }
         }
     }
 
@@ -308,7 +318,10 @@ internal sealed class FishPondGetFishProducePatcher : HarmonyPatcher
         }
 
         Utility.consolidateStacks(held);
-        var serialized = held.Take(36).Select(p => $"{p.ParentSheetIndex},{p.Stack},0");
+        var serialized = held
+            .AsValueEnumerable()
+            .Take(36)
+            .Select(p => $"{p.ParentSheetIndex},{p.Stack},0");
         pond.Write(DataFields.ItemsHeld, string.Join(';', serialized));
     }
 
@@ -358,19 +371,25 @@ internal sealed class FishPondGetFishProducePatcher : HarmonyPatcher
                 .Select(li => li?.ParseTuple<int, int>())
                 .WhereNotNull()
                 .ToList();
-        var readyToHarvest = heldMetals.Where(m => m.Item2 <= 0).ToList();
-        if (readyToHarvest.Count > 0)
+        for (var i = heldMetals.Count - 1; i >= 0; i--)
         {
-            held.AddRange(readyToHarvest.Select(m =>
-                m.Item1.IsOre()
-                    ? new SObject(Constants.RadioactiveOreIndex, 1)
-                    : new SObject(Constants.RadioactiveBarIndex, 1)));
-            heldMetals = heldMetals.Except(readyToHarvest).ToList();
+            var (index, timeLeft) = heldMetals[i];
+            if (timeLeft > 0)
+            {
+                continue;
+            }
+
+            held.Add(index.IsOre()
+                ? new SObject(Constants.RadioactiveOreIndex, 1)
+                : new SObject(Constants.RadioactiveBarIndex, 1));
+            heldMetals.RemoveAt(i);
         }
 
         pond.Write(
             DataFields.MetalsHeld,
-            string.Join(';', heldMetals.Select(m => string.Join(',', m.Item1, m.Item2))));
+            string.Join(';', heldMetals
+                .AsValueEnumerable()
+                .Select(m => string.Join(',', m.Item1, m.Item2))));
     }
 
     #endregion handlers

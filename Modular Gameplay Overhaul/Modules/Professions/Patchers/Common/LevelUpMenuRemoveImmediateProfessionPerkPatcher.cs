@@ -10,10 +10,11 @@ using DaLion.Overhaul.Modules.Professions.Events.Display;
 using DaLion.Overhaul.Modules.Professions.Ultimates;
 using DaLion.Overhaul.Modules.Professions.VirtualProperties;
 using DaLion.Shared.Extensions;
-using DaLion.Shared.Extensions.Collections;
 using DaLion.Shared.Extensions.SMAPI;
+using DaLion.Shared.Extensions.Stardew;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
+using StardewValley.Buildings;
 using StardewValley.Menus;
 using StardewValley.Tools;
 
@@ -49,13 +50,18 @@ internal sealed class LevelUpMenuRemoveImmediateProfessionPerkPatcher : HarmonyP
         profession
             .When(Profession.Aquarist).Then(() =>
             {
-                Game1.getFarm().buildings
-                    .Where(p => (p.owner.Value == Game1.player.UniqueMultiplayerID || !Context.IsMultiplayer) && !p.isUnderConstruction() && p.maxOccupants.Value > 10)
-                    .ForEach(p =>
+                foreach (var building in Game1.getFarm().buildings)
+                {
+                    if (building is not FishPond pond ||
+                        !(pond.IsOwnedBy(Game1.player) || ProfessionsModule.Config.LaxOwnershipRequirements) ||
+                        pond.isUnderConstruction() || pond.maxOccupants.Value <= 10)
                     {
-                        p.maxOccupants.Set(10);
-                        p.currentOccupants.Value = Math.Min(p.currentOccupants.Value, p.maxOccupants.Value);
-                    });
+                        continue;
+                    }
+
+                    pond.maxOccupants.Set(10);
+                    pond.currentOccupants.Value = Math.Min(pond.currentOccupants.Value, pond.maxOccupants.Value);
+                }
             })
             .When(Profession.Rascal).Then(() =>
             {

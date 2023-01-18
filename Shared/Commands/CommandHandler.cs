@@ -5,9 +5,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Text;
 using DaLion.Shared.Attributes;
 using DaLion.Shared.Extensions.Collections;
 using HarmonyLib;
+using NetFabric.Hyperlinq;
 using StardewModdingAPI;
 
 #endregion using directives
@@ -119,13 +121,13 @@ internal sealed class CommandHandler
 
         if (string.Equals(args[0], "help", StringComparison.InvariantCultureIgnoreCase))
         {
-            var result = "Available commands:";
+            var result = new StringBuilder("Available commands:");
             this._handledCommands.Values.Distinct().ForEach(c =>
             {
-                result +=
-                    $"\n\t-{command} {c.Triggers.First()}";
+                result.Append($"\n\t-{command} {c.Triggers[0]}");
             });
-            Log.I(result);
+
+            Log.I(result.ToString());
             return;
         }
 
@@ -139,7 +141,7 @@ internal sealed class CommandHandler
                                 string.Equals(args[1], "doc", StringComparison.InvariantCultureIgnoreCase)))
         {
             Log.I(
-                $"{handled.Documentation}\n\nAliases: {string.Join(',', handled.Triggers.Skip(1).Select(t => "`" + t + "`"))}");
+                $"{handled.Documentation}\n\nAliases: {string.Join(',', handled.Triggers.AsValueEnumerable().Skip(1).Select(t => "`" + t + "`"))}");
             return;
         }
 
@@ -174,8 +176,9 @@ internal sealed class CommandHandler
         }
 
         Log.D($"[CommandHandler]: Instantiating commands...");
-        foreach (var type in commandTypes)
+        for (var i = 0; i < commandTypes.Length; i++)
         {
+            var type = commandTypes[i];
             try
             {
 #if RELEASE
@@ -199,9 +202,9 @@ internal sealed class CommandHandler
                         new[] { this.GetType() },
                         null)!
                     .Invoke(new object?[] { this });
-                foreach (var trigger in command.Triggers)
+                for (var j = 0; j < command.Triggers.Length; j++)
                 {
-                    this._handledCommands.Add(trigger, command);
+                    this._handledCommands.Add(command.Triggers[j], command);
                 }
 
                 Log.D($"[CommandHandler]: Handling {command.GetType().Name}");

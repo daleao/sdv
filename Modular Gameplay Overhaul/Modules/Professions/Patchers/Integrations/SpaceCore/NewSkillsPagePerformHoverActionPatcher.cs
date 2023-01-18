@@ -82,9 +82,10 @@ internal sealed class NewSkillsPagePerformHoverActionPatcher : HarmonyPatcher
             }
 
             ___hoverText = I18n.Get("prestige.skillpage.tooltip", new { count });
-            ___hoverText = professionsForThisSkill
-                .Select(p => p.Title)
-                .Aggregate(___hoverText, (current, name) => current + $"\n• {name}");
+            for (var j = 0; j < professionsForThisSkill.Length; j++)
+            {
+                ___hoverText += $"\n• {professionsForThisSkill[j].Title}";
+            }
         }
 
         if (SCSkill.Loaded.Count == 0)
@@ -98,7 +99,7 @@ internal sealed class NewSkillsPagePerformHoverActionPatcher : HarmonyPatcher
         if (LuckSkill.Instance is not null)
         {
             // luck skill must be enumerated first
-            customSkills = LuckSkill.Instance.Collect(customSkills);
+            customSkills = customSkills.Prepend(LuckSkill.Instance);
         }
 
         foreach (var skill in customSkills)
@@ -123,9 +124,10 @@ internal sealed class NewSkillsPagePerformHoverActionPatcher : HarmonyPatcher
             }
 
             ___hoverText = I18n.Get("prestige.skillpage.tooltip", new { count });
-            ___hoverText = professionsForThisSkill
-                .Select(p => p.Title)
-                .Aggregate(___hoverText, (current, name) => current + $"\n• {name}");
+            for (var j = 0; j < professionsForThisSkill.Length; j++)
+            {
+                ___hoverText += $"\n• {professionsForThisSkill[j].Title}";
+            }
         }
     }
 

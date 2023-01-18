@@ -1,0 +1,49 @@
+is_global = true
+
+# IDE0065: Misplaced using directive
+csharp_using_directive_placement = inside_namespace:suggestion
+
+# IDE0160: Convert to block scoped namespace
+csharp_style_namespace_declarations = file_scoped:suggestion
+
+# SA1005: Single-line comment should begin with a space
+dotnet_diagnostic.SA1005.severity = silent
+
+# SA1027: Tabs and spaces should be used correctly
+dotnet_diagnostic.SA1027.severity = silent
+
+# SA1108: Block statements should not contain embedded comments
+dotnet_diagnostic.SA1108.severity = silent
+
+# SA1114: Parameter list should follow declaration
+dotnet_diagnostic.SA1114.severity = silent
+
+# SA1118: Parameter should not span multiple lines
+dotnet_diagnostic.SA1118.severity = silent
+
+# SA1123: Do not place regions within elements
+dotnet_diagnostic.SA1123.severity = none
+
+# SA1124: Do not use regions
+dotnet_diagnostic.SA1124.severity = none
+
+# SA1300: Element should begin with upper-case letter
+dotnet_diagnostic.SA1124.severity = silent
+
+# SA1309: Field names should not begin with underscore
+dotnet_diagnostic.SA1309.severity = silent
+
+# SA1313: Parameter names should begin with lower-case letter
+dotnet_diagnostic.SA1313.severity = silent
+
+# SA1512: Single-line comments should not be followed by blank line
+dotnet_diagnostic.SA1512.severity = none
+
+# SA1515: Single-line comment should be preceded by blank line
+dotnet_diagnostic.SA1515.severity = none
+
+# SA1600: Elements should be documented
+dotnet_diagnostic.SA1600.severity = silent
+
+# SA1633: File should have header
+dotnet_diagnostic.SA1633.severity = none

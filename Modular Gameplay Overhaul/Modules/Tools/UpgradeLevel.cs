@@ -1,6 +1,13 @@
 ﻿namespace DaLion.Overhaul.Modules.Tools;
 
+#region using directives
+
+using NetEscapades.EnumGenerators;
+
+#endregion using directives
+
 /// <summary>The upgrade level of a <see cref="Tool"/>.</summary>
+[EnumExtensions]
 public enum UpgradeLevel
 {
     /// <summary>No upgrade.</summary>

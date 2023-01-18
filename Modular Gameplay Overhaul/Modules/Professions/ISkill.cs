@@ -3,6 +3,7 @@
 #region using directives
 
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Linq;
 using DaLion.Overhaul.Modules.Professions.Extensions;
 using DaLion.Shared.Extensions.Collections;
@@ -66,7 +67,7 @@ public interface ISkill
     virtual IEnumerable<int> TierTwoProfessionIds => this.ProfessionIds.TakeLast(4);
 
     /// <summary>Gets the experience required for each level.</summary>
-    internal static IReadOnlyDictionary<int, int> ExperienceByLevel { get; } = new Dictionary<int, int>
+    internal static ImmutableDictionary<int, int> ExperienceByLevel { get; } = new Dictionary<int, int>
     {
         { 0, 0 },
         { 1, 100 },
@@ -89,7 +90,7 @@ public interface ISkill
         { 18, Constants.ExpAtLevel10 + ((int)ProfessionsModule.Config.RequiredExpPerExtendedLevel * 8) },
         { 19, Constants.ExpAtLevel10 + ((int)ProfessionsModule.Config.RequiredExpPerExtendedLevel * 9) },
         { 20, Constants.ExpAtLevel10 + ((int)ProfessionsModule.Config.RequiredExpPerExtendedLevel * 10) },
-    };
+    }.ToImmutableDictionary();
 
     /// <summary>Adds experience points for this skill.</summary>
     /// <param name="amount">The amount of experience to add.</param>

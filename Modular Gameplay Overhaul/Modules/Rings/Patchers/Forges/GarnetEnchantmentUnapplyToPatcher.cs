@@ -34,7 +34,8 @@ internal sealed class GarnetEnchantmentUnapplyToPatcher : HarmonyPatcher
             return;
         }
 
-        var chord = player.Get_ResonatingChords()
+        var chord = player
+            .Get_ResonatingChords()
             .Where(c => c.Root == Gemstone.Garnet)
             .ArgMax(c => c.Amplitude);
         if (chord is null || tool.Get_ResonatingChord<GarnetEnchantment>() != chord)

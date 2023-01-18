@@ -2,6 +2,7 @@
 
 #region using directives
 
+using System.Text;
 using DaLion.Shared.Commands;
 using static System.String;
 
@@ -32,32 +33,33 @@ internal sealed class PrintProfessionsCommand : ConsoleCommand
             return;
         }
 
-        var message = $"Farmer {Game1.player.Name}'s professions:";
-        foreach (var pid in Game1.player.professions)
+        var message = new StringBuilder($"Farmer {Game1.player.Name}'s professions:");
+        for (var i = 0; i < Game1.player.professions.Count; i++)
         {
-            string name;
+            var pid = Game1.player.professions[i];
+            var name = new StringBuilder();
             if (Profession.TryFromValue(pid >= 100 ? pid - 100 : pid, out var profession))
             {
-                name = profession.StringId + (pid >= 100 ? " (P)" : Empty);
+                name.Append(profession.StringId + (pid >= 100 ? " (P)" : Empty));
             }
             else if (SCProfession.Loaded.TryGetValue(pid, out var scProfession) || SCProfession.Loaded.TryGetValue(pid - 100, out scProfession))
             {
-                name = scProfession.StringId;
+                name.Append(scProfession.StringId);
                 if (!SCProfession.Loaded.ContainsKey(pid))
                 {
-                    name += " (P)";
+                    name.Append(" (P)");
                 }
 
-                name += " (" + scProfession.Skill.StringId + ')';
+                name.Append(" (" + scProfession.Skill.StringId + ')');
             }
             else
             {
-                name = $"Unknown profession {pid}";
+                name.Append($"Unknown profession {pid}");
             }
 
-            message += "\n\t- " + name;
+            message.Append("\n\t- ").Append(name);
         }
 
-        Log.I(message);
+        Log.I(message.ToString());
     }
 }

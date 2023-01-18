@@ -152,8 +152,9 @@ internal sealed class TehsFishingOverhaulIntegration : ModIntegration<TehsFishin
                     // if Recatchable Legendaries is installed, reset the conversation topics
                     if (this.ModRegistry.IsLoaded("TehPers.RecatchableLegendaries"))
                     {
-                        foreach (var topic in RecatchableLegendariesTopics)
+                        for (var i = 0; i < RecatchableLegendariesTopics.Count; i++)
                         {
+                            var topic = RecatchableLegendariesTopics[i];
                             Game1.player.activeDialogueEvents.Remove(topic);
                         }
                     }

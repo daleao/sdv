@@ -3,6 +3,7 @@
 #region using directives
 
 using System.Linq;
+using System.Text;
 using DaLion.Shared.Attributes;
 using DaLion.Shared.Commands;
 using DaLion.Shared.Events;
@@ -29,12 +30,12 @@ internal sealed class PrintEnabledEventsCommand : ConsoleCommand
     /// <inheritdoc />
     public override void Callback(string trigger, string[] args)
     {
-        var message = "Enabled events:";
+        var message = new StringBuilder("Enabled events:");
         var events = ModEntry.EventManager.Enabled.Cast<ManagedEvent>().ToList();
         events.Sort();
         message = events.Aggregate(
             message,
-            (current, next) => current + "\n\t- " + next.GetType().Name);
-        Log.I(message);
+            (current, next) => current.Append("\n\t- " + next.GetType().Name));
+        Log.I(message.ToString());
     }
 }

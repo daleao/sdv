@@ -52,9 +52,14 @@ public sealed class Ambush : Ultimate
 
         this.SecondsOutOfAmbush = 0d;
 
-        foreach (var monster in Game1.currentLocation.characters.OfType<Monster>()
-                     .Where(m => m.Player?.IsLocalPlayer == true))
+        for (var i = 0; i < Game1.currentLocation.characters.Count; i++)
         {
+            var character = Game1.currentLocation.characters[i];
+            if (character is not Monster { Player.IsLocalPlayer: true } monster)
+            {
+                continue;
+            }
+
             monster.focusedOnFarmers = false;
             switch (monster)
             {

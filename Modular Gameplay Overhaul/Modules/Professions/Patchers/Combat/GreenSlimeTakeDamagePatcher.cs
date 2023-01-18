@@ -33,10 +33,12 @@ internal sealed class GreenSlimeTakeDamagePatcher : HarmonyPatcher
             return;
         }
 
-        foreach (var monster in __instance.currentLocation.characters.OfType<Monster>()
-                     .Where(m => !m.IsSlime() && m.Get_Taunter() == __instance))
+        foreach (var character in __instance.currentLocation.characters)
         {
-            monster.Set_Taunter(null);
+            if (character is Monster monster && !monster.IsSlime() && monster.Get_Taunter() == __instance)
+            {
+                monster.Set_Taunter(null);
+            }
         }
     }
 

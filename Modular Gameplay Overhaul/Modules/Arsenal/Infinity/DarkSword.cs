@@ -9,6 +9,7 @@ using StardewValley.Tools;
 #endregion using directives
 
 /// <summary>The Dark Sword.</summary>
+/// <remarks>Unused.</remarks>
 [XmlType("Mods_DaLion_DarkSword")]
 public sealed class DarkSword : MeleeWeapon
 {

@@ -107,41 +107,44 @@ internal sealed class CropHarvestPatcher : HarmonyPatcher
 
         //// Injected: or (Game1.player.professions.Contains(<agriculturist_id>) && random2.NextDouble() < chanceForGoldQuality / 3.0)
         //// After: if (fertilizerQualityLevel >= 3 && random2.NextDouble() < chanceForGoldQuality / 2.0)
-        //try
-        //{
-        //    var setIridiumQuality = generator.DefineLabel();
-        //    helper
-        //        .Match(
-        //            new[]
-        //            {
-        //                // find index of Crop.fertilizerQualityLevel >= 3
-        //                new CodeInstruction(OpCodes.Ldloc_S, helper.Locals[8]),
-        //                new CodeInstruction(OpCodes.Ldc_I4_3),
-        //                new CodeInstruction(OpCodes.Blt_S),
-        //            })
-        //        .Match(
-        //            new[] { new CodeInstruction(OpCodes.Bge_Un_S), })
-        //        .GetLabels(out var checkForGoldQuality)
-        //        .ReplaceWith(new CodeInstruction(OpCodes.Blt_S, setIridiumQuality))
-        //        .Move()
-        //        .AddLabels(setIridiumQuality)
-        //        .InsertProfessionCheck(Profession.Agriculturist.Value)
-        //        .Insert(new[]
-        //        {
-        //            new CodeInstruction(OpCodes.Brfalse_S, checkForGoldQuality),
-        //            new CodeInstruction(OpCodes.Ldloc_S, helper.Locals[9]),
-        //            new CodeInstruction(OpCodes.Callvirt, typeof(Random).RequireMethod(nameof(Random.NextDouble))),
-        //            new CodeInstruction(OpCodes.Ldloc_S, helper.Locals[10]),
-        //            new CodeInstruction(OpCodes.Ldc_R8, 3d),
-        //            new CodeInstruction(OpCodes.Div),
-        //            new CodeInstruction(OpCodes.Bge_Un_S, checkForGoldQuality),
-        //        });
-        //}
-        //catch (Exception ex)
-        //{
-        //    Log.E($"Failed adding modded Agriculturist crop harvest quality.\nHelper returned {ex}");
-        //    return null;
-        //}
+        try
+        {
+            var checkForAgriculturist = generator.DefineLabel();
+            var setIridiumQuality = generator.DefineLabel();
+            helper
+                .Match(
+                    new[]
+                    {
+                        // find index of Crop.fertilizerQualityLevel >= 3
+                        new CodeInstruction(OpCodes.Ldloc_S, helper.Locals[8]),
+                        new CodeInstruction(OpCodes.Ldc_I4_3),
+                        new CodeInstruction(OpCodes.Blt_S),
+                    })
+                .Move(2)
+                .GetOperand(out var checkForGoldQuality) // this is the label for the failed iridium check
+                .SetOperand(checkForAgriculturist) // if failed, try the OR
+                .Match(// advance until the end of random2.NextDouble() < chanceForGoldQuality / 2.0
+                    new[] { new CodeInstruction(OpCodes.Bge_Un_S), })
+                .ReplaceWith(new CodeInstruction(OpCodes.Blt_S, setIridiumQuality)) // replace AND with OR
+                .Move()
+                .AddLabels(setIridiumQuality) // this is the destination for a successful iridium check
+                .InsertProfessionCheck(Profession.Agriculturist.Value, new[] { checkForAgriculturist })
+                .Insert(new[]
+                {
+                    new CodeInstruction(OpCodes.Brfalse_S, checkForGoldQuality),
+                    new CodeInstruction(OpCodes.Ldloc_S, helper.Locals[9]),
+                    new CodeInstruction(OpCodes.Callvirt, typeof(Random).RequireMethod(nameof(Random.NextDouble))),
+                    new CodeInstruction(OpCodes.Ldloc_S, helper.Locals[10]),
+                    new CodeInstruction(OpCodes.Ldc_R8, 3d),
+                    new CodeInstruction(OpCodes.Div),
+                    new CodeInstruction(OpCodes.Bge_Un_S, checkForGoldQuality),
+                });
+        }
+        catch (Exception ex)
+        {
+            Log.E($"Failed adding modded Agriculturist crop harvest quality.\nHelper returned {ex}");
+            return null;
+        }
 
         // Injected: if (ShouldIncreaseHarvestYield(junimoHarvester, random2) numToHarvest++;
         // After: numToHarvest++;

@@ -43,8 +43,9 @@ internal sealed class NewSkillsPageCtorPatcher : HarmonyPatcher
 
         var srcRect = new Rectangle(16, 0, 14, 9);
         var skills = Skills.GetSkillList();
-        foreach (var component in __instance.skillBars)
+        for (var i = 0; i < __instance.skillBars.Count; i++)
         {
+            var component = __instance.skillBars[i];
             int skillIndex, skillLevel;
             switch (component.myID / 100)
             {

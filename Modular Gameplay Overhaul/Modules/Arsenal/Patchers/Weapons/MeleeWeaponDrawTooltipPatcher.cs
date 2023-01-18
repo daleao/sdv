@@ -2,7 +2,6 @@
 
 #region using directives
 
-using System.Linq;
 using System.Reflection;
 using DaLion.Overhaul.Modules.Arsenal.VirtualProperties;
 using DaLion.Shared.Harmony;
@@ -277,8 +276,14 @@ internal sealed class MeleeWeaponDrawTooltipPatcher : HarmonyPatcher
             co = new Color(120, 0, 210);
 
             // write other enchantments
-            foreach (var enchantment in __instance.enchantments.Where(e => e.ShouldBeDisplayed()))
+            for (var i = 0; i < __instance.enchantments.Count; i++)
             {
+                var enchantment = __instance.enchantments[i];
+                if (!enchantment.ShouldBeDisplayed())
+                {
+                    continue;
+                }
+
                 Utility.drawWithShadow(
                     spriteBatch,
                     Game1.mouseCursors2,

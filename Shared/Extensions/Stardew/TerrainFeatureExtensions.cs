@@ -73,7 +73,9 @@ public static class TerrainFeatureExtensions
     /// <param name="predicate">An optional condition with which to filter out candidates.</param>
     /// <returns>The <see cref="Building"/> of type <typeparamref name="TBuilding"/> with the minimal distance to <paramref name="terrainFeature"/>.</returns>
     public static TBuilding? GetClosestBuilding<TBuilding>(
-        this TerrainFeature terrainFeature, IEnumerable<TBuilding>? candidates = null, Func<TBuilding, bool>? predicate = null)
+        this TerrainFeature terrainFeature,
+        IEnumerable<TBuilding>? candidates = null,
+        Func<TBuilding, bool>? predicate = null)
         where TBuilding : Building
     {
         if (terrainFeature.currentLocation is not BuildableGameLocation buildable)
@@ -82,18 +84,12 @@ public static class TerrainFeatureExtensions
         }
 
         predicate ??= _ => true;
-        var candidatesArr = candidates?.ToArray() ?? buildable.buildings.OfType<TBuilding>().Where(t => predicate(t)).ToArray();
-        var distanceToClosest = double.MaxValue;
-        switch (candidatesArr.Length)
-        {
-            case 0:
-                return null;
-            case 1:
-                return candidatesArr[0];
-        }
-
+        candidates ??= buildable.buildings
+            .OfType<TBuilding>()
+            .Where(t => predicate(t));
         TBuilding? closest = null;
-        foreach (var candidate in candidatesArr)
+        var distanceToClosest = double.MaxValue;
+        foreach (var candidate in candidates)
         {
             var distanceToThisCandidate = terrainFeature.DistanceTo(candidate);
             if (distanceToThisCandidate >= distanceToClosest)
@@ -118,23 +114,18 @@ public static class TerrainFeatureExtensions
     /// <param name="predicate">An optional condition with which to filter out candidates.</param>
     /// <returns>The <see cref="Character"/> of type <typeparamref name="TCharacter"/> with the minimal distance to <paramref name="terrainFeature"/>.</returns>
     public static TCharacter? GetClosestCharacter<TCharacter>(
-        this TerrainFeature terrainFeature, IEnumerable<TCharacter>? candidates = null, Func<TCharacter, bool>? predicate = null)
+        this TerrainFeature terrainFeature,
+        IEnumerable<TCharacter>? candidates = null,
+        Func<TCharacter, bool>? predicate = null)
         where TCharacter : Character
     {
         predicate ??= _ => true;
-        var candidatesArr = candidates?.ToArray() ??
-                            terrainFeature.currentLocation.characters.OfType<TCharacter>().Where(t => predicate(t)).ToArray();
-        var distanceToClosest = double.MaxValue;
-        switch (candidatesArr.Length)
-        {
-            case 0:
-                return null;
-            case 1:
-                return candidatesArr[0];
-        }
-
+        candidates ??= terrainFeature.currentLocation.characters
+            .OfType<TCharacter>()
+            .Where(t => predicate(t));
         TCharacter? closest = null;
-        foreach (var candidate in candidatesArr)
+        var distanceToClosest = double.MaxValue;
+        foreach (var candidate in candidates)
         {
             var distanceToThisCandidate = terrainFeature.DistanceTo(candidate);
             if (distanceToThisCandidate >= distanceToClosest)
@@ -158,22 +149,15 @@ public static class TerrainFeatureExtensions
     /// <param name="predicate">An optional condition with which to filter out candidates.</param>
     /// <returns>The <see cref="Farmer"/> with the minimal distance to <paramref name="terrainFeature"/>.</returns>
     public static Farmer? GetClosestFarmer(
-        this TerrainFeature terrainFeature, IEnumerable<Farmer>? candidates = null, Func<Farmer, bool>? predicate = null)
+        this TerrainFeature terrainFeature,
+        IEnumerable<Farmer>? candidates = null,
+        Func<Farmer, bool>? predicate = null)
     {
         predicate ??= _ => true;
-        var candidatesArr = candidates?.ToArray() ??
-                            terrainFeature.currentLocation.farmers.Where(f => predicate(f)).ToArray();
-        var distanceToClosest = double.MaxValue;
-        switch (candidatesArr.Length)
-        {
-            case 0:
-                return null;
-            case 1:
-                return candidatesArr[0];
-        }
-
+        candidates ??= terrainFeature.currentLocation.farmers.Where(f => predicate(f));
         Farmer? closest = null;
-        foreach (var candidate in candidatesArr)
+        var distanceToClosest = double.MaxValue;
+        foreach (var candidate in candidates)
         {
             var distanceToThisCandidate = terrainFeature.DistanceTo(candidate);
             if (distanceToThisCandidate >= distanceToClosest)
@@ -198,24 +182,18 @@ public static class TerrainFeatureExtensions
     /// <param name="predicate">An optional condition with which to filter out candidates.</param>
     /// <returns>The <see cref="SObject"/> of type <typeparamref name="TObject"/> with the minimal distance to <paramref name="terrainFeature"/>.</returns>
     public static TObject? GetClosestObject<TObject>(
-        this TerrainFeature terrainFeature, IEnumerable<TObject>? candidates = null, Func<TObject, bool>? predicate = null)
+        this TerrainFeature terrainFeature,
+        IEnumerable<TObject>? candidates = null,
+        Func<TObject, bool>? predicate = null)
         where TObject : SObject
     {
         predicate ??= _ => true;
-        var candidatesArr = candidates?.ToArray() ??
-                            terrainFeature.currentLocation.Objects.Values.OfType<TObject>().Where(o => predicate(o))
-                                .ToArray();
-        var distanceToClosest = double.MaxValue;
-        switch (candidatesArr.Length)
-        {
-            case 0:
-                return null;
-            case 1:
-                return candidatesArr[0];
-        }
-
+        candidates ??= terrainFeature.currentLocation.Objects.Values
+            .OfType<TObject>()
+            .Where(o => predicate(o));
         TObject? closest = null;
-        foreach (var candidate in candidatesArr)
+        var distanceToClosest = double.MaxValue;
+        foreach (var candidate in candidates)
         {
             var distanceToThisCandidate = terrainFeature.DistanceTo(candidate);
             if (distanceToThisCandidate >= distanceToClosest)
@@ -240,23 +218,18 @@ public static class TerrainFeatureExtensions
     /// <param name="predicate">An optional condition with which to filter out candidates.</param>
     /// <returns>The <see cref="TerrainFeature"/> of type <typeparamref name="TTerrainFeature"/> with the minimal distance to <paramref name="terrainFeature"/>.</returns>
     public static TTerrainFeature? GetClosestTerrainFeature<TTerrainFeature>(
-        this TerrainFeature terrainFeature, IEnumerable<TTerrainFeature>? candidates = null, Func<TTerrainFeature, bool>? predicate = null)
+        this TerrainFeature terrainFeature,
+        IEnumerable<TTerrainFeature>? candidates = null,
+        Func<TTerrainFeature, bool>? predicate = null)
         where TTerrainFeature : TerrainFeature
     {
         predicate ??= _ => true;
-        var candidatesArr = candidates?.ToArray() ?? terrainFeature.currentLocation.terrainFeatures.Values.OfType<TTerrainFeature>()
-            .Where(t => predicate(t)).ToArray();
-        var distanceToClosest = double.MaxValue;
-        switch (candidatesArr.Length)
-        {
-            case 0:
-                return null;
-            case 1:
-                return candidatesArr[0];
-        }
-
+        candidates ??= terrainFeature.currentLocation.terrainFeatures.Values
+            .OfType<TTerrainFeature>()
+            .Where(t => predicate(t));
         TTerrainFeature? closest = null;
-        foreach (var candidate in candidatesArr)
+        var distanceToClosest = double.MaxValue;
+        foreach (var candidate in candidates)
         {
             var distanceToThisCandidate = terrainFeature.DistanceTo(candidate);
             if (distanceToThisCandidate >= distanceToClosest)

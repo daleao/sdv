@@ -4,7 +4,7 @@
 
 using System.Linq;
 using DaLion.Shared.Enums;
-using DaLion.Shared.Extensions.Collections;
+using DaLion.Shared.Extensions.Stardew;
 using StardewValley.Buildings;
 
 #endregion using directives
@@ -38,10 +38,15 @@ internal static class Game1Extensions
     /// <param name="game1">The <see cref="Game1"/> instance.</param>
     internal static void RevalidateFishPondPopulations(this Game1 game1)
     {
-        Game1.getFarm().buildings.OfType<FishPond>()
-            .Where(p => (p.owner.Value == Game1.player.UniqueMultiplayerID || !Context.IsMultiplayer ||
-                         ProfessionsModule.Config.LaxOwnershipRequirements) && !p.isUnderConstruction())
-            .ForEach(p => p.UpdateMaximumOccupancy());
+        foreach (var building in Game1.getFarm().buildings)
+        {
+            if (building is FishPond pond &&
+                (pond.IsOwnedBy(Game1.player) || ProfessionsModule.Config.LaxOwnershipRequirements) &&
+                pond.isUnderConstruction())
+            {
+                pond.UpdateMaximumOccupancy();
+            }
+        }
     }
 
     /// <summary>Upgrades the quality of gems or minerals held by all existing Crystalariums owned by <paramref name="who"/>.</summary>
@@ -52,13 +57,15 @@ internal static class Game1Extensions
     {
         Utility.ForAllLocations(location =>
         {
-            location.Objects.Values
-                .Where(o =>
-                    o.bigCraftable.Value && o.ParentSheetIndex == (int)Machine.Crystalarium &&
-                    (o.owner.Value == who.UniqueMultiplayerID || !Context.IsMultiplayer ||
-                     ProfessionsModule.Config.LaxOwnershipRequirements) &&
-                    o.heldObject.Value?.Quality < newQuality)
-                .ForEach(crystalarium => crystalarium.heldObject.Value.Quality = newQuality);
+            foreach (var @object in location.Objects.Values)
+            {
+                if (@object.bigCraftable.Value && @object.ParentSheetIndex == (int)Machine.Crystalarium &&
+                    (@object.IsOwnedBy(who) || ProfessionsModule.Config.LaxOwnershipRequirements) &&
+                    @object.heldObject?.Value.Quality < newQuality)
+                {
+                    @object.heldObject.Value.Quality = newQuality;
+                }
+            }
         });
     }
 }

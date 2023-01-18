@@ -55,21 +55,29 @@ internal sealed class ScavengerWarpedEvent : WarpedEvent
     {
         Log.D($"Trying to spawn extra forage in {location.Name}.");
 
+        if (location.numberOfSpawnedObjectsOnMap >= 6)
+        {
+            Log.D($"But {location.Name} already has the maximum number of spawned objects.");
+            return;
+        }
+
         var r = new Random(Guid.NewGuid().GetHashCode());
         var locationData = Game1.content.Load<Dictionary<string, string>>("Data\\Locations");
-        if (!locationData.ContainsKey(location.Name))
+        if (!locationData.TryGetValue(location.Name, out var rawData))
         {
+            Log.D($"But there is no location data for {location.Name}.");
             return;
         }
 
-        var rawData = locationData[location.Name].SplitWithoutAllocation('/')[Utility.getSeasonNumber(location.GetSeasonForLocation())];
-        if (rawData == "-1" || location.numberOfSpawnedObjectsOnMap >= 6)
+        var seasonData = rawData.SplitWithoutAllocation('/')[Utility.getSeasonNumber(location.GetSeasonForLocation())];
+        if (seasonData.Equals("-1", StringComparison.Ordinal))
         {
+            Log.D($"But there is no forage data for {location.Name} for the current season.");
             return;
         }
 
-        var split = new SpanSplitter(rawData, ' ');
-        var numberToSpawn = r.Next(1, Math.Min(5, 7 - amount));
+        var split = seasonData.Split(' ');
+        var numberToSpawn = r.Next(1, amount);
         var count = 0;
         for (var i = 0; i < numberToSpawn; i++)
         {

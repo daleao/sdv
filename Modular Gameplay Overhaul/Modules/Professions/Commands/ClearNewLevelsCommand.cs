@@ -34,19 +34,21 @@ internal sealed class ClearNewLevelsCommand : ConsoleCommand
         }
         else
         {
-            foreach (var arg in args)
+            for (var i = 0; i < args.Length; i++)
             {
-                if (Skill.TryFromName(arg, true, out var skill))
+                if (Skill.TryFromName(args[i], true, out var skill))
                 {
-                    Game1.player.newLevels.Set(Game1.player.newLevels.Where(p => p.X != skill).ToList());
+                    Game1.player.newLevels.Set(Game1.player.newLevels
+                        .Where(p => p.X != skill)
+                        .ToList());
                 }
                 else
                 {
                     var customSkill = SCSkill.Loaded.Values.FirstOrDefault(s =>
-                        string.Equals(s.DisplayName, arg, StringComparison.CurrentCultureIgnoreCase));
+                        string.Equals(s.DisplayName, args[i], StringComparison.CurrentCultureIgnoreCase));
                     if (customSkill is null)
                     {
-                        Log.W($"Ignoring unknown skill {arg}.");
+                        Log.W($"Ignoring unknown skill {args[i]}.");
                         continue;
                     }
 

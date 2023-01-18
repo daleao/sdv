@@ -1,10 +1,22 @@
 # Professions Module Change Log
 
+## 1.2.0
+
+## Changed
+
+* Dramatically increased Blaster's chance of producing coal. Apparently the vanilla chance is so retardedly low that just doubling it doesn't make a noticeable difference.
+* Piper Slimes no longer take on the properties of Hutch Slimes, because I decided that wasn't really immersive. Piper Slimes are not summoned from the Hutch; they are attracted due to the Piper's "sliminess", and therefore they should be native to the current location.
+
+### Fixed
+
+* Fixed the Agriculturist perk, which I straight up forgot to include in 1.1.0.
+
 ## 1.1.1
 
 ### Changed
 
 * Spelunker momentum is now gained on interaction with a ladder or sink hole, and not on player warped. This prevents exploiting other warp methods such as the elevator to rank up the buff for free.
+* Prestige mechanic should now be fully functional for custom SpaceCore skills. Expect Binning and Socialization compatibility soon!
 
 ## 1.1.0
 

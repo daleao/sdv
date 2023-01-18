@@ -2,7 +2,6 @@
 
 #region using directives
 
-using System.Linq;
 using DaLion.Overhaul.Modules.Professions.Extensions;
 using DaLion.Shared.Events;
 using Microsoft.Xna.Framework;
@@ -32,9 +31,13 @@ internal sealed class ScavengerRenderedHudEvent : RenderedHudEvent
         var shouldHighlightOnScreen = ProfessionsModule.Config.ModKey.IsDown();
 
         // track objects
-        foreach (var (key, _) in Game1.currentLocation.Objects.Pairs.Where(p =>
-                     p.Value.ShouldBeTrackedBy(Profession.Scavenger)))
+        foreach (var (key, @object) in Game1.currentLocation.Objects.Pairs)
         {
+            if (!@object.ShouldBeTrackedBy(Profession.Scavenger))
+            {
+                continue;
+            }
+
             Globals.Pointer.Value.DrawAsTrackingPointer(key, Color.Yellow);
             if (shouldHighlightOnScreen)
             {
@@ -43,10 +46,14 @@ internal sealed class ScavengerRenderedHudEvent : RenderedHudEvent
         }
 
         //track berries
-        foreach (var bush in Game1.currentLocation.largeTerrainFeatures.OfType<Bush>().Where(b =>
-                     !b.townBush.Value && b.tileSheetOffset.Value == 1 &&
-                     b.inBloom(Game1.GetSeasonForLocation(Game1.currentLocation), Game1.dayOfMonth)))
+        foreach (var feature in Game1.currentLocation.largeTerrainFeatures)
         {
+            if (feature is not Bush bush || bush.townBush.Value || bush.tileSheetOffset.Value != 1 ||
+                !bush.inBloom(Game1.GetSeasonForLocation(Game1.currentLocation), Game1.dayOfMonth))
+            {
+                continue;
+            }
+
             Globals.Pointer.Value.DrawAsTrackingPointer(bush.tilePosition.Value, Color.Yellow);
             if (shouldHighlightOnScreen)
             {
@@ -55,20 +62,28 @@ internal sealed class ScavengerRenderedHudEvent : RenderedHudEvent
         }
 
         // track ginger
-        foreach (var crop in Game1.currentLocation.terrainFeatures.Values.OfType<HoeDirt>()
-                     .Where(d => d.crop is not null && d.crop.forageCrop.Value))
+        foreach (var feature in Game1.currentLocation.terrainFeatures.Values)
         {
-            Globals.Pointer.Value.DrawAsTrackingPointer(crop.currentTileLocation, Color.Yellow);
+            if (feature is not HoeDirt { crop: { } crop } dirt || !crop.forageCrop.Value)
+            {
+                continue;
+            }
+
+            Globals.Pointer.Value.DrawAsTrackingPointer(dirt.currentTileLocation, Color.Yellow);
             if (shouldHighlightOnScreen)
             {
-                Globals.Pointer.Value.DrawOverTile(crop.currentTileLocation, Color.Yellow);
+                Globals.Pointer.Value.DrawOverTile(dirt.currentTileLocation, Color.Yellow);
             }
         }
 
         // track coconuts
-        foreach (var tree in Game1.currentLocation.terrainFeatures.Values.OfType<Tree>()
-                     .Where(t => t.hasSeed.Value && t.treeType.Value == Tree.palmTree))
+        foreach (var feature in Game1.currentLocation.terrainFeatures.Values)
         {
+            if (feature is not Tree tree || !tree.hasSeed.Value || tree.treeType.Value != Tree.palmTree)
+            {
+                continue;
+            }
+
             Globals.Pointer.Value.DrawAsTrackingPointer(tree.currentTileLocation, Color.Yellow);
             if (shouldHighlightOnScreen)
             {

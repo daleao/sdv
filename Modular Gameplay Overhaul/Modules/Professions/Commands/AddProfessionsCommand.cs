@@ -4,6 +4,7 @@
 
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using DaLion.Overhaul.Modules.Professions.Extensions;
 using DaLion.Shared.Commands;
 using DaLion.Shared.Extensions;
@@ -45,9 +46,9 @@ internal sealed class AddProfessionsCommand : ConsoleCommand
         }
 
         List<int> professionsToAdd = new();
-        foreach (var arg in args)
+        for (var i = 0; i < args.Length; i++)
         {
-            if (string.Equals(arg, "all", StringComparison.InvariantCultureIgnoreCase))
+            if (string.Equals(args[i], "all", StringComparison.InvariantCultureIgnoreCase))
             {
                 var range = Profession.GetRange().ToArray();
                 if (prestige)
@@ -55,15 +56,16 @@ internal sealed class AddProfessionsCommand : ConsoleCommand
                     range = range.Concat(Profession.GetRange(true)).ToArray();
                 }
 
-                range = range.Concat(SCProfession.List.Select(p => p.Id)).ToArray();
-
+                range = range
+                    .Concat(SCProfession.List.Select(p => p.Id))
+                    .ToArray();
                 professionsToAdd.AddRange(range);
                 Log.I($"Added all {(prestige ? "prestiged " : string.Empty)}professions to {Game1.player.Name}.");
                 break;
             }
 
-            if (Profession.TryFromName(arg, true, out var profession) ||
-                Profession.TryFromLocalizedName(arg, true, out profession))
+            if (Profession.TryFromName(args[i], true, out var profession) ||
+                Profession.TryFromLocalizedName(args[i], true, out profession))
             {
                 if ((!prestige && Game1.player.HasProfession(profession)) ||
                     (prestige && Game1.player.HasProfession(profession, true)))
@@ -83,11 +85,11 @@ internal sealed class AddProfessionsCommand : ConsoleCommand
             else
             {
                 var customProfession = SCProfession.List.FirstOrDefault(p =>
-                    string.Equals(arg, p.StringId.TrimAll(), StringComparison.InvariantCultureIgnoreCase) ||
-                    string.Equals(arg, p.Title.TrimAll(), StringComparison.InvariantCultureIgnoreCase));
+                    string.Equals(args[i], p.StringId.TrimAll(), StringComparison.InvariantCultureIgnoreCase) ||
+                    string.Equals(args[i], p.Title.TrimAll(), StringComparison.InvariantCultureIgnoreCase));
                 if (customProfession is null)
                 {
-                    Log.W($"Ignoring unknown profession {arg}.");
+                    Log.W($"Ignoring unknown profession {args[i]}.");
                     continue;
                 }
 
@@ -125,15 +127,16 @@ internal sealed class AddProfessionsCommand : ConsoleCommand
     private string GetUsage()
     {
         var result =
-            $"\n\nUsage: {this.Handler.EntryCommand} {this.Triggers.First()} [--prestige / -p] <profession1> <profession2> ... <professionN>";
-        result += "\n\nParameters:";
-        result += "\n\t- <profession>\t- a valid profession name, or `all`";
-        result += "\n\nOptional flags:";
-        result +=
-            "\n\t-prestige, -p\t- add the prestiged versions of the specified professions (base versions will be added automatically if needed)";
-        result += "\n\nExamples:";
-        result += $"\n\t- {this.Handler.EntryCommand} {this.Triggers.First()} artisan brute";
-        result += $"\n\t- {this.Handler.EntryCommand} {this.Triggers.First()} -p all";
-        return result;
+            new StringBuilder(
+                $"\n\nUsage: {this.Handler.EntryCommand} {this.Triggers[0]} [--prestige / -p] <profession1> <profession2> ... <professionN>");
+        result.Append("\n\nParameters:");
+        result.Append("\n\t- <profession>\t- a valid profession name, or `all`");
+        result.Append("\n\nOptional flags:");
+        result.Append(
+            "\n\t-prestige, -p\t- add the prestiged versions of the specified professions (base versions will be added automatically if needed)");
+        result.Append("\n\nExamples:");
+        result.Append($"\n\t- {this.Handler.EntryCommand} {this.Triggers[0]} artisan brute");
+        result.Append($"\n\t- {this.Handler.EntryCommand} {this.Triggers[0]} -p all");
+        return result.ToString();
     }
 }

@@ -2,9 +2,9 @@
 
 #region using directives
 
-using System.Linq;
 using System.Reflection;
 using DaLion.Overhaul.Modules.Professions.Extensions;
+using DaLion.Shared.Extensions.Stardew;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
 using Microsoft.Xna.Framework;
@@ -64,10 +64,15 @@ internal sealed class LevelUpMenuRevalidateHealthPatcher : HarmonyPatcher
 
         try
         {
-            foreach (var pond in Game1.getFarm().buildings.OfType<FishPond>().Where(p =>
-                         (p.owner.Value == farmer.UniqueMultiplayerID || !Context.IsMultiplayer) &&
-                         !p.isUnderConstruction()))
+            foreach (var building in Game1.getFarm().buildings)
             {
+                if (building is not FishPond pond ||
+                    !(pond.IsOwnedBy(farmer) || ProfessionsModule.Config.LaxOwnershipRequirements) ||
+                    pond.isUnderConstruction())
+                {
+                    continue;
+                }
+
                 // revalidate fish pond capacity
                 pond.UpdateMaximumOccupancy();
                 pond.currentOccupants.Value = Math.Min(pond.currentOccupants.Value, pond.maxOccupants.Value);

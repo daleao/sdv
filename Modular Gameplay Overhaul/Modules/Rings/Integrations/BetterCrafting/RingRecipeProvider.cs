@@ -3,6 +3,7 @@
 #region using directives
 
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using DaLion.Shared.Integrations.BetterCrafting;
 using StardewValley.Objects;
 
@@ -132,6 +133,7 @@ internal sealed class RingRecipeProvider : IRecipeProvider
     /// </summary>
     /// <param name="cooking">Whether we want cooking recipes or crafting recipes.</param>
     /// <returns>An enumeration of this provider's additional recipes, or null.</returns>
+    [SuppressMessage("NetFabric.Hyperlinq.Analyzer", "HLQ002:Enumerable cannot be Null", Justification = "Harmony Transpiler expects null return to drop transpilation.")]
     public IEnumerable<IRecipe>? GetAdditionalRecipes(bool cooking)
     {
         return null;

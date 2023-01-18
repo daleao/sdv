@@ -3,6 +3,7 @@ namespace DaLion.Overhaul.Modules.Rings.Patchers;
 
 #region using directives
 
+using System.Runtime.CompilerServices;
 using DaLion.Shared.Exceptions;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
@@ -31,6 +32,7 @@ internal sealed class RingDrawInMenuPatcher : HarmonyPatcher
 
     /// <summary>Stub for base <see cref="Ring.drawInMenu"/>.</summary>
     [HarmonyReversePatch]
+    [MethodImpl(MethodImplOptions.NoInlining)]
     internal static void RingDrawInMenuReverse(
         object instance,
         SpriteBatch spriteBatch,

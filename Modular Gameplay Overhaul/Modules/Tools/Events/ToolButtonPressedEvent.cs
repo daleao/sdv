@@ -25,17 +25,32 @@ internal sealed class ToolButtonPressedEvent : ButtonPressedEvent
     /// <inheritdoc />
     protected override void OnButtonPressedImpl(object? sender, ButtonPressedEventArgs e)
     {
-        if (!Context.IsWorldReady || Game1.activeClickableMenu is not null || !e.Button.IsUseToolButton() ||
-            Game1.options.gamepadControls)
+        if (!Context.IsWorldReady || Game1.activeClickableMenu is not null || !e.Button.IsUseToolButton())
         {
             return;
         }
 
         var player = Game1.player;
-        if (player.CurrentTool is Axe or Hoe or Pickaxe or WateringCan && !player.UsingTool &&
-            !player.isRidingHorse() && player.CanMove)
+        if (player.CurrentTool is not { } tool || player.UsingTool || player.isRidingHorse() || !player.CanMove)
+        {
+            return;
+        }
+
+        if (ToolsModule.Config.FaceMouseCursor && !Game1.options.gamepadControls && (tool is not MeleeWeapon weapon || weapon.isScythe()))
         {
             player.FaceTowardsTile(Game1.currentCursorTile);
+        }
+
+        if (!ToolsModule.Config.EnableAutoSelection || ToolsModule.State.SelectableTools.Count <= 0 ||
+            !(ToolsModule.State.SelectableTools.Contains(tool) || ArsenalModule.State.SelectableArsenal == tool))
+        {
+            return;
+        }
+
+        var toolIndex = ToolSelector.SmartSelect(e.Cursor.GrabTile, Game1.player, Game1.player.currentLocation);
+        if (toolIndex >= 0)
+        {
+            Game1.player.CurrentToolIndex = toolIndex;
         }
     }
 }

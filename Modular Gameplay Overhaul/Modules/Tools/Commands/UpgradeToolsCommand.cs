@@ -4,6 +4,7 @@
 
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
+using System.Text;
 using DaLion.Overhaul.Modules.Tools.Integrations;
 using DaLion.Shared.Commands;
 using StardewValley.Tools;
@@ -42,7 +43,7 @@ internal sealed class UpgradeToolsCommand : ConsoleCommand
             return;
         }
 
-        if (!Enum.TryParse<UpgradeLevel>(args[0], true, out var upgradeLevel))
+        if (!UpgradeLevelExtensions.TryParse(args[0], true, out var upgradeLevel))
         {
             Log.W($"Invalid upgrade level {args[0]}." + this.GetUsage());
             return;
@@ -64,16 +65,16 @@ internal sealed class UpgradeToolsCommand : ConsoleCommand
     /// <summary>Tell the dummies how to use the console command.</summary>
     private string GetUsage()
     {
-        var result = $"\n\nUsage: {this.Handler.EntryCommand} {this.Triggers.FirstOrDefault()} <level>";
-        result += "\n\nParameters:";
-        result += "\n\t- <level>: one of 'copper', 'steel', 'gold', 'iridium'";
+        var result = new StringBuilder($"\n\nUsage: {this.Handler.EntryCommand} {this.Triggers.FirstOrDefault()} <level>");
+        result.Append("\n\nParameters:");
+        result.Append("\n\t- <level>: one of 'copper', 'steel', 'gold', 'iridium'");
         if (MoonMisadventuresIntegration.Instance?.IsLoaded == true)
         {
-            result += ", 'radioactive', 'mythicite'";
+            result.Append(", 'radioactive', 'mythicite'");
         }
 
-        result += "\n\nExample:";
-        result += $"\n\t- {this.Handler.EntryCommand} {this.Triggers.First()} iridium";
-        return result;
+        result.Append("\n\nExample:");
+        result.Append($"\n\t- {this.Handler.EntryCommand} {this.Triggers[0]} iridium");
+        return result.ToString();
     }
 }

@@ -2,7 +2,6 @@
 
 #region using directives
 
-using System.Linq;
 using DaLion.Overhaul.Modules.Professions.Ultimates;
 using DaLion.Overhaul.Modules.Professions.VirtualProperties;
 using DaLion.Shared.Extensions.Stardew;
@@ -37,8 +36,13 @@ internal sealed class GreenSlimeUpdatePatcher : HarmonyPatcher
         }
 
         __instance.Get_Piped()!.PipeTimer -= time.ElapsedGameTime.Milliseconds;
-        foreach (var monster in __instance.currentLocation.characters.OfType<Monster>().Where(m => !m.IsSlime()))
+        foreach (var character in __instance.currentLocation.characters)
         {
+            if (character is not Monster monster || !monster.IsSlime())
+            {
+                continue;
+            }
+
             var monsterBox = monster.GetBoundingBox();
             if (monster.IsInvisible || monster.isInvincible() ||
                 (monster.isGlider.Value && !(__instance.Scale > 1.8f || __instance.Get_Jumping())) ||

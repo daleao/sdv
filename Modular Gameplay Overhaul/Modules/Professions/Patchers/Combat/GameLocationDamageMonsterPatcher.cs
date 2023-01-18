@@ -17,6 +17,7 @@ using DaLion.Shared.Extensions.Stardew;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
 using Microsoft.Xna.Framework;
+using Shared.Extensions.Collections;
 using StardewValley.Monsters;
 using StardewValley.Tools;
 
@@ -440,9 +441,10 @@ internal sealed class GameLocationDamageMonsterPatcher : HarmonyPatcher
             return;
         }
 
-        var drops = monster.objectsToDrop.Select(o => new SObject(o, 1) as Item)
-            .Concat(monster.getExtraDropItems()).ToList();
-        var itemToSteal = drops.ElementAtOrDefault(r.Next(drops.Count))?.getOne();
+        var itemToSteal = monster.objectsToDrop
+            .Select(o => new SObject(o, 1) as Item)
+            .Concat(monster.getExtraDropItems())
+            .Choose(r)?.getOne();
         if (itemToSteal is null || itemToSteal.Name.Contains("Error") || !who.addItemToInventoryBool(itemToSteal))
         {
             return;

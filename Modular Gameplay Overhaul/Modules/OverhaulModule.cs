@@ -229,7 +229,7 @@ internal abstract class OverhaulModule : SmartEnum<OverhaulModule>
     {
         /// <summary>Initializes a new instance of the <see cref="OverhaulModule.TaxesModule"/> class.</summary>
         internal TaxesModule()
-            : base("Taxes", 5, "tax")
+            : base("Taxes", 5, "taxes")
         {
         }
 

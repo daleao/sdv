@@ -8,7 +8,8 @@ using StardewValley.Tools;
 
 #endregion using directives
 
-/// <summary>The Dark Sword.</summary>
+/// <summary>The Holy Blade.</summary>
+/// /// <remarks>Unused.</remarks>
 [XmlType("Mods_DaLion_HolyBlade")]
 public sealed class HolyBlade : MeleeWeapon
 {

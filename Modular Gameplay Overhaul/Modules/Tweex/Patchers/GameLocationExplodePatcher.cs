@@ -2,7 +2,7 @@
 
 #region using directives
 
-using System.Linq;
+using System.Collections.Immutable;
 using DaLion.Shared.Classes;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
@@ -30,11 +30,14 @@ internal sealed class GameLocationExplodePatcher : HarmonyPatcher
             return;
         }
 
-        var circle = new CircleTileGrid(tileLocation, (uint)radius * 2);
-        foreach (var sprite in __instance.TemporarySprites.Where(sprite =>
-                     sprite.bombRadius > 0 && circle.Tiles.Contains(sprite.Position / 64f)))
+        var tiles = new CircleTileGrid(tileLocation, (uint)radius * 2).Tiles.ToImmutableHashSet();
+        for (var i = 0; i < __instance.TemporarySprites.Count; i++)
         {
-            sprite.currentNumberOfLoops = Math.Max(sprite.totalNumberOfLoops - 1, sprite.currentNumberOfLoops);
+            var sprite = __instance.TemporarySprites[i];
+            if (sprite.bombRadius > 0 && tiles.Contains(sprite.Position / 64f))
+            {
+                sprite.currentNumberOfLoops = Math.Max(sprite.totalNumberOfLoops - 1, sprite.currentNumberOfLoops);
+            }
         }
     }
 

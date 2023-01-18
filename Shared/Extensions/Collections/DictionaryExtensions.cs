@@ -4,6 +4,7 @@
 
 using System.Collections.Generic;
 using System.Linq;
+using NetFabric.Hyperlinq;
 
 #endregion using directives
 
@@ -33,7 +34,11 @@ public static class DictionaryExtensions
 
         return dictionary.Count == 0
             ? string.Empty
-            : string.Join(pairSeparator, dictionary.Select(p => $"{p.Key}{keyValueSeparator}{p.Value}"));
+            : string.Join(
+                pairSeparator,
+                dictionary
+                    .AsValueEnumerable()
+                    .Select(p => $"{p.Key}{keyValueSeparator}{p.Value}"));
     }
 
     /// <summary>

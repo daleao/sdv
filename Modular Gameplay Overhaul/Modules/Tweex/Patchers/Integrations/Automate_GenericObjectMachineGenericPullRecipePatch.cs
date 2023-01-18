@@ -63,7 +63,7 @@ internal sealed class GenericObjectMachinePatchers : HarmonyPatcher
 
     /// <summary>Replaces large egg output quality with quantity + add flower memory to automated kegs.</summary>
     [HarmonyTranspiler]
-    [HarmonyBefore("Overhaul.Modules.Professions")]
+    [HarmonyBefore("DaLion.Overhaul.Modules.Professions")]
     private static IEnumerable<CodeInstruction>? GenericObjectMachineTranspiler(
         IEnumerable<CodeInstruction> instructions, MethodBase original)
     {

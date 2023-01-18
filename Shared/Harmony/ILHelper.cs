@@ -300,9 +300,9 @@ public sealed class ILHelper
         copy = this._instructions.GetRange(this.CurrentIndex, count).Clone().ToArray();
         if (removeLabels)
         {
-            foreach (var instruction in copy)
+            for (var i = 0; i < copy.Length; i++)
             {
-                instruction.labels.Clear();
+                copy[i].labels.Clear();
             }
         }
 

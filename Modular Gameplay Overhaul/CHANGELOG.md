@@ -1,11 +1,10 @@
 # Modular Overhaul Change Logs
 
-## Minor release 1.1.x Highlights
+## Minor release 1.2.x Highlights
 
-* Nerfs for Agriculturist and Artisan.
-* Added hold-to-attack option for melee weapons so you no longer have to spam click (but still should, to take advantage of attack drifting).
-* Switched mod data strategy to solve issues in multiplayer. This will reset all data on existing saves. Again. Sorry!
-* Bug fixes and optimizations.
+* Added auto-tool selection.
+* Fixed Agriculturist perk.
+* Many enumerable and iterator optimizations. 
 
 ## Major Release 1.x.x Highlights
 

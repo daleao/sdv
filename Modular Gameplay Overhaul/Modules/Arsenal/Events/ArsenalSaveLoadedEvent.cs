@@ -5,6 +5,7 @@
 using System.Linq;
 using DaLion.Overhaul.Modules.Arsenal.Extensions;
 using DaLion.Shared.Events;
+using DaLion.Shared.Extensions;
 using DaLion.Shared.Extensions.SMAPI;
 using DaLion.Shared.Extensions.Stardew;
 using StardewModdingAPI.Events;
@@ -59,5 +60,44 @@ internal sealed class ArsenalSaveLoadedEvent : SaveLoadedEvent
             ModEntry.Config.Arsenal.Slingshots.BullseyeReplacesCursor = false;
             ModHelper.WriteConfig(ModEntry.Config);
         }
+
+        if (!ArsenalModule.Config.EnableAutoSelection)
+        {
+            return;
+        }
+
+        var slots = Game1.player.Read(DataFields.SelectableSlots).ParseList<int>();
+        if (slots.Count == 0)
+        {
+            return;
+        }
+
+        var leftover = slots.ToList();
+        for (var i = 0; i < slots.Count; i++)
+        {
+            var slot = slots[i];
+            if (slot < 0)
+            {
+                leftover.Remove(slot);
+                continue;
+            }
+
+            var item = Game1.player.Items[slot];
+            if (item is not (Tool tool and (MeleeWeapon or Slingshot)))
+            {
+                continue;
+            }
+
+            if (tool is MeleeWeapon weapon && weapon.isScythe())
+            {
+                continue;
+            }
+
+            ArsenalModule.State.SelectableArsenal = tool;
+            leftover.Remove(slot);
+            break;
+        }
+
+        Game1.player.Write(DataFields.SelectableSlots, string.Join(',', leftover));
     }
 }

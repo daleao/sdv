@@ -53,7 +53,7 @@ internal sealed class PiperWarpedEvent : WarpedEvent
         var raisedSlimes = e.Player.GetRaisedSlimes().ToArray();
         var chance = this._pipeChance(raisedSlimes.Length);
         var pipedCount = 0;
-        foreach (var raised in raisedSlimes)
+        for (var i = 0; i < raisedSlimes.Length; i++)
         {
             if (r.NextDouble() > chance)
             {
@@ -122,20 +122,22 @@ internal sealed class PiperWarpedEvent : WarpedEvent
                 }
             }
 
-            // adjust color
-            if (raised.Name == "Tiger Slime" && piped.Name != raised.Name)
-            {
-                piped.makeTigerSlime();
-            }
-            else
-            {
-                piped.color.R = (byte)(raised.color.R + r.Next(-20, 21));
-                piped.color.G = (byte)(raised.color.G + r.Next(-20, 21));
-                piped.color.B = (byte)(raised.color.B + r.Next(-20, 21));
-            }
+            // this isn't really immersive
+            //// adjust color
+            //var raised = raisedSlimes[i];
+            //if (raised.Name == "Tiger Slime" && piped.Name != raised.Name)
+            //{
+            //    piped.makeTigerSlime();
+            //}
+            //else
+            //{
+            //    piped.color.R = (byte)(raised.color.R + r.Next(-20, 21));
+            //    piped.color.G = (byte)(raised.color.G + r.Next(-20, 21));
+            //    piped.color.B = (byte)(raised.color.B + r.Next(-20, 21));
+            //}
 
             // make friendly
-            piped.moveTowardPlayerThreshold.Value = 0;
+            piped.moveTowardPlayerThreshold.Value = 1;
 
             // spawn
             piped.setTileLocation(spawnTile);

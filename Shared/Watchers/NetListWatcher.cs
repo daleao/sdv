@@ -18,10 +18,10 @@ internal class NetListWatcher<TValue> : DisposableWatcher, ICollectionWatcher<TV
     private readonly NetList<TValue, NetRef<TValue>> _field;
 
     /// <summary>The pairs added since the last reset.</summary>
-    private readonly ISet<TValue> _added = new HashSet<TValue>(new ObjectReferenceComparer<TValue>());
+    private readonly HashSet<TValue> _added = new(new ObjectReferenceComparer<TValue>());
 
     /// <summary>The pairs removed since the last reset.</summary>
-    private readonly ISet<TValue> _removed = new HashSet<TValue>(new ObjectReferenceComparer<TValue>());
+    private readonly HashSet<TValue> _removed = new(new ObjectReferenceComparer<TValue>());
 
     /// <summary>Initializes a new instance of the <see cref="NetListWatcher{TValue}"/> class.</summary>
     /// <param name="name">A name which identifies what the watcher is watching, used for troubleshooting.</param>

@@ -26,7 +26,7 @@ internal sealed class SlingshotCanAutoFirePatcher : HarmonyPatcher
     /// <summary>Implement <see cref="GatlingEnchantment"/> effect.</summary>
     [HarmonyPrefix]
     [HarmonyPriority(Priority.High)]
-    [HarmonyAfter("Overhaul.Modules.Professions")]
+    [HarmonyAfter("DaLion.Overhaul.Modules.Professions")]
     private static bool SlingshotCanAutoFirePrefix(Slingshot __instance, ref bool __result)
     {
         try

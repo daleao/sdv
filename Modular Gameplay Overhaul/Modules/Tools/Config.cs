@@ -34,13 +34,13 @@ public sealed class Config : Shared.Configs.Config
     [JsonProperty]
     public ScytheConfig Scythe { get; internal set; } = new();
 
-    /// <summary>Gets a value indicating whether determines whether charging requires a mod key to activate.</summary>
-    [JsonProperty]
-    public bool RequireModkey { get; internal set; } = true;
-
     /// <summary>Gets the chosen mod key(s).</summary>
     [JsonProperty]
-    public KeybindList Modkey { get; internal set; } = KeybindList.Parse("LeftShift, LeftShoulder");
+    public KeybindList ModKey { get; internal set; } = KeybindList.Parse("LeftShift, LeftShoulder");
+
+    /// <summary>Gets a value indicating whether determines whether charging requires a mod key to activate.</summary>
+    [JsonProperty]
+    public bool ChargingRequiresModKey { get; internal set; } = true;
 
     /// <summary>Gets a value indicating whether determines whether to show affected tiles overlay while charging.</summary>
     [JsonProperty]
@@ -57,6 +57,10 @@ public sealed class Config : Shared.Configs.Config
     /// <summary>Gets a value indicating whether face the current cursor position before swinging your tools.</summary>
     [JsonProperty]
     public bool FaceMouseCursor { get; internal set; } = true;
+
+    /// <summary>Gets a value indicating whether to allow auto-selecting tools.</summary>
+    [JsonProperty]
+    public bool EnableAutoSelection { get; internal set; } = true;
 
     /// <inheritdoc />
     internal override bool Validate()
@@ -122,11 +126,11 @@ public sealed class Config : Shared.Configs.Config
             isValid = false;
         }
 
-        if (this.RequireModkey && !this.Modkey.IsBound)
+        if (this.ChargingRequiresModKey && !this.ModKey.IsBound)
         {
             Log.W(
-                "'RequireModkey' setting is set to true, but no Modkey is bound. Default keybind will be restored. To disable the Modkey, set this value to false.");
-            this.Modkey = KeybindList.ForSingle(SButton.LeftShift);
+                "'ChargingRequiresModKey' setting is set to true, but no ModKey is bound. Default keybind will be restored. To disable the ModKey, set this value to false.");
+            this.ModKey = KeybindList.ForSingle(SButton.LeftShift);
             isValid = false;
         }
 

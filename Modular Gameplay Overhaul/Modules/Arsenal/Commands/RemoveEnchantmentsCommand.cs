@@ -3,6 +3,7 @@
 #region using directives
 
 using System.Linq;
+using System.Text;
 using DaLion.Overhaul.Modules.Arsenal.Extensions;
 using DaLion.Shared.Commands;
 using StardewValley.Tools;
@@ -66,11 +67,11 @@ internal sealed class RemoveEnchantmentsCommand : ConsoleCommand
     /// <summary>Tell the dummies how to use the console command.</summary>
     private string GetUsage()
     {
-        var result = $"\n\nUsage: {this.Handler.EntryCommand} {this.Triggers.First()} <enchantment>";
-        result += "\n\nParameters:";
-        result += "\n\t- <enchantment>: a weapon or slingshot enchantment";
-        result += "\n\nExample:";
-        result += $"\n\t- {this.Handler.EntryCommand} {this.Triggers.First()} vampiric";
-        return result;
+        var result = new StringBuilder($"\n\nUsage: {this.Handler.EntryCommand} {this.Triggers[0]} <enchantment>");
+        result.Append("\n\nParameters:");
+        result.Append("\n\t- <enchantment>: a weapon or slingshot enchantment");
+        result.Append("\n\nExample:");
+        result.Append($"\n\t- {this.Handler.EntryCommand} {this.Triggers[0]} vampiric");
+        return result.ToString();
     }
 }

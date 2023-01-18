@@ -1,5 +1,15 @@
 ﻿# Modular Overhaul Core Change Log
 
+## 1.2.0
+
+## Added
+
+* Added Hyperlinq library.
+
+## Changed
+
+* Optimized most iterations, removing excessive use of Linq and Enumerators to reduce allocation, and replacing some instances with Hyperlinq.
+
 ## 1.1.0
 
 ### Changed

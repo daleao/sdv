@@ -69,7 +69,7 @@ internal sealed class GenericObjectMachinePatcher : HarmonyPatcher
 
     /// <summary>Patch to apply Artisan effects to automated generic machines.</summary>
     [HarmonyTranspiler]
-    [HarmonyAfter("Overhaul.Modules.Tweex")]
+    [HarmonyAfter("DaLion.Overhaul.Modules.Tweex")]
     private static IEnumerable<CodeInstruction>? GenericObjectMachineTranspiler(
         IEnumerable<CodeInstruction> instructions, MethodBase original)
     {

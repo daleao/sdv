@@ -3,6 +3,7 @@
 #region using directives
 
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Linq;
 using DaLion.Shared.Extensions;
 using DaLion.Shared.Extensions.Collections;
@@ -18,7 +19,7 @@ using StardewValley.Objects;
 internal static class CrabPotExtensions
 {
     /// <summary>Gets the treasure items that can be trapped by magnet bait.</summary>
-    internal static IReadOnlyDictionary<int, string[]> TrapperPirateTreasureTable { get; } =
+    internal static ImmutableDictionary<int, string[]> TrapperPirateTreasureTable { get; } =
         new Dictionary<int, string[]>
         {
             { 14, new[] { "0.003", "1", "1" } }, // neptune's glaive
@@ -45,7 +46,7 @@ internal static class CrabPotExtensions
             { 533, new[] { "0.005", "1", "1" } }, // emerald ring
             { 534, new[] { "0.005", "1", "1" } }, // ruby ring
             { 890, new[] { "0.03", "1", "3" } }, // qi bean
-        };
+        }.ToImmutableDictionary();
 
     /// <summary>Determines whether the <paramref name="crabPot"/> is using magnet as bait.</summary>
     /// <param name="crabPot">The <see cref="CrabPot"/>.</param>
@@ -113,10 +114,10 @@ internal static class CrabPotExtensions
         var rawFishDataWithLocation = GetRawFishDataWithLocation(rawFishData);
 
         var keys = rawFishDataWithLocation.Keys.ToArray();
-        StardewValley.Utility.Shuffle(r, keys);
-        var counter = 0;
-        foreach (var key in keys)
+        Utility.Shuffle(r, keys);
+        for (var i = 0; i < 2; i++)
         {
+            var key = keys[i];
             var specificFishDataFields = fishData[Convert.ToInt32(key)].SplitWithoutAllocation('/');
             if (Collections.LegendaryFishNames.Contains(specificFishDataFields[0].ToString()))
             {
@@ -144,11 +145,6 @@ internal static class CrabPotExtensions
             {
                 return whichFish; // if isn't algae
             }
-
-            if (counter++ != 0)
-            {
-                return -1; // if already rerolled
-            }
         }
 
         return -1;
@@ -174,8 +170,8 @@ internal static class CrabPotExtensions
 
             var shouldCatchOceanFish = crabPot.ShouldCatchOceanFish(location);
             var rawSplit = value.SplitWithoutAllocation('/');
-            if ((rawSplit[4] == "ocean" && !shouldCatchOceanFish) ||
-                (rawSplit[4] == "freshwater" && shouldCatchOceanFish))
+            if ((rawSplit[4].Equals("ocean", StringComparison.Ordinal) && !shouldCatchOceanFish) ||
+                (rawSplit[4].Equals("freshwater", StringComparison.Ordinal) && shouldCatchOceanFish))
             {
                 continue;
             }

@@ -68,8 +68,14 @@ internal sealed class AutomateIntegration : ModIntegration<AutomateIntegration>
             var machineGroups = (IList)Reflector
                 .GetUnboundFieldGetter<object, object>(junimoMachineGroup, "MachineGroups")
                 .Invoke(junimoMachineGroup);
-            foreach (var group in machineGroups)
+            for (var i = 0; i < machineGroups.Count; i++)
             {
+                var group = machineGroups[i];
+                if (group is null)
+                {
+                    continue;
+                }
+
                 var groupLocationKey = Reflector
                     .GetUnboundPropertyGetter<object, string?>(group, "LocationKey")
                     .Invoke(group);
@@ -119,7 +125,8 @@ internal sealed class AutomateIntegration : ModIntegration<AutomateIntegration>
         var containers = (Array)Reflector
             .GetUnboundPropertyGetter<object, object>(machineGroup, "Containers")
             .Invoke(machineGroup);
-        var chests = containers.Cast<object>()
+        var chests = containers
+            .Cast<object>()
             .Select(c => Reflector.GetUnboundFieldGetter<object, Chest>(c, "Chest").Invoke(c))
             .Where(c => c.SpecialChestType != Chest.SpecialChestTypes.JunimoChest)
             .ToArray();
@@ -173,8 +180,14 @@ internal sealed class AutomateIntegration : ModIntegration<AutomateIntegration>
             var machineGroups = (IList)Reflector
                 .GetUnboundFieldGetter<object, object>(junimoMachineGroup, "MachineGroups")
                 .Invoke(junimoMachineGroup);
-            foreach (var group in machineGroups)
+            for (var i = 0; i < machineGroups.Count; i++)
             {
+                var group = machineGroups[i];
+                if (group is null)
+                {
+                    continue;
+                }
+
                 var groupLocationKey = Reflector
                     .GetUnboundPropertyGetter<object, string?>(group, "LocationKey")
                     .Invoke(group);
@@ -224,7 +237,8 @@ internal sealed class AutomateIntegration : ModIntegration<AutomateIntegration>
         var containers = (Array)Reflector
             .GetUnboundPropertyGetter<object, object>(machineGroup, "Containers")
             .Invoke(machineGroup);
-        var chests = containers.Cast<object>()
+        var chests = containers
+            .Cast<object>()
             .Select(c => Reflector.GetUnboundFieldGetter<object, Chest>(c, "Chest").Invoke(c))
             .Where(c => c.SpecialChestType != Chest.SpecialChestTypes.JunimoChest)
             .ToArray();
@@ -280,8 +294,14 @@ internal sealed class AutomateIntegration : ModIntegration<AutomateIntegration>
             var machineGroups = (IList)Reflector
                 .GetUnboundFieldGetter<object, object>(junimoMachineGroup, "MachineGroups")
                 .Invoke(junimoMachineGroup);
-            foreach (var group in machineGroups)
+            for (var i = 0; i < machineGroups.Count; i++)
             {
+                var group = machineGroups[i];
+                if (group is null)
+                {
+                    continue;
+                }
+
                 var groupLocationKey = Reflector
                     .GetUnboundPropertyGetter<object, string?>(group, "LocationKey")
                     .Invoke(group);
@@ -325,7 +345,8 @@ internal sealed class AutomateIntegration : ModIntegration<AutomateIntegration>
         var containers = (Array)Reflector
             .GetUnboundPropertyGetter<object, object>(machineGroup, "Containers")
             .Invoke(machineGroup);
-        var chests = containers.Cast<object>()
+        var chests = containers
+            .Cast<object>()
             .Select(c => Reflector.GetUnboundFieldGetter<object, Chest>(c, "Chest").Invoke(c))
             .Where(c => c.SpecialChestType != Chest.SpecialChestTypes.JunimoChest)
             .ToArray();

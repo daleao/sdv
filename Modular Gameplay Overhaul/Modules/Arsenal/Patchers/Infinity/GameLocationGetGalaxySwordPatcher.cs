@@ -41,9 +41,22 @@ internal sealed class GameLocationGetGalaxySwordPatcher : HarmonyPatcher
             var player = Game1.player;
             var obtained = player.Read(DataFields.GalaxyArsenalObtained).ParseList<int>();
             int? chosen = null;
-            foreach (var item in player.Items.Where(i => (i is MeleeWeapon weapon && !weapon.isScythe()) || i is Slingshot))
+            for (var i = 0; i < player.Items.Count; i++)
             {
-                var type = item is MeleeWeapon weapon ? (WeaponType)weapon.type.Value : WeaponType.Slingshot;
+                var item = player.Items[i];
+                WeaponType type;
+                switch (item)
+                {
+                    case MeleeWeapon weapon when !weapon.isScythe():
+                        type = (WeaponType)weapon.type.Value;
+                        break;
+                    case Slingshot:
+                        type = WeaponType.Slingshot;
+                        break;
+                    default:
+                        continue;
+                }
+
                 var galaxy = galaxyFromWeaponType(type);
                 if (obtained.Contains(galaxy))
                 {
@@ -56,7 +69,9 @@ internal sealed class GameLocationGetGalaxySwordPatcher : HarmonyPatcher
 
             chosen ??= new[]
             {
-                Constants.GalaxySwordIndex, Constants.GalaxyHammerIndex, Constants.GalaxyDaggerIndex,
+                Constants.GalaxySwordIndex,
+                Constants.GalaxyHammerIndex,
+                Constants.GalaxyDaggerIndex,
                 Constants.GalaxySlingshotIndex,
             }.Except(obtained).First();
 

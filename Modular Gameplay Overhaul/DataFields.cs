@@ -1,4 +1,6 @@
-﻿namespace DaLion.Overhaul;
+﻿#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
+#pragma warning disable SA1600 // Elements should be documented
+namespace DaLion.Overhaul;
 
 /// <summary>Holds the string IDs of mod data fields used by all the modules.</summary>
 internal sealed class DataFields
@@ -65,9 +67,17 @@ internal sealed class DataFields
 
     #endregion taxes
 
+    #region tools
+
+    internal const string SelectableSlots = "SelectableSlots";
+
+    #endregion tools
+
     #region tweaks
 
     internal const string Age = "Age";
 
     #endregion tweaks
 }
+#pragma warning restore SA1600 // Elements should be documented
+#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member

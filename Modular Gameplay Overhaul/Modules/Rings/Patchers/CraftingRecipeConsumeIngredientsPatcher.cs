@@ -53,8 +53,9 @@ internal sealed class CraftingRecipeConsumeIngredientsPatcher : HarmonyPatcher
                     throw new Exception("Failed to consume required materials.");
                 }
 
-                foreach (var chest in additional_materials)
+                for (var i = 0; i < additional_materials.Count; i++)
                 {
+                    var chest = additional_materials[i];
                     if (chest is null)
                     {
                         continue;

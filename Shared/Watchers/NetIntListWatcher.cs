@@ -15,10 +15,10 @@ internal class NetIntListWatcher : DisposableWatcher, ICollectionWatcher<int>
     private readonly NetList<int, NetInt> _field;
 
     /// <summary>The pairs added since the last reset.</summary>
-    private readonly ISet<int> _added = new HashSet<int>(new EquatableComparer<int>());
+    private readonly HashSet<int> _added = new(new EquatableComparer<int>());
 
     /// <summary>The pairs removed since the last reset.</summary>
-    private readonly ISet<int> _removed = new HashSet<int>(new EquatableComparer<int>());
+    private readonly HashSet<int> _removed = new(new EquatableComparer<int>());
 
     /// <summary>Initializes a new instance of the <see cref="NetIntListWatcher"/> class.</summary>
     /// <param name="name">A name which identifies what the watcher is watching, used for troubleshooting.</param>
@@ -74,8 +74,8 @@ internal class NetIntListWatcher : DisposableWatcher, ICollectionWatcher<int>
     /// <param name="newValues">The new list of values.</param>
     private void OnArrayReplaced(NetList<int, NetInt> list, IList<int> oldValues, IList<int> newValues)
     {
-        ISet<int> oldSet = new HashSet<int>(oldValues, new EquatableComparer<int>());
-        ISet<int> changed = new HashSet<int>(newValues, new EquatableComparer<int>());
+        var oldSet = new HashSet<int>(oldValues, new EquatableComparer<int>());
+        var changed = new HashSet<int>(newValues, new EquatableComparer<int>());
 
         foreach (var value in oldSet)
         {

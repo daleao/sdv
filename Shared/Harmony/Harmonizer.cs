@@ -100,8 +100,9 @@ internal sealed class Harmonizer
         }
 
         Log.D("[Harmonizer]: Applying patches...");
-        foreach (var type in patchTypes)
+        for (var i = 0; i < patchTypes.Length; i++)
         {
+            var type = patchTypes[i];
 #if RELEASE
             var debugAttribute = type.GetCustomAttribute<DebugAttribute>();
             if (debugAttribute is not null)

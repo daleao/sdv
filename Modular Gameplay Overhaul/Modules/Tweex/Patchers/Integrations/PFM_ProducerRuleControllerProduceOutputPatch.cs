@@ -29,7 +29,7 @@ internal sealed class ProducerRuleControllerProduceOutputPatcher : HarmonyPatche
 
     /// <summary>Replaces large egg and milk output quality with quantity for PFM machines.</summary>
     [HarmonyPostfix]
-    [HarmonyBefore("Overhaul.Modules.Professions")]
+    [HarmonyBefore("DaLion.Overhaul.Modules.Professions")]
     private static void ProducerRuleControllerProduceOutputPostfix(
         SObject producer, SObject? input, bool probe)
     {

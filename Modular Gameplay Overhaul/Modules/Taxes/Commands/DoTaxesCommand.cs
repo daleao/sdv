@@ -29,7 +29,7 @@ internal sealed class DoTaxesCommand : ConsoleCommand
     /// <inheritdoc />
     public override void Callback(string trigger, string[] args)
     {
-        if (!Enum.TryParse<Season>(Game1.currentSeason, true, out var currentSeason))
+        if (!SeasonExtensions.TryParse(Game1.currentSeason, true, out var currentSeason))
         {
             Log.E($"Failed to parse the current season {Game1.currentSeason}");
             return;

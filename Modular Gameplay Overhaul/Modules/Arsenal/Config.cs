@@ -4,6 +4,7 @@
 
 using DaLion.Overhaul.Modules.Arsenal.Configs;
 using Newtonsoft.Json;
+using StardewModdingAPI.Utilities;
 
 #endregion using directives
 
@@ -17,6 +18,14 @@ public sealed class Config : Shared.Configs.Config
     /// <inheritdoc cref="WeaponConfig"/>
     [JsonProperty]
     public WeaponConfig Weapons { get; internal set; } = new();
+
+    /// <summary>Gets the chosen mod key(s).</summary>
+    [JsonProperty]
+    public KeybindList ModKey { get; internal set; } = KeybindList.Parse("LeftShift, LeftShoulder");
+
+    /// <summary>Gets a value indicating whether to allow auto-selecting a weapon or slingshot.</summary>
+    [JsonProperty]
+    public bool EnableAutoSelection { get; internal set; } = true;
 
     /// <summary>Gets a value indicating whether face the current cursor position before swinging your arsenal.</summary>
     [JsonProperty]

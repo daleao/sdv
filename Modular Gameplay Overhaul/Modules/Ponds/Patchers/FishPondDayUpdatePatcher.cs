@@ -48,7 +48,9 @@ internal sealed class FishPondDayUpdatePatcher : HarmonyPatcher
                 heldMetals[i] = (metal, --daysLeft);
             }
 
-            __instance.Write(DataFields.MetalsHeld, string.Join(';', heldMetals.Select(m => string.Join(',', m.Item1, m.Item2))));
+            __instance.Write(
+                DataFields.MetalsHeld,
+                string.Join(';', heldMetals.Select(m => string.Join(',', m.Item1, m.Item2))));
         }
 
 #if RELEASE

@@ -33,8 +33,9 @@ internal sealed class ClearEnchantmentsCommand : ConsoleCommand
             return;
         }
 
-        foreach (var enchantment in tool.enchantments)
+        for (var i = 0; i < tool.enchantments.Count; i++)
         {
+            var enchantment = tool.enchantments[i];
             tool.RemoveEnchantment(enchantment);
         }
 

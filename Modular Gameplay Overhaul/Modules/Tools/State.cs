@@ -10,4 +10,6 @@ using System.Collections.Generic;
 internal sealed class State
 {
     internal List<Shockwave> Shockwaves { get; } = new();
+
+    internal HashSet<Tool> SelectableTools { get; } = new();
 }

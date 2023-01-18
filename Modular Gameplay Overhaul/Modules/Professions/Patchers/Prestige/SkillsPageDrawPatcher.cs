@@ -327,7 +327,7 @@ internal sealed class SkillsPageDrawPatcher : HarmonyPatcher
         if (LuckSkill.Instance is not null)
         {
             // luck skill must be enumerated first
-            customSkills = LuckSkill.Instance.Collect(customSkills);
+            customSkills = customSkills.Prepend(LuckSkill.Instance);
         }
 
         foreach (var skill in customSkills)

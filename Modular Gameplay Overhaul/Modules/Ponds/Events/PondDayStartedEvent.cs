@@ -2,7 +2,6 @@
 
 #region using directives
 
-using System.Linq;
 using DaLion.Shared.Events;
 using DaLion.Shared.Extensions.Stardew;
 using StardewModdingAPI.Events;
@@ -25,11 +24,13 @@ internal sealed class PondDayStartedEvent : DayStartedEvent
     /// <inheritdoc />
     protected override void OnDayStartedImpl(object? sender, DayStartedEventArgs e)
     {
-        foreach (var pond in Game1.getFarm().buildings.OfType<FishPond>().Where(p =>
-                     (p.owner.Value == Game1.player.UniqueMultiplayerID || !Context.IsMultiplayer) &&
-                     !p.isUnderConstruction()))
+        foreach (var building in Game1.getFarm().buildings)
         {
-            pond.Write(DataFields.CheckedToday, false.ToString());
+            if (building is FishPond pond && pond.IsOwnedBy(Game1.player) &&
+                !pond.isUnderConstruction())
+            {
+                pond.Write(DataFields.CheckedToday, false.ToString());
+            }
         }
     }
 }

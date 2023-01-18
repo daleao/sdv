@@ -2,8 +2,8 @@
 
 #region using directives
 
-using System.Linq;
 using DaLion.Shared.Commands;
+using DaLion.Shared.Extensions.Stardew;
 
 #endregion using directives
 
@@ -27,22 +27,25 @@ internal sealed class MaxAnimalDispositionsCommand : ConsoleCommand
     /// <inheritdoc />
     public override void Callback(string trigger, string[] args)
     {
-        var animals = Game1.getFarm().getAllFarmAnimals().Where(a =>
-            a.ownerID.Value == Game1.player.UniqueMultiplayerID || !Context.IsMultiplayer).ToList();
-        var count = animals.Count;
-        if (count == 0)
+        if (args.Length == 0)
         {
-            Log.W("You don't own any animals.");
+            Log.W("You must specify either 'friendship', 'happiness' or 'both'.");
             return;
         }
 
-        foreach (var animal in animals)
+        var both = args.Length == 0 || string.Equals(args[0], "both", StringComparison.InvariantCultureIgnoreCase);
+        var count = 0;
+        foreach (var animal in Game1.getFarm().getAllFarmAnimals())
         {
-            if (args.Length == 0 || args[0].ToLowerInvariant() == "both")
+            if (!animal.IsOwnedBy(Game1.player))
+            {
+                continue;
+            }
+
+            if (both)
             {
                 animal.friendshipTowardFarmer.Value = 1000;
                 animal.happiness.Value = 255;
-                Log.I($"Maxed the friendship and happiness of {count} animals");
             }
             else
             {
@@ -50,14 +53,38 @@ internal sealed class MaxAnimalDispositionsCommand : ConsoleCommand
                 {
                     case "friendship" or "friendly":
                         animal.friendshipTowardFarmer.Value = 1000;
-                        Log.I($"Maxed the friendship of {count} animals");
                         break;
                     case "happiness" or "happy":
                         animal.happiness.Value = 255;
+                        break;
+                }
+            }
+
+            count++;
+        }
+
+        if (count > 0)
+        {
+            if (both)
+            {
+                Log.I($"Maxed both the friendship and happiness of {count} animals");
+            }
+            else
+            {
+                switch (args[0].ToLowerInvariant())
+                {
+                    case "friendship" or "friendly":
+                        Log.I($"Maxed the friendship of {count} animals");
+                        break;
+                    case "happiness" or "happy":
                         Log.I($"Maxed the happiness of {count} animals");
                         break;
                 }
             }
+        }
+        else
+        {
+            Log.W("You don't own any animals.");
         }
     }
 }

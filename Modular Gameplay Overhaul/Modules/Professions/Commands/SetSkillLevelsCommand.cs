@@ -3,6 +3,7 @@
 #region using directives
 
 using System.Linq;
+using System.Text;
 using DaLion.Shared.Commands;
 using DaLion.Shared.Extensions.Collections;
 
@@ -95,12 +96,13 @@ internal sealed class SetSkillLevelsCommand : ConsoleCommand
     private string GetUsage()
     {
         var result =
-            $"\n\nUsage: {this.Handler.EntryCommand} {this.Triggers.First()} <skill1> <newLevel> <skill2> <newLevel> ...";
-        result += "\n\nParameters:";
-        result += "\n\t- <skill>\t- a valid skill name, or 'all'";
-        result += "\n\t- <newLevel>\t- a valid integer level";
-        result += "\n\nExamples:";
-        result += $"\n\t- {this.Handler.EntryCommand} {this.Triggers.First()} farming 5 cooking 10";
-        return result;
+            new StringBuilder(
+                $"\n\nUsage: {this.Handler.EntryCommand} {this.Triggers[0]} <skill1> <newLevel> <skill2> <newLevel> ...");
+        result.Append("\n\nParameters:");
+        result.Append("\n\t- <skill>\t- a valid skill name, or 'all'");
+        result.Append("\n\t- <newLevel>\t- a valid integer level");
+        result.Append("\n\nExamples:");
+        result.Append($"\n\t- {this.Handler.EntryCommand} {this.Triggers[0]} farming 5 cooking 10");
+        return result.ToString();
     }
 }

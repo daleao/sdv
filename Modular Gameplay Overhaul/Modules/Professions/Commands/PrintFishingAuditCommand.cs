@@ -4,10 +4,10 @@
 
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using DaLion.Overhaul.Modules.Professions.Extensions;
 using DaLion.Shared.Commands;
 using DaLion.Shared.Extensions;
-using StardewModdingAPI.Utilities;
 using static System.FormattableString;
 
 #endregion using directives
@@ -38,17 +38,15 @@ internal sealed class PrintFishingAuditCommand : ConsoleCommand
             return;
         }
 
-        var fishData = Game1.content
-            .Load<Dictionary<int, string>>(PathUtilities.NormalizeAssetName("Data/Fish"))
-            .Where(p => !p.Key.IsIn(152, 153, 157) && !p.Value.Contains("trap"))
-            .ToDictionary(p => p.Key, p => p.Value);
+        var fishData = ModHelper.GameContent.Load<Dictionary<int, string>>("Data/Fish");
         int numLegendaryCaught = 0, numMaxSizedCaught = 0;
         var caughtFishNames = new List<string>();
         var nonMaxSizedCaught = new Dictionary<string, Tuple<int, int>>();
-        var result = string.Empty;
+        var result = new StringBuilder();
         foreach (var (key, value) in Game1.player.fishCaught.Pairs)
         {
-            if (!fishData.TryGetValue(key, out var specificFishData))
+            if (key is 152 or 153 or 157 || !fishData.TryGetValue(key, out var specificFishData) ||
+                specificFishData.Contains("trap"))
             {
                 continue;
             }
@@ -80,21 +78,20 @@ internal sealed class PrintFishingAuditCommand : ConsoleCommand
         var priceMultiplier = Game1.player.HasProfession(Profession.Angler)
             ? CurrentCulture($"{Math.Min((numMaxSizedCaught * 0.01f) + (numLegendaryCaught * 0.05f), ProfessionsModule.Config.AnglerMultiplierCap):0%}")
             : "Zero. You're not an Angler.";
-        result +=
-            $"Species caught: {Game1.player.fishCaught.Count()}/{fishData.Count}\nMax-sized: {numMaxSizedCaught}/{Game1.player.fishCaught.Count()}\nLegendaries: {numLegendaryCaught}/10\nTotal Angler price bonus: {priceMultiplier}\n\nThe following caught fish are not max-sized:";
-        result = nonMaxSizedCaught.Keys.Aggregate(
+        result.Append(
+            $"Species caught: {Game1.player.fishCaught.Count()}/{fishData.Count}\nMax-sized: {numMaxSizedCaught}/{Game1.player.fishCaught.Count()}\nLegendaries: {numLegendaryCaught}/10\nTotal Angler price bonus: {priceMultiplier}\n\nThe following caught fish are not max-sized:");
+        result.Append(nonMaxSizedCaught.Keys.Aggregate(
             result,
             (current, fish) =>
-                current +
-                $"\n\t- {fish} (current: {nonMaxSizedCaught[fish].Item1}, max: {nonMaxSizedCaught[fish].Item2})");
+                current.Append($"\n\t- {fish} (current: {nonMaxSizedCaught[fish].Item1}, max: {nonMaxSizedCaught[fish].Item2})")));
 
         var seasonFish = from specificFishData in fishData.Values
-            where specificFishData.SplitWithoutAllocation('/')[6].ToString().Contains(Game1.currentSeason)
+            where specificFishData.SplitWithoutAllocation('/')[6].Contains(Game1.currentSeason, StringComparison.Ordinal)
             select specificFishData.SplitWithoutAllocation('/')[0].ToString();
 
-        result += "\n\nThe following fish can be caught this season:";
-        result = seasonFish.Except(caughtFishNames).Aggregate(result, (current, fish) => current + $"\n\t- {fish}");
+        result.Append("\n\nThe following fish can be caught this season:");
+        result = seasonFish.Except(caughtFishNames).Aggregate(result, (current, fish) => current.Append($"\n\t- {fish}"));
 
-        Log.I(result);
+        Log.I(result.ToString());
     }
 }

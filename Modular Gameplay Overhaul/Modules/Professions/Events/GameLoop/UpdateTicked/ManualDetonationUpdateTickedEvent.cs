@@ -2,7 +2,6 @@
 
 #region using directives
 
-using System.Linq;
 using DaLion.Shared.Events;
 using StardewModdingAPI.Events;
 
@@ -26,10 +25,12 @@ internal sealed class ManualDetonationUpdateTickedEvent : UpdateTickedEvent
             return;
         }
 
-        foreach (var sprite in Game1.currentLocation.TemporarySprites.Where(sprite =>
-                     sprite.bombRadius > 0 && sprite.totalNumberOfLoops == int.MaxValue))
+        foreach (var sprite in Game1.currentLocation.TemporarySprites)
         {
-            sprite.currentNumberOfLoops = sprite.totalNumberOfLoops - 1;
+            if (sprite.bombRadius > 0 && sprite.totalNumberOfLoops == int.MaxValue)
+            {
+                sprite.currentNumberOfLoops = sprite.totalNumberOfLoops - 1;
+            }
         }
 
         this.Disable();

@@ -3,7 +3,6 @@
 #region using directives
 
 using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
 using DaLion.Shared.Attributes;
@@ -106,14 +105,15 @@ internal sealed class NewForgeMenuUpdatePatcher : HarmonyPatcher
 
     private static void UnforgeInfinityBand(NewForgeMenu menu, CombinedRing infinity)
     {
-        var combinedRings = infinity.combinedRings.ToList();
-        infinity.combinedRings.Clear();
-        foreach (var gemstone in combinedRings.Select(ring => Gemstone.FromRing(ring.ParentSheetIndex)))
+        for (var i = 0; i < infinity.combinedRings.Count; i++)
         {
+            var ring = infinity.combinedRings[i];
+            var gemstone = Gemstone.FromRing(ring.ParentSheetIndex);
             Utility.CollectOrDrop(new SObject(gemstone.ObjectIndex, 1));
             Utility.CollectOrDrop(new SObject(848, 5));
         }
 
+        infinity.combinedRings.Clear();
         Utility.CollectOrDrop(new Ring(Globals.InfinityBandIndex!.Value));
         menu.leftIngredientSpot.item = null;
         Game1.playSound("coin");

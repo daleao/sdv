@@ -4,6 +4,7 @@
 
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
+using System.Text;
 using DaLion.Shared.Commands;
 using StardewValley.Tools;
 
@@ -85,11 +86,11 @@ internal sealed class AddEnchantmentsCommand : ConsoleCommand
     /// <summary>Tell the dummies how to use the console command.</summary>
     private string GetUsage()
     {
-        var result = $"\n\nUsage: {this.Handler.EntryCommand} {this.Triggers.First()} <enchantment>";
-        result += "\n\nParameters:";
-        result += "\n\t- <enchantment>: a tool enchantment";
-        result += "\n\nExample:";
-        result += $"\n\t- {this.Handler.EntryCommand} {this.Triggers.First()} powerful";
-        return result;
+        var result = new StringBuilder($"\n\nUsage: {this.Handler.EntryCommand} {this.Triggers[0]} <enchantment>");
+        result.Append("\n\nParameters:");
+        result.Append("\n\t- <enchantment>: a tool enchantment");
+        result.Append("\n\nExample:");
+        result.Append($"\n\t- {this.Handler.EntryCommand} {this.Triggers[0]} powerful");
+        return result.ToString();
     }
 }

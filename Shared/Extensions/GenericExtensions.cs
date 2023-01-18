@@ -49,9 +49,9 @@ public static class GenericExtensions
     public static IEnumerable<T> Collect<T>(this T value, params T[] others)
     {
         yield return value;
-        foreach (var next in others)
+        for (var i = 0; i < others.Length; i++)
         {
-            yield return next;
+            yield return others[i];
         }
     }
 

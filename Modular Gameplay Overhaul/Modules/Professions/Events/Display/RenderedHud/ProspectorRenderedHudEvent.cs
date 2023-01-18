@@ -2,7 +2,6 @@
 
 #region using directives
 
-using System.Linq;
 using DaLion.Overhaul.Modules.Professions.Extensions;
 using DaLion.Shared.Events;
 using Microsoft.Xna.Framework;
@@ -32,9 +31,13 @@ internal sealed class ProspectorRenderedHudEvent : RenderedHudEvent
         var shouldHighlightOnScreen = ProfessionsModule.Config.ModKey.IsDown();
 
         // track objects, such as ore nodes
-        foreach (var (tile, _) in Game1.currentLocation.Objects.Pairs.Where(p =>
-                     p.Value.ShouldBeTrackedBy(Profession.Prospector)))
+        foreach (var (tile, @object) in Game1.currentLocation.Objects.Pairs)
         {
+            if (!@object.ShouldBeTrackedBy(Profession.Prospector))
+            {
+                continue;
+            }
+
             tile.TrackWhenOffScreen(Color.Yellow);
             if (shouldHighlightOnScreen)
             {
@@ -43,9 +46,13 @@ internal sealed class ProspectorRenderedHudEvent : RenderedHudEvent
         }
 
         // track resource clumps
-        foreach (var clump in Game1.currentLocation.resourceClumps.Where(c =>
-                     Collections.ResourceClumpIds.Contains(c.parentSheetIndex.Value)))
+        foreach (var clump in Game1.currentLocation.resourceClumps)
         {
+            if (!Collections.ResourceClumpIds.Contains(clump.parentSheetIndex.Value))
+            {
+                continue;
+            }
+
             var tile = clump.tile.Value + new Vector2(0.5f, 0f);
             tile.TrackWhenOffScreen(Color.Yellow);
             if (shouldHighlightOnScreen)

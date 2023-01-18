@@ -43,7 +43,7 @@ internal static class GameLocationExtensions
     /// <param name="farmers">All the farmer instances in the location with the given profession.</param>
     /// <returns><see langword="true"/> if the <paramref name="location"/> has at least one <see cref="Farmer"/> with the specified <paramref name="profession"/>, otherwise <see langword="false"/>.</returns>
     internal static bool DoesAnyPlayerHereHaveProfession(
-        this GameLocation location, IProfession profession, out IList<Farmer> farmers)
+        this GameLocation location, IProfession profession, out List<Farmer> farmers)
     {
         farmers = new List<Farmer>();
         if (!Context.IsMultiplayer && location.Equals(Game1.player.currentLocation) &&
@@ -53,9 +53,12 @@ internal static class GameLocationExtensions
         }
         else
         {
-            foreach (var farmer in location.farmers.Where(farmer => farmer.HasProfession(profession)))
+            foreach (var farmer in location.farmers)
             {
-                farmers.Add(farmer);
+                if (farmer.HasProfession(profession))
+                {
+                    farmers.Add(farmer);
+                }
             }
         }
 
@@ -87,8 +90,7 @@ internal static class GameLocationExtensions
             Game1.content.Load<Dictionary<string, string>>(PathUtilities.NormalizeAssetName("Data/Locations"));
         return locationData[location.NameOrUniqueName]
             .SplitWithoutAllocation('/')[4 + Utility.getSeasonNumber(Game1.currentSeason)]
-            .ToString()
-            .SplitWithoutAllocation(' ');
+            .Split(' ');
     }
 
     /// <summary>Gets the raw fish data for this <paramref name="location"/> including all seasons.</summary>
@@ -103,8 +105,7 @@ internal static class GameLocationExtensions
         {
             var seasonalFishData = locationData[location.NameOrUniqueName]
                 .SplitWithoutAllocation('/')[4 + i]
-                .ToString()
-                .SplitWithoutAllocation(' ');
+                .Split(' ');
             foreach (var fish in seasonalFishData)
             {
                 allSeasonFish = string.Concat(allSeasonFish.AsSpan(), " ".AsSpan(), fish);

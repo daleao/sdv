@@ -32,7 +32,8 @@ internal sealed class EmeraldEnchantmentApplyToPatcher : HarmonyPatcher
             return;
         }
 
-        var chord = player.Get_ResonatingChords()
+        var chord = player
+            .Get_ResonatingChords()
             .Where(c => c.Root == Gemstone.Emerald)
             .ArgMax(c => c.Amplitude);
         if (chord is null)

@@ -525,8 +525,8 @@ internal sealed class ScavengerHunt : TreasureHunt
             case 3:
             {
                 treasures.Add(this.Random.NextDouble() < 0.28
-                    ? new SObject(72, 1) // diamond
-                    : new SObject(80, this.Random.Next(1, 3))); // quartz
+                    ? new SObject(SObject.diamondIndex, 1) // diamond
+                    : new SObject(SObject.quartzIndex, this.Random.Next(1, 3))); // quartz
                 break;
             }
         }
@@ -627,7 +627,7 @@ internal sealed class ScavengerHunt : TreasureHunt
         // prismatic shard
         if (this.Random.NextDouble() < 0.005 * luckModifier * Math.Pow(2, streak))
         {
-            treasures.Add(new SObject(74, 1));
+            treasures.Add(new SObject(SObject.prismaticShardIndex, 1));
         }
 
         // strange doll
@@ -662,7 +662,7 @@ internal sealed class ScavengerHunt : TreasureHunt
 
         if (treasures.Count == 1)
         {
-            treasures.Add(new SObject(72, 1)); // consolation diamond
+            treasures.Add(new SObject(SObject.diamondIndex, 1)); // consolation diamond
         }
     }
 

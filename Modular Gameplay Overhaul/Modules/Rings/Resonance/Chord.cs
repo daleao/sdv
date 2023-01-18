@@ -9,13 +9,14 @@ using DaLion.Shared.Exceptions;
 using DaLion.Shared.Extensions;
 using DaLion.Shared.Extensions.Collections;
 using Microsoft.Xna.Framework;
+using NetFabric.Hyperlinq;
 
 #endregion using directives
 
 /// <inheritdoc cref="IChord"/>
 public sealed class Chord : IChord
 {
-    private static readonly double[] Range = Enumerable.Range(0, 360).Select(i => i * Math.PI / 180d).ToArray();
+    private static readonly double[] Range = ValueEnumerable.Range(0, 360).Select(i => i * Math.PI / 180d).ToArray();
 
     private int _magnetism;
     private int _position;
@@ -184,9 +185,9 @@ public sealed class Chord : IChord
         var distinctNotes = this.Notes.Distinct().ToArray();
 
         // initialize resonances
-        foreach (var note in distinctNotes)
+        for (var i = 0; i < distinctNotes.Length; i++)
         {
-            this.ResonanceByGemstone[note] = 0d;
+            this.ResonanceByGemstone[distinctNotes[i]] = 0d;
         }
 
         // octaves and unisons can be ignored
@@ -196,27 +197,32 @@ public sealed class Chord : IChord
         }
 
         // add sequence intervals first
-        var intervals = distinctNotes
-            .Select((t, i) => new HarmonicInterval(
-                t,
-                distinctNotes[(i + 1) % distinctNotes.Length]))
-            .ToList();
+        List<HarmonicInterval> intervals = new();
+        for (var i = 0; i < distinctNotes.Length; i++)
+        {
+            intervals.Add(new HarmonicInterval(distinctNotes[i], distinctNotes[(i + 1) % distinctNotes.Length]));
+        }
 
         // add composite intervals
         if (distinctNotes.Length >= 3)
         {
-            intervals.AddRange(distinctNotes.Select((t, i) =>
-                new HarmonicInterval(t, distinctNotes[(i + 2) % distinctNotes.Length])));
+            for (var i = 0; i <= distinctNotes.Length; i++)
+            {
+                intervals.Add(new HarmonicInterval(distinctNotes[i], distinctNotes[(i + 2) % distinctNotes.Length]));
+            }
         }
 
         if (distinctNotes.Length >= 4)
         {
-            intervals.AddRange(distinctNotes.Select((t, i) =>
-                new HarmonicInterval(t, distinctNotes[(i + 3) % distinctNotes.Length])));
+            for (var i = 0; i <= distinctNotes.Length; i++)
+            {
+                intervals.Add(new HarmonicInterval(distinctNotes[i], distinctNotes[(i + 2) % distinctNotes.Length]));
+            }
         }
 
         // determine root note
         var fifths = intervals
+            .AsValueEnumerable()
             .Where(i => i.Number == IntervalNumber.Fifth)
             .ToArray();
         if (fifths.Length is > 0 and < 3)
@@ -242,7 +248,9 @@ public sealed class Chord : IChord
         // evaluate total resonance of each note
         this.GroupedIntervals.ForEach(group =>
         {
-            var numbers = group.Select(i => i.Number).ToHashSet();
+            var numbers = group
+                .Select(i => i.Number)
+                .ToHashSet();
             group.ForEach(i =>
             {
                 switch (i.Number)
@@ -291,15 +299,15 @@ public sealed class Chord : IChord
                         return;
                     }
 
-                    // the dissonant intervals
-                    case IntervalNumber.Second:
-                        this.ResonanceByGemstone[group.Key] -= 1d / 8d;
-                        return;
+                    // the exception for ternary tetrad
                     case IntervalNumber.Seventh when numbers.Contains(IntervalNumber.Third) && numbers.Contains(IntervalNumber.Fifth):
                         this.ResonanceByGemstone[group.Key] += 1 / 8d;
                         this._magnetism += 24;
                         return;
+
+                    // the dissonant intervals
                     case IntervalNumber.Seventh:
+                    case IntervalNumber.Second:
                         this.ResonanceByGemstone[group.Key] -= 1d / 8d;
                         return;
 

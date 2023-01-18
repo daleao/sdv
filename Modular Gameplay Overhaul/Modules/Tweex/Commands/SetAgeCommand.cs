@@ -3,6 +3,7 @@
 #region using directives
 
 using System.Linq;
+using System.Text;
 using DaLion.Overhaul.Modules.Tweex.Extensions;
 using DaLion.Shared.Commands;
 using DaLion.Shared.Extensions.Stardew;
@@ -59,9 +60,16 @@ internal sealed class SetAgeCommand : ConsoleCommand
             {
                 if (all)
                 {
-                    foreach (var tree in Game1.locations.SelectMany(l => l.terrainFeatures.Values.OfType<Tree>()))
+                    for (var i = 0; i < Game1.locations.Count; i++)
                     {
-                        tree.Write(DataFields.Age, clear ? null : args[1]);
+                        var location = Game1.locations[i];
+                        foreach (var feature in location.terrainFeatures.Values)
+                        {
+                            if (feature is Tree)
+                            {
+                                feature.Write(DataFields.Age, clear ? null : args[1]);
+                            }
+                        }
                     }
 
                     Log.I(clear ? "Cleared all tree age data." : $"Set all tree age data to {args[1]} days.");
@@ -89,10 +97,18 @@ internal sealed class SetAgeCommand : ConsoleCommand
             {
                 if (all)
                 {
-                    foreach (var hive in Game1.locations.SelectMany(l =>
-                                 l.objects.Values.Where(o => o.Name == "Bee House")))
+                    for (var i = 0; i < Game1.locations.Count; i++)
                     {
-                        hive.Write(DataFields.Age, clear ? null : args[1]);
+                        var location = Game1.locations[i];
+                        foreach (var @object in location.Objects.Values)
+                        {
+                            if (@object.Name != "Bee House")
+                            {
+                                continue;
+                            }
+
+                            @object.Write(DataFields.Age, clear ? null : args[1]);
+                        }
                     }
 
                     Log.I(clear ? "Cleared all bee house age data." : $"Set all bee house age data to {args[1]} days.");
@@ -109,7 +125,9 @@ internal sealed class SetAgeCommand : ConsoleCommand
                 }
 
                 nearest.Write(DataFields.Age, clear ? null : args[1]);
-                Log.I(clear ? "Cleared Bee House's age data." : $"Set Bee House's age data to {args[1]} days.");
+                Log.I(clear
+                    ? "Cleared all Bee House age data."
+                    : $"Set all Bee House age data to {args[1]} days.");
                 break;
             }
 
@@ -121,10 +139,18 @@ internal sealed class SetAgeCommand : ConsoleCommand
             {
                 if (all)
                 {
-                    foreach (var box in Game1.locations.SelectMany(l =>
-                                 l.objects.Values.Where(o => o.Name == "Mushroom Box")))
+                    for (var i = 0; i < Game1.locations.Count; i++)
                     {
-                        box.Write(DataFields.Age, clear ? null : args[1]);
+                        var location = Game1.locations[i];
+                        foreach (var @object in location.Objects.Values)
+                        {
+                            if (@object.Name != "Mushroom Box")
+                            {
+                                continue;
+                            }
+
+                            @object.Write(DataFields.Age, clear ? null : args[1]);
+                        }
                     }
 
                     Log.I(clear
@@ -151,15 +177,17 @@ internal sealed class SetAgeCommand : ConsoleCommand
 
     private string GetUsage()
     {
-        var result = $"\n\nUsage: {this.Handler.EntryCommand} {this.Triggers.First()} [--all / -a] <target type> <age>";
-        result += "\n\nParameters:";
-        result += "\n\t- <target type>\t- one of 'tree', 'beehive' or 'mushroombox'";
-        result += "\n\nOptional flags:";
-        result +=
-            "\n\t--all, -a\t- set the age of all instances of the specified type, instead of just the nearest one.";
-        result += "\n\nExamples:";
-        result += $"\n\t- {this.Handler.EntryCommand} {this.Triggers.First()} hive 112";
-        result += $"\n\t- {this.Handler.EntryCommand} {this.Triggers.First()} -a tree 224";
-        return result;
+        var result =
+            new StringBuilder(
+                $"\n\nUsage: {this.Handler.EntryCommand} {this.Triggers[0]} [--all / -a] <target type> <age>");
+        result.Append("\n\nParameters:");
+        result.Append("\n\t- <target type>\t- one of 'tree', 'beehive' or 'mushroombox'");
+        result.Append("\n\nOptional flags:");
+        result.Append(
+            "\n\t--all, -a\t- set the age of all instances of the specified type, instead of just the nearest one.");
+        result.Append("\n\nExamples:");
+        result.Append($"\n\t- {this.Handler.EntryCommand} {this.Triggers[0]} hive 112");
+        result.Append($"\n\t- {this.Handler.EntryCommand} {this.Triggers[0]} -a tree 224");
+        return result.ToString();
     }
 }

@@ -20,8 +20,7 @@ internal static class GameLocationExtensions
     /// <returns>A <see cref="IEnumerable{T}"/> of the <see cref="ResourceClump"/>.</returns>
     internal static IEnumerable<ResourceClump> GetNormalResourceClumps(this GameLocation location)
     {
-        IEnumerable<ResourceClump> clumps = location.resourceClumps;
-
+        var clumps = location.resourceClumps.AsEnumerable();
         clumps = location switch
         {
             Forest { log: { } } forest => clumps.Concat(new[] { forest.log }),
@@ -58,8 +57,9 @@ internal static class GameLocationExtensions
         // FarmTypeManager resource clumps
         if (ModHelper.ModRegistry.IsLoaded("Esca.FarmTypeManager"))
         {
-            foreach (var feature in location.largeTerrainFeatures)
+            for (var i = 0; i < location.largeTerrainFeatures.Count; i++)
             {
+                var feature = location.largeTerrainFeatures[i];
                 if (feature.GetType().FullName != "FarmTypeManager.LargeResourceClump" ||
                     !feature.getBoundingBox(feature.tilePosition.Value).Intersects(tileArea))
                 {

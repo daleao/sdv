@@ -3,10 +3,8 @@
 #region using directives
 
 using System.Collections.Generic;
-using System.Linq;
 using DaLion.Shared.Commands;
 using DaLion.Shared.Extensions;
-using StardewModdingAPI.Utilities;
 
 #endregion using directives
 
@@ -30,12 +28,13 @@ internal sealed class MaxFishingAuditCommand : ConsoleCommand
     /// <inheritdoc />
     public override void Callback(string trigger, string[] args)
     {
-        var fishData = Game1.content
-            .Load<Dictionary<int, string>>(PathUtilities.NormalizeAssetName("Data/Fish"))
-            .Where(p => !p.Key.IsIn(152, 153, 157) && !p.Value.Contains("trap"))
-            .ToDictionary(p => p.Key, p => p.Value);
-        foreach (var (key, value) in fishData)
+        foreach (var (key, value) in ModHelper.GameContent.Load<Dictionary<int, string>>("Data/Fish"))
         {
+            if (key is 152 or 153 or 157 || value.Contains("trap"))
+            {
+                continue;
+            }
+
             var dataFields = value.SplitWithoutAllocation('/');
             if (Game1.player.fishCaught.ContainsKey(key))
             {

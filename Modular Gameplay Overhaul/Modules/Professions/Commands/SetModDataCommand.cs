@@ -3,6 +3,7 @@
 #region using directives
 
 using System.Linq;
+using System.Text;
 using DaLion.Overhaul.Modules.Professions.Extensions;
 using DaLion.Shared.Commands;
 using DaLion.Shared.Extensions.Stardew;
@@ -183,31 +184,31 @@ internal sealed class SetModDataCommand : ConsoleCommand
 
     private static string GetAvailableFields()
     {
-        var result = "\n\nAvailable data fields:";
-        result += "\n\t- EcologistItemsForaged (shortcut 'forages')";
-        result += "\n\t- GemologistMineralsCollected (shortcut 'minerals')";
-        result += "\n\t- ProspectorHuntStreak (shortcut 'phunt')";
-        result += "\n\t- ScavengerHuntStreak (shortcut 'shunt')";
-        result += "\n\t- ConservationistTrashCollectedThisSeason (shortcut 'trash')";
-        return result;
+        var result = new StringBuilder("\n\nAvailable data fields:");
+        result.Append("\n\t- EcologistItemsForaged (shortcut 'forages')");
+        result.Append("\n\t- GemologistMineralsCollected (shortcut 'minerals')");
+        result.Append("\n\t- ProspectorHuntStreak (shortcut 'phunt')");
+        result.Append("\n\t- ScavengerHuntStreak (shortcut 'shunt')");
+        result.Append("\n\t- ConservationistTrashCollectedThisSeason (shortcut 'trash')");
+        return result.ToString();
     }
 
     private string GetUsage()
     {
-        var result = $"\n\nUsage: {this.Handler.EntryCommand} {this.Triggers.First()} <field> <value>";
-        result += "\n\nParameters:";
-        result += "\n\t<field>\t- the name of the field";
-        result += "\\n\t<value>\t- the desired new value";
-        result += "\n\nExamples:";
-        result += $"\n\t{this.Handler.EntryCommand} {this.Triggers.First()} EcologistItemsForaged 100";
-        result += $"\n\t{this.Handler.EntryCommand} {this.Triggers.First()} trash 500";
-        result += "\n\nAvailable data fields:";
-        result += "\n\t- EcologistItemsForaged (shortcut 'forages')";
-        result += "\n\t- GemologistMineralsCollected (shortcut 'minerals')";
-        result += "\n\t- ProspectorHuntStreak (shortcut 'phunt')";
-        result += "\n\t- ScavengerHuntStreak (shortcut 'shunt')";
-        result += "\n\t- ConservationistTrashCollectedThisSeason (shortcut 'trash')";
-        result += GetAvailableFields();
-        return result;
+        var result = new StringBuilder($"\n\nUsage: {this.Handler.EntryCommand} {this.Triggers[0]} <field> <value>");
+        result.Append("\n\nParameters:");
+        result.Append("\n\t<field>\t- the name of the field");
+        result.Append("\\n\t<value>\t- the desired new value");
+        result.Append("\n\nExamples:");
+        result.Append($"\n\t{this.Handler.EntryCommand} {this.Triggers[0]} EcologistItemsForaged 100");
+        result.Append($"\n\t{this.Handler.EntryCommand} {this.Triggers[0]} trash 500");
+        result.Append("\n\nAvailable data fields:");
+        result.Append("\n\t- EcologistItemsForaged (shortcut 'forages')");
+        result.Append("\n\t- GemologistMineralsCollected (shortcut 'minerals')");
+        result.Append("\n\t- ProspectorHuntStreak (shortcut 'phunt')");
+        result.Append("\n\t- ScavengerHuntStreak (shortcut 'shunt')");
+        result.Append("\n\t- ConservationistTrashCollectedThisSeason (shortcut 'trash')");
+        result.Append(GetAvailableFields());
+        return result.ToString();
     }
 }

@@ -35,7 +35,7 @@ internal sealed class PondQueryMenuDrawPatcher : HarmonyPatcher
     /// <summary>Adjust fish pond query menu for algae.</summary>
     [HarmonyPrefix]
     [HarmonyPriority(Priority.High)]
-    [HarmonyBefore("Overhaul.Modules.Professions")]
+    [HarmonyBefore("DaLion.Overhaul.Modules.Professions")]
     private static bool PondQueryMenuDrawPrefix(
         PondQueryMenu __instance,
         float ____age,

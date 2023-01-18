@@ -1,5 +1,16 @@
 ﻿# Arsenal Change Log
 
+## 1.2.0
+
+### Added
+
+* Added arsenal auto-selection.
+* You can now specify individual weapon with the console command for getting blueprints (`ars get bp <weapon1> <weapon2> etc...`).
+
+### Fixed
+
+* Fixed a bug in the console command for getting blueprints (`ars get bp`).
+
 ## 1.1.0
 
 ### Fixed

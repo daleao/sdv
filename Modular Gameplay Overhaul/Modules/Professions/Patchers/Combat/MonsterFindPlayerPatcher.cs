@@ -39,7 +39,9 @@ internal sealed class MonsterFindPlayerPatcher : HarmonyPatcher
                 var piped = slime.Get_Piped();
                 if (piped is not null)
                 {
-                    var aggroee = slime.GetClosestCharacter(location.characters.OfType<Monster>().Where(m => !m.IsSlime()));
+                    var aggroee = slime.GetClosestCharacter(location.characters
+                        .OfType<Monster>()
+                        .Where(m => !m.IsSlime()));
                     if (aggroee is not null)
                     {
                         piped.FakeFarmer.Position = aggroee.Position;
