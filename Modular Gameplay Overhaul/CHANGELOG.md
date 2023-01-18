@@ -2,7 +2,7 @@
 
 ## Minor release 1.2.x Highlights
 
-* Added auto-tool selection.
+* Added tool auto-selection, similar to Omni-Tool. Hold the mod key (defauflt Left Shift) and click on all desired tools to enable them for auto-selection. As long as the current tool is among those enabled, pressing the tool button will always have your character attempt to auto-select the appropriate appropriate tool, from among the enabled, for the corresponding action.
 * Fixed Agriculturist perk.
 * Many enumerable and iterator optimizations. 
 
