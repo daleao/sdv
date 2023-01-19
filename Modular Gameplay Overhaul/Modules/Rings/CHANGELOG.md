@@ -1,5 +1,15 @@
 # Rings Module Change Log
 
+## 1.2.1
+
+### Added
+
+* Added "Resonance" to resonant Infinity Band tooltip.
+
+### Fixed
+
+* Fixed a bug in Chord harmonization logic.
+
 ## 1.1.1
 
 ### Fixed

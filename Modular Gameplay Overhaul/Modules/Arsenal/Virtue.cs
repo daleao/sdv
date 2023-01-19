@@ -123,9 +123,12 @@ public class Virtue : SmartEnum<Virtue>
 
         farmer.completeQuest(this);
         Shared.Networking.Broadcaster.SendPublicChat($"{farmer.Name} has proven their {this}.");
-        if (farmer.hasQuest(Constants.VirtuesNextQuestId) && AllProvenBy(farmer))
+        if (!farmer.hasQuest(Constants.VirtuesNextQuestId) || !AllProvenBy(farmer))
         {
-            farmer.completeQuest(Constants.VirtuesNextQuestId);
+            return;
         }
+
+        farmer.completeQuest(Constants.VirtuesNextQuestId);
+        farmer.addQuest(Constants.VirtuesLastQuestId);
     }
 }

@@ -40,8 +40,8 @@
   <!-- paths -->
   <PropertyGroup>
     <GamePath>G:\Steam\steamapps\common\Stardew Valley</GamePath>
-    <GameModsPath>$(GamePath)/Mods - Build</GameModsPath>
-    <ModZipPath>$(GameModsPath)/Archive</ModZipPath>
+    <GameModsPath>$(GamePath)/Mods - Build/$(Configuration)</GameModsPath>
+    <ModZipPath>$(GamePath)/Mods - Build/Archive</ModZipPath>
   </PropertyGroup>
 
   <!-- non-release settings -->

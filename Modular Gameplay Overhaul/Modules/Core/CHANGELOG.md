@@ -1,5 +1,11 @@
 ﻿# Modular Overhaul Core Change Log
 
+## 1.2.1
+
+### Fixed
+
+* Fixed integer GMCM fields incorrectly displaying as decimals.
+
 ## 1.2.0
 
 ## Added

@@ -32,7 +32,7 @@ internal sealed partial class GenericModConfigMenuCore
             .AddNumberField(
                 () => "Forages Needed for Best Quality",
                 () => "Ecologists must forage this many items to reach iridium quality.",
-                config => config.Professions.ForagesNeededForBestQuality,
+                config => (int)config.Professions.ForagesNeededForBestQuality,
                 (config, value) => config.Professions.ForagesNeededForBestQuality = (uint)value,
                 0,
                 1000,
@@ -40,7 +40,7 @@ internal sealed partial class GenericModConfigMenuCore
             .AddNumberField(
                 () => "Minerals Needed for Best Quality",
                 () => "Gemologists must mine this many minerals to reach iridium quality.",
-                config => config.Professions.MineralsNeededForBestQuality,
+                config => (int)config.Professions.MineralsNeededForBestQuality,
                 (config, value) => config.Professions.MineralsNeededForBestQuality = (uint)value,
                 0,
                 1000,
@@ -132,7 +132,7 @@ internal sealed partial class GenericModConfigMenuCore
             .AddNumberField(
                 () => "Spelunker Speed Cap",
                 () => "The maximum speed a Spelunker can reach in the mines.",
-                config => config.Professions.SpelunkerSpeedCap,
+                config => (int)config.Professions.SpelunkerSpeedCap,
                 (config, value) => config.Professions.SpelunkerSpeedCap = (uint)value,
                 1,
                 10)
@@ -152,7 +152,7 @@ internal sealed partial class GenericModConfigMenuCore
             .AddNumberField(
                 () => "Legendary Pond Population Cap",
                 () => "The maximum population of Aquarist Fish Ponds with legendary fish.",
-                config => config.Professions.LegendaryPondPopulationCap,
+                config => (int)config.Professions.LegendaryPondPopulationCap,
                 (config, value) =>
                 {
                     config.Professions.LegendaryPondPopulationCap = (uint)value;
@@ -176,14 +176,14 @@ internal sealed partial class GenericModConfigMenuCore
             .AddNumberField(
                 () => "Trash Needed Per Tax Bonus Percent",
                 () => "Conservationists must collect this much trash for every 1% tax deduction the following season.",
-                config => config.Professions.TrashNeededPerTaxBonusPct,
+                config => (int)config.Professions.TrashNeededPerTaxBonusPct,
                 (config, value) => config.Professions.TrashNeededPerTaxBonusPct = (uint)value,
                 10,
                 1000)
             .AddNumberField(
                 () => "Trash Needed Per Friendship Point",
                 () => "Conservationists must collect this much trash for every 1 friendship point towards villagers.",
-                config => config.Professions.TrashNeededPerFriendshipPoint,
+                config => (int)config.Professions.TrashNeededPerFriendshipPoint,
                 (config, value) => config.Professions.TrashNeededPerFriendshipPoint = (uint)value,
                 10,
                 1000)
@@ -273,7 +273,7 @@ internal sealed partial class GenericModConfigMenuCore
             .AddNumberField(
                 () => "Required Experience Per Extended Level",
                 () => "How much skill experience is required for each level-up beyond level 10.",
-                config => config.Professions.RequiredExpPerExtendedLevel,
+                config => (int)config.Professions.RequiredExpPerExtendedLevel,
                 (config, value) => config.Professions.RequiredExpPerExtendedLevel = (uint)value,
                 1000,
                 10000,
@@ -282,7 +282,7 @@ internal sealed partial class GenericModConfigMenuCore
                 () => "Cost of Prestige Respec",
                 () =>
                     "Monetary cost of respecing prestige profession choices for a skill. Set to 0 to respec for free.",
-                config => config.Professions.PrestigeRespecCost,
+                config => (int)config.Professions.PrestigeRespecCost,
                 (config, value) => config.Professions.PrestigeRespecCost = (uint)value,
                 0,
                 100000,
@@ -290,7 +290,7 @@ internal sealed partial class GenericModConfigMenuCore
             .AddNumberField(
                 () => "Cost of Changing Ultimate",
                 () => "Monetary cost of changing the combat Ultimate. Set to 0 to change for free.",
-                config => config.Professions.ChangeUltCost,
+                config => (int)config.Professions.ChangeUltCost,
                 (config, value) => config.Professions.ChangeUltCost = (uint)value,
                 0,
                 100000,

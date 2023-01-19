@@ -301,6 +301,7 @@
   "rings.infinity.name": "인피니티 밴드",
   "rings.infinity.description": "거대한 힘을 위한 그릇.",
   "global.infinitycraft": "{{who}}가 인피니티 밴드를 제작했습니다.",
+  "resonance": "공명",
 
   // **************** //
   // * ENCHANTMENTS * //

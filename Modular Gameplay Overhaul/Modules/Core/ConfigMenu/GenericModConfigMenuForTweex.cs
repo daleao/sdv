@@ -55,21 +55,21 @@ internal sealed partial class GenericModConfigMenuCore
             .AddNumberField(
                 () => "Berry Bush Exp Reward",
                 () => "The amount of Foraging experience rewarded when a berry bush is harvested. Set to zero to disable.",
-                config => config.Tweex.BerryBushExpReward,
+                config => (int)config.Tweex.BerryBushExpReward,
                 (config, value) => config.Tweex.BerryBushExpReward = (uint)value,
                 0,
                 10)
             .AddNumberField(
                 () => "Mushroom Box Exp Reward",
                 () => "The amount of Foraging experience rewarded when a Mushroom Box is harvested. Set to zero to disable.",
-                config => config.Tweex.MushroomBoxExpReward,
+                config => (int)config.Tweex.MushroomBoxExpReward,
                 (config, value) => config.Tweex.MushroomBoxExpReward = (uint)value,
                 0,
                 10)
             .AddNumberField(
                 () => "Tappers Reward Exp",
                 () => "The amount of Foraging experience rewarded when a Tapper is harvested. Set to zero to disable.",
-                config => config.Tweex.TapperExpReward,
+                config => (int)config.Tweex.TapperExpReward,
                 (config, value) => config.Tweex.TapperExpReward = (uint)value,
                 0,
                 10)

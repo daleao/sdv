@@ -206,7 +206,7 @@ public sealed class Chord : IChord
         // add composite intervals
         if (distinctNotes.Length >= 3)
         {
-            for (var i = 0; i <= distinctNotes.Length; i++)
+            for (var i = 0; i < distinctNotes.Length; i++)
             {
                 intervals.Add(new HarmonicInterval(distinctNotes[i], distinctNotes[(i + 2) % distinctNotes.Length]));
             }
@@ -214,9 +214,9 @@ public sealed class Chord : IChord
 
         if (distinctNotes.Length >= 4)
         {
-            for (var i = 0; i <= distinctNotes.Length; i++)
+            for (var i = 0; i < distinctNotes.Length; i++)
             {
-                intervals.Add(new HarmonicInterval(distinctNotes[i], distinctNotes[(i + 2) % distinctNotes.Length]));
+                intervals.Add(new HarmonicInterval(distinctNotes[i], distinctNotes[(i + 3) % distinctNotes.Length]));
             }
         }
 

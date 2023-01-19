@@ -56,7 +56,7 @@ internal sealed class RingDrawTooltipPatcher : HarmonyPatcher
         {
             Utility.drawTextWithShadow(
                 spriteBatch,
-                root.DisplayName,
+                root.DisplayName + ' ' + I18n.Get("resonance"),
                 font,
                 new Vector2(x + 16, y + 16 + 4),
                 Color.DarkRed,

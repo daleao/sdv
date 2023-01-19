@@ -232,7 +232,7 @@ internal sealed partial class GenericModConfigMenuCore
             .AddNumberField(
                 () => "Auto-Selection Range",
                 () => "The minimum distance away from a monster to auto-select your chosen slingshot.",
-                config => config.Arsenal.Slingshots.AutoSelectionRange,
+                config => (int)config.Arsenal.Slingshots.AutoSelectionRange,
                 (config, value) => config.Arsenal.Slingshots.AutoSelectionRange = (uint)value,
                 2,
                 12)
@@ -335,7 +335,7 @@ internal sealed partial class GenericModConfigMenuCore
             .AddNumberField(
                 () => "Auto-Selection Range",
                 () => "The minimum distance away from a monster to auto-select your chosen weapon.",
-                config => config.Arsenal.Weapons.AutoSelectionRange,
+                config => (int)config.Arsenal.Weapons.AutoSelectionRange,
                 (config, value) => config.Arsenal.Weapons.AutoSelectionRange = (uint)value,
                 1,
                 3);
