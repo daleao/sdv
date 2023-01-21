@@ -130,6 +130,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\Xna\ColorExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\Xna\PointExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\Xna\RectangleExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Extensions\Xna\StringExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\Xna\Vector2Extensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\ArrayExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\GenericExtensions.cs" />
@@ -149,6 +150,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Integrations\Automate\IAutomate.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Integrations\Automate\IAutomateApi.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Integrations\CustomResourceNodes\ICustomResourceClumpsApi.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Integrations\GenericModConfigMenu\IGenericModConfigMenuOptionsApi.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Integrations\ModIntegration.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Integrations\BetterCrafting\IBetterCrafting.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Integrations\BetterCrafting\IBetterCraftingApi.cs" />

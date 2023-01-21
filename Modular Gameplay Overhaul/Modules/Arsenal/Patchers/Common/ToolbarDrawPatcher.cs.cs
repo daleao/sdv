@@ -93,7 +93,7 @@ internal sealed class ToolbarDrawPatcher : HarmonyPatcher
             if (item is Tool tool && ArsenalModule.State.SelectableArsenal == tool &&
                 Game1.player.CurrentTool != tool)
             {
-                button.bounds.DrawBorder(Pixel.Value, 3, Color.Magenta, b);
+                button.bounds.DrawBorder(Pixel.Value, 3, ArsenalModule.Config.SelectionBorderColor, b);
             }
         }
     }

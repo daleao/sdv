@@ -252,9 +252,11 @@ internal static class FarmerExtensions
     internal static float GetProducerPriceBonus(this Farmer farmer)
     {
         var sum = 0f;
-        foreach (var building in Game1.getFarm().buildings)
+        var buildings = Game1.getFarm().buildings;
+        for (var i = 0; i < buildings.Count; i++)
         {
-            if ((building.IsOwnedBy(Game1.player) || ProfessionsModule.Config.LaxOwnershipRequirements) &&
+            var building = buildings[i];
+            if ((building.IsOwnedBy(farmer) || ProfessionsModule.Config.LaxOwnershipRequirements) &&
                 !building.isUnderConstruction() && building.buildingType.Contains("Deluxe") &&
                 ((AnimalHouse)building.indoors.Value).isFull())
             {
@@ -317,8 +319,10 @@ internal static class FarmerExtensions
     internal static float GetAquaristCatchingBarCompensation(this Farmer farmer)
     {
         HashSet<int> fishTypes = new();
-        foreach (var building in Game1.getFarm().buildings)
+        var buildings = Game1.getFarm().buildings;
+        for (var i = 0; i < buildings.Count; i++)
         {
+            var building = buildings[i];
             if (building is FishPond pond &&
                 (pond.IsOwnedBy(Game1.player) || ProfessionsModule.Config.LaxOwnershipRequirements) &&
                 !pond.isUnderConstruction() && pond.fishType.Value > 0)

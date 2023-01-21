@@ -46,8 +46,9 @@ internal sealed class ScavengerRenderedHudEvent : RenderedHudEvent
         }
 
         //track berries
-        foreach (var feature in Game1.currentLocation.largeTerrainFeatures)
+        for (var i = 0; i < Game1.currentLocation.largeTerrainFeatures.Count; i++)
         {
+            var feature = Game1.currentLocation.largeTerrainFeatures[i];
             if (feature is not Bush bush || bush.townBush.Value || bush.tileSheetOffset.Value != 1 ||
                 !bush.inBloom(Game1.GetSeasonForLocation(Game1.currentLocation), Game1.dayOfMonth))
             {

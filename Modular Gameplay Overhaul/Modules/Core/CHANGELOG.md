@@ -1,6 +1,12 @@
 ﻿# Modular Overhaul Core Change Log
 
-## 1.2.1
+## 1.2.3
+
+## Changed
+
+* Caught some more indexed enumerables which has been replaced with for loops.
+
+## 1.2.2
 
 ### Fixed
 

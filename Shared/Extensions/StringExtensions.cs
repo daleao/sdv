@@ -365,9 +365,11 @@ public static class StringExtensions
             .Select(p => p.Split(new[] { keyValueSeparator }, StringSplitOptions.RemoveEmptyEntries));
 
         var dict = new Dictionary<TKey, TValue>();
-        foreach (var pair in pairs)
+        for (var i = 0; i < pairs.Count; i++)
         {
-            if (pair[0].TryParse<TKey>(out var key) && !dict.ContainsKey(key) && pair[1].TryParse<TValue>(out var value))
+            var pair = pairs[i];
+            if (pair[0].TryParse<TKey>(out var key) && !dict.ContainsKey(key) &&
+                pair[1].TryParse<TValue>(out var value))
             {
                 dict[key] = value;
                 continue;

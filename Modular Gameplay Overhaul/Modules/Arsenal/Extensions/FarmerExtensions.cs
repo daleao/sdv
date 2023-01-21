@@ -5,8 +5,8 @@
 using System.Linq;
 using DaLion.Overhaul.Modules.Arsenal.VirtualProperties;
 using DaLion.Overhaul.Modules.Rings.VirtualProperties;
+using DaLion.Shared.Extensions.Collections;
 using DaLion.Shared.Extensions.Stardew;
-using Shared.Extensions.Collections;
 using StardewValley.Tools;
 using static StardewValley.FarmerSprite;
 

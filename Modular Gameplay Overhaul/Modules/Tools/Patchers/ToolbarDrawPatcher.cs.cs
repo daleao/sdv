@@ -75,7 +75,7 @@ internal sealed class ToolbarDrawPatcher : HarmonyPatcher
 
     private static void DrawSelectors(List<ClickableComponent> ___buttons, SpriteBatch b)
     {
-        if (Game1.activeClickableMenu is not null || ToolsModule.State.SelectableTools.Count == 0)
+        if (Game1.activeClickableMenu is not null || ToolsModule.State.SelectableToolByType.Count == 0)
         {
             return;
         }
@@ -90,10 +90,10 @@ internal sealed class ToolbarDrawPatcher : HarmonyPatcher
             }
 
             var item = Game1.player.Items[slotNumber];
-            if (item is Tool tool && ToolsModule.State.SelectableTools.Contains(tool) &&
-                Game1.player.CurrentTool != tool)
+            if (item is Tool tool && Game1.player.CurrentTool != tool &&
+                ToolsModule.State.SelectableToolByType.TryGetValue(tool.GetType(), out var selectable) && selectable.HasValue)
             {
-                button.bounds.DrawBorder(Pixel.Value, 3, Color.Magenta, b);
+                button.bounds.DrawBorder(Pixel.Value, 3, ToolsModule.Config.SelectionBorderColor, b);
             }
         }
     }

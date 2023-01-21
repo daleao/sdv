@@ -38,7 +38,6 @@ public sealed class SCSkill : ISkill
             this.Professions.Add(new SCProfession(skill.Professions[i], i < 2 ? 5 : 10, this));
         }
 
-
         this.ProfessionPairs[-1] = new ProfessionPair(this.Professions[0], this.Professions[1], null, 5);
         this.ProfessionPairs[this.Professions[0].Id] =
             new ProfessionPair(this.Professions[2], this.Professions[3], this.Professions[0], 10);

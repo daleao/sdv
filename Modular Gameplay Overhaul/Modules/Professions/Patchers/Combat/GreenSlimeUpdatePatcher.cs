@@ -36,8 +36,9 @@ internal sealed class GreenSlimeUpdatePatcher : HarmonyPatcher
         }
 
         __instance.Get_Piped()!.PipeTimer -= time.ElapsedGameTime.Milliseconds;
-        foreach (var character in __instance.currentLocation.characters)
+        for (var i = 0; i < __instance.currentLocation.characters.Count; i++)
         {
+            var character = __instance.currentLocation.characters[i];
             if (character is not Monster monster || !monster.IsSlime())
             {
                 continue;
@@ -94,7 +95,7 @@ internal sealed class GreenSlimeUpdatePatcher : HarmonyPatcher
 
             // get damaged by monster
             randomizedDamage = monster.DamageToFarmer +
-                                   Game1.random.Next(-monster.DamageToFarmer / 4, monster.DamageToFarmer / 4);
+                               Game1.random.Next(-monster.DamageToFarmer / 4, monster.DamageToFarmer / 4);
             var damageToSlime = Math.Max(1, randomizedDamage) - __instance.resilience.Value;
             __instance.takeDamage(damageToSlime, (int)-xTrajectory, (int)-yTrajectory, false, 1d, "slime");
             if (__instance.Health <= 0)

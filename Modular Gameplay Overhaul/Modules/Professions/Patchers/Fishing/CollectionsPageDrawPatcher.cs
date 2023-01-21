@@ -83,8 +83,9 @@ internal sealed class CollectionsPageDrawPatcher : HarmonyPatcher
         }
 
         var currentPage = page.currentPage;
-        foreach (var component in page.collections[currentTab][currentPage])
+        for (var i = 0; i < page.collections[currentTab][currentPage].Count; i++)
         {
+            var component = page.collections[currentTab][currentPage][i];
             var index = int.Parse(component.name.SplitWithoutAllocation(' ')[0]);
             if (!Game1.player.HasCaughtMaxSized(index))
             {

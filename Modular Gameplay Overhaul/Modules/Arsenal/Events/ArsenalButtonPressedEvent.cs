@@ -52,14 +52,12 @@ internal sealed class ArsenalButtonPressedEvent : ButtonPressedEvent
         }
 
         if (ArsenalModule.Config.EnableAutoSelection && ArsenalModule.State.SelectableArsenal is not null &&
-            (ToolsModule.State.SelectableTools.Contains(tool) || ArsenalModule.State.SelectableArsenal == tool))
+            ArsenalModule.State.SelectableArsenal != tool &&
+            ToolsModule.State.SelectableToolByType.ContainsKey(tool.GetType()) &&
+            ArsenalSelector.TryFor(player, out var index))
         {
-            var arsenalIndex =
-                ArsenalSelector.SmartSelect(player.GetToolLocation(true), player, player.currentLocation);
-            if (arsenalIndex >= 0)
-            {
-                Game1.player.CurrentToolIndex = arsenalIndex;
-            }
+            Game1.player.CurrentToolIndex = index;
+            tool = Game1.player.CurrentTool;
         }
 
         if (tool is not (MeleeWeapon or Slingshot))

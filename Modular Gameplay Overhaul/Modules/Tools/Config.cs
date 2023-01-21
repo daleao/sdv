@@ -6,6 +6,7 @@ using System.Linq;
 using DaLion.Overhaul.Modules.Tools.Configs;
 using DaLion.Overhaul.Modules.Tools.Integrations;
 using HarmonyLib;
+using Microsoft.Xna.Framework;
 using Newtonsoft.Json;
 using StardewModdingAPI.Utilities;
 
@@ -61,6 +62,10 @@ public sealed class Config : Shared.Configs.Config
     /// <summary>Gets a value indicating whether to allow auto-selecting tools.</summary>
     [JsonProperty]
     public bool EnableAutoSelection { get; internal set; } = true;
+
+    /// <summary>Gets the <see cref="Color"/> used to indicate tools enabled or auto-selection.</summary>
+    [JsonProperty]
+    public Color SelectionBorderColor { get; internal set; } = Color.Magenta;
 
     /// <inheritdoc />
     internal override bool Validate()

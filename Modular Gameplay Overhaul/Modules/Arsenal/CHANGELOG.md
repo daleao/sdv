@@ -1,5 +1,16 @@
 ﻿# Arsenal Change Log
 
+## 1.2.3
+
+### Added
+
+* Added some emote bubbles to spice up Blade of the Ruined Hero and Clint's Forge events.
+* Added the ability to customize the auto-selection border color.
+* 
+### Fixed
+
+* Blade of the Ruined Hero introduction event is no longer skippable.
+
 ## 1.2.1
 
 ### Fixed

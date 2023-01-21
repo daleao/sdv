@@ -24,8 +24,11 @@ internal sealed class ArsenalSavingEvent : SavingEvent
     /// <inheritdoc />
     protected override void OnSavingImpl(object? sender, SavingEventArgs e)
     {
-        Game1.player.Append(
-            DataFields.SelectableSlots,
-            Game1.player.Items.IndexOf(ArsenalModule.State.SelectableArsenal).ToString());
+        if (ArsenalModule.State.SelectableArsenal is not null)
+        {
+            Game1.player.Write(
+                DataFields.SelectableArsenal,
+                Game1.player.Items.IndexOf(ArsenalModule.State.SelectableArsenal).ToString());
+        }
     }
 }

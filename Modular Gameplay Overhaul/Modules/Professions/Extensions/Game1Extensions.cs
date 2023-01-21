@@ -38,8 +38,10 @@ internal static class Game1Extensions
     /// <param name="game1">The <see cref="Game1"/> instance.</param>
     internal static void RevalidateFishPondPopulations(this Game1 game1)
     {
-        foreach (var building in Game1.getFarm().buildings)
+        var buildings = Game1.getFarm().buildings;
+        for (var i = 0; i < buildings.Count; i++)
         {
+            var building = buildings[i];
             if (building is FishPond pond &&
                 (pond.IsOwnedBy(Game1.player) || ProfessionsModule.Config.LaxOwnershipRequirements) &&
                 pond.isUnderConstruction())

@@ -27,23 +27,23 @@ internal sealed class ToolSaveLoadedEvent : SaveLoadedEvent
     /// <inheritdoc />
     protected override void OnSaveLoadedImpl(object? sender, SaveLoadedEventArgs e)
     {
-        var slots = Game1.player.Read(DataFields.SelectableSlots).ParseList<int>();
-        if (slots.Count == 0)
+        var indices = Game1.player.Read(DataFields.SelectableTools).ParseList<int>();
+        if (indices.Count == 0)
         {
             return;
         }
 
-        var leftover = slots.ToList();
-        for (var i = 0; i < slots.Count; i++)
+        var leftover = indices.ToList();
+        for (var i = 0; i < indices.Count; i++)
         {
-            var slot = slots[i];
-            if (slot < 0)
+            var index = indices[i];
+            if (index < 0)
             {
-                leftover.Remove(slot);
+                leftover.Remove(index);
                 continue;
             }
 
-            var item = Game1.player.Items[slot];
+            var item = Game1.player.Items[index];
             if (item is not (Tool tool and (Axe or Hoe or Pickaxe or WateringCan or FishingRod or MilkPail or Shears
                 or MeleeWeapon)))
             {
@@ -55,10 +55,10 @@ internal sealed class ToolSaveLoadedEvent : SaveLoadedEvent
                 continue;
             }
 
-            ToolsModule.State.SelectableTools.Add(tool);
-            leftover.Remove(slot);
+            ToolsModule.State.SelectableToolByType[tool.GetType()] = new SelectableTool(tool, index);
+            leftover.Remove(index);
         }
 
-        Game1.player.Write(DataFields.SelectableSlots, string.Join(',', leftover));
+        Game1.player.Write(DataFields.SelectableTools, string.Join(',', leftover));
     }
 }

@@ -6,6 +6,7 @@ using System.Linq;
 using DaLion.Shared.Events;
 using DaLion.Shared.Extensions.Collections;
 using StardewModdingAPI.Events;
+using StardewValley;
 
 #endregion using directives
 
@@ -25,12 +26,19 @@ internal sealed class ToolInventoryChangedEvent : InventoryChangedEvent
     /// <inheritdoc />
     protected override void OnInventoryChangedImpl(object? sender, InventoryChangedEventArgs e)
     {
-        if (e.IsLocalPlayer)
+        if (!e.IsLocalPlayer || ToolsModule.State.SelectableToolByType.Count == 0)
         {
-            e.Removed
-                .OfType<Tool>()
-                .Intersect(ToolsModule.State.SelectableTools)
-                .ForEach(t => ToolsModule.State.SelectableTools.Remove(t));
+            return;
+        }
+
+        foreach (var removed in e.Removed)
+        {
+            var type = removed.GetType();
+            if (removed is Tool && ToolsModule.State.SelectableToolByType.TryGetValue(type, out var selectable) &&
+                selectable?.Tool == removed)
+            {
+                ToolsModule.State.SelectableToolByType[type] = null;
+            }
         }
     }
 }

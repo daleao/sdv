@@ -3,6 +3,7 @@
 #region using directives
 
 using DaLion.Overhaul.Modules.Arsenal.Configs;
+using Microsoft.Xna.Framework;
 using Newtonsoft.Json;
 using StardewModdingAPI.Utilities;
 
@@ -26,6 +27,10 @@ public sealed class Config : Shared.Configs.Config
     /// <summary>Gets a value indicating whether to allow auto-selecting a weapon or slingshot.</summary>
     [JsonProperty]
     public bool EnableAutoSelection { get; internal set; } = true;
+
+    /// <summary>Gets the <see cref="Color"/> used to indicate tools enabled or auto-selection.</summary>
+    [JsonProperty]
+    public Color SelectionBorderColor { get; internal set; } = Color.Magenta;
 
     /// <summary>Gets a value indicating whether face the current cursor position before swinging your arsenal.</summary>
     [JsonProperty]

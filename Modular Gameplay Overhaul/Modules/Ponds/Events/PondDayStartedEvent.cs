@@ -24,8 +24,10 @@ internal sealed class PondDayStartedEvent : DayStartedEvent
     /// <inheritdoc />
     protected override void OnDayStartedImpl(object? sender, DayStartedEventArgs e)
     {
-        foreach (var building in Game1.getFarm().buildings)
+        var buildings = Game1.getFarm().buildings;
+        for (var i = 0; i < buildings.Count; i++)
         {
+            var building = buildings[i];
             if (building is FishPond pond && pond.IsOwnedBy(Game1.player) &&
                 !pond.isUnderConstruction())
             {

@@ -2,9 +2,10 @@
 
 #region using directives
 
+using System.Linq;
 using DaLion.Shared.Events;
+using DaLion.Shared.Extensions.Collections;
 using DaLion.Shared.Extensions.Stardew;
-using NetFabric.Hyperlinq;
 using StardewModdingAPI.Events;
 
 #endregion using directives
@@ -25,11 +26,10 @@ internal sealed class ToolSavingEvent : SavingEvent
     /// <inheritdoc />
     protected override void OnSavingImpl(object? sender, SavingEventArgs e)
     {
-        var slots = string.Join(
-            ',',
-            ToolsModule.State.SelectableTools
-                .AsValueEnumerable()
-                .Select(tool => Game1.player.Items.IndexOf(tool)));
-        Game1.player.Append(DataFields.SelectableSlots, slots);
+        Game1.player.Write(
+            DataFields.SelectableTools,
+            string.Join(
+                ',',
+                ToolsModule.State.SelectableToolByType.Values.WhereNotNull().Select(selectable => selectable.Index)));
     }
 }

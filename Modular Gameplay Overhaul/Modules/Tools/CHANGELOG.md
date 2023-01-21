@@ -1,5 +1,20 @@
 ﻿# Tools Module Change Log
 
+## 1.2.3
+
+## Added
+
+* Added auto-select compatibility for Dr. Birb's Upgradeable Ranching Tools and Upgradeable Pan.
+* Added the ability to customize the auto-selection border color.
+
+## Changed
+
+* Auto-selectable cache now uses Dictionary instead of Hash Set for much better performance.
+
+## Fixed
+
+* Fixed a possible memory leak in tool auto-selection logic.
+
 ## 1.2.0
 
 ### Added

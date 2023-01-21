@@ -68,7 +68,6 @@ internal sealed class AdvanceQuestCommand : ConsoleCommand
                 player.Write(DataFields.ProvenGenerosity, true.ToString());
                 player.Write(DataFields.ProvenValor, true.ToString());
                 Virtue.List.ForEach(virtue => virtue.CheckForCompletion(Game1.player));
-                player.completeQuest(Constants.VirtuesNextQuestId);
                 break;
         }
     }

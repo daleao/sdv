@@ -64,8 +64,10 @@ internal sealed class LevelUpMenuRevalidateHealthPatcher : HarmonyPatcher
 
         try
         {
-            foreach (var building in Game1.getFarm().buildings)
+            var buildings = Game1.getFarm().buildings;
+            for (var i = 0; i < buildings.Count; i++)
             {
+                var building = buildings[i];
                 if (building is not FishPond pond ||
                     !(pond.IsOwnedBy(farmer) || ProfessionsModule.Config.LaxOwnershipRequirements) ||
                     pond.isUnderConstruction())

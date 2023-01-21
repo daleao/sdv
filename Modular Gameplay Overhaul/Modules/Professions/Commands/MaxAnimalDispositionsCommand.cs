@@ -35,8 +35,10 @@ internal sealed class MaxAnimalDispositionsCommand : ConsoleCommand
 
         var both = args.Length == 0 || string.Equals(args[0], "both", StringComparison.InvariantCultureIgnoreCase);
         var count = 0;
-        foreach (var animal in Game1.getFarm().getAllFarmAnimals())
+        var list = Game1.getFarm().getAllFarmAnimals();
+        for (var i = 0; i < list.Count; i++)
         {
+            var animal = list[i];
             if (!animal.IsOwnedBy(Game1.player))
             {
                 continue;

@@ -41,6 +41,8 @@ internal sealed class DataFields
     internal const string ProvenGenerosity = "ProvenGenerosity"; // awarded before the mail flag `pamHouseUpgrade`
     internal const string ProvenValor = "ProvenValor"; // awarded after 5th monster slayer quest completion
 
+    internal const string SelectableArsenal = "SelectableArsenal";
+
     #endregion arsenal
 
     #region ponds
@@ -69,7 +71,7 @@ internal sealed class DataFields
 
     #region tools
 
-    internal const string SelectableSlots = "SelectableSlots";
+    internal const string SelectableTools = "SelectableTools";
 
     #endregion tools
 

@@ -48,24 +48,41 @@ internal sealed class CrabPotCheckForActionPatcher : HarmonyPatcher
 
             var item = __instance.heldObject.Value;
             bool addedToInventory;
-            if (__instance.heldObject.Value.ParentSheetIndex.IsIn(14, 51))
+            switch (__instance.heldObject.Value.ParentSheetIndex)
             {
-                // caught a weapon
-                var weapon = new MeleeWeapon(__instance.heldObject.Value.ParentSheetIndex) { specialItem = true };
-                addedToInventory = who.addItemToInventoryBool(weapon);
-                who.mostRecentlyGrabbedItem = weapon;
-            }
-            else if (__instance.heldObject.Value.ParentSheetIndex
-                     .IsIn(516, 517, 518, 519, 527, 529, 530, 531, 532, 533, 534))
-            {
-                // caught a ring
-                var ring = new Ring(__instance.heldObject.Value.ParentSheetIndex);
-                addedToInventory = who.addItemToInventoryBool(ring);
-                who.mostRecentlyGrabbedItem = ring;
-            }
-            else
-            {
-                addedToInventory = who.addItemToInventoryBool(item);
+                case Constants.NeptunesGlaiveIndex:
+                case Constants.BrokenTridentIndex:
+                    // caught a weapon
+                    var weapon = new MeleeWeapon(__instance.heldObject.Value.ParentSheetIndex);
+                    if (ArsenalModule.IsEnabled && weapon.InitialParentTileIndex == Constants.NeptunesGlaiveIndex)
+                    {
+                        weapon.specialItem = true;
+                    }
+
+                    addedToInventory = who.addItemToInventoryBool(weapon);
+                    who.mostRecentlyGrabbedItem = weapon;
+                    break;
+
+                case 516:
+                case 517:
+                case 518:
+                case 519:
+                case 527:
+                case 529:
+                case 530:
+                case 531:
+                case 532:
+                case 533:
+                case 534:
+                    // caught a ring
+                    var ring = new Ring(__instance.heldObject.Value.ParentSheetIndex);
+                    addedToInventory = who.addItemToInventoryBool(ring);
+                    who.mostRecentlyGrabbedItem = ring;
+                    break;
+
+                default:
+                    addedToInventory = who.addItemToInventoryBool(item);
+                    break;
             }
 
             __instance.heldObject.Value = null;

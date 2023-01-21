@@ -5,6 +5,8 @@
 using DaLion.Overhaul.Modules.Tools;
 using DaLion.Overhaul.Modules.Tools.Integrations;
 using HarmonyLib;
+using Microsoft.Xna.Framework;
+using Shared.Integrations.GenericModConfigMenu;
 
 #endregion using directives
 
@@ -47,11 +49,12 @@ internal sealed partial class GenericModConfigMenuCore
                 0,
                 10)
 
-            // keybinds
+            // controls
             .AddSectionTitle(() => "Control Settings")
             .AddKeyBinding(
                 () => "Mod Key",
-                () => "The key used for indicating auto-selectable tools, as well as for charging resource tools, if either of those options is enabled.",
+                () =>
+                    "The key used for indicating auto-selectable tools, as well as for charging resource tools, if either of those options is enabled.",
                 config => config.Tools.ModKey,
                 (config, value) => config.Tools.ModKey = value)
             .AddCheckbox(
@@ -64,9 +67,16 @@ internal sealed partial class GenericModConfigMenuCore
                     config.Tools.EnableAutoSelection = value;
                     if (!value)
                     {
-                        ToolsModule.State.SelectableTools.Clear();
+                        ToolsModule.State.SelectableToolByType.Clear();
                     }
                 })
+            .AddColorPicker(
+                () => "Selection Border Color",
+                () => "The color used to indicate a weapon or slingshot that may be auto-selected.",
+                config => config.Tools.SelectionBorderColor,
+                (config, value) => config.Tools.SelectionBorderColor = value,
+                Color.Magenta,
+                colorPickerStyle: (uint)IGenericModConfigMenuOptionsApi.ColorPickerStyle.RGBSliders)
             .AddCheckbox(
                 () => "Charging Requires ModKey",
                 () => "Whether charging requires holding down a mod key.",

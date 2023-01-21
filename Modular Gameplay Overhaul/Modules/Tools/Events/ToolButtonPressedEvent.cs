@@ -41,16 +41,16 @@ internal sealed class ToolButtonPressedEvent : ButtonPressedEvent
             player.FaceTowardsTile(Game1.currentCursorTile);
         }
 
-        if (!ToolsModule.Config.EnableAutoSelection || ToolsModule.State.SelectableTools.Count <= 0 ||
-            !(ToolsModule.State.SelectableTools.Contains(tool) || ArsenalModule.State.SelectableArsenal == tool))
+        if (!ToolsModule.Config.EnableAutoSelection ||
+            !(ToolsModule.State.SelectableToolByType.ContainsKey(tool.GetType()) ||
+              ArsenalModule.State.SelectableArsenal == tool))
         {
             return;
         }
 
-        var toolIndex = ToolSelector.SmartSelect(e.Cursor.GrabTile, Game1.player, Game1.player.currentLocation);
-        if (toolIndex >= 0)
+        if (ToolSelector.TryFor(e.Cursor.GrabTile, Game1.player, Game1.player.currentLocation, out var selectable))
         {
-            Game1.player.CurrentToolIndex = toolIndex;
+            Game1.player.CurrentToolIndex = selectable.Value.Index;
         }
     }
 }

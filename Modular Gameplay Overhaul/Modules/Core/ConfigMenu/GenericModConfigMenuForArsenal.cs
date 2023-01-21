@@ -6,6 +6,8 @@ using DaLion.Overhaul.Modules.Arsenal;
 using DaLion.Overhaul.Modules.Arsenal.Configs;
 using DaLion.Overhaul.Modules.Arsenal.Integrations;
 using DaLion.Shared.Extensions.SMAPI;
+using DaLion.Shared.Integrations.GenericModConfigMenu;
+using Microsoft.Xna.Framework;
 using StardewValley.Objects;
 
 #endregion using directives
@@ -38,6 +40,13 @@ internal sealed partial class GenericModConfigMenuCore
                         ArsenalModule.State.SelectableArsenal = null;
                     }
                 })
+            .AddColorPicker(
+                () => "Selection Border Color",
+                () => "The color used to indicate a weapon or slingshot that may be auto-selected.",
+                config => config.Arsenal.SelectionBorderColor,
+                (config, value) => config.Arsenal.SelectionBorderColor = value,
+                Color.Magenta,
+                colorPickerStyle: (uint)IGenericModConfigMenuOptionsApi.ColorPickerStyle.RGBSliders)
             .AddCheckbox(
                 () => "Face Towards Mouse Cursor",
                 () =>

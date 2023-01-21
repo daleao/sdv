@@ -33,8 +33,10 @@ internal sealed class UpdateMaxOccupancyCommand : ConsoleCommand
         }
 
         var count = 0;
-        foreach (var building in Game1.getFarm().buildings)
+        var buildings = Game1.getFarm().buildings;
+        for (var i = 0; i < buildings.Count; i++)
         {
+            var building = buildings[i];
             if (building is not FishPond pond || !pond.IsOwnedBy(Game1.player) ||
                 pond.isUnderConstruction())
             {

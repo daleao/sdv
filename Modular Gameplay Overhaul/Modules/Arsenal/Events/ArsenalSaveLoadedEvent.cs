@@ -66,23 +66,23 @@ internal sealed class ArsenalSaveLoadedEvent : SaveLoadedEvent
             return;
         }
 
-        var slots = Game1.player.Read(DataFields.SelectableSlots).ParseList<int>();
-        if (slots.Count == 0)
+        var indices = Game1.player.Read(DataFields.SelectableArsenal).ParseList<int>();
+        if (indices.Count == 0)
         {
             return;
         }
 
-        var leftover = slots.ToList();
-        for (var i = 0; i < slots.Count; i++)
+        var leftover = indices.ToList();
+        for (var i = 0; i < indices.Count; i++)
         {
-            var slot = slots[i];
-            if (slot < 0)
+            var index = indices[i];
+            if (index < 0)
             {
-                leftover.Remove(slot);
+                leftover.Remove(index);
                 continue;
             }
 
-            var item = Game1.player.Items[slot];
+            var item = Game1.player.Items[index];
             if (item is not (Tool tool and (MeleeWeapon or Slingshot)))
             {
                 continue;
@@ -94,10 +94,10 @@ internal sealed class ArsenalSaveLoadedEvent : SaveLoadedEvent
             }
 
             ArsenalModule.State.SelectableArsenal = tool;
-            leftover.Remove(slot);
+            leftover.Remove(index);
             break;
         }
 
-        Game1.player.Write(DataFields.SelectableSlots, string.Join(',', leftover));
+        Game1.player.Write(DataFields.SelectableArsenal, string.Join(',', leftover));
     }
 }

@@ -77,8 +77,8 @@ internal class NetListWatcher<TValue> : DisposableWatcher, ICollectionWatcher<TV
     /// <param name="newValues">The new list of values.</param>
     private void OnArrayReplaced(NetList<TValue, NetRef<TValue>> list, IList<TValue> oldValues, IList<TValue> newValues)
     {
-        ISet<TValue> oldSet = new HashSet<TValue>(oldValues, new ObjectReferenceComparer<TValue>());
-        ISet<TValue> changed = new HashSet<TValue>(newValues, new ObjectReferenceComparer<TValue>());
+        var oldSet = new HashSet<TValue>(oldValues, new ObjectReferenceComparer<TValue>());
+        var changed = new HashSet<TValue>(newValues, new ObjectReferenceComparer<TValue>());
 
         foreach (var value in oldSet)
         {

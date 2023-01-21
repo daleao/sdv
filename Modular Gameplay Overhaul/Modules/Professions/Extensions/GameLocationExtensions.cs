@@ -106,8 +106,9 @@ internal static class GameLocationExtensions
             var seasonalFishData = locationData[location.NameOrUniqueName]
                 .SplitWithoutAllocation('/')[4 + i]
                 .Split(' ');
-            foreach (var fish in seasonalFishData)
+            for (var j = 0; j < seasonalFishData.Length; j++)
             {
+                var fish = seasonalFishData[j];
                 allSeasonFish = string.Concat(allSeasonFish.AsSpan(), " ".AsSpan(), fish);
             }
         }

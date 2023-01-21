@@ -93,7 +93,7 @@ internal sealed class InventoryPageDrawPatcher : HarmonyPatcher
             var item = Game1.player.Items[slotNumber];
             if (item is Tool tool && ArsenalModule.State.SelectableArsenal == tool)
             {
-                component.bounds.DrawBorder(Pixel.Value, 3, Color.Magenta, b);
+                component.bounds.DrawBorder(Pixel.Value, 3, ArsenalModule.Config.SelectionBorderColor, b);
             }
         }
     }

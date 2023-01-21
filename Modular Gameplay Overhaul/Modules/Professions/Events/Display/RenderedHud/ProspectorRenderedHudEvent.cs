@@ -46,8 +46,9 @@ internal sealed class ProspectorRenderedHudEvent : RenderedHudEvent
         }
 
         // track resource clumps
-        foreach (var clump in Game1.currentLocation.resourceClumps)
+        for (var i = 0; i < Game1.currentLocation.resourceClumps.Count; i++)
         {
+            var clump = Game1.currentLocation.resourceClumps[i];
             if (!Collections.ResourceClumpIds.Contains(clump.parentSheetIndex.Value))
             {
                 continue;

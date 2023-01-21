@@ -5,7 +5,7 @@
 using System.Linq;
 using DaLion.Overhaul.Modules.Professions;
 using DaLion.Shared.Extensions.SMAPI;
-using Shared.Extensions.Stardew;
+using DaLion.Shared.Extensions.Stardew;
 using StardewValley.Buildings;
 
 #endregion using directives
@@ -161,8 +161,10 @@ internal sealed partial class GenericModConfigMenuCore
                         return;
                     }
 
-                    foreach (var building in Game1.getFarm().buildings)
+                    var buildings = Game1.getFarm().buildings;
+                    for (var i = 0; i < buildings.Count; i++)
                     {
+                        var building = buildings[i];
                         if (building is FishPond pond &&
                             (pond.IsOwnedBy(Game1.player) || config.Professions.LaxOwnershipRequirements) &&
                             !pond.isUnderConstruction())

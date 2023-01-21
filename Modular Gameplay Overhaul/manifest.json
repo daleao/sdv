@@ -10,7 +10,7 @@
   "UniqueID": "DaLion.Overhaul",
   "Name": "MARGO :: Modular Gameplay Overhaul",
   "Author": "DaLion",
-  "Version": "1.2.1",
+  "Version": "1.2.3-Debug",
   "Description": "An immersive gameplay overhaul, broken down into modules.",
   "MinimumApiVersion": "3.18.0",
   "EntryDll": "DaLion.Overhaul.dll",

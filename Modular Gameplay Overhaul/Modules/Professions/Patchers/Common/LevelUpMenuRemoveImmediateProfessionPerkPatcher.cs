@@ -50,8 +50,10 @@ internal sealed class LevelUpMenuRemoveImmediateProfessionPerkPatcher : HarmonyP
         profession
             .When(Profession.Aquarist).Then(() =>
             {
-                foreach (var building in Game1.getFarm().buildings)
+                var buildings = Game1.getFarm().buildings;
+                for (var i = 0; i < buildings.Count; i++)
                 {
+                    var building = buildings[i];
                     if (building is not FishPond pond ||
                         !(pond.IsOwnedBy(Game1.player) || ProfessionsModule.Config.LaxOwnershipRequirements) ||
                         pond.isUnderConstruction() || pond.maxOccupants.Value <= 10)

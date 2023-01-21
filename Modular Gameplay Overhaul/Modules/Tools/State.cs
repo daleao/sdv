@@ -11,5 +11,5 @@ internal sealed class State
 {
     internal List<Shockwave> Shockwaves { get; } = new();
 
-    internal HashSet<Tool> SelectableTools { get; } = new();
+    internal Dictionary<Type, SelectableTool?> SelectableToolByType { get; } = new();
 }

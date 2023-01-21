@@ -25,8 +25,9 @@ internal sealed class ManualDetonationUpdateTickedEvent : UpdateTickedEvent
             return;
         }
 
-        foreach (var sprite in Game1.currentLocation.TemporarySprites)
+        for (var i = 0; i < Game1.currentLocation.TemporarySprites.Count; i++)
         {
+            var sprite = Game1.currentLocation.TemporarySprites[i];
             if (sprite.bombRadius > 0 && sprite.totalNumberOfLoops == int.MaxValue)
             {
                 sprite.currentNumberOfLoops = sprite.totalNumberOfLoops - 1;

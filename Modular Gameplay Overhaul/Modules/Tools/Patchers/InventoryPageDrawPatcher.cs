@@ -76,7 +76,7 @@ internal sealed class InventoryPageDrawPatcher : HarmonyPatcher
 
     private static void DrawSelectors(InventoryPage __instance, SpriteBatch b)
     {
-        if (ToolsModule.State.SelectableTools.Count == 0)
+        if (ToolsModule.State.SelectableToolByType.Count == 0)
         {
             return;
         }
@@ -91,9 +91,10 @@ internal sealed class InventoryPageDrawPatcher : HarmonyPatcher
             }
 
             var item = Game1.player.Items[slotNumber];
-            if (item is Tool tool && ToolsModule.State.SelectableTools.Contains(tool))
+            if (item is Tool tool &&
+                ToolsModule.State.SelectableToolByType.TryGetValue(tool.GetType(), out var selectable) && selectable.HasValue)
             {
-                component.bounds.DrawBorder(Pixel.Value, 3, Color.Magenta, b);
+                component.bounds.DrawBorder(Pixel.Value, 3, ToolsModule.Config.SelectionBorderColor, b);
             }
         }
     }

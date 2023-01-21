@@ -2,6 +2,7 @@
 
 #region using directives
 
+using System.Globalization;
 using Microsoft.Xna.Framework;
 
 #endregion using directives
@@ -173,6 +174,75 @@ public static class ColorExtensions
                 break;
         }
 
+        return color;
+    }
+
+    /// <summary>Converts RGB color values to an HTML string.</summary>
+    /// <param name="color">The <see cref="Color"/>.</param>
+    /// <returns>An HTML string which represents the <paramref name="color"/>.</returns>
+    public static string ToHtml(this Color color)
+    {
+        return $"#{color.R:X2}{color.G:X2}{color.B:X2}{color.A:X2}";
+    }
+
+    /// <summary>Initializes the <paramref name="color"/> using the specified HTML string.</summary>
+    /// <param name="color">The <see cref="Color"/>.</param>
+    /// <param name="html">An HTML color string.</param>
+    /// <returns>The same <paramref name="color"/> instance, initialized from the specified HTML string.</returns>
+    /// <exception cref="InvalidOperationException">If the input html string is invalid.</exception>
+    public static Color FromHtml(this Color color, string html)
+    {
+        if (!html.StartsWith('#'))
+        {
+            return ThrowHelper.ThrowInvalidOperationException<Color>("HTML code must begin with '#'.");
+        }
+
+        int len;
+        var hasAlpha = false;
+        switch (html.Length)
+        {
+            case 4:
+                len = 1;
+                break;
+            case 5:
+                len = 1;
+                hasAlpha = true;
+                break;
+            case 7:
+                len = 2;
+                break;
+            case 9:
+                len = 2;
+                hasAlpha = true;
+                break;
+            default:
+                return ThrowHelper.ThrowInvalidOperationException<Color>($"HTML code '{html}' has invalid length.");
+        }
+
+        byte[] array = { 255, 255, 255, 255 };
+        for (var i = 0; i < 4; i++)
+        {
+            if (i == 3 && !hasAlpha)
+            {
+                break;
+            }
+
+            if (!byte.TryParse(
+                    html.AsSpan().Slice((i * len) + 1, len),
+                    NumberStyles.HexNumber,
+                    CultureInfo.InvariantCulture,
+                    out var parsed))
+            {
+                return ThrowHelper.ThrowInvalidOperationException<Color>($"Failed to parse HTML code '{html}'.");
+            }
+
+            array[i] = len == 2 ? parsed : (byte)(parsed * 0x11);
+        }
+
+        color.R = array[0];
+        color.G = array[1];
+        color.B = array[2];
+        color.A = array[3];
         return color;
     }
 }

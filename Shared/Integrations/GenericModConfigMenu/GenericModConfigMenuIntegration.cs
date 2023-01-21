@@ -3,6 +3,8 @@
 #region using directives
 
 using DaLion.Shared.Attributes;
+using DaLion.Shared.Extensions.Xna;
+using Microsoft.Xna.Framework;
 using StardewModdingAPI.Utilities;
 
 #endregion using directives
@@ -29,7 +31,11 @@ internal abstract class GenericModConfigMenuIntegration<TGenericModConfigMenu, T
         : base("spacechase0.GenericModConfigMenu", "GenericModConfigMenu", "1.6.0", modRegistry)
     {
         this._consumerManifest = consumerManifest;
+        GenericModConfigMenuOptions.Instance?.Register();
     }
+
+    /// <summary>Gets the API for registering complex options.</summary>
+    private static IGenericModConfigMenuOptionsApi? ComplexOptions => GenericModConfigMenuOptions.Instance?.ModApi;
 
     /// <summary>Registers the mod config.</summary>
     /// <param name="titleScreenOnly">Whether the options can only be edited from the title screen.</param>
@@ -296,6 +302,53 @@ internal abstract class GenericModConfigMenuIntegration<TGenericModConfigMenu, T
         return (TGenericModConfigMenu)this;
     }
 
+    /// <summary>Adds a color picking option to the form.</summary>
+    /// <param name="name">The label text to show in the form.</param>
+    /// <param name="tooltip">The tooltip text shown when the cursor hovers on the field.</param>
+    /// <param name="get">GetInstructions the current value from the mod config.</param>
+    /// <param name="set">Set a new value in the mod config.</param>
+    /// <param name="fallback">A fallback value in case the user's input is invalid.</param>
+    /// <param name="showAlpha">If GMCM Options is installed, show the alpha picker or not.</param>
+    /// <param name="colorPickerStyle">GMCM Option's picker style.</param>
+    /// <param name="id">An optional id for this field.</param>
+    /// <returns>The <typeparamref name="TGenericModConfigMenu"/> instance.</returns>
+    protected TGenericModConfigMenu AddColorPicker(
+        Func<string> name,
+        Func<string> tooltip,
+        Func<TConfig, Color> get,
+        Action<TConfig, Color> set,
+        Color fallback,
+        bool showAlpha = true,
+        uint colorPickerStyle = 0,
+        string? id = null)
+    {
+        this.AssertRegistered();
+        if (ComplexOptions is not null)
+        {
+            ComplexOptions.AddColorOption(
+                this._consumerManifest,
+                getValue: () => get(this.GetConfig()),
+                setValue: value => set(this.GetConfig(), value),
+                name: name,
+                tooltip: tooltip,
+                showAlpha: showAlpha,
+                colorPickerStyle: colorPickerStyle,
+                fieldId: id);
+        }
+        else
+        {
+            this.ModApi.AddTextOption(
+                this._consumerManifest,
+                name: name,
+                tooltip: tooltip,
+                getValue: () => get(this.GetConfig()).ToHtml(),
+                setValue: value => set(this.GetConfig(), value.TryGetColorFromHtml(out var color) ? color : fallback),
+                fieldId: id);
+        }
+
+        return (TGenericModConfigMenu)this;
+    }
+
     /// <summary>Sets whether the options registered after this point can only be edited from the title screen.</summary>
     /// <param name="titleScreenOnly">Whether the options can only be edited from the title screen.</param>
     /// <remarks>This lets you have different values per-field. Most mods should just set it once in <see cref="Register"/>.</remarks>
@@ -327,4 +380,13 @@ internal abstract class GenericModConfigMenuIntegration<TGenericModConfigMenu, T
 
     /// <summary>Save and apply the current config model.</summary>
     protected abstract void SaveAndApply();
+
+    [RequiresMod("jltaylor-us.GMCMOptions", "GMCM Options")]
+    internal sealed class GenericModConfigMenuOptions : ModIntegration<GenericModConfigMenuOptions, IGenericModConfigMenuOptionsApi>
+    {
+        private GenericModConfigMenuOptions()
+            : base("jltaylor-us.GMCMOptions", "GMCM Options", "1.2.0", ModHelper.ModRegistry)
+        {
+        }
+    }
 }

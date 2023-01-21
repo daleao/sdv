@@ -60,23 +60,27 @@ internal sealed class InventoryPageReceiveClickPatcher : HarmonyPatcher
             return true; // run original logic
         }
 
-        if (ToolsModule.State.SelectableTools.Contains(tool))
+        var toolIndex = Game1.player.Items.IndexOf(tool);
+        var type = tool.GetType();
+        if (type.Name.Contains("Pan") && type != typeof(Pan))
         {
-            ToolsModule.State.SelectableTools.Remove(tool);
-            if (playSound)
-            {
-                Game1.playSound("smallSelect");
-            }
-
-            return false; // don't run original logic
+            type = typeof(Pan);
+        }
+        else if (type.Name.Contains("Pail") && type != typeof(MilkPail))
+        {
+            type = typeof(MilkPail);
+        }
+        else if (type.Name.Contains("Shears") && type != typeof(Shears))
+        {
+            type = typeof(Shears);
         }
 
-        if (ToolsModule.State.SelectableTools.ContainsType(tool.GetType()))
-        {
-            ToolsModule.State.SelectableTools.RemoveTypes(tool.GetType());
-        }
+        ToolsModule.State.SelectableToolByType[type] =
+            ToolsModule.State.SelectableToolByType.TryGetValue(type, out var selectable) &&
+            selectable?.Tool == tool
+                ? null
+                : new SelectableTool(tool, toolIndex);
 
-        ToolsModule.State.SelectableTools.Add(tool);
         if (playSound)
         {
             Game1.playSound("smallSelect");

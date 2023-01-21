@@ -26,10 +26,14 @@ internal sealed class MeleeWeaponCtorPatcher : HarmonyPatcher
     private static void MeleeWeaponCtorPostfix(MeleeWeapon __instance)
     {
         if (ArsenalModule.Config.Weapons.EnableRebalance &&
-            __instance.InitialParentTileIndex == Constants.InsectHeadIndex)
+            __instance.InitialParentTileIndex is Constants.InsectHeadIndex or Constants.NeptunesGlaiveIndex)
         {
-            __instance.type.Value = MeleeWeapon.dagger;
             __instance.specialItem = true;
+            if (__instance.InitialParentTileIndex == Constants.InsectHeadIndex)
+            {
+                __instance.type.Value = MeleeWeapon.dagger;
+            }
+
             return;
         }
 
