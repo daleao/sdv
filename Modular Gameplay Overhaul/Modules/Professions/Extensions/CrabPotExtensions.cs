@@ -115,8 +115,13 @@ internal static class CrabPotExtensions
 
         var keys = rawFishDataWithLocation.Keys.ToArray();
         Utility.Shuffle(r, keys);
-        for (var i = 0; i < 2; i++)
+        for (var i = 0; i < keys.Length; i++)
         {
+            if (i == 2)
+            {
+                break;
+            }
+
             var key = keys[i];
             var specificFishDataFields = fishData[Convert.ToInt32(key)].SplitWithoutAllocation('/');
             if (Collections.LegendaryFishNames.Contains(specificFishDataFields[0].ToString()))

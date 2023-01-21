@@ -5,6 +5,7 @@
 using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
+using Arsenal.Enchantments;
 using DaLion.Overhaul.Modules.Arsenal.Extensions;
 using DaLion.Shared.Extensions.Reflection;
 using DaLion.Shared.Harmony;
@@ -29,6 +30,24 @@ internal sealed class FarmerTakeDamagePatcher : HarmonyPatcher
     private static bool FarmerTakeDamagePrefix(Farmer __instance)
     {
         return __instance.CurrentTool is not MeleeWeapon { type.Value: MeleeWeapon.stabbingSword, isOnSpecial: true };
+    }
+
+    /// <summary>Grant i-frames during Stabbing Sword lunge.</summary>
+    [HarmonyPostfix]
+    private static void FarmerTakeDamagePostfix(Farmer __instance)
+    {
+        if (__instance.CurrentTool is not { } tool)
+        {
+            return;
+        }
+
+        var tribute = tool.GetEnchantmentOfType<TributeEnchantment>();
+        if (tribute is null)
+        {
+            return;
+        }
+
+        tribute.Threshold = 0;
     }
 
     /// <summary>Overhaul for farmer defense.</summary>

@@ -92,6 +92,7 @@ public class EnergizedEnchantment : BaseWeaponEnchantment
     /// <inheritdoc />
     protected override void _OnUnequip(Farmer who)
     {
+        base._OnUnequip(who);
         if (!who.IsLocalPlayer)
         {
             return;

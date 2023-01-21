@@ -221,7 +221,7 @@ Enchantments have been almost entirely overhauled. Hopefully these enchantments 
 | Carving   | Attacks on-hit reduce enemy defense, down to a minimum of -1. Armored enemies (i.e., Armored Bugs and shelled Rock Crabs) lose their armor upon hitting 0 defense. |
 | Cleaving  | Attacks on-hit spread 60% - 20% (based on distance) of the damage to other enemies around the target. |
 | Energized | Moving and attacking generates Energize stacks, up to 100. At maximum stacks, the next attack causes an electric discharge, dealing heavy damage in a large area. |
-| Tribute | Attacks that would leave an enemy below 10% max health immediately execute the enemy, converting the remaining health into gold. |
+| Tribute | Attacks that would leave an enemy below 10% max health immediately execute the enemy, converting the remaining health into gold. This threshold increases by 1% with each consecutive kill, resetting when you take damage. |
 | Bloodthirsty | Attacks on-hit steal 5% of enemies' current health. Excess healing is converted into a shield for up to 20% of (the player's) max health, which slowly decays after not dealing or taking damage for 25s. |
 
 \* **Offensive Swords:** Dash distance +20%. **Defensive Swords:** Successful parries stun enemies for 1s. **Daggers:** Quick stab hit count +2. **Clubs:** Smash AoE + 50%.

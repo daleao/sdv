@@ -14,7 +14,7 @@ using StardewValley.Monsters;
 [XmlType("Mods_DaLion_TributeEnchantment")]
 public class TributeEnchantment : BaseWeaponEnchantment
 {
-    private readonly Random _random = new(Guid.NewGuid().GetHashCode());
+    internal float Threshold { get; set; } = 0.1f;
 
     /// <inheritdoc />
     public override string GetName()
@@ -25,7 +25,7 @@ public class TributeEnchantment : BaseWeaponEnchantment
     /// <inheritdoc />
     protected override void _OnDealDamage(Monster monster, GameLocation location, Farmer who, ref int amount)
     {
-        var tribute = (int)((monster.MaxHealth * 0.1f) - monster.Health);
+        var tribute = (int)((monster.MaxHealth * this.Threshold) - monster.Health);
         if (tribute <= 0)
         {
             return;
@@ -33,5 +33,21 @@ public class TributeEnchantment : BaseWeaponEnchantment
 
         monster.Health = 0;
         who.Money += tribute;
+    }
+
+    /// <inheritdoc />
+    protected override void _OnMonsterSlay(Monster m, GameLocation location, Farmer who)
+    {
+        this.Threshold += 0.01f;
+    }
+
+    /// <inheritdoc />
+    protected override void _OnUnequip(Farmer who)
+    {
+        base._OnUnequip(who);
+        if (who.IsLocalPlayer)
+        {
+            this.Threshold = 0;
+        }
     }
 }

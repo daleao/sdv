@@ -6,7 +6,11 @@
 
 * Added some emote bubbles to spice up Blade of the Ruined Hero and Clint's Forge events.
 * Added the ability to customize the auto-selection border color.
-* 
+
+## Changed
+
+* Tribute enchantment threshold now inreases with each kill, and resets on taking damage.
+
 ### Fixed
 
 * Blade of the Ruined Hero introduction event is no longer skippable.
