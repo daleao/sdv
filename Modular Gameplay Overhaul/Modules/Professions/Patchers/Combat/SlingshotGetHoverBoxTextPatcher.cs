@@ -41,7 +41,7 @@ internal sealed class SlingshotGetHoverBoxTextPatcher : HarmonyPatcher
                             "Strings\\StringsFromCSFiles:Slingshot.cs.14258",
                             __instance.attachments[0].DisplayName);
                     }
-                    else if (__instance.numAttachmentSlots.Value > 1 && __instance.attachments[1] is not null)
+                    else if (__instance.attachments.Length > 1 && __instance.attachments[1] is not null)
                     {
                         __result = Game1.content.LoadString(
                             "Strings\\StringsFromCSFiles:Slingshot.cs.14258",

@@ -16,8 +16,8 @@ internal static class TreeExtensions
     /// <returns><see langword="true"/> if the <paramref name="tree"/> is not yet fully mature and environment conditions are suitable for growth, otherwise <see langword="false"/>.</returns>
     internal static bool CanGrow(this Tree tree)
     {
-        var tileLocation = tree.currentTileLocation;
         var environment = tree.currentLocation;
+        var tileLocation = tree.currentTileLocation;
         if (Game1.GetSeasonForLocation(tree.currentLocation) == "winter" &&
             !tree.treeType.Value.IsIn(Tree.palmTree, Tree.palmTree2) &&
             !environment.CanPlantTreesHere(-1, (int)tileLocation.X, (int)tileLocation.Y) &&
@@ -27,7 +27,7 @@ internal static class TreeExtensions
         }
 
         var s = environment.doesTileHaveProperty((int)tileLocation.X, (int)tileLocation.Y, "NoSpawn", "Back");
-        if (s is not null && s.IsIn("All", "Tree", "True"))
+        if (s?.IsIn("All", "Tree", "True") == true)
         {
             return false;
         }

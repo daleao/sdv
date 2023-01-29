@@ -57,7 +57,7 @@ internal sealed class BushMachineGetOutputPatcher : HarmonyPatcher
                             OpCodes.Call,
                             typeof(BushMachineGetOutputPatcher).RequireMethod(nameof(GetOutputSubroutine))),
                     })
-                .Match(new[] { new CodeInstruction(OpCodes.Ldc_I4_4) }, out var count)
+                .Count(new[] { new CodeInstruction(OpCodes.Ldc_I4_4) }, out var count)
                 .Remove(count)
                 .StripLabels();
         }

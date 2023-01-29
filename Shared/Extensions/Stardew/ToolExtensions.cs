@@ -4,12 +4,21 @@
 
 using System.Linq;
 using DaLion.Shared.Extensions.Collections;
+using StardewValley.Tools;
 
 #endregion using directives
 
 /// <summary>Extensions for <see cref="Tool"/> class.</summary>
-public static class ToolEnchantments
+public static class ToolExtensions
 {
+    /// <summary>Determines whether the specified <paramref name="tool"/> is a scythe.</summary>
+    /// <param name="tool">The <see cref="Tool"/>.</param>
+    /// <returns><see langword="true"/> if the <paramref name="tool"/> is a scythe, otherwise <see langword="false"/>.</returns>
+    public static bool IsScythe(this Tool tool)
+    {
+        return tool is MeleeWeapon weapon && weapon.isScythe();
+    }
+
     /// <summary>Determines whether the specified <paramref name="tool"/> contains any enchantment of the specified <paramref name="enchantmentTypes"/>.</summary>
     /// <param name="tool">The <see cref="Tool"/>.</param>
     /// <param name="enchantmentTypes">The types of the enchantments to search for.</param>

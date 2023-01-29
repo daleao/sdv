@@ -50,7 +50,7 @@ internal sealed class LevelUpMenuDrawPatcher : HarmonyPatcher
             helper
                 .Match(new[] { new CodeInstruction(OpCodes.Stloc_1) })
                 .Match(new[] { new CodeInstruction(OpCodes.Ldsfld) }, ILHelper.SearchOption.Previous)
-                .Match(new[] { new CodeInstruction(OpCodes.Callvirt) }, out var count)
+                .Count(new[] { new CodeInstruction(OpCodes.Callvirt) }, out var count)
                 .Remove(count)
                 .Insert(
                     new[]

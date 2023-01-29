@@ -27,8 +27,8 @@ internal sealed class SlingshotGetAutoFireRatePatcher : HarmonyPatcher
     {
         var firer = __instance.getLastFarmerToUse();
         var ultimate = ProfessionsModule.IsEnabled ? firer.Get_Ultimate() : null;
-        if ((ultimate is not null && ultimate.Index == Farmer.desperado &&
-             ultimate.IsActive) || !__instance.hasEnchantmentOfType<GatlingEnchantment>())
+        if (ultimate is { Index: Farmer.desperado, IsActive: true } ||
+            !__instance.hasEnchantmentOfType<GatlingEnchantment>())
         {
             return;
         }

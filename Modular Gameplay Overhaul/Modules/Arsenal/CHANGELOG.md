@@ -1,5 +1,16 @@
 ﻿# Arsenal Change Log
 
+## 1.3.0
+
+### Changed
+
+* Doubled the drop chance of Lava Katana.
+
+### Fixed
+
+* Fixed a bug preventing explosive ammo from exploding without the Desperado profession.
+* Fixed a bug with Obsidian Edge and Lava Katana drops creating error daggers instead.
+
 ## 1.2.3
 
 ### Added

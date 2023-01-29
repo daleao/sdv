@@ -36,7 +36,7 @@ internal sealed class FishingRodStartMinigameEndFunctionPatcher : HarmonyPatcher
             helper // find index of pirate check
                 .MatchProfessionCheck(Farmer.pirate)
                 .Move(-2)
-                .Match(new[] { new CodeInstruction(OpCodes.Add) }, out var count)
+                .Count(new[] { new CodeInstruction(OpCodes.Add) }, out var count)
                 .Remove(count); // remove this check
         }
         catch (Exception ex)

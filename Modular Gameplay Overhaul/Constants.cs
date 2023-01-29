@@ -28,6 +28,9 @@ public sealed class Constants
     public const int PineappleIndex = 832;
     public const int MangoIndex = 834;
 
+    // flower
+    public const int SunflowerIndex = 421;
+
     // resources
     public const int HardwoodIndex = 709;
     public const int SlimeIndex = 766;

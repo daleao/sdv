@@ -1,5 +1,12 @@
 # Professions Module Change Log
 
+## 1.3.0
+
+### Fixed
+
+* Fixed a bug preventing explosive ammo from exploding without the Desperado profession.
+* Fixed a possible Out-Of-Range Exception when hovering a Rascal Slingshot.
+
 ## 1.2.1
 
 ### Changed

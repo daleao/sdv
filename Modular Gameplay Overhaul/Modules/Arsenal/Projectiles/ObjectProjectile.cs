@@ -194,11 +194,17 @@ internal sealed class ObjectProjectile : BasicProjectile
 
         if (!ProfessionsModule.IsEnabled)
         {
+            Reflector
+                .GetUnboundMethodDelegate<Action<BasicProjectile, GameLocation>>(this, "explosionAnimation")
+                .Invoke(this, location);
             return;
         }
 
         if (!this.Firer.professions.Contains(Farmer.desperado))
         {
+            Reflector
+                .GetUnboundMethodDelegate<Action<BasicProjectile, GameLocation>>(this, "explosionAnimation")
+                .Invoke(this, location);
             return;
         }
 

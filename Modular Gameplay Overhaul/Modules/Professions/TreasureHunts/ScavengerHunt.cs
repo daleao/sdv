@@ -419,7 +419,7 @@ internal sealed class ScavengerHunt : TreasureHunt
 
         var index = possibles.ElementAt(this.Random.Next(possibles.Count));
         var stack = this.Random.Next(2, 7) *
-                    (!(this.Random.NextDouble() < 0.05 + (Game1.player.LuckLevel * 0.015)) ? 1 : 2);
+                    (this.Random.NextDouble() < 0.05 + (Game1.player.LuckLevel * 0.015) ? 2 : 1);
         treasures.Add(new SObject(index, stack));
         if (this.Random.NextDouble() < 0.05 + (Game1.player.LuckLevel * 0.03))
         {

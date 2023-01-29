@@ -125,7 +125,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\Stardew\TerrainFeatureExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\Stardew\SObjectExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\Stardew\RectangleExtensions.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Extensions\Stardew\ToolEnchantments.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Extensions\Stardew\ToolExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\Stardew\Vector2Extensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\Xna\ColorExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\Xna\PointExtensions.cs" />

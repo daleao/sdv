@@ -185,7 +185,7 @@ internal sealed class GameLocationDamageMonsterPatcher : HarmonyPatcher
                             typeof(Ambush).RequirePropertyGetter(nameof(Ambush.IsGrantingCritBuff))),
                         new CodeInstruction(OpCodes.Brfalse_S, dontBuffCritPow),
                     })
-                .Match(new[] { new CodeInstruction(OpCodes.Brfalse_S) }, out var count)
+                .Count(new[] { new CodeInstruction(OpCodes.Brfalse_S) }, out var count)
                 .Remove(count);
         }
         catch (Exception ex)

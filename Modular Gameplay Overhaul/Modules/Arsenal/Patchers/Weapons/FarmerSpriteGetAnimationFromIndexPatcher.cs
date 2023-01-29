@@ -36,7 +36,7 @@ internal sealed class FarmerSpriteGetAnimationFromIndexPatcher : HarmonyPatcher
         {
             var owner = Reflector.GetUnboundFieldGetter<FarmerSprite, Farmer>(requester, "owner")
                 .Invoke(requester);
-            if (!owner.IsLocalPlayer || owner.CurrentTool is not MeleeWeapon weapon)
+            if (!owner.IsLocalPlayer || owner.CurrentTool is not MeleeWeapon weapon || weapon.isScythe())
             {
                 return true; // run original logic
             }
@@ -46,7 +46,7 @@ internal sealed class FarmerSpriteGetAnimationFromIndexPatcher : HarmonyPatcher
             {
                 owner.QueueSmash(weapon);
             }
-            else if ((int)hitStep % 2 == 0 || weapon.isScythe())
+            else if ((int)hitStep % 2 == 0)
             {
                 owner.QueueForwardSwipe(weapon);
             }

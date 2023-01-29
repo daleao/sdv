@@ -139,7 +139,7 @@ internal sealed class ToolForgePatcher : HarmonyPatcher
                 .Match(new[] { new CodeInstruction(OpCodes.Brfalse_S) })
                 .GetOperand(out var toRemove)
                 .Return()
-                .Match(
+                .Count(
                     new[]
                     {
                         new CodeInstruction(

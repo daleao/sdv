@@ -688,6 +688,21 @@ internal sealed partial class GenericModConfigMenuCore
                 config => config.Tools.Scythe.ClearTreeSaplings,
                 (config, value) => config.Tools.Scythe.ClearTreeSaplings = value)
             .AddCheckbox(
+                () => "Harvest Crops",
+                () => "Whether to harvest crops with the Scythe.",
+                config => config.Tools.Scythe.HarvestCrops,
+                (config, value) => config.Tools.Scythe.HarvestCrops = value)
+            .AddCheckbox(
+                () => "Harvest Flowers",
+                () => "Whether to harvest crops with the Scythe.",
+                config => config.Tools.Scythe.HarvestFlowers,
+                (config, value) => config.Tools.Scythe.HarvestFlowers = value)
+            .AddCheckbox(
+                () => "Harvest Spring Onions",
+                () => "They can be considered crops or forage depending on your school of thought.",
+                config => config.Tools.Scythe.HarvestSpringOnions,
+                (config, value) => config.Tools.Scythe.HarvestSpringOnions = value)
+            .AddCheckbox(
                 () => "Allow Haymaker Enchantment",
                 () => "Whether the Scythe can be enchanted with Haymaker.",
                 config => config.Tools.Scythe.AllowHaymakerEnchantment,

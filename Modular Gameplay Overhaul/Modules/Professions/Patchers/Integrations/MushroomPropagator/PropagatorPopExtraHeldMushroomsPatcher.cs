@@ -77,7 +77,7 @@ internal sealed class PropagatorPopExtraHeldMushroomsPatcher : HarmonyPatcher
                 .MatchProfessionCheck(Profession.Ecologist.Value) // find index of ecologist check
                 .Move(-1)
                 .GetLabels(out var labels)
-                .Match(new[] { new CodeInstruction(OpCodes.Ldc_I4_4) }, out var count)
+                .Count(new[] { new CodeInstruction(OpCodes.Ldc_I4_4) }, out var count)
                 .Remove(count)
                 .Insert(
                     new[]

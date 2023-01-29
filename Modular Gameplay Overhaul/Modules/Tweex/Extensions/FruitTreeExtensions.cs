@@ -22,18 +22,9 @@ internal static class FruitTreeExtensions
 
         var age = fruitTree.daysUntilMature.Value < 0 ? fruitTree.daysUntilMature.Value * -1 : 0;
         age = (int)(age * skillFactor * TweexModule.Config.FruitTreeAgingFactor);
-        if (TweexModule.Config.DeterministicAgeQuality)
-        {
-            return age switch
-            {
-                >= 336 => SObject.bestQuality,
-                >= 224 => SObject.highQuality,
-                >= 112 => SObject.medQuality,
-                _ => SObject.lowQuality,
-            };
-        }
 
-        return Game1.random.Next(age) switch
+        var @switch = TweexModule.Config.DeterministicAgeQuality ? age : Game1.random.Next(age);
+        return @switch switch
         {
             >= 336 => SObject.bestQuality,
             >= 224 => SObject.highQuality,

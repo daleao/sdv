@@ -38,7 +38,7 @@ internal sealed class CrabPotMachineGetStatePatcher : HarmonyPatcher
         {
             helper
                 .Match(new[] { new CodeInstruction(OpCodes.Brtrue_S) })
-                .Match(
+                .Count(
                     new[]
                     {
                         new CodeInstruction(OpCodes.Call, "CrabPotMachine"

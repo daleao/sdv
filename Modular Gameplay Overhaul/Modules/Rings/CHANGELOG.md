@@ -1,5 +1,9 @@
 # Rings Module Change Log
 
+## 1.2.3
+
+* Fixed an issue with the overhuled Warrior Ring buff never ending.
+
 ## 1.2.2
 
 ### Added

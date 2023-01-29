@@ -21,6 +21,18 @@ public sealed class ScytheConfig
     [JsonProperty]
     public bool ClearTreeSaplings { get; internal set; } = true;
 
+    /// <summary>Gets a value indicating whether to harvest crops.</summary>
+    [JsonProperty]
+    public bool HarvestCrops { get; internal set; } = true;
+
+    /// <summary>Gets a value indicating whether to harvest flowers.</summary>
+    [JsonProperty]
+    public bool HarvestFlowers { get; internal set; } = true;
+
+    /// <summary>Gets a value indicating whether to harvest spring onions.</summary>
+    [JsonProperty]
+    public bool HarvestSpringOnions { get; internal set; } = true;
+
     /// <summary>Gets a value indicating whether the scythes can be enchanted with Haymaker.</summary>
     [JsonProperty]
     public bool AllowHaymakerEnchantment { get; internal set; } = true;

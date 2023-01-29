@@ -61,7 +61,7 @@ internal sealed class SkillLevelUpMenuCtorPatcher : HarmonyPatcher
                             typeof(SkillLevelUpMenu).RequireField("currentLevel")),
                     })
                 .Move(2)
-                .Match(new[] { new CodeInstruction(OpCodes.Endfinally) }, out var count)
+                .Count(new[] { new CodeInstruction(OpCodes.Endfinally) }, out var count)
                 .Remove(count); // remove the entire loop
         }
         catch (Exception ex)

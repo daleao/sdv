@@ -65,7 +65,7 @@ internal sealed class FishPondDoActionPatcher : HarmonyPatcher
                 .Move(-1)
                 .SetOpCode(OpCodes.Brfalse_S)
                 .Move()
-                .Match(
+                .Count(
                     new[]
                     {
                         new CodeInstruction(OpCodes.Ldc_I4_1),
@@ -111,7 +111,7 @@ internal sealed class FishPondDoActionPatcher : HarmonyPatcher
                         new CodeInstruction(OpCodes.Beq),
                     })
                 .Match(new[] { new CodeInstruction(OpCodes.Ldloc_0) }, ILHelper.SearchOption.Previous)
-                .Match(new[] { new CodeInstruction(OpCodes.Beq) }, out var steps)
+                .Count(new[] { new CodeInstruction(OpCodes.Beq) }, out var steps)
                 .Copy(
                     out var copy,
                     steps,

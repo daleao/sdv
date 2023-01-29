@@ -92,7 +92,8 @@ internal sealed class SlingshotPerformFirePatcher : HarmonyPatcher
             // get and spend ammo
             var ammo = __instance.attachments[0]?.getOne();
             var didPreserve = false;
-            if (ammo is not null && (!__instance.hasEnchantmentOfType<PreservingEnchantment>() || Game1.random.NextDouble() > 0.5 + (who.DailyLuck / 2) + (who.LuckLevel * 0.01)))
+            if (ammo is not null && (!__instance.hasEnchantmentOfType<PreservingEnchantment>() ||
+                                     Game1.random.NextDouble() > 0.5 + (who.DailyLuck / 2) + (who.LuckLevel * 0.01)))
             {
                 if (--__instance.attachments[0].Stack <= 0)
                 {
@@ -201,7 +202,7 @@ internal sealed class SlingshotPerformFirePatcher : HarmonyPatcher
             var index = ammo?.ParentSheetIndex ?? (canDoQuincy
                 ? QuincyProjectile.TileSheetIndex
                 : Projectile.snowBall);
-            if (ammo is not null && ammo.ParentSheetIndex is not (Constants.ExplosiveAmmoIndex or Constants.SlimeIndex
+            if (ammo?.ParentSheetIndex is not (Constants.ExplosiveAmmoIndex or Constants.SlimeIndex
                     or Constants.RadioactiveOreIndex) && damageBase > 1)
             {
                 index++;

@@ -72,7 +72,7 @@ internal sealed class ObjectCheckForActionPatcher : HarmonyPatcher
                             typeof(SObject).RequireField(nameof(SObject.preservedParentSheetIndex))),
                     })
                 .Match(new[] { new CodeInstruction(OpCodes.Ldarg_0) }, ILHelper.SearchOption.Previous)
-                .Match(new[] { new CodeInstruction(OpCodes.Callvirt) }, out var steps)
+                .Count(new[] { new CodeInstruction(OpCodes.Callvirt) }, out var steps)
                 .Copy(out var copy, steps, false, true)
                 .Match(new[]
                 {

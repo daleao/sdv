@@ -184,6 +184,9 @@ internal sealed class ObjectProjectile : BasicProjectile
 
         if (!this.Firer.HasProfession(Profession.Desperado))
         {
+            Reflector
+                .GetUnboundMethodDelegate<Action<BasicProjectile, GameLocation>>(this, "explosionAnimation")
+                .Invoke(this, location);
             return;
         }
 

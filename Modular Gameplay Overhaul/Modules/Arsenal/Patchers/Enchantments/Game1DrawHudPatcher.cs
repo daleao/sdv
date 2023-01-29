@@ -46,7 +46,7 @@ internal sealed class Game1DrawHudPatcher : HarmonyPatcher
                             typeof(Game1).RequireField(nameof(Game1.showingHealth))),
                     })
                 .Move(2)
-                .Match(
+                .Count(
                     new[]
                     {
                         new CodeInstruction(OpCodes.Callvirt),

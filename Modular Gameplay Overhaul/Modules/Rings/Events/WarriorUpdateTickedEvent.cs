@@ -37,6 +37,7 @@ internal sealed class WarriorUpdateTickedEvent : UpdateTickedEvent
         var killCount = RingsModule.State.WarriorKillCount;
         if (killCount < 10)
         {
+            this.Disable();
             return;
         }
 
