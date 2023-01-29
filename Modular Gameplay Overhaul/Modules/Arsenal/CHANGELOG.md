@@ -4,7 +4,9 @@
 
 ### Changed
 
-* Doubled the drop chance of Lava Katana.
+* Drop chance of Lava Katana has been doubled.
+* Drop chance of Neptune's Glaive has been halved.
+* Added apostrophe to "Neptune's Glaive", to make it sound more unique.
 
 ### Fixed
 

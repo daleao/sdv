@@ -18,6 +18,7 @@ internal static class TreeExtensions
     {
         var environment = tree.currentLocation;
         var tileLocation = tree.currentTileLocation;
+
         if (Game1.GetSeasonForLocation(tree.currentLocation) == "winter" &&
             !tree.treeType.Value.IsIn(Tree.palmTree, Tree.palmTree2) &&
             !environment.CanPlantTreesHere(-1, (int)tileLocation.X, (int)tileLocation.Y) &&

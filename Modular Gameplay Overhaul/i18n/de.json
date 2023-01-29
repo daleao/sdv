@@ -1,3 +1,359 @@
 ﻿{
-    "algae": "Algen"
+  // ***************** //
+  // ** PROFESSIONS ** //
+  // ***************** //
+
+  // farming
+  "harvester.title.male": "Erntehelfer",
+  "harvester.title.female": "Erntehelferin",
+  "harvester.desc": "10% Chance auf einen zusätzlichen Ertrag aus der Ernte.",
+  "harvester.desc.prestiged": "10% >> 20% Chance auf einen zusätzlichen Ertrag der geernteten Pflanzen.",
+  "agriculturist.title.male": "Landwirt",
+  "agriculturist.title.female": "Landwirtin",
+  "agriculturist.desc": "Die Pflanzen wachsen 10% schneller. Baue Pflanzen bester Qualität organisch und ohne Dünger an.",
+  "agriculturist.desc.prestiged": "Die Pflanzen wachsen 10% >> 20% schneller.",
+  "artisan.title.male": "Handwerker",
+  "artisan.title.female": "Handwerkerin",
+  "artisan.desc": "Alle handwerklichen Maschinen arbeiten 10% schneller. Die Qualität des Maschinenausgangs kann so gut sein wie die Qualität der Eingangszutaten.",
+  "artisan.desc.prestiged": "Alle handwerklichen Maschinen arbeiten 10% >> 25% schneller.",
+
+  "rancher.title.male": "Viehzüchter",
+  "rancher.title.female": "Viehzüchterin",
+  "rancher.desc": "Freunde dich 2× schneller mit Tieren an.",
+  "rancher.desc.prestiged": "Freunde dich 2× >> 3× schneller mit Tieren an.",
+  "breeder.title.male": "Züchter",
+  "breeder.title.female": "Züchterin",
+  "breeder.desc": "Inkubation 2× schneller und natürliche Schwangerschaft 3× wahrscheinlicher. Erhöht den Wert der Tiere bei hoher Freundschaft.",
+  "breeder.desc.prestiged": "Inkubation 2× >> 3× schneller und natürliche Schwangerschaft 3× >> 5× wahrscheinlicher.",
+  "producer.title.male": "Hersteller",
+  "producer.title.female": "Herstellerin",
+  "producer.desc": "Glückliche Tiere produzieren 2× so häufig. Produziere 5% mehr für jeden vollen Stall oder jede volle Scheune.",
+  "producer.desc.prestiged": "Glückliche Tiere produzieren 2× >> 3× so häufig.",
+
+  // foraging
+  "forager.title.male": "Waldarbeiter",
+  "forager.title.female": "Waldarbeiterin",
+  "forager.desc": "20% Chance auf doppelte Ausbeute an erbeuteten Gegenständen.",
+  "forager.desc.prestiged": "20% >> 40% Chance auf doppelte Ausbeute an gesammelten Gegenständen.",
+  "ecologist.title.male": "Ökologe",
+  "ecologist.title.female": "Ökologin",
+  "ecologist.desc": "Wilde Beeren geben 50% mehr Gesundheit und Energie zurück. Erkenne nach und nach Futtermittel von höherer Qualität.",
+  "ecologist.desc.prestiged": "Wilde Beeren stellen 50% >> 100% mehr Gesundheit und Energie wieder her.",
+  "scavenger.title.male": "Schnitzeljäger",
+  "scavenger.title.female": "Schnitzeljägerin",
+  "scavenger.desc": "Ort der auffindbaren Gegenstände aufgedeckt. Gelegentlich entdeckst du vergrabene Schätze.",
+  "scavenger.desc.prestiged": "Bei Schnitzeljagden bleibt die Zeit stehen.",
+  "scavenger.huntstarted": "Deine Spürnase kribbelt schon...",
+  "scavenger.huntfailed": "Das Kribbeln hört auf.",
+
+  "lumberjack.title.male": "Holzfäller",
+  "lumberjack.title.female": "Holzfällerin",
+  "lumberjack.desc": "Gefällte Bäume liefern 25% mehr Holz.",
+  "lumberjack.desc.prestiged": "Gefällte Bäume liefern 25% >> 40% mehr Holz.",
+  "arborist.title.male": "Baumpfleger",
+  "arborist.title.female": "Baumpflegerin",
+  "arborist.desc": "Alle Bäume wachsen schneller. Normale Bäume können Laubholz fallen lassen.",
+  "arborist.desc.prestiged": "Normale Bäume werfen doppelt so viel Hartholz ab.",
+  "tapper.title.male": "Anzapfer",
+  "tapper.title.female": "Anzapferin",
+  "tapper.desc": "Anzapfer sind billiger in der Herstellung. Angezapfte Bäume geben 25% schneller Sirup.",
+  "tapper.desc.prestiged": "Angeschlagene Bäume geben 25% >> 50% schneller Sirup.",
+
+  // mining
+  "miner.title.male": "Bergarbeiter",
+  "miner.title.female": "Bergarbeiterin",
+  "miner.desc": "+1 Erz pro Ader.",
+  "miner.desc.prestiged": "+1 >> +2 Erze pro Ader.",
+  "spelunker.title.male": "Höhlenforscher",
+  "spelunker.title.female": "Höhlenforscherin",
+  "spelunker.desc": "Die Chance, Leitern und Schächte zu finden, steigt mit jeder Minenstufe. +1 Geschwindigkeit alle 5 Stufen.",
+  "spelunker.desc.prestiged": "Stelle außerdem mit jeder Minenstufe etwas Gesundheit und Energie wieder her.",
+  "spelunker.buff.desc": "Leiterchance +{{ladderChance}}. +{{speed}} Geschwindigkeit.",
+  "prospector.title.male": "Schürfer",
+  "prospector.title.female": "Schürferin",
+  "prospector.desc": "Standorte von Leitern und Bergbauknoten aufdecken. Gelegentlich entdeckst du Felsen mit wertvollen Mineralien.",
+  "prospector.desc.prestiged": "Während der Schürferjagd bleibt die Zeit stehen.",
+  "prospector.huntstarted": "Deine Schürfer-Sinne kribbeln schon...",
+  "prospector.huntfailed": "Das Kribbeln hört auf.",
+
+  "blaster.title.male": "Sprengmeister",
+  "blaster.title.female": "Sprengmeisterin",
+  "blaster.desc": "Stelle doppelt so viel Sprengstoff her. Gesprengte Felsen ergeben 2× so viel Kohle.",
+  "blaster.desc.prestiged": "Gesprengte Felsen liefern 2× >> 3× so viel Kohle.",
+  "demolitionist.title.male": "Zerstörer",
+  "demolitionist.title.female": "Zerstörerin",
+  "demolitionist.desc": "Bombenradius +1. Explodierte Felsen bringen 20% mehr Ressourcen.",
+  "demolitionist.desc.prestiged": "Gesprengte Felsen bringen 20% >> 40% mehr Ressourcen.",
+  "demolitionist.buff.desc": "Sei gespannt!",
+  "gemologist.title.male": "Gemmologe",
+  "gemologist.title.female": "Gemmologin",
+  "gemologist.desc": "Erkenne nach und nach Mineralien von höherer Qualität. Crystalariums produzieren 25% schneller.",
+  "gemologist.desc.prestiged": "Crystalariums produzieren 25% >> 50% schneller.",
+
+  // fishing
+  "fisher.title.male": "Fischer",
+  "fisher.title.female": "Fischerin",
+  "fisher.desc": "Die Fische beißen schneller an. Geringere Chance, Schrott zu fischen.",
+  "fisher.desc.prestiged": "Die Fische beißen immer sofort an.",
+  "angler.title.male": "Angler",
+  "angler.title.female": "Anglerin",
+  "angler.desc": "Jeder gefangene Fisch ist 1 % mehr wert, jeder legendäre Fisch 5 % mehr.",
+  "angler.desc.prestiged": "Kann legendäre Fische wieder fangen.",
+  "aquarist.title.male": "Aquarist",
+  "aquarist.title.female": "Aquaristin",
+  "aquarist.desc": "Maximale Kapazität des Fischteichs +2. Der Fangbalken sinkt langsamer für jede einzelne Fischart, die in einem Fischteich aufgezogen wird.",
+  "aquarist.desc.prestiged": "Kann legendäre Fische in Fischteichen aufziehen.",
+
+  "trapper.title.male": "Fallensteller",
+  "trapper.title.female": "Fallenstellerin",
+  "trapper.desc": "Krabbentöpfe sind billiger in der Herstellung. Sie können Fische von höherer Qualität fangen.",
+  "trapper.desc.prestiged": "Kann Fische von bester Qualität fangen.",
+  "luremaster.title.male": "Lockmeister",
+  "luremaster.title.female": "Lockmeisterin",
+  "luremaster.desc": "Krabbentöpfe produzieren keinen Schrott mehr. Verwende verschiedene Köder, um verschiedene Fänge anzulocken.",
+  "luremaster.desc.prestiged": "60% Chance, Krabbenköder zu erhalten.",
+  "conservationist.title.male": "Naturschützer",
+  "conservationist.title.female": "Naturschützerin",
+  "conservationist.desc": "Krabbenkübel ohne Köder können Schrott fangen. Reinige die Gewässer des Tals, um Steuerabzüge zu erhalten.",
+  "conservationist.desc.prestiged": "Die Reinigung der Gewässer des Tals kommt auch bei den Dorfbewohnern gut an.",
+  "conservationist.mail": "Department of the Treasury^Ferngill Revenue Service^^^{{honorific}} Steuerzahler,^^Wir freuen uns, dir mitzuteilen, dass wir nach Prüfung deiner Umweltschutzaktivitäten festgestellt haben, dass du gemäß Abschnitt 501 (c) (3) des Ferngill Revenue Code für einen Einkommenssteuerabzug von {{taxBonus}} in Frage kommst. Daher wird das gesamte steuerpflichtige Einkommen für {{farm}} bis zum 28. der {{season}} um den oben genannten Betrag erhöht.^^Bitte bewahre dieses Schreiben in deinen Unterlagen auf, falls du Fragen zu deinem Steuerstatus klären musst.^^^Mit freundlichen Grüßen,^^^Laura D. Pretto^Executive Directrice, Ferngill Revenue Service[#]Steuerabzug",
+  "conservationist.mail.max": "Department of the Treasury^Ferngill Revenue Service^^^{{honorific}} Steuerzahler,^^Wir freuen uns, dir mitzuteilen, dass wir bei der Überprüfung deiner Umweltschutzaktivitäten festgestellt haben, dass du den maximalen Einkommenssteuerabzug von {{taxBonus}} gemäß Abschnitt 501 (c) (3) des Ferngill Revenue Code in Anspruch nehmen kannst. Daher wird das gesamte steuerpflichtige Einkommen für {{farm}} bis zum 28. der {{season}} um den oben genannten Betrag erhöht.^^Bitte bewahre dieses Schreiben in deinen Unterlagen auf, falls du Fragen zu deinem steuerlichen Status klären musst.^^^Mit freundlichen Grüßen,^^^Laura D. Pretto^Executive Directrice, Ferngill Revenue Service[#]Taxation Deduction",
+
+  // combat
+  "fighter.title.male": "Kämpfer",
+  "fighter.title.female": "Kämpferin",
+  "fighter.desc": "Schaden +10%. +15 HP.",
+  "fighter.desc.prestiged": "Schaden +10% >> +15%.",
+  "brute.title.male": "Rohling",
+  "brute.title.female": "Amazone",
+  "brute.desc": "Wenn du Schaden nimmst, steigert das deine Wut und deine Kampfkraft. +25 HP.",
+  "brute.desc.prestiged": "Wut gewährt außerdem Angriffstempo.",
+  "brute.buff.name": "Wut",
+  "brute.buff.desc": "Schaden +{{damage}}.",
+  "brute.buff.desc.prestiged": "Schaden +{{damage}}. Schwunggeschwindigkeit +{{speed}}.",
+  "poacher.title.male": "Buschmann",
+  "poacher.title.female": "Buschfrau",
+  "poacher.desc": "Kritische Trefferchance +50%. Krit. Schläge haben eine Chance, Gegenstände von Gegnern zu stehlen.",
+  "poacher.desc.prestiged": "Erhöhe die Abklingzeit der Spezialbewegung bei erfolgreichem Wildern.",
+
+  "rascal.title.male": "Schlitzohr",
+  "rascal.title.female": "Schlitzohrin",
+  "rascal.desc": "Erhalte einen zusätzlichen Munitionsplatz. 35% Chance, verbrauchte Munition zurückzugewinnen.",
+  "rascal.desc.prestiged": "35% >> 70% Chance, verbrauchte Munition zurückzugewinnen.",
+  "desperado.title.male": "Schurke",
+  "desperado.title.female": "Schurkein",
+  "desperado.desc": "Feuere bei niedrigeren HP schneller. Du kannst die Schleuder überladen, um die Kraft und den Querschnitt der Munition zu erhöhen.",
+  "desperado.desc.prestiged": "Überladene Schüsse können Feinde durchbohren.",
+  "piper.title.male": "Schleim Rattenfänger",
+  "piper.title.female": "Schleim Rattenfängerin",
+  "piper.desc": "Ziehe verbündete Slimes an, wenn sie in der Nähe von Feinden sind. Chance, einen zufälligen Stärkungszauber zu erhalten, wenn ein Slime besiegt wird.",
+  "piper.desc.prestiged": "Chance, auch etwas Gesundheit und Energie wiederzuerlangen, wenn ein Schleim besiegt wird.",
+  "piper.buff": "Verschleimt",
+
+
+  // *************** //
+  // ** ULTIMATES ** //
+  // *************** //
+
+  "frenzy.title": "Unsterbliche Raserei",
+  "frenzy.desc": "Wut baut sich doppelt so schnell auf. Kann nicht ausgeknockt werden.",
+  "ambush.title": "Hinterhalt",
+  "ambush.desc.hidden": "Versteckt.",
+  "ambush.desc.revealed": "Kritische Leistung x2.",
+  "blossom.title": "Tödliche Blüte",
+  "blossom.desc": "Ermöglicht das automatische Abfeuern von acht Geschossen gleichzeitig.",
+  "concerto.title.male": "Hamelner Konzert",
+  "concerto.title.female": "Pheromonisches Fieber",
+  "concerto.desc": "Slimes in der Nähe wurden ermächtigt und verzaubert.",
+
+  "ulti.canteat": "Das geht jetzt nicht mehr.",
+
+
+  // ************** //
+  // ** PRESTIGE ** //
+  // ************** //
+
+  "prestige.dogstatue.first": "-Statue des Prestiges-^Die Statue kann die Stufe einer Fertigkeit zurücksetzen, wobei alle erworbenen Berufe erhalten bleiben.",
+  "prestige.dogstatue.forget": "^Alle dazugehörigen Rezepte werden vergessen.",
+  "prestige.dogstatue.offer": "^Ein Opfer bringen?",
+  "prestige.dogstatue.which": "Welche Fähigkeit möchtest du zurücksetzen?",
+  "prestige.dogstatue.cost": "({{cost}}g)",
+  "prestige.dogstatue.dismiss": "Komm morgen wieder.",
+  "prestige.dogstatue.what": "-Statue des Prestiges-^...",
+  "prestige.dogstatue.respec": "Prestigeträchtige Berufe ändern",
+  "prestige.dogstatue.changeult": "Ändere die ultimative Kampffähigkeit",
+  "prestige.dogstatue.replace": "Derzeit auf {{profession}}'s {{ultimate}} registriert. Ersetzen?",
+  "prestige.dogstatue.choice": "{{profession}}'s {{ultimate}}",
+  "prestige.dogstatue.fledged": "*wuff* *wuff* (Du bist jetzt ein vollwertiger {{profession}}).",
+  "prestige.dogstatue.cancel": "Ich habe meine Meinung geändert...",
+  "prestige.skillpage.tooltip": "{{count}}/4 Berufe erworben:",
+  "prestige.levelup.tooltip:5": "Du hast bereits alle Berufe in diesem Zweig erworben.",
+  "prestige.levelup.tooltip:10": "Du hast diesen Beruf bereits erlernt.",
+  "prestige.levelup.question": "Derzeit für den {{oldProfession}}'s {{oldUltimate}} registriert. Ersetzen durch {{newProfession}}'s {{newUltimate}}?",
+  "prestige.levelup.unlocked": "Du kannst jetzt deine {{skill}}-Fähigkeit weiter ausbauen.",
+  "prestige.levelup.prestige": "Wähle einen Beruf, um Prestige zu gewinnen:",
+  "prestige.achievement.title.male": "Alleskönner",
+  "prestige.achievement.title.female": "Alleskönnerin",
+  "prestige.achievement.desc": "Erwirb alle Berufe in jeder Fertigkeit.",
+
+
+  // *********** //
+  // * ARSENAL * //
+  // *********** //
+
+  "weapons.dwarven.prefix": "Zwerge",
+  "weapons.elven.prefix": "Elfen",
+  "weapons.darksword.name": "Klinge des Verderbens",
+  "weapons.darksword.desc": "Eine verfluchte Klinge. Sie wird immer mächtiger, wenn sie die Lebenskraft besiegter Feinde aufsaugt.",
+  "weapons.darksword.found": "Hinter der Statue befindet sich noch etwas anderes.",
+  "weapons.darksword.chill": "Du spürst, wie dir ein unheimlicher Schauer über den Rücken läuft.",
+  "weapons.darksword.question": "Was auch immer es ist, du solltest es lieber in Ruhe lassen...",
+  "weapons.darksword.grabit": "Greif zu",
+  "weapons.darksword.leaveit": "Lass es",
+  "weapons.darksword.holdupmessage": "Du greifst danach und entdeckst ein alt aussehendes Schwert. Als du es in die Hand nimmst, beginnt die Klinge in einem kranken Grün zu leuchten. Plötzlich fühlst du dich, als ob all der Frieden, die Hoffnung und das Glück aus der Welt verschwunden wären...^^ Du erhältst das ={{darksword}}= ^",
+  "weapons.darksword.cantdeposit": "Das {{darksword}} kann nicht aufgegeben werden.",
+  "weapons.holyblade.name": "Klinge der Morgenröte",
+  "weapons.holyblade.desc": "Eine gesegnete Klinge, die einem tugendhaften Helden verliehen wurde.",
+  "weapons.holyblade.holdupmessage": "Das {{darksword}} reagiert auf den Altar von Yoba! Die düstere Energie der Klinge beginnt zu schwinden, und stattdessen dringt ein warmes Gefühl durch deine Handfläche...^^ Du erhältst die ={{holyblade}}= ^",
+  "weapons.insecthead.extradesc": " Verursacht Schaden proportional zur Anzahl der getöteten Insekten.",
+  "weapons.obsidianedge.extradesc": " Schneidet durch gegnerische Rüstung.",
+  "weapons.iridiumneedle.extradesc": " Garantiert einen kritischen Treffer.",
+  "slingshots.infinity.name": "Unendliche Schleuder",
+  "slingshots.infinity.desc": "Die wahre Form der Galaxy Slingshot.",
+  "objects.galaxysoul.desc": "Der materialisierte Kern einer winzigen Galaxie.",
+
+  "blueprint.found.first": "Du hast eine alte Blaupause gefunden! Sie ist verblasst, aber du erkennst die Form eines {{type}} neben ein paar zwergischen Symbolen. Vielleicht kann der richtige Handwerker einen Sinn daraus machen.",
+  "blueprint.found.local": "Du hast eine zwergische Blaupause gefunden.",
+  "blueprint.found.global": "{who} hat einen zwergischen Bauplan gefunden.",
+  "blacksmith.forge.option": "Schmiede",
+  "blacksmith.forge.explanation": "Ich könnte ein paar neue Waffen aus den Blaupausen schmieden, die du gefunden hast. Wenn ich nur diese seltsamen Materialien hätte.",
+  "blacksmith.forge.confirmation": "Oh, du hast welche gefunden! Ich fange so schnell wie möglich damit an. Es sollte in ein paar Tagen fertig sein.",
+
+  "dialogue.clint.blueprint.notdone": "Hey @. Ich bin immer noch nicht fertig mit der Entschlüsselung deines Plans.$0#$b#Vielleicht morgen...$2",
+  "dialogue.clint.blueprint.done": "Hey @. Ich habe die alte Blaupause fertig übersetzt.$0#$b#Entschuldige, dass es so lange gedauert hat.$2#$b#Es ist ein Rezept für eine Waffe aus seltsamen Materialien.$0#$b#Derjenige, der es geschrieben hat, war offensichtlich ein Meisterschmied. Die Techniken, die hier beschrieben werden, sind wirklich bemerkenswert.$2#$b#Ich würde das wirklich gerne nachmachen, aber ich habe keine Ahnung, wo ich diese Materialien finden kann.#$b# Wie auch immer, hier ist dein Buch zurück. Wenn du dieses Material findest, bring es her und ich mache dir die Waffe umsonst.",
+  "dialogue.gil.virtues": "Ein wahrer Abenteurer sollte nach den fünf heroischen Tugenden leben: Ehre, Mitgefühl, Weisheit, Großzügigkeit und Tapferkeit. Diejenigen, die das tun, gelten in den Augen von Yoba als Helden und kehren immer sicher von ihren Abenteuern zurück.#$b# Zumindest hat das meine Mama immer gesagt.",
+  "dialogue.wizard.curse.canthelp": "Es tut mir leid, @. Ich fürchte, selbst das Arkane kann dir jetzt nicht mehr helfen.#$b#Deine einzige Hoffnung ist, das Göttliche zu suchen.",
+
+  "events.forge.intro": "distantBanjo/3 15/farmer 5 19 0 Clint 3 13 2/pause 1000/speak Clint \"Oh, hey @.$1\"/move farmer 0 -4 3/move farmer -2 0 0/pause 500/speak Clint \"Was ist los, hast du ein Werkzeug, das aufgerüstet werden muss?\"/pause 500/speak Clint \"Was ist das? Eine alte Blaupause?\"/pause 1000/speak Clint \"Ich würde dir ja gerne helfen, @, aber ich verstehe nichts von diesem Gekritzel.$2\"/pause 1000/speak Clint \"Was ist das? Du sagst, du hast die Übersetzungshilfe dafür? $0#$b#Aber es wird Tage dauern, das zu entziffern...$2\"/pause 500/speak Clint \"Oh, na gut. Ich fange heute Abend damit an. Komm in ein paar Tagen wieder zu mir.\"/pause 500/addQuest 144701/end",
+  "events.curse.intro": "WizardSong/-1000 -1000/farmer 8 24 0 Wizard 10 15 2/skippable/showFrame Wizard 20/viewport 8 18 true/move farmer 0 -3 0/pause 2000/speak Wizard \"@, ich bin froh, dass du gekommen bist.\"/pause 300/showFrame Wizard 16/pause 500/speak Wizard \"Ich habe eine Störung im Arkanen gespürt, aber ich wusste nicht, was es war, bis du hereinkamst.\"/pause 500/showFrame Wizard 0/pause 500/move Wizard -2 0 3/move Wizard 0 3 2/pause 1000/speak Wizard \"Dieses seltsame Schwert...\"/move Wizard 0 1 2/pause 300/speak Wizard \"Sag mir, wie bist du an sie herangekommen?\"/pause 1500/speak Wizard \"Ich verstehe.\"/pause 500/move Wizard 0 -1 0/speak Wizard \"Die Menge an bösartiger Energie, die von ihm ausgeht, kann nur eines bedeuten.\"/pause 500/faceDirection Wizard 2 true/pause 500/speak Wizard \"Das muss das Schwert des ruinierten Helden sein.$1\"/pause 1000/move Wizard 0 1 2/pause 200/speak Wizard \"Die Geschichte besagt, dass der Held Viego einst eine prächtige goldene Klinge führte, die ihm von Yoba selbst geschenkt wurde.\"/pause 200/showFrame Wizard 18/pause 200/speak Wizard \"Doch als seine geliebte Frau starb, wurde Viego wahnsinnig und verzehrte sich vor Trauer.\"/pause 500/showFrame Wizard 0/pause 500/move Wizard -2 0 3/pause 200/speak Wizard \"Er wandte sich der Zauberei zu, besessen von dem Gedanken, sie wiederzubeleben.#$b# Obwohl es ihn viel kostete, gelang es ihm schließlich.\"/pause 200/move Wizard 2 0 1/pause 200/speak Wizard \"Für einen kurzen Moment erhob sich der Körper seiner Frau zu einem schrecklichen Gespenst aus Schatten und Wut.#$b#Verzweifelt darüber, dem Tod entrissen worden zu sein, nahm sie Viegos eigene Klinge und stieß sie ihm ins Herz.\"/faceDirection Wizard 2 true/speak Wizard \"Und in diesem Moment prallten Viegos dunkle Magie und Yobas heilige Macht aufeinander, ein schwarzer Nebel strömte aus Viegos Herz und er wurde zum ruinierten Helden, gefangen im Untod.\"/move Wizard 0 -1 0/speak Wizard \"Ich selbst habe die Geschichten nicht geglaubt. Aber wenn die Klinge echt ist, dann ist Viego vielleicht immer noch da draußen und sucht nach ihr.\"/pause 1500/move Wizard 0 2 2/speak Wizard \"Dieses Schwert wird dich irgendwann verschlingen, @, genau wie Viego. #$b# Du musst es unbedingt loswerden. Und was auch immer du tust, du darfst es nicht benutzen.\"/pause 500/addQuest 144703/end",
+  "events.curse.intro.sve": "WizardSong/-1000 -1000/farmer 8 24 0 Wizard 10 15 2/showFrame Wizard 20/viewport 8 18 true/move farmer 0 -3 0/pause 2000/speak Wizard \"@, ich bin froh, dass du gekommen bist.\"/pause 300/showFrame Wizard 16/pause 500/speak Wizard \"Ich habe eine Störung im Arkanen gespürt, aber ich wusste nicht, was es war, bis du hereinkamst.\"/pause 500/showFrame Wizard 0/pause 500/move Wizard -2 0 3/move Wizard 0 3 2/pause 1000/speak Wizard \"Dieses seltsame Schwert...\"/move Wizard 0 1 2/pause 300/speak Wizard \"Sag mir, wie bist du an sie herangekommen?\"/pause 1500/speak Wizard \"Ich verstehe.\"/pause 500/move Wizard 0 -1 0/speak Wizard \"Die Menge an bösartiger Energie, die von ihm ausgeht, kann nur eines bedeuten.\"/pause 500/faceDirection Wizard 2 true/pause 500/speak Wizard \"Das muss das Schwert des ruinierten Helden sein.$3\"/pause 1000/move Wizard 0 1 2/pause 200/speak Wizard \"Die Geschichte besagt, dass der Held Viego einst eine prächtige goldene Klinge trug, die ihm von Yoba selbst geschenkt wurde.\"/pause 200/showFrame Wizard 18/pause 200/speak Wizard \"Doch als seine geliebte Frau starb, wurde Viego wahnsinnig und verzehrte sich vor Trauer.\"/pause 500/showFrame Wizard 0/pause 500/move Wizard -2 0 3/pause 200/speak Wizard \"Er wandte sich der Zauberei zu, besessen von dem Gedanken, sie wiederzubeleben.#$b# Obwohl es ihn viel kostete, gelang es ihm schließlich.\"/pause 200/move Wizard 2 0 1/pause 200/speak Wizard \"Für einen kurzen Moment erhob sich der Körper seiner Frau zu einem grässlichen Gespenst aus Schatten und Wut. Verwirrt darüber, dem Tod entrissen worden zu sein, nahm sie Viegos eigene Klinge und stieß sie ihm durch das Herz.\"/faceDirection Wizard 2 true/speak Wizard \"Und in diesem Moment prallten Viegos dunkle Magie und Yobas heilige Macht aufeinander, ein schwarzer Nebel strömte aus Viegos Herz und er wurde zum ruinierten Helden, gefangen im Untod.\"/move Wizard 0 -1 0/speak Wizard \"Ich selbst habe die Geschichten nicht geglaubt. Aber wenn die Klinge echt ist, dann ist Viego vielleicht immer noch da draußen und sucht nach ihr.\"/pause 1500/move Wizard 0 2 2/speak Wizard \"Dieses Schwert wird dich irgendwann verschlingen, @, genau wie Viego. #$b# Du musst es unbedingt loswerden. Und was auch immer du tust, du darfst es nicht benutzen.\"/pause 500/addQuest 144703/end",
+  "events.100162.sword": "MarlonsTheme/21 9/farmer -100 -100 0 Marlon 23 6 2/addQuest 14/skippable/pause 1000/move Marlon 0 2 2/pause 500/showFrame Marlon 4/pause 1000/speak Marlon \"Hmmm... \"/pause 500/warp farmer 18 13/playSound stoneStep/move farmer 0 -3 1/move farmer 5 0 0/pause 500/showFrame Marlon 0/pause 500/speak Marlon \"...Ich habe gerade in diesen alten Minenschacht hinuntergeschaut. Er ist seit Jahrzehnten verlassen.\"/pause 500/showFrame Marlon 4/speak Marlon \"Trotzdem gibt es dort unten wahrscheinlich gutes Erz. Aber ein dunkler Ort, der so lange ungestört war... Ich fürchte, Erz ist nicht das Einzige, was du finden wirst...\"/pause 500/showFrame Marlon 0/pause 500/speak Marlon \"Hier, nimm das. Du könntest es brauchen.\"/pause 500/playSound dwop/faceDirection farmer 1 true/pause 50/faceDirection farmer 2/itemAboveHead sword/pause 3300/awardFestivalPrize sword/pause 300/faceDirection farmer 1 true/pause 100/faceDirection farmer 0/pause 500/speak Marlon \"Mein Name ist übrigens Marlon. Ich leite die Abenteurer-Gilde da draußen. #$b# Ich behalte dich im Auge. Beweise dich und ich werde darüber nachdenken, dich als Mitglied aufzunehmen.\"/pause 500/end",
+  "events.100162.nosword": "MarlonsTheme/21 9/farmer -100 -100 0 Marlon 23 6 2/addQuest 14/skippable/pause 1000/move Marlon 0 2 2/pause 500/showFrame Marlon 4/pause 1000/speak Marlon \"Hmmm... \"/pause 500/warp farmer 18 13/playSound stoneStep/move farmer 0 -3 1/move farmer 5 0 0/pause 500/showFrame Marlon 0/pause 500/speak Marlon \"...Ich habe gerade in diesen alten Minenschacht hinuntergeschaut.#$b#Er ist seit Jahrzehnten verlassen.\"/pause 500/showFrame Marlon 4/speak Marlon \"Trotzdem gibt es dort unten wahrscheinlich gutes Erz.#$b#Aber ein dunkler Ort, der so lange ungestört war... Ich fürchte, Erz ist nicht das Einzige, was du finden wirst...\"/pause 500/showFrame Marlon 0/pause 500/speak Marlon \"Du solltest besser wissen, wie man die Waffe schwingt. Du könntest sie brauchen.\"/pause 500/speak Marlon \"Mein Name ist übrigens Marlon. Ich leite die Abenteurer-Gilde da draußen. #$b# Ich behalte dich im Auge. Beweise dich und ich werde darüber nachdenken, dich als Mitglied aufzunehmen.\"/pause 500/end",
+  "events.100162.sword.sve": "MarlonsTheme/21 9/farmer -100 -100 0 MarlonFay 23 6 2/addQuest 14/skippable/pause 1000/move MarlonFay 0 2 2/pause 500/showFrame MarlonFay 19/pause 1000/speak MarlonFay \"Hmmm... \"/pause 500/warp farmer 18 13/playSound stoneStep/move farmer 0 -3 1/move farmer 5 0 0/pause 500/showFrame MarlonFay 0/pause 500/speak MarlonFay \"...Ich habe mich gerade gefragt, wie weit dieser Minenschacht in die Tiefe reicht.#$b# Ich werde mich um einige der Monster hier drin kümmern, bevor sie anfangen, ins Tal zu klettern. $1#$b# Du scheinst besorgt zu sein. Ich mag zwar alt sein, aber das Alter hat mich noch nicht meiner Fähigkeiten mit dem Schwert beraubt.$0\"/pause 500/showFrame MarlonFay 18/pause 2000/showFrame MarlonFay 0/pause 500/speak MarlonFay \"Als Anführer der Abenteurergilde habe ich schon viele Kämpfer kennengelernt. Ich erkenne diesen Blick in deinen Augen.$2\"/pause 1500/speak MarlonFay \"Nimm das hier. Es ist eine Trainingswaffe. Sie sieht vielleicht nicht nach viel aus, aber damit kannst du die Monster hier bekämpfen.\"/playSound dwop/faceDirection farmer 1 true/pause 50/faceDirection farmer 2/itemAboveHead sword/pause 3300/awardFestivalPrize sword/pause 300/faceDirection farmer 1 true/pause 100/faceDirection farmer 0/pause 500/speak MarlonFay \"Ich werde ein Auge auf dich haben. Beweise dich und ich denke vielleicht darüber nach, dich als Mitglied aufzunehmen.\"/pause 750/end",
+  "events.100162.nosword.sve": "MarlonsTheme/21 9/farmer -100 -100 0 MarlonFay 23 6 2/addQuest 14/skippable/pause 1000/move MarlonFay 0 2 2/pause 500/showFrame MarlonFay 19/pause 1000/speak MarlonFay \"Hmmm... \"/pause 500/warp farmer 18 13/playSound stoneStep/move farmer 0 -3 1/move farmer 5 0 0/pause 500/showFrame MarlonFay 0/pause 500/speak MarlonFay \"...Ich habe mich gerade gefragt, wie weit dieser Minenschacht in die Tiefe führt.#$b# Ich werde mich um einige der Monster hier drinnen kümmern, bevor sie anfangen, ins Tal zu klettern.$1#$b#Du scheinst besorgt zu sein. Ich mag zwar alt sein, aber das Alter hat mich noch nicht meiner Fähigkeiten mit dem Schwert beraubt.$0\"/pause 500/showFrame MarlonFay 18/pause 2000/showFrame MarlonFay 0/pause 500/speak MarlonFay \"Als Anführer der Abenteurergilde habe ich schon viele Kämpfer kennengelernt. Ich erkenne diesen Blick in deinen Augen.$2\"/pause 300/showFrame MarlonFay 19/pause 1000/showFrame MarlonFat 0/pause 300/speak MarlonFay \"Beweise mir, dass du die Waffe schwingen kannst, und ich denke vielleicht darüber nach, dich als Mitglied aufzunehmen.\"/pause 750/end",
+  "events.1337098.nopurchase": "MarlonsTheme/-500 -500/farmer -200 -200 0 MarlonFay 4 11 2/viewport 6 13 true/skippable/pause 2000/warp farmer 6 19/playSound doorClose/pause 500/showFrame MarlonFay 17/pause 150/textAboveHead MarlonFay \"Du hast etwas gefunden!\"/pause 350/move farmer 0 -5 3/move farmer -2 0 0/move farmer 0 -1 0/showFrame MarlonFay 0/pause 500/speak MarlonFay \"THut-Waffe! Es ist nicht zu übersehen!$1#$b#Du hast ein Galaxy-Schwert erhalten!\"/pause 1000/showFrame MarlonFay 18/pause 1000/speak MarlonFay \"Du wurdest für würdig befunden, @. Das ist eine wahre Ehre.$2#$b#Ich erhielt meine erste Galaxy-Waffe nach einer Nacht harter Kämpfe im Burgdorf.#$b#Ein violettes, blendendes Licht fiel langsam in meine Hände, als ich ein Schwert sah. Für eine kurze Sekunde spürte ich die Macht des Kosmos.#$b#Zauberer und Gelehrte glauben, dass Yoba diese Waffen den wahren Friedenswächtern der Menschheit schenkt.\"/pause 1200/speak MarlonFay \"Ich bin stolz auf dich!$1\"/showFrame MarlonFay 0/pause 500/end",
+
+  "fromcsfiles.MeleeWeapon.cs.14122": "Die prismatische Scherbe leuchtet hell, absorbiert das Iridium in deinem Rucksack und verwandelt sich vor deinen Augen!^^     Du erhältst die ={{galaxyWeapon}}=  ^",
+  "locations.Town.DwarfGrave.Translated": "     Du übersetzt das Zwergenhafte:     \n\n'zwischen goldenen Drillingen, die sich im Sand verirrt haben, einen Regenbogen hervorbringen, der aus dem Land geschmiedet wurde\nWenn das Herz rein und das Bewusstsein klar ist und der Glaube weder Zweifel noch Furcht kennt, dann wird dein Name gebrüllt.\nSterne regnen auf das Siegel dort\nund beschenke dich mit Himmelsstahl.",
+  "locations.SeedShop.Yoba": "\"No evil shall touch a true Hero of Yoba.\"",
+
+  "mail.curse.intro": "Lieber @, ich muss dich in einer äußerst dringenden Angelegenheit sprechen.^Bitte komm so bald wie möglich zu mir in den Turm.^ -M. Rasmodius, Zauberer[#]Ruinierter Held",
+
+  "quests.forge.intro": "Basic/A Dwarven Legacy/Clint hat dir gesagt, dass er in ein paar Tagen mit der Übersetzung der alten Blaupause fertig ist./Besuche Clint, um ihn nach der Blaupause zu fragen./Blacksmith/144702/0/-1/false",
+  "quests.forge.next": "Basic/A Dwarven Legacy II/Die alte Blaupause entpuppte sich als Rezept für eine mächtige alte Waffe! Könnte es noch andere geben?/Finde die restlichen zwergischen Blaupausen./null/-1/0/-1/false",
+  "quests.curse.intro": "Basic/The Blade of the Ruined Hero/Die Waffe, die du gefunden hast, trägt den Fluch des ruinierten Helden! Du spürst bereits, wie sie dir Lebensenergie entzieht. Du musst einen Weg finden, den Fluch aufzuheben, und zwar schnell!/Finde einen Weg, den Fluch der Ruinenklinge aufzuheben./null/144704/0/-1/false",
+  "quests.curse.next": "Basic/The Blade of the Ruined Hero/Diejenigen, die die Tugenden eines wahren Helden verkörpern, werden von Yobas göttlicher Macht von allem Bösen befreit. Beweise, dass du nach den fünf heroischen Tugenden lebst./null/144705/0/-1/false",
+  "quests.curse.last": "Basic/The Blade of the Ruined Hero/Diejenigen, die die Tugenden eines wahren Helden verkörpern, werden durch Yobas göttliche Macht von allem Bösen gereinigt. Bring die Klinge des Verderbens zum Altar von Yoba./null/-1/0/-1/false",
+  "quests.virtues.honor": "Basic/Trial of Honor/Ehre kann man nicht kaufen. Ehre kann auch nicht verkauft werden, denn ihr Wert ist größer als alle Schätze der Welt. Doch man kann sie verlieren, und wer das tut, hat seinen Namen für alle Ewigkeit besudelt. Ein wahrhaft ehrenhafter Mensch steht immer hinter seinen Taten, stellt sich jeder Herausforderung und weigert sich zu lügen./Warte auf eine Chance, deine Ehre zu beweisen./null/-1/0/-1/false",
+  "quests.virtues.compassion": "Basic/Trial of Compassion/Es gibt viele Eigenschaften, die von der wahren Natur eines Menschen zeugen. Mitgefühl ist das, was Menschen von Bestien unterscheidet. Wer Mitgefühl für seine Mitmenschen empfindet, wird niemals ein Auge zudrücken, wenn ihm Unglück widerfährt. Er wird sich immer für denjenigen einsetzen, dem Unrecht geschieht./null/-1/0/-1/false",
+  "quests.virtues.wisdom": "Basic/Trial of Wisdom/Weisheit ist eine Tugend, die man sein ganzes Leben lang kultivieren sollte, denn es ist unmöglich, so weise zu sein, dass man nicht noch weiser werden kann. Die Weisen wissen das... Auf unserem Weg durchs Leben sollten wir versuchen, weise Entscheidungen zu treffen. Denk daran, dass weise Entscheidungen nicht diejenigen sind, die unser Leben leichter oder einfacher machen. Oft machen sie es sogar komplizierter. Aber sie machen uns immer besser. Warte auf eine Chance, deine Weisheit zu beweisen./null/-1/0/-1/false",
+  "quests.virtues.generosity": "Basic/Trial of Generosity/Kein Mensch kann als gut bezeichnet werden, der seinen Wohlstand nicht mit anderen teilt. Großzügigkeit ist die Voraussetzung für Würde im Leben und Frieden im Tod./Warte auf eine Chance, deine Großzügigkeit zu beweisen./null/-1/0/-1/false",
+  "quests.virtues.valor": "Basic/Trial of Valor/Tapferkeit macht niemanden gut, aber wie viele gute Menschen hast du auf deinem Lebensweg getroffen, die feige waren? Diejenigen, die Tapferkeit besitzen, zögern nicht, sich gegen die Mehrheit zu stellen, egal was die Konsequenzen sind./null/-1/0/-1/false",
+
+  "yoba.question": "Es gibt zusätzliche Inschriften auf dem Altar...",
+  "virtues.honor.name": "Ehre",
+  "virtues.compassion.name": "Barmherzigkeit",
+  "virtues.wisdom.name": "Weisheit",
+  "virtues.generosity.name": "Großzügigkeit",
+  "virtues.valor.name": "Tapferkeit",
+  "virtues.honor.flavor": "\"Ehre kann man nicht kaufen. Ehre kann auch nicht verkauft werden, denn ihr Wert ist größer als alle Schätze der Welt. Doch man kann sie verlieren, und wer das tut, hat seinen Namen für alle Ewigkeit besudelt. Ein wahrhaft ehrenhafter Mensch steht immer hinter seinen Taten, stellt sich jeder Herausforderung und weigert sich, zu lügen..\"",
+  "virtues.compassion.flavor": "\"Es gibt viele Eigenschaften, die von der wahren Natur eines Menschen zeugen. Mitgefühl ist das, was Menschen von Bestien unterscheidet. Wer Mitgefühl für seine Mitmenschen empfindet, wird nie ein Auge zudrücken, wenn ihm Unglück widerfährt. Er wird sich immer für denjenigen einsetzen, dem Unrecht geschieht.\"",
+  "virtues.wisdom.flavor": "\"Weisheit ist eine Tugend, die man sein ganzes Leben lang kultivieren sollte, denn es ist unmöglich, so weise zu sein, dass man nicht noch weiser werden kann. Die Weisen wissen das... Auf unserem Weg durchs Leben sollten wir versuchen, weise Entscheidungen zu treffen. Denk daran, dass weise Entscheidungen nicht diejenigen sind, die unser Leben leichter oder einfacher machen. Oft machen sie es sogar komplizierter. Aber sie machen uns immer besser.\"",
+  "virtues.generosity.flavor": "\"Kein Mensch kann als gut bezeichnet werden, der seinen Wohlstand nicht mit anderen teilt. Großzügigkeit ist die Voraussetzung für Würde im Leben und Frieden im Tod.\"",
+  "virtues.valor.flavor": "\"Tapferkeit macht niemanden gut, aber wie viele gute Menschen hast du auf deinem Lebensweg getroffen, die feige waren? Diejenigen, die mutig sind, zögern nicht, sich gegen die Mehrheit zu stellen, egal was die Konsequenzen sind.\"",
+
+  // json assets
+  "objects.dwarvishblueprint.name": "Alter zwergischer Bauplan",
+  "objects.dwarvishblueprint.description": "Es ist verblasst, aber noch lesbar.",
+  "objects.herosoul.name": "Heldenseele",
+  "objects.herosoul.description": "Die materialisierte Essenz eines Helden.",
+  "objects.dwarvenscrap.name": "Zwergenschrott",
+  "objects.dwarvenscrap.description": "Es sieht uralt und doch irgendwie futuristisch aus.",
+  "objects.elderwood.name": "Holunderholz",
+  "objects.elderwood.description": "Ein Stück Holz, das von einer alten magischen Rasse verzaubert wurde.",
+
+
+  // ********* //
+  // * RINGS * //
+  // ********* //
+
+  "gems.ruby.name": "Rubin",
+  "gems.aquamarine.name": "Aquamarin",
+  "gems.jade.name": "Jade",
+  "gems.emerald.name": "Smaragd",
+  "gems.amethyst.name": "Amethyst",
+  "gems.topaz.name": "Topas",
+  "gems.garnet.name": "Granat",
+  "gems.garnet.description": "Der Namensvetter einer schönen Prinzessin aus einem fernen Land.",
+  "rings.jade.description": "Erhöht die kritische Schlagkraft um 50%.",
+  "rings.topaz.description.resist": "Erhöht die Widerstandsfähigkeit um 10%.",
+  "rings.topaz.description.defense": "Erhöht die Verteidigung um 1.",
+  "rings.garnet.name": "Granat Ring",
+  "rings.garnet.description": "Verringert die Abklingzeit von Spezialbewegungen um 10%.",
+  "rings.iridium.description": "Ein gewöhnliches Band aus Iridium.",
+  "rings.infinity.name": "Unendlichkeitsband",
+  "rings.infinity.description": "Ein Gefäß für große Macht.",
+  "global.infinitycraft": "{{who}} hat ein Infinity Band geschmiedet.",
+  "resonance": "Resonanz",
+
+  // **************** //
+  // * ENCHANTMENTS * //
+  // **************** //
+
+  "enchantments.carving": "Schnitzen",
+  "enchantments.cleaving": "Spalten",
+  "enchantments.energized": "Erregt",
+  "enchantments.tribute": "Tribut",
+  "enchantments.vampiric": "Blutdürstig",
+  "enchantments.engorging": "Vielfraß",
+  "enchantments.gatling": "Schrapnell",
+  "enchantments.preserving": "Bewahren",
+  "enchantments.quincy": "Quincy",
+  "enchantments.spreading": "Verteilen",
+
+
+  // *********** //
+  // ** TAXES ** //
+  // *********** //
+
+  "tax.intro": "Department of the Treasury^Ferngill Revenue Service^^^{{honorific}} Steuerzahler,^^Mit diesem Schreiben möchten wir dich darüber informieren, dass deine kürzlich erfolgte Adressänderung nach Pelican Town, Stardew Valley, eingereicht und registriert worden ist. Alle zukünftige Korrespondenz wird an {{farm}} gerichtet.^^Wir möchten dich daran erinnern, dass die Bundeseinkommenssteuerbeiträge am 2. jeder Saison fällig sind. Um dir die Arbeit zu erleichtern, werden deine fälligen Verpflichtungen automatisch von deinem Guthaben abgezogen. Sollte dein Guthaben nicht ausreichen, wird automatisch ein Darlehen auf deinen Namen ausgestellt, für das eine nominale Zinsgebühr von {{interest}} pro Jahr anfällt.^^^Mit freundlichen Grüßen,^^Laura D. Pretto^Executive Directrice, Ferngill Revenue Service[#]Taxation Intro",
+  "tax.notice": "Department of the Treasury^Ferngill Revenue Service^^^{{honorific}} Steuerzahler,^^Dieser Brief informiert Sie darüber, dass Ihre gesamte fällige Einkommenssteuer für die letzte Saison in Höhe von {{due}}g automatisch von Ihrem Guthaben abgezogen wurde.^^Bitte bewahren Sie diesen Brief für den Fall auf, dass Sie Fragen zu Ihrem Steuerstatus klären müssen.^^^Mit freundlichen Grüßen,^^Laura D. Pretto^Executive Directrice, Ferngill Revenue Service[#]Taxation Notice",
+  "tax.outstanding": "Department of the Treasury^Ferngill Revenue Service^^^{{honorific}} Steuerzahler,^^Mit diesem Schreiben teilen wir dir mit, dass die von dir für die letzte Saison geschuldete Einkommensteuer in Höhe von {{due}}g nicht vollständig von deinem Guthaben abgezogen werden konnte. Daher werden alle zukünftigen Einkünfte aus der {{farm}} beschlagnahmt, bis Ihre ausstehende Schuld in Höhe von {{outstanding}} beglichen ist. Bitte bedenke, dass es in deinem besten Interesse ist, ausstehende Schulden so schnell wie möglich zu begleichen, um zu vermeiden, dass dir Zinsen in Höhe von {{interestRate}} pro Jahr und Strafgebühren entstehen.^^Bitte bewahre dieses Schreiben in deinen Unterlagen auf, falls du Fragen zu deinem steuerlichen Status klären musst.^^^Mit freundlichen Grüßen,^^Laura D. Pretto^Executive Directrice, Ferngill Revenue Service[#]Ausstehende Steuern",
+  "tax.deduction": "Department of the Treasury^Ferngill Revenue Service^^^{{honorific}} Steuerzahler,^^Wir freuen uns, dir mitzuteilen, dass wir bei der Überprüfung deiner umweltpolitischen Aktivitäten festgestellt haben, dass du gemäß Abschnitt 501 (c) (3) des Ferngill Revenue Code für einen Einkommenssteuerabzug von {{deductible}} in Frage kommst. Bitte bewahre dieses Schreiben in deinen Unterlagen auf, falls du Fragen zu deinem Steuerstatus klären musst.^^^^Mit freundlichen Grüßen,^^Laura D. Pretto^Executive Directrice, Ferngill Revenue Service[#]Steuerabzug",
+  "tax.deduction.max": "Department of the Treasury^Ferngill Revenue Service^^^{{honorific}} Steuerzahler,^^Wir freuen uns, dir mitzuteilen, dass wir bei der Überprüfung deiner umweltpolitischen Aktivitäten festgestellt haben, dass du gemäß Abschnitt 501(c)(3) des Ferngill Revenue Code von der Bundeseinkommenssteuer befreit bist. Daher wird dein Guthaben für die abschließende Saison nicht belastet.^^Bitte bewahre dieses Schreiben für den Fall auf, dass du Fragen zu deinem Steuerstatus klären musst.^^^Mit freundlichen Grüßen,^^Laura D. Pretto^Executive Directrice, Ferngill Revenue Service[#]Steuerabzug",
+  "debt.debit": "Dein Guthaben wurde in Höhe von {{amount}}g mit ausstehenden Schulden belastet.",
+  "honorific.male": "Sehr geehrter Herr",
+  "honorific.female": "Sehr geehrter Frau",
+
+
+  // ************** //
+  // * UI STRINGS * //
+  // ************** //
+
+  "ui.itemhover.damage": "{{amount}} Schaden",
+  "ui.itemhover.crate": "{{amount}} Kritik. Chance",
+  "ui.itemhover.cpow": "{{amount}} Kritik. Macht",
+  "ui.itemhover.knockback": "{{amount}} Rückschlag",
+  "ui.itemhover.firespeed": "{{amount}} Feuergeschwindigkeit",
+  "ui.itemhover.swingspeed": "{{amount}} Swing-Geschwindigkeit",
+  "ui.itemhover.cdr": "{{amount}} Abklingzeit",
+  "ui.itemhover.resist": "{{amount}} Widerstand",
+  "ui.itemhover.precision": "{{amount}} Präzision",
+
+
+  // ********* //
+  // * PONDS * //
+  // ********* //
+
+  "algae": "Algen"
 }

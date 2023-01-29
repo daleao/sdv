@@ -1,11 +1,9 @@
 # Modular Overhaul Change Logs
 
-## Minor release 1.2.x Highlights
+## Minor release 1.3.x Highlights
 
-* [Tools / Arsenal]: Added tool auto-selection, similar to Omni-Tool. Hold the mod key (defauflt Left Shift) and click on all desired tools to enable them for auto-selection. As long as the current tool is among those enabled, pressing the tool button will always have your character attempt to auto-select the appropriate appropriate tool, from among the enabled, for the corresponding action.
-* [Professions]: Fixed Agriculturist and Ecologist perks broken in 1.1.x.
-* [Professions]: The Prestige API should now be fully functional. Expect Binning and Socialization skills to support prestige profession variants soon.
-* Many optimizations of iterations and enumerations, reducing the reliance on Linq and introducing Hyperlinq dependency. 
+* [Tools]: Now includes the popular Harvest With Scythe feature, so you no longer have to rely on CJB Cheats Menu's implementation. The implementation is similar to Yet Another Harvest With Scythe Mod, which means they will conflict if installed together. Unlike YAHWSM, this implementation does not apply to forage.
+* Minor bug fixes.
 
 ## Major Release 1.x.x Highlights
 

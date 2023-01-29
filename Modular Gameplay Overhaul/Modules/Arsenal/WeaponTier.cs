@@ -82,7 +82,7 @@ public sealed class WeaponTier : SmartEnum<WeaponTier>
             { Constants.WickedKrisIndex, Mythic },
             { Constants.TheSlammerIndex, Mythic },
             { Constants.InsectHeadIndex, Mythic },
-            { Constants.NeptunesGlaiveIndex, Mythic },
+            { Constants.NeptuneGlaiveIndex, Mythic },
             { Constants.ObsidianEdgeIndex, Mythic },
             { Constants.LavaKatanaIndex, Mythic },
             { Constants.IridiumNeedleIndex, Mythic },

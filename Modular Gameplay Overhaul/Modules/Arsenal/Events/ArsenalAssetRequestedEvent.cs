@@ -612,7 +612,13 @@ internal sealed class ArsenalAssetRequestedEvent : AssetRequestedEvent
                 break;
 
             // UNIQUE SWORDS
-            case Constants.NeptunesGlaiveIndex:
+            case Constants.NeptuneGlaiveIndex:
+                if (ModHelper.GameContent.CurrentLocaleConstant == LocalizedContentManager.LanguageCode.en)
+                {
+                    // make it sound more unique
+                    fields[Name] = "Neptune's Glaive";
+                }
+
                 fields[MinDamage] = 90.ToString();
                 fields[MaxDamage] = 120.ToString();
                 fields[Knockback] = 0.825.ToString(CultureInfo.InvariantCulture);

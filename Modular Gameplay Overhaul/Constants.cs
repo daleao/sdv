@@ -96,7 +96,7 @@ public sealed class Constants
 
     public const int PiratesSwordIndex = 43;
     public const int BrokenTridentIndex = 51;
-    public const int NeptunesGlaiveIndex = 14;
+    public const int NeptuneGlaiveIndex = 14;
 
     public const int BoneSwordIndex = 5;
     public const int OssifiedBladeIndex = 60;

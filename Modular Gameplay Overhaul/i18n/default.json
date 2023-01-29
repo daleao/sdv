@@ -173,7 +173,7 @@
   // ** PRESTIGE ** //
   // ************** //
 
-  "prestige.dogstatue.first": "-Statue Of Prestige-^The statue can reset a skill's level while preserving all acquired professions.",
+  "prestige.dogstatue.first": "-Statue Of Prestige-^The statue can reset a skill's level while retaining all acquired professions.",
   "prestige.dogstatue.forget": "^All associated recipes will be forgotten.",
   "prestige.dogstatue.offer": "^Make an offering?",
   "prestige.dogstatue.which": "Which skill would you like to reset?",

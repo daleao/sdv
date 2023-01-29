@@ -1,5 +1,11 @@
 ﻿# Modular Overhaul Core Change Log
 
+## 1.3.0
+
+### Added
+
+* Added German translations by [FoxDie1986](https://www.nexusmods.com/stardewvalley/users/1369870).
+
 ## 1.2.3
 
 ## Changed

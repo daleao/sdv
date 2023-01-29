@@ -50,11 +50,11 @@ internal sealed class CrabPotCheckForActionPatcher : HarmonyPatcher
             bool addedToInventory;
             switch (__instance.heldObject.Value.ParentSheetIndex)
             {
-                case Constants.NeptunesGlaiveIndex:
+                case Constants.NeptuneGlaiveIndex:
                 case Constants.BrokenTridentIndex:
                     // caught a weapon
                     var weapon = new MeleeWeapon(__instance.heldObject.Value.ParentSheetIndex);
-                    if (ArsenalModule.IsEnabled && weapon.InitialParentTileIndex == Constants.NeptunesGlaiveIndex)
+                    if (ArsenalModule.IsEnabled && weapon.InitialParentTileIndex == Constants.NeptuneGlaiveIndex)
                     {
                         weapon.specialItem = true;
                     }
