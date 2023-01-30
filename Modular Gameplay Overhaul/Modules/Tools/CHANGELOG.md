@@ -1,5 +1,15 @@
 ﻿# Tools Module Change Log
 
+## 1.3.1
+
+### Added
+
+* By request, added the option to limit crop harvesting to Golden Scythe.
+
+### Fixed
+
+* Fixed scythe tooltip patcher not applying due to bad namespace.
+
 ## 1.3.0
 
 ## Added

@@ -270,7 +270,7 @@ internal sealed partial class GenericModConfigMenuCore
                 () => "Cumulative bonus that multiplies a skill's experience gain after each respective skill reset.",
                 config => config.Professions.PrestigeExpMultiplier,
                 (config, value) => config.Professions.PrestigeExpMultiplier = value,
-                0f,
+                -0.5f,
                 2f)
             .AddNumberField(
                 () => "Required Experience Per Extended Level",

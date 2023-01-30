@@ -48,9 +48,9 @@ internal sealed class FishingRodOpenTreasureMenuEndFunctionPatcher : HarmonyPatc
                             typeof(NetIntList).RequireMethod(nameof(NetIntList.Contains))),
                     })
                 .Match(
-                    new[] { new CodeInstruction(OpCodes.Ldc_R4, 0.05f) },
+                    new[] { new CodeInstruction(OpCodes.Ldc_R8, 0.05) },
                     ILHelper.SearchOption.Previous)
-                .SetOperand(0.025f);
+                .SetOperand(0.025);
         }
         catch (Exception ex)
         {
@@ -74,10 +74,11 @@ internal sealed class FishingRodOpenTreasureMenuEndFunctionPatcher : HarmonyPatc
                             OpCodes.Callvirt,
                             typeof(NetIntList).RequireMethod(nameof(NetIntList.Contains))),
                     })
-                .Match(new[]
-                {
-                    new CodeInstruction(OpCodes.Ldsfld, typeof(Game1).RequireField(nameof(Game1.random))),
-                })
+                .Match(
+                    new[]
+                    {
+                        new CodeInstruction(OpCodes.Ldsfld, typeof(Game1).RequireField(nameof(Game1.random))),
+                    })
                 .Insert(
                     new[]
                     {

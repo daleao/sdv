@@ -1,4 +1,4 @@
-﻿namespace DaLion.Overhaul.Modules.MeleeWeapons.Patchers;
+﻿namespace DaLion.Overhaul.Modules.Tools.Patchers;
 
 #region using directives
 

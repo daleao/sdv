@@ -33,6 +33,10 @@ public sealed class ScytheConfig
     [JsonProperty]
     public bool HarvestSpringOnions { get; internal set; } = false;
 
+    /// <summary>Gets a value indicating whether the harvest settings apply only to Golden Scythe.</summary>
+    [JsonProperty]
+    public bool GoldScytheOnly { get; internal set; } = false;
+
     /// <summary>Gets a value indicating whether the scythes can be enchanted with Haymaker.</summary>
     [JsonProperty]
     public bool AllowHaymakerEnchantment { get; internal set; } = true;

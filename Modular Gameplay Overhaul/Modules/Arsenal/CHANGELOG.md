@@ -1,5 +1,11 @@
 ﻿# Arsenal Change Log
 
+## 1.3.1
+
+### Fixed
+
+* Fixed start-up error with Neptune's Glaive patcher.
+
 ## 1.3.0
 
 ### Changed

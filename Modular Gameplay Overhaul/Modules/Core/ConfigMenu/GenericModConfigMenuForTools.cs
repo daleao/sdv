@@ -703,6 +703,11 @@ internal sealed partial class GenericModConfigMenuCore
                 config => config.Tools.Scythe.HarvestSpringOnions,
                 (config, value) => config.Tools.Scythe.HarvestSpringOnions = value)
             .AddCheckbox(
+                () => "Golden Scythe Only",
+                () => "Whether to limit crop and flower harvesting to the Golden Scythe.",
+                config => config.Tools.Scythe.GoldScytheOnly,
+                (config, value) => config.Tools.Scythe.GoldScytheOnly = value)
+            .AddCheckbox(
                 () => "Allow Haymaker Enchantment",
                 () => "Whether the Scythe can be enchanted with Haymaker.",
                 config => config.Tools.Scythe.AllowHaymakerEnchantment,

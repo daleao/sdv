@@ -28,7 +28,7 @@ internal sealed class MeleeWeaponDrawTooltipPatcher : HarmonyPatcher
     private static bool MeleeWeaponDrawTooltipPrefix(
         MeleeWeapon __instance, SpriteBatch spriteBatch, ref int x, ref int y, SpriteFont font, float alpha)
     {
-        if (!ArsenalModule.Config.Weapons.EnableRebalance)
+        if (!ArsenalModule.Config.Weapons.EnableRebalance || __instance.isScythe())
         {
             return true; // run original logic
         }
@@ -46,10 +46,6 @@ internal sealed class MeleeWeaponDrawTooltipPatcher : HarmonyPatcher
                 new Vector2(x + 16, y + 20),
                 Game1.textColor);
             y += (int)font.MeasureString(Game1.parseText(__instance.description, Game1.smallFont, descriptionWidth)).Y;
-            if (__instance.isScythe(__instance.IndexOfMenuItemView))
-            {
-                return false; // don't run original logic
-            }
 
             var co = Game1.textColor;
 
