@@ -1,5 +1,11 @@
 ﻿# Modular Overhaul Core Change Log
 
+## 1.3.2
+
+### Changed
+
+* Added headers to GMCM menus. 
+
 ## 1.3.1
 
 ### Fixed

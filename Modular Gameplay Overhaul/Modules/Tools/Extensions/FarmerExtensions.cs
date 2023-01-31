@@ -40,7 +40,7 @@ internal static class FarmerExtensions
 
         if (crop.forageCrop.Value)
         {
-            return config.HarvestSpringOnions;
+            return config.HarvestForage;
         }
 
         return crop.harvestMethod.Value == Crop.grabHarvest && config.HarvestCrops;

@@ -1,10 +1,17 @@
 ﻿# Tools Module Change Log
 
+## 1.3.3
+
+### Fixed
+
+* Fixed object harvesting not limited to forage (woops).
+* Fixed out of bounds experience gain.
+
 ## 1.3.2
 
 ### Added
 
-    * Added the ability to harvest forage with scythe.
+* Added the ability to harvest forage with scythe.
 
 ### Changed
 

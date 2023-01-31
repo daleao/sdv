@@ -3,6 +3,7 @@
 #region using directives
 
 using DaLion.Overhaul.Modules.Professions.Extensions;
+using DaLion.Overhaul.Modules.Tools.Extensions;
 using DaLion.Shared.Attributes;
 using DaLion.Shared.Extensions.Stardew;
 using DaLion.Shared.Harmony;
@@ -26,7 +27,7 @@ internal sealed class ObjectPerformToolActionPatcher : HarmonyPatcher
     [HarmonyPrefix]
     private static bool ObjectPerformToolActionPrefix(SObject __instance, ref bool __result, Tool t, GameLocation location)
     {
-        if (t.IsScythe() != true || !ToolsModule.Config.Scythe.HarvestForage)
+        if (t.IsScythe() != true || !__instance.IsHarvestableForage())
         {
             return true; // run original logic
         }
@@ -70,7 +71,7 @@ internal sealed class ObjectPerformToolActionPatcher : HarmonyPatcher
             random.NextDouble() < (who.professions.Contains(100 + Farmer.gatherer) ? 0.4 : 0.2))
         {
             Game1.createItemDebris(__instance.getOne(), tileLocation, -1);
-            who.gainExperience(Farmer.gatherer, 7);
+            who.gainExperience(Farmer.foragingSkill, 7);
         }
 
         __result = true;
