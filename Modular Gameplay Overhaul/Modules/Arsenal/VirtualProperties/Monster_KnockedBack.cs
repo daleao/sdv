@@ -17,13 +17,20 @@ internal static class Monster_KnockedBack
         return Values.GetOrCreateValue(monster).KnockedBack;
     }
 
-    internal static void Set_KnockedBack(this Monster monster, bool value)
+    internal static Farmer? Get_KnockBacker(this Monster monster)
     {
-        Values.GetOrCreateValue(monster).KnockedBack = value;
+        return Values.GetOrCreateValue(monster).ByWhom;
+    }
+
+    internal static void Set_KnockedBack(this Monster monster, Farmer? byWhom)
+    {
+        Values.GetOrCreateValue(monster).ByWhom = byWhom;
     }
 
     internal class Holder
     {
-        public bool KnockedBack { get; internal set; }
+        public bool KnockedBack => this.ByWhom is not null;
+
+        public Farmer? ByWhom { get; internal set; }
     }
 }

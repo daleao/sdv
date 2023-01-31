@@ -51,9 +51,8 @@ internal sealed class ArsenalButtonPressedEvent : ButtonPressedEvent
             player.FaceTowardsTile(Game1.currentCursorTile);
         }
 
-        if (ArsenalModule.Config.EnableAutoSelection && ArsenalModule.State.SelectableArsenal is not null &&
+        if (ArsenalModule.Config.EnableAutoSelection && Globals.AreEnemiesAround &&
             ArsenalModule.State.SelectableArsenal != tool &&
-            ToolsModule.State.SelectableToolByType.ContainsKey(tool.GetType()) &&
             ArsenalSelector.TryFor(player, out var index))
         {
             Game1.player.CurrentToolIndex = index;

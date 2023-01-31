@@ -4,7 +4,6 @@
 
 using System.Linq;
 using DaLion.Shared.ModData;
-using StardewValley.Monsters;
 
 #endregion using directives
 
@@ -16,7 +15,7 @@ public static class GameLocationExtensions
     /// <returns><see langword="true"/> if the <paramref name="location"/> is has at least one living monster and is not a <see cref="SlimeHutch"/>, otherwise <see langword="false"/>.</returns>
     public static bool HasMonsters(this GameLocation location)
     {
-        return location.characters.OfType<Monster>().Any() && location is not SlimeHutch;
+        return location.characters.Any(c => c.IsMonster) && location is not SlimeHutch;
     }
 
     /// <inheritdoc cref="ModDataIO.Read(GameLocation, string, string, string)"/>

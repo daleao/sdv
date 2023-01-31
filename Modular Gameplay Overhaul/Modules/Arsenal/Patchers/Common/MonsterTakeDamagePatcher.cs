@@ -77,7 +77,7 @@ internal sealed class MonsterTakeDamagePatcher : HarmonyPatcher
     {
         var helper = new ILHelper(original, instructions);
 
-        // Injected: ModEntry.Confi.Arsenal.OverhauledDefense ? DoOverhauledDefense(this, damage) : continue
+        // Injected: ModEntry.Config.Arsenal.OverhauledDefense ? DoOverhauledDefense(this, damage) : continue
         // At: start of method
         try
         {

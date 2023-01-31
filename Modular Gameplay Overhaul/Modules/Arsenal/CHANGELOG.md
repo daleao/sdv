@@ -1,5 +1,11 @@
 ﻿# Arsenal Change Log
 
+## 1.3.2
+
+### Fixed
+
+* Enemies defeated by knockback damage now properly count for game stats, quests and drop items. 
+
 ## 1.3.1
 
 ### Fixed

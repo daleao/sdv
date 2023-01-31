@@ -92,7 +92,8 @@ internal sealed class InventoryPageDrawPatcher : HarmonyPatcher
 
             var item = Game1.player.Items[slotNumber];
             if (item is Tool tool &&
-                ToolsModule.State.SelectableToolByType.TryGetValue(tool.GetType(), out var selectable) && selectable.HasValue)
+                ToolsModule.State.SelectableToolByType.TryGetValue(tool.GetType(), out var selectable) &&
+                selectable?.Tool == tool)
             {
                 component.bounds.DrawBorder(Pixel.Value, 3, ToolsModule.Config.SelectionBorderColor, b);
             }
