@@ -42,7 +42,7 @@ internal sealed class SwordCurseCommand : ConsoleCommand
         }
 
         player.CurrentTool.Write(DataFields.CursePoints, points.ToString());
-        if (!player.hasOrWillReceiveMail("viegoCurse"))
+        if (points >= 50 && !player.hasOrWillReceiveMail("viegoCurse"))
         {
             player.mailForTomorrow.Add("viegoCurse");
         }

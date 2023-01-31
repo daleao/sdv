@@ -138,6 +138,17 @@ internal sealed class Harmonizer
                 }
             }
 
+            var ignoreWithModAttribute = type.GetCustomAttribute<IgnoreWithModAttribute>();
+            if (ignoreWithModAttribute is not null)
+            {
+                if (this._modRegistry.IsLoaded(ignoreWithModAttribute.UniqueId))
+                {
+                    Log.W(
+                        $"[Harmonizer]: The conflicting mod {ignoreWithModAttribute.UniqueId} is loaded. {type.Name} will be ignored.");
+                    continue;
+                }
+            }
+
             try
             {
                 var patch = (IHarmonyPatcher?)type

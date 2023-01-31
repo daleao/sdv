@@ -698,6 +698,11 @@ internal sealed partial class GenericModConfigMenuCore
                 config => config.Tools.Scythe.HarvestFlowers,
                 (config, value) => config.Tools.Scythe.HarvestFlowers = value)
             .AddCheckbox(
+                () => "Harvest Forage",
+                () => "Whether to harvest forage with the Scythe.",
+                config => config.Tools.Scythe.HarvestForage,
+                (config, value) => config.Tools.Scythe.HarvestForage = value)
+            .AddCheckbox(
                 () => "Harvest Spring Onions",
                 () => "They can be considered crops or forage depending on your school of thought.",
                 config => config.Tools.Scythe.HarvestSpringOnions,

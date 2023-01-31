@@ -1,5 +1,15 @@
 ﻿# Tools Module Change Log
 
+## 1.3.2
+
+### Added
+
+    * Added the ability to harvest forage with scythe.
+
+### Changed
+
+* Harvest with scythe functionality will no-longer apply while Yet Another Harvest With Scythe mod is installed.
+
 ## 1.3.1
 
 ### Added

@@ -7,18 +7,17 @@ using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
 using DaLion.Overhaul.Modules.Tools.Extensions;
+using DaLion.Shared.Attributes;
 using DaLion.Shared.Extensions.Reflection;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
-using Microsoft.Xna.Framework;
 using StardewValley;
-using StardewValley.Locations;
 using StardewValley.TerrainFeatures;
-using StardewValley.Tools;
 
 #endregion using directives
 
 [UsedImplicitly]
+[IgnoreWithMod("bcmpinc.HarvestWithScythe")]
 internal sealed class HoeDirtPerformUseActionPatcher : HarmonyPatcher
 {
     /// <summary>Initializes a new instance of the <see cref="HoeDirtPerformUseActionPatcher"/> class.</summary>

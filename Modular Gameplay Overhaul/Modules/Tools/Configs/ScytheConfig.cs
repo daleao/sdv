@@ -29,6 +29,10 @@ public sealed class ScytheConfig
     [JsonProperty]
     public bool HarvestFlowers { get; internal set; } = false;
 
+    /// <summary>Gets a value indicating whether to harvest forage.</summary>
+    [JsonProperty]
+    public bool HarvestForage { get; internal set; } = false;
+
     /// <summary>Gets a value indicating whether to harvest spring onions.</summary>
     [JsonProperty]
     public bool HarvestSpringOnions { get; internal set; } = false;

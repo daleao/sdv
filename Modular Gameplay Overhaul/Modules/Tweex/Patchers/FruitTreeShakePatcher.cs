@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
 using DaLion.Overhaul.Modules.Tweex.Extensions;
+using DaLion.Shared.Attributes;
 using DaLion.Shared.Extensions.Reflection;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
@@ -14,6 +15,7 @@ using StardewValley.TerrainFeatures;
 #endregion using directives
 
 [UsedImplicitly]
+[IgnoreWithMod("aedenthorn.FruitTreeTweaks")]
 internal sealed class FruitTreeShakePatcher : HarmonyPatcher
 {
     /// <summary>Initializes a new instance of the <see cref="FruitTreeShakePatcher"/> class.</summary>
@@ -29,11 +31,6 @@ internal sealed class FruitTreeShakePatcher : HarmonyPatcher
     private static IEnumerable<CodeInstruction>? FruitTreeShakeTranspiler(
         IEnumerable<CodeInstruction> instructions, MethodBase original)
     {
-        if (ModHelper.ModRegistry.IsLoaded("aedenthorn.FruitTreeTweaks"))
-        {
-            return instructions;
-        }
-
         var helper = new ILHelper(original, instructions);
 
         // From: int fruitQuality = 0;

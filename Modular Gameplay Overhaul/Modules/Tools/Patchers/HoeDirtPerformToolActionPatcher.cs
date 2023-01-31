@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
 using DaLion.Overhaul.Modules.Tools.Extensions;
+using DaLion.Shared.Attributes;
 using DaLion.Shared.Extensions.Reflection;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
@@ -15,6 +16,7 @@ using StardewValley.TerrainFeatures;
 #endregion using directives
 
 [UsedImplicitly]
+[IgnoreWithMod("bcmpinc.HarvestWithScythe")]
 internal sealed class HoeDirtPerformToolActionPatcher : HarmonyPatcher
 {
     /// <summary>Initializes a new instance of the <see cref="HoeDirtPerformToolActionPatcher"/> class.</summary>

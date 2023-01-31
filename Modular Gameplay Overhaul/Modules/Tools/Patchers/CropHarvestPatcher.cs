@@ -5,6 +5,7 @@
 using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
+using DaLion.Shared.Attributes;
 using DaLion.Shared.Extensions.Reflection;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
@@ -15,6 +16,7 @@ using StardewValley;
 #endregion using directives
 
 [UsedImplicitly]
+[IgnoreWithMod("bcmpinc.HarvestWithScythe")]
 internal sealed class CropHarvestPatcher : HarmonyPatcher
 {
     /// <summary>Initializes a new instance of the <see cref="CropHarvestPatcher"/> class.</summary>
@@ -22,6 +24,7 @@ internal sealed class CropHarvestPatcher : HarmonyPatcher
     {
         this.Target = this.RequireMethod<Crop>(nameof(Crop.harvest));
         this.Transpiler!.priority = Priority.Low;
+        this.Transpiler.before = new[] { "spacechase0.MoreRings" };
     }
 
     #region harmony patches
@@ -29,6 +32,7 @@ internal sealed class CropHarvestPatcher : HarmonyPatcher
     /// <summary>Proper spring onion harvest with scythe.</summary>
     [HarmonyTranspiler]
     [HarmonyPriority(Priority.Low)]
+    [HarmonyBefore("spacechase0.MoreRings")]
     private static IEnumerable<CodeInstruction>? CropHarvestTranspiler(
         IEnumerable<CodeInstruction> instructions, ILGenerator generator, MethodBase original)
     {
