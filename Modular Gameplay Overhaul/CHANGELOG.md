@@ -1,12 +1,8 @@
 # Modular Overhaul Change Logs
 
-## Revision 1.3.2 Highlights
-
-* [Tools]: Added option to harvest forage with scythe.
-
 ## Minor release 1.3.x Highlights
 
-* [Tools]: Now includes the popular Harvest With Scythe feature, so you no longer have to rely on CJB Cheats Menu's implementation. The implementation is similar to Yet Another Harvest With Scythe Mod, which means they will conflict if installed together. Unlike YAHWSM, this implementation does not apply to forage.
+* [Tools]: Now includes the popular Harvest With Scythe feature, so you no longer have to rely on CJB Cheats Menu's implementation. The implementation is similar to Yet Another Harvest With Scythe Mod, which means they will conflict if installed together.
 
 ## Major Release 1.x.x Highlights
 

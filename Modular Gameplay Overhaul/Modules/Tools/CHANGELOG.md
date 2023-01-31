@@ -7,6 +7,10 @@
 * Fixed object harvesting not limited to forage (woops).
 * Fixed out of bounds experience gain.
 
+### Remved
+
+* Removed `HarvestSpringOnions` option. This is now considered forage.
+
 ## 1.3.2
 
 ### Added
