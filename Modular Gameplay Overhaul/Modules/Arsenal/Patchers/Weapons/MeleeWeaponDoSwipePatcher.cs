@@ -30,6 +30,11 @@ internal sealed class MeleeWeaponDoSwipePatcher : HarmonyPatcher
         float swipeSpeed,
         Farmer? f)
     {
+        if (__instance.isScythe())
+        {
+            return true; // run original logic
+        }
+
         if (f is null || f.CurrentTool != __instance)
         {
             return false; // don't run original logic

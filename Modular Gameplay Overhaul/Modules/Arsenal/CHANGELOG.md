@@ -1,5 +1,11 @@
 ﻿# Arsenal Change Log
 
+## 1.3.4
+
+### Fixed
+
+* Fixed missing scythe swipe sound.
+
 ## 1.3.2
 
 ### Fixed
