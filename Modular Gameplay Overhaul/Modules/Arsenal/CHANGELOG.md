@@ -1,5 +1,11 @@
 ﻿# Arsenal Change Log
 
+## 1.3.5
+
+### Fixed
+
+* Fixed a bad Null-Reference Exception introduced in 1.3.4.
+
 ## 1.3.4
 
 ### Fixed

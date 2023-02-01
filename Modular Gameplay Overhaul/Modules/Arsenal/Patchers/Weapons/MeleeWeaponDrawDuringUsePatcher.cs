@@ -32,7 +32,6 @@ internal sealed class MeleeWeaponDrawDuringUsePatcher : HarmonyPatcher
     /// <summary>Draw during combos + stabby lunge.</summary>
     [HarmonyPrefix]
     private static bool MeleeWeaponDrawDuringUsePrefix(
-        MeleeWeapon __instance,
         Vector2 ___center,
         int frameOfFarmerAnimation,
         int facingDirection,
@@ -43,7 +42,7 @@ internal sealed class MeleeWeaponDrawDuringUsePatcher : HarmonyPatcher
         int type,
         bool isOnSpecial)
     {
-        if (__instance.isScythe() || type == MeleeWeapon.dagger || (isOnSpecial && type != MeleeWeapon.stabbingSword) ||
+        if (type == MeleeWeapon.dagger || (isOnSpecial && type != MeleeWeapon.stabbingSword) ||
             !f.IsLocalPlayer)
         {
             return true; // run original logic
