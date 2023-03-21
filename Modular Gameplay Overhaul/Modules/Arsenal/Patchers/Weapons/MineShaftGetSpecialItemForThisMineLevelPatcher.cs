@@ -48,19 +48,16 @@ internal sealed class MineShaftGetSpecialItemForThisMineLevelPatcher : HarmonyPa
                 return false; // don't run original logic
             }
 
-            switch (r.Next(3))
+            switch (r.Next(4))
             {
                 case 0:
-                    __result = ChooseBoots(level);
-                    return false; // don't run original logic
-                case 1:
                     __result = ChooseRing(level);
                     return false; // don't run original logic
-                case 2:
-                    __result = ChooseWeapon(level, r);
+                case 1:
+                    __result = ChooseBoots(level);
                     return false; // don't run original logic
                 default:
-                    __result = new SObject(SObject.coal, 1);
+                    __result = ChooseWeapon(level, r);
                     return false; // don't run original logic
             }
         }

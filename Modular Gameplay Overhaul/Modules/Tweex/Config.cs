@@ -50,7 +50,7 @@ public sealed class Config : Shared.Configs.Config
 
     /// <summary>Gets the amount of Foraging experience rewarded for harvesting Tappers. Set to zero to disable.</summary>
     [JsonProperty]
-    public uint TapperExpReward { get; internal set; } = 5;
+    public uint TapperExpReward { get; internal set; } = 2;
 
     #endregion exp settings
 

@@ -59,7 +59,7 @@ internal sealed class RingDrawTooltipPatcher : HarmonyPatcher
                 root.DisplayName + ' ' + I18n.Get("resonance"),
                 font,
                 new Vector2(x + 16, y + 16 + 4),
-                Color.DarkRed,
+                root.TextColor,
                 1f,
                 -1f,
                 2,
@@ -88,7 +88,7 @@ internal sealed class RingDrawTooltipPatcher : HarmonyPatcher
         // write bonus damage
         if (buffer.DamageModifier != 0)
         {
-            var amount = $"+{buffer.DamageModifier:0%}";
+            var amount = $"+{buffer.DamageModifier:0.0%}";
             co = new Color(0, 120, 120);
             Utility.drawWithShadow(
                 spriteBatch,
@@ -112,7 +112,7 @@ internal sealed class RingDrawTooltipPatcher : HarmonyPatcher
         // write bonus knockback
         if (buffer.KnockbackModifier != 0)
         {
-            var amount = $"+{buffer.KnockbackModifier:0%}";
+            var amount = $"+{buffer.KnockbackModifier:0.0%}";
             co = new Color(0, 120, 120);
             Utility.drawWithShadow(
                 spriteBatch,
@@ -136,7 +136,7 @@ internal sealed class RingDrawTooltipPatcher : HarmonyPatcher
         // write bonus crit rate
         if (buffer.CritChanceModifier != 0)
         {
-            var amount = $"+{buffer.CritChanceModifier:0%}";
+            var amount = $"+{buffer.CritChanceModifier:0.0%}";
             co = new Color(0, 120, 120);
             Utility.drawWithShadow(
                 spriteBatch,
@@ -160,7 +160,7 @@ internal sealed class RingDrawTooltipPatcher : HarmonyPatcher
         // write crit power
         if (buffer.CritPowerModifier != 0)
         {
-            var amount = $"+{buffer.CritPowerModifier:0%}";
+            var amount = $"+{buffer.CritPowerModifier:0.0%}";
             co = new Color(0, 120, 120);
             Utility.drawWithShadow(
                 spriteBatch,
@@ -189,7 +189,7 @@ internal sealed class RingDrawTooltipPatcher : HarmonyPatcher
         // write bonus precision
         if (buffer.PrecisionModifier != 0)
         {
-            var amount = $"+{buffer.PrecisionModifier:0%}";
+            var amount = $"+{buffer.PrecisionModifier:0.0%}";
             co = new Color(0, 120, 120);
             Utility.drawWithShadow(
                 spriteBatch,
@@ -213,7 +213,7 @@ internal sealed class RingDrawTooltipPatcher : HarmonyPatcher
         // write bonus speed
         if (buffer.SwingSpeedModifier != 0)
         {
-            var amount = $"+{buffer.SwingSpeedModifier:0%}";
+            var amount = $"+{buffer.SwingSpeedModifier:0.0%}";
             co = new Color(0, 120, 120);
             Utility.drawWithShadow(
                 spriteBatch,
@@ -237,7 +237,7 @@ internal sealed class RingDrawTooltipPatcher : HarmonyPatcher
         // write bonus cooldown reduction
         if (buffer.CooldownReduction != 0)
         {
-            var amount = $"-{buffer.CooldownReduction:0%}";
+            var amount = $"-{buffer.CooldownReduction:0.0%}";
             co = new Color(0, 120, 120);
             Utility.drawWithShadow(
                 spriteBatch,
@@ -261,7 +261,7 @@ internal sealed class RingDrawTooltipPatcher : HarmonyPatcher
         // write bonus defense
         if (buffer.DefenseModifier != 0)
         {
-            var amount = $"+{buffer.DefenseModifier:0%}";
+            var amount = $"+{buffer.DefenseModifier:0.0%}";
             co = new Color(0, 120, 120);
             Utility.drawWithShadow(
                 spriteBatch,

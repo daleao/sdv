@@ -131,7 +131,7 @@ internal sealed class ObjectPerformObjectDropInActionPatcher : HarmonyPatcher
         }
         catch (Exception ex)
         {
-            Log.E($"Failed adding prestiged Breeder incubation bonus.\nHelper returned {ex}");
+            Log.E($"Failed adding Gemologist geode quality.\nHelper returned {ex}");
             return null;
         }
 
@@ -191,8 +191,8 @@ internal sealed class ObjectPerformObjectDropInActionPatcher : HarmonyPatcher
 
     private static void SetGeodeTreasureQuality(SObject crusher, SObject treasure, Farmer who)
     {
-        if (treasure.IsGemOrMineral() && (crusher.owner.Value == who.UniqueMultiplayerID ||
-                                          ProfessionsModule.Config.LaxOwnershipRequirements))
+        if (who.HasProfession(Profession.Gemologist) && treasure.IsGemOrMineral() &&
+            (crusher.IsOwnedBy(who) || ProfessionsModule.Config.LaxOwnershipRequirements))
         {
             treasure.Quality = who.GetGemologistMineralQuality();
         }

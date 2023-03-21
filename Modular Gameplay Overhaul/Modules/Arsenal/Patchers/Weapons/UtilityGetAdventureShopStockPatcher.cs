@@ -40,43 +40,40 @@ internal sealed class UtilityGetAdventureShopStockPatcher : HarmonyPatcher
                 { new MeleeWeapon(Constants.WoodenBladeIndex), new[] { 200, int.MaxValue } },
             };
 
-            if (MineShaft.lowestLevelReached >= 20)
-            {
-                stock.Add(new MeleeWeapon(Constants.SteelSmallswordIndex), new[] { 500, int.MaxValue });
-                stock.Add(new MeleeWeapon(Constants.SilverSaberIndex), new[] { 800, int.MaxValue });
-                stock.Add(new MeleeWeapon(Constants.CarvingKnife), new[] { 350, int.MaxValue });
-                stock.Add(new MeleeWeapon(Constants.WoodClubIndex), new[] { 250, int.MaxValue });
-            }
+            stock.Add(new MeleeWeapon(Constants.SteelSmallswordIndex), new[] { 600, int.MaxValue });
+            stock.Add(new MeleeWeapon(Constants.SilverSaberIndex), new[] { 800, int.MaxValue });
+            stock.Add(new MeleeWeapon(Constants.CarvingKnife), new[] { 350, int.MaxValue });
+            stock.Add(new MeleeWeapon(Constants.WoodClubIndex), new[] { 250, int.MaxValue });
 
-            if (MineShaft.lowestLevelReached >= 40)
+            if (MineShaft.lowestLevelReached >= 15)
             {
                 stock.Add(new MeleeWeapon(Constants.CutlassIndex), new[] { 1200, int.MaxValue });
                 stock.Add(new MeleeWeapon(Constants.IronEdgeIndex), new[] { 2000, int.MaxValue });
-                stock.Add(new MeleeWeapon(Constants.BurglarsShankIndex), new[] { 400, int.MaxValue });
-                stock.Add(new MeleeWeapon(Constants.WoodMalletIndex), new[] { 500, int.MaxValue });
+                stock.Add(new MeleeWeapon(Constants.BurglarsShankIndex), new[] { 600, int.MaxValue });
+                stock.Add(new MeleeWeapon(Constants.WoodMalletIndex), new[] { 750, int.MaxValue });
             }
 
-            if (MineShaft.lowestLevelReached >= 80)
+            if (MineShaft.lowestLevelReached >= 35)
             {
                 stock.Add(new MeleeWeapon(Constants.RapierIndex), new[] { 5000, int.MaxValue });
-                stock.Add(new MeleeWeapon(Constants.ClaymoreIndex), new[] { 10000, int.MaxValue });
+                stock.Add(new MeleeWeapon(Constants.ClaymoreIndex), new[] { 6500, int.MaxValue });
                 stock.Add(new MeleeWeapon(Constants.WindSpireIndex), new[] { 1200, int.MaxValue });
-                stock.Add(new MeleeWeapon(Constants.LeadRodIndex), new[] { 8000, int.MaxValue });
+                stock.Add(new MeleeWeapon(Constants.LeadRodIndex), new[] { 6000, int.MaxValue });
             }
 
-            if (MineShaft.lowestLevelReached >= 120)
+            if (MineShaft.lowestLevelReached >= 75)
             {
-                stock.Add(new MeleeWeapon(Constants.SteelFalchionIndex), new[] { 15000, int.MaxValue });
-                stock.Add(new MeleeWeapon(Constants.TemperedBroadswordIndex), new[] { 20000, int.MaxValue });
-                stock.Add(new MeleeWeapon(Constants.IronDirkIndex), new[] { 8000, int.MaxValue });
-                stock.Add(new MeleeWeapon(Constants.KudgelIndex), new[] { 12000, int.MaxValue });
+                stock.Add(new MeleeWeapon(Constants.SteelFalchionIndex), new[] { 12500, int.MaxValue });
+                stock.Add(new MeleeWeapon(Constants.TemperedBroadswordIndex), new[] { 15000, int.MaxValue });
+                stock.Add(new MeleeWeapon(Constants.IronDirkIndex), new[] { 6000, int.MaxValue });
+                stock.Add(new MeleeWeapon(Constants.KudgelIndex), new[] { 10000, int.MaxValue });
             }
 
-            if (MineShaft.lowestLevelReached >= 220)
+            if (MineShaft.lowestLevelReached >= 115)
             {
                 stock.Add(new MeleeWeapon(Constants.TemplarsBladeIndex), new[] { 50000, int.MaxValue });
-                stock.Add(new MeleeWeapon(Constants.WickedKrisIndex), new[] { 25000, int.MaxValue });
-                stock.Add(new MeleeWeapon(Constants.TheSlammerIndex), new[] { 80000, int.MaxValue });
+                stock.Add(new MeleeWeapon(Constants.WickedKrisIndex), new[] { 24000, int.MaxValue });
+                stock.Add(new MeleeWeapon(Constants.TheSlammerIndex), new[] { 65000, int.MaxValue });
             }
 
             stock.Add(new Boots(504), new[] { 500, int.MaxValue }); // sneakers

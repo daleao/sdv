@@ -28,6 +28,9 @@ internal sealed class ArsenalSaveLoadedEvent : SaveLoadedEvent
     protected override void OnSaveLoadedImpl(object? sender, SaveLoadedEventArgs e)
     {
         var player = Game1.player;
+        ArsenalModule.State.ContainerDropAccumulator = player.Read(DataFields.ContainerDropAccumulator, 0.05);
+        ArsenalModule.State.MonsterDropAccumulator = player.Read<double>(DataFields.MonsterDropAccumulator);
+
         if (!string.IsNullOrEmpty(player.Read(DataFields.BlueprintsFound)) && player.canUnderstandDwarves)
         {
             ModHelper.GameContent.InvalidateCacheAndLocalized("Data/Events/Blacksmith");
@@ -38,9 +41,9 @@ internal sealed class ArsenalSaveLoadedEvent : SaveLoadedEvent
             this.Manager.Enable<BlueprintDayStartedEvent>();
         }
 
-        if (player.Items.FirstOrDefault(
-                item => item is MeleeWeapon { InitialParentTileIndex: Constants.DarkSwordIndex }) is not null &&
-            !player.hasOrWillReceiveMail("viegoCurse"))
+        if (player.Items.FirstOrDefault(item =>
+                item is MeleeWeapon { InitialParentTileIndex: Constants.DarkSwordIndex } &&
+                item.Read<int>(DataFields.CursePoints) >= 50) is not null && !player.hasOrWillReceiveMail("viegoCurse"))
         {
             Game1.addMailForTomorrow("viegoCurse");
         }

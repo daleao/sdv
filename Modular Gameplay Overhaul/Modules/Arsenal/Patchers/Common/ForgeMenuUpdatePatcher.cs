@@ -35,7 +35,7 @@ internal sealed class ForgeMenuUpdatePatcher : HarmonyPatcher
     {
         var helper = new ILHelper(original, instructions);
 
-        // Injected: if (ArsenalModule.Config.TrulyLegendaryGalaxySword && weapon.hasEnchantmentOfType<HolyEnchantment>())
+        // Injected: if (ArsenalModule.Config.InfinityPlusOne && weapon.hasEnchantmentOfType<HolyEnchantment>() && weapon.GetTotalForgeLevels <= 0)
         //               UnforgeHolyBlade(weapon);
         //           else ...
         // After: if (weapon != null)
@@ -71,6 +71,14 @@ internal sealed class ForgeMenuUpdatePatcher : HarmonyPatcher
                                 .RequireMethod(nameof(Tool.hasEnchantmentOfType))
                                 .MakeGenericMethod(typeof(BlessedEnchantment))),
                         new CodeInstruction(OpCodes.Brfalse_S, vanillaUnforge),
+                        new CodeInstruction(OpCodes.Ldloc_S, helper.Locals[9]),
+                        new CodeInstruction(OpCodes.Ldc_I4_1), // 1 is for true
+                        new CodeInstruction(
+                            OpCodes.Call,
+                            typeof(Tool)
+                                .RequireMethod(nameof(Tool.GetTotalForgeLevels))),
+                        new CodeInstruction(OpCodes.Ldc_I4_0),
+                        new CodeInstruction(OpCodes.Bgt_S, vanillaUnforge),
                         new CodeInstruction(OpCodes.Ldarg_0),
                         new CodeInstruction(OpCodes.Ldloc_3, helper.Locals[9]),
                         new CodeInstruction(

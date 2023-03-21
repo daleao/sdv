@@ -123,7 +123,7 @@ public sealed class SpreadingEnchantment : BaseSlingshotEnchantment
             return;
         }
 
-        if (Game1.currentLocation.currentEvent != null || Game1.currentMinigame != null)
+        if (Game1.currentLocation.currentEvent is not null || Game1.currentMinigame is not null)
         {
             rotated.IgnoreLocationCollision = true;
         }

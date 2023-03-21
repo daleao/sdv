@@ -93,11 +93,11 @@ public sealed class Config : Shared.Configs.Config
 
     /// <summary>Gets the size of the pointer used to track objects by Prospector and Scavenger professions.</summary>
     [JsonProperty]
-    public float TrackPointerScale { get; internal set; } = 1f;
+    public float TrackingPointerScale { get; internal set; } = 1.2f;
 
     /// <summary>Gets the speed at which the tracking pointer bounces up and down (higher is faster).</summary>
     [JsonProperty]
-    public float TrackPointerBobbingRate { get; internal set; } = 1f;
+    public float TrackingPointerBobbingRate { get; internal set; } = 1f;
 
     /// <summary>Gets a value indicating whether if enabled, Prospector and Scavenger will only track off-screen object while <see cref="ModKey"/> is held.</summary>
     [JsonProperty]
@@ -130,6 +130,10 @@ public sealed class Config : Shared.Configs.Config
     /// <summary>Gets a value indicating whether toggles the Get Excited buff when a Demolitionist is hit by an explosion.</summary>
     [JsonProperty]
     public bool EnableGetExcited { get; internal set; } = true;
+
+    /// <summary>Gets a value indicating whether to increase the quality of all active Crystalarium minerals when the Gemologist owner gains a quality level-up.</summary>
+    [JsonProperty]
+    public bool CrystalariumsUpgradeWithGemologist { get; internal set; } = true;
 
     /// <summary>Gets the number of fish species that must be caught to achieve instant catch.</summary>
     /// <remarks>Unused.</remarks>
@@ -218,7 +222,7 @@ public sealed class Config : Shared.Configs.Config
 
     /// <summary>Gets cumulative multiplier to each skill's experience gain after a respective skill reset.</summary>
     [JsonProperty]
-    public float PrestigeExpMultiplier { get; internal set; } = 0.1f;
+    public float PrestigeExpFactor { get; internal set; } = 0.1f;
 
     /// <summary>Gets how much skill experience is required for each level up beyond 10.</summary>
     [JsonProperty]

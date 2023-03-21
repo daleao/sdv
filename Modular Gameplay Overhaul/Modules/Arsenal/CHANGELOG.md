@@ -1,5 +1,38 @@
 ﻿# Arsenal Change Log
 
+## 1.4.0
+
+### Changed
+
+* Removed the cap on bonus damage awarded by Carving enchantment.
+* Reduced the minimum mine level required for new weapons to appear at Marlon's shop. The first batch of weapons will now be available instantly. The second will appear as soon as level 15. Some prices have also been lowered.
+* Mine chests no longer drop seeds. Can now drop fertilizers. Increased the stack of several chest rewards. Improved the odds of hitting the jackpot (Quality Sprinklers).
+* Increased the spawn chance of breakable containers in the mines. Implemented a handicap system to dynamically increase the chance of obtaining special items from breakable containers (including weapons).
+* Implemented a handicap system to dynamically increase the chance of encountering monsters with special item drops. Weapons dropped from monsters are still rarer and stronger on average than those dropped by containers.
+* Some weapon stats have been changed:
+    * **Burglar's Shank**: +30% crit rate, -10% crit power
+    * **Kudgel**: -8% Knockback, +10% Speed
+    * **The Slammer**: +13% Knockback
+    * **Dwarven Sword**: +10% Defense, slightly increased hitbox
+    * **Dwarven Dagger**: slightly increased hitbox
+    * **Dwarven Hammer**: +5% Knockback, +10% Defense, +10% Speed
+    * **Galaxy Sword**: +10% Speed, +10% Crit. Chance
+    * **Galaxy Dagger**: +10% Crit. Chance, +10% Knockback
+    * **Galaxy Hammer**: +10% Knockback, +10% Speed
+    * **Infinity Sword**: +20% Speed, +20% Crit. Chance
+    * **Infinity Dagger**: +20% Crit. Chance, +20% Knockback
+    * **Infinity Gavel**: +20% Knockback, +20% Speed
+    * **Infinity Needle**: -50% Crit. Power
+
+### Fixed
+
+* Carving enchantment now works correctly on Rock Crabs.
+* The Dawn Blade will no longer be dismantled as long as it has forges to be removed.
+* Generosity Trial now only checks for completion on the Master player, to avoid issues in multiplayer games.
+* The description of the Jinxed debuff should now properly reflect the changes made by the Overhauled Defense setting.
+* Fixed some typos causing Aquamarine, Jade and Emerald-resonances to not apply correctly to their correspondingly-forged weapons.
+* Generosity Trial completion should now register on all farmhands.
+
 ## 1.3.5
 
 ### Fixed

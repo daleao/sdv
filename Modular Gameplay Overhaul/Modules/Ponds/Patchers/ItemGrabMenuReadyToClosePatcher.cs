@@ -7,7 +7,6 @@ using DaLion.Shared.Extensions.Collections;
 using DaLion.Shared.Extensions.Stardew;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
-using NetFabric.Hyperlinq;
 using StardewValley.Buildings;
 using StardewValley.Menus;
 using StardewValley.Objects;
@@ -51,7 +50,6 @@ internal sealed class ItemGrabMenuReadyToClosePatcher : HarmonyPatcher
         if (inventory.Count > 0)
         {
             var serialized = inventory
-                .AsValueEnumerable()
                 .Select(i => $"{i.ParentSheetIndex},{i.Stack},{((SObject)i).Quality}");
             pond.Write(DataFields.ItemsHeld, string.Join(';', serialized));
         }

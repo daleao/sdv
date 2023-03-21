@@ -61,8 +61,7 @@ internal static class Game1Extensions
         {
             foreach (var @object in location.Objects.Values)
             {
-                if (@object.bigCraftable.Value && @object.ParentSheetIndex == (int)Machine.Crystalarium &&
-                    (@object.IsOwnedBy(who) || ProfessionsModule.Config.LaxOwnershipRequirements) &&
+                if (@object.bigCraftable.Value && @object.ParentSheetIndex == (int)Machine.Crystalarium && @object.IsOwnedBy(who) &&
                     @object.heldObject?.Value.Quality < newQuality)
                 {
                     @object.heldObject.Value.Quality = newQuality;

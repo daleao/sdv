@@ -57,9 +57,11 @@ internal sealed class CommunityUpgradeAcceptPatcher : HarmonyPatcher
 
     private static void CheckForGenerosityCompletion()
     {
-        var player = Game1.player;
-        player.WriteIfNotExists(DataFields.ProvenGenerosity, true.ToString());
-        Virtue.Generosity.CheckForCompletion(player);
+        foreach (var farmer in Game1.getAllFarmers())
+        {
+            farmer.WriteIfNotExists(DataFields.ProvenGenerosity, true.ToString());
+            Virtue.Generosity.CheckForCompletion(farmer);
+        }
     }
 
     #endregion injected subroutines

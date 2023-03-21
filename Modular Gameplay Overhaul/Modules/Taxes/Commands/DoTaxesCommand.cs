@@ -2,6 +2,7 @@
 
 #region using directives
 
+using System.Linq;
 using DaLion.Shared.Commands;
 using DaLion.Shared.Enums;
 using DaLion.Shared.Extensions.Stardew;
@@ -48,20 +49,19 @@ internal sealed class DoTaxesCommand : ConsoleCommand
         var taxable = (int)((seasonIncome - deductibleExpenses) * (1f - deductiblePct));
 
         var dueF = 0f;
-        var bracket = 0f;
+        var tax = 0f;
         var temp = taxable;
-        for (var i = 0; i < 7; i++)
+        foreach (var bracket in RevenueService.TaxByIncomeBrackets.Keys)
         {
-            bracket = RevenueService.Brackets[i];
-            var threshold = RevenueService.Thresholds[bracket];
-            if (temp > threshold)
+            tax = RevenueService.TaxByIncomeBrackets[bracket];
+            if (temp > bracket)
             {
-                dueF += threshold * bracket;
-                temp -= threshold;
+                dueF += bracket * tax;
+                temp -= bracket;
             }
             else
             {
-                dueF += temp * bracket;
+                dueF += temp * tax;
                 break;
             }
         }
@@ -75,7 +75,7 @@ internal sealed class DoTaxesCommand : ConsoleCommand
             $"\n\t- Business expenses: {deductibleExpenses}g" +
             CurrentCulture($"\n\t- Eligible deductions: {deductiblePct:0%}") +
             $"\n\t- Taxable amount: {taxable}g" +
-            CurrentCulture($"\n\t- Current tax bracket: {bracket:0%}") +
+            CurrentCulture($"\n\t- Current tax bracket: {tax:0%}") +
             $"\n\t- Due amount: {dueI}g." +
             $"\n\t- Outstanding debt: {debt}g." +
             $"\nRequested on {Game1.currentSeason} {Game1.dayOfMonth}, year {Game1.year}.");

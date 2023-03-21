@@ -11,7 +11,6 @@ using DaLion.Overhaul.Modules.Professions.Ultimates;
 using DaLion.Overhaul.Modules.Professions.VirtualProperties;
 using DaLion.Shared.Extensions;
 using DaLion.Shared.Extensions.Stardew;
-using NetFabric.Hyperlinq;
 using StardewModdingAPI.Utilities;
 using StardewValley.Buildings;
 using StardewValley.Monsters;
@@ -74,7 +73,6 @@ internal static class FarmerExtensions
         }
 
         if (includeCustom && !SCProfession.List
-                .AsValueEnumerable()
                 .Select(p => p.Id)
                 .All(farmer.professions.Contains))
         {
@@ -214,7 +212,7 @@ internal static class FarmerExtensions
         var chosen = farmer.Get_Ultimate();
         return new[] { 26, 27, 28, 29 }
             .Intersect(farmer.professions)
-            .Except(chosen?.Value.Collect() ?? ValueEnumerable.Empty<int>())
+            .Except(chosen?.Value.Collect() ?? Enumerable.Empty<int>())
             .Select(Ultimate.FromValue);
     }
 

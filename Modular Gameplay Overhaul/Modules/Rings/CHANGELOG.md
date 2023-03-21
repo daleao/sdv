@@ -1,14 +1,31 @@
 # Rings Module Change Log
 
+## 1.4.0
+
+### Added
+
+* Resonance text is now color-coded.
+
+### Changed
+
+* New chord harmonization algorithm now considers all note interactions, instead of only distinct notes. Some gemstone combinations will suffer a small rebalance due to this change.
+
+### Fixed
+
+* Fixed the Warrior Energy buff, which previously wasn't implemented at all.
+
 ## 1.2.3
+    
+### Fixed
 
 * Fixed an issue with the overhuled Warrior Ring buff never ending.
+
 
 ## 1.2.2
 
 ### Added
 
-* Added "Resonance" to resonant Infinity Band tooltip.
+* Added resonance type to combined Infinity Band tooltip.
 
 ### Fixed
 

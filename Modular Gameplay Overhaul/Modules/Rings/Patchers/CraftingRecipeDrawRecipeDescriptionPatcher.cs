@@ -67,7 +67,7 @@ internal sealed class CraftingRecipeDrawRecipeDescriptionPatcher : HarmonyPatche
                 var remaining = required - foundInBackpack;
 
                 var foundInContainers = 0;
-                if (additional_crafting_items != null)
+                if (additional_crafting_items is not null)
                 {
                     foundInContainers = index.IsRingIndex()
                         ? Game1.player.GetRingItemCount(index, additional_crafting_items)

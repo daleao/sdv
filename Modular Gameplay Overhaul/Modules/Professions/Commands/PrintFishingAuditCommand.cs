@@ -77,19 +77,20 @@ internal sealed class PrintFishingAuditCommand : ConsoleCommand
 
         var priceMultiplier = Game1.player.HasProfession(Profession.Angler)
             ? CurrentCulture($"{Math.Min((numMaxSizedCaught * 0.01f) + (numLegendaryCaught * 0.05f), ProfessionsModule.Config.AnglerMultiplierCap):0%}")
-            : "Zero. You're not an Angler.";
+            : "zero. You're not an Angler..";
         result.Append(
-            $"Species caught: {Game1.player.fishCaught.Count()}/{fishData.Count}\nMax-sized: {numMaxSizedCaught}/{Game1.player.fishCaught.Count()}\nLegendaries: {numLegendaryCaught}/10\nTotal Angler price bonus: {priceMultiplier}\n\nThe following caught fish are not max-sized:");
-        result.Append(nonMaxSizedCaught.Keys.Aggregate(
+            $"You've caught {Game1.player.fishCaught.Count()} out of {fishData.Count} fishes. Of those, {numMaxSizedCaught} are max-sized, and {numLegendaryCaught} are legendary. You're total Angler price bonus is {priceMultiplier}." +
+            "\nThe following caught fish are not max-sized:");
+        nonMaxSizedCaught.Keys.Aggregate(
             result,
             (current, fish) =>
-                current.Append($"\n\t- {fish} (current: {nonMaxSizedCaught[fish].Item1}, max: {nonMaxSizedCaught[fish].Item2})")));
+                current.Append($"\n\t- {fish} (current: {nonMaxSizedCaught[fish].Item1}, max: {nonMaxSizedCaught[fish].Item2})"));
 
         var seasonFish = from specificFishData in fishData.Values
             where specificFishData.SplitWithoutAllocation('/')[6].Contains(Game1.currentSeason, StringComparison.Ordinal)
             select specificFishData.SplitWithoutAllocation('/')[0].ToString();
 
-        result.Append("\n\nThe following fish can be caught this season:");
+        result.Append("\nThe following fish can be caught this season:");
         result = seasonFish.Except(caughtFishNames).Aggregate(result, (current, fish) => current.Append($"\n\t- {fish}"));
 
         Log.I(result.ToString());

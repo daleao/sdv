@@ -2,10 +2,10 @@
 
 #region using directives
 
-using DaLion.Overhaul.Modules.Professions.Events.GameLoop;
 using DaLion.Overhaul.Modules.Professions.Extensions;
 using DaLion.Overhaul.Modules.Professions.VirtualProperties;
 using DaLion.Shared.Events;
+using Shared.UI;
 using StardewModdingAPI.Events;
 
 #endregion using directives
@@ -29,12 +29,12 @@ internal sealed class TrackerButtonsChangedEvent : ButtonsChangedEvent
     {
         if (ProfessionsModule.Config.ModKey.JustPressed())
         {
-            this.Manager.Enable<PointerUpdateTickedEvent>();
+            HudPointer.Instance.Value.ShouldBob = true;
         }
         else if (ProfessionsModule.Config.ModKey.GetState() == SButtonState.Released &&
                  !Game1.player.Get_ProspectorHunt().IsActive && !Game1.player.Get_ScavengerHunt().IsActive)
         {
-            this.Manager.Disable<PointerUpdateTickedEvent>();
+            HudPointer.Instance.Value.ShouldBob = false;
         }
     }
 }

@@ -15,6 +15,6 @@ internal enum RefreshOption
     /// <summary>Forcefully set the <see cref="MeleeWeapon"/>'s stats to the default values from the game's data.</summary>
     FromData,
 
-    /// <summary>Forcefully randomizes the <see cref="MeleeWeapon"/>'s stats according the player's current profession.</summary>
+    /// <summary>Forcefully randomizes the <see cref="MeleeWeapon"/>'s stats according the player's current progression.</summary>
     Randomized,
 }

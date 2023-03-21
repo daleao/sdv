@@ -44,6 +44,11 @@ internal sealed class Game1CreateObjectDebrisPatcher : HarmonyPatcher
 
             who.Increment(DataFields.GemologistMineralsCollected);
             var collected = who.Read<int>(DataFields.GemologistMineralsCollected);
+            if (!ProfessionsModule.Config.CrystalariumsUpgradeWithGemologist)
+            {
+                return false; // don't run original logic
+            }
+
             if (collected == ProfessionsModule.Config.MineralsNeededForBestQuality / 2)
             {
                 Game1.game1.GlobalUpgradeCrystalariums(SObject.highQuality, who);

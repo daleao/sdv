@@ -1,3 +1,360 @@
 ﻿{
-    "algae": "藻類"
+  // ***************** //
+  // ** PROFESSIONS ** //
+  // ***************** //
+
+  // farming
+  "harvester.title.male": "収穫者",
+  "harvester.title.female": "収穫者",
+  "harvester.desc": "10% の確率で収穫の際に追加の作物が得られる。",
+  "harvester.desc.prestiged": "10% >> 20% の確率で収穫の際に追加の作物が得られる。",
+  "agriculturist.title.male": "農業者",
+  "agriculturist.title.female": "農業者",
+  "agriculturist.desc": "作物の成長が10% 速くなる。 肥料を使わずに最高品質の作物を育てられる。",
+  "agriculturist.desc.prestiged": "作物の成長が10% >> 20% 速くなる。",
+  "artisan.title.male": "職人",
+  "artisan.title.female": "職人",
+  "artisan.desc": "全ての加工設備が10% 速く動く。 設備の出力品質は入力品質と同じくらい良い。",
+  "artisan.desc.prestiged": "全ての加工設備が10% >> 25% 速く動く。",
+
+  "rancher.title.male": "動物飼育者",
+  "rancher.title.female": "動物飼育者",
+  "rancher.desc": "動物と仲良くなる速度が2倍 になる。",
+  "rancher.desc.prestiged": "動物と仲良くなる速度が2倍 >> 3倍 になる。",
+  "breeder.title.male": "ブリーダー",
+  "breeder.title.female": "ブリーダー",
+  "breeder.desc": "ふ化が2倍 速くなり、出産の確率が3倍 になる。 友好度が高いと動物の売値が上がる。",
+  "breeder.desc.prestiged": "ふ化が2倍 >> 3倍 速くなり、出産の確率が3倍 >> 5倍 になる。",
+  "producer.title.male": "生産者",
+  "producer.title.female": "生産者",
+  "producer.desc": "幸せな動物が2倍 の頻度で生産する。 小屋か家畜小屋が一杯になる度に生産量が5% 増加する。",
+  "producer.desc.prestiged": "幸せな動物が2倍 >> 3倍 の頻度で生産する。",
+
+  // foraging
+  "forager.title.male": "採取者",
+  "forager.title.female": "採取者",
+  "forager.desc": "採取時、20% の確率でアイテムが2倍になる。",
+  "forager.desc.prestiged": "採取時、20% >> 40% の確率でアイテムが2倍になる。",
+  "ecologist.title.male": "生物学者",
+  "ecologist.title.female": "生物学者",
+  "ecologist.desc": "野生のベリーが50% 多く体力とエネルギーを回復する。 採取物の品質が徐々に上昇する。",
+  "ecologist.desc.prestiged": "野生のベリーが50% >> 100% 多く体力とエネルギーを回復する。",
+  "scavenger.title.male": "スカベンジャー",
+  "scavenger.title.female": "スカベンジャー",
+  "scavenger.desc": "採取可能なアイテムの場所がわかるようになる。 たまに埋まった宝を発見する。",
+  "scavenger.desc.prestiged": "スカベンジャーハント中に時間が止まる。",
+  "scavenger.huntstarted": "スカベンジャーの感覚がうずく...",
+  "scavenger.huntfailed": "うずきが収まった.",
+
+  "lumberjack.title.male": "木こり",
+  "lumberjack.title.female": "木こり",
+  "lumberjack.desc": "木から25% 多く木材が取れる。",
+  "lumberjack.desc.prestiged": "木から25% >> 40% 多く木材が取れる。",
+  "arborist.title.male": "樹医",
+  "arborist.title.female": "樹医",
+  "arborist.desc": "全ての木が早く育つ。 普通の木が堅い木をドロップするようになる。",
+  "arborist.desc.prestiged": "普通の木が堅い木を2倍ドロップするようになる。",
+  "tapper.title.male": "樹液採集器",
+  "tapper.title.female": "樹液採集器",
+  "tapper.desc": "樹液採取器の作成コストが下がる。 取り付けられた木は25% 速く生産する。",
+  "tapper.desc.prestiged": "取り付けられた木は25% >> 50% 速く生産する。",
+
+  // mining
+  "miner.title.male": "鉱山労働者",
+  "miner.title.female": "鉱山労働者",
+  "miner.desc": "鉱脈1つあたりの鉱石+1 個。",
+  "miner.desc.prestiged": "鉱脈1つあたりの鉱石+1 >> +2 個。",
+  "spelunker.title.male": "探検家",
+  "spelunker.title.female": "探検家",
+  "spelunker.desc": "鉱山の階層が進む度に、はしごやシャフトを見つける確率が上がる。 10階ごとに速度+1。",
+  "spelunker.desc.prestiged": "また、階層が進む度に体力とエネルギーを回復する。",
+  "spelunker.buff.desc": "はしご発見 +{{ladderChance}}. +{{speed}} 速度.",
+  "prospector.title.male": "プロスペクター",
+  "prospector.title.female": "プロスペクター",
+  "prospector.desc": "はしごと採掘ポイントの場所がわかるようになる。 たまに貴重な鉱物を含む岩を発見する。",
+  "prospector.desc.prestiged": "プロスペクターハント中に時間が止まる。",
+  "prospector.huntstarted": "プロスペクターの感覚がうずく...",
+  "prospector.huntfailed": "うずきが収まった.",
+
+  "blaster.title.male": "爆破技師",
+  "blaster.title.female": "爆破技師",
+  "blaster.desc": "爆弾を2倍作成できる。 爆破された岩からは2倍 の石炭が取れる。",
+  "blaster.desc.prestiged": "爆破された岩からは2倍 >> 3倍 の石炭が取れる。",
+  "demolitionist.title.male": "解体業者",
+  "demolitionist.title.female": "解体業者",
+  "demolitionist.desc": "爆弾の半径+1。 爆破された岩は20% 多く資源をドロップする。",
+  "demolitionist.desc.prestiged": "爆破された岩は20% >> 40% 多く資源をドロップする。",
+  "demolitionist.buff.desc": "盛り上がってきた!",
+  "gemologist.title.male": "宝石学者",
+  "gemologist.title.female": "宝石学者",
+  "gemologist.desc": "鉱物と宝石の品質が徐々に上昇する。 結晶コピーマシンが25% 速く動く。",
+  "gemologist.desc.prestiged": "結晶コピーマシンが25% >> 50% 速く動く。",
+
+  // fishing
+  "fisher.title.male": "釣り人",
+  "fisher.title.female": "釣り人",
+  "fisher.desc": "魚の食いつきが早くなる。 ゴミを釣る確率が減る。",
+  "fisher.desc.prestiged": "瞬時に魚が食いつく。",
+  "angler.title.male": "釣り師",
+  "angler.title.female": "釣り師",
+  "angler.desc": "MAXサイズの魚ごとに1%、伝説の魚ごとに5%、魚の売値が上がる。",
+  "angler.desc.prestiged": "伝説の魚を再び釣れる。",
+  "aquarist.title.male": "水族館経営者",
+  "aquarist.title.female": "水族館経営者",
+  "aquarist.desc": "魚のいる池の最大容量+2。 魚のいる池で飼育されている魚の種類毎に、捕獲メーターの減少が遅くなる。",
+  "aquarist.desc.prestiged": "魚のいる池で伝説の魚を飼育できる。",
+
+  "trapper.title.male": "漁師",
+  "trapper.title.female": "漁師",
+  "trapper.desc": "カニかごの作成コストが下がる。 高品質の魚を捕まえられる。",
+  "trapper.desc.prestiged": "最高品質の魚を捕まえられる。",
+  "luremaster.title.male": "ルアーの達人",
+  "luremaster.title.female": "ルアーの達人",
+  "luremaster.desc": "カニかごからゴミが出なくなる。 釣りエサの種類で生産アイテムが変わる。",
+  "luremaster.desc.prestiged": "60% の確率で釣りエサを消費しない。",
+  "conservationist.title.male": "自然保護家",
+  "conservationist.title.female": "自然保護家",
+  "conservationist.desc": "釣りエサの入っていないカニかごがゴミを捕まえるようになる。 バレーの水をきれいにし、税金控除を受けられるようにする。",
+  "conservationist.desc.prestiged": "住人の友好度も上昇する。",
+  "conservationist.mail": "財務省^ファーンギル歳入庁^^^{{honorific}} 納税者様へ^^この度、あなたの環境保護活動を審査した結果、ファーンギル歳入法第501条(c)(3)に基づき、{{taxBonus}}の所得税控除を受ける資格があると判断しましたので、お知らせいたします。 そのため、{{farm}}の全ての課税所得は、{{season}}の28日まで、上記の金額だけ増加することになります。^^この手紙は、あなたの財政状態に関する疑問を解決するために、永久的な記録として保管しておいてください。^^^謹言^^ローラ・D・プレト^ファーンギル歳入庁長官[#]Taxation Deduction",
+  "conservationist.mail.max": "財務省^ファーンギル歳入庁^^^{{honorific}} 納税者様へ^^この度、あなたの環境保護活動を審査した結果、ファーンギル歳入法第501条(c)(3)に基づき、{{taxBonus}}の所得税最大控除を受ける資格があると判断しましたのでお知らせいたします。 そのため、{{farm}}の全ての課税所得は、{{season}}の28日まで、上記の金額だけ増加することになります。^^この手紙は、あなたの財政状態に関する疑問を解決するために、永久的な記録として保管しておいてください。^^^謹言^^ローラ・D・プレト^ファーンギル歳入庁長官[#]Taxation Deduction",
+
+  // combat
+  "fighter.title.male": "戦士",
+  "fighter.title.female": "戦士",
+  "fighter.desc": "ダメージ +10%. +15 HP.",
+  "fighter.desc.prestiged": "ダメージ +10% >> +15%.",
+  "brute.title.male": "荒くれ者",
+  "brute.title.female": "女傑",
+  "brute.desc": "ダメージを受けると怒りが溜まり、戦闘能力が向上する。 +25 HP.",
+  "brute.desc.prestiged": "怒りは攻撃速度も向上させる。",
+  "brute.buff.name": "怒り",
+  "brute.buff.desc": "ダメージ +{{damage}}.",
+  "brute.buff.desc.prestiged": "ダメージ +{{damage}}. 攻撃速度 +{{speed}}.",
+  "poacher.title.male": "山賊",
+  "poacher.title.female": "山賊",
+  "poacher.desc": "クリティカル率+50%. クリティカルヒットで敵からアイテムを盗むことがある。",
+  "poacher.desc.prestiged": "盗むのに成功すると特殊攻撃のクールダウンがリセットされる。",
+
+  "rascal.title.male": "ラスカル",
+  "rascal.title.female": "ラスカル",
+  "rascal.desc": "弾薬スロットが1つ増える。 35% の確率で弾薬を消費しない。",
+  "rascal.desc.prestiged": "35% >> 70% の確率で弾薬を消費しない。",
+  "desperado.title.male": "デスペラード",
+  "desperado.title.female": "デスペラーダ",
+  "desperado.desc": "体力が低いほど発射速度が上がる。 オーバーチャージして弾薬のダメージと大きさを増やすことができる。",
+  "desperado.desc.prestiged": "オーバーチャージショットが敵を貫通する。",
+  "piper.title.male": "スターデューの笛吹き男",
+  "piper.title.female": "スライムの魔女",
+  "piper.desc": "敵が近くにいると、スライムハッチから味方のスライムが駆けつける。 スライムを倒すと確率でランダムなバフを得る。",
+  "piper.desc.prestiged": "スライムを倒すと確率で体力とエネルギーも回復する。",
+  "piper.buff": "べたつき",
+
+
+  // *************** //
+  // ** ULTIMATES ** //
+  // *************** //
+
+  "frenzy.title": "不滅の狂乱",
+  "frenzy.desc": "怒りの蓄積が2倍になる。 効果継続中は気絶しない。",
+  "ambush.title": "待ち伏せ",
+  "ambush.desc.hidden": "潜伏.",
+  "ambush.desc.revealed": "クリティカル威力x2.",
+  "blossom.title": "デッドリー・ブロッサム",
+  "blossom.desc": "8方向に弾を自動発射する。",
+  "concerto.title.male": "ハーメルン協奏曲",
+  "concerto.title.female": "熱狂フェロモン",
+  "concerto.desc": "近くのスライムを魅了し、強化する。",
+
+  "ulti.canteat": "今は無理だ。",
+
+
+  // ************** //
+  // ** PRESTIGE ** //
+  // ************** //
+
+  "prestige.dogstatue.first": "-名声の像-^この像は取得した特化職を全て保持したまま、スキルのレベルをリセットできる。",
+  "prestige.dogstatue.forget": "^関連するレシピもまたリセットされるだろう。",
+  "prestige.dogstatue.offer": "^ゴールドをささげますか?",
+  "prestige.dogstatue.which": "どのスキルをリセットしますか?",
+  "prestige.dogstatue.cost": "({{cost}}g)",
+  "prestige.dogstatue.dismiss": "また明日来よう。",
+  "prestige.dogstatue.what": "-名声の像-^...",
+  "prestige.dogstatue.respec": "名声を得た特化職を変える",
+  "prestige.dogstatue.changeult": "アルティメットを変える",
+  "prestige.dogstatue.replace": "現在のアルティメットは{{profession}}の{{ultimate}}です。 変更しますか?",
+  "prestige.dogstatue.choice": "{{profession}}の{{ultimate}}",
+  "prestige.dogstatue.fledged": "*ワン* *ワン* (これで君も一人前の{{profession}}だよ。).",
+  "prestige.dogstatue.cancel": "やっぱりやめる...",
+  "prestige.skillpage.tooltip": "取得した特化職{{count}}/4 :",
+  "prestige.levelup.tooltip:5": "この分野の全ての特化職を取得済み。",
+  "prestige.levelup.tooltip:10": "すでにこの特化職を取得している。",
+  "prestige.levelup.question": "現在のアルティメットは{{oldProfession}}の{{oldUltimate}}です。 {{newProfession}}の {{newUltimate}}に変更しますか?",
+  "prestige.levelup.unlocked": "{{skill}}スキルをさらに発展できるようになりました。",
+  "prestige.levelup.prestige": "名声を得る特化職を選んでください:",
+  "prestige.achievement.title.male": "Jack-Of-All-Trades",
+  "prestige.achievement.title.female": "Jill-Of-All-Trades",
+  "prestige.achievement.desc": "全てのスキルですべての特化職を取得する。",
+
+
+  // *********** //
+  // * ARSENAL * //
+  // *********** //
+
+  "weapons.dwarven.prefix": "ドワーフの",
+  "weapons.elven.prefix": "エルフの",
+  "weapons.darksword.name": "破滅の剣",
+  "weapons.darksword.desc": "呪われた剣。倒した敵の生命力を消費してさらに強力になる。",
+  "weapons.darksword.found": "像の後ろに何かがあるようだ。",
+  "weapons.darksword.chill": "背筋に悪寒が走るのを感じる。",
+  "weapons.darksword.question": "それが何であろうと、そっとしておいた方がいいだろう...",
+  "weapons.darksword.grabit": "掴む",
+  "weapons.darksword.leaveit": "やめておく",
+  "weapons.darksword.holdupmessage": "あなたは手を伸ばし、古びた剣を見つけた。 握りこむと、刃が不気味な緑色に光り始めた。突然、世界から平和と希望と幸福が消え去ったような気がした...^^     ={{darksword}}=  を手に入れた。^",
+  "weapons.darksword.cantdeposit": "{{darksword}}は手放すことができない。",
+  "weapons.holyblade.name": "黎明の剣",
+  "weapons.holyblade.desc": "祝福された剣、誉れ高き英雄に与えられる。",
+  "weapons.holyblade.holdupmessage": "{{darksword}}がヨバ神の祭壇に反応している! 刃の邪悪なエネルギーが薄れていき、代わりに暖かな感覚が手のひらに伝わってくる...^^     ={{holyblade}}=  を手に入れた。^",
+  "weapons.insecthead.extradesc": " 今までに倒した虫系の敵の数に比例してダメージを与える。",
+  "weapons.obsidianedge.extradesc": " 敵のアーマーを貫通する。",
+  "weapons.iridiumneedle.extradesc": " 必ずクリティカルになる。",
+  "slingshots.infinity.name": "インフィニティパチンコ",
+  "slingshots.infinity.desc": "ギャラクシーパチンコの真の姿。",
+  "objects.galaxysoul.desc": "小さな銀河のコアが実体化したもの。",
+
+  "blueprint.found.first": "古びた設計図を見つけた! 色あせてはいるが、ドワーフ語の記号の横に{{type}}の形があるのがわかる。適切な職人なら何らかの意味を理解できるかもしれない。",
+  "blueprint.found.local": "ドワーフの設計図を手に入れた。",
+  "blueprint.found.global": "{who}がドワーフの設計図を見つけた。",
+  "blacksmith.forge.option": "鍛造する",
+  "blacksmith.forge.explanation": "あんたが見つけてきた設計図をもとに、新しい武器を鍛造できるようになったぜ。 材料の不思議な素材があったらだけどな。",
+  "blacksmith.forge.confirmation": "おっ、見つけて来たのか! 早速取りかかるよ。 数日で用意できるはずだ。",
+
+  "dialogue.clint.blueprint.notdone": "やあ @。 まだあんたの設計図の解読は終わっていないんだ。$0#$b#たぶん明日にでも...$2",
+  "dialogue.clint.blueprint.done": "やあ @。 あの古びた設計図の解読が終わったんだ。$0#$b#こんなにも長くかかってすまん。$2#$b#これは奇妙な素材で作られた武器のレシピだったんだ。$0#$b#これを書いた人は明らかに鍛冶の達人だ。 ここに書いてある技術はかなり高度なものなんだ。$2#$b#実際に作ってみたいんだが、素材がどこで手に入るのか見当も付かない。#$b#とにかく、あんたの本は返すよ。 もし素材に出くわしたら、ここに持ってきてくれ。タダでその武器を作ってあげるよ。",
+  "dialogue.gil.virtues": "真の冒険者は、5つの英雄的な美徳: 誇り、慈悲、知恵、寛大さ、そして 勇気に従って生きるべきだ。 そのような者はヨバ神の目に英雄として映り、必ず冒険から無事に帰ってくることが約束される。#$b#少なくとも、わしの母はそう言っていたよ。",
+  "dialogue.wizard.curse.canthelp": "すまない、 @。 残念ながら、我が魔術を持ってしても今の貴殿を助けることはできんのだ。#$b#貴殿の唯一の希望は、神を探すことだけだろう。",
+
+  "events.forge.intro": "distantBanjo/3 15/farmer 5 19 0 Clint 3 13 2/pause 1000/speak Clint \"お、よう @。$1\"/move farmer 0 -4 3/move farmer -2 0 0/pause 500/speak Clint \"どうした、アップグレードが必要などうぐでも持ってるのか?\"/pause 500/speak Clint \"何だこれ、古い設計図か?\"/pause 500/textAboveHead Clint \"うーん...\"/pause 1200/speak Clint \"ぜひ協力させてくれ、 @、 でもおれにはこんな走り書きを理解することはできない...$2\"/pause 1000/speak Clint \"これは? この文字の翻訳ガイドを持ってるってことか?$0#$b#だけど、解読には何日もかかるぞ...$2\"/pause 200/emote Clint 28 true/pause 1500/speak Clint \"ああ、わかった。 今晩から取りかかるとするよ。 数日後にまた会いに来てくれ。\"/pause 500/addQuest 144701/end",
+  "events.curse.intro": "WizardSong/-1000 -1000/farmer 8 24 0 Wizard 10 15 2/showFrame Wizard 20/viewport 8 18 true/move farmer 0 -3 0/pause 2000/speak Wizard \"@、 来てくれて嬉しいぞ。\"/pause 300/showFrame Wizard 16/pause 500/speak Wizard \"魔力の乱れを感じていたが、貴殿が入ってくるまでそれが何なのか見当もつかなかった。\"/pause 500/showFrame Wizard 0/pause 500/move Wizard -2 0 3/move Wizard 0 3 2/pause 1000/speak Wizard \"その怪しげな剣...\"/move Wizard 0 1 2/pause 300/speak Wizard \"教えたまえ、どうやって手に入れた?\"/pause 500/emote farmer 40 true/pause 2000/speak Wizard \"なるほど。\"/pause 500/move Wizard 0 -1 0/speak Wizard \"その剣から発せられる邪悪なエネルギーの塊が意味するのはただ1つ。\"/pause 500/faceDirection Wizard 2 true/pause 500/speak Wizard \"それは破滅した英雄の剣に違いない。$1\"/pause 1000/move Wizard 0 1 2/pause 200/speak Wizard \"かつて、英雄ヴィエゴはヨバ神から授かった見事な黄金の剣を振るっていたという。\"/pause 200/showFrame Wizard 18/pause 200/speak Wizard \"しかし最愛の妻が亡くなり、ヴィエゴは怒り、狂い、悲しみに溺れた。\"/pause 500/showFrame Wizard 0/pause 500/move Wizard -2 0 3/pause 200/speak Wizard \"そして彼は妻を復活させることに取り憑かれ、闇の魔術に手を染めたのだ。#$b#多大な犠牲を払いながらも、彼は遂に成功させた。\"/pause 200/move Wizard 2 0 1/pause 200/speak Wizard \"その瞬間、妻の体は恐ろしい影と怒りの亡霊となって復活したのだ。#$b#死から引き剥がされたことに困惑しながらも、彼女はヴィエゴの剣を手に取り、彼の心臓を突き刺した。\"/faceDirection Wizard 2 true/speak Wizard \"そしてその瞬間、ヴィエゴの闇の魔術とヨバ神の聖なる力がぶつかり合い、ヴィエゴの心臓から黒霧が流れ出した。そうして彼は不死に囚われた「破滅の英雄」となったのだ。\"/move Wizard 0 -1 0/speak Wizard \"吾輩自身、その物語を信じてはいなかったが、その剣が本物ならば、未だヴィエゴがそれを探し求めているかもしれない。\"/pause 1500/move Wizard 0 2 2/speak Wizard \"その剣はいずれ貴殿をむしばむだろう、@、 ヴィエゴもそうだったように。#$b#それを取り払うことが急務なのだ。 そして何があっても、その剣を使ってはならぬぞ。\"/pause 500/addQuest 144703/end",
+  "events.curse.intro.sve": "WizardSong/-1000 -1000/farmer 8 24 0 Wizard 10 15 2/showFrame Wizard 20/viewport 8 18 true/move farmer 0 -3 0/pause 2000/speak Wizard \"@、 来てくれて嬉しいぞ。\"/pause 300/showFrame Wizard 16/pause 500/speak Wizard \"魔力の乱れを感じていたが、貴殿が入ってくるまでそれが何なのか見当もつかなかった。\"/pause 500/showFrame Wizard 0/pause 500/move Wizard -2 0 3/move Wizard 0 3 2/pause 1000/speak Wizard \"その怪しげな剣...\"/move Wizard 0 1 2/pause 300/speak Wizard \"教えたまえ、どうやって手に入れた?\"/pause 500/emote farmer 40 true/pause 2000/speak Wizard \"なるほど。\"/pause 500/move Wizard 0 -1 0/speak Wizard \"その剣から発せられる邪悪なエネルギーの塊が意味するのはただ1つ。\"/pause 500/faceDirection Wizard 2 true/pause 500/speak Wizard \"それは破滅した英雄の剣に違いない。$3\"/pause 1000/move Wizard 0 1 2/pause 200/speak Wizard \"かつて、英雄ヴィエゴはヨバ神から授かった見事な黄金の剣を振るっていたという。\"/pause 200/showFrame Wizard 18/pause 200/speak Wizard \"しかし最愛の妻が亡くなり、ヴィエゴは怒り、狂い、悲しみに溺れた。\"/pause 500/showFrame Wizard 0/pause 500/move Wizard -2 0 3/pause 200/speak Wizard \"そして彼は妻を復活させることに取り憑かれ、闇の魔術に手を染めたのだ。#$b#多大な犠牲を払いながらも、彼は遂に成功させた。\"/pause 200/move Wizard 2 0 1/pause 200/speak Wizard \"その瞬間、妻の体は恐ろしい影と怒りの亡霊となって復活したのだ。#$b#死から引き剥がされたことに困惑しながらも、彼女はヴィエゴの剣を手に取り、彼の心臓を突き刺した。\"/faceDirection Wizard 2 true/speak Wizard \"そしてその瞬間、ヴィエゴの闇の魔術とヨバ神の聖なる力がぶつかり合い、ヴィエゴの心臓から黒霧が流れ出した。そうして彼は不死に囚われた「破滅の英雄」となったのだ。\"/move Wizard 0 -1 0/speak Wizard \"吾輩自身、その物語を信じてはいなかったが、その剣が本物ならば、未だヴィエゴがそれを探し求めているかもしれない。\"/pause 1500/move Wizard 0 2 2/speak Wizard \"その剣はいずれ貴殿をむしばむだろう、@、 ヴィエゴもそうだったように。#$b#それを取り払うことが急務なのだ。 そして何があっても、その剣を使ってはならぬぞ。\"/pause 500/addQuest 144703/end",
+  "events.100162.sword": "MarlonsTheme/21 9/farmer -100 -100 0 Marlon 23 6 2/addQuest 14/skippable/pause 1000/move Marlon 0 2 2/pause 500/showFrame Marlon 4/pause 1000/speak Marlon \"うーん... \"/pause 500/warp farmer 18 13/playSound stoneStep/move farmer 0 -3 1/move farmer 5 0 0/pause 500/showFrame Marlon 0/pause 500/speak Marlon \"...古い採掘抗におりる坑道をのぞきこんでいるだけさ。#$b#ここは何十年もまえに廃鉱になったんだ。\"/pause 500/showFrame Marlon 4/speak Marlon \"それでも、いまだに下では質のいい鉱石が採れる。#$b#しかしここは、暗闇のまま放っておかれすぎた... きっと、鉱石以外のなにかもうごめいているはず...\"/pause 500/showFrame Marlon 0/pause 500/speak Marlon \"そら、こいつをもっていけ。 きっと必要になるだろう。\"/pause 500/playSound dwop/faceDirection farmer 1 true/pause 50/faceDirection farmer 2/itemAboveHead sword/pause 3300/awardFestivalPrize sword/pause 300/faceDirection farmer 1 true/pause 100/faceDirection farmer 0/pause 500/speak Marlon \"ああ、おれの名はマーロン。ここを出たすぐそばで、冒険者ギルドを開いている。#$b#お前の行動は見ているからな。自分の力を証明できれば、お前をギルドのメンバーに迎えてやらないでもないぞ。\"/pause 500/end",
+  "events.100162.nosword": "MarlonsTheme/21 9/farmer -100 -100 0 Marlon 23 6 2/addQuest 14/skippable/pause 1000/move Marlon 0 2 2/pause 500/showFrame Marlon 4/pause 1000/speak Marlon \"うーん... \"/pause 500/warp farmer 18 13/playSound stoneStep/move farmer 0 -3 1/move farmer 5 0 0/pause 500/showFrame Marlon 0/pause 500/speak Marlon \"...古い採掘抗におりる坑道をのぞきこんでいるだけさ。#$b#ここは何十年もまえに廃鉱になったんだ。\"/pause 500/showFrame Marlon 4/speak Marlon \"それでも、いまだに下では質のいい鉱石が採れる。#$b#しかしここは、暗闇のまま放っておかれすぎた... きっと、鉱石以外のなにかもうごめいているはず...\"/pause 500/showFrame Marlon 0/pause 500/speak Marlon \"そいつの振りかたを知っておいたほうがいい。 必要になるかもな。\"/pause 500/speak Marlon \"ああ、おれの名はマーロン。ここを出たすぐそばで、冒険者ギルドを開いている。#$b#お前の行動は見ているからな。自分の力を証明できれば、お前をギルドのメンバーに迎えてやらないでもないぞ。\"/pause 500/end",
+  "events.100162.sword.sve": "MarlonsTheme/21 9/farmer -100 -100 0 MarlonFay 23 6 2/addQuest 14/skippable/pause 1000/move MarlonFay 0 2 2/pause 500/showFrame MarlonFay 19/pause 1000/speak MarlonFay \"ふーむ... \"/pause 500/warp farmer 18 13/playSound stoneStep/move farmer 0 -3 1/move farmer 5 0 0/pause 500/showFrame MarlonFay 0/pause 500/speak MarlonFay \"...この鉱山のたて穴はどれだけ深いのかと考えていたんだ。#$b#モンスターが地上に出てくる前に始末しておかなくては。$1#$b#心配しているな? 年はとったが、視力も剣の腕もまだまだ衰えていないさ。$0\"/pause 500/showFrame MarlonFay 18/pause 2000/showFrame MarlonFay 0/pause 500/speak MarlonFay \"今まで多くの冒険者に会ってきたんだ。 お前の目を見ればわかる。$2\"/pause 1500/speak MarlonFay \"この武器を持っていけ。見た目は悪いが、これがあればここのモンスターと戦えるぞ。\"/playSound dwop/faceDirection farmer 1 true/pause 50/faceDirection farmer 2/itemAboveHead sword/pause 3300/awardFestivalPrize sword/pause 300/faceDirection farmer 1 true/pause 100/faceDirection farmer 0/pause 500/speak MarlonFay \"お前に注目しておくよ。 力を証明してくれれば、冒険者ギルドのメンバーに入れることも考えよう。\"/pause 750/end",
+  "events.100162.nosword.sve": "MarlonsTheme/21 9/farmer -100 -100 0 MarlonFay 23 6 2/addQuest 14/skippable/pause 1000/move MarlonFay 0 2 2/pause 500/showFrame MarlonFay 19/pause 1000/speak MarlonFay \"ふーむ... \"/pause 500/warp farmer 18 13/playSound stoneStep/move farmer 0 -3 1/move farmer 5 0 0/pause 500/showFrame MarlonFay 0/pause 500/speak MarlonFay \"...この鉱山のたて穴はどれだけ深いのかと考えていたんだ。#$b#モンスターが地上に出てくる前に始末しておかなくては。$1#$b#心配しているな? 年はとったが、視力も剣の腕もまだまだ衰えていないさ。$0\"/pause 500/showFrame MarlonFay 18/pause 2000/showFrame MarlonFay 0/pause 500/speak MarlonFay \"今まで多くの冒険者に会ってきたんだ。 お前の目を見ればわかる。$2\"/pause 300/showFrame MarlonFay 19/pause 1000/showFrame MarlonFat 0/pause 300/speak MarlonFay \"力を証明してくれれば、冒険者ギルドのメンバーに入れることも考えよう。\"/pause 750/end",
+  "events.1337098.nopurchase": "MarlonsTheme/-500 -500/farmer -200 -200 0 MarlonFay 4 11 2/viewport 6 13 true/skippable/pause 2000/warp farmer 6 19/playSound doorClose/pause 500/showFrame MarlonFay 17/pause 150/textAboveHead MarlonFay \"なにか見つけたか!\"/pause 350/move farmer 0 -5 3/move farmer -2 0 0/move farmer 0 -1 0/showFrame MarlonFay 0/pause 500/speak MarlonFay \"その剣は! 間違いない!$1#$b#ギャラクシーソードを手に入れたんだな!\"/pause 1000/showFrame MarlonFay 18/pause 1000/speak MarlonFay \"お前はそれにふさわしいと認められたんだ、 @。 とても名誉なことだぞ。$2#$b#おれはキャッスルビレッジでの過酷な夜戦を乗りこえて、初めてギャラクシー武器を手に入れたんだ。#$b#まばゆい紫の光と共に、剣がゆっくりと手の中に落ちてきたのさ。 一瞬だけだが、宇宙のパワーを感じたよ。#$b#魔術師や学者によると、ギャラクシー武器はヨバ神が人類の真の平和の守護者におくるらしい。\"/pause 1200/speak MarlonFay \"お前はおれの誇りだ!$1\"/showFrame MarlonFay 0/pause 500/end",
+
+  "fromcsfiles.MeleeWeapon.cs.14122": "レインボージェムが強くかがやき、 イリジウムののべ棒を取りこみながら形を変えていく!^^     ={{galaxyWeapon}}=  を手に入れた。^",
+  "locations.Town.DwarfGrave.Translated": "     あなたはドワーフ語を翻訳した:     \n\n 砂に消えた黄金の三つ子の間に\n大地によって鍛えられた虹をかかげ\n天に祈れ! 汝の要求を貫け。\n雷鳴が響き、汝の名をとどろかせよう。\nもし汝の心が清く、純粋であり\n信仰に疑いや恐れがないならば\n星々が雨のようにあの印に降り注ぎ\n汝に天の鋼鉄を授けるであろう。",
+  "locations.SeedShop.Yoba": "\"ヨバの真の英雄に災いがふりかかることはない。\"",
+
+  "mail.curse.intro": "親愛なる @へ、 緊急の話があって貴殿に会いたい。^なるべく早く、魔術師の塔へ来てくれたまえ。^   -M. ラズモディアス, 魔術師[#]Ruined Hero",
+
+  "quests.forge.intro": "Basic/ドワーフの遺産/クリントは、数日すれば古びた設計図の翻訳が終わると言っていた。/クリントのもとを訪れて、設計図について聞こう。/Blacksmith/144702/0/-1/false",
+  "quests.forge.next": "Basic/ドワーフの遺産 II/古びた設計図は、強力な古代の武器のレシピであることが判明した! 設計図は他にもあるのだろうか?/残りのドワーフの設計図を見つけよう。/null/-1/0/-1/false",
+  "quests.curse.intro": "Basic/破滅した英雄の剣/あなたが見つけた武器は、破滅した英雄の呪いを宿しているようだ! すでに自分の生命エネルギーが吸い取られているのを感じる。 早く呪いを解く方法を見つけたほうが良さそうだ!/破滅の剣の呪いを解く方法を探そう。/null/144704/0/-1/false",
+  "quests.curse.next": "Basic/破滅した英雄の剣/真の英雄の美徳を体現する者は、ヨバ神の聖なる力によってあらゆる悪を浄化されるようだ。/5つの英雄的な美徳に従って生きていることを証明しよう。/null/144705/0/-1/false",
+  "quests.curse.last": "Basic/破滅した英雄の剣/真の英雄の美徳を体現する者は、ヨバ神の聖なる力によってあらゆる悪を浄化されるようだ。/ヨバ神の祭壇に破滅の剣を持っていこう。/null/-1/0/-1/false",
+  "quests.virtues.honor": "Basic/誇りの試練/誇りは金では買えない。 誇りはまた売ることもできず、 その価値は、この世の全ての宝にも勝る。 しかし、ひとたび誇りを失ってしまえば、その者は永遠に名を汚すこととなる。 真に誇りある人間とは、己の行動に常に責任を持ち、どのような困難にも立ち向かい、そしてウソをつかない者のことだ。/誇りを証明するチャンスを待とう。/null/-1/0/-1/false",
+  "quests.virtues.compassion": "Basic/慈悲の試練/その人の本質を物語る特徴は数多く存在する。 慈悲とは、ヒトとケモノを分かつものだ。 同胞を思いやる者は、決して不幸から目をそむけることはない。 彼らは常に、不当な扱いを受けた人々を守るため、立ち上がるのだ。/慈悲を証明するチャンスを待とう。/null/-1/0/-1/false",
+  "quests.virtues.wisdom": "Basic/知恵の試練/知恵とは、一生をかけて育てるべき美徳であり、限界は存在しない。 賢き者はそのことをよく知っている... 長い人生の旅において、我らは賢い選択をするよう努めなければならない。 覚えておくがよい、賢い選択とは、我々の人生を楽にしたり、単純にしたりするものではない。 ほとんどの場合、それらは人生をより複雑にしてしまうのだ。 しかし、賢い選択はまた、我らをより良くしてくれるのだ。/知恵を証明するチャンスを待とう。/null/-1/0/-1/false",
+  "quests.virtues.generosity": "Basic/寛大さの試練/自身の成功や幸運を他人に分け与えない人間を、善人とはいえない。 生前の品位と死後の安らぎのためには、寛大さが必要だ。/寛大さを証明するチャンスを待とう。/null/-1/0/-1/false",
+  "quests.virtues.valor": "Basic/勇気の試練/勇気は人を良くするものではない。しかし、人生においておくびょうな善人に出会ったことがあるだろうか? 勇気ある者は、どのような結果になろうとも、大勢に立ち向かうことをためらわないのだ。/勇気を証明するチャンスを待とう。/null/-1/0/-1/false",
+
+  "yoba.question": "祭壇に、他にもひ文がある...",
+  "virtues.honor.name": "誇り",
+  "virtues.compassion.name": "慈悲",
+  "virtues.wisdom.name": "知恵",
+  "virtues.generosity.name": "寛大さ",
+  "virtues.valor.name": "勇気",
+  "virtues.honor.flavor": "\"誇りは金では買えない。 誇りはまた売ることもできず、 その価値は、この世の全ての宝にも勝る。 しかし、ひとたび誇りを失ってしまえば、その者は永遠に名を汚すこととなる。 真に誇りある人間とは、己の行動に常に責任を持ち、どのような困難にも立ち向かい、そしてウソをつかない者のことだ。\"",
+  "virtues.compassion.flavor": "\"その人の本質を物語る特徴は数多く存在する。 慈悲とは、ヒトとケモノを分かつものだ。 同胞を思いやる者は、決して不幸から目をそむけることはない。 彼らは常に、不当な扱いを受けた人々を守るため、立ち上がるのだ。\"",
+  "virtues.wisdom.flavor": "\"知恵とは、一生をかけて育てるべき美徳であり、限界は存在しない。 賢き者はそのことをよく知っている... 長い人生の旅において、我らは賢い選択をするよう努めなければならない。 覚えておくがよい、賢い選択とは、我々の人生を楽にしたり、単純にしたりするものではない。 ほとんどの場合、それらは人生をより複雑にしてしまうのだ。 しかし、賢い選択はまた、我らをより良くしてくれるのだ。\"",
+  "virtues.generosity.flavor": "\"自身の成功や幸運を他人に分け与えない人間を、善人とはいえない。 生前の品位と死後の安らぎのためには、寛大さが必要だ。\"",
+  "virtues.valor.flavor": "\"勇気は人を良くするものではない。しかし、人生においておくびょうな善人に出会ったことがあるだろうか? 勇気ある者は、どのような結果になろうとも、大勢に立ち向かうことをためらわないのだ。\"",
+
+  // json assets
+  "objects.dwarvishblueprint.name": "古びたドワーフの設計図",
+  "objects.dwarvishblueprint.description": "色あせてはいるが、まだ読めるようだ。",
+  "objects.herosoul.name": "ヒーローソウル",
+  "objects.herosoul.description": "英雄のエッセンスが実体化したもの。",
+  "objects.dwarvenscrap.name": "ドワーフの金属片",
+  "objects.dwarvenscrap.description": "古代的でありながら、どこか近未来的な印象を受ける。",
+  "objects.elderwood.name": "エルダーウッド",
+  "objects.elderwood.description": "古代の魔法族に魔法をかけられた木片。",
+
+
+  // ********* //
+  // * RINGS * //
+  // ********* //
+
+  "gems.ruby.name": "ルビー",
+  "gems.aquamarine.name": "アクアマリン",
+  "gems.jade.name": "ヒスイ",
+  "gems.emerald.name": "エメラルド",
+  "gems.amethyst.name": "アメシスト",
+  "gems.topaz.name": "トパーズ",
+  "gems.garnet.name": "ガーネット",
+  "gems.garnet.description": "遠い国の美しい姫の名前がつけられている。",
+  "rings.jade.description": "クリティカル時のダメージ量が50%上がる。",
+  "rings.topaz.description.resist": "ダメージ耐性が10%上がる。",
+  "rings.topaz.description.defense": "防御が1上がる。",
+  "rings.garnet.name": "ガーネットの指輪",
+  "rings.garnet.description": "特殊攻撃のクールダウンを10%短くする。",
+  "rings.iridium.description": "イリジウム製のふつうの指輪。",
+  "rings.infinity.name": "インフィニティバンド",
+  "rings.infinity.description": "大いなる力を宿すための器。",
+  "global.infinitycraft": "{{who}}がインフィニティバンドを鍛造した。",
+  "resonance": "共鳴",
+
+
+  // **************** //
+  // * ENCHANTMENTS * //
+  // **************** //
+
+  "enchantments.carving": "削り取る",
+  "enchantments.cleaving": "大切断",
+  "enchantments.energized": "高エネルギー反応",
+  "enchantments.tribute": "貢ぎもの",
+  "enchantments.vampiric": "血の渇き",
+  "enchantments.engorging": "大食らい",
+  "enchantments.gatling": "ガトリング",
+  "enchantments.preserving": "節約術",
+  "enchantments.quincy": "クインシー",
+  "enchantments.spreading": "拡散",
+
+
+  // *********** //
+  // ** TAXES ** //
+  // *********** //
+
+  "tax.intro": "財務省^ファーンギル歳入庁^^^{{honorific}} 納税者様へ^^この手紙は、あなたが最近おこなった、スターデューバレーのペリカンタウンへの住所変更が申請され、無事登録されたことをお知らせするものです。 今後の連絡は全て {{farm}} 宛に送られることになります。^^連邦所得税の納付期日は、毎シーズンの2日です。 ご都合に合わせるため、支払いは自動的に残高から差し引かれます。 残高不足の場合は、自動的に納税者様名義のローンが組まれ、年率{{interest}}の利息が発生します。^^^謹啓^^ローラ・D・プレト^ファーンギル歳入庁長官[#]Taxation Intro",
+  "tax.notice": "財務省^ファーンギル歳入庁^^^{{honorific}} 納税者様へ^^この手紙は、所得税{{due}}g が自動的に残高から差し引かれたことをお知らせするものです。^^この手紙は、あなたの財政状態に関する疑問を解決するために、永久的な記録として保管しておいてください。^^^謹啓^^ローラ・D・プレト^ファーンギル歳入庁長官[#]Taxation Notice",
+  "tax.outstanding": "財務省^ファーンギル歳入庁^^^{{honorific}} 納税者様へ^^この手紙は、所得税{{due}}g が残高不足のため、一部または全部納められなかったことをお知らせするものです。 そのため、{{farm}}の今後の収入は、未納金 {{outstanding}} が完済されるまで差し押さえられることとなります。 年率{{interestRate}}の利息や罰則金が発生しない内に、できるだけ早急に未納金を納めることが最善の選択であることを心にとめておいてください。^^この手紙は、あなたの財政状態に関する疑問を解決するために、永久的な記録として保管しておいてください。^^^謹啓^^ローラ・D・プレト^ファーンギル歳入庁長官[#]Taxation Outstanding",
+  "tax.deduction": "財務省^ファーンギル歳入庁^^^{{honorific}} 納税者様へ^^この度、あなたの環境保護活動を審査した結果、ファーンギル歳入法第501条(c)(3)に基づき、{{deductible}} の所得税控除を受ける資格があると判断しましたので、お知らせいたします。^^この手紙は、あなたの財政状態に関する疑問を解決するために、永久的な記録として保管しておいてください。^^^謹啓^^ローラ・D・プレト^ファーンギル歳入庁長官[#]Taxation Deduction",
+  "tax.deduction.max": "財務省^ファーンギル歳入庁^^^{{honorific}} 納税者様へ^^この度、あなたの環境保護活動を審査した結果、ファーンギル歳入法第501条(c)(3)に基づき、連邦所得税が全額免除されることが決定しましたので、お知らせいたします。 そのため、今期ではあなたの残高から所得税が差し引かれることはありません。^^この手紙は、あなたの財政状態に関する疑問を解決するために、永久的な記録として保管しておいてください。^^^謹啓^^ローラ・D・プレト^ファーンギル歳入庁長官[#]Taxation Deduction",
+  "debt.debit": "残高から{{amount}}g の未納金が差し引かれた。",
+  "honorific.male": "謹啓",
+  "honorific.female": "謹啓",
+
+
+  // ************** //
+  // * UI STRINGS * //
+  // ************** //
+
+  "ui.itemhover.damage": "{{amount}} ダメージ",
+  "ui.itemhover.crate": "{{amount}} クリティカル率",
+  "ui.itemhover.cpow": "{{amount}} クリティカル威力",
+  "ui.itemhover.knockback": "{{amount}} ノックバック",
+  "ui.itemhover.firespeed": "{{amount}} 速度",
+  "ui.itemhover.swingspeed": "{{amount}} 速度",
+  "ui.itemhover.cdr": "{{amount}} クールダウン",
+  "ui.itemhover.resist": "{{amount}} ダメージ耐性",
+  "ui.itemhover.precision": "{{amount}} 精密さ",
+
+
+  // ********* //
+  // * PONDS * //
+  // ********* //
+
+  "algae": "藻類"
 }

@@ -45,6 +45,9 @@ internal sealed class RingOnUnequipPatcher : HarmonyPatcher
             case Constants.JadeRingIndex: // jade ring to give +50% crit. power
                 who.critPowerModifier -= 0.5f;
                 return false; // don't run original logic
+            case Constants.WarriorRingIndex: // reset warrior kill count
+                RingsModule.State.WarriorKillCount = 0;
+                return true;
             default:
                 if (!Globals.GarnetRingIndex.HasValue || __instance.ParentSheetIndex != Globals.GarnetRingIndex)
                 {

@@ -9,7 +9,6 @@ using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 using DaLion.Shared.Extensions.Memory;
-using NetFabric.Hyperlinq;
 
 #endregion using directives
 
@@ -361,13 +360,11 @@ public static class StringExtensions
 
         var pairs = @string
             .Split(new[] { pairSeparator }, StringSplitOptions.RemoveEmptyEntries)
-            .AsValueEnumerable()
             .Select(p => p.Split(new[] { keyValueSeparator }, StringSplitOptions.RemoveEmptyEntries));
 
         var dict = new Dictionary<TKey, TValue>();
-        for (var i = 0; i < pairs.Count; i++)
+        foreach (var pair in pairs)
         {
-            var pair = pairs[i];
             if (pair[0].TryParse<TKey>(out var key) && !dict.ContainsKey(key) &&
                 pair[1].TryParse<TValue>(out var value))
             {

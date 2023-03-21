@@ -25,16 +25,16 @@ internal sealed partial class GenericModConfigMenuCore
             .AddKeyBinding(
                 () => "Mod Key",
                 () => "The key used for indicating the weapon or slingshot for auto-selection, if enabled.",
-                config => config.Tools.ModKey,
-                (config, value) => config.Tools.ModKey = value)
+                config => config.Arsenal.ModKey,
+                (config, value) => config.Arsenal.ModKey = value)
             .AddCheckbox(
                 () => "Enable Auto-Selection",
                 () =>
                     "The best selected weapon or slingshot will be automatically equiped near enemies.",
-                config => config.Tools.EnableAutoSelection,
+                config => config.Arsenal.EnableAutoSelection,
                 (config, value) =>
                 {
-                    config.Tools.EnableAutoSelection = value;
+                    config.Arsenal.EnableAutoSelection = value;
                     if (!value)
                     {
                         ArsenalModule.State.SelectableArsenal = null;
@@ -59,14 +59,12 @@ internal sealed partial class GenericModConfigMenuCore
                 config => config.Arsenal.SlickMoves,
                 (config, value) => config.Arsenal.SlickMoves = value)
 
-            .AddSectionTitle(() => "Forge Settings")
+            .AddSectionTitle(() => "Gameplay Settings")
             .AddCheckbox(
                 () => "Rebalanced Forges",
                 () => "Improves certain underwhelming forges (analogous to changes by Rings module).",
                 config => config.Arsenal.RebalancedForges,
                 (config, value) => config.Arsenal.RebalancedForges = value)
-
-            .AddSectionTitle(() => "Stat Settings")
             .AddCheckbox(
                 () => "Overhauled Defense",
                 () => "Replaces the linear damage mitigation formula with en exponential for better scaling. Applies to enemies, but crit strikes ignore enemy defense. Also allows sword parry damage to scale with defense.",
@@ -96,39 +94,6 @@ internal sealed partial class GenericModConfigMenuCore
                 () => "Scales down weapon knockback to prevent overshadowing of knockback bonuses, and causes knockbacked enemies to take damage from collisions.",
                 config => config.Arsenal.KnockbackDamage,
                 (config, value) => config.Arsenal.KnockbackDamage = value)
-
-            .AddSectionTitle(() => "Monster Settings")
-            .AddNumberField(
-                () => "Monster Health Multiplier",
-                () => "Increases the health of all enemies.",
-                config => config.Arsenal.MonsterHealthMultiplier,
-                (config, value) => config.Arsenal.MonsterHealthMultiplier = value,
-                0.25f,
-                4f,
-                0.25f)
-            .AddNumberField(
-                () => "Monster Damage Multiplier",
-                () => "Increases the damage dealt by all enemies.",
-                config => config.Arsenal.MonsterDamageMultiplier,
-                (config, value) => config.Arsenal.MonsterDamageMultiplier = value,
-                0.25f,
-                4f,
-                0.25f)
-            .AddNumberField(
-                () => "Monster Defense Multiplier",
-                () => "Increases the damage resistance of all enemies.",
-                config => config.Arsenal.MonsterDefenseMultiplier,
-                (config, value) => config.Arsenal.MonsterDefenseMultiplier = value,
-                0.25f,
-                4f,
-                0.25f)
-            .AddCheckbox(
-                () => "Varied Encounters",
-                () => "Randomizes monster stats, subject to daily luck bias, adding variability to monster encounters.",
-                config => config.Arsenal.VariedEncounters,
-                (config, value) => config.Arsenal.VariedEncounters = value)
-
-            .AddSectionTitle(() => "Misc. Settings")
             .AddCheckbox(
                 () => "Woody Replaces Rusty",
                 () => "Replace the starting Rusty Sword with a Wooden Blade.",
@@ -193,13 +158,44 @@ internal sealed partial class GenericModConfigMenuCore
 
                     if (value)
                     {
-                        Arsenal.Utils.RemoveAllIntrinsicEnchantments();
+                        Utils.RemoveAllIntrinsicEnchantments();
                     }
                     else
                     {
-                        Arsenal.Utils.AddAllIntrinsicEnchantments();
+                        Utils.AddAllIntrinsicEnchantments();
                     }
                 })
+
+            .AddSectionTitle(() => "Monster Settings")
+            .AddNumberField(
+                () => "Monster Health Multiplier",
+                () => "Increases the health of all enemies.",
+                config => config.Arsenal.MonsterHealthMultiplier,
+                (config, value) => config.Arsenal.MonsterHealthMultiplier = value,
+                0.25f,
+                4f,
+                0.25f)
+            .AddNumberField(
+                () => "Monster Damage Multiplier",
+                () => "Increases the damage dealt by all enemies.",
+                config => config.Arsenal.MonsterDamageMultiplier,
+                (config, value) => config.Arsenal.MonsterDamageMultiplier = value,
+                0.25f,
+                4f,
+                0.25f)
+            .AddNumberField(
+                () => "Monster Defense Multiplier",
+                () => "Increases the damage resistance of all enemies.",
+                config => config.Arsenal.MonsterDefenseMultiplier,
+                (config, value) => config.Arsenal.MonsterDefenseMultiplier = value,
+                0.25f,
+                4f,
+                0.25f)
+            .AddCheckbox(
+                () => "Varied Encounters",
+                () => "Randomizes monster stats, subject to daily luck bias, adding variability to monster encounters.",
+                config => config.Arsenal.VariedEncounters,
+                (config, value) => config.Arsenal.VariedEncounters = value)
 
             // page links
             .AddPageLink(OverhaulModule.Arsenal + "/Slingshots", () => "Slingshot Settings", () => "Go to Slingshot settings.")
@@ -255,25 +251,13 @@ internal sealed partial class GenericModConfigMenuCore
                 config => config.Arsenal.Weapons.EnableComboHits,
                 (config, value) => config.Arsenal.Weapons.EnableComboHits = value)
             .AddCheckbox(
-                () => "Enable Hold Swipe",
+                () => "Enable Hold-To-Swipe",
                 () => "Allows performing combos by simply holding the tool button instead of spam-clicking.",
                 config => config.Arsenal.Weapons.SwipeHold,
                 (config, value) => config.Arsenal.Weapons.SwipeHold = value)
             .AddCheckbox(
-                () => "Grounded Club Smash",
-                () =>
-                    "A club smash AoE will inflict guaranteed critical damage on burrowed enemies, but completely miss flying enemies.",
-                config => config.Arsenal.Weapons.GroundedClubSmash,
-                (config, value) => config.Arsenal.Weapons.GroundedClubSmash = value)
-            .AddCheckbox(
-                () => "Defense Improves Parry",
-                () => "Parry damage will increase by 10% for each point in defense.",
-                config => config.Arsenal.Weapons.DefenseImprovesParry,
-                (config, value) => config.Arsenal.Weapons.DefenseImprovesParry = value)
-            .AddCheckbox(
                 () => "Enable Stabbing Swords",
-                () =>
-                    "Replace the defensive special move of some swords with an offensive lunge move.\nAFTER DISABLING THIS SETTING YOU MUST TRASH ALL OWNED STABBING SWORDS.",
+                () => "Replace the defensive special move of some swords with an offensive lunge move.",
                 config => config.Arsenal.Weapons.EnableStabbySwords,
                 (config, value) =>
                 {
@@ -300,8 +284,8 @@ internal sealed partial class GenericModConfigMenuCore
                     }
                 })
             .AddCheckbox(
-                () => "Enable Rebalance",
-                () => "Rebalances every melee weapon with stats well-suited for this mod's intended experience.",
+                () => "Enable Weapons Rebalance",
+                () => "Rebalances every melee weapon with stats better-suited for the intended experience. This will also rebalance several aspects of the Mines and other dungeons, including chest rewards, monster and container drops, as well as Marlon's weapon shop.",
                 config => config.Arsenal.Weapons.EnableRebalance,
                 (config, value) =>
                 {
@@ -317,8 +301,8 @@ internal sealed partial class GenericModConfigMenuCore
                     config.Arsenal.Weapons.EnableRebalance = value;
                 })
             .AddCheckbox(
-                () => "Enable Retexture",
-                () => "Slightly touches up many melee weapons, without changing the vanilla style, to be slightly more realistic or to reflect other changes made by this module.",
+                () => "Enable Weapons Retexture",
+                () => "Slightly touches up many melee weapons, without changing the vanilla style, to be slightly more realistic and/or reflective of changes to weapon types.",
                 config => config.Arsenal.Weapons.EnableRetexture,
                 (config, value) =>
                 {
@@ -326,14 +310,25 @@ internal sealed partial class GenericModConfigMenuCore
                     ModHelper.GameContent.InvalidateCache("TileSheets/weapons");
                 })
             .AddCheckbox(
-                () => "Enable Enchantments",
+                () => "Enable Redux Enchantments",
                 () => "Replaces boring old enchantments with exciting new ones.",
-                config => config.Arsenal.Weapons.EnableEnchants,
+                config => config.Arsenal.Weapons.ReduxEnchants,
                 (config, value) =>
                 {
-                    config.Arsenal.Weapons.EnableEnchants = value;
+                    config.Arsenal.Weapons.ReduxEnchants = value;
                     ModHelper.GameContent.InvalidateCache("TileSheets/BuffsIcons");
                 })
+            .AddCheckbox(
+                () => "Grounded Club Smash",
+                () =>
+                    "A club smash AoE will inflict guaranteed critical damage on burrowed enemies, but completely miss flying enemies.",
+                config => config.Arsenal.Weapons.GroundedClubSmash,
+                (config, value) => config.Arsenal.Weapons.GroundedClubSmash = value)
+            .AddCheckbox(
+                () => "Defense Improves Parry",
+                () => "Parry damage will increase by 10% for each point in defense.",
+                config => config.Arsenal.Weapons.DefenseImprovesParry,
+                (config, value) => config.Arsenal.Weapons.DefenseImprovesParry = value)
             .AddDropdown(
                 () => "Tooltip Style",
                 () => "Determines the sprite that appears next to skill bars.",

@@ -9,7 +9,6 @@ using DaLion.Shared.Attributes;
 using DaLion.Shared.Extensions;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
-using NetFabric.Hyperlinq;
 using StardewValley.Locations;
 using StardewValley.Monsters;
 
@@ -43,8 +42,8 @@ internal sealed class GreenSlimeGetExtraDropItemsPatcher : HarmonyPatcher
                     (b.owner.Value.IsIn(pipers.Select(p => p.UniqueMultiplayerID)) ||
                      ProfessionsModule.Config.LaxOwnershipRequirements) && b.indoors.Value is SlimeHutch && !b.isUnderConstruction() &&
                     b.indoors.Value.characters.Count > 0)
-                .Sum(b => b.indoors.Value.characters.AsValueEnumerable().Count(npc => npc is GreenSlime)) +
-            Game1.getFarm().characters.AsValueEnumerable().Count(npc => npc is GreenSlime);
+                .Sum(b => b.indoors.Value.characters.Count(npc => npc is GreenSlime)) +
+            Game1.getFarm().characters.Count(npc => npc is GreenSlime);
         if (slimeCount == 0)
         {
             return;

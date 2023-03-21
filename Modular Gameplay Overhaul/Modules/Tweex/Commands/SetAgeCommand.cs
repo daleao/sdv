@@ -26,7 +26,7 @@ internal sealed class SetAgeCommand : ConsoleCommand
 
     /// <inheritdoc />
     public override string Documentation =>
-        "Set the age of the nearest specified object or tree to the desired value. You can also use the value `clear` to delete the respective mod data.";
+        "Set the age of the nearest specified object or tree to the desired number of days. You can also use the value `clear` to delete the respective mod data.";
 
     /// <inheritdoc />
     public override void Callback(string trigger, string[] args)

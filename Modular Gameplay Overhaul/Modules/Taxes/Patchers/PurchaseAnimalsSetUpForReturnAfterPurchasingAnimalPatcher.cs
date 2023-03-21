@@ -22,14 +22,12 @@ internal sealed class PurchaseAnimalsSetUpForReturnAfterPurchasingAnimalPatcher 
 
     /// <summary>Patch to deduct animal expenses.</summary>
     [HarmonyPostfix]
-    private static void PurchaseAnimalsMenuReceiveLeftClickPostfix(PurchaseAnimalsMenu __instance, int ___priceOfAnimal)
+    private static void PurchaseAnimalsMenuReceiveLeftClickPostfix(FarmAnimal ___animalBeingPurchased, int ___priceOfAnimal)
     {
-        if (!TaxesModule.Config.DeductibleAnimalExpenses)
+        if (TaxesModule.Config.DeductibleAnimalExpenses)
         {
-            return;
+            Game1.player.Increment(DataFields.BusinessExpenses, ___priceOfAnimal);
         }
-
-        Game1.player.Increment(DataFields.BusinessExpenses, ___priceOfAnimal);
     }
 
     #endregion harmony patches

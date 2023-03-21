@@ -3,8 +3,10 @@
 #region using directives
 
 using System.Collections.Generic;
+using DaLion.Overhaul.Modules.Core.Events;
 using DaLion.Shared.Events;
 using DaLion.Shared.Extensions;
+using DaLion.Shared.Extensions.Stardew;
 using Microsoft.Xna.Framework;
 using StardewModdingAPI.Events;
 
@@ -32,13 +34,24 @@ internal sealed class WarriorUpdateTickedEvent : UpdateTickedEvent
     }
 
     /// <inheritdoc />
+    protected override void OnEnabled()
+    {
+        this.Manager.Enable<OutOfCombatOneSecondUpdateTickedEvent>();
+    }
+
+    /// <inheritdoc />
     protected override void OnUpdateTickedImpl(object? sender, UpdateTickedEventArgs e)
     {
-        var killCount = RingsModule.State.WarriorKillCount;
-        if (killCount < 10)
+        if (RingsModule.State.WarriorKillCount < 3)
         {
             this.Disable();
             return;
+        }
+
+        // decay counter every 5 seconds after 25 seconds out of combat
+        if (Game1.game1.ShouldTimePass() && ModEntry.State.SecondsOutOfCombat > 25 && e.IsMultipleOf(300))
+        {
+            RingsModule.State.WarriorKillCount--;
         }
 
         if (Game1.player.hasBuff(this._buffId))
@@ -46,7 +59,7 @@ internal sealed class WarriorUpdateTickedEvent : UpdateTickedEvent
             return;
         }
 
-        var magnitude = killCount / 10;
+        var magnitude = RingsModule.State.WarriorKillCount / 3;
         Game1.buffsDisplay.addOtherBuff(
             new Buff(
                 0,
@@ -68,7 +81,10 @@ internal sealed class WarriorUpdateTickedEvent : UpdateTickedEvent
                 which = this._buffId,
                 sheetIndex = 20,
                 millisecondsDuration = 0,
-                description = this._buffDescription,
+                description =
+                    this._buffDescription + Environment.NewLine + I18n.Get(
+                        "ui.buffs.warrior",
+                        new { value = RingsModule.State.WarriorKillCount / 3 }),
                 glow = Color.DarkRed,
             });
     }

@@ -241,7 +241,7 @@ internal sealed class SlingshotPerformFirePatcher : HarmonyPatcher
                     !didPreserve),
             };
 
-            if (Game1.currentLocation.currentEvent != null || Game1.currentMinigame != null)
+            if (Game1.currentLocation.currentEvent is not null || Game1.currentMinigame is not null)
             {
                 projectile.IgnoreLocationCollision = true;
             }
@@ -301,7 +301,7 @@ internal sealed class SlingshotPerformFirePatcher : HarmonyPatcher
                             false),
                     };
 
-                    if (Game1.currentLocation.currentEvent != null || Game1.currentMinigame != null)
+                    if (Game1.currentLocation.currentEvent is not null || Game1.currentMinigame is not null)
                     {
                         petal.IgnoreLocationCollision = true;
                     }

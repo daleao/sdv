@@ -4,7 +4,6 @@
 
 using DaLion.Shared.Harmony;
 using HarmonyLib;
-using NetFabric.Hyperlinq;
 using StardewValley.Menus;
 using StardewValley.Tools;
 

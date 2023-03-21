@@ -32,11 +32,43 @@ internal sealed class HudPointer
         this.BobRate = rate;
     }
 
+    /// <summary>Gets the singleton <see cref="HudPointer"/> instance.</summary>
+    internal static Lazy<HudPointer> Instance { get; } = new(() => new HudPointer(
+        ModHelper.GameContent.Load<Texture2D>($"{Manifest.UniqueID}/HudPointer"),
+        ProfessionsModule.Config.TrackingPointerScale,
+        ProfessionsModule.Config.TrackingPointerBobbingRate));
+
     /// <summary>Gets or sets the scale for drawing the pointer.</summary>
     internal float Scale { get; set; }
 
     /// <summary>Gets or sets the rate at which the pointer animates (higher is faster).</summary>
     internal float BobRate { get; set; }
+
+    /// <summary>Gets or sets a value indicating whether or not the pointer is currently being rendered.</summary>
+    internal bool ShouldBob { get; set; }
+
+    /// <summary>Advance the pointer's bobbing motion one step.</summary>
+    /// <param name="ticks">The number of ticks elapsed since the game started.</param>
+    public void Bob(uint ticks)
+    {
+        if (!this.ShouldBob)
+        {
+            return;
+        }
+
+        if (ticks % (8f / this.BobRate) != 0)
+        {
+            return;
+        }
+
+        if (this._step is MaxStep or MinStep)
+        {
+            this._jerk = -this._jerk;
+        }
+
+        this._step += this._jerk;
+        this._height += this._step;
+    }
 
     /// <summary>Draw the pointer at the edge of the screen, pointing to a target tile off-screen.</summary>
     /// <param name="target">The target tile to point to.</param>
@@ -144,23 +176,5 @@ internal sealed class HudPointer
             Game1.pixelZoom * this.Scale,
             SpriteEffects.None,
             1f);
-    }
-
-    /// <summary>Advance the pointer's bobbing motion one step.</summary>
-    /// <param name="ticks">The number of ticks elapsed since the game started.</param>
-    public void Update(uint ticks)
-    {
-        if (ticks % (8f / this.BobRate) != 0)
-        {
-            return;
-        }
-
-        if (this._step is MaxStep or MinStep)
-        {
-            this._jerk = -this._jerk;
-        }
-
-        this._step += this._jerk;
-        this._height += this._step;
     }
 }

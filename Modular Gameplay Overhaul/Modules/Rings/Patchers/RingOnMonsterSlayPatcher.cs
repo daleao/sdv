@@ -34,7 +34,7 @@ internal sealed class RingOnMonsterSlayPatcher : HarmonyPatcher
         {
             case Constants.WarriorRingIndex:
                 RingsModule.State.WarriorKillCount++;
-                if (RingsModule.State.WarriorKillCount >= 10)
+                if (RingsModule.State.WarriorKillCount >= 3)
                 {
                     EventManager.Enable<WarriorUpdateTickedEvent>();
                 }

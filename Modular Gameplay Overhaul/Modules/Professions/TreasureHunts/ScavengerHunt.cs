@@ -12,6 +12,7 @@ using DaLion.Shared.Extensions;
 using DaLion.Shared.Extensions.Collections;
 using DaLion.Shared.Extensions.Stardew;
 using DaLion.Shared.Networking;
+using DaLion.Shared.UI;
 using Microsoft.Xna.Framework;
 using StardewModdingAPI.Utilities;
 using StardewValley.Locations;
@@ -80,9 +81,9 @@ internal sealed class ScavengerHunt : TreasureHunt
         this.TimeLimit = Math.Max(this.TimeLimit, 30);
 #endif
         this.Elapsed = 0;
-        EventManager.Enable<PointerUpdateTickedEvent>();
         EventManager.Enable<ScavengerHuntRenderedHudEvent>();
         EventManager.Enable<ScavengerHuntUpdateTickedEvent>();
+        HudPointer.Instance.Value.ShouldBob = true;
         Game1.addHUDMessage(new HuntNotification(this.HuntStartedMessage, this.IconSourceRect));
         if (Context.IsMultiplayer)
         {
@@ -119,9 +120,9 @@ internal sealed class ScavengerHunt : TreasureHunt
         this.TimeLimit = Math.Max(this.TimeLimit, 30);
 
         this.Elapsed = 0;
-        EventManager.Enable<PointerUpdateTickedEvent>();
         EventManager.Enable<ScavengerHuntRenderedHudEvent>();
         EventManager.Enable<ScavengerHuntUpdateTickedEvent>();
+        HudPointer.Instance.Value.ShouldBob = true;
         Game1.addHUDMessage(new HuntNotification(this.HuntStartedMessage, this.IconSourceRect));
         if (Context.IsMultiplayer)
         {
@@ -201,6 +202,7 @@ internal sealed class ScavengerHunt : TreasureHunt
         Game1.player.Get_IsHuntingTreasure().Value = false;
         EventManager.Disable<ScavengerHuntRenderedHudEvent>();
         EventManager.Disable<ScavengerHuntUpdateTickedEvent>();
+        HudPointer.Instance.Value.ShouldBob = false;
         this.TreasureTile = null;
         if (!Context.IsMultiplayer || Context.IsMainPlayer ||
             !Game1.player.HasProfession(Profession.Scavenger, true))

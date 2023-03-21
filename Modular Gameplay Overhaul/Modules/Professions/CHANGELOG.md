@@ -1,5 +1,23 @@
 # Professions Module Change Log
 
+## 1.4.0
+
+### Added
+
+* Added a config to toggle the Crystalarium upgrade for Gemologists.
+* Conservationist now counts trash fished with a Fishing Rod.
+
+### Changed
+
+* Slingshot attachments upgrade for Rascals now occurs on equip rather than on profession gain. This should be more compatible and prevents a possible Null-Reference.
+
+### Fixed
+
+* Added missing ShowFishCollectionMaxIcon to GMCM menu.
+* Fixed a bug which allowed players to select both level 10 professions for custom skills during level-up.
+* Fixed small typo in new Artisan description (removed "is").
+* Fixed Poacher still gathering Special Ability charge with Special Abilities disabled.
+
 ## 1.3.0
 
 ### Fixed

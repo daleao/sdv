@@ -8,6 +8,7 @@ using DaLion.Shared.Extensions;
 using DaLion.Shared.Extensions.Collections;
 using Netcode;
 using StardewValley.Objects;
+using VirtualProperties;
 
 #endregion using directives
 
@@ -86,6 +87,7 @@ internal sealed class AddGemstonesCommand : ConsoleCommand
         ModHelper.Reflection.GetField<NetInt>(band, nameof(Ring.indexInTileSheet)).GetValue()
             .Set(Globals.InfinityBandIndex.Value);
         band.UpdateDescription();
+        CombinedRing_Chord.Values.Remove(band);
         Game1.player.Items[Game1.player.CurrentToolIndex] = band;
     }
 }

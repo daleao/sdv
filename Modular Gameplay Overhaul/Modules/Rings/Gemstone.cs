@@ -91,8 +91,9 @@ public abstract class Gemstone : SmartEnum<Gemstone>, IEquatable<Gemstone>, ICom
 
         this.DisplayName = I18n.Get("gems." + name.ToLower() + ".name");
         this.Frequency = frequency;
-        this.Color = color;
+        this.StoneColor = color;
         this.GlowColor = glowColor.Inverse();
+        this.TextColor = this.StoneColor.ChangeValue(0.8f);
     }
 
     /// <summary>Gets the localized name of the <see cref="Gemstone"/>.</summary>
@@ -109,10 +110,13 @@ public abstract class Gemstone : SmartEnum<Gemstone>, IEquatable<Gemstone>, ICom
     public float Frequency { get; }
 
     /// <summary>Gets the characteristic color which results from <see cref="Frequency"/>.</summary>
-    public Color Color { get; }
+    public Color StoneColor { get; }
 
-    /// <summary>Gets the inverse of <see cref="Color"/>.</summary>
+    /// <summary>Gets the inverse of <see cref="StoneColor"/>.</summary>
     public Color GlowColor { get; }
+
+    /// <summary>Gets the color used to render text. A slightly darker tone of <see cref="StoneColor"/>.</summary>
+    public Color TextColor { get; }
 
     /// <summary>Gets the second <see cref="Gemstone"/> in the corresponding <see cref="DiatonicScale"/>.</summary>
     public Gemstone Second => RubyScale[(this.Value + 1) % 7];

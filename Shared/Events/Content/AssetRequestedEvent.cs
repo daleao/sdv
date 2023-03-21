@@ -43,13 +43,14 @@ internal abstract class AssetRequestedEvent : ManagedEvent
     /// <inheritdoc cref="OnAssetRequested"/>
     protected virtual void OnAssetRequestedImpl(object? sender, AssetRequestedEventArgs e)
     {
+        if (this._providers.TryGetValue(e.NameWithoutLocale.Name, out var provider))
+        {
+            provider.Provide(e);
+        }
+
         if (this._editors.TryGetValue(e.NameWithoutLocale.Name, out var editors))
         {
             editors.ForEach(editor => editor.Edit(e));
-        }
-        else if (this._providers.TryGetValue(e.NameWithoutLocale.Name, out var provider))
-        {
-            provider.Provide(e);
         }
     }
 

@@ -25,4 +25,14 @@ public static class RandomExtensions
         var u2 = 1.0 - r.NextDouble();
         return mean + (stddev * Math.Sqrt(-2d * Math.Log(u1)) * Math.Cos(2d * Math.PI * u2));
     }
+
+    /// <summary>Selects a random <typeparamref name="T"/> object from the available <paramref name="choices"/>.</summary>
+    /// <typeparam name="T">The type of the objects to choose from.</typeparam>
+    /// <param name="r">The <see cref="Random"/> number generator.</param>
+    /// <param name="choices">The available choices.</param>
+    /// <returns>A <typeparamref name="T"/> value from the available <paramref name="choices"/>, selected at random.</returns>
+    public static T Choose<T>(this Random r, params T[] choices)
+    {
+        return choices[r.Next(choices.Length)];
+    }
 }

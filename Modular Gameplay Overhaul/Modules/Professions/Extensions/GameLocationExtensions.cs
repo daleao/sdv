@@ -123,7 +123,7 @@ internal static class GameLocationExtensions
     internal static bool IsTileValidForTreasure(this GameLocation location, Vector2 tile)
     {
         return (!location.objects.TryGetValue(tile, out var @object) || @object == null) &&
-               location.doesTileHaveProperty((int)tile.X, (int)tile.Y, "Spawnable", "Back") != null &&
+               location.doesTileHaveProperty((int)tile.X, (int)tile.Y, "Spawnable", "Back") is not null &&
                !location.doesEitherTileOrTileIndexPropertyEqual((int)tile.X, (int)tile.Y, "Spawnable", "Back", "F") &&
                location.isTileLocationTotallyClearAndPlaceable(tile) &&
                location.getTileIndexAt((int)tile.X, (int)tile.Y, "AlwaysFront") == -1 &&

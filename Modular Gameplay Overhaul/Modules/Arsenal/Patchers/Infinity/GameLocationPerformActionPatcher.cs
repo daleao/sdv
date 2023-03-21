@@ -2,11 +2,11 @@
 
 #region using directives
 
+using System.Linq;
 using System.Reflection;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
 using Microsoft.Xna.Framework;
-using NetFabric.Hyperlinq;
 using StardewValley;
 using StardewValley.Tools;
 
@@ -101,7 +101,6 @@ internal sealed class GameLocationPerformActionPatcher : HarmonyPatcher
             {
                 string question = I18n.Get("yoba.question");
                 var responses = Virtue.List
-                    .AsValueEnumerable()
                     .Select(v => new Response(v.Name, v.DisplayName))
                     .ToArray();
                 location.createQuestionDialogue(question, responses, "Yoba");

@@ -1,5 +1,15 @@
 ﻿# Taxes Module Change Log
 
+## 1.4.0
+
+### Added
+
+* Added property taxes.
+
+### Changed
+
+* You can now customize all tax brackets and tax rates for each bracket, including changing the number of brackets.
+
 ## 1.0.2
 
 ### Added

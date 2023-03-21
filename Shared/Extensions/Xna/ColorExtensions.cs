@@ -55,27 +55,25 @@ public static class ColorExtensions
         return new Color(rotated.R, rotated.G, rotated.B, color.A);
     }
 
-    /// <summary>Changes the <paramref name="color"/>'s saturation by <paramref name="amount"/>.</summary>
+    /// <summary>Multiplies the <paramref name="color"/>'s saturation by the specified <paramref name="factor"/>.</summary>
     /// <param name="color">The <see cref="Color"/>.</param>
-    /// <param name="amount">The amount to change by, between 0 and 1.</param>
+    /// <param name="factor">The factor to multiply by. Should be a positive decimal.</param>
     /// <returns>A new <see cref="Color"/> with the adjusted Saturation.</returns>
-    public static Color ChangeSaturation(this Color color, float amount)
+    public static Color ChangeSaturation(this Color color, float factor)
     {
-        amount = Math.Clamp(amount, 0f, 1f);
         var (h, s, v) = color.ToHsv();
-        var changed = default(Color).FromHsv(h, s + amount, v);
+        var changed = default(Color).FromHsv(h, s * factor, v);
         return new Color(changed.R, changed.G, changed.B, color.A);
     }
 
-    /// <summary>Changes the <paramref name="color"/>'s value by <paramref name="amount"/>.</summary>
+    /// <summary>Multiplies the <paramref name="color"/>'s value by the specified <paramref name="factor"/>.</summary>
     /// <param name="color">The <see cref="Color"/>.</param>
-    /// <param name="amount">The amount to change by, between 0 and 1.</param>
+    /// <param name="factor">A factor to multiply by. Should be a positive decimal.</param>
     /// <returns>A new <see cref="Color"/> with the adjusted Value.</returns>
-    public static Color ChangeValue(this Color color, float amount)
+    public static Color ChangeValue(this Color color, float factor)
     {
-        amount = Math.Clamp(amount, 0f, 1f);
         var (h, s, v) = color.ToHsv();
-        var changed = default(Color).FromHsv(h, s, v + amount);
+        var changed = default(Color).FromHsv(h, s, v * factor);
         return new Color(changed.R, changed.G, changed.B, color.A);
     }
 

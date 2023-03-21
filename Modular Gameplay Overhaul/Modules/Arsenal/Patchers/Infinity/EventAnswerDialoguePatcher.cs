@@ -35,6 +35,9 @@ internal sealed class EventAnswerDialoguePatcher : HarmonyPatcher
             // Alex 4 hearts | Location: Town
             case 733330 or 2481135 when answerChoice == 0:
 
+            // Sophia 2 hearts | Location: Custom_BlueMoonVineyard
+            case 8185291 when answerChoice == 1:
+
                 player.Increment(DataFields.ProvenHonor);
                 Virtue.Honor.CheckForCompletion(player);
                 return;
@@ -53,6 +56,9 @@ internal sealed class EventAnswerDialoguePatcher : HarmonyPatcher
             // Shane 6 hearts | Location: Forest
             case 3910975 when answerChoice is 1 or 3:
 
+            // Sophia 6 hearts | Location: Custom_BlueMoonVineyard
+            case 8185294 when answerChoice == 0:
+
                 player.Increment(DataFields.ProvenCompassion);
                 Virtue.Compassion.CheckForCompletion(player);
                 return;
@@ -63,7 +69,7 @@ internal sealed class EventAnswerDialoguePatcher : HarmonyPatcher
                 player.Increment(DataFields.ProvenCompassion, -1);
                 return;
 
-            // WISDOM //
+        // WISDOM //
 
             // Sebastian 6 hearts | Location: SebastianRoom
             case 27 when answerChoice == 2:

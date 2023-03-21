@@ -2,6 +2,7 @@
 
 #region using directives
 
+using System.Reflection;
 using DaLion.Overhaul.Modules.Professions.VirtualProperties;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
@@ -28,16 +29,24 @@ internal sealed class MonsterUpdatePatcher : HarmonyPatcher
     [HarmonyPriority(Priority.First)]
     private static bool MonsterUpdatePrefix(Monster __instance, GameTime time)
     {
-        var slowTimer = __instance.Get_SlowTimer();
-        if (slowTimer.Value <= 0)
+        try
         {
-            return true; // run original logic
-        }
+            var slowTimer = __instance.Get_SlowTimer();
+            if (slowTimer.Value <= 0)
+            {
+                return true; // run original logic
+            }
 
-        slowTimer.Value -= time.ElapsedGameTime.Milliseconds;
-        var slowIntensity = __instance.Get_SlowIntensity();
-        __instance.startGlowing(Color.LimeGreen, false, 0.05f);
-        return time.TotalGameTime.Ticks % slowIntensity.Value == 0; // conditionally run original logic
+            slowTimer.Value -= time.ElapsedGameTime.Milliseconds;
+            var slowIntensity = __instance.Get_SlowIntensity();
+            __instance.startGlowing(Color.LimeGreen, false, 0.05f);
+            return time.TotalGameTime.Ticks % slowIntensity.Value == 0; // conditionally run original logic
+        }
+        catch (Exception ex)
+        {
+            Log.E($"Failed in {MethodBase.GetCurrentMethod()?.Name}:\n{ex}");
+            return true; // default to original logic
+        }
     }
 
     #endregion harmony patches

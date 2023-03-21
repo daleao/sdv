@@ -11,12 +11,6 @@ using StardewValley.Monsters;
 /// <summary>Holds global variables that may be used by different modules.</summary>
 internal sealed class Globals
 {
-    /// <summary>Gets the <see cref="HudPointer"/> which points at various points of interest.</summary>
-    internal static Lazy<HudPointer> Pointer { get; } = new(() => new HudPointer(
-        ModHelper.GameContent.Load<Texture2D>($"{Manifest.UniqueID}/HudPointer"),
-        ProfessionsModule.Config.TrackPointerScale,
-        ProfessionsModule.Config.TrackPointerBobbingRate));
-
     /// <summary>Gets or sets <see cref="Item"/> index of the Garnet gemstone (provided by Json Assets).</summary>
     internal static int? GarnetIndex { get; set; }
 

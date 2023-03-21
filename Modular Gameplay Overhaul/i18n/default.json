@@ -14,7 +14,7 @@
   "agriculturist.desc.prestiged": "Crops grow 10% >> 20% faster.",
   "artisan.title.male": "Artisan",
   "artisan.title.female": "Artisan",
-  "artisan.desc": "All artisan machines work 10% faster. Machine output quality is can be as good as input ingredient quality.",
+  "artisan.desc": "All artisan machines work 10% faster. Machine output quality can be as good as input ingredient quality.",
   "artisan.desc.prestiged": "All artisan machines work 10% >> 25% faster.",
 
   "rancher.title.male": "Rancher",
@@ -303,8 +303,10 @@
   "rings.iridium.description": "An ordinary band made of iridium.",
   "rings.infinity.name": "Infinity Band",
   "rings.infinity.description": "A vessel for great power.",
+  "rings.warrior.desc": "Infuses the wearer with \"warrior energy\" after slaying a monster.",
   "global.infinitycraft": "{{who}} forged an Infinity Band.",
   "resonance": "Resonance",
+
 
   // **************** //
   // * ENCHANTMENTS * //
@@ -328,12 +330,15 @@
 
   "tax.intro": "Department of the Treasury^Ferngill Revenue Service^^^{{honorific}} Taxpayer,^^This letter is to inform you that your recent address change to Pelican Town, Stardew Valley has been filed and registered. All future correspondence will be directed to {{farm}}.^^We kindly remind you that Federal income tax contributions are due on the 2nd of every season. For your convenience, your due obligations will be automatically deducted from your balance. If your balance is insufficient, a loan will automatically be issued in your name, subject to the nominal interest fee of {{interest}} per annum.^^^Sincerely,^^Laura D. Pretto^Executive Directrice, Ferngill Revenue Service[#]Taxation Intro",
   "tax.notice": "Department of the Treasury^Ferngill Revenue Service^^^{{honorific}} Taxpayer,^^This letter is to inform you that your total due income tax for the closing season in the amount of {{due}}g has been automatically deducted from your balance.^^Please keep this letter in your permanent records should you need to resolve any questions regarding your fiscal status.^^^Sincerely,^^Laura D. Pretto^Executive Directrice, Ferngill Revenue Service[#]Taxation Notice",
-  "tax.outstanding": "Department of the Treasury^Ferngill Revenue Service^^^{{honorific}} Taxpayer,^^This letter is to inform you that your total due income tax for the closing season in the amount of {{due}}g could not be fully deducted from your balance. As such, all future income from {{farm}} will be seized until your outstanding debt in the amount of {{outstanding}} is settled. Please keep in mind that it is in your best interest to clear any outstanding debts as soon as possible to avoid accruing interest at the rate of {{interestRate}} per annum, plus penalties.^^Please keep this letter in your permanent records should you need to resolve any questions regarding your fiscal status.^^^Sincerely,^^Laura D. Pretto^Executive Directrice, Ferngill Revenue Service[#]Taxation Outstanding",
+  "tax.outstanding": "Department of the Treasury^Ferngill Revenue Service^^^{{honorific}} Taxpayer,^^This letter is to inform you that your total due income tax for the closing season in the amount of {{due}}g could not be fully deducted from your balance. As such, all future income from {{farm}} will be levied until your outstanding debt in the amount of {{outstanding}} is settled. Please keep in mind that it is in your best interest to clear any outstanding debts as soon as possible to avoid accruing interest at the rate of {{interestRate}} per annum, plus penalties.^^Please keep this letter in your permanent records should you need to resolve any questions regarding your fiscal status.^^^Sincerely,^^Laura D. Pretto^Executive Directrice, Ferngill Revenue Service[#]Taxation Outstanding",
   "tax.deduction": "Department of the Treasury^Ferngill Revenue Service^^^{{honorific}} Taxpayer,^^We are pleased to inform you that, upon review of your environmentalist activities, we have determined that you qualify for an income tax deduction of {{deductible}} as per section 501(c)(3) of the Ferngill Revenue Code.^^Please keep this letter in your permanent records should you need to resolve any questions regarding your fiscal status.^^^Sincerely,^^Laura D. Pretto^Executive Directrice, Ferngill Revenue Service[#]Taxation Deduction",
   "tax.deduction.max": "Department of the Treasury^Ferngill Revenue Service^^^{{honorific}} Taxpayer,^^We are pleased to inform you that, upon review of your environmentalist activities, we have determined that you are exempt from Federal income tax as per section 501(c)(3) of the Ferngill Revenue Code. As such, no charges will be made to your balance with respect to the closing season.^^Please keep this letter in your permanent records should you need to resolve any questions regarding your fiscal status.^^^Sincerely,^^Laura D. Pretto^Executive Directrice, Ferngill Revenue Service[#]Taxation Deduction",
   "debt.debit": "Your balance was debited for {{amount}}g towards outstanding debts.",
   "honorific.male": "Dear",
   "honorific.female": "Dear",
+
+  "property.notice": "@,^As mayor of Pelican Town it is my job to levy taxes on all the properties around Pelican Town. During the preceding fiscal year, the county's assessment of {{farm}}'s property determined a valuation of {{valuation}}g. As a result, you are liable for {{due}}g in total property taxes for the applicable tax period. I have taken the liberty of charging your account directly. ^On behalf of Pelican Town, I am deeply grateful for your ongoing contributions to our community.  ^  Sincerely, Mr. Lewis[#]Property Taxation Notice",
+  "property.outstanding": "@,^As mayor of Pelican Town it is my job to levy taxes on all the properties around town. During the preceding fiscal year, the county's assessment of {{farm}}'s property determined a valuation of {{valuation}}g. As a result, you are liable for {{due}}g in total property taxes for the applicable tax period. ^Unfortunately, your account was found to have insufficient funds to cover the entire amount. As per county policy, I take no pleasure in informing that you will be fined {{fine}}% of the overdue amount, and your remaining debt will be sold to the Bank of Stardew. ^Please know that the people of Pelican Town are here to support you if you are facing difficult times.  ^  Sincerely, Mr. Lewis[#]Property Taxation Notice",
 
 
   // ************** //
@@ -349,7 +354,8 @@
   "ui.itemhover.cdr": "{{amount}} Cooldown",
   "ui.itemhover.resist": "{{amount}} Resistance",
   "ui.itemhover.precision": "{{amount}} Precision",
-
+  "ui.buffs.jinxed": "-5 Defense",
+  "ui.buffs.warrior": "+{{value}} Attack",
 
   // ********* //
   // * PONDS * //

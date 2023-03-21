@@ -55,7 +55,7 @@ internal sealed class ProspectorWarpedEvent : WarpedEvent
         {
             var tile = shaft.getRandomTile();
             if (!shaft.isTileLocationTotallyClearAndPlaceable(tile) || !shaft.isTileOnClearAndSolidGround(tile) ||
-                shaft.doesTileHaveProperty((int)tile.X, (int)tile.Y, "Diggable", "Back") != null ||
+                shaft.doesTileHaveProperty((int)tile.X, (int)tile.Y, "Diggable", "Back") is not null ||
                 !shaft.isTileLocationOpen(new Location((int)tile.X, (int)tile.Y)) ||
                 shaft.isTileOccupied(new Vector2(tile.X, tile.Y)) ||
                 shaft.getTileIndexAt((int)tile.X, (int)tile.Y, "Back") == -1 ||

@@ -2,10 +2,10 @@
 
 #region using directives
 
-using System.Linq;
 using DaLion.Overhaul.Modules.Professions;
 using DaLion.Shared.Extensions.SMAPI;
 using DaLion.Shared.Extensions.Stardew;
+using DaLion.Shared.UI;
 using StardewValley.Buildings;
 
 #endregion using directives
@@ -26,6 +26,11 @@ internal sealed partial class GenericModConfigMenuCore
                 () => "The key used by Prospector, Scavenger and Rascal professions to enable active effects.",
                 config => config.Professions.ModKey,
                 (config, value) => config.Professions.ModKey = value)
+            .AddCheckbox(
+                () => "Show 'Max' Icon in Fish Collection",
+                () => "Toggles whether or not to display the 'Max' icon below fish caught at max size.",
+                config => config.Professions.ShowFishCollectionMaxIcon,
+                (config, value) => config.Professions.ShowFishCollectionMaxIcon = value)
 
             // professions
             .AddSectionTitle(() => "Profession Settings")
@@ -60,13 +65,13 @@ internal sealed partial class GenericModConfigMenuCore
             .AddNumberField(
                 () => "Tracking Pointer Scale",
                 () => "Changes the size of the pointer used to track objects by Prospector and Scavenger professions.",
-                config => config.Professions.TrackPointerScale,
+                config => config.Professions.TrackingPointerScale,
                 (config, value) =>
                 {
-                    config.Professions.TrackPointerScale = value;
-                    if (Globals.Pointer.IsValueCreated)
+                    config.Professions.TrackingPointerScale = value;
+                    if (HudPointer.Instance.IsValueCreated)
                     {
-                        Globals.Pointer.Value.Scale = value;
+                        HudPointer.Instance.Value.Scale = value;
                     }
                 },
                 0.2f,
@@ -75,13 +80,13 @@ internal sealed partial class GenericModConfigMenuCore
             .AddNumberField(
                 () => "Track Pointer Bobbing Rate",
                 () => "Changes the speed at which the tracking pointer bounces up and down (higher is faster).",
-                config => config.Professions.TrackPointerBobbingRate,
+                config => config.Professions.TrackingPointerBobbingRate,
                 (config, value) =>
                 {
-                    config.Professions.TrackPointerBobbingRate = value;
-                    if (Globals.Pointer.IsValueCreated)
+                    config.Professions.TrackingPointerBobbingRate = value;
+                    if (HudPointer.Instance.IsValueCreated)
                     {
-                        Globals.Pointer.Value.BobRate = value;
+                        HudPointer.Instance.Value.BobRate = value;
                     }
                 },
                 0.5f,
@@ -141,6 +146,11 @@ internal sealed partial class GenericModConfigMenuCore
                 () => "Toggles the 'Get Excited' buff when a Demolitionist is hit by an explosion.",
                 config => config.Professions.EnableGetExcited,
                 (config, value) => config.Professions.EnableGetExcited = value)
+            .AddCheckbox(
+                () => "Crystalariums Upgrade With Gemologist",
+                () => "Whether or not to increase the quality of active Crystalarium held minerals when the owner Gemologist receives a quality boost.",
+                config => config.Professions.CrystalariumsUpgradeWithGemologist,
+                (config, value) => config.Professions.CrystalariumsUpgradeWithGemologist = value)
             .AddNumberField(
                 () => "Angler Multiplier Cap",
                 () =>
@@ -268,8 +278,8 @@ internal sealed partial class GenericModConfigMenuCore
             .AddNumberField(
                 () => "Bonus Skill Experience After Reset",
                 () => "Cumulative bonus that multiplies a skill's experience gain after each respective skill reset.",
-                config => config.Professions.PrestigeExpMultiplier,
-                (config, value) => config.Professions.PrestigeExpMultiplier = value,
+                config => config.Professions.PrestigeExpFactor,
+                (config, value) => config.Professions.PrestigeExpFactor = value,
                 -0.5f,
                 2f)
             .AddNumberField(

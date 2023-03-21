@@ -2,8 +2,8 @@
 
 #region using directives
 
-using System.Collections.Generic;
 using System.Collections.Immutable;
+using System.Linq;
 using DaLion.Shared.Enums;
 using DaLion.Shared.Extensions.Stardew;
 using static System.FormattableString;
@@ -12,18 +12,9 @@ using static System.FormattableString;
 
 internal static class RevenueService
 {
-    internal static float[] Brackets { get; } = { 0.1f, 0.12f, 0.22f, 0.24f, 0.32f, 0.35f, 0.37f };
-
-    internal static ImmutableDictionary<float, int> Thresholds { get; } = new Dictionary<float, int>
-    {
-        { 0.1f, 9950 },
-        { 0.12f, 40525 },
-        { 0.22f, 86375 },
-        { 0.24f, 164925 },
-        { 0.32f, 209425 },
-        { 0.35f, 523600 },
-        { 0.37f, int.MaxValue },
-    }.ToImmutableDictionary();
+    internal static ImmutableDictionary<int, float> TaxByIncomeBrackets { get; } = TaxesModule.Config.IncomeBrackets
+        .Zip(TaxesModule.Config.IncomeTaxPerBracket, (key, value) => new { key, value })
+        .ToImmutableDictionary(p => p.key, p => p.value);
 
     /// <summary>Calculates due income tax for the <paramref name="who"/>.</summary>
     /// <param name="who">The <see cref="Farmer"/>.</param>
@@ -36,20 +27,19 @@ internal static class RevenueService
         var taxable = (int)((income - expenses) * (1f - deductions));
 
         var dueF = 0f;
-        var bracket = 0f;
+        var tax = 0f;
         var temp = taxable;
-        for (var i = 0; i < 7; i++)
+        foreach (var bracket in TaxByIncomeBrackets.Keys)
         {
-            bracket = Brackets[i];
-            var threshold = Thresholds[bracket];
-            if (temp > threshold)
+            tax = TaxByIncomeBrackets[bracket];
+            if (temp > bracket)
             {
-                dueF += threshold * bracket;
-                temp -= threshold;
+                dueF += bracket * tax;
+                temp -= bracket;
             }
             else
             {
-                dueF += temp * bracket;
+                dueF += temp * tax;
                 break;
             }
         }
@@ -61,7 +51,7 @@ internal static class RevenueService
             $"\n\t- Business expenses: {expenses}g" +
             CurrentCulture($"\n\t- Eligible deductions: {deductions:0%}") +
             $"\n\t- Taxable amount: {taxable}g" +
-            CurrentCulture($"\n\t- Tax bracket: {bracket:0%}") +
+            CurrentCulture($"\n\t- Tax bracket: {tax:0%}") +
             $"\n\t- Due amount: {dueI}g.");
         return dueI;
     }

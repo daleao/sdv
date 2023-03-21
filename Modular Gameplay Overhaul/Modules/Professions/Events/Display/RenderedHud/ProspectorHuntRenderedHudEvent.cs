@@ -5,6 +5,7 @@
 using DaLion.Overhaul.Modules.Professions.TreasureHunts;
 using DaLion.Overhaul.Modules.Professions.VirtualProperties;
 using DaLion.Shared.Events;
+using DaLion.Shared.UI;
 using Microsoft.Xna.Framework;
 using StardewModdingAPI.Events;
 
@@ -34,13 +35,13 @@ internal sealed class ProspectorHuntRenderedHudEvent : RenderedHudEvent
         var treasureTile = this._hunt.TreasureTile.Value;
 
         // track target
-        Globals.Pointer.Value.DrawAsTrackingPointer(treasureTile, Color.Violet);
+        HudPointer.Instance.Value.DrawAsTrackingPointer(treasureTile, Color.Violet);
 
         // reveal if close enough
         var distanceSquared = (Game1.player.getTileLocation() - treasureTile).LengthSquared();
         if (distanceSquared <= Math.Pow(ProfessionsModule.Config.TreasureDetectionDistance, 2))
         {
-            Globals.Pointer.Value.DrawOverTile(treasureTile, Color.Violet);
+            HudPointer.Instance.Value.DrawOverTile(treasureTile, Color.Violet);
         }
     }
 }

@@ -8,6 +8,7 @@ using DaLion.Shared.Harmony;
 using HarmonyLib;
 using Microsoft.Xna.Framework;
 using Netcode;
+using Shared.Extensions;
 using StardewValley.Locations;
 using StardewValley.Objects;
 using StardewValley.Tools;
@@ -36,6 +37,7 @@ internal sealed class MineShaftAddLevelChestsPatcher : HarmonyPatcher
 
         try
         {
+            var player = Game1.player;
             var chestItems = new List<Item>();
             var chestSpot = new Vector2(9f, 9f);
             var tint = Color.White;
@@ -48,8 +50,8 @@ internal sealed class MineShaftAddLevelChestsPatcher : HarmonyPatcher
             switch (__instance.mineLevel)
             {
                 case 5:
-                    Game1.player.completeQuest(14);
-                    if (!Game1.player.hasOrWillReceiveMail("guildQuest"))
+                    player.completeQuest(14);
+                    if (!player.hasOrWillReceiveMail("guildQuest"))
                     {
                         Game1.addMailForTomorrow("guildQuest");
                     }
@@ -59,7 +61,7 @@ internal sealed class MineShaftAddLevelChestsPatcher : HarmonyPatcher
                     chestItems.Add(new Slingshot());
                     break;
                 case 40:
-                    Game1.player.completeQuest(17);
+                    player.completeQuest(17);
                     goto default;
                 case 60:
                     chestItems.Add(new Slingshot(Constants.MasterSlingshotIndex));
@@ -68,9 +70,9 @@ internal sealed class MineShaftAddLevelChestsPatcher : HarmonyPatcher
                     chestItems.Add(new SObject(434, 1)); // stardrop
                     break;
                 case 120:
-                    Game1.player.completeQuest(18);
+                    player.completeQuest(18);
                     Game1.getSteamAchievement("Achievement_TheBottom");
-                    if (!Game1.player.hasSkullKey)
+                    if (!player.hasSkullKey)
                     {
                         chestItems.Add(new SpecialItem(4));
                     }
@@ -78,19 +80,19 @@ internal sealed class MineShaftAddLevelChestsPatcher : HarmonyPatcher
                     tint = Color.Pink;
                     break;
                 case 220:
-                    if (Game1.player.secretNotesSeen.Contains(10) && !Game1.player.mailReceived.Contains("qiCave"))
+                    if (player.secretNotesSeen.Contains(10) && !player.mailReceived.Contains("qiCave"))
                     {
                         Game1.eventUp = true;
                         Game1.displayHUD = false;
-                        Game1.player.CanMove = false;
-                        Game1.player.showNotCarrying();
+                        player.CanMove = false;
+                        player.showNotCarrying();
                         __instance.currentEvent = new Event(Game1.content.LoadString(
                             MineShaft.numberOfCraftedStairsUsedThisRun <= 10
                                 ? "Data\\ExtraDialogue:SkullCavern_100_event_honorable"
                                 : "Data\\ExtraDialogue:SkullCavern_100_event"));
                         __instance.currentEvent.exitLocation =
                             new LocationRequest(__instance.Name, isStructure: false, __instance);
-                        Game1.player.chestConsumedMineLevels[__instance.mineLevel] = true;
+                        player.chestConsumedMineLevels[__instance.mineLevel] = true;
                     }
                     else
                     {
@@ -133,23 +135,30 @@ internal sealed class MineShaftAddLevelChestsPatcher : HarmonyPatcher
 
     private static Item GetTreasureItem(int level)
     {
-        return Game1.random.Next(14) switch
+        // force a new RNG to allow save-scumming
+        var r = new Random(Guid.NewGuid().GetHashCode());
+        return r.Next(8) switch
         {
-            1 => new SObject(286, 15), // cherry bomb
-            2 => new SObject(287, 10), // bomb
-            3 => new SObject(288, 5), // mega bomb
-            4 => new SObject(773, Game1.random.Next(2, 5)), // life elixir
-            5 => new SObject(349, Game1.random.Next(2, 5)), // energy tonic
-            6 => new SObject(749, Game1.random.Next(2, 5)), // omni geode
-            7 => new SObject(688, Game1.random.Next(2, 5)), // warp totem (farm)
-            8 => new SObject(681, Game1.random.Next(1, 4)), // rain totem
-            9 => new SObject(Game1.random.Next(472, 499), Game1.random.Next(1, 5) * 5), // seeds
-            10 => new SObject(Game1.random.Next(628, 634), Game1.random.Next(1, 5)), // tree sapling
-            11 => new SObject(621, 2), // quality sprinkler
-            12 => new SObject(level < 40 ? 680 : level < 80 ? 413 : 437, 1), // slime egg
-            13 => new SObject(Game1.random.Next(235, 245), Game1.random.Next(2, 5)), // food
-            _ => new SObject(level < 40 ? SObject.copperBar : level < 80 ? SObject.ironBar : SObject.goldBar, Game1.random.Next(2, 4)),
+            1 => chooseBomb(r),
+            2 => chooseTotem(r),
+            3 => new SObject(r.Next(235, 245), r.Next(3, 8)), // food
+            4 => new SObject(r.Choose(773, 349), r.Next(4, 10)), // life elixir or energy tonic
+            5 => new SObject(r.Choose(369, 371, 466), 20), // level-2 fertilizer
+            6 => new SObject(621, 2), // quality sprinkler
+            _ => new SObject(level < 40 ? SObject.copperBar : level < 80 ? SObject.ironBar : SObject.goldBar, r.Next(5, 15)),
         };
+
+        SObject chooseBomb(Random rr)
+        {
+            var which = rr.Next(286, 289);
+            return new SObject(which, 20 - ((which * 5) - 1430));
+        }
+
+        SObject chooseTotem(Random rr)
+        {
+            var which = rr.Choose(688, 681);
+            return new SObject(which, which == 681 ? rr.Next(2, 5) : rr.Next(3, 8));
+        }
     }
 
     #endregion injected subroutines

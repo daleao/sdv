@@ -25,37 +25,23 @@ internal sealed class SlingshotDrawAttachmentsPatcher : HarmonyPatcher
     [HarmonyPostfix]
     private static void SlingshotDrawAttachmentsPostfix(Slingshot __instance, SpriteBatch b, int x, int y)
     {
-        if (__instance.numAttachmentSlots.Value < 2)
+        if (__instance.attachments.Length < 2)
         {
-            return;
-        }
-
-        if (__instance.attachments[1] is null)
-        {
-            b.Draw(
-                Game1.menuTexture,
-                new Vector2(x, y + 64 + 4),
-                Game1.getSourceRectForStandardTileSheet(Game1.menuTexture, 43),
-                Color.White,
-                0f,
-                Vector2.Zero,
-                1f,
-                SpriteEffects.None,
-                0.86f);
             return;
         }
 
         b.Draw(
             Game1.menuTexture,
             new Vector2(x, y + 64 + 4),
-            Game1.getSourceRectForStandardTileSheet(Game1.menuTexture, 10),
+            Game1.getSourceRectForStandardTileSheet(Game1.menuTexture, __instance.attachments[1] is null ? 43 : 10),
             Color.White,
             0f,
             Vector2.Zero,
             1f,
             SpriteEffects.None,
             0.86f);
-        __instance.attachments[1].drawInMenu(
+
+        __instance.attachments[1]?.drawInMenu(
             b,
             new Vector2(x, y + 64 + 4),
             1f);

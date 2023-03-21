@@ -1,7 +1,11 @@
 # Modular Overhaul Change Logs
 
-## Minor release 1.3.x Highlights
+## Minor release 1.4.x Highlights
 
+* [Arsenal]: Certain weapons have been rebalanced, including Galaxy and Infinity weapons.
+* [Arsenal]: Several tweaks to make new weapons significantly easier to come by.
+* [Rings]: Adjustments to Chord Harmonization logic, leading to a rebalance of certain gemstone combinations.
+* [Taxes]: Added property taxes.
 * [Tools]: Now includes the popular Harvest With Scythe feature, so you no longer have to rely on CJB Cheats Menu's implementation. The implementation is similar to Yet Another Harvest With Scythe Mod, which means they will conflict if installed together.
 
 ## Major Release 1.x.x Highlights

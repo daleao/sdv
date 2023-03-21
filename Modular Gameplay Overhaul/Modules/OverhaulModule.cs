@@ -71,7 +71,7 @@ internal abstract class OverhaulModule : SmartEnum<OverhaulModule>
 
     /// <summary>Activates the module.</summary>
     /// <param name="helper">Provides simplified APIs for writing mods.</param>
-    [MemberNotNull(nameof(_harmonizer), nameof(_commandHandler))]
+    //[MemberNotNull(nameof(_harmonizer), nameof(_commandHandler))]
     internal virtual void Activate(IModHelper helper)
     {
         if (this.IsActive)
@@ -90,7 +90,7 @@ internal abstract class OverhaulModule : SmartEnum<OverhaulModule>
             () => this.IsActive);
         this.IsActive = true;
         this.InvalidateAssets();
-        Log.T($"[Core]: {this.Name} module activated.");
+        Log.T($"[Modules]: {this.Name} module activated.");
     }
 
     /// <summary>Deactivates the module.</summary>
@@ -106,7 +106,7 @@ internal abstract class OverhaulModule : SmartEnum<OverhaulModule>
         this._harmonizer = this._harmonizer.Unapply();
         this.IsActive = false;
         this.InvalidateAssets();
-        Log.T($"[Core]: {this.Name} module deactivated.");
+        Log.T($"[Modules]: {this.Name} module deactivated.");
     }
 
     /// <summary>Causes SMAPI to reload all assets edited by this module.</summary>
@@ -115,6 +115,26 @@ internal abstract class OverhaulModule : SmartEnum<OverhaulModule>
     }
 
     #region implementations
+
+    internal sealed class CoreModule : OverhaulModule
+    {
+        /// <summary>Initializes a new instance of the <see cref="OverhaulModule.CoreModule"/> class.</summary>
+        internal CoreModule()
+            : base("Core", 0, "margo")
+        {
+        }
+
+        /// <inheritdoc />
+        internal override void Activate(IModHelper helper)
+        {
+            base.Activate(helper);
+#if DEBUG
+            // start FPS counter
+            Globals.FpsCounter = new FrameRateCounter(GameRunner.instance);
+            helper.Reflection.GetMethod(Globals.FpsCounter, "LoadContent").Invoke();
+#endif
+        }
+    }
 
     internal sealed class ProfessionsModule : OverhaulModule
     {
@@ -132,6 +152,15 @@ internal abstract class OverhaulModule : SmartEnum<OverhaulModule>
 
         /// <summary>Gets the ephemeral runtime state for the <see cref="OverhaulModule.ProfessionsModule"/>.</summary>
         internal static Professions.State State => ModEntry.State.Professions;
+
+        /// <inheritdoc />
+        internal override void Activate(IModHelper helper)
+        {
+            if (IsEnabled)
+            {
+                base.Activate(helper);
+            }
+        }
 
         /// <inheritdoc />
         protected override void InvalidateAssets()
@@ -161,6 +190,15 @@ internal abstract class OverhaulModule : SmartEnum<OverhaulModule>
 
         /// <summary>Gets the ephemeral runtime state for the <see cref="OverhaulModule.ArsenalModule"/>.</summary>
         internal static Arsenal.State State => ModEntry.State.Arsenal;
+
+        /// <inheritdoc />
+        internal override void Activate(IModHelper helper)
+        {
+            if (IsEnabled)
+            {
+                base.Activate(helper);
+            }
+        }
 
         /// <inheritdoc />
         protected override void InvalidateAssets()
@@ -196,6 +234,15 @@ internal abstract class OverhaulModule : SmartEnum<OverhaulModule>
         internal static Rings.State State => ModEntry.State.Rings;
 
         /// <inheritdoc />
+        internal override void Activate(IModHelper helper)
+        {
+            if (IsEnabled)
+            {
+                base.Activate(helper);
+            }
+        }
+
+        /// <inheritdoc />
         protected override void InvalidateAssets()
         {
             ModHelper.GameContent.InvalidateCacheAndLocalized("Data/CraftingRecipes");
@@ -217,6 +264,15 @@ internal abstract class OverhaulModule : SmartEnum<OverhaulModule>
 
         /// <summary>Gets the config instance for the <see cref="OverhaulModule.PondsModule"/>.</summary>
         internal static Ponds.Config Config => ModEntry.Config.Ponds;
+
+        /// <inheritdoc />
+        internal override void Activate(IModHelper helper)
+        {
+            if (IsEnabled)
+            {
+                base.Activate(helper);
+            }
+        }
 
         /// <inheritdoc />
         protected override void InvalidateAssets()
@@ -243,6 +299,15 @@ internal abstract class OverhaulModule : SmartEnum<OverhaulModule>
         internal static Taxes.State State => ModEntry.State.Taxes;
 
         /// <inheritdoc />
+        internal override void Activate(IModHelper helper)
+        {
+            if (IsEnabled)
+            {
+                base.Activate(helper);
+            }
+        }
+
+        /// <inheritdoc />
         protected override void InvalidateAssets()
         {
             ModHelper.GameContent.InvalidateCacheAndLocalized("Data/mail");
@@ -267,6 +332,15 @@ internal abstract class OverhaulModule : SmartEnum<OverhaulModule>
         internal static Tools.State State => ModEntry.State.Tools;
 
         /// <inheritdoc />
+        internal override void Activate(IModHelper helper)
+        {
+            if (IsEnabled)
+            {
+                base.Activate(helper);
+            }
+        }
+
+        /// <inheritdoc />
         protected override void InvalidateAssets()
         {
             ModHelper.GameContent.InvalidateCacheAndLocalized("Data/weapons");
@@ -286,25 +360,14 @@ internal abstract class OverhaulModule : SmartEnum<OverhaulModule>
 
         /// <summary>Gets the config instance for the <see cref="OverhaulModule.TweexModule"/>.</summary>
         internal static Tweex.Config Config => ModEntry.Config.Tweex;
-    }
-
-    private sealed class CoreModule : OverhaulModule
-    {
-        /// <summary>Initializes a new instance of the <see cref="OverhaulModule.CoreModule"/> class.</summary>
-        internal CoreModule()
-            : base("Core", 0, "margo")
-        {
-        }
 
         /// <inheritdoc />
         internal override void Activate(IModHelper helper)
         {
-            base.Activate(helper);
-#if DEBUG
-            // start FPS counter
-            Globals.FpsCounter = new FrameRateCounter(GameRunner.instance);
-            helper.Reflection.GetMethod(Globals.FpsCounter, "LoadContent").Invoke();
-#endif
+            if (IsEnabled)
+            {
+                base.Activate(helper);
+            }
         }
     }
 

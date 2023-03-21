@@ -232,7 +232,7 @@ All enchantments below are entirely new and unique to slingshots.
 
 | Name       | Effect |
 | ---------- | -------|
-| Engorging  | Doubles the size of fired projectiles. |
+| Glutton    | Doubles the size of fired projectiles. |
 | Gatling    | Enables auto-fire.* |
 | Preserving | 50% chance to not consume ammo. |
 | Spreading  | Attacks fire 2 additional projectiles. Extra projectiles deal reduced (60%) damage and do not consume additional ammo.  |

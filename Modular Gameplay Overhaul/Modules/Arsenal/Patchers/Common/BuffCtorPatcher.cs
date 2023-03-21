@@ -30,6 +30,7 @@ internal sealed class BuffCtorPatcher : HarmonyPatcher
     {
         var helper = new ILHelper(original, instructions);
 
+        // Injected: if (ModEntry.Config.Arsenal.OverhauledDefense) value += 3; <-- from -8 to -5
         try
         {
             var resumeExecution = generator.DefineLabel();
@@ -56,7 +57,8 @@ internal sealed class BuffCtorPatcher : HarmonyPatcher
                             OpCodes.Callvirt,
                             typeof(Config).RequirePropertyGetter(nameof(Config.OverhauledDefense))),
                         new CodeInstruction(OpCodes.Brfalse_S, resumeExecution),
-                        new CodeInstruction(OpCodes.Ldc_I4_S, 3), new CodeInstruction(OpCodes.Add),
+                        new CodeInstruction(OpCodes.Ldc_I4_S, 3),
+                        new CodeInstruction(OpCodes.Add),
                     });
         }
         catch (Exception ex)

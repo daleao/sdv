@@ -248,6 +248,11 @@ internal sealed class GameLocationCheckActionPatcher : HarmonyPatcher
         {
             who.Increment(DataFields.GemologistMineralsCollected);
             var collected = who.Read<int>(DataFields.GemologistMineralsCollected);
+            if (!ProfessionsModule.Config.CrystalariumsUpgradeWithGemologist)
+            {
+                return;
+            }
+
             if (collected == ProfessionsModule.Config.MineralsNeededForBestQuality / 2)
             {
                 Game1.game1.GlobalUpgradeCrystalariums(SObject.highQuality, who);

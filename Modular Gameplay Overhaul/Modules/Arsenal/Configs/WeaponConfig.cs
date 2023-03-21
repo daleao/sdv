@@ -39,14 +39,6 @@ public sealed class WeaponConfig
         { WeaponType.StabbingSword, 4 }, { WeaponType.DefenseSword, 4 }, { WeaponType.Club, 2 },
     };
 
-    /// <summary>Gets a value indicating whether to guarantee smash crit on Duggies and guarantee miss on gliders.</summary>
-    [JsonProperty]
-    public bool GroundedClubSmash { get; internal set; } = true;
-
-    /// <summary>Gets a value indicating whether defense should improve parry damage.</summary>
-    [JsonProperty]
-    public bool DefenseImprovesParry { get; internal set; } = true;
-
     /// <summary>Gets a value indicating whether replace the defensive special move of some swords with an offensive lunge move.</summary>
     [JsonProperty]
     public bool EnableStabbySwords { get; internal set; } = true;
@@ -76,7 +68,15 @@ public sealed class WeaponConfig
 
     /// <summary>Gets a value indicating whether enable new overhauled enchantments for melee weapons, and rebalance some old ones.</summary>
     [JsonProperty]
-    public bool EnableEnchants { get; internal set; } = true;
+    public bool ReduxEnchants { get; internal set; } = true;
+
+    /// <summary>Gets a value indicating whether to guarantee smash crit on Duggies and guarantee miss on gliders.</summary>
+    [JsonProperty]
+    public bool GroundedClubSmash { get; internal set; } = true;
+
+    /// <summary>Gets a value indicating whether defense should improve parry damage.</summary>
+    [JsonProperty]
+    public bool DefenseImprovesParry { get; internal set; } = true;
 
     /// <summary>Gets the style of the tooltips for displaying stat bonuses for weapons.</summary>
     [JsonProperty]

@@ -23,12 +23,10 @@ internal sealed class BluePrintConsumeResourcesPatcher : HarmonyPatcher
     [HarmonyPostfix]
     private static void BluePrintConsumeResourcesPostfix(BluePrint __instance)
     {
-        if (!TaxesModule.Config.DeductibleBuildingExpenses)
+        if (!__instance.magical && TaxesModule.Config.DeductibleBuildingExpenses)
         {
-            return;
+            Game1.player.Increment(DataFields.BusinessExpenses, __instance.moneyRequired);
         }
-
-        Game1.player.Increment(DataFields.BusinessExpenses, __instance.moneyRequired);
     }
 
     #endregion harmony patches

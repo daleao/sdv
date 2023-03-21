@@ -1,10 +1,24 @@
 ﻿# Modular Overhaul Core Change Log
 
+## 1.3.6
+
+### Added
+
+* Added Japanese translations by [sakusakusakuya](https://www.nexusmods.com/stardewvalley/users/155983153).
+
+### Fixed
+
+* Added updated Russian localization by [romario314](https://www.nexusmods.com/stardewvalley/users/68548986).
+
 ## 1.3.2
+
+### Added
+
+* Added separators from GMCM options.
 
 ### Changed
 
-* Added headers to GMCM menus. 
+* Added headers to GMCM menus.
 
 ## 1.3.1
 

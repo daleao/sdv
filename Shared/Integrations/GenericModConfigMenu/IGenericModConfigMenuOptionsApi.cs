@@ -89,6 +89,16 @@ public interface IGenericModConfigMenuOptionsApi
         Bottom = 1,
     }
 
+    /// <summary>
+    /// Valid values for the <c>alignment</c> parameter of <c>AddHorizontalSeparator</c> and <c>AddSimpleHorizontalSeparator</c>.
+    /// </summary>
+    public enum HorizontalAlignment
+    {
+        Left = -1,
+        Center = 0,
+        Right = 1,
+    }
+
     #pragma warning restore SA1602 // Enumeration items should be documented
     #pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
 
@@ -188,4 +198,66 @@ public interface IGenericModConfigMenuOptionsApi
         int arrowLocation = (int)ImageOptionArrowLocation.Top,
         int labelLocation = (int)ImageOptionLabelLocation.Top,
         string? fieldId = null);
+
+    /// <summary>
+    /// Add a horizontal separator.
+    /// </summary>
+    /// <param name="mod">The mod's manifest.</param>
+    /// <param name="getWidthFraction">
+    ///   A function that returns the fraction of the GMCM window that the separator
+    ///   should occupy.  1.0 is the entire window.  Defaults to 0.85.
+    /// </param>
+    /// <param name="height">The height of the separator (in pixels).</param>
+    /// <param name="padAbove">How much padding (in pixels) to place above the separator.</param>
+    /// <param name="padBelow">How much padding (in pixels) to place below the separator.</param>
+    /// <param name="alignment">
+    ///   The horizontal alignment of the separator.
+    ///   Use a value from the <c cref="HorizontalAlignment">HorizontalAlignment enumeration</c>.
+    /// </param>
+    /// <param name="getColor">
+    ///   A function to return the color to use for the separator.  Defaults to the game's text color.
+    /// </param>
+    /// <param name="getShadowColor">
+    ///   A function to return the color to use for the shadow drawn under the separator.  Defaults to the
+    ///   game's text shadow color.  Return <c>Color.Transparent</c> to remove the shadow completely.
+    /// </param>
+    void AddHorizontalSeparator(
+        IManifest mod,
+        Func<double>? getWidthFraction = null,
+        int height = 3,
+        int padAbove = 0,
+        int padBelow = 0,
+        int alignment = (int)HorizontalAlignment.Center,
+        Func<Color>? getColor = null,
+        Func<Color>? getShadowColor = null);
+
+    /// <summary>
+    ///   Add a horizontal separator.  This is a simplified version of
+    ///   <c cref="AddHorizontalSeparator(IManifest, Func{double}, int, int, int, int, Func{Color}, Func{Color})">AddHorizontalSeparator</c>.
+    /// </summary>
+    /// <param name="mod">The mod's manifest.</param>
+    /// <param name="widthFraction">
+    ///   The fraction of the GMCM window that the separator
+    ///   should occupy.  1.0 is the entire window.  Defaults to 0.85.</param>
+    /// <param name="height">The height of the separator (in pixels).</param>
+    /// <param name="padAbove">How much padding (in pixels) to place above the separator.</param>
+    /// <param name="padBelow">How much padding (in pixels) to place below the separator.</param>
+    /// <param name="alignment">
+    ///   The horizontal alignment of the separator.
+    ///   Use a value from the <c cref="HorizontalAlignment">HorizontalAlignment enumeration</c>.
+    /// </param>
+    /// <param name="color">The color to use for the separator.  Defaults to the game's text color.</param>
+    /// <param name="shadowColor">
+    ///   The color to use for the shadow drawn under the separator.  Defaults to the
+    ///   game's text shadow color.  Use <c>Color.Transparent</c> to remove the shadow completely.
+    /// </param>
+    void AddSimpleHorizontalSeparator(
+        IManifest mod,
+        double widthFraction = 0.85,
+        int height = 3,
+        int padAbove = 0,
+        int padBelow = 0,
+        int alignment = (int)HorizontalAlignment.Center,
+        Color? color = null,
+        Color? shadowColor = null);
 }

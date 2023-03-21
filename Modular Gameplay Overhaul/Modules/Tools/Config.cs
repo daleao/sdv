@@ -47,10 +47,6 @@ public sealed class Config : Shared.Configs.Config
     [JsonProperty]
     public bool HideAffectedTiles { get; internal set; } = false;
 
-    /// <summary>Gets a value which multiplies the stamina consumption for a <see cref="Shockwave"/>.</summary>
-    [JsonProperty]
-    public float StaminaCostMultiplier { get; internal set; } = 1f;
-
     /// <summary>Gets affects the shockwave travel speed. Lower is faster. Set to 0 for instant.</summary>
     [JsonProperty]
     public uint TicksBetweenWaves { get; internal set; } = 4;
@@ -139,10 +135,17 @@ public sealed class Config : Shared.Configs.Config
             isValid = false;
         }
 
-        if (this.StaminaCostMultiplier < 0)
+        if (this.Axe.ChargedStaminaMultiplier < 0)
         {
-            Log.W("'StaminaCostMultiplier' is set to an illegal negative value. The value will default to 0");
-            this.StaminaCostMultiplier = 0;
+            Log.W("Axe 'ChargedStaminaMultiplier' is set to an illegal negative value. The value will default to 1");
+            this.Axe.ChargedStaminaMultiplier = 1f;
+            isValid = false;
+        }
+
+        if (this.Pick.ChargedStaminaMultiplier < 0)
+        {
+            Log.W("Pickaxe 'ChargedStaminaMultiplier' is set to an illegal negative value. The value will default to 1");
+            this.Pick.ChargedStaminaMultiplier = 1f;
             isValid = false;
         }
 

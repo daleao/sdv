@@ -1,5 +1,15 @@
 ﻿# Tools Module Change Log
 
+## 1.4.0
+
+### Changed
+
+* The stamina cost of the charged Axe and Pickaxe can now be configured separately.
+
+### Fixed
+
+* Added missing base stamina cost mulitpliers for each tool to GMCM.
+
 ## 1.3.3
 
 ### Fixed

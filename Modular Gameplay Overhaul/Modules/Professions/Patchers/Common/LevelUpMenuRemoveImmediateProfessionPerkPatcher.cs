@@ -16,7 +16,6 @@ using DaLion.Shared.Harmony;
 using HarmonyLib;
 using StardewValley.Buildings;
 using StardewValley.Menus;
-using StardewValley.Tools;
 
 #endregion using directives
 
@@ -65,29 +64,8 @@ internal sealed class LevelUpMenuRemoveImmediateProfessionPerkPatcher : HarmonyP
                     pond.currentOccupants.Value = Math.Min(pond.currentOccupants.Value, pond.maxOccupants.Value);
                 }
             })
-            .When(Profession.Rascal).Then(() =>
-            {
-                Utility.iterateAllItems(item =>
-                {
-                    if (item is not Slingshot { numAttachmentSlots.Value: 2 } slingshot ||
-                        !slingshot.getLastFarmerToUse().IsLocalPlayer)
-                    {
-                        return;
-                    }
-
-                    slingshot.attachments[1] = null;
-                    slingshot.numAttachmentSlots.Value = 1;
-                    slingshot.attachments.SetCount(1);
-                });
-            })
-            .When(Profession.Prospector).Then(() =>
-            {
-                EventManager.Disable<ProspectorRenderedHudEvent>();
-            })
-            .When(Profession.Scavenger).Then(() =>
-            {
-                EventManager.Disable<ScavengerRenderedHudEvent>();
-            });
+            .When(Profession.Prospector).Then(() => EventManager.Disable<ProspectorRenderedHudEvent>())
+            .When(Profession.Scavenger).Then(() => EventManager.Disable<ScavengerRenderedHudEvent>());
 
         // unregister Ultimate
         if (Game1.player.Get_Ultimate()?.Value != whichProfession)

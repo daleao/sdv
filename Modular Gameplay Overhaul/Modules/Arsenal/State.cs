@@ -61,4 +61,8 @@ internal sealed class State
     internal Vector2 DriftVelocity { get; set; }
 
     internal Tool? SelectableArsenal { get; set; }
+
+    internal double ContainerDropAccumulator { get; set; }
+
+    internal double MonsterDropAccumulator { get; set; }
 }

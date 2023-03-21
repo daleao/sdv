@@ -25,9 +25,9 @@ public interface IGemstone
     float Frequency { get; }
 
     /// <summary>Gets the characteristic color which results from <see cref="Frequency"/>.</summary>
-    Color Color { get; }
+    Color StoneColor { get; }
 
-    /// <summary>Gets the inverse of <see cref="Color"/>.</summary>
+    /// <summary>Gets the inverse of <see cref="StoneColor"/>.</summary>
     Color GlowColor { get; }
 
     /// <summary>Gets the second <see cref="Gemstone"/> in the corresponding <see cref="DiatonicScale"/>.</summary>

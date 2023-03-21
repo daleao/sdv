@@ -175,6 +175,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Caching\IntervalMemoryCache.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Reflection\Reflector.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UI\HudPointer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)UI\HudPointerUpdateTickedEvent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)VectorUtils.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Watchers\DisposableWatcher.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Watchers\ICollectionWatcher.cs" />

@@ -14,7 +14,6 @@ using DaLion.Shared.Extensions.Stardew;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
 using Netcode;
-using NetFabric.Hyperlinq;
 using StardewValley.Buildings;
 
 #endregion using directives
@@ -209,7 +208,6 @@ internal sealed class FishPondDoActionPatcher : HarmonyPatcher
         pond.Write(
             DataFields.MetalsHeld,
             string.Join(';', heldMinerals
-                .AsValueEnumerable()
                 .Select(m => string.Join(',', m.Item1, m.Item2))));
 
         Reflector

@@ -17,6 +17,7 @@ using HarmonyLib;
 using Microsoft.Xna.Framework;
 using Netcode;
 using SpaceCore.Interface;
+using StardewValley.Menus;
 
 #endregion using directives
 
@@ -31,6 +32,24 @@ internal sealed class SkillLevelUpMenuUpdatePatcher : HarmonyPatcher
     }
 
     #region harmony patches
+
+    /// <summary>Patch to idiot-proof the level-up menu. </summary>
+    [HarmonyPrefix]
+    private static void LevelUpMenuUpdatePrefix(
+        SkillLevelUpMenu __instance, int ___currentLevel, List<int> ___professionsToChoose)
+    {
+        if (!__instance.isProfessionChooser || !__instance.hasUpdatedProfessions ||
+            !ShouldSuppressClick(___professionsToChoose[0], ___currentLevel) ||
+            !ShouldSuppressClick(___professionsToChoose[1], ___currentLevel))
+        {
+            return;
+        }
+
+        __instance.isActive = false;
+        __instance.informationUp = false;
+        __instance.isProfessionChooser = false;
+        __instance.hasUpdatedProfessions = true;
+    }
 
     /// <summary>Patch to prevent duplicate profession acquisition.</summary>
     [HarmonyTranspiler]
@@ -82,77 +101,6 @@ internal sealed class SkillLevelUpMenuUpdatePatcher : HarmonyPatcher
                 "Professions module failed patching 2nd-tier profession choices to reflect last chosen 1st-tier profession." +
                 "\n—-- Do NOT report this to SpaceCore's author. ---" +
                 $"\nHelper returned {ex}");
-            return null;
-        }
-
-        // Injected: if (ShouldSuppressBoth(professionsToChoose, currentLevel) { isActive = false; informationUp = false; isProfessionChooser = false; profPair = null; }
-        // After: professionsToChoose.Add...
-        // Remarks: This is equivalent to vanilla Prefix patch to idiot-proof the menu.
-        try
-        {
-            var resumeExecution = generator.DefineLabel();
-            helper
-                .ForEach(
-                    new[]
-                    {
-                        new CodeInstruction(
-                            OpCodes.Callvirt,
-                            typeof(List<int>).RequireMethod(nameof(List<int>.Add))),
-                    },
-                    () =>
-                    {
-                        helper
-                            .Match(
-                                new[]
-                                {
-                                    new CodeInstruction(
-                                        OpCodes.Callvirt,
-                                        typeof(List<int>).RequireMethod(nameof(List<int>.Add))),
-                                })
-                            .Move()
-                            .AddLabels(resumeExecution)
-                            .Insert(
-                                new[]
-                                {
-                                    new CodeInstruction(OpCodes.Ldarg_0),
-                                    new CodeInstruction(
-                                        OpCodes.Ldfld,
-                                        typeof(SkillLevelUpMenu).RequireField("professionsToChoose")),
-                                    new CodeInstruction(OpCodes.Ldarg_0),
-                                    new CodeInstruction(
-                                        OpCodes.Ldfld,
-                                        typeof(SkillLevelUpMenu).RequireField("currentLevel")),
-                                    new CodeInstruction(
-                                        OpCodes.Call,
-                                        typeof(SkillLevelUpMenuUpdatePatcher)
-                                            .RequireMethod(nameof(ShouldSuppressBoth))),
-                                    new CodeInstruction(OpCodes.Brfalse_S, resumeExecution),
-                                    new CodeInstruction(OpCodes.Ldarg_0),
-                                    new CodeInstruction(OpCodes.Ldc_I4_0),
-                                    new CodeInstruction(
-                                        OpCodes.Stfld,
-                                        typeof(SkillLevelUpMenu).RequireField("isActive")),
-                                    new CodeInstruction(OpCodes.Ldarg_0),
-                                    new CodeInstruction(OpCodes.Ldc_I4_0),
-                                    new CodeInstruction(
-                                        OpCodes.Stfld,
-                                        typeof(SkillLevelUpMenu).RequireField("informationUp")),
-                                    new CodeInstruction(OpCodes.Ldarg_0),
-                                    new CodeInstruction(OpCodes.Ldc_I4_0),
-                                    new CodeInstruction(
-                                        OpCodes.Stfld,
-                                        typeof(SkillLevelUpMenu).RequireField("isProfessionChooser")),
-                                    new CodeInstruction(OpCodes.Ldarg_0),
-                                    new CodeInstruction(OpCodes.Ldnull),
-                                    new CodeInstruction(
-                                        OpCodes.Stfld,
-                                        typeof(SkillLevelUpMenu).RequireField("profPair")),
-                                });
-                    });
-        }
-        catch (Exception ex)
-        {
-            Log.E($"Failed idiot-proofing the menu.\nHelper returned {ex}");
             return null;
         }
 

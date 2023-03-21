@@ -57,7 +57,7 @@ public static class Vector2Extensions
     }
 
     /// <summary>Gets the 4-connected neighboring tiles in a given region.</summary>
-    /// <param name="tile">The tile.</param>
+    /// <param name="tile">The tile as a <see cref="Vector2"/>.</param>
     /// <param name="width">The width of the entire region.</param>
     /// <param name="height">The height of the entire region.</param>
     /// <returns>A <see cref="IEnumerable{T}"/> of the four-connected neighbors of the <paramref name="tile"/>.</returns>
@@ -86,7 +86,7 @@ public static class Vector2Extensions
     }
 
     /// <summary>Gets the 8-connected neighboring tiles in a given region.</summary>
-    /// <param name="vector">The tile.</param>
+    /// <param name="vector">The tile as a <see cref="Vector2"/>.</param>
     /// <param name="width">The width of the entire region.</param>
     /// <param name="height">The height of the entire region.</param>
     /// <returns>A <see cref="IEnumerable{T}"/> of the eight-connected neighbors of the <paramref name="vector"/>.</returns>
@@ -133,54 +133,33 @@ public static class Vector2Extensions
     /// <param name="origin">The starting point for the fill, as a <see cref="Vector2"/>.</param>
     /// <param name="width">The width of the region.</param>
     /// <param name="height">The height of the region.</param>
-    /// <param name="predicate">The boundary condition.</param>
-    /// <returns>The set of points belonging to the region, as <see cref="Vector2"/>.</returns>
-    public static IReadOnlyList<Vector2> FloodFill(this Vector2 origin, int width, int height, Func<Vector2, bool> predicate)
+    /// <param name="boundary">The boundary condition.</param>
+    /// <returns>The list of <see cref="Vector2"/>s belonging to the enclosed region.</returns>
+    public static IReadOnlyList<Vector2> FloodFill(this Vector2 origin, int width, int height, Func<Vector2, bool> boundary)
     {
-        if (origin.X <= 0)
+        var flooded = new List<Vector2>();
+        var tested = new HashSet<Vector2>();
+        var queue = new Queue<Vector2>();
+        queue.Enqueue(origin);
+        while (queue.Count > 0)
         {
-            origin = new Vector2(origin.X + 1, origin.Y);
-        }
-        else if (origin.Y <= 0)
-        {
-            origin = new Vector2(origin.X, origin.Y + 1);
-        }
-        else if (origin.X >= width - 1)
-        {
-            origin = new Vector2(origin.X - 1, origin.Y);
-        }
-        else if (origin.Y >= height - 1)
-        {
-            origin = new Vector2(origin.X, origin.Y - 1);
-        }
-
-        var result = new List<Vector2>();
-        var visited = new HashSet<Vector2>();
-        var toVisit = new Queue<Vector2>();
-        toVisit.Enqueue(origin);
-        while (toVisit.Count > 0)
-        {
-            var tile = toVisit.Dequeue();
-            if (!visited.Add(tile))
+            var tile = queue.Dequeue();
+            if (tile.X < 0 || tile.Y < 0 || tile.X >= width || tile.Y >= height || !tested.Add(tile) ||
+                !boundary(tile))
             {
                 continue;
             }
 
-            if (!predicate(tile))
-            {
-                continue;
-            }
-
-            result.Add(tile);
+            flooded.Add(tile);
             foreach (var neighbor in tile.GetEightNeighbors(width, height))
             {
-                if (!visited.Contains(neighbor))
+                if (!tested.Contains(neighbor))
                 {
-                    toVisit.Enqueue(neighbor);
+                    queue.Enqueue(neighbor);
                 }
             }
         }
 
-        return result;
+        return flooded;
     }
 }

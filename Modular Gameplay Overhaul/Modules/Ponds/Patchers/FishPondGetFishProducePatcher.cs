@@ -13,7 +13,6 @@ using DaLion.Shared.Extensions.Stardew;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
 using Microsoft.Xna.Framework;
-using NetFabric.Hyperlinq;
 using StardewValley.Buildings;
 using StardewValley.Menus;
 using StardewValley.Objects;
@@ -90,7 +89,6 @@ internal sealed class FishPondGetFishProducePatcher : HarmonyPatcher
             if (held.Count > 0)
             {
                 var serialized = held
-                    .AsValueEnumerable()
                     .Take(36)
                     .Select(p => $"{p.ParentSheetIndex},{p.Stack},{((SObject)p).Quality}");
                 __instance.Write(DataFields.ItemsHeld, string.Join(';', serialized));
@@ -319,7 +317,6 @@ internal sealed class FishPondGetFishProducePatcher : HarmonyPatcher
 
         Utility.consolidateStacks(held);
         var serialized = held
-            .AsValueEnumerable()
             .Take(36)
             .Select(p => $"{p.ParentSheetIndex},{p.Stack},0");
         pond.Write(DataFields.ItemsHeld, string.Join(';', serialized));
@@ -388,7 +385,6 @@ internal sealed class FishPondGetFishProducePatcher : HarmonyPatcher
         pond.Write(
             DataFields.MetalsHeld,
             string.Join(';', heldMetals
-                .AsValueEnumerable()
                 .Select(m => string.Join(',', m.Item1, m.Item2))));
     }
 

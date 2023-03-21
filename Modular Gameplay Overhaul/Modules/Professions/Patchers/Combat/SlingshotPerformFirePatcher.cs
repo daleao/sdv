@@ -183,7 +183,7 @@ internal sealed class SlingshotPerformFirePatcher : HarmonyPatcher
                     yVelocity,
                     rotationVelocity);
 
-            if (Game1.currentLocation.currentEvent != null || Game1.currentMinigame != null)
+            if (Game1.currentLocation.currentEvent is not null || Game1.currentMinigame is not null)
             {
                 projectile.IgnoreLocationCollision = true;
             }
@@ -217,7 +217,7 @@ internal sealed class SlingshotPerformFirePatcher : HarmonyPatcher
                         velocity.Y,
                         rotationVelocity);
 
-                    if (Game1.currentLocation.currentEvent != null || Game1.currentMinigame != null)
+                    if (Game1.currentLocation.currentEvent is not null || Game1.currentMinigame is not null)
                     {
                         petal.IgnoreLocationCollision = true;
                     }

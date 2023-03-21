@@ -246,20 +246,20 @@ internal static class MeleeWeapon_Stats
         if (weapon.Get_ResonatingChord<AquamarineEnchantment>() is { } aquamarineChord)
         {
             holder.CritChance +=
-                (float)(weapon.GetEnchantmentLevel<AmethystEnchantment>() * aquamarineChord.Amplitude * 0.046f);
+                (float)(weapon.GetEnchantmentLevel<AquamarineEnchantment>() * aquamarineChord.Amplitude * 0.046f);
         }
 
         holder.CritPower = weapon.critMultiplier.Value;
         if (weapon.Get_ResonatingChord<JadeEnchantment>() is { } jadeChord)
         {
-            holder.CritPower += (float)(weapon.GetEnchantmentLevel<AmethystEnchantment>() * jadeChord.Amplitude *
+            holder.CritPower += (float)(weapon.GetEnchantmentLevel<JadeEnchantment>() * jadeChord.Amplitude *
                                         (ArsenalModule.Config.RebalancedForges ? 0.5f : 0.1f));
         }
 
         holder.SwingSpeed = weapon.speed.Value;
         if (weapon.Get_ResonatingChord<EmeraldEnchantment>() is { } emeraldChord)
         {
-            holder.SwingSpeed += (float)(weapon.GetEnchantmentLevel<AmethystEnchantment>() * emeraldChord.Amplitude);
+            holder.SwingSpeed += (float)(weapon.GetEnchantmentLevel<EmeraldEnchantment>() * emeraldChord.Amplitude);
         }
 
         holder.CooldownReduction = weapon.GetEnchantmentLevel<GarnetEnchantment>();

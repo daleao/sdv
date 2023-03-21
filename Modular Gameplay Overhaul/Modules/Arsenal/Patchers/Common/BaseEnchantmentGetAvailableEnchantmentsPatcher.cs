@@ -49,7 +49,7 @@ internal sealed class BaseEnchantmentGetAvailableEnchantmentsPatcher : HarmonyPa
                             typeof(Config).RequirePropertyGetter(nameof(Config.Weapons))),
                         new CodeInstruction(
                             OpCodes.Callvirt,
-                            typeof(WeaponConfig).RequirePropertyGetter(nameof(WeaponConfig.EnableEnchants))),
+                            typeof(WeaponConfig).RequirePropertyGetter(nameof(WeaponConfig.ReduxEnchants))),
                         new CodeInstruction(OpCodes.Brtrue_S, newWeaponEnchants),
                     })
                 .Move(12)

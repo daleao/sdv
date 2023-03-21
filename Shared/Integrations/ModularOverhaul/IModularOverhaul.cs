@@ -307,14 +307,21 @@ public interface IModularOverhaul
     /// </remarks>
     public interface IChord
     {
-        /// <summary>Gets the amplitude of the <see cref="IChord"/>.</summary>
-        double Amplitude { get; }
+        /// <summary>Gets the <see cref="IGemstone"/>s that make up the <see cref="IChord"/>.</summary>
+        /// <remarks>
+        ///     The notes are sorted by resulting harmony, with the <see cref="Root"/> at index zero and remaining notes
+        ///     ordered by increasing intervals with the former.
+        /// </remarks>
+        IGemstone[] Notes { get; }
 
         /// <summary>
         ///     Gets the root <see cref="IGemstone"/> of the <see cref="IChord"/>, which determines the
         ///     perceived wavelength.
         /// </summary>
         IGemstone? Root { get; }
+
+        /// <summary>Gets the amplitude of the <see cref="Root"/> note's resonance.</summary>
+        double Amplitude { get; }
     }
 
     /// <summary>A gemstone which can be applied to an Infinity Band.</summary>
@@ -335,9 +342,9 @@ public interface IModularOverhaul
         float Frequency { get; }
 
         /// <summary>Gets the characteristic color which results from <see cref="Frequency"/>.</summary>
-        Color Color { get; }
+        Color StoneColor { get; }
 
-        /// <summary>Gets the inverse of <see cref="Color"/>.</summary>
+        /// <summary>Gets the inverse <see cref="StoneColor"/>.</summary>
         Color InverseColor { get; }
 
         /// <summary>Gets the second <see cref="IGemstone"/> in the corresponding Diatonic Scale.</summary>

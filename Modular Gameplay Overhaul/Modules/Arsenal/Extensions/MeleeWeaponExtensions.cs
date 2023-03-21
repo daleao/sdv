@@ -98,12 +98,13 @@ internal static class MeleeWeaponExtensions
     /// <summary>Refreshes the stats of the specified <paramref name="weapon"/>.</summary>
     /// <param name="weapon">The <see cref="MeleeWeapon"/>.</param>
     /// <param name="option">The <see cref="RefreshOption"/>.</param>
-    internal static void RefreshStats(this MeleeWeapon weapon, RefreshOption option = RefreshOption.Initial)
+    /// <returns>The modified <paramref name="weapon"/>, for use by transpilers.</returns>
+    internal static MeleeWeapon RefreshStats(this MeleeWeapon weapon, RefreshOption option = RefreshOption.Initial)
     {
         var data = ModHelper.GameContent.Load<Dictionary<int, string>>("Data/weapons");
         if (!data.ContainsKey(weapon.InitialParentTileIndex))
         {
-            return;
+            return weapon;
         }
 
         var split = data[weapon.InitialParentTileIndex].SplitWithoutAllocation('/');
@@ -123,26 +124,24 @@ internal static class MeleeWeaponExtensions
             weapon.maxDamage.Value = int.Parse(split[3]);
             weapon.type.Set(3);
             MeleeWeapon_Stats.Invalidate(weapon);
-            return;
+            return weapon;
         }
 
         if (option == RefreshOption.FromData)
         {
             weapon.minDamage.Value = int.Parse(split[2]);
             weapon.maxDamage.Value = int.Parse(split[3]);
-            MeleeWeapon_Stats.Invalidate(weapon);
             weapon.Write(DataFields.BaseMinDamage, weapon.minDamage.Value.ToString());
             weapon.Write(DataFields.BaseMaxDamage, weapon.maxDamage.Value.ToString());
-            return;
+            MeleeWeapon_Stats.Invalidate(weapon);
+            return weapon;
         }
 
         if (option == RefreshOption.Randomized)
         {
             weapon.RandomizeDamage();
             MeleeWeapon_Stats.Invalidate(weapon);
-            weapon.Write(DataFields.BaseMinDamage, weapon.minDamage.Value.ToString());
-            weapon.Write(DataFields.BaseMaxDamage, weapon.maxDamage.Value.ToString());
-            return;
+            return weapon;
         }
 
         var initialMinDamage = weapon.Read(DataFields.BaseMinDamage, -1);
@@ -152,7 +151,7 @@ internal static class MeleeWeaponExtensions
             weapon.minDamage.Value = initialMinDamage;
             weapon.maxDamage.Value = initialMaxDamage;
             MeleeWeapon_Stats.Invalidate(weapon);
-            return;
+            return weapon;
         }
 
         if (!weapon.IsUnique() && (!ArsenalModule.Config.DwarvishCrafting || !weapon.CanBeCrafted()) &&
@@ -166,16 +165,16 @@ internal static class MeleeWeaponExtensions
             weapon.maxDamage.Value = int.Parse(split[3]);
         }
 
-        weapon.Write(DataFields.BaseMinDamage, weapon.minDamage.Value.ToString());
-        weapon.Write(DataFields.BaseMaxDamage, weapon.maxDamage.Value.ToString());
         MeleeWeapon_Stats.Invalidate(weapon);
+        return weapon;
     }
 
     /// <summary>Randomizes the damage of the <paramref name="weapon"/>.</summary>
     /// <param name="weapon">The <see cref="MeleeWeapon"/>.</param>
+    /// <param name="bias">An optional bias to influence the range of allowed damage values (positive values mean higher stats on average).</param>
     [SuppressMessage("StyleCop.CSharp.NamingRules", "SA1300:ElementMustBeginWithUpperCaseLetter", Justification = "Preference for local functions.")]
     [SuppressMessage("ReSharper", "VariableHidesOuterVariable", Justification = "Local function.")]
-    internal static void RandomizeDamage(this MeleeWeapon weapon)
+    internal static void RandomizeDamage(this MeleeWeapon weapon, double bias = 0d)
     {
         var player = Game1.player;
         var level = player.currentLocation is MineShaft shaft
@@ -186,7 +185,7 @@ internal static class MeleeWeaponExtensions
         var dangerous = (Game1.netWorldState.Value.MinesDifficulty > 0) |
                         (Game1.netWorldState.Value.SkullCavesDifficulty > 0);
         var baseDamage = getBaseDamage(level, dangerous);
-        var mean = ((double)WeaponTier.GetFor(weapon) - 2d + (player.DailyLuck * 10d)) * 2d;
+        var mean = ((double)WeaponTier.GetFor(weapon) + bias + (player.DailyLuck * 10d) - 4d) * 2d;
         var randomizer = (0.5 * MathUtils.Sigmoid(Game1.random.NextGaussian(mean, stddev: 2d) / 2d)) - 0.25; // (-0.25, 0.25)
         var randomDamage = baseDamage * (1d + randomizer);
 
@@ -211,6 +210,8 @@ internal static class MeleeWeaponExtensions
 
         weapon.minDamage.Value = (int)Math.Max(minDamage, 1);
         weapon.maxDamage.Value = (int)Math.Max(maxDamage, 3);
+        weapon.Write(DataFields.BaseMinDamage, weapon.minDamage.Value.ToString());
+        weapon.Write(DataFields.BaseMaxDamage, weapon.maxDamage.Value.ToString());
 
         int getBaseDamage(int level, bool dangerous)
         {

@@ -9,7 +9,6 @@ using System.Text;
 using DaLion.Shared.Attributes;
 using DaLion.Shared.Extensions.Collections;
 using HarmonyLib;
-using NetFabric.Hyperlinq;
 using StardewModdingAPI;
 
 #endregion using directives
@@ -141,7 +140,7 @@ internal sealed class CommandHandler
                                 string.Equals(args[1], "doc", StringComparison.InvariantCultureIgnoreCase)))
         {
             Log.I(
-                $"{handled.Documentation}\n\nAliases: {string.Join(',', handled.Triggers.AsValueEnumerable().Skip(1).Select(t => "`" + t + "`"))}");
+                $"{handled.Documentation}\n\nAliases: {string.Join(',', handled.Triggers.Skip(1).Select(t => "`" + t + "`"))}");
             return;
         }
 

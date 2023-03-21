@@ -3,6 +3,7 @@
 #region using directives
 
 using DaLion.Overhaul.Modules.Arsenal.Extensions;
+using DaLion.Overhaul.Modules.Arsenal.VirtualProperties;
 using DaLion.Shared.Commands;
 using StardewValley.Tools;
 
@@ -34,7 +35,13 @@ internal sealed class RefreshWeaponCommand : ConsoleCommand
             return;
         }
 
-        weapon.RefreshStats(RefreshOption.Randomized);
+        var bias = 0d;
+        if (args.Length > 0 && double.TryParse(args[0], out bias))
+        {
+        }
+
+        weapon.RandomizeDamage(bias);
+        MeleeWeapon_Stats.Invalidate(weapon);
         Log.I($"Refreshed the stats of {weapon.Name}.");
     }
 }

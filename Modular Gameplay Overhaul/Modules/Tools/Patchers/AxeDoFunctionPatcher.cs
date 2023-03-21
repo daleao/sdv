@@ -37,7 +37,7 @@ internal sealed class AxeDoFunctionPatcher : HarmonyPatcher
         who.Stamina -=
             (int)Math.Round(Math.Sqrt(Math.Max((2 * (power + 1)) - (who.ForagingLevel * 0.1f), 0.1f) *
                                       (int)Math.Pow(2d * (power + 1), 2d))) *
-            (float)Math.Pow(ToolsModule.Config.StaminaCostMultiplier, power);
+            (float)Math.Pow(ToolsModule.Config.Axe.ChargedStaminaMultiplier, power);
     }
 
     /// <summary>Apply base stamina multiplier + stamina cost cap.</summary>

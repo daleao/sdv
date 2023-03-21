@@ -49,11 +49,19 @@ As with any mod, always **delete any previous installation completely** before u
 
 **The use of Vortex or other mod managers is not recommended for Stardew Valley.**
 
-## Credits & Thanks
+## Credits & Special Thanks
 
-Despite questionable programming decisions, **ConcernedApe** is deeply appreciated for his work creating and supporting Stardew Valley for both players and modders. Equally appreciated is the work of [Pathoschild][user:pathoschild], creator of [SMAPI][url:smapi] and god of the mod-verse.
+All hail our Lord and Savior [Pathoschild][user:pathoschild], creator of [SMAPI][url:smapi], Content Patcher and the mod-verse, as well as our Father, **ConcernedApe**, creator of Stardew Valley, a benevolent God who continues to support the game for both players and modders.    
 
-This mod borrows several assets from [Ragnarok Online][url:ragnarok], [League of Legends][url:league] and early Pokemon games. Credit to those, respectively, goes to [Gravity][url:gravity], [Riot Games][url:riot] and [Game Freak][url:gamefreak]. This mod completely free and open-source, provided under [Common Clause-extended MIT License](LICENSE).
+This mod borrows ideas and assets from [Ragnarok Online][url:ragnarok], [League of Legends][url:league] and early Pokemon games. Credit to those, respectively, goes to [Gravity][url:gravity], [Riot Games][url:riot] and [Game Freak][url:gamefreak]. This mod is completely free and open-source, provided under [Common Clause-extended MIT License](LICENSE).
+
+Special thanks the translators who have contributed to this project:
+
+* ![][flag:german][FoxDie1986](https://www.nexusmods.com/stardewvalley/users/1369870)
+* ![][flag:chinese][xuzhi1977](https://www.nexusmods.com/users/136644498)
+* ![][flag:korean][BrightEast99](https://www.nexusmods.com/users/158443518)
+* ![][flag:japanese][sakusakusakuya](https://www.nexusmods.com/stardewvalley/users/155983153)
+* ![][flag:russian][romario314](https://www.nexusmods.com/stardewvalley/users/68548986)
 
 Lastly, a shout-out to [JetBrains][url:jetbrains] for providing a free open-source license to ReSharper and other tools, which provide an immense help to improve and maintain the quality of the code in this mod.
 
@@ -78,3 +86,10 @@ Lastly, a shout-out to [JetBrains][url:jetbrains] for providing a free open-sour
 [url:league]: <https://www.leagueoflegends.com/> "League of Legends"
 
 [user:pathoschild]: <https://www.nexusmods.com/stardewvalley/users/1552317> "Pathoschild"
+
+[flag:german]: <https://i.imgur.com/Rx3ITqh.png>
+[flag:chinese]: <https://i.imgur.com/zuQC9Di.png>
+[flag:korean]: <https://i.imgur.com/Jvsm5YJ.png>
+[flag:japanese]: <https://i.imgur.com/BMA0w39.png>
+[flag:russian]: <https://i.imgur.com/cXhDLc5.png>
+

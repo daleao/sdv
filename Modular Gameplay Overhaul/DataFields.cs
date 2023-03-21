@@ -43,6 +43,9 @@ internal sealed class DataFields
 
     internal const string SelectableArsenal = "SelectableArsenal";
 
+    internal const string MonsterDropAccumulator = "MonsterDropAccumulator";
+    internal const string ContainerDropAccumulator = "ContainerDropAccumulator";
+
     #endregion arsenal
 
     #region ponds
@@ -62,10 +65,18 @@ internal sealed class DataFields
 
     #region taxes
 
+    // farmer
     internal const string SeasonIncome = "SeasonIncome";
     internal const string BusinessExpenses = "BusinessExpenses";
     internal const string PercentDeductions = "PercentDeductions";
     internal const string DebtOutstanding = "DebtOutstanding";
+
+    // farm
+    internal const string AgricultureValue = "AgricultureValue";
+    internal const string LivestockValue = "LivestockValue";
+    internal const string BuildingValue = "BuildingValue";
+    internal const string UsedTiles = "UsedTiles";
+    internal const string UsableTiles = "UsableTiles";
 
     #endregion taxes
 

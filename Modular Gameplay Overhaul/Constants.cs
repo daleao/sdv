@@ -18,10 +18,27 @@ public sealed class Constants
     public const int TopazIndex = 68;
     public const int JadeIndex = 70;
 
+    // geodes
+    public const int GeodeIndex = 535;
+    public const int FrozenGeodeIndex = 536;
+    public const int MagmaGeodeIndex = 537;
+    public const int OmniGeodeIndex = 749;
+
     // forage
+    public const int QuartzIndex = 80;
+    public const int FireQuartzIndex = 82;
+    public const int FrozenTearIndex = 84;
+    public const int EarthCrystalIndex = 86;
+
+    public const int SpringOnionIndex = 399;
     public const int CoconutIndex = 88;
     public const int GoldenCoconutIndex = 791;
     public const int GingerIndex = 829;
+
+    public const int CaveCarrotIndex = 78;
+    public const int SapIndex = 92;
+    public const int MixedSeeds = 770;
+    public const int BoneFragment = 881;
 
     // fruit
     public const int BananaSaplingIndex = 69;
@@ -40,6 +57,14 @@ public sealed class Constants
     public const int RadioactiveOreIndex = 909;
     public const int RadioactiveBarIndex = 910;
     public const int GalaxySoulIndex = 896;
+
+    // fertilizers
+    public const int BasicFertilizerIndex = 368;
+    public const int QualityFertilizerIndex = 368;
+    public const int BasicRetainingSoilIndex = 370;
+    public const int QualityRetainingSoilIndex = 371;
+    public const int SpeedGroIndex = 465;
+    public const int DeluxeSpeedGroIndex = 466;
 
     // bait
     public const int MagnetBaitIndex = 703;
