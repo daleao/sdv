@@ -23,7 +23,7 @@ internal static class MeleeWeapon_Stats
 
     internal static int Get_MinDamage(this MeleeWeapon weapon)
     {
-        if (weapon.InitialParentTileIndex == Constants.InsectHeadIndex && ArsenalModule.Config.Weapons.EnableRebalance)
+        if (weapon.InitialParentTileIndex == ItemIDs.InsectHead && ArsenalModule.Config.Weapons.EnableRebalance)
         {
             var caveInsectsKilled = Game1.stats.getMonstersKilled("Grub") +
                                     Game1.stats.getMonstersKilled("Fly") +
@@ -35,7 +35,7 @@ internal static class MeleeWeapon_Stats
         var minDamage = Values.GetValue(weapon, Create).MinDamage;
         if (weapon.hasEnchantmentOfType<CursedEnchantment>())
         {
-            minDamage += weapon.Read<int>(DataFields.CursePoints) / 5;
+            minDamage += weapon.Read<int>(DataKeys.CursePoints) / 5;
         }
 
         return minDamage;
@@ -43,7 +43,7 @@ internal static class MeleeWeapon_Stats
 
     internal static int Get_MaxDamage(this MeleeWeapon weapon)
     {
-        if (weapon.InitialParentTileIndex == Constants.InsectHeadIndex && ArsenalModule.Config.Weapons.EnableRebalance)
+        if (weapon.InitialParentTileIndex == ItemIDs.InsectHead && ArsenalModule.Config.Weapons.EnableRebalance)
         {
             var caveInsectsKilled = Game1.stats.getMonstersKilled("Grub") +
                                     Game1.stats.getMonstersKilled("Fly") +
@@ -54,7 +54,7 @@ internal static class MeleeWeapon_Stats
         var maxDamage = Values.GetValue(weapon, Create).MaxDamage;
         if (weapon.hasEnchantmentOfType<CursedEnchantment>())
         {
-            maxDamage += weapon.Read<int>(DataFields.CursePoints) / 5;
+            maxDamage += weapon.Read<int>(DataKeys.CursePoints) / 5;
         }
 
         return maxDamage;
@@ -228,10 +228,10 @@ internal static class MeleeWeapon_Stats
         if (weapon.Get_ResonatingChord<RubyEnchantment>() is { } rubyChord)
         {
             holder.MinDamage = (int)(holder.MinDamage +
-                                     (weapon.Read(DataFields.BaseMinDamage, int.Parse(data[2])) *
+                                     (weapon.Read(DataKeys.BaseMinDamage, int.Parse(data[2])) *
                                       weapon.GetEnchantmentLevel<RubyEnchantment>() * rubyChord.Amplitude * 0.1f));
             holder.MaxDamage = (int)(holder.MaxDamage +
-                                     (weapon.Read(DataFields.BaseMaxDamage, int.Parse(data[3])) *
+                                     (weapon.Read(DataKeys.BaseMaxDamage, int.Parse(data[3])) *
                                       weapon.GetEnchantmentLevel<RubyEnchantment>() * rubyChord.Amplitude * 0.1f));
         }
 
@@ -274,7 +274,7 @@ internal static class MeleeWeapon_Stats
              holder.Resilience += (float)(weapon.GetEnchantmentLevel<TopazEnchantment>() * topazChord.Amplitude);
         }
 
-        var points = weapon.Read(DataFields.BaseMaxDamage, int.Parse(data[3])) * weapon.type.Value switch
+        var points = weapon.Read(DataKeys.BaseMaxDamage, int.Parse(data[3])) * weapon.type.Value switch
         {
             MeleeWeapon.stabbingSword or MeleeWeapon.defenseSword => 0.5f,
             MeleeWeapon.dagger => 0.75f,

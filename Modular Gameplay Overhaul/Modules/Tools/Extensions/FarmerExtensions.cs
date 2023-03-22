@@ -28,12 +28,12 @@ internal static class FarmerExtensions
         }
 
         var config = ToolsModule.Config.Scythe;
-        if (config.GoldScytheOnly && tool.InitialParentTileIndex != Constants.GoldenScytheIndex)
+        if (config.GoldScytheOnly && tool.InitialParentTileIndex != ItemIDs.GoldenScythe)
         {
             return false;
         }
 
-        if (crop.programColored.Value || crop.indexOfHarvest.Value == Constants.SunflowerIndex)
+        if (crop.programColored.Value || crop.indexOfHarvest.Value == ItemIDs.Sunflower)
         {
             return config.HarvestFlowers;
         }

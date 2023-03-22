@@ -26,8 +26,8 @@ internal sealed class ForgeMenuCraftItemPatcher : HarmonyPatcher
     private static void ForgeMenuCraftItemPostfix(ref Item? __result, Item? left_item, Item? right_item, bool forReal)
     {
         if (!RingsModule.Config.TheOneInfinityBand || !Globals.InfinityBandIndex.HasValue ||
-            left_item is not Ring { ParentSheetIndex: Constants.IridiumBandIndex } ||
-            right_item?.ParentSheetIndex != Constants.GalaxySoulIndex)
+            left_item is not Ring { ParentSheetIndex: ItemIDs.IridiumBand } ||
+            right_item?.ParentSheetIndex != ItemIDs.GalaxySoul)
         {
             return;
         }

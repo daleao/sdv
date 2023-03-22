@@ -31,8 +31,8 @@ internal sealed class RingCanCombinePatcher : HarmonyPatcher
             return true; // run original logic
         }
 
-        if (__instance.ParentSheetIndex == Constants.IridiumBandIndex ||
-            ring.ParentSheetIndex == Constants.IridiumBandIndex ||
+        if (__instance.ParentSheetIndex == ItemIDs.IridiumBand ||
+            ring.ParentSheetIndex == ItemIDs.IridiumBand ||
             ring.ParentSheetIndex == Globals.InfinityBandIndex.Value)
         {
             return false; // don't run original logic

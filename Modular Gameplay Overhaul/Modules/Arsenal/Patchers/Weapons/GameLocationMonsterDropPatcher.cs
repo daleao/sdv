@@ -45,14 +45,14 @@ internal sealed class GameLocationMonsterDropPatcher : HarmonyPatcher
 
                 if (Game1.mine.GetAdditionalDifficulty() > 0 && Game1.random.NextDouble() < 0.015 + (who.LuckLevel * 0.002f))
                 {
-                    __instance.debris.Add(new Debris(new MeleeWeapon(Constants.ObsidianEdgeIndex), new Vector2(x, y)));
+                    __instance.debris.Add(new Debris(new MeleeWeapon(ItemIDs.ObsidianEdge), new Vector2(x, y)));
                 }
 
                 break;
             case Bat bat when bat.magmaSprite.Value:
                 if (Game1.random.NextDouble() < 0.01 + (who.LuckLevel * 0.003f))
                 {
-                    __instance.debris.Add(new Debris(new MeleeWeapon(Constants.LavaKatanaIndex), new Vector2(x, y)));
+                    __instance.debris.Add(new Debris(new MeleeWeapon(ItemIDs.LavaKatana), new Vector2(x, y)));
                 }
 
                 break;

@@ -155,7 +155,7 @@ internal static class FarmerExtensions
         var modifier = farmer.GetTotalSwingSpeedModifier(weapon);
         var halfModifier = 1f - ((1f - modifier) / 2f);
         var cooldown = weapon.IsClub() ? 250 : 50;
-        var sound = weapon.IsClub() ? "clubswipe" : weapon.InitialParentTileIndex == Constants.LavaKatanaIndex ? "fireball" : "swordswipe";
+        var sound = weapon.IsClub() ? "clubswipe" : weapon.InitialParentTileIndex == ItemIDs.LavaKatana ? "fireball" : "swordswipe";
         sprite.loopThisAnimation = false;
         var outFrames = sprite.currentAnimation;
         if (ArsenalModule.State.FarmerAnimating)
@@ -316,7 +316,7 @@ internal static class FarmerExtensions
         var modifier = farmer.GetTotalSwingSpeedModifier(weapon);
         var halfModifier = 1f - ((1f - modifier) / 2f);
         const int cooldown = 50;
-        var sound = weapon.InitialParentTileIndex == Constants.LavaKatanaIndex ? "fireball" : "swordswipe";
+        var sound = weapon.InitialParentTileIndex == ItemIDs.LavaKatana ? "fireball" : "swordswipe";
         sprite.loopThisAnimation = false;
         var outFrames = sprite.currentAnimation;
         if (ArsenalModule.State.FarmerAnimating)

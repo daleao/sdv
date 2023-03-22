@@ -26,7 +26,7 @@ internal sealed class PurchaseAnimalsSetUpForReturnAfterPurchasingAnimalPatcher 
     {
         if (TaxesModule.Config.DeductibleAnimalExpenses)
         {
-            Game1.player.Increment(DataFields.BusinessExpenses, ___priceOfAnimal);
+            Game1.player.Increment(DataKeys.BusinessExpenses, ___priceOfAnimal);
         }
     }
 

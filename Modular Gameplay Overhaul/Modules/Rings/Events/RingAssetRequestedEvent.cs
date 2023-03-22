@@ -71,22 +71,22 @@ internal class RingAssetRequestedEvent : AssetRequestedEvent
 
         if (RingsModule.Config.RebalancedRings)
         {
-            fields = data[Constants.TopazRingIndex].Split('/');
+            fields = data[ItemIDs.TopazRing].Split('/');
             fields[5] = ArsenalModule.IsEnabled && ArsenalModule.Config.OverhauledDefense
                 ? I18n.Get("rings.topaz.description.resist")
                 : I18n.Get("rings.topaz.description.defense");
-            data[Constants.TopazRingIndex] = string.Join('/', fields);
+            data[ItemIDs.TopazRing] = string.Join('/', fields);
 
-            fields = data[Constants.JadeRingIndex].Split('/');
+            fields = data[ItemIDs.JadeRing].Split('/');
             fields[5] = I18n.Get("rings.jade.description");
-            data[Constants.JadeRingIndex] = string.Join('/', fields);
+            data[ItemIDs.JadeRing] = string.Join('/', fields);
         }
 
         if (RingsModule.Config.TheOneInfinityBand)
         {
-            fields = data[Constants.IridiumBandIndex].Split('/');
+            fields = data[ItemIDs.IridiumBand].Split('/');
             fields[5] = I18n.Get("rings.iridium.description");
-            data[Constants.IridiumBandIndex] = string.Join('/', fields);
+            data[ItemIDs.IridiumBand] = string.Join('/', fields);
         }
     }
 

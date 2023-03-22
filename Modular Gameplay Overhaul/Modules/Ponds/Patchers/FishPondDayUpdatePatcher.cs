@@ -37,7 +37,7 @@ internal sealed class FishPondDayUpdatePatcher : HarmonyPatcher
         if (__instance.IsRadioactive())
         {
             var heldMetals =
-                __instance.Read(DataFields.MetalsHeld)
+                __instance.Read(DataKeys.MetalsHeld)
                     .ParseList<string>(";")
                     .Select(li => li?.ParseTuple<int, int>())
                     .WhereNotNull()
@@ -49,7 +49,7 @@ internal sealed class FishPondDayUpdatePatcher : HarmonyPatcher
             }
 
             __instance.Write(
-                DataFields.MetalsHeld,
+                DataKeys.MetalsHeld,
                 string.Join(';', heldMetals.Select(m => string.Join(',', m.Item1, m.Item2))));
         }
 
@@ -146,8 +146,8 @@ internal sealed class FishPondDayUpdatePatcher : HarmonyPatcher
         var r = new Random(Guid.NewGuid().GetHashCode());
 
         // if pond is empty, spontaneously grow algae/seaweed
-        __instance.Increment(DataFields.DaysEmpty);
-        if (__instance.Read<uint>(DataFields.DaysEmpty) < PondsModule.Config.DaysUntilAlgaeSpawn + 1)
+        __instance.Increment(DataKeys.DaysEmpty);
+        if (__instance.Read<uint>(DataKeys.DaysEmpty) < PondsModule.Config.DaysUntilAlgaeSpawn + 1)
         {
             return;
         }
@@ -160,18 +160,18 @@ internal sealed class FishPondDayUpdatePatcher : HarmonyPatcher
 
         switch (spawned)
         {
-            case Constants.SeaweedIndex:
-                __instance.Increment(DataFields.SeaweedLivingHere);
+            case ItemIDs.Seaweed:
+                __instance.Increment(DataKeys.SeaweedLivingHere);
                 break;
-            case Constants.GreenAlgaeIndex:
-                __instance.Increment(DataFields.GreenAlgaeLivingHere);
+            case ItemIDs.GreenAlgae:
+                __instance.Increment(DataKeys.GreenAlgaeLivingHere);
                 break;
-            case Constants.WhiteAlgaeIndex:
-                __instance.Increment(DataFields.WhiteAlgaeLivingHere);
+            case ItemIDs.WhiteAlgae:
+                __instance.Increment(DataKeys.WhiteAlgaeLivingHere);
                 break;
         }
 
-        __instance.Write(DataFields.DaysEmpty, null);
+        __instance.Write(DataKeys.DaysEmpty, null);
     }
 
     /// <summary>

@@ -35,25 +35,25 @@ internal sealed class FarmerFoundArtifactPatcher : HarmonyPatcher
 
         try
         {
-            var found = __instance.Read(DataFields.BlueprintsFound).ParseList<int>();
+            var found = __instance.Read(DataKeys.BlueprintsFound).ParseList<int>();
             int blueprint;
-            if (!found.ContainsAny(Constants.ElfBladeIndex, Constants.ForestSwordIndex))
+            if (!found.ContainsAny(ItemIDs.ElfBlade, ItemIDs.ForestSword))
             {
-                blueprint = Game1.random.NextDouble() < 0.5 ? Constants.ElfBladeIndex : Constants.ForestSwordIndex;
+                blueprint = Game1.random.NextDouble() < 0.5 ? ItemIDs.ElfBlade : ItemIDs.ForestSword;
             }
             else
             {
-                blueprint = found.Contains(Constants.ElfBladeIndex)
-                    ? Constants.ForestSwordIndex
-                    : Constants.ElfBladeIndex;
+                blueprint = found.Contains(ItemIDs.ElfBlade)
+                    ? ItemIDs.ForestSword
+                    : ItemIDs.ElfBlade;
             }
 
-            __instance.Append(DataFields.BlueprintsFound, blueprint.ToString());
-            var count = __instance.Read(DataFields.BlueprintsFound).ParseList<int>().Count;
+            __instance.Append(DataKeys.BlueprintsFound, blueprint.ToString());
+            var count = __instance.Read(DataKeys.BlueprintsFound).ParseList<int>().Count;
             switch (count)
             {
                 case 8:
-                    __instance.completeQuest(Constants.ForgeNextQuestId);
+                    __instance.completeQuest((int)Quest.ForgeNext);
                     break;
                 case 1:
                     ModHelper.GameContent.InvalidateCacheAndLocalized("Data/Events/Blacksmith");

@@ -27,7 +27,7 @@ internal sealed class WarriorUpdateTickedEvent : UpdateTickedEvent
         this._buffId = (Manifest.UniqueID + "Warrior").GetHashCode();
         this._buffSource =
             ModHelper.GameContent
-                .Load<Dictionary<int, string>>("Data/ObjectInformation")[Constants.WarriorRingIndex]
+                .Load<Dictionary<int, string>>("Data/ObjectInformation")[ItemIDs.WarriorRing]
                 .SplitWithoutAllocation('/')[0]
                 .ToString();
         this._buffDescription = Game1.content.LoadString("Strings\\StringsFromCSFiles:Buff.cs.468");

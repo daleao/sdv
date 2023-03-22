@@ -36,7 +36,7 @@ internal sealed class MountainGetFishPatcher : HarmonyPatcher
         {
             var checkSeason = generator.DefineLabel();
             helper
-                .Match(new[] { new CodeInstruction(OpCodes.Ldc_I4, Constants.LegendIndex) })
+                .Match(new[] { new CodeInstruction(OpCodes.Ldc_I4, ItemIDs.Legend) })
                 .Match(new[] { new CodeInstruction(OpCodes.Brtrue_S) })
                 .GetOperand(out var skipLegendary)
                 .ReplaceWith(new CodeInstruction(OpCodes.Brfalse_S, checkSeason))

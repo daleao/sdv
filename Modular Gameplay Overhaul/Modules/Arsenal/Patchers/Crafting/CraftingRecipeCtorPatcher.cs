@@ -23,9 +23,9 @@ internal sealed class CraftingRecipeCtorPatcher : HarmonyPatcher
     private static void CraftingRecipeCtorPostfix(CraftingRecipe __instance)
     {
         if (ArsenalModule.Config.DwarvishCrafting && __instance.name == "Warp Totem: Island" &&
-            __instance.recipeList.Remove(Constants.DragonToothIndex))
+            __instance.recipeList.Remove(ItemIDs.DragonTooth))
         {
-            __instance.recipeList[Constants.GingerIndex] *= 2;
+            __instance.recipeList[ItemIDs.Ginger] *= 2;
         }
     }
 

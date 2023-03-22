@@ -91,7 +91,7 @@ internal sealed class ShopMenuTryToPurchaseItemPatcher : HarmonyPatcher
             }
         }
 
-        Game1.player.Increment(DataFields.BusinessExpenses, menu.itemPriceAndStock[item][0]);
+        Game1.player.Increment(DataKeys.BusinessExpenses, menu.itemPriceAndStock[item][0]);
     }
 
     #endregion harmony patches

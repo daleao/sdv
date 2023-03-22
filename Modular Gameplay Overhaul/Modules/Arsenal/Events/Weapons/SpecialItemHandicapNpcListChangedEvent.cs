@@ -4,7 +4,7 @@
 
 using System.Linq;
 using DaLion.Shared.Events;
-using Shared.Extensions.Stardew;
+using DaLion.Shared.Extensions.Stardew;
 using StardewModdingAPI.Events;
 using StardewValley;
 using StardewValley.Locations;
@@ -45,7 +45,7 @@ internal sealed class SpecialItemHandicapNpcListChangedEvent : NpcListChangedEve
             if (Game1.random.NextDouble() < ArsenalModule.State.MonsterDropAccumulator)
             {
                 monster.hasSpecialItem.Value = true;
-                Game1.player.Write(DataFields.MonsterDropAccumulator, "0.0");
+                Game1.player.Write(DataKeys.MonsterDropAccumulator, "0.0");
             }
             else
             {

@@ -80,7 +80,7 @@ internal sealed partial class GenericModConfigMenuCore
 
                     Utility.iterateAllItems(item =>
                     {
-                        if (item is not Ring { ParentSheetIndex: Constants.TopazRingIndex } topaz)
+                        if (item is not Ring { ParentSheetIndex: ItemIDs.TopazRing } topaz)
                         {
                             return;
                         }

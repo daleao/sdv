@@ -28,26 +28,26 @@ internal sealed class PondQueryMenuCtorPatcher : HarmonyPatcher
     {
         try
         {
-            fish_pond.Read(DataFields.FishQualities).ParseTuple<int, int, int, int>();
+            fish_pond.Read(DataKeys.FishQualities).ParseTuple<int, int, int, int>();
         }
         catch (InvalidOperationException ex)
         {
             Log.W($"FishQualities data is invalid. {ex}\nThe data will be reset");
-            fish_pond.Write(DataFields.FishQualities, $"{fish_pond.FishCount},0,0,0");
-            fish_pond.Write(DataFields.FamilyQualities, null);
-            fish_pond.Write(DataFields.FamilyLivingHere, null);
+            fish_pond.Write(DataKeys.FishQualities, $"{fish_pond.FishCount},0,0,0");
+            fish_pond.Write(DataKeys.FamilyQualities, null);
+            fish_pond.Write(DataKeys.FamilyLivingHere, null);
         }
 
         try
         {
-            fish_pond.Read(DataFields.FamilyQualities).ParseTuple<int, int, int, int>();
+            fish_pond.Read(DataKeys.FamilyQualities).ParseTuple<int, int, int, int>();
         }
         catch (InvalidOperationException ex)
         {
             Log.W($"FamilyQuality data is invalid. {ex}\nThe data will be reset");
-            fish_pond.Write(DataFields.FishQualities, $"{fish_pond.FishCount},0,0,0");
-            fish_pond.Write(DataFields.FamilyQualities, null);
-            fish_pond.Write(DataFields.FamilyLivingHere, null);
+            fish_pond.Write(DataKeys.FishQualities, $"{fish_pond.FishCount},0,0,0");
+            fish_pond.Write(DataKeys.FamilyQualities, null);
+            fish_pond.Write(DataKeys.FamilyLivingHere, null);
         }
     }
 

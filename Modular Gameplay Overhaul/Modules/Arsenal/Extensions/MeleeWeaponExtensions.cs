@@ -24,8 +24,8 @@ internal static class MeleeWeaponExtensions
     /// <returns><see langword="true"/> if the <paramref name="weapon"/>'s index correspond to one of the Infinity weapon, otherwise <see langword="false"/>.</returns>
     internal static bool IsInfinityWeapon(this MeleeWeapon weapon)
     {
-        return weapon.InitialParentTileIndex is Constants.InfinityBladeIndex or Constants.InfinityDaggerIndex
-            or Constants.InfinityGavelIndex;
+        return weapon.InitialParentTileIndex is ItemIDs.InfinityBlade or ItemIDs.InfinityDagger
+            or ItemIDs.InfinityGavel;
     }
 
     /// <summary>Determines whether the <paramref name="weapon"/> is an Infinity weapon.</summary>
@@ -33,7 +33,7 @@ internal static class MeleeWeaponExtensions
     /// <returns><see langword="true"/> if the <paramref name="weapon"/>'s index correspond to one of the Infinity weapon, otherwise <see langword="false"/>.</returns>
     internal static bool IsCursedOrBlessed(this MeleeWeapon weapon)
     {
-        return weapon.InitialParentTileIndex is Constants.DarkSwordIndex or Constants.HolyBladeIndex;
+        return weapon.InitialParentTileIndex is ItemIDs.DarkSword or ItemIDs.HolyBlade;
     }
 
     /// <summary>Determines whether the <paramref name="weapon"/> is unique.</summary>
@@ -131,8 +131,8 @@ internal static class MeleeWeaponExtensions
         {
             weapon.minDamage.Value = int.Parse(split[2]);
             weapon.maxDamage.Value = int.Parse(split[3]);
-            weapon.Write(DataFields.BaseMinDamage, weapon.minDamage.Value.ToString());
-            weapon.Write(DataFields.BaseMaxDamage, weapon.maxDamage.Value.ToString());
+            weapon.Write(DataKeys.BaseMinDamage, weapon.minDamage.Value.ToString());
+            weapon.Write(DataKeys.BaseMaxDamage, weapon.maxDamage.Value.ToString());
             MeleeWeapon_Stats.Invalidate(weapon);
             return weapon;
         }
@@ -144,8 +144,8 @@ internal static class MeleeWeaponExtensions
             return weapon;
         }
 
-        var initialMinDamage = weapon.Read(DataFields.BaseMinDamage, -1);
-        var initialMaxDamage = weapon.Read(DataFields.BaseMaxDamage, -1);
+        var initialMinDamage = weapon.Read(DataKeys.BaseMinDamage, -1);
+        var initialMaxDamage = weapon.Read(DataKeys.BaseMaxDamage, -1);
         if (initialMinDamage >= 0 && initialMaxDamage >= 0)
         {
             weapon.minDamage.Value = initialMinDamage;
@@ -210,8 +210,8 @@ internal static class MeleeWeaponExtensions
 
         weapon.minDamage.Value = (int)Math.Max(minDamage, 1);
         weapon.maxDamage.Value = (int)Math.Max(maxDamage, 3);
-        weapon.Write(DataFields.BaseMinDamage, weapon.minDamage.Value.ToString());
-        weapon.Write(DataFields.BaseMaxDamage, weapon.maxDamage.Value.ToString());
+        weapon.Write(DataKeys.BaseMinDamage, weapon.minDamage.Value.ToString());
+        weapon.Write(DataKeys.BaseMaxDamage, weapon.maxDamage.Value.ToString());
 
         int getBaseDamage(int level, bool dangerous)
         {
@@ -229,10 +229,10 @@ internal static class MeleeWeaponExtensions
         {
             switch (weapon.InitialParentTileIndex)
             {
-                case Constants.LavaKatanaIndex when !weapon.hasEnchantmentOfType<LavaEnchantment>():
+                case ItemIDs.LavaKatana when !weapon.hasEnchantmentOfType<LavaEnchantment>():
                     weapon.AddEnchantment(new LavaEnchantment());
                     break;
-                case Constants.ObsidianEdgeIndex when !weapon.hasEnchantmentOfType<ObsidianEnchantment>():
+                case ItemIDs.ObsidianEdge when !weapon.hasEnchantmentOfType<ObsidianEnchantment>():
                     weapon.AddEnchantment(new ObsidianEnchantment());
                     break;
             }
@@ -245,22 +245,22 @@ internal static class MeleeWeaponExtensions
 
         switch (weapon.InitialParentTileIndex)
         {
-            case Constants.DarkSwordIndex when !weapon.hasEnchantmentOfType<CursedEnchantment>():
+            case ItemIDs.DarkSword when !weapon.hasEnchantmentOfType<CursedEnchantment>():
                 weapon.AddEnchantment(new CursedEnchantment());
                 weapon.specialItem = true;
                 break;
-            case Constants.HolyBladeIndex when !weapon.hasEnchantmentOfType<BlessedEnchantment>():
+            case ItemIDs.HolyBlade when !weapon.hasEnchantmentOfType<BlessedEnchantment>():
                 weapon.AddEnchantment(new BlessedEnchantment());
                 weapon.specialItem = true;
                 break;
-            case Constants.GalaxySwordIndex:
-            case Constants.GalaxyDaggerIndex:
-            case Constants.GalaxyHammerIndex:
+            case ItemIDs.GalaxySword:
+            case ItemIDs.GalaxyDagger:
+            case ItemIDs.GalaxyHammer:
                 weapon.specialItem = true;
                 break;
-            case Constants.InfinityBladeIndex:
-            case Constants.InfinityDaggerIndex:
-            case Constants.InfinityGavelIndex:
+            case ItemIDs.InfinityBlade:
+            case ItemIDs.InfinityDagger:
+            case ItemIDs.InfinityGavel:
                 if (!weapon.hasEnchantmentOfType<InfinityEnchantment>())
                 {
                     weapon.AddEnchantment(new InfinityEnchantment());
@@ -280,10 +280,10 @@ internal static class MeleeWeaponExtensions
             BaseEnchantment? enchantment = null;
             switch (weapon.InitialParentTileIndex)
             {
-                case Constants.LavaKatanaIndex when !weapon.hasEnchantmentOfType<LavaEnchantment>():
+                case ItemIDs.LavaKatana when !weapon.hasEnchantmentOfType<LavaEnchantment>():
                     enchantment = weapon.GetEnchantmentOfType<LavaEnchantment>();
                     break;
-                case Constants.ObsidianEdgeIndex when !weapon.hasEnchantmentOfType<ObsidianEnchantment>():
+                case ItemIDs.ObsidianEdge when !weapon.hasEnchantmentOfType<ObsidianEnchantment>():
                     enchantment = weapon.GetEnchantmentOfType<ObsidianEnchantment>();
                     break;
             }
@@ -299,15 +299,15 @@ internal static class MeleeWeaponExtensions
             BaseEnchantment? enchantment = null;
             switch (weapon.InitialParentTileIndex)
             {
-                case Constants.DarkSwordIndex when weapon.hasEnchantmentOfType<CursedEnchantment>():
+                case ItemIDs.DarkSword when weapon.hasEnchantmentOfType<CursedEnchantment>():
                     enchantment = weapon.GetEnchantmentOfType<CursedEnchantment>();
                     break;
-                case Constants.HolyBladeIndex when weapon.hasEnchantmentOfType<BlessedEnchantment>():
+                case ItemIDs.HolyBlade when weapon.hasEnchantmentOfType<BlessedEnchantment>():
                     enchantment = weapon.GetEnchantmentOfType<BlessedEnchantment>();
                     break;
-                case Constants.InfinityBladeIndex:
-                case Constants.InfinityDaggerIndex:
-                case Constants.InfinityGavelIndex:
+                case ItemIDs.InfinityBlade:
+                case ItemIDs.InfinityDagger:
+                case ItemIDs.InfinityGavel:
                     if (!weapon.hasEnchantmentOfType<InfinityEnchantment>())
                     {
                         enchantment = weapon.GetEnchantmentOfType<InfinityEnchantment>();

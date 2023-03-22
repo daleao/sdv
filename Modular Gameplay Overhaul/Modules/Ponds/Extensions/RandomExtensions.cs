@@ -16,9 +16,9 @@ internal static class RandomExtensions
 
         return random.NextDouble() switch
         {
-            > 2d / 3d => Constants.GreenAlgaeIndex,
-            > 1d / 3d => Constants.SeaweedIndex,
-            _ => Constants.WhiteAlgaeIndex,
+            > 2d / 3d => ItemIDs.GreenAlgae,
+            > 1d / 3d => ItemIDs.Seaweed,
+            _ => ItemIDs.WhiteAlgae,
         };
     }
 }

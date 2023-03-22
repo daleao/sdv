@@ -36,7 +36,7 @@ internal sealed class ItemGrabMenuReadyToClosePatcher : HarmonyPatcher
         var inventory = __instance.ItemsToGrabMenu?.actualInventory.WhereNotNull().ToList();
         if (inventory?.Count is not > 0)
         {
-            pond.Write(DataFields.ItemsHeld, null);
+            pond.Write(DataKeys.ItemsHeld, null);
             pond.output.Value = null;
             return;
         }
@@ -51,11 +51,11 @@ internal sealed class ItemGrabMenuReadyToClosePatcher : HarmonyPatcher
         {
             var serialized = inventory
                 .Select(i => $"{i.ParentSheetIndex},{i.Stack},{((SObject)i).Quality}");
-            pond.Write(DataFields.ItemsHeld, string.Join(';', serialized));
+            pond.Write(DataKeys.ItemsHeld, string.Join(';', serialized));
         }
         else
         {
-            pond.Write(DataFields.ItemsHeld, null);
+            pond.Write(DataKeys.ItemsHeld, null);
         }
 
         pond.output.Value = output;

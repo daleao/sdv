@@ -28,7 +28,7 @@ internal sealed class ToolForgePatcher : HarmonyPatcher
     [HarmonyPrefix]
     private static bool ToolForgePrefix(Tool __instance, ref bool __result, Item item, bool count_towards_stats)
     {
-        if (__instance is not Slingshot { InitialParentTileIndex: Constants.GalaxySlingshotIndex } slingshot)
+        if (__instance is not Slingshot { InitialParentTileIndex: ItemIDs.GalaxySlingshot } slingshot)
         {
             return true; // run original logic
         }
@@ -56,9 +56,9 @@ internal sealed class ToolForgePatcher : HarmonyPatcher
                 return true; // run original logic
             }
 
-            slingshot.CurrentParentTileIndex = Constants.InfinitySlingshotIndex;
-            slingshot.InitialParentTileIndex = Constants.InfinitySlingshotIndex;
-            slingshot.IndexOfMenuItemView = Constants.InfinitySlingshotIndex;
+            slingshot.CurrentParentTileIndex = ItemIDs.InfinitySlingshot;
+            slingshot.InitialParentTileIndex = ItemIDs.InfinitySlingshot;
+            slingshot.IndexOfMenuItemView = ItemIDs.InfinitySlingshot;
             slingshot.BaseName = "Infinity Slingshot";
             slingshot.DisplayName = I18n.Get("slingshots.infinity.name");
             slingshot.description = I18n.Get("slingshots.infinity.desc");

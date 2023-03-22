@@ -41,7 +41,7 @@ internal sealed class UltimateToggledModMessageReceivedEvent : ModMessageReceive
         switch (newState)
         {
             case "Active":
-                var index = who.Read<int>(DataFields.UltimateIndex);
+                var index = who.Read<int>(DataKeys.UltimateIndex);
                 var ultimate = Ultimate.FromValue(index);
                 Log.D($"[Ultimate]: {who.Name} activated {ultimate.Name}.");
                 who.startGlowing(ultimate.GlowColor, false, 0.05f);

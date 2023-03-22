@@ -5,11 +5,10 @@
 using System.Globalization;
 using System.Linq;
 using DaLion.Overhaul.Modules.Professions.Extensions;
+using DaLion.Overhaul.Modules.Taxes.Extensions;
 using DaLion.Shared.Events;
-using DaLion.Shared.Extensions.SMAPI;
 using DaLion.Shared.Extensions.Stardew;
-using Extensions;
-using Shared.Extensions.Xna;
+using DaLion.Shared.Extensions.Xna;
 using StardewModdingAPI.Events;
 using StardewValley.Objects;
 
@@ -30,10 +29,9 @@ internal sealed class TaxDayEndingEvent : DayEndingEvent
     protected override void OnDayEndingImpl(object? sender, DayEndingEventArgs e)
     {
         var player = Game1.player;
-
         if (Game1.dayOfMonth == 0 && Game1.currentSeason == "spring" && Game1.year == 1)
         {
-            player.mailForTomorrow.Add($"{Manifest.UniqueID}/TaxIntro");
+            PostalService.Send(Mail.FrsIntro);
         }
 
         var amountSold = Game1.getFarm().getShippingBin(player).Sum(item =>
@@ -48,13 +46,16 @@ internal sealed class TaxDayEndingEvent : DayEndingEvent
                     .Sum(item => item is SObject obj ? obj.sellToStorePrice() * obj.Stack : item.salePrice() / 2));
         });
 
-        if (amountSold > 0 && !player.hasOrWillReceiveMail($"{Manifest.UniqueID}/TaxIntro"))
+        if (amountSold > 0 && !PostalService.HasSent(Mail.FrsIntro))
         {
-            player.mailForTomorrow.Add($"{Manifest.UniqueID}/TaxIntro");
+            PostalService.Send(Mail.FrsIntro);
         }
 
-        Log.T(
-            $"[Taxes]: {Game1.player} sold items worth a total of {amountSold}g on day {Game1.dayOfMonth} of {Game1.currentSeason}.");
+        Log.D(
+            amountSold > 0
+                ? $"[Taxes]: {Game1.player} sold items worth a total of {amountSold}g on day {Game1.dayOfMonth} of {Game1.currentSeason}."
+                : $"[Taxes]: No items were sold on day {Game1.dayOfMonth} of {Game1.currentSeason}.");
+
         var dayIncome = amountSold;
         switch (Game1.dayOfMonth)
         {
@@ -66,16 +67,15 @@ internal sealed class TaxDayEndingEvent : DayEndingEvent
                     break;
                 }
 
-                player.Write(DataFields.PercentDeductions, deductible.ToString(CultureInfo.InvariantCulture));
-                ModHelper.GameContent.InvalidateCacheAndLocalized("Data/mail");
-                player.mailForTomorrow.Add($"{Manifest.UniqueID}/TaxDeduction");
+                player.Write(DataKeys.PercentDeductions, deductible.ToString(CultureInfo.InvariantCulture));
+                TaxesModule.State.LatestTaxDeductions = deductible;
+                PostalService.Send(Mail.FrsDeduction);
                 Log.I(
                     FormattableString.CurrentCulture(
                         $"Farmer {player.Name} is eligible for income tax deductions of {deductible:0%}.") +
                     (deductible >= 1f
                         ? $" No income taxes will be charged for {Game1.currentSeason}."
-                        : string.Empty) +
-                    " An FRS deduction notice has been posted for tomorrow.");
+                        : string.Empty));
 
                 goto default;
             }
@@ -87,18 +87,18 @@ internal sealed class TaxDayEndingEvent : DayEndingEvent
                     break;
                 }
 
-                var debtOutstanding = player.Read<int>(DataFields.DebtOutstanding);
+                var debtOutstanding = player.Read<int>(DataKeys.DebtOutstanding);
                 if (debtOutstanding > 0)
                 {
                     var penalties = Math.Min((int)(debtOutstanding * 0.05f), 100);
                     Log.I(
                         $"Outstanding debt in the amount of {debtOutstanding}g has accrued additional penalties in the amount of {penalties}g.");
-                    player.Write(DataFields.DebtOutstanding, (debtOutstanding + penalties).ToString());
+                    player.Write(DataKeys.DebtOutstanding, (debtOutstanding + penalties).ToString());
                 }
 
                 // calculate income tax
                 var amountDue = RevenueService.CalculateTaxes(player);
-                TaxesModule.State.LatestAmountDue = amountDue;
+                TaxesModule.State.LatestDueIncomeTax = amountDue;
                 if (amountDue > 0)
                 {
                     int amountPaid;
@@ -107,8 +107,7 @@ internal sealed class TaxDayEndingEvent : DayEndingEvent
                         player.Money -= amountDue;
                         amountPaid = amountDue;
                         amountDue = 0;
-                        ModHelper.GameContent.InvalidateCacheAndLocalized("Data/mail");
-                        player.mailForTomorrow.Add($"{Manifest.UniqueID}/TaxNotice");
+                        PostalService.Send(Mail.FrsNotice);
                         Log.I("Income tax due was paid in full.");
                     }
                     else
@@ -118,17 +117,17 @@ internal sealed class TaxDayEndingEvent : DayEndingEvent
                         player.Money = 0;
 
                         var penalties = Math.Min((int)(amountDue * TaxesModule.Config.IncomeTaxLatenessFine), 100);
-                        player.Increment(DataFields.DebtOutstanding, amountDue + penalties);
-                        ModHelper.GameContent.InvalidateCacheAndLocalized("Data/mail");
-                        player.mailForTomorrow.Add($"{Manifest.UniqueID}/TaxOutstanding");
+                        player.Increment(DataKeys.DebtOutstanding, amountDue + penalties);
+                        TaxesModule.State.LatestOutstandingIncomeTax = amountDue + penalties;
+                        PostalService.Send(Mail.FrsOutstanding);
                         Log.I(
                             $"{player.Name} did not carry enough funds to cover the income tax due." +
                             $"\n\t- Amount charged: {amountPaid}g" +
                             $"\n\t- Outstanding debt: {amountDue}g (+{penalties}g in penalties).");
                     }
 
-                    player.Write(DataFields.SeasonIncome, "0");
-                    player.Write(DataFields.BusinessExpenses, "0");
+                    player.Write(DataKeys.SeasonIncome, "0");
+                    player.Write(DataKeys.BusinessExpenses, "0");
                 }
 
                 // calculate property tax
@@ -138,10 +137,10 @@ internal sealed class TaxDayEndingEvent : DayEndingEvent
                 }
 
                 var farm = Game1.getFarm();
-                var agricultureValue = farm.Read<int>(DataFields.AgricultureValue);
-                var livestockValue = farm.Read<int>(DataFields.LivestockValue);
-                var buildingValue = farm.Read<int>(DataFields.BuildingValue);
-                var usableTiles = farm.Read(DataFields.UsableTiles, -1);
+                var agricultureValue = farm.Read<int>(DataKeys.AgricultureValue);
+                var livestockValue = farm.Read<int>(DataKeys.LivestockValue);
+                var buildingValue = farm.Read<int>(DataKeys.BuildingValue);
+                var usableTiles = farm.Read(DataKeys.UsableTiles, -1);
                 if (usableTiles < 0)
                 {
                     var origin = farm.GetMainFarmHouseEntry();
@@ -149,13 +148,14 @@ internal sealed class TaxDayEndingEvent : DayEndingEvent
                         farm.Map.DisplayWidth,
                         farm.Map.DisplayHeight,
                         p => farm.doesTileHaveProperty(p.X, p.Y, "Diggable", "Back") is not null).Count;
-                    farm.Write(DataFields.UsableTiles, usableTiles.ToString());
+                    farm.Write(DataKeys.UsableTiles, usableTiles.ToString());
                 }
 
-                var currentUsePct = farm.Read<float>(DataFields.UsedTiles) / usableTiles;
+                var currentUsePct = farm.Read<float>(DataKeys.UsedTiles) / usableTiles;
                 amountDue = (int)(((agricultureValue + livestockValue) * currentUsePct * TaxesModule.Config.UsedTileTaxRate) +
                                   ((agricultureValue + livestockValue) * (1f - currentUsePct) * TaxesModule.Config.UnusedTileTaxRate) +
                                   (buildingValue * TaxesModule.Config.BuildingTaxRate));
+                TaxesModule.State.LatestDuePropertyTax = amountDue;
                 if (amountDue > 0)
                 {
                     int amountPaid;
@@ -164,8 +164,7 @@ internal sealed class TaxDayEndingEvent : DayEndingEvent
                         player.Money -= amountDue;
                         amountPaid = amountDue;
                         amountDue = 0;
-                        ModHelper.GameContent.InvalidateCacheAndLocalized("Data/mail");
-                        player.mailForTomorrow.Add($"{Manifest.UniqueID}/PropertyNotice");
+                        PostalService.Send(Mail.LewisNotice);
                         Log.I("Property tax due was paid in full.");
                     }
                     else
@@ -174,19 +173,19 @@ internal sealed class TaxDayEndingEvent : DayEndingEvent
                         amountDue -= amountPaid;
                         player.Money = 0;
 
-                        var penalties = Math.Min(amountDue * TaxesModule.Config.PropertyTaxLatenessFine, 100);
-                        player.Increment(DataFields.DebtOutstanding, amountDue + penalties);
-                        ModHelper.GameContent.InvalidateCacheAndLocalized("Data/mail");
-                        player.mailForTomorrow.Add($"{Manifest.UniqueID}/PropertyOutstanding");
+                        var penalties = Math.Min((int)(amountDue * TaxesModule.Config.PropertyTaxLatenessFine), 100);
+                        player.Increment(DataKeys.DebtOutstanding, amountDue + penalties);
+                        TaxesModule.State.LatestOutstandingPropertyTax = amountDue + penalties;
+                        PostalService.Send(Mail.LewisOutstanding);
                         Log.I(
                             $"{player.Name} did not carry enough funds to cover the property tax due." +
                             $"\n\t- Amount charged: {amountPaid}g" +
                             $"\n\t- Outstanding debt: {amountDue}g (+{penalties}g in penalties).");
                     }
 
-                    farm.Write(DataFields.AgricultureValue, "0");
-                    farm.Write(DataFields.LivestockValue, "0");
-                    farm.Write(DataFields.BuildingValue, "0");
+                    farm.Write(DataKeys.AgricultureValue, "0");
+                    farm.Write(DataKeys.LivestockValue, "0");
+                    farm.Write(DataKeys.BuildingValue, "0");
                 }
 
                 goto default;
@@ -205,7 +204,7 @@ internal sealed class TaxDayEndingEvent : DayEndingEvent
 
             default:
             {
-                var debtOutstanding = player.Read<int>(DataFields.DebtOutstanding);
+                var debtOutstanding = player.Read<int>(DataKeys.DebtOutstanding);
                 if (debtOutstanding <= 0)
                 {
                     break;
@@ -230,14 +229,14 @@ internal sealed class TaxDayEndingEvent : DayEndingEvent
 
                 var toDebit = amountSold - dayIncome;
                 TaxesModule.State.LatestAmountWithheld = toDebit;
-                player.Write(DataFields.DebtOutstanding, debtOutstanding.ToString());
+                player.Write(DataKeys.DebtOutstanding, debtOutstanding.ToString());
                 this.Manager.Enable<TaxDayStartedEvent>();
             }
 
             break;
         }
 
-        player.Increment(DataFields.SeasonIncome, dayIncome);
+        player.Increment(DataKeys.SeasonIncome, dayIncome);
         Log.T(
             $"[Taxes]: Actual income was increased by {dayIncome}g after debts.");
     }

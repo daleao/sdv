@@ -29,7 +29,7 @@ internal sealed class ShopMenuChargePlayerPatcher : HarmonyPatcher
     {
         try
         {
-            if (currencyType != Constants.DragonToothIndex &&
+            if (currencyType != ItemIDs.DragonTooth &&
                 (!Globals.DwarvenScrapIndex.HasValue || currencyType != Globals.DwarvenScrapIndex.Value) &&
                 (!Globals.ElderwoodIndex.HasValue || currencyType != Globals.ElderwoodIndex.Value))
             {
@@ -80,7 +80,7 @@ internal sealed class ShopMenuChargePlayerPatcher : HarmonyPatcher
         {
             return currencyIndex switch
             {
-                Constants.DragonToothIndex => "Dragon Tooth",
+                ItemIDs.DragonTooth => "Dragon Tooth",
                 _ => currencyType == Globals.DwarvenScrapIndex!.Value ? "Dwarven Scrap" : "Elderwood",
             };
         }

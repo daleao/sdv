@@ -30,7 +30,7 @@ internal sealed class SwordCurseCommand : ConsoleCommand
     public override void Callback(string trigger, string[] args)
     {
         var player = Game1.player;
-        if (player.CurrentTool is not MeleeWeapon { InitialParentTileIndex: Constants.DarkSwordIndex })
+        if (player.CurrentTool is not MeleeWeapon { InitialParentTileIndex: ItemIDs.DarkSword })
         {
             Log.W("You must hold the cursed blade to use this command.");
             return;
@@ -41,7 +41,7 @@ internal sealed class SwordCurseCommand : ConsoleCommand
             points = 500;
         }
 
-        player.CurrentTool.Write(DataFields.CursePoints, points.ToString());
+        player.CurrentTool.Write(DataKeys.CursePoints, points.ToString());
         if (points >= 50 && !player.hasOrWillReceiveMail("viegoCurse"))
         {
             player.mailForTomorrow.Add("viegoCurse");

@@ -107,7 +107,7 @@ internal sealed class GameLocationGetFishPatcher : HarmonyPatcher
     {
         return (currentFish.IsTrashIndex() || currentFish.IsAlgaeIndex())
                && who.CurrentTool is FishingRod rod
-               && rod.getBaitAttachmentIndex() != Constants.MagnetBaitIndex
+               && rod.getBaitAttachmentIndex() != ItemIDs.MagnetBait
                && who.HasProfession(Profession.Fisher) && !hasRerolled;
     }
 

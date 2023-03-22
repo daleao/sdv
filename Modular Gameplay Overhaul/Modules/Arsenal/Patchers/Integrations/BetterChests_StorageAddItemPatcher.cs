@@ -30,7 +30,7 @@ internal sealed class StorageAddItemPatcher : HarmonyPatcher
     [HarmonyPrefix]
     private static bool StorageAddItemPrefix(ref Item __result, Item item)
     {
-        if (item is not MeleeWeapon { InitialParentTileIndex: Constants.DarkSwordIndex })
+        if (item is not MeleeWeapon { InitialParentTileIndex: ItemIDs.DarkSword })
         {
             return true; // run original logic
         }

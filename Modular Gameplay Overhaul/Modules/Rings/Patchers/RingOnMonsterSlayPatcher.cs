@@ -32,7 +32,7 @@ internal sealed class RingOnMonsterSlayPatcher : HarmonyPatcher
 
         switch (__instance.ParentSheetIndex)
         {
-            case Constants.WarriorRingIndex:
+            case ItemIDs.WarriorRing:
                 RingsModule.State.WarriorKillCount++;
                 if (RingsModule.State.WarriorKillCount >= 3)
                 {
@@ -40,7 +40,7 @@ internal sealed class RingOnMonsterSlayPatcher : HarmonyPatcher
                 }
 
                 break;
-            case Constants.SavangeRingIndex:
+            case ItemIDs.SavangeRing:
                 RingsModule.State.SavageExcitedness = 9;
                 EventManager.Enable<SavageUpdateTickedEvent>();
                 break;

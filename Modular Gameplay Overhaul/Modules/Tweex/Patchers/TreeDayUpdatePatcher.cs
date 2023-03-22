@@ -27,7 +27,7 @@ internal sealed class TreeDayUpdatePatcher : HarmonyPatcher
     {
         if (__instance.growthStage.Value >= Tree.treeStage && __instance.CanBeTapped())
         {
-            __instance.Increment(DataFields.Age);
+            __instance.Increment(DataKeys.Age);
         }
     }
 

@@ -27,7 +27,7 @@ internal sealed class ArsenalSavingEvent : SavingEvent
         if (ArsenalModule.State.SelectableArsenal is not null)
         {
             Game1.player.Write(
-                DataFields.SelectableArsenal,
+                DataKeys.SelectableArsenal,
                 Game1.player.Items.IndexOf(ArsenalModule.State.SelectableArsenal).ToString());
         }
     }

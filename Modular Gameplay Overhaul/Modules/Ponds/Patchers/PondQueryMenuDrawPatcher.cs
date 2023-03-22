@@ -122,13 +122,13 @@ internal sealed class PondQueryMenuDrawPatcher : HarmonyPatcher
             SObject? itemToDraw = null;
             if (isAlgaePond)
             {
-                seaweedCount = ____pond.Read<int>(DataFields.SeaweedLivingHere);
-                greenAlgaeCount = ____pond.Read<int>(DataFields.GreenAlgaeLivingHere);
-                whiteAlgaeCount = ____pond.Read<int>(DataFields.WhiteAlgaeLivingHere);
+                seaweedCount = ____pond.Read<int>(DataKeys.SeaweedLivingHere);
+                greenAlgaeCount = ____pond.Read<int>(DataKeys.GreenAlgaeLivingHere);
+                whiteAlgaeCount = ____pond.Read<int>(DataKeys.WhiteAlgaeLivingHere);
             }
             else if (isLegendaryPond)
             {
-                familyCount = ____pond.Read<int>(DataFields.FamilyLivingHere);
+                familyCount = ____pond.Read<int>(DataKeys.FamilyLivingHere);
                 itemToDraw = ____fishItem;
             }
             else
@@ -146,11 +146,11 @@ internal sealed class PondQueryMenuDrawPatcher : HarmonyPatcher
                 if (isAlgaePond)
                 {
                     itemToDraw = seaweedCount-- > 0
-                        ? new SObject(Constants.SeaweedIndex, 1)
+                        ? new SObject(ItemIDs.Seaweed, 1)
                         : greenAlgaeCount-- > 0
-                            ? new SObject(Constants.GreenAlgaeIndex, 1)
+                            ? new SObject(ItemIDs.GreenAlgae, 1)
                             : whiteAlgaeCount-- > 0
-                                ? new SObject(Constants.WhiteAlgaeIndex, 1)
+                                ? new SObject(ItemIDs.WhiteAlgae, 1)
                                 : null;
 
                     if (itemToDraw is not null)
@@ -221,7 +221,7 @@ internal sealed class PondQueryMenuDrawPatcher : HarmonyPatcher
             if (!isAlgaePond)
             {
                 var (_, numMedQuality, numHighQuality, numBestQuality) =
-                    ____pond.Read(DataFields.FishQualities, $"{____pond.FishCount - familyCount},0,0,0")
+                    ____pond.Read(DataKeys.FishQualities, $"{____pond.FishCount - familyCount},0,0,0")
                         .ParseTuple<int, int, int, int>()!.Value;
                 if (numBestQuality + numHighQuality + numMedQuality > 0)
                 {
@@ -281,7 +281,7 @@ internal sealed class PondQueryMenuDrawPatcher : HarmonyPatcher
                 if (familyCount > 0)
                 {
                     var (_, numMedFamilyQuality, numHighFamilyQuality, numBestFamilyQuality) =
-                        ____pond.Read(DataFields.FamilyQualities, $"{familyCount},0,0,0").ParseTuple<int, int, int, int>()!
+                        ____pond.Read(DataKeys.FamilyQualities, $"{familyCount},0,0,0").ParseTuple<int, int, int, int>()!
                             .Value;
                     if (numBestFamilyQuality + numHighFamilyQuality + numMedFamilyQuality > 0)
                     {

@@ -36,8 +36,8 @@ internal sealed class MeleeWeaponDefaultKnockbackForThisTypePatcher : HarmonyPat
 
         __result = type switch
         {
-            MeleeWeapon.dagger => 0.5f,
-            MeleeWeapon.stabbingSword or MeleeWeapon.defenseSword=> 0.75f,
+            MeleeWeapon.dagger => 0.25f,
+            MeleeWeapon.stabbingSword or MeleeWeapon.defenseSword=> 0.5f,
             MeleeWeapon.club => 1f,
             _ => -1f,
         };

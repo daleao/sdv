@@ -27,7 +27,7 @@ internal sealed class ToolSavingEvent : SavingEvent
     protected override void OnSavingImpl(object? sender, SavingEventArgs e)
     {
         Game1.player.Write(
-            DataFields.SelectableTools,
+            DataKeys.SelectableTools,
             string.Join(
                 ',',
                 ToolsModule.State.SelectableToolByType.Values.WhereNotNull().Select(selectable => selectable.Index)));

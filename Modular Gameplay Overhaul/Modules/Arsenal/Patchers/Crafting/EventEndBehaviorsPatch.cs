@@ -23,7 +23,7 @@ internal sealed class EventEndBehaviorsPatch : HarmonyPatcher
     [HarmonyPostfix]
     private static void EventEndBehaviorsPostfix(Event __instance)
     {
-        if (__instance.id == Constants.ForgeIntroQuestId)
+        if (__instance.id == (int)Quest.ForgeIntro)
         {
             EventManager.Enable<BlueprintDayStartedEvent>();
         }

@@ -33,7 +33,7 @@ internal sealed class BaseEnchantmentGetEnchantmentFromItemPatcher : HarmonyPatc
         {
             __result = new InfinityEnchantment();
         }
-        else if (base_item is Slingshot { InitialParentTileIndex: Constants.GalaxySlingshotIndex } &&
+        else if (base_item is Slingshot { InitialParentTileIndex: ItemIDs.GalaxySlingshot } &&
                Utility.IsNormalObjectAtParentSheetIndex(item, 896))
         {
             __result = new GalaxySoulEnchantment();

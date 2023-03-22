@@ -2,16 +2,125 @@
 
 #region using directives
 
+using System.Collections.Generic;
 using System.Linq;
 using DaLion.Overhaul.Modules.Arsenal.Extensions;
 using DaLion.Overhaul.Modules.Arsenal.VirtualProperties;
+using DaLion.Shared.Extensions.SMAPI;
+using StardewValley.Locations;
+using StardewValley.Objects;
 using StardewValley.Tools;
 
 #endregion using directives
 
 internal static class Utils
 {
-    /// <summary>Converts the config-specified defensive swords into stabbing swords throughout the world.</summary>
+    internal static void RevalidateAllWeapons()
+    {
+        Log.I(
+            $"[Arsenal]: Performing {(Context.IsMainPlayer ? "global" : "local")} items re-validation.");
+        if (Context.IsMainPlayer)
+        {
+            Utility.iterateAllItems(item =>
+            {
+                if (item is MeleeWeapon weapon)
+                {
+                    RevalidateSingleWeapon(weapon);
+                }
+            });
+        }
+        else
+        {
+            for (var i = 0; i < Game1.player.Items.Count; i++)
+            {
+                if (Game1.player.Items[i] is MeleeWeapon weapon)
+                {
+                    RevalidateSingleWeapon(weapon);
+                }
+            }
+        }
+
+        var removed = 0;
+        if (ArsenalModule.IsEnabled)
+        {
+            foreach (var chest in IterateAllChests())
+            {
+                for (var i = chest.items.Count - 1; i >= 0; i--)
+                {
+                    if (chest.items[i] is not MeleeWeapon { InitialParentTileIndex: ItemIDs.DarkSword } darkSword)
+                    {
+                        continue;
+                    }
+
+                    chest.items.Remove(darkSword);
+                    removed++;
+                }
+            }
+        }
+
+        Log.I($"[Arsenal]: Done.");
+        if (removed <= 0)
+        {
+            return;
+        }
+
+        Log.W($"{removed} Dark Swords were removed from Chests.");
+        if (!Game1.player.hasOrWillReceiveMail("viegoCurse"))
+        {
+            return;
+        }
+
+        {
+            for (var i = 0; i < Game1.player.Items.Count; i++)
+            {
+                if (Game1.player.Items[i] is MeleeWeapon { InitialParentTileIndex: ItemIDs.DarkSword })
+                {
+                    break;
+                }
+
+                if (!Game1.player.addItemToInventoryBool(new MeleeWeapon(ItemIDs.DarkSword)))
+                {
+                    Log.E($"Failed adding Dark Sword to {Game1.player.Name}. Use CJB Item Spawner to obtain a new copy.");
+                }
+            }
+        }
+
+        ModHelper.GameContent.InvalidateCacheAndLocalized("Data/weapons");
+    }
+
+    internal static void RevalidateSingleWeapon(MeleeWeapon weapon)
+    {
+        weapon.RecalculateAppliedForges();
+        if (!ArsenalModule.IsEnabled)
+        {
+            weapon.RemoveIntrinsicEnchantments();
+        }
+        else if (ArsenalModule.Config.InfinityPlusOne || ArsenalModule.Config.Weapons.EnableRebalance)
+        {
+            weapon.AddIntrinsicEnchantments();
+        }
+
+        if (ArsenalModule.IsEnabled && ArsenalModule.Config.Weapons.EnableStabbySwords &&
+            (Collections.StabbingSwords.Contains(weapon.InitialParentTileIndex) ||
+             ArsenalModule.Config.Weapons.CustomStabbingSwords.Contains(weapon.Name)))
+        {
+            weapon.type.Value = MeleeWeapon.stabbingSword;
+            Log.D($"[Arsenal]: The type of {weapon.Name} was converted to Stabbing sword.");
+        }
+        else if ((!ArsenalModule.IsEnabled || !ArsenalModule.Config.Weapons.EnableStabbySwords) &&
+                 weapon.type.Value == MeleeWeapon.stabbingSword)
+        {
+            weapon.type.Value = MeleeWeapon.defenseSword;
+            Log.D($"[Arsenal]: The type of {weapon.Name} was converted to Defense sword.");
+        }
+
+        if (ArsenalModule.IsEnabled && ArsenalModule.Config.InfinityPlusOne && (weapon.isGalaxyWeapon() || weapon.IsInfinityWeapon()
+            || weapon.InitialParentTileIndex is ItemIDs.DarkSword or ItemIDs.HolyBlade))
+        {
+            weapon.specialItem = true;
+        }
+    }
+
     internal static void AddAllIntrinsicEnchantments()
     {
         if (Context.IsMainPlayer)
@@ -36,7 +145,6 @@ internal static class Utils
         }
     }
 
-    /// <summary>Reverts all stabbing sword back into vanilla defensive swords.</summary>
     internal static void RemoveAllIntrinsicEnchantments()
     {
         if (Context.IsMainPlayer)
@@ -61,7 +169,6 @@ internal static class Utils
         }
     }
 
-    /// <summary>Converts the config-specified defensive swords into stabbing swords throughout the world.</summary>
     internal static void ConvertAllStabbingSwords()
     {
         if (Context.IsMainPlayer)
@@ -94,7 +201,6 @@ internal static class Utils
         }
     }
 
-    /// <summary>Reverts all stabbing sword back into vanilla defensive swords.</summary>
     internal static void RevertAllStabbingSwords()
     {
         if (Context.IsMainPlayer)
@@ -119,8 +225,6 @@ internal static class Utils
         }
     }
 
-    /// <summary>Refreshes the stats of the all <see cref="MeleeWeapon"/>s in existence.</summary>
-    /// <param name="option">The <see cref="RefreshOption"/>.</param>
     internal static void RefreshAllWeapons(RefreshOption option)
     {
         if (Context.IsMainPlayer)
@@ -151,20 +255,48 @@ internal static class Utils
         }
     }
 
-    /// <summary>Transforms the currently held weapon into the Holy Blade.</summary>
-    internal static void GetHolyBlade()
+    internal static IEnumerable<Chest> IterateAllChests()
     {
-        var player = Game1.player;
-        if (player.CurrentTool is not MeleeWeapon { InitialParentTileIndex: Constants.DarkSwordIndex } darkSword)
+        for (var i = 0; i < Game1.locations.Count; i++)
         {
-            return;
-        }
+            var location1 = Game1.locations[i];
+            foreach (var @object in location1.Objects.Values)
+            {
+                if (@object is Chest chest1)
+                {
+                    yield return chest1;
+                }
+                else if (@object.heldObject.Value is Chest chest2)
+                {
+                    yield return chest2;
+                }
+            }
 
-        Game1.flashAlpha = 1f;
-        player.holdUpItemThenMessage(new MeleeWeapon(Constants.HolyBladeIndex));
-        darkSword.transform(Constants.HolyBladeIndex);
-        darkSword.RefreshStats();
-        player.jitterStrength = 0f;
-        Game1.screenGlowHold = false;
+            if (location1 is not BuildableGameLocation buildable)
+            {
+                continue;
+            }
+
+            for (var j = 0; j < buildable.buildings.Count; j++)
+            {
+                var building = buildable.buildings[j];
+                if (building.indoors.Value is not { } location2)
+                {
+                    continue;
+                }
+
+                foreach (var @object in location2.Objects.Values)
+                {
+                    if (@object is Chest chest1)
+                    {
+                        yield return chest1;
+                    }
+                    else if (@object.heldObject.Value is Chest chest2)
+                    {
+                        yield return chest2;
+                    }
+                }
+            }
+        }
     }
 }

@@ -44,13 +44,13 @@ public class BlessedEnchantment : BaseWeaponEnchantment
     protected override void _OnEquip(Farmer who)
     {
         base._OnEquip(who);
-        if (!who.Read<bool>(DataFields.Cursed))
+        if (!who.Read<bool>(DataKeys.Cursed))
         {
             return;
         }
 
         EventManager.Disable<CurseUpdateTickedEvent>();
-        who.CurrentTool.Write(DataFields.CursePoints, null);
+        who.CurrentTool.Write(DataKeys.CursePoints, null);
     }
 
     /// <inheritdoc />

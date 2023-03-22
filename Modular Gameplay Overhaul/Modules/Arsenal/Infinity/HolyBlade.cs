@@ -15,7 +15,7 @@ public sealed class HolyBlade : MeleeWeapon
 {
     /// <summary>Initializes a new instance of the <see cref="HolyBlade"/> class.</summary>
     public HolyBlade()
-    : base(Constants.HolyBladeIndex)
+    : base(ItemIDs.HolyBlade)
     {
         this.AddEnchantment(new BlessedEnchantment());
         this.specialItem = true;

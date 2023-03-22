@@ -95,7 +95,7 @@ internal static class FishPondExtensions
     /// <param name="who">The player.</param>
     internal static void RewardExp(this FishPond pond, Farmer who)
     {
-        if (pond.Read<bool>(DataFields.CheckedToday))
+        if (pond.Read<bool>(DataKeys.CheckedToday))
         {
             return;
         }
@@ -136,14 +136,14 @@ internal static class FishPondExtensions
                 for (var i = 0; i < held.Count; i++)
                 {
                     var item = held[i];
-                    if (item.ParentSheetIndex == Constants.RoeIndex)
+                    if (item.ParentSheetIndex == ItemIDs.Roe)
                     {
                         var fishIndex = pond.fishType.Value;
                         var split = Game1.objectInformation[fishIndex].SplitWithoutAllocation('/');
                         var c = fishIndex == 698
                             ? new Color(61, 55, 42)
                             : TailoringMenu.GetDyeColor(pond.GetFishObject()) ?? Color.Orange;
-                        var o = new ColoredObject(Constants.RoeIndex, item.Stack, c);
+                        var o = new ColoredObject(ItemIDs.Roe, item.Stack, c);
                         o.name = split[0].ToString() + " Roe";
                         o.preserve.Value = SObject.PreserveType.Roe;
                         o.preservedParentSheetIndex.Value = fishIndex;
@@ -164,11 +164,11 @@ internal static class FishPondExtensions
             catch (InvalidOperationException ex)
             {
                 Log.W($"ItemsHeld data is invalid. {ex}\nThe data will be reset");
-                pond.Write(DataFields.ItemsHeld, null);
+                pond.Write(DataKeys.ItemsHeld, null);
             }
         }
 
-        pond.Write(DataFields.CheckedToday, true.ToString());
+        pond.Write(DataKeys.CheckedToday, true.ToString());
         return true; // expected by vanilla code
     }
 
@@ -180,7 +180,7 @@ internal static class FishPondExtensions
     /// <returns>A <see cref="List{T}"/> of <see cref="Item"/>s encoded in the <paramref name="pond"/>'s held items data.</returns>
     internal static List<Item> DeserializeHeldItems(this FishPond pond)
     {
-        return pond.Read(DataFields.ItemsHeld)
+        return pond.Read(DataKeys.ItemsHeld)
             .ParseList<string>(";")
             .Select(s => s?.ParseTuple<int, int, int>())
             .WhereNotNull()

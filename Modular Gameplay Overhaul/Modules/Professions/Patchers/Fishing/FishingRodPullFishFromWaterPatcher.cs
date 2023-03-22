@@ -27,7 +27,7 @@ internal sealed class FishingRodPullFishFromWaterPatcher : HarmonyPatcher
     {
         if (whichFish.IsTrashIndex() && Game1.player.HasProfession(Profession.Conservationist))
         {
-            Game1.player.Increment(DataFields.ConservationistTrashCollectedThisSeason);
+            Game1.player.Increment(DataKeys.ConservationistTrashCollectedThisSeason);
         }
     }
 

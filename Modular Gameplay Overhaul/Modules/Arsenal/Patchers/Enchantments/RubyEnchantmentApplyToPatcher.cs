@@ -35,9 +35,9 @@ internal sealed class RubyEnchantmentApplyToPatcher : HarmonyPatcher
             .Load<Dictionary<int, string>>("Data/weapons")[weapon.InitialParentTileIndex]
             .SplitWithoutAllocation('/');
         weapon.minDamage.Value +=
-            (int)(weapon.Read(DataFields.BaseMinDamage, int.Parse(data[2])) * __instance.GetLevel() * 0.1f);
+            (int)(weapon.Read(DataKeys.BaseMinDamage, int.Parse(data[2])) * __instance.GetLevel() * 0.1f);
         weapon.maxDamage.Value +=
-            (int)(weapon.Read(DataFields.BaseMaxDamage, int.Parse(data[3])) * __instance.GetLevel() * 0.1f);
+            (int)(weapon.Read(DataKeys.BaseMaxDamage, int.Parse(data[3])) * __instance.GetLevel() * 0.1f);
         return false; // don't run original logic
     }
 

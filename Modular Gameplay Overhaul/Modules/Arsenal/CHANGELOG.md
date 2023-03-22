@@ -9,20 +9,9 @@
 * Mine chests no longer drop seeds. Can now drop fertilizers. Increased the stack of several chest rewards. Improved the odds of hitting the jackpot (Quality Sprinklers).
 * Increased the spawn chance of breakable containers in the mines. Implemented a handicap system to dynamically increase the chance of obtaining special items from breakable containers (including weapons).
 * Implemented a handicap system to dynamically increase the chance of encountering monsters with special item drops. Weapons dropped from monsters are still rarer and stronger on average than those dropped by containers.
-* Some weapon stats have been changed:
-    * **Burglar's Shank**: +30% crit rate, -10% crit power
-    * **Kudgel**: -8% Knockback, +10% Speed
-    * **The Slammer**: +13% Knockback
-    * **Dwarven Sword**: +10% Defense, slightly increased hitbox
-    * **Dwarven Dagger**: slightly increased hitbox
-    * **Dwarven Hammer**: +5% Knockback, +10% Defense, +10% Speed
-    * **Galaxy Sword**: +10% Speed, +10% Crit. Chance
-    * **Galaxy Dagger**: +10% Crit. Chance, +10% Knockback
-    * **Galaxy Hammer**: +10% Knockback, +10% Speed
-    * **Infinity Sword**: +20% Speed, +20% Crit. Chance
-    * **Infinity Dagger**: +20% Crit. Chance, +20% Knockback
-    * **Infinity Gavel**: +20% Knockback, +20% Speed
-    * **Infinity Needle**: -50% Crit. Power
+* The base knocback of swords and daggers has been cut in half.
+* Some weapons' stats have been changed, including the Galaxy and Infinity weapons which received significant buffs.
+* Weapon revalidation now occurs automatically upon first initialization of the module. Manually executing the `revalidate` command is no longer necessary. However, you **must** manually disable Arsenal module before uninstalling MARGO. 
 
 ### Fixed
 

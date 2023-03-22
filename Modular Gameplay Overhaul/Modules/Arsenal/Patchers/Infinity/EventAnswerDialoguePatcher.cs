@@ -38,7 +38,7 @@ internal sealed class EventAnswerDialoguePatcher : HarmonyPatcher
             // Sophia 2 hearts | Location: Custom_BlueMoonVineyard
             case 8185291 when answerChoice == 1:
 
-                player.Increment(DataFields.ProvenHonor);
+                player.Increment(DataKeys.ProvenHonor);
                 Virtue.Honor.CheckForCompletion(player);
                 return;
 
@@ -59,14 +59,14 @@ internal sealed class EventAnswerDialoguePatcher : HarmonyPatcher
             // Sophia 6 hearts | Location: Custom_BlueMoonVineyard
             case 8185294 when answerChoice == 0:
 
-                player.Increment(DataFields.ProvenCompassion);
+                player.Increment(DataKeys.ProvenCompassion);
                 Virtue.Compassion.CheckForCompletion(player);
                 return;
 
             // Pam 9 hearts | Location: Trailer_Big
             case 503180 when answerChoice == 1:
 
-                player.Increment(DataFields.ProvenCompassion, -1);
+                player.Increment(DataKeys.ProvenCompassion, -1);
                 return;
 
         // WISDOM //
@@ -74,7 +74,7 @@ internal sealed class EventAnswerDialoguePatcher : HarmonyPatcher
             // Sebastian 6 hearts | Location: SebastianRoom
             case 27 when answerChoice == 2:
 
-                player.Increment(DataFields.ProvenWisdom);
+                player.Increment(DataKeys.ProvenWisdom);
                 Virtue.Wisdom.CheckForCompletion(player);
                 return;
         }

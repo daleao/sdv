@@ -101,13 +101,13 @@ internal sealed class ProfessionAssetRequestedEvent : AssetRequestedEvent
     {
         var data = asset.AsDictionary<string, string>().Data;
         var taxBonus =
-            Game1.player.Read<float>(DataFields.ConservationistActiveTaxBonusPct);
+            Game1.player.Read<float>(DataKeys.ConservationistActiveTaxBonusPct);
         var key = taxBonus >= ProfessionsModule.Config.ConservationistTaxBonusCeiling
             ? "conservationist.mail.max"
             : "conservationist.mail";
 
         string honorific = I18n.Get("honorific" + (Game1.player.IsMale ? ".male" : ".female"));
-        var farm = Game1.getFarm().Name;
+        var farm = Game1.player.farmName;
         var season = LocalizedContentManager.CurrentLanguageCode == LocalizedContentManager.LanguageCode.fr
             ? I18n.Get("season." + Game1.currentSeason)
             : Game1.CurrentSeasonDisplayName;

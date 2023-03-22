@@ -4,7 +4,8 @@
 
 ### Added
 
-* Added property taxes.
+* Added new property taxes.
+* The bodies of most, if not all, tax-related letters have been altered. Translations will need to be revised.
 
 ### Changed
 

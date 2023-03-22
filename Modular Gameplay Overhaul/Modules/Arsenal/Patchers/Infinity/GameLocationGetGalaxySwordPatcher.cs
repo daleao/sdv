@@ -39,7 +39,7 @@ internal sealed class GameLocationGetGalaxySwordPatcher : HarmonyPatcher
         try
         {
             var player = Game1.player;
-            var obtained = player.Read(DataFields.GalaxyArsenalObtained).ParseList<int>();
+            var obtained = player.Read(DataKeys.GalaxyArsenalObtained).ParseList<int>();
             int? chosen = null;
             for (var i = 0; i < player.Items.Count; i++)
             {
@@ -69,13 +69,13 @@ internal sealed class GameLocationGetGalaxySwordPatcher : HarmonyPatcher
 
             chosen ??= new[]
             {
-                Constants.GalaxySwordIndex,
-                Constants.GalaxyHammerIndex,
-                Constants.GalaxyDaggerIndex,
-                Constants.GalaxySlingshotIndex,
+                ItemIDs.GalaxySword,
+                ItemIDs.GalaxyHammer,
+                ItemIDs.GalaxyDagger,
+                ItemIDs.GalaxySlingshot,
             }.Except(obtained).First();
 
-            Item chosenAsItem = chosen.Value == Constants.GalaxySlingshotIndex
+            Item chosenAsItem = chosen.Value == ItemIDs.GalaxySlingshot
                 ? new Slingshot(chosen.Value)
                 : new MeleeWeapon(chosen.Value);
 
@@ -95,7 +95,7 @@ internal sealed class GameLocationGetGalaxySwordPatcher : HarmonyPatcher
                 Game1.createItemDebris(chosenAsItem, Game1.player.getStandingPosition(), 1);
             }
 
-            player.Append(DataFields.GalaxyArsenalObtained, chosen.Value.ToString());
+            player.Append(DataKeys.GalaxyArsenalObtained, chosen.Value.ToString());
             if (!player.mailReceived.Contains("galaxySword"))
             {
                 player.mailReceived.Add("galaxySword");
@@ -111,10 +111,10 @@ internal sealed class GameLocationGetGalaxySwordPatcher : HarmonyPatcher
             {
                 return type switch
                 {
-                    WeaponType.StabbingSword or WeaponType.DefenseSword => Constants.GalaxySwordIndex,
-                    WeaponType.Dagger => Constants.GalaxyDaggerIndex,
-                    WeaponType.Club => Constants.GalaxyHammerIndex,
-                    WeaponType.Slingshot => Constants.GalaxySlingshotIndex,
+                    WeaponType.StabbingSword or WeaponType.DefenseSword => ItemIDs.GalaxySword,
+                    WeaponType.Dagger => ItemIDs.GalaxyDagger,
+                    WeaponType.Club => ItemIDs.GalaxyHammer,
+                    WeaponType.Slingshot => ItemIDs.GalaxySlingshot,
                     _ => ThrowHelperExtensions.ThrowUnexpectedEnumValueException<WeaponType, int>(type),
                 };
             }

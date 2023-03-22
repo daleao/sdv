@@ -86,7 +86,7 @@ internal sealed class EventSkipEventPatcher : HarmonyPatcher
     {
         if (Game1.player.Items.All(item => item is not MeleeWeapon weapon || weapon.isScythe()))
         {
-            Game1.player.addItemByMenuIfNecessary(new MeleeWeapon(Constants.WoodenBladeIndex));
+            Game1.player.addItemByMenuIfNecessary(new MeleeWeapon(ItemIDs.WoodenBlade));
         }
     }
 

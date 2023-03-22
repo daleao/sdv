@@ -44,79 +44,79 @@ internal sealed class RingRecipeProvider : IRecipeProvider
         switch (recipe.name)
         {
             case "Glow Ring":
-                var smallGlowRing = new Ring(Constants.SmallGlowRingIndex);
+                var smallGlowRing = new Ring(ItemIDs.SmallGlowRing);
 
                 // return a recipe that uses data from the vanilla crafting recipe, but with custom ingredient handling
                 return this._api.CreateRecipeWithIngredients(recipe, new[]
                 {
                     // normal ingredients
-                    this._api.CreateBaseIngredient(Constants.SunEssenceIndex, 10),
+                    this._api.CreateBaseIngredient(ItemIDs.SunEssence, 10),
 
                     // ring ingredient
                     this._api.CreateMatcherIngredient(
-                        item => item is Ring { ParentSheetIndex: Constants.SmallGlowRingIndex },
+                        item => item is Ring { ParentSheetIndex: ItemIDs.SmallGlowRing },
                         2,
                         smallGlowRing.DisplayName,
                         Game1.objectSpriteSheet,
                         Game1.getSourceRectForStandardTileSheet(
                             Game1.objectSpriteSheet,
-                            Constants.SmallGlowRingIndex,
+                            ItemIDs.SmallGlowRing,
                             16,
                             16)),
                 });
 
             case "Magnet Ring":
-                var smallMagnetRing = new Ring(Constants.SmallMagnetRingIndex);
+                var smallMagnetRing = new Ring(ItemIDs.SmallMagnetRing);
 
                 // return a recipe that uses data from the vanilla crafting recipe, but with custom ingredient handling
                 return this._api.CreateRecipeWithIngredients(recipe, new[]
                 {
                     // normal ingredients
-                    this._api.CreateBaseIngredient(Constants.VoidEssenceIndex, 10),
+                    this._api.CreateBaseIngredient(ItemIDs.VoidEssence, 10),
 
                     // ring ingredient
                     this._api.CreateMatcherIngredient(
-                        item => item is Ring { ParentSheetIndex: Constants.SmallMagnetRingIndex },
+                        item => item is Ring { ParentSheetIndex: ItemIDs.SmallMagnetRing },
                         2,
                         smallMagnetRing.DisplayName,
                         Game1.objectSpriteSheet,
                         Game1.getSourceRectForStandardTileSheet(
                             Game1.objectSpriteSheet,
-                            Constants.SmallMagnetRingIndex,
+                            ItemIDs.SmallMagnetRing,
                             16,
                             16)),
                 });
 
             case "Glowstone Ring":
-                var glowRing = new Ring(Constants.GlowRingIndex);
-                var magnetRIng = new Ring(Constants.MagnetRingIndex);
+                var glowRing = new Ring(ItemIDs.GlowRing);
+                var magnetRIng = new Ring(ItemIDs.MagnetRing);
 
                 // return a recipe that uses data from the vanilla crafting recipe, but with custom ingredient handling
                 return this._api.CreateRecipeWithIngredients(recipe, new[]
                 {
                     // normal ingredients
-                    this._api.CreateBaseIngredient(Constants.SunEssenceIndex, 20),
-                    this._api.CreateBaseIngredient(Constants.VoidEssenceIndex, 20),
+                    this._api.CreateBaseIngredient(ItemIDs.SunEssence, 20),
+                    this._api.CreateBaseIngredient(ItemIDs.VoidEssence, 20),
 
                     // Ring ingredient
                     this._api.CreateMatcherIngredient(
-                        item => item is Ring { ParentSheetIndex: Constants.GlowRingIndex },
+                        item => item is Ring { ParentSheetIndex: ItemIDs.GlowRing },
                         1,
                         glowRing.DisplayName,
                         Game1.objectSpriteSheet,
                         Game1.getSourceRectForStandardTileSheet(
                             Game1.objectSpriteSheet,
-                            Constants.GlowRingIndex,
+                            ItemIDs.GlowRing,
                             16,
                             16)),
                     this._api.CreateMatcherIngredient(
-                        item => item is Ring { ParentSheetIndex: Constants.MagnetRingIndex },
+                        item => item is Ring { ParentSheetIndex: ItemIDs.MagnetRing },
                         1,
                         magnetRIng.DisplayName,
                         Game1.objectSpriteSheet,
                         Game1.getSourceRectForStandardTileSheet(
                             Game1.objectSpriteSheet,
-                            Constants.MagnetRingIndex,
+                            ItemIDs.MagnetRing,
                             16,
                             16)),
                 });

@@ -39,7 +39,7 @@ internal sealed class ItemGrabMenuCtorPatcher : HarmonyPatcher
 
     private static bool HighlightAllButDarkSword(Item i)
     {
-        return i is not MeleeWeapon { InitialParentTileIndex: Constants.DarkSwordIndex };
+        return i is not MeleeWeapon { InitialParentTileIndex: ItemIDs.DarkSword };
     }
 
     #endregion injected subroutines

@@ -22,7 +22,7 @@ internal sealed class BlueprintDayStartedEvent : DayStartedEvent
     protected override void OnEnabled()
     {
         Game1.player.WriteIfNotExists(
-            DataFields.DaysLeftTranslating,
+            DataKeys.DaysLeftTranslating,
             (14 - Game1.player.getFriendshipHeartLevelForNPC("Clint")).ToString());
     }
 
@@ -30,13 +30,13 @@ internal sealed class BlueprintDayStartedEvent : DayStartedEvent
     protected override void OnDayStartedImpl(object? sender, DayStartedEventArgs e)
     {
         var player = Game1.player;
-        player.Increment(DataFields.DaysLeftTranslating, -1);
+        player.Increment(DataKeys.DaysLeftTranslating, -1);
         if (Game1.random.NextDouble() < (player.getFriendshipHeartLevelForNPC("Clint") - 6) / 10d)
         {
-            player.Increment(DataFields.DaysLeftTranslating, -1);
+            player.Increment(DataKeys.DaysLeftTranslating, -1);
         }
 
-        var daysLeft = player.Read<int>(DataFields.DaysLeftTranslating);
+        var daysLeft = player.Read<int>(DataKeys.DaysLeftTranslating);
         Log.T($"T - {daysLeft} days left until Clint is done deciphering the blueprint.");
         if (daysLeft <= 0)
         {

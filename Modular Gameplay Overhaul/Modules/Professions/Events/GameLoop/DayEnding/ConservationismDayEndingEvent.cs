@@ -31,7 +31,7 @@ internal sealed class ConservationismDayEndingEvent : DayEndingEvent
         var player = Game1.player;
         if (!TaxesModule.IsEnabled)
         {
-            var taxBonus = player.Read<float>(DataFields.ConservationistActiveTaxBonusPct);
+            var taxBonus = player.Read<float>(DataKeys.ConservationistActiveTaxBonusPct);
             if (taxBonus > 0f)
             {
                 var amountSold = Game1.getFarm().getShippingBin(player).Sum(item =>
@@ -48,11 +48,11 @@ internal sealed class ConservationismDayEndingEvent : DayEndingEvent
             return;
         }
 
-        var trashCollectedThisSeason = player.Read<uint>(DataFields.ConservationistTrashCollectedThisSeason);
-        player.Write(DataFields.ConservationistTrashCollectedThisSeason, "0");
+        var trashCollectedThisSeason = player.Read<uint>(DataKeys.ConservationistTrashCollectedThisSeason);
+        player.Write(DataKeys.ConservationistTrashCollectedThisSeason, "0");
         if (trashCollectedThisSeason <= 0)
         {
-            player.Write(DataFields.ConservationistActiveTaxBonusPct, "0");
+            player.Write(DataKeys.ConservationistActiveTaxBonusPct, "0");
             return;
         }
 
@@ -62,7 +62,7 @@ internal sealed class ConservationismDayEndingEvent : DayEndingEvent
                 trashCollectedThisSeason / ProfessionsModule.Config.TrashNeededPerTaxBonusPct / 100f,
                 ProfessionsModule.Config.ConservationistTaxBonusCeiling);
         player.Write(
-            DataFields.ConservationistActiveTaxBonusPct,
+            DataKeys.ConservationistActiveTaxBonusPct,
             taxBonusForNextSeason.ToString(CultureInfo.InvariantCulture));
         if (taxBonusForNextSeason <= 0 || TaxesModule.IsEnabled)
         {

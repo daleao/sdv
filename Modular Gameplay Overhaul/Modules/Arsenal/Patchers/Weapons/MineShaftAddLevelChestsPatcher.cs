@@ -4,11 +4,11 @@
 
 using System.Collections.Generic;
 using System.Reflection;
+using DaLion.Shared.Extensions;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
 using Microsoft.Xna.Framework;
 using Netcode;
-using Shared.Extensions;
 using StardewValley.Locations;
 using StardewValley.Objects;
 using StardewValley.Tools;
@@ -64,7 +64,7 @@ internal sealed class MineShaftAddLevelChestsPatcher : HarmonyPatcher
                     player.completeQuest(17);
                     goto default;
                 case 60:
-                    chestItems.Add(new Slingshot(Constants.MasterSlingshotIndex));
+                    chestItems.Add(new Slingshot(ItemIDs.MasterSlingshot));
                     break;
                 case 100:
                     chestItems.Add(new SObject(434, 1)); // stardrop

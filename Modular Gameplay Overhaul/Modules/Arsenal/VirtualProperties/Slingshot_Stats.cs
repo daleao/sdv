@@ -25,9 +25,9 @@ internal static class Slingshot_Stats
     {
         return Values.GetValue(slingshot, Create).Damage + slingshot.InitialParentTileIndex switch
         {
-            Constants.MasterSlingshotIndex => 0.5f,
-            Constants.GalaxySlingshotIndex => 1f,
-            Constants.InfinitySlingshotIndex => 1.5f,
+            ItemIDs.MasterSlingshot => 0.5f,
+            ItemIDs.GalaxySlingshot => 1f,
+            ItemIDs.InfinitySlingshot => 1.5f,
             _ => 0f,
         };
     }
@@ -41,9 +41,9 @@ internal static class Slingshot_Stats
     {
         return Values.GetValue(slingshot, Create).Knockback + slingshot.InitialParentTileIndex switch
         {
-            Constants.MasterSlingshotIndex => 0.1f,
-            Constants.GalaxySlingshotIndex => 0.2f,
-            Constants.InfinitySlingshotIndex => 0.25f,
+            ItemIDs.MasterSlingshot => 0.1f,
+            ItemIDs.GalaxySlingshot => 0.2f,
+            ItemIDs.InfinitySlingshot => 0.25f,
             _ => 0f,
         };
     }
@@ -102,12 +102,12 @@ internal static class Slingshot_Stats
     {
         var count = 0;
 
-        if (Values.GetValue(slingshot, Create).Damage > 0 || slingshot.InitialParentTileIndex != Constants.BasicSlingshotIndex)
+        if (Values.GetValue(slingshot, Create).Damage > 0 || slingshot.InitialParentTileIndex != ItemIDs.BasicSlingshot)
         {
             count++;
         }
 
-        if (Values.GetValue(slingshot, Create).Knockback > 0 || slingshot.InitialParentTileIndex != Constants.BasicSlingshotIndex)
+        if (Values.GetValue(slingshot, Create).Knockback > 0 || slingshot.InitialParentTileIndex != ItemIDs.BasicSlingshot)
         {
             count++;
         }

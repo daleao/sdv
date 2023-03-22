@@ -102,7 +102,7 @@ internal sealed class MeleeWeaponDoSwipePatcher : HarmonyPatcher
                 return false; // don't run original logic
             }
 
-            var sound = __instance.IsClub() ? "clubswipe" : __instance.InitialParentTileIndex == Constants.LavaKatanaIndex ? "fireball" : "swordswipe";
+            var sound = __instance.IsClub() ? "clubswipe" : __instance.InitialParentTileIndex == ItemIDs.LavaKatana ? "fireball" : "swordswipe";
             f.currentLocation.localSound(sound);
 
             return false; // don't run original logic

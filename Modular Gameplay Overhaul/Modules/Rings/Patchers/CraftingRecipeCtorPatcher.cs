@@ -31,14 +31,14 @@ internal sealed class CraftingRecipeCtorPatcher : HarmonyPatcher
 
         __instance.DisplayName = name switch
         {
-            "Glow Ring" => new Ring(Constants.GlowRingIndex).DisplayName,
-            "Magnet Ring" => new Ring(Constants.MagnetRingIndex).DisplayName,
-            "Emerald Ring" => new Ring(Constants.EmeraldRingIndex).DisplayName,
-            "Aquamarine Ring" => new Ring(Constants.AquamarineRingIndex).DisplayName,
-            "Ruby Ring" => new Ring(Constants.RubyRingIndex).DisplayName,
-            "Amethyst Ring" => new Ring(Constants.AmethystRingIndex).DisplayName,
-            "Topaz Ring" => new Ring(Constants.TopazRingIndex).DisplayName,
-            "Jade Ring" => new Ring(Constants.JadeRingIndex).DisplayName,
+            "Glow Ring" => new Ring(ItemIDs.GlowRing).DisplayName,
+            "Magnet Ring" => new Ring(ItemIDs.MagnetRing).DisplayName,
+            "Emerald Ring" => new Ring(ItemIDs.EmeraldRing).DisplayName,
+            "Aquamarine Ring" => new Ring(ItemIDs.AquamarineRing).DisplayName,
+            "Ruby Ring" => new Ring(ItemIDs.RubyRing).DisplayName,
+            "Amethyst Ring" => new Ring(ItemIDs.AmethystRing).DisplayName,
+            "Topaz Ring" => new Ring(ItemIDs.TopazRing).DisplayName,
+            "Jade Ring" => new Ring(ItemIDs.JadeRing).DisplayName,
             "Garnet Ring" => new Ring(Globals.GarnetRingIndex!.Value).DisplayName,
             _ => __instance.DisplayName,
         };

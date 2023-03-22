@@ -4,7 +4,6 @@
 
 using DaLion.Shared.Events;
 using DaLion.Shared.Extensions.Stardew;
-using DaLion.Shared.Extensions.Xna;
 using StardewModdingAPI.Events;
 
 #endregion using directives
@@ -24,7 +23,7 @@ internal sealed class TaxSaveLoadedEvent : SaveLoadedEvent
     protected override void OnSaveLoadedImpl(object? sender, SaveLoadedEventArgs e)
     {
         var farm = Game1.getFarm();
-        if (!Game1.player.IsMainPlayer || farm.Read(DataFields.UsableTiles, -1) > 0)
+        if (!Game1.player.IsMainPlayer || farm.Read(DataKeys.UsableTiles, -1) > 0)
         {
             return;
         }
@@ -41,7 +40,7 @@ internal sealed class TaxSaveLoadedEvent : SaveLoadedEvent
             }
         }
 
-        farm.Write(DataFields.UsableTiles, usableTiles.ToString());
-        Log.D($"[Tax] Counted {usableTiles} usable tiles in {farm.Name}.");
+        farm.Write(DataKeys.UsableTiles, usableTiles.ToString());
+        Log.D($"[Taxes]: Counted {usableTiles} usable tiles in {farm.Name}.");
     }
 }

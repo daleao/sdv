@@ -46,14 +46,14 @@ internal sealed class PrintPondDataCommand : ConsoleCommand
 
         if (nearest.fishType.Value < 0)
         {
-            var daysEmpty = nearest.Read<int>(DataFields.DaysEmpty);
+            var daysEmpty = nearest.Read<int>(DataKeys.DaysEmpty);
             Log.I($"Empty for {daysEmpty} days.");
             return;
         }
 
         var fish = nearest.GetFishObject();
         var message = new StringBuilder($"{fish.Name} pond's mod data:");
-        var fishQualities = nearest.Read(DataFields.FishQualities).ParseList<int>();
+        var fishQualities = nearest.Read(DataKeys.FishQualities).ParseList<int>();
         message.Append("\n\tFish qualities:")
                 .Append($"\n\t\t- Regular: {fishQualities[0]})")
                 .Append($"\n\t\t- Silver: {fishQualities[1]}")
@@ -62,11 +62,11 @@ internal sealed class PrintPondDataCommand : ConsoleCommand
 
         if (fish.HasContextTag("fish_legendary"))
         {
-            var familyLivingHere = nearest.Read<int>(DataFields.FamilyLivingHere);
+            var familyLivingHere = nearest.Read<int>(DataKeys.FamilyLivingHere);
             message.Append($"\n\n\tExtended family members: {familyLivingHere}");
             if (familyLivingHere > 0)
             {
-                var familyQualities = nearest.Read(DataFields.FamilyQualities).ParseList<int>();
+                var familyQualities = nearest.Read(DataKeys.FamilyQualities).ParseList<int>();
                 message.Append("\n\n\tFamily member qualities:")
                     .Append($"\n\t\t- Regular: {familyQualities[0]}")
                     .Append($"\n\t\t- Silver: {familyQualities[1]}")
@@ -76,16 +76,16 @@ internal sealed class PrintPondDataCommand : ConsoleCommand
         }
         else if (fish.IsAlgae())
         {
-            var seaweedLivingHere = nearest.Read<int>(DataFields.SeaweedLivingHere);
-            var greenAlgaeLivingHere = nearest.Read<int>(DataFields.GreenAlgaeLivingHere);
-            var whiteAlgaeLivingHere = nearest.Read<int>(DataFields.WhiteAlgaeLivingHere);
+            var seaweedLivingHere = nearest.Read<int>(DataKeys.SeaweedLivingHere);
+            var greenAlgaeLivingHere = nearest.Read<int>(DataKeys.GreenAlgaeLivingHere);
+            var whiteAlgaeLivingHere = nearest.Read<int>(DataKeys.WhiteAlgaeLivingHere);
             message.Append("\n\n\tAlgae species living here:")
                 .Append($"\n\t\t- Seaweed: {seaweedLivingHere}")
                 .Append($"\n\t\t- Green Algae: {greenAlgaeLivingHere}")
                 .Append($"\n\t\t- White Algae: {whiteAlgaeLivingHere}");
         }
 
-        var held = nearest.Read(DataFields.ItemsHeld).ParseList<string>(";");
+        var held = nearest.Read(DataKeys.ItemsHeld).ParseList<string>(";");
         if (held.Count > 0)
         {
             message.Append("\n\n\tAdditional items held:");
@@ -101,7 +101,7 @@ internal sealed class PrintPondDataCommand : ConsoleCommand
             message.Append("\n\n\tThe pond holds no items.:");
         }
 
-        var hasOrHasnt = nearest.Read<bool>(DataFields.CheckedToday) ? "has" : "hasn't";
+        var hasOrHasnt = nearest.Read<bool>(DataKeys.CheckedToday) ? "has" : "hasn't";
         message.Append($"\n\n\tThe pond {hasOrHasnt} been checked today.");
         Log.I(message.ToString());
     }

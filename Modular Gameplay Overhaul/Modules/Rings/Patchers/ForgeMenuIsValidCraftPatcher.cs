@@ -24,8 +24,8 @@ internal sealed class ForgeMenuIsValidCraftPatcher : HarmonyPatcher
     [HarmonyPostfix]
     private static void ForgeMenuIsValidCraftPostfix(ref bool __result, Item? left_item, Item? right_item)
     {
-        if (left_item is Ring { ParentSheetIndex: Constants.IridiumBandIndex } &&
-            right_item?.ParentSheetIndex == Constants.GalaxySoulIndex)
+        if (left_item is Ring { ParentSheetIndex: ItemIDs.IridiumBand } &&
+            right_item?.ParentSheetIndex == ItemIDs.GalaxySoul)
         {
             __result = true;
         }

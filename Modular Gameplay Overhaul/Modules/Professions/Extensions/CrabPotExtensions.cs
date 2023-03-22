@@ -53,7 +53,7 @@ internal static class CrabPotExtensions
     /// <returns><see langword="true"/> if the <paramref name="crabPot"/>'s bait value is the index of Magnet, otherwise <see langword="false"/>.</returns>
     internal static bool HasMagnet(this CrabPot crabPot)
     {
-        return crabPot.bait.Value?.ParentSheetIndex == Constants.MagnetBaitIndex;
+        return crabPot.bait.Value?.ParentSheetIndex == ItemIDs.MagnetBait;
     }
 
     /// <summary>Determines whether the <paramref name="crabPot"/> is using wild bait.</summary>
@@ -61,7 +61,7 @@ internal static class CrabPotExtensions
     /// <returns><see langword="true"/> if the <paramref name="crabPot"/>'s bait value is the index of Wild Bait, otherwise <see langword="false"/>.</returns>
     internal static bool HasWildBait(this CrabPot crabPot)
     {
-        return crabPot.bait.Value?.ParentSheetIndex == Constants.WildBaitIndex;
+        return crabPot.bait.Value?.ParentSheetIndex == ItemIDs.WildBait;
     }
 
     /// <summary>Determines whether the <paramref name="crabPot"/> is using magic bait.</summary>
@@ -69,7 +69,7 @@ internal static class CrabPotExtensions
     /// <returns><see langword="true"/> if the <paramref name="crabPot"/>'s bait value is the index of Magic Bait, otherwise <see langword="false"/>.</returns>
     internal static bool HasMagicBait(this CrabPot crabPot)
     {
-        return crabPot.bait.Value?.ParentSheetIndex == Constants.MagicBaitIndex;
+        return crabPot.bait.Value?.ParentSheetIndex == ItemIDs.MagicBait;
     }
 
     /// <summary>Determines whether the <paramref name="crabPot"/> should catch ocean-specific shellfish.</summary>

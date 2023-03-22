@@ -28,34 +28,49 @@ internal sealed class ArsenalSaveLoadedEvent : SaveLoadedEvent
     protected override void OnSaveLoadedImpl(object? sender, SaveLoadedEventArgs e)
     {
         var player = Game1.player;
-        ArsenalModule.State.ContainerDropAccumulator = player.Read(DataFields.ContainerDropAccumulator, 0.05);
-        ArsenalModule.State.MonsterDropAccumulator = player.Read<double>(DataFields.MonsterDropAccumulator);
+        if (!player.Read<bool>(DataKeys.Revalidated))
+        {
+            if (!(Game1.dayOfMonth == 0 && Game1.currentSeason == "spring" && Game1.year == 1))
+            {
+                Utils.RevalidateAllWeapons();
+            }
 
-        if (!string.IsNullOrEmpty(player.Read(DataFields.BlueprintsFound)) && player.canUnderstandDwarves)
+            player.Write(DataKeys.Revalidated, true.ToString());
+        }
+
+        ArsenalModule.State.ContainerDropAccumulator = player.Read(DataKeys.ContainerDropAccumulator, 0.05);
+        ArsenalModule.State.MonsterDropAccumulator = player.Read<double>(DataKeys.MonsterDropAccumulator);
+
+        if (!string.IsNullOrEmpty(player.Read(DataKeys.BlueprintsFound)) && player.canUnderstandDwarves)
         {
             ModHelper.GameContent.InvalidateCacheAndLocalized("Data/Events/Blacksmith");
         }
 
-        if (player.hasQuest(Constants.ForgeIntroQuestId))
+        if (player.mailReceived.Contains("galaxySword"))
+        {
+            Game1.player.WriteIfNotExists(DataKeys.GalaxyArsenalObtained, ItemIDs.GalaxySword.ToString());
+        }
+
+        if (player.hasQuest((int)Quest.ForgeIntro))
         {
             this.Manager.Enable<BlueprintDayStartedEvent>();
         }
 
         if (player.Items.FirstOrDefault(item =>
-                item is MeleeWeapon { InitialParentTileIndex: Constants.DarkSwordIndex } &&
-                item.Read<int>(DataFields.CursePoints) >= 50) is not null && !player.hasOrWillReceiveMail("viegoCurse"))
+                item is MeleeWeapon { InitialParentTileIndex: ItemIDs.DarkSword } &&
+                item.Read<int>(DataKeys.CursePoints) >= 50) is not null && !player.hasOrWillReceiveMail("viegoCurse"))
         {
             Game1.addMailForTomorrow("viegoCurse");
         }
 
         if (Game1.MasterPlayer.mailReceived.Contains("pamHouseUpgrade"))
         {
-            player.WriteIfNotExists(DataFields.ProvenGenerosity, true.ToString());
+            player.WriteIfNotExists(DataKeys.ProvenGenerosity, true.ToString());
         }
 
         if (player.NumMonsterSlayerQuestsCompleted() >= 5)
         {
-            player.WriteIfNotExists(DataFields.ProvenValor, true.ToString());
+            player.WriteIfNotExists(DataKeys.ProvenValor, true.ToString());
         }
 
         if (Game1.options.useLegacySlingshotFiring)
@@ -69,7 +84,7 @@ internal sealed class ArsenalSaveLoadedEvent : SaveLoadedEvent
             return;
         }
 
-        var indices = Game1.player.Read(DataFields.SelectableArsenal).ParseList<int>();
+        var indices = Game1.player.Read(DataKeys.SelectableArsenal).ParseList<int>();
         if (indices.Count == 0)
         {
             return;
@@ -101,6 +116,6 @@ internal sealed class ArsenalSaveLoadedEvent : SaveLoadedEvent
             break;
         }
 
-        Game1.player.Write(DataFields.SelectableArsenal, string.Join(',', leftover));
+        Game1.player.Write(DataKeys.SelectableArsenal, string.Join(',', leftover));
     }
 }

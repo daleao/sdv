@@ -59,7 +59,7 @@ internal sealed class CommunityUpgradeAcceptPatcher : HarmonyPatcher
     {
         foreach (var farmer in Game1.getAllFarmers())
         {
-            farmer.WriteIfNotExists(DataFields.ProvenGenerosity, true.ToString());
+            farmer.WriteIfNotExists(DataKeys.ProvenGenerosity, true.ToString());
             Virtue.Generosity.CheckForCompletion(farmer);
         }
     }

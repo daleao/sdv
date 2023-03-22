@@ -9,6 +9,7 @@
 ### Changed
 
 * New chord harmonization algorithm now considers all note interactions, instead of only distinct notes. Some gemstone combinations will suffer a small rebalance due to this change.
+* The richness of Tryads and Tetrads now yields a boost to the root note resonance.
 
 ### Fixed
 

@@ -177,7 +177,7 @@ internal sealed class GenericObjectMachinePatcher : HarmonyPatcher
             machine.MinutesUntilReady -= machine.MinutesUntilReady / 10;
         }
 
-        if (machine.ParentSheetIndex == (int)Machine.MayonnaiseMachine && input.ParentSheetIndex == Constants.GoldenEggIndex &&
+        if (machine.ParentSheetIndex == (int)Machine.MayonnaiseMachine && input.ParentSheetIndex == ItemIDs.GoldenEgg &&
             !ModHelper.ModRegistry.IsLoaded("ughitsmegan.goldenmayoForProducerFrameworkMod"))
         {
             output.Quality = SObject.bestQuality;

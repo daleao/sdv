@@ -50,7 +50,7 @@ internal static class TreeExtensions
             skillFactor++;
         }
 
-        var age = (int)(tree.Read<int>(DataFields.Age) * skillFactor * TweexModule.Config.TreeAgingFactor);
+        var age = (int)(tree.Read<int>(DataKeys.Age) * skillFactor * TweexModule.Config.TreeAgingFactor);
         if (TweexModule.Config.DeterministicAgeQuality)
         {
             return age switch

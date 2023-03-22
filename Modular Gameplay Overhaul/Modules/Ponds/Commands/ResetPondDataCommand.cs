@@ -41,16 +41,16 @@ internal sealed class ResetPondDataCommand : ConsoleCommand
             return;
         }
 
-        nearest.Write(DataFields.FishQualities, null);
-        nearest.Write(DataFields.FamilyQualities, null);
-        nearest.Write(DataFields.FamilyLivingHere, null);
-        nearest.Write(DataFields.DaysEmpty, 0.ToString());
-        nearest.Write(DataFields.SeaweedLivingHere, null);
-        nearest.Write(DataFields.GreenAlgaeLivingHere, null);
-        nearest.Write(DataFields.WhiteAlgaeLivingHere, null);
-        nearest.Write(DataFields.CheckedToday, null);
-        nearest.Write(DataFields.ItemsHeld, null);
-        nearest.Write(DataFields.MetalsHeld, null);
+        nearest.Write(DataKeys.FishQualities, null);
+        nearest.Write(DataKeys.FamilyQualities, null);
+        nearest.Write(DataKeys.FamilyLivingHere, null);
+        nearest.Write(DataKeys.DaysEmpty, 0.ToString());
+        nearest.Write(DataKeys.SeaweedLivingHere, null);
+        nearest.Write(DataKeys.GreenAlgaeLivingHere, null);
+        nearest.Write(DataKeys.WhiteAlgaeLivingHere, null);
+        nearest.Write(DataKeys.CheckedToday, null);
+        nearest.Write(DataKeys.ItemsHeld, null);
+        nearest.Write(DataKeys.MetalsHeld, null);
         Log.I($"The mod data for nearby {nearest.GetFishObject().Name} pond has been reset.");
     }
 }

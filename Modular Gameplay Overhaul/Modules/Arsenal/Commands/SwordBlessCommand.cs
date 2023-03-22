@@ -1,5 +1,7 @@
 ﻿namespace DaLion.Overhaul.Modules.Arsenal.Commands;
 
+using DaLion.Overhaul.Modules.Arsenal.Extensions;
+
 #region using directives
 
 using DaLion.Shared.Attributes;
@@ -30,7 +32,7 @@ internal sealed class SwordBlessCommand : ConsoleCommand
     public override void Callback(string trigger, string[] args)
     {
         var player = Game1.player;
-        if (player.CurrentTool is not MeleeWeapon { InitialParentTileIndex: Constants.DarkSwordIndex })
+        if (player.CurrentTool is not MeleeWeapon { InitialParentTileIndex: ItemIDs.DarkSword })
         {
             Log.W("You must hold the cursed blade to use this command.");
             return;
@@ -40,7 +42,7 @@ internal sealed class SwordBlessCommand : ConsoleCommand
         player.faceDirection(2);
         player.showCarrying();
         player.jitterStrength = 1f;
-        Game1.pauseThenDoFunction(3000, Utils.GetHolyBlade);
+        Game1.pauseThenDoFunction(3000, getHolyBlade);
         Game1.changeMusicTrack("none", false, Game1.MusicContext.Event);
         Game1.currentLocation.playSound("crit");
         Game1.screenGlowOnce(Color.Transparent, true, 0.01f, 0.999f);
@@ -54,5 +56,21 @@ internal sealed class SwordBlessCommand : ConsoleCommand
                 2000));
         Game1.afterDialogues = (Game1.afterFadeFunction)Delegate.Combine(
             Game1.afterDialogues, (Game1.afterFadeFunction)(() => Game1.stopMusicTrack(Game1.MusicContext.Event)));
+
+        void getHolyBlade()
+        {
+            var player = Game1.player;
+            if (player.CurrentTool is not MeleeWeapon { InitialParentTileIndex: ItemIDs.DarkSword } darkSword)
+            {
+                return;
+            }
+
+            Game1.flashAlpha = 1f;
+            player.holdUpItemThenMessage(new MeleeWeapon(ItemIDs.HolyBlade));
+            darkSword.transform(ItemIDs.HolyBlade);
+            darkSword.RefreshStats();
+            player.jitterStrength = 0f;
+            Game1.screenGlowHold = false;
+        }
     }
 }

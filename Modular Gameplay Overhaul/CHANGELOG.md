@@ -1,10 +1,13 @@
 # Modular Overhaul Change Logs
 
+This file contains a TL;DR of individual module changelogs. Only major changes are reiterated here. For the complete list of changes, please refer to the individual changelogs of each module, linked [below](#detailed-change-logs).
+
 ## Minor release 1.4.x Highlights
 
 * [Arsenal]: Certain weapons have been rebalanced, including Galaxy and Infinity weapons.
 * [Arsenal]: Several tweaks to make new weapons significantly easier to come by.
-* [Rings]: Adjustments to Chord Harmonization logic, leading to a rebalance of certain gemstone combinations.
+* [Arsenal]: No longer requires manual execution of `revalidate` command.
+* [Rings]: Adjustments to Chord Harmonization logic, leading to a rebalance of certain gemstone combinations. The tetrads, in particular, have become significantly stronger.
 * [Taxes]: Added property taxes.
 * [Tools]: Now includes the popular Harvest With Scythe feature, so you no longer have to rely on CJB Cheats Menu's implementation. The implementation is similar to Yet Another Harvest With Scythe Mod, which means they will conflict if installed together.
 
@@ -17,8 +20,6 @@
 * [Rings]: Introduction of Gemstone Music Theory in the [Rings](Modules/Rings/README.md) module.
 
 ## Detailed Change Logs
-
-Please refer to the change logs of specific modules for details:
 
 * [Professions](Modules/Professions/CHANGELOG.md)
 * [Arsenal](Modules/Arsenal/CHANGELOG.md)

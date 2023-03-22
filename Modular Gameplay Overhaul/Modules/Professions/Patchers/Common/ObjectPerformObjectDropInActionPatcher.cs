@@ -58,7 +58,7 @@ internal sealed class ObjectPerformObjectDropInActionPatcher : HarmonyPatcher
         {
             // golden mayonnaise is always iridium quality
             held.Quality = __instance.ParentSheetIndex == (int)Machine.MayonnaiseMachine &&
-                           dropIn.ParentSheetIndex == Constants.GoldenEggIndex &&
+                           dropIn.ParentSheetIndex == ItemIDs.GoldenEgg &&
                            !ModHelper.ModRegistry.IsLoaded("ughitsmegan.goldenmayoForProducerFrameworkMod")
                 ? SObject.bestQuality
                 : dropIn.Quality;

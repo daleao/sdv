@@ -52,12 +52,12 @@ internal sealed class ObjectPerformObjectDropInActionPatcher : HarmonyPatcher
             switch (dropInItem.ParentSheetIndex)
             {
                 // ostrich mayonnaise keeps giving x10 output but doesn't respect input quality without Artisan
-                case Constants.OstrichEggIndex when !ModHelper.ModRegistry.IsLoaded(
+                case ItemIDs.OstrichEgg when !ModHelper.ModRegistry.IsLoaded(
                     "ughitsmegan.ostrichmayoForProducerFrameworkMod"):
                     output.Quality = SObject.lowQuality;
                     break;
                 // golden mayonnaise keeps giving gives single output but keeps golden quality
-                case Constants.GoldenEggIndex when !ModHelper.ModRegistry.IsLoaded(
+                case ItemIDs.GoldenEgg when !ModHelper.ModRegistry.IsLoaded(
                     "ughitsmegan.goldenmayoForProducerFrameworkMod"):
                     output.Stack = 1;
                     break;

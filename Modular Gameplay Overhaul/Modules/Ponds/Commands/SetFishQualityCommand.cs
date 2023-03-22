@@ -63,24 +63,24 @@ internal sealed class SetFishQualityCommand : ConsoleCommand
             return;
         }
 
-        var familyCount = nearest.Read<int>(DataFields.FamilyLivingHere);
+        var familyCount = nearest.Read<int>(DataKeys.FamilyLivingHere);
         var familyQualities = new int[4];
         if (familyCount > nearest.FishCount)
         {
             Log.W("FamilyLivingHere data is invalid. The data will be reset.");
             familyCount = 0;
-            nearest.Write(DataFields.FamilyLivingHere, null);
+            nearest.Write(DataKeys.FamilyLivingHere, null);
         }
 
         if (familyCount > 0)
         {
             familyQualities[newQuality == Quality.Iridium ? 3 : (int)newQuality] += familyCount;
-            nearest.Write(DataFields.FamilyQualities, string.Join(',', familyQualities));
+            nearest.Write(DataKeys.FamilyQualities, string.Join(',', familyQualities));
         }
 
         var fishQualities = new int[4];
         fishQualities[newQuality == Quality.Iridium ? 3 : (int)newQuality] += nearest.FishCount - familyCount;
-        nearest.Write(DataFields.FishQualities, string.Join(',', fishQualities));
+        nearest.Write(DataKeys.FishQualities, string.Join(',', fishQualities));
         Log.I($"The quality of fish in nearby {nearest.GetFishObject().Name} pond have been set to {newQuality}.");
     }
 }

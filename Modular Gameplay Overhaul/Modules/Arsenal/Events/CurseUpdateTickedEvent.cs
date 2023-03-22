@@ -35,7 +35,7 @@ internal sealed class CurseUpdateTickedEvent : UpdateTickedEvent
             return;
         }
 
-        var dot = weapon.Read<int>(DataFields.CursePoints) / 10f;
+        var dot = weapon.Read<int>(DataKeys.CursePoints) / 10f;
         player.health = (int)Math.Max(player.health - dot, 1);
     }
 }

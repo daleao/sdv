@@ -186,7 +186,7 @@ internal sealed class FishPondDoActionPatcher : HarmonyPatcher
         }
 
         var heldMinerals =
-            pond.Read(DataFields.MetalsHeld)
+            pond.Read(DataKeys.MetalsHeld)
                 .ParseList<string>(";")
                 .Select(li => li?.ParseTuple<int, int>())
                 .WhereNotNull()
@@ -206,7 +206,7 @@ internal sealed class FishPondDoActionPatcher : HarmonyPatcher
 
         heldMinerals.Add((metallic.ParentSheetIndex, days));
         pond.Write(
-            DataFields.MetalsHeld,
+            DataKeys.MetalsHeld,
             string.Join(';', heldMinerals
                 .Select(m => string.Join(',', m.Item1, m.Item2))));
 

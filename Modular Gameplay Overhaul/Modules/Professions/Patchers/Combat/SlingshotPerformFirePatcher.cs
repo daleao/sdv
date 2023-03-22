@@ -111,11 +111,11 @@ internal sealed class SlingshotPerformFirePatcher : HarmonyPatcher
                     damageBase = 50;
                     knockback = 0.6f;
                     break;
-                case Constants.ExplosiveAmmoIndex:
+                case ItemIDs.ExplosiveAmmo:
                     damageBase = 5;
                     knockback = 0.4f;
                     break;
-                case Constants.SlimeIndex:
+                case ItemIDs.Slime:
                     damageBase = who.HasProfession(Profession.Piper) ? 10 : 5;
                     knockback = 0f;
                     break;
@@ -129,11 +129,11 @@ internal sealed class SlingshotPerformFirePatcher : HarmonyPatcher
             float damageMod;
             switch (__instance.InitialParentTileIndex)
             {
-                case Constants.MasterSlingshotIndex:
+                case ItemIDs.MasterSlingshot:
                     damageMod = 1.5f;
                     knockback += 0.1f;
                     break;
-                case Constants.GalaxySlingshotIndex:
+                case ItemIDs.GalaxySlingshot:
                     damageMod = 2f;
                     knockback += 0.2f;
                     break;
@@ -164,8 +164,8 @@ internal sealed class SlingshotPerformFirePatcher : HarmonyPatcher
             var startingPosition = shootOrigin - new Vector2(32f, 32f);
             var rotationVelocity = (float)(Math.PI / (64f + Game1.random.Next(-63, 64)));
             var index = ammo.ParentSheetIndex;
-            if (ammo.ParentSheetIndex is not (Constants.ExplosiveAmmoIndex or Constants.SlimeIndex
-                    or Constants.RadioactiveOreIndex) && damageBase > 1)
+            if (ammo.ParentSheetIndex is not (ItemIDs.ExplosiveAmmo or ItemIDs.Slime
+                    or ItemIDs.RadioactiveOre) && damageBase > 1)
             {
                 ammo.ParentSheetIndex++;
             }

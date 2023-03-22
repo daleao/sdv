@@ -37,8 +37,8 @@ internal sealed class CraftingRecipeCtorPatcher : HarmonyPatcher
             case "Heavy Tapper" when Game1.player.HasProfession(Profession.Tapper):
                 __instance.recipeList = new Dictionary<int, int>
                 {
-                    { Constants.HardwoodIndex, 18 },
-                    { Constants.RadioactiveBarIndex, 1 },
+                    { ItemIDs.Hardwood, 18 },
+                    { ItemIDs.RadioactiveBar, 1 },
                 };
                 break;
             default:

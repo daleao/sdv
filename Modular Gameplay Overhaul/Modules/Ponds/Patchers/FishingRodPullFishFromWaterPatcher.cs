@@ -76,30 +76,30 @@ internal sealed class FishingRodPullFishFromWaterPatcher : HarmonyPatcher
         quality = SObject.lowQuality;
         try
         {
-            var seaweedCount = pond.Read<int>(DataFields.SeaweedLivingHere);
-            var greenAlgaeCount = pond.Read<int>(DataFields.GreenAlgaeLivingHere);
-            var whiteAlgaeCount = pond.Read<int>(DataFields.WhiteAlgaeLivingHere);
+            var seaweedCount = pond.Read<int>(DataKeys.SeaweedLivingHere);
+            var greenAlgaeCount = pond.Read<int>(DataKeys.GreenAlgaeLivingHere);
+            var whiteAlgaeCount = pond.Read<int>(DataKeys.WhiteAlgaeLivingHere);
 
             var roll = Game1.random.Next(seaweedCount + greenAlgaeCount + whiteAlgaeCount);
             if (roll < seaweedCount)
             {
-                index = Constants.SeaweedIndex;
-                pond.Write(DataFields.SeaweedLivingHere, (--seaweedCount).ToString());
+                index = ItemIDs.Seaweed;
+                pond.Write(DataKeys.SeaweedLivingHere, (--seaweedCount).ToString());
             }
             else if (roll < seaweedCount + greenAlgaeCount)
             {
-                index = Constants.GreenAlgaeIndex;
-                pond.Write(DataFields.GreenAlgaeLivingHere, (--greenAlgaeCount).ToString());
+                index = ItemIDs.GreenAlgae;
+                pond.Write(DataKeys.GreenAlgaeLivingHere, (--greenAlgaeCount).ToString());
             }
             else if (roll < seaweedCount + greenAlgaeCount + whiteAlgaeCount)
             {
-                index = Constants.WhiteAlgaeIndex;
-                pond.Write(DataFields.WhiteAlgaeLivingHere, (--whiteAlgaeCount).ToString());
+                index = ItemIDs.WhiteAlgae;
+                pond.Write(DataKeys.WhiteAlgaeLivingHere, (--whiteAlgaeCount).ToString());
             }
 
-            var total = pond.Read<int>(DataFields.SeaweedLivingHere) +
-                        pond.Read<int>(DataFields.GreenAlgaeLivingHere) +
-                        pond.Read<int>(DataFields.WhiteAlgaeLivingHere);
+            var total = pond.Read<int>(DataKeys.SeaweedLivingHere) +
+                        pond.Read<int>(DataKeys.GreenAlgaeLivingHere) +
+                        pond.Read<int>(DataKeys.WhiteAlgaeLivingHere);
             if (total != pond.FishCount)
             {
                 ThrowHelper.ThrowInvalidDataException(
@@ -109,14 +109,14 @@ internal sealed class FishingRodPullFishFromWaterPatcher : HarmonyPatcher
         catch (InvalidDataException ex)
         {
             Log.W($"{ex}\nThe data will be reset.");
-            pond.Write(DataFields.SeaweedLivingHere, null);
-            pond.Write(DataFields.GreenAlgaeLivingHere, null);
-            pond.Write(DataFields.WhiteAlgaeLivingHere, null);
+            pond.Write(DataKeys.SeaweedLivingHere, null);
+            pond.Write(DataKeys.GreenAlgaeLivingHere, null);
+            pond.Write(DataKeys.WhiteAlgaeLivingHere, null);
             var field = pond.fishType.Value switch
             {
-                Constants.SeaweedIndex => DataFields.SeaweedLivingHere,
-                Constants.GreenAlgaeIndex => DataFields.GreenAlgaeLivingHere,
-                Constants.WhiteAlgaeIndex => DataFields.WhiteAlgaeLivingHere,
+                ItemIDs.Seaweed => DataKeys.SeaweedLivingHere,
+                ItemIDs.GreenAlgae => DataKeys.GreenAlgaeLivingHere,
+                ItemIDs.WhiteAlgae => DataKeys.WhiteAlgaeLivingHere,
                 _ => string.Empty,
             };
 
@@ -129,8 +129,8 @@ internal sealed class FishingRodPullFishFromWaterPatcher : HarmonyPatcher
         try
         {
             var fishQualities = pond.Read(
-                DataFields.FishQualities,
-                $"{pond.FishCount - pond.Read<int>(DataFields.FamilyLivingHere)},0,0,0").ParseList<int>();
+                DataKeys.FishQualities,
+                $"{pond.FishCount - pond.Read<int>(DataKeys.FamilyLivingHere)},0,0,0").ParseList<int>();
             if (fishQualities.Count != 4 ||
                 fishQualities.Any(q =>
                     q < 0 || q > pond.FishCount +
@@ -148,21 +148,21 @@ internal sealed class FishingRodPullFishFromWaterPatcher : HarmonyPatcher
             {
                 quality = lowestFish == 3 ? 4 : lowestFish;
                 fishQualities[lowestFish]--;
-                pond.Write(DataFields.FishQualities, string.Join(",", fishQualities));
+                pond.Write(DataKeys.FishQualities, string.Join(",", fishQualities));
             }
         }
         catch (InvalidDataException ex)
         {
             Log.W($"{ex}\nThe data will be reset.");
-            pond.Write(DataFields.FishQualities, $"{pond.FishCount},0,0,0");
-            pond.Write(DataFields.FamilyQualities, null);
-            pond.Write(DataFields.FamilyLivingHere, null);
+            pond.Write(DataKeys.FishQualities, $"{pond.FishCount},0,0,0");
+            pond.Write(DataKeys.FamilyQualities, null);
+            pond.Write(DataKeys.FamilyLivingHere, null);
         }
     }
 
     private static void HandleLegendary(FishPond pond, ref int index, ref int quality, List<int> fishQualities, int lowestFish)
     {
-        var familyCount = pond.Read<int>(DataFields.FamilyLivingHere);
+        var familyCount = pond.Read<int>(DataKeys.FamilyLivingHere);
         if (fishQualities.Sum() + familyCount !=
             pond.FishCount +
             1) // FishCount has already been decremented at this point, so we increment 1 to compensate
@@ -173,7 +173,7 @@ internal sealed class FishingRodPullFishFromWaterPatcher : HarmonyPatcher
         if (familyCount > 0)
         {
             var familyQualities =
-                pond.Read(DataFields.FamilyQualities, $"{pond.Read<int>(DataFields.FamilyLivingHere)},0,0,0")
+                pond.Read(DataKeys.FamilyQualities, $"{pond.Read<int>(DataKeys.FamilyLivingHere)},0,0,0")
                     .ParseList<int>();
             if (familyQualities.Count != 4 || familyQualities.Sum() != familyCount)
             {
@@ -186,21 +186,21 @@ internal sealed class FishingRodPullFishFromWaterPatcher : HarmonyPatcher
                 index = Collections.ExtendedFamilyPairs[index];
                 quality = lowestFamily == 3 ? 4 : lowestFamily;
                 familyQualities[lowestFamily]--;
-                pond.Write(DataFields.FamilyQualities, string.Join(",", familyQualities));
-                pond.Increment(DataFields.FamilyLivingHere, -1);
+                pond.Write(DataKeys.FamilyQualities, string.Join(",", familyQualities));
+                pond.Increment(DataKeys.FamilyLivingHere, -1);
             }
             else
             {
                 quality = lowestFish == 3 ? 4 : lowestFish;
                 fishQualities[lowestFish]--;
-                pond.Write(DataFields.FishQualities, string.Join(",", fishQualities));
+                pond.Write(DataKeys.FishQualities, string.Join(",", fishQualities));
             }
         }
         else
         {
             quality = lowestFish == 3 ? 4 : lowestFish;
             fishQualities[lowestFish]--;
-            pond.Write(DataFields.FishQualities, string.Join(",", fishQualities));
+            pond.Write(DataKeys.FishQualities, string.Join(",", fishQualities));
         }
     }
 

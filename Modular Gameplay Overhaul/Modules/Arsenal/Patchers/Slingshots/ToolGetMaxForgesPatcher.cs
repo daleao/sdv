@@ -33,10 +33,10 @@ internal sealed class ToolGetMaxForgesPatcher : HarmonyPatcher
         {
             __result = slingshot.InitialParentTileIndex switch
             {
-                Constants.BasicSlingshotIndex => 1,
-                Constants.MasterSlingshotIndex => 2,
-                Constants.GalaxySlingshotIndex => 3,
-                Constants.InfinitySlingshotIndex => 4,
+                ItemIDs.BasicSlingshot => 1,
+                ItemIDs.MasterSlingshot => 2,
+                ItemIDs.GalaxySlingshot => 3,
+                ItemIDs.InfinitySlingshot => 4,
                 _ => 0,
             };
 

@@ -36,7 +36,7 @@ internal sealed class SewerGetFishPatcher : HarmonyPatcher
         {
             var chooseLegendary = generator.DefineLabel();
             helper
-                .Match(new[] { new CodeInstruction(OpCodes.Ldc_I4, Constants.MutantCarpIndex) })
+                .Match(new[] { new CodeInstruction(OpCodes.Ldc_I4, ItemIDs.MutantCarp) })
                 .Match(new[] { new CodeInstruction(OpCodes.Brtrue_S) })
                 .GetOperand(out var skipLegendary)
                 .ReplaceWith(new CodeInstruction(OpCodes.Brfalse_S, chooseLegendary))

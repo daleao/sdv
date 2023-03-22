@@ -25,6 +25,6 @@ internal sealed class SveWarpedEvent : WarpedEvent
             return;
         }
 
-        e.NewLocation.setTileProperty(10, 7, "Buildings", "Success", $"W {Constants.ObsidianEdgeIndex} 1");
+        e.NewLocation.setTileProperty(10, 7, "Buildings", "Success", $"W {ItemIDs.ObsidianEdge} 1");
     }
 }

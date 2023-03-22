@@ -48,18 +48,18 @@ internal sealed class ChestPerformOpenChestPatcher : HarmonyPatcher
         __instance.items.Remove(weapon);
 
         var player = Game1.player;
-        var found = player.Read(DataFields.BlueprintsFound).ParseList<int>();
+        var found = player.Read(DataKeys.BlueprintsFound).ParseList<int>();
         var volcanoBlueprints = new[]
         {
-            Constants.DwarfSwordIndex, Constants.DwarfDaggerIndex, Constants.DwarfHammerIndex,
-            Constants.DragontoothCutlassIndex, Constants.DragontoothShivIndex, Constants.DragontoothClubIndex,
+            ItemIDs.DwarfSword, ItemIDs.DwarfDagger, ItemIDs.DwarfHammer,
+            ItemIDs.DragontoothCutlass, ItemIDs.DragontoothShiv, ItemIDs.DragontoothClub,
         };
 
         if (found.ContainsAll(volcanoBlueprints) || !player.canUnderstandDwarves)
         {
             var material = weapon.Name.StartsWith("Dwarven")
                 ? Globals.DwarvenScrapIndex.Value
-                : Constants.DragonToothIndex;
+                : ItemIDs.DragonTooth;
             __instance.items.Add(new SObject(material, 1));
             return;
         }
@@ -69,17 +69,17 @@ internal sealed class ChestPerformOpenChestPatcher : HarmonyPatcher
         {
             if (weapon.Name.StartsWith("Dwarven"))
             {
-                if (!found.Contains(Constants.DwarfSwordIndex))
+                if (!found.Contains(ItemIDs.DwarfSword))
                 {
-                    blueprint = Constants.DwarfSwordIndex;
+                    blueprint = ItemIDs.DwarfSword;
                 }
-                else if (!found.Contains(Constants.DwarfHammerIndex))
+                else if (!found.Contains(ItemIDs.DwarfHammer))
                 {
-                    blueprint = Constants.DwarfHammerIndex;
+                    blueprint = ItemIDs.DwarfHammer;
                 }
-                else if (!found.Contains(Constants.DwarfDaggerIndex))
+                else if (!found.Contains(ItemIDs.DwarfDagger))
                 {
-                    blueprint = Constants.DwarfDaggerIndex;
+                    blueprint = ItemIDs.DwarfDagger;
                 }
                 else
                 {
@@ -89,32 +89,32 @@ internal sealed class ChestPerformOpenChestPatcher : HarmonyPatcher
             }
             else
             {
-                if (!found.Contains(Constants.DragontoothCutlassIndex))
+                if (!found.Contains(ItemIDs.DragontoothCutlass))
                 {
-                    blueprint = Constants.DragontoothCutlassIndex;
+                    blueprint = ItemIDs.DragontoothCutlass;
                 }
-                else if (!found.Contains(Constants.DragontoothClubIndex))
+                else if (!found.Contains(ItemIDs.DragontoothClub))
                 {
-                    blueprint = Constants.DragontoothClubIndex;
+                    blueprint = ItemIDs.DragontoothClub;
                 }
-                else if (!found.Contains(Constants.DragontoothShivIndex))
+                else if (!found.Contains(ItemIDs.DragontoothShiv))
                 {
-                    blueprint = Constants.DragontoothShivIndex;
+                    blueprint = ItemIDs.DragontoothShiv;
                 }
                 else
                 {
-                    __instance.items.Add(new SObject(Constants.DragonToothIndex, 1));
+                    __instance.items.Add(new SObject(ItemIDs.DragonTooth, 1));
                     return;
                 }
             }
         }
 
-        player.Append(DataFields.BlueprintsFound, blueprint.ToString());
-        var count = player.Read(DataFields.BlueprintsFound).ParseList<int>().Count;
+        player.Append(DataKeys.BlueprintsFound, blueprint.ToString());
+        var count = player.Read(DataKeys.BlueprintsFound).ParseList<int>().Count;
         switch (count)
         {
             case 8:
-                player.completeQuest(Constants.ForgeNextQuestId);
+                player.completeQuest((int)Quest.ForgeNext);
                 break;
             case 1:
                 ModHelper.GameContent.InvalidateCacheAndLocalized("Data/Events/Blacksmith");

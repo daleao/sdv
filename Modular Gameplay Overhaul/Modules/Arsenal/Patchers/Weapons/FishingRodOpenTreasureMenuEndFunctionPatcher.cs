@@ -42,7 +42,7 @@ internal sealed class FishingRodOpenTreasureMenuEndFunctionPatcher : HarmonyPatc
                         new CodeInstruction(
                             OpCodes.Ldfld,
                             typeof(Farmer).RequireField(nameof(Farmer.specialItems))),
-                        new CodeInstruction(OpCodes.Ldc_I4_S, Constants.NeptuneGlaiveIndex),
+                        new CodeInstruction(OpCodes.Ldc_I4_S, ItemIDs.NeptuneGlaive),
                         new CodeInstruction(
                             OpCodes.Callvirt,
                             typeof(NetIntList).RequireMethod(nameof(NetIntList.Contains))),
@@ -69,7 +69,7 @@ internal sealed class FishingRodOpenTreasureMenuEndFunctionPatcher : HarmonyPatc
                         new CodeInstruction(
                             OpCodes.Ldfld,
                             typeof(Farmer).RequireField(nameof(Farmer.specialItems))),
-                        new CodeInstruction(OpCodes.Ldc_I4_S, Constants.NeptuneGlaiveIndex),
+                        new CodeInstruction(OpCodes.Ldc_I4_S, ItemIDs.NeptuneGlaive),
                         new CodeInstruction(
                             OpCodes.Callvirt,
                             typeof(NetIntList).RequireMethod(nameof(NetIntList.Contains))),
@@ -85,7 +85,7 @@ internal sealed class FishingRodOpenTreasureMenuEndFunctionPatcher : HarmonyPatc
                         new CodeInstruction(OpCodes.Ldarg_0),
                         new CodeInstruction(OpCodes.Ldfld, typeof(Tool).RequireField("lastUser")),
                         new CodeInstruction(OpCodes.Ldfld, typeof(Farmer).RequireField(nameof(Farmer.specialItems))),
-                        new CodeInstruction(OpCodes.Ldc_I4_S, Constants.NeptuneGlaiveIndex),
+                        new CodeInstruction(OpCodes.Ldc_I4_S, ItemIDs.NeptuneGlaive),
                         new CodeInstruction(
                             OpCodes.Callvirt,
                             typeof(NetIntList).RequireMethod(nameof(NetIntList.Add))),

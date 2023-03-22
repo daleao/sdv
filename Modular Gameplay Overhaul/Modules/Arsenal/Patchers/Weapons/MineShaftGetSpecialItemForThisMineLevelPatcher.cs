@@ -132,16 +132,16 @@ internal sealed class MineShaftGetSpecialItemForThisMineLevelPatcher : HarmonyPa
                 switch (r.Next(4))
                 {
                     case 0:
-                        possibles.Add(new MeleeWeapon(Constants.SteelSmallswordIndex));
+                        possibles.Add(new MeleeWeapon(ItemIDs.SteelSmallsword));
                         break;
                     case 1:
-                        possibles.Add(new MeleeWeapon(Constants.SilverSaberIndex));
+                        possibles.Add(new MeleeWeapon(ItemIDs.SilverSaber));
                         break;
                     case 2:
-                        possibles.Add(new MeleeWeapon(Constants.CarvingKnife));
+                        possibles.Add(new MeleeWeapon(ItemIDs.CarvingKnife));
                         break;
                     case 3:
-                        possibles.Add(new MeleeWeapon(Constants.WoodClubIndex));
+                        possibles.Add(new MeleeWeapon(ItemIDs.WoodClub));
                         break;
                 }
 
@@ -150,22 +150,22 @@ internal sealed class MineShaftGetSpecialItemForThisMineLevelPatcher : HarmonyPa
                 switch (r.Next(4))
                 {
                     case 0:
-                        possibles.Add(new MeleeWeapon(Constants.CutlassIndex));
+                        possibles.Add(new MeleeWeapon(ItemIDs.Cutlass));
                         break;
                     case 1:
-                        possibles.Add(new MeleeWeapon(Constants.IronEdgeIndex));
+                        possibles.Add(new MeleeWeapon(ItemIDs.IronEdge));
                         break;
                     case 2:
-                        possibles.Add(new MeleeWeapon(Constants.BurglarsShankIndex));
+                        possibles.Add(new MeleeWeapon(ItemIDs.BurglarsShank));
                         break;
                     case 3:
-                        possibles.Add(new MeleeWeapon(Constants.WoodMalletIndex));
+                        possibles.Add(new MeleeWeapon(ItemIDs.WoodMallet));
                         break;
                 }
 
                 if (level > 30 && r.NextDouble() < 0.2)
                 {
-                    possibles.Add(new MeleeWeapon(Constants.ShadowDaggerIndex));
+                    possibles.Add(new MeleeWeapon(ItemIDs.ShadowDagger));
                 }
 
                 break;
@@ -173,27 +173,27 @@ internal sealed class MineShaftGetSpecialItemForThisMineLevelPatcher : HarmonyPa
                 switch (r.Next(4))
                 {
                     case 0:
-                        possibles.Add(new MeleeWeapon(Constants.RapierIndex));
+                        possibles.Add(new MeleeWeapon(ItemIDs.Rapier));
                         break;
                     case 1:
-                        possibles.Add(new MeleeWeapon(Constants.ClaymoreIndex));
+                        possibles.Add(new MeleeWeapon(ItemIDs.Claymore));
                         break;
                     case 2:
-                        possibles.Add(new MeleeWeapon(Constants.WindSpireIndex));
+                        possibles.Add(new MeleeWeapon(ItemIDs.WindSpire));
                         break;
                     case 3:
-                        possibles.Add(new MeleeWeapon(Constants.LeadRodIndex));
+                        possibles.Add(new MeleeWeapon(ItemIDs.LeadRod));
                         break;
                 }
 
                 if (r.NextDouble() < 0.5)
                 {
-                    possibles.Add(new MeleeWeapon(Constants.CrystalDaggerIndex));
+                    possibles.Add(new MeleeWeapon(ItemIDs.CrystalDagger));
                 }
 
                 if (r.NextDouble() < 0.2)
                 {
-                    possibles.Add(new MeleeWeapon(Constants.YetiToothIndex));
+                    possibles.Add(new MeleeWeapon(ItemIDs.YetiTooth));
                 }
 
                 break;
@@ -201,16 +201,16 @@ internal sealed class MineShaftGetSpecialItemForThisMineLevelPatcher : HarmonyPa
                 switch (r.Next(4))
                 {
                     case 0:
-                        possibles.Add(new MeleeWeapon(Constants.SteelFalchionIndex));
+                        possibles.Add(new MeleeWeapon(ItemIDs.SteelFalchion));
                         break;
                     case 1:
-                        possibles.Add(new MeleeWeapon(Constants.TemperedBroadswordIndex));
+                        possibles.Add(new MeleeWeapon(ItemIDs.TemperedBroadsword));
                         break;
                     case 2:
-                        possibles.Add(new MeleeWeapon(Constants.IronDirkIndex));
+                        possibles.Add(new MeleeWeapon(ItemIDs.IronDirk));
                         break;
                     case 3:
-                        possibles.Add(new MeleeWeapon(Constants.KudgelIndex));
+                        possibles.Add(new MeleeWeapon(ItemIDs.Kudgel));
                         break;
                 }
 
@@ -219,13 +219,13 @@ internal sealed class MineShaftGetSpecialItemForThisMineLevelPatcher : HarmonyPa
                 switch (r.Next(3))
                 {
                     case 0:
-                        possibles.Add(new MeleeWeapon(Constants.TemplarsBladeIndex));
+                        possibles.Add(new MeleeWeapon(ItemIDs.TemplarsBlade));
                         break;
                     case 1:
-                        possibles.Add(new MeleeWeapon(Constants.WickedKrisIndex));
+                        possibles.Add(new MeleeWeapon(ItemIDs.WickedKris));
                         break;
                     case 2:
-                        possibles.Add(new MeleeWeapon(Constants.TheSlammerIndex));
+                        possibles.Add(new MeleeWeapon(ItemIDs.TheSlammer));
                         break;
                 }
 
@@ -240,8 +240,8 @@ internal sealed class MineShaftGetSpecialItemForThisMineLevelPatcher : HarmonyPa
         return new List<Item>
         {
             new Boots(513), // space boots
-            new Ring(Constants.IridiumBandIndex), // iridium band
-            new MeleeWeapon(Constants.IridiumNeedleIndex), // iridium needle
+            new Ring(ItemIDs.IridiumBand), // iridium band
+            new MeleeWeapon(ItemIDs.IridiumNeedle), // iridium needle
             new SObject(909, r.Next(3, 9)), // radioactive bar
             new SObject(909, r.Next(2, 6)), // radioactive bar
             new SObject(909, r.Next(1, 3)), // radioactive bar

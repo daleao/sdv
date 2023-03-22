@@ -35,7 +35,7 @@ internal sealed class MeleeWeaponCheckForSpecialItemHoldUpMessagePatcher : Harmo
         {
             if (__instance.isGalaxyWeapon())
             {
-                var count = Game1.player.Read(DataFields.GalaxyArsenalObtained).ParseList<int>().Count;
+                var count = Game1.player.Read(DataKeys.GalaxyArsenalObtained).ParseList<int>().Count;
                 __result = count == 1
                     ? I18n.Get("fromcsfiles.MeleeWeapon.cs.14122", new { galaxyWeapon = __instance.DisplayName })
                     : (string?)null;
@@ -44,14 +44,14 @@ internal sealed class MeleeWeaponCheckForSpecialItemHoldUpMessagePatcher : Harmo
 
             switch (__instance.InitialParentTileIndex)
             {
-                case Constants.DarkSwordIndex:
+                case ItemIDs.DarkSword:
                 {
                     var darkSword = I18n.Get("weapons.darksword.name");
                     __result = I18n.Get("weapons.darksword.holdupmessage", new { darkSword });
                     break;
                 }
 
-                case Constants.HolyBladeIndex:
+                case ItemIDs.HolyBlade:
                 {
                     var darkSword = I18n.Get("weapons.darksword.name");
                     var holyBlade = I18n.Get("weapons.holyblade.name");

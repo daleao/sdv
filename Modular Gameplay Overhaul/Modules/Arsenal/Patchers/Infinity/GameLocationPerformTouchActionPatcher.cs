@@ -104,7 +104,7 @@ internal sealed class GameLocationPerformTouchActionPatcher : HarmonyPatcher
             return false;
         }
 
-        var obtained = player.Read(DataFields.GalaxyArsenalObtained).ParseList<int>();
+        var obtained = player.Read(DataKeys.GalaxyArsenalObtained).ParseList<int>();
         return obtained.Count < 4 && player.ActiveObject.Stack >= obtained.Count + 1;
     }
 

@@ -30,7 +30,7 @@ internal sealed class ToolCanAddEnchantmentPatcher : HarmonyPatcher
             return true; // run original logic
         }
 
-        if (enchantment is InfinityEnchantment && slingshot.InitialParentTileIndex == Constants.GalaxySlingshotIndex)
+        if (enchantment is InfinityEnchantment && slingshot.InitialParentTileIndex == ItemIDs.GalaxySlingshot)
         {
             __result = slingshot.hasEnchantmentOfType<GalaxySoulEnchantment>() && slingshot.GetEnchantmentLevel<GalaxySoulEnchantment>() >= 3;
             return false; // don't run original logic

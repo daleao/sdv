@@ -3,8 +3,8 @@
 #region using directives
 
 using System.Diagnostics.CodeAnalysis;
-using DaLion.Shared.Harmony;
 using DaLion.Overhaul.Modules.Professions.Extensions;
+using DaLion.Shared.Harmony;
 using HarmonyLib;
 using StardewValley.Tools;
 

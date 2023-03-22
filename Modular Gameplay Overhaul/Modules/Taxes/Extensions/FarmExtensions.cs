@@ -14,7 +14,9 @@ internal static class FarmExtensions
 {
     /// <summary>Determines the total property value of the <paramref name="farm"/>.</summary>
     /// <param name="farm">The <see cref="Farm"/>.</param>
-    internal static void Appraise(this Farm farm)
+    /// <param name="forReal">Optional flag to avoid recording the new appraisal.</param>
+    /// <returns>The total values of agriculture activities, livestock and buildings on the <paramref name="farm"/>, as well as the total number of tiles used by all of those activities.</returns>
+    internal static (int AgricultureValue, int LivestockValue, int BuildingValue, int UsedTiles) Appraise(this Farm farm, bool forReal = true)
     {
         var totalAgricultureValue = 0;
         var totalLivestockValue = 0;
@@ -32,9 +34,9 @@ internal static class FarmExtensions
             var harvest = !crop.forageCrop.Value
                 ? new SObject(crop.indexOfHarvest.Value, 1)
                 : crop.whichForageCrop.Value == Crop.forageCrop_springOnion
-                    ? new SObject(Constants.SpringOnionIndex, 1)
+                    ? new SObject(ItemIDs.SpringOnion, 1)
                     : crop.whichForageCrop.Value == Crop.forageCrop_ginger
-                        ? new SObject(Constants.GingerIndex, 1) : null;
+                        ? new SObject(ItemIDs.Ginger, 1) : null;
             if (harvest is null)
             {
                 continue;
@@ -110,7 +112,7 @@ internal static class FarmExtensions
             }
 
             totalBuildingValue += 50000;
-            totalBuildingValue += new SObject(Constants.HardwoodIndex, 1).Price * 150;
+            totalBuildingValue += new SObject(ItemIDs.Hardwood, 1).Price * 150;
             if (farmer.HouseUpgradeLevel > 2)
             {
                 totalBuildingValue += 100000;
@@ -120,24 +122,35 @@ internal static class FarmExtensions
         var previousAgricultureValue = 0;
         var previousLiveStockValue = 0;
         var previousBuildingValue = 0;
-        if (Game1.currentSeason != "spring" || Game1.dayOfMonth != 8)
+        if (Game1.currentSeason != "spring" || Game1.dayOfMonth <= 8)
         {
-            previousAgricultureValue = farm.Read<int>(DataFields.AgricultureValue);
-            previousLiveStockValue = farm.Read<int>(DataFields.LivestockValue);
-            previousBuildingValue = farm.Read<int>(DataFields.BuildingValue);
+            previousAgricultureValue = farm.Read<int>(DataKeys.AgricultureValue);
+            previousLiveStockValue = farm.Read<int>(DataKeys.LivestockValue);
+            previousBuildingValue = farm.Read<int>(DataKeys.BuildingValue);
         }
 
         if (previousAgricultureValue + previousLiveStockValue + previousBuildingValue > 0)
         {
-            var weight = ((int)Enum.Parse<Season>(Game1.currentSeason, true) * 2) + Game1.dayOfMonth == 22 ? 2 : 1;
+            if (!SeasonExtensions.TryParse(Game1.currentSeason, true, out var currentSeason))
+            {
+                Log.E($"Failed to parse the current season {Game1.currentSeason}");
+                return (-1, -1, -1, -1);
+            }
+
+            var weight = ((int)currentSeason * 2) + Game1.dayOfMonth > 8 ? 2 : 1;
             totalAgricultureValue = (int)((float)(totalAgricultureValue + previousAgricultureValue) / weight);
             totalLivestockValue = (int)((float)(totalLivestockValue + previousLiveStockValue) / weight);
             totalBuildingValue = (int)((float)(totalBuildingValue + previousBuildingValue) / weight);
         }
 
-        farm.Write(DataFields.AgricultureValue, totalAgricultureValue.ToString());
-        farm.Write(DataFields.LivestockValue, totalLivestockValue.ToString());
-        farm.Write(DataFields.BuildingValue, totalBuildingValue.ToString());
-        farm.Write(DataFields.UsedTiles, usedTiles.ToString());
+        if (forReal)
+        {
+            farm.Write(DataKeys.AgricultureValue, totalAgricultureValue.ToString());
+            farm.Write(DataKeys.LivestockValue, totalLivestockValue.ToString());
+            farm.Write(DataKeys.BuildingValue, totalBuildingValue.ToString());
+            farm.Write(DataKeys.UsedTiles, usedTiles.ToString());
+        }
+
+        return (totalAgricultureValue, totalLivestockValue, totalBuildingValue, usedTiles);
     }
 }

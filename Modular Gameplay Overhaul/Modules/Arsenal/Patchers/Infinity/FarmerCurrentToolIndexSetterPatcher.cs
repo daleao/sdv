@@ -27,26 +27,26 @@ internal sealed class FarmerCurrentToolIndexSetterPatcher : HarmonyPatcher
     [SuppressMessage("StyleCop.CSharp.NamingRules", "SA1300:Element should begin with upper-case letter", Justification = "Preference for inner functions.")]
     private static void FarmerCurrentToolIndexPostfix(Farmer __instance, ref int value)
     {
-        if (!__instance.Read<bool>(DataFields.Cursed) ||
+        if (!__instance.Read<bool>(DataKeys.Cursed) ||
             value < 0 || value >= __instance.Items.Count ||
             __instance.Items[value] is not MeleeWeapon weapon ||
-            weapon.InitialParentTileIndex == Constants.DarkSwordIndex || weapon.isScythe())
+            weapon.InitialParentTileIndex == ItemIDs.DarkSword || weapon.isScythe())
         {
             return;
         }
 
         var darkSword = __instance.Items.FirstOrDefault(item => item is MeleeWeapon
         {
-            InitialParentTileIndex: Constants.DarkSwordIndex
+            InitialParentTileIndex: ItemIDs.DarkSword
         });
         if (darkSword is null)
         {
             Log.W($"Cursed farmer {__instance.Name} is not carrying the Dark Sword. The curse will be forcefully lifted.");
-            __instance.Write(DataFields.Cursed, null);
+            __instance.Write(DataKeys.Cursed, null);
             return;
         }
 
-        if (Game1.random.NextDouble() > getCurseChance(darkSword.Read<int>(DataFields.CursePoints)))
+        if (Game1.random.NextDouble() > getCurseChance(darkSword.Read<int>(DataKeys.CursePoints)))
         {
             return;
         }

@@ -62,7 +62,7 @@ internal sealed class StabbingSwordSpecialUpdateTickingEvent : UpdateTickingEven
         };
 
         user.FarmerSprite.setCurrentFrame(frame, 0, 15, 2, user.FacingDirection == 3, true);
-        Game1.playSound(sword.CurrentParentTileIndex == Constants.LavaKatanaIndex ? "fireball" : "daggerswipe");
+        Game1.playSound(sword.CurrentParentTileIndex == ItemIDs.LavaKatana ? "fireball" : "daggerswipe");
     }
 
     /// <inheritdoc />

@@ -27,7 +27,7 @@ internal sealed class RingOnUnequipPatcher : HarmonyPatcher
     private static bool RingOnUnequipPrefix(Ring __instance, Farmer who)
     {
         if (RingsModule.Config.TheOneInfinityBand &&
-            __instance.indexInTileSheet.Value == Constants.IridiumBandIndex)
+            __instance.indexInTileSheet.Value == ItemIDs.IridiumBand)
         {
             return false; // don't run original logic
         }
@@ -39,13 +39,13 @@ internal sealed class RingOnUnequipPatcher : HarmonyPatcher
 
         switch (__instance.indexInTileSheet.Value)
         {
-            case Constants.TopazRingIndex: // topaz to give defense or cdr
+            case ItemIDs.TopazRing: // topaz to give defense or cdr
                 who.resilience -= 3;
                 return false; // don't run original logic
-            case Constants.JadeRingIndex: // jade ring to give +50% crit. power
+            case ItemIDs.JadeRing: // jade ring to give +50% crit. power
                 who.critPowerModifier -= 0.5f;
                 return false; // don't run original logic
-            case Constants.WarriorRingIndex: // reset warrior kill count
+            case ItemIDs.WarriorRing: // reset warrior kill count
                 RingsModule.State.WarriorKillCount = 0;
                 return true;
             default:

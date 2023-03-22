@@ -79,7 +79,7 @@ internal sealed class ArsenalAssetRequestedEvent : AssetRequestedEvent
     private static void EditBlacksmithEventsData(IAssetData asset)
     {
         if (!Context.IsWorldReady || !ArsenalModule.Config.DwarvishCrafting ||
-            string.IsNullOrEmpty(Game1.player.Read(DataFields.BlueprintsFound)) || !Game1.player.canUnderstandDwarves)
+            string.IsNullOrEmpty(Game1.player.Read(DataKeys.BlueprintsFound)) || !Game1.player.canUnderstandDwarves)
         {
             return;
         }
@@ -172,9 +172,9 @@ internal sealed class ArsenalAssetRequestedEvent : AssetRequestedEvent
         var data = asset.AsDictionary<int, string>().Data;
 
         // edit galaxy soul description
-        var fields = data[Constants.GalaxySoulIndex].Split('/');
+        var fields = data[ItemIDs.GalaxySoul].Split('/');
         fields[5] = I18n.Get("objects.galaxysoul.desc");
-        data[Constants.GalaxySoulIndex] = string.Join('/', fields);
+        data[ItemIDs.GalaxySoul] = string.Join('/', fields);
     }
 
     /// <summary>Adds the infinity enchantment projectile.</summary>
@@ -203,11 +203,11 @@ internal sealed class ArsenalAssetRequestedEvent : AssetRequestedEvent
         }
 
         var data = asset.AsDictionary<int, string>().Data;
-        data[Constants.ForgeIntroQuestId] = I18n.Get("quests.forge.intro");
-        data[Constants.ForgeNextQuestId] = I18n.Get("quests.forge.next");
-        data[Constants.VirtuesIntroQuestId] = I18n.Get("quests.curse.intro");
-        data[Constants.VirtuesNextQuestId] = I18n.Get("quests.curse.next");
-        data[Constants.VirtuesLastQuestId] = I18n.Get("quests.curse.last");
+        data[(int)Quest.ForgeIntro] = I18n.Get("quests.forge.intro");
+        data[(int)Quest.ForgeNext] = I18n.Get("quests.forge.next");
+        data[(int)Quest.VirtuesIntro] = I18n.Get("quests.curse.intro");
+        data[(int)Quest.VirtuesNext] = I18n.Get("quests.curse.next");
+        data[(int)Quest.VirtuesLast] = I18n.Get("quests.curse.last");
         data[Virtue.Honor] = I18n.Get("quests.virtues.honor");
         data[Virtue.Compassion] = I18n.Get("quests.virtues.compassion");
         data[Virtue.Wisdom] = I18n.Get("quests.virtues.wisdom");
@@ -252,9 +252,9 @@ internal sealed class ArsenalAssetRequestedEvent : AssetRequestedEvent
                 {
                     fields[Name] = fields[Name].Replace("Dwarf", "Dwarven");
                 }
-                else if (key is Constants.ElfBladeIndex or Constants.ForestSwordIndex)
+                else if (key is ItemIDs.ElfBlade or ItemIDs.ForestSword)
                 {
-                    fields[Name] = fields[Name].Replace(key == Constants.ElfBladeIndex ? "Elf" : "Forest", "Elven");
+                    fields[Name] = fields[Name].Replace(key == ItemIDs.ElfBlade ? "Elf" : "Forest", "Elven");
                 }
             }
 
@@ -262,11 +262,11 @@ internal sealed class ArsenalAssetRequestedEvent : AssetRequestedEvent
             {
                 switch (key)
                 {
-                    case Constants.DarkSwordIndex:
+                    case ItemIDs.DarkSword:
                         fields[Name] = I18n.Get("weapons.darksword.name");
                         fields[Description] = I18n.Get("weapons.darksword.desc");
                         break;
-                    case Constants.HolyBladeIndex:
+                    case ItemIDs.HolyBlade:
                         fields[Name] = I18n.Get("weapons.holyblade.name");
                         fields[Description] = I18n.Get("weapons.holyblade.desc");
                         break;
@@ -278,7 +278,7 @@ internal sealed class ArsenalAssetRequestedEvent : AssetRequestedEvent
 
         if (ArsenalModule.Config.InfinityPlusOne)
         {
-            data[Constants.InfinitySlingshotIndex] = string.Format(
+            data[ItemIDs.InfinitySlingshot] = string.Format(
                 "Infinity Slingshot/{0}/1/3/1/308/0/0/4/-1/-1/0/.02/3/{1}",
                 I18n.Get("slingshots.infinity.desc"),
                 I18n.Get("slingshots.infinity.name"));
@@ -374,7 +374,7 @@ internal sealed class ArsenalAssetRequestedEvent : AssetRequestedEvent
             case 0: // rusty sword (removed)
                 fields[MinDamage] = 2.ToString();
                 fields[MaxDamage] = 5.ToString();
-                fields[Knockback] = 0.75.ToString(CultureInfo.InvariantCulture);
+                fields[Knockback] = 0.5.ToString(CultureInfo.InvariantCulture);
                 fields[Speed] = (-1).ToString();
                 fields[Precision] = 0.ToString();
                 fields[Defense] = 0.ToString();
@@ -386,10 +386,10 @@ internal sealed class ArsenalAssetRequestedEvent : AssetRequestedEvent
                 break;
 
             // BASIC SWORDS
-            case Constants.WoodenBladeIndex:
+            case ItemIDs.WoodenBlade:
                 fields[MinDamage] = 2.ToString();
                 fields[MaxDamage] = 5.ToString();
-                fields[Knockback] = 0.75.ToString(CultureInfo.InvariantCulture);
+                fields[Knockback] = 0.4.ToString(CultureInfo.InvariantCulture);
                 fields[Speed] = 1.ToString();
                 fields[Precision] = 0.ToString();
                 fields[Defense] = 0.ToString();
@@ -399,10 +399,10 @@ internal sealed class ArsenalAssetRequestedEvent : AssetRequestedEvent
                 fields[CritChance] = 0.05.ToString(CultureInfo.InvariantCulture);
                 fields[CritPower] = 1.5.ToString(CultureInfo.InvariantCulture);
                 break;
-            case Constants.SteelSmallswordIndex:
+            case ItemIDs.SteelSmallsword:
                 fields[MinDamage] = 8.ToString();
                 fields[MaxDamage] = 12.ToString();
-                fields[Knockback] = 0.75.ToString(CultureInfo.InvariantCulture);
+                fields[Knockback] = 0.5.ToString(CultureInfo.InvariantCulture);
                 fields[Speed] = 1.ToString();
                 fields[Precision] = 0.ToString();
                 fields[Defense] = 0.ToString();
@@ -412,10 +412,10 @@ internal sealed class ArsenalAssetRequestedEvent : AssetRequestedEvent
                 fields[CritChance] = 0.05.ToString(CultureInfo.InvariantCulture);
                 fields[CritPower] = 2.0.ToString(CultureInfo.InvariantCulture);
                 break;
-            case Constants.CutlassIndex:
+            case ItemIDs.Cutlass:
                 fields[MinDamage] = 20.ToString();
                 fields[MaxDamage] = 26.ToString();
-                fields[Knockback] = 0.75.ToString(CultureInfo.InvariantCulture);
+                fields[Knockback] = 0.5.ToString(CultureInfo.InvariantCulture);
                 fields[Speed] = 0.ToString();
                 fields[Precision] = 0.ToString();
                 fields[Defense] = 0.ToString();
@@ -425,10 +425,10 @@ internal sealed class ArsenalAssetRequestedEvent : AssetRequestedEvent
                 fields[CritChance] = 0.06.ToString(CultureInfo.InvariantCulture);
                 fields[CritPower] = 2.0.ToString(CultureInfo.InvariantCulture);
                 break;
-            case Constants.RapierIndex:
+            case ItemIDs.Rapier:
                 fields[MinDamage] = 30.ToString();
                 fields[MaxDamage] = 40.ToString();
-                fields[Knockback] = 0.55.ToString(CultureInfo.InvariantCulture);
+                fields[Knockback] = 0.35.ToString(CultureInfo.InvariantCulture);
                 fields[Speed] = 2.ToString();
                 fields[Precision] = 2.ToString();
                 fields[Defense] = 0.ToString();
@@ -438,10 +438,10 @@ internal sealed class ArsenalAssetRequestedEvent : AssetRequestedEvent
                 fields[CritChance] = 0.05.ToString(CultureInfo.InvariantCulture);
                 fields[CritPower] = 1.5.ToString(CultureInfo.InvariantCulture);
                 break;
-            case Constants.SteelFalchionIndex:
+            case ItemIDs.SteelFalchion:
                 fields[MinDamage] = 40.ToString();
                 fields[MaxDamage] = 54.ToString();
-                fields[Knockback] = 0.7.ToString(CultureInfo.InvariantCulture);
+                fields[Knockback] = 0.45.ToString(CultureInfo.InvariantCulture);
                 fields[Speed] = 1.ToString();
                 fields[Precision] = 0.ToString();
                 fields[Defense] = 0.ToString();
@@ -451,10 +451,10 @@ internal sealed class ArsenalAssetRequestedEvent : AssetRequestedEvent
                 fields[CritChance] = 0.05.ToString(CultureInfo.InvariantCulture);
                 fields[CritPower] = 2.4.ToString(CultureInfo.InvariantCulture);
                 break;
-            case Constants.SilverSaberIndex:
+            case ItemIDs.SilverSaber:
                 fields[MinDamage] = 7.ToString();
                 fields[MaxDamage] = 13.ToString();
-                fields[Knockback] = 0.7875.ToString(CultureInfo.InvariantCulture);
+                fields[Knockback] = 0.5.ToString(CultureInfo.InvariantCulture);
                 fields[Speed] = 0.ToString();
                 fields[Precision] = 0.ToString();
                 fields[Defense] = 1.ToString();
@@ -464,10 +464,10 @@ internal sealed class ArsenalAssetRequestedEvent : AssetRequestedEvent
                 fields[CritChance] = 0.05.ToString(CultureInfo.InvariantCulture);
                 fields[CritPower] = 2.0.ToString(CultureInfo.InvariantCulture);
                 break;
-            case Constants.IronEdgeIndex:
+            case ItemIDs.IronEdge:
                 fields[MinDamage] = 18.ToString();
                 fields[MaxDamage] = 28.ToString();
-                fields[Knockback] = 0.935.ToString(CultureInfo.InvariantCulture);
+                fields[Knockback] = 0.55.ToString(CultureInfo.InvariantCulture);
                 fields[Speed] = (-1).ToString();
                 fields[Defense] = 2.ToString();
                 fields[BaseDropLevel] = 25.ToString();
@@ -476,10 +476,10 @@ internal sealed class ArsenalAssetRequestedEvent : AssetRequestedEvent
                 fields[CritChance] = 0.05.ToString(CultureInfo.InvariantCulture);
                 fields[CritPower] = 2.0.ToString(CultureInfo.InvariantCulture);
                 break;
-            case Constants.ClaymoreIndex:
+            case ItemIDs.Claymore:
                 fields[MinDamage] = 28.ToString();
                 fields[MaxDamage] = 42.ToString();
-                fields[Knockback] = 1.125.ToString(CultureInfo.InvariantCulture);
+                fields[Knockback] = 0.95.ToString(CultureInfo.InvariantCulture);
                 fields[Speed] = (-3).ToString();
                 fields[Defense] = 3.ToString();
                 fields[BaseDropLevel] = 50.ToString();
@@ -488,10 +488,10 @@ internal sealed class ArsenalAssetRequestedEvent : AssetRequestedEvent
                 fields[CritChance] = 0.05.ToString(CultureInfo.InvariantCulture);
                 fields[CritPower] = 2.5.ToString(CultureInfo.InvariantCulture);
                 break;
-            case Constants.TemperedBroadswordIndex:
+            case ItemIDs.TemperedBroadsword:
                 fields[MinDamage] = 36.ToString();
                 fields[MaxDamage] = 58.ToString();
-                fields[Knockback] = 1.ToString(CultureInfo.InvariantCulture);
+                fields[Knockback] = 0.65.ToString(CultureInfo.InvariantCulture);
                 fields[Speed] = (-2).ToString();
                 fields[Defense] = 3.ToString();
                 fields[BaseDropLevel] = 80.ToString();
@@ -500,10 +500,10 @@ internal sealed class ArsenalAssetRequestedEvent : AssetRequestedEvent
                 fields[CritChance] = 0.05.ToString(CultureInfo.InvariantCulture);
                 fields[CritPower] = 2.ToString(CultureInfo.InvariantCulture);
                 break;
-            case Constants.TemplarsBladeIndex:
+            case ItemIDs.TemplarsBlade:
                 fields[MinDamage] = 60.ToString();
                 fields[MaxDamage] = 80.ToString();
-                fields[Knockback] = 0.75.ToString(CultureInfo.InvariantCulture);
+                fields[Knockback] = 5.ToString(CultureInfo.InvariantCulture);
                 fields[Speed] = 0.ToString();
                 fields[Defense] = 2.ToString();
                 fields[Precision] = 0.ToString();
@@ -514,12 +514,12 @@ internal sealed class ArsenalAssetRequestedEvent : AssetRequestedEvent
                 fields[CritPower] = 2.5.ToString(CultureInfo.InvariantCulture);
                 break;
 
-            case Constants.ForestSwordIndex:
+            case ItemIDs.ForestSword:
                 if (ArsenalModule.Config.DwarvishCrafting)
                 {
                     fields[MinDamage] = 85.ToString();
                     fields[MaxDamage] = 100.ToString();
-                    fields[Knockback] = 0.9375.ToString(CultureInfo.InvariantCulture);
+                    fields[Knockback] = 0.75.ToString(CultureInfo.InvariantCulture);
                     fields[Speed] = 3.ToString();
                     fields[Precision] = 2.ToString();
                     fields[Defense] = 1.ToString();
@@ -533,7 +533,7 @@ internal sealed class ArsenalAssetRequestedEvent : AssetRequestedEvent
                 {
                     fields[MinDamage] = 48.ToString();
                     fields[MaxDamage] = 60.ToString();
-                    fields[Knockback] = 0.825.ToString(CultureInfo.InvariantCulture);
+                    fields[Knockback] = 0.6.ToString(CultureInfo.InvariantCulture);
                     fields[Speed] = 1.ToString();
                     fields[Precision] = 1.ToString();
                     fields[Defense] = 0.ToString();
@@ -545,10 +545,10 @@ internal sealed class ArsenalAssetRequestedEvent : AssetRequestedEvent
                 }
 
                 break;
-            case Constants.BoneSwordIndex:
+            case ItemIDs.BoneSword:
                 fields[MinDamage] = 34.ToString();
                 fields[MaxDamage] = 46.ToString();
-                fields[Knockback] = 0.675.ToString(CultureInfo.InvariantCulture);
+                fields[Knockback] = 0.45.ToString(CultureInfo.InvariantCulture);
                 fields[Speed] = 2.ToString();
                 fields[Precision] = 0.ToString();
                 fields[Defense] = 0.ToString();
@@ -558,10 +558,10 @@ internal sealed class ArsenalAssetRequestedEvent : AssetRequestedEvent
                 fields[CritChance] = 0.05.ToString(CultureInfo.InvariantCulture);
                 fields[CritPower] = 1.8.ToString(CultureInfo.InvariantCulture);
                 break;
-            case Constants.OssifiedBladeIndex:
+            case ItemIDs.OssifiedBlade:
                 fields[MinDamage] = 64.ToString();
                 fields[MaxDamage] = 85.ToString();
-                fields[Knockback] = 0.7875.ToString(CultureInfo.InvariantCulture);
+                fields[Knockback] = 0.5.ToString(CultureInfo.InvariantCulture);
                 fields[Speed] = (-1).ToString();
                 fields[Defense] = 1.ToString();
                 fields[Precision] = 0.ToString();
@@ -571,10 +571,10 @@ internal sealed class ArsenalAssetRequestedEvent : AssetRequestedEvent
                 fields[CritChance] = 0.05.ToString(CultureInfo.InvariantCulture);
                 fields[CritPower] = 2.5.ToString(CultureInfo.InvariantCulture);
                 break;
-            case Constants.PiratesSwordIndex:
+            case ItemIDs.PiratesSword:
                 fields[MinDamage] = 36.ToString();
                 fields[MaxDamage] = 48.ToString();
-                fields[Knockback] = 0.75.ToString(CultureInfo.InvariantCulture);
+                fields[Knockback] = 0.5.ToString(CultureInfo.InvariantCulture);
                 fields[Speed] = 0.ToString();
                 fields[Precision] = 0.ToString();
                 fields[Defense] = 0.ToString();
@@ -584,10 +584,10 @@ internal sealed class ArsenalAssetRequestedEvent : AssetRequestedEvent
                 fields[CritChance] = 0.075.ToString(CultureInfo.InvariantCulture);
                 fields[CritPower] = 2.0.ToString(CultureInfo.InvariantCulture);
                 break;
-            case Constants.YetiToothIndex:
+            case ItemIDs.YetiTooth:
                 fields[MinDamage] = 33.ToString();
                 fields[MaxDamage] = 44.ToString();
-                fields[Knockback] = 0.8625.ToString(CultureInfo.InvariantCulture);
+                fields[Knockback] = 0.6.ToString(CultureInfo.InvariantCulture);
                 fields[Speed] = (-1).ToString();
                 fields[Defense] = 1.ToString();
                 fields[BaseDropLevel] = (-1).ToString();
@@ -596,11 +596,11 @@ internal sealed class ArsenalAssetRequestedEvent : AssetRequestedEvent
                 fields[CritChance] = 0.05.ToString(CultureInfo.InvariantCulture);
                 fields[CritPower] = 2.0.ToString(CultureInfo.InvariantCulture);
                 break;
-            case Constants.ObsidianEdgeIndex:
+            case ItemIDs.ObsidianEdge:
                 fields[Description] += I18n.Get("weapons.obsidianedge.extradesc");
                 fields[MinDamage] = 70.ToString();
                 fields[MaxDamage] = 95.ToString();
-                fields[Knockback] = 0.8625.ToString(CultureInfo.InvariantCulture);
+                fields[Knockback] = 0.7.ToString(CultureInfo.InvariantCulture);
                 fields[Speed] = (-2).ToString();
                 fields[Precision] = 0.ToString();
                 fields[Defense] = 0.ToString();
@@ -610,10 +610,10 @@ internal sealed class ArsenalAssetRequestedEvent : AssetRequestedEvent
                 fields[CritChance] = 0.1.ToString(CultureInfo.InvariantCulture);
                 fields[CritPower] = 2.5.ToString(CultureInfo.InvariantCulture);
                 break;
-            case Constants.LavaKatanaIndex:
+            case ItemIDs.LavaKatana:
                 fields[MinDamage] = 95.ToString();
                 fields[MaxDamage] = 110.ToString();
-                fields[Knockback] = 0.65.ToString(CultureInfo.InvariantCulture);
+                fields[Knockback] = 0.4.ToString(CultureInfo.InvariantCulture);
                 fields[Speed] = 1.ToString();
                 fields[Precision] = 1.ToString();
                 fields[Defense] = 0.ToString();
@@ -625,7 +625,7 @@ internal sealed class ArsenalAssetRequestedEvent : AssetRequestedEvent
                 break;
 
             // UNIQUE SWORDS
-            case Constants.NeptuneGlaiveIndex:
+            case ItemIDs.NeptuneGlaive:
                 if (ModHelper.GameContent.CurrentLocaleConstant == LocalizedContentManager.LanguageCode.en)
                 {
                     // make it sound more unique
@@ -634,7 +634,7 @@ internal sealed class ArsenalAssetRequestedEvent : AssetRequestedEvent
 
                 fields[MinDamage] = 90.ToString();
                 fields[MaxDamage] = 120.ToString();
-                fields[Knockback] = 0.825.ToString(CultureInfo.InvariantCulture);
+                fields[Knockback] = 0.55.ToString(CultureInfo.InvariantCulture);
                 fields[Speed] = (-1).ToString();
                 fields[Defense] = 2.ToString();
                 fields[Precision] = 1.ToString();
@@ -646,12 +646,12 @@ internal sealed class ArsenalAssetRequestedEvent : AssetRequestedEvent
                 break;
 
             // BIS SWORDS
-            case Constants.DarkSwordIndex:
+            case ItemIDs.DarkSword:
                 fields[Name] = I18n.Get("weapons.darksword.name");
                 fields[Description] = I18n.Get("weapons.darksword.desc");
                 fields[MinDamage] = 100.ToString();
                 fields[MaxDamage] = 140.ToString();
-                fields[Knockback] = 0.75.ToString(CultureInfo.InvariantCulture);
+                fields[Knockback] = 0.5.ToString(CultureInfo.InvariantCulture);
                 fields[Speed] = 0.ToString();
                 fields[Precision] = 0.ToString();
                 fields[Defense] = 0.ToString();
@@ -659,12 +659,12 @@ internal sealed class ArsenalAssetRequestedEvent : AssetRequestedEvent
                 fields[CritChance] = 0.05.ToString(CultureInfo.InvariantCulture);
                 fields[CritPower] = 2.0.ToString(CultureInfo.InvariantCulture);
                 break;
-            case Constants.HolyBladeIndex:
+            case ItemIDs.HolyBlade:
                 fields[Name] = I18n.Get("weapons.holyblade.name");
                 fields[Description] = I18n.Get("weapons.holyblade.desc");
                 fields[MinDamage] = 120.ToString();
                 fields[MaxDamage] = 160.ToString();
-                fields[Knockback] = 0.75.ToString(CultureInfo.InvariantCulture);
+                fields[Knockback] = 0.55.ToString(CultureInfo.InvariantCulture);
                 fields[Speed] = 0.ToString();
                 fields[Precision] = 0.ToString();
                 fields[Defense] = 2.ToString();
@@ -672,10 +672,10 @@ internal sealed class ArsenalAssetRequestedEvent : AssetRequestedEvent
                 fields[CritChance] = 0.05.ToString(CultureInfo.InvariantCulture);
                 fields[CritPower] = 2.0.ToString(CultureInfo.InvariantCulture);
                 break;
-            case Constants.GalaxySwordIndex:
+            case ItemIDs.GalaxySword:
                 fields[MinDamage] = 80.ToString();
                 fields[MaxDamage] = 120.ToString();
-                fields[Knockback] = 0.75.ToString(CultureInfo.InvariantCulture);
+                fields[Knockback] = 0.5.ToString(CultureInfo.InvariantCulture);
                 fields[Speed] = 1.ToString();
                 fields[Precision] = 0.ToString();
                 fields[Defense] = 0.ToString();
@@ -686,10 +686,10 @@ internal sealed class ArsenalAssetRequestedEvent : AssetRequestedEvent
                 fields[CritPower] = 2.0.ToString(CultureInfo.InvariantCulture);
                 break;
 
-            case Constants.DwarfSwordIndex:
+            case ItemIDs.DwarfSword:
                 fields[MinDamage] = 130.ToString();
                 fields[MaxDamage] = 175.ToString();
-                fields[Knockback] = 0.9.ToString(CultureInfo.InvariantCulture);
+                fields[Knockback] = 0.75.ToString(CultureInfo.InvariantCulture);
                 fields[Speed] = (-2).ToString();
                 fields[Precision] = 0.ToString();
                 fields[Defense] = 4.ToString();
@@ -699,10 +699,10 @@ internal sealed class ArsenalAssetRequestedEvent : AssetRequestedEvent
                 fields[CritChance] = 0.05.ToString(CultureInfo.InvariantCulture);
                 fields[CritPower] = 2.0.ToString(CultureInfo.InvariantCulture);
                 break;
-            case Constants.DragonToothIndex:
+            case ItemIDs.DragonTooth:
                 fields[MinDamage] = 160.ToString();
                 fields[MaxDamage] = 200.ToString();
-                fields[Knockback] = 0.75.ToString(CultureInfo.InvariantCulture);
+                fields[Knockback] = 0.5.ToString(CultureInfo.InvariantCulture);
                 fields[Speed] = 1.ToString();
                 fields[Precision] = 1.ToString();
                 fields[Defense] = 0.ToString();
@@ -712,10 +712,10 @@ internal sealed class ArsenalAssetRequestedEvent : AssetRequestedEvent
                 fields[CritChance] = 0.05.ToString(CultureInfo.InvariantCulture);
                 fields[CritPower] = 3.ToString(CultureInfo.InvariantCulture);
                 break;
-            case Constants.InfinityBladeIndex:
+            case ItemIDs.InfinityBlade:
                 fields[MinDamage] = 140.ToString();
                 fields[MaxDamage] = 180.ToString();
-                fields[Knockback] = 0.75.ToString(CultureInfo.InvariantCulture);
+                fields[Knockback] = 0.5.ToString(CultureInfo.InvariantCulture);
                 fields[Speed] = 2.ToString();
                 fields[Precision] = 0.ToString();
                 fields[Defense] = 0.ToString();
@@ -731,10 +731,10 @@ internal sealed class ArsenalAssetRequestedEvent : AssetRequestedEvent
             #region daggers
 
             // BASIC DAGGERS
-            case Constants.CarvingKnife:
+            case ItemIDs.CarvingKnife:
                 fields[MinDamage] = 4.ToString();
                 fields[MaxDamage] = 6.ToString();
-                fields[Knockback] = 0.4.ToString(CultureInfo.InvariantCulture);
+                fields[Knockback] = 0.2.ToString(CultureInfo.InvariantCulture);
                 fields[Speed] = 0.ToString();
                 fields[Precision] = 0.ToString();
                 fields[Defense] = 0.ToString();
@@ -744,10 +744,10 @@ internal sealed class ArsenalAssetRequestedEvent : AssetRequestedEvent
                 fields[CritChance] = 0.1.ToString(CultureInfo.InvariantCulture);
                 fields[CritPower] = 1.5.ToString(CultureInfo.InvariantCulture);
                 break;
-            case Constants.BurglarsShankIndex:
+            case ItemIDs.BurglarsShank:
                 fields[MinDamage] = 13.ToString();
                 fields[MaxDamage] = 16.ToString();
-                fields[Knockback] = 0.5.ToString(CultureInfo.InvariantCulture);
+                fields[Knockback] = 0.25.ToString(CultureInfo.InvariantCulture);
                 fields[Speed] = 0.ToString();
                 fields[Precision] = 0.ToString();
                 fields[Defense] = 0.ToString();
@@ -757,10 +757,10 @@ internal sealed class ArsenalAssetRequestedEvent : AssetRequestedEvent
                 fields[CritChance] = 0.15.ToString(CultureInfo.InvariantCulture);
                 fields[CritPower] = 1.4.ToString(CultureInfo.InvariantCulture);
                 break;
-            case Constants.WindSpireIndex:
+            case ItemIDs.WindSpire:
                 fields[MinDamage] = 22.ToString();
                 fields[MaxDamage] = 26.ToString();
-                fields[Knockback] = 0.666666666666667d.ToString(CultureInfo.InvariantCulture);
+                fields[Knockback] = 0.35.ToString(CultureInfo.InvariantCulture);
                 fields[Speed] = 1.ToString();
                 fields[Precision] = 0.ToString();
                 fields[Defense] = 0.ToString();
@@ -770,10 +770,10 @@ internal sealed class ArsenalAssetRequestedEvent : AssetRequestedEvent
                 fields[CritChance] = 0.1.ToString(CultureInfo.InvariantCulture);
                 fields[CritPower] = 1.5.ToString(CultureInfo.InvariantCulture);
                 break;
-            case Constants.IronDirkIndex:
+            case ItemIDs.IronDirk:
                 fields[MinDamage] = 30.ToString();
                 fields[MaxDamage] = 36.ToString();
-                fields[Knockback] = 0.5.ToString(CultureInfo.InvariantCulture);
+                fields[Knockback] = 0.25.ToString(CultureInfo.InvariantCulture);
                 fields[Speed] = 0.ToString();
                 fields[Precision] = 0.ToString();
                 fields[Defense] = 0.ToString();
@@ -783,10 +783,10 @@ internal sealed class ArsenalAssetRequestedEvent : AssetRequestedEvent
                 fields[CritChance] = 0.1.ToString(CultureInfo.InvariantCulture);
                 fields[CritPower] = 1.875.ToString(CultureInfo.InvariantCulture);
                 break;
-            case Constants.WickedKrisIndex:
+            case ItemIDs.WickedKris:
                 fields[MinDamage] = 44.ToString();
                 fields[MaxDamage] = 52.ToString();
-                fields[Knockback] = 0.5.ToString(CultureInfo.InvariantCulture);
+                fields[Knockback] = 0.25.ToString(CultureInfo.InvariantCulture);
                 fields[Speed] = 0.ToString();
                 fields[Precision] = 0.ToString();
                 fields[Defense] = (-1).ToString();
@@ -797,10 +797,10 @@ internal sealed class ArsenalAssetRequestedEvent : AssetRequestedEvent
                 fields[CritPower] = 2.0.ToString(CultureInfo.InvariantCulture);
                 break;
 
-            case Constants.CrystalDaggerIndex:
+            case ItemIDs.CrystalDagger:
                 fields[MinDamage] = 28.ToString();
                 fields[MaxDamage] = 32.ToString();
-                fields[Knockback] = 0.5.ToString(CultureInfo.InvariantCulture);
+                fields[Knockback] = 0.25.ToString(CultureInfo.InvariantCulture);
                 fields[Speed] = 0.ToString();
                 fields[Precision] = 1.ToString();
                 fields[Defense] = 0.ToString();
@@ -810,10 +810,10 @@ internal sealed class ArsenalAssetRequestedEvent : AssetRequestedEvent
                 fields[CritChance] = 0.1.ToString(CultureInfo.InvariantCulture);
                 fields[CritPower] = 1.5.ToString(CultureInfo.InvariantCulture);
                 break;
-            case Constants.ShadowDaggerIndex:
+            case ItemIDs.ShadowDagger:
                 fields[MinDamage] = 54.ToString();
                 fields[MaxDamage] = 62.ToString();
-                fields[Knockback] = 0.5.ToString(CultureInfo.InvariantCulture);
+                fields[Knockback] = 0.25.ToString(CultureInfo.InvariantCulture);
                 fields[Speed] = 1.ToString();
                 fields[Precision] = 0.ToString();
                 fields[Defense] = (-1).ToString();
@@ -823,12 +823,12 @@ internal sealed class ArsenalAssetRequestedEvent : AssetRequestedEvent
                 fields[CritChance] = 0.11.ToString(CultureInfo.InvariantCulture);
                 fields[CritPower] = 1.5.ToString(CultureInfo.InvariantCulture);
                 break;
-            case Constants.ElfBladeIndex:
+            case ItemIDs.ElfBlade:
                 if (ArsenalModule.Config.DwarvishCrafting)
                 {
                     fields[MinDamage] = 50.ToString();
                     fields[MaxDamage] = 60.ToString();
-                    fields[Knockback] = 0.625.ToString(CultureInfo.InvariantCulture);
+                    fields[Knockback] = 0.5.ToString(CultureInfo.InvariantCulture);
                     fields[Speed] = 3.ToString();
                     fields[Precision] = 2.ToString();
                     fields[Defense] = 1.ToString();
@@ -842,7 +842,7 @@ internal sealed class ArsenalAssetRequestedEvent : AssetRequestedEvent
                 {
                     fields[MinDamage] = 32.ToString();
                     fields[MaxDamage] = 38.ToString();
-                    fields[Knockback] = 0.5.ToString(CultureInfo.InvariantCulture);
+                    fields[Knockback] = 0.25.ToString(CultureInfo.InvariantCulture);
                     fields[Speed] = 2.ToString();
                     fields[Precision] = 1.ToString();
                     fields[Defense] = 0.ToString();
@@ -854,10 +854,10 @@ internal sealed class ArsenalAssetRequestedEvent : AssetRequestedEvent
                 }
 
                 break;
-            case Constants.BrokenTridentIndex:
+            case ItemIDs.BrokenTrident:
                 fields[MinDamage] = 50.ToString();
                 fields[MaxDamage] = 58.ToString();
-                fields[Knockback] = 0.66666666666666d.ToString(CultureInfo.InvariantCulture);
+                fields[Knockback] = 0.35.ToString(CultureInfo.InvariantCulture);
                 fields[Speed] = 0.ToString();
                 fields[Precision] = 1.ToString();
                 fields[Defense] = (-1).ToString();
@@ -869,11 +869,11 @@ internal sealed class ArsenalAssetRequestedEvent : AssetRequestedEvent
                 break;
 
             // UNIQUE DAGGERS
-            case Constants.InsectHeadIndex:
+            case ItemIDs.InsectHead:
                 fields[Description] += I18n.Get("weapons.insecthead.extradesc");
                 fields[MinDamage] = 1.ToString();
                 fields[MaxDamage] = 3.ToString();
-                fields[Knockback] = 0.1.ToString(CultureInfo.InvariantCulture);
+                fields[Knockback] = 0.15.ToString(CultureInfo.InvariantCulture);
                 fields[Speed] = 0.ToString();
                 fields[Precision] = (-1).ToString();
                 fields[Defense] = (-3).ToString();
@@ -886,10 +886,10 @@ internal sealed class ArsenalAssetRequestedEvent : AssetRequestedEvent
                 break;
 
             // BIS DAGGERS
-            case Constants.GalaxyDaggerIndex:
+            case ItemIDs.GalaxyDagger:
                 fields[MinDamage] = 55.ToString();
                 fields[MaxDamage] = 70.ToString();
-                fields[Knockback] = 0.55.ToString(CultureInfo.InvariantCulture);
+                fields[Knockback] = 0.3.ToString(CultureInfo.InvariantCulture);
                 fields[Speed] = 0.ToString();
                 fields[Precision] = 0.ToString();
                 fields[Defense] = 0.ToString();
@@ -899,11 +899,11 @@ internal sealed class ArsenalAssetRequestedEvent : AssetRequestedEvent
                 fields[CritChance] = 0.11.ToString(CultureInfo.InvariantCulture);
                 fields[CritPower] = 1.5.ToString(CultureInfo.InvariantCulture);
                 break;
-            case Constants.IridiumNeedleIndex:
+            case ItemIDs.IridiumNeedle:
                 fields[Description] += I18n.Get("weapons.iridiumneedle.extradesc");
                 fields[MinDamage] = 68.ToString();
                 fields[MaxDamage] = 80.ToString();
-                fields[Knockback] = 0.25.ToString(CultureInfo.InvariantCulture);
+                fields[Knockback] = 0.1.ToString(CultureInfo.InvariantCulture);
                 fields[Speed] = 1.ToString();
                 fields[Precision] = 2.ToString();
                 fields[Defense] = (-2).ToString();
@@ -914,10 +914,10 @@ internal sealed class ArsenalAssetRequestedEvent : AssetRequestedEvent
                 fields[CritPower] = 1.ToString(CultureInfo.InvariantCulture);
                 break;
 
-            case Constants.DwarfDaggerIndex:
+            case ItemIDs.DwarfDagger:
                 fields[MinDamage] = 95.ToString();
                 fields[MaxDamage] = 115.ToString();
-                fields[Knockback] = 0.6.ToString(CultureInfo.InvariantCulture);
+                fields[Knockback] = 0.5.ToString(CultureInfo.InvariantCulture);
                 fields[Speed] = (-1).ToString();
                 fields[Precision] = 0.ToString();
                 fields[Defense] = 2.ToString();
@@ -927,10 +927,10 @@ internal sealed class ArsenalAssetRequestedEvent : AssetRequestedEvent
                 fields[CritChance] = 0.1.ToString(CultureInfo.InvariantCulture);
                 fields[CritPower] = 1.5.ToString(CultureInfo.InvariantCulture);
                 break;
-            case Constants.DragontoothShivIndex:
+            case ItemIDs.DragontoothShiv:
                 fields[MinDamage] = 125.ToString();
                 fields[MaxDamage] = 140.ToString();
-                fields[Knockback] = 0.5.ToString(CultureInfo.InvariantCulture);
+                fields[Knockback] = 0.25.ToString(CultureInfo.InvariantCulture);
                 fields[Speed] = 1.ToString();
                 fields[Precision] = 1.ToString();
                 fields[Defense] = 0.ToString();
@@ -940,10 +940,10 @@ internal sealed class ArsenalAssetRequestedEvent : AssetRequestedEvent
                 fields[CritChance] = 0.1.ToString(CultureInfo.InvariantCulture);
                 fields[CritPower] = 2.5.ToString(CultureInfo.InvariantCulture);
                 break;
-            case Constants.InfinityDaggerIndex:
+            case ItemIDs.InfinityDagger:
                 fields[MinDamage] = 105.ToString();
                 fields[MaxDamage] = 120.ToString();
-                fields[Knockback] = 0.6.ToString(CultureInfo.InvariantCulture);
+                fields[Knockback] = 0.3.ToString(CultureInfo.InvariantCulture);
                 fields[Speed] = 0.ToString();
                 fields[Precision] = 0.ToString();
                 fields[Defense] = 0.ToString();
@@ -959,7 +959,7 @@ internal sealed class ArsenalAssetRequestedEvent : AssetRequestedEvent
             #region clubs
 
             // BASIC CLUBS
-            case Constants.WoodClubIndex:
+            case ItemIDs.WoodClub:
                 fields[MinDamage] = 5.ToString();
                 fields[MaxDamage] = 16.ToString();
                 fields[Knockback] = 1.0.ToString(CultureInfo.InvariantCulture);
@@ -972,7 +972,7 @@ internal sealed class ArsenalAssetRequestedEvent : AssetRequestedEvent
                 fields[CritChance] = 0.025.ToString(CultureInfo.InvariantCulture);
                 fields[CritPower] = 2.0.ToString(CultureInfo.InvariantCulture);
                 break;
-            case Constants.WoodMalletIndex:
+            case ItemIDs.WoodMallet:
                 fields[MinDamage] = 13.ToString();
                 fields[MaxDamage] = 40.ToString();
                 fields[Knockback] = 1.1.ToString(CultureInfo.InvariantCulture);
@@ -985,7 +985,7 @@ internal sealed class ArsenalAssetRequestedEvent : AssetRequestedEvent
                 fields[CritChance] = 0.025.ToString(CultureInfo.InvariantCulture);
                 fields[CritPower] = 3.0.ToString(CultureInfo.InvariantCulture);
                 break;
-            case Constants.LeadRodIndex:
+            case ItemIDs.LeadRod:
                 fields[MinDamage] = 23.ToString();
                 fields[MaxDamage] = 70.ToString();
                 fields[Knockback] = 1.2.ToString(CultureInfo.InvariantCulture);
@@ -998,7 +998,7 @@ internal sealed class ArsenalAssetRequestedEvent : AssetRequestedEvent
                 fields[CritChance] = 0.025.ToString(CultureInfo.InvariantCulture);
                 fields[CritPower] = 3.0.ToString(CultureInfo.InvariantCulture);
                 break;
-            case Constants.KudgelIndex:
+            case ItemIDs.Kudgel:
                 fields[MinDamage] = 30.ToString();
                 fields[MaxDamage] = 90.ToString();
                 fields[Knockback] = 1.25.ToString(CultureInfo.InvariantCulture);
@@ -1011,7 +1011,7 @@ internal sealed class ArsenalAssetRequestedEvent : AssetRequestedEvent
                 fields[CritChance] = 0.025.ToString(CultureInfo.InvariantCulture);
                 fields[CritPower] = 3.0.ToString(CultureInfo.InvariantCulture);
                 break;
-            case Constants.TheSlammerIndex:
+            case ItemIDs.TheSlammer:
                 fields[MinDamage] = 44.ToString();
                 fields[MaxDamage] = 133.ToString();
                 fields[Knockback] = 1.33333333333333d.ToString(CultureInfo.InvariantCulture);
@@ -1025,7 +1025,7 @@ internal sealed class ArsenalAssetRequestedEvent : AssetRequestedEvent
                 fields[CritPower] = 3.5.ToString(CultureInfo.InvariantCulture);
                 break;
 
-            case Constants.FemurIndex:
+            case ItemIDs.Femur:
                 fields[MinDamage] = 25.ToString();
                 fields[MaxDamage] = 76.ToString();
                 fields[Knockback] = 1.1.ToString(CultureInfo.InvariantCulture);
@@ -1040,7 +1040,7 @@ internal sealed class ArsenalAssetRequestedEvent : AssetRequestedEvent
                 break;
 
             // BIS CLUBS
-            case Constants.GalaxyHammerIndex:
+            case ItemIDs.GalaxyHammer:
                 fields[MinDamage] = 60.ToString();
                 fields[MaxDamage] = 200.ToString();
                 fields[Knockback] = 1.1.ToString(CultureInfo.InvariantCulture);
@@ -1054,7 +1054,7 @@ internal sealed class ArsenalAssetRequestedEvent : AssetRequestedEvent
                 fields[CritPower] = 3.0.ToString(CultureInfo.InvariantCulture);
                 break;
 
-            case Constants.DwarfHammerIndex:
+            case ItemIDs.DwarfHammer:
                 fields[MinDamage] = 90.ToString();
                 fields[MaxDamage] = 270.ToString();
                 fields[Knockback] = 1.25.ToString(CultureInfo.InvariantCulture);
@@ -1067,7 +1067,7 @@ internal sealed class ArsenalAssetRequestedEvent : AssetRequestedEvent
                 fields[CritChance] = 0.025.ToString(CultureInfo.InvariantCulture);
                 fields[CritPower] = 3.0.ToString(CultureInfo.InvariantCulture);
                 break;
-            case Constants.DragontoothClubIndex:
+            case ItemIDs.DragontoothClub:
                 fields[MinDamage] = 120.ToString();
                 fields[MaxDamage] = 360.ToString();
                 fields[Knockback] = 1.0.ToString(CultureInfo.InvariantCulture);
@@ -1080,7 +1080,7 @@ internal sealed class ArsenalAssetRequestedEvent : AssetRequestedEvent
                 fields[CritChance] = 0.025.ToString(CultureInfo.InvariantCulture);
                 fields[CritPower] = 4.0.ToString(CultureInfo.InvariantCulture);
                 break;
-            case Constants.InfinityGavelIndex:
+            case ItemIDs.InfinityGavel:
                 fields[MinDamage] = 100.ToString();
                 fields[MaxDamage] = 300.ToString();
                 fields[Knockback] = 1.2.ToString(CultureInfo.InvariantCulture);
@@ -1177,14 +1177,14 @@ internal sealed class ArsenalAssetRequestedEvent : AssetRequestedEvent
 
             #region scythes
 
-            case Constants.ScytheIndex:
+            case ItemIDs.Scythe:
                 fields[MinDamage] = 1.ToString();
                 fields[MaxDamage] = 1.ToString();
                 fields[Knockback] = 0.5.ToString(CultureInfo.InvariantCulture);
                 fields[CritChance] = 0.125.ToString(CultureInfo.InvariantCulture);
                 fields[CritPower] = 1.5.ToString(CultureInfo.InvariantCulture);
                 break;
-            case Constants.GoldenScytheIndex:
+            case ItemIDs.GoldenScythe:
                 fields[MinDamage] = 13.ToString();
                 fields[MaxDamage] = 13.ToString();
                 fields[Knockback] = 0.5.ToString(CultureInfo.InvariantCulture);

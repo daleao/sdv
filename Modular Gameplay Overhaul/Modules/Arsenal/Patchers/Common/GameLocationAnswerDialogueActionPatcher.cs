@@ -55,7 +55,7 @@ internal sealed class GameLocationAnswerDialogueActionPatcher : HarmonyPatcher
                 {
                     Game1.activeClickableMenu.exitThisMenuNoSound();
                     Game1.playSound("parry");
-                    player.addItemByMenuIfNecessaryElseHoldUp(new MeleeWeapon(Constants.DarkSwordIndex));
+                    player.addItemByMenuIfNecessaryElseHoldUp(new MeleeWeapon(ItemIDs.DarkSword));
                     player.mailReceived.Add("gotDarkSword");
                     break;
                 }
@@ -85,31 +85,31 @@ internal sealed class GameLocationAnswerDialogueActionPatcher : HarmonyPatcher
                     {
                         case "Honor":
                             Game1.drawObjectDialogue(Virtue.Honor.FlavorText);
-                            player.Write(DataFields.HasReadHonor, true.ToString());
+                            player.Write(DataKeys.HasReadHonor, true.ToString());
                             break;
                         case "Compassion":
                             Game1.drawObjectDialogue(Virtue.Compassion.FlavorText);
-                            player.Write(DataFields.HasReadCompassion, true.ToString());
+                            player.Write(DataKeys.HasReadCompassion, true.ToString());
                             break;
                         case "Wisdom":
                             Game1.drawObjectDialogue(Virtue.Wisdom.FlavorText);
-                            player.Write(DataFields.HasReadWisdom, true.ToString());
+                            player.Write(DataKeys.HasReadWisdom, true.ToString());
                             break;
                         case "Generosity":
                             Game1.drawObjectDialogue(Virtue.Generosity.FlavorText);
-                            player.Write(DataFields.HasReadGenerosity, true.ToString());
+                            player.Write(DataKeys.HasReadGenerosity, true.ToString());
                             break;
                         case "Valor":
                             Game1.drawObjectDialogue(Virtue.Valor.FlavorText);
-                            player.Write(DataFields.HasReadValor, true.ToString());
+                            player.Write(DataKeys.HasReadValor, true.ToString());
                             break;
                     }
 
-                    if (!player.Read<bool>(DataFields.HasReadHonor) ||
-                        !player.Read<bool>(DataFields.HasReadCompassion) ||
-                        !player.Read<bool>(DataFields.HasReadWisdom) ||
-                        !player.Read<bool>(DataFields.HasReadGenerosity) ||
-                        !player.Read<bool>(DataFields.HasReadValor))
+                    if (!player.Read<bool>(DataKeys.HasReadHonor) ||
+                        !player.Read<bool>(DataKeys.HasReadCompassion) ||
+                        !player.Read<bool>(DataKeys.HasReadWisdom) ||
+                        !player.Read<bool>(DataKeys.HasReadGenerosity) ||
+                        !player.Read<bool>(DataKeys.HasReadValor))
                     {
                         return false; // don't run original logic
                     }
@@ -119,7 +119,7 @@ internal sealed class GameLocationAnswerDialogueActionPatcher : HarmonyPatcher
                     player.addQuest(Virtue.Wisdom);
                     player.addQuest(Virtue.Generosity);
                     player.addQuest(Virtue.Valor);
-                    player.completeQuest(Constants.VirtuesIntroQuestId);
+                    player.completeQuest((int)Quest.VirtuesIntro);
                     Virtue.List.ForEach(virtue => virtue.CheckForCompletion(Game1.player));
                     return false; // don't run original logic
                 }
@@ -142,62 +142,62 @@ internal sealed class GameLocationAnswerDialogueActionPatcher : HarmonyPatcher
     private static Dictionary<ISalable, int[]> GetBlacksmithForgeStock()
     {
         var stock = new Dictionary<ISalable, int[]>();
-        var found = Game1.player.Read(DataFields.BlueprintsFound).ParseList<int>().ToHashSet();
+        var found = Game1.player.Read(DataKeys.BlueprintsFound).ParseList<int>().ToHashSet();
 
-        if (found.Contains(Constants.ForestSwordIndex))
+        if (found.Contains(ItemIDs.ForestSword))
         {
             stock.Add(
-                new MeleeWeapon(Constants.ForestSwordIndex),
+                new MeleeWeapon(ItemIDs.ForestSword),
                 new[] { 0, int.MaxValue, Globals.ElderwoodIndex!.Value, 2 });
         }
 
-        if (found.Contains(Constants.ElfBladeIndex))
+        if (found.Contains(ItemIDs.ElfBlade))
         {
             stock.Add(
-                new MeleeWeapon(Constants.ElfBladeIndex),
+                new MeleeWeapon(ItemIDs.ElfBlade),
                 new[] { 0, int.MaxValue, Globals.ElderwoodIndex!.Value, 1 });
         }
 
-        if (found.Contains(Constants.DwarfSwordIndex))
+        if (found.Contains(ItemIDs.DwarfSword))
         {
             stock.Add(
-                new MeleeWeapon(Constants.DwarfSwordIndex),
+                new MeleeWeapon(ItemIDs.DwarfSword),
                 new[] { 0, int.MaxValue, Globals.DwarvenScrapIndex!.Value, 5 });
         }
 
-        if (found.Contains(Constants.DwarfHammerIndex))
+        if (found.Contains(ItemIDs.DwarfHammer))
         {
             stock.Add(
-                new MeleeWeapon(Constants.DwarfHammerIndex),
+                new MeleeWeapon(ItemIDs.DwarfHammer),
                 new[] { 0, int.MaxValue, Globals.DwarvenScrapIndex!.Value, 5 });
         }
 
-        if (found.Contains(Constants.DwarfDaggerIndex))
+        if (found.Contains(ItemIDs.DwarfDagger))
         {
             stock.Add(
-                new MeleeWeapon(Constants.DwarfDaggerIndex),
+                new MeleeWeapon(ItemIDs.DwarfDagger),
                 new[] { 0, int.MaxValue, Globals.DwarvenScrapIndex!.Value, 3 });
         }
 
-        if (found.Contains(Constants.DragontoothCutlassIndex))
+        if (found.Contains(ItemIDs.DragontoothCutlass))
         {
             stock.Add(
-                new MeleeWeapon(Constants.DragontoothCutlassIndex),
-                new[] { 0, int.MaxValue, Constants.DragonToothIndex, 10 });
+                new MeleeWeapon(ItemIDs.DragontoothCutlass),
+                new[] { 0, int.MaxValue, ItemIDs.DragonTooth, 10 });
         }
 
-        if (found.Contains(Constants.DragontoothClubIndex))
+        if (found.Contains(ItemIDs.DragontoothClub))
         {
             stock.Add(
-                new MeleeWeapon(Constants.DragontoothClubIndex),
-                new[] { 0, int.MaxValue, Constants.DragonToothIndex, 10 });
+                new MeleeWeapon(ItemIDs.DragontoothClub),
+                new[] { 0, int.MaxValue, ItemIDs.DragonTooth, 10 });
         }
 
-        if (found.Contains(Constants.DragontoothShivIndex))
+        if (found.Contains(ItemIDs.DragontoothShiv))
         {
             stock.Add(
-                new MeleeWeapon(Constants.DragontoothShivIndex),
-                new[] { 0, int.MaxValue, Constants.DragonToothIndex, 7 });
+                new MeleeWeapon(ItemIDs.DragontoothShiv),
+                new[] { 0, int.MaxValue, ItemIDs.DragonTooth, 7 });
         }
 
         return stock;

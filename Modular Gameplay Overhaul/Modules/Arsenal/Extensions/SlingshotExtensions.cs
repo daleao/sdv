@@ -65,8 +65,8 @@ internal static class SlingshotExtensions
         var areaOfEffect = slingshot.GetAreaOfEffect(who);
         var damage = 10 * slingshot.InitialParentTileIndex switch
         {
-            Constants.MasterSlingshotIndex => 2,
-            Constants.GalaxySlingshotIndex => 4,
+            ItemIDs.MasterSlingshot => 2,
+            ItemIDs.GalaxySlingshot => 4,
             _ => 1,
         };
 

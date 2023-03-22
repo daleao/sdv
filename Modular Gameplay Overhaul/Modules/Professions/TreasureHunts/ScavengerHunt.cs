@@ -9,7 +9,6 @@ using DaLion.Overhaul.Modules.Professions.Events.GameLoop;
 using DaLion.Overhaul.Modules.Professions.Extensions;
 using DaLion.Overhaul.Modules.Professions.VirtualProperties;
 using DaLion.Shared.Extensions;
-using DaLion.Shared.Extensions.Collections;
 using DaLion.Shared.Extensions.Stardew;
 using DaLion.Shared.Networking;
 using DaLion.Shared.UI;
@@ -149,7 +148,7 @@ internal sealed class ScavengerHunt : TreasureHunt
     public override void Fail()
     {
         Game1.addHUDMessage(new HuntNotification(this.HuntFailedMessage));
-        Game1.player.Write(DataFields.ScavengerHuntStreak, "0");
+        Game1.player.Write(DataKeys.ScavengerHuntStreak, "0");
         this.End(false);
     }
 
@@ -192,7 +191,7 @@ internal sealed class ScavengerHunt : TreasureHunt
 
         var getTreasure = new DelayedAction(200, this.BeginFindTreasure);
         Game1.delayedActions.Add(getTreasure);
-        Game1.player.Increment(DataFields.ScavengerHuntStreak);
+        Game1.player.Increment(DataKeys.ScavengerHuntStreak);
         this.End(true);
     }
 
@@ -339,8 +338,8 @@ internal sealed class ScavengerHunt : TreasureHunt
 #if DEBUG
         if (ArsenalModule.IsEnabled && ArsenalModule.Config.DwarvishCrafting && Globals.DwarvishBlueprintIndex.HasValue)
         {
-            if (!Game1.player.Read(DataFields.BlueprintsFound).ParseList<int>()
-                    .ContainsAll(Constants.ElfBladeIndex, Constants.ForestSwordIndex))
+            if (!Game1.player.Read(DataKeys.BlueprintsFound).ParseList<int>()
+                    .ContainsAll(ItemIDs.ElfBlade, ItemIDs.ForestSword))
             {
                 treasures.Add(new SObject(Globals.DwarvishBlueprintIndex.Value, 1));
                 treasures.Add(new SObject(102, 1)); // lost book, for comparison
@@ -352,7 +351,7 @@ internal sealed class ScavengerHunt : TreasureHunt
         }
         else
         {
-            treasures.Add(new MeleeWeapon(Constants.ElfBladeIndex));
+            treasures.Add(new MeleeWeapon(ItemIDs.ElfBlade));
         }
 #endif
 
@@ -542,15 +541,15 @@ internal sealed class ScavengerHunt : TreasureHunt
     private void AddSpecialTreasureItems(List<Item> treasures)
     {
         var luckModifier = 1.0 + (Game1.player.DailyLuck * 10);
-        var streak = Game1.player.Read<uint>(DataFields.ScavengerHuntStreak);
+        var streak = Game1.player.Read<uint>(DataKeys.ScavengerHuntStreak);
 
         // forest sword
         if (this.Random.NextDouble() < 0.25 * luckModifier)
         {
             if (ArsenalModule.IsEnabled && ArsenalModule.Config.DwarvishCrafting && Globals.DwarvishBlueprintIndex.HasValue)
             {
-                if (!Game1.player.Read(DataFields.BlueprintsFound).ParseList<int>()
-                        .Contains(Constants.ForestSwordIndex))
+                if (!Game1.player.Read(Arsenal.DataKeys.BlueprintsFound).ParseList<int>()
+                        .Contains(ItemIDs.ForestSword))
                 {
                     treasures.Add(new SObject(Globals.DwarvishBlueprintIndex.Value, 1));
                 }
@@ -561,7 +560,7 @@ internal sealed class ScavengerHunt : TreasureHunt
             }
             else if (this.Random.NextDouble() < 0.05 * luckModifier * streak)
             {
-                treasures.Add(new MeleeWeapon(Constants.ForestSwordIndex));
+                treasures.Add(new MeleeWeapon(ItemIDs.ForestSword));
             }
         }
         else
@@ -570,8 +569,8 @@ internal sealed class ScavengerHunt : TreasureHunt
         {
             if (ArsenalModule.IsEnabled && ArsenalModule.Config.DwarvishCrafting && Globals.DwarvishBlueprintIndex.HasValue)
             {
-                if (!Game1.player.Read(DataFields.BlueprintsFound).ParseList<int>()
-                        .Contains(Constants.ElfBladeIndex))
+                if (!Game1.player.Read(Arsenal.DataKeys.BlueprintsFound).ParseList<int>()
+                        .Contains(ItemIDs.ElfBlade))
                 {
                     treasures.Add(new SObject(Globals.DwarvishBlueprintIndex.Value, 1));
                 }
@@ -582,7 +581,7 @@ internal sealed class ScavengerHunt : TreasureHunt
             }
             else if (this.Random.NextDouble() < 0.05 * luckModifier * streak)
             {
-                treasures.Add(new MeleeWeapon(Constants.ElfBladeIndex));
+                treasures.Add(new MeleeWeapon(ItemIDs.ElfBlade));
             }
         }
 

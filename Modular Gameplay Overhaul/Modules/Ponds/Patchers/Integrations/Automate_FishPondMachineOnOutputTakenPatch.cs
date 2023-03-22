@@ -44,7 +44,7 @@ internal sealed class FishPondMachineOnOutputTakenPatcher : HarmonyPatcher
                 .GetUnboundPropertyGetter<object, FishPond>(__instance, "Machine")
                 .Invoke(__instance);
 
-            var produce = machine.Read(DataFields.ItemsHeld).ParseList<string>(";");
+            var produce = machine.Read(DataKeys.ItemsHeld).ParseList<string>(";");
             if (produce.Count == 0)
             {
                 machine.output.Value = null;
@@ -74,10 +74,10 @@ internal sealed class FishPondMachineOnOutputTakenPatcher : HarmonyPatcher
 
                 machine.output.Value = o;
                 produce.Remove(next);
-                machine.Write(DataFields.ItemsHeld, string.Join(";", produce));
+                machine.Write(DataKeys.ItemsHeld, string.Join(";", produce));
             }
 
-            if (machine.Read<bool>(DataFields.CheckedToday))
+            if (machine.Read<bool>(DataKeys.CheckedToday))
             {
                 return false; // don't run original logic
             }
@@ -91,13 +91,13 @@ internal sealed class FishPondMachineOnOutputTakenPatcher : HarmonyPatcher
                 .Invoke(__instance)
                 .gainExperience(Farmer.fishingSkill, FishPond.HARVEST_BASE_EXP + bonus);
 
-            machine.Write(DataFields.CheckedToday, true.ToString());
+            machine.Write(DataKeys.CheckedToday, true.ToString());
             return false; // don't run original logic
         }
         catch (InvalidOperationException ex) when (machine is not null)
         {
             Log.W($"ItemsHeld data is invalid. {ex}\nThe data will be reset");
-            machine.Write(DataFields.ItemsHeld, null);
+            machine.Write(DataKeys.ItemsHeld, null);
             return true; // default to original logic
         }
         catch (Exception ex)

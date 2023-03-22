@@ -37,43 +37,43 @@ internal sealed class UtilityGetAdventureShopStockPatcher : HarmonyPatcher
         {
             var stock = new Dictionary<ISalable, int[]>
             {
-                { new MeleeWeapon(Constants.WoodenBladeIndex), new[] { 200, int.MaxValue } },
+                { new MeleeWeapon(ItemIDs.WoodenBlade), new[] { 200, int.MaxValue } },
             };
 
-            stock.Add(new MeleeWeapon(Constants.SteelSmallswordIndex), new[] { 600, int.MaxValue });
-            stock.Add(new MeleeWeapon(Constants.SilverSaberIndex), new[] { 800, int.MaxValue });
-            stock.Add(new MeleeWeapon(Constants.CarvingKnife), new[] { 350, int.MaxValue });
-            stock.Add(new MeleeWeapon(Constants.WoodClubIndex), new[] { 250, int.MaxValue });
+            stock.Add(new MeleeWeapon(ItemIDs.SteelSmallsword), new[] { 600, int.MaxValue });
+            stock.Add(new MeleeWeapon(ItemIDs.SilverSaber), new[] { 800, int.MaxValue });
+            stock.Add(new MeleeWeapon(ItemIDs.CarvingKnife), new[] { 350, int.MaxValue });
+            stock.Add(new MeleeWeapon(ItemIDs.WoodClub), new[] { 250, int.MaxValue });
 
             if (MineShaft.lowestLevelReached >= 15)
             {
-                stock.Add(new MeleeWeapon(Constants.CutlassIndex), new[] { 1200, int.MaxValue });
-                stock.Add(new MeleeWeapon(Constants.IronEdgeIndex), new[] { 2000, int.MaxValue });
-                stock.Add(new MeleeWeapon(Constants.BurglarsShankIndex), new[] { 600, int.MaxValue });
-                stock.Add(new MeleeWeapon(Constants.WoodMalletIndex), new[] { 750, int.MaxValue });
+                stock.Add(new MeleeWeapon(ItemIDs.Cutlass), new[] { 1200, int.MaxValue });
+                stock.Add(new MeleeWeapon(ItemIDs.IronEdge), new[] { 2000, int.MaxValue });
+                stock.Add(new MeleeWeapon(ItemIDs.BurglarsShank), new[] { 600, int.MaxValue });
+                stock.Add(new MeleeWeapon(ItemIDs.WoodMallet), new[] { 750, int.MaxValue });
             }
 
             if (MineShaft.lowestLevelReached >= 35)
             {
-                stock.Add(new MeleeWeapon(Constants.RapierIndex), new[] { 5000, int.MaxValue });
-                stock.Add(new MeleeWeapon(Constants.ClaymoreIndex), new[] { 6500, int.MaxValue });
-                stock.Add(new MeleeWeapon(Constants.WindSpireIndex), new[] { 1200, int.MaxValue });
-                stock.Add(new MeleeWeapon(Constants.LeadRodIndex), new[] { 6000, int.MaxValue });
+                stock.Add(new MeleeWeapon(ItemIDs.Rapier), new[] { 5000, int.MaxValue });
+                stock.Add(new MeleeWeapon(ItemIDs.Claymore), new[] { 6500, int.MaxValue });
+                stock.Add(new MeleeWeapon(ItemIDs.WindSpire), new[] { 1200, int.MaxValue });
+                stock.Add(new MeleeWeapon(ItemIDs.LeadRod), new[] { 6000, int.MaxValue });
             }
 
             if (MineShaft.lowestLevelReached >= 75)
             {
-                stock.Add(new MeleeWeapon(Constants.SteelFalchionIndex), new[] { 12500, int.MaxValue });
-                stock.Add(new MeleeWeapon(Constants.TemperedBroadswordIndex), new[] { 15000, int.MaxValue });
-                stock.Add(new MeleeWeapon(Constants.IronDirkIndex), new[] { 6000, int.MaxValue });
-                stock.Add(new MeleeWeapon(Constants.KudgelIndex), new[] { 10000, int.MaxValue });
+                stock.Add(new MeleeWeapon(ItemIDs.SteelFalchion), new[] { 12500, int.MaxValue });
+                stock.Add(new MeleeWeapon(ItemIDs.TemperedBroadsword), new[] { 15000, int.MaxValue });
+                stock.Add(new MeleeWeapon(ItemIDs.IronDirk), new[] { 6000, int.MaxValue });
+                stock.Add(new MeleeWeapon(ItemIDs.Kudgel), new[] { 10000, int.MaxValue });
             }
 
             if (MineShaft.lowestLevelReached >= 115)
             {
-                stock.Add(new MeleeWeapon(Constants.TemplarsBladeIndex), new[] { 50000, int.MaxValue });
-                stock.Add(new MeleeWeapon(Constants.WickedKrisIndex), new[] { 24000, int.MaxValue });
-                stock.Add(new MeleeWeapon(Constants.TheSlammerIndex), new[] { 65000, int.MaxValue });
+                stock.Add(new MeleeWeapon(ItemIDs.TemplarsBlade), new[] { 50000, int.MaxValue });
+                stock.Add(new MeleeWeapon(ItemIDs.WickedKris), new[] { 24000, int.MaxValue });
+                stock.Add(new MeleeWeapon(ItemIDs.TheSlammer), new[] { 65000, int.MaxValue });
             }
 
             stock.Add(new Boots(504), new[] { 500, int.MaxValue }); // sneakers
@@ -104,30 +104,30 @@ internal sealed class UtilityGetAdventureShopStockPatcher : HarmonyPatcher
 
             if (!RingsModule.IsEnabled || !RingsModule.Config.CraftableGemRings)
             {
-                stock.Add(new Ring(Constants.AmethystRingIndex), new[] { 1000, int.MaxValue });
-                stock.Add(new Ring(Constants.TopazRingIndex), new[] { 1000, int.MaxValue });
+                stock.Add(new Ring(ItemIDs.AmethystRing), new[] { 1000, int.MaxValue });
+                stock.Add(new Ring(ItemIDs.TopazRing), new[] { 1000, int.MaxValue });
                 if (MineShaft.lowestLevelReached >= 40)
                 {
-                    stock.Add(new Ring(Constants.AquamarineRingIndex), new[] { 2500, int.MaxValue });
-                    stock.Add(new Ring(Constants.JadeRingIndex), new[] { 2500, int.MaxValue });
+                    stock.Add(new Ring(ItemIDs.AquamarineRing), new[] { 2500, int.MaxValue });
+                    stock.Add(new Ring(ItemIDs.JadeRing), new[] { 2500, int.MaxValue });
                 }
 
                 if (MineShaft.lowestLevelReached >= 80)
                 {
-                    stock.Add(new Ring(Constants.EmeraldRingIndex), new[] { 5000, int.MaxValue });
-                    stock.Add(new Ring(Constants.RubyRingIndex), new[] { 5000, int.MaxValue });
+                    stock.Add(new Ring(ItemIDs.EmeraldRing), new[] { 5000, int.MaxValue });
+                    stock.Add(new Ring(ItemIDs.RubyRing), new[] { 5000, int.MaxValue });
                 }
             }
 
             stock.Add(new Slingshot(), new[] { 500, int.MaxValue });
             if (MineShaft.lowestLevelReached >= 50)
             {
-                stock.Add(new Slingshot(Constants.MasterSlingshotIndex), new[] { 1000, int.MaxValue });
+                stock.Add(new Slingshot(ItemIDs.MasterSlingshot), new[] { 1000, int.MaxValue });
             }
 
             if (Game1.player.craftingRecipes.ContainsKey("Explosive Ammo"))
             {
-                stock.Add(new SObject(Constants.ExplosiveAmmoIndex, 1), new[] { 300, int.MaxValue });
+                stock.Add(new SObject(ItemIDs.ExplosiveAmmo, 1), new[] { 300, int.MaxValue });
             }
 
             var rotatingStock = new Dictionary<ISalable, int[]>();

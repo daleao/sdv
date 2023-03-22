@@ -10,8 +10,8 @@ using DaLion.Overhaul.Modules.Professions.Extensions;
 using DaLion.Overhaul.Modules.Professions.VirtualProperties;
 using DaLion.Shared.Extensions.Stardew;
 using DaLion.Shared.Networking;
+using DaLion.Shared.UI;
 using Microsoft.Xna.Framework;
-using Shared.UI;
 using StardewValley.Locations;
 using StardewValley.Tools;
 
@@ -119,7 +119,7 @@ internal sealed class ProspectorHunt : TreasureHunt
     public override void Fail()
     {
         Game1.addHUDMessage(new HuntNotification(this.HuntFailedMessage));
-        Game1.player.Write(DataFields.ProspectorHuntStreak, "0");
+        Game1.player.Write(DataKeys.ProspectorHuntStreak, "0");
         this.End(false);
     }
 
@@ -163,7 +163,7 @@ internal sealed class ProspectorHunt : TreasureHunt
             this.Shaft.createLadderDown((int)this.TreasureTile!.Value.X, (int)this.TreasureTile!.Value.Y);
         }
 
-        Game1.player.Increment(DataFields.ProspectorHuntStreak);
+        Game1.player.Increment(DataKeys.ProspectorHuntStreak);
         this.End(true);
     }
 
@@ -328,7 +328,7 @@ internal sealed class ProspectorHunt : TreasureHunt
 
                     case 2: // special items
                         var luckModifier = Math.Max(0, 1.0 + (Game1.player.DailyLuck * mineLevel / 4));
-                        var streak = Game1.player.Read<uint>(DataFields.ProspectorHuntStreak);
+                        var streak = Game1.player.Read<uint>(DataKeys.ProspectorHuntStreak);
                         if (this.Random.NextDouble() < 0.025 * luckModifier * streak && !Game1.player.specialItems.Contains(31))
                         {
                             treasuresAndQuantities.Add(-1, 1); // femur

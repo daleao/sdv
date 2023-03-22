@@ -30,7 +30,7 @@ internal sealed class IslandNorthGetIslandMerchantTradeStockPatcher : HarmonyPat
             return;
         }
 
-        var bananaSapling = __result.Keys.FirstOrDefault(i => i is SObject { ParentSheetIndex: Constants.BananaSaplingIndex });
+        var bananaSapling = __result.Keys.FirstOrDefault(i => i is SObject { ParentSheetIndex: ItemIDs.BananaSapling });
         if (bananaSapling is null)
         {
             return;

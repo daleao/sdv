@@ -15,7 +15,7 @@ public sealed class DarkSword : MeleeWeapon
 {
     /// <summary>Initializes a new instance of the <see cref="DarkSword"/> class.</summary>
     public DarkSword()
-    : base(Constants.DarkSwordIndex)
+    : base(ItemIDs.DarkSword)
     {
         this.AddEnchantment(new CursedEnchantment());
         this.specialItem = true;

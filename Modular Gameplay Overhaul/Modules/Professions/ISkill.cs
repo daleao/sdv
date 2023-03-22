@@ -14,6 +14,9 @@ using StardewValley;
 /// <summary>Interface for all of the <see cref="Farmer"/>'s skills.</summary>
 public interface ISkill
 {
+    /// <summary>The vanilla experience cap.</summary>
+    public const int ExpAtLevel10 = 15000;
+
     /// <summary>Gets the skill's unique string id.</summary>
     string StringId { get; }
 
@@ -79,17 +82,17 @@ public interface ISkill
         { 7, 4800 },
         { 8, 6900 },
         { 9, 10000 },
-        { 10, Constants.ExpAtLevel10 },
-        { 11, Constants.ExpAtLevel10 + (int)ProfessionsModule.Config.RequiredExpPerExtendedLevel },
-        { 12, Constants.ExpAtLevel10 + ((int)ProfessionsModule.Config.RequiredExpPerExtendedLevel * 2) },
-        { 13, Constants.ExpAtLevel10 + ((int)ProfessionsModule.Config.RequiredExpPerExtendedLevel * 3) },
-        { 14, Constants.ExpAtLevel10 + ((int)ProfessionsModule.Config.RequiredExpPerExtendedLevel * 4) },
-        { 15, Constants.ExpAtLevel10 + ((int)ProfessionsModule.Config.RequiredExpPerExtendedLevel * 5) },
-        { 16, Constants.ExpAtLevel10 + ((int)ProfessionsModule.Config.RequiredExpPerExtendedLevel * 6) },
-        { 17, Constants.ExpAtLevel10 + ((int)ProfessionsModule.Config.RequiredExpPerExtendedLevel * 7) },
-        { 18, Constants.ExpAtLevel10 + ((int)ProfessionsModule.Config.RequiredExpPerExtendedLevel * 8) },
-        { 19, Constants.ExpAtLevel10 + ((int)ProfessionsModule.Config.RequiredExpPerExtendedLevel * 9) },
-        { 20, Constants.ExpAtLevel10 + ((int)ProfessionsModule.Config.RequiredExpPerExtendedLevel * 10) },
+        { 10, ExpAtLevel10 },
+        { 11, ExpAtLevel10 + (int)ProfessionsModule.Config.RequiredExpPerExtendedLevel },
+        { 12, ExpAtLevel10 + ((int)ProfessionsModule.Config.RequiredExpPerExtendedLevel * 2) },
+        { 13, ExpAtLevel10 + ((int)ProfessionsModule.Config.RequiredExpPerExtendedLevel * 3) },
+        { 14, ExpAtLevel10 + ((int)ProfessionsModule.Config.RequiredExpPerExtendedLevel * 4) },
+        { 15, ExpAtLevel10 + ((int)ProfessionsModule.Config.RequiredExpPerExtendedLevel * 5) },
+        { 16, ExpAtLevel10 + ((int)ProfessionsModule.Config.RequiredExpPerExtendedLevel * 6) },
+        { 17, ExpAtLevel10 + ((int)ProfessionsModule.Config.RequiredExpPerExtendedLevel * 7) },
+        { 18, ExpAtLevel10 + ((int)ProfessionsModule.Config.RequiredExpPerExtendedLevel * 8) },
+        { 19, ExpAtLevel10 + ((int)ProfessionsModule.Config.RequiredExpPerExtendedLevel * 9) },
+        { 20, ExpAtLevel10 + ((int)ProfessionsModule.Config.RequiredExpPerExtendedLevel * 10) },
     }.ToImmutableDictionary();
 
     /// <summary>Adds experience points for this skill.</summary>

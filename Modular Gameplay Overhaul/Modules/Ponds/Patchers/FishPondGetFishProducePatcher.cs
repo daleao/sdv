@@ -57,7 +57,7 @@ internal sealed class FishPondGetFishProducePatcher : HarmonyPatcher
             ProduceFromPondData(__instance, held, random);
 
             // handle roe/ink
-            if (fish.ParentSheetIndex == Constants.CoralIndex)
+            if (fish.ParentSheetIndex == ItemIDs.Coral)
             {
                 ProduceForCoral(__instance, held, __instance.GetRoeChance(fish.Price), random);
             }
@@ -91,21 +91,21 @@ internal sealed class FishPondGetFishProducePatcher : HarmonyPatcher
                 var serialized = held
                     .Take(36)
                     .Select(p => $"{p.ParentSheetIndex},{p.Stack},{((SObject)p).Quality}");
-                __instance.Write(DataFields.ItemsHeld, string.Join(';', serialized));
+                __instance.Write(DataKeys.ItemsHeld, string.Join(';', serialized));
             }
             else
             {
-                __instance.Write(DataFields.ItemsHeld, null);
+                __instance.Write(DataKeys.ItemsHeld, null);
             }
 
-            if (__result.ParentSheetIndex != Constants.RoeIndex)
+            if (__result.ParentSheetIndex != ItemIDs.Roe)
             {
                 return false; // don't run original logic
             }
 
             var fishIndex = fish.ParentSheetIndex;
             if (fish.IsLegendaryFish() && random.NextDouble() <
-                __instance.Read<double>(DataFields.FamilyLivingHere) / __instance.FishCount)
+                __instance.Read<double>(DataKeys.FamilyLivingHere) / __instance.FishCount)
             {
                 fishIndex = Collections.ExtendedFamilyPairs[fishIndex];
             }
@@ -114,7 +114,7 @@ internal sealed class FishPondGetFishProducePatcher : HarmonyPatcher
             var c = fishIndex == 698
                 ? new Color(61, 55, 42)
                 : TailoringMenu.GetDyeColor(new SObject(fishIndex, 1)) ?? Color.Orange;
-            var o = new ColoredObject(Constants.RoeIndex, __result.Stack, c);
+            var o = new ColoredObject(ItemIDs.Roe, __result.Stack, c);
             o.name = split[0].ToString() + " Roe";
             o.preserve.Value = SObject.PreserveType.Roe;
             o.preservedParentSheetIndex.Value = fishIndex;
@@ -127,9 +127,9 @@ internal sealed class FishPondGetFishProducePatcher : HarmonyPatcher
         catch (InvalidDataException ex)
         {
             Log.W($"{ex}\nThe data will be reset.");
-            __instance.Write(DataFields.FishQualities, $"{__instance.FishCount},0,0,0");
-            __instance.Write(DataFields.FamilyQualities, null);
-            __instance.Write(DataFields.FamilyLivingHere, null);
+            __instance.Write(DataKeys.FishQualities, $"{__instance.FishCount},0,0,0");
+            __instance.Write(DataKeys.FamilyQualities, null);
+            __instance.Write(DataKeys.FamilyLivingHere, null);
             return true; // default to original logic
         }
         catch (Exception ex)
@@ -154,7 +154,7 @@ internal sealed class FishPondGetFishProducePatcher : HarmonyPatcher
         for (var i = 0; i < fishPondData.ProducedItems.Count; i++)
         {
             var reward = fishPondData.ProducedItems[i];
-            if (reward.ItemID is not (Constants.RoeIndex or Constants.SquidInkIndex) &&
+            if (reward.ItemID is not (ItemIDs.Roe or ItemIDs.SquidInk) &&
                 pond.currentOccupants.Value >= reward.RequiredPopulation &&
                 r.NextDouble() < Utility.Lerp(0.15f, 0.95f, pond.currentOccupants.Value / 10f) &&
                 r.NextDouble() < reward.Chance)
@@ -167,8 +167,8 @@ internal sealed class FishPondGetFishProducePatcher : HarmonyPatcher
     private static void ProduceRoe(FishPond pond, SObject fish, List<Item> held, Random r)
     {
         var fishQualities = pond.Read(
-                DataFields.FishQualities,
-                $"{pond.FishCount - pond.Read<int>(DataFields.FamilyLivingHere)},0,0,0")
+                DataKeys.FishQualities,
+                $"{pond.FishCount - pond.Read<int>(DataKeys.FamilyLivingHere)},0,0,0")
             .ParseList<int>();
         if (fishQualities.Count != 4)
         {
@@ -176,7 +176,7 @@ internal sealed class FishPondGetFishProducePatcher : HarmonyPatcher
         }
 
         var familyQualities =
-            pond.Read(DataFields.FamilyQualities, "0,0,0,0").ParseList<int>();
+            pond.Read(DataKeys.FamilyQualities, "0,0,0,0").ParseList<int>();
         if (familyQualities.Count != 4)
         {
             ThrowHelper.ThrowInvalidDataException("FamilyQualities data had incorrect number of values.");
@@ -201,7 +201,7 @@ internal sealed class FishPondGetFishProducePatcher : HarmonyPatcher
             }
         }
 
-        if (fish.ParentSheetIndex == Constants.SturgeonIndex)
+        if (fish.ParentSheetIndex == ItemIDs.Sturgeon)
         {
             for (var i = 0; i < 4; i++)
             {
@@ -214,7 +214,7 @@ internal sealed class FishPondGetFishProducePatcher : HarmonyPatcher
             return;
         }
 
-        var roeIndex = fish.Name.Contains("Squid") ? Constants.SquidInkIndex : Constants.RoeIndex;
+        var roeIndex = fish.Name.Contains("Squid") ? ItemIDs.SquidInk : ItemIDs.Roe;
         for (var i = 3; i >= 0; i--)
         {
             if (producedRoes[i] <= 0)
@@ -236,7 +236,7 @@ internal sealed class FishPondGetFishProducePatcher : HarmonyPatcher
     private static void ProduceForAlgae(FishPond pond, ref SObject? result, List<Item> held, Random r)
     {
         var algaeStacks = new[] { 0, 0, 0 }; // green, white, seaweed
-        var population = pond.Read<int>(DataFields.GreenAlgaeLivingHere);
+        var population = pond.Read<int>(DataKeys.GreenAlgaeLivingHere);
         var chance = Utility.Lerp(0.15f, 0.95f, population / (float)pond.currentOccupants.Value);
         for (var i = 0; i < population; i++)
         {
@@ -246,7 +246,7 @@ internal sealed class FishPondGetFishProducePatcher : HarmonyPatcher
             }
         }
 
-        population = pond.Read<int>(DataFields.WhiteAlgaeLivingHere);
+        population = pond.Read<int>(DataKeys.WhiteAlgaeLivingHere);
         chance = Utility.Lerp(0.15f, 0.95f, population / (float)pond.currentOccupants.Value);
         for (var i = 0; i < population; i++)
         {
@@ -256,7 +256,7 @@ internal sealed class FishPondGetFishProducePatcher : HarmonyPatcher
             }
         }
 
-        population = pond.Read<int>(DataFields.SeaweedLivingHere);
+        population = pond.Read<int>(DataKeys.SeaweedLivingHere);
         chance = Utility.Lerp(0.15f, 0.95f, population / (float)pond.currentOccupants.Value);
         for (var i = 0; i < population; i++)
         {
@@ -270,29 +270,29 @@ internal sealed class FishPondGetFishProducePatcher : HarmonyPatcher
         {
             if (algaeStacks[0] > 0)
             {
-                held.Add(new SObject(Constants.GreenAlgaeIndex, algaeStacks[0]));
+                held.Add(new SObject(ItemIDs.GreenAlgae, algaeStacks[0]));
             }
 
             if (algaeStacks[1] > 0)
             {
-                held.Add(new SObject(Constants.WhiteAlgaeIndex, algaeStacks[1]));
+                held.Add(new SObject(ItemIDs.WhiteAlgae, algaeStacks[1]));
             }
 
             if (algaeStacks[2] > 0)
             {
-                held.Add(new SObject(Constants.SeaweedIndex, algaeStacks[2]));
+                held.Add(new SObject(ItemIDs.Seaweed, algaeStacks[2]));
             }
 
             result = pond.fishType.Value switch
             {
-                Constants.GreenAlgaeIndex when algaeStacks[0] > 0 => new SObject(
-                    Constants.GreenAlgaeIndex,
+                ItemIDs.GreenAlgae when algaeStacks[0] > 0 => new SObject(
+                    ItemIDs.GreenAlgae,
                     algaeStacks[0]),
-                Constants.WhiteAlgaeIndex when algaeStacks[1] > 0 => new SObject(
-                    Constants.WhiteAlgaeIndex,
+                ItemIDs.WhiteAlgae when algaeStacks[1] > 0 => new SObject(
+                    ItemIDs.WhiteAlgae,
                     algaeStacks[1]),
-                Constants.SeaweedIndex when algaeStacks[2] > 0 => new SObject(
-                    Constants.SeaweedIndex,
+                ItemIDs.Seaweed when algaeStacks[2] > 0 => new SObject(
+                    ItemIDs.Seaweed,
                     algaeStacks[2]),
                 _ => null,
             };
@@ -302,9 +302,9 @@ internal sealed class FishPondGetFishProducePatcher : HarmonyPatcher
                 var max = algaeStacks.ToList().IndexOfMax();
                 result = max switch
                 {
-                    0 => new SObject(Constants.GreenAlgaeIndex, algaeStacks[0]),
-                    1 => new SObject(Constants.WhiteAlgaeIndex, algaeStacks[1]),
-                    2 => new SObject(Constants.SeaweedIndex, algaeStacks[2]),
+                    0 => new SObject(ItemIDs.GreenAlgae, algaeStacks[0]),
+                    1 => new SObject(ItemIDs.WhiteAlgae, algaeStacks[1]),
+                    2 => new SObject(ItemIDs.Seaweed, algaeStacks[2]),
                     _ => null,
                 };
             }
@@ -319,7 +319,7 @@ internal sealed class FishPondGetFishProducePatcher : HarmonyPatcher
         var serialized = held
             .Take(36)
             .Select(p => $"{p.ParentSheetIndex},{p.Stack},0");
-        pond.Write(DataFields.ItemsHeld, string.Join(';', serialized));
+        pond.Write(DataKeys.ItemsHeld, string.Join(';', serialized));
     }
 
     private static void ProduceForCoral(FishPond pond, List<Item> held, double chance, Random r)
@@ -331,13 +331,13 @@ internal sealed class FishPondGetFishProducePatcher : HarmonyPatcher
             {
                 switch (r.NextAlgae())
                 {
-                    case Constants.GreenAlgaeIndex:
+                    case ItemIDs.GreenAlgae:
                         algaeStacks[0]++;
                         break;
-                    case Constants.WhiteAlgaeIndex:
+                    case ItemIDs.WhiteAlgae:
                         algaeStacks[1]++;
                         break;
-                    case Constants.SeaweedIndex:
+                    case ItemIDs.Seaweed:
                         algaeStacks[2]++;
                         break;
                 }
@@ -346,24 +346,24 @@ internal sealed class FishPondGetFishProducePatcher : HarmonyPatcher
 
         if (algaeStacks[0] > 0)
         {
-            held.Add(new SObject(Constants.GreenAlgaeIndex, algaeStacks[0]));
+            held.Add(new SObject(ItemIDs.GreenAlgae, algaeStacks[0]));
         }
 
         if (algaeStacks[1] > 0)
         {
-            held.Add(new SObject(Constants.WhiteAlgaeIndex, algaeStacks[1]));
+            held.Add(new SObject(ItemIDs.WhiteAlgae, algaeStacks[1]));
         }
 
         if (algaeStacks[2] > 0)
         {
-            held.Add(new SObject(Constants.SeaweedIndex, algaeStacks[2]));
+            held.Add(new SObject(ItemIDs.Seaweed, algaeStacks[2]));
         }
     }
 
     private static void ProduceRadioactive(FishPond pond, List<Item> held)
     {
         var heldMetals =
-            pond.Read(DataFields.MetalsHeld)
+            pond.Read(DataKeys.MetalsHeld)
                 .ParseList<string>(";")
                 .Select(li => li?.ParseTuple<int, int>())
                 .WhereNotNull()
@@ -377,13 +377,13 @@ internal sealed class FishPondGetFishProducePatcher : HarmonyPatcher
             }
 
             held.Add(index.IsOre()
-                ? new SObject(Constants.RadioactiveOreIndex, 1)
-                : new SObject(Constants.RadioactiveBarIndex, 1));
+                ? new SObject(ItemIDs.RadioactiveOre, 1)
+                : new SObject(ItemIDs.RadioactiveBar, 1));
             heldMetals.RemoveAt(i);
         }
 
         pond.Write(
-            DataFields.MetalsHeld,
+            DataKeys.MetalsHeld,
             string.Join(';', heldMetals
                 .Select(m => string.Join(',', m.Item1, m.Item2))));
     }

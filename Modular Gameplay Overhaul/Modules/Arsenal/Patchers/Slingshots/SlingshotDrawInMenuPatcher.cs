@@ -38,7 +38,7 @@ internal sealed class SlingshotDrawInMenuPatcher : HarmonyPatcher
             return;
         }
 
-        var cooldownPct = ArsenalModule.State.SlingshotCooldown / Constants.SlingshotCooldownTime;
+        var cooldownPct = ArsenalModule.State.SlingshotCooldown / ItemIDs.SlingshotCooldown;
         var drawingAsDebris = drawShadow && drawStackNumber == StackDrawType.Hide;
 
         // ReSharper disable once CompareOfFloatsByEqualityOperator

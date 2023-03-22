@@ -40,7 +40,7 @@ internal sealed class ObjectCheckForActionPatcher : HarmonyPatcher
         if (__state && __instance.heldObject.Value is null && __instance.IsMushroomBox() &&
             who.HasProfession(Profession.Ecologist))
         {
-            Game1.player.Increment(DataFields.EcologistItemsForaged);
+            Game1.player.Increment(DataKeys.EcologistItemsForaged);
         }
     }
 

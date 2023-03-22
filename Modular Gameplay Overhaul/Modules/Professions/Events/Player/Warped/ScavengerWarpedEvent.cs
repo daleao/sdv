@@ -44,7 +44,7 @@ internal sealed class ScavengerWarpedEvent : WarpedEvent
             return;
         }
 
-        var streak = e.Player.Read<int>(DataFields.ScavengerHuntStreak);
+        var streak = e.Player.Read<int>(DataKeys.ScavengerHuntStreak);
         if (streak > 1)
         {
             TrySpawnForageables(streak / 2, e.NewLocation);

@@ -40,9 +40,9 @@ internal sealed class AdvanceQuestCommand : ConsoleCommand
             case "clint":
             case "forge":
                 player.mailReceived.Add("clintForge");
-                if (player.hasQuest(Constants.ForgeIntroQuestId))
+                if (player.hasQuest((int)Quest.ForgeIntro))
                 {
-                    player.completeQuest(Constants.ForgeIntroQuestId);
+                    player.completeQuest((int)Quest.ForgeIntro);
                 }
 
                 break;
@@ -52,21 +52,21 @@ internal sealed class AdvanceQuestCommand : ConsoleCommand
             case "yoba":
             case "virtues":
             case "chivalry":
-                if (player.hasQuest(Constants.VirtuesIntroQuestId))
+                if (player.hasQuest((int)Quest.VirtuesIntro))
                 {
                     player.addQuest(Virtue.Honor);
                     player.addQuest(Virtue.Compassion);
                     player.addQuest(Virtue.Wisdom);
                     player.addQuest(Virtue.Generosity);
                     player.addQuest(Virtue.Valor);
-                    player.completeQuest(Constants.VirtuesIntroQuestId);
+                    player.completeQuest((int)Quest.VirtuesIntro);
                 }
 
-                player.Write(DataFields.ProvenHonor, int.MaxValue.ToString());
-                player.Write(DataFields.ProvenCompassion, int.MaxValue.ToString());
-                player.Write(DataFields.ProvenWisdom, int.MaxValue.ToString());
-                player.Write(DataFields.ProvenGenerosity, true.ToString());
-                player.Write(DataFields.ProvenValor, true.ToString());
+                player.Write(DataKeys.ProvenHonor, int.MaxValue.ToString());
+                player.Write(DataKeys.ProvenCompassion, int.MaxValue.ToString());
+                player.Write(DataKeys.ProvenWisdom, int.MaxValue.ToString());
+                player.Write(DataKeys.ProvenGenerosity, true.ToString());
+                player.Write(DataKeys.ProvenValor, true.ToString());
                 Virtue.List.ForEach(virtue => virtue.CheckForCompletion(Game1.player));
                 break;
         }

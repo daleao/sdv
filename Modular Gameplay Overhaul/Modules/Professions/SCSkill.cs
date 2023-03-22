@@ -156,7 +156,7 @@ public sealed class SCSkill : ISkill
         }
 
         var farmer = Game1.player;
-        var forgottenRecipesDict = farmer.Read(DataFields.ForgottenRecipesDict)
+        var forgottenRecipesDict = farmer.Read(DataKeys.ForgottenRecipesDict)
             .ParseDictionary<string, int>();
 
         // remove associated cooking recipes
@@ -180,7 +180,7 @@ public sealed class SCSkill : ISkill
 
         if (saveForRecovery)
         {
-            farmer.Write(DataFields.ForgottenRecipesDict, forgottenRecipesDict.Stringify());
+            farmer.Write(DataKeys.ForgottenRecipesDict, forgottenRecipesDict.Stringify());
         }
     }
 
@@ -188,9 +188,9 @@ public sealed class SCSkill : ISkill
     public void Revalidate()
     {
         var currentExp = this.CurrentExp;
-        if (currentExp > Constants.ExpAtLevel10)
+        if (currentExp > ISkill.ExpAtLevel10)
         {
-            this.AddExperience(Constants.ExpAtLevel10 - currentExp);
+            this.AddExperience(ISkill.ExpAtLevel10 - currentExp);
         }
     }
 }

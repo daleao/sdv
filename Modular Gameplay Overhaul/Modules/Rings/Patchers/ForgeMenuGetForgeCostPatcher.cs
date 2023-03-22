@@ -36,8 +36,8 @@ internal sealed class ForgeMenuGetForgeCostPatcher : HarmonyPatcher
             return false; // don't run original logic
         }
 
-        if (left.ParentSheetIndex == Constants.IridiumBandIndex &&
-            right_item.ParentSheetIndex == Constants.GalaxySoulIndex)
+        if (left.ParentSheetIndex == ItemIDs.IridiumBand &&
+            right_item.ParentSheetIndex == ItemIDs.GalaxySoul)
         {
             __result = 20;
             return false; // don't run original logic

@@ -32,7 +32,7 @@ internal sealed class NewForgeMenuIsValidUnforgePatcher : HarmonyPatcher
         }
 
         var item = __instance.leftIngredientSpot.item;
-        __result = item is MeleeWeapon { InitialParentTileIndex: Constants.HolyBladeIndex } ||
+        __result = item is MeleeWeapon { InitialParentTileIndex: ItemIDs.HolyBlade } ||
                    (item is Slingshot slingshot && slingshot.GetTotalForgeLevels() > 0);
     }
 

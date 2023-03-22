@@ -25,7 +25,7 @@ internal sealed class BluePrintConsumeResourcesPatcher : HarmonyPatcher
     {
         if (!__instance.magical && TaxesModule.Config.DeductibleBuildingExpenses)
         {
-            Game1.player.Increment(DataFields.BusinessExpenses, __instance.moneyRequired);
+            Game1.player.Increment(DataKeys.BusinessExpenses, __instance.moneyRequired);
         }
     }
 

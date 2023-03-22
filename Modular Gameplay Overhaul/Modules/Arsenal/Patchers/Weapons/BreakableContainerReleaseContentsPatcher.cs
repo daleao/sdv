@@ -97,7 +97,7 @@ internal sealed class BreakableContainerReleaseContentsPatcher : HarmonyPatcher
                             Game1.createMultipleObjectDebris(SObject.stone, x, y, r.Next(2, 6), location);
                             break;
                         case 4:
-                            Game1.createMultipleObjectDebris(Constants.HardwoodIndex, x, y, 1, location); // hardwood
+                            Game1.createMultipleObjectDebris(ItemIDs.Hardwood, x, y, 1, location); // hardwood
                             break;
                         case 5:
                             Game1.createMultipleObjectDebris(62 + (r.Next(7) * 2), x, y, 1, location); // gemstone
@@ -191,13 +191,13 @@ internal sealed class BreakableContainerReleaseContentsPatcher : HarmonyPatcher
                             break;
                         case 6: // etc.
                             Game1.createMultipleObjectDebris(
-                                mineLevel > 120 ? Constants.BoneFragment : Constants.MixedSeeds, x, y, 1, location);
+                                mineLevel > 120 ? ItemIDs.BoneFragment : ItemIDs.MixedSeeds, x, y, 1, location);
                             break;
                     }
                 }
                 else
                 {
-                    Game1.createMultipleObjectDebris(Constants.CaveCarrotIndex, x, y, r.Next(1, 3), location);
+                    Game1.createMultipleObjectDebris(ItemIDs.CaveCarrot, x, y, r.Next(1, 3), location);
                 }
             }
             else if (r.NextDouble() < 0.4)
@@ -214,25 +214,25 @@ internal sealed class BreakableContainerReleaseContentsPatcher : HarmonyPatcher
                         Game1.createMultipleObjectDebris(shaft.ChooseForageMineral(), x, y, 1, location);
                         break;
                     case 3:
-                        Game1.createMultipleObjectDebris(Constants.HardwoodIndex, x, y, 1, location);
+                        Game1.createMultipleObjectDebris(ItemIDs.Hardwood, x, y, 1, location);
                         break;
                     case 4: // fertilizer or sap
                         var what = who.timesReachedMineBottom > 0 && r.NextDouble() < 0.5
                             ? mineLevel < 80
                                 ? r.Choose(
-                                    Constants.BasicFertilizerIndex,
-                                    Constants.BasicRetainingSoilIndex,
-                                    Constants.SpeedGroIndex)
+                                    ItemIDs.BasicFertilizer,
+                                    ItemIDs.BasicRetainingSoil,
+                                    ItemIDs.SpeedGro)
                                 : r.Choose(
-                                    Constants.QualityFertilizerIndex,
-                                    Constants.BasicRetainingSoilIndex,
-                                    Constants.SpeedGroIndex)
-                            : Constants.SapIndex;
+                                    ItemIDs.QualityFertilizer,
+                                    ItemIDs.BasicRetainingSoil,
+                                    ItemIDs.SpeedGro)
+                            : ItemIDs.Sap;
                         Game1.createMultipleObjectDebris(
                             what,
                             x,
                             y,
-                            what == Constants.SapIndex ? r.Next(2, 4) : 1,
+                            what == ItemIDs.Sap ? r.Next(2, 4) : 1,
                             location);
                         break;
                 }

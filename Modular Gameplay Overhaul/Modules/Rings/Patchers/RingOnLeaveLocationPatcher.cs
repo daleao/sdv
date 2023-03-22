@@ -26,7 +26,7 @@ internal sealed class RingOnLeaveLocationPatcher : HarmonyPatcher
     private static bool RingOnLeaveLocationPrefix(Ring __instance)
     {
         return !RingsModule.Config.TheOneInfinityBand ||
-               __instance.indexInTileSheet.Value != Constants.IridiumBandIndex;
+               __instance.indexInTileSheet.Value != ItemIDs.IridiumBand;
     }
 
     #endregion harmony patches

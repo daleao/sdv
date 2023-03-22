@@ -31,7 +31,7 @@ internal sealed class ObjectCheckForSpecialItemHoldUpMessagePatcher : HarmonyPat
             return;
         }
 
-        var found = Game1.player.Read(DataFields.BlueprintsFound).ParseList<int>();
+        var found = Game1.player.Read(DataKeys.BlueprintsFound).ParseList<int>();
         if (found.Count == 1)
         {
             var type = ((WeaponType)new MeleeWeapon(found[0]).type.Value).ToStringFast();

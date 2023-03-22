@@ -63,14 +63,14 @@ internal sealed class ObjectProjectile : BasicProjectile
             xVelocity,
             yVelocity,
             startingPosition,
-            ammo.ParentSheetIndex == Constants.ExplosiveAmmoIndex ? "explosion" : "hammer",
+            ammo.ParentSheetIndex == ItemIDs.ExplosiveAmmo ? "explosion" : "hammer",
             string.Empty,
-            ammo.ParentSheetIndex == Constants.ExplosiveAmmoIndex,
+            ammo.ParentSheetIndex == ItemIDs.ExplosiveAmmo,
             true,
             firer.currentLocation,
             firer,
             true,
-            ammo.ParentSheetIndex == Constants.ExplosiveAmmoIndex ? explodeOnImpact : null)
+            ammo.ParentSheetIndex == ItemIDs.ExplosiveAmmo ? explodeOnImpact : null)
     {
         this.Ammo = ammo;
         this.Source = source;
@@ -87,8 +87,8 @@ internal sealed class ObjectProjectile : BasicProjectile
             ? 2f * source.Get_EffectiveCritPowerModifier() * (1f + firer.critPowerModifier)
             : 0f;
 
-        this.CanBeRecovered = canRecover && !this.IsSquishy() && ammo.ParentSheetIndex != Constants.ExplosiveAmmoIndex;
-        this.CanPierce = !this.IsSquishy() && ammo.ParentSheetIndex != Constants.ExplosiveAmmoIndex;
+        this.CanBeRecovered = canRecover && !this.IsSquishy() && ammo.ParentSheetIndex != ItemIDs.ExplosiveAmmo;
+        this.CanPierce = !this.IsSquishy() && ammo.ParentSheetIndex != ItemIDs.ExplosiveAmmo;
         if (this.IsSquishy())
         {
             Reflector
@@ -145,7 +145,7 @@ internal sealed class ObjectProjectile : BasicProjectile
             return;
         }
 
-        if (this.Ammo.ParentSheetIndex == Constants.SlimeIndex)
+        if (this.Ammo.ParentSheetIndex == ItemIDs.Slime)
         {
             if (monster.IsSlime())
             {
@@ -249,7 +249,7 @@ internal sealed class ObjectProjectile : BasicProjectile
             return;
         }
 
-        if (this.Ammo.ParentSheetIndex == Constants.SlimeIndex &&
+        if (this.Ammo.ParentSheetIndex == ItemIDs.Slime &&
             this.Firer.Get_Ultimate() is Concerto { IsActive: false } concerto)
         {
             concerto.ChargeValue += Game1.random.Next(5);
@@ -383,6 +383,6 @@ internal sealed class ObjectProjectile : BasicProjectile
     public bool IsSquishy()
     {
         return this.Ammo?.Category is SObject.EggCategory or SObject.FruitsCategory or SObject.VegetableCategory ||
-               this.Ammo?.ParentSheetIndex == Constants.SlimeIndex;
+               this.Ammo?.ParentSheetIndex == ItemIDs.Slime;
     }
 }

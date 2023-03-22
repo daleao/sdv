@@ -108,9 +108,9 @@ internal sealed class IClickableMenuDrawHoverTextPatcher : HarmonyPatcher
 
             switch (weapon.InitialParentTileIndex)
             {
-                case Constants.DarkSwordIndex:
+                case ItemIDs.DarkSword:
                     return Color.DarkSlateGray;
-                case Constants.HolyBladeIndex:
+                case ItemIDs.HolyBlade:
                     return Color.Gold;
             }
         }
@@ -118,9 +118,9 @@ internal sealed class IClickableMenuDrawHoverTextPatcher : HarmonyPatcher
         {
             switch (slingshot.InitialParentTileIndex)
             {
-                case Constants.GalaxySlingshotIndex:
+                case ItemIDs.GalaxySlingshot:
                     return Color.DarkViolet;
-                case Constants.InfinitySlingshotIndex:
+                case ItemIDs.InfinitySlingshot:
                     return Color.DeepPink;
             }
         }

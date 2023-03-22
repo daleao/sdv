@@ -23,14 +23,14 @@ internal sealed class BluePrintCtorPatcher : HarmonyPatcher
     private static void BluePrintCtorPostfix(BluePrint __instance)
     {
         if (!ArsenalModule.Config.DwarvishCrafting || __instance.name != "Island Obelisk" ||
-            !__instance.itemsRequired.Remove(Constants.DragonToothIndex))
+            !__instance.itemsRequired.Remove(ItemIDs.DragonTooth))
         {
             return;
         }
 
-        __instance.itemsRequired[Constants.PineappleIndex] = 10;
-        __instance.itemsRequired[Constants.MangoIndex] = 10;
-        __instance.itemsRequired[Constants.RadioactiveBarIndex] = 5;
+        __instance.itemsRequired[ItemIDs.Pineapple] = 10;
+        __instance.itemsRequired[ItemIDs.Mango] = 10;
+        __instance.itemsRequired[ItemIDs.RadioactiveBar] = 5;
         __instance.itemsRequired.Remove(SObject.iridiumBar);
     }
 

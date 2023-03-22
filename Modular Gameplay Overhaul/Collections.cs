@@ -128,29 +128,29 @@ internal static class Collections
     /// <summary>Gets the corresponding extended family pair by legendary fish id.</summary>
     internal static ImmutableDictionary<int, int> ExtendedFamilyPairs { get; } = new Dictionary<int, int>
     {
-        { Constants.CrimsonfishIndex, Constants.SonOfCrimsonfishIndex },
-        { Constants.AnglerIndex, Constants.MsAnglerIndex },
-        { Constants.LegendIndex, Constants.Legend2Index },
-        { Constants.MutantCarpIndex, Constants.RadioactiveCarpIndex },
-        { Constants.GlacierfishIndex, Constants.GlacierfishJrIndex },
-        { Constants.SonOfCrimsonfishIndex, Constants.CrimsonfishIndex },
-        { Constants.MsAnglerIndex, Constants.AnglerIndex },
-        { Constants.Legend2Index, Constants.LegendIndex },
-        { Constants.RadioactiveCarpIndex, Constants.MutantCarpIndex },
-        { Constants.GlacierfishJrIndex, Constants.GlacierfishIndex },
+        { ItemIDs.Crimsonfish, ItemIDs.SonOfCrimsonfish },
+        { ItemIDs.Angler, ItemIDs.MsAngler },
+        { ItemIDs.Legend, ItemIDs.Legend2 },
+        { ItemIDs.MutantCarp, ItemIDs.RadioactiveCarp },
+        { ItemIDs.Glacierfish, ItemIDs.GlacierfishJr },
+        { ItemIDs.SonOfCrimsonfish, ItemIDs.Crimsonfish },
+        { ItemIDs.MsAngler, ItemIDs.Angler },
+        { ItemIDs.Legend2, ItemIDs.Legend },
+        { ItemIDs.RadioactiveCarp, ItemIDs.MutantCarp },
+        { ItemIDs.GlacierfishJr, ItemIDs.Glacierfish },
     }.ToImmutableDictionary();
 
     /// <summary>Gets the swords that should be converted to Stabbing Swords.</summary>
     internal static HashSet<int> StabbingSwords { get; } = new()
     {
-        Constants.SteelSmallswordIndex,
-        Constants.CutlassIndex,
-        Constants.RapierIndex,
-        Constants.SteelFalchionIndex,
-        Constants.PiratesSwordIndex,
-        Constants.ForestSwordIndex,
-        Constants.LavaKatanaIndex,
-        Constants.DragontoothCutlassIndex,
-        Constants.DarkSwordIndex,
+        ItemIDs.SteelSmallsword,
+        ItemIDs.Cutlass,
+        ItemIDs.Rapier,
+        ItemIDs.SteelFalchion,
+        ItemIDs.PiratesSword,
+        ItemIDs.ForestSword,
+        ItemIDs.LavaKatana,
+        ItemIDs.DragontoothCutlass,
+        ItemIDs.DarkSword,
     };
 }

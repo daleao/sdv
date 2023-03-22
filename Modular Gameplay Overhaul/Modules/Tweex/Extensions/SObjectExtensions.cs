@@ -15,7 +15,7 @@ internal static class SObjectExtensions
     internal static int GetQualityFromAge(this SObject @object)
     {
         var skillFactor = 1f + (Game1.player.FarmingLevel * 0.1f);
-        var age = (int)(@object.Read<int>(DataFields.Age) * skillFactor * (@object.IsBeeHouse()
+        var age = (int)(@object.Read<int>(DataKeys.Age) * skillFactor * (@object.IsBeeHouse()
             ?
             TweexModule.Config.BeeHouseAgingFactor
             : @object.IsMushroomBox()

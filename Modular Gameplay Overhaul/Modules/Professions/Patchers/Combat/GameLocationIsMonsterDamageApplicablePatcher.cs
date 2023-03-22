@@ -27,7 +27,7 @@ internal sealed class GameLocationIsMonsterDamageApplicablePatcher : HarmonyPatc
         ref bool __result, Farmer who, Monster monster)
     {
         if (!monster.IsSlime() || who.CurrentTool is not Slingshot slingshot ||
-            slingshot.attachments[0]?.ParentSheetIndex != Constants.SlimeIndex)
+            slingshot.attachments[0]?.ParentSheetIndex != ItemIDs.Slime)
         {
             return true; // run original logic
         }

@@ -79,9 +79,9 @@ internal sealed class CrabPotDayUpdatePatcher : HarmonyPatcher
                     whichFish = __instance.GetTrash(location, r);
                     if (isConservationist && whichFish.IsTrashIndex())
                     {
-                        owner.Increment(DataFields.ConservationistTrashCollectedThisSeason);
+                        owner.Increment(DataKeys.ConservationistTrashCollectedThisSeason);
                         if (owner.HasProfession(Profession.Conservationist, true) &&
-                            owner.Read<uint>(DataFields.ConservationistTrashCollectedThisSeason) %
+                            owner.Read<uint>(DataKeys.ConservationistTrashCollectedThisSeason) %
                             ProfessionsModule.Config.TrashNeededPerFriendshipPoint ==
                             0)
                         {

@@ -4,6 +4,7 @@
 
 using System.Linq;
 using System.Reflection;
+using DaLion.Overhaul.Modules.Arsenal.Extensions;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
 using Microsoft.Xna.Framework;
@@ -62,9 +63,9 @@ internal sealed class GameLocationPerformActionPatcher : HarmonyPatcher
 
     private static void HandleYobaAltar(GameLocation location, Farmer who)
     {
-        if (who.hasQuest(Constants.VirtuesLastQuestId) && who.CurrentTool is MeleeWeapon
+        if (who.hasQuest((int)Quest.VirtuesLast) && who.CurrentTool is MeleeWeapon
             {
-                InitialParentTileIndex: Constants.DarkSwordIndex
+                InitialParentTileIndex: ItemIDs.DarkSword
             })
         {
             who.Halt();
@@ -72,7 +73,7 @@ internal sealed class GameLocationPerformActionPatcher : HarmonyPatcher
             who.faceDirection(2);
             who.showCarrying();
             who.jitterStrength = 1f;
-            Game1.pauseThenDoFunction(3000, Utils.GetHolyBlade);
+            Game1.pauseThenDoFunction(3000, GetHolyBlade);
             Game1.changeMusicTrack("none", false, Game1.MusicContext.Event);
             location.playSound("crit");
             Game1.screenGlowOnce(Color.Transparent, true, 0.01f, 0.999f);
@@ -87,12 +88,12 @@ internal sealed class GameLocationPerformActionPatcher : HarmonyPatcher
             Game1.afterDialogues = (Game1.afterFadeFunction)Delegate.Combine(
                 Game1.afterDialogues,
                 (Game1.afterFadeFunction)(() => Game1.stopMusicTrack(Game1.MusicContext.Event)));
-            who.completeQuest(Constants.VirtuesLastQuestId);
+            who.completeQuest((int)Quest.VirtuesLast);
         }
         else
         {
             Game1.drawObjectDialogue(I18n.Get("locations.SeedShop.Yoba"));
-            if (!who.hasQuest(Constants.VirtuesIntroQuestId))
+            if (!who.hasQuest((int)Quest.VirtuesIntro))
             {
                 return;
             }
@@ -122,7 +123,7 @@ internal sealed class GameLocationPerformActionPatcher : HarmonyPatcher
                 location.setMapTileIndex(30, 5, 262, "Front");
                 location.setMapTileIndex(29, 6, 277, "Buildings");
                 location.setMapTileIndex(30, 56, 278, "Buildings");
-                who.addItemByMenuIfNecessaryElseHoldUp(new MeleeWeapon(Constants.GoldenScytheIndex));
+                who.addItemByMenuIfNecessaryElseHoldUp(new MeleeWeapon(ItemIDs.GoldenScythe));
             }
             else
             {
@@ -156,6 +157,22 @@ internal sealed class GameLocationPerformActionPatcher : HarmonyPatcher
                 new("LeaveIt", I18n.Get("weapons.darksword.leaveit")),
             },
             "DarkSword");
+    }
+
+    private static void GetHolyBlade()
+    {
+        var player = Game1.player;
+        if (player.CurrentTool is not MeleeWeapon { InitialParentTileIndex: ItemIDs.DarkSword } darkSword)
+        {
+            return;
+        }
+
+        Game1.flashAlpha = 1f;
+        player.holdUpItemThenMessage(new MeleeWeapon(ItemIDs.HolyBlade));
+        darkSword.transform(ItemIDs.HolyBlade);
+        darkSword.RefreshStats();
+        player.jitterStrength = 0f;
+        Game1.screenGlowHold = false;
     }
 
     #endregion handlers

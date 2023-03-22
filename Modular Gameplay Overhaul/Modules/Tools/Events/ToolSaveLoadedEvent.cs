@@ -27,7 +27,7 @@ internal sealed class ToolSaveLoadedEvent : SaveLoadedEvent
     /// <inheritdoc />
     protected override void OnSaveLoadedImpl(object? sender, SaveLoadedEventArgs e)
     {
-        var indices = Game1.player.Read(DataFields.SelectableTools).ParseList<int>();
+        var indices = Game1.player.Read(DataKeys.SelectableTools).ParseList<int>();
         if (indices.Count == 0)
         {
             return;
@@ -59,6 +59,6 @@ internal sealed class ToolSaveLoadedEvent : SaveLoadedEvent
             leftover.Remove(index);
         }
 
-        Game1.player.Write(DataFields.SelectableTools, string.Join(',', leftover));
+        Game1.player.Write(DataKeys.SelectableTools, string.Join(',', leftover));
     }
 }

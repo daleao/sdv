@@ -39,14 +39,14 @@ internal sealed class MeleeWeaponTransformPatcher : HarmonyPatcher
             switch (newIndex)
             {
                 // dark sword -> holy blade
-                case Constants.HolyBladeIndex:
+                case ItemIDs.HolyBlade:
                     __instance.RemoveEnchantment(__instance.GetEnchantmentOfType<CursedEnchantment>());
                     __instance.AddEnchantment(new BlessedEnchantment());
                     break;
                 // galaxy -> infinity
-                case Constants.InfinityBladeIndex:
-                case Constants.InfinityDaggerIndex:
-                case Constants.InfinityGavelIndex:
+                case ItemIDs.InfinityBlade:
+                case ItemIDs.InfinityDagger:
+                case ItemIDs.InfinityGavel:
                     __instance.RemoveEnchantment(__instance.GetEnchantmentOfType<GalaxySoulEnchantment>());
                     __instance.AddEnchantment(new InfinityEnchantment());
                     break;

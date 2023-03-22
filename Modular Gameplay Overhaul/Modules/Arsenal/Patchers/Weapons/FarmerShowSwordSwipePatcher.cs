@@ -196,9 +196,9 @@ internal sealed class FarmerShowSwordSwipePatcher : HarmonyPatcher
                 ? Color.HotPink
                 : weapon.InitialParentTileIndex switch
                 {
-                    Constants.DarkSwordIndex => Color.DarkSlateGray,
-                    Constants.HolyBladeIndex => Color.Gold,
-                    Constants.LavaKatanaIndex => Color.Orange,
+                    ItemIDs.DarkSword => Color.DarkSlateGray,
+                    ItemIDs.HolyBlade => Color.Gold,
+                    ItemIDs.LavaKatana => Color.Orange,
                     _ => tempSprite.color,
                 };
 

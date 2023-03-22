@@ -10,6 +10,7 @@ using static System.FormattableString;
 
 #endregion using directives
 
+/// <summary>Responsible for collecting federal taxes and administering the Ferngill Revenue Code.</summary>
 internal static class RevenueService
 {
     internal static ImmutableDictionary<int, float> TaxByIncomeBrackets { get; } = TaxesModule.Config.IncomeBrackets
@@ -21,9 +22,9 @@ internal static class RevenueService
     /// <returns>The amount of income tax due in gold.</returns>
     internal static int CalculateTaxes(Farmer who)
     {
-        var income = who.Read<int>(DataFields.SeasonIncome);
-        var expenses = Math.Min(who.Read<int>(DataFields.BusinessExpenses), income);
-        var deductions = who.Read<float>(DataFields.PercentDeductions);
+        var income = who.Read<int>(DataKeys.SeasonIncome);
+        var expenses = Math.Min(who.Read<int>(DataKeys.BusinessExpenses), income);
+        var deductions = who.Read<float>(DataKeys.PercentDeductions);
         var taxable = (int)((income - expenses) * (1f - deductions));
 
         var dueF = 0f;

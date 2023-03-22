@@ -30,7 +30,7 @@ internal sealed class FarmerHasOrWillReceiveMailPatcher : HarmonyPatcher
                 return true; // run original logic
             }
 
-            __result = id.Contains("TaxIntro");
+            __result = true;
             return false; // don't run original logic
         }
         catch (Exception ex)

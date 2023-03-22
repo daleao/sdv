@@ -104,11 +104,11 @@ public class Virtue : SmartEnum<Virtue>
     {
         var proven = false;
         this
-            .When(Honor).Then(() => proven = farmer.Read<int>(DataFields.ProvenHonor) >= 3)
-            .When(Compassion).Then(() => proven = farmer.Read<int>(DataFields.ProvenCompassion) >= 3)
-            .When(Wisdom).Then(() => proven = farmer.Read<int>(DataFields.ProvenWisdom) >= 3)
-            .When(Generosity).Then(() => proven = farmer.Read<bool>(DataFields.ProvenGenerosity))
-            .When(Valor).Then(() => proven = farmer.Read<bool>(DataFields.ProvenValor));
+            .When(Honor).Then(() => proven = farmer.Read<int>(DataKeys.ProvenHonor) >= 3)
+            .When(Compassion).Then(() => proven = farmer.Read<int>(DataKeys.ProvenCompassion) >= 3)
+            .When(Wisdom).Then(() => proven = farmer.Read<int>(DataKeys.ProvenWisdom) >= 3)
+            .When(Generosity).Then(() => proven = farmer.Read<bool>(DataKeys.ProvenGenerosity))
+            .When(Valor).Then(() => proven = farmer.Read<bool>(DataKeys.ProvenValor));
         return proven;
     }
 
@@ -123,12 +123,12 @@ public class Virtue : SmartEnum<Virtue>
 
         farmer.completeQuest(this);
         Shared.Networking.Broadcaster.SendPublicChat($"{farmer.Name} has proven their {this}.");
-        if (!farmer.hasQuest(Constants.VirtuesNextQuestId) || !AllProvenBy(farmer))
+        if (!farmer.hasQuest((int)Quest.VirtuesNext) || !AllProvenBy(farmer))
         {
             return;
         }
 
-        farmer.completeQuest(Constants.VirtuesNextQuestId);
-        farmer.addQuest(Constants.VirtuesLastQuestId);
+        farmer.completeQuest((int)Quest.VirtuesNext);
+        farmer.addQuest((int)Quest.VirtuesLast);
     }
 }

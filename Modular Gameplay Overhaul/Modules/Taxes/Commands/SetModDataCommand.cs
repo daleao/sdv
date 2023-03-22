@@ -50,38 +50,39 @@ internal sealed class SetModDataCommand : ConsoleCommand
             return;
         }
 
+        var player = Game1.player;
         while (args.Length > 0)
         {
             switch (args[0].ToLowerInvariant())
             {
                 case "income":
-                    Game1.player.Write(DataFields.SeasonIncome, args[0]);
-                    Log.I($"{Game1.player.Name}'s season income has been set to {args[0]}.");
+                    Game1.player.Write(DataKeys.SeasonIncome, args[0]);
+                    Log.I($"{player.Name}'s season income has been set to {args[0]}.");
                     break;
                 case "expenses":
                 case "deductibles":
-                    Game1.player.Write(DataFields.BusinessExpenses, args[0]);
-                    Log.I($"{Game1.player.Name}'s season business expenses has been set to {args[0]}.");
+                    Game1.player.Write(DataKeys.BusinessExpenses, args[0]);
+                    Log.I($"{player.Name}'s season business expenses has been set to {args[0]}.");
                     break;
                 case "debt":
-                    Game1.player.Write(DataFields.DebtOutstanding, args[0]);
-                    Log.I($"{Game1.player.Name}'s debt has been set to {args[0]}.");
+                    Game1.player.Write(DataKeys.DebtOutstanding, args[0]);
+                    Log.I($"{player.Name}'s debt has been set to {args[0]}.");
                     break;
                 case "agriculture":
-                    Game1.getFarm().Write(DataFields.AgricultureValue, args[0]);
-                    Log.I($"{Game1.getFarm().Name}'s agriculture valuation has been set to {args[0]}.");
+                    Game1.getFarm().Write(DataKeys.AgricultureValue, args[0]);
+                    Log.I($"{player.farmName}'s agriculture valuation has been set to {args[0]}.");
                     break;
                 case "livestock":
-                    Game1.getFarm().Write(DataFields.LivestockValue, args[0]);
-                    Log.I($"{Game1.getFarm().Name}'s livestock valuation has been set to {args[0]}.");
+                    Game1.getFarm().Write(DataKeys.LivestockValue, args[0]);
+                    Log.I($"{player.farmName}'s livestock valuation has been set to {args[0]}.");
                     break;
                 case "buildings":
-                    Game1.getFarm().Write(DataFields.BuildingValue, args[0]);
-                    Log.I($"{Game1.getFarm().Name}'s buildings' valuation has been set to {args[0]}.");
+                    Game1.getFarm().Write(DataKeys.BuildingValue, args[0]);
+                    Log.I($"{player.farmName}'s buildings' valuation has been set to {args[0]}.");
                     break;
                 case "usage":
-                    Game1.getFarm().Write(DataFields.BuildingValue, args[0]);
-                    Log.I($"{Game1.getFarm().Name}'s buildings' valuation has been set to {args[0]}.");
+                    Game1.getFarm().Write(DataKeys.BuildingValue, args[0]);
+                    Log.I($"{player.farmName}'s buildings' valuation has been set to {args[0]}.");
                     break;
                 default:
                     Log.I($"'{args[0]}' is not a valid data field.");

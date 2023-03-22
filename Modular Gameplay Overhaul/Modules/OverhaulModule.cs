@@ -201,6 +201,13 @@ internal abstract class OverhaulModule : SmartEnum<OverhaulModule>
         }
 
         /// <inheritdoc />
+        internal override void Deactivate()
+        {
+            base.Deactivate();
+            Modules.Arsenal.Utils.RevalidateAllWeapons();
+        }
+
+        /// <inheritdoc />
         protected override void InvalidateAssets()
         {
             ModHelper.GameContent.InvalidateCacheAndLocalized("Data/ObjectInformation");

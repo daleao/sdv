@@ -42,8 +42,8 @@ internal sealed class Game1CreateObjectDebrisPatcher : HarmonyPatcher
                 new Vector2((xTile * 64) + 32, (yTile * 64) + 32),
                 who.getStandingPosition()) { itemQuality = who.GetGemologistMineralQuality() });
 
-            who.Increment(DataFields.GemologistMineralsCollected);
-            var collected = who.Read<int>(DataFields.GemologistMineralsCollected);
+            who.Increment(DataKeys.GemologistMineralsCollected);
+            var collected = who.Read<int>(DataKeys.GemologistMineralsCollected);
             if (!ProfessionsModule.Config.CrystalariumsUpgradeWithGemologist)
             {
                 return false; // don't run original logic

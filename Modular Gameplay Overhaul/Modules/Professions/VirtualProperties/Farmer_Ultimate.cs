@@ -24,7 +24,7 @@ internal static class Farmer_Ultimate
 
     internal static void Set_Ultimate(this Farmer farmer, Ultimate? value)
     {
-        farmer.Write(DataFields.UltimateIndex, value?.Index.ToString() ?? string.Empty);
+        farmer.Write(DataKeys.UltimateIndex, value?.Index.ToString() ?? string.Empty);
         Values.AddOrUpdate(farmer, Create(farmer));
         Log.I($"{farmer.Name}'s Ultimate was set to {value}.");
 
@@ -55,7 +55,7 @@ internal static class Farmer_Ultimate
     private static Holder Create(Farmer farmer)
     {
         var holder = new Holder();
-        var index = farmer.Read(DataFields.UltimateIndex, -1);
+        var index = farmer.Read(DataKeys.UltimateIndex, -1);
         holder.Ultimate = index < 0 ? null : Ultimate.FromValue(index);
         holder.NetIndex.Value = index;
         return holder;

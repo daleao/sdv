@@ -41,7 +41,7 @@ internal sealed class ProspectorWarpedEvent : WarpedEvent
             return;
         }
 
-        var streak = e.Player.Read<int>(DataFields.ProspectorHuntStreak);
+        var streak = e.Player.Read<int>(DataKeys.ProspectorHuntStreak);
         if (streak > 1)
         {
             TrySpawnOreNodes(streak / 2, shaft);

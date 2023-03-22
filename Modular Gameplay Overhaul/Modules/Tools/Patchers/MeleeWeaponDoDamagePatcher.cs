@@ -74,8 +74,8 @@ internal sealed class MeleeWeaponDoDamagePatcher : HarmonyPatcher
 
         uint radius = weapon.InitialParentTileIndex switch
         {
-            Constants.ScytheIndex => ToolsModule.Config.Scythe.RegularRadius,
-            Constants.GoldenScytheIndex => ToolsModule.Config.Scythe.GoldRadius,
+            ItemIDs.Scythe => ToolsModule.Config.Scythe.RegularRadius,
+            ItemIDs.GoldenScythe => ToolsModule.Config.Scythe.GoldRadius,
             _ => 0,
         };
 

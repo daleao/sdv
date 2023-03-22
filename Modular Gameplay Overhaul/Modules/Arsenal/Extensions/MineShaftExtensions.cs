@@ -32,27 +32,27 @@ public static class MineShaftExtensions
     {
         return shaft.mineLevel switch
         {
-            < 40 => Game1.random.Choose(Constants.AmethystIndex, Constants.TopazIndex),
-            < 80 => Game1.random.Choose(Constants.AquamarineIndex, Constants.JadeIndex),
+            < 40 => Game1.random.Choose(ItemIDs.Amethyst, ItemIDs.Topaz),
+            < 80 => Game1.random.Choose(ItemIDs.Aquamarine, ItemIDs.Jade),
             < 120 => Globals.GarnetIndex.HasValue
-                ? Game1.random.Choose(Constants.RubyIndex, Constants.EmeraldIndex, Globals.GarnetIndex.Value)
-                : Game1.random.Choose(Constants.RubyIndex, Constants.EmeraldIndex),
+                ? Game1.random.Choose(ItemIDs.Ruby, ItemIDs.Emerald, Globals.GarnetIndex.Value)
+                : Game1.random.Choose(ItemIDs.Ruby, ItemIDs.Emerald),
             _ => Globals.GarnetIndex.HasValue
                 ? Game1.random.Choose(
-                    Constants.AmethystIndex,
-                    Constants.TopazIndex,
-                    Constants.AquamarineIndex,
-                    Constants.JadeIndex,
-                    Constants.RubyIndex,
-                    Constants.EmeraldIndex,
+                    ItemIDs.Amethyst,
+                    ItemIDs.Topaz,
+                    ItemIDs.Aquamarine,
+                    ItemIDs.Jade,
+                    ItemIDs.Ruby,
+                    ItemIDs.Emerald,
                     Globals.GarnetIndex.Value)
                 : Game1.random.Choose(
-                    Constants.AmethystIndex,
-                    Constants.TopazIndex,
-                    Constants.AquamarineIndex,
-                    Constants.JadeIndex,
-                    Constants.RubyIndex,
-                    Constants.EmeraldIndex),
+                    ItemIDs.Amethyst,
+                    ItemIDs.Topaz,
+                    ItemIDs.Aquamarine,
+                    ItemIDs.Jade,
+                    ItemIDs.Ruby,
+                    ItemIDs.Emerald),
         };
     }
 
@@ -63,12 +63,12 @@ public static class MineShaftExtensions
     {
         return shaft.mineLevel switch
         {
-            < 40 => Constants.GeodeIndex,
-            < 80 => Constants.FrozenGeodeIndex,
-            < 120 => Constants.MagmaGeodeIndex,
+            < 40 => ItemIDs.Geode,
+            < 80 => ItemIDs.FrozenGeode,
+            < 120 => ItemIDs.MagmaGeode,
             _ => Game1.random.NextDouble() < 0.1
-                ? Constants.OmniGeodeIndex
-                : Game1.random.Choose(Constants.GeodeIndex, Constants.FrozenGeodeIndex, Constants.MagmaGeodeIndex),
+                ? ItemIDs.OmniGeode
+                : Game1.random.Choose(ItemIDs.Geode, ItemIDs.FrozenGeode, ItemIDs.MagmaGeode),
         };
     }
 
@@ -79,10 +79,10 @@ public static class MineShaftExtensions
     {
         return shaft.mineLevel switch
         {
-            < 40 => Game1.random.Choose(Constants.QuartzIndex, Constants.EarthCrystalIndex),
-            < 80 => Game1.random.Choose(Constants.QuartzIndex, Constants.FrozenTearIndex),
-            < 120 => Game1.random.Choose(Constants.QuartzIndex, Constants.FireQuartzIndex),
-            _ => Constants.QuartzIndex,
+            < 40 => Game1.random.Choose(ItemIDs.Quartz, ItemIDs.EarthCrystal),
+            < 80 => Game1.random.Choose(ItemIDs.Quartz, ItemIDs.FrozenTear),
+            < 120 => Game1.random.Choose(ItemIDs.Quartz, ItemIDs.FireQuartz),
+            _ => ItemIDs.Quartz,
         };
     }
 }

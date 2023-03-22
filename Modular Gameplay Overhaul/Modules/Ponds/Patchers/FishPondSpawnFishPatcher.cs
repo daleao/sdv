@@ -5,7 +5,6 @@
 using System.IO;
 using System.Linq;
 using DaLion.Overhaul.Modules.Ponds.Extensions;
-using DaLion.Overhaul.Modules.Professions;
 using DaLion.Overhaul.Modules.Professions.Extensions;
 using DaLion.Shared.Extensions;
 using DaLion.Shared.Extensions.Stardew;
@@ -58,20 +57,20 @@ internal sealed class FishPondSpawnFishPatcher : HarmonyPatcher
             var spawned = r.NextAlgae(pond.fishType.Value);
             switch (spawned)
             {
-                case Constants.SeaweedIndex:
-                    pond.Increment(DataFields.SeaweedLivingHere);
+                case ItemIDs.Seaweed:
+                    pond.Increment(DataKeys.SeaweedLivingHere);
                     break;
-                case Constants.GreenAlgaeIndex:
-                    pond.Increment(DataFields.GreenAlgaeLivingHere);
+                case ItemIDs.GreenAlgae:
+                    pond.Increment(DataKeys.GreenAlgaeLivingHere);
                     break;
-                case Constants.WhiteAlgaeIndex:
-                    pond.Increment(DataFields.WhiteAlgaeLivingHere);
+                case ItemIDs.WhiteAlgae:
+                    pond.Increment(DataKeys.WhiteAlgaeLivingHere);
                     break;
             }
 
-            var total = pond.Read<int>(DataFields.SeaweedLivingHere) +
-                        pond.Read<int>(DataFields.GreenAlgaeLivingHere) +
-                        pond.Read<int>(DataFields.WhiteAlgaeLivingHere);
+            var total = pond.Read<int>(DataKeys.SeaweedLivingHere) +
+                        pond.Read<int>(DataKeys.GreenAlgaeLivingHere) +
+                        pond.Read<int>(DataKeys.WhiteAlgaeLivingHere);
             if (total != pond.FishCount)
             {
                 ThrowHelper.ThrowInvalidDataException(
@@ -81,14 +80,14 @@ internal sealed class FishPondSpawnFishPatcher : HarmonyPatcher
         catch (InvalidDataException ex)
         {
             Log.W($"{ex}\nThe data will be reset.");
-            pond.Write(DataFields.SeaweedLivingHere, null);
-            pond.Write(DataFields.GreenAlgaeLivingHere, null);
-            pond.Write(DataFields.WhiteAlgaeLivingHere, null);
+            pond.Write(DataKeys.SeaweedLivingHere, null);
+            pond.Write(DataKeys.GreenAlgaeLivingHere, null);
+            pond.Write(DataKeys.WhiteAlgaeLivingHere, null);
             var field = pond.fishType.Value switch
             {
-                Constants.SeaweedIndex => DataFields.SeaweedLivingHere,
-                Constants.GreenAlgaeIndex => DataFields.GreenAlgaeLivingHere,
-                Constants.WhiteAlgaeIndex => DataFields.WhiteAlgaeLivingHere,
+                ItemIDs.Seaweed => DataKeys.SeaweedLivingHere,
+                ItemIDs.GreenAlgae => DataKeys.GreenAlgaeLivingHere,
+                ItemIDs.WhiteAlgae => DataKeys.WhiteAlgaeLivingHere,
                 _ => string.Empty,
             };
 
@@ -104,7 +103,7 @@ internal sealed class FishPondSpawnFishPatcher : HarmonyPatcher
             var familyCount = 0;
             if (pond.HasLegendaryFish())
             {
-                familyCount = pond.Read<int>(DataFields.FamilyLivingHere);
+                familyCount = pond.Read<int>(DataKeys.FamilyLivingHere);
                 if (familyCount < 0 || familyCount > pond.FishCount)
                 {
                     ThrowHelper.ThrowInvalidDataException(
@@ -124,7 +123,7 @@ internal sealed class FishPondSpawnFishPatcher : HarmonyPatcher
                 ? $"{familyCount},0,0,0"
                 : $"{pond.FishCount - familyCount - 1},0,0,0";
             var qualities = pond
-                .Read(forFamily ? DataFields.FamilyQualities : DataFields.FishQualities, @default)
+                .Read(forFamily ? DataKeys.FamilyQualities : DataKeys.FishQualities, @default)
                 .ParseList<int>();
             if (qualities.Count != 4 ||
                 qualities.Sum() != (forFamily ? familyCount : pond.FishCount - familyCount - 1))
@@ -135,7 +134,7 @@ internal sealed class FishPondSpawnFishPatcher : HarmonyPatcher
             if (qualities.Sum() == 0)
             {
                 qualities[0]++;
-                pond.Write(forFamily ? DataFields.FamilyQualities : DataFields.FishQualities, string.Join(',', qualities));
+                pond.Write(forFamily ? DataKeys.FamilyQualities : DataKeys.FishQualities, string.Join(',', qualities));
                 return;
             }
 
@@ -149,22 +148,22 @@ internal sealed class FishPondSpawnFishPatcher : HarmonyPatcher
                         : SObject.lowQuality;
 
             if (ProfessionsModule.IsEnabled && fishlingQuality < SObject.bestQuality && Game1.random.NextDouble() < 0.5 &&
-                (pond.GetOwner().HasProfession(Profession.Aquarist) ||
+                (pond.GetOwner().HasProfession(Professions.Profession.Aquarist) ||
                  (ProfessionsModule.Config.LaxOwnershipRequirements &&
-                  Game1.game1.DoesAnyPlayerHaveProfession(Profession.Aquarist, out _))))
+                  Game1.game1.DoesAnyPlayerHaveProfession(Professions.Profession.Aquarist, out _))))
             {
                 fishlingQuality += fishlingQuality == SObject.highQuality ? 2 : 1;
             }
 
             qualities[fishlingQuality == SObject.bestQuality ? 3 : fishlingQuality]++;
-            pond.Write(forFamily ? DataFields.FamilyQualities : DataFields.FishQualities, string.Join(',', qualities));
+            pond.Write(forFamily ? DataKeys.FamilyQualities : DataKeys.FishQualities, string.Join(',', qualities));
         }
         catch (InvalidDataException ex)
         {
             Log.W($"{ex}\nThe data will be reset.");
-            pond.Write(DataFields.FishQualities, $"{pond.FishCount},0,0,0");
-            pond.Write(DataFields.FamilyQualities, null);
-            pond.Write(DataFields.FamilyLivingHere, null);
+            pond.Write(DataKeys.FishQualities, $"{pond.FishCount},0,0,0");
+            pond.Write(DataKeys.FamilyQualities, null);
+            pond.Write(DataKeys.FamilyLivingHere, null);
         }
     }
 

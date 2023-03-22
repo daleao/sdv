@@ -29,8 +29,8 @@ internal sealed class NpcCheckForNewCurrentDialoguePatcher : HarmonyPatcher
             var player = Game1.player;
             switch (__instance.Name)
             {
-                case "Clint" when player.hasQuest(Constants.ForgeIntroQuestId):
-                    if (player.Read(DataFields.DaysLeftTranslating, -1) > 0)
+                case "Clint" when player.hasQuest((int)Quest.ForgeIntro):
+                    if (player.Read(DataKeys.DaysLeftTranslating, -1) > 0)
                     {
                         __instance.CurrentDialogue.Clear();
                         __instance.CurrentDialogue.Push(new Dialogue(
@@ -39,21 +39,21 @@ internal sealed class NpcCheckForNewCurrentDialoguePatcher : HarmonyPatcher
                         return false; // don't run original logic
                     }
 
-                    if (player.Read(DataFields.DaysLeftTranslating, int.MaxValue) <= 0)
+                    if (player.Read(DataKeys.DaysLeftTranslating, int.MaxValue) <= 0)
                     {
                         __instance.CurrentDialogue.Clear();
                         __instance.CurrentDialogue.Push(new Dialogue(
                             I18n.Get("dialogue.clint.blueprint.done"),
                             __instance));
-                        player.completeQuest(Constants.ForgeIntroQuestId);
+                        player.completeQuest((int)Quest.ForgeIntro);
                         player.mailReceived.Add("clintForge");
-                        player.Write(DataFields.DaysLeftTranslating, null);
+                        player.Write(DataKeys.DaysLeftTranslating, null);
                         return false; // don't run original logic
                     }
 
                     break;
 
-                case "Wizard" when player.hasQuest(Constants.VirtuesIntroQuestId):
+                case "Wizard" when player.hasQuest((int)Quest.VirtuesIntro):
                     __instance.CurrentDialogue.Clear();
                     __instance.CurrentDialogue.Push(new Dialogue(
                         I18n.Get("dialogue.wizard.curse.canthelp"),

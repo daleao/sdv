@@ -3,12 +3,12 @@
 #region using directives
 
 using System.Linq;
+using DaLion.Overhaul.Modules.Rings.VirtualProperties;
 using DaLion.Shared.Commands;
 using DaLion.Shared.Extensions;
 using DaLion.Shared.Extensions.Collections;
 using Netcode;
 using StardewValley.Objects;
-using VirtualProperties;
 
 #endregion using directives
 
@@ -55,12 +55,12 @@ internal sealed class AddGemstonesCommand : ConsoleCommand
             var ringIndex = args[0].ToLower() switch
             {
                 // forges
-                "ruby" => Constants.RubyRingIndex,
-                "aquamarine" => Constants.AquamarineRingIndex,
-                "jade" => Constants.JadeRingIndex,
-                "emerald" => Constants.EmeraldRingIndex,
-                "amethyst" => Constants.AmethystRingIndex,
-                "topaz" => Constants.TopazRingIndex,
+                "ruby" => ItemIDs.RubyRing,
+                "aquamarine" => ItemIDs.AquamarineRing,
+                "jade" => ItemIDs.JadeRing,
+                "emerald" => ItemIDs.EmeraldRing,
+                "amethyst" => ItemIDs.AmethystRing,
+                "topaz" => ItemIDs.TopazRing,
                 "garnet" => Globals.GarnetRingIndex!.Value,
                 _ => -1,
             };

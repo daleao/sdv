@@ -31,7 +31,7 @@ internal sealed class AdventurerGuildGilPatcher : HarmonyPatcher
             return;
         }
 
-        player.WriteIfNotExists(DataFields.ProvenValor, true.ToString());
+        player.WriteIfNotExists(DataKeys.ProvenValor, true.ToString());
         Virtue.Valor.CheckForCompletion(player);
     }
 

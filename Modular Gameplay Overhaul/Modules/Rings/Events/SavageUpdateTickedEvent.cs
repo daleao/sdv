@@ -26,7 +26,7 @@ internal sealed class SavageUpdateTickedEvent : UpdateTickedEvent
         this._buffId = (Manifest.UniqueID + "Savage").GetHashCode();
         this._buffSource =
             ModHelper.GameContent
-                .Load<Dictionary<int, string>>("Data/ObjectInformation")[Constants.SavangeRingIndex]
+                .Load<Dictionary<int, string>>("Data/ObjectInformation")[ItemIDs.SavangeRing]
                 .SplitWithoutAllocation('/')[0]
                 .ToString();
         this._buffDescription = Game1.content.LoadString("Strings\\StringsFromCSFiles:Buff.cs.472");

@@ -29,11 +29,11 @@ internal sealed class ObjectDayUpdatePatcher : HarmonyPatcher
     {
         if (__instance.IsBeeHouse())
         {
-            __instance.Increment(DataFields.Age);
+            __instance.Increment(DataKeys.Age);
         }
         else if (__instance.IsMushroomBox())
         {
-            __instance.Increment(DataFields.Age);
+            __instance.Increment(DataKeys.Age);
             if (__instance.heldObject.Value is null)
             {
                 return;
