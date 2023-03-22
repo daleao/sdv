@@ -9,6 +9,7 @@ using DaLion.Overhaul.Modules.Professions.Events.GameLoop;
 using DaLion.Overhaul.Modules.Professions.Extensions;
 using DaLion.Overhaul.Modules.Professions.VirtualProperties;
 using DaLion.Shared.Extensions;
+using DaLion.Shared.Extensions.Collections;
 using DaLion.Shared.Extensions.Stardew;
 using DaLion.Shared.Networking;
 using DaLion.Shared.UI;
@@ -338,7 +339,7 @@ internal sealed class ScavengerHunt : TreasureHunt
 #if DEBUG
         if (ArsenalModule.IsEnabled && ArsenalModule.Config.DwarvishCrafting && Globals.DwarvishBlueprintIndex.HasValue)
         {
-            if (!Game1.player.Read(DataKeys.BlueprintsFound).ParseList<int>()
+            if (!Game1.player.Read(Arsenal.DataKeys.BlueprintsFound).ParseList<int>()
                     .ContainsAll(ItemIDs.ElfBlade, ItemIDs.ForestSword))
             {
                 treasures.Add(new SObject(Globals.DwarvishBlueprintIndex.Value, 1));
