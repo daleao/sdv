@@ -2,8 +2,8 @@
 
 #region using directives
 
+using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
-using Ardalis.SmartEnum;
 using DaLion.Shared.Commands;
 using DaLion.Shared.Extensions.SMAPI;
 using DaLion.Shared.Harmony;
@@ -11,7 +11,7 @@ using DaLion.Shared.Harmony;
 #endregion using directives
 
 /// <summary>The individual modules within the Overhaul mod.</summary>
-internal abstract class OverhaulModule : SmartEnum<OverhaulModule>
+internal abstract class OverhaulModule
 {
     #region enum entries
 
@@ -21,8 +21,20 @@ internal abstract class OverhaulModule : SmartEnum<OverhaulModule>
     /// <summary>The Professions module.</summary>
     public static readonly OverhaulModule Professions = new ProfessionsModule();
 
-    /// <summary>The Arsenal module.</summary>
-    public static readonly OverhaulModule Arsenal = new ArsenalModule();
+    /// <summary>The Combat module.</summary>
+    public static readonly OverhaulModule Combat = new CombatModule();
+
+    /// <summary>The Weapons module.</summary>
+    public static readonly OverhaulModule Weapons = new WeaponsModule();
+
+    /// <summary>The Slingshots module.</summary>
+    public static readonly OverhaulModule Slingshots = new SlingshotsModule();
+
+    /// <summary>The Tools module.</summary>
+    public static readonly OverhaulModule Tools = new ToolsModule();
+
+    /// <summary>The Enchantments module.</summary>
+    public static readonly OverhaulModule Enchantments = new EnchantmentsModule();
 
     /// <summary>The Rings module.</summary>
     public static readonly OverhaulModule Rings = new RingsModule();
@@ -32,9 +44,6 @@ internal abstract class OverhaulModule : SmartEnum<OverhaulModule>
 
     /// <summary>The Taxes module.</summary>
     public static readonly OverhaulModule Taxes = new TaxesModule();
-
-    /// <summary>The Tools module.</summary>
-    public static readonly OverhaulModule Tools = new ToolsModule();
 
     /// <summary>The Tweex module.</summary>
     public static readonly OverhaulModule Tweex = new TweexModule();
@@ -46,15 +55,17 @@ internal abstract class OverhaulModule : SmartEnum<OverhaulModule>
 
     /// <summary>Initializes a new instance of the <see cref="OverhaulModule"/> class.</summary>
     /// <param name="name">The module name.</param>
-    /// <param name="value">The module index.</param>
     /// <param name="entry">The entry keyword for the module's <see cref="IConsoleCommand"/>s.</param>
-    protected OverhaulModule(string name, int value, string entry)
-        : base(name, value)
+    protected OverhaulModule(string name, string entry)
     {
+        this.Name = name;
         this.DisplayName = "Modular Overhaul :: " + name;
         this.Namespace = "DaLion.Overhaul.Modules." + name;
         this.EntryCommand = entry;
     }
+
+    /// <summary>Gets the internal name of the module.</summary>
+    internal string Name { get; }
 
     /// <summary>Gets the human-readable name of the module.</summary>
     internal string DisplayName { get; }
@@ -69,6 +80,23 @@ internal abstract class OverhaulModule : SmartEnum<OverhaulModule>
     [MemberNotNullWhen(true, nameof(_harmonizer), nameof(_commandHandler))]
     internal bool IsActive { get; private set; }
 
+    /// <summary>Enumerates all modules.</summary>
+    /// <returns>A <see cref="IEnumerable{T}"/> of <see cref="OverhaulModule"/>s.</returns>
+    internal static IEnumerable<OverhaulModule> EnumerateModules()
+    {
+        yield return Core;
+        yield return Professions;
+        yield return Combat;
+        yield return Weapons;
+        yield return Slingshots;
+        yield return Tools;
+        yield return Enchantments;
+        yield return Rings;
+        yield return Ponds;
+        yield return Taxes;
+        yield return Tweex;
+    }
+
     /// <summary>Activates the module.</summary>
     /// <param name="helper">Provides simplified APIs for writing mods.</param>
     //[MemberNotNull(nameof(_harmonizer), nameof(_commandHandler))]
@@ -76,7 +104,7 @@ internal abstract class OverhaulModule : SmartEnum<OverhaulModule>
     {
         if (this.IsActive)
         {
-            Log.D($"[Core]: {this.Name} module is already active.");
+            Log.D($"[Modules]: {this.Name} module is already active.");
             return;
         }
 
@@ -98,7 +126,7 @@ internal abstract class OverhaulModule : SmartEnum<OverhaulModule>
     {
         if (!this.IsActive)
         {
-            Log.D($"[Core]: {this.Name} module is not active.");
+            Log.D($"[Modules]: {this.Name} module is not active.");
             return;
         }
 
@@ -120,7 +148,7 @@ internal abstract class OverhaulModule : SmartEnum<OverhaulModule>
     {
         /// <summary>Initializes a new instance of the <see cref="OverhaulModule.CoreModule"/> class.</summary>
         internal CoreModule()
-            : base("Core", 0, "margo")
+            : base("Core", "margo")
         {
         }
 
@@ -140,7 +168,7 @@ internal abstract class OverhaulModule : SmartEnum<OverhaulModule>
     {
         /// <summary>Initializes a new instance of the <see cref="OverhaulModule.ProfessionsModule"/> class.</summary>
         internal ProfessionsModule()
-            : base("Professions", 1, "profs")
+            : base("Professions", "profs")
         {
         }
 
@@ -174,22 +202,46 @@ internal abstract class OverhaulModule : SmartEnum<OverhaulModule>
         }
     }
 
-    internal sealed class ArsenalModule : OverhaulModule
+    internal sealed class CombatModule : OverhaulModule
     {
-        /// <summary>Initializes a new instance of the <see cref="OverhaulModule.ArsenalModule"/> class.</summary>
-        internal ArsenalModule()
-            : base("Arsenal", 2, "ars")
+        /// <summary>Initializes a new instance of the <see cref="OverhaulModule.CombatModule"/> class.</summary>
+        internal CombatModule()
+            : base("Combat", "combat")
         {
         }
 
-        /// <summary>Gets a value indicating whether the <see cref="OverhaulModule.ArsenalModule"/> is enabled.</summary>
-        internal static bool IsEnabled => ModEntry.Config.EnableArsenal;
+        /// <summary>Gets a value indicating whether the <see cref="OverhaulModule.CombatModule"/> is enabled.</summary>
+        internal static bool IsEnabled => ModEntry.Config.EnableCombat;
 
-        /// <summary>Gets the config instance for the <see cref="OverhaulModule.ArsenalModule"/>.</summary>
-        internal static Arsenal.Config Config => ModEntry.Config.Arsenal;
+        /// <summary>Gets the config instance for the <see cref="OverhaulModule.CombatModule"/>.</summary>
+        internal static Combat.Config Config => ModEntry.Config.Combat;
 
-        /// <summary>Gets the ephemeral runtime state for the <see cref="OverhaulModule.ArsenalModule"/>.</summary>
-        internal static Arsenal.State State => ModEntry.State.Arsenal;
+        /// <inheritdoc />
+        internal override void Activate(IModHelper helper)
+        {
+            if (IsEnabled)
+            {
+                base.Activate(helper);
+            }
+        }
+    }
+
+    internal sealed class WeaponsModule : OverhaulModule
+    {
+        /// <summary>Initializes a new instance of the <see cref="OverhaulModule.WeaponsModule"/> class.</summary>
+        internal WeaponsModule()
+            : base("Weapons", "weapons")
+        {
+        }
+
+        /// <summary>Gets a value indicating whether the <see cref="OverhaulModule.WeaponsModule"/> is enabled.</summary>
+        internal static bool IsEnabled => ModEntry.Config.EnableWeapons;
+
+        /// <summary>Gets the config instance for the <see cref="OverhaulModule.WeaponsModule"/>.</summary>
+        internal static Weapons.Config Config => ModEntry.Config.Weapons;
+
+        /// <summary>Gets the ephemeral runtime state for the <see cref="OverhaulModule.WeaponsModule"/>.</summary>
+        internal static Weapons.State State => ModEntry.State.Weapons;
 
         /// <inheritdoc />
         internal override void Activate(IModHelper helper)
@@ -204,7 +256,7 @@ internal abstract class OverhaulModule : SmartEnum<OverhaulModule>
         internal override void Deactivate()
         {
             base.Deactivate();
-            Modules.Arsenal.Utils.RevalidateAllWeapons();
+            Modules.Weapons.Utils.RevalidateAllWeapons();
         }
 
         /// <inheritdoc />
@@ -223,11 +275,123 @@ internal abstract class OverhaulModule : SmartEnum<OverhaulModule>
         }
     }
 
+    internal sealed class SlingshotsModule : OverhaulModule
+    {
+        /// <summary>Initializes a new instance of the <see cref="OverhaulModule.SlingshotsModule"/> class.</summary>
+        internal SlingshotsModule()
+            : base("Slingshots", "slings")
+        {
+        }
+
+        /// <summary>Gets a value indicating whether the <see cref="OverhaulModule.SlingshotsModule"/> is enabled.</summary>
+        internal static bool IsEnabled => ModEntry.Config.EnableSlingshots;
+
+        /// <summary>Gets the config instance for the <see cref="OverhaulModule.SlingshotsModule"/>.</summary>
+        internal static Slingshots.Config Config => ModEntry.Config.Slingshots;
+
+        /// <summary>Gets the ephemeral runtime state for the <see cref="OverhaulModule.SlingshotsModule"/>.</summary>
+        internal static Slingshots.State State => ModEntry.State.Slingshots;
+
+        /// <inheritdoc />
+        internal override void Activate(IModHelper helper)
+        {
+            if (IsEnabled)
+            {
+                base.Activate(helper);
+            }
+        }
+
+        /// <inheritdoc />
+        internal override void Deactivate()
+        {
+            base.Deactivate();
+            Modules.Weapons.Utils.RevalidateAllWeapons();
+        }
+
+        /// <inheritdoc />
+        protected override void InvalidateAssets()
+        {
+            ModHelper.GameContent.InvalidateCacheAndLocalized("Data/ObjectInformation");
+            ModHelper.GameContent.InvalidateCacheAndLocalized("Data/Events/AdventureGuild");
+            ModHelper.GameContent.InvalidateCacheAndLocalized("Data/Events/Blacksmith");
+            ModHelper.GameContent.InvalidateCacheAndLocalized("Data/Events/WizardHouse");
+            ModHelper.GameContent.InvalidateCacheAndLocalized("Data/Monsters");
+            ModHelper.GameContent.InvalidateCacheAndLocalized("Data/weapons");
+            ModHelper.GameContent.InvalidateCacheAndLocalized("Strings/Locations");
+            ModHelper.GameContent.InvalidateCache("TileSheets/BuffsIcons");
+            ModHelper.GameContent.InvalidateCache("TileSheets/Projectiles");
+            ModHelper.GameContent.InvalidateCache("TileSheets/weapons");
+        }
+    }
+
+    internal sealed class ToolsModule : OverhaulModule
+    {
+        /// <summary>Initializes a new instance of the <see cref="OverhaulModule.ToolsModule"/> class.</summary>
+        internal ToolsModule()
+            : base("Tools", "tools")
+        {
+        }
+
+        /// <summary>Gets a value indicating whether the <see cref="OverhaulModule.ToolsModule"/> is enabled.</summary>
+        internal static bool IsEnabled => ModEntry.Config.EnableTools;
+
+        /// <summary>Gets the config instance for the <see cref="OverhaulModule.ToolsModule"/>.</summary>
+        internal static Tools.Config Config => ModEntry.Config.Tools;
+
+        /// <summary>Gets the ephemeral runtime state for the <see cref="OverhaulModule.ToolsModule"/>.</summary>
+        internal static Tools.State State => ModEntry.State.Tools;
+
+        /// <inheritdoc />
+        internal override void Activate(IModHelper helper)
+        {
+            if (IsEnabled)
+            {
+                base.Activate(helper);
+            }
+        }
+
+        /// <inheritdoc />
+        protected override void InvalidateAssets()
+        {
+            ModHelper.GameContent.InvalidateCacheAndLocalized("Data/weapons");
+        }
+    }
+
+    internal sealed class EnchantmentsModule : OverhaulModule
+    {
+        /// <summary>Initializes a new instance of the <see cref="OverhaulModule.EnchantmentsModule"/> class.</summary>
+        internal EnchantmentsModule()
+            : base("Enchantments", "enchantments")
+        {
+        }
+
+        /// <summary>Gets a value indicating whether the <see cref="OverhaulModule.EnchantmentsModule"/> is enabled.</summary>
+        internal static bool IsEnabled => ModEntry.Config.EnableEnchantments;
+
+        /// <summary>Gets the config instance for the <see cref="OverhaulModule.EnchantmentsModule"/>.</summary>
+        internal static Enchantments.Config Config => ModEntry.Config.Enchantments;
+
+        /// <inheritdoc />
+        internal override void Activate(IModHelper helper)
+        {
+            if (IsEnabled)
+            {
+                base.Activate(helper);
+            }
+        }
+
+        /// <inheritdoc />
+        protected override void InvalidateAssets()
+        {
+            ModHelper.GameContent.InvalidateCache("TileSheets/BuffsIcons");
+        }
+    }
+
     internal sealed class RingsModule : OverhaulModule
     {
         /// <summary>Initializes a new instance of the <see cref="OverhaulModule.RingsModule"/> class.</summary>
         internal RingsModule()
-            : base("Rings", 3, "rings")
+            : base("Rings", "rings")
         {
         }
 
@@ -262,7 +426,7 @@ internal abstract class OverhaulModule : SmartEnum<OverhaulModule>
     {
         /// <summary>Initializes a new instance of the <see cref="OverhaulModule.PondsModule"/> class.</summary>
         internal PondsModule()
-            : base("Ponds", 4, "ponds")
+            : base("Ponds", "ponds")
         {
         }
 
@@ -292,7 +456,7 @@ internal abstract class OverhaulModule : SmartEnum<OverhaulModule>
     {
         /// <summary>Initializes a new instance of the <see cref="OverhaulModule.TaxesModule"/> class.</summary>
         internal TaxesModule()
-            : base("Taxes", 5, "taxes")
+            : base("Taxes", "taxes")
         {
         }
 
@@ -321,44 +485,11 @@ internal abstract class OverhaulModule : SmartEnum<OverhaulModule>
         }
     }
 
-    internal sealed class ToolsModule : OverhaulModule
-    {
-        /// <summary>Initializes a new instance of the <see cref="OverhaulModule.ToolsModule"/> class.</summary>
-        internal ToolsModule()
-            : base("Tools", 6, "tools")
-        {
-        }
-
-        /// <summary>Gets a value indicating whether the <see cref="OverhaulModule.ToolsModule"/> is enabled.</summary>
-        internal static bool IsEnabled => ModEntry.Config.EnableTools;
-
-        /// <summary>Gets the config instance for the <see cref="OverhaulModule.ToolsModule"/>.</summary>
-        internal static Tools.Config Config => ModEntry.Config.Tools;
-
-        /// <summary>Gets the ephemeral runtime state for the <see cref="OverhaulModule.ToolsModule"/>.</summary>
-        internal static Tools.State State => ModEntry.State.Tools;
-
-        /// <inheritdoc />
-        internal override void Activate(IModHelper helper)
-        {
-            if (IsEnabled)
-            {
-                base.Activate(helper);
-            }
-        }
-
-        /// <inheritdoc />
-        protected override void InvalidateAssets()
-        {
-            ModHelper.GameContent.InvalidateCacheAndLocalized("Data/weapons");
-        }
-    }
-
     internal sealed class TweexModule : OverhaulModule
     {
         /// <summary>Initializes a new instance of the <see cref="OverhaulModule.TweexModule"/> class.</summary>
         internal TweexModule()
-            : base("Tweex", 7, "tweex")
+            : base("Tweex", "tweex")
         {
         }
 

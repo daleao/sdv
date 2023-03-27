@@ -23,7 +23,7 @@ internal sealed class LevelUpMenuCtorPatcher : HarmonyPatcher
 
     #region harmony patches
 
-    /// <summary>Patch to prevent duplicate profession acquisition + display end of level up dialogues.</summary>
+    /// <summary>Patch to allow choosing professions above level 10.</summary>
     [HarmonyTranspiler]
     private static IEnumerable<CodeInstruction>? LevelUpMenuCtorTranspiler(
         IEnumerable<CodeInstruction> instructions, MethodBase original)

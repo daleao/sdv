@@ -5,6 +5,7 @@
 using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
+using DaLion.Overhaul.Modules.Taxes.Extensions;
 using DaLion.Shared.Extensions;
 using DaLion.Shared.Extensions.Reflection;
 using DaLion.Shared.Extensions.Stardew;
@@ -91,7 +92,16 @@ internal sealed class ShopMenuTryToPurchaseItemPatcher : HarmonyPatcher
             }
         }
 
-        Game1.player.Increment(DataKeys.BusinessExpenses, menu.itemPriceAndStock[item][0]);
+        if (Game1.player.ShouldPayTaxes())
+        {
+            Game1.player.Increment(DataKeys.BusinessExpenses, menu.itemPriceAndStock[item][0]);
+        }
+        else
+        {
+            Broadcaster.MessageHost(
+                menu.itemPriceAndStock[item][0].ToString(),
+                OverhaulModule.Taxes.Namespace + DataKeys.BusinessExpenses);
+        }
     }
 
     #endregion harmony patches

@@ -308,7 +308,7 @@ internal static class FarmerExtensions
             }
         }
 
-        return Math.Min(bonus, ProfessionsModule.Config.AnglerMultiplierCap);
+        return Math.Min(bonus, ProfessionsModule.Config.AnglerPriceBonusCeiling);
     }
 
     /// <summary>Gets the amount of "catching" bar to compensate for <see cref="Profession.Aquarist"/>.</summary>
@@ -329,7 +329,7 @@ internal static class FarmerExtensions
             }
         }
 
-        return Math.Min(fishTypes.Count * 0.000165f, 0.002f);
+        return Math.Min(Math.Max(fishTypes.Count, ProfessionsModule.Config.AquaristFishPondCeiling) * 0.000165f, 0.002f);
     }
 
     /// <summary>Gets the price bonus applied to all items sold by <see cref="Profession.Conservationist"/>.</summary>

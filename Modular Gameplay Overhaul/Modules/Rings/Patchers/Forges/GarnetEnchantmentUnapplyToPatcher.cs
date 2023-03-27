@@ -1,10 +1,9 @@
-﻿namespace DaLion.Overhaul.Modules.Rings.Patchers;
+﻿namespace DaLion.Overhaul.Modules.Rings.Patchers.Forges;
 
 #region using directives
 
 using System.Linq;
-using DaLion.Overhaul.Modules.Arsenal.Enchantments;
-using DaLion.Overhaul.Modules.Arsenal.Extensions;
+using DaLion.Overhaul.Modules.Enchantments.Gemstone;
 using DaLion.Overhaul.Modules.Rings.VirtualProperties;
 using DaLion.Shared.Extensions.Collections;
 using DaLion.Shared.Harmony;
@@ -29,7 +28,13 @@ internal sealed class GarnetEnchantmentUnapplyToPatcher : HarmonyPatcher
     private static void GarnetEnchantmentUnapplyToPostfix(Item item)
     {
         var player = Game1.player;
-        if (item is not (Tool tool and (MeleeWeapon or Slingshot)) || tool != player.CurrentTool)
+        if (item is not Tool tool || tool != player.CurrentTool)
+        {
+            return;
+        }
+
+        if ((tool is MeleeWeapon && !WeaponsModule.IsEnabled) || (tool is Slingshot && !SlingshotsModule.IsEnabled) ||
+            tool is not (MeleeWeapon or Slingshot))
         {
             return;
         }
@@ -38,13 +43,10 @@ internal sealed class GarnetEnchantmentUnapplyToPatcher : HarmonyPatcher
             .Get_ResonatingChords()
             .Where(c => c.Root == Gemstone.Garnet)
             .ArgMax(c => c.Amplitude);
-        if (chord is null || tool.Get_ResonatingChord<GarnetEnchantment>() != chord)
+        if (chord is not null && tool.Get_ResonatingChord<GarnetEnchantment>() == chord)
         {
-            return;
+            tool.UnsetResonatingChord<GarnetEnchantment>();
         }
-
-        tool.UnsetResonatingChord<GarnetEnchantment>();
-        tool.Invalidate();
     }
 
     #endregion harmony patches

@@ -190,7 +190,7 @@ public static class ColorExtensions
     /// <exception cref="InvalidOperationException">If the input html string is invalid.</exception>
     public static Color FromHtml(this Color color, string html)
     {
-        if (!html.StartsWith('#'))
+        if (html[0] != '#')
         {
             return ThrowHelper.ThrowInvalidOperationException<Color>("HTML code must begin with '#'.");
         }

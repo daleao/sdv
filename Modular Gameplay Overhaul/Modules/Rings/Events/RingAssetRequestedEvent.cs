@@ -72,7 +72,7 @@ internal class RingAssetRequestedEvent : AssetRequestedEvent
         if (RingsModule.Config.RebalancedRings)
         {
             fields = data[ItemIDs.TopazRing].Split('/');
-            fields[5] = ArsenalModule.IsEnabled && ArsenalModule.Config.OverhauledDefense
+            fields[5] = CombatModule.IsEnabled && CombatModule.Config.OverhauledDefense
                 ? I18n.Get("rings.topaz.description.resist")
                 : I18n.Get("rings.topaz.description.defense");
             data[ItemIDs.TopazRing] = string.Join('/', fields);

@@ -3,7 +3,6 @@
 #region using directives
 
 using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using DaLion.Overhaul.Modules.Rings.VirtualProperties;
 using DaLion.Shared.Exceptions;

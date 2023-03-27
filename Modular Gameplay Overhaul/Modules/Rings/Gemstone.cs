@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using Ardalis.SmartEnum;
-using DaLion.Overhaul.Modules.Arsenal.Enchantments;
+using DaLion.Overhaul.Modules.Enchantments.Gemstone;
 using DaLion.Overhaul.Modules.Rings.Resonance;
 using DaLion.Overhaul.Modules.Rings.VirtualProperties;
 using DaLion.Shared.Extensions.Xna;
@@ -487,7 +487,7 @@ public abstract class Gemstone : SmartEnum<Gemstone>, IEquatable<Gemstone>, ICom
         {
             if (RingsModule.Config.RebalancedRings)
             {
-                if (ArsenalModule.IsEnabled && ArsenalModule.Config.OverhauledDefense)
+                if (CombatModule.IsEnabled && CombatModule.Config.OverhauledDefense)
                 {
                     who.IncrementResonantResilience(amplitude);
                 }
@@ -507,7 +507,7 @@ public abstract class Gemstone : SmartEnum<Gemstone>, IEquatable<Gemstone>, ICom
         {
             if (RingsModule.Config.RebalancedRings)
             {
-                if (ArsenalModule.IsEnabled && ArsenalModule.Config.OverhauledDefense)
+                if (CombatModule.IsEnabled && CombatModule.Config.OverhauledDefense)
                 {
                     who.IncrementResonantResilience(-amplitude);
                 }
@@ -527,7 +527,7 @@ public abstract class Gemstone : SmartEnum<Gemstone>, IEquatable<Gemstone>, ICom
         {
             if (RingsModule.Config.RebalancedRings)
             {
-                if (ArsenalModule.IsEnabled && ArsenalModule.Config.OverhauledDefense)
+                if (CombatModule.IsEnabled && CombatModule.Config.OverhauledDefense)
                 {
                     buffer.DefenseModifier += 0.1f * magnitude;
                 }

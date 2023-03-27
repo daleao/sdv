@@ -8,6 +8,7 @@ internal sealed partial class GenericModConfigMenuCore
     {
         this
             .AddPage(OverhaulModule.Ponds.Namespace, () => "Pond Settings")
+
             .AddNumberField(
                 () => "Days Until Algae Spawn",
                 () => "The number of days until an empty pond will begin spawning algae.",

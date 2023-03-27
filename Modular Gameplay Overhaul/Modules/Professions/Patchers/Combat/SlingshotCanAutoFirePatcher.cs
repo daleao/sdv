@@ -19,7 +19,7 @@ internal sealed class SlingshotCanAutoFirePatcher : HarmonyPatcher
     {
         this.Target = this.RequireMethod<Slingshot>(nameof(Slingshot.CanAutoFire));
         this.Prefix!.priority = Priority.High;
-        this.Prefix!.before = new[] { OverhaulModule.Arsenal.Namespace };
+        this.Prefix!.before = new[] { OverhaulModule.Slingshots.Namespace };
     }
 
     #region harmony patches
@@ -27,7 +27,7 @@ internal sealed class SlingshotCanAutoFirePatcher : HarmonyPatcher
     /// <summary>Patch to add Desperado auto-fire during Ultimate.</summary>
     [HarmonyPrefix]
     [HarmonyPriority(Priority.High)]
-    [HarmonyBefore("DaLion.Overhaul.Modules.Arsenal")]
+    [HarmonyBefore("DaLion.Overhaul.Modules.Slingshots")]
     private static bool SlingshotCanAutoFirePrefix(Slingshot __instance, ref bool __result)
     {
         try

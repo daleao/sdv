@@ -9,7 +9,7 @@ using StardewModdingAPI.Utilities;
 
 #endregion using directives
 
-/// <summary>The core mod user-defined settings.</summary>
+/// <summary>The collection of configs for each module.</summary>
 public sealed class ModConfig
 {
     #region module flags
@@ -20,9 +20,25 @@ public sealed class ModConfig
 
 #if DEBUG
 
-    /// <summary>Gets a value indicating whether the Arsenal module is enabled.</summary>
+    /// <summary>Gets a value indicating whether the Combat module is enabled.</summary>
     [JsonProperty]
-    public bool EnableArsenal { get; internal set; } = true;
+    public bool EnableCombat { get; internal set; } = true;
+
+    /// <summary>Gets a value indicating whether the Weapons module is enabled.</summary>
+    [JsonProperty]
+    public bool EnableWeapons { get; internal set; } = true;
+
+    /// <summary>Gets a value indicating whether the Slingshots module is enabled.</summary>
+    [JsonProperty]
+    public bool EnableSlingshots { get; internal set; } = true;
+
+    /// <summary>Gets a value indicating whether the Tools module is enabled.</summary>
+    [JsonProperty]
+    public bool EnableTools { get; internal set; } = true;
+
+    /// <summary>Gets a value indicating whether the Enchantments module is enabled.</summary>
+    [JsonProperty]
+    public bool EnableEnchantments { get; internal set; } = true;
 
     /// <summary>Gets a value indicating whether the Rings module is enabled.</summary>
     [JsonProperty]
@@ -36,19 +52,31 @@ public sealed class ModConfig
     [JsonProperty]
     public bool EnableTaxes { get; internal set; } = true;
 
-    /// <summary>Gets a value indicating whether the Tools module is enabled.</summary>
-    [JsonProperty]
-    public bool EnableTools { get; internal set; } = true;
-
     /// <summary>Gets a value indicating whether the Tweex module is enabled.</summary>
     [JsonProperty]
     public bool EnableTweex { get; internal set; } = true;
 
 #elif RELEASE
 
-    /// <summary>Gets a value indicating whether the Arsenal module is enabled.</summary>
+    /// <summary>Gets a value indicating whether the Combat module is enabled.</summary>
     [JsonProperty]
-    public bool EnableArsenal { get; internal set; } = false;
+    public bool EnableCombat { get; internal set; } = true;
+
+     /// <summary>Gets a value indicating whether the Weapons module is enabled.</summary>
+    [JsonProperty]
+    public bool EnableWeapons { get; internal set; } = false;
+
+    /// <summary>Gets a value indicating whether the Slingshots module is enabled.</summary>
+    [JsonProperty]
+    public bool EnableSlingshots { get; internal set; } = false;
+
+    /// <summary>Gets a value indicating whether the Tools module is enabled.</summary>
+    [JsonProperty]
+    public bool EnableTools { get; internal set; } = false;
+
+    /// <summary>Gets a value indicating whether the Enchantments module is enabled.</summary>
+    [JsonProperty]
+    public bool EnableEnchantments { get; internal set; } = false;
 
     /// <summary>Gets a value indicating whether the Rings module is enabled.</summary>
     [JsonProperty]
@@ -62,10 +90,6 @@ public sealed class ModConfig
     [JsonProperty]
     public bool EnableTaxes { get; internal set; } = false;
 
-    /// <summary>Gets a value indicating whether the Tools module is enabled.</summary>
-    [JsonProperty]
-    public bool EnableTools { get; internal set; } = false;
-
     /// <summary>Gets a value indicating whether the Tweex module is enabled.</summary>
     [JsonProperty]
     public bool EnableTweex { get; internal set; } = true;
@@ -76,29 +100,41 @@ public sealed class ModConfig
 
     #region config sub-modules
 
-    /// <summary>Gets the Arsenal module config settings.</summary>
-    [JsonProperty]
-    public Modules.Arsenal.Config Arsenal { get; internal set; } = new();
-
-    /// <summary>Gets the Ponds module config settings.</summary>
-    [JsonProperty]
-    public Modules.Ponds.Config Ponds { get; internal set; } = new();
-
     /// <summary>Gets the Professions module config settings.</summary>
     [JsonProperty]
     public Modules.Professions.Config Professions { get; internal set; } = new();
+
+    /// <summary>Gets the Professions module config settings.</summary>
+    [JsonProperty]
+    public Modules.Combat.Config Combat { get; internal set; } = new();
+
+    /// <summary>Gets the Weapons module config settings.</summary>
+    [JsonProperty]
+    public Modules.Weapons.Config Weapons { get; internal set; } = new();
+
+    /// <summary>Gets the Slingshots module config settings.</summary>
+    [JsonProperty]
+    public Modules.Slingshots.Config Slingshots { get; internal set; } = new();
+
+    /// <summary>Gets the Tools module config settings.</summary>
+    [JsonProperty]
+    public Modules.Tools.Config Tools { get; internal set; } = new();
+
+    /// <summary>Gets the Enchantments module config settings.</summary>
+    [JsonProperty]
+    public Modules.Enchantments.Config Enchantments { get; internal set; } = new();
 
     /// <summary>Gets the Rings module config settings.</summary>
     [JsonProperty]
     public Modules.Rings.Config Rings { get; internal set; } = new();
 
+    /// <summary>Gets the Ponds module config settings.</summary>
+    [JsonProperty]
+    public Modules.Ponds.Config Ponds { get; internal set; } = new();
+
     /// <summary>Gets the Taxes module config settings.</summary>
     [JsonProperty]
     public Modules.Taxes.Config Taxes { get; internal set; } = new();
-
-    /// <summary>Gets the Tools module config settings.</summary>
-    [JsonProperty]
-    public Modules.Tools.Config Tools { get; internal set; } = new();
 
     /// <summary>Gets the Tweex module config settings.</summary>
     [JsonProperty]
@@ -124,12 +160,15 @@ public sealed class ModConfig
     /// <returns>A <see cref="IEnumerable{T}"/> of <see cref="Shared.Configs.Config"/>s.</returns>
     internal IEnumerable<Shared.Configs.Config> List()
     {
-        yield return this.Arsenal;
         yield return this.Professions;
+        yield return this.Combat;
+        yield return this.Weapons;
+        yield return this.Slingshots;
+        yield return this.Tools;
+        yield return this.Enchantments;
         yield return this.Rings;
         yield return this.Ponds;
         yield return this.Taxes;
-        yield return this.Tools;
         yield return this.Tweex;
     }
 }

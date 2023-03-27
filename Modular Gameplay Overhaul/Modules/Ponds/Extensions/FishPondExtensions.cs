@@ -54,7 +54,7 @@ internal static class FishPondExtensions
     internal static int GetEnrichmentDuration(this FishPond pond, SObject metal)
     {
         var maxPopulation = pond.HasLegendaryFish()
-            ? ProfessionsModule.Config.LegendaryPondPopulationCap
+            ? ProfessionsModule.Config.LegendaryPondPopulationCeiling
             : 12;
         var populationFactor = pond.FishCount < maxPopulation / 2f
             ? 0f

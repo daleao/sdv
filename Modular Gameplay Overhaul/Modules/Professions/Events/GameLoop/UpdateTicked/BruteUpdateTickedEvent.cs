@@ -1,8 +1,9 @@
 ﻿namespace DaLion.Overhaul.Modules.Professions.Events.GameLoop;
 
+using DaLion.Overhaul.Modules.Core.Events;
+
 #region using directives
 
-using DaLion.Overhaul.Modules.Core.Events;
 using DaLion.Overhaul.Modules.Professions.Extensions;
 using DaLion.Shared.Events;
 using DaLion.Shared.Extensions.Stardew;
@@ -39,7 +40,7 @@ internal sealed class BruteUpdateTickedEvent : UpdateTickedEvent
         }
 
         // decay counter every 5 seconds after 25 seconds out of combat
-        if (Game1.game1.ShouldTimePass() && ModEntry.State.SecondsOutOfCombat > 25 && e.IsMultipleOf(300))
+        if (Game1.game1.ShouldTimePass() && Globals.SecondsOutOfCombat > 25 && e.IsMultipleOf(300))
         {
             ProfessionsModule.State.BruteRageCounter--;
         }

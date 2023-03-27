@@ -2,10 +2,10 @@
 
 #region using directives
 
-using DaLion.Overhaul.Modules.Arsenal.VirtualProperties;
 using DaLion.Overhaul.Modules.Professions.Extensions;
 using DaLion.Overhaul.Modules.Professions.Ultimates;
 using DaLion.Overhaul.Modules.Professions.VirtualProperties;
+using DaLion.Overhaul.Modules.Slingshots.VirtualProperties;
 using DaLion.Shared.Extensions.Stardew;
 using DaLion.Shared.Extensions.Xna;
 using Microsoft.Xna.Framework;
@@ -77,7 +77,7 @@ internal sealed class ObjectProjectile : BasicProjectile
         this.Damage = (int)(this.damageToFarmer.Value * source.Get_EffectiveDamageModifier() * (1f + firer.attackIncreaseModifier) * overcharge);
         this.Knockback = knockback * source.Get_EffectiveKnockbackModifer() * (1f + firer.knockbackModifier) * overcharge;
 
-        var canCrit = ArsenalModule.Config.Slingshots.EnableCrits;
+        var canCrit = SlingshotsModule.Config.EnableCriticalHits;
         this.CritChance = canCrit
             ? 0.025f * source.Get_EffectiveCritChanceModifier() * (1f + firer.critChanceModifier)
             : 0f;

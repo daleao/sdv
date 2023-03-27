@@ -62,12 +62,15 @@ internal sealed class ObjectPerformObjectDropInActionPatcher : HarmonyPatcher
                            !ModHelper.ModRegistry.IsLoaded("ughitsmegan.goldenmayoForProducerFrameworkMod")
                 ? SObject.bestQuality
                 : dropIn.Quality;
-            if (r.NextDouble() > who.FarmingLevel / 30d)
+            if (!ProfessionsModule.Config.ArtisanGoodsAlwaysSameQualityAsInput)
             {
-                held.Quality = (int)((Quality)held.Quality).Decrement();
-                if (r.NextDouble() > who.FarmingLevel / 15d)
+                if (r.NextDouble() > who.FarmingLevel / 30d)
                 {
                     held.Quality = (int)((Quality)held.Quality).Decrement();
+                    if (r.NextDouble() > who.FarmingLevel / 15d)
+                    {
+                        held.Quality = (int)((Quality)held.Quality).Decrement();
+                    }
                 }
             }
         }

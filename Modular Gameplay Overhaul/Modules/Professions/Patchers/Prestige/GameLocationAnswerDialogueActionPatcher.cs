@@ -196,7 +196,7 @@ internal sealed class GameLocationAnswerDialogueActionPatcher : HarmonyPatcher
 
     private static void OfferChangeUltiChoices(GameLocation location)
     {
-        if (ProfessionsModule.Config.ChangeUltCost > 0 && Game1.player.Money < ProfessionsModule.Config.ChangeUltCost)
+        if (ProfessionsModule.Config.SpecialRespecCost > 0 && Game1.player.Money < ProfessionsModule.Config.SpecialRespecCost)
         {
             Game1.drawObjectDialogue(Game1.content.LoadString("Strings\\Locations:BusStop_NotEnoughMoneyForTicket"));
             return;
@@ -299,7 +299,7 @@ internal sealed class GameLocationAnswerDialogueActionPatcher : HarmonyPatcher
         }
 
         var player = Game1.player;
-        player.Money = Math.Max(0, player.Money - (int)ProfessionsModule.Config.ChangeUltCost);
+        player.Money = Math.Max(0, player.Money - (int)ProfessionsModule.Config.SpecialRespecCost);
 
         // change ultimate
         var chosenUltimate = Ultimate.FromName(choice.SplitWithoutAllocation('_')[1].ToString());

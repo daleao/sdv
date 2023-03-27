@@ -1,9 +1,8 @@
-﻿namespace DaLion.Overhaul.Modules.Rings.Patchers;
+﻿namespace DaLion.Overhaul.Modules.Rings.Patchers.Forges;
 
 #region using directives
 
 using System.Linq;
-using DaLion.Overhaul.Modules.Arsenal.Extensions;
 using DaLion.Overhaul.Modules.Rings.VirtualProperties;
 using DaLion.Shared.Extensions.Collections;
 using DaLion.Shared.Harmony;
@@ -28,7 +27,13 @@ internal sealed class JadeEnchantmentUnapplyToPatcher : HarmonyPatcher
     private static void JadeEnchantmentUnapplyToPostfix(Item item)
     {
         var player = Game1.player;
-        if (!ArsenalModule.IsEnabled || item is not (Tool tool and (MeleeWeapon or Slingshot)) || tool != player.CurrentTool)
+        if (item is not Tool tool || tool != player.CurrentTool)
+        {
+            return;
+        }
+
+        if ((tool is MeleeWeapon && !WeaponsModule.IsEnabled) || (tool is Slingshot && !SlingshotsModule.IsEnabled) ||
+            tool is not (MeleeWeapon or Slingshot))
         {
             return;
         }
@@ -37,13 +42,10 @@ internal sealed class JadeEnchantmentUnapplyToPatcher : HarmonyPatcher
             .Get_ResonatingChords()
             .Where(c => c.Root == Gemstone.Jade)
             .ArgMax(c => c.Amplitude);
-        if (chord is null || tool.Get_ResonatingChord<JadeEnchantment>() != chord)
+        if (chord is not null && tool.Get_ResonatingChord<JadeEnchantment>() == chord)
         {
-            return;
+            tool.UnsetResonatingChord<JadeEnchantment>();
         }
-
-        tool.UnsetResonatingChord<JadeEnchantment>();
-        tool.Invalidate();
     }
 
     #endregion harmony patches

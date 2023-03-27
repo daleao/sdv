@@ -17,14 +17,14 @@ internal sealed class SlingshotGetRequiredChargeTimePatcher : HarmonyPatcher
     internal SlingshotGetRequiredChargeTimePatcher()
     {
         this.Target = this.RequireMethod<Slingshot>(nameof(Slingshot.GetRequiredChargeTime));
-        this.Postfix!.after = new[] { OverhaulModule.Arsenal.Namespace };
+        this.Postfix!.after = new[] { OverhaulModule.Slingshots.Namespace };
     }
 
     #region harmony patches
 
     /// <summary>Patch to reduce Slingshot charge time for Desperado.</summary>
     [HarmonyPostfix]
-    [HarmonyAfter("DaLion.Overhaul.Modules.Arsenal")]
+    [HarmonyAfter("DaLion.Overhaul.Modules.Slingshots")]
     private static void SlingshotGetRequiredChargeTimePostfix(Slingshot __instance, ref float __result)
     {
         var firer = __instance.getLastFarmerToUse();

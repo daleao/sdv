@@ -343,21 +343,21 @@ internal sealed class GameLocationDamageMonsterPatcher : HarmonyPatcher
                 switch (whatToBuff)
                 {
                     case 8:
-                        if (applied[8] < ProfessionsModule.Config.PiperBuffCap * 8)
+                        if (applied[8] < ProfessionsModule.Config.PiperBuffCeiling * 8)
                         {
                             applied[8] += 8;
                         }
 
                         break;
                     case 7:
-                        if (applied[7] < ProfessionsModule.Config.PiperBuffCap * 10)
+                        if (applied[7] < ProfessionsModule.Config.PiperBuffCeiling * 10)
                         {
                             applied[7] += 10;
                         }
 
                         break;
                     default:
-                        if (applied[8] < ProfessionsModule.Config.PiperBuffCap)
+                        if (applied[8] < ProfessionsModule.Config.PiperBuffCeiling)
                         {
                             applied[whatToBuff]++;
                         }

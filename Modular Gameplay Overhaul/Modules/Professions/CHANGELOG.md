@@ -5,6 +5,8 @@
 ### Added
 
 * Added a config to toggle the Crystalarium upgrade for Gemologists.
+* Added a config to revert Artisan behavior to always preserve input quality.
+* Added a config to cap the bonus from Aquarist.
 * Conservationist now counts trash fished with a Fishing Rod.
 
 ### Changed
@@ -13,10 +15,11 @@
 
 ### Fixed
 
-* Added missing ShowFishCollectionMaxIcon to GMCM menu.
+* Added several missing config options to the GMCM menu.
 * Fixed a bug which allowed players to select both level 10 professions for custom skills during level-up.
 * Fixed small typo in new Artisan description (removed "is").
 * Fixed Poacher still gathering Special Ability charge with Special Abilities disabled.
+* Fixed issue with Crab Pots ignoring farmhand professions in multiplayer games with LaxOwnershipRequirement set to `true` (thanks to [ncarigon](https://github.com/ncarigon)).
 
 ## 1.3.0
 

@@ -26,7 +26,7 @@ internal sealed class GameLocationPerformActionPatcher : HarmonyPatcher
     [HarmonyPrefix]
     private static bool GameLocationPerformActionPrefix(GameLocation __instance, string? action, Farmer who)
     {
-        if (!ProfessionsModule.Config.EnablePrestige || action?.StartsWith("DogStatue") != true ||
+        if (!ProfessionsModule.Config.EnablePrestige || action?.Contains("DogStatue") != true ||
             !who.IsLocalPlayer)
         {
             return true; // run original logic
@@ -94,10 +94,10 @@ internal sealed class GameLocationPerformActionPatcher : HarmonyPatcher
                 new(
                     "changeUlt",
                     I18n.Get("prestige.dogstatue.changeult") +
-                    (ProfessionsModule.Config.ChangeUltCost > 0
+                    (ProfessionsModule.Config.SpecialRespecCost > 0
                         ? ' ' + I18n.Get(
                             "prestige.dogstatue.cost",
-                            new { cost = ProfessionsModule.Config.ChangeUltCost })
+                            new { cost = ProfessionsModule.Config.SpecialRespecCost })
                         : string.Empty)),
             }).ToArray();
         }

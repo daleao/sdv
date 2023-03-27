@@ -1,6 +1,6 @@
 ﻿namespace DaLion.Overhaul.Modules.Rings;
 
-/// <summary>The user-configurable settings for Rings.</summary>
+/// <summary>The runtime state Ring variables.</summary>
 internal sealed class State
 {
     private int _warriorKillCount;

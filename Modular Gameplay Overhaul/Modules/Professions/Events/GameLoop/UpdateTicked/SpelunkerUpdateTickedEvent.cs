@@ -38,7 +38,7 @@ internal sealed class SpelunkerUpdateTickedEvent : UpdateTickedEvent
         var ladderChance = (ProfessionsModule.State.SpelunkerLadderStreak * 0.005f).ToString("P1");
         var speed = Math.Min(
             (ProfessionsModule.State.SpelunkerLadderStreak / 10) + 1,
-            (int)ProfessionsModule.Config.SpelunkerSpeedCap);
+            (int)ProfessionsModule.Config.SpelunkerSpeedCeiling);
         Game1.buffsDisplay.addOtherBuff(
             new Buff(
                 0,

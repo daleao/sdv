@@ -22,11 +22,17 @@ internal sealed class JsonAssetsIntegration : ModIntegration<JsonAssetsIntegrati
     {
         if (this.IsLoaded)
         {
-            var subFolder = VanillaTweaksIntegration.Instance?.RingsCategoryEnabled == true
+            var directory = Path.Combine(ModHelper.DirectoryPath, "assets", "json-assets", "Rings");
+            if (!Directory.Exists(directory))
+            {
+                return false;
+            }
+
+            var subDir = VanillaTweaksIntegration.Instance?.RingsCategoryEnabled == true
                 ? "VanillaTweaks"
                 : BetterRingsIntegration.Instance?.IsLoaded == true
                     ? "BetterRings" : "Vanilla";
-            this.ModApi.LoadAssets(Path.Combine(ModHelper.DirectoryPath, "assets", "json-assets", "Rings", subFolder), I18n);
+            this.ModApi.LoadAssets(Path.Combine(directory, subDir), I18n);
             this.ModApi.IdsAssigned += this.OnIdsAssigned;
             return true;
         }
@@ -45,8 +51,23 @@ internal sealed class JsonAssetsIntegration : ModIntegration<JsonAssetsIntegrati
         }
 
         Globals.GarnetIndex = this.ModApi.GetObjectId("Garnet");
+        if (Globals.GarnetIndex == -1)
+        {
+            Log.W("[Rings]: Failed to get an ID for Garnet from Json Assets.");
+        }
+
         Globals.GarnetRingIndex = this.ModApi.GetObjectId("Garnet Ring");
+        if (Globals.GarnetRingIndex == -1)
+        {
+            Log.W("[Rings]: Failed to get an ID for Garnet Ring from Json Assets.");
+        }
+
         Globals.InfinityBandIndex = this.ModApi.GetObjectId("Infinity Band");
-        Log.T("[Rings]: The IDs for custom items in the Rings module have been assigned.");
+        if (Globals.InfinityBandIndex == -1)
+        {
+            Log.W("[Rings]: Failed to get an ID for Infinity Band from Json Assets.");
+        }
+
+        Log.T("[Rings]: Done assigning IDs for custom items in the Rings module.");
     }
 }

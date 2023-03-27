@@ -11,6 +11,10 @@
 
 * You can now customize all tax brackets and tax rates for each bracket, including changing the number of brackets.
 
+### Fixed
+
+* Improved taxation in multiplayer when using shared wallets (thanks to [ncarigon](https://github.com/ncarigon)).
+
 ## 1.0.2
 
 ### Added

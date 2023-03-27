@@ -2,8 +2,6 @@
 
 #region using directives
 
-using DaLion.Shared.UI;
-using Microsoft.Xna.Framework.Graphics;
 using StardewValley.Monsters;
 
 #endregion using directives
@@ -34,6 +32,9 @@ internal sealed class Globals
 
     /// <summary>Gets or sets a value indicating whether the current location has any characters of type <see cref="Monster"/>.</summary>
     internal static bool AreEnemiesAround { get; set; }
+
+    /// <summary>Gets or sets the number of elapsed seconds since the last combat-related action.</summary>
+    internal static int SecondsOutOfCombat { get; set; }
 
     /// <summary>Gets or sets the <see cref="FrameRateCounter"/>.</summary>
     internal static FrameRateCounter? FpsCounter { get; set; }

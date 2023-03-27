@@ -22,17 +22,23 @@ The available modules are listed below. **Please read this page carefuly in its 
 
 All modules should be fully multiplayer and splitscreen-ready so long as all players have it installed. Unless explicitly stated otherwise, none of the modules are Android-compatible. Please refer to each module's specific documentation page for further details and compatibility information.
 
-- **[Professions](Modules/Professions)** is the original and largest module. It overhauls all the game's professions with the goal of supporting more diverse and interesting playstyles. It also introduces all-new Prestige mechanics for very-late game save files, as well as exciting new Super Abilities for combat professions.
+- **[Professions](Modules/Professions)** is the original and largest module. It overhauls all the game's professions with the goal of supporting more diverse and interesting playstyles. It also introduces all-new Prestige mechanics for very-late game save files, as well as new Super Abilities for combat professions.
 
-- **[Arsenal](Modules/Arsenal)** is the newest and second largest. It overhauls various aspects of both melee weapons and slingshots so as to diversify combat and provide viable alternatives to the ubiquitous sword. Included are all-new enchantments, weapon combos and one new weapon type, as well as novelty features for making legendary weapons feel truly legendary. *Best experienced on a new save, but will work on existing saves. This module must be manually disabled **in-game** via the GMCM before uninstalling MARGO.*
+- **[Combat](Modules/Combat)** is a relatively small module that significantly overhauls combat, specifically with regards to the Defense and Knockback stats, as well as providing general difficulty customization.
 
-- **[Rings](Modules/Rings)** overhauls underwhelming rings, with the main emphasis being on the Iridium Band. It also introduces Gemstone Music Theory, which draws inspiration from real-life Music Theory to provide a more interesting and balanced form of combining many rings. It also adds new crafting mechanics providing a more natural progression for ring development.
+- **[Weapons](Modules/Weapons)** is the second largest module. It overhauls many aspects of Melee Weapons so as to diversify combat and provide viable alternatives to the ubiquitous sword. Includes new mechanics likes combos, Stabbing Swords, weapon tiers and a comprehensive weapon rebalance, among many other features. **This module adds new items via Json Assets, and thus may cause Json Shuffle on existing saves.** 
 
-- **[Ponds](Modules/Ponds)** is a complement to the new Aquarist profession. It allows Fish Ponds to remember the qualities of raised fishes, scales roe quantity and quality with population, and a few other interesting features.
+- **[Slingshots](Modules/Slingshots)** is the analogous module for Slingshots. Among other things, it provides Slingshots with the ammenties neglected to them in Vanilla, including critical hits, enchantments and a special move.
 
-- **[Taxes](Modules/Taxes)** is a complement to the new Conservationist profession. It introduces a simple yet realistic taxation system as an added challenge and end-game gold sink. Because surely a nation at war would be all over your juicy farm income.
+- **[Tools](Modules/Tools)** is a one-stop-shop for tool customization and quality-of-life. It enables resource-tool charging, farming-tool customization, intelligent tool auto-selection, and even extends the enchantment pool, among other things.
 
-- **[Tools](Modules/Tools)** is a one-stop-shop for tool customization and quality-of-life. It can allow you to charge resource tools, customizable farming tools, extend the enchantment pool and intelligently auto-select the appropriate tool for any tile.
+- **[Enchantments](Modules/Enchantments)** is overhauls the boring Vanilla enchantments, providing rebalances to gemstone enchantments and entirely new Prismatic Shard enchantments for both Melee Weapons and Slingshots.
+
+- **[Rings](Modules/Rings)** overhauls underwhelming rings, with a large emphasis being on the Iridium Band. It introduces Gemstone Music Theory, which draws inspiration from real-life Music Theory, to provide a more interesting and balanced form of combining many rings. It also adds new crafting mechanics to create a more natural ring progression. **This module adds new items via Json Assets, and thus may cause Json Shuffle on existing saves.** 
+
+- **[Ponds](Modules/Ponds)** is a complement to the new Aquarist profession. It allows Fish Ponds to remember fish qualities, scale roe production, and even radioctive enrichment, among other features.
+
+- **[Taxes](Modules/Taxes)** is a complement to the new Conservationist profession. It introduces a realistic taxation system as an added challenge and end-game gold sink. Because surely a nation at war would be capitalizing on that juicy farm income.
 
 - **[Tweex](Modules/Tweex)** is the final module, and serves as a repository for smaller tweaks and fixes to inconsistencies not large enough to merit a separate module.
 

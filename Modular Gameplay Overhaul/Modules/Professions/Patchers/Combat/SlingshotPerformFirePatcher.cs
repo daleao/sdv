@@ -24,7 +24,7 @@ internal sealed class SlingshotPerformFirePatcher : HarmonyPatcher
     {
         this.Target = this.RequireMethod<Slingshot>(nameof(Slingshot.PerformFire));
         this.Prefix!.priority = Priority.High;
-        this.Prefix!.before = new[] { OverhaulModule.Arsenal.Namespace };
+        this.Prefix!.before = new[] { OverhaulModule.Slingshots.Namespace };
     }
 
     #region harmony patches
@@ -32,11 +32,11 @@ internal sealed class SlingshotPerformFirePatcher : HarmonyPatcher
     /// <summary>Patch to add Rascal bonus range damage + perform Desperado perks and Ultimate.</summary>
     [HarmonyPrefix]
     [HarmonyPriority(Priority.High)]
-    [HarmonyBefore("DaLion.Overhaul.Modules.Arsenal")]
+    [HarmonyBefore("DaLion.Overhaul.Modules.Slingshots")]
     private static bool SlingshotPerformFirePrefix(
         Slingshot __instance, ref bool ___canPlaySound, GameLocation location, Farmer who)
     {
-        if (ArsenalModule.IsEnabled)
+        if (SlingshotsModule.IsEnabled)
         {
             return true; // hand over to Slingshots module
         }

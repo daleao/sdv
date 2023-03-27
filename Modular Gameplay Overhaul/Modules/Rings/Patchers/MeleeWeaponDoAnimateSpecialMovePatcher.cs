@@ -16,14 +16,14 @@ internal sealed class MeleeWeaponDoAnimateSpecialMovePatcher : HarmonyPatcher
     internal MeleeWeaponDoAnimateSpecialMovePatcher()
     {
         this.Target = this.RequireMethod<MeleeWeapon>("doAnimateSpecialMove");
-        this.Postfix!.after = new[] { OverhaulModule.Arsenal.Namespace };
+        this.Postfix!.after = new[] { OverhaulModule.Enchantments.Namespace };
     }
 
     #region harmony patches
 
     /// <summary>Implement Garnet ring CDR.</summary>
     [HarmonyPostfix]
-    [HarmonyAfter("DaLion.Overhaul.Modules.Arsenal")]
+    [HarmonyAfter("DaLion.Overhaul.Modules.Enchantments")]
     private static void MeleeWeaponDoAnimateSpecialMovePostfix(MeleeWeapon __instance)
     {
         var lastUser = __instance.getLastFarmerToUse();

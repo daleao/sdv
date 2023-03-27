@@ -9,7 +9,6 @@ using System.Reflection;
 using System.Reflection.Emit;
 using DaLion.Overhaul.Modules.Professions.Extensions;
 using DaLion.Overhaul.Modules.Professions.Integrations;
-using DaLion.Shared.Extensions;
 using DaLion.Shared.Extensions.Reflection;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
@@ -37,7 +36,7 @@ internal sealed class SkillsPageDrawPatcher : HarmonyPatcher
     {
         var helper = new ILHelper(original, instructions);
 
-        // Inject: x -= ArsenalModule.Config.Slingshots.PrestigeProgressionStyle == ProgressionStyle.Stars ? Textures.STARS_WIDTH_I : Textures.RIBBON_WIDTH_I;
+        // Inject: x -= ProfessionsModule.Config.PrestigeProgressionStyle == ProgressionStyle.Stars ? Textures.STARS_WIDTH_I : Textures.RIBBON_WIDTH_I;
         // After: x = ...
         try
         {

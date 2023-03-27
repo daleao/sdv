@@ -31,7 +31,7 @@ internal sealed class ObjectPlacementActionPatcher : HarmonyPatcher
     {
         var helper = new ILHelper(original, instructions);
 
-        // Injected: if (who is not null && who.professions.Contains(<demolitionist_id>) && ArsenalModule.Config.Slingshots.ModKey.IsDown()) skipIntensity ...
+        // Injected: if (who is not null && who.professions.Contains(<demolitionist_id>) && ProfessionsModule.Config.ModKey.IsDown()) skipIntensity ...
         // After: new TemporaryAnimatedSprite( ... )
         try
         {

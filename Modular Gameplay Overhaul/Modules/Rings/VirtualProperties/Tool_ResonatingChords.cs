@@ -4,8 +4,11 @@
 
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
-using DaLion.Overhaul.Modules.Arsenal.Extensions;
 using DaLion.Overhaul.Modules.Rings.Resonance;
+using DaLion.Overhaul.Modules.Slingshots.VirtualProperties;
+using DaLion.Overhaul.Modules.Weapons.VirtualProperties;
+using StardewValley;
+using StardewValley.Tools;
 
 #endregion using directives
 
@@ -17,7 +20,8 @@ internal static class Tool_ResonatingChords
     internal static Chord? Get_ResonatingChord<TEnchantment>(this Tool tool)
         where TEnchantment : BaseWeaponEnchantment
     {
-        return Values.TryGetValue(tool, out var dict) && dict.TryGetValue(typeof(TEnchantment), out var chord)
+        return RingsModule.IsEnabled && RingsModule.Config.EnableResonance && Values.TryGetValue(tool, out var dict) &&
+               dict.TryGetValue(typeof(TEnchantment), out var chord)
             ? chord
             : null;
     }
@@ -29,7 +33,8 @@ internal static class Tool_ResonatingChords
             ThrowHelper.ThrowInvalidOperationException($"Tried to get the resonating chord for non-enchantment type {type}");
         }
 
-        return Values.TryGetValue(tool, out var dict) && dict.TryGetValue(type, out var chord)
+        return RingsModule.IsEnabled && RingsModule.Config.EnableResonance && Values.TryGetValue(tool, out var dict) &&
+               dict.TryGetValue(type, out var chord)
             ? chord
             : null;
     }
@@ -49,7 +54,15 @@ internal static class Tool_ResonatingChords
         }
 
         dict[typeof(TEnchantment)] = newValue;
-        tool.Invalidate();
+        switch (tool)
+        {
+            case MeleeWeapon weapon when WeaponsModule.IsEnabled:
+                weapon.Invalidate();
+                break;
+            case Slingshot slingshot when SlingshotsModule.IsEnabled:
+                slingshot.Invalidate();
+                break;
+        }
     }
 
     internal static void UpdateResonatingChord(this Tool tool, Chord newValue)
@@ -61,7 +74,15 @@ internal static class Tool_ResonatingChords
         }
 
         dict[newValue.Root.EnchantmentType] = newValue;
-        tool.Invalidate();
+        switch (tool)
+        {
+            case MeleeWeapon weapon when WeaponsModule.IsEnabled:
+                weapon.Invalidate();
+                break;
+            case Slingshot slingshot when SlingshotsModule.IsEnabled:
+                slingshot.Invalidate();
+                break;
+        }
     }
 
     internal static void UnsetResonatingChord<TEnchantment>(this Tool tool)
@@ -72,9 +93,19 @@ internal static class Tool_ResonatingChords
             return;
         }
 
-        if (dict.Remove(typeof(TEnchantment)))
+        if (!dict.Remove(typeof(TEnchantment)))
         {
-            tool.Invalidate();
+            return;
+        }
+
+        switch (tool)
+        {
+            case MeleeWeapon weapon when WeaponsModule.IsEnabled:
+                weapon.Invalidate();
+                break;
+            case Slingshot slingshot when SlingshotsModule.IsEnabled:
+                slingshot.Invalidate();
+                break;
         }
     }
 
@@ -90,17 +121,37 @@ internal static class Tool_ResonatingChords
             return;
         }
 
-        if (dict.Remove(type))
+        if (!dict.Remove(type))
         {
-            tool.Invalidate();
+            return;
+        }
+
+        switch (tool)
+        {
+            case MeleeWeapon weapon when WeaponsModule.IsEnabled:
+                weapon.Invalidate();
+                break;
+            case Slingshot slingshot when SlingshotsModule.IsEnabled:
+                slingshot.Invalidate();
+                break;
         }
     }
 
     internal static void UnsetAllResonatingChords(this Tool tool)
     {
-        if (Values.Remove(tool))
+        if (!Values.Remove(tool))
         {
-            tool.Invalidate();
+            return;
+        }
+
+        switch (tool)
+        {
+            case MeleeWeapon weapon when WeaponsModule.IsEnabled:
+                weapon.Invalidate();
+                break;
+            case Slingshot slingshot when SlingshotsModule.IsEnabled:
+                slingshot.Invalidate();
+                break;
         }
     }
 }

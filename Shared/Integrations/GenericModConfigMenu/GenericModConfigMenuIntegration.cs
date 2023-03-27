@@ -6,7 +6,6 @@ using DaLion.Shared.Attributes;
 using DaLion.Shared.Extensions.Xna;
 using Microsoft.Xna.Framework;
 using StardewModdingAPI.Utilities;
-using static System.Net.Mime.MediaTypeNames;
 
 #endregion using directives
 

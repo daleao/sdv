@@ -25,19 +25,19 @@ In addition, new progressive crafting recipes are added for each of the gemstone
 
 There are two problematic gemstones in vanilla: Jade and Topaz. This modules rebalances their effects to be on-par with the ubiquitous Ruby.
     - **Jade:** *+10% -> +50% crit. power.* A 10% boost to crit. power is a 10% damage boost that *only* applies to crits. To put that in perspective, only when the player has 100% crit. chance then they will receive an overall 10% boost to damage. It should be clear that this is complete garbage next to a Ruby Ring, which straight up grants a 10% boost to damage, *all the time*. At 50% crit. power, the Jade Ring becomes a better choice than the Ruby Ring if the player has at least 20% crit. chance, which should be attainable by any weapon type given an appropriate build. Above that threshold, Jade Rings become even stronger.
-    - **Topaz:** *literally nothing -> +1 defense.* Since the precision stat is unused in the Vanilla game, the Topaz Ring was completely useless. ConcernedApe probably realized this, which is why he made the Topaz Enchantment grant some defense instead. This change makes the Topaz Ring consistent with the Topaz Enchantment. If the [Arsenal](../Arsenal) module's Defense Overhaul is enabled, this will translate to 10% damage reduction.
+    - **Topaz:** *literally nothing -> +1 defense.* Since the precision stat is unused in the Vanilla game, the Topaz Ring was completely useless. ConcernedApe probably realized this, which is why he made the Topaz Enchantment grant some defense instead. This change makes the Topaz Ring consistent with the Topaz Enchantment. If the [Combat](../Combat) module's Defense Overhaul is enabled, this will translate to 10% damage reduction.
 
-To achieve the same balance for gemstone enchantments, make sure to enable the [Arsenal](../Arsenal) module.
+To achieve the same balance for gemstone enchantments, make sure to enable the [Enchantments](../Enchantments) module.
 
 Finally, this module also introduces the Garnet Ring. This ring adds cooldown reduction as the seventh combat stat, compensating for the removed Acrobat profession by the [Professions](../Professions) module and completing the 7-note Diatonic Gemstone Scale (see below). Garnet Rings must be crafted from mined Garnet gemstones, added via an included [Custom Ore Nodes](https://www.nexusmods.com/stardewvalley/mods/5966) content pack. If you don't install Custom Ore Nodes, Garnets will be unobtainable in-game.
 
 ## Infinity Band
 
-    In vanilla, the Iridium Band is an instant 3-rings-in-1 which can also be forged to get a 4-rings-in-1. It completely triviliazes the Glow Ring, Magnet Ring and even the brand new Glowstone Ring, introduced in patch 1.5. This module aims to solve all of these issues while also alluding to everyone's favorite cinematic universe.
+In vanilla, the Iridium Band is an instant 3-rings-in-1 which can also be forged to get a 4-rings-in-1. It completely triviliazes the Glow Ring, Magnet Ring and even the brand new Glowstone Ring, introduced in patch 1.5. This module aims to solve all of these issues while also alluding to everyone's favorite cinematic universe.
 
-    The Iridium Band has been completely overhauled. Initially, a newly crafted Iridium Band will grant no effects at all. Only with access to the Forge will you be able to awaken its true form by infusing it with a Galaxy Soul to transform it into an **Infinity Band**.
+The Iridium Band has been completely overhauled. Initially, a newly crafted Iridium Band will grant no effects at all. Only with access to the Forge will you be able to awaken its true form by infusing it with a Galaxy Soul to transform it into an **Infinity Band**.
 
-    The Infinity Band likewise does nothing on its own, but it serves as a vessel for up to **four** gemstones. To add a gemstone to the Infinity Band, you must fuse it with a corresponding gemstone ring at the Forge. The same type of gemstone can be added more than once, compounding the effect. Alternatively, combining different gemstones will potentially lead to powerful **Resonances**.
+The Infinity Band likewise does nothing on its own, but it serves as a vessel for up to **four** gemstones. To add a gemstone to the Infinity Band, you must fuse it with a corresponding gemstone ring at the Forge. The same type of gemstone can be added more than once, compounding the effect. Alternatively, combining different gemstones will potentially lead to powerful **Resonances**.
 
 ### Resonance
 
@@ -55,7 +55,7 @@ Like strings in a guitar, the characteristic vibration of each gemstone causes i
 
 Gemstones placed together in an Infinity Band not only resonate, but can also make up [Chords](https://en.wikipedia.org/wiki/Chord_(music)). Chords have an associated **richness**, which measures the variety of overtones in the resulting vibrations. A sufficiently rich chord may give rise to entirely new effects. To maximize richness, try to maximize resonance while avoiding repeating Gemstones. 
 
-If the [Arsenal](../Arsenal) module is enabled and the player is currently holding a forged weapon or slingshot, resonating chords from equipped Infinity Bands will also amplify the corresponding gemstone forges.
+If either the [Weapons](../Weapons) or [Slingshots](../Slingshots) module is enabled and the player is currently holding a forged weapon or slingshot, respectively, resonating chords from equipped Infinity Bands will also amplify the corresponding gemstone forges.
 
 It is my hope that this mechanic will encourage experimentation, and also teach some basic Music Theory.
 

@@ -31,37 +31,6 @@ internal sealed partial class GenericModConfigMenuCore
                 () => "Toggles whether or not to display the 'Max' icon below fish caught at max size.",
                 config => config.Professions.ShowFishCollectionMaxIcon,
                 (config, value) => config.Professions.ShowFishCollectionMaxIcon = value)
-
-            // professions
-            .AddSectionTitle(() => "Profession Settings")
-            .AddNumberField(
-                () => "Forages Needed for Best Quality",
-                () => "Ecologists must forage this many items to reach iridium quality.",
-                config => (int)config.Professions.ForagesNeededForBestQuality,
-                (config, value) => config.Professions.ForagesNeededForBestQuality = (uint)value,
-                0,
-                1000,
-                10)
-            .AddNumberField(
-                () => "Minerals Needed for Best Quality",
-                () => "Gemologists must mine this many minerals to reach iridium quality.",
-                config => (int)config.Professions.MineralsNeededForBestQuality,
-                (config, value) => config.Professions.MineralsNeededForBestQuality = (uint)value,
-                0,
-                1000,
-                10);
-
-        if (ModHelper.ModRegistry.IsLoaded("Pathoschild.Automate"))
-        {
-            this.AddCheckbox(
-                () => "Lax Ownership Requirements",
-                () =>
-                    "If enabled, machine and building ownerhsip will be ignored when determining whether to apply certain profession bonuses.",
-                config => config.Professions.LaxOwnershipRequirements,
-                (config, value) => config.Professions.LaxOwnershipRequirements = value);
-        }
-
-        this
             .AddNumberField(
                 () => "Tracking Pointer Scale",
                 () => "Changes the size of the pointer used to track objects by Prospector and Scavenger professions.",
@@ -97,6 +66,52 @@ internal sealed partial class GenericModConfigMenuCore
                 () => "If enabled, Prospector and Scavenger will only track off-screen objects while ModKey is held.",
                 config => config.Professions.DisableAlwaysTrack,
                 (config, value) => config.Professions.DisableAlwaysTrack = value)
+
+            // professions
+            .AddSectionTitle(() => "Profession Settings")
+            .AddCheckbox(
+                () => "Should Junimos Inherit Professions",
+                () => "Whether Junimo harvesters should apply Harvester and Agriculturist perks.",
+                config => config.Professions.ShouldJunimosInheritProfessions,
+                (config, value) => config.Professions.ShouldJunimosInheritProfessions = value)
+            .AddCheckbox(
+                () => "Artisan Goods Always Same Quality As Input",
+                () => "Enable this if you preferred the old broken Artisan perk without randomization.",
+                config => config.Professions.ArtisanGoodsAlwaysSameQualityAsInput,
+                (config, value) => config.Professions.ArtisanGoodsAlwaysSameQualityAsInput = value)
+            .AddCheckbox(
+                () => "Bees Are Animals",
+                () => "Whether Bee House products should be affected by Producer bonuses.",
+                config => config.Professions.BeesAreAnimals,
+                (config, value) => config.Professions.BeesAreAnimals = value)
+            .AddNumberField(
+                () => "Forages Needed for Best Quality",
+                () => "Ecologists must forage this many items to reach iridium quality.",
+                config => (int)config.Professions.ForagesNeededForBestQuality,
+                (config, value) => config.Professions.ForagesNeededForBestQuality = (uint)value,
+                0,
+                1000,
+                10)
+            .AddNumberField(
+                () => "Minerals Needed for Best Quality",
+                () => "Gemologists must mine this many minerals to reach iridium quality.",
+                config => (int)config.Professions.MineralsNeededForBestQuality,
+                (config, value) => config.Professions.MineralsNeededForBestQuality = (uint)value,
+                0,
+                1000,
+                10);
+
+        if (ModHelper.ModRegistry.IsLoaded("Pathoschild.Automate"))
+        {
+            this.AddCheckbox(
+                () => "Lax Ownership Requirements",
+                () =>
+                    "If enabled, machine and building ownerhsip will be ignored when determining whether to apply certain profession bonuses.",
+                config => config.Professions.LaxOwnershipRequirements,
+                (config, value) => config.Professions.LaxOwnershipRequirements = value);
+        }
+
+        this
             .AddNumberField(
                 () => "Chance to Start Treasure Hunt",
                 () => "The chance that your Scavenger or Prospector hunt senses will start tingling.",
@@ -135,10 +150,10 @@ internal sealed partial class GenericModConfigMenuCore
                 10f,
                 0.5f)
             .AddNumberField(
-                () => "Spelunker Speed Cap",
+                () => "Spelunker Speed Ceiling",
                 () => "The maximum speed a Spelunker can reach in the mines.",
-                config => (int)config.Professions.SpelunkerSpeedCap,
-                (config, value) => config.Professions.SpelunkerSpeedCap = (uint)value,
+                config => (int)config.Professions.SpelunkerSpeedCeiling,
+                (config, value) => config.Professions.SpelunkerSpeedCeiling = (uint)value,
                 1,
                 10)
             .AddCheckbox(
@@ -152,20 +167,28 @@ internal sealed partial class GenericModConfigMenuCore
                 config => config.Professions.CrystalariumsUpgradeWithGemologist,
                 (config, value) => config.Professions.CrystalariumsUpgradeWithGemologist = value)
             .AddNumberField(
-                () => "Angler Multiplier Cap",
+                () => "Angler Price Bonus Ceiling",
                 () =>
                     "If multiple new fish mods are installed, you may want to adjust this to a sensible value. Limits the price multiplier for fish sold by Angler.",
-                config => config.Professions.AnglerMultiplierCap,
-                (config, value) => config.Professions.AnglerMultiplierCap = value,
+                config => config.Professions.AnglerPriceBonusCeiling,
+                (config, value) => config.Professions.AnglerPriceBonusCeiling = value,
                 0.5f,
                 2f)
             .AddNumberField(
-                () => "Legendary Pond Population Cap",
+                () => "Aquarist Fish Pond Ceiling",
+                () =>
+                    "If you like raising dozen of fish species, you may use this limit how easy the fishing minigame will become.",
+                config => config.Professions.AquaristFishPondCeiling,
+                (config, value) => config.Professions.AquaristFishPondCeiling = value,
+                0.5f,
+                2f)
+            .AddNumberField(
+                () => "Legendary Pond Population Ceiling",
                 () => "The maximum population of Aquarist Fish Ponds with legendary fish.",
-                config => (int)config.Professions.LegendaryPondPopulationCap,
+                config => (int)config.Professions.LegendaryPondPopulationCeiling,
                 (config, value) =>
                 {
-                    config.Professions.LegendaryPondPopulationCap = (uint)value;
+                    config.Professions.LegendaryPondPopulationCeiling = (uint)value;
                     if (!Context.IsWorldReady)
                     {
                         return;
@@ -200,15 +223,22 @@ internal sealed partial class GenericModConfigMenuCore
                 10,
                 1000)
             .AddNumberField(
-                () => "Tax Deduction Cap",
+                () => "Tax Deduction Ceiling",
                 () => "The maximum tax deduction allowed by the Ferngill Revenue Service.",
                 config => config.Professions.ConservationistTaxBonusCeiling,
                 (config, value) => config.Professions.ConservationistTaxBonusCeiling = value,
                 0f,
                 1f,
                 0.05f)
+            .AddNumberField(
+                () => "Piper Buff Ceiling",
+                () => "The maximum stack that can be gained for each buff stat.",
+                config => (int)config.Professions.PiperBuffCeiling,
+                (config, value) => config.Professions.PiperBuffCeiling = (uint)value,
+                10,
+                1000)
 
-            // ultimate
+            // ultimates
             .AddSectionTitle(() => "Special Ability Settings")
             .AddCheckbox(
                 () => "Enable Special Abilities",
@@ -249,6 +279,14 @@ internal sealed partial class GenericModConfigMenuCore
                 (config, value) => config.Professions.SpecialDrainFactor = value,
                 0.5f,
                 2f)
+            .AddNumberField(
+                () => "Cost of Special Ability Respec",
+                () => "Monetary cost of changing the chosen Special Ability. Set to 0 to change for free.",
+                config => (int)config.Professions.SpecialRespecCost,
+                (config, value) => config.Professions.SpecialRespecCost = (uint)value,
+                0,
+                100000,
+                10000)
 
             // prestige
             .AddSectionTitle(() => "Prestige Settings")
@@ -299,14 +337,6 @@ internal sealed partial class GenericModConfigMenuCore
                 0,
                 100000,
                 10000)
-            .AddNumberField(
-                () => "Cost of Changing Ultimate",
-                () => "Monetary cost of changing the combat Ultimate. Set to 0 to change for free.",
-                config => (int)config.Professions.ChangeUltCost,
-                (config, value) => config.Professions.ChangeUltCost = (uint)value,
-                0,
-                100000,
-                10000)
             .AddDropdown(
                 () => "Progression Style",
                 () => "Determines the style of the sprite that appears next to skill bars, and indicates the skill reset progression.",
@@ -326,8 +356,8 @@ internal sealed partial class GenericModConfigMenuCore
                     _ => ThrowHelper.ThrowArgumentOutOfRangeException<string>(nameof(value), value, null),
                 })
 
-            // difficulty settings
-            .AddSectionTitle(() => "Difficulty Settings")
+            // experience settings
+            .AddSectionTitle(() => "Experience Settings")
             .AddNumberField(
                 () => "Base Farming Experience Multiplier",
                 () => "Multiplies all skill experience gained for Farming from the start of the game.",

@@ -6,7 +6,7 @@ using System.Collections.Generic;
 
 #endregion using directives
 
-/// <summary>The ephemeral runtime state for Professions.</summary>
+/// <summary>The runtime state for Profession variables.</summary>
 internal sealed class State
 {
     private int _rageCounter;

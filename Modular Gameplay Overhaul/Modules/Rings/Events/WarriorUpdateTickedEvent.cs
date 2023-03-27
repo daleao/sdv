@@ -49,7 +49,7 @@ internal sealed class WarriorUpdateTickedEvent : UpdateTickedEvent
         }
 
         // decay counter every 5 seconds after 25 seconds out of combat
-        if (Game1.game1.ShouldTimePass() && ModEntry.State.SecondsOutOfCombat > 25 && e.IsMultipleOf(300))
+        if (Game1.game1.ShouldTimePass() && Globals.SecondsOutOfCombat > 25 && e.IsMultipleOf(300))
         {
             RingsModule.State.WarriorKillCount--;
         }

@@ -36,6 +36,10 @@ public sealed class Config : Shared.Configs.Config
     [JsonProperty]
     public bool ShouldJunimosInheritProfessions { get; internal set; } = false;
 
+    /// <summary>Gets a value indicating whether the quality of produced artisan goods should be always the same as the quality of the input material. If set to false, then the quality will be less than or equal to that of the input.</summary>
+    [JsonProperty]
+    public bool ArtisanGoodsAlwaysSameQualityAsInput { get; internal set; } = false;
+
     /// <summary>Gets custom mod Artisan machines. Add to this list to make them compatible with the profession.</summary>
     [JsonProperty]
     public string[] CustomArtisanMachines { get; internal set; } =
@@ -72,7 +76,7 @@ public sealed class Config : Shared.Configs.Config
         "Yogurt Jar", // artisan valley
     };
 
-    /// <summary>Gets a value indicating whether Bee House will be affected by producer bonuses.</summary>
+    /// <summary>Gets a value indicating whether Bee House products should be affected by Producer bonuses.</summary>
     [JsonProperty]
     public bool BeesAreAnimals { get; internal set; } = true;
 
@@ -125,7 +129,7 @@ public sealed class Config : Shared.Configs.Config
 
     /// <summary>Gets the maximum speed bonus a Spelunker can reach.</summary>
     [JsonProperty]
-    public uint SpelunkerSpeedCap { get; internal set; } = 10;
+    public uint SpelunkerSpeedCeiling { get; internal set; } = 10;
 
     /// <summary>Gets a value indicating whether toggles the Get Excited buff when a Demolitionist is hit by an explosion.</summary>
     [JsonProperty]
@@ -145,7 +149,13 @@ public sealed class Config : Shared.Configs.Config
     ///     you may want to adjust this to a sensible value.
     /// </summary>
     [JsonProperty]
-    public float AnglerMultiplierCap { get; internal set; } = 1f;
+    public float AnglerPriceBonusCeiling { get; internal set; } = 1f;
+
+    /// <summary>
+    ///     Gets the maximum number of Fish Ponds that will be counted for catching bar loss compensation.
+    /// </summary>
+    [JsonProperty]
+    public float AquaristFishPondCeiling { get; internal set; } = 12f;
 
     /// <summary>
     ///     Gets a value indicating whether to display the MAX icon below fish in the Collections Menu which have been caught at the
@@ -156,7 +166,7 @@ public sealed class Config : Shared.Configs.Config
 
     /// <summary>Gets the maximum population of Aquarist Fish Ponds with legendary fish.</summary>
     [JsonProperty]
-    public uint LegendaryPondPopulationCap { get; internal set; } = 6;
+    public uint LegendaryPondPopulationCeiling { get; internal set; } = 6;
 
     /// <summary>Gets you must collect this many junk items from crab pots for every 1% of tax deduction the following season.</summary>
     [JsonProperty]
@@ -172,45 +182,49 @@ public sealed class Config : Shared.Configs.Config
 
     /// <summary>Gets the maximum stacks that can be gained for each buff stat.</summary>
     [JsonProperty]
-    public uint PiperBuffCap { get; internal set; } = 10;
+    public uint PiperBuffCeiling { get; internal set; } = 10;
 
-    /// <summary>Gets a value indicating whether to allow Ultimate activation. Super Stat continues to apply.</summary>
+    /// <summary>Gets a value indicating whether to allow Special Abilities to be used in-game.</summary>
     [JsonProperty]
     public bool EnableSpecials { get; internal set; } = true;
 
-    /// <summary>Gets mod key used to activate Ultimate. Can be the same as <see cref="ModKey"/>.</summary>
+    /// <summary>Gets mod key used to activate the Special Ability. Can be the same as <see cref="ModKey"/>.</summary>
     [JsonProperty]
     public KeybindList SpecialActivationKey { get; internal set; } = KeybindList.Parse("LeftShift, LeftShoulder");
 
-    /// <summary>Gets a value indicating whether determines whether Ultimate is activated on <see cref="SpecialActivationKey"/> hold (as opposed to press).</summary>
+    /// <summary>Gets a value indicating  whether the Special Ability is activated by holding the <see cref="SpecialActivationKey"/>, as opposed to pressing.</summary>
     [JsonProperty]
     public bool HoldKeyToActivateSpecial { get; internal set; } = true;
 
-    /// <summary>Gets how long <see cref="SpecialActivationKey"/> should be held to activate Ultimate, in seconds.</summary>
+    /// <summary>Gets how long <see cref="SpecialActivationKey"/> should be held to activate the Special Ability, in seconds.</summary>
     [JsonProperty]
     public float SpecialActivationDelay { get; internal set; } = 1f;
 
     /// <summary>
-    ///     Gets the rate at which one builds the Ultimate meter. Increase this if you feel the gauge raises too
+    ///     Gets the rate at which one builds the Special meter. Increase this if you feel the gauge raises too
     ///     slowly.
     /// </summary>
     [JsonProperty]
     public double SpecialGainFactor { get; internal set; } = 1d;
 
     /// <summary>
-    ///     Gets the rate at which the Ultimate meter depletes during Ultimate. Decrease this to make Ultimate last
+    ///     Gets the rate at which the Special meter depletes during Ultimate. Decrease this to make Ultimate last
     ///     longer.
     /// </summary>
     [JsonProperty]
     public double SpecialDrainFactor { get; internal set; } = 1d;
 
-    /// <summary>Gets a value indicating whether to apply Prestige changes.</summary>
+    /// <summary>Gets monetary cost of changing the chosen Special Ability. Set to 0 to change for free.</summary>
     [JsonProperty]
-    public bool EnablePrestige { get; internal set; } = true;
+    public uint SpecialRespecCost { get; internal set; } = 0;
 
     /// <summary>Gets the base skill reset cost multiplier. Set to 0 to reset for free.</summary>
     [JsonProperty]
     public float SkillResetCostMultiplier { get; internal set; } = 1f;
+
+    /// <summary>Gets a value indicating whether to apply Prestige changes.</summary>
+    [JsonProperty]
+    public bool EnablePrestige { get; internal set; } = true;
 
     /// <summary>Gets a value indicating whether resetting a skill also clears all corresponding recipes.</summary>
     [JsonProperty]
@@ -231,10 +245,6 @@ public sealed class Config : Shared.Configs.Config
     /// <summary>Gets monetary cost of respecing prestige profession choices for a skill. Set to 0 to respec for free.</summary>
     [JsonProperty]
     public uint PrestigeRespecCost { get; internal set; } = 20000;
-
-    /// <summary>Gets monetary cost of changing the combat Ultimate. Set to 0 to change for free.</summary>
-    [JsonProperty]
-    public uint ChangeUltCost { get; internal set; } = 0;
 
     /// <summary>Gets a multiplier that will be applied to all skill experience gained from the start of the game.</summary>
     /// <remarks>The order is Farming, Fishing, Foraging, Mining, Combat and Luck (if installed).</remarks>

@@ -337,9 +337,9 @@ internal sealed class ScavengerHunt : TreasureHunt
         this.AddSeedsToTreasures(treasures);
 
 #if DEBUG
-        if (ArsenalModule.IsEnabled && ArsenalModule.Config.DwarvishCrafting && Globals.DwarvishBlueprintIndex.HasValue)
+        if (WeaponsModule.IsEnabled && WeaponsModule.Config.DwarvishLegacy && Globals.DwarvishBlueprintIndex.HasValue)
         {
-            if (!Game1.player.Read(Arsenal.DataKeys.BlueprintsFound).ParseList<int>()
+            if (!Game1.player.Read(Weapons.DataKeys.BlueprintsFound).ParseList<int>()
                     .ContainsAll(ItemIDs.ElfBlade, ItemIDs.ForestSword))
             {
                 treasures.Add(new SObject(Globals.DwarvishBlueprintIndex.Value, 1));
@@ -547,9 +547,9 @@ internal sealed class ScavengerHunt : TreasureHunt
         // forest sword
         if (this.Random.NextDouble() < 0.25 * luckModifier)
         {
-            if (ArsenalModule.IsEnabled && ArsenalModule.Config.DwarvishCrafting && Globals.DwarvishBlueprintIndex.HasValue)
+            if (WeaponsModule.IsEnabled && WeaponsModule.Config.DwarvishLegacy && Globals.DwarvishBlueprintIndex.HasValue)
             {
-                if (!Game1.player.Read(Arsenal.DataKeys.BlueprintsFound).ParseList<int>()
+                if (!Game1.player.Read(Weapons.DataKeys.BlueprintsFound).ParseList<int>()
                         .Contains(ItemIDs.ForestSword))
                 {
                     treasures.Add(new SObject(Globals.DwarvishBlueprintIndex.Value, 1));
@@ -568,9 +568,9 @@ internal sealed class ScavengerHunt : TreasureHunt
         // elf blade
         if (this.Random.NextDouble() < 0.25 * luckModifier)
         {
-            if (ArsenalModule.IsEnabled && ArsenalModule.Config.DwarvishCrafting && Globals.DwarvishBlueprintIndex.HasValue)
+            if (WeaponsModule.IsEnabled && WeaponsModule.Config.DwarvishLegacy && Globals.DwarvishBlueprintIndex.HasValue)
             {
-                if (!Game1.player.Read(Arsenal.DataKeys.BlueprintsFound).ParseList<int>()
+                if (!Game1.player.Read(Weapons.DataKeys.BlueprintsFound).ParseList<int>()
                         .Contains(ItemIDs.ElfBlade))
                 {
                     treasures.Add(new SObject(Globals.DwarvishBlueprintIndex.Value, 1));

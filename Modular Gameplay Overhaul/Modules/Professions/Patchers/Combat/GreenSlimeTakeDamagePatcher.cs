@@ -2,7 +2,6 @@
 
 #region using directives
 
-using System.Linq;
 using DaLion.Overhaul.Modules.Professions.VirtualProperties;
 using DaLion.Shared.Extensions.Stardew;
 using DaLion.Shared.Harmony;

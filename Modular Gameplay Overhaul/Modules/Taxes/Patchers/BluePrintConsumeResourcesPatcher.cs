@@ -2,6 +2,7 @@
 
 #region using directives
 
+using DaLion.Overhaul.Modules.Taxes.Extensions;
 using DaLion.Shared.Extensions.Stardew;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
@@ -23,9 +24,20 @@ internal sealed class BluePrintConsumeResourcesPatcher : HarmonyPatcher
     [HarmonyPostfix]
     private static void BluePrintConsumeResourcesPostfix(BluePrint __instance)
     {
-        if (!__instance.magical && TaxesModule.Config.DeductibleBuildingExpenses)
+        if (__instance.magical || !TaxesModule.Config.DeductibleBuildingExpenses)
+        {
+            return;
+        }
+
+        if (Game1.player.ShouldPayTaxes())
         {
             Game1.player.Increment(DataKeys.BusinessExpenses, __instance.moneyRequired);
+        }
+        else
+        {
+            Broadcaster.MessageHost(
+                __instance.moneyRequired.ToString(),
+                OverhaulModule.Taxes.Namespace + DataKeys.BusinessExpenses);
         }
     }
 

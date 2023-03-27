@@ -6,7 +6,9 @@ using DaLion.Overhaul.Modules.Rings.Extensions;
 using DaLion.Overhaul.Modules.Rings.VirtualProperties;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
+using StardewValley;
 using StardewValley.Objects;
+using StardewValley.Tools;
 
 #endregion using directives
 
@@ -32,7 +34,8 @@ internal sealed class CombinedRingOnEquipPatcher : HarmonyPatcher
         }
 
         chord.Apply(who.currentLocation, who);
-        if (ArsenalModule.IsEnabled && who.CurrentTool is { } tool && chord.Root is not null &&
+        if (chord.Root is not null && who.CurrentTool is { } tool &&
+            ((tool is MeleeWeapon && WeaponsModule.IsEnabled) || (tool is Slingshot && SlingshotsModule.IsEnabled)) &&
             tool.CanResonateWith(chord.Root))
         {
             tool.UpdateResonatingChord(chord);

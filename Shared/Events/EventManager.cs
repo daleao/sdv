@@ -73,7 +73,7 @@ internal sealed class EventManager
     internal void ManageNamespace(string @namespace)
     {
         Log.D($"[EventManager]: Gathering events in {@namespace}...");
-        this.ManageImplicitly(t => t.Namespace?.StartsWith(@namespace) == true);
+        this.ManageImplicitly(t => t.Namespace?.Contains(@namespace) == true);
     }
 
     /// <summary>Implicitly manages <see cref="IManagedEvent"/> types with the specified attribute type.</summary>
@@ -379,7 +379,7 @@ internal sealed class EventManager
     internal IEnumerable<IManagedEvent> GetAllForNamespace(string @namespace)
     {
         return this._eventCache
-            .Where(pair => pair.Key.Namespace?.StartsWith(@namespace) ?? false)
+            .Where(pair => pair.Key.Namespace?.Contains(@namespace) ?? false)
             .Select(pair => pair.Value);
     }
 

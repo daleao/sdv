@@ -18,7 +18,7 @@ public static class StringExtensions
     public static bool TryGetColorFromHtml(this string html, out Color color)
     {
         color = default;
-        if (!html.StartsWith('#'))
+        if (html[0] != '#')
         {
             Log.E("HTML code must begin with '#'.");
             return false;

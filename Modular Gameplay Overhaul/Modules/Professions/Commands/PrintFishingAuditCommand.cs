@@ -76,7 +76,7 @@ internal sealed class PrintFishingAuditCommand : ConsoleCommand
         }
 
         var priceMultiplier = Game1.player.HasProfession(Profession.Angler)
-            ? CurrentCulture($"{Math.Min((numMaxSizedCaught * 0.01f) + (numLegendaryCaught * 0.05f), ProfessionsModule.Config.AnglerMultiplierCap):0%}")
+            ? CurrentCulture($"{Math.Min((numMaxSizedCaught * 0.01f) + (numLegendaryCaught * 0.05f), ProfessionsModule.Config.AnglerPriceBonusCeiling):0%}")
             : "zero. You're not an Angler..";
         result.Append(
             $"You've caught {Game1.player.fishCaught.Count()} out of {fishData.Count} fishes. Of those, {numMaxSizedCaught} are max-sized, and {numLegendaryCaught} are legendary. You're total Angler price bonus is {priceMultiplier}." +

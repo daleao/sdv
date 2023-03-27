@@ -29,6 +29,16 @@ internal sealed class TaxDayEndingEvent : DayEndingEvent
     protected override void OnDayEndingImpl(object? sender, DayEndingEventArgs e)
     {
         var player = Game1.player;
+        if (!player.ShouldPayTaxes())
+        {
+            // clear any outdated data just in case
+            player.Write(DataKeys.SeasonIncome, null);
+            player.Write(DataKeys.BusinessExpenses, null);
+            player.Write(DataKeys.PercentDeductions, null);
+            player.Write(DataKeys.DebtOutstanding, null);
+            return;
+        }
+
         if (Game1.dayOfMonth == 0 && Game1.currentSeason == "spring" && Game1.year == 1)
         {
             PostalService.Send(Mail.FrsIntro);

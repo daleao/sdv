@@ -56,7 +56,7 @@ internal sealed class Harmonizer
     {
         Log.D($"[Harmonizer]: Gathering patches in {@namespace}...");
         return new Harmonizer(modRegistry, harmonyId ?? @namespace)
-            .ApplyImplicitly(t => t.Namespace?.StartsWith(@namespace) == true);
+            .ApplyImplicitly(t => t.Namespace?.Contains(@namespace) == true);
     }
 
     /// <summary>Implicitly applies<see cref="IHarmonyPatcher"/> types with the specified attribute.</summary>

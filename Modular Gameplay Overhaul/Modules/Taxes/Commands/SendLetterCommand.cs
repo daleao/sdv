@@ -2,10 +2,8 @@
 
 #region using directives
 
-using System.Linq;
 using DaLion.Shared.Attributes;
 using DaLion.Shared.Commands;
-using DaLion.Shared.Extensions.Stardew;
 
 #endregion using directives
 

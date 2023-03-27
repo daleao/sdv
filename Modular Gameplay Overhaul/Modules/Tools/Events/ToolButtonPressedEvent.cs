@@ -42,15 +42,15 @@ internal sealed class ToolButtonPressedEvent : ButtonPressedEvent
         }
 
         if (!ToolsModule.Config.EnableAutoSelection ||
-            !(ToolsModule.State.SelectableToolByType.ContainsKey(tool.GetType()) ||
-              ArsenalModule.State.SelectableArsenal == tool))
+            !ToolsModule.State.SelectableToolByType.ContainsKey(tool.GetType()) ||
+            tool == WeaponsModule.State.AutoSelectableWeapon || tool == SlingshotsModule.State.AutoSelectableSlingshot)
         {
             return;
         }
 
-        if (ToolSelector.TryFor(e.Cursor.GrabTile, Game1.player, Game1.player.currentLocation, out var selectable))
+        if (ToolSelector.TryFor(e.Cursor.GrabTile, player, player.currentLocation, out var selectable))
         {
-            Game1.player.CurrentToolIndex = selectable.Value.Index;
+            player.CurrentToolIndex = selectable.Value.Index;
         }
     }
 }

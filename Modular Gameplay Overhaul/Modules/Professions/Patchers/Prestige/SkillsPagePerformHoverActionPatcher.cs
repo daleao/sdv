@@ -2,8 +2,6 @@
 
 #region using directives
 
-using System.Linq;
-using System.Xml.Linq;
 using DaLion.Overhaul.Modules.Professions.Extensions;
 using DaLion.Shared.Extensions;
 using DaLion.Shared.Harmony;

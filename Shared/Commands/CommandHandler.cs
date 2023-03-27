@@ -63,7 +63,7 @@ internal sealed class CommandHandler
     {
         Log.D($"[CommandHandler]: Gathering commands in {@namespace}...");
         return new CommandHandler(helper)
-            .HandleImplicitly(t => t.Namespace?.StartsWith(@namespace) == true)
+            .HandleImplicitly(t => t.Namespace?.Contains(@namespace) == true)
             .Register(mod, entry, conditional);
     }
 

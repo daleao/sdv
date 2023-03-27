@@ -12,7 +12,6 @@ namespace DaLion.Overhaul;
 #region using directives
 
 using System.Diagnostics;
-using DaLion.Overhaul.Modules;
 using DaLion.Shared.Events;
 using DaLion.Shared.Extensions.Collections;
 using DaLion.Shared.Extensions.SMAPI;
@@ -95,7 +94,7 @@ public sealed class ModEntry : Mod
         Broadcaster = new Broadcaster(helper.Multiplayer, this.ModManifest.UniqueID);
 
         // activate modules
-        OverhaulModule.List.ForEach(module => module.Activate(helper));
+        EnumerateModules().ForEach(module => module.Activate(helper));
 
         // validate multiplayer
         if (Context.IsMultiplayer && !Context.IsMainPlayer && !Context.IsSplitScreen)
