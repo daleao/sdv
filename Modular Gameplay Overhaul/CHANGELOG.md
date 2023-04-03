@@ -22,6 +22,7 @@ This file contains a TL;DR of individual module changelogs. Only major changes a
 * [Taxes]: Added property taxes.
 * [Tools]: Now includes the popular Harvest With Scythe feature, so you no longer have to rely on CJB Cheats Menu's implementation. The implementation is similar to Yet Another Harvest With Scythe Mod, which means they will conflict if installed together.
 * [Tweex]: Added new tweak for spawning crows in Ginger Island farm and other custom maps.
+* Bug fixes.
 
 ## Detailed Change Logs
 
