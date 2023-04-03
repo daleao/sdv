@@ -1,5 +1,11 @@
 ﻿# Taxes Module Change Log
 
+## 2.0.3
+
+### Fixed
+
+* Fixed a typo in the config verification.
+
 ## 2.0.0
 
 ### Added

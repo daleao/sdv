@@ -73,7 +73,7 @@ public sealed class Config : Shared.Configs.Config
     {
         Log.T("[Taxes]: Verifying tax configs...");
 
-        if (this.IncomeBrackets.Length == this.IncomeTaxPerBracket.Length)
+        if (this.IncomeBrackets.Length == this.IncomeTaxPerBracket.Length - 1)
         {
             return true;
         }
