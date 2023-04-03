@@ -2,6 +2,18 @@
 
 This file contains a TL;DR of individual module changelogs. Only major changes are reiterated here. For the complete list of changes, please refer to the individual changelogs of each module, linked [below](#detailed-change-logs).
 
+## Hotfix 2.0.3
+
+* Fixed a typo in the config verification.
+
+## Hotfix 2.0.2
+
+* Fixed tooltips not displaying repeated gemsones.
+
+## Hotfix 2.0.1
+
+* Hotfix for GMCM crash.
+
 ## Major Release 2.0.0 Highlights
 
 * Weapon, Slingshot and Enchantment-related functionalities have been refactored to specific modules.
