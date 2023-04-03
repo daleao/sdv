@@ -18,7 +18,7 @@
 
 * Improved GMCM menu with multi-column options and separators.
 * Stun animation moved to Combat module.
-* The command entry points for each modules have changed. They now use the tickers display in title of each module README, in (parentheses).
+* The entry commands for all modules have changed, now using the ticker-like acronyms, which are displayed in the titles of each module's README, in (parentheses).
 
 ### Fixed
 
