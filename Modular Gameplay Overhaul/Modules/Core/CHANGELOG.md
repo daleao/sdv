@@ -1,5 +1,11 @@
 ﻿# Modular Overhaul Core Change Log
 
+## 2.0.1
+
+### Fixed
+
+* Hotfix for GMCM crash.
+
 ## 2.0.0
 
 ### Added
