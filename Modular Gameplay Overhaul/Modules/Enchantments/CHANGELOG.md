@@ -1,5 +1,11 @@
 ﻿# Enchantments Change Log
 
+## 2.0.2
+
+### Fixed
+
+* Fixed tooltips not displaying repeated gemsones.
+
 ## 2.0.0
 
 * Initial release of Enchantments module.

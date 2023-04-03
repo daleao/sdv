@@ -282,17 +282,22 @@ internal sealed class IClickableMenuDrawHoverTextPatcher : HarmonyPatcher
                 continue;
             }
 
-            b.Draw(
-                Textures.ForgeIconTx,
-                position,
-                sourceRect,
-                gemstone.StoneColor,
-                0f,
-                Vector2.Zero,
-                4f,
-                SpriteEffects.None,
-                1f);
-            position.X += (7 * 4) + 8;
+            var level = enchantment.GetLevel();
+            for (var j = 0; j < level; j++)
+            {
+                b.Draw(
+                    Textures.ForgeIconTx,
+                    position,
+                    sourceRect,
+                    gemstone.StoneColor,
+                    0f,
+                    Vector2.Zero,
+                    4f,
+                    SpriteEffects.None,
+                    1f);
+
+                position.X += (7 * 4) + 8;
+            }
         }
 
         var emptySlots = tool.GetMaxForges() - tool.GetTotalForgeLevels();
