@@ -16,7 +16,7 @@
 * Removed the cap on bonus damage awarded by Carving enchantment; i.e., you can now continue carving enemy resistances indefinitely.
 * Glutton Enchantment renamed to Magnum Enchantment.
 * Tribute Enchantment renamed to Mammonite's Enchantment.
-* Artful enchantment for Stabbing Swords now allows turning mid-dash by pressing a direction key.
+* Artful enchantment for Stabbing Swords now allows turning mid-dash by pressing a direction key. Dash distance increased from +20% to +50%.
 
 ### Fixed
 

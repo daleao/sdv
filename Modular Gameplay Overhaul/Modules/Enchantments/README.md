@@ -43,7 +43,7 @@ Enchantments have been almost entirely overhauled. Hopefully these enchantments 
 | Mammonite's | Attacks that would leave an enemy below 10% max health immediately execute the enemy, converting the remaining health into gold. This threshold increases by 1% with each consecutive takedown, resetting when you take damage. |
 | Bloodthirsty | Enemy takedowns recover some health proportional to the enemy's max health. Excess healing is converted into a shield for up to 20% of the player's max health, which slowly decays after not dealing or taking damage for 25s. |
 
-\* **Offensive Swords:** Dash distance +20%. **Defensive Swords:** Successful parries stun enemies for 1s. **Daggers:** Quick stab hit count +2. **Clubs:** Smash AoE + 50%.
+\* **Offensive Swords:** Dash distance +50% and can change direction mid-dash. **Defensive Swords:** Successful parries stun enemies for 1s. **Daggers:** Quick stab hit count +2. **Clubs:** Smash AoE + 50%.
 
 ### Ranged Enchantments
 
