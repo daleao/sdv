@@ -41,6 +41,6 @@ internal sealed class TaxSaveLoadedEvent : SaveLoadedEvent
         }
 
         farm.Write(DataKeys.UsableTiles, usableTiles.ToString());
-        Log.D($"[Taxes]: Counted {usableTiles} usable tiles in {farm.Name}.");
+        Log.D($"[TXS]: Counted {usableTiles} usable tiles in {farm.Name}.");
     }
 }

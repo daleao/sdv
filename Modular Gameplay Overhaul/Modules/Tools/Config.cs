@@ -68,7 +68,7 @@ public sealed class Config : Shared.Configs.Config
     {
         var isValid = true;
 
-        Log.T("[Tools]: Verifying tool configs...");
+        Log.T("[TOLS]: Verifying tool configs...");
 
         var isMoonMisadventuresLoaded = MoonMisadventuresIntegration.Instance?.IsLoaded == true;
         if (this.Axe.RadiusAtEachPowerLevel.Length < 5)

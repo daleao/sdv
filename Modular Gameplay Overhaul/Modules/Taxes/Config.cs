@@ -71,7 +71,7 @@ public sealed class Config : Shared.Configs.Config
     /// <inheritdoc />
     internal override bool Validate()
     {
-        Log.T("[Taxes]: Verifying tax configs...");
+        Log.T("[TXS]: Verifying tax configs...");
 
         if (this.IncomeBrackets.Length == this.IncomeTaxPerBracket.Length - 1)
         {

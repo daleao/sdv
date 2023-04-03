@@ -63,8 +63,8 @@ internal sealed class TaxDayEndingEvent : DayEndingEvent
 
         Log.D(
             amountSold > 0
-                ? $"[Taxes]: {Game1.player} sold items worth a total of {amountSold}g on day {Game1.dayOfMonth} of {Game1.currentSeason}."
-                : $"[Taxes]: No items were sold on day {Game1.dayOfMonth} of {Game1.currentSeason}.");
+                ? $"[TXS]: {Game1.player} sold items worth a total of {amountSold}g on day {Game1.dayOfMonth} of {Game1.currentSeason}."
+                : $"[TXS]: No items were sold on day {Game1.dayOfMonth} of {Game1.currentSeason}.");
 
         var dayIncome = amountSold;
         switch (Game1.dayOfMonth)
@@ -248,7 +248,7 @@ internal sealed class TaxDayEndingEvent : DayEndingEvent
 
         player.Increment(DataKeys.SeasonIncome, dayIncome);
         Log.T(
-            $"[Taxes]: Actual income was increased by {dayIncome}g after debts.");
+            $"[TXS]: Actual income was increased by {dayIncome}g after debts.");
     }
 
     private static void CheckDeduction()

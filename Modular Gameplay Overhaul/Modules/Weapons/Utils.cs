@@ -25,7 +25,7 @@ internal static class Utils
 
         var player = Game1.player;
         Log.I(
-            $"[Weapons]: Performing {(Context.IsMainPlayer ? "global" : "local")} item re-validation.");
+            $"[WPNZ]: Performing {(Context.IsMainPlayer ? "global" : "local")} item re-validation.");
         if (Context.IsMainPlayer)
         {
             Utility.iterateAllItems(item =>
@@ -65,7 +65,7 @@ internal static class Utils
             }
         }
 
-        Log.I("[Weapons]: Done.");
+        Log.I("[WPNZ]: Done.");
         if (removed <= 0)
         {
             return;
@@ -112,13 +112,13 @@ internal static class Utils
              WeaponsModule.Config.CustomStabbingSwords.Contains(weapon.Name)))
         {
             weapon.type.Value = MeleeWeapon.stabbingSword;
-            Log.D($"[Weapons]: The type of {weapon.Name} was converted to Stabbing sword.");
+            Log.D($"[WPNZ]: The type of {weapon.Name} was converted to Stabbing sword.");
         }
         else if ((!WeaponsModule.ShouldEnable || !WeaponsModule.Config.EnableStabbySwords) &&
                  weapon.type.Value == MeleeWeapon.stabbingSword)
         {
             weapon.type.Value = MeleeWeapon.defenseSword;
-            Log.D($"[Weapons]: The type of {weapon.Name} was converted to Defense sword.");
+            Log.D($"[WPNZ]: The type of {weapon.Name} was converted to Defense sword.");
         }
 
         if (WeaponsModule.ShouldEnable && WeaponsModule.Config.InfinityPlusOne && (weapon.isGalaxyWeapon() || weapon.IsInfinityWeapon()

@@ -29,6 +29,6 @@ internal sealed class LuckSkillIntegration : ModIntegration<LuckSkillIntegration
         var luckSkill = new LuckSkill();
         Skill.Luck = luckSkill;
         SCSkill.Loaded["spacechase0.LuckSkill"] = luckSkill;
-        Log.T($"[Professions]: Successfully loaded the custom skill {this.ModId}.");
+        Log.T($"[PROFS]: Successfully loaded the custom skill {this.ModId}.");
     }
 }
