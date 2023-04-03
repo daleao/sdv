@@ -19,5 +19,5 @@ public sealed class Config : Shared.Configs.Config
 
     /// <summary>Gets a value indicating whether the quality of produced roe should be always the same as the quality of the producing fish. If set to false, then the quality will be less than or equal to that of the producing fish.</summary>
     [JsonProperty]
-    public bool RoeAlwaysSameQualityAsFish { get; internal set; } = false;
+    public bool RoeAlwaysFishQuality { get; internal set; } = false;
 }

@@ -79,6 +79,10 @@ internal sealed class WeaponButtonPressedEvent : ButtonPressedEvent
                     return;
             }
         }
+        else if (isUseToolButton && WeaponsModule.State.ComboCooldown > 0)
+        {
+            return;
+        }
 
         if (!player.isMoving() || !player.running || !WeaponsModule.Config.SlickMoves)
         {

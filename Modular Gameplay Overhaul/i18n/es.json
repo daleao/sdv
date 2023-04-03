@@ -312,16 +312,17 @@
   // * ENCHANTMENTS * //
   // **************** //
 
-  "enchantments.carving": "Perforador",
-  "enchantments.cleaving": "Rajante",
-  "enchantments.energized": "Energizado",
-  "enchantments.tribute": "Tributo",
-  "enchantments.vampiric": "Sediento",
-  "enchantments.engorging": "Glotón",
-  "enchantments.gatling": "Metralla",
-  "enchantments.preserving": "Conservante",
-  "enchantments.quincy": "Quincy",
-  "enchantments.spreading": "Escopeta",
+  "enchantments.carving.name": "Perforador",
+  "enchantments.cleaving.name": "Rajante",
+  "enchantments.energized.name": "Energizado",
+  "enchantments.explosive.name": "Explosivo",
+  "enchantments.tribute.name": "Tributo",
+  "enchantments.vampiric.name": "Sediento",
+  "enchantments.engorging.name": "Glotón",
+  "enchantments.gatling.name": "Metralla",
+  "enchantments.preserving.name": "Conservante",
+  "enchantments.quincy.name": "Quincy",
+  "enchantments.spreading.name": "Escopeta",
 
 
   // *********** //

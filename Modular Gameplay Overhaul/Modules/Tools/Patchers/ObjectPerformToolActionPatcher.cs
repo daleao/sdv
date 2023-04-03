@@ -52,7 +52,7 @@ internal sealed class ObjectPerformToolActionPatcher : HarmonyPatcher
                                    (int)tileLocation.X + ((int)tileLocation.Y * 777));
         if (who.professions.Contains(Farmer.botanist))
         {
-            __instance.Quality = ProfessionsModule.IsEnabled ? SObject.bestQuality : who.GetEcologistForageQuality();
+            __instance.Quality = ProfessionsModule.ShouldEnable ? SObject.bestQuality : who.GetEcologistForageQuality();
         }
         else if (random.NextDouble() < who.ForagingLevel / 30f)
         {

@@ -19,22 +19,28 @@ internal sealed class SlingshotCtorPatcher : HarmonyPatcher
     }
 
     /// <inheritdoc />
-    protected override void ApplyImpl(Harmony harmony)
+    protected override bool ApplyImpl(Harmony harmony)
     {
-        base.ApplyImpl(harmony);
+        if (!base.ApplyImpl(harmony))
+        {
+            return false;
+        }
 
         this.Target = this.RequireConstructor<Slingshot>(typeof(int));
-        base.ApplyImpl(harmony);
+        return base.ApplyImpl(harmony);
     }
 
     /// <inheritdoc />
-    protected override void UnapplyImpl(Harmony harmony)
+    protected override bool UnapplyImpl(Harmony harmony)
     {
         this.Target = this.RequireConstructor<Slingshot>(Type.EmptyTypes);
-        base.UnapplyImpl(harmony);
+        if (!base.UnapplyImpl(harmony))
+        {
+            return false;
+        }
 
         this.Target = this.RequireConstructor<Slingshot>(typeof(int));
-        base.UnapplyImpl(harmony);
+        return base.UnapplyImpl(harmony);
     }
 
     #region harmony patches

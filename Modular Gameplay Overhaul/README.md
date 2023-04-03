@@ -28,21 +28,23 @@ All modules should be fully multiplayer and splitscreen-ready so long as all pla
 
 - **[Weapons](Modules/Weapons)** is the second largest module. It overhauls many aspects of Melee Weapons so as to diversify combat and provide viable alternatives to the ubiquitous sword. Includes new mechanics likes combos, Stabbing Swords, weapon tiers and a comprehensive weapon rebalance, among many other features. **This module adds new items via Json Assets, and thus may cause Json Shuffle on existing saves.** 
 
-- **[Slingshots](Modules/Slingshots)** is the analogous module for Slingshots. Among other things, it provides Slingshots with the ammenties neglected to them in Vanilla, including critical hits, enchantments and a special move.
+- **[Slingshots](Modules/Slingshots)** is the analogous module for Slingshots. Among other things, it provides Slingshots with the amenities neglected to them in Vanilla, including critical hits, enchantments and a special move.
 
 - **[Tools](Modules/Tools)** is a one-stop-shop for tool customization and quality-of-life. It enables resource-tool charging, farming-tool customization, intelligent tool auto-selection, and even extends the enchantment pool, among other things.
 
-- **[Enchantments](Modules/Enchantments)** is overhauls the boring Vanilla enchantments, providing rebalances to gemstone enchantments and entirely new Prismatic Shard enchantments for both Melee Weapons and Slingshots.
+- **[Enchantments](Modules/Enchantments)** is near-total rework of boring Vanilla enchantments, providing rebalanced gemstone enchantments and objectively improved replacements for Prismatic Shard enchantments, for both Melee Weapons and Slingshots.
 
 - **[Rings](Modules/Rings)** overhauls underwhelming rings, with a large emphasis being on the Iridium Band. It introduces Gemstone Music Theory, which draws inspiration from real-life Music Theory, to provide a more interesting and balanced form of combining many rings. It also adds new crafting mechanics to create a more natural ring progression. **This module adds new items via Json Assets, and thus may cause Json Shuffle on existing saves.** 
 
-- **[Ponds](Modules/Ponds)** is a complement to the new Aquarist profession. It allows Fish Ponds to remember fish qualities, scale roe production, and even radioctive enrichment, among other features.
+- **[Ponds](Modules/Ponds)** is a complement to the new Aquarist profession. It allows Fish Pond produce to scale in both quantity and quality, grow algae and even nuclear-enrichment of metals.
 
 - **[Taxes](Modules/Taxes)** is a complement to the new Conservationist profession. It introduces a realistic taxation system as an added challenge and end-game gold sink. Because surely a nation at war would be capitalizing on that juicy farm income.
 
 - **[Tweex](Modules/Tweex)** is the final module, and serves as a repository for smaller tweaks and fixes to inconsistencies not large enough to merit a separate module.
 
 Please note that only the Professions and Tweex modules are enabled by default.
+
+All modules should be fully multiplayer and split-screen compatible **if and only if all players have it installed**. **This mod is not Android-compatible**, but an Android version of Chargeable Tools is available as an optional download.
 
 ## Installation & Update
 

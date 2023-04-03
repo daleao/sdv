@@ -32,7 +32,7 @@ internal sealed class MeleeWeaponDoAnimateSpecialMovePatcher : HarmonyPatcher
     [HarmonyBefore("Overhaul.Modules.Rings")]
     private static void MeleeWeaponDoAnimateSpecialMovePostfix(MeleeWeapon __instance)
     {
-        var cooldownReduction = WeaponsModule.IsEnabled
+        var cooldownReduction = WeaponsModule.ShouldEnable
             ? __instance.Get_EffectiveCooldownReduction()
             : 1f - (__instance.GetEnchantmentLevel<GarnetEnchantment>() * 0.1f);
         if (Math.Abs(cooldownReduction - 1f) < 0.01f)

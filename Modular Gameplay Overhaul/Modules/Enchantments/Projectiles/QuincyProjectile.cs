@@ -99,22 +99,22 @@ internal sealed class QuincyProjectile : BasicProjectile
             this.Firer);
     }
 
-    /// <summary>Replaces BasicProjectile.explosionAnimation.</summary>
-    /// <param name="location">The <see cref="GameLocation"/>.</param>
-    public void ExplosionAnimation(GameLocation location)
-    {
-        //location.temporarySprites.Add(
-        //    new TemporaryAnimatedSprite(
-        //        $"{Manifest.UniqueID}/QuincyCollisionAnimation",
-        //        new Rectangle(    0, 0, 64, 64),
-        //        50f,
-        //        1,
-        //        1,
-        //        this.position,
-        //        false,
-        //        Game1.random.NextBool())
-        //    {
-        //        scale = this.Overcharge,
-        //    });
-    }
+    ///// <summary>Replaces BasicProjectile.explosionAnimation.</summary>
+    ///// <param name="location">The <see cref="GameLocation"/>.</param>
+    //public void ExplosionAnimation(GameLocation location)
+    //{
+    //    location.temporarySprites.Add(
+    //        new TemporaryAnimatedSprite(
+    //            $"{Manifest.UniqueID}/QuincyCollisionAnimation",
+    //            new Rectangle(0, 0, 64, 64),
+    //            50f,
+    //            1,
+    //            1,
+    //            this.position,
+    //            false,
+    //            Game1.random.NextBool())
+    //        {
+    //            scale = this.Overcharge,
+    //        });
+    //}
 }

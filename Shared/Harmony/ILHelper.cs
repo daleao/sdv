@@ -104,6 +104,16 @@ public sealed class ILHelper
     {
         for (var i = 0; i < nth; i++)
         {
+            if (i > 0)
+            {
+                search = search switch
+                {
+                    SearchOption.First => SearchOption.Next,
+                    SearchOption.Last => SearchOption.Previous,
+                    _ => search,
+                };
+            }
+
             var index = -1;
             switch (search)
             {
@@ -144,9 +154,9 @@ public sealed class ILHelper
     }
 
     /// <summary>
-    ///     Finds the first occurrence of the specified <paramref name="pattern"/> in the active
-    ///     <see cref="CodeInstruction"/> list according to the specified <see cref="SearchOption"/>,
-    ///     without moving the stack pointer to it.
+    ///     Finds and returns the number of instruction until the first occurrence of the specified
+    ///     <paramref name="pattern"/> in the active <see cref="CodeInstruction"/> list according to
+    ///     the specified <see cref="SearchOption"/>, without moving the stack pointer to it.
     /// </summary>
     /// <param name="pattern">A pattern of <see cref="CodeInstruction"/>s to match.</param>
     /// <param name="count">The number of instructions until the first occurrence of <paramref name="pattern"/>.</param>

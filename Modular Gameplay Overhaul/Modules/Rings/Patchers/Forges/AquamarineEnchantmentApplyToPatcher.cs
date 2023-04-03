@@ -32,7 +32,7 @@ internal sealed class AquamarineEnchantmentApplyToPatcher : HarmonyPatcher
             return;
         }
 
-        if ((tool is MeleeWeapon && !WeaponsModule.IsEnabled) || (tool is Slingshot && !SlingshotsModule.IsEnabled) ||
+        if ((tool is MeleeWeapon && !WeaponsModule.ShouldEnable) || (tool is Slingshot && !SlingshotsModule.ShouldEnable) ||
             tool is not (MeleeWeapon or Slingshot))
         {
             return;

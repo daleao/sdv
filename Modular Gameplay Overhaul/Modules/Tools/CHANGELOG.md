@@ -1,6 +1,6 @@
 ﻿# Tools Module Change Log
 
-## 1.4.0
+## 2.0.0
 
 ### Changed
 

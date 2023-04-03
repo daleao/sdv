@@ -29,9 +29,9 @@ internal sealed class BetterCraftingIntegration : ModIntegration<BetterCraftingI
 
         var recipes = new List<string>();
 
-        if (RingsModule.Config.CraftableGlowAndMagnetRings)
+        if (RingsModule.Config.BetterGlowstoneProgression)
         {
-            recipes.AddRange(new[] { "Glow Ring", "Magnet Ring", });
+            recipes.AddRange(new[] { "Small Glow Ring", "Small Magnet Ring", "Glow Ring", "Magnet Ring", });
         }
 
         if (RingsModule.Config.CraftableGemRings)

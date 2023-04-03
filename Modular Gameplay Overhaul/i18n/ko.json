@@ -309,16 +309,17 @@
   // * ENCHANTMENTS * //
   // **************** //
 
-  "enchantments.carving": "방어구 파괴",
-  "enchantments.cleaving": "휩쓸기",
-  "enchantments.energized": "충전지",
-  "enchantments.tribute": "헌납",
-  "enchantments.vampiric": "피바라기",
-  "enchantments.engorging": "대구경 탄환",
-  "enchantments.gatling": "기관총",
-  "enchantments.preserving": "탄약 보존",
-  "enchantments.quincy": "퀸시",
-  "enchantments.spreading": "산탄총",
+  "enchantments.carving.name": "방어구 파괴",
+  "enchantments.cleaving.name": "휩쓸기",
+  "enchantments.energized.name": "충전지",
+  "enchantments.explosive.name": "폭발물",
+  "enchantments.tribute.name": "헌납",
+  "enchantments.vampiric.name": "피바라기",
+  "enchantments.engorging.name": "대구경 탄환",
+  "enchantments.gatling.name": "기관총",
+  "enchantments.preserving.name": "탄약 보존",
+  "enchantments.quincy.name": "퀸시",
+  "enchantments.spreading.name": "산탄총",
 
   // *********** //
   // ** TAXES ** //

@@ -312,16 +312,17 @@
   // * ENCHANTMENTS * //
   // **************** //
 
-  "enchantments.carving": "破甲",
-  "enchantments.cleaving": "撕裂",
-  "enchantments.energized": "电击",
-  "enchantments.tribute": "献祭",
-  "enchantments.vampiric": "嗜血",
-  "enchantments.engorging": "暴食者",
-  "enchantments.gatling": "加特林",
-  "enchantments.preserving": "节约弹药",
-  "enchantments.quincy": "能量弹",
-  "enchantments.spreading": "漫射",
+  "enchantments.carving.name": "破甲",
+  "enchantments.cleaving.name": "撕裂",
+  "enchantments.energized.name": "电击",
+  "enchantments.explosive.name": "爆炸性的",
+  "enchantments.tribute.name": "献祭",
+  "enchantments.vampiric.name": "嗜血",
+  "enchantments.engorging.name": "暴食者",
+  "enchantments.gatling.name": "加特林",
+  "enchantments.preserving.name": "节约弹药",
+  "enchantments.quincy.name": "能量弹",
+  "enchantments.spreading.name": "漫射",
 
 
   // *********** //

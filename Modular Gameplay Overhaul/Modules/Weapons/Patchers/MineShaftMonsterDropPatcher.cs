@@ -5,9 +5,9 @@
 using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
+using DaLion.Overhaul.Modules.Weapons.Extensions;
 using DaLion.Shared.Extensions.Reflection;
 using DaLion.Shared.Harmony;
-using Extensions;
 using HarmonyLib;
 using StardewValley.Locations;
 using StardewValley.Tools;

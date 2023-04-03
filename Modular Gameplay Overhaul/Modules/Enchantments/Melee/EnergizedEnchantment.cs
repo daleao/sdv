@@ -16,33 +16,104 @@ using StardewValley.Tools;
 /// </summary>
 /// <remarks>6 charges per hit + 1 charge per 6 tiles traveled.</remarks>
 [XmlType("Mods_DaLion_EnergizedEnchantment")]
-public class EnergizedEnchantment : BaseWeaponEnchantment
+public sealed class EnergizedEnchantment : BaseWeaponEnchantment
 {
-    internal const int BuffSheetIndex = 42;
+    /// <summary>The amount of energy stacks when fully charged.</summary>
+    public const int MaxEnergy = 100;
 
-    private int _stacks = -1;
+    private const int BuffSheetIndex = 52;
 
+    private uint _previousStepsTaken;
+    private int _energy = -1;
     private bool _doingLightningStrike;
+    private bool _didCountThisSwipe;
 
-    internal static int BuffId { get; } = (Manifest.UniqueID + "Energized").GetHashCode();
-
-    internal int Stacks
+    /// <summary>Finalizes an instance of the <see cref="EnergizedEnchantment"/> class.</summary>
+    ~EnergizedEnchantment()
     {
-        get => this._stacks;
+        EventManager.Disable<EnergizedUpdateTickedEvent>();
+    }
+
+    /// <summary>Gets or sets the current number of energy stacks.</summary>
+    public int Energy
+    {
+        get => this._energy;
         set
         {
-            this._stacks = Math.Min(value, 100);
+            this._energy = Math.Min(value, MaxEnergy);
         }
     }
+
+    private static int BuffId { get; } = (Manifest.UniqueID + "Energized").GetHashCode();
 
     /// <inheritdoc />
     public override string GetName()
     {
-        return I18n.Get("enchantments.energized");
+        return I18n.Get("enchantments.energized.name");
     }
 
-    internal void DoLightningStrike(Monster monster, GameLocation location, Farmer who, MeleeWeapon weapon)
+    /// <summary>Updates the instance state.</summary>
+    /// <param name="ticks">The number of ticks elapsed since the game started, including the current tick.</param>
+    public void Update(uint ticks)
     {
+        if (!Game1.player.UsingTool)
+        {
+            this._didCountThisSwipe = false;
+        }
+
+        if (ticks % 60 == 0)
+        {
+            var gained = (Game1.stats.StepsTaken - this._previousStepsTaken) / 3;
+            if (gained > 0 && Game1.player.Position != Game1.player.lastPosition)
+            {
+                this.Energy += (int)gained;
+            }
+
+            this._previousStepsTaken = Game1.stats.StepsTaken;
+        }
+
+        if (this.Energy <= 0 || Game1.player.hasBuff(BuffId))
+        {
+            return;
+        }
+
+        Game1.buffsDisplay.addOtherBuff(
+            new Buff(
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                1,
+                "Energized",
+                I18n.Get("enchantments.energized.name"))
+            {
+                which = BuffId,
+                sheetIndex = BuffSheetIndex,
+                millisecondsDuration = 0,
+                description = I18n.Get("enchantments.energized.desc", new { counter = this.Energy }),
+            });
+    }
+
+    /// <summary>Trigger a lightning strike on the specified <paramref name="monster"/>'s position.</summary>
+    /// <param name="monster">The target <see cref="Monster"/>.</param>
+    /// <param name="location">The current <see cref="GameLocation"/>.</param>
+    /// <param name="who">The wielding <see cref="Farmer"/>.</param>
+    /// <param name="weapon">The wielded <see cref="MeleeWeapon"/>.</param>
+    public void DoLightningStrike(Monster monster, GameLocation location, Farmer who, MeleeWeapon weapon)
+    {
+        if (!who.IsLocalPlayer)
+        {
+            return;
+        }
+
         var aoe = monster.GetBoundingBox();
         aoe.Inflate(12 * Game1.tileSize, 12 * Game1.tileSize);
         Game1.flashAlpha = (float)(0.5 + Game1.random.NextDouble());
@@ -64,16 +135,17 @@ public class EnergizedEnchantment : BaseWeaponEnchantment
             return;
         }
 
-        if (this.Stacks >= 100)
+        if (this.Energy >= MaxEnergy)
         {
-            this.Stacks = 0;
+            this.Energy = 0;
             this._doingLightningStrike = true;
             this.DoLightningStrike(monster, location, who, (MeleeWeapon)who.CurrentTool);
             this._doingLightningStrike = false;
         }
-        else
+        else if (!this._didCountThisSwipe)
         {
-            this.Stacks += 6;
+            this.Energy += 6;
+            this._didCountThisSwipe = true;
         }
     }
 
@@ -86,7 +158,8 @@ public class EnergizedEnchantment : BaseWeaponEnchantment
             return;
         }
 
-        this.Stacks = 0;
+        this._previousStepsTaken = Game1.stats.StepsTaken;
+        //this._energy = 0;
         EventManager.Enable<EnergizedUpdateTickedEvent>();
     }
 
@@ -99,7 +172,8 @@ public class EnergizedEnchantment : BaseWeaponEnchantment
             return;
         }
 
-        this.Stacks = -1;
+        this._previousStepsTaken = uint.MaxValue;
+        //this._energy = -1;
         EventManager.Disable<EnergizedUpdateTickedEvent>();
     }
 }

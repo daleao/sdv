@@ -102,7 +102,7 @@ internal sealed class SlingshotSpecialUpdateTickedEvent : UpdateTickedEvent
         if (slingshot.Get_IsOnSpecial())
         {
             SlingshotsModule.State.SlingshotCooldown = SlingshotCooldown;
-            if (!ProfessionsModule.IsEnabled && user.professions.Contains(Farmer.acrobat))
+            if (!ProfessionsModule.ShouldEnable && user.professions.Contains(Farmer.acrobat))
             {
                 SlingshotsModule.State.SlingshotCooldown /= 2;
             }

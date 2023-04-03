@@ -31,7 +31,7 @@ internal sealed class CraftingRecipeGetCraftableCountPatcher : HarmonyPatcher
         CraftingRecipe __instance, ref int __result, IList<Item> additional_materials)
     {
         if (!__instance.name.Contains("Ring") || !__instance.name.ContainsAnyOf("Glow", "Magnet") ||
-            (!RingsModule.Config.CraftableGlowAndMagnetRings && !RingsModule.Config.ImmersiveGlowstoneRecipe))
+            !RingsModule.Config.BetterGlowstoneProgression)
         {
             return true; // run original logic
         }

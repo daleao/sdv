@@ -13,17 +13,22 @@ using StardewValley.Monsters;
 ///     lose their armor upon hitting 0 defense.
 /// </summary>
 [XmlType("Mods_DaLion_CarvingEnchantment")]
-public class CarvingEnchantment : BaseWeaponEnchantment
+public sealed class CarvingEnchantment : BaseWeaponEnchantment
 {
     /// <inheritdoc />
     public override string GetName()
     {
-        return I18n.Get("enchantments.carving");
+        return I18n.Get("enchantments.carving.name");
     }
 
     /// <inheritdoc />
     protected override void _OnDealDamage(Monster monster, GameLocation location, Farmer who, ref int amount)
     {
+        if (!who.IsLocalPlayer)
+        {
+            return;
+        }
+
         monster.resilience.Value--;
         switch (monster)
         {

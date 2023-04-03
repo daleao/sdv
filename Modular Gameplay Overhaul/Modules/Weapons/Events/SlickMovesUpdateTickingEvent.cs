@@ -21,6 +21,12 @@ internal sealed class SlickMovesUpdateTickingEvent : UpdateTickingEvent
     /// <inheritdoc />
     protected override void OnUpdateTickingImpl(object? sender, UpdateTickingEventArgs e)
     {
+        if (this.Manager.IsEnabled<StabbingSwordSpecialUpdateTickingEvent>())
+        {
+            this.Disable();
+            return;
+        }
+
         var (x, y) = WeaponsModule.State.DriftVelocity;
         if (x == 0f && y == 0f)
         {

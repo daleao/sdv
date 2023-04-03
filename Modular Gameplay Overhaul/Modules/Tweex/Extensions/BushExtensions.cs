@@ -15,7 +15,7 @@ internal static class BushExtensions
     internal static int GetQualityFromAge(this Bush bush)
     {
         var skillFactor = 1f + (Game1.player.FarmingLevel * 0.1f);
-        if (ProfessionsModule.IsEnabled && Game1.player.professions.Contains(Farmer.botanist))
+        if (ProfessionsModule.ShouldEnable && Game1.player.professions.Contains(Farmer.botanist))
         {
             skillFactor++;
         }

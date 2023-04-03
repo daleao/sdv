@@ -35,7 +35,7 @@ internal sealed class CombinedRingOnEquipPatcher : HarmonyPatcher
 
         chord.Apply(who.currentLocation, who);
         if (chord.Root is not null && who.CurrentTool is { } tool &&
-            ((tool is MeleeWeapon && WeaponsModule.IsEnabled) || (tool is Slingshot && SlingshotsModule.IsEnabled)) &&
+            ((tool is MeleeWeapon && WeaponsModule.ShouldEnable) || (tool is Slingshot && SlingshotsModule.ShouldEnable)) &&
             tool.CanResonateWith(chord.Root))
         {
             tool.UpdateResonatingChord(chord);

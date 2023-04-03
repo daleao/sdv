@@ -1,14 +1,26 @@
 ﻿# Modular Overhaul Core Change Log
 
-## 1.3.6
+## 2.0.0
 
 ### Added
 
+* Added initial setup "wizard".
 * Added Japanese translations by [sakusakusakuya](https://www.nexusmods.com/stardewvalley/users/155983153).
+
+
+### Changed
+
+* Improved GMCM menu with multi-column options and separators.
+* Stun animation moved to Combat module.
+* The command entry points for each modules have changed. They now use the tickers display in title of each module README, in (parentheses).
 
 ### Fixed
 
 * Added updated Russian localization by [romario314](https://www.nexusmods.com/stardewvalley/users/68548986).
+
+### Removed
+
+* Removed Hyperlinq library. *"Overoptimization is the root of all evil."*
 
 ## 1.3.2
 

@@ -28,7 +28,7 @@ internal sealed class FarmerTakeDamagePatcher : HarmonyPatcher
     #region harmony patches
 
     /// <summary>
-    ///     Patch to make Poacher invulnerable in Ambuscade + remove vanilla defense cap + make Brute unkillable in Frenzy
+    ///     Patch to make Poacher invulnerable in Ambuscade + make Brute unkillable in Frenzy
     ///     + increment Brute rage counter and ultimate meter.
     /// </summary>
     [HarmonyTranspiler]

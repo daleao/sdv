@@ -10,11 +10,11 @@ using StardewValley.Tools;
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class SlingshotsButtonPressedEvent : ButtonPressedEvent
+internal sealed class SlingshotButtonPressedEvent : ButtonPressedEvent
 {
-    /// <summary>Initializes a new instance of the <see cref="SlingshotsButtonPressedEvent"/> class.</summary>
+    /// <summary>Initializes a new instance of the <see cref="SlingshotButtonPressedEvent"/> class.</summary>
     /// <param name="manager">The <see cref="EventManager"/> instance that manages this event.</param>
-    internal SlingshotsButtonPressedEvent(EventManager manager)
+    internal SlingshotButtonPressedEvent(EventManager manager)
         : base(manager)
     {
     }

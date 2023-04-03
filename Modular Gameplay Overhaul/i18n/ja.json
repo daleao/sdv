@@ -311,16 +311,17 @@
   // * ENCHANTMENTS * //
   // **************** //
 
-  "enchantments.carving": "削り取る",
-  "enchantments.cleaving": "大切断",
-  "enchantments.energized": "高エネルギー反応",
-  "enchantments.tribute": "貢ぎもの",
-  "enchantments.vampiric": "血の渇き",
-  "enchantments.engorging": "大食らい",
-  "enchantments.gatling": "ガトリング",
-  "enchantments.preserving": "節約術",
-  "enchantments.quincy": "クインシー",
-  "enchantments.spreading": "拡散",
+  "enchantments.carving.name": "削り取る",
+  "enchantments.cleaving.name": "大切断",
+  "enchantments.energized.name": "高エネルギー反応",
+  "enchantments.explosive.name": "爆発物",
+  "enchantments.tribute.name": "貢ぎもの",
+  "enchantments.vampiric.name": "血の渇き",
+  "enchantments.engorging.name": "大食らい",
+  "enchantments.gatling.name": "ガトリング",
+  "enchantments.preserving.name": "節約術",
+  "enchantments.quincy.name": "クインシー",
+  "enchantments.spreading.name": "拡散",
 
 
   // *********** //

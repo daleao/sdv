@@ -81,9 +81,9 @@ internal sealed class BaseEnchantmentGetAvailableEnchantmentsPatcher : HarmonyPa
                         new CodeInstruction(
                             OpCodes.Callvirt,
                             typeof(List<BaseEnchantment>).RequireMethod(nameof(List<BaseEnchantment>.Add))),
-                        // add exploding enchant
+                        // add explosive enchant
                         new CodeInstruction(OpCodes.Ldsfld, typeof(BaseEnchantment).RequireField("_enchantments")),
-                        new CodeInstruction(OpCodes.Newobj, typeof(ExplodingEnchantment).RequireConstructor()),
+                        new CodeInstruction(OpCodes.Newobj, typeof(ExplosiveEnchantment).RequireConstructor()),
                         new CodeInstruction(
                             OpCodes.Callvirt,
                             typeof(List<BaseEnchantment>).RequireMethod(nameof(List<BaseEnchantment>.Add))),
@@ -99,7 +99,8 @@ internal sealed class BaseEnchantmentGetAvailableEnchantmentsPatcher : HarmonyPa
                         new CodeInstruction(
                             OpCodes.Callvirt,
                             typeof(List<BaseEnchantment>).RequireMethod(nameof(List<BaseEnchantment>.Add))),
-                    })
+                    },
+                    new[] { newMeleeEnchantments })
                 .Insert(
                     new[]
                     {

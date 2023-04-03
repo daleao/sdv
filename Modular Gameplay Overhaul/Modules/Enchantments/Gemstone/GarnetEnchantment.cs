@@ -12,7 +12,7 @@ using StardewValley.Tools;
 
 /// <summary>The Garnet gemstone forge.</summary>
 [XmlType("Mods_DaLion_GarnetEnchantment")]
-public class GarnetEnchantment : BaseWeaponEnchantment
+public sealed class GarnetEnchantment : BaseWeaponEnchantment
 {
     /// <inheritdoc />
     public override bool ShouldBeDisplayed()
@@ -38,10 +38,10 @@ public class GarnetEnchantment : BaseWeaponEnchantment
         base._UnapplyTo(item);
         switch (item)
         {
-            case MeleeWeapon weapon when WeaponsModule.IsEnabled:
+            case MeleeWeapon weapon when WeaponsModule.ShouldEnable:
                 weapon.Invalidate();
                 break;
-            case Slingshot slingshot when SlingshotsModule.IsEnabled:
+            case Slingshot slingshot when SlingshotsModule.ShouldEnable:
                 slingshot.Invalidate();
                 break;
         }

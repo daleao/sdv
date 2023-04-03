@@ -25,8 +25,8 @@ internal sealed class ToolActionWhenStopBeingHeldPatcher : HarmonyPatcher
     [HarmonyPostfix]
     private static void ToolActionWhenStopBeingHeldPostfix(Tool __instance)
     {
-        if ((__instance is MeleeWeapon && !WeaponsModule.IsEnabled) ||
-            (__instance is Slingshot && !SlingshotsModule.IsEnabled))
+        if ((__instance is MeleeWeapon && !WeaponsModule.ShouldEnable) ||
+            (__instance is Slingshot && !SlingshotsModule.ShouldEnable))
         {
             return;
         }

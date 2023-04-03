@@ -18,23 +18,29 @@ internal sealed class InventoryPageReceiveClickPatcher : HarmonyPatcher
     }
 
     /// <inheritdoc />
-    protected override void ApplyImpl(Harmony harmony)
+    protected override bool ApplyImpl(Harmony harmony)
     {
         this.Target = this.RequireMethod<InventoryPage>(nameof(InventoryPage.receiveLeftClick));
-        base.ApplyImpl(harmony);
+        if (!base.ApplyImpl(harmony))
+        {
+            return false;
+        }
 
         this.Target = this.RequireMethod<InventoryPage>(nameof(InventoryPage.receiveRightClick));
-        base.ApplyImpl(harmony);
+        return base.ApplyImpl(harmony);
     }
 
     /// <inheritdoc />
-    protected override void UnapplyImpl(Harmony harmony)
+    protected override bool UnapplyImpl(Harmony harmony)
     {
         this.Target = this.RequireMethod<InventoryPage>(nameof(InventoryPage.receiveLeftClick));
-        base.UnapplyImpl(harmony);
+        if (!base.UnapplyImpl(harmony))
+        {
+            return false;
+        }
 
         this.Target = this.RequireMethod<InventoryPage>(nameof(InventoryPage.receiveRightClick));
-        base.UnapplyImpl(harmony);
+        return base.UnapplyImpl(harmony);
     }
 
     #region harmony patches

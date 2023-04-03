@@ -71,7 +71,7 @@ internal sealed class SkillsPageDrawPatcher : HarmonyPatcher
                         new CodeInstruction(
                             OpCodes.Callvirt,
                             typeof(Config).RequirePropertyGetter(
-                                nameof(Config.PrestigeProgressionStyle))),
+                                nameof(Config.ProgressionStyle))),
                         new CodeInstruction(OpCodes.Ldc_I4_0),
                         new CodeInstruction(OpCodes.Beq_S, notRibbons),
                         new CodeInstruction(
@@ -255,7 +255,7 @@ internal sealed class SkillsPageDrawPatcher : HarmonyPatcher
             new Vector2(
                 page.xPositionOnScreen + page.width + Textures.ProgressionHorizontalOffset,
                 page.yPositionOnScreen + IClickableMenu.spaceToClearTopBorder + IClickableMenu.borderWidth + Textures.ProgressionVerticalOffset);
-        if (ProfessionsModule.Config.PrestigeProgressionStyle == Config.ProgressionStyle.StackedStars)
+        if (ProfessionsModule.Config.ProgressionStyle == Config.PrestigeProgressionStyle.StackedStars)
         {
             position.X -= 22;
             position.Y -= 4;
@@ -279,7 +279,7 @@ internal sealed class SkillsPageDrawPatcher : HarmonyPatcher
             }
 
             Rectangle srcRect;
-            if (ProfessionsModule.Config.PrestigeProgressionStyle.ToString().Contains("Ribbons"))
+            if (ProfessionsModule.Config.ProgressionStyle.ToString().Contains("Ribbons"))
             {
                 srcRect = new Rectangle(
                     i * Textures.RibbonWidth,
@@ -287,7 +287,7 @@ internal sealed class SkillsPageDrawPatcher : HarmonyPatcher
                     Textures.RibbonWidth,
                     Textures.RibbonWidth);
             }
-            else if (ProfessionsModule.Config.PrestigeProgressionStyle == Config.ProgressionStyle.StackedStars)
+            else if (ProfessionsModule.Config.ProgressionStyle == Config.PrestigeProgressionStyle.StackedStars)
             {
                 srcRect = new Rectangle(0, (count - 1) * 16, Textures.StarsWidth, 16);
             }
@@ -303,7 +303,7 @@ internal sealed class SkillsPageDrawPatcher : HarmonyPatcher
                 Color.White,
                 0f,
                 Vector2.Zero,
-                ProfessionsModule.Config.PrestigeProgressionStyle == Config.ProgressionStyle.StackedStars
+                ProfessionsModule.Config.ProgressionStyle == Config.PrestigeProgressionStyle.StackedStars
                     ? Textures.StarsScale
                     : Textures.RibbonScale,
                 SpriteEffects.None,
@@ -315,7 +315,7 @@ internal sealed class SkillsPageDrawPatcher : HarmonyPatcher
             return;
         }
 
-        if (ProfessionsModule.Config.PrestigeProgressionStyle.ToString().Contains("Ribbons"))
+        if (ProfessionsModule.Config.ProgressionStyle.ToString().Contains("Ribbons"))
         {
             position.X += 2; // not sure why but custom skill ribbons render with a small offset
         }
@@ -339,14 +339,14 @@ internal sealed class SkillsPageDrawPatcher : HarmonyPatcher
                 continue;
             }
 
-            var srcRect = ProfessionsModule.Config.PrestigeProgressionStyle switch
+            var srcRect = ProfessionsModule.Config.ProgressionStyle switch
             {
-                Config.ProgressionStyle.Gen3Ribbons or Config.ProgressionStyle.Gen4Ribbons => new Rectangle(
+                Config.PrestigeProgressionStyle.Gen3Ribbons or Config.PrestigeProgressionStyle.Gen4Ribbons => new Rectangle(
                     skill.StringId == "blueberry.LoveOfCooking.CookingSkill" ? 111 : 133,
                     (count - 1) * Textures.RibbonWidth,
                     Textures.RibbonWidth,
                     Textures.RibbonWidth),
-                Config.ProgressionStyle.StackedStars =>
+                Config.PrestigeProgressionStyle.StackedStars =>
                     new Rectangle(0, (count - 1) * 16, Textures.StarsWidth, 16),
                 _ => Rectangle.Empty,
             };
@@ -358,7 +358,7 @@ internal sealed class SkillsPageDrawPatcher : HarmonyPatcher
                 Color.White,
                 0f,
                 Vector2.Zero,
-                ProfessionsModule.Config.PrestigeProgressionStyle == Config.ProgressionStyle.StackedStars
+                ProfessionsModule.Config.ProgressionStyle == Config.PrestigeProgressionStyle.StackedStars
                     ? Textures.StarsScale
                     : Textures.RibbonScale,
                 SpriteEffects.None,

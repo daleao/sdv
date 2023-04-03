@@ -1,15 +1,18 @@
 # Rings Module Change Log
 
-## 1.4.0
+## 2.0.0
 
 ### Added
 
 * Resonance text is now color-coded.
+* Added crafting recipes for small Glow and Magnet rings.
+* Added config option to remove the color from Infinity Band glow.
 
 ### Changed
 
 * New chord harmonization algorithm now considers all note interactions, instead of only distinct notes. Some gemstone combinations will suffer a small rebalance due to this change.
-* The richness of Tryads and Tetrads now yields a boost to the root note resonance.
+* The richness of Tryads and Tetrads now yields a boost to the root note resonance (as mentioned in the description). This is now a much more appealing choice.
+* "Craftable Glow and Magnet" setting, and "Immersive Glowstone" setting, as well as new small ring recipes, have been grouped under a single config setting: "Better Glowstone Progression".
 
 ### Fixed
 
@@ -20,7 +23,6 @@
 ### Fixed
 
 * Fixed an issue with the overhuled Warrior Ring buff never ending.
-
 
 ## 1.2.2
 

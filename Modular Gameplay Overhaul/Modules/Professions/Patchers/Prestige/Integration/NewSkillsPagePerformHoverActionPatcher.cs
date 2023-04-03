@@ -30,7 +30,7 @@ internal sealed class NewSkillsPagePerformHoverActionPatcher : HarmonyPatcher
     /// <summary>Patch to add prestige ribbon hover text + truncate profession descriptions in hover menu.</summary>
     [HarmonyPostfix]
     private static void NewSkillsPagePerformHoverActionPostfix(
-        NewSkillsPage __instance, int x, int y, ref string ___hoverText)
+        NewSkillsPage __instance, int x, int y, ref string ___hoverText, int ___skillScrollOffset)
     {
         ___hoverText = ___hoverText.Truncate(90);
 
@@ -39,14 +39,14 @@ internal sealed class NewSkillsPagePerformHoverActionPatcher : HarmonyPatcher
             return;
         }
 
-        var bounds = ProfessionsModule.Config.PrestigeProgressionStyle switch
+        var bounds = ProfessionsModule.Config.ProgressionStyle switch
         {
-            Config.ProgressionStyle.StackedStars => new Rectangle(
+            Config.PrestigeProgressionStyle.StackedStars => new Rectangle(
                 __instance.xPositionOnScreen + __instance.width + Textures.ProgressionHorizontalOffset - 22,
                 __instance.yPositionOnScreen + IClickableMenu.spaceToClearTopBorder + IClickableMenu.borderWidth + Textures.ProgressionVerticalOffset + 8,
                 0,
                 (int)(Textures.SingleStarWidth * Textures.StarsScale)),
-            Config.ProgressionStyle.Gen3Ribbons or Config.ProgressionStyle.Gen4Ribbons => new Rectangle(
+            Config.PrestigeProgressionStyle.Gen3Ribbons or Config.PrestigeProgressionStyle.Gen4Ribbons => new Rectangle(
                 __instance.xPositionOnScreen + __instance.width + Textures.ProgressionHorizontalOffset,
                 __instance.yPositionOnScreen + IClickableMenu.spaceToClearTopBorder + IClickableMenu.borderWidth + Textures.ProgressionVerticalOffset,
                 (int)(Textures.RibbonWidth * Textures.RibbonScale),
@@ -54,8 +54,16 @@ internal sealed class NewSkillsPagePerformHoverActionPatcher : HarmonyPatcher
             _ => Rectangle.Empty,
         };
 
+        var lastVisibleSkillIndex =
+            Reflector.GetUnboundPropertyGetter<NewSkillsPage, int>(__instance, "LastVisibleSkillIndex").Invoke(__instance);
         for (var i = 0; i < 5; i++)
         {
+            // hide if scrolled and out of bounds
+            if (i < ___skillScrollOffset || i > lastVisibleSkillIndex)
+            {
+                continue;
+            }
+
             bounds.Y += 56;
 
             // need to do this bullshit switch because mining and fishing are inverted in the skills page
@@ -65,6 +73,7 @@ internal sealed class NewSkillsPagePerformHoverActionPatcher : HarmonyPatcher
                 3 => Skill.Fishing,
                 _ => Skill.FromValue(i),
             };
+
             var professionsForThisSkill = Game1.player.GetProfessionsForSkill(skill, true);
             var count = professionsForThisSkill.Length;
             if (count == 0)
@@ -72,8 +81,8 @@ internal sealed class NewSkillsPagePerformHoverActionPatcher : HarmonyPatcher
                 continue;
             }
 
-            bounds.Width = ProfessionsModule.Config.PrestigeProgressionStyle is Config.ProgressionStyle.Gen3Ribbons
-                or Config.ProgressionStyle.Gen4Ribbons
+            bounds.Width = ProfessionsModule.Config.ProgressionStyle is Config.PrestigeProgressionStyle.Gen3Ribbons
+                or Config.PrestigeProgressionStyle.Gen4Ribbons
                 ? (int)(Textures.RibbonWidth * Textures.RibbonScale)
                 : (int)(((Textures.SingleStarWidth / 2 * count) + 4) * Textures.StarsScale);
             if (!bounds.Contains(x, y))
@@ -102,8 +111,17 @@ internal sealed class NewSkillsPagePerformHoverActionPatcher : HarmonyPatcher
             customSkills = customSkills.Prepend(LuckSkill.Instance);
         }
 
+        var indexWithLuckSkill =
+            Reflector.GetUnboundPropertyGetter<NewSkillsPage, int>(__instance, "GameSkillCount").Invoke(__instance) - 1;
         foreach (var skill in customSkills)
         {
+            // hide if scrolled and out of bounds
+            if (indexWithLuckSkill < ___skillScrollOffset || indexWithLuckSkill > lastVisibleSkillIndex)
+            {
+                indexWithLuckSkill++;
+                continue;
+            }
+
             bounds.Y += 56;
 
             var professionsForThisSkill =
@@ -111,15 +129,17 @@ internal sealed class NewSkillsPagePerformHoverActionPatcher : HarmonyPatcher
             var count = professionsForThisSkill.Length;
             if (count == 0)
             {
+                indexWithLuckSkill++;
                 continue;
             }
 
-            bounds.Width = ProfessionsModule.Config.PrestigeProgressionStyle is Config.ProgressionStyle.Gen3Ribbons
-                or Config.ProgressionStyle.Gen4Ribbons
+            bounds.Width = ProfessionsModule.Config.ProgressionStyle is Config.PrestigeProgressionStyle.Gen3Ribbons
+                or Config.PrestigeProgressionStyle.Gen4Ribbons
                 ? (int)(Textures.RibbonWidth * Textures.RibbonScale)
                 : (int)(((Textures.SingleStarWidth / 2 * count) + 4) * Textures.StarsScale);
             if (!bounds.Contains(x, y))
             {
+                indexWithLuckSkill++;
                 continue;
             }
 
@@ -128,6 +148,8 @@ internal sealed class NewSkillsPagePerformHoverActionPatcher : HarmonyPatcher
             {
                 ___hoverText += $"\n• {professionsForThisSkill[j].Title}";
             }
+
+            indexWithLuckSkill++;
         }
     }
 

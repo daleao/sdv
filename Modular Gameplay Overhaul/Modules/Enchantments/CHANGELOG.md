@@ -4,38 +4,31 @@
 
 * Initial release of Enchantments module.
 
----
-
-*Changes below this point refer to the legacy Arsenal module.*
-
-## 1.4.0
-
 ### Added
 
-* Added Exploding / Biding enchantment.
+* Added Explosive / Blasting enchantment. This enchantment should synergize extremely well with tanky builds.
+* Energized and Explosive enchantment counters now change color when fully charged.
+* Forges in melee weapons and slingshots now display as individual gemstone icons in the tooltip, instead of the generic Vanilla "Forged" text. There are different gemstone styles to choose from, and you can also play with the positioning somewhat.
 
 ### Changed
 
-* Removed the cap on bonus damage awarded by Carving enchantment.
-* Reduced the minimum mine level required for new weapons to appear at Marlon's shop. The first batch of weapons will now be available instantly. The second will appear as soon as level 15. Some prices have also been lowered.
-* Mine chests no longer drop seeds. Can now drop fertilizers. Increased the stack of several chest rewards. Improved the odds of hitting the jackpot (Quality Sprinklers).
-* Increased the spawn chance of breakable containers in the mines. Implemented a handicap system to dynamically increase the chance of obtaining special items from breakable containers (including weapons).
-* Implemented a handicap system to dynamically increase the chance of encountering monsters with special item drops. Weapons dropped from monsters are still rarer and stronger on average than those dropped by containers.
-* The base knocback of swords and daggers has been cut in half.
-* Some weapons' stats have been changed, including the Galaxy and Infinity weapons which received significant buffs.
-* Weapon revalidation now occurs automatically upon first initialization of the module. Manually executing the `revalidate` command is no longer necessary. However, you **must** manually disable Arsenal module before uninstalling MARGO.
+* Vampiric echantment's healing is now much similar to Vanilla, occurring on monster slay and being based on enemy max health as well as a random factor. But some healing always occurs, and the overheal effects remains the same.
+* Removed the cap on bonus damage awarded by Carving enchantment; i.e., you can now continue carving enemy resistances indefinitely.
 * Glutton Enchantment renamed to Magnum Enchantment.
 * Tribute Enchantment renamed to Mammonite's Enchantment.
+* Artful enchantment for Stabbing Swords now allows turning mid-dash by pressing a direction key.
 
 ### Fixed
 
 * Carving enchantment now works correctly on Rock Crabs.
-* The Dawn Blade will no longer be dismantled as long as it has forges to be removed.
-* Generosity Trial now only checks for completion on the Master player, to avoid issues in multiplayer games.
-* The description of the Jinxed debuff should now properly reflect the changes made by the Overhauled Defense setting.
-* Fixed some typos causing Aquamarine, Jade and Emerald-resonances to not apply correctly to their correspondingly-forged weapons.
-* Generosity Trial completion should now register on all farmhands.
 * Fixed an issue where Tribute Enchantment threshold was reseting to 0% instead of the correct 10%.
+* Fixed an edge case where removing certain enchantments while still equipped would not remove their effects, leading to funky behavior.
+* Fixed Vampiric enchantment's overheal not displaying outside of dungeons.
+* Fixed an issue with Energizes enchantment stacking multiple times per hit.
+
+---
+
+*Changes below this point refer to the legacy Arsenal module.*
 
 ## 1.3.5
 

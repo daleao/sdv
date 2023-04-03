@@ -311,16 +311,17 @@
   // * ENCHANTMENTS * //
   // **************** //
 
-  "enchantments.carving": "Schnitzen",
-  "enchantments.cleaving": "Spalten",
-  "enchantments.energized": "Erregt",
-  "enchantments.tribute": "Tribut",
-  "enchantments.vampiric": "Blutdürstig",
-  "enchantments.engorging": "Vielfraß",
-  "enchantments.gatling": "Schrapnell",
-  "enchantments.preserving": "Bewahren",
-  "enchantments.quincy": "Quincy",
-  "enchantments.spreading": "Verteilen",
+  "enchantments.carving.name": "Schnitzen",
+  "enchantments.cleaving.name": "Spalten",
+  "enchantments.energized.name": "Elektrisierend",
+  "enchantments.explosive.name": "Explodiert",
+  "enchantments.tribute.name": "Tribut",
+  "enchantments.vampiric.name": "Blutdürstig",
+  "enchantments.engorging.name": "Vielfraß",
+  "enchantments.gatling.name": "Schrapnell",
+  "enchantments.preserving.name": "Bewahren",
+  "enchantments.quincy.name": "Quincy",
+  "enchantments.spreading.name": "Verteilen",
 
 
   // *********** //

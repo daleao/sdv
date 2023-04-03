@@ -31,14 +31,14 @@ internal sealed class TaxAssetRequestedEvent : AssetRequestedEvent
         string honorific = I18n.Get("honorific" + (Game1.player.IsMale ? ".male" : ".female"));
         var player = Game1.player;
         var farm = Game1.getFarm();
-        var interest = CurrentCulture($"{TaxesModule.Config.AnnualInterest:0%}");
+        var interest = CurrentCulture($"{TaxesModule.Config.AnnualInterest:0.#%}");
 
         data[$"{Manifest.UniqueID}/{Mail.FrsIntro}"] =
             I18n.Get("frs.intro", new
             {
                 honorific,
                 farm = player.farmName,
-                fine = CurrentCulture($"{TaxesModule.Config.IncomeTaxLatenessFine:0%}"),
+                fine = CurrentCulture($"{TaxesModule.Config.IncomeTaxLatenessFine:0.#%}"),
                 interest,
             });
 
@@ -51,7 +51,7 @@ internal sealed class TaxAssetRequestedEvent : AssetRequestedEvent
             {
                 honorific,
                 due,
-                fine = CurrentCulture($"{TaxesModule.Config.IncomeTaxLatenessFine:0%}"),
+                fine = CurrentCulture($"{TaxesModule.Config.IncomeTaxLatenessFine:0.#%}"),
                 farm = player.farmName,
                 outstanding,
                 interest,
@@ -63,7 +63,7 @@ internal sealed class TaxAssetRequestedEvent : AssetRequestedEvent
             >= 1f => I18n.Get("frs.deduction.max", new { honorific }),
             >= 0f => I18n.Get(
                 "frs.deduction",
-                new { honorific, deductible = CurrentCulture($"{deductions:0%}") }),
+                new { honorific, deductible = CurrentCulture($"{deductions:0.#%}") }),
             _ => string.Empty,
         };
 
@@ -82,7 +82,7 @@ internal sealed class TaxAssetRequestedEvent : AssetRequestedEvent
                 farm = player.farmName,
                 valuation,
                 due,
-                fine = CurrentCulture($"{TaxesModule.Config.PropertyTaxLatenessFine:0%}"),
+                fine = CurrentCulture($"{TaxesModule.Config.PropertyTaxLatenessFine:0.#%}"),
                 outstanding,
                 interest,
             });

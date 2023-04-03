@@ -59,7 +59,7 @@ internal sealed class ToolDrawTooltipPatcher : HarmonyPatcher
             if (slingshot.InitialParentTileIndex != ItemIDs.BasicSlingshot ||
                 slingshot.hasEnchantmentOfType<RubyEnchantment>())
             {
-                var amount = $"+{slingshot.Get_RelativeDamageModifier():0%}";
+                var amount = $"+{slingshot.Get_RelativeDamageModifier():#.#%}";
                 co = new Color(0, 120, 120);
                 Utility.drawWithShadow(
                     spriteBatch,
@@ -87,7 +87,7 @@ internal sealed class ToolDrawTooltipPatcher : HarmonyPatcher
             if (slingshot.InitialParentTileIndex != ItemIDs.BasicSlingshot ||
                 __instance.hasEnchantmentOfType<AmethystEnchantment>())
             {
-                var amount = $"+{slingshot.Get_RelativeKnockbackModifer():0%}";
+                var amount = $"+{slingshot.Get_RelativeKnockbackModifer():#.#%}";
                 co = new Color(0, 120, 120);
                 Utility.drawWithShadow(
                     spriteBatch,
@@ -114,7 +114,7 @@ internal sealed class ToolDrawTooltipPatcher : HarmonyPatcher
             // write bonus crit rate
             if (__instance.hasEnchantmentOfType<AquamarineEnchantment>())
             {
-                var amount = $"{slingshot.Get_RelativeCritChanceModifier():0.0%}";
+                var amount = $"{slingshot.Get_RelativeCritChanceModifier():#.#%}";
                 co = new Color(0, 120, 120);
                 Utility.drawWithShadow(
                     spriteBatch,
@@ -141,7 +141,7 @@ internal sealed class ToolDrawTooltipPatcher : HarmonyPatcher
             // write crit power
             if (__instance.hasEnchantmentOfType<JadeEnchantment>())
             {
-                var amount = $"{slingshot.Get_RelativeCritPowerModifier():0%}";
+                var amount = $"{slingshot.Get_RelativeCritPowerModifier():#.#%}";
                 co = new Color(0, 120, 120);
                 Utility.drawWithShadow(
                     spriteBatch,
@@ -168,7 +168,7 @@ internal sealed class ToolDrawTooltipPatcher : HarmonyPatcher
             // write bonus fire speed
             if (__instance.hasEnchantmentOfType<EmeraldEnchantment>())
             {
-                var amount = $"+{slingshot.Get_RelativeFireSpeed():0%}";
+                var amount = $"+{slingshot.Get_RelativeFireSpeed():#.#%}";
                 co = new Color(0, 120, 120);
                 Utility.drawWithShadow(
                     spriteBatch,
@@ -195,7 +195,7 @@ internal sealed class ToolDrawTooltipPatcher : HarmonyPatcher
             // write bonus cooldown reduction
             if (__instance.hasEnchantmentOfType<GarnetEnchantment>())
             {
-                var amount = $"-{slingshot.Get_RelativeCooldownReduction():0%}";
+                var amount = $"-{slingshot.Get_RelativeCooldownReduction():#.#%}";
                 co = new Color(0, 120, 120);
                 Utility.drawWithShadow(
                     spriteBatch,
@@ -222,8 +222,8 @@ internal sealed class ToolDrawTooltipPatcher : HarmonyPatcher
             // write bonus defense
             if (__instance.hasEnchantmentOfType<TopazEnchantment>() && EnchantmentsModule.Config.RebalancedForges)
             {
-                var amount = CombatModule.IsEnabled && CombatModule.Config.OverhauledDefense
-                    ? $"+{slingshot.Get_RelativeResilience():0%}"
+                var amount = CombatModule.ShouldEnable && CombatModule.Config.OverhauledDefense
+                    ? $"+{slingshot.Get_RelativeResilience():#.#%}"
                     : slingshot.GetEnchantmentLevel<TopazEnchantment>().ToString();
                 co = new Color(0, 120, 120);
                 Utility.drawWithShadow(
@@ -240,7 +240,7 @@ internal sealed class ToolDrawTooltipPatcher : HarmonyPatcher
 
                 Utility.drawTextWithShadow(
                     spriteBatch,
-                    CombatModule.IsEnabled && CombatModule.Config.OverhauledDefense
+                    CombatModule.ShouldEnable && CombatModule.Config.OverhauledDefense
                         ? I18n.Get("ui.itemhover.resist", new { amount })
                         : Game1.content.LoadString("ItemHover_DefenseBonus", amount),
                     font,

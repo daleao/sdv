@@ -32,6 +32,7 @@ internal sealed class IClickableMenuDrawHoverTextPatcher : HarmonyPatcher
 
     #region harmony patches
 
+    /// <summary>Adds "Forged" text to Slingshots.</summary>
     [HarmonyTranspiler]
     private static IEnumerable<CodeInstruction>? IClickableMenuDrawHoverTextTranspiler(
         IEnumerable<CodeInstruction> instructions, MethodBase original)

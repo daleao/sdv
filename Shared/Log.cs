@@ -71,4 +71,12 @@ public static class Log
     {
         _monitor.VerboseLog(message);
     }
+
+    /// <summary>Logs the caller method as Debug.</summary>
+    [Conditional("DEBUG")]
+    public static void Caller()
+    {
+        var caller = new StackTrace().GetFrame(2)?.GetMethod()?.Name ?? string.Empty;
+        D($"Called by {caller}.");
+    }
 }

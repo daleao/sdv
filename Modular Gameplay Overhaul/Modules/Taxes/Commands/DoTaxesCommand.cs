@@ -49,11 +49,11 @@ internal sealed class DoTaxesCommand : ConsoleCommand
                 var forClosingSeason = Game1.dayOfMonth == 1;
                 var seasonIncome = player.Read<int>(DataKeys.SeasonIncome);
                 var businessExpenses = player.Read<int>(DataKeys.BusinessExpenses);
-                var deductiblePct = ProfessionsModule.IsEnabled && player.professions.Contains(Farmer.mariner)
+                var deductiblePct = ProfessionsModule.ShouldEnable && player.professions.Contains(Farmer.mariner)
                     ? forClosingSeason
                         ? player.Read<float>(DataKeys.PercentDeductions)
                         // ReSharper disable once PossibleLossOfFraction
-                        : player.Read<int>(Professions.DataKeys.ConservationistTrashCollectedThisSeason) / ProfessionsModule.Config.TrashNeededPerTaxBonusPct / 100f
+                        : player.Read<int>(Professions.DataKeys.ConservationistTrashCollectedThisSeason) / ProfessionsModule.Config.TrashNeededPerTaxDeductionPct / 100f
                     : 0f;
                 var taxable = (int)((seasonIncome - businessExpenses) * (1f - deductiblePct));
 
@@ -83,7 +83,7 @@ internal sealed class DoTaxesCommand : ConsoleCommand
                     $"\n\t- Business expenses: {businessExpenses}g" +
                     CurrentCulture($"\n\t- Eligible deductions: {deductiblePct:0.0%}") +
                     $"\n\t- Taxable amount: {taxable}g" +
-                    CurrentCulture($"\n\t- Bracket: {tax:0%}") +
+                    CurrentCulture($"\n\t- Bracket: {tax:0.0%}") +
                     $"\n\t- Income tax due: {dueI}g." +
                     $"\nRequested on {Game1.currentSeason} {Game1.dayOfMonth}, year {Game1.year}.");
 

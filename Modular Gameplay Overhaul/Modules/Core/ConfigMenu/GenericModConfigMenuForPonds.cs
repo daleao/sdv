@@ -1,7 +1,7 @@
 ﻿namespace DaLion.Overhaul.Modules.Core.ConfigMenu;
 
 /// <summary>Constructs the GenericModConfigMenu integration.</summary>
-internal sealed partial class GenericModConfigMenuCore
+internal sealed partial class GenericModConfigMenu
 {
     /// <summary>Register the Ponds menu.</summary>
     private void RegisterPonds()
@@ -24,10 +24,10 @@ internal sealed partial class GenericModConfigMenuCore
                 0.1f,
                 2f)
             .AddCheckbox(
-            () => "Roe Quality Always Same As Fish",
+            () => "Roe Always Fish Quality",
             () =>
                 "If true, then the quality of produced roe is always the same as the quality of the producing fish. If false, then the quality will be a random value less than or equal to that of the producing fish.",
-            config => config.Ponds.RoeAlwaysSameQualityAsFish,
-            (config, value) => config.Ponds.RoeAlwaysSameQualityAsFish = value);
+            config => config.Ponds.RoeAlwaysFishQuality,
+            (config, value) => config.Ponds.RoeAlwaysFishQuality = value);
     }
 }

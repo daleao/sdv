@@ -8,7 +8,7 @@ using Microsoft.Xna.Framework;
 #endregion using directives
 
 /// <summary>Constructs the GenericModConfigMenu integration.</summary>
-internal sealed partial class GenericModConfigMenuCore
+internal sealed partial class GenericModConfigMenu
 {
     /// <summary>Register the Slingshots config menu.</summary>
     private void RegisterSlingshots()
@@ -53,6 +53,7 @@ internal sealed partial class GenericModConfigMenuCore
                 () => "Allows creating the Infinity Slingshot at the Forge.",
                 config => config.Slingshots.EnableInfinitySlingshot,
                 (config, value) => config.Slingshots.EnableInfinitySlingshot = value)
+            .AddHorizontalRule()
 
             .AddSectionTitle(() => "Movement & Control Settings")
             .AddCheckbox(
@@ -91,6 +92,5 @@ internal sealed partial class GenericModConfigMenuCore
                 () => "Drift in the current running direction when firing a slingshot.",
                 config => config.Slingshots.SlickMoves,
                 (config, value) => config.Slingshots.SlickMoves = value);
-
     }
 }

@@ -34,19 +34,19 @@ internal sealed class SkillsPagePerformHoverActionPatcher : HarmonyPatcher
             return;
         }
 
-        var bounds = ProfessionsModule.Config.PrestigeProgressionStyle switch
+        var bounds = ProfessionsModule.Config.ProgressionStyle switch
         {
-            Config.ProgressionStyle.StackedStars => new Rectangle(
+            Config.PrestigeProgressionStyle.StackedStars => new Rectangle(
                 __instance.xPositionOnScreen + __instance.width + Textures.ProgressionHorizontalOffset - 14,
                 __instance.yPositionOnScreen + IClickableMenu.spaceToClearTopBorder + IClickableMenu.borderWidth + Textures.ProgressionVerticalOffset - 4,
                 (int)(Textures.StarsWidth * Textures.StarsScale),
                 (int)(Textures.StarsWidth * Textures.StarsScale)),
-            Config.ProgressionStyle.Gen3Ribbons => new Rectangle(
+            Config.PrestigeProgressionStyle.Gen3Ribbons => new Rectangle(
                 __instance.xPositionOnScreen + __instance.width + Textures.ProgressionHorizontalOffset,
                 __instance.yPositionOnScreen + IClickableMenu.spaceToClearTopBorder + IClickableMenu.borderWidth + Textures.ProgressionVerticalOffset,
                 (int)(Textures.RibbonWidth * Textures.RibbonScale),
                 (int)(Textures.RibbonWidth * Textures.RibbonScale)),
-            Config.ProgressionStyle.Gen4Ribbons => new Rectangle(
+            Config.PrestigeProgressionStyle.Gen4Ribbons => new Rectangle(
                 __instance.xPositionOnScreen + __instance.width + Textures.ProgressionHorizontalOffset,
                 __instance.yPositionOnScreen + IClickableMenu.spaceToClearTopBorder + IClickableMenu.borderWidth + Textures.ProgressionVerticalOffset,
                 (int)(Textures.RibbonWidth * Textures.RibbonScale),
@@ -72,8 +72,8 @@ internal sealed class SkillsPagePerformHoverActionPatcher : HarmonyPatcher
                 continue;
             }
 
-            bounds.Width = ProfessionsModule.Config.PrestigeProgressionStyle is Config.ProgressionStyle.Gen3Ribbons
-                or Config.ProgressionStyle.Gen4Ribbons
+            bounds.Width = ProfessionsModule.Config.ProgressionStyle is Config.PrestigeProgressionStyle.Gen3Ribbons
+                or Config.PrestigeProgressionStyle.Gen4Ribbons
                 ? (int)(Textures.RibbonWidth * Textures.RibbonScale)
                 : (int)(((Textures.SingleStarWidth / 2 * count) + 4) * Textures.StarsScale);
             if (!bounds.Contains(x, y))

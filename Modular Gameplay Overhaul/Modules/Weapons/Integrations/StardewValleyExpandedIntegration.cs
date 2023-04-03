@@ -2,9 +2,9 @@
 
 #region using directives
 
+using DaLion.Overhaul.Modules.Weapons.Events;
 using DaLion.Shared.Attributes;
 using DaLion.Shared.Integrations;
-using Events;
 
 #endregion using directives
 

@@ -29,7 +29,6 @@ internal sealed class MonsterHandleParriedPatcher : HarmonyPatcher
     {
         try
         {
-            var damage = Reflector.GetUnboundFieldGetter<object, int>(args, "damage").Invoke(args);
             var who = Reflector.GetUnboundPropertyGetter<object, Farmer>(args, "who").Invoke(args);
             if (who.CurrentTool is not MeleeWeapon { type.Value: MeleeWeapon.defenseSword } weapon)
             {
@@ -47,7 +46,7 @@ internal sealed class MonsterHandleParriedPatcher : HarmonyPatcher
 
     /// <summary>Artful parry inflicts stun.</summary>
     [HarmonyPostfix]
-    private static void MonsterHandleParriedPrefix(Monster __instance, bool __state)
+    private static void MonsterHandleParriedPostfix(Monster __instance, bool __state)
     {
         if (__state)
         {

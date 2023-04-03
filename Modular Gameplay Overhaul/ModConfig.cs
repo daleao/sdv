@@ -102,7 +102,7 @@ public sealed class ModConfig
 
     /// <summary>Gets the Professions module config settings.</summary>
     [JsonProperty]
-    public Modules.Professions.Config Professions { get; internal set; } = new();
+    public Modules.Professions.Config Professions { get; } = new();
 
     /// <summary>Gets the Professions module config settings.</summary>
     [JsonProperty]

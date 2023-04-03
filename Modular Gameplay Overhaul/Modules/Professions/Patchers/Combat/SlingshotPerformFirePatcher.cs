@@ -36,7 +36,7 @@ internal sealed class SlingshotPerformFirePatcher : HarmonyPatcher
     private static bool SlingshotPerformFirePrefix(
         Slingshot __instance, ref bool ___canPlaySound, GameLocation location, Farmer who)
     {
-        if (SlingshotsModule.IsEnabled)
+        if (SlingshotsModule.ShouldEnable)
         {
             return true; // hand over to Slingshots module
         }

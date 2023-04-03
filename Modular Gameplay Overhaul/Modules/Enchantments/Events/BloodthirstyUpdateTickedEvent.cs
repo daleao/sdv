@@ -1,9 +1,8 @@
 ﻿namespace DaLion.Overhaul.Modules.Enchantments.Events;
 
-using DaLion.Overhaul.Modules.Core.Events;
-
 #region using directives
 
+using DaLion.Overhaul.Modules.Core.Events;
 using DaLion.Shared.Events;
 using DaLion.Shared.Extensions.Stardew;
 using StardewModdingAPI.Events;

@@ -40,7 +40,7 @@ internal sealed class MonsterHandleParriedPatcher : HarmonyPatcher
                 return;
             }
 
-            if (CombatModule.IsEnabled && CombatModule.Config.OverhauledDefense)
+            if (CombatModule.ShouldEnable && CombatModule.Config.OverhauledDefense)
             {
                 var bonus = 1f / who.GetOverhauledResilience();
                 Reflector.GetUnboundFieldSetter<object, int>(args, "damage")

@@ -69,7 +69,7 @@ internal sealed class TaxDayEndingEvent : DayEndingEvent
         var dayIncome = amountSold;
         switch (Game1.dayOfMonth)
         {
-            case 28 when ProfessionsModule.IsEnabled && player.professions.Contains(Farmer.mariner):
+            case 28 when ProfessionsModule.ShouldEnable && player.professions.Contains(Farmer.mariner):
             {
                 var deductible = player.GetConservationistPriceMultiplier() - 1;
                 if (deductible <= 0f)
@@ -82,7 +82,7 @@ internal sealed class TaxDayEndingEvent : DayEndingEvent
                 PostalService.Send(Mail.FrsDeduction);
                 Log.I(
                     FormattableString.CurrentCulture(
-                        $"Farmer {player.Name} is eligible for income tax deductions of {deductible:0%}.") +
+                        $"Farmer {player.Name} is eligible for income tax deductions of {deductible:0.0%}.") +
                     (deductible >= 1f
                         ? $" No income taxes will be charged for {Game1.currentSeason}."
                         : string.Empty));

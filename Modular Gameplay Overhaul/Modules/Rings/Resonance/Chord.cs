@@ -31,7 +31,7 @@ public sealed class Chord : IChord
     {
         this.Notes = first.Collect(second).ToArray();
         this.Harmonize();
-        this.InitializeLightSource();
+        this.InitializeLightSource(RingsModule.Config.ColorfulResonance);
     }
 
     /// <summary>Initializes a new instance of the <see cref="Chord"/> class.Construct a Triad instance.</summary>
@@ -42,7 +42,7 @@ public sealed class Chord : IChord
     {
         this.Notes = first.Collect(second, third).ToArray();
         this.Harmonize();
-        this.InitializeLightSource();
+        this.InitializeLightSource(RingsModule.Config.ColorfulResonance);
     }
 
     /// <summary>Initializes a new instance of the <see cref="Chord"/> class.Construct a Tetrad instance.</summary>
@@ -54,7 +54,7 @@ public sealed class Chord : IChord
     {
         this.Notes = first.Collect(second, third, fourth).ToArray();
         this.Harmonize();
-        this.InitializeLightSource();
+        this.InitializeLightSource(RingsModule.Config.ColorfulResonance);
     }
 
     /// <inheritdoc />
@@ -169,6 +169,23 @@ public sealed class Chord : IChord
     {
         this.ResonanceByGemstone.ForEach(pair => pair.Key.Buffer(buffer, (float)pair.Value));
         buffer.MagneticRadius += this._richness * 24;
+    }
+
+    /// <summary>Initializes the <see cref="_lightSource"/> if a resonant harmony exists in the <see cref="Chord"/>.</summary>
+    /// <param name="colorful">Whether the light should be colorful or just plain white.</param>
+    internal void InitializeLightSource(bool colorful = true)
+    {
+        if (this.Root is null)
+        {
+            return;
+        }
+
+        this._lightSource = new LightSource(
+            LightSource.sconceLight,
+            Vector2.Zero,
+            (float)this.Amplitude,
+            colorful ? this.Root.GlowColor : new Color(0, 50, 170),
+            playerID: Game1.player.UniqueMultiplayerID);
     }
 
     /// <summary>Evaluate the <see cref="HarmonicInterval"/>s between <see cref="Notes"/> and the resulting harmonies.</summary>
@@ -311,22 +328,6 @@ public sealed class Chord : IChord
 
         this.Amplitude = this.ResonanceByGemstone[this.Root];
         this._period = 360d / this.Root.Frequency;
-    }
-
-    /// <summary>Initializes the <see cref="_lightSource"/> if a resonant harmony exists in the <see cref="Chord"/>.</summary>
-    private void InitializeLightSource()
-    {
-        if (this.Root is null)
-        {
-            return;
-        }
-
-        this._lightSource = new LightSource(
-            LightSource.sconceLight,
-            Vector2.Zero,
-            (float)this.Amplitude,
-            this.Root.GlowColor,
-            playerID: Game1.player.UniqueMultiplayerID);
     }
 
     /// <summary>Evaluates the current amplitude of the <see cref="_lightSource"/>.</summary>

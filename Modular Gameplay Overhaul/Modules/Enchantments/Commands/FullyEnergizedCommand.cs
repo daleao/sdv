@@ -37,6 +37,6 @@ internal sealed class FullyEnergizedCommand : ConsoleCommand
             return;
         }
 
-        energized.Stacks = 100;
+        energized.Energy = 100;
     }
 }

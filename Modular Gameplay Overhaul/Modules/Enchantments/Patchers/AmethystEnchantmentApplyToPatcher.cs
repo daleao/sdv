@@ -40,10 +40,10 @@ internal sealed class AmethystEnchantmentApplyToPatcher : HarmonyPatcher
     {
         switch (item)
         {
-            case MeleeWeapon weapon when WeaponsModule.IsEnabled:
+            case MeleeWeapon weapon when WeaponsModule.ShouldEnable:
                 weapon.Invalidate();
                 break;
-            case Slingshot slingshot when SlingshotsModule.IsEnabled:
+            case Slingshot slingshot when SlingshotsModule.ShouldEnable:
                 slingshot.Invalidate();
                 break;
         }

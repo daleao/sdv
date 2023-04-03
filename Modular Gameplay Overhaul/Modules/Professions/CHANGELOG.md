@@ -1,6 +1,6 @@
 # Professions Module Change Log
 
-## 1.4.0
+## 2.0.0
 
 ### Added
 
@@ -20,6 +20,7 @@
 * Fixed small typo in new Artisan description (removed "is").
 * Fixed Poacher still gathering Special Ability charge with Special Abilities disabled.
 * Fixed issue with Crab Pots ignoring farmhand professions in multiplayer games with LaxOwnershipRequirement set to `true` (thanks to [ncarigon](https://github.com/ncarigon)).
+* Fixed ribbon display with new scrolling feature of SpaceCore.
 
 ## 1.3.0
 

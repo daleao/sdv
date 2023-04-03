@@ -312,17 +312,19 @@
   // * ENCHANTMENTS * //
   // **************** //
 
-  "enchantments.carving": "Carving",
-  "enchantments.cleaving": "Cleaving",
-  "enchantments.energized": "Energized",
-  "enchantments.exploding": "Blasting",
-  "enchantments.tribute": "Mammonite's",
-  "enchantments.vampiric": "Bloodthirsty",
-  "enchantments.engorging": "Magnum",
-  "enchantments.gatling": "Gatling",
-  "enchantments.preserving": "Preserving",
-  "enchantments.quincy": "Quincy",
-  "enchantments.spreading": "Spreading",
+  "enchantments.carving.name": "Carving",
+  "enchantments.cleaving.name": "Cleaving",
+  "enchantments.energized.name": "Energized",
+  "enchantments.energized.desc": "Energy accumulated: {{counter}}",
+  "enchantments.explosive.name": "Blasting",
+  "enchantments.explosive.desc": "Explosion radius: {{counter}}",
+  "enchantments.tribute.name": "Mammonite's",
+  "enchantments.vampiric.name": "Bloodthirsty",
+  "enchantments.engorging.name": "Magnum",
+  "enchantments.gatling.name": "Gatling",
+  "enchantments.preserving.name": "Preserving",
+  "enchantments.quincy.name": "Quincy",
+  "enchantments.spreading.name": "Spreading",
 
 
   // *********** //

@@ -1,11 +1,11 @@
 ﻿# Taxes Module Change Log
 
-## 1.4.0
+## 2.0.0
 
 ### Added
 
 * Added new property taxes.
-* The bodies of most, if not all, tax-related letters have been altered. Translations will need to be revised.
+* The bodies of most, if not all, tax-related letters have been altered. Translations will need to be revised (sorry, translatrs).
 
 ### Changed
 

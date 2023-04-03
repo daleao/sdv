@@ -1,7 +1,7 @@
 ﻿
 <div align="center">
 
-# Modular Overhaul :: Combat
+# Modular Overhaul :: Combat (CMBT)
 
 </div>
 
@@ -43,7 +43,7 @@ This simple module provides the following rebalancing options for general combat
     - Monster damage multiplier
     - Monster defense multiplier
 
-    They are compatible with any Content Patcher mods which affect monster stats.
+    Compatible with any Content Patcher mods which affect monster stats.
 
 4. **Varied Encounters:** Randomizes monster stats according to Daily Luck, reducing the monotony of dungeons.
 

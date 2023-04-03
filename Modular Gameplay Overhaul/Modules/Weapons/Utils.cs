@@ -7,6 +7,7 @@ using System.Linq;
 using DaLion.Overhaul.Modules.Weapons.Extensions;
 using DaLion.Overhaul.Modules.Weapons.VirtualProperties;
 using DaLion.Shared.Extensions.SMAPI;
+using DaLion.Shared.Extensions.Stardew;
 using StardewValley.Locations;
 using StardewValley.Objects;
 using StardewValley.Tools;
@@ -17,8 +18,14 @@ internal static class Utils
 {
     internal static void RevalidateAllWeapons()
     {
+        if (!Context.IsWorldReady)
+        {
+            return;
+        }
+
+        var player = Game1.player;
         Log.I(
-            $"[Weapons]: Performing {(Context.IsMainPlayer ? "global" : "local")} items re-validation.");
+            $"[Weapons]: Performing {(Context.IsMainPlayer ? "global" : "local")} item re-validation.");
         if (Context.IsMainPlayer)
         {
             Utility.iterateAllItems(item =>
@@ -31,9 +38,9 @@ internal static class Utils
         }
         else
         {
-            for (var i = 0; i < Game1.player.Items.Count; i++)
+            for (var i = 0; i < player.Items.Count; i++)
             {
-                if (Game1.player.Items[i] is MeleeWeapon weapon)
+                if (player.Items[i] is MeleeWeapon weapon)
                 {
                     RevalidateSingleWeapon(weapon);
                 }
@@ -41,7 +48,7 @@ internal static class Utils
         }
 
         var removed = 0;
-        if (WeaponsModule.IsEnabled)
+        if (WeaponsModule.ShouldEnable)
         {
             foreach (var chest in IterateAllChests())
             {
@@ -65,22 +72,22 @@ internal static class Utils
         }
 
         Log.W($"{removed} Dark Swords were removed from Chests.");
-        if (!Game1.player.hasOrWillReceiveMail("viegoCurse"))
+        if (!player.hasOrWillReceiveMail("viegoCurse"))
         {
             return;
         }
 
         {
-            for (var i = 0; i < Game1.player.Items.Count; i++)
+            for (var i = 0; i < player.Items.Count; i++)
             {
-                if (Game1.player.Items[i] is MeleeWeapon { InitialParentTileIndex: ItemIDs.DarkSword })
+                if (player.Items[i] is MeleeWeapon { InitialParentTileIndex: ItemIDs.DarkSword })
                 {
                     break;
                 }
 
-                if (!Game1.player.addItemToInventoryBool(new MeleeWeapon(ItemIDs.DarkSword)))
+                if (!player.addItemToInventoryBool(new MeleeWeapon(ItemIDs.DarkSword)))
                 {
-                    Log.E($"Failed adding Dark Sword to {Game1.player.Name}. Use CJB Item Spawner to obtain a new copy.");
+                    Log.E($"Failed adding Dark Sword to {player.Name}. Use CJB Item Spawner to obtain a new copy.");
                 }
             }
         }
@@ -91,7 +98,7 @@ internal static class Utils
     internal static void RevalidateSingleWeapon(MeleeWeapon weapon)
     {
         weapon.RecalculateAppliedForges();
-        if (!WeaponsModule.IsEnabled)
+        if (!WeaponsModule.ShouldEnable)
         {
             weapon.RemoveIntrinsicEnchantments();
         }
@@ -100,21 +107,21 @@ internal static class Utils
             weapon.AddIntrinsicEnchantments();
         }
 
-        if (WeaponsModule.IsEnabled && WeaponsModule.Config.EnableStabbySwords &&
+        if (WeaponsModule.ShouldEnable && WeaponsModule.Config.EnableStabbySwords &&
             (Collections.StabbingSwords.Contains(weapon.InitialParentTileIndex) ||
              WeaponsModule.Config.CustomStabbingSwords.Contains(weapon.Name)))
         {
             weapon.type.Value = MeleeWeapon.stabbingSword;
             Log.D($"[Weapons]: The type of {weapon.Name} was converted to Stabbing sword.");
         }
-        else if ((!WeaponsModule.IsEnabled || !WeaponsModule.Config.EnableStabbySwords) &&
+        else if ((!WeaponsModule.ShouldEnable || !WeaponsModule.Config.EnableStabbySwords) &&
                  weapon.type.Value == MeleeWeapon.stabbingSword)
         {
             weapon.type.Value = MeleeWeapon.defenseSword;
             Log.D($"[Weapons]: The type of {weapon.Name} was converted to Defense sword.");
         }
 
-        if (WeaponsModule.IsEnabled && WeaponsModule.Config.InfinityPlusOne && (weapon.isGalaxyWeapon() || weapon.IsInfinityWeapon()
+        if (WeaponsModule.ShouldEnable && WeaponsModule.Config.InfinityPlusOne && (weapon.isGalaxyWeapon() || weapon.IsInfinityWeapon()
             || weapon.InitialParentTileIndex is ItemIDs.DarkSword or ItemIDs.HolyBlade))
         {
             weapon.specialItem = true;

@@ -98,7 +98,7 @@ internal sealed class MeleeWeaponDrawTooltipPatcher : HarmonyPatcher
                     spriteBatch,
                     I18n.Get(
                         "ui.itemhover.knockback",
-                        new { amount = $"{relativeKnockback:+#%;-#%}" }),
+                        new { amount = $"{relativeKnockback:+#.#%;-#.#%}" }),
                     font,
                     new Vector2(x + 68, y + 28),
                     co * 0.9f * alpha);
@@ -129,7 +129,7 @@ internal sealed class MeleeWeaponDrawTooltipPatcher : HarmonyPatcher
                     spriteBatch,
                     I18n.Get(
                         "ui.itemhover.crate",
-                        new { amount = $"{relativeCritChance:+#%;-#%}" }),
+                        new { amount = $"{relativeCritChance:+#.#%;-#.#%}" }),
                     font,
                     new Vector2(x + 68, y + 28),
                     co * 0.9f * alpha);
@@ -158,7 +158,7 @@ internal sealed class MeleeWeaponDrawTooltipPatcher : HarmonyPatcher
                     spriteBatch,
                     I18n.Get(
                         "ui.itemhover.cpow",
-                        new { amount = $"{relativeGetCritPower:+#%;-#%}" }),
+                        new { amount = $"{relativeGetCritPower:+#.#%;-#.#%}" }),
                     font,
                     new Vector2(x + 68, y + 28),
                     co * 0.9f * alpha);
@@ -187,7 +187,7 @@ internal sealed class MeleeWeaponDrawTooltipPatcher : HarmonyPatcher
                     spriteBatch,
                     I18n.Get(
                         "ui.itemhover.swingspeed",
-                        new { amount = $"{speed:+#%;-#%}" }),
+                        new { amount = $"{speed:+#.#%;-#.#%}" }),
                     font,
                     new Vector2(x + 68, y + 28),
                     co * 0.9f * alpha);
@@ -214,7 +214,7 @@ internal sealed class MeleeWeaponDrawTooltipPatcher : HarmonyPatcher
 
                 Utility.drawTextWithShadow(
                     spriteBatch,
-                    I18n.Get("ui.itemhover.cdr", new { amount = $"-{cooldownReduction:0%}" }),
+                    I18n.Get("ui.itemhover.cdr", new { amount = $"-{cooldownReduction:#.#%}" }),
                     font,
                     new Vector2(x + 68, y + 28),
                     co * 0.9f * alpha);
@@ -224,7 +224,7 @@ internal sealed class MeleeWeaponDrawTooltipPatcher : HarmonyPatcher
 
             // write bonus defense
             var resistance = __instance.Get_DisplayResilience();
-            if ((CombatModule.IsEnabled && CombatModule.Config.OverhauledDefense && resistance != 0f) || resistance > 1f)
+            if ((CombatModule.ShouldEnable && CombatModule.Config.OverhauledDefense && resistance != 0f) || resistance > 1f)
             {
                 co = __instance.hasEnchantmentOfType<TopazEnchantment>() ? new Color(0, 120, 120) : Game1.textColor;
                 Utility.drawWithShadow(
@@ -241,8 +241,8 @@ internal sealed class MeleeWeaponDrawTooltipPatcher : HarmonyPatcher
 
                 Utility.drawTextWithShadow(
                     spriteBatch,
-                    CombatModule.IsEnabled && CombatModule.Config.OverhauledDefense
-                        ? I18n.Get("ui.itemhover.resist", new { amount = $"{resistance:+#%;-#%}" })
+                    CombatModule.ShouldEnable && CombatModule.Config.OverhauledDefense
+                        ? I18n.Get("ui.itemhover.resist", new { amount = $"{resistance:+#.#%;-#.#%}" })
                         : Game1.content.LoadString("ItemHover_DefenseBonus", __instance.addedDefense.Value),
                     font,
                     new Vector2(x + 68, y + 28),

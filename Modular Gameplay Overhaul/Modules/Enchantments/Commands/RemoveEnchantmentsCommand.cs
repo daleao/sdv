@@ -26,7 +26,7 @@ internal sealed class RemoveEnchantmentsCommand : ConsoleCommand
 
     /// <inheritdoc />
     public override string Documentation =>
-        "Remove the specified enchantments from the selected weapon or slingshot." + this.GetUsage();
+        "Remove the specified enchantments from the currently selected tool. You can also specify \"all\" to clear all enchantments at once." + this.GetUsage();
 
     /// <inheritdoc />
     public override void Callback(string trigger, string[] args)
@@ -38,9 +38,24 @@ internal sealed class RemoveEnchantmentsCommand : ConsoleCommand
         }
 
         var tool = Game1.player.CurrentTool;
-        if (tool is not (MeleeWeapon or Slingshot))
+        if (tool is null)
         {
-            Log.W("You must select a slingshot first.");
+            Log.W("You must select a tool first.");
+            return;
+        }
+
+        var all = args.Any(a => a is "-a" or "--all");
+        if (all)
+        {
+            var count = 0;
+            for (var i = 0; i < tool.enchantments.Count; i++)
+            {
+                var enchantment = tool.enchantments[i];
+                tool.RemoveEnchantment(enchantment);
+                count++;
+            }
+
+            Log.I($"Removed {count} enchantments from {tool.DisplayName}.");
             return;
         }
 
@@ -48,7 +63,6 @@ internal sealed class RemoveEnchantmentsCommand : ConsoleCommand
         {
             var enchantment = tool.enchantments.FirstOrDefault(e =>
                 e.GetType().Name.ToLowerInvariant().Contains(args[0].ToLowerInvariant()));
-
             if (enchantment is null)
             {
                 Log.W($"The {tool.DisplayName} does not have a {args[0]} enchantment.");
@@ -64,10 +78,10 @@ internal sealed class RemoveEnchantmentsCommand : ConsoleCommand
 
         switch (tool)
         {
-            case MeleeWeapon weapon when WeaponsModule.IsEnabled:
+            case MeleeWeapon weapon when WeaponsModule.ShouldEnable:
                 weapon.Invalidate();
                 break;
-            case Slingshot slingshot when SlingshotsModule.IsEnabled:
+            case Slingshot slingshot when SlingshotsModule.ShouldEnable:
                 slingshot.Invalidate();
                 break;
         }

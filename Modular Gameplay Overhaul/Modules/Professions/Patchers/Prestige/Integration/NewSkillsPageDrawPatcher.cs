@@ -4,8 +4,11 @@
 
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
+using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
+using DaLion.Overhaul.Modules.Professions.Extensions;
+using DaLion.Overhaul.Modules.Professions.Integrations;
 using DaLion.Overhaul.Modules.Professions.Patchers.Prestige;
 using DaLion.Shared.Attributes;
 using DaLion.Shared.Extensions.Reflection;
@@ -65,7 +68,7 @@ internal sealed class NewSkillsPageDrawPatcher : HarmonyPatcher
                         new CodeInstruction(
                             OpCodes.Callvirt,
                             typeof(Config).RequirePropertyGetter(
-                                nameof(Config.PrestigeProgressionStyle))),
+                                nameof(Config.ProgressionStyle))),
                         new CodeInstruction(OpCodes.Ldc_I4_0),
                         new CodeInstruction(OpCodes.Beq_S, notRibbons),
                         new CodeInstruction(
@@ -204,8 +207,7 @@ internal sealed class NewSkillsPageDrawPatcher : HarmonyPatcher
                         new CodeInstruction(OpCodes.Ldarg_1), // load b
                         new CodeInstruction(
                             OpCodes.Call,
-                            typeof(SkillsPageDrawPatcher).RequireMethod(nameof(SkillsPageDrawPatcher
-                                .DrawExtendedLevelBars))),
+                            typeof(NewSkillsPageDrawPatcher).RequireMethod(nameof(DrawExtendedLevelBars))),
                     },
                     labels);
         }
@@ -277,9 +279,13 @@ internal sealed class NewSkillsPageDrawPatcher : HarmonyPatcher
                     {
                         new CodeInstruction(OpCodes.Ldarg_0),
                         new CodeInstruction(OpCodes.Ldarg_1),
+                        new CodeInstruction(OpCodes.Ldarg_0),
+                        new CodeInstruction(
+                            OpCodes.Ldfld,
+                            typeof(NewSkillsPage).RequireField("skillScrollOffset")),
                         new CodeInstruction(
                             OpCodes.Call,
-                            typeof(SkillsPageDrawPatcher).RequireMethod(nameof(SkillsPageDrawPatcher.DrawRibbons))),
+                            typeof(NewSkillsPageDrawPatcher).RequireMethod(nameof(DrawRibbons))),
                     },
                     labels);
         }
@@ -324,7 +330,7 @@ internal sealed class NewSkillsPageDrawPatcher : HarmonyPatcher
     #region injected subroutines
 
     [SuppressMessage("StyleCop.CSharp.OrderingRules", "SA1202:Elements should be ordered by access", Justification = "Harmony-injected subroutine shared by a SpaceCore patch.")]
-    internal static void DrawExtendedCustomLevelBars(
+    internal static void DrawExtendedLevelBars(
         int levelIndex, int indexWithLuckSkill, int x, int y, int addedX, int skillLevel, SpriteBatch b)
     {
         if (!ProfessionsModule.Config.EnablePrestige)
@@ -351,6 +357,151 @@ internal sealed class NewSkillsPageDrawPatcher : HarmonyPatcher
                 4f,
                 SpriteEffects.None,
                 1f);
+        }
+    }
+
+    internal static void DrawRibbons(NewSkillsPage page, SpriteBatch b, int skillScrollOffset)
+    {
+        if (!ProfessionsModule.Config.EnablePrestige)
+        {
+            return;
+        }
+
+        var position =
+            new Vector2(
+                page.xPositionOnScreen + page.width + Textures.ProgressionHorizontalOffset,
+                page.yPositionOnScreen + IClickableMenu.spaceToClearTopBorder + IClickableMenu.borderWidth + Textures.ProgressionVerticalOffset);
+        if (ProfessionsModule.Config.ProgressionStyle == Config.PrestigeProgressionStyle.StackedStars)
+        {
+            position.X -= 22;
+            position.Y -= 4;
+        }
+
+        var lastVisibleSkillIndex =
+            Reflector.GetUnboundPropertyGetter<NewSkillsPage, int>(page, "LastVisibleSkillIndex").Invoke(page);
+        for (var i = 0; i < 5; i++)
+        {
+            // hide if scrolled and out of bounds
+            if (i < skillScrollOffset || i > lastVisibleSkillIndex)
+            {
+                continue;
+            }
+
+            position.Y += 56;
+
+            // need to do this bullshit switch because mining and fishing are inverted in the skills page
+            var skillIndex = i switch
+            {
+                1 => Skill.Mining,
+                3 => Skill.Fishing,
+                _ => Skill.FromValue(i),
+            };
+
+            var count = Game1.player.GetProfessionsForSkill(skillIndex, true).Length;
+            if (count == 0)
+            {
+                continue;
+            }
+
+            Rectangle srcRect;
+            switch (ProfessionsModule.Config.ProgressionStyle)
+            {
+                case Config.PrestigeProgressionStyle.Gen3Ribbons:
+                case Config.PrestigeProgressionStyle.Gen4Ribbons:
+                    srcRect = new Rectangle(
+                        i * Textures.RibbonWidth,
+                        (count - 1) * Textures.RibbonWidth,
+                        Textures.RibbonWidth,
+                        Textures.RibbonWidth);
+                    break;
+                case Config.PrestigeProgressionStyle.StackedStars:
+                    srcRect = new Rectangle(0, (count - 1) * 16, Textures.StarsWidth, 16);
+                    break;
+                default:
+                    srcRect = Rectangle.Empty;
+                    break;
+            }
+
+            b.Draw(
+                Textures.PrestigeSheetTx,
+                position,
+                srcRect,
+                Color.White,
+                0f,
+                Vector2.Zero,
+                ProfessionsModule.Config.ProgressionStyle == Config.PrestigeProgressionStyle.StackedStars
+                    ? Textures.StarsScale
+                    : Textures.RibbonScale,
+                SpriteEffects.None,
+                1f);
+        }
+
+        if (SCSkill.Loaded.Count == 0)
+        {
+            return;
+        }
+
+        if (ProfessionsModule.Config.ProgressionStyle is Config.PrestigeProgressionStyle.Gen3Ribbons
+            or Config.PrestigeProgressionStyle.Gen4Ribbons)
+        {
+            position.X += 2; // not sure why but custom skill ribbons render with a small offset
+        }
+
+        var customSkills = SpaceCoreIntegration.Instance!.ModApi!
+            .GetCustomSkills()
+            .Select(name => SCSkill.Loaded[name]);
+        if (LuckSkill.Instance is not null)
+        {
+            // luck skill must be enumerated first
+            customSkills = customSkills.Prepend(LuckSkill.Instance);
+        }
+
+        var indexWithLuckSkill =
+            Reflector.GetUnboundPropertyGetter<NewSkillsPage, int>(page, "GameSkillCount").Invoke(page) - 1;
+        foreach (var skill in customSkills)
+        {
+            // hide if scrolled and out of bounds
+            if (indexWithLuckSkill < skillScrollOffset || indexWithLuckSkill > lastVisibleSkillIndex)
+            {
+                indexWithLuckSkill++;
+                continue;
+            }
+
+            position.Y += 56;
+
+            var count = Game1.player.GetProfessionsForSkill(skill, true).Length;
+            if (count == 0)
+            {
+                indexWithLuckSkill++;
+                continue;
+            }
+
+            var srcRect = ProfessionsModule.Config.ProgressionStyle switch
+            {
+                Config.PrestigeProgressionStyle.Gen3Ribbons or Config.PrestigeProgressionStyle.Gen4Ribbons => new Rectangle(
+                    skill.StringId == "blueberry.LoveOfCooking.CookingSkill" ? 111 : 133,
+                    (count - 1) * Textures.RibbonWidth,
+                    Textures.RibbonWidth,
+                    Textures.RibbonWidth),
+                Config.PrestigeProgressionStyle.StackedStars =>
+                    new Rectangle(0, (count - 1) * 16, Textures.StarsWidth, 16),
+                _ => Rectangle.Empty,
+            };
+
+            b.Draw(
+                Textures.PrestigeSheetTx,
+                position,
+                srcRect,
+                Color.White,
+                0f,
+                Vector2.Zero,
+                ProfessionsModule.Config.ProgressionStyle == Config.PrestigeProgressionStyle.StackedStars
+                    ? Textures.StarsScale
+                    : Textures.RibbonScale,
+                SpriteEffects.None,
+                1f);
+
+            indexWithLuckSkill++;
         }
     }
 

@@ -1,6 +1,6 @@
 <div align="center">
 
-# Modular Overhaul :: Taxes
+# Modular Overhaul :: Taxes (TXS)
 
 </div>
 
@@ -14,7 +14,7 @@ The Ferngill Revenue Service (FRS) will calculate your due federal obligations b
 
 By default, the FRS defines 7 tax brackets for the individual taxpayer, modeled after the United States Of America, with 37% as the highest bracket for income tax. But these brackets and their respective thresholds are all configurable.
 
-Federal obligations are due on the first of the month, end-of-day, and will be deducted automatically from the farmer's balance overnight (i.e., on the morning of day 2). This means that the farmer has one day to reinvest the closing season's profits into new seeds or livestock for the current season, before ~~being robbed~~ making their contribution to the Federal Government. Reinvestments (e.g., tool upgrades, animal or seed purchases, building comissions, etc.) may count as business expenses, which are deductible up to 100% under the Ferngill Revenue Code. However, if the farmer does not have enough funds remaining at the end of the day to cover their duties, the farmer will be fined and seized of all Shipping Bin income until the outstanding amount is settled. All debts will also accrue daily interest (configurable, default 11% **per annum**).
+Federal obligations are due on the first of the month, end-of-day, and will be deducted automatically from the farmer's balance overnight (i.e., on the morning of day 2). This means that the farmer has one day to reinvest the closing season's profits into new seeds or livestock for the current season, before ~~being robbed~~ making their contribution to the Federal Government. Reinvestments (e.g., tool upgrades, animal or seed purchases, building commissions, etc.) may count as business expenses, which are deductible up to 100% under the Ferngill Revenue Code. However, if the farmer does not have enough funds remaining at the end of the day to cover their duties, the farmer will be fined and seized of all Shipping Bin income until the outstanding amount is settled. All debts will also accrue daily interest (configurable, default 11% **per annum**).
 
 If the [Professions](../Professions) module is enabled and the player has the Conservationist profession, the professions' tax deduction perk will change from a % value increase to all items, to a more immersive % deduction of taxable income. Environmentalist activities can be used to deduct taxable income up to 100%. This means that farmers can be tax-exempt by collecting enough trash from oceans or rivers (it is recommended to decrease the default Professions setting for TrashNeededPerTaxBonusPct, as the TaxBonusCeiling setting will be overridden to 100%).
 

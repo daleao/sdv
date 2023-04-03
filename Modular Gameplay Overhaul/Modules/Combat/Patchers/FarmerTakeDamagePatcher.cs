@@ -62,6 +62,51 @@ internal sealed class FarmerTakeDamagePatcher : HarmonyPatcher
             return null;
         }
 
+        // Injected: if (CombatModule.Config.OverhauledDefense)
+        //     skip
+        //     {
+        //         effectiveResilience >= damage * 0.5f)
+        //         effectiveResilience -= (int) (effectiveResilience * Game1.random.Next(3) / 10f);
+        //     }
+        var skipSoftCap = generator.DefineLabel();
+        try
+        {
+            helper
+                .Match(
+                    new[]
+                    {
+                        new CodeInstruction(OpCodes.Ldloc_3), new CodeInstruction(OpCodes.Conv_R4),
+                        new CodeInstruction(OpCodes.Ldarg_1), new CodeInstruction(OpCodes.Conv_R4),
+                        new CodeInstruction(OpCodes.Ldc_R4, 0.5f),
+                    },
+                    ILHelper.SearchOption.First)
+                .StripLabels(out var labels)
+                .Insert(
+                    new[]
+                    {
+                        new CodeInstruction(
+                            OpCodes.Call,
+                            typeof(ModEntry).RequirePropertyGetter(nameof(ModEntry.Config))),
+                        new CodeInstruction(
+                            OpCodes.Callvirt,
+                            typeof(ModConfig).RequirePropertyGetter(nameof(ModConfig.Combat))),
+                        new CodeInstruction(
+                            OpCodes.Callvirt,
+                            typeof(Config).RequirePropertyGetter(nameof(Config.OverhauledDefense))),
+                        new CodeInstruction(OpCodes.Brtrue_S, skipSoftCap),
+                    },
+                    labels)
+                .Match(
+                    new[] { new CodeInstruction(OpCodes.Stloc_3) })
+                .Move()
+                .AddLabels(skipSoftCap);
+        }
+        catch (Exception ex)
+        {
+            Log.E($"Failed injecting skip over vanilla defense cap.\nHelper returned {ex}");
+            return null;
+        }
+
         return helper.Flush();
     }
 

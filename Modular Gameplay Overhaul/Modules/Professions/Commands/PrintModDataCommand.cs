@@ -68,7 +68,7 @@ internal sealed class PrintModDataCommand : ConsoleCommand
                    !IsNullOrEmpty(value)
                        ? $"Conservationist Trash Collected ({SeasonExtensions.Current()}): {value}\n\t\tExpected tax deduction for {SeasonExtensions.Next()}: " +
                          // ReSharper disable once PossibleLossOfFraction
-                         $"{Math.Min(int.Parse(value) / ProfessionsModule.Config.TrashNeededPerTaxBonusPct / 100f, ProfessionsModule.Config.ConservationistTaxBonusCeiling):0%}"
+                         $"{Math.Min(int.Parse(value) / ProfessionsModule.Config.TrashNeededPerTaxDeductionPct / 100f, ProfessionsModule.Config.ConservationistTaxBonusCeiling):0%}"
                        : "Mod data does not contain an entry for ConservationistTrashCollectedThisSeason.");
 
         value = player.Read(DataKeys.ConservationistActiveTaxBonusPct);

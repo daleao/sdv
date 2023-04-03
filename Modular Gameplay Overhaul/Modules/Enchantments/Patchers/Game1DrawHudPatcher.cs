@@ -45,6 +45,11 @@ internal sealed class Game1DrawHudPatcher : HarmonyPatcher
                             OpCodes.Stsfld,
                             typeof(Game1).RequireField(nameof(Game1.showingHealth))),
                     })
+                .Match(
+                    new[] { new CodeInstruction(OpCodes.Bge) },
+                    ILHelper.SearchOption.Previous)
+                .SetOpCode(OpCodes.Beq) // replace > with ==
+                .Return()
                 .Move(2)
                 .Count(
                     new[]

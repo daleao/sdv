@@ -19,23 +19,29 @@ internal sealed class ToolbarReceiveClickPatcher : HarmonyPatcher
     }
 
     /// <inheritdoc />
-    protected override void ApplyImpl(Harmony harmony)
+    protected override bool ApplyImpl(Harmony harmony)
     {
         this.Target = this.RequireMethod<Toolbar>(nameof(Toolbar.receiveLeftClick));
-        base.ApplyImpl(harmony);
+        if (!base.ApplyImpl(harmony))
+        {
+            return false;
+        }
 
         this.Target = this.RequireMethod<Toolbar>(nameof(Toolbar.receiveRightClick));
-        base.ApplyImpl(harmony);
+        return base.ApplyImpl(harmony);
     }
 
     /// <inheritdoc />
-    protected override void UnapplyImpl(Harmony harmony)
+    protected override bool UnapplyImpl(Harmony harmony)
     {
         this.Target = this.RequireMethod<Toolbar>(nameof(Toolbar.receiveLeftClick));
-        base.UnapplyImpl(harmony);
+        if (!base.UnapplyImpl(harmony))
+        {
+            return false;
+        }
 
         this.Target = this.RequireMethod<Toolbar>(nameof(Toolbar.receiveRightClick));
-        base.UnapplyImpl(harmony);
+        return base.UnapplyImpl(harmony);
     }
 
     #region harmony patches
@@ -72,7 +78,7 @@ internal sealed class ToolbarReceiveClickPatcher : HarmonyPatcher
             Game1.playSound("smallSelect");
         }
 
-        return ToolsModule.IsEnabled;
+        return ToolsModule.ShouldEnable;
     }
 
     #endregion harmony patches

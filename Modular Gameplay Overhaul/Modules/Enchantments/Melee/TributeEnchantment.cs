@@ -12,19 +12,24 @@ using StardewValley.Monsters;
 ///     Consecutive kills without taking damage increase the threshold by 1%.
 /// </summary>
 [XmlType("Mods_DaLion_TributeEnchantment")]
-public class TributeEnchantment : BaseWeaponEnchantment
+public sealed class TributeEnchantment : BaseWeaponEnchantment
 {
     internal float Threshold { get; set; } = 0.1f;
 
     /// <inheritdoc />
     public override string GetName()
     {
-        return I18n.Get("enchantments.tribute");
+        return I18n.Get("enchantments.tribute.name");
     }
 
     /// <inheritdoc />
     protected override void _OnDealDamage(Monster monster, GameLocation location, Farmer who, ref int amount)
     {
+        if (!who.IsLocalPlayer)
+        {
+            return;
+        }
+
         var tribute = (int)((monster.MaxHealth * this.Threshold) - monster.Health);
         if (tribute <= 0)
         {

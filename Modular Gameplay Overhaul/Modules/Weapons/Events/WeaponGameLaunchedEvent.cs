@@ -2,8 +2,8 @@
 
 #region using directives
 
+using DaLion.Overhaul.Modules.Weapons.Integrations;
 using DaLion.Shared.Events;
-using Integrations;
 using StardewModdingAPI.Events;
 
 #endregion using directives

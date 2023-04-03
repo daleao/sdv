@@ -30,7 +30,7 @@ internal static class Textures
         ModHelper.GameContent.Load<Texture2D>($"{Manifest.UniqueID}/UltimateMeter");
 
     internal static Texture2D PrestigeSheetTx { get; private set; } =
-        ModHelper.ModContent.Load<Texture2D>($"assets/sprites/{ProfessionsModule.Config.PrestigeProgressionStyle}.png");
+        ModHelper.ModContent.Load<Texture2D>($"assets/sprites/{ProfessionsModule.Config.ProgressionStyle}.png");
 
     internal static void Refresh(IReadOnlySet<IAssetName> names)
     {

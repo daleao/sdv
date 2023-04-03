@@ -41,7 +41,7 @@ internal sealed class MushroomBoxMachineGetOutputPatcher : HarmonyPatcher
                 return;
             }
 
-            var owner = ProfessionsModule.IsEnabled && !ProfessionsModule.Config.LaxOwnershipRequirements
+            var owner = ProfessionsModule.ShouldEnable && !ProfessionsModule.Config.LaxOwnershipRequirements
                 ? machine.GetOwner()
                 : Game1.player;
             owner.gainExperience(Farmer.foragingSkill, (int)TweexModule.Config.MushroomBoxExpReward);

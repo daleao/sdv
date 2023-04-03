@@ -3,6 +3,38 @@
 /// <summary>Extensions for the <see cref="Random"/> class.</summary>
 public static class RandomExtensions
 {
+    /// <summary>Returns a random <see cref="float"/> value that is greater than or equal to <paramref name="minValue"/> and less than <paramref name="maxValue"/>.</summary>
+    /// <param name="r">The <see cref="Random"/> number generator.</param>
+    /// <param name="minValue">The inclusive lower bound of the random number returned.</param>
+    /// <param name="maxValue">The exclusive upper bound of the random number returned. maxValue must be greater than or equal to minValue.</param>
+    /// <returns>A <see cref="float"/> that is greater than or equal to minValue and less than maxValue.</returns>
+    /// <exception cref="ArgumentException">If <paramref name="minValue"/> is greater than <paramref name="maxValue"/>.</exception>
+    public static float NextFloat(this Random r, float minValue, float maxValue)
+    {
+        if (minValue > maxValue)
+        {
+            ThrowHelper.ThrowArgumentOutOfRangeException("Parameter `minValue` cannot be greater than `maxValue`.");
+        }
+
+        return (float)((r.NextDouble() * (maxValue - minValue)) + minValue);
+    }
+
+    /// <summary>Returns a random <see cref="double"/> value that is greater than or equal to <paramref name="minValue"/> and less than <paramref name="maxValue"/>.</summary>
+    /// <param name="r">The <see cref="Random"/> number generator.</param>
+    /// <param name="minValue">The inclusive lower bound of the random number returned.</param>
+    /// <param name="maxValue">The exclusive upper bound of the random number returned. maxValue must be greater than or equal to minValue.</param>
+    /// <returns>A <see cref="double"/> that is greater than or equal to minValue and less than maxValue.</returns>
+    /// <exception cref="ArgumentException">If <paramref name="minValue"/> is greater than <paramref name="maxValue"/>.</exception>
+    public static double NextDouble(this Random r, double minValue, double maxValue)
+    {
+        if (minValue > maxValue)
+        {
+            ThrowHelper.ThrowArgumentOutOfRangeException("Parameter `minValue` cannot be greater than `maxValue`.");
+        }
+
+        return (r.NextDouble() * (maxValue - minValue)) + minValue;
+    }
+
     /// <summary>Generates a random boolean value with the the specified probability of success.</summary>
     /// <param name="r">The <see cref="Random"/> number generator.</param>
     /// <param name="p">The p of success (i.e., <see langword="true"/>).</param>

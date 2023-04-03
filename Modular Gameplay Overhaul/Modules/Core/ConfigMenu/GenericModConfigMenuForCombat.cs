@@ -8,7 +8,7 @@ using StardewValley.Objects;
 #endregion using directives
 
 /// <summary>Constructs the GenericModConfigMenu integration.</summary>
-internal sealed partial class GenericModConfigMenuCore
+internal sealed partial class GenericModConfigMenu
 {
     /// <summary>Register the Combat config menu.</summary>
     private void RegisterCombat()

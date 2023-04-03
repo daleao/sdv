@@ -11,7 +11,7 @@ using Microsoft.Xna.Framework;
 #endregion using directives
 
 /// <summary>Constructs the GenericModConfigMenu integration.</summary>
-internal sealed partial class GenericModConfigMenuCore
+internal sealed partial class GenericModConfigMenu
 {
     /// <summary>Register the Weapons config menu.</summary>
     private void RegisterWeapons()
@@ -45,7 +45,7 @@ internal sealed partial class GenericModConfigMenuCore
                 new[] { "Absolute", "Relative" },
                 null)
             .AddCheckbox(
-                () => "Color-Coded For Your Convenience",
+                () => "Color-Coded For Convenience",
                 () => "Whether to colorize weapon names according to the weapon's assigned tier.",
                 config => config.Weapons.ColorCodedForYourConvenience,
                 (config, value) => config.Weapons.ColorCodedForYourConvenience = value)
@@ -147,6 +147,7 @@ internal sealed partial class GenericModConfigMenuCore
                 (config, value) => config.Weapons.IridiumBarsPerGalaxyWeapon = value,
                 0,
                 50)
+            .AddHorizontalRule()
 
             .AddSectionTitle(() => "Combo Settings")
             .AddCheckbox(
@@ -180,6 +181,7 @@ internal sealed partial class GenericModConfigMenuCore
                 (config, value) => config.Weapons.ComboHitsPerWeapon[WeaponType.Club] = value,
                 0,
                 10)
+            .AddHorizontalRule()
 
             .AddSectionTitle(() => "Stabbing Sword Settings")
             .AddCheckbox(
@@ -224,6 +226,7 @@ internal sealed partial class GenericModConfigMenuCore
                 (config, value) => config.Weapons.InfinityBladeType = Enum.Parse<WeaponType>(value),
                 new[] { "StabbingSword", "DefenseSword" },
                 null)
+            .AddHorizontalRule()
 
             .AddSectionTitle(() => "Movement & Control Settings")
             .AddCheckbox(

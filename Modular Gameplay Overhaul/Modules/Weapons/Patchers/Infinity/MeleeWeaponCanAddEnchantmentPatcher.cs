@@ -2,7 +2,7 @@
 
 #region using directives
 
-using Modules.Weapons.Enchantments;
+using DaLion.Overhaul.Modules.Weapons.Enchantments;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
 using StardewValley.Tools;

@@ -13,6 +13,6 @@ public sealed class EngorgingEnchantment : BaseSlingshotEnchantment
     /// <inheritdoc />
     public override string GetName()
     {
-        return I18n.Get("enchantments.engorging");
+        return I18n.Get("enchantments.engorging.name");
     }
 }

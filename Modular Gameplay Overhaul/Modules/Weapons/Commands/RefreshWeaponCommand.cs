@@ -2,10 +2,10 @@
 
 #region using directives
 
-using Weapons.Extensions;
+using DaLion.Overhaul.Modules.Weapons.Extensions;
+using DaLion.Overhaul.Modules.Weapons.VirtualProperties;
 using DaLion.Shared.Commands;
 using StardewValley.Tools;
-using VirtualProperties;
 
 #endregion using directives
 

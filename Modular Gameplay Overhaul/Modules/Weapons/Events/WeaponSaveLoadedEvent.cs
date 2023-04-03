@@ -28,16 +28,6 @@ internal sealed class WeaponSaveLoadedEvent : SaveLoadedEvent
     protected override void OnSaveLoadedImpl(object? sender, SaveLoadedEventArgs e)
     {
         var player = Game1.player;
-        if (!player.Read<bool>(DataKeys.Revalidated))
-        {
-            if (!(Game1.dayOfMonth == 0 && Game1.currentSeason == "spring" && Game1.year == 1))
-            {
-                Utils.RevalidateAllWeapons();
-            }
-
-            player.Write(DataKeys.Revalidated, true.ToString());
-        }
-
         WeaponsModule.State.ContainerDropAccumulator = player.Read(DataKeys.ContainerDropAccumulator, 0.05);
         WeaponsModule.State.MonsterDropAccumulator = player.Read<double>(DataKeys.MonsterDropAccumulator);
 

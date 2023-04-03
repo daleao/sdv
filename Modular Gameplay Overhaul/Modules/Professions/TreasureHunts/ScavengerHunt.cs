@@ -337,7 +337,7 @@ internal sealed class ScavengerHunt : TreasureHunt
         this.AddSeedsToTreasures(treasures);
 
 #if DEBUG
-        if (WeaponsModule.IsEnabled && WeaponsModule.Config.DwarvishLegacy && Globals.DwarvishBlueprintIndex.HasValue)
+        if (WeaponsModule.ShouldEnable && WeaponsModule.Config.DwarvishLegacy && Globals.DwarvishBlueprintIndex.HasValue)
         {
             if (!Game1.player.Read(Weapons.DataKeys.BlueprintsFound).ParseList<int>()
                     .ContainsAll(ItemIDs.ElfBlade, ItemIDs.ForestSword))
@@ -547,7 +547,7 @@ internal sealed class ScavengerHunt : TreasureHunt
         // forest sword
         if (this.Random.NextDouble() < 0.25 * luckModifier)
         {
-            if (WeaponsModule.IsEnabled && WeaponsModule.Config.DwarvishLegacy && Globals.DwarvishBlueprintIndex.HasValue)
+            if (WeaponsModule.ShouldEnable && WeaponsModule.Config.DwarvishLegacy && Globals.DwarvishBlueprintIndex.HasValue)
             {
                 if (!Game1.player.Read(Weapons.DataKeys.BlueprintsFound).ParseList<int>()
                         .Contains(ItemIDs.ForestSword))
@@ -568,7 +568,7 @@ internal sealed class ScavengerHunt : TreasureHunt
         // elf blade
         if (this.Random.NextDouble() < 0.25 * luckModifier)
         {
-            if (WeaponsModule.IsEnabled && WeaponsModule.Config.DwarvishLegacy && Globals.DwarvishBlueprintIndex.HasValue)
+            if (WeaponsModule.ShouldEnable && WeaponsModule.Config.DwarvishLegacy && Globals.DwarvishBlueprintIndex.HasValue)
             {
                 if (!Game1.player.Read(Weapons.DataKeys.BlueprintsFound).ParseList<int>()
                         .Contains(ItemIDs.ElfBlade))

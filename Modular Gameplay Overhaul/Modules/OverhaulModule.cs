@@ -11,7 +11,7 @@ using DaLion.Shared.Harmony;
 #endregion using directives
 
 /// <summary>The individual modules within the Overhaul mod.</summary>
-internal abstract class OverhaulModule
+public abstract class OverhaulModule
 {
     #region enum entries
 
@@ -70,11 +70,17 @@ internal abstract class OverhaulModule
     /// <summary>Gets the human-readable name of the module.</summary>
     internal string DisplayName { get; }
 
+    /// <summary>Gets a short description of the module.</summary>
+    internal string? Description { get; private set; }
+
     /// <summary>Gets the namespace of the module.</summary>
     internal string Namespace { get; }
 
     /// <summary>Gets the entry command of the module.</summary>
     internal string EntryCommand { get; }
+
+    /// <summary>Gets or sets a value indicating whether the module should be enabled.</summary>
+    internal abstract bool _ShouldEnable { get; set; }
 
     /// <summary>Gets a value indicating whether the module is currently active.</summary>
     [MemberNotNullWhen(true, nameof(_harmonizer), nameof(_commandHandler))]
@@ -148,8 +154,21 @@ internal abstract class OverhaulModule
     {
         /// <summary>Initializes a new instance of the <see cref="OverhaulModule.CoreModule"/> class.</summary>
         internal CoreModule()
-            : base("Core", "margo")
+            : base("Core", "margx")
         {
+        }
+
+        /// <inheritdoc />
+        internal override bool _ShouldEnable
+        {
+            get
+            {
+                return true;
+            }
+
+            set
+            {
+            }
         }
 
         /// <inheritdoc />
@@ -170,10 +189,13 @@ internal abstract class OverhaulModule
         internal ProfessionsModule()
             : base("Professions", "profs")
         {
+            this.Description =
+                "Overhauls professions with the goal of supporting more diverse and interesting playstyles. " +
+                "Introduces all-new Prestige mechanics and Super Abilities for combat professions.";
         }
 
-        /// <summary>Gets a value indicating whether the <see cref="OverhaulModule.ProfessionsModule"/> is enabled.</summary>
-        internal static bool IsEnabled => ModEntry.Config.EnableProfessions;
+        /// <summary>Gets a value indicating whether the <see cref="OverhaulModule.ProfessionsModule"/> is set to enabled.</summary>
+        internal static bool ShouldEnable => ModEntry.Config.EnableProfessions;
 
         /// <summary>Gets the config instance for the <see cref="OverhaulModule.ProfessionsModule"/>.</summary>
         internal static Professions.Config Config => ModEntry.Config.Professions;
@@ -182,9 +204,24 @@ internal abstract class OverhaulModule
         internal static Professions.State State => ModEntry.State.Professions;
 
         /// <inheritdoc />
+        internal override bool _ShouldEnable
+        {
+            get
+            {
+                return ModEntry.Config.EnableProfessions;
+            }
+
+            set
+            {
+                ModEntry.Config.EnableProfessions = value;
+                ModHelper.WriteConfig(ModEntry.Config);
+            }
+        }
+
+        /// <inheritdoc />
         internal override void Activate(IModHelper helper)
         {
-            if (IsEnabled)
+            if (ShouldEnable)
             {
                 base.Activate(helper);
             }
@@ -206,23 +243,47 @@ internal abstract class OverhaulModule
     {
         /// <summary>Initializes a new instance of the <see cref="OverhaulModule.CombatModule"/> class.</summary>
         internal CombatModule()
-            : base("Combat", "combat")
+            : base("Combat", "cmbt")
         {
+            this.Description =
+                "Overhauls general combat mechanics with the goal of improving underwhelming combat stats. " +
+                "Emphasis on a multiplicative defense algorithm, and knockback collision damage.";
         }
 
-        /// <summary>Gets a value indicating whether the <see cref="OverhaulModule.CombatModule"/> is enabled.</summary>
-        internal static bool IsEnabled => ModEntry.Config.EnableCombat;
+        /// <summary>Gets a value indicating whether the <see cref="OverhaulModule.CombatModule"/> is set to enabled.</summary>
+        internal static bool ShouldEnable => ModEntry.Config.EnableCombat;
 
         /// <summary>Gets the config instance for the <see cref="OverhaulModule.CombatModule"/>.</summary>
         internal static Combat.Config Config => ModEntry.Config.Combat;
 
         /// <inheritdoc />
+        internal override bool _ShouldEnable
+        {
+            get
+            {
+                return ModEntry.Config.EnableCombat;
+            }
+
+            set
+            {
+                ModEntry.Config.EnableCombat = value;
+                ModHelper.WriteConfig(ModEntry.Config);
+            }
+        }
+
+        /// <inheritdoc />
         internal override void Activate(IModHelper helper)
         {
-            if (IsEnabled)
+            if (ShouldEnable)
             {
                 base.Activate(helper);
             }
+        }
+
+        /// <inheritdoc />
+        protected override void InvalidateAssets()
+        {
+            ModHelper.GameContent.InvalidateCacheAndLocalized("Strings/StringsFromCSFiles");
         }
     }
 
@@ -230,12 +291,15 @@ internal abstract class OverhaulModule
     {
         /// <summary>Initializes a new instance of the <see cref="OverhaulModule.WeaponsModule"/> class.</summary>
         internal WeaponsModule()
-            : base("Weapons", "weapons")
+            : base("Weapons", "wpnz")
         {
+            this.Description =
+                "Overhauls all aspects of melee weapons. " +
+                "Rebalances weapons according to new color-coded tiers, introduces combo mechanics, swords with a stabbing special move, and many other features.";
         }
 
-        /// <summary>Gets a value indicating whether the <see cref="OverhaulModule.WeaponsModule"/> is enabled.</summary>
-        internal static bool IsEnabled => ModEntry.Config.EnableWeapons;
+        /// <summary>Gets a value indicating whether the <see cref="OverhaulModule.WeaponsModule"/> is set to enabled.</summary>
+        internal static bool ShouldEnable => ModEntry.Config.EnableWeapons;
 
         /// <summary>Gets the config instance for the <see cref="OverhaulModule.WeaponsModule"/>.</summary>
         internal static Weapons.Config Config => ModEntry.Config.Weapons;
@@ -244,9 +308,24 @@ internal abstract class OverhaulModule
         internal static Weapons.State State => ModEntry.State.Weapons;
 
         /// <inheritdoc />
+        internal override bool _ShouldEnable
+        {
+            get
+            {
+                return ModEntry.Config.EnableWeapons;
+            }
+
+            set
+            {
+                ModEntry.Config.EnableWeapons = value;
+                ModHelper.WriteConfig(ModEntry.Config);
+            }
+        }
+
+        /// <inheritdoc />
         internal override void Activate(IModHelper helper)
         {
-            if (IsEnabled)
+            if (ShouldEnable)
             {
                 base.Activate(helper);
             }
@@ -256,20 +335,22 @@ internal abstract class OverhaulModule
         internal override void Deactivate()
         {
             base.Deactivate();
-            Modules.Weapons.Utils.RevalidateAllWeapons();
+            Data.WeaponRevalidationState.Clear();
+            ModHelper.Data.WriteJsonFile("data.json", Data);
         }
 
         /// <inheritdoc />
         protected override void InvalidateAssets()
         {
+            ModHelper.GameContent.InvalidateCacheAndLocalized("Characters/Dialogue/Gil");
             ModHelper.GameContent.InvalidateCacheAndLocalized("Data/ObjectInformation");
             ModHelper.GameContent.InvalidateCacheAndLocalized("Data/Events/AdventureGuild");
             ModHelper.GameContent.InvalidateCacheAndLocalized("Data/Events/Blacksmith");
             ModHelper.GameContent.InvalidateCacheAndLocalized("Data/Events/WizardHouse");
+            ModHelper.GameContent.InvalidateCacheAndLocalized("Data/mail");
             ModHelper.GameContent.InvalidateCacheAndLocalized("Data/Monsters");
             ModHelper.GameContent.InvalidateCacheAndLocalized("Data/weapons");
             ModHelper.GameContent.InvalidateCacheAndLocalized("Strings/Locations");
-            ModHelper.GameContent.InvalidateCache("TileSheets/BuffsIcons");
             ModHelper.GameContent.InvalidateCache("TileSheets/Projectiles");
             ModHelper.GameContent.InvalidateCache("TileSheets/weapons");
         }
@@ -279,12 +360,15 @@ internal abstract class OverhaulModule
     {
         /// <summary>Initializes a new instance of the <see cref="OverhaulModule.SlingshotsModule"/> class.</summary>
         internal SlingshotsModule()
-            : base("Slingshots", "slings")
+            : base("Slingshots", "slngs")
         {
+            this.Description =
+                "Overhauls slingshots to bring them up to par with melee weapons. " +
+                "Includes ranged critical strikes, slingshots enchantments, a stunning smack special move, and more.";
         }
 
-        /// <summary>Gets a value indicating whether the <see cref="OverhaulModule.SlingshotsModule"/> is enabled.</summary>
-        internal static bool IsEnabled => ModEntry.Config.EnableSlingshots;
+        /// <summary>Gets a value indicating whether the <see cref="OverhaulModule.SlingshotsModule"/> is set to enabled.</summary>
+        internal static bool ShouldEnable => ModEntry.Config.EnableSlingshots;
 
         /// <summary>Gets the config instance for the <see cref="OverhaulModule.SlingshotsModule"/>.</summary>
         internal static Slingshots.Config Config => ModEntry.Config.Slingshots;
@@ -293,33 +377,32 @@ internal abstract class OverhaulModule
         internal static Slingshots.State State => ModEntry.State.Slingshots;
 
         /// <inheritdoc />
+        internal override bool _ShouldEnable
+        {
+            get
+            {
+                return ModEntry.Config.EnableSlingshots;
+            }
+
+            set
+            {
+                ModEntry.Config.EnableSlingshots = value;
+                ModHelper.WriteConfig(ModEntry.Config);
+            }
+        }
+
+        /// <inheritdoc />
         internal override void Activate(IModHelper helper)
         {
-            if (IsEnabled)
+            if (ShouldEnable)
             {
                 base.Activate(helper);
             }
         }
 
         /// <inheritdoc />
-        internal override void Deactivate()
-        {
-            base.Deactivate();
-            Modules.Weapons.Utils.RevalidateAllWeapons();
-        }
-
-        /// <inheritdoc />
         protected override void InvalidateAssets()
         {
-            ModHelper.GameContent.InvalidateCacheAndLocalized("Data/ObjectInformation");
-            ModHelper.GameContent.InvalidateCacheAndLocalized("Data/Events/AdventureGuild");
-            ModHelper.GameContent.InvalidateCacheAndLocalized("Data/Events/Blacksmith");
-            ModHelper.GameContent.InvalidateCacheAndLocalized("Data/Events/WizardHouse");
-            ModHelper.GameContent.InvalidateCacheAndLocalized("Data/Monsters");
-            ModHelper.GameContent.InvalidateCacheAndLocalized("Data/weapons");
-            ModHelper.GameContent.InvalidateCacheAndLocalized("Strings/Locations");
-            ModHelper.GameContent.InvalidateCache("TileSheets/BuffsIcons");
-            ModHelper.GameContent.InvalidateCache("TileSheets/Projectiles");
             ModHelper.GameContent.InvalidateCache("TileSheets/weapons");
         }
     }
@@ -328,12 +411,15 @@ internal abstract class OverhaulModule
     {
         /// <summary>Initializes a new instance of the <see cref="OverhaulModule.ToolsModule"/> class.</summary>
         internal ToolsModule()
-            : base("Tools", "tools")
+            : base("Tools", "tols")
         {
+            this.Description =
+                "A one-stop-shop for tool augmentation, customization and quality-of-life. " +
+                "Includes chargeable resource tools, automatic tool selection, expanded tool enchantments, among other features.";
         }
 
-        /// <summary>Gets a value indicating whether the <see cref="OverhaulModule.ToolsModule"/> is enabled.</summary>
-        internal static bool IsEnabled => ModEntry.Config.EnableTools;
+        /// <summary>Gets a value indicating whether the <see cref="OverhaulModule.ToolsModule"/> is set to enabled.</summary>
+        internal static bool ShouldEnable => ModEntry.Config.EnableTools;
 
         /// <summary>Gets the config instance for the <see cref="OverhaulModule.ToolsModule"/>.</summary>
         internal static Tools.Config Config => ModEntry.Config.Tools;
@@ -342,18 +428,27 @@ internal abstract class OverhaulModule
         internal static Tools.State State => ModEntry.State.Tools;
 
         /// <inheritdoc />
-        internal override void Activate(IModHelper helper)
+        internal override bool _ShouldEnable
         {
-            if (IsEnabled)
+            get
             {
-                base.Activate(helper);
+                return ModEntry.Config.EnableTools;
+            }
+
+            set
+            {
+                ModEntry.Config.EnableTools = value;
+                ModHelper.WriteConfig(ModEntry.Config);
             }
         }
 
         /// <inheritdoc />
-        protected override void InvalidateAssets()
+        internal override void Activate(IModHelper helper)
         {
-            ModHelper.GameContent.InvalidateCacheAndLocalized("Data/weapons");
+            if (ShouldEnable)
+            {
+                base.Activate(helper);
+            }
         }
     }
 
@@ -361,20 +456,38 @@ internal abstract class OverhaulModule
     {
         /// <summary>Initializes a new instance of the <see cref="OverhaulModule.EnchantmentsModule"/> class.</summary>
         internal EnchantmentsModule()
-            : base("Enchantments", "enchantments")
+            : base("Enchantments", "ench")
         {
+            this.Description =
+                "A complete overhaul of combat enchantments. " +
+                "Replaces boring vanilla weapon enchantments with entirely new and more interesting ones, while also introducing slingshot-specific enchantments.";
         }
 
-        /// <summary>Gets a value indicating whether the <see cref="OverhaulModule.EnchantmentsModule"/> is enabled.</summary>
-        internal static bool IsEnabled => ModEntry.Config.EnableEnchantments;
+        /// <summary>Gets a value indicating whether the <see cref="OverhaulModule.EnchantmentsModule"/> is set to enabled.</summary>
+        internal static bool ShouldEnable => ModEntry.Config.EnableEnchantments;
 
         /// <summary>Gets the config instance for the <see cref="OverhaulModule.EnchantmentsModule"/>.</summary>
         internal static Enchantments.Config Config => ModEntry.Config.Enchantments;
 
         /// <inheritdoc />
+        internal override bool _ShouldEnable
+        {
+            get
+            {
+                return ModEntry.Config.EnableEnchantments;
+            }
+
+            set
+            {
+                ModEntry.Config.EnableEnchantments = value;
+                ModHelper.WriteConfig(ModEntry.Config);
+            }
+        }
+
+        /// <inheritdoc />
         internal override void Activate(IModHelper helper)
         {
-            if (IsEnabled)
+            if (ShouldEnable)
             {
                 base.Activate(helper);
             }
@@ -391,12 +504,14 @@ internal abstract class OverhaulModule
     {
         /// <summary>Initializes a new instance of the <see cref="OverhaulModule.RingsModule"/> class.</summary>
         internal RingsModule()
-            : base("Rings", "rings")
+            : base("Rings", "rngs")
         {
+            this.Description =
+                "Snap your enemies to oblivion with the powerful new Infinity Band, which draws inspiration from real Music Theory to create a more balanced and immersive mechanic for combining multiple rings.";
         }
 
-        /// <summary>Gets a value indicating whether the <see cref="OverhaulModule.RingsModule"/> is enabled.</summary>
-        internal static bool IsEnabled => ModEntry.Config.EnableRings;
+        /// <summary>Gets a value indicating whether the <see cref="OverhaulModule.RingsModule"/> is set to enabled.</summary>
+        internal static bool ShouldEnable => ModEntry.Config.EnableRings;
 
         /// <summary>Gets the config instance for the <see cref="OverhaulModule.RingsModule"/>.</summary>
         internal static Rings.Config Config => ModEntry.Config.Rings;
@@ -405,9 +520,24 @@ internal abstract class OverhaulModule
         internal static Rings.State State => ModEntry.State.Rings;
 
         /// <inheritdoc />
+        internal override bool _ShouldEnable
+        {
+            get
+            {
+                return ModEntry.Config.EnableRings;
+            }
+
+            set
+            {
+                ModEntry.Config.EnableRings = value;
+                ModHelper.WriteConfig(ModEntry.Config);
+            }
+        }
+
+        /// <inheritdoc />
         internal override void Activate(IModHelper helper)
         {
-            if (IsEnabled)
+            if (ShouldEnable)
             {
                 base.Activate(helper);
             }
@@ -426,20 +556,37 @@ internal abstract class OverhaulModule
     {
         /// <summary>Initializes a new instance of the <see cref="OverhaulModule.PondsModule"/> class.</summary>
         internal PondsModule()
-            : base("Ponds", "ponds")
+            : base("Ponds", "pnds")
         {
+            this.Description =
+                "Makes Fish Ponds great again, allowing roe products to scale in quality and quantity among other rebalances and new mechanics.";
         }
 
-        /// <summary>Gets a value indicating whether the <see cref="OverhaulModule.PondsModule"/> is enabled.</summary>
-        internal static bool IsEnabled => ModEntry.Config.EnablePonds;
+        /// <summary>Gets a value indicating whether the <see cref="OverhaulModule.PondsModule"/> is set to enabled.</summary>
+        internal static bool ShouldEnable => ModEntry.Config.EnablePonds;
 
         /// <summary>Gets the config instance for the <see cref="OverhaulModule.PondsModule"/>.</summary>
         internal static Ponds.Config Config => ModEntry.Config.Ponds;
 
         /// <inheritdoc />
+        internal override bool _ShouldEnable
+        {
+            get
+            {
+                return ModEntry.Config.EnablePonds;
+            }
+
+            set
+            {
+                ModEntry.Config.EnablePonds = value;
+                ModHelper.WriteConfig(ModEntry.Config);
+            }
+        }
+
+        /// <inheritdoc />
         internal override void Activate(IModHelper helper)
         {
-            if (IsEnabled)
+            if (ShouldEnable)
             {
                 base.Activate(helper);
             }
@@ -456,12 +603,14 @@ internal abstract class OverhaulModule
     {
         /// <summary>Initializes a new instance of the <see cref="OverhaulModule.TaxesModule"/> class.</summary>
         internal TaxesModule()
-            : base("Taxes", "taxes")
+            : base("Taxes", "txs")
         {
+            this.Description =
+                "A borderline realistic taxation system for added challenge and end-game gold sink.";
         }
 
-        /// <summary>Gets a value indicating whether the <see cref="OverhaulModule.TaxesModule"/> is enabled.</summary>
-        internal static bool IsEnabled => ModEntry.Config.EnableTaxes;
+        /// <summary>Gets a value indicating whether the <see cref="OverhaulModule.TaxesModule"/> is set to enabled.</summary>
+        internal static bool ShouldEnable => ModEntry.Config.EnableTaxes;
 
         /// <summary>Gets the config instance for the <see cref="OverhaulModule.TaxesModule"/>.</summary>
         internal static Taxes.Config Config => ModEntry.Config.Taxes;
@@ -470,9 +619,24 @@ internal abstract class OverhaulModule
         internal static Taxes.State State => ModEntry.State.Taxes;
 
         /// <inheritdoc />
+        internal override bool _ShouldEnable
+        {
+            get
+            {
+                return ModEntry.Config.EnableTaxes;
+            }
+
+            set
+            {
+                ModEntry.Config.EnableTaxes = value;
+                ModHelper.WriteConfig(ModEntry.Config);
+            }
+        }
+
+        /// <inheritdoc />
         internal override void Activate(IModHelper helper)
         {
-            if (IsEnabled)
+            if (ShouldEnable)
             {
                 base.Activate(helper);
             }
@@ -489,20 +653,37 @@ internal abstract class OverhaulModule
     {
         /// <summary>Initializes a new instance of the <see cref="OverhaulModule.TweexModule"/> class.</summary>
         internal TweexModule()
-            : base("Tweex", "tweex")
+            : base("Tweex", "twx")
         {
+            this.Description =
+                "A repository of smaller immersion tweaks and fixes for vanilla inconsistencies.";
         }
 
-        /// <summary>Gets a value indicating whether the <see cref="OverhaulModule.TweexModule"/> is enabled.</summary>
-        internal static bool IsEnabled => ModEntry.Config.EnableTweex;
+        /// <summary>Gets a value indicating whether the <see cref="OverhaulModule.TweexModule"/> is set to enabled.</summary>
+        internal static bool ShouldEnable => ModEntry.Config.EnableTweex;
 
         /// <summary>Gets the config instance for the <see cref="OverhaulModule.TweexModule"/>.</summary>
         internal static Tweex.Config Config => ModEntry.Config.Tweex;
 
         /// <inheritdoc />
+        internal override bool _ShouldEnable
+        {
+            get
+            {
+                return ModEntry.Config.EnableTweex;
+            }
+
+            set
+            {
+                ModEntry.Config.EnableTweex = value;
+                ModHelper.WriteConfig(ModEntry.Config);
+            }
+        }
+
+        /// <inheritdoc />
         internal override void Activate(IModHelper helper)
         {
-            if (IsEnabled)
+            if (ShouldEnable)
             {
                 base.Activate(helper);
             }

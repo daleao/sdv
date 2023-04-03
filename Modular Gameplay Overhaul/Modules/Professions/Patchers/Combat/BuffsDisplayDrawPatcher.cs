@@ -38,8 +38,8 @@ internal sealed class BuffsDisplayDrawPatcher : HarmonyPatcher
             Game1.tinyFont,
             counter.ToString(),
             new Vector2(
-                clickableTextureComponent.bounds.Right - (counter >= 10 ? 16 : 8),
+                clickableTextureComponent.bounds.Right - (counter >= 10 ? counter >= 100 ? 24 : 16 : 8),
                 clickableTextureComponent.bounds.Bottom - 24),
-            Color.White);
+            counter >= 100 ? Color.Yellow : Color.White);
     }
 }

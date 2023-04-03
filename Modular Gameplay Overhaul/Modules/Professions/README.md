@@ -1,6 +1,6 @@
 <div align="center">
 
-# Modular Overhaul :: Professions
+# Modular Overhaul :: Professions (PROFS)
 
 ![](https://stardewcommunitywiki.com/mediawiki/images/8/82/Farming_Skill_Icon.png)
 ![](https://stardewcommunitywiki.com/mediawiki/images/2/2f/Mining_Skill_Icon.png)

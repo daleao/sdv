@@ -31,10 +31,8 @@ internal sealed class NewForgeMenuIsValidUnforgePatcher : HarmonyPatcher
             return;
         }
 
-        __result = __instance.leftIngredientSpot.item is MeleeWeapon
-        {
-            InitialParentTileIndex: ItemIDs.HolyBlade
-        } weapon && weapon.GetTotalForgeLevels() <= 0;
+        __result = __instance.leftIngredientSpot.item is MeleeWeapon { InitialParentTileIndex: ItemIDs.HolyBlade } weapon &&
+                   weapon.GetTotalForgeLevels() <= 0;
     }
 
     #endregion harmony patches

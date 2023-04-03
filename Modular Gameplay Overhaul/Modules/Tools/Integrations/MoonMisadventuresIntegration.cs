@@ -29,7 +29,7 @@ internal sealed class MoonMisadventuresIntegration : ModIntegration<MoonMisadven
             return true;
         }
 
-        GenericModConfigMenuCore.Instance?.Reload();
+        GenericModConfigMenu.Instance?.Reload();
         return true;
     }
 }

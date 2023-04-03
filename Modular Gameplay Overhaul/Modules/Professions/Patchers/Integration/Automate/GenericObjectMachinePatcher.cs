@@ -28,23 +28,33 @@ internal sealed class GenericObjectMachinePatcher : HarmonyPatcher
     }
 
     /// <inheritdoc />
-    protected override void ApplyImpl(Harmony harmony)
+    protected override bool ApplyImpl(Harmony harmony)
     {
         foreach (var target in TargetMethods())
         {
             this.Target = target;
-            base.ApplyImpl(harmony);
+            if (!base.ApplyImpl(harmony))
+            {
+                return false;
+            }
         }
+
+        return true;
     }
 
     /// <inheritdoc />
-    protected override void UnapplyImpl(Harmony harmony)
+    protected override bool UnapplyImpl(Harmony harmony)
     {
         foreach (var target in TargetMethods())
         {
             this.Target = target;
-            base.UnapplyImpl(harmony);
+            if (!base.UnapplyImpl(harmony))
+            {
+                return false;
+            }
         }
+
+        return true;
     }
 
     [HarmonyTargetMethods]

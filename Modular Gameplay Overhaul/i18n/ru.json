@@ -310,16 +310,17 @@
   // * ENCHANTMENTS * //
   // **************** //
 
-  "enchantments.carving": "Пробитие",
-  "enchantments.cleaving": "Разящий клинок",
-  "enchantments.energized": "Заряженность",
-  "enchantments.tribute": "Подношение",
-  "enchantments.vampiric": "Жадность",
-  "enchantments.engorging": "Размер",
-  "enchantments.gatling": "Скорострельность",
-  "enchantments.preserving": "Сохранность",
-  "enchantments.quincy": "Пустотный заряд",
-  "enchantments.spreading": "Разбрасывание",
+  "enchantments.carving.name": "Пробитие",
+  "enchantments.cleaving.name": "Разящий клинок",
+  "enchantments.energized.name": "Заряженность",
+  "enchantments.explosive.name": "взрывной",
+  "enchantments.tribute.name": "Подношение",
+  "enchantments.vampiric.name": "Жадность",
+  "enchantments.engorging.name": "Размер",
+  "enchantments.gatling.name": "Скорострельность",
+  "enchantments.preserving.name": "Сохранность",
+  "enchantments.quincy.name": "Пустотный заряд",
+  "enchantments.spreading.name": "Разбрасывание",
 
 
   // *********** //

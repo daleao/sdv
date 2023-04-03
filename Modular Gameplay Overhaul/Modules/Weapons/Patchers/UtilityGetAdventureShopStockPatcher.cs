@@ -102,7 +102,7 @@ internal sealed class UtilityGetAdventureShopStockPatcher : HarmonyPatcher
                 stock.Add(new Boots(514), new[] { 20000, int.MaxValue }); // space boots
             }
 
-            if (!RingsModule.IsEnabled || !RingsModule.Config.CraftableGemRings)
+            if (!RingsModule.ShouldEnable || !RingsModule.Config.CraftableGemRings)
             {
                 stock.Add(new Ring(ItemIDs.AmethystRing), new[] { 1000, int.MaxValue });
                 stock.Add(new Ring(ItemIDs.TopazRing), new[] { 1000, int.MaxValue });

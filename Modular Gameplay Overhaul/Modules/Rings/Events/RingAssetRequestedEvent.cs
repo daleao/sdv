@@ -32,17 +32,13 @@ internal class RingAssetRequestedEvent : AssetRequestedEvent
         var data = asset.AsDictionary<string, string>().Data;
 
         string[] fields;
-        if (RingsModule.Config.ImmersiveGlowstoneRecipe)
+        if (RingsModule.Config.BetterGlowstoneProgression)
         {
-            fields = data["Glowstone Ring"].Split('/');
-            fields[0] = "517 1 519 1 768 20 769 20";
-            data["Glowstone Ring"] = string.Join('/', fields);
-        }
-
-        if (RingsModule.Config.CraftableGlowAndMagnetRings)
-        {
-            data["Glow Ring"] = "516 2 768 10/Home/517/Ring/Mining 2";
-            data["Magnet Ring"] = "518 2 769 10/Home/519/Ring/Mining 2";
+            data["Small Glow Ring"] = "336 2 768 5/Home/517/Ring/Mining 2";
+            data["Small Magnet Ring"] = "335 2 769 5/Home/519/Ring/Mining 2";
+            data["Glow Ring"] = "516 2 768 10/Home/517/Ring/Mining 4";
+            data["Magnet Ring"] = "518 2 769 10/Home/519/Ring/Mining 4";
+            data["Glowstone Ring"] = "517 1 519 1 768 20 769 20/Home/888/Ring/Mining 6";
         }
 
         if (RingsModule.Config.CraftableGemRings)
@@ -72,7 +68,7 @@ internal class RingAssetRequestedEvent : AssetRequestedEvent
         if (RingsModule.Config.RebalancedRings)
         {
             fields = data[ItemIDs.TopazRing].Split('/');
-            fields[5] = CombatModule.IsEnabled && CombatModule.Config.OverhauledDefense
+            fields[5] = CombatModule.ShouldEnable && CombatModule.Config.OverhauledDefense
                 ? I18n.Get("rings.topaz.description.resist")
                 : I18n.Get("rings.topaz.description.defense");
             data[ItemIDs.TopazRing] = string.Join('/', fields);

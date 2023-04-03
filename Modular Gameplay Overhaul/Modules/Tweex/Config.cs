@@ -56,7 +56,7 @@ public sealed class Config : Shared.Configs.Config
 
     /// <summary>Gets a value indicating whether if regular trees can't grow in winter, neither should fruit trees.</summary>
     [JsonProperty]
-    public bool PreventFruitTreeGrowthInWinter { get; internal set; } = true;
+    public bool PreventFruitTreeWinterGrowth { get; internal set; } = true;
 
     /// <summary>Gets a value indicating whether large input products should yield more processed output instead of higher quality.</summary>
     [JsonProperty]
@@ -86,4 +86,16 @@ public sealed class Config : Shared.Configs.Config
     /// <summary>Gets a value indicating whether to set the quality of legendary fish at best.</summary>
     [JsonProperty]
     public bool LegendaryFishAlwaysBestQuality { get; internal set; } = true;
+
+    /// <summary>Gets a set of maps in which to attempt to spawn crows.</summary>
+    [JsonProperty]
+    public HashSet<string> SpawnCrowsOnTheseMaps { get; internal set; } = new()
+    {
+        "IslandWest",
+        "Custom_Garden",
+        "Custom_GrampletonFields",
+        "Custom_GrampletonFields_Small",
+        "Custom_Ridgeside_SummitFarm",
+        "Custom_ESMeadowFarm",
+    };
 }

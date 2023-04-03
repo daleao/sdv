@@ -3,7 +3,6 @@
 #region using directives
 
 using DaLion.Overhaul.Modules.Professions;
-using DaLion.Shared.Extensions.SMAPI;
 using DaLion.Shared.Extensions.Stardew;
 using DaLion.Shared.UI;
 using StardewValley.Buildings;
@@ -11,7 +10,7 @@ using StardewValley.Buildings;
 #endregion using directives
 
 /// <summary>Constructs the GenericModConfigMenu integration.</summary>
-internal sealed partial class GenericModConfigMenuCore
+internal sealed partial class GenericModConfigMenu
 {
     /// <summary>Register the config menu if available.</summary>
     private void RegisterProfessions()
@@ -27,7 +26,7 @@ internal sealed partial class GenericModConfigMenuCore
                 config => config.Professions.ModKey,
                 (config, value) => config.Professions.ModKey = value)
             .AddCheckbox(
-                () => "Show 'Max' Icon in Fish Collection",
+                () => "Show 'MAX' Icon in Fish Collection",
                 () => "Toggles whether or not to display the 'Max' icon below fish caught at max size.",
                 config => config.Professions.ShowFishCollectionMaxIcon,
                 (config, value) => config.Professions.ShowFishCollectionMaxIcon = value)
@@ -66,6 +65,7 @@ internal sealed partial class GenericModConfigMenuCore
                 () => "If enabled, Prospector and Scavenger will only track off-screen objects while ModKey is held.",
                 config => config.Professions.DisableAlwaysTrack,
                 (config, value) => config.Professions.DisableAlwaysTrack = value)
+            .AddHorizontalRule()
 
             // professions
             .AddSectionTitle(() => "Profession Settings")
@@ -75,10 +75,10 @@ internal sealed partial class GenericModConfigMenuCore
                 config => config.Professions.ShouldJunimosInheritProfessions,
                 (config, value) => config.Professions.ShouldJunimosInheritProfessions = value)
             .AddCheckbox(
-                () => "Artisan Goods Always Same Quality As Input",
+                () => "Artisan Goods Always Input Quality",
                 () => "Enable this if you preferred the old broken Artisan perk without randomization.",
-                config => config.Professions.ArtisanGoodsAlwaysSameQualityAsInput,
-                (config, value) => config.Professions.ArtisanGoodsAlwaysSameQualityAsInput = value)
+                config => config.Professions.ArtisanGoodsAlwaysInputQuality,
+                (config, value) => config.Professions.ArtisanGoodsAlwaysInputQuality = value)
             .AddCheckbox(
                 () => "Bees Are Animals",
                 () => "Whether Bee House products should be affected by Producer bonuses.",
@@ -209,14 +209,14 @@ internal sealed partial class GenericModConfigMenuCore
                 4,
                 12)
             .AddNumberField(
-                () => "Trash Needed Per Tax Bonus Percent",
+                () => "Trash Per Tax Deduction %",
                 () => "Conservationists must collect this much trash for every 1% tax deduction the following season.",
-                config => (int)config.Professions.TrashNeededPerTaxBonusPct,
-                (config, value) => config.Professions.TrashNeededPerTaxBonusPct = (uint)value,
+                config => (int)config.Professions.TrashNeededPerTaxDeductionPct,
+                (config, value) => config.Professions.TrashNeededPerTaxDeductionPct = (uint)value,
                 10,
                 1000)
             .AddNumberField(
-                () => "Trash Needed Per Friendship Point",
+                () => "Trash Per Friendship Point",
                 () => "Conservationists must collect this much trash for every 1 friendship point towards villagers.",
                 config => (int)config.Professions.TrashNeededPerFriendshipPoint,
                 (config, value) => config.Professions.TrashNeededPerFriendshipPoint = (uint)value,
@@ -237,6 +237,7 @@ internal sealed partial class GenericModConfigMenuCore
                 (config, value) => config.Professions.PiperBuffCeiling = (uint)value,
                 10,
                 1000)
+            .AddHorizontalRule()
 
             // ultimates
             .AddSectionTitle(() => "Special Ability Settings")
@@ -287,6 +288,7 @@ internal sealed partial class GenericModConfigMenuCore
                 0,
                 100000,
                 10000)
+            .AddHorizontalRule()
 
             // prestige
             .AddSectionTitle(() => "Prestige Settings")
@@ -314,14 +316,14 @@ internal sealed partial class GenericModConfigMenuCore
                 config => config.Professions.AllowMultiplePrestige,
                 (config, value) => config.Professions.AllowMultiplePrestige = value)
             .AddNumberField(
-                () => "Bonus Skill Experience After Reset",
+                () => "Bonus Skill Exp After Reset",
                 () => "Cumulative bonus that multiplies a skill's experience gain after each respective skill reset.",
                 config => config.Professions.PrestigeExpFactor,
                 (config, value) => config.Professions.PrestigeExpFactor = value,
                 -0.5f,
                 2f)
             .AddNumberField(
-                () => "Required Experience Per Extended Level",
+                () => "Required Exp Per Prestige Level",
                 () => "How much skill experience is required for each level-up beyond level 10.",
                 config => (int)config.Professions.RequiredExpPerExtendedLevel,
                 (config, value) => config.Professions.RequiredExpPerExtendedLevel = (uint)value,
@@ -340,11 +342,11 @@ internal sealed partial class GenericModConfigMenuCore
             .AddDropdown(
                 () => "Progression Style",
                 () => "Determines the style of the sprite that appears next to skill bars, and indicates the skill reset progression.",
-                config => config.Professions.PrestigeProgressionStyle.ToString(),
+                config => config.Professions.ProgressionStyle.ToString(),
                 (config, value) =>
                 {
-                    config.Professions.PrestigeProgressionStyle = Enum.Parse<Config.ProgressionStyle>(value);
-                    ModHelper.GameContent.InvalidateCacheAndLocalized(
+                    config.Professions.ProgressionStyle = Enum.Parse<Config.PrestigeProgressionStyle>(value);
+                    ModHelper.GameContent.InvalidateCache(
                         $"{Manifest.UniqueID}/PrestigeProgression");
                 },
                 new[] { "StackedStars", "Gen3Ribbons", "Gen4Ribbons" },
@@ -355,39 +357,40 @@ internal sealed partial class GenericModConfigMenuCore
                     "Gen4Ribbons" => "Gen 4 Ribbons",
                     _ => ThrowHelper.ThrowArgumentOutOfRangeException<string>(nameof(value), value, null),
                 })
+            .AddHorizontalRule()
 
             // experience settings
             .AddSectionTitle(() => "Experience Settings")
             .AddNumberField(
-                () => "Base Farming Experience Multiplier",
+                () => "Base Farming Exp Multiplier",
                 () => "Multiplies all skill experience gained for Farming from the start of the game.",
                 config => config.Professions.BaseSkillExpMultipliers[0],
                 (config, value) => config.Professions.BaseSkillExpMultipliers[0] = value,
                 0.2f,
                 2f)
             .AddNumberField(
-                () => "Base Fishing Experience Multiplier",
+                () => "Base Fishing Exp Multiplier",
                 () => "Multiplies all skill experience gained for Fishing from the start of the game.",
                 config => config.Professions.BaseSkillExpMultipliers[1],
                 (config, value) => config.Professions.BaseSkillExpMultipliers[1] = value,
                 0.2f,
                 2f)
             .AddNumberField(
-                () => "Base Foraging Experience Multiplier",
+                () => "Base Foraging Exp Multiplier",
                 () => "Multiplies all skill experience gained for Foraging from the start of the game.",
                 config => config.Professions.BaseSkillExpMultipliers[2],
                 (config, value) => config.Professions.BaseSkillExpMultipliers[2] = value,
                 0.2f,
                 2f)
             .AddNumberField(
-                () => "Base Mining Experience Multiplier",
+                () => "Base Mining Exp Multiplier",
                 () => "Multiplies all skill experience gained for Mining the start of the game.",
                 config => config.Professions.BaseSkillExpMultipliers[3],
                 (config, value) => config.Professions.BaseSkillExpMultipliers[3] = value,
                 0.2f,
                 2f)
             .AddNumberField(
-                () => "Base Combat Experience Multiplier",
+                () => "Base Combat Exp Multiplier",
                 () => "Multiplies all skill experience gained for Combat from the start of the game.",
                 config => config.Professions.BaseSkillExpMultipliers[4],
                 (config, value) => config.Professions.BaseSkillExpMultipliers[4] = value,
@@ -404,7 +407,7 @@ internal sealed partial class GenericModConfigMenuCore
             var skill = SCSkill.Loaded[skillId];
             this
                 .AddNumberField(
-                    () => $"Base {skill.DisplayName} Experience Multiplier",
+                    () => $"Base {skill.DisplayName} Exp Multiplier",
                     () => $"Multiplies all skill experience gained for {skill.StringId} from the start of the game.",
                     config => config.Professions.CustomSkillExpMultipliers[skillId],
                     (config, value) => config.Professions.CustomSkillExpMultipliers[skillId] = value,

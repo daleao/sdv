@@ -1,7 +1,7 @@
 ﻿
 <div align="center">
 
-# Modular Overhaul :: Weapons
+# Modular Overhaul :: Weapons (WPNZ)
 
 </div>
 
@@ -31,16 +31,17 @@ This module has the following objectives:
 2. Reduce the spam-clicky nature of Vanilla Melee Weapons.
 3. Rebalance the weapons themselves, making each weapon feel distinct and at least somewhat useful, rather than pure inventory clutter. This includes adding new interesting way to obtain special weapons as well as making the legendary weapons feel truly legendary.
 
-This module tries to achieve all of this through a combination of nerfs, buffs and entirely new mechanics which will overall make combat significantly more strategic and challenging. Players who don't care for a challenge or are uninsterested in combat should probably keep this module disabled.
+This module tries to achieve all of this through a combination of nerfs, buffs and entirely new mechanics which will overall make combat significantly more strategic and challenging. Players who don't care for a challenge or are uninterested in combat should probably keep this module disabled.
 
 ### Combos & Swing Speed
 
-Weapon spamming is replaced by combos. These are short bursts of continous swings followed by a short cooldown. Each weapon type has a configurable combo limit:
-    - **Swords:** up to 4 horizontal swipes, by default.
-    - **Clubs:** up to 2 hits, being one horizontal swipe and one vertical swipe, by default.
-    - **Daggers:** unchanged, effectively up to infinite hits.
+Weapon spamming is replaced by combos. These are short bursts of continuous swings followed by a short cooldown. Each weapon type has a configurable combo limit:
+    
+- **Swords:** up to 4 horizontal swipes, by default.
+- **Clubs:** up to 2 hits, being one horizontal swipe and one vertical swipe, by default.
+- **Daggers:** unchanged, effectively up to infinite hits.
 
-If combo hits are enabled, swing speed bonuses from emerald will affect every frame of the attack animation, as well as the cooldown in between combos. This makes speed a significantly more valuable stat than in Vanilla, where it only affeected 1 out of 6 frames (and that frame could be animation-canceled).
+If combo hits are enabled, swing speed bonuses from emerald will affect every frame of the attack animation, as well as the cooldown in between combos. This makes speed a significantly more valuable stat than in Vanilla, where it only affected 1 out of 6 frames (and that frame could be animation-canceled).
 
 ### Offensive & Defensive Swords
 
@@ -59,7 +60,7 @@ Weapon stats have been rebalanced across the board:
  - **Offensive Swords** are somewhere in the middle, with average damage, speed and precision.
  - **Defensive Swords** are marginally weaker and slower than their offensive counterpart, but are otherwise heavier, sturdier and wider. They are somewhere in-between Offensive Swords and Clubs. 
 
-Weapons are categorized by diffrent tiers, [color-coded for your convenience][tropes:color-coded]:
+Weapons are categorized by different tiers, [color-coded for your convenience][tropes:color-coded]:
 
 ![shield:common]
 ![shield:uncommon]
@@ -73,14 +74,14 @@ Weapons below the Mythic tier have randomized damage, determined the moment they
 
 Mythic weapons are unique or extremely rare. They are usually quest rewards or rare monster drops, and tend to carry special perks in addition to their regular stats.
 
-Masterwork weapons are relics of the Dwarven race, crafted from special materials. They can ony be created by uncovering the lost Dwarvish Blueprints, and taking them to a skilled blacksmith along with the corresponding material:
+Masterwork weapons are relics of the Dwarven race, crafted from special materials. They can only be created by uncovering the lost Dwarvish Blueprints, and taking them to a skilled blacksmith along with the corresponding material:
 - **Elven** weapons, carved out of **Elderwood** obtained from [Scavenger Hunts](../Professions), are quick, nimble weapons enchanted with forest magic which grants them high reach and knockback.
 - **Dwarven** weapons, forged from **Dwarven Scraps** obtained from Volcano chests, are large, bulky weapons. They grant high defense and knockback, but reduce speed.
 - **Dragonbone** weapons, forged from **Dragon Teeth** obtained from Volcano chests and near dragon skeletons, are light and sharp, granting the highest raw damage out of any weapon in the game.
 
-The legendary Galaxy and Infinity weapons are explained in the next section, but will require [considerable work to obtain](#infinity-one).
+The legendary Galaxy and Infinity weapons are explained in the next section, but will require [considerable work to obtain](#infinity-1).
 
-If this option is enable, all weapons will been removed from Mine chests (replaced with valuable but random loot). New weapons will have to be dropped from monsters or breakable containers in Mines and other dungeons. Monster-dropped weapons are rare, but tend to be stronger. Lower-tier weapons can also be purchased directly from Marlon, but will have fixed and significantly weaker stats when obtained this way.
+If this option is enabled, all weapons will be removed from Mine chests (replaced with valuable but random loot). New weapons will have to be dropped from monsters or breakable containers in Mines and other dungeons. Monster-dropped weapons are rare, but tend to be stronger. Lower-tier weapons can also be purchased directly from Marlon, but will have fixed and significantly weaker stats when obtained this way.
 
 Weapon tooltips have also been improved for clarity, so you should always know exactly what each stat means.
 
@@ -88,7 +89,7 @@ Weapon tooltips have also been improved for clarity, so you should always know e
 
 ### Infinity +1
 
-According to [TV Tropes Wiki](https://tvtropes.org/pmwiki/pmwiki.php/Main/InfinityPlusOneSword), an Infinity +1 sword is "not only the most powerful of its kind ... , but its power is matched by how hard it is to acquire". If you were ever bothered by how easy it was to obtain the Galaxy and Infinity weapons in vanilla (and immediately trivialize all the rest), this module has got your back, by making these weapons truly legendary.
+According to [TV Tropes Wiki](https://tvtropes.org/pmwiki/pmwiki.php/Main/InfinityPlusOneSword), an Infinity +1 sword is "not only the most powerful of its kind ... , but its power is matched by how hard it is to acquire". The Vanilla Galaxy weapons do not quite fit that definition. Let's fix that, shall we?
 
 To obtain your first Galaxy weapon, as in vanilla you must first unlock the desert, acquire a Prismatic Shard and offer it to the Three Sand Sisters. Unlike vanilla, however, the weapon will not materialize out of thin air, but will be shaped out of a configurable amount of Iridium Bars (10 by default), which must be in your inventory. This will prevent a lucky Prismatic Shard drop from the Mines or a Fishing Chest from instantly rewarding one of the strongest weapons in the game before the player has even set foot in the Skull Caverns. Now, some venturing into the Skull Caverns is required.
 
@@ -102,15 +103,17 @@ In return for all that extra work, the Infinity weapons have extra perks:
 
 ### Other Features
 
-* **Weapons Retexture:** Available optionally, weapons can be retextured to better reflect their type or rarity. This is strongly recommended to visually distinguish Defensive and Offensive-oriented swords, and to make Mythic and above weapons look more unique and powerful. These textures will always be overwritten by Content Patcher weapon retextures if any is installed.*
+* **Weapons Retexture:** Available optionally, weapons can be retextured to better reflect their type or rarity. This is strongly recommended to visually distinguish Defensive and Offensive-oriented swords, and to make Mythic and above weapons look more unique and powerful. These textures will always be overwritten by Content Patcher weapon retextures if any is installed.
 
-* **Grounded Club Smash:** Prevents gliders from being hit by the Club's smash attack, but guarantees a critical hit on undergound Duggies. A controversial but immersive change.
+* **Grounded Club Smash:** Prevents gliders from being hit by the Club's smash attack, but guarantees a critical hit on under-ground Duggies. A controversial but immersive change.
 
 * **Woody Replaces Rusty:** The vanilla game has too many weapons for its own good. A minor issue which results from this is the very awkward "upgrade" from the starting Rusty Sword to the Wooden Blade. Why would Marlon be mocking about with a rusty weapon anyway? This has always bothered me, and so, for a slight increase in immersion, this novelty feature will remove the Rusty Sword from the game and replace the starter weapon with a Wooden Blade.
 
 * **Face Mouse Cursor:** This popular feature found in other mods is built-in to this module; when playing with mouse and keyboard the farmer will always swing their weapon in the direction of the mouse cursor.
 
 * **Slick Moves:** Swinging a weapon while running will preserve the player's momentum, causing them to drift in the direction of movement. This increases the player's mobility and makes combat feel more fast-paced. 
+
+* **Auto-Selection:** If enemies are nearby, players can optionally choose a weapon to be equipped automatically.
 
 ## Compatibility
 

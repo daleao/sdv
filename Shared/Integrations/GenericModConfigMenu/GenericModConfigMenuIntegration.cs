@@ -19,9 +19,6 @@ internal abstract class GenericModConfigMenuIntegration<TGenericModConfigMenu, T
     where TGenericModConfigMenu : GenericModConfigMenuIntegration<TGenericModConfigMenu, TConfig>
     where TConfig : new()
 {
-    /// <summary>The manifest for the mod consuming the API.</summary>
-    private readonly IManifest _consumerManifest;
-
     /// <summary>Initializes a new instance of the <see cref="GenericModConfigMenuIntegration{TGenericModConfigMenu, TConfig}"/> class.</summary>
     /// <param name="modRegistry">An API for fetching metadata about loaded mods.</param>
     /// <param name="consumerManifest">The manifest for the mod consuming the API.</param>
@@ -30,9 +27,12 @@ internal abstract class GenericModConfigMenuIntegration<TGenericModConfigMenu, T
         IManifest consumerManifest)
         : base("spacechase0.GenericModConfigMenu", "GenericModConfigMenu", "1.6.0", modRegistry)
     {
-        this._consumerManifest = consumerManifest;
+        this.ConsumerManifest = consumerManifest;
         GenericModConfigMenuOptions.Instance?.Register();
     }
+
+    /// <summary>The manifest for the mod consuming the API.</summary>
+    internal IManifest ConsumerManifest { get; }
 
     /// <summary>Gets the API for registering complex options.</summary>
     private static IGenericModConfigMenuOptionsApi? ComplexOptions => GenericModConfigMenuOptions.Instance?.ModApi;
@@ -48,7 +48,7 @@ internal abstract class GenericModConfigMenuIntegration<TGenericModConfigMenu, T
         }
 
         this.AssertLoaded();
-        this.ModApi.Register(this._consumerManifest, this.ResetConfig, this.SaveAndApply, titleScreenOnly);
+        this.ModApi.Register(this.ConsumerManifest, this.ResetConfig, this.SaveAndApply, titleScreenOnly);
         this.IsRegistered = true;
         return (TGenericModConfigMenu)this;
     }
@@ -62,7 +62,7 @@ internal abstract class GenericModConfigMenuIntegration<TGenericModConfigMenu, T
             return (TGenericModConfigMenu)this;
         }
 
-        this.ModApi.Unregister(this._consumerManifest);
+        this.ModApi.Unregister(this.ConsumerManifest);
         this.IsRegistered = false;
         return (TGenericModConfigMenu)this;
     }
@@ -81,78 +81,78 @@ internal abstract class GenericModConfigMenuIntegration<TGenericModConfigMenu, T
     protected TGenericModConfigMenu AddPage(string pageId, Func<string>? pageTitle = null)
     {
         this.AssertRegistered();
-        this.ModApi.AddPage(this._consumerManifest, pageId, pageTitle);
+        this.ModApi.AddPage(this.ConsumerManifest, pageId, pageTitle);
         return (TGenericModConfigMenu)this;
     }
 
     /// <summary>Adds a link to a page added via <see cref="AddPage"/> at the current position in the form.</summary>
     /// <param name="pageId">The unique ID of the page to open when the link is clicked.</param>
-    /// <param name="text">The link text shown in the form.</param>
-    /// <param name="tooltip">The tooltip text shown when the cursor hovers on the link, or <c>null</c> to disable the tooltip.</param>
+    /// <param name="getText">Gets the link text shown in the form.</param>
+    /// <param name="getTooltip">Gets the tooltip text shown when the cursor hovers on the link, or <c>null</c> to disable the tooltip.</param>
     /// <returns>The <typeparamref name="TGenericModConfigMenu"/> instance.</returns>
     protected TGenericModConfigMenu AddPageLink(
-        string pageId, Func<string> text, Func<string>? tooltip = null)
+        string pageId, Func<string> getText, Func<string>? getTooltip = null)
     {
         this.AssertRegistered();
-        this.ModApi.AddPageLink(this._consumerManifest, pageId, text, tooltip);
+        this.ModApi.AddPageLink(this.ConsumerManifest, pageId, getText, getTooltip);
         return (TGenericModConfigMenu)this;
     }
 
     /// <summary>Adds a section title at the current position in the form.</summary>
-    /// <param name="text">The title text shown in the form.</param>
-    /// <param name="tooltip">
-    ///     The tooltip text shown when the cursor hovers on the title, or <c>null</c> to disable the
+    /// <param name="getText">Gets the title text shown in the form.</param>
+    /// <param name="getTooltip">
+    ///     Gets the tooltip text shown when the cursor hovers on the title, or <c>null</c> to disable the
     ///     tooltip.
     /// </param>
     /// <returns>The <typeparamref name="TGenericModConfigMenu"/> instance.</returns>
-    protected TGenericModConfigMenu AddSectionTitle(Func<string> text, Func<string>? tooltip = null)
+    protected TGenericModConfigMenu AddSectionTitle(Func<string> getText, Func<string>? getTooltip = null)
     {
         this.AssertRegistered();
-        this.ModApi.AddSectionTitle(this._consumerManifest, text, tooltip);
+        this.ModApi.AddSectionTitle(this.ConsumerManifest, getText, getTooltip);
         return (TGenericModConfigMenu)this;
     }
 
     /// <summary>Adds a paragraph of text at the current position in the form.</summary>
-    /// <param name="text">The paragraph text to display.</param>
+    /// <param name="getText">Gts the paragraph text to display.</param>
     /// <returns>The <typeparamref name="TGenericModConfigMenu"/> instance.</returns>
-    protected TGenericModConfigMenu AddParagraph(Func<string> text)
+    protected TGenericModConfigMenu AddParagraph(Func<string> getText)
     {
         this.AssertRegistered();
-        this.ModApi.AddParagraph(this._consumerManifest, text);
+        this.ModApi.AddParagraph(this.ConsumerManifest, getText);
         return (TGenericModConfigMenu)this;
     }
 
     /// <summary>Adds a checkbox to the form.</summary>
-    /// <param name="name">The label text to show in the form.</param>
-    /// <param name="tooltip">The tooltip text shown when the cursor hovers on the field.</param>
-    /// <param name="get">Get the current value from the mod config.</param>
-    /// <param name="set">Set a new value in the mod config.</param>
+    /// <param name="getName">Gets the label text to show in the form.</param>
+    /// <param name="getTooltip">Gets the tooltip text shown when the cursor hovers on the field.</param>
+    /// <param name="getValue">Gets the current value from the mod config.</param>
+    /// <param name="setValue">Sets a new value in the mod config.</param>
     /// <param name="id">An optional id for this field.</param>
     /// <returns>The <typeparamref name="TGenericModConfigMenu"/> instance.</returns>
     protected TGenericModConfigMenu AddCheckbox(
-        Func<string> name,
-        Func<string> tooltip,
-        Func<TConfig, bool> get,
-        Action<TConfig, bool> set,
+        Func<string> getName,
+        Func<string> getTooltip,
+        Func<TConfig, bool> getValue,
+        Action<TConfig, bool> setValue,
         string? id = null)
     {
         this.AssertRegistered();
         this.ModApi.AddBoolOption(
-            this._consumerManifest,
-            name: name,
-            tooltip: tooltip,
-            getValue: () => get(this.GetConfig()),
-            setValue: value => set(this.GetConfig(), value),
+            this.ConsumerManifest,
+            name: getName,
+            tooltip: getTooltip,
+            getValue: () => getValue(this.GetConfig()),
+            setValue: value => setValue(this.GetConfig(), value),
             fieldId: id);
 
         return (TGenericModConfigMenu)this;
     }
 
     /// <summary>Adds a dropdown to the form.</summary>
-    /// <param name="name">The label text to show in the form.</param>
-    /// <param name="tooltip">The tooltip text shown when the cursor hovers on the field.</param>
-    /// <param name="get">Get the current value from the mod config.</param>
-    /// <param name="set">Set a new value in the mod config.</param>
+    /// <param name="getName">Gets the label text to show in the form.</param>
+    /// <param name="getTooltip">Gets the tooltip text shown when the cursor hovers on the field.</param>
+    /// <param name="getValue">Gets the current value from the mod config.</param>
+    /// <param name="setValue">Sets a new value in the mod config.</param>
     /// <param name="allowedValues">The values that can be selected.</param>
     /// <param name="formatAllowedValue">
     ///     Get the display text to show for a value from <paramref name="allowedValues"/>, or
@@ -161,21 +161,21 @@ internal abstract class GenericModConfigMenuIntegration<TGenericModConfigMenu, T
     /// <param name="id">An optional id for this field.</param>
     /// <returns>The <typeparamref name="TGenericModConfigMenu"/> instance.</returns>
     protected TGenericModConfigMenu AddDropdown(
-        Func<string> name,
-        Func<string> tooltip,
-        Func<TConfig, string> get,
-        Action<TConfig, string> set,
+        Func<string> getName,
+        Func<string> getTooltip,
+        Func<TConfig, string> getValue,
+        Action<TConfig, string> setValue,
         string[] allowedValues,
         Func<string, string>? formatAllowedValue,
         string? id = null)
     {
         this.AssertRegistered();
         this.ModApi.AddTextOption(
-            this._consumerManifest,
-            name: name,
-            tooltip: tooltip,
-            getValue: () => get(this.GetConfig()),
-            setValue: value => set(this.GetConfig(), value),
+            this.ConsumerManifest,
+            name: getName,
+            tooltip: getTooltip,
+            getValue: () => getValue(this.GetConfig()),
+            setValue: value => setValue(this.GetConfig(), value),
             allowedValues: allowedValues,
             formatAllowedValue: formatAllowedValue,
             fieldId: id);
@@ -184,56 +184,56 @@ internal abstract class GenericModConfigMenuIntegration<TGenericModConfigMenu, T
     }
 
     /// <summary>Adds a checkbox to the form.</summary>
-    /// <param name="name">The label text to show in the form.</param>
-    /// <param name="tooltip">The tooltip text shown when the cursor hovers on the field.</param>
-    /// <param name="get">GetInstructions the current value from the mod config.</param>
-    /// <param name="set">Set a new value in the mod config.</param>
+    /// <param name="getName">Gets the label text to show in the form.</param>
+    /// <param name="getTooltip">Gets the tooltip text shown when the cursor hovers on the field.</param>
+    /// <param name="getValue">Gets the current value from the mod config.</param>
+    /// <param name="setValue">Sets a new value in the mod config.</param>
     /// <param name="id">An optional id for this field.</param>
     /// <returns>The <typeparamref name="TGenericModConfigMenu"/> instance.</returns>
     protected TGenericModConfigMenu AddTextbox(
-        Func<string> name,
-        Func<string> tooltip,
-        Func<TConfig, string> get,
-        Action<TConfig, string> set,
+        Func<string> getName,
+        Func<string> getTooltip,
+        Func<TConfig, string> getValue,
+        Action<TConfig, string> setValue,
         string? id = null)
     {
         this.AssertRegistered();
         this.ModApi.AddTextOption(
-            this._consumerManifest,
-            name: name,
-            tooltip: tooltip,
-            getValue: () => get(this.GetConfig()),
-            setValue: value => set(this.GetConfig(), value),
+            this.ConsumerManifest,
+            name: getName,
+            tooltip: getTooltip,
+            getValue: () => getValue(this.GetConfig()),
+            setValue: value => setValue(this.GetConfig(), value),
             fieldId: id);
 
         return (TGenericModConfigMenu)this;
     }
 
     /// <summary>Adds a numeric field to the form.</summary>
-    /// <param name="name">The label text to show in the form.</param>
-    /// <param name="tooltip">The tooltip text shown when the cursor hovers on the field.</param>
-    /// <param name="get">GetInstructions the current value from the mod config.</param>
-    /// <param name="set">Set a new value in the mod config.</param>
+    /// <param name="getName">Gets the label text to show in the form.</param>
+    /// <param name="getTooltip">Gets the tooltip text shown when the cursor hovers on the field.</param>
+    /// <param name="getValue">Gets the current value from the mod config.</param>
+    /// <param name="setValue">Sets a new value in the mod config.</param>
     /// <param name="min">The minimum allowed value.</param>
     /// <param name="max">The maximum allowed value.</param>
     /// <param name="id">An optional id for this field.</param>
     /// <returns>The <typeparamref name="TGenericModConfigMenu"/> instance.</returns>
     protected TGenericModConfigMenu AddNumberField(
-        Func<string> name,
-        Func<string> tooltip,
-        Func<TConfig, int> get,
-        Action<TConfig, int> set,
+        Func<string> getName,
+        Func<string> getTooltip,
+        Func<TConfig, int> getValue,
+        Action<TConfig, int> setValue,
         int min,
         int max,
         string? id = null)
     {
         this.AssertRegistered();
         this.ModApi.AddNumberOption(
-            this._consumerManifest,
-            name: name,
-            tooltip: tooltip,
-            getValue: () => get(this.GetConfig()),
-            setValue: value => set(this.GetConfig(), value),
+            this.ConsumerManifest,
+            name: getName,
+            tooltip: getTooltip,
+            getValue: () => getValue(this.GetConfig()),
+            setValue: value => setValue(this.GetConfig(), value),
             min: min,
             max: max,
             fieldId: id);
@@ -242,20 +242,20 @@ internal abstract class GenericModConfigMenuIntegration<TGenericModConfigMenu, T
     }
 
     /// <summary>Adds a numeric field to the form.</summary>
-    /// <param name="name">The label text to show in the form.</param>
-    /// <param name="tooltip">The tooltip text shown when the cursor hovers on the field.</param>
-    /// <param name="get">GetInstructions the current value from the mod config.</param>
-    /// <param name="set">Set a new value in the mod config.</param>
+    /// <param name="getName">Gets the label text to show in the form.</param>
+    /// <param name="getTooltip">Gets the tooltip text shown when the cursor hovers on the field.</param>
+    /// <param name="getValue">Gets the current value from the mod config.</param>
+    /// <param name="setValue">Sets a new value in the mod config.</param>
     /// <param name="min">The minimum allowed value.</param>
     /// <param name="max">The maximum allowed value.</param>
     /// <param name="interval">The interval of values that can be selected.</param>
     /// <param name="id">An optional id for this field.</param>
     /// <returns>The <typeparamref name="TGenericModConfigMenu"/> instance.</returns>
     protected TGenericModConfigMenu AddNumberField(
-        Func<string> name,
-        Func<string> tooltip,
-        Func<TConfig, float> get,
-        Action<TConfig, float> set,
+        Func<string> getName,
+        Func<string> getTooltip,
+        Func<TConfig, float> getValue,
+        Action<TConfig, float> setValue,
         float min,
         float max,
         float interval = 0.1f,
@@ -263,11 +263,11 @@ internal abstract class GenericModConfigMenuIntegration<TGenericModConfigMenu, T
     {
         this.AssertRegistered();
         this.ModApi.AddNumberOption(
-            this._consumerManifest,
-            name: name,
-            tooltip: tooltip,
-            getValue: () => get(this.GetConfig()),
-            setValue: value => set(this.GetConfig(), value),
+            this.ConsumerManifest,
+            name: getName,
+            tooltip: getTooltip,
+            getValue: () => getValue(this.GetConfig()),
+            setValue: value => setValue(this.GetConfig(), value),
             min: min,
             max: max,
             interval: interval,
@@ -277,46 +277,133 @@ internal abstract class GenericModConfigMenuIntegration<TGenericModConfigMenu, T
     }
 
     /// <summary>Adds a key binding field to the form.</summary>
-    /// <param name="name">The label text to show in the form.</param>
-    /// <param name="tooltip">The tooltip text shown when the cursor hovers on the field.</param>
-    /// <param name="get">GetInstructions the current value from the mod config.</param>
-    /// <param name="set">Set a new value in the mod config.</param>
+    /// <param name="getName">Gets the label text to show in the form.</param>
+    /// <param name="getTooltip">Gets the tooltip text shown when the cursor hovers on the field.</param>
+    /// <param name="getValue">Gets the current value from the mod config.</param>
+    /// <param name="setValue">Sets a new value in the mod config.</param>
     /// <param name="id">An optional id for this field.</param>
     /// <returns>The <typeparamref name="TGenericModConfigMenu"/> instance.</returns>
     protected TGenericModConfigMenu AddKeyBinding(
-        Func<string> name,
-        Func<string> tooltip,
-        Func<TConfig, KeybindList> get,
-        Action<TConfig, KeybindList> set,
+        Func<string> getName,
+        Func<string> getTooltip,
+        Func<TConfig, KeybindList> getValue,
+        Action<TConfig, KeybindList> setValue,
         string? id = null)
     {
         this.AssertRegistered();
         this.ModApi.AddKeybindList(
-            this._consumerManifest,
-            name: name,
-            tooltip: tooltip,
-            getValue: () => get(this.GetConfig()),
-            setValue: value => set(this.GetConfig(), value),
+            this.ConsumerManifest,
+            name: getName,
+            tooltip: getTooltip,
+            getValue: () => getValue(this.GetConfig()),
+            setValue: value => setValue(this.GetConfig(), value),
             fieldId: id);
 
         return (TGenericModConfigMenu)this;
     }
 
+    /// <summary>Adds some empty vertical space to the form.</summary>
+    /// <returns>The <typeparamref name="TGenericModConfigMenu"/> instance.</returns>
+    protected TGenericModConfigMenu AddHorizontalRule()
+    {
+        this.AssertRegistered();
+        if (ComplexOptions is not null)
+        {
+            ComplexOptions.AddSimpleHorizontalSeparator(this.ConsumerManifest);
+        }
+        else
+        {
+            this.ModApi.AddParagraph(this.ConsumerManifest, () => "\n");
+        }
+
+        return (TGenericModConfigMenu)this;
+    }
+
+    /// <summary>Adds some empty vertical space to the form.</summary>
+    /// <returns>The <typeparamref name="TGenericModConfigMenu"/> instance.</returns>
+    protected TGenericModConfigMenu AddVerticalSpace()
+    {
+        this.AssertRegistered();
+        this.ModApi.AddParagraph(this.ConsumerManifest, () => "\n");
+        return (TGenericModConfigMenu)this;
+    }
+
+    /// <summary>Adds a multi-column list of checkbox options to the form.</summary>
+    /// <typeparam name="TPage">The type of the object which represents the page.</typeparam>
+    /// <param name="getOptionName">Gets the label text to show in the form.</param>
+    /// <param name="pages">The page values.</param>
+    /// <param name="getPageId">Gets the destination page ID.</param>
+    /// <param name="getPageName">Gets the destination page name.</param>
+    /// <param name="getColumnsFromWidth">Gets the number of columns based on the width of the menu.</param>
+    /// <returns>The <typeparamref name="TGenericModConfigMenu"/> instance.</returns>
+    protected TGenericModConfigMenu AddMultiPageLinkOption<TPage>(
+        Func<string> getOptionName,
+        TPage[] pages,
+        Func<TPage, string> getPageId,
+        Func<TPage, string> getPageName,
+        Func<float, int> getColumnsFromWidth)
+    {
+        this.AssertRegistered();
+        this.ModApi.AddMultiPageLinkOption(
+            mod: this.ConsumerManifest,
+            getOptionName,
+            pages,
+            getPageId,
+            getPageName,
+            getColumnsFromWidth);
+
+        return (TGenericModConfigMenu)this;
+    }
+
+    /// <summary>Adds a multi-column list of checkbox options to the form.</summary>
+    /// <typeparam name="TCheckbox">The type of the object which represents the page.</typeparam>
+    /// <param name="getOptionName">Gets the label text to show in the form.</param>
+    /// <param name="checkboxes">The checkbox values.</param>
+    /// <param name="getCheckboxValue">Gets the checkbox value.</param>
+    /// <param name="setCheckboxValue">Sets the checkbox value.</param>
+    /// <param name="getColumnsFromWidth">Gets the number of columns based on the width of the menu.</param>
+    /// <param name="getCheckboxLabel">Gets the display text to show for the checkbox.</param>
+    /// <param name="onValueUpdated">A delegate to be called after values are changed.</param>
+    /// <returns>The <typeparamref name="TGenericModConfigMenu"/> instance.</returns>
+    protected TGenericModConfigMenu AddMultiCheckboxOption<TCheckbox>(
+        Func<string> getOptionName,
+        TCheckbox[] checkboxes,
+        Func<TCheckbox, bool> getCheckboxValue,
+        Action<TCheckbox, bool> setCheckboxValue,
+        Func<float, int> getColumnsFromWidth,
+        Func<TCheckbox, string>? getCheckboxLabel = null,
+        Action<TCheckbox, bool>? onValueUpdated = null)
+        where TCheckbox : notnull
+    {
+        this.AssertRegistered();
+        this.ModApi.AddMultiCheckboxOption(
+            mod: this.ConsumerManifest,
+            getOptionName,
+            checkboxes,
+            getCheckboxValue,
+            setCheckboxValue,
+            getColumnsFromWidth,
+            getCheckboxLabel,
+            onValueUpdated);
+
+        return (TGenericModConfigMenu)this;
+    }
+
     /// <summary>Adds a color picking option to the form.</summary>
-    /// <param name="name">The label text to show in the form.</param>
-    /// <param name="tooltip">The tooltip text shown when the cursor hovers on the field.</param>
-    /// <param name="get">GetInstructions the current value from the mod config.</param>
-    /// <param name="set">Set a new value in the mod config.</param>
+    /// <param name="getName">Gets the label text to show in the form.</param>
+    /// <param name="getTooltip">Gets the tooltip text shown when the cursor hovers on the field.</param>
+    /// <param name="getValue">Gets the current value from the mod config.</param>
+    /// <param name="setValue">Sets a new value in the mod config.</param>
     /// <param name="fallback">A fallback value in case the user's input is invalid.</param>
     /// <param name="showAlpha">If GMCM Options is installed, show the alpha picker or not.</param>
     /// <param name="colorPickerStyle">GMCM Option's picker style.</param>
     /// <param name="id">An optional id for this field.</param>
     /// <returns>The <typeparamref name="TGenericModConfigMenu"/> instance.</returns>
     protected TGenericModConfigMenu AddColorPicker(
-        Func<string> name,
-        Func<string> tooltip,
-        Func<TConfig, Color> get,
-        Action<TConfig, Color> set,
+        Func<string> getName,
+        Func<string> getTooltip,
+        Func<TConfig, Color> getValue,
+        Action<TConfig, Color> setValue,
         Color fallback,
         bool showAlpha = true,
         uint colorPickerStyle = 0,
@@ -326,11 +413,11 @@ internal abstract class GenericModConfigMenuIntegration<TGenericModConfigMenu, T
         if (ComplexOptions is not null)
         {
             ComplexOptions.AddColorOption(
-                this._consumerManifest,
-                getValue: () => get(this.GetConfig()),
-                setValue: value => set(this.GetConfig(), value),
-                name: name,
-                tooltip: tooltip,
+                this.ConsumerManifest,
+                getValue: () => getValue(this.GetConfig()),
+                setValue: value => setValue(this.GetConfig(), value),
+                name: getName,
+                tooltip: getTooltip,
                 showAlpha: showAlpha,
                 colorPickerStyle: colorPickerStyle,
                 fieldId: id);
@@ -338,29 +425,12 @@ internal abstract class GenericModConfigMenuIntegration<TGenericModConfigMenu, T
         else
         {
             this.ModApi.AddTextOption(
-                this._consumerManifest,
-                name: name,
-                tooltip: tooltip,
-                getValue: () => get(this.GetConfig()).ToHtml(),
-                setValue: value => set(this.GetConfig(), value.TryGetColorFromHtml(out var color) ? color : fallback),
+                this.ConsumerManifest,
+                name: getName,
+                tooltip: getTooltip,
+                getValue: () => getValue(this.GetConfig()).ToHtml(),
+                setValue: value => setValue(this.GetConfig(), value.TryGetColorFromHtml(out var color) ? color : fallback),
                 fieldId: id);
-        }
-
-        return (TGenericModConfigMenu)this;
-    }
-
-    /// <summary>Adds some empty vertical space to the form.</summary>
-    /// <returns>The <typeparamref name="TGenericModConfigMenu"/> instance.</returns>
-    protected TGenericModConfigMenu AddSeparator()
-    {
-        this.AssertRegistered();
-        if (ComplexOptions is not null)
-        {
-            ComplexOptions.AddSimpleHorizontalSeparator(this._consumerManifest);
-        }
-        else
-        {
-            this.ModApi.AddParagraph(this._consumerManifest, () => "\n");
         }
 
         return (TGenericModConfigMenu)this;
@@ -368,11 +438,13 @@ internal abstract class GenericModConfigMenuIntegration<TGenericModConfigMenu, T
 
     /// <summary>Sets whether the options registered after this point can only be edited from the title screen.</summary>
     /// <param name="titleScreenOnly">Whether the options can only be edited from the title screen.</param>
+    /// <returns>The <typeparamref name="TGenericModConfigMenu"/> instance.</returns>
     /// <remarks>This lets you have different values per-field. Most mods should just set it once in <see cref="Register"/>.</remarks>
-    protected void SetTitleScreenOnlyForNextOptions(bool titleScreenOnly)
+    protected TGenericModConfigMenu SetTitleScreenOnlyForNextOptions(bool titleScreenOnly)
     {
         this.AssertRegistered();
-        this.ModApi.SetTitleScreenOnlyForNextOptions(this._consumerManifest, titleScreenOnly);
+        this.ModApi.SetTitleScreenOnlyForNextOptions(this.ConsumerManifest, titleScreenOnly);
+        return (TGenericModConfigMenu)this;
     }
 
     /// <summary>Registers an action to invoke when a field's value is changed.</summary>
@@ -382,7 +454,7 @@ internal abstract class GenericModConfigMenuIntegration<TGenericModConfigMenu, T
     {
         this.AssertRegistered();
         this.ModApi.OnFieldChanged(
-            this._consumerManifest,
+            this.ConsumerManifest,
             onChange: action);
 
         return (TGenericModConfigMenu)this;

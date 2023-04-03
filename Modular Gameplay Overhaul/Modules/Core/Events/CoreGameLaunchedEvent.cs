@@ -2,6 +2,7 @@
 
 #region using directives
 
+using System.Linq;
 using DaLion.Overhaul.Modules.Core.ConfigMenu;
 using DaLion.Shared.Events;
 using StardewModdingAPI.Events;
@@ -21,7 +22,29 @@ internal sealed class CoreGameLaunchedEvent : GameLaunchedEvent
     /// <inheritdoc />
     protected override void OnGameLaunchedImpl(object? sender, GameLaunchedEventArgs e)
     {
-        // config menu
-        GenericModConfigMenuCore.Instance?.Register();
+        if (GenericModConfigMenu.Instance?.IsLoaded != true)
+        {
+            return;
+        }
+
+        GenericModConfigMenu.Instance.Register();
+        if (!GenericModConfigMenu.Instance.IsRegistered)
+        {
+            return;
+        }
+
+        if (Data.InitialSetupComplete)
+        {
+            return;
+        }
+
+        if (EnumerateModules().Skip(1).Any(module => module is not (ProfessionsModule or TweexModule) && module._ShouldEnable))
+        {
+            Data.InitialSetupComplete = true;
+            ModHelper.Data.WriteJsonFile("data.json", Data);
+            return;
+        }
+
+        this.Manager.Enable<CoreOneSecondUpdateTickedEvent>();
     }
 }

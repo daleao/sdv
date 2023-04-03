@@ -1,6 +1,6 @@
 <div align="center">
 
-# ![](https://i.imgur.com/6sWaRit.png) Modular Overhaul :: Tools ![](https://i.imgur.com/4rYYYCD.png)
+# ![](https://i.imgur.com/6sWaRit.png) Modular Overhaul :: Tools (TOLS) ![](https://i.imgur.com/4rYYYCD.png)
 
 </div>
 
@@ -41,7 +41,9 @@ The radius of the Scythe and Golden Scythe can also be configured. By default, a
 
 All tool enchantments are compatible. The Reaching Enchantment will work on chargeable resource tools as it ordinarily does for farming tools, increasing the maximum charge level by **one**. The Powerful Enchantment likewise continues to increase the power of resource tools, and that extends to every affected tile in the shockwave.
 
-In addition, this module will allow the Swift Enchantment to be applied to the Watering Can, and the Master Enchantment to be applied to all tools, boosting the corresponding skill level by **one**. Lastly, the Haymaker Enchantment can now be applied to the Scythe and Golden Scythe.
+In addition, this module will allow the Swift Enchantment to be applied to the Watering Can, and the Master Enchantment to be applied to all tools, boosting the corresponding skill level by **one**.
+
+Lastly, the Haymaker Enchantment can now be applied to the Scythe and Golden Scythe.
 
 ## Auto-Selection
 

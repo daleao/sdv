@@ -3,12 +3,13 @@
 #region using directives
 
 using DaLion.Overhaul.Modules.Rings.Integrations;
+using DaLion.Overhaul.Modules.Rings.VirtualProperties;
 using DaLion.Shared.Extensions.SMAPI;
 
 #endregion using directives
 
 /// <summary>Constructs the GenericModConfigMenu integration.</summary>
-internal sealed partial class GenericModConfigMenuCore
+internal sealed partial class GenericModConfigMenu
 {
     /// <summary>Register the Rings menu.</summary>
     private void RegisterRings()
@@ -36,25 +37,16 @@ internal sealed partial class GenericModConfigMenuCore
                     ModHelper.GameContent.InvalidateCacheAndLocalized("Maps/springobjects");
                 })
             .AddCheckbox(
-                () => "Craftable Glow and Magnet Rings",
-                () => "Adds new mining recipes for crafting glow and magnet rings.",
-                config => config.Rings.CraftableGlowAndMagnetRings,
+                () => "Better Glowstone Progression",
+                () => "Replaces the glowstone ring recipe with one that makes sense, and adds complementary recipes for its constituents.",
+                config => config.Rings.BetterGlowstoneProgression,
                 (config, value) =>
                 {
-                    config.Rings.CraftableGlowAndMagnetRings = value;
+                    config.Rings.BetterGlowstoneProgression = value;
                     ModHelper.GameContent.InvalidateCacheAndLocalized("Data/CraftingRecipes");
                 })
             .AddCheckbox(
-                () => "Immersive Glowstone Recipe",
-                () => "Replaces the glowstone ring recipe with one that makes sense.",
-                config => config.Rings.ImmersiveGlowstoneRecipe,
-                (config, value) =>
-                {
-                    config.Rings.ImmersiveGlowstoneRecipe = value;
-                    ModHelper.GameContent.InvalidateCacheAndLocalized("Data/CraftingRecipes");
-                })
-            .AddCheckbox(
-                () => "The One Iridium Band",
+                () => "The One Infinity Band",
                 () => "Replaces the Iridium Band recipe and effect. Adds new forge mechanics.",
                 config => config.Rings.TheOneInfinityBand,
                 (config, value) =>
@@ -78,9 +70,18 @@ internal sealed partial class GenericModConfigMenuCore
                 () => "Enable Gemstone Resonance",
                 () => "Allows gemstones to harmonize and resonate in close proximity of each other.",
                 config => config.Rings.EnableResonance,
+                (config, value) => config.Rings.EnableResonance = value)
+            .AddCheckbox(
+                () => "Colorful Resonance Glow",
+                () => "Whether the glow light of resonating chords should take after the root note's color.",
+                config => config.Rings.ColorfulResonance,
                 (config, value) =>
                 {
-                    config.Rings.EnableResonance = value;
+                    config.Rings.ColorfulResonance = value;
+                    foreach (var chord in Game1.player.Get_ResonatingChords())
+                    {
+                        chord.InitializeLightSource(value);
+                    }
                 });
     }
 }

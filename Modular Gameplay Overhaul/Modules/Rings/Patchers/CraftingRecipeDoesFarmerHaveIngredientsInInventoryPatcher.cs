@@ -33,7 +33,7 @@ internal sealed class CraftingRecipeDoesFarmerHaveIngredientsInInventoryPatcher 
         CraftingRecipe __instance, ref bool __result, IList<Item>? extraToCheck)
     {
         if (!__instance.name.Contains("Ring") || !__instance.name.ContainsAnyOf("Glow", "Magnet") ||
-            (!RingsModule.Config.CraftableGlowAndMagnetRings && !RingsModule.Config.ImmersiveGlowstoneRecipe))
+            !RingsModule.Config.BetterGlowstoneProgression)
         {
             return true; // run original logic
         }

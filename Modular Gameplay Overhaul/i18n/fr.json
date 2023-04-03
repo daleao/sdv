@@ -312,16 +312,17 @@
   // * ENCHANTMENTS * //
   // **************** //
 
-  "enchantments.carving": "Découpant",
-  "enchantments.cleaving": "Fendant",
-  "enchantments.energized": "Energisant",
-  "enchantments.tribute": "Tribut",
-  "enchantments.vampiric": "Sanguinaire",
-  "enchantments.engorging": "Glouton",
-  "enchantments.gatling": "Mitraillant",
-  "enchantments.preserving": "Préservant",
-  "enchantments.quincy": "Quincy",
-  "enchantments.spreading": "Répandant",
+  "enchantments.carving.name": "Découpant",
+  "enchantments.cleaving.name": "Fendant",
+  "enchantments.energized.name": "Energisant",
+  "enchantments.explosive.name": "Explosif",
+  "enchantments.tribute.name": "Tribut",
+  "enchantments.vampiric.name": "Sanguinaire",
+  "enchantments.engorging.name": "Glouton",
+  "enchantments.gatling.name": "Mitraillant",
+  "enchantments.preserving.name": "Préservant",
+  "enchantments.quincy.name": "Quincy",
+  "enchantments.spreading.name": "Répandant",
 
 
   // *********** //

@@ -8,7 +8,7 @@ using System.Xml.Serialization;
 
 /// <summary>Improves weapon special moves.</summary>
 [XmlType("Mods_DaLion_ArtfulEnchantment")]
-public class NewArtfulEnchantment : BaseWeaponEnchantment
+public sealed class NewArtfulEnchantment : BaseWeaponEnchantment
 {
     /// <inheritdoc />
     public override string GetName()

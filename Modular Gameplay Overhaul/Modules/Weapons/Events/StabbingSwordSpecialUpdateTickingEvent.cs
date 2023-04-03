@@ -45,13 +45,15 @@ internal sealed class StabbingSwordSpecialUpdateTickingEvent : UpdateTickingEven
             facingVector *= -1f; // for some reason up and down are inverted
         }
 
-        var trajectory = facingVector * (20f + (Game1.player.addedSpeed * 2f));
+        var trajectory = facingVector * (20f + (Game1.player.addedSpeed * 2f)) *
+                         (sword.hasEnchantmentOfType<NewArtfulEnchantment>()
+                             ? 1.5f
+                             : 1.2f);
         user.setTrajectory(trajectory);
 
-        _animationFrames =
-            sword.hasEnchantmentOfType<NewArtfulEnchantment>()
+        _animationFrames = sword.hasEnchantmentOfType<NewArtfulEnchantment>()
                 ? 24
-                : 16; // don't ask me why but this translated exactly to (5 tiles : 4 tiles)
+                : 16; // translates to exactly to (6 tiles : 4 tiles) with 0 added speed
         var frame = (FacingDirection)user.FacingDirection switch
         {
             FacingDirection.Up => 276,
@@ -64,6 +66,7 @@ internal sealed class StabbingSwordSpecialUpdateTickingEvent : UpdateTickingEven
 
         user.FarmerSprite.setCurrentFrame(frame, 0, 15, 2, user.FacingDirection == 3, true);
         Game1.playSound(sword.CurrentParentTileIndex == ItemIDs.LavaKatana ? "fireball" : "daggerswipe");
+        this.Manager.Enable<StabbingSwordSpecialInterruptedButtonPressedEvent>();
     }
 
     /// <inheritdoc />
@@ -110,7 +113,7 @@ internal sealed class StabbingSwordSpecialUpdateTickingEvent : UpdateTickingEven
     private static void DoCooldown(Farmer user, MeleeWeapon sword)
     {
         MeleeWeapon.attackSwordCooldown = MeleeWeapon.attackSwordCooldownTime;
-        if (!ProfessionsModule.IsEnabled && user.professions.Contains(Farmer.acrobat))
+        if (!ProfessionsModule.ShouldEnable && user.professions.Contains(Farmer.acrobat))
         {
             MeleeWeapon.attackSwordCooldown /= 2;
         }

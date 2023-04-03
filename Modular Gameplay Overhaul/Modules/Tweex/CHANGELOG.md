@@ -1,5 +1,11 @@
 # Tweex Module Change Log
 
+## 2.0.0
+
+### Added
+
+* Added new tweak to allow crows to spawn on custom maps.
+
 ## 1.0.2
 
 ### Added

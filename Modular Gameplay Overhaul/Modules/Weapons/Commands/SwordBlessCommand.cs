@@ -1,9 +1,8 @@
 ﻿namespace DaLion.Overhaul.Modules.Weapons.Commands;
 
-using Weapons.Extensions;
-
 #region using directives
 
+using DaLion.Overhaul.Modules.Weapons.Extensions;
 using DaLion.Shared.Attributes;
 using DaLion.Shared.Commands;
 using Microsoft.Xna.Framework;

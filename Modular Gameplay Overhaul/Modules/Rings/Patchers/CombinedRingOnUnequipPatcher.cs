@@ -33,7 +33,7 @@ internal sealed class CombinedRingOnUnequipPatcher : HarmonyPatcher
 
         chord.Unapply(who.currentLocation, who);
         if (chord.Root is not null && who.CurrentTool is { } tool &&
-            ((tool is MeleeWeapon && WeaponsModule.IsEnabled) || (tool is Slingshot && SlingshotsModule.IsEnabled)) &&
+            ((tool is MeleeWeapon && WeaponsModule.ShouldEnable) || (tool is Slingshot && SlingshotsModule.ShouldEnable)) &&
             tool.Get_ResonatingChord(chord.Root.EnchantmentType) == chord)
         {
             tool.UnsetResonatingChord(chord.Root.EnchantmentType);

@@ -226,7 +226,7 @@ internal sealed class ObjectProjectile : BasicProjectile
     public override void behaviorOnCollisionWithOther(GameLocation location)
     {
         base.behaviorOnCollisionWithOther(location);
-        if (this.Ammo is null || this.Firer is null || this.Source is null || !ProfessionsModule.IsEnabled)
+        if (this.Ammo is null || this.Firer is null || this.Source is null || !ProfessionsModule.ShouldEnable)
         {
             return;
         }

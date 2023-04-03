@@ -2,7 +2,7 @@
 
 #region using directives
 
-using Weapons.Enchantments;
+using DaLion.Overhaul.Modules.Weapons.Enchantments;
 using DaLion.Shared.Events;
 using DaLion.Shared.Extensions.Stardew;
 using StardewModdingAPI.Events;

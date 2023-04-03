@@ -14,7 +14,7 @@ public sealed class Config : Shared.Configs.Config
     #region dropdown enums
 
     /// <summary>The style used to indicate Skill Reset progression.</summary>
-    public enum ProgressionStyle
+    public enum PrestigeProgressionStyle
     {
         /// <summary>Use stacked quality star icons, one per reset level.</summary>
         StackedStars,
@@ -38,11 +38,11 @@ public sealed class Config : Shared.Configs.Config
 
     /// <summary>Gets a value indicating whether the quality of produced artisan goods should be always the same as the quality of the input material. If set to false, then the quality will be less than or equal to that of the input.</summary>
     [JsonProperty]
-    public bool ArtisanGoodsAlwaysSameQualityAsInput { get; internal set; } = false;
+    public bool ArtisanGoodsAlwaysInputQuality { get; internal set; } = false;
 
     /// <summary>Gets custom mod Artisan machines. Add to this list to make them compatible with the profession.</summary>
     [JsonProperty]
-    public string[] CustomArtisanMachines { get; internal set; } =
+    public HashSet<string> CustomArtisanMachines { get; internal set; } = new()
     {
         "Alembic", // artisan valley
         "Artisanal Soda Maker", // artisanal soda makers
@@ -170,7 +170,7 @@ public sealed class Config : Shared.Configs.Config
 
     /// <summary>Gets you must collect this many junk items from crab pots for every 1% of tax deduction the following season.</summary>
     [JsonProperty]
-    public uint TrashNeededPerTaxBonusPct { get; internal set; } = 100;
+    public uint TrashNeededPerTaxDeductionPct { get; internal set; } = 100;
 
     /// <summary>Gets you must collect this many junk items from crab pots for every 1 point of friendship towards villagers.</summary>
     [JsonProperty]
@@ -263,6 +263,7 @@ public sealed class Config : Shared.Configs.Config
             { "spacechase0.Magic", 1 },
             { "drbirbdev.BinningSkill", 1 },
             { "drbirbdev.SocializingSkill", 1 },
+            { "moonslime.ExcavationSkill", 1},
         };
 
     /// <summary>
@@ -270,5 +271,5 @@ public sealed class Config : Shared.Configs.Config
     ///     "Gen4Ribbons".
     /// </summary>
     [JsonProperty]
-    public ProgressionStyle PrestigeProgressionStyle { get; internal set; } = ProgressionStyle.StackedStars;
+    public PrestigeProgressionStyle ProgressionStyle { get; internal set; } = PrestigeProgressionStyle.StackedStars;
 }

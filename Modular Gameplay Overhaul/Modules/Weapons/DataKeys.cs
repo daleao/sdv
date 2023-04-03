@@ -11,7 +11,6 @@ internal sealed class DataKeys
     internal const string BaseMaxDamage = "BaseMaxDamage";
 
     // farmer
-    internal const string Revalidated = "Revalidated";
     internal const string GalaxyArsenalObtained = "GalaxyArsenalObtained";
     internal const string Cursed = "Cursed";
     internal const string BlueprintsFound = "BlueprintsFound";

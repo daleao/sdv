@@ -10,17 +10,22 @@ using StardewValley.Monsters;
 
 /// <summary>Attacks on-hit spread 60% - 20% (based on distance) of the damage to other enemies around the player.</summary>
 [XmlType("Mods_DaLion_CleavingEnchantment")]
-public class CleavingEnchantment : BaseWeaponEnchantment
+public sealed class CleavingEnchantment : BaseWeaponEnchantment
 {
     /// <inheritdoc />
     public override string GetName()
     {
-        return I18n.Get("enchantments.cleaving");
+        return I18n.Get("enchantments.cleaving.name");
     }
 
     /// <inheritdoc />
     protected override void _OnDealDamage(Monster monster, GameLocation location, Farmer who, ref int amount)
     {
+        if (!who.IsLocalPlayer)
+        {
+            return;
+        }
+
         for (var i = location.characters.Count - 1; i >= 0; i--)
         {
             var character = location.characters[i];

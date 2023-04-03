@@ -222,7 +222,7 @@ internal sealed class FishPondGetFishProducePatcher : HarmonyPatcher
                 continue;
             }
 
-            var producedWithThisQuality = PondsModule.Config.RoeAlwaysSameQualityAsFish
+            var producedWithThisQuality = PondsModule.Config.RoeAlwaysFishQuality
                 ? producedRoes[i]
                 : r.Next(producedRoes[i]);
             held.Add(new SObject(roeIndex, producedWithThisQuality, quality: i == 3 ? 4 : i));

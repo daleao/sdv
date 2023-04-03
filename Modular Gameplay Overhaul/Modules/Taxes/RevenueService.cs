@@ -50,9 +50,9 @@ internal static class RevenueService
             $"Accounting results for {who.Name} over the closing {SeasonExtensions.Previous()} season, year {Game1.year}:" +
             $"\n\t- Season income: {income}g" +
             $"\n\t- Business expenses: {expenses}g" +
-            CurrentCulture($"\n\t- Eligible deductions: {deductions:0%}") +
+            CurrentCulture($"\n\t- Eligible deductions: {deductions:0.0%}") +
             $"\n\t- Taxable amount: {taxable}g" +
-            CurrentCulture($"\n\t- Tax bracket: {tax:0%}") +
+            CurrentCulture($"\n\t- Tax bracket: {tax:0.0%}") +
             $"\n\t- Due amount: {dueI}g.");
         return dueI;
     }
