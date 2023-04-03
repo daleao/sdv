@@ -12,7 +12,7 @@
 
 ### Changed
 
-* Vampiric echantment's healing is now much similar to Vanilla, occurring on monster slay and being based on enemy max health as well as a random factor. But some healing always occurs, and the overheal effects remains the same.
+* Vampiric echantment's healing is now more similar to Vanilla, occurring on monster slay and being based on enemy max health as well as a random factor. But some healing always occurs, and the overheal effects remains the same.
 * Removed the cap on bonus damage awarded by Carving enchantment; i.e., you can now continue carving enemy resistances indefinitely.
 * Glutton Enchantment renamed to Magnum Enchantment.
 * Tribute Enchantment renamed to Mammonite's Enchantment.
