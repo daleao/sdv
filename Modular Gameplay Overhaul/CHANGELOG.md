@@ -26,6 +26,7 @@ This file contains a TL;DR of individual module changelogs. Only major changes a
 
 ## Detailed Change Logs
 
+* [Core](Modules/Core/CHANGELOG.md)
 * [Professions](Modules/Professions/CHANGELOG.md)
 * [Combat](Modules/Combat/CHANGELOG.md)
 * [Weapons](Modules/Weapons/CHANGELOG.md)
