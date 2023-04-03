@@ -5,6 +5,7 @@
 ### Fixed
 
 * Hotfix for GMCM crash.
+* Added some missing GMCM config options and fixed some typos.
 
 ## 2.0.0
 

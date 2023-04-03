@@ -34,8 +34,8 @@ internal class RingAssetRequestedEvent : AssetRequestedEvent
         string[] fields;
         if (RingsModule.Config.BetterGlowstoneProgression)
         {
-            data["Small Glow Ring"] = "336 2 768 5/Home/517/Ring/Mining 2";
-            data["Small Magnet Ring"] = "335 2 769 5/Home/519/Ring/Mining 2";
+            data["Small Glow Ring"] = "336 2 768 5/Home/516/Ring/Mining 2";
+            data["Small Magnet Ring"] = "335 2 769 5/Home/518/Ring/Mining 2";
             data["Glow Ring"] = "516 2 768 10/Home/517/Ring/Mining 4";
             data["Magnet Ring"] = "518 2 769 10/Home/519/Ring/Mining 4";
             data["Glowstone Ring"] = "517 1 519 1 768 20 769 20/Home/888/Ring/Mining 6";

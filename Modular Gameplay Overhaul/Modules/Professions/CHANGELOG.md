@@ -1,5 +1,11 @@
 # Professions Module Change Log
 
+## 2.0.4
+
+### Fixed
+
+* Fixed an ArgumentOutOfRange exception, which is, interestingly enough, caused by Vanilla when scrolling the toolbar.
+
 ## 2.0.0
 
 ### Added

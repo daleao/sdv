@@ -44,15 +44,25 @@ internal sealed partial class GenericModConfigMenu
                 1f,
                 0.05f)
             .AddCheckbox(
+                () => "Deductible Animal Expenses",
+                () => "Whether or not any gold spent on animal purchases and supplies should be tax-deductible.",
+                config => config.Taxes.DeductibleAnimalExpenses,
+                (config, value) => config.Taxes.DeductibleAnimalExpenses = value)
+            .AddCheckbox(
                 () => "Deductible Building Expenses",
                 () => "Whether or not any gold spent constructing farm buildings is tax-deductible.",
                 config => config.Taxes.DeductibleBuildingExpenses,
                 (config, value) => config.Taxes.DeductibleBuildingExpenses = value)
             .AddCheckbox(
+                () => "Deductible Seed Expenses",
+                () => "Whether or not any gold spent on seed purchases should be tax-deductible.",
+                config => config.Taxes.DeductibleSeedExpenses,
+                (config, value) => config.Taxes.DeductibleSeedExpenses = value)
+            .AddCheckbox(
                 () => "Deductible Tool Expenses",
-                () => "Whether or not any gold spent upgrading tools is tax-deductible.",
-                config => config.Taxes.DeductibleBuildingExpenses,
-                (config, value) => config.Taxes.DeductibleBuildingExpenses = value)
+                () => "Whether or not any gold spent on tool purchases and upgrades should be tax-deductible.",
+                config => config.Taxes.DeductibleToolExpenses,
+                (config, value) => config.Taxes.DeductibleToolExpenses = value)
             .AddHorizontalRule()
 
             .AddSectionTitle(() => "Property Tax")

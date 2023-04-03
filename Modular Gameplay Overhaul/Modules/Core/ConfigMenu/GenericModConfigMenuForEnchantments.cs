@@ -22,7 +22,7 @@ internal sealed partial class GenericModConfigMenu
                 config => config.Enchantments.MeleeEnchantments,
                 (config, value) => config.Enchantments.MeleeEnchantments = value)
             .AddCheckbox(
-                () => "Melee Enchantments",
+                () => "Ranged Enchantments",
                 () => "Whether to use the new Slingshot enchantments. These enchantments can only be applied if the Slingshot Module is enabled.",
                 config => config.Enchantments.RangedEnchantments,
                 (config, value) => config.Enchantments.RangedEnchantments = value)

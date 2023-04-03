@@ -2,6 +2,12 @@
 
 This file contains a TL;DR of individual module changelogs. Only major changes are reiterated here. For the complete list of changes, please refer to the individual changelogs of each module, linked [below](#detailed-change-logs).
 
+## Hotfix 2.0.4
+
+* Added some missing GMCM settings.
+* [RNGS]: Fixed small glow and magnet ring recipe outputs.
+* [PROFS]: Fixed an ArgumentOutOfRange exception when scrolling the toolbar.
+
 ## Hotfix 2.0.3
 
 * [TXS]: Fixed a typo in the config verification.

@@ -24,9 +24,9 @@ internal sealed class FarmerCurrentToolIndexSetterPatcher : HarmonyPatcher
     /// <summary>Set Rascal ammo slots.</summary>
     [HarmonyPrefix]
     [SuppressMessage("StyleCop.CSharp.NamingRules", "SA1300:Element should begin with upper-case letter", Justification = "Preference for inner functions.")]
-    private static void FarmerCurrentToolIndexPostfix(Farmer __instance)
+    private static void FarmerCurrentToolIndexPostfix(Farmer __instance, int value)
     {
-        if (__instance.CurrentTool is not Slingshot slingshot)
+        if (value < 0 || value > __instance.Items.Count || __instance.Items[value] is not Slingshot slingshot)
         {
             return;
         }

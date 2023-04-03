@@ -55,6 +55,11 @@ internal sealed partial class GenericModConfigMenu
                 () => "Whether age-dependent qualities should be deterministic (true) or stochastic (false).",
                 config => config.Tweex.DeterministicAgeQuality,
                 (config, value) => config.Tweex.DeterministicAgeQuality = value)
+            .AddCheckbox(
+                () => "Mills Preserve Quality",
+                () => "Whether the Mill's output should consider the quality of the ingredient.",
+                config => config.Tweex.MillsPreserveQuality,
+                (config, value) => config.Tweex.MillsPreserveQuality = value)
             .AddHorizontalRule()
 
             .AddSectionTitle(() => "Experience Settings")

@@ -36,6 +36,10 @@ public sealed class Config : Shared.Configs.Config
     [JsonProperty]
     public bool DeterministicAgeQuality { get; internal set; } = true;
 
+    /// <summary>Gets a value indicating whether the Mill's output should consider the quality of the ingredient.</summary>
+    [JsonProperty]
+    public bool MillsPreserveQuality { get; internal set; } = true;
+
     #endregion quality settings
 
     #region exp settings
@@ -74,10 +78,6 @@ public sealed class Config : Shared.Configs.Config
         "Keg", // vanilla, but artisan valley adds "kefir" item
         "Yogurt Jar", // artisan valley
     };
-
-    /// <summary>Gets a value indicating whether the Mill's output should consider the quality of the ingredient.</summary>
-    [JsonProperty]
-    public bool MillsPreserveQuality { get; internal set; } = true;
 
     /// <summary>Gets a value indicating whether bombs within any explosion radius are immediately triggered.</summary>
     [JsonProperty]

@@ -1,5 +1,11 @@
 # Rings Module Change Log
 
+## 2.0.4
+
+### Fixed
+
+* Fixed small Glow and Magnet ring recipes incorrectly creating their regular versions.
+
 ## 2.0.0
 
 ### Added
@@ -13,6 +19,7 @@
 * New chord harmonization algorithm now considers all note interactions, instead of only distinct notes. Some gemstone combinations will suffer a small rebalance due to this change.
 * The richness of Tryads and Tetrads now yields a boost to the root note resonance (as mentioned in the description). This is now a much more appealing choice.
 * "Craftable Glow and Magnet" setting, and "Immersive Glowstone" setting, as well as new small ring recipes, have been grouped under a single config setting: "Better Glowstone Progression".
+* Level required to craft Glow and Magnet rings increased from 2 to 4, and for Glowstone Ring from 4 to 6.
 
 ### Fixed
 

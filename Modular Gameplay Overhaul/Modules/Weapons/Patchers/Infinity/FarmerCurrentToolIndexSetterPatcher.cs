@@ -41,7 +41,8 @@ internal sealed class FarmerCurrentToolIndexSetterPatcher : HarmonyPatcher
         });
         if (darkSword is null)
         {
-            Log.W($"Cursed farmer {__instance.Name} is not carrying the Dark Sword. The curse will be forcefully lifted.");
+            Log.W(
+                $"Cursed farmer {__instance.Name} is not carrying the Dark Sword. The curse will be forcefully lifted.");
             __instance.Write(DataKeys.Cursed, null);
             return;
         }
