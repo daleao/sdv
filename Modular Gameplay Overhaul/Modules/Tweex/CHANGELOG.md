@@ -1,5 +1,11 @@
 # Tweex Module Change Log
 
+## 2.0.5
+
+### Added
+
+* Added SpawnCrows settings to GMCM.
+
 ## 2.0.0
 
 ### Added

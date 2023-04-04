@@ -1,5 +1,11 @@
 # Rings Module Change Log
 
+## 2.0.5
+
+### Fixed
+
+* Non-colorful ring glow setting should now work correctly.
+
 ## 2.0.4
 
 ### Fixed

@@ -1,5 +1,11 @@
 # Professions Module Change Log
 
+## 2.0.5
+
+### Fixed
+
+* Config settings should now save correctly and not reset on every launch.
+
 ## 2.0.4
 
 ### Fixed

@@ -9,6 +9,7 @@ using DaLion.Shared.Exceptions;
 using DaLion.Shared.Extensions;
 using DaLion.Shared.Extensions.Collections;
 using Microsoft.Xna.Framework;
+using xTile.Dimensions;
 
 #endregion using directives
 
@@ -152,7 +153,6 @@ public sealed class Chord : IChord
         }
 
         this._lightSource.radius.Value = this.GetLightSourceRadius();
-        this._lightSource.color.Value = this.GetLightSourceColor();
 
         var offset = Vector2.Zero;
         if (who.shouldShadowBeOffset)
@@ -186,6 +186,31 @@ public sealed class Chord : IChord
             (float)this.Amplitude,
             colorful ? this.Root.GlowColor : new Color(0, 50, 170),
             playerID: Game1.player.UniqueMultiplayerID);
+    }
+
+    /// <summary>Initializes the <see cref="_lightSource"/> if a resonant harmony exists in the <see cref="Chord"/>.</summary>
+    /// <param name="colorful">Whether the light should be colorful or just plain white.</param>
+    internal void ResetLightSource(bool colorful)
+    {
+        if (this._lightSource is null)
+        {
+            return;
+        }
+
+        var location = Game1.player.currentLocation;
+        location.removeLightSource(this._lightSource.Identifier);
+        this._lightSource = new LightSource(
+            LightSource.sconceLight,
+            Vector2.Zero,
+            (float)this.Amplitude,
+            colorful ? this.Root!.GlowColor : new Color(0, 50, 170),
+            playerID: Game1.player.UniqueMultiplayerID);
+
+        while (location.sharedLights.ContainsKey(this._lightSource.Identifier++))
+        {
+        }
+
+        location.sharedLights[this._lightSource.Identifier] = this._lightSource;
     }
 
     /// <summary>Evaluate the <see cref="HarmonicInterval"/>s between <see cref="Notes"/> and the resulting harmonies.</summary>
@@ -335,12 +360,5 @@ public sealed class Chord : IChord
     private float GetLightSourceRadius()
     {
         return (float)(this.Amplitude + (this.Amplitude / 10d * Math.Sin(this.Root!.Frequency * this._phase)));
-    }
-
-    /// <summary>Evaluates the current <see cref="Color"/> of the <see cref="_lightSource"/>.</summary>
-    /// <returns>The <see cref="Color"/> of the <see cref="_lightSource"/>.</returns>
-    private Color GetLightSourceColor()
-    {
-        return this.Root!.GlowColor;
     }
 }

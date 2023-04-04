@@ -80,7 +80,7 @@ internal sealed partial class GenericModConfigMenu
                     config.Rings.ColorfulResonance = value;
                     foreach (var chord in Game1.player.Get_ResonatingChords())
                     {
-                        chord.InitializeLightSource(value);
+                        chord.ResetLightSource(value);
                     }
                 });
     }

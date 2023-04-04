@@ -60,7 +60,7 @@ public sealed class ModConfig
 
     /// <summary>Gets a value indicating whether the Combat module is enabled.</summary>
     [JsonProperty]
-    public bool EnableCombat { get; internal set; } = true;
+    public bool EnableCombat { get; internal set; } = false;
 
      /// <summary>Gets a value indicating whether the Weapons module is enabled.</summary>
     [JsonProperty]
@@ -102,7 +102,7 @@ public sealed class ModConfig
 
     /// <summary>Gets the Professions module config settings.</summary>
     [JsonProperty]
-    public Modules.Professions.Config Professions { get; } = new();
+    public Modules.Professions.Config Professions { get; internal set; } = new();
 
     /// <summary>Gets the Professions module config settings.</summary>
     [JsonProperty]

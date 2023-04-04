@@ -109,6 +109,42 @@ internal sealed partial class GenericModConfigMenu
                 () => "Legendary Fish Always Best Quality",
                 () => "Legendary fish are always iridium-quality.",
                 config => config.Tweex.LegendaryFishAlwaysBestQuality,
-                (config, value) => config.Tweex.LegendaryFishAlwaysBestQuality = value);
+                (config, value) => config.Tweex.LegendaryFishAlwaysBestQuality = value)
+            .AddMultiCheckboxOption(
+                () => "Spawn Crows On These Maps:",
+                new[] { "IslandWest", "Custom_Garden", "Custom_GrampletonFields", "Custom_Ridgeside_SummitFarm", "Custom_ESMeadowFarm" },
+                map => TweexModule.Config.SpawnCrowsOnTheseMaps.Contains(map),
+                (map, value) =>
+                {
+                    if (value)
+                    {
+                        TweexModule.Config.SpawnCrowsOnTheseMaps.Add(map);
+                        if (map == "Custom_GrampletonFields")
+                        {
+                            TweexModule.Config.SpawnCrowsOnTheseMaps.Add("Custom_GrampletonFields_Small");
+                        }
+                    }
+                    else
+                    {
+                        TweexModule.Config.SpawnCrowsOnTheseMaps.Remove(map);
+                        if (map == "Custom_GrampletonFields")
+                        {
+                            TweexModule.Config.SpawnCrowsOnTheseMaps.Remove("Custom_GrampletonFields_Small");
+                        }
+                    }
+                },
+                _ => 2,
+                map =>
+                {
+                    return map switch
+                    {
+                        "IslandWest" => "Ginger Island Farm",
+                        "Custom_Garden" => "Community Garden (SVE)",
+                        "Custom_GrampletonFields" => "Grampleton Fields (SVE)",
+                        "Custom_Ridgeside_SummitFarm" => "Summit Farm (Ridgeside Village)",
+                        "Custom_ESMeadowFarm" => "Meadow Farm (East Scarp)",
+                        _ => map,
+                    };
+                });
     }
 }
