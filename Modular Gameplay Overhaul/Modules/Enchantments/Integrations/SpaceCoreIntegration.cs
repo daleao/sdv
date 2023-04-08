@@ -11,11 +11,11 @@ using DaLion.Shared.Integrations.SpaceCore;
 
 #endregion using directives
 
-[RequiresMod("spacechase0.SpaceCore", "SpaceCore", "1.8.3")]
+[RequiresMod("spacechase0.SpaceCore", "SpaceCore", "1.12.0")]
 internal sealed class SpaceCoreIntegration : ModIntegration<SpaceCoreIntegration, ISpaceCoreApi>
 {
     private SpaceCoreIntegration()
-        : base("spacechase0.SpaceCore", "SpaceCore", "1.8.3", ModHelper.ModRegistry)
+        : base("spacechase0.SpaceCore", "SpaceCore", "1.12.0", ModHelper.ModRegistry)
     {
     }
 

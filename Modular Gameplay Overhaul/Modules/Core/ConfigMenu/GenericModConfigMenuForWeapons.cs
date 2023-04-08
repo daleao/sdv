@@ -216,14 +216,38 @@ internal sealed partial class GenericModConfigMenu
                 () => "Galaxy Sword Type",
                 () => "Whether the Galaxy Sword should be a Stabbing or Defense sword.",
                 config => config.Weapons.GalaxySwordType.ToString(),
-                (config, value) => config.Weapons.GalaxySwordType = Enum.Parse<WeaponType>(value),
+                (config, value) =>
+                {
+                    config.Weapons.GalaxySwordType = Enum.Parse<WeaponType>(value);
+                    switch (config.Weapons.GalaxySwordType)
+                    {
+                        case WeaponType.StabbingSword:
+                            Collections.StabbingSwords.Add(ItemIDs.GalaxySword);
+                            break;
+                        case WeaponType.DefenseSword:
+                            Collections.StabbingSwords.Remove(ItemIDs.GalaxySword);
+                            break;
+                    }
+                },
                 new[] { "StabbingSword", "DefenseSword" },
                 null)
             .AddDropdown(
                 () => "Infinity Blade Type",
                 () => "Whether the Galaxy Sword should be a Stabbing or Defense sword.",
                 config => config.Weapons.InfinityBladeType.ToString(),
-                (config, value) => config.Weapons.InfinityBladeType = Enum.Parse<WeaponType>(value),
+                (config, value) =>
+                {
+                    config.Weapons.InfinityBladeType = Enum.Parse<WeaponType>(value);
+                    switch (config.Weapons.InfinityBladeType)
+                    {
+                        case WeaponType.StabbingSword:
+                            Collections.StabbingSwords.Add(ItemIDs.InfinityBlade);
+                            break;
+                        case WeaponType.DefenseSword:
+                            Collections.StabbingSwords.Remove(ItemIDs.InfinityBlade);
+                            break;
+                    }
+                },
                 new[] { "StabbingSword", "DefenseSword" },
                 null)
             .AddHorizontalRule()

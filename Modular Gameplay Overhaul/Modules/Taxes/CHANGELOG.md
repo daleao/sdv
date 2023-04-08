@@ -1,5 +1,11 @@
 ﻿# Taxes Module Change Log
 
+## 2.0.5
+
+### Fixed
+
+* Fixed agriculture value calculation, so no longer should properties be charged billions.
+
 ## 2.0.3
 
 ### Fixed

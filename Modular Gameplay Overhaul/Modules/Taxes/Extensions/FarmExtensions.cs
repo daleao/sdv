@@ -46,7 +46,8 @@ internal static class FarmExtensions
             if (crop.regrowAfterHarvest.Value > 0)
             {
                 expectedHarvests +=
-                    (int)((float)(28 - Game1.dayOfMonth - crop.phaseDays.Sum()) / crop.regrowAfterHarvest.Value);
+                    (int)((float)(28 - Game1.dayOfMonth - crop.phaseDays.TakeWhile(t => t != 99999).Sum()) /
+                          crop.regrowAfterHarvest.Value);
             }
 
             totalAgricultureValue += (int)(harvest.salePrice() * averageYield * expectedHarvests);

@@ -2,6 +2,7 @@
 
 #region using directives
 
+using System.Collections.Generic;
 using DaLion.Overhaul.Modules.Enchantments;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -20,12 +21,22 @@ internal sealed partial class GenericModConfigMenu
                 () => "Melee Enchantments",
                 () => "Whether to use the new and objectively better Melee Weapon enchantments.",
                 config => config.Enchantments.MeleeEnchantments,
-                (config, value) => config.Enchantments.MeleeEnchantments = value)
+                (config, value) =>
+                {
+                    config.Enchantments.MeleeEnchantments = value;
+                    Reflector.GetStaticFieldSetter<List<BaseEnchantment>?>(typeof(BaseEnchantment), "_enchantments")
+                        .Invoke(null);
+                })
             .AddCheckbox(
                 () => "Ranged Enchantments",
                 () => "Whether to use the new Slingshot enchantments. These enchantments can only be applied if the Slingshot Module is enabled.",
                 config => config.Enchantments.RangedEnchantments,
-                (config, value) => config.Enchantments.RangedEnchantments = value)
+                (config, value) =>
+                {
+                    config.Enchantments.RangedEnchantments = value;
+                    Reflector.GetStaticFieldSetter<List<BaseEnchantment>?>(typeof(BaseEnchantment), "_enchantments")
+                        .Invoke(null);
+                })
             .AddCheckbox(
                 () => "Rebalanced Forges",
                 () => "Improves certain underwhelming forges (analogous to changes by Rings module).",

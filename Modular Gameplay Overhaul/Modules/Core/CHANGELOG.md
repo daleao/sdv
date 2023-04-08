@@ -5,6 +5,7 @@
 ### Fixed
 
 * Default value for Combat module has been correctly set to `false`. This would have prevented the initial setup wizard from triggering.
+* Updated SpaceCore minimum version requirement.
 
 ## 2.0.1
 

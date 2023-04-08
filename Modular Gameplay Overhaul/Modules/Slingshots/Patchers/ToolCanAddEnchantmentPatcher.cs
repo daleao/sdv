@@ -40,10 +40,20 @@ internal sealed class ToolCanAddEnchantmentPatcher : HarmonyPatcher
             return false; // don't run original logic
         }
 
-        if (!enchantment.IsSecondaryEnchantment() && enchantment.IsForge() &&
-            SlingshotsModule.Config.EnableEnchantments)
+        if (enchantment.IsSecondaryEnchantment())
         {
-            __result = true;
+            __result = false;
+            return false; // don't run original logic
+        }
+
+        if (enchantment.IsForge())
+        {
+            __result = SlingshotsModule.Config.EnableEnchantments;
+            return false; // don't run original logic
+        }
+
+        if (EnchantmentsModule.ShouldEnable && EnchantmentsModule.Config.RangedEnchantments)
+        {
             return true; // run original logic
         }
 

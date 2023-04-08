@@ -188,6 +188,7 @@ The following mods are fully integrated:
 	If any other mods are used which add artisan machines, you can manually add them to the 	CustomArtisanMachines list in the config. Note that this list cannot be configured in-game via GMCM; it must be configured manually in the config.json file.
 - [Animal Husbandry Mod][mod:husbandry] will be affected by Breeder and Producer professions; Breeder will reduce pregnancy time, and Producer's price bonus will be applied to meats.
 - [Fresh Meat][mod:fresh-meat] crops are considered animals products and not actually crops, and therefore will also benefit from Producer profession.
+- [Better Junimos][mod:better-junimos] will carry over profession perks, provided the corresponding config setting is enabled.
 - [Mushroom Propagator][mod:mushroom-propagator] will be affected by the Ecologist quality perk.
 - [Custom Ore Nodes][mod:con] will also be tracked by Prospector.
 - [Teh's Fishing Overhaul][mod:tfo] will respect fishing profession bonuses; the optional Recatchable Legendaries file is also compatible.
@@ -288,6 +289,7 @@ To consume the API, copy both interfaces from the [Shared.Integrations.ModularOv
 [mod:qap-va]: <https://www.moddrop.com/stardew-valley/mods/726947-quality-artisan-products-for-artisan-valley> "Quality Artisan Products for Artisan Valley"
 [mod:flower-meads]: <https://www.nexusmods.com/stardewvalley/mods/5767> "Flower Meads"
 [mod:husbandry]: <https://www.nexusmods.com/stardewvalley/mods/1538> "Animal Husbandry Mod"
+[mod:better-junimos]: <https://www.nexusmods.com/stardewvalley/mods/2221> "Better Junimos"
 [mod:mushroom-propagator]: <https://www.nexusmods.com/stardewvalley/mods/4637> "Mushroom Propagator"
 [mod:con]: <https://www.nexusmods.com/stardewvalley/mods/5966> "Custom Ore Nodes"
 [mod:tfo]: <https://www.nexusmods.com/stardewvalley/mods/866/> "Teh's Fishing Overhaul"

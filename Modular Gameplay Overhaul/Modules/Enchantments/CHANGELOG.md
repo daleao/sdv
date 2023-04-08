@@ -1,5 +1,11 @@
 ﻿# Enchantments Change Log
 
+## 2.0.5
+
+### Fixed
+
+* Now resets the list of available enchaintments when settings are toggled.
+
 ## 2.0.2
 
 ### Fixed

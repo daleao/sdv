@@ -63,6 +63,10 @@ public sealed class Config : Shared.Configs.Config
     [JsonProperty]
     public Color SelectionBorderColor { get; internal set; } = Color.Magenta;
 
+    /// <summary>Gets a value indicating whether to color the title text of upgraded tools.</summary>
+    [JsonProperty]
+    public bool ColorCodedForYourConvenience { get; internal set; }
+
     /// <inheritdoc />
     internal override bool Validate()
     {

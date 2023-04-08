@@ -1,5 +1,11 @@
 ﻿# Slingshots Change Log
 
+## 2.0.5
+
+### Fixed
+
+* Fixed an issue preventing slingshots from receiving enchantments from ENCH module.
+
 ## 2.0.0
 
 * Initial release of Slingshots module.

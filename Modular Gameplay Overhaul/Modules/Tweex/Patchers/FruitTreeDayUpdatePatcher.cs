@@ -5,6 +5,7 @@
 using DaLion.Shared.Extensions.Stardew;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
+using StardewValley.Locations;
 using StardewValley.TerrainFeatures;
 
 #endregion using directives
@@ -36,8 +37,8 @@ internal sealed class FruitTreeDayUpdatePatcher : HarmonyPatcher
     [HarmonyAfter("DaLion.Overhaul.Modules.Professions", "atravita.MoreFertilizers")]
     private static void FruitTreeDayUpdatePostfix(FruitTree __instance, (int DaysUntilMature, int GrowthStage) __state)
     {
-        if (!TweexModule.Config.PreventFruitTreeWinterGrowth || __instance.growthStage.Value >= FruitTree.treeStage ||
-            !Game1.IsWinter || __instance.currentLocation.IsGreenhouse ||
+        if (!Game1.IsWinter || !TweexModule.Config.PreventFruitTreeWinterGrowth || __instance.currentLocation is IslandWest ||
+            __instance.currentLocation.IsGreenhouse || __instance.growthStage.Value >= FruitTree.treeStage ||
             __instance.Read<int>("FruitTree", modId: "atravita.MoreFertilizers") > 0)
         {
             return;

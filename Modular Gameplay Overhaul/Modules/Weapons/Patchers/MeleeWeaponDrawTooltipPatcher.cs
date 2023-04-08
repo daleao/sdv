@@ -224,7 +224,7 @@ internal sealed class MeleeWeaponDrawTooltipPatcher : HarmonyPatcher
 
             // write bonus defense
             var resistance = __instance.Get_DisplayResilience();
-            if ((CombatModule.ShouldEnable && CombatModule.Config.OverhauledDefense && resistance != 0f) || resistance > 1f)
+            if (resistance != 0f)
             {
                 co = __instance.hasEnchantmentOfType<TopazEnchantment>() ? new Color(0, 120, 120) : Game1.textColor;
                 Utility.drawWithShadow(
@@ -243,7 +243,7 @@ internal sealed class MeleeWeaponDrawTooltipPatcher : HarmonyPatcher
                     spriteBatch,
                     CombatModule.ShouldEnable && CombatModule.Config.OverhauledDefense
                         ? I18n.Get("ui.itemhover.resist", new { amount = $"{resistance:+#.#%;-#.#%}" })
-                        : Game1.content.LoadString("ItemHover_DefenseBonus", __instance.addedDefense.Value),
+                        : Game1.content.LoadString("Strings\\UI:ItemHover_DefenseBonus", __instance.addedDefense.Value).Replace("+", string.Empty),
                     font,
                     new Vector2(x + 68, y + 28),
                     co * 0.9f * alpha);

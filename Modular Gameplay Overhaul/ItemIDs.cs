@@ -23,6 +23,7 @@ public sealed class ItemIDs
     public const int FrozenGeode = 536;
     public const int MagmaGeode = 537;
     public const int OmniGeode = 749;
+    public const int ArtifactTrove = 275;
 
     // forage
     public const int Quartz = 80;

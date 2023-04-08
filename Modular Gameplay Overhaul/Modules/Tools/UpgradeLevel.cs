@@ -2,6 +2,7 @@
 
 #region using directives
 
+using Microsoft.Xna.Framework;
 using NetEscapades.EnumGenerators;
 
 #endregion using directives
@@ -33,4 +34,26 @@ public enum UpgradeLevel
 
     /// <summary>Extra upgrade for tools with the Reaching Enchantment.</summary>
     Enchanted,
+}
+
+/// <summary>Extensions for the <see cref="UpgradeLevel"/> enum.</summary>
+public static partial class UpgradeLevelExtensions
+{
+    /// <summary>Returns the color associated with this <paramref name="upgrade"/>.</summary>
+    /// <param name="upgrade">The <see cref="UpgradeLevel"/>.</param>
+    /// <returns>A <see cref="Color"/>.</returns>
+    public static Color GetColor(this UpgradeLevel upgrade)
+    {
+        return upgrade switch
+        {
+            UpgradeLevel.Copper => Color.Orange,
+            UpgradeLevel.Steel => Color.LightSteelBlue,
+            UpgradeLevel.Gold => Color.Gold,
+            UpgradeLevel.Iridium => Color.Violet,
+            UpgradeLevel.Radioactive => Color.Chartreuse,
+            UpgradeLevel.Mythicite => Color.LightCyan,
+            UpgradeLevel.Enchanted => Color.BlueViolet,
+            _ => Color.White,
+        };
+    }
 }

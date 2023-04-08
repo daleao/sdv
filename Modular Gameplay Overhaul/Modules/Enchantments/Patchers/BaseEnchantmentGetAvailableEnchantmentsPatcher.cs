@@ -10,6 +10,7 @@ using DaLion.Overhaul.Modules.Enchantments.Ranged;
 using DaLion.Shared.Extensions.Reflection;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
+using StardewValley.Menus;
 
 #endregion using directives
 

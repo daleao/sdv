@@ -81,6 +81,11 @@ internal sealed partial class GenericModConfigMenu
                     "If using mouse and keyboard, turn to face towards the current cursor position before swinging your tools.",
                 config => config.Tools.FaceMouseCursor,
                 (config, value) => config.Tools.FaceMouseCursor = value)
+            .AddCheckbox(
+                () => "Color-Coded For Convenience",
+                () => "Whether to colorize tool names according to the tool's upgrade level.",
+                config => config.Tools.ColorCodedForYourConvenience,
+                (config, value) => config.Tools.ColorCodedForYourConvenience = value)
             .AddHorizontalRule()
 
             // page links

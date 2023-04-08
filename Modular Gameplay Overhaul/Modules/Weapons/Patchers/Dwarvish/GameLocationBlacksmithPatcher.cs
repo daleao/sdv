@@ -3,7 +3,6 @@
 #region using directives
 
 using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
 using DaLion.Overhaul.Modules.Professions.Integrations;
@@ -18,6 +17,9 @@ using StardewValley.Tools;
 [UsedImplicitly]
 internal sealed class GameLocationBlacksmithPatcher : HarmonyPatcher
 {
+    private static bool? _isPanningUpgradesLoaded;
+    private static bool? _isRanchingToolUpgradesLoaded;
+
     /// <summary>Initializes a new instance of the <see cref="GameLocationBlacksmithPatcher"/> class.</summary>
     internal GameLocationBlacksmithPatcher()
     {
@@ -116,27 +118,67 @@ internal sealed class GameLocationBlacksmithPatcher : HarmonyPatcher
 
     private static bool HasUpgradeableToolInInventory(Farmer farmer)
     {
-        return farmer.getToolFromName("Axe") is Axe { UpgradeLevel: < 4 } ||
-               farmer.getToolFromName("Pickaxe") is Pickaxe { UpgradeLevel: < 4 } ||
-               farmer.getToolFromName("Hoe") is Hoe { UpgradeLevel: < 4 } ||
-               farmer.getToolFromName("Watering Can") is WateringCan { UpgradeLevel: < 4 } ||
-               farmer.trashCanLevel < 4 ||
-               (LoveOfCookingIntegration.Instance?.IsLoaded == true && Reflector
-                   .GetStaticMethodDelegate<Func<bool>>("LoveOfCooking.Objects.CookingTool".ToType(), "CanBeUpgraded")
-                   .Invoke()) ||
-               (ModHelper.ModRegistry.IsLoaded("drbirbdev.PanningUpgrades") &&
-                farmer.getToolFromName("UpgradeablePan") is Pan { UpgradeLevel: < 4 }) ||
-               (ModHelper.ModRegistry.IsLoaded("drbirbdev.RanchingToolUpgrades") &&
-                (farmer.getToolFromName("UpgradeablePail") is MilkPail { UpgradeLevel: < 4 } ||
-                 farmer.getToolFromName("UpgradeableShears") is Shears { UpgradeLevel: < 4 }));
+        for (var i = 0; i < farmer.Items.Count; i++)
+        {
+            var item = farmer.Items[i];
+            if (item is null)
+            {
+                continue;
+            }
+
+            if (item is not Tool { UpgradeLevel: < 4 } tool)
+            {
+                continue;
+            }
+
+            switch (tool)
+            {
+                case Axe or Pickaxe or Hoe or WateringCan:
+                    return true;
+
+                case Pan:
+                    _isPanningUpgradesLoaded ??= ModHelper.ModRegistry.IsLoaded("drbirbdev.PanningUpgrades");
+                    if (_isPanningUpgradesLoaded.Value)
+                    {
+                        return true;
+                    }
+
+                    continue;
+
+                case MilkPail or Shears:
+                    _isRanchingToolUpgradesLoaded ??= ModHelper.ModRegistry.IsLoaded("drbirbdev.RanchingToolUpgrades");
+                    if (_isRanchingToolUpgradesLoaded.Value)
+                    {
+                        return true;
+                    }
+
+                    break;
+            }
+        }
+
+        return (LoveOfCookingIntegration.Instance?.IsLoaded == true && Reflector
+            .GetStaticMethodDelegate<Func<bool>>("LoveOfCooking.Objects.CookingTool".ToType(), "CanBeUpgraded")
+            .Invoke()) || farmer.trashCanLevel < 4;
     }
 
     private static bool HasGeodeInInventory(Farmer farmer)
     {
-        return farmer.hasItemInInventory(535, 1) || farmer.hasItemInInventory(536, 1) ||
-               farmer.hasItemInInventory(537, 1) || farmer.hasItemInInventory(749, 1) ||
-               farmer.hasItemInInventory(275, 1) || farmer.hasItemInInventory(791, 1) ||
-               farmer.Items.Any(i => i?.HasContextTag("geode_item") == true);
+        for (var i = 0; i < farmer.Items.Count; i++)
+        {
+            var item = farmer.Items[i];
+            if (item is null)
+            {
+                continue;
+            }
+
+            if (item.ParentSheetIndex is ItemIDs.Geode or ItemIDs.FrozenGeode or ItemIDs.MagmaGeode or ItemIDs.OmniGeode
+                    or ItemIDs.ArtifactTrove or ItemIDs.GoldenCoconut || item.HasContextTag("geode_item"))
+            {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     #endregion injected subroutines

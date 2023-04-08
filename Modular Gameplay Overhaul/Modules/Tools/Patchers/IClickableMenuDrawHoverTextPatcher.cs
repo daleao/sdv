@@ -1,19 +1,18 @@
-﻿namespace DaLion.Overhaul.Modules.Weapons.Patchers;
+﻿namespace DaLion.Overhaul.Modules.Tools.Patchers;
 
 #region using directives
 
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using System.Reflection.Emit;
 using System.Text;
-using DaLion.Overhaul.Modules.Weapons.Extensions;
 using DaLion.Shared.Extensions.Reflection;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using StardewValley.Menus;
-using StardewValley.Tools;
 
 #endregion using directives
 
@@ -31,15 +30,22 @@ internal sealed class IClickableMenuDrawHoverTextPatcher : HarmonyPatcher
                 typeof(int), typeof(string), typeof(int), typeof(string[]), typeof(Item), typeof(int), typeof(int),
                 typeof(int), typeof(int), typeof(int), typeof(float), typeof(CraftingRecipe), typeof(IList<Item>),
             });
+        this.Transpiler!.before = new[] { OverhaulModule.Weapons.Namespace };
     }
 
     #region harmony patches
 
-    /// <summary>Set hover text color for legendary weapons.</summary>
+    /// <summary>Set hover text color for upgraded tools weapons.</summary>
     [HarmonyTranspiler]
+    [HarmonyBefore("DaLion.Overhaul.Modules.Weapons")]
     private static IEnumerable<CodeInstruction>? IClickableMenuDrawHoverTextTranspiler(
         IEnumerable<CodeInstruction> instructions, MethodBase original)
     {
+        if (WeaponsModule.ShouldEnable)
+        {
+            return null;
+        }
+
         var helper = new ILHelper(original, instructions);
 
         // From: b.DrawString(Game1.dialogueFont, boldTitleText, new Vector2(x + 16, y + 16 + 4), Game1.textColor);
@@ -76,63 +82,12 @@ internal sealed class IClickableMenuDrawHoverTextPatcher : HarmonyPatcher
 
     #region injected subroutines
 
-    private static Color GetTitleColorFor(Item? item)
+    [SuppressMessage("StyleCop.CSharp.OrderingRules", "SA1202:Elements should be ordered by access", Justification = "Harmony-injected subroutine shared by a SpaceCore patch.")]
+    internal static Color GetTitleColorFor(Item? item)
     {
-        if (item is not Tool tool)
-        {
-            return Game1.textColor;
-        }
-
-        if (item is (MeleeWeapon or Slingshot) && WeaponsModule.Config.ColorCodedForYourConvenience)
-        {
-            var tier = WeaponTier.GetFor(tool);
-            if (tier == WeaponTier.Untiered)
-            {
-                return Game1.textColor;
-            }
-
-            if (tier < WeaponTier.Legendary)
-            {
-                return tier.Color;
-            }
-
-            if (tool is MeleeWeapon weapon)
-            {
-                if (weapon.isGalaxyWeapon())
-                {
-                    return Color.DarkViolet;
-                }
-
-                if (weapon.IsInfinityWeapon())
-                {
-                    return Color.DeepPink;
-                }
-
-                switch (weapon.InitialParentTileIndex)
-                {
-                    case ItemIDs.DarkSword:
-                        return Color.DarkSlateGray;
-                    case ItemIDs.HolyBlade:
-                        return Color.Gold;
-                }
-            }
-            else if (tool is Slingshot slingshot)
-            {
-                switch (slingshot.InitialParentTileIndex)
-                {
-                    case ItemIDs.GalaxySlingshot:
-                        return Color.DarkViolet;
-                    case ItemIDs.InfinitySlingshot:
-                        return Color.DeepPink;
-                }
-            }
-        }
-        else if (ToolsModule.ShouldEnable && ToolsModule.Config.ColorCodedForYourConvenience)
-        {
-            return Tools.Patchers.IClickableMenuDrawHoverTextPatcher.GetTitleColorFor(item);
-        }
-
-        return Game1.textColor;
+        return item is Tool { UpgradeLevel: > 0 } tool && ToolsModule.Config.ColorCodedForYourConvenience
+            ? ((UpgradeLevel)tool.UpgradeLevel).GetColor()
+            : Game1.textColor;
     }
 
     #endregion injected subroutines

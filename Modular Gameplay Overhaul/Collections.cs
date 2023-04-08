@@ -141,7 +141,7 @@ internal static class Collections
     }.ToImmutableDictionary();
 
     /// <summary>Gets the swords that should be converted to Stabbing Swords.</summary>
-    internal static HashSet<int> StabbingSwords { get; } = new()
+    internal static HashSet<int> StabbingSwords { get; set; } = new()
     {
         ItemIDs.SteelSmallsword,
         ItemIDs.Cutlass,

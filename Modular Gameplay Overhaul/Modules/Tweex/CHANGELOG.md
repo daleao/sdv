@@ -4,7 +4,11 @@
 
 ### Added
 
-* Added SpawnCrows settings to GMCM.
+* Added crow spawn settings to GMCM.
+
+### Fixed
+
+* Fruit trees now grow as normal during winter in Ginger Island.
 
 ## 2.0.0
 

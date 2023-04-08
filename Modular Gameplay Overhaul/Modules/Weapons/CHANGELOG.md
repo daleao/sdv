@@ -1,5 +1,13 @@
 ﻿# Weapons Change Log
 
+## 2.0.5
+
+### Fixed
+
+* Prevented an exception thrown when drawing the tooltip of weapons with bonus defense if CMBT's Defense Overhaul is disabled.
+* Fixed a small display issue when drawing the tooltip of weapons with negative defense.
+* Galaxy and Infinity sword types should now obey the config settings.
+
 ## 2.0.0
 
 * Initial release of Weapons module.

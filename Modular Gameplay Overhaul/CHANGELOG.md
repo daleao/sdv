@@ -2,6 +2,16 @@
 
 This file contains a TL;DR of individual module changelogs. Only major changes are reiterated here. For the complete list of changes, please refer to the individual changelogs of each module, linked [below](#detailed-change-logs).
 
+## Revision 2.0.5
+
+* Updated minimum version for SpaceCore.
+* [CMBT]: Is no longer enabled by default.
+* [PROFS]: Fixed configs not persisting.
+* [RNGS]: Glow setting can now be disabled correctly.
+* [SLNGS]: Slingshots can now receive enchantments again.
+* [TXS]: Fixed agriculture value calculation, so no longer should properties be charged billions.
+* [TWX]: Added crow spawn settings to GMCM.
+
 ## Hotfix 2.0.4
 
 * Added some missing GMCM settings.
