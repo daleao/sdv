@@ -1,6 +1,6 @@
 # Modular Overhaul Change Logs
 
-This file contains a TL;DR of individual module changelogs. Only major changes are reiterated here. For the complete list of changes, please refer to the individual changelogs of each module, linked [below](#detailed-change-logs).
+This file contains a TL;DR of current version changes and hotfixes from across all modules. For the complete changelog, please refer to the individual changelogs of each module, linked [below](#detailed-change-logs).
 
 ## Revision 2.0.5
 
