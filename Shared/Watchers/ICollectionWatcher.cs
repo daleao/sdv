@@ -6,7 +6,7 @@ using System.Collections.Generic;
 
 #endregion using directives
 
-/// <summary>A watcher which tracks changes to a collection.</summary>
+/// <summary>A watcher which tracks changes to a <see cref="ICollection{T}"/>.</summary>
 /// <typeparam name="TValue">The collection value type.</typeparam>
 /// <remarks>Pulled from <see href="https://github.com/Pathoschild/SMAPI/tree/develop/src/SMAPI/Modules/StateTracking">SMAPI</see>.</remarks>
 internal interface ICollectionWatcher<out TValue> : IWatcher

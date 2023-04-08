@@ -8,7 +8,7 @@ using Netcode;
 
 #endregion using directives
 
-/// <summary>A watcher which detects changes to a net list field.</summary>
+/// <summary>A watcher which detects changes to a <see cref="NetStringList"/>.</summary>
 internal class NetStringListWatcher : DisposableWatcher, ICollectionWatcher<string>
 {
     /// <summary>The field being watched.</summary>

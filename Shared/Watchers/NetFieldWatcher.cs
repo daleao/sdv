@@ -6,7 +6,7 @@ using Netcode;
 
 #endregion using directives
 
-/// <summary>A watcher which detects changes to a net value field.</summary>
+/// <summary>A watcher which detects changes to a <see cref="NetField{T,TSelf}"/>.</summary>
 /// <typeparam name="TValue">The value type wrapped by the net field.</typeparam>
 /// <typeparam name="TNetField">The net field type.</typeparam>
 /// <remarks>Pulled from <see href="https://github.com/Pathoschild/SMAPI/tree/develop/src/SMAPI/Modules/StateTracking">SMAPI</see>.</remarks>

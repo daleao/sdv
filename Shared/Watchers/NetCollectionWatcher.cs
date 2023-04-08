@@ -7,7 +7,7 @@ using Netcode;
 
 #endregion using directives
 
-/// <summary>A watcher which detects changes to a Netcode collection.</summary>
+/// <summary>A watcher which detects changes to a <see cref="NetCollection{T}"/>.</summary>
 /// <typeparam name="TValue">The value type within the collection.</typeparam>
 /// <remarks>Pulled from <see href="https://github.com/Pathoschild/SMAPI/tree/develop/src/SMAPI/Modules/StateTracking">SMAPI</see>.</remarks>
 internal class NetCollectionWatcher<TValue> : DisposableWatcher, ICollectionWatcher<TValue>

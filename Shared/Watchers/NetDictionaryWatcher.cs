@@ -7,7 +7,7 @@ using Netcode;
 
 #endregion using directives
 
-/// <summary>A watcher which detects changes to a net dictionary field.</summary>
+/// <summary>A watcher which detects changes to a <see cref="NetDictionary{TKey,TValue,TField,TSerialDict,TSelf}"/>.</summary>
 /// <typeparam name="TKey">The dictionary key type.</typeparam>
 /// <typeparam name="TValue">The dictionary value type.</typeparam>
 /// <typeparam name="TField">The net type equivalent to <typeparamref name="TValue"/>.</typeparam>

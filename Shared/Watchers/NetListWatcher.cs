@@ -8,7 +8,7 @@ using Netcode;
 
 #endregion using directives
 
-/// <summary>A watcher which detects changes to a net list field.</summary>
+/// <summary>A watcher which detects changes to a <see cref="NetList{T,TField}"/>.</summary>
 /// <typeparam name="TValue">The list value type.</typeparam>
 /// <remarks>Pulled from <see href="https://github.com/Pathoschild/SMAPI/tree/develop/src/SMAPI/Modules/StateTracking">SMAPI</see>.</remarks>
 internal class NetListWatcher<TValue> : DisposableWatcher, ICollectionWatcher<TValue>
