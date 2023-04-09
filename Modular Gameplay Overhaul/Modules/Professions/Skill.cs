@@ -268,8 +268,9 @@ public class Skill : SmartEnum<Skill>, ISkill
 
         var expectedLevel = 0;
         var level = 1;
-        while (level <= this.MaxLevel && this.CurrentExp >= ISkill.ExperienceByLevel[level++])
+        while (level <= this.MaxLevel && this.CurrentExp >= ISkill.ExperienceByLevel[level])
         {
+            level++;
             expectedLevel++;
         }
 

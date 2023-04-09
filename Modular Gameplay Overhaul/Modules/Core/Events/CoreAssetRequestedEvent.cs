@@ -19,6 +19,6 @@ internal sealed class CoreAssetRequestedEvent : AssetRequestedEvent
     {
         this.Provide(
             $"{Manifest.UniqueID}/StunAnimation",
-            new ModTextureProvider(() => "assets/animations/stun.png", AssetLoadPriority.Medium));
+            new ModTextureProvider(() => "assets/animations/stun.png"));
     }
 }

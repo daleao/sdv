@@ -19,8 +19,8 @@ internal class RingAssetRequestedEvent : AssetRequestedEvent
     internal RingAssetRequestedEvent(EventManager manager)
         : base(manager)
     {
-        this.Edit("Data/CraftingRecipes", new AssetEditor(EditCraftingRecipesData, AssetEditPriority.Default));
-        this.Edit("Data/ObjectInformation", new AssetEditor(EditObjectInformationData, AssetEditPriority.Default));
+        this.Edit("Data/CraftingRecipes", new AssetEditor(EditCraftingRecipesData));
+        this.Edit("Data/ObjectInformation", new AssetEditor(EditObjectInformationData));
         this.Edit("Maps/springobjects", new AssetEditor(EditSpringObjectsMaps, AssetEditPriority.Late));
     }
 

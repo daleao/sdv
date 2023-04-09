@@ -51,8 +51,8 @@ internal sealed class WeaponAssetRequestedEvent : AssetRequestedEvent
         this.Edit("Data/Monsters", new AssetEditor(EditMonstersData, AssetEditPriority.Late));
         this.Edit("Data/Quests", new AssetEditor(EditQuestsData, AssetEditPriority.Late));
         this.Edit("Data/weapons", new AssetEditor(EditWeaponsData, AssetEditPriority.Late));
-        this.Edit("Strings/Locations", new AssetEditor(EditLocationsStrings, AssetEditPriority.Default));
-        this.Edit("TileSheets/Projectiles", new AssetEditor(EditProjectilesTileSheet, AssetEditPriority.Default));
+        this.Edit("Strings/Locations", new AssetEditor(EditLocationsStrings));
+        this.Edit("TileSheets/Projectiles", new AssetEditor(EditProjectilesTileSheet));
         this.Edit("TileSheets/weapons", new AssetEditor(EditWeaponsTileSheetEarly, AssetEditPriority.Early));
         this.Edit("TileSheets/weapons", new AssetEditor(EditWeaponsTileSheetLate, AssetEditPriority.Late));
 

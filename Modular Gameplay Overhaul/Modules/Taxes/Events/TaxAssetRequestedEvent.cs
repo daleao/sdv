@@ -19,7 +19,7 @@ internal sealed class TaxAssetRequestedEvent : AssetRequestedEvent
     internal TaxAssetRequestedEvent(EventManager manager)
         : base(manager)
     {
-        this.Edit("Data/mail", new AssetEditor(EditMailData, AssetEditPriority.Default));
+        this.Edit("Data/mail", new AssetEditor(EditMailData));
     }
 
     private static void EditMailData(IAssetData asset)

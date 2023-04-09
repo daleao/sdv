@@ -1,5 +1,17 @@
 # Rings Module Change Log
 
+## 2.0.7
+
+### Added
+
+* Added GetInfinityBand command.
+* Added some resonance texture options.
+
+### Fixed
+
+* Fixed yellow-tint in colorless resonance glow.
+* Fixed a bug where unequipping an Infinity Band could cause the resonance glow to stick around.
+
 ## 2.0.5
 
 ### Fixed

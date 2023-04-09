@@ -36,7 +36,7 @@ Enchantments have been almost entirely overhauled. Hopefully these enchantments 
 | --------- | -------|
 | Haymaker  | *Unchanged from vanilla.* |
 | Artful    | Improves the special move of each weapon.* |
-| Carving   | Attacks on-hit reduce enemy defense by 1. Removes the armor of Armored Bugs and de-shells Rock Crabs. |
+| Carving   | Attacks on-hit reduce enemy defense by 1. Removes the armor from Armored Bugs and de-shells Rock Crabs. |
 | Cleaving  | Attacks on-hit spread 60% - 20% (based on distance) of the damage to other enemies around the target. |
 | Energized | Moving and attacking generates energy. When fully-energized, the next attack causes an electric discharge, dealing heavy damage in a large area. |
 | Blasting | Accumulates and stores half of the damage from enemy hits (before mitigation). After accumulating enough damage, the next special move releases that damage as an explosion. |

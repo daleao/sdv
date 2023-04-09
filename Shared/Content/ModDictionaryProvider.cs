@@ -12,7 +12,7 @@ using StardewModdingAPI.Events;
 /// <typeparam name="TValue">The type of the values in the data dictionary.</typeparam>
 /// <param name="GetPath">A delegate which returns the relative path to the JSON dictionary inside the mod folder.</param>
 /// <param name="Priority">The priority for an asset load when multiple apply for the same asset.</param>
-public record ModDictionaryProvider<TKey, TValue>(Func<string> GetPath, AssetLoadPriority Priority) : IAssetProvider
+public record ModDictionaryProvider<TKey, TValue>(Func<string> GetPath, AssetLoadPriority Priority = AssetLoadPriority.Medium) : IAssetProvider
     where TKey : notnull
 {
     /// <inheritdoc />

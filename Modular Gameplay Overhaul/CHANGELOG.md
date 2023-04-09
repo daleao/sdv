@@ -2,6 +2,12 @@
 
 This file contains a TL;DR of current version changes and hotfixes from across all modules. For the complete changelog, please refer to the individual changelogs of each module, linked [below](#detailed-change-logs).
 
+## Hotfic 2.0.7
+
+* [RNGS]: Fixed yellow-tint in colorless resonance glow.
+* [RNGS]: Fixed a bug where unequipping an Infinity Band could cause the resonance glow to stick around.
+* [RNGS]: Added different resonance texture options.
+
 ## Revision 2.0.6
 
 * [WPNZ]: Fixed Galaxy and Infinity stabbing sword options not applying correctly.

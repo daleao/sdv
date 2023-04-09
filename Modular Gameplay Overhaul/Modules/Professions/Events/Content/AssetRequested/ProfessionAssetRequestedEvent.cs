@@ -27,24 +27,24 @@ internal sealed class ProfessionAssetRequestedEvent : AssetRequestedEvent
     internal ProfessionAssetRequestedEvent(EventManager manager)
         : base(manager)
     {
-        this.Edit("Data/achievements", new AssetEditor(EditAchievementsData, AssetEditPriority.Default));
+        this.Edit("Data/achievements", new AssetEditor(EditAchievementsData));
         this.Edit("Data/FishPondData", new AssetEditor(EditFishPondDataData, AssetEditPriority.Late));
-        this.Edit("Data/mail", new AssetEditor(EditMailData, AssetEditPriority.Default));
-        this.Edit("LooseSprites/Cursors", new AssetEditor(EditCursorsLooseSprites, AssetEditPriority.Default));
-        this.Edit("TileSheets/BuffsIcons", new AssetEditor(EditBuffsIconsTileSheets, AssetEditPriority.Default));
+        this.Edit("Data/mail", new AssetEditor(EditMailData));
+        this.Edit("LooseSprites/Cursors", new AssetEditor(EditCursorsLooseSprites));
+        this.Edit("TileSheets/BuffsIcons", new AssetEditor(EditBuffsIconsTileSheets));
 
         this.Provide(
             $"{Manifest.UniqueID}/HudPointer",
-            new ModTextureProvider(() => "assets/hud/pointer.png", AssetLoadPriority.Medium));
+            new ModTextureProvider(() => "assets/hud/pointer.png"));
         this.Provide(
             $"{Manifest.UniqueID}/MaxIcon",
-            new ModTextureProvider(() => "assets/menus/max.png", AssetLoadPriority.Medium));
+            new ModTextureProvider(() => "assets/menus/max.png"));
         this.Provide(
             $"{Manifest.UniqueID}/SkillBars",
-            new ModTextureProvider(ProvideSkillBars, AssetLoadPriority.Medium));
+            new ModTextureProvider(ProvideSkillBars));
         this.Provide(
             $"{Manifest.UniqueID}/UltimateMeter",
-            new ModTextureProvider(ProvideUltimateMeter, AssetLoadPriority.Medium));
+            new ModTextureProvider(ProvideUltimateMeter));
     }
 
     #region editor callback

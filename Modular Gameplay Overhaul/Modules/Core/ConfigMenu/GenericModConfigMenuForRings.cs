@@ -2,6 +2,7 @@
 
 #region using directives
 
+using DaLion.Overhaul.Modules.Rings;
 using DaLion.Overhaul.Modules.Rings.Integrations;
 using DaLion.Overhaul.Modules.Rings.VirtualProperties;
 using DaLion.Shared.Extensions.SMAPI;
@@ -38,7 +39,8 @@ internal sealed partial class GenericModConfigMenu
                 })
             .AddCheckbox(
                 () => "Better Glowstone Progression",
-                () => "Replaces the glowstone ring recipe with one that makes sense, and adds complementary recipes for its constituents.",
+                () =>
+                    "Replaces the glowstone ring recipe with one that makes sense, and adds complementary recipes for its constituents.",
                 config => config.Rings.BetterGlowstoneProgression,
                 (config, value) =>
                 {
@@ -53,7 +55,8 @@ internal sealed partial class GenericModConfigMenu
                 {
                     if (value && !ModHelper.ModRegistry.IsLoaded("spacechase0.JsonAssets"))
                     {
-                        Log.W("Cannot enable The One Iridium Band because this feature requires Json Assets which is not installed.");
+                        Log.W(
+                            "Cannot enable The One Iridium Band because this feature requires Json Assets which is not installed.");
                         return;
                     }
 
@@ -61,7 +64,8 @@ internal sealed partial class GenericModConfigMenu
                     ModHelper.GameContent.InvalidateCacheAndLocalized("Data/CraftingRecipes");
                     ModHelper.GameContent.InvalidateCacheAndLocalized("Data/ObjectInformation");
                     ModHelper.GameContent.InvalidateCacheAndLocalized("Maps/springobjects");
-                    if (value && !Globals.InfinityBandIndex.HasValue && JsonAssetsIntegration.Instance?.IsRegistered == false)
+                    if (value && !Globals.InfinityBandIndex.HasValue &&
+                        JsonAssetsIntegration.Instance?.IsRegistered == false)
                     {
                         JsonAssetsIntegration.Instance.Register();
                     }
@@ -78,10 +82,18 @@ internal sealed partial class GenericModConfigMenu
                 (config, value) =>
                 {
                     config.Rings.ColorfulResonance = value;
-                    foreach (var chord in Game1.player.Get_ResonatingChords())
-                    {
-                        chord.ResetLightSource(value);
-                    }
-                });
+                    Game1.player.Get_ResonatingChords().ForEach(chord => chord.ResetLightSource());
+                })
+            .AddDropdown(
+                () => "Resonance Light Source Texture",
+                () => "The texture that should be used as the resonance light source.",
+                config => config.Rings.LightsourceTexture.ToString(),
+                (config, value) =>
+                {
+                    config.Rings.LightsourceTexture = Enum.Parse<Config.ResonanceLightsourceTexture>(value);
+                    Game1.player.Get_ResonatingChords().ForEach(chord => chord.ResetLightSource());
+                },
+                new[] { "Sconce", "Stronger", "Patterned" },
+                null);
     }
 }

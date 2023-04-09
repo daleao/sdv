@@ -13,7 +13,7 @@ using StardewModdingAPI.Events;
 /// <typeparam name="TValue">The type of the values in the data dictionary.</typeparam>
 /// <param name="Load">A delegate callback for loading the initial instance of the content asset.</param>
 /// <param name="Priority">The priority for an asset load when multiple apply for the same asset.</param>
-public record DictionaryProvider<TKey, TValue>(Func<Dictionary<TKey, TValue>>? Load, AssetLoadPriority Priority) : IAssetProvider
+public record DictionaryProvider<TKey, TValue>(Func<Dictionary<TKey, TValue>>? Load, AssetLoadPriority Priority = AssetLoadPriority.Medium) : IAssetProvider
     where TKey : notnull
 {
     /// <inheritdoc />

@@ -19,7 +19,7 @@ internal sealed class EnchantmentsAssetRequestedEvent : AssetRequestedEvent
     internal EnchantmentsAssetRequestedEvent(EventManager manager)
         : base(manager)
     {
-        this.Edit("TileSheets/BuffsIcons", new AssetEditor(EditBuffsIconsTileSheet, AssetEditPriority.Default));
+        this.Edit("TileSheets/BuffsIcons", new AssetEditor(EditBuffsIconsTileSheet));
         //this.Provide(
         //    $"{Manifest.UniqueID}/QuincyCollisionAnimation",
         //    new ModTextureProvider(() => "assets/animations/quincy.png", AssetLoadPriority.Medium));

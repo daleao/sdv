@@ -15,6 +15,10 @@ internal static class Textures
     internal static Texture2D GemstonesTx { get; } =
         ModHelper.ModContent.Load<Texture2D>("assets/sprites/gemstones");
 
-    internal static Texture2D ResonanceLightTx { get; } =
-        ModHelper.ModContent.Load<Texture2D>("assets/lights/resonance");
+    internal static Texture2D StrongerResonanceTx { get; } =
+        ModHelper.ModContent.Load<Texture2D>("assets/lights/resonance_stronger");
+
+    internal static Texture2D PatternedResonanceTx { get; } =
+        ModHelper.ModContent.Load<Texture2D>("assets/lights/resonance_patterned");
+
 }
