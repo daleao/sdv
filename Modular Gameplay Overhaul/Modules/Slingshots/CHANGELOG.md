@@ -1,5 +1,12 @@
 ﻿# Slingshots Change Log
 
+## 2.0.6
+
+### Fixed
+
+* Tool now read "Knockback" instead of "Weight", like melee weapons.
+* Renamed internal stat virtual properties for better clarity.
+
 ## 2.0.5
 
 ### Fixed

@@ -20,7 +20,7 @@ internal static class FarmerExtensions
         slingshot ??= farmer.CurrentTool as Slingshot;
         if (slingshot is not null)
         {
-            modifier *= slingshot.Get_EffectiveFireSpeed();
+            modifier *= slingshot.Get_EmeraldFireSpeed();
         }
 
         return modifier;

@@ -4,6 +4,7 @@
 
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
+using System.Linq;
 using DaLion.Overhaul.Modules.Weapons.Enchantments;
 using DaLion.Overhaul.Modules.Weapons.VirtualProperties;
 using DaLion.Shared;
@@ -45,12 +46,39 @@ internal static class MeleeWeaponExtensions
         return weapon.isGalaxyWeapon() || weapon.IsInfinityWeapon() || weapon.IsCursedOrBlessed() || weapon.specialItem;
     }
 
-    /// <summary>Determines whether the <paramref name="weapon"/> is unique.</summary>
+    /// <summary>Determines whether the <paramref name="weapon"/> is a legacy Dwarven weapon.</summary>
     /// <param name="weapon">The <see cref="MeleeWeapon"/>.</param>
-    /// <returns><see langword="true"/> if the <paramref name="weapon"/> is a Galaxy, Infinity or other unique weapon, otherwise <see langword="false"/>.</returns>
-    internal static bool CanBeCrafted(this MeleeWeapon weapon)
+    /// <returns><see langword="true"/> if the <paramref name="weapon"/> if DwarvenLegacy option is enabled and the weapon is a Dwarven, Dragontooth or Elven weapon, otherwise <see langword="false"/>.</returns>
+    internal static bool IsLegacyWeapon(this MeleeWeapon weapon)
     {
-        return weapon.Name.StartsWith("Dwarven") || weapon.Name.StartsWith("Dragontooth") || weapon.Name.StartsWith("Elven");
+        if (!WeaponsModule.Config.DwarvishLegacy)
+        {
+            return false;
+        }
+
+        var legacyWeaponIds = new[]
+        {
+            ItemIDs.DwarfDagger,
+            ItemIDs.DwarfHammer,
+            ItemIDs.DwarfSword,
+            ItemIDs.DragontoothClub,
+            ItemIDs.DragontoothCutlass,
+            ItemIDs.DragontoothShiv,
+            ItemIDs.ElfBlade,
+            ItemIDs.ForestSword,
+        };
+
+        return weapon.InitialParentTileIndex.IsIn(legacyWeaponIds);
+    }
+
+    /// <summary>Determines whether the <paramref name="weapon"/> should be converted to stabbing sword.</summary>
+    /// <param name="weapon">The <see cref="MeleeWeapon"/>.</param>
+    /// <returns><see langword="true"/> if the <paramref name="weapon"/> is StabbySwords option is enabled and the weapon should be a stabbing sword, otherwise <see langword="false"/>.</returns>
+    internal static bool ShouldBeStabbySword(this MeleeWeapon weapon)
+    {
+        return WeaponsModule.Config.EnableStabbySwords &&
+               (Collections.StabbingSwords.Contains(weapon.InitialParentTileIndex) ||
+                WeaponsModule.Config.CustomStabbingSwords.Contains(weapon.Name));
     }
 
     /// <summary>Gets the default crit. chance for this weapon type.</summary>
@@ -152,8 +180,8 @@ internal static class MeleeWeaponExtensions
                     return weapon;
                 }
 
-                if (!weapon.IsUnique() && (!WeaponsModule.Config.DwarvishLegacy || !weapon.CanBeCrafted()) &&
-                    WeaponsModule.Config.EnableRebalance && WeaponTier.GetFor(weapon) > WeaponTier.Untiered)
+                if (!weapon.IsUnique() && !weapon.IsLegacyWeapon() && WeaponsModule.Config.EnableRebalance &&
+                    WeaponTier.GetFor(weapon) > WeaponTier.Untiered)
                 {
                     weapon.RandomizeDamage();
                 }

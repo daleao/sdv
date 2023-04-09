@@ -23,7 +23,7 @@ internal static class FarmerExtensions
                 ? weapon.Get_EffectiveResilience()
                 : 10f / (10 + weapon.addedDefense.Value),
             Slingshot slingshot => SlingshotsModule.ShouldEnable && SlingshotsModule.Config.EnableEnchantments
-                ? slingshot.Get_EffectiveResilience()
+                ? slingshot.Get_TopazResilience()
                 : 0f,
             _ => 1f,
         };

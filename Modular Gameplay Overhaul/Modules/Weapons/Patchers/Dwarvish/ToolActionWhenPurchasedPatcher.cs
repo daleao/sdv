@@ -25,7 +25,7 @@ internal sealed class ToolActionWhenPurchasedPatcher : HarmonyPatcher
     private static void ToolActionWhenPurchasedPostfix(Tool __instance, ref bool __result)
     {
         if (Game1.player.toolBeingUpgraded.Value is not null || __instance is not MeleeWeapon weapon ||
-            !weapon.CanBeCrafted())
+            !weapon.IsLegacyWeapon())
         {
             return;
         }

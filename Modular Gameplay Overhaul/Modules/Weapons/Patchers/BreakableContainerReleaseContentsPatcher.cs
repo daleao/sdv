@@ -10,6 +10,7 @@ using HarmonyLib;
 using Microsoft.Xna.Framework;
 using StardewValley.Locations;
 using StardewValley.Objects;
+using StardewValley.Tools;
 
 #endregion using directives
 
@@ -53,8 +54,14 @@ internal sealed class BreakableContainerReleaseContentsPatcher : HarmonyPatcher
             if (r.NextDouble() < WeaponsModule.State.ContainerDropAccumulator)
             {
                 WeaponsModule.State.ContainerDropAccumulator = 0.05;
+                var drop = MineShaft.getSpecialItemForThisMineLevel(mineLevel, x, y);
+                if (drop is MeleeWeapon weapon)
+                {
+                    weapon.RandomizeDamage();
+                }
+
                 Game1.createItemDebris(
-                    MineShaft.getSpecialItemForThisMineLevel(mineLevel, x, y),
+                    drop,
                     (new Vector2(x, y) * Game1.tileSize) + new Vector2(32f, 32f),
                     r.Next(4),
                     location);

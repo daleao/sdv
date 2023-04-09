@@ -74,15 +74,15 @@ internal sealed class ObjectProjectile : BasicProjectile
         this.Source = source;
         this.Firer = firer;
         this.Overcharge = overcharge;
-        this.Damage = (int)(this.damageToFarmer.Value * source.Get_EffectiveDamageModifier() * (1f + firer.attackIncreaseModifier) * overcharge);
-        this.Knockback = knockback * source.Get_EffectiveKnockbackModifer() * (1f + firer.knockbackModifier) * overcharge;
+        this.Damage = (int)(this.damageToFarmer.Value * source.Get_RubyDamageModifier() * (1f + firer.attackIncreaseModifier) * overcharge);
+        this.Knockback = knockback * source.Get_AmethystKnockbackModifer() * (1f + firer.knockbackModifier) * overcharge;
 
         var canCrit = SlingshotsModule.Config.EnableCriticalHits;
         this.CritChance = canCrit
-            ? 0.025f * source.Get_EffectiveCritChanceModifier() * (1f + firer.critChanceModifier)
+            ? 0.025f * source.Get_AquamarineCritChanceModifier() * (1f + firer.critChanceModifier)
             : 0f;
         this.CritPower = canCrit
-            ? 2f * source.Get_EffectiveCritPowerModifier() * (1f + firer.critPowerModifier)
+            ? 2f * source.Get_JadeCritPowerModifier() * (1f + firer.critPowerModifier)
             : 0f;
 
         this.CanPierce = !this.IsSquishy() && ammo.ParentSheetIndex != ItemIDs.ExplosiveAmmo;

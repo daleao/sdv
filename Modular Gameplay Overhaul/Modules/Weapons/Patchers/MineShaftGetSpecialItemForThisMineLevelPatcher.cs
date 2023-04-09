@@ -4,6 +4,7 @@
 
 using System.Collections.Generic;
 using System.Reflection;
+using DaLion.Overhaul.Modules.Weapons.Extensions;
 using DaLion.Shared.Extensions.Collections;
 using DaLion.Shared.Harmony;
 using HarmonyLib;

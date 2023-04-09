@@ -9,5 +9,5 @@
 	"CanTrash": true,
 	"HideFromShippingCollection": false,
     "TranslationKey": "objects.elderwood",
-	"DisableWithMod": "cometkins.BetterResources"
+	"EnableWithMod": "cometkins.BetterResources"
 }

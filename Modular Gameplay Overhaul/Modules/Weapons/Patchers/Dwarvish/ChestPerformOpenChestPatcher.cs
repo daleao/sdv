@@ -40,7 +40,7 @@ internal sealed class ChestPerformOpenChestPatcher : HarmonyPatcher
             return;
         }
 
-        if (__instance.items.FirstOrDefault(i => i is MeleeWeapon w && w.CanBeCrafted()) is not MeleeWeapon weapon)
+        if (__instance.items.FirstOrDefault(i => i is MeleeWeapon w && w.IsLegacyWeapon()) is not MeleeWeapon weapon)
         {
             return;
         }

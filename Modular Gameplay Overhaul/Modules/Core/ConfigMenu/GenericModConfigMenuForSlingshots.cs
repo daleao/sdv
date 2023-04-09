@@ -24,12 +24,12 @@ internal sealed partial class GenericModConfigMenu
                 (config, value) => config.Slingshots.EnableRebalance = value)
             .AddCheckbox(
                 () => "Enable Critical Hits",
-                () => "Allow slingshots to deal critical damage and be affected by critical modifiers.",
+                () => "Allows slingshots to deal critical damage and be affected by critical modifiers.",
                 config => config.Slingshots.EnableCriticalHits,
                 (config, value) => config.Slingshots.EnableCriticalHits = value)
             .AddCheckbox(
                 () => "Enable Enchantments",
-                () => "Allow slingshots to be enchanted at the Forge. Includes both gemstone enchantments and Prismatic Shard enchantments, provided the Enchantments Module is enabled to provide them.",
+                () => "Allows slingshots to be enchanted at the Forge. Includes both gemstone enchantments and Prismatic Shard enchantments, provided the Enchantments Module is enabled to provide them.",
                 config => config.Slingshots.EnableEnchantments,
                 (config, value) => config.Slingshots.EnableEnchantments = value)
             .AddCheckbox(

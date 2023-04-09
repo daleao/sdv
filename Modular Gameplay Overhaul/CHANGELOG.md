@@ -2,6 +2,14 @@
 
 This file contains a TL;DR of current version changes and hotfixes from across all modules. For the complete changelog, please refer to the individual changelogs of each module, linked [below](#detailed-change-logs).
 
+## Revision 2.0.6
+
+* [WPNZ]: Fixed Galaxy and Infinity stabbing sword options not applying correctly.
+* [WPNZ]: Fixed incorrect weapon stats in menus and shops.
+* [WPNZ]: Small buff to Claymore and Steel Falchion.
+* [WPNZ]: Now uses correct Elderwood sprite for [Better Resources](https://www.nexusmods.com/stardewvalley/mods/6942).
+* [SLNGS]: Tooltip text now reads "Knockback" instead of "Weight", as for melee weapons.
+
 ## Revision 2.0.5
 
 * Updated minimum version for SpaceCore.

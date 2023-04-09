@@ -113,7 +113,7 @@ internal sealed class SlingshotSpecialUpdateTickedEvent : UpdateTickedEvent
             }
 
             SlingshotsModule.State.SlingshotCooldown = (int)(SlingshotsModule.State.SlingshotCooldown *
-                                                          slingshot.Get_EffectiveCooldownReduction() *
+                                                          slingshot.Get_GarnetCooldownReduction() *
                                                           user.Get_CooldownReduction());
         }
         else

@@ -107,22 +107,19 @@ internal static class Utils
             weapon.AddIntrinsicEnchantments();
         }
 
-        if (WeaponsModule.ShouldEnable && WeaponsModule.Config.EnableStabbySwords &&
-            (Collections.StabbingSwords.Contains(weapon.InitialParentTileIndex) ||
-             WeaponsModule.Config.CustomStabbingSwords.Contains(weapon.Name)))
+        if (WeaponsModule.ShouldEnable && weapon.type.Value == MeleeWeapon.defenseSword && weapon.ShouldBeStabbySword())
         {
             weapon.type.Value = MeleeWeapon.stabbingSword;
             Log.D($"[WPNZ]: The type of {weapon.Name} was converted to Stabbing sword.");
         }
-        else if ((!WeaponsModule.ShouldEnable || !WeaponsModule.Config.EnableStabbySwords) &&
-                 weapon.type.Value == MeleeWeapon.stabbingSword)
+        else if (!WeaponsModule.ShouldEnable || (weapon.type.Value == MeleeWeapon.stabbingSword && !weapon.ShouldBeStabbySword()))
         {
             weapon.type.Value = MeleeWeapon.defenseSword;
             Log.D($"[WPNZ]: The type of {weapon.Name} was converted to Defense sword.");
         }
 
         if (WeaponsModule.ShouldEnable && WeaponsModule.Config.InfinityPlusOne && (weapon.isGalaxyWeapon() || weapon.IsInfinityWeapon()
-            || weapon.InitialParentTileIndex is ItemIDs.DarkSword or ItemIDs.HolyBlade))
+            || weapon.InitialParentTileIndex is ItemIDs.DarkSword or ItemIDs.HolyBlade or ItemIDs.NeptuneGlaive))
         {
             weapon.specialItem = true;
         }
@@ -182,13 +179,7 @@ internal static class Utils
         {
             Utility.iterateAllItems(item =>
             {
-                if (item is not MeleeWeapon { type.Value: MeleeWeapon.defenseSword } sword)
-                {
-                    return;
-                }
-
-                if (Collections.StabbingSwords.Contains(sword.InitialParentTileIndex) ||
-                    WeaponsModule.Config.CustomStabbingSwords.Contains(sword.Name))
+                if (item is MeleeWeapon sword && sword.ShouldBeStabbySword())
                 {
                     sword.type.Value = MeleeWeapon.stabbingSword;
                 }
@@ -198,11 +189,9 @@ internal static class Utils
         {
             for (var i = 0; i < Game1.player.Items.Count; i++)
             {
-                if (Game1.player.Items[i] is MeleeWeapon weapon && weapon.type.Value == MeleeWeapon.defenseSword &&
-                    (Collections.StabbingSwords.Contains(weapon.InitialParentTileIndex) ||
-                     WeaponsModule.Config.CustomStabbingSwords.Contains(weapon.Name)))
+                if (Game1.player.Items[i] is MeleeWeapon sword && sword.ShouldBeStabbySword())
                 {
-                    weapon.type.Value = MeleeWeapon.stabbingSword;
+                    sword.type.Value = MeleeWeapon.stabbingSword;
                 }
             }
         }

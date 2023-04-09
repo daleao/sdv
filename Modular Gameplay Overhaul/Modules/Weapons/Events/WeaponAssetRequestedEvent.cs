@@ -392,8 +392,8 @@ internal sealed class WeaponAssetRequestedEvent : AssetRequestedEvent
                 fields[CritPower] = 1.5.ToString(CultureInfo.InvariantCulture);
                 break;
             case ItemIDs.SteelFalchion:
-                fields[MinDamage] = 40.ToString();
-                fields[MaxDamage] = 54.ToString();
+                fields[MinDamage] = 46.ToString();
+                fields[MaxDamage] = 58.ToString();
                 fields[Knockback] = 0.45.ToString(CultureInfo.InvariantCulture);
                 fields[Speed] = 1.ToString();
                 fields[Precision] = 0.ToString();
@@ -431,7 +431,7 @@ internal sealed class WeaponAssetRequestedEvent : AssetRequestedEvent
                 break;
             case ItemIDs.Claymore:
                 fields[MinDamage] = 28.ToString();
-                fields[MaxDamage] = 42.ToString();
+                fields[MaxDamage] = 44.ToString();
                 fields[Knockback] = 0.95.ToString(CultureInfo.InvariantCulture);
                 fields[Speed] = (-3).ToString();
                 fields[Defense] = 3.ToString();
@@ -443,7 +443,7 @@ internal sealed class WeaponAssetRequestedEvent : AssetRequestedEvent
                 break;
             case ItemIDs.TemperedBroadsword:
                 fields[MinDamage] = 36.ToString();
-                fields[MaxDamage] = 58.ToString();
+                fields[MaxDamage] = 54.ToString();
                 fields[Knockback] = 0.65.ToString(CultureInfo.InvariantCulture);
                 fields[Speed] = (-2).ToString();
                 fields[Defense] = 3.ToString();

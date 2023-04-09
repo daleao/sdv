@@ -2,7 +2,6 @@
 
 #region using directives
 
-using System.Linq;
 using DaLion.Overhaul.Modules.Weapons.Extensions;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
@@ -37,29 +36,14 @@ internal sealed class MeleeWeaponCtorPatcher : HarmonyPatcher
             return;
         }
 
-        if (WeaponsModule.Config.EnableStabbySwords &&
-            (Collections.StabbingSwords.Contains(__instance.InitialParentTileIndex) ||
-            WeaponsModule.Config.CustomStabbingSwords.Contains(__instance.Name)))
-        {
-            __instance.type.Value = MeleeWeapon.stabbingSword;
-            Log.D($"The type of {__instance.Name} was converted to Stabbing sword.");
-        }
-
         __instance.AddIntrinsicEnchantments();
-        if (__instance.IsUnique() || (WeaponsModule.Config.DwarvishLegacy && __instance.CanBeCrafted()) ||
-            !WeaponsModule.Config.EnableRebalance || WeaponTier.GetFor(__instance) <= WeaponTier.Untiered)
+        if (!__instance.ShouldBeStabbySword())
         {
             return;
         }
 
-        if (__instance.HasIntrinsicEnchantment())
-        {
-            __instance.RandomizeDamage(2d);
-        }
-        else
-        {
-            __instance.RandomizeDamage();
-        }
+        __instance.type.Value = MeleeWeapon.stabbingSword;
+        Log.D($"The type of {__instance.Name} was converted to Stabbing sword.");
     }
 
     #endregion harmony patches

@@ -4,9 +4,11 @@
 
 using DaLion.Overhaul.Modules.Weapons;
 using DaLion.Overhaul.Modules.Weapons.Integrations;
+using DaLion.Shared.Exceptions;
 using DaLion.Shared.Extensions.SMAPI;
 using DaLion.Shared.Integrations.GenericModConfigMenu;
 using Microsoft.Xna.Framework;
+using StardewValley.Tools;
 
 #endregion using directives
 
@@ -19,7 +21,7 @@ internal sealed partial class GenericModConfigMenu
         this
             .AddPage(OverhaulModule.Weapons.Namespace, () => "Weapons Settings")
 
-            .AddSectionTitle(() => "General Settings")
+            .AddSectionTitle(() => "Rebalance Settings")
             .AddCheckbox(
                 () => "Enable Rebalance",
                 () => "Rebalances every melee weapon, in addition to Mine chests, monster and container drops, weapon shops and many other features.",
@@ -50,15 +52,6 @@ internal sealed partial class GenericModConfigMenu
                 config => config.Weapons.ColorCodedForYourConvenience,
                 (config, value) => config.Weapons.ColorCodedForYourConvenience = value)
             .AddCheckbox(
-                () => "Enable Weapons Retexture",
-                () => "Applies a Vanilla-friendly retexture that better reflects a weapon`s overhauled type or unique status.",
-                config => config.Weapons.EnableRetexture,
-                (config, value) =>
-                {
-                    config.Weapons.EnableRetexture = value;
-                    ModHelper.GameContent.InvalidateCache("TileSheets/weapons");
-                })
-            .AddCheckbox(
                 () => "Defense Improves Parry",
                 () => "Parry damage will increase for each point in defense.",
                 config => config.Weapons.DefenseImprovesParry,
@@ -69,9 +62,137 @@ internal sealed partial class GenericModConfigMenu
                     "A club smash AoE will inflict guaranteed critical damage on burrowed enemies, but completely miss flying enemies.",
                 config => config.Weapons.GroundedClubSmash,
                 (config, value) => config.Weapons.GroundedClubSmash = value)
+            .AddHorizontalRule()
+
+            .AddSectionTitle(() => "Combo Settings")
+            .AddCheckbox(
+                () => "Enable Combo Hits",
+                () => "Replaces vanilla weapon spam with a more strategic combo system.",
+                config => config.Weapons.EnableComboHits,
+                (config, value) => config.Weapons.EnableComboHits = value)
+            .AddCheckbox(
+                () => "Enable Hold-To-Swipe",
+                () => "Allows performing combos by simply holding the tool button instead of spam-clicking.",
+                config => config.Weapons.SwipeHold,
+                (config, value) => config.Weapons.SwipeHold = value)
+            .AddNumberField(
+                () => "Stabbing Sword Combo Hits",
+                () => "The max. number of consecutive hits in a Stabbing Sword combo.",
+                config => config.Weapons.ComboHitsPerWeapon[WeaponType.StabbingSword],
+                (config, value) => config.Weapons.ComboHitsPerWeapon[WeaponType.StabbingSword] = value,
+                0,
+                10)
+            .AddNumberField(
+                () => "Defense Sword Combo Hits",
+                () => "The max. number of consecutive hits in a Defense Sword combo.",
+                config => config.Weapons.ComboHitsPerWeapon[WeaponType.DefenseSword],
+                (config, value) => config.Weapons.ComboHitsPerWeapon[WeaponType.DefenseSword] = value,
+                0,
+                10)
+            .AddNumberField(
+                () => "Club Combo Hits",
+                () => "The max. number of consecutive hits in a Club combo.",
+                config => config.Weapons.ComboHitsPerWeapon[WeaponType.Club],
+                (config, value) => config.Weapons.ComboHitsPerWeapon[WeaponType.Club] = value,
+                0,
+                10)
+            .AddHorizontalRule()
+
+            .AddSectionTitle(() => "Stabbing Sword Settings")
+            .AddCheckbox(
+                () => "Enable Stabbing Swords",
+                () => "Replaces the defensive special move of some swords with an offensive lunge move.",
+                config => config.Weapons.EnableStabbySwords,
+                (config, value) =>
+                {
+                    if (WeaponsModule.Config.EnableStabbySwords != value && !Context.IsWorldReady)
+                    {
+                        Log.W("The Stabbing Swords option can only be changed in-game.");
+                        return;
+                    }
+
+                    config.Weapons.EnableStabbySwords = value;
+                    ModHelper.GameContent.InvalidateCacheAndLocalized("Data/weapons");
+                    if (!Context.IsWorldReady)
+                    {
+                        return;
+                    }
+
+                    if (value)
+                    {
+                        Utils.ConvertAllStabbingSwords();
+                    }
+                    else
+                    {
+                        Utils.RevertAllStabbingSwords();
+                    }
+                })
+            .AddDropdown(
+                () => "Galaxy Sword Type",
+                () => "Whether the Galaxy Sword should be a Stabbing or Defense sword.",
+                config => config.Weapons.GalaxySwordType.ToString(),
+                (config, value) =>
+                {
+                    config.Weapons.GalaxySwordType = Enum.Parse<WeaponType>(value);
+                    switch (config.Weapons.GalaxySwordType)
+                    {
+                        case WeaponType.StabbingSword:
+                            Collections.StabbingSwords.Add(ItemIDs.GalaxySword);
+                            break;
+                        case WeaponType.DefenseSword:
+                            Collections.StabbingSwords.Remove(ItemIDs.GalaxySword);
+                            break;
+                        default:
+                            ThrowHelperExtensions.ThrowUnexpectedEnumValueException(config.Weapons.GalaxySwordType);
+                            return;
+                    }
+
+                    Utility.iterateAllItems(item =>
+                    {
+                        if (item is MeleeWeapon { InitialParentTileIndex: ItemIDs.GalaxySword } galaxy)
+                        {
+                            galaxy.type.Value = (int)config.Weapons.GalaxySwordType;
+                        }
+                    });
+                },
+                new[] { "StabbingSword", "DefenseSword" },
+                null)
+            .AddDropdown(
+                () => "Infinity Blade Type",
+                () => "Whether the Galaxy Sword should be a Stabbing or Defense sword.",
+                config => config.Weapons.InfinityBladeType.ToString(),
+                (config, value) =>
+                {
+                    config.Weapons.InfinityBladeType = Enum.Parse<WeaponType>(value);
+                    switch (config.Weapons.InfinityBladeType)
+                    {
+                        case WeaponType.StabbingSword:
+                            Collections.StabbingSwords.Add(ItemIDs.InfinityBlade);
+                            break;
+                        case WeaponType.DefenseSword:
+                            Collections.StabbingSwords.Remove(ItemIDs.InfinityBlade);
+                            break;
+                        default:
+                            ThrowHelperExtensions.ThrowUnexpectedEnumValueException(config.Weapons.InfinityBladeType);
+                            return;
+                    }
+
+                    Utility.iterateAllItems(item =>
+                    {
+                        if (item is MeleeWeapon { InitialParentTileIndex: ItemIDs.InfinityBlade } infinity)
+                        {
+                            infinity.type.Value = (int)config.Weapons.InfinityBladeType;
+                        }
+                    });
+                },
+                new[] { "StabbingSword", "DefenseSword" },
+                null)
+            .AddHorizontalRule()
+
+            .AddSectionTitle(() => "Quest Settings")
             .AddCheckbox(
                 () => "Woody Replaces Rusty",
-                () => "Replace the starting Rusty Sword with a Wooden Blade.",
+                () => "Replaces the starting Rusty Sword with a Wooden Blade.",
                 config => config.Weapons.WoodyReplacesRusty,
                 (config, value) => config.Weapons.WoodyReplacesRusty = value)
             .AddCheckbox(
@@ -82,7 +203,7 @@ internal sealed partial class GenericModConfigMenu
                 {
                     if (value && !ModHelper.ModRegistry.IsLoaded("spacechase0.JsonAssets"))
                     {
-                        Log.W("Cannot enable Dwarvish Crafting because this feature requires Json Assets which is not installed.");
+                        Log.W("Cannot enable Dwarvish Crafting because this feature requires Json Assets, which is not installed.");
                         return;
                     }
 
@@ -99,13 +220,13 @@ internal sealed partial class GenericModConfigMenu
                 })
             .AddCheckbox(
                 () => "Infinity +1",
-                () => "Replace lame Galaxy and Infinity weapons with something truly legendary.",
+                () => "Makes legendary Galaxy and Infinity weapons stronger and harder to get.",
                 config => config.Weapons.InfinityPlusOne,
                 (config, value) =>
                 {
                     if (value && !ModHelper.ModRegistry.IsLoaded("spacechase0.JsonAssets"))
                     {
-                        Log.W("Cannot enable Infinity +1 weapons because this feature requires Json Assets which is not installed.");
+                        Log.W("Cannot enable Infinity +1 weapons because this feature requires Json Assets, which is not installed.");
                         return;
                     }
 
@@ -147,109 +268,6 @@ internal sealed partial class GenericModConfigMenu
                 (config, value) => config.Weapons.IridiumBarsPerGalaxyWeapon = value,
                 0,
                 50)
-            .AddHorizontalRule()
-
-            .AddSectionTitle(() => "Combo Settings")
-            .AddCheckbox(
-                () => "Enable Combo Hits",
-                () => "Replaces vanilla weapon spam with a more strategic combo system.",
-                config => config.Weapons.EnableComboHits,
-                (config, value) => config.Weapons.EnableComboHits = value)
-            .AddCheckbox(
-                () => "Enable Hold-To-Swipe",
-                () => "Allows performing combos by simply holding the tool button instead of spam-clicking.",
-                config => config.Weapons.SwipeHold,
-                (config, value) => config.Weapons.SwipeHold = value)
-            .AddNumberField(
-                () => "Stabbing Sword Combo Hits",
-                () => "The max. number of consecutive hits in a Stabbing Sword combo.",
-                config => config.Weapons.ComboHitsPerWeapon[WeaponType.StabbingSword],
-                (config, value) => config.Weapons.ComboHitsPerWeapon[WeaponType.StabbingSword] = value,
-                0,
-                10)
-            .AddNumberField(
-                () => "Defense Sword Combo Hits",
-                () => "The max. number of consecutive hits in a Defense Sword combo.",
-                config => config.Weapons.ComboHitsPerWeapon[WeaponType.DefenseSword],
-                (config, value) => config.Weapons.ComboHitsPerWeapon[WeaponType.DefenseSword] = value,
-                0,
-                10)
-            .AddNumberField(
-                () => "Club Combo Hits",
-                () => "The max. number of consecutive hits in a Club combo.",
-                config => config.Weapons.ComboHitsPerWeapon[WeaponType.Club],
-                (config, value) => config.Weapons.ComboHitsPerWeapon[WeaponType.Club] = value,
-                0,
-                10)
-            .AddHorizontalRule()
-
-            .AddSectionTitle(() => "Stabbing Sword Settings")
-            .AddCheckbox(
-                () => "Enable Stabbing Swords",
-                () => "Replace the defensive special move of some swords with an offensive lunge move.",
-                config => config.Weapons.EnableStabbySwords,
-                (config, value) =>
-                {
-                    if (WeaponsModule.Config.EnableStabbySwords != value && !Context.IsWorldReady)
-                    {
-                        Log.W("The Stabbing Swords option can only be changed in-game.");
-                        return;
-                    }
-
-                    config.Weapons.EnableStabbySwords = value;
-                    ModHelper.GameContent.InvalidateCacheAndLocalized("Data/weapons");
-                    if (!Context.IsWorldReady)
-                    {
-                        return;
-                    }
-
-                    if (value)
-                    {
-                        Utils.ConvertAllStabbingSwords();
-                    }
-                    else
-                    {
-                        Utils.RevertAllStabbingSwords();
-                    }
-                })
-            .AddDropdown(
-                () => "Galaxy Sword Type",
-                () => "Whether the Galaxy Sword should be a Stabbing or Defense sword.",
-                config => config.Weapons.GalaxySwordType.ToString(),
-                (config, value) =>
-                {
-                    config.Weapons.GalaxySwordType = Enum.Parse<WeaponType>(value);
-                    switch (config.Weapons.GalaxySwordType)
-                    {
-                        case WeaponType.StabbingSword:
-                            Collections.StabbingSwords.Add(ItemIDs.GalaxySword);
-                            break;
-                        case WeaponType.DefenseSword:
-                            Collections.StabbingSwords.Remove(ItemIDs.GalaxySword);
-                            break;
-                    }
-                },
-                new[] { "StabbingSword", "DefenseSword" },
-                null)
-            .AddDropdown(
-                () => "Infinity Blade Type",
-                () => "Whether the Galaxy Sword should be a Stabbing or Defense sword.",
-                config => config.Weapons.InfinityBladeType.ToString(),
-                (config, value) =>
-                {
-                    config.Weapons.InfinityBladeType = Enum.Parse<WeaponType>(value);
-                    switch (config.Weapons.InfinityBladeType)
-                    {
-                        case WeaponType.StabbingSword:
-                            Collections.StabbingSwords.Add(ItemIDs.InfinityBlade);
-                            break;
-                        case WeaponType.DefenseSword:
-                            Collections.StabbingSwords.Remove(ItemIDs.InfinityBlade);
-                            break;
-                    }
-                },
-                new[] { "StabbingSword", "DefenseSword" },
-                null)
             .AddHorizontalRule()
 
             .AddSectionTitle(() => "Movement & Control Settings")
@@ -294,6 +312,18 @@ internal sealed partial class GenericModConfigMenu
                 () => "Slick Moves",
                 () => "Drift in the current running direction when swinging a weapon.",
                 config => config.Weapons.SlickMoves,
-                (config, value) => config.Weapons.SlickMoves = value);
+                (config, value) => config.Weapons.SlickMoves = value)
+            .AddHorizontalRule()
+
+            .AddSectionTitle(() => "Misc. Settings")
+            .AddCheckbox(
+                () => "Enable Retexture",
+                () => "Applies a Vanilla-friendly retexture that better reflects a weapon`s overhauled type or unique status.",
+                config => config.Weapons.EnableRetexture,
+                (config, value) =>
+                {
+                    config.Weapons.EnableRetexture = value;
+                    ModHelper.GameContent.InvalidateCache("TileSheets/weapons");
+                });
     }
 }

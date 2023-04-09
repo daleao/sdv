@@ -72,6 +72,10 @@ public sealed class Config : Shared.Configs.Config
         "Strawblaster",
     };
 
+    /// <summary>Gets a value indicating whether to apply the corresponding weapon retexture.</summary>
+    [JsonProperty]
+    public bool EnableRetexture { get; internal set; } = true;
+
     /// <summary>Gets a value indicating whether to enable Clint's forging mechanic for Masterwork weapons.</summary>
     [JsonProperty]
     public bool DwarvishLegacy { get; internal set; } = true;
@@ -83,10 +87,6 @@ public sealed class Config : Shared.Configs.Config
     /// <summary>Gets a value indicating the number of Iridium Bars required to receive a Galaxy weapon.</summary>
     [JsonProperty]
     public int IridiumBarsPerGalaxyWeapon { get; internal set; } = 10;
-
-    /// <summary>Gets a value indicating whether to apply the corresponding weapon retexture.</summary>
-    [JsonProperty]
-    public bool EnableRetexture { get; internal set; } = true;
 
     /// <summary>Gets a value indicating whether defense should improve parry damage.</summary>
     [JsonProperty]

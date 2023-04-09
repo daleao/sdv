@@ -26,7 +26,7 @@ internal sealed class UtilityGetUncommonItemForThisMineLevelPatcher : HarmonyPat
     {
         if (WeaponsModule.Config.EnableRebalance && __result is MeleeWeapon weapon)
         {
-            weapon.RefreshStats();
+            weapon.RandomizeDamage();
         }
     }
 

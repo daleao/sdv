@@ -36,8 +36,8 @@ internal sealed class SlingshotAssetRequestedEvent : AssetRequestedEvent
         }
 
         var editor = asset.AsImage();
-        var area = new Rectangle(16, 128, 16, 16);
-        editor.PatchImage(ModHelper.ModContent.Load<Texture2D>("assets/sprites/InfinitySlingshot"), targetArea: area);
+        var targetArea = new Rectangle(16, 128, 16, 16);
+        editor.PatchImage(ModHelper.ModContent.Load<Texture2D>("assets/sprites/InfinitySlingshot"), targetArea: targetArea);
     }
 
     #endregion editor callbacks

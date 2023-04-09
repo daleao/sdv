@@ -16,7 +16,7 @@ internal static class Slingshot_Stats
 {
     internal static ConditionalWeakTable<Slingshot, Holder> Values { get; } = new();
 
-    internal static float Get_EffectiveDamageModifier(this Slingshot slingshot)
+    internal static float Get_RubyDamageModifier(this Slingshot slingshot)
     {
         return 1f + Values.GetValue(slingshot, Create).Damage;
     }
@@ -39,7 +39,7 @@ internal static class Slingshot_Stats
         return @base + Values.GetValue(slingshot, Create).Damage;
     }
 
-    internal static float Get_EffectiveKnockbackModifer(this Slingshot slingshot)
+    internal static float Get_AmethystKnockbackModifer(this Slingshot slingshot)
     {
         return 1f + Values.GetValue(slingshot, Create).Knockback;
     }
@@ -55,7 +55,7 @@ internal static class Slingshot_Stats
         };
     }
 
-    internal static float Get_EffectiveCritChanceModifier(this Slingshot slingshot)
+    internal static float Get_AquamarineCritChanceModifier(this Slingshot slingshot)
     {
         return 1f + Values.GetValue(slingshot, Create).CritChance;
     }
@@ -65,7 +65,7 @@ internal static class Slingshot_Stats
         return Values.GetValue(slingshot, Create).CritChance;
     }
 
-    internal static float Get_EffectiveCritPowerModifier(this Slingshot slingshot)
+    internal static float Get_JadeCritPowerModifier(this Slingshot slingshot)
     {
         return 1f + Values.GetValue(slingshot, Create).CritPower;
     }
@@ -75,7 +75,7 @@ internal static class Slingshot_Stats
         return Values.GetValue(slingshot, Create).CritPower;
     }
 
-    internal static float Get_EffectiveFireSpeed(this Slingshot slingshot)
+    internal static float Get_EmeraldFireSpeed(this Slingshot slingshot)
     {
         return 10f / (10f + Values.GetValue(slingshot, Create).FireSpeed);
     }
@@ -85,7 +85,7 @@ internal static class Slingshot_Stats
         return Values.GetValue(slingshot, Create).FireSpeed * 0.1f;
     }
 
-    internal static float Get_EffectiveCooldownReduction(this Slingshot slingshot)
+    internal static float Get_GarnetCooldownReduction(this Slingshot slingshot)
     {
         return 1f - (Values.GetValue(slingshot, Create).CooldownReduction * 0.1f);
     }
@@ -95,7 +95,7 @@ internal static class Slingshot_Stats
         return Values.GetValue(slingshot, Create).CooldownReduction * 0.1f;
     }
 
-    internal static float Get_EffectiveResilience(this Slingshot slingshot)
+    internal static float Get_TopazResilience(this Slingshot slingshot)
     {
         return 10f / (10f + Values.GetValue(slingshot, Create).Resilience);
     }

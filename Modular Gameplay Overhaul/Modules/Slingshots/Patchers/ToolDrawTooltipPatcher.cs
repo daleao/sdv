@@ -36,7 +36,7 @@ internal sealed class ToolDrawTooltipPatcher : HarmonyPatcher
         float alpha,
         StringBuilder? overrideText)
     {
-        if (__instance is not Slingshot slingshot)
+        if (__instance is not Slingshot slingshot || !SlingshotsModule.Config.EnableRebalance)
         {
             return true; // run original logic
         }
@@ -56,11 +56,11 @@ internal sealed class ToolDrawTooltipPatcher : HarmonyPatcher
             Color co;
 
             // write bonus damage
-            if (slingshot.InitialParentTileIndex != ItemIDs.BasicSlingshot ||
-                slingshot.hasEnchantmentOfType<RubyEnchantment>())
+            var hasRubyEnchant = slingshot.hasEnchantmentOfType<RubyEnchantment>();
+            if (slingshot.InitialParentTileIndex != ItemIDs.BasicSlingshot || hasRubyEnchant)
             {
                 var amount = $"+{slingshot.Get_RelativeDamageModifier():#.#%}";
-                co = new Color(0, 120, 120);
+                co = hasRubyEnchant ? new Color(0, 120, 120) : Game1.textColor;
                 Utility.drawWithShadow(
                     spriteBatch,
                     Game1.mouseCursors,
@@ -84,11 +84,11 @@ internal sealed class ToolDrawTooltipPatcher : HarmonyPatcher
             }
 
             // write bonus knockback
-            if (slingshot.InitialParentTileIndex != ItemIDs.BasicSlingshot ||
-                __instance.hasEnchantmentOfType<AmethystEnchantment>())
+            var hasAmethystEnchant = __instance.hasEnchantmentOfType<AmethystEnchantment>();
+            if (slingshot.InitialParentTileIndex != ItemIDs.BasicSlingshot || hasAmethystEnchant)
             {
                 var amount = $"+{slingshot.Get_RelativeKnockbackModifer():#.#%}";
-                co = new Color(0, 120, 120);
+                co = hasAmethystEnchant ? new Color(0, 120, 120) : Game1.textColor;
                 Utility.drawWithShadow(
                     spriteBatch,
                     Game1.mouseCursors,
@@ -103,7 +103,7 @@ internal sealed class ToolDrawTooltipPatcher : HarmonyPatcher
 
                 Utility.drawTextWithShadow(
                     spriteBatch,
-                    Game1.content.LoadString("Strings\\UI:ItemHover_Weight", amount),
+                    I18n.Get("ui.itemhover.knockback", new { amount }),
                     font,
                     new Vector2(x + 68, y + 28),
                     co * 0.9f * alpha);

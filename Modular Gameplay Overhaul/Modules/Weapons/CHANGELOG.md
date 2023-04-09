@@ -1,5 +1,15 @@
 ﻿# Weapons Change Log
 
+## 2.0.6
+
+### Fixed
+
+* Looks like Galaxy / Infinity sword config settings were not quite fixed in the previous version.
+* Fixed major issue in random stat calculation causing damage to appear incorrectly in menus and shops. No longer randomizes on instance construction.
+* Increased Claymore damage slightly.
+* Increased Steel Falchion damage slightly.
+* Should now correctly load the cometkins-style sprite for Elderwood if [Better Resources](https://www.nexusmods.com/stardewvalley/mods/6942) is installed.
+
 ## 2.0.5
 
 ### Fixed
