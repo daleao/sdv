@@ -23,7 +23,7 @@
 				<li><a href="#combat">Combat</a></li>
 		</ul></li>
 	<li><a href="#prestige">Prestige</a></li>
-	<li><a href="#special-abilities">Special Abilities</a></li>
+	<li><a href="#limit-breaks">Limit Breaks</a></li>
 	<li><a href="#compatibility">Compatibility</a></li>
 	<li><a href="#faq">F.A.Q.</a></li>
 	<li><a href="#recommended-mods">Recommended Mods</a></li>
@@ -35,7 +35,7 @@
 
 This module is an extensive overhaul of vanilla professions and skills, and makes up the core of the overhaul. Almost every profession has been reworked to be an equally unique and attractive choice targetting a specific style of gameplay, many of which were simply not viable in vanilla (i.e., ranching). And while it is not guaranteed that an "optimal" path does not exist, the main goal is to create opportunities for diversified or themed strategies as well as engaging new gameplay mechanics. Gone are the ~~boring~~ uninspiring +X% sell price bonuses, and in their stead we introduce bomberman mining, thief/assassin combat, truly epic sharpshooting and even Slime taming. The new professions are meant to scale with player, provide new end-game objectives and steer the player towards new playstyles.
 
-By popular demand this module also introduces an immersive (and completely optional) **Prestige** system, which will eventually allow the player to obtain *all* professions and open up skill progression to level 20. Also added are unique special abilities for each combat profession, with accompanying new visual and sound effects.
+By popular demand this module also introduces an immersive (and completely optional) **Prestige** system, which will eventually allow the player to obtain *all* professions and open up skill progression to level 20. Also added are unique Limit Breaks for each combat profession, with accompanying new visual and sound effects.
 
 This module was inspired by [Enai Siaion][user:enai]'s excellent [Ordinator][mod:ordinator] mod for Skyrim, and borrows many ideas (and a few assets) from the likes of [League Of Legends][url:league], [Diablo][url:diablo] and the classic [Ragnarok Online][url:ragnarok]. It also includes professions icons by [IllogicalMoodSwing][user:illogicalmoodswing] (**please visit and endorse [Profession Icons Redone][mod:icons-redone]!**).
 
@@ -142,7 +142,7 @@ If enabled, the [Statue of Uncertainty](https://stardewvalleywiki.com/The_Sewers
 
 Instead of changing your profession choices, the Statue of Prestige will reset your level 10 skills back to level 0, for a price. After resetting a skill, you will have to level up again to choose a different profession, but you get to keep every profession you've ever acquired (yes, including level 5). You will also find that leveling becomes progressively easier after each skill reset (or harder, depending on your config settings). By default, reseting a skill will also cause you to forget all associated recipes, but can also be turned off. For this incredible service, the Statue of Prestige will charge you 10,000g the first time, 50,000g the second, and 100,000g the third and last time, although the cost can also be configured. After performing three skill resets, you should have acquired all four level 10 professions simultaneously. As you reset and acquire new professions your progress will be reflected on the skills page menu, either by a new colorful star, or by a growing ribbon, depending on your settings.
 
-Once you have acquired four stars, or the ribbon has reached its fourth stage, the level cap for the corresponding skill is raised to 20, allowing you to continue to develop your tool proficiency or max health. Other perks of higher levels include better odds of higher-quality crops, fishes and forage, a larger fishing bar, more berries foraged per bush, and longer-lasting special abilities (see below). On top of that, at levels 15 and 20 you will be able to choose a profession to **prestige**. A prestiged profession grants improved perks or, in some cases, entirely new ones.
+Once you have acquired four stars, or the ribbon has reached its fourth stage, the level cap for the corresponding skill is raised to 20, allowing you to continue to develop your tool proficiency or max health. Other perks of higher levels include better odds of higher-quality crops, fishes and forage, a larger fishing bar, more berries foraged per bush, and longer-lasting [Limit Breaks](#limit-breaks). On top of that, at levels 15 and 20 you will be able to choose a profession to **prestige**. A prestiged profession grants improved perks or, in some cases, entirely new ones.
 
 Only after all possible skills have had their level cap raised will the Statue of Prestige resume it's old behavior, by allowing you to change your prestige choices, for a modest fee of 20,000g (also configurable).
 
@@ -150,15 +150,15 @@ The entire Prestige system is optional. It may be turned off at any time, but ke
 
 All custom mod skills based on SpaceCore are compatible with the skill reset feature, but cannot have their level cap raised above the regular 10. For skill mod developers, if you wish to provide prestiged professions you can do so by registering your skill via the provided [API](../../../Shared/Integrations/ModularOverhaul/IModularOverhaulApi.cs).
 
-## Special Abilities
+## Limit Breaks
 
-In addition to their regular perks listed above, every level 10 profession in the Combat skill tree also grants a unique **special ability**. This ability must be charged by performing certain actions during combat. You can track the current charge by the HUD bar labeled "S" (for "special", or "super").
+In addition to their regular perks listed above, every level 10 profession in the Combat skill tree also grants a unique [Limit Break](https://tvtropes.org/pmwiki/pmwiki.php/Main/LimitBreak). This special ability must be charged by performing certain actions during combat. You can track the current charge by the HUD bar labeled "L".
 
-Note that, though all combat professions can be acquired via skill reset, only one special ability can be registered at any time; if the Combat skill is reset, you will be asked the moment you choose your next profession whether you wish to keep or replace your current special ability. The four special abilities are:
+Note that, though all combat professions can be acquired via skill reset, only one Limit Break can be registered at any time; if the Combat skill is reset, you will be asked the moment you choose your next profession whether you wish to keep or replace your current Limit Break. The four Limit Breaks are:
 
 - ![](resources/assets/sprites/loose/undyingrage.png)  **Undying Frenzy (Brute / Amazon)** - Doubles rage accumulation for 15s. Immune to passing out. When the effect ends, recovers 5% health for every enemy slain while the buff was active.
 	- Charged by taking damage or defeating enemies. Charges more quickly if enemies are defeated using a blunt weapon.
-- ![](resources/assets/sprites/loose/cloaking.png)  **Ambuscade (Bushwhacker)** - Become invisible and untargetable for 30s. Effect ends prematurely if the player attacks an enemy. When the effect ends, gain a 2x crit. power buff that lasts for twice the leftover invisibility duration. If an enemy is slain within 0.5s out of Ambush, immediately regain 25% special ability charge.
+- ![](resources/assets/sprites/loose/cloaking.png)  **Ambuscade (Bushwhacker)** - Become invisible and untargetable for 30s. Effect ends prematurely if the player attacks an enemy. When the effect ends, gain a 2x crit. power buff that lasts for twice the leftover invisibility duration. If an enemy is slain within 0.5s out of Ambush, immediately regain 25% Limit charge.
 	- Charged by scoring critical hits, and the charge amount is proportional to crit. power.
 - ![](resources/assets/sprites/loose/bullettime.png)  **Death Blossom (Desperado)** - For 15s enable auto-fire in eight directions at once.
 	- Journey of the Prairie King, "IRL".
@@ -170,9 +170,7 @@ Note that, though all combat professions can be acquired via skill reset, only o
 	- Nearby Big Slimes explode immediately.
 	- Charged by being touched by Slimes, or by defeating Slimes and Big Slimes.
 
-After all possible skills have had their level cap raised, the Statue of Prestige will let you switch between the four abilities for free (though a cost can be configured).
-
-Switching special abilities is not possible if the Prestige system is disabled. Like the Prestige system, special abilities can also be turned off in the configs.
+After all possible skills have had their level cap raised, the Statue of Prestige will let you switch between the four Limit Breaks for free (though a cost can be configured). Switching Limmit Breaks is not possible if the Prestige system is disabled. Like the Prestige system, Limit Breaks can also be turned off in the configs.
 
 ## Compatibility
 
@@ -192,8 +190,8 @@ The following mods are fully integrated:
 - [Mushroom Propagator][mod:mushroom-propagator] will be affected by the Ecologist quality perk.
 - [Custom Ore Nodes][mod:con] will also be tracked by Prospector.
 - [Teh's Fishing Overhaul][mod:tfo] will respect fishing profession bonuses; the optional Recatchable Legendaries file is also compatible.
-- [Vintage Interface][mod:vintage-ui] will be automatically detected and the Special Ability charge meter will be changed accordingly to match the installed version (v1 and v2 are both supported).
-- [Stardew Valley Expanded][mod:sve] will also change the look of the Special Ability charge meter in Galdora maps to match the Galdoran UI theme.
+- [Vintage Interface][mod:vintage-ui] will be automatically detected and the Limit gauge will be changed accordingly to match the installed version (v1 and v2 are both supported).
+- [Stardew Valley Expanded][mod:sve] will also change the look of the Limit gauge in Galdora maps to match the Galdoran UI theme.
 - [CJB Cheats Menu][mod:cjb-cheats], if you download the optional translation files, will display this mod's profession names under Skill Cheats menu.
 
 The following mods are compatible without integration:
@@ -226,8 +224,8 @@ Yes, otherwise the whole Prestige system wouldn't make a lot of sense.
 No, sorry. Making tough choices is part of this mod's design.  
 You can cheat them in with console commands if you really want (`profs add -p all`).  
   
-**Can I obtain all Special Abilities simultaneously?**  
-No.
+**Can I obtain all Limit Breaks simultaneously?**  
+Obviously not.
 
 **What do Legendary Fish produce in Fish Ponds? How long do they take to multiply?**    
 They will obey whatever is set for them in the [FishPondData][wiki:fishponddata] file.  

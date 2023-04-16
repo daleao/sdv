@@ -236,7 +236,7 @@ internal sealed class ObjectProjectile : BasicProjectile
 
         // increment Desperado ultimate meter
         if (this.Firer.IsLocalPlayer && this.Firer.Get_Ultimate() is DeathBlossom { IsActive: false } blossom &&
-            ProfessionsModule.Config.EnableSpecials)
+            ProfessionsModule.Config.EnableLimitBreaks)
         {
             blossom.ChargeValue += (this.DidBounce || this.DidPierce ? 18 : 12) -
                                    (10 * this.Firer.health / this.Firer.maxHealth);

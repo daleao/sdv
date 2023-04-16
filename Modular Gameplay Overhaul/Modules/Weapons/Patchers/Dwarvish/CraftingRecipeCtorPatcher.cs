@@ -25,7 +25,7 @@ internal sealed class CraftingRecipeCtorPatcher : HarmonyPatcher
         if (WeaponsModule.Config.DwarvishLegacy && __instance.name == "Warp Totem: Island" &&
             __instance.recipeList.Remove(ItemIDs.DragonTooth))
         {
-            __instance.recipeList[ItemIDs.Ginger] *= 2;
+            __instance.recipeList[ItemIDs.RadioactiveOre] = 1;
         }
     }
 

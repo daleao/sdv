@@ -184,39 +184,39 @@ public sealed class Config : Shared.Configs.Config
     [JsonProperty]
     public uint PiperBuffCeiling { get; internal set; } = 10;
 
-    /// <summary>Gets a value indicating whether to allow Special Abilities to be used in-game.</summary>
+    /// <summary>Gets a value indicating whether to allow Limit Breaks to be used in-game.</summary>
     [JsonProperty]
-    public bool EnableSpecials { get; internal set; } = true;
+    public bool EnableLimitBreaks { get; internal set; } = true;
 
-    /// <summary>Gets mod key used to activate the Special Ability. Can be the same as <see cref="ModKey"/>.</summary>
+    /// <summary>Gets the mod key used to activate the Limit Break. Can be the same as <see cref="ModKey"/>.</summary>
     [JsonProperty]
-    public KeybindList SpecialActivationKey { get; internal set; } = KeybindList.Parse("LeftShift, LeftShoulder");
+    public KeybindList LimitBreakKey { get; internal set; } = KeybindList.Parse("LeftShift, LeftShoulder");
 
-    /// <summary>Gets a value indicating  whether the Special Ability is activated by holding the <see cref="SpecialActivationKey"/>, as opposed to pressing.</summary>
+    /// <summary>Gets a value indicating whether the Limit Break is activated by holding the <see cref="LimitBreakKey"/>, as opposed to simply pressing.</summary>
     [JsonProperty]
-    public bool HoldKeyToActivateSpecial { get; internal set; } = true;
+    public bool HoldKeyToLimitBreak { get; internal set; } = true;
 
-    /// <summary>Gets how long <see cref="SpecialActivationKey"/> should be held to activate the Special Ability, in seconds.</summary>
+    /// <summary>Gets how long the <see cref="LimitBreakKey"/> should be held to activate the Limit Break, in seconds.</summary>
     [JsonProperty]
-    public float SpecialActivationDelay { get; internal set; } = 1f;
+    public float LimitBreakHoldDelaySeconds { get; internal set; } = 1f;
 
     /// <summary>
-    ///     Gets the rate at which one builds the Special meter. Increase this if you feel the gauge raises too
+    ///     Gets the rate at which one builds the Limit gauge. Increase this if you feel the gauge raises too
     ///     slowly.
     /// </summary>
     [JsonProperty]
-    public double SpecialGainFactor { get; internal set; } = 1d;
+    public double LimitGainFactor { get; internal set; } = 1d;
 
     /// <summary>
-    ///     Gets the rate at which the Special meter depletes during Ultimate. Decrease this to make Ultimate last
+    ///     Gets the rate at which the Limit gauge depletes during Ultimate. Decrease this to make the Limit Break last
     ///     longer.
     /// </summary>
     [JsonProperty]
-    public double SpecialDrainFactor { get; internal set; } = 1d;
+    public double LimitDrainFactor { get; internal set; } = 1d;
 
-    /// <summary>Gets monetary cost of changing the chosen Special Ability. Set to 0 to change for free.</summary>
+    /// <summary>Gets monetary cost of changing the chosen Limit Break. Set to 0 to change for free.</summary>
     [JsonProperty]
-    public uint SpecialRespecCost { get; internal set; } = 0;
+    public uint LimitRespecCost { get; internal set; } = 0;
 
     /// <summary>Gets the base skill reset cost multiplier. Set to 0 to reset for free.</summary>
     [JsonProperty]

@@ -207,15 +207,9 @@ internal sealed class ObjectProjectile : BasicProjectile
                 .Invoke(this, location);
         }
 
-        // check for stun
-        //if (this.Firer.HasProfession(Profession.Rascal, true) && this.DidBounce)
-        //{
-        //    monster.stunTime = 2000;
-        //}
-
         // increment Desperado ultimate meter
         if (this.Firer.IsLocalPlayer && this.Firer.Get_Ultimate() is DeathBlossom { IsActive: false } blossom &&
-            ProfessionsModule.Config.EnableSpecials)
+            ProfessionsModule.Config.EnableLimitBreaks)
         {
             blossom.ChargeValue += (this.DidBounce || this.DidPierce ? 18 : 12) -
                                    (10 * this.Firer.health / this.Firer.maxHealth);
@@ -251,16 +245,14 @@ internal sealed class ObjectProjectile : BasicProjectile
         }
 
         chance -= this._pierceCount * 0.2;
-        if (chance < 0d || Game1.random.NextDouble() > chance)
+        if (chance > 0d && Game1.random.NextDouble() < chance)
         {
-            return;
+            location.debris.Add(
+                new Debris(
+                    this.Ammo.ParentSheetIndex,
+                    new Vector2((int)this.position.X, (int)this.position.Y),
+                    this.Firer.getStandingPosition()));
         }
-
-        location.debris.Add(
-            new Debris(
-                this.Ammo.ParentSheetIndex,
-                new Vector2((int)this.position.X, (int)this.position.Y),
-                this.Firer.getStandingPosition()));
     }
 
     /// <inheritdoc />

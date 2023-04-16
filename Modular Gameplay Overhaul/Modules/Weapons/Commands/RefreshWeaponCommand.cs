@@ -20,7 +20,7 @@ internal sealed class RefreshWeaponCommand : ConsoleCommand
     }
 
     /// <inheritdoc />
-    public override string[] Triggers { get; } = { "refresh_weapon", "refresh" };
+    public override string[] Triggers { get; } = { "revalidate", "refresh", "randomize" };
 
     /// <inheritdoc />
     public override string Documentation =>
@@ -29,19 +29,55 @@ internal sealed class RefreshWeaponCommand : ConsoleCommand
     /// <inheritdoc />
     public override void Callback(string trigger, string[] args)
     {
-        if (Game1.player.CurrentTool is not MeleeWeapon weapon || weapon.isScythe())
+        if (args.Length == 0 || !string.Equals(args[0], "all", StringComparison.InvariantCultureIgnoreCase))
+        {
+            if (Game1.player.CurrentTool is not MeleeWeapon weapon || weapon.isScythe())
+            {
+                Log.W("You must select a weapon first.");
+                return;
+            }
+        }
+
+        if (string.Equals(trigger, "revalidate", StringComparison.InvariantCultureIgnoreCase))
+        {
+            if (args.Length > 0 && string.Equals(args[0], "all", StringComparison.InvariantCultureIgnoreCase))
+            {
+                Utils.RevalidateAllWeapons();
+                Utils.RefreshAllWeapons(RefreshOption.Initial);
+                MeleeWeapon_Stats.Values.Clear();
+                Log.I("Revalidated all weapons.");
+            }
+            else if (Game1.player.CurrentTool is not MeleeWeapon weapon1 || weapon1.isScythe())
+            {
+                Log.W("You must select a weapon first.");
+            }
+            else
+            {
+                Utils.RevalidateSingleWeapon(weapon1);
+                weapon1.RefreshStats();
+                MeleeWeapon_Stats.Invalidate(weapon1);
+                Log.I($"Revalidated the {weapon1.Name}.");
+            }
+
+            return;
+        }
+
+        var randomize = string.Equals(trigger, "randomize", StringComparison.InvariantCultureIgnoreCase);
+        var action = randomize ? "Randomized" : "Refreshed";
+        if (args.Length > 0 && args[0].ToLowerInvariant() == "all")
+        {
+            Utils.RefreshAllWeapons(randomize ? RefreshOption.Randomized : RefreshOption.Initial);
+            Log.I($"{action} all weapons.");
+        }
+
+        if (Game1.player.CurrentTool is not MeleeWeapon weapon2 || weapon2.isScythe())
         {
             Log.W("You must select a weapon first.");
             return;
         }
 
-        var bias = 0d;
-        if (args.Length > 0 && double.TryParse(args[0], out bias))
-        {
-        }
-
-        weapon.RandomizeDamage(bias);
-        MeleeWeapon_Stats.Invalidate(weapon);
-        Log.I($"Refreshed the stats of {weapon.Name}.");
+        weapon2.RefreshStats(randomize ? RefreshOption.Randomized : RefreshOption.Initial);
+        MeleeWeapon_Stats.Invalidate(weapon2);
+        Log.I($"{action} the {weapon2.Name}.");
     }
 }

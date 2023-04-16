@@ -94,10 +94,10 @@ internal sealed class GameLocationPerformActionPatcher : HarmonyPatcher
                 new(
                     "changeUlt",
                     I18n.Get("prestige.dogstatue.changeult") +
-                    (ProfessionsModule.Config.SpecialRespecCost > 0
+                    (ProfessionsModule.Config.LimitRespecCost > 0
                         ? ' ' + I18n.Get(
                             "prestige.dogstatue.cost",
-                            new { cost = ProfessionsModule.Config.SpecialRespecCost })
+                            new { cost = ProfessionsModule.Config.LimitRespecCost })
                         : string.Empty)),
             }).ToArray();
         }

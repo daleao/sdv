@@ -2,47 +2,12 @@
 
 This file contains a TL;DR of current version changes and hotfixes from across all modules. For the complete changelog, please refer to the individual changelogs of each module, linked [below](#detailed-change-logs).
 
-## Hotfic 2.0.7
+## Minor Release 2.1.0 Highlights
 
-* [RNGS]: Fixed yellow-tint in colorless resonance glow.
-* [RNGS]: Fixed a bug where unequipping an Infinity Band could cause the resonance glow to stick around.
-* [RNGS]: Added different resonance texture options.
-
-## Revision 2.0.6
-
-* [WPNZ]: Fixed Galaxy and Infinity stabbing sword options not applying correctly.
-* [WPNZ]: Fixed incorrect weapon stats in menus and shops.
-* [WPNZ]: Small buff to Claymore and Steel Falchion.
-* [WPNZ]: Now uses correct Elderwood sprite for [Better Resources](https://www.nexusmods.com/stardewvalley/mods/6942).
-* [SLNGS]: Tooltip text now reads "Knockback" instead of "Weight", as for melee weapons.
-
-## Revision 2.0.5
-
-* Updated minimum version for SpaceCore.
-* [CMBT]: Is no longer enabled by default.
-* [PROFS]: Fixed configs not persisting.
-* [RNGS]: Glow setting can now be disabled correctly.
-* [SLNGS]: Slingshots can now receive enchantments again.
-* [TXS]: Fixed agriculture value calculation, so no longer should properties be charged billions.
-* [TWX]: Added crow spawn settings to GMCM.
-
-## Hotfix 2.0.4
-
-* Added some missing GMCM settings.
-* [RNGS]: Fixed small glow and magnet ring recipe outputs.
-* [PROFS]: Fixed an ArgumentOutOfRange exception when scrolling the toolbar.
-
-## Hotfix 2.0.3
-
-* [TXS]: Fixed a typo in the config verification.
-
-## Hotfix 2.0.2
-
-* [ENCH]: Fixed tooltips not displaying repeated gemsones.
-
-## Hotfix 2.0.1
-
-* Hotfix for GMCM crash.
+* [ENCH]: Added new Wabbajack enchantment.
+* [WPNZ]: Fixed a long-standing overlooked issue with weapon hitboxes during combos. Combat should feel *significantly* better now.
+* [PROFS]: Ultimate / Super Abilities / Special Abilities have been renamed to Limit Breaks. The HUD meter has been adjusted accordingly.
+* Bugfixes.
 
 ## Major Release 2.0.0 Highlights
 

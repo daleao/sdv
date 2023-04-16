@@ -1,5 +1,11 @@
 ﻿# Taxes Module Change Log
 
+## 2.1.0
+
+### Fixed
+
+* Fixed a typo in the default i18n key for outstanding debt.
+
 ## 2.0.5
 
 ### Fixed

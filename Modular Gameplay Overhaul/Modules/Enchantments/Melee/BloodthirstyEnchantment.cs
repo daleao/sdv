@@ -36,12 +36,13 @@ public sealed class BloodthirstyEnchantment : BaseWeaponEnchantment
         var lifeSteal = Math.Max((int)(m.MaxHealth * this._random.NextFloat(0.01f, 0.05f)), 1);
         who.health = Math.Min(who.health + lifeSteal, (int)(who.maxHealth * 1.2f));
         location.debris.Add(new Debris(
-            lifeSteal, 
-            new Vector2(Game1.player.getStandingX(), Game1.player.getStandingY()),
+            lifeSteal,
+            new Vector2(who.getStandingX(), who.getStandingY()),
             Color.Lime,
             1f,
             who));
         Game1.playSound("healSound");
+        Log.D($"[ENCH]: {who.Name} absorbed {lifeSteal} health.");
         if (who.health > who.maxHealth)
         {
             EventManager.Enable<BloodthirstyUpdateTickedEvent>();

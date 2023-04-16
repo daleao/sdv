@@ -35,7 +35,7 @@ public sealed class Concerto : Ultimate
 
     /// <inheritdoc />
     internal override int MillisecondsDuration =>
-        (int)(30000 * ((double)this.MaxValue / BaseMaxValue) / ProfessionsModule.Config.SpecialDrainFactor);
+        (int)(30000 * ((double)this.MaxValue / BaseMaxValue) / ProfessionsModule.Config.LimitDrainFactor);
 
     /// <inheritdoc />
     internal override Sfx ActivationSfx => Sfx.PiperConcerto;

@@ -10,7 +10,6 @@ using DaLion.Overhaul.Modules.Enchantments.Ranged;
 using DaLion.Shared.Extensions.Reflection;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
-using StardewValley.Menus;
 
 #endregion using directives
 
@@ -97,6 +96,12 @@ internal sealed class BaseEnchantmentGetAvailableEnchantmentsPatcher : HarmonyPa
                         // add bloodthirsty enchant
                         new CodeInstruction(OpCodes.Ldsfld, typeof(BaseEnchantment).RequireField("_enchantments")),
                         new CodeInstruction(OpCodes.Newobj, typeof(BloodthirstyEnchantment).RequireConstructor()),
+                        new CodeInstruction(
+                            OpCodes.Callvirt,
+                            typeof(List<BaseEnchantment>).RequireMethod(nameof(List<BaseEnchantment>.Add))),
+                        // add wabbajack enchant
+                        new CodeInstruction(OpCodes.Ldsfld, typeof(BaseEnchantment).RequireField("_enchantments")),
+                        new CodeInstruction(OpCodes.Newobj, typeof(WabbajackEnchantment).RequireConstructor()),
                         new CodeInstruction(
                             OpCodes.Callvirt,
                             typeof(List<BaseEnchantment>).RequireMethod(nameof(List<BaseEnchantment>.Add))),

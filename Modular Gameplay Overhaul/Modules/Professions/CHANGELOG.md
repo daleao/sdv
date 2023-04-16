@@ -1,5 +1,15 @@
 # Professions Module Change Log
 
+## 2.1.0
+
+### Changed
+
+* Special Abilities are now called Limit Breaks. The gauge has been changed accordingly.
+
+### Fixed
+
+* Fixed some possible bugs related to the number of attachments in a slingshot.
+
 ## 2.0.5
 
 ### Fixed

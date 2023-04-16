@@ -16,7 +16,7 @@ internal sealed class PipedSlime
     {
         this.Instance = slime;
         this.Piper = piper;
-        this.PipeTimer = (int)(30000 / ProfessionsModule.Config.SpecialDrainFactor);
+        this.PipeTimer = (int)(30000 / ProfessionsModule.Config.LimitDrainFactor);
         this.OriginalHealth = slime.MaxHealth;
         this.OriginalRange = slime.moveTowardPlayerThreshold.Value;
         this.OriginalScale = slime.Scale;

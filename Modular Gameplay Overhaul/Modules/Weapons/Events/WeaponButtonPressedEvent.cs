@@ -26,7 +26,7 @@ internal sealed class WeaponButtonPressedEvent : ButtonPressedEvent
     /// <inheritdoc />
     protected override void OnButtonPressedImpl(object? sender, ButtonPressedEventArgs e)
     {
-        if (!Context.IsWorldReady || Game1.activeClickableMenu is not null)
+        if (!Context.IsWorldReady || Game1.activeClickableMenu is not null || Game1.isFestival())
         {
             return;
         }

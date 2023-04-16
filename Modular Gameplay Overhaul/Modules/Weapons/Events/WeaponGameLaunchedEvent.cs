@@ -28,5 +28,15 @@ internal sealed class WeaponGameLaunchedEvent : GameLaunchedEvent
         JsonAssetsIntegration.Instance?.Register();
         StardewValleyExpandedIntegration.Instance?.Register();
         VanillaTweaksIntegration.Instance?.Register();
+
+        if (WeaponsModule.Config.GalaxySwordType == WeaponType.StabbingSword)
+        {
+            Collections.StabbingSwords.Add(ItemIDs.GalaxySword);
+        }
+
+        if (WeaponsModule.Config.InfinityBladeType == WeaponType.StabbingSword)
+        {
+            Collections.StabbingSwords.Add(ItemIDs.InfinityBlade);
+        }
     }
 }

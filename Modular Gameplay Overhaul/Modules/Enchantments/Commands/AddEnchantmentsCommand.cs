@@ -73,6 +73,7 @@ internal sealed class AddEnchantmentsCommand : ConsoleCommand
                 "tribute" or "gold" => new TributeEnchantment(),
                 "artful" => new NewArtfulEnchantment(),
                 "bloodthirsty" or "vampiric" => new BloodthirstyEnchantment(),
+                "wabbajack" or "wabba" or "wab" => new WabbajackEnchantment(),
 
                 // slingshot enchants
                 "engorging" or "glutton" => new EngorgingEnchantment(),
@@ -131,7 +132,7 @@ internal sealed class AddEnchantmentsCommand : ConsoleCommand
                 .ForEach(e => tool.RemoveEnchantment(e));
 
             tool.AddEnchantment(enchantment);
-            Log.I($"Applied {args[0].FirstCharToUpper()} enchantment to {tool.DisplayName}.");
+            Log.I($"Applied {enchantment.GetType().Name} to {tool.DisplayName}.");
 
             args = args.Skip(1).ToArray();
         }

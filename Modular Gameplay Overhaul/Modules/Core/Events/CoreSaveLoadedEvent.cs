@@ -2,6 +2,7 @@
 
 #region using directives
 
+using DaLion.Overhaul.Modules.Weapons;
 using DaLion.Shared.Events;
 using StardewModdingAPI.Events;
 
@@ -28,7 +29,8 @@ internal sealed class CoreSaveLoadedEvent : SaveLoadedEvent
             return;
         }
 
-        Weapons.Utils.RevalidateAllWeapons();
+        Utils.RevalidateAllWeapons();
+        Utils.RefreshAllWeapons(RefreshOption.Initial);
         Data.WeaponRevalidationState[player.Name + '/' + player.farmName.Value] = WeaponsModule.ShouldEnable;
         ModHelper.Data.WriteJsonFile("data.json", Data);
     }

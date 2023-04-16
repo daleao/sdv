@@ -21,7 +21,7 @@ public sealed class Frenzy : Ultimate
 
     /// <inheritdoc />
     internal override int MillisecondsDuration =>
-        (int)(15000 * ((double)this.MaxValue / BaseMaxValue) / ProfessionsModule.Config.SpecialDrainFactor);
+        (int)(15000 * ((double)this.MaxValue / BaseMaxValue) / ProfessionsModule.Config.LimitDrainFactor);
 
     /// <inheritdoc />
     internal override Sfx ActivationSfx => Sfx.BruteRage;

@@ -39,9 +39,10 @@ Enchantments have been almost entirely overhauled. Hopefully these enchantments 
 | Carving   | Attacks on-hit reduce enemy defense by 1. Removes the armor from Armored Bugs and de-shells Rock Crabs. |
 | Cleaving  | Attacks on-hit spread 60% - 20% (based on distance) of the damage to other enemies around the target. |
 | Energized | Moving and attacking generates energy. When fully-energized, the next attack causes an electric discharge, dealing heavy damage in a large area. |
-| Blasting | Accumulates and stores half of the damage from enemy hits (before mitigation). After accumulating enough damage, the next special move releases that damage as an explosion. |
+| Blasting | Accumulates and stores half of the damage from enemy hits (before mitigation). If enough damage is accumulated, the next special move releases that damage as an explosion. |
 | Mammonite's | Attacks that would leave an enemy below 10% max health immediately execute the enemy, converting the remaining health into gold. This threshold increases by 1% with each consecutive takedown, resetting when you take damage. |
 | Bloodthirsty | Enemy takedowns recover some health proportional to the enemy's max health. Excess healing is converted into a shield for up to 20% of the player's max health, which slowly decays after not dealing or taking damage for 25s. |
+| Wabbajack | Causes unpredictable effects. *Examples: damage or heal the enemy; decrease or increase the enemie's stats; transfigure into a different enemy, creature or any random item (note: this can spawn illegal items.* |
 
 \* **Offensive Swords:** Dash distance +50% and can change direction mid-dash. **Defensive Swords:** Successful parries stun enemies for 1s. **Daggers:** Quick stab hit count +2. **Clubs:** Smash AoE + 50%.
 

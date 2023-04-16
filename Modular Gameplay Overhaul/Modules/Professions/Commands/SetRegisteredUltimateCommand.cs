@@ -24,14 +24,14 @@ internal sealed class SetRegisteredUltimateCommand : ConsoleCommand
     public override string[] Triggers { get; } = { "register_ult", "set_ult", "register" };
 
     /// <inheritdoc />
-    public override string Documentation => "Change the player's currently registered Special Ability.";
+    public override string Documentation => "Change the player's currently registered Limit Break.";
 
     /// <inheritdoc />
     public override void Callback(string trigger, string[] args)
     {
         if (args.Length == 0 || string.IsNullOrEmpty(args[0]))
         {
-            Log.W("You must enter a valid 2nd-tier combat profession or special ability name.");
+            Log.W("You must enter a valid 2nd-tier combat profession or Limit Break.");
             return;
         }
 
@@ -59,7 +59,7 @@ internal sealed class SetRegisteredUltimateCommand : ConsoleCommand
                Profession.TryFromLocalizedName(args[0], true, out profession)) &&
               Ultimate.TryFromValue(profession, out ultimate)))
         {
-            Log.W("You must enter a valid 2nd-tier combat profession or special ability name.");
+            Log.W("You must enter a valid 2nd-tier combat profession or Limit Break.");
             return;
         }
 

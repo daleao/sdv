@@ -12,7 +12,7 @@ public static class ListExtensions
 {
     /// <summary>Finds the index of the highest-valued item in the <paramref name="list"/>.</summary>
     /// <typeparam name="T">The type of elements in the <paramref name="list"/>, which should implement <see cref="IComparable"/>.</typeparam>
-    /// <param name="list">The <see cref="List{T}"/>.</param>
+    /// <param name="list">The <see cref="IList{T}"/>.</param>
     /// <returns>The integer index of the element in the <paramref name="list"/> wit the highest value.</returns>
     public static int IndexOfMax<T>(this IList<T> list)
         where T : IComparable<T>, new()
@@ -22,7 +22,7 @@ public static class ListExtensions
 
     /// <summary>Finds the index of the lowest-valued item in the <paramref name="list"/>.</summary>
     /// <typeparam name="T">The type of elements in the <paramref name="list"/>, which should implement <see cref="IComparable"/>.</typeparam>
-    /// <param name="list">The <see cref="List{T}"/>.</param>
+    /// <param name="list">The <see cref="IList{T}"/>.</param>
     /// <returns>The integer index of the element in the <paramref name="list"/> wit the lowest value.</returns>
     public static int IndexOfMin<T>(this IList<T> list)
         where T : IComparable<T>, new()
@@ -32,7 +32,7 @@ public static class ListExtensions
 
     /// <summary>Moves the item at position <paramref name="oldIndex"/> to position <paramref name="newIndex"/>.</summary>
     /// <typeparam name="T">The type of elements in the <paramref name="list"/>.</typeparam>
-    /// <param name="list">The <see cref="List{T}"/>.</param>
+    /// <param name="list">The <see cref="IList{T}"/>.</param>
     /// <param name="oldIndex">The current position.</param>
     /// <param name="newIndex">The new position.</param>
     public static void Move<T>(this IList<T> list, int oldIndex, int newIndex)
@@ -54,7 +54,7 @@ public static class ListExtensions
 
     /// <summary>Moves the specified <paramref name="item"/> to position <paramref name="newIndex"/>.</summary>
     /// <typeparam name="T">The type of elements in the <paramref name="list"/>.</typeparam>
-    /// <param name="list">The <see cref="List{T}"/>.</param>
+    /// <param name="list">The <see cref="IList{T}"/>.</param>
     /// <param name="item">The item to be moved.</param>
     /// <param name="newIndex">The new position.</param>
     /// <returns><see langword="true"/> if a matching item was found and moved, otherwise <see langword="false"/>.</returns>
@@ -80,7 +80,7 @@ public static class ListExtensions
     ///     <paramref name="newIndex"/>.
     /// </summary>
     /// <typeparam name="T">The type of elements in the <paramref name="list"/>.</typeparam>
-    /// <param name="list">The <see cref="List{T}"/>.</param>
+    /// <param name="list">The <see cref="IList{T}"/>.</param>
     /// <param name="predicate">A delegate that identifies the item to be moved.</param>
     /// <param name="newIndex">The new position.</param>
     /// <returns><see langword="true"/> if a matching item was moved, otherwise <see langword="false"/>.</returns>
@@ -92,7 +92,7 @@ public static class ListExtensions
 
     /// <summary>Swaps the items at the specified positions.</summary>
     /// <typeparam name="T">The type of elements in the <paramref name="list"/>.</typeparam>
-    /// <param name="list">The <see cref="List{T}"/>.</param>
+    /// <param name="list">The <see cref="IList{T}"/>.</param>
     /// <param name="firstIndex">The index of the first item to be swapped.</param>
     /// <param name="secondIndex">The index of the second item to be swapped.</param>
     public static void Swap<T>(this IList<T> list, int firstIndex, int secondIndex)
@@ -107,7 +107,7 @@ public static class ListExtensions
 
     /// <summary>Swap the positions of the specified items.</summary>
     /// <typeparam name="T">The type of elements in the <paramref name="list"/>.</typeparam>
-    /// <param name="list">The <see cref="List{T}"/>.</param>
+    /// <param name="list">The <see cref="IList{T}"/>.</param>
     /// <param name="first">The first item to be swapped.</param>
     /// <param name="second">The second item to be swapped.</param>
     /// <exception cref="InvalidOperationException">If either <paramref name="first"/> or <paramref name="second"/> are not found in the <paramref name="list"/>.</exception>
@@ -130,7 +130,7 @@ public static class ListExtensions
 
     /// <summary>Shifts all items <paramref name="count"/> units to the right.</summary>
     /// <typeparam name="T">The type of elements in the <paramref name="list"/>.</typeparam>
-    /// <param name="list">The <see cref="List{T}"/>.</param>
+    /// <param name="list">The <see cref="IList{T}"/>.</param>
     /// <param name="count">The number of shifts to perform.</param>
     /// <returns>A new <see cref="IList{T}"/> with the same order of elements as the original, but shifted to the right.</returns>
     public static IList<T> ShiftRight<T>(this IList<T> list, int count)
@@ -152,7 +152,7 @@ public static class ListExtensions
 
     /// <summary>Shifts all items <paramref name="count"/> units to the left.</summary>
     /// <typeparam name="T">The type of elements in the <paramref name="list"/>.</typeparam>
-    /// <param name="list">The <see cref="List{T}"/>.</param>
+    /// <param name="list">The <see cref="IList{T}"/>.</param>
     /// <param name="count">The number of shifts to perform.</param>
     /// <returns>A new <see cref="IList{T}"/> with the same order of elements as the original, but shifted to the left.</returns>
     public static IList<T> ShiftLeft<T>(this IList<T> list, int count)
@@ -177,7 +177,7 @@ public static class ListExtensions
     ///     <paramref name="pattern"/>.
     /// </summary>
     /// <typeparam name="T">The type of elements in the <paramref name="list"/>.</typeparam>
-    /// <param name="list">The <see cref="List{T}"/>.</param>
+    /// <param name="list">The <see cref="IList{T}"/>.</param>
     /// <param name="pattern">A pattern of elements to match.</param>
     /// <exception cref="InvalidOperationException">If the specified <paramref name="pattern"/> does not contain the exact same elements as the <paramref name="list"/>.</exception>
     public static void ShiftUntilEqual<T>(this IList<T> list, IList<T> pattern)
@@ -198,7 +198,7 @@ public static class ListExtensions
     ///     <paramref name="pattern"/>.
     /// </summary>
     /// <typeparam name="T">The type of elements in the <paramref name="list"/>.</typeparam>
-    /// <param name="list">The <see cref="List{T}"/>.</param>
+    /// <param name="list">The <see cref="IList{T}"/>.</param>
     /// <param name="pattern">A pattern of elements to match.</param>
     /// <param name="count">The number of left shifts that were performed.</param>
     /// <exception cref="InvalidOperationException">If the specified <paramref name="pattern"/> does not contain the exact same elements as the <paramref name="list"/>.</exception>
@@ -222,7 +222,7 @@ public static class ListExtensions
     ///     at index zero.
     /// </summary>
     /// <typeparam name="T">The type of elements in the <paramref name="list"/>.</typeparam>
-    /// <param name="list">The <see cref="List{T}"/>.</param>
+    /// <param name="list">The <see cref="IList{T}"/>.</param>
     /// <param name="element">The element to be placed at index zero.</param>
     /// <exception cref="InvalidOperationException">If the specified <paramref name="element"/> is not found in the <paramref name="list"/>.</exception>
     public static void ShiftUntilStartsWith<T>(this IList<T> list, T element)
@@ -246,7 +246,7 @@ public static class ListExtensions
     ///     at index zero.
     /// </summary>
     /// <typeparam name="T">The type of elements in the <paramref name="list"/>.</typeparam>
-    /// <param name="list">The <see cref="List{T}"/>.</param>
+    /// <param name="list">The <see cref="IList{T}"/>.</param>
     /// <param name="element">The element to be placed at index zero.</param>
     /// <param name="count">The number of left shifts that were performed.</param>
     /// <exception cref="InvalidOperationException">If the specified <paramref name="element"/> is not found in the <paramref name="list"/>.</exception>
@@ -268,7 +268,7 @@ public static class ListExtensions
 
     /// <summary>Determines whether the <paramref name="list"/> is a permutation of some <paramref name="other"/>.</summary>
     /// <typeparam name="T">The type of elements in the <paramref name="list"/>.</typeparam>
-    /// <param name="list">The <see cref="List{T}"/>.</param>
+    /// <param name="list">The <see cref="IList{T}"/>.</param>
     /// <param name="other">Some other list.</param>
     /// <returns><see langword="true"/> if both <paramref name="list"/> and <paramref name="other"/> contain the exact same elements in any order, otherwise <see langword="false"/>.</returns>
     public static bool IsPermutationOf<T>(this IList<T> list, IList<T> other)
@@ -286,7 +286,7 @@ public static class ListExtensions
 
     /// <summary>Chooses a random element from the <paramref name="list"/>.</summary>
     /// <typeparam name="T">The type of elements in the list.</typeparam>
-    /// <param name="list">The list.</param>
+    /// <param name="list">The <see cref="IList{T}"/>.</param>
     /// <param name="r">A <see cref="Random"/> number generator.</param>
     /// <returns>A random element from the <paramref name="list"/>.</returns>
     public static T Choose<T>(this IList<T> list, Random? r = null)

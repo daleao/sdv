@@ -1,5 +1,11 @@
 ﻿# Enchantments Change Log
 
+## 2.1.0
+
+### Added
+
+* Added Wabbajack enchantment.
+
 ## 2.0.5
 
 ### Fixed

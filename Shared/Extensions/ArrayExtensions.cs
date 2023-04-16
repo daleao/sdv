@@ -82,4 +82,15 @@ public static class ArrayExtensions
             array.ShiftLeft();
         }
     }
+
+    /// <summary>Chooses a random element from the <paramref name="array"/>.</summary>
+    /// <typeparam name="T">The type of elements in the list.</typeparam>
+    /// <param name="array">The array.</param>
+    /// <param name="r">A <see cref="Random"/> number generator.</param>
+    /// <returns>A random element from the <paramref name="list"/>.</returns>
+    public static T Choose<T>(this T[] array, Random? r = null)
+    {
+        r ??= new Random(Guid.NewGuid().GetHashCode());
+        return array[r.Next(array.Length)];
+    }
 }

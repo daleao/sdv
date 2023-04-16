@@ -26,7 +26,7 @@ internal sealed class SlingshotAttachPatcher : HarmonyPatcher
     [HarmonyBefore("atravita.StopRugRemoval")]
     private static bool SlingshotAttachPrefix(Slingshot __instance, ref SObject? __result, SObject? o)
     {
-        if (__instance.numAttachmentSlots.Value < 2)
+        if (__instance.numAttachmentSlots.Value < 2 || __instance.attachments.Length < 2)
         {
             return true; // run original logic
         }

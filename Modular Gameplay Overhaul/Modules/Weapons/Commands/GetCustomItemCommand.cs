@@ -233,11 +233,13 @@ internal sealed class GetCustomItemCommand : ConsoleCommand
 
                 player.addItemToInventoryBool(new SObject(Globals.DwarvishBlueprintIndex.Value, 1));
                 return;
+            case "bladeofruin":
+            case "ruinblade":
+            case "ruinedblade":
             case "blade":
             case "ruin":
             case "ruined":
-            case "curse":
-            case "cursed":
+            case "bork":
                 item = new MeleeWeapon(ItemIDs.DarkSword);
                 Game1.player.mailReceived.Add("gotDarkSword");
                 Game1.player.mailForTomorrow.Add("viegoCurse");

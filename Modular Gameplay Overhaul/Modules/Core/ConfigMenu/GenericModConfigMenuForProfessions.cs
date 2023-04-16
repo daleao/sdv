@@ -240,51 +240,51 @@ internal sealed partial class GenericModConfigMenu
             .AddHorizontalRule()
 
             // ultimates
-            .AddSectionTitle(() => "Special Ability Settings")
+            .AddSectionTitle(() => "Limit Break Settings")
             .AddCheckbox(
-                () => "Enable Special Abilities",
-                () => "Must be enabled to allow activating special abilities.",
-                config => config.Professions.EnableSpecials,
-                (config, value) => config.Professions.EnableSpecials = value)
+                () => "Enable Limit Breaks",
+                () => "Must be enabled to allow using Limit Breaks.",
+                config => config.Professions.EnableLimitBreaks,
+                (config, value) => config.Professions.EnableLimitBreaks = value)
             .AddKeyBinding(
                 () => "Activation Key",
-                () => "The key used to activate the special ability.",
-                config => config.Professions.SpecialActivationKey,
-                (config, value) => config.Professions.SpecialActivationKey = value)
+                () => "The key used to activate the Limit Break.",
+                config => config.Professions.LimitBreakKey,
+                (config, value) => config.Professions.LimitBreakKey = value)
             .AddCheckbox(
                 () => "Hold-To-Activate",
-                () => "If enabled, the special ability will be activated only after a short delay.",
-                config => config.Professions.HoldKeyToActivateSpecial,
-                (config, value) => config.Professions.HoldKeyToActivateSpecial = value)
+                () => "If enabled, the Limit Break will be activated only by holding the key for a short interval.",
+                config => config.Professions.HoldKeyToLimitBreak,
+                (config, value) => config.Professions.HoldKeyToLimitBreak = value)
             .AddNumberField(
                 () => "Activation Delay",
-                () => "How long the key should be held before the special ability is activated, in seconds.",
-                config => config.Professions.SpecialActivationDelay,
-                (config, value) => config.Professions.SpecialActivationDelay = value,
+                () => "How long the key should be held before the Limit Break is activated, in seconds.",
+                config => config.Professions.LimitBreakHoldDelaySeconds,
+                (config, value) => config.Professions.LimitBreakHoldDelaySeconds = value,
                 0f,
                 3f,
                 0.2f)
             .AddNumberField(
                 () => "Gain Factor",
                 () =>
-                    "Affects the rate at which one builds the Ultimate gauge. Increase this if you feel the gauge raises too slowly.",
-                config => (float)config.Professions.SpecialGainFactor,
-                (config, value) => config.Professions.SpecialGainFactor = value,
+                    "Affects the rate at which one builds the Limit Break gauge. Increase this if you feel the gauge raises too slowly.",
+                config => (float)config.Professions.LimitGainFactor,
+                (config, value) => config.Professions.LimitGainFactor = value,
                 0.1f,
                 2f)
             .AddNumberField(
                 () => "Drain Factor",
                 () =>
-                    "Affects the rate at which the Ultimate gauge depletes during Ultimate. Lower numbers make Ultimate last longer.",
-                config => (float)config.Professions.SpecialDrainFactor,
-                (config, value) => config.Professions.SpecialDrainFactor = value,
+                    "Affects the rate at which the Limit Break gauge depletes during Ultimate. Lower numbers make Ultimate last longer.",
+                config => (float)config.Professions.LimitDrainFactor,
+                (config, value) => config.Professions.LimitDrainFactor = value,
                 0.5f,
                 2f)
             .AddNumberField(
-                () => "Cost of Special Ability Respec",
-                () => "Monetary cost of changing the chosen Special Ability. Set to 0 to change for free.",
-                config => (int)config.Professions.SpecialRespecCost,
-                (config, value) => config.Professions.SpecialRespecCost = (uint)value,
+                () => "Cost of Limit Break Respec",
+                () => "Monetary cost of changing the chosen Limit Break. Set to 0 to change for free.",
+                config => (int)config.Professions.LimitRespecCost,
+                (config, value) => config.Professions.LimitRespecCost = (uint)value,
                 0,
                 100000,
                 10000)

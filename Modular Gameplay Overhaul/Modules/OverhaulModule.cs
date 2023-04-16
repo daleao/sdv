@@ -191,7 +191,7 @@ public abstract class OverhaulModule
         {
             this.Description =
                 "Overhauls professions with the goal of supporting more diverse and interesting playstyles. " +
-                "Introduces all-new Prestige mechanics and Super Abilities for combat professions.";
+                "Introduces all-new Prestige mechanics and Limit Breaks for combat professions.";
         }
 
         /// <summary>Gets a value indicating whether the <see cref="OverhaulModule.ProfessionsModule"/> is set to enabled.</summary>

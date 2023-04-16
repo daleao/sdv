@@ -32,7 +32,7 @@ internal sealed class RascalButtonPressedEvent : ButtonPressedEvent
 
         var player = Game1.player;
         if (Game1.activeClickableMenu is not null || player.CurrentTool is not Slingshot slingshot ||
-            slingshot.attachments.Count < 2)
+            slingshot.numAttachmentSlots.Value < 2 || slingshot.attachments.Count < 2)
         {
             return;
         }

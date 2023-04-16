@@ -22,7 +22,7 @@ The available modules are listed below. **Please read this page carefuly in its 
 
 All modules should be fully multiplayer and splitscreen-ready so long as all players have it installed. Unless explicitly stated otherwise, none of the modules are Android-compatible. Please refer to each module's specific documentation page for further details and compatibility information.
 
-- **[Professions](Modules/Professions)** is the original and largest module. It overhauls all the game's professions with the goal of supporting more diverse and interesting playstyles. It also introduces all-new Prestige mechanics for very-late game save files, as well as new Super Abilities for combat professions.
+- **[Professions](Modules/Professions)** is the original and largest module. It overhauls all the game's professions with the goal of supporting more diverse and interesting playstyles. It also introduces all-new Prestige mechanics for very-late game save files, as well as new Limit Breaks for combat professions.
 
 - **[Combat](Modules/Combat)** is a relatively small module that significantly overhauls combat, specifically with regards to the Defense and Knockback stats, as well as providing general difficulty customization.
 

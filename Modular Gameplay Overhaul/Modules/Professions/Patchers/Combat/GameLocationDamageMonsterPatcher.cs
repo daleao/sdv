@@ -278,7 +278,7 @@ internal sealed class GameLocationDamageMonsterPatcher : HarmonyPatcher
 
     private static void HandleBrute(Monster monster, Farmer who, Ultimate? ultimate)
     {
-        if (!ProfessionsModule.Config.EnableSpecials || who.CurrentTool is not MeleeWeapon weapon ||
+        if (!ProfessionsModule.Config.EnableLimitBreaks || who.CurrentTool is not MeleeWeapon weapon ||
             ultimate is not Frenzy frenzy || monster.Health > 0)
         {
             return;
@@ -304,13 +304,13 @@ internal sealed class GameLocationDamageMonsterPatcher : HarmonyPatcher
             TrySteal(monster, who, r);
 
             // increment Poacher ultimate meter
-            if (ProfessionsModule.Config.EnableSpecials && ultimate is Ambush && !ultimate.IsActive)
+            if (ProfessionsModule.Config.EnableLimitBreaks && ultimate is Ambush && !ultimate.IsActive)
             {
                 ultimate.ChargeValue += critMultiplier;
             }
         }
 
-        if (ultimate is not Ambush ambush || !ProfessionsModule.Config.EnableSpecials)
+        if (ultimate is not Ambush ambush || !ProfessionsModule.Config.EnableLimitBreaks)
         {
             return;
         }
@@ -421,7 +421,7 @@ internal sealed class GameLocationDamageMonsterPatcher : HarmonyPatcher
         }
 
         // increment Piper ultimate meter
-        if (ProfessionsModule.Config.EnableSpecials && ultimate is Concerto { IsActive: false } concerto)
+        if (ProfessionsModule.Config.EnableLimitBreaks && ultimate is Concerto { IsActive: false } concerto)
         {
             var increment = monster switch
             {

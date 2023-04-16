@@ -1,5 +1,17 @@
 ﻿# Weapons Change Log
 
+## 2.1.0
+
+### Changed
+
+* Warp Totem: Island recipe now requires one Radioactive Ore if Dwarven Legacy option is enabled (instead of one extra Ginger).
+
+### Fixed
+
+* Fixed a long-standing overlooked issue with weapon hitboxes during combos. Combat should feel *significantly* better now.
+* Fixed Galaxy and Infinity weapons not being registered as Stabbing Swords right away.
+* Can no longer dash in festivals.
+
 ## 2.0.6
 
 ### Fixed

@@ -1,5 +1,11 @@
 ﻿# Slingshots Change Log
 
+## 2.1.0
+
+### Fixed
+
+* Can no longer dash in festivals.
+
 ## 2.0.6
 
 ### Fixed
