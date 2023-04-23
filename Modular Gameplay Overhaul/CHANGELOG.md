@@ -9,7 +9,7 @@ This file contains a TL;DR of current version changes and hotfixes from across a
     - **Burning:** Causes damage equal to 1/16th of max health every 3s for 15s, and reduces attack by half. Does not affect fire enemies (i.e., Lava Lurks, Magma Sprites and Magama Sparkers).
     - **Chilled:** Reduces movement speed by half for 5s. If Chilled is inflicted again during this time, then causes Freeze.
     - **Freeze:** Cannot move or attack for 30s. The next hit during the duration deals double damage and ends the effect.
-    - **Poisoned:** Causes damage equal to 1/16 of max health every 3s, stacking up to 3x.
+    - **Poisoned:** Causes damage equal to 1/16 of max health every 3s for 15s, stacking up to 3x.
     - **Slowed:** Reduces movement speed by half for the duration.
     - **Stunned:** Cannot move or attack for the duration.
 * [WPNZ]: All daggers can now inflict bleed if Rebalance option is enabled.
