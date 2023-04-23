@@ -150,10 +150,6 @@ public sealed class ModConfig
     [JsonProperty]
     public KeybindList DebugKey { get; internal set; } = KeybindList.Parse("RightShift");
 
-    /// <summary>Gets a value indicating whether Debug Mode is currently engaged.</summary>
-    [JsonProperty]
-    public bool DebugMode { get; internal set; }
-
     /// <inheritdoc />
     public override string ToString()
     {
