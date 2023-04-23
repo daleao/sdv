@@ -5,6 +5,7 @@
 ### Fixed
 
 * Some correction to SetModData command.
+* Fixed long-standing issues with debt calculation. Looks like daily income was being counted twice, leading to lower debts than expected.
 
 ## 2.1.0
 
