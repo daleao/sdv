@@ -1,5 +1,11 @@
 ﻿# Weapons Change Log
 
+## 2.2.1
+
+### Changed
+
+* Refactored some patchers into more specific namespaces, just for consistency.
+
 ## 2.2.0
 
 ### Added

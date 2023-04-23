@@ -1,5 +1,11 @@
 # Professions Module Change Log
 
+## 2.2.1
+
+### Changed
+
+* Refactored patchers in the Patchers.Common namespace, just for consistency.
+
 ## 2.2.0
 
 ### Changed

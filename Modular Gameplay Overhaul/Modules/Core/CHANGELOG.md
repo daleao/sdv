@@ -1,5 +1,11 @@
 ﻿# Modular Overhaul Core Change Log
 
+## 2.2.1
+
+### Fixed
+
+* Checksum validation now happens on Saving instead of Saved, allowing it to persist immediately instead of only on the next day.
+
 ## 2.2.0
 
 ### Added
