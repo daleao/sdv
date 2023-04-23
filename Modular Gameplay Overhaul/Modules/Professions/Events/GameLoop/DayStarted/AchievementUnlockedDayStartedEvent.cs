@@ -27,7 +27,6 @@ internal sealed class AchievementUnlockedDayStartedEvent : DayStartedEvent
         Game1.player.achievements.Add(title.GetDeterministicHashCode());
         Game1.playSound("achievement");
         Game1.addHUDMessage(new HUDMessage(title, true));
-
         this.Disable();
     }
 }

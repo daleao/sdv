@@ -11,17 +11,17 @@ using StardewModdingAPI.Events;
 
 [UsedImplicitly]
 [AlwaysEnabledEvent]
-internal sealed class CoreSavedEvent : SavedEvent
+internal sealed class CoreSavingEvent : SavingEvent
 {
-    /// <summary>Initializes a new instance of the <see cref="CoreSavedEvent"/> class.</summary>
+    /// <summary>Initializes a new instance of the <see cref="CoreSavingEvent"/> class.</summary>
     /// <param name="manager">The <see cref="EventManager"/> instance that manages this event.</param>
-    internal CoreSavedEvent(EventManager manager)
+    internal CoreSavingEvent(EventManager manager)
         : base(manager)
     {
     }
 
     /// <inheritdoc />
-    protected override void OnSavedImpl(object? sender, SavedEventArgs e)
+    protected override void OnSavingImpl(object? sender, SavingEventArgs e)
     {
         var data = Config.ToString() + Manifest.Version;
         var hash = data.GetDeterministicHashCode();

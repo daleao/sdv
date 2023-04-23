@@ -2,6 +2,10 @@
 
 This file contains a TL;DR of current version changes and hotfixes from across all modules. For the complete changelog, please refer to the individual changelogs of each module, linked [below](#detailed-change-logs).
 
+## Patch 2.2.1 Highlights
+
+* Hotfix for checksum validation not persisting until the next day.
+
 ## Minor Release 2.2.0 Highlights
 
 * Added status conditions that will be used by various modules. Each status condition has a neat correponding animation.

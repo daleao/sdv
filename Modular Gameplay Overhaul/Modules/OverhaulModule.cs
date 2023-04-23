@@ -370,6 +370,7 @@ public abstract class OverhaulModule
                 }
             }
 
+            Log.I("[WPNZ]: Done.");
             ModHelper.GameContent.InvalidateCacheAndLocalized("Data/weapons");
         }
 
