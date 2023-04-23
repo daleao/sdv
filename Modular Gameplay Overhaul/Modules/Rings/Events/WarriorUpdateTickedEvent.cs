@@ -3,6 +3,7 @@
 #region using directives
 
 using System.Collections.Generic;
+using DaLion.Overhaul.Modules.Core;
 using DaLion.Overhaul.Modules.Core.Events;
 using DaLion.Shared.Events;
 using DaLion.Shared.Extensions;
@@ -30,7 +31,7 @@ internal sealed class WarriorUpdateTickedEvent : UpdateTickedEvent
                 .Load<Dictionary<int, string>>("Data/ObjectInformation")[ItemIDs.WarriorRing]
                 .SplitWithoutAllocation('/')[0]
                 .ToString();
-        this._buffDescription = Game1.content.LoadString("Strings\\StringsFromCSFiles:Buff.cs.468");
+        this._buffDescription = I18n.Get("buffs.warrior.desc");
     }
 
     /// <inheritdoc />
@@ -42,7 +43,7 @@ internal sealed class WarriorUpdateTickedEvent : UpdateTickedEvent
     /// <inheritdoc />
     protected override void OnUpdateTickedImpl(object? sender, UpdateTickedEventArgs e)
     {
-        if (RingsModule.State.WarriorKillCount < 3)
+        if (RingsModule.State.WarriorKillCount <= 0)
         {
             this.Disable();
             return;
@@ -59,9 +60,8 @@ internal sealed class WarriorUpdateTickedEvent : UpdateTickedEvent
             return;
         }
 
-        var magnitude = RingsModule.State.WarriorKillCount / 3;
         Game1.buffsDisplay.addOtherBuff(
-            new Buff(
+            new StackableBuff(
                 0,
                 0,
                 0,
@@ -73,10 +73,12 @@ internal sealed class WarriorUpdateTickedEvent : UpdateTickedEvent
                 0,
                 0,
                 0,
-                magnitude,
+                RingsModule.State.WarriorKillCount,
                 1,
                 "Warrior Ring",
-                this._buffSource)
+                this._buffSource,
+                () => RingsModule.State.WarriorKillCount,
+                30)
             {
                 which = this._buffId,
                 sheetIndex = 20,

@@ -21,15 +21,26 @@ In addition, new progressive crafting recipes are added for each of the gemstone
     - **Aquamarine and Jade:** *combat level 4, requires Iron Bars.*
     - **Emerald and Ruby:** *combat level 6, requires Gold Bars.*
 
-### Gemstone Rebalance
+## Ring Rebalance
+
+### Gemstone Rings
 
 There are two problematic gemstones in vanilla: **Jade** and **Topaz**. This module rebalances their effects to be on-par with the ubiquitous Ruby.
-    - **Jade:** *+10% -> +50% crit. power.* A 10% boost to crit. power is a 10% damage boost that *only* applies to crits. To put that in perspective, only when the player has 100% crit. chance then they will receive an overall 10% boost to damage. It should be clear that this is complete garbage next to a Ruby Ring, which straight up grants a 10% boost to damage, *all the time*. At 50% crit. power, the Jade Ring becomes a better choice than the Ruby Ring if the player has at least 20% crit. chance, which should be attainable by any weapon type given an appropriate build. Above that threshold, Jade Rings become even stronger.
-    - **Topaz:** *literally nothing -> +1 defense.* Since the precision stat is unused in the Vanilla game, the Topaz Ring was completely useless. ConcernedApe probably realized this, which is why he made the Topaz Enchantment grant some defense instead. This change makes the Topaz Ring consistent with the Topaz Enchantment. If the [Combat](../Combat) module's Defense Overhaul is enabled, this will translate to 10% damage reduction.
+- **Jade:** *+10% -> +50% crit. power.* A 10% boost to crit. power is a 10% damage boost that *only* applies to crits. To put that in perspective, only when the player has 100% crit. chance then they will receive an overall 10% boost to damage. It should be clear that this is complete garbage next to a Ruby Ring, which straight up grants a 10% boost to damage, *all the time*. At 50% crit. power, the Jade Ring becomes a better choice than the Ruby Ring if the player has at least 20% crit. chance, which should be attainable by any weapon type given an appropriate build. Above that threshold, Jade Rings become even stronger.
+- **Topaz:** *literally nothing -> +1 defense.* Since the precision stat is unused in the Vanilla game, the Topaz Ring was completely useless. ConcernedApe probably realized this, which is why he made the Topaz Enchantment grant some defense instead. This change makes the Topaz Ring consistent with the Topaz Enchantment. If the [Combat](../Combat) module's Defense Overhaul is enabled, this will translate to 10% damage reduction.
 
 To achieve the same balance for gemstone enchantments, make sure to enable the [Enchantments](../Enchantments) module.
 
 Finally, this module also introduces the Garnet Ring. This ring adds cooldown reduction as the seventh combat stat, compensating for the removed Acrobat profession by the [Professions](../Professions) module and completing the 7-note Diatonic Gemstone Scale (see below). Garnet Rings must be crafted from mined Garnet gemstones, added via an included [Custom Ore Nodes](https://www.nexusmods.com/stardewvalley/mods/5966) content pack. If you don't install Custom Ore Nodes, Garnets will be unobtainable in-game.
+
+### Other Rings
+
+Most combat-oriented rings in vanilla are underwhelming and completely overlooked. This module tries to address that.
+- **Warrior Ring:** ~~Chance of giving the Warrior Energy (Attack +10 for 5s) buff after slaying a monster.~~ -> Gain a progressively higher attack bonus as you slay enemies (every 3 enemies increases attack by 1), which falls off gradually after some time out of combat.
+- **Ring of Yoba:** ~~Chance of giving the Yoba's Blessing (Invincible for 5s) buff after taking damage.~~ -> Taking damage that would leave you below 30% health instead grants a shield that absorbs up to 50% of your maximum health for 30s. Cannot be used again until health is fully recovered.
+- **Savage Ring:** ~~+2 Speed for 3s after slaying a monster.**~~ Gain a rapidly decaying Speed buff after slaying a monster.
+- **Immunity Ring:** ~~Immunity +4.~~ -> Gain 100% immunity.
+- **Ring of Thorns:** Can cause Bleeding status (in addition to reflected damage).
 
 ## Infinity Band
 

@@ -7,7 +7,7 @@ using Newtonsoft.Json;
 
 #endregion using directives
 
-/// <summary>The user-configurable settings for Tweex.</summary>
+/// <summary>The user-configurable settings for TWX.</summary>
 public sealed class Config : Shared.Configs.Config
 {
     #region quality settings

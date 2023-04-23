@@ -2,10 +2,7 @@
 
 #region using directives
 
-using System.Diagnostics.CodeAnalysis;
 using System.IO;
-using System.Reflection;
-using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
 #endregion using directives
@@ -13,8 +10,6 @@ using Newtonsoft.Json.Linq;
 /// <summary>Extensions for the <see cref="IModHelper"/> interface.</summary>
 public static class ModHelperExtensions
 {
-    private static JsonSerializerSettings? JsonSerializerSettings { get; set; }
-
     /// <summary>Gets the <see cref="IMod"/> interface for the external mod identified by <paramref name="uniqueId"/>.</summary>
     /// <param name="helper">The <see cref="IModHelper"/> of the current <see cref="IMod"/>.</param>
     /// <param name="uniqueId">The unique ID of the external mod.</param>
@@ -68,35 +63,6 @@ public static class ModHelperExtensions
             Log.W(
                 $"Detected {uniqueId}, but a corresponding config file was not found in the expected location '{modPath}'.");
             return null;
-        }
-    }
-
-    /// <summary>Serializes and logs a mod's config settings to the console.</summary>
-    /// <typeparam name="TConfig">The type of the current <see cref="IMod"/>'s config object.</typeparam>
-    /// <param name="helper">The <see cref="IModHelper"/> of the current <see cref="IMod"/>.</param>
-    /// <param name="config">The current <see cref="IMod"/>'s config settings.</param>
-    [SuppressMessage("StyleCop.CSharp.NamingRules", "SA1300:Element should begin with upper-case letter", Justification = "Preference for inner functions.")]
-    public static void LogConfig<TConfig>(this IModHelper helper, TConfig config)
-    {
-        JsonSerializerSettings ??= getSmapiSerializerSettings(helper.Data);
-        var json = JsonConvert.SerializeObject(config, JsonSerializerSettings);
-        Log.T($"[Config]: Current settings:\n{json}");
-
-        JsonSerializerSettings getSmapiSerializerSettings(IDataHelper dataHelper)
-        {
-            var dataHelperType = Type.GetType("StardewModdingAPI.Framework.ModHelpers.DataHelper, StardewModdingAPI")!;
-            var jsonHelperType = Type.GetType("StardewModdingAPI.Toolkit.Serialization.JsonHelper, SMAPI.Toolkit")!;
-
-            var jsonHelperField = dataHelperType.GetField(
-                "JsonHelper",
-                BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance)!;
-            var jsonSettingsGetter =
-                jsonHelperType.GetProperty(
-                    "JsonSettings",
-                    BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance)!.GetGetMethod()!;
-
-            var jsonHelper = jsonHelperField.GetValue(dataHelper)!;
-            return (JsonSerializerSettings)jsonSettingsGetter.Invoke(jsonHelper, null)!;
         }
     }
 }

@@ -12,7 +12,7 @@ using StardewModdingAPI.Utilities;
 
 #endregion using directives
 
-/// <summary>The user-configurable settings for Tools.</summary>
+/// <summary>The user-configurable settings for TOLS.</summary>
 public sealed class Config : Shared.Configs.Config
 {
     /// <inheritdoc cref="AxeConfig"/>

@@ -2,7 +2,9 @@
 
 #region using directives
 
+using System.Diagnostics;
 using System.Linq;
+using DaLion.Overhaul.Modules.Rings.VirtualProperties;
 using DaLion.Overhaul.Modules.Weapons.VirtualProperties;
 using DaLion.Shared.Extensions.Collections;
 using DaLion.Shared.Extensions.Stardew;
@@ -104,6 +106,27 @@ internal static class FarmerExtensions
         }
 
         return count;
+    }
+
+    [Conditional("RELEASE")]
+    internal static void DoStabbingSpecielCooldown(this Farmer user, MeleeWeapon? sword = null)
+    {
+        sword ??= (MeleeWeapon)user.CurrentTool;
+
+        MeleeWeapon.attackSwordCooldown = MeleeWeapon.attackSwordCooldownTime;
+        if (!ProfessionsModule.ShouldEnable && user.professions.Contains(Farmer.acrobat))
+        {
+            MeleeWeapon.attackSwordCooldown /= 2;
+        }
+
+        if (sword.hasEnchantmentOfType<ArtfulEnchantment>())
+        {
+            MeleeWeapon.attackSwordCooldown /= 2;
+        }
+
+        MeleeWeapon.attackSwordCooldown = (int)(MeleeWeapon.attackSwordCooldown *
+                                                sword.Get_EffectiveCooldownReduction() *
+                                                user.Get_CooldownReduction());
     }
 
     #region combo framework

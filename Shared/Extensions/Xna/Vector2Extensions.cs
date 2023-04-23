@@ -10,19 +10,19 @@ using Microsoft.Xna.Framework;
 /// <summary>Extensions for the <see cref="Vector2"/> struct.</summary>
 public static class Vector2Extensions
 {
-    /// <summary>Gets the angle between the <paramref name="vector"/> and the horizontal.</summary>
+    /// <summary>Gets the angle between this <paramref name="vector"/> and the horizontal, in degrees.</summary>
     /// <param name="vector">The <see cref="Vector2"/>.</param>
-    /// <returns>The angle between the <paramref name="vector"/> and a horizontal line.</returns>
+    /// <returns>The angle between the <paramref name="vector"/> and a horizontal line, in degrees.</returns>
     public static double AngleWithHorizontal(this Vector2 vector)
     {
         var (x, y) = vector;
         return Math.Atan2(0f - y, 0f - x) * (180 / Math.PI);
     }
 
-    /// <summary>Gets the angle between the <paramref name="vector"/> and an<paramref name="other"/>.</summary>
+    /// <summary>Gets the angle between this <paramref name="vector"/> and <paramref name="other"/>, in degrees.</summary>
     /// <param name="vector">The <see cref="Vector2"/>.</param>
     /// <param name="other">Some other <see cref="Vector2"/>.</param>
-    /// <returns>The angle between <paramref name="vector"/> and <paramref name="other"/>.</returns>
+    /// <returns>The angle between <paramref name="vector"/> and <paramref name="other"/>, in degrees.</returns>
     public static double AngleBetween(this Vector2 vector, Vector2 other)
     {
         var (ax, ay) = vector;
@@ -41,7 +41,7 @@ public static class Vector2Extensions
         return new Vector2(y, -x);
     }
 
-    /// <summary>Rotates the <paramref name="vector"/> by the specified <paramref name="angle"/>, in degrees.</summary>
+    /// <summary>Creates a new <see cref="Vector2"/> by rotating this <paramref name="vector"/> by the specified <paramref name="angle"/>, in degrees.</summary>
     /// <param name="vector">The <see cref="Vector2"/>.</param>
     /// <param name="angle">An angle, in degrees, to rotate by.</param>
     /// <returns>A new <see cref="Vector2"/> obtained by the specified rotation of the original.</returns>
@@ -113,13 +113,13 @@ public static class Vector2Extensions
             yield return new Vector2(x + 1, y + 1);
         }
 
-        foreach (var neighbour in GetFourNeighbors(vector, width, height))
+        foreach (var neighbor in GetFourNeighbors(vector, width, height))
         {
-            yield return neighbour;
+            yield return neighbor;
         }
     }
 
-    /// <summary>Gets the unit vectors which point in the same direction as the components of the <see cref="Vector2"/>.</summary>
+    /// <summary>Gets the horizontal and vertical unit vector projections of this <paramref name="vector"></paramref>.</summary>
     /// <param name="vector">The <see cref="Vector2"/>.</param>
     /// <returns>Two unit vectors which point in the same direction as the components of <paramref name="vector"/>.</returns>
     public static (Vector2 Horizontal, Vector2 Vertical) GetUnitComponents(this Vector2 vector)

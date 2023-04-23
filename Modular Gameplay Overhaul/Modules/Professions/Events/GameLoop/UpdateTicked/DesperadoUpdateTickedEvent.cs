@@ -31,7 +31,7 @@ internal sealed class DesperadoUpdateTickedEvent : UpdateTickedEvent
             return;
         }
 
-        this.Manager.Enable<DesperadoRenderedHudEvent>();
+        this.Manager.Enable<DesperadoRenderedWorldEvent>();
     }
 
     /// <inheritdoc />
@@ -39,7 +39,7 @@ internal sealed class DesperadoUpdateTickedEvent : UpdateTickedEvent
     {
         Game1.player.stopJittering();
         Sfx.SinWave?.Stop(AudioStopOptions.Immediate);
-        this.Manager.Disable<DesperadoRenderedHudEvent>();
+        this.Manager.Disable<DesperadoRenderedWorldEvent>();
     }
 
     /// <inheritdoc />

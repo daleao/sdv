@@ -3,6 +3,7 @@
 #region using directives
 
 using System.Xml.Serialization;
+using DaLion.Overhaul.Modules.Core;
 using DaLion.Overhaul.Modules.Enchantments.Events;
 using Microsoft.Xna.Framework;
 using StardewValley.Monsters;
@@ -74,7 +75,7 @@ public sealed class ExplosiveEnchantment : BaseWeaponEnchantment
         }
 
         Game1.buffsDisplay.addOtherBuff(
-            new Buff(
+            new StackableBuff(
                 0,
                 0,
                 0,
@@ -89,7 +90,9 @@ public sealed class ExplosiveEnchantment : BaseWeaponEnchantment
                 0,
                 1,
                 "Explosive",
-                I18n.Get("enchantments.explosive.name"))
+                I18n.Get("enchantments.explosive.name"),
+                () => this.ExplosionRadius,
+                this.MaxRadius)
             {
                 which = BuffId,
                 sheetIndex = BuffSheetIndex,

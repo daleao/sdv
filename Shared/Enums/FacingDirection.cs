@@ -49,7 +49,37 @@ public static partial class FacingDirectionExtensions
     /// <returns>The opposite direction.</returns>
     public static FacingDirection Opposite(this FacingDirection direction)
     {
-        return direction + (2 % 4);
+        return (FacingDirection)(((int)direction + 2) % 4);
+    }
+
+    /// <summary>Gets the angle between two <see cref="FacingDirection"/>s.</summary>
+    /// <param name="direction">The <see cref="FacingDirection"/>.</param>
+    /// <param name="other">Another <see cref="FacingDirection"/>.</param>
+    /// <returns>The angle between the two directions, in degrees.</returns>
+    public static int AngleWith(this FacingDirection direction, FacingDirection other)
+    {
+        if (direction == other)
+        {
+            return 0;
+        }
+
+        var delta = other - direction;
+        if (delta is 1 or -3)
+        {
+            return -90;
+        }
+
+        if (-delta is 1 or -3)
+        {
+            return 90;
+        }
+
+        if (delta % 2 == 0)
+        {
+            return 180;
+        }
+
+        return 0; // should never happen
     }
 
     /// <summary>Gets a unit vector which points in the specified direction.</summary>

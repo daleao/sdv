@@ -76,13 +76,13 @@ internal sealed class BreakableContainerReleaseContentsPatcher : HarmonyPatcher
             if (shaft.GetAdditionalDifficulty() > 0)
             {
                 // qi gem
-                if (r.NextDouble() < 0.0064)
+                if (r.NextDouble() < 0.0068)
                 {
                     Game1.createMultipleObjectDebris(858, x, y, 1, location);
                 }
 
                 // trimmed lucky purple shorts ?
-                if (r.NextDouble() < 0.008)
+                if (r.NextDouble() < 0.0085)
                 {
                     Game1.createItemDebris(
                         new SObject(Vector2.Zero, 71),

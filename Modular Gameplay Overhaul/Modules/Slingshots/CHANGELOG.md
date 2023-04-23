@@ -1,5 +1,17 @@
 ﻿# Slingshots Change Log
 
+## 2.2.0
+
+### Added
+
+* Added FaceMouseCursor option.
+* Added Slingshot swipe animation for Artful enchantment.
+
+### Changed
+
+* Small improvements to the Slingshot smack special animation.
+* Increased the hitbox of Slingshot's overhead smack special attack.
+
 ## 2.1.0
 
 ### Fixed

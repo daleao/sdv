@@ -1,6 +1,6 @@
 ﻿namespace DaLion.Overhaul.Modules.Rings;
 
-/// <summary>The runtime state Ring variables.</summary>
+/// <summary>The runtime state variable for RNGS.</summary>
 internal sealed class State
 {
     private int _warriorKillCount;
@@ -14,10 +14,13 @@ internal sealed class State
 
         set
         {
-            Game1.player.attack += value - this._warriorKillCount;
-            this._warriorKillCount = value;
+            this._warriorKillCount = Math.Min(value, 20);
         }
     }
 
     internal int SavageExcitedness { get; set; }
+
+    internal int YobaShieldHealth { get; set; } = -1;
+
+    internal bool CanReceiveYobaShield { get; set; }
 }

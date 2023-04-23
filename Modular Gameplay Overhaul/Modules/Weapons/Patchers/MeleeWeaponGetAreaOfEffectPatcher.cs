@@ -4,6 +4,7 @@ namespace DaLion.Overhaul.Modules.Weapons.Patchers;
 #region using directives
 
 using System.Reflection;
+using DaLion.Overhaul.Modules.Weapons.Extensions;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
 using Microsoft.Xna.Framework;
@@ -67,6 +68,17 @@ internal sealed class MeleeWeaponGetAreaOfEffectPatcher : HarmonyPatcher
         {
             Log.E($"Failed in {MethodBase.GetCurrentMethod()?.Name}:\n{ex}");
             return true; // default to original logic
+        }
+    }
+
+    /// <summary>More generous club aoe during combo smash.</summary>
+    [HarmonyPostfix]
+    private static void MeleeWeaponGetAreaOfEffectPostfix(MeleeWeapon __instance, ref Rectangle __result)
+    {
+        if (__instance.type.Value == MeleeWeapon.club &&
+            WeaponsModule.State.ComboHitStep == __instance.GetFinalHitStep())
+        {
+            __result.Inflate(16, 16);
         }
     }
 

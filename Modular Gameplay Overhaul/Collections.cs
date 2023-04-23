@@ -140,7 +140,7 @@ internal static class Collections
         { ItemIDs.GlacierfishJr, ItemIDs.Glacierfish },
     }.ToImmutableDictionary();
 
-    /// <summary>Gets the swords that should be converted to Stabbing Swords.</summary>
+    /// <summary>Gets or sets the swords that should be converted to Stabbing Swords.</summary>
     internal static HashSet<int> StabbingSwords { get; set; } = new()
     {
         ItemIDs.SteelSmallsword,

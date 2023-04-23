@@ -6,7 +6,7 @@ using Newtonsoft.Json;
 
 #endregion using directives
 
-/// <summary>Configs related to general combat.</summary>
+/// <summary>The user-configurable settings for CMBT.</summary>
 public sealed class Config : Shared.Configs.Config
 {
     /// <summary>Gets a value indicating whether to overhaul the knockback stat adding collision damage.</summary>
@@ -16,6 +16,9 @@ public sealed class Config : Shared.Configs.Config
     /// <summary>Gets a value indicating whether to overhaul the defense stat with better scaling and other features.</summary>
     [JsonProperty]
     public bool OverhauledDefense { get; internal set; } = true;
+
+    /// <summary>Gets a value indicating whether back attacks gain double crit. chance.</summary>
+    public bool CriticalBackAttacks { get; internal set; } = true;
 
     /// <summary>Gets a multiplier which allows scaling the health of all monsters.</summary>
     [JsonProperty]

@@ -1,5 +1,16 @@
 # Professions Module Change Log
 
+## 2.2.0
+
+### Changed
+
+* The intensity of the Slime ammo's slow effect has been reducing from 50% to 33.3%
+* Desperado's overcharge bar now draw on RenderedWorld instead of RenderedHud, which makes it compatible with different zoom levels.
+
+### Fixed
+
+* Fixed possible bugs when a Rascal Slingshot is picked up by a non-Rascal.
+
 ## 2.1.0
 
 ### Changed
@@ -194,11 +205,11 @@
 
 * **Rascal** - ~~Slingshot damage +25%. 60% chance to recover spent ammo.~~ Gain one additional ammo slot. 35% chance to recover spent ammo.
     * The damage perk is gone. I always felt like Slingshot damage was overpowered anyway. In its place comes a second ammo slot; Rascals can now equip 2 different types of ammo (or the same ammo twice). Use the Mod Key (default LeftShift) to toggle between equipped ammos.
-    * The ammo recovery perk has been nerfed to account for new enchantments provided by the [Slingshots](../Arsenal) module. In exchange, the Prestige perk now doubles this value to a whopping 70%---a higher value than the original.
+    * The ammo recovery perk has been nerfed to account for new enchantments provided by the Arsenal module. In exchange, the Prestige perk now doubles this value to a whopping 70%---a higher value than the original.
     * Ability to equip Slime ammo moved from Slimed Piper to Rascal. It will still cause a slow debuff, but will not heal ally Slimes unless the player *also* has the Piper profession.
 * **Slimed Piper** - Summoned Slimes are now friendly (will not attack players, but will still cause damage if touched).
 * **Desperado (Prestiged)** - ~~Overcharged shots become spreadshots.~~ Overcharged shots can pierce enemies.
-    * The Spreadshot perk has been moved to a new enchantments provided by the [Slingshots](../Arsenal) module. The ability to pierce enemies with overcharged shots is now the new prestige perk.
+    * The Spreadshot perk has been moved to a new enchantments provided by the Arsenal module. The ability to pierce enemies with overcharged shots is now the new prestige perk.
 * The [API](../../../Shared/Integrations/ModularOverhaul/IModularOverhaulApi.cs) has been slightly changed. Some mods may need to update the corresponding interfaces.
 
 ### Fixed

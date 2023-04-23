@@ -33,6 +33,7 @@ internal sealed class DoTaxesCommand : ConsoleCommand
         if (args.Length == 0 || args[0].ToLowerInvariant() is not ("income" or "property" or "debt"))
         {
             Log.W("You must specify either \"income\" or \"property\" for the tax report type, or \"debt\" for outstanding liabilities.");
+            return;
         }
 
         if (!SeasonExtensions.TryParse(Game1.currentSeason, true, out var currentSeason))

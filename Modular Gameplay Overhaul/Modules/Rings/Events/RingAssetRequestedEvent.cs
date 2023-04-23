@@ -32,6 +32,11 @@ internal class RingAssetRequestedEvent : AssetRequestedEvent
         var data = asset.AsDictionary<string, string>().Data;
 
         string[] fields;
+        if (RingsModule.Config.RebalancedRings)
+        {
+            data["Ring of Yoba"] = "336 5 335 5 72 1 768 20/Home/524/false/Combat 8";
+        }
+
         if (RingsModule.Config.BetterGlowstoneProgression)
         {
             data["Small Glow Ring"] = "336 2 768 5/Home/516/Ring/Mining 2";
@@ -69,19 +74,34 @@ internal class RingAssetRequestedEvent : AssetRequestedEvent
         {
             fields = data[ItemIDs.TopazRing].Split('/');
             fields[5] = CombatModule.ShouldEnable && CombatModule.Config.OverhauledDefense
-                ? I18n.Get("rings.topaz.description.resist")
-                : I18n.Get("rings.topaz.description.defense");
+                ? I18n.Get("rings.topaz.desc.resist")
+                : I18n.Get("rings.topaz.desc.defense");
             data[ItemIDs.TopazRing] = string.Join('/', fields);
 
             fields = data[ItemIDs.JadeRing].Split('/');
-            fields[5] = I18n.Get("rings.jade.description");
+            fields[5] = I18n.Get("rings.jade.desc");
             data[ItemIDs.JadeRing] = string.Join('/', fields);
+
+            fields = data[ItemIDs.WarriorRing].Split('/');
+            fields[5] = I18n.Get("rings.warrior.desc");
+            data[ItemIDs.WarriorRing] = string.Join('/', fields);
+
+            fields = data[ItemIDs.YobaRing].Split('/');
+            fields[5] = I18n.Get("rings.yoba.desc");
+            data[ItemIDs.YobaRing] = string.Join('/', fields);
+
+            if (LocalizedContentManager.CurrentLanguageCode == LocalizedContentManager.LanguageCode.en)
+            {
+                fields = data[ItemIDs.ThornsRing].Split('/');
+                fields[0] = "Ring of Thorns";
+                data[ItemIDs.ThornsRing] = string.Join('/', fields);
+            }
         }
 
         if (RingsModule.Config.TheOneInfinityBand)
         {
             fields = data[ItemIDs.IridiumBand].Split('/');
-            fields[5] = I18n.Get("rings.iridium.description");
+            fields[5] = I18n.Get("rings.iridium.desc");
             data[ItemIDs.IridiumBand] = string.Join('/', fields);
         }
     }

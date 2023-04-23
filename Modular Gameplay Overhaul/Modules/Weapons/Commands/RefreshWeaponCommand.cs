@@ -42,8 +42,7 @@ internal sealed class RefreshWeaponCommand : ConsoleCommand
         {
             if (args.Length > 0 && string.Equals(args[0], "all", StringComparison.InvariantCultureIgnoreCase))
             {
-                Utils.RevalidateAllWeapons();
-                Utils.RefreshAllWeapons(RefreshOption.Initial);
+                WeaponsModule.RevalidateAllWeapons();
                 MeleeWeapon_Stats.Values.Clear();
                 Log.I("Revalidated all weapons.");
             }
@@ -53,8 +52,7 @@ internal sealed class RefreshWeaponCommand : ConsoleCommand
             }
             else
             {
-                Utils.RevalidateSingleWeapon(weapon1);
-                weapon1.RefreshStats();
+                WeaponsModule.RevalidateSingleWeapon(weapon1);
                 MeleeWeapon_Stats.Invalidate(weapon1);
                 Log.I($"Revalidated the {weapon1.Name}.");
             }
@@ -66,7 +64,7 @@ internal sealed class RefreshWeaponCommand : ConsoleCommand
         var action = randomize ? "Randomized" : "Refreshed";
         if (args.Length > 0 && args[0].ToLowerInvariant() == "all")
         {
-            Utils.RefreshAllWeapons(randomize ? RefreshOption.Randomized : RefreshOption.Initial);
+            WeaponsModule.RefreshAllWeapons(randomize ? RefreshOption.Randomized : RefreshOption.Initial);
             Log.I($"{action} all weapons.");
         }
 

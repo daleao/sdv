@@ -1,5 +1,15 @@
 ﻿# Combat Change Log
 
+## 2.2.0
+
+### Added
+
+* Added CriticalBackAttacks option, which doubles the critical chance of attacks from behind (player only).
+
+### Removed
+
+* Stun effect has moved back to Core module.
+
 ## 2.0.0
 
 * Initial release of Combat module.

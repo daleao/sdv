@@ -6,7 +6,7 @@ using Newtonsoft.Json;
 
 #endregion using directives
 
-/// <summary>The user-configurable settings for Rings.</summary>
+/// <summary>The user-configurable settings for RNGS.</summary>
 public sealed class Config : Shared.Configs.Config
 {
     #region dropdown enums

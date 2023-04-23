@@ -48,6 +48,9 @@ internal sealed class RingOnEquipPatcher : HarmonyPatcher
             case ItemIDs.WarriorRing: // reset warrior kill count
                 RingsModule.State.WarriorKillCount = 0;
                 return true;
+            case ItemIDs.ImmunityRing:
+                who.immunity += 10;
+                return false;
             default:
                 if (!Globals.GarnetRingIndex.HasValue || __instance.ParentSheetIndex != Globals.GarnetRingIndex)
                 {

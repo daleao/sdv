@@ -1,5 +1,26 @@
 ﻿# Weapons Change Log
 
+## 2.2.0
+
+### Added
+
+* All daggers, as well as the Obsidian Edge, now have a chance to inflict Bleed status, causing enemies to take damage every second for 30 seconds. Bleeding effect stacks up to 10 times, dealing exponentially higher damage with each stack. 
+* Lava Katana now has a chance to inflict Burn status on enemies, causing them to loose 1/16th max health per 3 seconds and halves their attack for 15 seconds.
+* Upgraded Yeti Tooth to Mythic status. Now has a chance to inflict Chill status on enemies, slowing them for 3 second. If Chill is applied a second time during the duration, the enemy will receive Frozen status, preventing them from moving and attacking for 30 seconds. Hitting a frozen enemy deals double damage and cancels the effect.
+* Next on "improving stabby sword controls": special thrust move will now auto-seek the hovered enemy if FaceMouseCursor setting is enabled.
+
+### Changed
+
+* Mythic weapons now all have instrinsic enchantments, and therefore can no longer receive Prismatic Shard enchantments at the Forge for balancing reasons. This includes the Insect Head, Lava Katana, Obsidian Edge and Yeti Tooth.
+* Many weapons had their tier reduced, such that the only Mythic weapons now are those with a instrinsic enchantment.
+* Increased the hitbox of Club's overhead smash hit (final combo hit).
+
+## 2.1.1
+
+### Fixed
+
+* Enough people have suffered SpaceCore serialization issues to make it worth mitigating the risk. From now on, instrinsic weapon enchantments will be temporary removed before the game is saving. There is no need to persist them on the save anyway. This does not apply to enchantments from [ENCH](../Enchantments).
+
 ## 2.1.0
 
 ### Changed

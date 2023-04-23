@@ -6,7 +6,7 @@ using Newtonsoft.Json;
 
 #endregion using directives
 
-/// <summary>The user-configurable settings for Ponds.</summary>
+/// <summary>The user-configurable settings for PNDS.</summary>
 public sealed class Config : Shared.Configs.Config
 {
     /// <summary>Gets the number of days until an empty pond will begin spawning algae.</summary>

@@ -170,6 +170,7 @@ public sealed class ItemIDs
     public const int MagnetRing = 519;
     public const int WarriorRing = 521;
     public const int SavangeRing = 523;
+    public const int YobaRing = 524;
     public const int IridiumBand = 527;
     public const int AmethystRing = 529;
     public const int TopazRing = 530;
@@ -177,6 +178,8 @@ public sealed class ItemIDs
     public const int JadeRing = 532;
     public const int EmeraldRing = 533;
     public const int RubyRing = 534;
+    public const int ThornsRing = 839;
+    public const int ImmunityRing = 887;
     public const int GlowstoneRing = 888;
 
     // scythes

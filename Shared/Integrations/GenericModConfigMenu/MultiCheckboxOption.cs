@@ -1,4 +1,6 @@
-﻿namespace DaLion.Shared.Integrations.GenericModConfigMenu;
+﻿#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
+#pragma warning disable SA1401 // Fields should be private
+namespace DaLion.Shared.Integrations.GenericModConfigMenu;
 
 #region using directives
 
@@ -40,8 +42,8 @@ public class MultiCheckboxOption<TCheckbox>
     protected readonly Action<TCheckbox, bool>? OnValueUpdated;
 
     protected readonly int Columns;
-    protected bool? WasMouseLeftPressed;
-    protected IDictionary<TCheckbox, bool> UpdatedValues = new Dictionary<TCheckbox, bool>();
+    protected bool? wasMouseLeftPressed;
+    protected IDictionary<TCheckbox, bool> updatedValues = new Dictionary<TCheckbox, bool>();
 
     /// <summary>Initializes a new instance of the <see cref="MultiCheckboxOption{TCheckbox}"/> class.</summary>
     /// <param name="getOptionName">Gets the option name.</param>
@@ -105,13 +107,13 @@ public class MultiCheckboxOption<TCheckbox>
     {
         if (this.OnValueUpdated is not null)
         {
-            this.UpdatedValues.ForEach(pair => this.OnValueUpdated(pair.Key, pair.Value));
+            this.updatedValues.ForEach(pair => this.OnValueUpdated(pair.Key, pair.Value));
         }
     }
 
     protected virtual void AfterSave()
     {
-        this.UpdatedValues.Clear();
+        this.updatedValues.Clear();
     }
 
     protected virtual void BeforeReset()
@@ -124,8 +126,8 @@ public class MultiCheckboxOption<TCheckbox>
 
     protected virtual void BeforeMenuOpened()
     {
-        this.WasMouseLeftPressed = null;
-        this.UpdatedValues.Clear();
+        this.wasMouseLeftPressed = null;
+        this.updatedValues.Clear();
     }
 
     protected virtual void BeforeMenuClosed()
@@ -135,8 +137,8 @@ public class MultiCheckboxOption<TCheckbox>
     protected virtual void Draw(SpriteBatch b, Vector2 basePosition)
     {
         var isMouseLeftPressed = Game1.input.GetMouseState().LeftButton == ButtonState.Pressed;
-        var didClick = isMouseLeftPressed && this.WasMouseLeftPressed == false;
-        this.WasMouseLeftPressed = isMouseLeftPressed;
+        var didClick = isMouseLeftPressed && this.wasMouseLeftPressed == false;
+        this.wasMouseLeftPressed = isMouseLeftPressed;
         var mouseX = Constants.TargetPlatform == GamePlatform.Android ? Game1.getMouseX() : Game1.getOldMouseX();
         var mouseY = Constants.TargetPlatform == GamePlatform.Android ? Game1.getMouseY() : Game1.getOldMouseY();
 
@@ -185,7 +187,7 @@ public class MultiCheckboxOption<TCheckbox>
                 {
                     var newValue = !this.GetCheckboxValue(checkbox);
                     this.SetCheckboxValue(checkbox, newValue);
-                    this.UpdatedValues[checkbox] = newValue;
+                    this.updatedValues[checkbox] = newValue;
                     Game1.playSound(ClickSound);
                 }
             }
@@ -240,3 +242,5 @@ public static class MultiCheckboxOptionExtensions
             .AddToMenu(api, mod);
     }
 }
+#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
+#pragma warning restore SA1401 // Fields should be private

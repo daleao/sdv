@@ -92,7 +92,7 @@ internal sealed class GameLocationGetGalaxySwordPatcher : HarmonyPatcher
 
             if (!player.addItemToInventoryBool(chosenAsItem))
             {
-                Game1.createItemDebris(chosenAsItem, Game1.player.getStandingPosition(), 1);
+                Game1.createItemDebris(chosenAsItem, Game1.player.getStandingPosition(), -1);
             }
 
             player.Append(DataKeys.GalaxyArsenalObtained, chosen.Value.ToString());

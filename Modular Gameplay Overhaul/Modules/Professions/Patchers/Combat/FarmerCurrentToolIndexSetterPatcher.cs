@@ -37,19 +37,26 @@ internal sealed class FarmerCurrentToolIndexSetterPatcher : HarmonyPatcher
             slingshot.numAttachmentSlots.Value = 2;
             slingshot.attachments.SetCount(2);
         }
-        else if (!__instance.HasProfession(Profession.Rascal) && slingshot.numAttachmentSlots.Value >= 2)
+        else if (!__instance.HasProfession(Profession.Rascal) && (slingshot.numAttachmentSlots.Value > 1 || slingshot.attachments.Length > 1))
         {
-            var item = slingshot.attachments[1];
-            slingshot.numAttachmentSlots.Value = 1;
-            //slingshot.attachments.SetCount(1); this cannot be used to reduce the array size
-            if (item is not null && !__instance.addItemToInventoryBool(item))
+            var replacement = new Slingshot(slingshot.InitialParentTileIndex);
+            if (slingshot.attachments[0] is { } ammo1)
             {
-                Game1.createItemDebris(
-                    item,
-                    __instance.getStandingPosition(),
-                    1,
-                    __instance.currentLocation);
+                replacement.attachments[0] = (SObject)ammo1.getOne();
+                replacement.attachments[0].Stack = ammo1.Stack;
             }
+
+            if (slingshot.attachments.Length > 1 && slingshot.attachments[1] is { } ammo2)
+            {
+                var drop = (SObject)ammo2.getOne();
+                drop.Stack = ammo2.Stack;
+                if (!__instance.addItemToInventoryBool(drop))
+                {
+                    Game1.createItemDebris(drop, __instance.getStandingPosition(), -1, __instance.currentLocation);
+                }
+            }
+
+            __instance.Items[value] = replacement;
         }
     }
 

@@ -65,32 +65,34 @@ internal sealed class AddEnchantmentsCommand : ConsoleCommand
                 "garnet" => new GarnetEnchantment(),
 
                 // weapon enchants
-                "haymaker" => new HaymakerEnchantment(),
+                "artful" when tool is MeleeWeapon => new MeleeArtfulEnchantment(),
                 "carving" => new CarvingEnchantment(),
                 "cleaving" => new CleavingEnchantment(),
                 "energized" or "thunderlords" => new EnergizedEnchantment(),
                 "explosive" or "blasting" => new ExplosiveEnchantment(),
-                "tribute" or "gold" => new TributeEnchantment(),
-                "artful" => new NewArtfulEnchantment(),
                 "bloodthirsty" or "vampiric" => new BloodthirstyEnchantment(),
+                "steadfast" => new SteadfastEnchantment(),
+                "mammonite" or "mammon" => new MammoniteEnchantment(),
                 "wabbajack" or "wabba" or "wab" => new WabbajackEnchantment(),
 
                 // slingshot enchants
-                "engorging" or "glutton" => new EngorgingEnchantment(),
+                "artful" when tool is Slingshot => new RangedArtfulEnchantment(),
+                "engorging" or "glutton" or "magnum" => new MagnumEnchantment(),
                 "gatling" => new GatlingEnchantment(),
                 "preserving" when tool is Slingshot => new Ranged.PreservingEnchantment(),
                 "quincy" => new QuincyEnchantment(),
                 "spreading" => new SpreadingEnchantment(),
 
-                // removed vanilla weapon enchants
+                // vanilla weapon enchants
+                "haymaker" => new HaymakerEnchantment(),
                 "v_artful" => new ArtfulEnchantment(),
                 "v_bugkiller" => new BugKillerEnchantment(),
                 "v_crusader" => new CrusaderEnchantment(),
                 "v_vampiric" => new VampiricEnchantment(),
-                "magic" or "sunburst" => new MagicEnchantment(),
+                "v_magic" or "v_sunburst" => new MagicEnchantment(),
 
                 // tool enchants
-                "auto-hook" or "autohook" => new AutoHookEnchantment(),
+                "auto-hook" or "autohook" or "hook" => new AutoHookEnchantment(),
                 "arch" or "archaeologist" => new ArchaeologistEnchantment(),
                 "bottomless" => new BottomlessEnchantment(),
                 "efficient" => new EfficientToolEnchantment(),

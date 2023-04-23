@@ -5,10 +5,10 @@
 using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
+using DaLion.Overhaul.Modules.Enchantments.Events;
 using DaLion.Overhaul.Modules.Enchantments.Melee;
 using DaLion.Shared.Extensions.Reflection;
 using DaLion.Shared.Harmony;
-using Events;
 using HarmonyLib;
 using StardewValley.Tools;
 
@@ -108,10 +108,10 @@ internal sealed class FarmerTakeDamagePatcher : HarmonyPatcher
             return;
         }
 
-        var tribute = weapon.GetEnchantmentOfType<TributeEnchantment>();
-        if (tribute is not null)
+        var mammon = weapon.GetEnchantmentOfType<MammoniteEnchantment>();
+        if (mammon is not null)
         {
-            tribute.Threshold = 0.1f;
+            mammon.Threshold = 0.1f;
             return;
         }
 

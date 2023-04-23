@@ -36,7 +36,7 @@ internal sealed partial class GenericModConfigMenu
                             return;
                         }
 
-                        var key = "rings.topaz.description" + (value ? "resist" : "defense");
+                        var key = "rings.topaz.desc" + (value ? "resist" : "defense");
                         topaz.description = I18n.Get(key);
                     });
                 })
@@ -45,6 +45,11 @@ internal sealed partial class GenericModConfigMenu
                 () => "Causes enemies to suffer collision damage when knocked-back into a wall or other obstacle.",
                 config => config.Combat.KnockbackDamage,
                 (config, value) => config.Combat.KnockbackDamage = value)
+            .AddCheckbox(
+                () => "Critical Back Attacks",
+                () => "Your attacks on enemies facing away from you gain double crit. chance.",
+                config => config.Combat.CriticalBackAttacks,
+                (config, value) => config.Combat.CriticalBackAttacks = value)
             .AddNumberField(
                 () => "Monster Health Multiplier",
                 () => "Multiplies the health of all enemies.",

@@ -13,8 +13,10 @@ using DaLion.Shared.Extensions.SMAPI;
 using DaLion.Shared.Extensions.Stardew;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
+using Microsoft.Xna.Framework;
 using StardewValley.Buildings;
 using StardewValley.Menus;
+using StardewValley.Tools;
 
 #endregion using directives
 
@@ -44,6 +46,8 @@ internal sealed class LevelUpMenuGetImmediateProfessionPerkPatcher : HarmonyPatc
             return;
         }
 
+        var player = Game1.player;
+
         // add immediate perks
         profession
             .When(Profession.Aquarist).Then(() =>
@@ -53,7 +57,7 @@ internal sealed class LevelUpMenuGetImmediateProfessionPerkPatcher : HarmonyPatc
                 {
                     var building = buildings[i];
                     if (building is FishPond pond &&
-                        (pond.IsOwnedBy(Game1.player) || ProfessionsModule.Config.LaxOwnershipRequirements) &&
+                        (pond.IsOwnedBy(player) || ProfessionsModule.Config.LaxOwnershipRequirements) &&
                         !pond.isUnderConstruction())
                     {
                         pond.UpdateMaximumOccupancy();
@@ -61,15 +65,26 @@ internal sealed class LevelUpMenuGetImmediateProfessionPerkPatcher : HarmonyPatc
                 }
             })
             .When(Profession.Prospector).Then(() => EventManager.Enable<ProspectorRenderedHudEvent>())
-            .When(Profession.Scavenger).Then(() => EventManager.Enable<ScavengerRenderedHudEvent>());
+            .When(Profession.Scavenger).Then(() => EventManager.Enable<ScavengerRenderedHudEvent>())
+            .When(Profession.Rascal).Then(() =>
+            {
+                if (player.CurrentTool is not Slingshot slingshot ||
+                    (slingshot.numAttachmentSlots.Value >= 2 && slingshot.attachments.Length >= 2))
+                {
+                    return;
+                }
 
-        if (whichProfession is < 26 or >= 30 || Game1.player.Get_Ultimate() is not null)
+                slingshot.numAttachmentSlots.Value = 2;
+                slingshot.attachments.SetCount(2);
+            });
+
+        if (whichProfession is < 26 or >= 30 || player.Get_Ultimate() is not null)
         {
             return;
         }
 
         // register Ultimate
-        Game1.player.Set_Ultimate(Ultimate.FromValue(whichProfession));
+        player.Set_Ultimate(Ultimate.FromValue(whichProfession));
     }
 
     /// <summary>Patch to move bonus health from Defender to Brute.</summary>

@@ -192,15 +192,27 @@ internal sealed class FarmerShowSwordSwipePatcher : HarmonyPatcher
                 return false; // don't run original logic
             }
 
-            tempSprite.color = weapon.IsInfinityWeapon()
-                ? Color.HotPink
-                : weapon.InitialParentTileIndex switch
+            if (WeaponsModule.Config.EnableRebalance)
+            {
+                tempSprite.color = weapon.InitialParentTileIndex switch
                 {
-                    ItemIDs.DarkSword => Color.DarkSlateGray,
-                    ItemIDs.HolyBlade => Color.Gold,
                     ItemIDs.LavaKatana => Color.Orange,
+                    ItemIDs.YetiTooth => Color.PowderBlue,
                     _ => tempSprite.color,
                 };
+            }
+
+            if (WeaponsModule.Config.InfinityPlusOne)
+            {
+                tempSprite.color = weapon.IsInfinityWeapon()
+                    ? Color.HotPink
+                    : weapon.InitialParentTileIndex switch
+                    {
+                        ItemIDs.DarkSword => Color.DarkSlateGray,
+                        ItemIDs.HolyBlade => Color.Gold,
+                        _ => tempSprite.color,
+                    };
+            }
 
             who.currentLocation.temporarySprites.Add(tempSprite);
 
@@ -210,6 +222,40 @@ internal sealed class FarmerShowSwordSwipePatcher : HarmonyPatcher
         {
             Log.E($"Failed in {MethodBase.GetCurrentMethod()?.Name}:\n{ex}");
             return true; // default to original logic
+        }
+    }
+
+    /// <summary>Show novelty colors if combo hits is disabled.</summary>
+    [HarmonyPostfix]
+    private static void FarmerShowSwordSwipePostfix(Farmer who)
+    {
+        if (who.CurrentTool is not MeleeWeapon weapon || weapon.isScythe() ||
+            WeaponsModule.Config.EnableComboHits)
+        {
+            return;
+        }
+
+        var tempSprite = who.currentLocation.TemporarySprites[^1];
+        if (WeaponsModule.Config.EnableRebalance)
+        {
+            tempSprite.color = weapon.InitialParentTileIndex switch
+            {
+                ItemIDs.LavaKatana => Color.Orange,
+                ItemIDs.YetiTooth => Color.PowderBlue,
+                _ => tempSprite.color,
+            };
+        }
+
+        if (WeaponsModule.Config.InfinityPlusOne)
+        {
+            tempSprite.color = weapon.IsInfinityWeapon()
+                ? Color.HotPink
+                : weapon.InitialParentTileIndex switch
+                {
+                    ItemIDs.DarkSword => Color.DarkSlateGray,
+                    ItemIDs.HolyBlade => Color.Gold,
+                    _ => tempSprite.color,
+                };
         }
     }
 

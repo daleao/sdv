@@ -1,5 +1,12 @@
 ﻿# Modular Overhaul Core Change Log
 
+## 2.2.0
+
+### Added
+
+* Added StackableBuff class.
+* Added Status Effect framework.
+
 ## 2.0.5
 
 ### Fixed

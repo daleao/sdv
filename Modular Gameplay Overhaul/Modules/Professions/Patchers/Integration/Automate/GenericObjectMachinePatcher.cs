@@ -157,12 +157,15 @@ internal sealed class GenericObjectMachinePatcher : HarmonyPatcher
             (ProfessionsModule.Config.LaxOwnershipRequirements && Game1.game1.DoesAnyPlayerHaveProfession(Profession.Artisan, out _)))
         {
             output.Quality = input.Quality;
-            if (r.NextDouble() > user.FarmingLevel / 30d)
+            if (!ProfessionsModule.Config.ArtisanGoodsAlwaysInputQuality)
             {
-                output.Quality = (int)((Quality)output.Quality).Decrement();
-                if (r.NextDouble() > user.FarmingLevel / 15d)
+                if (r.NextDouble() > user.FarmingLevel / 30d)
                 {
                     output.Quality = (int)((Quality)output.Quality).Decrement();
+                    if (r.NextDouble() > user.FarmingLevel / 15d)
+                    {
+                        output.Quality = (int)((Quality)output.Quality).Decrement();
+                    }
                 }
             }
         }

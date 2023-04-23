@@ -2,7 +2,7 @@
 
 #region using directives
 
-using Modules.Weapons.Extensions;
+using DaLion.Overhaul.Modules.Weapons.Extensions;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
 using StardewValley.Monsters;

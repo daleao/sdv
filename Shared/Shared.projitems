@@ -112,6 +112,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\SMAPI\AssetNameExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\SMAPI\GameContentHelperExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\SMAPI\KeybindListExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Extensions\SMAPI\DataHelperExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\SMAPI\ModHelperExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\Stardew\BuildingExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\Stardew\CharacterExtensions.cs" />

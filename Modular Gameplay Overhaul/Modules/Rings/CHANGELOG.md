@@ -1,5 +1,17 @@
 # Rings Module Change Log
 
+## 2.2.0
+
+### Added
+
+* Thorns Ring can now cause Bleed. Renamed to "Ring of Thorns", because it just sounds better.
+* Ring of Yoba no longer grants invincibility; now grants a shield for 50% max health when your health drops below 30%.
+* Immunity Ring now grants 100% immunity, instead of vanilla 40%.
+
+### Changed
+
+* Warrior Ring now gains stacks on every kill (instead of 3 kills), but is capped at +20 attack.
+
 ## 2.0.7
 
 ### Added

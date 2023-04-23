@@ -7,7 +7,7 @@ using StardewValley.Tools;
 
 #endregion using directives
 
-/// <summary>The user-configurable settings for Enchantments.</summary>
+/// <summary>The user-configurable settings for ENCH.</summary>
 public sealed class Config : Shared.Configs.Config
 {
     #region dropdown enums
@@ -36,6 +36,7 @@ public sealed class Config : Shared.Configs.Config
     }
 
     #endregion dropdown enums
+
     /// <summary>Gets a value indicating whether to use the overhauled enchantments for <see cref="MeleeWeapon"/>s.</summary>
     [JsonProperty]
     public bool MeleeEnchantments { get; internal set; } = true;

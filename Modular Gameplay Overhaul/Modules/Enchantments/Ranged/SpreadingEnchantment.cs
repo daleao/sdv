@@ -37,8 +37,17 @@ public sealed class SpreadingEnchantment : BaseSlingshotEnchantment
         GameLocation location,
         Farmer firer)
     {
+        if (slingshot.attachments[0] is null)
+        {
+            return;
+        }
+
+        if (--slingshot.attachments[0].Stack <= 0)
+        {
+            slingshot.attachments[0] = null;
+        }
+
         var velocity = new Vector2(xVelocity, yVelocity);
-        damageBase = (int)(damageBase * 0.6f);
         var overcharge = ProfessionsModule.ShouldEnable && firer.professions.Contains(Farmer.desperado)
             ? slingshot.GetOvercharge()
             : 1f;

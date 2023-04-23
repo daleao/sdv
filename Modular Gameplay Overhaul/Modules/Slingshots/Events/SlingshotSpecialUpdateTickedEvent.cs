@@ -2,8 +2,6 @@
 
 #region using directives
 
-using System.Diagnostics;
-using DaLion.Overhaul.Modules.Rings.VirtualProperties;
 using DaLion.Overhaul.Modules.Slingshots.Extensions;
 using DaLion.Overhaul.Modules.Slingshots.VirtualProperties;
 using DaLion.Shared.Enums;
@@ -17,7 +15,6 @@ using StardewValley.Tools;
 [UsedImplicitly]
 internal sealed class SlingshotSpecialUpdateTickedEvent : UpdateTickedEvent
 {
-    private const int SlingshotCooldown = 2000;
     private static int _currentFrame = -1;
     private static int _animationFrames;
 
@@ -38,6 +35,7 @@ internal sealed class SlingshotSpecialUpdateTickedEvent : UpdateTickedEvent
             return;
         }
 
+        var facingDirection = (FacingDirection)user.FacingDirection;
         if (slingshot.Get_IsOnSpecial())
         {
             _currentFrame++;
@@ -55,33 +53,36 @@ internal sealed class SlingshotSpecialUpdateTickedEvent : UpdateTickedEvent
 
                 var sprite = (FarmerSprite)user.Sprite;
                 sprite.setCurrentFrame(frame, 0, 40, _animationFrames, user.FacingDirection == 3, true);
-                _animationFrames = (sprite.CurrentAnimation.Count * 3) + 9;
+                _animationFrames = (sprite.CurrentAnimation.Count * 3) + 11;
             }
             else if (_currentFrame >= _animationFrames)
             {
                 user.completelyStopAnimatingOrDoingAction();
                 slingshot.Set_IsOnSpecial(false);
                 user.forceCanMove();
-                DoCooldown(user, slingshot);
+                user.DoSlingshotSpecialCooldown(slingshot);
                 _currentFrame = -1;
             }
             else
             {
                 var sprite = user.FarmerSprite;
-                if (_currentFrame >= 6 && _currentFrame < _animationFrames - 6 && _currentFrame % 3 == 0)
+                if (_currentFrame >= 8 && _currentFrame < _animationFrames - 6 && _currentFrame % 3 == 0)
                 {
                     sprite.CurrentFrame = sprite.CurrentAnimation[sprite.currentAnimationIndex++].frame;
                 }
 
-                if (_currentFrame == 6)
+                if (_currentFrame == 10)
+                {
+                    Game1.playSound("swordswipe");
+                }
+                else if (_currentFrame == (facingDirection.IsHorizontal() ? 12 : 16))
                 {
                     Farmer.showToolSwipeEffect(user);
-                    Game1.playSound("swordswipe");
                 }
 
                 if (sprite.currentAnimationIndex >= 4)
                 {
-                    var (x, y) = user.getUniformPositionAwayFromBox(user.FacingDirection, 64);
+                    var (x, y) = user.getTileLocation() * Game1.tileSize;
                     slingshot.DoDamage((int)x, (int)y, user);
                 }
 
@@ -91,38 +92,8 @@ internal sealed class SlingshotSpecialUpdateTickedEvent : UpdateTickedEvent
         }
         else
         {
-            DoCooldown(user, slingshot);
+            user.DoSlingshotSpecialCooldown(slingshot);
             this.Disable();
-        }
-    }
-
-    [Conditional("RELEASE")]
-    private static void DoCooldown(Farmer user, Slingshot slingshot)
-    {
-        if (slingshot.Get_IsOnSpecial())
-        {
-            SlingshotsModule.State.SlingshotCooldown = SlingshotCooldown;
-            if (!ProfessionsModule.ShouldEnable && user.professions.Contains(Farmer.acrobat))
-            {
-                SlingshotsModule.State.SlingshotCooldown /= 2;
-            }
-
-            if (slingshot.hasEnchantmentOfType<ArtfulEnchantment>())
-            {
-                SlingshotsModule.State.SlingshotCooldown /= 2;
-            }
-
-            SlingshotsModule.State.SlingshotCooldown = (int)(SlingshotsModule.State.SlingshotCooldown *
-                                                          slingshot.Get_GarnetCooldownReduction() *
-                                                          user.Get_CooldownReduction());
-        }
-        else
-        {
-            SlingshotsModule.State.SlingshotCooldown -= Game1.currentGameTime.ElapsedGameTime.Milliseconds;
-            if (SlingshotsModule.State.SlingshotCooldown <= 0)
-            {
-                Game1.playSound("objectiveComplete");
-            }
         }
     }
 }

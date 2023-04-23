@@ -32,7 +32,7 @@ internal static class MeleeWeaponExtensions
 
     /// <summary>Determines whether the <paramref name="weapon"/> is an Infinity weapon.</summary>
     /// <param name="weapon">The <see cref="MeleeWeapon"/>.</param>
-    /// <returns><see langword="true"/> if the <paramref name="weapon"/>'s index correspond to one of the Infinity weapon, otherwise <see langword="false"/>.</returns>
+    /// <returns><see langword="true"/> if the <paramref name="weapon"/>'s index corresponds to either Dark Sword or Holy Blade, otherwise <see langword="false"/>.</returns>
     internal static bool IsCursedOrBlessed(this MeleeWeapon weapon)
     {
         return weapon.InitialParentTileIndex is ItemIDs.DarkSword or ItemIDs.HolyBlade;
@@ -250,114 +250,123 @@ internal static class MeleeWeaponExtensions
         }
     }
 
-    /// <summary>Adds hidden weapon enchantments related to Infinity +1.</summary>
+    /// <summary>Adds hidden weapon enchantments related to Rebalance or Infinity +1.</summary>
     /// <param name="weapon">The <see cref="MeleeWeapon"/>.</param>
     internal static void AddIntrinsicEnchantments(this MeleeWeapon weapon)
     {
         if (WeaponsModule.Config.EnableRebalance)
         {
-            switch (weapon.InitialParentTileIndex)
+            if (weapon.IsDagger())
             {
-                case ItemIDs.LavaKatana when !weapon.hasEnchantmentOfType<LavaEnchantment>():
-                    weapon.AddEnchantment(new LavaEnchantment());
-                    break;
-                case ItemIDs.ObsidianEdge when !weapon.hasEnchantmentOfType<ObsidianEnchantment>():
-                    weapon.AddEnchantment(new ObsidianEnchantment());
-                    break;
-            }
-        }
-
-        if (!WeaponsModule.Config.InfinityPlusOne)
-        {
-            return;
-        }
-
-        switch (weapon.InitialParentTileIndex)
-        {
-            case ItemIDs.DarkSword when !weapon.hasEnchantmentOfType<CursedEnchantment>():
-                weapon.AddEnchantment(new CursedEnchantment());
-                weapon.specialItem = true;
-                break;
-            case ItemIDs.HolyBlade when !weapon.hasEnchantmentOfType<BlessedEnchantment>():
-                weapon.AddEnchantment(new BlessedEnchantment());
-                weapon.specialItem = true;
-                break;
-            case ItemIDs.GalaxySword:
-            case ItemIDs.GalaxyDagger:
-            case ItemIDs.GalaxyHammer:
-                weapon.specialItem = true;
-                break;
-            case ItemIDs.InfinityBlade:
-            case ItemIDs.InfinityDagger:
-            case ItemIDs.InfinityGavel:
-                if (!weapon.hasEnchantmentOfType<InfinityEnchantment>())
+                if (weapon.InitialParentTileIndex == ItemIDs.InsectHead &&
+                    !weapon.hasEnchantmentOfType<KillerBugEnchantment>())
                 {
-                    weapon.AddEnchantment(new InfinityEnchantment());
+                    weapon.AddEnchantment(new KillerBugEnchantment());
                 }
-
-                weapon.specialItem = true;
-                break;
-        }
-    }
-
-    /// <summary>Adds hidden weapon enchantments related to Infinity +1.</summary>
-    /// <param name="weapon">The <see cref="MeleeWeapon"/>.</param>
-    internal static void RemoveIntrinsicEnchantments(this MeleeWeapon weapon)
-    {
-        if (WeaponsModule.Config.EnableRebalance)
-        {
-            BaseEnchantment? enchantment = null;
-            switch (weapon.InitialParentTileIndex)
-            {
-                case ItemIDs.LavaKatana when !weapon.hasEnchantmentOfType<LavaEnchantment>():
-                    enchantment = weapon.GetEnchantmentOfType<LavaEnchantment>();
-                    break;
-                case ItemIDs.ObsidianEdge when !weapon.hasEnchantmentOfType<ObsidianEnchantment>():
-                    enchantment = weapon.GetEnchantmentOfType<ObsidianEnchantment>();
-                    break;
+                else
+                {
+                    weapon.AddEnchantment(new DaggerEnchantment());
+                }
             }
-
-            if (enchantment is not null)
+            else
             {
-                weapon.RemoveEnchantment(enchantment);
+                switch (weapon.InitialParentTileIndex)
+                {
+                    case ItemIDs.LavaKatana when !weapon.hasEnchantmentOfType<LavaEnchantment>():
+                        weapon.AddEnchantment(new LavaEnchantment());
+                        Log.D("[WPNZ]: Added LavaEnchantment to Lava Katana.");
+                        break;
+                    case ItemIDs.ObsidianEdge when !weapon.hasEnchantmentOfType<ObsidianEnchantment>():
+                        weapon.AddEnchantment(new ObsidianEnchantment());
+                        Log.D("[WPNZ]: Added ObsidianEnchantment to Obsidian Edge.");
+                        break;
+                    case ItemIDs.YetiTooth when !weapon.hasEnchantmentOfType<YetiEnchantment>():
+                        weapon.AddEnchantment(new YetiEnchantment());
+                        break;
+                }
             }
         }
 
         if (WeaponsModule.Config.InfinityPlusOne)
         {
-            BaseEnchantment? enchantment = null;
             switch (weapon.InitialParentTileIndex)
             {
-                case ItemIDs.DarkSword when weapon.hasEnchantmentOfType<CursedEnchantment>():
-                    enchantment = weapon.GetEnchantmentOfType<CursedEnchantment>();
+                case ItemIDs.DarkSword when !weapon.hasEnchantmentOfType<CursedEnchantment>():
+                    weapon.AddEnchantment(new CursedEnchantment());
+                    Log.D("[WPNZ]: Added CursedEnchantment to Dark Sword.");
                     break;
-                case ItemIDs.HolyBlade when weapon.hasEnchantmentOfType<BlessedEnchantment>():
-                    enchantment = weapon.GetEnchantmentOfType<BlessedEnchantment>();
+                case ItemIDs.HolyBlade when !weapon.hasEnchantmentOfType<BlessedEnchantment>():
+                    weapon.AddEnchantment(new BlessedEnchantment());
+                    Log.D("[WPNZ]: Added BlessedEnchantment to Holy Blade.");
                     break;
-                case ItemIDs.InfinityBlade:
-                case ItemIDs.InfinityDagger:
-                case ItemIDs.InfinityGavel:
-                    if (!weapon.hasEnchantmentOfType<InfinityEnchantment>())
+                default:
+                    if (weapon.IsInfinityWeapon() && !weapon.hasEnchantmentOfType<InfinityEnchantment>())
                     {
-                        enchantment = weapon.GetEnchantmentOfType<InfinityEnchantment>();
+                        weapon.AddEnchantment(new InfinityEnchantment());
+                        Log.D($"[WPNZ]: Added InfinityEnchantment to Infinity {(WeaponType)weapon.type.Value}.");
                     }
 
                     break;
             }
+        }
+    }
 
-            if (enchantment is not null)
+    /// <summary>Removes hidden weapon enchantments related Rebalance or Infinity +1.</summary>
+    /// <param name="weapon">The <see cref="MeleeWeapon"/>.</param>
+    internal static void RemoveIntrinsicEnchantments(this MeleeWeapon weapon)
+    {
+        BaseEnchantment? enchantment;
+        if (weapon.IsDagger())
+        {
+            enchantment = weapon.InitialParentTileIndex == ItemIDs.InsectHead
+                ? weapon.GetEnchantmentOfType<KillerBugEnchantment>()
+                : weapon.GetEnchantmentOfType<DaggerEnchantment>();
+        }
+        else
+        {
+            enchantment = weapon.InitialParentTileIndex switch
             {
-                weapon.RemoveEnchantment(enchantment);
-            }
+                ItemIDs.LavaKatana => weapon.GetEnchantmentOfType<LavaEnchantment>(),
+                ItemIDs.ObsidianEdge => weapon.GetEnchantmentOfType<ObsidianEnchantment>(),
+                ItemIDs.YetiTooth => weapon.GetEnchantmentOfType<YetiEnchantment>(),
+                ItemIDs.DarkSword => weapon.GetEnchantmentOfType<CursedEnchantment>(),
+                ItemIDs.HolyBlade => weapon.GetEnchantmentOfType<BlessedEnchantment>(),
+                ItemIDs.InfinityBlade or ItemIDs.InfinityDagger or ItemIDs.InfinityGavel => weapon
+                    .GetEnchantmentOfType<InfinityEnchantment>(),
+                _ => null,
+            };
+        }
+
+        if (enchantment is not null)
+        {
+            weapon.RemoveEnchantment(enchantment);
+            Log.D($"[WPNZ]: Removed {enchantment.GetType().Name} from {weapon.Name}.");
         }
     }
 
     /// <summary>Checks whether the <paramref name="weapon"/> has one of the special intrinsic enchantments.</summary>
     /// <param name="weapon">The <see cref="MeleeWeapon"/>.</param>
-    /// <returns><see langword="true"/> if the <paramref name="weapon"/> has either <see cref="LavaEnchantment"/> or <see cref="ObsidianEnchantment"/>, otherwise <see langword="false"/>.</returns>
+    /// <returns><see langword="true"/> if the <paramref name="weapon"/> has a <see cref="LavaEnchantment"/>, <see cref="ObsidianEnchantment"/>, <see cref="CursedEnchantment"/>, <see cref="BlessedEnchantment"/> or <see cref="InfinityEnchantment"/>, otherwise <see langword="false"/>.</returns>
     internal static bool HasIntrinsicEnchantment(this MeleeWeapon weapon)
     {
-        return weapon.HasAnyEnchantmentOf(typeof(LavaEnchantment), typeof(ObsidianEnchantment));
+        return weapon.HasAnyEnchantmentOf(
+            typeof(CursedEnchantment),
+            typeof(BlessedEnchantment),
+            typeof(DaggerEnchantment),
+            typeof(InfinityEnchantment),
+            typeof(KillerBugEnchantment),
+            typeof(LavaEnchantment),
+            typeof(ObsidianEnchantment),
+            typeof(YetiEnchantment));
+    }
+
+    /// <summary>Checks whether the <paramref name="weapon"/> should have one of the special intrinsic enchantments.</summary>
+    /// <param name="weapon">The <see cref="MeleeWeapon"/>.</param>
+    /// <returns><see langword="true"/> if the <paramref name="weapon"/>'s index corresponds to either Lava Sword, Obsidian Edge, Dark Sword, Holy Blade or one of the Infinity weapons, otherwise <see langword="false"/>.</returns>
+    internal static bool ShouldHaveIntrinsicEnchantment(this MeleeWeapon weapon)
+    {
+        return weapon.IsDagger() || weapon.InitialParentTileIndex is ItemIDs.LavaKatana or ItemIDs.ObsidianEdge ||
+               weapon.IsCursedOrBlessed() || weapon.IsInfinityWeapon();
     }
 
     internal static void SetFarmerAnimatingBackwards(this MeleeWeapon weapon, Farmer farmer)

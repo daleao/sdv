@@ -1,4 +1,6 @@
-﻿namespace DaLion.Shared.Integrations.GenericModConfigMenu;
+﻿#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
+#pragma warning disable SA1401 // Fields should be private
+namespace DaLion.Shared.Integrations.GenericModConfigMenu;
 
 #region using directives
 
@@ -26,8 +28,8 @@ public class MultiPageLinkOption<TPage>
     protected const float ColumnSpacing = 16f;
     protected const float Margin = 16f;
 
-    protected static Func<object? /* SpecificModConfigMenu */>? GetActiveSpecificModConfigMenuDelegate;
-    protected static Action<object /* SpecificModConfigMenu */, string>? OpenPageDelegate;
+    protected static Func<object? /* SpecificModConfigMenu */>? getActiveSpecificModConfigMenuDelegate;
+    protected static Action<object /* SpecificModConfigMenu */, string>? openPageDelegate;
 
     protected readonly Func<string> GetOptionName;
     protected readonly Func<TPage, string> GetPageId;
@@ -35,8 +37,8 @@ public class MultiPageLinkOption<TPage>
     protected readonly TPage[] Pages;
 
     protected readonly int Columns;
-    protected bool? WasMouseLeftPressed;
-    protected Point? LastHoverPosition;
+    protected bool? wasMouseLeftPressed;
+    protected Point? lastHoverPosition;
 
     /// <summary>Initializes a new instance of the <see cref="MultiPageLinkOption{TOption}"/> class.</summary>
     /// <param name="getOptionName">Gets the option name.</param>
@@ -108,8 +110,8 @@ public class MultiPageLinkOption<TPage>
 
     protected virtual void BeforeMenuOpened()
     {
-        this.WasMouseLeftPressed = null;
-        this.LastHoverPosition = null;
+        this.wasMouseLeftPressed = null;
+        this.lastHoverPosition = null;
     }
 
     protected virtual void BeforeMenuClosed()
@@ -121,8 +123,8 @@ public class MultiPageLinkOption<TPage>
         Point? newHoverPosition = null;
 
         var isMouseLeftPressed = Game1.input.GetMouseState().LeftButton == ButtonState.Pressed;
-        var didClick = isMouseLeftPressed && this.WasMouseLeftPressed == false;
-        this.WasMouseLeftPressed = isMouseLeftPressed;
+        var didClick = isMouseLeftPressed && this.wasMouseLeftPressed == false;
+        this.wasMouseLeftPressed = isMouseLeftPressed;
         var mouseX = Constants.TargetPlatform == GamePlatform.Android ? Game1.getMouseX() : Game1.getOldMouseX();
         var mouseY = Constants.TargetPlatform == GamePlatform.Android ? Game1.getMouseY() : Game1.getOldMouseY();
 
@@ -170,18 +172,18 @@ public class MultiPageLinkOption<TPage>
             column = 0;
         }
 
-        if (newHoverPosition is not null && newHoverPosition != this.LastHoverPosition)
+        if (newHoverPosition is not null && newHoverPosition != this.lastHoverPosition)
         {
             Game1.playSound(HoverSound);
         }
 
-        this.LastHoverPosition = newHoverPosition;
+        this.lastHoverPosition = newHoverPosition;
     }
 
-    [MemberNotNull(nameof(GetActiveSpecificModConfigMenuDelegate), nameof(OpenPageDelegate))]
+    [MemberNotNull(nameof(getActiveSpecificModConfigMenuDelegate), nameof(openPageDelegate))]
     private static void SetupReflectionIfNecessary()
     {
-        GetActiveSpecificModConfigMenuDelegate = () =>
+        getActiveSpecificModConfigMenuDelegate = () =>
         {
             var result = ModQualifiedName
                 .ToType()
@@ -190,7 +192,7 @@ public class MultiPageLinkOption<TPage>
             return result?.GetType().Name == "SpecificModConfigMenu" ? result : null;
         };
 
-        OpenPageDelegate = (menu, pageId) =>
+        openPageDelegate = (menu, pageId) =>
             ((Action<string>)SpecificModConfigMenuQualifiedName
                 .ToType()
                 .RequireField("OpenPage").GetValue(menu)!)
@@ -201,13 +203,13 @@ public class MultiPageLinkOption<TPage>
     {
         SetupReflectionIfNecessary();
 
-        var menu = GetActiveSpecificModConfigMenuDelegate();
+        var menu = getActiveSpecificModConfigMenuDelegate();
         if (menu is null)
         {
             return;
         }
 
-        OpenPageDelegate(menu, pageId);
+        openPageDelegate(menu, pageId);
     }
 }
 
@@ -243,3 +245,5 @@ public static class MultiPageLinkOptionExtensions
             .AddToMenu(api, mod);
     }
 }
+#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
+#pragma warning restore SA1401 // Fields should be private

@@ -1,5 +1,11 @@
 ﻿# Taxes Module Change Log
 
+## 2.2.0
+
+### Fixed
+
+* Some correction to SetModData command.
+
 ## 2.1.0
 
 ### Fixed

@@ -22,11 +22,14 @@ internal sealed class SpaceCoreIntegration : ModIntegration<SpaceCoreIntegration
     {
         this.AssertLoaded();
 
-        this.ModApi.RegisterSerializerType(typeof(LavaEnchantment));
-        this.ModApi.RegisterSerializerType(typeof(ObsidianEnchantment));
         this.ModApi.RegisterSerializerType(typeof(BlessedEnchantment));
         this.ModApi.RegisterSerializerType(typeof(CursedEnchantment));
         this.ModApi.RegisterSerializerType(typeof(InfinityEnchantment));
+        this.ModApi.RegisterSerializerType(typeof(DaggerEnchantment));
+        this.ModApi.RegisterSerializerType(typeof(KillerBugEnchantment));
+        this.ModApi.RegisterSerializerType(typeof(LavaEnchantment));
+        this.ModApi.RegisterSerializerType(typeof(ObsidianEnchantment));
+        this.ModApi.RegisterSerializerType(typeof(YetiEnchantment));
 
         return true;
     }

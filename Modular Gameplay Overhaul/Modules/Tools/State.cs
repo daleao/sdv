@@ -6,7 +6,7 @@ using System.Collections.Generic;
 
 #endregion using directives
 
-/// <summary>The runtime state for Tool variables.</summary>
+/// <summary>The runtime state variables for TOLS.</summary>
 internal sealed class State
 {
     internal List<Shockwave> Shockwaves { get; } = new();

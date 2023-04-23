@@ -7,7 +7,7 @@ using StardewValley.Tools;
 
 #endregion using directives
 
-/// <summary>The runtime state for Slingshot variables.</summary>
+/// <summary>The runtime state variable for SLNGS.</summary>
 internal sealed class State
 {
     internal int SlingshotCooldown { get; set; }

@@ -87,7 +87,7 @@ public static class ArrayExtensions
     /// <typeparam name="T">The type of elements in the list.</typeparam>
     /// <param name="array">The array.</param>
     /// <param name="r">A <see cref="Random"/> number generator.</param>
-    /// <returns>A random element from the <paramref name="list"/>.</returns>
+    /// <returns>A random element from the <paramref name="array"/>.</returns>
     public static T Choose<T>(this T[] array, Random? r = null)
     {
         r ??= new Random(Guid.NewGuid().GetHashCode());

@@ -42,9 +42,14 @@ Enchantments have been almost entirely overhauled. Hopefully these enchantments 
 | Blasting | Accumulates and stores half of the damage from enemy hits (before mitigation). If enough damage is accumulated, the next special move releases that damage as an explosion. |
 | Mammonite's | Attacks that would leave an enemy below 10% max health immediately execute the enemy, converting the remaining health into gold. This threshold increases by 1% with each consecutive takedown, resetting when you take damage. |
 | Bloodthirsty | Enemy takedowns recover some health proportional to the enemy's max health. Excess healing is converted into a shield for up to 20% of the player's max health, which slowly decays after not dealing or taking damage for 25s. |
+| Steadfast    | Converts critical strike chance into bonus raw damage (multiplied by critical power). |
 | Wabbajack | Causes unpredictable effects. *Examples: damage or heal the enemy; decrease or increase the enemie's stats; transfigure into a different enemy, creature or any random item (note: this can spawn illegal items.* |
 
-\* **Offensive Swords:** Dash distance +50% and can change direction mid-dash. **Defensive Swords:** Successful parries stun enemies for 1s. **Daggers:** Quick stab hit count +2. **Clubs:** Smash AoE + 50%.
+\*
+    - **Offensive Swords:** Can dash twice in succession.
+    - **Defensive Swords:** The next attack within 5s of a successful parry is guaranteed a critical strike.
+    - **Daggers:** Quick stab deals an additional hit. If [WPNZ](../Weapons) is enabled with rebalance option, all hits apply Bleed with 100% chance.
+    - **Clubs:** Smash area +50%. Enemmies in range are stunned for 2s.
 
 ### Ranged Enchantments
 
@@ -54,13 +59,13 @@ The enchantments below are entirely new and unique to slingshots.
 | ---------- | -------|
 | Magnum     | Doubles the size of fired projectiles. |
 | Gatling    | Enables auto-fire.* |
-| Preserving | 50% chance to not consume ammo. |
-| Spreading  | Attacks fire 2 additional projectiles. Extra projectiles deal reduced (60%) damage and do not consume additional ammo.  |
+| Preserving | Does not consume ammo. |
+| Spreading  | Consume one additional ammo to fire two additional angled projectiles. |
 | Quincy     | Attacks fire an energy projectile if no ammo is equipped. Only works near enemies.** |
 
-\* *Firing speed is lower compared to [Desperado](../Professions)'s Death Blossom. If the Professions module is enabled, auto-firing requires holding the Mod Key (default LeftShift).*
+\* *Double-press and **hold** the use-tool key to engage auto-fire.*
 
-\** *The Quincy projectile cannot crit nor knock back enemies, but is affected by damage modifiers. If the Professions module is enabled and the player has the Desperado profession, the Quincy projectile will also be affected by Overcharge, which will also increase the projectile's size.*
+\** *Quincy projectile cannot crit nor knock back enemies, but is affected by damage modifiers. If the Professions module is enabled and the player has the Desperado profession, Quincy projectile will also be affected by Overcharge.*
 
 ## Compatibility
 

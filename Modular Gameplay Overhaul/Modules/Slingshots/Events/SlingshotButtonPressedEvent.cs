@@ -4,6 +4,7 @@
 
 using DaLion.Shared.Enums;
 using DaLion.Shared.Events;
+using DaLion.Shared.Extensions.Stardew;
 using StardewModdingAPI.Events;
 using StardewValley.Tools;
 
@@ -20,7 +21,7 @@ internal sealed class SlingshotButtonPressedEvent : ButtonPressedEvent
     }
 
     /// <inheritdoc />
-    public override bool IsEnabled => SlingshotsModule.Config.SlickMoves;
+    public override bool IsEnabled => SlingshotsModule.Config.FaceMouseCursor || SlingshotsModule.Config.SlickMoves;
 
     /// <inheritdoc />
     protected override void OnButtonPressedImpl(object? sender, ButtonPressedEventArgs e)
@@ -55,6 +56,12 @@ internal sealed class SlingshotButtonPressedEvent : ButtonPressedEvent
             return;
         }
 
+        var originalDirection = (FacingDirection)player.FacingDirection;
+        if (SlingshotsModule.Config.FaceMouseCursor && !Game1.options.gamepadControls)
+        {
+            player.FaceTowardsTile(Game1.currentCursorTile);
+        }
+
         if (isActionButton && SlingshotsModule.State.SlingshotCooldown > 0)
         {
             return;
@@ -65,7 +72,6 @@ internal sealed class SlingshotButtonPressedEvent : ButtonPressedEvent
             return;
         }
 
-        var originalDirection = (FacingDirection)player.FacingDirection;
         var directionVector = originalDirection.ToVector();
         if (originalDirection.IsVertical())
         {

@@ -9,7 +9,7 @@ using StardewModdingAPI.Utilities;
 
 #endregion using directives
 
-/// <summary>Configs related to <see cref="StardewValley.Tools.MeleeWeapon"/>s.</summary>
+/// <summary>The user-configurable settings for WPNZ.</summary>
 public sealed class Config : Shared.Configs.Config
 {
     #region dropdown enums
@@ -100,6 +100,14 @@ public sealed class Config : Shared.Configs.Config
     [JsonProperty]
     public bool WoodyReplacesRusty { get; internal set; } = true;
 
+    /// <summary>Gets a value indicating whether face the current cursor position before swinging your weapon.</summary>
+    [JsonProperty]
+    public bool FaceMouseCursor { get; internal set; } = true;
+
+    /// <summary>Gets a value indicating whether to allow drifting in the movement direction when swinging weapons.</summary>
+    [JsonProperty]
+    public bool SlickMoves { get; internal set; } = true;
+
     /// <summary>Gets a value indicating whether to allow auto-selecting a weapon or slingshot.</summary>
     [JsonProperty]
     public bool EnableAutoSelection { get; internal set; } = true;
@@ -115,12 +123,4 @@ public sealed class Config : Shared.Configs.Config
     /// <summary>Gets a value indicating how close an enemy must be to auto-select a weapon, in tiles.</summary>
     [JsonProperty]
     public uint AutoSelectionRange { get; internal set; } = 2;
-
-    /// <summary>Gets a value indicating whether face the current cursor position before swinging your weapon.</summary>
-    [JsonProperty]
-    public bool FaceMouseCursor { get; internal set; } = true;
-
-    /// <summary>Gets a value indicating whether to allow drifting in the movement direction when swinging weapons.</summary>
-    [JsonProperty]
-    public bool SlickMoves { get; internal set; } = true;
 }

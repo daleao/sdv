@@ -2,6 +2,7 @@
 
 #region using directives
 
+using System.Diagnostics.CodeAnalysis;
 using DaLion.Overhaul.Modules.Weapons.Extensions;
 using DaLion.Shared.Attributes;
 using DaLion.Shared.Commands;
@@ -28,6 +29,7 @@ internal sealed class SwordBlessCommand : ConsoleCommand
     public override string Documentation => "Transform a currently held Dark Sword into a Holy Blade.";
 
     /// <inheritdoc />
+    [SuppressMessage("StyleCop.CSharp.NamingRules", "SA1300:Element should begin with upper-case letter", Justification = "Preference for inner functions.")]
     public override void Callback(string trigger, string[] args)
     {
         var player = Game1.player;

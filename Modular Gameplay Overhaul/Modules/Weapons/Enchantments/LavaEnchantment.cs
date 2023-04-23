@@ -3,6 +3,8 @@
 #region using directives
 
 using System.Xml.Serialization;
+using DaLion.Overhaul.Modules.Core.Extensions;
+using DaLion.Shared.Extensions;
 using Microsoft.Xna.Framework;
 using StardewValley.Monsters;
 
@@ -12,6 +14,8 @@ using StardewValley.Monsters;
 [XmlType("Mods_DaLion_LavaEnchantment")]
 public class LavaEnchantment : BaseWeaponEnchantment
 {
+    private readonly Random _random = new(Guid.NewGuid().GetHashCode());
+
     /// <inheritdoc />
     public override bool IsSecondaryEnchantment()
     {
@@ -39,6 +43,29 @@ public class LavaEnchantment : BaseWeaponEnchantment
     /// <inheritdoc />
     protected override void _OnDealDamage(Monster monster, GameLocation location, Farmer who, ref int amount)
     {
+        base._OnDealDamage(monster, location, who, ref amount);
+        if (monster is Bug or Fly)
+        {
+            location.TemporarySprites.Add(new TemporaryAnimatedSprite(
+                30,
+                monster.GetBoundingBox().Center.ToVector2(),
+                Color.White,
+                4,
+                Game1.random.NextBool(),
+                50f,
+                2)
+            {
+                positionFollowsAttachedCharacter = true,
+                attachedCharacter = monster,
+                layerDepth = 999999f,
+            });
+            monster.Die(who);
+        }
+        else if (this._random.NextDouble() < 0.15)
+        {
+            monster.Burn(who);
+        }
+
         var monsterBox = monster.GetBoundingBox();
         var sprites = new TemporaryAnimatedSprite(
             362,

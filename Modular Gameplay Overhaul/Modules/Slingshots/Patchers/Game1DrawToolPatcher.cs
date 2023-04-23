@@ -39,13 +39,27 @@ internal sealed class Game1DrawToolPatcher : HarmonyPatcher
                 slingshot.IndexOfMenuItemView,
                 16,
                 16);
-            slingshot.DrawDuringUse(
-                f.FarmerSprite.currentAnimationIndex,
-                f.FacingDirection,
-                Game1.spriteBatch,
-                position,
-                f,
-                sourceRect);
+            if (slingshot.hasEnchantmentOfType<Enchantments.Ranged.RangedArtfulEnchantment>())
+            {
+                slingshot.DrawDuringArtfulUse(
+                    f.FarmerSprite.currentAnimationIndex,
+                    f.FacingDirection,
+                    Game1.spriteBatch,
+                    position,
+                    f,
+                    sourceRect);
+            }
+            else
+            {
+                slingshot.DrawDuringUse(
+                    f.FarmerSprite.currentAnimationIndex,
+                    f.FacingDirection,
+                    Game1.spriteBatch,
+                    position,
+                    f,
+                    sourceRect);
+            }
+
             return false; // don't run original logic
         }
         catch (Exception ex)

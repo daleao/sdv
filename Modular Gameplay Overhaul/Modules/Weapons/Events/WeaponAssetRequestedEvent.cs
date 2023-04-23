@@ -547,7 +547,7 @@ internal sealed class WeaponAssetRequestedEvent : AssetRequestedEvent
                 fields[MinDropLevel] = (-1).ToString();
                 fields[Aoe] = 8.ToString();
                 fields[CritChance] = 0.05.ToString(CultureInfo.InvariantCulture);
-                fields[CritPower] = 2.0.ToString(CultureInfo.InvariantCulture);
+                fields[CritPower] = 2.25.ToString(CultureInfo.InvariantCulture);
                 break;
             case ItemIDs.ObsidianEdge:
                 fields[Description] += I18n.Get("weapons.obsidianedge.extradesc");

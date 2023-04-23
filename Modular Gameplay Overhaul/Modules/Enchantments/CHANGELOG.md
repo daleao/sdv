@@ -1,5 +1,27 @@
 ﻿# Enchantments Change Log
 
+## 2.2.0
+
+### Added
+
+* Added Steadfast enchantment: Converts critical strike chance into bonus damage (multiplied by critical power). Cannot crit.
+
+### Changed
+
+* Artful can now be applied to Slingshot. Artful enchantment changes:
+    - **Stabbing Sword**: Can dash twice in succession.
+    - **Defense Sword**: ~~Stuns enemies for 1s~~ Guarantees a critical strike on the next attack (within 5s).
+    - **Dagger**: Applies bleeding on each hit (if WPNZ is enabled with Rebalance).
+    - **Club**: Now also stuns enemies for 2s.
+    - **Slingshot**: Stunning smack becomes a stunning swipe (larger area, easier to hit).
+* Gatling enchantment fire speed is now the same as Desperado Limit Break (x2 buff). No longer engaged by holding a Mod Key. You can now engage auto-fire by double pressing and holding the fire key.
+* Preserving enchantment now grants 100% chance to preserve (was 50%).
+* Spreading enchantment now consumes an additional ammo, but spread projectiles now deal 100% damage.
+
+### Fixed
+
+* Added missing localization for Wabbajack enchantment.
+
 ## 2.1.0
 
 ### Added

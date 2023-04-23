@@ -16,6 +16,7 @@ using DaLion.Shared.Harmony;
 using HarmonyLib;
 using StardewValley.Buildings;
 using StardewValley.Menus;
+using StardewValley.Tools;
 
 #endregion using directives
 
@@ -45,6 +46,8 @@ internal sealed class LevelUpMenuRemoveImmediateProfessionPerkPatcher : HarmonyP
             return;
         }
 
+        var player = Game1.player;
+
         // remove immediate perks
         profession
             .When(Profession.Aquarist).Then(() =>
@@ -54,7 +57,7 @@ internal sealed class LevelUpMenuRemoveImmediateProfessionPerkPatcher : HarmonyP
                 {
                     var building = buildings[i];
                     if (building is not FishPond pond ||
-                        !(pond.IsOwnedBy(Game1.player) || ProfessionsModule.Config.LaxOwnershipRequirements) ||
+                        !(pond.IsOwnedBy(player) || ProfessionsModule.Config.LaxOwnershipRequirements) ||
                         pond.isUnderConstruction() || pond.maxOccupants.Value <= 10)
                     {
                         continue;
@@ -65,22 +68,49 @@ internal sealed class LevelUpMenuRemoveImmediateProfessionPerkPatcher : HarmonyP
                 }
             })
             .When(Profession.Prospector).Then(() => EventManager.Disable<ProspectorRenderedHudEvent>())
-            .When(Profession.Scavenger).Then(() => EventManager.Disable<ScavengerRenderedHudEvent>());
+            .When(Profession.Scavenger).Then(() => EventManager.Disable<ScavengerRenderedHudEvent>())
+            .When(Profession.Rascal).Then(() =>
+            {
+                if (player.CurrentTool is not Slingshot slingshot ||
+                    (slingshot.numAttachmentSlots.Value <= 1 && slingshot.attachments.Length <= 1))
+                {
+                    return;
+                }
+
+                var replacement = new Slingshot(slingshot.InitialParentTileIndex);
+                if (slingshot.attachments[0] is { } ammo1)
+                {
+                    replacement.attachments[0] = (SObject)ammo1.getOne();
+                    replacement.attachments[0].Stack = ammo1.Stack;
+                }
+
+                if (slingshot.attachments.Length > 1 && slingshot.attachments[1] is { } ammo2)
+                {
+                    var drop = (SObject)ammo2.getOne();
+                    drop.Stack = ammo2.Stack;
+                    if (!player.addItemToInventoryBool(drop))
+                    {
+                        Game1.createItemDebris(drop, player.getStandingPosition(), -1, player.currentLocation);
+                    }
+                }
+
+                player.Items[player.CurrentToolIndex] = replacement;
+            });
 
         // unregister Ultimate
-        if (Game1.player.Get_Ultimate()?.Value != whichProfession)
+        if (player.Get_Ultimate()?.Value != whichProfession)
         {
             return;
         }
 
-        if (Game1.player.professions.Any(p => p is >= 26 and < 30))
+        if (player.professions.Any(p => p is >= 26 and < 30))
         {
-            var firstIndex = Game1.player.professions.First(p => p is >= 26 and < 30);
-            Game1.player.Set_Ultimate(Ultimate.FromValue(firstIndex));
+            var firstIndex = player.professions.First(p => p is >= 26 and < 30);
+            player.Set_Ultimate(Ultimate.FromValue(firstIndex));
         }
         else
         {
-            Game1.player.Set_Ultimate(null);
+            player.Set_Ultimate(null);
         }
     }
 

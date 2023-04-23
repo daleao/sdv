@@ -28,14 +28,14 @@ internal sealed class TaxDayEndingEvent : DayEndingEvent
     /// <inheritdoc />
     protected override void OnDayEndingImpl(object? sender, DayEndingEventArgs e)
     {
-        var player = Game1.player;
-        if (!player.ShouldPayTaxes())
+        var taxpayer = Game1.player;
+        if (!taxpayer.ShouldPayTaxes())
         {
             // clear any outdated data just in case
-            player.Write(DataKeys.SeasonIncome, null);
-            player.Write(DataKeys.BusinessExpenses, null);
-            player.Write(DataKeys.PercentDeductions, null);
-            player.Write(DataKeys.DebtOutstanding, null);
+            taxpayer.Write(DataKeys.SeasonIncome, null);
+            taxpayer.Write(DataKeys.BusinessExpenses, null);
+            taxpayer.Write(DataKeys.PercentDeductions, null);
+            taxpayer.Write(DataKeys.DebtOutstanding, null);
             return;
         }
 
@@ -44,7 +44,7 @@ internal sealed class TaxDayEndingEvent : DayEndingEvent
             PostalService.Send(Mail.FrsIntro);
         }
 
-        var amountSold = Game1.getFarm().getShippingBin(player).Sum(item =>
+        var amountSold = Game1.getFarm().getShippingBin(taxpayer).Sum(item =>
             item is SObject obj ? obj.sellToStorePrice() * obj.Stack : item.salePrice() / 2);
         Utility.ForAllLocations(location =>
         {
@@ -52,7 +52,7 @@ internal sealed class TaxDayEndingEvent : DayEndingEvent
                 .OfType<Chest>()
                 .Where(c => c.SpecialChestType == Chest.SpecialChestTypes.MiniShippingBin)
                 .Sum(miniBin => miniBin
-                    .GetItemsForPlayer(player.UniqueMultiplayerID)
+                    .GetItemsForPlayer(taxpayer.UniqueMultiplayerID)
                     .Sum(item => item is SObject obj ? obj.sellToStorePrice() * obj.Stack : item.salePrice() / 2));
         });
 
@@ -69,24 +69,9 @@ internal sealed class TaxDayEndingEvent : DayEndingEvent
         var dayIncome = amountSold;
         switch (Game1.dayOfMonth)
         {
-            case 28 when ProfessionsModule.ShouldEnable && player.professions.Contains(Farmer.mariner):
+            case 28 when ProfessionsModule.ShouldEnable && taxpayer.professions.Contains(Farmer.mariner):
             {
-                var deductible = player.GetConservationistPriceMultiplier() - 1;
-                if (deductible <= 0f)
-                {
-                    break;
-                }
-
-                player.Write(DataKeys.PercentDeductions, deductible.ToString(CultureInfo.InvariantCulture));
-                TaxesModule.State.LatestTaxDeductions = deductible;
-                PostalService.Send(Mail.FrsDeduction);
-                Log.I(
-                    FormattableString.CurrentCulture(
-                        $"Farmer {player.Name} is eligible for income tax deductions of {deductible:0.0%}.") +
-                    (deductible >= 1f
-                        ? $" No income taxes will be charged for {Game1.currentSeason}."
-                        : string.Empty));
-
+                CheckDeductions(taxpayer);
                 goto default;
             }
 
@@ -97,105 +82,10 @@ internal sealed class TaxDayEndingEvent : DayEndingEvent
                     break;
                 }
 
-                var debtOutstanding = player.Read<int>(DataKeys.DebtOutstanding);
-                if (debtOutstanding > 0)
+                CheckIncomeStatement(taxpayer, ref dayIncome);
+                if (taxpayer.IsMainPlayer)
                 {
-                    var penalties = Math.Min((int)(debtOutstanding * 0.05f), 100);
-                    Log.I(
-                        $"Outstanding debt in the amount of {debtOutstanding}g has accrued additional penalties in the amount of {penalties}g.");
-                    player.Write(DataKeys.DebtOutstanding, (debtOutstanding + penalties).ToString());
-                }
-
-                // calculate income tax
-                var amountDue = RevenueService.CalculateTaxes(player);
-                TaxesModule.State.LatestDueIncomeTax = amountDue;
-                if (amountDue > 0)
-                {
-                    int amountPaid;
-                    if (player.Money + dayIncome >= amountDue)
-                    {
-                        player.Money -= amountDue;
-                        amountPaid = amountDue;
-                        amountDue = 0;
-                        PostalService.Send(Mail.FrsNotice);
-                        Log.I("Income tax due was paid in full.");
-                    }
-                    else
-                    {
-                        amountPaid = player.Money + dayIncome;
-                        amountDue -= amountPaid;
-                        player.Money = 0;
-
-                        var penalties = Math.Min((int)(amountDue * TaxesModule.Config.IncomeTaxLatenessFine), 100);
-                        player.Increment(DataKeys.DebtOutstanding, amountDue + penalties);
-                        TaxesModule.State.LatestOutstandingIncomeTax = amountDue + penalties;
-                        PostalService.Send(Mail.FrsOutstanding);
-                        Log.I(
-                            $"{player.Name} did not carry enough funds to cover the income tax due." +
-                            $"\n\t- Amount charged: {amountPaid}g" +
-                            $"\n\t- Outstanding debt: {amountDue}g (+{penalties}g in penalties).");
-                    }
-
-                    player.Write(DataKeys.SeasonIncome, "0");
-                    player.Write(DataKeys.BusinessExpenses, "0");
-                }
-
-                // calculate property tax
-                if (!player.IsMainPlayer)
-                {
-                    return;
-                }
-
-                var farm = Game1.getFarm();
-                var agricultureValue = farm.Read<int>(DataKeys.AgricultureValue);
-                var livestockValue = farm.Read<int>(DataKeys.LivestockValue);
-                var buildingValue = farm.Read<int>(DataKeys.BuildingValue);
-                var usableTiles = farm.Read(DataKeys.UsableTiles, -1);
-                if (usableTiles < 0)
-                {
-                    var origin = farm.GetMainFarmHouseEntry();
-                    usableTiles = origin.FloodFill(
-                        farm.Map.DisplayWidth,
-                        farm.Map.DisplayHeight,
-                        p => farm.doesTileHaveProperty(p.X, p.Y, "Diggable", "Back") is not null).Count;
-                    farm.Write(DataKeys.UsableTiles, usableTiles.ToString());
-                }
-
-                var currentUsePct = farm.Read<float>(DataKeys.UsedTiles) / usableTiles;
-                amountDue = (int)(((agricultureValue + livestockValue) * currentUsePct * TaxesModule.Config.UsedTileTaxRate) +
-                                  ((agricultureValue + livestockValue) * (1f - currentUsePct) * TaxesModule.Config.UnusedTileTaxRate) +
-                                  (buildingValue * TaxesModule.Config.BuildingTaxRate));
-                TaxesModule.State.LatestDuePropertyTax = amountDue;
-                if (amountDue > 0)
-                {
-                    int amountPaid;
-                    if (player.Money + dayIncome >= amountDue)
-                    {
-                        player.Money -= amountDue;
-                        amountPaid = amountDue;
-                        amountDue = 0;
-                        PostalService.Send(Mail.LewisNotice);
-                        Log.I("Property tax due was paid in full.");
-                    }
-                    else
-                    {
-                        amountPaid = player.Money + dayIncome;
-                        amountDue -= amountPaid;
-                        player.Money = 0;
-
-                        var penalties = Math.Min((int)(amountDue * TaxesModule.Config.PropertyTaxLatenessFine), 100);
-                        player.Increment(DataKeys.DebtOutstanding, amountDue + penalties);
-                        TaxesModule.State.LatestOutstandingPropertyTax = amountDue + penalties;
-                        PostalService.Send(Mail.LewisOutstanding);
-                        Log.I(
-                            $"{player.Name} did not carry enough funds to cover the property tax due." +
-                            $"\n\t- Amount charged: {amountPaid}g" +
-                            $"\n\t- Outstanding debt: {amountDue}g (+{penalties}g in penalties).");
-                    }
-
-                    farm.Write(DataKeys.AgricultureValue, "0");
-                    farm.Write(DataKeys.LivestockValue, "0");
-                    farm.Write(DataKeys.BuildingValue, "0");
+                    CheckPropertyStatement(taxpayer, ref dayIncome);
                 }
 
                 goto default;
@@ -204,7 +94,7 @@ internal sealed class TaxDayEndingEvent : DayEndingEvent
             case 8:
             case 22:
             {
-                if (player.IsMainPlayer)
+                if (taxpayer.IsMainPlayer)
                 {
                     Game1.getFarm().Appraise();
                 }
@@ -214,45 +104,182 @@ internal sealed class TaxDayEndingEvent : DayEndingEvent
 
             default:
             {
-                var debtOutstanding = player.Read<int>(DataKeys.DebtOutstanding);
-                if (debtOutstanding <= 0)
-                {
-                    break;
-                }
-
-                if (dayIncome >= debtOutstanding)
-                {
-                    dayIncome -= debtOutstanding;
-                    debtOutstanding = 0;
-                    Log.I(
-                        $"{player.Name} has successfully paid off their outstanding debt and will resume earning income from Shipping Bin sales.");
-                }
-                else
-                {
-                    debtOutstanding -= dayIncome;
-                    var interest = (int)Math.Round(debtOutstanding * TaxesModule.Config.AnnualInterest / 112f);
-                    debtOutstanding += interest;
-                    Log.I(
-                        $"{player.Name}'s outstanding debt has accrued {interest}g interest and is now worth {debtOutstanding}g.");
-                    dayIncome = 0;
-                }
-
-                var toDebit = amountSold - dayIncome;
-                TaxesModule.State.LatestAmountWithheld = toDebit;
-                player.Write(DataKeys.DebtOutstanding, debtOutstanding.ToString());
-                this.Manager.Enable<TaxDayStartedEvent>();
+                CheckOutstanding(taxpayer, ref dayIncome);
             }
 
             break;
         }
 
-        player.Increment(DataKeys.SeasonIncome, dayIncome);
-        Log.T(
-            $"[TXS]: Actual income was increased by {dayIncome}g after debts.");
+        if (dayIncome < amountSold)
+        {
+            TaxesModule.State.LatestAmountWithheld = amountSold - dayIncome;
+            ModEntry.EventManager.Enable<TaxDayStartedEvent>();
+        }
+
+        taxpayer.Increment(DataKeys.SeasonIncome, dayIncome);
+        Log.T(dayIncome > 0
+            ? $"[TXS]: Actual income was increased by {dayIncome}g after debts and payments."
+            : "[TXS]: Day's income was entirely consumed by debts and payments.");
     }
 
-    private static void CheckDeduction()
+    private static void CheckDeductions(Farmer taxpayer)
     {
+        var deductible = taxpayer.GetConservationistPriceMultiplier() - 1;
+        if (deductible <= 0f)
+        {
+            return;
+        }
 
+        taxpayer.Write(DataKeys.PercentDeductions, deductible.ToString(CultureInfo.InvariantCulture));
+        TaxesModule.State.LatestTaxDeductions = deductible;
+        PostalService.Send(Mail.FrsDeduction);
+        Log.I(
+            FormattableString.CurrentCulture(
+                $"[TXS]: Farmer {taxpayer.Name} is eligible for income tax deductions of {deductible:0.0%}.") +
+            (deductible >= 1f
+                ? $" No income taxes will be charged for {Game1.currentSeason}."
+                : string.Empty));
+    }
+
+    private static void CheckIncomeStatement(Farmer taxpayer, ref int dayIncome)
+    {
+        var amountDue = RevenueService.CalculateTaxes(taxpayer);
+        TaxesModule.State.LatestDueIncomeTax = amountDue;
+        if (amountDue <= 0)
+        {
+            return;
+        }
+
+        int amountPaid;
+        if (taxpayer.Money >= amountDue)
+        {
+            taxpayer.Money -= amountDue;
+            amountPaid = amountDue;
+            amountDue = 0;
+            PostalService.Send(Mail.FrsNotice);
+            Log.I("[TXS]: Income tax due was paid in full.");
+        }
+        else
+        {
+            amountPaid = taxpayer.Money;
+            amountDue -= amountPaid;
+            taxpayer.Money = 0;
+            if (amountDue >= dayIncome)
+            {
+                var outstanding = amountDue - dayIncome;
+                dayIncome = 0;
+                var penalties = Math.Max((int)(outstanding * TaxesModule.Config.IncomeTaxLatenessFine), 100);
+                taxpayer.Increment(DataKeys.DebtOutstanding, outstanding + penalties);
+                TaxesModule.State.LatestOutstandingIncomeTax = outstanding + penalties;
+                PostalService.Send(Mail.FrsOutstanding);
+                Log.I(
+                    $"[TXS]: {taxpayer.Name} did not carry enough funds to cover the income tax due." +
+                    $"\n\t- Amount charged: {amountPaid}g" +
+                    $"\n\t- Outstanding debt: {outstanding}g (+{penalties}g in penalties).");
+            }
+            else
+            {
+                dayIncome -= amountDue;
+            }
+        }
+
+        taxpayer.Write(DataKeys.SeasonIncome, "0");
+        taxpayer.Write(DataKeys.BusinessExpenses, "0");
+    }
+
+    private static void CheckPropertyStatement(Farmer taxpayer, ref int dayIncome)
+    {
+        var farm = Game1.getFarm();
+        var agricultureValue = farm.Read<int>(DataKeys.AgricultureValue);
+        var livestockValue = farm.Read<int>(DataKeys.LivestockValue);
+        var buildingValue = farm.Read<int>(DataKeys.BuildingValue);
+        var usableTiles = farm.Read(DataKeys.UsableTiles, -1);
+        if (usableTiles < 0)
+        {
+            var origin = farm.GetMainFarmHouseEntry();
+            usableTiles = origin.FloodFill(
+                farm.Map.DisplayWidth,
+                farm.Map.DisplayHeight,
+                p => farm.doesTileHaveProperty(p.X, p.Y, "Diggable", "Back") is not null).Count;
+            farm.Write(DataKeys.UsableTiles, usableTiles.ToString());
+        }
+
+        var currentUsePct = farm.Read<float>(DataKeys.UsedTiles) / usableTiles;
+        var amountDue = (int)(((agricultureValue + livestockValue) * currentUsePct * TaxesModule.Config.UsedTileTaxRate) +
+                          ((agricultureValue + livestockValue) * (1f - currentUsePct) * TaxesModule.Config.UnusedTileTaxRate) +
+                          (buildingValue * TaxesModule.Config.BuildingTaxRate));
+        TaxesModule.State.LatestDuePropertyTax = amountDue;
+        if (amountDue <= 0)
+        {
+            return;
+        }
+
+        int amountPaid;
+        if (taxpayer.Money >= amountDue)
+        {
+            taxpayer.Money -= amountDue;
+            amountPaid = amountDue;
+            amountDue = 0;
+            PostalService.Send(Mail.LewisNotice);
+            Log.I("[TXS]: Property tax due was paid in full.");
+        }
+        else
+        {
+            amountPaid = taxpayer.Money;
+            amountDue -= amountPaid;
+            taxpayer.Money = 0;
+            if (amountDue > dayIncome)
+            {
+                var outstanding = amountDue - dayIncome;
+                dayIncome = 0;
+                var penalties = Math.Max((int)(outstanding * TaxesModule.Config.PropertyTaxLatenessFine), 500);
+                taxpayer.Increment(DataKeys.DebtOutstanding, outstanding + penalties);
+                TaxesModule.State.LatestOutstandingPropertyTax = outstanding + penalties;
+                PostalService.Send(Mail.LewisOutstanding);
+                Log.I(
+                    $"[TXS]: {taxpayer.Name} did not carry enough funds to cover the property tax due." +
+                    $"\n\t- Amount charged: {amountPaid}g" +
+                    $"\n\t- Outstanding debt: {outstanding}g (+{penalties}g in penalties).");
+            }
+            else
+            {
+                dayIncome -= amountDue;
+            }
+        }
+
+        farm.Write(DataKeys.AgricultureValue, "0");
+        farm.Write(DataKeys.LivestockValue, "0");
+        farm.Write(DataKeys.BuildingValue, "0");
+    }
+
+    private static void CheckOutstanding(Farmer taxpayer, ref int dayIncome)
+    {
+        var debtOutstanding = taxpayer.Read<int>(DataKeys.DebtOutstanding);
+        if (debtOutstanding <= 0)
+        {
+            return;
+        }
+
+        // only seize shipping bin income
+        int withheld;
+        if (dayIncome >= debtOutstanding)
+        {
+            withheld = dayIncome - debtOutstanding;
+            debtOutstanding = 0;
+            Log.I(
+                $"[TXS]: {taxpayer.Name} has successfully paid off their outstanding debt and will resume earning income from Shipping Bin sales.");
+        }
+        else
+        {
+            withheld = dayIncome;
+            debtOutstanding -= withheld;
+            var interest = (int)Math.Round(debtOutstanding * TaxesModule.Config.AnnualInterest / 112f);
+            debtOutstanding += interest;
+            Log.I(
+                $"[TXS]: {taxpayer.Name}'s outstanding debt has accrued {interest}g interest and is now worth {debtOutstanding}g.");
+        }
+
+        dayIncome -= withheld;
+        taxpayer.Write(DataKeys.DebtOutstanding, debtOutstanding.ToString());
     }
 }

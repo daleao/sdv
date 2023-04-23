@@ -70,6 +70,11 @@ public sealed class WabbajackEnchantment : BaseWeaponEnchantment
                             Color.Red,
                             1f,
                             monster));
+                        if (monster.Health <= 0)
+                        {
+                            monster.deathAnimation();
+                        }
+
                         Log.D($"[ENCH]: {monster.Name} suffered additional {damage} damage.");
                         break;
                     case 2:

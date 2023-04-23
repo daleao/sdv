@@ -6,7 +6,6 @@ using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
 using DaLion.Overhaul.Modules.Core.Extensions;
-using DaLion.Overhaul.Modules.Enchantments.Melee;
 using DaLion.Overhaul.Modules.Slingshots.VirtualProperties;
 using DaLion.Shared.Extensions.Reflection;
 using DaLion.Shared.Harmony;
@@ -83,7 +82,7 @@ internal sealed class GameLocationDamageMonsterPatcher : HarmonyPatcher
     {
         if (who.CurrentTool is Slingshot slingshot && slingshot.Get_IsOnSpecial())
         {
-            monster.Stun(slingshot.hasEnchantmentOfType<NewArtfulEnchantment>() ? 3000 : 2000);
+            monster.Stun(2000);
         }
     }
 

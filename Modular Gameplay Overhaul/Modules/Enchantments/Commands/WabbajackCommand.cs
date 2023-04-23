@@ -51,7 +51,7 @@ internal sealed class WabbajackCommand : ConsoleCommand
         }
 
         var r = new Random(Guid.NewGuid().GetHashCode());
-        location.characters.Remove(nearest); 
+        location.characters.Remove(nearest);
         location.temporarySprites.Add(new TemporaryAnimatedSprite(
             5,
             nearest.Position,

@@ -8,7 +8,7 @@ using StardewModdingAPI.Utilities;
 
 #endregion using directives
 
-/// <summary>Configs related to <see cref="StardewValley.Tools.Slingshot"/>s.</summary>
+/// <summary>The user-configurable settings for SLNGS.</summary>
 public sealed class Config : Shared.Configs.Config
 {
     /// <summary>Gets a value indicating whether to re-balance the damage and knockback modifiers of Slingshots.</summary>
@@ -27,6 +27,10 @@ public sealed class Config : Shared.Configs.Config
     [JsonProperty]
     public bool EnableSpecialMove { get; internal set; } = true;
 
+    /// <summary>Gets a value indicating whether to allow forging the Infinity Slingshot.</summary>
+    [JsonProperty]
+    public bool EnableInfinitySlingshot { get; internal set; } = true;
+
     /// <summary>Gets a value indicating whether projectiles should not be useless for the first 100ms.</summary>
     [JsonProperty]
     public bool DisableGracePeriod { get; internal set; } = true;
@@ -34,6 +38,10 @@ public sealed class Config : Shared.Configs.Config
     /// <summary>Gets a value indicating whether to replace the mouse cursor with a bulls-eye while firing.</summary>
     [JsonProperty]
     public bool BullseyeReplacesCursor { get; internal set; } = true;
+
+    /// <summary>Gets a value indicating whether face the current cursor position before swinging your slingshot (for special moves).</summary>
+    [JsonProperty]
+    public bool FaceMouseCursor { get; internal set; } = true;
 
     /// <summary>Gets a value indicating whether to allow drifting in the movement direction when charging slingshots.</summary>
     [JsonProperty]
@@ -54,8 +62,4 @@ public sealed class Config : Shared.Configs.Config
     /// <summary>Gets a value indicating how close an enemy must be to auto-select a slingshot, in tiles.</summary>
     [JsonProperty]
     public uint AutoSelectionRange { get; internal set; } = 4;
-
-    /// <summary>Gets a value indicating whether to allow forging the Infinity Slingshot.</summary>
-    [JsonProperty]
-    public bool EnableInfinitySlingshot { get; internal set; } = true;
 }

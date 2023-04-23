@@ -7,6 +7,7 @@ using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
 using DaLion.Overhaul.Modules.Combat.VirtualProperties;
+using DaLion.Overhaul.Modules.Enchantments.VirtualProperties;
 using DaLion.Shared.Extensions.Reflection;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
@@ -88,8 +89,8 @@ internal sealed class MonsterTakeDamagePatcher : HarmonyPatcher
     {
         var helper = new ILHelper(original, instructions);
 
-        // Injected: ModEntry.Config.Combat.OverhauledDefense ? TryIgnoreDefense(this, damage) : continue
-        // At: start of method
+        // From: int actualDamage = ...
+        // To: int actualDamage = ModEntry.Config.Combat.OverhauledDefense ? TryIgnoreDefense(this, damage) : ...
         try
         {
             var doVanillaDefense = generator.DefineLabel();

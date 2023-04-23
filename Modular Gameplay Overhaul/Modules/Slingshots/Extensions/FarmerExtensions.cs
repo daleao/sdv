@@ -2,6 +2,8 @@
 
 #region using directives
 
+using System.Diagnostics;
+using DaLion.Overhaul.Modules.Rings.VirtualProperties;
 using DaLion.Overhaul.Modules.Slingshots.VirtualProperties;
 using StardewValley.Tools;
 
@@ -10,6 +12,8 @@ using StardewValley.Tools;
 /// <summary>Extensions for the <see cref="Farmer"/> class.</summary>
 internal static class FarmerExtensions
 {
+    private const int SlingshotCooldown = 2000;
+
     /// <summary>Gets the total firing speed modifier for the <paramref name="farmer"/>.</summary>
     /// <param name="farmer">The <see cref="Farmer"/>.</param>
     /// <param name="slingshot">The <paramref name="farmer"/>'s slingshot.</param>
@@ -32,5 +36,37 @@ internal static class FarmerExtensions
     internal static bool IsSteppingOnSnow(this Farmer farmer)
     {
         return farmer.FarmerSprite.currentStep == "snowyStep";
+    }
+
+    [Conditional("RELEASE")]
+    internal static void DoSlingshotSpecialCooldown(this Farmer user, Slingshot? slingshot = null)
+    {
+        slingshot ??= (Slingshot)user.CurrentTool;
+
+        if (slingshot.Get_IsOnSpecial())
+        {
+            SlingshotsModule.State.SlingshotCooldown = SlingshotCooldown;
+            if (!ProfessionsModule.ShouldEnable && user.professions.Contains(Farmer.acrobat))
+            {
+                SlingshotsModule.State.SlingshotCooldown /= 2;
+            }
+
+            if (slingshot.hasEnchantmentOfType<ArtfulEnchantment>())
+            {
+                SlingshotsModule.State.SlingshotCooldown /= 2;
+            }
+
+            SlingshotsModule.State.SlingshotCooldown = (int)(SlingshotsModule.State.SlingshotCooldown *
+                                                             slingshot.Get_GarnetCooldownReduction() *
+                                                             user.Get_CooldownReduction());
+        }
+        else
+        {
+            SlingshotsModule.State.SlingshotCooldown -= Game1.currentGameTime.ElapsedGameTime.Milliseconds;
+            if (SlingshotsModule.State.SlingshotCooldown <= 0)
+            {
+                Game1.playSound("objectiveComplete");
+            }
+        }
     }
 }

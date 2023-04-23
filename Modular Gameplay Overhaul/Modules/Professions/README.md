@@ -170,7 +170,7 @@ Note that, though all combat professions can be acquired via skill reset, only o
 	- Nearby Big Slimes explode immediately.
 	- Charged by being touched by Slimes, or by defeating Slimes and Big Slimes.
 
-After all possible skills have had their level cap raised, the Statue of Prestige will let you switch between the four Limit Breaks for free (though a cost can be configured). Switching Limmit Breaks is not possible if the Prestige system is disabled. Like the Prestige system, Limit Breaks can also be turned off in the configs.
+After all possible skills have had their level cap raised, the Statue of Prestige will let you switch between the four Limit Breaks for free (though a cost can be configured). Switching Limmit Breaks is not possible if the Prestige system is disabled. As with the Prestige system, Limit Breaks can be turned off in the mod settings.
 
 ## Compatibility
 
@@ -218,7 +218,7 @@ No.
 Yes.
 
 **Can Luremaster and Conservationist work together?**   
-Yes, otherwise the whole Prestige system wouldn't make a lot of sense.  
+Yes. Otherwise the whole Prestige thing wouldn't make any sense.  
   
 **Can I obtain all prestige professions simultaneously?**   
 No, sorry. Making tough choices is part of this mod's design.  

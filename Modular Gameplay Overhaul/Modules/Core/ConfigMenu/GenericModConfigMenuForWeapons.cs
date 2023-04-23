@@ -33,7 +33,7 @@ internal sealed partial class GenericModConfigMenu
                         ModHelper.GameContent.InvalidateCacheAndLocalized("Data/weapons");
                         if (Context.IsWorldReady)
                         {
-                            Utils.RefreshAllWeapons(value ? RefreshOption.Randomized : RefreshOption.FromData);
+                            WeaponsModule.RefreshAllWeapons(value ? RefreshOption.Randomized : RefreshOption.FromData);
                         }
                     }
 
@@ -120,11 +120,11 @@ internal sealed partial class GenericModConfigMenu
 
                     if (value)
                     {
-                        Utils.ConvertAllStabbingSwords();
+                        WeaponsModule.ConvertAllStabbingSwords();
                     }
                     else
                     {
-                        Utils.RevertAllStabbingSwords();
+                        WeaponsModule.RevertAllStabbingSwords();
                     }
                 })
             .AddDropdown(
@@ -254,11 +254,11 @@ internal sealed partial class GenericModConfigMenu
 
                     if (value)
                     {
-                        Utils.RemoveAllIntrinsicEnchantments();
+                        WeaponsModule.RemoveAllIntrinsicEnchantments();
                     }
                     else
                     {
-                        Utils.AddAllIntrinsicEnchantments();
+                        WeaponsModule.AddAllIntrinsicEnchantments();
                     }
                 })
             .AddNumberField(
@@ -271,6 +271,17 @@ internal sealed partial class GenericModConfigMenu
             .AddHorizontalRule()
 
             .AddSectionTitle(() => "Movement & Control Settings")
+            .AddCheckbox(
+                () => "Face Towards Mouse Cursor",
+                () =>
+                    "If using mouse and keyboard, turn to face towards the current cursor position before swinging a weapon.",
+                config => config.Weapons.FaceMouseCursor,
+                (config, value) => config.Weapons.FaceMouseCursor = value)
+            .AddCheckbox(
+                () => "Slick Moves",
+                () => "Drift in the current running direction when swinging a weapon.",
+                config => config.Weapons.SlickMoves,
+                (config, value) => config.Weapons.SlickMoves = value)
             .AddCheckbox(
                 () => "Enable Auto-Selection",
                 () => "The chosen weapon will be automatically equipped near enemies.",
@@ -302,17 +313,6 @@ internal sealed partial class GenericModConfigMenu
                 (config, value) => config.Weapons.AutoSelectionRange = (uint)value,
                 1,
                 3)
-            .AddCheckbox(
-                () => "Face Towards Mouse Cursor",
-                () =>
-                    "If using mouse and keyboard, turn to face towards the current cursor position before swinging a weapon.",
-                config => config.Weapons.FaceMouseCursor,
-                (config, value) => config.Weapons.FaceMouseCursor = value)
-            .AddCheckbox(
-                () => "Slick Moves",
-                () => "Drift in the current running direction when swinging a weapon.",
-                config => config.Weapons.SlickMoves,
-                (config, value) => config.Weapons.SlickMoves = value)
             .AddHorizontalRule()
 
             .AddSectionTitle(() => "Misc. Settings")

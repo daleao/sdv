@@ -202,12 +202,6 @@ internal sealed class SetModDataCommand : ConsoleCommand
         result.Append("\n\nExamples:");
         result.Append($"\n\t{this.Handler.EntryCommand} {this.Triggers[0]} EcologistItemsForaged 100");
         result.Append($"\n\t{this.Handler.EntryCommand} {this.Triggers[0]} trash 500");
-        result.Append("\n\nAvailable data fields:");
-        result.Append("\n\t- EcologistItemsForaged (shortcut 'forages')");
-        result.Append("\n\t- GemologistMineralsCollected (shortcut 'minerals')");
-        result.Append("\n\t- ProspectorHuntStreak (shortcut 'phunt')");
-        result.Append("\n\t- ScavengerHuntStreak (shortcut 'shunt')");
-        result.Append("\n\t- ConservationistTrashCollectedThisSeason (shortcut 'trash')");
         result.Append(GetAvailableFields());
         return result.ToString();
     }

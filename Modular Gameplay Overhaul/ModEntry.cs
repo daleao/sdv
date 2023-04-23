@@ -14,7 +14,6 @@ namespace DaLion.Overhaul;
 using System.Diagnostics;
 using DaLion.Shared.Events;
 using DaLion.Shared.Extensions.Collections;
-using DaLion.Shared.Extensions.SMAPI;
 using DaLion.Shared.ModData;
 using DaLion.Shared.Networking;
 using DaLion.Shared.Reflection;
@@ -83,7 +82,7 @@ public sealed class ModEntry : Mod
         // get configs
         Config = helper.ReadConfig<ModConfig>();
         Config.Validate(helper);
-        helper.LogConfig(Config);
+        Config.Log();
 
         // initialize mod state
         PerScreenState = new PerScreen<ModState>(() => new ModState());

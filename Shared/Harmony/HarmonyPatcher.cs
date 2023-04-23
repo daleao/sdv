@@ -82,8 +82,7 @@ internal abstract class HarmonyPatcher : IHarmonyPatcher
         return this.GetType().GetHashCode();
     }
 
-    /// <summary>Applies internally-defined Harmony patches.</summary>
-    /// <param name="harmony">The <see cref="Harmony"/> instance for this mod.</param>
+    /// <inheritdoc cref="IHarmonyPatcher.Apply"/>
     protected virtual bool ApplyImpl(Harmony harmony)
     {
         NowPatching = this.Target;
@@ -97,8 +96,7 @@ internal abstract class HarmonyPatcher : IHarmonyPatcher
         return true;
     }
 
-    /// <summary>Applies internally-defined Harmony patches.</summary>
-    /// <param name="harmony">The <see cref="Harmony"/> instance for this mod.</param>
+    /// <inheritdoc cref="IHarmonyPatcher.Unapply"/>
     protected virtual bool UnapplyImpl(Harmony harmony)
     {
         if (this.Prefix is not null)

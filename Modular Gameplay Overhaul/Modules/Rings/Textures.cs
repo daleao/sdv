@@ -20,5 +20,4 @@ internal static class Textures
 
     internal static Texture2D PatternedResonanceTx { get; } =
         ModHelper.ModContent.Load<Texture2D>("assets/lights/resonance_patterned");
-
 }

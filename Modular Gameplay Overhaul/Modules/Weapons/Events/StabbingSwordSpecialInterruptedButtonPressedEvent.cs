@@ -32,13 +32,12 @@ internal sealed class StabbingSwordSpecialInterruptedButtonPressedEvent : Button
             return;
         }
 
+        var facingDirection = (FacingDirection)user.FacingDirection;
         var angle = 0d;
-        FacingDirection facingDirection;
         Vector2 trajectory;
         switch (e.Button)
         {
             case SButton.W or SButton.LeftThumbstickUp or SButton.DPadUp:
-                facingDirection = (FacingDirection)user.FacingDirection;
                 if (facingDirection.IsHorizontal())
                 {
                     trajectory = new Vector2(user.xVelocity, user.yVelocity);
@@ -56,7 +55,6 @@ internal sealed class StabbingSwordSpecialInterruptedButtonPressedEvent : Button
                 break;
 
             case SButton.D or SButton.LeftThumbstickRight or SButton.DPadRight:
-                facingDirection = (FacingDirection)user.FacingDirection;
                 if (facingDirection.IsVertical())
                 {
                     trajectory = new Vector2(user.xVelocity, user.yVelocity);
@@ -74,7 +72,6 @@ internal sealed class StabbingSwordSpecialInterruptedButtonPressedEvent : Button
                 break;
 
             case SButton.S or SButton.LeftThumbstickDown or SButton.DPadDown:
-                facingDirection = (FacingDirection)user.FacingDirection;
                 if (facingDirection.IsHorizontal())
                 {
                     trajectory = new Vector2(user.xVelocity, user.yVelocity);
@@ -92,7 +89,6 @@ internal sealed class StabbingSwordSpecialInterruptedButtonPressedEvent : Button
                 break;
 
             case SButton.A or SButton.LeftThumbstickLeft or SButton.DPadLeft:
-                facingDirection = (FacingDirection)user.FacingDirection;
                 if (facingDirection.IsVertical())
                 {
                     trajectory = new Vector2(user.xVelocity, user.yVelocity);
@@ -129,6 +125,7 @@ internal sealed class StabbingSwordSpecialInterruptedButtonPressedEvent : Button
         sprite.setCurrentFrame(frame, 0, 15, 2, user.FacingDirection == 3, true);
         sprite.currentAnimationIndex++;
         sprite.CurrentFrame = sprite.CurrentAnimation[sprite.currentAnimationIndex].frame;
+        this.Manager.Disable<StabbingSwordSpecialHomingUpdateTickedEvent>();
         this.Disable();
     }
 }

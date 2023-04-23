@@ -24,26 +24,35 @@ internal sealed class MeleeWeaponCtorPatcher : HarmonyPatcher
     [HarmonyPostfix]
     private static void MeleeWeaponCtorPostfix(MeleeWeapon __instance)
     {
-        if (WeaponsModule.Config.EnableRebalance &&
-            __instance.InitialParentTileIndex is ItemIDs.InsectHead or ItemIDs.NeptuneGlaive)
+        if (__instance.ShouldBeStabbySword())
         {
-            __instance.specialItem = true;
-            if (__instance.InitialParentTileIndex == ItemIDs.InsectHead)
+            __instance.type.Value = MeleeWeapon.stabbingSword;
+            Log.D($"The type of {__instance.Name} was converted to Stabbing sword.");
+        }
+
+        if (WeaponsModule.Config.EnableRebalance)
+        {
+            if (__instance.InitialParentTileIndex is ItemIDs.NeptuneGlaive)
             {
-                __instance.type.Value = MeleeWeapon.dagger;
+                __instance.specialItem = true;
+                if (__instance.InitialParentTileIndex == ItemIDs.InsectHead)
+                {
+                    __instance.type.Value = MeleeWeapon.dagger;
+                }
+
+                return;
             }
 
-            return;
+            __instance.AddIntrinsicEnchantments();
         }
 
-        __instance.AddIntrinsicEnchantments();
-        if (!__instance.ShouldBeStabbySword())
+        if (WeaponsModule.Config.InfinityPlusOne)
         {
-            return;
+            if (__instance.isGalaxyWeapon() || __instance.IsInfinityWeapon() || __instance.IsCursedOrBlessed())
+            {
+                __instance.specialItem = true;
+            }
         }
-
-        __instance.type.Value = MeleeWeapon.stabbingSword;
-        Log.D($"The type of {__instance.Name} was converted to Stabbing sword.");
     }
 
     #endregion harmony patches

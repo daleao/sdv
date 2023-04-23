@@ -84,7 +84,6 @@ internal sealed class Game1DrawHudPatcher : HarmonyPatcher
     private static void DrawHealthBarSubroutine(Vector2 topOfBar)
     {
         var player = Game1.player;
-
         var bonusHeight = player.maxHealth - 100;
         var overhealHeight = 0;
         if (player.health > player.maxHealth)
@@ -202,6 +201,11 @@ internal sealed class Game1DrawHudPatcher : HarmonyPatcher
                 Vector2.Zero,
                 SpriteEffects.None,
                 1f);
+        }
+
+        if (RingsModule.ShouldEnable)
+        {
+            Rings.Patchers.Game1DrawHudPatcher.DrawShieldHealth(topOfBar, healthBarRect);
         }
     }
 

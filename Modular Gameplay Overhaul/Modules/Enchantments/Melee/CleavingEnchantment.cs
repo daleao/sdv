@@ -3,6 +3,7 @@
 #region using directives
 
 using System.Xml.Serialization;
+using DaLion.Overhaul.Modules.Core.Extensions;
 using DaLion.Shared.Extensions.Stardew;
 using StardewValley.Monsters;
 
@@ -29,7 +30,7 @@ public sealed class CleavingEnchantment : BaseWeaponEnchantment
         for (var i = location.characters.Count - 1; i >= 0; i--)
         {
             var character = location.characters[i];
-            if (character is not Monster { IsMonster: true, Health: > 0 } other || other.IsInvisible ||
+            if (character == monster || character is not Monster { IsMonster: true, Health: > 0 } other || other.IsInvisible ||
                 other.isInvincible())
             {
                 continue;
@@ -44,6 +45,10 @@ public sealed class CleavingEnchantment : BaseWeaponEnchantment
             var damage = (int)(amount * (0.8 - (0.2 * distance)));
             var (x, y) = Utility.getAwayFromPositionTrajectory(other.GetBoundingBox(), monster.Position);
             other.takeDamage(damage, (int)x, (int)y, false, double.MaxValue, who);
+            if (other.Health <= 0)
+            {
+                other.Die(who);
+            }
         }
     }
 }

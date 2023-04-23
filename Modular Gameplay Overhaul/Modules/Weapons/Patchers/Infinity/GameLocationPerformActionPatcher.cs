@@ -130,7 +130,7 @@ internal sealed class GameLocationPerformActionPatcher : HarmonyPatcher
                 Game1.drawObjectDialogue(Game1.content.LoadString("Strings\\StringsFromCSFiles:Crop.cs.588"));
             }
         }
-        else if (!who.hasOrWillReceiveMail("gotDarkSword") && !who.isInventoryFull())
+        else if (!who.mailReceived.Contains("gotDarkSword") && !who.isInventoryFull())
         {
             ProposeGrabDarkSword(location);
         }
@@ -173,6 +173,7 @@ internal sealed class GameLocationPerformActionPatcher : HarmonyPatcher
         darkSword.RefreshStats();
         player.jitterStrength = 0f;
         Game1.screenGlowHold = false;
+        player.mailReceived.Add("gotHolyBlade");
     }
 
     #endregion handlers

@@ -47,7 +47,7 @@ If combo hits are enabled, swing speed bonuses from emerald will affect every fr
 
 In vanilla game code we can find traces of an abandoned fourth weapon type: **Stabbing Swords**. This module re-implements stabbing swords into the game.
 
-Swords are now split between **offensive** and **defensive** archetypes. Defensive swwords retain the parry special move, while offensive swords gain a new stabbing thrust move. This move allows quick repositioning and also grants invincibility frames.
+Swords are now split between **offensive** and **defensive** archetypes. Defensive swwords retain the parry special move, while offensive swords gain a new stabbing thrust move. This move allows quick repositioning and also grants invincibility frames. You can also change the direction mid-dash by inputing a directional command in a perpendicular direction.
 
 To improve the defensive parry move, parry damage is increased by 10% for every defense point. This adds offensive value to the defense stat itself and makes defensive builds more viable. Note that the introduction of weapon combos also adds to the value of a defensive move (you need to protect yourself during combo downtime).
 
@@ -72,7 +72,7 @@ Weapons are categorized by different tiers, [color-coded for your convenience][t
 
 Weapons below the Mythic tier have randomized damage, determined the moment they are dropped and scaled to your mine progression. This way, players can always loot stronger weapons, and no specific weapon is ever trivialized. Higher-tier weapons will generally be stronger than lower-tiered ones, although that may not always be the case.
 
-Mythic weapons are unique or extremely rare. They are usually quest rewards or rare monster drops, and tend to carry special perks in addition to their regular stats.
+Mythic weapons are unique or extremely rare. They are usually quest rewards or very rare monster drops, and tend to carry intrinsic special abilities, but cannot receive additional Prismatic Shard enchantments at the forge.
 
 Masterwork weapons are relics of the Dwarven race, crafted from special materials. They can only be created by uncovering the lost Dwarvish Blueprints, and taking them to a skilled blacksmith along with the corresponding material:
 - **Elven** weapons, carved out of **Elderwood** obtained from [Scavenger Hunts](../Professions), are quick, nimble weapons enchanted with forest magic which grants them high reach and knockback.
@@ -114,6 +114,8 @@ In return for all that extra work, the Infinity weapons have extra perks:
 * **Slick Moves:** Swinging a weapon while running will preserve the player's momentum, causing them to drift in the direction of movement. This increases the player's mobility and makes combat feel more fast-paced. 
 
 * **Auto-Selection:** If enemies are nearby, players can optionally choose a weapon to be equipped automatically.
+
+* **Novelty Special Effects:** This module additionally adds tons of immersive details to weapon sound and visual effects, like changing the Lava Katana swipe to a fiery effect, and adding colors and particles to Galaxy and Infinity weapons.
 
 ## Compatibility
 

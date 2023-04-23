@@ -6,7 +6,7 @@ using Newtonsoft.Json;
 
 #endregion using directives
 
-/// <summary>The user-configurable settings for Taxes.</summary>
+/// <summary>The user-configurable settings for TXS.</summary>
 public sealed class Config : Shared.Configs.Config
 {
     /// <summary>Gets the income thresholds that determine each tax bracket.</summary>

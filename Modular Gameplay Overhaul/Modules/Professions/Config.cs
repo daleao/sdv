@@ -8,7 +8,7 @@ using StardewModdingAPI.Utilities;
 
 #endregion using directives
 
-/// <summary>The user-configurable settings for Professions.</summary>
+/// <summary>The user-configurable settings for PROFS.</summary>
 public sealed class Config : Shared.Configs.Config
 {
     #region dropdown enums
@@ -263,7 +263,7 @@ public sealed class Config : Shared.Configs.Config
             { "spacechase0.Magic", 1 },
             { "drbirbdev.BinningSkill", 1 },
             { "drbirbdev.SocializingSkill", 1 },
-            { "moonslime.ExcavationSkill", 1},
+            { "moonslime.ExcavationSkill", 1 },
         };
 
     /// <summary>

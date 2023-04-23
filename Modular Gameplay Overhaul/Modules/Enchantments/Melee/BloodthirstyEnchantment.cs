@@ -4,8 +4,8 @@
 
 using System.Xml.Serialization;
 using DaLion.Overhaul.Modules.Enchantments.Events;
+using DaLion.Shared.Extensions;
 using Microsoft.Xna.Framework;
-using Shared.Extensions;
 using StardewValley.Monsters;
 
 #endregion using directives
@@ -17,12 +17,12 @@ using StardewValley.Monsters;
 [XmlType("Mods_DaLion_BloodthirstyEnchantment")]
 public sealed class BloodthirstyEnchantment : BaseWeaponEnchantment
 {
-    private Random _random = new Random(Guid.NewGuid().GetHashCode());
+    private Random _random = new(Guid.NewGuid().GetHashCode());
 
     /// <inheritdoc />
     public override string GetName()
     {
-        return I18n.Get("enchantments.vampiric.name");
+        return I18n.Get("enchantments.bloodthirsty.name");
     }
 
     /// <inheritdoc />

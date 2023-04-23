@@ -2,6 +2,7 @@
 
 #region using directives
 
+using DaLion.Overhaul.Modules.Core.Extensions;
 using DaLion.Overhaul.Modules.Professions.Extensions;
 using DaLion.Overhaul.Modules.Professions.Ultimates;
 using DaLion.Overhaul.Modules.Professions.VirtualProperties;
@@ -177,9 +178,8 @@ internal sealed class ObjectProjectile : BasicProjectile
             if (monster.CanBeSlowed() && Game1.random.NextDouble() < 2d / 3d)
             {
                 // do debuff
-                monster.Get_SlowIntensity().Value = 2;
-                monster.Get_SlowTimer().Value = 5123 + (Game1.random.Next(-2, 3) * 456);
-                monster.Set_Slower(this.Firer);
+                monster.Slow(5123 + (Game1.random.Next(-2, 3) * 456), 1d / 3d);
+                monster.startGlowing(Color.LimeGreen, false, 0.05f);
             }
         }
 

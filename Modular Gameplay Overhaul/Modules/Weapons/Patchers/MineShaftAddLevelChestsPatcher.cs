@@ -3,6 +3,7 @@
 #region using directives
 
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using DaLion.Shared.Extensions;
 using DaLion.Shared.Harmony;
@@ -133,6 +134,7 @@ internal sealed class MineShaftAddLevelChestsPatcher : HarmonyPatcher
 
     #region injected subroutines
 
+    [SuppressMessage("StyleCop.CSharp.NamingRules", "SA1300:Element should begin with upper-case letter", Justification = "Preference for inner functions.")]
     private static Item GetTreasureItem(int level)
     {
         // force a new RNG to allow save-scumming

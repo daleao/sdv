@@ -51,12 +51,12 @@ internal class ModuleSelectionOption : MultiCheckboxOption<OverhaulModule>
     /// <inheritdoc />
     protected override void AfterSave()
     {
-        if (this.UpdatedValues.Any())
+        if (this.updatedValues.Any())
         {
             this._reloadMenu();
         }
 
-        this.UpdatedValues.Clear();
+        this.updatedValues.Clear();
     }
 
     /// <inheritdoc />

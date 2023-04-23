@@ -2,8 +2,10 @@
 
 #region using directives
 
-using DaLion.Overhaul.Modules.Weapons;
 using DaLion.Shared.Events;
+using DaLion.Shared.Extensions;
+using DaLion.Shared.Extensions.Collections;
+using DaLion.Shared.Extensions.Stardew;
 using StardewModdingAPI.Events;
 
 #endregion using directives
@@ -22,16 +24,17 @@ internal sealed class CoreSaveLoadedEvent : SaveLoadedEvent
     /// <inheritdoc />
     protected override void OnSaveLoadedImpl(object? sender, SaveLoadedEventArgs e)
     {
-        var player = Game1.player;
-        if (Data.WeaponRevalidationState.TryGetValue(player.Name + '/' + player.farmName.Value, out var state) &&
-            WeaponsModule.ShouldEnable == state)
+        var checksum = Game1.player.Read("checksum", -1);
+        var hash = Config.ToString().GetDeterministicHashCode();
+        if (hash == checksum)
         {
+            Log.T("[Core]: Config file passed checksum validation.");
             return;
         }
 
-        Utils.RevalidateAllWeapons();
-        Utils.RefreshAllWeapons(RefreshOption.Initial);
-        Data.WeaponRevalidationState[player.Name + '/' + player.farmName.Value] = WeaponsModule.ShouldEnable;
-        ModHelper.Data.WriteJsonFile("data.json", Data);
+        Log.T("[Core]: Config file failed checksum validation. Revalidating all modules...");
+        EnumerateModules().ForEach(module => module.Revalidate());
+        Game1.player.Write("checksum", hash.ToString());
+        Log.T("[Core]: Done.");
     }
 }

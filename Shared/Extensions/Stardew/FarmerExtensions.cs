@@ -17,15 +17,17 @@ public static class FarmerExtensions
     /// </summary>
     /// <param name="farmer">The <see cref="Farmer"/>.</param>
     /// <param name="tile">The tile to face.</param>
-    public static void FaceTowardsTile(this Farmer farmer, Vector2 tile)
+    /// <returns>The new <see cref="FacingDirection"/>.</returns>
+    public static FacingDirection FaceTowardsTile(this Farmer farmer, Vector2 tile)
     {
         if (!farmer.IsLocalPlayer)
         {
             ThrowHelper.ThrowInvalidOperationException("Can only do this for the local player.");
         }
 
-        var direction = tile - Game1.player.getTileLocation();
-        farmer.faceDirection((int)direction.ToFacingDirection());
+        var direction = (tile - Game1.player.getTileLocation()).ToFacingDirection();
+        farmer.faceDirection((int)direction);
+        return direction;
     }
 
     /// <inheritdoc cref="ModDataIO.Read(Farmer, string, string, string)"/>

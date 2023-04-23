@@ -31,7 +31,7 @@ internal abstract class GenericModConfigMenuIntegration<TGenericModConfigMenu, T
         GenericModConfigMenuOptions.Instance?.Register();
     }
 
-    /// <summary>The manifest for the mod consuming the API.</summary>
+    /// <summary>Gets the manifest for the mod consuming the API.</summary>
     internal IManifest ConsumerManifest { get; }
 
     /// <summary>Gets the API for registering complex options.</summary>

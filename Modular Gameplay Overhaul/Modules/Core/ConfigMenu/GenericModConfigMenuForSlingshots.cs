@@ -57,6 +57,17 @@ internal sealed partial class GenericModConfigMenu
 
             .AddSectionTitle(() => "Movement & Control Settings")
             .AddCheckbox(
+                () => "Face Towards Mouse Cursor",
+                () =>
+                    "If using mouse and keyboard, turn to face towards the current cursor position before swinging a slingshot (for special moves).",
+                config => config.Weapons.FaceMouseCursor,
+                (config, value) => config.Weapons.FaceMouseCursor = value)
+            .AddCheckbox(
+                () => "Slick Moves",
+                () => "Drift in the current running direction when firing a slingshot.",
+                config => config.Slingshots.SlickMoves,
+                (config, value) => config.Slingshots.SlickMoves = value)
+            .AddCheckbox(
                 () => "Enable Auto-Selection",
                 () => "The chosen slingshot will be automatically equipped near enemies.",
                 config => config.Slingshots.EnableAutoSelection,
@@ -86,11 +97,6 @@ internal sealed partial class GenericModConfigMenu
                 config => (int)config.Slingshots.AutoSelectionRange,
                 (config, value) => config.Slingshots.AutoSelectionRange = (uint)value,
                 1,
-                9)
-            .AddCheckbox(
-                () => "Slick Moves",
-                () => "Drift in the current running direction when firing a slingshot.",
-                config => config.Slingshots.SlickMoves,
-                (config, value) => config.Slingshots.SlickMoves = value);
+                9);
     }
 }

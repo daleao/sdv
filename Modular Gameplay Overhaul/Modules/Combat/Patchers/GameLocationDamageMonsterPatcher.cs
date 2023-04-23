@@ -6,10 +6,12 @@ using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
 using DaLion.Overhaul.Modules.Combat.VirtualProperties;
+using DaLion.Overhaul.Modules.Enchantments.VirtualProperties;
 using DaLion.Shared.Extensions.Reflection;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
 using Microsoft.Xna.Framework;
+using StardewValley.Monsters;
 
 #endregion using directives
 
@@ -30,7 +32,7 @@ internal sealed class GameLocationDamageMonsterPatcher : HarmonyPatcher
 
     #region harmony patches
 
-    /// <summary>Record knockback for damage and crit. for defense ignore.</summary>
+    /// <summary>Record knockback for damage and crit. for defense ignore + back attacks.</summary>
     [HarmonyTranspiler]
     private static IEnumerable<CodeInstruction>? GameLocationDamageMonsterTranspiler(
         IEnumerable<CodeInstruction> instructions, ILGenerator generator, MethodBase original)
@@ -69,6 +71,36 @@ internal sealed class GameLocationDamageMonsterPatcher : HarmonyPatcher
             return null;
         }
 
+        // Injected: if (BackAttack(Farmer farmer, Monster monster) critChance *= 2;
+        // After: if (who.professions.Contains(25)) critChance += critChance * 0.5f;
+        try
+        {
+            var resumeExecution = generator.DefineLabel();
+            helper
+                .Match(new[] { new CodeInstruction(OpCodes.Starg_S, (byte)7) }) // arg 7 = float critChance
+                .Move()
+                .AddLabels(resumeExecution)
+                .Insert(
+                    new[]
+                    {
+                        new CodeInstruction(OpCodes.Ldarg_S, (byte)10), // arg 10 = Farmer who
+                        new CodeInstruction(OpCodes.Ldloc_2), // local 2 = Monster monster
+                        new CodeInstruction(
+                            OpCodes.Call,
+                            typeof(GameLocationDamageMonsterPatcher).RequireMethod(nameof(IsBackAttack))),
+                        new CodeInstruction(OpCodes.Brfalse_S, resumeExecution),
+                        new CodeInstruction(OpCodes.Ldarg_S, (byte)7),
+                        new CodeInstruction(OpCodes.Ldc_R4, 2f),
+                        new CodeInstruction(OpCodes.Mul),
+                        new CodeInstruction(OpCodes.Starg_S, (byte)7),
+                    });
+        }
+        catch (Exception ex)
+        {
+            Log.E($"Failed injecting back attack.\nHelper returned {ex}");
+            return null;
+        }
+
         // Injected: Monster.set_GotCrit(true);
         // After: playSound("crit");
         try
@@ -96,4 +128,13 @@ internal sealed class GameLocationDamageMonsterPatcher : HarmonyPatcher
     }
 
     #endregion harmony patches
+
+    #region injected subroutines
+
+    private static bool IsBackAttack(Farmer farmer, Monster monster)
+    {
+        return CombatModule.Config.CriticalBackAttacks && farmer.FacingDirection == monster.FacingDirection;
+    }
+
+    #endregion injected subroutines
 }

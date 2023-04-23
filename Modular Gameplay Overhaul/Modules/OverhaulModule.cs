@@ -4,9 +4,17 @@
 
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
+using System.Linq;
+using System.Reflection;
+using DaLion.Overhaul.Modules.Weapons.Extensions;
+using DaLion.Overhaul.Modules.Weapons.VirtualProperties;
 using DaLion.Shared.Commands;
+using DaLion.Shared.Extensions.Collections;
 using DaLion.Shared.Extensions.SMAPI;
+using DaLion.Shared.Extensions.Stardew;
 using DaLion.Shared.Harmony;
+using HarmonyLib;
+using StardewValley.Tools;
 
 #endregion using directives
 
@@ -80,6 +88,8 @@ public abstract class OverhaulModule
     internal string EntryCommand { get; }
 
     /// <summary>Gets or sets a value indicating whether the module should be enabled.</summary>
+    [SuppressMessage("StyleCop.CSharp.NamingRules", "SA1300:Element should begin with upper-case letter", Justification = "Conflicts with static version.")]
+    // ReSharper disable once InconsistentNaming
     internal abstract bool _ShouldEnable { get; set; }
 
     /// <summary>Gets a value indicating whether the module is currently active.</summary>
@@ -141,6 +151,13 @@ public abstract class OverhaulModule
         this.IsActive = false;
         this.InvalidateAssets();
         Log.T($"[Modules]: {this.Name} module deactivated.");
+    }
+
+    /// <summary>Applies necessary fixes to the current save file.</summary>
+    /// <returns><see langword="false"/> if the save was not ready for validation, otherwise <see langword="true"/>.</returns>
+    internal virtual bool Revalidate()
+    {
+        return Context.IsWorldReady;
     }
 
     /// <summary>Causes SMAPI to reload all assets edited by this module.</summary>
@@ -322,6 +339,242 @@ public abstract class OverhaulModule
             }
         }
 
+        internal static void RevalidateAllWeapons()
+        {
+            if (!Context.IsWorldReady)
+            {
+                return;
+            }
+
+            var player = Game1.player;
+            Log.I(
+                $"[WPNZ]: Performing {(Context.IsMainPlayer ? "global" : "local")} item re-validation.");
+            if (Context.IsMainPlayer)
+            {
+                Utility.iterateAllItems(item =>
+                {
+                    if (item is MeleeWeapon weapon)
+                    {
+                        RevalidateSingleWeapon(weapon);
+                    }
+                });
+            }
+            else
+            {
+                for (var i = 0; i < player.Items.Count; i++)
+                {
+                    if (player.Items[i] is MeleeWeapon weapon)
+                    {
+                        RevalidateSingleWeapon(weapon);
+                    }
+                }
+            }
+
+            ModHelper.GameContent.InvalidateCacheAndLocalized("Data/weapons");
+        }
+
+        internal static void RevalidateSingleWeapon(MeleeWeapon weapon)
+        {
+            // refresh intrinsic enchantments
+            weapon.RemoveIntrinsicEnchantments();
+            if (ShouldEnable)
+            {
+                weapon.AddIntrinsicEnchantments();
+            }
+
+            // refresh stabby swords
+            if (ShouldEnable && weapon.type.Value == MeleeWeapon.defenseSword && weapon.ShouldBeStabbySword())
+            {
+                weapon.type.Value = MeleeWeapon.stabbingSword;
+                Log.D($"[WPNZ]: The type of {weapon.Name} was converted to Stabbing sword.");
+            }
+            else if (!ShouldEnable || (weapon.type.Value == MeleeWeapon.stabbingSword && !weapon.ShouldBeStabbySword()))
+            {
+                weapon.type.Value = MeleeWeapon.defenseSword;
+                Log.D($"[WPNZ]: The type of {weapon.Name} was converted to Defense sword.");
+            }
+
+            // refresh special status
+            if (ShouldEnable && Config.InfinityPlusOne && (weapon.isGalaxyWeapon() || weapon.IsInfinityWeapon()
+                || weapon.InitialParentTileIndex is ItemIDs.DarkSword or ItemIDs.HolyBlade or ItemIDs.NeptuneGlaive))
+            {
+                weapon.specialItem = true;
+            }
+
+            // refresh forges and stats
+            weapon.RecalculateAppliedForges();
+        }
+
+        internal static void AddAllIntrinsicEnchantments()
+        {
+            if (Context.IsMainPlayer)
+            {
+                Utility.iterateAllItems(item =>
+                {
+                    if (item is MeleeWeapon weapon)
+                    {
+                        weapon.AddIntrinsicEnchantments();
+                    }
+                });
+            }
+            else
+            {
+                for (var i = 0; i < Game1.player.Items.Count; i++)
+                {
+                    if (Game1.player.Items[i] is MeleeWeapon weapon)
+                    {
+                        weapon.AddIntrinsicEnchantments();
+                    }
+                }
+            }
+        }
+
+        internal static void RemoveAllIntrinsicEnchantments()
+        {
+            if (Context.IsMainPlayer)
+            {
+                Utility.iterateAllItems(item =>
+                {
+                    if (item is MeleeWeapon weapon)
+                    {
+                        weapon.RemoveIntrinsicEnchantments();
+                    }
+                });
+            }
+            else
+            {
+                for (var i = 0; i < Game1.player.Items.Count; i++)
+                {
+                    if (Game1.player.Items[i] is MeleeWeapon weapon)
+                    {
+                        weapon.RemoveIntrinsicEnchantments();
+                    }
+                }
+            }
+        }
+
+        internal static void ConvertAllStabbingSwords()
+        {
+            if (Context.IsMainPlayer)
+            {
+                Utility.iterateAllItems(item =>
+                {
+                    if (item is MeleeWeapon sword && sword.ShouldBeStabbySword())
+                    {
+                        sword.type.Value = MeleeWeapon.stabbingSword;
+                    }
+                });
+            }
+            else
+            {
+                for (var i = 0; i < Game1.player.Items.Count; i++)
+                {
+                    if (Game1.player.Items[i] is MeleeWeapon sword && sword.ShouldBeStabbySword())
+                    {
+                        sword.type.Value = MeleeWeapon.stabbingSword;
+                    }
+                }
+            }
+        }
+
+        internal static void RevertAllStabbingSwords()
+        {
+            if (Context.IsMainPlayer)
+            {
+                Utility.iterateAllItems(item =>
+                {
+                    if (item is MeleeWeapon { type.Value: MeleeWeapon.stabbingSword } sword)
+                    {
+                        sword.type.Value = MeleeWeapon.defenseSword;
+                    }
+                });
+            }
+            else
+            {
+                for (var i = 0; i < Game1.player.Items.Count; i++)
+                {
+                    if (Game1.player.Items[i] is MeleeWeapon { type.Value: MeleeWeapon.stabbingSword } sword)
+                    {
+                        sword.type.Value = MeleeWeapon.defenseSword;
+                    }
+                }
+            }
+        }
+
+        internal static void RefreshAllWeapons(Weapons.RefreshOption option)
+        {
+            if (Context.IsMainPlayer)
+            {
+                Utility.iterateAllItems(item =>
+                {
+                    if (item is not MeleeWeapon weapon)
+                    {
+                        return;
+                    }
+
+                    weapon.RefreshStats(option);
+                    weapon.Invalidate();
+                });
+            }
+            else
+            {
+                for (var i = 0; i < Game1.player.Items.Count; i++)
+                {
+                    if (Game1.player.Items[i] is not MeleeWeapon weapon)
+                    {
+                        continue;
+                    }
+
+                    weapon.RefreshStats(option);
+                    weapon.Invalidate();
+                }
+            }
+        }
+
+        internal static void RemoveStoredDarkSwords()
+        {
+            var player = Game1.player;
+            var removed = 0;
+            if (ShouldEnable)
+            {
+                foreach (var chest in Game1.game1.IterateAllChests())
+                {
+                    for (var i = chest.items.Count - 1; i >= 0; i--)
+                    {
+                        if (chest.items[i] is not MeleeWeapon { InitialParentTileIndex: ItemIDs.DarkSword } darkSword)
+                        {
+                            continue;
+                        }
+
+                        chest.items.Remove(darkSword);
+                        removed++;
+                    }
+                }
+            }
+
+            Log.I("[WPNZ]: Done.");
+            if (removed <= 0)
+            {
+                return;
+            }
+
+            Log.W($"{removed} Dark Swords were removed from Chests.");
+            if (!player.hasOrWillReceiveMail("viegoCurse"))
+            {
+                return;
+            }
+
+            if (player.Items.Any(t => t is MeleeWeapon { InitialParentTileIndex: ItemIDs.DarkSword }))
+            {
+                return;
+            }
+
+            if (!player.addItemToInventoryBool(new MeleeWeapon(ItemIDs.DarkSword)))
+            {
+                Log.E($"Failed adding Dark Sword to {player.Name}. Use CJB Item Spawner to obtain a new copy.");
+            }
+        }
+
         /// <inheritdoc />
         internal override void Activate(IModHelper helper)
         {
@@ -332,11 +585,16 @@ public abstract class OverhaulModule
         }
 
         /// <inheritdoc />
-        internal override void Deactivate()
+        internal override bool Revalidate()
         {
-            base.Deactivate();
-            Data.WeaponRevalidationState.Clear();
-            ModHelper.Data.WriteJsonFile("data.json", Data);
+            if (!Context.IsWorldReady)
+            {
+                return false;
+            }
+
+            RevalidateAllWeapons();
+            RemoveStoredDarkSwords();
+            return true;
         }
 
         /// <inheritdoc />
@@ -454,6 +712,14 @@ public abstract class OverhaulModule
 
     internal sealed class EnchantmentsModule : OverhaulModule
     {
+        private static readonly HashSet<string> KnownEnchantmentType = AccessTools
+            .GetTypesFromAssembly(Assembly.GetAssembly(typeof(Modules.Enchantments.Ranged.BaseSlingshotEnchantment)))
+            .Where(t => t.Namespace is "DaLion.Overhaul.Modules.Enchantments.Melee"
+                or "DaLion.Overhaul.Modules.Enchantments.Ranged")
+            .Select(t => t.FullName)
+            .WhereNotNull()
+            .ToHashSet();
+
         /// <summary>Initializes a new instance of the <see cref="OverhaulModule.EnchantmentsModule"/> class.</summary>
         internal EnchantmentsModule()
             : base("Enchantments", "ench")
@@ -468,6 +734,9 @@ public abstract class OverhaulModule
 
         /// <summary>Gets the config instance for the <see cref="OverhaulModule.EnchantmentsModule"/>.</summary>
         internal static Enchantments.Config Config => ModEntry.Config.Enchantments;
+
+        /// <summary>Gets the ephemeral runtime state for the <see cref="OverhaulModule.EnchantmentsModule"/>.</summary>
+        internal static Enchantments.State State => ModEntry.State.Enchantments;
 
         /// <inheritdoc />
         internal override bool _ShouldEnable
@@ -484,6 +753,35 @@ public abstract class OverhaulModule
             }
         }
 
+        internal static void RemoveInvalidEnchantments()
+        {
+            Utility.iterateAllItems(item =>
+            {
+                if (item is not (Tool tool and (MeleeWeapon or Slingshot)))
+                {
+                    return;
+                }
+
+                for (var i = tool.enchantments.Count - 1; i >= 0; i--)
+                {
+                    var enchantment = tool.enchantments[i];
+                    var name = enchantment.GetType().FullName;
+                    if (name is null)
+                    {
+                        continue;
+                    }
+
+                    if (!name.StartsWith("DaLion.Overhaul.Modules") || KnownEnchantmentType.Contains(name))
+                    {
+                        continue;
+                    }
+
+                    tool.RemoveEnchantment(enchantment);
+                    Log.W($"{enchantment.GetType()} was removed from {tool.Name} to avoid issues. You can try to re-add it with console commands.");
+                }
+            });
+        }
+
         /// <inheritdoc />
         internal override void Activate(IModHelper helper)
         {
@@ -491,6 +789,18 @@ public abstract class OverhaulModule
             {
                 base.Activate(helper);
             }
+        }
+
+        /// <inheritdoc />
+        internal override bool Revalidate()
+        {
+            if (!Context.IsWorldReady)
+            {
+                return false;
+            }
+
+            RemoveInvalidEnchantments();
+            return true;
         }
 
         /// <inheritdoc />

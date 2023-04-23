@@ -32,6 +32,16 @@ public static class TypeExtensions
         return candidates.Any(type.IsAssignableFrom);
     }
 
+    /// <summary>Enumerates all the types which derive from <paramref name="type"/>.</summary>
+    /// <param name="type">The base <see cref="Type"/>.</param>
+    /// <returns>A <see cref="IEnumerable{T}"/> containing all types assignable to <paramref name="type"/>.</returns>
+    public static IEnumerable<Type> GetDerivedTypes(this Type type)
+    {
+        return AccessTools
+            .GetTypesFromAssembly(Assembly.GetAssembly(type))
+            .Where(t => t.IsAssignableTo(type));
+    }
+
     #region delegate compilation
 
     /// <summary>Gets the <see cref="MethodInfo"/> for the <paramref name="delegateType"/>.</summary>

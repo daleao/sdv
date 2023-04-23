@@ -25,7 +25,7 @@ internal sealed class SlingshotDrawAttachmentsPatcher : HarmonyPatcher
     [HarmonyPostfix]
     private static void SlingshotDrawAttachmentsPostfix(Slingshot __instance, SpriteBatch b, int x, int y)
     {
-        if (__instance.numAttachmentSlots.Value < 2)
+        if (__instance.attachments.Length < 2)
         {
             return;
         }
