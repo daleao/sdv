@@ -1,8 +1,10 @@
-﻿namespace DaLion.Overhaul.Modules.Professions.Patchers.Common;
+﻿namespace DaLion.Overhaul.Modules.Professions.Patchers;
 
 #region using directives
 
 using System.Collections.Generic;
+using DaLion.Overhaul;
+using DaLion.Overhaul.Modules.Professions;
 using DaLion.Overhaul.Modules.Professions.Extensions;
 using DaLion.Shared.Extensions;
 using DaLion.Shared.Harmony;
@@ -42,14 +44,14 @@ internal sealed class CraftingRecipeCtorPatcher : HarmonyPatcher
                 };
                 break;
             default:
-            {
-                if (__instance.name.ContainsAnyOf("Bomb", "Explosive") && Game1.player.HasProfession(Profession.Blaster))
                 {
-                    __instance.numberProducedPerCraft *= 2;
-                }
+                    if (__instance.name.ContainsAnyOf("Bomb", "Explosive") && Game1.player.HasProfession(Profession.Blaster))
+                    {
+                        __instance.numberProducedPerCraft *= 2;
+                    }
 
-                break;
-            }
+                    break;
+                }
         }
     }
 

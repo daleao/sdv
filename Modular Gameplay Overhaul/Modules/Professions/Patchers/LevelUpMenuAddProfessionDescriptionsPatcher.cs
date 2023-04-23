@@ -1,9 +1,10 @@
-﻿namespace DaLion.Overhaul.Modules.Professions.Patchers.Common;
+﻿namespace DaLion.Overhaul.Modules.Professions.Patchers;
 
 #region using directives
 
 using System.Collections.Generic;
 using System.Reflection;
+using DaLion.Overhaul.Modules.Professions;
 using DaLion.Overhaul.Modules.Professions.Extensions;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
@@ -39,7 +40,7 @@ internal sealed class LevelUpMenuAddProfessionDescriptionsPatcher : HarmonyPatch
 
             var currentLevel = profession.Skill.CurrentLevel;
             var prestiged = Game1.player.HasProfession(profession, true) ||
-                            (Game1.activeClickableMenu is LevelUpMenu && currentLevel > 10);
+                            Game1.activeClickableMenu is LevelUpMenu && currentLevel > 10;
             descriptions.AddRange(profession.GetDescription(prestiged).Split('\n'));
 
             return false; // don't run original logic

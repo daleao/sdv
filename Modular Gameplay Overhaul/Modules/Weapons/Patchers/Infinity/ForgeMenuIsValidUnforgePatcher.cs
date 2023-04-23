@@ -1,4 +1,4 @@
-﻿namespace DaLion.Overhaul.Modules.Weapons.Patchers;
+﻿namespace DaLion.Overhaul.Modules.Weapons.Patchers.Infinity;
 
 #region using directives
 
@@ -29,8 +29,7 @@ internal sealed class ForgeMenuIsValidUnforgePatcher : HarmonyPatcher
             return;
         }
 
-        __result = __instance.leftIngredientSpot.item is MeleeWeapon { InitialParentTileIndex: ItemIDs.HolyBlade } weapon &&
-                   weapon.GetTotalForgeLevels() <= 0;
+        __result = WeaponsModule.Config.InfinityPlusOne && __instance.leftIngredientSpot.item is MeleeWeapon { InitialParentTileIndex: ItemIDs.HolyBlade };
     }
 
     #endregion harmony patches

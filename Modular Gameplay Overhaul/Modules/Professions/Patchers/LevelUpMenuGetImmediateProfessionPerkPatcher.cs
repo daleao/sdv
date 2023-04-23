@@ -1,10 +1,11 @@
-﻿namespace DaLion.Overhaul.Modules.Professions.Patchers.Common;
+﻿namespace DaLion.Overhaul.Modules.Professions.Patchers;
 
 #region using directives
 
 using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
+using DaLion.Overhaul.Modules.Professions;
 using DaLion.Overhaul.Modules.Professions.Events.Display;
 using DaLion.Overhaul.Modules.Professions.Ultimates;
 using DaLion.Overhaul.Modules.Professions.VirtualProperties;
@@ -69,7 +70,7 @@ internal sealed class LevelUpMenuGetImmediateProfessionPerkPatcher : HarmonyPatc
             .When(Profession.Rascal).Then(() =>
             {
                 if (player.CurrentTool is not Slingshot slingshot ||
-                    (slingshot.numAttachmentSlots.Value >= 2 && slingshot.attachments.Length >= 2))
+                    slingshot.numAttachmentSlots.Value >= 2 && slingshot.attachments.Length >= 2)
                 {
                     return;
                 }

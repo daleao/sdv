@@ -1,10 +1,12 @@
-﻿namespace DaLion.Overhaul.Modules.Weapons.Patchers;
+﻿namespace DaLion.Overhaul.Modules.Weapons.Patchers.Infinity;
 
 #region using directives
 
 using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
+using DaLion.Overhaul;
+using DaLion.Overhaul.Modules.Weapons;
 using DaLion.Overhaul.Modules.Weapons.Enchantments;
 using DaLion.Shared.Extensions.Reflection;
 using DaLion.Shared.Harmony;
