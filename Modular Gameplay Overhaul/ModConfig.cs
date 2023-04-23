@@ -148,7 +148,7 @@ public sealed class ModConfig
 
     /// <summary>Gets the key used to engage Debug Mode.</summary>
     [JsonProperty]
-    public KeybindList DebugKey { get; internal set; } = KeybindList.Parse("LeftControl, LeftShoulder");
+    public KeybindList DebugKey { get; internal set; } = KeybindList.Parse("RightShift");
 
     /// <summary>Gets a value indicating whether Debug Mode is currently engaged.</summary>
     [JsonProperty]

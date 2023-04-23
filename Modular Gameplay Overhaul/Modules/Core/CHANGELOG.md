@@ -7,6 +7,10 @@
 * Added StackableBuff class.
 * Added Status Effect framework.
 
+### Changed
+
+* Debug mode is now a toggle.
+
 ## 2.0.5
 
 ### Fixed
