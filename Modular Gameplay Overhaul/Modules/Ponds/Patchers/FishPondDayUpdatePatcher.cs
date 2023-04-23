@@ -78,7 +78,7 @@ internal sealed class FishPondDayUpdatePatcher : HarmonyPatcher
         if (fishPondData is null)
         {
             Log.W(
-                $"Invalid Fish Pond at {__instance.GetCenterTile()}.\nThe object {__instance.GetFishObject().Name} does not have an associated entry in the FishPondData dictionary. Please clear this pond and replace the object with a valid fish.");
+                $"[PNDS]: Invalid Fish Pond at {__instance.GetCenterTile()}.\nThe object {__instance.GetFishObject().Name} does not have an associated entry in the FishPondData dictionary. Please clear this pond and replace the object with a valid fish.");
             return false;
         }
 

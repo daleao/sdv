@@ -177,14 +177,14 @@ internal static class FarmerExtensions
             case < 0 when farmer.professions.Any(p => p is >= 26 and < 30):
             {
                 Log.W(
-                    $"{farmer.Name} is eligible for Ultimate but is not currently registered to any. The registered Ultimate will be set to a default value.");
+                    $"[PROFS]: {farmer.Name} is eligible for a Limit Break but is not currently registered to any. The registered Limit Break will be set to a default value.");
                 newIndex = farmer.professions.First(p => p is >= 26 and < 30);
                 break;
             }
 
             case >= 0 when !farmer.professions.Contains(currentIndex):
             {
-                Log.W($"{farmer.Name} is registered to Ultimate index {currentIndex} but is missing the corresponding profession. The registered Ultimate will be reset.");
+                Log.W($"[PROFS]: {farmer.Name} is registered to Limit Break index {currentIndex} but is missing the corresponding profession. The registered Limit Break will be reset.");
                 newIndex = farmer.professions.Any(p => p is >= 26 and < 30)
                     ? farmer.professions.First(p => p is >= 26 and < 30)
                     : -1;

@@ -34,7 +34,7 @@ internal sealed class UltimateToggledModMessageReceivedEvent : ModMessageReceive
         var who = Game1.getFarmer(e.FromPlayerID);
         if (who is null)
         {
-            Log.W($"Unknown player {e.FromPlayerID} has toggled their Ultimate ability.");
+            Log.W($"[PROFS]: Unknown player {e.FromPlayerID} has toggled their Ultimate ability.");
             return;
         }
 
@@ -44,13 +44,13 @@ internal sealed class UltimateToggledModMessageReceivedEvent : ModMessageReceive
             case "Active":
                 var index = who.Read<int>(DataKeys.UltimateIndex);
                 var ultimate = Ultimate.FromValue(index);
-                Log.D($"[Ultimate]: {who.Name} activated {ultimate.Name}.");
+                Log.D($"[PROFS]: {who.Name} activated {ultimate.Name}.");
                 who.startGlowing(ultimate.GlowColor, false, 0.05f);
 
                 break;
 
             case "Inactive":
-                Log.D($"[Ultimate]: {who.Name}'s Ultimate has ended.");
+                Log.D($"[PROFS]: {who.Name}'s Ultimate has ended.");
                 who.stopGlowing();
 
                 break;

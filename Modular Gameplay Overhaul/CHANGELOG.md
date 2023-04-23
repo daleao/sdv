@@ -33,6 +33,7 @@ This file contains a TL;DR of current version changes and hotfixes from across a
 * [RNGS]: Ring of Yoba no longer grants invincibility; now grants a shield for 50% max health when your health drops below 30% (with Rebalance).
 * [RNGS]: Immunity Ring now grants 100% immunity, instead of vanilla 40% (with Rebalance).
 * [RNGS]: Warrior Ring now gains stacks on every kill (instead of 3 kills), but is capped at +20 attack (with Rebalance).
+* Bug fixes.
 
 ## Minor Release 2.1.0 Highlights
 

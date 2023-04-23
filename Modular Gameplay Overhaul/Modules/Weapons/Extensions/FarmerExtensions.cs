@@ -38,6 +38,14 @@ internal static class FarmerExtensions
         return modifier;
     }
 
+    /// <summary>Checks whether the <paramref name="farmer"/> suffers from Viego's curse.</summary>
+    /// <param name="farmer">The <see cref="Farmer"/>.</param>
+    /// <returns><see langword="true"/> if the <paramref name="farmer"/> has received the Dark Sword but not the Holy Blade, otherwise <see langword="false"/>.</returns>
+    internal static bool IsCursed(this Farmer farmer)
+    {
+        return farmer.mailReceived.Contains("gotDarkSword") && !farmer.mailReceived.Contains("gotHolyBlade");
+    }
+
     /// <summary>Counts the number of completed Monster Eradication goals.</summary>
     /// <param name="farmer">The <see cref="Farmer"/>.</param>
     /// <returns>The number of completed Monster Eradication goals.</returns>

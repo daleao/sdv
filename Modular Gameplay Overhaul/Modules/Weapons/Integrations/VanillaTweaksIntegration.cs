@@ -34,7 +34,7 @@ internal sealed class VanillaTweaksIntegration : ModIntegration<VanillaTweaksInt
             return true;
         }
 
-        Log.W("Failed to read Vanilla Tweaks config settings.");
+        Log.W("[WPNZ]: Failed to read Vanilla Tweaks config settings.");
         return false;
     }
 }

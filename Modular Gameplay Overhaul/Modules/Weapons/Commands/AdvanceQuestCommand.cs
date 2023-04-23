@@ -22,7 +22,7 @@ internal sealed class AdvanceQuestCommand : ConsoleCommand
     public override string[] Triggers { get; } = { "advance_quest", "advance", "adv" };
 
     /// <inheritdoc />
-    public override string Documentation => "Forcefully advances the specified quest-line (either Clint's Forge or Yoba's Virtues).";
+    public override string Documentation => "Forcefully advances the specified quest-line (either Clint's Forge or Viego's Curse / Yoba's Virtues).";
 
     /// <inheritdoc />
     public override void Callback(string trigger, string[] args)
@@ -30,36 +30,39 @@ internal sealed class AdvanceQuestCommand : ConsoleCommand
         var player = Game1.player;
         if (args.Length == 0 || string.IsNullOrEmpty(args[0]))
         {
-            Log.W("You must specify a quest-line to advance (either \"Forge\" or \"Ruin\".");
+            Log.W("You must specify a quest-line to advance (either \"Forge\" or \"Curse\".");
             return;
         }
 
         switch (args[0].ToLowerInvariant())
         {
+            case "dwarven":
             case "legacy":
             case "clint":
             case "forge":
-                player.mailReceived.Add("clintForge");
                 if (player.hasQuest((int)Quest.ForgeIntro))
                 {
                     player.completeQuest((int)Quest.ForgeIntro);
                 }
 
+                player.mailReceived.Add("clintForge");
                 break;
+            case "viego":
             case "ruin":
             case "dawn":
             case "curse":
             case "yoba":
             case "virtues":
             case "chivalry":
-                if (player.hasQuest((int)Quest.VirtuesIntro))
+            case "purification":
+                if (player.hasQuest((int)Quest.CurseIntro))
                 {
+                    player.completeQuest((int)Quest.CurseIntro);
                     player.addQuest(Virtue.Honor);
                     player.addQuest(Virtue.Compassion);
                     player.addQuest(Virtue.Wisdom);
                     player.addQuest(Virtue.Generosity);
                     player.addQuest(Virtue.Valor);
-                    player.completeQuest((int)Quest.VirtuesIntro);
                 }
 
                 player.Write(DataKeys.ProvenHonor, int.MaxValue.ToString());

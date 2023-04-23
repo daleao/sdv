@@ -57,7 +57,7 @@ internal sealed class LevelUpMenuRevalidateHealthPatcher : HarmonyPatcher
 
         if (farmer.maxHealth != expectedMaxHealth)
         {
-            Log.W($"Fixing max health of {farmer.Name}.\nCurrent: {farmer.maxHealth}\nExpected: {expectedMaxHealth}");
+            Log.W($"[PROFS]: Fixing max health of {farmer.Name}.\nCurrent: {farmer.maxHealth}\nExpected: {expectedMaxHealth}");
             farmer.maxHealth = expectedMaxHealth;
             farmer.health = Math.Min(farmer.maxHealth, farmer.health);
         }

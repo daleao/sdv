@@ -2,7 +2,6 @@
 
 #region using directives
 
-using DaLion.Shared.Attributes;
 using DaLion.Shared.Commands;
 using DaLion.Shared.Extensions.Stardew;
 using StardewValley.Tools;
@@ -10,7 +9,6 @@ using StardewValley.Tools;
 #endregion using directives
 
 [UsedImplicitly]
-[Debug]
 internal sealed class SwordCurseCommand : ConsoleCommand
 {
     /// <summary>Initializes a new instance of the <see cref="SwordCurseCommand"/> class.</summary>
@@ -32,7 +30,7 @@ internal sealed class SwordCurseCommand : ConsoleCommand
         var player = Game1.player;
         if (player.CurrentTool is not MeleeWeapon { InitialParentTileIndex: ItemIDs.DarkSword })
         {
-            Log.W("You must hold the cursed blade to use this command.");
+            Log.W("You must be holding the Dark Sword to use this command.");
             return;
         }
 

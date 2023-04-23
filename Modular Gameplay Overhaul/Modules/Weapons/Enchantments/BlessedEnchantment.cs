@@ -41,19 +41,6 @@ public class BlessedEnchantment : BaseWeaponEnchantment
     }
 
     /// <inheritdoc />
-    protected override void _OnEquip(Farmer who)
-    {
-        base._OnEquip(who);
-        if (!who.Read<bool>(DataKeys.Cursed))
-        {
-            return;
-        }
-
-        EventManager.Disable<CurseUpdateTickedEvent>();
-        who.CurrentTool.Write(DataKeys.CursePoints, null);
-    }
-
-    /// <inheritdoc />
     protected override void _OnSwing(MeleeWeapon weapon, Farmer farmer)
     {
         base._OnSwing(weapon, farmer);

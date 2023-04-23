@@ -30,7 +30,7 @@ internal sealed class SlingshotSaveLoadedEvent : SaveLoadedEvent
             SlingshotsModule.Config.BullseyeReplacesCursor = false;
             ModHelper.WriteConfig(ModEntry.Config);
             Log.W(
-                "[Slingshots]: Bullseye cursor settings is not compatible with pull-back firing mode. Please change to hold-and-release to use this option.");
+                "[SLNGS]: Bullseye cursor settings is not compatible with pull-back firing mode. Please change to hold-and-release to use this option.");
         }
 
         if (!SlingshotsModule.Config.EnableAutoSelection)

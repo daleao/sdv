@@ -69,7 +69,7 @@ public abstract class OverhaulModule
         this.Name = name;
         this.DisplayName = "Modular Overhaul :: " + name;
         this.Namespace = "DaLion.Overhaul.Modules." + name;
-        this.EntryCommand = entry;
+        this.Ticker = entry;
     }
 
     /// <summary>Gets the internal name of the module.</summary>
@@ -84,8 +84,8 @@ public abstract class OverhaulModule
     /// <summary>Gets the namespace of the module.</summary>
     internal string Namespace { get; }
 
-    /// <summary>Gets the entry command of the module.</summary>
-    internal string EntryCommand { get; }
+    /// <summary>Gets the ticker symbol of the module, which is used as the entry command.</summary>
+    internal string Ticker { get; }
 
     /// <summary>Gets or sets a value indicating whether the module should be enabled.</summary>
     [SuppressMessage("StyleCop.CSharp.NamingRules", "SA1300:Element should begin with upper-case letter", Justification = "Conflicts with static version.")]
@@ -130,7 +130,7 @@ public abstract class OverhaulModule
             helper.ConsoleCommands,
             this.Namespace,
             this.DisplayName,
-            this.EntryCommand,
+            this.Ticker,
             () => this.IsActive);
         this.IsActive = true;
         this.InvalidateAssets();
@@ -531,47 +531,34 @@ public abstract class OverhaulModule
             }
         }
 
-        internal static void RemoveStoredDarkSwords()
+        internal static void PerformDarkSwordValidations()
         {
-            var player = Game1.player;
-            var removed = 0;
-            if (ShouldEnable)
+            if (!ShouldEnable || !Config.InfinityPlusOne)
             {
-                foreach (var chest in Game1.game1.IterateAllChests())
-                {
-                    for (var i = chest.items.Count - 1; i >= 0; i--)
-                    {
-                        if (chest.items[i] is not MeleeWeapon { InitialParentTileIndex: ItemIDs.DarkSword } darkSword)
-                        {
-                            continue;
-                        }
+                return;
+            }
 
-                        chest.items.Remove(darkSword);
-                        removed++;
-                    }
+            var player = Game1.player;
+            var darkSword = player.Items.FirstOrDefault(item => item is MeleeWeapon { InitialParentTileIndex: ItemIDs.DarkSword });
+            if (darkSword is null && player.IsCursed())
+            {
+                Log.W($"[WPNZ]: {player.Name} is Cursed by Viego, but does not currently carry the Dark Sword. A new copy will be forcefully added.");
+                darkSword = new MeleeWeapon(ItemIDs.DarkSword);
+                if (!player.addItemToInventoryBool(darkSword))
+                {
+                    Game1.createItemDebris(darkSword, player.getStandingPosition(), -1, player.currentLocation);
                 }
             }
-
-            Log.I("[WPNZ]: Done.");
-            if (removed <= 0)
+            else if (darkSword is not null && !player.mailReceived.Contains("gotDarkSword"))
             {
-                return;
+                Log.W($"[WPNZ]: {player.Name} is not yet Cursed by Viego, but already carries a the Dark Sword. The appropriate mail flag will be added.");
+                player.mailReceived.Add("gotDarkSword");
             }
 
-            Log.W($"{removed} Dark Swords were removed from Chests.");
-            if (!player.hasOrWillReceiveMail("viegoCurse"))
+            if (darkSword is not null && darkSword.Read<int>(Modules.Weapons.DataKeys.CursePoints) >= 50 && !player.hasOrWillReceiveMail("viegoCurse"))
             {
-                return;
-            }
-
-            if (player.Items.Any(t => t is MeleeWeapon { InitialParentTileIndex: ItemIDs.DarkSword }))
-            {
-                return;
-            }
-
-            if (!player.addItemToInventoryBool(new MeleeWeapon(ItemIDs.DarkSword)))
-            {
-                Log.E($"Failed adding Dark Sword to {player.Name}. Use CJB Item Spawner to obtain a new copy.");
+                Log.W($"[WPNZ]: {player.Name}'s Dark Sword has gathered enough kills, but the purification quest-line has not begun. The necessary mail will be added for tomorrow.");
+                Game1.addMailForTomorrow("viegoCurse");
             }
         }
 
@@ -593,7 +580,7 @@ public abstract class OverhaulModule
             }
 
             RevalidateAllWeapons();
-            RemoveStoredDarkSwords();
+            PerformDarkSwordValidations();
             return true;
         }
 
@@ -771,13 +758,13 @@ public abstract class OverhaulModule
                         continue;
                     }
 
-                    if (!name.StartsWith("DaLion.Overhaul.Modules") || KnownEnchantmentType.Contains(name))
+                    if (!name.StartsWith("DaLion.Overhaul.Modules") || (ShouldEnable && KnownEnchantmentType.Contains(name)))
                     {
                         continue;
                     }
 
                     tool.RemoveEnchantment(enchantment);
-                    Log.W($"{enchantment.GetType()} was removed from {tool.Name} to avoid issues. You can try to re-add it with console commands.");
+                    Log.W($"[ENCH]: {enchantment.GetType()} was removed from {tool.Name} to avoid issues. You can try to re-add it with console commands.");
                 }
             });
         }

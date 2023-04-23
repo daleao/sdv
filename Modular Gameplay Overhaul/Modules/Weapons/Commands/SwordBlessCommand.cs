@@ -3,8 +3,8 @@
 #region using directives
 
 using System.Diagnostics.CodeAnalysis;
+using DaLion.Overhaul.Modules.Weapons.Events;
 using DaLion.Overhaul.Modules.Weapons.Extensions;
-using DaLion.Shared.Attributes;
 using DaLion.Shared.Commands;
 using Microsoft.Xna.Framework;
 using StardewValley.Tools;
@@ -12,7 +12,6 @@ using StardewValley.Tools;
 #endregion using directives
 
 [UsedImplicitly]
-[Debug]
 internal sealed class SwordBlessCommand : ConsoleCommand
 {
     /// <summary>Initializes a new instance of the <see cref="SwordBlessCommand"/> class.</summary>
@@ -35,7 +34,7 @@ internal sealed class SwordBlessCommand : ConsoleCommand
         var player = Game1.player;
         if (player.CurrentTool is not MeleeWeapon { InitialParentTileIndex: ItemIDs.DarkSword })
         {
-            Log.W("You must hold the cursed blade to use this command.");
+            Log.W("You must be holding the Dark Sword to use this command.");
             return;
         }
 
@@ -72,6 +71,8 @@ internal sealed class SwordBlessCommand : ConsoleCommand
             darkSword.RefreshStats();
             player.jitterStrength = 0f;
             Game1.screenGlowHold = false;
+            player.mailReceived.Add("gotHolyBlade");
+            EventManager.Disable<CurseUpdateTickedEvent>();
         }
     }
 }

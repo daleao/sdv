@@ -119,7 +119,7 @@ internal sealed class GameLocationAnswerDialogueActionPatcher : HarmonyPatcher
                     player.addQuest(Virtue.Wisdom);
                     player.addQuest(Virtue.Generosity);
                     player.addQuest(Virtue.Valor);
-                    player.completeQuest((int)Quest.VirtuesIntro);
+                    player.completeQuest((int)Quest.CurseIntro);
                     Virtue.List.ForEach(virtue => virtue.CheckForCompletion(Game1.player));
                     return false; // don't run original logic
                 }

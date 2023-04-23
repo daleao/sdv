@@ -34,14 +34,14 @@ internal sealed class HostRequestedModMessageReceivedEvent : ModMessageReceivedE
         var who = Game1.getFarmer(e.FromPlayerID);
         if (who is null)
         {
-            Log.W($"Received {request} request from unknown player {e.FromPlayerID}.");
+            Log.W($"[PROFS]: Received {request} request from unknown player {e.FromPlayerID}.");
             return;
         }
 
         switch (request)
         {
             case "HuntIsOn":
-                Log.D($"[Prestige]: {who.Name} is hunting for treasure. Time will be frozen for the duration.");
+                Log.D($"[PROFS]: {who.Name} is hunting for treasure. Time will be frozen for the duration.");
                 this.Manager.Enable<PrestigeTreasureHuntUpdateTickedEvent>();
                 break;
         }

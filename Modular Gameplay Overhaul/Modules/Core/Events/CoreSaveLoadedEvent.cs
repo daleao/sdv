@@ -25,7 +25,8 @@ internal sealed class CoreSaveLoadedEvent : SaveLoadedEvent
     protected override void OnSaveLoadedImpl(object? sender, SaveLoadedEventArgs e)
     {
         var checksum = Game1.player.Read("checksum", -1);
-        var hash = Config.ToString().GetDeterministicHashCode();
+        var data = Config.ToString() + Manifest.Version;
+        var hash = data.GetDeterministicHashCode();
         if (hash == checksum)
         {
             Log.T("[Core]: Config file passed checksum validation.");
@@ -34,7 +35,6 @@ internal sealed class CoreSaveLoadedEvent : SaveLoadedEvent
 
         Log.T("[Core]: Config file failed checksum validation. Revalidating all modules...");
         EnumerateModules().ForEach(module => module.Revalidate());
-        Game1.player.Write("checksum", hash.ToString());
         Log.T("[Core]: Done.");
     }
 }

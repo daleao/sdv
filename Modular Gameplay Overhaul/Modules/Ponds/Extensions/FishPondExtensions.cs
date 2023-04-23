@@ -163,7 +163,7 @@ internal static class FishPondExtensions
             }
             catch (InvalidOperationException ex)
             {
-                Log.W($"ItemsHeld data is invalid. {ex}\nThe data will be reset");
+                Log.W($"[PNDS]: ItemsHeld data is invalid. {ex}\nThe data will be reset");
                 pond.Write(DataKeys.ItemsHeld, null);
             }
         }

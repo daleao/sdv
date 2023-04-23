@@ -32,7 +32,7 @@ internal sealed class PondQueryMenuCtorPatcher : HarmonyPatcher
         }
         catch (InvalidOperationException ex)
         {
-            Log.W($"FishQualities data is invalid. {ex}\nThe data will be reset");
+            Log.W($"[PNDS]: FishQualities data is invalid. {ex}\nThe data will be reset");
             fish_pond.Write(DataKeys.FishQualities, $"{fish_pond.FishCount},0,0,0");
             fish_pond.Write(DataKeys.FamilyQualities, null);
             fish_pond.Write(DataKeys.FamilyLivingHere, null);
@@ -44,7 +44,7 @@ internal sealed class PondQueryMenuCtorPatcher : HarmonyPatcher
         }
         catch (InvalidOperationException ex)
         {
-            Log.W($"FamilyQuality data is invalid. {ex}\nThe data will be reset");
+            Log.W($"[PNDS]: FamilyQuality data is invalid. {ex}\nThe data will be reset");
             fish_pond.Write(DataKeys.FishQualities, $"{fish_pond.FishCount},0,0,0");
             fish_pond.Write(DataKeys.FamilyQualities, null);
             fish_pond.Write(DataKeys.FamilyLivingHere, null);

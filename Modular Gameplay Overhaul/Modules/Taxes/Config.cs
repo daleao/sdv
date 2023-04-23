@@ -78,7 +78,7 @@ public sealed class Config : Shared.Configs.Config
             return true;
         }
 
-        Log.W("Mismatch between number of income brackets and tax values." +
+        Log.W("[TXS]: Mismatch between number of income brackets and tax values." +
               " For `n` income brackets there should be `n+1` tax values (the final value implicitly corresponds to infinity)." +
               " The default values will be restored.");
         this.IncomeBrackets = new[] { 9950, 40525, 86375, 164925, 209425, 523600 };

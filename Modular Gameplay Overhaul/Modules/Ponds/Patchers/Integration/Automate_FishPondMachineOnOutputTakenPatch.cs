@@ -96,7 +96,7 @@ internal sealed class FishPondMachineOnOutputTakenPatcher : HarmonyPatcher
         }
         catch (InvalidOperationException ex) when (machine is not null)
         {
-            Log.W($"ItemsHeld data is invalid. {ex}\nThe data will be reset");
+            Log.W($"[PNDS]: ItemsHeld data is invalid. {ex}\nThe data will be reset");
             machine.Write(DataKeys.ItemsHeld, null);
             return true; // default to original logic
         }

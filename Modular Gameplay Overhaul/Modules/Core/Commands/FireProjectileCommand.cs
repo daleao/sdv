@@ -1,4 +1,4 @@
-﻿namespace DaLion.Overhaul.Modules.Weapons.Commands;
+﻿namespace DaLion.Overhaul.Modules.Core.Commands;
 
 #region using directives
 

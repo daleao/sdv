@@ -12,7 +12,6 @@ internal sealed class DataKeys
 
     // farmer
     internal const string GalaxyArsenalObtained = "GalaxyArsenalObtained";
-    internal const string Cursed = "Cursed";
     internal const string BlueprintsFound = "BlueprintsFound";
     internal const string DaysLeftTranslating = "DaysLeftTranslating";
     internal const string HasReadHonor = "HasReadHonor";

@@ -178,9 +178,9 @@ internal sealed class WeaponAssetRequestedEvent : AssetRequestedEvent
         var data = asset.AsDictionary<int, string>().Data;
         data[(int)Quest.ForgeIntro] = I18n.Get("quests.forge.intro");
         data[(int)Quest.ForgeNext] = I18n.Get("quests.forge.next");
-        data[(int)Quest.VirtuesIntro] = I18n.Get("quests.curse.intro");
-        data[(int)Quest.VirtuesNext] = I18n.Get("quests.curse.next");
-        data[(int)Quest.VirtuesLast] = I18n.Get("quests.curse.last");
+        data[(int)Quest.CurseIntro] = I18n.Get("quests.curse.intro");
+        data[(int)Quest.CurseNext] = I18n.Get("quests.curse.next");
+        data[(int)Quest.CurseLast] = I18n.Get("quests.curse.last");
         data[Virtue.Honor] = I18n.Get("quests.virtues.honor");
         data[Virtue.Compassion] = I18n.Get("quests.virtues.compassion");
         data[Virtue.Wisdom] = I18n.Get("quests.virtues.wisdom");

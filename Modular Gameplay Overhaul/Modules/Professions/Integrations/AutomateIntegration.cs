@@ -379,12 +379,12 @@ internal sealed class AutomateIntegration : ModIntegration<AutomateIntegration>
                 return true;
             }
 
-            Log.W("Failed to grab Automate's machine data.");
+            Log.W("[PROFS]: Failed to grab Automate's machine data.");
             return false;
         }
         catch (Exception ex)
         {
-            Log.W($"Failed to grab Automate's machine data.\n{ex}");
+            Log.W($"[PROFS]: Failed to grab Automate's machine data.\n{ex}");
             return false;
         }
     }
