@@ -13,12 +13,12 @@ This file contains a TL;DR of current version changes and hotfixes from across a
     - **Slowed:** Reduces movement speed by half for the duration.
     - **Stunned:** Cannot move or attack for the duration.
 * [WPNZ]: All daggers can now inflict bleed if Rebalance option is enabled.
-* [WPNZ]: Some weapons have suffered a tier demotion. All mythic weapons now carry a special effect:
+* [WPNZ]: Some weapons have suffered a tier demotion. All mythic weapons now carry a special effect (Neptune Glaive is the only exception, because I still can't come up with an interesting effects for it):
     - The **Obsidian Edge**, in addition to ignoring enemy defense, now also applies Bleeding.
     - The **Lava Katana** can now cause Burning, and instantly incinerates Bugs and Flies.
     - The **Yeti Tooth** can now cause Chilled.
 * [WPNZ]: In exchange, mythic weapons can no longer receive Prismatic Shard enchantments.
-* [WPNZ]: Stabby sword thrust move will now auto-seek the hovered enemy if FaceMouseCursor setting is enabled.
+* [WPNZ]: Stabby sword thrust move will now automatically home-in on the hovered enemy if FaceMouseCursor setting is enabled.
 * [ENCH]: Added the Steadfast enchantment: "Converts critical strike chance into bonus damage (multiplied by critical power)."
 * [ENCH]: Artful can now be applied to Slingshots. Changes to Artful enchantment:
     - **Stabbing Sword**: Can dash twice in succession.s

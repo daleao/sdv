@@ -21,7 +21,7 @@ internal sealed class MeleeWeaponCanAddEnchantmentPatcher : HarmonyPatcher
 
     #region harmony patches
 
-    /// <summary>Allow forge Galaxy with Infinity.</summary>
+    /// <summary>Prevent Mythic weapons from receiving additional enchantments.</summary>
     [HarmonyPrefix]
     private static bool MeleeWeaponCanAddEnchantmentPrefix(
         MeleeWeapon __instance, ref bool __result, BaseEnchantment enchantment)

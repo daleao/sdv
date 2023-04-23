@@ -12,7 +12,9 @@
 ### Changed
 
 * Mythic weapons now all have instrinsic enchantments, and therefore can no longer receive Prismatic Shard enchantments at the Forge for balancing reasons. This includes the Insect Head, Lava Katana, Obsidian Edge and Yeti Tooth.
-* Many weapons had their tier reduced, such that the only Mythic weapons now are those with a instrinsic enchantment.
+* Many weapons had their tier reduced, such that the only Mythic weapons now are those with a instrinsic enchantment. Several mythic weapons have received status effects (listed above, in Added section).
+* In exchange, mythic weapons can no longer receive Prismatic Shard enchantments.
+* Stabby sword thrust move will now automatically home-in on the hovered enemy if FaceMouseCursor setting is enabled.
 * Increased the hitbox of Club's overhead smash hit (final combo hit).
 
 ## 2.1.1
