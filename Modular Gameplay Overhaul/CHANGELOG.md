@@ -25,7 +25,7 @@ This file contains a TL;DR of current version changes and hotfixes from across a
 * [WPNZ]: Stabby sword thrust move will now automatically home-in on the hovered enemy if FaceMouseCursor setting is enabled.
 * [ENCH]: Added the Steadfast enchantment: "Converts critical strike chance into bonus damage (multiplied by critical power)."
 * [ENCH]: Artful can now be applied to Slingshots. Changes to Artful enchantment:
-    - **Stabbing Sword**: Can dash twice in succession.s
+    - **Stabbing Sword**: Can dash twice in succession.
     - **Defense Sword**: A successful parry ~~stuns enemies for 1s~~ guarantees a critical strike on the next attack (within 5s).
     - **Dagger**: Applies bleeding on every hit (if WPNZ is enabled with Rebalance).
     - **Club**: Now also stuns enemies for 2s.
