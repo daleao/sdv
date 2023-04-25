@@ -23,14 +23,14 @@ internal static class Textures
     internal static Texture2D MaxIconTx { get; } =
         ModHelper.GameContent.Load<Texture2D>($"{Manifest.UniqueID}/MaxIcon");
 
+    internal static Texture2D PrestigeSheetTx { get; private set; } =
+        ModHelper.GameContent.Load<Texture2D>($"{Manifest.UniqueID}/PrestigeProgression");
+
     internal static Texture2D SkillBarsTx { get; private set; } =
         ModHelper.GameContent.Load<Texture2D>($"{Manifest.UniqueID}/SkillBars");
 
     internal static Texture2D UltimateMeterTx { get; private set; } =
         ModHelper.GameContent.Load<Texture2D>($"{Manifest.UniqueID}/UltimateMeter");
-
-    internal static Texture2D PrestigeSheetTx { get; private set; } =
-        ModHelper.ModContent.Load<Texture2D>($"assets/sprites/{ProfessionsModule.Config.ProgressionStyle}.png");
 
     internal static void Refresh(IReadOnlySet<IAssetName> names)
     {

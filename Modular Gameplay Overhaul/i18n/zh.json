@@ -234,6 +234,7 @@
   "dialogue.clint.blueprint.done": "嘿，@。我破译了那张旧蓝图。$0#$b#抱歉花了这么长时间。$2#$b#原来它是用一些奇怪的材料制成的武器的配方.$0#$b#画这个的人，是铁匠大师。$2#$b#我真的很想尝试一下，但我不知道在哪里可以找到这些材料.#$b#无论如何，图纸是你找回来的。如果你拿到这些材料，把它带回这里，我会免费为你制造这个武器。",
   "dialogue.gil.virtues": "一个真正的英雄，应该遵循五种英雄美德：荣誉，怜悯，智慧，慷慨和勇敢。具备这些美德的人，会成为由巴眼中的英雄，一定能在冒险中平安归来。#$b#至少我妈妈是这么说的。",
   "dialogue.wizard.curse.canthelp": "对不起，@。恐怕现在连魔法都帮不了你。#$b#你唯一的希望就是求助于神灵。",
+  "dialogue.wizard.curse.toldya": "那种邪恶的能量越来越强。 看来你决定忽略我的警告。 您最好准备好面对该决定的后果。",
 
   "events.forge.intro": "distantBanjo/3 15/farmer 5 19 0 Clint 3 13 2/pause 1000/speak Clint \"嗯，嘿 @。$1\"/move farmer 0 -4 3/move farmer -2 0 0/pause 500/speak Clint \"怎么了？你有需要升级的工具？\"/pause 500/speak Clint \"这是什么？一张古老的矮人蓝图？\"/pause 500/textAboveHead Clint \"嗯嗯...\"/pause 1200/speak Clint \"我很乐意帮助你，@，但我看不懂这些涂鸦...$2\"/pause 1000/speak Clint \"什么？你说你有这方面的翻译指南？$0#$b#好吧，这需要几天时间才能破译...$2\"/pause 200/emote Clint 28 true/pause 1500/speak Clint \"哦，好吧。我今晚就要开始破解这个了。过几天再来找我吧。\"/pause 500/addQuest 144701/end",
   "events.curse.intro": "WizardSong/-1000 -1000/farmer 8 24 0 Wizard 10 15 2/showFrame Wizard 20/viewport 8 18 true/move farmer 0 -3 0/pause 2000/speak Wizard \"@，我很高兴你来了。\"/pause 300/showFrame Wizard 16/pause 500/speak Wizard \"我一直在魔力中感到不安，但直到你走进来才知道那是什么。\"/pause 500/showFrame Wizard 0/pause 500/move Wizard -2 0 3/move Wizard 0 3 2/pause 1000/speak Wizard \"那把奇怪的剑...\"/move Wizard 0 1 2/pause 300/speak Wizard \"告诉我，你是怎么得到它的?\"/pause 500/emote farmer 40 true/pause 2000/speak Wizard \"我明白了。\"/pause 500/move Wizard 0 -1 0/speak Wizard \"从中散发出来的邪恶能量只能意味着一件事。\"/pause 500/faceDirection Wizard 2 true/pause 500/speak Wizard \"那一定是堕落的英雄之剑。$1\"/pause 1000/move Wizard 0 1 2/pause 200/speak Wizard \"传说中，主人公维埃戈曾经挥舞着一把华丽的金色巨剑，这是由巴本人送给他的神器。\"/pause 200/showFrame Wizard 18/pause 200/speak Wizard \"但当他心爱的妻子去世时，维埃戈变得疯狂，被悲伤所吞噬。\"/pause 500/showFrame Wizard 0/pause 500/move Wizard -2 0 3/pause 200/speak Wizard \"他转向巫术，痴迷于复活她。#$b#尽管付出了巨大的代价，他最终还是成功了。\"/pause 200/move Wizard 2 0 1/pause 200/speak Wizard \"就在那一瞬间，他妻子的身体升起了可怕的阴影和愤怒的幽灵#$b#对被从死亡中撕裂感到困惑，她拿起维埃戈自己的利刃，用它刺穿了他的心脏。\"/faceDirection Wizard 2 true/speak Wizard \"而就在这时，维埃戈的黑暗巫术和由巴的神力发生冲突，一团黑雾从维埃戈的心中涌出，他成为了被困在不死中的堕落英雄。\"/move Wizard 0 -1 0/speak Wizard \"我自己也不相信这些故事。但如果巨剑是真的，那么也许维埃戈本人仍然在寻找它。\"/pause 1500/move Wizard 0 2 2/speak Wizard \"那把剑最终会吞噬你，@，就像它所做的维埃戈一样。#$b#你必须摆脱它。无论你做什么，你都不能使用它。\"/pause 500/addQuest 144703/end",
@@ -312,14 +313,18 @@
   // * ENCHANTMENTS * //
   // **************** //
 
+  "enchantments.artful.name": "巧妙",
+  "enchantments.artful.parry": "暴击几率+100%",
   "enchantments.carving.name": "破甲",
   "enchantments.cleaving.name": "撕裂",
   "enchantments.energized.name": "电击",
+  "enchantments.energized.desc": "累积的能量:{{counter}}",
   "enchantments.explosive.name": "爆炸性的",
-  "enchantments.mammonite.name": "魔钱攻击",
-  "enchantments.bloodthirsty.name": "嗜血",
-  "enchantments.wabbajack.name": "瓦巴杰克",
+  "enchantments.explosive.desc": "爆炸半径:{{counter}}",
   "enchantments.steadfast.name": "坚定的",
+  "enchantments.bloodthirsty.name": "嗜血",
+  "enchantments.mammonite.name": "魔钱攻击",
+  "enchantments.wabbajack.name": "瓦巴杰克",
   "enchantments.magnum.name": "马格南",
   "enchantments.gatling.name": "加特林",
   "enchantments.preserving.name": "节约弹药",

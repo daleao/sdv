@@ -73,7 +73,7 @@ internal sealed class LevelUpMenuRemoveImmediateProfessionPerkPatcher : HarmonyP
             .When(Profession.Rascal).Then(() =>
             {
                 if (player.CurrentTool is not Slingshot slingshot ||
-                    slingshot.numAttachmentSlots.Value <= 1 && slingshot.attachments.Length <= 1)
+                    (slingshot.numAttachmentSlots.Value <= 1 && slingshot.attachments.Length <= 1))
                 {
                     return;
                 }

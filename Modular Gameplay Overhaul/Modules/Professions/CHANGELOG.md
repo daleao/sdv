@@ -1,5 +1,12 @@
 # Professions Module Change Log
 
+## 2.2.2
+
+### Fixed
+
+* Adjusted the position of prestige progression badges, which I guess were messed up by the latest SpaceCore update.
+* Fixed ribbon-style prestige badges, which apparently were messed up by an update a while ago and nobody noticed, since nobody apparently uses it anymore.
+
 ## 2.2.1
 
 ### Changed

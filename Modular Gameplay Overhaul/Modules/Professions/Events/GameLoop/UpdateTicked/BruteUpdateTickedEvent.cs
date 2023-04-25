@@ -2,8 +2,8 @@
 
 #region using directives
 
-using DaLion.Overhaul.Modules.Core;
 using DaLion.Overhaul.Modules.Core.Events;
+using DaLion.Overhaul.Modules.Core.UI;
 using DaLion.Overhaul.Modules.Professions.Extensions;
 using DaLion.Shared.Events;
 using DaLion.Shared.Extensions.Stardew;

@@ -1,5 +1,19 @@
 ﻿# Modular Overhaul Core Change Log
 
+## 2.2.2
+
+### Added
+
+* Moved the API interface from the shared library to the mod source.
+
+### Changed
+
+* Moved some more stuff around.
+
+### Removed
+
+* Status conditions now live in CMBT. Because duh.
+
 ## 2.2.1
 
 ### Fixed

@@ -160,7 +160,7 @@ public static class ModDataDictionaryExtensions
         StringBuilder sb = new();
         foreach (var (key, value) in data.Pairs)
         {
-            sb.Append("\n\t-" + key + " = " + value);
+            sb.Append("\n\t- " + key + " = " + value);
         }
 
         return sb.ToString();

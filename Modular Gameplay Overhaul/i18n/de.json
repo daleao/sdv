@@ -233,6 +233,7 @@
   "dialogue.clint.blueprint.done": "Hey @. Ich habe die alte Blaupause fertig übersetzt.$0#$b#Entschuldige, dass es so lange gedauert hat.$2#$b#Es ist ein Rezept für eine Waffe aus seltsamen Materialien.$0#$b#Derjenige, der es geschrieben hat, war offensichtlich ein Meisterschmied. Die Techniken, die hier beschrieben werden, sind wirklich bemerkenswert.$2#$b#Ich würde das wirklich gerne nachmachen, aber ich habe keine Ahnung, wo ich diese Materialien finden kann.#$b# Wie auch immer, hier ist dein Buch zurück. Wenn du dieses Material findest, bring es her und ich mache dir die Waffe umsonst.",
   "dialogue.gil.virtues": "Ein wahrer Abenteurer sollte nach den fünf heroischen Tugenden leben: Ehre, Mitgefühl, Weisheit, Großzügigkeit und Tapferkeit. Diejenigen, die das tun, gelten in den Augen von Yoba als Helden und kehren immer sicher von ihren Abenteuern zurück.#$b# Zumindest hat das meine Mama immer gesagt.",
   "dialogue.wizard.curse.canthelp": "Es tut mir leid, @. Ich fürchte, selbst das Arkane kann dir jetzt nicht mehr helfen.#$b#Deine einzige Hoffnung ist, das Göttliche zu suchen.",
+  "dialogue.wizard.curse.toldya": "Diese bösartige Energie wird stärker. Scheint, als hättest du dich entschieden, meine Warnung zu ignorieren. Du solltest besser darauf vorbereitet sein, die Konsequenzen dieser Entscheidung zu tragen.",
 
   "events.forge.intro": "distantBanjo/3 15/farmer 5 19 0 Clint 3 13 2/pause 1000/speak Clint \"Oh, hey @.$1\"/move farmer 0 -4 3/move farmer -2 0 0/pause 500/speak Clint \"Was ist los, hast du ein Werkzeug, das aufgerüstet werden muss?\"/pause 500/speak Clint \"Was ist das? Eine alte Blaupause?\"/pause 1000/speak Clint \"Ich würde dir ja gerne helfen, @, aber ich verstehe nichts von diesem Gekritzel.$2\"/pause 1000/speak Clint \"Was ist das? Du sagst, du hast die Übersetzungshilfe dafür? $0#$b#Aber es wird Tage dauern, das zu entziffern...$2\"/pause 500/speak Clint \"Oh, na gut. Ich fange heute Abend damit an. Komm in ein paar Tagen wieder zu mir.\"/pause 500/addQuest 144701/end",
   "events.curse.intro": "WizardSong/-1000 -1000/farmer 8 24 0 Wizard 10 15 2/skippable/showFrame Wizard 20/viewport 8 18 true/move farmer 0 -3 0/pause 2000/speak Wizard \"@, ich bin froh, dass du gekommen bist.\"/pause 300/showFrame Wizard 16/pause 500/speak Wizard \"Ich habe eine Störung im Arkanen gespürt, aber ich wusste nicht, was es war, bis du hereinkamst.\"/pause 500/showFrame Wizard 0/pause 500/move Wizard -2 0 3/move Wizard 0 3 2/pause 1000/speak Wizard \"Dieses seltsame Schwert...\"/move Wizard 0 1 2/pause 300/speak Wizard \"Sag mir, wie bist du an sie herangekommen?\"/pause 1500/speak Wizard \"Ich verstehe.\"/pause 500/move Wizard 0 -1 0/speak Wizard \"Die Menge an bösartiger Energie, die von ihm ausgeht, kann nur eines bedeuten.\"/pause 500/faceDirection Wizard 2 true/pause 500/speak Wizard \"Das muss das Schwert des ruinierten Helden sein.$1\"/pause 1000/move Wizard 0 1 2/pause 200/speak Wizard \"Die Geschichte besagt, dass der Held Viego einst eine prächtige goldene Klinge führte, die ihm von Yoba selbst geschenkt wurde.\"/pause 200/showFrame Wizard 18/pause 200/speak Wizard \"Doch als seine geliebte Frau starb, wurde Viego wahnsinnig und verzehrte sich vor Trauer.\"/pause 500/showFrame Wizard 0/pause 500/move Wizard -2 0 3/pause 200/speak Wizard \"Er wandte sich der Zauberei zu, besessen von dem Gedanken, sie wiederzubeleben.#$b# Obwohl es ihn viel kostete, gelang es ihm schließlich.\"/pause 200/move Wizard 2 0 1/pause 200/speak Wizard \"Für einen kurzen Moment erhob sich der Körper seiner Frau zu einem schrecklichen Gespenst aus Schatten und Wut.#$b#Verzweifelt darüber, dem Tod entrissen worden zu sein, nahm sie Viegos eigene Klinge und stieß sie ihm ins Herz.\"/faceDirection Wizard 2 true/speak Wizard \"Und in diesem Moment prallten Viegos dunkle Magie und Yobas heilige Macht aufeinander, ein schwarzer Nebel strömte aus Viegos Herz und er wurde zum ruinierten Helden, gefangen im Untod.\"/move Wizard 0 -1 0/speak Wizard \"Ich selbst habe die Geschichten nicht geglaubt. Aber wenn die Klinge echt ist, dann ist Viego vielleicht immer noch da draußen und sucht nach ihr.\"/pause 1500/move Wizard 0 2 2/speak Wizard \"Dieses Schwert wird dich irgendwann verschlingen, @, genau wie Viego. #$b# Du musst es unbedingt loswerden. Und was auch immer du tust, du darfst es nicht benutzen.\"/pause 500/addQuest 144703/end",
@@ -311,13 +312,17 @@
   // * ENCHANTMENTS * //
   // **************** //
 
+  "enchantments.artful.name": "Kunstvoll",
+  "enchantments.artful.parry": "Kritik. Chance +100%",
   "enchantments.carving.name": "Schnitzen",
   "enchantments.cleaving.name": "Spalten",
   "enchantments.energized.name": "Elektrisierend",
+  "enchantments.energized.desc": "Energie angesammelt: {{counter}}",
   "enchantments.explosive.name": "Explodiert",
-  "enchantments.mammonite.name": "Mammonit",
-  "enchantments.bloodthirsty.name": "Blutdürstig",
+  "enchantments.explosive.desc": "Explosionsradius: {{counter}}",
   "enchantments.steadfast.name": "Standhaft",
+  "enchantments.bloodthirsty.name": "Blutdürstig",
+  "enchantments.mammonite.name": "Mammonit",
   "enchantments.wabbajack.name": "Wabbajack",
   "enchantments.magnum.name": "Magnum",
   "enchantments.gatling.name": "Schrapnell",

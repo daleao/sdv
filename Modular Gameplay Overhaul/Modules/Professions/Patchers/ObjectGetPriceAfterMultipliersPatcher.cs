@@ -56,9 +56,8 @@ internal sealed class ObjectGetPriceAfterMultipliersPatcher : HarmonyPatcher
                 var multiplier = 1f;
 
                 // professions
-                if (farmer.HasProfession(Profession.Producer) && (__instance.IsAnimalOrDerivedProduct() ||
-                                                                  __instance.ParentSheetIndex == ItemIDs.Honey &&
-                                                                   ProfessionsModule.Config.BeesAreAnimals))
+                if (farmer.HasProfession(Profession.Producer) &&
+                    (__instance.IsAnimalOrDerivedProduct() || (__instance.ParentSheetIndex == ItemIDs.Honey && ProfessionsModule.Config.BeesAreAnimals)))
                 {
                     multiplier += farmer.GetProducerPriceBonus();
                 }

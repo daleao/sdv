@@ -40,10 +40,10 @@ Enchantments have been almost entirely overhauled. Hopefully these enchantments 
 | Cleaving  | Attacks on-hit spread 60% - 20% (based on distance) of the damage to other enemies around the target. |
 | Energized | Moving and attacking generates energy. When fully-energized, the next attack causes an electric discharge, dealing heavy damage in a large area. |
 | Blasting | Accumulates and stores half of the damage from enemy hits (before mitigation). If enough damage is accumulated, the next special move releases that damage as an explosion. |
-| Mammonite's | Attacks that would leave an enemy below 10% max health immediately execute the enemy, converting the remaining health into gold. This threshold increases by 1% with each consecutive takedown, resetting when you take damage. |
-| Bloodthirsty | Enemy takedowns recover some health proportional to the enemy's max health. Excess healing is converted into a shield for up to 20% of the player's max health, which slowly decays after not dealing or taking damage for 25s. |
 | Steadfast    | Converts critical strike chance into bonus raw damage (multiplied by critical power). |
-| Wabbajack | Causes unpredictable effects. *Examples: damage or heal the enemy; decrease or increase the enemie's stats; transfigure into a different enemy, creature or any random item (note: this can spawn illegal items.* |
+| Bloodthirsty | Enemy takedowns recover some health proportional to the enemy's max health. Excess healing is converted into a shield for up to 20% of the player's max health, which slowly decays after not dealing or taking damage for 25s. |
+| Mammonite's | Attacks that would leave an enemy below 10% max health immediately execute the enemy, converting the remaining health into gold. This threshold increases by 1% with each consecutive takedown, resetting when you take damage. |
+| Wabbajack | Causes unpredictable effects. *Examples: damage or heal the enemy; decrease or increase the enemie's stats; transfigure into a different enemy, creature or any random item (note: this can spawn illegal items).* |
 
 \*
     - **Offensive Swords:** Can dash twice in succession.
@@ -57,13 +57,13 @@ The enchantments below are entirely new and unique to slingshots.
 
 | Name       | Effect |
 | ---------- | -------|
-| Magnum     | Doubles the size of fired projectiles. |
+| Magnum     | Greatly increases the size of fired projectiles. |
 | Gatling    | Enables auto-fire.* |
 | Preserving | Does not consume ammo. |
 | Spreading  | Consume one additional ammo to fire two additional angled projectiles. |
 | Quincy     | Attacks fire an energy projectile if no ammo is equipped. Only works near enemies.** |
 
-\* *Double-press and **hold** the use-tool key to engage auto-fire.*
+\* *Double-click/press and then **hold** the use-tool key to engage auto-fire.*
 
 \** *Quincy projectile cannot crit nor knock back enemies, but is affected by damage modifiers. If the Professions module is enabled and the player has the Desperado profession, Quincy projectile will also be affected by Overcharge.*
 

@@ -3,7 +3,7 @@
 #region using directives
 
 using System.Xml.Serialization;
-using DaLion.Overhaul.Modules.Core.Extensions;
+using DaLion.Overhaul.Modules.Combat.Extensions;
 using StardewValley.Monsters;
 using StardewValley.Tools;
 
@@ -43,8 +43,9 @@ public class DaggerEnchantment : BaseWeaponEnchantment
     protected override void _OnDealDamage(Monster monster, GameLocation location, Farmer who, ref int amount)
     {
         base._OnDealDamage(monster, location, who, ref amount);
-        if (who.CurrentTool is MeleeWeapon { type.Value: MeleeWeapon.dagger, isOnSpecial: true } ||
-            this._random.NextDouble() < 0.2)
+        if (CombatModule.ShouldEnable &&
+            (who.CurrentTool is MeleeWeapon { type.Value: MeleeWeapon.dagger, isOnSpecial: true } ||
+             this._random.NextDouble() < 0.2))
         {
             monster.Bleed(who);
         }

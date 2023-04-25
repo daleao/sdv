@@ -1,5 +1,17 @@
 ﻿# Weapons Change Log
 
+## 2.2.2
+
+### Added
+
+* Added one more line of flavor text to the Wizard if the player ignores his warning and chooses to level-up the sword anyway.
+* Added fall-back mail flags when the Dark Sword and Holy Blade are equipped, just in case.
+
+### Fixed
+
+* No longer forcefully restarts the Blade of Ruin quest by checking for events seen. This was not doing I wanted and wasn't even necessary. Fixes the bug where player were receiving the quest every time the save was loaded.
+* Fixed an IndexOutOfRange error when using any weapon with SFX and ComboHits disabled.
+
 ## 2.2.1
 
 ### Changed

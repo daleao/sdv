@@ -2,8 +2,11 @@
 
 #region using directives
 
+using System.Collections.Generic;
 using System.Reflection;
+using System.Reflection.Emit;
 using DaLion.Overhaul.Modules.Weapons.Extensions;
+using DaLion.Shared.Extensions.Reflection;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
 using Microsoft.Xna.Framework;
@@ -226,19 +229,56 @@ internal sealed class FarmerShowSwordSwipePatcher : HarmonyPatcher
     }
 
     /// <summary>Show novelty colors if combo hits is disabled.</summary>
-    [HarmonyPostfix]
-    private static void FarmerShowSwordSwipePostfix(Farmer who)
+    [HarmonyTranspiler]
+    private static IEnumerable<CodeInstruction>? FarmerShowSwordSwipeTranspiler(
+        IEnumerable<CodeInstruction> instructions, MethodBase original)
     {
-        if (who.CurrentTool is not MeleeWeapon weapon || weapon.isScythe() ||
-            WeaponsModule.Config.EnableComboHits)
+        var helper = new ILHelper(original, instructions);
+
+        try
         {
-            return;
+            helper
+                .Match(
+                    new[]
+                    {
+                        new CodeInstruction(OpCodes.Ldloc_0),
+                        new CodeInstruction(OpCodes.Brfalse_S),
+                    },
+                    ILHelper.SearchOption.Last)
+                .Match(new[] { new CodeInstruction(OpCodes.Isinst, typeof(MeleeWeapon)) })
+                .Match(new[] { new CodeInstruction(OpCodes.Ldarg_0) })
+                .Insert(
+                    new[]
+                    {
+                        new CodeInstruction(OpCodes.Ldloc_0),
+                        new CodeInstruction(OpCodes.Ldloc_0),
+                        new CodeInstruction(OpCodes.Ldarg_0),
+                        new CodeInstruction(OpCodes.Callvirt, typeof(Farmer).RequirePropertyGetter(nameof(Farmer.CurrentTool))),
+                        new CodeInstruction(OpCodes.Isinst, typeof(MeleeWeapon)),
+                        new CodeInstruction(
+                            OpCodes.Call,
+                            typeof(FarmerShowSwordSwipePatcher).RequireMethod(nameof(GetSwipeColor))),
+                    })
+                .Remove(7);
+        }
+        catch (Exception ex)
+        {
+            Log.E($"Failed injecting novelty color SFX.\nHelper returned {ex}");
+            return null;
         }
 
-        var tempSprite = who.currentLocation.TemporarySprites[^1];
+        return helper.Flush();
+    }
+
+    #endregion harmony patches
+
+    #region injected subroutines
+
+    private static Color GetSwipeColor(TemporaryAnimatedSprite tempSprite, MeleeWeapon weapon)
+    {
         if (WeaponsModule.Config.EnableRebalance)
         {
-            tempSprite.color = weapon.InitialParentTileIndex switch
+            return weapon.InitialParentTileIndex switch
             {
                 ItemIDs.LavaKatana => Color.Orange,
                 ItemIDs.YetiTooth => Color.PowderBlue,
@@ -248,16 +288,16 @@ internal sealed class FarmerShowSwordSwipePatcher : HarmonyPatcher
 
         if (WeaponsModule.Config.InfinityPlusOne)
         {
-            tempSprite.color = weapon.IsInfinityWeapon()
-                ? Color.HotPink
-                : weapon.InitialParentTileIndex switch
+            return weapon.InitialParentTileIndex switch
                 {
                     ItemIDs.DarkSword => Color.DarkSlateGray,
                     ItemIDs.HolyBlade => Color.Gold,
                     _ => tempSprite.color,
                 };
         }
+
+        return weapon.IsInfinityWeapon() ? Color.HotPink : tempSprite.color;
     }
 
-    #endregion harmony patches
+    #endregion injected subroutines
 }

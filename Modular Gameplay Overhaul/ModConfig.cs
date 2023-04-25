@@ -13,7 +13,7 @@ using StardewModdingAPI.Utilities;
 /// <summary>The collection of configs for each module.</summary>
 public sealed class ModConfig
 {
-    private static Lazy<JsonSerializerSettings> JsonSerializerSettings { get; } =
+    private static readonly Lazy<JsonSerializerSettings> JsonSerializerSettings =
         new(() => ModHelper.Data.GetJsonSerializerSettings());
 
     #region module flags

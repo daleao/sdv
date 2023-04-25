@@ -6,7 +6,6 @@ using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
 using DaLion.Overhaul.Modules.Combat.VirtualProperties;
-using DaLion.Overhaul.Modules.Enchantments.VirtualProperties;
 using DaLion.Shared.Extensions.Reflection;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
@@ -121,6 +120,38 @@ internal sealed class GameLocationDamageMonsterPatcher : HarmonyPatcher
         catch (Exception ex)
         {
             Log.E($"Failed recording crit flag.\nHelper returned {ex}");
+            return null;
+        }
+
+        try
+        {
+            helper
+                .Match(
+                    new[]
+                    {
+                        new CodeInstruction(OpCodes.Ldc_I4_0),
+                        new CodeInstruction(OpCodes.Stfld, typeof(Monster).RequireField(nameof(Monster.stunTime))),
+                    },
+                    ILHelper.SearchOption.First)
+                .Match(new[] { new CodeInstruction(OpCodes.Brfalse_S) }, ILHelper.SearchOption.Previous)
+                .GetOperand(out var label)
+                .Move(2)
+                .Insert(
+                    new[]
+                    {
+                        new CodeInstruction(OpCodes.Ldloc_2),
+                        new CodeInstruction(OpCodes.Ldfld, typeof(Monster).RequireField(nameof(Monster.stunTime))),
+                    })
+                .Move()
+                .Insert(
+                    new[] { new CodeInstruction(OpCodes.Add) })
+                .Move()
+                .Remove(4)
+                .SetLabels((Label)label);
+        }
+        catch (Exception ex)
+        {
+            Log.E($"Failed removing stun reset after hit.\nHelper returned {ex}");
             return null;
         }
 

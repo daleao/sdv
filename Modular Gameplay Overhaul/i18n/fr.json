@@ -233,6 +233,7 @@
   "dialogue.clint.blueprint.done": "Hé @. J'ai fini de traduire ce vieux plan.$0#$b#Désolé d'avoir pris si longtemps.$2#$b#Cela s'est avéré être une recette pour une arme fabriquée à partir de matériaux étranges.$0#$b#Celui qui l'a écrit était clairement un maître forgeron. Les techniques décrites ici sont tout à fait remarquables.$2#$b#J'aimerais vraiment essayer de faire ça, mais je ne sais pas où trouver ces matériaux.#$b#Quoi qu'il en soit, voici votre livre. Si vous tombez sur ce truc, ramenez-le ici et je vous fabriquerai cette arme gratuitement.",
   "dialogue.gil.virtues": "Un véritable aventurier devrait vivre selon les Cinq Vertus Héroïques : Honneur, Compassion, Sagesse, Générosité et Vaillance. Ceux qui le font sont considérés comme des héros aux yeux de Yoba, tenus de toujours revenir sains et saufs de leurs aventures.#$b#C'est du moins ce que disait ma maman.",
   "dialogue.wizard.curse.canthelp": "Je suis désolé, @. Je crains que même l'arcane ne peut plus vous aider maintenant.#$b#Votre seul espoir est de rechercher le divin.",
+  "dialogue.wizard.curse.toldya": "Cette énergie malveillante se renforce. Il semble que vous ayez décidé d'ignorer mon avertissement. Il vaut mieux être prêt à faire face aux conséquences de cette décision.",
 
   "events.forge.intro": "distantBanjo/3 15/farmer 5 19 0 Clint 3 13 2/pause 1000/speak Clint \"Ah, salut @.$1\"/move farmer 0 -4 3/move farmer -2 0 0/pause 500/speak Clint \"Quoi de neuf, t'as un outil pour que je me mette à niveau ?\"/pause 500/speak Clint \"Qu'est-ce que c'est, un vieux plan ?\"/pause 1000/speak Clint \"J'adorerais t'aider, @, mais je ne comprends aucun de ces gribouillis...$2\"/pause 1000/speak Clint \"T'as dis quoi? T'as le guide de traduction pour cela ?$0#$b#Mais ça va prendre des jours à déchiffrer...$2\"/pause 500/speak Clint \"Enfin, d'accord. Je vais commencer ce soir. Reviens me voir dans quelques jours.\"/pause 500/addQuest 144701/end",
   "events.curse.intro": "WizardSong/-1000 -1000/farmer 8 24 0 Wizard 10 15 2/showFrame Wizard 20/viewport 8 18 true/move farmer 0 -3 0/pause 2000/speak Wizard \"@, c'est bien que tu sois venu.\"/pause 300/showFrame Wizard 16/pause 500/speak Wizard \"J'ai ressenti une perturbation dans l'arcane, mais je ne savais pas ce que c'était jusqu'à ce que tu entres.\"/pause 500/showFrame Wizard 0/pause 500/move Wizard -2 0 3/move Wizard 0 3 2/pause 1000/speak Wizard \"Cette étrange épée...\"/move Wizard 0 1 2/pause 300/speak Wizard \"Dis-moi, comment as-tu fait pour l'obtenir ?\"/pause 1500/speak Wizard \"Je vois.\"/pause 500/move Wizard 0 -1 0/speak Wizard \"La quantité d'énergie malveillante qui en émane ne peut signifier qu'une chose.\"/pause 500/faceDirection Wizard 2 true/pause 500/speak Wizard \"Ce doit être l'épée du Héros Ruiné.$1\"/pause 1000/move Wizard 0 1 2/pause 200/speak Wizard \"L'histoire raconte que le héros Viego brandissait autrefois une magnifique lame dorée, offerte par Yoba lui-même.\"/pause 200/showFrame Wizard 18/pause 200/speak Wizard \"Mais lorsque sa femme bien-aimée a péri, Viego est devenu fou et consumé par le chagrin.\"/pause 500/showFrame Wizard 0/pause 500/move Wizard -2 0 3/pause 200/speak Wizard \"Il se tourna vers la sorcellerie, obsédé par la pensée de la ressusciter.#$b#Bien qu'à grands frais, il a finalement réussi.\"/pause 200/move Wizard 2 0 1/pause 200/speak Wizard \"Pendant un bref instant, le corps de sa femme a surgi d'un horrible spectre d'ombre et de rage.#$b#Confuse d'avoir été arrachée à la mort, elle a pris la propre lame de Viego et l'a enfoncée dans son cœur.\"/faceDirection Wizard 2 true/speak Wizard \"Et à ce moment, la sombre sorcellerie de Viego et le pouvoir sacré de Yoba se sont affrontés, une brume noire s'est déversée du cœur de Viego, et il est devenu le Héros Ruiné, piégé dans la non-mort.\"/move Wizard 0 -1 0/speak Wizard \"Moi-même, je ne croyais pas aux histoires. Mais si la lame est réelle, alors peut-être que Viego lui-même est toujours là-bas, à sa recherche.\"/pause 1500/move Wizard 0 2 2/speak Wizard \"Cette épée finira par vous consumer, @, tout comme Viego.#$b#Il est impératif que tu t'en débarrasses. Et quoi que tu fasses, ne l'utilise pas.\"/pause 500/addQuest 144703/end",
@@ -312,13 +313,17 @@
   // * ENCHANTMENTS * //
   // **************** //
 
+  "enchantments.artful.name": "Habile",
+  "enchantments.artful.parry": "Chance Crit. +100%",
   "enchantments.carving.name": "Découpant",
   "enchantments.cleaving.name": "Fendant",
   "enchantments.energized.name": "Energisant",
+  "enchantments.energized.desc": "Énergie accumulée: {{counter}}",
   "enchantments.explosive.name": "Explosif",
-  "enchantments.mammonite.name": "Mammonite",
-  "enchantments.bloodthirsty.name": "Sanguinaire",
+  "enchantments.explosive.desc": "Rayon de l'explosion: {{counter}}",
   "enchantments.steadfast.name": "Tenace",
+  "enchantments.bloodthirsty.name": "Sanguinaire",
+  "enchantments.mammonite.name": "Mammonite",
   "enchantments.wabbajack.name": "Babbejacques",
   "enchantments.magnum.name": "Magnum",
   "enchantments.gatling.name": "Mitraillant",

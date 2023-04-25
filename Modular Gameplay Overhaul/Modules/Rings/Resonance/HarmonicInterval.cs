@@ -6,7 +6,7 @@ namespace DaLion.Overhaul.Modules.Rings.Resonance;
 /// <summary>The number of steps between two <see cref="Gemstone"/>s in a <see cref="DiatonicScale"/>.</summary>
 public enum IntervalNumber
 {
-    /// <summary>Zero. Essentially the same <see cref="Gemstone"/>.</summary>
+    /// <summary>Zero. Both <see cref="IGemstone"/>s are identical.</summary>
     Unison,
 
     /// <summary>The second <see cref="Gemstone"/> in the <see cref="DiatonicScale"/>.</summary>
@@ -27,7 +27,7 @@ public enum IntervalNumber
     /// <summary>The seventh <see cref="Gemstone"/> in the <see cref="DiatonicScale"/>.</summary>
     Seventh,
 
-    /// <summary>A full scale. Essentially the same <see cref="Gemstone"/>.</summary>
+    /// <summary>A full scale. Effectively the same as <see cref="Unison"/>.</summary>
     Octave,
 }
 

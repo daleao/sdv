@@ -41,6 +41,16 @@ public class BlessedEnchantment : BaseWeaponEnchantment
     }
 
     /// <inheritdoc />
+    protected override void _OnEquip(Farmer who)
+    {
+        base._OnEquip(who);
+        if (!who.mailReceived.Contains("gotHolyBlade"))
+        {
+            who.mailReceived.Add("gotHolyBlade");
+        }
+    }
+
+    /// <inheritdoc />
     protected override void _OnSwing(MeleeWeapon weapon, Farmer farmer)
     {
         base._OnSwing(weapon, farmer);

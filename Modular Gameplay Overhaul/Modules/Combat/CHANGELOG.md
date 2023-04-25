@@ -1,5 +1,15 @@
 ﻿# Combat Change Log
 
+## 2.2.2
+
+### Added
+
+* Status conditions live here now, as they should.
+
+### Changed
+
+* Frozen status damage bonus increased to x3.
+
 ## 2.2.0
 
 ### Added

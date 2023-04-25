@@ -40,7 +40,7 @@ internal sealed class LevelUpMenuAddProfessionDescriptionsPatcher : HarmonyPatch
 
             var currentLevel = profession.Skill.CurrentLevel;
             var prestiged = Game1.player.HasProfession(profession, true) ||
-                            Game1.activeClickableMenu is LevelUpMenu && currentLevel > 10;
+                            (Game1.activeClickableMenu is LevelUpMenu && currentLevel > 10);
             descriptions.AddRange(profession.GetDescription(prestiged).Split('\n'));
 
             return false; // don't run original logic

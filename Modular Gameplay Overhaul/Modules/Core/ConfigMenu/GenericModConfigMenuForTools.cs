@@ -444,11 +444,10 @@ internal sealed partial class GenericModConfigMenu
                 0.2f)
             .AddHorizontalRule()
 
-            .AddSectionTitle(() => "Area Of Effect Settings")
+            .AddSectionTitle(() => "Affected Tile Settings")
             .AddCheckbox(
-                () => "Override Affected Tiles",
-                () =>
-                    "Whether to apply custom tile area for the Hoe. Keep this at false if using defaults to improve performance.",
+                () => "Enable Affected Tile Overrides",
+                () => "This must be enabled for the overrides below to take effect. Disabled by default to improve performance.",
                 config => config.Tools.Hoe.OverrideAffectedTiles,
                 (config, value) => config.Tools.Hoe.OverrideAffectedTiles = value)
             .AddNumberField(
@@ -599,11 +598,10 @@ internal sealed partial class GenericModConfigMenu
                 0.2f)
             .AddHorizontalRule()
 
-            .AddSectionTitle(() => "Area Of Effect Settings")
+            .AddSectionTitle(() => "Affected Tile Settings")
             .AddCheckbox(
-                () => "Override Affected Tiles",
-                () =>
-                    "Whether to apply custom tile area for the Watering Can. Keep this at false if using defaults to improve performance.",
+                () => "Enable Affected Tile Overrides",
+                () => "This must be enabled for the overrides below to take effect. Disabled by default to improve performance.",
                 config => config.Tools.Can.OverrideAffectedTiles,
                 (config, value) => config.Tools.Can.OverrideAffectedTiles = value)
             .AddNumberField(
@@ -751,17 +749,17 @@ internal sealed partial class GenericModConfigMenu
             .AddPage(OverhaulModule.Tools.Namespace + "/Scythe", () => "Scythe Settings")
             .AddPageLink(OverhaulModule.Tools.Namespace, () => "Back to Tool settings")
             .AddVerticalSpace()
-            .AddSectionTitle(() => "Area Of Effect Settings")
+            .AddSectionTitle(() => "Affected Tile Settings")
             .AddNumberField(
                 () => "Regular Scythe Radius",
-                () => "Sets the area of effect of the regular Scythe.",
+                () => "Sets the affected tile radius of the regular Scythe.",
                 config => (int)config.Tools.Scythe.RegularRadius,
                 (config, value) => config.Tools.Scythe.RegularRadius = (uint)value,
                 0,
                 10)
             .AddNumberField(
                 () => "Golden Scythe Radius",
-                () => "Sets the area of effect of the Golden Scythe.",
+                () => "Sets the affected tile radius of the Golden Scythe.",
                 config => (int)config.Tools.Scythe.GoldRadius,
                 (config, value) => config.Tools.Scythe.GoldRadius = (uint)value,
                 0,

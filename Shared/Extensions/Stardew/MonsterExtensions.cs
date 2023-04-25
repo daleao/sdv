@@ -38,4 +38,59 @@ internal static class MonsterExtensions
         player ??= Game1.player;
         return monster.DistanceTo(player) <= monster.moveTowardPlayerThreshold.Value;
     }
+
+    /// <summary>Causes the <paramref name="monster"/> to die, triggering item drops and quest completion checks as appropriate.</summary>
+    /// <param name="monster">The poor <see cref="Monster"/>.</param>
+    /// <param name="killer">The murderous <see cref="Farmer"/>.</param>
+    internal static void Die(this Monster monster, Farmer killer)
+    {
+        monster.deathAnimation();
+        var location = monster.currentLocation;
+        if (location == Game1.player.currentLocation && !location.IsFarm)
+        {
+            Game1.player.checkForQuestComplete(null, 1, 1, null, monster.Name, 4);
+            var specialOrders = Game1.player.team.specialOrders;
+            if (specialOrders is not null)
+            {
+                for (var i = 0; i < specialOrders.Count; i++)
+                {
+                    specialOrders[i].onMonsterSlain?.Invoke(Game1.player, monster);
+                }
+            }
+        }
+
+        for (var i = 0; i < killer.enchantments.Count; i++)
+        {
+            killer.enchantments[i].OnMonsterSlay(monster, location, killer);
+        }
+
+        killer.leftRing.Value?.onMonsterSlay(monster, location, killer);
+        killer.rightRing.Value?.onMonsterSlay(monster, location, killer);
+        if (!location.IsFarm && (monster is not GreenSlime slime || slime.firstGeneration.Value))
+        {
+            if (killer.IsLocalPlayer)
+            {
+                Game1.stats.monsterKilled(monster.Name);
+            }
+            else if (Game1.IsMasterGame)
+            {
+                killer.queueMessage(25, Game1.player, monster.Name);
+            }
+        }
+
+        var monsterBox = monster.GetBoundingBox();
+        location.monsterDrop(monster, monsterBox.Center.X, monsterBox.Center.Y, killer);
+        if (!location.IsFarm)
+        {
+            killer.gainExperience(4, monster.ExperienceGained);
+        }
+
+        if (monster.isHardModeMonster.Value)
+        {
+            Game1.stats.incrementStat("hardModeMonstersKilled", 1);
+        }
+
+        location.characters.Remove(monster);
+        Game1.stats.MonstersKilled++;
+    }
 }

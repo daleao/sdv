@@ -6,7 +6,6 @@ using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
 using DaLion.Overhaul.Modules.Combat.Extensions;
-using DaLion.Overhaul.Modules.Core.Extensions;
 using DaLion.Overhaul.Modules.Rings.Events;
 using DaLion.Shared.Extensions.Reflection;
 using DaLion.Shared.Harmony;
@@ -144,7 +143,7 @@ internal sealed class FarmerTakeDamagePatcher : HarmonyPatcher
 
     private static void TryBleed(Farmer who, Monster monster)
     {
-        if (RingsModule.Config.RebalancedRings && Game1.random.NextDouble() < 0.25)
+        if (RingsModule.Config.RebalancedRings && CombatModule.ShouldEnable && Game1.random.NextDouble() < 0.25)
         {
             monster.Bleed(who);
         }

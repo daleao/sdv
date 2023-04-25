@@ -37,8 +37,8 @@ public abstract class ModIntegration<TIntegration> : IModIntegration
         if (!string.IsNullOrEmpty(minVersion) && manifest.Version.IsOlderThan(minVersion))
         {
             Log.W(
-                $"Integration for {name} will not be initialized because the installed version is older than the minimum version required." +
-                $"\n\tInstalled version: {manifest.Version}\n\tMinimum version: {minVersion}");
+                $"Integration for {name} will not be initialized because the installed version is older than the minimum version required. Please update the mod to enable the integration." +
+                $"\n\tInstalled version: {manifest.Version}\n\tRequired version: {minVersion}");
             return;
         }
 

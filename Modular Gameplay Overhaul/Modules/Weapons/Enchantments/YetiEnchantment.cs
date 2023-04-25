@@ -3,7 +3,7 @@
 #region using directives
 
 using System.Xml.Serialization;
-using DaLion.Overhaul.Modules.Core.Extensions;
+using DaLion.Overhaul.Modules.Combat.Extensions;
 using StardewValley.Monsters;
 
 #endregion using directives
@@ -42,7 +42,7 @@ public class YetiEnchantment : BaseWeaponEnchantment
     protected override void _OnDealDamage(Monster monster, GameLocation location, Farmer who, ref int amount)
     {
         base._OnDealDamage(monster, location, who, ref amount);
-        if (this._random.NextDouble() < 0.2)
+        if (CombatModule.ShouldEnable && this._random.NextDouble() < 0.2)
         {
             monster.Chill();
         }

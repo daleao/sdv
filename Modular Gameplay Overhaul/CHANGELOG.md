@@ -2,13 +2,19 @@
 
 This file contains a TL;DR of current version changes and hotfixes from across all modules. For the complete changelog, please refer to the individual changelogs of each module, linked [below](#detailed-change-logs).
 
+## Patch 2.2.2 Highlights
+
+* The new status conditions have been moved to their logical place in the CMBT module. So if that's not enabled, they won't work.
+* Fixes the issue causing players to receive the Blade of Ruin quest over again.
+* Frozen damage bonus increased to x3.
+
 ## Patch 2.2.1 Highlights
 
 * Hotfix for checksum validation not persisting until the next day.
 
 ## Minor Release 2.2.0 Highlights
 
-* Added status conditions that will be used by various modules. Each status condition has a neat correponding animation.
+* [CMBT]: Added status conditions that can be used by various modules. Each status condition has a neat correponding animation.
     - **Bleeding:** Causes damage every second. Damage increases exponentially with each additional stack. Stacks up to 5x. Does not affect Ghosts, Skeletons, Golems, Dolls or Mechanical enemies (ex. Dwarven Sentry).
     - **Burning:** Causes damage equal to 1/16th of max health every 3s for 15s, and reduces attack by half. Does not affect fire enemies (i.e., Lava Lurks, Magma Sprites and Magama Sparkers).
     - **Chilled:** Reduces movement speed by half for 5s. If Chilled is inflicted again during this time, then causes Freeze.
@@ -32,7 +38,7 @@ This file contains a TL;DR of current version changes and hotfixes from across a
     - **Slingshot**: Stunning smack becomes a stunning swipe (larger area, easier to hit).
 * [ENCH]: Auto-fire mode with Gatling enchantment is now activated by double-pressing and holding the tool button. The auto-fire speed has also been increased to match the [Desperado Limit Break](Modules/Professions/README.md#limit-breaks).
 * [ENCH]: Preserving enchantment now grants 100% chance to preserve (was 50%).
-* [ENCH]: Spreading enchantment now consumes an additional ammo, but spread projectiles now deal 100% damage.
+* [ENCH]: Spreading enchantment now consumes an additional ammo, but spread projectiles also deal 100% damage (up from 60%).
 * [RNGS]: Thorns Ring can now cause Bleed (with Rebalance option). Renamed to "Ring of Thorns", because it just sounds better.
 * [RNGS]: Ring of Yoba no longer grants invincibility; now grants a shield for 50% max health when your health drops below 30% (with Rebalance).
 * [RNGS]: Immunity Ring now grants 100% immunity, instead of vanilla 40% (with Rebalance).

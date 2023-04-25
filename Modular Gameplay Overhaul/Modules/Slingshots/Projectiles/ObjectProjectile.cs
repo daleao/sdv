@@ -2,7 +2,7 @@
 
 #region using directives
 
-using DaLion.Overhaul.Modules.Core.Extensions;
+using DaLion.Overhaul.Modules.Combat.Extensions;
 using DaLion.Overhaul.Modules.Professions.Extensions;
 using DaLion.Overhaul.Modules.Professions.Ultimates;
 using DaLion.Overhaul.Modules.Professions.VirtualProperties;
@@ -175,7 +175,7 @@ internal sealed class ObjectProjectile : BasicProjectile
                 return;
             }
 
-            if (monster.CanBeSlowed() && Game1.random.NextDouble() < 2d / 3d)
+            if (monster.CanBeSlowed() && CombatModule.ShouldEnable && Game1.random.NextDouble() < 2d / 3d)
             {
                 // do debuff
                 monster.Slow(5123 + (Game1.random.Next(-2, 3) * 456), 1d / 3d);

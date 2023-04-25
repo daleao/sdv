@@ -3,7 +3,7 @@
 #region using directives
 
 using System.Collections.Generic;
-using DaLion.Overhaul.Modules.Core;
+using DaLion.Overhaul.Modules.Core.UI;
 using DaLion.Overhaul.Modules.Core.Events;
 using DaLion.Shared.Events;
 using DaLion.Shared.Extensions;

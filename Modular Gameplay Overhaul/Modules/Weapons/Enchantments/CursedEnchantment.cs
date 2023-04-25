@@ -42,6 +42,11 @@ public class CursedEnchantment : BaseWeaponEnchantment
     protected override void _OnEquip(Farmer who)
     {
         base._OnEquip(who);
+        if (!who.mailReceived.Contains("gotDarkSword"))
+        {
+            who.mailReceived.Add("gotDarkSword");
+        }
+
         EventManager.Enable<CurseUpdateTickedEvent>();
     }
 

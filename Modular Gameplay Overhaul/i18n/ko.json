@@ -231,6 +231,7 @@
   "dialogue.clint.blueprint.done": "안녕 @. 그 오래된 설계도 해독이 끝났어.$0#$b#너무 오래 걸렸지, 미안해.$2#$b#그건 낯선 재료들로 만드는 무기 설계도였어.$0#$b#누가 작성했는지는 몰라도 엄청난 실력의 대장장이였을 거야. 여기 적힌 기법들은 정말 대단해.$2#$b#당장이라도 이 설계도대로 만들어보고 싶지만, 재료를 어디서 구해야 할지 모르겠어.#$b#아무튼, 네 책은 돌려줄게. 혹시라도 이 재료들을 발견한다면 나에게 가져다 줘. 그러면 무기는 공짜로 만들어 줄게.",
   "dialogue.gil.virtues": "진정한 모험가는 영웅의 다섯 가지 미덕에 따라 살아야 한다. 명예, 연민, 관대함, 용맹함, 그리고 지혜지. 그래야만 요바께서 말씀하시는 영웅이 될 수 있다.#$b#적어도 우리 어머니는 그렇게 말씀하셨어.",
   "dialogue.wizard.curse.canthelp": "미안해, @. 이제는 아케인조차도 너를 도울 수 없을 것 같아.#$b#유일한 희망은 더 강한 힘에 기대는 거야.",
+  "dialogue.wizard.curse.toldya": "그 사악한 에너지가 점점 강해지고 있습니다. 내 경고를 무시하기로 결정한 것 같습니다. 그 결정의 결과에 직면할 준비를 하는 것이 가장 좋습니다.",
 
   "events.forge.intro": "distantBanjo/3 15/farmer 5 19 0 Clint 3 13 2/pause 1000/speak Clint \"오, 안녕 @.$1\"/move farmer 0 -4 3/move farmer -2 0 0/pause 500/speak Clint \"무슨 일이야, 업그레이드할 도구라도 있어?\"/pause 500/speak Clint \"이건 뭐지, 오래된 설게도?\"/pause 1000/speak Clint \"흠... 나도 정말 도와주고 싶어, @, 하지만 뭐라고 쓰여있는지 전혀 모르겠어...$2\"/pause 1000/speak Clint \"그건 뭐야? 번역서를 가지고 있다고?$0#$b#하지만 해독하는 데는 며칠은 족히 걸릴 거야...$2\"/pause 500/speak Clint \"그래 좋아. 오늘 밤부터 당장 시작할게. 이틀 뒤에 다시 찾아와줘.\"/pause 500/addQuest 144701/end",
   "events.curse.intro": "WizardSong/-1000 -1000/farmer 8 24 0 Wizard 10 15 2/showFrame Wizard 20/viewport 8 18 true/move farmer 0 -3 0/pause 2000/speak Wizard \"@, 와 줘서 고맙네.\"/pause 300/showFrame Wizard 16/pause 500/speak Wizard \"무언가 소란스러움을 느꼈는데, 자네가 오기 전까지는 그게 뭔지 몰랐어.\"/pause 500/showFrame Wizard 0/pause 500/move Wizard -2 0 3/move Wizard 0 3 2/pause 1000/speak Wizard \"그 이상한 검...\"/move Wizard 0 1 2/pause 300/speak Wizard \"말해보게, 어디서 그 검을 얻었지?\"/pause 1500/speak Wizard \"그렇군.\"/pause 500/move Wizard 0 -1 0/speak Wizard \"그 검에서 흘러나오는 악의적인 에너지를 보면 가능성은 하나 뿐이네.\"/pause 500/faceDirection Wizard 2 true/pause 500/speak Wizard \"그 검은 분명 몰락한 영웅의 검일세.$1\"/pause 1000/move Wizard 0 1 2/pause 200/speak Wizard \"이야기는 영웅 비에고가 요바께서 직접 내려주신 황금 검을 휘두른 것에서 시작하네.\"/pause 200/showFrame Wizard 18/pause 200/speak Wizard \"사랑하는 그의 아내가 죽자, 그는 슬픔과 분노에 빠졌지.\"/pause 500/showFrame Wizard 0/pause 500/move Wizard -2 0 3/pause 200/speak Wizard \"그는 아내를 살리는 데에 집착한 나머지 마법사가 되었어.#$b#엄청난 대가를 치렀지만, 결국에는 성공했지.\"/pause 200/move Wizard 2 0 1/pause 200/speak Wizard \"잠시동안, 아내의 몸에서 무시무시한 그림자와 분노의 소용돌이가 일었어.#$b#죽음으로부터 벗어난 것에 혼란스러웠던 나머지, 그녀는 비에고의 칼을 뺏어서 그의 심장을 찔렀지.\"/faceDirection Wizard 2 true/speak Wizard \"그리고 그 순간, 비에고의 흑마법과 요바의 신성한 힘이 충돌해 그의 심장에서는 검은 안개가 흘러나왔고, 그는 죽지 않은 상태에 갇혀 몰락한 영웅이 되었어.\"/move Wizard 0 -1 0/speak Wizard \"나는 그 이야기를 믿지 않았었네. 하지만 만약 그 검이 진짜라면, 비에고는 아직도 어딘가에서 그 검을 찾아다니고 있을지 모르지.\"/pause 1500/move Wizard 0 2 2/speak Wizard \"그 검은 결국 자네를 집어삼킬거야, @.#$b#그 검을 없앨 방법을 찾아야만 하네. 그리고 명심하게, 무슨 일이 있어도 그 검을 사용해서는 안 돼.\"/pause 500/addQuest 144703/end",
@@ -309,13 +310,17 @@
   // * ENCHANTMENTS * //
   // **************** //
 
+  "enchantments.artful.name": "기술자",
+  "enchantments.artful.parry": "치명타 확률 +100%",
   "enchantments.carving.name": "방어구 파괴",
   "enchantments.cleaving.name": "휩쓸기",
   "enchantments.energized.name": "충전지",
+  "enchantments.energized.desc": "축적된 에너지: {{counter}}",
   "enchantments.explosive.name": "폭발물",
-  "enchantments.mammonite.name": "마모나이트 ",
-  "enchantments.bloodthirsty.name": "피바라기",
+  "enchantments.explosive.desc": "폭발 반경: {{counter}}",
   "enchantments.steadfast.name": "불변의",
+  "enchantments.bloodthirsty.name": "피바라기",
+  "enchantments.mammonite.name": "마모나이트 ",
   "enchantments.wabbajack.name": "와바잭",
   "enchantments.magnum.name": "매그넘",
   "enchantments.gatling.name": "기관총",

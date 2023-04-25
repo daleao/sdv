@@ -3,7 +3,6 @@
 #region using directives
 
 using System.Xml.Serialization;
-using DaLion.Overhaul.Modules.Core.Extensions;
 using DaLion.Shared.Extensions.Stardew;
 using StardewValley.Monsters;
 

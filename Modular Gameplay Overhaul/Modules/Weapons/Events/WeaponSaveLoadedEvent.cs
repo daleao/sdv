@@ -49,12 +49,6 @@ internal sealed class WeaponSaveLoadedEvent : SaveLoadedEvent
         }
 
         // infinity +1 checks
-        if (player.eventsSeen.Contains((int)Quest.CurseIntro) && !player.hasQuest((int)Quest.CurseIntro))
-        {
-            Log.W($"[WPNZ]: {player.Name} has seen the Dark Sword introduction event, but does not have the associated quest. The quest will be added immediately.");
-            player.addQuest((int)Quest.CurseIntro);
-        }
-
         if (player.hasQuest((int)Quest.CurseNext) && Virtue.AllProvenBy(player))
         {
             Log.W("[WPNZ]: Congratulations on proving all virtues! Go on to receive your Holy Blade.");

@@ -21,7 +21,7 @@ public interface ITreasureHunt
     /// <summary>Gets the target tile containing treasure.</summary>
     public Vector2? TreasureTile { get; }
 
-    /// <summary>Gets a value indicating whether whether the <see cref="TreasureTile"/> is set to a valid target.</summary>
+    /// <summary>Gets a value indicating whether the <see cref="TreasureTile"/> is set to a valid target.</summary>
     public bool IsActive { get; }
 
     /// <summary>Tries to start a new hunt at the specified <paramref name="location"/>.</summary>

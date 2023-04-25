@@ -233,6 +233,7 @@
   "dialogue.clint.blueprint.done": "Ei @. Eu acabei de traduzir aquele projeto antigo.$0#$b#Me desculpe por demorar tanto.$2#$b#Era uma receita para uma arma feita de alguns materiais estranhos.$0#$b#Quem escreveu era claramente um mestre ferreiro. As técnicas descritas aqui são bem notáveis.$2#$b#Eu adoraria tentar fazer isso, mas não tenho idéia de onde achar estes materiais.#$b#De qualquer forma, aqui está seu livro de volta. Se você encontrar alguma coisa dessas traga de volta e te farei aquela arma de graça.",
   "dialogue.gil.virtues": "Um aventureiro deve viver pelas cinco virtudes heróicas: Honra, Compaixão, Sabedoria, Generosidade e Valentia. Aqueles que o fazem são considerados heróis aos olhos de Yoba, e recebem sua benção para sempre retornarem com segurança de suas aventuras.#$b#Pelo menos é o que minha mãe costumava dizer.",
   "dialogue.wizard.curse.canthelp": "Me desculpe @. Receio que nem mesmo o arcano possa te ajudar agora.#$b#Sua única esperança é buscar o divino.",
+  "dialogue.wizard.curse.toldya": "A energia maliciosa está ficando mais forte. Parece que você decidiu ignorar meu aviso. Espero que esteja preparado para enfrentar as consequências dessa decisão.",
 
   "events.forge.intro": "distantBanjo/3 15/farmer 5 19 0 Clint 3 13 2/pause 1000/speak Clint \"Oh, ei @.$1\"/move farmer 0 -4 3/move farmer -2 0 0/pause 500/speak Clint \"Você tem uma ferramenta que precisa ser melhorada?\"/pause 500/speak Clint \"O que é isso, um porjeto antigo?\"/pause 1000/speak Clint \"Eu adoraria te ajudar, @, mas não consigo entender nada dessas inscrições...$2\"/pause 1000/speak Clint \"Como é? Você tem o guia de tradução para isso?$0#$b#Mas isso vai levar dias para decifrar...$2\"/pause 500/speak Clint \"Oh certo. Começarei a trabalhar nisso esta noite. Venha me ver de novo em alguns dias.\"/pause 500/addQuest 144701/end",
   "events.curse.intro": "WizardSong/-1000 -1000/farmer 8 24 0 Wizard 10 15 2/showFrame Wizard 20/viewport 8 18 true/move farmer 0 -3 0/pause 2000/speak Wizard \"@, Estou feliz por ter vindo.\"/pause 300/showFrame Wizard 16/pause 500/speak Wizard \"Estive sentindo uma perturbação no arcano, mas não sabia o que era até você entrar.\"/pause 500/showFrame Wizard 0/pause 500/move Wizard -2 0 3/move Wizard 0 3 2/pause 1000/speak Wizard \"Essa espada estranha...\"/move Wizard 0 1 2/pause 300/speak Wizard \"Conte-me, como você a obteve?\"/pause 1500/speak Wizard \"Entendo.\"/pause 500/move Wizard 0 -1 0/speak Wizard \"A quantidade de energia maliciosa emanando disso só pode significar uma coisa.\"/pause 500/faceDirection Wizard 2 true/pause 500/speak Wizard \"Essa deve ser a espada do Herói Arruinado.$1\"/pause 1000/move Wizard 0 1 2/pause 200/speak Wizard \"A história conta que o herói Viego empunhava uma magnífica lâmina dourada, dada a ele pelo próprio Yoba.\"/pause 200/showFrame Wizard 18/pause 200/speak Wizard \"Mas quando sua amada esposa faleceu, Viego enlouqueceu e foi consumido por mágoa.\"/pause 500/showFrame Wizard 0/pause 500/move Wizard -2 0 3/pause 200/speak Wizard \"Ele recorreu a feitiçaria, obcecado pelo pensamento de ressucitá-la.#$b#Mesmo que a grande custo, ele eventualmente conseguiu.\"/pause 200/move Wizard 2 0 1/pause 200/speak Wizard \"Por um breve momento, do corpo de sua esposa surgiu um espectro assustador de sombras e ódio.#$b#Confusa por ser tirada da morte, ela tomou a espada do próprio Viego e perfurou seu coração.\"/faceDirection Wizard 2 true/speak Wizard \"E naquele momento, a magia negra de Viego e o poder sagrado de Yoba colidiram, uma névoa escura derramou do coração de Viego, e ele se tornou o Herói Arruinado, preso como um morto-vivo.\"/move Wizard 0 -1 0/speak Wizard \"Eu mesmo não acreditava nas histórias. Mas se a espada é real, talvez Viego ainda esteja por aí, porcurando por ela.\"/pause 1500/move Wizard 0 2 2/speak Wizard \"Essa espada eventualmente vai te consumir, @, assim como fez com Viego.#$b#É indispensável que você se livre dela. E o que quer que faça, você não deve usá-la.\"/pause 500/addQuest 144703/end",
@@ -312,17 +313,21 @@
   // * ENCHANTMENTS * //
   // **************** //
 
+  "enchantments.artful.name": "Hábil",
+  "enchantments.artful.parry": "Chance de crítico +100%",
   "enchantments.carving.name": "Perfurante",
   "enchantments.cleaving.name": "Clivante",
   "enchantments.energized.name": "Energizado",
+  "enchantments.energized.desc": "Energia acumulada: {{counter}}",
   "enchantments.explosive.name": "Explosivo",
-  "enchantments.mammonite.name": "Mammonita",
-  "enchantments.bloodthirsty.name": "Sedento",
+  "enchantments.explosive.desc": "Raio de explosão: {{counter}}",
   "enchantments.steadfast.name": "Tenaz",
+  "enchantments.bloodthirsty.name": "Sedento",
+  "enchantments.mammonite.name": "Mammonita",
   "enchantments.wabbajack.name": "Babajaco",
   "enchantments.magnum.name": "Magnum",
   "enchantments.gatling.name": "Metralha",
-  "enchantments.preserving.name": "Preservante",
+  "enchantments.preserving.name": "Preservador",
   "enchantments.quincy.name": "Quincy",
   "enchantments.spreading.name": "Espingarda",
 

@@ -2,19 +2,8 @@
 
 #region using directives
 
-using System.Collections.Generic;
-using System.Reflection;
-using System.Reflection.Emit;
-using DaLion.Overhaul.Modules.Combat.Extensions;
-using DaLion.Overhaul.Modules.Core.Extensions;
-using DaLion.Overhaul.Modules.Rings.Events;
-using DaLion.Shared.Extensions.Reflection;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
-using Microsoft.Xna.Framework;
-using StardewValley.Menus;
-using StardewValley.Monsters;
-using StardewValley.Tools;
 
 #endregion using directives
 

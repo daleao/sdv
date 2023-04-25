@@ -2,9 +2,9 @@
 
 #region using directives
 
+using DaLion.Overhaul.Modules.Core.UI;
 using DaLion.Overhaul.Modules.Professions;
 using DaLion.Shared.Extensions.Stardew;
-using DaLion.Shared.UI;
 using StardewValley.Buildings;
 
 #endregion using directives

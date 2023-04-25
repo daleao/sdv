@@ -2,10 +2,10 @@
 
 #region using directives
 
+using DaLion.Overhaul.Modules.Core.UI;
 using DaLion.Overhaul.Modules.Professions.TreasureHunts;
 using DaLion.Overhaul.Modules.Professions.VirtualProperties;
 using DaLion.Shared.Events;
-using DaLion.Shared.UI;
 using Microsoft.Xna.Framework;
 using StardewModdingAPI.Events;
 

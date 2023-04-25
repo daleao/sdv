@@ -57,6 +57,21 @@ As with any mod, always **delete any previous installation completely** before u
 
 **The use of Vortex or other mod managers is not recommended for Stardew Valley.**
 
+## For C# Developers
+
+This mod offers an [API](./API/IModularOverhaulApi.cs) for C# developers wishing to add third-party compatibility.
+To use it, copy both files in the API folder over to your project, and change the namespace to something appropriate.
+Then [request SMAPI for a proxy](https://stardewvalleywiki.com/Modding:Modder_Guide/APIs/Integrations#using-an-api).
+
+Below are some usecases for the API:
+
+- **[PROFS]**: Checking the current value of dynamic perks associated with certain professions;
+- **[PROFS]**: Hooking custom logic into Scavenger and Prospector Treasure Hunts.
+- **[PROFS]**: Hooking custom logic to several stages of [Limit Breaks](./Modules/Professions/README.md#limit-breaks).
+- **[PROFS]**: Allowing SpaceCore skills to surpass level 10, and be [Prestiged](./Modules/Professions/README.md#prestige) at levels 15 and 20.
+- **[RNGS]**: Checking the [Resonances](./Modules/Rings/README.md#chords) currently active on any given player.
+- Checking the config settings of any given player (note that you must create your own interface for this).
+
 ## Credits & Special Thanks
 
 All hail our Lord and Savior [Pathoschild][user:pathoschild], creator of [SMAPI][url:smapi], Content Patcher and the mod-verse, as well as our Father, **ConcernedApe**, creator of Stardew Valley, a benevolent God who continues to support the game for both players and modders.    

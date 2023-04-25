@@ -41,11 +41,11 @@ internal sealed class NewSkillsPageCtorPatcher : HarmonyPatcher
             return;
         }
 
-        __instance.width += 48;
-        ___upButton.bounds.X += 48;
-        ___downButton.bounds.X += 48;
-        ___scrollBar.bounds.X += 48;
-        ___scrollBarRunner.X += 48;
+        __instance.width += 24;
+        ___upButton.bounds.X += 24;
+        ___downButton.bounds.X += 24;
+        ___scrollBar.bounds.X += 24;
+        ___scrollBarRunner.X += 24;
         if (ProfessionsModule.Config.ProgressionStyle == Config.PrestigeProgressionStyle.StackedStars)
         {
             __instance.width += 24;

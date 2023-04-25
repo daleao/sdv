@@ -13,7 +13,7 @@ public interface ITreasureHuntStartedEventArgs
     /// <summary>Gets the player who triggered the event.</summary>
     Farmer Player { get; }
 
-    /// <summary>Gets determines whether this event relates to a Scavenger or Prospector hunt.</summary>
+    /// <summary>Gets whether this event relates to a Scavenger or Prospector hunt.</summary>
     TreasureHuntType Type { get; }
 
     /// <summary>Gets the coordinates of the target tile.</summary>

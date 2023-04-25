@@ -88,6 +88,10 @@ public sealed class Config : Shared.Configs.Config
     [JsonProperty]
     public int IridiumBarsPerGalaxyWeapon { get; internal set; } = 10;
 
+    /// <summary>Gets a factor that can be used to reduce the Ruined Blade's curse effect.</summary>
+    [JsonProperty]
+    public float RuinBladeCurseHandicap { get; internal set; } = 1f;
+
     /// <summary>Gets a value indicating whether defense should improve parry damage.</summary>
     [JsonProperty]
     public bool DefenseImprovesParry { get; internal set; } = true;

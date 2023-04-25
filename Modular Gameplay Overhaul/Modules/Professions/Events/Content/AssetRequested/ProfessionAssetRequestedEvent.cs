@@ -40,6 +40,9 @@ internal sealed class ProfessionAssetRequestedEvent : AssetRequestedEvent
             $"{Manifest.UniqueID}/MaxIcon",
             new ModTextureProvider(() => "assets/menus/max.png"));
         this.Provide(
+            $"{Manifest.UniqueID}/PrestigeProgression",
+            new ModTextureProvider(() => $"assets/sprites/{ProfessionsModule.Config.ProgressionStyle}.png"));
+        this.Provide(
             $"{Manifest.UniqueID}/SkillBars",
             new ModTextureProvider(ProvideSkillBars));
         this.Provide(

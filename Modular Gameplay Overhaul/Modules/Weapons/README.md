@@ -56,7 +56,7 @@ To improve the defensive parry move, parry damage is increased by 10% for every 
 Weapon stats have been rebalanced across the board:
 
  - **Clubs** are your general unreliable, imprecise and sluggish, but huge-damage-potential, heavy and larger-hit-box weapons.
- - **Daggers** are the opposite of clubs, being the quick, precise, but short-range and generally-lower-damage potential weapons.
+ - **Daggers** are the opposite of clubs, being the quick, precise, but short-range and generally-lower-damage potential weapons. **Can cause Bleeding** (requires [CMBT](../Combat/README.md#status-conditions) module).
  - **Offensive Swords** are somewhere in the middle, with average damage, speed and precision.
  - **Defensive Swords** are marginally weaker and slower than their offensive counterpart, but are otherwise heavier, sturdier and wider. They are somewhere in-between Offensive Swords and Clubs. 
 
@@ -70,22 +70,43 @@ Weapons are categorized by different tiers, [color-coded for your convenience][t
 ![shield:masterwork]
 ![shield:legendary]
 
-Weapons below the Mythic tier have randomized damage, determined the moment they are dropped and scaled to your mine progression. This way, players can always loot stronger weapons, and no specific weapon is ever trivialized. Higher-tier weapons will generally be stronger than lower-tiered ones, although that may not always be the case.
+Weapons below the Mythic tier all have randomized damage, determined the moment they are dropped and scaled to your Mine progression. This way, players can always loot stronger weapons; all weapons can be useful, and no specific weapon is ever trivialized. Higher-tier weapons will generally be stronger than lower-tiered ones, although that may not always be the case.
 
-Mythic weapons are unique or extremely rare. They are usually quest rewards or very rare monster drops, and tend to carry intrinsic special abilities, but cannot receive additional Prismatic Shard enchantments at the forge.
+#### Mythic Tier
+
+Mythic weapons are unique or extremely rare. They are usually quest rewards or very rare monster drops, and tend to carry intrinsic special abilities. In exchange, they cannot receive additional Prismatic Shard enchantments at the forge.
+
+The known Mythic weapons are:
+- **Yeti Tooth**: Can cause Chilled effect.
+- **Neptune Glaive**: *No effect, yet...*
+- **Obsidian Edge**: Ignores enemy resistances. Can cause Bleeding.
+- **Lava Katana**: Can cause Burning.
+- **Insect Head**: Damage scales with the number of slain insects.
+- **Iridium Needle**: Always crits.
+
+Note that all status conditions require that the [CMBT](../Combat/README.md#status-conditions) module be enabled.
+
+#### Masterwork Tier
 
 Masterwork weapons are relics of the Dwarven race, crafted from special materials. They can only be created by uncovering the lost Dwarvish Blueprints, and taking them to a skilled blacksmith along with the corresponding material:
 - **Elven** weapons, carved out of **Elderwood** obtained from [Scavenger Hunts](../Professions), are quick, nimble weapons enchanted with forest magic which grants them high reach and knockback.
 - **Dwarven** weapons, forged from **Dwarven Scraps** obtained from Volcano chests, are large, bulky weapons. They grant high defense and knockback, but reduce speed.
 - **Dragonbone** weapons, forged from **Dragon Teeth** obtained from Volcano chests and near dragon skeletons, are light and sharp, granting the highest raw damage out of any weapon in the game.
 
-The legendary Galaxy and Infinity weapons are explained in the next section, but will require [considerable work to obtain](#infinity-1).
+Masterwork weapons can only be obtained if the Dwarven Legacy setting is enabled.
+
+#### Legendary Tier
+
+See [Infinity+1](#infinity-1).
+
+#### Mines Changes
 
 If this option is enabled, all weapons will be removed from Mine chests (replaced with valuable but random loot). New weapons will have to be dropped from monsters or breakable containers in Mines and other dungeons. Monster-dropped weapons are rare, but tend to be stronger. Lower-tier weapons can also be purchased directly from Marlon, but will have fixed and significantly weaker stats when obtained this way.
 
-Weapon tooltips have also been improved for clarity, so you should always know exactly what each stat means.
+#### Tooltips
 
-**Only Vanilla weapons are affected by these features. If playing with expansion mods which add new weapons (e.g., Ridgeside Village), those weapons will remain unchanged and unbalanced. I strongly recommend ignoring these weapons, or even *deleting* them manually from the mod's files.**
+Weapon tooltips have also been improved for clarity, so you should always know exactly what each stat means.
+This is the only part of the whole Rebalance that will affect non-Vanilla weapons. Therefore, if you play with expansion mods which add new weapons (e.g., Ridgeside Village), you may see unusually large numbers in their tooltips. **This is not a bug**. Those weapons have not been changed in any way. This mod is simply revealing how broken those weapons have always been. For this reason, I **strongly** recommend ignoring these weapons, or even *deleting* them manually from the mod's files.**
 
 ### Infinity +1
 

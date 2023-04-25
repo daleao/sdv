@@ -233,6 +233,7 @@
   "dialogue.clint.blueprint.done": "やあ @。 あの古びた設計図の解読が終わったんだ。$0#$b#こんなにも長くかかってすまん。$2#$b#これは奇妙な素材で作られた武器のレシピだったんだ。$0#$b#これを書いた人は明らかに鍛冶の達人だ。 ここに書いてある技術はかなり高度なものなんだ。$2#$b#実際に作ってみたいんだが、素材がどこで手に入るのか見当も付かない。#$b#とにかく、あんたの本は返すよ。 もし素材に出くわしたら、ここに持ってきてくれ。タダでその武器を作ってあげるよ。",
   "dialogue.gil.virtues": "真の冒険者は、5つの英雄的な美徳: 誇り、慈悲、知恵、寛大さ、そして 勇気に従って生きるべきだ。 そのような者はヨバ神の目に英雄として映り、必ず冒険から無事に帰ってくることが約束される。#$b#少なくとも、わしの母はそう言っていたよ。",
   "dialogue.wizard.curse.canthelp": "すまない、 @。 残念ながら、我が魔術を持ってしても今の貴殿を助けることはできんのだ。#$b#貴殿の唯一の希望は、神を探すことだけだろう。",
+  "dialogue.wizard.curse.toldya": "その悪意のエネルギーはますます強くなっています。 私の警告を無視することに決めたようですね。 その決定の結果に直面する準備をするのが最善です。",
 
   "events.forge.intro": "distantBanjo/3 15/farmer 5 19 0 Clint 3 13 2/pause 1000/speak Clint \"お、よう @。$1\"/move farmer 0 -4 3/move farmer -2 0 0/pause 500/speak Clint \"どうした、アップグレードが必要などうぐでも持ってるのか?\"/pause 500/speak Clint \"何だこれ、古い設計図か?\"/pause 500/textAboveHead Clint \"うーん...\"/pause 1200/speak Clint \"ぜひ協力させてくれ、 @、 でもおれにはこんな走り書きを理解することはできない...$2\"/pause 1000/speak Clint \"これは? この文字の翻訳ガイドを持ってるってことか?$0#$b#だけど、解読には何日もかかるぞ...$2\"/pause 200/emote Clint 28 true/pause 1500/speak Clint \"ああ、わかった。 今晩から取りかかるとするよ。 数日後にまた会いに来てくれ。\"/pause 500/addQuest 144701/end",
   "events.curse.intro": "WizardSong/-1000 -1000/farmer 8 24 0 Wizard 10 15 2/showFrame Wizard 20/viewport 8 18 true/move farmer 0 -3 0/pause 2000/speak Wizard \"@、 来てくれて嬉しいぞ。\"/pause 300/showFrame Wizard 16/pause 500/speak Wizard \"魔力の乱れを感じていたが、貴殿が入ってくるまでそれが何なのか見当もつかなかった。\"/pause 500/showFrame Wizard 0/pause 500/move Wizard -2 0 3/move Wizard 0 3 2/pause 1000/speak Wizard \"その怪しげな剣...\"/move Wizard 0 1 2/pause 300/speak Wizard \"教えたまえ、どうやって手に入れた?\"/pause 500/emote farmer 40 true/pause 2000/speak Wizard \"なるほど。\"/pause 500/move Wizard 0 -1 0/speak Wizard \"その剣から発せられる邪悪なエネルギーの塊が意味するのはただ1つ。\"/pause 500/faceDirection Wizard 2 true/pause 500/speak Wizard \"それは破滅した英雄の剣に違いない。$1\"/pause 1000/move Wizard 0 1 2/pause 200/speak Wizard \"かつて、英雄ヴィエゴはヨバ神から授かった見事な黄金の剣を振るっていたという。\"/pause 200/showFrame Wizard 18/pause 200/speak Wizard \"しかし最愛の妻が亡くなり、ヴィエゴは怒り、狂い、悲しみに溺れた。\"/pause 500/showFrame Wizard 0/pause 500/move Wizard -2 0 3/pause 200/speak Wizard \"そして彼は妻を復活させることに取り憑かれ、闇の魔術に手を染めたのだ。#$b#多大な犠牲を払いながらも、彼は遂に成功させた。\"/pause 200/move Wizard 2 0 1/pause 200/speak Wizard \"その瞬間、妻の体は恐ろしい影と怒りの亡霊となって復活したのだ。#$b#死から引き剥がされたことに困惑しながらも、彼女はヴィエゴの剣を手に取り、彼の心臓を突き刺した。\"/faceDirection Wizard 2 true/speak Wizard \"そしてその瞬間、ヴィエゴの闇の魔術とヨバ神の聖なる力がぶつかり合い、ヴィエゴの心臓から黒霧が流れ出した。そうして彼は不死に囚われた「破滅の英雄」となったのだ。\"/move Wizard 0 -1 0/speak Wizard \"吾輩自身、その物語を信じてはいなかったが、その剣が本物ならば、未だヴィエゴがそれを探し求めているかもしれない。\"/pause 1500/move Wizard 0 2 2/speak Wizard \"その剣はいずれ貴殿をむしばむだろう、@、 ヴィエゴもそうだったように。#$b#それを取り払うことが急務なのだ。 そして何があっても、その剣を使ってはならぬぞ。\"/pause 500/addQuest 144703/end",
@@ -311,13 +312,17 @@
   // * ENCHANTMENTS * //
   // **************** //
 
+  "enchantments.artful.name": "技巧派",
+  "enchantments.artful.parry": "クリティカル率 +100%",
   "enchantments.carving.name": "削り取る",
   "enchantments.cleaving.name": "大切断",
   "enchantments.energized.name": "高エネルギー反応",
+  "enchantments.energized.desc": "蓄積されたエネルギー: {{counter}}",
   "enchantments.explosive.name": "爆発物",
-  "enchantments.mammonite.name": "マモナイト ",
-  "enchantments.bloodthirsty.name": "血の渇き",
+  "enchantments.explosive.desc": "爆発半径: {{counter}}",
   "enchantments.steadfast.name": "不動の",
+  "enchantments.bloodthirsty.name": "血の渇き",
+  "enchantments.mammonite.name": "マモナイト ",
   "enchantments.wabbajack.name": "ワバジャック",
   "enchantments.magnum.name": "マグナム",
   "enchantments.gatling.name": "ガトリング",

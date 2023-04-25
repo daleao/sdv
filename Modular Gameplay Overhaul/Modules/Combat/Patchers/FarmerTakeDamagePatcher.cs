@@ -9,6 +9,7 @@ using DaLion.Overhaul.Modules.Combat.Extensions;
 using DaLion.Shared.Extensions.Reflection;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
+using StardewValley.Monsters;
 
 #endregion using directives
 
@@ -19,9 +20,26 @@ internal sealed class FarmerTakeDamagePatcher : HarmonyPatcher
     internal FarmerTakeDamagePatcher()
     {
         this.Target = this.RequireMethod<Farmer>(nameof(Farmer.takeDamage));
+        this.Prefix!.priority = Priority.First;
     }
 
     #region harmony patches
+
+    /// <summary>Burn effect + reset seconds-out-of-combat.</summary>
+    [HarmonyPrefix]
+    [HarmonyPriority(Priority.First)]
+    private static void FarmerTakeDamagePrefix(Farmer __instance, ref int damage, Monster? damager)
+    {
+        if (damager is not null && damager.IsBurning())
+        {
+            damage /= 2;
+        }
+
+        if (__instance.IsLocalPlayer)
+        {
+            Globals.SecondsOutOfCombat = 0;
+        }
+    }
 
     /// <summary>Overhaul for farmer defense.</summary>
     [HarmonyTranspiler]

@@ -3,6 +3,7 @@
 #region using directives
 
 using System.Collections.Generic;
+using DaLion.Overhaul.Modules.Core.UI;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
 using Microsoft.Xna.Framework;

@@ -71,7 +71,6 @@ internal sealed class SwordBlessCommand : ConsoleCommand
             darkSword.RefreshStats();
             player.jitterStrength = 0f;
             Game1.screenGlowHold = false;
-            player.mailReceived.Add("gotHolyBlade");
             EventManager.Disable<CurseUpdateTickedEvent>();
         }
     }

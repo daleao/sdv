@@ -5,6 +5,7 @@
 using DaLion.Overhaul.Modules.Enchantments.Gemstone;
 using DaLion.Overhaul.Modules.Enchantments.Melee;
 using DaLion.Overhaul.Modules.Enchantments.Ranged;
+using DaLion.Overhaul.Modules.Weapons.Enchantments;
 using DaLion.Shared.Attributes;
 using DaLion.Shared.Integrations;
 using DaLion.Shared.Integrations.SpaceCore;

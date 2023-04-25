@@ -17,6 +17,11 @@ internal sealed partial class GenericModConfigMenu
             .AddPage(OverhaulModule.Combat.Namespace, () => "Combat Settings")
 
             .AddCheckbox(
+                () => "Enable Status Conditions",
+                () => "Whether to enable status conditions like Burn and Stun on enemies. These are used by other modules.",
+                config => config.Combat.EnableStatusConditions,
+                (config, value) => config.Combat.EnableStatusConditions = value)
+            .AddCheckbox(
                 () => "Overhauled Defense",
                 () => "Replaces the linear damage mitigation formula with an exponential formula for better scaling.",
                 config => config.Combat.OverhauledDefense,

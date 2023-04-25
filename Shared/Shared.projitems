@@ -162,11 +162,9 @@
     <Compile Include="$(MSBuildThisFileDirectory)Integrations\DynamicGameAssets\IDynamicGameAssetsApi.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Integrations\GenericModConfigMenu\GenericModConfigMenuIntegration.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Integrations\GenericModConfigMenu\IGenericModConfigMenuApi.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Integrations\ModularOverhaul\IModularOverhaul.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Integrations\JsonAssets\IJsonAssetsApi.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Integrations\LoveOfCooking\ICookingSkillApi.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Integrations\LuckSkill\ILuckSkillApi.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Integrations\ModularOverhaul\IModularOverhaulApi.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Integrations\SpaceCore\ISpaceCoreApi.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Integrations\TehsFishingOverhaul\ISimplifiedFishingApi.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Integrations\IModIntegration.cs" />
@@ -177,8 +175,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)MathConstants.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Caching\IntervalMemoryCache.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Reflection\Reflector.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)UI\HudPointer.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)UI\HudPointerUpdateTickedEvent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)VectorUtils.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Watchers\DisposableWatcher.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Watchers\ICollectionWatcher.cs" />

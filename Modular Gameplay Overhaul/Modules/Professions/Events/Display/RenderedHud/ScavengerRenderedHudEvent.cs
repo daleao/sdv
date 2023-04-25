@@ -2,9 +2,9 @@
 
 #region using directives
 
+using DaLion.Overhaul.Modules.Core.UI;
 using DaLion.Overhaul.Modules.Professions.Extensions;
 using DaLion.Shared.Events;
-using DaLion.Shared.UI;
 using Microsoft.Xna.Framework;
 using StardewModdingAPI.Events;
 using StardewValley.TerrainFeatures;

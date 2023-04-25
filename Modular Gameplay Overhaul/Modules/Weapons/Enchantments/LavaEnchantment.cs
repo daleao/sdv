@@ -3,8 +3,7 @@
 #region using directives
 
 using System.Xml.Serialization;
-using DaLion.Overhaul.Modules.Core.Extensions;
-using DaLion.Shared.Extensions;
+using DaLion.Overhaul.Modules.Combat.Extensions;
 using Microsoft.Xna.Framework;
 using StardewValley.Monsters;
 
@@ -44,24 +43,7 @@ public class LavaEnchantment : BaseWeaponEnchantment
     protected override void _OnDealDamage(Monster monster, GameLocation location, Farmer who, ref int amount)
     {
         base._OnDealDamage(monster, location, who, ref amount);
-        if (monster is Bug or Fly)
-        {
-            location.TemporarySprites.Add(new TemporaryAnimatedSprite(
-                30,
-                monster.GetBoundingBox().Center.ToVector2(),
-                Color.White,
-                4,
-                Game1.random.NextBool(),
-                50f,
-                2)
-            {
-                positionFollowsAttachedCharacter = true,
-                attachedCharacter = monster,
-                layerDepth = 999999f,
-            });
-            monster.Die(who);
-        }
-        else if (this._random.NextDouble() < 0.15)
+        if (CombatModule.ShouldEnable && this._random.NextDouble() < 0.2)
         {
             monster.Burn(who);
         }

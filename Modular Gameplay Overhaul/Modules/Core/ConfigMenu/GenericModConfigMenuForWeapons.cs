@@ -41,7 +41,7 @@ internal sealed partial class GenericModConfigMenu
                 })
             .AddDropdown(
                 () => "Tooltip Style",
-                () => "Whether to display weapon stats as absolute values or relative to the weapon types respective base stats.",
+                () => "Whether to display weapon stats as their absolute values or as relative to other weapons of the same type.",
                 config => config.Weapons.WeaponTooltipStyle.ToString(),
                 (config, value) => config.Weapons.WeaponTooltipStyle = Enum.Parse<Config.TooltipStyle>(value),
                 new[] { "Absolute", "Relative" },
