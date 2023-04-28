@@ -35,7 +35,7 @@ internal sealed class GameLocationAnswerDialogueActionPatcher : HarmonyPatcher
             return false; // don't run original logic
         }
 
-        if (!WeaponsModule.Config.InfinityPlusOne && !WeaponsModule.Config.DwarvishLegacy)
+        if (!WeaponsModule.Config.InfinityPlusOne && !WeaponsModule.Config.DwarvenLegacy)
         {
             return true; // run original logic
         }
@@ -76,42 +76,43 @@ internal sealed class GameLocationAnswerDialogueActionPatcher : HarmonyPatcher
                         {
                             case "Honor":
                                 Game1.drawObjectDialogue(Virtue.Honor.FlavorText);
-                                player.Write(DataKeys.HasReadHonor, true.ToString());
+                                player.Write(DataKeys.InspectedHonor, true.ToString());
                                 break;
                             case "Compassion":
                                 Game1.drawObjectDialogue(Virtue.Compassion.FlavorText);
-                                player.Write(DataKeys.HasReadCompassion, true.ToString());
+                                player.Write(DataKeys.InspectedCompassion, true.ToString());
                                 break;
                             case "Wisdom":
                                 Game1.drawObjectDialogue(Virtue.Wisdom.FlavorText);
-                                player.Write(DataKeys.HasReadWisdom, true.ToString());
+                                player.Write(DataKeys.InspectedWisdom, true.ToString());
                                 break;
                             case "Generosity":
                                 Game1.drawObjectDialogue(Virtue.Generosity.FlavorText);
-                                player.Write(DataKeys.HasReadGenerosity, true.ToString());
+                                player.Write(DataKeys.InspectedGenerosity, true.ToString());
                                 break;
                             case "Valor":
                                 Game1.drawObjectDialogue(Virtue.Valor.FlavorText);
-                                player.Write(DataKeys.HasReadValor, true.ToString());
+                                player.Write(DataKeys.InspectedValor, true.ToString());
                                 break;
                         }
 
-                        if (!player.Read<bool>(DataKeys.HasReadHonor) ||
-                            !player.Read<bool>(DataKeys.HasReadCompassion) ||
-                            !player.Read<bool>(DataKeys.HasReadWisdom) ||
-                            !player.Read<bool>(DataKeys.HasReadGenerosity) ||
-                            !player.Read<bool>(DataKeys.HasReadValor))
+                        if (!player.Read<bool>(DataKeys.InspectedHonor) ||
+                            !player.Read<bool>(DataKeys.InspectedCompassion) ||
+                            !player.Read<bool>(DataKeys.InspectedWisdom) ||
+                            !player.Read<bool>(DataKeys.InspectedGenerosity) ||
+                            !player.Read<bool>(DataKeys.InspectedValor))
                         {
                             return false; // don't run original logic
                         }
 
-                        player.addQuest(Virtue.Honor);
-                        player.addQuest(Virtue.Compassion);
-                        player.addQuest(Virtue.Wisdom);
-                        player.addQuest(Virtue.Generosity);
-                        player.addQuest(Virtue.Valor);
                         player.completeQuest((int)Quest.CurseIntro);
-                        Virtue.List.ForEach(virtue => virtue.CheckForCompletion(Game1.player));
+                        WeaponsModule.State.Quest ??= new VirtuesQuest();
+
+                        player.Write(DataKeys.InspectedHonor, null);
+                        player.Write(DataKeys.InspectedCompassion, null);
+                        player.Write(DataKeys.InspectedWisdom, null);
+                        player.Write(DataKeys.InspectedGenerosity, null);
+                        player.Write(DataKeys.InspectedValor, null);
                         return false; // don't run original logic
                     }
             }

@@ -42,7 +42,7 @@ internal sealed class UltimateHud
     /// <summary>Gets a value indicating whether determines whether the gauge is being drawn.</summary>
     internal bool IsVisible => EventManager.IsEnabled<UltimateMeterRenderingHudEvent>();
 
-    /// <summary>Draw the gauge and all it's components to the HUD.</summary>
+    /// <summary>Draws the gauge and all it's components to the HUD.</summary>
     /// <param name="b">A <see cref="SpriteBatch"/> to draw to.</param>
     /// <remarks>This should be called from a <see cref="Shared.Events.RenderingHudEvent"/>.</remarks>
     internal void Draw(SpriteBatch b)
@@ -218,13 +218,13 @@ internal sealed class UltimateHud
         }
     }
 
-    /// <summary>Forcefully set shaking state to <c>False</c>.</summary>
+    /// <summary>Forcefully sets shaking state to <c>False</c>.</summary>
     internal void ForceStopShake()
     {
         this._shake = false;
     }
 
-    /// <summary>Gradually reduce the gauge's opacity value.</summary>
+    /// <summary>Gradually reduces the gauge's opacity value.</summary>
     internal void FadeOut()
     {
         if (--this._fadeOutTimer >= FadeOutDuration)

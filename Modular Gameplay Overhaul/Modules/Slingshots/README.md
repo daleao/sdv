@@ -26,9 +26,13 @@ This module is a complete overhaul of Slingshot gameplay and mechanics with the 
     - Topaz, which grants defense if the [Enchantments](../Enchantments) module's `RebalancedForges` option is enabled.
     - Garnet, which grants special move cooldown reduction, provided that the [Enchantments](../Enchantments) module is enabled and the Garnet stone is installed via the optional file;
     - Ruby, Amethyst and Aquamarine, each granting their regular effects.
+
+    **Galaxy Soul:** Can be applied to the Galaxy Slingshot to create the Infinity Slingshot, provided latter is enabled in the configs. If the Weapons module's [Infinity+1](../Weapons#infinity-plus-one) setting is enabled, it will also affect the Galaxy Slingshot, requiring completion of the Blade of Ruin questline.
+
+    **Prismatic Shard** enchantments can also be applied, but the enchantment pool will be void unless [ENCH](../Enchantments#ranged-enchantments) module's `RangedEnchantments` option is enabled.
     
-    **Prismatic Shard** enchantments can also be applied, but the enchantment pool will be void unless the [Enchantments](../Enchantments#ranged-enchantments) module's `RangedEnchantments` are enabled.
-4. **Infinity Slingshot:** Can be created from the Galaxy Slingshot after receiving enough Galaxy Souls. If the Weapons module's [Infinity+1](../Weapons#infinity-plus-one) setting is enabled, it will equally affect this slingshot.
+    **NOTE:** Due to a Vanilla bug, if the Prismatic Shard enchantment pool is void, **Gemstone and other enchantments will not work**, thereby also requiring the aforementioned [ENCH](../Enchantments#ranged-enchantments) module and `RangedEnchantments` option be enabled.
+
 5. **Disabled Grace Period:** Allows slingshot-users to hit enemies in very close range by removing the game's 100-ms "grace period", making them much more reliable weapons.
 6. **Slick Moves:** Slingshot-users can retain their running momentum while firing in order to improve mobility and kiting-ability.
 7. **Automatic Selection:** If enemies are nearby, players can optionally choose a slingshot to be equipped automatically.

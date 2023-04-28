@@ -2,11 +2,20 @@
 
 This file contains a TL;DR of current version changes and hotfixes from across all modules. For the complete changelog, please refer to the individual changelogs of each module, linked [below](#detailed-change-logs).
 
+## Patch 2.2.3 Highlights
+
+* [ENCH]: Fixed a bug causing implicit Mythic enchantments from WPNZ to be removed on load.
+* [WPNZ]: You can now change the difficulty of the Ruined Blade's damage-over-time.
+* [WPNZ]: You can now change the difficulty of the Hero's Journey quest; i.e. the difficulty of completing each virtue trial.
+* [WPNZ]: The Trial of Generosity can now also be completed by gifting NPCs. The trial will complete once the total value of gifts given reaches the specified gold amount. The host player can still complete this trial by purchasing the community upgrade (which will no longer count for farmhands).
+* [WPNZ]: The Hero's Journey quest now displays as a single quest with multiple objectives (like a Special Order), rather than separate quests for each virtue.
+* Because this is such a huge mod, and I'm a borderline narcissist, you can now set a keybind to directly open this mod's GMCM page (default LeftShift+F12, because I use F12 as the GMCM key).
+
 ## Patch 2.2.2 Highlights
 
 * The new status conditions have been moved to their logical place in the CMBT module. So if that's not enabled, they won't work.
-* Fixes the issue causing players to receive the Blade of Ruin quest over again.
 * Frozen damage bonus increased to x3.
+* Fixes the issue causing players to receive the Blade of Ruin quest over again.
 
 ## Patch 2.2.1 Highlights
 

@@ -1,5 +1,11 @@
 ﻿# Enchantments Change Log
 
+## 2.2.3
+
+### Fixed
+
+* No longer removes implicit enchantments from WPNZ upon revalidation.
+
 ## 2.2.0
 
 ### Added

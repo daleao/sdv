@@ -1,5 +1,16 @@
 ﻿# Modular Overhaul Core Change Log
 
+## 2.2.3
+
+### Added
+
+* You can now set a key to directly open this mod's GMCM (default LeftShift + F12, because I use F12 as the GMCM key).
+* Added some extra highlighting to debug mode for terrain features, large terrain features and objects.
+
+### Changed
+
+* Changed default DebugKey to "OemQuotes, OemTilde" (same as DebugMode mod).
+
 ## 2.2.2
 
 ### Added

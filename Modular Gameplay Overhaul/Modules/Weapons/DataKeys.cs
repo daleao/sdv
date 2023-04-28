@@ -14,16 +14,18 @@ internal sealed class DataKeys
     internal const string GalaxyArsenalObtained = "GalaxyArsenalObtained";
     internal const string BlueprintsFound = "BlueprintsFound";
     internal const string DaysLeftTranslating = "DaysLeftTranslating";
-    internal const string HasReadHonor = "HasReadHonor";
-    internal const string HasReadCompassion = "HasReadCompassion";
-    internal const string HasReadWisdom = "HasReadWisdom";
-    internal const string HasReadGenerosity = "HasReadGenerosity";
-    internal const string HasReadValor = "HasReadValor";
+
+    internal const string InspectedHonor = "InspectedHonor";
+    internal const string InspectedCompassion = "InspectedCompassion";
+    internal const string InspectedWisdom = "InspectedWisdom";
+    internal const string InspectedGenerosity = "InspectedGenerosity";
+    internal const string InspectedValor = "InspectedValor";
     internal const string ProvenHonor = "ProvenHonor"; // max 8 points (-4)
     internal const string ProvenCompassion = "ProvenCompassion"; // max 9 points (-3)
     internal const string ProvenWisdom = "ProvenWisdom"; // max 8 points (-1)
-    internal const string ProvenGenerosity = "ProvenGenerosity"; // awarded before the mail flag `pamHouseUpgrade`
-    internal const string ProvenValor = "ProvenValor"; // awarded after 5th monster slayer quest completion
+    internal const string ProvenGenerosity = "ProvenGenerosity"; // awarded gifting items worth 100k
+    internal const string VirtueQuestState = "VirtueQuestState";
+    internal const string VirtueQuestViewed = "VirtueQuestViewed";
 
     internal const string SelectableWeapon = "AutoSelectableWeapon";
 

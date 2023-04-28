@@ -1,4 +1,4 @@
-﻿namespace DaLion.Overhaul.Modules.Weapons.Patchers.Dwarvish;
+﻿namespace DaLion.Overhaul.Modules.Weapons.Patchers.Dwarven;
 
 #region using directives
 
@@ -107,7 +107,7 @@ internal sealed class GameLocationBlacksmithPatcher : HarmonyPatcher
                 Game1.content.LoadString("Strings\\Locations:Blacksmith_Clint_Geodes")));
         }
 
-        if (WeaponsModule.Config.DwarvishLegacy && Game1.player.mailReceived.Contains("clintForge"))
+        if (WeaponsModule.Config.DwarvenLegacy && Game1.player.mailReceived.Contains("clintForge"))
         {
             responses.Add(new Response("Forge", I18n.Get("blacksmith.forge.option")));
         }
@@ -121,11 +121,6 @@ internal sealed class GameLocationBlacksmithPatcher : HarmonyPatcher
         for (var i = 0; i < farmer.Items.Count; i++)
         {
             var item = farmer.Items[i];
-            if (item is null)
-            {
-                continue;
-            }
-
             if (item is not Tool { UpgradeLevel: < 4 } tool)
             {
                 continue;

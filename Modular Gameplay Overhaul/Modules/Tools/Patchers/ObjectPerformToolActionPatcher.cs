@@ -36,14 +36,14 @@ internal sealed class ObjectPerformToolActionPatcher : HarmonyPatcher
         var tileLocation = __instance.TileLocation;
         if (tileLocation.X == 0f && tileLocation.Y == 0f)
         {
-            foreach (var (key, value) in location.Objects.Pairs)
+            foreach (var (tile, @object) in location.Objects.Pairs)
             {
-                if (value != __instance)
+                if (@object != __instance)
                 {
                     continue;
                 }
 
-                tileLocation = key;
+                tileLocation = tile;
                 break;
             }
         }

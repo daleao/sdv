@@ -3,8 +3,8 @@
 #region using directives
 
 using System.Collections.Generic;
-using DaLion.Overhaul.Modules.Core.UI;
 using DaLion.Overhaul.Modules.Core.Events;
+using DaLion.Overhaul.Modules.Core.UI;
 using DaLion.Shared.Events;
 using DaLion.Shared.Extensions;
 using DaLion.Shared.Extensions.Stardew;

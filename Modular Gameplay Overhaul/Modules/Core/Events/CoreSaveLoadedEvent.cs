@@ -35,6 +35,6 @@ internal sealed class CoreSaveLoadedEvent : SaveLoadedEvent
 
         Log.T("[Core]: Config file failed checksum validation. Revalidating all modules...");
         EnumerateModules().ForEach(module => module.Revalidate());
-        Log.T("[Core]: Done.");
+        Log.T("[Core]: Module revalidation complete.");
     }
 }

@@ -1,4 +1,4 @@
-﻿namespace DaLion.Overhaul.Modules.Weapons.Patchers.Dwarvish;
+﻿namespace DaLion.Overhaul.Modules.Weapons.Patchers.Dwarven;
 
 #region using directives
 
@@ -22,7 +22,7 @@ internal sealed class BluePrintCtorPatcher : HarmonyPatcher
     [HarmonyPostfix]
     private static void BluePrintCtorPostfix(BluePrint __instance)
     {
-        if (!WeaponsModule.Config.DwarvishLegacy || __instance.name != "Island Obelisk" ||
+        if (!WeaponsModule.Config.DwarvenLegacy || __instance.name != "Island Obelisk" ||
             !__instance.itemsRequired.Remove(ItemIDs.DragonTooth))
         {
             return;

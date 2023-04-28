@@ -1,4 +1,4 @@
-﻿namespace DaLion.Overhaul.Modules.Weapons.Patchers.Dwarvish;
+﻿namespace DaLion.Overhaul.Modules.Weapons.Patchers.Dwarven;
 
 #region using directives
 
@@ -25,7 +25,7 @@ internal sealed class IslandNorthGetIslandMerchantTradeStockPatcher : HarmonyPat
     [HarmonyPostfix]
     private static void IslandNorthGetIslandMerchantTradeStockPostfix(Dictionary<ISalable, int[]> __result)
     {
-        if (!WeaponsModule.Config.DwarvishLegacy)
+        if (!WeaponsModule.Config.DwarvenLegacy)
         {
             return;
         }

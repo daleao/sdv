@@ -1,4 +1,4 @@
-﻿namespace DaLion.Overhaul.Modules.Weapons.Patchers.Dwarvish;
+﻿namespace DaLion.Overhaul.Modules.Weapons.Patchers.Dwarven;
 
 #region using directives
 
@@ -34,7 +34,7 @@ internal sealed class ChestPerformOpenChestPatcher : HarmonyPatcher
     [SuppressMessage("StyleCop.CSharp.NamingRules", "SA1300:Element should begin with upper-case letter", Justification = "Preference for internal functions.")]
     private static void ChestPerformOpenChestPostfix(Chest __instance)
     {
-        if (!WeaponsModule.Config.DwarvishLegacy || !Globals.DwarvishBlueprintIndex.HasValue ||
+        if (!WeaponsModule.Config.DwarvenLegacy || !Globals.DwarvishBlueprintIndex.HasValue ||
             !Globals.DwarvenScrapIndex.HasValue)
         {
             return;

@@ -1,5 +1,11 @@
 ﻿# Slingshots Change Log
 
+## 2.2.3
+
+### Fixed
+
+* Revised enable condition for ButtonPressedEvent, which should fix issues with FaceMouseCursor, SlickMoves and AutoSelection working if any is disabled.
+
 ## 2.2.0
 
 ### Added

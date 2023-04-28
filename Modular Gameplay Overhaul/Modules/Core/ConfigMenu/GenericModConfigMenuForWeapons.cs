@@ -5,6 +5,7 @@
 using DaLion.Overhaul.Modules.Weapons;
 using DaLion.Overhaul.Modules.Weapons.Integrations;
 using DaLion.Shared.Exceptions;
+using DaLion.Shared.Extensions.Collections;
 using DaLion.Shared.Extensions.SMAPI;
 using DaLion.Shared.Integrations.GenericModConfigMenu;
 using Microsoft.Xna.Framework;
@@ -198,16 +199,16 @@ internal sealed partial class GenericModConfigMenu
             .AddCheckbox(
                 () => "Dwarvish Legacy",
                 () => "Allows crafting Masterwork weapons by uncovering ancient Dwarvish blueprints.",
-                config => config.Weapons.DwarvishLegacy,
+                config => config.Weapons.DwarvenLegacy,
                 (config, value) =>
                 {
                     if (value && !ModHelper.ModRegistry.IsLoaded("spacechase0.JsonAssets"))
                     {
-                        Log.W("Cannot enable Dwarvish Crafting because this feature requires Json Assets, which is not installed.");
+                        Log.W("Cannot enable Dwarven Legacy because this feature requires Json Assets, which is not installed.");
                         return;
                     }
 
-                    config.Weapons.DwarvishLegacy = value;
+                    config.Weapons.DwarvenLegacy = value;
                     if (value && !Globals.DwarvenScrapIndex.HasValue && JsonAssetsIntegration.Instance?.IsRegistered == false)
                     {
                         JsonAssetsIntegration.Instance.Register();
@@ -268,6 +269,28 @@ internal sealed partial class GenericModConfigMenu
                 (config, value) => config.Weapons.IridiumBarsPerGalaxyWeapon = value,
                 0,
                 50)
+            .AddNumberField(
+                () => "Ruined Blade DoT Multiplier",
+                () => "Multiplies the Ruined Blade's damage-over-time effect for greater or lower damage (smaller is lower).",
+                config => config.Weapons.RuinBladeDotMultiplier,
+                (config, value) => config.Weapons.RuinBladeDotMultiplier = value,
+                0,
+                2,
+                0.05f)
+            .AddDropdown(
+                () => "Virtue Trial Difficulty",
+                () => "The general difficulty for completing each of the Virtue Trials. Changing this setting will immediately update your quest progress!!",
+                config => config.Weapons.VirtueTrialTrialDifficulty.ToString(),
+                (config, value) =>
+                {
+                    config.Weapons.VirtueTrialTrialDifficulty = Enum.Parse<Config.TrialDifficulty>(value);
+                    if (WeaponsModule.State.Quest is { } quest)
+                    {
+                        Virtue.List.ForEach(virtue => quest.UpdateVirtueProgress(virtue));
+                    }
+                },
+                new[] { "Easy", "Medium", "Hard" },
+                null)
             .AddHorizontalRule()
 
             .AddSectionTitle(() => "Movement & Control Settings")

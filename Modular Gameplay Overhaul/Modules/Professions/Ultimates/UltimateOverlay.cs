@@ -25,7 +25,7 @@ internal sealed class UltimateOverlay
         this._opacity = 0f;
     }
 
-    /// <summary>Draw the overlay over the world.</summary>
+    /// <summary>Draws the overlay over the world.</summary>
     /// <param name="b">A <see cref="SpriteBatch"/> to draw to.</param>
     /// <remarks>This should be called from a <see cref="Shared.Events.RenderedWorldEvent"/>.</remarks>
     internal void Draw(SpriteBatch b)
@@ -33,7 +33,7 @@ internal sealed class UltimateOverlay
         b.Draw(Game1.fadeToBlackRect, Game1.graphics.GraphicsDevice.Viewport.Bounds, this._color * this._opacity);
     }
 
-    /// <summary>Gradually increase the overlay's opacity.</summary>
+    /// <summary>Gradually increases the overlay's opacity.</summary>
     internal void FadeIn()
     {
         if (this._opacity < MaxOpacity)

@@ -1,5 +1,11 @@
 ﻿# Taxes Module Change Log
 
+## 2.2.3
+
+### Fixed
+
+* Now counts stacks of non-SObject items.
+
 ## 2.2.0
 
 ### Fixed

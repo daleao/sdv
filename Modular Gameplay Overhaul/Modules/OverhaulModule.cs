@@ -348,7 +348,7 @@ public abstract class OverhaulModule
 
             var player = Game1.player;
             Log.I(
-                $"[WPNZ]: Performing {(Context.IsMainPlayer ? "global" : "local")} item re-validation.");
+                $"[WPNZ]: Performing {(Context.IsMainPlayer ? "global" : "local")} weapon revalidation.");
             if (Context.IsMainPlayer)
             {
                 Utility.iterateAllItems(item =>
@@ -370,7 +370,7 @@ public abstract class OverhaulModule
                 }
             }
 
-            Log.I("[WPNZ]: Done.");
+            Log.I("[WPNZ]: Weapon revalidation complete.");
             ModHelper.GameContent.InvalidateCacheAndLocalized("Data/weapons");
         }
 
@@ -703,7 +703,7 @@ public abstract class OverhaulModule
         private static readonly HashSet<string> KnownEnchantmentType = AccessTools
             .GetTypesFromAssembly(Assembly.GetAssembly(typeof(Modules.Enchantments.Ranged.BaseSlingshotEnchantment)))
             .Where(t => t.Namespace is "DaLion.Overhaul.Modules.Enchantments.Melee"
-                or "DaLion.Overhaul.Modules.Enchantments.Ranged")
+                or "DaLion.Overhaul.Modules.Enchantments.Ranged" or "DaLion.Overhaul.Modules.Enchantments.Gemstone")
             .Select(t => t.FullName)
             .WhereNotNull()
             .ToHashSet();
@@ -754,7 +754,7 @@ public abstract class OverhaulModule
                 {
                     var enchantment = tool.enchantments[i];
                     var name = enchantment.GetType().FullName;
-                    if (name is null)
+                    if (name is null || enchantment.IsSecondaryEnchantment())
                     {
                         continue;
                     }
@@ -777,6 +777,17 @@ public abstract class OverhaulModule
             {
                 base.Activate(helper);
             }
+
+            Reflector.GetStaticFieldSetter<List<BaseEnchantment>?>(typeof(BaseEnchantment), "_enchantments")
+                .Invoke(null);
+        }
+
+        /// <inheritdoc />
+        internal override void Deactivate()
+        {
+            base.Deactivate();
+            Reflector.GetStaticFieldSetter<List<BaseEnchantment>?>(typeof(BaseEnchantment), "_enchantments")
+                .Invoke(null);
         }
 
         /// <inheritdoc />

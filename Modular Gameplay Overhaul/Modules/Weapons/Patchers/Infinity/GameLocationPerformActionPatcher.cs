@@ -65,7 +65,7 @@ internal sealed class GameLocationPerformActionPatcher : HarmonyPatcher
 
     private static void HandleYobaAltar(GameLocation location, Farmer who)
     {
-        if (!who.mailReceived.Contains("gotHolyBlade") && who.hasQuest((int)Quest.CurseLast) &&
+        if (!who.mailReceived.Contains("gotHolyBlade") && who.hasQuest((int)Quest.HeroReward) &&
             who.CurrentTool is MeleeWeapon { InitialParentTileIndex: ItemIDs.DarkSword })
         {
             who.Halt();
@@ -88,7 +88,7 @@ internal sealed class GameLocationPerformActionPatcher : HarmonyPatcher
             Game1.afterDialogues = (Game1.afterFadeFunction)Delegate.Combine(
                 Game1.afterDialogues,
                 (Game1.afterFadeFunction)(() => Game1.stopMusicTrack(Game1.MusicContext.Event)));
-            who.completeQuest((int)Quest.CurseLast);
+            who.completeQuest((int)Quest.HeroReward);
         }
         else
         {

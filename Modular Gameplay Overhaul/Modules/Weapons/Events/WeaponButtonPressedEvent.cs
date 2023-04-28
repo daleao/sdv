@@ -21,7 +21,9 @@ internal sealed class WeaponButtonPressedEvent : ButtonPressedEvent
     }
 
     /// <inheritdoc />
-    public override bool IsEnabled => WeaponsModule.Config.FaceMouseCursor || WeaponsModule.Config.SlickMoves;
+    public override bool IsEnabled => WeaponsModule.Config.EnableAutoSelection ||
+                                      WeaponsModule.Config.FaceMouseCursor ||
+                                      WeaponsModule.Config.SlickMoves;
 
     /// <inheritdoc />
     protected override void OnButtonPressedImpl(object? sender, ButtonPressedEventArgs e)

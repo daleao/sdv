@@ -160,6 +160,11 @@ They can be found in the exactly the same place as their corresponding weapons w
 
 At the end of the single-floor [Quarry Mine](https://stardewvalleywiki.com/Quarry_Mine) from the statue of the Grim Reaper.
 
+**What is the Blade of Ruin's curse?**
+
+The Blade of Ruin will grow progressively stronger by cosuming enemies; every 5 enemies slain increases its attack power by 1 point. As it grows stronger, however, it will also begin to consume your own energy, dealing damage-over-time while held. At the same time, the Blade has a nasty habit of auto-equipping itself; the stronger the Blade, the more damage you will suffer, and the more often it will auto-equip itself.
+Should you choose to ignore these side-effects and continue to strengthen the Blade, you will eventually become unable to use other weapons, and be forced to engage combat with 1 HP.
+
 **How do I lift the Ruined Blade's curse?**
 
 Prove your Honor, Compassion and Wisdom by selecting certain responses during character heart events (you will have at least 8 chances to prove each of these virtues at least 3 times). Prove your Valor by completing at least 5 monster slayer quests. Finally, prove your Generosity by purchasing the house upgrade for Pam. When you are ready, approach Yoba's altar in Pierre's house.
@@ -206,9 +211,12 @@ Events where you may demonstrate Wisdom:
 
 Unforge the Blade of Dawn to obtain a Hero Soul, and then forge it into any Galaxy weapon after 3 Galaxy Souls.
 
-**What other unique or mythic weapons can be found?**
+**How do I obtain other mythic weapons?**
 
-You can still obtain the Neptune's Glaive and Broken Trident from Fishing Chests. The Lava Katana can be dropped from Magma Sprites, and the Obsidian Edge can be dropped from Shadow people in the dangerous Mines. Lastly, the Insect Head can potentially become your strongest weapon.
+- **Neptune's Glaive:** Fishing Chests, same as Vanilla.
+- **Yeti Tooth:** Dropped by enemies or crates in the icy section of the Mines.
+- **Obsidian Edge:** Dropped from Shadow people in the dangerous Mines.
+- **Lava Katana:** Dropped from certain enemies in Volcano Dungeon.
 
 <!-- MARKDOWN LINKS & IMAGES -->
 [shield:common]: <https://img.shields.io/badge/Common-white?style=flat>

@@ -70,7 +70,7 @@ internal sealed class WeaponAssetRequestedEvent : AssetRequestedEvent
     /// <summary>Edits events data with custom Dwarvish Blueprint introduction event.</summary>
     private static void EditBlacksmithEventsData(IAssetData asset)
     {
-        if (!Context.IsWorldReady || !WeaponsModule.Config.DwarvishLegacy ||
+        if (!Context.IsWorldReady || !WeaponsModule.Config.DwarvenLegacy ||
             string.IsNullOrEmpty(Game1.player.Read(DataKeys.BlueprintsFound)) || !Game1.player.canUnderstandDwarves)
         {
             return;
@@ -111,7 +111,7 @@ internal sealed class WeaponAssetRequestedEvent : AssetRequestedEvent
     /// <summary>Edits monsters data for ancient weapon crafting materials.</summary>
     private static void EditMonstersData(IAssetData asset)
     {
-        if (!WeaponsModule.Config.DwarvishLegacy)
+        if (!WeaponsModule.Config.DwarvenLegacy)
         {
             return;
         }
@@ -170,7 +170,7 @@ internal sealed class WeaponAssetRequestedEvent : AssetRequestedEvent
     /// <summary>Edits quests data with custom Dwarvish Blueprint introduction quest.</summary>
     private static void EditQuestsData(IAssetData asset)
     {
-        if (!WeaponsModule.Config.DwarvishLegacy)
+        if (!WeaponsModule.Config.DwarvenLegacy)
         {
             return;
         }
@@ -178,9 +178,9 @@ internal sealed class WeaponAssetRequestedEvent : AssetRequestedEvent
         var data = asset.AsDictionary<int, string>().Data;
         data[(int)Quest.ForgeIntro] = I18n.Get("quests.forge.intro");
         data[(int)Quest.ForgeNext] = I18n.Get("quests.forge.next");
-        data[(int)Quest.CurseIntro] = I18n.Get("quests.curse.intro");
-        data[(int)Quest.CurseNext] = I18n.Get("quests.curse.next");
-        data[(int)Quest.CurseLast] = I18n.Get("quests.curse.last");
+        data[(int)Quest.CurseIntro] = I18n.Get("quests.hero.curse");
+        data[(int)Quest.HeroJourney] = I18n.Get("quests.hero.journey");
+        data[(int)Quest.HeroReward] = I18n.Get("quests.hero.reward");
         data[Virtue.Honor] = I18n.Get("quests.virtues.honor");
         data[Virtue.Compassion] = I18n.Get("quests.virtues.compassion");
         data[Virtue.Wisdom] = I18n.Get("quests.virtues.wisdom");
@@ -202,7 +202,7 @@ internal sealed class WeaponAssetRequestedEvent : AssetRequestedEvent
     private static void EditWeaponsData(IAssetData asset)
     {
         if (!WeaponsModule.Config.EnableRebalance &&
-            !WeaponsModule.Config.EnableStabbySwords && !WeaponsModule.Config.DwarvishLegacy &&
+            !WeaponsModule.Config.EnableStabbySwords && !WeaponsModule.Config.DwarvenLegacy &&
             !WeaponsModule.Config.InfinityPlusOne)
         {
             return;
@@ -219,7 +219,7 @@ internal sealed class WeaponAssetRequestedEvent : AssetRequestedEvent
                 EditSingleWeapon(key, fields);
             }
 
-            if (WeaponsModule.Config.DwarvishLegacy)
+            if (WeaponsModule.Config.DwarvenLegacy)
             {
                 if (fields[Name].Contains("Dwarf"))
                 {
@@ -288,7 +288,7 @@ internal sealed class WeaponAssetRequestedEvent : AssetRequestedEvent
             editor.PatchImage(sourceTx, sourceArea, targetArea);
         }
 
-        if (WeaponsModule.Config.DwarvishLegacy)
+        if (WeaponsModule.Config.DwarvenLegacy)
         {
             sourceArea = new Rectangle(32, 0, 16, 16);
             targetArea = new Rectangle(112, 16, 16, 16);
@@ -468,7 +468,7 @@ internal sealed class WeaponAssetRequestedEvent : AssetRequestedEvent
                 break;
 
             case ItemIDs.ForestSword:
-                if (WeaponsModule.Config.DwarvishLegacy)
+                if (WeaponsModule.Config.DwarvenLegacy)
                 {
                     fields[MinDamage] = 85.ToString();
                     fields[MaxDamage] = 100.ToString();
@@ -777,7 +777,7 @@ internal sealed class WeaponAssetRequestedEvent : AssetRequestedEvent
                 fields[CritPower] = 1.5.ToString(CultureInfo.InvariantCulture);
                 break;
             case ItemIDs.ElfBlade:
-                if (WeaponsModule.Config.DwarvishLegacy)
+                if (WeaponsModule.Config.DwarvenLegacy)
                 {
                     fields[MinDamage] = 50.ToString();
                     fields[MaxDamage] = 60.ToString();

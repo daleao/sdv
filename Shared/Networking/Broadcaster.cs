@@ -62,7 +62,7 @@ public sealed class Broadcaster
     /// <summary>Sends a synchronous <paramref name="message"/> to all online peers.</summary>
     /// <param name="message">The message to send.</param>
     /// <param name="messageType">The message type.</param>
-    public void Broadcast(string message, string messageType)
+    public void Broadcast(string? message, string messageType)
     {
         this._helper.SendMessage(message, messageType, new[] { this._modId });
     }
@@ -71,7 +71,7 @@ public sealed class Broadcaster
     /// <param name="message">The message to send.</param>
     /// <param name="messageType">The message type.</param>
     /// <param name="playerId">The unique ID of the recipient.</param>
-    public void MessagePeer(string message, string messageType, long playerId)
+    public void MessagePeer(string? message, string messageType, long playerId)
     {
         this._helper.SendMessage(message, messageType, new[] { this._modId }, new[] { playerId });
     }
@@ -84,7 +84,7 @@ public sealed class Broadcaster
     /// <param name="messageType">The message type.</param>
     /// <param name="playerId">The unique ID of the recipient player.</param>
     /// <param name="modId">The unique ID of the recipient mod.</param>
-    public void MessagePeer(string message, string messageType, long playerId, string modId)
+    public void MessagePeer(string? message, string messageType, long playerId, string modId)
     {
         this._helper.SendMessage(message, messageType, new[] { modId }, new[] { playerId });
     }
@@ -92,7 +92,7 @@ public sealed class Broadcaster
     /// <summary>Sends a synchronous <paramref name="message"/> to the network host.</summary>
     /// <param name="message">The message to send.</param>
     /// <param name="messageType">The message type.</param>
-    public void MessageHost(string message, string messageType)
+    public void MessageHost(string? message, string messageType)
     {
         this._helper.SendMessage(
             message, messageType, new[] { this._modId }, new[] { Game1.MasterPlayer.UniqueMultiplayerID });
@@ -105,7 +105,7 @@ public sealed class Broadcaster
     /// <param name="message">The message to send.</param>
     /// <param name="messageType">The message type.</param>
     /// <param name="modId">The unique ID of the recipient mod.</param>
-    public void MessageHost(string message, string messageType, string modId)
+    public void MessageHost(string? message, string messageType, string modId)
     {
         this._helper.SendMessage(
             message, messageType, new[] { modId }, new[] { Game1.MasterPlayer.UniqueMultiplayerID });
@@ -116,7 +116,7 @@ public sealed class Broadcaster
     /// <param name="messageType">The message type.</param>
     /// <param name="playerId">The unique ID of the recipient player.</param>
     /// <returns>A <see cref="Task"/> that should resolve to the peer's response.</returns>
-    public Task<string> RequestAsync(string message, string messageType, long playerId)
+    public Task<string> RequestAsync(string? message, string messageType, long playerId)
     {
         this._helper.SendMessage(message, messageType, new[] { this._modId }, new[] { playerId });
         Log.D($"{messageType}:{message} request was sent to {playerId}.");

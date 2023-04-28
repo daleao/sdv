@@ -1,4 +1,4 @@
-﻿namespace DaLion.Overhaul.Modules.Weapons.Patchers.Dwarvish;
+﻿namespace DaLion.Overhaul.Modules.Weapons.Patchers.Dwarven;
 
 #region using directives
 

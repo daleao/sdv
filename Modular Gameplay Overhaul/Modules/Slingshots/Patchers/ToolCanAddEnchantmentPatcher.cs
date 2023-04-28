@@ -20,7 +20,7 @@ internal sealed class ToolCanAddEnchantmentPatcher : HarmonyPatcher
 
     #region harmony patches
 
-    /// <summary>Allow slingshot gemstone enchantments.</summary>
+    /// <summary>Allow slingshot enchantments.</summary>
     [HarmonyPrefix]
     private static bool ToolCanAddEnchantmentPrefix(
         Tool __instance, ref bool __result, BaseEnchantment enchantment)
@@ -30,14 +30,18 @@ internal sealed class ToolCanAddEnchantmentPatcher : HarmonyPatcher
             return true; // run original logic
         }
 
-        if (enchantment is InfinityEnchantment &&
-            slingshot.InitialParentTileIndex == ItemIDs.GalaxySlingshot &&
-            slingshot.hasEnchantmentOfType<GalaxySoulEnchantment>() &&
-            slingshot.GetEnchantmentLevel<GalaxySoulEnchantment>() >= 3 &&
+        if (slingshot.InitialParentTileIndex == ItemIDs.GalaxySlingshot &&
             SlingshotsModule.Config.EnableInfinitySlingshot)
         {
-            __result = true;
-            return false; // don't run original logic
+            switch (enchantment)
+            {
+                case GalaxySoulEnchantment when slingshot.GetEnchantmentLevel<GalaxySoulEnchantment>() < 3:
+                    __result = true;
+                    return false; // don't run original logic
+                case InfinityEnchantment when slingshot.GetEnchantmentLevel<GalaxySoulEnchantment>() >= 3:
+                    __result = true;
+                    return false; // don't run original logic
+            }
         }
 
         if (enchantment.IsSecondaryEnchantment())
@@ -52,12 +56,7 @@ internal sealed class ToolCanAddEnchantmentPatcher : HarmonyPatcher
             return false; // don't run original logic
         }
 
-        if (EnchantmentsModule.ShouldEnable && EnchantmentsModule.Config.RangedEnchantments)
-        {
-            return true; // run original logic
-        }
-
-        return false; // don't run original logic
+        return EnchantmentsModule.ShouldEnable && EnchantmentsModule.Config.RangedEnchantments;
     }
 
     #endregion harmony patches

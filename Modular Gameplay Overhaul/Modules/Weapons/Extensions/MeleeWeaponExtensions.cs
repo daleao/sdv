@@ -51,7 +51,7 @@ internal static class MeleeWeaponExtensions
     /// <returns><see langword="true"/> if the <paramref name="weapon"/> if DwarvenLegacy option is enabled and the weapon is a Dwarven, Dragontooth or Elven weapon, otherwise <see langword="false"/>.</returns>
     internal static bool IsLegacyWeapon(this MeleeWeapon weapon)
     {
-        if (!WeaponsModule.Config.DwarvishLegacy)
+        if (!WeaponsModule.Config.DwarvenLegacy)
         {
             return false;
         }

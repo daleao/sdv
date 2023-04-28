@@ -28,7 +28,7 @@ internal sealed class JsonAssetsIntegration : ModIntegration<JsonAssetsIntegrati
             return true;
         }
 
-        WeaponsModule.Config.DwarvishLegacy = false;
+        WeaponsModule.Config.DwarvenLegacy = false;
         WeaponsModule.Config.InfinityPlusOne = false;
         ModHelper.WriteConfig(ModEntry.Config);
         return false;

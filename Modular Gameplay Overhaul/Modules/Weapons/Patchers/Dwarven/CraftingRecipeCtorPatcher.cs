@@ -1,4 +1,4 @@
-﻿namespace DaLion.Overhaul.Modules.Weapons.Patchers.Dwarvish;
+﻿namespace DaLion.Overhaul.Modules.Weapons.Patchers.Dwarven;
 
 #region using directives
 
@@ -22,7 +22,7 @@ internal sealed class CraftingRecipeCtorPatcher : HarmonyPatcher
     [HarmonyPostfix]
     private static void CraftingRecipeCtorPostfix(CraftingRecipe __instance)
     {
-        if (WeaponsModule.Config.DwarvishLegacy && __instance.name == "Warp Totem: Island" &&
+        if (WeaponsModule.Config.DwarvenLegacy && __instance.name == "Warp Totem: Island" &&
             __instance.recipeList.Remove(ItemIDs.DragonTooth))
         {
             __instance.recipeList[ItemIDs.RadioactiveOre] = 1;

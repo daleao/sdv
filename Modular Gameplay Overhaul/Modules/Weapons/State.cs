@@ -58,8 +58,6 @@ internal sealed class State
         }
     }
 
-    internal int SlingshotCooldown { get; set; }
-
     internal Vector2 DriftVelocity { get; set; }
 
     internal MeleeWeapon? AutoSelectableWeapon { get; set; }
@@ -69,4 +67,6 @@ internal sealed class State
     internal double MonsterDropAccumulator { get; set; }
 
     internal Monster? HoveredEnemy { get; set; }
+
+    internal VirtuesQuest? Quest { get; set; } = null;
 }

@@ -21,7 +21,9 @@ internal sealed class SlingshotButtonPressedEvent : ButtonPressedEvent
     }
 
     /// <inheritdoc />
-    public override bool IsEnabled => SlingshotsModule.Config.FaceMouseCursor || SlingshotsModule.Config.SlickMoves;
+    public override bool IsEnabled => SlingshotsModule.Config.EnableAutoSelection ||
+                                      SlingshotsModule.Config.FaceMouseCursor ||
+                                      SlingshotsModule.Config.SlickMoves;
 
     /// <inheritdoc />
     protected override void OnButtonPressedImpl(object? sender, ButtonPressedEventArgs e)

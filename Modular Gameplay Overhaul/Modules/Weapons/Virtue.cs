@@ -4,12 +4,14 @@
 
 using System.Linq;
 using Ardalis.SmartEnum;
+using DaLion.Overhaul.Modules.Weapons.Extensions;
 using DaLion.Shared.Extensions.Stardew;
+using StardewValley;
 
 #endregion using directives
 
 /// <summary>Represents one of the five heroic virtues.</summary>
-public class Virtue : SmartEnum<Virtue>
+public sealed class Virtue : SmartEnum<Virtue>
 {
     #region enum values
 
@@ -18,14 +20,14 @@ public class Virtue : SmartEnum<Virtue>
     ///     Yet one can lose it, and whoever does so shall have sullied his name for all eternity. A truly honorable man always
     ///     stands behind his actions, faces every challenge and refuses to lie.
     /// </summary>
-    public static readonly Virtue Honor = new("Honor", 144706);
+    public static readonly Virtue Honor = new("Honor", 0);
 
     /// <summary>
     ///     There are many traits that bear witness to a man's true nature. Compassion is what separates men from beasts.
     ///     Whoever feels sympathy for his fellow man will never turn a blind eye to misfortune. He will always stand in
     ///     defense of the wronged.
     /// </summary>
-    public static readonly Virtue Compassion = new("Compassion", 144707);
+    public static readonly Virtue Compassion = new("Compassion", 1);
 
     /// <summary>
     ///     Wisdom is a virtue which one should strive to cultivate throughout one's life, for it is impossible to be so wise
@@ -33,26 +35,26 @@ public class Virtue : SmartEnum<Virtue>
     ///     Remember, wise choices are not those which make our lives easier or simpler. Often, they make them more complicated.
     ///     But always, they make us better.
     /// </summary>
-    public static readonly Virtue Wisdom = new("Wisdom", 144708);
+    public static readonly Virtue Wisdom = new("Wisdom", 2);
 
     /// <summary>
     ///     No man can be called good who does not share his prosperity with others. Generosity is required for dignity
     ///     in life and peace in death.
     /// </summary>
-    public static readonly Virtue Generosity = new("Generosity", 144709);
+    public static readonly Virtue Generosity = new("Generosity", 3);
 
     /// <summary>
     ///     Valor does not make one good, yet how many good men have you met in your life's journey who were cowards?
     ///     Those who posses valor do not hesitate to stand against the majority, no matter what the consequences.
     /// </summary>
-    public static readonly Virtue Valor = new("Valor", 144710);
+    public static readonly Virtue Valor = new("Valor", 4);
 
     #endregion enum values
 
     /// <summary>Initializes a new instance of the <see cref="Virtue"/> class.</summary>
     /// <param name="name">The name of the virtue.</param>
     /// <param name="value">The ID of the associated quest.</param>
-    protected Virtue(string name, int value)
+    private Virtue(string name, int value)
         : base(name, value)
     {
     }
@@ -89,46 +91,75 @@ public class Virtue : SmartEnum<Virtue>
         }
     }
 
+    /// <summary>Gets the threshold required to consider this <see cref="Virtue"/> as proven.</summary>
+    internal int ProvenCondition
+    {
+        get
+        {
+            var target = int.MaxValue;
+            switch (WeaponsModule.Config.VirtueTrialTrialDifficulty)
+            {
+                case Config.TrialDifficulty.Easy:
+                    this
+                        .When(Honor).Then(() => target = 1)
+                        .When(Compassion).Then(() => target = 1)
+                        .When(Wisdom).Then(() => target = 1)
+                        .When(Generosity).Then(() => target = (int)1e4)
+                        .When(Valor).Then(() => target = 2);
+                    break;
+                case Config.TrialDifficulty.Medium:
+                    this
+                        .When(Honor).Then(() => target = 3)
+                        .When(Compassion).Then(() => target = 3)
+                        .When(Wisdom).Then(() => target = 3)
+                        .When(Generosity).Then(() => target = (int)1e5)
+                        .When(Valor).Then(() => target = 5);
+                    break;
+                case Config.TrialDifficulty.Hard:
+                    this
+                        .When(Honor).Then(() => target = 5)
+                        .When(Compassion).Then(() => target = 5)
+                        .When(Wisdom).Then(() => target = 5)
+                        .When(Generosity).Then(() => target = (int)5e5)
+                        .When(Valor).Then(() => target = 10);
+                    break;
+            }
+
+            return target;
+        }
+    }
+
     /// <summary>Checks if the <paramref name="farmer"/> has met the conditions for all virtues.</summary>
     /// <param name="farmer">The <see cref="Farmer"/>.</param>
     /// <returns><see langword="true"/> if all five virtue's conditions have been met, otherwise <see langword="false"/>.</returns>
-    internal static bool AllProvenBy(Farmer farmer)
+    internal static bool AllProven(Farmer? farmer)
     {
-        return List.All(virtue => virtue.ProvenBy(farmer));
+        farmer ??= Game1.player;
+        return List.All(virtue => virtue.Proven(farmer));
     }
 
     /// <summary>Checks if the <paramref name="farmer"/> has met the condition for this <see cref="Virtue"/>.</summary>
     /// <param name="farmer">The <see cref="Farmer"/>.</param>
     /// <returns><see langword="true"/> if the virtue's condition has been met, otherwise <see langword="false"/>.</returns>
-    internal bool ProvenBy(Farmer farmer)
+    internal bool Proven(Farmer? farmer = null)
     {
-        var proven = false;
-        this
-            .When(Honor).Then(() => proven = farmer.Read<int>(DataKeys.ProvenHonor) >= 3)
-            .When(Compassion).Then(() => proven = farmer.Read<int>(DataKeys.ProvenCompassion) >= 3)
-            .When(Wisdom).Then(() => proven = farmer.Read<int>(DataKeys.ProvenWisdom) >= 3)
-            .When(Generosity).Then(() => proven = farmer.Read<bool>(DataKeys.ProvenGenerosity))
-            .When(Valor).Then(() => proven = farmer.Read<bool>(DataKeys.ProvenValor));
-        return proven;
+        farmer ??= Game1.player;
+        return this.GetProgress(farmer) >= this.ProvenCondition;
     }
 
-    /// <summary>Marks the corresponding quest as complete if this <see cref="Virtue"/> has been proven.</summary>
+    /// <summary>Gets the <paramref name="farmer"/>'s progress towards proving this <see cref="Virtue"/>.</summary>
     /// <param name="farmer">The <see cref="Farmer"/>.</param>
-    internal void CheckForCompletion(Farmer farmer)
+    /// <returns>The current integer progress towards proving this <see cref="Virtue"/>.</returns>
+    internal int GetProgress(Farmer? farmer = null)
     {
-        if (!farmer.hasQuest(this) || !this.ProvenBy(farmer))
-        {
-            return;
-        }
-
-        farmer.completeQuest(this);
-        Shared.Networking.Broadcaster.SendPublicChat($"{farmer.Name} has proven their {this}.");
-        if (!farmer.hasQuest((int)Quest.CurseNext) || !AllProvenBy(farmer))
-        {
-            return;
-        }
-
-        farmer.completeQuest((int)Quest.CurseNext);
-        farmer.addQuest((int)Quest.CurseLast);
+        farmer ??= Game1.player;
+        var progress = 0;
+        this
+            .When(Honor).Then(() => progress = farmer.Read<int>(DataKeys.ProvenHonor))
+            .When(Compassion).Then(() => progress = farmer.Read<int>(DataKeys.ProvenCompassion))
+            .When(Wisdom).Then(() => progress = farmer.Read<int>(DataKeys.ProvenWisdom))
+            .When(Generosity).Then(() => progress = farmer.Read<int>(DataKeys.ProvenGenerosity))
+            .When(Valor).Then(() => progress = farmer.NumMonsterSlayerQuestsCompleted());
+        return progress;
     }
 }

@@ -245,21 +245,18 @@
   "events.1337098.nopurchase": "MarlonsTheme/-500 -500/farmer -200 -200 0 MarlonFay 4 11 2/viewport 6 13 true/skippable/pause 2000/warp farmer 6 19/playSound doorClose/pause 500/showFrame MarlonFay 17/pause 150/textAboveHead MarlonFay \"You found something!\"/pause 350/move farmer 0 -5 3/move farmer -2 0 0/move farmer 0 -1 0/showFrame MarlonFay 0/pause 500/speak MarlonFay \"That weapon! There's no mistaking it!$1#$b#You received a Galaxy Sword!\"/pause 1000/showFrame MarlonFay 18/pause 1000/speak MarlonFay \"You have been deemed worthy, @. This is a true honor.$2#$b#I obtained my first Galaxy weapon after a night of harsh battles at Castle Village.#$b#There was a purple blinding light as a sword slowly fell into my hands. I felt the power of the cosmos for a brief second.#$b#Wizards and scholars believe Yoba gifts these weapons to true peacekeepers of humanity.\"/pause 1200/speak MarlonFay \"I'm proud of you!$1\"/showFrame MarlonFay 0/pause 500/end",
 
   "fromcsfiles.MeleeWeapon.cs.14122": "The prismatic shard glows bright, absorbs the iridium in your backpack and transforms before your very eyes!^^     You obtain the ={{galaxyWeapon}}=  ^",
-  "locations.Town.DwarfGrave.Translated": "     You translate the dwarvish:     \n\n'twixt golden triplets lost in sand\nbring forth a rainbow forged from land\nbeseech the heavens! stake thy claim\nlet thunders bruit and roar thy name\nif heart be pure and conscious clear\nand faith hath neither doubt nor fear\nstars shall rain down yonder seal\nand bestow thee with heaven steel",
+  "locations.Town.DwarfGrave.Translated": "     You translate the dwarvish:     \n\nmidst golden triplets lost in sand\nbring forth a rainbow forged from land\nbeseech the heavens! stake thy claim\nlet thunders bruit and roar thy name\nif heart be pure and conscious clear\nand faith hath neither doubt nor fear\nstars shall rain down yonder seal\nand bestow thee with heaven steel",
   "locations.SeedShop.Yoba": "\"No evil shall touch a true Hero of Yoba.\"",
 
   "mail.curse.intro": "Dear @, I must see you about a matter of utmost urgency.^Please come see me at the tower at your earliest convenience.^   -M. Rasmodius, Wizard[#]Ruined Hero",
 
   "quests.forge.intro": "Basic/A Dwarven Legacy/Clint told you he'd finish translating that old blueprint in a couple of days./Visit Clint to ask about the blueprint./Blacksmith/144702/0/-1/false",
   "quests.forge.next": "Basic/A Dwarven Legacy II/That old blueprint turned out to be a recipe for a powerful ancient weapon! Could there be others?/Find the remaining Dwarvish blueprints./null/-1/0/-1/false",
-  "quests.curse.intro": "Basic/The Blade of the Ruined Hero/The weapon you found carries the curse of the Ruined Hero! You can already feel it draining away your life energy. Better find some way to lift that curse, and fast!/Find a way to lift the Ruined Blade's curse./null/144704/0/-1/false",
-  "quests.curse.next": "Basic/A Hero's Journey/Those who embody the virtues of a true hero are cleansed of all evil by Yoba's divine power./Prove that you live by the Five Heroic Virtues./null/144705/0/-1/false",
-  "quests.curse.last": "Basic/A Hero's Reward/Those who embody the virtues of a true hero are cleansed of all evil by Yoba's divine power./Take the Blade of Ruin to the altar of Yoba./null/-1/0/-1/false",
-  "quests.virtues.honor": "Basic/Trial of Honor/Honor cannot be purchased. Honor also cannot be sold, for its value is greater than all the treasure in the world. Yet one can lose it, and whoever does so shall have sullied his name for all eternity. A truly honorable person always stands behind their actions, faces every challenge and refuses to lie./Wait for a chance to prove your Honor./null/-1/0/-1/false",
-  "quests.virtues.compassion": "Basic/Trial of Compassion/There are many traits that bear witness to a person's true nature. Compassion is what separates men from beasts. Whoever feels sympathy for their fellow man will never turn a blind eye to misfortune. They will always stand in defense of the wronged./Wait for a chance to demonstrate Compassion./null/-1/0/-1/false",
-  "quests.virtues.wisdom": "Basic/Trial of Wisdom/Wisdom is a virtue which one should strive to cultivate throughout one's life, for it is impossible to be so wise one cannot become even wiser. The wise know this... As we journey through life, we should seek to make wise choices. Remember, wise choices are not those which make our lives easier or simpler. Often, they make them more complicated. But always, they make us better./Wait for a chance to prove your Wisdom./null/-1/0/-1/false",
-  "quests.virtues.generosity": "Basic/Trial of Generosity/No person can be called good who does not share their prosperity with others. Generosity is required for dignity in life and peace in death./Wait for a chance to prove your Generosity./null/-1/0/-1/false",
-  "quests.virtues.valor": "Basic/Trial of Valor/Valor does not make one good, yet how many good men have you met in your life's journey who were cowards? Those who posses valor do not hesitate to stand against the majority, no matter what the consequences./Wait for a chance to prove your Valor./null/-1/0/-1/false",
+  "quests.hero.curse": "Basic/The Blade of the Ruined Hero/The weapon you found carries the curse of the Ruined Hero! You can already feel it draining away your life energy. Better find some way to lift that curse, and fast!/Find a way to lift the Ruined Blade's curse./null/144704/0/-1/false",
+  "quests.hero.reward": "Basic/A Hero's Reward/Those who embody the virtues of a true hero are cleansed of all evil by Yoba's divine power./Take the Blade of Ruin to the altar of Yoba./null/-1/0/-1/false",
+
+  "quests.hero.journey.name": "A Hero's Journey",
+  "quests.hero.journey.desc": "Prove that you live by the Five Heroic Virtues.",
 
   "yoba.question": "There are additional inscriptions on the altar...",
   "virtues.honor.name": "Honor",
@@ -272,6 +269,7 @@
   "virtues.wisdom.flavor": "\"Wisdom is a virtue which one should strive to cultivate throughout one's life, for it is impossible to be so wise one cannot become even wiser. The wise know this... As we journey through life, we should seek to make wise choices. Remember, wise choices are not those which make our lives easier or simpler. Often, they make them more complicated. But always, they make us better.\"",
   "virtues.generosity.flavor": "\"No person can be called good who does not share their prosperity with others. Generosity is required for dignity in life and peace in death.\"",
   "virtues.valor.flavor": "\"Valor does not make one good, yet how many good men have you met in your life's journey who were cowards? Those who posses valor do not hesitate to stand against the majority, no matter the consequences.\"",
+  "virtues.trial": "Trial of ",
 
   // json assets
   "objects.dwarvishblueprint.name": "Old Dwarvish Blueprint",

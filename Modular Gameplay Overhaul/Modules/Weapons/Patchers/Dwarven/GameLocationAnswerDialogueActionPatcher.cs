@@ -1,4 +1,4 @@
-﻿namespace DaLion.Overhaul.Modules.Weapons.Patchers.Dwarvish;
+﻿namespace DaLion.Overhaul.Modules.Weapons.Patchers.Dwarven;
 
 #region using directives
 
@@ -37,7 +37,7 @@ internal sealed class GameLocationAnswerDialogueActionPatcher : HarmonyPatcher
             return false; // don't run original logic
         }
 
-        if (!WeaponsModule.Config.InfinityPlusOne && !WeaponsModule.Config.DwarvishLegacy)
+        if (!WeaponsModule.Config.InfinityPlusOne && !WeaponsModule.Config.DwarvenLegacy)
         {
             return true; // run original logic
         }

@@ -1,0 +1,10 @@
+{
+  "Name": "Monster Girl Horse - Head Fix",
+  "Author": "DaLion",
+  "Version": "1.0.0",
+  "Description": "Adjusts the horse draw function to accomodate the female centaur torso.",
+  "UniqueID": "DaLion.HorseHeadFix",
+  "EntryDll": "DaLion.HorseHeadFix.dll",
+  "MinimumApiVersion": "3.0.0",
+  "UpdateKeys": []
+}

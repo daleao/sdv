@@ -1,5 +1,21 @@
 ﻿# Weapons Change Log
 
+## 2.2.3
+
+### Added
+
+* You can now change the difficulty of the Ruined Blade's damage-over-time.
+* You can now change the difficulty of the Hero's Journey quest; i.e. the difficulty of completing each virtue trial.
+* The Trial of Generosity can now also be completed by gifting NPCs. The trial will complete once the total value of gifts given reaches the specified gold amount. The host player can still complete this trial by purchasing the community upgrade (which will no longer count for farmhands).
+
+### Changed
+
+* The Hero's Journey quest now displays as a single quest with multiple objectives (like a Special Order), rather than separate quests for each virtue.
+
+### Fixed
+
+* Revised enable condition for ButtonPressedEvent, which should fix issues with FaceMouseCursor, SlickMoves and AutoSelection working if any is disabled.
+
 ## 2.2.2
 
 ### Added

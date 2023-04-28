@@ -146,9 +146,13 @@ public sealed class ModConfig
 
     #endregion config sub-modules
 
+    /// <summary>Gets the key used to open the Generic Mod Config Menu directly at this mod.</summary>
+    [JsonProperty]
+    public KeybindList OpenMenuKey { get; internal set; } = KeybindList.Parse("LeftShift + F12");
+
     /// <summary>Gets the key used to engage Debug Mode.</summary>
     [JsonProperty]
-    public KeybindList DebugKey { get; internal set; } = KeybindList.Parse("RightShift");
+    public KeybindList DebugKey { get; internal set; } = KeybindList.Parse("OemQuotes, OemTilde");
 
     /// <inheritdoc />
     public override string ToString()

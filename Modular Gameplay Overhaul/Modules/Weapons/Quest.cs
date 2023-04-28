@@ -12,8 +12,8 @@ internal enum Quest
     CurseIntro = 144703,
 
     /// <summary>The overarching quest to all the virtue trials.</summary>
-    CurseNext = 144704,
+    HeroJourney = 144704,
 
     /// <summary>The quest which concludes hero's journey.</summary>
-    CurseLast = 144705,
+    HeroReward = 144705,
 }

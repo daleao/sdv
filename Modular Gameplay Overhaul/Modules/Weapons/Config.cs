@@ -24,6 +24,19 @@ public sealed class Config : Shared.Configs.Config
         Relative,
     }
 
+    /// <summary>The difficulty level of the proven conditions for the virtue trials.</summary>
+    public enum TrialDifficulty
+    {
+        /// <summary>Easy.</summary>
+        Easy,
+
+        /// <summary>Medium.</summary>
+        Medium,
+
+        /// <summary>Hard.</summary>
+        Hard,
+    }
+
     #endregion dropdown enums
 
     /// <summary>Gets a value indicating whether to apply all features relating to the weapon re-balance, including weapon tiers, shops, Mine chests and drops.</summary>
@@ -78,7 +91,7 @@ public sealed class Config : Shared.Configs.Config
 
     /// <summary>Gets a value indicating whether to enable Clint's forging mechanic for Masterwork weapons.</summary>
     [JsonProperty]
-    public bool DwarvishLegacy { get; internal set; } = true;
+    public bool DwarvenLegacy { get; internal set; } = true;
 
     /// <summary>Gets a value indicating whether replace lame Galaxy and Infinity weapons with something truly legendary.</summary>
     [JsonProperty]
@@ -88,9 +101,13 @@ public sealed class Config : Shared.Configs.Config
     [JsonProperty]
     public int IridiumBarsPerGalaxyWeapon { get; internal set; } = 10;
 
-    /// <summary>Gets a factor that can be used to reduce the Ruined Blade's curse effect.</summary>
+    /// <summary>Gets a factor that can be used to reduce the Ruined Blade's damage-over-time effect.</summary>
     [JsonProperty]
-    public float RuinBladeCurseHandicap { get; internal set; } = 1f;
+    public float RuinBladeDotMultiplier { get; internal set; } = 1f;
+
+    /// <summary>Gets a value indicating the difficulty of the proven conditions for each virtue trial.</summary>
+    [JsonProperty]
+    public TrialDifficulty VirtueTrialTrialDifficulty { get; internal set; } = TrialDifficulty.Medium;
 
     /// <summary>Gets a value indicating whether defense should improve parry damage.</summary>
     [JsonProperty]

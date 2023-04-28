@@ -49,22 +49,9 @@ internal sealed class WeaponSaveLoadedEvent : SaveLoadedEvent
         }
 
         // infinity +1 checks
-        if (player.hasQuest((int)Quest.CurseNext) && Virtue.AllProvenBy(player))
+        if (player.Read<VirtuesQuestState>(DataKeys.VirtueQuestState) == VirtuesQuestState.InProgress)
         {
-            Log.W("[WPNZ]: Congratulations on proving all virtues! Go on to receive your Holy Blade.");
-            player.completeQuest((int)Quest.CurseNext);
-        }
-
-        if (player.NumMonsterSlayerQuestsCompleted() >= 5)
-        {
-            Log.W($"[WPNZ]: {player.Name} has proven their valor. The corresponding flag will be set.");
-            player.WriteIfNotExists(DataKeys.ProvenValor, true.ToString());
-        }
-
-        if (Game1.MasterPlayer.mailReceived.Contains("pamHouseUpgrade"))
-        {
-            Log.W($"[WPNZ]: {player.Name} has proven their generosity. The corresponding flag will be set.");
-            player.WriteIfNotExists(DataKeys.ProvenGenerosity, true.ToString());
+            WeaponsModule.State.Quest = new VirtuesQuest();
         }
 
         if (!WeaponsModule.Config.EnableAutoSelection)

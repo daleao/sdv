@@ -77,6 +77,7 @@ internal sealed class Harmonizer
     internal Harmonizer? Unapply()
     {
         this.Harmony.UnpatchAll(this.HarmonyId);
+        Log.D($"[Harmonizer]: Unapplied all patches for {this.HarmonyId}.");
         return null;
     }
 

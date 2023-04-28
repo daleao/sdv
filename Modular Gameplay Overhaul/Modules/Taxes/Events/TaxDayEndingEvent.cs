@@ -44,8 +44,7 @@ internal sealed class TaxDayEndingEvent : DayEndingEvent
             PostalService.Send(Mail.FrsIntro);
         }
 
-        var amountSold = Game1.getFarm().getShippingBin(taxpayer).Sum(item =>
-            item is SObject obj ? obj.sellToStorePrice() * obj.Stack : item.salePrice() / 2);
+        var amountSold = Game1.getFarm().getShippingBin(taxpayer).Sum(item => Utility.getSellToStorePriceOfItem(item));
         Utility.ForAllLocations(location =>
         {
             amountSold += location.Objects.Values
@@ -53,7 +52,7 @@ internal sealed class TaxDayEndingEvent : DayEndingEvent
                 .Where(c => c.SpecialChestType == Chest.SpecialChestTypes.MiniShippingBin)
                 .Sum(miniBin => miniBin
                     .GetItemsForPlayer(taxpayer.UniqueMultiplayerID)
-                    .Sum(item => item is SObject obj ? obj.sellToStorePrice() * obj.Stack : item.salePrice() / 2));
+                    .Sum(item => Utility.getSellToStorePriceOfItem(item)));
         });
 
         if (amountSold > 0 && !PostalService.HasSent(Mail.FrsIntro))

@@ -20,12 +20,12 @@ internal sealed class ToolButtonPressedEvent : ButtonPressedEvent
     }
 
     /// <inheritdoc />
-    public override bool IsEnabled => ToolsModule.Config.FaceMouseCursor;
+    public override bool IsEnabled => ToolsModule.Config.EnableAutoSelection || ToolsModule.Config.FaceMouseCursor;
 
     /// <inheritdoc />
     protected override void OnButtonPressedImpl(object? sender, ButtonPressedEventArgs e)
     {
-        if (!Context.IsWorldReady || Game1.activeClickableMenu is not null || !e.Button.IsUseToolButton())
+        if (!Context.IsWorldReady || Game1.activeClickableMenu is not null || Game1.isFestival() || !e.Button.IsUseToolButton())
         {
             return;
         }
