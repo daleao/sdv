@@ -1,5 +1,11 @@
 ﻿# Weapons Change Log
 
+## 2.2.4
+
+### Removed
+
+* Moved Infinity Slingshot transformation over to SLNGS module.
+
 ## 2.2.3
 
 ### Added

@@ -2,9 +2,14 @@
 
 This file contains a TL;DR of current version changes and hotfixes from across all modules. For the complete changelog, please refer to the individual changelogs of each module, linked [below](#detailed-change-logs).
 
+## Patch 2.2.4 Highlight
+
+* [SLNGS]: Infinity Slingshot can now be created even if WPNZ module is disabled.
+
 ## Patch 2.2.3 Highlights
 
 * [ENCH]: Fixed a bug causing implicit Mythic enchantments from WPNZ to be removed on load.
+* [SLNGS]: Fixed a bug preventing Galaxy Slingshot from receing Galaxy Souls.
 * [WPNZ]: You can now change the difficulty of the Ruined Blade's damage-over-time.
 * [WPNZ]: You can now change the difficulty of the Hero's Journey quest; i.e. the difficulty of completing each virtue trial.
 * [WPNZ]: The Trial of Generosity can now also be completed by gifting NPCs. The trial will complete once the total value of gifts given reaches the specified gold amount. The host player can still complete this trial by purchasing the community upgrade (which will no longer count for farmhands).

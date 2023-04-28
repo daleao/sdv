@@ -22,16 +22,12 @@ This module is a complete overhaul of Slingshot gameplay and mechanics with the 
 2. **Special Move:** Pressing the action button will trigger a melee smack attack that stuns enemies for 2 seconds. This allows the player to react to enemies in close range without switching weapons, and quickly reposition to continue firing from safety.
 3. **Enchantments:** All gemstone enchantments can be applied to Slingshots, including:
     - Emerald, which grants firing speed (idem for Emerald Rings) and also affects Overcharge if the [Professions](../Professions) module's Desperado profession is used;
-    - Jade, which is also affected by the [Enchantments](../Enchantments) module's `RebalancedForges` option.
-    - Topaz, which grants defense if the [Enchantments](../Enchantments) module's `RebalancedForges` option is enabled.
-    - Garnet, which grants special move cooldown reduction, provided that the [Enchantments](../Enchantments) module is enabled and the Garnet stone is installed via the optional file;
+    - Jade, which is also affected by [ENCH](../Enchantments) module's `RebalancedForges` option.
+    - Topaz, which grants defense if [ENCH](../Enchantments) module's `RebalancedForges` option is enabled.
+    - Garnet, which grants special move cooldown reduction, provided that [ENCH](../Enchantments) module is enabled and the Garnet stone is installed via the optional file;
     - Ruby, Amethyst and Aquamarine, each granting their regular effects.
-
-    **Galaxy Soul:** Can be applied to the Galaxy Slingshot to create the Infinity Slingshot, provided latter is enabled in the configs. If the Weapons module's [Infinity+1](../Weapons#infinity-plus-one) setting is enabled, it will also affect the Galaxy Slingshot, requiring completion of the Blade of Ruin questline.
-
-    **Prismatic Shard** enchantments can also be applied, but the enchantment pool will be void unless [ENCH](../Enchantments#ranged-enchantments) module's `RangedEnchantments` option is enabled.
-    
-    **NOTE:** Due to a Vanilla bug, if the Prismatic Shard enchantment pool is void, **Gemstone and other enchantments will not work**, thereby also requiring the aforementioned [ENCH](../Enchantments#ranged-enchantments) module and `RangedEnchantments` option be enabled.
+    **Galaxy Soul** can be applied to the Galaxy Slingshot to create the Infinity Slingshot, provided the latter is enabled in the configs. If WPNZ module's [Infinity+1](../Weapons#infinity-plus-one) setting is enabled, it will also affect the Galaxy Slingshot, requiring completion of the Blade of Ruin questline. **Prismatic Shard** enchantments can also be applied, but the enchantment pool will be void unless [ENCH](../Enchantments#ranged-enchantments) module's `RangedEnchantments` option is enabled.
+    **Note that, due to a Vanilla bug, Forges and Galaxy Soul will only work if the Prismatic Shard enchantment pool is not void, which means you must enable ENCH module and `RangedEnchantments` option for any of them to work.**
 
 5. **Disabled Grace Period:** Allows slingshot-users to hit enemies in very close range by removing the game's 100-ms "grace period", making them much more reliable weapons.
 6. **Slick Moves:** Slingshot-users can retain their running momentum while firing in order to improve mobility and kiting-ability.

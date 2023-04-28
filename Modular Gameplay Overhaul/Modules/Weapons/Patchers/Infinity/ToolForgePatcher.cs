@@ -9,7 +9,6 @@ using DaLion.Overhaul.Modules.Weapons.Enchantments;
 using DaLion.Shared.Extensions.Reflection;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
-using StardewValley.Tools;
 
 #endregion using directives
 
@@ -23,75 +22,6 @@ internal sealed class ToolForgePatcher : HarmonyPatcher
     }
 
     #region harmony patches
-
-    /// <summary>Transform Galaxy Slingshot into Infinity Slingshot.</summary>
-    [HarmonyPrefix]
-    private static bool ToolForgePrefix(Tool __instance, ref bool __result, Item item, bool count_towards_stats)
-    {
-        if (__instance is not Slingshot { InitialParentTileIndex: ItemIDs.GalaxySlingshot } slingshot)
-        {
-            return true; // run original logic
-        }
-
-        try
-        {
-            var enchantment = BaseEnchantment.GetEnchantmentFromItem(__instance, item);
-            if (WeaponsModule.Config.InfinityPlusOne)
-            {
-                if (enchantment is not InfinityEnchantment)
-                {
-                    return true; // run original logic
-                }
-            }
-            else
-            {
-                if (enchantment is not GalaxySoulEnchantment)
-                {
-                    return true; // run original logic
-                }
-            }
-
-            if (!slingshot.AddEnchantment(enchantment) || slingshot.GetEnchantmentLevel<GalaxySoulEnchantment>() < 3)
-            {
-                return true; // run original logic
-            }
-
-            slingshot.CurrentParentTileIndex = ItemIDs.InfinitySlingshot;
-            slingshot.InitialParentTileIndex = ItemIDs.InfinitySlingshot;
-            slingshot.IndexOfMenuItemView = ItemIDs.InfinitySlingshot;
-            slingshot.BaseName = "Infinity Slingshot";
-            slingshot.DisplayName = I18n.Get("slingshots.infinity.name");
-            slingshot.description = I18n.Get("slingshots.infinity.desc");
-            if (count_towards_stats)
-            {
-                DelayedAction.playSoundAfterDelay("discoverMineral", 400);
-                Reflector.GetStaticFieldGetter<Multiplayer>(typeof(Game1), "multiplayer").Invoke()
-                    .globalChatInfoMessage("InfinityWeapon", Game1.player.Name, slingshot.DisplayName);
-
-                slingshot.previousEnchantments.Insert(0, enchantment.GetName());
-                while (slingshot.previousEnchantments.Count > 2)
-                {
-                    slingshot.previousEnchantments.RemoveAt(slingshot.previousEnchantments.Count - 1);
-                }
-
-                Game1.stats.incrementStat("timesEnchanted", 1);
-            }
-
-            var galaxyEnchantment = __instance.GetEnchantmentOfType<GalaxySoulEnchantment>();
-            if (galaxyEnchantment is not null)
-            {
-                __instance.RemoveEnchantment(galaxyEnchantment);
-            }
-
-            __result = true;
-            return false; // don't run original logic
-        }
-        catch (Exception ex)
-        {
-            Log.E($"Failed in {MethodBase.GetCurrentMethod()?.Name}:\n{ex}");
-            return true; // default to original logic
-        }
-    }
 
     /// <summary>Require Hero Soul to transform Galaxy into Infinity.</summary>
     [HarmonyTranspiler]

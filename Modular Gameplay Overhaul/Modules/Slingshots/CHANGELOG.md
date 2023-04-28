@@ -1,10 +1,17 @@
 ﻿# Slingshots Change Log
 
+## 2.2.4
+
+### Added
+
+* Moved Infinity Slingshot transformation over from WPNZ module, so the Infinity Slingshot can now be created even if WPNZ is disabled.
+
 ## 2.2.3
 
 ### Fixed
 
 * Revised enable condition for ButtonPressedEvent, which should fix issues with FaceMouseCursor, SlickMoves and AutoSelection working if any is disabled.
+* Fixed a bug preventing Galaxy Slingshot from receing Galaxy Souls.
 
 ## 2.2.0
 
