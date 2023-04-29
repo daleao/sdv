@@ -1,4 +1,4 @@
-<div align="center">
+﻿<div align="center">
 
 # MARGO - Modular Gameplay Overhaul
 
@@ -116,3 +116,4 @@ Lastly, a shout-out to [JetBrains][url:jetbrains] for providing a free open-sour
 [flag:japanese]: <https://i.imgur.com/BMA0w39.png>
 [flag:russian]: <https://i.imgur.com/cXhDLc5.png>
 
+[🔼 Back to top](#margo-modular-gameplay-overhaul)

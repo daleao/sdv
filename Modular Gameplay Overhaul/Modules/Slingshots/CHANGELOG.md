@@ -1,19 +1,19 @@
-﻿# Slingshots Change Log
+﻿# SLNGS Change Log
 
-## 2.2.4
+## 2.2.4 <sup><sub><sup>[🔼](#slngs-change-log)</sup></sub></sup>
 
 ### Added
 
 * Moved Infinity Slingshot transformation over from WPNZ module, so the Infinity Slingshot can now be created even if WPNZ is disabled.
 
-## 2.2.3
+## 2.2.3 <sup><sub><sup>[🔼](#slngs-change-log)</sup></sub></sup>
 
 ### Fixed
 
 * Revised enable condition for ButtonPressedEvent, which should fix issues with FaceMouseCursor, SlickMoves and AutoSelection working if any is disabled.
 * Fixed a bug preventing Galaxy Slingshot from receing Galaxy Souls.
 
-## 2.2.0
+## 2.2.0 <sup><sub><sup>[🔼](#slngs-change-log)</sup></sub></sup>
 
 ### Added
 
@@ -25,26 +25,26 @@
 * Small improvements to the Slingshot smack special animation.
 * Increased the hitbox of Slingshot's overhead smack special attack.
 
-## 2.1.0
+## 2.1.0 <sup><sub><sup>[🔼](#slngs-change-log)</sup></sub></sup>
 
 ### Fixed
 
 * Can no longer dash in festivals.
 
-## 2.0.6
+## 2.0.6 <sup><sub><sup>[🔼](#slngs-change-log)</sup></sub></sup>
 
 ### Fixed
 
 * Tool now read "Knockback" instead of "Weight", like melee weapons.
 * Renamed internal stat virtual properties for better clarity.
 
-## 2.0.5
+## 2.0.5 <sup><sub><sup>[🔼](#slngs-change-log)</sup></sub></sup>
 
 ### Fixed
 
 * Fixed an issue preventing slingshots from receiving enchantments from ENCH module.
 
-## 2.0.0
+## 2.0.0 <sup><sub><sup>[🔼](#slngs-change-log)</sup></sub></sup>
 
 * Initial release of Slingshots module.
 
@@ -52,31 +52,31 @@
 
 *Changes below this point refer to the legacy Arsenal module.*
 
-## 1.3.5
+## 1.3.5 <sup><sub><sup>[🔼](#slngs-change-log)</sup></sub></sup>
 
 ### Fixed
 
 * Fixed a bad Null-Reference Exception introduced in 1.3.4.
 
-## 1.3.4
+## 1.3.4 <sup><sub><sup>[🔼](#slngs-change-log)</sup></sub></sup>
 
 ### Fixed
 
 * Fixed missing scythe swipe sound.
 
-## 1.3.2
+## 1.3.2 <sup><sub><sup>[🔼](#slngs-change-log)</sup></sub></sup>
 
 ### Fixed
 
 * Enemies defeated by knockback damage now properly count for game stats, quests and drop items. 
 
-## 1.3.1
+## 1.3.1 <sup><sub><sup>[🔼](#slngs-change-log)</sup></sub></sup>
 
 ### Fixed
 
 * Fixed start-up error with Neptune's Glaive patcher.
 
-## 1.3.0
+## 1.3.0 <sup><sub><sup>[🔼](#slngs-change-log)</sup></sub></sup>
 
 ### Changed
 
@@ -89,7 +89,7 @@
 * Fixed a bug preventing explosive ammo from exploding without the Desperado profession.
 * Fixed a bug with Obsidian Edge and Lava Katana drops creating error daggers instead.
 
-## 1.2.3
+## 1.2.3 <sup><sub><sup>[🔼](#slngs-change-log)</sup></sub></sup>
 
 ### Added
 
@@ -104,14 +104,14 @@
 
 * Blade of the Ruined Hero introduction event is no longer skippable.
 
-## 1.2.1
+## 1.2.1 <sup><sub><sup>[🔼](#slngs-change-log)</sup></sub></sup>
 
 ### Fixed
 
 * Fixed auto-selection preventing other LeftShift actions in inventory menu.
 * Fixed inverted swipe effect when swinging scythe.
 
-## 1.2.0
+## 1.2.0 <sup><sub><sup>[🔼](#slngs-change-log)</sup></sub></sup>
 
 ### Added
 
@@ -122,14 +122,14 @@
 
 * Fixed a bug in the console command for getting blueprints (`ars get bp`).
 
-## 1.1.0
+## 1.1.0 <sup><sub><sup>[🔼](#slngs-change-log)</sup></sub></sup>
 
 ### Fixed
 
 * Fixed out-of-bounds tooltip elements for slingshots higher than basic.
 * Fixed bullseye position while aiming.
 
-## 1.0.4
+## 1.0.4 <sup><sub><sup>[🔼](#slngs-change-log)</sup></sub></sup>
 
 ### Added
 
@@ -141,11 +141,11 @@
 
 * Fixed shipping bin logic, which was also messed up by the Dark Sword.
 
-## 1.0.3-Hotfix
+## 1.0.3-Hotfix <sup><sub><sup>[🔼](#slngs-change-log)</sup></sub></sup>
 
 Hotfix for Null-Reference Exception when opening Clint's shop menu.
 
-## 1.0.2
+## 1.0.2 <sup><sub><sup>[🔼](#slngs-change-log)</sup></sub></sup>
 
 ### Added
 
@@ -159,7 +159,7 @@ Hotfix for Null-Reference Exception when opening Clint's shop menu.
 * Dark Sword should now be immune from accidental deposit by Better Chests' stack feature.
 * Clint's menu should now support mod geodes like Kaya's.
 
-## 1.0.1
+## 1.0.1 <sup><sub><sup>[🔼](#slngs-change-log)</sup></sub></sup>
 
 ### Added
 
@@ -181,7 +181,7 @@ Hotfix for Null-Reference Exception when opening Clint's shop menu.
 * No longer conflicts with Love Of Cooking's Frying Pan upgrades or drbirbdev's Panning and Ranching Tool Upgrades.
 * No longer prevents players from receiving the Galaxy Sword mail flag.
 
-## 1.0.0
+## 1.0.0 <sup><sub><sup>[🔼](#slngs-change-log)</sup></sub></sup>
 
 ### Added
 
@@ -203,7 +203,7 @@ Hotfix for Null-Reference Exception when opening Clint's shop menu.
 * Weapon and Slingshot Forges now unapply correctly.
 * Hoe is not longer classified as Rare (color-coded Blue).
 
-## 0.9.9
+## 0.9.9 <sup><sub><sup>[🔼](#slngs-change-log)</sup></sub></sup>
 
 ### Added
 
@@ -225,7 +225,7 @@ Hotfix for Null-Reference Exception when opening Clint's shop menu.
 * Fixed possible bug with Bloodthirsty enchantment.
 * Fixed some incorrect translation keys.
 
-## 0.9.8
+## 0.9.8 <sup><sub><sup>[🔼](#slngs-change-log)</sup></sub></sup>
 
 ### Added
 
@@ -236,7 +236,7 @@ Hotfix for Null-Reference Exception when opening Clint's shop menu.
 * Improvements to Slick Moves. Can now drift in the parallel direction (i.e., when swinging directly in front or behind you). Before, drifting only worked for perpendicular directions (i.e., when swinging to the sides). Also increased the drift velocity slightly. Finally, the drift now comes to a halt at the end of the animation, removing the unimmersive impression of buttery floor.
 * Clint's follow-up quest now begins correctly.
 
-## 0.9.7
+## 0.9.7 <sup><sub><sup>[🔼](#slngs-change-log)</sup></sub></sup>
 
 ### Changed
 
@@ -260,7 +260,7 @@ Hotfix for Null-Reference Exception when opening Clint's shop menu.
 * Fixed missing patch targets for allowing crits to ignore monster defense.
 * Added config checks to logic that was missing it.
 
-## 0.9.6
+## 0.9.6 <sup><sub><sup>[🔼](#slngs-change-log)</sup></sub></sup>
 
 ### Fixed
 
@@ -268,7 +268,7 @@ Hotfix for Null-Reference Exception when opening Clint's shop menu.
 * Fixed a compatibility issue with any modded recipes containing Dragon Tooth.
 * Fixed a null-reference exception when farmer takes damage from bombs and maybe other sources too.
 
-## 0.9.5
+## 0.9.5 <sup><sub><sup>[🔼](#slngs-change-log)</sup></sub></sup>
 
 ### Added
 
@@ -282,7 +282,7 @@ Hotfix for Null-Reference Exception when opening Clint's shop menu.
 
 * Removed automatic initialization script from SaveLoaded event. This was inefficient and unreliable. Replaced with manual console command.
 
-## 0.9.4
+## 0.9.4 <sup><sub><sup>[🔼](#slngs-change-log)</sup></sub></sup>
 
 ### Added
 
@@ -304,14 +304,14 @@ Hotfix for Null-Reference Exception when opening Clint's shop menu.
 * Players on existing save files that have already obtained the Galaxy Sword should now be able to obtain the remaining Galaxy weapons.
 * Fixed a bug in the monster stat randomization logic, which was generating monsters with current HP higher than max HP.
 
-## 0.9.3
+## 0.9.3 <sup><sub><sup>[🔼](#slngs-change-log)</sup></sub></sup>
 
 ### Fixed
 
 * Fixed null-reference exception when opening Marlon's shop (forgot to pass `__result` by `ref`).
 * Control settings now apply only to weapons, as they should.
 
-## 0.9.2
+## 0.9.2 <sup><sub><sup>[🔼](#slngs-change-log)</sup></sub></sup>
 
 ### Changed
 
@@ -330,3 +330,5 @@ Hotfix for Null-Reference Exception when opening Clint's shop menu.
 ## 0.9.0 (Initial release)
 
 * Initial Version
+
+[🔼 Back to top](#slngs-change-log)

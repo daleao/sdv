@@ -1,8 +1,31 @@
-<div align="center">
+﻿<div align="center">
 
-# Modular Overhaul :: Rings (RNGS)
+# MARGO :: Rings (RNGS)
 
 </div>
+
+<!-- TABLE OF CONTENTS -->
+<details open="open" align="left">
+  <summary>Table of Contents</summary>
+  <ol>
+    <li><a href="#overview">Overview</a></li>
+    <li><a href="#ring-crafting-progression">Ring Crafting Progression</a></li>
+	<li>
+        <a href="#ring-rebalance">Ring Rebalance</a>
+        <ol>
+            <li><a href="#gemstone-rings">Gemstone Rings</a></li>
+            <li><a href="#other-rings">Other Rings</a></li>
+        </ol>
+    </li>    
+    <li>
+        <a href="#infinity-band">Infinity Band</a>
+        <ol>
+            <li><a href="#resonance">Resonance</a></li>
+        </ol>
+    </li>
+    <li><a href="#compatibility">Compatibility</a></li>
+  </ol>
+</details>
 
 ## Overview
 
@@ -27,11 +50,11 @@ In addition, new progressive crafting recipes are added for each of the gemstone
 
 There are two problematic gemstones in vanilla: **Jade** and **Topaz**. This module rebalances their effects to be on-par with the ubiquitous Ruby.
 - **Jade:** *+10% -> +50% crit. power.* A 10% boost to crit. power is a 10% damage boost that *only* applies to crits. To put that in perspective, only when the player has 100% crit. chance then they will receive an overall 10% boost to damage. It should be clear that this is complete garbage next to a Ruby Ring, which straight up grants a 10% boost to damage, *all the time*. At 50% crit. power, the Jade Ring becomes a better choice than the Ruby Ring if the player has at least 20% crit. chance, which should be attainable by any weapon type given an appropriate build. Above that threshold, Jade Rings become even stronger.
-- **Topaz:** *literally nothing -> +1 defense.* Since the precision stat is unused in the Vanilla game, the Topaz Ring was completely useless. ConcernedApe probably realized this, which is why he made the Topaz Enchantment grant some defense instead. This change makes the Topaz Ring consistent with the Topaz Enchantment. If the [Combat](../Combat) module's Defense Overhaul is enabled, this will translate to 10% damage reduction.
+- **Topaz:** *literally nothing -> +1 defense.* Since the precision stat is unused in the Vanilla game, the Topaz Ring was completely useless. ConcernedApe probably realized this, which is why he made the Topaz Enchantment grant some defense instead. This change makes the Topaz Ring consistent with the Topaz Enchantment. If [CMBT](../Combat) module's Defense Overhaul is enabled, this will translate to 10% damage reduction.
 
-To achieve the same balance for gemstone enchantments, make sure to enable the [Enchantments](../Enchantments) module.
+To achieve the same balance for gemstone enchantments, make sure to enable [ENCH](../Enchantments) module.
 
-Finally, this module also introduces the Garnet Ring. This ring adds cooldown reduction as the seventh combat stat, compensating for the removed Acrobat profession by the [Professions](../Professions) module and completing the 7-note Diatonic Gemstone Scale (see below). Garnet Rings must be crafted from mined Garnet gemstones, added via an included [Custom Ore Nodes](https://www.nexusmods.com/stardewvalley/mods/5966) content pack. If you don't install Custom Ore Nodes, Garnets will be unobtainable in-game.
+Finally, this module also introduces the Garnet Ring. This ring adds cooldown reduction as the seventh combat stat, compensating for the removed Acrobat profession by [PROFS](../Professions) module and completing the 7-note Diatonic Gemstone Scale (see below). Garnet Rings must be crafted from mined Garnet gemstones, added via an included [Custom Ore Nodes](https://www.nexusmods.com/stardewvalley/mods/5966) content pack. If you don't install Custom Ore Nodes, Garnets will be unobtainable in-game.
 
 ### Other Rings
 
@@ -81,7 +104,6 @@ It is my hope that this mechanic will encourage experimentation, and also teach 
     - Because of it's highly modular nature, Ring Overhaul in particular can still be used with this module, provided you know how to customize the configs to cherry-pick non-conflicting features.
 - Other ring retextures will be lightly incompatible with the new Infinity Band, meaning there may be some visual glitches but otherwise no real issues.
 
-
 [shield:rb]: https://img.shields.io/badge/Ruby%20(Rb)-e13939?style=flat
 [shield:aq]: https://img.shields.io/badge/Aquamarine%20(Aq)-2390aa?style=flat
 [shield:am]: https://img.shields.io/badge/Amethyst%20(Am)-6f3cc4?style=flat
@@ -89,3 +111,5 @@ It is my hope that this mechanic will encourage experimentation, and also teach 
 [shield:em]: https://img.shields.io/badge/Emerald%20(Em)-048036?style=flat
 [shield:jd]: https://img.shields.io/badge/Jade%20(Jd)-759663?style=flat
 [shield:tp]: https://img.shields.io/badge/Topaz%20(Tp)-dc8f08?style=flat
+
+[🔼 Back to top](#margo-rings-rngs)

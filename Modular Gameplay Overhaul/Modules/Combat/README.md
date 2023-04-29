@@ -1,7 +1,6 @@
-﻿
-<div align="center">
+﻿<div align="center">
 
-# Modular Overhaul :: Combat (CMBT)
+# MARGO :: Combat (CMBT)
 
 </div>
 
@@ -67,3 +66,5 @@ While it doesn't do anything on it's own, this opens up the possibility for othe
 ## Compatibility
 
 - No known incompatibilities.
+
+[🔼 Back to top](#margo-combat-cmbt)

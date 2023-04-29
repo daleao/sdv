@@ -1,6 +1,6 @@
 <div align="center">
 
-# Modular Overhaul :: Professions (PROFS)
+# MARGO :: Professions (PROFS)
 
 ![](https://stardewcommunitywiki.com/mediawiki/images/8/82/Farming_Skill_Icon.png)
 ![](https://stardewcommunitywiki.com/mediawiki/images/2/2f/Mining_Skill_Icon.png)
@@ -15,13 +15,16 @@
 <summary>Table of Contents</summary>
 <ol>
 	<li><a href="#overview">Overview</a></li>
-	<li><a href="#professions">Professions</a>
-		<ul><li><a href="#farming">Farming</a></li>
-				<li><a href="#foraging">Foraging</a></li>
-				<li><a href="#mining">Mining</a></li>
-				<li><a href="#fishing">Fishing</a></li>
-				<li><a href="#combat">Combat</a></li>
-		</ul></li>
+	<li>
+        <a href="#professions">Professions</a>
+		<ol>
+            <li><a href="#farming">Farming</a></li>
+			<li><a href="#foraging">Foraging</a></li>
+			<li><a href="#mining">Mining</a></li>
+			<li><a href="#fishing">Fishing</a></li>
+			<li><a href="#combat">Combat</a></li>
+		</ol>
+    </li>
 	<li><a href="#prestige">Prestige</a></li>
 	<li><a href="#limit-breaks">Limit Breaks</a></li>
 	<li><a href="#compatibility">Compatibility</a></li>
@@ -322,3 +325,5 @@ To consume the API, copy both interfaces from the [Shared.Integrations.ModularOv
 [url:ragnarok]: <https://ro.gnjoy.com/index.asp> "Ragnarok Online"
 [wiki:fishponddata]: <https://stardewvalleywiki.com/Modding:Fish_Pond_data> "Fish Pond Data"
 [wiki:integrations-api]: <https://stardewvalleywiki.com/Modding:Modder_Guide/APIs/Integrations> "APIs - Integrations"
+
+[🔼 Back to top](#margo-professions-profs)

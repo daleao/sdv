@@ -1,6 +1,6 @@
-<div align="center">
+﻿<div align="center">
 
-# Modular Overhaul :: Tweex (TWX)
+# MARGO :: Tweex (TWX)
 
 </div>
 
@@ -23,3 +23,5 @@ All features can be toggled on or off.
 ## Compatibility
 
 - [Forage Fantasy](https://www.nexusmods.com/stardewvalley/mods/7554) has several conflicting features, but can be used together with this module if you pay attention to the configs of both mods.
+
+[🔼 Back to top](#margo-tweex-twx)

@@ -1,4 +1,4 @@
-# Modular Overhaul Change Logs
+﻿# MARGO Change Logs
 
 This file contains a TL;DR of current version changes and hotfixes from across all modules. For the complete changelog, please refer to the individual changelogs of each module, linked [below](#detailed-change-logs).
 
@@ -105,3 +105,5 @@ This file contains a TL;DR of current version changes and hotfixes from across a
 * [Ponds](Modules/Ponds/CHANGELOG.md)
 * [Taxes](Modules/Taxes/CHANGELOG.md)
 * [Tweaks](Modules/Tweex/CHANGELOG.md)
+
+[🔼 Back to top](#margo-change-logs)

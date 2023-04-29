@@ -1,12 +1,12 @@
-﻿# Ponds Module Change Log
+﻿# PNDS Change Log
 
-## 1.0.4
+## 1.0.4 <sup><sub><sup>[🔼](#pnds-change-log)</sup></sub></sup>
 
 ### Fixed
 
 * Fixed a major typo in Fish Pond Mod Data, which caused FamilyLivingHere and DaysEmpty data fields to overwrite each other. I can't begin to imagine all the problems this was causing, but I recommend everyone reset their ponds to be sure.
 
-## 1.0.2
+## 1.0.2 <sup><sub><sup>[🔼](#pnds-change-log)</sup></sub></sup>
 
 ### Changed
 
@@ -20,7 +20,7 @@
 * Fixed a typo in Reflector logic which caused an exception to be thrown with Teh's Fishing Overhaul.
 * TFO integration should now handle Algae correctly.
 
-## 1.0.0
+## 1.0.0 <sup><sub><sup>[🔼](#pnds-change-log)</sup></sub></sup>
 
 ### Added
 
@@ -32,19 +32,19 @@
 * Fixed an issue which caused invalid mod data leftover after changing a pond's fish type.
 * Adjustments to the positioning of fish in Pond Query Menu.
 
-## 0.9.6
+## 0.9.6 <sup><sub><sup>[🔼](#pnds-change-log)</sup></sub></sup>
 
 ### Fixed
 
 * "Fixed" (but not really) an error thrown during Fish Pond production logic. This is actually caused by vanilla's `Utility.consolidateStacks` method, which deletes non-colored Roe from the produce list for some reason. Because this just slightly nerfs Fish Pond production, and they're slightly too strong, I'm choosing to embrace the bug and just hide the error.
 
-## 0.9.2
+## 0.9.2 <sup><sub><sup>[🔼](#pnds-change-log)</sup></sub></sup>
 
 ### Changed
 
 * The quality of produced roe is now less than or equal to the quality of the fish which produced it, instead of always being equal to it.
 
-## 0.9.0
+## 0.9.0 (Initial release)
 
 ### Added
 
@@ -54,3 +54,5 @@
 
 * Fixed a bug where the counter for spawning Algae in an empty Fish Pond would reset when reloading the save.
 * Fixed a typo preventing TFO integration from applying, which in turn caused a conflict with it installed.
+
+[🔼 Back to top](#pnds-change-log)

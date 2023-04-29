@@ -1,18 +1,8 @@
-﻿
-<div align="center">
+﻿<div align="center">
 
-# Modular Overhaul :: Slingshots (SLNGS)
+# MARGO :: Slingshots (SLNGS)
 
 </div>
-
-<!-- TABLE OF CONTENTS -->
-<details open="open" align="left">
-  <summary>Table of Contents</summary>
-  <ol>
-    <li><a href="#overview">Overview</a></li>
-    <li><a href="#compatibility">Compatibility</a></li>
-  </ol>
-</details>
 
 ## Overview
 
@@ -66,3 +56,5 @@ Some ammunitions have also been tweaked, either for immersion or balance:
 [mod:combat-controls-redux]: <https://www.nexusmods.com/stardewvalley/mods/10496> "Combat Controls Redux"
 [mod:amf]: <https://www.nexusmods.com/stardewvalley/mods/7886> "Advanced Melee Framework"
 [mod:sve]: <https://www.nexusmods.com/stardewvalley/mods/3753> "Stardew Valley Expanded"
+
+[🔼 Back to top](#margo-slingshots-slngs)

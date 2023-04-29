@@ -1,6 +1,6 @@
 <div align="center">
 
-# ![](https://i.imgur.com/6sWaRit.png) Modular Overhaul :: Tools (TOLS) ![](https://i.imgur.com/4rYYYCD.png)
+# ![](https://i.imgur.com/6sWaRit.png) MARGO :: Tools (TOLS) ![](https://i.imgur.com/4rYYYCD.png)
 
 </div>
 
@@ -71,3 +71,5 @@ The tools are compatible withThis mod uses Harmony to patch the behavior of Axe 
 - Compatible with [Harvest Moon FoMT-like Watering Can And Hoe Area](https://www.nexusmods.com/stardewvalley/mods/7851) as long as you don't touch Hoe and Watering Can settings (although you can just set them to the same values used by that mod to achieve the same effect).
 - **Not** compatible with the likes of [Combat Controls - Fixed Mouse Click](https://www.nexusmods.com/stardewvalley/mods/2590) or [Combat Controls Redux](https://www.nexusmods.com/stardewvalley/mods/10496), as those features are already included in this and others modules.
 - **Not** compatible with other Harvest With Scythe mods, such as [Yet Another Harvest With Scythe](https://www.nexusmods.com/stardewvalley/mods/2731).
+
+[🔼 Back to top](#margo-tools-tols)

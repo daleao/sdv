@@ -1,7 +1,6 @@
-﻿
-<div align="center">
+﻿<div align="center">
 
-# Modular Overhaul :: Weapons (WPNZ)
+# MARGO :: Weapons (WPNZ)
 
 </div>
 
@@ -235,3 +234,5 @@ Unforge the Blade of Dawn to obtain a Hero Soul, and then forge it into any Gala
 [mod:vanilla-tweaks]: <https://www.nexusmods.com/stardewvalley/mods/10852> "Vanilla Tweaks"
 [mod:sve]: <https://www.nexusmods.com/stardewvalley/mods/3753> "Stardew Valley Expanded"
 [tropes:color-coded]: <https://tvtropes.org/pmwiki/pmwiki.php/Main/ColourCodedForYourConvenience> "Color-Coded for Your Convenience"
+
+[🔼 Back to top](#margo-weapons-wpnz)

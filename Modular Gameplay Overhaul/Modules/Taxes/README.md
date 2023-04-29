@@ -1,6 +1,6 @@
-<div align="center">
+﻿<div align="center">
 
-# Modular Overhaul :: Taxes (TXS)
+# MARGO :: Taxes (TXS)
 
 </div>
 
@@ -35,3 +35,5 @@ Lateness fines are generally higher for property taxes (configurable). But since
 ## Compatibility
 
 Should be compatible with anything (including [Ferngill Revenue Service](https://www.nexusmods.com/stardewvalley/mods/7566, but please don't try using both together).
+
+[🔼 Back to top](#margo-taxes-txs)

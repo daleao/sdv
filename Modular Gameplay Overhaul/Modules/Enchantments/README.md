@@ -1,7 +1,6 @@
-﻿
-<div align="center">
+﻿<div align="center">
 
-# Modular Overhaul :: Enchantments (ENCH)
+# MARGO :: Enchantments (ENCH)
 
 </div>
 
@@ -10,9 +9,11 @@
   <summary>Table of Contents</summary>
   <ol>
     <li><a href="#overview">Overview</a></li>
-    <li><a href="#gemstone-forges">Gemstone Forges</a></li>
-    <li><a href="#melee-enchantments">Melee Enchantments</a></li>
-    <li><a href="#ranged-enchantments">Ranged Enchantments</a></li>
+    <ol>
+        <li><a href="#gemstone-forges">Gemstone Forges</a></li>
+        <li><a href="#melee-enchantments">Melee Enchantments</a></li>
+        <li><a href="#ranged-enchantments">Ranged Enchantments</a></li>
+    </ol>
     <li><a href="#compatibility">Compatibility</a></li>
   </ol>
 </details>
@@ -74,3 +75,5 @@ The enchantments below are entirely new and unique to slingshots.
 <!-- MARKDOWN LINKS & IMAGES -->
 
 [mod:enhanced-slingshots]: <https://www.nexusmods.com/stardewvalley/mods/12763> "Enhanced Slingshots"
+
+[🔼 Back to top](#margo-enchantments-ench)
