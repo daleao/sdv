@@ -84,8 +84,9 @@ internal sealed class WeaponAssetRequestedEvent : AssetRequestedEvent
     private static void EditGilDialogue(IAssetData asset)
     {
         var data = asset.AsDictionary<string, string>().Data;
-        data[StardewValleyExpandedIntegration.Instance?.IsLoaded == true ? "Snoring" : "ComeBackLater"] =
-            I18n.Get("dialogue.gil.virtues");
+        data[StardewValleyExpandedIntegration.Instance?.IsLoaded == true
+                ? "Snoring"
+                : "ComeBackLater"] = I18n.Get("dialogue.gil.virtues");
     }
 
     /// <summary>Edits location string data with custom legendary sword rhyme.</summary>
@@ -179,13 +180,7 @@ internal sealed class WeaponAssetRequestedEvent : AssetRequestedEvent
         data[(int)Quest.ForgeIntro] = I18n.Get("quests.forge.intro");
         data[(int)Quest.ForgeNext] = I18n.Get("quests.forge.next");
         data[(int)Quest.CurseIntro] = I18n.Get("quests.hero.curse");
-        data[(int)Quest.HeroJourney] = I18n.Get("quests.hero.journey");
         data[(int)Quest.HeroReward] = I18n.Get("quests.hero.reward");
-        data[Virtue.Honor] = I18n.Get("quests.virtues.honor");
-        data[Virtue.Compassion] = I18n.Get("quests.virtues.compassion");
-        data[Virtue.Wisdom] = I18n.Get("quests.virtues.wisdom");
-        data[Virtue.Generosity] = I18n.Get("quests.virtues.generosity");
-        data[Virtue.Valor] = I18n.Get("quests.virtues.valor");
     }
 
     /// <summary>Edits Marlon's Galaxy Sword event in SVE, removing references to purchasable Galaxy weapons.</summary>
@@ -248,14 +243,6 @@ internal sealed class WeaponAssetRequestedEvent : AssetRequestedEvent
 
             data[key] = string.Join('/', fields);
         }
-
-        if (WeaponsModule.Config.InfinityPlusOne)
-        {
-            data[ItemIDs.InfinitySlingshot] = string.Format(
-                "Infinity Slingshot/{0}/1/3/1/308/0/0/4/-1/-1/0/.02/3/{1}",
-                I18n.Get("slingshots.infinity.desc"),
-                I18n.Get("slingshots.infinity.name"));
-        }
     }
 
     /// <summary>Edits weapons tilesheet with touched up textures.</summary>
@@ -310,8 +297,8 @@ internal sealed class WeaponAssetRequestedEvent : AssetRequestedEvent
 
         var data = asset.AsDictionary<string, string>().Data;
         data["144703/n viegoCurse/p Wizard"] = StardewValleyExpandedIntegration.Instance?.IsLoaded == true
-            ? I18n.Get("events.curse.intro.sve")
-            : I18n.Get("events.curse.intro");
+                ? I18n.Get("events.curse.intro.sve")
+                : I18n.Get("events.curse.intro");
     }
 
     #endregion editor callbacks

@@ -87,7 +87,8 @@ internal sealed class TehsFishingOverhaulIntegration : ModIntegration<TehsFishin
         GetTreasurePirateFactor = fishingApi => getTreasurePirateFactorLazily.Value(fishingApi);
     }
 
-    private TehsFishingOverhaulIntegration()
+    /// <summary>Initializes a new instance of the <see cref="TehsFishingOverhaulIntegration"/> class.</summary>
+    internal TehsFishingOverhaulIntegration()
         : base("TehPers.FishingOverhaul", "Teh's Fishing Overhaul", "3.2.0", ModHelper.ModRegistry)
     {
         this._events = ModHelper.Events;

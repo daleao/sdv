@@ -26,8 +26,9 @@ internal static class Farmer_ResonatingChords
 
     private static List<Chord> Create(Farmer farmer)
     {
-        var rings = WearMoreRingsIntegration.Instance?.ModApi?.GetAllRings(farmer) ??
-                    farmer.leftRing.Value.Collect(farmer.rightRing.Value);
+        var rings = WearMoreRingsIntegration.Instance
+            ?.ModApi
+            ?.GetAllRings(farmer) ?? farmer.leftRing.Value.Collect(farmer.rightRing.Value);
         return rings.OfType<CombinedRing>().Select(ring => ring.Get_Chord()).WhereNotNull().ToList();
     }
 }

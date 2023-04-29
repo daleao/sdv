@@ -1,5 +1,11 @@
 ﻿# Enchantments Change Log
 
+## 2.2.5
+
+### Fixed
+
+* Fixed possible Null-Reference in FarmerShowItemIntakePrefix.
+
 ## 2.2.3
 
 ### Fixed

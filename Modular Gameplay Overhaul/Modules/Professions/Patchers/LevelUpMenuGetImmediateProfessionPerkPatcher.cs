@@ -14,7 +14,6 @@ using DaLion.Shared.Extensions.SMAPI;
 using DaLion.Shared.Extensions.Stardew;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
-using Microsoft.Xna.Framework;
 using StardewValley.Buildings;
 using StardewValley.Menus;
 using StardewValley.Tools;

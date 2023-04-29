@@ -23,7 +23,7 @@ internal sealed class Harmonizer
 
     /// <summary>Initializes a new instance of the <see cref="Harmonizer"/> class.</summary>
     /// <param name="modRegistry">API for fetching metadata about loaded mods.</param>
-    /// <param name="harmonyId">The unique ID of the declaring module.</param>
+    /// <param name="harmonyId">The unique ID of the declaring mod.</param>
     internal Harmonizer(IModRegistry modRegistry, string harmonyId)
     {
         this._modRegistry = modRegistry;
@@ -59,7 +59,7 @@ internal sealed class Harmonizer
             .ApplyImplicitly(t => t.Namespace?.Contains(@namespace) == true);
     }
 
-    /// <summary>Implicitly applies<see cref="IHarmonyPatcher"/> types with the specified attribute.</summary>
+    /// <summary>Implicitly applies <see cref="IHarmonyPatcher"/> types with the specified attribute.</summary>
     /// <param name="modRegistry">API for fetching metadata about loaded mods.</param>
     /// <param name="harmonyId">The unique ID of the declaring mod.</param>
     /// <typeparam name="TAttribute">An <see cref="Attribute"/> type.</typeparam>
@@ -94,7 +94,7 @@ internal sealed class Harmonizer
             .Where(t => t.IsAssignableTo(typeof(IHarmonyPatcher)) && !t.IsAbstract && predicate(t))
             .ToArray();
 
-        Log.D($"[Harmonizer]: Found {patchTypes.Length} patch classes. Applying patches...");
+        Log.D($"[Harmonizer]: Found {patchTypes.Length} patch classes.");
         if (patchTypes.Length == 0)
         {
             return this;
@@ -103,56 +103,57 @@ internal sealed class Harmonizer
         Log.D("[Harmonizer]: Applying patches...");
         for (var i = 0; i < patchTypes.Length; i++)
         {
-            var type = patchTypes[i];
+            var patchType = patchTypes[i];
 #if RELEASE
-            var debugAttribute = type.GetCustomAttribute<DebugAttribute>();
+            var debugAttribute = patchType.GetCustomAttribute<DebugAttribute>();
             if (debugAttribute is not null)
             {
                 continue;
             }
 #endif
 
-            var implicitIgnoreAttribute = type.GetCustomAttribute<ImplicitIgnoreAttribute>();
+            var implicitIgnoreAttribute = patchType.GetCustomAttribute<ImplicitIgnoreAttribute>();
             if (implicitIgnoreAttribute is not null)
             {
                 continue;
             }
 
-            var requiresModAttribute = type.GetCustomAttribute<RequiresModAttribute>();
+            var requiresModAttribute = patchType.GetCustomAttribute<RequiresModAttribute>();
             if (requiresModAttribute is not null)
             {
                 if (!this._modRegistry.IsLoaded(requiresModAttribute.UniqueId))
                 {
                     Log.D(
-                        $"[Harmonizer]: The target mod {requiresModAttribute.UniqueId} is not loaded. {type.Name} will be ignored.");
+                        $"[Harmonizer]: The target mod {requiresModAttribute.UniqueId} is not loaded. {patchType.Name} will be ignored.");
                     continue;
                 }
 
+                var installedVersion = this._modRegistry.Get(requiresModAttribute.UniqueId)!.Manifest.Version;
                 if (!string.IsNullOrEmpty(requiresModAttribute.Version) &&
-                    this._modRegistry.Get(requiresModAttribute.UniqueId)!.Manifest.Version.IsOlderThan(
-                        requiresModAttribute.Version))
+                    installedVersion.IsOlderThan(requiresModAttribute.Version))
                 {
                     Log.W(
-                        $"[Harmonizer]: The integration patch {type.Name} will be ignored because the installed version of {requiresModAttribute.UniqueId} is older than minimum supported version." +
-                        $" Please update {requiresModAttribute.UniqueId} in order to enable integrations with {this.HarmonyId}.");
+                        $"[Harmonizer]: The integration patch {patchType.Name} will be ignored because the installed version of {requiresModAttribute.UniqueId} is older than minimum supported version." +
+                        $" Please update {requiresModAttribute.UniqueId} in order to enable integrations with {this.HarmonyId}." +
+                        $"\n\tInstalled version: {this._modRegistry.Get(requiresModAttribute.UniqueId)!.Manifest.Version}\n\tRequired version: {requiresModAttribute.Version}");
                     continue;
                 }
             }
 
-            var ignoreWithModAttribute = type.GetCustomAttribute<IgnoreWithModAttribute>();
+            var ignoreWithModAttribute = patchType.GetCustomAttribute<IgnoreWithModAttribute>();
             if (ignoreWithModAttribute is not null)
             {
                 if (this._modRegistry.IsLoaded(ignoreWithModAttribute.UniqueId))
                 {
                     Log.W(
-                        $"[Harmonizer]: The conflicting mod {ignoreWithModAttribute.UniqueId} is loaded. {type.Name} will be ignored.");
+                        $"[Harmonizer]: The conflicting mod {ignoreWithModAttribute.UniqueId} is loaded. {patchType.Name} will be ignored.");
                     continue;
                 }
             }
 
             try
             {
-                var patch = (IHarmonyPatcher?)type
+                var patch = (IHarmonyPatcher?)patchType
                     .GetConstructor(BindingFlags.Instance | BindingFlags.NonPublic, null, Type.EmptyTypes, null)
                     ?.Invoke(Array.Empty<object>());
                 if (patch is null)
@@ -162,16 +163,16 @@ internal sealed class Harmonizer
 
                 if (patch.Apply(this.Harmony))
                 {
-                    Log.D($"[Harmonizer]: Applied {type.Name} to {patch.Target.GetFullName()}.");
+                    Log.D($"[Harmonizer]: Applied {patchType.Name} to {patch.Target.GetFullName()}.");
                 }
                 else
                 {
-                    Log.W($"[Harmonizer]: {type.Name} was not applied.");
+                    Log.W($"[Harmonizer]: {patchType.Name} was not applied.");
                 }
             }
             catch (Exception ex)
             {
-                Log.E($"[Harmonizer]: Failed to apply {type.Name}.\nHarmony returned {ex}");
+                Log.E($"[Harmonizer]: Failed to apply {patchType.Name}.\nHarmony returned {ex}");
             }
         }
 

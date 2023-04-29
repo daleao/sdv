@@ -3,10 +3,8 @@
 #region using directives
 
 using System.Xml.Serialization;
-using DaLion.Overhaul.Modules.Weapons.Events;
 using DaLion.Overhaul.Modules.Weapons.Projectiles;
 using DaLion.Shared.Enums;
-using DaLion.Shared.Extensions.Stardew;
 using Microsoft.Xna.Framework;
 using StardewValley.Tools;
 

@@ -29,7 +29,7 @@ internal abstract class GameLaunchedEvent : ManagedEvent
     internal void OnGameLaunched(object? sender, GameLaunchedEventArgs e)
     {
         this.OnGameLaunchedImpl(sender, e);
-        this.Dispose();
+        this.Manager.Unmanage(this);
     }
 
     /// <inheritdoc cref="OnGameLaunched"/>

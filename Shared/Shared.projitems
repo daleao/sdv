@@ -152,6 +152,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Integrations\Automate\IAutomate.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Integrations\Automate\IAutomateApi.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Integrations\CustomResourceNodes\ICustomResourceClumpsApi.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Integrations\GenericModConfigMenu\GenericModConfigMenuOptionsIntegration.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Integrations\GenericModConfigMenu\IGenericModConfigMenuOptionsApi.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Integrations\GenericModConfigMenu\MultiPageLinkOption.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Integrations\GenericModConfigMenu\MultiCheckboxOption.cs" />

@@ -20,12 +20,28 @@ internal sealed class SlingshotAssetRequestedEvent : AssetRequestedEvent
         : base(manager)
     {
         this.Edit("TileSheets/weapons", new AssetEditor(EditWeaponsTileSheet, AssetEditPriority.Early));
+        this.Edit("Data/weapons", new AssetEditor(EditWeaponsData));
         this.Provide(
             $"{Manifest.UniqueID}/SnowballCollisionAnimation",
             new ModTextureProvider(() => "assets/animations/snowball.png"));
     }
 
     #region editor callbacks
+
+    /// <summary>Edits weapons data with Infinity Slingshot.</summary>
+    private static void EditWeaponsData(IAssetData asset)
+    {
+        if (!SlingshotsModule.Config.EnableInfinitySlingshot)
+        {
+            return;
+        }
+
+        var data = asset.AsDictionary<int, string>().Data;
+        data[ItemIDs.InfinitySlingshot] = string.Format(
+            "Infinity Slingshot/{0}/1/3/1/308/0/0/4/-1/-1/0/.02/3/{1}",
+            I18n.Get("slingshots.infinity.desc"),
+            I18n.Get("slingshots.infinity.name"));
+    }
 
     /// <summary>Edits weapons tilesheet with touched up textures.</summary>
     private static void EditWeaponsTileSheet(IAssetData asset)

@@ -4,7 +4,6 @@
 
 using DaLion.Shared.Content;
 using DaLion.Shared.Events;
-using StardewModdingAPI.Events;
 
 #endregion using directives
 

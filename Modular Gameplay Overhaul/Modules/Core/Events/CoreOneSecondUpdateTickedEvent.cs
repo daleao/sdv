@@ -20,6 +20,9 @@ internal sealed class CoreOneSecondUpdateTickedEvent : OneSecondUpdateTickedEven
     }
 
     /// <inheritdoc />
+    public override bool IsEnabled => !Data.InitialSetupComplete;
+
+    /// <inheritdoc />
     protected override void OnOneSecondUpdateTickedImpl(object? sender, OneSecondUpdateTickedEventArgs e)
     {
         if (Game1.ticks <= 1 || Game1.currentGameTime == null || Game1.activeClickableMenu is not TitleMenu ||
@@ -33,7 +36,6 @@ internal sealed class CoreOneSecondUpdateTickedEvent : OneSecondUpdateTickedEven
         Data.InitialSetupComplete = true;
         ModHelper.Data.WriteJsonFile("data.json", Data);
         GenericModConfigMenu.Instance.Reload();
-        this.Disable();
-        this.Dispose();
+        this.Manager.Unmanage(this);
     }
 }

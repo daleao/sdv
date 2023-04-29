@@ -89,6 +89,12 @@ internal sealed class EventManager
     /// <param name="event">An <see cref="IManagedEvent"/> instance.</param>
     internal void Unmanage(IManagedEvent @event)
     {
+        if (!this._eventCache.TryGetValue(@event.GetType(), out var managed) || managed != @event)
+        {
+            Log.D($"[EventManager]:{@event.GetType().Name} was not being managed.");
+            return;
+        }
+
         @event.Dispose();
         this._eventCache.Remove(@event.GetType());
         Log.D($"[EventManager]: No longer managing {@event.GetType().Name}.");
@@ -99,7 +105,7 @@ internal sealed class EventManager
     {
         this._eventCache.ForEach(pair => pair.Value.Dispose());
         this._eventCache.Clear();
-        Log.D("[EventManager]: No longer managing events.");
+        Log.D("[EventManager]: No longer managing any events.");
     }
 
     /// <summary>Disposes all <see cref="IManagedEvent"/> instances belonging to the specified namespace and removes them from the cache.</summary>
@@ -122,17 +128,17 @@ internal sealed class EventManager
     }
 
     /// <summary>Enable a single <see cref="IManagedEvent"/>.</summary>
-    /// <param name="type">A <see cref="IManagedEvent"/> type to enable.</param>
+    /// <param name="eventType">A <see cref="IManagedEvent"/> type to enable.</param>
     /// <returns><see langword="true"/> if the event's enabled status was changed, otherwise <see langword="false"/>.</returns>
-    internal bool Enable(Type type)
+    internal bool Enable(Type eventType)
     {
-        if (this.GetOrCreate(type)?.Enable() == true)
+        if (this.GetOrCreate(eventType)?.Enable() == true)
         {
-            Log.D($"[EventManager]: Enabled {type.Name}.");
+            Log.D($"[EventManager]: Enabled {eventType.Name}.");
             return true;
         }
 
-        Log.D($"[EventManager]: {type.Name} was not enabled.");
+        Log.D($"[EventManager]: {eventType.Name} was not enabled.");
         return false;
     }
 
@@ -147,7 +153,7 @@ internal sealed class EventManager
     }
 
     /// <summary>Enable a single <see cref="IManagedEvent"/>.</summary>
-    /// <typeparam name="TEvent">AA <see cref="IManagedEvent"/> type to enable.</typeparam>
+    /// <typeparam name="TEvent">A <see cref="IManagedEvent"/> type to enable.</typeparam>
     /// <returns><see langword="true"/> if the event's enabled status was changed, otherwise <see langword="false"/>.</returns>
     internal bool Enable<TEvent>()
         where TEvent : IManagedEvent
@@ -156,18 +162,18 @@ internal sealed class EventManager
     }
 
     /// <summary>Enables a single <see cref="IManagedEvent"/> for the specified screen.</summary>
-    /// <param name="type">A <see cref="IManagedEvent"/> type to enable.</param>
+    /// <param name="eventType">A <see cref="IManagedEvent"/> type to enable.</param>
     /// <param name="screenId">A local peer's screen ID.</param>
     /// <returns><see langword="true"/> if the event's enabled status was changed, otherwise <see langword="false"/>.</returns>
-    internal bool EnableForScreen(Type type, int screenId)
+    internal bool EnableForScreen(Type eventType, int screenId)
     {
-        if (this.GetOrCreate(type)?.EnableForScreen(screenId) == true)
+        if (this.GetOrCreate(eventType)?.EnableForScreen(screenId) == true)
         {
-            Log.D($"[EventManager]: Enabled {type.Name}.");
+            Log.D($"[EventManager]: Enabled {eventType.Name}.");
             return true;
         }
 
-        Log.D($"[EventManager]: {type.Name} was not enabled.");
+        Log.D($"[EventManager]: {eventType.Name} was not enabled.");
         return false;
     }
 
@@ -193,11 +199,11 @@ internal sealed class EventManager
     }
 
     /// <summary>Enables a single <see cref="IManagedEvent"/> for the specified screen.</summary>
-    /// <param name="type">A <see cref="IManagedEvent"/> type to enable.</param>
-    internal void EnableForAllScreens(Type type)
+    /// <param name="eventType">A <see cref="IManagedEvent"/> type to enable.</param>
+    internal void EnableForAllScreens(Type eventType)
     {
-        this.GetOrCreate(type)?.EnableForAllScreens();
-        Log.D($"[EventManager]: Enabled {type.Name} for all screens.");
+        this.GetOrCreate(eventType)?.EnableForAllScreens();
+        Log.D($"[EventManager]: Enabled {eventType.Name} for all screens.");
     }
 
     /// <summary>Enables the specified <see cref="IManagedEvent"/> types for the specified screen.</summary>
@@ -219,17 +225,17 @@ internal sealed class EventManager
     }
 
     /// <summary>Disables a single <see cref="IManagedEvent"/>.</summary>
-    /// <param name="type">A <see cref="IManagedEvent"/> type to disable.</param>
+    /// <param name="eventType">A <see cref="IManagedEvent"/> type to disable.</param>
     /// <returns><see langword="true"/> if the event's enabled status was changed, otherwise <see langword="false"/>.</returns>
-    internal bool Disable(Type type)
+    internal bool Disable(Type eventType)
     {
-        if (this.GetOrCreate(type)?.Disable() == true)
+        if (this.GetOrCreate(eventType)?.Disable() == true)
         {
-            Log.D($"[EventManager]: Disabled {type.Name}.");
+            Log.D($"[EventManager]: Disabled {eventType.Name}.");
             return true;
         }
 
-        Log.D($"[EventManager]: {type.Name} was not disabled.");
+        Log.D($"[EventManager]: {eventType.Name} was not disabled.");
         return false;
     }
 
@@ -253,18 +259,18 @@ internal sealed class EventManager
     }
 
     /// <summary>Disables a single <see cref="IManagedEvent"/> for the specified screen.</summary>
-    /// <param name="type">A <see cref="IManagedEvent"/> type to disable.</param>
+    /// <param name="eventType">A <see cref="IManagedEvent"/> type to disable.</param>
     /// <param name="screenId">A local peer's screen ID.</param>
     /// <returns><see langword="true"/> if the event's enabled status was changed, otherwise <see langword="false"/>.</returns>
-    internal bool DisableForScreen(Type type, int screenId)
+    internal bool DisableForScreen(Type eventType, int screenId)
     {
-        if (this.GetOrCreate(type)?.DisableForScreen(screenId) == true)
+        if (this.GetOrCreate(eventType)?.DisableForScreen(screenId) == true)
         {
-            Log.D($"[EventManager]: Disabled {type.Name}.");
+            Log.D($"[EventManager]: Disabled {eventType.Name}.");
             return true;
         }
 
-        Log.D($"[EventManager]: {type.Name} was not disabled.");
+        Log.D($"[EventManager]: {eventType.Name} was not disabled.");
         return false;
     }
 
@@ -290,11 +296,11 @@ internal sealed class EventManager
     }
 
     /// <summary>Disables a single <see cref="IManagedEvent"/> for the specified screen.</summary>
-    /// <param name="type">A <see cref="IManagedEvent"/> type to disable.</param>
-    internal void DisableForAllScreens(Type type)
+    /// <param name="eventType">A <see cref="IManagedEvent"/> type to disable.</param>
+    internal void DisableForAllScreens(Type eventType)
     {
-        this.GetOrCreate(type)?.DisableForAllScreens();
-        Log.D($"[EventManager]: Enabled {type.Name} for all screens.");
+        this.GetOrCreate(eventType)?.DisableForAllScreens();
+        Log.D($"[EventManager]: Enabled {eventType.Name} for all screens.");
     }
 
     /// <summary>Disables the specified <see cref="IManagedEvent"/>s for the specified screen.</summary>
@@ -373,6 +379,23 @@ internal sealed class EventManager
         Log.D("[EventManager]: Reset all managed events for all screens.");
     }
 
+    /// <summary>Gets the <see cref="IManagedEvent"/> instance of type <paramref name="eventType"/>.</summary>
+    /// <param name="eventType">A type implementing <see cref="IManagedEvent"/>.</param>
+    /// <returns>A <see cref="IManagedEvent"/> instance of the specified <paramref name="eventType"/> if one exists, otherwise <see langword="null"/>.</returns>
+    internal IManagedEvent? Get(Type eventType)
+    {
+        return this._eventCache.TryGetValue(eventType, out var got) ? got : null;
+    }
+
+    /// <summary>Gets the <see cref="IManagedEvent"/> instance of type <typeparamref name="TEvent"/>.</summary>
+    /// <typeparam name="TEvent">A type implementing <see cref="IManagedEvent"/>.</typeparam>
+    /// <returns>A <see cref="IManagedEvent"/> instance of type <typeparamref name="TEvent"/> if one exists, otherwise <see langword="null"/>.</returns>
+    internal IManagedEvent? Get<TEvent>()
+        where TEvent : IManagedEvent
+    {
+        return this.Get(typeof(TEvent));
+    }
+
     /// <summary>Enumerates all managed <see cref="IManagedEvent"/> instances declared in the specified <paramref name="namespace"/>.</summary>
     /// <param name="namespace">The desired namespace.</param>
     /// <returns>An <see cref="IEnumerable{T}"/> of <see cref="IManagedEvent"/>s.</returns>
@@ -442,28 +465,28 @@ internal sealed class EventManager
         Log.D("[EventManager]: Instantiating events....");
         for (var i = 0; i < eventTypes.Length; i++)
         {
-            var type = eventTypes[i];
+            var eventType = eventTypes[i];
 #if RELEASE
-            var debugAttribute = type.GetCustomAttribute<DebugAttribute>();
+            var debugAttribute = eventType.GetCustomAttribute<DebugAttribute>();
             if (debugAttribute is not null)
             {
                 continue;
             }
 #endif
 
-            var deprecatedAttr = type.GetCustomAttribute<ImplicitIgnoreAttribute>();
+            var deprecatedAttr = eventType.GetCustomAttribute<ImplicitIgnoreAttribute>();
             if (deprecatedAttr is not null)
             {
                 continue;
             }
 
-            var requiresModAttribute = type.GetCustomAttribute<RequiresModAttribute>();
+            var requiresModAttribute = eventType.GetCustomAttribute<RequiresModAttribute>();
             if (requiresModAttribute is not null)
             {
                 if (!this._modRegistry.IsLoaded(requiresModAttribute.UniqueId))
                 {
                     Log.D(
-                        $"[EventManager]: The target mod {requiresModAttribute.UniqueId} is not loaded. {type.Name} will be ignored.");
+                        $"[EventManager]: The target mod {requiresModAttribute.UniqueId} is not loaded. {eventType.Name} will be ignored.");
                     continue;
                 }
 
@@ -472,35 +495,35 @@ internal sealed class EventManager
                         requiresModAttribute.Version))
                 {
                     Log.W(
-                        $"[EventManager]: The integration event {type.Name} will be ignored because the installed version of {requiresModAttribute.UniqueId} is older than minimum supported version." +
+                        $"[EventManager]: The integration event {eventType.Name} will be ignored because the installed version of {requiresModAttribute.UniqueId} is older than minimum supported version." +
                         $" Please update {requiresModAttribute.UniqueId} in order to enable integrations with this mod.");
                     continue;
                 }
             }
 
-            this.GetOrCreate(type);
+            this.GetOrCreate(eventType);
         }
     }
 
     /// <summary>Retrieves an existing event instance from the cache, or caches a new instance.</summary>
-    /// <param name="type">A type implementing <see cref="IManagedEvent"/>.</param>
+    /// <param name="eventType">A type implementing <see cref="IManagedEvent"/>.</param>
     /// <returns>The cached <see cref="IManagedEvent"/> instance, or <see langword="null"/> if one could not be created.</returns>
-    private IManagedEvent? GetOrCreate(Type type)
+    private IManagedEvent? GetOrCreate(Type eventType)
     {
-        if (this._eventCache.TryGetValue(type, out var instance))
+        if (this._eventCache.TryGetValue(eventType, out var instance))
         {
             return instance;
         }
 
-        instance = this.Create(type);
+        instance = this.Create(eventType);
         if (instance is null)
         {
-            Log.E($"[EventManager]: Failed to create {type.Name}.");
+            Log.E($"[EventManager]: Failed to create {eventType.Name}.");
             return null;
         }
 
-        this._eventCache.Add(type, instance);
-        Log.D($"[EventManager]: Now managing {type.Name}.");
+        this._eventCache.Add(eventType, instance);
+        Log.D($"[EventManager]: Now managing {eventType.Name}.");
 
         return instance;
     }
@@ -513,43 +536,43 @@ internal sealed class EventManager
         return this.GetOrCreate(typeof(TEvent));
     }
 
-    /// <summary>Instantiates a new <see cref="IManagedEvent"/> instance of the specified <paramref name="type"/>.</summary>
-    /// <param name="type">A type implementing <see cref="IManagedEvent"/>.</param>
-    /// <returns>A <see cref="IManagedEvent"/> instance of the specified <paramref name="type"/>.</returns>
-    private IManagedEvent? Create(Type type)
+    /// <summary>Instantiates a new <see cref="IManagedEvent"/> instance of the specified <paramref name="eventType"/>.</summary>
+    /// <param name="eventType">A type implementing <see cref="IManagedEvent"/>.</param>
+    /// <returns>A <see cref="IManagedEvent"/> instance of the specified <paramref name="eventType"/>.</returns>
+    private IManagedEvent? Create(Type eventType)
     {
-        if (!type.IsAssignableTo(typeof(IManagedEvent)) || type.IsAbstract || type.GetConstructor(
+        if (!eventType.IsAssignableTo(typeof(IManagedEvent)) || eventType.IsAbstract || eventType.GetConstructor(
                 BindingFlags.Instance | BindingFlags.NonPublic,
                 null,
                 new[] { this.GetType() },
                 null) is null)
         {
-            Log.E($"[EventManager]: {type.Name} is not a valid event type.");
+            Log.E($"[EventManager]: {eventType.Name} is not a valid event type.");
             return null;
         }
 
 #if RELEASE
-        var debugAttribute = type.GetCustomAttribute<DebugAttribute>();
+        var debugAttribute = eventType.GetCustomAttribute<DebugAttribute>();
         if (debugAttribute is not null)
         {
             return null;
         }
 #endif
 
-        var implicitIgnoreAttribute = type.GetCustomAttribute<ImplicitIgnoreAttribute>();
+        var implicitIgnoreAttribute = eventType.GetCustomAttribute<ImplicitIgnoreAttribute>();
         if (implicitIgnoreAttribute is not null)
         {
-            Log.D($"[EventManager]: {type.Name} is will be ignored.");
+            Log.D($"[EventManager]: {eventType.Name} is will be ignored.");
             return null;
         }
 
-        var requiresModAttribute = type.GetCustomAttribute<RequiresModAttribute>();
+        var requiresModAttribute = eventType.GetCustomAttribute<RequiresModAttribute>();
         if (requiresModAttribute is not null)
         {
             if (!this._modRegistry.IsLoaded(requiresModAttribute.UniqueId))
             {
                 Log.D(
-                    $"[EventManager]: The target mod {requiresModAttribute.UniqueId} is not loaded. {type.Name} will be ignored.");
+                    $"[EventManager]: The target mod {requiresModAttribute.UniqueId} is not loaded. {eventType.Name} will be ignored.");
                 return null;
             }
 
@@ -558,13 +581,13 @@ internal sealed class EventManager
                     requiresModAttribute.Version))
             {
                 Log.W(
-                    $"[EventManager]: The integration event {type.Name} will be ignored because the installed version of {requiresModAttribute.UniqueId} is older than minimum supported version." +
+                    $"[EventManager]: The integration event {eventType.Name} will be ignored because the installed version of {requiresModAttribute.UniqueId} is older than minimum supported version." +
                     $" Please update {requiresModAttribute.UniqueId} in order to enable integrations with this mod.");
                 return null;
             }
         }
 
-        return (IManagedEvent)type
+        return (IManagedEvent)eventType
             .GetConstructor(
                 BindingFlags.Instance | BindingFlags.NonPublic,
                 null,

@@ -1,5 +1,11 @@
 ﻿# Weapons Change Log
 
+## 2.2.5
+
+### Fixed
+
+* Removed the leftover Virtue quest entries which were causing severe crashing in 2.2.4.
+
 ## 2.2.4
 
 ### Removed

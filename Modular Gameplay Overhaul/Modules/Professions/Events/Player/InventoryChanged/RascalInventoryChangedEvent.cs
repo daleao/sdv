@@ -4,7 +4,6 @@
 
 using DaLion.Overhaul.Modules.Professions.Extensions;
 using DaLion.Shared.Events;
-using Newtonsoft.Json.Linq;
 using StardewModdingAPI.Events;
 using StardewValley.Tools;
 

@@ -6,7 +6,6 @@ using System.Reflection;
 using DaLion.Overhaul;
 using DaLion.Overhaul.Modules.Weapons;
 using DaLion.Shared.Extensions;
-using DaLion.Shared.Extensions.Collections;
 using DaLion.Shared.Extensions.Stardew;
 using DaLion.Shared.Harmony;
 using HarmonyLib;

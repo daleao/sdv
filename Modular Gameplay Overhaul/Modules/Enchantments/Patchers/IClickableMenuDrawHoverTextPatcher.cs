@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
 using System.Text;
-using DaLion.Shared.Extensions;
+using DaLion.Overhaul.Modules.Enchantments.Gemstone;
 using DaLion.Shared.Extensions.Reflection;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
@@ -19,6 +19,17 @@ using StardewValley.Menus;
 [UsedImplicitly]
 internal sealed class IClickableMenuDrawHoverTextPatcher : HarmonyPatcher
 {
+    private static readonly Dictionary<Type, Color> ColorByEnchantmentType = new()
+    {
+        { typeof(RubyEnchantment), new Color(225, 57, 57) },
+        { typeof(AquamarineEnchantment), new Color(35, 144, 170) },
+        { typeof(AmethystEnchantment), new Color(111, 60, 196) },
+        { typeof(GarnetEnchantment), new Color(152, 29, 45) },
+        { typeof(EmeraldEnchantment), new Color(4, 128, 54) },
+        { typeof(JadeEnchantment), new Color(117, 150, 99) },
+        { typeof(TopazEnchantment), new Color(220, 143, 8) },
+    };
+
     /// <summary>Initializes a new instance of the <see cref="IClickableMenuDrawHoverTextPatcher"/> class.</summary>
     internal IClickableMenuDrawHoverTextPatcher()
     {
@@ -276,8 +287,7 @@ internal sealed class IClickableMenuDrawHoverTextPatcher : HarmonyPatcher
                 continue;
             }
 
-            var name = enchantment.GetType().Name.SplitCamelCase()[0];
-            if (!Rings.Gemstone.TryFromName(name, true, out var gemstone))
+            if (!ColorByEnchantmentType.TryGetValue(enchantment.GetType(), out var color))
             {
                 continue;
             }
@@ -289,7 +299,7 @@ internal sealed class IClickableMenuDrawHoverTextPatcher : HarmonyPatcher
                     Textures.ForgeIconTx,
                     position,
                     sourceRect,
-                    gemstone.StoneColor,
+                    color,
                     0f,
                     Vector2.Zero,
                     4f,

@@ -2,6 +2,10 @@
 
 This file contains a TL;DR of current version changes and hotfixes from across all modules. For the complete changelog, please refer to the individual changelogs of each module, linked [below](#detailed-change-logs).
 
+## Patch 2.2.5 Highlight
+
+* [WPNZ]: Fixed crashing issue in town and Spcial Order board.
+
 ## Patch 2.2.4 Highlight
 
 * [SLNGS]: Infinity Slingshot can now be created even if WPNZ module is disabled.

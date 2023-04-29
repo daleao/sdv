@@ -13,6 +13,7 @@ using DaLion.Shared.Extensions.Collections;
 using DaLion.Shared.Extensions.SMAPI;
 using DaLion.Shared.Extensions.Stardew;
 using DaLion.Shared.Harmony;
+using DaLion.Shared.Integrations;
 using HarmonyLib;
 using StardewValley.Tools;
 
@@ -160,6 +161,11 @@ public abstract class OverhaulModule
         return Context.IsWorldReady;
     }
 
+    /// <summary>Registers module integrations with third-party mods.</summary>
+    internal virtual void RegisterIntegrations()
+    {
+    }
+
     /// <summary>Causes SMAPI to reload all assets edited by this module.</summary>
     protected virtual void InvalidateAssets()
     {
@@ -192,11 +198,18 @@ public abstract class OverhaulModule
         internal override void Activate(IModHelper helper)
         {
             base.Activate(helper);
+            //EventManager.ManageNamespace("DaLion.Shared");
 #if DEBUG
             // start FPS counter
             Globals.FpsCounter = new FrameRateCounter(GameRunner.instance);
             helper.Reflection.GetMethod(Globals.FpsCounter, "LoadContent").Invoke();
 #endif
+        }
+
+        /// <inheritdoc />
+        internal override void RegisterIntegrations()
+        {
+            (Modules.Core.ConfigMenu.GenericModConfigMenu.Instance as IModIntegration)?.Register();
         }
     }
 
@@ -242,6 +255,21 @@ public abstract class OverhaulModule
             {
                 base.Activate(helper);
             }
+        }
+
+        /// <inheritdoc />
+        internal override void RegisterIntegrations()
+        {
+            new IModIntegration?[]
+            {
+                Modules.Professions.Integrations.SpaceCoreIntegration.Instance,
+                Modules.Professions.Integrations.LuckSkillIntegration.Instance,
+                Modules.Professions.Integrations.LoveOfCookingIntegration.Instance,
+                Modules.Professions.Integrations.AutomateIntegration.Instance,
+                Modules.Professions.Integrations.TehsFishingOverhaulIntegration.Instance,
+                Modules.Professions.Integrations.CustomOreNodesIntegration.Instance,
+                Modules.Professions.Integrations.StardewValleyExpandedIntegration.Instance,
+            }.ForEach(integration => integration?.Register());
         }
 
         /// <inheritdoc />
@@ -586,6 +614,18 @@ public abstract class OverhaulModule
         }
 
         /// <inheritdoc />
+        internal override void RegisterIntegrations()
+        {
+            new IModIntegration?[]
+            {
+                Modules.Weapons.Integrations.SpaceCoreIntegration.Instance,
+                Modules.Weapons.Integrations.JsonAssetsIntegration.Instance,
+                Modules.Weapons.Integrations.StardewValleyExpandedIntegration.Instance,
+                Modules.Weapons.Integrations.VanillaTweaksIntegration.Instance,
+            }.ForEach(integration => integration?.Register());
+        }
+
+        /// <inheritdoc />
         protected override void InvalidateAssets()
         {
             ModHelper.GameContent.InvalidateCacheAndLocalized("Characters/Dialogue/Gil");
@@ -696,6 +736,12 @@ public abstract class OverhaulModule
                 base.Activate(helper);
             }
         }
+
+        /// <inheritdoc />
+        internal override void RegisterIntegrations()
+        {
+            (Modules.Tools.Integrations.MoonMisadventuresIntegration.Instance as IModIntegration)?.Register();
+        }
     }
 
     internal sealed class EnchantmentsModule : OverhaulModule
@@ -803,6 +849,12 @@ public abstract class OverhaulModule
         }
 
         /// <inheritdoc />
+        internal override void RegisterIntegrations()
+        {
+            (Modules.Enchantments.Integrations.SpaceCoreIntegration.Instance as IModIntegration)?.Register();
+        }
+
+        /// <inheritdoc />
         protected override void InvalidateAssets()
         {
             ModHelper.GameContent.InvalidateCache("TileSheets/BuffsIcons");
@@ -850,6 +902,19 @@ public abstract class OverhaulModule
             {
                 base.Activate(helper);
             }
+        }
+
+        /// <inheritdoc />
+        internal override void RegisterIntegrations()
+        {
+            new IModIntegration?[]
+            {
+                Modules.Rings.Integrations.BetterCraftingIntegration.Instance,
+                Modules.Rings.Integrations.WearMoreRingsIntegration.Instance,
+                Modules.Rings.Integrations.BetterRingsIntegration.Instance,
+                Modules.Rings.Integrations.VanillaTweaksIntegration.Instance,
+                Modules.Rings.Integrations.JsonAssetsIntegration.Instance,
+            }.ForEach(integration => integration?.Register());
         }
 
         /// <inheritdoc />

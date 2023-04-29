@@ -11,7 +11,8 @@ using DaLion.Shared.Integrations;
 [RequiresMod("spacechase0.MoonMisadventures", "Moon Misadventures")]
 internal sealed class MoonMisadventuresIntegration : ModIntegration<MoonMisadventuresIntegration>
 {
-    private MoonMisadventuresIntegration()
+    /// <summary>Initializes a new instance of the <see cref="MoonMisadventuresIntegration"/> class.</summary>
+    internal MoonMisadventuresIntegration()
         : base("spacechase0.MoonMisadventures", "Moon Misadventures", null, ModHelper.ModRegistry)
     {
     }

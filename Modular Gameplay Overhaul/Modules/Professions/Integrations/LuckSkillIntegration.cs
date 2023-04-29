@@ -11,7 +11,8 @@ using DaLion.Shared.Integrations.LuckSkill;
 [RequiresMod("spacechase0.LuckSkill", "Luck Skill", "1.2.3")]
 internal sealed class LuckSkillIntegration : ModIntegration<LuckSkillIntegration, ILuckSkillApi>
 {
-    private LuckSkillIntegration()
+    /// <summary>Initializes a new instance of the <see cref="LuckSkillIntegration"/> class.</summary>
+    internal LuckSkillIntegration()
         : base("spacechase0.LuckSkill", "Luck Skill", "1.2.3", ModHelper.ModRegistry)
     {
     }

@@ -2,7 +2,6 @@
 
 #region using directives
 
-using DaLion.Overhaul.Modules.Rings.Integrations;
 using DaLion.Shared.Events;
 using StardewModdingAPI.Events;
 
@@ -21,17 +20,6 @@ internal class RingGameLaunchedEvent : GameLaunchedEvent
     /// <inheritdoc />
     protected override void OnGameLaunchedImpl(object? sender, GameLaunchedEventArgs e)
     {
-        // only soft dependencies
-        BetterCraftingIntegration.Instance?.Register();
-        WearMoreRingsIntegration.Instance?.Register();
-        BetterRingsIntegration.Instance?.Register();
-
-        // these two are mutually exclusive
-        if (BetterRingsIntegration.Instance?.IsRegistered != true)
-        {
-            VanillaTweaksIntegration.Instance?.Register();
-        }
-
-        JsonAssetsIntegration.Instance?.Register();
+        OverhaulModule.Rings.RegisterIntegrations();
     }
 }

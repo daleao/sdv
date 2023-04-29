@@ -2,7 +2,6 @@
 
 #region using directives
 
-using DaLion.Overhaul.Modules.Weapons.Integrations;
 using DaLion.Shared.Events;
 using StardewModdingAPI.Events;
 
@@ -21,13 +20,7 @@ internal sealed class WeaponGameLaunchedEvent : GameLaunchedEvent
     /// <inheritdoc />
     protected override void OnGameLaunchedImpl(object? sender, GameLaunchedEventArgs e)
     {
-        // hard dependencies
-        SpaceCoreIntegration.Instance!.Register();
-
-        // soft dependencies or integrations
-        JsonAssetsIntegration.Instance?.Register();
-        StardewValleyExpandedIntegration.Instance?.Register();
-        VanillaTweaksIntegration.Instance?.Register();
+        OverhaulModule.Weapons.RegisterIntegrations();
 
         if (WeaponsModule.Config.GalaxySwordType == WeaponType.StabbingSword)
         {

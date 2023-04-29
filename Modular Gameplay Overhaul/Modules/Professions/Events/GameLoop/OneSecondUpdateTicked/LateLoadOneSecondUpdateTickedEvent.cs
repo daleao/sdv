@@ -22,16 +22,13 @@ internal sealed class LateLoadOneSecondUpdateTickedEvent : OneSecondUpdateTicked
     /// <inheritdoc />
     protected override void OnOneSecondUpdateTickedImpl(object? sender, OneSecondUpdateTickedEventArgs e)
     {
-        // hard dependency
         // we load all custom skills on the 2nd second update tick because Love of Cooking registers on the 1st
         SpaceCoreIntegration.Instance!.LoadSpaceCoreSkills();
-
-        // soft dependency
         LuckSkillIntegration.Instance?.LoadLuckSkill();
 
         // revalidate levels
         SCSkill.Loaded.Values.ForEach(s => s.Revalidate());
 
-        this.Dispose();
+        this.Manager.Unmanage(this);
     }
 }

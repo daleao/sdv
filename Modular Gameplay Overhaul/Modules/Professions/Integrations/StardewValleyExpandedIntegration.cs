@@ -11,7 +11,8 @@ using DaLion.Shared.Integrations;
 [RequiresMod("FlashShifter.StardewValleyExpandedCP", "StardewValleyExpanded")]
 internal sealed class StardewValleyExpandedIntegration : ModIntegration<StardewValleyExpandedIntegration>
 {
-    private StardewValleyExpandedIntegration()
+    /// <summary>Initializes a new instance of the <see cref="StardewValleyExpandedIntegration"/> class.</summary>
+    internal StardewValleyExpandedIntegration()
         : base(
             "FlashShifter.StardewValleyExpandedCP",
             "StardewValleyExpanded",

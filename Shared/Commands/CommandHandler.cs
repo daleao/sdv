@@ -168,7 +168,7 @@ internal sealed class CommandHandler
             .Where(t => t.IsAssignableTo(typeof(IConsoleCommand)) && !t.IsAbstract && predicate(t))
             .ToArray();
 
-        Log.D($"[CommandHandler]: Found {commandTypes.Length} command classes. Instantiating commands...");
+        Log.D($"[CommandHandler]: Found {commandTypes.Length} command classes.");
         if (commandTypes.Length == 0)
         {
             return this;
@@ -177,24 +177,24 @@ internal sealed class CommandHandler
         Log.D($"[CommandHandler]: Instantiating commands...");
         for (var i = 0; i < commandTypes.Length; i++)
         {
-            var type = commandTypes[i];
+            var commandType = commandTypes[i];
             try
             {
 #if RELEASE
-                var debugAttribute = type.GetCustomAttribute<DebugAttribute>();
+                var debugAttribute = commandType.GetCustomAttribute<DebugAttribute>();
                 if (debugAttribute is not null)
                 {
                     continue;
                 }
 #endif
 
-                var implicitIgnoreAttribute = type.GetCustomAttribute<ImplicitIgnoreAttribute>();
+                var implicitIgnoreAttribute = commandType.GetCustomAttribute<ImplicitIgnoreAttribute>();
                 if (implicitIgnoreAttribute is not null)
                 {
                     continue;
                 }
 
-                var command = (IConsoleCommand)type
+                var command = (IConsoleCommand)commandType
                     .GetConstructor(
                         BindingFlags.Instance | BindingFlags.NonPublic,
                         null,
@@ -210,7 +210,7 @@ internal sealed class CommandHandler
             }
             catch (Exception ex)
             {
-                Log.E($"[CommandHandler]: Failed to handle {type.Name}.\n{ex}");
+                Log.E($"[CommandHandler]: Failed to handle {commandType.Name}.\n{ex}");
             }
         }
 

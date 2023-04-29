@@ -1,5 +1,11 @@
 ﻿# Modular Overhaul Core Change Log
 
+## 2.2.5
+
+### Fixed
+
+* Made some changes to Integration framework to allow integrations to register when modules are activated via GMCM.
+
 ## 2.2.3
 
 ### Added

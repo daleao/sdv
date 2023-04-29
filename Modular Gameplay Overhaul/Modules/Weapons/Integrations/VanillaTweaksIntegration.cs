@@ -11,7 +11,8 @@ using DaLion.Shared.Integrations;
 [RequiresMod("Taiyo.VanillaTweaks", "Vanilla Tweaks")]
 internal sealed class VanillaTweaksIntegration : ModIntegration<VanillaTweaksIntegration>
 {
-    private VanillaTweaksIntegration()
+    /// <summary>Initializes a new instance of the <see cref="VanillaTweaksIntegration"/> class.</summary>
+    internal VanillaTweaksIntegration()
         : base("Taiyo.VanillaTweaks", "Vanilla Tweaks", null, ModHelper.ModRegistry)
     {
     }
@@ -29,7 +30,7 @@ internal sealed class VanillaTweaksIntegration : ModIntegration<VanillaTweaksInt
 
         if (ModHelper.ReadContentPackConfig("Taiyo.VanillaTweaks") is { } jObject)
         {
-            this.WeaponsCategoryEnabled = jObject.Value<bool>("WeaponsCategoryEnabled") == true;
+            this.WeaponsCategoryEnabled = jObject.Value<bool>("WeaponsCategoryEnabled");
             ModHelper.GameContent.InvalidateCache("TileSheets/weapons");
             return true;
         }

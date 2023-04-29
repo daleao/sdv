@@ -7,7 +7,6 @@ using System.Reflection;
 using System.Reflection.Emit;
 using DaLion.Overhaul.Modules.Enchantments.Melee;
 using DaLion.Overhaul.Modules.Enchantments.Ranged;
-using DaLion.Overhaul.Modules.Weapons.Enchantments;
 using DaLion.Shared.Extensions.Reflection;
 using DaLion.Shared.Harmony;
 using HarmonyLib;

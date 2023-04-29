@@ -30,7 +30,7 @@ internal abstract class FirstSecondUpdateTickedEvent : ManagedEvent
     internal void OnFirstSecondUpdateTicked(object? sender, OneSecondUpdateTickedEventArgs e)
     {
         this.OnFirstSecondUpdateTickedImpl(sender, e);
-        this.Dispose();
+        this.Manager.Unmanage(this);
     }
 
     /// <inheritdoc cref="OnFirstSecondUpdateTicked"/>

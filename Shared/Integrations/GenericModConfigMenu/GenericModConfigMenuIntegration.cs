@@ -28,14 +28,14 @@ internal abstract class GenericModConfigMenuIntegration<TGenericModConfigMenu, T
         : base("spacechase0.GenericModConfigMenu", "GenericModConfigMenu", "1.6.0", modRegistry)
     {
         this.ConsumerManifest = consumerManifest;
-        GenericModConfigMenuOptions.Instance?.Register();
     }
 
     /// <summary>Gets the manifest for the mod consuming the API.</summary>
     internal IManifest ConsumerManifest { get; }
 
-    /// <summary>Gets the API for registering complex options.</summary>
-    private static IGenericModConfigMenuOptionsApi? ComplexOptions => GenericModConfigMenuOptions.Instance?.ModApi;
+    /// <summary>Gets the API for registering complex options, if available.</summary>
+    private static IGenericModConfigMenuOptionsApi? ComplexOptions =>
+        GenericModConfigMenuOptionsIntegration.Instance?.ModApi;
 
     /// <summary>Registers the mod config.</summary>
     /// <param name="titleScreenOnly">Whether the options can only be edited from the title screen.</param>
@@ -469,13 +469,4 @@ internal abstract class GenericModConfigMenuIntegration<TGenericModConfigMenu, T
 
     /// <summary>Save and apply the current config model.</summary>
     protected abstract void SaveAndApply();
-
-    [RequiresMod("jltaylor-us.GMCMOptions", "GMCM Options")]
-    internal sealed class GenericModConfigMenuOptions : ModIntegration<GenericModConfigMenuOptions, IGenericModConfigMenuOptionsApi>
-    {
-        private GenericModConfigMenuOptions()
-            : base("jltaylor-us.GMCMOptions", "GMCM Options", "1.2.0", ModHelper.ModRegistry)
-        {
-        }
-    }
 }

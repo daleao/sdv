@@ -12,17 +12,24 @@ internal sealed partial class GenericModConfigMenu : GenericModConfigMenuIntegra
 {
     private static bool _reload;
 
-    private GenericModConfigMenu()
+    /// <summary>Initializes a new instance of the <see cref="GenericModConfigMenu"/> class.</summary>
+    internal GenericModConfigMenu()
         : base(ModHelper.ModRegistry, Manifest)
     {
     }
 
-    /// <summary>Registers the integration and performs initial setup.</summary>
-    internal new void Register()
+    /// <summary>Resets the mod config menu.</summary>
+    internal void Reload()
+    {
+        this.Unregister().Register();
+        Log.D("[GMCM]: The Modular Overhaul config menu has been reloaded.");
+    }
+
+    /// <inheritdoc />
+    protected override bool RegisterImpl()
     {
         // register
-        this
-            .Register(titleScreenOnly: true);
+        this.Register(titleScreenOnly: true);
 
         if (!Data.InitialSetupComplete)
         {
@@ -40,12 +47,10 @@ internal sealed partial class GenericModConfigMenu : GenericModConfigMenuIntegra
                       "\n\nNote that certain modules may cause a JSON shuffle or other side-effects if enabled or disabled mid-playthrough.");
         }
 
-        this
-            .AddModuleSelectionOption();
-
+        this.AddModuleSelectionOption();
         if (!Data.InitialSetupComplete)
         {
-            return;
+            return this.IsRegistered;
         }
 
         this
@@ -109,13 +114,7 @@ internal sealed partial class GenericModConfigMenu : GenericModConfigMenuIntegra
         }
 
         this.OnFieldChanged((_, _) => { _reload = true; });
-    }
-
-    /// <summary>Resets the mod config menu.</summary>
-    internal void Reload()
-    {
-        this.Unregister().Register();
-        Log.D("[GMCM]: The Modular Overhaul config menu has been reloaded.");
+        return this.IsRegistered;
     }
 
     /// <inheritdoc />

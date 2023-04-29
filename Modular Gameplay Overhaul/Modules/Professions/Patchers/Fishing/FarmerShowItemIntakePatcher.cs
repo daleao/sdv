@@ -3,7 +3,6 @@
 #region using directives
 
 using System.Reflection;
-using DaLion.Shared.Extensions;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
 using Microsoft.Xna.Framework;
@@ -28,7 +27,7 @@ internal sealed class FarmerShowItemIntakePatcher : HarmonyPatcher
     {
         try
         {
-            if (!who.mostRecentlyGrabbedItem.ParentSheetIndex.IsIn(14, 51))
+            if (who.mostRecentlyGrabbedItem?.ParentSheetIndex is not ItemIDs.BrokenTrident or ItemIDs.NeptuneGlaive)
             {
                 return true; // run original logic
             }

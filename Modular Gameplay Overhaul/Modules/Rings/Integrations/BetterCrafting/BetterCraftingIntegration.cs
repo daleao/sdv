@@ -12,7 +12,8 @@ using DaLion.Shared.Integrations.BetterCrafting;
 [RequiresMod("leclair.bettercrafting", "Better Crafting", "1.0.0")]
 internal sealed class BetterCraftingIntegration : ModIntegration<BetterCraftingIntegration, IBetterCraftingApi>
 {
-    private BetterCraftingIntegration()
+    /// <summary>Initializes a new instance of the <see cref="BetterCraftingIntegration"/> class.</summary>
+    internal BetterCraftingIntegration()
         : base("leclair.bettercrafting", "Better Crafting", "1.0.0", ModHelper.ModRegistry)
     {
     }

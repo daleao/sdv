@@ -11,7 +11,8 @@ using DaLion.Shared.Integrations.SpaceCore;
 [RequiresMod("spacechase0.SpaceCore", "SpaceCore", "1.12.0")]
 internal sealed class SpaceCoreIntegration : ModIntegration<SpaceCoreIntegration, ISpaceCoreApi>
 {
-    private SpaceCoreIntegration()
+    /// <summary>Initializes a new instance of the <see cref="SpaceCoreIntegration"/> class.</summary>
+    internal SpaceCoreIntegration()
         : base("spacechase0.SpaceCore", "SpaceCore", "1.12.0", ModHelper.ModRegistry)
     {
     }

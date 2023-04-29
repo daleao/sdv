@@ -6,6 +6,7 @@ using DaLion.Overhaul.Modules.Rings;
 using DaLion.Overhaul.Modules.Rings.Integrations;
 using DaLion.Overhaul.Modules.Rings.VirtualProperties;
 using DaLion.Shared.Extensions.SMAPI;
+using DaLion.Shared.Integrations;
 
 #endregion using directives
 
@@ -47,13 +48,14 @@ internal sealed partial class GenericModConfigMenu
                     config.Rings.BetterGlowstoneProgression = value;
                     ModHelper.GameContent.InvalidateCacheAndLocalized("Data/CraftingRecipes");
                 })
+            .SetTitleScreenOnlyForNextOptions(true)
             .AddCheckbox(
                 () => "The One Infinity Band",
                 () => "Replaces the Iridium Band recipe and effect. Adds new forge mechanics.",
                 config => config.Rings.TheOneInfinityBand,
                 (config, value) =>
                 {
-                    if (value && !ModHelper.ModRegistry.IsLoaded("spacechase0.JsonAssets"))
+                    if (value && JsonAssetsIntegration.Instance?.IsLoaded != true)
                     {
                         Log.W(
                             "Cannot enable The One Iridium Band because this feature requires Json Assets which is not installed.");
@@ -64,12 +66,12 @@ internal sealed partial class GenericModConfigMenu
                     ModHelper.GameContent.InvalidateCacheAndLocalized("Data/CraftingRecipes");
                     ModHelper.GameContent.InvalidateCacheAndLocalized("Data/ObjectInformation");
                     ModHelper.GameContent.InvalidateCacheAndLocalized("Maps/springobjects");
-                    if (value && !Globals.InfinityBandIndex.HasValue &&
-                        JsonAssetsIntegration.Instance?.IsRegistered == false)
+                    if (value && (JsonAssetsIntegration.Instance?.IsRegistered != true || !Globals.InfinityBandIndex.HasValue))
                     {
-                        JsonAssetsIntegration.Instance.Register();
+                        (JsonAssetsIntegration.Instance as IModIntegration)!.Register();
                     }
                 })
+            .SetTitleScreenOnlyForNextOptions(false)
             .AddCheckbox(
                 () => "Enable Gemstone Resonance",
                 () => "Allows gemstones to harmonize and resonate in close proximity of each other.",

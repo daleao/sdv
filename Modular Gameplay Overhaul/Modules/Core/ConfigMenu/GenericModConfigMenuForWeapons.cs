@@ -7,6 +7,7 @@ using DaLion.Overhaul.Modules.Weapons.Integrations;
 using DaLion.Shared.Exceptions;
 using DaLion.Shared.Extensions.Collections;
 using DaLion.Shared.Extensions.SMAPI;
+using DaLion.Shared.Integrations;
 using DaLion.Shared.Integrations.GenericModConfigMenu;
 using Microsoft.Xna.Framework;
 using StardewValley.Tools;
@@ -196,22 +197,23 @@ internal sealed partial class GenericModConfigMenu
                 () => "Replaces the starting Rusty Sword with a Wooden Blade.",
                 config => config.Weapons.WoodyReplacesRusty,
                 (config, value) => config.Weapons.WoodyReplacesRusty = value)
+            .SetTitleScreenOnlyForNextOptions(true)
             .AddCheckbox(
                 () => "Dwarvish Legacy",
                 () => "Allows crafting Masterwork weapons by uncovering ancient Dwarvish blueprints.",
                 config => config.Weapons.DwarvenLegacy,
                 (config, value) =>
                 {
-                    if (value && !ModHelper.ModRegistry.IsLoaded("spacechase0.JsonAssets"))
+                    if (value && JsonAssetsIntegration.Instance?.IsLoaded != true)
                     {
                         Log.W("Cannot enable Dwarven Legacy because this feature requires Json Assets, which is not installed.");
                         return;
                     }
 
                     config.Weapons.DwarvenLegacy = value;
-                    if (value && !Globals.DwarvenScrapIndex.HasValue && JsonAssetsIntegration.Instance?.IsRegistered == false)
+                    if (value && (JsonAssetsIntegration.Instance?.IsRegistered != true || !Globals.DwarvenScrapIndex.HasValue))
                     {
-                        JsonAssetsIntegration.Instance.Register();
+                        (JsonAssetsIntegration.Instance as IModIntegration)!.Register();
                     }
 
                     ModHelper.GameContent.InvalidateCacheAndLocalized("Data/Events/Blacksmith");
@@ -225,16 +227,16 @@ internal sealed partial class GenericModConfigMenu
                 config => config.Weapons.InfinityPlusOne,
                 (config, value) =>
                 {
-                    if (value && !ModHelper.ModRegistry.IsLoaded("spacechase0.JsonAssets"))
+                    if (value && JsonAssetsIntegration.Instance?.IsLoaded != true)
                     {
                         Log.W("Cannot enable Infinity +1 weapons because this feature requires Json Assets, which is not installed.");
                         return;
                     }
 
                     config.Weapons.InfinityPlusOne = value;
-                    if (value && !Globals.HeroSoulIndex.HasValue && JsonAssetsIntegration.Instance?.IsRegistered == false)
+                    if (value && (JsonAssetsIntegration.Instance?.IsRegistered != true || !Globals.HeroSoulIndex.HasValue))
                     {
-                        JsonAssetsIntegration.Instance.Register();
+                        (JsonAssetsIntegration.Instance as IModIntegration)!.Register();
                     }
 
                     ModHelper.GameContent.InvalidateCacheAndLocalized("Data/Events/WizardHouse");
@@ -247,21 +249,12 @@ internal sealed partial class GenericModConfigMenu
                     {
                         ModHelper.GameContent.InvalidateCache("TileSheets/weapons");
                     }
-
-                    if (!Context.IsWorldReady)
+                    else if (VanillaTweaksIntegration.Instance?.IsLoaded == true)
                     {
-                        return;
-                    }
-
-                    if (value)
-                    {
-                        WeaponsModule.RemoveAllIntrinsicEnchantments();
-                    }
-                    else
-                    {
-                        WeaponsModule.AddAllIntrinsicEnchantments();
+                        (VanillaTweaksIntegration.Instance as IModIntegration).Register();
                     }
                 })
+            .SetTitleScreenOnlyForNextOptions(false)
             .AddNumberField(
                 () => "Iridium Bars Per Galaxy Weapon",
                 () => "The number of Iridium Bars required to receive a Galaxy weapon.",

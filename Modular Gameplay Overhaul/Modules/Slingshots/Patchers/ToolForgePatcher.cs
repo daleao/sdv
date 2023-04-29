@@ -22,7 +22,6 @@ internal sealed class ToolForgePatcher : HarmonyPatcher
 
     #region harmony patches
 
-
     /// <summary>Transform Galaxy Slingshot into Infinity Slingshot.</summary>
     [HarmonyPrefix]
     private static bool ToolForgePrefix(Tool __instance, ref bool __result, Item item, bool count_towards_stats)
@@ -51,9 +50,28 @@ internal sealed class ToolForgePatcher : HarmonyPatcher
                 }
             }
 
-            if (!slingshot.AddEnchantment(enchantment) || slingshot.GetEnchantmentLevel<GalaxySoulEnchantment>() < 3)
+            __result = slingshot.AddEnchantment(enchantment);
+            if (!__result)
             {
-                return true; // run original logic
+                return false; // don't run original logic
+            }
+
+            if (slingshot.GetEnchantmentLevel<GalaxySoulEnchantment>() < 3)
+            {
+                if (!count_towards_stats)
+                {
+                    return false; // don't run original logic
+                }
+
+                slingshot.previousEnchantments.Insert(0, enchantment.GetName());
+                while (slingshot.previousEnchantments.Count > 2)
+                {
+                    slingshot.previousEnchantments.RemoveAt(slingshot.previousEnchantments.Count - 1);
+                }
+
+                Game1.stats.incrementStat("timesEnchanted", 1);
+
+                return false; // don't run original logic
             }
 
             slingshot.CurrentParentTileIndex = ItemIDs.InfinitySlingshot;
@@ -83,7 +101,6 @@ internal sealed class ToolForgePatcher : HarmonyPatcher
                 __instance.RemoveEnchantment(galaxyEnchantment);
             }
 
-            __result = true;
             return false; // don't run original logic
         }
         catch (Exception ex)

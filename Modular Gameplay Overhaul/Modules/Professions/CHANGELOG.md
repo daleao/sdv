@@ -212,7 +212,7 @@
 ### Removed
 
 * Removed the SeaweedIsTrash config setting.
-* Removed configs from the [IProfessions interface](../../../Shared/Integrations/ModularOverhaul/IModularOverhaul.cs).
+* Removed configs from the [IProfessions interface](../../API/IModularOverhaul.cs).
 
 ### Changed
 
@@ -223,7 +223,7 @@
 * **Slimed Piper** - Summoned Slimes are now friendly (will not attack players, but will still cause damage if touched).
 * **Desperado (Prestiged)** - ~~Overcharged shots become spreadshots.~~ Overcharged shots can pierce enemies.
     * The Spreadshot perk has been moved to a new enchantments provided by the Arsenal module. The ability to pierce enemies with overcharged shots is now the new prestige perk.
-* The [API](../../../Shared/Integrations/ModularOverhaul/IModularOverhaulApi.cs) has been slightly changed. Some mods may need to update the corresponding interfaces.
+* The [API](../../API/IModularOverhaulApi.cs) has been slightly changed. Some mods may need to update the corresponding interfaces.
 
 ### Fixed
 

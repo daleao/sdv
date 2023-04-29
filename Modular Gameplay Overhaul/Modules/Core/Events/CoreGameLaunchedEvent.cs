@@ -22,19 +22,10 @@ internal sealed class CoreGameLaunchedEvent : GameLaunchedEvent
     /// <inheritdoc />
     protected override void OnGameLaunchedImpl(object? sender, GameLaunchedEventArgs e)
     {
-        if (GenericModConfigMenu.Instance?.IsLoaded != true)
+        OverhaulModule.Core.RegisterIntegrations();
+        if (GenericModConfigMenu.Instance?.IsRegistered != true)
         {
-            return;
-        }
-
-        GenericModConfigMenu.Instance.Register();
-        if (!GenericModConfigMenu.Instance.IsRegistered)
-        {
-            return;
-        }
-
-        if (Data.InitialSetupComplete)
-        {
+            this.Manager.Unmanage(this.Manager.Get<CoreOneSecondUpdateTickedEvent>()!);
             return;
         }
 
@@ -42,6 +33,11 @@ internal sealed class CoreGameLaunchedEvent : GameLaunchedEvent
         {
             Data.InitialSetupComplete = true;
             ModHelper.Data.WriteJsonFile("data.json", Data);
+        }
+
+        if (Data.InitialSetupComplete)
+        {
+            this.Manager.Unmanage(this.Manager.Get<CoreOneSecondUpdateTickedEvent>()!);
             return;
         }
 

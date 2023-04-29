@@ -34,6 +34,7 @@ internal class ModuleSelectionOption : MultiCheckboxOption<OverhaulModule>
             if (newValue)
             {
                 module.Activate(ModHelper);
+                module.RegisterIntegrations();
             }
             else
             {

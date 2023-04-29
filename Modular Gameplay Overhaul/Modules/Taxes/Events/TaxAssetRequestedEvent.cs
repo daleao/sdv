@@ -5,7 +5,6 @@
 using DaLion.Shared.Content;
 using DaLion.Shared.Events;
 using DaLion.Shared.Extensions.Stardew;
-using StardewModdingAPI.Events;
 using static System.FormattableString;
 
 #endregion using directives
