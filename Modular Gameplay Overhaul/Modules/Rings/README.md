@@ -36,9 +36,9 @@ Finally, this module also introduces the Garnet Ring. This ring adds cooldown re
 ### Other Rings
 
 Most combat-oriented rings in vanilla are underwhelming and completely overlooked. This module tries to address that.
-- **Warrior Ring:** ~~Chance of giving the Warrior Energy (Attack +10 for 5s) buff after slaying a monster.~~ -> Gain a progressively higher attack bonus as you slay enemies (every 3 enemies increases attack by 1), which falls off gradually after some time out of combat.
-- **Ring of Yoba:** ~~Chance of giving the Yoba's Blessing (Invincible for 5s) buff after taking damage.~~ -> Taking damage that would leave you below 30% health instead grants a shield that absorbs up to 50% of your maximum health for 30s. Cannot be used again until health is fully recovered.
-- **Savage Ring:** ~~+2 Speed for 3s after slaying a monster.**~~ Gain a rapidly decaying Speed buff after slaying a monster.
+- **Warrior Ring:** ~~Chance of giving the Warrior Energy~~ (attack +10 for 5s) ~~buff after slaying a monster.~~ -> Gain a progressively higher attack bonus as you slay enemies (every 3 enemies increases attack by 1), which falls off gradually after some time out of combat.
+- **Ring of Yoba:** ~~Chance of giving the Yoba's Blessing~~ (invincible for 5s) ~~buff after taking damage.~~ -> Taking damage that would leave you below 30% health instead grants a shield that absorbs up to 50% of your maximum health for 30s. Cannot be used again until health is fully recovered.
+- **Savage Ring:** ~~+2 Speed for 3s after slaying a monster.**~~ -> Gain a rapidly decaying Speed buff after slaying a monster.
 - **Immunity Ring:** ~~Immunity +4.~~ -> Gain 100% immunity.
 - **Ring of Thorns:** Can cause Bleeding status (in addition to reflected damage).
 
