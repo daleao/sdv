@@ -11,9 +11,14 @@
     <li><a href="#overview">Overview</a></li>
     <li><a href="#combos-swing-speed">Combos & Swing Speed</a></li>
 	<li><a href="#offensive-defensive-swords">Offensive & Defensive Swords</a></li>    
-    <li><a href="#weapon-stat-rebalance">Weapon Stat Rebalance</a></li>
-    <li><a href="#weapon-retextures">Weapon Retextures</a></li>
-    <li><a href="#woody-replaces-rusty">Woody Replaces Rusty</a></li>
+    <li><a href="#weapon-tiers-rebalance">Weapon Tiers & Rebalance</a></li>
+    <ol>
+        <li><a href="#mythic-tier">Mythic Tier</a></li>
+        <li><a href="#masterwork-tier">Masterwork Tier</a></li>
+        <li><a href="#legendary-tier">Legendary Tier</a></li>
+        <li><a href="#mines">Mines</a></li>
+        <li><a href="#tooltips">Tooltips</a></li>
+    </ol>
     <li><a href="#infinity-1">Infinity +1</a></li>
     <li><a href="#other-features">Other Features</a></li>
     <li><a href="#compatibility">Compatibility</a></li>
@@ -32,7 +37,7 @@ This module has the following objectives:
 
 This module tries to achieve all of this through a combination of nerfs, buffs and entirely new mechanics which will overall make combat significantly more strategic and challenging. Players who don't care for a challenge or are uninterested in combat should probably keep this module disabled.
 
-### Combos & Swing Speed
+## Combos & Swing Speed <sup><sub><sup>[🔼](#margo-weapons-wpnz)</sup></sub></sup>
 
 Weapon spamming is replaced by combos. These are short bursts of continuous swings followed by a short cooldown. Each weapon type has a configurable combo limit:
     
@@ -42,7 +47,7 @@ Weapon spamming is replaced by combos. These are short bursts of continuous swin
 
 If combo hits are enabled, swing speed bonuses from emerald will affect every frame of the attack animation, as well as the cooldown in between combos. This makes speed a significantly more valuable stat than in Vanilla, where it only affected 1 out of 6 frames (and that frame could be animation-canceled).
 
-### Offensive & Defensive Swords
+## Offensive & Defensive Swords <sup><sub><sup>[🔼](#margo-weapons-wpnz)</sup></sub></sup>
 
 In vanilla game code we can find traces of an abandoned fourth weapon type: **Stabbing Swords**. This module re-implements stabbing swords into the game.
 
@@ -50,7 +55,7 @@ Swords are now split between **offensive** and **defensive** archetypes. Defensi
 
 To improve the defensive parry move, parry damage is increased by 10% for every defense point. This adds offensive value to the defense stat itself and makes defensive builds more viable. Note that the introduction of weapon combos also adds to the value of a defensive move (you need to protect yourself during combo downtime).
 
-### Weapon Tiers & Rebalance
+## Weapon Tiers & Rebalance <sup><sub><sup>[🔼](#margo-weapons-wpnz)</sup></sub></sup>
 
 Weapon stats have been rebalanced across the board:
 
@@ -71,7 +76,7 @@ Weapons are categorized by different tiers, [color-coded for your convenience][t
 
 Weapons below the Mythic tier all have randomized damage, determined the moment they are dropped and scaled to your Mine progression. This way, players can always loot stronger weapons; all weapons can be useful, and no specific weapon is ever trivialized. Higher-tier weapons will generally be stronger than lower-tiered ones, although that may not always be the case.
 
-#### Mythic Tier
+### Mythic Tier
 
 Mythic weapons are unique or extremely rare. They are usually quest rewards or very rare monster drops, and tend to carry intrinsic special abilities. In exchange, they cannot receive additional Prismatic Shard enchantments at the forge.
 
@@ -85,7 +90,7 @@ The known Mythic weapons are:
 
 Note that all status conditions require that the [CMBT](../Combat/README.md#status-conditions) module be enabled.
 
-#### Masterwork Tier
+### Masterwork Tier
 
 Masterwork weapons are relics of the Dwarven race, crafted from special materials. They can only be created by uncovering the lost Dwarvish Blueprints, and taking them to a skilled blacksmith along with the corresponding material:
 - **Elven** weapons, carved out of **Elderwood** obtained from [Scavenger Hunts](../Professions), are quick, nimble weapons enchanted with forest magic which grants them high reach and knockback.
@@ -94,20 +99,20 @@ Masterwork weapons are relics of the Dwarven race, crafted from special material
 
 Masterwork weapons can only be obtained if the Dwarven Legacy setting is enabled.
 
-#### Legendary Tier
+### Legendary Tier
 
 See [Infinity+1](#infinity-1).
 
-#### Mines Changes
+### Mines
 
 If this option is enabled, all weapons will be removed from Mine chests (replaced with valuable but random loot). New weapons will have to be dropped from monsters or breakable containers in Mines and other dungeons. Monster-dropped weapons are rare, but tend to be stronger. Lower-tier weapons can also be purchased directly from Marlon, but will have fixed and significantly weaker stats when obtained this way.
 
-#### Tooltips
+### Tooltips
 
 Weapon tooltips have also been improved for clarity, so you should always know exactly what each stat means.
 This is the only part of the whole Rebalance that will affect non-Vanilla weapons. Therefore, if you play with expansion mods which add new weapons (e.g., Ridgeside Village), you may see unusually large numbers in their tooltips. **This is not a bug**. Those weapons have not been changed in any way. This mod is simply revealing how broken those weapons have always been. For this reason, I **strongly** recommend ignoring these weapons, or even *deleting* them manually from the mod's files.**
 
-### Infinity +1
+## Infinity +1 <sup><sub><sup>[🔼](#margo-weapons-wpnz)</sup></sub></sup>
 
 According to [TV Tropes Wiki](https://tvtropes.org/pmwiki/pmwiki.php/Main/InfinityPlusOneSword), an Infinity +1 sword is "not only the most powerful of its kind ... , but its power is matched by how hard it is to acquire". The Vanilla Galaxy weapons do not quite fit that definition. Let's fix that, shall we?
 
@@ -121,7 +126,7 @@ In return for all that extra work, the Infinity weapons have extra perks:
 1. +1 gemstone slot (4 total). Keeping in mind that each gemstone can resonate with equipped [Infinity Bands](../Rings).
 2. While at full health, every swing will fire a mid-range energy beam.
 
-### Other Features
+## Other Features <sup><sub><sup>[🔼](#margo-weapons-wpnz)</sup></sub></sup>
 
 * **Weapons Retexture:** Available optionally, weapons can be retextured to better reflect their type or rarity. This is strongly recommended to visually distinguish Defensive and Offensive-oriented swords, and to make Mythic and above weapons look more unique and powerful. These textures will always be overwritten by Content Patcher weapon retextures if any is installed.
 
@@ -137,7 +142,7 @@ In return for all that extra work, the Infinity weapons have extra perks:
 
 * **Novelty Special Effects:** This module additionally adds tons of immersive details to weapon sound and visual effects, like changing the Lava Katana swipe to a fiery effect, and adding colors and particles to Galaxy and Infinity weapons.
 
-## Compatibility
+## Compatibility <sup><sub><sup>[🔼](#margo-weapons-wpnz)</sup></sub></sup>
 
 - **Not** compatible with other mods that introduce new weapon types or rebalance weapon stats, such as [Angel's Weapon Rebalance][mod:angels-rebalance].
 - **Not** compatible with the likes of [Combat Controls][mod:combat-controls] or [Combat Controls Redux][mod:combat-controls-redux], as those features are already included in this and other modules.

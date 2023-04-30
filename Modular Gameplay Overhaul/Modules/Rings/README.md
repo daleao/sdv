@@ -35,7 +35,7 @@ All features can be toggled on or off.
 - After disabling this module, please use [CJB Item Spawner][mod:cjb-spawner] or similar to delete and respawn all owned Iridium Bands to avoid issues.
 - Please note that this module introduces new items via Json Assets. Therefore enabling or disabling on existing saves **will cause a Json Shuffle**. You can avoid the shuffle by deleting the 'assets/json-assets' folder. This will allow you to use the crafting recipe features, but all Infinity Band features will become unusable, and should be kept disabled.
 
-## Ring Crafting Progression
+## Ring Crafting Progression <sup><sub><sup>[🔼](#margo-rings-rngs)</sup></sub></sup>
 
 The vanilla game does not allow rings to be used as crafting ingredients. This module bypasses that limitation, allowing, in particular, Glow and Magnet rings to be crafted from their smaller counterparts, and the Glowstone Ring to be crafted from the former two. This is not only more immersive, but also provides a more natural progression, providing some use for the hoards of small ring drops you'll undoubtedly accumulate.
 
@@ -44,7 +44,7 @@ In addition, new progressive crafting recipes are added for each of the gemstone
     - **Aquamarine and Jade:** *combat level 4, requires Iron Bars.*
     - **Emerald and Ruby:** *combat level 6, requires Gold Bars.*
 
-## Ring Rebalance
+## Ring Rebalance <sup><sub><sup>[🔼](#margo-rings-rngs)</sup></sub></sup>
 
 ### Gemstone Rings
 
@@ -65,7 +65,7 @@ Most combat-oriented rings in vanilla are underwhelming and completely overlooke
 - **Immunity Ring:** ~~Immunity +4.~~ -> Gain 100% immunity.
 - **Ring of Thorns:** Can cause Bleeding status (in addition to reflected damage).
 
-## Infinity Band
+## Infinity Band <sup><sub><sup>[🔼](#margo-rings-rngs)</sup></sub></sup>
 
 In vanilla, the Iridium Band is an instant 3-rings-in-1 which can also be forged to get a 4-rings-in-1. It completely triviliazes the Glow Ring, Magnet Ring and even the brand new Glowstone Ring, introduced in patch 1.5. This module aims to solve all of these issues while also alluding to everyone's favorite cinematic universe.
 

@@ -4,6 +4,18 @@
 
 </div>
 
+<!-- TABLE OF CONTENTS -->
+<details open="open" align="left">
+  <summary>Table of Contents</summary>
+  <ol>
+    <li><a href="#overview">Overview</a></li>
+    <ol>
+        <li><a href="#rebalance">Rebalance</a></li>
+    </ol>
+    <li><a href="#compatibility">Compatibility</a></li>
+  </ol>
+</details>
+
 ## Overview
 
 This module is a complete overhaul of Slingshot gameplay and mechanics with the objective of bringing them up to par with Melee Weapons, by granting to Slingshots all of the same perks afforded to Melee Weapons in vanilla, including:
