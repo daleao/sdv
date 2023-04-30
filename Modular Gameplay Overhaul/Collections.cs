@@ -147,7 +147,7 @@ internal static class Collections
         ItemIDs.Cutlass,
         ItemIDs.Rapier,
         ItemIDs.SteelFalchion,
-        ItemIDs.PiratesSword,
+        ItemIDs.PirateSword,
         ItemIDs.ForestSword,
         ItemIDs.LavaKatana,
         ItemIDs.DragontoothCutlass,

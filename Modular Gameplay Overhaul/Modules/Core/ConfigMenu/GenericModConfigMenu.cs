@@ -18,19 +18,10 @@ internal sealed partial class GenericModConfigMenu : GenericModConfigMenuIntegra
     {
     }
 
-    /// <summary>Resets the mod config menu.</summary>
-    internal void Reload()
-    {
-        this.Unregister().Register();
-        Log.D("[GMCM]: The Modular Overhaul config menu has been reloaded.");
-    }
-
     /// <inheritdoc />
-    protected override bool RegisterImpl()
+    protected override void BuildMenu()
     {
-        // register
-        this.Register(titleScreenOnly: true);
-
+        this.SetTitleScreenOnlyForNextOptions(true);
         if (!Data.InitialSetupComplete)
         {
             this.AddParagraph(
@@ -50,7 +41,7 @@ internal sealed partial class GenericModConfigMenu : GenericModConfigMenuIntegra
         this.AddModuleSelectionOption();
         if (!Data.InitialSetupComplete)
         {
-            return this.IsRegistered;
+            return;
         }
 
         this
@@ -63,58 +54,57 @@ internal sealed partial class GenericModConfigMenu : GenericModConfigMenuIntegra
                 getColumnsFromWidth: _ => 2);
 
         // add page contents
-        if (Config.EnableCombat)
-        {
-            this.RegisterCombat();
-        }
-
-        if (Config.EnableEnchantments)
-        {
-            this.RegisterEnchantments();
-        }
-
-        if (Config.EnablePonds)
-        {
-            this.RegisterPonds();
-        }
-
         if (Config.EnableProfessions)
         {
-            this.RegisterProfessions();
+            this.AddProfessionOptions();
         }
 
-        if (Config.EnableRings)
+        if (Config.EnableCombat)
         {
-            this.RegisterRings();
-        }
-
-        if (Config.EnableSlingshots)
-        {
-            this.RegisterSlingshots();
-        }
-
-        if (Config.EnableTools)
-        {
-            this.RegisterTools();
-        }
-
-        if (Config.EnableTaxes)
-        {
-            this.RegisterTaxes();
-        }
-
-        if (Config.EnableTweex)
-        {
-            this.RegisterTweex();
+            this.AddCombatOptions();
         }
 
         if (Config.EnableWeapons)
         {
-            this.RegisterWeapons();
+            this.AddWeaponOptions();
+        }
+
+        if (Config.EnableSlingshots)
+        {
+            this.AddSlingshotOptions();
+        }
+
+        if (Config.EnableTools)
+        {
+            this.AddToolOptions();
+        }
+
+        if (Config.EnableEnchantments)
+        {
+            this.AddEnchantmentOptions();
+        }
+
+        if (Config.EnableRings)
+        {
+            this.AddRingOptions();
+        }
+
+        if (Config.EnablePonds)
+        {
+            this.AddPondOptions();
+        }
+
+        if (Config.EnableTaxes)
+        {
+            this.AddTaxOptions();
+        }
+
+        if (Config.EnableTweex)
+        {
+            this.AddMiscOptions();
         }
 
         this.OnFieldChanged((_, _) => { _reload = true; });
-        return this.IsRegistered;
     }
 
     /// <inheritdoc />

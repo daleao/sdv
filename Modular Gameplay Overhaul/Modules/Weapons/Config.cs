@@ -105,6 +105,10 @@ public sealed class Config : Shared.Configs.Config
     [JsonProperty]
     public float RuinBladeDotMultiplier { get; internal set; } = 1f;
 
+    /// <summary>Gets a value indicating whether the Blade of Ruin can be deposited in chests.</summary>
+    [JsonProperty]
+    public bool CanStoreRuinBlade { get; internal set; } = false;
+
     /// <summary>Gets a value indicating the difficulty of the proven conditions for each virtue trial.</summary>
     [JsonProperty]
     public TrialDifficulty VirtueTrialTrialDifficulty { get; internal set; } = TrialDifficulty.Medium;

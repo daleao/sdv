@@ -1,5 +1,11 @@
 ﻿# SLNGS Change Log
 
+## 2.2.6 <sup><sub><sup>[🔼](#slngs-change-log)</sup></sub></sup>
+
+### Changed
+
+* When FaceMouseCursor is enabled, pressing the Action button will no longer cause the player to accidentally use a special move in another direction when trying to interact with something.
+
 ## 2.2.4 <sup><sub><sup>[🔼](#slngs-change-log)</sup></sub></sup>
 
 ### Added

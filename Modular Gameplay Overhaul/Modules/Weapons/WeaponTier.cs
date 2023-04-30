@@ -62,7 +62,7 @@ public sealed class WeaponTier : SmartEnum<WeaponTier>
             { ItemIDs.Claymore, Uncommon },
             { ItemIDs.WindSpire, Uncommon },
             { ItemIDs.LeadRod, Uncommon },
-            { ItemIDs.PiratesSword, Uncommon },
+            { ItemIDs.PirateSword, Uncommon },
 
             { ItemIDs.SteelFalchion, Rare },
             { ItemIDs.TemperedBroadsword, Rare },

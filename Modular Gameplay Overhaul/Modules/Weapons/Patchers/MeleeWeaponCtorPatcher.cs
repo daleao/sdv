@@ -32,15 +32,14 @@ internal sealed class MeleeWeaponCtorPatcher : HarmonyPatcher
 
         if (WeaponsModule.Config.EnableRebalance)
         {
+            if (__instance.InitialParentTileIndex == ItemIDs.InsectHead)
+            {
+                __instance.type.Value = MeleeWeapon.dagger;
+            }
+
             if (__instance.InitialParentTileIndex is ItemIDs.NeptuneGlaive)
             {
                 __instance.specialItem = true;
-                if (__instance.InitialParentTileIndex == ItemIDs.InsectHead)
-                {
-                    __instance.type.Value = MeleeWeapon.dagger;
-                }
-
-                return;
             }
 
             __instance.AddIntrinsicEnchantments();

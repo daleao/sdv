@@ -18,7 +18,7 @@ using StardewValley.Tools;
 internal sealed partial class GenericModConfigMenu
 {
     /// <summary>Register the Weapons config menu.</summary>
-    private void RegisterWeapons()
+    private void AddWeaponOptions()
     {
         this
             .AddPage(OverhaulModule.Weapons.Namespace, () => "Weapons Settings")
@@ -245,13 +245,18 @@ internal sealed partial class GenericModConfigMenu
                     ModHelper.GameContent.InvalidateCacheAndLocalized("Strings/Locations");
                     ModHelper.GameContent.InvalidateCacheAndLocalized("Strings/StringsFromCSFiles");
                     ModHelper.GameContent.InvalidateCache("TileSheets/Projectiles");
-                    if (VanillaTweaksIntegration.Instance?.IsRegistered == true)
+                    if (VanillaTweaksIntegration.Instance?.IsRegistered == true ||
+                        SimpleWeaponsIntegration.Instance?.IsRegistered == true)
                     {
                         ModHelper.GameContent.InvalidateCache("TileSheets/weapons");
                     }
                     else if (VanillaTweaksIntegration.Instance?.IsLoaded == true)
                     {
                         (VanillaTweaksIntegration.Instance as IModIntegration).Register();
+                    }
+                    else if (SimpleWeaponsIntegration.Instance?.IsLoaded == true)
+                    {
+                        (SimpleWeaponsIntegration.Instance as IModIntegration).Register();
                     }
                 })
             .SetTitleScreenOnlyForNextOptions(false)
@@ -270,6 +275,11 @@ internal sealed partial class GenericModConfigMenu
                 0,
                 2,
                 0.05f)
+            .AddCheckbox(
+                () => "Can Deposit Ruined Blade",
+                () => "Whether the Ruined Blade can be stored in chests.",
+                config => config.Weapons.CanStoreRuinBlade,
+                (config, value) => config.Weapons.CanStoreRuinBlade = value)
             .AddDropdown(
                 () => "Virtue Trial Difficulty",
                 () => "The general difficulty for completing each of the Virtue Trials. Changing this setting will immediately update your quest progress!!",

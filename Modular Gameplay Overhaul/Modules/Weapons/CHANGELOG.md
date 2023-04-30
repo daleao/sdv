@@ -1,5 +1,17 @@
 ﻿# WPNZ Change Log
 
+## 2.2.6 <sup><sub><sup>[🔼](#wpnz-change-log)</sup></sub></sup>
+
+### Added
+
+* Added instrinsic enchantment to Neptune Glaive: feels like a crashing wave, dealing heavy knockback. Thanks to [Deadnoz](https://www.nexusmods.com/stardewvalley/users/9502763) for the idea.
+* Added config setting to allow depositing the Blade of Ruin.
+* Added compatibility for [Simple Weapons](https://www.nexusmods.com/stardewvalley/mods/16491?tab=posts&BH=0).
+
+### Changed
+
+* When FaceMouseCursor is enabled, pressing the Action button will no longer cause the player to accidentally use a special move in another direction when trying to interact with something.
+
 ## 2.2.5 <sup><sub><sup>[🔼](#wpnz-change-log)</sup></sub></sup>
 
 ### Fixed

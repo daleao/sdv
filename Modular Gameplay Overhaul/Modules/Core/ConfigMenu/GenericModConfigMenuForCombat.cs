@@ -11,7 +11,7 @@ using StardewValley.Objects;
 internal sealed partial class GenericModConfigMenu
 {
     /// <summary>Register the Combat config menu.</summary>
-    private void RegisterCombat()
+    private void AddCombatOptions()
     {
         this
             .AddPage(OverhaulModule.Combat.Namespace, () => "Combat Settings")

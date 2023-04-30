@@ -4,7 +4,7 @@
 internal sealed partial class GenericModConfigMenu
 {
     /// <summary>Register the Ponds menu.</summary>
-    private void RegisterPonds()
+    private void AddPondOptions()
     {
         this
             .AddPage(OverhaulModule.Ponds.Namespace, () => "Pond Settings")

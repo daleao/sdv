@@ -4,7 +4,7 @@
 internal sealed partial class GenericModConfigMenu
 {
     /// <summary>Register the Tweex menu.</summary>
-    private void RegisterTweex()
+    private void AddMiscOptions()
     {
         this
             .AddPage(OverhaulModule.Tweex.Namespace, () => "Tweex Settings")

@@ -9,10 +9,10 @@ using HarmonyLib;
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class NPCReceiveGiftPatcher : HarmonyPatcher
+internal sealed class NpcReceiveGiftPatcher : HarmonyPatcher
 {
-    /// <summary>Initializes a new instance of the <see cref="NPCReceiveGiftPatcher"/> class.</summary>
-    internal NPCReceiveGiftPatcher()
+    /// <summary>Initializes a new instance of the <see cref="NpcReceiveGiftPatcher"/> class.</summary>
+    internal NpcReceiveGiftPatcher()
     {
         this.Target = this.RequireMethod<NPC>(nameof(NPC.receiveGift));
     }

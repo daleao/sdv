@@ -209,7 +209,7 @@ public abstract class OverhaulModule
         /// <inheritdoc />
         internal override void RegisterIntegrations()
         {
-            (Modules.Core.ConfigMenu.GenericModConfigMenu.Instance as IModIntegration)?.Register();
+            Modules.Core.ConfigMenu.GenericModConfigMenu.Instance?.Register();
         }
     }
 
@@ -622,6 +622,7 @@ public abstract class OverhaulModule
                 Modules.Weapons.Integrations.JsonAssetsIntegration.Instance,
                 Modules.Weapons.Integrations.StardewValleyExpandedIntegration.Instance,
                 Modules.Weapons.Integrations.VanillaTweaksIntegration.Instance,
+                Modules.Weapons.Integrations.SimpleWeaponsIntegration.Instance,
             }.ForEach(integration => integration?.Register());
         }
 

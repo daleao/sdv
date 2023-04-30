@@ -120,38 +120,42 @@ internal static class FarmExtensions
             }
         }
 
-        var previousAgricultureValue = 0;
-        var previousLiveStockValue = 0;
-        var previousBuildingValue = 0;
-        if (Game1.currentSeason != "spring" || Game1.dayOfMonth <= 8)
+        if (!SeasonExtensions.TryParse(Game1.currentSeason, true, out var currentSeason))
         {
-            previousAgricultureValue = farm.Read<int>(DataKeys.AgricultureValue);
-            previousLiveStockValue = farm.Read<int>(DataKeys.LivestockValue);
-            previousBuildingValue = farm.Read<int>(DataKeys.BuildingValue);
+            Log.E($"Failed to parse the current season {Game1.currentSeason}");
+            return (-1, -1, -1, -1);
         }
 
+        var weight = ((int)currentSeason * 2) + (Game1.dayOfMonth > 8 ? 2 : 1);
+        var previousAgricultureValue = farm.Read<int>(DataKeys.AgricultureValue);
+        var previousLiveStockValue = farm.Read<int>(DataKeys.LivestockValue);
+        var previousBuildingValue = farm.Read<int>(DataKeys.BuildingValue);
         if (previousAgricultureValue + previousLiveStockValue + previousBuildingValue > 0)
         {
-            if (!SeasonExtensions.TryParse(Game1.currentSeason, true, out var currentSeason))
+            if (currentSeason != Season.Winter)
             {
-                Log.E($"Failed to parse the current season {Game1.currentSeason}");
-                return (-1, -1, -1, -1);
+                totalAgricultureValue = (int)((float)(totalAgricultureValue + previousAgricultureValue) / weight);
             }
 
-            var weight = ((int)currentSeason * 2) + Game1.dayOfMonth > 8 ? 2 : 1;
-            totalAgricultureValue = (int)((float)(totalAgricultureValue + previousAgricultureValue) / weight);
             totalLivestockValue = (int)((float)(totalLivestockValue + previousLiveStockValue) / weight);
             totalBuildingValue = (int)((float)(totalBuildingValue + previousBuildingValue) / weight);
         }
 
-        if (forReal)
+        var previousUsedTiles = farm.Read<int>(DataKeys.UsedTiles);
+        if (currentSeason != Season.Winter)
         {
-            farm.Write(DataKeys.AgricultureValue, totalAgricultureValue.ToString());
-            farm.Write(DataKeys.LivestockValue, totalLivestockValue.ToString());
-            farm.Write(DataKeys.BuildingValue, totalBuildingValue.ToString());
-            farm.Write(DataKeys.UsedTiles, usedTiles.ToString());
+            usedTiles = (int)((float)(usedTiles + previousUsedTiles) / weight);
         }
 
+        if (!forReal)
+        {
+            return (totalAgricultureValue, totalLivestockValue, totalBuildingValue, usedTiles);
+        }
+
+        farm.Write(DataKeys.AgricultureValue, totalAgricultureValue.ToString());
+        farm.Write(DataKeys.LivestockValue, totalLivestockValue.ToString());
+        farm.Write(DataKeys.BuildingValue, totalBuildingValue.ToString());
+        farm.Write(DataKeys.UsedTiles, usedTiles.ToString());
         return (totalAgricultureValue, totalLivestockValue, totalBuildingValue, usedTiles);
     }
 }

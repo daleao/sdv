@@ -14,7 +14,7 @@ using DaLion.Shared.Integrations;
 internal sealed partial class GenericModConfigMenu
 {
     /// <summary>Register the Rings menu.</summary>
-    private void RegisterRings()
+    private void AddRingOptions()
     {
         this
             .AddPage(OverhaulModule.Rings.Namespace, () => "Ring Settings")

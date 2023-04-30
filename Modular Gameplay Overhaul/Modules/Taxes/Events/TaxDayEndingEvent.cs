@@ -82,7 +82,7 @@ internal sealed class TaxDayEndingEvent : DayEndingEvent
                 }
 
                 CheckIncomeStatement(taxpayer, ref dayIncome);
-                if (taxpayer.IsMainPlayer)
+                if (taxpayer.IsMainPlayer && Game1.currentSeason == "spring")
                 {
                     CheckPropertyStatement(taxpayer, ref dayIncome);
                 }
@@ -249,6 +249,7 @@ internal sealed class TaxDayEndingEvent : DayEndingEvent
         farm.Write(DataKeys.AgricultureValue, "0");
         farm.Write(DataKeys.LivestockValue, "0");
         farm.Write(DataKeys.BuildingValue, "0");
+        farm.Write(DataKeys.UsedTiles, "0");
     }
 
     private static void CheckOutstanding(Farmer taxpayer, ref int dayIncome)

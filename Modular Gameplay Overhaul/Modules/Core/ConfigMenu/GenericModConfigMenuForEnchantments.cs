@@ -12,7 +12,7 @@ using Microsoft.Xna.Framework.Graphics;
 internal sealed partial class GenericModConfigMenu
 {
     /// <summary>Register the Arsenal config menu.</summary>
-    private void RegisterEnchantments()
+    private void AddEnchantmentOptions()
     {
         this
             .AddPage(OverhaulModule.Enchantments.Namespace, () => "Enchantment Settings")

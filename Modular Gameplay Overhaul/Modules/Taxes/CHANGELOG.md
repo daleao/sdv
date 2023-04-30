@@ -1,5 +1,11 @@
 ﻿# TXS Change Log
 
+## 2.2.6 <sup><sub><sup>[🔼](#txs-change-log)</sup></sub></sup>
+
+### Fixed
+
+* Agriculture and UVA totals are no longer weighed down by the winter season (as advertised).
+
 ## 2.2.3 <sup><sub><sup>[🔼](#txs-change-log)</sup></sub></sup>
 
 ### Fixed

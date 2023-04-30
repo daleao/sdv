@@ -14,7 +14,7 @@ using Microsoft.Xna.Framework;
 internal sealed partial class GenericModConfigMenu
 {
     /// <summary>Register the config menu if available.</summary>
-    private void RegisterTools()
+    private void AddToolOptions()
     {
         var allowedUpgrades = new[] { "Copper", "Steel", "Gold", "Iridium" };
         var isMoonMisadventuresLoaded = MoonMisadventuresIntegration.Instance?.IsLoaded == true;

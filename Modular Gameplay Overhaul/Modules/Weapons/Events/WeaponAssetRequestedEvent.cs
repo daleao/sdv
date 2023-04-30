@@ -260,13 +260,18 @@ internal sealed class WeaponAssetRequestedEvent : AssetRequestedEvent
     /// <summary>Edits weapons tilesheet with touched up textures.</summary>
     private static void EditWeaponsTileSheetLate(IAssetData asset)
     {
-        if (VanillaTweaksIntegration.Instance?.WeaponsCategoryEnabled != true)
+        if (VanillaTweaksIntegration.Instance?.WeaponsCategoryEnabled != true &&
+            SimpleWeaponsIntegration.Instance?.IsLoaded != true)
         {
             return;
         }
 
         var editor = asset.AsImage();
-        var sourceTx = ModHelper.ModContent.Load<Texture2D>("assets/sprites/weapons_vanillatweaks.png");
+        var sourceTx = VanillaTweaksIntegration.Instance?.WeaponsCategoryEnabled == true
+            ? ModHelper.ModContent.Load<Texture2D>("assets/sprites/weapons_vanillatweaks.png")
+            : SimpleWeaponsIntegration.Instance?.IsLoaded == true
+                ? ModHelper.ModContent.Load<Texture2D>("assets/sprites/weapons_simple.png")
+                : Tool.weaponsTexture;
         Rectangle sourceArea, targetArea;
         if (WeaponsModule.Config.InfinityPlusOne)
         {
@@ -511,7 +516,7 @@ internal sealed class WeaponAssetRequestedEvent : AssetRequestedEvent
                 fields[CritChance] = 0.05.ToString(CultureInfo.InvariantCulture);
                 fields[CritPower] = 2.5.ToString(CultureInfo.InvariantCulture);
                 break;
-            case ItemIDs.PiratesSword:
+            case ItemIDs.PirateSword:
                 fields[MinDamage] = 36.ToString();
                 fields[MaxDamage] = 48.ToString();
                 fields[Knockback] = 0.5.ToString(CultureInfo.InvariantCulture);
@@ -524,20 +529,10 @@ internal sealed class WeaponAssetRequestedEvent : AssetRequestedEvent
                 fields[CritChance] = 0.075.ToString(CultureInfo.InvariantCulture);
                 fields[CritPower] = 2.0.ToString(CultureInfo.InvariantCulture);
                 break;
-            case ItemIDs.YetiTooth:
-                fields[MinDamage] = 33.ToString();
-                fields[MaxDamage] = 44.ToString();
-                fields[Knockback] = 0.6.ToString(CultureInfo.InvariantCulture);
-                fields[Speed] = (-1).ToString();
-                fields[Defense] = 1.ToString();
-                fields[BaseDropLevel] = (-1).ToString();
-                fields[MinDropLevel] = (-1).ToString();
-                fields[Aoe] = 8.ToString();
-                fields[CritChance] = 0.05.ToString(CultureInfo.InvariantCulture);
-                fields[CritPower] = 2.25.ToString(CultureInfo.InvariantCulture);
-                break;
+
+            // UNIQUE SWORDS
             case ItemIDs.ObsidianEdge:
-                fields[Description] += I18n.Get("weapons.obsidianedge.extradesc");
+                fields[Description] = I18n.Get("weapons.obsidianedge.desc");
                 fields[MinDamage] = 70.ToString();
                 fields[MaxDamage] = 95.ToString();
                 fields[Knockback] = 0.7.ToString(CultureInfo.InvariantCulture);
@@ -551,6 +546,7 @@ internal sealed class WeaponAssetRequestedEvent : AssetRequestedEvent
                 fields[CritPower] = 2.5.ToString(CultureInfo.InvariantCulture);
                 break;
             case ItemIDs.LavaKatana:
+                fields[Description] += I18n.Get("weapons.lavakatana.extradesc");
                 fields[MinDamage] = 95.ToString();
                 fields[MaxDamage] = 110.ToString();
                 fields[Knockback] = 0.4.ToString(CultureInfo.InvariantCulture);
@@ -563,18 +559,11 @@ internal sealed class WeaponAssetRequestedEvent : AssetRequestedEvent
                 fields[CritChance] = 0.0625.ToString(CultureInfo.InvariantCulture);
                 fields[CritPower] = 3.ToString(CultureInfo.InvariantCulture);
                 break;
-
-            // UNIQUE SWORDS
             case ItemIDs.NeptuneGlaive:
-                if (ModHelper.GameContent.CurrentLocaleConstant == LocalizedContentManager.LanguageCode.en)
-                {
-                    // make it sound more unique
-                    fields[Name] = "Neptune's Glaive";
-                }
-
+                fields[Description] = I18n.Get("weapons.neptuneglaive.desc");
                 fields[MinDamage] = 90.ToString();
                 fields[MaxDamage] = 120.ToString();
-                fields[Knockback] = 0.55.ToString(CultureInfo.InvariantCulture);
+                fields[Knockback] = 0.5.ToString(CultureInfo.InvariantCulture);
                 fields[Speed] = (-1).ToString();
                 fields[Defense] = 2.ToString();
                 fields[Precision] = 1.ToString();
@@ -583,6 +572,19 @@ internal sealed class WeaponAssetRequestedEvent : AssetRequestedEvent
                 fields[Aoe] = 8.ToString();
                 fields[CritChance] = 0.05.ToString(CultureInfo.InvariantCulture);
                 fields[CritPower] = 2.0.ToString(CultureInfo.InvariantCulture);
+                break;
+            case ItemIDs.YetiTooth:
+                fields[Description] += I18n.Get("weapons.yetitooth.extradesc");
+                fields[MinDamage] = 33.ToString();
+                fields[MaxDamage] = 44.ToString();
+                fields[Knockback] = 0.6.ToString(CultureInfo.InvariantCulture);
+                fields[Speed] = (-1).ToString();
+                fields[Defense] = 1.ToString();
+                fields[BaseDropLevel] = (-1).ToString();
+                fields[MinDropLevel] = (-1).ToString();
+                fields[Aoe] = 8.ToString();
+                fields[CritChance] = 0.05.ToString(CultureInfo.InvariantCulture);
+                fields[CritPower] = 2.25.ToString(CultureInfo.InvariantCulture);
                 break;
 
             // BIS SWORDS
@@ -821,7 +823,7 @@ internal sealed class WeaponAssetRequestedEvent : AssetRequestedEvent
                 fields[BaseDropLevel] = (-1).ToString();
                 fields[MinDropLevel] = (-1).ToString();
                 fields[Aoe] = (-4).ToString();
-                fields[CritChance] = 0.ToString(CultureInfo.InvariantCulture);
+                fields[CritChance] = 0.1.ToString(CultureInfo.InvariantCulture);
                 fields[CritPower] = 1.ToString(CultureInfo.InvariantCulture);
                 break;
 
@@ -836,24 +838,9 @@ internal sealed class WeaponAssetRequestedEvent : AssetRequestedEvent
                 fields[BaseDropLevel] = (-1).ToString();
                 fields[MinDropLevel] = (-1).ToString();
                 fields[Aoe] = 4.ToString();
-                fields[CritChance] = 0.10.ToString(CultureInfo.InvariantCulture);
+                fields[CritChance] = 0.1.ToString(CultureInfo.InvariantCulture);
                 fields[CritPower] = 1.65.ToString(CultureInfo.InvariantCulture);
                 break;
-            case ItemIDs.IridiumNeedle:
-                fields[Description] += I18n.Get("weapons.iridiumneedle.extradesc");
-                fields[MinDamage] = 68.ToString();
-                fields[MaxDamage] = 80.ToString();
-                fields[Knockback] = 0.1.ToString(CultureInfo.InvariantCulture);
-                fields[Speed] = 1.ToString();
-                fields[Precision] = 2.ToString();
-                fields[Defense] = (-2).ToString();
-                fields[BaseDropLevel] = (-1).ToString();
-                fields[MinDropLevel] = (-1).ToString();
-                fields[Aoe] = (-8).ToString();
-                fields[CritChance] = 1.ToString(CultureInfo.InvariantCulture);
-                fields[CritPower] = 1.ToString(CultureInfo.InvariantCulture);
-                break;
-
             case ItemIDs.DwarfDagger:
                 fields[MinDamage] = 95.ToString();
                 fields[MaxDamage] = 115.ToString();
@@ -892,6 +879,20 @@ internal sealed class WeaponAssetRequestedEvent : AssetRequestedEvent
                 fields[Aoe] = 8.ToString();
                 fields[CritChance] = 0.1.ToString(CultureInfo.InvariantCulture);
                 fields[CritPower] = 1.8.ToString(CultureInfo.InvariantCulture);
+                break;
+            case ItemIDs.IridiumNeedle:
+                fields[Description] += I18n.Get("weapons.iridiumneedle.extradesc");
+                fields[MinDamage] = 68.ToString();
+                fields[MaxDamage] = 80.ToString();
+                fields[Knockback] = 0.1.ToString(CultureInfo.InvariantCulture);
+                fields[Speed] = 1.ToString();
+                fields[Precision] = 2.ToString();
+                fields[Defense] = (-2).ToString();
+                fields[BaseDropLevel] = (-1).ToString();
+                fields[MinDropLevel] = (-1).ToString();
+                fields[Aoe] = (-8).ToString();
+                fields[CritChance] = 0.1.ToString(CultureInfo.InvariantCulture);
+                fields[CritPower] = 1.ToString(CultureInfo.InvariantCulture);
                 break;
 
             #endregion daggers

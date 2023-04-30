@@ -5,6 +5,7 @@
 using DaLion.Shared.Enums;
 using DaLion.Shared.Events;
 using DaLion.Shared.Extensions.Stardew;
+using DaLion.Shared.Extensions.Xna;
 using StardewModdingAPI.Events;
 using StardewValley.Tools;
 
@@ -61,7 +62,24 @@ internal sealed class SlingshotButtonPressedEvent : ButtonPressedEvent
         var originalDirection = (FacingDirection)player.FacingDirection;
         if (SlingshotsModule.Config.FaceMouseCursor && !Game1.options.gamepadControls)
         {
-            player.FaceTowardsTile(Game1.currentCursorTile);
+            var location = player.currentLocation;
+            var isNearActionableTile = false;
+            foreach (var tile in player.getTileLocation()
+                         .GetEightNeighbors(location.Map.DisplayWidth, location.Map.DisplayHeight))
+            {
+                if (!location.IsActionableTile(tile, player))
+                {
+                    continue;
+                }
+
+                isNearActionableTile = true;
+                break;
+            }
+
+            if (!isNearActionableTile)
+            {
+                player.FaceTowardsTile(Game1.currentCursorTile);
+            }
         }
 
         if (isActionButton && SlingshotsModule.State.SlingshotCooldown > 0)

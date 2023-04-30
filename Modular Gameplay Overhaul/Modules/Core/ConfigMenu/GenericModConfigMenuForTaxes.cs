@@ -6,7 +6,7 @@ using System.Linq;
 internal sealed partial class GenericModConfigMenu
 {
     /// <summary>Register the Taxes menu.</summary>
-    private void RegisterTaxes()
+    private void AddTaxOptions()
     {
         this
             .AddPage(OverhaulModule.Taxes.Namespace, () => "Tax Settings")

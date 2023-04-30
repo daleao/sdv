@@ -120,7 +120,7 @@ public sealed class ItemIDs
     public const int WickedKris = 45;
     public const int TheSlammer = 28;
 
-    public const int PiratesSword = 43;
+    public const int PirateSword = 43;
     public const int BrokenTrident = 51;
     public const int NeptuneGlaive = 14;
 

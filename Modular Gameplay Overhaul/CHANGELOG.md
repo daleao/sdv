@@ -2,11 +2,19 @@
 
 This file contains a TL;DR of current version changes and hotfixes from across all modules. For the complete changelog, please refer to the individual changelogs of each module, linked [below](#detailed-change-logs).
 
-## Patch 2.2.5 Highlight
+## Patch 2.2.6 Highlights
+
+* Fixed a bug preventing the config menu from reloading correctly.
+* [WPNZ]: Added instrinsic enchantment to Neptune Glaive: feels like a crashing wave, dealing heavy knockback. Thanks to [Deadnoz](https://www.nexusmods.com/stardewvalley/users/9502763) for the idea.
+* [WPNZ]: Added config setting to allow depositing the Blade of Ruin.
+* [WPNZ]: Added compatibility for [Simple Weapons](https://www.nexusmods.com/stardewvalley/mods/16491?tab=posts&BH=0).
+* [WPNZ][SLNGS]: When FaceMouseCursor is enabled, pressing the Action button will no longer cause the player to accidentally use a special move in another direction when trying to interact with something. If you've ever tried talking to an NPC, only to accidentally dash in a different direction while holding a Stabbing Sword, then you know what a game changer this should be.
+
+## Patch 2.2.5 Highlights
 
 * [WPNZ]: Fixed crashing issue in town and Spcial Order board.
 
-## Patch 2.2.4 Highlight
+## Patch 2.2.4 Highlights
 
 * [SLNGS]: Infinity Slingshot can now be created even if WPNZ module is disabled.
 
@@ -15,7 +23,7 @@ This file contains a TL;DR of current version changes and hotfixes from across a
 * [ENCH]: Fixed a bug causing implicit Mythic enchantments from WPNZ to be removed on load.
 * [SLNGS]: Fixed a bug preventing Galaxy Slingshot from receing Galaxy Souls.
 * [WPNZ]: You can now change the difficulty of the Ruined Blade's damage-over-time.
-* [WPNZ]: You can now change the difficulty of the Hero's Journey quest; i.e. the difficulty of completing each virtue trial.
+* [WPNZ]: You can now change the difficulty of the Hero's Journey quest; i.e. the difficulty of completing each virtue trial (default is Medium).
 * [WPNZ]: The Trial of Generosity can now also be completed by gifting NPCs. The trial will complete once the total value of gifts given reaches the specified gold amount. The host player can still complete this trial by purchasing the community upgrade (which will no longer count for farmhands).
 * [WPNZ]: The Hero's Journey quest now displays as a single quest with multiple objectives (like a Special Order), rather than separate quests for each virtue.
 * Because this is such a huge mod, and I'm a borderline narcissist, you can now set a keybind to directly open this mod's GMCM page (default LeftShift+F12, because I use F12 as the GMCM key).

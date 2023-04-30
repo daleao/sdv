@@ -34,6 +34,8 @@ internal sealed class MeleeWeaponCanAddEnchantmentPatcher : HarmonyPatcher
         __result = !__instance.HasAnyEnchantmentOf(
             typeof(KillerBugEnchantment),
             typeof(LavaEnchantment),
+            typeof(NeedleEnchantment),
+            typeof(NeptuneEnchantment),
             typeof(ObsidianEnchantment),
             typeof(YetiEnchantment));
         return false; // run original logic

@@ -1,5 +1,11 @@
 ﻿# Core Change Log
 
+## 2.2.6 <sup><sub><sup>[🔼](#core-change-log)</sup></sub></sup>
+
+### Fixed
+
+* Fixed a bug preventing the config menu from reloading correctly.
+
 ## 2.2.5 <sup><sub><sup>[🔼](#core-change-log)</sup></sub></sup>
 
 ### Fixed

@@ -4,6 +4,8 @@
 
 using System.Linq;
 using DaLion.Shared.ModData;
+using Microsoft.Xna.Framework;
+using StardewValley.Monsters;
 
 #endregion using directives
 
@@ -16,6 +18,71 @@ public static class GameLocationExtensions
     public static bool HasMonsters(this GameLocation location)
     {
         return location.characters.Any(c => c.IsMonster) && location is not SlimeHutch;
+    }
+
+    /// <summary>Determines whether there is anything to interact with in the specified <paramref name="tile"></paramref>.</summary>
+    /// <param name="location">The <see cref="GameLocation"/>.</param>
+    /// <param name="tile">The tile's position as <see cref="Vector2"/>.</param>
+    /// <param name="who">The <see cref="Farmer"/>.</param>
+    /// <returns><see langword="true"/> if the <paramref name="tile"/> has action properties or contains any actionable object or actor, otherwise <see langword="false"/>.</returns>
+    public static bool IsActionableTile(this GameLocation location, Vector2 tile, Farmer? who = null)
+    {
+        who ??= Game1.player;
+        var (x, y) = tile;
+
+        var hasActionProperty = location.doesTileHaveProperty((int)x, (int)y, "Action", "Buildings");
+        if (hasActionProperty is not null)
+        {
+            if (hasActionProperty.StartsWith("DropBox"))
+            {
+                var split = hasActionProperty.Split(' ');
+                if (split.Length >= 2 && who.team.specialOrders is not null)
+                {
+                    for (var i = 0; i < who.team.specialOrders.Count; i++)
+                    {
+                        var order = who.team.specialOrders[i];
+                        if (order.UsesDropBox(split[1]))
+                        {
+                            continue;
+                        }
+
+                        return true;
+                    }
+                }
+            }
+            else
+            {
+                return true;
+            }
+        }
+
+        if (location.Objects.TryGetValue(tile, out var @object) && @object.isActionable(who))
+        {
+            return true;
+        }
+
+        if (!Game1.isFestival() && location.terrainFeatures.TryGetValue(tile, out var feature) && feature.isActionable())
+        {
+            return true;
+        }
+
+        if (location.isCharacterAtTile(tile) is { } and not Monster)
+        {
+            return true;
+        }
+
+        if (location is IAnimalLocation animalLocation)
+        {
+            foreach (var animal in animalLocation.Animals.Values)
+            {
+                if (animal.GetCursorPetBoundingBox().Contains((int)x, (int)y))
+                {
+                    return true;
+                }
+            }
+        }
+
+        return false;
     }
 
     /// <inheritdoc cref="ModDataIO.Read(GameLocation, string, string, string)"/>

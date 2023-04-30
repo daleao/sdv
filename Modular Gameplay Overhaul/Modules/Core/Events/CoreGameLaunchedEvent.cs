@@ -22,20 +22,14 @@ internal sealed class CoreGameLaunchedEvent : GameLaunchedEvent
     /// <inheritdoc />
     protected override void OnGameLaunchedImpl(object? sender, GameLaunchedEventArgs e)
     {
-        OverhaulModule.Core.RegisterIntegrations();
-        if (GenericModConfigMenu.Instance?.IsRegistered != true)
-        {
-            this.Manager.Unmanage(this.Manager.Get<CoreOneSecondUpdateTickedEvent>()!);
-            return;
-        }
-
         if (EnumerateModules().Skip(1).Any(module => module is not (ProfessionsModule or TweexModule) && module._ShouldEnable))
         {
             Data.InitialSetupComplete = true;
             ModHelper.Data.WriteJsonFile("data.json", Data);
         }
 
-        if (Data.InitialSetupComplete)
+        OverhaulModule.Core.RegisterIntegrations();
+        if (GenericModConfigMenu.Instance?.IsRegistered != true || Data.InitialSetupComplete)
         {
             this.Manager.Unmanage(this.Manager.Get<CoreOneSecondUpdateTickedEvent>()!);
             return;

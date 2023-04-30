@@ -13,7 +13,7 @@ using StardewValley.Buildings;
 internal sealed partial class GenericModConfigMenu
 {
     /// <summary>Register the config menu if available.</summary>
-    private void RegisterProfessions()
+    private void AddProfessionOptions()
     {
         this
             .AddPage(OverhaulModule.Professions.Namespace, () => "Profession Settings")

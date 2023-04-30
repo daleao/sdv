@@ -11,7 +11,7 @@ using Microsoft.Xna.Framework;
 internal sealed partial class GenericModConfigMenu
 {
     /// <summary>Register the Slingshots config menu.</summary>
-    private void RegisterSlingshots()
+    private void AddSlingshotOptions()
     {
         this
             .AddPage(OverhaulModule.Slingshots.Namespace, () => "Slingshot Settings")

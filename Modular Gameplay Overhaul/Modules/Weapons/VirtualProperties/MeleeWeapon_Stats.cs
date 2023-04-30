@@ -292,7 +292,7 @@ internal static class MeleeWeapon_Stats
         points += weapon.addedAreaOfEffect.Value / 4f;
 
         holder.Level = (int)Math.Floor(points / 10f);
-        if (weapon.IsUnique() || weapon.IsLegacyWeapon())
+        if (weapon.isGalaxyWeapon() || weapon.IsInfinityWeapon() || weapon.IsCursedOrBlessed() || weapon.IsLegacyWeapon())
         {
             holder.Level++;
         }

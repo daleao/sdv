@@ -38,33 +38,32 @@ internal abstract class GenericModConfigMenuIntegration<TGenericModConfigMenu, T
         GenericModConfigMenuOptionsIntegration.Instance?.ModApi;
 
     /// <summary>Registers the mod config.</summary>
-    /// <param name="titleScreenOnly">Whether the options can only be edited from the title screen.</param>
     /// <returns>The <typeparamref name="TGenericModConfigMenu"/> instance.</returns>
-    protected TGenericModConfigMenu Register(bool titleScreenOnly = false)
+    internal TGenericModConfigMenu Register()
     {
-        if (this.IsRegistered)
+        if ((this as IModIntegration).Register())
         {
-            return (TGenericModConfigMenu)this;
+            this.BuildMenu();
         }
 
-        this.AssertLoaded();
-        this.ModApi.Register(this.ConsumerManifest, this.ResetConfig, this.SaveAndApply, titleScreenOnly);
-        this.IsRegistered = true;
         return (TGenericModConfigMenu)this;
     }
 
-    /// <summary>Unregisters the mod config.</summary>
-    /// <returns>The <typeparamref name="TGenericModConfigMenu"/> instance.</returns>
-    protected TGenericModConfigMenu Unregister()
+    /// <summary>Resets the mod config menu.</summary>
+    internal void Reload()
     {
-        if (!this.IsRegistered)
-        {
-            return (TGenericModConfigMenu)this;
-        }
+        this.Unregister().Register();
+    }
 
-        this.ModApi.Unregister(this.ConsumerManifest);
-        this.IsRegistered = false;
-        return (TGenericModConfigMenu)this;
+    /// <summary>Constructs the config menu.</summary>
+    protected abstract void BuildMenu();
+
+    /// <inheritdoc />
+    protected override bool RegisterImpl()
+    {
+        this.AssertLoaded();
+        this.ModApi.Register(this.ConsumerManifest, this.ResetConfig, this.SaveAndApply);
+        return true;
     }
 
     /// <summary>
@@ -469,4 +468,19 @@ internal abstract class GenericModConfigMenuIntegration<TGenericModConfigMenu, T
 
     /// <summary>Save and apply the current config model.</summary>
     protected abstract void SaveAndApply();
+
+    /// <summary>Unregisters the mod config.</summary>
+    /// <returns>The <typeparamref name="TGenericModConfigMenu"/> instance.</returns>
+    private TGenericModConfigMenu Unregister()
+    {
+        if (!this.IsRegistered)
+        {
+            return (TGenericModConfigMenu)this;
+        }
+
+        this.ModApi.Unregister(this.ConsumerManifest);
+        this.IsRegistered = false;
+        Log.T("[GMCM]: The config menu has been unregistered.");
+        return (TGenericModConfigMenu)this;
+    }
 }

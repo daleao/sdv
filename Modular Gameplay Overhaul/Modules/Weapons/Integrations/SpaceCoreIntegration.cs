@@ -29,6 +29,8 @@ internal sealed class SpaceCoreIntegration : ModIntegration<SpaceCoreIntegration
         this.ModApi.RegisterSerializerType(typeof(DaggerEnchantment));
         this.ModApi.RegisterSerializerType(typeof(KillerBugEnchantment));
         this.ModApi.RegisterSerializerType(typeof(LavaEnchantment));
+        this.ModApi.RegisterSerializerType(typeof(NeedleEnchantment));
+        this.ModApi.RegisterSerializerType(typeof(NeptuneEnchantment));
         this.ModApi.RegisterSerializerType(typeof(ObsidianEnchantment));
         this.ModApi.RegisterSerializerType(typeof(YetiEnchantment));
 

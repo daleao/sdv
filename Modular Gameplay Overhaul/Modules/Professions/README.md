@@ -151,7 +151,7 @@ Only after all possible skills have had their level cap raised will the Statue o
 
 The entire Prestige system is optional. It may be turned off at any time, but keep in mind that doing so mid-game will not cause you to lose any already acquired professions, nor will it have any immediate effects on your skill levels. However your skill levels will be reduced to the regular cap of 10 the next time the save is loaded.
 
-All custom mod skills based on SpaceCore are compatible with the skill reset feature, but cannot have their level cap raised above the regular 10. For skill mod developers, if you wish to provide prestiged professions you can do so by registering your skill via the provided [API](../../../Shared/Integrations/ModularOverhaul/IModularOverhaulApi.cs).
+All custom mod skills based on SpaceCore are compatible with the skill reset feature, but cannot have their level cap raised above the regular 10. For skill mod developers, if you wish to provide prestiged professions you can do so by registering your skill via the provided [API](../../API/IModularOverhaulApi.cs).
 
 ## Limit Breaks
 
@@ -252,7 +252,7 @@ The module exposes an API to facilitate integration with other mods. Currently e
 - Checking the player's config settings for this mod.
 - Registering custom skills for Prestige.
 
-To consume the API, copy both interfaces from the [Shared.Integrations.ModularOverhaul](../../../Shared/Integrations/ModularOverhaul) namespace to your project and [ask SMAPI for a proxy][wiki:integrations-api].
+To consume the API, copy both interfaces from the [API folder](../../API/) namespace to your project and [ask SMAPI for a proxy][wiki:integrations-api].
 
 ## Recommended Mods
 

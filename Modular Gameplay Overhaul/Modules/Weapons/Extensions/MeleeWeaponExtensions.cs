@@ -46,6 +46,14 @@ internal static class MeleeWeaponExtensions
         return weapon.isGalaxyWeapon() || weapon.IsInfinityWeapon() || weapon.IsCursedOrBlessed() || weapon.specialItem;
     }
 
+    /// <summary>Determines whether the <paramref name="weapon"/> is a mythic relic weapon.</summary>
+    /// <param name="weapon">The <see cref="MeleeWeapon"/>.</param>
+    /// <returns><see langword="true"/> if the <paramref name="weapon"/> is a Galaxy, Infinity or other unique weapon, otherwise <see langword="false"/>.</returns>
+    internal static bool IsRelic(this MeleeWeapon weapon)
+    {
+        return weapon.isGalaxyWeapon() || weapon.IsInfinityWeapon() || weapon.IsCursedOrBlessed() || weapon.specialItem;
+    }
+
     /// <summary>Determines whether the <paramref name="weapon"/> is a legacy Dwarven weapon.</summary>
     /// <param name="weapon">The <see cref="MeleeWeapon"/>.</param>
     /// <returns><see langword="true"/> if the <paramref name="weapon"/> if DwarvenLegacy option is enabled and the weapon is a Dwarven, Dragontooth or Elven weapon, otherwise <see langword="false"/>.</returns>
@@ -180,8 +188,7 @@ internal static class MeleeWeaponExtensions
                     return weapon;
                 }
 
-                if (!weapon.IsUnique() && !weapon.IsLegacyWeapon() && WeaponsModule.Config.EnableRebalance &&
-                    WeaponTier.GetFor(weapon) > WeaponTier.Untiered)
+                if (weapon.ShouldRandomizeDamage())
                 {
                     weapon.RandomizeDamage();
                 }
@@ -250,6 +257,16 @@ internal static class MeleeWeaponExtensions
         }
     }
 
+    /// <summary>Checks whether the <paramref name="weapon"/>'s damage should be randomized.</summary>
+    /// <param name="weapon">The <see cref="MeleeWeapon"/>.</param>
+    /// <returns><see langword="true"/> if the <paramref name="weapon"/> is a Galaxy, Infinity or other unique weapon, otherwise <see langword="false"/>.</returns>
+    internal static bool ShouldRandomizeDamage(this MeleeWeapon weapon)
+    {
+        return WeaponsModule.Config.EnableRebalance && !weapon.isGalaxyWeapon() && !weapon.IsInfinityWeapon() &&
+               !weapon.IsCursedOrBlessed() && !weapon.IsLegacyWeapon() && !weapon.specialItem &&
+               WeaponTier.GetFor(weapon) > WeaponTier.Untiered;
+    }
+
     /// <summary>Adds hidden weapon enchantments related to Rebalance or Infinity +1.</summary>
     /// <param name="weapon">The <see cref="MeleeWeapon"/>.</param>
     internal static void AddIntrinsicEnchantments(this MeleeWeapon weapon)
@@ -275,6 +292,14 @@ internal static class MeleeWeaponExtensions
                     case ItemIDs.LavaKatana when !weapon.hasEnchantmentOfType<LavaEnchantment>():
                         weapon.AddEnchantment(new LavaEnchantment());
                         Log.D("[WPNZ]: Added LavaEnchantment to Lava Katana.");
+                        break;
+                    case ItemIDs.IridiumNeedle when !weapon.hasEnchantmentOfType<NeedleEnchantment>():
+                        weapon.AddEnchantment(new NeedleEnchantment());
+                        Log.D("[WPNZ]: Added NeptuneEnchantment to Iridium Needle.");
+                        break;
+                    case ItemIDs.NeptuneGlaive when !weapon.hasEnchantmentOfType<NeptuneEnchantment>():
+                        weapon.AddEnchantment(new NeptuneEnchantment());
+                        Log.D("[WPNZ]: Added NeptuneEnchantment to Neptune Glaive.");
                         break;
                     case ItemIDs.ObsidianEdge when !weapon.hasEnchantmentOfType<ObsidianEnchantment>():
                         weapon.AddEnchantment(new ObsidianEnchantment());
@@ -327,6 +352,8 @@ internal static class MeleeWeaponExtensions
             enchantment = weapon.InitialParentTileIndex switch
             {
                 ItemIDs.LavaKatana => weapon.GetEnchantmentOfType<LavaEnchantment>(),
+                ItemIDs.IridiumNeedle => weapon.GetEnchantmentOfType<NeedleEnchantment>(),
+                ItemIDs.NeptuneGlaive => weapon.GetEnchantmentOfType<NeptuneEnchantment>(),
                 ItemIDs.ObsidianEdge => weapon.GetEnchantmentOfType<ObsidianEnchantment>(),
                 ItemIDs.YetiTooth => weapon.GetEnchantmentOfType<YetiEnchantment>(),
                 ItemIDs.DarkSword => weapon.GetEnchantmentOfType<CursedEnchantment>(),
@@ -346,7 +373,7 @@ internal static class MeleeWeaponExtensions
 
     /// <summary>Checks whether the <paramref name="weapon"/> has one of the special intrinsic enchantments.</summary>
     /// <param name="weapon">The <see cref="MeleeWeapon"/>.</param>
-    /// <returns><see langword="true"/> if the <paramref name="weapon"/> has a <see cref="LavaEnchantment"/>, <see cref="ObsidianEnchantment"/>, <see cref="CursedEnchantment"/>, <see cref="BlessedEnchantment"/> or <see cref="InfinityEnchantment"/>, otherwise <see langword="false"/>.</returns>
+    /// <returns><see langword="true"/> if the <paramref name="weapon"/> has an intrinsic mythic or legendary enchantment, otherwise <see langword="false"/>.</returns>
     internal static bool HasIntrinsicEnchantment(this MeleeWeapon weapon)
     {
         return weapon.HasAnyEnchantmentOf(
@@ -356,17 +383,20 @@ internal static class MeleeWeaponExtensions
             typeof(InfinityEnchantment),
             typeof(KillerBugEnchantment),
             typeof(LavaEnchantment),
+            typeof(NeedleEnchantment),
+            typeof(NeptuneEnchantment),
             typeof(ObsidianEnchantment),
             typeof(YetiEnchantment));
     }
 
     /// <summary>Checks whether the <paramref name="weapon"/> should have one of the special intrinsic enchantments.</summary>
     /// <param name="weapon">The <see cref="MeleeWeapon"/>.</param>
-    /// <returns><see langword="true"/> if the <paramref name="weapon"/>'s index corresponds to either Lava Sword, Obsidian Edge, Dark Sword, Holy Blade or one of the Infinity weapons, otherwise <see langword="false"/>.</returns>
+    /// <returns><see langword="true"/> if the <paramref name="weapon"/>'s index corresponds to one of the mythic or legendary weapons with intrinsic enchantments, otherwise <see langword="false"/>.</returns>
     internal static bool ShouldHaveIntrinsicEnchantment(this MeleeWeapon weapon)
     {
-        return weapon.IsDagger() || weapon.InitialParentTileIndex is ItemIDs.LavaKatana or ItemIDs.ObsidianEdge ||
-               weapon.IsCursedOrBlessed() || weapon.IsInfinityWeapon();
+        return weapon.IsDagger() || weapon.IsCursedOrBlessed() || weapon.IsInfinityWeapon() ||
+               weapon.InitialParentTileIndex is ItemIDs.InsectHead or ItemIDs.LavaKatana or ItemIDs.IridiumNeedle
+                   or ItemIDs.NeptuneGlaive or ItemIDs.ObsidianEdge or ItemIDs.YetiTooth;
     }
 
     internal static void SetFarmerAnimatingBackwards(this MeleeWeapon weapon, Farmer farmer)
