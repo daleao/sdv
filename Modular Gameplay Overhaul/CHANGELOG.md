@@ -8,7 +8,7 @@ This file contains a TL;DR of current version changes and hotfixes from across a
 * [WPNZ]: Added instrinsic enchantment to Neptune Glaive: feels like a crashing wave, dealing heavy knockback. Thanks to [Deadnoz](https://www.nexusmods.com/stardewvalley/users/9502763) for the idea.
 * [WPNZ]: Added config setting to allow depositing the Blade of Ruin.
 * [WPNZ]: Added compatibility for [Simple Weapons](https://www.nexusmods.com/stardewvalley/mods/16491?tab=posts&BH=0).
-* [WPNZ][SLNGS]: When FaceMouseCursor is enabled, pressing the Action button will no longer cause the player to accidentally use a special move in another direction when trying to interact with something. If you've ever tried talking to an NPC, only to accidentally dash in a different direction while holding a Stabbing Sword, then you know what a game changer this should be.
+* [WPNZ][SLNGS]: When FaceMouseCursor is enabled, pressing the Action button will no longer cause the player to accidentally use a special move in another direction when trying to interact with something. If you've ever tried talking to an NPC, only to accidentally dash in a different direction while holding a Stabbing Sword, then you will certainly appreciate this change.
 
 ## Patch 2.2.5 Highlights
 
