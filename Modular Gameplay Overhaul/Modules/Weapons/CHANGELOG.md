@@ -10,6 +10,7 @@
 ### Fixed
 
 * Fixed Blade of Ruin duplicating itself whens tored in a chest.
+* Fixed crashing when completing the Blade of Ruin's intro quest.
 
 ### Removed
 

@@ -26,6 +26,15 @@ internal sealed class WeaponSaveLoadedEvent : SaveLoadedEvent
     protected override void OnSaveLoadedImpl(object? sender, SaveLoadedEventArgs e)
     {
         var player = Game1.player;
+
+        // temp fix for broken curse intro quest
+        if (player.hasQuest((int)Quest.CurseIntro))
+        {
+            player.removeQuest((int)Quest.CurseIntro);
+            player.addQuest((int)Quest.CurseIntro);
+        }
+        // temp fix for broken curse intro quest
+
         WeaponsModule.State.ContainerDropAccumulator = player.Read(DataKeys.ContainerDropAccumulator, 0.05);
         WeaponsModule.State.MonsterDropAccumulator = player.Read<double>(DataKeys.MonsterDropAccumulator);
 

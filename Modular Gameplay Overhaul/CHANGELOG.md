@@ -5,6 +5,7 @@ This file contains a TL;DR of current version changes and hotfixes from across a
 ## Patch 2.2.7 Highlights <sup><sub><sup>[🔼](#margo-change-logs)</sup></sub></sup>
 
 * [WPNZ]: Fixed Blade of Ruin duplicating itself when stored in a chest.
+* [WPNZ]: Fixed crashing when completing the Blade of Ruin's intro quest.
 * [WPNZ]: You can now see and change all Stabbing Swords using a single config setting.
 * [WPNZ]: Touched up some textures.
 
