@@ -43,6 +43,11 @@ internal sealed class FarmerCurrentToolIndexSetterPatcher : HarmonyPatcher
 
         if (darkSword is null)
         {
+            if (WeaponsModule.Config.CanStoreRuinBlade)
+            {
+                return;
+            }
+
             Log.W(
                 $"[WPNZ]: Cursed farmer {__instance.Name} is not carrying the Dark Sword. A new copy will be forcefully added.");
             darkSword = new MeleeWeapon(ItemIDs.DarkSword);

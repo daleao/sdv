@@ -60,14 +60,26 @@ internal sealed class AdvanceQuestCommand : ConsoleCommand
             case "virtues":
             case "chivalry":
             case "purification":
-                if (player.hasQuest((int)Quest.CurseIntro))
+                if (!player.hasQuest((int)Quest.CurseIntro))
                 {
-                    player.completeQuest((int)Quest.CurseIntro);
-                    WeaponsModule.State.Quest ??= new VirtuesQuest();
+                    player.addQuest((int)Quest.CurseIntro);
                     return;
                 }
 
-                if (WeaponsModule.State.Quest is { } quest)
+                if (player.hasQuest((int)Quest.CurseIntro))
+                {
+                    player.completeQuest((int)Quest.CurseIntro);
+                    WeaponsModule.State.VirtuesQuest ??= new VirtuesQuest();
+
+                    player.Write(DataKeys.InspectedHonor, null);
+                    player.Write(DataKeys.InspectedCompassion, null);
+                    player.Write(DataKeys.InspectedWisdom, null);
+                    player.Write(DataKeys.InspectedGenerosity, null);
+                    player.Write(DataKeys.InspectedValor, null);
+                    return;
+                }
+
+                if (WeaponsModule.State.VirtuesQuest is { } quest)
                 {
                     player.Write(DataKeys.ProvenHonor, int.MaxValue.ToString());
                     player.Write(DataKeys.ProvenCompassion, int.MaxValue.ToString());

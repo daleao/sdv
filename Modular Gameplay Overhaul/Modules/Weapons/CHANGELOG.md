@@ -1,5 +1,20 @@
 ﻿# WPNZ Change Log
 
+## 2.2.7 <sup><sub><sup>[🔼](#wpnz-change-log)</sup></sub></sup>
+
+### Changed
+
+* Touched up some weapon textures.
+* All Stabbing Swords are now listed by name in a single StabbingSwords setting, so anyone is free to choose which swords should be Stabbing or not.
+
+### Fixed
+
+* Fixed Blade of Ruin duplicating itself whens tored in a chest.
+
+### Removed
+
+* Removed the CustomStabbingSwords, GalaxySwordType and InfinitySwordType config settings.
+
 ## 2.2.6 <sup><sub><sup>[🔼](#wpnz-change-log)</sup></sub></sup>
 
 ### Added

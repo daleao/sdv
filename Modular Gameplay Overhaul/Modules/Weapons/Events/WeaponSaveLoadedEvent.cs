@@ -51,7 +51,7 @@ internal sealed class WeaponSaveLoadedEvent : SaveLoadedEvent
         // infinity +1 checks
         if (player.Read<VirtuesQuestState>(DataKeys.VirtueQuestState) == VirtuesQuestState.InProgress)
         {
-            WeaponsModule.State.Quest = new VirtuesQuest();
+            WeaponsModule.State.VirtuesQuest = new VirtuesQuest();
         }
 
         if (!WeaponsModule.Config.EnableAutoSelection)

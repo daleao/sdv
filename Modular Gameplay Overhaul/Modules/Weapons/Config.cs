@@ -70,18 +70,21 @@ public sealed class Config : Shared.Configs.Config
     [JsonProperty]
     public bool EnableStabbySwords { get; internal set; } = true;
 
-    /// <summary>Gets a value indicating the weapon type of the Galaxy Sword.</summary>
-    [JsonProperty]
-    public WeaponType GalaxySwordType { get; internal set; } = WeaponType.StabbingSword;
-
-    /// <summary>Gets a value indicating the weapon type of the Infinity Blade.</summary>
-    [JsonProperty]
-    public WeaponType InfinityBladeType { get; internal set; } = WeaponType.StabbingSword;
-
     /// <summary>Gets a set of user-defined modded swords which should be treated as Stabby swords.</summary>
     [JsonProperty]
-    public string[] CustomStabbingSwords { get; internal set; } =
+    public string[] StabbingSwords { get; internal set; } =
     {
+        "Bone Sword",
+        "Steel Smallsword",
+        "Cutlass",
+        "Rapier",
+        "Steel Falchion",
+        "Pirate's Sword",
+        "Lava Katana",
+        "Dragontooth Cutlass",
+        "Blade of Ruin",
+        "Galaxy Sword",
+        "Infinity Blade",
         "Strawblaster",
     };
 

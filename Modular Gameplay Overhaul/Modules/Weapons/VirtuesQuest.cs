@@ -363,7 +363,7 @@ internal sealed class VirtuesQuest : IQuest
             return;
         }
 
-        WeaponsModule.State.Quest = null;
+        WeaponsModule.State.VirtuesQuest = null;
         player.Write(DataKeys.VirtueQuestState, VirtuesQuestState.Completed.ToString());
         player.Write(DataKeys.ProvenHonor, null);
         player.Write(DataKeys.ProvenCompassion, null);

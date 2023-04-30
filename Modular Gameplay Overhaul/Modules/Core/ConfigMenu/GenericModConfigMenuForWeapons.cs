@@ -129,66 +129,6 @@ internal sealed partial class GenericModConfigMenu
                         WeaponsModule.RevertAllStabbingSwords();
                     }
                 })
-            .AddDropdown(
-                () => "Galaxy Sword Type",
-                () => "Whether the Galaxy Sword should be a Stabbing or Defense sword.",
-                config => config.Weapons.GalaxySwordType.ToString(),
-                (config, value) =>
-                {
-                    config.Weapons.GalaxySwordType = Enum.Parse<WeaponType>(value);
-                    switch (config.Weapons.GalaxySwordType)
-                    {
-                        case WeaponType.StabbingSword:
-                            Collections.StabbingSwords.Add(ItemIDs.GalaxySword);
-                            break;
-                        case WeaponType.DefenseSword:
-                            Collections.StabbingSwords.Remove(ItemIDs.GalaxySword);
-                            break;
-                        default:
-                            ThrowHelperExtensions.ThrowUnexpectedEnumValueException(config.Weapons.GalaxySwordType);
-                            return;
-                    }
-
-                    Utility.iterateAllItems(item =>
-                    {
-                        if (item is MeleeWeapon { InitialParentTileIndex: ItemIDs.GalaxySword } galaxy)
-                        {
-                            galaxy.type.Value = (int)config.Weapons.GalaxySwordType;
-                        }
-                    });
-                },
-                new[] { "StabbingSword", "DefenseSword" },
-                null)
-            .AddDropdown(
-                () => "Infinity Blade Type",
-                () => "Whether the Galaxy Sword should be a Stabbing or Defense sword.",
-                config => config.Weapons.InfinityBladeType.ToString(),
-                (config, value) =>
-                {
-                    config.Weapons.InfinityBladeType = Enum.Parse<WeaponType>(value);
-                    switch (config.Weapons.InfinityBladeType)
-                    {
-                        case WeaponType.StabbingSword:
-                            Collections.StabbingSwords.Add(ItemIDs.InfinityBlade);
-                            break;
-                        case WeaponType.DefenseSword:
-                            Collections.StabbingSwords.Remove(ItemIDs.InfinityBlade);
-                            break;
-                        default:
-                            ThrowHelperExtensions.ThrowUnexpectedEnumValueException(config.Weapons.InfinityBladeType);
-                            return;
-                    }
-
-                    Utility.iterateAllItems(item =>
-                    {
-                        if (item is MeleeWeapon { InitialParentTileIndex: ItemIDs.InfinityBlade } infinity)
-                        {
-                            infinity.type.Value = (int)config.Weapons.InfinityBladeType;
-                        }
-                    });
-                },
-                new[] { "StabbingSword", "DefenseSword" },
-                null)
             .AddHorizontalRule()
 
             .AddSectionTitle(() => "Quest Settings")
@@ -287,7 +227,7 @@ internal sealed partial class GenericModConfigMenu
                 (config, value) =>
                 {
                     config.Weapons.VirtueTrialTrialDifficulty = Enum.Parse<Config.TrialDifficulty>(value);
-                    if (WeaponsModule.State.Quest is { } quest)
+                    if (WeaponsModule.State.VirtuesQuest is { } quest)
                     {
                         Virtue.List.ForEach(virtue => quest.UpdateVirtueProgress(virtue));
                     }

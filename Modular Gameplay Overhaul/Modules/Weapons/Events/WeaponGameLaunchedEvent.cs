@@ -21,15 +21,5 @@ internal sealed class WeaponGameLaunchedEvent : GameLaunchedEvent
     protected override void OnGameLaunchedImpl(object? sender, GameLaunchedEventArgs e)
     {
         OverhaulModule.Weapons.RegisterIntegrations();
-
-        if (WeaponsModule.Config.GalaxySwordType == WeaponType.StabbingSword)
-        {
-            Collections.StabbingSwords.Add(ItemIDs.GalaxySword);
-        }
-
-        if (WeaponsModule.Config.InfinityBladeType == WeaponType.StabbingSword)
-        {
-            Collections.StabbingSwords.Add(ItemIDs.InfinityBlade);
-        }
     }
 }

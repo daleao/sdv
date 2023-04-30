@@ -105,7 +105,7 @@ internal sealed class GameLocationAnswerDialogueActionPatcher : HarmonyPatcher
                         }
 
                         player.completeQuest((int)Quest.CurseIntro);
-                        WeaponsModule.State.Quest ??= new VirtuesQuest();
+                        WeaponsModule.State.VirtuesQuest ??= new VirtuesQuest();
 
                         player.Write(DataKeys.InspectedHonor, null);
                         player.Write(DataKeys.InspectedCompassion, null);

@@ -26,7 +26,7 @@ internal sealed class AdventurerGuildGilPatcher : HarmonyPatcher
     {
         if (Game1.player.NumMonsterSlayerQuestsCompleted() >= 5)
         {
-            WeaponsModule.State.Quest?.UpdateVirtueProgress(Virtue.Valor);
+            WeaponsModule.State.VirtuesQuest?.UpdateVirtueProgress(Virtue.Valor);
         }
     }
 

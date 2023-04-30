@@ -58,7 +58,7 @@ internal sealed class CommunityUpgradeAcceptPatcher : HarmonyPatcher
     private static void CheckForGenerosityCompletion()
     {
         Game1.player.Increment(DataKeys.ProvenGenerosity, (int)5e5);
-        WeaponsModule.State.Quest?.UpdateVirtueProgress(Virtue.Generosity);
+        WeaponsModule.State.VirtuesQuest?.UpdateVirtueProgress(Virtue.Generosity);
     }
 
     #endregion injected subroutines

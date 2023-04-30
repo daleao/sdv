@@ -22,7 +22,7 @@ internal sealed class FarmerVisibleQuestCountGetterPatcher : HarmonyPatcher
     [HarmonyPostfix]
     private static void FarmerVisibleQuestCountGetterPostfix(Farmer __instance, ref int __result)
     {
-        if (__instance.IsLocalPlayer && WeaponsModule.State.Quest is not null)
+        if (__instance.IsLocalPlayer && WeaponsModule.State.VirtuesQuest is not null)
         {
             __result++;
         }

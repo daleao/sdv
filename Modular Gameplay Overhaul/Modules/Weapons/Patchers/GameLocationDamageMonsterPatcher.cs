@@ -5,10 +5,10 @@
 using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
+using DaLion.Overhaul.Modules.Weapons.Enchantments;
 using DaLion.Shared.Extensions.Reflection;
 using DaLion.Shared.Extensions.Stardew;
 using DaLion.Shared.Harmony;
-using Enchantments;
 using HarmonyLib;
 using Microsoft.Xna.Framework;
 using StardewValley.Monsters;

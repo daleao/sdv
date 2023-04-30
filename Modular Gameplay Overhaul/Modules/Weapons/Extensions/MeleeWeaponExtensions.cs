@@ -85,8 +85,7 @@ internal static class MeleeWeaponExtensions
     internal static bool ShouldBeStabbySword(this MeleeWeapon weapon)
     {
         return WeaponsModule.Config.EnableStabbySwords &&
-               (Collections.StabbingSwords.Contains(weapon.InitialParentTileIndex) ||
-                WeaponsModule.Config.CustomStabbingSwords.Contains(weapon.Name));
+                WeaponsModule.Config.StabbingSwords.Contains(weapon.Name);
     }
 
     /// <summary>Gets the default crit. chance for this weapon type.</summary>

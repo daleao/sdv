@@ -26,10 +26,17 @@ internal sealed class QuestLogPaginateQuestsPatcher : HarmonyPatcher
     [HarmonyPostfix]
     private static void QuestLogPaginateQuestsPostfix(List<List<IQuest>> ___pages)
     {
-        if (WeaponsModule.State.Quest is { } quest)
+        if (WeaponsModule.State.VirtuesQuest is not { } quest)
         {
-            ___pages[0].Insert(0, quest);
+            return;
         }
+
+        if (___pages.Count == 0)
+        {
+            ___pages.Add(new List<IQuest>());
+        }
+
+        ___pages[0].Insert(0, quest);
     }
 
     #endregion harmony patches

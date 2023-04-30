@@ -1,4 +1,4 @@
-﻿namespace DaLion.Overhaul;
+﻿namespace DaLion.Overhaul.Modules;
 
 #region using directives
 
@@ -139,18 +139,4 @@ internal static class Collections
         { ItemIDs.RadioactiveCarp, ItemIDs.MutantCarp },
         { ItemIDs.GlacierfishJr, ItemIDs.Glacierfish },
     }.ToImmutableDictionary();
-
-    /// <summary>Gets or sets the swords that should be converted to Stabbing Swords.</summary>
-    internal static HashSet<int> StabbingSwords { get; set; } = new()
-    {
-        ItemIDs.SteelSmallsword,
-        ItemIDs.Cutlass,
-        ItemIDs.Rapier,
-        ItemIDs.SteelFalchion,
-        ItemIDs.PirateSword,
-        ItemIDs.ForestSword,
-        ItemIDs.LavaKatana,
-        ItemIDs.DragontoothCutlass,
-        ItemIDs.DarkSword,
-    };
 }

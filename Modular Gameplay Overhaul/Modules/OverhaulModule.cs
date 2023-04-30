@@ -571,11 +571,35 @@ public abstract class OverhaulModule
             var darkSword = player.Items.FirstOrDefault(item => item is MeleeWeapon { InitialParentTileIndex: ItemIDs.DarkSword });
             if (darkSword is null && player.IsCursed())
             {
-                Log.W($"[WPNZ]: {player.Name} is Cursed by Viego, but does not currently carry the Dark Sword. A new copy will be forcefully added.");
-                darkSword = new MeleeWeapon(ItemIDs.DarkSword);
-                if (!player.addItemToInventoryBool(darkSword))
+                if (Config.CanStoreRuinBlade)
                 {
-                    Game1.createItemDebris(darkSword, player.getStandingPosition(), -1, player.currentLocation);
+                    foreach (var chest in Game1.game1.IterateAllChests())
+                    {
+                        darkSword = chest.items.FirstOrDefault(item => item is MeleeWeapon { InitialParentTileIndex: ItemIDs.DarkSword });
+                        if (darkSword is not null)
+                        {
+                            break;
+                        }
+                    }
+
+                    if (darkSword is null)
+                    {
+                        Log.W($"[WPNZ]: {player.Name} is Cursed by Viego, but is not in possession of the Dark Sword. A new copy will be forcefully added.");
+                        darkSword = new MeleeWeapon(ItemIDs.DarkSword);
+                        if (!player.addItemToInventoryBool(darkSword))
+                        {
+                            Game1.createItemDebris(darkSword, player.getStandingPosition(), -1, player.currentLocation);
+                        }
+                    }
+                }
+                else
+                {
+                    Log.W($"[WPNZ]: {player.Name} is Cursed by Viego, but is not in possession of the Dark Sword. A new copy will be forcefully added.");
+                    darkSword = new MeleeWeapon(ItemIDs.DarkSword);
+                    if (!player.addItemToInventoryBool(darkSword))
+                    {
+                        Game1.createItemDebris(darkSword, player.getStandingPosition(), -1, player.currentLocation);
+                    }
                 }
             }
             else if (darkSword is not null && !player.mailReceived.Contains("gotDarkSword"))

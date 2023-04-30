@@ -68,5 +68,5 @@ internal sealed class State
 
     internal Monster? HoveredEnemy { get; set; }
 
-    internal VirtuesQuest? Quest { get; set; } = null;
+    internal VirtuesQuest? VirtuesQuest { get; set; } = null;
 }

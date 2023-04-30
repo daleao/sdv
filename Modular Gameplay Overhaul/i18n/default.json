@@ -255,7 +255,7 @@
 
   "quests.forge.intro": "Basic/A Dwarven Legacy/Clint told you he'd finish translating that old blueprint in a couple of days./Visit Clint to ask about the blueprint./Blacksmith/144702/0/-1/false",
   "quests.forge.next": "Basic/A Dwarven Legacy II/That old blueprint turned out to be a recipe for a powerful ancient weapon! Could there be others?/Find the remaining Dwarvish blueprints./null/-1/0/-1/false",
-  "quests.hero.curse": "Basic/The Blade of the Ruined Hero/The weapon you found carries the curse of the Ruined Hero! You can already feel it draining away your life energy. Better find some way to lift that curse, and fast!/Find a way to lift the Ruined Blade's curse./null/144704/0/-1/false",
+  "quests.hero.curse": "Basic/The Blade of the Ruined Hero/The weapon you found carries the curse of the Ruined Hero! You can already feel it draining away your life energy. Better find some way to lift that curse, and fast!/Find a way to lift the Ruined Blade's curse./null/-1/0/-1/false",
   "quests.hero.reward": "Basic/A Hero's Reward/Those who embody the virtues of a true hero are cleansed of all evil by Yoba's divine power./Take the Blade of Ruin to the altar of Yoba./null/-1/0/-1/false",
 
   "quests.hero.journey.name": "A Hero's Journey",

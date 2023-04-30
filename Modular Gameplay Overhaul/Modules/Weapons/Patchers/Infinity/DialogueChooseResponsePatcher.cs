@@ -48,7 +48,7 @@ internal sealed class DialogueChooseResponsePatcher : HarmonyPatcher
             case "event_box1" when speakerName == "Alex":
 
                 player.Increment(DataKeys.ProvenHonor);
-                WeaponsModule.State.Quest?.UpdateVirtueProgress(Virtue.Honor);
+                WeaponsModule.State.VirtuesQuest?.UpdateVirtueProgress(Virtue.Honor);
 
                 return;
 
@@ -85,7 +85,7 @@ internal sealed class DialogueChooseResponsePatcher : HarmonyPatcher
             case "quickResponse3" when speakerName == "Linus":
 
                 player.Increment(DataKeys.ProvenCompassion);
-                WeaponsModule.State.Quest?.UpdateVirtueProgress(Virtue.Compassion);
+                WeaponsModule.State.VirtuesQuest?.UpdateVirtueProgress(Virtue.Compassion);
 
                 return;
 
@@ -122,7 +122,7 @@ internal sealed class DialogueChooseResponsePatcher : HarmonyPatcher
             case "event_advice2" when speakerName == "Clint":
 
                 player.Increment(DataKeys.ProvenWisdom);
-                WeaponsModule.State.Quest?.UpdateVirtueProgress(Virtue.Wisdom);
+                WeaponsModule.State.VirtuesQuest?.UpdateVirtueProgress(Virtue.Wisdom);
 
                 return;
 
