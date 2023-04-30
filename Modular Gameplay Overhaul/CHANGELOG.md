@@ -2,7 +2,7 @@
 
 This file contains a TL;DR of current version changes and hotfixes from across all modules. For the complete changelog, please refer to the individual changelogs of each module, linked [below](#detailed-change-logs).
 
-## Patch 2.2.6 Highlights
+## Patch 2.2.6 Highlights <sup><sub><sup>[🔼](#margo-change-logs)</sup></sub></sup>
 
 * Fixed a bug preventing the config menu from reloading correctly.
 * [WPNZ]: Added instrinsic enchantment to Neptune Glaive: feels like a crashing wave, dealing heavy knockback. Thanks to [Deadnoz](https://www.nexusmods.com/stardewvalley/users/9502763) for the idea.
@@ -10,15 +10,15 @@ This file contains a TL;DR of current version changes and hotfixes from across a
 * [WPNZ]: Added compatibility for [Simple Weapons](https://www.nexusmods.com/stardewvalley/mods/16491?tab=posts&BH=0).
 * [WPNZ][SLNGS]: When FaceMouseCursor is enabled, pressing the Action button will no longer cause the player to accidentally use a special move in another direction when trying to interact with something. If you've ever tried talking to an NPC, only to accidentally dash in a different direction while holding a Stabbing Sword, then you will certainly appreciate this change.
 
-## Patch 2.2.5 Highlights
+## Patch 2.2.5 Highlights <sup><sub><sup>[🔼](#margo-change-logs)</sup></sub></sup>
 
 * [WPNZ]: Fixed crashing issue in town and Spcial Order board.
 
-## Patch 2.2.4 Highlights
+## Patch 2.2.4 Highlights <sup><sub><sup>[🔼](#margo-change-logs)</sup></sub></sup>
 
 * [SLNGS]: Infinity Slingshot can now be created even if WPNZ module is disabled.
 
-## Patch 2.2.3 Highlights
+## Patch 2.2.3 Highlights <sup><sub><sup>[🔼](#margo-change-logs)</sup></sub></sup>
 
 * [ENCH]: Fixed a bug causing implicit Mythic enchantments from WPNZ to be removed on load.
 * [SLNGS]: Fixed a bug preventing Galaxy Slingshot from receing Galaxy Souls.
@@ -28,17 +28,17 @@ This file contains a TL;DR of current version changes and hotfixes from across a
 * [WPNZ]: The Hero's Journey quest now displays as a single quest with multiple objectives (like a Special Order), rather than separate quests for each virtue.
 * Because this is such a huge mod, and I'm a borderline narcissist, you can now set a keybind to directly open this mod's GMCM page (default LeftShift+F12, because I use F12 as the GMCM key).
 
-## Patch 2.2.2 Highlights
+## Patch 2.2.2 Highlights <sup><sub><sup>[🔼](#margo-change-logs)</sup></sub></sup>
 
 * The new status conditions have been moved to their logical place in the CMBT module. So if that's not enabled, they won't work.
 * Frozen damage bonus increased to x3.
 * Fixes the issue causing players to receive the Blade of Ruin quest over again.
 
-## Patch 2.2.1 Highlights
+## Patch 2.2.1 Highlights <sup><sub><sup>[🔼](#margo-change-logs)</sup></sub></sup>
 
 * Hotfix for checksum validation not persisting until the next day.
 
-## Minor Release 2.2.0 Highlights
+## Minor Release 2.2.0 Highlights <sup><sub><sup>[🔼](#margo-change-logs)</sup></sub></sup>
 
 * [CMBT]: Added status conditions that can be used by various modules. Each status condition has a neat correponding animation.
     - **Bleeding:** Causes damage every second. Damage increases exponentially with each additional stack. Stacks up to 5x. Does not affect Ghosts, Skeletons, Golems, Dolls or Mechanical enemies (ex. Dwarven Sentry).
@@ -71,14 +71,14 @@ This file contains a TL;DR of current version changes and hotfixes from across a
 * [RNGS]: Warrior Ring now gains stacks on every kill (instead of 3 kills), but is capped at +20 attack (with Rebalance).
 * Bug fixes.
 
-## Minor Release 2.1.0 Highlights
+## Minor Release 2.1.0 Highlights <sup><sub><sup>[🔼](#margo-change-logs)</sup></sub></sup>
 
 * [ENCH]: Added new Wabbajack enchantment.
 * [WPNZ]: Fixed a long-standing overlooked issue with weapon hitboxes during combos. Combat should feel *significantly* better now.
 * [PROFS]: Ultimate / Super Abilities / Special Abilities have been renamed to Limit Breaks. The HUD meter has been adjusted accordingly.
 * Bugfixes.
 
-## Major Release 2.0.0 Highlights
+## Major Release 2.0.0 Highlights <sup><sub><sup>[🔼](#margo-change-logs)</sup></sub></sup>
 
 * Weapon, Slingshot and Enchantment-related functionalities have been refactored to specific modules.
     * Added Weapons module.
