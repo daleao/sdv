@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.3.32901.215
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Margo", "Margo.csproj", "{6B4BD30D-0F30-4318-85B4-02901BDE8FCD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ModularOverhaul", "ModularOverhaul.csproj", "{6B4BD30D-0F30-4318-85B4-02901BDE8FCD}"
 EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Shared", "..\Shared\Shared.shproj", "{0C5F1531-281E-468C-B47F-1E78E3B9C02E}"
 EndProject

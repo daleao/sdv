@@ -6,7 +6,7 @@
     <AssemblyName>DaLion.Overhaul</AssemblyName>
     <RootNamespace>DaLion.Overhaul</RootNamespace>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
-    <RepositoryUrl>https://gitlab.com/daleao/sdv-mods</RepositoryUrl>
+    <RepositoryUrl>https://gitlab.com/daleao/sdv-mods/-/tree/main/Modular%20Overhaul</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <UpdateKeys>Nexus:14470@Main</UpdateKeys>
@@ -80,6 +80,7 @@
     <PackageReference Include="Pathoschild.Stardew.ModTranslationClassBuilder" Version="2.0.1" />
   </ItemGroup>
 
+  <!-- mod dependencies -->
   <ItemGroup>
     <Reference Include="SpaceCore">
       <HintPath>dependencies\SpaceCore.dll</HintPath>
@@ -123,10 +124,9 @@
     <Using Alias="SObject" Include="StardewValley.Object" />
     <Using Alias="Log" Include="DaLion.Shared.Log" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Modules\Combat\Commands\" />
-    <Folder Include="Modules\Enchantments\Gemstone\" />
-  </ItemGroup>
-  <ProjectExtensions><VisualStudio><UserProperties i18n_4default_1json__JsonSchema="https://datahubproject.io/schemas/datahub_ingestion_schema.json" /></VisualStudio></ProjectExtensions>
+  
+  <ProjectExtensions>
+	<VisualStudio><UserProperties i18n_4default_1json__JsonSchema="https://datahubproject.io/schemas/datahub_ingestion_schema.json" /></VisualStudio>
+  </ProjectExtensions>
 
 </Project>
