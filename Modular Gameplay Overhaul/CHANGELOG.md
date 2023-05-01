@@ -2,6 +2,10 @@
 
 This file contains a TL;DR of current version changes and hotfixes from across all modules. For the complete changelog, please refer to the individual changelogs of each module, linked [below](#detailed-change-logs).
 
+## Patch 2.2.8 Highlights <sup><sub><sup>[🔼](#margo-change-logs)</sup></sub></sup>
+
+* [SLNGS]: Fixed a bug allowing slingshots to receiving infinite forges.
+
 ## Patch 2.2.7 Highlights <sup><sub><sup>[🔼](#margo-change-logs)</sup></sub></sup>
 
 * [WPNZ]: Fixed Blade of Ruin duplicating itself when stored in a chest.

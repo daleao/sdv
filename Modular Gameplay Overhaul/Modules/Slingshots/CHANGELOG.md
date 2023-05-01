@@ -1,5 +1,11 @@
 ﻿# SLNGS Change Log
 
+## 2.2.8 <sup><sub><sup>[🔼](#slngs-change-log)</sup></sub></sup>
+
+### Fixed
+
+* Fixed a bug allowing slingshots to receiving infinite forges.
+
 ## 2.2.6 <sup><sub><sup>[🔼](#slngs-change-log)</sup></sub></sup>
 
 ### Changed

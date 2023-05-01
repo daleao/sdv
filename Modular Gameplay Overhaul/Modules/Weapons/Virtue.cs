@@ -60,36 +60,10 @@ public sealed class Virtue : SmartEnum<Virtue>
     }
 
     /// <summary>Gets the localized display name for this <see cref="Virtue"/>.</summary>
-    internal string DisplayName
-    {
-        get
-        {
-            var text = string.Empty;
-            this
-                .When(Honor).Then(() => text = I18n.Get("virtues.honor.name"))
-                .When(Compassion).Then(() => text = I18n.Get("virtues.compassion.name"))
-                .When(Wisdom).Then(() => text = I18n.Get("virtues.wisdom.name"))
-                .When(Generosity).Then(() => text = I18n.Get("virtues.generosity.name"))
-                .When(Valor).Then(() => text = I18n.Get("virtues.valor.name"));
-            return text;
-        }
-    }
+    internal string DisplayName => I18n.Get("virtues." + this.Name.ToLowerInvariant() + ".name");
 
     /// <summary>Gets the localized flavor inscription text for this <see cref="Virtue"/>.</summary>
-    internal string FlavorText
-    {
-        get
-        {
-            var text = string.Empty;
-            this
-                .When(Honor).Then(() => text = I18n.Get("virtues.honor.flavor"))
-                .When(Compassion).Then(() => text = I18n.Get("virtues.compassion.flavor"))
-                .When(Wisdom).Then(() => text = I18n.Get("virtues.wisdom.flavor"))
-                .When(Generosity).Then(() => text = I18n.Get("virtues.generosity.flavor"))
-                .When(Valor).Then(() => text = I18n.Get("virtues.valor.flavor"));
-            return text;
-        }
-    }
+    internal string FlavorText => I18n.Get("virtues." + this.Name.ToLowerInvariant() + ".flavor");
 
     /// <summary>Gets the threshold required to consider this <see cref="Virtue"/> as proven.</summary>
     internal int ProvenCondition

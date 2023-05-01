@@ -42,7 +42,8 @@ internal sealed class ToolGetMaxForgesPatcher : HarmonyPatcher
                 ItemIDs.BasicSlingshot => 1,
                 ItemIDs.MasterSlingshot => 2,
                 ItemIDs.GalaxySlingshot => 3,
-                ItemIDs.InfinitySlingshot => 4,
+                ItemIDs.InfinitySlingshot when WeaponsModule.ShouldEnable && WeaponsModule.Config.InfinityPlusOne => 4,
+                ItemIDs.InfinitySlingshot => 3,
                 _ => 0,
             };
 

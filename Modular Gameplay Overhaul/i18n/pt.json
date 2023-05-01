@@ -257,13 +257,10 @@
   "quests.forge.intro": "Basic/Um Legado dos Anões/Clint te disse que ele acabaria de traduzir aquela velha planta em alguns dias./Visite Clint para perguntar sobre a planta./null/144702/0/-1/false",
   "quests.forge.next": "Basic/Um Legado dos Anões II/Aquela planta antiga era uma receita para uma poderosa arma anã! Talvez hajam outras?/Encontre as plantas restantes./null/-1/0/-1/false",
   "quests.hero.intro": "Basic/A Lâmina do Herói Arruinado/A arma que você encontrou carrega a maldição do Herói Arruinado! Você já pode sentir sua força vital sendo drenada. É melhor encontrar algum jeito de quebrar essa maldição, e rápido!/Encontre uma maneira de quebrar a maldição da Lâmina Arruinada./null/-1/0/-1/false",
-  "quests.hero.next": "Basic/A Lâmina do Herói Arruinado/Aqueles que encorporam as virtudes de um verdadeiro herói são purificados pelo poder divino de Yoba./Prove que você vive de acordo com as cinco virtudes heróicas./null/144705/0/-1/false",
-  "quests.hero.last": "Basic/A Lâmina do Herói Arruinado/Prove que você vive de acordo com as cinco virtudes heróicas./Leve a Lâmina Arruinada até o altar de Yoba./null/-1/0/-1/false",
-  "quests.virtues.honor": "Basic/Prova de honra/Honra não pode ser comprada. Honra também não pode ser vendida, pois seu valor é maior que todo o tesouro do mundo. No entanto, pode-se perdê-lo, e quem o fizer terá manchado seu nome por toda a eternidade. Uma pessoa verdadeiramente honrada sempre defende suas ações, enfrenta todos os desafios e se recusa a mentir./Aguarde por uma oportunidade de provar a sua honra./null/-1/0/-1/false",
-  "quests.virtues.compassion": "Basic/Prova de compaixão/Existem muitos traços que testemunham a verdadeira natureza de uma pessoa. Compaixão é o que separa os homens das bestas. Quem sente simpatia pelo próximo jamais fechará os olhos ao infortúnio. Ele sempre estará em defesa dos injustiçados./Aguarde por uma oprtunidade para demonstrar compaixão./null/-1/0/-1/false",
-  "quests.virtues.wisdom": "Basic/Prova de sabedoria/Sabedoria é uma virtude que se deve buscar cultivar ao longo da vida, pois é impossível ser tão sábio que não se torne ainda mais sábio. Os sábios sabem disso... Em nossa jornada pela vida, devemos procurar fazer escolhas sábias. Lembre-se, escolhas sábias não são aquelas que tornam nossa vida mais fácil ou simples. Muitas vezes, elas a tornam mais complicada. Mas sempre, elas nos tornam melhores./Aguarde por uma oportunidade de provar a sua sabedoria./null/-1/0/-1/false",
-  "quests.virtues.generosity": "Basic/Prova de generosidade/Nenhuma pessoa pode ser considerada boa que não compartilha sua prosperidade com os outros. Generosidade é necessária para dignidade na vida e paz na morte./Aguarde por uma oportunidade de provar a sua generosidade./null/-1/0/-1/false",
-  "quests.virtues.valor": "Basic/Prova de valentia/A Valentia não torna ninguém bom, mas quantos homens bons você conheceu na jornada de sua vida que eram covardes? Aqueles que possuem Valentia não hesitam em enfrentar a maioria, não importa quais sejam as consequências./Aguarde por uma oportunidade de provar a sua valentia./null/-1/0/-1/false",
+  "quests.hero.reward": "Basic/A Lâmina do Herói Arruinado/Prove que você vive de acordo com as cinco virtudes heróicas./Leve a Lâmina Arruinada até o altar de Yoba./null/-1/0/-1/false",
+
+  "quests.hero.journey.name": "A Jornada do Herói",
+  "quests.hero.journey.desc": "Prove que você vive pelas Cinco Virtudes Heróicas.",
 
   "yoba.question": "Há inscrições adicionais no altar...",
   "virtues.honor.name": "Honra",
@@ -276,6 +273,7 @@
   "virtues.wisdom.flavor": "\"Sabedoria é uma virtude que se deve buscar cultivar ao longo da vida, pois é impossível ser tão sábio que não se torne ainda mais sábio. Os sábios sabem disso... Em nossa jornada pela vida, devemos procurar fazer escolhas sábias. Lembre-se, escolhas sábias não são aquelas que tornam nossa vida mais fácil ou simples. Muitas vezes, elas a tornam mais complicada. Mas sempre, elas nos tornam melhores.\"",
   "virtues.generosity.flavor": "\"Nenhuma pessoa pode ser considerada boa que não compartilha sua prosperidade com os outros. Generosidade é necessária para dignidade na vida e paz na morte.\"",
   "virtues.valor.flavor": "\"A Valentia não torna ninguém bom, mas quantos homens bons você conheceu na jornada de sua vida que eram covardes? Aqueles que possuem Valentia não hesitam em enfrentar a maioria, não importa quais sejam as consequências.\"",
+  "virtues.trial": "Teste de ",
 
   // json assets
   "objects.dwarvishblueprint.name": "Antigo plano anão",
@@ -303,13 +301,19 @@
   "rings.jade.desc": "Aumenta o dano do ataque crítico em 50%.",
   "rings.topaz.desc.resist": "Aumenta a resistência em 10%.",
   "rings.topaz.desc.defense": "Aumenta a defesa em 1.",
-  "rings.garnet.name": "Anel de Granada",
-  "rings.garnet.description": "Diminue o tempo de recarga dos golpes especiais em 10%.",
   "rings.iridium.desc": "Um anel comum feito de irídio.",
-  "rings.infinity.name": "Anel do Infinito",
-  "rings.infinity.description": "Um recepiente para um grande poder.",
+  "rings.warrior.desc": "As quedas inimigas concedem um ataque progressivamente maior.",
+  "buffs.warrior.desc": "Investida",
+  "rings.yoba.desc": "Concede um escudo quando sua saúde cai abaixo de 30%",
+  "buffs.yoba.desc": "Linha de vida",
   "global.infinitycraft": "{{who}} forjou um Anel do Infinito.",
   "resonance": "Resonância",
+
+  // json-assets
+  "rings.garnet.name": "Anel de Granada",
+  "rings.garnet.description": "Diminue o tempo de recarga dos golpes especiais em 10%.",
+  "rings.infinity.name": "Anel do Infinito",
+  "rings.infinity.description": "Um recepiente para um grande poder.",
 
 
   // **************** //
@@ -339,12 +343,17 @@
   // ** TAXES ** //
   // *********** //
 
-  "tax.intro": "Ministério da Fazenda^Secretaría da Receita Federal de Ferngill^^^{{honorific}} @,^^Vimos, por meio desta, informá-lo de que sua solicitação de mudança de endereço para Vila Pelicanos, Stardew Valley foi arquivada e registrada. Toda a correspondência futura será direcionada para {{farm}}.^^Lembramos que as contribuições de imposto de renda federal são devidas no dia 2 de cada temporada. Para a sua comodidade, suas obrigações vencidas serão automaticamente deduzidas do seu saldo. Caso esse saldo seja insuficiente, um empréstimo será emitido automaticamente em seu nome, sujeito à taxa de juros nominal de {{juros}} ao ano.^^^Atenciosamente,^^Laura D. Pretto^Diretora Executiva, Secretaría da Receita Federal de Ferngill[#]Taxation Intro",
+  "tax.intro": "Ministério da Fazenda^Secretaría da Receita Federal de Ferngill^^^{{honorific}} @,^^Vimos, por meio desta, informá-lo de que sua solicitação de mudança de endereço para Vila do Pelicano, Stardew Valley foi arquivada e registrada. Toda a correspondência futura será direcionada para {{farm}}.^^Lembramos que as contribuições de imposto de renda federal são devidas no dia 1 de cada temporada. Para a sua comodidade, suas obrigações vencidas serão automaticamente deduzidas do seu saldo. Caso esse saldo seja insuficiente, você será multado de acordo com a seção 501(c)(1) do Código de Receita de Tributos e Contribuições de Ferngill à taxa de {{fine}} e um empréstimo será emitido em seu nome com o Banco de Stardew, sujeito à taxa de juros nominal de {{juros}} por ano.^^^Atenciosamente,^^Laura D. Pretto^Diretora Executiva, Secretaría da Receita Federal de Ferngill[#]Taxation Intro",
   "tax.notice": "Ministério da Fazenda^Secretaría da Receita Federal de Ferngill^^^{{honorific}} @,^^Vimos, por meio desta, informá-lo de que seu imposto de renda total devido para a temporada de encerramento no valor de {{due}}g foi automaticamente deduzido de seu saldo para a sua conveniência.^^Por favor, mantenha esta carta em seus registros permanentes caso precise resolver quaisquer questões sobre sua situação fiscal.^^^Atenciosamente,^^Laura D. Pretto^Diretora Executiva, Secretaría da Receita Federal de Ferngill[#]Taxation Notice",
   "tax.outstanding": "Ministério da Fazenda^Secretaría da Receita Federal de Ferngill^^^{{honorific}} @,^^Vimos, por meio desta, informá-lo de que seu imposto de renda total devido para a temporada de encerramento no valor de {{due}}g não pôde ser totalmente deduzido  do seu saldo. Assim, todas as receitas futuras de {{farm}} serão apreendidas até que sua dívida pendente no valor de {{outstanding}} seja liquidada. Lembre-se de que é do seu melhor interesse liquidar quaisquer dívidas pendentes o mais rápido possível para evitar o acúmulo de juros à taxa de {{interestRate}} ao ano.^^Por favor, mantenha esta carta em seus registros permanentes caso precise resolver quaisquer questões sobre sua situação fiscal.^^^Atenciosamente,^^Laura D. Pretto^Diretora Executiva, Secretaría da Receita Federal de Ferngill[#]Taxation Outstanding",
   "tax.deduction": "Ministério da Fazenda^Secretaría da Receita Federal de Ferngill^^^{{honorific}} @,^^Temos o prazer de informar que, após análise de suas atividades ambientalistas, determinamos que você se qualifica para uma dedução de imposto de renda de {{deductible}} de acordo com a seção 501(c)(3) do Código de Receita de Tributos e Contribuições de Ferngill.^^Por favor, mantenha esta carta em seus registros permanentes caso precise resolver quaisquer questões sobre sua situação fiscal.^^^Atenciosamente,^^Laura D. Pretto^Diretora Executiva, Secretaría da Receita Federal de Ferngill[#]Taxation Deduction",
   "tax.deduction.max": "Ministério da Fazenda^Secretaría da Receita Federal de Ferngill^^^{{honorific}} @,^^Temos o prazer de informar que, após análise de suas atividades ambientalistas, determinamos que você se qualifica para a dedução total do seu imposto de renda de acordo com a seção 501(c)(3) do Código de Receita de Tributos e Contribuições de Ferngill. Como tal, nenhuma cobrança será feita em seu saldo com relação à temporada de encerramento.^^Por favor, mantenha esta carta em seus registros permanentes caso precise resolver quaisquer questões sobre sua situação fiscal.^^^Atenciosamente,^^Laura D. Pretto^Diretora Executiva, Secretaría da Receita Federal de Ferngill[#]Taxation Deduction",
+
+  "lewis.notice": "@,^Como você sabe, um dos meus deveres como prefeito da Vila do Pelicano é arrecadar impostos sobre todas as propriedades da cidade. Durante o ano fiscal anterior, a avaliação do condado sobre as propriedades da fazenda {{farm}} determinou uma avaliação de {{valuation}}g. Como resultado, você é responsável por {{outstanding}}g no total de impostos sobre a propriedade para o período fiscal aplicável. Tomei a liberdade de cobrar sua conta diretamente. ^Em nome da Vila do Pelicano, gostaria de expressar a minha profunda gratidão por suas contribuições contínuas à nossa comunidade. ^ Atenciosamente, Sr. Lewis[#]Lewis Taxation Notice",
+  "lewis.outstanding": "@,^Como você sabe, um dos meus deveres como prefeito da Vila do Pelicano é arrecadar impostos sobre todas as propriedades da cidade. Durante o ano fiscal anterior, a avaliação do condado sobre as propriedades da fazenda {{farm}} determinou uma avaliação de {{valuation}}g. Como resultado, você é responsável por {{outstanding}}g no total de impostos sobre a propriedade para o período fiscal aplicável. ^Infelizmente, descobriu-se que sua conta não tem fundos suficientes para cobrir todo valor. De acordo com a política do condado, não tenho prazer em informar que você será multado em {{fine}}. A totalidade de sua dívida, totalizando {{outstanding}}g, será vendida ao Banco de Stardew, que está autorizada a apreender todas as receitas de remessa até que o valor pendente seja pago integralmente, sujeito a uma taxa de juros anual de {{interest}}. ^Por favor, saiba que o povo da Vila do Pelicano está aqui para apoiá-lo se você estiver enfrentando tempos difíceis. ^ Atenciosamente, Sr. Lewis[#]Lewis Taxation Outstanding",
+
   "debt.debit": "Seu saldo foi debitado em {{amount}}g para suas dívidas.",
+
   "honorific.male": "Caro",
   "honorific.female": "Cara",
 
@@ -362,6 +371,9 @@
   "ui.itemhover.cdr": "{{amount}} Tempo de Recarga",
   "ui.itemhover.resist": "{{amount}} Resistência",
   "ui.itemhover.precision": "{{amount}} Precisão",
+
+  "ui.buffs.jinxed": "-5 Defesa",
+  "ui.buffs.warrior": "+{{value}} Ataque",
 
   "article.definite.male": "ao",
   "article.definite.female": "à",

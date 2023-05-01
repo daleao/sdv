@@ -23,14 +23,14 @@ internal sealed class ToolCanAddEnchantmentPatcher : HarmonyPatcher
     /// <summary>Allow slingshot enchantments.</summary>
     [HarmonyPrefix]
     private static bool ToolCanAddEnchantmentPrefix(
-        Tool __instance, ref bool __result, BaseEnchantment enchantment)
+        Tool __instance, ref bool __result, BaseEnchantment? enchantment)
     {
-        if (__instance is not Slingshot slingshot)
+        if (__instance is not Slingshot slingshot || enchantment is null)
         {
             return true; // run original logic
         }
 
-        if (slingshot.InitialParentTileIndex == ItemIDs.GalaxySlingshot &&
+        if (enchantment.IsSecondaryEnchantment() && slingshot.InitialParentTileIndex == ItemIDs.GalaxySlingshot &&
             SlingshotsModule.Config.EnableInfinitySlingshot)
         {
             switch (enchantment)
@@ -41,22 +41,26 @@ internal sealed class ToolCanAddEnchantmentPatcher : HarmonyPatcher
                 case InfinityEnchantment when slingshot.GetEnchantmentLevel<GalaxySoulEnchantment>() >= 3:
                     __result = true;
                     return false; // don't run original logic
+                default:
+                    __result = false;
+                    return false; // don't run original logic
             }
         }
 
-        if (enchantment.IsSecondaryEnchantment())
+        if (!SlingshotsModule.Config.EnableEnchantments)
         {
             __result = false;
             return false; // don't run original logic
         }
 
-        if (enchantment.IsForge())
+        if (!enchantment.IsForge())
         {
-            __result = SlingshotsModule.Config.EnableEnchantments;
+            __result = true;
             return false; // don't run original logic
         }
 
-        return EnchantmentsModule.ShouldEnable && EnchantmentsModule.Config.RangedEnchantments;
+        __result = slingshot.GetTotalForgeLevels() < slingshot.GetMaxForges();
+        return false; // don't run original logic
     }
 
     #endregion harmony patches

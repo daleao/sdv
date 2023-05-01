@@ -19,11 +19,7 @@ internal sealed class VirtuesQuest : IQuest
     private readonly string _name = I18n.Get("quests.hero.journey.name");
     private readonly string _description = I18n.Get("quests.hero.journey.desc");
 
-    private readonly List<string> _objectiveDescriptions =
-        Virtue.List
-            .OrderBy(virtue => virtue.Value)
-            .Select(virtue => I18n.Get("virtues.trial") + virtue.DisplayName)
-            .ToList();
+    private readonly List<string> _objectiveDescriptions;
 
     private readonly int[] _objectiveProgresses = new int[5];
     private readonly bool[] _completed = new bool[5];
@@ -35,6 +31,29 @@ internal sealed class VirtuesQuest : IQuest
     {
         Virtue.List.ForEach(virtue => this.UpdateVirtueProgress(virtue, true));
         this._viewed = Game1.player.Read<bool>(DataKeys.VirtueQuestViewed);
+
+        if (LocalizedContentManager.CurrentLanguageCode == LocalizedContentManager.LanguageCode.zh)
+        {
+            this._objectiveDescriptions = Virtue.List
+                .OrderBy(virtue => virtue.Value)
+                .Select(virtue => I18n.Get("virtues." + virtue.DisplayName + ".trial").ToString())
+                .ToList();
+        }
+        else if (LocalizedContentManager.CurrentLanguageCode is LocalizedContentManager.LanguageCode.ja
+                 or LocalizedContentManager.LanguageCode.ko)
+        {
+            this._objectiveDescriptions = Virtue.List
+                .OrderBy(virtue => virtue.Value)
+                .Select(virtue => virtue.DisplayName + I18n.Get("virtues.trial"))
+                .ToList();
+        }
+        else
+        {
+            this._objectiveDescriptions = Virtue.List
+                .OrderBy(virtue => virtue.Value)
+                .Select(virtue => I18n.Get("virtues.trial") + virtue.DisplayName)
+                .ToList();
+        }
     }
 
     /// <inheritdoc />

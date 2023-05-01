@@ -256,13 +256,10 @@
   "quests.forge.intro": "Basic/A Dwarven Legacy/Clint hat dir gesagt, dass er in ein paar Tagen mit der Übersetzung der alten Blaupause fertig ist./Besuche Clint, um ihn nach der Blaupause zu fragen./Blacksmith/144702/0/-1/false",
   "quests.forge.next": "Basic/A Dwarven Legacy II/Die alte Blaupause entpuppte sich als Rezept für eine mächtige alte Waffe! Könnte es noch andere geben?/Finde die restlichen zwergischen Blaupausen./null/-1/0/-1/false",
   "quests.hero.intro": "Basic/The Blade of the Ruined Hero/Die Waffe, die du gefunden hast, trägt den Fluch des ruinierten Helden! Du spürst bereits, wie sie dir Lebensenergie entzieht. Du musst einen Weg finden, den Fluch aufzuheben, und zwar schnell!/Finde einen Weg, den Fluch der Ruinenklinge aufzuheben./null/-1/0/-1/false",
-  "quests.hero.next": "Basic/The Blade of the Ruined Hero/Diejenigen, die die Tugenden eines wahren Helden verkörpern, werden von Yobas göttlicher Macht von allem Bösen befreit. Beweise, dass du nach den fünf heroischen Tugenden lebst./null/144705/0/-1/false",
-  "quests.hero.last": "Basic/The Blade of the Ruined Hero/Diejenigen, die die Tugenden eines wahren Helden verkörpern, werden durch Yobas göttliche Macht von allem Bösen gereinigt. Bring die Klinge des Verderbens zum Altar von Yoba./null/-1/0/-1/false",
-  "quests.virtues.honor": "Basic/Trial of Honor/Ehre kann man nicht kaufen. Ehre kann auch nicht verkauft werden, denn ihr Wert ist größer als alle Schätze der Welt. Doch man kann sie verlieren, und wer das tut, hat seinen Namen für alle Ewigkeit besudelt. Ein wahrhaft ehrenhafter Mensch steht immer hinter seinen Taten, stellt sich jeder Herausforderung und weigert sich zu lügen./Warte auf eine Chance, deine Ehre zu beweisen./null/-1/0/-1/false",
-  "quests.virtues.compassion": "Basic/Trial of Compassion/Es gibt viele Eigenschaften, die von der wahren Natur eines Menschen zeugen. Mitgefühl ist das, was Menschen von Bestien unterscheidet. Wer Mitgefühl für seine Mitmenschen empfindet, wird niemals ein Auge zudrücken, wenn ihm Unglück widerfährt. Er wird sich immer für denjenigen einsetzen, dem Unrecht geschieht./null/-1/0/-1/false",
-  "quests.virtues.wisdom": "Basic/Trial of Wisdom/Weisheit ist eine Tugend, die man sein ganzes Leben lang kultivieren sollte, denn es ist unmöglich, so weise zu sein, dass man nicht noch weiser werden kann. Die Weisen wissen das... Auf unserem Weg durchs Leben sollten wir versuchen, weise Entscheidungen zu treffen. Denk daran, dass weise Entscheidungen nicht diejenigen sind, die unser Leben leichter oder einfacher machen. Oft machen sie es sogar komplizierter. Aber sie machen uns immer besser. Warte auf eine Chance, deine Weisheit zu beweisen./null/-1/0/-1/false",
-  "quests.virtues.generosity": "Basic/Trial of Generosity/Kein Mensch kann als gut bezeichnet werden, der seinen Wohlstand nicht mit anderen teilt. Großzügigkeit ist die Voraussetzung für Würde im Leben und Frieden im Tod./Warte auf eine Chance, deine Großzügigkeit zu beweisen./null/-1/0/-1/false",
-  "quests.virtues.valor": "Basic/Trial of Valor/Tapferkeit macht niemanden gut, aber wie viele gute Menschen hast du auf deinem Lebensweg getroffen, die feige waren? Diejenigen, die Tapferkeit besitzen, zögern nicht, sich gegen die Mehrheit zu stellen, egal was die Konsequenzen sind./null/-1/0/-1/false",
+  "quests.hero.reward": "Basic/The Blade of the Ruined Hero/Diejenigen, die die Tugenden eines wahren Helden verkörpern, werden durch Yobas göttliche Macht von allem Bösen gereinigt. Bring die Klinge des Verderbens zum Altar von Yoba./null/-1/0/-1/false",
+
+  "quests.hero.journey.name": "Eine Heldenreise",
+  "quests.hero.journey.desc": "Beweise, dass du nach den fünf heroischen Tugenden lebst.",
 
   "yoba.question": "Es gibt zusätzliche Inschriften auf dem Altar...",
   "virtues.honor.name": "Ehre",
@@ -275,6 +272,7 @@
   "virtues.wisdom.flavor": "\"Weisheit ist eine Tugend, die man sein ganzes Leben lang kultivieren sollte, denn es ist unmöglich, so weise zu sein, dass man nicht noch weiser werden kann. Die Weisen wissen das... Auf unserem Weg durchs Leben sollten wir versuchen, weise Entscheidungen zu treffen. Denk daran, dass weise Entscheidungen nicht diejenigen sind, die unser Leben leichter oder einfacher machen. Oft machen sie es sogar komplizierter. Aber sie machen uns immer besser.\"",
   "virtues.generosity.flavor": "\"Kein Mensch kann als gut bezeichnet werden, der seinen Wohlstand nicht mit anderen teilt. Großzügigkeit ist die Voraussetzung für Würde im Leben und Frieden im Tod.\"",
   "virtues.valor.flavor": "\"Tapferkeit macht niemanden gut, aber wie viele gute Menschen hast du auf deinem Lebensweg getroffen, die feige waren? Diejenigen, die mutig sind, zögern nicht, sich gegen die Mehrheit zu stellen, egal was die Konsequenzen sind.\"",
+  "virtues.trial": "Prüfung der ",
 
   // json assets
   "objects.dwarvishblueprint.name": "Alter zwergischer Bauplan",
@@ -302,13 +300,19 @@
   "rings.jade.desc": "Erhöht die kritische Schlagkraft um 50%.",
   "rings.topaz.desc.resist": "Erhöht die Widerstandsfähigkeit um 10%.",
   "rings.topaz.desc.defense": "Erhöht die Verteidigung um 1.",
-  "rings.garnet.name": "Granat Ring",
-  "rings.garnet.description": "Verringert die Abklingzeit von Spezialbewegungen um 10%.",
   "rings.iridium.desc": "Ein gewöhnliches Band aus Iridium.",
-  "rings.infinity.name": "Unendlichkeitsband",
-  "rings.infinity.description": "Ein Gefäß für große Macht.",
+  "rings.warrior.desc": "Feindliche Takedowns gewähren einen progressiv höheren Angriff.",
+  "buffs.warrior.desc": "Ansturm",
+  "rings.yoba.desc": "Gewährt einen Schild, wenn deine Gesundheit unter 30 % fällt.",
+  "buffs.yoba.desc": "Lebenslinie",
   "global.infinitycraft": "{{who}} hat ein Infinity Band geschmiedet.",
   "resonance": "Resonanz",
+
+  // json assets
+  "rings.garnet.name": "Granat Ring",
+  "rings.garnet.description": "Verringert die Abklingzeit von Spezialbewegungen um 10%.",
+  "rings.infinity.name": "Unendlichkeitsband",
+  "rings.infinity.description": "Ein Gefäß für große Macht.",
 
 
   // **************** //
@@ -340,12 +344,17 @@
 
   //// needs revision !!!
 
-  "tax.intro": "Department of the Treasury^Ferngill Revenue Service^^^{{honorific}} Steuerzahler,^^Mit diesem Schreiben möchten wir dich darüber informieren, dass deine kürzlich erfolgte Adressänderung nach Pelican Town, Stardew Valley, eingereicht und registriert worden ist. Alle zukünftige Korrespondenz wird an {{farm}} gerichtet.^^Wir möchten dich daran erinnern, dass die Bundeseinkommenssteuerbeiträge am 2. jeder Saison fällig sind. Um dir die Arbeit zu erleichtern, werden deine fälligen Verpflichtungen automatisch von deinem Guthaben abgezogen. Sollte dein Guthaben nicht ausreichen, wird automatisch ein Darlehen auf deinen Namen ausgestellt, für das eine nominale Zinsgebühr von {{interest}} pro Jahr anfällt.^^^Mit freundlichen Grüßen,^^Laura D. Pretto^Executive Directrice, Ferngill Revenue Service[#]Taxation Intro",
+  "tax.intro": "Department of the Treasury^Ferngill Revenue Service^^^{{honorific}} Steuerzahler,^^Mit diesem Schreiben möchten wir dich darüber informieren, dass deine kürzlich erfolgte Adressänderung nach Pelican Town, Stardew Valley, eingereicht und registriert worden ist. Alle zukünftige Korrespondenz wird an {{farm}} gerichtet.^^Wir möchten Sie freundlich daran erinnern, dass die Bundeseinkommensteuerbeiträge am 1. jeder Saison am Ende des Tages fällig sind. Zu Ihrer Bequemlichkeit werden Ihre fälligen Verpflichtungen automatisch von Ihrem Guthaben abgezogen. Wenn Ihr Guthaben nicht ausreicht, wird Ihnen gemäß Abschnitt 501(c)(1) des Ferngill Revenue Code eine Geldstrafe in Höhe von {{fine}} auferlegt und ein Darlehen wird in Ihrem Namen bei der Bank von Stardew ausgestellt, unterliegen der nominellen Zinsgebühr von {{interest}} pro Jahr.^^^Mit freundlichen Grüßen,^^Laura D. Pretto^Executive Directrice, Ferngill Revenue Service[#]Taxation Intro",
   "tax.notice": "Department of the Treasury^Ferngill Revenue Service^^^{{honorific}} Steuerzahler,^^Dieser Brief informiert Sie darüber, dass Ihre gesamte fällige Einkommenssteuer für die letzte Saison in Höhe von {{due}}g automatisch von Ihrem Guthaben abgezogen wurde.^^Bitte bewahren Sie diesen Brief für den Fall auf, dass Sie Fragen zu Ihrem Steuerstatus klären müssen.^^^Mit freundlichen Grüßen,^^Laura D. Pretto^Executive Directrice, Ferngill Revenue Service[#]Taxation Notice",
-  "tax.outstanding": "Department of the Treasury^Ferngill Revenue Service^^^{{honorific}} Steuerzahler,^^Mit diesem Schreiben teilen wir dir mit, dass die von dir für die letzte Saison geschuldete Einkommensteuer in Höhe von {{due}}g nicht vollständig von deinem Guthaben abgezogen werden konnte. Daher werden alle zukünftigen Einkünfte aus der {{farm}} beschlagnahmt, bis Ihre ausstehende Schuld in Höhe von {{outstanding}} beglichen ist. Bitte bedenke, dass es in deinem besten Interesse ist, ausstehende Schulden so schnell wie möglich zu begleichen, um zu vermeiden, dass dir Zinsen in Höhe von {{interestRate}} pro Jahr und Strafgebühren entstehen.^^Bitte bewahre dieses Schreiben in deinen Unterlagen auf, falls du Fragen zu deinem steuerlichen Status klären musst.^^^Mit freundlichen Grüßen,^^Laura D. Pretto^Executive Directrice, Ferngill Revenue Service[#]Ausstehende Steuern",
-  "tax.deduction": "Department of the Treasury^Ferngill Revenue Service^^^{{honorific}} Steuerzahler,^^Wir freuen uns, dir mitzuteilen, dass wir bei der Überprüfung deiner umweltpolitischen Aktivitäten festgestellt haben, dass du gemäß Abschnitt 501 (c) (3) des Ferngill Revenue Code für einen Einkommenssteuerabzug von {{deductible}} in Frage kommst. Bitte bewahre dieses Schreiben in deinen Unterlagen auf, falls du Fragen zu deinem Steuerstatus klären musst.^^^^Mit freundlichen Grüßen,^^Laura D. Pretto^Executive Directrice, Ferngill Revenue Service[#]Steuerabzug",
-  "tax.deduction.max": "Department of the Treasury^Ferngill Revenue Service^^^{{honorific}} Steuerzahler,^^Wir freuen uns, dir mitzuteilen, dass wir bei der Überprüfung deiner umweltpolitischen Aktivitäten festgestellt haben, dass du gemäß Abschnitt 501(c)(3) des Ferngill Revenue Code von der Bundeseinkommenssteuer befreit bist. Daher wird dein Guthaben für die abschließende Saison nicht belastet.^^Bitte bewahre dieses Schreiben für den Fall auf, dass du Fragen zu deinem Steuerstatus klären musst.^^^Mit freundlichen Grüßen,^^Laura D. Pretto^Executive Directrice, Ferngill Revenue Service[#]Steuerabzug",
+  "tax.outstanding": "Department of the Treasury^Ferngill Revenue Service^^^{{honorific}} Steuerzahler,^^Mit diesem Schreiben teilen wir dir mit, dass die von dir für die letzte Saison geschuldete Einkommensteuer in Höhe von {{due}}g nicht vollständig von deinem Guthaben abgezogen werden konnte. Daher werden alle zukünftigen Einkünfte aus der {{farm}} beschlagnahmt, bis Ihre ausstehende Schuld in Höhe von {{outstanding}} beglichen ist. Bitte bedenke, dass es in deinem besten Interesse ist, ausstehende Schulden so schnell wie möglich zu begleichen, um zu vermeiden, dass dir Zinsen in Höhe von {{interest}} pro Jahr und Strafgebühren entstehen.^^Bitte bewahre dieses Schreiben in deinen Unterlagen auf, falls du Fragen zu deinem steuerlichen Status klären musst.^^^Mit freundlichen Grüßen,^^Laura D. Pretto^Executive Directrice, Ferngill Revenue Service[#]FRS Outstanding",
+  "tax.deduction": "Department of the Treasury^Ferngill Revenue Service^^^{{honorific}} Steuerzahler,^^Wir freuen uns, dir mitzuteilen, dass wir bei der Überprüfung deiner umweltpolitischen Aktivitäten festgestellt haben, dass du gemäß Abschnitt 501 (c) (3) des Ferngill Revenue Code für einen Einkommenssteuerabzug von {{deductible}} in Frage kommst. Bitte bewahre dieses Schreiben in deinen Unterlagen auf, falls du Fragen zu deinem Steuerstatus klären musst.^^^^Mit freundlichen Grüßen,^^Laura D. Pretto^Executive Directrice, Ferngill Revenue Service[#]FRS Deduction",
+  "tax.deduction.max": "Department of the Treasury^Ferngill Revenue Service^^^{{honorific}} Steuerzahler,^^Wir freuen uns, dir mitzuteilen, dass wir bei der Überprüfung deiner umweltpolitischen Aktivitäten festgestellt haben, dass du gemäß Abschnitt 501(c)(3) des Ferngill Revenue Code von der Bundeseinkommenssteuer befreit bist. Daher wird dein Guthaben für die abschließende Saison nicht belastet.^^Bitte bewahre dieses Schreiben für den Fall auf, dass du Fragen zu deinem Steuerstatus klären musst.^^^Mit freundlichen Grüßen,^^Laura D. Pretto^Executive Directrice, Ferngill Revenue Service[#]FRS Deduction",
+
+  "lewis.notice": "@,^Wie Sie wissen, ist es eine meiner Pflichten als Bürgermeister von Pelikan Stadt, Steuern auf alle Grundstücke der Stadt zu erheben. Während des vorangegangenen Geschäftsjahres wurde die Schätzung der Farm von {{farm}} durch den Landkreis vorgenommen Property ermittelte eine Bewertung von {{valuation}}g. Als Ergebnis sind Sie für den anwendbaren Steuerzeitraum mit insgesamt {{due}}g Grundsteuern haftbar. Ich habe mir erlaubt, Ihr Konto direkt zu belasten. ^Im Namen von Pelikan Stadt möchte ich Ihnen meine tiefste Dankbarkeit für Ihre fortwährenden Beiträge zu unserer Gemeinschaft aussprechen.  ^  Mit freundlichen Grüßen, Mr. Lewis[#]Lewis Taxation Notice",
+  "lewis.outstanding": "@,^Wie Sie wissen, ist es eine meiner Pflichten als Bürgermeister von Pelikan Stadt, Steuern auf alle Grundstücke der Stadt zu erheben. Während des vorangegangenen Geschäftsjahres wurde die Schätzung der Farm von {{farm}} durch den Landkreis vorgenommen Property ermittelte eine Bewertung von {{valuation}}g. Infolgedessen schulden Sie für den anwendbaren Steuerzeitraum insgesamt {{fine}} g Grundsteuern. Gemäß der Distriktrichtlinie freue ich mich nicht, Ihnen mitteilen zu können, dass Ihnen eine zusätzliche {{Geldstrafe}} in Rechnung gestellt wird. Ihre Gesamtschuld von {{outstanding}} g wird an die Bank von Stardew verkauft, die das Recht hat, alle Versandeinnahmen zu beschlagnahmen, bis der ausstehende Betrag vollständig bezahlt ist, vorbehaltlich eines jährlichen Zinssatzes von {{interest}}.  ^  Bitte beachten Sie, dass die Einwohner von Pelikan Stadt hier sind, um Sie in schwierigen Zeiten zu unterstützen. ^ Mit freundlichen Grüßen, Herr Lewis[#]Lewis Taxation Outstanding",
+
   "debt.debit": "Dein Guthaben wurde in Höhe von {{amount}}g mit ausstehenden Schulden belastet.",
+
   "honorific.male": "Sehr geehrter Herr",
   "honorific.female": "Sehr geehrter Frau",
 
@@ -363,6 +372,9 @@
   "ui.itemhover.cdr": "{{amount}} Abklingzeit",
   "ui.itemhover.resist": "{{amount}} Widerstand",
   "ui.itemhover.precision": "{{amount}} Präzision",
+
+  "ui.buffs.jinxed": "-5 Verteidigung",
+  "ui.buffs.warrior": "+{{value}} Angriff",
 
 
   // ********* //
