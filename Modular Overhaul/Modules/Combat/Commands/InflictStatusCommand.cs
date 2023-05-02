@@ -1,5 +1,7 @@
 ﻿namespace DaLion.Overhaul.Modules.Combat.Commands;
 
+using System.Linq;
+
 #region using directives
 
 using DaLion.Overhaul.Modules.Combat.Extensions;
@@ -36,12 +38,65 @@ internal sealed class InflictStatusCommand : ConsoleCommand
             return;
         }
 
+        var all = args.Any(a => a is "-a" or "--all");
+        if (all)
+        {
+            args = args.Except(new[] { "-a", "--all" }).ToArray();
+        }
+
+        if (args.Length == 0)
+        {
+            Log.W("You must specify a valid status condition.");
+            return;
+        }
+
         if (args.Length == 1 || !int.TryParse(args[1], out var duration))
         {
             duration = 100000;
         }
 
-        var nearest = Game1.player.GetClosestCharacter<Monster>();
+        var player = Game1.player;
+        if (all)
+        {
+            for (var i = 0; i < player.currentLocation.characters.Count; i++)
+            {
+                var character = player.currentLocation.characters[i];
+                if (character is not Monster monster)
+                {
+                    continue;
+                }
+
+                switch (args[0].ToLowerInvariant())
+                {
+                    case "bleed":
+                        monster.Bleed(player, duration);
+                        break;
+                    case "burn":
+                        monster.Burn(player, duration);
+                        break;
+                    case "chill":
+                        monster.Chill(duration);
+                        break;
+                    case "fear":
+                        monster.Fear(duration);
+                        break;
+                    case "freeze":
+                        monster.Freeze(duration);
+                        break;
+                    case "poison":
+                        monster.Poison(player, duration);
+                        break;
+                    case "slow":
+                        monster.Slow(duration);
+                        break;
+                    case "stun":
+                        monster.Stun(duration);
+                        break;
+                }
+            }
+        }
+
+        var nearest = player.GetClosestCharacter<Monster>();
         if (nearest is null)
         {
             Log.W("There are no enemies nearby.");
@@ -51,10 +106,10 @@ internal sealed class InflictStatusCommand : ConsoleCommand
         switch (args[0].ToLowerInvariant())
         {
             case "bleed":
-                nearest.Bleed(Game1.player, duration);
+                nearest.Bleed(player, duration);
                 break;
             case "burn":
-                nearest.Burn(Game1.player, duration);
+                nearest.Burn(player, duration);
                 break;
             case "chill":
                 nearest.Chill(duration);
@@ -66,7 +121,7 @@ internal sealed class InflictStatusCommand : ConsoleCommand
                 nearest.Freeze(duration);
                 break;
             case "poison":
-                nearest.Poison(Game1.player, duration);
+                nearest.Poison(player, duration);
                 break;
             case "slow":
                 nearest.Slow(duration);

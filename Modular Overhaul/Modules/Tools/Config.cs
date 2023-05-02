@@ -68,7 +68,7 @@ public sealed class Config : Shared.Configs.Config
     public bool ColorCodedForYourConvenience { get; internal set; }
 
     /// <inheritdoc />
-    internal override bool Validate()
+    public override bool Validate()
     {
         var isValid = true;
 

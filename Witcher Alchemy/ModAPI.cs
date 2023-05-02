@@ -1,5 +1,6 @@
-﻿namespace DaLion.Stardew.Alchemy;
+﻿namespace DaLion.Alchemy;
 
-public class ModAPI
+/// <summary>Implementation of the mod API.</summary>
+public sealed class ModApi
 {
 }

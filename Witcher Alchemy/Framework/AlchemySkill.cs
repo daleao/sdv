@@ -1,19 +1,16 @@
-﻿namespace DaLion.Stardew.Alchemy.Framework;
+﻿namespace DaLion.Alchemy.Framework;
 
 #region using directives
 
-using Common;
-using Extensions;
-using SpaceCore;
-using StardewValley;
 using System.Collections.Generic;
+using SpaceCore;
 
 #endregion using directives
 
+/// <summary>The custom Alchemy skill.</summary>
 public class AlchemySkill : Skills.Skill
 {
-    internal static string InternalName { get; } = ModEntry.Manifest.UniqueID + ".Skill";
-
+    /// <summary>Initializes a new instance of the <see cref="AlchemySkill"/> class.</summary>
     public AlchemySkill()
         : base(InternalName)
     {
@@ -22,29 +19,23 @@ public class AlchemySkill : Skills.Skill
 
     }
 
+    internal static string InternalName { get; } = ModEntry.Manifest.UniqueID + ".Skill";
+
     /// <inheritdoc />
     public override string GetName()
     {
         return ModEntry.i18n.Get("skill.name");
     }
 
+    /// <inheritdoc />
     public override List<string> GetExtraLevelUpInfo(int level)
     {
         return new();
     }
 
+    /// <inheritdoc />
     public override string GetSkillPageHoverText(int level)
     {
         return base.GetSkillPageHoverText(level);
-    }
-
-    public void AddExperienceDirectly(int howMuch)
-    {
-        Game1.player.AddAlchemyExperience(howMuch);
-    }
-
-    public int GetLevel(Farmer farmer)
-    {
-        return Skills.GetSkillLevel(farmer, GetName());
     }
 }

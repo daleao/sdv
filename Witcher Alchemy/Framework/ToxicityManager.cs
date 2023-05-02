@@ -2,9 +2,12 @@
 
 #region using directives
 
-using Events.Toxicity;
 using StardewValley;
 using System;
+using DaLion.Alchemy.Events.Toxicity.Changed;
+using DaLion.Alchemy.Events.Toxicity.Cleared;
+using DaLion.Alchemy.Events.Toxicity.Filled;
+using DaLion.Alchemy.Events.Toxicity.Overdosed;
 
 #endregion using directives
 

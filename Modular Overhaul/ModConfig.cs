@@ -4,7 +4,6 @@
 
 using System.Collections.Generic;
 using System.Linq;
-using DaLion.Shared.Extensions.SMAPI;
 using Newtonsoft.Json;
 using StardewModdingAPI.Utilities;
 
@@ -13,9 +12,6 @@ using StardewModdingAPI.Utilities;
 /// <summary>The collection of configs for each module.</summary>
 public sealed class ModConfig
 {
-    private static readonly Lazy<JsonSerializerSettings> JsonSerializerSettings =
-        new(() => ModHelper.Data.GetJsonSerializerSettings());
-
     #region module flags
 
     /// <summary>Gets a value indicating whether the Professions module is enabled.</summary>
@@ -154,12 +150,6 @@ public sealed class ModConfig
     [JsonProperty]
     public KeybindList DebugKey { get; internal set; } = KeybindList.Parse("OemQuotes, OemTilde");
 
-    /// <inheritdoc />
-    public override string ToString()
-    {
-        return JsonConvert.SerializeObject(this, JsonSerializerSettings.Value);
-    }
-
     /// <summary>Validates all internal configs and overwrites the user's config file if any invalid settings were found.</summary>
     /// <param name="helper">Provides simplified APIs for writing mods.</param>
     internal void Validate(IModHelper helper)
@@ -186,9 +176,12 @@ public sealed class ModConfig
         yield return this.Tweex;
     }
 
-    /// <summary>Logs the config properties to the SMAPI console.</summary>
+    /// <summary>Logs all sub-config properties to the SMAPI console.</summary>
     internal void Log()
     {
         Shared.Log.T($"[Config]: Current settings:\n{this}");
+        var message = this
+            .Enumerate()
+            .Aggregate("[Config]: Current settings:", (current, next) => current + "\n" + next);
     }
 }

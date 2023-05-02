@@ -1,34 +1,39 @@
-﻿namespace DaLion.Stardew.Alchemy.Framework;
+﻿namespace DaLion.Alchemy.Framework;
 
 #region using directives
 
+using System.Text;
+using System.Xml.Serialization;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using StardewValley;
-using System.Text;
 
 #endregion using directives
 
-public class Cauldron : Tool
+/// <summary>The Cauldron tool.</summary>
+[XmlType("Mods_DaLion_Cauldron")]
+public sealed class Cauldron : Tool
 {
     private readonly Rectangle _sourceRect;
 
-    public static string InternalName { get; } = ModEntry.Manifest.UniqueID + ".Tool";
-
-    public static Texture2D SpriteSheet { get; } =
-        ModEntry.ModHelper.GameContent.Load<Texture2D>($"{ModEntry.Manifest.UniqueID}/Cauldron");
-
-    /// <summary>Construct an instance.</summary>
+    /// <summary>Initializes a new instance of the <see cref="Cauldron"/> class.</summary>
     public Cauldron(int upgradeLevel)
         : base("Cauldron", upgradeLevel, -1, -1, false)
     {
-        _sourceRect = new(16 * UpgradeLevel, 0, 16, 16);
+        this._sourceRect = new Rectangle(16 * this.UpgradeLevel, 0, 16, 16);
     }
+
+    /// <summary>Gets the internal name of the <see cref="Cauldron"/>.</summary>
+    public static string InternalName { get; } = ModEntry.Manifest.UniqueID + ".Tool";
+
+    /// <summary>Gets the <see cref="Cauldron"/> texture.</summary>
+    public static Texture2D Texture { get; } =
+        ModEntry.ModHelper.GameContent.Load<Texture2D>($"{ModEntry.Manifest.UniqueID}/Cauldron");
 
     /// <inheritdoc />
     public override Item getOne()
     {
-        Cauldron cauldron = new(UpgradeLevel);
+        Cauldron cauldron = new(this.UpgradeLevel);
         cauldron._GetOneFrom(this);
         return cauldron;
     }
@@ -70,16 +75,36 @@ public class Cauldron : Tool
     }
 
     /// <inheritdoc />
-    public override void drawInMenu(SpriteBatch spriteBatch, Vector2 location, float scaleSize, float transparency, float layerDepth,
-        StackDrawType drawStackNumber, Color color, bool drawShadow)
+    public override void drawInMenu(
+        SpriteBatch spriteBatch,
+        Vector2 location,
+        float scaleSize,
+        float transparency,
+        float layerDepth,
+        StackDrawType drawStackNumber,
+        Color color,
+        bool drawShadow)
     {
         var offset = new Vector2(16f) / 2f;
-        spriteBatch.Draw(SpriteSheet, location + offset * 4f, _sourceRect, color * transparency, 0f,
-            offset, scaleSize * 4f, SpriteEffects.None, layerDepth);
+        spriteBatch.Draw(
+            Texture,
+            location + (offset * 4f),
+            this._sourceRect,
+            color * transparency,
+            0f,
+            offset,
+            scaleSize * 4f,
+            SpriteEffects.None,
+            layerDepth);
     }
 
     /// <inheritdoc />
-    public override void drawTooltip(SpriteBatch spriteBatch, ref int x, ref int y, SpriteFont font, float alpha,
+    public override void drawTooltip(
+        SpriteBatch spriteBatch,
+        ref int x,
+        ref int y,
+        SpriteFont font,
+        float alpha,
         StringBuilder overrideText)
     {
         base.drawTooltip(spriteBatch, ref x, ref y, font, alpha, overrideText);

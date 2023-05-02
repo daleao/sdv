@@ -86,7 +86,7 @@ internal sealed class IClickableMenuDrawHoverTextPatcher : HarmonyPatcher
     internal static Color GetTitleColorFor(Item? item)
     {
         return item is Tool { UpgradeLevel: > 0 } tool && ToolsModule.Config.ColorCodedForYourConvenience
-            ? ((UpgradeLevel)tool.UpgradeLevel).GetColor()
+            ? ((UpgradeLevel)tool.UpgradeLevel).GetTextColor()
             : Game1.textColor;
     }
 

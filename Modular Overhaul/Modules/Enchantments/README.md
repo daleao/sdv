@@ -37,20 +37,19 @@ Enchantments have been almost entirely overhauled. Hopefully these enchantments 
 | --------- | -------|
 | Haymaker  | *Unchanged from vanilla.* |
 | Artful    | Improves the special move of each weapon.* |
-| Carving   | Attacks on-hit reduce enemy defense by 1. Removes the armor from Armored Bugs and de-shells Rock Crabs. |
+| Blasting | Accumulates and stores half of the damage from enemy hits (before mitigation). If enough damage is accumulated, the next special move releases that damage as an explosion. |
+| Bloodthirsty | Enemy takedowns recover some health proportional to the enemy's max health. Excess healing is converted into a shield for up to 20% of the player's max health, which slowly decays after not dealing or taking damage for 25s. |
+| Carving   | Attacks on-hit reduce enemy defense by 1 (continuing below zero). Removes the armor from Armored Bugs and de-shells Rock Crabs. |
 | Cleaving  | Attacks on-hit spread 60% - 20% (based on distance) of the damage to other enemies around the target. |
 | Energized | Moving and attacking generates energy. When fully-energized, the next attack causes an electric discharge, dealing heavy damage in a large area. |
-| Blasting | Accumulates and stores half of the damage from enemy hits (before mitigation). If enough damage is accumulated, the next special move releases that damage as an explosion. |
-| Steadfast    | Converts critical strike chance into bonus raw damage (multiplied by critical power). |
-| Bloodthirsty | Enemy takedowns recover some health proportional to the enemy's max health. Excess healing is converted into a shield for up to 20% of the player's max health, which slowly decays after not dealing or taking damage for 25s. |
 | Mammonite's | Attacks that would leave an enemy below 10% max health immediately execute the enemy, converting the remaining health into gold. This threshold increases by 1% with each consecutive takedown, resetting when you take damage. |
-| Wabbajack | Causes unpredictable effects. *Examples: damage or heal the enemy; decrease or increase the enemie's stats; transfigure into a different enemy, creature or any random item (note: this can spawn illegal items).* |
+| Steadfast    | Converts critical strike chance into bonus raw damage (multiplied by critical power). |
+| Wabbajack | Causes unpredictable effects.** |
 
 \*
-    - **Offensive Swords:** Can dash twice in succession.
-    - **Defensive Swords:** The next attack within 5s of a successful parry is guaranteed a critical strike.
-    - **Daggers:** Quick stab deals an additional hit. If [WPNZ](../Weapons) is enabled with rebalance option, all hits apply Bleed with 100% chance.
-    - **Clubs:** Smash area +50%. Enemmies in range are stunned for 2s.
+***Offensive Swords:** Can dash twice in succession. **Defensive Swords:** The next attack within 5s of a successful parry is guaranteed a critical strike. **Daggers:** Quick stab deals an additional hit. If [WPNZ](../Weapons) is enabled with rebalance option, all hits apply Bleed with 100% chance. **Clubs:** Smash area +50%. Enemies in range are stunned for 2s.*
+
+\*\* *Examples: damage or heal the enemy; decrease or increase the enemie's stats; transfigure into a different enemy, creature or any random item (note: this can spawn illegal items).*
 
 ### Ranged Enchantments
 
@@ -58,11 +57,11 @@ The enchantments below are entirely new and unique to slingshots.
 
 | Name       | Effect |
 | ---------- | -------|
-| Magnum     | Greatly increases the size of fired projectiles. |
 | Gatling    | Enables auto-fire.* |
+| Magnum     | Greatly increases the size of fired projectiles. |
 | Preserving | Does not consume ammo. |
-| Spreading  | Consume one additional ammo to fire two additional angled projectiles. |
 | Quincy     | Attacks fire an energy projectile if no ammo is equipped. Only works near enemies.** |
+| Spreading  | Consume one additional ammo to fire two additional angled projectiles. |
 
 \* *Double-click/press and then **hold** the use-tool key to engage auto-fire.*
 

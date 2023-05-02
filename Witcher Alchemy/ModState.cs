@@ -1,20 +1,19 @@
-﻿namespace DaLion.Stardew.Alchemy;
+﻿namespace DaLion.Alchemy;
 
 #region using directives
 
-using Framework;
-using Framework.UI;
-using System.Collections.Generic;
+
 
 #endregion using directives
 
-internal class PlayerState
+/// <summary>The ephemeral mod state.</summary>
+internal sealed class ModState
 {
-    internal HashSet<Formula>? KnownFormulae;
-    internal int CauldronLevel;
+    internal int Toxicity { get; set; }
 
     internal bool UsingGridView = false;
+    
     internal bool AppliedFiltering = false;
+    
     internal bool ReversedSortOrder = false;
-    internal AlchemyMenu.Autofill Autofill = AlchemyMenu.Autofill.Off;
 }

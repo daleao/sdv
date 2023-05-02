@@ -111,6 +111,9 @@
 		<Using Alias="SObject" Include="StardewValley.Object" />
 		<Using Alias="Log" Include="DaLion.Shared.Log" />
 	</ItemGroup>
+	<ItemGroup>
+	  <Folder Include="Framework\Enums\" />
+	</ItemGroup>
 	
 	<ProjectExtensions>
 		<VisualStudio><UserProperties i18n_4default_1json__JsonSchema="https://datahubproject.io/schemas/datahub_ingestion_schema.json" /></VisualStudio>

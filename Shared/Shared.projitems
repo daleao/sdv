@@ -110,6 +110,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\Reflection\StringExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\Reflection\TypeExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\SMAPI\AssetNameExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Extensions\SMAPI\ModExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\SMAPI\GameContentHelperExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\SMAPI\KeybindListExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\SMAPI\DataHelperExtensions.cs" />

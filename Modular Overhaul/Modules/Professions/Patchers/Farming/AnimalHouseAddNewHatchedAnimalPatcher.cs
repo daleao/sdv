@@ -25,14 +25,16 @@ internal sealed class AnimalHouseAddNewHatchedAnimalPatcher : HarmonyPatcher
     private static void AnimalHouseAddNewHatchedAnimalPostfix(AnimalHouse __instance)
     {
         var owner = Game1.getFarmer(__instance.getBuilding().owner.Value);
-        if (!owner.HasProfession(Profession.Rancher))
+        if (!owner.HasProfession(Profession.Rancher) &&
+            (!ProfessionsModule.Config.LaxOwnershipRequirements ||
+             !Game1.game1.DoesAnyPlayerHaveProfession(Profession.Rancher, out _)))
         {
             return;
         }
 
         var newborn = __instance.Animals.Values.Last();
         if (newborn is null || newborn.age.Value != 0 || newborn.friendshipTowardFarmer.Value != 0 ||
-            newborn.ownerID.Value != owner.UniqueMultiplayerID)
+            (newborn.ownerID.Value != owner.UniqueMultiplayerID && !ProfessionsModule.Config.LaxOwnershipRequirements))
         {
             return;
         }

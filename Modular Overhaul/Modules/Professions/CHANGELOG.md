@@ -1,5 +1,15 @@
 ﻿# PROFS Change Log
 
+## 2.2.8 <sup><sub><sup>[🔼](#profs-change-log)</sup></sub></sup>
+
+### Changed
+
+* Luremaster-owned Magnet-baited Crab Pots no longer produce trash, as stated in its description.
+
+### Fixed
+
+* LaxOwnershipRequirements should now apply to Rancher bonus.
+
 ## 2.2.2 <sup><sub><sup>[🔼](#profs-change-log)</sup></sub></sup>
 
 ### Fixed

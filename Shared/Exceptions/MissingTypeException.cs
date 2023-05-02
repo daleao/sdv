@@ -6,7 +6,7 @@ public sealed class MissingTypeException : Exception
     /// <summary>Initializes a new instance of the <see cref="MissingTypeException"/> class.</summary>
     /// <param name="name">The name of the expected type.</param>
     public MissingTypeException(string name)
-        : base($"A type named {name} could not be found in the executing assemblies.")
+        : base($"A type named {name} could not be found in the executing assembly.")
     {
     }
 }

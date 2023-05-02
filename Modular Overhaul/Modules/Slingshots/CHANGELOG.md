@@ -2,9 +2,15 @@
 
 ## 2.2.8 <sup><sub><sup>[🔼](#slngs-change-log)</sup></sub></sup>
 
+### Changed
+
+* Removed 2 frames from Special Move windup, so it should feel slightly better.
+
 ### Fixed
 
 * Fixed a bug allowing slingshots to receiving infinite forges.
+* Improved Slick Moves stop condtion.
+* Fixed FaceMouseCursor GMCM setting incorrectly mapped to the one from WPNZ module.
 
 ## 2.2.6 <sup><sub><sup>[🔼](#slngs-change-log)</sup></sub></sup>
 

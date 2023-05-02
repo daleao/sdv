@@ -1,34 +1,60 @@
-﻿namespace DaLion.Stardew.Alchemy;
+﻿#region global using directives
+
+#pragma warning disable SA1200 // Using directives should be placed correctly
+global using static DaLion.Alchemy.ModEntry;
+#pragma warning restore SA1200 // Using directives should be placed correctly
+
+#endregion global using directives
+
+namespace DaLion.Alchemy;
 
 #region using directives
-
-using Common;
-using Common.Harmony;
-using Common.ModData;
-using Framework;
+using DaLion.Shared.Commands;
+using DaLion.Shared.Events;
+using DaLion.Shared.Harmony;
+using DaLion.Shared.ModData;
+using DaLion.Shared.Networking;
+using DaLion.Shared.Reflection;
 using StardewModdingAPI.Utilities;
-using StardewValley;
 
 #endregion using directives
 
 /// <summary>The mod entry point.</summary>
-public class ModEntry : Mod
+public sealed class ModEntry : Mod
 {
-    internal static ModEntry Instance { get; private set; } = null!;
-    internal static ModConfig Config { get; set; } = null!;
-    internal static AlchemyEventManager EventManager { get; private set; } = null!;
-    internal static PerScreen<PlayerState> PerScreenState { get; private set; } = null!;
-    internal static PlayerState PlayerState
+    /// <summary>Gets the static <see cref="ModEntry"/> instance.</summary>
+    internal static ModEntry Instance { get; private set; } = null!; // set in Entry
+
+    /// <summary>Gets or sets the <see cref="ModConfig"/> instance.</summary>
+    internal static ModConfig Config { get; set; } = null!; // set in Entry
+
+    /// <summary>Gets the <see cref="PerScreen{T}"/> <see cref="ModState"/>.</summary>
+    internal static PerScreen<ModState> PerScreenState { get; private set; } = null!; // set in Entry
+
+    /// <summary>Gets or sets the <see cref="ModState"/> of the local player.</summary>
+    internal static ModState State
     {
         get => PerScreenState.Value;
         set => PerScreenState.Value = value;
     }
 
-    internal static IModHelper ModHelper => Instance.Helper;
-    internal static IManifest Manifest => Instance.ModManifest;
-    internal static ITranslationHelper i18n => ModHelper.Translation;
+    /// <summary>Gets the <see cref="Shared.Events.EventManager"/> instance.</summary>
+    internal static EventManager EventManager { get; private set; } = null!; // set in Entry
 
-    internal static bool LoadedBackpackMod { get; private set; }
+    /// <summary>Gets the <see cref="Reflector"/> instance.</summary>
+    internal static Reflector Reflector { get; private set; } = null!; // set in Entry
+
+    /// <summary>Gets the <see cref="Broadcaster"/> instance.</summary>
+    internal static Broadcaster Broadcaster { get; private set; } = null!; // set in Entry
+
+    /// <summary>Gets the <see cref="IModHelper"/> API.</summary>
+    internal static IModHelper ModHelper => Instance.Helper;
+
+    /// <summary>Gets the <see cref="IManifest"/> for this mod.</summary>
+    internal static IManifest Manifest => Instance.ModManifest;
+
+    /// <summary>Gets the <see cref="ITranslationHelper"/> API.</summary>
+    internal static ITranslationHelper I18n => ModHelper.Translation;
 
     /// <summary>The mod entry point, called after the mod is first loaded.</summary>
     /// <param name="helper">Provides simplified APIs for writing mods.</param>
@@ -36,46 +62,55 @@ public class ModEntry : Mod
     {
         Instance = this;
 
-        // initialize logger
-        Log.Init(Monitor);
+        Log.Init(this.Monitor);
+        ModDataIO.Init(this.ModManifest.UniqueID);
 
-        // initialize data
-        ModDataIO.Init(helper.Multiplayer, ModManifest.UniqueID);
-
-        // get configs
         Config = helper.ReadConfig<ModConfig>();
-
-        // initialize mod events
-        EventManager = new(Helper.Events);
-
-        // apply harmony patches
-        new Harmonizer(helper.ModRegistry, ModManifest.UniqueID).ApplyAll();
+        if (!Config.Validate())
+        {
+            helper.WriteConfig(Config);
+        }
 
         // initialize mod state
-        PerScreenState = new(() => new());
+        PerScreenState = new PerScreen<ModState>(() => new ModState());
 
-        // load content packs
-        SubstanceManager.Init(helper.ContentPacks);
+        // initialize reflection
+        Reflector = new Reflector();
 
-        // register commands
-        helper.ConsoleCommands.Register();
+        // initialize multiplayer broadcaster
+        Broadcaster = new Broadcaster(helper.Multiplayer, this.ModManifest.UniqueID);
+
+        // hook events
+        EventManager = new EventManager(helper.Events, helper.ModRegistry);
+        EventManager.ManageNamespace("DaLion.Alchemy.Events");
+
+        // apply harmony patches
+        Harmonizer.ApplyFromNamespace(helper.ModRegistry, "DaLion.Alchemy.Patchers");
+
+        // register console commands
+        CommandHandler.HandleFromNamespace(helper.ConsoleCommands, "DaLion.Alchemy.Commands", "Trials of the Grasses", "alch");
 
         // validate multiplayer
         if (Context.IsMultiplayer && !Context.IsMainPlayer && !Context.IsSplitScreen)
         {
             var host = helper.Multiplayer.GetConnectedPlayer(Game1.MasterPlayer.UniqueMultiplayerID)!;
-            var hostMod = host.GetMod(ModManifest.UniqueID);
+            var hostMod = host.GetMod(this.ModManifest.UniqueID);
             if (hostMod is null)
-                Log.W("[Entry] The session host does not have this mod installed. Some features will not work properly.");
-            else if (!hostMod.Version.Equals(ModManifest.Version))
+            {
                 Log.W(
-                    $"[Entry] The session host has a different mod version. Some features may not work properly.\n\tHost version: {hostMod.Version}\n\tLocal version: {ModManifest.Version}");
+                    "DaLion.Alchemy was not installed by the session host. Most features will not work properly.");
+            }
+            else if (!hostMod.Version.Equals(this.ModManifest.Version))
+            {
+                Log.W(
+                    $"The session host has a different version of Modular Overhaul installed. Some features may not work properly.\n\tHost version: {hostMod.Version}\n\tLocal version: {this.ModManifest.Version}");
+            }
         }
-
-        // check for Larger Backpack mod
-        LoadedBackpackMod = helper.ModRegistry.IsLoaded("spacechase0.BiggerBackpack");
     }
 
     /// <inheritdoc />
-    public override object GetApi() => new ModAPI();
+    public override object GetApi()
+    {
+        return new ModApi();
+    }
 }

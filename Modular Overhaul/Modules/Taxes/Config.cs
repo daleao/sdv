@@ -69,7 +69,7 @@ public sealed class Config : Shared.Configs.Config
     public bool ExemptMagicalBuilding { get; internal set; } = true;
 
     /// <inheritdoc />
-    internal override bool Validate()
+    public override bool Validate()
     {
         Log.T("[TXS]: Verifying tax configs...");
 

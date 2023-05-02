@@ -93,27 +93,9 @@ internal static class MonsterExtensions
             return;
         }
 
-        switch (monster)
+        if (monster is LavaLurk or Bat { magmaSprite.Value: true })
         {
-            case LavaLurk or Bat { magmaSprite.Value: true }:
-                return;
-            case Bug or Fly:
-                monster.currentLocation.TemporarySprites.Add(new TemporaryAnimatedSprite(
-                    30,
-                    monster.GetBoundingBox().Center.ToVector2(),
-                    Color.White,
-                    4,
-                    Game1.random.NextBool(),
-                    50f,
-                    2)
-                {
-                    positionFollowsAttachedCharacter = true,
-                    attachedCharacter = monster,
-                    layerDepth = 999999f,
-                });
-
-                monster.Die(burner);
-                return;
+            return;
         }
 
         monster.Set_Burner(burner);

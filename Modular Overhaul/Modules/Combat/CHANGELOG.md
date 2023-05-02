@@ -1,5 +1,19 @@
 ﻿# CMBT Change Log
 
+## 2.2.8 <sup><sub><sup>[🔼](#cmbt-change-log)</sup></sub></sup>
+
+### Added
+
+* For some reason, monsters suffering from damage-over-time are some times removed from the location before dying. This caused all sorts of strange behaviors, such as the status animation to keep playing forever. I cannot figure out why this is happening, so I've implemented a workaround; when a monster is removed from a location before dying, it is immediately re-added. Hopefully this doesn't break other things.
+
+### Changed
+
+* Insects no longer die instantly from Burn status, but suffer 4x damage.
+
+### Fixed
+
+* Hopefully fixed a bug where the Fly buzz sound would continue playing after dying from damage-over-time.
+
 ## 2.2.2 <sup><sub><sup>[🔼](#cmbt-change-log)</sup></sub></sup>
 
 ### Added

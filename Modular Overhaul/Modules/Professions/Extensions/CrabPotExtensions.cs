@@ -30,10 +30,10 @@ internal static class CrabPotExtensions
             { 111, new[] { "0.009", "1", "1" } }, // rusty spur
             { 112, new[] { "0.009", "1", "1" } }, // rusty cog
             { 117, new[] { "0.009", "1", "1" } }, // anchor
-            { 378, new[] { "0.39", "1", "24" } }, // copper ore
-            { 380, new[] { "0.24", "1", "24" } }, // iron ore
-            { 384, new[] { "0.12", "1", "24" } }, // gold ore
-            { 386, new[] { "0.065", "1", "2" } }, // iridium ore
+            { 378, new[] { "1.0", "1", "24" } }, // copper ore
+            { 380, new[] { "0.48", "1", "24" } }, // iron ore
+            { 384, new[] { "0.24", "1", "24" } }, // gold ore
+            { 386, new[] { "0.12", "1", "2" } }, // iridium ore
             { 516, new[] { "0.02", "1", "1" } }, // small glow ring
             { 517, new[] { "0.009", "1", "1" } }, // glow ring
             { 518, new[] { "0.02", "1", "1" } }, // small magnet ring
@@ -212,8 +212,10 @@ internal static class CrabPotExtensions
         Utility.Shuffle(r, keys);
         foreach (var key in keys)
         {
-            if ((key == 14 && owner.specialItems.Contains(14)) || (key == 51 && owner.specialItems.Contains(51)) ||
-                (key == 890 && !owner.team.SpecialOrderRuleActive("DROP_QI_BEANS")))
+            if ((key == ItemIDs.BrokenTrident && owner.specialItems.Contains(ItemIDs.BrokenTrident)) ||
+                (key == ItemIDs.NeptuneGlaive && owner.specialItems.Contains(ItemIDs.NeptuneGlaive)) ||
+                (key == 890 && !owner.team.SpecialOrderRuleActive("DROP_QI_BEANS")) ||
+                (key == SObject.iridium && !owner.hasSkullKey))
             {
                 continue;
             }

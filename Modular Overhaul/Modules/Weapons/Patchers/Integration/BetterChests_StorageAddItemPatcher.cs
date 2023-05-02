@@ -4,6 +4,7 @@
 
 using System.Diagnostics.CodeAnalysis;
 using DaLion.Shared.Attributes;
+using DaLion.Shared.Exceptions;
 using DaLion.Shared.Extensions.Reflection;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
@@ -19,9 +20,18 @@ internal sealed class StorageAddItemPatcher : HarmonyPatcher
     /// <summary>Initializes a new instance of the <see cref="StorageAddItemPatcher"/> class.</summary>
     internal StorageAddItemPatcher()
     {
-        this.Target = "StardewMods.BetterChests.StorageHandlers.BaseStorage"
-            .ToType()
-            .RequireMethod("AddItem");
+        try
+        {
+            this.Target = "StardewMods.BetterChests.StorageHandlers.BaseStorage"
+                .ToType()
+                .RequireMethod("AddItem");
+        }
+        catch (MissingTypeException)
+        {
+            this.Target = "StardewMods.BetterChests.Framework.StorageObjects.Storage"
+                .ToType()
+                .RequireMethod("AddItem");
+        }
     }
 
     #region harmony patches

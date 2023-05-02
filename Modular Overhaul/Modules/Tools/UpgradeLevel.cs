@@ -2,8 +2,10 @@
 
 #region using directives
 
+using Integrations;
 using Microsoft.Xna.Framework;
 using NetEscapades.EnumGenerators;
+using Shared.Extensions.Xna;
 
 #endregion using directives
 
@@ -39,10 +41,10 @@ public enum UpgradeLevel
 /// <summary>Extensions for the <see cref="UpgradeLevel"/> enum.</summary>
 public static partial class UpgradeLevelExtensions
 {
-    /// <summary>Returns the color associated with this <paramref name="upgrade"/>.</summary>
+    /// <summary>Returns the tool power-up <see cref="Color"/> for this <paramref name="upgrade"/>.</summary>
     /// <param name="upgrade">The <see cref="UpgradeLevel"/>.</param>
     /// <returns>A <see cref="Color"/>.</returns>
-    public static Color GetColor(this UpgradeLevel upgrade)
+    public static Color GetPowerUpColor(this UpgradeLevel upgrade)
     {
         return upgrade switch
         {
@@ -50,10 +52,19 @@ public static partial class UpgradeLevelExtensions
             UpgradeLevel.Steel => Color.LightSteelBlue,
             UpgradeLevel.Gold => Color.Gold,
             UpgradeLevel.Iridium => Color.Violet,
-            UpgradeLevel.Radioactive => Color.Chartreuse,
+            UpgradeLevel.Radioactive when MoonMisadventuresIntegration.Instance?.IsLoaded == true => Color.Chartreuse,
+            UpgradeLevel.Radioactive when MoonMisadventuresIntegration.Instance?.IsLoaded != true => Color.BlueViolet,
             UpgradeLevel.Mythicite => Color.LightCyan,
             UpgradeLevel.Enchanted => Color.BlueViolet,
             _ => Color.White,
         };
+    }
+
+    /// <summary>Returns a corresponding readable <see cref="Color"/> for this <paramref name="upgrade"/>.</summary>
+    /// <param name="upgrade">The <see cref="UpgradeLevel"/>.</param>
+    /// <returns>A <see cref="Color"/>.</returns>
+    public static Color GetTextColor(this UpgradeLevel upgrade)
+    {
+        return upgrade.GetPowerUpColor().ChangeValue(0.5f);
     }
 }

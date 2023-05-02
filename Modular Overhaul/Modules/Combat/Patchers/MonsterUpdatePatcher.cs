@@ -34,6 +34,7 @@ internal sealed class MonsterUpdatePatcher : HarmonyPatcher
         try
         {
             var ticks = time.TotalGameTime.Ticks;
+            Farmer? killer = null;
             if (__instance.IsBleeding())
             {
                 __instance.Get_BleedTimer().Value -= time.ElapsedGameTime.Milliseconds;
@@ -50,8 +51,7 @@ internal sealed class MonsterUpdatePatcher : HarmonyPatcher
                         Log.D($"{__instance.Name} suffered {bleed} bleed damage. HP Left: {__instance.Health}");
                         if (__instance.Health <= 0)
                         {
-                            __instance.Die(__instance.Get_Bleeder() ?? Game1.player);
-                            return true; // run original logic
+                            killer = __instance.Get_Bleeder();
                         }
                     }
 
@@ -71,12 +71,16 @@ internal sealed class MonsterUpdatePatcher : HarmonyPatcher
                     if (ticks % 180 == 0)
                     {
                         var burn = (int)(1d / 16d * __instance.MaxHealth);
+                        if (__instance is Bug or Fly)
+                        {
+                            burn *= 4;
+                        }
+
                         __instance.Health -= burn;
                         Log.D($"{__instance.Name} suffered {burn} burn damage. HP Left: {__instance.Health}");
                         if (__instance.Health <= 0)
                         {
-                            __instance.Die(__instance.Get_Burner() ?? Game1.player);
-                            return true; // run original logic
+                            killer = __instance.Get_Burner();
                         }
                     }
 
@@ -100,13 +104,18 @@ internal sealed class MonsterUpdatePatcher : HarmonyPatcher
                         Log.D($"{__instance.Name} suffered {poison} poison damage. HP Left: {__instance.Health}");
                         if (__instance.Health <= 0)
                         {
-                            __instance.Die(__instance.Get_Poisoner() ?? Game1.player);
-                            return true; // run original logic
+                            killer = __instance.Get_Poisoner();
                         }
                     }
 
                     //__instance.startGlowing(Color.LimeGreen, true, 0.05f);
                 }
+            }
+
+            if (__instance.Health <= 0)
+            {
+                __instance.Die(killer ?? Game1.player);
+                return false; // run original logic
             }
 
             if (!__instance.IsSlowed())

@@ -66,16 +66,16 @@ internal sealed class SlingshotSpecialUpdateTickedEvent : UpdateTickedEvent
             else
             {
                 var sprite = user.FarmerSprite;
-                if (_currentFrame >= 8 && _currentFrame < _animationFrames - 6 && _currentFrame % 3 == 0)
+                if (_currentFrame >= 6 && _currentFrame < _animationFrames - 6 && _currentFrame % 3 == 0)
                 {
                     sprite.CurrentFrame = sprite.CurrentAnimation[sprite.currentAnimationIndex++].frame;
                 }
 
-                if (_currentFrame == 10)
+                if (_currentFrame == 2)
                 {
                     Game1.playSound("swordswipe");
                 }
-                else if (_currentFrame == (facingDirection.IsHorizontal() ? 12 : 16))
+                else if (_currentFrame == (facingDirection.IsHorizontal() ? 10 : 14))
                 {
                     Farmer.showToolSwipeEffect(user);
                 }

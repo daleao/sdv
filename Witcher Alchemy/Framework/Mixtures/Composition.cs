@@ -1,4 +1,4 @@
-﻿namespace DaLion.Stardew.Alchemy.Framework;
+﻿namespace DaLion.Alchemy.Framework;
 
 #region using directives
 

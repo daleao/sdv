@@ -28,7 +28,7 @@ internal sealed class SlickMovesUpdateTickingEvent : UpdateTickingEvent
         }
 
         var (x, y) = WeaponsModule.State.DriftVelocity;
-        if (x == 0f && y == 0f)
+        if (x < 1e-3f && y < 1e-3f)
         {
             this.Disable();
         }

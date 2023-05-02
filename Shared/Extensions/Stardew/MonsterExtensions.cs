@@ -92,5 +92,6 @@ internal static class MonsterExtensions
 
         location.characters.Remove(monster);
         Game1.stats.MonstersKilled++;
+        Log.D($"{monster.Name} was killed by {killer.Name}!");
     }
 }

@@ -1,131 +1,155 @@
-﻿namespace DaLion.Stardew.Alchemy.Framework;
+﻿namespace DaLion.Alchemy.UI;
 
 #region using directives
 
-using Common.Events;
+using DaLion.Shared.Events;
+using DaLion.Stardew.Alchemy.Framework.Textures;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using StardewValley;
-using System;
 
 #endregion using directives
 
-/// <summary>HUD component to show the player their current Ultimate charge value.</summary>
-internal class ToxicityHUD
+/// <summary>HUD component to show the player their current Toxicity charge value.</summary>
+internal sealed class ToxicityHud
 {
-    private const int INITIAL_BAR_HEIGHT_I = 168,
-        TEXTURE_HEIGHT_I = 56,
-        TICKS_BETWEEN_SHAKES_I = 120,
-        SHAKE_DURATION_I = 15,
-        FADE_OUT_DELAY_I = 180,
-        FADE_OUT_DURATION_I = 30;
+    private const int InitialBarHeight = 168;
+    private const int TextureHeight = 56;
+    private const int TicksBetweenShakes = 120;
+    private const int ShakeDuration = 15;
+    private const int FadeOutDelay = 180;
+    private const int FadeOutDuration = 30;
 
-    private double _shakeTimer = SHAKE_DURATION_I,
-        _nextShake = TICKS_BETWEEN_SHAKES_I,
-        _fadeOutTimer = FADE_OUT_DELAY_I + FADE_OUT_DURATION_I;
-
+    private readonly Color _color;
     private float _opacity = 1f;
     private bool _shake;
+    private double _shakeTimer = ShakeDuration;
+    private double _nextShake = TicksBetweenShakes;
+    private double _fadeOutTimer = FadeOutDelay + FadeOutDuration;
 
-    /// <summary>Construct an instance.</summary>
-    public ToxicityHUD()
+    /// <summary>Initializes a new instance of the <see cref="ToxicityHud"/> class.</summary>
+    public ToxicityHud()
     {
     }
 
-    #region properties
+    /// <summary>Gets the texture that will be used to draw the gauge.</summary>
+    internal static Texture2D Texture => Textures.ToxicityMeterTx;
 
-    /// <summary>The texture that will be used to draw the gauge.</summary>
-    internal static Texture2D? Texture { get; }
+    /// <summary>Gets a value indicating whether determines whether the gauge is being drawn.</summary>
+    internal bool IsVisible => EventManager.IsEnabled<ToxicityMeterRenderingHudEvent>();
 
-    /// <summary>Whether the gauge is being drawn.</summary>
-    internal bool IsVisible { get; }
-
-    #endregion properties
-
-    #region public methods
-
-    /// <summary>Draw the gauge and all it's components to the HUD.</summary>
-    /// <param name="b">A <see cref="SpriteBatch" /> to draw to.</param>
-    /// <remarks>This should be called from a <see cref="RenderingHudEvent" />.</remarks>
+    /// <summary>Draws the gauge and all it's components to the HUD.</summary>
+    /// <param name="b">A <see cref="SpriteBatch"/> to draw to.</param>
+    /// <remarks>This should be called from a <see cref="Shared.Events.RenderingHudEvent"/>.</remarks>
     internal void Draw(SpriteBatch b)
     {
-        if (_opacity <= 0f) return;
+        if (this._opacity <= 0f)
+        {
+            return;
+        }
 
-        var bonusLevelHeight = (ToxicityManager.MaxTolerance - ToxicityManager.BASE_TOLERANCE_I) * 0.2;
+        var bonusLevelHeight = (this._owner.MaxValue - Toxicity.BaseMaxValue) * 0.2;
 
         // get bar position
         var topOfBar = new Vector2(
             Game1.graphics.GraphicsDevice.Viewport.TitleSafeArea.Right - 56,
-            Game1.graphics.GraphicsDevice.Viewport.TitleSafeArea.Bottom - 16 - TEXTURE_HEIGHT_I * 4 - (float)bonusLevelHeight
-        );
-
+            Game1.graphics.GraphicsDevice.Viewport.TitleSafeArea.Bottom - 16 - (TextureHeight * 4) - (float)bonusLevelHeight);
         if (Game1.isOutdoorMapSmallerThanViewport())
-            topOfBar.X = Math.Min(topOfBar.X,
-                -Game1.viewport.X + Game1.currentLocation.map.Layers[0].LayerWidth * 64 - 48);
+        {
+            topOfBar.X = Math.Min(
+                topOfBar.X,
+                -Game1.viewport.X + (Game1.currentLocation.map.Layers[0].LayerWidth * 64) - 48);
+        }
 
-        if (Game1.showingHealth) topOfBar.X -= 112;
-        else topOfBar.X -= 56;
+        if (Game1.showingHealth)
+        {
+            topOfBar.X -= 112;
+        }
+        else
+        {
+            topOfBar.X -= 56;
+        }
 
-        // shake horizontally above overdose threshold
-        if (_shake)
+        // shake horizontally if full and on stand-by, if active also shake vertically
+        if (State)
+        {
             topOfBar.X += Game1.random.Next(-3, 4);
+            if (this._owner.IsActive)
+            {
+                topOfBar.Y += Game1.random.Next(-3, 4);
+            }
+        }
 
         // draw bar in thirds so that it may grow with combat level
         Rectangle srcRect, destRect;
 
         // top
         var width = 12;
-        srcRect = new(0, 0, width, 16);
+        srcRect = new Rectangle(0, 0, width, 16);
         b.Draw(
             Texture,
             topOfBar,
             srcRect,
-            Color.White * _opacity,
+            Color.White * this._opacity,
             0f,
             Vector2.Zero,
             Game1.pixelZoom,
             SpriteEffects.None,
-            1f
-        );
+            1f);
+
+        // draw top 'S'
+        b.Draw(
+            Texture,
+            topOfBar + new Vector2(16, -212 + (TextureHeight * 4)),
+            new Rectangle(13, 3, 4, 5),
+            this._color,
+            0f,
+            Vector2.Zero,
+            Game1.pixelZoom,
+            SpriteEffects.None,
+            1f);
 
         // middle
         var srcY = 16;
-        srcRect = new(0, srcY, width, 20);
-        destRect = new((int)topOfBar.X, (int)(topOfBar.Y + srcY * 4f), width * 4,
-            16 + (TEXTURE_HEIGHT_I - 32) * 4 + (int)Math.Ceiling(bonusLevelHeight));
+        srcRect = new Rectangle(0, srcY, width, 20);
+        destRect = new Rectangle(
+            (int)topOfBar.X,
+            (int)(topOfBar.Y + (srcY * 4f)),
+            width * 4,
+            16 + ((TextureHeight - 32) * 4) + (int)Math.Ceiling(bonusLevelHeight));
         b.Draw(
             Texture,
             destRect,
             srcRect,
-            Color.White * _opacity
-        );
+            Color.White * this._opacity);
 
         // bottom
-        srcY = TEXTURE_HEIGHT_I - 16;
-        srcRect = new(0, srcY, width, 16);
+        srcY = TextureHeight - 16;
+        srcRect = new Rectangle(0, srcY, width, 16);
         b.Draw(
             Texture,
-            new(topOfBar.X, topOfBar.Y + srcY * 4f + (float)bonusLevelHeight),
+            new Vector2(topOfBar.X, topOfBar.Y + (srcY * 4f) + (float)bonusLevelHeight),
             srcRect,
-            Color.White * _opacity,
+            Color.White * this._opacity,
             0f,
             Vector2.Zero,
             Game1.pixelZoom,
             SpriteEffects.None,
-            1f
-        );
+            1f);
 
         // draw fill
-        var fillPct = (double)ToxicityManager.ToxicityValue / ToxicityManager.MaxTolerance;
-        var fullBarHeight = INITIAL_BAR_HEIGHT_I + bonusLevelHeight;
+        var fillPct = this._owner.ChargeValue / this._owner.MaxValue;
+        var fullBarHeight = InitialBarHeight + bonusLevelHeight;
         var srcHeight = (int)(42 * fillPct);
         var destHeight = (int)(fullBarHeight * fillPct);
 
         width = 6;
-        srcY = TEXTURE_HEIGHT_I - 2 - srcHeight;
-        srcRect = new(12, srcY, width, srcHeight);
-        destRect = new((int)topOfBar.X + 12,
-            (int)(topOfBar.Y + (TEXTURE_HEIGHT_I - 44) * 4 + (float)fullBarHeight - destHeight), width * 4, destHeight);
+        srcY = TextureHeight - 2 - srcHeight;
+        srcRect = new Rectangle(12, srcY, width, srcHeight);
+        destRect = new Rectangle(
+            (int)topOfBar.X + 12,
+            (int)(topOfBar.Y + ((TextureHeight - 44) * 4) + (float)fullBarHeight - destHeight),
+            width * 4,
+            destHeight);
 
         b.Draw(
             Texture,
@@ -135,8 +159,7 @@ internal class ToxicityHUD
             0f,
             Vector2.Zero,
             SpriteEffects.None,
-            1f
-        );
+            1f);
 
         // draw top shadow
         destRect.Height = 4;
@@ -148,57 +171,72 @@ internal class ToxicityHUD
             0f,
             Vector2.Zero,
             SpriteEffects.None,
-            1f
-        );
+            1f);
 
         // draw hover text
         if (Game1.getOldMouseX() >= topOfBar.X && Game1.getOldMouseY() >= topOfBar.Y &&
             Game1.getOldMouseX() < topOfBar.X + 36f)
-            Game1.drawWithBorder(Math.Max(0, ToxicityManager.ToxicityValue) + "/" + ToxicityManager.MaxTolerance, Color.Black * 0f,
+        {
+            Game1.drawWithBorder(
+                Math.Max(0, (int)this._owner.ChargeValue) + "/" + this._owner.MaxValue,
+                Color.Black * 0f,
                 Color.White,
                 topOfBar + new Vector2(0f - Game1.dialogueFont.MeasureString("999/999").X - 32f, 64f));
+        }
     }
 
     /// <summary>Countdown the gauge shake timer .</summary>
     internal void UpdateShake()
     {
-        if (!Game1.game1.IsActive || !Game1.shouldTimePass()) return;
-
-        if (_shakeTimer > 0)
+        if (!Game1.game1.IsActive || !Game1.shouldTimePass())
         {
-            --_shakeTimer;
-            if (_shakeTimer <= 0) _shake = false;
+            return;
         }
-        else if (_nextShake > 0)
-        {
-            --_nextShake;
-            if (_nextShake > 0) return;
 
-            _shake = true;
-            _shakeTimer = SHAKE_DURATION_I;
-            _nextShake = TICKS_BETWEEN_SHAKES_I;
+        if (this._shakeTimer > 0)
+        {
+            if (--this._shakeTimer <= 0)
+            {
+                this._shake = false;
+            }
+        }
+        else if (this._nextShake > 0)
+        {
+            if (--this._nextShake > 0)
+            {
+                return;
+            }
+
+            this._shake = true;
+            this._shakeTimer = ShakeDuration;
+            this._nextShake = TicksBetweenShakes;
         }
     }
 
-    /// <summary>Forcefully set shaking state to <c>False</c>.</summary>
+    /// <summary>Forcefully sets shaking state to <c>False</c>.</summary>
     internal void ForceStopShake()
     {
-        _shake = false;
+        this._shake = false;
     }
 
-    /// <summary>Gradually reduce the gauge's opacity value.</summary>
+    /// <summary>Gradually reduces the gauge's opacity value.</summary>
     internal void FadeOut()
     {
-        --_fadeOutTimer;
-        if (_fadeOutTimer >= FADE_OUT_DURATION_I) return;
+        if (--this._fadeOutTimer >= FadeOutDuration)
+        {
+            return;
+        }
 
-        var ratio = (float)_fadeOutTimer / FADE_OUT_DURATION_I;
-        _opacity = (float)(-1.0 / (1.0 + Math.Exp(12.0 * ratio - 6.0)) + 1.0);
-        if (_fadeOutTimer > 0) return;
+        var ratio = (float)this._fadeOutTimer / FadeOutDuration;
+        this._opacity = (float)((-1d / (1d + Math.Exp((12d * ratio) - 6d))) + 1d);
+        if (this._fadeOutTimer > 0)
+        {
+            return;
+        }
 
-        _fadeOutTimer = FADE_OUT_DELAY_I + FADE_OUT_DURATION_I;
-        _opacity = 1f;
+        EventManager.Disable<ToxicityGaugeFadeOutUpdateTickedEvent>();
+        EventManager.Disable<ToxicityMeterRenderingHudEvent>();
+        this._fadeOutTimer = FadeOutDelay + FadeOutDuration;
+        this._opacity = 1f;
     }
-
-    #endregion public methods
 }

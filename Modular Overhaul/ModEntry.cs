@@ -14,6 +14,7 @@ namespace DaLion.Overhaul;
 using System.Diagnostics;
 using DaLion.Shared.Events;
 using DaLion.Shared.Extensions.Collections;
+using DaLion.Shared.Extensions.SMAPI;
 using DaLion.Shared.ModData;
 using DaLion.Shared.Networking;
 using DaLion.Shared.Reflection;
@@ -71,51 +72,22 @@ public sealed class ModEntry : Mod
         this.StartWatch();
 
         Instance = this;
-
-        // initialize logger
         Log.Init(this.Monitor);
-
-        // initialize data
         ModDataIO.Init(this.ModManifest.UniqueID);
+
         Data = helper.Data.ReadJsonFile<ModData>("data.json") ?? new ModData();
 
-        // get configs
         Config = helper.ReadConfig<ModConfig>();
         Config.Validate(helper);
         Config.Log();
 
-        // initialize mod state
         PerScreenState = new PerScreen<ModState>(() => new ModState());
-
-        // initialize event manager
         EventManager = new EventManager(helper.Events, helper.ModRegistry);
-
-        // initialize reflector
         Reflector = new Reflector();
-
-        // initialize multiplayer broadcaster
         Broadcaster = new Broadcaster(helper.Multiplayer, this.ModManifest.UniqueID);
-
-        // activate modules
         EnumerateModules().ForEach(module => module.Activate(helper));
 
-        // validate multiplayer
-        if (Context.IsMultiplayer && !Context.IsMainPlayer && !Context.IsSplitScreen)
-        {
-            var host = helper.Multiplayer.GetConnectedPlayer(Game1.MasterPlayer.UniqueMultiplayerID)!;
-            var hostMod = host.GetMod(this.ModManifest.UniqueID);
-            if (hostMod is null)
-            {
-                Log.W(
-                    "Modular Overhaul was not installed by the session host. Most features will not work properly.");
-            }
-            else if (!hostMod.Version.Equals(this.ModManifest.Version))
-            {
-                Log.W(
-                    $"The session host has a different version of Modular Overhaul installed. Some features may not work properly.\n\tHost version: {hostMod.Version}\n\tLocal version: {this.ModManifest.Version}");
-            }
-        }
-
+        this.ValidateMultiplayer();
         this.StopWatch();
         this.LogStats();
     }

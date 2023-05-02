@@ -45,7 +45,9 @@ public class BleedAnimation
     {
         if (this._attachedMonster.Health <= 0)
         {
+            this._droplets.Clear();
             BleedAnimationByMonster.Remove(this._attachedMonster);
+            return;
         }
 
         for (var i = this._droplets.Count - 1; i >= 0; i--)
@@ -57,7 +59,7 @@ public class BleedAnimation
         }
 
         this._timer += time.ElapsedGameTime.Milliseconds;
-        if (!(this._timer > 2000f))
+        if (this._timer <= 2000f)
         {
             return;
         }

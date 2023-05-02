@@ -1,17 +1,12 @@
-﻿namespace DaLion.Stardew.Alchemy;
+﻿namespace DaLion.Alchemy;
 
 #region using directives
 
-using StardewModdingAPI.Utilities;
+using DaLion.Shared.Configs;
 
 #endregion using directives
 
-/// <summary>The mod user-defined settings.</summary>
-public class ModConfig
+/// <summary>The user-defined mod settings.</summary>
+public sealed class ModConfig : Config
 {
-    /// <summary>Whether to draw UI element bounding boxes.</summary>
-    public bool EnableDebug { get; set; } = false;
-
-    /// <summary>Key used by trigger UI debugging events.</summary>
-    public KeybindList DebugKey { get; set; } = KeybindList.Parse("LeftControl");
 }

@@ -60,8 +60,8 @@ internal sealed partial class GenericModConfigMenu
                 () => "Face Towards Mouse Cursor",
                 () =>
                     "If using mouse and keyboard, turn to face towards the current cursor position before swinging a slingshot (for special moves).",
-                config => config.Weapons.FaceMouseCursor,
-                (config, value) => config.Weapons.FaceMouseCursor = value)
+                config => config.Slingshots.FaceMouseCursor,
+                (config, value) => config.Slingshots.FaceMouseCursor = value)
             .AddCheckbox(
                 () => "Slick Moves",
                 () => "Drift in the current running direction when firing a slingshot.",

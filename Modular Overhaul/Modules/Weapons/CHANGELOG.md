@@ -1,5 +1,15 @@
 ﻿# WPNZ Change Log
 
+## 2.2.8 <sup><sub><sup>[🔼](#wpnz-change-log)</sup></sub></sup>
+
+### Added
+
+* Added support for Better Chests pre-release.
+
+### Fixed
+
+* Improved Slick Moves stop condtion.
+
 ## 2.2.7 <sup><sub><sup>[🔼](#wpnz-change-log)</sup></sub></sup>
 
 ### Changed
