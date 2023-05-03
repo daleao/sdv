@@ -4,9 +4,8 @@ This file contains a TL;DR of current version changes and hotfixes from across a
 
 ## Patch 2.2.8 Highlights <sup><sub><sup>[🔼](#margo-change-logs)</sup></sub></sup>
 
-* [CMBT]: For some reason, monsters suffering from damage-over-time are some times removed from the location before dying. This caused all sorts of strange behaviors, such as the status animation to keep playing forever. I cannot figure out why this is happening, so I've implemented a workaround; when a monster is removed from a location before dying, it is immediately re-added. Hopefully this doesn't break other things.
+* [CMBT]: For some reason, monsters suffering from damage-over-time are some times removed from the location before dying. This caused all sorts of strange behaviors, such as the status animation and Fly buzzing sound to keep playing forever. I cannot figure out why this is happening, so I've implemented a workaround; when a monster is removed from a location before dying, it is immediately re-added.
 * [CMBT]: Insects no longer die instantly from Burn status, but suffer 4x damage.
-* [CMBT]: Hopefully fixed a bug where the Fly buzz sound would continue playing after dying from damage-over-time.
 * [PROFS]: Luremaster-owned Magnet-baited Crab Pots no longer produce trash, as stated in its description.
 * [SLNGS]: Fixed a bug allowing slingshots to receiving infinite forges.
 * [WPNZ]: Improved Slick Moves stop condtion, which fixes a weird bug where Weapon slick moves would interfere with Slingshot slick moves, and vive versa.
