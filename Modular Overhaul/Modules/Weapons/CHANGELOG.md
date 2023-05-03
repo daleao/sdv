@@ -8,7 +8,7 @@
 
 ### Fixed
 
-* Improved Slick Moves stop condtion.
+* Improved Slick Moves stop condtion, which fixes a weird bug where Weapon slick moves would interfere with Slingshot slick moves, and vive versa.
 
 ## 2.2.7 <sup><sub><sup>[🔼](#wpnz-change-log)</sup></sub></sup>
 
