@@ -24,7 +24,7 @@ Weapon spamming is replaced by combos. These are short bursts of continuous swin
 
 If combo hits are enabled, swing speed bonuses from emerald will affect every frame of the attack animation, as well as the cooldown in between combos. This makes speed a significantly more valuable stat than in Vanilla, where it only affected 1 out of 6 frames (and that frame could be animation-canceled).
 
-[center][img]https://gitlab.com/daleao/sdv-mods/-/raw/main/Modular%20Gameplay%20Overhaul/resources/screenshots/combo_sword_small.gif[/img]   ﻿[img]https://gitlab.com/daleao/sdv-mods/-/raw/main/Modular%20Gameplay%20Overhaul/resources/screenshots/combo_club_small.gif[/img]﻿﻿[/center]
+[center][img]https://gitlab.com/daleao/sdv-mods/-/raw/main/Modular%20Overhaul/resources/screenshots/combo_sword_small.gif[/img]   ﻿[img]https://gitlab.com/daleao/sdv-mods/-/raw/main/Modular%20Overhaul/resources/screenshots/combo_club_small.gif[/img]﻿﻿[/center]
 
 [size=6][font=bebas_neuebook]Offensive & Defensive Swords[/font][/size]
 
@@ -32,7 +32,7 @@ In vanilla game code we can find traces of an abandoned fourth weapon type: [b]S
 
 Swords are now split between [b]offensive[/b] and [b]defensive[/b] archetypes. Defensive swords retain the parry special move, while offensive swords gain a new stabbing thrust move. This move allows quick repositioning and also grants invincibility frames.
 
-[center][img]https://gitlab.com/daleao/sdv-mods/-/raw/main/Modular%20Gameplay%20Overhaul/resources/screenshots/stabbing_special.gif[/img]﻿[/center]
+[center][img]https://gitlab.com/daleao/sdv-mods/-/raw/main/Modular%20Overhaul/resources/screenshots/stabbing_special.gif[/img]﻿[/center]
 To improve the defensive parry move, parry damage is increased by 10% for every defense point (configurable). This adds offensive value to the defense stat itself and makes defensive builds more viable. Note that the introduction of weapon combos also adds to the value of a defensive move (you need to protect yourself during the combo downtime).
 
 
