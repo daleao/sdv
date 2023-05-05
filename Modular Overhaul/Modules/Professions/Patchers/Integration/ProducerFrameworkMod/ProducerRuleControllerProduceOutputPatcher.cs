@@ -49,12 +49,15 @@ internal sealed class ProducerRuleControllerProduceOutputPatcher : HarmonyPatche
         if (user.HasProfession(Profession.Artisan))
         {
             output.Quality = input.Quality;
-            if (r.NextDouble() > user.FarmingLevel / 30d)
+            if (!ProfessionsModule.Config.ArtisanGoodsAlwaysInputQuality)
             {
-                output.Quality = (int)((Quality)output.Quality).Decrement();
-                if (r.NextDouble() > user.FarmingLevel / 15d)
+                if (r.NextDouble() > user.FarmingLevel / 30d)
                 {
                     output.Quality = (int)((Quality)output.Quality).Decrement();
+                    if (r.NextDouble() > user.FarmingLevel / 15d)
+                    {
+                        output.Quality = (int)((Quality)output.Quality).Decrement();
+                    }
                 }
             }
         }

@@ -58,9 +58,9 @@ internal sealed class ProfessionAssetRequestedEvent : AssetRequestedEvent
         var data = asset.AsDictionary<int, string>().Data;
 
         string title =
-            I18n.Get("prestige.achievement.title" +
+            _I18n.Get("prestige.achievement.title" +
                               (Game1.player.IsMale ? ".male" : ".female"));
-        string desc = I18n.Get("prestige.achievement.desc");
+        var desc = I18n.Prestige_Achievement_Desc();
 
         const string shouldDisplayBeforeEarned = "false";
         const string prerequisite = "-1";
@@ -109,13 +109,13 @@ internal sealed class ProfessionAssetRequestedEvent : AssetRequestedEvent
             ? "conservationist.mail.max"
             : "conservationist.mail";
 
-        string honorific = I18n.Get("honorific" + (Game1.player.IsMale ? ".male" : ".female"));
+        string honorific = _I18n.Get("honorific" + (Game1.player.IsMale ? ".male" : ".female"));
         var farm = Game1.player.farmName;
         var season = LocalizedContentManager.CurrentLanguageCode == LocalizedContentManager.LanguageCode.fr
-            ? I18n.Get("season." + Game1.currentSeason)
+            ? _I18n.Get("season." + Game1.currentSeason)
             : Game1.CurrentSeasonDisplayName;
 
-        string message = I18n.Get(
+        string message = _I18n.Get(
             key, new { honorific, taxBonus = FormattableString.CurrentCulture($"{taxBonus:0%}"), farm, season });
         data[$"{Manifest.UniqueID}/ConservationistTaxNotice"] = message;
     }

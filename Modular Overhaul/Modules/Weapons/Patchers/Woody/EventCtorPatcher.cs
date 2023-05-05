@@ -31,15 +31,14 @@ internal sealed class EventCtorPatcher : HarmonyPatcher
             return;
         }
 
+        var hasSword = Game1.player.Items.Any(item => item is MeleeWeapon weapon && !weapon.isScythe());
         eventString = StardewValleyExpandedIntegration.Instance?.IsLoaded == true
-            ? I18n.Get(
-                Game1.player.Items.Any(item => item is MeleeWeapon weapon && !weapon.isScythe())
-                    ? "events.100162.nosword.sve"
-                    : "events.100162.sword.sve")
-            : I18n.Get(
-                Game1.player.Items.Any(item => item is MeleeWeapon weapon && !weapon.isScythe())
-                    ? "events.100162.nosword"
-                    : "events.100162.sword");
+            ? hasSword
+                ? I18n.Events_100162_Nosword_Sve()
+                : I18n.Events_100162_Sword_Sve()
+            : hasSword
+                ? I18n.Events_100162_Nosword()
+                : I18n.Events_100162_Sword();
     }
 
     #endregion harmony patches

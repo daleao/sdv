@@ -17,6 +17,6 @@ public sealed class QuincyEnchantment : BaseSlingshotEnchantment
     /// <inheritdoc />
     public override string GetName()
     {
-        return I18n.Get("enchantments.quincy.name");
+        return I18n.Enchantments_Quincy_Name();
     }
 }

@@ -43,6 +43,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Events\Content\AssetsInvalidatedEvent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Events\Content\LocaleChangedEvent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Events\AlwaysEnabledEventAttribute.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Events\Custom\SecondSecondUpdateTickedEvent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Events\Custom\FirstSecondUpdateTickedEvent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Events\Input\ButtonReleasedEvent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Events\Input\ButtonPressedEvent.cs" />

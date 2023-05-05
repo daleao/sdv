@@ -24,18 +24,11 @@ internal sealed partial class GenericModConfigMenu : GenericModConfigMenuIntegra
         this.SetTitleScreenOnlyForNextOptions(true);
         if (!Data.InitialSetupComplete)
         {
-            this.AddParagraph(
-                () => "Hi there! Looks like this is your first time starting MARGO.\n\nLet's begin by choosing the modules you want to enable. " +
-                      "Only \"Professions\" and \"Tweex\" are enabled by default. Please make sure to read the description pages for each module to learn more about them. " +
-                      "When you are done, click on Save & Close.\n\nNote that certain modules may cause a JSON shuffle or other side-effects if enabled or disabled mid-playthrough.");
+            this.AddParagraph(I18n.Gmcm_Core_Initial);
         }
         else
         {
-            this.AddParagraph(
-                () => "Choose the modules to enable. " +
-                      "You must save and exit this menu after enabling or disabling a module for those changes to take effect. " +
-                      "Links to specific module settings pages will appear below for enabled modules. " +
-                      "\n\nNote that certain modules may cause a JSON shuffle or other side-effects if enabled or disabled mid-playthrough.");
+            this.AddParagraph(I18n.Gmcm_Core_Choose);
         }
 
         this.AddModuleSelectionOption();
@@ -47,7 +40,7 @@ internal sealed partial class GenericModConfigMenu : GenericModConfigMenuIntegra
         this
             .SetTitleScreenOnlyForNextOptions(false)
             .AddMultiPageLinkOption(
-                getOptionName: () => "Module settings:",
+                getOptionName: I18n.Gmcm_Core_Modules,
                 pages: EnumerateModules().Skip(1).Where(m => m._ShouldEnable).ToArray(),
                 getPageId: module => module.Namespace,
                 getPageName: module => module.Name,

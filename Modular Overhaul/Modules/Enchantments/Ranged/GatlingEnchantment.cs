@@ -14,7 +14,7 @@ public sealed class GatlingEnchantment : BaseSlingshotEnchantment
     /// <inheritdoc />
     public override string GetName()
     {
-        return I18n.Get("enchantments.gatling.name");
+        return I18n.Enchantments_Gatling_Name();
     }
 
     /// <inheritdoc />

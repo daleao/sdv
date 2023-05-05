@@ -1,5 +1,11 @@
 ﻿# TWX Change Log
 
+## 2.3.0 <sup><sub><sup>[🔼](#twx-change-log)</sup></sub></sup>
+
+### Fixed
+
+* Custom farm map options in GMCM now only appear if the corresponding mod is installed.
+
 ## 2.0.5 <sup><sub><sup>[🔼](#twx-change-log)</sup></sub></sup>
 
 ### Added

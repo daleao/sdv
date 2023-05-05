@@ -35,7 +35,7 @@ internal sealed class ShopMenuSetUpShopOwnerPatcher : HarmonyPatcher
             __instance.portraitPerson = Game1.getCharacterFromName("Clint");
             __instance.potraitPersonDialogue =
                 Game1.parseText(
-                    I18n.Get("blacksmith.forge.explanation"),
+                    I18n.Blacksmith_Forge_Explanation(),
                     Game1.dialogueFont,
                     304);
             return false; // don't run original logic

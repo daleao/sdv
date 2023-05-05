@@ -96,9 +96,7 @@ internal sealed class MeleeWeaponDrawTooltipPatcher : HarmonyPatcher
 
                 Utility.drawTextWithShadow(
                     spriteBatch,
-                    I18n.Get(
-                        "ui.itemhover.knockback",
-                        new { amount = $"{relativeKnockback:+#.#%;-#.#%}" }),
+                    I18n.Ui_Itemhover_Knockback($"{relativeKnockback:+#.#%;-#.#%}"),
                     font,
                     new Vector2(x + 68, y + 28),
                     co * 0.9f * alpha);
@@ -127,9 +125,7 @@ internal sealed class MeleeWeaponDrawTooltipPatcher : HarmonyPatcher
 
                 Utility.drawTextWithShadow(
                     spriteBatch,
-                    I18n.Get(
-                        "ui.itemhover.crate",
-                        new { amount = $"{relativeCritChance:+#.#%;-#.#%}" }),
+                    I18n.Ui_Itemhover_Crate(new { amount = $"{relativeCritChance:+#.#%;-#.#%}" }),
                     font,
                     new Vector2(x + 68, y + 28),
                     co * 0.9f * alpha);
@@ -156,9 +152,7 @@ internal sealed class MeleeWeaponDrawTooltipPatcher : HarmonyPatcher
 
                 Utility.drawTextWithShadow(
                     spriteBatch,
-                    I18n.Get(
-                        "ui.itemhover.cpow",
-                        new { amount = $"{relativeGetCritPower:+#.#%;-#.#%}" }),
+                    I18n.Ui_Itemhover_Cpow($"{relativeGetCritPower:+#.#%;-#.#%}"),
                     font,
                     new Vector2(x + 68, y + 28),
                     co * 0.9f * alpha);
@@ -185,9 +179,7 @@ internal sealed class MeleeWeaponDrawTooltipPatcher : HarmonyPatcher
 
                 Utility.drawTextWithShadow(
                     spriteBatch,
-                    I18n.Get(
-                        "ui.itemhover.swingspeed",
-                        new { amount = $"{speed:+#.#%;-#.#%}" }),
+                    I18n.Ui_Itemhover_Swingspeed($"{speed:+#.#%;-#.#%}"),
                     font,
                     new Vector2(x + 68, y + 28),
                     co * 0.9f * alpha);
@@ -214,7 +206,7 @@ internal sealed class MeleeWeaponDrawTooltipPatcher : HarmonyPatcher
 
                 Utility.drawTextWithShadow(
                     spriteBatch,
-                    I18n.Get("ui.itemhover.cdr", new { amount = $"-{cooldownReduction:#.#%}" }),
+                    I18n.Ui_Itemhover_Cdr($"-{cooldownReduction:#.#%}"),
                     font,
                     new Vector2(x + 68, y + 28),
                     co * 0.9f * alpha);
@@ -242,7 +234,7 @@ internal sealed class MeleeWeaponDrawTooltipPatcher : HarmonyPatcher
                 Utility.drawTextWithShadow(
                     spriteBatch,
                     CombatModule.ShouldEnable && CombatModule.Config.OverhauledDefense
-                        ? I18n.Get("ui.itemhover.resist", new { amount = $"{resistance:+#.#%;-#.#%}" })
+                        ? I18n.Ui_Itemhover_Resist($"{resistance:+#.#%;-#.#%}")
                         : Game1.content.LoadString("Strings\\UI:ItemHover_DefenseBonus", __instance.addedDefense.Value).Replace("+", string.Empty),
                     font,
                     new Vector2(x + 68, y + 28),

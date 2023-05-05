@@ -446,18 +446,12 @@ internal sealed class LevelUpMenuUpdatePatcher : HarmonyPatcher
         var ulti = Game1.player.Get_Ultimate()!;
         var oldProfession = Profession.FromValue(ulti);
         var newProfession = Profession.FromValue(chosenProfession);
-        var pronoun = ulti.GetBuffPronoun();
         Game1.currentLocation.createQuestionDialogue(
-            I18n.Get(
-                "prestige.levelup.question",
-                new
-                {
-                    pronoun,
-                    oldProfession = oldProfession.Title,
-                    oldUltimate = Ultimate.FromValue(oldProfession).DisplayName,
-                    newProfession = newProfession.Title,
-                    newUltimate = Ultimate.FromValue(newProfession).DisplayName,
-                }),
+            I18n.Prestige_Levelup_Question(
+                    oldProfession.Title,
+                    Ultimate.FromValue(oldProfession).DisplayName,
+                    newProfession.Title,
+                    Ultimate.FromValue(newProfession).DisplayName),
             Game1.currentLocation.createYesNoResponses(),
             (_, answer) =>
             {
@@ -475,16 +469,14 @@ internal sealed class LevelUpMenuUpdatePatcher : HarmonyPatcher
 
     private static void CongratulateOnFullSkillMastery(int chosenProfession)
     {
-        Game1.drawObjectDialogue(I18n.Get(
-            "prestige.levelup.unlocked",
-            new { skill = Skill.FromValue(chosenProfession / 6).DisplayName }));
+        Game1.drawObjectDialogue(I18n.Prestige_Levelup_Unlocked(Skill.FromValue(chosenProfession / 6).DisplayName));
 
         if (!Game1.player.HasAllProfessions(true))
         {
             return;
         }
 
-        string title = I18n.Get("prestige.achievement.title" + (Game1.player.IsMale ? ".male" : ".female"));
+        string title = _I18n.Get("prestige.achievement.title" + (Game1.player.IsMale ? ".male" : ".female"));
         if (!Game1.player.achievements.Contains(title.GetDeterministicHashCode()))
         {
             EventManager.Enable<AchievementUnlockedDayStartedEvent>();

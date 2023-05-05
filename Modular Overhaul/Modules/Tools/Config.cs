@@ -39,9 +39,9 @@ public sealed class Config : Shared.Configs.Config
     [JsonProperty]
     public KeybindList ModKey { get; internal set; } = KeybindList.Parse("LeftShift, LeftShoulder");
 
-    /// <summary>Gets a value indicating whether determines whether charging requires a mod key to activate.</summary>
+    /// <summary>Gets a value indicating whether determines whether charging requires holding a mod key.</summary>
     [JsonProperty]
-    public bool ChargingRequiresModKey { get; internal set; } = true;
+    public bool HoldToCharge { get; internal set; } = true;
 
     /// <summary>Gets a value indicating whether determines whether to show affected tiles overlay while charging.</summary>
     [JsonProperty]
@@ -131,7 +131,7 @@ public sealed class Config : Shared.Configs.Config
             isValid = false;
         }
 
-        if (this.ChargingRequiresModKey && !this.ModKey.IsBound)
+        if (this.HoldToCharge && !this.ModKey.IsBound)
         {
             Log.W(
                 "[TOLS]: 'ChargingRequiresModKey' setting is set to true, but no ModKey is bound. Default keybind will be restored. To disable the ModKey, set this value to false.");

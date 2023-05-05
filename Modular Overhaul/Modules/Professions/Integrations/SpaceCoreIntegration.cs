@@ -17,8 +17,15 @@ internal sealed class SpaceCoreIntegration : ModIntegration<SpaceCoreIntegration
     {
     }
 
+    /// <inheritdoc />
+    protected override bool RegisterImpl()
+    {
+        this.LoadSpaceCoreSkills();
+        return base.RegisterImpl();
+    }
+
     /// <summary>Instantiates and caches one instance of every <see cref="SCSkill"/>.</summary>
-    internal void LoadSpaceCoreSkills()
+    private void LoadSpaceCoreSkills()
     {
         this.AssertLoaded();
         foreach (var skillId in this.ModApi.GetCustomSkills())

@@ -17,14 +17,14 @@ internal static class RevenueService
         .Zip(TaxesModule.Config.IncomeTaxPerBracket, (key, value) => new { key, value })
         .ToImmutableDictionary(p => p.key, p => p.value);
 
-    /// <summary>Calculates due income tax for the <paramref name="who"/>.</summary>
-    /// <param name="who">The <see cref="Farmer"/>.</param>
-    /// <returns>The amount of income tax due in gold.</returns>
-    internal static int CalculateTaxes(Farmer who)
+    /// <summary>Calculates due income tax for the <paramref name="farmer"/>.</summary>
+    /// <param name="farmer">The <see cref="Farmer"/>.</param>
+    /// <returns>The amount of income tax due in gold, along with other relevant stats.</returns>
+    internal static (int Due, int Income, int Expenses, float Deductions, int Taxable) CalculateTaxes(Farmer farmer)
     {
-        var income = who.Read<int>(DataKeys.SeasonIncome);
-        var expenses = Math.Min(who.Read<int>(DataKeys.BusinessExpenses), income);
-        var deductions = who.Read<float>(DataKeys.PercentDeductions);
+        var income = farmer.Read<int>(DataKeys.SeasonIncome);
+        var expenses = Math.Min(farmer.Read<int>(DataKeys.BusinessExpenses), income);
+        var deductions = farmer.Read<float>(DataKeys.PercentDeductions);
         var taxable = (int)((income - expenses) * (1f - deductions));
 
         var dueF = 0f;
@@ -47,13 +47,13 @@ internal static class RevenueService
 
         var dueI = (int)Math.Round(dueF);
         Log.I(
-            $"Accounting results for {who.Name} over the closing {SeasonExtensions.Previous()} season, year {Game1.year}:" +
+            $"Accounting results for {farmer.Name} over the closing {SeasonExtensions.Previous()} season, year {Game1.year}:" +
             $"\n\t- Season income: {income}g" +
             $"\n\t- Business expenses: {expenses}g" +
             CurrentCulture($"\n\t- Eligible deductions: {deductions:0.0%}") +
             $"\n\t- Taxable amount: {taxable}g" +
             CurrentCulture($"\n\t- Tax bracket: {tax:0.0%}") +
             $"\n\t- Due amount: {dueI}g.");
-        return dueI;
+        return (dueI, income, expenses, deductions, taxable);
     }
 }

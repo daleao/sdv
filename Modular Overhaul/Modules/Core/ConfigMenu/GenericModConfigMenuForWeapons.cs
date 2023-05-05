@@ -4,13 +4,11 @@
 
 using DaLion.Overhaul.Modules.Weapons;
 using DaLion.Overhaul.Modules.Weapons.Integrations;
-using DaLion.Shared.Exceptions;
 using DaLion.Shared.Extensions.Collections;
 using DaLion.Shared.Extensions.SMAPI;
 using DaLion.Shared.Integrations;
 using DaLion.Shared.Integrations.GenericModConfigMenu;
 using Microsoft.Xna.Framework;
-using StardewValley.Tools;
 
 #endregion using directives
 
@@ -21,12 +19,12 @@ internal sealed partial class GenericModConfigMenu
     private void AddWeaponOptions()
     {
         this
-            .AddPage(OverhaulModule.Weapons.Namespace, () => "Weapons Settings")
+            .AddPage(OverhaulModule.Weapons.Namespace, I18n.Gmcm_Wpnz_Heading)
 
-            .AddSectionTitle(() => "Rebalance Settings")
+            .AddSectionTitle(I18n.Gmcm_Wpnz_Rebalance_Heading)
             .AddCheckbox(
-                () => "Enable Rebalance",
-                () => "Rebalances every melee weapon, in addition to Mine chests, monster and container drops, weapon shops and many other features.",
+                I18n.Gmcm_Wpnz_Rebalance_Enable_Title,
+                I18n.Gmcm_Wpnz_Rebalance_Enable_Desc,
                 config => config.Weapons.EnableRebalance,
                 (config, value) =>
                 {
@@ -42,68 +40,32 @@ internal sealed partial class GenericModConfigMenu
                     config.Weapons.EnableRebalance = value;
                 })
             .AddDropdown(
-                () => "Tooltip Style",
-                () => "Whether to display weapon stats as their absolute values or as relative to other weapons of the same type.",
+                I18n.Gmcm_Wpnz_Rebalance_Tooltipstyle_Title,
+                I18n.Gmcm_Wpnz_Rebalance_Tooltipstyle_Desc,
                 config => config.Weapons.WeaponTooltipStyle.ToString(),
                 (config, value) => config.Weapons.WeaponTooltipStyle = Enum.Parse<Config.TooltipStyle>(value),
                 new[] { "Absolute", "Relative" },
-                null)
+                value => _I18n.Get("gmcm.wpnz.tooltipstye." + value.ToLowerInvariant()))
             .AddCheckbox(
-                () => "Color-Coded For Convenience",
-                () => "Whether to colorize weapon names according to the weapon's assigned tier.",
+                I18n.Gmcm_Ui_Colorcodedforyourconvenience_Title,
+                I18n.Gmcm_Wpnz_Rebalance_Colorcodedforyourconvenience_Desc,
                 config => config.Weapons.ColorCodedForYourConvenience,
                 (config, value) => config.Weapons.ColorCodedForYourConvenience = value)
             .AddCheckbox(
-                () => "Defense Improves Parry",
-                () => "Parry damage will increase for each point in defense.",
+                I18n.Gmcm_Wpnz_Rebalance_Defenseimprovesparry_Title,
+                I18n.Gmcm_Wpnz_Rebalance_Defenseimprovesparry_Desc,
                 config => config.Weapons.DefenseImprovesParry,
                 (config, value) => config.Weapons.DefenseImprovesParry = value)
             .AddCheckbox(
-                () => "Grounded Club Smash",
-                () =>
-                    "A club smash AoE will inflict guaranteed critical damage on burrowed enemies, but completely miss flying enemies.",
+                I18n.Gmcm_Wpnz_Rebalance_Groundedclubsmash_Title,
+                I18n.Gmcm_Wpnz_Rebalance_Groundedclubsmash_Desc,
                 config => config.Weapons.GroundedClubSmash,
                 (config, value) => config.Weapons.GroundedClubSmash = value)
-            .AddHorizontalRule()
 
-            .AddSectionTitle(() => "Combo Settings")
+            .AddSectionTitle(I18n.Gmcm_Wpnz_Stabbysword_Heading)
             .AddCheckbox(
-                () => "Enable Combo Hits",
-                () => "Replaces vanilla weapon spam with a more strategic combo system.",
-                config => config.Weapons.EnableComboHits,
-                (config, value) => config.Weapons.EnableComboHits = value)
-            .AddCheckbox(
-                () => "Enable Hold-To-Swipe",
-                () => "Allows performing combos by simply holding the tool button instead of spam-clicking.",
-                config => config.Weapons.SwipeHold,
-                (config, value) => config.Weapons.SwipeHold = value)
-            .AddNumberField(
-                () => "Stabbing Sword Combo Hits",
-                () => "The max. number of consecutive hits in a Stabbing Sword combo.",
-                config => config.Weapons.ComboHitsPerWeapon[WeaponType.StabbingSword],
-                (config, value) => config.Weapons.ComboHitsPerWeapon[WeaponType.StabbingSword] = value,
-                0,
-                10)
-            .AddNumberField(
-                () => "Defense Sword Combo Hits",
-                () => "The max. number of consecutive hits in a Defense Sword combo.",
-                config => config.Weapons.ComboHitsPerWeapon[WeaponType.DefenseSword],
-                (config, value) => config.Weapons.ComboHitsPerWeapon[WeaponType.DefenseSword] = value,
-                0,
-                10)
-            .AddNumberField(
-                () => "Club Combo Hits",
-                () => "The max. number of consecutive hits in a Club combo.",
-                config => config.Weapons.ComboHitsPerWeapon[WeaponType.Club],
-                (config, value) => config.Weapons.ComboHitsPerWeapon[WeaponType.Club] = value,
-                0,
-                10)
-            .AddHorizontalRule()
-
-            .AddSectionTitle(() => "Stabbing Sword Settings")
-            .AddCheckbox(
-                () => "Enable Stabbing Swords",
-                () => "Replaces the defensive special move of some swords with an offensive lunge move.",
+                I18n.Gmcm_Wpnz_Stabbysword_Enablestabbyswords_Title,
+                I18n.Gmcm_Wpnz_Stabbysword_Enablestabbyswords_Desc,
                 config => config.Weapons.EnableStabbySwords,
                 (config, value) =>
                 {
@@ -131,16 +93,50 @@ internal sealed partial class GenericModConfigMenu
                 })
             .AddHorizontalRule()
 
-            .AddSectionTitle(() => "Quest Settings")
+            .AddSectionTitle(I18n.Gmcm_Wpnz_Combo_Heading)
             .AddCheckbox(
-                () => "Woody Replaces Rusty",
-                () => "Replaces the starting Rusty Sword with a Wooden Blade.",
+                I18n.Gmcm_Wpnz_Combo_Enablecombohits_Title,
+                I18n.Gmcm_Wpnz_Combo_Enablecombohits_Desc,
+                config => config.Weapons.EnableComboHits,
+                (config, value) => config.Weapons.EnableComboHits = value)
+            .AddCheckbox(
+                I18n.Gmcm_Wpnz_Combo_Swipehold_Title,
+                I18n.Gmcm_Wpnz_Combo_Swipehold_Desc,
+                config => config.Weapons.SwipeHold,
+                (config, value) => config.Weapons.SwipeHold = value)
+            .AddNumberField(
+                I18n.Gmcm_Wpnz_Combo_Stabbyswordhits_Title,
+                I18n.Gmcm_Wpnz_Combo_Stabbyswordhits_Desc,
+                config => config.Weapons.ComboHitsPerWeapon[WeaponType.StabbingSword],
+                (config, value) => config.Weapons.ComboHitsPerWeapon[WeaponType.StabbingSword] = value,
+                0,
+                10)
+            .AddNumberField(
+                I18n.Gmcm_Wpnz_Combo_Defenseswordhits_Title,
+                I18n.Gmcm_Wpnz_Combo_Defenseswordhits_Desc,
+                config => config.Weapons.ComboHitsPerWeapon[WeaponType.DefenseSword],
+                (config, value) => config.Weapons.ComboHitsPerWeapon[WeaponType.DefenseSword] = value,
+                0,
+                10)
+            .AddNumberField(
+                I18n.Gmcm_Wpnz_Combo_Clubhits_Title,
+                I18n.Gmcm_Wpnz_Combo_Clubhits_Desc,
+                config => config.Weapons.ComboHitsPerWeapon[WeaponType.Club],
+                (config, value) => config.Weapons.ComboHitsPerWeapon[WeaponType.Club] = value,
+                0,
+                10)
+            .AddHorizontalRule()
+
+            .AddSectionTitle(I18n.Gmcm_Wpnz_Quests_Heading)
+            .AddCheckbox(
+                I18n.Gmcm_Wpnz_Quests_Woodyreplacesrusty_Title,
+                I18n.Gmcm_Wpnz_Quests_Woodyreplacesrusty_Desc,
                 config => config.Weapons.WoodyReplacesRusty,
                 (config, value) => config.Weapons.WoodyReplacesRusty = value)
             .SetTitleScreenOnlyForNextOptions(true)
             .AddCheckbox(
-                () => "Dwarvish Legacy",
-                () => "Allows crafting Masterwork weapons by uncovering ancient Dwarvish blueprints.",
+                I18n.Gmcm_Wpnz_Quests_Dwarvishlegacy_Title,
+                I18n.Gmcm_Wpnz_Quests_Dwarvishlegacy_Desc,
                 config => config.Weapons.DwarvenLegacy,
                 (config, value) =>
                 {
@@ -162,8 +158,8 @@ internal sealed partial class GenericModConfigMenu
                     ModHelper.GameContent.InvalidateCacheAndLocalized("Data/weapons");
                 })
             .AddCheckbox(
-                () => "Infinity +1",
-                () => "Makes legendary Galaxy and Infinity weapons stronger and harder to get.",
+                I18n.Gmcm_Wpnz_Quests_Infinityplusone_Title,
+                I18n.Gmcm_Wpnz_Quests_Infinityplusone_Desc,
                 config => config.Weapons.InfinityPlusOne,
                 (config, value) =>
                 {
@@ -201,56 +197,50 @@ internal sealed partial class GenericModConfigMenu
                 })
             .SetTitleScreenOnlyForNextOptions(false)
             .AddNumberField(
-                () => "Iridium Bars Per Galaxy Weapon",
-                () => "The number of Iridium Bars required to receive a Galaxy weapon.",
+                I18n.Gmcm_Wpnz_Quests_Iridiumbarspergalaxyweapon_Title,
+                I18n.Gmcm_Wpnz_Quests_Iridiumbarspergalaxyweapon_Desc,
                 config => config.Weapons.IridiumBarsPerGalaxyWeapon,
                 (config, value) => config.Weapons.IridiumBarsPerGalaxyWeapon = value,
                 0,
                 50)
             .AddNumberField(
-                () => "Ruined Blade DoT Multiplier",
-                () => "Multiplies the Ruined Blade's damage-over-time effect for greater or lower damage (smaller is lower).",
+                I18n.Gmcm_Wpnz_Quests_Ruinbladedotmultiplier_Title,
+                I18n.Gmcm_Wpnz_Quests_Ruinbladedotmultiplier_Desc,
                 config => config.Weapons.RuinBladeDotMultiplier,
                 (config, value) => config.Weapons.RuinBladeDotMultiplier = value,
                 0,
                 2,
                 0.05f)
             .AddCheckbox(
-                () => "Can Deposit Ruined Blade",
-                () => "Whether the Ruined Blade can be stored in chests.",
+                I18n.Gmcm_Wpnz_Quests_Canstoreruinblade_Title,
+                I18n.Gmcm_Wpnz_Quests_Canstoreruinblade_Desc,
                 config => config.Weapons.CanStoreRuinBlade,
                 (config, value) => config.Weapons.CanStoreRuinBlade = value)
             .AddDropdown(
-                () => "Virtue Trial Difficulty",
-                () => "The general difficulty for completing each of the Virtue Trials. Changing this setting will immediately update your quest progress!!",
-                config => config.Weapons.VirtueTrialTrialDifficulty.ToString(),
+                I18n.Gmcm_Wpnz_Quests_Virtuetrialdifficulty_Title,
+                I18n.Gmcm_Wpnz_Quests_Virtuetrialdifficulty_Desc,
+                config => config.Weapons.VirtueTrialDifficulty.ToString(),
                 (config, value) =>
                 {
-                    config.Weapons.VirtueTrialTrialDifficulty = Enum.Parse<Config.TrialDifficulty>(value);
+                    config.Weapons.VirtueTrialDifficulty = Enum.Parse<Config.TrialDifficulty>(value);
                     if (WeaponsModule.State.VirtuesQuest is { } quest)
                     {
                         Virtue.List.ForEach(virtue => quest.UpdateVirtueProgress(virtue));
                     }
                 },
                 new[] { "Easy", "Medium", "Hard" },
-                null)
+                value => _I18n.Get("gmcm.wpnz.virtuetrialdifficulty." + value.ToLowerInvariant()))
             .AddHorizontalRule()
 
-            .AddSectionTitle(() => "Movement & Control Settings")
+            .AddSectionTitle(I18n.Gmcm_Controls_Heading)
             .AddCheckbox(
-                () => "Face Towards Mouse Cursor",
-                () =>
-                    "If using mouse and keyboard, turn to face towards the current cursor position before swinging a weapon.",
+                I18n.Gmcm_Controls_Facemousecursor_Title,
+                I18n.Gmcm_Controls_Facemousecursor_Desc,
                 config => config.Weapons.FaceMouseCursor,
                 (config, value) => config.Weapons.FaceMouseCursor = value)
             .AddCheckbox(
-                () => "Slick Moves",
-                () => "Drift in the current running direction when swinging a weapon.",
-                config => config.Weapons.SlickMoves,
-                (config, value) => config.Weapons.SlickMoves = value)
-            .AddCheckbox(
-                () => "Enable Auto-Selection",
-                () => "The chosen weapon will be automatically equipped near enemies.",
+                I18n.Gmcm_Controls_Enableautoselection_Title,
+                () => I18n.Gmcm_Controls_Enableautoselection_Desc(I18n.Gmcm_Wpnz_Weapon().ToLowerInvariant()),
                 config => config.Weapons.EnableAutoSelection,
                 (config, value) =>
                 {
@@ -261,30 +251,38 @@ internal sealed partial class GenericModConfigMenu
                     }
                 })
             .AddKeyBinding(
-                () => "Selection Key",
-                () => "The key used for indicating the weapon or slingshot for auto-selection, if enabled.",
+                I18n.Gmcm_Controls_Selectionkey_Title,
+                () => I18n.Gmcm_Controls_Selectionkey_Desc(I18n.Gmcm_Wpnz_Weapon().ToLowerInvariant()),
                 config => config.Weapons.SelectionKey,
                 (config, value) => config.Weapons.SelectionKey = value)
             .AddColorPicker(
-                () => "Selection Border Color",
-                () => "The color used to indicate the chosen weapon for auto-selected.",
+                I18n.Gmcm_Controls_Selectionbordercolor_Title,
+                () => I18n.Gmcm_Controls_Selectionbordercolor_Desc(I18n.Gmcm_Wpnz_Weapon().ToLowerInvariant()),
                 config => config.Weapons.SelectionBorderColor,
                 (config, value) => config.Weapons.SelectionBorderColor = value,
                 Color.Magenta,
                 colorPickerStyle: (uint)IGenericModConfigMenuOptionsApi.ColorPickerStyle.RGBSliders)
             .AddNumberField(
-                () => "Auto-Selection Range",
-                () => "The minimum distance away from a monster to auto-select your chosen weapon.",
+                I18n.Gmcm_Controls_Autoselectionrange_Title,
+                () => I18n.Gmcm_Controls_Autoselectionrange_Desc(I18n.Gmcm_Wpnz_Weapon().ToLowerInvariant()),
                 config => (int)config.Weapons.AutoSelectionRange,
                 (config, value) => config.Weapons.AutoSelectionRange = (uint)value,
                 1,
                 3)
             .AddHorizontalRule()
 
-            .AddSectionTitle(() => "Misc. Settings")
+            .AddSectionTitle(I18n.Gmcm_Movement_Heading)
             .AddCheckbox(
-                () => "Enable Retexture",
-                () => "Applies a Vanilla-friendly retexture that better reflects a weapon`s overhauled type or unique status.",
+                I18n.Gmcm_Movement_Slickmoves_Title,
+                I18n.Gmcm_Movement_Slickmoves_Desc,
+                config => config.Weapons.SlickMoves,
+                (config, value) => config.Weapons.SlickMoves = value)
+            .AddHorizontalRule()
+
+            .AddSectionTitle(I18n.Gmcm_Other_Heading)
+            .AddCheckbox(
+                I18n.Gmcm_Wpnz_Enableretexture_Title,
+                I18n.Gmcm_Wpnz_Enableretexture_Desc,
                 config => config.Weapons.EnableRetexture,
                 (config, value) =>
                 {

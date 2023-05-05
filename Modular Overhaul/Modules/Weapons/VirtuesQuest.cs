@@ -16,8 +16,8 @@ using StardewValley.Quests;
 
 internal sealed class VirtuesQuest : IQuest
 {
-    private readonly string _name = I18n.Get("quests.hero.journey.name");
-    private readonly string _description = I18n.Get("quests.hero.journey.desc");
+    private readonly string _name = I18n.Quests_Hero_Journey_Name();
+    private readonly string _description = I18n.Quests_Hero_Journey_Desc();
 
     private readonly List<string> _objectiveDescriptions;
 
@@ -36,7 +36,7 @@ internal sealed class VirtuesQuest : IQuest
         {
             this._objectiveDescriptions = Virtue.List
                 .OrderBy(virtue => virtue.Value)
-                .Select(virtue => I18n.Get("virtues." + virtue.DisplayName + ".trial").ToString())
+                .Select(virtue => _I18n.Get("virtues." + virtue.DisplayName + ".trial").ToString())
                 .ToList();
         }
         else if (LocalizedContentManager.CurrentLanguageCode is LocalizedContentManager.LanguageCode.ja
@@ -44,14 +44,14 @@ internal sealed class VirtuesQuest : IQuest
         {
             this._objectiveDescriptions = Virtue.List
                 .OrderBy(virtue => virtue.Value)
-                .Select(virtue => virtue.DisplayName + I18n.Get("virtues.trial"))
+                .Select(virtue => virtue.DisplayName + I18n.Virtues_Trial())
                 .ToList();
         }
         else
         {
             this._objectiveDescriptions = Virtue.List
                 .OrderBy(virtue => virtue.Value)
-                .Select(virtue => I18n.Get("virtues.trial") + virtue.DisplayName)
+                .Select(virtue => I18n.Virtues_Trial() + virtue.DisplayName)
                 .ToList();
         }
     }

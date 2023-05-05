@@ -81,7 +81,7 @@ internal sealed class SkillsPagePerformHoverActionPatcher : HarmonyPatcher
                 continue;
             }
 
-            ___hoverText = I18n.Get("prestige.skillpage.tooltip", new { count });
+            ___hoverText = I18n.Prestige_Skillpage_Tooltip(count);
             for (var j = 0; j < professionsForThisSkill.Length; j++)
             {
                 ___hoverText += $"\n• {professionsForThisSkill[j].Title}";

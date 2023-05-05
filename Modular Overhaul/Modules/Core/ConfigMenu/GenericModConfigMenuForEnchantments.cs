@@ -15,11 +15,11 @@ internal sealed partial class GenericModConfigMenu
     private void AddEnchantmentOptions()
     {
         this
-            .AddPage(OverhaulModule.Enchantments.Namespace, () => "Enchantment Settings")
+            .AddPage(OverhaulModule.Enchantments.Namespace, I18n.Gmcm_Ench_Heading)
 
             .AddCheckbox(
-                () => "Melee Enchantments",
-                () => "Whether to use the new and objectively better Melee Weapon enchantments.",
+                I18n.Gmcm_Ench_Meleeenchantments_Title,
+                I18n.Gmcm_Ench_Meleeenchantments_Title,
                 config => config.Enchantments.MeleeEnchantments,
                 (config, value) =>
                 {
@@ -28,8 +28,8 @@ internal sealed partial class GenericModConfigMenu
                         .Invoke(null);
                 })
             .AddCheckbox(
-                () => "Ranged Enchantments",
-                () => "Whether to use the new Slingshot enchantments. These enchantments can only be applied if the Slingshot Module is enabled.",
+                I18n.Gmcm_Ench_Rangedenchantments_Title,
+                I18n.Gmcm_Ench_Rangedenchantments_Desc,
                 config => config.Enchantments.RangedEnchantments,
                 (config, value) =>
                 {
@@ -38,13 +38,13 @@ internal sealed partial class GenericModConfigMenu
                         .Invoke(null);
                 })
             .AddCheckbox(
-                () => "Rebalanced Forges",
-                () => "Improves certain underwhelming forges (analogous to changes by Rings module).",
+                I18n.Gmcm_Ench_Rebalancedforges_Title,
+                I18n.Gmcm_Ench_Rebalancedforges_Desc,
                 config => config.Enchantments.RebalancedForges,
                 (config, value) => config.Enchantments.RebalancedForges = value)
             .AddDropdown(
-                () => "Forge Socket Style",
-                () => "Determines the style of the sprite used to represent gemstone forges in tooltips, if enabled.",
+                I18n.Gmcm_Ench_Forgesocketstyle_Title,
+                I18n.Gmcm_Ench_Forgesocketstyle_Desc,
                 config => config.Enchantments.SocketStyle.ToString(),
                 (config, value) =>
                 {
@@ -57,13 +57,13 @@ internal sealed partial class GenericModConfigMenu
                             : string.Empty));
                 },
                 new[] { "Diamond", "Round", "Iridium" },
-                null)
+                value => _I18n.Get("gmcm.ench.forgesocketstyle." + value.ToLowerInvariant()))
             .AddDropdown(
-                () => "Forge Socket Position",
-                () => "Determines the relative position where forge sockets should be drawn, if enabled.",
+                I18n.Gmcm_Ench_Forgesocketpos_Title,
+                I18n.Gmcm_Ench_Forgesocketpos_Desc,
                 config => config.Enchantments.SocketPosition.ToString(),
                 (config, value) => config.Enchantments.SocketPosition = Enum.Parse<Config.ForgeSocketPosition>(value),
                 new[] { "Standard", "AboveSeparator" },
-                null);
+                value => _I18n.Get("gmcm.ench.forgesocketpos." + value.ToLowerInvariant()));
     }
 }

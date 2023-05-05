@@ -1,5 +1,16 @@
 ﻿# PROFS Change Log
 
+## 2.3.0 <sup><sub><sup>[🔼](#profs-change-log)</sup></sub></sup>
+
+### Added
+
+* Added config settings to displace the Limit Gauge bar.
+
+### Fixed
+
+* ArtisanGoodsAlwaysInputQuality should now apply to PFM machines.
+* Custom professions now show up in GMCM menu for BaseSkillExpMultiplier setting.
+
 ## 2.2.8 <sup><sub><sup>[🔼](#profs-change-log)</sup></sub></sup>
 
 ### Changed

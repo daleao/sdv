@@ -19,7 +19,7 @@ public sealed class MammoniteEnchantment : BaseWeaponEnchantment
     /// <inheritdoc />
     public override string GetName()
     {
-        return I18n.Get("enchantments.mammonite.name");
+        return I18n.Enchantments_Mammonite_Name();
     }
 
     /// <inheritdoc />

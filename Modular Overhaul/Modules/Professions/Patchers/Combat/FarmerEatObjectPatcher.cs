@@ -29,7 +29,7 @@ internal sealed class FarmerEatObjectPatcher : HarmonyPatcher
         }
 
         Game1.playSound("cancel");
-        Game1.showRedMessage(I18n.Get("ulti.canteat"));
+        Game1.showRedMessage(I18n.Ulti_Canteat());
         return false; // don't run original logic
     }
 

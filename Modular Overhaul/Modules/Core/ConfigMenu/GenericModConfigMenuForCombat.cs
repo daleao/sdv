@@ -14,16 +14,16 @@ internal sealed partial class GenericModConfigMenu
     private void AddCombatOptions()
     {
         this
-            .AddPage(OverhaulModule.Combat.Namespace, () => "Combat Settings")
+            .AddPage(OverhaulModule.Combat.Namespace, I18n.Gmcm_Cmbt_Heading)
 
             .AddCheckbox(
-                () => "Enable Status Conditions",
-                () => "Whether to enable status conditions like Burn and Stun on enemies. These are used by other modules.",
+                I18n.Gmcm_Cmbt_Enablestatusconditions_Title,
+                I18n.Gmcm_Cmbt_Enablestatusconditions_Desc,
                 config => config.Combat.EnableStatusConditions,
                 (config, value) => config.Combat.EnableStatusConditions = value)
             .AddCheckbox(
-                () => "Overhauled Defense",
-                () => "Replaces the linear damage mitigation formula with an exponential formula for better scaling.",
+                I18n.Gmcm_Cmbt_Overhauleddefense_Title,
+                I18n.Gmcm_Cmbt_Overhauleddefense_Desc,
                 config => config.Combat.OverhauledDefense,
                 (config, value) =>
                 {
@@ -42,46 +42,46 @@ internal sealed partial class GenericModConfigMenu
                         }
 
                         var key = "rings.topaz.desc" + (value ? "resist" : "defense");
-                        topaz.description = I18n.Get(key);
+                        topaz.description = _I18n.Get(key);
                     });
                 })
             .AddCheckbox(
-                () => "Knockback Damage",
-                () => "Causes enemies to suffer collision damage when knocked-back into a wall or other obstacle.",
+                I18n.Gmcm_Cmbt_Knockbackdamage_Title,
+                I18n.Gmcm_Cmbt_Knockbackdamage_Desc,
                 config => config.Combat.KnockbackDamage,
                 (config, value) => config.Combat.KnockbackDamage = value)
             .AddCheckbox(
-                () => "Critical Back Attacks",
-                () => "Your attacks on enemies facing away from you gain double crit. chance.",
+                I18n.Gmcm_Cmbt_Criticalbackattacks_Title,
+                I18n.Gmcm_Cmbt_Criticalbackattacks_Desc,
                 config => config.Combat.CriticalBackAttacks,
                 (config, value) => config.Combat.CriticalBackAttacks = value)
             .AddNumberField(
-                () => "Monster Health Multiplier",
-                () => "Multiplies the health of all enemies.",
+                I18n.Gmcm_Cmbt_Monsterhealthmultiplier_Title,
+                I18n.Gmcm_Cmbt_Monsterhealthmultiplier_Desc,
                 config => config.Combat.MonsterHealthMultiplier,
                 (config, value) => config.Combat.MonsterHealthMultiplier = value,
                 0.25f,
                 4f,
                 0.25f)
             .AddNumberField(
-                () => "Monster Damage Multiplier",
-                () => "Multiplies the damage dealt by all enemies.",
+                I18n.Gmcm_Cmbt_Monsterdamagemultiplier_Title,
+                I18n.Gmcm_Cmbt_Monsterdamagemultiplier_Desc,
                 config => config.Combat.MonsterDamageMultiplier,
                 (config, value) => config.Combat.MonsterDamageMultiplier = value,
                 0.25f,
                 4f,
                 0.25f)
             .AddNumberField(
-                () => "Monster Defense Multiplier",
-                () => "Multiplies the damage resistance of all enemies.",
+                I18n.Gmcm_Cmbt_Monsterdefensemultiplier_Title,
+                I18n.Gmcm_Cmbt_Monsterdefensemultiplier_Desc,
                 config => config.Combat.MonsterDefenseMultiplier,
                 (config, value) => config.Combat.MonsterDefenseMultiplier = value,
                 0.25f,
                 4f,
                 0.25f)
             .AddCheckbox(
-                () => "Varied Encounters",
-                () => "Randomizes monster stats, subject to Daily Luck bias, adding variability to monster encounters.",
+                I18n.Gmcm_Cmbt_Variedencounters_Title,
+                I18n.Gmcm_Cmbt_Variedencounters_Desc,
                 config => config.Combat.VariedEncounters,
                 (config, value) => config.Combat.VariedEncounters = value);
     }

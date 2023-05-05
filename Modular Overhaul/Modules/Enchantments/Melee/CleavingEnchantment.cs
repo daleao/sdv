@@ -15,7 +15,7 @@ public sealed class CleavingEnchantment : BaseWeaponEnchantment
     /// <inheritdoc />
     public override string GetName()
     {
-        return I18n.Get("enchantments.cleaving.name");
+        return I18n.Enchantments_Cleaving_Name();
     }
 
     /// <inheritdoc />

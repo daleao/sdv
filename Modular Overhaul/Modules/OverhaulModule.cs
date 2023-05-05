@@ -68,22 +68,23 @@ public abstract class OverhaulModule
     protected OverhaulModule(string name, string entry)
     {
         this.Name = name;
-        this.DisplayName = "Modular Overhaul :: " + name;
         this.Namespace = "DaLion.Overhaul.Modules." + name;
+        this.DisplayName = "MARGO :: " + _I18n.Get("gmcm.modules." + entry + ".name");
+        this.Description = _I18n.Get("gmcm.modules." + entry + ".desc");
         this.Ticker = entry;
     }
 
     /// <summary>Gets the internal name of the module.</summary>
     internal string Name { get; }
 
-    /// <summary>Gets the human-readable name of the module.</summary>
-    internal string DisplayName { get; }
-
-    /// <summary>Gets a short description of the module.</summary>
-    internal string? Description { get; private set; }
-
     /// <summary>Gets the namespace of the module.</summary>
     internal string Namespace { get; }
+
+    /// <summary>Gets the human-readable and localized name of the module.</summary>
+    internal string DisplayName { get; }
+
+    /// <summary>Gets a short localized description of the module.</summary>
+    internal string? Description { get; }
 
     /// <summary>Gets the ticker symbol of the module, which is used as the entry command.</summary>
     internal string Ticker { get; }
@@ -219,9 +220,6 @@ public abstract class OverhaulModule
         internal ProfessionsModule()
             : base("Professions", "profs")
         {
-            this.Description =
-                "Overhauls professions with the goal of supporting more diverse and interesting playstyles. " +
-                "Introduces all-new Prestige mechanics and Limit Breaks for combat professions.";
         }
 
         /// <summary>Gets a value indicating whether the <see cref="OverhaulModule.ProfessionsModule"/> is set to enabled.</summary>
@@ -262,8 +260,6 @@ public abstract class OverhaulModule
         {
             new IModIntegration?[]
             {
-                Modules.Professions.Integrations.SpaceCoreIntegration.Instance,
-                Modules.Professions.Integrations.LuckSkillIntegration.Instance,
                 Modules.Professions.Integrations.LoveOfCookingIntegration.Instance,
                 Modules.Professions.Integrations.AutomateIntegration.Instance,
                 Modules.Professions.Integrations.TehsFishingOverhaulIntegration.Instance,
@@ -290,9 +286,6 @@ public abstract class OverhaulModule
         internal CombatModule()
             : base("Combat", "cmbt")
         {
-            this.Description =
-                "Overhauls general combat mechanics with the goal of improving underwhelming combat stats. " +
-                "Emphasis on a multiplicative defense algorithm, and knockback collision damage.";
         }
 
         /// <summary>Gets a value indicating whether the <see cref="OverhaulModule.CombatModule"/> is set to enabled.</summary>
@@ -338,9 +331,6 @@ public abstract class OverhaulModule
         internal WeaponsModule()
             : base("Weapons", "wpnz")
         {
-            this.Description =
-                "Overhauls all aspects of melee weapons. " +
-                "Rebalances weapons according to new color-coded tiers, introduces combo mechanics, swords with a stabbing special move, and many other features.";
         }
 
         /// <summary>Gets a value indicating whether the <see cref="OverhaulModule.WeaponsModule"/> is set to enabled.</summary>
@@ -673,9 +663,6 @@ public abstract class OverhaulModule
         internal SlingshotsModule()
             : base("Slingshots", "slngs")
         {
-            this.Description =
-                "Overhauls slingshots to bring them up to par with melee weapons. " +
-                "Includes ranged critical strikes, slingshots enchantments, a stunning smack special move, and more.";
         }
 
         /// <summary>Gets a value indicating whether the <see cref="OverhaulModule.SlingshotsModule"/> is set to enabled.</summary>
@@ -724,9 +711,6 @@ public abstract class OverhaulModule
         internal ToolsModule()
             : base("Tools", "tols")
         {
-            this.Description =
-                "A one-stop-shop for tool augmentation, customization and quality-of-life. " +
-                "Includes chargeable resource tools, automatic tool selection, expanded tool enchantments, among other features.";
         }
 
         /// <summary>Gets a value indicating whether the <see cref="OverhaulModule.ToolsModule"/> is set to enabled.</summary>
@@ -783,9 +767,6 @@ public abstract class OverhaulModule
         internal EnchantmentsModule()
             : base("Enchantments", "ench")
         {
-            this.Description =
-                "A complete overhaul of combat enchantments. " +
-                "Replaces boring vanilla weapon enchantments with entirely new and more interesting ones, while also introducing slingshot-specific enchantments.";
         }
 
         /// <summary>Gets a value indicating whether the <see cref="OverhaulModule.EnchantmentsModule"/> is set to enabled.</summary>
@@ -892,8 +873,6 @@ public abstract class OverhaulModule
         internal RingsModule()
             : base("Rings", "rngs")
         {
-            this.Description =
-                "Snap your enemies to oblivion with the powerful new Infinity Band, which draws inspiration from real Music Theory to create a more balanced and immersive mechanic for combining multiple rings.";
         }
 
         /// <summary>Gets a value indicating whether the <see cref="OverhaulModule.RingsModule"/> is set to enabled.</summary>
@@ -957,8 +936,6 @@ public abstract class OverhaulModule
         internal PondsModule()
             : base("Ponds", "pnds")
         {
-            this.Description =
-                "Makes Fish Ponds great again, allowing roe products to scale in quality and quantity among other rebalances and new mechanics.";
         }
 
         /// <summary>Gets a value indicating whether the <see cref="OverhaulModule.PondsModule"/> is set to enabled.</summary>
@@ -1004,8 +981,6 @@ public abstract class OverhaulModule
         internal TaxesModule()
             : base("Taxes", "txs")
         {
-            this.Description =
-                "A borderline realistic taxation system for added challenge and end-game gold sink.";
         }
 
         /// <summary>Gets a value indicating whether the <see cref="OverhaulModule.TaxesModule"/> is set to enabled.</summary>
@@ -1054,8 +1029,6 @@ public abstract class OverhaulModule
         internal TweexModule()
             : base("Tweex", "twx")
         {
-            this.Description =
-                "A repository of smaller immersion tweaks and fixes for vanilla inconsistencies.";
         }
 
         /// <summary>Gets a value indicating whether the <see cref="OverhaulModule.TweexModule"/> is set to enabled.</summary>

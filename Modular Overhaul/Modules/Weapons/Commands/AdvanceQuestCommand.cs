@@ -76,6 +76,7 @@ internal sealed class AdvanceQuestCommand : ConsoleCommand
                     player.Write(DataKeys.InspectedWisdom, null);
                     player.Write(DataKeys.InspectedGenerosity, null);
                     player.Write(DataKeys.InspectedValor, null);
+                    player.Write(DataKeys.VirtueQuestState, VirtuesQuestState.InProgress.ToString());
                     return;
                 }
 

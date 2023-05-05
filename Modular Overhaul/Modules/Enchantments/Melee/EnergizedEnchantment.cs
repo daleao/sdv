@@ -50,7 +50,7 @@ public sealed class EnergizedEnchantment : BaseWeaponEnchantment
     /// <inheritdoc />
     public override string GetName()
     {
-        return I18n.Get("enchantments.energized.name");
+        return I18n.Enchantments_Energized_Name();
     }
 
     /// <summary>Updates the instance state.</summary>
@@ -94,14 +94,14 @@ public sealed class EnergizedEnchantment : BaseWeaponEnchantment
                 0,
                 1,
                 "Energized",
-                I18n.Get("enchantments.energized.name"),
+                I18n.Enchantments_Energized_Name(),
                 () => this.Energy,
                 MaxEnergy)
             {
                 which = BuffId,
                 sheetIndex = BuffSheetIndex,
                 millisecondsDuration = 0,
-                description = I18n.Get("enchantments.energized.desc", new { counter = this.Energy }),
+                description = I18n.Enchantments_Energized_Desc(this.Energy),
             });
     }
 

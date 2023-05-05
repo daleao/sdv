@@ -24,7 +24,7 @@ internal sealed class JsonAssetsIntegration : ModIntegration<JsonAssetsIntegrati
     {
         if (this.IsLoaded)
         {
-            this.ModApi.LoadAssets(Path.Combine(ModHelper.DirectoryPath, "assets", "json-assets", "Arsenal"), I18n);
+            this.ModApi.LoadAssets(Path.Combine(ModHelper.DirectoryPath, "assets", "json-assets", "Arsenal"), _I18n);
             this.ModApi.IdsAssigned += this.OnIdsAssigned;
             return true;
         }

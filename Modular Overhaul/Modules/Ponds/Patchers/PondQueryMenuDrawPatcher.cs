@@ -61,7 +61,7 @@ internal sealed class PondQueryMenuDrawPatcher : HarmonyPatcher
                                      !____pond.hasCompletedRequest.Value;
             bool isAlgaePond = ____fishItem.IsAlgae(), isLegendaryPond = ____fishItem.HasContextTag("fish_legendary");
             var pondNameText = isAlgaePond
-                ? I18n.Get("algae")
+                ? I18n.Algae()
                 : Game1.content.LoadString(
                     PathUtilities.NormalizeAssetName("Strings/UI:PondQuery_Name"),
                     ____fishItem.DisplayName);

@@ -21,7 +21,7 @@ public sealed class SpreadingEnchantment : BaseSlingshotEnchantment
     /// <inheritdoc />
     public override string GetName()
     {
-        return I18n.Get("enchantments.spreading.name");
+        return I18n.Enchantments_Spreading_Name();
     }
 
     /// <inheritdoc />

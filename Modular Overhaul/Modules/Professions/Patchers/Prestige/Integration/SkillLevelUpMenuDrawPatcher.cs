@@ -111,9 +111,9 @@ internal sealed class SkillLevelUpMenuDrawPatcher : HarmonyPatcher
 
             if (selectionArea.Contains(Game1.getMouseX(), Game1.getMouseY()))
             {
-                string hoverText = I18n.Get(leftProfession.Level == 10
-                    ? "prestige.levelup.tooltip:10"
-                    : "prestige.levelup.tooltip:5");
+                var hoverText = leftProfession.Level == 10
+                    ? I18n.Prestige_Levelup_Tooltip10()
+                    : I18n.Prestige_Levelup_Tooltip5();
                 IClickableMenu.drawHoverText(b, hoverText, Game1.smallFont);
             }
         }
@@ -130,9 +130,9 @@ internal sealed class SkillLevelUpMenuDrawPatcher : HarmonyPatcher
 
             if (selectionArea.Contains(Game1.getMouseX(), Game1.getMouseY()))
             {
-                string hoverText = I18n.Get(leftProfession.Level == 10
-                    ? "prestige.levelup.tooltip:10"
-                    : "prestige.levelup.tooltip:5");
+                var hoverText = leftProfession.Level == 10
+                    ? I18n.Prestige_Levelup_Tooltip10()
+                    : I18n.Prestige_Levelup_Tooltip5();
                 IClickableMenu.drawHoverText(b, hoverText, Game1.smallFont);
             }
         }

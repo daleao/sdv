@@ -2,9 +2,9 @@
 
 #region using directives
 
+using DaLion.Overhaul.Modules.Combat.Extensions;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
-using StardewValley.Monsters;
 
 #endregion using directives
 
@@ -22,23 +22,8 @@ internal sealed class GameLocationInitNetFieldsPatcher : HarmonyPatcher
     [HarmonyPostfix]
     private static void GameLocationInitNetFieldsPostfix(GameLocation __instance)
     {
-        __instance.characters.OnValueRemoved += OnCharacterRemoved;
+        __instance.characters.OnValueRemoved += NpcExtensions.OnRemoved;
     }
 
     #endregion harmony patches
-
-    #region injected subroutines
-
-    private static void OnCharacterRemoved(NPC npc)
-    {
-        if (npc is not Monster { Health: > 0 } monster)
-        {
-            return;
-        }
-
-        Log.D($"{monster.Name} was removed before it was dead. Re-adding...");
-        monster.currentLocation.characters.Add(monster);
-    }
-
-    #endregion injected subroutines
 }

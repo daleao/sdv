@@ -24,7 +24,7 @@ public sealed class Concerto : Ultimate
 
     /// <inheritdoc />
     public override string DisplayName =>
-        I18n.Get(this.Name.ToLower() + ".title." + (Game1.player.IsMale ? "male" : "female"));
+        _I18n.Get(this.Name.ToLower() + ".title." + (Game1.player.IsMale ? "male" : "female"));
 
     /// <inheritdoc />
     public override bool CanActivate => base.CanActivate && Game1.player.currentLocation.characters.OfType<Monster>()

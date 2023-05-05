@@ -2,6 +2,16 @@
 
 This file contains a TL;DR of current version changes and hotfixes from across all modules. For the complete changelog, please refer to the individual changelogs of each module, linked [below](#detailed-change-logs).
 
+## Patch 2.3.0 Highlights <sup><sub><sup>[🔼](#margo-change-logs)</sup></sub></sup>
+
+* Migrated to Pathoschild's Translation Class Builder.
+* Added all GMCM text to localization model.
+* [PROFS]: Added config settings to displace the Limit Gauge bar.
+* [CMBT]: Fixed a memory leak while saving.
+* [WPNZ]: Now actually remembers when you start the Hero's Journey quest.
+* [WPNZ]: Weapon sale price now considers Profit Margin settings as well as applied enchantments.
+* [TXS]: Added income and property tax information to the API.
+
 ## Patch 2.2.8 Highlights <sup><sub><sup>[🔼](#margo-change-logs)</sup></sub></sup>
 
 * [CMBT]: For some reason, monsters suffering from damage-over-time are some times removed from the location before dying. This caused all sorts of strange behaviors, such as the status animation and Fly buzzing sound to keep playing forever. I cannot figure out why this is happening, so I've implemented a workaround; when a monster is removed from a location before dying, it is immediately re-added.

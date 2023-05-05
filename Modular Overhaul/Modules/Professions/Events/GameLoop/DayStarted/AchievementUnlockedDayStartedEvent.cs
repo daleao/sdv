@@ -22,7 +22,7 @@ internal sealed class AchievementUnlockedDayStartedEvent : DayStartedEvent
     protected override void OnDayStartedImpl(object? sender, DayStartedEventArgs e)
     {
         string title =
-            I18n.Get("prestige.achievement.title" +
+            _I18n.Get("prestige.achievement.title" +
                               (Game1.player.IsMale ? ".male" : ".female"));
         Game1.player.achievements.Add(title.GetDeterministicHashCode());
         Game1.playSound("achievement");

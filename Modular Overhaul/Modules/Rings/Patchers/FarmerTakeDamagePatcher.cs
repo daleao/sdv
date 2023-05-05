@@ -170,7 +170,7 @@ internal sealed class FarmerTakeDamagePatcher : HarmonyPatcher
         Game1.buffsDisplay.addOtherBuff(
             new Buff(21)
             {
-                description = I18n.Get("buffs.yoba.desc"),
+                description = I18n.Buffs_Yoba_Desc(),
                 millisecondsDuration = 30000,
             });
 

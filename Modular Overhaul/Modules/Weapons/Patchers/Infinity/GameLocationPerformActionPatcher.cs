@@ -92,7 +92,7 @@ internal sealed class GameLocationPerformActionPatcher : HarmonyPatcher
         }
         else
         {
-            Game1.drawObjectDialogue(I18n.Get("locations.SeedShop.Yoba"));
+            Game1.drawObjectDialogue(I18n.Locations_SeedShop_Yoba());
             if (!who.hasQuest((int)Quest.CurseIntro))
             {
                 return;
@@ -100,7 +100,7 @@ internal sealed class GameLocationPerformActionPatcher : HarmonyPatcher
 
             Game1.afterDialogues = () =>
             {
-                string question = I18n.Get("yoba.question");
+                var question = I18n.Yoba_Question();
                 var responses = Virtue.List
                     .Select(v => new Response(v.Name, v.DisplayName))
                     .ToArray();
@@ -143,18 +143,18 @@ internal sealed class GameLocationPerformActionPatcher : HarmonyPatcher
 
     private static void ProposeGrabDarkSword(GameLocation location)
     {
-        Game1.multipleDialogues(new string[]
+        Game1.multipleDialogues(new[]
         {
-            I18n.Get("weapons.darksword.found"),
-            I18n.Get("weapons.darksword.chill"),
+            I18n.Weapons_Darksword_Found(),
+            I18n.Weapons_Darksword_Chill(),
         });
 
         Game1.afterDialogues = () => location.createQuestionDialogue(
-            I18n.Get("weapons.darksword.question"),
+            I18n.Weapons_Darksword_Question(),
             new Response[]
             {
-                new("GrabIt", I18n.Get("weapons.darksword.grabit")),
-                new("LeaveIt", I18n.Get("weapons.darksword.leaveit")),
+                new("GrabIt", I18n.Weapons_Darksword_Grabit()),
+                new("LeaveIt", I18n.Weapons_Darksword_Leaveit()),
             },
             "DarkSword");
     }

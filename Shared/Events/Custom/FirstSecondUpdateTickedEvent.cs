@@ -6,7 +6,7 @@ using StardewModdingAPI.Events;
 
 #endregion using directives
 
-/// <summary>Wrapper for a <see cref="IGameLoopEvents.OneSecondUpdateTicked"/> which executes exactly once.</summary>
+/// <summary>Wrapper for a <see cref="IGameLoopEvents.OneSecondUpdateTicked"/> which executes exactly once, after one second of game time has elapsed.</summary>
 /// <remarks>Useful for set-up code which requires third-party mod integrations to be registered.</remarks>
 internal abstract class FirstSecondUpdateTickedEvent : ManagedEvent
 {

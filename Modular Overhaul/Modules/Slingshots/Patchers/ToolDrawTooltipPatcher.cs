@@ -75,7 +75,7 @@ internal sealed class ToolDrawTooltipPatcher : HarmonyPatcher
 
                 Utility.drawTextWithShadow(
                     spriteBatch,
-                    I18n.Get("ui.itemhover.damage", new { amount }),
+                    I18n.Ui_Itemhover_Damage(amount),
                     font,
                     new Vector2(x + 68, y + 28),
                     co * 0.9f * alpha);
@@ -103,7 +103,7 @@ internal sealed class ToolDrawTooltipPatcher : HarmonyPatcher
 
                 Utility.drawTextWithShadow(
                     spriteBatch,
-                    I18n.Get("ui.itemhover.knockback", new { amount }),
+                    I18n.Ui_Itemhover_Knockback(amount),
                     font,
                     new Vector2(x + 68, y + 28),
                     co * 0.9f * alpha);
@@ -184,7 +184,7 @@ internal sealed class ToolDrawTooltipPatcher : HarmonyPatcher
 
                 Utility.drawTextWithShadow(
                     spriteBatch,
-                    I18n.Get("ui.itemhover.firespeed", new { amount }),
+                    I18n.Ui_Itemhover_Firespeed(amount),
                     font,
                     new Vector2(x + 68, y + 28),
                     co * 0.9f * alpha);
@@ -211,7 +211,7 @@ internal sealed class ToolDrawTooltipPatcher : HarmonyPatcher
 
                 Utility.drawTextWithShadow(
                     spriteBatch,
-                    I18n.Get("ui.itemhover.cdr", new { amount }),
+                    I18n.Ui_Itemhover_Cdr(amount),
                     font,
                     new Vector2(x + 68, y + 28),
                     co * 0.9f * alpha);
@@ -241,7 +241,7 @@ internal sealed class ToolDrawTooltipPatcher : HarmonyPatcher
                 Utility.drawTextWithShadow(
                     spriteBatch,
                     CombatModule.ShouldEnable && CombatModule.Config.OverhauledDefense
-                        ? I18n.Get("ui.itemhover.resist", new { amount })
+                        ? I18n.Ui_Itemhover_Resist(amount)
                         : Game1.content.LoadString("ItemHover_DefenseBonus", amount),
                     font,
                     new Vector2(x + 68, y + 28),

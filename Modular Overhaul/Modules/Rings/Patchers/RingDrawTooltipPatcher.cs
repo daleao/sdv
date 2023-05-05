@@ -56,7 +56,7 @@ internal sealed class RingDrawTooltipPatcher : HarmonyPatcher
         {
             Utility.drawTextWithShadow(
                 spriteBatch,
-                root.DisplayName + ' ' + I18n.Get("resonance"),
+                root.DisplayName + ' ' + I18n.Resonance(),
                 font,
                 new Vector2(x + 16, y + 16 + 4),
                 root.TextColor,
@@ -102,7 +102,7 @@ internal sealed class RingDrawTooltipPatcher : HarmonyPatcher
                 false,
                 1f);
 
-            string text = I18n.Get("ui.itemhover.damage", new { amount });
+            var text = I18n.Ui_Itemhover_Damage(amount);
             var width = font.MeasureString(text).X;
             maxWidth = (int)Math.Max(width, maxWidth);
             Utility.drawTextWithShadow(spriteBatch, text, font, new Vector2(x + 68, y + 28), co * 0.9f * alpha);
@@ -126,7 +126,7 @@ internal sealed class RingDrawTooltipPatcher : HarmonyPatcher
                 false,
                 1f);
 
-            string text = I18n.Get("ui.itemhover.knockback", new { amount });
+            var text = I18n.Ui_Itemhover_Knockback(amount);
             var width = font.MeasureString(text).X;
             maxWidth = (int)Math.Max(width, maxWidth);
             Utility.drawTextWithShadow(spriteBatch, text, font, new Vector2(x + 68, y + 28), co * 0.9f * alpha);
@@ -150,7 +150,7 @@ internal sealed class RingDrawTooltipPatcher : HarmonyPatcher
                 false,
                 1f);
 
-            string text = I18n.Get("ui.itemhover.crate", new { amount });
+            var text = I18n.Ui_Itemhover_Crate(amount);
             var width = font.MeasureString(text).X;
             maxWidth = (int)Math.Max(width, maxWidth);
             Utility.drawTextWithShadow(spriteBatch, text, font, new Vector2(x + 68, y + 28), co * 0.9f * alpha);
@@ -174,7 +174,7 @@ internal sealed class RingDrawTooltipPatcher : HarmonyPatcher
                 false,
                 1f);
 
-            string text = I18n.Get("ui.itemhover.cpow", new { amount });
+            var text = I18n.Ui_Itemhover_Cpow(amount);
             var width = font.MeasureString(text).X;
             maxWidth = (int)Math.Max(width, maxWidth);
             Utility.drawTextWithShadow(
@@ -203,7 +203,7 @@ internal sealed class RingDrawTooltipPatcher : HarmonyPatcher
                 false,
                 1f);
 
-            string text = I18n.Get("ui.itemhover.precision", new { amount });
+            string text = I18n.Ui_Itemhover_Precision(amount);
             var width = font.MeasureString(text).X;
             maxWidth = (int)Math.Max(width, maxWidth);
             Utility.drawTextWithShadow(spriteBatch, text, font, new Vector2(x + 68, y + 28), co * 0.9f * alpha);
@@ -251,7 +251,7 @@ internal sealed class RingDrawTooltipPatcher : HarmonyPatcher
                 false,
                 1f);
 
-            string text = I18n.Get("ui.itemhover.cdr", new { amount });
+            var text = I18n.Ui_Itemhover_Cdr(amount);
             var width = font.MeasureString(text).X;
             maxWidth = (int)Math.Max(width, maxWidth);
             Utility.drawTextWithShadow(spriteBatch, text, font, new Vector2(x + 68, y + 28), co * 0.9f * alpha);
@@ -276,7 +276,7 @@ internal sealed class RingDrawTooltipPatcher : HarmonyPatcher
                 1f);
 
             var text = CombatModule.ShouldEnable && CombatModule.Config.OverhauledDefense
-                ? I18n.Get("ui.itemhover.resist", new { amount })
+                ? I18n.Ui_Itemhover_Resist(amount)
                 : Game1.content.LoadString("Strings\\UI:ItemHover_DefenseBonus", buffer.DefenseModifier);
             var width = font.MeasureString(text).X;
             maxWidth = (int)Math.Max(width, maxWidth);

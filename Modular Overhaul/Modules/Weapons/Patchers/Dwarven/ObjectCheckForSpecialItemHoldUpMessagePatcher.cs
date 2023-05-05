@@ -40,11 +40,11 @@ internal sealed class ObjectCheckForSpecialItemHoldUpMessagePatcher : HarmonyPat
                 type = type.SplitCamelCase()[1];
             }
 
-            __result = I18n.Get("blueprint.found.first", new { type });
+            __result = I18n.Blueprint_Found_First(type);
         }
         else
         {
-            __result = I18n.Get("blueprint.found.local");
+            __result = I18n.Blueprint_Found_Local();
         }
     }
 

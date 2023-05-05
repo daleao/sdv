@@ -396,16 +396,14 @@ internal sealed class SkillLevelUpMenuUpdatePatcher : HarmonyPatcher
 
     private static void CongratulateOnFullSkillMastery(string skillId)
     {
-        Game1.drawObjectDialogue(I18n.Get(
-            "prestige.levelup.unlocked",
-            new { skill = SCSkill.Loaded[skillId].DisplayName }));
+        Game1.drawObjectDialogue(I18n.Prestige_Levelup_Unlocked(SCSkill.Loaded[skillId].DisplayName));
 
         if (!Game1.player.HasAllProfessions(true))
         {
             return;
         }
 
-        string title = I18n.Get("prestige.achievement.title" + (Game1.player.IsMale ? ".male" : ".female"));
+        string title = _I18n.Get("prestige.achievement.title" + (Game1.player.IsMale ? ".male" : ".female"));
         if (!Game1.player.achievements.Contains(title.GetDeterministicHashCode()))
         {
             EventManager.Enable<AchievementUnlockedDayStartedEvent>();

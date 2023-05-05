@@ -1,5 +1,11 @@
 ﻿# RNGS Change Log
 
+## 2.3.0 <sup><sub><sup>[🔼](#rngs-change-log)</sup></sub></sup>
+
+### Changed
+
+* Thorns Ring will not longer be renamed if Ridgeside Village is installed.
+
 ## 2.2.0 <sup><sub><sup>[🔼](#rngs-change-log)</sup></sub></sup>
 
 ### Added

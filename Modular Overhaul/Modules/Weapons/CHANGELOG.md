@@ -1,5 +1,16 @@
 ﻿# WPNZ Change Log
 
+## 2.3.0 <sup><sub><sup>[🔼](#wpnz-change-log)</sup></sub></sup>
+
+### Changed
+
+* Weapon sale price now considers applied enchantments.
+
+### Fixed
+
+* Now actually remembers when you start the Hero's Journey quest.
+* Weapon sale price now considers Profit Margin settings.
+
 ## 2.2.8 <sup><sub><sup>[🔼](#wpnz-change-log)</sup></sub></sup>
 
 ### Added

@@ -11,6 +11,8 @@ using DaLion.Overhaul.Modules.Professions.Ultimates;
 using DaLion.Overhaul.Modules.Professions.VirtualProperties;
 using DaLion.Overhaul.Modules.Rings.Resonance;
 using DaLion.Overhaul.Modules.Rings.VirtualProperties;
+using DaLion.Overhaul.Modules.Taxes;
+using DaLion.Overhaul.Modules.Taxes.Extensions;
 using DaLion.Shared.Events;
 using DaLion.Shared.Exceptions;
 using Microsoft.Xna.Framework;
@@ -299,6 +301,25 @@ public sealed class ModApi
     }
 
     #endregion resonance
+
+    #region taxes
+
+    /// <summary>Evaluates the due income tax and other relevant stats for the <paramref name="farmer"/>.</summary>
+    /// <param name="farmer">The <see cref="Farmer"/>. Defaults to <see cref="Game1.player"/>.</param>
+    /// <returns>The amount of income tax due in gold, along with total income, business expenses, eligible deductions and total taxable amount (in that order).</returns>
+    public (int Due, int Income, int Expenses, float Deductions, int Taxable) CalculateIncomeTax(Farmer? farmer = null)
+    {
+        return RevenueService.CalculateTaxes(farmer ?? Game1.player);
+    }
+
+    /// <summary>Determines the total property value of the farm.</summary>
+    /// <returns>The total values of agriculture activities, livestock and buildings on the farm, as well as the total number of tiles used by all of those activities.</returns>
+    public (int AgricultureValue, int LivestockValue, int BuildingValue, int UsedTiles) CalculatePropertyTax()
+    {
+        return Game1.getFarm().Appraise(false);
+    }
+
+    #endregion taxes
 
     #region configs
 

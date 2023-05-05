@@ -114,7 +114,7 @@ public sealed class Config : Shared.Configs.Config
 
     /// <summary>Gets a value indicating the difficulty of the proven conditions for each virtue trial.</summary>
     [JsonProperty]
-    public TrialDifficulty VirtueTrialTrialDifficulty { get; internal set; } = TrialDifficulty.Medium;
+    public TrialDifficulty VirtueTrialDifficulty { get; internal set; } = TrialDifficulty.Medium;
 
     /// <summary>Gets a value indicating whether defense should improve parry damage.</summary>
     [JsonProperty]

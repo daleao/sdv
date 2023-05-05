@@ -18,7 +18,7 @@ public sealed class CarvingEnchantment : BaseWeaponEnchantment
     /// <inheritdoc />
     public override string GetName()
     {
-        return I18n.Get("enchantments.carving.name");
+        return I18n.Enchantments_Carving_Name();
     }
 
     /// <inheritdoc />

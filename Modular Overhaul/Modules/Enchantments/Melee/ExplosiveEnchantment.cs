@@ -57,7 +57,7 @@ public sealed class ExplosiveEnchantment : BaseWeaponEnchantment
     /// <inheritdoc />
     public override string GetName()
     {
-        return I18n.Get("enchantments.explosive.name");
+        return I18n.Enchantments_Explosive_Name();
     }
 
     /// <summary>Updates the instance state.</summary>
@@ -90,14 +90,14 @@ public sealed class ExplosiveEnchantment : BaseWeaponEnchantment
                 0,
                 1,
                 "Explosive",
-                I18n.Get("enchantments.explosive.name"),
+                this.GetName(),
                 () => this.ExplosionRadius,
                 this.MaxRadius)
             {
                 which = BuffId,
                 sheetIndex = BuffSheetIndex,
                 millisecondsDuration = 0,
-                description = I18n.Get("enchantments.energized.desc", new { counter = this.ExplosionRadius }),
+                description = I18n.Enchantments_Explosive_Desc(this.ExplosionRadius),
             });
     }
 

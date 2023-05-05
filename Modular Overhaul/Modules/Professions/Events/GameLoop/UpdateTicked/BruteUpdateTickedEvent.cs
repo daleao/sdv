@@ -67,8 +67,8 @@ internal sealed class BruteUpdateTickedEvent : UpdateTickedEvent
                 0,
                 1,
                 "Brute",
-                I18n.Get("brute.title" + (Game1.player.IsMale ? ".male" : ".female")) + " " +
-                I18n.Get("brute.buff.name"),
+                _I18n.Get("brute.title" + (Game1.player.IsMale ? ".male" : ".female")) + " " +
+                I18n.Brute_Buff_Name(),
                 () => ProfessionsModule.State.BruteRageCounter,
                 100)
             {
@@ -76,10 +76,8 @@ internal sealed class BruteUpdateTickedEvent : UpdateTickedEvent
                 sheetIndex = Profession.BruteRageSheetIndex,
                 millisecondsDuration = 0,
                 description = Game1.player.HasProfession(Profession.Brute, true)
-                    ? I18n.Get("brute.buff.desc", new { damage = magnitude.ToString("P0") })
-                    : I18n.Get(
-                        "brute.buff.desc.prestiged",
-                        new { damage = magnitude.ToString("P1"), speed = (magnitude / 2f).ToString("P1") }),
+                    ? I18n.Brute_Buff_Desc(magnitude.ToString("P0"))
+                    : I18n.Brute_Buff_Desc_Prestiged(magnitude.ToString("P1"), (magnitude / 2f).ToString("P1")),
             });
     }
 }

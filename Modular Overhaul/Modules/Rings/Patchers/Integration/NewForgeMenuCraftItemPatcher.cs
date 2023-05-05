@@ -41,7 +41,7 @@ internal sealed class NewForgeMenuCraftItemPatcher : HarmonyPatcher
         DelayedAction.playSoundAfterDelay("discoverMineral", 400);
         if (Context.IsMultiplayer)
         {
-            Broadcaster.SendPublicChat(I18n.Get("global.infinitycraft", new { who = Game1.player.Name }));
+            Broadcaster.SendPublicChat(I18n.Global_Infinitycraft(Game1.player.Name));
         }
     }
 

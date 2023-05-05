@@ -63,7 +63,7 @@ public sealed class ModEntry : Mod
     internal static IManifest Manifest => Instance.ModManifest;
 
     /// <summary>Gets the <see cref="ITranslationHelper"/> API.</summary>
-    internal static ITranslationHelper I18n => ModHelper.Translation;
+    internal static ITranslationHelper _I18n => ModHelper.Translation;
 
     /// <summary>The mod entry point, called after the mod is first loaded.</summary>
     /// <param name="helper">Provides simplified APIs for writing mods.</param>
@@ -74,6 +74,7 @@ public sealed class ModEntry : Mod
         Instance = this;
         Log.Init(this.Monitor);
         ModDataIO.Init(this.ModManifest.UniqueID);
+        I18n.Init(helper.Translation);
 
         Data = helper.Data.ReadJsonFile<ModData>("data.json") ?? new ModData();
 

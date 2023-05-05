@@ -89,7 +89,7 @@ public abstract class Gemstone : SmartEnum<Gemstone>, IEquatable<Gemstone>, ICom
         this.RingIndex = ringIndex;
         FromRingDict[ringIndex] = this;
 
-        this.DisplayName = I18n.Get("gems." + name.ToLower() + ".name");
+        this.DisplayName = _I18n.Get("gems." + name.ToLower() + ".name");
         this.Frequency = frequency;
         this.StoneColor = stoneColor;
         this.GlowColor = glowColor.Inverse();

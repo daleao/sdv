@@ -74,26 +74,30 @@ internal class RingAssetRequestedEvent : AssetRequestedEvent
         {
             fields = data[ItemIDs.TopazRing].Split('/');
             fields[5] = CombatModule.ShouldEnable && CombatModule.Config.OverhauledDefense
-                ? I18n.Get("rings.topaz.desc.resist")
-                : I18n.Get("rings.topaz.desc.defense");
+                ? I18n.Rings_Topaz_Desc_Resist()
+                : I18n.Rings_Topaz_Desc_Defense();
             data[ItemIDs.TopazRing] = string.Join('/', fields);
 
             fields = data[ItemIDs.JadeRing].Split('/');
-            fields[5] = I18n.Get("rings.jade.desc");
+            fields[5] = I18n.Rings_Jade_Desc();
             data[ItemIDs.JadeRing] = string.Join('/', fields);
 
             fields = data[ItemIDs.WarriorRing].Split('/');
-            fields[5] = I18n.Get("rings.warrior.desc");
+            fields[5] = I18n.Rings_Warrior_Desc();
             data[ItemIDs.WarriorRing] = string.Join('/', fields);
 
             fields = data[ItemIDs.YobaRing].Split('/');
-            fields[5] = I18n.Get("rings.yoba.desc");
+            fields[5] = I18n.Rings_Yoba_Desc();
             data[ItemIDs.YobaRing] = string.Join('/', fields);
 
             if (LocalizedContentManager.CurrentLanguageCode == LocalizedContentManager.LanguageCode.en)
             {
                 fields = data[ItemIDs.ThornsRing].Split('/');
-                fields[0] = "Ring of Thorns";
+                if (!ModHelper.ModRegistry.IsLoaded("Rafseazz.RidgesideVillage"))
+                {
+                    fields[0] = "Ring of Thorns";
+                }
+
                 data[ItemIDs.ThornsRing] = string.Join('/', fields);
             }
         }
@@ -101,7 +105,7 @@ internal class RingAssetRequestedEvent : AssetRequestedEvent
         if (RingsModule.Config.TheOneInfinityBand)
         {
             fields = data[ItemIDs.IridiumBand].Split('/');
-            fields[5] = I18n.Get("rings.iridium.desc");
+            fields[5] = I18n.Rings_Iridium_Desc();
             data[ItemIDs.IridiumBand] = string.Join('/', fields);
         }
     }

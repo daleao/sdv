@@ -36,17 +36,13 @@ internal sealed class NpcCheckForNewCurrentDialoguePatcher : HarmonyPatcher
             if (player.IsCursed(out var darkSword) && player.eventsSeen.Contains((int)Quest.CurseIntro) &&
                 darkSword.Read<int>(DataKeys.CursePoints) >= 100)
             {
-                __instance.CurrentDialogue.Push(new Dialogue(
-                    I18n.Get("dialogue.wizard.curse.toldya"),
-                    __instance));
+                __instance.CurrentDialogue.Push(new Dialogue(I18n.Dialogue_Wizard_Curse_Toldya(), __instance));
                 return false; // don't run original logic
             }
 
             if (player.hasQuest((int)Quest.CurseIntro))
             {
-                __instance.CurrentDialogue.Push(new Dialogue(
-                    I18n.Get("dialogue.wizard.curse.canthelp"),
-                    __instance));
+                __instance.CurrentDialogue.Push(new Dialogue(I18n.Dialogue_Wizard_Curse_Canthelp(), __instance));
                 return false; // don't run original logic
             }
 

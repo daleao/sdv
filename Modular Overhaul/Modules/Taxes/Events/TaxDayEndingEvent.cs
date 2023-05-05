@@ -142,7 +142,7 @@ internal sealed class TaxDayEndingEvent : DayEndingEvent
 
     private static void CheckIncomeStatement(Farmer taxpayer, ref int dayIncome)
     {
-        var amountDue = RevenueService.CalculateTaxes(taxpayer);
+        var (amountDue, _, _, _, _) = RevenueService.CalculateTaxes(taxpayer);
         TaxesModule.State.LatestDueIncomeTax = amountDue;
         if (amountDue <= 0)
         {

@@ -60,10 +60,10 @@ public sealed class Virtue : SmartEnum<Virtue>
     }
 
     /// <summary>Gets the localized display name for this <see cref="Virtue"/>.</summary>
-    internal string DisplayName => I18n.Get("virtues." + this.Name.ToLowerInvariant() + ".name");
+    internal string DisplayName => _I18n.Get("virtues." + this.Name.ToLowerInvariant() + ".name");
 
     /// <summary>Gets the localized flavor inscription text for this <see cref="Virtue"/>.</summary>
-    internal string FlavorText => I18n.Get("virtues." + this.Name.ToLowerInvariant() + ".flavor");
+    internal string FlavorText => _I18n.Get("virtues." + this.Name.ToLowerInvariant() + ".flavor");
 
     /// <summary>Gets the threshold required to consider this <see cref="Virtue"/> as proven.</summary>
     internal int ProvenCondition
@@ -71,7 +71,7 @@ public sealed class Virtue : SmartEnum<Virtue>
         get
         {
             var target = int.MaxValue;
-            switch (WeaponsModule.Config.VirtueTrialTrialDifficulty)
+            switch (WeaponsModule.Config.VirtueTrialDifficulty)
             {
                 case Config.TrialDifficulty.Easy:
                     this

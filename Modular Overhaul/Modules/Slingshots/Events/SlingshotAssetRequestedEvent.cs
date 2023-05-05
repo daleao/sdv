@@ -39,8 +39,8 @@ internal sealed class SlingshotAssetRequestedEvent : AssetRequestedEvent
         var data = asset.AsDictionary<int, string>().Data;
         data[ItemIDs.InfinitySlingshot] = string.Format(
             "Infinity Slingshot/{0}/1/3/1/308/0/0/4/-1/-1/0/.02/3/{1}",
-            I18n.Get("slingshots.infinity.desc"),
-            I18n.Get("slingshots.infinity.name"));
+            I18n.Slingshots_Infinity_Desc(),
+            I18n.Slingshots_Infinity_Name());
     }
 
     /// <summary>Edits weapons tilesheet with touched up textures.</summary>

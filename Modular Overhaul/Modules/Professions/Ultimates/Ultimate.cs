@@ -74,10 +74,10 @@ public abstract class Ultimate : SmartEnum<Ultimate>, IUltimate
     public abstract IProfession Profession { get; }
 
     /// <inheritdoc />
-    public virtual string DisplayName => I18n.Get(this.Name.ToLower() + ".title");
+    public virtual string DisplayName => _I18n.Get(this.Name.ToLower() + ".title");
 
     /// <inheritdoc />
-    public virtual string Description => I18n.Get(this.Name.ToLower() + ".desc");
+    public virtual string Description => _I18n.Get(this.Name.ToLower() + ".desc");
 
     /// <inheritdoc />
     public int Index => this.Value;
@@ -282,18 +282,6 @@ public abstract class Ultimate : SmartEnum<Ultimate>, IUltimate
 
     /// <summary>Counts down the charge value.</summary>
     internal abstract void Countdown();
-
-    /// <summary>Get the localized pronoun for the <see cref="Ultimate"/>'s buff.</summary>
-    /// <returns>A localized and gendered pronoun to qualify <see cref="Ultimate"/>'s buff.</returns>
-    internal virtual string GetBuffPronoun()
-    {
-        return LocalizedContentManager.CurrentLanguageCode is
-            LocalizedContentManager.LanguageCode.fr or
-            LocalizedContentManager.LanguageCode.es or
-            LocalizedContentManager.LanguageCode.pt
-            ? I18n.Get("article.definite.female")
-            : string.Empty;
-    }
 
     /// <summary>Raised when a player activates their combat Ultimate.</summary>
     protected void OnActivated()

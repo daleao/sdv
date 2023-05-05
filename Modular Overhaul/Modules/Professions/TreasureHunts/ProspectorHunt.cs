@@ -24,8 +24,8 @@ internal sealed class ProspectorHunt : TreasureHunt
     internal ProspectorHunt()
         : base(
             TreasureHuntType.Prospector,
-            I18n.Get("prospector.huntstarted"),
-            I18n.Get("prospector.huntfailed"),
+            I18n.Prospector_Huntstarted(),
+            I18n.Prospector_Huntfailed(),
             new Rectangle(48, 672, 16, 16))
     {
     }

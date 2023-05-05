@@ -78,8 +78,8 @@ internal sealed class ToolForgePatcher : HarmonyPatcher
             slingshot.InitialParentTileIndex = ItemIDs.InfinitySlingshot;
             slingshot.IndexOfMenuItemView = ItemIDs.InfinitySlingshot;
             slingshot.BaseName = "Infinity Slingshot";
-            slingshot.DisplayName = I18n.Get("slingshots.infinity.name");
-            slingshot.description = I18n.Get("slingshots.infinity.desc");
+            slingshot.DisplayName = I18n.Slingshots_Infinity_Name();
+            slingshot.description = I18n.Slingshots_Infinity_Desc();
             if (count_towards_stats)
             {
                 DelayedAction.playSoundAfterDelay("discoverMineral", 400);

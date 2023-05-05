@@ -1,10 +1,12 @@
 ﻿# CMBT Change Log
 
+## 2.3.0 <sup><sub><sup>[🔼](#cmbt-change-log)</sup></sub></sup>
+
+### Fixed
+
+* Turns out the fix in 2.2.8 *dix* break stuff. This version should fix the memory leak while saving.
+
 ## 2.2.8 <sup><sub><sup>[🔼](#cmbt-change-log)</sup></sub></sup>
-
-### Added
-
-* 
 
 ### Changed
 

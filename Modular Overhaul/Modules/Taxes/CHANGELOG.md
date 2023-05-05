@@ -1,5 +1,11 @@
 ﻿# TXS Change Log
 
+## 2.3.0 <sup><sub><sup>[🔼](#txs-change-log)</sup></sub></sup>
+
+### Added
+
+* Added income and property tax information to the API.
+
 ## 2.2.6 <sup><sub><sup>[🔼](#txs-change-log)</sup></sub></sup>
 
 ### Fixed

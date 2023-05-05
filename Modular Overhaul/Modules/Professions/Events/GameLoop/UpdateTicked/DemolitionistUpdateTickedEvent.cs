@@ -52,13 +52,13 @@ internal sealed class DemolitionistUpdateTickedEvent : UpdateTickedEvent
                 0,
                 1,
                 "Demolitionist",
-                I18n.Get(
+                _I18n.Get(
                     "demolitionist.title" + (Game1.player.IsMale ? ".male" : ".female")))
             {
                 which = this._buffId,
                 sheetIndex = Profession.DemolitionistExcitedSheetIndex,
                 millisecondsDuration = 555,
-                description = I18n.Get("demolitionist.buff.desc"),
+                description = I18n.Demolitionist_Buff_Desc(),
             });
 
         ProfessionsModule.State.DemolitionistExcitedness -= excitedness >= 4 ? 2 : 1;

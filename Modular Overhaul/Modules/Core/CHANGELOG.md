@@ -1,5 +1,17 @@
 ﻿# Core Change Log
 
+## 2.3.0 <sup><sub><sup>[🔼](#core-change-log)</sup></sub></sup>
+
+### Added
+
+* Added income and property tax information to the API.
+* Added Pathoschild.Stardew.ModTranslationClassBuilder.
+* Added all GMCM text options to i18n model, so the mod config menu can now be translated.
+
+### Changed
+
+* Cleaned up several config menus in the transition to Pathoschild.Stardew.ModTranslationClassBuilder.
+
 ## 2.2.6 <sup><sub><sup>[🔼](#core-change-log)</sup></sub></sup>
 
 ### Fixed

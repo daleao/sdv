@@ -24,7 +24,7 @@ public sealed class Ambush : Ultimate
 
     /// <inheritdoc />
     public override string Description =>
-        I18n.Get(this.Name.ToLower() + ".desc." + (this.IsActive ? "hidden" : "revealed"));
+        _I18n.Get(this.Name.ToLower() + ".desc." + (this.IsActive ? "hidden" : "revealed"));
 
     /// <inheritdoc />
     public override IProfession Profession => Professions.Profession.Poacher;
@@ -162,17 +162,5 @@ public sealed class Ambush : Ultimate
     internal override void Countdown()
     {
         this.ChargeValue -= this.MaxValue / 900d; // lasts 15s * 60 ticks/s -> 900 ticks
-    }
-
-    /// <inheritdoc />
-    internal override string GetBuffPronoun()
-    {
-        return LocalizedContentManager.CurrentLanguageCode switch
-        {
-            LocalizedContentManager.LanguageCode.es => I18n.Get("article.definite.female"),
-            LocalizedContentManager.LanguageCode.fr or LocalizedContentManager.LanguageCode.pt =>
-                I18n.Get("article.definite.male"),
-            _ => string.Empty,
-        };
     }
 }

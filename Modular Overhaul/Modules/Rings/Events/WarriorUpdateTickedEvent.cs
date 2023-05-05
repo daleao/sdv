@@ -31,7 +31,7 @@ internal sealed class WarriorUpdateTickedEvent : UpdateTickedEvent
                 .Load<Dictionary<int, string>>("Data/ObjectInformation")[ItemIDs.WarriorRing]
                 .SplitWithoutAllocation('/')[0]
                 .ToString();
-        this._buffDescription = I18n.Get("buffs.warrior.desc");
+        this._buffDescription = I18n.Buffs_Warrior_Desc();
     }
 
     /// <inheritdoc />
@@ -84,9 +84,8 @@ internal sealed class WarriorUpdateTickedEvent : UpdateTickedEvent
                 sheetIndex = 20,
                 millisecondsDuration = 0,
                 description =
-                    this._buffDescription + Environment.NewLine + I18n.Get(
-                        "ui.buffs.warrior",
-                        new { value = RingsModule.State.WarriorKillCount / 3 }),
+                    this._buffDescription + Environment.NewLine +
+                    I18n.Ui_Buffs_Warrior(RingsModule.State.WarriorKillCount / 3),
                 glow = Color.DarkRed,
             });
     }

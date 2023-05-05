@@ -3,8 +3,8 @@ namespace DaLion.Overhaul.Modules.Weapons.Patchers;
 
 #region using directives
 
-using System.Linq;
 using System.Reflection;
+using DaLion.Overhaul.Modules.Enchantments.Gemstone;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
 using StardewValley.Tools;
@@ -24,7 +24,7 @@ internal sealed class MeleeWeaponSalePricePatcher : HarmonyPatcher
 
     /// <summary>Adjust weapon sell price by level.</summary>
     [HarmonyPrefix]
-    private static bool MeleeWeaponGetItemLevelPrefix(MeleeWeapon __instance, ref int __result)
+    private static bool MeleeWeaponSalePricePrefix(MeleeWeapon __instance, ref int __result)
     {
         if (!WeaponsModule.Config.EnableRebalance)
         {
@@ -39,31 +39,43 @@ internal sealed class MeleeWeaponSalePricePatcher : HarmonyPatcher
                 return true; // run original logic
             }
 
-            if (tier == WeaponTier.Masterwork)
-            {
-                __result = __instance.Name.StartsWith("Dragon")
+            __result = tier == WeaponTier.Masterwork
+                ? __instance.Name.StartsWith("Dragon")
                     ? (int)(tier.Price * 1.5)
                     : __instance.Name.StartsWith("Elvish")
                         ? (int)(tier.Price * 0.75)
-                        : tier.Price;
-                __result *= 2;
-                return false; // don't run original logic
-            }
+                        : tier.Price
+                : tier.Price;
 
-            __result = tier.Price * 2; // x2 because this number will be halved later
-
-            // bonus points if has intrinsic enchantment
-            if (__instance.enchantments.FirstOrDefault(e => !e.IsForge() && e.IsSecondaryEnchantment()) is not null)
+            // bonus points for enchantments
+            for (var i = 0; i < __instance.enchantments.Count; i++)
             {
-                __result += 2000;
+                var enchantment = __instance.enchantments[i];
+                if (enchantment.IsSecondaryEnchantment())
+                {
+                    __result += 2500; // half of Galaxy Soul value
+                }
+                else if (enchantment.IsForge())
+                {
+                    __result += enchantment switch
+                    {
+                        RubyEnchantment => 125,
+                        AquamarineEnchantment => 90,
+                        AmethystEnchantment => 50,
+                        GarnetEnchantment => 150,
+                        EmeraldEnchantment => 125,
+                        JadeEnchantment => 100,
+                        TopazEnchantment => 40,
+                        _ => 0,
+                    } * enchantment.GetLevel(); // half of gemstone value
+                }
+                else
+                {
+                    __result += 1000; // half of Prismatic Shard value
+                }
             }
 
-            // bonus points if has non-forge enchantment
-            if (__instance.enchantments.FirstOrDefault(e => !e.IsForge() && !e.IsSecondaryEnchantment()) is not null)
-            {
-                __result += 2000;
-            }
-
+            __result = (int)(__result * 2f * Game1.player.difficultyModifier); // x2 because this number will be halved later
             return false; // don't run original logic
         }
         catch (Exception ex)

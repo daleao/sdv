@@ -101,7 +101,7 @@ internal sealed class GameLocationPerformTouchActionPatcher : HarmonyPatcher
                 item is SObject { ParentSheetIndex: SObject.iridiumBar } iridium ? iridium.Stack : 0) <
             WeaponsModule.Config.IridiumBarsPerGalaxyWeapon)
         {
-            Game1.drawObjectDialogue(I18n.Get("prestige.dogstatue.dismiss"));
+            Game1.drawObjectDialogue(I18n.Prestige_Dogstatue_Dismiss());
             return false;
         }
 

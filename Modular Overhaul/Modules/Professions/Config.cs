@@ -36,6 +36,13 @@ public sealed class Config : Shared.Configs.Config
     [JsonProperty]
     public bool ShouldJunimosInheritProfessions { get; internal set; } = false;
 
+    /// <summary>
+    ///     Gets a value indicating whether if enabled, machine and building ownership will be ignored when determining whether to apply profession
+    ///     bonuses.
+    /// </summary>
+    [JsonProperty]
+    public bool LaxOwnershipRequirements { get; internal set; } = false;
+
     /// <summary>Gets a value indicating whether the quality of produced artisan goods should be always the same as the quality of the input material. If set to false, then the quality will be less than or equal to that of the input.</summary>
     [JsonProperty]
     public bool ArtisanGoodsAlwaysInputQuality { get; internal set; } = false;
@@ -88,20 +95,13 @@ public sealed class Config : Shared.Configs.Config
     [JsonProperty]
     public uint MineralsNeededForBestQuality { get; internal set; } = 100;
 
-    /// <summary>
-    ///     Gets a value indicating whether if enabled, machine and building ownership will be ignored when determining whether to apply profession
-    ///     bonuses.
-    /// </summary>
-    [JsonProperty]
-    public bool LaxOwnershipRequirements { get; internal set; } = false;
-
     /// <summary>Gets the size of the pointer used to track objects by Prospector and Scavenger professions.</summary>
     [JsonProperty]
     public float TrackingPointerScale { get; internal set; } = 1.2f;
 
     /// <summary>Gets the speed at which the tracking pointer bounces up and down (higher is faster).</summary>
     [JsonProperty]
-    public float TrackingPointerBobbingRate { get; internal set; } = 1f;
+    public float TrackingPointerBobRate { get; internal set; } = 1f;
 
     /// <summary>Gets a value indicating whether if enabled, Prospector and Scavenger will only track off-screen object while <see cref="ModKey"/> is held.</summary>
     [JsonProperty]
@@ -218,13 +218,21 @@ public sealed class Config : Shared.Configs.Config
     [JsonProperty]
     public uint LimitRespecCost { get; internal set; } = 0;
 
-    /// <summary>Gets the base skill reset cost multiplier. Set to 0 to reset for free.</summary>
+    /// <summary>Gets the x-coordinate of the Limit Gauge.</summary>
     [JsonProperty]
-    public float SkillResetCostMultiplier { get; internal set; } = 1f;
+    public int LimitGaugeXOffset { get; internal set; } = 0;
+
+    /// <summary>Gets the y-coordinate of the Limit Gauge.</summary>
+    [JsonProperty]
+    public int LimitGaugeYOffset { get; internal set; } = 0;
 
     /// <summary>Gets a value indicating whether to apply Prestige changes.</summary>
     [JsonProperty]
     public bool EnablePrestige { get; internal set; } = true;
+
+    /// <summary>Gets the base skill reset cost multiplier. Set to 0 to reset for free.</summary>
+    [JsonProperty]
+    public float SkillResetCostMultiplier { get; internal set; } = 1f;
 
     /// <summary>Gets a value indicating whether resetting a skill also clears all corresponding recipes.</summary>
     [JsonProperty]
@@ -236,7 +244,7 @@ public sealed class Config : Shared.Configs.Config
 
     /// <summary>Gets cumulative multiplier to each skill's experience gain after a respective skill reset.</summary>
     [JsonProperty]
-    public float PrestigeExpFactor { get; internal set; } = 0.1f;
+    public float PrestigeExpMultiplier { get; internal set; } = 0.1f;
 
     /// <summary>Gets how much skill experience is required for each level up beyond 10.</summary>
     [JsonProperty]
@@ -256,14 +264,14 @@ public sealed class Config : Shared.Configs.Config
     public Dictionary<string, float> CustomSkillExpMultipliers { get; internal set; } =
         new()
         {
-            { "DaLion.Alchemy", 1 },
-            { "blueberry.Cooking", 1 },
+            { "blueberry.LoveOfCooking.CookingSkill", 1 },
             { "spacechase0.Cooking", 1 },
-            { "spacechase0.Luck", 1 },
             { "spacechase0.Magic", 1 },
-            { "drbirbdev.BinningSkill", 1 },
-            { "drbirbdev.SocializingSkill", 1 },
-            { "moonslime.ExcavationSkill", 1 },
+            { "drbirbdev.Binning", 1 },
+            { "drbirbdev.Socializing", 1 },
+            { "moonslime.Excavation", 1 },
+            { "spacechase0.LuckSkill", 1 },
+            { "DaLion.Alchemy", 1 },
         };
 
     /// <summary>

@@ -145,7 +145,20 @@ public interface IModularOverhaulApi
     /// <summary>Gets the <see cref="IModularOverhaul.IChord"/> for the specified <paramref name="ring"/>, if any.</summary>
     /// <param name="ring">A <see cref="CombinedRing"/> which possibly contains a <see cref="IModularOverhaul.IChord"/>.</param>
     /// <returns>The <see cref="IModularOverhaul.IChord"/> instance if the <paramref name="ring"/> is an Infinity Band with at least two resonating gemstones, otherwise <see langword="null"/>.</returns>
-    public IModularOverhaul.IChord? GetChord(CombinedRing ring);
+    IModularOverhaul.IChord? GetChord(CombinedRing ring);
 
     #endregion resonances
+
+    #region taxes
+
+    /// <summary>Evaluates the due income tax and other relevant stats for the <paramref name="farmer"/>.</summary>
+    /// <param name="farmer">The <see cref="Farmer"/>. Defaults to <see cref="Game1.player"/>.</param>
+    /// <returns>The amount of income tax due in gold, along with total income, business expenses, eligible deductions and total taxable amount (in that order).</returns>
+    (int Due, int Income, int Expenses, float Deductions, int Taxable) CalculateIncomeTax(Farmer? farmer = null);
+
+    /// <summary>Determines the total property value of the farm.</summary>
+    /// <returns>The total values of agriculture activities, livestock and buildings on the farm, as well as the total number of tiles used by all of those activities.</returns>
+    (int AgricultureValue, int LivestockValue, int BuildingValue, int UsedTiles) CalculatePropertyTax();
+
+    #endregion taxes
 }

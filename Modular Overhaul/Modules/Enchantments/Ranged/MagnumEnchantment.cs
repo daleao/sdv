@@ -13,6 +13,6 @@ public sealed class MagnumEnchantment : BaseSlingshotEnchantment
     /// <inheritdoc />
     public override string GetName()
     {
-        return I18n.Get("enchantments.magnum.name");
+        return I18n.Enchantments_Magnum_Name();
     }
 }

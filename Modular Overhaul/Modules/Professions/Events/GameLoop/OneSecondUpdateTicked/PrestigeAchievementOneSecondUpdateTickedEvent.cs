@@ -26,7 +26,7 @@ internal sealed class PrestigeAchievementOneSecondUpdateTickedEvent : OneSecondU
         if (Game1.player.HasAllProfessions())
         {
             string title =
-                I18n.Get("prestige.achievement.title" +
+                _I18n.Get("prestige.achievement.title" +
                                   (Game1.player.IsMale ? ".male" : ".female"));
             if (!Game1.player.achievements.Contains(title.GetDeterministicHashCode()))
             {

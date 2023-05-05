@@ -1,6 +1,10 @@
 ﻿namespace DaLion.Overhaul.Modules.Core.ConfigMenu;
 
+#region using directives
+
 using System.Linq;
+
+#endregion
 
 /// <summary>Constructs the GenericModConfigMenu integration.</summary>
 internal sealed partial class GenericModConfigMenu
@@ -9,98 +13,98 @@ internal sealed partial class GenericModConfigMenu
     private void AddTaxOptions()
     {
         this
-            .AddPage(OverhaulModule.Taxes.Namespace, () => "Tax Settings")
+            .AddPage(OverhaulModule.Taxes.Namespace, I18n.Gmcm_Txs_Heading)
 
-            .AddSectionTitle(() => "Income Tax")
-            .AddTextbox(
-                () => "Income Brackets",
-                () =>
-                    "The income thresholds that determine each tax bracket. You can set a single very high value to disable income taxes entirely.",
-                config => string.Join(", ", config.Taxes.IncomeBrackets),
-                (config, value) => config.Taxes.IncomeBrackets =
-                    value.Split(new[] { ", " }, StringSplitOptions.None).Select(int.Parse).ToArray())
-            .AddTextbox(
-                () => "Tax Per Brackets",
-                () =>
-                    "The taxable percentage of income at (up to) each bracket. If there are n brackets, this array should contain n+1 values. You can set all values to zero to disable income taxes entirely.",
-                config => string.Join(", ", config.Taxes.IncomeTaxPerBracket),
-                (config, value) => config.Taxes.IncomeTaxPerBracket =
-                    value.Split(new[] { ", " }, StringSplitOptions.None).Select(float.Parse).ToArray())
+            .AddSectionTitle(I18n.Gmcm_General_Heading)
             .AddNumberField(
-                () => "Annual Interest",
-                () =>
-                    "The interest rate charged annually over any outstanding debt. Interest is accrued daily at a rate of 1/112 the annual rate.",
+                I18n.Gmcm_Txs_Annualinterest_Title,
+                I18n.Gmcm_Txs_Annualinterest_Desc,
                 config => config.Taxes.AnnualInterest,
                 (config, value) => config.Taxes.AnnualInterest = value,
                 0f,
                 1f,
                 0.02f)
+            .AddHorizontalRule()
+
+            .AddSectionTitle(I18n.Gmcm_Txs_Income_Heading)
+            .AddTextbox(
+                I18n.Gmcm_Txs_Income_Brackets_Title,
+                I18n.Gmcm_Txs_Income_Brackets_Desc,
+                config => string.Join(", ", config.Taxes.IncomeBrackets),
+                (config, value) => config.Taxes.IncomeBrackets =
+                    value.Split(new[] { ", " }, StringSplitOptions.None).Select(int.Parse).ToArray())
+            .AddTextbox(
+                I18n.Gmcm_Txs_Income_Taxperbracket_Title,
+                I18n.Gmcm_Txs_Income_Taxperbracket_Desc,
+                config => string.Join(", ", config.Taxes.IncomeTaxPerBracket),
+                (config, value) => config.Taxes.IncomeTaxPerBracket =
+                    value.Split(new[] { ", " }, StringSplitOptions.None).Select(float.Parse).ToArray())
             .AddNumberField(
-                () => "Lateness Fine",
-                () => "A flat rate, charged once over the unpaid amount, when income taxes are not paid on-time.",
+                I18n.Gmcm_Txs_Income_Latenessfine_Title,
+                I18n.Gmcm_Txs_Income_Latenessfine_Desc,
                 config => config.Taxes.IncomeTaxLatenessFine,
                 (config, value) => config.Taxes.IncomeTaxLatenessFine = value,
                 0f,
                 1f,
                 0.05f)
             .AddCheckbox(
-                () => "Deductible Animal Expenses",
-                () => "Whether or not any gold spent on animal purchases and supplies should be tax-deductible.",
+                I18n.Gmcm_Txs_Income_Deductibleanimalexpenses_Title,
+                I18n.Gmcm_Txs_Income_Deductibleanimalexpenses_Desc,
                 config => config.Taxes.DeductibleAnimalExpenses,
                 (config, value) => config.Taxes.DeductibleAnimalExpenses = value)
             .AddCheckbox(
-                () => "Deductible Building Expenses",
-                () => "Whether or not any gold spent constructing farm buildings is tax-deductible.",
+                I18n.Gmcm_Txs_Income_Deductiblebuildingexpenses_Title,
+                I18n.Gmcm_Txs_Income_Deductiblebuildingexpenses_Desc,
                 config => config.Taxes.DeductibleBuildingExpenses,
                 (config, value) => config.Taxes.DeductibleBuildingExpenses = value)
             .AddCheckbox(
-                () => "Deductible Seed Expenses",
-                () => "Whether or not any gold spent on seed purchases should be tax-deductible.",
+                I18n.Gmcm_Txs_Income_Deductibleseedexpenses_Title,
+                I18n.Gmcm_Txs_Income_Deductibleseedexpenses_Desc,
                 config => config.Taxes.DeductibleSeedExpenses,
                 (config, value) => config.Taxes.DeductibleSeedExpenses = value)
             .AddCheckbox(
-                () => "Deductible Tool Expenses",
-                () => "Whether or not any gold spent on tool purchases and upgrades should be tax-deductible.",
+                I18n.Gmcm_Txs_Income_Deductibletoolexpenses_Title,
+                I18n.Gmcm_Txs_Income_Deductibletoolexpenses_Desc,
                 config => config.Taxes.DeductibleToolExpenses,
                 (config, value) => config.Taxes.DeductibleToolExpenses = value)
             .AddHorizontalRule()
 
-            .AddSectionTitle(() => "Property Tax")
+            .AddSectionTitle(I18n.Gmcm_Txs_Property_Heading)
             .AddNumberField(
-                () => "Lateness Fine",
-                () => "A flat rate, charged once over the unpaid amount, when income taxes are not paid on-time.",
+                I18n.Gmcm_Txs_Property_Latenessfine_Title,
+                I18n.Gmcm_Txs_Property_Latenessfine_Desc,
                 config => config.Taxes.PropertyTaxLatenessFine,
                 (config, value) => config.Taxes.PropertyTaxLatenessFine = value,
                 0f,
                 1f,
                 0.05f)
             .AddNumberField(
-                () => "Used Tile Tax Rate",
-                () => "The tax rate charged over a tile actively used for agriculture, livestock or forestry.",
+                I18n.Gmcm_Txs_Property_Usedtiletaxrate_Title,
+                I18n.Gmcm_Txs_Property_Usedtiletaxrate_Desc,
                 config => config.Taxes.UsedTileTaxRate,
                 (config, value) => config.Taxes.UsedTileTaxRate = value,
                 0f,
                 0.5f,
                 0.01f)
             .AddNumberField(
-                () => "Unused Tile Tax Rate",
-                () => "The tax rate charged over a tile not actively used for productive means.",
+                I18n.Gmcm_Txs_Property_Unusedtiletaxrate_Title,
+                I18n.Gmcm_Txs_Property_Unusedtiletaxrate_Desc,
                 config => config.Taxes.UnusedTileTaxRate,
                 (config, value) => config.Taxes.UnusedTileTaxRate = value,
                 0f,
                 0.5f,
                 0.01f)
             .AddNumberField(
-                () => "Building Tile Tax Rate",
-                () => "The tax rate charged over a tile occupied by a constructed building (magical buildings are.",
+                I18n.Gmcm_Txs_Property_Buildingtiletaxrate_Title,
+                I18n.Gmcm_Txs_Property_Buildingtiletaxrate_Desc,
                 config => config.Taxes.BuildingTaxRate,
                 (config, value) => config.Taxes.BuildingTaxRate = value,
                 0f,
                 0.5f,
                 0.01f)
             .AddCheckbox(
-                () => "Exempt Magical Buildings",
-                () => "Whether or not magical buildings (i.e., those summoned at the Wizard's Tower) are exempt from property taxes.",
+                I18n.Gmcm_Txs_Property_Exemptmagicalbuildings_Title,
+                I18n.Gmcm_Txs_Property_Exemptmagicalbuildings_Desc,
                 config => config.Taxes.ExemptMagicalBuilding,
                 (config, value) => config.Taxes.ExemptMagicalBuilding = value);
     }

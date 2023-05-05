@@ -14,6 +14,6 @@ public sealed class SteadfastEnchantment : BaseWeaponEnchantment
     /// <inheritdoc />
     public override string GetName()
     {
-        return I18n.Get("enchantments.steadfast.name");
+        return I18n.Enchantments_Steadfast_Name();
     }
 }

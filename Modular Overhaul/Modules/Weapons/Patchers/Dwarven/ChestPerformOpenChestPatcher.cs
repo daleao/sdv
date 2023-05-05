@@ -124,7 +124,7 @@ internal sealed class ChestPerformOpenChestPatcher : HarmonyPatcher
         player.holdUpItemThenMessage(new SObject(Globals.DwarvishBlueprintIndex.Value, 1));
         if (Context.IsMultiplayer)
         {
-            Broadcaster.SendPublicChat(I18n.Get("blueprint.found.global", new { who = player.Name }));
+            Broadcaster.SendPublicChat(I18n.Blueprint_Found_Global(player.Name));
         }
     }
 

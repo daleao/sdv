@@ -63,7 +63,7 @@ internal sealed class FarmerFoundArtifactPatcher : HarmonyPatcher
             __instance.holdUpItemThenMessage(new SObject(Globals.DwarvishBlueprintIndex.Value, 1));
             if (Context.IsMultiplayer)
             {
-                Broadcaster.SendPublicChat(I18n.Get("blueprint.found.global", new { who = __instance.Name }));
+                Broadcaster.SendPublicChat(I18n.Blueprint_Found_Global(__instance.Name));
             }
 
             return false; // don't run original logic

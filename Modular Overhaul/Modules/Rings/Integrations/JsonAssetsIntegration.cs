@@ -33,7 +33,7 @@ internal sealed class JsonAssetsIntegration : ModIntegration<JsonAssetsIntegrati
                 ? "VanillaTweaks"
                 : BetterRingsIntegration.Instance?.IsLoaded == true
                     ? "BetterRings" : "Vanilla";
-            this.ModApi.LoadAssets(Path.Combine(directory, subDir), I18n);
+            this.ModApi.LoadAssets(Path.Combine(directory, subDir), _I18n);
             this.ModApi.IdsAssigned += this.OnIdsAssigned;
             return true;
         }

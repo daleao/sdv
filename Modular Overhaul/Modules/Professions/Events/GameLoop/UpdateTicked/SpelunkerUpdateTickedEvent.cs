@@ -55,13 +55,13 @@ internal sealed class SpelunkerUpdateTickedEvent : UpdateTickedEvent
                 0,
                 1,
                 "Spelunker",
-                I18n.Get("spelunker.title" + (Game1.player.IsMale ? ".male" : ".female")))
+                _I18n.Get("spelunker.title" + (Game1.player.IsMale ? ".male" : ".female")))
             {
                 which = this._buffId,
                 sheetIndex = Profession.SpelunkerStreakSheetIndex,
                 millisecondsDuration = 0,
                 description =
-                    I18n.Get("spelunker.buff.desc", new { ladderChance, speed }),
+                    I18n.Spelunker_Buff_Desc(ladderChance, speed),
             });
     }
 }

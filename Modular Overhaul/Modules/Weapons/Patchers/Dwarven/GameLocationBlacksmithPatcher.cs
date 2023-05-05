@@ -109,7 +109,7 @@ internal sealed class GameLocationBlacksmithPatcher : HarmonyPatcher
 
         if (WeaponsModule.Config.DwarvenLegacy && Game1.player.mailReceived.Contains("clintForge"))
         {
-            responses.Add(new Response("Forge", I18n.Get("blacksmith.forge.option")));
+            responses.Add(new Response("Forge", I18n.Blacksmith_Forge_Option()));
         }
 
         responses.Add(new Response("Leave", Game1.content.LoadString("Strings\\Locations:Blacksmith_Clint_Leave")));

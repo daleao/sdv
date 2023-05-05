@@ -7,27 +7,26 @@ internal sealed partial class GenericModConfigMenu
     private void AddPondOptions()
     {
         this
-            .AddPage(OverhaulModule.Ponds.Namespace, () => "Pond Settings")
+            .AddPage(OverhaulModule.Ponds.Namespace, I18n.Gmcm_Pnds_Heading)
 
             .AddNumberField(
-                () => "Days Until Algae Spawn",
-                () => "The number of days until an empty pond will begin spawning algae.",
+                I18n.Gmcm_Pnds_Daysuntilalgaespawn_Title,
+                I18n.Gmcm_Pnds_Daysuntilalgaespawn_Desc,
                 config => (int)config.Ponds.DaysUntilAlgaeSpawn,
                 (config, value) => config.Ponds.DaysUntilAlgaeSpawn = (uint)value,
                 1,
                 5)
             .AddNumberField(
-                () => "Roe Production Chance Multiplier",
-                () => "Multiplies a fish's base chance to produce roe each day.",
+                I18n.Gmcm_Pnds_Roeproductionchancemultiplier_Title,
+                I18n.Gmcm_Pnds_Roeproductionchancemultiplier_Desc,
                 config => config.Ponds.RoeProductionChanceMultiplier,
                 (config, value) => config.Ponds.RoeProductionChanceMultiplier = value,
                 0.1f,
                 2f)
             .AddCheckbox(
-            () => "Roe Always Fish Quality",
-            () =>
-                "If true, then the quality of produced roe is always the same as the quality of the producing fish. If false, then the quality will be a random value less than or equal to that of the producing fish.",
-            config => config.Ponds.RoeAlwaysFishQuality,
-            (config, value) => config.Ponds.RoeAlwaysFishQuality = value);
+                I18n.Gmcm_Pnds_Roealwaysfishquality_Title,
+                I18n.Gmcm_Pnds_Roealwaysfishquality_Desc,
+                config => config.Ponds.RoeAlwaysFishQuality,
+                (config, value) => config.Ponds.RoeAlwaysFishQuality = value);
     }
 }

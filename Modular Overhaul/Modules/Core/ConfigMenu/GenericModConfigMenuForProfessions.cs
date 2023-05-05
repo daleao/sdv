@@ -16,23 +16,26 @@ internal sealed partial class GenericModConfigMenu
     private void AddProfessionOptions()
     {
         this
-            .AddPage(OverhaulModule.Professions.Namespace, () => "Profession Settings")
+            .AddPage(OverhaulModule.Professions.Namespace, I18n.Gmcm_Profs_Heading)
 
             // controls and ui settings
-            .AddSectionTitle(() => "Controls and UI Settings")
+            .AddSectionTitle(I18n.Gmcm_Controls_Heading)
             .AddKeyBinding(
-                () => "Mod Key",
-                () => "The key used by Prospector, Scavenger and Rascal professions to enable active effects.",
+                I18n.Gmcm_Controls_Modkey_Title,
+                I18n.Gmcm_Profs_Controls_Modkey_Desc,
                 config => config.Professions.ModKey,
                 (config, value) => config.Professions.ModKey = value)
+            .AddHorizontalRule()
+
+            .AddSectionTitle(I18n.Gmcm_Ui_Heading)
             .AddCheckbox(
-                () => "Show 'MAX' Icon in Fish Collection",
-                () => "Toggles whether or not to display the 'Max' icon below fish caught at max size.",
+                I18n.Gmcm_Profs_Ui_Showfishcollecionmaxicon_Title,
+                I18n.Gmcm_Profs_Ui_Showfishcollecionmaxicon_Desc,
                 config => config.Professions.ShowFishCollectionMaxIcon,
                 (config, value) => config.Professions.ShowFishCollectionMaxIcon = value)
             .AddNumberField(
-                () => "Tracking Pointer Scale",
-                () => "Changes the size of the pointer used to track objects by Prospector and Scavenger professions.",
+                I18n.Gmcm_Profs_Ui_Trackingpointerscale_Title,
+                I18n.Gmcm_Profs_Ui_Trackingpointerscale_Desc,
                 config => config.Professions.TrackingPointerScale,
                 (config, value) =>
                 {
@@ -46,12 +49,12 @@ internal sealed partial class GenericModConfigMenu
                 2f,
                 0.2f)
             .AddNumberField(
-                () => "Track Pointer Bobbing Rate",
-                () => "Changes the speed at which the tracking pointer bounces up and down (higher is faster).",
-                config => config.Professions.TrackingPointerBobbingRate,
+                I18n.Gmcm_Profs_Ui_Trackingpointerbobrate_Title,
+                I18n.Gmcm_Profs_Ui_Trackingpointerbobrate_Desc,
+                config => config.Professions.TrackingPointerBobRate,
                 (config, value) =>
                 {
-                    config.Professions.TrackingPointerBobbingRate = value;
+                    config.Professions.TrackingPointerBobRate = value;
                     if (HudPointer.Instance.IsValueCreated)
                     {
                         HudPointer.Instance.Value.BobRate = value;
@@ -61,130 +64,121 @@ internal sealed partial class GenericModConfigMenu
                 2f,
                 0.05f)
             .AddCheckbox(
-                () => "Disable Constant Tracking Arrows",
-                () => "If enabled, Prospector and Scavenger will only track off-screen objects while ModKey is held.",
+                I18n.Gmcm_Profs_Ui_Disablealwaystrack_Title,
+                I18n.Gmcm_Profs_Ui_Disablealwaystrack_Desc,
                 config => config.Professions.DisableAlwaysTrack,
                 (config, value) => config.Professions.DisableAlwaysTrack = value)
             .AddHorizontalRule()
 
             // professions
-            .AddSectionTitle(() => "Profession Settings")
+            .AddSectionTitle(I18n.Gmcm_Profs_Professions_Heading)
             .AddCheckbox(
-                () => "Should Junimos Inherit Professions",
-                () => "Whether Junimo harvesters should apply Harvester and Agriculturist perks.",
+                I18n.Gmcm_Profs_Shouldjunimosinheritprofessions_Title,
+                I18n.Gmcm_Profs_Shouldjunimosinheritprofessions_Desc,
                 config => config.Professions.ShouldJunimosInheritProfessions,
                 (config, value) => config.Professions.ShouldJunimosInheritProfessions = value)
             .AddCheckbox(
-                () => "Artisan Goods Always Input Quality",
-                () => "Enable this if you preferred the old broken Artisan perk without randomization.",
+                I18n.Gmcm_Profs_Laxownershiprequirements_Title,
+                I18n.Gmcm_Profs_Laxownershiprequirements_Desc,
+                config => config.Professions.LaxOwnershipRequirements,
+                (config, value) => config.Professions.LaxOwnershipRequirements = value)
+            .AddCheckbox(
+                I18n.Gmcm_Profs_Artisangoodsalwaysinputquality_Title,
+                I18n.Gmcm_Profs_Artisangoodsalwaysinputquality_Desc,
                 config => config.Professions.ArtisanGoodsAlwaysInputQuality,
                 (config, value) => config.Professions.ArtisanGoodsAlwaysInputQuality = value)
             .AddCheckbox(
-                () => "Bees Are Animals",
-                () => "Whether Bee House products should be affected by Producer bonuses.",
+                I18n.Gmcm_Profs_Beesareanimals_Title,
+                I18n.Gmcm_Profs_Beesareanimals_Desc,
                 config => config.Professions.BeesAreAnimals,
                 (config, value) => config.Professions.BeesAreAnimals = value)
             .AddNumberField(
-                () => "Forages Needed for Best Quality",
-                () => "Ecologists must forage this many items to reach iridium quality.",
+                I18n.Gmcm_Profs_Foragesneededforbestquality_Title,
+                I18n.Gmcm_Profs_Foragesneededforbestquality_Desc,
                 config => (int)config.Professions.ForagesNeededForBestQuality,
                 (config, value) => config.Professions.ForagesNeededForBestQuality = (uint)value,
                 0,
                 1000,
                 10)
             .AddNumberField(
-                () => "Minerals Needed for Best Quality",
-                () => "Gemologists must mine this many minerals to reach iridium quality.",
+                I18n.Gmcm_Profs_Mineralsneededforbestquality_Title,
+                I18n.Gmcm_Profs_Mineralsneededforbestquality_Desc,
                 config => (int)config.Professions.MineralsNeededForBestQuality,
                 (config, value) => config.Professions.MineralsNeededForBestQuality = (uint)value,
                 0,
                 1000,
-                10);
-
-        if (ModHelper.ModRegistry.IsLoaded("Pathoschild.Automate"))
-        {
-            this.AddCheckbox(
-                () => "Lax Ownership Requirements",
-                () =>
-                    "If enabled, machine and building ownerhsip will be ignored when determining whether to apply certain profession bonuses.",
-                config => config.Professions.LaxOwnershipRequirements,
-                (config, value) => config.Professions.LaxOwnershipRequirements = value);
-        }
-
-        this
+                10)
+            .AddCheckbox(
+                I18n.Gmcm_Profs_Crystalariumsupgradewithgemologist_Title,
+                I18n.Gmcm_Profs_Crystalariumsupgradewithgemologist_Desc,
+                config => config.Professions.CrystalariumsUpgradeWithGemologist,
+                (config, value) => config.Professions.CrystalariumsUpgradeWithGemologist = value)
             .AddNumberField(
-                () => "Chance to Start Treasure Hunt",
-                () => "The chance that your Scavenger or Prospector hunt senses will start tingling.",
+                I18n.Gmcm_Profs_Chancetostarttreasurehunt_Title,
+                I18n.Gmcm_Profs_Chancetostarttreasurehunt_Desc,
                 config => (float)config.Professions.ChanceToStartTreasureHunt,
                 (config, value) => config.Professions.ChanceToStartTreasureHunt = value,
                 0f,
                 1f,
                 0.05f)
             .AddCheckbox(
-                () => "Allow Scavenger Hunts on Farm",
-                () => "Whether a Scavenger Hunt can trigger while entering a farm map.",
+                I18n.Gmcm_Profs_Allowscavengerhuntsonfarm_Title,
+                I18n.Gmcm_Profs_Allowscavengerhuntsonfarm_Desc,
                 config => config.Professions.AllowScavengerHuntsOnFarm,
                 (config, value) => config.Professions.AllowScavengerHuntsOnFarm = value)
             .AddNumberField(
-                () => "Scavenger Hunt Handicap",
-                () => "Increase this number if you find that Scavenger hunts end too quickly.",
+                I18n.Gmcm_Profs_Scavengerhunthandicap_Title,
+                I18n.Gmcm_Profs_Scavengerhunthandicap_Desc,
                 config => config.Professions.ScavengerHuntHandicap,
                 (config, value) => config.Professions.ScavengerHuntHandicap = value,
                 1f,
                 3f,
                 0.2f)
             .AddNumberField(
-                () => "Prospector Hunt Handicap",
-                () => "Increase this number if you find that Prospector hunts end too quickly.",
+                I18n.Gmcm_Profs_Prospectorhunthandicap_Title,
+                I18n.Gmcm_Profs_Prospectorhunthandicap_Desc,
                 config => config.Professions.ProspectorHuntHandicap,
                 (config, value) => config.Professions.ProspectorHuntHandicap = value,
                 1f,
                 3f,
                 0.2f)
             .AddNumberField(
-                () => "Treasure Detection Distance",
-                () => "How close you must be to the treasure tile to reveal it's location, in tiles.",
+                I18n.Gmcm_Profs_Shouldjunimosinheritprofessions_Title,
+                I18n.Gmcm_Profs_Shouldjunimosinheritprofessions_Desc,
                 config => config.Professions.TreasureDetectionDistance,
                 (config, value) => config.Professions.TreasureDetectionDistance = value,
                 1f,
                 10f,
                 0.5f)
             .AddNumberField(
-                () => "Spelunker Speed Ceiling",
-                () => "The maximum speed a Spelunker can reach in the mines.",
+                I18n.Gmcm_Profs_Spelunkerspeedceiling_Title,
+                I18n.Gmcm_Profs_Spelunkerspeedceiling_Desc,
                 config => (int)config.Professions.SpelunkerSpeedCeiling,
                 (config, value) => config.Professions.SpelunkerSpeedCeiling = (uint)value,
                 1,
                 10)
             .AddCheckbox(
-                () => "Enable 'Get Excited' buff",
-                () => "Toggles the 'Get Excited' buff when a Demolitionist is hit by an explosion.",
+                I18n.Gmcm_Profs_Enablegetexcited_Title,
+                I18n.Gmcm_Profs_Enablegetexcited_Desc,
                 config => config.Professions.EnableGetExcited,
                 (config, value) => config.Professions.EnableGetExcited = value)
-            .AddCheckbox(
-                () => "Crystalariums Upgrade With Gemologist",
-                () => "Whether or not to increase the quality of active Crystalarium held minerals when the owner Gemologist receives a quality boost.",
-                config => config.Professions.CrystalariumsUpgradeWithGemologist,
-                (config, value) => config.Professions.CrystalariumsUpgradeWithGemologist = value)
             .AddNumberField(
-                () => "Angler Price Bonus Ceiling",
-                () =>
-                    "If multiple new fish mods are installed, you may want to adjust this to a sensible value. Limits the price multiplier for fish sold by Angler.",
+                I18n.Gmcm_Profs_Anglerpricebonusceiling_Title,
+                I18n.Gmcm_Profs_Anglerpricebonusceiling_Desc,
                 config => config.Professions.AnglerPriceBonusCeiling,
                 (config, value) => config.Professions.AnglerPriceBonusCeiling = value,
                 0.5f,
                 2f)
             .AddNumberField(
-                () => "Aquarist Fish Pond Ceiling",
-                () =>
-                    "If you like raising dozen of fish species, you may use this limit how easy the fishing minigame will become.",
+                I18n.Gmcm_Profs_Aquaristfishpondceiling_Title,
+                I18n.Gmcm_Profs_Aquaristfishpondceiling_Desc,
                 config => config.Professions.AquaristFishPondCeiling,
                 (config, value) => config.Professions.AquaristFishPondCeiling = value,
                 0.5f,
                 2f)
             .AddNumberField(
-                () => "Legendary Pond Population Ceiling",
-                () => "The maximum population of Aquarist Fish Ponds with legendary fish.",
+                I18n.Gmcm_Profs_Legendarypondpopulationceiling_Title,
+                I18n.Gmcm_Profs_Legendarypondpopulationceiling_Desc,
                 config => (int)config.Professions.LegendaryPondPopulationCeiling,
                 (config, value) =>
                 {
@@ -209,139 +203,149 @@ internal sealed partial class GenericModConfigMenu
                 4,
                 12)
             .AddNumberField(
-                () => "Trash Per Tax Deduction %",
-                () => "Conservationists must collect this much trash for every 1% tax deduction the following season.",
+                I18n.Gmcm_Profs_Trashpertaxdeduction_Title,
+                I18n.Gmcm_Profs_Trashpertaxdeduction_Desc,
                 config => (int)config.Professions.TrashNeededPerTaxDeductionPct,
                 (config, value) => config.Professions.TrashNeededPerTaxDeductionPct = (uint)value,
                 10,
                 1000)
             .AddNumberField(
-                () => "Trash Per Friendship Point",
-                () => "Conservationists must collect this much trash for every 1 friendship point towards villagers.",
+                I18n.Gmcm_Profs_Trashperfriendshippoint_Title,
+                I18n.Gmcm_Profs_Trashperfriendshippoint_Desc,
                 config => (int)config.Professions.TrashNeededPerFriendshipPoint,
                 (config, value) => config.Professions.TrashNeededPerFriendshipPoint = (uint)value,
                 10,
                 1000)
             .AddNumberField(
-                () => "Tax Deduction Ceiling",
-                () => "The maximum tax deduction allowed by the Ferngill Revenue Service.",
+                I18n.Gmcm_Profs_Taxdeductionceiling_Title,
+                I18n.Gmcm_Profs_Taxdeductionceiling_Desc,
                 config => config.Professions.ConservationistTaxBonusCeiling,
                 (config, value) => config.Professions.ConservationistTaxBonusCeiling = value,
                 0f,
                 1f,
                 0.05f)
             .AddNumberField(
-                () => "Piper Buff Ceiling",
-                () => "The maximum stack that can be gained for each buff stat.",
+                I18n.Gmcm_Profs_Piperbuffceiling_Title,
+                I18n.Gmcm_Profs_Piperbuffceiling_Desc,
                 config => (int)config.Professions.PiperBuffCeiling,
                 (config, value) => config.Professions.PiperBuffCeiling = (uint)value,
                 10,
                 1000)
             .AddHorizontalRule()
 
-            // ultimates
-            .AddSectionTitle(() => "Limit Break Settings")
+            // limit breaks
+            .AddSectionTitle(I18n.Gmcm_Profs_Limit_Heading)
             .AddCheckbox(
-                () => "Enable Limit Breaks",
-                () => "Must be enabled to allow using Limit Breaks.",
+                I18n.Gmcm_Profs_Limit_Enable_Title,
+                I18n.Gmcm_Profs_Limit_Enable_Desc,
                 config => config.Professions.EnableLimitBreaks,
                 (config, value) => config.Professions.EnableLimitBreaks = value)
-            .AddKeyBinding(
-                () => "Activation Key",
-                () => "The key used to activate the Limit Break.",
-                config => config.Professions.LimitBreakKey,
-                (config, value) => config.Professions.LimitBreakKey = value)
             .AddCheckbox(
-                () => "Hold-To-Activate",
-                () => "If enabled, the Limit Break will be activated only by holding the key for a short interval.",
+                I18n.Gmcm_Profs_Limit_Holdtoactivate_Title,
+                I18n.Gmcm_Profs_Limit_Holdtoactivate_Desc,
                 config => config.Professions.HoldKeyToLimitBreak,
                 (config, value) => config.Professions.HoldKeyToLimitBreak = value)
+            .AddKeyBinding(
+                I18n.Gmcm_Profs_Limit_Activationkey_Title,
+                I18n.Gmcm_Profs_Limit_Activationkey_Desc,
+                config => config.Professions.LimitBreakKey,
+                (config, value) => config.Professions.LimitBreakKey = value)
             .AddNumberField(
-                () => "Activation Delay",
-                () => "How long the key should be held before the Limit Break is activated, in seconds.",
+                I18n.Gmcm_Profs_Limit_Activationdelay_Title,
+                I18n.Gmcm_Profs_Limit_Activationdelay_Desc,
                 config => config.Professions.LimitBreakHoldDelaySeconds,
                 (config, value) => config.Professions.LimitBreakHoldDelaySeconds = value,
                 0f,
                 3f,
                 0.2f)
             .AddNumberField(
-                () => "Gain Factor",
-                () =>
-                    "Affects the rate at which one builds the Limit Break gauge. Increase this if you feel the gauge raises too slowly.",
+                I18n.Gmcm_Profs_Limit_Gainfactor_Title,
+                I18n.Gmcm_Profs_Limit_Gainfactor_Desc,
                 config => (float)config.Professions.LimitGainFactor,
                 (config, value) => config.Professions.LimitGainFactor = value,
                 0.1f,
                 2f)
             .AddNumberField(
-                () => "Drain Factor",
-                () =>
-                    "Affects the rate at which the Limit Break gauge depletes during Ultimate. Lower numbers make Ultimate last longer.",
+                I18n.Gmcm_Profs_Limit_Drainfactor_Title,
+                I18n.Gmcm_Profs_Limit_Drainfactor_Desc,
                 config => (float)config.Professions.LimitDrainFactor,
                 (config, value) => config.Professions.LimitDrainFactor = value,
                 0.5f,
                 2f)
             .AddNumberField(
-                () => "Cost of Limit Break Respec",
-                () => "Monetary cost of changing the chosen Limit Break. Set to 0 to change for free.",
+                I18n.Gmcm_Profs_Limit_Respectcost_Title,
+                I18n.Gmcm_Profs_Limit_Respectcost_Desc,
                 config => (int)config.Professions.LimitRespecCost,
                 (config, value) => config.Professions.LimitRespecCost = (uint)value,
                 0,
                 100000,
                 10000)
+            .AddNumberField(
+                I18n.Gmcm_Profs_Limit_Gaugexoffset_Title,
+                I18n.Gmcm_Profs_Limit_Gaugeoffset_Desc,
+                config => config.Professions.LimitGaugeXOffset,
+                (config, value) => config.Professions.LimitGaugeXOffset = value,
+                -3000,
+                0)
+            .AddNumberField(
+                I18n.Gmcm_Profs_Limit_Gaugeyoffset_Title,
+                I18n.Gmcm_Profs_Limit_Gaugeoffset_Desc,
+                config => config.Professions.LimitGaugeYOffset,
+                (config, value) => config.Professions.LimitGaugeYOffset = value,
+                -1500,
+                0)
             .AddHorizontalRule()
 
             // prestige
-            .AddSectionTitle(() => "Prestige Settings")
+            .AddSectionTitle(I18n.Gmcm_Profs_Prestige_Heading)
             .AddCheckbox(
-                () => "Enable Prestige",
-                () => "Must be enabled to allow all prestige modifications.",
+                I18n.Gmcm_Profs_Prestige_Enable_Title,
+                I18n.Gmcm_Profs_Prestige_Enable_Desc,
                 config => config.Professions.EnablePrestige,
                 (config, value) => config.Professions.EnablePrestige = value)
             .AddNumberField(
-                () => "Skill Reset Cost Multiplier",
-                () =>
-                    "Multiplies the base cost reseting a skill at the Statue of Prestige. Set to 0 to reset for free.",
+                I18n.Gmcm_Profs_Prestige_Skillresetcostmultiplier_Title,
+                I18n.Gmcm_Profs_Prestige_Skillresetcostmultiplier_Desc,
                 config => config.Professions.SkillResetCostMultiplier,
                 (config, value) => config.Professions.SkillResetCostMultiplier = value,
                 0f,
                 2f)
             .AddCheckbox(
-                () => "Forget Recipes on Skill Reset",
-                () => "Disable this to keep all skill recipes upon skill reseting.",
+                I18n.Gmcm_Profs_Prestige_Forgetrecipes_Title,
+                I18n.Gmcm_Profs_Prestige_Forgetrecipes_Desc,
                 config => config.Professions.ForgetRecipes,
                 (config, value) => config.Professions.ForgetRecipes = value)
             .AddCheckbox(
-                () => "Allow Multiple Prestiges Per Day",
-                () => "Whether the player can use the Statue of Prestige more than once in a day.",
+                I18n.Gmcm_Profs_Prestige_Allowmultipleprestige_Title,
+                I18n.Gmcm_Profs_Prestige_Allowmultipleprestige_Desc,
                 config => config.Professions.AllowMultiplePrestige,
                 (config, value) => config.Professions.AllowMultiplePrestige = value)
             .AddNumberField(
-                () => "Bonus Skill Exp After Reset",
-                () => "Cumulative bonus that multiplies a skill's experience gain after each respective skill reset.",
-                config => config.Professions.PrestigeExpFactor,
-                (config, value) => config.Professions.PrestigeExpFactor = value,
+                I18n.Gmcm_Profs_Prestige_Expmultiplier_Title,
+                I18n.Gmcm_Profs_Prestige_Expmultiplier_Desc,
+                config => config.Professions.PrestigeExpMultiplier,
+                (config, value) => config.Professions.PrestigeExpMultiplier = value,
                 -0.5f,
                 2f)
             .AddNumberField(
-                () => "Required Exp Per Prestige Level",
-                () => "How much skill experience is required for each level-up beyond level 10.",
+                I18n.Gmcm_Profs_Prestige_Requiredexpperextendedlevel_Title,
+                I18n.Gmcm_Profs_Prestige_Requiredexpperextendedlevel_Desc,
                 config => (int)config.Professions.RequiredExpPerExtendedLevel,
                 (config, value) => config.Professions.RequiredExpPerExtendedLevel = (uint)value,
                 1000,
                 10000,
                 500)
             .AddNumberField(
-                () => "Cost of Prestige Respec",
-                () =>
-                    "Monetary cost of respecing prestige profession choices for a skill. Set to 0 to respec for free.",
+                I18n.Gmcm_Profs_Prestige_Respeccost_Title,
+                I18n.Gmcm_Profs_Prestige_Respeccost_Desc,
                 config => (int)config.Professions.PrestigeRespecCost,
                 (config, value) => config.Professions.PrestigeRespecCost = (uint)value,
                 0,
                 100000,
                 10000)
             .AddDropdown(
-                () => "Progression Style",
-                () => "Determines the style of the sprite that appears next to skill bars, and indicates the skill reset progression.",
+                I18n.Gmcm_Profs_Prestige_Progressionstyle_Title,
+                I18n.Gmcm_Profs_Prestige_Progressionstyle_Desc,
                 config => config.Professions.ProgressionStyle.ToString(),
                 (config, value) =>
                 {
@@ -350,48 +354,42 @@ internal sealed partial class GenericModConfigMenu
                         $"{Manifest.UniqueID}/PrestigeProgression");
                 },
                 new[] { "StackedStars", "Gen3Ribbons", "Gen4Ribbons" },
-                value => value switch
-                {
-                    "StackedStars" => "Stacked Stars",
-                    "Gen3Ribbons" => "Gen 3 Ribbons",
-                    "Gen4Ribbons" => "Gen 4 Ribbons",
-                    _ => ThrowHelper.ThrowArgumentOutOfRangeException<string>(nameof(value), value, null),
-                })
+                value => _I18n.Get("gmcm.profs.prestige.progressionstyle." + value.ToLowerInvariant()))
             .AddHorizontalRule()
 
             // experience settings
-            .AddSectionTitle(() => "Experience Settings")
+            .AddSectionTitle(I18n.Gmcm_Profs_Experience_Heading)
             .AddNumberField(
-                () => "Base Farming Exp Multiplier",
-                () => "Multiplies all skill experience gained for Farming from the start of the game.",
+                () => I18n.Gmcm_Profs_Experience_Baseexpmultiplier_Title("Farming"),
+                () => I18n.Gmcm_Profs_Experience_Baseexpmultiplier_Desc("farming"),
                 config => config.Professions.BaseSkillExpMultipliers[0],
                 (config, value) => config.Professions.BaseSkillExpMultipliers[0] = value,
                 0.2f,
                 2f)
             .AddNumberField(
-                () => "Base Fishing Exp Multiplier",
-                () => "Multiplies all skill experience gained for Fishing from the start of the game.",
+                () => I18n.Gmcm_Profs_Experience_Baseexpmultiplier_Title("Fishing"),
+                () => I18n.Gmcm_Profs_Experience_Baseexpmultiplier_Desc("fishing"),
                 config => config.Professions.BaseSkillExpMultipliers[1],
                 (config, value) => config.Professions.BaseSkillExpMultipliers[1] = value,
                 0.2f,
                 2f)
             .AddNumberField(
-                () => "Base Foraging Exp Multiplier",
-                () => "Multiplies all skill experience gained for Foraging from the start of the game.",
+                () => I18n.Gmcm_Profs_Experience_Baseexpmultiplier_Title("Foraging"),
+                () => I18n.Gmcm_Profs_Experience_Baseexpmultiplier_Desc("foraging"),
                 config => config.Professions.BaseSkillExpMultipliers[2],
                 (config, value) => config.Professions.BaseSkillExpMultipliers[2] = value,
                 0.2f,
                 2f)
             .AddNumberField(
-                () => "Base Mining Exp Multiplier",
-                () => "Multiplies all skill experience gained for Mining the start of the game.",
+                () => I18n.Gmcm_Profs_Experience_Baseexpmultiplier_Title("Mining"),
+                () => I18n.Gmcm_Profs_Experience_Baseexpmultiplier_Desc("mining"),
                 config => config.Professions.BaseSkillExpMultipliers[3],
                 (config, value) => config.Professions.BaseSkillExpMultipliers[3] = value,
                 0.2f,
                 2f)
             .AddNumberField(
-                () => "Base Combat Exp Multiplier",
-                () => "Multiplies all skill experience gained for Combat from the start of the game.",
+                () => I18n.Gmcm_Profs_Experience_Baseexpmultiplier_Title("Combat"),
+                () => I18n.Gmcm_Profs_Experience_Baseexpmultiplier_Desc("combat"),
                 config => config.Professions.BaseSkillExpMultipliers[4],
                 (config, value) => config.Professions.BaseSkillExpMultipliers[4] = value,
                 0.2f,
@@ -399,16 +397,15 @@ internal sealed partial class GenericModConfigMenu
 
         foreach (var (skillId, _) in ProfessionsModule.Config.CustomSkillExpMultipliers)
         {
-            if (!SCSkill.Loaded.ContainsKey(skillId))
+            if (!SCSkill.Loaded.TryGetValue(skillId, out var skill))
             {
                 continue;
             }
 
-            var skill = SCSkill.Loaded[skillId];
             this
                 .AddNumberField(
-                    () => $"Base {skill.DisplayName} Exp Multiplier",
-                    () => $"Multiplies all skill experience gained for {skill.StringId} from the start of the game.",
+                    () => I18n.Gmcm_Profs_Experience_Baseexpmultiplier_Title(skill.DisplayName),
+                    () => I18n.Gmcm_Profs_Experience_Baseexpmultiplier_Desc(skill.DisplayName.ToLowerInvariant()),
                     config => config.Professions.CustomSkillExpMultipliers[skillId],
                     (config, value) => config.Professions.CustomSkillExpMultipliers[skillId] = value,
                     0.2f,

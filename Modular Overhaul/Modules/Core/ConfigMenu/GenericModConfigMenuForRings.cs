@@ -17,7 +17,7 @@ internal sealed partial class GenericModConfigMenu
     private void AddRingOptions()
     {
         this
-            .AddPage(OverhaulModule.Rings.Namespace, () => "Ring Settings")
+            .AddPage(OverhaulModule.Rings.Namespace, I18n.Gmcm_Rngs_Heading)
 
             .AddCheckbox(
                 () => "Rebalanced Rings",

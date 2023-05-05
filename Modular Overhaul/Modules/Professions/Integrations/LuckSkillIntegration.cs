@@ -17,11 +17,17 @@ internal sealed class LuckSkillIntegration : ModIntegration<LuckSkillIntegration
     {
     }
 
+    /// <inheritdoc />
+    protected override bool RegisterImpl()
+    {
+        this.LoadLuckSkill();
+        return base.RegisterImpl();
+    }
+
     /// <summary>Instantiates and caches the <see cref="LuckSkill"/> instance.</summary>
-    internal void LoadLuckSkill()
+    private void LoadLuckSkill()
     {
         this.AssertLoaded();
-
         if (LuckSkill.Instance is not null)
         {
             return;

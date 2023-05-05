@@ -382,7 +382,7 @@ internal sealed class GameLocationDamageMonsterPatcher : HarmonyPatcher
                     applied[11],
                     3,
                     "Piper",
-                    I18n.Get("piper.title" + (who.IsMale ? ".male" : ".female")))
+                    _I18n.Get("piper.title" + (who.IsMale ? ".male" : ".female")))
                 {
                     which = buffId,
                     sheetIndex = 38,

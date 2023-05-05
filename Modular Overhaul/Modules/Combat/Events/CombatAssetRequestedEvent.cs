@@ -31,7 +31,7 @@ internal sealed class CombatAssetRequestedEvent : AssetRequestedEvent
         }
 
         var data = asset.AsDictionary<string, string>().Data;
-        data["Buff.cs.465"] = I18n.Get("ui.buffs.jinxed");
+        data["Buff.cs.465"] = I18n.Ui_Buffs_Jinxed();
     }
 
     #endregion editor callbacks

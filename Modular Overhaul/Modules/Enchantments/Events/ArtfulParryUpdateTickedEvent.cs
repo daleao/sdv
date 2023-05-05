@@ -53,12 +53,12 @@ internal sealed class ArtfulParryUpdateTickedEvent : UpdateTickedEvent
                 0,
                 1,
                 "Artful",
-                I18n.Get("enchantments.artful.name"))
+                I18n.Enchantments_Artful_Name())
             {
                 which = BuffId,
                 sheetIndex = 20,
                 millisecondsDuration = 0,
-                description = I18n.Get("enchantments.artful.parry"),
+                description = I18n.Enchantments_Artful_Parry(),
             });
     }
 }

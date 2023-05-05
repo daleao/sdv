@@ -77,7 +77,7 @@ internal sealed class WeaponAssetRequestedEvent : AssetRequestedEvent
         }
 
         var data = asset.AsDictionary<string, string>().Data;
-        data["144701/f Clint 1500/p Clint"] = I18n.Get("events.forge.intro");
+        data["144701/f Clint 1500/p Clint"] = I18n.Events_Forge_Intro();
     }
 
     /// <summary>Patches custom Gil dialogue.</summary>
@@ -86,7 +86,7 @@ internal sealed class WeaponAssetRequestedEvent : AssetRequestedEvent
         var data = asset.AsDictionary<string, string>().Data;
         data[StardewValleyExpandedIntegration.Instance?.IsLoaded == true
                 ? "Snoring"
-                : "ComeBackLater"] = I18n.Get("dialogue.gil.virtues");
+                : "ComeBackLater"] = I18n.Dialogue_Gil_Virtues();
     }
 
     /// <summary>Edits location string data with custom legendary sword rhyme.</summary>
@@ -98,15 +98,15 @@ internal sealed class WeaponAssetRequestedEvent : AssetRequestedEvent
         }
 
         var data = asset.AsDictionary<string, string>().Data;
-        data["Town_DwarfGrave_Translated"] = I18n.Get("locations.Town.DwarfGrave.Translated");
-        data["SeedShop_Yoba"] = I18n.Get("locations.SeedShop.Yoba");
+        data["Town_DwarfGrave_Translated"] = I18n.Locations_Town_DwarfGrave_Translated();
+        data["SeedShop_Yoba"] = I18n.Locations_SeedShop_Yoba();
     }
 
     /// <summary>Patches mail data with mail from the Ferngill Revenue Service.</summary>
     private static void EditMailData(IAssetData asset)
     {
         var data = asset.AsDictionary<string, string>().Data;
-        data["viegoCurse"] = I18n.Get("mail.curse.intro");
+        data["viegoCurse"] = I18n.Mail_Curse_Intro();
     }
 
     /// <summary>Edits monsters data for ancient weapon crafting materials.</summary>
@@ -147,7 +147,7 @@ internal sealed class WeaponAssetRequestedEvent : AssetRequestedEvent
 
         // edit galaxy soul description
         var fields = data[ItemIDs.GalaxySoul].Split('/');
-        fields[5] = I18n.Get("objects.galaxysoul.desc");
+        fields[5] = I18n.Objects_Galaxysoul_Desc();
         data[ItemIDs.GalaxySoul] = string.Join('/', fields);
     }
 
@@ -177,10 +177,10 @@ internal sealed class WeaponAssetRequestedEvent : AssetRequestedEvent
         }
 
         var data = asset.AsDictionary<int, string>().Data;
-        data[(int)Quest.ForgeIntro] = I18n.Get("quests.forge.intro");
-        data[(int)Quest.ForgeNext] = I18n.Get("quests.forge.next");
-        data[(int)Quest.CurseIntro] = I18n.Get("quests.hero.curse");
-        data[(int)Quest.HeroReward] = I18n.Get("quests.hero.reward");
+        data[(int)Quest.ForgeIntro] = I18n.Quests_Forge_Intro();
+        data[(int)Quest.ForgeNext] = I18n.Quests_Forge_Next();
+        data[(int)Quest.CurseIntro] = I18n.Quests_Hero_Curse();
+        data[(int)Quest.HeroReward] = I18n.Quests_Hero_Reward();
     }
 
     /// <summary>Edits Marlon's Galaxy Sword event in SVE, removing references to purchasable Galaxy weapons.</summary>
@@ -189,7 +189,7 @@ internal sealed class WeaponAssetRequestedEvent : AssetRequestedEvent
         var data = asset.AsDictionary<string, string>().Data;
         if (data.ContainsKey("1337098") && WeaponsModule.Config.InfinityPlusOne)
         {
-            data["1337098"] = I18n.Get("events.1337098.nopurchase");
+            data["1337098"] = I18n.Events_1337098_Nopurchase();
         }
     }
 
@@ -231,12 +231,12 @@ internal sealed class WeaponAssetRequestedEvent : AssetRequestedEvent
                 switch (key)
                 {
                     case ItemIDs.DarkSword:
-                        fields[Name] = I18n.Get("weapons.darksword.name");
-                        fields[Description] = I18n.Get("weapons.darksword.desc");
+                        fields[Name] = I18n.Weapons_Darksword_Name();
+                        fields[Description] = I18n.Weapons_Darksword_Desc();
                         break;
                     case ItemIDs.HolyBlade:
-                        fields[Name] = I18n.Get("weapons.holyblade.name");
-                        fields[Description] = I18n.Get("weapons.holyblade.desc");
+                        fields[Name] = I18n.Weapons_Holyblade_Name();
+                        fields[Description] = I18n.Weapons_Holyblade_Desc();
                         break;
                 }
             }
@@ -302,8 +302,8 @@ internal sealed class WeaponAssetRequestedEvent : AssetRequestedEvent
 
         var data = asset.AsDictionary<string, string>().Data;
         data["144703/n viegoCurse/p Wizard"] = StardewValleyExpandedIntegration.Instance?.IsLoaded == true
-                ? I18n.Get("events.curse.intro.sve")
-                : I18n.Get("events.curse.intro");
+                ? I18n.Events_Curse_Intro_Sve()
+                : I18n.Events_Curse_Intro();
     }
 
     #endregion editor callbacks
@@ -532,7 +532,7 @@ internal sealed class WeaponAssetRequestedEvent : AssetRequestedEvent
 
             // UNIQUE SWORDS
             case ItemIDs.ObsidianEdge:
-                fields[Description] = I18n.Get("weapons.obsidianedge.desc");
+                fields[Description] = I18n.Weapons_Obsidianedge_Desc();
                 fields[MinDamage] = 70.ToString();
                 fields[MaxDamage] = 95.ToString();
                 fields[Knockback] = 0.7.ToString(CultureInfo.InvariantCulture);
@@ -546,7 +546,7 @@ internal sealed class WeaponAssetRequestedEvent : AssetRequestedEvent
                 fields[CritPower] = 2.5.ToString(CultureInfo.InvariantCulture);
                 break;
             case ItemIDs.LavaKatana:
-                fields[Description] += I18n.Get("weapons.lavakatana.extradesc");
+                fields[Description] += I18n.Weapons_Lavakatana_Extradesc();
                 fields[MinDamage] = 95.ToString();
                 fields[MaxDamage] = 110.ToString();
                 fields[Knockback] = 0.4.ToString(CultureInfo.InvariantCulture);
@@ -560,7 +560,7 @@ internal sealed class WeaponAssetRequestedEvent : AssetRequestedEvent
                 fields[CritPower] = 3.ToString(CultureInfo.InvariantCulture);
                 break;
             case ItemIDs.NeptuneGlaive:
-                fields[Description] = I18n.Get("weapons.neptuneglaive.desc");
+                fields[Description] = I18n.Weapons_Neptuneglaive_Desc();
                 fields[MinDamage] = 90.ToString();
                 fields[MaxDamage] = 120.ToString();
                 fields[Knockback] = 0.5.ToString(CultureInfo.InvariantCulture);
@@ -574,7 +574,7 @@ internal sealed class WeaponAssetRequestedEvent : AssetRequestedEvent
                 fields[CritPower] = 2.0.ToString(CultureInfo.InvariantCulture);
                 break;
             case ItemIDs.YetiTooth:
-                fields[Description] += I18n.Get("weapons.yetitooth.extradesc");
+                fields[Description] += I18n.Weapons_Yetitooth_Extradesc();
                 fields[MinDamage] = 33.ToString();
                 fields[MaxDamage] = 44.ToString();
                 fields[Knockback] = 0.6.ToString(CultureInfo.InvariantCulture);
@@ -589,8 +589,8 @@ internal sealed class WeaponAssetRequestedEvent : AssetRequestedEvent
 
             // BIS SWORDS
             case ItemIDs.DarkSword:
-                fields[Name] = I18n.Get("weapons.darksword.name");
-                fields[Description] = I18n.Get("weapons.darksword.desc");
+                fields[Name] = I18n.Weapons_Darksword_Name();
+                fields[Description] = I18n.Weapons_Darksword_Desc();
                 fields[MinDamage] = 100.ToString();
                 fields[MaxDamage] = 140.ToString();
                 fields[Knockback] = 0.5.ToString(CultureInfo.InvariantCulture);
@@ -602,8 +602,8 @@ internal sealed class WeaponAssetRequestedEvent : AssetRequestedEvent
                 fields[CritPower] = 2.0.ToString(CultureInfo.InvariantCulture);
                 break;
             case ItemIDs.HolyBlade:
-                fields[Name] = I18n.Get("weapons.holyblade.name");
-                fields[Description] = I18n.Get("weapons.holyblade.desc");
+                fields[Name] = I18n.Weapons_Holyblade_Name();
+                fields[Description] = I18n.Weapons_Holyblade_Desc();
                 fields[MinDamage] = 120.ToString();
                 fields[MaxDamage] = 160.ToString();
                 fields[Knockback] = 0.55.ToString(CultureInfo.InvariantCulture);
@@ -812,7 +812,7 @@ internal sealed class WeaponAssetRequestedEvent : AssetRequestedEvent
 
             // UNIQUE DAGGERS
             case ItemIDs.InsectHead:
-                fields[Description] += I18n.Get("weapons.insecthead.extradesc");
+                fields[Description] += I18n.Weapons_Insecthead_Extradesc();
                 fields[MinDamage] = 1.ToString();
                 fields[MaxDamage] = 3.ToString();
                 fields[Knockback] = 0.15.ToString(CultureInfo.InvariantCulture);
@@ -881,7 +881,7 @@ internal sealed class WeaponAssetRequestedEvent : AssetRequestedEvent
                 fields[CritPower] = 1.8.ToString(CultureInfo.InvariantCulture);
                 break;
             case ItemIDs.IridiumNeedle:
-                fields[Description] += I18n.Get("weapons.iridiumneedle.extradesc");
+                fields[Description] += I18n.Weapons_Iridiumneedle_Extradesc();
                 fields[MinDamage] = 68.ToString();
                 fields[MaxDamage] = 80.ToString();
                 fields[Knockback] = 0.1.ToString(CultureInfo.InvariantCulture);

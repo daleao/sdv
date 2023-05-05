@@ -2,10 +2,10 @@
 
 #region using directives
 
-using Integrations;
+using DaLion.Overhaul.Modules.Tools.Integrations;
+using DaLion.Shared.Extensions.Xna;
 using Microsoft.Xna.Framework;
 using NetEscapades.EnumGenerators;
-using Shared.Extensions.Xna;
 
 #endregion using directives
 

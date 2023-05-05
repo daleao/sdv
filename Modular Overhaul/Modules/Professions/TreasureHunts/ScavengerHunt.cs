@@ -51,8 +51,8 @@ internal sealed class ScavengerHunt : TreasureHunt
     internal ScavengerHunt()
         : base(
             TreasureHuntType.Scavenger,
-            I18n.Get("scavenger.huntstarted"),
-            I18n.Get("scavenger.huntfailed"),
+            I18n.Scavenger_Huntstarted(),
+            I18n.Scavenger_Huntfailed(),
             new Rectangle(80, 656, 16, 16))
     {
     }

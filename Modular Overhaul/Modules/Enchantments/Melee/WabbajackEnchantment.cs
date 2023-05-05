@@ -37,7 +37,7 @@ public sealed class WabbajackEnchantment : BaseWeaponEnchantment
     /// <inheritdoc />
     public override string GetName()
     {
-        return I18n.Get("enchantments.wabbajack.name");
+        return I18n.Enchantments_Wabbajack_Name();
     }
 
     /// <inheritdoc />

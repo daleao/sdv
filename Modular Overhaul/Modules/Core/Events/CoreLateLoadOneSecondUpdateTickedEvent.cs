@@ -10,17 +10,15 @@ using StardewValley.Menus;
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class CoreOneSecondUpdateTickedEvent : OneSecondUpdateTickedEvent
+[AlwaysEnabledEvent]
+internal sealed class CoreLateLoadOneSecondUpdateTickedEvent : OneSecondUpdateTickedEvent
 {
-    /// <summary>Initializes a new instance of the <see cref="CoreOneSecondUpdateTickedEvent"/> class.</summary>
+    /// <summary>Initializes a new instance of the <see cref="CoreLateLoadOneSecondUpdateTickedEvent"/> class.</summary>
     /// <param name="manager">The <see cref="EventManager"/> instance that manages this event.</param>
-    internal CoreOneSecondUpdateTickedEvent(EventManager manager)
+    internal CoreLateLoadOneSecondUpdateTickedEvent(EventManager manager)
         : base(manager)
     {
     }
-
-    /// <inheritdoc />
-    public override bool IsEnabled => !Data.InitialSetupComplete;
 
     /// <inheritdoc />
     protected override void OnOneSecondUpdateTickedImpl(object? sender, OneSecondUpdateTickedEventArgs e)
@@ -28,6 +26,19 @@ internal sealed class CoreOneSecondUpdateTickedEvent : OneSecondUpdateTickedEven
         if (Game1.ticks <= 1 || Game1.currentGameTime == null || Game1.activeClickableMenu is not TitleMenu ||
             TitleMenu.subMenu is ConfirmationDialog)
         {
+            return;
+        }
+
+        if (OverhaulModule.Professions._ShouldEnable &&
+            Professions.Integrations.SpaceCoreIntegration.Instance?.IsRegistered != true)
+        {
+            return;
+        }
+
+        OverhaulModule.Core.RegisterIntegrations();
+        if (GenericModConfigMenu.Instance?.IsRegistered != true || Data.InitialSetupComplete)
+        {
+            this.Manager.Unmanage(this);
             return;
         }
 
