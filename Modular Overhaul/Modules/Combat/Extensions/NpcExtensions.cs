@@ -17,7 +17,7 @@ internal static class NpcExtensions
             return;
         }
 
-        if (Game1.getAllFarmers().Any(farmer => farmer.currentLocation == alive.currentLocation))
+        if (Game1.getAllFarmers().All(farmer => farmer.currentLocation != alive.currentLocation))
         {
             return;
         }

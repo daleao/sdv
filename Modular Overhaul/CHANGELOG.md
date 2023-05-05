@@ -2,7 +2,11 @@
 
 This file contains a TL;DR of current version changes and hotfixes from across all modules. For the complete changelog, please refer to the individual changelogs of each module, linked [below](#detailed-change-logs).
 
-## Patch 2.3.0 Highlights <sup><sub><sup>[🔼](#margo-change-logs)</sup></sub></sup>
+## Patch 2.3.1 Highlights <sup><sub><sup>[🔼](#margo-change-logs)</sup></sub></sup>
+
+* [CMBT]: Hotfix for memory leak issue.
+
+## Minor Release 2.3.0 Highlights <sup><sub><sup>[🔼](#margo-change-logs)</sup></sub></sup>
 
 * Migrated to Pathoschild's Translation Class Builder.
 * Added all GMCM text to localization model.
