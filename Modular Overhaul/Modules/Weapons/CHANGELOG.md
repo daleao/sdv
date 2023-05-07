@@ -5,7 +5,7 @@
 ### Changed
 
 * Weapon sale price now considers applied enchantments.
-* Removed uncredited and unlicensed artwork by [herbivoor](https://www.nexusmods.com/stardewvalley/mods/12004).
+* Removed uncredited and stolen artwork by [herbivoor](https://www.nexusmods.com/stardewvalley/mods/12004) (Claymore and Iron Edge). Replaced with original designs inspired by herbivoor's work.
 
 ### Fixed
 
