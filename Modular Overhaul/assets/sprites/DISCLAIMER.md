@@ -6,3 +6,5 @@ Credit to IllogicalMoodSwing for Profession Icons Redone (https://www.nexusmods.
 Credit to GameFreak for Pokemon ribbons taken from Pokemon RSE and DPPt (https://www.gamefreak.co.jp/town/30th/en/).
 
 Vanilla Tweaks weapon and ring textures are credited to and owned by Taiyokun (https://www.nexusmods.com/stardewvalley/users/92060238).
+
+Other weapon textures inspired by the works of [dendenhsmy](https://www.nexusmods.com/stardewvalley/mods/16491) and [herbivoor](https://www.nexusmods.com/stardewvalley/mods/12004).

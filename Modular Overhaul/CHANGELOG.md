@@ -5,6 +5,7 @@ This file contains a TL;DR of current version changes and hotfixes from across a
 ## Patch 2.3.1 Highlights <sup><sub><sup>[🔼](#margo-change-logs)</sup></sub></sup>
 
 * [CMBT]: Hotfix for memory leak issue.
+* [WPNZ]: Removed uncredited and unlicensed artwork by [herbivoor](https://www.nexusmods.com/stardewvalley/mods/12004).
 
 ## Minor Release 2.3.0 Highlights <sup><sub><sup>[🔼](#margo-change-logs)</sup></sub></sup>
 
