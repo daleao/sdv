@@ -56,12 +56,10 @@ internal sealed class TehsFishingOverhaulIntegration : ModIntegration<TehsFishin
         var commonExpressions = new Lazy<(ParameterExpression, Expression)>(() =>
         {
             var fishingApiType = AccessTools.TypeByName("TehPers.FishingOverhaul.Services.FishingApi");
-
             var simplifiedApiParam = Expression.Parameter(typeof(object), "fishingApi");
             var castedApi = Expression.Convert(simplifiedApiParam, fishingApiType);
             var treasureConfigField = Expression.Field(castedApi, "treasureConfig");
             var treasureChancesProp = Expression.Property(treasureConfigField, "TreasureChances");
-
             return (simplifiedApiParam, treasureChancesProp);
         });
 

@@ -130,16 +130,17 @@ internal sealed class CropHarvestPatcher : HarmonyPatcher
                 .Move()
                 .AddLabels(setIridiumQuality) // this is the destination for a successful iridium check
                 .InsertProfessionCheck(Profession.Agriculturist.Value, new[] { checkForAgriculturist })
-                .Insert(new[]
-                {
-                    new CodeInstruction(OpCodes.Brfalse_S, checkForGoldQuality),
-                    new CodeInstruction(OpCodes.Ldloc_S, helper.Locals[9]),
-                    new CodeInstruction(OpCodes.Callvirt, typeof(Random).RequireMethod(nameof(Random.NextDouble))),
-                    new CodeInstruction(OpCodes.Ldloc_S, helper.Locals[10]),
-                    new CodeInstruction(OpCodes.Ldc_R8, 3d),
-                    new CodeInstruction(OpCodes.Div),
-                    new CodeInstruction(OpCodes.Bge_Un_S, checkForGoldQuality),
-                });
+                .Insert(
+                    new[]
+                    {
+                        new CodeInstruction(OpCodes.Brfalse_S, checkForGoldQuality),
+                        new CodeInstruction(OpCodes.Ldloc_S, helper.Locals[9]),
+                        new CodeInstruction(OpCodes.Callvirt, typeof(Random).RequireMethod(nameof(Random.NextDouble))),
+                        new CodeInstruction(OpCodes.Ldloc_S, helper.Locals[10]),
+                        new CodeInstruction(OpCodes.Ldc_R8, 3d),
+                        new CodeInstruction(OpCodes.Div),
+                        new CodeInstruction(OpCodes.Bge_Un_S, checkForGoldQuality),
+                    });
         }
         catch (Exception ex)
         {
@@ -154,11 +155,12 @@ internal sealed class CropHarvestPatcher : HarmonyPatcher
             var numToHarvest = helper.Locals[6];
             var dontIncreaseNumToHarvest = generator.DefineLabel();
             helper
-                .Match(new[]
-                {
-                    // find index of numToHarvest++
-                    new CodeInstruction(OpCodes.Ldloc_S, numToHarvest),
-                })
+                .Match(
+                    new[]
+                    {
+                        // find index of numToHarvest++
+                        new CodeInstruction(OpCodes.Ldloc_S, numToHarvest),
+                    })
                 .Count(new[] { new CodeInstruction(OpCodes.Stloc_S, numToHarvest) }, out var steps)
                 .Copy(out var copy, steps, true)
                 .Match(
