@@ -130,7 +130,7 @@ internal sealed class ProspectorHunt : TreasureHunt
         var failSafe = 0;
         do
         {
-            if (failSafe > 69)
+            if (failSafe > 69) // nice
             {
                 return null;
             }
