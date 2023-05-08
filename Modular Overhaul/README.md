@@ -36,7 +36,7 @@ All modules should be fully multiplayer and splitscreen-ready so long as all pla
 
 - **[RNGS](Modules/Rings)** overhauls underwhelming rings, with a large emphasis being on the Iridium Band. It introduces Gemstone Music Theory, which draws inspiration from real-life Music Theory, to provide a more interesting and balanced form of combining many rings. It also adds new crafting mechanics to create a more natural ring progression. **This module adds new items via Json Assets, and thus may cause Json Shuffle on existing saves.** 
 
-- **[PNDS](Modules/Ponds)** is a complement to the new Aquarist profession. It allows Fish Pond produce to scale in both quantity and quality, grow algae and even nuclear-enrichment of metals.
+- **[PNDS](Modules/Ponds)** is a complement to the new Aquarist profession. It allows Fish Ponds to produce Roe with scaling quantities and qualities, spontaneously grow algae, and even enrich the nuclei of metals.
 
 - **[TXS](Modules/Taxes)** is a complement to the new Conservationist profession. It introduces a realistic taxation system as an added challenge and end-game gold sink. Because surely a nation at war would be capitalizing on that juicy farm income.
 
