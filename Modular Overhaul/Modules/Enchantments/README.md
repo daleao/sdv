@@ -58,7 +58,7 @@ The enchantments below are entirely new and unique to slingshots.
 | Name       | Effect |
 | ---------- | -------|
 | Gatling    | Enables auto-fire.* |
-| Magnum     | Greatly increases the size of fired projectiles. |
+| Magnum     | Fires enlarged projectiles. |
 | Preserving | Does not consume ammo. |
 | Quincy     | Attacks fire an energy projectile if no ammo is equipped. Only works near enemies.** |
 | Spreading  | Consume one additional ammo to fire two additional angled projectiles. |
