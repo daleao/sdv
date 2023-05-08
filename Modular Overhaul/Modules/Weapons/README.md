@@ -179,37 +179,37 @@ The following events provide chances to demonstrate your virtues. You can use th
 
 
 Events where you may demonstrate Honor:
-7 - Maru 4 hearts
-16 - Pierre 6 hearts
-27 - Sebastian 6 hearts
-36 - Penny 6 hearts
-46 - Sam 4 hearts
-58 - Harvey 6 hearts
-100 - Kent 3 hearts
-288847 - Alex 8 hearts
-2481135 - Alex 4 hearts
-733330 - Sam 3 hearts
+* 7 - Maru 4 hearts
+* 16 - Pierre 6 hearts
+* 27 - Sebastian 6 hearts
+* 36 - Penny 6 hearts
+* 46 - Sam 4 hearts
+* 58 - Harvey 6 hearts
+* 100 - Kent 3 hearts
+* 288847 - Alex 8 hearts
+* 2481135 - Alex 4 hearts
+* 733330 - Sam 3 hearts
 
 Events where you may demonstrate Compassion:
-13 - Haley 6 hearts
-27 - Sebastian 6 hearts
-51 - Leah 4 hearts
-100 - Kent 3 hearts
-288847 - Alex 8 hearts
-502969 - Linus 0 hearts
-503180 - Pam 9 hearts
-733330 - Sam 3 hearts
-3910975 - Shane 6 hearts
+* 13 - Haley 6 hearts
+* 27 - Sebastian 6 hearts
+* 51 - Leah 4 hearts
+* 100 - Kent 3 hearts
+* 288847 - Alex 8 hearts
+* 502969 - Linus 0 hearts
+* 503180 - Pam 9 hearts
+* 733330 - Sam 3 hearts
+* 3910975 - Shane 6 hearts
 
 Events where you may demonstrate Wisdom:
-11 - Haley 2 hearts
-21 - Alex 5 hearts
-25 - Demetrius 3 hearts
-27 - Sebastian 6 hearts
-34 - Penny 2 hearts
-50 - Leah 2 hearts
-56 - Harvey 2 hearts
-97 - Clint 3 hearts
+* 11 - Haley 2 hearts
+* 21 - Alex 5 hearts
+* 25 - Demetrius 3 hearts
+* 27 - Sebastian 6 hearts
+* 34 - Penny 2 hearts
+* 50 - Leah 2 hearts
+* 56 - Harvey 2 hearts
+* 97 - Clint 3 hearts
 
 **How do I obtain the Infinity weapons?**
 
