@@ -2,6 +2,14 @@
 
 This file contains a TL;DR of current version changes and hotfixes from across all modules. For the complete changelog, please refer to the individual changelogs of each module, linked [below](#detailed-change-logs).
 
+## Patch 2.3.2 Highlights <sup><sub><sup>[🔼](#margo-change-logs)</sup></sub></sup>
+
+* Added initial compatibility for [Archery](http://www.nexusmods.com/stardewvalley/mods/16767) to PROFS and SLNGS.
+* [CMBT]: Added Fear status.
+* [CMBT]: Retextured the Shadow Sniper arrow to make it look ethereal, to avoid completely breaking my immersion when it travels through walls.
+* [PROFS]: Brute Frenzy now causes Fear status on activation.
+* [TXS]: Fixed translation keys.
+
 ## Patch 2.3.1 Highlights <sup><sub><sup>[🔼](#margo-change-logs)</sup></sub></sup>
 
 * [CMBT]: Hotfix for memory leak issue.

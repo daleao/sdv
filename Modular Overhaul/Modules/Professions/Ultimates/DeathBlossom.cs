@@ -2,7 +2,6 @@
 
 #region using directives
 
-using DaLion.Overhaul.Modules.Professions.Sounds;
 using Microsoft.Xna.Framework;
 
 #endregion using directives

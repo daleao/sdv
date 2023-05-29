@@ -295,19 +295,25 @@
   "gems.emerald.name": "エメラルド",
   "gems.amethyst.name": "アメシスト",
   "gems.topaz.name": "トパーズ",
-  "gems.garnet.name": "ガーネット",
-  "gems.garnet.description": "遠い国の美しい姫の名前がつけられている。",
-  "rings.jade.description": "クリティカル時のダメージ量が50%上がる。",
-  "rings.topaz.description.resist": "ダメージ耐性が10%上がる。",
-  "rings.topaz.description.defense": "防御が1上がる。",
-  "rings.garnet.name": "ガーネットの指輪",
-  "rings.garnet.description": "特殊攻撃のクールダウンを10%短くする。",
-  "rings.iridium.description": "イリジウム製のふつうの指輪。",
-  "rings.infinity.name": "インフィニティバンド",
-  "rings.infinity.description": "大いなる力を宿すための器。",
+  "rings.jade.desc": "クリティカル時のダメージ量が50%上がる。",
+  "rings.topaz.desc.resist": "ダメージ耐性が10%上がる。",
+  "rings.topaz.desc.defense": "防御が1上がる。",
+  "rings.immunity.extradesc": " Grants complete immunity to debuffs.",
+  "rings.iridium.desc": "イリジウム製のふつうの指輪。",
+  "rings.warrior.desc": "Enemy takedowns grant progressively higher attack.",
+  "rings.yoba.desc": "Grants a shield in a pinch.",
+  "buffs.warrior.desc": "Onslaught",
+  "buffs.yoba.desc": "Lifeline",
   "global.infinitycraft": "{{who}}がインフィニティバンドを鍛造した。",
   "resonance": "共鳴",
 
+  // json-assets
+  "gems.garnet.name": "ガーネット",
+  "gems.garnet.description": "遠い国の美しい姫の名前がつけられている。",
+  "rings.infinity.name": "インフィニティバンド",
+  "rings.infinity.description": "大いなる力を宿すための器。",
+  "rings.garnet.name": "ガーネットの指輪",
+  "rings.garnet.description": "特殊攻撃のクールダウンを10%短くする。",
 
   // **************** //
   // * ENCHANTMENTS * //
@@ -338,13 +344,13 @@
 
   //// needs revision !!!
 
-  "tax.intro": "財務省^ファーンギル歳入庁^^^{{honorific}} 納税者様へ^^この手紙は、あなたが最近おこなった、スターデューバレーのペリカンタウンへの住所変更が申請され、無事登録されたことをお知らせするものです。 今後の連絡は全て {{farm}} 宛に送られることになります。^^連邦所得税の納付期日は、毎シーズンの2日です。 ご都合に合わせるため、支払いは自動的に残高から差し引かれます。 残高不足の場合は、自動的に納税者様名義のローンが組まれ、年率{{interest}}の利息が発生します。^^^謹啓^^ローラ・D・プレト^ファーンギル歳入庁長官[#]Taxation Intro",
-  "tax.notice": "財務省^ファーンギル歳入庁^^^{{honorific}} 納税者様へ^^この手紙は、所得税{{due}}g が自動的に残高から差し引かれたことをお知らせするものです。^^この手紙は、あなたの財政状態に関する疑問を解決するために、永久的な記録として保管しておいてください。^^^謹啓^^ローラ・D・プレト^ファーンギル歳入庁長官[#]Taxation Notice",
-  "tax.outstanding": "財務省^ファーンギル歳入庁^^^{{honorific}} 納税者様へ^^この手紙は、所得税{{due}}g が残高不足のため、一部または全部納められなかったことをお知らせするものです。 そのため、{{farm}}の今後の収入は、未納金 {{outstanding}} が完済されるまで差し押さえられることとなります。 年率{{interestRate}}の利息や罰則金が発生しない内に、できるだけ早急に未納金を納めることが最善の選択であることを心にとめておいてください。^^この手紙は、あなたの財政状態に関する疑問を解決するために、永久的な記録として保管しておいてください。^^^謹啓^^ローラ・D・プレト^ファーンギル歳入庁長官[#]Taxation Outstanding",
-  "tax.deduction": "財務省^ファーンギル歳入庁^^^{{honorific}} 納税者様へ^^この度、あなたの環境保護活動を審査した結果、ファーンギル歳入法第501条(c)(3)に基づき、{{deductible}} の所得税控除を受ける資格があると判断しましたので、お知らせいたします。^^この手紙は、あなたの財政状態に関する疑問を解決するために、永久的な記録として保管しておいてください。^^^謹啓^^ローラ・D・プレト^ファーンギル歳入庁長官[#]Taxation Deduction",
-  "tax.deduction.max": "財務省^ファーンギル歳入庁^^^{{honorific}} 納税者様へ^^この度、あなたの環境保護活動を審査した結果、ファーンギル歳入法第501条(c)(3)に基づき、連邦所得税が全額免除されることが決定しましたので、お知らせいたします。 そのため、今期ではあなたの残高から所得税が差し引かれることはありません。^^この手紙は、あなたの財政状態に関する疑問を解決するために、永久的な記録として保管しておいてください。^^^謹啓^^ローラ・D・プレト^ファーンギル歳入庁長官[#]Taxation Deduction",
+  "mail.frs.intro": "財務省^ファーンギル歳入庁^^^{{honorific}} 納税者様へ^^この手紙は、あなたが最近おこなった、スターデューバレーのペリカンタウンへの住所変更が申請され、無事登録されたことをお知らせするものです。 今後の連絡は全て {{farm}} 宛に送られることになります。^^連邦所得税の納付期日は、毎シーズンの2日です。 ご都合に合わせるため、支払いは自動的に残高から差し引かれます。 残高不足の場合は、自動的に納税者様名義のローンが組まれ、年率{{interest}}の利息が発生します。^^^謹啓^^ローラ・D・プレト^ファーンギル歳入庁長官[#]Taxation Intro",
+  "mail.frs.notice": "財務省^ファーンギル歳入庁^^^{{honorific}} 納税者様へ^^この手紙は、所得税{{due}}g が自動的に残高から差し引かれたことをお知らせするものです。^^この手紙は、あなたの財政状態に関する疑問を解決するために、永久的な記録として保管しておいてください。^^^謹啓^^ローラ・D・プレト^ファーンギル歳入庁長官[#]Taxation Notice",
+  "mail.frs.outstanding": "財務省^ファーンギル歳入庁^^^{{honorific}} 納税者様へ^^この手紙は、所得税{{due}}g が残高不足のため、一部または全部納められなかったことをお知らせするものです。 そのため、{{farm}}の今後の収入は、未納金 {{outstanding}} が完済されるまで差し押さえられることとなります。 年率{{interestRate}}の利息や罰則金が発生しない内に、できるだけ早急に未納金を納めることが最善の選択であることを心にとめておいてください。^^この手紙は、あなたの財政状態に関する疑問を解決するために、永久的な記録として保管しておいてください。^^^謹啓^^ローラ・D・プレト^ファーンギル歳入庁長官[#]Taxation Outstanding",
+  "mail.frs.deduction": "財務省^ファーンギル歳入庁^^^{{honorific}} 納税者様へ^^この度、あなたの環境保護活動を審査した結果、ファーンギル歳入法第501条(c)(3)に基づき、{{deductible}} の所得税控除を受ける資格があると判断しましたので、お知らせいたします。^^この手紙は、あなたの財政状態に関する疑問を解決するために、永久的な記録として保管しておいてください。^^^謹啓^^ローラ・D・プレト^ファーンギル歳入庁長官[#]Taxation Deduction",
+  "mail.frs.deduction.max": "財務省^ファーンギル歳入庁^^^{{honorific}} 納税者様へ^^この度、あなたの環境保護活動を審査した結果、ファーンギル歳入法第501条(c)(3)に基づき、連邦所得税が全額免除されることが決定しましたので、お知らせいたします。 そのため、今期ではあなたの残高から所得税が差し引かれることはありません。^^この手紙は、あなたの財政状態に関する疑問を解決するために、永久的な記録として保管しておいてください。^^^謹啓^^ローラ・D・プレト^ファーンギル歳入庁長官[#]Taxation Deduction",
 
-  "debt.debit": "残高から{{amount}}g の未納金が差し引かれた。",
+  "mail.debt.debit": "残高から{{amount}}g の未納金が差し引かれた。",
 
   "honorific.male": "謹啓",
   "honorific.female": "謹啓",
@@ -448,8 +454,8 @@
   "gmcm.profs.enablegetexcited.desc": "Whether to trigger the 'Get Excited' buff when a Demolitionist is hit by an explosion.",
   "gmcm.profs.anglerpricebonusceiling.title": "Angler Price Bonus Ceiling",
   "gmcm.profs.anglerpricebonusceiling.desc": "If multiple new fish mods are installed, you may want to adjust this to a sensible value. Limits the price multiplier for fish sold by Angler.",
-  "gmcm.profs.aquaristfishpondceiling.title": "Aquarist Fish Pond Ceiling",
-  "gmcm.profs.aquaristfishpondceiling.desc": "If you like raising dozen of fish species, you may use this to limit how easy the fishing minigame will become.",
+  "gmcm.profs.aquaristfishpondceiling.title": "Aquarist Fishing Bonus Ceiling",
+  "gmcm.profs.aquaristfishpondceiling.desc": "The maximum number of Fish Ponds that will be counted for Aquarist's fishing bonus. If you like raising dozens of fish species, you may use this to limit how easy the fishing minigame will become.",
   "gmcm.profs.legendarypondpopulationceiling.title": "Legendary Pond Population Ceiling",
   "gmcm.profs.legendarypondpopulationceiling.desc": "The maximum population of Aquarist Fish Ponds with legendary fish.",
   "gmcm.profs.trashpertaxdeduction.title": "Trash Per Tax Deduction %",

@@ -1,5 +1,16 @@
 ﻿# WPNZ Change Log
 
+## 2.3.2 <sup><sub><sup>[🔼](#wpnz-change-log)</sup></sub></sup>
+
+### Changed
+
+* Virtue Trial progression now updates incrementally instead of only on completion. You must speak with Gil for the objective to update.
+
+### Fixed
+
+* Fixed a small display bug with Crit. Rate in weapon tooltips.
+* Fixed DaggerEnchantment not getting removed before saving.
+
 ## 2.3.0 <sup><sub><sup>[🔼](#wpnz-change-log)</sup></sub></sup>
 
 ### Changed
@@ -88,7 +99,7 @@
 ### Fixed
 
 * No longer forcefully restarts the Blade of Ruin quest by checking for events seen. This was not doing I wanted and wasn't even necessary. Fixes the bug where player were receiving the quest every time the save was loaded.
-* Fixed an IndexOutOfRange error when using any weapon with SFX and ComboHits disabled.
+* Fixed an IndexOutOfRange error when using any weapon with VFX and ComboHits disabled.
 
 ## 2.2.1 <sup><sub><sup>[🔼](#wpnz-change-log)</sup></sub></sup>
 

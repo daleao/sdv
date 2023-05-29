@@ -57,17 +57,17 @@ internal sealed class QuestLogDrawPatcher : HarmonyPatcher
                     {
                         new CodeInstruction(OpCodes.Ldarg_0),
                         new CodeInstruction(OpCodes.Ldfld, typeof(QuestLog).RequireField("_shownQuest")),
-                        new CodeInstruction(OpCodes.Isinst, typeof(VirtuesQuest)),
+                        new CodeInstruction(OpCodes.Isinst, typeof(VirtueQuest)),
                         new CodeInstruction(OpCodes.Brfalse_S, drawSpecialOrder),
                         new CodeInstruction(OpCodes.Ldarg_0),
                         new CodeInstruction(OpCodes.Ldfld, typeof(QuestLog).RequireField("_shownQuest")),
-                        new CodeInstruction(OpCodes.Isinst, typeof(VirtuesQuest)),
+                        new CodeInstruction(OpCodes.Isinst, typeof(VirtueQuest)),
                         new CodeInstruction(OpCodes.Ldloc_S, helper.Locals[8]), // local 8 = int j
                         new CodeInstruction(OpCodes.Ldarg_0),
                         new CodeInstruction(OpCodes.Ldloca_S, helper.Locals[6]), // local 6 = int yPos
                         new CodeInstruction(OpCodes.Ldarg_1), new CodeInstruction(
                             OpCodes.Call,
-                            typeof(VirtuesQuest).RequireMethod(nameof(VirtuesQuest.DrawObjective))),
+                            typeof(VirtueQuest).RequireMethod(nameof(VirtueQuest.DrawObjective))),
                         new CodeInstruction(OpCodes.Br, resumeExecution),
                     })
                 .Match(new[] { new CodeInstruction(OpCodes.Stloc_S, helper.Locals[6]) })

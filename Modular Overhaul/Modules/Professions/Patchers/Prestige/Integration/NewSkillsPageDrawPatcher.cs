@@ -403,29 +403,29 @@ internal sealed class NewSkillsPageDrawPatcher : HarmonyPatcher
                 continue;
             }
 
-            Rectangle srcRect;
+            Rectangle sourceRect;
             switch (ProfessionsModule.Config.ProgressionStyle)
             {
                 case Config.PrestigeProgressionStyle.Gen3Ribbons:
                 case Config.PrestigeProgressionStyle.Gen4Ribbons:
-                    srcRect = new Rectangle(
+                    sourceRect = new Rectangle(
                         i * Textures.RibbonWidth,
                         (count - 1) * Textures.RibbonWidth,
                         Textures.RibbonWidth,
                         Textures.RibbonWidth);
                     break;
                 case Config.PrestigeProgressionStyle.StackedStars:
-                    srcRect = new Rectangle(0, (count - 1) * 16, Textures.StarsWidth, 16);
+                    sourceRect = new Rectangle(0, (count - 1) * 16, Textures.StarsWidth, 16);
                     break;
                 default:
-                    srcRect = Rectangle.Empty;
+                    sourceRect = Rectangle.Empty;
                     break;
             }
 
             b.Draw(
                 Textures.PrestigeSheetTx,
                 position,
-                srcRect,
+                sourceRect,
                 Color.White,
                 0f,
                 Vector2.Zero,
@@ -476,7 +476,7 @@ internal sealed class NewSkillsPageDrawPatcher : HarmonyPatcher
                 continue;
             }
 
-            var srcRect = ProfessionsModule.Config.ProgressionStyle switch
+            var sourceRect = ProfessionsModule.Config.ProgressionStyle switch
             {
                 Config.PrestigeProgressionStyle.Gen3Ribbons or Config.PrestigeProgressionStyle.Gen4Ribbons => new Rectangle(
                     skill.StringId == "blueberry.LoveOfCooking.CookingSkill" ? 111 : 133,
@@ -491,7 +491,7 @@ internal sealed class NewSkillsPageDrawPatcher : HarmonyPatcher
             b.Draw(
                 Textures.PrestigeSheetTx,
                 position,
-                srcRect,
+                sourceRect,
                 Color.White,
                 0f,
                 Vector2.Zero,

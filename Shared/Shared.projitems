@@ -151,6 +151,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Harmony\ILHelperExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Harmony\LabelNotFoundException.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Harmony\PatternNotFoundException.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Integrations\Archery\IArcheryApi.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Integrations\Automate\IAutomate.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Integrations\Automate\IAutomateApi.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Integrations\CustomResourceNodes\ICustomResourceClumpsApi.cs" />

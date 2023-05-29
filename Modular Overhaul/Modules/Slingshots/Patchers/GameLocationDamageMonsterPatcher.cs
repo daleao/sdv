@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
 using DaLion.Overhaul.Modules.Combat.Extensions;
+using DaLion.Overhaul.Modules.Slingshots.Extensions;
 using DaLion.Overhaul.Modules.Slingshots.VirtualProperties;
 using DaLion.Shared.Extensions.Reflection;
 using DaLion.Shared.Harmony;
@@ -80,7 +81,13 @@ internal sealed class GameLocationDamageMonsterPatcher : HarmonyPatcher
 
     private static void DoSlingshotSpecial(Monster monster, Farmer who)
     {
-        if (who.CurrentTool is Slingshot slingshot && slingshot.Get_IsOnSpecial())
+        if (who.CurrentTool is not Slingshot slingshot || !slingshot.Get_IsOnSpecial())
+        {
+            return;
+        }
+
+        var (x, y) = who.getTileLocation() * Game1.tileSize;
+        if (slingshot.GetAreaOfEffect((int)x, (int)y, who).Intersects(monster.GetBoundingBox()))
         {
             monster.Stun(2000);
         }

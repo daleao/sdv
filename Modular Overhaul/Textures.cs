@@ -1,4 +1,4 @@
-﻿namespace DaLion.Overhaul.Modules.Professions;
+﻿namespace DaLion.Overhaul;
 
 #region using directives
 
@@ -20,11 +20,29 @@ internal static class Textures
     internal const int ProgressionHorizontalOffset = -82;
     internal const int ProgressionVerticalOffset = -70;
 
-    internal static Texture2D MaxIconTx { get; } =
-        ModHelper.GameContent.Load<Texture2D>($"{Manifest.UniqueID}/MaxIcon");
+    internal static Texture2D GemstonesTx { get; } =
+        ModHelper.ModContent.Load<Texture2D>("assets/sprites/gemstones");
+
+    internal static Texture2D RingsTx { get; } =
+        ModHelper.ModContent.Load<Texture2D>("assets/sprites/rings");
+
+    internal static Texture2D PatternedResonanceTx { get; } =
+        ModHelper.ModContent.Load<Texture2D>("assets/vfx/resonance_patterned");
+
+    internal static Texture2D StrongerResonanceTx { get; } =
+        ModHelper.ModContent.Load<Texture2D>("assets/vfx/resonance_stronger");
+
+    internal static Texture2D ShieldTx { get; set; } =
+        ModHelper.ModContent.Load<Texture2D>("assets/vfx/shield.png");
+
+    internal static Texture2D GemSocketTx { get; set; } =
+        ModHelper.GameContent.Load<Texture2D>($"{Manifest.UniqueID}/GemstoneSockets");
 
     internal static Texture2D PrestigeSheetTx { get; private set; } =
         ModHelper.GameContent.Load<Texture2D>($"{Manifest.UniqueID}/PrestigeProgression");
+
+    internal static Texture2D MaxIconTx { get; } =
+        ModHelper.GameContent.Load<Texture2D>($"{Manifest.UniqueID}/MaxIcon");
 
     internal static Texture2D SkillBarsTx { get; private set; } =
         ModHelper.GameContent.Load<Texture2D>($"{Manifest.UniqueID}/SkillBars");
@@ -34,6 +52,16 @@ internal static class Textures
 
     internal static void Refresh(IReadOnlySet<IAssetName> names)
     {
+        if (names.Any(name => name.IsEquivalentTo($"{Manifest.UniqueID}/GemstoneSockets")))
+        {
+            GemSocketTx = ModHelper.GameContent.Load<Texture2D>($"{Manifest.UniqueID}/GemstoneSockets");
+        }
+
+        if (names.Any(name => name.IsEquivalentTo($"{Manifest.UniqueID}/PrestigeProgression")))
+        {
+            PrestigeSheetTx = ModHelper.GameContent.Load<Texture2D>($"{Manifest.UniqueID}/PrestigeProgression");
+        }
+
         if (names.Any(name => name.IsEquivalentTo($"{Manifest.UniqueID}/SkillBars")))
         {
             SkillBarsTx = ModHelper.GameContent.Load<Texture2D>($"{Manifest.UniqueID}/SkillBars");
@@ -42,11 +70,6 @@ internal static class Textures
         if (names.Any(name => name.IsEquivalentTo($"{Manifest.UniqueID}/UltimateMeter")))
         {
             UltimateMeterTx = ModHelper.GameContent.Load<Texture2D>($"{Manifest.UniqueID}/UltimateMeter");
-        }
-
-        if (names.Any(name => name.IsEquivalentTo($"{Manifest.UniqueID}/PrestigeProgression")))
-        {
-            PrestigeSheetTx = ModHelper.GameContent.Load<Texture2D>($"{Manifest.UniqueID}/PrestigeProgression");
         }
     }
 }

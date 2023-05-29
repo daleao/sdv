@@ -70,7 +70,7 @@ internal sealed class SlingshotArtfulSpecialUpdateTickedEvent : UpdateTickedEven
                     sprite.CurrentFrame = sprite.CurrentAnimation[sprite.currentAnimationIndex++].frame;
                 }
 
-                if (_currentFrame == 12)
+                if (_currentFrame == 10)
                 {
                     Game1.playSound("swordswipe");
                 }

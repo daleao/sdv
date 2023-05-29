@@ -4,7 +4,6 @@
 
 using System.Linq;
 using DaLion.Overhaul.Modules.Professions.Events.GameLoop;
-using DaLion.Overhaul.Modules.Professions.Sounds;
 using DaLion.Overhaul.Modules.Professions.VirtualProperties;
 using DaLion.Shared.Extensions.Stardew;
 using Microsoft.Xna.Framework;

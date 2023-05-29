@@ -376,6 +376,7 @@ internal static class MeleeWeaponExtensions
     internal static bool HasIntrinsicEnchantment(this MeleeWeapon weapon)
     {
         return weapon.HasAnyEnchantmentOf(
+            typeof(DaggerEnchantment),
             typeof(CursedEnchantment),
             typeof(BlessedEnchantment),
             typeof(DaggerEnchantment),

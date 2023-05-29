@@ -1,5 +1,14 @@
 ﻿# PROFS Change Log
 
+## 2.3.2 <sup><sub><sup>[🔼](#profs-change-log)</sup></sub></sup>
+
+### Added
+
+* Brute Frenzy now causes Fear status on activation, if CMBT is enabled.
+* Added compatibility for [Archery](http://www.nexusmods.com/stardewvalley/mods/16767).
+    * Rascal's preservation effect will apply on top of the natural preservation chance of bows.
+    * Bows can be overcharged by Desperado, and gain all the corresponding perks (damage bonus, knockback bonus, hitbox bonus and piercing chance).
+
 ## 2.3.0 <sup><sub><sup>[🔼](#profs-change-log)</sup></sub></sup>
 
 ### Added

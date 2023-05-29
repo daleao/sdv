@@ -38,7 +38,7 @@ internal sealed class SkillsPageCtorPatcher : HarmonyPatcher
             __instance.width += 24;
         }
 
-        var srcRect = new Rectangle(16, 0, 14, 9);
+        var sourceRect = new Rectangle(16, 0, 14, 9);
         for (var i = 0; i < __instance.skillBars.Count; i++)
         {
             var component = __instance.skillBars[i];
@@ -59,7 +59,7 @@ internal sealed class SkillsPageCtorPatcher : HarmonyPatcher
                     if (Game1.player.GetUnmodifiedSkillLevel(skillIndex) >= 15)
                     {
                         component.texture = Textures.SkillBarsTx;
-                        component.sourceRect = srcRect;
+                        component.sourceRect = sourceRect;
                     }
 
                     break;
@@ -78,7 +78,7 @@ internal sealed class SkillsPageCtorPatcher : HarmonyPatcher
                     if (Game1.player.GetUnmodifiedSkillLevel(skillIndex) >= 20)
                     {
                         component.texture = Textures.SkillBarsTx;
-                        component.sourceRect = srcRect;
+                        component.sourceRect = sourceRect;
                     }
 
                     break;

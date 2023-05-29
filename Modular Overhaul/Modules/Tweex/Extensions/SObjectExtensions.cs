@@ -14,13 +14,22 @@ internal static class SObjectExtensions
     /// <returns>A <see cref="SObject"/> quality value.</returns>
     internal static int GetQualityFromAge(this SObject @object)
     {
-        var skillFactor = 1f + (Game1.player.FarmingLevel * 0.1f);
-        var age = (int)(@object.Read<int>(DataKeys.Age) * skillFactor * (@object.IsBeeHouse()
-            ?
-            TweexModule.Config.BeeHouseAgingFactor
-            : @object.IsMushroomBox()
-                ? TweexModule.Config.MushroomBoxAgingFactor
-                : 1f));
+        float skillFactor;
+        int age;
+        if (@object.IsBeeHouse())
+        {
+            skillFactor = 1f + (Game1.player.FarmingLevel * 0.1f);
+            age = (int)(@object.Read<int>(DataKeys.Age) * skillFactor * TweexModule.Config.BeeHouseAgingFactor);
+        }
+        else if (@object.IsMushroomBox())
+        {
+            skillFactor = 1f + (Game1.player.ForagingLevel * 0.1f);
+            age = (int)(@object.Read<int>(DataKeys.Age) * skillFactor * TweexModule.Config.MushroomBoxAgingFactor);
+        }
+        else
+        {
+            age = @object.Read<int>(DataKeys.Age);
+        }
 
         if (TweexModule.Config.DeterministicAgeQuality)
         {

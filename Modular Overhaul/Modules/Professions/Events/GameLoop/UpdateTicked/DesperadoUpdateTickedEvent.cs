@@ -4,7 +4,6 @@
 
 using DaLion.Overhaul.Modules.Professions.Events.Display;
 using DaLion.Overhaul.Modules.Professions.Extensions;
-using DaLion.Overhaul.Modules.Professions.Sounds;
 using DaLion.Shared.Events;
 using Microsoft.Xna.Framework.Audio;
 using StardewModdingAPI.Events;

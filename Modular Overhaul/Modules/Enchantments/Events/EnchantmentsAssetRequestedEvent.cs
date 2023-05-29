@@ -19,9 +19,12 @@ internal sealed class EnchantmentsAssetRequestedEvent : AssetRequestedEvent
         : base(manager)
     {
         this.Edit("TileSheets/BuffsIcons", new AssetEditor(EditBuffsIconsTileSheet));
+        this.Provide(
+            $"{Manifest.UniqueID}/GemstoneSockets",
+            new ModTextureProvider(ProvideGemSockets));
         //this.Provide(
         //    $"{Manifest.UniqueID}/QuincyCollisionAnimation",
-        //    new ModTextureProvider(() => "assets/animations/quincy.png", AssetLoadPriority.Medium));
+        //    new ModTextureProvider(() => "assets/vfx/quincy.png"));
     }
 
     #region editor callbacks
@@ -46,4 +49,21 @@ internal sealed class EnchantmentsAssetRequestedEvent : AssetRequestedEvent
     }
 
     #endregion editor callbacks
+
+    #region provider callbacks
+
+    /// <summary>Provides the correct gemstone socket texture path.</summary>
+    private static string ProvideGemSockets()
+    {
+        var path = "assets/menus/GemSocket_" + EnchantmentsModule.Config.SocketStyle;
+        if (ModHelper.ModRegistry.IsLoaded("ManaKirel.VMI") ||
+            ModHelper.ModRegistry.IsLoaded("ManaKirel.VintageInterface2"))
+        {
+            path += "_Vintage";
+        }
+
+        return path + ".png";
+    }
+
+    #endregion provider callbacks
 }

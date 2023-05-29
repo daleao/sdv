@@ -14,6 +14,8 @@ using StardewValley.Monsters;
 /// <summary>The animation that plays above a stunned <see cref="Monster"/>.</summary>
 public class StunAnimation : TemporaryAnimatedSprite
 {
+    private Random _random = new(Guid.NewGuid().GetHashCode());
+
     /// <summary>Initializes a new instance of the <see cref="StunAnimation"/> class.</summary>
     /// <param name="monster">The stunned <see cref="Monster"/>.</param>
     /// <param name="duration">The duration in milliseconds.</param>
@@ -48,7 +50,8 @@ public class StunAnimation : TemporaryAnimatedSprite
             return result;
         }
 
-        this.Position = monster.GetOverheadOffset(time);
+        this.Position = monster.GetOverheadOffset(time) +
+                        new Vector2(this._random.Next(-1, 2), this._random.Next(-1, 2));
         return result;
     }
 }

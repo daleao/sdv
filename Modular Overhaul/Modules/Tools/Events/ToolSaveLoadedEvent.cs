@@ -27,7 +27,8 @@ internal sealed class ToolSaveLoadedEvent : SaveLoadedEvent
     /// <inheritdoc />
     protected override void OnSaveLoadedImpl(object? sender, SaveLoadedEventArgs e)
     {
-        var indices = Game1.player.Read(DataKeys.SelectableTools).ParseList<int>();
+        var player = Game1.player;
+        var indices = player.Read(DataKeys.SelectableTools).ParseList<int>();
         if (indices.Count == 0)
         {
             return;
@@ -37,13 +38,13 @@ internal sealed class ToolSaveLoadedEvent : SaveLoadedEvent
         for (var i = 0; i < indices.Count; i++)
         {
             var index = indices[i];
-            if (index < 0)
+            if (index < 0 || index >= player.Items.Count)
             {
                 leftover.Remove(index);
                 continue;
             }
 
-            var item = Game1.player.Items[index];
+            var item = player.Items[index];
             if (item is not (Tool tool and (Axe or Hoe or Pickaxe or WateringCan or FishingRod or MilkPail or Shears
                 or MeleeWeapon)))
             {
@@ -59,6 +60,6 @@ internal sealed class ToolSaveLoadedEvent : SaveLoadedEvent
             leftover.Remove(index);
         }
 
-        Game1.player.Write(DataKeys.SelectableTools, string.Join(',', leftover));
+        player.Write(DataKeys.SelectableTools, string.Join(',', leftover));
     }
 }

@@ -1,5 +1,22 @@
 ﻿# RNGS Change Log
 
+## 2.3.2 <sup><sub><sup>[🔼](#rngs-change-log)</sup></sub></sup>
+
+### Fixed
+
+* Corrected and added some missing translation keys.
+* Remove the "+4 Immunity" text from Immunity Ring tooltip.
+
+## 2.3.2 <sup><sub><sup>[🔼](#rngs-change-log)</sup></sub></sup>
+
+### Added
+
+* Added shield VFX to Yoba's Blessing.
+
+### Fixed
+
+* Yoba's Blessing shield no longer remains after the buff timer runs out.
+
 ## 2.3.0 <sup><sub><sup>[🔼](#rngs-change-log)</sup></sub></sup>
 
 ### Changed

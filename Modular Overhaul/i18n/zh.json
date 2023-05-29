@@ -300,18 +300,25 @@
   "gems.emerald.name": "绿宝石",
   "gems.amethyst.name": "紫水晶",
   "gems.topaz.name": "黄玉",
-  "gems.garnet.name": "石榴石",
-  "gems.garnet.description": "来自远方的美丽公主的同名。",
   "rings.jade.desc": "增加50%暴击伤害。",
   "rings.topaz.desc.resist": "增加10%点防御。",
   "rings.topaz.desc.defense": "增加1点防御。",
-  "rings.garnet.name": "石榴石戒指",
-  "rings.garnet.description": "特殊招式冷却时间减少10%。",
+  "rings.immunity.extradesc": " Grants complete immunity to debuffs.",
   "rings.iridium.desc": "由铱制成的戒指。",
-  "rings.infinity.name": "无限戒指",
-  "rings.infinity.description": "可以承载强大的力量。",
+  "rings.warrior.desc": "Enemy takedowns grant progressively higher attack.",
+  "rings.yoba.desc": "Grants a shield in a pinch.",
+  "buffs.warrior.desc": "Onslaught",
+  "buffs.yoba.desc": "Lifeline",
   "global.infinitycraft": "{{who}}锻造了无限戒指。",
   "resonance": "共鸣",
+
+  // json-assets
+  "gems.garnet.name": "石榴石",
+  "gems.garnet.description": "来自远方的美丽公主的同名。",
+  "rings.garnet.name": "石榴石戒指",
+  "rings.garnet.description": "特殊招式冷却时间减少10%。",
+  "rings.infinity.name": "无限戒指",
+  "rings.infinity.description": "可以承载强大的力量。",
 
 
   // **************** //
@@ -341,16 +348,17 @@
   // ** TAXES ** //
   // *********** //
 
-  "frs.intro": "财政部^芬吉尔税务局^^^{{honorific}}纳税人,^^这封信是通知你，你最近提出的地址变更至星露谷鹈鹕镇的请求已提交并注册。未来所有的通信都将直接发送至{{farm}}农场。^^我们谨提醒您，联邦所得税缴款每个季节的第一天结束。为了你的方便，你的到期应缴税额将自动从你的余额中扣除。如果你的余额不足，根据芬吉尔税收法典第 501(c)(1)节，您将被罚款，金额为{{fine}}g，星露谷银行将以您的名义发放贷款，加收每年{{interest}}的利息。^^^此致，^^劳拉D.普雷托^税务官，芬吉尔税务局[#]FRS Intro",
-  "frs.notice": "财政部^芬吉尔税务局^^^{{honorific}}纳税人：^^这封信是为了通知您，您在上一季的应缴所得税总额为{{due}}g，已自动从你的余额中扣除。^^如果您需要了解有关你的税务状况，请将此信保存在你的永久记录中。^^^此致，^^劳拉D.普雷托^税务官，芬吉尔税务局[#]FRS Notice",
-  "frs.outstanding": "财政部^芬吉尔税务局^^^{{honorific}}纳税人：^^这封信是为了通知您，您在上一季的应缴所得税总额为{{due}}g，未完全从你的余额中扣除。芬吉尔税收法典第501(c)(1)节，您将被罚款{{fine}}g并且{farm}}农场的所有未来收入将被征收，直到您请偿合计为{{outstanding}}g的全部债务。为了保障你的最佳利益，请尽快清偿未偿税额以避免每年{{interest}}的罚息。^^如果您需要了解有关你的税务状况，请将此信保存在你的永久记录中。^^^此致，^^劳拉D.普雷托^税务官，芬吉尔税务局[#]FRS Outstanding",
-  "frs.deduction": "财政部^芬吉尔税务局^^^{{honorific}}纳税人,^^我们很高兴地通知您，在审查了你的环保活动后，我们确定根据芬吉尔税收法典第501(c)(3)节，你有资格获得所得税减免{{deductible}}g。^^如果您需要了解有关你的税务状况，请将此信保存在你的永久记录中。^^^此致，^^劳拉D.普雷托^税务官，芬吉尔税务局[#]FRS Deduction",
-  "frs.deduction.max": "财政部^芬吉尔税务局^^^{{honorific}}纳税人,^^我们很高兴地通知您，在审查你的环保活动后，我们确定根据芬吉尔税收法典第501(c)(3)节，你有资格获得全额所得税减免。因此，不会扣除你任何税款。^^如果您需要了解有关你的税务状况，请将此信保存在你的永久记录中。^^^此致，^^劳拉D.普雷托^税务官，芬吉尔税务局[#]FRS Deduction",
+  "mail.frs.intro": "财政部^芬吉尔税务局^^^{{honorific}}纳税人,^^这封信是通知你，你最近提出的地址变更至星露谷鹈鹕镇的请求已提交并注册。未来所有的通信都将直接发送至{{farm}}农场。^^我们谨提醒您，联邦所得税缴款每个季节的第一天结束。为了你的方便，你的到期应缴税额将自动从你的余额中扣除。如果你的余额不足，根据芬吉尔税收法典第 501(c)(1)节，您将被罚款，金额为{{fine}}g，星露谷银行将以您的名义发放贷款，加收每年{{interest}}的利息。^^^此致，^^劳拉D.普雷托^税务官，芬吉尔税务局[#]FRS Intro",
+  "mail.frs.notice": "财政部^芬吉尔税务局^^^{{honorific}}纳税人：^^这封信是为了通知您，您在上一季的应缴所得税总额为{{due}}g，已自动从你的余额中扣除。^^如果您需要了解有关你的税务状况，请将此信保存在你的永久记录中。^^^此致，^^劳拉D.普雷托^税务官，芬吉尔税务局[#]FRS Notice",
+  "mail.frs.outstanding": "财政部^芬吉尔税务局^^^{{honorific}}纳税人：^^这封信是为了通知您，您在上一季的应缴所得税总额为{{due}}g，未完全从你的余额中扣除。芬吉尔税收法典第501(c)(1)节，您将被罚款{{fine}}g并且{farm}}农场的所有未来收入将被征收，直到您请偿合计为{{outstanding}}g的全部债务。为了保障你的最佳利益，请尽快清偿未偿税额以避免每年{{interest}}的罚息。^^如果您需要了解有关你的税务状况，请将此信保存在你的永久记录中。^^^此致，^^劳拉D.普雷托^税务官，芬吉尔税务局[#]FRS Outstanding",
+  "mail.frs.deduction": "财政部^芬吉尔税务局^^^{{honorific}}纳税人,^^我们很高兴地通知您，在审查了你的环保活动后，我们确定根据芬吉尔税收法典第501(c)(3)节，你有资格获得所得税减免{{deductible}}g。^^如果您需要了解有关你的税务状况，请将此信保存在你的永久记录中。^^^此致，^^劳拉D.普雷托^税务官，芬吉尔税务局[#]FRS Deduction",
+  "mail.frs.deduction.max": "财政部^芬吉尔税务局^^^{{honorific}}纳税人,^^我们很高兴地通知您，在审查你的环保活动后，我们确定根据芬吉尔税收法典第501(c)(3)节，你有资格获得全额所得税减免。因此，不会扣除你任何税款。^^如果您需要了解有关你的税务状况，请将此信保存在你的永久记录中。^^^此致，^^劳拉D.普雷托^税务官，芬吉尔税务局[#]FRS Deduction",
 
-  "lewis.notice": "@,^如你所知，作为鹈鹕镇的镇长，我的职责之一是对鹈鹕镇的所有财产征税。在上一财政年度，我们对{{farm}}农场财产的评估价值为{{valuation}}g。因此，您需要在适用的纳税期内承担{{due}}g的总财产税。我冒昧地直接向您的帐户收费。^我代表鹈鹕镇，非常感谢您对我们社区的持续贡献。 ^  真诚地，刘易斯[#]Lewis Taxation Notice",
-  "lewis.outstanding": "@,^如你所知，作为鹈鹕镇的镇长，我的职责之一就是对鹈鹕镇的所有财产征税。在上一财政年度，我们对{{farm}}农场财产的评估价值为{{valuation}}g。因此，您需要在适用的纳税期内承担{{due}}g 的总财产税。^很遗憾，您的帐户没有足够的资金来支付全部金额。根据州政策，我很遗憾通知您将被额外罚款{{fine}}g。您的全部债务总计{{outstanding}}g，将抵押给星露谷银行，该银行有权扣押您的所有收入，直到清偿全部债务，但需支付{{interest}}年利率。^请知道，如果您面临困难，鹈鹕镇的人们会为您提供支持。  ^  真诚地，刘易斯[#]Lewis Taxation Outstanding",
+  "mail.lewis.notice": "@,^如你所知，作为鹈鹕镇的镇长，我的职责之一是对鹈鹕镇的所有财产征税。在上一财政年度，我们对{{farm}}农场财产的评估价值为{{valuation}}g。因此，您需要在适用的纳税期内承担{{due}}g的总财产税。我冒昧地直接向您的帐户收费。^我代表鹈鹕镇，非常感谢您对我们社区的持续贡献。 ^  真诚地，刘易斯[#]Lewis Taxation Notice",
+  "mail.lewis.outstanding": "@,^如你所知，作为鹈鹕镇的镇长，我的职责之一就是对鹈鹕镇的所有财产征税。在上一财政年度，我们对{{farm}}农场财产的评估价值为{{valuation}}g。因此，您需要在适用的纳税期内承担{{due}}g 的总财产税。^很遗憾，您的帐户没有足够的资金来支付全部金额。根据州政策，我很遗憾通知您将被额外罚款{{fine}}g。您的全部债务总计{{outstanding}}g，将抵押给星露谷银行，该银行有权扣押您的所有收入，直到清偿全部债务，但需支付{{interest}}年利率。^请知道，如果您面临困难，鹈鹕镇的人们会为您提供支持。  ^  真诚地，刘易斯[#]Lewis Taxation Outstanding",
 
-  "debt.debit": "你尚有{{amount}}g的未偿债务。",
+  "mail.debt.debit": "你尚有{{amount}}g的未偿债务。",
+
   "honorific.male": "尊敬的",
   "honorific.female": "亲爱的",
 
@@ -452,8 +460,8 @@
   "gmcm.profs.enablegetexcited.desc": "Whether to trigger the 'Get Excited' buff when a Demolitionist is hit by an explosion.",
   "gmcm.profs.anglerpricebonusceiling.title": "Angler Price Bonus Ceiling",
   "gmcm.profs.anglerpricebonusceiling.desc": "If multiple new fish mods are installed, you may want to adjust this to a sensible value. Limits the price multiplier for fish sold by Angler.",
-  "gmcm.profs.aquaristfishpondceiling.title": "Aquarist Fish Pond Ceiling",
-  "gmcm.profs.aquaristfishpondceiling.desc": "If you like raising dozen of fish species, you may use this to limit how easy the fishing minigame will become.",
+  "gmcm.profs.aquaristfishpondceiling.title": "Aquarist Fishing Bonus Ceiling",
+  "gmcm.profs.aquaristfishpondceiling.desc": "The maximum number of Fish Ponds that will be counted for Aquarist's fishing bonus. If you like raising dozens of fish species, you may use this to limit how easy the fishing minigame will become.",
   "gmcm.profs.legendarypondpopulationceiling.title": "Legendary Pond Population Ceiling",
   "gmcm.profs.legendarypondpopulationceiling.desc": "The maximum population of Aquarist Fish Ponds with legendary fish.",
   "gmcm.profs.trashpertaxdeduction.title": "Trash Per Tax Deduction %",

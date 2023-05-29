@@ -75,7 +75,7 @@ internal sealed class MeleeWeaponSalePricePatcher : HarmonyPatcher
                 }
             }
 
-            __result = (int)(__result * 2f * Game1.player.difficultyModifier); // x2 because this number will be halved later
+            __result = (int)(__result * 2f * Game1.player.difficultyModifier); // x2 because this number will later be halved by the game
             return false; // don't run original logic
         }
         catch (Exception ex)

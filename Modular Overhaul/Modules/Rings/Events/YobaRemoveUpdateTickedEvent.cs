@@ -20,13 +20,21 @@ internal sealed class YobaRemoveUpdateTickedEvent : UpdateTickedEvent
     /// <inheritdoc />
     protected override void OnUpdateTickedImpl(object? sender, UpdateTickedEventArgs e)
     {
-        if (Game1.player.health < Game1.player.maxHealth * 0.5 && Game1.buffsDisplay.hasBuff(21))
+        if (!Game1.buffsDisplay.hasBuff(21))
+        {
+            RingsModule.State.YobaShieldHealth = 0;
+            Log.D("[RNGS]: Yoba Shield's timer has run out.");
+            this.Disable();
+            return;
+        }
+
+        if (Game1.player.health < Game1.player.maxHealth * 0.5)
         {
             return;
         }
 
         RingsModule.State.YobaShieldHealth = 0;
-        Log.D("[RNGS]: Yoba Shield health reset to zero!");
+        Log.D("[RNGS]: Player's health reached half or above. Yoba Shield was removed.");
         this.Disable();
     }
 }

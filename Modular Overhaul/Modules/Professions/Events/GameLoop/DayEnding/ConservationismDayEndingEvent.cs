@@ -3,7 +3,6 @@
 #region using directives
 
 using System.Globalization;
-using System.Linq;
 using DaLion.Overhaul.Modules.Professions.Extensions;
 using DaLion.Shared.Events;
 using DaLion.Shared.Extensions.SMAPI;
@@ -34,8 +33,7 @@ internal sealed class ConservationismDayEndingEvent : DayEndingEvent
             var taxBonus = player.Read<float>(DataKeys.ConservationistActiveTaxBonusPct);
             if (taxBonus > 0f)
             {
-                var amountSold = Game1.getFarm().getShippingBin(player).Sum(item =>
-                    item is SObject obj ? obj.sellToStorePrice() * obj.Stack : item.salePrice() / 2);
+                var amountSold = Game1.game1.GetTotalSoldByPlayer(player);
                 if (amountSold >= 0)
                 {
                     player.Money += (int)(amountSold * taxBonus);

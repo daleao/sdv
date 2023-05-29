@@ -1,5 +1,19 @@
 ﻿# ENCH Change Log
 
+## 2.3.2 <sup><sub><sup>[🔼](#ench-change-log)</sup></sub></sup>
+
+### Added
+
+* Added shield VFX to Bloodthirsty enchant.
+
+### Changed
+
+* Quincy enchantment can now travel through walls. No longer receives velocity from Desperado overcharge. No longer spams the annoying debuff spell sound.
+
+### Fixed
+
+* Magnum and Preserving enchantments now work without SLNGS module.
+
 ## 2.2.5 <sup><sub><sup>[🔼](#ench-change-log)</sup></sub></sup>
 
 ### Fixed

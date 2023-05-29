@@ -38,7 +38,7 @@ internal sealed class SlingshotSaveLoadedEvent : SaveLoadedEvent
 
         var player = Game1.player;
         var index = player.Read(DataKeys.SelectableSlingshot, -1);
-        if (index < 0)
+        if (index < 0 || index >= player.Items.Count)
         {
             return;
         }

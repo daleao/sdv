@@ -74,7 +74,8 @@ internal static class SlingshotExtensions
         var damage = 10 * slingshot.InitialParentTileIndex switch
         {
             ItemIDs.MasterSlingshot => 2,
-            ItemIDs.GalaxySlingshot => 4,
+            ItemIDs.GalaxySlingshot => 3,
+            ItemIDs.InfinitySlingshot => 4,
             _ => 1,
         };
 
@@ -100,7 +101,7 @@ internal static class SlingshotExtensions
 
         var dummyWeapon = new MeleeWeapon { BaseName = string.Empty };
         Reflector.GetUnboundFieldSetter<Tool, Farmer>(dummyWeapon, "lastUser").Invoke(dummyWeapon, who);
-        var v = new Vector2(x / 64, y / 64);
+        var v = new Vector2(x / Game1.tileSize, y / Game1.tileSize);
 
         if (location.terrainFeatures.ContainsKey(v) &&
             location.terrainFeatures[v].performToolAction(dummyWeapon, 0, v, location))
@@ -114,7 +115,6 @@ internal static class SlingshotExtensions
         }
 
         location.performToolAction(dummyWeapon, (int)v.X, (int)v.Y);
-
         location.projectiles.Filter(delegate(Projectile projectile)
         {
             if (areaOfEffect.Intersects(projectile.getBoundingBox()) && !projectile.ignoreMeleeAttacks.Value)
@@ -314,33 +314,46 @@ internal static class SlingshotExtensions
                 {
                     case 0:
                     case 1:
-                        toolPosition = new Vector2(playerPosition.X - 54f, playerPosition.Y - 46f);
+                        toolPosition = new Vector2(playerPosition.X - 42f, playerPosition.Y - 99f);
                         b.Draw(
                             Tool.weaponsTexture,
                             toolPosition,
                             sourceRect,
                             Color.White,
-                            -(float)Math.PI * 3 / 8f,
+                            -(float)Math.PI / 8f,
                             Vector2.Zero,
                             4f,
                             SpriteEffects.None,
                             Math.Max(0f, (who.getStandingY() + 64) / 10000f));
                         break;
                     case 2:
-                        toolPosition = new Vector2(playerPosition.X + 96f, playerPosition.Y - 108f);
+                        toolPosition = new Vector2(playerPosition.X + 34f, playerPosition.Y - 124f);
                         b.Draw(
                             Tool.weaponsTexture,
                             toolPosition,
                             sourceRect,
                             Color.White,
-                            (float)Math.PI * 2f / 6f,
+                            (float)Math.PI / 8f,
                             Vector2.Zero,
                             4f,
                             SpriteEffects.None,
                             Math.Max(0f, (who.getStandingY() + 64) / 10000f));
                         break;
                     case 3:
-                        toolPosition = new Vector2(playerPosition.X + 115f, playerPosition.Y - 60f);
+                        toolPosition = new Vector2(playerPosition.X + 78f, playerPosition.Y - 114f);
+                        b.Draw(
+                            Tool.weaponsTexture,
+                            toolPosition,
+                            sourceRect,
+                            Color.White,
+                            (float)Math.PI / 4f,
+                            Vector2.Zero,
+                            4f,
+                            SpriteEffects.None,
+                            Math.Max(0f, (who.getStandingY() + 64) / 10000f));
+                        break;
+                    case 4:
+                        toolPosition = new Vector2(playerPosition.X + 116f, playerPosition.Y - 61f);
                         b.Draw(
                             Tool.weaponsTexture,
                             toolPosition,
@@ -352,8 +365,8 @@ internal static class SlingshotExtensions
                             SpriteEffects.None,
                             Math.Max(0f, (who.getStandingY() + 64) / 10000f));
                         break;
-                    case >= 4:
-                        toolPosition = new Vector2(playerPosition.X + 115f, playerPosition.Y - 54f);
+                    case >= 5:
+                        toolPosition = new Vector2(playerPosition.X + 114f, playerPosition.Y - 53f);
                         b.Draw(
                             Tool.weaponsTexture,
                             toolPosition,
@@ -374,33 +387,46 @@ internal static class SlingshotExtensions
                 {
                     case 0:
                     case 1:
-                        toolPosition = new Vector2(playerPosition.X + 92f, playerPosition.Y - 104f);
+                        toolPosition = new Vector2(playerPosition.X + 48f, playerPosition.Y - 122f);
                         b.Draw(
                             Tool.weaponsTexture,
                             toolPosition,
                             sourceRect,
                             Color.White,
-                            (float)Math.PI * 3f / 8f,
+                            (float)Math.PI / 8f,
                             Vector2.Zero,
                             4f,
                             SpriteEffects.None,
                             Math.Max(0f, (who.getStandingY() + 64) / 10000f));
                         break;
                     case 2:
-                        toolPosition = new Vector2(playerPosition.X - 66f, playerPosition.Y - 52f);
+                        toolPosition = new Vector2(playerPosition.X - 28f, playerPosition.Y - 108f);
                         b.Draw(
                             Tool.weaponsTexture,
                             toolPosition,
                             sourceRect,
                             Color.White,
-                            (float)Math.PI * -2f / 6f,
+                            -(float)Math.PI / 8f,
                             Vector2.Zero,
                             4f,
                             SpriteEffects.None,
                             Math.Max(0f, (who.getStandingY() + 64) / 10000f));
                         break;
                     case 3:
-                        toolPosition = new Vector2(playerPosition.X - 53f, playerPosition.Y + 4f);
+                        toolPosition = new Vector2(playerPosition.X - 64f, playerPosition.Y - 68f);
+                        b.Draw(
+                            Tool.weaponsTexture,
+                            toolPosition,
+                            sourceRect,
+                            Color.White,
+                            -(float)Math.PI / 4f,
+                            Vector2.Zero,
+                            4f,
+                            SpriteEffects.None,
+                            Math.Max(0f, (who.getStandingY() + 64) / 10000f));
+                        break;
+                    case 4:
+                        toolPosition = new Vector2(playerPosition.X - 54f, playerPosition.Y + 2f);
                         b.Draw(
                             Tool.weaponsTexture,
                             toolPosition,
@@ -412,8 +438,8 @@ internal static class SlingshotExtensions
                             SpriteEffects.None,
                             Math.Max(0f, (who.getStandingY() + 64) / 10000f));
                         break;
-                    case >= 4:
-                        toolPosition = new Vector2(playerPosition.X - 53f, playerPosition.Y + 10f);
+                    case >= 5:
+                        toolPosition = new Vector2(playerPosition.X - 52f, playerPosition.Y + 11f);
                         b.Draw(
                             Tool.weaponsTexture,
                             toolPosition,

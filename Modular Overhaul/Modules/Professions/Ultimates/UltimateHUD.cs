@@ -89,15 +89,15 @@ internal sealed class UltimateHud
         }
 
         // draw bar in thirds so that it may grow with combat level
-        Rectangle srcRect, destRect;
+        Rectangle sourceRect, destRect;
 
         // top
         var width = 12;
-        srcRect = new Rectangle(0, 0, width, 16);
+        sourceRect = new Rectangle(0, 0, width, 16);
         b.Draw(
             Texture,
             topOfBar,
-            srcRect,
+            sourceRect,
             Color.White * this._opacity,
             0f,
             Vector2.Zero,
@@ -119,7 +119,7 @@ internal sealed class UltimateHud
 
         // middle
         var srcY = 16;
-        srcRect = new Rectangle(0, srcY, width, 20);
+        sourceRect = new Rectangle(0, srcY, width, 20);
         destRect = new Rectangle(
             (int)topOfBar.X,
             (int)(topOfBar.Y + (srcY * 4f)),
@@ -128,16 +128,16 @@ internal sealed class UltimateHud
         b.Draw(
             Texture,
             destRect,
-            srcRect,
+            sourceRect,
             Color.White * this._opacity);
 
         // bottom
         srcY = TextureHeight - 16;
-        srcRect = new Rectangle(0, srcY, width, 16);
+        sourceRect = new Rectangle(0, srcY, width, 16);
         b.Draw(
             Texture,
             new Vector2(topOfBar.X, topOfBar.Y + (srcY * 4f) + (float)bonusLevelHeight),
-            srcRect,
+            sourceRect,
             Color.White * this._opacity,
             0f,
             Vector2.Zero,
@@ -153,7 +153,7 @@ internal sealed class UltimateHud
 
         width = 6;
         srcY = TextureHeight - 2 - srcHeight;
-        srcRect = new Rectangle(12, srcY, width, srcHeight);
+        sourceRect = new Rectangle(12, srcY, width, srcHeight);
         destRect = new Rectangle(
             (int)topOfBar.X + 12,
             (int)(topOfBar.Y + ((TextureHeight - 44) * 4) + (float)fullBarHeight - destHeight),
@@ -163,7 +163,7 @@ internal sealed class UltimateHud
         b.Draw(
             Texture,
             destRect,
-            srcRect,
+            sourceRect,
             Color.White,
             0f,
             Vector2.Zero,

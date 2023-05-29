@@ -22,5 +22,5 @@ internal sealed class State
 
     internal int YobaShieldHealth { get; set; } = -1;
 
-    internal bool CanReceiveYobaShield { get; set; }
+    internal bool CanReceiveYobaShield { get; set; } = true;
 }

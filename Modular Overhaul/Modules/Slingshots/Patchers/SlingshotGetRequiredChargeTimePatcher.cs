@@ -27,12 +27,10 @@ internal sealed class SlingshotGetRequiredChargeTimePatcher : HarmonyPatcher
     private static void SlingshotGetRequiredChargeTimePostfix(Slingshot __instance, ref float __result)
     {
         var firer = __instance.getLastFarmerToUse();
-        if (!firer.IsLocalPlayer)
+        if (firer.IsLocalPlayer)
         {
-            return;
+            __result *= firer.GetTotalFiringSpeedModifier(__instance);
         }
-
-        __result *= firer.GetTotalFiringSpeedModifier(__instance);
     }
 
     #endregion harmony patches

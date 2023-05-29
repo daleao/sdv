@@ -295,20 +295,21 @@
   "gems.emerald.name": "Smaragd",
   "gems.amethyst.name": "Amethyst",
   "gems.topaz.name": "Topas",
-  "gems.garnet.name": "Granat",
-  "gems.garnet.description": "Der Namensvetter einer schönen Prinzessin aus einem fernen Land.",
   "rings.jade.desc": "Erhöht die kritische Schlagkraft um 50%.",
   "rings.topaz.desc.resist": "Erhöht die Widerstandsfähigkeit um 10%.",
   "rings.topaz.desc.defense": "Erhöht die Verteidigung um 1.",
+  "rings.immunity.extradesc": " Gewährt vollständige Immunität gegen Schwächungen.",
   "rings.iridium.desc": "Ein gewöhnliches Band aus Iridium.",
   "rings.warrior.desc": "Feindliche Takedowns gewähren einen progressiv höheren Angriff.",
-  "buffs.warrior.desc": "Ansturm",
   "rings.yoba.desc": "Gewährt einen Schild, wenn deine Gesundheit unter 30 % fällt.",
+  "buffs.warrior.desc": "Ansturm",
   "buffs.yoba.desc": "Lebenslinie",
   "global.infinitycraft": "{{who}} hat ein Infinity Band geschmiedet.",
   "resonance": "Resonanz",
 
   // json assets
+  "gems.garnet.name": "Granat",
+  "gems.garnet.description": "Der Namensvetter einer schönen Prinzessin aus einem fernen Land.",
   "rings.garnet.name": "Granat Ring",
   "rings.garnet.description": "Verringert die Abklingzeit von Spezialbewegungen um 10%.",
   "rings.infinity.name": "Unendlichkeitsband",
@@ -344,16 +345,16 @@
 
   //// needs revision !!!
 
-  "tax.intro": "Department of the Treasury^Ferngill Revenue Service^^^{{honorific}} Steuerzahler,^^Mit diesem Schreiben möchten wir dich darüber informieren, dass deine kürzlich erfolgte Adressänderung nach Pelican Town, Stardew Valley, eingereicht und registriert worden ist. Alle zukünftige Korrespondenz wird an {{farm}} gerichtet.^^Wir möchten Sie freundlich daran erinnern, dass die Bundeseinkommensteuerbeiträge am 1. jeder Saison am Ende des Tages fällig sind. Zu Ihrer Bequemlichkeit werden Ihre fälligen Verpflichtungen automatisch von Ihrem Guthaben abgezogen. Wenn Ihr Guthaben nicht ausreicht, wird Ihnen gemäß Abschnitt 501(c)(1) des Ferngill Revenue Code eine Geldstrafe in Höhe von {{fine}} auferlegt und ein Darlehen wird in Ihrem Namen bei der Bank von Stardew ausgestellt, unterliegen der nominellen Zinsgebühr von {{interest}} pro Jahr.^^^Mit freundlichen Grüßen,^^Laura D. Pretto^Executive Directrice, Ferngill Revenue Service[#]Taxation Intro",
-  "tax.notice": "Department of the Treasury^Ferngill Revenue Service^^^{{honorific}} Steuerzahler,^^Dieser Brief informiert Sie darüber, dass Ihre gesamte fällige Einkommenssteuer für die letzte Saison in Höhe von {{due}}g automatisch von Ihrem Guthaben abgezogen wurde.^^Bitte bewahren Sie diesen Brief für den Fall auf, dass Sie Fragen zu Ihrem Steuerstatus klären müssen.^^^Mit freundlichen Grüßen,^^Laura D. Pretto^Executive Directrice, Ferngill Revenue Service[#]Taxation Notice",
-  "tax.outstanding": "Department of the Treasury^Ferngill Revenue Service^^^{{honorific}} Steuerzahler,^^Mit diesem Schreiben teilen wir dir mit, dass die von dir für die letzte Saison geschuldete Einkommensteuer in Höhe von {{due}}g nicht vollständig von deinem Guthaben abgezogen werden konnte. Daher werden alle zukünftigen Einkünfte aus der {{farm}} beschlagnahmt, bis Ihre ausstehende Schuld in Höhe von {{outstanding}} beglichen ist. Bitte bedenke, dass es in deinem besten Interesse ist, ausstehende Schulden so schnell wie möglich zu begleichen, um zu vermeiden, dass dir Zinsen in Höhe von {{interest}} pro Jahr und Strafgebühren entstehen.^^Bitte bewahre dieses Schreiben in deinen Unterlagen auf, falls du Fragen zu deinem steuerlichen Status klären musst.^^^Mit freundlichen Grüßen,^^Laura D. Pretto^Executive Directrice, Ferngill Revenue Service[#]FRS Outstanding",
-  "tax.deduction": "Department of the Treasury^Ferngill Revenue Service^^^{{honorific}} Steuerzahler,^^Wir freuen uns, dir mitzuteilen, dass wir bei der Überprüfung deiner umweltpolitischen Aktivitäten festgestellt haben, dass du gemäß Abschnitt 501 (c) (3) des Ferngill Revenue Code für einen Einkommenssteuerabzug von {{deductible}} in Frage kommst. Bitte bewahre dieses Schreiben in deinen Unterlagen auf, falls du Fragen zu deinem Steuerstatus klären musst.^^^^Mit freundlichen Grüßen,^^Laura D. Pretto^Executive Directrice, Ferngill Revenue Service[#]FRS Deduction",
-  "tax.deduction.max": "Department of the Treasury^Ferngill Revenue Service^^^{{honorific}} Steuerzahler,^^Wir freuen uns, dir mitzuteilen, dass wir bei der Überprüfung deiner umweltpolitischen Aktivitäten festgestellt haben, dass du gemäß Abschnitt 501(c)(3) des Ferngill Revenue Code von der Bundeseinkommenssteuer befreit bist. Daher wird dein Guthaben für die abschließende Saison nicht belastet.^^Bitte bewahre dieses Schreiben für den Fall auf, dass du Fragen zu deinem Steuerstatus klären musst.^^^Mit freundlichen Grüßen,^^Laura D. Pretto^Executive Directrice, Ferngill Revenue Service[#]FRS Deduction",
+  "mail.frs.intro": "Department of the Treasury^Ferngill Revenue Service^^^{{honorific}} Steuerzahler,^^Mit diesem Schreiben möchten wir dich darüber informieren, dass deine kürzlich erfolgte Adressänderung nach Pelican Town, Stardew Valley, eingereicht und registriert worden ist. Alle zukünftige Korrespondenz wird an {{farm}} gerichtet.^^Wir möchten Sie freundlich daran erinnern, dass die Bundeseinkommensteuerbeiträge am 1. jeder Saison am Ende des Tages fällig sind. Zu Ihrer Bequemlichkeit werden Ihre fälligen Verpflichtungen automatisch von Ihrem Guthaben abgezogen. Wenn Ihr Guthaben nicht ausreicht, wird Ihnen gemäß Abschnitt 501(c)(1) des Ferngill Revenue Code eine Geldstrafe in Höhe von {{fine}} auferlegt und ein Darlehen wird in Ihrem Namen bei der Bank von Stardew ausgestellt, unterliegen der nominellen Zinsgebühr von {{interest}} pro Jahr.^^^Mit freundlichen Grüßen,^^Laura D. Pretto^Executive Directrice, Ferngill Revenue Service[#]Taxation Intro",
+  "mail.frs.notice": "Department of the Treasury^Ferngill Revenue Service^^^{{honorific}} Steuerzahler,^^Dieser Brief informiert Sie darüber, dass Ihre gesamte fällige Einkommenssteuer für die letzte Saison in Höhe von {{due}}g automatisch von Ihrem Guthaben abgezogen wurde.^^Bitte bewahren Sie diesen Brief für den Fall auf, dass Sie Fragen zu Ihrem Steuerstatus klären müssen.^^^Mit freundlichen Grüßen,^^Laura D. Pretto^Executive Directrice, Ferngill Revenue Service[#]Taxation Notice",
+  "mail.frs.outstanding": "Department of the Treasury^Ferngill Revenue Service^^^{{honorific}} Steuerzahler,^^Mit diesem Schreiben teilen wir dir mit, dass die von dir für die letzte Saison geschuldete Einkommensteuer in Höhe von {{due}}g nicht vollständig von deinem Guthaben abgezogen werden konnte. Daher werden alle zukünftigen Einkünfte aus der {{farm}} beschlagnahmt, bis Ihre ausstehende Schuld in Höhe von {{outstanding}} beglichen ist. Bitte bedenke, dass es in deinem besten Interesse ist, ausstehende Schulden so schnell wie möglich zu begleichen, um zu vermeiden, dass dir Zinsen in Höhe von {{interest}} pro Jahr und Strafgebühren entstehen.^^Bitte bewahre dieses Schreiben in deinen Unterlagen auf, falls du Fragen zu deinem steuerlichen Status klären musst.^^^Mit freundlichen Grüßen,^^Laura D. Pretto^Executive Directrice, Ferngill Revenue Service[#]FRS Outstanding",
+  "mail.frs.deduction": "Department of the Treasury^Ferngill Revenue Service^^^{{honorific}} Steuerzahler,^^Wir freuen uns, dir mitzuteilen, dass wir bei der Überprüfung deiner umweltpolitischen Aktivitäten festgestellt haben, dass du gemäß Abschnitt 501 (c) (3) des Ferngill Revenue Code für einen Einkommenssteuerabzug von {{deductible}} in Frage kommst. Bitte bewahre dieses Schreiben in deinen Unterlagen auf, falls du Fragen zu deinem Steuerstatus klären musst.^^^^Mit freundlichen Grüßen,^^Laura D. Pretto^Executive Directrice, Ferngill Revenue Service[#]FRS Deduction",
+  "mail.frs.deduction.max": "Department of the Treasury^Ferngill Revenue Service^^^{{honorific}} Steuerzahler,^^Wir freuen uns, dir mitzuteilen, dass wir bei der Überprüfung deiner umweltpolitischen Aktivitäten festgestellt haben, dass du gemäß Abschnitt 501(c)(3) des Ferngill Revenue Code von der Bundeseinkommenssteuer befreit bist. Daher wird dein Guthaben für die abschließende Saison nicht belastet.^^Bitte bewahre dieses Schreiben für den Fall auf, dass du Fragen zu deinem Steuerstatus klären musst.^^^Mit freundlichen Grüßen,^^Laura D. Pretto^Executive Directrice, Ferngill Revenue Service[#]FRS Deduction",
 
   "lewis.notice": "@,^Wie Sie wissen, ist es eine meiner Pflichten als Bürgermeister von Pelikan Stadt, Steuern auf alle Grundstücke der Stadt zu erheben. Während des vorangegangenen Geschäftsjahres wurde die Schätzung der Farm von {{farm}} durch den Landkreis vorgenommen Property ermittelte eine Bewertung von {{valuation}}g. Als Ergebnis sind Sie für den anwendbaren Steuerzeitraum mit insgesamt {{due}}g Grundsteuern haftbar. Ich habe mir erlaubt, Ihr Konto direkt zu belasten. ^Im Namen von Pelikan Stadt möchte ich Ihnen meine tiefste Dankbarkeit für Ihre fortwährenden Beiträge zu unserer Gemeinschaft aussprechen.  ^  Mit freundlichen Grüßen, Mr. Lewis[#]Lewis Taxation Notice",
   "lewis.outstanding": "@,^Wie Sie wissen, ist es eine meiner Pflichten als Bürgermeister von Pelikan Stadt, Steuern auf alle Grundstücke der Stadt zu erheben. Während des vorangegangenen Geschäftsjahres wurde die Schätzung der Farm von {{farm}} durch den Landkreis vorgenommen Property ermittelte eine Bewertung von {{valuation}}g. Infolgedessen schulden Sie für den anwendbaren Steuerzeitraum insgesamt {{fine}} g Grundsteuern. Gemäß der Distriktrichtlinie freue ich mich nicht, Ihnen mitteilen zu können, dass Ihnen eine zusätzliche {{Geldstrafe}} in Rechnung gestellt wird. Ihre Gesamtschuld von {{outstanding}} g wird an die Bank von Stardew verkauft, die das Recht hat, alle Versandeinnahmen zu beschlagnahmen, bis der ausstehende Betrag vollständig bezahlt ist, vorbehaltlich eines jährlichen Zinssatzes von {{interest}}.  ^  Bitte beachten Sie, dass die Einwohner von Pelikan Stadt hier sind, um Sie in schwierigen Zeiten zu unterstützen. ^ Mit freundlichen Grüßen, Herr Lewis[#]Lewis Taxation Outstanding",
 
-  "debt.debit": "Dein Guthaben wurde in Höhe von {{amount}}g mit ausstehenden Schulden belastet.",
+  "mail.debt.debit": "Dein Guthaben wurde in Höhe von {{amount}}g mit ausstehenden Schulden belastet.",
 
   "honorific.male": "Sehr geehrter Herr",
   "honorific.female": "Sehr geehrter Frau",
@@ -457,8 +458,8 @@
   "gmcm.profs.enablegetexcited.desc": "Whether to trigger the 'Get Excited' buff when a Demolitionist is hit by an explosion.",
   "gmcm.profs.anglerpricebonusceiling.title": "Angler Price Bonus Ceiling",
   "gmcm.profs.anglerpricebonusceiling.desc": "If multiple new fish mods are installed, you may want to adjust this to a sensible value. Limits the price multiplier for fish sold by Angler.",
-  "gmcm.profs.aquaristfishpondceiling.title": "Aquarist Fish Pond Ceiling",
-  "gmcm.profs.aquaristfishpondceiling.desc": "If you like raising dozen of fish species, you may use this to limit how easy the fishing minigame will become.",
+  "gmcm.profs.aquaristfishpondceiling.title": "Aquarist Fishing Bonus Ceiling",
+  "gmcm.profs.aquaristfishpondceiling.desc": "The maximum number of Fish Ponds that will be counted for Aquarist's fishing bonus. If you like raising dozens of fish species, you may use this to limit how easy the fishing minigame will become.",
   "gmcm.profs.legendarypondpopulationceiling.title": "Legendary Pond Population Ceiling",
   "gmcm.profs.legendarypondpopulationceiling.desc": "The maximum population of Aquarist Fish Ponds with legendary fish.",
   "gmcm.profs.trashpertaxdeduction.title": "Trash Per Tax Deduction %",

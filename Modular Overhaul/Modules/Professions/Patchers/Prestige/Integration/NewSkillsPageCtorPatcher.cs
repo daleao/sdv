@@ -56,7 +56,7 @@ internal sealed class NewSkillsPageCtorPatcher : HarmonyPatcher
             ___scrollBarRunner.X += 24;
         }
 
-        var srcRect = new Rectangle(16, 0, 14, 9);
+        var sourceRect = new Rectangle(16, 0, 14, 9);
         var skills = Skills.GetSkillList();
         for (var i = 0; i < __instance.skillBars.Count; i++)
         {
@@ -89,7 +89,7 @@ internal sealed class NewSkillsPageCtorPatcher : HarmonyPatcher
                     if (skillLevel >= 15)
                     {
                         component.texture = Textures.SkillBarsTx;
-                        component.sourceRect = srcRect;
+                        component.sourceRect = sourceRect;
                     }
 
                     break;
@@ -119,7 +119,7 @@ internal sealed class NewSkillsPageCtorPatcher : HarmonyPatcher
                     if (skillLevel >= 20)
                     {
                         component.texture = Textures.SkillBarsTx;
-                        component.sourceRect = srcRect;
+                        component.sourceRect = sourceRect;
                     }
 
                     break;

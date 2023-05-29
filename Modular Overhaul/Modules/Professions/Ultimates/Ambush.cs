@@ -4,7 +4,6 @@
 
 using System.Linq;
 using DaLion.Overhaul.Modules.Professions.Events.GameLoop;
-using DaLion.Overhaul.Modules.Professions.Sounds;
 using Microsoft.Xna.Framework;
 using Netcode;
 using StardewValley.Monsters;
@@ -49,13 +48,11 @@ public sealed class Ambush : Ultimate
     internal override void Activate()
     {
         base.Activate();
-
         this.SecondsOutOfAmbush = 0d;
 
         for (var i = 0; i < Game1.currentLocation.characters.Count; i++)
         {
-            var character = Game1.currentLocation.characters[i];
-            if (character is not Monster { Player.IsLocalPlayer: true } monster)
+            if (Game1.currentLocation.characters[i] is not Monster { Player.IsLocalPlayer: true } monster)
             {
                 continue;
             }

@@ -18,12 +18,12 @@ internal sealed class CoreAssetRequestedEvent : AssetRequestedEvent
     {
         this.Provide(
             $"{Manifest.UniqueID}/BleedAnimation",
-            new ModTextureProvider(() => "assets/animations/bleed.png"));
+            new ModTextureProvider(() => "assets/vfx/bleed.png"));
         this.Provide(
             $"{Manifest.UniqueID}/SlowAnimation",
-            new ModTextureProvider(() => "assets/animations/slow.png"));
+            new ModTextureProvider(() => "assets/vfx/slow.png"));
         this.Provide(
             $"{Manifest.UniqueID}/StunAnimation",
-            new ModTextureProvider(() => "assets/animations/stun.png"));
+            new ModTextureProvider(() => "assets/vfx/stun.png"));
     }
 }

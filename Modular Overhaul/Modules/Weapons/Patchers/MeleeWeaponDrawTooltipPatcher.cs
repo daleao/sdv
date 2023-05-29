@@ -125,7 +125,7 @@ internal sealed class MeleeWeaponDrawTooltipPatcher : HarmonyPatcher
 
                 Utility.drawTextWithShadow(
                     spriteBatch,
-                    I18n.Ui_Itemhover_Crate(new { amount = $"{relativeCritChance:+#.#%;-#.#%}" }),
+                    I18n.Ui_Itemhover_Crate($"{relativeCritChance:+#.#%;-#.#%}"),
                     font,
                     new Vector2(x + 68, y + 28),
                     co * 0.9f * alpha);

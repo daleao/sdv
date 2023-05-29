@@ -3,6 +3,7 @@
 #region using directives
 
 using DaLion.Overhaul.Modules.Slingshots.Extensions;
+using DaLion.Overhaul.Modules.Slingshots.Integrations;
 using DaLion.Overhaul.Modules.Slingshots.VirtualProperties;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
@@ -33,6 +34,11 @@ internal sealed class Game1PressActionButtonPatcher : HarmonyPatcher
         var player = Game1.player;
         if (player.CurrentTool is not Slingshot slingshot || slingshot.Get_IsOnSpecial() || player.usingSlingshot ||
             !player.CanMove || player.canOnlyWalk || player.onBridge.Value || !Game1.didPlayerJustRightClick(true))
+        {
+            return;
+        }
+
+        if (ArcheryIntegration.Instance?.ModApi?.GetWeaponData(Manifest, slingshot).Key == true)
         {
             return;
         }

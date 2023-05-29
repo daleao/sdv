@@ -296,7 +296,7 @@ internal sealed class IClickableMenuDrawHoverTextPatcher : HarmonyPatcher
             for (var j = 0; j < level; j++)
             {
                 b.Draw(
-                    Textures.ForgeIconTx,
+                    Textures.GemSocketTx,
                     position,
                     sourceRect,
                     color,
@@ -317,7 +317,7 @@ internal sealed class IClickableMenuDrawHoverTextPatcher : HarmonyPatcher
             for (var i = 0; i < emptySlots; i++)
             {
                 b.Draw(
-                    Textures.ForgeIconTx,
+                    Textures.GemSocketTx,
                     position,
                     sourceRect,
                     Color.White,

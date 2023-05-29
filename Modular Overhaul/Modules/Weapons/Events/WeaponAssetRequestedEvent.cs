@@ -58,10 +58,10 @@ internal sealed class WeaponAssetRequestedEvent : AssetRequestedEvent
 
         //this.Provide(
         //    $"{Manifest.UniqueID}/BeamCollisionAnimation",
-        //    new ModTextureProvider(() => "assets/animations/beam.png", AssetLoadPriority.Medium));
+        //    new ModTextureProvider(() => "assets/vfx/beam.png", AssetLoadPriority.Medium));
         //this.Provide(
         //    $"{Manifest.UniqueID}/InfinityCollisionAnimation",
-        //    new ModTextureProvider(() => "assets/animations/infinity.png", AssetLoadPriority.Medium));
+        //    new ModTextureProvider(() => "assets/vfx/infinity.png", AssetLoadPriority.Medium));
         this.Provide("Data/Events/Blacksmith", new DictionaryProvider<string, string>(null, AssetLoadPriority.Low));
     }
 

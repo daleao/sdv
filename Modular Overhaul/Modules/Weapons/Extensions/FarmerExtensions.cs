@@ -23,8 +23,9 @@ internal static class FarmerExtensions
     /// <returns>The total swing speed modifier, a number between 0 and 1.</returns>
     internal static float GetTotalSwingSpeedModifier(this Farmer farmer, MeleeWeapon? weapon = null)
     {
-        var modifier = 1f;
         weapon ??= farmer.CurrentTool as MeleeWeapon;
+
+        var modifier = 1f;
         if (weapon is not null)
         {
             modifier *= weapon.Get_EffectiveSwingSpeed();

@@ -1,4 +1,4 @@
-﻿namespace DaLion.Overhaul.Modules.Professions.Sounds;
+﻿namespace DaLion.Overhaul.Modules.Professions;
 
 #region using directives
 

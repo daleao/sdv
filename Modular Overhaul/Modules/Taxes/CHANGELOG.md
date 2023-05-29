@@ -1,5 +1,11 @@
 ﻿# TXS Change Log
 
+## 2.3.2 <sup><sub><sup>[🔼](#txs-change-log)</sup></sub></sup>
+
+### Fixes
+
+* Fixed translation keys on every language.
+
 ## 2.3.0 <sup><sub><sup>[🔼](#txs-change-log)</sup></sub></sup>
 
 ### Added

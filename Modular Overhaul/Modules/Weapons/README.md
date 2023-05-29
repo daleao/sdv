@@ -114,7 +114,7 @@ This is the only part of the whole Rebalance that will affect non-Vanilla weapon
 
 ## Infinity +1 <sup><sub><sup>[🔼](#margo-weapons-wpnz)</sup></sub></sup>
 
-According to [TV Tropes Wiki](https://tvtropes.org/pmwiki/pmwiki.php/Main/InfinityPlusOneSword), an Infinity +1 sword is "not only the most powerful of its kind ... , but its power is matched by how hard it is to acquire". The Vanilla Galaxy weapons do not quite fit that definition. Let's fix that, shall we?
+According to [TV Tropes Wiki](https://tvtropes.org/pmwiki/pmwiki.php/Main/InfinityPlusOneSword), an Infinity +1 sword is "not only the most powerful of its kind [...] , but its power is matched by how hard it is to acquire". The vanilla Infinity weapons do not quite fit that definition. Let's fix that, shall we?
 
 To obtain your first Galaxy weapon, as in vanilla you must first unlock the desert, acquire a Prismatic Shard and offer it to the Three Sand Sisters. Unlike vanilla, however, the weapon will not materialize out of thin air, but will be shaped out of a configurable amount of Iridium Bars (10 by default), which must be in your inventory. This will prevent a lucky Prismatic Shard drop from the Mines or a Fishing Chest from instantly rewarding one of the strongest weapons in the game before the player has even set foot in the Skull Caverns. Now, some venturing into the Skull Caverns is required.
 
@@ -171,7 +171,13 @@ Should you choose to ignore these side-effects and continue to strengthen the Bl
 
 **How do I lift the Ruined Blade's curse?**
 
-Prove your Honor, Compassion and Wisdom by selecting certain responses during character heart events (you will have at least 8 chances to prove each of these virtues at least 3 times). Prove your Valor by completing at least 5 monster slayer quests. Finally, prove your Generosity by purchasing the house upgrade for Pam. When you are ready, approach Yoba's altar in Pierre's house.
+To begin the quest, you must slay at least 50 enemies with the Blade equipped, prompting the Wizard to invite you over for a chat. To complete this initial quest, simply interact with the Yoba altar and exhaust all possible dialogue choices.
+You will then be asked to prove your virtues:
+- Prove your Honor, Compassion and Wisdom by selecting certain responses during character heart events (you will have at least 8 chances to prove each of these virtues a number of times).
+- Prove your Valor by completing at least monster slayer quests.
+- Prove your Generosity by gifting NPCs a certain amount of gold in gifts, or by purchasing the house upgrade for Pam. Exact values will depend on your difficulty settings (you can see them in-game in the your quest journal).
+
+When you are ready, approach Yoba's altar in Pierre's house with the Blade in hand  .
 
 **What are the IDs of heart events related the Blade of Ruin?**
 

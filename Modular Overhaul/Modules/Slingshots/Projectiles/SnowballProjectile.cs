@@ -2,8 +2,11 @@
 
 #region using directives
 
+using DaLion.Overhaul.Modules.Combat.Extensions;
 using DaLion.Shared.Extensions;
 using Microsoft.Xna.Framework;
+using StardewValley.Monsters;
+using StardewValley.Objects;
 using StardewValley.Projectiles;
 using StardewValley.Tools;
 
@@ -76,5 +79,53 @@ internal sealed class SnowballProjectile : BasicProjectile
             {
                 scale = this.Overcharge,
             });
+    }
+
+    /// <inheritdoc />
+    public override void behaviorOnCollisionWithMonster(NPC n, GameLocation location)
+    {
+        base.behaviorOnCollisionWithMonster(n, location);
+        if (n is Monster { Health: > 0 } monster && Game1.random.NextDouble() < 0.1)
+        {
+            monster.Chill();
+        }
+    }
+
+    /// <inheritdoc />
+    public override bool update(GameTime time, GameLocation location)
+    {
+        var didCollide = base.update(time, location);
+        if (didCollide)
+        {
+            return true;
+        }
+
+        var boundingBox = this.getBoundingBox();
+        var tilePosition = new Vector2(boundingBox.Center.X / Game1.tileSize, boundingBox.Center.Y / Game1.tileSize);
+        if (location.Objects.TryGetValue(tilePosition, out var @object))
+        {
+            didCollide = this.BehaviorOnCollisionWithObject(location, @object);
+        }
+
+        return didCollide;
+    }
+
+    internal bool BehaviorOnCollisionWithObject(GameLocation location, SObject @object)
+    {
+        if (@object is not BreakableContainer container)
+        {
+            return false; // if the object is not a container, the projectile continues on its way
+        }
+
+        var dummyWeapon = new MeleeWeapon { BaseName = string.Empty };
+        Reflector.GetUnboundFieldSetter<Tool, Farmer>(dummyWeapon, "lastUser")
+            .Invoke(dummyWeapon, this.theOneWhoFiredMe.Get(location) as Farmer ?? Game1.player);
+        if (!container.performToolAction(dummyWeapon, location))
+        {
+            return true; // if the container did not break, the projectile is stopped
+        }
+
+        location.Objects.Remove(@object.TileLocation);
+        return false; // if the container broke, then the projectile lives on
     }
 }

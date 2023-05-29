@@ -29,7 +29,7 @@ internal sealed class TaxDayStartedEvent : DayStartedEvent
         Game1.player.Money -= toDebit;
         Game1.addHUDMessage(
             new HUDMessage(
-                I18n.Debt_Debit(toDebit.ToString()),
+                I18n.Mail_Debt_Debit(toDebit.ToString()),
                 HUDMessage.newQuest_type) { timeLeft = HUDMessage.defaultTime * 2 });
         TaxesModule.State.LatestAmountWithheld = 0;
         this.Disable();

@@ -45,7 +45,7 @@ public sealed class BloodthirstyEnchantment : BaseWeaponEnchantment
         Log.D($"[ENCH]: {who.Name} absorbed {lifeSteal} health.");
         if (who.health > who.maxHealth)
         {
-            EventManager.Enable<BloodthirstyUpdateTickedEvent>();
+            EventManager.Enable(typeof(BloodthirstyRenderedWorldEvent), typeof(BloodthirstyUpdateTickedEvent));
         }
     }
 }

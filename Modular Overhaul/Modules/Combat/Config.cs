@@ -17,6 +17,10 @@ public sealed class Config : Shared.Configs.Config
     [JsonProperty]
     public bool KnockbackDamage { get; internal set; } = true;
 
+    /// <summary>Gets a value indicating whether to replace the Shooter projectile texture.</summary>
+    [JsonProperty]
+    public bool ShadowyShooterProjectile { get; internal set; } = true;
+
     /// <summary>Gets a value indicating whether to overhaul the defense stat with better scaling and other features.</summary>
     [JsonProperty]
     public bool OverhauledDefense { get; internal set; } = true;

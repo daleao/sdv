@@ -56,7 +56,7 @@ Taking inspiration from classic RPG or strategy games, this module adds a framew
 - **Bleeding:** Causes damage every second. Damage increases exponentially with each additional stack. Stacks up to 5x. Does not affect Ghosts, Skeletons, Golems, Dolls or Mechanical enemies (ex. Dwarven Sentry).
 - **Burning:** Causes damage equal to 1/16th of max health every 3s for 15s, and reduces attack by half. Does not affect fire enemies (i.e., Lava Lurks, Magma Sprites and Magma Sparkers). Insects burn 4x as quickly.
 - **Chilled:** Reduces movement speed by half for 5s. If Chilled is inflicted again during this time, then causes Freeze.
-- **Freeze:** Cannot move or attack for 30s. The next hit during the duration deals triple damage and ends the effect.
+- **Frozen:** Cannot move or attack for 30s. The next hit during the duration deals triple damage and ends the effect.
 - **Poisoned:** Causes damage equal to 1/16 of max health every 3s for 15s, stacking up to 3x.
 - **Slowed:** Reduces movement speed by half for the duration.
 - **Stunned:** Cannot move or attack for the duration.

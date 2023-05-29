@@ -75,26 +75,17 @@ internal sealed class ObjectProjectile : BasicProjectile
         this.Source = source;
         this.Firer = firer;
         this.Overcharge = overcharge;
-        this.Damage = (int)(this.damageToFarmer.Value * source.Get_RubyDamageModifier() * (1f + firer.attackIncreaseModifier) * overcharge);
-        this.Knockback = knockback * source.Get_AmethystKnockbackModifer() * (1f + firer.knockbackModifier) * overcharge;
-
-        var canCrit = SlingshotsModule.Config.EnableCriticalHits;
-        this.CritChance = canCrit
-            ? 0.025f * source.Get_AquamarineCritChanceModifier() * (1f + firer.critChanceModifier)
-            : 0f;
-        this.CritPower = canCrit
-            ? 2f * source.Get_JadeCritPowerModifier() * (1f + firer.critPowerModifier)
-            : 0f;
-
-        this.CanPierce = !this.IsSquishy() && ammo.ParentSheetIndex != ItemIDs.ExplosiveAmmo;
-        if (this.IsSquishy())
+        this.Damage = (int)(this.damageToFarmer.Value * (1f + firer.attackIncreaseModifier) * overcharge);
+        this.Knockback = knockback * (1f + firer.knockbackModifier) * overcharge;
+        this.CanPierce = !this.IsSquishy && ammo.ParentSheetIndex != ItemIDs.ExplosiveAmmo;
+        if (this.IsSquishy)
         {
             Reflector
                 .GetUnboundFieldGetter<BasicProjectile, NetString>(this, "collisionSound")
                 .Invoke(this).Value = "slimedead";
         }
 
-        if (firer.HasProfession(Profession.Rascal) && !this.IsSquishy() && ProfessionsModule.Config.ModKey.IsDown() && !source.CanAutoFire())
+        if (firer.HasProfession(Profession.Rascal) && !this.IsSquishy && ProfessionsModule.Config.ModKey.IsDown() && !source.CanAutoFire())
         {
             this.Damage = (int)(this.Damage * 0.8f);
             this.Knockback *= 0.8f;
@@ -117,15 +108,22 @@ internal sealed class ObjectProjectile : BasicProjectile
 
     public float Knockback { get; private set; }
 
-    public float CritChance { get; }
-
-    public float CritPower { get; }
-
     public bool CanPierce { get; }
 
     public bool DidBounce { get; private set; }
 
     public bool DidPierce { get; private set; }
+
+    /// <summary>Gets a value indicating whether the projectile should pierce and bounce or make squishy noises upon collision.</summary>
+    public bool IsSquishy => this.Ammo?.Category is SObject.EggCategory or SObject.FruitsCategory or SObject.VegetableCategory ||
+                             this.Ammo?.ParentSheetIndex == ItemIDs.Slime;
+
+    /// <inheritdoc />
+    public override void behaviorOnCollisionWithMineWall(int tileX, int tileY)
+    {
+        this.DidPierce = false;
+        base.behaviorOnCollisionWithMineWall(tileX, tileY);
+    }
 
     /// <inheritdoc />
     public override void behaviorOnCollisionWithMonster(NPC n, GameLocation location)
@@ -177,8 +175,8 @@ internal sealed class ObjectProjectile : BasicProjectile
             false,
             this.Knockback,
             0,
-            this.CritChance,
-            this.CritPower,
+            0f,
+            0f,
             true,
             this.Firer);
 
@@ -191,13 +189,16 @@ internal sealed class ObjectProjectile : BasicProjectile
         }
 
         // check for piercing
-        if (this.Firer.HasProfession(Profession.Desperado, true) && this.CanPierce &&
+        if (this.Firer.HasProfession(Profession.Desperado, true) && this.CanPierce && this._pierceCount < 2 &&
             Game1.random.NextDouble() < this.Overcharge - 1f)
         {
-            this.Damage = (int)(this.Damage * 0.8f);
-            this.Knockback *= 0.8f;
-            this.Overcharge *= 0.8f;
+            this.Damage = (int)(this.Damage * 0.65f);
+            this.Knockback *= 0.65f;
+            this.Overcharge *= 0.65f;
+            this.xVelocity.Value *= 0.65f;
+            this.yVelocity.Value *= 0.65f;
             this.DidPierce = true;
+            Log.D("Pierced!");
             this._pierceCount++;
         }
         else
@@ -214,11 +215,29 @@ internal sealed class ObjectProjectile : BasicProjectile
             blossom.ChargeValue += (this.DidBounce || this.DidPierce ? 18 : 12) -
                                    (10 * this.Firer.health / this.Firer.maxHealth);
         }
+
+        // try to recover
+        var chance = this.Ammo.ParentSheetIndex is SObject.wood or SObject.coal ? 0.175 : 0.35;
+        if (this.Firer.HasProfession(Profession.Rascal, true))
+        {
+            chance *= 2d;
+        }
+
+        chance -= this._pierceCount * 0.2;
+        if (chance > 0d && Game1.random.NextDouble() < chance)
+        {
+            location.debris.Add(
+                new Debris(
+                    this.Ammo.ParentSheetIndex,
+                    new Vector2((int)this.position.X, (int)this.position.Y),
+                    this.Firer.getStandingPosition()));
+        }
     }
 
     /// <inheritdoc />
     public override void behaviorOnCollisionWithOther(GameLocation location)
     {
+        this.DidPierce = false;
         base.behaviorOnCollisionWithOther(location);
         if (this.Ammo is null || this.Firer is null || this.Source is null || !ProfessionsModule.ShouldEnable)
         {
@@ -283,7 +302,7 @@ internal sealed class ObjectProjectile : BasicProjectile
 
         this.DidPierce = false;
 
-        // get collision angle
+        // get trajectory angle
         var velocity = new Vector2(this.xVelocity.Value, this.yVelocity.Value);
         var angle = velocity.AngleWithHorizontal();
         if (angle > 180)
@@ -345,18 +364,10 @@ internal sealed class ObjectProjectile : BasicProjectile
             false,
             this.Knockback,
             0,
-            this.CritChance,
-            this.CritPower,
+            0f,
+            1f,
             true,
             this.Firer);
         return didCollide;
-    }
-
-    /// <summary>Determines whether the projectile should pierce and bounce or make squishy noises upon collision.</summary>
-    /// <returns><see langword="true"/> if the projectile is an egg, fruit, vegetable or slime, otherwise <see langword="false"/>.</returns>
-    public bool IsSquishy()
-    {
-        return this.Ammo?.Category is SObject.EggCategory or SObject.FruitsCategory or SObject.VegetableCategory ||
-               this.Ammo?.ParentSheetIndex == ItemIDs.Slime;
     }
 }

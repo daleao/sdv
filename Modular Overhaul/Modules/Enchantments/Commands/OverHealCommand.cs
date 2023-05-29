@@ -2,6 +2,7 @@
 
 #region using directives
 
+using DaLion.Overhaul.Modules.Enchantments.Events;
 using DaLion.Shared.Attributes;
 using DaLion.Shared.Commands;
 
@@ -34,5 +35,9 @@ internal sealed class OverHealCommand : ConsoleCommand
         }
 
         player.health = Math.Min(amount, (int)(player.maxHealth * 1.2f));
+        if (player.health > player.maxHealth)
+        {
+            EventManager.Enable(typeof(BloodthirstyRenderedWorldEvent), typeof(BloodthirstyUpdateTickedEvent));
+        }
     }
 }

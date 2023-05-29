@@ -90,8 +90,8 @@ internal static class MonsterExtensions
             Game1.stats.incrementStat("hardModeMonstersKilled", 1);
         }
 
-        location.characters.Remove(monster);
+        //location.characters.Remove(monster); --> let the game handle removing the character in GameLocation.updateCharacters, otherwise the game will forcefully remove the wrong instance
         Game1.stats.MonstersKilled++;
-        Log.D($"{monster.Name} was killed by {killer.Name}!");
+        Log.D($"{monster.Name} (Max Health: {monster.MaxHealth}) was slain by {killer.Name}.");
     }
 }

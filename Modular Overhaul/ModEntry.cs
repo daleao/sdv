@@ -12,6 +12,7 @@ namespace DaLion.Overhaul;
 #region using directives
 
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using DaLion.Shared.Events;
 using DaLion.Shared.Extensions.Collections;
 using DaLion.Shared.Extensions.SMAPI;
@@ -63,6 +64,8 @@ public sealed class ModEntry : Mod
     internal static IManifest Manifest => Instance.ModManifest;
 
     /// <summary>Gets the <see cref="ITranslationHelper"/> API.</summary>
+    [SuppressMessage("StyleCop.CSharp.NamingRules", "SA1300:Element should begin with upper-case letter", Justification = "Conflicts with Pathoschild.TranslationBuilder")]
+    // ReSharper disable once InconsistentNaming
     internal static ITranslationHelper _I18n => ModHelper.Translation;
 
     /// <summary>The mod entry point, called after the mod is first loaded.</summary>

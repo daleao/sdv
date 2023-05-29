@@ -274,3 +274,4 @@ public interface IBetterCraftingApi
 #pragma warning restore SA1615 // Element return value should be documented
 #pragma warning restore SA1611 // Element parameters should be documented
 #pragma warning restore SA1414 // Tuple types in signatures should have element names
+#pragma warning restore CS1591

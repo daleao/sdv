@@ -60,33 +60,33 @@ internal sealed class AdvanceQuestCommand : ConsoleCommand
             case "virtues":
             case "chivalry":
             case "purification":
-                if (!player.hasQuest((int)Quest.CurseIntro))
+                if (player.Read<VirtueQuestState>(DataKeys.VirtueQuestState) == VirtueQuestState.NotStarted)
                 {
-                    player.addQuest((int)Quest.CurseIntro);
-                    return;
-                }
+                    if (!player.hasQuest((int)Quest.CurseIntro))
+                    {
+                        player.addQuest((int)Quest.CurseIntro);
+                        return;
+                    }
 
-                if (player.hasQuest((int)Quest.CurseIntro))
-                {
                     player.completeQuest((int)Quest.CurseIntro);
-                    WeaponsModule.State.VirtuesQuest ??= new VirtuesQuest();
-
                     player.Write(DataKeys.InspectedHonor, null);
                     player.Write(DataKeys.InspectedCompassion, null);
                     player.Write(DataKeys.InspectedWisdom, null);
                     player.Write(DataKeys.InspectedGenerosity, null);
                     player.Write(DataKeys.InspectedValor, null);
-                    player.Write(DataKeys.VirtueQuestState, VirtuesQuestState.InProgress.ToString());
+                    WeaponsModule.State.VirtuesQuest ??= new VirtueQuest();
+                    player.Write(DataKeys.VirtueQuestState, VirtueQuestState.InProgress.ToString());
                     return;
                 }
 
-                if (WeaponsModule.State.VirtuesQuest is { } quest)
+                if (player.Read<VirtueQuestState>(DataKeys.VirtueQuestState) == VirtueQuestState.InProgress)
                 {
+                    WeaponsModule.State.VirtuesQuest ??= new VirtueQuest();
                     player.Write(DataKeys.ProvenHonor, int.MaxValue.ToString());
                     player.Write(DataKeys.ProvenCompassion, int.MaxValue.ToString());
                     player.Write(DataKeys.ProvenWisdom, int.MaxValue.ToString());
                     player.Write(DataKeys.ProvenGenerosity, int.MaxValue.ToString());
-                    Virtue.List.ForEach(virtue => quest.UpdateVirtueProgress(virtue));
+                    Virtue.List.ForEach(virtue => WeaponsModule.State.VirtuesQuest.UpdateVirtueProgress(virtue));
                 }
 
                 break;

@@ -263,7 +263,7 @@ internal sealed class FarmerShowSwordSwipePatcher : HarmonyPatcher
         }
         catch (Exception ex)
         {
-            Log.E($"Failed injecting novelty color SFX.\nHelper returned {ex}");
+            Log.E($"Failed injecting novelty color VFX.\nHelper returned {ex}");
             return null;
         }
 

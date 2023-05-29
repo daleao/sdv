@@ -90,7 +90,7 @@ internal sealed partial class GenericModConfigMenu
                 getOptionName: I18n.Gmcm_Tols_Specifictools,
                 pages: new[] { "Axe", "Pickaxe", "Hoe", "WateringCan", "Scythe" },
                 getPageId: tool => OverhaulModule.Tools.Namespace + $"/{tool}",
-                getPageName: tool => _I18n.Get("tool." + tool.ToLowerInvariant()),
+                getPageName: tool => _I18n.Get("gmcm.tols." + tool.ToLowerInvariant()),
                 getColumnsFromWidth: _ => 2)
 
             // axe settings
@@ -119,7 +119,7 @@ internal sealed partial class GenericModConfigMenu
                 config => config.Tools.Axe.RequiredUpgradeForCharging.ToString(),
                 (config, value) => config.Tools.Axe.RequiredUpgradeForCharging = Enum.Parse<UpgradeLevel>(value),
                 allowedUpgrades,
-                value => _I18n.Get("upgrade." + value.ToLowerInvariant()))
+                value => _I18n.Get("gmcm.tools.upgrades." + value.ToLowerInvariant()))
             .AddNumberField(
                 I18n.Gmcm_Tols_Charging_Chargedstaminamultiplier_Title,
                 I18n.Gmcm_Tols_Charging_Chargedstaminamultiplier_Desc,
@@ -294,7 +294,7 @@ internal sealed partial class GenericModConfigMenu
                 config => config.Tools.Pick.RequiredUpgradeForCharging.ToString(),
                 (config, value) => config.Tools.Pick.RequiredUpgradeForCharging = Enum.Parse<UpgradeLevel>(value),
                 allowedUpgrades,
-                value => _I18n.Get("upgrade." + value.ToLowerInvariant()))
+                value => _I18n.Get("gmcm.tols.upgrades." + value.ToLowerInvariant()))
             .AddNumberField(
                 I18n.Gmcm_Tols_Charging_Chargedstaminamultiplier_Title,
                 I18n.Gmcm_Tols_Charging_Chargedstaminamultiplier_Desc,

@@ -278,10 +278,10 @@ internal sealed class SkillsPageDrawPatcher : HarmonyPatcher
                 continue;
             }
 
-            Rectangle srcRect;
+            Rectangle sourceRect;
             if (ProfessionsModule.Config.ProgressionStyle.ToString().Contains("Ribbons"))
             {
-                srcRect = new Rectangle(
+                sourceRect = new Rectangle(
                     i * Textures.RibbonWidth,
                     (count - 1) * Textures.RibbonWidth,
                     Textures.RibbonWidth,
@@ -289,17 +289,17 @@ internal sealed class SkillsPageDrawPatcher : HarmonyPatcher
             }
             else if (ProfessionsModule.Config.ProgressionStyle == Config.PrestigeProgressionStyle.StackedStars)
             {
-                srcRect = new Rectangle(0, (count - 1) * 16, Textures.StarsWidth, 16);
+                sourceRect = new Rectangle(0, (count - 1) * 16, Textures.StarsWidth, 16);
             }
             else
             {
-                srcRect = Rectangle.Empty;
+                sourceRect = Rectangle.Empty;
             }
 
             b.Draw(
                 Textures.PrestigeSheetTx,
                 position,
-                srcRect,
+                sourceRect,
                 Color.White,
                 0f,
                 Vector2.Zero,
@@ -339,7 +339,7 @@ internal sealed class SkillsPageDrawPatcher : HarmonyPatcher
                 continue;
             }
 
-            var srcRect = ProfessionsModule.Config.ProgressionStyle switch
+            var sourceRect = ProfessionsModule.Config.ProgressionStyle switch
             {
                 Config.PrestigeProgressionStyle.Gen3Ribbons or Config.PrestigeProgressionStyle.Gen4Ribbons => new Rectangle(
                     skill.StringId == "blueberry.LoveOfCooking.CookingSkill" ? 111 : 133,
@@ -354,7 +354,7 @@ internal sealed class SkillsPageDrawPatcher : HarmonyPatcher
             b.Draw(
                 Textures.PrestigeSheetTx,
                 position,
-                srcRect,
+                sourceRect,
                 Color.White,
                 0f,
                 Vector2.Zero,

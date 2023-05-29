@@ -8,7 +8,6 @@ using DaLion.Overhaul.Modules.Professions.Events.GameLoop;
 using DaLion.Overhaul.Modules.Professions.Events.Input;
 using DaLion.Overhaul.Modules.Professions.Events.Ultimate;
 using DaLion.Overhaul.Modules.Professions.Extensions;
-using DaLion.Overhaul.Modules.Professions.Sounds;
 using Microsoft.Xna.Framework;
 
 #endregion using directives

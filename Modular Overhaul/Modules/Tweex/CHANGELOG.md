@@ -1,5 +1,11 @@
 ﻿# TWX Change Log
 
+## 2.3.2 <sup><sub><sup>[🔼](#twx-change-log)</sup></sub></sup>
+
+### Fixed
+
+* Mushroom Box age now uses Foraging level instead of Farming.
+
 ## 2.3.0 <sup><sub><sup>[🔼](#twx-change-log)</sup></sub></sup>
 
 ### Fixed

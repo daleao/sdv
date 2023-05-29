@@ -90,6 +90,10 @@ internal class RingAssetRequestedEvent : AssetRequestedEvent
             fields[5] = I18n.Rings_Yoba_Desc();
             data[ItemIDs.YobaRing] = string.Join('/', fields);
 
+            fields = data[ItemIDs.ImmunityRing].Split('/');
+            fields[5] += I18n.Rings_Immunity_Extradesc();
+            data[ItemIDs.ImmunityRing] = string.Join('/', fields);
+
             if (LocalizedContentManager.CurrentLanguageCode == LocalizedContentManager.LanguageCode.en)
             {
                 fields = data[ItemIDs.ThornsRing].Split('/');

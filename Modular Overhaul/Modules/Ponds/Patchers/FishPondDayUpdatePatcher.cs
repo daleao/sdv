@@ -157,7 +157,6 @@ internal sealed class FishPondDayUpdatePatcher : HarmonyPatcher
         ____fishPondData = null;
         __instance.UpdateMaximumOccupancy();
         __instance.currentOccupants.Value++;
-
         switch (spawned)
         {
             case ItemIDs.Seaweed:

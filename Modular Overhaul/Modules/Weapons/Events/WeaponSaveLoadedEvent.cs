@@ -27,13 +27,27 @@ internal sealed class WeaponSaveLoadedEvent : SaveLoadedEvent
     {
         var player = Game1.player;
 
-        // temp fix for broken curse intro quest
+        // temp fix for existing saves
         if (player.hasQuest((int)Quest.CurseIntro))
         {
             player.removeQuest((int)Quest.CurseIntro);
             player.addQuest((int)Quest.CurseIntro);
         }
-        // temp fix for broken curse intro quest
+
+        if (player.hasQuest((int)Quest.HeroJourney))
+        {
+            player.removeQuest((int)Quest.HeroJourney);
+            player.Write(DataKeys.VirtueQuestState, VirtueQuestState.InProgress.ToString());
+
+            for (var i = 144706; i <= 144710; i++)
+            {
+                if (player.hasQuest(i))
+                {
+                    player.removeQuest(i);
+                }
+            }
+        }
+        // temp fix for existing saves
 
         WeaponsModule.State.ContainerDropAccumulator = player.Read(DataKeys.ContainerDropAccumulator, 0.05);
         WeaponsModule.State.MonsterDropAccumulator = player.Read<double>(DataKeys.MonsterDropAccumulator);
@@ -58,9 +72,9 @@ internal sealed class WeaponSaveLoadedEvent : SaveLoadedEvent
         }
 
         // infinity +1 checks
-        if (player.Read<VirtuesQuestState>(DataKeys.VirtueQuestState) == VirtuesQuestState.InProgress)
+        if (player.Read<VirtueQuestState>(DataKeys.VirtueQuestState) == VirtueQuestState.InProgress)
         {
-            WeaponsModule.State.VirtuesQuest = new VirtuesQuest();
+            WeaponsModule.State.VirtuesQuest = new VirtueQuest();
         }
 
         if (!WeaponsModule.Config.EnableAutoSelection)
@@ -70,7 +84,7 @@ internal sealed class WeaponSaveLoadedEvent : SaveLoadedEvent
 
         // load auto-selection
         var index = player.Read(DataKeys.SelectableWeapon, -1);
-        if (index < 0)
+        if (index < 0 || index >= player.Items.Count)
         {
             return;
         }

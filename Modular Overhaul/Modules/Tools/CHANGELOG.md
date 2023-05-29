@@ -1,5 +1,11 @@
 ﻿# TOLS Change Log
 
+## 2.3.2 <sup><sub><sup>[🔼](#tols-change-log)</sup></sub></sup>
+
+### Fixed
+
+* Fixed broken translations in GMCM page links.
+
 ## 2.2.3 <sup><sub><sup>[🔼](#tols-change-log)</sup></sub></sup>
 
 ### Fixed

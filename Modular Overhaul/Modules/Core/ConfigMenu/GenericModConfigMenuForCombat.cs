@@ -55,6 +55,11 @@ internal sealed partial class GenericModConfigMenu
                 I18n.Gmcm_Cmbt_Criticalbackattacks_Desc,
                 config => config.Combat.CriticalBackAttacks,
                 (config, value) => config.Combat.CriticalBackAttacks = value)
+            .AddCheckbox(
+                I18n.Gmcm_Cmbt_Shadowyshooterprojectile_Title,
+                I18n.Gmcm_Cmbt_Shadowyshooterprojectile_Desc,
+                config => config.Combat.ShadowyShooterProjectile,
+                (config, value) => config.Combat.ShadowyShooterProjectile = value)
             .AddNumberField(
                 I18n.Gmcm_Cmbt_Monsterhealthmultiplier_Title,
                 I18n.Gmcm_Cmbt_Monsterhealthmultiplier_Desc,

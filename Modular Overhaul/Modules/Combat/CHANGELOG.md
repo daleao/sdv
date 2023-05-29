@@ -1,5 +1,16 @@
 ﻿# CMBT Change Log
 
+## 2.3.2 <sup><sub><sup>[🔼](#cmbt-change-log)</sup></sub></sup>
+
+### Added
+
+* Added Fear status.
+* Retextured the Shadow Sniper arrow to make it look ethereal, to avoid completely breaking my immersion when it travels through walls.
+
+### Fixed
+
+* At last, fixed the issue of DoT causing monsters to be removed before death. This means that the workaround, which forcefully respawned live monsters and caused issues in multiplayer, is no longer needed.
+
 ## 2.3.0 <sup><sub><sup>[🔼](#cmbt-change-log)</sup></sub></sup>
 
 ### Fixed

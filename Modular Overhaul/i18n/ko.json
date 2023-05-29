@@ -293,18 +293,25 @@
   "gems.emerald.name": "에메랄드",
   "gems.amethyst.name": "자수정",
   "gems.topaz.name": "토파즈",
-  "gems.garnet.name": "가넷",
-  "gems.garnet.description": "머나먼 나라의 아름다운 공주의 이름을 딴 보석.",
-  "rings.jade.description": "치명타 위력을 50% 증가시켜줍니다.",
-  "rings.topaz.description.resist": "방어력이 10% 증가합니다.",
-  "rings.topaz.description.defense": "방어력이 1 증가합니다.",
-  "rings.garnet.name": "가넷 반지",
-  "rings.garnet.description": "특수 기술 쿨타임이 10% 감소합니다.",
-  "rings.iridium.description": "이리듐으로 만든 평범한 반지.",
-  "rings.infinity.name": "인피니티 밴드",
-  "rings.infinity.description": "거대한 힘을 위한 그릇.",
+  "rings.jade.desc": "치명타 위력을 50% 증가시켜줍니다.",
+  "rings.topaz.desc.resist": "방어력이 10% 증가합니다.",
+  "rings.topaz.desc.defense": "방어력이 1 증가합니다.",
+  "rings.immunity.extradesc": " Grants complete immunity to debuffs.",
+  "rings.iridium.desc": "이리듐으로 만든 평범한 반지.",
+  "rings.warrior.desc": "Enemy takedowns grant progressively higher attack.",
+  "rings.yoba.desc": "Grants a shield in a pinch.",
+  "buffs.warrior.desc": "Onslaught",
+  "buffs.yoba.desc": "Lifeline",
   "global.infinitycraft": "{{who}}가 인피니티 밴드를 제작했습니다.",
   "resonance": "공명",
+
+  // json-assets
+  "gems.garnet.name": "가넷",
+  "gems.garnet.description": "머나먼 나라의 아름다운 공주의 이름을 딴 보석.",
+  "rings.garnet.name": "가넷 반지",
+  "rings.garnet.description": "특수 기술 쿨타임이 10% 감소합니다.",
+  "rings.infinity.name": "인피니티 밴드",
+  "rings.infinity.description": "거대한 힘을 위한 그릇.",
 
 
   // **************** //
@@ -335,13 +342,13 @@
 
   //// needs revision !!!
 
-  "tax.intro": "재무부^펀길 국세청^^^{{honorific}} @,^^이 편지는 최근 스타듀 밸리의 펠리컨 마을에 대한 주소 변경 요청이 접수 및 등록되었음을 알려드리기 위해 발송되었습니다. 앞으로의 모든 서신은 {{farm}}으로 보내질 것입니다.^^연방 소득세 납부 마감일은 매 시즌 2일이라는 점을 알려드립니다. 귀하의 편의를 위해 귀하의 체납된 세금은 귀하의 잔액에서 자동으로 납부됩니다. 잔액이 충분하지 않은 경우 연간 {{interest}}의 명목 이자 수수료를 조건으로 귀하의 이름으로 대출이 자동으로 발행됩니다.^^^감사합니다.^^Laura D. Pretto^펀길 국세청장[#]Taxation Intro",
-  "tax.notice": "재무부^펀길 국세청^^^{{honorific}} @,^^이 편지는 {{due}}g 금액의 마감 시즌에 대한 소득세 총액이 귀하의 편의를 위해 귀하의 잔액에서 자동으로 차감됩니다.^^귀하의 재정 상태에 관한 질문을 해결해야 하는 경우 이 편지를 영구 기록에 보관하십시오.^^^감사합니다.^^Laura D. Pretto^펀길 국세청장[#]Taxation Notice",
-  "tax.outstanding": "재무부^펀길 국세청^^^{{honorific}} @,^^이 편지는 {{due}}g 금액의 마감 시즌에 대한 소득세 총액이 잔액에서 완전히 공제되지 않습니다. 따라서 {{farm}}의 모든 미래 수입은 {{outstanding}}g의 체납된 부채가 청산될 때까지 압류됩니다. 이것이 귀하에게 가장 유익하다는 점을 명심하십시오. 연 {{interestRate}}의 이율로 이자가 발생하지 않도록 가능한 한 빨리 미지급 부채를 청산하십시오.^^재정 상태에 관한 질문을 해결해야 하는 경우를 대비하여 이 편지를 영구 기록에 보관하십시오.^^^감사합니다.^^Laura D. Pretto^펀길 국세청장[#]Taxation Outstanding",
-  "tax.deduction": "재무부^펀길 국세청^^^{{honorific}} @,^^귀하의 환경 활동을 검토한 결과 귀하가 국세청 수익 조항 섹션 501(c)(3)에 따라 {{deductible}}의 최대 소득세 공제를 받을 자격이 있다고 결정했음을 알려드립니다.^^재정 상태에 관한 질문에 답해야 하는 경우 이 편지를 영구 기록으로 보관하십시오.^^^감사합니다.^^Laura D. Pretto^펀길 국세청장[#]Taxation Deduction",
-  "tax.deduction.max": "재무부^펀길 국세청^^^{{honorific}} @,^^귀하의 환경 활동을 검토한 결과 귀하가 펀길 세금 코드 섹션 501(c)(3)에 따라 소득세 전액 공제 대상이 되었음을 알려드립니다. 따라서 잔액에 대한 요금이 부과되지 않습니다.^^재정 상태에 관한 질문에 답해야 하는 경우 이 편지를 영구 기록으로 보관하십시오.^^^감사합니다.^^Laura D. Pretto^펀길 국세청장[#]Taxation Deduction",
+  "mail.frs.intro": "재무부^펀길 국세청^^^{{honorific}} @,^^이 편지는 최근 스타듀 밸리의 펠리컨 마을에 대한 주소 변경 요청이 접수 및 등록되었음을 알려드리기 위해 발송되었습니다. 앞으로의 모든 서신은 {{farm}}으로 보내질 것입니다.^^연방 소득세 납부 마감일은 매 시즌 2일이라는 점을 알려드립니다. 귀하의 편의를 위해 귀하의 체납된 세금은 귀하의 잔액에서 자동으로 납부됩니다. 잔액이 충분하지 않은 경우 연간 {{interest}}의 명목 이자 수수료를 조건으로 귀하의 이름으로 대출이 자동으로 발행됩니다.^^^감사합니다.^^Laura D. Pretto^펀길 국세청장[#]Taxation Intro",
+  "mail.frs.notice": "재무부^펀길 국세청^^^{{honorific}} @,^^이 편지는 {{due}}g 금액의 마감 시즌에 대한 소득세 총액이 귀하의 편의를 위해 귀하의 잔액에서 자동으로 차감됩니다.^^귀하의 재정 상태에 관한 질문을 해결해야 하는 경우 이 편지를 영구 기록에 보관하십시오.^^^감사합니다.^^Laura D. Pretto^펀길 국세청장[#]Taxation Notice",
+  "mail.frs.outstanding": "재무부^펀길 국세청^^^{{honorific}} @,^^이 편지는 {{due}}g 금액의 마감 시즌에 대한 소득세 총액이 잔액에서 완전히 공제되지 않습니다. 따라서 {{farm}}의 모든 미래 수입은 {{outstanding}}g의 체납된 부채가 청산될 때까지 압류됩니다. 이것이 귀하에게 가장 유익하다는 점을 명심하십시오. 연 {{interestRate}}의 이율로 이자가 발생하지 않도록 가능한 한 빨리 미지급 부채를 청산하십시오.^^재정 상태에 관한 질문을 해결해야 하는 경우를 대비하여 이 편지를 영구 기록에 보관하십시오.^^^감사합니다.^^Laura D. Pretto^펀길 국세청장[#]Taxation Outstanding",
+  "mail.frs.deduction": "재무부^펀길 국세청^^^{{honorific}} @,^^귀하의 환경 활동을 검토한 결과 귀하가 국세청 수익 조항 섹션 501(c)(3)에 따라 {{deductible}}의 최대 소득세 공제를 받을 자격이 있다고 결정했음을 알려드립니다.^^재정 상태에 관한 질문에 답해야 하는 경우 이 편지를 영구 기록으로 보관하십시오.^^^감사합니다.^^Laura D. Pretto^펀길 국세청장[#]Taxation Deduction",
+  "mail.frs.deduction.max": "재무부^펀길 국세청^^^{{honorific}} @,^^귀하의 환경 활동을 검토한 결과 귀하가 펀길 세금 코드 섹션 501(c)(3)에 따라 소득세 전액 공제 대상이 되었음을 알려드립니다. 따라서 잔액에 대한 요금이 부과되지 않습니다.^^재정 상태에 관한 질문에 답해야 하는 경우 이 편지를 영구 기록으로 보관하십시오.^^^감사합니다.^^Laura D. Pretto^펀길 국세청장[#]Taxation Deduction",
 
-  "debt.debit": "귀하께서 체납하신 금액은 {{mount}}g입니다.",
+  "mail.debt.debit": "귀하께서 체납하신 금액은 {{mount}}g입니다.",
 
   "honorific.male": "친애하는",
   "honorific.female": "친애하는",
@@ -444,8 +451,8 @@
   "gmcm.profs.enablegetexcited.desc": "Whether to trigger the 'Get Excited' buff when a Demolitionist is hit by an explosion.",
   "gmcm.profs.anglerpricebonusceiling.title": "Angler Price Bonus Ceiling",
   "gmcm.profs.anglerpricebonusceiling.desc": "If multiple new fish mods are installed, you may want to adjust this to a sensible value. Limits the price multiplier for fish sold by Angler.",
-  "gmcm.profs.aquaristfishpondceiling.title": "Aquarist Fish Pond Ceiling",
-  "gmcm.profs.aquaristfishpondceiling.desc": "If you like raising dozen of fish species, you may use this to limit how easy the fishing minigame will become.",
+  "gmcm.profs.aquaristfishpondceiling.title": "Aquarist Fishing Bonus Ceiling",
+  "gmcm.profs.aquaristfishpondceiling.desc": "The maximum number of Fish Ponds that will be counted for Aquarist's fishing bonus. If you like raising dozens of fish species, you may use this to limit how easy the fishing minigame will become.",
   "gmcm.profs.legendarypondpopulationceiling.title": "Legendary Pond Population Ceiling",
   "gmcm.profs.legendarypondpopulationceiling.desc": "The maximum population of Aquarist Fish Ponds with legendary fish.",
   "gmcm.profs.trashpertaxdeduction.title": "Trash Per Tax Deduction %",

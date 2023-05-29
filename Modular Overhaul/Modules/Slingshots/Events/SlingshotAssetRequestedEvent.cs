@@ -23,7 +23,7 @@ internal sealed class SlingshotAssetRequestedEvent : AssetRequestedEvent
         this.Edit("Data/weapons", new AssetEditor(EditWeaponsData));
         this.Provide(
             $"{Manifest.UniqueID}/SnowballCollisionAnimation",
-            new ModTextureProvider(() => "assets/animations/snowball.png"));
+            new ModTextureProvider(() => "assets/vfx/snowball.png"));
     }
 
     #region editor callbacks

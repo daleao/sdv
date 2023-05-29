@@ -155,7 +155,7 @@ public sealed class Config : Shared.Configs.Config
     ///     Gets the maximum number of Fish Ponds that will be counted for catching bar loss compensation.
     /// </summary>
     [JsonProperty]
-    public float AquaristFishPondCeiling { get; internal set; } = 12f;
+    public int AquaristFishPondCeiling { get; internal set; } = 12;
 
     /// <summary>
     ///     Gets a value indicating whether to display the MAX icon below fish in the Collections Menu which have been caught at the

@@ -49,7 +49,7 @@ internal sealed partial class GenericModConfigMenu
                 (config, value) =>
                 {
                     config.Enchantments.SocketStyle = Enum.Parse<Config.ForgeSocketStyle>(value);
-                    Textures.ForgeIconTx = ModHelper.ModContent.Load<Texture2D>("assets/menus/ForgeIcon" +
+                    Textures.GemSocketTx = ModHelper.ModContent.Load<Texture2D>("assets/menus/ForgeIcon" +
                         $"_{config.Enchantments.SocketStyle}" +
                         (ModHelper.ModRegistry.IsLoaded("ManaKirel.VMI") ||
                          ModHelper.ModRegistry.IsLoaded("ManaKirel.VintageInterface2")

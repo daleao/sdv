@@ -184,6 +184,11 @@ internal sealed class SlingshotPerformFirePatcher : HarmonyPatcher
                 knockback = 1f;
             }
 
+            // set projectile index
+            var index = ammo?.ParentSheetIndex ?? (canDoQuincy
+                ? QuincyProjectile.TileSheetIndex
+                : Projectile.snowBall);
+
             // calculate overcharge
             var overcharge = ProfessionsModule.ShouldEnable && who.professions.Contains(Farmer.desperado)
                 ? __instance.GetOvercharge()
@@ -192,8 +197,12 @@ internal sealed class SlingshotPerformFirePatcher : HarmonyPatcher
             // adjust velocity
             if (overcharge > 1f)
             {
-                xVelocity *= overcharge;
-                yVelocity *= overcharge;
+                if (index != QuincyProjectile.TileSheetIndex)
+                {
+                    xVelocity *= overcharge;
+                    yVelocity *= overcharge;
+                }
+
                 EventManager.Disable<DesperadoUpdateTickedEvent>();
             }
 
@@ -207,10 +216,7 @@ internal sealed class SlingshotPerformFirePatcher : HarmonyPatcher
             var damage = (damageBase + Game1.random.Next(-damageBase / 2, damageBase + 2)) * damageMod;
             var startingPosition = shootOrigin - new Vector2(32f, 32f);
             var rotationVelocity = (float)(Math.PI / (64f + Game1.random.Next(-63, 64)));
-            var index = ammo?.ParentSheetIndex ?? (canDoQuincy
-                ? QuincyProjectile.TileSheetIndex
-                : Projectile.snowBall);
-            if (ammo?.ParentSheetIndex is not (ItemIDs.ExplosiveAmmo or ItemIDs.Slime
+            if (ammo?.ParentSheetIndex is { } and not (ItemIDs.ExplosiveAmmo or ItemIDs.Slime
                     or ItemIDs.RadioactiveOre) && damageBase > 1)
             {
                 index++;

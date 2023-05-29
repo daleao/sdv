@@ -71,7 +71,7 @@ internal sealed class SlingshotSpecialUpdateTickedEvent : UpdateTickedEvent
                     sprite.CurrentFrame = sprite.CurrentAnimation[sprite.currentAnimationIndex++].frame;
                 }
 
-                if (_currentFrame == 2)
+                if (_currentFrame == 6)
                 {
                     Game1.playSound("swordswipe");
                 }

@@ -1,7 +1,7 @@
 ﻿namespace DaLion.Overhaul.Modules.Weapons;
 
-/// <summary>The current state of the <see cref="VirtuesQuest"/>.</summary>
-public enum VirtuesQuestState
+/// <summary>The current state of the <see cref="VirtueQuest"/>.</summary>
+public enum VirtueQuestState
 {
     /// <summary>The quest has not been started.</summary>
     NotStarted,

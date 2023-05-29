@@ -14,7 +14,7 @@ using StardewValley.Quests;
 
 #endregion using directives
 
-internal sealed class VirtuesQuest : IQuest
+internal sealed class VirtueQuest : IQuest
 {
     private readonly string _name = I18n.Quests_Hero_Journey_Name();
     private readonly string _description = I18n.Quests_Hero_Journey_Desc();
@@ -26,8 +26,8 @@ internal sealed class VirtuesQuest : IQuest
 
     private bool _viewed;
 
-    /// <summary>Initializes a new instance of the <see cref="VirtuesQuest"/> class.</summary>
-    public VirtuesQuest()
+    /// <summary>Initializes a new instance of the <see cref="VirtueQuest"/> class.</summary>
+    public VirtueQuest()
     {
         Virtue.List.ForEach(virtue => this.UpdateVirtueProgress(virtue, true));
         this._viewed = Game1.player.Read<bool>(DataKeys.VirtueQuestViewed);
@@ -383,7 +383,7 @@ internal sealed class VirtuesQuest : IQuest
         }
 
         WeaponsModule.State.VirtuesQuest = null;
-        player.Write(DataKeys.VirtueQuestState, VirtuesQuestState.Completed.ToString());
+        player.Write(DataKeys.VirtueQuestState, VirtueQuestState.Completed.ToString());
         player.Write(DataKeys.ProvenHonor, null);
         player.Write(DataKeys.ProvenCompassion, null);
         player.Write(DataKeys.ProvenWisdom, null);

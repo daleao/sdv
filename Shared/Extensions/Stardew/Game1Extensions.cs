@@ -3,6 +3,7 @@
 #region using directives
 
 using System.Collections.Generic;
+using System.Linq;
 using StardewValley.Locations;
 using StardewValley.Objects;
 
@@ -26,6 +27,26 @@ public static class Game1Extensions
     public static bool ShouldTimePass(this Game1 game1)
     {
         return (Game1.game1.IsActiveNoOverlay || !Game1.options.pauseWhenOutOfFocus) && Game1.shouldTimePass();
+    }
+
+    /// <summary>Gets the total value of shipped items by the specified <paramref name="farmer"/> during the current game day.</summary>
+    /// <param name="game1">The <see cref="Game1"/> instance.</param>
+    /// <param name="farmer">The <see cref="Farmer"/>.</param>
+    /// <returns>The total value of shipped items by the <paramref name="farmer"/>.</returns>
+    public static int GetTotalSoldByPlayer(this Game1 game1, Farmer farmer)
+    {
+        var total = Game1.getFarm().getShippingBin(farmer).Sum(item => Utility.getSellToStorePriceOfItem(item));
+        Utility.ForAllLocations(location =>
+        {
+            total += location.Objects.Values
+                .OfType<Chest>()
+                .Where(c => c.SpecialChestType == Chest.SpecialChestTypes.MiniShippingBin)
+                .Sum(miniBin => miniBin
+                    .GetItemsForPlayer(farmer.UniqueMultiplayerID)
+                    .Sum(item => Utility.getSellToStorePriceOfItem(item)));
+        });
+
+        return total;
     }
 
     /// <summary>Enumerates all chests in the game instance.</summary>

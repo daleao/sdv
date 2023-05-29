@@ -105,14 +105,14 @@ internal sealed class GameLocationAnswerDialogueActionPatcher : HarmonyPatcher
                         }
 
                         player.completeQuest((int)Quest.CurseIntro);
-                        WeaponsModule.State.VirtuesQuest ??= new VirtuesQuest();
+                        WeaponsModule.State.VirtuesQuest ??= new VirtueQuest();
 
                         player.Write(DataKeys.InspectedHonor, null);
                         player.Write(DataKeys.InspectedCompassion, null);
                         player.Write(DataKeys.InspectedWisdom, null);
                         player.Write(DataKeys.InspectedGenerosity, null);
                         player.Write(DataKeys.InspectedValor, null);
-                        player.Write(DataKeys.VirtueQuestState, VirtuesQuestState.InProgress.ToString());
+                        player.Write(DataKeys.VirtueQuestState, VirtueQuestState.InProgress.ToString());
                         return false; // don't run original logic
                     }
             }

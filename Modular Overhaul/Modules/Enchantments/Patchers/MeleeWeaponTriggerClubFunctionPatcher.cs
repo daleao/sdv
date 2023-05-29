@@ -40,8 +40,8 @@ internal sealed class MeleeWeaponTriggerClubFunctionPatcher : HarmonyPatcher
         area.Inflate(96, 96);
         for (var i = 0; i < who.currentLocation.characters.Count; i++)
         {
-            var character = who.currentLocation.characters[i];
-            if (character is Monster { IsMonster: true, Health: > 0 } monster && monster.TakesDamageFromHitbox(area))
+            if (who.currentLocation.characters[i] is Monster { IsMonster: true, Health: > 0 } monster &&
+                monster.TakesDamageFromHitbox(area))
             {
                 monster.Stun(2000);
             }

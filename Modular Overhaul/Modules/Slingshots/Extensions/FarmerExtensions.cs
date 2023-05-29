@@ -20,13 +20,15 @@ internal static class FarmerExtensions
     /// <returns>The total firing speed modifier, a number between 0 and 1.</returns>
     internal static float GetTotalFiringSpeedModifier(this Farmer farmer, Slingshot? slingshot = null)
     {
-        var modifier = 10f / (10f + farmer.weaponSpeedModifier);
         slingshot ??= farmer.CurrentTool as Slingshot;
+
+        var modifier = 1f;
         if (slingshot is not null)
         {
             modifier *= slingshot.Get_EmeraldFireSpeed();
         }
 
+        modifier *= 1f / (1f + farmer.weaponSpeedModifier);
         return modifier;
     }
 

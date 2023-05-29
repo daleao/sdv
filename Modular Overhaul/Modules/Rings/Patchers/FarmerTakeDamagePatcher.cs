@@ -151,7 +151,7 @@ internal sealed class FarmerTakeDamagePatcher : HarmonyPatcher
 
     private static void TryGiveYobaShield(Farmer who, int rawDamage, int vanillaResistance)
     {
-        if (RingsModule.State.CanReceiveYobaShield)
+        if (!RingsModule.State.CanReceiveYobaShield)
         {
             return;
         }
@@ -166,7 +166,7 @@ internal sealed class FarmerTakeDamagePatcher : HarmonyPatcher
 
         who.currentLocation.playSound("yoba");
         RingsModule.State.YobaShieldHealth = (int)(who.maxHealth * 0.5);
-        RingsModule.State.CanReceiveYobaShield = true;
+        RingsModule.State.CanReceiveYobaShield = false;
         Game1.buffsDisplay.addOtherBuff(
             new Buff(21)
             {
@@ -174,8 +174,7 @@ internal sealed class FarmerTakeDamagePatcher : HarmonyPatcher
                 millisecondsDuration = 30000,
             });
 
-        EventManager.Enable<YobaRemoveUpdateTickedEvent>();
-        EventManager.Enable<YobaCanReceiveUpdateTickedEvent>();
+        EventManager.Enable(typeof(YobaCanReceiveUpdateTickedEvent), typeof(YobaRemoveUpdateTickedEvent));
     }
 
     private static int TryShieldDamage(Farmer who, int actualDamage)
@@ -206,6 +205,7 @@ internal sealed class FarmerTakeDamagePatcher : HarmonyPatcher
         var shieldHealth = RingsModule.State.YobaShieldHealth;
         RingsModule.State.YobaShieldHealth = 0;
         Game1.buffsDisplay.removeOtherBuff(21);
+        Log.D("[RNGS]: Yoba Shield's health was depleted.");
         return actualDamage - shieldHealth;
     }
 

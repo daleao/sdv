@@ -3,14 +3,12 @@
 #region using directives
 
 using System.Globalization;
-using System.Linq;
 using DaLion.Overhaul.Modules.Professions.Extensions;
 using DaLion.Overhaul.Modules.Taxes.Extensions;
 using DaLion.Shared.Events;
 using DaLion.Shared.Extensions.Stardew;
 using DaLion.Shared.Extensions.Xna;
 using StardewModdingAPI.Events;
-using StardewValley.Objects;
 
 #endregion using directives
 
@@ -44,17 +42,7 @@ internal sealed class TaxDayEndingEvent : DayEndingEvent
             PostalService.Send(Mail.FrsIntro);
         }
 
-        var amountSold = Game1.getFarm().getShippingBin(taxpayer).Sum(item => Utility.getSellToStorePriceOfItem(item));
-        Utility.ForAllLocations(location =>
-        {
-            amountSold += location.Objects.Values
-                .OfType<Chest>()
-                .Where(c => c.SpecialChestType == Chest.SpecialChestTypes.MiniShippingBin)
-                .Sum(miniBin => miniBin
-                    .GetItemsForPlayer(taxpayer.UniqueMultiplayerID)
-                    .Sum(item => Utility.getSellToStorePriceOfItem(item)));
-        });
-
+        var amountSold = Game1.game1.GetTotalSoldByPlayer(taxpayer);
         if (amountSold > 0 && !PostalService.HasSent(Mail.FrsIntro))
         {
             PostalService.Send(Mail.FrsIntro);

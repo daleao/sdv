@@ -2,8 +2,9 @@
 
 #region using directives
 
-using DaLion.Overhaul.Modules.Professions.Sounds;
+using DaLion.Overhaul.Modules.Combat.Extensions;
 using Microsoft.Xna.Framework;
+using StardewValley.Monsters;
 
 #endregion using directives
 
@@ -36,8 +37,18 @@ public sealed class Frenzy : Ultimate
     internal override void Activate()
     {
         base.Activate();
-
         this.KillCount = 0;
+
+        for (var i = 0; i < Game1.currentLocation.characters.Count; i++)
+        {
+            if (Game1.currentLocation.characters[i] is not Monster { Player.IsLocalPlayer: true } monster)
+            {
+                continue;
+            }
+
+            monster.Fear(2000);
+        }
+
         Game1.buffsDisplay.removeOtherBuff(this.BuffId);
         Game1.buffsDisplay.addOtherBuff(
             new Buff(

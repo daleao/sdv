@@ -28,12 +28,28 @@ internal sealed class RingDrawTooltipPatcher : HarmonyPatcher
     private static bool RingDrawTooltipPrefix(
         Ring __instance, SpriteBatch spriteBatch, ref int x, ref int y, SpriteFont font, float alpha)
     {
+        int descriptionWidth;
+        if (__instance.GetsEffectOfRing(ItemIDs.ImmunityRing) && RingsModule.Config.RebalancedRings)
+        {
+            descriptionWidth = Reflector
+                .GetUnboundMethodDelegate<Func<Item, int>>(__instance, "getDescriptionWidth")
+                .Invoke(__instance);
+            Utility.drawTextWithShadow(
+                spriteBatch,
+                Game1.parseText(__instance.description, Game1.smallFont, descriptionWidth),
+                font,
+                new Vector2(x + 16, y + 16 + 4),
+                Game1.textColor);
+            y += (int)font.MeasureString(Game1.parseText(__instance.description, Game1.smallFont, descriptionWidth)).Y;
+            return false; // don't run original logic
+        }
+
         if (!__instance.IsCombinedInfinityBand(out var combined))
         {
             return true; // run original logic
         }
 
-        var descriptionWidth = Reflector
+        descriptionWidth = Reflector
             .GetUnboundMethodDelegate<Func<Item, int>>(__instance, "getDescriptionWidth")
             .Invoke(__instance);
         if (combined.combinedRings.Count == 0)

@@ -25,8 +25,8 @@ internal sealed class YobaCanReceiveUpdateTickedEvent : UpdateTickedEvent
             return;
         }
 
-        RingsModule.State.CanReceiveYobaShield = false;
-        Log.D("[RNGS]: Can now receive Yoba Shield again!");
+        RingsModule.State.CanReceiveYobaShield = true;
+        Log.D("[RNGS]: Player's health fully recovered. Can now receive Yoba Shield again.");
         this.Disable();
     }
 }

@@ -20,14 +20,11 @@ internal sealed class AdventurerGuildGilPatcher : HarmonyPatcher
 
     #region harmony patches
 
-    /// <summary>Record Gil flag.</summary>
+    /// <summary>Update virtue progress.</summary>
     [HarmonyPostfix]
     private static void AdventurerGuildGilPostfix()
     {
-        if (Game1.player.NumMonsterSlayerQuestsCompleted() >= 5)
-        {
-            WeaponsModule.State.VirtuesQuest?.UpdateVirtueProgress(Virtue.Valor);
-        }
+        WeaponsModule.State.VirtuesQuest?.UpdateVirtueProgress(Virtue.Valor);
     }
 
     #endregion harmony patches

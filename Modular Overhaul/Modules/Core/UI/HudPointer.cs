@@ -14,7 +14,7 @@ internal sealed class HudPointer
     private const float MinStep = -3f;
 
     private readonly Texture2D _texture;
-    private readonly Rectangle _srcRect;
+    private readonly Rectangle _sourceRect;
 
     private float _height = -42f;
     private float _jerk = 1f;
@@ -27,7 +27,7 @@ internal sealed class HudPointer
     public HudPointer(Texture2D texture, float scale, float rate)
     {
         this._texture = texture;
-        this._srcRect = new Rectangle(0, 0, texture.Width, texture.Height);
+        this._sourceRect = new Rectangle(0, 0, texture.Width, texture.Height);
         this.Scale = scale;
         this.BobRate = rate;
     }
@@ -134,14 +134,14 @@ internal sealed class HudPointer
 
         var safePos = Utility.makeSafe(
             renderSize: new Vector2(
-                this._srcRect.Width * Game1.pixelZoom * this.Scale,
-                this._srcRect.Height * Game1.pixelZoom * this.Scale),
+                this._sourceRect.Width * Game1.pixelZoom * this.Scale,
+                this._sourceRect.Height * Game1.pixelZoom * this.Scale),
             renderPos: onScreenPosition);
 
         Game1.spriteBatch.Draw(
             this._texture,
             safePos,
-            this._srcRect,
+            this._sourceRect,
             color,
             rotation,
             new Vector2(2f, 2f),
@@ -169,7 +169,7 @@ internal sealed class HudPointer
         Game1.spriteBatch.Draw(
             this._texture,
             adjustedPixel,
-            this._srcRect,
+            this._sourceRect,
             color,
             (float)Math.PI,
             new Vector2(2f, 2f),

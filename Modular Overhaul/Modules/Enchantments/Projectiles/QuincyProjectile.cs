@@ -51,7 +51,7 @@ internal sealed class QuincyProjectile : BasicProjectile
             yVelocity,
             startingPosition,
             "debuffHit",
-            "debuffSpell",
+            string.Empty,
             false,
             true,
             firer.currentLocation,
@@ -62,6 +62,7 @@ internal sealed class QuincyProjectile : BasicProjectile
                             (1f + firer.attackIncreaseModifier) * overcharge);
         this.Overcharge = overcharge;
         this.startingScale.Value *= overcharge * overcharge;
+        this.IgnoreLocationCollision = true;
         if (SlingshotsModule.Config.DisableGracePeriod)
         {
             this.ignoreTravelGracePeriod.Value = true;

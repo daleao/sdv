@@ -33,18 +33,18 @@ internal sealed class TaxAssetRequestedEvent : AssetRequestedEvent
         var interest = CurrentCulture($"{TaxesModule.Config.AnnualInterest:0.#%}");
 
         data[$"{Manifest.UniqueID}/{Mail.FrsIntro}"] =
-            I18n.Frs_Intro(
+            I18n.Mail_Frs_Intro(
                 honorific,
                 player.farmName.Value,
                 CurrentCulture($"{TaxesModule.Config.IncomeTaxLatenessFine:0.#%}"),
                 interest);
 
         var due = TaxesModule.State.LatestDueIncomeTax;
-        data[$"{Manifest.UniqueID}/{Mail.FrsNotice}"] = I18n.Frs_Notice(honorific, due);
+        data[$"{Manifest.UniqueID}/{Mail.FrsNotice}"] = I18n.Mail_Frs_Notice(honorific, due);
 
         var outstanding = TaxesModule.State.LatestOutstandingIncomeTax;
         data[$"{Manifest.UniqueID}/{Mail.FrsOutstanding}"] =
-            I18n.Frs_Outstanding(
+            I18n.Mail_Frs_Outstanding(
                 honorific,
                 due,
                 CurrentCulture($"{TaxesModule.Config.IncomeTaxLatenessFine:0.#%}"),
@@ -55,8 +55,8 @@ internal sealed class TaxAssetRequestedEvent : AssetRequestedEvent
         var deductions = TaxesModule.State.LatestTaxDeductions;
         data[$"{Manifest.UniqueID}/{Mail.FrsDeduction}"] = deductions switch
         {
-            >= 1f => I18n.Frs_Deduction_Max(honorific),
-            >= 0f => I18n.Frs_Deduction(honorific, CurrentCulture($"{deductions:0.#%}")),
+            >= 1f => I18n.Mail_Frs_Deduction_Max(honorific),
+            >= 0f => I18n.Mail_Frs_Deduction(honorific, CurrentCulture($"{deductions:0.#%}")),
             _ => string.Empty,
         };
 
@@ -66,10 +66,10 @@ internal sealed class TaxAssetRequestedEvent : AssetRequestedEvent
         var livestockValue = farm.Read<int>(DataKeys.LivestockValue);
         var buildingValue = farm.Read<int>(DataKeys.BuildingValue);
         var valuation = agricultureValue + livestockValue + buildingValue;
-        data[$"{Manifest.UniqueID}/{Mail.LewisNotice}"] = I18n.Lewis_Notice(player.farmName.Value, valuation, due);
+        data[$"{Manifest.UniqueID}/{Mail.LewisNotice}"] = I18n.Mail_Lewis_Notice(player.farmName.Value, valuation, due);
 
         outstanding = TaxesModule.State.LatestOutstandingPropertyTax;
-        data[$"{Manifest.UniqueID}/{Mail.LewisOutstanding}"] = I18n.Lewis_Outstanding(
+        data[$"{Manifest.UniqueID}/{Mail.LewisOutstanding}"] = I18n.Mail_Lewis_Outstanding(
                 player.farmName.Value,
                 valuation,
                 due,
