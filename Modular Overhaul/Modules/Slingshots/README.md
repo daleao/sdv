@@ -56,8 +56,8 @@ Some ammunitions have also been tweaked, either for immersion or balance:
 
 - **Not** compatible with other mods that overhaul slingshots, such as [Better Slingshots][mod:better-slingshots] or [Enhanced Slingshots][mod:enhanced-slingshots].
 - **Not** compatible with the likes of [Combat Controls][mod:combat-controls] or [Combat Controls Redux][mod:combat-controls-redux], as those features are already included in this and other modules.
-- Compatible with [Advanced Melee Framework][mod:amf] and related content packs, but I do not recommend using both together.
 - While the Infinity Slingshot will appear in [CJB Item Spawner][mod:cjb-spawner], it will be incorrectly classified as a Melee Weapon and will be unusable if spawned in this way. This is due to CJB not recognizing non-vanilla slingshots. This likely will be fixed in game version 1.6.
+- Compatible with [Archery][mod:archery] bows and crossbows.
 
 <!-- MARKDOWN LINKS & IMAGES -->
 
@@ -68,5 +68,6 @@ Some ammunitions have also been tweaked, either for immersion or balance:
 [mod:combat-controls-redux]: <https://www.nexusmods.com/stardewvalley/mods/10496> "Combat Controls Redux"
 [mod:amf]: <https://www.nexusmods.com/stardewvalley/mods/7886> "Advanced Melee Framework"
 [mod:sve]: <https://www.nexusmods.com/stardewvalley/mods/3753> "Stardew Valley Expanded"
+[mod:archery]: <https://www.nexusmods.com/stardewvalley/mods/16767> "Archery"
 
 [🔼 Back to top](#margo-slingshots-slngs)

@@ -196,6 +196,7 @@ The following mods are fully integrated:
 - [Vintage Interface][mod:vintage-ui] will be automatically detected and the Limit gauge will be changed accordingly to match the installed version (v1 and v2 are both supported).
 - [Stardew Valley Expanded][mod:sve] will also change the look of the Limit gauge in Galdora maps to match the Galdoran UI theme.
 - [CJB Cheats Menu][mod:cjb-cheats], if you download the optional translation files, will display this mod's profession names under Skill Cheats menu.
+- [Archery][mod:archery] bows and crossbows will also apply Rascal and Desperado perks.
 
 The following mods are compatible without integration:
 - [Multi Yield Crops][mod:myc]
@@ -313,6 +314,7 @@ To consume the API, copy both interfaces from the [API folder](../../API/) names
 [mod:tap-giant-crops]: <https://www.nexusmods.com/stardewvalley/mods/13052> "Tap Giant Crops"
 [mod:skill-training]: <https://www.nexusmods.com/stardewvalley/mods/14452> "Skill Training"
 [mod:yahwsm]: <https://www.nexusmods.com/stardewvalley/mods/2731> "Yet Another Harvest With Scythe Mod"
+[mod:archery]: <https://www.nexusmods.com/stardewvalley/mods/16767> "Archery"
 
 <!-- USER LINKS -->
 [user:enai]: <https://www.nexusmods.com/skyrimspecialedition/users/3959191> "Enai Siaion"
