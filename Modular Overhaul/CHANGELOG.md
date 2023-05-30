@@ -2,7 +2,7 @@
 
 This file contains a TL;DR of current version changes and hotfixes from across all modules. For the complete changelog, please refer to the individual changelogs of each module, linked [below](#detailed-change-logs).
 
-## Patch 2.4.0 Highlights <sup><sub><sup>[🔼](#margo-change-logs)</sup></sub></sup>
+## Minor Release 2.4.0 Highlights <sup><sub><sup>[🔼](#margo-change-logs)</sup></sub></sup>
 
 * Added initial compatibility for [Archery](http://www.nexusmods.com/stardewvalley/mods/16767) to [PROFS](Modules/Professions/CHANGELOG.md), [SLNGS](Modules/Slingshots/CHANGELOG.md) and ENCH (see the specific changelogs for details).
 * Added shield VFX to Bloodthirsty enchant [ENCH] and Ring of Yoba's rebalance [RNGS].
