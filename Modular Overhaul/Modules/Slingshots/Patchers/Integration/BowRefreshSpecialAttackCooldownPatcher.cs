@@ -2,7 +2,6 @@
 
 #region using directives
 
-using System.Collections.Generic;
 using DaLion.Overhaul.Modules.Rings.VirtualProperties;
 using DaLion.Overhaul.Modules.Slingshots.Integrations;
 using DaLion.Overhaul.Modules.Slingshots.VirtualProperties;
@@ -15,14 +14,9 @@ using StardewValley.Tools;
 #endregion using directives
 
 [UsedImplicitly]
-[RequiresMod("PeacefulEnd.Archery", "Archery", "1.2.0")]
+[RequiresMod("PeacefulEnd.Archery", "Archery", "2.1.0")]
 internal sealed class BowRefreshSpecialAttackCooldownPatcher : HarmonyPatcher
 {
-    private static readonly Lazy<Func<string, List<object>, int>> SpecialAttackCooldownGetter =
-        new(() => Reflector.GetUnboundMethodDelegate<Func<string, List<object>, int>>(
-            Reflector.GetStaticFieldGetter<object>("Archery.Archery".ToType(), "internalApi"),
-            "GetSpecialAttackCooldown"));
-
     /// <summary>Initializes a new instance of the <see cref="BowRefreshSpecialAttackCooldownPatcher"/> class.</summary>
     internal BowRefreshSpecialAttackCooldownPatcher()
     {
@@ -48,17 +42,20 @@ internal sealed class BowRefreshSpecialAttackCooldownPatcher : HarmonyPatcher
             return;
         }
 
-        var model = ArcheryIntegration.Instance!.ModApi!.GetWeaponData(Manifest, slingshot);
-        if (!model.Key)
+        var bowData = ArcheryIntegration.Instance!.ModApi!.GetWeaponData(Manifest, slingshot);
+        if (bowData is null)
         {
             return;
         }
 
-        var specialAttackId = Reflector.GetUnboundPropertyGetter<object, string>(specialAttack, "Id").Invoke(specialAttack);
-        var specialAttackArgs = Reflector.GetUnboundPropertyGetter<object, List<object>>(specialAttack, "Arguments").Invoke(specialAttack);
-        var cooldown = SpecialAttackCooldownGetter.Value(specialAttackId, specialAttackArgs);
+        var cooldown = ArcheryIntegration.Instance!.ModApi!.GetSpecialAttackCooldown(Manifest, slingshot);
+        if (!cooldown.HasValue)
+        {
+            return;
+        }
+
         cooldown = (int)(cooldown * slingshot.Get_GarnetCooldownReduction() * Game1.player.Get_CooldownReduction());
-        Reflector.GetStaticFieldSetter<int>("Archery.Framework.Objects.Weapons.Bow", "ActiveCooldown").Invoke(cooldown);
+        Reflector.GetStaticFieldSetter<int>("Archery.Framework.Objects.Weapons.Bow", "ActiveCooldown").Invoke(cooldown.Value);
     }
 
     #endregion harmony patches

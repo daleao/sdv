@@ -9,7 +9,6 @@ using DaLion.Overhaul.Modules.Professions.Events.GameLoop;
 using DaLion.Overhaul.Modules.Professions.Extensions;
 using DaLion.Overhaul.Modules.Professions.Ultimates;
 using DaLion.Overhaul.Modules.Professions.VirtualProperties;
-using DaLion.Overhaul.Modules.Slingshots.Events;
 using DaLion.Overhaul.Modules.Slingshots.Extensions;
 using DaLion.Overhaul.Modules.Slingshots.Projectiles;
 using DaLion.Overhaul.Modules.Slingshots.VirtualProperties;
@@ -50,8 +49,6 @@ internal sealed class SlingshotPerformFirePatcher : HarmonyPatcher
         {
             return false; // don't run original logic
         }
-
-        EventManager.Disable<BullseyeRenderedEvent>();
 
         try
         {

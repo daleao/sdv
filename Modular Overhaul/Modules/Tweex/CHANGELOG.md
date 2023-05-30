@@ -1,6 +1,6 @@
 ﻿# TWX Change Log
 
-## 2.3.2 <sup><sub><sup>[🔼](#twx-change-log)</sup></sub></sup>
+## 2.4.0 <sup><sub><sup>[🔼](#twx-change-log)</sup></sub></sup>
 
 ### Fixed
 

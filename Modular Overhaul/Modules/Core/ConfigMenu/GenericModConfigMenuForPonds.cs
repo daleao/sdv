@@ -3,7 +3,7 @@
 /// <summary>Constructs the GenericModConfigMenu integration.</summary>
 internal sealed partial class GenericModConfigMenu
 {
-    /// <summary>Register the Ponds menu.</summary>
+    /// <summary>Register the config menu for PNDS.</summary>
     private void AddPondOptions()
     {
         this

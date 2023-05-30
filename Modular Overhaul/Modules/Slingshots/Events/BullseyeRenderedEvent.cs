@@ -21,6 +21,9 @@ internal sealed class BullseyeRenderedEvent : RenderedEvent
     }
 
     /// <inheritdoc />
+    public override bool IsEnabled => SlingshotsModule.Config.BullseyeReplacesCursor && Game1.player.usingSlingshot;
+
+    /// <inheritdoc />
     protected override void OnRenderedImpl(object? sender, RenderedEventArgs e)
     {
         if (Game1.player.CurrentTool is not Slingshot)

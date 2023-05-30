@@ -2,13 +2,24 @@
 
 This file contains a TL;DR of current version changes and hotfixes from across all modules. For the complete changelog, please refer to the individual changelogs of each module, linked [below](#detailed-change-logs).
 
-## Patch 2.3.2 Highlights <sup><sub><sup>[🔼](#margo-change-logs)</sup></sub></sup>
+## Patch 2.4.0 Highlights <sup><sub><sup>[🔼](#margo-change-logs)</sup></sub></sup>
 
-* Added initial compatibility for [Archery](http://www.nexusmods.com/stardewvalley/mods/16767) to PROFS and SLNGS.
+* Added initial compatibility for [Archery](http://www.nexusmods.com/stardewvalley/mods/16767) to PROFS, SLNGS and ENCH (see the specific changelogs for details).
+* Added shield VFX to Bloodthirsty enchant [ENCH] and Ring of Yoba's rebalance [RNGS].
+* [CMBT]: Fixed the issue of DoT causing monsters to be removed before death. This means that the workaround, which forcefully respawned live monsters and caused issues in multiplayer, is no longer needed.
 * [CMBT]: Added Fear status.
 * [CMBT]: Retextured the Shadow Sniper arrow to make it look ethereal, to avoid completely breaking my immersion when it travels through walls.
+* [ENCH]: Quincy enchantment can now travel through walls, no longer receives velocity from Desperado overcharge (since it receives Magnum effect instead), and no longer spams the annoying debuff spell sound.
 * [PROFS]: Brute Frenzy now causes Fear status on activation.
-* [TXS]: Fixed translation keys.
+* [PROFS]: There is now a very short delay before Desperado's overcharge begins. It should be barely noticeable while overcharging, but is *very* noticeable when you *don't* want to overcharge, so you don't hear the charging sound as often.
+* [PROFS]: Fixed Limit Break gauge still rendering with Limit Breaks disabled.
+* [PROFS]: Fixed an issue with Desperado's charging speed buff, which actualy reduced charging speed the player lost HP, instead of the opposite.
+* [RNGS]: Removed the "+4 Immunity" text from Immunity Ring tooltip.
+* [RNGS]: Power Chord Infinity Bands now normalize resonance correctly. This means that each gem will not get the full resonance effect from both resonant pairs, but rather shares the resonance with its equal. In simple terms, this nerfs Power Chords from 40% - 33% stats, to 30% - 26.7%. Monotone rings (all equal gems) are the only way to maximize a single stat.
+* [TXS]: Fixed some translation keys.
+* [TWX]: Mushroom Box age now uses Foraging level instead of Farming.
+* [WPNZ]: Valor Trial progress now updates incrementally instead of only on completion. You must speak with Gil for the objective to update.
+* Debug mode now also shows NPC names and current health in the case of monsters.
 
 ## Patch 2.3.1 Highlights <sup><sub><sup>[🔼](#margo-change-logs)</sup></sub></sup>
 

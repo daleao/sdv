@@ -13,7 +13,7 @@ using Microsoft.Xna.Framework;
 /// <summary>Constructs the GenericModConfigMenu integration.</summary>
 internal sealed partial class GenericModConfigMenu
 {
-    /// <summary>Register the config menu if available.</summary>
+    /// <summary>Register the config menu for TOLS.</summary>
     private void AddToolOptions()
     {
         var allowedUpgrades = new[] { "Copper", "Steel", "Gold", "Iridium" };

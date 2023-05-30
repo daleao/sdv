@@ -2,6 +2,7 @@
 
 #region using directives
 
+using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Newtonsoft.Json;
 using StardewModdingAPI.Utilities;
@@ -62,4 +63,20 @@ public sealed class Config : Shared.Configs.Config
     /// <summary>Gets a value indicating how close an enemy must be to auto-select a slingshot, in tiles.</summary>
     [JsonProperty]
     public uint AutoSelectionRange { get; internal set; } = 4;
+
+    /// <summary>Gets the number of allowed Gemstone sockets for a given Bow or Crossbow. Requires the Archery mod and the EnableEnchantments setting.</summary>
+    [JsonProperty]
+    public Dictionary<string, int> SocketsPerBow { get; internal set; } = new()
+    {
+        { "PeacefulEnd.Archery.StarterPack/Bow/Copper Bow", 1 },
+        { "PeacefulEnd.Archery.StarterPack/Bow/Steel Bow", 1 },
+        { "PeacefulEnd.Archery.StarterPack/Bow/Gold Bow", 2 },
+        { "PeacefulEnd.Archery.StarterPack/Bow/Iridium Bow", 2 },
+        { "PeacefulEnd.Archery.StarterPack/Bow/Yoba's Divine Harp", 3 },
+        { "PeacefulEnd.Archery.StarterPack/Crossbow/Copper Crossbow", 1 },
+        { "PeacefulEnd.Archery.StarterPack/Crossbow/Steel Crossbow", 1 },
+        { "PeacefulEnd.Archery.StarterPack/Crossbow/Gold Crossbow", 2 },
+        { "PeacefulEnd.Archery.StarterPack/Crossbow/Iridium Crossbow", 2 },
+        { "PeacefulEnd.Archery.StarterPack/Crossbow/Dwarven Repeating Crossbow", 2 },
+    };
 }

@@ -10,7 +10,7 @@ using StardewValley.Objects;
 /// <summary>Constructs the GenericModConfigMenu integration.</summary>
 internal sealed partial class GenericModConfigMenu
 {
-    /// <summary>Register the Combat config menu.</summary>
+    /// <summary>Register the config menu for CMBT.</summary>
     private void AddCombatOptions()
     {
         this

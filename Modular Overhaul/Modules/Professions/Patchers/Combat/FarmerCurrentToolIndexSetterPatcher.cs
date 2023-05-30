@@ -4,6 +4,7 @@
 
 using System.Diagnostics.CodeAnalysis;
 using DaLion.Overhaul.Modules.Professions.Extensions;
+using DaLion.Overhaul.Modules.Professions.Integrations;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
 using StardewValley.Tools;
@@ -32,14 +33,17 @@ internal sealed class FarmerCurrentToolIndexSetterPatcher : HarmonyPatcher
         }
 
         if (__instance.HasProfession(Profession.Rascal) &&
-            (slingshot.numAttachmentSlots.Value < 2 || slingshot.attachments.Length < 2))
+            (slingshot.numAttachmentSlots.Value == 1 || slingshot.attachments.Length == 1))
         {
             slingshot.numAttachmentSlots.Value = 2;
             slingshot.attachments.SetCount(2);
         }
-        else if (!__instance.HasProfession(Profession.Rascal) && (slingshot.numAttachmentSlots.Value > 1 || slingshot.attachments.Length > 1))
+        else if (!__instance.HasProfession(Profession.Rascal) && (slingshot.numAttachmentSlots.Value == 2 || slingshot.attachments.Length == 2))
         {
-            var replacement = new Slingshot(slingshot.InitialParentTileIndex);
+            var replacement = ArcheryIntegration.Instance?.ModApi?.GetWeaponData(Manifest, slingshot) is { } bowData
+                ? (Slingshot)ArcheryIntegration.Instance.ModApi.CreateWeapon(Manifest, bowData.WeaponId)
+                : new Slingshot(slingshot.InitialParentTileIndex);
+
             if (slingshot.attachments[0] is { } ammo1)
             {
                 replacement.attachments[0] = (SObject)ammo1.getOne();

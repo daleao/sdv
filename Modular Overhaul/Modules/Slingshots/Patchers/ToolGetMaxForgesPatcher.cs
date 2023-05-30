@@ -3,6 +3,7 @@
 #region using directives
 
 using System.Reflection;
+using DaLion.Overhaul.Modules.Slingshots.Integrations;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
 using StardewValley.Tools;
@@ -27,6 +28,17 @@ internal sealed class ToolGetMaxForgesPatcher : HarmonyPatcher
         if (__instance is not Slingshot slingshot || !SlingshotsModule.Config.EnableEnchantments)
         {
             return true; // run original logic
+        }
+
+        if (ArcheryIntegration.Instance?.ModApi?.GetWeaponData(Manifest, slingshot) is { } bowData)
+        {
+            if (!SlingshotsModule.Config.SocketsPerBow.TryGetValue(bowData.WeaponId, out var slots))
+            {
+                return true; // run original logic
+            }
+
+            __result = slots;
+            return false; // don't run original logic
         }
 
         if (!SlingshotsModule.Config.EnableRebalance)

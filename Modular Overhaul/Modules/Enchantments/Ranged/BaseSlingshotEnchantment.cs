@@ -4,6 +4,7 @@
 
 using System.Diagnostics.CodeAnalysis;
 using System.Xml.Serialization;
+using DaLion.Overhaul.Modules.Enchantments.Integrations;
 using Microsoft.Xna.Framework;
 using StardewValley.Projectiles;
 using StardewValley.Tools;
@@ -17,7 +18,8 @@ public class BaseSlingshotEnchantment : BaseEnchantment
     /// <inheritdoc />
     public override bool CanApplyTo(Item item)
     {
-        return item is Slingshot && SlingshotsModule.Config.EnableEnchantments;
+        return item is Slingshot slingshot && SlingshotsModule.Config.EnableEnchantments &&
+               ArcheryIntegration.Instance?.ModApi?.GetWeaponData(Manifest, slingshot) is null;
     }
 
     /// <summary>Raised when the <paramref name="slingshot"/> fires a <see cref="BasicProjectile"/>.</summary>

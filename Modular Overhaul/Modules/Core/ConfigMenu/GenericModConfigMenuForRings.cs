@@ -13,7 +13,7 @@ using DaLion.Shared.Integrations;
 /// <summary>Constructs the GenericModConfigMenu integration.</summary>
 internal sealed partial class GenericModConfigMenu
 {
-    /// <summary>Register the Rings menu.</summary>
+    /// <summary>Register the config menu for RNGS.</summary>
     private void AddRingOptions()
     {
         this

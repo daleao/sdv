@@ -126,11 +126,11 @@ public abstract class OverhaulModule
             return;
         }
 
-        EventManager.ManageNamespace(this.Namespace);
-        this._harmonizer = Harmonizer.ApplyFromNamespace(helper.ModRegistry, this.Namespace);
+        EventManager.ManageNamespace(this.Namespace + ".Events");
+        this._harmonizer = Harmonizer.ApplyFromNamespace(helper.ModRegistry, this.Namespace + ".Patchers");
         this._commandHandler ??= CommandHandler.HandleFromNamespace(
             helper.ConsoleCommands,
-            this.Namespace,
+            this.Namespace + ".Commands",
             this.DisplayName,
             this.Ticker,
             () => this.IsActive);
@@ -201,6 +201,16 @@ public abstract class OverhaulModule
             base.Activate(helper);
             //EventManager.ManageNamespace("DaLion.Shared");
 #if DEBUG
+            EventManager.ManageNamespace(this.Namespace + ".Debug");
+            this._harmonizer = Harmonizer.ApplyFromNamespace(helper.ModRegistry, this.Namespace + ".Debug");
+            this._commandHandler ??= CommandHandler.HandleFromNamespace(
+                helper.ConsoleCommands,
+                this.Namespace + ".Debug",
+                this.DisplayName,
+                this.Ticker,
+                () => this.IsActive);
+            Log.T("[Modules]: Debug features activated.");
+
             // start FPS counter
             Globals.FpsCounter = new FrameRateCounter(GameRunner.instance);
             helper.Reflection.GetMethod(Globals.FpsCounter, "LoadContent").Invoke();
@@ -265,6 +275,7 @@ public abstract class OverhaulModule
                 Modules.Professions.Integrations.TehsFishingOverhaulIntegration.Instance,
                 Modules.Professions.Integrations.CustomOreNodesIntegration.Instance,
                 Modules.Professions.Integrations.StardewValleyExpandedIntegration.Instance,
+                Modules.Professions.Integrations.ArcheryIntegration.Instance,
             }.ForEach(integration => integration?.Register());
         }
 
@@ -696,6 +707,12 @@ public abstract class OverhaulModule
             {
                 base.Activate(helper);
             }
+        }
+
+        /// <inheritdoc />
+        internal override void RegisterIntegrations()
+        {
+            (Modules.Slingshots.Integrations.ArcheryIntegration.Instance as IModIntegration)?.Register();
         }
 
         /// <inheritdoc />

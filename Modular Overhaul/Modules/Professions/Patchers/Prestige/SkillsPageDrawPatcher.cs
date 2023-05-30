@@ -25,12 +25,14 @@ internal sealed class SkillsPageDrawPatcher : HarmonyPatcher
     internal SkillsPageDrawPatcher()
     {
         this.Target = this.RequireMethod<SkillsPage>(nameof(SkillsPage.draw), new[] { typeof(SpriteBatch) });
+        this.Transpiler!.before = new[] { "Shockah.XPDisplay" };
     }
 
     #region harmony patches
 
     /// <summary>Patch to overlay skill bars above skill level 10 + draw prestige ribbons on the skills page.</summary>
     [HarmonyTranspiler]
+    [HarmonyBefore("Shockah.XPDisplay")]
     private static IEnumerable<CodeInstruction>? SkillsPageDrawTranspiler(
         IEnumerable<CodeInstruction> instructions, ILGenerator generator, MethodBase original)
     {

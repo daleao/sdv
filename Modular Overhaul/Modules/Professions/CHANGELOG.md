@@ -1,13 +1,20 @@
 ﻿# PROFS Change Log
 
-## 2.3.2 <sup><sub><sup>[🔼](#profs-change-log)</sup></sub></sup>
+## 2.4.0 <sup><sub><sup>[🔼](#profs-change-log)</sup></sub></sup>
 
 ### Added
 
 * Brute Frenzy now causes Fear status on activation, if CMBT is enabled.
 * Added compatibility for [Archery](http://www.nexusmods.com/stardewvalley/mods/16767).
     * Rascal's preservation effect will apply on top of the natural preservation chance of bows.
-    * Bows can be overcharged by Desperado, and gain all the corresponding perks (damage bonus, knockback bonus, hitbox bonus and piercing chance).
+    * Bows can be overcharged by Desperado, and gain all the corresponding perks (damage bonus, knockback bonus, hitbox bonus and piercing chance). Note, however, that overcharging increases the odds of breaking arrows.
+* Added a short delay before Desperado's overcharge begins. It should be barely noticeable while overcharging, but is *very* noticeable when you *don't* want to overcharge, so you don't hear the charging sound as often.
+
+### Fixed
+
+* Fixed Limit Break gauge still rendering with Limit Breaks disabled.
+* Fixed a possible conflict with XPDisplay.
+* Fixed an issue with Desperado's charging speed buff, which actualy reduced charging speed the player lost HP, instead of the opposite.
 
 ## 2.3.0 <sup><sub><sup>[🔼](#profs-change-log)</sup></sub></sup>
 

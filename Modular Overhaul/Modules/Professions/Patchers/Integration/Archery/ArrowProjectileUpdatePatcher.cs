@@ -17,7 +17,7 @@ using StardewValley.Projectiles;
 #endregion using directives
 
 [UsedImplicitly]
-[RequiresMod("PeacefulEnd.Archery", "Archery", "1.2.0")]
+[RequiresMod("PeacefulEnd.Archery", "Archery", "2.1.0")]
 internal sealed class ArrowProjectileUpdatePatcher : HarmonyPatcher
 {
     /// <summary>Initializes a new instance of the <see cref="ArrowProjectileUpdatePatcher"/> class.</summary>
@@ -42,7 +42,7 @@ internal sealed class ArrowProjectileUpdatePatcher : HarmonyPatcher
         Farmer ____owner,
         GameLocation location)
     {
-        if (____owner.HasProfession(Profession.Desperado))
+        if (!____owner.HasProfession(Profession.Desperado))
         {
             return;
         }

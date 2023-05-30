@@ -29,7 +29,7 @@ public sealed class ILHelper
         this.Original = original;
         this._instructions = instructions.ToList();
         this.Locals = this._instructions
-            .Where(instruction => (instruction.IsLdloc() || instruction.IsStloc()) && instruction.operand is not null)
+            .Where(instruction => (instruction.IsLdloc() || instruction.IsStloc()) && instruction.operand is LocalBuilder)
             .Select(instruction => (LocalBuilder)instruction.operand)
             .ToHashSet()
             .ToDictionary(lb => lb.LocalIndex, lb => lb);

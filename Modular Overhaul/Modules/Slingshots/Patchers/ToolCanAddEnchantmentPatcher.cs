@@ -2,6 +2,7 @@
 
 #region using directives
 
+using DaLion.Overhaul.Modules.Slingshots.Integrations;
 using DaLion.Overhaul.Modules.Weapons.Enchantments;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
@@ -25,7 +26,8 @@ internal sealed class ToolCanAddEnchantmentPatcher : HarmonyPatcher
     private static bool ToolCanAddEnchantmentPrefix(
         Tool __instance, ref bool __result, BaseEnchantment? enchantment)
     {
-        if (__instance is not Slingshot slingshot || enchantment is null)
+        if (__instance is not Slingshot slingshot || enchantment is null ||
+            ArcheryIntegration.Instance?.ModApi?.GetWeaponData(Manifest, slingshot) is not null)
         {
             return true; // run original logic
         }

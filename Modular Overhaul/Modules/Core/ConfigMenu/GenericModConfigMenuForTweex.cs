@@ -5,7 +5,7 @@ using System.Collections.Generic;
 /// <summary>Constructs the GenericModConfigMenu integration.</summary>
 internal sealed partial class GenericModConfigMenu
 {
-    /// <summary>Register the Tweex menu.</summary>
+    /// <summary>Register the config menu for TWX.</summary>
     private void AddMiscOptions()
     {
         this

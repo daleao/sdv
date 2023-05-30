@@ -4,6 +4,11 @@
 
 using DaLion.Overhaul.Modules.Core.UI;
 using DaLion.Overhaul.Modules.Professions;
+using DaLion.Overhaul.Modules.Professions.Events.Display;
+using DaLion.Overhaul.Modules.Professions.Events.Player;
+using DaLion.Overhaul.Modules.Professions.Extensions;
+using DaLion.Overhaul.Modules.Professions.Ultimates;
+using DaLion.Overhaul.Modules.Professions.VirtualProperties;
 using DaLion.Shared.Extensions.Stardew;
 using StardewValley.Buildings;
 
@@ -12,7 +17,7 @@ using StardewValley.Buildings;
 /// <summary>Constructs the GenericModConfigMenu integration.</summary>
 internal sealed partial class GenericModConfigMenu
 {
-    /// <summary>Register the config menu if available.</summary>
+    /// <summary>Register the config menu for PROFS.</summary>
     private void AddProfessionOptions()
     {
         this
@@ -240,7 +245,24 @@ internal sealed partial class GenericModConfigMenu
                 I18n.Gmcm_Profs_Limit_Enable_Title,
                 I18n.Gmcm_Profs_Limit_Enable_Desc,
                 config => config.Professions.EnableLimitBreaks,
-                (config, value) => config.Professions.EnableLimitBreaks = value)
+                (config, value) =>
+                {
+                    config.Professions.EnableLimitBreaks = value;
+                    if (!value && Game1.player.Get_Ultimate() is { } ultimate)
+                    {
+                        ultimate.ChargeValue = 0d;
+                        EventManager.DisableWithAttribute<UltimateEventAttribute>();
+                    }
+                    else if (value && Game1.player.Get_Ultimate() is not null)
+                    {
+                        Game1.player.RevalidateUltimate();
+                        EventManager.Enable<UltimateWarpedEvent>();
+                        if (Game1.currentLocation.IsDungeon())
+                        {
+                            EventManager.Enable<UltimateMeterRenderingHudEvent>();
+                        }
+                    }
+                })
             .AddCheckbox(
                 I18n.Gmcm_Profs_Limit_Holdtoactivate_Title,
                 I18n.Gmcm_Profs_Limit_Holdtoactivate_Desc,

@@ -1,6 +1,6 @@
 ﻿# ENCH Change Log
 
-## 2.3.2 <sup><sub><sup>[🔼](#ench-change-log)</sup></sub></sup>
+## 2.4.0 <sup><sub><sup>[🔼](#ench-change-log)</sup></sub></sup>
 
 ### Added
 

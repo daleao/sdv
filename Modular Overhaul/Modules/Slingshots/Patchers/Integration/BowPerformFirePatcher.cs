@@ -14,7 +14,7 @@ using StardewValley.Tools;
 #endregion using directives
 
 [UsedImplicitly]
-[RequiresMod("PeacefulEnd.Archery", "Archery", "1.2.0")]
+[RequiresMod("PeacefulEnd.Archery", "Archery", "2.1.0")]
 internal sealed class BowPerformFirePatcher : HarmonyPatcher
 {
     /// <summary>Initializes a new instance of the <see cref="BowPerformFirePatcher"/> class.</summary>
@@ -37,15 +37,31 @@ internal sealed class BowPerformFirePatcher : HarmonyPatcher
 
     #region harmony patches
 
-    /// <summary>Cache projectile source.</summary>
+    /// <summary>Apply projectile stat modifiers.</summary>
     [HarmonyPrefix]
     private static void BowPerformFirePrefix(BasicProjectile projectile, Slingshot slingshot)
     {
-        var data = ArcheryIntegration.Instance!.ModApi!.GetProjectileData(Manifest, projectile);
-        if (data.Key)
+        var projectileData = ArcheryIntegration.Instance!.ModApi!.GetProjectileData(Manifest, projectile);
+        if (projectileData is null)
         {
-            ArrowProjectile_Properties.Create(projectile, slingshot);
+            return;
         }
+
+        var collectiveDamage = Reflector.GetUnboundFieldGetter<BasicProjectile, int>(projectile, "_collectiveDamage").Invoke(projectile);
+        collectiveDamage = (int)(collectiveDamage * slingshot.Get_RubyDamageModifier());
+        Reflector.GetUnboundFieldSetter<BasicProjectile, int>(projectile, "_collectiveDamage").Invoke(projectile, collectiveDamage);
+
+        var criticalChance = Reflector.GetUnboundFieldGetter<BasicProjectile, float>(projectile, "_criticalChance").Invoke(projectile);
+        criticalChance *= slingshot.Get_AquamarineCritChanceModifier();
+        Reflector.GetUnboundFieldSetter<BasicProjectile, float>(projectile, "_criticalChance").Invoke(projectile, criticalChance);
+
+        var criticalDamageMultiplier = Reflector.GetUnboundFieldGetter<BasicProjectile, float>(projectile, "_criticalDamageMultiplier").Invoke(projectile);
+        criticalDamageMultiplier *= slingshot.Get_JadeCritPowerModifier();
+        Reflector.GetUnboundFieldSetter<BasicProjectile, float>(projectile, "_criticalDamageMultiplier").Invoke(projectile, criticalDamageMultiplier);
+
+        var knockback = Reflector.GetUnboundFieldGetter<BasicProjectile, float>(projectile, "_knockback").Invoke(projectile);
+        knockback *= slingshot.Get_AmethystKnockbackModifer();
+        Reflector.GetUnboundFieldSetter<BasicProjectile, float>(projectile, "_knockback").Invoke(projectile, knockback);
     }
 
     #endregion harmony patches

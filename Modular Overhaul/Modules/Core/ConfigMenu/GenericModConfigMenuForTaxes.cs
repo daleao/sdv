@@ -9,7 +9,7 @@ using System.Linq;
 /// <summary>Constructs the GenericModConfigMenu integration.</summary>
 internal sealed partial class GenericModConfigMenu
 {
-    /// <summary>Register the Taxes menu.</summary>
+    /// <summary>Register the config menu for TXS.</summary>
     private void AddTaxOptions()
     {
         this

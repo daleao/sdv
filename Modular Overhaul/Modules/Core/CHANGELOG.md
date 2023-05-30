@@ -1,5 +1,15 @@
 ﻿# Core Change Log
 
+## 2.4.0 <sup><sub><sup>[🔼](#core-change-log)</sup></sub></sup>
+
+### Added
+
+* Debug mode now also shows NPC names and current health in the case of monsters.
+
+### Fixed
+
+* Moved Textures out of Core and to each individual module, preventing a possible error when initializing if certain modules are disabled.
+
 ## 2.3.0 <sup><sub><sup>[🔼](#core-change-log)</sup></sub></sup>
 
 ### Added

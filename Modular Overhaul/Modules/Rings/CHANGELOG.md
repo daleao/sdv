@@ -1,13 +1,6 @@
 ﻿# RNGS Change Log
 
-## 2.3.2 <sup><sub><sup>[🔼](#rngs-change-log)</sup></sub></sup>
-
-### Fixed
-
-* Corrected and added some missing translation keys.
-* Remove the "+4 Immunity" text from Immunity Ring tooltip.
-
-## 2.3.2 <sup><sub><sup>[🔼](#rngs-change-log)</sup></sub></sup>
+## 2.4.0 <sup><sub><sup>[🔼](#rngs-change-log)</sup></sub></sup>
 
 ### Added
 
@@ -16,6 +9,9 @@
 ### Fixed
 
 * Yoba's Blessing shield no longer remains after the buff timer runs out.
+* Removed the "+4 Immunity" text from Immunity Ring tooltip.
+* Corrected and added some missing translation keys.
+* Power Chord Infinity Bands now normalize resonance correctly. This means that each gem will not get the full resonance effect from both resonant pairs, but rather shares the resonance with its equal. In simple terms, this nerfs Power Chords from 40% - 33% stats, to 30% - 26.7%. Monotone rings (all equal gems) are the only way to maximize a single stat.
 
 ## 2.3.0 <sup><sub><sup>[🔼](#rngs-change-log)</sup></sub></sup>
 

@@ -25,6 +25,12 @@ internal sealed class UltimateWarpedEvent : WarpedEvent
     /// <inheritdoc />
     protected override void OnWarpedImpl(object? sender, WarpedEventArgs e)
     {
+        if (!ProfessionsModule.Config.EnableLimitBreaks)
+        {
+            this.Disable();
+            return;
+        }
+
         if (e.NewLocation.GetType() == e.OldLocation.GetType())
         {
             return;

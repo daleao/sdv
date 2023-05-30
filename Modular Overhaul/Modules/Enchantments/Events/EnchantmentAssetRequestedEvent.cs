@@ -11,11 +11,11 @@ using Microsoft.Xna.Framework.Graphics;
 
 [UsedImplicitly]
 [AlwaysEnabledEvent]
-internal sealed class EnchantmentsAssetRequestedEvent : AssetRequestedEvent
+internal sealed class EnchantmentAssetRequestedEvent : AssetRequestedEvent
 {
-    /// <summary>Initializes a new instance of the <see cref="EnchantmentsAssetRequestedEvent"/> class.</summary>
+    /// <summary>Initializes a new instance of the <see cref="EnchantmentAssetRequestedEvent"/> class.</summary>
     /// <param name="manager">The <see cref="EventManager"/> instance that manages this event.</param>
-    internal EnchantmentsAssetRequestedEvent(EventManager manager)
+    internal EnchantmentAssetRequestedEvent(EventManager manager)
         : base(manager)
     {
         this.Edit("TileSheets/BuffsIcons", new AssetEditor(EditBuffsIconsTileSheet));

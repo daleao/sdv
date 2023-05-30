@@ -33,7 +33,7 @@ internal sealed class SlingshotGetRequiredChargeTimePatcher : HarmonyPatcher
             return;
         }
 
-        __result *= 1f - MathHelper.Lerp(0f, 0.5f, (float)firer.health / firer.maxHealth);
+        __result *= 1f - MathHelper.Lerp(0f, 0.5f, Math.Clamp(1f - ((float)firer.health / firer.maxHealth), 0f, 1f));
     }
 
     #endregion harmony patches

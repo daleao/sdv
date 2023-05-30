@@ -21,7 +21,7 @@ using StardewValley.Projectiles;
 #endregion using directives
 
 [UsedImplicitly]
-[RequiresMod("PeacefulEnd.Archery", "Archery", "1.2.0")]
+[RequiresMod("PeacefulEnd.Archery", "Archery", "2.1.0")]
 internal sealed class ArrowProjectileBehaviorOnCollisionPatcher : HarmonyPatcher
 {
     /// <summary>Initializes a new instance of the <see cref="ArrowProjectileBehaviorOnCollisionPatcher"/> class.</summary>
@@ -34,7 +34,7 @@ internal sealed class ArrowProjectileBehaviorOnCollisionPatcher : HarmonyPatcher
 
     #region harmony patches
 
-    /// <summary>Adds overcharged piercing effect to arrows.</summary>
+    /// <summary>Reduce projectile stats post-piercing.</summary>
     [HarmonyPostfix]
     private static void ArrowProjectileBehaviorOnCollisionWithMonsterPostfix(
         BasicProjectile __instance, ref bool __result, ref int ____collectiveDamage, ref float ____knockback)
@@ -44,13 +44,6 @@ internal sealed class ArrowProjectileBehaviorOnCollisionPatcher : HarmonyPatcher
             return;
         }
 
-        ____collectiveDamage = (int)(____collectiveDamage * 0.65f);
-        ____knockback *= 0.65f;
-        __instance.ModiftyOvercharge(0.65f);
-        Reflector.GetUnboundFieldGetter<Projectile, NetFloat>(__instance, "xVelocity")
-            .Invoke(__instance).Value *= 0.65f;
-        Reflector.GetUnboundFieldGetter<Projectile, NetFloat>(__instance, "yVelocity")
-            .Invoke(__instance).Value *= 0.65f;
         __result = false;
         __instance.Set_DidPierce(false);
     }

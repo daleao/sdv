@@ -15,7 +15,7 @@ using Microsoft.Xna.Framework;
 /// <summary>Constructs the GenericModConfigMenu integration.</summary>
 internal sealed partial class GenericModConfigMenu
 {
-    /// <summary>Register the Weapons config menu.</summary>
+    /// <summary>Register the config menu for WPNZ.</summary>
     private void AddWeaponOptions()
     {
         this

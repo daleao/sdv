@@ -38,7 +38,7 @@ internal sealed class Game1PressActionButtonPatcher : HarmonyPatcher
             return;
         }
 
-        if (ArcheryIntegration.Instance?.ModApi?.GetWeaponData(Manifest, slingshot).Key == true)
+        if (ArcheryIntegration.Instance?.ModApi?.GetWeaponData(Manifest, slingshot) is not null)
         {
             return;
         }

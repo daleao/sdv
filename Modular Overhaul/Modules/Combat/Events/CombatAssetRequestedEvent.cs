@@ -21,6 +21,16 @@ internal sealed class CombatAssetRequestedEvent : AssetRequestedEvent
     {
         this.Edit("TileSheets/Projectiles", new AssetEditor(EditProjectilesTileSheet));
         this.Edit("Strings/StringsFromCSFiles", new AssetEditor(EditStringsFromCsFiles, AssetEditPriority.Late));
+
+        this.Provide(
+            $"{Manifest.UniqueID}/BleedAnimation",
+            new ModTextureProvider(() => "assets/vfx/bleed.png"));
+        this.Provide(
+            $"{Manifest.UniqueID}/SlowAnimation",
+            new ModTextureProvider(() => "assets/vfx/slow.png"));
+        this.Provide(
+            $"{Manifest.UniqueID}/StunAnimation",
+            new ModTextureProvider(() => "assets/vfx/stun.png"));
     }
 
     #region editor callbacks

@@ -1,13 +1,16 @@
 ﻿# SLNGS Change Log
 
-## 2.3.2 <sup><sub><sup>[🔼](#slngs-change-log)</sup></sub></sup>
+## 2.4.0 <sup><sub><sup>[🔼](#slngs-change-log)</sup></sub></sup>
 
 ### Added
 
 * Added compatibility for [Archery](http://www.nexusmods.com/stardewvalley/mods/16767).
-    * Bows can receive Gemstone enchantments and, theoretically, Prismatic Shard enchantments. However, the enchantments offered by ENCH will not work with Bows and so the enchantment pool is, as of yet, void.
-    * Bows will not trigger the Slingshot special move.
-    * Bows are not affected by most other features. They do not have modifiers like slingshots do, so the EnableRebalance option does nothing, and they can naturally crit. regardless of the EnableCriticalHits option.
+    * Bows can receive gemstone enchantments. The number of allowed gemstones must be configured manually using the SocketsPerBow setting.
+    * Due to the nature of the Archery framework, Prismatic Shard enchantments are not allowed. This is not a technical limitation, but a design choice, given that bows can already be configured with customizable special attacks, and that arrows can receive custom enchantments. It simply would not make sense to add Prismatic Shard enchantments on top of that.
+    * Bows are not affected by the following features:
+        - They do not have ammo modifiers like slingshots do, but rather actual damage stats. So the EnableRebalance option does nothing. I may rebalance specific content packs, such as the Starter Pack. But obviously, expect this to receive the same treatment as the Weapon Rebalance from WPNZ.
+        - Bows can naturally critical hit, so the EnableCriticalHits option, likewise, does nothing.
+    * Anything else not listed here should be compatible, including Auto-Selection and Slick Moves.
 
 ### Fixed
 
@@ -15,6 +18,7 @@
 * Improved the special move animation (again). Hopefully the last time.
 * Infinity Slingshot swipe effect is now hot pink, like the other Infinity weapons if WPNZ is enabled with Infinity+1 option.
 * Can no longer stun enemies from afar by using the special move as a projectile is about to hit an enemy.
+* Fixed Archery bows incorrectly triggering the Slingshot special move.
 
 ## 2.2.8 <sup><sub><sup>[🔼](#slngs-change-log)</sup></sub></sup>
 

@@ -1,4 +1,4 @@
-﻿namespace DaLion.Overhaul.Modules.Core.Events;
+﻿namespace DaLion.Overhaul.Modules.Professions.Events;
 
 #region using directives
 
@@ -10,11 +10,11 @@ using StardewModdingAPI.Events;
 
 [UsedImplicitly]
 [AlwaysEnabledEvent]
-internal sealed class CoreAssetsInvalidatedEvent : AssetsInvalidatedEvent
+internal sealed class ProfessionAssetsInvalidatedEvent : AssetsInvalidatedEvent
 {
-    /// <summary>Initializes a new instance of the <see cref="CoreAssetsInvalidatedEvent"/> class.</summary>
+    /// <summary>Initializes a new instance of the <see cref="ProfessionAssetsInvalidatedEvent"/> class.</summary>
     /// <param name="manager">The <see cref="EventManager"/> instance that manages this event.</param>
-    internal CoreAssetsInvalidatedEvent(EventManager manager)
+    internal ProfessionAssetsInvalidatedEvent(EventManager manager)
         : base(manager)
     {
     }

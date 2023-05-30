@@ -34,7 +34,11 @@ internal sealed class ProfessionSaveLoadedEvent : SaveLoadedEvent
         player.professions.OnElementChanged += this.OnElementChanged;
 
         Skill.List.ForEach(s => s.Revalidate());
-        player.RevalidateUltimate();
+        if (ProfessionsModule.Config.EnableLimitBreaks)
+        {
+            player.RevalidateUltimate();
+        }
+
         Game1.game1.RevalidateFishPondPopulations();
 
         if (player.HasProfession(Profession.Prospector))

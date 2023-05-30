@@ -23,6 +23,12 @@ internal sealed class UltimateMeterRenderingHudEvent : RenderingHudEvent
     /// <inheritdoc />
     protected override void OnRenderingHudImpl(object? sender, RenderingHudEventArgs e)
     {
+        if (!ProfessionsModule.Config.EnableLimitBreaks)
+        {
+            this.Disable();
+            return;
+        }
+
         var ultimate = Game1.player.Get_Ultimate();
         if (ultimate is null)
         {

@@ -1,4 +1,4 @@
-﻿namespace DaLion.Overhaul.Modules.Enchantments.Events;
+﻿namespace DaLion.Overhaul.Modules.Slingshots.Events;
 
 #region using directives
 
@@ -8,11 +8,11 @@ using StardewModdingAPI.Events;
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class EnchantmentsGameLaunchedEvent : GameLaunchedEvent
+internal sealed class SlingshotsGameLaunchedEvent : GameLaunchedEvent
 {
-    /// <summary>Initializes a new instance of the <see cref="EnchantmentsGameLaunchedEvent"/> class.</summary>
+    /// <summary>Initializes a new instance of the <see cref="SlingshotsGameLaunchedEvent"/> class.</summary>
     /// <param name="manager">The <see cref="EventManager"/> instance that manages this event.</param>
-    internal EnchantmentsGameLaunchedEvent(EventManager manager)
+    internal SlingshotsGameLaunchedEvent(EventManager manager)
         : base(manager)
     {
     }
@@ -20,6 +20,6 @@ internal sealed class EnchantmentsGameLaunchedEvent : GameLaunchedEvent
     /// <inheritdoc />
     protected override void OnGameLaunchedImpl(object? sender, GameLaunchedEventArgs e)
     {
-        OverhaulModule.Enchantments.RegisterIntegrations();
+        OverhaulModule.Slingshots.RegisterIntegrations();
     }
 }

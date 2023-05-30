@@ -90,6 +90,11 @@ public abstract class Ultimate : SmartEnum<Ultimate>, IUltimate
         get => this._chargeValue;
         set
         {
+            if (!ProfessionsModule.Config.EnableLimitBreaks)
+            {
+                return;
+            }
+
             if (Math.Abs(this._chargeValue - value) < 0.01)
             {
                 return;

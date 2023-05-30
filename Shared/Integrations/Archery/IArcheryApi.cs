@@ -27,33 +27,35 @@ public interface IArcheryApi
 
     event EventHandler<IAmmoHitMonsterEventArgs> OnAmmoHitMonster;
 
-    KeyValuePair<bool, Item> CreateWeapon(IManifest callerManifest, string weaponModelId);
+    Item CreateWeapon(IManifest callerManifest, string weaponModelId);
 
-    KeyValuePair<bool, Item> CreateAmmo(IManifest callerManifest, string ammoModelId);
+    Item CreateAmmo(IManifest callerManifest, string ammoModelId);
 
-    KeyValuePair<bool, string> PlaySound(IManifest callerManifest, ISound sound, Vector2 position);
+    bool PlaySound(IManifest callerManifest, ISound sound, Vector2 position);
 
-    KeyValuePair<bool, IWeaponData> GetWeaponData(IManifest callerManifest, Slingshot slingshot);
+    int? GetSpecialAttackCooldown(IManifest callerManifest, Slingshot slingshot);
 
-    KeyValuePair<bool, IProjectileData> GetProjectileData(IManifest callerManifest, BasicProjectile projectile);
+    IWeaponData? GetWeaponData(IManifest callerManifest, Slingshot slingshot);
 
-    KeyValuePair<bool, string> SetProjectileData(IManifest callerManifest, BasicProjectile projectile, IProjectileData data);
+    IProjectileData? GetProjectileData(IManifest callerManifest, BasicProjectile projectile);
 
-    KeyValuePair<bool, string> SetChargePercentage(IManifest callerManifest, Slingshot slingshot, float percentage);
+    bool SetProjectileData(IManifest callerManifest, BasicProjectile projectile, IProjectileData data);
 
-    KeyValuePair<bool, BasicProjectile> PerformFire(IManifest callerManifest, BasicProjectile projectile, Slingshot slingshot, GameLocation location, Farmer who, bool suppressFiringSound = false);
+    bool SetChargePercentage(IManifest callerManifest, Slingshot slingshot, float percentage);
 
-    KeyValuePair<bool, BasicProjectile> PerformFire(IManifest callerManifest, string ammoId, Slingshot slingshot, GameLocation location, Farmer who, bool suppressFiringSound = false);
+    BasicProjectile PerformFire(IManifest callerManifest, BasicProjectile projectile, Slingshot slingshot, GameLocation location, Farmer who, bool suppressFiringSound = false);
 
-    KeyValuePair<bool, BasicProjectile> PerformFire(IManifest callerManifest, Slingshot slingshot, GameLocation location, Farmer who, bool suppressFiringSound = false);
+    BasicProjectile PerformFire(IManifest callerManifest, string ammoId, Slingshot slingshot, GameLocation location, Farmer who, bool suppressFiringSound = false);
 
-    KeyValuePair<bool, string> RegisterSpecialAttack(IManifest callerManifest, string name, WeaponType whichWeaponTypeCanUse, Func<List<object>, string> getDisplayName, Func<List<object>, string> getDescription, Func<List<object>, int> getCooldownMilliseconds, Func<ISpecialAttack, bool> specialAttackHandler);
+    BasicProjectile PerformFire(IManifest callerManifest, Slingshot slingshot, GameLocation location, Farmer who, bool suppressFiringSound = false);
 
-    KeyValuePair<bool, string> DeregisterSpecialAttack(IManifest callerManifest, string name);
+    bool RegisterSpecialAttack(IManifest callerManifest, string name, WeaponType whichWeaponTypeCanUse, Func<List<object>, string> getDisplayName, Func<List<object>, string> getDescription, Func<List<object>, int> getCooldownMilliseconds, Func<ISpecialAttack, bool> specialAttackHandler);
 
-    KeyValuePair<bool, string> RegisterEnchantment(IManifest callerManifest, string name, AmmoType whichAmmoTypeCanUse, TriggerType triggerType, Func<List<object>, string> getDisplayName, Func<List<object>, string> getDescription, Func<IEnchantment, bool> enchantmentHandler);
+    bool DeregisterSpecialAttack(IManifest callerManifest, string name);
 
-    KeyValuePair<bool, string> DeregisterEnchantment(IManifest callerManifest, string name);
+    bool RegisterEnchantment(IManifest callerManifest, string name, AmmoType whichAmmoTypeCanUse, TriggerType triggerType, Func<List<object>, string> getDisplayName, Func<List<object>, string> getDescription, Func<IEnchantment, bool> enchantmentHandler);
+
+    bool DeregisterEnchantment(IManifest callerManifest, string name);
 }
 
 #region Enums
@@ -143,7 +145,6 @@ public interface IProjectileData
 
     public float? Knockback { get; set; }
 
-
     public bool? DoesExplodeOnImpact { get; set; }
 
     public int? ExplosionRadius { get; set; }
@@ -160,6 +161,12 @@ public interface IWeaponData
     public int? MagazineSize { get; init; }
 
     public int? AmmoInMagazine { get; set; }
+
+    public float ChargeTimeRequiredMilliseconds { get; init; }
+
+    public float ProjectileSpeed { get; init; }
+
+    public IRandomRange DamageRange { get; init; }
 }
 
 public interface ISound

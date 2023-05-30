@@ -320,17 +320,7 @@ public sealed class Chord : IChord
                             break;
                     }
 
-                    if (resonance > 0)
-                    {
-                        // if there are multiple copies of this gem, normalize the resonance
-                        var ratio = countByNote[i.First] / countByNote[i.Second];
-                        if (ratio > 0)
-                        {
-                            resonance /= ratio;
-                        }
-                    }
-
-                    this.ResonanceByGemstone[group.Key] += resonance;
+                    this.ResonanceByGemstone[group.Key] += resonance / countByNote[i.First];
                 });
             });
 

@@ -10,7 +10,7 @@ using Microsoft.Xna.Framework;
 /// <summary>Constructs the GenericModConfigMenu integration.</summary>
 internal sealed partial class GenericModConfigMenu
 {
-    /// <summary>Register the Slingshots config menu.</summary>
+    /// <summary>Register the config menu for SLNGS.</summary>
     private void AddSlingshotOptions()
     {
         this

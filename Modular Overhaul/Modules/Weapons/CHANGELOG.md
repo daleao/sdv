@@ -1,10 +1,10 @@
 ﻿# WPNZ Change Log
 
-## 2.3.2 <sup><sub><sup>[🔼](#wpnz-change-log)</sup></sub></sup>
+## 2.4.0 <sup><sub><sup>[🔼](#wpnz-change-log)</sup></sub></sup>
 
 ### Changed
 
-* Virtue Trial progression now updates incrementally instead of only on completion. You must speak with Gil for the objective to update.
+* Valor Trial progress now updates incrementally instead of only on completion. You must speak with Gil for the objective to update.
 
 ### Fixed
 

@@ -1,6 +1,6 @@
 ﻿# TXS Change Log
 
-## 2.3.2 <sup><sub><sup>[🔼](#txs-change-log)</sup></sub></sup>
+## 2.4.0 <sup><sub><sup>[🔼](#txs-change-log)</sup></sub></sup>
 
 ### Fixes
 

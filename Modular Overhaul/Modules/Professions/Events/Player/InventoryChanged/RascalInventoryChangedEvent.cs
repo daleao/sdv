@@ -3,6 +3,7 @@
 #region using directives
 
 using DaLion.Overhaul.Modules.Professions.Extensions;
+using DaLion.Overhaul.Modules.Professions.Integrations;
 using DaLion.Shared.Events;
 using StardewModdingAPI.Events;
 using StardewValley.Tools;
@@ -32,15 +33,18 @@ internal sealed class RascalInventoryChangedEvent : InventoryChangedEvent
             }
 
             if (player.HasProfession(Profession.Rascal) &&
-                (slingshot.numAttachmentSlots.Value < 2 || slingshot.attachments.Length < 2))
+                (slingshot.numAttachmentSlots.Value == 1 || slingshot.attachments.Length == 1))
             {
                 slingshot.numAttachmentSlots.Value = 2;
                 slingshot.attachments.SetCount(2);
             }
             else if (!player.HasProfession(Profession.Rascal) &&
-                     (slingshot.numAttachmentSlots.Value > 1 || slingshot.attachments.Length > 1))
+                     (slingshot.numAttachmentSlots.Value == 2 || slingshot.attachments.Length == 2))
             {
-                var replacement = new Slingshot(slingshot.InitialParentTileIndex);
+                var replacement = ArcheryIntegration.Instance?.ModApi?.GetWeaponData(Manifest, slingshot) is { } bowData
+                    ? (Slingshot)ArcheryIntegration.Instance.ModApi.CreateWeapon(Manifest, bowData.WeaponId)
+                    : new Slingshot(slingshot.InitialParentTileIndex);
+
                 if (slingshot.attachments[0] is { } ammo1)
                 {
                     replacement.attachments[0] = (SObject)ammo1.getOne();
