@@ -5,6 +5,7 @@
 ### Added
 
 * Added shield VFX to Bloodthirsty enchant.
+* Added safeguard so Ranged enchantments cannot be applied to bows from Archery mod.
 
 ### Changed
 
