@@ -4,7 +4,7 @@
 
 ### Changed
 
-* Simplified the subfolders within assets. All textures are now merged under "sprites".
+* Simplified the subfolders within assets. All textures are now consolidated under "sprites".
 
 ### Fixed
 

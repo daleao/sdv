@@ -12,7 +12,7 @@ Major Overhaul for Fishing professions.
 
 ### Changed
 
-Major changes to the Fishing branch:
+Major changes to the Fishing tree:
 * **Fisher:**
     * Changed from what was essentially a "free permanent bait" effect, to "baits are twice as effective". The end result is more or less equal, but actually encourages using bait instead of trivializing it. Also makes Wild Bait (chance to double the catch) and Magnet (chance for pirate treasure) more appealing.
     * New prestige perk: baits are *three times* more effective. *Pretty obvious and natural progression. With Wild Bait the end result is effectively instant-nibble.*

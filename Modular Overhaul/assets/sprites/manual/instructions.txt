@@ -1,0 +1,2 @@
+Copy the file "tools-mythicite.png" and paste it inside "Mods/MoonMisadventures/assets".
+Overwrite when prompted.
