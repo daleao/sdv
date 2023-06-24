@@ -11,7 +11,7 @@
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)Attributes\DebugAttribute.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Attributes\ImplicitIgnoreAttribute.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Attributes\IgnoreIfLoaded.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Attributes\ModConflictAttribute.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Attributes\ModRequirementAttribute.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Classes\BiMap.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Classes\CircleTileGrid.cs" />
