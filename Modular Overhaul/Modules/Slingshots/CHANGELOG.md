@@ -5,6 +5,7 @@
 ### Added
 
 * Topaz Enchantment now actual does something if CMBT module is disabled (previously required CMBT module to do anything).
+* Added option to display the current primary ammo in the item's sprite (enabled by default).
 
 ### Changed
 
@@ -14,7 +15,7 @@
     * Arrow Enchantments will in turn resonate with Infinity Bands ([RNGS](../Rings)), as would other gemstone enchantments. Resonance bonuses apply even while the resonating arrow is in secondary ammo slot. If the resonating arrow is in the primary ammo slot, however, it's damage is also buffed by the resonance.
     * Diamond-tipped arrows give 2 random enchantment effects, but does not resonate.
     * If Rebalance option is enbled, arrow base damage also increases the bow's minimum damage, instead of only the maximum.
-    * Rebalanced the Archery Starter Pack. **I will not support any other content packs.**
+    * Rebalanced the Archery Starter Pack (new Misc. download). **I will not support any other content packs.**
 * Changes to make regular slingshots more similar to Archery bows, and distinct from Melee Weapons:
     * Slingshots can now equip gemstones, including Diamonds and Prismatic Shard. Diamonds are particularly strong. Prismatic Shards are nukes.
     * Slingshots can no longer receive gemstone enchantments. As with bows, they now receive bonuses based on equipped gemstones. Clearly this is a huge nerf for Slingshots in the end-game, but also a huge buff in the early game, which I think is worth the trade.
@@ -22,7 +23,6 @@
     * Again, resonances from Infinity Bands still apply as expected, and buff the gemstonee's raw damage when equipped as primary.
     * Diamonds give 2 random enchantment effects, but do not resonate.
     * Prismatic Shards give all enchantment effects simultaneously.
-* Added option to display the current primary ammo in the item's sprite (enabled by default).
 
 ### Fixed
 

@@ -2,24 +2,21 @@
 
 This file contains a TL;DR of current version changes and hotfixes from across all modules. For the complete changelog, please refer to the individual changelogs of each module, linked [below](#detailed-change-logs).
 
-## Minor Release 2.4.0 Highlights <sup><sub><sup>[🔼](#margo-change-logs)</sup></sub></sup>
+## Minor Release 2.5.0 Highlights <sup><sub><sup>[🔼](#margo-change-logs)</sup></sub></sup>
 
-* Added initial compatibility for [Archery](http://www.nexusmods.com/stardewvalley/mods/16767) to [PROFS](Modules/Professions/CHANGELOG.md), [SLNGS](Modules/Slingshots/CHANGELOG.md) and ENCH (see the specific changelogs for details).
-* Added shield VFX to Bloodthirsty enchant [ENCH] and Ring of Yoba's rebalance [RNGS].
-* [CMBT]: Fixed the issue of DoT causing monsters to be removed before death. This means that the workaround, which forcefully respawned live monsters and caused issues in multiplayer, is no longer needed.
-* [CMBT]: Added Fear status.
-* [CMBT]: Retextured the Shadow Sniper arrow to make it look ethereal, to avoid completely breaking my immersion when it travels through walls.
-* [ENCH]: Quincy enchantment can now travel through walls, no longer receives velocity from Desperado overcharge (since it receives Magnum effect instead), and no longer spams the annoying debuff spell sound.
-* [PROFS]: Brute Frenzy now causes Fear status on activation.
-* [PROFS]: There is now a very short delay before Desperado's overcharge begins. It should be barely noticeable while overcharging, but is *very* noticeable when you *don't* want to overcharge, so you don't hear the charging sound as often.
-* [PROFS]: Fixed Limit Break gauge still rendering with Limit Breaks disabled.
-* [PROFS]: Fixed an issue with Desperado's charging speed buff, which actualy reduced charging speed the player lost HP, instead of the opposite.
-* [RNGS]: Removed the "+4 Immunity" text from Immunity Ring tooltip.
-* [RNGS]: Power Chord Infinity Bands now normalize resonance correctly. This means that each gem will not get the full resonance effect from both resonant pairs, but rather shares the resonance with its equal. In simple terms, this nerfs Power Chords from 40% - 33% stats, to 30% - 26.7%. Monotone rings (all equal gems) are the only way to maximize a single stat.
-* [TXS]: Fixed some translation keys.
-* [TWX]: Mushroom Box age now uses Foraging level instead of Farming.
-* [WPNZ]: Valor Trial progress now updates incrementally instead of only on completion. You must speak with Gil for the objective to update.
-* Debug mode now also shows NPC names and current health in the case of monsters.
+* [PNDS]: Mr. and Ms. Angler can now mate when placed together in a pond.
+* [PROFS]: Major overhaul of Fishing professions. Please see the dedicated [changelog](Modules/Professions/CHANGELOG.md).
+* [PROFS]: Prospector Hunt streak now also buffs the chance of spawning panning points.
+* [PROFS]: Slingshot projectiles now leave a trail effect when overcharged.
+* [PROFS]: SpaceCore skill prestige choices can now also be respecced at the Statue of Prestige (untested).
+* [SLNGS]: Removed gemstone enchantments and replaced with gemstones as ammo. Major new Archery compatibility changes, including a new Misc. download for compatibility with [Archery Starter Pack](https://www.nexusmods.com/stardewvalley/mods/16768).
+* [SLNGS]: Ranged weapons now display the equipped ammo (can be disabled).
+* [TXS]: Now persists data in the Mod Data Dictionary, which fixes a possible issue if the player reset the game after saving on the night of the 1st, but before completing the 2nd.
+* [TOLS]: Added Radioactive tool upgrades and Volcano Forge Upgrading. Please see the dedicated [changelog](Modules/Tools/CHANGELOG.md).
+* [TOLS]: Added option to reward experience for using the Watering Can, and another to prevent refilling the Watering Can with salt water.**
+* [TWX]: Added option to wither un-watered crops, and another to prevent bait consumption when a Crab Pot produces trash.**
+
+** Yes, I know these already exist in other mods. But I prefer to avoid downloading small immersion tweaks when they can be added directly to the modular overhaul.
 
 ## Major Release 2.0.0 Highlights <sup><sub><sup>[🔼](#margo-change-logs)</sup></sub></sup>
 
