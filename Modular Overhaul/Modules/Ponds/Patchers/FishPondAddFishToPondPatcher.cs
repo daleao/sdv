@@ -9,6 +9,7 @@ using DaLion.Shared.Extensions.Stardew;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
 using StardewValley.Buildings;
+using StardewValley.GameData.FishPond;
 
 #endregion using directives
 
@@ -25,24 +26,36 @@ internal sealed class FishPondAddFishToPondPatcher : HarmonyPatcher
 
     /// <summary>Distinguish extended family pairs + increment total Fish Pond quality ratings.</summary>
     [HarmonyPostfix]
-    private static void FishPondAddFishToPondPostfix(FishPond __instance, SObject fish)
+    private static void FishPondAddFishToPondPostfix(FishPond __instance, FishPondData ____fishPondData, SObject fish)
     {
         try
         {
-            if (fish.HasContextTag("fish_legendary") && fish.ParentSheetIndex != __instance.fishType.Value)
+            if (fish.HasContextTag("fish_legendary"))
             {
-                var familyQualities = __instance
-                    .Read(DataKeys.FamilyQualities, $"{__instance.Read<int>(DataKeys.FamilyLivingHere)},0,0,0")
-                    .ParseList<int>();
-                if (familyQualities.Count != 4 ||
-                    familyQualities.Sum() != __instance.Read<int>(DataKeys.FamilyLivingHere))
+                if (fish.ParentSheetIndex != __instance.fishType.Value)
                 {
-                    ThrowHelper.ThrowInvalidDataException("FamilyQualities data had incorrect number of values.");
+                    var familyQualities = __instance
+                        .Read(DataKeys.FamilyQualities, $"{__instance.Read<int>(DataKeys.FamilyLivingHere)},0,0,0")
+                        .ParseList<int>();
+                    if (familyQualities.Count != 4 ||
+                        familyQualities.Sum() != __instance.Read<int>(DataKeys.FamilyLivingHere))
+                    {
+                        ThrowHelper.ThrowInvalidDataException("FamilyQualities data had incorrect number of values.");
+                    }
+
+                    familyQualities[fish.Quality == 4 ? 3 : fish.Quality]++;
+                    __instance.Increment(DataKeys.FamilyLivingHere);
+                    __instance.Write(DataKeys.FamilyQualities, string.Join(',', familyQualities));
                 }
 
-                familyQualities[fish.Quality == 4 ? 3 : fish.Quality]++;
-                __instance.Increment(DataKeys.FamilyLivingHere);
-                __instance.Write(DataKeys.FamilyQualities, string.Join(',', familyQualities));
+                // enable reproduction if angler or ms. angler
+                if (fish.ParentSheetIndex is not (160 or 899) || __instance.Read<int>(DataKeys.FamilyLivingHere) is not ({ } familyCount and > 0))
+                {
+                    return;
+                }
+
+                var mates = Math.Min(__instance.FishCount - familyCount, familyCount);
+                ____fishPondData.SpawnTime = 12 / mates;
             }
             else if (fish.IsAlgae())
             {

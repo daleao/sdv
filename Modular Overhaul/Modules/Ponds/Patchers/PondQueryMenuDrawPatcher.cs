@@ -24,7 +24,6 @@ internal sealed class PondQueryMenuDrawPatcher : HarmonyPatcher
     {
         this.Target = this.RequireMethod<PondQueryMenu>(nameof(PondQueryMenu.draw), new[] { typeof(SpriteBatch) });
         this.Prefix!.priority = Priority.High;
-        this.Prefix!.before = new[] { OverhaulModule.Professions.Namespace };
     }
 
     private delegate void DrawHorizontalPartitionDelegate(
@@ -35,7 +34,6 @@ internal sealed class PondQueryMenuDrawPatcher : HarmonyPatcher
     /// <summary>Adjust fish pond query menu for algae.</summary>
     [HarmonyPrefix]
     [HarmonyPriority(Priority.High)]
-    [HarmonyBefore("DaLion.Overhaul.Modules.Professions")]
     private static bool PondQueryMenuDrawPrefix(
         PondQueryMenu __instance,
         float ____age,
@@ -117,8 +115,8 @@ internal sealed class PondQueryMenuDrawPatcher : HarmonyPatcher
             // draw fish
             int x = 0, y = 0, seaweedCount = 0, greenAlgaeCount = 0, whiteAlgaeCount = 0, familyCount = 0;
             var slotsToDraw = ____pond.maxOccupants.Value;
-            var columns = (int)Math.Ceiling(slotsToDraw / 2f);
-            var slotSpacing = 18 - columns;
+            var columns = Math.Min(slotsToDraw, 5);
+            const int slotSpacing = 13;
             SObject? itemToDraw = null;
             if (isAlgaePond)
             {

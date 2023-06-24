@@ -48,11 +48,11 @@ internal sealed class FarmAnimalPetPatcher : HarmonyPatcher
                 .Return(2)
                 .SetOperand(isNotRancher) // replace false case branch with true case branch
                 .Move()
-                .Count(new[] { new CodeInstruction(OpCodes.Brfalse_S) }, out var count)
+                .CountUntil(new[] { new CodeInstruction(OpCodes.Brfalse_S) }, out var count)
                 .Remove(count)
-                .Count(new[] { new CodeInstruction(OpCodes.Brfalse_S) }, out count)
+                .CountUntil(new[] { new CodeInstruction(OpCodes.Brfalse_S) }, out count)
                 .Remove(count)
-                .Count(new[] { new CodeInstruction(OpCodes.Brfalse_S) }, out count)
+                .CountUntil(new[] { new CodeInstruction(OpCodes.Brfalse_S) }, out count)
                 .Remove(count)
                 .StripLabels();
         }

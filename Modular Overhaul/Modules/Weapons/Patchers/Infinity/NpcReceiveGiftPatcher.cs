@@ -24,6 +24,7 @@ internal sealed class NpcReceiveGiftPatcher : HarmonyPatcher
     private static void CommunityUpgradeAcceptPostfix(SObject o, Farmer giver)
     {
         giver.Increment(DataKeys.ProvenGenerosity, o.sellToStorePrice());
+        WeaponsModule.State.VirtuesQuest?.UpdateVirtueProgress(Virtue.Generosity);
     }
 
     #endregion harmony patches

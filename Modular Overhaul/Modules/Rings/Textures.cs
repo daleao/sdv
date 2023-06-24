@@ -14,10 +14,10 @@ internal static class Textures
     internal static Texture2D RingsTx { get; } = ModHelper.ModContent.Load<Texture2D>("assets/sprites/rings");
 
     internal static Texture2D PatternedResonanceTx { get; } =
-        ModHelper.ModContent.Load<Texture2D>("assets/vfx/resonance_patterned");
+        ModHelper.ModContent.Load<Texture2D>("assets/sprites/resonance_patterned");
 
     internal static Texture2D StrongerResonanceTx { get; } =
-        ModHelper.ModContent.Load<Texture2D>("assets/vfx/resonance_stronger");
+        ModHelper.ModContent.Load<Texture2D>("assets/sprites/resonance_stronger");
 
-    internal static Texture2D ShieldTx { get; set; } = ModHelper.ModContent.Load<Texture2D>("assets/vfx/shield.png");
+    internal static Texture2D ShieldTx { get; set; } = ModHelper.ModContent.Load<Texture2D>("assets/sprites/shield.png");
 }

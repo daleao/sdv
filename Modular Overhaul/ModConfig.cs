@@ -154,7 +154,7 @@ public sealed class ModConfig
     /// <param name="helper">Provides simplified APIs for writing mods.</param>
     internal void Validate(IModHelper helper)
     {
-        if (!this.Enumerate().Aggregate(true, (flag, config) => flag | config.Validate()))
+        if (!this.Enumerate().Aggregate(true, (flag, config) => flag & config.Validate()))
         {
             helper.WriteConfig(this);
         }

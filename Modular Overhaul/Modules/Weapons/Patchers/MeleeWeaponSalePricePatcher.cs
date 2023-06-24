@@ -51,9 +51,9 @@ internal sealed class MeleeWeaponSalePricePatcher : HarmonyPatcher
             for (var i = 0; i < __instance.enchantments.Count; i++)
             {
                 var enchantment = __instance.enchantments[i];
-                if (enchantment.IsSecondaryEnchantment())
+                if (enchantment is GalaxySoulEnchantment)
                 {
-                    __result += 2500; // half of Galaxy Soul value
+                    __result += 2500 * enchantment.GetLevel(); // half of Galaxy Soul value
                 }
                 else if (enchantment.IsForge())
                 {
@@ -69,7 +69,7 @@ internal sealed class MeleeWeaponSalePricePatcher : HarmonyPatcher
                         _ => 0,
                     } * enchantment.GetLevel(); // half of gemstone value
                 }
-                else
+                else if (!enchantment.IsSecondaryEnchantment())
                 {
                     __result += 1000; // half of Prismatic Shard value
                 }

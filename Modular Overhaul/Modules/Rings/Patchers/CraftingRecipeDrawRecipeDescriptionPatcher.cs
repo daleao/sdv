@@ -32,7 +32,7 @@ internal sealed class CraftingRecipeDrawRecipeDescriptionPatcher : HarmonyPatche
     private static bool CraftingRecipeDrawRecipeDescriptionPrefix(
         CraftingRecipe __instance, SpriteBatch b, Vector2 position, int width, IList<Item> additional_crafting_items)
     {
-        if (!__instance.name.Contains("Ring") || !__instance.name.ContainsAnyOf("Glow", "Magnet") ||
+        if (!__instance.name.Contains("Ring") || !__instance.name.ContainsAny("Glow", "Magnet") ||
             !RingsModule.Config.BetterGlowstoneProgression)
         {
             return true; // run original logic

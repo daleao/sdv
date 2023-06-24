@@ -39,10 +39,10 @@ internal sealed class TaxAssetRequestedEvent : AssetRequestedEvent
                 CurrentCulture($"{TaxesModule.Config.IncomeTaxLatenessFine:0.#%}"),
                 interest);
 
-        var due = TaxesModule.State.LatestDueIncomeTax;
+        var due = Game1.player.Read<int>(DataKeys.LatestDueIncomeTax);
         data[$"{Manifest.UniqueID}/{Mail.FrsNotice}"] = I18n.Mail_Frs_Notice(honorific, due);
 
-        var outstanding = TaxesModule.State.LatestOutstandingIncomeTax;
+        var outstanding = Game1.player.Read<int>(DataKeys.LatestOutstandingIncomeTax);
         data[$"{Manifest.UniqueID}/{Mail.FrsOutstanding}"] =
             I18n.Mail_Frs_Outstanding(
                 honorific,
@@ -52,7 +52,7 @@ internal sealed class TaxAssetRequestedEvent : AssetRequestedEvent
                 outstanding,
                 interest);
 
-        var deductions = TaxesModule.State.LatestTaxDeductions;
+        var deductions = Game1.player.Read<float>(DataKeys.LatestTaxDeductions);
         data[$"{Manifest.UniqueID}/{Mail.FrsDeduction}"] = deductions switch
         {
             >= 1f => I18n.Mail_Frs_Deduction_Max(honorific),
@@ -61,14 +61,14 @@ internal sealed class TaxAssetRequestedEvent : AssetRequestedEvent
         };
 
         // county letters
-        due = TaxesModule.State.LatestDuePropertyTax;
+        due = Game1.player.Read<int>(DataKeys.LatestDuePropertyTax);
         var agricultureValue = farm.Read<int>(DataKeys.AgricultureValue);
         var livestockValue = farm.Read<int>(DataKeys.LivestockValue);
         var buildingValue = farm.Read<int>(DataKeys.BuildingValue);
         var valuation = agricultureValue + livestockValue + buildingValue;
         data[$"{Manifest.UniqueID}/{Mail.LewisNotice}"] = I18n.Mail_Lewis_Notice(player.farmName.Value, valuation, due);
 
-        outstanding = TaxesModule.State.LatestOutstandingPropertyTax;
+        outstanding = Game1.player.Read<int>(DataKeys.LatestOutstandingPropertyTax);
         data[$"{Manifest.UniqueID}/{Mail.LewisOutstanding}"] = I18n.Mail_Lewis_Outstanding(
                 player.farmName.Value,
                 valuation,
@@ -76,5 +76,11 @@ internal sealed class TaxAssetRequestedEvent : AssetRequestedEvent
                 CurrentCulture($"{TaxesModule.Config.PropertyTaxLatenessFine:0.#%}"),
                 outstanding,
                 interest);
+
+        Game1.player.Write(DataKeys.LatestDueIncomeTax, string.Empty);
+        Game1.player.Write(DataKeys.LatestOutstandingIncomeTax, string.Empty);
+        Game1.player.Write(DataKeys.LatestDuePropertyTax, string.Empty);
+        Game1.player.Write(DataKeys.LatestOutstandingPropertyTax, string.Empty);
+        Game1.player.Write(DataKeys.LatestTaxDeductions, string.Empty);
     }
 }

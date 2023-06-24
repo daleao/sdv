@@ -39,7 +39,7 @@ internal sealed class PrintFishingAuditCommand : ConsoleCommand
         }
 
         var fishData = ModHelper.GameContent.Load<Dictionary<int, string>>("Data/Fish");
-        int numLegendaryCaught = 0, numMaxSizedCaught = 0;
+        int numLegendaryCaught = 0, numMaxSizedCaught = 0, numCaught = 0;
         var caughtFishNames = new List<string>();
         var nonMaxSizedCaught = new Dictionary<string, Tuple<int, int>>();
         var result = new StringBuilder();
@@ -59,8 +59,9 @@ internal sealed class PrintFishingAuditCommand : ConsoleCommand
             }
             else
             {
-                var caught = int.Parse(dataFields[4]);
-                if (value[1] > caught)
+                numCaught++;
+                var maxSize = int.Parse(dataFields[4]);
+                if (value[1] > maxSize)
                 {
                     numMaxSizedCaught++;
                 }
@@ -68,7 +69,7 @@ internal sealed class PrintFishingAuditCommand : ConsoleCommand
                 {
                     nonMaxSizedCaught.Add(
                         name,
-                        new Tuple<int, int>(value[1], caught));
+                        new Tuple<int, int>(value[1], maxSize));
                 }
             }
 
@@ -76,7 +77,9 @@ internal sealed class PrintFishingAuditCommand : ConsoleCommand
         }
 
         var priceMultiplier = Game1.player.HasProfession(Profession.Angler)
-            ? CurrentCulture($"{Math.Min((numMaxSizedCaught * 0.01f) + (numLegendaryCaught * 0.05f), ProfessionsModule.Config.AnglerPriceBonusCeiling):0%}")
+            ? Game1.player.HasProfession(Profession.Angler, true)
+                ? CurrentCulture($"{Math.Min((numMaxSizedCaught * 0.01f) + ((numCaught - numMaxSizedCaught) * 0.005f) + (numLegendaryCaught * 0.025f), ProfessionsModule.Config.AnglerPriceBonusCeiling):0%}")
+                : CurrentCulture($"{Math.Min((numCaught * 0.005f) + (numLegendaryCaught * 0.025f), ProfessionsModule.Config.AnglerPriceBonusCeiling):0%}")
             : "zero. You're not an Angler..";
         result.Append(
             $"You've caught {Game1.player.fishCaught.Count()} out of {fishData.Count} fishes. Of those, {numMaxSizedCaught} are max-sized, and {numLegendaryCaught} are legendary. You're total Angler price bonus is {priceMultiplier}." +

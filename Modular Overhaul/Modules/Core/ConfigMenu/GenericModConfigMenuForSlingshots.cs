@@ -2,6 +2,7 @@
 
 #region using directives
 
+using DaLion.Overhaul.Modules.Slingshots.VirtualProperties;
 using DaLion.Shared.Integrations.GenericModConfigMenu;
 using Microsoft.Xna.Framework;
 
@@ -16,12 +17,16 @@ internal sealed partial class GenericModConfigMenu
         this
             .AddPage(OverhaulModule.Slingshots.Namespace, I18n.Gmcm_Slngs_Heading)
 
-            .AddSectionTitle(I18n.Gmcm_General_Heading)
+            .AddSectionTitle(I18n.Gmcm_Slngs_Features_Heading)
             .AddCheckbox(
                 I18n.Gmcm_Slngs_Enablerebalance_Title,
                 I18n.Gmcm_Slngs_Enablerebalance_Desc,
                 config => config.Slingshots.EnableRebalance,
-                (config, value) => config.Slingshots.EnableRebalance = value)
+                (config, value) =>
+                {
+                    config.Slingshots.EnableRebalance = value;
+                    Slingshot_Stats.Values.Clear();
+                })
             .AddCheckbox(
                 I18n.Gmcm_Slngs_Enablecriticalhits_Title,
                 I18n.Gmcm_Slngs_Enablecriticalhits_Desc,
@@ -42,11 +47,6 @@ internal sealed partial class GenericModConfigMenu
                 I18n.Gmcm_Slngs_Disablegraceperiod_Desc,
                 config => config.Slingshots.DisableGracePeriod,
                 (config, value) => config.Slingshots.DisableGracePeriod = value)
-            .AddCheckbox(
-                I18n.Gmcm_Slngs_Bullseyereplacescursor_Title,
-                I18n.Gmcm_Slngs_Bullseyereplacescursor_Desc,
-                config => config.Slingshots.BullseyeReplacesCursor,
-                (config, value) => config.Slingshots.BullseyeReplacesCursor = value)
             .AddCheckbox(
                 I18n.Gmcm_Slngs_Enableinfinityslingshot_Title,
                 I18n.Gmcm_Slngs_Enableinfinityslingshot_Desc,
@@ -91,13 +91,28 @@ internal sealed partial class GenericModConfigMenu
                 (config, value) => config.Slingshots.AutoSelectionRange = (uint)value,
                 1,
                 9)
+            .AddCheckbox(
+                I18n.Gmcm_Controls_Slickmoves_Title,
+                I18n.Gmcm_Controls_Slickmoves_Desc,
+                config => config.Slingshots.SlickMoves,
+                (config, value) => config.Slingshots.SlickMoves = value)
             .AddHorizontalRule()
 
-            .AddSectionTitle(I18n.Gmcm_Movement_Heading)
+            .AddSectionTitle(I18n.Gmcm_Interface_Heading)
             .AddCheckbox(
-                I18n.Gmcm_Movement_Slickmoves_Title,
-                I18n.Gmcm_Movement_Slickmoves_Desc,
-                config => config.Slingshots.SlickMoves,
-                (config, value) => config.Slingshots.SlickMoves = value);
+                I18n.Gmcm_Interface_Colorcodedforyourconvenience_Title,
+                I18n.Gmcm_Slngs_Interface_Colorcodedforyourconvenience_Desc,
+                config => config.Slingshots.ColorCodedForYourConvenience,
+                (config, value) => config.Slingshots.ColorCodedForYourConvenience = value)
+            .AddCheckbox(
+                I18n.Gmcm_Slngs_Interface_Drawcurrentammo_Title,
+                I18n.Gmcm_Slngs_Interface_Drawcurrentammo_Desc,
+                config => config.Slingshots.DrawCurrentAmmo,
+                (config, value) => config.Slingshots.DrawCurrentAmmo = value)
+            .AddCheckbox(
+                I18n.Gmcm_Slngs_Bullseyereplacescursor_Title,
+                I18n.Gmcm_Slngs_Bullseyereplacescursor_Desc,
+                config => config.Slingshots.BullseyeReplacesCursor,
+                (config, value) => config.Slingshots.BullseyeReplacesCursor = value);
     }
 }

@@ -45,7 +45,7 @@ internal sealed class CraftingRecipeCtorPatcher : HarmonyPatcher
                 break;
             default:
                 {
-                    if (__instance.name.ContainsAnyOf("Bomb", "Explosive") && Game1.player.HasProfession(Profession.Blaster))
+                    if (__instance.name.ContainsAny("Bomb", "Explosive") && Game1.player.HasProfession(Profession.Blaster))
                     {
                         __instance.numberProducedPerCraft *= 2;
                     }

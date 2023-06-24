@@ -17,6 +17,7 @@ public sealed class ItemIDs
     public const int Amethyst = 66;
     public const int Topaz = 68;
     public const int Jade = 70;
+    public const int Diamond = 72;
 
     // geodes
     public const int Geode = 535;
@@ -40,6 +41,8 @@ public sealed class ItemIDs
     public const int Sap = 92;
     public const int MixedSeeds = 770;
     public const int BoneFragment = 881;
+
+    public const int Fiber = 771;
 
     // fruit
     public const int BananaSapling = 69;

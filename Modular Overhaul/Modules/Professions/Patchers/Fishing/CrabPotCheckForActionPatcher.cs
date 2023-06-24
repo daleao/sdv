@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using DaLion.Overhaul.Modules.Professions.Extensions;
 using DaLion.Shared.Extensions;
+using DaLion.Shared.Extensions.Stardew;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
 using Microsoft.Xna.Framework;
@@ -22,12 +23,14 @@ internal sealed class CrabPotCheckForActionPatcher : HarmonyPatcher
     internal CrabPotCheckForActionPatcher()
     {
         this.Target = this.RequireMethod<CrabPot>(nameof(CrabPot.checkForAction));
+        this.Prefix!.priority = Priority.High;
     }
 
     #region harmony patches
 
     /// <summary>Patch to handle Luremaster-caught non-trap fish.</summary>
     [HarmonyPrefix]
+    [HarmonyPriority(Priority.High)]
     private static bool CrabPotCheckForActionPrefix(
         ref CrabPot __instance,
         ref bool __result,
@@ -111,7 +114,7 @@ internal sealed class CrabPotCheckForActionPatcher : HarmonyPatcher
             ___lidFlapping = true;
             ___lidFlapTimer = 60f;
 
-            if (!who.HasProfession(Profession.Luremaster, true) || Game1.random.NextDouble() > 0.6)
+            if (!item.IsTrash() || !TweexModule.Config.TrashDoesNotConsumeBait)
             {
                 __instance.bait.Value = null;
             }

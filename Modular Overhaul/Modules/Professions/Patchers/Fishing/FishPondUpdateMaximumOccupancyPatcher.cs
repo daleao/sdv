@@ -27,17 +27,29 @@ internal sealed class FishPondUpdateMaximumOccupancyPatcher : HarmonyPatcher
     private static void FishPondUpdateMaximumOccupancyPostfix(
         FishPond __instance, FishPondData? ____fishPondData)
     {
+        if (____fishPondData is null || !__instance.HasUnlockedFinalPopulationGate())
+        {
+            return;
+        }
+
+        var owner = __instance.GetOwner();
+        if (!owner.HasProfessionOrLax(Profession.Aquarist))
+        {
+            return;
+        }
+
+        var occupancy = __instance.maxOccupants.Value + 2;
+        if (owner.HasProfessionOrLax(Profession.Aquarist, true))
+        {
+            occupancy += 2;
+        }
+
         if (__instance.HasLegendaryFish())
         {
-            __instance.maxOccupants.Set((int)ProfessionsModule.Config.LegendaryPondPopulationCeiling);
+            occupancy /= 2;
         }
-        else if (____fishPondData is not null && __instance.HasUnlockedFinalPopulationGate() &&
-                 (__instance.GetOwner().HasProfession(Profession.Aquarist) ||
-                  (ProfessionsModule.Config.LaxOwnershipRequirements &&
-                   Game1.game1.DoesAnyPlayerHaveProfession(Profession.Aquarist, out _))))
-        {
-            __instance.maxOccupants.Set(12);
-        }
+
+        __instance.maxOccupants.Set(occupancy);
     }
 
     #endregion harmony patches

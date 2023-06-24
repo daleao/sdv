@@ -93,7 +93,10 @@ internal sealed class ObjectProjectile : BasicProjectile
             this.bouncesLeft.Value++;
         }
 
-        this.ignoreTravelGracePeriod.Value = true;
+        if (this.Overcharge > 1f)
+        {
+            this.tailLength.Value = (int)((this.Overcharge - 1f) * 5f);
+        }
     }
 
     public Item? Ammo { get; }

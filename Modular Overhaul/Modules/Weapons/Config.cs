@@ -22,6 +22,9 @@ public sealed class Config : Shared.Configs.Config
 
         /// <summary>Display the relative value of the stat, with respect to the default value for the weapon type.</summary>
         Relative,
+
+        /// <summary>The vanilla confusing nonsense.</summary>
+        Vanilla,
     }
 
     /// <summary>The difficulty level of the proven conditions for the virtue trials.</summary>
@@ -47,7 +50,7 @@ public sealed class Config : Shared.Configs.Config
     [JsonProperty]
     public TooltipStyle WeaponTooltipStyle { get; internal set; } = TooltipStyle.Relative;
 
-    /// <summary>Gets a value indicating whether to color-code weapon and slingshot names, <see href="https://tvtropes.org/pmwiki/pmwiki.php/Main/ColourCodedForYourConvenience">for your convenience</see>.</summary>
+    /// <summary>Gets a value indicating whether to color-code tool names, <see href="https://tvtropes.org/pmwiki/pmwiki.php/Main/ColourCodedForYourConvenience"> for your convenience</see>.</summary>
     [JsonProperty]
     public bool ColorCodedForYourConvenience { get; internal set; } = true;
 

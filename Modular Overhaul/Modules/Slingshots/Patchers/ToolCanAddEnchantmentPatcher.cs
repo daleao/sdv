@@ -61,7 +61,7 @@ internal sealed class ToolCanAddEnchantmentPatcher : HarmonyPatcher
             return false; // don't run original logic
         }
 
-        __result = slingshot.GetTotalForgeLevels() < slingshot.GetMaxForges();
+        __result = false; //slingshot.GetTotalForgeLevels() < slingshot.GetMaxForges();
         return false; // don't run original logic
     }
 

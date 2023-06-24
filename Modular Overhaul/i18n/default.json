@@ -93,16 +93,16 @@
   // fishing
   "fisher.title.male": "Fisher",
   "fisher.title.female": "Fisher",
-  "fisher.desc": "Fish bite faster. Reduced chance to fish junk.",
-  "fisher.desc.prestiged": "Fish always bite instantly.",
+  "fisher.desc": "Baits are 2x more effective when fishing.",
+  "fisher.desc.prestiged": "Baits are 2x >> 3x more effective when fishing.",
   "angler.title.male": "Angler",
   "angler.title.female": "Angler",
-  "angler.desc": "Fish worth 1% more for every unique max-sized fish caught and 5% more for every legendary fish.",
-  "angler.desc.prestiged": "Can re-catch legendary fish.",
+  "angler.desc": "Fish are 0.5% more valuable for every unique species caught. Fully-expending a tackle causes it's effects to linger on the fishing rod.",
+  "angler.desc.prestiged": "Fish are again 0.5% more valuable for every unique max-sized species caught.",
   "aquarist.title.male": "Aquarist",
   "aquarist.title.female": "Aquarist",
-  "aquarist.desc": "Fish pond max capacity +2. Catching bar decreases slower for every unique fish species raised in a fish pond.",
-  "aquarist.desc.prestiged": "Can raise legendary fish in fish ponds.",
+  "aquarist.desc": "Fish pond max capacity +2. Catching bar increases faster for every unique fish species raised in a Fish Pond.",
+  "aquarist.desc.prestiged": "Fish pond max capacity +2 >> +4.",
 
   "trapper.title.male": "Trapper",
   "trapper.title.female": "Trapper",
@@ -110,12 +110,12 @@
   "trapper.desc.prestiged": "Can trap best-quality fish.",
   "luremaster.title.male": "Luremaster",
   "luremaster.title.female": "Luremaster",
-  "luremaster.desc": "Crab pots no longer produce junk. Use different baits to attract different catch.",
-  "luremaster.desc.prestiged": "60% chance to preserve crab pot bait.",
+  "luremaster.desc": "Crab pots with bait can trap 2x per day. Unlock new bait effects.",
+  "luremaster.desc.prestiged": "Crab pots with bait can trap 2x >> 3x per day.",
   "conservationist.title.male": "Conservationist",
   "conservationist.title.female": "Conservationist",
-  "conservationist.desc": "Crab pots without bait can trap junk. Clean the Valley's waters to merit tax deductions.",
-  "conservationist.desc.prestiged": "Cleaning the Valley's waters also merits favor with the villagers.",
+  "conservationist.desc": "Crab pots without bait can trap junk. Clean the Valley's waters earn village favor and merit tax deductions.",
+  "conservationist.desc.prestiged": "Tax deductions accumulate 50% more quickly.",
   "conservationist.mail": "Department of the Treasury^Ferngill Revenue Service^^^{{honorific}} Taxpayer,^^We are pleased to inform you that, upon review of your environmentalist activities, we have determined that you qualify for an income tax deduction of {{taxBonus}} as per section 501(c)(3) of the Ferngill Revenue Code. As such, all taxable income for {{farm}} farm will be increased by the aforementioned amount, effective until the 28th of {{season}}.^^Please keep this letter in your permanent records should you need to resolve any questions regarding your fiscal status.^^^Sincerely,^^Laura D. Pretto^Executive Directrice, Ferngill Revenue Service[#]Taxation Deduction",
   "conservationist.mail.max": "Department of the Treasury^Ferngill Revenue Service^^^{{honorific}} Taxpayer,^^We are pleased to inform you that, upon review of your environmentalist activities, we have determined that you qualify for the maximum income tax deduction of {{taxBonus}} as per section 501(c)(3) of the Ferngill Revenue Code. As such, all taxable income for {{farm}} farm will be increased by the aforementioned amount, effective until the 28th of {{season}}.^^Please keep this letter in your permanent records should you need to resolve any questions regarding your fiscal status.^^^Sincerely,^^Laura D. Pretto^Executive Directrice, Ferngill Revenue Service[#]Taxation Deduction",
 
@@ -260,7 +260,7 @@
   "quests.hero.reward": "Basic/A Hero's Reward/Those who embody the virtues of a true hero are cleansed of all evil by Yoba's divine power./Take the Blade of Ruin to the altar of Yoba./null/-1/0/-1/false",
 
   "quests.hero.journey.name": "A Hero's Journey",
-  "quests.hero.journey.desc": "Prove that you live by the Five Heroic Virtues.",
+  "quests.hero.journey.desc": "Prove the Five Heroic Virtues.",
 
   "yoba.question": "There are additional inscriptions on the altar...",
   "virtues.honor.name": "Honor",
@@ -273,7 +273,7 @@
   "virtues.wisdom.flavor": "\"Wisdom is a virtue which one should strive to cultivate throughout one's life, for it is impossible to be so wise one cannot become even wiser. The wise know this... As we journey through life, we should seek to make wise choices. Remember, wise choices are not those which make our lives easier or simpler. Often, they make them more complicated. But always, they make us better.\"",
   "virtues.generosity.flavor": "\"No person can be called good who does not share their prosperity with others. Generosity is required for dignity in life and peace in death.\"",
   "virtues.valor.flavor": "\"Valor does not make one good, yet how many good men have you met in your life's journey who were cowards? Those who posses valor do not hesitate to stand against the majority, no matter the consequences.\"",
-  "virtues.trial": "Trial of ",
+  "virtues.trial": "Proof of ",
 
   // json assets
   "objects.dwarvishblueprint.name": "Old Dwarvish Blueprint",
@@ -383,6 +383,16 @@
   "algae": "Algae",
 
 
+  // ********* //
+  // * TOOLS * //
+  // ********* //
+
+  "radioactive.axe": "Radioactive Axe",
+  "radioactive.hoe": "Radioactive Hoe",
+  "radioactive.pick": "Radioactive Pickaxe",
+  "radioactive.can": "Radioactive Watering Can",
+
+
   // ******** //
   // * GMCM * //
   // ******** //
@@ -390,6 +400,7 @@
   // core
   "gmcm.core.initial": "Hi there! Looks like this is your first time starting MARGO.\n\nLet's begin by choosing the modules you want to enable. Only \"Professions\" and \"Tweex\" are enabled by default. Please make sure to read the description pages for each module to learn more about them. When you are done, click on Save & Close.\n\nNote that certain modules may cause a JSON shuffle or other side-effects if enabled or disabled mid-playthrough.",
   "gmcm.core.choose": "Choose the modules to enable. You must save and exit this menu after enabling or disabling a module for those changes to take effect. Links to specific module settings pages will appear below for enabled modules.\n\nNote that certain modules may cause a JSON shuffle or other side-effects if enabled or disabled mid-playthrough.",
+  "gmcm.core.available": "Available modules:",
   "gmcm.core.modules": "Module settings:",
   "gmcm.modules.profs.name": "Professions",
   "gmcm.modules.profs.desc": "Overhauls professions with the goal of supporting more diverse and interesting playstyles. Introduces all-new Prestige mechanics and Limit Breaks for combat professions.",
@@ -458,8 +469,6 @@
   "gmcm.profs.anglerpricebonusceiling.desc": "If multiple new fish mods are installed, you may want to adjust this to a sensible value. Limits the price multiplier for fish sold by Angler.",
   "gmcm.profs.aquaristfishpondceiling.title": "Aquarist Fishing Bonus Ceiling",
   "gmcm.profs.aquaristfishpondceiling.desc": "The maximum number of Fish Ponds that will be counted for Aquarist's fishing bonus. If you like raising dozens of fish species, you may use this to limit how easy the fishing minigame will become.",
-  "gmcm.profs.legendarypondpopulationceiling.title": "Legendary Pond Population Ceiling",
-  "gmcm.profs.legendarypondpopulationceiling.desc": "The maximum population of Aquarist Fish Ponds with legendary fish.",
   "gmcm.profs.trashpertaxdeduction.title": "Trash Per Tax Deduction %",
   "gmcm.profs.trashpertaxdeduction.desc": "Conservationists must collect this much trash for every 1% tax deduction the following season.",
   "gmcm.profs.trashperfriendshippoint.title": "Trash Per Friendship Point",
@@ -597,37 +606,39 @@
   "gmcm.twx.heading": "TWX Settings",
 
   "gmcm.twx.quality.heading": "Quality Settings",
-  "gmcm.twx.treeagingfactor.title": "Tree Aging Factor",
-  "gmcm.twx.treeagingfactor.desc": "The degree to which Tree age improves sap quality. Lower values mean that more time is needed for sap to improve. Set to zero to disable quality sap.",
-  "gmcm.twx.fruittreeagingfactor.title": "Fruit Tree Aging Factor",
-  "gmcm.twx.fruittreeagingfactor.desc": "The degree to which Fruit Tree age improves fruit quality. Lower values mean that more time is needed for fruits to improve. Set to zero to disable quality fruits.",
-  "gmcm.twx.beehouseagingfactor.title": "Bee House Aging Factor",
-  "gmcm.twx.beehouseagingfactor.desc": "The degree to which Bee House age improves honey quality. Lower values mean that more time is needed for honey to improve. Set to zero to disable quality honey.",
-  "gmcm.twx.mushroomboxagingfactor.title": "Mushroom Box Aging Factor",
-  "gmcm.twx.mushroomboxagingfactor.desc": "The degree to which Mushroom Box age improves mushroom quality. Lower values mean that more time is needed for mushrooms to improve. Set to zero to disable quality mushrooms.",
-  "gmcm.twx.teabushagingfactor.title": "Tea Bush Aging Factor",
-  "gmcm.twx.teabushagingfactor.desc": "The degree to which Tea Bush age improves tea leaf quality. Lower values mean that more time is needed for tea leaves to improve. Set to zero to disable quality tea leaves.",
-  "gmcm.twx.deterministicagequality.title": "Deterministic Age Quality",
-  "gmcm.twx.deterministicagequality.desc": "Whether age-dependent qualities should be deterministic (true) or stochastic (false).",
-  "gmcm.twx.millspreservequality.title": "Mills Preserve Quality",
-  "gmcm.twx.millspreservequality.desc": "Whether the Mill's output should consider the quality of the ingredient.",
+  "gmcm.twx.quality.treeagingfactor.title": "Tree Aging Factor",
+  "gmcm.twx.quality.treeagingfactor.desc": "The degree to which Tree age improves sap quality. Lower values mean that more time is needed for sap to improve. Set to zero to disable quality sap.",
+  "gmcm.twx.quality.fruittreeagingfactor.title": "Fruit Tree Aging Factor",
+  "gmcm.twx.quality.fruittreeagingfactor.desc": "The degree to which Fruit Tree age improves fruit quality. Lower values mean that more time is needed for fruits to improve. Set to zero to disable quality fruits.",
+  "gmcm.twx.quality.beehouseagingfactor.title": "Bee House Aging Factor",
+  "gmcm.twx.quality.beehouseagingfactor.desc": "The degree to which Bee House age improves honey quality. Lower values mean that more time is needed for honey to improve. Set to zero to disable quality honey.",
+  "gmcm.twx.quality.mushroomboxagingfactor.title": "Mushroom Box Aging Factor",
+  "gmcm.twx.quality.mushroomboxagingfactor.desc": "The degree to which Mushroom Box age improves mushroom quality. Lower values mean that more time is needed for mushrooms to improve. Set to zero to disable quality mushrooms.",
+  "gmcm.twx.quality.teabushagingfactor.title": "Tea Bush Aging Factor",
+  "gmcm.twx.quality.teabushagingfactor.desc": "The degree to which Tea Bush age improves tea leaf quality. Lower values mean that more time is needed for tea leaves to improve. Set to zero to disable quality tea leaves.",
+  "gmcm.twx.quality.deterministicagequality.title": "Deterministic Age Quality",
+  "gmcm.twx.quality.deterministicagequality.desc": "Whether age-dependent qualities should be deterministic (true) or stochastic (false).",
 
-  "gmcm.twx.berrybushexpreward.title": "Berry Bush Exp Reward",
-  "gmcm.twx.berrybushexpreward.desc": "The amount of Foraging experience rewarded when a berry bush is harvested. Set to zero to disable.",
-  "gmcm.twx.mushroomboxexpreward.title": "Mushroom Box Exp Reward",
-  "gmcm.twx.mushroomboxexpreward.desc": "The amount of Foraging experience rewarded when a Mushroom Box is harvested. Set to zero to disable.",
-  "gmcm.twx.tapperexpreward.title": "Tapper Exp Reward",
-  "gmcm.twx.tapperexpreward.desc": "The amount of Foraging experience rewarded when a Tapper is harvested. Set to zero to disable.",
+  "gmcm.twx.experience.heading": "Experience Settings",
+  "gmcm.twx.experience.berrybushexpreward.title": "Berry Bush Exp Reward",
+  "gmcm.twx.experience.berrybushexpreward.desc": "The amount of Foraging experience rewarded when a berry bush is harvested. Set to zero to disable.",
+  "gmcm.twx.experience.mushroomboxexpreward.title": "Mushroom Box Exp Reward",
+  "gmcm.twx.experience.mushroomboxexpreward.desc": "The amount of Foraging experience rewarded when a Mushroom Box is harvested. Set to zero to disable.",
+  "gmcm.twx.experience.tapperexpreward.title": "Tapper Exp Reward",
+  "gmcm.twx.experience.tapperexpreward.desc": "The amount of Foraging experience rewarded when a Tapper is harvested. Set to zero to disable.",
 
-  "gmcm.twx.preventfruittreewintergrowth.title": "Prevent Fruit Tree Winter Growth",
-  "gmcm.twx.preventfruittreewintergrowth.desc": "Regular trees can't grow in winter. Why should fruit trees be any different?",
-  "gmcm.twx.largeproductsyieldquantityoverquality.title": "Large Products Yield Quantity Over Quality",
-  "gmcm.twx.largeproductsyieldquantityoverquality.desc": "Causes one large egg or milk to produce two mayonnaise / cheese but at regular quality, instead of one at gold quality.",
-  "gmcm.twx.explosiontriggeredbombs.title": "Explosion-Triggered Bombs",
-  "gmcm.twx.explosiontriggeredbombs.desc": "Bombs within any explosion radius are immediately triggered.",
-  "gmcm.twx.legendaryfishalwaysbestquality.title": "Legendary Fish Always Best Quality",
-  "gmcm.twx.legendaryfishalwaysbestquality.desc": "Legendary fish are always iridium-quality when caught.",
-  "gmcm.twx.spawncrowsonthesemaps.title": "Spawn Crows On These Maps:",
+  "gmcm.twx.gameplay.heading": "Gameplay Settings",
+  "gmcm.twx.gameplay.cropwitherchance.title": "Crop Wither Chance",
+  "gmcm.twx.gameplay.cropwitherchance.desc": "The chance for a crop to wither per day left un-watered.",
+  "gmcm.twx.gameplay.preventfruittreewintergrowth.title": "Prevent Fruit Tree Winter Growth",
+  "gmcm.twx.gameplay.preventfruittreewintergrowth.desc": "Regular trees can't grow in winter. Why should fruit trees be any different?",
+  "gmcm.twx.gameplay.largedairyyieldsquantityoverquality.title": "Large Dairy Yields Quantity Over Quality",
+  "gmcm.twx.gameplay.largedairyyieldsquantityoverquality.desc": "Causes one large egg or milk to produce two mayonnaise or cheese but at regular quality, instead of one at gold quality.",
+  "gmcm.twx.gameplay.trashdoesnotconsumebait.title": "Trash Does Not Consume Bait",
+  "gmcm.twx.gameplay.trashdoesnotconsumebait.desc": "Prevents bait consumption when a Crab Pot produces trash.",
+  "gmcm.twx.gameplay.explosiontriggeredbombs.title": "Explosion-Triggered Bombs",
+  "gmcm.twx.gameplay.explosiontriggeredbombs.desc": "Bombs within any explosion radius immediately explode themselves.",
+  "gmcm.twx.gameplay.spawncrowsonthesemaps.title": "Spawn Crows On These Maps:",
   "gmcm.twx.maps.islandwest": "Ginger Island Farm",
   "gmcm.twx.maps.custom_garden": "Community Garden (SVE)",
   "gmcm.twx.maps.custom_grampletonfields": "Grampleton Fields (SVE)",
@@ -650,22 +661,25 @@
   "gmcm.tols.upgrades.radioactive": "Radioactive",
   "gmcm.tols.upgrades.mythicite": "Mythicite",
 
-  "gmcm.tols.colorcodedforyourconvenience.desc": "Whether to colorize tool names according to upgrade level.",
-  "gmcm.tols.hideaffectedtiles.title": "Hide Affected Tiles",
-  "gmcm.tols.hideaffectedtiles.desc": "Whether to hide the affected tiles overlay while charging tools.",
   "gmcm.tols.ticksbetweenwaves.title": "Shockwave Delay",
   "gmcm.tols.ticksbetweenwaves.desc": "Affects the speed of the shockwave for charged resource tools. Lower is faster. Set to 0 for instant.",
+  "gmcm.tols.enableforgeupgrading.title": "Enable Forge Upgrading",
+  "gmcm.tols.enableforgeupgrading.desc": "Whether to enable upgrading tools at the Volcano Forge.",
 
   "gmcm.tols.controls.holdtocharge.title": "Hold-To-Charge",
   "gmcm.tols.controls.holdtocharge.desc": "Whether charging requires holding down a mod key (useful to preserve the tool-spam feature of vanilla).",
   "gmcm.tols.controls.modkey.desc": "The key used for indicating auto-selectable tools, as well as for charging resource tools, if either of those options is enabled.",
 
-  "gmcm.tols.specifictools": "Specific tool settings:",
-  "gmcm.tols.specifictools.axe": "Axe Settings",
-  "gmcm.tols.specifictools.pickaxe": "Pickaxe Settings",
-  "gmcm.tols.specifictools.hoe": "Hoe Settings",
-  "gmcm.tols.specifictools.wateringcan": "Watering Can Settings",
-  "gmcm.tols.specifictools.scythe": "Scythe Settings",
+  "gmcm.tols.interface.colorcodedforyourconvenience.desc": "Whether to colorize tool names according to upgrade level.",
+  "gmcm.tols.interface.hideaffectedtiles.title": "Hide Affected Tiles",
+  "gmcm.tols.interface.hideaffectedtiles.desc": "Whether to hide the affected tiles overlay while charging tools.",
+
+  "gmcm.tols.specificsettings": "Specific tool settings:",
+  "gmcm.tols.specificsettings.axe": "Axe Settings",
+  "gmcm.tols.specificsettings.pickaxe": "Pickaxe Settings",
+  "gmcm.tols.specificsettings.hoe": "Hoe Settings",
+  "gmcm.tols.specificsettings.wateringcan": "Watering Can Settings",
+  "gmcm.tols.specificsettings.scythe": "Scythe Settings",
   "gmcm.tols.back": "Back to Tool settings",
 
   "gmcm.tols.basestaminamultiplier.title": "Base Stamina Multiplier",
@@ -767,16 +781,6 @@
   "gmcm.tols.shockwave.playanimation.title": "Play Shockwave Animation",
   "gmcm.tols.shockwave.playanimation.desc": "Whether to play the shockwave animation when the charge is released.",
 
-  "gmcm.tols.scythe.harvesting.heading": "Harvesting Settings",
-  "gmcm.tols.scythe.harvesting.crops.title": "Harvest Crops",
-  "gmcm.tols.scythe.harvesting.crops.desc": "Whether to harvest crops with the Scythe.",
-  "gmcm.tols.scythe.harvesting.flowers.title": "Harvest Flowers",
-  "gmcm.tols.scythe.harvesting.flowers.desc": "Whether to harvest crops with the Scythe.",
-  "gmcm.tols.scythe.harvesting.forage.title": "Harvest Forage",
-  "gmcm.tols.scythe.harvesting.forage.desc": "Whether to harvest forage with the Scythe.",
-  "gmcm.tols.scythe.harvesting.goldonly.title": "Golden Scythe Only",
-  "gmcm.tols.scythe.harvesting.goldonly.desc": "Whether to limit crop and flower harvesting to the Golden Scythe.",
-
   "gmcm.tols.allowenchantment.heading": "Enchantment Settings",
   "gmcm.tols.allowenchantment.reaching.title": "Allow Reaching Enchantment",
   "gmcm.tols.allowenchantment.reaching.desc": "Whether the {{tool}} can be enchanted with Reaching.",
@@ -786,6 +790,23 @@
   "gmcm.tols.allowenchantment.master.desc": "Whether the {{tool}} can be enchanted with Master.",
   "gmcm.tols.allowenchantment.haymaker.title": "Allow Haymaker Enchantment",
   "gmcm.tols.allowenchantment.haymaker.desc": "Whether the scythe can be enchanted with Haymaker.",
+
+  "gmcm.tols.can.exprewardchance.title": "Chance to Reward Experience",
+  "gmcm.tols.can.exprewardchance.desc": "The chance to reward farming experience when watering a cropped tile.",
+  "gmcm.tols.can.exprewardamount.title": "Amount of Experience Reward",
+  "gmcm.tols.can.exprewardamount.desc": "The amount of farming experience rewarded for watering a cropped tile.",
+  "gmcm.tols.can.preventsaltwaterrefill.title": "Prevent Refill With Salt Water",
+  "gmcm.tols.can.preventsaltwaterrefill.desc": "Prevents refilling the Watering Can with salt or ocean water.",
+
+  "gmcm.tols.scythe.harvesting.heading": "Harvesting Settings",
+  "gmcm.tols.scythe.harvesting.crops.title": "Harvest Crops",
+  "gmcm.tols.scythe.harvesting.crops.desc": "Whether to harvest crops with the Scythe.",
+  "gmcm.tols.scythe.harvesting.flowers.title": "Harvest Flowers",
+  "gmcm.tols.scythe.harvesting.flowers.desc": "Whether to harvest crops with the Scythe.",
+  "gmcm.tols.scythe.harvesting.forage.title": "Harvest Forage",
+  "gmcm.tols.scythe.harvesting.forage.desc": "Whether to harvest forage with the Scythe.",
+  "gmcm.tols.scythe.harvesting.goldonly.title": "Golden Scythe Only",
+  "gmcm.tols.scythe.harvesting.goldonly.desc": "Whether to limit crop and flower harvesting to the Golden Scythe.",
 
   // combat
   "gmcm.cmbt.heading": "CMBT Settings",
@@ -812,6 +833,7 @@
   "gmcm.slngs.heading": "SLNGS Settings",
   "gmcm.slngs.slingshot": "Slingshot",
 
+  "gmcm.slngs.features.heading": "Feature Selection",
   "gmcm.slngs.enablerebalance.title": "Enable Rebalance",
   "gmcm.slngs.enablerebalance.desc": "Whether to re-balance the damage and knockback modifiers of Slingshots to achieve a better balance when the features below are enabled.",
   "gmcm.slngs.enablecriticalhits.title": "Enable Critical Hits",
@@ -827,6 +849,10 @@
   "gmcm.slngs.enableinfinityslingshot.title": "Enable Infinity Slingshot",
   "gmcm.slngs.enableinfinityslingshot.desc": "Allows creating the Infinity Slingshot at the Forge.",
 
+  "gmcm.slngs.interface.colorcodedforyourconvenience.desc": "Whether to colorize slingshot names according to tiers.",
+  "gmcm.slngs.interface.drawcurrentammo.title": "Display Current Ammo",
+  "gmcm.slngs.interface.drawcurrentammo.desc": "Displays the currently-selected ammo. Useful when equipping multiple ammo.",
+
   // weapons
   "gmcm.wpnz.heading": "WPNZ Settings",
   "gmcm.wpnz.weapon": "Weapon",
@@ -834,11 +860,6 @@
   "gmcm.wpnz.rebalance.heading": "Rebalance Settings",
   "gmcm.wpnz.rebalance.enable.title": "Enable Rebalance",
   "gmcm.wpnz.rebalance.enable.desc": "Rebalances every melee weapon, in addition to Mine chests, monster and container drops, weapon shops and many other features.",
-  "gmcm.wpnz.rebalance.tooltipstyle.title": "Tooltip Style",
-  "gmcm.wpnz.rebalance.tooltipstyle.desc": "Whether to display weapon stats as their absolute values or as relative to other weapons of the same type.",
-  "gmcm.wpnz.rebalance.tooltipstyle.absolute": "Absolute",
-  "gmcm.wpnz.rebalance.tooltipstyle.relative": "Relative",
-  "gmcm.wpnz.rebalance.colorcodedforyourconvenience.desc": "Whether to colorize weapon names according to the weapon's assigned tier.",
   "gmcm.wpnz.rebalance.defenseimprovesparry.title": "Defense Improves Parry",
   "gmcm.wpnz.rebalance.defenseimprovesparry.desc": "Parry damage will increase for each point in defense.",
   "gmcm.wpnz.rebalance.groundedclubsmash.title": "Grounded Club Smash",
@@ -879,8 +900,14 @@
   "gmcm.wpnz.quests.virtuetrialdifficulty.medium": "Medium",
   "gmcm.wpnz.quests.virtuetrialdifficulty.hard": "Hard",
 
-  "gmcm.wpnz.enableretexture.title": "Enable Retexture",
-  "gmcm.wpnz.enableretexture.desc": "Applies a Vanilla-friendly retexture that better reflects a weapon`s overhauled type or unique status.",
+  "gmcm.wpnz.interface.colorcodedforyourconvenience.desc": "Whether to colorize weapon names according to the weapon's assigned tier or unique status.",
+  "gmcm.wpnz.interface.tooltipstyle.title": "Tooltip Style",
+  "gmcm.wpnz.interface.tooltipstyle.desc": "Whether to display weapon stats as their absolute values or as relative to other weapons of the same type.",
+  "gmcm.wpnz.interface.tooltipstyle.vanilla": "Vanilla",
+  "gmcm.wpnz.interface.tooltipstyle.absolute": "Absolute",
+  "gmcm.wpnz.interface.tooltipstyle.relative": "Relative",
+  "gmcm.wpnz.enableretexture.title": "Retexture",
+  "gmcm.wpnz.enableretexture.desc": "Applies a Vanilla-friendly retexture that better reflects a weapon's overhauled type or unique status.",
 
   // control settings
   "gmcm.controls.heading": "Control Settings",
@@ -895,17 +922,14 @@
   "gmcm.controls.selectionbordercolor.desc": "The color used to indicate the chosen auto-selectable {{chosen}}.",
   "gmcm.controls.autoselectionrange.title": "Auto-Selection Range",
   "gmcm.controls.autoselectionrange.desc": "The chosen {{tool}} will be automatically selected when a monster enters this range in tiles.",
-
-  // movement settings
-  "gmcm.movement.heading": "Movement Settings",
-  "gmcm.movement.slickmoves.title": "Slick Moves",
-  "gmcm.movement.slickmoves.desc": "Drift in the current running direction when swinging a weapon.",
+  "gmcm.controls.slickmoves.title": "Slick Moves",
+  "gmcm.controls.slickmoves.desc": "Drift in the current running direction when swinging a weapon.",
 
   // ui settings
-  "gmcm.ui.colorcodedforyourconvenience.title": "Color-Coded For Convenience",
+  "gmcm.interface.heading": "Interface Settings",
+  "gmcm.interface.colorcodedforyourconvenience.title": "Color-Coded For Convenience",
 
   // section headings
-  "gmcm.general.heading": "General Settings",
-  "gmcm.ui.heading": "UI Settings",
-  "gmcm.other.heading": "Other Settings"
+  "gmcm.headings.general": "General Settings",
+  "gmcm.headings.other": "Other Settings"
 }

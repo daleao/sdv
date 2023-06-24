@@ -5,6 +5,7 @@
 using DaLion.Shared.Commands;
 using DaLion.Shared.Extensions.Collections;
 using DaLion.Shared.Extensions.Stardew;
+using StardewValley;
 
 #endregion using directives
 
@@ -87,6 +88,71 @@ internal sealed class AdvanceQuestCommand : ConsoleCommand
                     player.Write(DataKeys.ProvenWisdom, int.MaxValue.ToString());
                     player.Write(DataKeys.ProvenGenerosity, int.MaxValue.ToString());
                     Virtue.List.ForEach(virtue => WeaponsModule.State.VirtuesQuest.UpdateVirtueProgress(virtue));
+                }
+
+                break;
+            case "honor":
+                {
+                    if (args.Length == 1 || int.TryParse(args[1], out var amount))
+                    {
+                        amount = 1;
+                    }
+
+                    player.Increment(DataKeys.ProvenHonor, amount);
+                    WeaponsModule.State.VirtuesQuest?.UpdateVirtueProgress(Virtue.Honor);
+                }
+
+                break;
+            case "compassion":
+                {
+                    if (args.Length == 1 || int.TryParse(args[1], out var amount))
+                    {
+                        amount = 1;
+                    }
+
+                    player.Increment(DataKeys.ProvenCompassion, amount);
+                    WeaponsModule.State.VirtuesQuest?.UpdateVirtueProgress(Virtue.Compassion);
+                }
+
+                break;
+            case "wisdom":
+                {
+                    if (args.Length == 1 || int.TryParse(args[1], out var amount))
+                    {
+                        amount = 1;
+                    }
+
+                    player.Increment(DataKeys.ProvenWisdom, amount);
+                    WeaponsModule.State.VirtuesQuest?.UpdateVirtueProgress(Virtue.Wisdom);
+                }
+
+                break;
+            case "generosity":
+                {
+                    if (args.Length == 1 || int.TryParse(args[1], out var amount))
+                    {
+                        amount = 1;
+                    }
+
+                    player.Increment(DataKeys.ProvenGenerosity, amount);
+                    WeaponsModule.State.VirtuesQuest?.UpdateVirtueProgress(Virtue.Generosity);
+                }
+
+                break;
+            case "valor":
+                {
+                    player.mailReceived.Add("Gil_Slime Charmer Ring");
+                    player.mailReceived.Add("Gil_Savage Ring");
+                    player.mailReceived.Add("Gil_Skeleton Mask");
+                    player.mailReceived.Add("Gil_Insect Head");
+                    player.mailReceived.Add("Gil_Vampire Ring");
+                    player.mailReceived.Add("Gil_Hard Hat");
+                    player.mailReceived.Add("Gil_Burglar's Ring");
+                    player.mailReceived.Add("Gil_Crabshell Ring");
+                    player.mailReceived.Add("Gil_Arcane Hat");
+                    player.mailReceived.Add("Gil_Knight's Helmet");
+                    player.mailReceived.Add("Gil_Napalm Ring");
+                    player.mailReceived.Add("Gil_Telephone");
                 }
 
                 break;

@@ -45,7 +45,7 @@ internal sealed class UtilityGetShopStockPatcher : HarmonyPatcher
         for (var i = __result.Count - 1; i >= 0; i--)
         {
             var salable = __result.ElementAt(i).Key;
-            if (salable is MeleeWeapon or Slingshot && salable.Name.ContainsAnyOf("Galaxy", "Infinity"))
+            if (salable is MeleeWeapon or Slingshot && salable.Name.ContainsAny("Galaxy", "Infinity"))
             {
                 __result.Remove(salable);
             }

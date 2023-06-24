@@ -42,7 +42,7 @@ internal sealed class Game1DrawHudPatcher : HarmonyPatcher
                 .GoTo(helper.LastIndex)
                 .GetLabels(out var labels) // get the labels of the final return instruction
                 .Return()
-                .Count(
+                .CountUntil(
                     new[] { new CodeInstruction(OpCodes.Ret) },
                     out var count) // remove everything after the profession check up until the return instruction
                 .Remove(count - 1)

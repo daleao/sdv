@@ -17,6 +17,51 @@ using StardewValley.Tools;
 /// <summary>Extensions for the <see cref="Slingshot"/> class.</summary>
 internal static class SlingshotExtensions
 {
+    internal static int GetAmmoDamage(this Slingshot slingshot)
+    {
+        if (slingshot.attachments?[0] is not { } ammo)
+        {
+            return 0;
+        }
+
+        switch (ammo.ParentSheetIndex)
+        {
+            case SObject.wood:
+                return 2;
+            case SObject.coal:
+                return SlingshotsModule.Config.EnableRebalance ? 2 : 15;
+            case ItemIDs.ExplosiveAmmo:
+                return SlingshotsModule.Config.EnableRebalance ? 2 : 20;
+            case SObject.stone:
+                return 5;
+            case SObject.copper:
+                return 10;
+            case SObject.iron:
+                return 20;
+            case SObject.gold:
+                return 30;
+            case SObject.iridium:
+                return 50;
+            case ItemIDs.RadioactiveOre:
+                return 80;
+            case ItemIDs.Slime:
+                return Game1.player.professions.Contains(Farmer.acrobat) ? 5 : 0;
+            case ItemIDs.Emerald:
+            case ItemIDs.Aquamarine:
+            case ItemIDs.Ruby:
+            case ItemIDs.Amethyst:
+            case ItemIDs.Topaz:
+            case ItemIDs.Jade:
+                return 50;
+            case ItemIDs.Diamond:
+                return 120;
+            case SObject.prismaticShardIndex:
+                return 250;
+            default: // fish, fruit or vegetable
+                return 1;
+        }
+    }
+
     /// <summary>Analogous to <see cref="MeleeWeapon.animateSpecialMove"/>.</summary>
     /// <param name="slingshot">The <see cref="Slingshot"/>.</param>
     internal static void AnimateSpecialMove(this Slingshot slingshot)

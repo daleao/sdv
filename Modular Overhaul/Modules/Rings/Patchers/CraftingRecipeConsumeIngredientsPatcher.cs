@@ -30,7 +30,7 @@ internal sealed class CraftingRecipeConsumeIngredientsPatcher : HarmonyPatcher
     private static bool CraftingRecipeConsumeIngredientsPrefix(
         CraftingRecipe __instance, IList<Chest?>? additional_materials)
     {
-        if (!__instance.name.Contains("Ring") || !__instance.name.ContainsAnyOf("Glow", "Magnet") ||
+        if (!__instance.name.Contains("Ring") || !__instance.name.ContainsAny("Glow", "Magnet") ||
             !RingsModule.Config.BetterGlowstoneProgression)
         {
             return true; // run original logic

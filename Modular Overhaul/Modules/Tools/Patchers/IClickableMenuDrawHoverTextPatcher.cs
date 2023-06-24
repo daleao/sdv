@@ -12,7 +12,9 @@ using DaLion.Shared.Harmony;
 using HarmonyLib;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Shared.Extensions.Xna;
 using StardewValley.Menus;
+using StardewValley.Tools;
 
 #endregion using directives
 
@@ -71,7 +73,7 @@ internal sealed class IClickableMenuDrawHoverTextPatcher : HarmonyPatcher
         }
         catch (Exception ex)
         {
-            Log.E($"Failed modifying hovered weapon title color.\nHelper returned {ex}");
+            Log.E($"Failed modifying hovered tool title color.\nHelper returned {ex}");
             return null;
         }
 
@@ -86,7 +88,11 @@ internal sealed class IClickableMenuDrawHoverTextPatcher : HarmonyPatcher
     internal static Color GetTitleColorFor(Item? item)
     {
         return item is Tool { UpgradeLevel: > 0 } tool && ToolsModule.Config.ColorCodedForYourConvenience
-            ? ((UpgradeLevel)tool.UpgradeLevel).GetTextColor()
+            ? tool is FishingRod rod
+                ? rod.UpgradeLevel > 2
+                    ? Color.Violet.ChangeValue(0.5f)
+                    : Game1.textColor
+                : ((UpgradeLevel)tool.UpgradeLevel).GetTextColor()
             : Game1.textColor;
     }
 

@@ -28,7 +28,7 @@ internal sealed class MeleeWeaponDrawTooltipPatcher : HarmonyPatcher
     private static bool MeleeWeaponDrawTooltipPrefix(
         MeleeWeapon __instance, SpriteBatch spriteBatch, ref int x, ref int y, SpriteFont font, float alpha)
     {
-        if (!WeaponsModule.Config.EnableRebalance || __instance.isScythe())
+        if (WeaponsModule.Config.WeaponTooltipStyle == Config.TooltipStyle.Vanilla || __instance.isScythe())
         {
             return true; // run original logic
         }
@@ -78,7 +78,7 @@ internal sealed class MeleeWeaponDrawTooltipPatcher : HarmonyPatcher
             y += (int)Math.Max(font.MeasureString("TT").Y, 48f);
 
             // write bonus knockback
-            var relativeKnockback = __instance.Get_DisplayKnockback();
+            var relativeKnockback = __instance.Get_DisplayedKnockback();
             if (relativeKnockback != 0)
             {
                 co = __instance.hasEnchantmentOfType<AmethystEnchantment>() ? new Color(0, 120, 120) : Game1.textColor;
@@ -105,7 +105,7 @@ internal sealed class MeleeWeaponDrawTooltipPatcher : HarmonyPatcher
             }
 
             // write bonus crit rate
-            var relativeCritChance = __instance.Get_DisplayCritChance();
+            var relativeCritChance = __instance.Get_DisplayedCritChance();
             if (relativeCritChance != 0)
             {
                 co = __instance.hasEnchantmentOfType<AquamarineEnchantment>()
@@ -134,7 +134,7 @@ internal sealed class MeleeWeaponDrawTooltipPatcher : HarmonyPatcher
             }
 
             // write bonus crit power
-            var relativeGetCritPower = __instance.Get_DisplayCritPower();
+            var relativeGetCritPower = __instance.Get_DisplayedCritPower();
             if (relativeGetCritPower != 0)
             {
                 co = __instance.hasEnchantmentOfType<JadeEnchantment>() ? new Color(0, 120, 120) : Game1.textColor;
@@ -161,7 +161,7 @@ internal sealed class MeleeWeaponDrawTooltipPatcher : HarmonyPatcher
             }
 
             // write bonus swing speed
-            var speed = __instance.Get_DisplaySwingSpeed();
+            var speed = __instance.Get_DisplayedSwingSpeed();
             if (speed != 0)
             {
                 co = __instance.hasEnchantmentOfType<EmeraldEnchantment>() ? new Color(0, 120, 120) : Game1.textColor;
@@ -188,7 +188,7 @@ internal sealed class MeleeWeaponDrawTooltipPatcher : HarmonyPatcher
             }
 
             // write bonus cooldown reduction
-            var cooldownReduction = __instance.Get_DisplayCooldownReduction();
+            var cooldownReduction = __instance.Get_DisplayedCooldownReduction();
             if (cooldownReduction > 0)
             {
                 co = new Color(0, 120, 120);
@@ -215,7 +215,7 @@ internal sealed class MeleeWeaponDrawTooltipPatcher : HarmonyPatcher
             }
 
             // write bonus defense
-            var resistance = __instance.Get_DisplayResilience();
+            var resistance = __instance.Get_DisplayedResilience();
             if (resistance != 0f)
             {
                 co = __instance.hasEnchantmentOfType<TopazEnchantment>() ? new Color(0, 120, 120) : Game1.textColor;

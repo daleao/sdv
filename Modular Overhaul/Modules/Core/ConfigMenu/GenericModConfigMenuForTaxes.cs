@@ -15,7 +15,7 @@ internal sealed partial class GenericModConfigMenu
         this
             .AddPage(OverhaulModule.Taxes.Namespace, I18n.Gmcm_Txs_Heading)
 
-            .AddSectionTitle(I18n.Gmcm_General_Heading)
+            .AddSectionTitle(I18n.Gmcm_Headings_General)
             .AddNumberField(
                 I18n.Gmcm_Txs_Annualinterest_Title,
                 I18n.Gmcm_Txs_Annualinterest_Desc,

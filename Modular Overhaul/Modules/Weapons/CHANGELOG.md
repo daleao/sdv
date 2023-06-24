@@ -1,5 +1,22 @@
 ﻿# WPNZ Change Log
 
+## 2.5.0 <sup><sub><sup>[🔼](#wpnz-change-log)</sup></sub></sup>
+
+### Added
+
+* Added console command parameters to advance progress in individual Virtue trials. Use `wpnz adv <virtue>`.
+
+### Changed
+
+* Virtue "Trials" renamed to "Proofs", just for consistency. If you prefer "Trial" just open the i18n/default.json file and replace "Proof of " with whatever you prefer.
+
+### Fixed
+
+* The Sand Pillars now show the correct message when the player is missing iridium bars.
+* Fixed inflated dagger prices caused by the hidden Bleed enchantment.
+* Virtue progress can no longer drop below zero.
+* Fixed some typos in GMCM dropdown selectors (Tooltip Style and Quest Difficulty).
+
 ## 2.4.0 <sup><sub><sup>[🔼](#wpnz-change-log)</sup></sub></sup>
 
 ### Changed

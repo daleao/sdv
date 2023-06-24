@@ -156,7 +156,7 @@ internal sealed class ObjectPerformObjectDropInActionPatcher : HarmonyPatcher
                         helper
                             .MatchProfessionCheck(Profession.Breeder.Value)
                             .Match(new[] { new CodeInstruction(OpCodes.Ldloc_0) }, ILHelper.SearchOption.Previous)
-                            .Count(new[] { new CodeInstruction(OpCodes.Brfalse_S) }, out var steps)
+                            .CountUntil(new[] { new CodeInstruction(OpCodes.Brfalse_S) }, out var steps)
                             .Copy(
                                 out var copy,
                                 steps,

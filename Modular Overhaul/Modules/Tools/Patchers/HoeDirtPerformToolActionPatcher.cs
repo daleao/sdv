@@ -12,6 +12,7 @@ using DaLion.Shared.Harmony;
 using HarmonyLib;
 using Netcode;
 using StardewValley.TerrainFeatures;
+using StardewValley.Tools;
 
 #endregion using directives
 
@@ -26,6 +27,24 @@ internal sealed class HoeDirtPerformToolActionPatcher : HarmonyPatcher
     }
 
     #region harmony patches
+
+    /// <summary>Patch to reward Watering Can exp.</summary>
+    [HarmonyPrefix]
+    private static void HoeDirtPerformToolActionPrefix(HoeDirt __instance, ref int __state)
+    {
+        __state = __instance.state.Value;
+    }
+
+    /// <summary>Patch to reward Watering Can exp.</summary>
+    [HarmonyPostfix]
+    private static void HoeDirtPerformToolActionPostfix(HoeDirt __instance, int __state, Tool t)
+    {
+        if (t is WateringCan && __instance.state.Value > __state &&
+            Game1.random.NextDouble() < ToolsModule.Config.Can.ExpRewardChance)
+        {
+            t.getLastFarmerToUse().gainExperience(0, ToolsModule.Config.Can.ExpRewardAmount);
+        }
+    }
 
     /// <summary>Patch to allow harvest with scythe.</summary>
     [HarmonyTranspiler]

@@ -27,7 +27,7 @@ internal sealed class BowRefreshSpecialAttackCooldownPatcher : HarmonyPatcher
 
     #region harmony patches
 
-    /// <summary>Apply Emerald Ring and Enchantment effects to Slingshot.</summary>
+    /// <summary>Apply Garnet Ring and Enchantment effects to Bows.</summary>
     [HarmonyPrefix]
     private static void BowRefreshSpecialAttackCooldownPrefix(Tool tool, object specialAttack)
     {
@@ -54,7 +54,7 @@ internal sealed class BowRefreshSpecialAttackCooldownPatcher : HarmonyPatcher
             return;
         }
 
-        cooldown = (int)(cooldown * slingshot.Get_GarnetCooldownReduction() * Game1.player.Get_CooldownReduction());
+        cooldown = (int)(cooldown * slingshot.Get_EffectiveCooldownReduction() * Game1.player.Get_CooldownReduction());
         Reflector.GetStaticFieldSetter<int>("Archery.Framework.Objects.Weapons.Bow", "ActiveCooldown").Invoke(cooldown.Value);
     }
 

@@ -23,12 +23,12 @@ internal class ModuleSelectionOption : MultiCheckboxOption<OverhaulModule>
     /// <param name="reloadMenu">A delegate to the parent menu's Reload method, to be invoked if any modules are toggled.</param>
     internal ModuleSelectionOption(Action reloadMenu)
     : base(
-        getOptionName: () => "Available modules:",
+        getOptionName: I18n.Gmcm_Core_Available,
         checkboxes: EnumerateModules().Skip(1).ToArray(),
         getCheckboxValue: module => module._ShouldEnable,
         setCheckboxValue: (module, value) => module._ShouldEnable = value,
         getColumnsFromWidth: _ => 2,
-        getCheckboxLabel: module => module.Name,
+        getCheckboxLabel: module => module.DisplayName,
         onValueUpdated: (module, newValue) =>
         {
             if (newValue)

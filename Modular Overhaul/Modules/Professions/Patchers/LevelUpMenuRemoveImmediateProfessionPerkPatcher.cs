@@ -41,8 +41,7 @@ internal sealed class LevelUpMenuRemoveImmediateProfessionPerkPatcher : HarmonyP
             ModHelper.GameContent.InvalidateCacheAndLocalized("LooseSprites/Cursors");
         }
 
-        if (!Profession.TryFromValue(whichProfession, out var profession) ||
-            whichProfession == Farmer.luckSkill)
+        if (!Profession.TryFromValue(whichProfession, out var profession))
         {
             return;
         }

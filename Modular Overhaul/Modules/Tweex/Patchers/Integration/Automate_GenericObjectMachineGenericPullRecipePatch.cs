@@ -132,13 +132,13 @@ internal sealed class GenericObjectMachinePatchers : HarmonyPatcher
 
     private static void GenericMachineSubroutine(SObject machine, Item sample)
     {
-        if (!TweexModule.Config.LargeProducsYieldQuantityOverQuality || machine.heldObject.Value is not { } output ||
+        if (!TweexModule.Config.LargeDairyYieldsQuantityOverQuality || machine.heldObject.Value is not { } output ||
             sample is not SObject input)
         {
             return;
         }
 
-        if (input.Category is SObject.EggCategory or SObject.MilkCategory && input.Name.ContainsAnyOf("Large", "L."))
+        if (input.Category is SObject.EggCategory or SObject.MilkCategory && input.Name.ContainsAny("Large", "L."))
         {
             output.Stack = 2;
             output.Quality = SObject.lowQuality;
@@ -163,8 +163,8 @@ internal sealed class GenericObjectMachinePatchers : HarmonyPatcher
 
     private static void CheesePressMachineSubroutine(SObject machine, Item sample)
     {
-        if (!TweexModule.Config.LargeProducsYieldQuantityOverQuality || machine.heldObject.Value is not { } output ||
-            sample is not SObject input || !input.Name.ContainsAnyOf("Large", "L."))
+        if (!TweexModule.Config.LargeDairyYieldsQuantityOverQuality || machine.heldObject.Value is not { } output ||
+            sample is not SObject input || !input.Name.ContainsAny("Large", "L."))
         {
             return;
         }

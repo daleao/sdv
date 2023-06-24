@@ -23,7 +23,7 @@ internal sealed class FarmerCurrentToolIndexSetterPatcher : HarmonyPatcher
     #region harmony patches
 
     /// <summary>Set Rascal ammo slots.</summary>
-    [HarmonyPrefix]
+    [HarmonyPostfix]
     [SuppressMessage("StyleCop.CSharp.NamingRules", "SA1300:Element should begin with upper-case letter", Justification = "Preference for inner functions.")]
     private static void FarmerCurrentToolIndexPostfix(Farmer __instance, int value)
     {

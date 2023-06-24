@@ -164,10 +164,6 @@ public sealed class Config : Shared.Configs.Config
     [JsonProperty]
     public bool ShowFishCollectionMaxIcon { get; internal set; } = true;
 
-    /// <summary>Gets the maximum population of Aquarist Fish Ponds with legendary fish.</summary>
-    [JsonProperty]
-    public uint LegendaryPondPopulationCeiling { get; internal set; } = 6;
-
     /// <summary>Gets you must collect this many junk items from crab pots for every 1% of tax deduction the following season.</summary>
     [JsonProperty]
     public uint TrashNeededPerTaxDeductionPct { get; internal set; } = 100;

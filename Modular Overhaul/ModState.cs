@@ -17,8 +17,6 @@ internal sealed class ModState
 
     internal Modules.Rings.State Rings { get; set; } = new();
 
-    internal Modules.Taxes.State Taxes { get; set; } = new();
-
     internal bool DebugMode { get; set; }
 }
 #pragma warning restore CS1591

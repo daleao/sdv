@@ -51,7 +51,7 @@ internal sealed class GameLocationPerformTouchActionPatcher : HarmonyPatcher
                 .Match(new[] { new CodeInstruction(OpCodes.Brfalse) })
                 .GetOperand(out var didNotMeetConditions)
                 .Return()
-                .Count(new[] { new CodeInstruction(OpCodes.Brtrue) }, out var count)
+                .CountUntil(new[] { new CodeInstruction(OpCodes.Brtrue) }, out var count)
                 .Remove(count)
                 .Insert(
                     new[]
@@ -101,7 +101,7 @@ internal sealed class GameLocationPerformTouchActionPatcher : HarmonyPatcher
                 item is SObject { ParentSheetIndex: SObject.iridiumBar } iridium ? iridium.Stack : 0) <
             WeaponsModule.Config.IridiumBarsPerGalaxyWeapon)
         {
-            Game1.drawObjectDialogue(I18n.Prestige_Dogstatue_Dismiss());
+            Game1.drawObjectDialogue(I18n.Locations_Desert_Noiridium());
             return false;
         }
 

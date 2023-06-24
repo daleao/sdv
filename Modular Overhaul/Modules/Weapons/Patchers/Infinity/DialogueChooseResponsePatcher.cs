@@ -65,6 +65,11 @@ internal sealed class DialogueChooseResponsePatcher : HarmonyPatcher
             case "event_popcorn3" when speakerName == "Kent":
 
                 player.Increment(DataKeys.ProvenHonor, -1);
+                if (player.Read<int>(DataKeys.ProvenHonor) < 0)
+                {
+                    player.Write(DataKeys.ProvenHonor, 0.ToString());
+                }
+
                 return;
 
         // COMPASSION //
@@ -96,6 +101,11 @@ internal sealed class DialogueChooseResponsePatcher : HarmonyPatcher
             case "event_box4" when speakerName == "Alex":
 
                 player.Increment(DataKeys.ProvenCompassion, -1);
+                if (player.Read<int>(DataKeys.ProvenCompassion) < 0)
+                {
+                    player.Write(DataKeys.ProvenCompassion, 0.ToString());
+                }
+
                 return;
 
         // WISDOM //
@@ -130,6 +140,11 @@ internal sealed class DialogueChooseResponsePatcher : HarmonyPatcher
             case "event_george2" when speakerName == "Harvey":
 
                 Game1.player.Increment(DataKeys.ProvenWisdom, -1);
+                if (player.Read<int>(DataKeys.ProvenWisdom) < 0)
+                {
+                    player.Write(DataKeys.ProvenWisdom, 0.ToString());
+                }
+
                 return;
         }
     }

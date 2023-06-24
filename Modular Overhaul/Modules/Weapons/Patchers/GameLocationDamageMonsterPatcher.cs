@@ -163,7 +163,7 @@ internal sealed class GameLocationDamageMonsterPatcher : HarmonyPatcher
                         new CodeInstruction(OpCodes.Callvirt),
                         new CodeInstruction(OpCodes.Ldstr, "Galaxy Sword"),
                     })
-                .Count(
+                .CountUntil(
                     new[]
                     {
                         new CodeInstruction(

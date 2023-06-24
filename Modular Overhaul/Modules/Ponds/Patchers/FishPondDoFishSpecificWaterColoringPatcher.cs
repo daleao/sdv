@@ -32,7 +32,7 @@ internal sealed class FishPondDoFishSpecificWaterColoringPatcher : HarmonyPatche
             var shift = -(5 + (3 * __instance.FishCount));
             __instance.overrideWaterColor.Value = new Color(60, 126, 150).ShiftHue(shift);
         }
-        else if (__instance.GetFishObject().Name.ContainsAnyOf("Mutant", "Radioactive"))
+        else if (__instance.GetFishObject().Name.ContainsAny("Mutant", "Radioactive"))
         {
             __instance.overrideWaterColor.Value = new Color(40, 255, 40);
         }

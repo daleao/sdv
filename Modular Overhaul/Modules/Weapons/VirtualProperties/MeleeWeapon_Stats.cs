@@ -65,7 +65,7 @@ internal static class MeleeWeapon_Stats
         return Values.GetValue(weapon, Create).Knockback;
     }
 
-    internal static float Get_DisplayKnockback(this MeleeWeapon weapon)
+    internal static float Get_DisplayedKnockback(this MeleeWeapon weapon)
     {
         var knockback = Values.GetValue(weapon, Create).Knockback;
         var @default = weapon.defaultKnockBackForThisType(weapon.type.Value);
@@ -92,7 +92,7 @@ internal static class MeleeWeapon_Stats
         return weapon.type.Value != MeleeWeapon.dagger ? critChance : (critChance + 0.005f) * 1.12f;
     }
 
-    internal static float Get_DisplayCritChance(this MeleeWeapon weapon)
+    internal static float Get_DisplayedCritChance(this MeleeWeapon weapon)
     {
         var critChance = Values.GetValue(weapon, Create).CritChance;
         var @default = weapon.DefaultCritChance();
@@ -118,7 +118,7 @@ internal static class MeleeWeapon_Stats
         return Values.GetValue(weapon, Create).CritPower;
     }
 
-    internal static float Get_DisplayCritPower(this MeleeWeapon weapon)
+    internal static float Get_DisplayedCritPower(this MeleeWeapon weapon)
     {
         var critPower = Values.GetValue(weapon, Create).CritPower;
         var @default = weapon.DefaultCritPower();
@@ -144,7 +144,7 @@ internal static class MeleeWeapon_Stats
         return 10f / (10f + Values.GetValue(weapon, Create).SwingSpeed);
     }
 
-    internal static float Get_DisplaySwingSpeed(this MeleeWeapon weapon)
+    internal static float Get_DisplayedSwingSpeed(this MeleeWeapon weapon)
     {
         return Values.GetValue(weapon, Create).SwingSpeed * 0.1f;
     }
@@ -154,7 +154,7 @@ internal static class MeleeWeapon_Stats
         return 1f - (Values.GetValue(weapon, Create).CooldownReduction * 0.1f);
     }
 
-    internal static float Get_DisplayCooldownReduction(this MeleeWeapon weapon)
+    internal static float Get_DisplayedCooldownReduction(this MeleeWeapon weapon)
     {
         return Values.GetValue(weapon, Create).CooldownReduction * 0.1f;
     }
@@ -164,7 +164,7 @@ internal static class MeleeWeapon_Stats
         return 10f / (10f + Values.GetValue(weapon, Create).Resilience);
     }
 
-    internal static float Get_DisplayResilience(this MeleeWeapon weapon)
+    internal static float Get_DisplayedResilience(this MeleeWeapon weapon)
     {
         return Values.GetValue(weapon, Create).Resilience * 0.1f;
     }

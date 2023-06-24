@@ -14,7 +14,7 @@ internal static class SObjectExtensions
     /// <returns><see langword="true"/> if the <paramref name="obj"/> is a mutant or radioactive fish species, otherwise <see langword="false"/>.</returns>
     internal static bool IsRadioactiveFish(this SObject obj)
     {
-        return obj.Category == SObject.FishCategory && obj.Name.ContainsAnyOf("Mutant", "Radioactive");
+        return obj.Category == SObject.FishCategory && obj.Name.ContainsAny("Mutant", "Radioactive");
     }
 
     /// <summary>Determines whether the <paramref name="obj"/> is a non-radioactive ore or ingot.</summary>

@@ -50,7 +50,7 @@ internal sealed class LevelUpMenuCtorPatcher : HarmonyPatcher
                         new CodeInstruction(OpCodes.Rem_Un),
                         new CodeInstruction(OpCodes.Ldc_I4_0),
                     })
-                .Count(new[] { new CodeInstruction(OpCodes.Ldc_I4_S, 10) }, out var count)
+                .CountUntil(new[] { new CodeInstruction(OpCodes.Ldc_I4_S, 10) }, out var count)
                 .Remove(count);
         }
         catch (Exception ex)

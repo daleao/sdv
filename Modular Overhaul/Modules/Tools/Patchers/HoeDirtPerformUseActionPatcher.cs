@@ -82,7 +82,7 @@ internal sealed class HoeDirtPerformUseActionPatcher : HarmonyPatcher
                     })
                 .Match(new[] { new CodeInstruction(OpCodes.Ldarg_0) }, ILHelper.SearchOption.Previous)
                 .GetLabels(out var labels)
-                .Count(new[] { new CodeInstruction(OpCodes.Bne_Un) }, out var count)
+                .CountUntil(new[] { new CodeInstruction(OpCodes.Bne_Un) }, out var count)
                 .Remove(count)
                 .AddLabels(labels.Take(1).ToArray())
                 .Match(

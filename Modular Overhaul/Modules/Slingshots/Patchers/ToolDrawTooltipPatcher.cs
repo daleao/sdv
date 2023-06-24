@@ -5,8 +5,10 @@
 using System.Reflection;
 using System.Text;
 using DaLion.Overhaul.Modules.Enchantments.Gemstone;
+using DaLion.Overhaul.Modules.Slingshots.Integrations;
 using DaLion.Overhaul.Modules.Slingshots.VirtualProperties;
 using DaLion.Shared.Harmony;
+using DaLion.Shared.Integrations.Archery;
 using HarmonyLib;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -36,7 +38,7 @@ internal sealed class ToolDrawTooltipPatcher : HarmonyPatcher
         float alpha,
         StringBuilder? overrideText)
     {
-        if (__instance is not Slingshot slingshot || !SlingshotsModule.Config.EnableRebalance)
+        if (__instance is not Slingshot slingshot)
         {
             return true; // run original logic
         }
@@ -45,7 +47,7 @@ internal sealed class ToolDrawTooltipPatcher : HarmonyPatcher
         {
             // write description
             ItemDrawTooltipPatcher.ItemDrawTooltipReverse(
-                __instance,
+                slingshot,
                 spriteBatch,
                 ref x,
                 ref y,
@@ -55,12 +57,20 @@ internal sealed class ToolDrawTooltipPatcher : HarmonyPatcher
 
             Color co;
 
-            // write bonus damage
-            var hasRubyEnchant = slingshot.hasEnchantmentOfType<RubyEnchantment>();
-            if (slingshot.InitialParentTileIndex != ItemIDs.BasicSlingshot || hasRubyEnchant)
+            var bowData = ArcheryIntegration.Instance!.ModApi!.GetWeaponData(Manifest, slingshot);
+            if (bowData is not null)
             {
-                var amount = $"+{slingshot.Get_RelativeDamageModifier():#.#%}";
-                co = hasRubyEnchant ? new Color(0, 120, 120) : Game1.textColor;
+                y += 12; // space out between special move description
+            }
+
+            // draw damage
+            if (bowData is not null || __instance.attachments?[0] is not null)
+            {
+                var combinedDamage = (uint)slingshot.Get_DisplayedDamageModifier();
+                var maxDamage = combinedDamage >> 16;
+                var minDamage = combinedDamage & 0xFFFF;
+                co = slingshot.Get_EffectiveDamageModifier() > 1f ? new Color(0, 120, 120) : Game1.textColor;
+
                 Utility.drawWithShadow(
                     spriteBatch,
                     Game1.mouseCursors,
@@ -75,20 +85,49 @@ internal sealed class ToolDrawTooltipPatcher : HarmonyPatcher
 
                 Utility.drawTextWithShadow(
                     spriteBatch,
-                    I18n.Ui_Itemhover_Damage(amount),
+                    Game1.content.LoadString(
+                        "Strings\\UI:ItemHover_Damage",
+                        minDamage,
+                        maxDamage),
                     font,
                     new Vector2(x + 68, y + 28),
                     co * 0.9f * alpha);
 
                 y += (int)Math.Max(font.MeasureString("TT").Y, 48f);
             }
-
-            // write bonus knockback
-            var hasAmethystEnchant = __instance.hasEnchantmentOfType<AmethystEnchantment>();
-            if (slingshot.InitialParentTileIndex != ItemIDs.BasicSlingshot || hasAmethystEnchant)
+            else if (__instance.InitialParentTileIndex != ItemIDs.BasicSlingshot)
             {
-                var amount = $"+{slingshot.Get_RelativeKnockbackModifer():#.#%}";
-                co = hasAmethystEnchant ? new Color(0, 120, 120) : Game1.textColor;
+                co = Game1.textColor;
+
+                Utility.drawWithShadow(
+                    spriteBatch,
+                    Game1.mouseCursors,
+                    new Vector2(x + 20, y + 20),
+                    new Rectangle(120, 428, 10, 10),
+                    Color.White,
+                    0f,
+                    Vector2.Zero,
+                    4f,
+                    false,
+                    1f);
+
+                Utility.drawTextWithShadow(
+                    spriteBatch,
+                    I18n.Ui_Itemhover_Damage($"+{slingshot.Get_DisplayedDamageModifier():#.#%}"),
+                    font,
+                    new Vector2(x + 68, y + 28),
+                    co * 0.9f * alpha);
+
+                y += (int)Math.Max(font.MeasureString("TT").Y, 48f);
+
+            }
+
+            // draw knockback
+            var knockback = slingshot.Get_DisplayedKnockback();
+            if (knockback != 0f)
+            {
+                co = slingshot.Get_EffectiveKnockback() > 0 ? new Color(0, 120, 120) : Game1.textColor;
+
                 Utility.drawWithShadow(
                     spriteBatch,
                     Game1.mouseCursors,
@@ -103,7 +142,7 @@ internal sealed class ToolDrawTooltipPatcher : HarmonyPatcher
 
                 Utility.drawTextWithShadow(
                     spriteBatch,
-                    I18n.Ui_Itemhover_Knockback(amount),
+                    I18n.Ui_Itemhover_Knockback($"{knockback:+#.#%;-#.#%}"),
                     font,
                     new Vector2(x + 68, y + 28),
                     co * 0.9f * alpha);
@@ -111,11 +150,12 @@ internal sealed class ToolDrawTooltipPatcher : HarmonyPatcher
                 y += (int)Math.Max(font.MeasureString("TT").Y, 48f);
             }
 
-            // write bonus crit rate
-            if (__instance.hasEnchantmentOfType<AquamarineEnchantment>())
+            // draw crit. chance
+            var critChance = slingshot.Get_DisplayedCritChance();
+            if (critChance != 0f)
             {
-                var amount = $"{slingshot.Get_RelativeCritChanceModifier():#.#%}";
-                co = new Color(0, 120, 120);
+                co = slingshot.Get_EffectiveCritChance() > 0 ? new Color(0, 120, 120) : Game1.textColor;
+
                 Utility.drawWithShadow(
                     spriteBatch,
                     Game1.mouseCursors,
@@ -130,7 +170,7 @@ internal sealed class ToolDrawTooltipPatcher : HarmonyPatcher
 
                 Utility.drawTextWithShadow(
                     spriteBatch,
-                    Game1.content.LoadString("Strings\\UI:ItemHover_CritChanceBonus", amount),
+                    I18n.Ui_Itemhover_Crate($"{critChance:+#.#%;-#.#%}"),
                     font,
                     new Vector2(x + 68, y + 28),
                     co * 0.9f * alpha);
@@ -138,15 +178,16 @@ internal sealed class ToolDrawTooltipPatcher : HarmonyPatcher
                 y += (int)Math.Max(font.MeasureString("TT").Y, 48f);
             }
 
-            // write crit power
-            if (__instance.hasEnchantmentOfType<JadeEnchantment>())
+            // draw crit. damage
+            var critPower = slingshot.Get_DisplayedCritPower();
+            if (critPower != 0f)
             {
-                var amount = $"{slingshot.Get_RelativeCritPowerModifier():#.#%}";
-                co = new Color(0, 120, 120);
+                co = slingshot.Get_EffectiveCritPower() > 0 ? new Color(0, 120, 120) : Game1.textColor;
+
                 Utility.drawWithShadow(
                     spriteBatch,
                     Game1.mouseCursors,
-                    new Vector2(x + 16, y + 16 + 4),
+                    new Vector2(x + 16, y + 20),
                     new Rectangle(160, 428, 10, 10),
                     Color.White,
                     0f,
@@ -157,19 +198,20 @@ internal sealed class ToolDrawTooltipPatcher : HarmonyPatcher
 
                 Utility.drawTextWithShadow(
                     spriteBatch,
-                    Game1.content.LoadString("Strings\\UI:ItemHover_CritPowerBonus", amount),
+                    I18n.Ui_Itemhover_Cpow($"{critPower:+#.#%;-#.#%}"),
                     font,
-                    new Vector2(x + 16 + 44, y + 16 + 12),
+                    new Vector2(x + 68, y + 28),
                     co * 0.9f * alpha);
 
                 y += (int)Math.Max(font.MeasureString("TT").Y, 48f);
             }
 
-            // write bonus fire speed
-            if (__instance.hasEnchantmentOfType<EmeraldEnchantment>())
+            // draw fire speed
+            var speedModifier = slingshot.Get_DisplayedFireSpeed();
+            if (speedModifier > 0f)
             {
-                var amount = $"+{slingshot.Get_RelativeFireSpeed():#.#%}";
                 co = new Color(0, 120, 120);
+
                 Utility.drawWithShadow(
                     spriteBatch,
                     Game1.mouseCursors,
@@ -184,7 +226,7 @@ internal sealed class ToolDrawTooltipPatcher : HarmonyPatcher
 
                 Utility.drawTextWithShadow(
                     spriteBatch,
-                    I18n.Ui_Itemhover_Firespeed(amount),
+                    I18n.Ui_Itemhover_Firespeed($"{speedModifier:+#.#%;-#.#%}"),
                     font,
                     new Vector2(x + 68, y + 28),
                     co * 0.9f * alpha);
@@ -192,11 +234,12 @@ internal sealed class ToolDrawTooltipPatcher : HarmonyPatcher
                 y += (int)Math.Max(font.MeasureString("TT").Y, 48f);
             }
 
-            // write bonus cooldown reduction
-            if (__instance.hasEnchantmentOfType<GarnetEnchantment>())
+            // draw cdr
+            var cooldownModifier = slingshot.Get_DisplayedCooldownModifier();
+            if (cooldownModifier > 0f)
             {
-                var amount = $"-{slingshot.Get_RelativeCooldownReduction():#.#%}";
                 co = new Color(0, 120, 120);
+
                 Utility.drawWithShadow(
                     spriteBatch,
                     Game1.mouseCursors,
@@ -211,7 +254,7 @@ internal sealed class ToolDrawTooltipPatcher : HarmonyPatcher
 
                 Utility.drawTextWithShadow(
                     spriteBatch,
-                    I18n.Ui_Itemhover_Cdr(amount),
+                    I18n.Ui_Itemhover_Cdr($"-{cooldownModifier:#.#%}"),
                     font,
                     new Vector2(x + 68, y + 28),
                     co * 0.9f * alpha);
@@ -219,13 +262,15 @@ internal sealed class ToolDrawTooltipPatcher : HarmonyPatcher
                 y += (int)Math.Max(font.MeasureString("TT").Y, 48f);
             }
 
-            // write bonus defense
-            if (__instance.hasEnchantmentOfType<TopazEnchantment>() && EnchantmentsModule.Config.RebalancedForges)
+            // draw resilience
+            var resilience = slingshot.Get_DisplayedResilience();
+            if (resilience > 0f)
             {
-                var amount = CombatModule.ShouldEnable && CombatModule.Config.OverhauledDefense
-                    ? $"+{slingshot.Get_RelativeResilience():#.#%}"
-                    : slingshot.GetEnchantmentLevel<TopazEnchantment>().ToString();
                 co = new Color(0, 120, 120);
+                var amount = CombatModule.ShouldEnable && CombatModule.Config.OverhauledDefense
+                    ? $"+{resilience:#.#%}"
+                    : $"{(int)(resilience * 100f)}";
+
                 Utility.drawWithShadow(
                     spriteBatch,
                     Game1.mouseCursors,
@@ -250,24 +295,7 @@ internal sealed class ToolDrawTooltipPatcher : HarmonyPatcher
                 y += (int)Math.Max(font.MeasureString("TT").Y, 48f);
             }
 
-            // write bonus random forge
-            if (__instance.enchantments.Count > 0 && __instance.enchantments[^1] is DiamondEnchantment)
-            {
-                co = new Color(0, 120, 120);
-                var randomForges = __instance.GetMaxForges() - __instance.GetTotalForgeLevels();
-                var randomForgeString = randomForges != 1
-                    ? Game1.content.LoadString("Strings\\UI:ItemHover_DiamondForge_Plural", randomForges)
-                    : Game1.content.LoadString("Strings\\UI:ItemHover_DiamondForge_Singular", randomForges);
-                Utility.drawTextWithShadow(
-                    spriteBatch,
-                    randomForgeString,
-                    font,
-                    new Vector2(x + 16, y + 28),
-                    co * 0.9f * alpha);
-                y += (int)Math.Max(font.MeasureString("TT").Y, 48f);
-            }
-
-            // write other enchantments
+            // draw other enchantments
             co = new Color(120, 0, 210);
             for (var i = 0; i < __instance.enchantments.Count; i++)
             {
@@ -307,4 +335,258 @@ internal sealed class ToolDrawTooltipPatcher : HarmonyPatcher
     }
 
     #endregion harmony patches
+
+    #region deprecated
+
+    private static void DrawAsSlingshot(
+        Slingshot slingshot,
+        SpriteBatch spriteBatch,
+        ref int x,
+        ref int y,
+        SpriteFont font,
+        float alpha)
+    {
+        Color co;
+
+        // write bonus damage
+        var hasRubyEnchant = slingshot.hasEnchantmentOfType<RubyEnchantment>();
+        if (slingshot.InitialParentTileIndex != ItemIDs.BasicSlingshot || hasRubyEnchant)
+        {
+            co = hasRubyEnchant ? new Color(0, 120, 120) : Game1.textColor;
+            Utility.drawWithShadow(
+                spriteBatch,
+                Game1.mouseCursors,
+                new Vector2(x + 20, y + 20),
+                new Rectangle(120, 428, 10, 10),
+                Color.White,
+                0f,
+                Vector2.Zero,
+                4f,
+                false,
+                1f);
+
+            Utility.drawTextWithShadow(
+                spriteBatch,
+                I18n.Ui_Itemhover_Damage($"+{slingshot.Get_DisplayedDamageModifier():#.#%}"),
+                font,
+                new Vector2(x + 68, y + 28),
+                co * 0.9f * alpha);
+
+            y += (int)Math.Max(font.MeasureString("TT").Y, 48f);
+        }
+
+        // write bonus knockback
+        var hasAmethystEnchant = slingshot.hasEnchantmentOfType<AmethystEnchantment>();
+        if (slingshot.InitialParentTileIndex != ItemIDs.BasicSlingshot || hasAmethystEnchant)
+        {
+            co = hasAmethystEnchant ? new Color(0, 120, 120) : Game1.textColor;
+            Utility.drawWithShadow(
+                spriteBatch,
+                Game1.mouseCursors,
+                new Vector2(x + 20, y + 20),
+                new Rectangle(70, 428, 10, 10),
+                Color.White,
+                0f,
+                Vector2.Zero,
+                4f,
+                false,
+                1f);
+
+            Utility.drawTextWithShadow(
+                spriteBatch,
+                I18n.Ui_Itemhover_Knockback($"+{slingshot.Get_DisplayedKnockback():#.#%}"),
+                font,
+                new Vector2(x + 68, y + 28),
+                co * 0.9f * alpha);
+
+            y += (int)Math.Max(font.MeasureString("TT").Y, 48f);
+        }
+
+        // write bonus crit rate
+        if (slingshot.hasEnchantmentOfType<AquamarineEnchantment>())
+        {
+            co = new Color(0, 120, 120);
+            Utility.drawWithShadow(
+                spriteBatch,
+                Game1.mouseCursors,
+                new Vector2(x + 20, y + 20),
+                new Rectangle(40, 428, 10, 10),
+                Color.White,
+                0f,
+                Vector2.Zero,
+                4f,
+                false,
+                1f);
+
+            Utility.drawTextWithShadow(
+                spriteBatch,
+                I18n.Ui_Itemhover_Crate($"{slingshot.Get_DisplayedCritChance():#.#%}"),
+                font,
+                new Vector2(x + 68, y + 28),
+                co * 0.9f * alpha);
+
+            y += (int)Math.Max(font.MeasureString("TT").Y, 48f);
+        }
+
+        // write crit power
+        if (slingshot.hasEnchantmentOfType<JadeEnchantment>())
+        {
+            co = new Color(0, 120, 120);
+            Utility.drawWithShadow(
+                spriteBatch,
+                Game1.mouseCursors,
+                new Vector2(x + 16, y + 16 + 4),
+                new Rectangle(160, 428, 10, 10),
+                Color.White,
+                0f,
+                Vector2.Zero,
+                4f,
+                false,
+                1f);
+
+            Utility.drawTextWithShadow(
+                spriteBatch,
+                I18n.Ui_Itemhover_Cpow($"{slingshot.Get_DisplayedCritPower():#.#%}"),
+                font,
+                new Vector2(x + 16 + 44, y + 16 + 12),
+                co * 0.9f * alpha);
+
+            y += (int)Math.Max(font.MeasureString("TT").Y, 48f);
+        }
+
+        // write bonus fire speed
+        if (slingshot.hasEnchantmentOfType<EmeraldEnchantment>())
+        {
+            co = new Color(0, 120, 120);
+            Utility.drawWithShadow(
+                spriteBatch,
+                Game1.mouseCursors,
+                new Vector2(x + 20, y + 20),
+                new Rectangle(130, 428, 10, 10),
+                Color.White,
+                0f,
+                Vector2.Zero,
+                4f,
+                false,
+                1f);
+
+            Utility.drawTextWithShadow(
+                spriteBatch,
+                I18n.Ui_Itemhover_Firespeed($"+{slingshot.Get_DisplayedFireSpeed():#.#%}"),
+                font,
+                new Vector2(x + 68, y + 28),
+                co * 0.9f * alpha);
+
+            y += (int)Math.Max(font.MeasureString("TT").Y, 48f);
+        }
+
+        // write bonus cooldown reduction
+        if (slingshot.hasEnchantmentOfType<GarnetEnchantment>())
+        {
+            var amount = $"-{slingshot.Get_DisplayedCooldownModifier():#.#%}";
+            co = new Color(0, 120, 120);
+            Utility.drawWithShadow(
+                spriteBatch,
+                Game1.mouseCursors,
+                new Vector2(x + 20, y + 20),
+                new Rectangle(150, 428, 10, 10),
+                Color.White,
+                0f,
+                Vector2.Zero,
+                4f,
+                false,
+                1f);
+
+            Utility.drawTextWithShadow(
+                spriteBatch,
+                I18n.Ui_Itemhover_Cdr(amount),
+                font,
+                new Vector2(x + 68, y + 28),
+                co * 0.9f * alpha);
+
+            y += (int)Math.Max(font.MeasureString("TT").Y, 48f);
+        }
+
+        // write bonus defense
+        if (slingshot.hasEnchantmentOfType<TopazEnchantment>() && EnchantmentsModule.Config.RebalancedForges)
+        {
+            var amount = CombatModule.ShouldEnable && CombatModule.Config.OverhauledDefense
+                ? $"+{slingshot.Get_DisplayedResilience():#.#%}"
+                : slingshot.GetEnchantmentLevel<TopazEnchantment>().ToString();
+            co = new Color(0, 120, 120);
+            Utility.drawWithShadow(
+                spriteBatch,
+                Game1.mouseCursors,
+                new Vector2(x + 20, y + 20),
+                new Rectangle(110, 428, 10, 10),
+                Color.White,
+                0f,
+                Vector2.Zero,
+                4f,
+                false,
+                1f);
+
+            Utility.drawTextWithShadow(
+                spriteBatch,
+                CombatModule.ShouldEnable && CombatModule.Config.OverhauledDefense
+                    ? I18n.Ui_Itemhover_Resist(amount)
+                    : Game1.content.LoadString("ItemHover_DefenseBonus", amount),
+                font,
+                new Vector2(x + 68, y + 28),
+                co * 0.9f * alpha);
+
+            y += (int)Math.Max(font.MeasureString("TT").Y, 48f);
+        }
+
+        // write bonus random forge
+        if (slingshot.enchantments.Count > 0 && slingshot.enchantments[^1] is DiamondEnchantment)
+        {
+            co = new Color(0, 120, 120);
+            var randomForges = slingshot.GetMaxForges() - slingshot.GetTotalForgeLevels();
+            var randomForgeString = randomForges != 1
+                ? Game1.content.LoadString("Strings\\UI:ItemHover_DiamondForge_Plural", randomForges)
+                : Game1.content.LoadString("Strings\\UI:ItemHover_DiamondForge_Singular", randomForges);
+            Utility.drawTextWithShadow(
+                spriteBatch,
+                randomForgeString,
+                font,
+                new Vector2(x + 16, y + 28),
+                co * 0.9f * alpha);
+            y += (int)Math.Max(font.MeasureString("TT").Y, 48f);
+        }
+
+        // write other enchantments
+        co = new Color(120, 0, 210);
+        for (var i = 0; i < slingshot.enchantments.Count; i++)
+        {
+            var enchantment = slingshot.enchantments[i];
+            if (!enchantment.ShouldBeDisplayed())
+            {
+                continue;
+            }
+
+            Utility.drawWithShadow(
+                spriteBatch,
+                Game1.mouseCursors2,
+                new Vector2(x + 20, y + 20),
+                new Rectangle(127, 35, 10, 10),
+                Color.White,
+                0f,
+                Vector2.Zero,
+                4f,
+                false,
+                1f);
+
+            Utility.drawTextWithShadow(
+                spriteBatch,
+                BaseEnchantment.hideEnchantmentName ? "???" : enchantment.GetDisplayName(),
+                font,
+                new Vector2(x + 68, y + 28),
+                co * 0.9f * alpha);
+
+            y += (int)Math.Max(font.MeasureString("TT").Y, 48f);
+        }
+    }
+
+    #endregion deprecated
 }

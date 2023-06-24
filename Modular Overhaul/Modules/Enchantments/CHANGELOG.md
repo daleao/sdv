@@ -1,5 +1,11 @@
 ﻿# ENCH Change Log
 
+## 2.5.0 <sup><sub><sup>[🔼](#ench-change-log)</sup></sub></sup>
+
+### Fixed
+
+* Fixed patch error in SlingshotPerformFirePatcher.
+
 ## 2.4.0 <sup><sub><sup>[🔼](#ench-change-log)</sup></sub></sup>
 
 ### Added

@@ -39,7 +39,7 @@ internal sealed class BowPerformFirePatcher : HarmonyPatcher
 
     /// <summary>Apply projectile stat modifiers.</summary>
     [HarmonyPrefix]
-    private static void BowPerformFirePrefix(BasicProjectile projectile, Slingshot slingshot)
+    private static void BowPerformFirePrefix(BasicProjectile projectile, Slingshot slingshot, Farmer who)
     {
         var projectileData = ArcheryIntegration.Instance!.ModApi!.GetProjectileData(Manifest, projectile);
         if (projectileData is null)
@@ -47,20 +47,31 @@ internal sealed class BowPerformFirePatcher : HarmonyPatcher
             return;
         }
 
+        if (SlingshotsModule.Config.EnableRebalance)
+        {
+            var weaponData = ArcheryIntegration.Instance!.ModApi!.GetWeaponData(Manifest, slingshot);
+            if (weaponData is not null && projectileData.BaseDamage is { } baseDamage)
+            {
+                Reflector.GetUnboundFieldSetter<BasicProjectile, int>(projectile, "_collectiveDamage").Invoke(
+                    projectile,
+                    (int)(weaponData.DamageRange.Get(Game1.random, baseDamage, baseDamage) * (1f + who.attackIncreaseModifier)));
+            }
+        }
+
         var collectiveDamage = Reflector.GetUnboundFieldGetter<BasicProjectile, int>(projectile, "_collectiveDamage").Invoke(projectile);
-        collectiveDamage = (int)(collectiveDamage * slingshot.Get_RubyDamageModifier());
+        collectiveDamage = (int)(collectiveDamage * slingshot.Get_EffectiveDamageModifier());
         Reflector.GetUnboundFieldSetter<BasicProjectile, int>(projectile, "_collectiveDamage").Invoke(projectile, collectiveDamage);
 
         var criticalChance = Reflector.GetUnboundFieldGetter<BasicProjectile, float>(projectile, "_criticalChance").Invoke(projectile);
-        criticalChance *= slingshot.Get_AquamarineCritChanceModifier();
+        criticalChance += slingshot.Get_EffectiveCritChance();
         Reflector.GetUnboundFieldSetter<BasicProjectile, float>(projectile, "_criticalChance").Invoke(projectile, criticalChance);
 
         var criticalDamageMultiplier = Reflector.GetUnboundFieldGetter<BasicProjectile, float>(projectile, "_criticalDamageMultiplier").Invoke(projectile);
-        criticalDamageMultiplier *= slingshot.Get_JadeCritPowerModifier();
+        criticalDamageMultiplier += slingshot.Get_EffectiveCritPower();
         Reflector.GetUnboundFieldSetter<BasicProjectile, float>(projectile, "_criticalDamageMultiplier").Invoke(projectile, criticalDamageMultiplier);
 
         var knockback = Reflector.GetUnboundFieldGetter<BasicProjectile, float>(projectile, "_knockback").Invoke(projectile);
-        knockback *= slingshot.Get_AmethystKnockbackModifer();
+        knockback += slingshot.Get_EffectiveKnockback();
         Reflector.GetUnboundFieldSetter<BasicProjectile, float>(projectile, "_knockback").Invoke(projectile, knockback);
     }
 

@@ -32,7 +32,7 @@ internal sealed partial class GenericModConfigMenu
                 (config, value) => config.Professions.ModKey = value)
             .AddHorizontalRule()
 
-            .AddSectionTitle(I18n.Gmcm_Ui_Heading)
+            .AddSectionTitle(I18n.Gmcm_Interface_Heading)
             .AddCheckbox(
                 I18n.Gmcm_Profs_Ui_Showfishcollecionmaxicon_Title,
                 I18n.Gmcm_Profs_Ui_Showfishcollecionmaxicon_Desc,
@@ -182,32 +182,6 @@ internal sealed partial class GenericModConfigMenu
                 (config, value) => config.Professions.AquaristFishPondCeiling = value,
                 0,
                 24)
-            .AddNumberField(
-                I18n.Gmcm_Profs_Legendarypondpopulationceiling_Title,
-                I18n.Gmcm_Profs_Legendarypondpopulationceiling_Desc,
-                config => (int)config.Professions.LegendaryPondPopulationCeiling,
-                (config, value) =>
-                {
-                    config.Professions.LegendaryPondPopulationCeiling = (uint)value;
-                    if (!Context.IsWorldReady)
-                    {
-                        return;
-                    }
-
-                    var buildings = Game1.getFarm().buildings;
-                    for (var i = 0; i < buildings.Count; i++)
-                    {
-                        var building = buildings[i];
-                        if (building is FishPond pond &&
-                            (pond.IsOwnedBy(Game1.player) || config.Professions.LaxOwnershipRequirements) &&
-                            !pond.isUnderConstruction())
-                        {
-                            pond.UpdateMaximumOccupancy();
-                        }
-                    }
-                },
-                4,
-                12)
             .AddNumberField(
                 I18n.Gmcm_Profs_Trashpertaxdeduction_Title,
                 I18n.Gmcm_Profs_Trashpertaxdeduction_Desc,

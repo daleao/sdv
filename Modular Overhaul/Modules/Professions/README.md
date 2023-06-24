@@ -90,7 +90,7 @@ The perks in *italics* refer to ![shield:prestige] variants. Written in *(parent
 	- Plus 0.5% ladder chance per level. Bonus ladder chance resets each time you leave the mines. **This includes taking the stairs back to the mine entrance.**
 - ![](resources/assets/sprites/loose/prospector.png)  **Prospector (Lv10)** - Location of ladders and mining nodes revealed. Occasionally detect rocks with valuable minerals. *Time freezes during Prospector Hunts.*
 	- Analogous to Scavenger. Tracks all mining nodes and mineral forages off-screen with a yellow pointer, ladders, shafts and panning spots (when outside) with a green pointer. Whenever you are in the mines there is a chance to trigger a short Propsector Hunt for hidden stone treasure. Follow the purple HUD arrow to find the correct stone within the time limit and break it up to obtain a reward. The larger your win streak the better your odds of obtaining rare minerals or artifacts. Succesful completion of a hunt automatically reveals a ladder. You can optionally configure the HUD arrows to only appear when holding a key (LeftShift by default). This will also highlight mineral nodes and other tiles of interest currently on-screen for your convenience.
-    - Also gains a chance, proportional to the Prospector Hunt streak, to spawn additional forage when entering a new map.
+    - Also gains a chance, proportional to the Prospector Hunt streak, to spawn additional ore nodes and panning points.
 - ![](resources/assets/sprites/loose/blaster.png)  **Blaster (Lv5)** - Craft twice as many explosives. Exploded rocks yield 2× *(3×)* as much coal.
 	- This aims to provide a new style of mining while attempting to compensate for the lack of coal without the vanilla Prospector profession.
 - ![](resources/assets/sprites/loose/demolitionist.png)  **Demolitionist (Lv10)** - Bomb radius +1 *(+2)*. Exploded rocks yield 20% *(40%)* more resources.
@@ -101,22 +101,24 @@ The perks in *italics* refer to ![shield:prestige] variants. Written in *(parent
 
 ### ![](https://i.imgur.com/XvdVsAn.png) Fishing
 
-- ![](resources/assets/sprites/loose/fisher.png)  **Fisher (Lv5)** - Fish bite faster *(instantly)*. Live bait reduces the chance to fish junk.
-	- Here, "junk" includes algae and seaweed.
-- ![](resources/assets/sprites/loose/angler.png)  **Angler (Lv10)** - Fish worth 1% more for every unique max-sized fish caught and 5% more for every legendary fish. *Can recatch legendary fish.*
-	- "Legendary fish" includes the Extended Family Qi challenge varieties, counted only once.
-- ![](resources/assets/sprites/loose/aquarist.png)  **Aquarist (Lv10)** - Fish pond max capacity +2. Catching bar decreases slower for every unique fish species raised in a fish pond. *Can raise legendary fish.*
-	- The catching bar decays 5.5% slower per unique Fish Pond. Six ponds are equivalent to a permanent Trap Bobber. In multiplayer, **only counts Fish Ponds owned by the player with this profession**.
-	- Legendary fish and extended family can be raised in the same pond if the [Ponds](../Ponds) module is enabled.
+- ![](resources/assets/sprites/loose/fisher.png)  **Fisher (Lv5)** - Baits are 2x (3x) more effective when fishing.
+	- Also applies to the double catch effect of Wild Bait and bonus treasure effect of Magnet.
+- ![](resources/assets/sprites/loose/angler.png)  **Angler (Lv10)** - Fish are 0.5% more valuable for every unique species caught. Fully-expending a tackle causes it's effects to linger on the fishing rod. *Fish are another 0.5% more valuable for every unique max-sized species caught.*
+    - Legendary fish are instead worth 2.5% bonus to fish sell price, including Extended Family.
+	- Lingering tackle effects last for 40 uses (same as regular tackle), effectively doubling tackle duration, but more importantly, allowing different tackles to be used togther. **The same tackle effect cannot stack with itself.**
+- ![](resources/assets/sprites/loose/aquarist.png)  **Aquarist (Lv10)** - Fish pond max capacity +2 *(+4)*. Catching bar increases faster for every unique fish species raised in a fish pond.
+	- The catching bar increases 5.5% faster per unique Fish Pond. In multiplayer, **only counts Fish Ponds owned by the player with this profession**.
+	- Also allows raising legendary fish. Extended family can be raised in the same pond as the parent if [PNDS](../Ponds) module is enabled.
 - ![](resources/assets/sprites/loose/trapper.png)  **Trapper (Lv5)** - Crab pots are cheaper to craft. Can trap higher-quality *(highest-quality)* haul.
 	- All trapped fish can have quality up to gold. Chance depends on fishing level (same formula as forage). The Crab Pot recipe is unchanged from vanilla.
-- ![](resources/assets/sprites/loose/luremaster.png)  **Luremaster (Lv10)** - Crab pots no longer produce junk. Use different baits to attract different catch. *60% chance to preserve bait.*
+- ![](resources/assets/sprites/loose/luremaster.png)  **Luremaster (Lv10)** - Baited Crab Pots can produce 2x *(3x)* per day. Unlock new bait effects.
 	- Each type bait will also apply it's regular fishing effects:
 		- **Regular bait:** 25% chance to catch fish, subject to the same location and season limitations as regular fishing.
 		- **Wild bait:** 50% chance to also double the haul.
 		- **Magnet:** Repels all fish (as per its description), but attracts metal items such as resources, artifacts, treasure chests, rings and even some weapons (treasure table is similar to fishing treasure chests).
 		- **Magic bait:** Chance to catch high-level fish of any location or season. Also upgrades all catch to iridium-quality.
-- ![](resources/assets/sprites/loose/conservationist.png)  **Conservationist (Lv10)** - Crab pots without bait can trap junk. Clean the Valley's waters to merit tax deductions. *Cleaning the Valley's waters also merits favor with the villagers.*
+    - All baits, with the exception of Magnet, prevent collecting junk.
+- ![](resources/assets/sprites/loose/conservationist.png)  **Conservationist (Lv10)** - Crab pots without bait can trap junk. Clean the Valley's waters to merit tax deductions and villager favor. *Tax deductions build 50% faster.*
 	- Every 100 (configurable) junk items collected will earn you a 1% tax deduction the following season (max 25%, also configurable). What a "tax deduction" means depends on whether the [Taxes](../Taxes/README.md) module is enabled; if it is enabled, a tax deduction works as you would expect, reducing your overall amount due. If this module is not enabled, then a tax deduction works as a % value increasing to all items shipped in the bin. If you quality for a deduction you will receive a formal mail from the Ferngill Revenue Service on the first of the season informing your currrent deduction rights.
 
 ### ![](https://i.imgur.com/fUnZSTj.png) Combat

@@ -51,13 +51,13 @@ internal sealed class ScavengerWarpedEvent : WarpedEvent
         }
     }
 
-    private static void TrySpawnForageables(int amount, GameLocation location)
+    private static void TrySpawnForageables(int attempts, GameLocation location)
     {
         Log.D($"Trying to spawn extra forage in {location.Name}.");
 
         if (location.numberOfSpawnedObjectsOnMap >= 6)
         {
-            Log.D($"But {location.Name} already has the maximum number of spawned objects.");
+            Log.D($"But {location.Name} already has the maximum allowed number of spawned objects.");
             return;
         }
 
@@ -77,11 +77,11 @@ internal sealed class ScavengerWarpedEvent : WarpedEvent
         }
 
         var split = seasonData.Split(' ');
-        var numberToSpawn = r.Next(1, amount);
+        attempts = r.Next(1, Math.Min(attempts, 100));
         var count = 0;
-        for (var i = 0; i < numberToSpawn; i++)
+        for (var i = 0; i < attempts; i++)
         {
-            for (var j = 0; j < 11; j++)
+            for (var j = 0; j < 11; j++) // 11 is an arbitrary number used by vanilla
             {
                 var x = r.Next(location.Map.DisplayWidth / 64);
                 var y = r.Next(location.Map.DisplayHeight / 64);
@@ -93,7 +93,7 @@ internal sealed class ScavengerWarpedEvent : WarpedEvent
                     r.NextDouble() > double.Parse(split[whichObject + 1]) ||
                     !location.isTileLocationTotallyClearAndPlaceable(x, y) || location.getTileIndexAt(x, y, "AlwaysFront") != -1 ||
                     location.getTileIndexAt(x, y, "Front") != -1 || location.isBehindBush(position) ||
-                    (Game1.random.NextDouble() > 0.1 && location.isBehindTree(position)) || !location.dropObject(
+                    (r.NextDouble() > 0.1 && location.isBehindTree(position)) || !location.dropObject(
                         new SObject(
                             position,
                             int.Parse(split[whichObject]),
@@ -115,6 +115,6 @@ internal sealed class ScavengerWarpedEvent : WarpedEvent
             }
         }
 
-        Log.D($"[Scavenger]: Spawned {count} forages.");
+        Log.D($"[Scavenger]: Spawned {count} forages at {location.Name}.");
     }
 }

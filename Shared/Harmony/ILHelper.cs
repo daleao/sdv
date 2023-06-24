@@ -162,7 +162,7 @@ public sealed class ILHelper
     /// <param name="count">The number of instructions until the first occurrence of <paramref name="pattern"/>.</param>
     /// <param name="search">The <see cref="SearchOption"/>.</param>
     /// <returns>The <see cref="ILHelper"/> instance.</returns>
-    public ILHelper Count(CodeInstruction[] pattern, out int count, SearchOption search = SearchOption.Next)
+    public ILHelper CountUntil(CodeInstruction[] pattern, out int count, SearchOption search = SearchOption.Next)
     {
         this.Match(pattern, search);
         var end = this._indexStack.Pop() + 1;
@@ -234,7 +234,7 @@ public sealed class ILHelper
     /// <summary>Moves the stack pointer an integer number of <paramref name="steps"/>.</summary>
     /// <param name="steps">Number of steps by which to move the stack pointer.</param>
     /// <returns>The <see cref="ILHelper"/> instance.</returns>
-    /// <remarks>Positive means down.</remarks>
+    /// <remarks>Positive means down; negative means up.</remarks>
     public ILHelper Move(int steps = 1)
     {
         if (this.CurrentIndex + steps < 0 || this.CurrentIndex + steps > this.LastIndex)

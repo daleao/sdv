@@ -51,7 +51,7 @@ internal sealed class Game1DrawHudPatcher : HarmonyPatcher
                 .SetOpCode(OpCodes.Beq) // replace > with ==
                 .Return()
                 .Move(2)
-                .Count(
+                .CountUntil(
                     new[]
                     {
                         new CodeInstruction(OpCodes.Callvirt),

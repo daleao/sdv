@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
 using System.Text;
+using DaLion.Overhaul.Modules.Tools;
 using DaLion.Overhaul.Modules.Weapons.Extensions;
 using DaLion.Shared.Extensions.Reflection;
 using DaLion.Shared.Harmony;
@@ -83,7 +84,7 @@ internal sealed class IClickableMenuDrawHoverTextPatcher : HarmonyPatcher
             return Game1.textColor;
         }
 
-        if (item is (MeleeWeapon or Slingshot) && WeaponsModule.Config.ColorCodedForYourConvenience)
+        if (item is MeleeWeapon && WeaponsModule.Config.ColorCodedForYourConvenience)
         {
             var tier = WeaponTier.GetFor(tool);
             if (tier == WeaponTier.Untiered)
@@ -116,15 +117,47 @@ internal sealed class IClickableMenuDrawHoverTextPatcher : HarmonyPatcher
                         return Color.Gold;
                 }
             }
-            else if (tool is Slingshot slingshot)
+        }
+        else if (tool is Slingshot slingshot && SlingshotsModule.ShouldEnable && SlingshotsModule.Config.ColorCodedForYourConvenience)
+        {
+            switch (slingshot.InitialParentTileIndex)
             {
-                switch (slingshot.InitialParentTileIndex)
-                {
-                    case ItemIDs.GalaxySlingshot:
-                        return Color.DarkViolet;
-                    case ItemIDs.InfinitySlingshot:
-                        return Color.DeepPink;
-                }
+                case ItemIDs.GalaxySlingshot:
+                    return Color.DarkViolet;
+                case ItemIDs.InfinitySlingshot:
+                    return Color.DeepPink;
+                default:
+                    if (slingshot.Name.Contains("Copper"))
+                    {
+                        return UpgradeLevel.Copper.GetTextColor();
+                    }
+
+                    if (slingshot.Name.Contains("Steel"))
+                    {
+                        return UpgradeLevel.Steel.GetTextColor();
+                    }
+
+                    if (slingshot.Name.Contains("Gold"))
+                    {
+                        return UpgradeLevel.Gold.GetTextColor();
+                    }
+
+                    if (slingshot.Name.Contains("Iridium"))
+                    {
+                        return UpgradeLevel.Iridium.GetTextColor();
+                    }
+
+                    if (slingshot.Name.Contains("Yoba"))
+                    {
+                        return Color.Gold;
+                    }
+
+                    if (slingshot.Name.Contains("Dwarven"))
+                    {
+                        return Color.MonoGameOrange;
+                    }
+
+                    break;
             }
         }
         else if (ToolsModule.ShouldEnable && ToolsModule.Config.ColorCodedForYourConvenience)

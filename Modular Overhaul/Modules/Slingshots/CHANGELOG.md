@@ -1,5 +1,33 @@
 ﻿# SLNGS Change Log
 
+## 2.5.0 <sup><sub><sup>[🔼](#slngs-change-log)</sup></sub></sup>
+
+### Added
+
+* Topaz Enchantment now actual does something if CMBT module is disabled (previously required CMBT module to do anything).
+
+### Changed
+
+* Archery Integration:
+    * Bows can no longer receive gemstone enchantments. Instead, the focus shifts to Arrow Enchantments, as intended by PeacefulEnd.
+    * Effectively, Bow ammo slots are equivalent to gemstone sockets, which means they can receive up to 2 gemstone effects (with the Rascal profession) based on the arrows that are equipped. The downside is that the player is required to craft enchanted arrows. The upside is that arrows can be swapped freely, unlike enchantments.
+    * Arrow Enchantments will in turn resonate with Infinity Bands ([RNGS](../Rings)), as would other gemstone enchantments. Resonance bonuses apply even while the resonating arrow is in secondary ammo slot. If the resonating arrow is in the primary ammo slot, however, it's damage is also buffed by the resonance.
+    * Diamond-tipped arrows give 2 random enchantment effects, but does not resonate.
+    * If Rebalance option is enbled, arrow base damage also increases the bow's minimum damage, instead of only the maximum.
+    * Rebalanced the Archery Starter Pack. **I will not support any other content packs.**
+* Changes to make regular slingshots more similar to Archery bows, and distinct from Melee Weapons:
+    * Slingshots can now equip gemstones, including Diamonds and Prismatic Shard. Diamonds are particularly strong. Prismatic Shards are nukes.
+    * Slingshots can no longer receive gemstone enchantments. As with bows, they now receive bonuses based on equipped gemstones. Clearly this is a huge nerf for Slingshots in the end-game, but also a huge buff in the early game, which I think is worth the trade.
+    * Gemstone bonuses are now additive instead of multiplicative, which is in most cases an overall buff.
+    * Again, resonances from Infinity Bands still apply as expected, and buff the gemstonee's raw damage when equipped as primary.
+    * Diamonds give 2 random enchantment effects, but do not resonate.
+    * Prismatic Shards give all enchantment effects simultaneously.
+* Added option to display the current primary ammo in the item's sprite (enabled by default).
+
+### Fixed
+
+* ColorCodedForYourConvenience now works without WPNZ module. Also works for weapons from Archery Starter Pack.
+
 ## 2.4.0 <sup><sub><sup>[🔼](#slngs-change-log)</sup></sub></sup>
 
 ### Added

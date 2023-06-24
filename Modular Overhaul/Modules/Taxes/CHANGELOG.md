@@ -1,5 +1,11 @@
 ﻿# TXS Change Log
 
+## 2.5.0 <sup><sub><sup>[🔼](#txs-change-log)</sup></sub></sup>
+
+### Fixes
+
+* Fixed an issue caused by ephemeral caching of overnight tax calculation between 1st and 2nd day of the season. If the player reset the game after saving that night, calculations would be lost. These calculations are now persisted in mod data to prevent this issue.
+
 ## 2.4.0 <sup><sub><sup>[🔼](#txs-change-log)</sup></sub></sup>
 
 ### Fixes

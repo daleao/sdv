@@ -41,6 +41,18 @@ internal sealed class ProfessionSaveLoadedEvent : SaveLoadedEvent
 
         Game1.game1.RevalidateFishPondPopulations();
 
+        if (Context.IsMainPlayer)
+        {
+            if (Game1.game1.DoesAnyPlayerHaveProfession(Profession.Luremaster, out _))
+            {
+                this.Manager.Enable<LuremasterTimeChangedEvent>();
+            }
+            else if (Context.IsMultiplayer)
+            {
+                this.Manager.Enable<MonitorLuremastersDayStartedEvent>();
+            }
+        }
+
         if (player.HasProfession(Profession.Prospector))
         {
             this.Manager.Enable<ProspectorRenderedHudEvent>();

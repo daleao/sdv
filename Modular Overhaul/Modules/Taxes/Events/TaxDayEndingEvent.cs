@@ -99,7 +99,7 @@ internal sealed class TaxDayEndingEvent : DayEndingEvent
 
         if (dayIncome < amountSold)
         {
-            TaxesModule.State.LatestAmountWithheld = amountSold - dayIncome;
+            Game1.player.Write(DataKeys.LatestAmountWithheld, (amountSold - dayIncome).ToString());
             ModEntry.EventManager.Enable<TaxDayStartedEvent>();
         }
 
@@ -118,7 +118,7 @@ internal sealed class TaxDayEndingEvent : DayEndingEvent
         }
 
         taxpayer.Write(DataKeys.PercentDeductions, deductible.ToString(CultureInfo.InvariantCulture));
-        TaxesModule.State.LatestTaxDeductions = deductible;
+        Game1.player.Write(DataKeys.LatestTaxDeductions, deductible.ToString());
         PostalService.Send(Mail.FrsDeduction);
         Log.I(
             FormattableString.CurrentCulture(
@@ -131,7 +131,7 @@ internal sealed class TaxDayEndingEvent : DayEndingEvent
     private static void CheckIncomeStatement(Farmer taxpayer, ref int dayIncome)
     {
         var (amountDue, _, _, _, _) = RevenueService.CalculateTaxes(taxpayer);
-        TaxesModule.State.LatestDueIncomeTax = amountDue;
+        Game1.player.Write(DataKeys.LatestDueIncomeTax, amountDue.ToString());
         if (amountDue <= 0)
         {
             return;
@@ -157,7 +157,7 @@ internal sealed class TaxDayEndingEvent : DayEndingEvent
                 dayIncome = 0;
                 var penalties = Math.Max((int)(outstanding * TaxesModule.Config.IncomeTaxLatenessFine), 100);
                 taxpayer.Increment(DataKeys.DebtOutstanding, outstanding + penalties);
-                TaxesModule.State.LatestOutstandingIncomeTax = outstanding + penalties;
+                Game1.player.Write(DataKeys.LatestOutstandingIncomeTax, (outstanding + penalties).ToString());
                 PostalService.Send(Mail.FrsOutstanding);
                 Log.I(
                     $"[TXS]: {taxpayer.Name} did not carry enough funds to cover the income tax due." +
@@ -195,7 +195,7 @@ internal sealed class TaxDayEndingEvent : DayEndingEvent
         var amountDue = (int)(((agricultureValue + livestockValue) * currentUsePct * TaxesModule.Config.UsedTileTaxRate) +
                           ((agricultureValue + livestockValue) * (1f - currentUsePct) * TaxesModule.Config.UnusedTileTaxRate) +
                           (buildingValue * TaxesModule.Config.BuildingTaxRate));
-        TaxesModule.State.LatestDuePropertyTax = amountDue;
+        Game1.player.Write(DataKeys.LatestDuePropertyTax, amountDue.ToString());
         if (amountDue <= 0)
         {
             return;
@@ -221,7 +221,7 @@ internal sealed class TaxDayEndingEvent : DayEndingEvent
                 dayIncome = 0;
                 var penalties = Math.Max((int)(outstanding * TaxesModule.Config.PropertyTaxLatenessFine), 500);
                 taxpayer.Increment(DataKeys.DebtOutstanding, outstanding + penalties);
-                TaxesModule.State.LatestOutstandingPropertyTax = outstanding + penalties;
+                Game1.player.Write(DataKeys.LatestOutstandingPropertyTax, (outstanding + penalties).ToString());
                 PostalService.Send(Mail.LewisOutstanding);
                 Log.I(
                     $"[TXS]: {taxpayer.Name} did not carry enough funds to cover the property tax due." +

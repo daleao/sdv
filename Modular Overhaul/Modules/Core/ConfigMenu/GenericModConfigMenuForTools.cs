@@ -17,27 +17,29 @@ internal sealed partial class GenericModConfigMenu
     private void AddToolOptions()
     {
         var allowedUpgrades = new[] { "Copper", "Steel", "Gold", "Iridium" };
-        var isMoonMisadventuresLoaded = MoonMisadventuresIntegration.Instance?.IsLoaded == true;
-        if (isMoonMisadventuresLoaded)
+
+        var maxToolUpgrade = MoonMisadventuresIntegration.Instance?.IsLoaded == true
+            ? 7
+            : ToolsModule.Config.EnableForgeUpgrading
+                ? 6
+                : 5;
+        if (maxToolUpgrade > 5)
         {
-            allowedUpgrades.AddRangeToArray(new[] { "Radioactive", "Mythicite" });
+            allowedUpgrades.AddToArray("Radioactive");
         }
+
+        if (maxToolUpgrade > 6)
+        {
+            allowedUpgrades.AddToArray("Mythicite");
+        }
+
+        allowedUpgrades.AddToArray("Reaching");
 
         this
             .AddPage(OverhaulModule.Tools.Namespace, I18n.Gmcm_Tols_Heading)
 
             // general
-            .AddSectionTitle(I18n.Gmcm_General_Heading)
-            .AddCheckbox(
-                I18n.Gmcm_Ui_Colorcodedforyourconvenience_Title,
-                I18n.Gmcm_Tols_Colorcodedforyourconvenience_Desc,
-                config => config.Tools.ColorCodedForYourConvenience,
-                (config, value) => config.Tools.ColorCodedForYourConvenience = value)
-            .AddCheckbox(
-                I18n.Gmcm_Tols_Hideaffectedtiles_Title,
-                I18n.Gmcm_Tols_Hideaffectedtiles_Desc,
-                config => config.Tools.HideAffectedTiles,
-                (config, value) => config.Tools.HideAffectedTiles = value)
+            .AddSectionTitle(I18n.Gmcm_Headings_General)
             .AddNumberField(
                 I18n.Gmcm_Tols_Ticksbetweenwaves_Title,
                 I18n.Gmcm_Tols_Ticksbetweenwaves_Desc,
@@ -45,6 +47,11 @@ internal sealed partial class GenericModConfigMenu
                 (config, value) => config.Tools.TicksBetweenWaves = (uint)value,
                 0,
                 10)
+            .AddCheckbox(
+                I18n.Gmcm_Tols_Enableforgeupgrading_Title,
+                I18n.Gmcm_Tols_Enableforgeupgrading_Desc,
+                config => config.Tools.EnableForgeUpgrading,
+                (config, value) => config.Tools.EnableForgeUpgrading = value)
             .AddHorizontalRule()
 
             // controls
@@ -85,16 +92,29 @@ internal sealed partial class GenericModConfigMenu
                 colorPickerStyle: (uint)IGenericModConfigMenuOptionsApi.ColorPickerStyle.RGBSliders)
             .AddHorizontalRule()
 
+            .AddSectionTitle(I18n.Gmcm_Interface_Heading)
+            .AddCheckbox(
+                I18n.Gmcm_Interface_Colorcodedforyourconvenience_Title,
+                I18n.Gmcm_Tols_Interface_Colorcodedforyourconvenience_Desc,
+                config => config.Tools.ColorCodedForYourConvenience,
+                (config, value) => config.Tools.ColorCodedForYourConvenience = value)
+            .AddCheckbox(
+                I18n.Gmcm_Tols_Interface_Hideaffectedtiles_Title,
+                I18n.Gmcm_Tols_Interface_Hideaffectedtiles_Desc,
+                config => config.Tools.HideAffectedTiles,
+                (config, value) => config.Tools.HideAffectedTiles = value)
+            .AddHorizontalRule()
+
             // page links
             .AddMultiPageLinkOption(
-                getOptionName: I18n.Gmcm_Tols_Specifictools,
+                getOptionName: I18n.Gmcm_Tols_Specificsettings,
                 pages: new[] { "Axe", "Pickaxe", "Hoe", "WateringCan", "Scythe" },
                 getPageId: tool => OverhaulModule.Tools.Namespace + $"/{tool}",
                 getPageName: tool => _I18n.Get("gmcm.tols." + tool.ToLowerInvariant()),
                 getColumnsFromWidth: _ => 2)
 
             // axe settings
-            .AddPage(OverhaulModule.Tools.Namespace + "/Axe", I18n.Gmcm_Tols_Specifictools_Axe)
+            .AddPage(OverhaulModule.Tools.Namespace + "/Axe", I18n.Gmcm_Tols_Specificsettings_Axe)
             .AddPageLink(OverhaulModule.Tools.Namespace, I18n.Gmcm_Tols_Back)
             .AddVerticalSpace()
             .AddNumberField(
@@ -119,7 +139,7 @@ internal sealed partial class GenericModConfigMenu
                 config => config.Tools.Axe.RequiredUpgradeForCharging.ToString(),
                 (config, value) => config.Tools.Axe.RequiredUpgradeForCharging = Enum.Parse<UpgradeLevel>(value),
                 allowedUpgrades,
-                value => _I18n.Get("gmcm.tools.upgrades." + value.ToLowerInvariant()))
+                value => _I18n.Get("gmcm.tols.upgrades." + value.ToLowerInvariant()))
             .AddNumberField(
                 I18n.Gmcm_Tols_Charging_Chargedstaminamultiplier_Title,
                 I18n.Gmcm_Tols_Charging_Chargedstaminamultiplier_Desc,
@@ -158,17 +178,20 @@ internal sealed partial class GenericModConfigMenu
                 1,
                 10);
 
-        if (isMoonMisadventuresLoaded && ToolsModule.Config.Axe.RadiusAtEachPowerLevel.Length > 5)
+        if (maxToolUpgrade > 5 && ToolsModule.Config.Axe.RadiusAtEachPowerLevel.Length > 5)
         {
-            this
-                .AddNumberField(
+            this.AddNumberField(
                     I18n.Gmcm_Tols_Charging_Radioactiveradius_Title,
                     I18n.Gmcm_Tols_Charging_Radioactiveradius_Desc,
                     config => (int)config.Tools.Axe.RadiusAtEachPowerLevel[4],
                     (config, value) => config.Tools.Axe.RadiusAtEachPowerLevel[4] = (uint)value,
                     1,
-                    10)
-                .AddNumberField(
+                    10);
+        }
+
+        if (maxToolUpgrade > 6 && ToolsModule.Config.Axe.RadiusAtEachPowerLevel.Length > 6)
+        {
+            this.AddNumberField(
                     I18n.Gmcm_Tols_Charging_Mythiciteradius_Title,
                     I18n.Gmcm_Tols_Charging_Mythiciteradius_Desc,
                     config => (int)config.Tools.Axe.RadiusAtEachPowerLevel[5],
@@ -181,9 +204,8 @@ internal sealed partial class GenericModConfigMenu
             .AddNumberField(
                 I18n.Gmcm_Tols_Charging_Enchantedradius_Title,
                 () => I18n.Gmcm_Tols_Charging_Enchantedradius_Desc(I18n.Gmcm_Tols_Axe().ToLowerInvariant()),
-                config => (int)config.Tools.Axe.RadiusAtEachPowerLevel[isMoonMisadventuresLoaded ? 6 : 4],
-                (config, value) => config.Tools.Axe.RadiusAtEachPowerLevel[isMoonMisadventuresLoaded ? 6 : 4] =
-                    (uint)value,
+                config => (int)config.Tools.Axe.RadiusAtEachPowerLevel[^1],
+                (config, value) => config.Tools.Axe.RadiusAtEachPowerLevel[^1] = (uint)value,
                 1,
                 10)
             .AddHorizontalRule()
@@ -269,7 +291,7 @@ internal sealed partial class GenericModConfigMenu
                 (config, value) => config.Tools.Axe.AllowMasterEnchantment = value)
 
             // pickaxe settings
-            .AddPage(OverhaulModule.Tools.Namespace + "/Pickaxe", I18n.Gmcm_Tols_Specifictools_Pickaxe)
+            .AddPage(OverhaulModule.Tools.Namespace + "/Pickaxe", I18n.Gmcm_Tols_Specificsettings_Pickaxe)
             .AddPageLink(OverhaulModule.Tools.Namespace, I18n.Gmcm_Tols_Back)
             .AddVerticalSpace()
             .AddNumberField(
@@ -332,17 +354,20 @@ internal sealed partial class GenericModConfigMenu
                 1,
                 10);
 
-        if (isMoonMisadventuresLoaded && ToolsModule.Config.Pick.RadiusAtEachPowerLevel.Length > 5)
+        if (maxToolUpgrade > 5 && ToolsModule.Config.Pick.RadiusAtEachPowerLevel.Length > 5)
         {
-            this
-                .AddNumberField(
+            this.AddNumberField(
                     I18n.Gmcm_Tols_Charging_Radioactiveradius_Title,
                     I18n.Gmcm_Tols_Charging_Radioactiveradius_Desc,
                     config => (int)config.Tools.Pick.RadiusAtEachPowerLevel[4],
                     (config, value) => config.Tools.Pick.RadiusAtEachPowerLevel[4] = (uint)value,
                     1,
-                    10)
-                .AddNumberField(
+                    10);
+        }
+
+        if (maxToolUpgrade > 6 && ToolsModule.Config.Pick.RadiusAtEachPowerLevel.Length > 6)
+        {
+            this.AddNumberField(
                     I18n.Gmcm_Tols_Charging_Mythiciteradius_Title,
                     I18n.Gmcm_Tols_Charging_Mythiciteradius_Desc,
                     config => (int)config.Tools.Pick.RadiusAtEachPowerLevel[5],
@@ -355,9 +380,8 @@ internal sealed partial class GenericModConfigMenu
             .AddNumberField(
                 I18n.Gmcm_Tols_Charging_Enchantedradius_Title,
                 () => I18n.Gmcm_Tols_Charging_Enchantedradius_Desc(I18n.Gmcm_Tols_Pickaxe().ToLowerInvariant()),
-                config => (int)config.Tools.Pick.RadiusAtEachPowerLevel[isMoonMisadventuresLoaded ? 6 : 4],
-                (config, value) =>
-                    config.Tools.Pick.RadiusAtEachPowerLevel[isMoonMisadventuresLoaded ? 6 : 4] = (uint)value,
+                config => (int)config.Tools.Pick.RadiusAtEachPowerLevel[^1],
+                (config, value) => config.Tools.Pick.RadiusAtEachPowerLevel[^1] = (uint)value,
                 1,
                 10)
             .AddHorizontalRule()
@@ -428,7 +452,7 @@ internal sealed partial class GenericModConfigMenu
                 (config, value) => config.Tools.Pick.AllowMasterEnchantment = value)
 
             // hoe settings
-            .AddPage(OverhaulModule.Tools.Namespace + "/Hoe", I18n.Gmcm_Tols_Specifictools_Hoe)
+            .AddPage(OverhaulModule.Tools.Namespace + "/Hoe", I18n.Gmcm_Tols_Specificsettings_Hoe)
             .AddPageLink(OverhaulModule.Tools.Namespace, I18n.Gmcm_Tols_Back)
             .AddVerticalSpace()
             .AddNumberField(
@@ -442,11 +466,6 @@ internal sealed partial class GenericModConfigMenu
             .AddHorizontalRule()
 
             .AddSectionTitle(I18n.Gmcm_Tols_Affectedtiles_Heading)
-            .AddCheckbox(
-                I18n.Gmcm_Tols_Affectedtiles_Enable_Title,
-                I18n.Gmcm_Tols_Affectedtiles_Enable_Desc,
-                config => config.Tools.Hoe.OverrideAffectedTiles,
-                (config, value) => config.Tools.Hoe.OverrideAffectedTiles = value)
             .AddNumberField(
                 I18n.Gmcm_Tols_Affectedtiles_Copperlength_Title,
                 I18n.Gmcm_Tols_Affectedtiles_Copperlength_Desc,
@@ -504,7 +523,7 @@ internal sealed partial class GenericModConfigMenu
                 0,
                 7);
 
-        if (isMoonMisadventuresLoaded && ToolsModule.Config.Hoe.AffectedTilesAtEachPowerLevel.Length > 5)
+        if (maxToolUpgrade > 5 && ToolsModule.Config.Hoe.AffectedTilesAtEachPowerLevel.Length > 5)
         {
             this
                 .AddNumberField(
@@ -520,7 +539,12 @@ internal sealed partial class GenericModConfigMenu
                     config => (int)config.Tools.Hoe.AffectedTilesAtEachPowerLevel[4].Radius,
                     (config, value) => config.Tools.Hoe.AffectedTilesAtEachPowerLevel[4].Radius = (uint)value,
                     0,
-                    7)
+                    7);
+        }
+
+        if (maxToolUpgrade > 6 && ToolsModule.Config.Hoe.AffectedTilesAtEachPowerLevel.Length > 6)
+        {
+            this
                 .AddNumberField(
                     I18n.Gmcm_Tols_Affectedtiles_Mythicitelength_Title,
                     I18n.Gmcm_Tols_Affectedtiles_Mythicitelength_Desc,
@@ -534,42 +558,24 @@ internal sealed partial class GenericModConfigMenu
                     config => (int)config.Tools.Hoe.AffectedTilesAtEachPowerLevel[5].Radius,
                     (config, value) => config.Tools.Hoe.AffectedTilesAtEachPowerLevel[5].Radius = (uint)value,
                     0,
-                    7)
-                .AddNumberField(
-                    I18n.Gmcm_Tols_Affectedtiles_Enchantedlength_Title,
-                    () => I18n.Gmcm_Tols_Affectedtiles_Enchantedlength_Desc(I18n.Gmcm_Tols_Hoe().ToLowerInvariant()),
-                    config => (int)config.Tools.Hoe.AffectedTilesAtEachPowerLevel[6].Length,
-                    (config, value) => config.Tools.Hoe.AffectedTilesAtEachPowerLevel[6].Length = (uint)value,
-                    1,
-                    15)
-                .AddNumberField(
-                    I18n.Gmcm_Tols_Charging_Enchantedradius_Title,
-                    () => I18n.Gmcm_Tols_Affectedtiles_Enchantedradius_Desc(I18n.Gmcm_Tols_Hoe().ToLowerInvariant()),
-                    config => (int)config.Tools.Hoe.AffectedTilesAtEachPowerLevel[6].Radius,
-                    (config, value) => config.Tools.Hoe.AffectedTilesAtEachPowerLevel[6].Radius = (uint)value,
-                    0,
-                    7);
-        }
-        else
-        {
-            this
-                .AddNumberField(
-                    I18n.Gmcm_Tols_Affectedtiles_Enchantedlength_Title,
-                    () => I18n.Gmcm_Tols_Affectedtiles_Enchantedlength_Desc(I18n.Gmcm_Tols_Hoe().ToLowerInvariant()),
-                    config => (int)config.Tools.Hoe.AffectedTilesAtEachPowerLevel[4].Length,
-                    (config, value) => config.Tools.Hoe.AffectedTilesAtEachPowerLevel[4].Length = (uint)value,
-                    1,
-                    15)
-                .AddNumberField(
-                    I18n.Gmcm_Tols_Charging_Enchantedradius_Title,
-                    () => I18n.Gmcm_Tols_Affectedtiles_Enchantedradius_Desc(I18n.Gmcm_Tols_Hoe().ToLowerInvariant()),
-                    config => (int)config.Tools.Hoe.AffectedTilesAtEachPowerLevel[4].Radius,
-                    (config, value) => config.Tools.Hoe.AffectedTilesAtEachPowerLevel[4].Radius = (uint)value,
-                    0,
                     7);
         }
 
         this
+            .AddNumberField(
+                    I18n.Gmcm_Tols_Affectedtiles_Enchantedlength_Title,
+                    () => I18n.Gmcm_Tols_Affectedtiles_Enchantedlength_Desc(I18n.Gmcm_Tols_Hoe().ToLowerInvariant()),
+                    config => (int)config.Tools.Hoe.AffectedTilesAtEachPowerLevel[^1].Length,
+                    (config, value) => config.Tools.Hoe.AffectedTilesAtEachPowerLevel[^1].Length = (uint)value,
+                    1,
+                    15)
+            .AddNumberField(
+                    I18n.Gmcm_Tols_Charging_Enchantedradius_Title,
+                    () => I18n.Gmcm_Tols_Affectedtiles_Enchantedradius_Desc(I18n.Gmcm_Tols_Hoe().ToLowerInvariant()),
+                    config => (int)config.Tools.Hoe.AffectedTilesAtEachPowerLevel[^1].Radius,
+                    (config, value) => config.Tools.Hoe.AffectedTilesAtEachPowerLevel[^1].Radius = (uint)value,
+                    0,
+                    7)
             .AddHorizontalRule()
 
             .AddSectionTitle(I18n.Gmcm_Tols_Allowenchantment_Heading)
@@ -580,7 +586,7 @@ internal sealed partial class GenericModConfigMenu
                 (config, value) => config.Tools.Hoe.AllowMasterEnchantment = value)
 
             // can settings
-            .AddPage(OverhaulModule.Tools.Namespace + "/WateringCan", I18n.Gmcm_Tols_Specifictools_Wateringcan)
+            .AddPage(OverhaulModule.Tools.Namespace + "/WateringCan", I18n.Gmcm_Tols_Specificsettings_Wateringcan)
             .AddPageLink(OverhaulModule.Tools.Namespace, I18n.Gmcm_Tols_Back)
             .AddVerticalSpace()
             .AddNumberField(
@@ -594,11 +600,6 @@ internal sealed partial class GenericModConfigMenu
             .AddHorizontalRule()
 
             .AddSectionTitle(I18n.Gmcm_Tols_Affectedtiles_Heading)
-            .AddCheckbox(
-                I18n.Gmcm_Tols_Affectedtiles_Enable_Title,
-                I18n.Gmcm_Tols_Affectedtiles_Enable_Desc,
-                config => config.Tools.Can.OverrideAffectedTiles,
-                (config, value) => config.Tools.Can.OverrideAffectedTiles = value)
             .AddNumberField(
                 I18n.Gmcm_Tols_Affectedtiles_Copperlength_Title,
                 I18n.Gmcm_Tols_Affectedtiles_Copperlength_Desc,
@@ -656,7 +657,7 @@ internal sealed partial class GenericModConfigMenu
                 0,
                 7);
 
-        if (isMoonMisadventuresLoaded && ToolsModule.Config.Can.AffectedTilesAtEachPowerLevel.Length > 5)
+        if (maxToolUpgrade > 5 && ToolsModule.Config.Can.AffectedTilesAtEachPowerLevel.Length > 5)
         {
             this
                 .AddNumberField(
@@ -672,7 +673,12 @@ internal sealed partial class GenericModConfigMenu
                     config => (int)config.Tools.Can.AffectedTilesAtEachPowerLevel[4].Radius,
                     (config, value) => config.Tools.Can.AffectedTilesAtEachPowerLevel[4].Radius = (uint)value,
                     0,
-                    7)
+                    7);
+        }
+
+        if (maxToolUpgrade > 6 && ToolsModule.Config.Can.AffectedTilesAtEachPowerLevel.Length > 6)
+        {
+            this
                 .AddNumberField(
                     I18n.Gmcm_Tols_Affectedtiles_Mythicitelength_Title,
                     I18n.Gmcm_Tols_Affectedtiles_Mythicitelength_Desc,
@@ -686,42 +692,24 @@ internal sealed partial class GenericModConfigMenu
                     config => (int)config.Tools.Can.AffectedTilesAtEachPowerLevel[5].Radius,
                     (config, value) => config.Tools.Can.AffectedTilesAtEachPowerLevel[5].Radius = (uint)value,
                     0,
-                    7)
-                .AddNumberField(
-                    I18n.Gmcm_Tols_Affectedtiles_Enchantedlength_Title,
-                    () => I18n.Gmcm_Tols_Affectedtiles_Enchantedlength_Desc(I18n.Gmcm_Tols_Wateringcan().ToLowerInvariant()),
-                    config => (int)config.Tools.Can.AffectedTilesAtEachPowerLevel[6].Length,
-                    (config, value) => config.Tools.Can.AffectedTilesAtEachPowerLevel[6].Length = (uint)value,
-                    1,
-                    15)
-                .AddNumberField(
-                    I18n.Gmcm_Tols_Charging_Enchantedradius_Title,
-                    () => I18n.Gmcm_Tols_Affectedtiles_Enchantedradius_Desc(I18n.Gmcm_Tols_Wateringcan().ToLowerInvariant()),
-                    config => (int)config.Tools.Can.AffectedTilesAtEachPowerLevel[6].Radius,
-                    (config, value) => config.Tools.Can.AffectedTilesAtEachPowerLevel[6].Radius = (uint)value,
-                    0,
-                    7);
-        }
-        else
-        {
-            this
-                .AddNumberField(
-                    I18n.Gmcm_Tols_Affectedtiles_Enchantedlength_Title,
-                    () => I18n.Gmcm_Tols_Affectedtiles_Enchantedlength_Desc(I18n.Gmcm_Tols_Wateringcan().ToLowerInvariant()),
-                    config => (int)config.Tools.Can.AffectedTilesAtEachPowerLevel[4].Length,
-                    (config, value) => config.Tools.Can.AffectedTilesAtEachPowerLevel[4].Length = (uint)value,
-                    1,
-                    15)
-                .AddNumberField(
-                    I18n.Gmcm_Tols_Charging_Enchantedradius_Title,
-                    () => I18n.Gmcm_Tols_Affectedtiles_Enchantedradius_Desc(I18n.Gmcm_Tols_Wateringcan().ToLowerInvariant()),
-                    config => (int)config.Tools.Can.AffectedTilesAtEachPowerLevel[4].Radius,
-                    (config, value) => config.Tools.Can.AffectedTilesAtEachPowerLevel[4].Radius = (uint)value,
-                    0,
                     7);
         }
 
         this
+            .AddNumberField(
+                I18n.Gmcm_Tols_Affectedtiles_Enchantedlength_Title,
+                () => I18n.Gmcm_Tols_Affectedtiles_Enchantedlength_Desc(I18n.Gmcm_Tols_Wateringcan().ToLowerInvariant()),
+                config => (int)config.Tools.Can.AffectedTilesAtEachPowerLevel[^1].Length,
+                (config, value) => config.Tools.Can.AffectedTilesAtEachPowerLevel[^1].Length = (uint)value,
+                1,
+                15)
+            .AddNumberField(
+                I18n.Gmcm_Tols_Charging_Enchantedradius_Title,
+                () => I18n.Gmcm_Tols_Affectedtiles_Enchantedradius_Desc(I18n.Gmcm_Tols_Wateringcan().ToLowerInvariant()),
+                config => (int)config.Tools.Can.AffectedTilesAtEachPowerLevel[^1].Radius,
+                (config, value) => config.Tools.Can.AffectedTilesAtEachPowerLevel[^1].Radius = (uint)value,
+                0,
+                7)
             .AddHorizontalRule()
 
             .AddSectionTitle(I18n.Gmcm_Tols_Allowenchantment_Heading)
@@ -737,7 +725,7 @@ internal sealed partial class GenericModConfigMenu
                 (config, value) => config.Tools.Can.AllowSwiftEnchantment = value)
 
             // scythe settings
-            .AddPage(OverhaulModule.Tools.Namespace + "/Scythe", I18n.Gmcm_Tols_Specifictools_Scythe)
+            .AddPage(OverhaulModule.Tools.Namespace + "/Scythe", I18n.Gmcm_Tols_Specificsettings_Scythe)
             .AddPageLink(OverhaulModule.Tools.Namespace, I18n.Gmcm_Tols_Back)
             .AddVerticalSpace()
             .AddCheckbox(

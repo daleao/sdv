@@ -35,14 +35,14 @@ internal sealed class ObjectPerformObjectDropInActionPatcher : HarmonyPatcher
         SObject __instance, bool __state, Item dropInItem, bool probe)
     {
         // if there was an object inside before running the original method, or if the machine is still empty after running the original method, then do nothing
-        if (!TweexModule.Config.LargeProducsYieldQuantityOverQuality || probe || __state ||
+        if (!TweexModule.Config.LargeDairyYieldsQuantityOverQuality || probe || __state ||
             __instance.heldObject.Value is not { } output || dropInItem is not SObject input)
         {
             return;
         }
 
         // large milk/eggs give double output at normal quality
-        if (input.Category is SObject.EggCategory or SObject.MilkCategory && input.Name.ContainsAnyOf("Large", "L."))
+        if (input.Category is SObject.EggCategory or SObject.MilkCategory && input.Name.ContainsAny("Large", "L."))
         {
             output.Stack = 2;
             output.Quality = SObject.lowQuality;

@@ -35,10 +35,10 @@ internal sealed class ProfessionAssetRequestedEvent : AssetRequestedEvent
 
         this.Provide(
             $"{Manifest.UniqueID}/HudPointer",
-            new ModTextureProvider(() => "assets/hud/pointer.png"));
+            new ModTextureProvider(() => "assets/sprites/pointer.png"));
         this.Provide(
             $"{Manifest.UniqueID}/MaxIcon",
-            new ModTextureProvider(() => "assets/menus/max.png"));
+            new ModTextureProvider(() => "assets/sprites/max.png"));
         this.Provide(
             $"{Manifest.UniqueID}/PrestigeProgression",
             new ModTextureProvider(() => $"assets/sprites/{ProfessionsModule.Config.ProgressionStyle}.png"));
@@ -166,7 +166,7 @@ internal sealed class ProfessionAssetRequestedEvent : AssetRequestedEvent
     /// <summary>Provides the correct skill bars texture path.</summary>
     private static string ProvideSkillBars()
     {
-        var path = "assets/menus/skillbars";
+        var path = "assets/sprites/skillbars";
         if (ModHelper.ModRegistry.IsLoaded("ManaKirel.VMI") ||
             ModHelper.ModRegistry.IsLoaded("ManaKirel.VintageInterface2"))
         {
@@ -179,7 +179,7 @@ internal sealed class ProfessionAssetRequestedEvent : AssetRequestedEvent
     /// <summary>Provides the correct ultimate meter texture path.</summary>
     private static string ProvideUltimateMeter()
     {
-        var path = "assets/hud/gauge";
+        var path = "assets/sprites/gauge";
         if (StardewValleyExpandedIntegration.Instance?.IsLoaded == true)
         {
             if (!StardewValleyExpandedIntegration.Instance.DisabeGaldoranTheme &&

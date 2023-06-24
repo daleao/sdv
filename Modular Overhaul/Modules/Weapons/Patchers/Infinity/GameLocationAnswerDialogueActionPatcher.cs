@@ -39,7 +39,7 @@ internal sealed class GameLocationAnswerDialogueActionPatcher : HarmonyPatcher
             return true; // run original logic
         }
 
-        if (!questionAndAnswer.ContainsAnyOf("DarkSword_", "Yoba_"))
+        if (!questionAndAnswer.ContainsAny("DarkSword_", "Yoba_"))
         {
             return true; // run original logic
         }

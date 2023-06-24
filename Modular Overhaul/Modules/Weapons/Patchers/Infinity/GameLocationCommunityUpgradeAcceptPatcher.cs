@@ -13,10 +13,10 @@ using HarmonyLib;
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class CommunityUpgradeAcceptPatcher : HarmonyPatcher
+internal sealed class GameLocationCommunityUpgradeAcceptPatcher : HarmonyPatcher
 {
-    /// <summary>Initializes a new instance of the <see cref="CommunityUpgradeAcceptPatcher"/> class.</summary>
-    internal CommunityUpgradeAcceptPatcher()
+    /// <summary>Initializes a new instance of the <see cref="GameLocationCommunityUpgradeAcceptPatcher"/> class.</summary>
+    internal GameLocationCommunityUpgradeAcceptPatcher()
     {
         this.Target = this.RequireMethod<GameLocation>("communityUpgradeAccept");
     }
@@ -39,7 +39,7 @@ internal sealed class CommunityUpgradeAcceptPatcher : HarmonyPatcher
                     {
                         new CodeInstruction(
                             OpCodes.Call,
-                            typeof(CommunityUpgradeAcceptPatcher).RequireMethod(nameof(CheckForGenerosityCompletion))),
+                            typeof(GameLocationCommunityUpgradeAcceptPatcher).RequireMethod(nameof(CheckForGenerosityCompletion))),
                     });
         }
         catch (Exception ex)

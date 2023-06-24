@@ -30,7 +30,7 @@ internal sealed class CraftingRecipeGetCraftableCountPatcher : HarmonyPatcher
     private static bool CraftingRecipeGetCraftableCountPrefix(
         CraftingRecipe __instance, ref int __result, IList<Item> additional_materials)
     {
-        if (!__instance.name.Contains("Ring") || !__instance.name.ContainsAnyOf("Glow", "Magnet") ||
+        if (!__instance.name.Contains("Ring") || !__instance.name.ContainsAny("Glow", "Magnet") ||
             !RingsModule.Config.BetterGlowstoneProgression)
         {
             return true; // run original logic

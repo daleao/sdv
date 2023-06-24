@@ -1,6 +1,6 @@
 ﻿namespace DaLion.Shared.Attributes;
 
-/// <summary>Indicates to a factory that an implicitly-used marked symbol should only be instantiated when a third-party mod is installed, or adds third-party mod metadata to an explicitly-instantiated class.</summary>
+/// <summary>Indicates to a factory that the implicitly-used marked symbol should not be instantiated when a third-party mod is installed.</summary>
 [AttributeUsage(AttributeTargets.Class)]
 public sealed class IgnoreWithModAttribute : Attribute
 {

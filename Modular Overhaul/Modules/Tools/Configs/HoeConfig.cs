@@ -14,13 +14,6 @@ public sealed class HoeConfig
     [JsonProperty]
     public float BaseStaminaMultiplier { get; internal set; } = 1f;
 
-    /// <summary>
-    ///     Gets a value indicating whether to apply custom tile area for the Hoe. Keep this at false if using defaults to improve
-    ///     performance.
-    /// </summary>
-    [JsonProperty]
-    public bool OverrideAffectedTiles { get; internal set; } = false;
-
     /// <summary>Gets the area of affected tiles at each power level for the Hoe, in units lengths x units radius.</summary>
     /// <remarks>Note that radius extends to both sides of the farmer.</remarks>
     [JsonProperty]
@@ -31,6 +24,8 @@ public sealed class HoeConfig
         (3, 1),
         (6, 1),
         (5, 2),
+        (7, 3),
+        (9, 4),
     };
 
     /// <summary>Gets a value indicating whether the Hoe can be enchanted with Master.</summary>

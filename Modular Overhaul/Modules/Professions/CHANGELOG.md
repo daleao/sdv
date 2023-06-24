@@ -1,5 +1,42 @@
 ﻿# PROFS Change Log
 
+## 2.5.0 <sup><sub><sup>[🔼](#profs-change-log)</sup></sub></sup>
+
+Major Overhaul for Fishing professions.
+
+### Added
+
+* Prospector Hunt streak now also buffs the chance of spawning panning points.
+* Slingshot projectiles now leave a trail effect when overcharged.
+* SpaceCore skill prestige choices can now also be respecced at the Statue of Prestige (untested).
+
+### Changed
+
+Major changes to the Fishing branch:
+* **Fisher:**
+    * Changed from what was essentially a "free permanent bait" effect, to "baits are twice as effective". The end result is more or less equal, but actually encourages using bait instead of trivializing it. Also makes Wild Bait (chance to double the catch) and Magnet (chance for pirate treasure) more appealing.
+    * New prestige perk: baits are *three times* more effective. *Pretty obvious and natural progression. With Wild Bait the end result is effectively instant-nibble.*
+* **Angler:**
+    * Changed from "increased fish value by 1% per unique max-sized fish caught" to "increased fish value by 0.5% per unique fish caught"; i.e., scaling is reduced by half, but no longer requires max-size. Legendaries, likewise, are worth half as much, at 2.5% per.
+    * Added: Fully-expending a tackle causes the fishing rod to "remember" the tackle's effects. Effectively, this doubles the duration of all tackles, but more importantly, it allows two tackles to be used at the same time. **Tackle effects cannot stack with themselves.** The currently "memorized" tackle appear in the rod's tooltip next to the equipped tackle, with transparency indicating the number of remaning uses.  
+    * Removed "legendary fish recatch" prestige effect. New prestige perk: "increased fish vaue by *another* 0.5% for each unique max-sized fish caught". This makes up the other half of original Angler's scaling bonus.
+* **Aquarist:**
+    * Changed from "catching bar decreases more slowly" to "increases more quickly" for each unique fish species raised in a Fish Pond. *Actually helps to save time by reducing the mini-game duration, instead of just making the mini-game trivially easy.*
+    * Ability to raise legendary fish in ponds is now available without prestige. *No longer will I have to answer folks who don't read the description why their Legend refuses to go in the pond. This perk was always more fun than gamechanging, so no reason to gate this until extremely late game.*
+    * New prestige perk: pond capacity +4. *More useful and in-line with the Prestige theme.*
+    * Default value for LegendaryPondPopulationCeiling lowered from 6 to 5.
+* **Luremaster:**
+    * Now also allows **baited** Crab Pots to produce 2x per day. Previous effects remain unchanged. *Huge and desperately needed buff. Also establishes a neat analogy to Producer.*
+    * New prestige perk: produce 3x per day. *The natural progression.*
+* **Conservationist:**
+    * Village favor can now be gained without prestige. *This perk was pretty useless at extremely late game. It now gives further incentive to pick this profession early.*
+    * New prestige effect: 50% faster trash build-up. *Not great, but the best I could come up with.*
+    * Trash obtained from regular fishing also counts for tax deductions.
+
+### Removed
+
+* Removed LegendaryPondPopulationCeiling option. Max population of legendary ponds is now always half that of regular ponds (yes, Aquarist perk is also halved, for a total max of 7 with prestige).
+
 ## 2.4.0 <sup><sub><sup>[🔼](#profs-change-log)</sup></sub></sup>
 
 ### Added

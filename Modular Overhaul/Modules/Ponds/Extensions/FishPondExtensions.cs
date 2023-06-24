@@ -4,7 +4,6 @@
 
 using System.Collections.Generic;
 using System.Linq;
-using DaLion.Overhaul.Modules.Professions.Extensions;
 using DaLion.Shared.Extensions;
 using DaLion.Shared.Extensions.Collections;
 using DaLion.Shared.Extensions.Stardew;
@@ -53,12 +52,9 @@ internal static class FishPondExtensions
     /// <returns>The number of days required to enrich the nucleus of the metal.</returns>
     internal static int GetEnrichmentDuration(this FishPond pond, SObject metal)
     {
-        var maxPopulation = pond.HasLegendaryFish()
-            ? ProfessionsModule.Config.LegendaryPondPopulationCeiling
-            : 12;
-        var populationFactor = pond.FishCount < maxPopulation / 2f
+        var populationFactor = pond.FishCount < pond.maxOccupants.Value / 2f
             ? 0f
-            : maxPopulation / 2f / pond.FishCount;
+            : pond.maxOccupants.Value / 2f / pond.FishCount;
         if (populationFactor == 0)
         {
             return 0;

@@ -89,96 +89,45 @@ internal sealed class SlingshotPerformFirePatcher : HarmonyPatcher
             // get and spend ammo
             var ammo = __instance.attachments[0]?.getOne();
             var didPreserve = false;
-            if (ammo is not null && !__instance.hasEnchantmentOfType<PreservingEnchantment>())
+            int ammoDamage;
+            if (ammo is not null)
             {
-                if (--__instance.attachments[0].Stack <= 0)
+                if (!__instance.hasEnchantmentOfType<PreservingEnchantment>())
                 {
-                    __instance.attachments[0] = null;
+                    if (--__instance.attachments[0].Stack <= 0)
+                    {
+                        __instance.attachments[0] = null;
+                    }
                 }
+                else
+                {
+                    didPreserve = true;
+                }
+
+                ammoDamage = __instance.GetAmmoDamage();
             }
             else
             {
-                didPreserve = true;
-            }
-
-            int damageBase;
-            float knockback;
-            switch (ammo?.ParentSheetIndex)
-            {
-                case SObject.wood:
-                    damageBase = 2;
-                    knockback = 0.3f;
-                    break;
-                case SObject.stone:
-                    damageBase = 5;
-                    knockback = 0.5f;
-                    break;
-                case SObject.copper:
-                    damageBase = 10;
-                    knockback = 0.525f;
-                    break;
-                case SObject.iron:
-                    damageBase = 20;
-                    knockback = 0.55f;
-                    break;
-                case SObject.gold:
-                    damageBase = 30;
-                    knockback = 0.575f;
-                    break;
-                case SObject.coal:
-                    damageBase = SlingshotsModule.Config.EnableRebalance ? 2 : 15;
-                    knockback = 0.3f;
-                    break;
-                case SObject.iridium:
-                    damageBase = 50;
-                    knockback = 0.6f;
-                    break;
-                case ItemIDs.RadioactiveOre:
-                    damageBase = 80;
-                    knockback = 0.625f;
-                    break;
-                case ItemIDs.ExplosiveAmmo:
-                    damageBase = SlingshotsModule.Config.EnableRebalance ? 5 : 20;
-                    knockback = 0.4f;
-                    break;
-                case ItemIDs.Slime:
-                    damageBase = who.professions.Contains(Farmer.acrobat) ? 10 : 5;
-                    knockback = 0f;
-                    break;
-                case null: // quincy or snowball
-                    damageBase = canDoQuincy ? 5 : 1;
-                    knockback = canDoQuincy ? 0f : 0.4f;
-                    break;
-                default: // fish, fruit or vegetable
-                    damageBase = 1;
-                    knockback = 0f;
-                    break;
+                ammoDamage = canDoQuincy ? 25 : 1;
             }
 
             // apply slingshot damage modifiers
-            float damageMod;
+            var damageMod = 1f;
+            var knockback = 0.25f;
             switch (__instance.InitialParentTileIndex)
             {
                 case ItemIDs.MasterSlingshot:
-                    damageMod = SlingshotsModule.Config.EnableRebalance ? 1.5f : 2f;
+                    damageMod = SlingshotsModule.Config.EnableRebalance ? 0.5f : 1f;
                     knockback += 0.1f;
                     break;
                 case ItemIDs.GalaxySlingshot:
-                    damageMod = SlingshotsModule.Config.EnableRebalance ? 2f : SlingshotsModule.Config.EnableInfinitySlingshot ? 3f : 4f;
+                    damageMod = SlingshotsModule.Config.EnableRebalance ? 1f : SlingshotsModule.Config.EnableInfinitySlingshot ? 2f : 3f;
                     knockback += 0.2f;
                     break;
                 case ItemIDs.InfinitySlingshot:
-                    damageMod = SlingshotsModule.Config.EnableRebalance ? 2.5f : 4f;
+                    damageMod = SlingshotsModule.Config.EnableRebalance ? 1.5f : 3f;
                     knockback += 0.25f;
                     break;
-                default:
-                    damageMod = 1f;
-                    break;
-            }
-
-            if (!SlingshotsModule.Config.EnableRebalance)
-            {
-                knockback = 1f;
             }
 
             // set projectile index
@@ -210,11 +159,11 @@ internal sealed class SlingshotPerformFirePatcher : HarmonyPatcher
             }
 
             // add main projectile
-            var damage = (damageBase + Game1.random.Next(-damageBase / 2, damageBase + 2)) * damageMod;
+            var damage = (ammoDamage + Game1.random.Next(-ammoDamage / 2, ammoDamage + 2)) * damageMod;
+            knockback = SlingshotsModule.Config.EnableRebalance ? knockback : 1f;
             var startingPosition = shootOrigin - new Vector2(32f, 32f);
             var rotationVelocity = (float)(Math.PI / (64f + Game1.random.Next(-63, 64)));
-            if (ammo?.ParentSheetIndex is { } and not (ItemIDs.ExplosiveAmmo or ItemIDs.Slime
-                    or ItemIDs.RadioactiveOre) && damageBase > 1)
+            if (ammo?.ParentSheetIndex is SObject.wood or SObject.coal or SObject.stone or SObject.copper or SObject.iron or SObject.gold or SObject.iridium)
             {
                 index++;
             }
@@ -277,7 +226,7 @@ internal sealed class SlingshotPerformFirePatcher : HarmonyPatcher
                         continue;
                     }
 
-                    damage = (damageBase + Game1.random.Next(-damageBase / 2, damageBase + 2)) * damageMod;
+                    damage = (ammoDamage + Game1.random.Next(-ammoDamage / 2, ammoDamage + 2)) * damageMod;
                     rotationVelocity = (float)(Math.PI / (64f + Game1.random.Next(-63, 64)));
                     BasicProjectile petal = index switch
                     {
@@ -331,7 +280,7 @@ internal sealed class SlingshotPerformFirePatcher : HarmonyPatcher
                 slingshotEnchantment.OnFire(
                     __instance,
                     projectile,
-                    damageBase,
+                    ammoDamage,
                     damageMod,
                     knockback,
                     startingPosition,

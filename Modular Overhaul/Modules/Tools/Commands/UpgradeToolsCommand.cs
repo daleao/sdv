@@ -51,11 +51,14 @@ internal sealed class UpgradeToolsCommand : ConsoleCommand
 
         switch (upgradeLevel)
         {
-            case UpgradeLevel.Enchanted:
-                Log.W("To add enchantments use the `add_enchantment` command instead.");
+            case UpgradeLevel.Radioactive when !ToolsModule.Config.EnableForgeUpgrading && MoonMisadventuresIntegration.Instance?.IsLoaded == false:
+                Log.W("You must enable `ForgeUpgrading` option to set this upgrade level.");
                 return;
-            case > UpgradeLevel.Iridium when MoonMisadventuresIntegration.Instance?.IsLoaded == true:
-                Log.W("You must have `Moon Misadventures` mod installed to set this upgrade level.");
+            case UpgradeLevel.Mythicite when MoonMisadventuresIntegration.Instance?.IsLoaded == false:
+                Log.W("You must install `Moon Misadventures` mod to set this upgrade level.");
+                return;
+            case UpgradeLevel.Enchanted:
+                Log.W("To add enchantments use the `ench` entry command instead.");
                 return;
         }
 
@@ -68,9 +71,15 @@ internal sealed class UpgradeToolsCommand : ConsoleCommand
         var result = new StringBuilder($"\n\nUsage: {this.Handler.EntryCommand} {this.Triggers.FirstOrDefault()} <level>");
         result.Append("\n\nParameters:");
         result.Append("\n\t- <level>: one of 'copper', 'steel', 'gold', 'iridium'");
+
+        if (ToolsModule.Config.EnableForgeUpgrading || MoonMisadventuresIntegration.Instance?.IsLoaded == true)
+        {
+            result.Append(", 'radioactive'");
+        }
+
         if (MoonMisadventuresIntegration.Instance?.IsLoaded == true)
         {
-            result.Append(", 'radioactive', 'mythicite'");
+            result.Append(", 'mythicite'");
         }
 
         result.Append("\n\nExample:");

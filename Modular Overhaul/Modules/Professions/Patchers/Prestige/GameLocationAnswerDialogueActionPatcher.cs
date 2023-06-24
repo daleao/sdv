@@ -39,7 +39,7 @@ internal sealed class GameLocationAnswerDialogueActionPatcher : HarmonyPatcher
 
         if (!ProfessionsModule.Config.EnablePrestige ||
             ((!questionAndAnswer.Contains("dogStatue") || questionAndAnswer.Contains("No")) &&
-             !questionAndAnswer.ContainsAnyOf("prestigeRespec_", "skillReset_")))
+             !questionAndAnswer.ContainsAny("prestigeRespec_", "skillReset_")))
         {
             return true; // run original logic
         }
@@ -97,7 +97,7 @@ internal sealed class GameLocationAnswerDialogueActionPatcher : HarmonyPatcher
                         }
                         else if (questionAndAnswer.Contains("prestigeRespec_"))
                         {
-                            // implement...
+                            HandlePrestigeRespec((SCSkill)customSkill);
                         }
                     }
 
@@ -184,6 +184,16 @@ internal sealed class GameLocationAnswerDialogueActionPatcher : HarmonyPatcher
                 Game1.content.LoadString("Strings\\StringsFromCSFiles:SkillsPage.cs.11608")));
         }
 
+        foreach (var customSkill in SCSkill.Loaded.Values)
+        {
+            if (customSkill.CurrentLevel >= 15 && !customSkill.NewLevels.Any(level => level is 15 or 20))
+            {
+                skillResponses.Add(new Response(
+                    customSkill.StringId,
+                    customSkill.DisplayName));
+            }
+        }
+
         skillResponses.Add(new Response(
             "cancel",
             Game1.content.LoadString("Strings\\Locations:Sewer_DogStatueCancel")));
@@ -267,6 +277,43 @@ internal sealed class GameLocationAnswerDialogueActionPatcher : HarmonyPatcher
         if (currentLevel >= 20)
         {
             player.newLevels.Add(new Point(skill, 20));
+        }
+
+        // play sound effect
+        Sfx.DogStatuePrestige.Play();
+
+        // tell the player
+        Game1.drawObjectDialogue(Game1.content.LoadString("Strings\\Locations:Sewer_DogStatueFinished"));
+
+        // woof woof
+        DelayedAction.playSoundAfterDelay("dog_bark", 1300);
+        DelayedAction.playSoundAfterDelay("dog_bark", 1900);
+
+        ProfessionsModule.State.UsedStatueToday = true;
+    }
+
+    private static void HandlePrestigeRespec(SCSkill skill)
+    {
+        var player = Game1.player;
+        player.Money = Math.Max(0, player.Money - (int)ProfessionsModule.Config.PrestigeRespecCost);
+
+        // remove all prestige professions for this skill
+        for (var i = 0; i < 6; i++)
+        {
+            GameLocation.RemoveProfession(100 + skill.Professions[i].Id);
+        }
+
+        var currentLevel = Farmer.checkForLevelGain(0, player.experiencePoints[0]);
+        if (currentLevel >= 15)
+        {
+            Reflector.GetStaticFieldGetter<List<KeyValuePair<string, int>>>(typeof(SpaceCore.Skills), "NewLevels")
+                .Invoke().Add(new KeyValuePair<string, int>(skill.StringId, 15));
+        }
+
+        if (currentLevel >= 20)
+        {
+            Reflector.GetStaticFieldGetter<List<KeyValuePair<string, int>>>(typeof(SpaceCore.Skills), "NewLevels")
+                .Invoke().Add(new KeyValuePair<string, int>(skill.StringId, 20));
         }
 
         // play sound effect

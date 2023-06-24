@@ -6,12 +6,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
-using DaLion.Overhaul.Modules.Professions.Extensions;
 using DaLion.Shared.Extensions.Reflection;
 using DaLion.Shared.Extensions.Stardew;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
-using StardewValley.Tools;
+using StardewValley.Locations;
 
 #endregion using directives
 
@@ -24,75 +23,88 @@ internal sealed class GameLocationGetFishPatcher : HarmonyPatcher
         this.Target = this.RequireMethod<GameLocation>(nameof(GameLocation.getFish));
     }
 
+    /// <inheritdoc />
+    protected override bool ApplyImpl(Harmony harmony)
+    {
+        var types = new[]
+        {
+            typeof(GameLocation), typeof(Beach), typeof(Mountain), typeof(Town), typeof(MineShaft), typeof(Sewer),
+            typeof(Submarine),
+        };
+
+        foreach (var type in types)
+        {
+            this.Target = type.RequireMethod("getFish");
+            if (!base.ApplyImpl(harmony))
+            {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    /// <inheritdoc />
+    protected override bool UnapplyImpl(Harmony harmony)
+    {
+        var types = new[]
+        {
+            typeof(GameLocation), typeof(Beach), typeof(Mountain), typeof(Town), typeof(MineShaft), typeof(Sewer),
+            typeof(Submarine),
+        };
+
+        foreach (var type in types)
+        {
+            this.Target = type.RequireMethod("getFish");
+            if (!base.UnapplyImpl(harmony))
+            {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
     #region harmony patches
 
-    /// <summary>Patch for Fisher to re-roll reeled fish if first roll resulted in trash.</summary>
+    /// <summary>Patch for Angler rod memory.</summary>
     [HarmonyTranspiler]
     private static IEnumerable<CodeInstruction>? GameLocationGetFishTranspiler(
         IEnumerable<CodeInstruction> instructions, ILGenerator generator, MethodBase original)
     {
         var helper = new ILHelper(original, instructions);
 
-        // Injected: if (ShouldRerollFish(who, whichFish, hasRerolled)) goto <choose_fish>
-        // Before: caught = new Ammo(whichFish, 1);
         try
         {
-            var startOfFishRoll = generator.DefineLabel();
-            var shouldntReroll = generator.DefineLabel();
-            var hasRerolled = generator.DeclareLocal(typeof(bool));
-            var shuffleMethod = typeof(Utility)
-                                    .GetMethods()
-                                    .Where(mi => mi.Name == "Shuffle")
-                                    .ElementAtOrDefault(1) ?? ThrowHelper.ThrowMissingMethodException<MethodInfo>("Failed to acquire {typeof(Utility)}::Shuffle method.");
+            var readMethod = typeof(ItemExtensions).GetMethods()
+                .FirstOrDefault(mi =>
+                    mi.Name.Contains(nameof(ItemExtensions.Read)) && mi.GetGenericArguments().Length > 0)
+                ?.MakeGenericMethod(typeof(int)) ?? ThrowHelper.ThrowMissingMethodException<MethodInfo>("Read method not found.");
+
+            var doesHaveCuriosityLure = generator.DefineLabel();
             helper
-                .Insert(
-                    new[]
-                    {
-                        // set hasRerolled to false
-                        new CodeInstruction(OpCodes.Ldc_I4_0),
-                        new CodeInstruction(OpCodes.Stloc_S, hasRerolled),
-                    })
-                .Match(
-                    new[]
-                    {
-                        // find index of caught = new Ammo(whichFish, 1)
-                        new CodeInstruction(
-                            OpCodes.Newobj,
-                            typeof(SObject).GetConstructor(new[]
-                            {
-                                typeof(int), typeof(int), typeof(bool), typeof(int), typeof(int),
-                            })),
-                    },
-                    ILHelper.SearchOption.Last)
-                .Match(new[] { new CodeInstruction(OpCodes.Ldloc_1) }, ILHelper.SearchOption.Previous)
-                .AddLabels(shouldntReroll) // branch here if shouldn't reroll
+                .Match(new[] { new CodeInstruction(OpCodes.Ldc_I4, 856) })
+                .Move()
+                .GetOperand(out var resumeExecution)
+                .ReplaceWith(new CodeInstruction(OpCodes.Beq_S, doesHaveCuriosityLure))
+                .Move()
+                .AddLabels(doesHaveCuriosityLure)
                 .Insert(
                     new[]
                     {
                         new CodeInstruction(OpCodes.Ldarg_S, (byte)4), // arg 4 = Farmer who
-                        new CodeInstruction(OpCodes.Ldloc_1), // local 1 = whichFish
-                        new CodeInstruction(OpCodes.Ldloc_S, hasRerolled),
-                        new CodeInstruction(
-                            OpCodes.Call,
-                            typeof(GameLocationGetFishPatcher).RequireMethod(nameof(ShouldRerollFish))),
-                        new CodeInstruction(OpCodes.Brfalse_S, shouldntReroll),
-                        new CodeInstruction(OpCodes.Ldc_I4_1),
-                        new CodeInstruction(OpCodes.Stloc_S, hasRerolled), // set hasRerolled to true
-                        new CodeInstruction(OpCodes.Br, startOfFishRoll),
-                    })
-                .Match(
-                    new[]
-                    {
-                        // start of choose fish
-                        new CodeInstruction(OpCodes.Call, shuffleMethod.MakeGenericMethod(typeof(string))),
-                    },
-                    ILHelper.SearchOption.Previous)
-                .Move(-2)
-                .AddLabels(startOfFishRoll); // branch here to reroll
+                        new CodeInstruction(OpCodes.Callvirt, typeof(Farmer).RequirePropertyGetter(nameof(Farmer.CurrentTool))),
+                        new CodeInstruction(OpCodes.Ldstr, DataKeys.LastTackleUsed),
+                        new CodeInstruction(OpCodes.Ldc_I4_0),
+                        new CodeInstruction(OpCodes.Ldstr, string.Empty),
+                        new CodeInstruction(OpCodes.Call, readMethod),
+                        new CodeInstruction(OpCodes.Ldc_I4, 856),
+                        new CodeInstruction(OpCodes.Bne_Un_S, resumeExecution),
+                    });
         }
         catch (Exception ex)
         {
-            Log.E($"Failed adding modded Fisher fish reroll.\nHelper returned {ex}");
+            Log.E($"Failed adding Curiosity Lure memory.\nHelper returned {ex}");
             return null;
         }
 
@@ -100,16 +112,4 @@ internal sealed class GameLocationGetFishPatcher : HarmonyPatcher
     }
 
     #endregion harmony patches
-
-    #region private methods
-
-    private static bool ShouldRerollFish(Farmer who, int currentFish, bool hasRerolled)
-    {
-        return (currentFish.IsTrashIndex() || currentFish.IsAlgaeIndex())
-               && who.CurrentTool is FishingRod rod
-               && rod.getBaitAttachmentIndex() != ItemIDs.MagnetBait
-               && who.HasProfession(Profession.Fisher) && !hasRerolled;
-    }
-
-    #endregion private methods
 }

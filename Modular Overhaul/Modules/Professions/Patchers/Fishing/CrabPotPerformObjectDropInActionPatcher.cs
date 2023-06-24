@@ -37,7 +37,7 @@ internal sealed class CrabPotPerformObjectDropInActionPatcher : HarmonyPatcher
                 .MatchProfessionCheck(Profession.Conservationist.Value)
                 .Match(new[] { new CodeInstruction(OpCodes.Ldloc_1) }, ILHelper.SearchOption.Previous)
                 .Match(new[] { new CodeInstruction(OpCodes.Ldloc_1) }, ILHelper.SearchOption.Previous)
-                .Count(new[] { new CodeInstruction(OpCodes.Brtrue_S) }, out var count)
+                .CountUntil(new[] { new CodeInstruction(OpCodes.Brtrue_S) }, out var count)
                 .Remove(count);
         }
         catch (Exception ex)

@@ -25,7 +25,7 @@ internal static class FarmerExtensions
         var modifier = 1f;
         if (slingshot is not null)
         {
-            modifier *= slingshot.Get_EmeraldFireSpeed();
+            modifier *= slingshot.Get_EffectiveFireSpeed();
         }
 
         modifier *= 1f / (1f + farmer.weaponSpeedModifier);
@@ -59,7 +59,7 @@ internal static class FarmerExtensions
             }
 
             SlingshotsModule.State.SlingshotCooldown = (int)(SlingshotsModule.State.SlingshotCooldown *
-                                                             slingshot.Get_GarnetCooldownReduction() *
+                                                             slingshot.Get_EffectiveCooldownReduction() *
                                                              user.Get_CooldownReduction());
         }
         else

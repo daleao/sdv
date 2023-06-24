@@ -23,7 +23,9 @@ internal sealed class SlingshotCanThisBeAttachedPatcher : HarmonyPatcher
     [HarmonyPostfix]
     private static void SlingshotCanThisBeAttachedPostfix(ref bool __result, SObject? o)
     {
-        __result = __result || o is { bigCraftable.Value: false, ParentSheetIndex: ItemIDs.RadioactiveOre };
+        __result = __result || o?.ParentSheetIndex is ItemIDs.RadioactiveOre or ItemIDs.Emerald or ItemIDs.Aquamarine
+                       or ItemIDs.Ruby or ItemIDs.Amethyst or ItemIDs.Topaz or ItemIDs.Jade or ItemIDs.Diamond or SObject.prismaticShardIndex ||
+                   (Globals.GarnetIndex.HasValue && o?.ParentSheetIndex == Globals.GarnetIndex.Value);
     }
 
     #endregion harmony patches

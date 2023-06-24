@@ -24,7 +24,7 @@ public sealed class AxeConfig
 
     /// <summary>Gets the radius of affected tiles at each upgrade level.</summary>
     [JsonProperty]
-    public uint[] RadiusAtEachPowerLevel { get; internal set; } = { 1, 2, 3, 4, 5 };
+    public uint[] RadiusAtEachPowerLevel { get; internal set; } = { 1, 2, 3, 4, 5, 6, 7 };
 
     /// <summary>Gets a value which multiplies the stamina consumption for a <see cref="Shockwave"/>.</summary>
     [JsonProperty]

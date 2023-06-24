@@ -14,7 +14,7 @@ internal static class Textures
     internal static Texture2D GemSocketTx { get; set; } =
         ModHelper.GameContent.Load<Texture2D>($"{Manifest.UniqueID}/GemstoneSockets");
 
-    internal static Texture2D ShieldTx { get; set; } = ModHelper.ModContent.Load<Texture2D>("assets/vfx/shield.png");
+    internal static Texture2D ShieldTx { get; set; } = ModHelper.ModContent.Load<Texture2D>("assets/sprites/shield.png");
 
     internal static void Refresh(IReadOnlySet<IAssetName> names)
     {

@@ -3,6 +3,7 @@
 #region using directives
 
 using System.Collections.Generic;
+using StardewValley.Objects;
 
 #endregion using directives
 

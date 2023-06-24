@@ -39,7 +39,9 @@ internal sealed class ToolGetExtraSpaceNeededForTooltipSpecialIconsPatcher : Har
                 font.MeasureString(Game1.content.LoadString("Strings\\UI:ItemHover_DiamondForge_Plural", __instance.GetMaxForges())).X);
         }
 
-        __result.Y += (int)(Math.Max(font.MeasureString("TT").Y, 48f) * slingshot.CountNonZeroStats());
+        __result.Y += (int)(Math.Max(font.MeasureString("TT").Y, 48f) * slingshot.Get_RowsInTooltip());
+        __result.Y += slingshot.Get_SpaceBeforeAmmoSlots();
+        __result.Y += slingshot.Get_ExtraTooltipSpace();
     }
 
     #endregion harmony patches

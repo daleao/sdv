@@ -28,7 +28,7 @@ internal sealed class ReachingToolEnchantmentCanApplyToPatcher : HarmonyPatcher
                                   (tool is Axe && ToolsModule.Config.Axe.AllowReachingEnchantment) ||
                                   (tool is Pickaxe && ToolsModule.Config.Pick.AllowReachingEnchantment)))
         {
-            __result = tool.UpgradeLevel == 4;
+            __result = tool.UpgradeLevel >= 4;
         }
         else
         {

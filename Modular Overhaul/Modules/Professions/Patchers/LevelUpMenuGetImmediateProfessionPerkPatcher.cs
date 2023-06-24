@@ -7,6 +7,7 @@ using System.Reflection;
 using System.Reflection.Emit;
 using DaLion.Overhaul.Modules.Professions;
 using DaLion.Overhaul.Modules.Professions.Events.Display;
+using DaLion.Overhaul.Modules.Professions.Events.GameLoop;
 using DaLion.Overhaul.Modules.Professions.Ultimates;
 using DaLion.Overhaul.Modules.Professions.VirtualProperties;
 using DaLion.Shared.Extensions;
@@ -40,8 +41,7 @@ internal sealed class LevelUpMenuGetImmediateProfessionPerkPatcher : HarmonyPatc
             ModHelper.GameContent.InvalidateCacheAndLocalized("LooseSprites/Cursors");
         }
 
-        if (!Profession.TryFromValue(whichProfession, out var profession) ||
-            whichProfession == Farmer.luckSkill)
+        if (!Profession.TryFromValue(whichProfession, out var profession))
         {
             return;
         }

@@ -4,6 +4,7 @@
 
 using System.Collections.Generic;
 using System.Linq;
+using DaLion.Shared.Extensions.Collections;
 using StardewValley.Locations;
 using StardewValley.Objects;
 
@@ -13,7 +14,7 @@ using StardewValley.Objects;
 public static class Game1Extensions
 {
     /// <summary>Determines whether the Community Center has been completed in the current save.</summary>
-    /// <param name="game1">The <see cref="Game1"/> instance.</param>
+    /// <param name="game1">The current <see cref="Game1"/> session.</param>
     /// <returns><see langword="true"/> if the Community Center is complete, otherwise <see langword="false"/>.</returns>
     public static bool IsCommunityCenterComplete(this Game1 game1)
     {
@@ -22,7 +23,7 @@ public static class Game1Extensions
     }
 
     /// <summary>Determines whether the game is active and time should pass.</summary>
-    /// <param name="game1">The <see cref="Game1"/> instance.</param>
+    /// <param name="game1">The current <see cref="Game1"/> session.</param>
     /// <returns><see langword="true"/> if the game is active and time should pass, otherwise <see langword="false"/>.</returns>
     public static bool ShouldTimePass(this Game1 game1)
     {
@@ -30,12 +31,14 @@ public static class Game1Extensions
     }
 
     /// <summary>Gets the total value of shipped items by the specified <paramref name="farmer"/> during the current game day.</summary>
-    /// <param name="game1">The <see cref="Game1"/> instance.</param>
+    /// <param name="game1">The current <see cref="Game1"/> session.</param>
     /// <param name="farmer">The <see cref="Farmer"/>.</param>
     /// <returns>The total value of shipped items by the <paramref name="farmer"/>.</returns>
     public static int GetTotalSoldByPlayer(this Game1 game1, Farmer farmer)
     {
-        var total = Game1.getFarm().getShippingBin(farmer).Sum(item => Utility.getSellToStorePriceOfItem(item));
+        var total = Game1.getFarm().getShippingBin(farmer)
+            .WhereNotNull()
+            .Sum(item => Utility.getSellToStorePriceOfItem(item));
         Utility.ForAllLocations(location =>
         {
             total += location.Objects.Values
@@ -49,23 +52,25 @@ public static class Game1Extensions
         return total;
     }
 
-    /// <summary>Enumerates all chests in the game instance.</summary>
-    /// <param name="game1">The <see cref="Game1"/> instance.</param>
-    /// <returns>A <see cref="IEnumerable{T}"/> of all <see cref="Chest"/> instances in the <paramref name="game1"/> instance.</returns>
-    public static IEnumerable<Chest> IterateAllChests(this Game1 game1)
+    /// <summary>Enumerates all <see cref="StardewValley.Object"/> of the specified <typeparamref name="TObject"/> in the current game session.</summary>
+    /// <typeparam name="TObject">A type derived from <see cref="StardewValley.Object"/>.</typeparam>
+    /// <param name="game1">The current <see cref="Game1"/> session.</param>
+    /// <returns>A <see cref="IEnumerable{T}"/> of all <typeparamref name="TObject"/> instances in the current game session.</returns>
+    public static IEnumerable<TObject> IterateAll<TObject>(this Game1 game1)
+        where TObject : SObject
     {
         for (var i = 0; i < Game1.locations.Count; i++)
         {
             var location1 = Game1.locations[i];
             foreach (var @object in location1.Objects.Values)
             {
-                if (@object is Chest chest1)
+                if (@object is TObject tObject)
                 {
-                    yield return chest1;
+                    yield return tObject;
                 }
-                else if (@object.heldObject.Value is Chest chest2)
+                else if (@object.heldObject.Value is TObject inner)
                 {
-                    yield return chest2;
+                    yield return inner;
                 }
             }
 
@@ -84,13 +89,55 @@ public static class Game1Extensions
 
                 foreach (var @object in location2.Objects.Values)
                 {
-                    if (@object is Chest chest1)
+                    if (@object is TObject tObject)
                     {
-                        yield return chest1;
+                        yield return tObject;
                     }
-                    else if (@object.heldObject.Value is Chest chest2)
+                    else if (@object.heldObject.Value is TObject inner)
                     {
-                        yield return chest2;
+                        yield return inner;
+                    }
+                }
+            }
+        }
+    }
+
+    /// <summary>Enumerates all <see cref="StardewValley.Object"/> of the specified <typeparamref name="TObject"/> in the current game session, that are actually placed within a <see cref="GameLocation"/>.</summary>
+    /// <typeparam name="TObject">A type derived from <see cref="StardewValley.Object"/>.</typeparam>
+    /// <param name="game1">The current <see cref="Game1"/> session.</param>
+    /// <returns>A <see cref="IEnumerable{T}"/> of all <typeparamref name="TObject"/> instances in the current game session, along with their respective <see cref="GameLocation"/>.</returns>
+    public static IEnumerable<(TObject Instance, GameLocation Location)> IterateAllWithLocation<TObject>(this Game1 game1)
+        where TObject : SObject
+    {
+        for (var i = 0; i < Game1.locations.Count; i++)
+        {
+            var location1 = Game1.locations[i];
+            foreach (var @object in location1.Objects.Values)
+            {
+                if (@object is TObject tObject)
+                {
+                    yield return (tObject, location1);
+                }
+            }
+
+            if (location1 is not BuildableGameLocation buildable)
+            {
+                continue;
+            }
+
+            for (var j = 0; j < buildable.buildings.Count; j++)
+            {
+                var building = buildable.buildings[j];
+                if (building.indoors.Value is not { } location2)
+                {
+                    continue;
+                }
+
+                foreach (var @object in location2.Objects.Values)
+                {
+                    if (@object is TObject tObject)
+                    {
+                        yield return (tObject, location2);
                     }
                 }
             }

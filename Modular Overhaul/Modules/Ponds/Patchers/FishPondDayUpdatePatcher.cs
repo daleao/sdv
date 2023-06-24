@@ -193,7 +193,7 @@ internal sealed class FishPondDayUpdatePatcher : HarmonyPatcher
                             OpCodes.Callvirt,
                             typeof(Random).RequireMethod(nameof(Random.NextDouble))),
                     })
-                .Count(new[] { new CodeInstruction(OpCodes.Bge_Un_S) }, out var count)
+                .CountUntil(new[] { new CodeInstruction(OpCodes.Bge_Un_S) }, out var count)
                 .Remove(count)
                 .Match(
                     new[]

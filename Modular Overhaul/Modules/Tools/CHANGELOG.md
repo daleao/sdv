@@ -1,5 +1,25 @@
 ﻿# TOLS Change Log
 
+## 2.5.0 <sup><sub><sup>[🔼](#tols-change-log)</sup></sub></sup>
+
+### Added
+
+* Added Radioactive tool upgrades and Volcano Forge Upgrading.
+    * Once the Volcano Forge is unlocked, you can use it to complete your tool upgrades. You will need the same amount of metal bars, and a handful of Cinder Shards to ignite the Forge. In exchange, there is no labor cost, and most importantly, the result is instantaneous (no waiting around for 2 days).
+    * This is the only way to obtain the Radioactive upgrade level, since Clint is not a fool to mess around with radioactive substances.
+    * If Moon Misadventures is intalled, the Mythicite upgrade level also can only be obtained by this method.
+    * Includes Radioactive and Mythicite textures compatible with [Grandpa's Tools](https://www.nexusmods.com/stardewvalley/mods/8835).
+* Added option to reward experience for using the Watering Can.
+* Added option to prevent refilling the Watering Can with salt water (enabled by default).
+
+### Removed
+
+* Removed OverrideAffectedTiles config. Affected tiles now are always overriden.
+
+### Fixed
+
+* ColorCodedForYourConvenience now works without WPNZ module.
+
 ## 2.4.0 <sup><sub><sup>[🔼](#tols-change-log)</sup></sub></sup>
 
 ### Fixed

@@ -161,7 +161,7 @@ internal sealed class CropHarvestPatcher : HarmonyPatcher
                         // find index of numToHarvest++
                         new CodeInstruction(OpCodes.Ldloc_S, numToHarvest),
                     })
-                .Count(new[] { new CodeInstruction(OpCodes.Stloc_S, numToHarvest) }, out var steps)
+                .CountUntil(new[] { new CodeInstruction(OpCodes.Stloc_S, numToHarvest) }, out var steps)
                 .Copy(out var copy, steps, true)
                 .Match(
                     new[]

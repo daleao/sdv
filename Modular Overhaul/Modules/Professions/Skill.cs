@@ -276,12 +276,15 @@ public class Skill : SmartEnum<Skill>, ISkill
 
         if (this.CurrentLevel == expectedLevel)
         {
+            Log.D($"{this} skill's level has the expected value.");
             return;
         }
 
         var farmer = Game1.player;
         if (this.CurrentLevel < expectedLevel)
         {
+            Log.W(
+                $"{this} skill's ({this.CurrentLevel}) is below the expected value ({expectedLevel}). New levels will be added to correct the difference.");
             for (var levelUp = this.CurrentLevel + 1; levelUp <= expectedLevel; levelUp++)
             {
                 var point = new Point(this, levelUp);
@@ -290,12 +293,14 @@ public class Skill : SmartEnum<Skill>, ISkill
                     farmer.newLevels.Add(point);
                 }
             }
-
-            this.SetLevel(expectedLevel);
         }
         else
         {
+            Log.W(
+                $"{this} skill's current level ({this.CurrentLevel}) is above the expected value ({expectedLevel}). The current level and experience will be downgraded to correct the difference.");
             this.SetExperience(ISkill.ExperienceByLevel[expectedLevel]);
         }
+
+        this.SetLevel(expectedLevel);
     }
 }

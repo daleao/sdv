@@ -2,6 +2,10 @@
 
 #region using directives
 
+using System.Collections.Generic;
+using System.Reflection;
+using System.Reflection.Emit;
+using DaLion.Shared.Extensions.Reflection;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
 using Microsoft.Xna.Framework;
@@ -58,5 +62,74 @@ internal sealed class SlingshotDrawInMenuPatcher : HarmonyPatcher
             Color.Red * 0.66f);
     }
 
+    /// <summary>Draw current ammo.</summary>
+    [HarmonyTranspiler]
+    private static IEnumerable<CodeInstruction>? SlingshotPatchDrawInMenuPrefixTranspiler(IEnumerable<CodeInstruction> instructions, ILGenerator generator, MethodBase original)
+    {
+        var helper = new ILHelper(original, instructions);
+
+        try
+        {
+            helper
+                .Match(new[]
+                {
+                    new CodeInstruction(
+                        OpCodes.Call,
+                        typeof(Utility).RequireMethod(nameof(Utility.getWidthOfTinyDigitString))),
+                })
+                .Match(new[] { new CodeInstruction(OpCodes.Brfalse_S) }, ILHelper.SearchOption.Previous)
+                .Move()
+                .Insert(
+                    new[]
+                    {
+                        new CodeInstruction(OpCodes.Ldarg_0), // the slingshot
+                        new CodeInstruction(OpCodes.Ldarg_1), // the sprite batch
+                        new CodeInstruction(OpCodes.Ldarg_2), // the location
+                        new CodeInstruction(OpCodes.Ldarg_3), // the scale size
+                        new CodeInstruction(OpCodes.Ldarg_S, (byte)4), // the transparency
+                        new CodeInstruction(OpCodes.Ldarg_S, (byte)5), // the layer depth
+                        new CodeInstruction(OpCodes.Ldarg_S, (byte)7), // the color
+                        new CodeInstruction(OpCodes.Call, typeof(SlingshotDrawInMenuPatcher).RequireMethod(nameof(DrawAmmo))),
+                    });
+        }
+        catch (Exception ex)
+        {
+            Log.E($"Failed drawing Bow ammo.\nHelper returned {ex}");
+            return null;
+        }
+
+        return helper.Flush();
+    }
+
     #endregion harmony patches
+
+    #region injected subroutines
+
+    private static void DrawAmmo(
+        Slingshot instance,
+        SpriteBatch b,
+        Vector2 location,
+        float scaleSize,
+        float transparency,
+        float layerDepth,
+        Color color)
+    {
+        if (!SlingshotsModule.Config.DrawCurrentAmmo || instance.attachments?[0] is not { } ammo)
+        {
+            return;
+        }
+
+        b.Draw(
+            Game1.objectSpriteSheet,
+            location + new Vector2(44f, 43f),
+            Game1.getSourceRectForStandardTileSheet(Game1.objectSpriteSheet, ammo.ParentSheetIndex, 16, 16),
+            color * transparency,
+            0f,
+            new Vector2(8f, 8f),
+            scaleSize * 2.5f,
+            SpriteEffects.None,
+            layerDepth);
+    }
+
+    #endregion injected subroutines
 }

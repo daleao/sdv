@@ -67,7 +67,9 @@ internal sealed class SlingshotPerformFirePatcher : HarmonyPatcher
         {
             var skipAmmoConsumption = generator.DefineLabel();
             helper
-                .Match(new[] { new CodeInstruction(OpCodes.Stloc_S, helper.Locals[4]) })
+                .Match(
+                    new[] { new CodeInstruction(OpCodes.Stloc_S, helper.Locals[4]) },
+                    ILHelper.SearchOption.First)
                 .Move()
                 .Insert(
                     new[]

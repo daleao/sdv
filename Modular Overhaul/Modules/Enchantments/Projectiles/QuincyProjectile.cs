@@ -58,7 +58,7 @@ internal sealed class QuincyProjectile : BasicProjectile
             firer)
     {
         this.Firer = firer;
-        this.Damage = (int)(this.damageToFarmer.Value * source.Get_RubyDamageModifier() *
+        this.Damage = (int)(this.damageToFarmer.Value * source.Get_EffectiveDamageModifier() *
                             (1f + firer.attackIncreaseModifier) * overcharge);
         this.Overcharge = overcharge;
         this.startingScale.Value *= overcharge * overcharge;

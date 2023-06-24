@@ -39,18 +39,6 @@ internal sealed partial class GenericModConfigMenu
 
                     config.Weapons.EnableRebalance = value;
                 })
-            .AddDropdown(
-                I18n.Gmcm_Wpnz_Rebalance_Tooltipstyle_Title,
-                I18n.Gmcm_Wpnz_Rebalance_Tooltipstyle_Desc,
-                config => config.Weapons.WeaponTooltipStyle.ToString(),
-                (config, value) => config.Weapons.WeaponTooltipStyle = Enum.Parse<Config.TooltipStyle>(value),
-                new[] { "Absolute", "Relative" },
-                value => _I18n.Get("gmcm.wpnz.tooltipstye." + value.ToLowerInvariant()))
-            .AddCheckbox(
-                I18n.Gmcm_Ui_Colorcodedforyourconvenience_Title,
-                I18n.Gmcm_Wpnz_Rebalance_Colorcodedforyourconvenience_Desc,
-                config => config.Weapons.ColorCodedForYourConvenience,
-                (config, value) => config.Weapons.ColorCodedForYourConvenience = value)
             .AddCheckbox(
                 I18n.Gmcm_Wpnz_Rebalance_Defenseimprovesparry_Title,
                 I18n.Gmcm_Wpnz_Rebalance_Defenseimprovesparry_Desc,
@@ -229,7 +217,7 @@ internal sealed partial class GenericModConfigMenu
                     }
                 },
                 new[] { "Easy", "Medium", "Hard" },
-                value => _I18n.Get("gmcm.wpnz.virtuetrialdifficulty." + value.ToLowerInvariant()))
+                value => _I18n.Get("gmcm.wpnz.quests.virtuetrialdifficulty." + value.ToLowerInvariant()))
             .AddHorizontalRule()
 
             .AddSectionTitle(I18n.Gmcm_Controls_Heading)
@@ -269,17 +257,29 @@ internal sealed partial class GenericModConfigMenu
                 (config, value) => config.Weapons.AutoSelectionRange = (uint)value,
                 1,
                 3)
-            .AddHorizontalRule()
-
-            .AddSectionTitle(I18n.Gmcm_Movement_Heading)
             .AddCheckbox(
-                I18n.Gmcm_Movement_Slickmoves_Title,
-                I18n.Gmcm_Movement_Slickmoves_Desc,
+                I18n.Gmcm_Controls_Slickmoves_Title,
+                I18n.Gmcm_Controls_Slickmoves_Desc,
                 config => config.Weapons.SlickMoves,
                 (config, value) => config.Weapons.SlickMoves = value)
             .AddHorizontalRule()
 
-            .AddSectionTitle(I18n.Gmcm_Other_Heading)
+            .AddSectionTitle(I18n.Gmcm_Interface_Heading)
+            .AddCheckbox(
+                I18n.Gmcm_Interface_Colorcodedforyourconvenience_Title,
+                I18n.Gmcm_Wpnz_Interface_Colorcodedforyourconvenience_Desc,
+                config => config.Weapons.ColorCodedForYourConvenience,
+                (config, value) => config.Weapons.ColorCodedForYourConvenience = value)
+            .AddDropdown(
+                I18n.Gmcm_Wpnz_Interface_Tooltipstyle_Title,
+                I18n.Gmcm_Wpnz_Interface_Tooltipstyle_Desc,
+                config => config.Weapons.WeaponTooltipStyle.ToString(),
+                (config, value) => config.Weapons.WeaponTooltipStyle = Enum.Parse<Config.TooltipStyle>(value),
+                new[] { "Absolute", "Relative", "Vanilla" },
+                value => _I18n.Get("gmcm.wpnz.interface.tooltipstye." + value.ToLowerInvariant()))
+            .AddHorizontalRule()
+
+            .AddSectionTitle(I18n.Gmcm_Headings_Other)
             .AddCheckbox(
                 I18n.Gmcm_Wpnz_Enableretexture_Title,
                 I18n.Gmcm_Wpnz_Enableretexture_Desc,

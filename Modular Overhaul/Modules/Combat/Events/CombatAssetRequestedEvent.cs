@@ -24,13 +24,13 @@ internal sealed class CombatAssetRequestedEvent : AssetRequestedEvent
 
         this.Provide(
             $"{Manifest.UniqueID}/BleedAnimation",
-            new ModTextureProvider(() => "assets/vfx/bleed.png"));
+            new ModTextureProvider(() => "assets/sprites/bleed.png"));
         this.Provide(
             $"{Manifest.UniqueID}/SlowAnimation",
-            new ModTextureProvider(() => "assets/vfx/slow.png"));
+            new ModTextureProvider(() => "assets/sprites/slow.png"));
         this.Provide(
             $"{Manifest.UniqueID}/StunAnimation",
-            new ModTextureProvider(() => "assets/vfx/stun.png"));
+            new ModTextureProvider(() => "assets/sprites/stun.png"));
     }
 
     #region editor callbacks

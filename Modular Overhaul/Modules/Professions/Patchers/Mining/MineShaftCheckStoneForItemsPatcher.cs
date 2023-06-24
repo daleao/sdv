@@ -139,7 +139,7 @@ internal sealed class MineShaftCheckStoneForItemsPatcher : HarmonyPatcher
                                 Farmer.excavator,
                                 i == 0 ? ILHelper.SearchOption.First : ILHelper.SearchOption.Next)
                             .Move(-1)
-                            .Count(new[] { new CodeInstruction(OpCodes.Mul) }, out var count)
+                            .CountUntil(new[] { new CodeInstruction(OpCodes.Mul) }, out var count)
                             .Remove(count); // remove this check
                     });
         }
@@ -156,7 +156,7 @@ internal sealed class MineShaftCheckStoneForItemsPatcher : HarmonyPatcher
             helper
                 .MatchProfessionCheck(Farmer.burrower) // find index of prospector check
                 .Move(-1)
-                .Count(new[] { new CodeInstruction(OpCodes.Mul) }, out var count)
+                .CountUntil(new[] { new CodeInstruction(OpCodes.Mul) }, out var count)
                 .Remove(count); // remove this check
         }
         catch (Exception ex)

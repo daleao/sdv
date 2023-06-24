@@ -2,7 +2,6 @@
 
 #region using directives
 
-using System.Linq;
 using DaLion.Overhaul.Modules.Tools.Configs;
 using DaLion.Overhaul.Modules.Tools.Integrations;
 using HarmonyLib;
@@ -65,67 +64,91 @@ public sealed class Config : Shared.Configs.Config
 
     /// <summary>Gets a value indicating whether to color the title text of upgraded tools.</summary>
     [JsonProperty]
-    public bool ColorCodedForYourConvenience { get; internal set; }
+    public bool ColorCodedForYourConvenience { get; internal set; } = false;
+
+    /// <summary>Gets a value indicating whether to allow upgrading tools at the Volcano Forge.</summary>
+    [JsonProperty]
+    public bool EnableForgeUpgrading { get; internal set; } = true;
 
     /// <inheritdoc />
     public override bool Validate()
     {
         var isValid = true;
-
         Log.T("[TOLS]: Verifying tool configs...");
 
-        var isMoonMisadventuresLoaded = MoonMisadventuresIntegration.Instance?.IsLoaded == true;
-        if (this.Axe.RadiusAtEachPowerLevel.Length < 5)
+        var maxToolUpgrade = MoonMisadventuresIntegration.Instance?.IsLoaded == true ? 7 : this.EnableForgeUpgrading ? 6 : 5;
+
+        if (this.Axe.RadiusAtEachPowerLevel.Length != maxToolUpgrade)
         {
-            Log.W("[TOLS]: Missing values in Axe.RadiusAtEachPowerLevel. The default values will be restored.");
-            this.Axe.RadiusAtEachPowerLevel = new uint[] { 1, 2, 3, 4, 5 };
-            if (isMoonMisadventuresLoaded)
+            var preface = this.Axe.RadiusAtEachPowerLevel.Length < maxToolUpgrade ? "Missing" : "Too many";
+            Log.W($"[TOLS]: {preface} values in Axe.RadiusAtEachPowerLevel. The default values will be restored.");
+            this.Axe.RadiusAtEachPowerLevel = new uint[maxToolUpgrade];
+            uint i = 0;
+            while (i < maxToolUpgrade)
             {
-                this.Axe.RadiusAtEachPowerLevel.AddRangeToArray(new uint[] { 6, 7 });
+                this.Axe.RadiusAtEachPowerLevel[i] = ++i;
             }
 
             isValid = false;
         }
 
-        if (this.Pick.RadiusAtEachPowerLevel.Length < 5)
+        if (this.Pick.RadiusAtEachPowerLevel.Length != maxToolUpgrade)
         {
-            Log.W("[TOLS]: Missing values Pickaxe.RadiusAtEachPowerLevel. The default values will be restored.");
-            this.Pick.RadiusAtEachPowerLevel = new uint[] { 1, 2, 3, 4, 5 };
-            if (isMoonMisadventuresLoaded)
+            var preface = this.Pick.RadiusAtEachPowerLevel.Length < maxToolUpgrade ? "Missing" : "Too many";
+            Log.W($"[TOLS]: {preface} values Pickaxe.RadiusAtEachPowerLevel. The default values will be restored.");
+            this.Pick.RadiusAtEachPowerLevel = new uint[maxToolUpgrade];
+            uint i = 0;
+            while (i < maxToolUpgrade)
             {
-                this.Pick.RadiusAtEachPowerLevel.AddRangeToArray(new uint[] { 6, 7 });
+                this.Pick.RadiusAtEachPowerLevel[i] = ++i;
             }
 
             isValid = false;
         }
 
-        if (this.Hoe.AffectedTilesAtEachPowerLevel.Length < 5)
+        if (this.Hoe.AffectedTilesAtEachPowerLevel.Length != maxToolUpgrade)
         {
-            Log.W("[TOLS]: Missing values in Hoe.AffectedTilesAtEachPowerLevel. The default values will be restored.");
+            var preface = this.Hoe.AffectedTilesAtEachPowerLevel.Length < maxToolUpgrade ? "Missing" : "Too many";
+            Log.W($"[TOLS]: {preface} values in Hoe.AffectedTilesAtEachPowerLevel. The default values will be restored.");
             this.Hoe.AffectedTilesAtEachPowerLevel = new (uint, uint)[]
             {
                 (3, 0), (5, 0), (3, 1), (6, 1), (5, 2),
             };
 
-            if (isMoonMisadventuresLoaded)
+            if (maxToolUpgrade > 5)
             {
-                this.Hoe.AffectedTilesAtEachPowerLevel.AddRangeToArray(new (uint, uint)[] { (7, 3), (9, 4) });
+                (uint, uint) item = (7, 3);
+                this.Hoe.AffectedTilesAtEachPowerLevel.AddToArray(item);
+            }
+
+            if (maxToolUpgrade > 6)
+            {
+                (uint, uint) item = (9, 4);
+                this.Hoe.AffectedTilesAtEachPowerLevel.AddToArray(item);
             }
 
             isValid = false;
         }
 
-        if (this.Can.AffectedTilesAtEachPowerLevel.Length < 5)
+        if (this.Can.AffectedTilesAtEachPowerLevel.Length != maxToolUpgrade)
         {
-            Log.W("[TOLS]: Missing values in Can.AffectedTilesAtEachPowerLevel. The default values will be restored.");
+            var preface = this.Can.AffectedTilesAtEachPowerLevel.Length < maxToolUpgrade ? "Missing" : "Too many";
+            Log.W($"[TOLS]: {preface} values in Can.AffectedTilesAtEachPowerLevel. The default values will be restored.");
             this.Can.AffectedTilesAtEachPowerLevel = new (uint, uint)[]
             {
                 (3, 0), (5, 0), (3, 1), (6, 1), (5, 2),
             };
 
-            if (isMoonMisadventuresLoaded)
+            if (maxToolUpgrade > 5)
             {
-                this.Can.AffectedTilesAtEachPowerLevel.AddRangeToArray(new (uint, uint)[] { (7, 3), (9, 4) });
+                (uint, uint) item = (7, 3);
+                this.Can.AffectedTilesAtEachPowerLevel.AddToArray(item);
+            }
+
+            if (maxToolUpgrade > 6)
+            {
+                (uint, uint) item = (9, 4);
+                this.Can.AffectedTilesAtEachPowerLevel.AddToArray(item);
             }
 
             isValid = false;
@@ -159,111 +182,6 @@ public sealed class Config : Shared.Configs.Config
                 "[TOLS]: The value of 'TicksBetweenWaves' is excessively large. This is probably a mistake. The default value will be restored.");
             this.TicksBetweenWaves = 4;
             isValid = false;
-        }
-
-        if (isMoonMisadventuresLoaded)
-        {
-            Log.I("[TOLS]: Moon Misadventures detected.");
-
-            switch (this.Axe.RadiusAtEachPowerLevel.Length)
-            {
-                case < 7:
-                    Log.I("[TOLS]: Adding default radius values for higher Axe upgrades.");
-                    this.Axe.RadiusAtEachPowerLevel =
-                        this.Axe.RadiusAtEachPowerLevel.AddRangeToArray(new uint[] { 6, 7 });
-                    isValid = false;
-                    break;
-
-                case > 7:
-                    Log.W("[TOLS]: Too many values in Axe.RadiusAtEachPowerLevel. Additional values will be removed.");
-                    this.Axe.RadiusAtEachPowerLevel = this.Axe.RadiusAtEachPowerLevel.Take(7).ToArray();
-                    isValid = false;
-                    break;
-            }
-
-            switch (this.Pick.RadiusAtEachPowerLevel.Length)
-            {
-                case < 7:
-                    Log.I("[TOLS]: Adding default radius values for higher Pickaxe upgrades.");
-                    this.Pick.RadiusAtEachPowerLevel =
-                        this.Pick.RadiusAtEachPowerLevel.AddRangeToArray(new uint[] { 6, 7 });
-                    isValid = false;
-                    break;
-
-                case > 7:
-                    Log.W("[TOLS]: Too many values in Pickaxe.RadiusAtEachPowerLevel. Additional values will be removed.");
-                    this.Pick.RadiusAtEachPowerLevel =
-                        this.Pick.RadiusAtEachPowerLevel.Take(7).ToArray();
-                    isValid = false;
-                    break;
-            }
-
-            switch (this.Hoe.AffectedTilesAtEachPowerLevel.Length)
-            {
-                case < 7:
-                    Log.I("[TOLS]: Adding default length and radius values for higher Hoe upgrades.");
-                    this.Hoe.AffectedTilesAtEachPowerLevel =
-                        this.Hoe.AffectedTilesAtEachPowerLevel.AddRangeToArray(new (uint, uint)[] { (7, 3), (9, 4), });
-                    isValid = false;
-                    break;
-
-                case > 7:
-                    Log.W("[TOLS]: Too many values in Hoe.AffectedTilesAtEachPowerLevel. Additional values will be removed.");
-                    this.Hoe.AffectedTilesAtEachPowerLevel =
-                        this.Hoe.AffectedTilesAtEachPowerLevel.Take(7).ToArray();
-                    isValid = false;
-                    break;
-            }
-
-            switch (this.Can.AffectedTilesAtEachPowerLevel.Length)
-            {
-                case < 7:
-                    Log.I("[TOLS]: Adding default length and radius values for higher Watering Can upgrades.");
-                    this.Can.AffectedTilesAtEachPowerLevel =
-                        this.Can.AffectedTilesAtEachPowerLevel.AddRangeToArray(new (uint, uint)[] { (7, 3), (9, 4), });
-                    isValid = false;
-                    break;
-
-                case > 7:
-                    Log.W("[TOLS]: Too many values in Can.AffectedTilesAtEachPowerLevel. Additional values will be removed.");
-                    this.Can.AffectedTilesAtEachPowerLevel =
-                        this.Can.AffectedTilesAtEachPowerLevel.Take(7).ToArray();
-                    isValid = false;
-                    break;
-            }
-        }
-        else
-        {
-            if (this.Axe.RadiusAtEachPowerLevel.Length > 5)
-            {
-                Log.W("[TOLS]: Too many values in Axe.RadiusAtEachPowerLevel. Additional values will be removed.");
-                this.Axe.RadiusAtEachPowerLevel = this.Axe.RadiusAtEachPowerLevel.Take(5).ToArray();
-                isValid = false;
-            }
-
-            if (this.Pick.RadiusAtEachPowerLevel.Length > 5)
-            {
-                Log.W("[TOLS]: Too many values in Pickaxe.RadiusAtEachPowerLevel. Additional values will be removed.");
-                this.Pick.RadiusAtEachPowerLevel =
-                    this.Pick.RadiusAtEachPowerLevel.Take(5).ToArray();
-                isValid = false;
-            }
-
-            if (this.Hoe.AffectedTilesAtEachPowerLevel.Length > 5)
-            {
-                Log.W("[TOLS]: Too many values in Hoe.AffectedTilesAtEachPowerLevel. Additional values will be removed.");
-                this.Hoe.AffectedTilesAtEachPowerLevel =
-                    this.Hoe.AffectedTilesAtEachPowerLevel.Take(7).ToArray();
-                isValid = false;
-            }
-
-            if (this.Can.AffectedTilesAtEachPowerLevel.Length > 5)
-            {
-                Log.W("[TOLS]: Too many values in Can.AffectedTilesAtEachPowerLevel. Additional values will be removed.");
-                this.Can.AffectedTilesAtEachPowerLevel =
-                    this.Can.AffectedTilesAtEachPowerLevel.Take(7).ToArray();
-                isValid = false;
-            }
         }
 
         return isValid;

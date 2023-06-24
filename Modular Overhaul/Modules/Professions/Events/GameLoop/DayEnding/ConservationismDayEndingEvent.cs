@@ -46,7 +46,7 @@ internal sealed class ConservationismDayEndingEvent : DayEndingEvent
             return;
         }
 
-        var trashCollectedThisSeason = player.Read<uint>(DataKeys.ConservationistTrashCollectedThisSeason);
+        var trashCollectedThisSeason = (int)player.Read<float>(DataKeys.ConservationistTrashCollectedThisSeason);
         player.Write(DataKeys.ConservationistTrashCollectedThisSeason, "0");
         if (trashCollectedThisSeason <= 0)
         {

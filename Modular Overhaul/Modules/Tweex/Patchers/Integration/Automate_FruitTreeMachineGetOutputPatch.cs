@@ -61,11 +61,11 @@ internal sealed class FruitTreeMachineGetOutputPatcher : HarmonyPatcher
                     new[] { new CodeInstruction(OpCodes.Ldloc_0) },
                     labels)
                 .Match(new[] { new CodeInstruction(OpCodes.Ldloc_0) })
-                .Count(new[] { new CodeInstruction(OpCodes.Stloc_1) }, out var count)
+                .CountUntil(new[] { new CodeInstruction(OpCodes.Stloc_1) }, out var count)
                 .Remove(count)
-                .Count(new[] { new CodeInstruction(OpCodes.Stloc_1) }, out count)
+                .CountUntil(new[] { new CodeInstruction(OpCodes.Stloc_1) }, out count)
                 .Remove(count)
-                .Count(new[] { new CodeInstruction(OpCodes.Stloc_1) }, out count)
+                .CountUntil(new[] { new CodeInstruction(OpCodes.Stloc_1) }, out count)
                 .Remove(count)
                 .StripLabels();
         }

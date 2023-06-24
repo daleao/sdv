@@ -78,17 +78,16 @@ internal sealed class ObjectProjectile : BasicProjectile
         this.Source = source;
         this.Firer = firer;
         this.Overcharge = overcharge;
-        this.Damage = (int)(this.damageToFarmer.Value * source.Get_RubyDamageModifier() *
+        this.Damage = (int)(this.damageToFarmer.Value * source.Get_EffectiveDamageModifier() *
                             (1f + firer.attackIncreaseModifier) * overcharge);
-        this.Knockback = knockback * source.Get_AmethystKnockbackModifer() * (1f + firer.knockbackModifier) *
+        this.Knockback = (knockback + source.Get_EffectiveKnockback()) * (1f + firer.knockbackModifier) *
                          overcharge;
 
-        var canCrit = SlingshotsModule.Config.EnableCriticalHits;
-        this.CritChance = canCrit
-            ? 0.025f * source.Get_AquamarineCritChanceModifier() * (1f + firer.critChanceModifier)
+        this.CritChance = SlingshotsModule.Config.EnableCriticalHits
+            ? source.Get_EffectiveCritChance() * (1f + firer.critChanceModifier)
             : 0f;
-        this.CritPower = canCrit
-            ? 2f * source.Get_JadeCritPowerModifier() * (1f + firer.critPowerModifier)
+        this.CritPower = SlingshotsModule.Config.EnableCriticalHits
+            ? (1f + source.Get_EffectiveCritPower()) * (1f + firer.critPowerModifier)
             : 0f;
 
         this.CanBeRecovered = canRecover && !this.IsSquishy && ammo.ParentSheetIndex != ItemIDs.ExplosiveAmmo;
@@ -109,9 +108,11 @@ internal sealed class ObjectProjectile : BasicProjectile
             this.bouncesLeft.Value++;
         }
 
-        if (SlingshotsModule.Config.DisableGracePeriod)
+        this.ignoreTravelGracePeriod.Value = SlingshotsModule.Config.DisableGracePeriod;
+
+        if (this.Overcharge > 1f)
         {
-            this.ignoreTravelGracePeriod.Value = true;
+            this.tailLength.Value = (int)((this.Overcharge - 1f) * 5f);
         }
     }
 

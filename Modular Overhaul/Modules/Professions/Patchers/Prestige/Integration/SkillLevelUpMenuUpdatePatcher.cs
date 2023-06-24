@@ -90,7 +90,7 @@ internal sealed class SkillLevelUpMenuUpdatePatcher : HarmonyPatcher
                                         typeof(SkillLevelUpMenu).RequireField("currentLevel")),
                                 })
                             .Move(2)
-                            .Count(new[] { new CodeInstruction(OpCodes.Endfinally) }, out var count)
+                            .CountUntil(new[] { new CodeInstruction(OpCodes.Endfinally) }, out var count)
                             .Remove(count); // remove the entire loop
                     });
         }

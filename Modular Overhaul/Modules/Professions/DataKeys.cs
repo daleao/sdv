@@ -13,6 +13,9 @@ internal sealed class DataKeys
     internal const string ConservationistActiveTaxBonusPct = "ConservationistActiveTaxBonusPct";
     internal const string UltimateIndex = "UltimateIndex";
     internal const string ForgottenRecipesDict = "ForgottenRecipesDict";
+
+    internal const string LastTackleUsed = "LastTackleUsed";
+    internal const string LastTackleUses = "LastTackleUses";
 }
 #pragma warning restore SA1600 // Elements should be documented
 #pragma warning restore CS1591 // Missing XML comment for publicly visible type or member

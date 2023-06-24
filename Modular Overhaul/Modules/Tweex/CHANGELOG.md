@@ -1,5 +1,17 @@
 ﻿# TWX Change Log
 
+## 2.5.0 <sup><sub><sup>[🔼](#twx-change-log)</sup></sub></sup>
+
+### Added
+
+* Added CropWitherChance option (default 10%). If left unwatered for more than a day, crops will have an increasingly larger chance to wither and die spontaneously.
+* Added TrashDoesNotConsumeBait option.
+
+### Removed
+
+* Removed LegendaryFishAlwaysIridiumQuality option, because it's not needed.
+* Removed the MillsPreserveQuality option, because I don't like it.
+
 ## 2.4.0 <sup><sub><sup>[🔼](#twx-change-log)</sup></sub></sup>
 
 ### Fixed

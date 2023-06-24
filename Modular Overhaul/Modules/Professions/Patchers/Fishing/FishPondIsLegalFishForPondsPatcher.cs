@@ -66,9 +66,7 @@ internal sealed class FishPondIsLegalFishForPondsPatcher : HarmonyPatcher
 
     private static bool CanRaiseLegendaryFish(FishPond pond)
     {
-        return pond.GetOwner().HasProfession(Profession.Aquarist, true) ||
-               (ProfessionsModule.Config.LaxOwnershipRequirements &&
-                Game1.game1.DoesAnyPlayerHaveProfession(Profession.Aquarist, out _));
+        return pond.GetOwner().HasProfessionOrLax(Profession.Aquarist);
     }
 
     #endregion injected subroutines

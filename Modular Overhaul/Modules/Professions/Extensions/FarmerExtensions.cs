@@ -20,7 +20,7 @@ using StardewValley.Monsters;
 /// <summary>Extensions for the <see cref="Farmer"/> class.</summary>
 internal static class FarmerExtensions
 {
-    /// <summary>Determines whether the <paramref name="farmer"/> has a particular <paramref name="profession"/>.</summary>
+    /// <summary>Determines whether the <paramref name="farmer"/> has the specified <paramref name="profession"/>.</summary>
     /// <param name="farmer">The <see cref="Farmer"/>.</param>
     /// <param name="profession">The <see cref="IProfession"/> to check.</param>
     /// <param name="prestiged">Whether to check for the prestiged variant.</param>
@@ -80,6 +80,19 @@ internal static class FarmerExtensions
         }
 
         return true;
+    }
+
+    /// <summary>Determines whether this or, if allowed by the module's settings, any <see cref="Farmer"/> instance in the current game session has the specified <paramref name="profession"/>.</summary>
+    /// <param name="farmer">The <see cref="Farmer"/>.</param>
+    /// <param name="profession">The <see cref="IProfession"/> to check.</param>
+    /// <param name="prestiged">Whether to check for the prestiged variant.</param>
+    /// <returns><see langword="true"/> if either <paramref name="farmer"/> has the specified <paramref name="profession"/>, or <see cref="Config.LaxOwnershipRequirements"/> is enabled and at least one player in the game session has the <paramref name="profession"/>, otherwise <see langword="false"/>.</returns>
+    internal static bool HasProfessionOrLax(
+        this Farmer farmer, IProfession profession, bool prestiged = false)
+    {
+        return farmer.HasProfession(profession, prestiged) ||
+               (ProfessionsModule.Config.LaxOwnershipRequirements &&
+                Game1.game1.DoesAnyPlayerHaveProfession(profession, out _, prestiged));
     }
 
     /// <summary>
@@ -265,20 +278,6 @@ internal static class FarmerExtensions
         return sum;
     }
 
-    /// <summary>Gets the bonus catching bar speed for prestiged <see cref="Profession.Fisher"/>.</summary>
-    /// <param name="farmer">The <see cref="Farmer"/>.</param>
-    /// <param name="whichFish">The fish index.</param>
-    /// <returns>A <see cref="float"/> catching bar height.</returns>
-    /// <remarks>UNUSED.</remarks>
-    internal static float GetFisherBonusCatchingBarSpeed(this Farmer farmer, int whichFish)
-    {
-        return farmer.fishCaught.TryGetValue(whichFish, out var caughtData)
-            ? caughtData[0] >= ProfessionsModule.Config.FishNeededForInstantCatch
-                ? 1f
-                : Math.Max(caughtData[0] * (0.1f / ProfessionsModule.Config.FishNeededForInstantCatch) * 0.0002f, 0.002f)
-            : 0.002f;
-    }
-
     /// <summary>Gets the price bonus applied to fish sold by <see cref="Profession.Angler"/>.</summary>
     /// <param name="farmer">The <see cref="Farmer"/>.</param>
     /// <returns>A <see cref="float"/> multiplier for fish prices.</returns>
@@ -290,6 +289,7 @@ internal static class FarmerExtensions
             .ToDictionary(p => p.Key, p => p.Value);
 
         var bonus = 0f;
+        var isPrestiged = farmer.HasProfession(Profession.Angler, true);
         foreach (var (key, value) in farmer.fishCaught.Pairs)
         {
             if (!fishData.TryGetValue(key, out var specificFishData))
@@ -300,21 +300,25 @@ internal static class FarmerExtensions
             var dataFields = specificFishData.SplitWithoutAllocation('/');
             if (Collections.LegendaryFishNames.Contains(dataFields[0].ToString()))
             {
-                bonus += 0.05f;
+                bonus += 0.025f;
             }
-            else if (value[1] >= int.Parse(dataFields[4]))
+            else if (value[1] >= int.Parse(dataFields[4]) && isPrestiged)
             {
                 bonus += 0.01f;
+            }
+            else
+            {
+                bonus += 0.005f;
             }
         }
 
         return Math.Min(bonus, ProfessionsModule.Config.AnglerPriceBonusCeiling);
     }
 
-    /// <summary>Gets the amount of "catching" bar to compensate for <see cref="Profession.Aquarist"/>.</summary>
+    /// <summary>Gets the bonus "catching" bar build rate for <see cref="Profession.Aquarist"/>.</summary>
     /// <param name="farmer">The <see cref="Farmer"/>.</param>
     /// <returns>A <see cref="float"/> catching height.</returns>
-    internal static float GetAquaristCatchingBarCompensation(this Farmer farmer)
+    internal static float GetAquaristCatchingBonus(this Farmer farmer)
     {
         HashSet<int> fishTypes = new();
         var buildings = Game1.getFarm().buildings;

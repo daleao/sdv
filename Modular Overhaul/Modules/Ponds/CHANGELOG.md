@@ -1,5 +1,11 @@
 ﻿# PNDS Change Log
 
+## 2.5.0 <sup><sub><sup>[🔼](#pnds-change-log)</sup></sub></sup>
+
+### Added
+
+* Mr. and Ms. Angler can now mate when placed together in a pond.
+
 ## 1.0.4 <sup><sub><sup>[🔼](#pnds-change-log)</sup></sub></sup>
 
 ### Fixed
