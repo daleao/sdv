@@ -48,7 +48,7 @@ internal sealed class BowRefreshSpecialAttackCooldownPatcher : HarmonyPatcher
             return;
         }
 
-        var cooldown = ArcheryIntegration.Instance!.ModApi!.GetSpecialAttackCooldown(Manifest, slingshot);
+        var cooldown = ArcheryIntegration.Instance.ModApi!.GetSpecialAttackCooldown(Manifest, slingshot);
         if (!cooldown.HasValue)
         {
             return;

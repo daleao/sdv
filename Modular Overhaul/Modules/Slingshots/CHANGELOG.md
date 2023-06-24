@@ -1,5 +1,11 @@
 ﻿# SLNGS Change Log
 
+## 2.5.3 <sup><sub><sup>[🔼](#slngs-change-log)</sup></sub></sup>
+
+### Fixed
+
+* Fixed another possible Null-Reference, this time in Slingshot tooltip draw.
+
 ## 2.5.1 <sup><sub><sup>[🔼](#slngs-change-log)</sup></sub></sup>
 
 ### Fixed

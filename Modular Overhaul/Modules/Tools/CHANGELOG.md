@@ -1,5 +1,11 @@
 ﻿# TOLS Change Log
 
+## 2.5.3 <sup><sub><sup>[🔼](#tols-change-log)</sup></sub></sup>
+
+### Fixed
+
+* Fixed an issue with Hoe and Watering Can settings validation.
+
 ## 2.5.0 <sup><sub><sup>[🔼](#tols-change-log)</sup></sub></sup>
 
 ### Added

@@ -4,7 +4,6 @@
 
 using DaLion.Overhaul.Modules.Tools.Configs;
 using DaLion.Overhaul.Modules.Tools.Integrations;
-using HarmonyLib;
 using Microsoft.Xna.Framework;
 using Newtonsoft.Json;
 using StardewModdingAPI.Utilities;
@@ -110,22 +109,12 @@ public sealed class Config : Shared.Configs.Config
         {
             var preface = this.Hoe.AffectedTilesAtEachPowerLevel.Length < maxToolUpgrade ? "Missing" : "Too many";
             Log.W($"[TOLS]: {preface} values in Hoe.AffectedTilesAtEachPowerLevel. The default values will be restored.");
-            this.Hoe.AffectedTilesAtEachPowerLevel = new (uint, uint)[]
+            this.Hoe.AffectedTilesAtEachPowerLevel = maxToolUpgrade switch
             {
-                (3, 0), (5, 0), (3, 1), (6, 1), (5, 2),
+                > 6 => new (uint, uint)[] { (3, 0), (5, 0), (3, 1), (6, 1), (5, 2), (7, 3), (9, 4), },
+                > 5 => new (uint, uint)[] { (3, 0), (5, 0), (3, 1), (6, 1), (5, 2), (7, 3), },
+                _ => new (uint, uint)[] { (3, 0), (5, 0), (3, 1), (6, 1), (5, 2), },
             };
-
-            if (maxToolUpgrade > 5)
-            {
-                (uint, uint) item = (7, 3);
-                this.Hoe.AffectedTilesAtEachPowerLevel.AddToArray(item);
-            }
-
-            if (maxToolUpgrade > 6)
-            {
-                (uint, uint) item = (9, 4);
-                this.Hoe.AffectedTilesAtEachPowerLevel.AddToArray(item);
-            }
 
             isValid = false;
         }
@@ -134,22 +123,12 @@ public sealed class Config : Shared.Configs.Config
         {
             var preface = this.Can.AffectedTilesAtEachPowerLevel.Length < maxToolUpgrade ? "Missing" : "Too many";
             Log.W($"[TOLS]: {preface} values in Can.AffectedTilesAtEachPowerLevel. The default values will be restored.");
-            this.Can.AffectedTilesAtEachPowerLevel = new (uint, uint)[]
+            this.Can.AffectedTilesAtEachPowerLevel = maxToolUpgrade switch
             {
-                (3, 0), (5, 0), (3, 1), (6, 1), (5, 2),
+                > 6 => new (uint, uint)[] { (3, 0), (5, 0), (3, 1), (6, 1), (5, 2), (7, 3), (9, 4), },
+                > 5 => new (uint, uint)[] { (3, 0), (5, 0), (3, 1), (6, 1), (5, 2), (7, 3), },
+                _ => new (uint, uint)[] { (3, 0), (5, 0), (3, 1), (6, 1), (5, 2), },
             };
-
-            if (maxToolUpgrade > 5)
-            {
-                (uint, uint) item = (7, 3);
-                this.Can.AffectedTilesAtEachPowerLevel.AddToArray(item);
-            }
-
-            if (maxToolUpgrade > 6)
-            {
-                (uint, uint) item = (9, 4);
-                this.Can.AffectedTilesAtEachPowerLevel.AddToArray(item);
-            }
 
             isValid = false;
         }

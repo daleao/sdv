@@ -57,7 +57,7 @@ internal sealed class ToolDrawTooltipPatcher : HarmonyPatcher
 
             Color co;
 
-            var bowData = ArcheryIntegration.Instance!.ModApi!.GetWeaponData(Manifest, slingshot);
+            var bowData = ArcheryIntegration.Instance?.ModApi?.GetWeaponData(Manifest, slingshot);
             if (bowData is not null)
             {
                 y += 12; // space out between special move description
