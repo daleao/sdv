@@ -30,7 +30,7 @@ All modules should be fully multiplayer and splitscreen-ready so long as all pla
 
 - **[SLNGS](Modules/Slingshots)** is the analogous module for Slingshots. Among other things, it provides Slingshots with the amenities neglected to them in Vanilla, including critical hits, enchantments and a special move.
 
-- **[TOLS](Modules/Tools)** is a one-stop-shop for tool customization and quality-of-life. It enables resource-tool charging, farming-tool customization, intelligent tool auto-selection, and even extends the enchantment pool, among other things.
+- **[TOLS](Modules/Tools)** is a one-stop-shop for tool customization and quality-of-life. It enables resource-tool charging, farming-tool customization, intelligent tool auto-selection, and even adds Radioactive tool upgrades, among other things.
 
 - **[ENCH](Modules/Enchantments)** is near-total rework of boring Vanilla enchantments, providing rebalanced gemstone enchantments and objectively improved replacements for Prismatic Shard enchantments, for both Melee Weapons and Slingshots.
 

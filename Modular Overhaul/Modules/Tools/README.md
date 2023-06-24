@@ -45,6 +45,14 @@ In addition, this module will allow the Swift Enchantment to be applied to the W
 
 Lastly, the Haymaker Enchantment can now be applied to the Scythe and Golden Scythe.
 
+## Forge Upgrading <sup><sub><sup>[🔼](#margo-tools-tols)</sup></sub></sup>
+
+Gaining access to the Volcano Forge, in addition to it's regular features, will also open up a new way to upgrade your tools. You will still require the correct metal bars as well as some Cinder Shards to ignite the Forge, but this method bypasses both the middleman's gold fee and, more importantly, the 2 day waiting period. This is also the only way to obtain the ultimate upgrade level.
+
+## Radioactive Tools <sup><sub><sup>[🔼](#margo-tools-tols)</sup></sub></sup>
+
+Clint is no fool to mock about with radioactive substances. But with the Forge's Dwarven technology you can now upgrade your tools to the Radioactive tier. If [Moon Misadventures](https://www.nexusmods.com/stardewvalley/mods/10612) is installed, this will also be required for the Mythic tier.
+
 ## Auto-Selection <sup><sub><sup>[🔼](#margo-tools-tols)</sup></sub></sup>
 
 Hold the Mod Key (default LeftShift) and click on any tool in your toolbar or inventory to enable it for auto-selection. As long the current tool is itself enabled for auto-selection, pressing the tool-use button will cause the appropriate enabled tool to be intelligently selected for the target tile.

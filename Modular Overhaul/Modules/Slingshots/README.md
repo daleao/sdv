@@ -22,7 +22,7 @@ This module is a complete overhaul of Slingshot gameplay and mechanics with the 
 
 1. **Critical Hits:** Think of them as headshots. This allows slingshots to benefit from crit. chance and crit. power bonuses.
 2. **Special Move:** Pressing the action button will trigger a melee smack attack that stuns enemies for 2 seconds. This allows the player to react to enemies in close range without switching weapons, and quickly reposition to continue firing from safety.
-3. **Enchantments:** All gemstone enchantments can be applied to Slingshots, including:
+3. **Enchantments:** Gemstone enchantments cannot directly be applied to slingshots, but gemstones can be equipped as ammo, and will apply their enchantment bonuses when equipped, along with corresponding [Resonances](../Rings). With the [Rascal](../Professions) profession, this allows up to two slots for any of the following gemstone bonuses:
     - Emerald, which grants firing speed (idem for Emerald Rings) and also affects Overcharge if the [Professions](../Professions) module's Desperado profession is used;
     - Jade, which is also affected by [ENCH](../Enchantments) module's `RebalancedForges` option.
     - Topaz, which grants defense if [ENCH](../Enchantments) module's `RebalancedForges` option is enabled.
@@ -50,14 +50,18 @@ If the rebalance is disabled, but the Infinity Slingshot is enabled, then the Ga
 Some ammunitions have also been tweaked, either for immersion or balance:
 - Coal: 15 damage >> 2 damage - *Have you ever held a piece of coal? That stuff is brittle, and weaker than raw wood, so the damage has been reduced accordingly. Not that anybody uses this as ammo anyway.*
 
-- Explosive Ammo: 20 damage >> 5 damage ﻿- *Explosive ammo is meant to be used as a mining utility only, so it's damage has been reduced to reflect that. If you'd like to use slingshots for combat and mining simultaneously, consider taking up the Rascal profession (requires the Professions module).*
+- Explosive Ammo: 20 damage >> 2 damage ﻿- *Explosive ammo is meant to be used as a mining utility **only**, so it's damage has been reduced to reflect that. If you'd like to use slingshots for combat and mining simultaneously, consider taking up the [Rascal](../Professions) profession.*
+
+### Archery
+
+This module is fully compatible with [Archery](https://www.nexusmods.com/stardewvalley/mods/16767), and I encourage you to use it with the 
 
 ## Compatibility
 
 - **Not** compatible with other mods that overhaul slingshots, such as [Better Slingshots][mod:better-slingshots] or [Enhanced Slingshots][mod:enhanced-slingshots].
 - **Not** compatible with the likes of [Combat Controls][mod:combat-controls] or [Combat Controls Redux][mod:combat-controls-redux], as those features are already included in this and other modules.
 - While the Infinity Slingshot will appear in [CJB Item Spawner][mod:cjb-spawner], it will be incorrectly classified as a Melee Weapon and will be unusable if spawned in this way. This is due to CJB not recognizing non-vanilla slingshots. This likely will be fixed in game version 1.6.
-- Compatible with [Archery][mod:archery] bows and crossbows.
+- Compatible with [Archery][mod:archery] and the accompanying [Starter Pack](https://www.nexusmods.com/stardewvalley/mods/16768). Install and the misc. Rebalance file for the complete experience.
 
 <!-- MARKDOWN LINKS & IMAGES -->
 
