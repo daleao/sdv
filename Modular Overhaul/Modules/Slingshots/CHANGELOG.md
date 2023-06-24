@@ -13,9 +13,9 @@
     * Bows can no longer receive gemstone enchantments. Instead, the focus shifts to Arrow Enchantments, as intended by PeacefulEnd.
     * Effectively, Bow ammo slots are equivalent to gemstone sockets, which means they can receive up to 2 gemstone effects (with the Rascal profession) based on the arrows that are equipped. The downside is that the player is required to craft enchanted arrows. The upside is that arrows can be swapped freely, unlike enchantments.
     * Arrow Enchantments will in turn resonate with Infinity Bands ([RNGS](../Rings)), as would other gemstone enchantments. Resonance bonuses apply even while the resonating arrow is in secondary ammo slot. If the resonating arrow is in the primary ammo slot, however, it's damage is also buffed by the resonance.
-    * Diamond-tipped arrows give 2 random enchantment effects, but does not resonate.
+    * Diamond-tipped arrows give 2 random enchantment effects, but do not resonate.
     * If Rebalance option is enbled, arrow base damage also increases the bow's minimum damage, instead of only the maximum.
-    * Rebalanced the Archery Starter Pack (new Misc. download). **I will not support any other content packs.**
+    * Rebalanced the Archery Starter Pack (new Misc. download). This adds the remaining gemstone arrow varities, making it required for all of the above. **I will not support any other content packs.**
 * Changes to make regular slingshots more similar to Archery bows, and distinct from Melee Weapons:
     * Slingshots can now equip gemstones, including Diamonds and Prismatic Shard. Diamonds are particularly strong. Prismatic Shards are nukes.
     * Slingshots can no longer receive gemstone enchantments. As with bows, they now receive bonuses based on equipped gemstones. Clearly this is a huge nerf for Slingshots in the end-game, but also a huge buff in the early game, which I think is worth the trade.
