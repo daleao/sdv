@@ -11,11 +11,11 @@ using StardewValley.TerrainFeatures;
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class CropWitherDayStartedEvent : DayStartedEvent
+internal sealed class CropWitherDayEndingEvent : DayEndingEvent
 {
-    /// <summary>Initializes a new instance of the <see cref="CropWitherDayStartedEvent"/> class.</summary>
+    /// <summary>Initializes a new instance of the <see cref="CropWitherDayEndingEvent"/> class.</summary>
     /// <param name="manager">The <see cref="EventManager"/> instance that manages this event.</param>
-    internal CropWitherDayStartedEvent(EventManager manager)
+    internal CropWitherDayEndingEvent(EventManager manager)
         : base(manager)
     {
     }
@@ -24,7 +24,7 @@ internal sealed class CropWitherDayStartedEvent : DayStartedEvent
     public override bool IsEnabled => Context.IsMainPlayer && TweexModule.Config.CropWitherChance > 0f;
 
     /// <inheritdoc />
-    protected override void OnDayStartedImpl(object? sender, DayStartedEventArgs e)
+    protected override void OnDayEndingImpl(object? sender, DayEndingEventArgs e)
     {
         for (var i = 0; i < Game1.locations.Count; i++)
         {

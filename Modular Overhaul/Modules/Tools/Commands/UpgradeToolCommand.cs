@@ -12,17 +12,17 @@ using StardewValley.Tools;
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class UpgradeToolsCommand : ConsoleCommand
+internal sealed class UpgradeToolCommand : ConsoleCommand
 {
-    /// <summary>Initializes a new instance of the <see cref="UpgradeToolsCommand"/> class.</summary>
+    /// <summary>Initializes a new instance of the <see cref="UpgradeToolCommand"/> class.</summary>
     /// <param name="handler">The <see cref="CommandHandler"/> instance that handles this command.</param>
-    internal UpgradeToolsCommand(CommandHandler handler)
+    internal UpgradeToolCommand(CommandHandler handler)
         : base(handler)
     {
     }
 
     /// <inheritdoc />
-    public override string[] Triggers { get; } = { "upgrade_tools", "set_upgrade", "set", "upgrade" };
+    public override string[] Triggers { get; } = { "set_upgrade", "set", "upgrade" };
 
     /// <inheritdoc />
     public override string Documentation => "Set the upgrade level of the currently held tool." + this.GetUsage();
@@ -59,6 +59,9 @@ internal sealed class UpgradeToolsCommand : ConsoleCommand
                 return;
             case UpgradeLevel.Enchanted:
                 Log.W("To add enchantments use the `ench` entry command instead.");
+                return;
+            case > UpgradeLevel.Gold when tool is FishingRod:
+                Log.W("This tool cannot be upgraded to that level");
                 return;
         }
 

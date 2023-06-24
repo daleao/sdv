@@ -1,5 +1,11 @@
 ﻿# TWX Change Log
 
+## 2.5.2 <sup><sub><sup>[🔼](#twx-change-log)</sup></sub></sup>
+
+### Fixed
+
+* Fixed crops withering even when watered.
+
 ## 2.5.0 <sup><sub><sup>[🔼](#twx-change-log)</sup></sub></sup>
 
 ### Added
