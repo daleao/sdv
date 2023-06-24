@@ -8,7 +8,7 @@ using DaLion.Shared.Integrations.WearMoreRings;
 
 #endregion using directives
 
-[RequiresMod("bcmpinc.WearMoreRings", "Wear More Rings", "5.1")]
+[ModRequirement("bcmpinc.WearMoreRings", "Wear More Rings", "5.1")]
 internal sealed class WearMoreRingsIntegration : ModIntegration<WearMoreRingsIntegration, IWearMoreRingsApi>
 {
     /// <summary>Initializes a new instance of the <see cref="WearMoreRingsIntegration"/> class.</summary>

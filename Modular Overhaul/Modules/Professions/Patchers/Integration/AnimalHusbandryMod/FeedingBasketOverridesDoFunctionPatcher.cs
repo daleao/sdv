@@ -14,7 +14,7 @@ using HarmonyLib;
 #endregion using directives
 
 [UsedImplicitly]
-[RequiresMod("DIGUS.ANIMALHUSBANDRYMOD")]
+[ModRequirement("DIGUS.ANIMALHUSBANDRYMOD")]
 internal sealed class FeedingBasketOverridesDoFunctionPatcher : HarmonyPatcher
 {
     /// <summary>Initializes a new instance of the <see cref="FeedingBasketOverridesDoFunctionPatcher"/> class.</summary>

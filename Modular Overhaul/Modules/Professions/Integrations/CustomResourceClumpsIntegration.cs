@@ -9,7 +9,7 @@ using DaLion.Shared.Integrations.CustomResourceClumps;
 
 #endregion using directives
 
-[RequiresMod("aedenthorn.CustomResourceClumps", "Custom Resource Clumps", "0.7.0")]
+[ModRequirement("aedenthorn.CustomResourceClumps", "Custom Resource Clumps", "0.7.0")]
 internal sealed class CustomResourceClumpsIntegration : ModIntegration<CustomResourceClumpsIntegration, ICustomResourceClumpsApi>
 {
     /// <summary>Initializes a new instance of the <see cref="CustomResourceClumpsIntegration"/> class.</summary>

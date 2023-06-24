@@ -4,6 +4,12 @@
 
 ### Added
 
+* Added failsafe to Virtue Quest to auto-complete if Blade of Dawn is detected as already obtained.
+
+## 2.5.0 <sup><sub><sup>[🔼](#wpnz-change-log)</sup></sub></sup>
+
+### Added
+
 * Added console command parameters to advance progress in individual Virtue trials. Use `wpnz adv <virtue>`.
 
 ### Changed

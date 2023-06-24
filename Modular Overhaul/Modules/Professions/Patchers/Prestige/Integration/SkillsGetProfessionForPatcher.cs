@@ -10,7 +10,7 @@ using HarmonyLib;
 #endregion using directives
 
 [UsedImplicitly]
-[RequiresMod("spacechase0.SpaceCore")]
+[ModRequirement("spacechase0.SpaceCore")]
 internal sealed class SkillsGetProfessionForPatcher : HarmonyPatcher
 {
     /// <summary>Initializes a new instance of the <see cref="SkillsGetProfessionForPatcher"/> class.</summary>

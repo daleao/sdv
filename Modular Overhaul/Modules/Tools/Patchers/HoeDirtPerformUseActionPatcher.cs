@@ -17,7 +17,7 @@ using StardewValley.TerrainFeatures;
 #endregion using directives
 
 [UsedImplicitly]
-[IgnoreWithMod("bcmpinc.HarvestWithScythe")]
+[ModConflict("bcmpinc.HarvestWithScythe")]
 internal sealed class HoeDirtPerformUseActionPatcher : HarmonyPatcher
 {
     /// <summary>Initializes a new instance of the <see cref="HoeDirtPerformUseActionPatcher"/> class.</summary>

@@ -8,7 +8,7 @@ using DaLion.Shared.Integrations;
 
 #endregion using directives
 
-[RequiresMod("spacechase0.MoonMisadventures", "Moon Misadventures")]
+[ModRequirement("spacechase0.MoonMisadventures", "Moon Misadventures")]
 internal sealed class MoonMisadventuresIntegration : ModIntegration<MoonMisadventuresIntegration>
 {
     /// <summary>Initializes a new instance of the <see cref="MoonMisadventuresIntegration"/> class.</summary>

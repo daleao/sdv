@@ -21,7 +21,7 @@ using SpaceCore.Interface;
 #endregion using directives
 
 [UsedImplicitly]
-[RequiresMod("spacechase0.SpaceCore")]
+[ModRequirement("spacechase0.SpaceCore")]
 internal sealed class SkillLevelUpMenuUpdatePatcher : HarmonyPatcher
 {
     /// <summary>Initializes a new instance of the <see cref="SkillLevelUpMenuUpdatePatcher"/> class.</summary>

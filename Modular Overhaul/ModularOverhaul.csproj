@@ -10,7 +10,7 @@
     <RepositoryType>git</RepositoryType>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <UpdateKeys>Nexus:14470@Main</UpdateKeys>
-    <Version>2.5.0</Version>
+    <Version>2.5.1</Version>
 
     <!-- build settings -->
     <TargetFramework>net5.0</TargetFramework>
@@ -124,9 +124,6 @@
     <Using Include="StardewValley" />
     <Using Alias="SObject" Include="StardewValley.Object" />
     <Using Alias="Log" Include="DaLion.Shared.Log" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Modules\Professions\Sounds\" />
   </ItemGroup>
   
   <ProjectExtensions>

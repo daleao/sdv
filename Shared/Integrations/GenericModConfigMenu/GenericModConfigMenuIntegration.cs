@@ -13,7 +13,7 @@ using StardewModdingAPI.Utilities;
 /// <typeparam name="TGenericModConfigMenu">The type that is inheriting from this class.</typeparam>
 /// <typeparam name="TConfig">The mod configuration type.</typeparam>
 /// <remarks>Original code by <see href="https://github.com/Pathoschild">Pathoschild</see>.</remarks>
-[RequiresMod("spacechase0.GenericModConfigMenu", "GenericModConfigMenu", "1.6.0")]
+[ModRequirement("spacechase0.GenericModConfigMenu", "GenericModConfigMenu", "1.6.0")]
 internal abstract class GenericModConfigMenuIntegration<TGenericModConfigMenu, TConfig> :
     ModIntegration<TGenericModConfigMenu, IGenericModConfigMenuApi>
     where TGenericModConfigMenu : GenericModConfigMenuIntegration<TGenericModConfigMenu, TConfig>

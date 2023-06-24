@@ -112,7 +112,7 @@ internal static class Slingshot_Stats
 
     private static Holder Create(Slingshot slingshot)
     {
-        var bowData = ArcheryIntegration.Instance!.ModApi!.GetWeaponData(Manifest, slingshot);
+        var bowData = ArcheryIntegration.Instance?.ModApi?.GetWeaponData(Manifest, slingshot);
         return bowData is null ? CreateAsSlingshot(slingshot) : CreateAsBow(slingshot, bowData);
     }
 

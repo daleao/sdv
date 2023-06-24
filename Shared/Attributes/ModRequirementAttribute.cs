@@ -2,13 +2,13 @@
 
 /// <summary>Indicates to a factory that the implicitly-used marked symbol should only be instantiated when a third-party mod is installed, or adds third-party mod metadata to an explicitly-instantiated class.</summary>
 [AttributeUsage(AttributeTargets.Class)]
-public sealed class RequiresModAttribute : Attribute
+public sealed class ModRequirementAttribute : Attribute
 {
-    /// <summary>Initializes a new instance of the <see cref="RequiresModAttribute"/> class.</summary>
+    /// <summary>Initializes a new instance of the <see cref="ModRequirementAttribute"/> class.</summary>
     /// <param name="uniqueId">The required mod's unique ID.</param>
     /// <param name="name">A human-readable name for the mod.</param>
     /// <param name="version">The minimum required version.</param>
-    public RequiresModAttribute(string uniqueId, string? name = null, string? version = null)
+    public ModRequirementAttribute(string uniqueId, string? name = null, string? version = null)
     {
         this.UniqueId = uniqueId;
         this.Name = name ?? uniqueId;

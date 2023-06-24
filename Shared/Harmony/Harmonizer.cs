@@ -112,41 +112,41 @@ internal sealed class Harmonizer
             }
 #endif
 
-            var implicitIgnoreAttribute = patchType.GetCustomAttribute<ImplicitIgnoreAttribute>();
-            if (implicitIgnoreAttribute is not null)
+            var ignoreAttribute = patchType.GetCustomAttribute<ImplicitIgnoreAttribute>();
+            if (ignoreAttribute is not null)
             {
                 continue;
             }
 
-            var requiresModAttribute = patchType.GetCustomAttribute<RequiresModAttribute>();
-            if (requiresModAttribute is not null)
+            var modRequirementAttribute = patchType.GetCustomAttribute<ModRequirementAttribute>();
+            if (modRequirementAttribute is not null)
             {
-                if (!this._modRegistry.IsLoaded(requiresModAttribute.UniqueId))
+                if (!this._modRegistry.IsLoaded(modRequirementAttribute.UniqueId))
                 {
                     Log.D(
-                        $"[Harmonizer]: The target mod {requiresModAttribute.UniqueId} is not loaded. {patchType.Name} will be ignored.");
+                        $"[Harmonizer]: The target mod {modRequirementAttribute.UniqueId} is not loaded. {patchType.Name} will be ignored.");
                     continue;
                 }
 
-                var installedVersion = this._modRegistry.Get(requiresModAttribute.UniqueId)!.Manifest.Version;
-                if (!string.IsNullOrEmpty(requiresModAttribute.Version) &&
-                    installedVersion.IsOlderThan(requiresModAttribute.Version))
+                var installedVersion = this._modRegistry.Get(modRequirementAttribute.UniqueId)!.Manifest.Version;
+                if (!string.IsNullOrEmpty(modRequirementAttribute.Version) &&
+                    installedVersion.IsOlderThan(modRequirementAttribute.Version))
                 {
                     Log.W(
-                        $"[Harmonizer]: The integration patch {patchType.Name} will be ignored because the installed version of {requiresModAttribute.UniqueId} is older than minimum supported version." +
-                        $" Please update {requiresModAttribute.UniqueId} in order to enable integrations with {this.HarmonyId}." +
-                        $"\n\tInstalled version: {this._modRegistry.Get(requiresModAttribute.UniqueId)!.Manifest.Version}\n\tRequired version: {requiresModAttribute.Version}");
+                        $"[Harmonizer]: The integration patch {patchType.Name} will be ignored because the installed version of {modRequirementAttribute.UniqueId} is older than minimum supported version." +
+                        $" Please update {modRequirementAttribute.UniqueId} in order to enable integrations with {this.HarmonyId}." +
+                        $"\n\tInstalled version: {this._modRegistry.Get(modRequirementAttribute.UniqueId)!.Manifest.Version}\n\tRequired version: {modRequirementAttribute.Version}");
                     continue;
                 }
             }
 
-            var ignoreWithModAttribute = patchType.GetCustomAttribute<IgnoreWithModAttribute>();
-            if (ignoreWithModAttribute is not null)
+            var modConflictAttribute = patchType.GetCustomAttribute<ModConflictAttribute>();
+            if (modConflictAttribute is not null)
             {
-                if (this._modRegistry.IsLoaded(ignoreWithModAttribute.UniqueId))
+                if (this._modRegistry.IsLoaded(modConflictAttribute.UniqueId))
                 {
-                    Log.W(
-                        $"[Harmonizer]: The conflicting mod {ignoreWithModAttribute.UniqueId} is loaded. {patchType.Name} will be ignored.");
+                    Log.D(
+                        $"[Harmonizer]: The conflicting mod {modConflictAttribute.UniqueId} is loaded. {patchType.Name} will be ignored.");
                     continue;
                 }
             }

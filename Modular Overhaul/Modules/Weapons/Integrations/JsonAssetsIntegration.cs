@@ -10,7 +10,7 @@ using DaLion.Shared.Integrations.JsonAssets;
 
 #endregion using directives
 
-[RequiresMod("spacechase0.JsonAssets", "Json Assets", "1.10.7")]
+[ModRequirement("spacechase0.JsonAssets", "Json Assets", "1.10.7")]
 internal sealed class JsonAssetsIntegration : ModIntegration<JsonAssetsIntegration, IJsonAssetsApi>
 {
     /// <summary>Initializes a new instance of the <see cref="JsonAssetsIntegration"/> class.</summary>

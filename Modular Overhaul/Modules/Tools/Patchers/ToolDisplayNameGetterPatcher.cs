@@ -9,7 +9,7 @@ using HarmonyLib;
 #endregion using directives
 
 [UsedImplicitly]
-[IgnoreWithMod("spacechase0.MoonMisadventures")]
+[ModConflict("spacechase0.MoonMisadventures")]
 internal sealed class ToolDisplayNameGetterPatcher : HarmonyPatcher
 {
     /// <summary>Initializes a new instance of the <see cref="ToolDisplayNameGetterPatcher"/> class.</summary>

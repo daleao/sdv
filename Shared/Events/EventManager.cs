@@ -474,29 +474,29 @@ internal sealed class EventManager
             }
 #endif
 
-            var deprecatedAttr = eventType.GetCustomAttribute<ImplicitIgnoreAttribute>();
-            if (deprecatedAttr is not null)
+            var ignoreAttribute = eventType.GetCustomAttribute<ImplicitIgnoreAttribute>();
+            if (ignoreAttribute is not null)
             {
                 continue;
             }
 
-            var requiresModAttribute = eventType.GetCustomAttribute<RequiresModAttribute>();
-            if (requiresModAttribute is not null)
+            var modRequirementAttribute = eventType.GetCustomAttribute<ModRequirementAttribute>();
+            if (modRequirementAttribute is not null)
             {
-                if (!this._modRegistry.IsLoaded(requiresModAttribute.UniqueId))
+                if (!this._modRegistry.IsLoaded(modRequirementAttribute.UniqueId))
                 {
                     Log.D(
-                        $"[EventManager]: The target mod {requiresModAttribute.UniqueId} is not loaded. {eventType.Name} will be ignored.");
+                        $"[EventManager]: The target mod {modRequirementAttribute.UniqueId} is not loaded. {eventType.Name} will be ignored.");
                     continue;
                 }
 
-                if (!string.IsNullOrEmpty(requiresModAttribute.Version) &&
-                    this._modRegistry.Get(requiresModAttribute.UniqueId)!.Manifest.Version.IsOlderThan(
-                        requiresModAttribute.Version))
+                if (!string.IsNullOrEmpty(modRequirementAttribute.Version) &&
+                    this._modRegistry.Get(modRequirementAttribute.UniqueId)!.Manifest.Version.IsOlderThan(
+                        modRequirementAttribute.Version))
                 {
                     Log.W(
-                        $"[EventManager]: The integration event {eventType.Name} will be ignored because the installed version of {requiresModAttribute.UniqueId} is older than minimum supported version." +
-                        $" Please update {requiresModAttribute.UniqueId} in order to enable integrations with this mod.");
+                        $"[EventManager]: The integration event {eventType.Name} will be ignored because the installed version of {modRequirementAttribute.UniqueId} is older than minimum supported version." +
+                        $" Please update {modRequirementAttribute.UniqueId} in order to enable integrations with this mod.");
                     continue;
                 }
             }
@@ -566,7 +566,7 @@ internal sealed class EventManager
             return null;
         }
 
-        var requiresModAttribute = eventType.GetCustomAttribute<RequiresModAttribute>();
+        var requiresModAttribute = eventType.GetCustomAttribute<ModRequirementAttribute>();
         if (requiresModAttribute is not null)
         {
             if (!this._modRegistry.IsLoaded(requiresModAttribute.UniqueId))

@@ -16,7 +16,7 @@ using StardewValley;
 #endregion using directives
 
 [UsedImplicitly]
-[IgnoreWithMod("bcmpinc.HarvestWithScythe")]
+[ModConflict("bcmpinc.HarvestWithScythe")]
 internal sealed class CropHarvestPatcher : HarmonyPatcher
 {
     /// <summary>Initializes a new instance of the <see cref="CropHarvestPatcher"/> class.</summary>

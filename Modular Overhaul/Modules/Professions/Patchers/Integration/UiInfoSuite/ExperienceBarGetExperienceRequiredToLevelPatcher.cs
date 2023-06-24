@@ -10,7 +10,7 @@ using HarmonyLib;
 #endregion using directives
 
 [UsedImplicitly]
-[RequiresMod("Annosz.UiInfoSuite2", version: "2.2.6")]
+[ModRequirement("Annosz.UiInfoSuite2", version: "2.2.6")]
 internal sealed class ExperienceBarGetExperienceRequiredToLevelPatcher : HarmonyPatcher
 {
     /// <summary>Initializes a new instance of the <see cref="ExperienceBarGetExperienceRequiredToLevelPatcher"/> class.</summary>

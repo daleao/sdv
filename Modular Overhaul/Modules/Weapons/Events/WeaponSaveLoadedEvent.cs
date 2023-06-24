@@ -74,7 +74,14 @@ internal sealed class WeaponSaveLoadedEvent : SaveLoadedEvent
         // infinity +1 checks
         if (player.Read<VirtueQuestState>(DataKeys.VirtueQuestState) == VirtueQuestState.InProgress)
         {
-            WeaponsModule.State.VirtuesQuest = new VirtueQuest();
+            if (player.mailReceived.Contains("gotHolyBlade"))
+            {
+                player.Write(DataKeys.VirtueQuestState, VirtueQuestState.Completed.ToString());
+            }
+            else
+            {
+                WeaponsModule.State.VirtuesQuest = new VirtueQuest();
+            }
         }
 
         if (!WeaponsModule.Config.EnableAutoSelection)

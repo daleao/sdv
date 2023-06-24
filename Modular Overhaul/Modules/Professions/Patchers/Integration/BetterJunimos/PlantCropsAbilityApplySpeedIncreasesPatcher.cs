@@ -14,7 +14,7 @@ using HarmonyLib;
 #endregion using directives
 
 [UsedImplicitly]
-[RequiresMod("hawkfalcon.BetterJunimos")]
+[ModRequirement("hawkfalcon.BetterJunimos")]
 internal sealed class PlantCropsAbilityApplySpeedIncreasesPatcher : HarmonyPatcher
 {
     internal PlantCropsAbilityApplySpeedIncreasesPatcher()

@@ -1,5 +1,11 @@
 ﻿# PROFS Change Log
 
+## 2.5.1 <sup><sub><sup>[🔼](#profs-change-log)</sup></sub></sup>
+
+### Fixed
+
+* Fixed all xp gain being capped at 1.
+
 ## 2.5.0 <sup><sub><sup>[🔼](#profs-change-log)</sup></sub></sup>
 
 Major Overhaul for Fishing professions.

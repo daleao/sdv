@@ -1,5 +1,11 @@
 ﻿# SLNGS Change Log
 
+## 2.5.1 <sup><sub><sup>[🔼](#slngs-change-log)</sup></sub></sup>
+
+### Fixed
+
+* Fixed possible Null-Reference in Slingshot stat creation.
+
 ## 2.5.0 <sup><sub><sup>[🔼](#slngs-change-log)</sup></sub></sup>
 
 ### Added

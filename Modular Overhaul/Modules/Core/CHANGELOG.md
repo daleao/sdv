@@ -1,5 +1,15 @@
 ﻿# Core Change Log
 
+## 2.5.1 <sup><sub><sup>[🔼](#core-change-log)</sup></sub></sup>
+
+### Changed
+
+* Lowered log level of mod conflicts to Debug.
+
+### Fixed
+
+* Fixed patching order of IClickableMenu.drawHoverText.
+
 ## 2.5.0 <sup><sub><sup>[🔼](#core-change-log)</sup></sub></sup>
 
 ### Changed

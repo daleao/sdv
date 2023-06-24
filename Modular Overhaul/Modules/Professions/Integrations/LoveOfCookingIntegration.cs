@@ -8,7 +8,7 @@ using DaLion.Shared.Integrations.LoveOfCooking;
 
 #endregion using directives
 
-[RequiresMod("blueberry.LoveOfCooking", "Love Of Cooking", "1.0.27")]
+[ModRequirement("blueberry.LoveOfCooking", "Love Of Cooking", "1.0.27")]
 internal sealed class LoveOfCookingIntegration : ModIntegration<LoveOfCookingIntegration, ICookingSkillApi>
 {
     /// <summary>Initializes a new instance of the <see cref="LoveOfCookingIntegration"/> class.</summary>

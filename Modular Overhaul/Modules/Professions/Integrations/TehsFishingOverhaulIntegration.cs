@@ -10,7 +10,7 @@ using HarmonyLib;
 
 #endregion using directives
 
-[RequiresMod("TehPers.FishingOverhaul", "Teh's Fishing Overhaul", "3.2.0")]
+[ModRequirement("TehPers.FishingOverhaul", "Teh's Fishing Overhaul", "3.2.0")]
 internal sealed class TehsFishingOverhaulIntegration : ModIntegration<TehsFishingOverhaulIntegration, ISimplifiedFishingApi>
 {
     private static readonly Func<object?, double> GetTreasureBaseChance;

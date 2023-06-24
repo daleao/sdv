@@ -41,7 +41,7 @@ internal sealed class FarmerGainExperiencePatcher : HarmonyPatcher
                 return false; // don't run original logic
             }
 
-            howMuch = Math.Min((int)(howMuch * skill.BaseExperienceMultiplier * ((ISkill)skill).PrestigeExperienceMultiplier), 1);
+            howMuch = Math.Max((int)(howMuch * skill.BaseExperienceMultiplier * ((ISkill)skill).PrestigeExperienceMultiplier), 1);
             var newLevel = Math.Min(
                 Farmer.checkForLevelGain(skill.CurrentExp, skill.CurrentExp + howMuch),
                 skill.MaxLevel);

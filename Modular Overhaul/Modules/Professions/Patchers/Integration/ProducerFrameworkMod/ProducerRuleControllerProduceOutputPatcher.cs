@@ -13,7 +13,7 @@ using HarmonyLib;
 #endregion using directives
 
 [UsedImplicitly]
-[RequiresMod("Digus.ProducerFrameworkMod")]
+[ModRequirement("Digus.ProducerFrameworkMod")]
 internal sealed class ProducerRuleControllerProduceOutputPatcher : HarmonyPatcher
 {
     /// <summary>Initializes a new instance of the <see cref="ProducerRuleControllerProduceOutputPatcher"/> class.</summary>

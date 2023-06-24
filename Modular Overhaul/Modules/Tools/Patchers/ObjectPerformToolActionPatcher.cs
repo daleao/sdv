@@ -12,7 +12,7 @@ using HarmonyLib;
 #endregion using directives
 
 [UsedImplicitly]
-[IgnoreWithMod("bcmpinc.HarvestWithScythe")]
+[ModConflict("bcmpinc.HarvestWithScythe")]
 internal sealed class ObjectPerformToolActionPatcher : HarmonyPatcher
 {
     /// <summary>Initializes a new instance of the <see cref="ObjectPerformToolActionPatcher"/> class.</summary>

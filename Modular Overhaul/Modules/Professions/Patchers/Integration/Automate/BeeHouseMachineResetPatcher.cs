@@ -14,7 +14,7 @@ using HarmonyLib;
 #endregion using directives
 
 [UsedImplicitly]
-[RequiresMod("Pathoschild.Automate")]
+[ModRequirement("Pathoschild.Automate")]
 internal sealed class BeeHouseMachineResetPatcher : HarmonyPatcher
 {
     /// <summary>Initializes a new instance of the <see cref="BeeHouseMachineResetPatcher"/> class.</summary>

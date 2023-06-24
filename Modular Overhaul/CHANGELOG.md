@@ -2,6 +2,10 @@
 
 This file contains a TL;DR of current version changes and hotfixes from across all modules. For the complete changelog, please refer to the individual changelogs of each module, linked [below](#detailed-change-logs).
 
+## Patch 2.5.1 Highlights <sup><sub><sup>[🔼](#margo-change-logs)</sup></sub></sup>
+
+* First hotfix for few issues in 2.5.0.
+
 ## Minor Release 2.5.0 Highlights <sup><sub><sup>[🔼](#margo-change-logs)</sup></sub></sup>
 
 * [PNDS]: Mr. and Ms. Angler can now mate when placed together in a pond.

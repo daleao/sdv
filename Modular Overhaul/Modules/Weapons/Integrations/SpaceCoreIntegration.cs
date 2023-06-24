@@ -9,7 +9,7 @@ using DaLion.Shared.Integrations.SpaceCore;
 
 #endregion using directives
 
-[RequiresMod("spacechase0.SpaceCore", "SpaceCore", "1.12.0")]
+[ModRequirement("spacechase0.SpaceCore", "SpaceCore", "1.12.0")]
 internal sealed class SpaceCoreIntegration : ModIntegration<SpaceCoreIntegration, ISpaceCoreApi>
 {
     /// <summary>Initializes a new instance of the <see cref="SpaceCoreIntegration"/> class.</summary>

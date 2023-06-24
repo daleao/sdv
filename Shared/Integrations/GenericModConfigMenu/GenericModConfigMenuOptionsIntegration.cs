@@ -7,7 +7,7 @@ using DaLion.Shared.Integrations;
 
 #endregion using directives
 
-[RequiresMod("jltaylor-us.GMCMOptions", "GMCM Options")]
+[ModRequirement("jltaylor-us.GMCMOptions", "GMCM Options")]
 [ImplicitIgnore]
 internal sealed class GenericModConfigMenuOptionsIntegration : ModIntegration<GenericModConfigMenuOptionsIntegration, IGenericModConfigMenuOptionsApi>
 {

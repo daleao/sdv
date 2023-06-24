@@ -8,8 +8,8 @@ using DaLion.Shared.Integrations;
 
 #endregion using directives
 
-[RequiresMod("BBR.BetterRings", "Better Rings")]
-[IgnoreWithMod("Taiyo.VanillaTweaks")]
+[ModRequirement("BBR.BetterRings", "Better Rings")]
+[ModConflict("Taiyo.VanillaTweaks")]
 internal sealed class BetterRingsIntegration : ModIntegration<BetterRingsIntegration>
 {
     /// <summary>Initializes a new instance of the <see cref="BetterRingsIntegration"/> class.</summary>

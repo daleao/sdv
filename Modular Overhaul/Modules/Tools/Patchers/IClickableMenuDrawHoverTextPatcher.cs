@@ -3,18 +3,14 @@
 #region using directives
 
 using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using System.Reflection.Emit;
 using System.Text;
 using DaLion.Shared.Extensions.Reflection;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
-using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Shared.Extensions.Xna;
 using StardewValley.Menus;
-using StardewValley.Tools;
 
 #endregion using directives
 
@@ -32,6 +28,7 @@ internal sealed class IClickableMenuDrawHoverTextPatcher : HarmonyPatcher
                 typeof(int), typeof(string), typeof(int), typeof(string[]), typeof(Item), typeof(int), typeof(int),
                 typeof(int), typeof(int), typeof(int), typeof(float), typeof(CraftingRecipe), typeof(IList<Item>),
             });
+        this.Transpiler!.after = new[] { OverhaulModule.Slingshots.Namespace };
         this.Transpiler!.before = new[] { OverhaulModule.Weapons.Namespace };
     }
 
@@ -39,11 +36,12 @@ internal sealed class IClickableMenuDrawHoverTextPatcher : HarmonyPatcher
 
     /// <summary>Set hover text color for upgraded tools weapons.</summary>
     [HarmonyTranspiler]
+    [HarmonyAfter("DaLion.Overhaul.Modules.Slingshots")]
     [HarmonyBefore("DaLion.Overhaul.Modules.Weapons")]
     private static IEnumerable<CodeInstruction>? IClickableMenuDrawHoverTextTranspiler(
         IEnumerable<CodeInstruction> instructions, MethodBase original)
     {
-        if (WeaponsModule.ShouldEnable)
+        if (SlingshotsModule.ShouldEnable || WeaponsModule.ShouldEnable)
         {
             return null;
         }
@@ -68,8 +66,8 @@ internal sealed class IClickableMenuDrawHoverTextPatcher : HarmonyPatcher
                 .ReplaceWith(
                     new CodeInstruction(
                         OpCodes.Call,
-                        typeof(IClickableMenuDrawHoverTextPatcher).RequireMethod(nameof(GetTitleColorFor))))
-                .Insert(new[] { new CodeInstruction(OpCodes.Ldarg_S, (byte)9) }); // arg 10 = Item item
+                        typeof(Weapons.Extensions.ItemExtensions).RequireMethod(nameof(Weapons.Extensions.ItemExtensions.GetTitleColorFor))))
+                .Insert(new[] { new CodeInstruction(OpCodes.Ldarg_S, (byte)9) }); // arg 9 = Item hoveredItem
         }
         catch (Exception ex)
         {
@@ -81,20 +79,4 @@ internal sealed class IClickableMenuDrawHoverTextPatcher : HarmonyPatcher
     }
 
     #endregion harmony patches
-
-    #region injected subroutines
-
-    [SuppressMessage("StyleCop.CSharp.OrderingRules", "SA1202:Elements should be ordered by access", Justification = "Harmony-injected subroutine shared by a SpaceCore patch.")]
-    internal static Color GetTitleColorFor(Item? item)
-    {
-        return item is Tool { UpgradeLevel: > 0 } tool && ToolsModule.Config.ColorCodedForYourConvenience
-            ? tool is FishingRod rod
-                ? rod.UpgradeLevel > 2
-                    ? Color.Violet.ChangeValue(0.5f)
-                    : Game1.textColor
-                : ((UpgradeLevel)tool.UpgradeLevel).GetTextColor()
-            : Game1.textColor;
-    }
-
-    #endregion injected subroutines
 }

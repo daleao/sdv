@@ -9,7 +9,7 @@ using HarmonyLib;
 #endregion using directives
 
 [UsedImplicitly]
-[IgnoreWithMod("spacechase0.MoonMisadventures")]
+[ModConflict("spacechase0.MoonMisadventures")]
 internal sealed class ToolSetNewTileIndexForUpgradeLevelPatcher : HarmonyPatcher
 {
     /// <summary>Initializes a new instance of the <see cref="ToolSetNewTileIndexForUpgradeLevelPatcher"/> class.</summary>

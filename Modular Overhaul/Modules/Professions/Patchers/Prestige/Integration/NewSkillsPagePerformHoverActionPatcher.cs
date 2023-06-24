@@ -16,7 +16,7 @@ using StardewValley.Menus;
 #endregion using directives
 
 [UsedImplicitly]
-[RequiresMod("spacechase0.SpaceCore")]
+[ModRequirement("spacechase0.SpaceCore")]
 internal sealed class NewSkillsPagePerformHoverActionPatcher : HarmonyPatcher
 {
     /// <summary>Initializes a new instance of the <see cref="NewSkillsPagePerformHoverActionPatcher"/> class.</summary>

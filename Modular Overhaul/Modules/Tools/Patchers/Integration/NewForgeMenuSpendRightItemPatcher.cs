@@ -12,7 +12,7 @@ using StardewValley.Menus;
 #endregion using directives
 
 [UsedImplicitly]
-[RequiresMod("spacechase0.SpaceCore")]
+[ModRequirement("spacechase0.SpaceCore")]
 internal sealed class NewForgeMenuSpendRightItemPatcher : HarmonyPatcher
 {
     /// <summary>Initializes a new instance of the <see cref="NewForgeMenuSpendRightItemPatcher"/> class.</summary>

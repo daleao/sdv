@@ -10,7 +10,7 @@ using Microsoft.Xna.Framework.Graphics;
 #endregion using directives
 
 [UsedImplicitly]
-[IgnoreWithMod("spacechase0.MoonMisadventures")]
+[ModConflict("spacechase0.MoonMisadventures")]
 internal sealed class Game1DrawToolPatcher : HarmonyPatcher
 {
     /// <summary>Initializes a new instance of the <see cref="Game1DrawToolPatcher"/> class.</summary>

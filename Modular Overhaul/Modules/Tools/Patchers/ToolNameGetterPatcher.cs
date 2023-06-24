@@ -10,7 +10,7 @@ using StardewValley.Tools;
 #endregion using directives
 
 [UsedImplicitly]
-[IgnoreWithMod("spacechase0.MoonMisadventures")]
+[ModConflict("spacechase0.MoonMisadventures")]
 internal sealed class ToolNameGetterPatcher : HarmonyPatcher
 {
     /// <summary>Initializes a new instance of the <see cref="ToolNameGetterPatcher"/> class.</summary>

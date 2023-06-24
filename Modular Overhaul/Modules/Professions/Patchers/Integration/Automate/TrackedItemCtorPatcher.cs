@@ -13,7 +13,7 @@ using StardewValley.Tools;
 #endregion using directives
 
 [UsedImplicitly]
-[RequiresMod("Pathoschild.Automate")]
+[ModRequirement("Pathoschild.Automate")]
 internal sealed class TrackedItemCtorPatcher : HarmonyPatcher
 {
     /// <summary>Initializes a new instance of the <see cref="TrackedItemCtorPatcher"/> class.</summary>

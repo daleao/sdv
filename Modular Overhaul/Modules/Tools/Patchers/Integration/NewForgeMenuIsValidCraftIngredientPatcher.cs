@@ -13,7 +13,7 @@ using StardewValley.Tools;
 #endregion using directives
 
 [UsedImplicitly]
-[RequiresMod("spacechase0.SpaceCore")]
+[ModRequirement("spacechase0.SpaceCore")]
 internal sealed class NewForgeMenuIsValidCraftIngredientPatcher : HarmonyPatcher
 {
     /// <summary>Initializes a new instance of the <see cref="NewForgeMenuIsValidCraftIngredientPatcher"/> class.</summary>

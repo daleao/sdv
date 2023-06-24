@@ -16,7 +16,7 @@ using StardewValley.TerrainFeatures;
 
 #endregion using directives
 
-[RequiresMod("Pathoschild.Automate", "Automate", "1.27.3")]
+[ModRequirement("Pathoschild.Automate", "Automate", "1.27.3")]
 internal sealed class AutomateIntegration : ModIntegration<AutomateIntegration>
 {
     private IDictionary? _machineData;

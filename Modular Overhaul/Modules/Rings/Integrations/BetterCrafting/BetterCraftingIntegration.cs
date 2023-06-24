@@ -9,7 +9,7 @@ using DaLion.Shared.Integrations.BetterCrafting;
 
 #endregion using directives
 
-[RequiresMod("leclair.bettercrafting", "Better Crafting", "1.0.0")]
+[ModRequirement("leclair.bettercrafting", "Better Crafting", "1.0.0")]
 internal sealed class BetterCraftingIntegration : ModIntegration<BetterCraftingIntegration, IBetterCraftingApi>
 {
     /// <summary>Initializes a new instance of the <see cref="BetterCraftingIntegration"/> class.</summary>

@@ -10,7 +10,7 @@ using DaLion.Shared.Integrations.CustomOreNodes;
 
 #endregion using directives
 
-[RequiresMod("aedenthorn.CustomOreNodes", "Custom Ore Nodes", "2.1.1")]
+[ModRequirement("aedenthorn.CustomOreNodes", "Custom Ore Nodes", "2.1.1")]
 internal sealed class CustomOreNodesIntegration : ModIntegration<CustomOreNodesIntegration, ICustomOreNodesApi>
 {
     /// <summary>Initializes a new instance of the <see cref="CustomOreNodesIntegration"/> class.</summary>

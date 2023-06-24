@@ -3,16 +3,12 @@
 #region using directives
 
 using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using System.Reflection.Emit;
 using System.Text;
-using DaLion.Overhaul.Modules.Slingshots.Integrations;
-using DaLion.Overhaul.Modules.Tools;
 using DaLion.Shared.Extensions.Reflection;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
-using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using StardewValley.Menus;
 using StardewValley.Tools;
@@ -33,12 +29,14 @@ internal sealed class IClickableMenuDrawHoverTextPatcher : HarmonyPatcher
                 typeof(int), typeof(string), typeof(int), typeof(string[]), typeof(Item), typeof(int), typeof(int),
                 typeof(int), typeof(int), typeof(int), typeof(float), typeof(CraftingRecipe), typeof(IList<Item>),
             });
+        this.Transpiler!.before = new[] { OverhaulModule.Tools.Namespace, OverhaulModule.Weapons.Namespace };
     }
 
     #region harmony patches
 
     /// <summary>Adds "Forged" text to Slingshots.</summary>
     [HarmonyTranspiler]
+    [HarmonyBefore("DaLion.Overhaul.Modules.Tools", "DaLion.Overhaul.Modules.Weapons")]
     private static IEnumerable<CodeInstruction>? IClickableMenuDrawHoverTextTranspiler(
         IEnumerable<CodeInstruction> instructions, MethodBase original)
     {
@@ -106,8 +104,8 @@ internal sealed class IClickableMenuDrawHoverTextPatcher : HarmonyPatcher
                 .ReplaceWith(
                     new CodeInstruction(
                         OpCodes.Call,
-                        typeof(IClickableMenuDrawHoverTextPatcher).RequireMethod(nameof(GetTitleColorFor))))
-                .Insert(new[] { new CodeInstruction(OpCodes.Ldarg_S, (byte)9) }); // arg 10 = Item item
+                        typeof(Weapons.Extensions.ItemExtensions).RequireMethod(nameof(Weapons.Extensions.ItemExtensions.GetTitleColorFor))))
+                .Insert(new[] { new CodeInstruction(OpCodes.Ldarg_S, (byte)9) }); // arg 9 = Item hoveredItem
         }
         catch (Exception ex)
         {
@@ -119,60 +117,4 @@ internal sealed class IClickableMenuDrawHoverTextPatcher : HarmonyPatcher
     }
 
     #endregion harmony patches
-
-    #region injected subroutines
-
-    [SuppressMessage("StyleCop.CSharp.OrderingRules", "SA1202:Elements should be ordered by access", Justification = "Harmony-injected subroutine shared by a SpaceCore patch.")]
-    internal static Color GetTitleColorFor(Item? item)
-    {
-        if (item is not Slingshot slingshot || !SlingshotsModule.Config.ColorCodedForYourConvenience)
-        {
-            return Game1.textColor;
-        }
-
-        var bowData = ArcheryIntegration.Instance!.ModApi!.GetWeaponData(Manifest, slingshot);
-        if (bowData is null)
-        {
-            return slingshot.InitialParentTileIndex switch
-            {
-                ItemIDs.GalaxySlingshot => Color.DarkViolet,
-                ItemIDs.InfinitySlingshot => Color.DeepPink,
-                _ => Game1.textColor,
-            };
-        }
-
-        if (slingshot.Name.Contains("Copper"))
-        {
-            return UpgradeLevel.Copper.GetTextColor();
-        }
-
-        if (slingshot.Name.Contains("Steel"))
-        {
-            return UpgradeLevel.Steel.GetTextColor();
-        }
-
-        if (slingshot.Name.Contains("Gold"))
-        {
-            return UpgradeLevel.Gold.GetTextColor();
-        }
-
-        if (slingshot.Name.Contains("Iridium"))
-        {
-            return UpgradeLevel.Iridium.GetTextColor();
-        }
-
-        if (slingshot.Name.Contains("Yoba"))
-        {
-            return Color.Gold;
-        }
-
-        if (slingshot.Name.Contains("Dwarven"))
-        {
-            return Color.MonoGameOrange;
-        }
-
-        return Game1.textColor;
-    }
-
-    #endregion injected subroutines
 }

@@ -15,7 +15,7 @@ using StardewValley.TerrainFeatures;
 #endregion using directives
 
 [UsedImplicitly]
-[IgnoreWithMod("aedenthorn.FruitTreeTweaks")]
+[ModConflict("aedenthorn.FruitTreeTweaks")]
 internal sealed class FruitTreeShakePatcher : HarmonyPatcher
 {
     /// <summary>Initializes a new instance of the <see cref="FruitTreeShakePatcher"/> class.</summary>

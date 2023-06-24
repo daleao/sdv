@@ -6,15 +6,11 @@ using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
 using System.Text;
-using DaLion.Overhaul.Modules.Tools;
-using DaLion.Overhaul.Modules.Weapons.Extensions;
 using DaLion.Shared.Extensions.Reflection;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
-using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using StardewValley.Menus;
-using StardewValley.Tools;
 
 #endregion using directives
 
@@ -32,12 +28,14 @@ internal sealed class IClickableMenuDrawHoverTextPatcher : HarmonyPatcher
                 typeof(int), typeof(string), typeof(int), typeof(string[]), typeof(Item), typeof(int), typeof(int),
                 typeof(int), typeof(int), typeof(int), typeof(float), typeof(CraftingRecipe), typeof(IList<Item>),
             });
+        this.Transpiler!.after = new[] { OverhaulModule.Slingshots.Namespace, OverhaulModule.Tools.Namespace };
     }
 
     #region harmony patches
 
     /// <summary>Set hover text color for legendary weapons.</summary>
     [HarmonyTranspiler]
+    [HarmonyAfter("DaLion.Overhaul.Modules.Slingshots", "DaLion.Overhaul.Modules.Tools")]
     private static IEnumerable<CodeInstruction>? IClickableMenuDrawHoverTextTranspiler(
         IEnumerable<CodeInstruction> instructions, MethodBase original)
     {
@@ -61,8 +59,8 @@ internal sealed class IClickableMenuDrawHoverTextPatcher : HarmonyPatcher
                 .ReplaceWith(
                     new CodeInstruction(
                         OpCodes.Call,
-                        typeof(IClickableMenuDrawHoverTextPatcher).RequireMethod(nameof(GetTitleColorFor))))
-                .Insert(new[] { new CodeInstruction(OpCodes.Ldarg_S, (byte)9) }); // arg 10 = Item item
+                        typeof(Weapons.Extensions.ItemExtensions).RequireMethod(nameof(Weapons.Extensions.ItemExtensions.GetTitleColorFor))))
+                .Insert(new[] { new CodeInstruction(OpCodes.Ldarg_S, (byte)9) }); // arg 10 = Item hoveredItem
         }
         catch (Exception ex)
         {
@@ -74,99 +72,4 @@ internal sealed class IClickableMenuDrawHoverTextPatcher : HarmonyPatcher
     }
 
     #endregion harmony patches
-
-    #region injected subroutines
-
-    private static Color GetTitleColorFor(Item? item)
-    {
-        if (item is not Tool tool)
-        {
-            return Game1.textColor;
-        }
-
-        if (item is MeleeWeapon && WeaponsModule.Config.ColorCodedForYourConvenience)
-        {
-            var tier = WeaponTier.GetFor(tool);
-            if (tier == WeaponTier.Untiered)
-            {
-                return Game1.textColor;
-            }
-
-            if (tier < WeaponTier.Legendary)
-            {
-                return tier.Color;
-            }
-
-            if (tool is MeleeWeapon weapon)
-            {
-                if (weapon.isGalaxyWeapon())
-                {
-                    return Color.DarkViolet;
-                }
-
-                if (weapon.IsInfinityWeapon())
-                {
-                    return Color.DeepPink;
-                }
-
-                switch (weapon.InitialParentTileIndex)
-                {
-                    case ItemIDs.DarkSword:
-                        return Color.DarkSlateGray;
-                    case ItemIDs.HolyBlade:
-                        return Color.Gold;
-                }
-            }
-        }
-        else if (tool is Slingshot slingshot && SlingshotsModule.ShouldEnable && SlingshotsModule.Config.ColorCodedForYourConvenience)
-        {
-            switch (slingshot.InitialParentTileIndex)
-            {
-                case ItemIDs.GalaxySlingshot:
-                    return Color.DarkViolet;
-                case ItemIDs.InfinitySlingshot:
-                    return Color.DeepPink;
-                default:
-                    if (slingshot.Name.Contains("Copper"))
-                    {
-                        return UpgradeLevel.Copper.GetTextColor();
-                    }
-
-                    if (slingshot.Name.Contains("Steel"))
-                    {
-                        return UpgradeLevel.Steel.GetTextColor();
-                    }
-
-                    if (slingshot.Name.Contains("Gold"))
-                    {
-                        return UpgradeLevel.Gold.GetTextColor();
-                    }
-
-                    if (slingshot.Name.Contains("Iridium"))
-                    {
-                        return UpgradeLevel.Iridium.GetTextColor();
-                    }
-
-                    if (slingshot.Name.Contains("Yoba"))
-                    {
-                        return Color.Gold;
-                    }
-
-                    if (slingshot.Name.Contains("Dwarven"))
-                    {
-                        return Color.MonoGameOrange;
-                    }
-
-                    break;
-            }
-        }
-        else if (ToolsModule.ShouldEnable && ToolsModule.Config.ColorCodedForYourConvenience)
-        {
-            return Tools.Patchers.IClickableMenuDrawHoverTextPatcher.GetTitleColorFor(item);
-        }
-
-        return Game1.textColor;
-    }
-
-    #endregion injected subroutines
 }

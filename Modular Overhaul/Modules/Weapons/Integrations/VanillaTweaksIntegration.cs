@@ -8,8 +8,8 @@ using DaLion.Shared.Integrations;
 
 #endregion using directives
 
-[RequiresMod("Taiyo.VanillaTweaks", "Vanilla Tweaks")]
-[IgnoreWithMod("dengdeng.simpleweapons")]
+[ModRequirement("Taiyo.VanillaTweaks", "Vanilla Tweaks")]
+[ModConflict("dengdeng.simpleweapons")]
 internal sealed class VanillaTweaksIntegration : ModIntegration<VanillaTweaksIntegration>
 {
     /// <summary>Initializes a new instance of the <see cref="VanillaTweaksIntegration"/> class.</summary>

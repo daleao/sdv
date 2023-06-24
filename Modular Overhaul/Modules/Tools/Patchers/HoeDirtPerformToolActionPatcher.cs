@@ -17,7 +17,7 @@ using StardewValley.Tools;
 #endregion using directives
 
 [UsedImplicitly]
-[IgnoreWithMod("bcmpinc.HarvestWithScythe")]
+[ModConflict("bcmpinc.HarvestWithScythe")]
 internal sealed class HoeDirtPerformToolActionPatcher : HarmonyPatcher
 {
     /// <summary>Initializes a new instance of the <see cref="HoeDirtPerformToolActionPatcher"/> class.</summary>

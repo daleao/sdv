@@ -16,7 +16,7 @@ using StardewValley.Tools;
 #endregion using directives
 
 [UsedImplicitly]
-[RequiresMod("PeacefulEnd.Archery", "Archery", "2.1.0")]
+[ModRequirement("PeacefulEnd.Archery", "Archery", "2.1.0")]
 internal sealed class SlingshotPatchDrawInMenuPrefixPatcher : HarmonyPatcher
 {
     /// <summary>Initializes a new instance of the <see cref="SlingshotPatchDrawInMenuPrefixPatcher"/> class.</summary>
