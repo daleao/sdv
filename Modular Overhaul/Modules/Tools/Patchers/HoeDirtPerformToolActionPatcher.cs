@@ -42,7 +42,7 @@ internal sealed class HoeDirtPerformToolActionPatcher : HarmonyPatcher
         if (t is WateringCan && __instance.state.Value > __state &&
             Game1.random.NextDouble() < ToolsModule.Config.Can.ExpRewardChance)
         {
-            t.getLastFarmerToUse().gainExperience(0, ToolsModule.Config.Can.ExpRewardAmount);
+            t.getLastFarmerToUse()?.gainExperience(0, ToolsModule.Config.Can.ExpRewardAmount);
         }
     }
 

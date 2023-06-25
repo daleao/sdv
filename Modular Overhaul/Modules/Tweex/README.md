@@ -14,9 +14,9 @@ Included tweaks:
 - Makes large Eggs and Milk yield double the output stack when processed by their respective machines, **instead of** increasing the output quality to gold.
 - Prevents Fruit Trees from growing in winter unless fertilized.
 - ~~Makes Meads take after the flower type of the input Honey item.~~ This feature has been removed since I learned about [Flower Meads](https://www.nexusmods.com/stardewvalley/mods/5767). Please use that mod instead.
-- Causes bombs to explode immediately when hit by other explosions.
-- Causes all Legendary Fish to guarantee iridium quality, so you may catch them without worry.
+- Causes crops to wither and die if left un-watered.
 - Causes crows to spawn on the Ginger Island farm, as well as any specified custom farm maps (includes compatibiltiy for SVE's Garden, Grampleton Fields, Ridgeside's Summit Farm and East Scarp's Meadow Farm).
+- Causes bombs to explode immediately when hit by other explosions.
 
 All features can be toggled on or off.
 

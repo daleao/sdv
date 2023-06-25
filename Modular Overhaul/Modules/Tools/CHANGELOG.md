@@ -1,5 +1,11 @@
 ﻿# TOLS Change Log
 
+## 2.5.4 <sup><sub><sup>[🔼](#tols-change-log)</sup></sub></sup>
+
+### Fixed
+
+* Fixed a possible Null-Reference exception when using Flexible Sprinklers.
+
 ## 2.5.3 <sup><sub><sup>[🔼](#tols-change-log)</sup></sub></sup>
 
 ### Fixed
