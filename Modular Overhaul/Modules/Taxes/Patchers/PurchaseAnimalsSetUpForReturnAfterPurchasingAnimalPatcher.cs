@@ -25,19 +25,20 @@ internal sealed class PurchaseAnimalsSetUpForReturnAfterPurchasingAnimalPatcher 
     [HarmonyPostfix]
     private static void PurchaseAnimalsMenuReceiveLeftClickPostfix(FarmAnimal ___animalBeingPurchased, int ___priceOfAnimal)
     {
-        if (!TaxesModule.Config.DeductibleAnimalExpenses)
+        if (TaxesModule.Config.DeductibleAnimalExpenses <= 0f)
         {
             return;
         }
 
+        var deductible = (int)(___priceOfAnimal * TaxesModule.Config.DeductibleAnimalExpenses);
         if (Game1.player.ShouldPayTaxes())
         {
-            Game1.player.Increment(DataKeys.BusinessExpenses, ___priceOfAnimal);
+            Game1.player.Increment(DataKeys.BusinessExpenses, deductible);
         }
         else
         {
             Broadcaster.MessageHost(
-                ___priceOfAnimal.ToString(),
+                deductible.ToString(),
                 OverhaulModule.Taxes.Namespace + DataKeys.BusinessExpenses);
         }
     }

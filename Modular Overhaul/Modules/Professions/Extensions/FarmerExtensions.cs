@@ -341,7 +341,7 @@ internal static class FarmerExtensions
     /// <returns>A <see cref="float"/> multiplier for general items.</returns>
     internal static float GetConservationistPriceMultiplier(this Farmer farmer)
     {
-        return 1f + farmer.Read<float>(DataKeys.ConservationistActiveTaxBonusPct);
+        return 1f + farmer.Read<float>(DataKeys.ConservationistActiveTaxDeduction);
     }
 
     /// <summary>Gets the quality of items foraged by <see cref="Profession.Ecologist"/>.</summary>

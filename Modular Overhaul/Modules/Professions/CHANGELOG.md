@@ -6,6 +6,10 @@
 
 * Added config to disable extended progression (level 20) while Prestige skill resetting is enabled.
 
+### Changed
+
+* Default value for ConservationistTaxDeductionCeiling changed to 100%.
+
 ### Fixed
 
 * Fixed possible KeyNotFound exception is SLNGS module is not enabled.

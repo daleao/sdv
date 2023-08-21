@@ -117,6 +117,7 @@ internal sealed class TaxDayEndingEvent : DayEndingEvent
             return;
         }
 
+        deductible = Math.Min(deductible, ProfessionsModule.Config.ConservationistTaxDeductionCeiling);
         taxpayer.Write(DataKeys.PercentDeductions, deductible.ToString(CultureInfo.InvariantCulture));
         Game1.player.Write(DataKeys.LatestTaxDeductions, deductible.ToString());
         PostalService.Send(Mail.FrsDeduction);

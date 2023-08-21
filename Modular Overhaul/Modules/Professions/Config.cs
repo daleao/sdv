@@ -164,17 +164,17 @@ public sealed class Config : Shared.Configs.Config
     [JsonProperty]
     public bool ShowFishCollectionMaxIcon { get; internal set; } = true;
 
-    /// <summary>Gets you must collect this many junk items from crab pots for every 1% of tax deduction the following season.</summary>
+    /// <summary>Gets the amount of junk items that must be collected from crab pots for every 1% of tax deduction the following season.</summary>
     [JsonProperty]
-    public uint TrashNeededPerTaxDeductionPct { get; internal set; } = 100;
+    public uint TrashNeededPerTaxDeduction { get; internal set; } = 100;
 
-    /// <summary>Gets you must collect this many junk items from crab pots for every 1 point of friendship towards villagers.</summary>
+    /// <summary>Gets the amount of junk items that must be collected from crab pots for every 1 point of friendship towards villagers.</summary>
     [JsonProperty]
     public uint TrashNeededPerFriendshipPoint { get; internal set; } = 100;
 
     /// <summary>Gets the maximum income deduction allowed by the Ferngill Revenue Service.</summary>
     [JsonProperty]
-    public float ConservationistTaxBonusCeiling { get; internal set; } = 0.37f;
+    public float ConservationistTaxDeductionCeiling { get; internal set; } = 1f;
 
     /// <summary>Gets the maximum stacks that can be gained for each buff stat.</summary>
     [JsonProperty]

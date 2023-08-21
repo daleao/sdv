@@ -30,7 +30,7 @@ internal sealed class ConservationismDayEndingEvent : DayEndingEvent
         var player = Game1.player;
         if (!TaxesModule.ShouldEnable)
         {
-            var taxBonus = player.Read<float>(DataKeys.ConservationistActiveTaxBonusPct);
+            var taxBonus = player.Read<float>(DataKeys.ConservationistActiveTaxDeduction);
             if (taxBonus > 0f)
             {
                 var amountSold = Game1.game1.GetTotalSoldByPlayer(player);
@@ -50,17 +50,17 @@ internal sealed class ConservationismDayEndingEvent : DayEndingEvent
         player.Write(DataKeys.ConservationistTrashCollectedThisSeason, "0");
         if (trashCollectedThisSeason <= 0)
         {
-            player.Write(DataKeys.ConservationistActiveTaxBonusPct, "0");
+            player.Write(DataKeys.ConservationistActiveTaxDeduction, "0");
             return;
         }
 
         var taxBonusForNextSeason =
             // ReSharper disable once PossibleLossOfFraction
             Math.Min(
-                trashCollectedThisSeason / ProfessionsModule.Config.TrashNeededPerTaxDeductionPct / 100f,
-                ProfessionsModule.Config.ConservationistTaxBonusCeiling);
+                trashCollectedThisSeason / ProfessionsModule.Config.TrashNeededPerTaxDeduction / 100f,
+                ProfessionsModule.Config.ConservationistTaxDeductionCeiling);
         player.Write(
-            DataKeys.ConservationistActiveTaxBonusPct,
+            DataKeys.ConservationistActiveTaxDeduction,
             taxBonusForNextSeason.ToString(CultureInfo.InvariantCulture));
         if (taxBonusForNextSeason <= 0 || TaxesModule.ShouldEnable)
         {

@@ -30,23 +30,23 @@ public sealed class Config : Shared.Configs.Config
 
     /// <summary>Gets a value indicating whether or not any gold spent on animal purchases and supplies should be tax-deductible.</summary>
     [JsonProperty]
-    public bool DeductibleAnimalExpenses { get; internal set; } = true;
+    public float DeductibleAnimalExpenses { get; internal set; } = 1f;
 
     /// <summary>Gets a value indicating whether or not any gold spent constructing farm buildings should be tax-deductible.</summary>
     [JsonProperty]
-    public bool DeductibleBuildingExpenses { get; internal set; } = true;
+    public float DeductibleBuildingExpenses { get; internal set; } = 1f;
 
     /// <summary>Gets a value indicating whether or not any gold spent on seed purchases should be tax-deductible.</summary>
     [JsonProperty]
-    public bool DeductibleSeedExpenses { get; internal set; } = true;
+    public float DeductibleSeedExpenses { get; internal set; } = 1f;
 
     /// <summary>Gets a value indicating whether or not any gold spent on tool purchases and upgrades should be tax-deductible.</summary>
     [JsonProperty]
-    public bool DeductibleToolExpenses { get; internal set; } = true;
+    public float DeductibleToolExpenses { get; internal set; } = 1f;
 
     /// <summary>Gets a value indicating the list of extra objects that should be tax-deductible.</summary>
     [JsonProperty]
-    public string[] DeductibleObjects { get; internal set; } = Array.Empty<string>();
+    public string[] DeductibleExtras { get; internal set; } = Array.Empty<string>();
 
     /// <summary>Gets the flat rate charged over due income taxes not paid in time.</summary>
     [JsonProperty]

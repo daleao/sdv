@@ -50,13 +50,15 @@ internal sealed class DoTaxesCommand : ConsoleCommand
                 var forClosingSeason = Game1.dayOfMonth == 1;
                 var seasonIncome = player.Read<int>(DataKeys.SeasonIncome);
                 var businessExpenses = player.Read<int>(DataKeys.BusinessExpenses);
-                var deductiblePct = ProfessionsModule.ShouldEnable && player.professions.Contains(Farmer.mariner)
+                var deductible = ProfessionsModule.ShouldEnable && player.professions.Contains(Farmer.mariner)
                     ? forClosingSeason
                         ? player.Read<float>(DataKeys.PercentDeductions)
                         // ReSharper disable once PossibleLossOfFraction
-                        : player.Read<int>(Professions.DataKeys.ConservationistTrashCollectedThisSeason) / ProfessionsModule.Config.TrashNeededPerTaxDeductionPct / 100f
+                        : player.Read<int>(Professions.DataKeys.ConservationistTrashCollectedThisSeason) / ProfessionsModule.Config.TrashNeededPerTaxDeduction / 100f
                     : 0f;
-                var taxable = (int)((seasonIncome - businessExpenses) * (1f - deductiblePct));
+                deductible = Math.Min(deductible, ProfessionsModule.Config.ConservationistTaxDeductionCeiling);
+
+                var taxable = (int)((seasonIncome - businessExpenses) * (1f - deductible));
 
                 var dueF = 0f;
                 var tax = 0f;
@@ -82,7 +84,7 @@ internal sealed class DoTaxesCommand : ConsoleCommand
                     (forClosingSeason ? $"closing {currentSeason.Previous()}" : $"current {currentSeason}") + " season:" +
                     $"\n\t- Income (season-to-date): {seasonIncome}g" +
                     $"\n\t- Business expenses: {businessExpenses}g" +
-                    CurrentCulture($"\n\t- Eligible deductions: {deductiblePct:0.0%}") +
+                    CurrentCulture($"\n\t- Eligible deductions: {deductible:0.0%}") +
                     $"\n\t- Taxable amount: {taxable}g" +
                     CurrentCulture($"\n\t- Bracket: {tax:0.0%}") +
                     $"\n\t- Income tax due: {dueI}g." +

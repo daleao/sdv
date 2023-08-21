@@ -185,8 +185,8 @@ internal sealed partial class GenericModConfigMenu
             .AddNumberField(
                 I18n.Gmcm_Profs_Trashpertaxdeduction_Title,
                 I18n.Gmcm_Profs_Trashpertaxdeduction_Desc,
-                config => (int)config.Professions.TrashNeededPerTaxDeductionPct,
-                (config, value) => config.Professions.TrashNeededPerTaxDeductionPct = (uint)value,
+                config => (int)config.Professions.TrashNeededPerTaxDeduction,
+                (config, value) => config.Professions.TrashNeededPerTaxDeduction = (uint)value,
                 10,
                 1000)
             .AddNumberField(
@@ -199,8 +199,8 @@ internal sealed partial class GenericModConfigMenu
             .AddNumberField(
                 I18n.Gmcm_Profs_Taxdeductionceiling_Title,
                 I18n.Gmcm_Profs_Taxdeductionceiling_Desc,
-                config => config.Professions.ConservationistTaxBonusCeiling,
-                (config, value) => config.Professions.ConservationistTaxBonusCeiling = value,
+                config => config.Professions.ConservationistTaxDeductionCeiling,
+                (config, value) => config.Professions.ConservationistTaxDeductionCeiling = value,
                 0f,
                 1f,
                 0.05f)

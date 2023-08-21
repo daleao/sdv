@@ -10,7 +10,7 @@ internal sealed class DataKeys
     internal const string ProspectorHuntStreak = "ProspectorHuntStreak";
     internal const string ScavengerHuntStreak = "ScavengerHuntStreak";
     internal const string ConservationistTrashCollectedThisSeason = "ConservationistTrashCollectedThisSeason";
-    internal const string ConservationistActiveTaxBonusPct = "ConservationistActiveTaxBonusPct";
+    internal const string ConservationistActiveTaxDeduction = "ConservationistActiveTaxDeduction";
     internal const string UltimateIndex = "UltimateIndex";
     internal const string ForgottenRecipesDict = "ForgottenRecipesDict";
 

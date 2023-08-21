@@ -47,26 +47,38 @@ internal sealed partial class GenericModConfigMenu
                 0f,
                 1f,
                 0.05f)
-            .AddCheckbox(
+            .AddNumberField(
                 I18n.Gmcm_Txs_Income_Deductibleanimalexpenses_Title,
                 I18n.Gmcm_Txs_Income_Deductibleanimalexpenses_Desc,
                 config => config.Taxes.DeductibleAnimalExpenses,
-                (config, value) => config.Taxes.DeductibleAnimalExpenses = value)
-            .AddCheckbox(
+                (config, value) => config.Taxes.DeductibleAnimalExpenses = value,
+                0f,
+                1f,
+                0.05f)
+            .AddNumberField(
                 I18n.Gmcm_Txs_Income_Deductiblebuildingexpenses_Title,
                 I18n.Gmcm_Txs_Income_Deductiblebuildingexpenses_Desc,
                 config => config.Taxes.DeductibleBuildingExpenses,
-                (config, value) => config.Taxes.DeductibleBuildingExpenses = value)
-            .AddCheckbox(
+                (config, value) => config.Taxes.DeductibleBuildingExpenses = value,
+                0f,
+                1f,
+                0.05f)
+            .AddNumberField(
                 I18n.Gmcm_Txs_Income_Deductibleseedexpenses_Title,
                 I18n.Gmcm_Txs_Income_Deductibleseedexpenses_Desc,
                 config => config.Taxes.DeductibleSeedExpenses,
-                (config, value) => config.Taxes.DeductibleSeedExpenses = value)
-            .AddCheckbox(
+                (config, value) => config.Taxes.DeductibleSeedExpenses = value,
+                0f,
+                1f,
+                0.05f)
+            .AddNumberField(
                 I18n.Gmcm_Txs_Income_Deductibletoolexpenses_Title,
                 I18n.Gmcm_Txs_Income_Deductibletoolexpenses_Desc,
                 config => config.Taxes.DeductibleToolExpenses,
-                (config, value) => config.Taxes.DeductibleToolExpenses = value)
+                (config, value) => config.Taxes.DeductibleToolExpenses = value,
+                0f,
+                1f,
+                0.05f)
             .AddHorizontalRule()
 
             .AddSectionTitle(I18n.Gmcm_Txs_Property_Heading)

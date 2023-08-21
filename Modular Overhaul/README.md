@@ -86,6 +86,8 @@ Special thanks the translators who have contributed to this project:
 * ![][flag:japanese][sakusakusakuya](https://www.nexusmods.com/stardewvalley/users/155983153)
 * ![][flag:russian][romario314](https://www.nexusmods.com/stardewvalley/users/68548986)
 
+You have the right to upload your own translation of this project, but I reserve the right to add your translation directly to the project.
+
 Lastly, a shout-out to [JetBrains][url:jetbrains] for providing a free open-source license to ReSharper and other tools, which provide an immense help to improve and maintain the quality of the code in this mod.
 
 <img width="64" src="https://smapi.io/Content/images/pufferchick.png" alt="Pufferchick"> <img width="80" src="https://resources.jetbrains.com/storage/products/company/brand/logos/jb_beam.svg" alt="JetBrains logo.">

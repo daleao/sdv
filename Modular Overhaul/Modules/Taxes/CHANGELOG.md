@@ -1,5 +1,17 @@
 ﻿# TXS Change Log
 
+## 2.5.5 <sup><sub><sup>[🔼](#txs-change-log)</sup></sub></sup>
+
+### Changed
+
+* You can now choose what percentage of each business expense is tax-deductible.
+  YOU MUST EITHER DELETE YOUR CONFIGS, OR MANUALLY CHANGE THE FOLLOWING VALUES FROM "true/false" to "1.0/0.0":
+  * DeductibleAnimalExpenses
+  * DeductibleBuildingExpenses
+  * DeductibleSeedExpenses
+  * DeductibleToolExpenses
+* Now actually uses ConservationistTaxBonusCeiling setting from PROFS, instead of setting it to 100%.
+
 ## 2.5.0 <sup><sub><sup>[🔼](#txs-change-log)</sup></sub></sup>
 
 ### Fixes

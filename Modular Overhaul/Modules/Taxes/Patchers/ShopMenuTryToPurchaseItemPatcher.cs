@@ -71,36 +71,41 @@ internal sealed class ShopMenuTryToPurchaseItemPatcher : HarmonyPatcher
 
     private static void TryToPurchaseItemSubroutine(ShopMenu menu, ISalable item)
     {
-        var isDeductibleToolExpense = item is Tool && TaxesModule.Config.DeductibleToolExpenses;
-        if (!isDeductibleToolExpense)
+        var deductible = 0;
+        switch (item)
         {
-            var isDeductibleSeedExpense = item is SObject { Category: SObject.SeedsCategory } &&
-                                          TaxesModule.Config.DeductibleSeedExpenses;
-            if (!isDeductibleSeedExpense)
-            {
-                var isDeductibleAnimalExpense = item is SObject { ParentSheetIndex: 104 or 178 } &&
-                                                TaxesModule.Config.DeductibleAnimalExpenses; // hay or heater
-                if (!isDeductibleAnimalExpense)
+            case Tool:
+                deductible = (int)(menu.itemPriceAndStock[item][0] * TaxesModule.Config.DeductibleToolExpenses);
+                break;
+            case SObject @object:
+                if (@object.Category == SObject.SeedsCategory)
                 {
-                    var isDeductibleOtherExpense =
-                        item is SObject obj && obj.Name.IsIn(TaxesModule.Config.DeductibleObjects);
-                    if (!isDeductibleOtherExpense)
-                    {
-                        return;
-                    }
+                    deductible = (int)(menu.itemPriceAndStock[item][0] * TaxesModule.Config.DeductibleSeedExpenses);
                 }
-            }
+                else if (@object.ParentSheetIndex is 104 or 178)
+                {
+                    deductible = (int)(menu.itemPriceAndStock[item][0] * TaxesModule.Config.DeductibleAnimalExpenses);
+                }
+                else if (@object.Name.IsIn(TaxesModule.Config.DeductibleExtras))
+                {
+                    deductible = menu.itemPriceAndStock[item][0];
+                }
+
+                break;
+        }
+
+        if (deductible <= 0)
+        {
+            return;
         }
 
         if (Game1.player.ShouldPayTaxes())
         {
-            Game1.player.Increment(DataKeys.BusinessExpenses, menu.itemPriceAndStock[item][0]);
+            Game1.player.Increment(DataKeys.BusinessExpenses, deductible);
         }
         else
         {
-            Broadcaster.MessageHost(
-                menu.itemPriceAndStock[item][0].ToString(),
-                OverhaulModule.Taxes.Namespace + DataKeys.BusinessExpenses);
+            Broadcaster.MessageHost(deductible.ToString(), OverhaulModule.Taxes.Namespace + DataKeys.BusinessExpenses);
         }
     }
 

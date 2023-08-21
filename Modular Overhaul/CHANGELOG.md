@@ -4,7 +4,23 @@ This file contains a TL;DR of current version changes and hotfixes from across a
 
 ## Patch 2.5.5 Highlights <sup><sub><sup>[🔼](#margo-change-logs)</sup></sub></sup>
 
-* [CMBT]: Fixed monster invincibility timer not counting down while frozen.
+* [CMBT]: Fixed an issue with frozen enemies being invincible.
+* [ENCH]: Added a fix for transfigured enemies causing save issues in custom maps, like Ridgeside Forest.
+* [PNDS]: Fixed an issue with legendary fish not retaining quality. Apparently.
+* [PROFS]: Can now choose to disable level 20 progression.
+* [PROFS]: Fixed off-screen tracking of panning points by Prospector.
+* [PROFS]: Fixed integration with Mushroom Propagator.
+* [SLNGS]: Explosive ammo now slays Mummies.
+* [TXS]: You can now choose what percentage of each business expense is tax-deductible.
+    YOU MUST EITHER DELETE YOUR CONFIGS, OR MANUALLY CHANGE THE FOLLOWING VALUES FROM "true/false" to "1.0/0.0":
+    * DeductibleAnimalExpenses
+    * DeductibleBuildingExpenses
+    * DeductibleSeedExpenses
+    * DeductibleToolExpenses
+* [TXS]: Now actually uses ConservationistTaxBonusCeiling setting from PROFS, instead of setting it to 100%.
+* [TOLS]: Added some missing GMCM options relating to Watering Can.
+* [TWX]: Fixed Tea Bush Age incorrectly using Tree Aging Factor.
+* [WPNZ]: Removed the Dwarven Forge Part 2 quest.
 * Some minor niche bugfixes.
 
 ## Patch 2.5.4 Highlights <sup><sub><sup>[🔼](#margo-change-logs)</sup></sub></sup>

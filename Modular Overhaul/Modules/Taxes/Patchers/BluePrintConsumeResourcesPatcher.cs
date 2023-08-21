@@ -25,19 +25,20 @@ internal sealed class BluePrintConsumeResourcesPatcher : HarmonyPatcher
     private static void BluePrintConsumeResourcesPostfix(BluePrint __instance)
     {
         if ((__instance.magical && TaxesModule.Config.ExemptMagicalBuilding) ||
-            !TaxesModule.Config.DeductibleBuildingExpenses)
+            TaxesModule.Config.DeductibleBuildingExpenses <= 0f)
         {
             return;
         }
 
+        var deductible = (int)(__instance.moneyRequired * TaxesModule.Config.DeductibleBuildingExpenses);
         if (Game1.player.ShouldPayTaxes())
         {
-            Game1.player.Increment(DataKeys.BusinessExpenses, __instance.moneyRequired);
+            Game1.player.Increment(DataKeys.BusinessExpenses, deductible);
         }
         else
         {
             Broadcaster.MessageHost(
-                __instance.moneyRequired.ToString(),
+                deductible.ToString(),
                 OverhaulModule.Taxes.Namespace + DataKeys.BusinessExpenses);
         }
     }
