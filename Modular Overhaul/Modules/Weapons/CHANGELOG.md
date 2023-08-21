@@ -1,5 +1,11 @@
 ﻿# WPNZ Change Log
 
+## 2.5.5 <sup><sub><sup>[🔼](#wpnz-change-log)</sup></sub></sup>
+
+### Removed
+
+* Removed the follow-up forge quest for finding all blueprints. The feedback has been that this quest is confusing and it doesn't reward anything anyway.
+
 ## 2.5.0 <sup><sub><sup>[🔼](#wpnz-change-log)</sup></sub></sup>
 
 ### Added

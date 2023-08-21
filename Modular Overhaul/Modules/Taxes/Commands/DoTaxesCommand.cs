@@ -61,9 +61,9 @@ internal sealed class DoTaxesCommand : ConsoleCommand
                 var dueF = 0f;
                 var tax = 0f;
                 var temp = taxable;
-                foreach (var bracket in RevenueService.TaxByIncomeBrackets.Keys)
+                foreach (var bracket in RevenueService.TaxByIncomeBracket.Keys)
                 {
-                    tax = RevenueService.TaxByIncomeBrackets[bracket];
+                    tax = RevenueService.TaxByIncomeBracket[bracket];
                     if (temp > bracket)
                     {
                         dueF += bracket * tax;

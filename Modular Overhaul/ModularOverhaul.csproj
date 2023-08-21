@@ -10,7 +10,7 @@
     <RepositoryType>git</RepositoryType>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <UpdateKeys>Nexus:14470@Main</UpdateKeys>
-    <Version>2.5.4</Version>
+    <Version>2.5.5</Version>
 
     <!-- build settings -->
     <TargetFramework>net5.0</TargetFramework>
@@ -54,6 +54,10 @@
   <!-- release settings -->
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <Optimize>true</Optimize>
+    <DebugType>embedded</DebugType>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DebugType>embedded</DebugType>
   </PropertyGroup>
 
   <!-- third-party packages -->

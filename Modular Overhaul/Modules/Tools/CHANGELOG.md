@@ -1,5 +1,11 @@
 ﻿# TOLS Change Log
 
+## 2.5.5 <sup><sub><sup>[🔼](#tols-change-log)</sup></sub></sup>
+
+### Fixed
+
+* Added missing GMCM options for Watering Can.
+
 ## 2.5.4 <sup><sub><sup>[🔼](#tols-change-log)</sup></sub></sup>
 
 ### Fixed

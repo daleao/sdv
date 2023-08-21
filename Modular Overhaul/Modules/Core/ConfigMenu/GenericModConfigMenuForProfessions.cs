@@ -160,7 +160,7 @@ internal sealed partial class GenericModConfigMenu
                 I18n.Gmcm_Profs_Spelunkerspeedceiling_Desc,
                 config => (int)config.Professions.SpelunkerSpeedCeiling,
                 (config, value) => config.Professions.SpelunkerSpeedCeiling = (uint)value,
-                1,
+                0,
                 10)
             .AddCheckbox(
                 I18n.Gmcm_Profs_Enablegetexcited_Title,
@@ -327,14 +327,6 @@ internal sealed partial class GenericModConfigMenu
                 2f,
                 0.1f)
             .AddNumberField(
-                I18n.Gmcm_Profs_Prestige_Requiredexpperextendedlevel_Title,
-                I18n.Gmcm_Profs_Prestige_Requiredexpperextendedlevel_Desc,
-                config => (int)config.Professions.RequiredExpPerExtendedLevel,
-                (config, value) => config.Professions.RequiredExpPerExtendedLevel = (uint)value,
-                1000,
-                10000,
-                500)
-            .AddNumberField(
                 I18n.Gmcm_Profs_Prestige_Respeccost_Title,
                 I18n.Gmcm_Profs_Prestige_Respeccost_Desc,
                 config => (int)config.Professions.PrestigeRespecCost,
@@ -354,6 +346,19 @@ internal sealed partial class GenericModConfigMenu
                 },
                 new[] { "StackedStars", "Gen3Ribbons", "Gen4Ribbons" },
                 value => _I18n.Get("gmcm.profs.prestige.progressionstyle." + value.ToLowerInvariant()))
+            .AddCheckbox(
+                I18n.Gmcm_Profs_Prestige_Raisedlevelcap_Title,
+                I18n.Gmcm_Profs_Prestige_Raisedlevelcap_Desc,
+                config => config.Professions.EnableExtendedProgession,
+                (config, value) => config.Professions.EnableExtendedProgession = value)
+            .AddNumberField(
+                I18n.Gmcm_Profs_Prestige_Requiredexpperextendedlevel_Title,
+                I18n.Gmcm_Profs_Prestige_Requiredexpperextendedlevel_Desc,
+                config => (int)config.Professions.RequiredExpPerExtendedLevel,
+                (config, value) => config.Professions.RequiredExpPerExtendedLevel = (uint)value,
+                1000,
+                10000,
+                500)
             .AddHorizontalRule()
 
             // experience settings

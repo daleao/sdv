@@ -20,7 +20,7 @@ internal static class BushExtensions
             skillFactor++;
         }
 
-        var age = (int)((bush.getAge() - 20) * skillFactor * TweexModule.Config.TreeAgingFactor);
+        var age = (int)((bush.getAge() - 20) * skillFactor * TweexModule.Config.TeaBushAgingFactor);
         if (TweexModule.Config.DeterministicAgeQuality)
         {
             return age switch

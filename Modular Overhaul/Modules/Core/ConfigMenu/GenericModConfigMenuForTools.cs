@@ -723,6 +723,26 @@ internal sealed partial class GenericModConfigMenu
                 () => I18n.Gmcm_Tols_Allowenchantment_Swift_Desc(I18n.Gmcm_Tols_Wateringcan().ToLowerInvariant()),
                 config => config.Tools.Can.AllowSwiftEnchantment,
                 (config, value) => config.Tools.Can.AllowSwiftEnchantment = value)
+            .AddNumberField(
+                I18n.Gmcm_Tols_Can_Exprewardchance_Title,
+                I18n.Gmcm_Tols_Can_Exprewardchance_Desc,
+                config => config.Tools.Can.ExpRewardChance,
+                (config, value) => config.Tools.Can.ExpRewardChance = value,
+                0f,
+                1f,
+                0.05f)
+            .AddNumberField(
+                I18n.Gmcm_Tols_Can_Exprewardamount_Title,
+                I18n.Gmcm_Tols_Can_Exprewardamount_Desc,
+                config => config.Tools.Can.ExpRewardAmount,
+                (config, value) => config.Tools.Can.ExpRewardAmount = value,
+                0,
+                10)
+            .AddCheckbox(
+                I18n.Gmcm_Tols_Can_Preventsaltwaterrefill_Title,
+                I18n.Gmcm_Tols_Can_Preventsaltwaterrefill_Desc,
+                config => config.Tools.Can.PreventRefillWithSaltWater,
+                (config, value) => config.Tools.Can.PreventRefillWithSaltWater = value)
 
             // scythe settings
             .AddPage(OverhaulModule.Tools.Namespace + "/Scythe", I18n.Gmcm_Tols_Specificsettings_Scythe)

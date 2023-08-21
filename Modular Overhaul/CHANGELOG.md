@@ -2,6 +2,11 @@
 
 This file contains a TL;DR of current version changes and hotfixes from across all modules. For the complete changelog, please refer to the individual changelogs of each module, linked [below](#detailed-change-logs).
 
+## Patch 2.5.5 Highlights <sup><sub><sup>[🔼](#margo-change-logs)</sup></sub></sup>
+
+* [CMBT]: Fixed monster invincibility timer not counting down while frozen.
+* Some minor niche bugfixes.
+
 ## Patch 2.5.4 Highlights <sup><sub><sup>[🔼](#margo-change-logs)</sup></sub></sup>
 
 * Fixed a compatibility issue with Flexible Sprinklers.

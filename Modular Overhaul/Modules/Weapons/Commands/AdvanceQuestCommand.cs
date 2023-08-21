@@ -141,18 +141,18 @@ internal sealed class AdvanceQuestCommand : ConsoleCommand
                 break;
             case "valor":
                 {
-                    player.mailReceived.Add("Gil_Slime Charmer Ring");
-                    player.mailReceived.Add("Gil_Savage Ring");
-                    player.mailReceived.Add("Gil_Skeleton Mask");
-                    player.mailReceived.Add("Gil_Insect Head");
-                    player.mailReceived.Add("Gil_Vampire Ring");
-                    player.mailReceived.Add("Gil_Hard Hat");
-                    player.mailReceived.Add("Gil_Burglar's Ring");
-                    player.mailReceived.Add("Gil_Crabshell Ring");
-                    player.mailReceived.Add("Gil_Arcane Hat");
-                    player.mailReceived.Add("Gil_Knight's Helmet");
-                    player.mailReceived.Add("Gil_Napalm Ring");
-                    player.mailReceived.Add("Gil_Telephone");
+                    Game1.stats.specificMonstersKilled["Green Slime"] = 1000;
+                    Game1.stats.specificMonstersKilled["Shadow Brute"] = 150;
+                    Game1.stats.specificMonstersKilled["Bat"] = 200;
+                    Game1.stats.specificMonstersKilled["Skeleton"] = 50;
+                    Game1.stats.specificMonstersKilled["Bug"] = 125;
+                    Game1.stats.specificMonstersKilled["Duggy"] = 30;
+                    Game1.stats.specificMonstersKilled["Dust Spirit"] = 500;
+                    Game1.stats.specificMonstersKilled["Rock Crab"] = 60;
+                    Game1.stats.specificMonstersKilled["Mummy"] = 100;
+                    Game1.stats.specificMonstersKilled["Pepper Rex"] = 50;
+                    Game1.stats.specificMonstersKilled["Serpent"] = 250;
+                    Game1.stats.specificMonstersKilled["Magma Sprite"] = 150;
                 }
 
                 break;

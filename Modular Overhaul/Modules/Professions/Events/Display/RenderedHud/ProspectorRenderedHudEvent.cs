@@ -66,7 +66,7 @@ internal sealed class ProspectorRenderedHudEvent : RenderedHudEvent
         // track panning spots
         if (!Game1.currentLocation.orePanPoint.Value.Equals(Point.Zero))
         {
-            var tile = Game1.currentLocation.orePanPoint.Value.ToVector2() * 64f;
+            var tile = Game1.currentLocation.orePanPoint.Value.ToVector2();
             tile.TrackWhenOffScreen(Color.Lime);
             if (shouldHighlightOnScreen)
             {

@@ -178,7 +178,6 @@ internal sealed class WeaponAssetRequestedEvent : AssetRequestedEvent
 
         var data = asset.AsDictionary<int, string>().Data;
         data[(int)Quest.ForgeIntro] = I18n.Quests_Forge_Intro();
-        data[(int)Quest.ForgeNext] = I18n.Quests_Forge_Next();
         data[(int)Quest.CurseIntro] = I18n.Quests_Hero_Curse();
         data[(int)Quest.HeroReward] = I18n.Quests_Hero_Reward();
     }

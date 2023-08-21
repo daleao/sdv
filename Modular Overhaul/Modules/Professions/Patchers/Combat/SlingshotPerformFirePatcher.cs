@@ -164,10 +164,10 @@ internal sealed class SlingshotPerformFirePatcher : HarmonyPatcher
             var startingPosition = shootOrigin - new Vector2(32f, 32f);
             var rotationVelocity = (float)(Math.PI / (64f + Game1.random.Next(-63, 64)));
             var index = ammo.ParentSheetIndex;
-            if (ammo.ParentSheetIndex is not (ItemIDs.ExplosiveAmmo or ItemIDs.Slime
-                    or ItemIDs.RadioactiveOre) && damageBase > 1)
+            if (ammo.ParentSheetIndex is SObject.wood or SObject.coal or SObject.stone or SObject.copper
+                or SObject.iron or SObject.gold or SObject.iridium)
             {
-                ammo.ParentSheetIndex++;
+                index++;
             }
 
             var projectile = new ObjectProjectile(

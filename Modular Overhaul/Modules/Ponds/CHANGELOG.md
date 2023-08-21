@@ -1,5 +1,11 @@
 ﻿# PNDS Change Log
 
+## 2.5.5 <sup><sub><sup>[🔼](#pnds-change-log)</sup></sub></sup>
+
+### Fixed
+
+* Fixes an issue with legendary fish not retaining quality. Apparently.
+
 ## 2.5.0 <sup><sub><sup>[🔼](#pnds-change-log)</sup></sub></sup>
 
 ### Added

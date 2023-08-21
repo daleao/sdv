@@ -1,5 +1,11 @@
 ﻿# TWX Change Log
 
+## 2.5.5 <sup><sub><sup>[🔼](#twx-change-log)</sup></sub></sup>
+
+### Fixed
+
+* Fixed Tea Bush Age quality incorrectly using TreeAgingFactor instead of TeaBushAgingFactor. 
+
 ## 2.5.2 <sup><sub><sup>[🔼](#twx-change-log)</sup></sub></sup>
 
 ### Fixed

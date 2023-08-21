@@ -191,6 +191,7 @@ internal sealed class CommandHandler
                 var ignoreAttribute = commandType.GetCustomAttribute<ImplicitIgnoreAttribute>();
                 if (ignoreAttribute is not null)
                 {
+                    Log.D($"[CommandHandler]: {commandType.Name} is marked to be ignored.");
                     continue;
                 }
 
@@ -206,7 +207,7 @@ internal sealed class CommandHandler
                     this._handledCommands.Add(command.Triggers[j], command);
                 }
 
-                Log.D($"[CommandHandler]: Handling {command.GetType().Name}");
+                Log.T($"[CommandHandler]: Handling {command.GetType().Name}");
             }
             catch (Exception ex)
             {
@@ -214,7 +215,7 @@ internal sealed class CommandHandler
             }
         }
 
-        Log.D("[CommandHandler]: Command initialization completed.");
+        Log.T("[CommandHandler]: Command initialization completed.");
         return this;
     }
 }

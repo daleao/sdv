@@ -242,13 +242,24 @@ public sealed class Config : Shared.Configs.Config
     [JsonProperty]
     public float PrestigeExpMultiplier { get; internal set; } = 0.1f;
 
+    /// <summary>Gets monetary cost of respecing prestige profession choices for a skill. Set to 0 to respec for free.</summary>
+    [JsonProperty]
+    public uint PrestigeRespecCost { get; internal set; } = 20000;
+
+    /// <summary>Gets a value indicating whether to allow extended progression up to level 20.</summary>
+    [JsonProperty]
+    public bool EnableExtendedProgession { get; internal set; } = true;
+
     /// <summary>Gets how much skill experience is required for each level up beyond 10.</summary>
     [JsonProperty]
     public uint RequiredExpPerExtendedLevel { get; internal set; } = 5000;
 
-    /// <summary>Gets monetary cost of respecing prestige profession choices for a skill. Set to 0 to respec for free.</summary>
+    /// <summary>
+    ///     Gets the style of the sprite that appears next to skill bars. Accepted values: "StackedStars", "Gen3Ribbons",
+    ///     "Gen4Ribbons".
+    /// </summary>
     [JsonProperty]
-    public uint PrestigeRespecCost { get; internal set; } = 20000;
+    public PrestigeProgressionStyle ProgressionStyle { get; internal set; } = PrestigeProgressionStyle.StackedStars;
 
     /// <summary>Gets a multiplier that will be applied to all skill experience gained from the start of the game.</summary>
     /// <remarks>The order is Farming, Fishing, Foraging, Mining, Combat and Luck (if installed).</remarks>
@@ -269,11 +280,4 @@ public sealed class Config : Shared.Configs.Config
             { "spacechase0.LuckSkill", 1 },
             { "DaLion.Alchemy", 1 },
         };
-
-    /// <summary>
-    ///     Gets the style of the sprite that appears next to skill bars. Accepted values: "StackedStars", "Gen3Ribbons",
-    ///     "Gen4Ribbons".
-    /// </summary>
-    [JsonProperty]
-    public PrestigeProgressionStyle ProgressionStyle { get; internal set; } = PrestigeProgressionStyle.StackedStars;
 }

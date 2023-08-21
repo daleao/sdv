@@ -88,7 +88,6 @@ internal sealed class SlingshotPerformFirePatcher : HarmonyPatcher
 
             // get and spend ammo
             var ammo = __instance.attachments[0]?.getOne();
-            var didPreserve = false;
             int ammoDamage;
             if (ammo is not null)
             {
@@ -98,10 +97,6 @@ internal sealed class SlingshotPerformFirePatcher : HarmonyPatcher
                     {
                         __instance.attachments[0] = null;
                     }
-                }
-                else
-                {
-                    didPreserve = true;
                 }
 
                 ammoDamage = __instance.GetAmmoDamage();
@@ -163,7 +158,8 @@ internal sealed class SlingshotPerformFirePatcher : HarmonyPatcher
             knockback = SlingshotsModule.Config.EnableRebalance ? knockback : 1f;
             var startingPosition = shootOrigin - new Vector2(32f, 32f);
             var rotationVelocity = (float)(Math.PI / (64f + Game1.random.Next(-63, 64)));
-            if (ammo?.ParentSheetIndex is SObject.wood or SObject.coal or SObject.stone or SObject.copper or SObject.iron or SObject.gold or SObject.iridium)
+            if (ammo?.ParentSheetIndex is SObject.wood or SObject.coal or SObject.stone or SObject.copper
+                or SObject.iron or SObject.gold or SObject.iridium)
             {
                 index++;
             }
@@ -197,8 +193,7 @@ internal sealed class SlingshotPerformFirePatcher : HarmonyPatcher
                     startingPosition,
                     xVelocity,
                     yVelocity,
-                    rotationVelocity,
-                    !didPreserve),
+                    rotationVelocity),
             };
 
             if (Game1.currentLocation.currentEvent is not null || Game1.currentMinigame is not null)
@@ -257,8 +252,7 @@ internal sealed class SlingshotPerformFirePatcher : HarmonyPatcher
                             startingPosition,
                             velocity.X,
                             velocity.Y,
-                            rotationVelocity,
-                            false),
+                            rotationVelocity),
                     };
 
                     if (Game1.currentLocation.currentEvent is not null || Game1.currentMinigame is not null)

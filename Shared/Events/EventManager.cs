@@ -562,7 +562,7 @@ internal sealed class EventManager
         var implicitIgnoreAttribute = eventType.GetCustomAttribute<ImplicitIgnoreAttribute>();
         if (implicitIgnoreAttribute is not null)
         {
-            Log.D($"[EventManager]: {eventType.Name} is will be ignored.");
+            Log.D($"[EventManager]: {eventType.Name} is marked to be ignored.");
             return null;
         }
 
@@ -571,7 +571,7 @@ internal sealed class EventManager
         {
             if (!this._modRegistry.IsLoaded(requiresModAttribute.UniqueId))
             {
-                Log.D(
+                Log.T(
                     $"[EventManager]: The target mod {requiresModAttribute.UniqueId} is not loaded. {eventType.Name} will be ignored.");
                 return null;
             }

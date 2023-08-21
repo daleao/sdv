@@ -1,7 +1,8 @@
-﻿namespace DaLion.Overhaul.Modules.Core.ConfigMenu;
+﻿namespace DaLion.Overhaul.Modules.Core.Events;
 
 #region using directives
 
+using DaLion.Overhaul.Modules.Core.ConfigMenu;
 using DaLion.Shared.Events;
 using StardewModdingAPI.Events;
 using StardewValley.Menus;
@@ -18,6 +19,7 @@ internal sealed class ModuleSelectionTooltipRenderedActiveMenuEvent : RenderedAc
     {
     }
 
+    /// <inheritdoc />
     public override bool IsEnabled => ModuleSelectionOption.Tooltip is not null;
 
     /// <inheritdoc />

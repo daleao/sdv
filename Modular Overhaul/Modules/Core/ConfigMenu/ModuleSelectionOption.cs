@@ -100,7 +100,7 @@ internal class ModuleSelectionOption : MultiCheckboxOption<OverhaulModule>
                                 mouseY < labelPosition.Y + labelSize.Y;
             if (hoveringLabel)
             {
-                Tooltip = Game1.parseText(tooltip, Game1.smallFont, Game1.dialogueWidth / 2);
+                Tooltip = Game1.parseText(tooltip, Game1.smallFont, Game1.dialogueWidth / 3);
             }
 
             if (++column != this.Columns)

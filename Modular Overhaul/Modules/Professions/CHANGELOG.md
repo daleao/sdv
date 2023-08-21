@@ -1,5 +1,19 @@
 ﻿# PROFS Change Log
 
+## 2.5.5 <sup><sub><sup>[🔼](#slngs-change-log)</sup></sub></sup>
+
+### Added
+
+* Added config to disable extended progression (level 20) while Prestige skill resetting is enabled.
+
+### Fixed
+
+* Fixed possible KeyNotFound exception is SLNGS module is not enabled.
+* Explosive ammo now slays Mummies as expected.
+* Fixed a possible KeyNotFound exception if placing a Crab Pot in an unusual map, like the Boat Tunnel.
+* Fixed Prospector panning point tracking pointing off-screen.
+* Fixed integration with Mushroom Propagator v2.2.0.
+
 ## 2.5.1 <sup><sub><sup>[🔼](#profs-change-log)</sup></sub></sup>
 
 ### Fixed

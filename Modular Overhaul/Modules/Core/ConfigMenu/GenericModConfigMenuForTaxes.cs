@@ -36,8 +36,8 @@ internal sealed partial class GenericModConfigMenu
             .AddTextbox(
                 I18n.Gmcm_Txs_Income_Taxperbracket_Title,
                 I18n.Gmcm_Txs_Income_Taxperbracket_Desc,
-                config => string.Join(", ", config.Taxes.IncomeTaxPerBracket),
-                (config, value) => config.Taxes.IncomeTaxPerBracket =
+                config => string.Join(", ", config.Taxes.TaxPerBracket),
+                (config, value) => config.Taxes.TaxPerBracket =
                     value.Split(new[] { ", " }, StringSplitOptions.None).Select(float.Parse).ToArray())
             .AddNumberField(
                 I18n.Gmcm_Txs_Income_Latenessfine_Title,

@@ -239,7 +239,7 @@ internal sealed class LevelUpMenuUpdatePatcher : HarmonyPatcher
                                     new CodeInstruction(
                                         OpCodes.Call,
                                         typeof(LevelUpMenuUpdatePatcher).RequireMethod(
-                                            nameof(ShouldProposeFinalQuestion))),
+                                            nameof(ShouldProposeChangeUltimate))),
                                     // store the bool result for later
                                     new CodeInstruction(OpCodes.Stloc_S, shouldProposeFinalQuestion),
                                     // load the current level onto the stack
@@ -253,7 +253,7 @@ internal sealed class LevelUpMenuUpdatePatcher : HarmonyPatcher
                                     new CodeInstruction(
                                         OpCodes.Call,
                                         typeof(LevelUpMenuUpdatePatcher).RequireMethod(
-                                            nameof(ShouldCongratulateOnFullSkillMastery))),
+                                            nameof(HasAcquiredLastProfession))),
                                     // store the bool result for later
                                     new CodeInstruction(OpCodes.Stloc_S, shouldCongratulateFullSkillMastery),
                                 },
@@ -313,7 +313,7 @@ internal sealed class LevelUpMenuUpdatePatcher : HarmonyPatcher
                         new CodeInstruction(OpCodes.Ldloc_S, shouldCongratulateFullSkillMastery),
                         new CodeInstruction(
                             OpCodes.Call,
-                            typeof(LevelUpMenuUpdatePatcher).RequireMethod(nameof(ProposeFinalQuestion))),
+                            typeof(LevelUpMenuUpdatePatcher).RequireMethod(nameof(ProposeChangeUltimate))),
                         new CodeInstruction(OpCodes.Br_S, resumeExecution),
                     },
                     // restore backed-up labels
@@ -328,7 +328,7 @@ internal sealed class LevelUpMenuUpdatePatcher : HarmonyPatcher
                         new CodeInstruction(OpCodes.Ldloc_S, chosenProfession),
                         new CodeInstruction(
                             OpCodes.Call,
-                            typeof(LevelUpMenuUpdatePatcher).RequireMethod(nameof(CongratulateOnFullSkillMastery))),
+                            typeof(LevelUpMenuUpdatePatcher).RequireMethod(nameof(CongratulateForAcquiringLastProfession))),
                     },
                     // branch here after checking for proposal
                     new[] { dontProposeFinalQuestion });
@@ -407,13 +407,13 @@ internal sealed class LevelUpMenuUpdatePatcher : HarmonyPatcher
 
     #region injected subroutines
 
-    private static bool ShouldProposeFinalQuestion(int chosenProfession)
+    private static bool ShouldProposeChangeUltimate(int chosenProfession)
     {
         return ProfessionsModule.Config.EnablePrestige && chosenProfession is >= 26 and < 30 &&
                Game1.player.Get_Ultimate() is not null && Game1.player.Get_Ultimate()!.Value != chosenProfession;
     }
 
-    private static bool ShouldCongratulateOnFullSkillMastery(int currentLevel, int chosenProfession)
+    private static bool HasAcquiredLastProfession(int currentLevel, int chosenProfession)
     {
         if (!ProfessionsModule.Config.EnablePrestige || currentLevel != 10 ||
             !Skill.TryFromValue(chosenProfession / 6, out var skill) || skill == Farmer.luckSkill)
@@ -441,7 +441,7 @@ internal sealed class LevelUpMenuUpdatePatcher : HarmonyPatcher
         return false;
     }
 
-    private static void ProposeFinalQuestion(int chosenProfession, bool shouldCongratulateFullSkillMastery)
+    private static void ProposeChangeUltimate(int chosenProfession, bool shouldCongratulateFullSkillMastery)
     {
         var ulti = Game1.player.Get_Ultimate()!;
         var oldProfession = Profession.FromValue(ulti);
@@ -462,14 +462,17 @@ internal sealed class LevelUpMenuUpdatePatcher : HarmonyPatcher
 
                 if (shouldCongratulateFullSkillMastery)
                 {
-                    CongratulateOnFullSkillMastery(chosenProfession);
+                    CongratulateForAcquiringLastProfession(chosenProfession);
                 }
             });
     }
 
-    private static void CongratulateOnFullSkillMastery(int chosenProfession)
+    private static void CongratulateForAcquiringLastProfession(int chosenProfession)
     {
-        Game1.drawObjectDialogue(I18n.Prestige_Levelup_Unlocked(Skill.FromValue(chosenProfession / 6).DisplayName));
+        if (ProfessionsModule.Config.EnableExtendedProgession)
+        {
+            Game1.drawObjectDialogue(I18n.Prestige_Levelup_Unlocked(Skill.FromValue(chosenProfession / 6).DisplayName));
+        }
 
         if (!Game1.player.HasAllProfessions(true))
         {

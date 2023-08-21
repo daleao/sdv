@@ -94,7 +94,10 @@ public class Skill : SmartEnum<Skill>, ISkill
     public int CurrentLevel => Game1.player.GetUnmodifiedSkillLevel(this.Value);
 
     /// <inheritdoc />
-    public virtual int MaxLevel => ProfessionsModule.Config.EnablePrestige && ((ISkill)this).PrestigeLevel >= 4 ? 20 : 10;
+    public virtual int MaxLevel => ProfessionsModule.Config.EnablePrestige &&
+                                   ProfessionsModule.Config.EnableExtendedProgession && ((ISkill)this).PrestigeLevel >= 4
+        ? 20
+        : 10;
 
     /// <inheritdoc />
     public float BaseExperienceMultiplier => ProfessionsModule.Config.BaseSkillExpMultipliers[this.Value];

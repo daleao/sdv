@@ -15,15 +15,15 @@ using HarmonyLib;
 #endregion using directives
 
 [UsedImplicitly]
-[ModRequirement("blueberry.MushroomPropagator")]
-internal sealed class PropagatorPopExtraHeldMushroomsPatcher : HarmonyPatcher
+[ModRequirement("blueberry.MushroomPropagator", version: "2.2.0")]
+internal sealed class PropagatorPopHeldObjectPatcher : HarmonyPatcher
 {
-    /// <summary>Initializes a new instance of the <see cref="PropagatorPopExtraHeldMushroomsPatcher"/> class.</summary>
-    internal PropagatorPopExtraHeldMushroomsPatcher()
+    /// <summary>Initializes a new instance of the <see cref="PropagatorPopHeldObjectPatcher"/> class.</summary>
+    internal PropagatorPopHeldObjectPatcher()
     {
         this.Target = "BlueberryMushroomMachine.Propagator"
             .ToType()
-            .RequireMethod("PopExtraHeldMushrooms");
+            .RequireMethod("PopHeldObject");
     }
 
     #region harmony patches
@@ -35,31 +35,36 @@ internal sealed class PropagatorPopExtraHeldMushroomsPatcher : HarmonyPatcher
     {
         var helper = new ILHelper(original, instructions);
 
-        // From: ceq 0
-        // To: Game1.player.professions.Contains(<forager_id>) ? !cgt 0 : clt 0
+        // From: if (Game1.player.professions.Contains(13) && new Random().Next(5) == 0)
+        // To: if (Game1.player.professions.Contains(13) && (randInt = new Random().Next(5) == 0 || Game1.player.professions.Contains(13+100) && randInt == 1))
         try
         {
-            var isNotPrestiged = generator.DefineLabel();
-            var resumeExecution = generator.DefineLabel();
+            var doDoubleHarvest = generator.DefineLabel();
+            var randInt = generator.DeclareLocal(typeof(int));
             helper
                 .MatchProfessionCheck(Profession.Forager.Value) // find index of forager check
-                .Match(new[] { new CodeInstruction(OpCodes.Ldc_I4_0) })
-                .SetOpCode(OpCodes.Ldc_I4_1)
-                .Move()
+                .Match(new[] { new CodeInstruction(OpCodes.Brfalse_S) })
+                .GetOperand(out var resumeExecution)
+                .Match(new[] { new CodeInstruction(OpCodes.Brtrue_S) })
+                .ReplaceWith(new CodeInstruction(OpCodes.Brfalse_S, doDoubleHarvest))
+                .Move(-1)
+                .Insert(
+                    new[]
+                    {
+                        new CodeInstruction(OpCodes.Stloc_S, randInt),
+                        new CodeInstruction(OpCodes.Ldloc_S, randInt),
+                    })
+                .Move(2)
+                .AddLabels(doDoubleHarvest)
                 .InsertProfessionCheck(Profession.Forager.Value + 100)
                 .Insert(
                     new[]
                     {
-                        new CodeInstruction(OpCodes.Brfalse_S, isNotPrestiged),
-                        new CodeInstruction(OpCodes.Cgt_Un),
-                        new CodeInstruction(OpCodes.Not),
-                        new CodeInstruction(OpCodes.Br_S, resumeExecution),
-                    })
-                .Insert(
-                    new[] { new CodeInstruction(OpCodes.Clt_Un) },
-                    new[] { isNotPrestiged })
-                .Remove()
-                .AddLabels(resumeExecution);
+                        new CodeInstruction(OpCodes.Brfalse_S, resumeExecution),
+                        new CodeInstruction(OpCodes.Ldloc_S, randInt),
+                        new CodeInstruction(OpCodes.Ldc_I4_1),
+                        new CodeInstruction(OpCodes.Bne_Un_S, resumeExecution),
+                    });
         }
         catch (Exception ex)
         {
@@ -85,7 +90,7 @@ internal sealed class PropagatorPopExtraHeldMushroomsPatcher : HarmonyPatcher
                         new CodeInstruction(OpCodes.Ldarg_0),
                         new CodeInstruction(
                             OpCodes.Call,
-                            typeof(PropagatorPopExtraHeldMushroomsPatcher)
+                            typeof(PropagatorPopHeldObjectPatcher)
                                 .RequireMethod(nameof(PopExtraHeldMushroomsSubroutine))),
                     },
                     labels)
@@ -93,7 +98,9 @@ internal sealed class PropagatorPopExtraHeldMushroomsPatcher : HarmonyPatcher
         }
         catch (Exception ex)
         {
-            Log.E($"Failed patching Blueberry's Mushroom Propagator output quality.\nHelper returned {ex}");
+            Log.E($"Professions module failed patching Blueberry's Mushroom Propagator output quality." +
+                  "\n—-- Do NOT report this to Mushroom Propagator's author. ---" +
+                  $"\nHelper returned {ex}");
             return null;
         }
 

@@ -1,5 +1,11 @@
 ﻿# CMBT Change Log
 
+## 2.5.5 <sup><sub><sup>[🔼](#cmbt-change-log)</sup></sub></sup>
+
+### Fixed
+
+* Fixed monster invincibility timer not counting down while frozen.
+
 ## 2.4.0 <sup><sub><sup>[🔼](#cmbt-change-log)</sup></sub></sup>
 
 ### Added

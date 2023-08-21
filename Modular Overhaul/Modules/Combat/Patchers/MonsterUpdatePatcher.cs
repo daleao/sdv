@@ -41,7 +41,7 @@ internal sealed class MonsterUpdatePatcher : HarmonyPatcher
                 __instance.Get_BleedTimer().Value -= time.ElapsedGameTime.Milliseconds;
                 if (__instance.Get_BleedTimer() <= 0)
                 {
-                    __instance.StopBleeding();
+                    __instance.Unbleed();
                 }
                 else
                 {
@@ -65,7 +65,7 @@ internal sealed class MonsterUpdatePatcher : HarmonyPatcher
                 __instance.Get_BurnTimer().Value -= time.ElapsedGameTime.Milliseconds;
                 if (__instance.Get_BurnTimer() <= 0)
                 {
-                    __instance.CureBurn();
+                    __instance.Unburn();
                 }
                 else
                 {
@@ -94,7 +94,7 @@ internal sealed class MonsterUpdatePatcher : HarmonyPatcher
                 __instance.Get_PoisonTimer().Value -= time.ElapsedGameTime.Milliseconds;
                 if (__instance.Get_PoisonTimer() <= 0)
                 {
-                    __instance.CurePoison();
+                    __instance.Detox();
                 }
                 else
                 {
@@ -127,7 +127,7 @@ internal sealed class MonsterUpdatePatcher : HarmonyPatcher
             __instance.Get_SlowTimer().Value -= time.ElapsedGameTime.Milliseconds;
             if (__instance.Get_SlowTimer() <= 0)
             {
-                __instance.RemoveSlow();
+                __instance.Unslow();
                 return true; // run original logic
             }
 
@@ -143,17 +143,25 @@ internal sealed class MonsterUpdatePatcher : HarmonyPatcher
             var slowIntensity = __instance.Get_SlowIntensity();
             if (slowIntensity <= 0d)
             {
-                __instance.RemoveSlow();
+                __instance.Unslow();
                 return true; // run original logic
             }
 
-            if (slowIntensity >= 1d)
+            if (slowIntensity < 1d && ticks % (int)(1d / slowIntensity) == 0)
+            {
+                return true; // run original logic
+            }
+
+            if (Reflector.GetUnboundFieldGetter<Monster, int>(__instance, "invincibleCountdown")
+                    .Invoke(__instance) is not ({ } invincibility and > 0))
             {
                 return false; // don't run original logic
             }
 
-            var framesToSkip = (int)(1d / slowIntensity);
-            return ticks % framesToSkip == 0; // conditionally run original logic
+            invincibility -= time.ElapsedGameTime.Milliseconds;
+            Reflector.GetUnboundFieldSetter<Monster, int>(__instance, "invincibleCountdown")
+                .Invoke(__instance, invincibility);
+            return false; // don't run original logic
         }
         catch (Exception ex)
         {

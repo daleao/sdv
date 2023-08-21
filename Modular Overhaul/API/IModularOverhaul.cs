@@ -30,7 +30,7 @@ public interface IModularOverhaul
         /// <summary>Gets the <see cref="ISkill"/> which offers this profession.</summary>
         ISkill Skill { get; }
 
-        /// <summary>Gets get the professions which branch off from this profession, if any.</summary>
+        /// <summary>Gets the professions which branch off from this profession, if any.</summary>
         IEnumerable<int> BranchingProfessions { get; }
 
         /// <summary>Get the localized description text for this profession.</summary>
@@ -370,7 +370,7 @@ public interface IModularOverhaul
         ///     <see cref="IGemstone"/>.
         /// </summary>
         /// <param name="other">Some other <see cref="IGemstone"/>.</param>
-        /// <returns>The <see cref="IntervalNumber"/> of the between this and <paramref name="other"/>.</returns>
+        /// <returns>The <see cref="IntervalNumber"/> between this and <paramref name="other"/>.</returns>
         IntervalNumber IntervalWith(IGemstone other);
     }
 

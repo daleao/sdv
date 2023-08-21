@@ -47,6 +47,11 @@ internal sealed class WeaponSaveLoadedEvent : SaveLoadedEvent
                 }
             }
         }
+
+        if (player.hasQuest((int)(Quest.ForgeIntro + 1)))
+        {
+            player.removeQuest((int)(Quest.ForgeIntro + 1));
+        }
         // temp fix for existing saves
 
         WeaponsModule.State.ContainerDropAccumulator = player.Read(DataKeys.ContainerDropAccumulator, 0.05);

@@ -10,6 +10,7 @@ using DaLion.Shared.Extensions.Collections;
 using DaLion.Shared.Extensions.Memory;
 using DaLion.Shared.Extensions.Stardew;
 using Microsoft.Xna.Framework;
+using StardewModdingAPI.Utilities;
 using StardewValley.Locations;
 using StardewValley.Objects;
 
@@ -108,9 +109,44 @@ internal static class CrabPotExtensions
     internal static int ChooseFish(
         this CrabPot crabPot, Dictionary<int, string> fishData, GameLocation location, Random r)
     {
-        var rawFishData = crabPot.HasMagicBait()
-            ? location.GetRawFishDataForAllSeasons()
-            : location.GetRawFishDataForCurrentSeason();
+        var locationData =
+            Game1.content.Load<Dictionary<string, string>>(PathUtilities.NormalizeAssetName("Data/Locations"));
+        var locationName = location.Name;
+        if (locationName == "BeachNightMarket")
+        {
+            locationName = "Beach";
+        }
+
+        if (!locationData.ContainsKey(locationName))
+        {
+            return -1;
+        }
+
+        SpanSplitter rawFishData;
+        if (crabPot.HasMagicBait())
+        {
+            var allSeasonFish = string.Empty;
+            for (var i = 0; i < 4; i++)
+            {
+                var seasonalFishData = locationData[location.NameOrUniqueName]
+                    .SplitWithoutAllocation('/')[4 + i]
+                    .Split(' ');
+                for (var j = 0; j < seasonalFishData.Length; j++)
+                {
+                    var fish = seasonalFishData[j];
+                    allSeasonFish = string.Concat(allSeasonFish.AsSpan(), " ".AsSpan(), fish);
+                }
+            }
+
+            rawFishData = allSeasonFish.SplitWithoutAllocation(' ');
+        }
+        else
+        {
+            rawFishData = locationData[locationName]
+                .SplitWithoutAllocation('/')[4 + Utility.getSeasonNumber(Game1.currentSeason)]
+                .Split(' ');
+        }
+
         var rawFishDataWithLocation = GetRawFishDataWithLocation(rawFishData);
 
         var keys = rawFishDataWithLocation.Keys.ToArray();

@@ -1,5 +1,11 @@
 ﻿# SLNGS Change Log
 
+## 2.5.5 <sup><sub><sup>[🔼](#slngs-change-log)</sup></sub></sup>
+
+### Fixed
+
+* Explosive ammo now slays Mummies as expected.
+
 ## 2.5.3 <sup><sub><sup>[🔼](#slngs-change-log)</sup></sub></sup>
 
 ### Fixed

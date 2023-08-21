@@ -111,14 +111,9 @@ internal sealed class ChestPerformOpenChestPatcher : HarmonyPatcher
 
         player.Append(DataKeys.BlueprintsFound, blueprint.ToString());
         var count = player.Read(DataKeys.BlueprintsFound).ParseList<int>().Count;
-        switch (count)
+        if (count == 1)
         {
-            case 8:
-                player.completeQuest((int)Quest.ForgeNext);
-                break;
-            case 1:
-                ModHelper.GameContent.InvalidateCacheAndLocalized("Data/Events/Blacksmith");
-                break;
+            ModHelper.GameContent.InvalidateCacheAndLocalized("Data/Events/Blacksmith");
         }
 
         player.holdUpItemThenMessage(new SObject(Globals.DwarvishBlueprintIndex.Value, 1));

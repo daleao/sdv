@@ -123,8 +123,7 @@ public sealed class SpreadingEnchantment : BaseSlingshotEnchantment
                 startingPosition,
                 velocity.X,
                 velocity.Y,
-                rotationVelocity,
-                false),
+                rotationVelocity),
             _ => null,
         };
 

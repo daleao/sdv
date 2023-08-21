@@ -5,9 +5,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using DaLion.Shared.Extensions;
-using DaLion.Shared.Extensions.Memory;
 using Microsoft.Xna.Framework;
-using StardewModdingAPI.Utilities;
 using StardewValley.Locations;
 using StardewValley.TerrainFeatures;
 using xTile.Dimensions;
@@ -79,41 +77,6 @@ internal static class GameLocationExtensions
                    "RidgeForest",
                    "SpiritRealm",
                    "AsteroidsDungeon");
-    }
-
-    /// <summary>Gets the raw fish data for this <paramref name="location"/> during the current game season.</summary>
-    /// <param name="location">The <see cref="GameLocation"/>.</param>
-    /// <returns>The raw fish data for <paramref name="location"/> and the current game season.</returns>
-    internal static SpanSplitter GetRawFishDataForCurrentSeason(this GameLocation location)
-    {
-        var locationData =
-            Game1.content.Load<Dictionary<string, string>>(PathUtilities.NormalizeAssetName("Data/Locations"));
-        return locationData[location.NameOrUniqueName]
-            .SplitWithoutAllocation('/')[4 + Utility.getSeasonNumber(Game1.currentSeason)]
-            .Split(' ');
-    }
-
-    /// <summary>Gets the raw fish data for this <paramref name="location"/> including all seasons.</summary>
-    /// <param name="location">The <see cref="GameLocation"/>.</param>
-    /// <returns>The raw fish data for <paramref name="location"/> and for all seasons.</returns>
-    internal static SpanSplitter GetRawFishDataForAllSeasons(this GameLocation location)
-    {
-        var locationData =
-            Game1.content.Load<Dictionary<string, string>>(PathUtilities.NormalizeAssetName("Data/Locations"));
-        var allSeasonFish = string.Empty;
-        for (var i = 0; i < 4; i++)
-        {
-            var seasonalFishData = locationData[location.NameOrUniqueName]
-                .SplitWithoutAllocation('/')[4 + i]
-                .Split(' ');
-            for (var j = 0; j < seasonalFishData.Length; j++)
-            {
-                var fish = seasonalFishData[j];
-                allSeasonFish = string.Concat(allSeasonFish.AsSpan(), " ".AsSpan(), fish);
-            }
-        }
-
-        return allSeasonFish.SplitWithoutAllocation(' ');
     }
 
     /// <summary>Determines whether a <paramref name="tile"/> on a map is valid for spawning diggable treasure.</summary>

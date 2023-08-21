@@ -50,14 +50,9 @@ internal sealed class FarmerFoundArtifactPatcher : HarmonyPatcher
 
             __instance.Append(DataKeys.BlueprintsFound, blueprint.ToString());
             var count = __instance.Read(DataKeys.BlueprintsFound).ParseList<int>().Count;
-            switch (count)
+            if (count == 1)
             {
-                case 8:
-                    __instance.completeQuest((int)Quest.ForgeNext);
-                    break;
-                case 1:
-                    ModHelper.GameContent.InvalidateCacheAndLocalized("Data/Events/Blacksmith");
-                    break;
+                ModHelper.GameContent.InvalidateCacheAndLocalized("Data/Events/Blacksmith");
             }
 
             __instance.holdUpItemThenMessage(new SObject(Globals.DwarvishBlueprintIndex.Value, 1));

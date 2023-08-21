@@ -1,5 +1,11 @@
 ﻿# ENCH Change Log
 
+## 2.5.5 <sup><sub><sup>[🔼](#ench-change-log)</sup></sub></sup>
+
+### Fixed
+
+* Added fix for transfigured enemies in custom location causing save serialization issues.
+
 ## 2.5.0 <sup><sub><sup>[🔼](#ench-change-log)</sup></sub></sup>
 
 ### Fixed

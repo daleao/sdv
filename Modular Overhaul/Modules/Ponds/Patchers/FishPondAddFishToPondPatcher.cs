@@ -47,9 +47,22 @@ internal sealed class FishPondAddFishToPondPatcher : HarmonyPatcher
                     __instance.Increment(DataKeys.FamilyLivingHere);
                     __instance.Write(DataKeys.FamilyQualities, string.Join(',', familyQualities));
                 }
+                else
+                {
+                    var fishQualities = __instance.Read(DataKeys.FishQualities, $"{__instance.FishCount - __instance.Read<int>(DataKeys.FamilyLivingHere) - 1},0,0,0") // already added at this point, so consider - 1
+                        .ParseList<int>();
+                    if (fishQualities.Count != 4 || fishQualities.Any(q => q < 0 || q > __instance.FishCount - 1))
+                    {
+                        ThrowHelper.ThrowInvalidDataException("FishQualities data had incorrect number of values.");
+                    }
+
+                    fishQualities[fish.Quality == 4 ? 3 : fish.Quality]++;
+                    __instance.Write(DataKeys.FishQualities, string.Join(',', fishQualities));
+                }
 
                 // enable reproduction if angler or ms. angler
-                if (fish.ParentSheetIndex is not (160 or 899) || __instance.Read<int>(DataKeys.FamilyLivingHere) is not ({ } familyCount and > 0))
+                if (fish.ParentSheetIndex is not (160 or 899) ||
+                    __instance.Read<int>(DataKeys.FamilyLivingHere) is not ({ } familyCount and > 0))
                 {
                     return;
                 }
