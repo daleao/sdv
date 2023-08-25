@@ -2,6 +2,10 @@
 
 This file contains a TL;DR of current version changes and hotfixes from across all modules. For the complete changelog, please refer to the individual changelogs of each module, linked [below](#detailed-change-logs).
 
+## Patch 2.5.7 Highlights <sup><sub><sup>[🔼](#margo-change-logs)</sup></sub></sup>
+
+* Hotfix for Binning and Socializing skills not working correctly.
+
 ## Patch 2.5.6 Highlights <sup><sub><sup>[🔼](#margo-change-logs)</sup></sub></sup>
 
 * Added some new screenshots.

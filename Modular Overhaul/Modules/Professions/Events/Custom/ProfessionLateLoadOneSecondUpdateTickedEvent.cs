@@ -9,6 +9,7 @@ using StardewModdingAPI.Events;
 #endregion using directives
 
 [UsedImplicitly]
+[AlwaysEnabledEvent]
 internal sealed class ProfessionLateLoadOneSecondUpdateTickedEvent : SecondSecondUpdateTickedEvent
 {
     /// <summary>Initializes a new instance of the <see cref="ProfessionLateLoadOneSecondUpdateTickedEvent"/> class.</summary>

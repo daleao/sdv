@@ -28,10 +28,10 @@ public interface IProfession
     ISkill Skill { get; }
 
     /// <summary>Gets get the professions which branch off from this profession, if any.</summary>
-    IEnumerable<int> BranchingProfessions =>
+    IEnumerable<IProfession> BranchingProfessions =>
         this.Level != 5 || !this.Skill.ProfessionPairs.TryGetValue(this.Id, out var pair)
-            ? Enumerable.Empty<int>()
-            : pair.First.Id.Collect(pair.Second.Id);
+            ? Enumerable.Empty<IProfession>()
+            : pair.First.Collect(pair.Second);
 
     /// <summary>Get the localized description text for this profession.</summary>
     /// <param name="prestiged">Whether to get the prestiged or normal variant.</param>

@@ -853,8 +853,6 @@
   "gmcm.wpnz.rebalance.defenseimprovesparry.desc": "Parry damage will increase for each point in defense.",
   "gmcm.wpnz.rebalance.groundedclubsmash.title": "Grounded Club Smash",
   "gmcm.wpnz.rebalance.groundedclubsmash.desc": "A club smash AoE will inflict guaranteed critical damage on burrowed enemies, but completely miss flying enemies.",
-
-  "gmcm.wpnz.stabbysword.heading": "Combo Settings",
   "gmcm.wpnz.stabbysword.enablestabbyswords.title": "Enable Stabbing Swords",
   "gmcm.wpnz.stabbysword.enablestabbyswords.desc": "Replaces the defensive special move of some swords with an offensive lunge move.",
 

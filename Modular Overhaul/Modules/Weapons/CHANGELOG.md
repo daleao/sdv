@@ -1,5 +1,9 @@
 ﻿# WPNZ Change Log
 
+## 2.5.7 <sup><sub><sup>[🔼](#wpnz-change-log)</sup></sub></sup>
+
+###
+
 ## 2.5.5 <sup><sub><sup>[🔼](#wpnz-change-log)</sup></sub></sup>
 
 ### Removed

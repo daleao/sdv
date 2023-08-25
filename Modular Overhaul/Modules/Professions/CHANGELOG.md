@@ -1,6 +1,16 @@
 ﻿# PROFS Change Log
 
-## 2.5.6 <sup><sub><sup>[🔼](#slngs-change-log)</sup></sub></sup>
+## 2.5.7 <sup><sub><sup>[🔼](#profs-change-log)</sup></sub></sup>
+
+### Added
+
+* Added to the `profs list` command the option to specify a skill name and get a list of professions in that skill. This can be helpful to find out the names of professions to use with the `profs add` command.
+
+### Fixed
+
+* Fix for Binning and Socializing skills not being loaded correctly.
+
+## 2.5.6 <sup><sub><sup>[🔼](#profs-change-log)</sup></sub></sup>
 
 ### Changed
 
@@ -12,7 +22,7 @@
 
 * Fixed a small issue where the player could still keep the Limit Break associated with a removed profession. This probably doesn't concern 99.8% of players.
 
-## 2.5.5 <sup><sub><sup>[🔼](#slngs-change-log)</sup></sub></sup>
+## 2.5.5 <sup><sub><sup>[🔼](#profs-change-log)</sup></sub></sup>
 
 ### Added
 

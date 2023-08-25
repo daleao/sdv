@@ -49,8 +49,6 @@ internal sealed partial class GenericModConfigMenu
                 I18n.Gmcm_Wpnz_Rebalance_Groundedclubsmash_Desc,
                 config => config.Weapons.GroundedClubSmash,
                 (config, value) => config.Weapons.GroundedClubSmash = value)
-
-            .AddSectionTitle(I18n.Gmcm_Wpnz_Stabbysword_Heading)
             .AddCheckbox(
                 I18n.Gmcm_Wpnz_Stabbysword_Enablestabbyswords_Title,
                 I18n.Gmcm_Wpnz_Stabbysword_Enablestabbyswords_Desc,

@@ -2,7 +2,6 @@
 
 #region using directives
 
-using DaLion.Overhaul.Modules.Professions.Events.Custom;
 using DaLion.Shared.Attributes;
 using DaLion.Shared.Integrations;
 using DaLion.Shared.Integrations.LoveOfCooking;
@@ -16,12 +15,5 @@ internal sealed class LoveOfCookingIntegration : ModIntegration<LoveOfCookingInt
     internal LoveOfCookingIntegration()
         : base("blueberry.LoveOfCooking", "Love Of Cooking", "1.0.27", ModHelper.ModRegistry)
     {
-    }
-
-    /// <inheritdoc />
-    protected override bool RegisterImpl()
-    {
-        EventManager.Enable<ProfessionLateLoadOneSecondUpdateTickedEvent>();
-        return base.RegisterImpl();
     }
 }

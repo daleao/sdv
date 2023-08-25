@@ -2,6 +2,7 @@
 
 #region using directives
 
+using System.Linq;
 using System.Text;
 using DaLion.Shared.Commands;
 using static System.String;
@@ -19,21 +20,59 @@ internal sealed class PrintProfessionsCommand : ConsoleCommand
     }
 
     /// <inheritdoc />
-    public override string[] Triggers { get; } = { "print_professions", "print_profs", "professions", "profs", "list" };
+    public override string[] Triggers { get; } = { "list" };
 
     /// <inheritdoc />
-    public override string Documentation => "List the player's current professions.";
+    public override string Documentation => "List the player's current professions. Or, alternatively, list the professions in available to the specified skill.";
 
     /// <inheritdoc />
     public override void Callback(string trigger, string[] args)
     {
+        StringBuilder sb;
+        ISkill skill;
+        if (args.Length > 0)
+        {
+            var skillName = args[0];
+            if (!Skill.TryFromName(skillName, true, out var vanillaSkill))
+            {
+                var found = SCSkill.Loaded.Values.FirstOrDefault(s =>
+                    string.Equals(s.StringId, skillName, StringComparison.CurrentCultureIgnoreCase) ||
+                    string.Equals(s.DisplayName, skillName, StringComparison.CurrentCultureIgnoreCase));
+                if (found is not SCSkill customSkill)
+                {
+                    Log.W($"{args[0]} is not a valid skill name.");
+                    return;
+                }
+
+                skill = customSkill;
+            }
+            else
+            {
+                skill = vanillaSkill;
+            }
+
+            sb = new StringBuilder($"Professions in {skill.StringId}:");
+            for (var i = 0; i < 2; i++)
+            {
+                var profession = skill.Professions[i];
+                sb.Append($"\n\t- {profession.StringId} (ID: {profession.Id})");
+                foreach (var branch in profession.BranchingProfessions)
+                {
+                    sb.Append($"\n\t\t- {branch.StringId} (ID: {branch.Id})");
+                }
+            }
+
+            Log.I(sb.ToString());
+            return;
+        }
+
         if (Game1.player.professions.Count == 0)
         {
             Log.I($"Farmer {Game1.player.Name} doesn't have any professions.");
             return;
         }
 
-        var message = new StringBuilder($"Farmer {Game1.player.Name}'s professions:");
+        sb = new StringBuilder($"Farmer {Game1.player.Name}'s professions:");
         for (var i = 0; i < Game1.player.professions.Count; i++)
         {
             var pid = Game1.player.professions[i];
@@ -57,9 +96,9 @@ internal sealed class PrintProfessionsCommand : ConsoleCommand
                 name.Append($"Unknown profession {pid}");
             }
 
-            message.Append("\n\t- ").Append(name);
+            sb.Append("\n\t- ").Append(name);
         }
 
-        Log.I(message.ToString());
+        Log.I(sb.ToString());
     }
 }

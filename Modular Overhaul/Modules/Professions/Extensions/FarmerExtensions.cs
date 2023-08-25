@@ -45,7 +45,7 @@ internal static class FarmerExtensions
     /// <returns><see langword="true"/> only if the <paramref name="farmer"/> has both tier-two professions which branch from <paramref name="profession"/>, otherwise <see langword="false"/>.</returns>
     internal static bool HasAllProfessionsBranchingFrom(this Farmer farmer, IProfession profession)
     {
-        return profession.BranchingProfessions.All(farmer.professions.Contains);
+        return profession.BranchingProfessions.All(branch => farmer.professions.Contains(branch.Id));
     }
 
     /// <summary>
@@ -122,7 +122,10 @@ internal static class FarmerExtensions
     internal static int GetCurrentProfessionForBranch(this Farmer farmer, IProfession branch)
     {
         var current = farmer.professions
-            .Intersect(branch.BranchingProfessions.Concat(branch.BranchingProfessions.Select(id => id + 100)))
+            .Intersect(branch.BranchingProfessions
+                .Select(p => p.Id)
+                .Concat(branch.BranchingProfessions
+                    .Select(p => p.Id + 100)))
             .DefaultIfEmpty(-1)
             .Last();
 
