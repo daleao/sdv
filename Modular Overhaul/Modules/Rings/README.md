@@ -12,16 +12,16 @@
     <li><a href="#ring-crafting-progression">Ring Crafting Progression</a></li>
 	<li>
         <a href="#ring-rebalance">Ring Rebalance</a>
-        <ol>
+        <ul>
             <li><a href="#gemstone-rings">Gemstone Rings</a></li>
             <li><a href="#other-rings">Other Rings</a></li>
-        </ol>
+        </ul>
     </li>    
     <li>
         <a href="#infinity-band">Infinity Band</a>
-        <ol>
+        <ul>
             <li><a href="#resonance">Resonance</a></li>
-        </ol>
+        </ul>
     </li>
     <li><a href="#compatibility">Compatibility</a></li>
   </ol>
