@@ -101,7 +101,7 @@
   "angler.desc.prestiged": "ユニークな最大サイズの魚種を捕まえるごとに、魚の価値がさらに 0.5% 高くなります。",
   "aquarist.title.male": "水族館経営者",
   "aquarist.title.female": "水族館経営者",
-  "aquarist.desc": "魚のいる池の最大容量+2。 養魚池に飼われている魚の種類ごとに、捕獲メーターの速度が上がります。",
+  "aquarist.desc": "魚のいる池の最大容量+2。 養魚池にいる魚の種類ごとに、獲物の損失速度が減少します。",
   "aquarist.desc.prestiged": "魚のいる池の最大容量+2 >> +4。",
 
   "trapper.title.male": "漁師",

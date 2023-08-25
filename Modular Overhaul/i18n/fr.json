@@ -101,7 +101,7 @@
   "angler.desc.prestiged": "Les poissons ont encore 0,5 % de valeur en plus pour chaque espèce de poisson unique de taille maximale capturée.",
   "aquarist.title.male": "Aquariophile",
   "aquarist.title.female": "Aquariophile",
-  "aquarist.desc": "Capacité des étanges +2. La barre de capture augmente plus vite pour chaque espèce de poisson élevée dans un étang.",
+  "aquarist.desc": "Capacité des étanges +2. La barre de capture diminue plus lentement pour chaque espèce de poisson élevée dans un étang.",
   "aquarist.desc.prestiged": "Capacité des étanges +2 >> +4.",
 
   "trapper.title.male": "Trappeur",

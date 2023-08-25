@@ -101,7 +101,7 @@
   "angler.desc.prestiged": "每捕获一种独特的最大尺寸鱼类，鱼的价值就会增加 0.5%。",
   "aquarist.title.male": "养鱼专家",
   "aquarist.title.female": "养鱼专家",
-  "aquarist.desc": "鱼池最大容量+2。鱼塘中饲养的每种鱼都会加快您的捕捞量表。",
+  "aquarist.desc": "鱼池最大容量+2。池塘中饲养的每种鱼都会减缓您的捕获量损失。",
   "aquarist.desc.prestiged": "鱼池最大容量+2 >> +4。",
 
   "trapper.title.male": "捕手",

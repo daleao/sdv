@@ -101,7 +101,7 @@
   "angler.desc.prestiged": "최대 크기의 독특한 어종을 잡을 때마다 물고기의 가치가 0.5% 더 높아집니다.",
   "aquarist.title.male": "수족관 관리자",
   "aquarist.title.female": "수족관 관리자",
-  "aquarist.desc": "물고기 연못 최대 용량 +2. 물고기 연못에 보관된 각 유형의 물고기는 포획 미터의 속도를 높입니다.",
+  "aquarist.desc": "물고기 연못 최대 용량 +2. 연못에 보관된 각 유형의 물고기는 어획량 손실을 늦춥니다.",
   "aquarist.desc.prestiged": "물고기 연못 최대 수용 인원 +2 >> +4.",
 
   "trapper.title.male": "덫 사냥꾼",

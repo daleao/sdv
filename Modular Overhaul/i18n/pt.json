@@ -101,7 +101,7 @@
   "angler.desc.prestiged": "Os peixes são outros 0,5% mais valiosos para cada espécie única de peixe de tamanho máximo capturada.",
   "aquarist.title.male": "Aquarista",
   "aquarist.title.female": "Aquarista",
-  "aquarist.desc": "Capacidade máxima do viveiro de peixes +2. A barra de captura aumenta mais rápido para cada espécie de peixe criado em um viveiro.",
+  "aquarist.desc": "Capacidade máxima do viveiro de peixes +2. A barra de captura diminue mais lentamente para cada espécie de peixe criado em um viveiro.",
   "aquarist.desc.prestiged": "Capacidade máxima do viveiro de peixes +2 >> +4.",
 
   "trapper.title.male": "Armadilheiro",

@@ -101,7 +101,7 @@
   "angler.desc.prestiged": "Fish are again 0.5% more valuable for every unique max-sized species caught.",
   "aquarist.title.male": "Aquarist",
   "aquarist.title.female": "Aquarist",
-  "aquarist.desc": "Fish pond max capacity +2. Catching bar increases faster for every unique fish species raised in a Fish Pond.",
+  "aquarist.desc": "Fish pond max capacity +2. Catching bar decrease slower for every unique fish species raised in a Fish Pond.",
   "aquarist.desc.prestiged": "Fish pond max capacity +2 >> +4.",
 
   "trapper.title.male": "Trapper",

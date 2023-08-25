@@ -101,7 +101,7 @@
   "angler.desc.prestiged": "Los peces son otro 0,5% más valiosos por cada especie única de pez de tamaño máximo capturada.",
   "aquarist.title.male": "Acuarista",
   "aquarist.title.female": "Acuarista",
-  "aquarist.desc": "Capacidad máxima del estanque de peces +2. La barra de captura aumenta más rapidamente para cada especie de pez que se cría en un estanque.",
+  "aquarist.desc": "Capacidad máxima del estanque de peces +2. La barra de captura disminuye más lentamente para cada especie de pez que se cría en un estanque.",
   "aquarist.desc.prestiged": "Capacidad máxima del estanque de peces +2 >> +4.",
 
   "trapper.title.male": "Trampero",

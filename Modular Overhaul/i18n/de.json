@@ -101,7 +101,7 @@
   "angler.desc.prestiged": "Für jede einzelne gefangene Fischart mit maximaler Größe sind Fische um weitere 0,5 % wertvoller.",
   "aquarist.title.male": "Aquarist",
   "aquarist.title.female": "Aquaristin",
-  "aquarist.desc": "Maximale Kapazität des Fischteichs +2. Der Fangbalken steigt für jede einzelne Fischart, die in einem Fischteich gezüchtet wird, schneller an.",
+  "aquarist.desc": "Maximale Kapazität des Fischteichs +2. Der Fangbalken verringert sich für jede einzelne Fischart, die in einem Fischteich gezüchtet wird, schneller an.",
   "aquarist.desc.prestiged": "Maximale Kapazität des Fischteichs +2 >> +4.",
 
   "trapper.title.male": "Fallensteller",
