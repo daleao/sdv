@@ -44,7 +44,6 @@ internal sealed class ExperienceBarDrawExperienceBarPatcher : HarmonyPatcher
         catch (Exception ex)
         {
             Log.E("Professions module failed to budge Ui Info Suite experience bar skill icon." +
-                  "\n—-- Do NOT report this to Ui Info Suite's author. ---" +
                   $"\nHelper returned {ex}");
             return null;
         }

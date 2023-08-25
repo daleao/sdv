@@ -155,7 +155,6 @@ internal sealed class ObjectProjectile : BasicProjectile
             return;
         }
 
-        Log.A("Colliding with monster!");
         if (this.Ammo.ParentSheetIndex == ItemIDs.Slime)
         {
             if (monster.IsSlime())
@@ -207,7 +206,6 @@ internal sealed class ObjectProjectile : BasicProjectile
             Reflector
                 .GetUnboundMethodDelegate<Action<BasicProjectile, GameLocation>>(this, "explosionAnimation")
                 .Invoke(this, location);
-            Log.A("Exploded without Desperado!");
             return;
         }
 
@@ -222,7 +220,6 @@ internal sealed class ObjectProjectile : BasicProjectile
             this.xVelocity.Value *= 0.65f;
             this.yVelocity.Value *= 0.65f;
             this.DidPierce = true;
-            Log.A("Pierced!");
             this._pierceCount++;
         }
         else
@@ -230,7 +227,6 @@ internal sealed class ObjectProjectile : BasicProjectile
             Reflector
                 .GetUnboundMethodDelegate<Action<BasicProjectile, GameLocation>>(this, "explosionAnimation")
                 .Invoke(this, location);
-            Log.A("Exploded with Desperado!");
         }
 
         // check for stun
@@ -250,7 +246,6 @@ internal sealed class ObjectProjectile : BasicProjectile
         if (this.Source?.hasEnchantmentOfType<PreservingEnchantment>() == true || this.IsSquishy ||
             this.Ammo.ParentSheetIndex == ItemIDs.ExplosiveAmmo || !this.Firer.professions.Contains(Farmer.scout))
         {
-            Log.A("Can't recover!");
             return;
         }
 
@@ -272,7 +267,6 @@ internal sealed class ObjectProjectile : BasicProjectile
                 this.Ammo.ParentSheetIndex,
                 new Vector2((int)this.position.X, (int)this.position.Y),
                 this.Firer.getStandingPosition()));
-        Log.A("Recovered");
     }
 
     /// <inheritdoc />
@@ -316,7 +310,6 @@ internal sealed class ObjectProjectile : BasicProjectile
                 this.Ammo.ParentSheetIndex,
                 new Vector2((int)this.position.X, (int)this.position.Y),
                 this.Firer.getStandingPosition()));
-        Log.A("Recovered");
     }
 
     /// <inheritdoc />

@@ -68,7 +68,6 @@ internal sealed class SkillLevelUpMenuCtorPatcher : HarmonyPatcher
         {
             Log.E(
                 "Professions module failed patching 2nd-tier profession choices to reflect last chosen 1st-tier profession." +
-                "\n—-- Do NOT report this to SpaceCore's author. ---" +
                 $"\nHelper returned {ex}");
             return null;
         }

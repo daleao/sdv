@@ -1,5 +1,11 @@
 ﻿# RNGS Change Log
 
+## 2.5.6 <sup><sub><sup>[🔼](#slngs-change-log)</sup></sub></sup>
+
+### Added
+
+* Added a compatibiltiy patch for Identifiable Combined Rings (removed the "Many" tag from Infinity Band).
+
 ## 2.4.0 <sup><sub><sup>[🔼](#rngs-change-log)</sup></sub></sup>
 
 ### Added

@@ -118,7 +118,6 @@ internal sealed class GenericObjectMachinePatchers : HarmonyPatcher
         catch (Exception ex)
         {
             Log.E("Tweeex module failed patching modded Artisan behavior to generic Automate machines." +
-                  "\n—-- Do NOT report this to Automate's author. ---" +
                   $"\nHelper returned {ex}");
             return null;
         }

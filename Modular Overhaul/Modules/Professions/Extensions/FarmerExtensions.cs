@@ -318,7 +318,7 @@ internal static class FarmerExtensions
     /// <summary>Gets the bonus "catching" bar build rate for <see cref="Profession.Aquarist"/>.</summary>
     /// <param name="farmer">The <see cref="Farmer"/>.</param>
     /// <returns>A <see cref="float"/> catching height.</returns>
-    internal static float GetAquaristCatchingBonus(this Farmer farmer)
+    internal static float GetAquaristCatchingHandicap(this Farmer farmer)
     {
         HashSet<int> fishTypes = new();
         var buildings = Game1.getFarm().buildings;

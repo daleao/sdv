@@ -1,5 +1,13 @@
 ﻿# SLNGS Change Log
 
+## 2.5.6 <sup><sub><sup>[🔼](#slngs-change-log)</sup></sub></sup>
+
+### Fixed
+
+* Fixed a small tooltip overflow issue with the Basic Slingshot.
+* Fixed EnableSpecialMove config not doing anything.
+* Removed some leftover debugging Alerts.
+
 ## 2.5.5 <sup><sub><sup>[🔼](#slngs-change-log)</sup></sub></sup>
 
 ### Fixed

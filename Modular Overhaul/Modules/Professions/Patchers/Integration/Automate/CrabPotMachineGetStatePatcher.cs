@@ -52,7 +52,6 @@ internal sealed class CrabPotMachineGetStatePatcher : HarmonyPatcher
         catch (Exception ex)
         {
             Log.E("Professions module failed patching bait conditions for automated Crab Pots." +
-                  "\n—-- Do NOT report this to Automate's author. ---" +
                   $"\nHelper returned {ex}");
             return null;
         }

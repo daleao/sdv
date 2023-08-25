@@ -90,7 +90,6 @@ internal sealed class InseminationSyringeOverridesDoFunctionPatcher : HarmonyPat
         catch (Exception ex)
         {
             Log.E("Professions module failed patching inseminated pregnancy time for Breeder." +
-                  "\n—-- Do NOT report this to Animal Husbandry's author. ---" +
                   $"\nHelper returned {ex}");
             return null;
         }

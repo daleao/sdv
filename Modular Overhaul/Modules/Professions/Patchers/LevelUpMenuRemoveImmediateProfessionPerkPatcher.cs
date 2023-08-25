@@ -103,9 +103,9 @@ internal sealed class LevelUpMenuRemoveImmediateProfessionPerkPatcher : HarmonyP
             return;
         }
 
-        if (player.professions.Any(p => p is >= 26 and < 30))
+        if (player.professions.Any(p => p is >= 26 and < 30 && p != whichProfession))
         {
-            var firstIndex = player.professions.First(p => p is >= 26 and < 30);
+            var firstIndex = player.professions.First(p => p is >= 26 and < 30 && p != whichProfession);
             player.Set_Ultimate(Ultimate.FromValue(firstIndex));
         }
         else

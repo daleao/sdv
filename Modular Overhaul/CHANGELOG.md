@@ -2,6 +2,15 @@
 
 This file contains a TL;DR of current version changes and hotfixes from across all modules. For the complete changelog, please refer to the individual changelogs of each module, linked [below](#detailed-change-logs).
 
+## Patch 2.5.6 Highlights <sup><sub><sup>[🔼](#margo-change-logs)</sup></sub></sup>
+
+* Added some new screenshots.
+* [CMBT]: Added a "fix" for Lava Lurk's hitbox. In vanilla, the hitbox is always completely below the Lurk's head (the part of the body that would be submerged). This change makes it so that the hitbox moves depending on the Lurk's state; when it emerges, the hitbox changes to match the head that's above the surface, making it much more intuitive to fight against (especially with slingshots).
+* [PROFS]: Aquarist reverted to pre-version 2.5.0 as some users pointed out that the change made it impossible to get pirate treasure.
+* [RNGS]: Small compatibility patch for Identifiable Combined Rings.
+* [SLNGS]: Small fix for Basic Slingshot tooltip.
+* [SLNGS]: EnableSpecialMove config now actually does something.
+
 ## Patch 2.5.5 Highlights <sup><sub><sup>[🔼](#margo-change-logs)</sup></sub></sup>
 
 * [CMBT]: Fixed an issue with frozen enemies being invincible.

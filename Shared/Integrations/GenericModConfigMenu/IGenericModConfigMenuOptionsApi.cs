@@ -285,7 +285,8 @@ public interface IGenericModConfigMenuOptionsApi
     /// <param name="isStyledText">
     ///   If <c>true</c>, then the text returned by <paramref name="text"/> will be treated as styled text.
     /// </param>
-    void AddDynamicParagraph(IManifest mod,
+    void AddDynamicParagraph(
+        IManifest mod,
         string logName,
         Func<string> text,
         bool isStyledText);

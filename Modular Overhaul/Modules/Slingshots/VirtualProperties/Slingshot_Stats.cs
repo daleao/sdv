@@ -369,7 +369,7 @@ internal static class Slingshot_Stats
 
         #endregion deprecated
 
-        if (holder.RubyBonus > 0f || slingshot.InitialParentTileIndex != ItemIDs.BasicSlingshot)
+        if (holder.RubyBonus > 0f || holder.AmmoDamage > 0 || slingshot.InitialParentTileIndex != ItemIDs.BasicSlingshot)
         {
             holder.RowsInTooltip++;
         }

@@ -272,10 +272,13 @@ public abstract class OverhaulModule
         {
             new IModIntegration?[]
             {
+                Modules.Professions.Integrations.SpaceCoreIntegration.Instance,
+                Modules.Professions.Integrations.LuckSkillIntegration.Instance,
                 Modules.Professions.Integrations.LoveOfCookingIntegration.Instance,
                 Modules.Professions.Integrations.AutomateIntegration.Instance,
                 Modules.Professions.Integrations.TehsFishingOverhaulIntegration.Instance,
                 Modules.Professions.Integrations.CustomOreNodesIntegration.Instance,
+                Modules.Professions.Integrations.CustomResourceClumpsIntegration.Instance,
                 Modules.Professions.Integrations.StardewValleyExpandedIntegration.Instance,
                 Modules.Professions.Integrations.ArcheryIntegration.Instance,
             }.ForEach(integration => integration?.Register());

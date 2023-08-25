@@ -69,7 +69,6 @@ internal sealed class PropagatorPopHeldObjectPatcher : HarmonyPatcher
         catch (Exception ex)
         {
             Log.E("Professions module failed patching Blueberry's Mushroom Propagator output quantity." +
-                  "\n—-- Do NOT report this to Mushroom Propagator's author. ---" +
                   $"\nHelper returned {ex}");
             return null;
         }
@@ -99,7 +98,6 @@ internal sealed class PropagatorPopHeldObjectPatcher : HarmonyPatcher
         catch (Exception ex)
         {
             Log.E($"Professions module failed patching Blueberry's Mushroom Propagator output quality." +
-                  "\n—-- Do NOT report this to Mushroom Propagator's author. ---" +
                   $"\nHelper returned {ex}");
             return null;
         }

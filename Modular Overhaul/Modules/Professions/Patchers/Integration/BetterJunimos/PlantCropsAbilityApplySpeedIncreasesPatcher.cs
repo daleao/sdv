@@ -61,7 +61,6 @@ internal sealed class PlantCropsAbilityApplySpeedIncreasesPatcher : HarmonyPatch
         {
             Log.E(
                 "Professions module failed patching prestiged Agriculturist crop growth bonus to Better Junimos." +
-                "\n—-- Do NOT report this to Better Junimos' author. ---" +
                 $"\nHelper returned {ex}");
             return null;
         }

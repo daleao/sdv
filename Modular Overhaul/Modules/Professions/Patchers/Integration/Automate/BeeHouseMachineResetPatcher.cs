@@ -92,7 +92,6 @@ internal sealed class BeeHouseMachineResetPatcher : HarmonyPatcher
         catch (Exception ex)
         {
             Log.E("Professions module failed patching automated Bee House production speed for Producers." +
-                  "\n—-- Do NOT report this to Automate's author. ---" +
                   $"\nHelper returned {ex}");
             return null;
         }

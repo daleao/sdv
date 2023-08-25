@@ -1,5 +1,11 @@
 ﻿# CMBT Change Log
 
+## 2.5.6 <sup><sub><sup>[🔼](#cmbt-change-log)</sup></sub></sup>
+
+### Added
+
+* Added a "fix" for Lava Lurk's hitbox. In vanilla, the hitbox is always completely below the Lurk's head (the part of the body that would be submerged). This change makes it so that the hitbox moves depending on the Lurk's state; when it emerges, the hitbox changes to match the head that's above the surface, making it much more intuitive to fight against (especially with slingshots).
+
 ## 2.5.5 <sup><sub><sup>[🔼](#cmbt-change-log)</sup></sub></sup>
 
 ### Fixed

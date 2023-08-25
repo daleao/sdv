@@ -91,7 +91,6 @@ internal sealed class NewForgeMenuUpdatePatcher : HarmonyPatcher
         catch (Exception ex)
         {
             Log.E("Immersive Rings failed modifying unforge behavior of combined iridium band." +
-                  "\n—-- Do NOT report this to SpaceCore's author. ---" +
                   $"\nHelper returned {ex}");
             return null;
         }

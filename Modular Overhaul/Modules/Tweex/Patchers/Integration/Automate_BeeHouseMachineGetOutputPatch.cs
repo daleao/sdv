@@ -66,7 +66,6 @@ internal sealed class BeeHouseMachineGetOutputPatcher : HarmonyPatcher
         catch (Exception ex)
         {
             Log.E("Tweex module failed improving automated honey quality with age." +
-                  "\n—-- Do NOT report this to Automate's author. ---" +
                   $"\nHelper returned {ex}");
             return null;
         }

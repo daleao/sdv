@@ -60,7 +60,6 @@ internal sealed class PregnancyControllerAddNewHatchedAnimalPatcher : HarmonyPat
         catch (Exception ex)
         {
             Log.E("Professions module failed patching Rancher husbanded newborn friendship." +
-                  "\n—-- Do NOT report this to Animal Husbandry's author. ---" +
                   $"\nHelper returned {ex}");
             return null;
         }

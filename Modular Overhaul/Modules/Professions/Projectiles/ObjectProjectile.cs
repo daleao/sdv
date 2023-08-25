@@ -122,7 +122,6 @@ internal sealed class ObjectProjectile : BasicProjectile
     {
         this.DidPierce = false;
         base.behaviorOnCollisionWithMineWall(tileX, tileY);
-        Log.A("Collided with wall!");
     }
 
     /// <inheritdoc />
@@ -134,7 +133,6 @@ internal sealed class ObjectProjectile : BasicProjectile
             return;
         }
 
-        Log.A("Colliding with monster!");
         if (this.Ammo.ParentSheetIndex == ItemIDs.Slime)
         {
             if (monster.IsSlime())
@@ -186,7 +184,6 @@ internal sealed class ObjectProjectile : BasicProjectile
             Reflector
                 .GetUnboundMethodDelegate<Action<BasicProjectile, GameLocation>>(this, "explosionAnimation")
                 .Invoke(this, location);
-            Log.A("Exploded without Desperado!");
             return;
         }
 
@@ -201,7 +198,6 @@ internal sealed class ObjectProjectile : BasicProjectile
             this.xVelocity.Value *= 0.65f;
             this.yVelocity.Value *= 0.65f;
             this.DidPierce = true;
-            Log.A("Pierced!");
             this._pierceCount++;
         }
         else
@@ -209,7 +205,6 @@ internal sealed class ObjectProjectile : BasicProjectile
             Reflector
                 .GetUnboundMethodDelegate<Action<BasicProjectile, GameLocation>>(this, "explosionAnimation")
                 .Invoke(this, location);
-            Log.A("Exploded with Desperado!");
         }
 
         // increment Desperado ultimate meter
@@ -223,7 +218,6 @@ internal sealed class ObjectProjectile : BasicProjectile
         if (this.Source?.hasEnchantmentOfType<PreservingEnchantment>() == true || this.Ammo is not { } ammo || this.IsSquishy ||
             ammo.ParentSheetIndex == ItemIDs.ExplosiveAmmo || !this.Firer.professions.Contains(Farmer.scout))
         {
-            Log.A("Can't recover!");
             return;
         }
 
@@ -242,14 +236,12 @@ internal sealed class ObjectProjectile : BasicProjectile
                     this.Ammo.ParentSheetIndex,
                     new Vector2((int)this.position.X, (int)this.position.Y),
                     this.Firer.getStandingPosition()));
-            Log.A("Recovered");
         }
     }
 
     /// <inheritdoc />
     public override void behaviorOnCollisionWithOther(GameLocation location)
     {
-        Log.A("Colliding with other!");
         this.DidPierce = false;
         base.behaviorOnCollisionWithOther(location);
         if (this.Ammo is null || this.Firer is null || this.Source is null || !ProfessionsModule.ShouldEnable)
@@ -267,7 +259,6 @@ internal sealed class ObjectProjectile : BasicProjectile
         if (this.Source?.hasEnchantmentOfType<PreservingEnchantment>() == true || this.Ammo is not { } ammo || this.IsSquishy ||
             ammo.ParentSheetIndex == ItemIDs.ExplosiveAmmo || !this.Firer.professions.Contains(Farmer.scout))
         {
-            Log.A("Can't recover!");
             return;
         }
 
@@ -286,7 +277,6 @@ internal sealed class ObjectProjectile : BasicProjectile
                     ammo.ParentSheetIndex,
                     new Vector2((int)this.position.X, (int)this.position.Y),
                     this.Firer.getStandingPosition()));
-            Log.A("Recovered!");
         }
     }
 
@@ -313,7 +303,6 @@ internal sealed class ObjectProjectile : BasicProjectile
         // check if already collided
         if (didCollide)
         {
-            Log.A("Already collided!");
             return !this.DidPierce;
         }
 

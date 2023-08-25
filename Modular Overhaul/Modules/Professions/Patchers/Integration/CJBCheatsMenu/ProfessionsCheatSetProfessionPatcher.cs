@@ -45,7 +45,6 @@ internal sealed class ProfessionsCheatSetProfessionPatcher : HarmonyPatcher
         {
             Log.E(
                 "Professions module failed moving CJB Profession Cheat health bonus from Defender to Brute." +
-                "\n—-- Do NOT report this to CJB Cheats Menu's author. ---" +
                 $"\nHelper returned {ex}");
             return null;
         }

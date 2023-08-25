@@ -23,7 +23,7 @@ internal sealed class NpcCheckForNewCurrentDialoguePatcher : HarmonyPatcher
 
     /// <summary>Add special custom dialogue.</summary>
     [HarmonyPrefix]
-    private static bool NpcCheckForNewCurrentDialoguePrefix(NPC __instance)
+    private static bool NpcCheckForNewCurrentDialoguePrefix(NPC __instance, ref bool __result)
     {
         if (__instance.Name != "Wizard")
         {
@@ -37,12 +37,14 @@ internal sealed class NpcCheckForNewCurrentDialoguePatcher : HarmonyPatcher
                 darkSword.Read<int>(DataKeys.CursePoints) >= 100)
             {
                 __instance.CurrentDialogue.Push(new Dialogue(I18n.Dialogue_Wizard_Curse_Toldya(), __instance));
+                __result = true;
                 return false; // don't run original logic
             }
 
             if (player.hasQuest((int)Quest.CurseIntro))
             {
                 __instance.CurrentDialogue.Push(new Dialogue(I18n.Dialogue_Wizard_Curse_Canthelp(), __instance));
+                __result = true;
                 return false; // don't run original logic
             }
 

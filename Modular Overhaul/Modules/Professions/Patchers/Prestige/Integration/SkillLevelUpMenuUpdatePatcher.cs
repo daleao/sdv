@@ -98,7 +98,6 @@ internal sealed class SkillLevelUpMenuUpdatePatcher : HarmonyPatcher
         {
             Log.E(
                 "Professions module failed patching 2nd-tier profession choices to reflect last chosen 1st-tier profession." +
-                "\n—-- Do NOT report this to SpaceCore's author. ---" +
                 $"\nHelper returned {ex}");
             return null;
         }
@@ -217,7 +216,6 @@ internal sealed class SkillLevelUpMenuUpdatePatcher : HarmonyPatcher
         catch (Exception ex)
         {
             Log.E("Professions module failed patching level up profession redundancy." +
-                  "\n—-- Do NOT report this to SpaceCore's author. ---" +
                   $"\nHelper returned {ex}");
             return null;
         }
@@ -331,7 +329,6 @@ internal sealed class SkillLevelUpMenuUpdatePatcher : HarmonyPatcher
         catch (Exception ex)
         {
             Log.E("Professions module failed patching level up menu choice suppression." +
-                  "\n—-- Do NOT report this to SpaceCore's author. ---" +
                   $"\nHelper returned {ex}");
             return null;
         }

@@ -33,13 +33,42 @@ internal sealed class BobberBarUpdatePatcher : HarmonyPatcher
     {
         var helper = new ILHelper(original, instructions);
 
+        //// Injected: if (Game1.player.professions.Contains(<aquarist_id>)) distanceFromCatching += Game1.player.GetAquaristCatchingBarCompensation();
+        //// After: distanceFromCatching += 0.002f;
+        //try
+        //{
+        //    var isNotAquarist = generator.DefineLabel();
+        //    helper
+        //        .Match(new[] { new CodeInstruction(OpCodes.Ldc_R4, 0.002f) })
+        //        .Move()
+        //        .AddLabels(isNotAquarist)
+        //        .InsertProfessionCheck(Profession.Aquarist.Value)
+        //        .Insert(
+        //            new[]
+        //            {
+        //                new CodeInstruction(OpCodes.Brfalse_S, isNotAquarist),
+        //                new CodeInstruction(OpCodes.Call, typeof(Game1).RequirePropertyGetter(nameof(Game1.player))),
+        //                new CodeInstruction(
+        //                    OpCodes.Call,
+        //                    typeof(Extensions.FarmerExtensions)
+        //                        .RequireMethod(nameof(Extensions.FarmerExtensions.GetAquaristCatchingHandicap))),
+        //                new CodeInstruction(OpCodes.Add),
+        //            });
+        //}
+        //catch (Exception ex)
+        //{
+        //    Log.E($"Failed buffing Aquarist catching bar gain.\nHelper returned {ex}");
+        //    return null;
+        //}
+
         // Injected: if (Game1.player.professions.Contains(<aquarist_id>)) distanceFromCatching += Game1.player.GetAquaristCatchingBarCompensation();
-        // After: distanceFromCatching += 0.002f;
+        // After: distanceFromCatching -= ((whichBobber == 694 || beginnersRod) ? 0.002f : 0.003f);
         try
         {
             var isNotAquarist = generator.DefineLabel();
             helper
-                .Match(new[] { new CodeInstruction(OpCodes.Ldc_R4, 0.002f) })
+                .Match(new[] { new CodeInstruction(OpCodes.Ldc_I4, 694) })
+                .Match(new[] { new CodeInstruction(OpCodes.Stfld) })
                 .Move()
                 .AddLabels(isNotAquarist)
                 .InsertProfessionCheck(Profession.Aquarist.Value)
@@ -47,17 +76,21 @@ internal sealed class BobberBarUpdatePatcher : HarmonyPatcher
                     new[]
                     {
                         new CodeInstruction(OpCodes.Brfalse_S, isNotAquarist),
+                        new CodeInstruction(OpCodes.Ldarg_0),
+                        new CodeInstruction(OpCodes.Ldarg_0),
+                        new CodeInstruction(OpCodes.Ldfld, typeof(BobberBar).RequireField("distanceFromCatching")),
                         new CodeInstruction(OpCodes.Call, typeof(Game1).RequirePropertyGetter(nameof(Game1.player))),
                         new CodeInstruction(
                             OpCodes.Call,
                             typeof(Extensions.FarmerExtensions)
-                                .RequireMethod(nameof(Extensions.FarmerExtensions.GetAquaristCatchingBonus))),
+                                .RequireMethod(nameof(Extensions.FarmerExtensions.GetAquaristCatchingHandicap))),
                         new CodeInstruction(OpCodes.Add),
+                        new CodeInstruction(OpCodes.Stfld, typeof(BobberBar).RequireField("distanceFromCatching")),
                     });
         }
         catch (Exception ex)
         {
-            Log.E($"Failed buffing Aquarist catching bar gain.\nHelper returned {ex}");
+            Log.E($"Failed patching Aquarist catching bar loss.\nHelper returned {ex}");
             return null;
         }
 

@@ -70,7 +70,6 @@ internal sealed class SkillLevelUpMenuDrawPatcher : HarmonyPatcher
         catch (Exception ex)
         {
             Log.E("Professions module failed patching level up menu prestige tooltip draw." +
-                  "\n—-- Do NOT report this to SpaceCore's author. ---" +
                   $"\nHelper returned {ex}");
             return null;
         }
