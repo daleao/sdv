@@ -1,18 +1,18 @@
 ﻿# TWX Change Log
 
-## 2.5.5 <sup><sub><sup>[🔼](#twx-change-log)</sup></sub></sup>
+## 2.5.5 <sup><sub><sup>[🔼 Back to top](#twx-change-log)</sup></sub></sup>
 
 ### Fixed
 
 * Fixed Tea Bush Age quality incorrectly using TreeAgingFactor instead of TeaBushAgingFactor. 
 
-## 2.5.2 <sup><sub><sup>[🔼](#twx-change-log)</sup></sub></sup>
+## 2.5.2 <sup><sub><sup>[🔼 Back to top](#twx-change-log)</sup></sub></sup>
 
 ### Fixed
 
 * Fixed crops withering even when watered.
 
-## 2.5.0 <sup><sub><sup>[🔼](#twx-change-log)</sup></sub></sup>
+## 2.5.0 <sup><sub><sup>[🔼 Back to top](#twx-change-log)</sup></sub></sup>
 
 ### Added
 
@@ -24,19 +24,19 @@
 * Removed LegendaryFishAlwaysIridiumQuality option, because it's not needed.
 * Removed the MillsPreserveQuality option, because I don't like it.
 
-## 2.4.0 <sup><sub><sup>[🔼](#twx-change-log)</sup></sub></sup>
+## 2.4.0 <sup><sub><sup>[🔼 Back to top](#twx-change-log)</sup></sub></sup>
 
 ### Fixed
 
 * Mushroom Box age now uses Foraging level instead of Farming.
 
-## 2.3.0 <sup><sub><sup>[🔼](#twx-change-log)</sup></sub></sup>
+## 2.3.0 <sup><sub><sup>[🔼 Back to top](#twx-change-log)</sup></sub></sup>
 
 ### Fixed
 
 * Custom farm map options in GMCM now only appear if the corresponding mod is installed.
 
-## 2.0.5 <sup><sub><sup>[🔼](#twx-change-log)</sup></sub></sup>
+## 2.0.5 <sup><sub><sup>[🔼 Back to top](#twx-change-log)</sup></sub></sup>
 
 ### Added
 
@@ -46,13 +46,13 @@
 
 * Fruit trees now grow as normal during winter in Ginger Island.
 
-## 2.0.0 <sup><sub><sup>[🔼](#twx-change-log)</sup></sub></sup>
+## 2.0.0 <sup><sub><sup>[🔼 Back to top](#twx-change-log)</sup></sub></sup>
 
 ### Added
 
 * Added new tweak to allow crows to spawn on custom maps.
 
-## 1.0.2 <sup><sub><sup>[🔼](#twx-change-log)</sup></sub></sup>
+## 1.0.2 <sup><sub><sup>[🔼 Back to top](#twx-change-log)</sup></sub></sup>
 
 ### Added
 
@@ -63,7 +63,7 @@
 
 * Fixed a bug where Mushrom Box quality did not apply when automated.
 
-## 0.9.3 <sup><sub><sup>[🔼](#twx-change-log)</sup></sub></sup>
+## 0.9.3 <sup><sub><sup>[🔼 Back to top](#twx-change-log)</sup></sub></sup>
 
 ### Fixed
 

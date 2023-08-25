@@ -46,7 +46,9 @@ Integrations are provided out-of-the-box for several popular mods. See the [comp
 
 This module is safe to enable or disable mid-save. All profession perks will be applied retroactively. However, please note that disabling this mod will have no effect on skill levels or acquired professions, so make sure to manually reset your skills and professions back to vanilla standards **before** disabling, using provided console commands.
 
-## Professions <sup><sub><sup>[🔼](#margo-professions-profs)</sup></sub></sup>
+<sup><sub><sup>[🔼 Back to top](#margo-professions-profs)</sup></sub></sup>
+
+## Professions
 
 The perks in *italics* refer to ![shield:prestige] variants. Written in *(parenthesis)*, these perks **replace**, and do not stack with, their regular counterpart.
 
@@ -141,7 +143,9 @@ The perks in *italics* refer to ![shield:prestige] variants. Written in *(parent
 	- Obtainable buffs are the same as food/drink buffs (skill levels, attack, defense, speed, luck, max energy, magnetism). Buffs lasts 3 real-life minutes and can stack indefinitely, refreshing the duration each time. If at least one buff stack is active, also gain immunity to the Slimed debuff, even without a Slime Charmer ring (but **not** to Slime damage).
 	- Slime ammo deals twice as much damage, and can be used to heal ally Slimes.
 
-## Prestige <sup><sub><sup>[🔼](#margo-professions-profs)</sup></sub></sup>
+<sup><sub><sup>[🔼 Back to top](#margo-professions-profs)</sup></sub></sup>
+
+## Prestige
 
 If enabled, the [Statue of Uncertainty](https://stardewvalleywiki.com/The_Sewers#Statue%20Of%20Uncertainty) is replaced by the **Statue of Prestige**.
 
@@ -155,7 +159,9 @@ The entire Prestige system is optional. It may be turned off at any time, but ke
 
 All custom mod skills based on SpaceCore are compatible with the skill reset feature, but cannot have their level cap raised above the regular 10. For skill mod developers, if you wish to provide prestiged professions you can do so by registering your skill via the provided [API](../../API/IModularOverhaulApi.cs).
 
-## Limit Breaks <sup><sub><sup>[🔼](#margo-professions-profs)</sup></sub></sup>
+<sup><sub><sup>[🔼 Back to top](#margo-professions-profs)</sup></sub></sup>
+
+## Limit Breaks
 
 In addition to their regular perks listed above, every level 10 profession in the Combat skill tree also grants a unique [Limit Break](https://tvtropes.org/pmwiki/pmwiki.php/Main/LimitBreak). This special ability must be charged by performing certain actions during combat. You can track the current charge by the HUD bar labeled "L".
 
@@ -177,7 +183,9 @@ Note that, though all combat professions can be acquired via skill reset, only o
 
 After all possible skills have had their level cap raised, the Statue of Prestige will let you switch between the four Limit Breaks for free (though a cost can be configured). Switching Limmit Breaks is not possible if the Prestige system is disabled. As with the Prestige system, Limit Breaks can be turned off in the mod settings.
 
-## Compatibility <sup><sub><sup>[🔼](#margo-professions-profs)</sup></sub></sup>
+<sup><sub><sup>[🔼 Back to top](#margo-professions-profs)</sup></sub></sup>
+
+## Compatibility
 
 The following mods are fully integrated:
 
@@ -215,7 +223,9 @@ The following mods are **not** compatible:
 - [All Professions][mod:all-professions] and [Skill Prestige][mod:prestige], as they conflict with this mod's Prestige system. You could potentially use them if you disable this mod's Prestige system, but I will not provide support in case of bugs.
 - [Yet Another Harvest With Scythe Mod][mod:yahwsm] will not apply modded profession perks. Use instead the feature included in CJB Cheats Menu.
 
-## F.A.Q. <sup><sub><sup>[🔼](#margo-professions-profs)</sup></sub></sup>
+<sup><sub><sup>[🔼 Back to top](#margo-professions-profs)</sup></sub></sup>
+
+## F.A.Q.
 
 **Do Ecologist and Gemologist professions count forages/gems acquired before the profession?**  
 No.
@@ -241,7 +251,9 @@ An example file is offered under the Optional downloads as a template for this.
 It adds several valuable items to the possible produce list of each Legendary Fish, but doesn't change their spawn time or population quests.  
 You may customize this file to achieve your preferred behavior.
 
-## For C# Developers <sup><sub><sup>[🔼](#margo-professions-profs)</sup></sub></sup>
+<sup><sub><sup>[🔼 Back to top](#margo-professions-profs)</sup></sub></sup>
+
+## For C# Developers
 
 The module exposes an API to facilitate integration with other mods. Currently exposed endpoints include:
 
@@ -256,6 +268,8 @@ The module exposes an API to facilitate integration with other mods. Currently e
 - Registering custom skills for Prestige.
 
 To consume the API, copy both interfaces from the [API folder](../../API/) namespace to your project and [ask SMAPI for a proxy][wiki:integrations-api].
+
+<sup><sub><sup>[🔼 Back to top](#margo-professions-profs)</sup></sub></sup>
 
 ## Recommended Mods
 

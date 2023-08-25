@@ -49,7 +49,7 @@ This relatively simple module provides the following major rebalancing options f
 
 All features are optional and can be toggled individually.
 
-## Status Conditions <sup><sub><sup>[🔼](#margo-combat-cmbt)</sup></sub></sup>
+## Status Conditions <sup><sub><sup>[🔼 Back to top](#margo-combat-cmbt)</sup></sub></sup>
 
 Taking inspiration from classic RPG or strategy games, this module adds a framework for causing various status conditions to enemies. They are:
 

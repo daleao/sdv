@@ -2,11 +2,11 @@
 
 This file contains a TL;DR of current version changes and hotfixes from across all modules. For the complete changelog, please refer to the individual changelogs of each module, linked [below](#detailed-change-logs).
 
-## Patch 2.5.7 Highlights <sup><sub><sup>[🔼](#margo-change-logs)</sup></sub></sup>
+## Patch 2.5.7 Highlights <sup><sub><sup>[🔼 Back to top](#margo-change-logs)</sup></sub></sup>
 
 * Hotfix for Binning and Socializing skills not working correctly.
 
-## Patch 2.5.6 Highlights <sup><sub><sup>[🔼](#margo-change-logs)</sup></sub></sup>
+## Patch 2.5.6 Highlights <sup><sub><sup>[🔼 Back to top](#margo-change-logs)</sup></sub></sup>
 
 * Added some new screenshots.
 * [CMBT]: Added a "fix" for Lava Lurk's hitbox. In vanilla, the hitbox is always completely below the Lurk's head (the part of the body that would be submerged). This change makes it so that the hitbox moves depending on the Lurk's state; when it emerges, the hitbox changes to match the head that's above the surface, making it much more intuitive to fight against (especially with slingshots).
@@ -15,7 +15,7 @@ This file contains a TL;DR of current version changes and hotfixes from across a
 * [SLNGS]: Small fix for Basic Slingshot tooltip.
 * [SLNGS]: EnableSpecialMove config now actually does something.
 
-## Patch 2.5.5 Highlights <sup><sub><sup>[🔼](#margo-change-logs)</sup></sub></sup>
+## Patch 2.5.5 Highlights <sup><sub><sup>[🔼 Back to top](#margo-change-logs)</sup></sub></sup>
 
 * [CMBT]: Fixed an issue with frozen enemies being invincible.
 * [ENCH]: Added a fix for transfigured enemies causing save issues in custom maps, like Ridgeside Forest.
@@ -36,24 +36,24 @@ This file contains a TL;DR of current version changes and hotfixes from across a
 * [WPNZ]: Removed the Dwarven Forge Part 2 quest.
 * Some minor niche bugfixes.
 
-## Patch 2.5.4 Highlights <sup><sub><sup>[🔼](#margo-change-logs)</sup></sub></sup>
+## Patch 2.5.4 Highlights <sup><sub><sup>[🔼 Back to top](#margo-change-logs)</sup></sub></sup>
 
 * Fixed a compatibility issue with Flexible Sprinklers.
 
-## Patch 2.5.3 Highlights <sup><sub><sup>[🔼](#margo-change-logs)</sup></sub></sup>
+## Patch 2.5.3 Highlights <sup><sub><sup>[🔼 Back to top](#margo-change-logs)</sup></sub></sup>
 
 * Fixed issue with Hoe and Watering Can settings validations.
 * Fixed Null-Reference exception in Slingshot tooltip.
 
-## Patch 2.5.2 Highlights <sup><sub><sup>[🔼](#margo-change-logs)</sup></sub></sup>
+## Patch 2.5.2 Highlights <sup><sub><sup>[🔼 Back to top](#margo-change-logs)</sup></sub></sup>
 
 * Hotfix for crops withering even when watered.
 
-## Patch 2.5.1 Highlights <sup><sub><sup>[🔼](#margo-change-logs)</sup></sub></sup>
+## Patch 2.5.1 Highlights <sup><sub><sup>[🔼 Back to top](#margo-change-logs)</sup></sub></sup>
 
 * First hotfix for few issues in 2.5.0.
 
-## Minor Release 2.5.0 Highlights <sup><sub><sup>[🔼](#margo-change-logs)</sup></sub></sup>
+## Minor Release 2.5.0 Highlights <sup><sub><sup>[🔼 Back to top](#margo-change-logs)</sup></sub></sup>
 
 * [PNDS]: Mr. and Ms. Angler can now mate when placed together in a pond.
 * [PROFS]: Major overhaul of Fishing professions. Please see the dedicated [changelog](Modules/Professions/CHANGELOG.md).
@@ -69,7 +69,7 @@ This file contains a TL;DR of current version changes and hotfixes from across a
 
 ** Yes, I know these already exist in other mods. But I prefer to avoid downloading small immersion tweaks when they can be added directly to the modular overhaul.
 
-## Major Release 2.0.0 Highlights <sup><sub><sup>[🔼](#margo-change-logs)</sup></sub></sup>
+## Major Release 2.0.0 Highlights <sup><sub><sup>[🔼 Back to top](#margo-change-logs)</sup></sub></sup>
 
 * Weapon, Slingshot and Enchantment-related functionalities have been refactored to specific modules.
     * Added Weapons module.

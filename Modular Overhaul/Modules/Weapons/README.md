@@ -37,7 +37,9 @@ This module has the following objectives:
 
 This module tries to achieve all of this through a combination of nerfs, buffs and entirely new mechanics which will overall make combat significantly more strategic and challenging. Players who don't care for a challenge or are uninterested in combat should probably keep this module disabled.
 
-## Combos & Swing Speed <sup><sub><sup>[🔼](#margo-weapons-wpnz)</sup></sub></sup>
+<sup><sub><sup>[🔼 Back to top](#margo-weapons-wpnz)</sup></sub></sup>
+
+## Combos & Swing Speed
 
 Weapon spamming is replaced by combos. These are short bursts of continuous swings followed by a short cooldown. Each weapon type has a configurable combo limit:
     
@@ -47,7 +49,9 @@ Weapon spamming is replaced by combos. These are short bursts of continuous swin
 
 If combo hits are enabled, swing speed bonuses from emerald will affect every frame of the attack animation, as well as the cooldown in between combos. This makes speed a significantly more valuable stat than in Vanilla, where it only affected 1 out of 6 frames (and that frame could be animation-canceled).
 
-## Offensive & Defensive Swords <sup><sub><sup>[🔼](#margo-weapons-wpnz)</sup></sub></sup>
+<sup><sub><sup>[🔼 Back to top](#margo-weapons-wpnz)</sup></sub></sup>
+
+## Offensive & Defensive Swords
 
 In vanilla game code we can find traces of an abandoned fourth weapon type: **Stabbing Swords**. This module re-implements stabbing swords into the game.
 
@@ -55,7 +59,9 @@ Swords are now split between **offensive** and **defensive** archetypes. Defensi
 
 To improve the defensive parry move, parry damage is increased by 10% for every defense point. This adds offensive value to the defense stat itself and makes defensive builds more viable. Note that the introduction of weapon combos also adds to the value of a defensive move (you need to protect yourself during combo downtime).
 
-## Weapon Tiers & Rebalance <sup><sub><sup>[🔼](#margo-weapons-wpnz)</sup></sub></sup>
+<sup><sub><sup>[🔼 Back to top](#margo-weapons-wpnz)</sup></sub></sup>
+
+## Weapon Tiers & Rebalance
 
 Weapon stats have been rebalanced across the board:
 
@@ -112,7 +118,9 @@ If this option is enabled, all weapons will be removed from Mine chests (replace
 Weapon tooltips have also been improved for clarity, so you should always know exactly what each stat means.
 This is the only part of the whole Rebalance that will affect non-Vanilla weapons. Therefore, if you play with expansion mods which add new weapons (e.g., Ridgeside Village), you may see unusually large numbers in their tooltips. **This is not a bug**. Those weapons have not been changed in any way. This mod is simply revealing how broken those weapons have always been. For this reason, I **strongly** recommend ignoring these weapons, or even *deleting* them manually from the mod's files.**
 
-## Infinity +1 <sup><sub><sup>[🔼](#margo-weapons-wpnz)</sup></sub></sup>
+<sup><sub><sup>[🔼 Back to top](#margo-weapons-wpnz)</sup></sub></sup>
+
+## Infinity +1
 
 According to [TV Tropes Wiki](https://tvtropes.org/pmwiki/pmwiki.php/Main/InfinityPlusOneSword), an Infinity +1 sword is "not only the most powerful of its kind [...] , but its power is matched by how hard it is to acquire". The vanilla Infinity weapons do not quite fit that definition. Let's fix that, shall we?
 
@@ -126,7 +134,9 @@ In return for all that extra work, the Infinity weapons have extra perks:
 1. +1 gemstone slot (4 total). Keeping in mind that each gemstone can resonate with equipped [Infinity Bands](../Rings).
 2. While at full health, every swing will fire a mid-range energy beam.
 
-## Other Features <sup><sub><sup>[🔼](#margo-weapons-wpnz)</sup></sub></sup>
+<sup><sub><sup>[🔼 Back to top](#margo-weapons-wpnz)</sup></sub></sup>
+
+## Other Features
 
 * **Weapons Retexture:** Available optionally, weapons can be retextured to better reflect their type or rarity. This is strongly recommended to visually distinguish Defensive and Offensive-oriented swords, and to make Mythic and above weapons look more unique and powerful. These textures will always be overwritten by Content Patcher weapon retextures if any is installed.
 
@@ -142,13 +152,17 @@ In return for all that extra work, the Infinity weapons have extra perks:
 
 * **Novelty Special Effects:** This module additionally adds tons of immersive details to weapon sound and visual effects, like changing the Lava Katana swipe to a fiery effect, and adding colors and particles to Galaxy and Infinity weapons.
 
-## Compatibility <sup><sub><sup>[🔼](#margo-weapons-wpnz)</sup></sub></sup>
+<sup><sub><sup>[🔼 Back to top](#margo-weapons-wpnz)</sup></sub></sup>
+
+## Compatibility
 
 - **Not** compatible with other mods that introduce new weapon types or rebalance weapon stats, such as [Angel's Weapon Rebalance][mod:angels-rebalance].
 - **Not** compatible with the likes of [Combat Controls][mod:combat-controls] or [Combat Controls Redux][mod:combat-controls-redux], as those features are already included in this and other modules.
 - Compatible with [Advanced Melee Framework][mod:amf] and related content packs, but I do not recommend using both together.
 - Compatible with [Stardew Valley Expanded][mod:sve]﻿﻿ and will overwrite the changes to weapons stats from that mod, and also prevent Tempered Galaxy Weapons from appearing in shops. An optional FTM file is available to overwrite SVE's weapon spawns and prevent them from breaking this module's intended balance.
 - Compatible with [Vanilla Tweaks][mod:vanilla-tweaks], and will use compatible weapon textures if that mod is installed.
+
+<sup><sub><sup>[🔼 Back to top](#margo-weapons-wpnz)</sup></sub></sup>
 
 ## F.A.Q.
 
