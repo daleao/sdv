@@ -1,4 +1,4 @@
-﻿# PROFS Change Log
+﻿# PROFS Changelog
 
 ## 2.5.7 <sup><sub><sup>[🔼 Back to top](#profs-change-log)</sup></sub></sup>
 

@@ -1,4 +1,4 @@
-﻿# WPNZ Change Log
+﻿# WPNZ Changelog
 
 ## 2.5.8 <sup><sub><sup>[🔼 Back to top](#wpnz-change-log)</sup></sub></sup>
 

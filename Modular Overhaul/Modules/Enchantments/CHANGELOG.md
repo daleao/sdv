@@ -1,4 +1,4 @@
-﻿# ENCH Change Log
+﻿# ENCH Changelog
 
 ## 2.5.5 <sup><sub><sup>[🔼 Back to top](#ench-change-log)</sup></sub></sup>
 

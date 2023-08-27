@@ -1,4 +1,4 @@
-﻿# Core Change Log
+﻿# Core Changelog
 
 ## 2.5.1 <sup><sub><sup>[🔼 Back to top](#core-change-log)</sup></sub></sup>
 

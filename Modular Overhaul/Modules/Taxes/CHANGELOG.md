@@ -1,4 +1,4 @@
-﻿# TXS Change Log
+﻿# TXS Changelog
 
 ## 2.5.5 <sup><sub><sup>[🔼 Back to top](#txs-change-log)</sup></sub></sup>
 

@@ -1,4 +1,4 @@
-﻿# MARGO Change Logs
+﻿# MARGO Changelogs
 
 This file contains a TL;DR of current version changes and hotfixes from across all modules. For the complete changelog, please refer to the individual changelogs of each module, linked [below](#detailed-change-logs).
 
@@ -95,7 +95,7 @@ This file contains a TL;DR of current version changes and hotfixes from across a
 * [TWX]: Added new tweak for spawning crows in Ginger Island farm and other custom maps.
 * Bug fixes.
 
-## Detailed Change Logs
+## Detailed Changelogs
 
 * [Core](Modules/Core/CHANGELOG.md)
 * [Professions](Modules/Professions/CHANGELOG.md)

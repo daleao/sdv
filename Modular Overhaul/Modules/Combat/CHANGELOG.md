@@ -1,4 +1,4 @@
-﻿# CMBT Change Log
+﻿# CMBT Changelog
 
 ## 2.5.6 <sup><sub><sup>[🔼 Back to top](#cmbt-change-log)</sup></sub></sup>
 

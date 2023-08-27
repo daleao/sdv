@@ -1,4 +1,4 @@
-﻿# RNGS Change Log
+﻿# RNGS Changelog
 
 ## 2.5.6 <sup><sub><sup>[🔼 Back to top](#slngs-change-log)</sup></sub></sup>
 

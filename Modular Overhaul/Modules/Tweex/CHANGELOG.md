@@ -1,4 +1,4 @@
-﻿# TWX Change Log
+﻿# TWX Changelog
 
 ## 2.5.5 <sup><sub><sup>[🔼 Back to top](#twx-change-log)</sup></sub></sup>
 
