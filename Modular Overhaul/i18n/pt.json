@@ -252,7 +252,8 @@
   "locations.Town.DwarfGrave.Translated": "     Você traduz a língua anã:     \n\nEntre trigêmeas perdidas nas areias\ntraga um arco-íris forjado da terra\nsuplique aos céus! reclame o que é seu\ndeixe trovões ruírem e rugirem seu nome\nse o coração for puro e a consciência limpa\ne fé tiver sem dúvida nem medo\nque as estrelas chovam aquele selo\ne abençoam-te com o aço dos céus.",
   "locations.SeedShop.Yoba": "Nenhum mal tocará o verdadeiro Herói de Yoba.",
 
-  "mail.curse.intro": "{{honorific}} @, devo te ver sobre um assunto de extrema urgência.^Por favor, venha me ver na torre assim que possível.^   -M. Rasmodius, Mago[#]Herói Arruinado",
+  "mail.curse.intro": "{{honorific}} @, devo te ver sobre um assunto de extrema urgência.^Por favor, venha me ver na torre assim que possível.^   -M. Rasmodius, feiticeiro[#]Herói Arruinado",
+  "mail.curse.intro.witch": "{{honorific}} @, devo te ver sobre um assunto de extrema urgência.^Por favor, venha me ver na torre assim que possível.^   -M. Rasmodius, feiticeira[#]Herói Arruinado",
 
   "quests.forge.intro": "Basic/Um Legado dos Anões/Clint te disse que ele acabaria de traduzir aquela velha planta em alguns dias./Visite Clint para perguntar sobre a planta./null/144702/0/-1/false",
   "quests.forge.next": "Basic/Um Legado dos Anões II/Aquela planta antiga era uma receita para uma poderosa arma anã! Talvez hajam outras?/Encontre as plantas restantes./null/-1/0/-1/false",

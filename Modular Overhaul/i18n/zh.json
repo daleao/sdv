@@ -253,6 +253,7 @@
   "locations.SeedShop.Yoba": "任何邪恶，都不能伤害到由巴佑护的英雄。",
 
   "mail.curse.intro": "亲爱的@，我有最紧急的事情，必须见你^请尽早来塔楼见我。^   -M. 拉斯莫迪斯，巫师[#]Ruined Hero",
+  "mail.curse.intro.witch": "亲爱的@，我有最紧急的事情，必须见你^请尽早来塔楼见我。^   -M. 拉斯莫迪斯，巫师[#]Ruined Hero",
 
   "quests.forge.intro": "Basic/矮人的遗产/克林特告诉你，他会在几天内完成旧蓝图的破解。/向克林特询问蓝图的事。/Blacksmith/144702/0/-1/false",
   "quests.forge.next": "Basic/矮人的遗产 II/那张古老的蓝图，竟然是一件强大的古代武器的配方！会不会还有其它的？/查找剩下的矮人蓝图./null/-1/0/-1/false",

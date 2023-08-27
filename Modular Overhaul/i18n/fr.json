@@ -250,9 +250,10 @@
 
   "fromcsfiles.MeleeWeapon.cs.14122": "Le Tesson prismatique brille, absorbe l'iridium de votre sac à dos et se transforme sous vos yeux ! ^^     Vous obtenez le ={{galaxyWeapon}}=  ^",
   "locations.Town.DwarfGrave.Translated": "     Vous traduisez le nain :     \n\nEntre triplés d'or perdus dans le sable\nproduisez un arc-en-ciel forgé depuis la terre\nimplorez les cieux ! revendiquez votre droit\nlaissez les tonnerres rugir votre nom\nsi votre cœur est pur et votre conscience claire\net votre foi n'a ni doute ni peur\nles étoiles pleuvront là-bas sceau\net vous accorderont l'acier du ciel",
-  "locations.SeedShop.Yoba": "\"No evil shall touch a true Hero of Yoba.\"",
+  "locations.SeedShop.Yoba": "\"Aucun mal ne touchera un véritable héros de Yoba.\"",
 
-  "mail.curse.intro": "Dear @, I must see you about a matter of utmost urgency.^Please come see me at the tower at your earliest convenience.^   -M. Rasmodius, Wizard[#]Ruined Hero",
+  "mail.curse.intro": "Cher @, Je dois vous voir pour une question de la plus haute urgence.^Veuillez venir me voir à la tour dès que possible.^ -M. Rasmodius, Sorcier[#]Ruined Hero",
+  "mail.curse.intro.witch": "Cher @, Je dois vous voir pour une question de la plus haute urgence.^Veuillez venir me voir à la tour dès que possible.^ -M. Rasmodius, Sorcière[#]Ruined Hero",
 
   "quests.forge.intro": "Basic/Un héritage nain/Clint vous a dit qu'il finirait de traduire ce vieux plan dans quelques jours./Rendez visite à Clint pour vous renseigner sur le plan./Blacksmith/144702/0/-1/false",
   "quests.forge.next": "Basic/Un héritage nain II/Ce vieux plan s'est avéré être une recette pour une puissante arme ancienne ! Pourrait-il y en avoir d'autres ?/Trouvez les plans nains restants./null/-1/0/-1/false",

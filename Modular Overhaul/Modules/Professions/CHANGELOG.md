@@ -226,7 +226,7 @@ Major changes to the Fishing tree:
 
 ## 1.1.0 <sup><sub><sup>[🔼 Back to top](#profs-change-log)</sup></sub></sup>
 
-## Changed
+### Changed
 
 * **Agriculturist:** The chance for Iridium Quality crops has been reduced to half of the chance with Deluxe Fertilizer.
 * **Artisan:** Effect changed from "output quality **is at least as good** as input quality" to "output quality **can be as good** as input quality". I.e., instead of simply preserving the quality of the input, there is now a formula in place to choose a quality that is lower than or equal to that of the input. The 5% promotion chance still applies.
@@ -329,11 +329,6 @@ Major changes to the Fishing tree:
 * Added config setting to disable Bee House being affected by Producer profession.
 * Added API for custom Skill mods to register prestiged professions.
 
-### Removed
-
-* Removed the SeaweedIsTrash config setting.
-* Removed configs from the [IProfessions interface](../../API/IModularOverhaul.cs).
-
 ### Changed
 
 * **Rascal** - ~~Slingshot damage +25%. 60% chance to recover spent ammo.~~ Gain one additional ammo slot. 35% chance to recover spent ammo.
@@ -358,5 +353,10 @@ Major changes to the Fishing tree:
 * Added a setter to the CustomArtisanMachines config, preventing it from being reset on game load.
 * The print_fishdex console command now takes into account the value of AnglerMultiplierCap config.
 * Fixed some translation errors.
+
+### Removed
+
+* Removed the SeaweedIsTrash config setting.
+* Removed configs from the [IProfessions interface](../../API/IModularOverhaul.cs).
 
 [🔼 Back to top](#profs-change-log)

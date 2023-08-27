@@ -249,9 +249,10 @@
 
   "fromcsfiles.MeleeWeapon.cs.14122": "Die prismatische Scherbe leuchtet hell, absorbiert das Iridium in deinem Rucksack und verwandelt sich vor deinen Augen!^^     Du erhältst die ={{galaxyWeapon}}=  ^",
   "locations.Town.DwarfGrave.Translated": "     Du übersetzt das Zwergenhafte:     \n\n'zwischen goldenen Drillingen, die sich im Sand verirrt haben, einen Regenbogen hervorbringen, der aus dem Land geschmiedet wurde\nWenn das Herz rein und das Bewusstsein klar ist und der Glaube weder Zweifel noch Furcht kennt, dann wird dein Name gebrüllt.\nSterne regnen auf das Siegel dort\nund beschenke dich mit Himmelsstahl.",
-  "locations.SeedShop.Yoba": "\"No evil shall touch a true Hero of Yoba.\"",
+  "locations.SeedShop.Yoba": "\"Keinem wahren Helden von Yoba darf etwas Böses widerfahren.\"",
 
   "mail.curse.intro": "Lieber @, ich muss dich in einer äußerst dringenden Angelegenheit sprechen.^Bitte komm so bald wie möglich zu mir in den Turm.^ -M. Rasmodius, Zauberer[#]Ruinierter Held",
+  "mail.curse.intro.witch": "Lieber @, ich muss dich in einer äußerst dringenden Angelegenheit sprechen.^Bitte komm so bald wie möglich zu mir in den Turm.^ -M. Rasmoda, Hexe[#]Ruinierter Held",
 
   "quests.forge.intro": "Basic/A Dwarven Legacy/Clint hat dir gesagt, dass er in ein paar Tagen mit der Übersetzung der alten Blaupause fertig ist./Besuche Clint, um ihn nach der Blaupause zu fragen./Blacksmith/144702/0/-1/false",
   "quests.forge.next": "Basic/A Dwarven Legacy II/Die alte Blaupause entpuppte sich als Rezept für eine mächtige alte Waffe! Könnte es noch andere geben?/Finde die restlichen zwergischen Blaupausen./null/-1/0/-1/false",

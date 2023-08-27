@@ -106,7 +106,9 @@ internal sealed class WeaponAssetRequestedEvent : AssetRequestedEvent
     private static void EditMailData(IAssetData asset)
     {
         var data = asset.AsDictionary<string, string>().Data;
-        data["viegoCurse"] = I18n.Mail_Curse_Intro();
+        data["viegoCurse"] = ModHelper.ModRegistry.IsLoaded("Nom0ri.RomRas")
+            ? I18n.Mail_Curse_Intro_Witch()
+            : I18n.Mail_Curse_Intro();
     }
 
     /// <summary>Edits monsters data for ancient weapon crafting materials.</summary>

@@ -250,9 +250,10 @@
 
   "fromcsfiles.MeleeWeapon.cs.14122": "La Esquirla prismática brilla intensamente, absorbe el iridio en tu mochila y se transforma ante tus propios ojos!^^     Obtienes el ={{galaxyWeapon}}=  ^",
   "locations.Town.DwarfGrave.Translated": "     Traduces al enano:     \n\nEntre trillizos de oro perdidos en la arena\nhaz brotar un arcoíris forjado de la tierra\nruega a los cielos! Reclama tu derecho\ndeja que los truenos soplen y rugan tu nombre\nsi el corazón es puro y el consciente claro\ny la fe no tiene duda ni miedo\nlas estrellas lloverán allá abajo\ny te otorgarán el acero del cielo",
-  "locations.SeedShop.Yoba": "\"No evil shall touch a true Hero of Yoba.\"",
+  "locations.SeedShop.Yoba": "\"Ningún mal tocará a un verdadero héroe de Yoba.\"",
 
-  "mail.curse.intro": "Dear @, I must see you about a matter of utmost urgency.^Please come see me at the tower at your earliest convenience.^   -M. Rasmodius, Wizard[#]Ruined Hero",
+  "mail.curse.intro": "Caro @, Debo verte por un asunto de suma urgencia.^Por favor, ven a verme a la torre lo antes posible.^ -M. Rasmodius, mago[#]Ruined Hero",
+  "mail.curse.intro.witch": "Caro @, Debo verte por un asunto de suma urgencia.^Por favor, ven a verme a la torre lo antes posible.^ -M. Rasmodius, bruja[#]Ruined Hero",
 
   "quests.forge.intro": "Basic/Un legado enano/Clint te dijo que terminaría de traducir ese viejo plano en un par de días./Visita a Clint para preguntar sobre el plano./Blacksmith/144702/0/-1/false",
   "quests.forge.next": "Basic/Un legado enano II/Ese viejo plano resultó ser una receta para una poderosa arma antigua! Podría haber otros?/Encuentra los planos enanos restantes./null/-1/0/-1/false",

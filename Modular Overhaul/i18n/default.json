@@ -253,6 +253,7 @@
   "locations.desert.noiridium": "You feel the Prismatic Shard vibrate...#But nothing happens.#Feels like something is missing.",
 
   "mail.curse.intro": "Dear @, I must speak with you about a matter of utmost urgency.^Please come see me at the tower at your earliest convenience.^   -M. Rasmodius, Wizard[#]Ruined Hero",
+  "mail.curse.intro.witch": "Dear @, I must speak with you about a matter of utmost urgency.^Please come see me at the tower at your earliest convenience.^   -M. Rasmodia, Witch[#]Ruined Hero",
 
   "quests.forge.intro": "Basic/A Dwarven Legacy/Clint told you he'd finish translating that old blueprint in a couple of days./Visit Clint to ask about the blueprint./Blacksmith/144702/0/-1/false",
   "quests.forge.next": "Basic/A Dwarven Legacy II/That old blueprint turned out to be a recipe for a powerful ancient weapon! Could there be others?/Find the remaining Dwarvish blueprints./null/-1/0/-1/false",
