@@ -26,7 +26,7 @@ The exact product of a reaction is determined not by the specific ingredients us
 
 Most alchemical formulae can be learned from scrolls found throughout the world. Others are learned by word of mouth. Yet a few can only be learned by **experimentation**. As the word implies, this is done by mixing random ingredients in an attempt to create something new. The result will always be an unknown potion, oil or bomb, which must first be tested. If the chosen ingredient combination produces a stable reaction, the formula will then be learned, added to your grimoire, from which point it can be accessed at any time to recreate the mixture just like any ordinarily learned formula. However, if the reaction is unstable then the experiment could prove disastrous!
 
-**All formulae can be learned by experimentation**, which means that all mixtures are immediately available, limited only by your ingredients and Cauldron.
+**All formulae can be learned by experimentation**, which means that all mixtures are immediately available, limited only by your knowledge and ingredients.
 
 
 ## The Cauldron
