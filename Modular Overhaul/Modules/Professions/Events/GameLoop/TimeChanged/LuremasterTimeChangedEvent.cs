@@ -2,6 +2,7 @@
 
 #region using directives
 
+using System.Threading.Tasks;
 using DaLion.Overhaul.Modules.Professions.Events.GameLoop.DayStarted;
 using DaLion.Overhaul.Modules.Professions.Extensions;
 using DaLion.Overhaul.Modules.Professions.VirtualProperties;
@@ -31,11 +32,11 @@ internal sealed class LuremasterTimeChangedEvent : TimeChangedEvent
     /// <inheritdoc />
     protected override void OnTimeChangedImpl(object? sender, TimeChangedEventArgs e)
     {
-        foreach (var pair in Game1.game1.IterateAllWithLocation<CrabPot>())
+        Parallel.ForEach(Game1.game1.IterateAllWithLocation<CrabPot>(), pair =>
         {
             if (pair.Instance.heldObject.Value is not null)
             {
-                continue;
+                return;
             }
 
             var owner = pair.Instance.GetOwner();
@@ -46,18 +47,18 @@ internal sealed class LuremasterTimeChangedEvent : TimeChangedEvent
                     : 0;
             if (max == 0 || pair.Instance.Get_Successes() >= max)
             {
-                continue;
+                return;
             }
 
             var chance = 1d / ((max == 2 ? 8d : 12d) - pair.Instance.Get_Attempts());
             if (Game1.random.NextDouble() > chance)
             {
-                continue;
+                return;
             }
 
             pair.Instance.DayUpdate(pair.Location);
             pair.Instance.IncrementSuccesses();
             pair.Instance.ResetAttempts();
-        }
+        });
     }
 }

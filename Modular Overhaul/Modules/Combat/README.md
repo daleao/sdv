@@ -84,8 +84,9 @@ Certain stats are simply not worth investing in vanilla. While some of these can
     ```
 
     One defense point now reduces damage by 10% regardless of incoming damage. Subsequent points have diminishing returns, such that 100% damage negation is not possible to achieve. This applies to monsters! The **Topaz Ring** is also changed to increased defense by 1 point, like its corresponding weapon forge.
-3. **Critical strikes** are fun, but need a little more oomph to compete with flat damage. As a counterplay to the previous change to defense, this mod makes critical strikes ignore enemy defense. Attacks from behind will also have double the chance to critically strike. But reaching the backs of your enemies will not be easy! You will have to rely on [status effects](#status-effects) to achieve that. The effects of **Jade** bonuses from rings and weapon forges are also significantly buffed.
+3. **Critical strikes** are fun, but need a little more oomph to compete with flat damage. As a counter-play to the previous change to defense, this mod makes critical strikes ignore enemy defense. Attacks from behind will also have double the chance to critically strike. But reaching the backs of your enemies will not be easy! You will have to rely on [status effects](#status-effects) to achieve that. The effects of **Jade** bonuses from rings and weapon forges are also significantly buffed.
     - **Jade:** *+10% -> +50% crit. power.* A 10% boost to crit. power is a 10% damage boost that *only* applies to crits. To put that in perspective, only when the player has 100% crit. chance then they will receive an overall 10% boost to damage. It should be clear that this is complete garbage next to a Ruby Ring, which straight up grants a 10% boost to damage, *all the time*. At 50% crit. power, the Jade Ring becomes a better choice than the Ruby Ring if the player has at least 20% crit. chance, which should be attainable by any weapon type given an appropriate build. Above that threshold, Jade Rings become even stronger.
+    - Slingshots can now critically strike. Think of them as headshots.
 
 <sup><sub><sup>[🔼 Back to top](#margo-combat-cmbt)</sup></sub></sup>
 
@@ -115,7 +116,7 @@ If combo hits are enabled, swing speed bonuses from emerald effects will apply t
 
 In vanilla game code we can find traces of an abandoned fourth weapon type: **Stabbing Swords**. This module re-implements stabbing swords into the game.
 
-Swords are now split between **offensive** and **defensive** archetypes. Defensive swwords retain the parry special move, while offensive swords gain a new stabbing thrust move. This move allows quick repositioning and also grants invincibility frames. You can also change the direction mid-dash by inputing a directional command in a perpendicular direction.
+Swords are now split between **offensive** and **defensive** archetypes. Defensive sw   ords retain the parry special move, while offensive swords gain a new stabbing thrust move. This move allows quick repositioning and also grants invincibility frames. You can also change the direction mid-dash by inputting a directional command in a perpendicular direction.
 
 To improve the defensive parry move, parry damage is increased by 10% for every defense point. This adds offensive value to the defense stat itself and makes defensive builds more viable. Note that the introduction of weapon combos also adds to the value of a defensive move (you need to protect yourself during combo downtime).
 
@@ -126,7 +127,7 @@ To improve the defensive parry move, parry damage is increased by 10% for every 
 Weapon stats have been rebalanced across the board so as to provide a more clear distinction between the weapon types:
 
  - **Clubs** are your general unreliable, imprecise and sluggish, but huge-damage-potential, heavy and larger-hit-box weapons.
- - **Daggers** are the opposite of clubs, being the quick, precise, but short-range and generally-lower-damage potential weapons. **Can cause Bleeding** (requires [CMBT](../Combat/README.md#status-conditions) module).
+ - **Daggers** are the opposite of clubs, being the quick, precise, but short-range and generally-lower-damage potential weapons. **Can cause Bleeding**.
  - **Offensive Swords** are somewhere in the middle, with average damage, speed and precision.
  - **Defensive Swords** are marginally weaker and slower than their offensive counterpart, but are otherwise heavier, sturdier and wider. They are somewhere in-between Offensive Swords and Clubs. 
 
@@ -142,7 +143,7 @@ Weapons are categorized by different tiers, [color-coded for your convenience][t
 
 Weapons below the Mythic tier all have randomized damage, determined the moment they are dropped and scaled to your Mine progression. This way, players can always loot stronger weapons; all weapons can be useful, and no specific weapon is ever trivialized. Higher-tier weapons will generally be stronger than lower-tiered ones, although that may not always be the case.
 
-#### Mythic Tier
+**Mythic Tier**
 
 Mythic weapons are unique or extremely rare. They are usually quest rewards or very rare monster drops, and tend to carry intrinsic special abilities. In exchange, they cannot receive additional Prismatic Shard enchantments at the forge.
 
@@ -154,9 +155,7 @@ The known Mythic weapons are:
 - **Insect Head**: Damage scales with the number of slain insects.
 - **Iridium Needle**: Always crits.
 
-Note that all status conditions require that the [CMBT](../Combat/README.md#status-conditions) module be enabled.
-
-#### Masterwork Tier
+**Masterwork Tier**
 
 Masterwork weapons are relics of the Dwarven race, crafted from special materials. They can only be created by uncovering the lost Dwarvish Blueprints, and taking them to a skilled blacksmith along with the corresponding material:
 - **Elven** weapons, carved out of **Elderwood** obtained from [Scavenger Hunts](../Professions), are quick, nimble weapons enchanted with forest magic which grants them high reach and knockback.
@@ -165,11 +164,13 @@ Masterwork weapons are relics of the Dwarven race, crafted from special material
 
 Masterwork weapons can only be obtained if the Dwarven Legacy setting is enabled.
 
-#### Legendary Tier
+Note that **only vanilla weapons have been rebalanced**. If you play with expansion mods which add new weapons, such as Ridgeside Village, you will likely notice absurdly high stats in those weapons' tooltips. **That's not on me.** Those weapons are broken by design. I just pulled the curtains. You're welcome.
+
+**Legendary Tier**
 
 See [Infinity+1](#infinity-1).
 
-#### Retexture & FX
+**Retexture & FX**
 
 In order to better reflect their new weapon types, as well as their mythical or legendary status, several weapons have received vanilla-friendly retextures. These textures will always be overwritten by any installed Content Patcher mods, so there is no concern for compatibility. Moreover, there are tons of small immersive details like visual and sound effects added to mythic and legendary weapons.
 
@@ -199,18 +200,18 @@ Weapons enchantments have been almost entirely overhauled. Hopefully these encha
 
 <sup><sub><sup>[🔼 Back to top](#margo-combat-cmbt)</sup></sub></sup>
 
-### Acquiring Weapons
+### Other Features
 
-In vanilla, the player is quick to amass large quantities of fodder weapons, both from Mine chests as well as barrel and crate drops. To support the intended experience of progression, all weapons are removed from Mine chests, which instead reward random goodies. In order to obtain new weapons, players will have to fight for monster dropped from monsters or breakable containers in Mines and other dungeons. Monster-dropped weapons are rare, but tend to be stronger. Lower-tier weapons can also be purchased directly from Marlon, but will have fixed and significantly weaker stats when obtained this way.
+* **The Mines & Weapon Acquisition**
+    In vanilla, the player is quick to amass large quantities of fodder weapons, both from Mine chests as well as barrel and crate drops. To support the intended experience of progression, all weapons are removed from Mine chests, which instead reward random goodies. In order to obtain new weapons, players will have to fight for monster dropped from monsters or breakable containers in Mines and other dungeons. Monster-dropped weapons are rare, but tend to be stronger. Lower-tier weapons can also be purchased directly from Marlon, but will have fixed and significantly weaker stats when obtained this way.
 
-<sup><sub><sup>[🔼 Back to top](#margo-combat-cmbt)</sup></sub></sup>
+* **Tooltips**
 
-### Tooltips
+    Vanilla weapon tooltips are confusing. Who the heck knows what "+1 Speed" means?
+    
+    This mod makes improves weapon tooltips for clarity, so you always know exactly what each stat means. You may configure the tooltips to show **absolute** or **relative** stats; the former displays straight-forward raw stats, while the latter displays percentages **based on the weapon type's base stats**.
 
-Vanilla weapon tooltips are confusing. Who the heck knows what "+1 Speed" means?
-This mod makes improves weapon tooltips for clarity, so you always know exactly what each stat means. You may configure the tooltips to show **absolue** or **relative** stats; the former displays straight-forward raw stats, while the latter displays percentages **based on the weapon type's base stats**.
-
-This is the only part of this mod that will affect third-party mod weapons; if you play with expansion mods which add new weapons, such as Ridgeside Village, you will likely notice absurdly high stats in those weapons' tooltips. **This is not a bug;** those weapons are broken by design, which why I **strongly** recommend that you **do not use them**.
+    Note that this is the only feature of this mod that affects third-party mod weapons. If you play with expansion mods which add new weapons, such as Ridgeside Village, you will likely notice absurdly high stats in those weapons' tooltips. **That's not on me.** Those weapons are broken by design. I just pulled the curtains. You're welcome.
 
 <sup><sub><sup>[🔼 Back to top](#margo-combat-cmbt)</sup></sub></sup>
 
@@ -220,22 +221,22 @@ Ranged weapons are actually quite strong in vanilla, mainly because ammo's deal 
 
 <sup><sub><sup>[🔼 Back to top](#margo-combat-cmbt)</sup></sub></sup>
 
-### Rebalanced Modifiers
+### Rebalanced Modifiers & Ammo
 
-In order to balance out Slingshot damage against the above changes, an optional rebalance option exists which will reduce the base damage and knockback modifiers of each slingshot to more reasonable values:
+To make room for critical headshots and the new Infinity Slingshot the base damage and knockback modifiers of each slingshot are reduced to more reasonable values:
 - Master Slingshot: Ammo damage x2 >> x1.5
 - Galaxy Slingshot: Ammo damage x4 >> x2
 - **Infinity Slingshot:** x2.5
 
-Certain ammo have also been nerfed, either for immersion or balance:
+The following ammos have been nerfed, either for immersion or balance:
 - Coal: 15 damage >> 2 damage - *Have you ever held a piece of coal? That stuff is brittle, and weaker than raw wood, so the damage has been reduced accordingly. Not that anybody uses this as ammo anyway.*
 - Explosive Ammo: 20 damage >> 2 damage ﻿- *Explosive ammo is meant to be used as a mining utility **only**, so it's damage has been reduced to reflect that. If you'd like to use slingshots for combat and mining simultaneously, consider taking up the [Rascal](../Professions)'s extra ammo slot.*
 
-<sup><sub><sup>[🔼 Back to top](#margo-combat-cmbt)</sup></sub></sup>
-
-### Critical Hits
-
-Think of them as headshots. This allows slingshots to benefit from crit. chance and crit. power bonuses.
+The following new ammos have been added:
+- Radioactive Ore: 80
+- Gemstones (Ruby, Emerald, etc.): 50
+- Diamond: 120
+- Prismatic Shard: 200
 
 <sup><sub><sup>[🔼 Back to top](#margo-combat-cmbt)</sup></sub></sup>
 
@@ -245,17 +246,9 @@ Pressing the action button will trigger a melee smack attack that stuns enemies 
 
 <sup><sub><sup>[🔼 Back to top](#margo-combat-cmbt)</sup></sub></sup>
 
-### Forges & Gemstone Ammo
-
-Gemstone forges cannot directly be applied to slingshots, but **gemstones can be equipped as ammo**, and will apply their analogous bonuses when equipped, and will also [resonate](#resonances) if a applicable. With the [Rascal](../Professions) profession, you may slot up to two gemstones at a time to possibly achieve a level-2 forge.
-
-**Emeralds**, instead of attack speed, grant **firing speed** (idem for Emerald Rings), which also affects **overcharge** if the [Professions](../Professions) module's Desperado profession is used;
-
-<sup><sub><sup>[🔼 Back to top](#margo-combat-cmbt)</sup></sub></sup>
-
 ### Ranged Enchantments
 
-The enchantments below are entirely new and unique to slingshots.
+The following new enchantments have been created specifically for ranged weapons:
 
 | Name       | Effect |
 | ---------- | -------|
@@ -269,23 +262,23 @@ The enchantments below are entirely new and unique to slingshots.
 
 \** *Quincy projectile cannot crit nor knock back enemies, but is affected by damage modifiers. If [PROFS](../Professions) is enabled and the player has the Desperado profession, Quincy projectile will also be affected by Overcharge.*
 
-<sup><sub><sup>[🔼 Back to top](#margo-combat-cmbt)</sup></sub></sup>
+Gemstone forges cannot directly be applied to slingshots, but **gemstones can be equipped as ammo**, and will apply their analogous bonuses when equipped, and will also [resonate](#resonances) if applicable. With the [Rascal](../Professions) profession, you may slot up to two gemstones at a time to possibly achieve a level-2 forge.
 
-### Infinity Slingshot
+* **Emeralds**, instead of attack speed, grant **firing speed** (idem for Emerald Rings), which also affects **overcharge** if the [Professions](../Professions) module's Desperado profession is used;
 
-The Galaxy Soul can be applied to the Galaxy Slingshot, eventually creating the Infinity Slingshot.
-
-<sup><sub><sup>[🔼 Back to top](#margo-combat-cmbt)</sup></sub></sup>
-
-### Removed Grace Period
-
-Vanilla slingshots are unable to hit enemies in close-range of the player; these shots will fly straight through them. This mod removes this limitation, making ranged combat more reliable.
+Lastly, the **Galaxy Soul** can be applied to the Galaxy Slingshot, as with other Galaxy weapons, to eventually create the **Infinity Slingshot.**
 
 <sup><sub><sup>[🔼 Back to top](#margo-combat-cmbt)</sup></sub></sup>
 
-### Snowballs
+### Other Features
 
-Standing in a snowy tile with an empty slingshot will allow the player to fire a snowball. The snowball projectile deals no significant damage; this is meant as a fun flavor feature for multiplayer.
+* **Removed Grace Period**
+
+    Vanilla slingshots are unable to hit enemies in close-range of the player; these shots will fly straight through them. This mod removes this limitation, making ranged combat more reliable.
+
+* **Snowballs**
+
+    Standing in a snowy tile with an empty slingshot will allow the player to fire a snowball. The snowball projectile deals no significant damage; this is meant as a fun flavor feature for multiplayer.
 
 <sup><sub><sup>[🔼 Back to top](#margo-combat-cmbt)</sup></sub></sup>
 
@@ -295,9 +288,9 @@ Most combat-oriented rings in vanilla are underwhelming and completely overlooke
 
 <sup><sub><sup>[🔼 Back to top](#margo-combat-cmbt)</sup></sub></sup>
 
-### Rebalances
+### Rebalanced Combat Rings
 
-This mod implements the following changes:
+This following rings have been changed:
 - **Warrior Ring:** ~~Chance of giving the Warrior Energy~~ (attack +10 for 5s) ~~buff after slaying a monster.~~ -> Gain a progressively higher attack bonus as you slay enemies (every 3 enemies increases attack by 1), which falls off gradually after some time out of combat.
 - **Ring of Yoba:** ~~Chance of giving the Yoba's Blessing~~ (invincible for 5s) ~~buff after taking damage.~~ -> Taking damage that would leave you below 30% health instead grants a shield that absorbs up to 50% of your maximum health for 30s. Cannot be used again until health is fully recovered.
 - **Savage Ring:** ~~+2 Speed for 3s after slaying a monster.**~~ -> Gain a rapidly decaying Speed buff after slaying a monster.
@@ -404,12 +397,11 @@ This mod includes the following popular control-related features, often featured
 - Compatible with [Wear More Rings](https://www.nexusmods.com/stardewvalley/mods/3214).
 
 - While the Infinity Slingshot will appear in [CJB Item Spawner][mod:cjb-spawner], it will be incorrectly classified as a Melee Weapon and will be unusable if spawned in this way. This is due to CJB not recognizing non-vanilla slingshots. This likely will be fixed in game version 1.6.
-- **Not** compatible with other mods that introduce new weapon types or rebalance weapon stats, such as [Angel's Weapon Rebalance][mod:angels-rebalance].
 - **Not** compatible with the likes of [Combat Controls][mod:combat-controls] or [Combat Controls Redux][mod:combat-controls-redux], as those features are already included in this and other modules.
 - **Not** compatible with other mods that overhaul slingshots, such as [Better Slingshots][mod:better-slingshots] or [Enhanced Slingshots][mod:enhanced-slingshots].
-- **Not** compatible with the likes of [Combat Controls][mod:combat-controls] or [Combat Controls Redux][mod:combat-controls-redux], as those features are already included in this and other modules.
-- **Not** compatible with other mods that introduce new enchantments, such as [Enhanced Slingshots][mod:enhanced-slingshots].
-- Ring features are incompatible with other mods with similar scope, including [Combine Many Rings][mod:combine-many-rings], [Balanced Combine Many Rings][mod:balanced-many-rings] and, to an extent, [Ring Overhaul][mod:ring-overhaul]
+- Weapon rebalance features are **not** compatible with other mods that introduce new weapon types or rebalance weapon stats, such as [Angel's Weapon Rebalance][mod:angels-rebalance].
+- New enchantments are **not** compatible with other mods that introduce new enchantments, such as [Enhanced Slingshots][mod:enhanced-slingshots].
+- Ring features are **not** compatible with other mods with similar scope, including [Combine Many Rings][mod:combine-many-rings], [Balanced Combine Many Rings][mod:balanced-many-rings] and, to an extent, [Ring Overhaul][mod:ring-overhaul]
 - Other ring retextures will be lightly incompatible with the new Infinity Band, meaning there may be some visual glitches but otherwise no real issues.
 
 <sup><sub><sup>[🔼 Back to top](#margo-combat-cmbt)</sup></sub></sup>

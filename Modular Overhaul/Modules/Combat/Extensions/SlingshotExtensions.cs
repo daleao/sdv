@@ -56,7 +56,7 @@ internal static class SlingshotExtensions
             case ItemIDs.Diamond:
                 return 120;
             case SObject.prismaticShardIndex:
-                return 250;
+                return 200;
             default: // fish, fruit or vegetable
                 return 1;
         }
