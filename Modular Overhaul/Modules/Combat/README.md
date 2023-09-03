@@ -61,7 +61,7 @@ Taking inspiration from classic RPG or strategy games, this module adds a framew
 - **Slowed:** Reduces movement speed by half for the duration.
 - **Stunned:** Cannot move or attack for the duration.
 
-While it doesn't do anything on it's own, this opens up the possibility for other modules within MARGO to create more interesting overhauls. Each status condition is accompanied by a neat corresponding animation. Status conditions cannot be applied on the player.
+Each status condition is accompanied by a neat corresponding animation. Status conditions cannot be applied on the player.
 
 <sup><sub><sup>[🔼 Back to top](#margo-combat-cmbt)</sup></sub></sup>
 

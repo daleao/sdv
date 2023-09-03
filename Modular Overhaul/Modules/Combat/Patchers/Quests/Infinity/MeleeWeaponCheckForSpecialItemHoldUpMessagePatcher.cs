@@ -56,7 +56,7 @@ internal sealed class MeleeWeaponCheckForSpecialItemHoldUpMessagePatcher : Harmo
                 case ItemIDs.DarkSword:
                 {
                     var darkSword = I18n.Weapons_DarkSword_Name();
-                    __result = I18n.Weapons_DarkSword_Holdupmessage(darkSword);
+                    __result = I18n.Weapons_DarkSword_HoldUpMessage(darkSword);
                     break;
                 }
 
@@ -64,7 +64,7 @@ internal sealed class MeleeWeaponCheckForSpecialItemHoldUpMessagePatcher : Harmo
                 {
                     var darkSword = I18n.Weapons_DarkSword_Name();
                     var holyBlade = I18n.Weapons_HolyBlade_Name();
-                    __result = I18n.Weapons_HolyBlade_Holdupmessage(darkSword, holyBlade);
+                    __result = I18n.Weapons_HolyBlade_HoldUpMessage(darkSword, holyBlade);
                     break;
                 }
             }

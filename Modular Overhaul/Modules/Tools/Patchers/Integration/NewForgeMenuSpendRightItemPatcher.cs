@@ -7,7 +7,6 @@ using DaLion.Shared.Extensions;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
 using SpaceCore.Interface;
-using StardewValley.Menus;
 
 #endregion using directives
 

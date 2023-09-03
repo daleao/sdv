@@ -1,14 +1,12 @@
 ﻿namespace DaLion.Overhaul.Modules.Combat.Patchers.Rings;
 
-using DaLion.Overhaul.Modules.Combat.Extensions;
-
 #region using directives
 
+using DaLion.Overhaul.Modules.Combat.Extensions;
 using DaLion.Overhaul.Modules.Combat.VirtualProperties;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
 using StardewValley;
-using StardewValley.Tools;
 
 #endregion using directives
 

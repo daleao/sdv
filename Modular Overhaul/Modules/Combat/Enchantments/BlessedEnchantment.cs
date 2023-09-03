@@ -3,9 +3,12 @@
 #region using directives
 
 using System.Xml.Serialization;
+using DaLion.Overhaul.Modules.Combat.Events.GameLoop;
+using DaLion.Overhaul.Modules.Combat.Events.Player;
 using DaLion.Overhaul.Modules.Combat.Projectiles;
 using DaLion.Shared.Enums;
 using Microsoft.Xna.Framework;
+using StardewValley.Monsters;
 using StardewValley.Tools;
 
 #endregion using directives
@@ -14,6 +17,8 @@ using StardewValley.Tools;
 [XmlType("Mods_DaLion_BlessedEnchantment")]
 public class BlessedEnchantment : BaseWeaponEnchantment
 {
+    private int? _lightSourceId;
+
     /// <inheritdoc />
     public override bool IsSecondaryEnchantment()
     {
@@ -38,6 +43,59 @@ public class BlessedEnchantment : BaseWeaponEnchantment
         return false;
     }
 
+    internal void OnWarp(Farmer who, GameLocation oldLocation, GameLocation newLocation)
+    {
+        if (this._lightSourceId.HasValue)
+        {
+            oldLocation.removeLightSource(this._lightSourceId.Value);
+        }
+        else
+        {
+            this._lightSourceId ??= this.GetHashCode() + (int)who.UniqueMultiplayerID;
+        }
+
+        while (newLocation.sharedLights.ContainsKey(this._lightSourceId!.Value))
+        {
+            this._lightSourceId++;
+        }
+
+        newLocation.sharedLights[this._lightSourceId.Value] = new LightSource(
+            LightSource.lantern,
+            new Vector2(who.Position.X + 21f, who.Position.Y + 64f),
+            2.5f,
+            Color.Gold,
+            this._lightSourceId.Value,
+            LightSource.LightContext.None,
+            who.UniqueMultiplayerID);
+    }
+
+    public void Update(Farmer who)
+    {
+        if (!this._lightSourceId.HasValue)
+        {
+            return;
+        }
+
+        var offset = Vector2.Zero;
+        if (who.shouldShadowBeOffset)
+        {
+            offset += who.drawOffset.Value;
+        }
+
+        who.currentLocation.repositionLightSource(
+            this._lightSourceId.Value,
+            new Vector2(who.Position.X + 21f, who.Position.Y) + offset);
+    }
+
+    /// <inheritdoc />
+    protected override void _OnDealDamage(Monster monster, GameLocation location, Farmer who, ref int amount)
+    {
+        if (monster is Ghost or Skeleton or Mummy or ShadowBrute or ShadowShaman or ShadowGirl or ShadowGuy or Shooter)
+        {
+            amount = (int)(amount * 1.2f);
+        }
+    }
+
     /// <inheritdoc />
     protected override void _OnEquip(Farmer who)
     {
@@ -46,6 +104,37 @@ public class BlessedEnchantment : BaseWeaponEnchantment
         {
             who.mailReceived.Add("gotHolyBlade");
         }
+
+        this._lightSourceId ??= this.GetHashCode() + (int)who.UniqueMultiplayerID;
+        var location = who.currentLocation;
+        while (location.sharedLights.ContainsKey(this._lightSourceId!.Value))
+        {
+            this._lightSourceId++;
+        }
+
+        location.sharedLights[this._lightSourceId.Value] = new LightSource(
+            LightSource.lantern,
+            new Vector2(who.Position.X + 21f, who.Position.Y + 64f),
+            2.5f,
+            Color.Gold,
+            this._lightSourceId.Value,
+            LightSource.LightContext.None,
+            who.UniqueMultiplayerID);
+        EventManager.Enable(typeof(BlessedEnchantmentUpdateTickedEvent), typeof(BlessedEnchantmentWarpedEvent));
+    }
+
+    /// <inheritdoc />
+    protected override void _OnUnequip(Farmer who)
+    {
+        base._OnUnequip(who);
+        if (!this._lightSourceId.HasValue)
+        {
+            return;
+        }
+
+        var location = who.currentLocation;
+        location.removeLightSource(this._lightSourceId.Value);
+        EventManager.Disable(typeof(BlessedEnchantmentUpdateTickedEvent), typeof(BlessedEnchantmentWarpedEvent));
     }
 
     /// <inheritdoc />

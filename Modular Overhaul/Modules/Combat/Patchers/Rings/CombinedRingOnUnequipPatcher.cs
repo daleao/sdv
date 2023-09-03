@@ -6,7 +6,6 @@ using DaLion.Overhaul.Modules.Combat.VirtualProperties;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
 using StardewValley.Objects;
-using StardewValley.Tools;
 
 #endregion using directives
 

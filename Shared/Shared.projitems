@@ -105,6 +105,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\Collections\ListExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\Memory\MemoryExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\RandomExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Extensions\Reflection\AssemblyExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\Reflection\FieldInfoExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\Reflection\MethodBaseExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\Reflection\MethodInfoExtensions.cs" />

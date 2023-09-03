@@ -90,13 +90,14 @@ internal sealed class AdvanceQuestCommand : ConsoleCommand
                     player.Write(DataKeys.ProvenCompassion, int.MaxValue.ToString());
                     player.Write(DataKeys.ProvenWisdom, int.MaxValue.ToString());
                     player.Write(DataKeys.ProvenGenerosity, int.MaxValue.ToString());
+                    player.Write(DataKeys.ProvenValor, int.MaxValue.ToString());
                     Virtue.List.ForEach(virtue => CombatModule.State.HeroQuest.UpdateTrialProgress(virtue));
                 }
 
                 break;
             case "honor":
                 {
-                    if (args.Length == 1 || int.TryParse(args[1], out var amount))
+                    if (args.Length == 1 || !int.TryParse(args[1], out var amount))
                     {
                         amount = 1;
                     }
@@ -108,7 +109,7 @@ internal sealed class AdvanceQuestCommand : ConsoleCommand
                 break;
             case "compassion":
                 {
-                    if (args.Length == 1 || int.TryParse(args[1], out var amount))
+                    if (args.Length == 1 || !int.TryParse(args[1], out var amount))
                     {
                         amount = 1;
                     }
@@ -120,7 +121,7 @@ internal sealed class AdvanceQuestCommand : ConsoleCommand
                 break;
             case "wisdom":
                 {
-                    if (args.Length == 1 || int.TryParse(args[1], out var amount))
+                    if (args.Length == 1 || !int.TryParse(args[1], out var amount))
                     {
                         amount = 1;
                     }
@@ -132,7 +133,7 @@ internal sealed class AdvanceQuestCommand : ConsoleCommand
                 break;
             case "generosity":
                 {
-                    if (args.Length == 1 || int.TryParse(args[1], out var amount))
+                    if (args.Length == 1 || !int.TryParse(args[1], out var amount))
                     {
                         amount = 1;
                     }
@@ -144,18 +145,13 @@ internal sealed class AdvanceQuestCommand : ConsoleCommand
                 break;
             case "valor":
                 {
-                    Game1.stats.specificMonstersKilled["Green Slime"] = 1000;
-                    Game1.stats.specificMonstersKilled["Shadow Brute"] = 150;
-                    Game1.stats.specificMonstersKilled["Bat"] = 200;
-                    Game1.stats.specificMonstersKilled["Skeleton"] = 50;
-                    Game1.stats.specificMonstersKilled["Bug"] = 125;
-                    Game1.stats.specificMonstersKilled["Duggy"] = 30;
-                    Game1.stats.specificMonstersKilled["Dust Spirit"] = 500;
-                    Game1.stats.specificMonstersKilled["Rock Crab"] = 60;
-                    Game1.stats.specificMonstersKilled["Mummy"] = 100;
-                    Game1.stats.specificMonstersKilled["Pepper Rex"] = 50;
-                    Game1.stats.specificMonstersKilled["Serpent"] = 250;
-                    Game1.stats.specificMonstersKilled["Magma Sprite"] = 150;
+                    if (args.Length == 1 || !int.TryParse(args[1], out var amount))
+                    {
+                        amount = 1;
+                    }
+
+                    player.Increment(DataKeys.ProvenValor, amount);
+                    CombatModule.State.HeroQuest?.UpdateTrialProgress(Virtue.Generosity);
                 }
 
                 break;

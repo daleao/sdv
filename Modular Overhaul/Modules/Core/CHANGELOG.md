@@ -1,5 +1,11 @@
 ﻿# Core Changelog
 
+## 3.0.0 <sup><sub><sup>[🔼 Back to top](#core-change-log)</sup></sub></sup>
+
+### Changed
+
+* Changed several translation keys for better formatting with Pathoschild's Translation Generator. Possible mistakes may have been created.
+
 ## 2.5.1 <sup><sub><sup>[🔼 Back to top](#core-change-log)</sup></sub></sup>
 
 ### Changed

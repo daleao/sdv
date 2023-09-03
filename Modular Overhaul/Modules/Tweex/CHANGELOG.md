@@ -1,5 +1,11 @@
 ﻿# TWX Changelog
 
+## 3.0.0 <sup><sub><sup>[🔼 Back to top](#twx-change-log)</sup></sub></sup>
+
+## Changed
+
+* Re-organized config settings by skill.
+
 ## 2.5.5 <sup><sub><sup>[🔼 Back to top](#twx-change-log)</sup></sub></sup>
 
 ### Fixed

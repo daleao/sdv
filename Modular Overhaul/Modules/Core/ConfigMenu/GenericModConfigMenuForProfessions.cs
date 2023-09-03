@@ -4,15 +4,11 @@
 
 using DaLion.Overhaul.Modules.Core.UI;
 using DaLion.Overhaul.Modules.Professions;
-using DaLion.Overhaul.Modules.Professions.Events.Display;
-using DaLion.Overhaul.Modules.Professions.Events.Player;
+using DaLion.Overhaul.Modules.Professions.Events.Display.RenderingHud;
+using DaLion.Overhaul.Modules.Professions.Events.Player.Warped;
 using DaLion.Overhaul.Modules.Professions.Extensions;
 using DaLion.Overhaul.Modules.Professions.Ultimates;
 using DaLion.Overhaul.Modules.Professions.VirtualProperties;
-using DaLion.Shared.Extensions.Stardew;
-using DaLion.Overhaul.Modules.Professions.Events.Display.RenderingHud;
-using DaLion.Overhaul.Modules.Professions.Events.Player.Warped;
-using StardewValley.Buildings;
 
 #endregion using directives
 

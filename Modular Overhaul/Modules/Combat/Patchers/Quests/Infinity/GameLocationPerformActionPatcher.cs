@@ -106,7 +106,8 @@ internal sealed class GameLocationPerformActionPatcher : HarmonyPatcher
                 };
             }
             else if (CombatModule.State.HeroQuest is not null &&
-                     who.CurrentTool is MeleeWeapon { InitialParentTileIndex: ItemIDs.DarkSword })
+                     who.CurrentTool is MeleeWeapon { InitialParentTileIndex: ItemIDs.DarkSword } &&
+                     !CombatModule.State.DidPrayToday)
             {
                 Game1.afterDialogues = () =>
                 {
@@ -166,8 +167,8 @@ internal sealed class GameLocationPerformActionPatcher : HarmonyPatcher
             I18n.Weapons_DarkSword_Question(),
             new Response[]
             {
-                new("GrabIt", I18n.Weapons_DarkSword_Grabit()),
-                new("LeaveIt", I18n.Weapons_DarkSword_Leaveit()),
+                new("GrabIt", I18n.Weapons_DarkSword_GrabIt()),
+                new("LeaveIt", I18n.Weapons_DarkSword_LeaveIt()),
             },
             "DarkSword");
     }

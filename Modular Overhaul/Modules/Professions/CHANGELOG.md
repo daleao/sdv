@@ -1,5 +1,11 @@
 ﻿# PROFS Changelog
 
+## 3.0.0 <sup><sub><sup>[🔼 Back to top](#profs-change-log)</sup></sub></sup>
+
+### Fixed
+
+* SpaceCore skills should once again appear in the Generic Mod Config Menu for Exp. Multipliers.
+
 ## 2.5.7 <sup><sub><sup>[🔼 Back to top](#profs-change-log)</sup></sub></sup>
 
 ### Added

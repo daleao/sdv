@@ -3,7 +3,6 @@
 #region using directives
 
 using System.Linq;
-using DaLion.Overhaul.Modules.Core.ConfigMenu;
 using DaLion.Shared.Events;
 using StardewModdingAPI.Events;
 

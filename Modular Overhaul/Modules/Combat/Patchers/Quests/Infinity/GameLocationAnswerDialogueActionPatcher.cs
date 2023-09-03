@@ -109,16 +109,21 @@ internal sealed class GameLocationAnswerDialogueActionPatcher : HarmonyPatcher
                                     return false; // don't run original logic
                                 }
 
-                                if (darkSword.Read<int>(DataKeys.CursePoints) <= 50)
+                                var cursePoints = darkSword.Read<int>(DataKeys.CursePoints);
+                                Log.D($"Starting with {cursePoints} curse points.");
+                                if (cursePoints <= 50)
                                 {
                                     Game1.drawObjectDialogue(I18n.Yoba_Prayer_CantHelp());
+                                    Log.D("Not enough to get help.");
+                                    CombatModule.State.DidPrayToday = true;
                                     return false; // don't run original logic
                                 }
 
                                 Game1.drawObjectDialogue(I18n.Yoba_Prayer_Ok(I18n.Weapons_DarkSword_Name()));
-                                var cursePoints = darkSword.Read<int>(DataKeys.CursePoints) - 50;
-                                cursePoints = (int)(cursePoints * 0.8);
+                                cursePoints = (int)((cursePoints - 50) * 0.8) + 50;
+                                Log.D($"Ending with {cursePoints} curse points.");
                                 darkSword.Write(DataKeys.CursePoints, cursePoints.ToString());
+                                CombatModule.State.DidPrayToday = true;
                                 return false; // don't run original logic
                             case "No":
                                 return false; // don't run original logic

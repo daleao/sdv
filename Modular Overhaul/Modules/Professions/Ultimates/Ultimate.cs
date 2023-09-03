@@ -3,10 +3,6 @@
 #region using directives
 
 using Ardalis.SmartEnum;
-using DaLion.Overhaul.Modules.Professions.Events.Display;
-using DaLion.Overhaul.Modules.Professions.Events.GameLoop;
-using DaLion.Overhaul.Modules.Professions.Events.Input;
-using DaLion.Overhaul.Modules.Professions.Events.Ultimate;
 using DaLion.Overhaul.Modules.Professions.Extensions;
 using DaLion.Overhaul.Modules.Professions.Events.Display.RenderedWorld;
 using DaLion.Overhaul.Modules.Professions.Events.Display.RenderingHud;

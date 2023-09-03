@@ -30,37 +30,6 @@ internal sealed class CombatSaveLoadedEvent : SaveLoadedEvent
     {
         var player = Game1.player;
 
-        //// **** temp fix for existing saves
-
-        if (player.hasQuest((int)QuestId.CurseIntro))
-        {
-            player.removeQuest((int)QuestId.CurseIntro);
-            player.addQuest((int)QuestId.CurseIntro);
-        }
-
-        if (player.hasQuest((int)QuestId.HeroJourney))
-        {
-            player.removeQuest((int)QuestId.HeroJourney);
-            player.Write(DataKeys.VirtueQuestState, HeroQuest.QuestState.InProgress.ToString());
-
-            for (var i = 144706; i <= 144710; i++)
-            {
-                if (player.hasQuest(i))
-                {
-                    player.removeQuest(i);
-                }
-            }
-        }
-
-        if (player.hasQuest((int)(QuestId.ForgeIntro + 1)))
-        {
-            player.removeQuest((int)(QuestId.ForgeIntro + 1));
-        }
-
-        player.questLog.Remove((StardewValley.Quests.Quest?)null); // fix for removed 144702 quest
-
-        //// **** temp fixes for existing saves
-
         CombatModule.State.ContainerDropAccumulator = player.Read(DataKeys.ContainerDropAccumulator, 0.05);
         CombatModule.State.MonsterDropAccumulator = player.Read<double>(DataKeys.MonsterDropAccumulator);
 

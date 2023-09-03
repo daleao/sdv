@@ -1,14 +1,11 @@
 ﻿namespace DaLion.Overhaul.Modules.Professions.Extensions;
 
-using System.Collections.Generic;
-
 #region using directives
 
 using System.Linq;
 using DaLion.Shared.Enums;
 using DaLion.Shared.Extensions.Stardew;
 using StardewValley.Buildings;
-using StardewValley.Objects;
 
 #endregion using directives
 

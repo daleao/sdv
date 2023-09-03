@@ -207,7 +207,7 @@ internal sealed class CombatAssetRequestedEvent : AssetRequestedEvent
             data[ItemIDs.YobaRing] = string.Join('/', fields);
 
             fields = data[ItemIDs.ImmunityRing].Split('/');
-            fields[5] += I18n.Rings_Immunity_Extradesc();
+            fields[5] += I18n.Rings_Immunity_ExtraDesc();
             data[ItemIDs.ImmunityRing] = string.Join('/', fields);
 
             if (LocalizedContentManager.CurrentLanguageCode == LocalizedContentManager.LanguageCode.en)
@@ -735,7 +735,7 @@ internal sealed class CombatAssetRequestedEvent : AssetRequestedEvent
                 fields[CritPower] = 2.5.ToString(CultureInfo.InvariantCulture);
                 break;
             case ItemIDs.LavaKatana:
-                fields[Description] += I18n.Weapons_LavaKatana_Extradesc();
+                fields[Description] += I18n.Weapons_LavaKatana_ExtraDesc();
                 fields[MinDamage] = 95.ToString();
                 fields[MaxDamage] = 110.ToString();
                 fields[Knockback] = 0.4.ToString(CultureInfo.InvariantCulture);
@@ -763,7 +763,7 @@ internal sealed class CombatAssetRequestedEvent : AssetRequestedEvent
                 fields[CritPower] = 2.0.ToString(CultureInfo.InvariantCulture);
                 break;
             case ItemIDs.YetiTooth:
-                fields[Description] += I18n.Weapons_YetiTooth_Extradesc();
+                fields[Description] += I18n.Weapons_YetiTooth_ExtraDesc();
                 fields[MinDamage] = 33.ToString();
                 fields[MaxDamage] = 44.ToString();
                 fields[Knockback] = 0.6.ToString(CultureInfo.InvariantCulture);
@@ -1001,7 +1001,7 @@ internal sealed class CombatAssetRequestedEvent : AssetRequestedEvent
 
             // UNIQUE DAGGERS
             case ItemIDs.InsectHead:
-                fields[Description] += I18n.Weapons_InsectHead_Extradesc();
+                fields[Description] += I18n.Weapons_InsectHead_ExtraDesc();
                 fields[MinDamage] = 1.ToString();
                 fields[MaxDamage] = 3.ToString();
                 fields[Knockback] = 0.15.ToString(CultureInfo.InvariantCulture);
@@ -1070,7 +1070,7 @@ internal sealed class CombatAssetRequestedEvent : AssetRequestedEvent
                 fields[CritPower] = 1.8.ToString(CultureInfo.InvariantCulture);
                 break;
             case ItemIDs.IridiumNeedle:
-                fields[Description] += I18n.Weapons_IridiumNeedle_Extradesc();
+                fields[Description] += I18n.Weapons_IridiumNeedle_ExtraDesc();
                 fields[MinDamage] = 68.ToString();
                 fields[MaxDamage] = 80.ToString();
                 fields[Knockback] = 0.1.ToString(CultureInfo.InvariantCulture);

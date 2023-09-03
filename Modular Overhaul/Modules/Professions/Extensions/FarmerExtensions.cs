@@ -5,14 +5,12 @@ namespace DaLion.Overhaul.Modules.Professions.Extensions;
 
 using System.Collections.Generic;
 using System.Linq;
-using DaLion.Overhaul.Modules.Professions.Events.GameLoop;
-using DaLion.Overhaul.Modules.Professions.Events.Player;
+using DaLion.Overhaul.Modules.Professions.Events.GameLoop.UpdateTicked;
+using DaLion.Overhaul.Modules.Professions.Events.Player.Warped;
 using DaLion.Overhaul.Modules.Professions.Ultimates;
 using DaLion.Overhaul.Modules.Professions.VirtualProperties;
 using DaLion.Shared.Extensions;
 using DaLion.Shared.Extensions.Stardew;
-using DaLion.Overhaul.Modules.Professions.Events.GameLoop.UpdateTicked;
-using DaLion.Overhaul.Modules.Professions.Events.Player.Warped;
 using StardewModdingAPI.Utilities;
 using StardewValley.Buildings;
 using StardewValley.Monsters;

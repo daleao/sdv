@@ -3,7 +3,6 @@
 #region using directives
 
 using DaLion.Shared.Attributes;
-using DaLion.Shared.Extensions.SMAPI;
 using DaLion.Shared.Integrations;
 
 #endregion using directives

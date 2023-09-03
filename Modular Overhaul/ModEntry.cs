@@ -13,12 +13,14 @@ namespace DaLion.Overhaul;
 
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
+using System.Reflection;
 using DaLion.Shared.Events;
 using DaLion.Shared.Extensions.Collections;
 using DaLion.Shared.Extensions.SMAPI;
 using DaLion.Shared.ModData;
 using DaLion.Shared.Networking;
 using DaLion.Shared.Reflection;
+using Shared.Extensions.Reflection;
 using StardewModdingAPI.Utilities;
 
 #endregion using directives
@@ -76,6 +78,16 @@ public sealed class ModEntry : Mod
 
         Instance = this;
         Log.Init(this.Monitor);
+
+        // check SpaceCore build first of all
+        var spaceCoreAssembly = Assembly.Load("SpaceCore");
+        if (spaceCoreAssembly.IsDebugBuild())
+        {
+            Log.E(
+                "The installed version of SpaceCore was built in Debug mode, which is not compatible with this mood. Please ask the author to build in Release mode.");
+            return;
+        }
+
         ModDataIO.Init(this.ModManifest.UniqueID);
         I18n.Init(helper.Translation);
 
