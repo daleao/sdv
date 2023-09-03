@@ -13,6 +13,7 @@ using DaLion.Shared.Attributes;
 using DaLion.Shared.Extensions;
 using DaLion.Shared.Extensions.Reflection;
 using DaLion.Shared.Harmony;
+using DaLion.Overhaul.Modules.Professions.Events.GameLoop.DayStarted;
 using HarmonyLib;
 using Microsoft.Xna.Framework;
 using Netcode;
@@ -395,7 +396,7 @@ internal sealed class SkillLevelUpMenuUpdatePatcher : HarmonyPatcher
     {
         if (ProfessionsModule.Config.EnableExtendedProgession)
         {
-            Game1.drawObjectDialogue(I18n.Prestige_Levelup_Unlocked(SCSkill.Loaded[skillId].DisplayName));
+            Game1.drawObjectDialogue(I18n.Prestige_LevelUp_Unlocked(SCSkill.Loaded[skillId].DisplayName));
         }
 
         if (!Game1.player.HasAllProfessions(true))

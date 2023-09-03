@@ -1,7 +1,8 @@
-﻿namespace DaLion.Overhaul.Modules.Professions.Events.GameLoop;
+﻿namespace DaLion.Overhaul.Modules.Professions.Events.GameLoop.TimeChanged;
 
 #region using directives
 
+using DaLion.Overhaul.Modules.Professions.Events.GameLoop.DayStarted;
 using DaLion.Overhaul.Modules.Professions.Extensions;
 using DaLion.Overhaul.Modules.Professions.VirtualProperties;
 using DaLion.Shared.Events;

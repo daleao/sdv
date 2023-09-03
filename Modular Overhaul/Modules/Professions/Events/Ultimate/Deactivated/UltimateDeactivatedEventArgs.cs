@@ -1,4 +1,4 @@
-﻿namespace DaLion.Overhaul.Modules.Professions.Events.Ultimate;
+﻿namespace DaLion.Overhaul.Modules.Professions.Events.Ultimate.Deactivated;
 
 /// <summary>The arguments for an <see cref="UltimateDeactivatedEvent"/>.</summary>
 public sealed class UltimateDeactivatedEventArgs : EventArgs, IUltimateDeactivatedEventArgs

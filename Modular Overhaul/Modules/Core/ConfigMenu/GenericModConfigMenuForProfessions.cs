@@ -10,6 +10,8 @@ using DaLion.Overhaul.Modules.Professions.Extensions;
 using DaLion.Overhaul.Modules.Professions.Ultimates;
 using DaLion.Overhaul.Modules.Professions.VirtualProperties;
 using DaLion.Shared.Extensions.Stardew;
+using DaLion.Overhaul.Modules.Professions.Events.Display.RenderingHud;
+using DaLion.Overhaul.Modules.Professions.Events.Player.Warped;
 using StardewValley.Buildings;
 
 #endregion using directives
@@ -23,198 +25,157 @@ internal sealed partial class GenericModConfigMenu
         this
             .AddPage(OverhaulModule.Professions.Namespace, I18n.Gmcm_Profs_Heading)
 
-            // controls and ui settings
-            .AddSectionTitle(I18n.Gmcm_Controls_Heading)
-            .AddKeyBinding(
-                I18n.Gmcm_Controls_Modkey_Title,
-                I18n.Gmcm_Profs_Controls_Modkey_Desc,
-                config => config.Professions.ModKey,
-                (config, value) => config.Professions.ModKey = value)
-            .AddHorizontalRule()
-
-            .AddSectionTitle(I18n.Gmcm_Interface_Heading)
-            .AddCheckbox(
-                I18n.Gmcm_Profs_Ui_Showfishcollecionmaxicon_Title,
-                I18n.Gmcm_Profs_Ui_Showfishcollecionmaxicon_Desc,
-                config => config.Professions.ShowFishCollectionMaxIcon,
-                (config, value) => config.Professions.ShowFishCollectionMaxIcon = value)
-            .AddNumberField(
-                I18n.Gmcm_Profs_Ui_Trackingpointerscale_Title,
-                I18n.Gmcm_Profs_Ui_Trackingpointerscale_Desc,
-                config => config.Professions.TrackingPointerScale,
-                (config, value) =>
-                {
-                    config.Professions.TrackingPointerScale = value;
-                    if (HudPointer.Instance.IsValueCreated)
-                    {
-                        HudPointer.Instance.Value.Scale = value;
-                    }
-                },
-                0.2f,
-                2f,
-                0.2f)
-            .AddNumberField(
-                I18n.Gmcm_Profs_Ui_Trackingpointerbobrate_Title,
-                I18n.Gmcm_Profs_Ui_Trackingpointerbobrate_Desc,
-                config => config.Professions.TrackingPointerBobRate,
-                (config, value) =>
-                {
-                    config.Professions.TrackingPointerBobRate = value;
-                    if (HudPointer.Instance.IsValueCreated)
-                    {
-                        HudPointer.Instance.Value.BobRate = value;
-                    }
-                },
-                0.5f,
-                2f,
-                0.05f)
-            .AddCheckbox(
-                I18n.Gmcm_Profs_Ui_Disablealwaystrack_Title,
-                I18n.Gmcm_Profs_Ui_Disablealwaystrack_Desc,
-                config => config.Professions.DisableAlwaysTrack,
-                (config, value) => config.Professions.DisableAlwaysTrack = value)
-            .AddHorizontalRule()
-
             // professions
-            .AddSectionTitle(I18n.Gmcm_Profs_Professions_Heading)
+            .AddSectionTitle(I18n.Gmcm_Profs_General_Heading)
             .AddCheckbox(
-                I18n.Gmcm_Profs_Shouldjunimosinheritprofessions_Title,
-                I18n.Gmcm_Profs_Shouldjunimosinheritprofessions_Desc,
+                I18n.Gmcm_Profs_ShouldJunimosInheritProfessions_Title,
+                I18n.Gmcm_Profs_ShouldJunimosInheritProfessions_Desc,
                 config => config.Professions.ShouldJunimosInheritProfessions,
                 (config, value) => config.Professions.ShouldJunimosInheritProfessions = value)
             .AddCheckbox(
-                I18n.Gmcm_Profs_Laxownershiprequirements_Title,
-                I18n.Gmcm_Profs_Laxownershiprequirements_Desc,
+                I18n.Gmcm_Profs_LaxOwnershipRequirements_Title,
+                I18n.Gmcm_Profs_LaxOwnershipRequirements_Desc,
                 config => config.Professions.LaxOwnershipRequirements,
                 (config, value) => config.Professions.LaxOwnershipRequirements = value)
             .AddCheckbox(
-                I18n.Gmcm_Profs_Artisangoodsalwaysinputquality_Title,
-                I18n.Gmcm_Profs_Artisangoodsalwaysinputquality_Desc,
+                I18n.Gmcm_Profs_ArtisanGoodsAlwaysInputQuality_Title,
+                I18n.Gmcm_Profs_ArtisanGoodsAlwaysInputQuality_Desc,
                 config => config.Professions.ArtisanGoodsAlwaysInputQuality,
                 (config, value) => config.Professions.ArtisanGoodsAlwaysInputQuality = value)
             .AddCheckbox(
-                I18n.Gmcm_Profs_Beesareanimals_Title,
-                I18n.Gmcm_Profs_Beesareanimals_Desc,
+                I18n.Gmcm_Profs_BeesAreAnimals_Title,
+                I18n.Gmcm_Profs_BeesAreAnimals_Desc,
                 config => config.Professions.BeesAreAnimals,
                 (config, value) => config.Professions.BeesAreAnimals = value)
             .AddNumberField(
-                I18n.Gmcm_Profs_Foragesneededforbestquality_Title,
-                I18n.Gmcm_Profs_Foragesneededforbestquality_Desc,
+                I18n.Gmcm_Profs_ForagesNeededForBestQuality_Title,
+                I18n.Gmcm_Profs_ForagesNeededForBestQuality_Desc,
                 config => (int)config.Professions.ForagesNeededForBestQuality,
                 (config, value) => config.Professions.ForagesNeededForBestQuality = (uint)value,
                 0,
                 1000,
                 10)
             .AddNumberField(
-                I18n.Gmcm_Profs_Mineralsneededforbestquality_Title,
-                I18n.Gmcm_Profs_Mineralsneededforbestquality_Desc,
+                I18n.Gmcm_Profs_MineralsNeededForBestQuality_Title,
+                I18n.Gmcm_Profs_MineralsNeededForBestQuality_Desc,
                 config => (int)config.Professions.MineralsNeededForBestQuality,
                 (config, value) => config.Professions.MineralsNeededForBestQuality = (uint)value,
                 0,
                 1000,
                 10)
             .AddCheckbox(
-                I18n.Gmcm_Profs_Crystalariumsupgradewithgemologist_Title,
-                I18n.Gmcm_Profs_Crystalariumsupgradewithgemologist_Desc,
-                config => config.Professions.CrystalariumsUpgradeWithGemologist,
-                (config, value) => config.Professions.CrystalariumsUpgradeWithGemologist = value)
+                I18n.Gmcm_Profs_CrystalariumUpgradesWithGemologist_Title,
+                I18n.Gmcm_Profs_CrystalariumUpgradesWithGemologist_Desc,
+                config => config.Professions.CrystalariumUpgradesWithGemologist,
+                (config, value) => config.Professions.CrystalariumUpgradesWithGemologist = value)
             .AddNumberField(
-                I18n.Gmcm_Profs_Chancetostarttreasurehunt_Title,
-                I18n.Gmcm_Profs_Chancetostarttreasurehunt_Desc,
+                I18n.Gmcm_Profs_ChanceToStartTreasureHunt_Title,
+                I18n.Gmcm_Profs_ChanceToStartTreasureHunt_Desc,
                 config => (float)config.Professions.ChanceToStartTreasureHunt,
                 (config, value) => config.Professions.ChanceToStartTreasureHunt = value,
                 0f,
                 1f,
                 0.05f)
             .AddCheckbox(
-                I18n.Gmcm_Profs_Allowscavengerhuntsonfarm_Title,
-                I18n.Gmcm_Profs_Allowscavengerhuntsonfarm_Desc,
+                I18n.Gmcm_Profs_AllowScavengerHuntsOnFarm_Title,
+                I18n.Gmcm_Profs_AllowScavengerHuntsOnFarm_Desc,
                 config => config.Professions.AllowScavengerHuntsOnFarm,
                 (config, value) => config.Professions.AllowScavengerHuntsOnFarm = value)
             .AddNumberField(
-                I18n.Gmcm_Profs_Scavengerhunthandicap_Title,
-                I18n.Gmcm_Profs_Scavengerhunthandicap_Desc,
+                I18n.Gmcm_Profs_ScavengerHuntHandicap_Title,
+                I18n.Gmcm_Profs_ScavengerHuntHandicap_Desc,
                 config => config.Professions.ScavengerHuntHandicap,
                 (config, value) => config.Professions.ScavengerHuntHandicap = value,
                 1f,
                 3f,
                 0.2f)
             .AddNumberField(
-                I18n.Gmcm_Profs_Prospectorhunthandicap_Title,
-                I18n.Gmcm_Profs_Prospectorhunthandicap_Desc,
+                I18n.Gmcm_Profs_ProspectorHuntHandicap_Title,
+                I18n.Gmcm_Profs_ProspectorHuntHandicap_Desc,
                 config => config.Professions.ProspectorHuntHandicap,
                 (config, value) => config.Professions.ProspectorHuntHandicap = value,
                 1f,
                 3f,
                 0.2f)
             .AddNumberField(
-                I18n.Gmcm_Profs_Treasuredetectiondistance_Title,
-                I18n.Gmcm_Profs_Treasuredetectiondistance_Desc,
+                I18n.Gmcm_Profs_TreasureDetectionDistance_Title,
+                I18n.Gmcm_Profs_TreasureDetectionDistance_Desc,
                 config => config.Professions.TreasureDetectionDistance,
                 (config, value) => config.Professions.TreasureDetectionDistance = value,
                 1f,
                 10f,
                 0.5f)
             .AddNumberField(
-                I18n.Gmcm_Profs_Spelunkerspeedceiling_Title,
-                I18n.Gmcm_Profs_Spelunkerspeedceiling_Desc,
+                I18n.Gmcm_Profs_SpelunkerSpeedCeiling_Title,
+                I18n.Gmcm_Profs_SpelunkerSpeedCeiling_Desc,
                 config => (int)config.Professions.SpelunkerSpeedCeiling,
                 (config, value) => config.Professions.SpelunkerSpeedCeiling = (uint)value,
                 0,
                 10)
             .AddCheckbox(
-                I18n.Gmcm_Profs_Enablegetexcited_Title,
-                I18n.Gmcm_Profs_Enablegetexcited_Desc,
-                config => config.Professions.EnableGetExcited,
-                (config, value) => config.Professions.EnableGetExcited = value)
+                I18n.Gmcm_Profs_EnableGetExcited_Title,
+                I18n.Gmcm_Profs_EnableGetExcited_Desc,
+                config => config.Professions.DemolitionistGetExcited,
+                (config, value) => config.Professions.DemolitionistGetExcited = value)
             .AddNumberField(
-                I18n.Gmcm_Profs_Anglerpricebonusceiling_Title,
-                I18n.Gmcm_Profs_Anglerpricebonusceiling_Desc,
+                I18n.Gmcm_Profs_AnglerPriceBonusCeiling_Title,
+                I18n.Gmcm_Profs_AnglerPriceBonusCeiling_Desc,
                 config => config.Professions.AnglerPriceBonusCeiling,
                 (config, value) => config.Professions.AnglerPriceBonusCeiling = value,
                 0.5f,
                 2f,
                 0.25f)
             .AddNumberField(
-                I18n.Gmcm_Profs_Aquaristfishpondceiling_Title,
-                I18n.Gmcm_Profs_Aquaristfishpondceiling_Desc,
+                I18n.Gmcm_Profs_AquaristFishPondCeiling_Title,
+                I18n.Gmcm_Profs_AquaristFishPondCeiling_Desc,
                 config => config.Professions.AquaristFishPondCeiling,
                 (config, value) => config.Professions.AquaristFishPondCeiling = value,
                 0,
                 24)
             .AddNumberField(
-                I18n.Gmcm_Profs_Trashpertaxdeduction_Title,
-                I18n.Gmcm_Profs_Trashpertaxdeduction_Desc,
+                I18n.Gmcm_Profs_TrashPerTaxDeduction_Title,
+                I18n.Gmcm_Profs_TrashPerTaxDeduction_Desc,
                 config => (int)config.Professions.TrashNeededPerTaxDeduction,
                 (config, value) => config.Professions.TrashNeededPerTaxDeduction = (uint)value,
                 10,
                 1000)
             .AddNumberField(
-                I18n.Gmcm_Profs_Trashperfriendshippoint_Title,
-                I18n.Gmcm_Profs_Trashperfriendshippoint_Desc,
+                I18n.Gmcm_Profs_TrashPerFriendshipPoint_Title,
+                I18n.Gmcm_Profs_TrashPerFriendshipPoint_Desc,
                 config => (int)config.Professions.TrashNeededPerFriendshipPoint,
                 (config, value) => config.Professions.TrashNeededPerFriendshipPoint = (uint)value,
                 10,
                 1000)
             .AddNumberField(
-                I18n.Gmcm_Profs_Taxdeductionceiling_Title,
-                I18n.Gmcm_Profs_Taxdeductionceiling_Desc,
+                I18n.Gmcm_Profs_TaxDeductionCeiling_Title,
+                I18n.Gmcm_Profs_TaxDeductionCeiling_Desc,
                 config => config.Professions.ConservationistTaxDeductionCeiling,
                 (config, value) => config.Professions.ConservationistTaxDeductionCeiling = value,
                 0f,
                 1f,
                 0.05f)
             .AddNumberField(
-                I18n.Gmcm_Profs_Piperbuffceiling_Title,
-                I18n.Gmcm_Profs_Piperbuffceiling_Desc,
+                I18n.Gmcm_Profs_PiperBuffCeiling_Title,
+                I18n.Gmcm_Profs_PiperBuffCeiling_Desc,
                 config => (int)config.Professions.PiperBuffCeiling,
                 (config, value) => config.Professions.PiperBuffCeiling = (uint)value,
                 10,
                 1000)
             .AddHorizontalRule()
 
-            // limit breaks
-            .AddSectionTitle(I18n.Gmcm_Profs_Limit_Heading)
+            // page links
+            .AddMultiPageLinkOption(
+                getOptionName: I18n.Gmcm_Cmbt_Items_Title,
+                pages: new[] { "Limit", "Prestige", "Experience", "ControlsAndUi" },
+                getPageId: page => OverhaulModule.Professions.Namespace + $"/{page}",
+                getPageName: page => page == "ControlsAndUi" ? I18n.Gmcm_Headings_ControlsAndUi() : _I18n.Get("gmcm.profs." + page.ToLowerInvariant() + ".heading"),
+                getColumnsFromWidth: _ => 2)
+
+        #region limit break
+
+            .AddPage(OverhaulModule.Professions.Namespace + "/Limit", I18n.Gmcm_Profs_Limit_Heading)
+            .AddPageLink(OverhaulModule.Professions.Namespace, I18n.Gmcm_Profs_Back)
+            .AddVerticalSpace()
             .AddCheckbox(
                 I18n.Gmcm_Profs_Limit_Enable_Title,
                 I18n.Gmcm_Profs_Limit_Enable_Desc,
@@ -238,105 +199,109 @@ internal sealed partial class GenericModConfigMenu
                     }
                 })
             .AddCheckbox(
-                I18n.Gmcm_Profs_Limit_Holdtoactivate_Title,
-                I18n.Gmcm_Profs_Limit_Holdtoactivate_Desc,
+                I18n.Gmcm_Profs_Limit_HoldToActivate_Title,
+                I18n.Gmcm_Profs_Limit_HoldToActivate_Desc,
                 config => config.Professions.HoldKeyToLimitBreak,
                 (config, value) => config.Professions.HoldKeyToLimitBreak = value)
             .AddKeyBinding(
-                I18n.Gmcm_Profs_Limit_Activationkey_Title,
-                I18n.Gmcm_Profs_Limit_Activationkey_Desc,
+                I18n.Gmcm_Profs_Limit_ActivationKey_Title,
+                I18n.Gmcm_Profs_Limit_ActivationKey_Desc,
                 config => config.Professions.LimitBreakKey,
                 (config, value) => config.Professions.LimitBreakKey = value)
             .AddNumberField(
-                I18n.Gmcm_Profs_Limit_Activationdelay_Title,
-                I18n.Gmcm_Profs_Limit_Activationdelay_Desc,
+                I18n.Gmcm_Profs_Limit_ActivationDelay_Title,
+                I18n.Gmcm_Profs_Limit_ActivationDelay_Desc,
                 config => config.Professions.LimitBreakHoldDelaySeconds,
                 (config, value) => config.Professions.LimitBreakHoldDelaySeconds = value,
                 0f,
                 3f,
                 0.2f)
             .AddNumberField(
-                I18n.Gmcm_Profs_Limit_Gainfactor_Title,
-                I18n.Gmcm_Profs_Limit_Gainfactor_Desc,
+                I18n.Gmcm_Profs_Limit_GainFactor_Title,
+                I18n.Gmcm_Profs_Limit_GainFactor_Desc,
                 config => (float)config.Professions.LimitGainFactor,
                 (config, value) => config.Professions.LimitGainFactor = value,
                 0.1f,
                 2f)
             .AddNumberField(
-                I18n.Gmcm_Profs_Limit_Drainfactor_Title,
-                I18n.Gmcm_Profs_Limit_Drainfactor_Desc,
+                I18n.Gmcm_Profs_Limit_DrainFactor_Title,
+                I18n.Gmcm_Profs_Limit_DrainFactor_Desc,
                 config => (float)config.Professions.LimitDrainFactor,
                 (config, value) => config.Professions.LimitDrainFactor = value,
                 0.5f,
                 2f)
             .AddNumberField(
-                I18n.Gmcm_Profs_Limit_Respectcost_Title,
-                I18n.Gmcm_Profs_Limit_Respectcost_Desc,
+                I18n.Gmcm_Profs_Limit_RespecCost_Title,
+                I18n.Gmcm_Profs_Limit_RespecCost_Desc,
                 config => (int)config.Professions.LimitRespecCost,
                 (config, value) => config.Professions.LimitRespecCost = (uint)value,
                 0,
                 100000,
                 10000)
             .AddNumberField(
-                I18n.Gmcm_Profs_Limit_Gaugexoffset_Title,
-                I18n.Gmcm_Profs_Limit_Gaugeoffset_Desc,
+                I18n.Gmcm_Profs_Limit_GaugeXOffset_Title,
+                I18n.Gmcm_Profs_Limit_GaugeOffset_Desc,
                 config => config.Professions.LimitGaugeXOffset,
                 (config, value) => config.Professions.LimitGaugeXOffset = value,
                 -3000,
                 0)
             .AddNumberField(
-                I18n.Gmcm_Profs_Limit_Gaugeyoffset_Title,
-                I18n.Gmcm_Profs_Limit_Gaugeoffset_Desc,
+                I18n.Gmcm_Profs_Limit_GaugeYOffset_Title,
+                I18n.Gmcm_Profs_Limit_GaugeOffset_Desc,
                 config => config.Professions.LimitGaugeYOffset,
                 (config, value) => config.Professions.LimitGaugeYOffset = value,
                 -1500,
                 0)
-            .AddHorizontalRule()
 
-            // prestige
-            .AddSectionTitle(I18n.Gmcm_Profs_Prestige_Heading)
+        #endregion limit break
+
+        #region prestige
+
+            .AddPage(OverhaulModule.Professions.Namespace + "/Prestige", I18n.Gmcm_Profs_Prestige_Heading)
+            .AddPageLink(OverhaulModule.Professions.Namespace, I18n.Gmcm_Profs_Back)
+            .AddVerticalSpace()
             .AddCheckbox(
                 I18n.Gmcm_Profs_Prestige_Enable_Title,
                 I18n.Gmcm_Profs_Prestige_Enable_Desc,
                 config => config.Professions.EnablePrestige,
                 (config, value) => config.Professions.EnablePrestige = value)
             .AddNumberField(
-                I18n.Gmcm_Profs_Prestige_Skillresetcostmultiplier_Title,
-                I18n.Gmcm_Profs_Prestige_Skillresetcostmultiplier_Desc,
+                I18n.Gmcm_Profs_Prestige_SkillResetCostMultiplier_Title,
+                I18n.Gmcm_Profs_Prestige_SkillResetCostMultiplier_Desc,
                 config => config.Professions.SkillResetCostMultiplier,
                 (config, value) => config.Professions.SkillResetCostMultiplier = value,
                 0f,
                 3f,
                 0.1f)
             .AddCheckbox(
-                I18n.Gmcm_Profs_Prestige_Forgetrecipes_Title,
-                I18n.Gmcm_Profs_Prestige_Forgetrecipes_Desc,
-                config => config.Professions.ForgetRecipes,
-                (config, value) => config.Professions.ForgetRecipes = value)
+                I18n.Gmcm_Profs_Prestige_ForgetRecipes_Title,
+                I18n.Gmcm_Profs_Prestige_ForgetRecipes_Desc,
+                config => config.Professions.ForgetRecipesOnSkillReset,
+                (config, value) => config.Professions.ForgetRecipesOnSkillReset = value)
             .AddCheckbox(
-                I18n.Gmcm_Profs_Prestige_Allowmultipleprestige_Title,
-                I18n.Gmcm_Profs_Prestige_Allowmultipleprestige_Desc,
-                config => config.Professions.AllowMultiplePrestige,
-                (config, value) => config.Professions.AllowMultiplePrestige = value)
+                I18n.Gmcm_Profs_Prestige_AllowMultiplePrestige_Title,
+                I18n.Gmcm_Profs_Prestige_AllowMultiplePrestige_Desc,
+                config => config.Professions.AllowMultipleResets,
+                (config, value) => config.Professions.AllowMultipleResets = value)
             .AddNumberField(
-                I18n.Gmcm_Profs_Prestige_Expmultiplier_Title,
-                I18n.Gmcm_Profs_Prestige_Expmultiplier_Desc,
+                I18n.Gmcm_Profs_Prestige_ExpMultiplier_Title,
+                I18n.Gmcm_Profs_Prestige_ExpMultiplier_Desc,
                 config => config.Professions.PrestigeExpMultiplier,
                 (config, value) => config.Professions.PrestigeExpMultiplier = value,
                 -0.5f,
                 2f,
                 0.1f)
             .AddNumberField(
-                I18n.Gmcm_Profs_Prestige_Respeccost_Title,
-                I18n.Gmcm_Profs_Prestige_Respeccost_Desc,
+                I18n.Gmcm_Profs_Prestige_RespecCost_Title,
+                I18n.Gmcm_Profs_Prestige_RespecCost_Desc,
                 config => (int)config.Professions.PrestigeRespecCost,
                 (config, value) => config.Professions.PrestigeRespecCost = (uint)value,
                 0,
                 100000,
                 10000)
             .AddDropdown(
-                I18n.Gmcm_Profs_Prestige_Progressionstyle_Title,
-                I18n.Gmcm_Profs_Prestige_Progressionstyle_Desc,
+                I18n.Gmcm_Profs_Prestige_ProgressionStyle_Title,
+                I18n.Gmcm_Profs_Prestige_ProgressionStyle_Desc,
                 config => config.Professions.ProgressionStyle.ToString(),
                 (config, value) =>
                 {
@@ -347,13 +312,13 @@ internal sealed partial class GenericModConfigMenu
                 new[] { "StackedStars", "Gen3Ribbons", "Gen4Ribbons" },
                 value => _I18n.Get("gmcm.profs.prestige.progressionstyle." + value.ToLowerInvariant()))
             .AddCheckbox(
-                I18n.Gmcm_Profs_Prestige_Raisedlevelcap_Title,
-                I18n.Gmcm_Profs_Prestige_Raisedlevelcap_Desc,
+                I18n.Gmcm_Profs_Prestige_RaisedLevelCap_Title,
+                I18n.Gmcm_Profs_Prestige_RaisedLevelCap_Desc,
                 config => config.Professions.EnableExtendedProgession,
                 (config, value) => config.Professions.EnableExtendedProgession = value)
             .AddNumberField(
-                I18n.Gmcm_Profs_Prestige_Requiredexpperextendedlevel_Title,
-                I18n.Gmcm_Profs_Prestige_Requiredexpperextendedlevel_Desc,
+                I18n.Gmcm_Profs_Prestige_RequiredExpPerExtendedLevel_Title,
+                I18n.Gmcm_Profs_Prestige_RequiredExpPerExtendedLevel_Desc,
                 config => (int)config.Professions.RequiredExpPerExtendedLevel,
                 (config, value) => config.Professions.RequiredExpPerExtendedLevel = (uint)value,
                 1000,
@@ -361,42 +326,47 @@ internal sealed partial class GenericModConfigMenu
                 500)
             .AddHorizontalRule()
 
-            // experience settings
-            .AddSectionTitle(I18n.Gmcm_Profs_Experience_Heading)
+        #endregion prestige
+
+        #region experience
+
+            .AddPage(OverhaulModule.Professions.Namespace + "/Experience", I18n.Gmcm_Profs_Experience_Heading)
+            .AddPageLink(OverhaulModule.Professions.Namespace, I18n.Gmcm_Profs_Back)
+            .AddVerticalSpace()
             .AddNumberField(
-                () => I18n.Gmcm_Profs_Experience_Baseexpmultiplier_Title("Farming"),
-                () => I18n.Gmcm_Profs_Experience_Baseexpmultiplier_Desc("farming"),
+                () => I18n.Gmcm_Profs_Experience_BaseExpMultiplier_Title("Farming"),
+                () => I18n.Gmcm_Profs_Experience_BaseExpMultiplier_Desc("farming"),
                 config => config.Professions.BaseSkillExpMultipliers[0],
                 (config, value) => config.Professions.BaseSkillExpMultipliers[0] = value,
                 0.2f,
                 2f,
                 0.1f)
             .AddNumberField(
-                () => I18n.Gmcm_Profs_Experience_Baseexpmultiplier_Title("Fishing"),
-                () => I18n.Gmcm_Profs_Experience_Baseexpmultiplier_Desc("fishing"),
+                () => I18n.Gmcm_Profs_Experience_BaseExpMultiplier_Title("Fishing"),
+                () => I18n.Gmcm_Profs_Experience_BaseExpMultiplier_Desc("fishing"),
                 config => config.Professions.BaseSkillExpMultipliers[1],
                 (config, value) => config.Professions.BaseSkillExpMultipliers[1] = value,
                 0.2f,
                 2f,
                 0.1f)
             .AddNumberField(
-                () => I18n.Gmcm_Profs_Experience_Baseexpmultiplier_Title("Foraging"),
-                () => I18n.Gmcm_Profs_Experience_Baseexpmultiplier_Desc("foraging"),
+                () => I18n.Gmcm_Profs_Experience_BaseExpMultiplier_Title("Foraging"),
+                () => I18n.Gmcm_Profs_Experience_BaseExpMultiplier_Desc("foraging"),
                 config => config.Professions.BaseSkillExpMultipliers[2],
                 (config, value) => config.Professions.BaseSkillExpMultipliers[2] = value,
                 0.2f,
                 2f,
                 0.1f)
             .AddNumberField(
-                () => I18n.Gmcm_Profs_Experience_Baseexpmultiplier_Title("Mining"),
-                () => I18n.Gmcm_Profs_Experience_Baseexpmultiplier_Desc("mining"),
+                () => I18n.Gmcm_Profs_Experience_BaseExpMultiplier_Title("Mining"),
+                () => I18n.Gmcm_Profs_Experience_BaseExpMultiplier_Desc("mining"),
                 config => config.Professions.BaseSkillExpMultipliers[3],
                 (config, value) => config.Professions.BaseSkillExpMultipliers[3] = value,
                 0.2f,
                 2f)
             .AddNumberField(
-                () => I18n.Gmcm_Profs_Experience_Baseexpmultiplier_Title("Combat"),
-                () => I18n.Gmcm_Profs_Experience_Baseexpmultiplier_Desc("combat"),
+                () => I18n.Gmcm_Profs_Experience_BaseExpMultiplier_Title("Combat"),
+                () => I18n.Gmcm_Profs_Experience_BaseExpMultiplier_Desc("combat"),
                 config => config.Professions.BaseSkillExpMultipliers[4],
                 (config, value) => config.Professions.BaseSkillExpMultipliers[4] = value,
                 0.2f,
@@ -412,13 +382,76 @@ internal sealed partial class GenericModConfigMenu
 
             this
                 .AddNumberField(
-                    () => I18n.Gmcm_Profs_Experience_Baseexpmultiplier_Title(skill.DisplayName),
-                    () => I18n.Gmcm_Profs_Experience_Baseexpmultiplier_Desc(skill.DisplayName.ToLowerInvariant()),
+                    () => I18n.Gmcm_Profs_Experience_BaseExpMultiplier_Title(skill.DisplayName),
+                    () => I18n.Gmcm_Profs_Experience_BaseExpMultiplier_Desc(skill.DisplayName.ToLowerInvariant()),
                     config => config.Professions.CustomSkillExpMultipliers[skillId],
                     (config, value) => config.Professions.CustomSkillExpMultipliers[skillId] = value,
                     0.2f,
                     2f,
                     0.1f);
         }
+
+        #endregion experience
+
+        #region controls & ui
+
+        this
+            .AddPage(OverhaulModule.Professions.Namespace + "/ControlsAndUi", I18n.Gmcm_Headings_ControlsAndUi)
+            .AddPageLink(OverhaulModule.Professions.Namespace, I18n.Gmcm_Profs_Back)
+            .AddVerticalSpace()
+
+            // controls
+            .AddSectionTitle(I18n.Gmcm_Controls_Heading)
+            .AddKeyBinding(
+                I18n.Gmcm_Controls_Modkey_Title,
+                I18n.Gmcm_Profs_Controls_Modkey_Desc,
+                config => config.Professions.ModKey,
+                (config, value) => config.Professions.ModKey = value)
+            .AddHorizontalRule()
+
+            // interface
+            .AddSectionTitle(I18n.Gmcm_Ui_Heading)
+            .AddCheckbox(
+                I18n.Gmcm_Profs_Ui_ShowFishCollecionMaxIcon_Title,
+                I18n.Gmcm_Profs_Ui_ShowFishCollecionMaxIcon_Desc,
+                config => config.Professions.ShowFishCollectionMaxIcon,
+                (config, value) => config.Professions.ShowFishCollectionMaxIcon = value)
+            .AddNumberField(
+                I18n.Gmcm_Profs_Ui_TrackingPointerScale_Title,
+                I18n.Gmcm_Profs_Ui_TrackingPointerScale_Desc,
+                config => config.Professions.TrackingPointerScale,
+                (config, value) =>
+                {
+                    config.Professions.TrackingPointerScale = value;
+                    if (HudPointer.Instance.IsValueCreated)
+                    {
+                        HudPointer.Instance.Value.Scale = value;
+                    }
+                },
+                0.2f,
+                2f,
+                0.2f)
+            .AddNumberField(
+                I18n.Gmcm_Profs_Ui_TrackingPointerBobRate_Title,
+                I18n.Gmcm_Profs_Ui_TrackingPointerBobRate_Desc,
+                config => config.Professions.TrackingPointerBobRate,
+                (config, value) =>
+                {
+                    config.Professions.TrackingPointerBobRate = value;
+                    if (HudPointer.Instance.IsValueCreated)
+                    {
+                        HudPointer.Instance.Value.BobRate = value;
+                    }
+                },
+                0.5f,
+                2f,
+                0.05f)
+            .AddCheckbox(
+                I18n.Gmcm_Profs_Ui_DisableAlwaysTrack_Title,
+                I18n.Gmcm_Profs_Ui_DisableAlwaysTrack_Desc,
+                config => config.Professions.DisableAlwaysTrack,
+                (config, value) => config.Professions.DisableAlwaysTrack = value);
+
+        #endregion controls & ui
     }
 }

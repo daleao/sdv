@@ -1,4 +1,4 @@
-﻿namespace DaLion.Overhaul.Modules.Professions.Events.Ultimate;
+﻿namespace DaLion.Overhaul.Modules.Professions.Events.Ultimate.FullyCharged;
 
 #region using directives
 

@@ -2,7 +2,7 @@
 
 #region using directives
 
-using DaLion.Overhaul.Modules.Professions.Events.GameLoop;
+using DaLion.Overhaul.Modules.Professions.Events.GameLoop.UpdateTicked;
 using DaLion.Overhaul.Modules.Professions.Extensions;
 using DaLion.Shared.Classes;
 using DaLion.Shared.Extensions.Stardew;
@@ -459,7 +459,7 @@ internal sealed class GameLocationExplodePatcher : HarmonyPatcher
             }
         }
 
-        if (!who.IsLocalPlayer || !isDemolitionist || !ProfessionsModule.Config.EnableGetExcited)
+        if (!who.IsLocalPlayer || !isDemolitionist || !ProfessionsModule.Config.DemolitionistGetExcited)
         {
             return;
         }

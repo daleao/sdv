@@ -49,7 +49,7 @@ internal sealed class PickaxeDoFunctionPatcher : HarmonyPatcher
         var helper = new ILHelper(original, instructions);
 
         // From: who.Stamina -= (float)(2 * power) - (float)who.<SkillLevel> * 0.1f;
-        // To: who.Stamina -= Math.Max(((float)(2 * power) - (float)who.<SkillLevel> * 0.1f) * PickaxeConfig.BaseStaminaMultiplier, 0.1f);
+        // To: who.Stamina -= Math.Max(((float)(2 * power) - (float)who.<SkillLevel> * 0.1f) * PickaxeConfig.BaseStaminaCostMultiplier, 0.1f);
         try
         {
             helper
@@ -75,7 +75,7 @@ internal sealed class PickaxeDoFunctionPatcher : HarmonyPatcher
                             typeof(Config).RequirePropertyGetter(nameof(Config.Pick))),
                         new CodeInstruction(
                             OpCodes.Callvirt,
-                            typeof(PickaxeConfig).RequirePropertyGetter(nameof(AxeConfig.BaseStaminaMultiplier))),
+                            typeof(PickaxeConfig).RequirePropertyGetter(nameof(AxeConfig.BaseStaminaCostMultiplier))),
                         new CodeInstruction(OpCodes.Mul),
                         new CodeInstruction(OpCodes.Ldc_R4, 0.1f),
                         new CodeInstruction(

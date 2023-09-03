@@ -90,7 +90,7 @@ internal sealed class NewSkillsPagePerformHoverActionPatcher : HarmonyPatcher
                 continue;
             }
 
-            ___hoverText = I18n.Prestige_Skillpage_Tooltip(count);
+            ___hoverText = I18n.Prestige_SkillPage_Tooltip(count);
             for (var j = 0; j < professionsForThisSkill.Length; j++)
             {
                 ___hoverText += $"\n• {professionsForThisSkill[j].Title}";
@@ -143,7 +143,7 @@ internal sealed class NewSkillsPagePerformHoverActionPatcher : HarmonyPatcher
                 continue;
             }
 
-            ___hoverText = I18n.Prestige_Skillpage_Tooltip(count);
+            ___hoverText = I18n.Prestige_SkillPage_Tooltip(count);
             for (var j = 0; j < professionsForThisSkill.Length; j++)
             {
                 ___hoverText += $"\n• {professionsForThisSkill[j].Title}";

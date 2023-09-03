@@ -37,7 +37,7 @@ internal sealed class AxeDoFunctionPatcher : HarmonyPatcher
         who.Stamina -=
             (int)Math.Round(Math.Sqrt(Math.Max((2 * (power + 1)) - (who.ForagingLevel * 0.1f), 0.1f) *
                                       (int)Math.Pow(2d * (power + 1), 2d))) *
-            (float)Math.Pow(ToolsModule.Config.Axe.ChargedStaminaMultiplier, power);
+            (float)Math.Pow(ToolsModule.Config.Axe.ChargedStaminaCostMultiplier, power);
     }
 
     /// <summary>Apply base stamina multiplier + stamina cost cap.</summary>
@@ -49,7 +49,7 @@ internal sealed class AxeDoFunctionPatcher : HarmonyPatcher
         var helper = new ILHelper(original, instructions);
 
         //// From: who.Stamina -= (float)(2 * power) - (float)who.<SkillLevel> * 0.1f;
-        //// To: who.Stamina -= Math.Max(((float)(2 * power) - (float)who.<SkillLevel> * 0.1f) * AxeConfig.BaseStaminaMultiplier, 0.1f);
+        //// To: who.Stamina -= Math.Max(((float)(2 * power) - (float)who.<SkillLevel> * 0.1f) * AxeConfig.BaseStaminaCostMultiplier, 0.1f);
         try
         {
             helper
@@ -75,7 +75,7 @@ internal sealed class AxeDoFunctionPatcher : HarmonyPatcher
                             typeof(Config).RequirePropertyGetter(nameof(Config.Axe))),
                         new CodeInstruction(
                             OpCodes.Callvirt,
-                            typeof(AxeConfig).RequirePropertyGetter(nameof(AxeConfig.BaseStaminaMultiplier))),
+                            typeof(AxeConfig).RequirePropertyGetter(nameof(AxeConfig.BaseStaminaCostMultiplier))),
                         new CodeInstruction(OpCodes.Mul),
                         new CodeInstruction(OpCodes.Ldc_R4, 0.1f),
                         new CodeInstruction(

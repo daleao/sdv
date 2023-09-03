@@ -52,7 +52,7 @@ internal class Shockwave
             (int)(this._farmer.GetToolLocation().Y / Game1.tileSize));
         this._finalRadius = radius;
 
-        if (ToolsModule.Config.TicksBetweenWaves <= 0)
+        if (ToolsModule.Config.TicksBetweenCrests <= 0)
         {
             this._tileGrids.Add(new CircleTileGrid(this._epicenter, this._finalRadius));
             this._currentRadius = this._finalRadius;
@@ -113,8 +113,7 @@ internal class Shockwave
 
             var pixelPosition = new Vector2(tile.X * Game1.tileSize, tile.Y * Game1.tileSize);
 
-            if ((this._tool is Axe && !ToolsModule.Config.Axe.PlayShockwaveAnimation) ||
-                (this._tool is Pickaxe && !ToolsModule.Config.Pick.PlayShockwaveAnimation))
+            if (!ToolsModule.Config.PlayShockwaveAnimation)
             {
                 continue;
             }

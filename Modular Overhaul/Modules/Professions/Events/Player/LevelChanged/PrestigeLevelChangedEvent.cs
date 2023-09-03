@@ -1,8 +1,8 @@
-﻿namespace DaLion.Overhaul.Modules.Professions.Events.Player;
+﻿namespace DaLion.Overhaul.Modules.Professions.Events.Player.LevelChanged;
 
 #region using directives
 
-using DaLion.Overhaul.Modules.Professions.Events.GameLoop;
+using DaLion.Overhaul.Modules.Professions.Events.GameLoop.DayStarted;
 using DaLion.Shared.Events;
 using StardewModdingAPI.Events;
 

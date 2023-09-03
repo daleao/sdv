@@ -3,7 +3,7 @@
 #region using directives
 
 using System.Reflection;
-using DaLion.Overhaul.Modules.Professions.Events.GameLoop;
+using DaLion.Overhaul.Modules.Professions.Events.GameLoop.UpdateTicked;
 using DaLion.Overhaul.Modules.Professions.Extensions;
 using DaLion.Overhaul.Modules.Professions.Projectiles;
 using DaLion.Overhaul.Modules.Professions.Ultimates;
@@ -24,7 +24,7 @@ internal sealed class SlingshotPerformFirePatcher : HarmonyPatcher
     {
         this.Target = this.RequireMethod<Slingshot>(nameof(Slingshot.PerformFire));
         this.Prefix!.priority = Priority.High;
-        this.Prefix!.before = new[] { OverhaulModule.Slingshots.Namespace };
+        this.Prefix!.before = new[] { OverhaulModule.Combat.Namespace };
     }
 
     #region harmony patches
@@ -32,11 +32,11 @@ internal sealed class SlingshotPerformFirePatcher : HarmonyPatcher
     /// <summary>Patch to add Rascal bonus range damage + perform Desperado perks and Ultimate.</summary>
     [HarmonyPrefix]
     [HarmonyPriority(Priority.High)]
-    [HarmonyBefore("DaLion.Overhaul.Modules.Slingshots")]
+    [HarmonyBefore("DaLion.Overhaul.Modules.Combat")]
     private static bool SlingshotPerformFirePrefix(
         Slingshot __instance, ref bool ___canPlaySound, GameLocation location, Farmer who)
     {
-        if (SlingshotsModule.ShouldEnable)
+        if (CombatModule.ShouldEnable)
         {
             return true; // hand over to Slingshots module
         }

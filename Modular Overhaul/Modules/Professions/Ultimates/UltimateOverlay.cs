@@ -2,8 +2,8 @@
 
 #region using directives
 
-using DaLion.Overhaul.Modules.Professions.Events.Display;
-using DaLion.Overhaul.Modules.Professions.Events.GameLoop;
+using DaLion.Overhaul.Modules.Professions.Events.Display.RenderedWorld;
+using DaLion.Overhaul.Modules.Professions.Events.GameLoop.UpdateTicked;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 

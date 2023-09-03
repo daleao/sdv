@@ -69,17 +69,20 @@ public static class CharacterExtensions
     /// </summary>
     /// <typeparam name="TBuilding">A sub-type of <see cref="Building"/>.</typeparam>
     /// <param name="character">The <see cref="Character"/>.</param>
+    /// <param name="distance">The distance to the closest <see cref="Building"/>, in number of tiles.</param>
     /// <param name="candidates">The candidate <see cref="Building"/>s, if already available.</param>
     /// <param name="predicate">An optional condition with which to filter out candidates.</param>
     /// <returns>The <see cref="Building"/> of type <typeparamref name="TBuilding"/> with the minimal distance to <paramref name="character"/>.</returns>
     public static TBuilding? GetClosestBuilding<TBuilding>(
         this Character character,
+        out double distance,
         IEnumerable<TBuilding>? candidates = null,
         Func<TBuilding, bool>? predicate = null)
         where TBuilding : Building
     {
         if (character.currentLocation is not BuildableGameLocation buildable)
         {
+            distance = 0;
             return null;
         }
 
@@ -101,6 +104,7 @@ public static class CharacterExtensions
             distanceToClosest = distanceToThisCandidate;
         }
 
+        distance = distanceToClosest;
         return closest;
     }
 
@@ -110,11 +114,13 @@ public static class CharacterExtensions
     /// </summary>
     /// <typeparam name="TCharacter">A sub-type of <see cref="Character"/>.</typeparam>
     /// <param name="character">The <see cref="Character"/>.</param>
+    /// <param name="distance">The distance to the closest <see cref="Building"/>, in number of tiles.</param>
     /// <param name="candidates">The candidate <see cref="Character"/>s, if already available.</param>
     /// <param name="predicate">An optional condition with which to filter out candidates.</param>
     /// <returns>The <see cref="Character"/> of type <typeparamref name="TCharacter"/> with the minimal distance to <paramref name="character"/>.</returns>
     public static TCharacter? GetClosestCharacter<TCharacter>(
         this Character character,
+        out double distance,
         IEnumerable<TCharacter>? candidates = null,
         Func<TCharacter, bool>? predicate = null)
         where TCharacter : Character
@@ -137,6 +143,7 @@ public static class CharacterExtensions
             distanceToClosest = distanceToThisCandidate;
         }
 
+        distance = distanceToClosest;
         return closest;
     }
 
@@ -145,12 +152,14 @@ public static class CharacterExtensions
     ///     <see cref="GameLocation"/>.
     /// </summary>
     /// <param name="character">The <see cref="Character"/>.</param>
+    /// <param name="distance">The distance to the closest <see cref="Building"/>, in number of tiles.</param>
     /// <param name="candidates">The candidate <see cref="Farmer"/>s, if already available.</param>
     /// <param name="predicate">An optional condition with which to filter out candidates.</param>
     /// <returns>The <see cref="Farmer"/> with the minimal distance to <paramref name="character"/>.</returns>
     /// <remarks>This version is required as <see cref="Farmer"/> references are stored in a different field of <see cref="GameLocation"/>.</remarks>
     public static Farmer? GetClosestFarmer(
         this Character character,
+        out double distance,
         IEnumerable<Farmer>? candidates = null,
         Func<Farmer, bool>? predicate = null)
     {
@@ -170,6 +179,7 @@ public static class CharacterExtensions
             distanceToClosest = distanceToThisCandidate;
         }
 
+        distance = distanceToClosest;
         return closest;
     }
 
@@ -179,11 +189,13 @@ public static class CharacterExtensions
     /// </summary>
     /// <typeparam name="TObject">A sub-type of <see cref="SObject"/>.</typeparam>
     /// <param name="character">The <see cref="Character"/>.</param>
+    /// <param name="distance">The distance to the closest <see cref="Building"/>, in number of tiles.</param>
     /// <param name="candidates">The candidate <see cref="SObject"/>s, if already available.</param>
     /// <param name="predicate">An optional condition with which to filter out candidates.</param>
     /// <returns>The <see cref="SObject"/> of type <typeparamref name="TObject"/> with the minimal distance to <paramref name="character"/>.</returns>
     public static TObject? GetClosestObject<TObject>(
         this Character character,
+        out double distance,
         IEnumerable<TObject>? candidates = null,
         Func<TObject, bool>? predicate = null)
         where TObject : SObject
@@ -206,6 +218,7 @@ public static class CharacterExtensions
             distanceToClosest = distanceToThisCandidate;
         }
 
+        distance = distanceToClosest;
         return closest;
     }
 
@@ -215,11 +228,13 @@ public static class CharacterExtensions
     /// </summary>
     /// <typeparam name="TTerrainFeature">A sub-type of <see cref="TerrainFeature"/>.</typeparam>
     /// <param name="character">The <see cref="Character"/>.</param>
+    /// <param name="distance">The distance to the closest <see cref="Building"/>, in number of tiles.</param>
     /// <param name="candidates">The candidate <see cref="TerrainFeature"/>s if already available.</param>
     /// <param name="predicate">An optional condition with which to filter out candidates.</param>
     /// <returns>The <see cref="TerrainFeature"/> of type <typeparamref name="TTerrainFeature"/> with the minimal distance to <paramref name="character"/>.</returns>
     public static TTerrainFeature? GetClosestTerrainFeature<TTerrainFeature>(
         this Character character,
+        out double distance,
         IEnumerable<TTerrainFeature>? candidates = null,
         Func<TTerrainFeature, bool>? predicate = null)
         where TTerrainFeature : TerrainFeature
@@ -242,6 +257,7 @@ public static class CharacterExtensions
             distanceToClosest = distanceToThisCandidate;
         }
 
+        distance = distanceToClosest;
         return closest;
     }
 

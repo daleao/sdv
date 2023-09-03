@@ -33,7 +33,7 @@ internal sealed class HoeDoFunctionPatcher : HarmonyPatcher
         var helper = new ILHelper(original, instructions);
 
         // From: who.Stamina -= (float)(2 * power) - (float)who.<SkillLevel> * 0.1f;
-        // To: who.Stamina -= Math.Max(((float)(2 * power) - (float)who.<SkillLevel> * 0.1f) * HoeConfig.BaseStaminaMultiplier, 0.1f);
+        // To: who.Stamina -= Math.Max(((float)(2 * power) - (float)who.<SkillLevel> * 0.1f) * HoeConfig.BaseStaminaCostMultiplier, 0.1f);
         try
         {
             helper
@@ -59,7 +59,7 @@ internal sealed class HoeDoFunctionPatcher : HarmonyPatcher
                             typeof(Config).RequirePropertyGetter(nameof(Config.Hoe))),
                         new CodeInstruction(
                             OpCodes.Callvirt,
-                            typeof(HoeConfig).RequirePropertyGetter(nameof(HoeConfig.BaseStaminaMultiplier))),
+                            typeof(HoeConfig).RequirePropertyGetter(nameof(HoeConfig.BaseStaminaCostMultiplier))),
                         new CodeInstruction(OpCodes.Mul),
                         new CodeInstruction(OpCodes.Ldc_R4, 0.1f),
                         new CodeInstruction(

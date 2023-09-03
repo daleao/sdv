@@ -1,10 +1,9 @@
-﻿namespace DaLion.Overhaul.Modules.Professions.Events.Input;
+﻿namespace DaLion.Overhaul.Modules.Professions.Events.Input.ButtonPressed;
 
 #region using directives
 
+using DaLion.Overhaul.Modules.Combat.VirtualProperties;
 using DaLion.Overhaul.Modules.Professions.Extensions;
-using DaLion.Overhaul.Modules.Professions.Integrations;
-using DaLion.Overhaul.Modules.Slingshots.VirtualProperties;
 using DaLion.Shared.Events;
 using StardewModdingAPI.Events;
 using StardewValley.Tools;
@@ -41,7 +40,7 @@ internal sealed class RascalButtonPressedEvent : ButtonPressedEvent
 
         (slingshot.attachments[0], slingshot.attachments[1]) = (slingshot.attachments[1], slingshot.attachments[0]);
         Game1.playSound("button1");
-        if (SlingshotsModule.ShouldEnable)
+        if (CombatModule.ShouldEnable)
         {
             Slingshot_Stats.Invalidate(slingshot);
         }

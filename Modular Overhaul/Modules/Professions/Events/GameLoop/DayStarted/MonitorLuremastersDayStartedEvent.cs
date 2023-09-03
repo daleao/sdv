@@ -1,7 +1,8 @@
-﻿namespace DaLion.Overhaul.Modules.Professions.Events.GameLoop;
+﻿namespace DaLion.Overhaul.Modules.Professions.Events.GameLoop.DayStarted;
 
 #region using directives
 
+using DaLion.Overhaul.Modules.Professions.Events.GameLoop.TimeChanged;
 using DaLion.Overhaul.Modules.Professions.Extensions;
 using DaLion.Shared.Events;
 using StardewModdingAPI.Events;

@@ -24,7 +24,7 @@ internal sealed class ShockwaveUpdateTickedEvent : UpdateTickedEvent
     /// <inheritdoc />
     protected override void OnUpdateTickedImpl(object? sender, UpdateTickedEventArgs e)
     {
-        if (ToolsModule.Config.TicksBetweenWaves > 1 && !e.IsMultipleOf(ToolsModule.Config.TicksBetweenWaves))
+        if (ToolsModule.Config.TicksBetweenCrests > 1 && !e.IsMultipleOf(ToolsModule.Config.TicksBetweenCrests))
         {
             return;
         }

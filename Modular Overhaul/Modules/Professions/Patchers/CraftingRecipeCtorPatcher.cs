@@ -3,7 +3,6 @@
 #region using directives
 
 using System.Collections.Generic;
-using DaLion.Overhaul;
 using DaLion.Overhaul.Modules.Professions;
 using DaLion.Overhaul.Modules.Professions.Extensions;
 using DaLion.Shared.Extensions;
@@ -45,7 +44,7 @@ internal sealed class CraftingRecipeCtorPatcher : HarmonyPatcher
                 break;
             default:
                 {
-                    if (__instance.name.ContainsAny("Bomb", "Explosive") && Game1.player.HasProfession(Profession.Blaster))
+                    if (__instance.name.ContainsAnyOf("Bomb", "Explosive") && Game1.player.HasProfession(Profession.Blaster))
                     {
                         __instance.numberProducedPerCraft *= 2;
                     }

@@ -27,7 +27,7 @@ internal sealed class ObjectPerformToolActionPatcher : HarmonyPatcher
     [HarmonyPrefix]
     private static bool ObjectPerformToolActionPrefix(SObject __instance, ref bool __result, Tool t, GameLocation location)
     {
-        if (t.IsScythe() != true || !__instance.IsHarvestableForage())
+        if (!t.IsScythe() || !__instance.CanBeSickleHarvested())
         {
             return true; // run original logic
         }
@@ -52,7 +52,7 @@ internal sealed class ObjectPerformToolActionPatcher : HarmonyPatcher
                                    (int)tileLocation.X + ((int)tileLocation.Y * 777));
         if (who.professions.Contains(Farmer.botanist))
         {
-            __instance.Quality = ProfessionsModule.ShouldEnable ? SObject.bestQuality : who.GetEcologistForageQuality();
+            __instance.Quality = ProfessionsModule.ShouldEnable ? who.GetEcologistForageQuality() : SObject.bestQuality;
         }
         else if (random.NextDouble() < who.ForagingLevel / 30f)
         {

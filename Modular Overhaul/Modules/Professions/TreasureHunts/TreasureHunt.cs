@@ -2,7 +2,8 @@
 
 #region using directives
 
-using DaLion.Overhaul.Modules.Professions.Events.TreasureHunt;
+using DaLion.Overhaul.Modules.Professions.Events.TreasureHunt.TreasureHuntEnded;
+using DaLion.Overhaul.Modules.Professions.Events.TreasureHunt.TreasureHuntStarted;
 using DaLion.Shared.Extensions.Stardew;
 using Microsoft.Xna.Framework;
 

@@ -113,7 +113,7 @@ internal sealed class LevelUpMenuDrawPatcher : HarmonyPatcher
     private static string GetChooseProfessionText(int currentLevel)
     {
         return currentLevel > 10
-            ? I18n.Prestige_Levelup_Prestige()
+            ? I18n.Prestige_LevelUp_Prestige()
             : Game1.content.LoadString("Strings\\UI:LevelUp_ChooseProfession");
     }
 
@@ -147,8 +147,8 @@ internal sealed class LevelUpMenuDrawPatcher : HarmonyPatcher
             if (selectionArea.Contains(Game1.getMouseX(), Game1.getMouseY()))
             {
                 var hoverText = leftProfession % 6 <= 1
-                    ? I18n.Prestige_Levelup_Tooltip5()
-                    : I18n.Prestige_Levelup_Tooltip10();
+                    ? I18n.Prestige_LevelUp_Tooltip5()
+                    : I18n.Prestige_LevelUp_Tooltip10();
                 IClickableMenu.drawHoverText(b, hoverText, Game1.smallFont);
             }
         }
@@ -166,8 +166,8 @@ internal sealed class LevelUpMenuDrawPatcher : HarmonyPatcher
             if (selectionArea.Contains(Game1.getMouseX(), Game1.getMouseY()))
             {
                 var hoverText = leftProfession % 6 <= 1
-                    ? I18n.Prestige_Levelup_Tooltip5()
-                    : I18n.Prestige_Levelup_Tooltip10();
+                    ? I18n.Prestige_LevelUp_Tooltip5()
+                    : I18n.Prestige_LevelUp_Tooltip10();
                 IClickableMenu.drawHoverText(b, hoverText, Game1.smallFont);
             }
         }

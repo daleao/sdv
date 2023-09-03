@@ -1,8 +1,8 @@
-﻿namespace DaLion.Overhaul.Modules.Professions.Events.Player;
+﻿namespace DaLion.Overhaul.Modules.Professions.Events.Player.Warped;
 
 #region using directives
 
-using DaLion.Overhaul.Modules.Professions.Events.GameLoop;
+using DaLion.Overhaul.Modules.Professions.Events.GameLoop.UpdateTicked;
 using DaLion.Overhaul.Modules.Professions.Extensions;
 using DaLion.Shared.Events;
 using StardewModdingAPI.Events;

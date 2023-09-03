@@ -1,4 +1,4 @@
-﻿namespace DaLion.Overhaul.Modules.Professions.Events.Multiplayer;
+﻿namespace DaLion.Overhaul.Modules.Professions.Events.Multiplayer.ModMessageReceived;
 
 #region using directives
 

@@ -49,7 +49,7 @@ internal sealed class InventoryPageReceiveClickPatcher : HarmonyPatcher
     [HarmonyPrefix]
     private static bool InventoryPageReceiveClickPrefix(Item? ___hoveredItem, bool playSound)
     {
-        if (!ToolsModule.Config.EnableAutoSelection || !ToolsModule.Config.ModKey.IsDown())
+        if (!ToolsModule.Config.EnableAutoSelection || !ToolsModule.Config.ChargeKey.IsDown())
         {
             return true; // run original logic
         }

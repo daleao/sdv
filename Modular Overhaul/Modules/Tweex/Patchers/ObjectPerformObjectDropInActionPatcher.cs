@@ -42,7 +42,7 @@ internal sealed class ObjectPerformObjectDropInActionPatcher : HarmonyPatcher
         }
 
         // large milk/eggs give double output at normal quality
-        if (input.Category is SObject.EggCategory or SObject.MilkCategory && input.Name.ContainsAny("Large", "L."))
+        if (input.Category is SObject.EggCategory or SObject.MilkCategory && input.Name.ContainsAnyOf("Large", "L."))
         {
             output.Stack = 2;
             output.Quality = SObject.lowQuality;

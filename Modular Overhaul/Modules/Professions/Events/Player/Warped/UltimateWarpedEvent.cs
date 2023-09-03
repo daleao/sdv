@@ -1,12 +1,12 @@
-﻿namespace DaLion.Overhaul.Modules.Professions.Events.Player;
+﻿namespace DaLion.Overhaul.Modules.Professions.Events.Player.Warped;
 
 #region using directives
 
-using DaLion.Overhaul.Modules.Professions.Events.Display;
 using DaLion.Overhaul.Modules.Professions.Extensions;
 using DaLion.Overhaul.Modules.Professions.Ultimates;
 using DaLion.Overhaul.Modules.Professions.VirtualProperties;
 using DaLion.Shared.Events;
+using DaLion.Overhaul.Modules.Professions.Events.Display.RenderingHud;
 using StardewModdingAPI.Events;
 
 #endregion using directives

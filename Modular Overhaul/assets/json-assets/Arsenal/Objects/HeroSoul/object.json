@@ -8,5 +8,5 @@
 	"CanSell": false,
 	"CanTrash": false,
 	"HideFromShippingCollection": true,
-    "TranslationKey": "objects.herosoul"
+    "TranslationKey": "objects.hero_soul"
 }

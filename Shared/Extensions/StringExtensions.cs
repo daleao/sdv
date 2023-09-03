@@ -21,7 +21,7 @@ public static class StringExtensions
     /// <param name="str">The <see cref="string"/>.</param>
     /// <param name="candidates">The sub-strings to search for.</param>
     /// <returns><see langword="true"/> if <paramref name="str"/> contains at least one of the <see cref="string"/>s in <paramref name="candidates"/>, otherwise <see langword="false"/>.</returns>
-    public static bool ContainsAny(this string str, params string[] candidates)
+    public static bool ContainsAnyOf(this string str, params string[] candidates)
     {
         return candidates.Any(str.Contains);
     }

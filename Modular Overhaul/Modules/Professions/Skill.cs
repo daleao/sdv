@@ -177,7 +177,7 @@ public class Skill : SmartEnum<Skill>, ISkill
         farmer.experiencePoints[this] = 0;
 
         // forget recipes
-        if (ProfessionsModule.Config.ForgetRecipes && this < Luck)
+        if (ProfessionsModule.Config.ForgetRecipesOnSkillReset && this < Luck)
         {
             this.ForgetRecipes();
         }

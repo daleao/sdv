@@ -1,4 +1,4 @@
-﻿namespace DaLion.Overhaul.Modules.Professions.Events.Player;
+﻿namespace DaLion.Overhaul.Modules.Professions.Events.Player.Warped;
 
 #region using directives
 

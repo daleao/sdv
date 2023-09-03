@@ -1,4 +1,4 @@
-﻿namespace DaLion.Overhaul.Modules.Professions.Events.Content;
+﻿namespace DaLion.Overhaul.Modules.Professions.Events.Content.AssetRequested;
 
 #region using directives
 

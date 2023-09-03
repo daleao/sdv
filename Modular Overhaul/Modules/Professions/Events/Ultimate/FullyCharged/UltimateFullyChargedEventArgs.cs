@@ -1,4 +1,4 @@
-﻿namespace DaLion.Overhaul.Modules.Professions.Events.Ultimate;
+﻿namespace DaLion.Overhaul.Modules.Professions.Events.Ultimate.FullyCharged;
 
 /// <summary>The arguments for an <see cref="UltimateFullyChargedEvent"/>.</summary>
 public sealed class UltimateFullyChargedEventArgs : EventArgs, IUltimateFullyChargedEventArgs

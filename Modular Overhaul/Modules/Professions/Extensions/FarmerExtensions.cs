@@ -11,6 +11,8 @@ using DaLion.Overhaul.Modules.Professions.Ultimates;
 using DaLion.Overhaul.Modules.Professions.VirtualProperties;
 using DaLion.Shared.Extensions;
 using DaLion.Shared.Extensions.Stardew;
+using DaLion.Overhaul.Modules.Professions.Events.GameLoop.UpdateTicked;
+using DaLion.Overhaul.Modules.Professions.Events.Player.Warped;
 using StardewModdingAPI.Utilities;
 using StardewValley.Buildings;
 using StardewValley.Monsters;
@@ -187,6 +189,14 @@ internal static class FarmerExtensions
     internal static void RevalidateUltimate(this Farmer farmer)
     {
         var currentIndex = farmer.Read(DataKeys.UltimateIndex, -1);
+        if (currentIndex > 0 && !ProfessionsModule.Config.EnableLimitBreaks)
+        {
+            Log.W(
+                $"[PROFS]: {farmer.Name} has non-null Limit Break but Limit Breaks are not enabled. The registered Limit Break will be reset.");
+            farmer.Write(DataKeys.UltimateIndex, null);
+            return;
+        }
+
         var newIndex = currentIndex;
         switch (currentIndex)
         {
@@ -287,25 +297,27 @@ internal static class FarmerExtensions
     internal static float GetAnglerPriceBonus(this Farmer farmer)
     {
         var fishData = Game1.content
-            .Load<Dictionary<int, string>>(PathUtilities.NormalizeAssetName("Data/Fish"))
-            .Where(p => !p.Key.IsAlgaeIndex() && !p.Value.Contains("trap"))
-            .ToDictionary(p => p.Key, p => p.Value);
-
+            .Load<Dictionary<int, string>>(PathUtilities.NormalizeAssetName("Data/Fish"));
         var bonus = 0f;
         var isPrestiged = farmer.HasProfession(Profession.Angler, true);
         foreach (var (key, value) in farmer.fishCaught.Pairs)
         {
-            if (!fishData.TryGetValue(key, out var specificFishData))
+            if (key.IsAlgaeIndex() || !fishData.TryGetValue(key, out var specificFishData))
             {
                 continue;
             }
 
             var dataFields = specificFishData.SplitWithoutAllocation('/');
+            if (dataFields[2] == "trap" || !int.TryParse(dataFields[4], out var maxSize))
+            {
+                continue;
+            }
+
             if (Collections.LegendaryFishNames.Contains(dataFields[0].ToString()))
             {
                 bonus += 0.025f;
             }
-            else if (value[1] >= int.Parse(dataFields[4]) && isPrestiged)
+            else if (value[1] >= maxSize && isPrestiged)
             {
                 bonus += 0.01f;
             }

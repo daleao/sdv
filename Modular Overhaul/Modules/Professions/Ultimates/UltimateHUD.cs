@@ -4,6 +4,8 @@
 
 using DaLion.Overhaul.Modules.Professions.Events.Display;
 using DaLion.Overhaul.Modules.Professions.Events.GameLoop;
+using DaLion.Overhaul.Modules.Professions.Events.Display.RenderingHud;
+using DaLion.Overhaul.Modules.Professions.Events.GameLoop.UpdateTicked;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 

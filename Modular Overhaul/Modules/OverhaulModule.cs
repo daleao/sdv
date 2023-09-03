@@ -6,8 +6,10 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Reflection;
-using DaLion.Overhaul.Modules.Weapons.Extensions;
-using DaLion.Overhaul.Modules.Weapons.VirtualProperties;
+using DaLion.Overhaul.Modules.Combat.Enums;
+using DaLion.Overhaul.Modules.Combat.Extensions;
+using DaLion.Overhaul.Modules.Combat.VirtualProperties;
+using DaLion.Overhaul.Modules.Tweex.Integrations.BetterCrafting;
 using DaLion.Shared.Commands;
 using DaLion.Shared.Extensions.Collections;
 using DaLion.Shared.Extensions.SMAPI;
@@ -34,20 +36,8 @@ public abstract class OverhaulModule
     /// <summary>The Combat module.</summary>
     public static readonly OverhaulModule Combat = new CombatModule();
 
-    /// <summary>The Weapons module.</summary>
-    public static readonly OverhaulModule Weapons = new WeaponsModule();
-
-    /// <summary>The Slingshots module.</summary>
-    public static readonly OverhaulModule Slingshots = new SlingshotsModule();
-
     /// <summary>The Tools module.</summary>
     public static readonly OverhaulModule Tools = new ToolsModule();
-
-    /// <summary>The Enchantments module.</summary>
-    public static readonly OverhaulModule Enchantments = new EnchantmentsModule();
-
-    /// <summary>The Rings module.</summary>
-    public static readonly OverhaulModule Rings = new RingsModule();
 
     /// <summary>The Ponds module.</summary>
     public static readonly OverhaulModule Ponds = new PondsModule();
@@ -106,11 +96,7 @@ public abstract class OverhaulModule
         yield return Core;
         yield return Professions;
         yield return Combat;
-        yield return Weapons;
-        yield return Slingshots;
         yield return Tools;
-        yield return Enchantments;
-        yield return Rings;
         yield return Ponds;
         yield return Taxes;
         yield return Tweex;
@@ -298,6 +284,13 @@ public abstract class OverhaulModule
 
     internal sealed class CombatModule : OverhaulModule
     {
+        private static readonly HashSet<string> KnownEnchantmentType = AccessTools
+            .GetTypesFromAssembly(Assembly.GetAssembly(typeof(Combat.Enchantments.BaseSlingshotEnchantment)))
+            .Where(t => t.Namespace?.StartsWith("DaLion.Overhaul.Modules.Combat.Enchantments") == true)
+            .Select(t => t.FullName)
+            .WhereNotNull()
+            .ToHashSet();
+
         /// <summary>Initializes a new instance of the <see cref="OverhaulModule.CombatModule"/> class.</summary>
         internal CombatModule()
             : base("Combat", "cmbt")
@@ -309,6 +302,9 @@ public abstract class OverhaulModule
 
         /// <summary>Gets the config instance for the <see cref="OverhaulModule.CombatModule"/>.</summary>
         internal static Combat.Config Config => ModEntry.Config.Combat;
+
+        /// <summary>Gets the ephemeral runtime state for the <see cref="OverhaulModule.CombatModule"/>.</summary>
+        internal static Combat.State State => ModEntry.State.Combat;
 
         /// <inheritdoc />
         internal override bool _ShouldEnable
@@ -325,54 +321,6 @@ public abstract class OverhaulModule
             }
         }
 
-        /// <inheritdoc />
-        internal override void Activate(IModHelper helper)
-        {
-            if (ShouldEnable)
-            {
-                base.Activate(helper);
-            }
-        }
-
-        /// <inheritdoc />
-        protected override void InvalidateAssets()
-        {
-            ModHelper.GameContent.InvalidateCacheAndLocalized("Strings/StringsFromCSFiles");
-        }
-    }
-
-    internal sealed class WeaponsModule : OverhaulModule
-    {
-        /// <summary>Initializes a new instance of the <see cref="OverhaulModule.WeaponsModule"/> class.</summary>
-        internal WeaponsModule()
-            : base("Weapons", "wpnz")
-        {
-        }
-
-        /// <summary>Gets a value indicating whether the <see cref="OverhaulModule.WeaponsModule"/> is set to enabled.</summary>
-        internal static bool ShouldEnable => ModEntry.Config.EnableWeapons;
-
-        /// <summary>Gets the config instance for the <see cref="OverhaulModule.WeaponsModule"/>.</summary>
-        internal static Weapons.Config Config => ModEntry.Config.Weapons;
-
-        /// <summary>Gets the ephemeral runtime state for the <see cref="OverhaulModule.WeaponsModule"/>.</summary>
-        internal static Weapons.State State => ModEntry.State.Weapons;
-
-        /// <inheritdoc />
-        internal override bool _ShouldEnable
-        {
-            get
-            {
-                return ModEntry.Config.EnableWeapons;
-            }
-
-            set
-            {
-                ModEntry.Config.EnableWeapons = value;
-                ModHelper.WriteConfig(ModEntry.Config);
-            }
-        }
-
         internal static void RevalidateAllWeapons()
         {
             if (!Context.IsWorldReady)
@@ -382,7 +330,7 @@ public abstract class OverhaulModule
 
             var player = Game1.player;
             Log.I(
-                $"[WPNZ]: Performing {(Context.IsMainPlayer ? "global" : "local")} weapon revalidation.");
+                $"[CMBT]: Performing {(Context.IsMainPlayer ? "global" : "local")} weapon revalidation.");
             if (Context.IsMainPlayer)
             {
                 Utility.iterateAllItems(item =>
@@ -404,7 +352,7 @@ public abstract class OverhaulModule
                 }
             }
 
-            Log.I("[WPNZ]: Weapon revalidation complete.");
+            Log.I("[CMBT]: Weapon revalidation complete.");
             ModHelper.GameContent.InvalidateCacheAndLocalized("Data/weapons");
         }
 
@@ -421,16 +369,16 @@ public abstract class OverhaulModule
             if (ShouldEnable && weapon.type.Value == MeleeWeapon.defenseSword && weapon.ShouldBeStabbySword())
             {
                 weapon.type.Value = MeleeWeapon.stabbingSword;
-                Log.D($"[WPNZ]: The type of {weapon.Name} was converted to Stabbing sword.");
+                Log.D($"[CMBT]: The type of {weapon.Name} was converted to Stabbing sword.");
             }
             else if (!ShouldEnable || (weapon.type.Value == MeleeWeapon.stabbingSword && !weapon.ShouldBeStabbySword()))
             {
                 weapon.type.Value = MeleeWeapon.defenseSword;
-                Log.D($"[WPNZ]: The type of {weapon.Name} was converted to Defense sword.");
+                Log.D($"[CMBT]: The type of {weapon.Name} was converted to Defense sword.");
             }
 
             // refresh special status
-            if (ShouldEnable && Config.InfinityPlusOne && (weapon.isGalaxyWeapon() || weapon.IsInfinityWeapon()
+            if (ShouldEnable && Config.EnableHeroQuest && (weapon.isGalaxyWeapon() || weapon.IsInfinityWeapon()
                 || weapon.InitialParentTileIndex is ItemIDs.DarkSword or ItemIDs.HolyBlade or ItemIDs.NeptuneGlaive))
             {
                 weapon.specialItem = true;
@@ -536,7 +484,7 @@ public abstract class OverhaulModule
             }
         }
 
-        internal static void RefreshAllWeapons(Weapons.RefreshOption option)
+        internal static void RefreshAllWeapons(WeaponRefreshOption option)
         {
             if (Context.IsMainPlayer)
             {
@@ -568,7 +516,7 @@ public abstract class OverhaulModule
 
         internal static void PerformDarkSwordValidations()
         {
-            if (!ShouldEnable || !Config.InfinityPlusOne)
+            if (!ShouldEnable || !Config.EnableHeroQuest)
             {
                 return;
             }
@@ -590,7 +538,7 @@ public abstract class OverhaulModule
 
                     if (darkSword is null)
                     {
-                        Log.W($"[WPNZ]: {player.Name} is Cursed by Viego, but is not in possession of the Dark Sword. A new copy will be forcefully added.");
+                        Log.W($"[CMBT]: {player.Name} is Cursed by Viego, but is not in possession of the Dark Sword. A new copy will be forcefully added.");
                         darkSword = new MeleeWeapon(ItemIDs.DarkSword);
                         if (!player.addItemToInventoryBool(darkSword))
                         {
@@ -600,7 +548,7 @@ public abstract class OverhaulModule
                 }
                 else
                 {
-                    Log.W($"[WPNZ]: {player.Name} is Cursed by Viego, but is not in possession of the Dark Sword. A new copy will be forcefully added.");
+                    Log.W($"[CMBT]: {player.Name} is Cursed by Viego, but is not in possession of the Dark Sword. A new copy will be forcefully added.");
                     darkSword = new MeleeWeapon(ItemIDs.DarkSword);
                     if (!player.addItemToInventoryBool(darkSword))
                     {
@@ -610,15 +558,44 @@ public abstract class OverhaulModule
             }
             else if (darkSword is not null && !player.mailReceived.Contains("gotDarkSword"))
             {
-                Log.W($"[WPNZ]: {player.Name} is not yet Cursed by Viego, but already carries a the Dark Sword. The appropriate mail flag will be added.");
+                Log.W($"[CMBT]: {player.Name} is not yet Cursed by Viego, but already carries a the Dark Sword. The appropriate mail flag will be added.");
                 player.mailReceived.Add("gotDarkSword");
             }
 
-            if (darkSword is not null && darkSword.Read<int>(Modules.Weapons.DataKeys.CursePoints) >= 50 && !player.hasOrWillReceiveMail("viegoCurse"))
+            if (darkSword is not null && darkSword.Read<int>(Modules.Combat.DataKeys.CursePoints) >= 50 && !player.hasOrWillReceiveMail("viegoCurse"))
             {
-                Log.W($"[WPNZ]: {player.Name}'s Dark Sword has gathered enough kills, but the purification quest-line has not begun. The necessary mail will be added for tomorrow.");
+                Log.W($"[CMBT]: {player.Name}'s Dark Sword has gathered enough kills, but the purification quest-line has not begun. The necessary mail will be added for tomorrow.");
                 Game1.addMailForTomorrow("viegoCurse");
             }
+        }
+
+        internal static void RemoveInvalidEnchantments()
+        {
+            Utility.iterateAllItems(item =>
+            {
+                if (item is not (Tool tool and (MeleeWeapon or Slingshot)))
+                {
+                    return;
+                }
+
+                for (var i = tool.enchantments.Count - 1; i >= 0; i--)
+                {
+                    var enchantment = tool.enchantments[i];
+                    var name = enchantment.GetType().FullName;
+                    if (name is null || enchantment.IsSecondaryEnchantment())
+                    {
+                        continue;
+                    }
+
+                    if (!name.StartsWith("DaLion.Overhaul.Modules") || (ShouldEnable && KnownEnchantmentType.Contains(name)))
+                    {
+                        continue;
+                    }
+
+                    tool.RemoveEnchantment(enchantment);
+                    Log.W($"[CMBT]: {enchantment.GetType()} was removed from {tool.Name} to avoid issues. You can try to re-add it with console commands.");
+                }
+            });
         }
 
         /// <inheritdoc />
@@ -628,6 +605,17 @@ public abstract class OverhaulModule
             {
                 base.Activate(helper);
             }
+
+            Reflector.GetStaticFieldSetter<List<BaseEnchantment>?>(typeof(BaseEnchantment), "_enchantments")
+                .Invoke(null);
+        }
+
+        /// <inheritdoc />
+        internal override void Deactivate()
+        {
+            base.Deactivate();
+            Reflector.GetStaticFieldSetter<List<BaseEnchantment>?>(typeof(BaseEnchantment), "_enchantments")
+                .Invoke(null);
         }
 
         /// <inheritdoc />
@@ -640,6 +628,7 @@ public abstract class OverhaulModule
 
             RevalidateAllWeapons();
             PerformDarkSwordValidations();
+            RemoveInvalidEnchantments();
             return true;
         }
 
@@ -648,11 +637,15 @@ public abstract class OverhaulModule
         {
             new IModIntegration?[]
             {
-                Modules.Weapons.Integrations.SpaceCoreIntegration.Instance,
-                Modules.Weapons.Integrations.JsonAssetsIntegration.Instance,
-                Modules.Weapons.Integrations.StardewValleyExpandedIntegration.Instance,
-                Modules.Weapons.Integrations.VanillaTweaksIntegration.Instance,
-                Modules.Weapons.Integrations.SimpleWeaponsIntegration.Instance,
+                Modules.Combat.Integrations.SpaceCoreIntegration.Instance,
+                Modules.Combat.Integrations.JsonAssetsIntegration.Instance,
+                Modules.Combat.Integrations.StardewValleyExpandedIntegration.Instance,
+                Modules.Combat.Integrations.VanillaTweaksIntegration.Instance,
+                Modules.Combat.Integrations.SimpleWeaponsIntegration.Instance,
+                Modules.Combat.Integrations.ArcheryIntegration.Instance,
+                Modules.Combat.Integrations.BetterCraftingIntegration.Instance,
+                Modules.Combat.Integrations.WearMoreRingsIntegration.Instance,
+                Modules.Combat.Integrations.BetterRingsIntegration.Instance,
             }.ForEach(integration => integration?.Register());
         }
 
@@ -660,6 +653,7 @@ public abstract class OverhaulModule
         protected override void InvalidateAssets()
         {
             ModHelper.GameContent.InvalidateCacheAndLocalized("Characters/Dialogue/Gil");
+            ModHelper.GameContent.InvalidateCacheAndLocalized("Data/CraftingRecipes");
             ModHelper.GameContent.InvalidateCacheAndLocalized("Data/ObjectInformation");
             ModHelper.GameContent.InvalidateCacheAndLocalized("Data/Events/AdventureGuild");
             ModHelper.GameContent.InvalidateCacheAndLocalized("Data/Events/Blacksmith");
@@ -667,62 +661,11 @@ public abstract class OverhaulModule
             ModHelper.GameContent.InvalidateCacheAndLocalized("Data/mail");
             ModHelper.GameContent.InvalidateCacheAndLocalized("Data/Monsters");
             ModHelper.GameContent.InvalidateCacheAndLocalized("Data/weapons");
+            ModHelper.GameContent.InvalidateCacheAndLocalized("Maps/springobjects");
             ModHelper.GameContent.InvalidateCacheAndLocalized("Strings/Locations");
+            ModHelper.GameContent.InvalidateCacheAndLocalized("Strings/StringsFromCSFiles");
+            ModHelper.GameContent.InvalidateCache("TileSheets/BuffsIcons");
             ModHelper.GameContent.InvalidateCache("TileSheets/Projectiles");
-            ModHelper.GameContent.InvalidateCache("TileSheets/weapons");
-        }
-    }
-
-    internal sealed class SlingshotsModule : OverhaulModule
-    {
-        /// <summary>Initializes a new instance of the <see cref="OverhaulModule.SlingshotsModule"/> class.</summary>
-        internal SlingshotsModule()
-            : base("Slingshots", "slngs")
-        {
-        }
-
-        /// <summary>Gets a value indicating whether the <see cref="OverhaulModule.SlingshotsModule"/> is set to enabled.</summary>
-        internal static bool ShouldEnable => ModEntry.Config.EnableSlingshots;
-
-        /// <summary>Gets the config instance for the <see cref="OverhaulModule.SlingshotsModule"/>.</summary>
-        internal static Slingshots.Config Config => ModEntry.Config.Slingshots;
-
-        /// <summary>Gets the ephemeral runtime state for the <see cref="OverhaulModule.SlingshotsModule"/>.</summary>
-        internal static Slingshots.State State => ModEntry.State.Slingshots;
-
-        /// <inheritdoc />
-        internal override bool _ShouldEnable
-        {
-            get
-            {
-                return ModEntry.Config.EnableSlingshots;
-            }
-
-            set
-            {
-                ModEntry.Config.EnableSlingshots = value;
-                ModHelper.WriteConfig(ModEntry.Config);
-            }
-        }
-
-        /// <inheritdoc />
-        internal override void Activate(IModHelper helper)
-        {
-            if (ShouldEnable)
-            {
-                base.Activate(helper);
-            }
-        }
-
-        /// <inheritdoc />
-        internal override void RegisterIntegrations()
-        {
-            (Modules.Slingshots.Integrations.ArcheryIntegration.Instance as IModIntegration)?.Register();
-        }
-
-        /// <inheritdoc />
-        protected override void InvalidateAssets()
-        {
             ModHelper.GameContent.InvalidateCache("TileSheets/weapons");
         }
     }
@@ -772,183 +715,6 @@ public abstract class OverhaulModule
         internal override void RegisterIntegrations()
         {
             (Modules.Tools.Integrations.MoonMisadventuresIntegration.Instance as IModIntegration)?.Register();
-        }
-    }
-
-    internal sealed class EnchantmentsModule : OverhaulModule
-    {
-        private static readonly HashSet<string> KnownEnchantmentType = AccessTools
-            .GetTypesFromAssembly(Assembly.GetAssembly(typeof(Modules.Enchantments.Ranged.BaseSlingshotEnchantment)))
-            .Where(t => t.Namespace is "DaLion.Overhaul.Modules.Enchantments.Melee"
-                or "DaLion.Overhaul.Modules.Enchantments.Ranged" or "DaLion.Overhaul.Modules.Enchantments.Gemstone")
-            .Select(t => t.FullName)
-            .WhereNotNull()
-            .ToHashSet();
-
-        /// <summary>Initializes a new instance of the <see cref="OverhaulModule.EnchantmentsModule"/> class.</summary>
-        internal EnchantmentsModule()
-            : base("Enchantments", "ench")
-        {
-        }
-
-        /// <summary>Gets a value indicating whether the <see cref="OverhaulModule.EnchantmentsModule"/> is set to enabled.</summary>
-        internal static bool ShouldEnable => ModEntry.Config.EnableEnchantments;
-
-        /// <summary>Gets the config instance for the <see cref="OverhaulModule.EnchantmentsModule"/>.</summary>
-        internal static Enchantments.Config Config => ModEntry.Config.Enchantments;
-
-        /// <summary>Gets the ephemeral runtime state for the <see cref="OverhaulModule.EnchantmentsModule"/>.</summary>
-        internal static Enchantments.State State => ModEntry.State.Enchantments;
-
-        /// <inheritdoc />
-        internal override bool _ShouldEnable
-        {
-            get
-            {
-                return ModEntry.Config.EnableEnchantments;
-            }
-
-            set
-            {
-                ModEntry.Config.EnableEnchantments = value;
-                ModHelper.WriteConfig(ModEntry.Config);
-            }
-        }
-
-        internal static void RemoveInvalidEnchantments()
-        {
-            Utility.iterateAllItems(item =>
-            {
-                if (item is not (Tool tool and (MeleeWeapon or Slingshot)))
-                {
-                    return;
-                }
-
-                for (var i = tool.enchantments.Count - 1; i >= 0; i--)
-                {
-                    var enchantment = tool.enchantments[i];
-                    var name = enchantment.GetType().FullName;
-                    if (name is null || enchantment.IsSecondaryEnchantment())
-                    {
-                        continue;
-                    }
-
-                    if (!name.StartsWith("DaLion.Overhaul.Modules") || (ShouldEnable && KnownEnchantmentType.Contains(name)))
-                    {
-                        continue;
-                    }
-
-                    tool.RemoveEnchantment(enchantment);
-                    Log.W($"[ENCH]: {enchantment.GetType()} was removed from {tool.Name} to avoid issues. You can try to re-add it with console commands.");
-                }
-            });
-        }
-
-        /// <inheritdoc />
-        internal override void Activate(IModHelper helper)
-        {
-            if (ShouldEnable)
-            {
-                base.Activate(helper);
-            }
-
-            Reflector.GetStaticFieldSetter<List<BaseEnchantment>?>(typeof(BaseEnchantment), "_enchantments")
-                .Invoke(null);
-        }
-
-        /// <inheritdoc />
-        internal override void Deactivate()
-        {
-            base.Deactivate();
-            Reflector.GetStaticFieldSetter<List<BaseEnchantment>?>(typeof(BaseEnchantment), "_enchantments")
-                .Invoke(null);
-        }
-
-        /// <inheritdoc />
-        internal override bool Revalidate()
-        {
-            if (!Context.IsWorldReady)
-            {
-                return false;
-            }
-
-            RemoveInvalidEnchantments();
-            return true;
-        }
-
-        /// <inheritdoc />
-        internal override void RegisterIntegrations()
-        {
-            (Modules.Enchantments.Integrations.SpaceCoreIntegration.Instance as IModIntegration)?.Register();
-        }
-
-        /// <inheritdoc />
-        protected override void InvalidateAssets()
-        {
-            ModHelper.GameContent.InvalidateCache("TileSheets/BuffsIcons");
-        }
-    }
-
-    internal sealed class RingsModule : OverhaulModule
-    {
-        /// <summary>Initializes a new instance of the <see cref="OverhaulModule.RingsModule"/> class.</summary>
-        internal RingsModule()
-            : base("Rings", "rngs")
-        {
-        }
-
-        /// <summary>Gets a value indicating whether the <see cref="OverhaulModule.RingsModule"/> is set to enabled.</summary>
-        internal static bool ShouldEnable => ModEntry.Config.EnableRings;
-
-        /// <summary>Gets the config instance for the <see cref="OverhaulModule.RingsModule"/>.</summary>
-        internal static Rings.Config Config => ModEntry.Config.Rings;
-
-        /// <summary>Gets the ephemeral runtime state for the <see cref="OverhaulModule.RingsModule"/>.</summary>
-        internal static Rings.State State => ModEntry.State.Rings;
-
-        /// <inheritdoc />
-        internal override bool _ShouldEnable
-        {
-            get
-            {
-                return ModEntry.Config.EnableRings;
-            }
-
-            set
-            {
-                ModEntry.Config.EnableRings = value;
-                ModHelper.WriteConfig(ModEntry.Config);
-            }
-        }
-
-        /// <inheritdoc />
-        internal override void Activate(IModHelper helper)
-        {
-            if (ShouldEnable)
-            {
-                base.Activate(helper);
-            }
-        }
-
-        /// <inheritdoc />
-        internal override void RegisterIntegrations()
-        {
-            new IModIntegration?[]
-            {
-                Modules.Rings.Integrations.BetterCraftingIntegration.Instance,
-                Modules.Rings.Integrations.WearMoreRingsIntegration.Instance,
-                Modules.Rings.Integrations.BetterRingsIntegration.Instance,
-                Modules.Rings.Integrations.VanillaTweaksIntegration.Instance,
-                Modules.Rings.Integrations.JsonAssetsIntegration.Instance,
-            }.ForEach(integration => integration?.Register());
-        }
-
-        /// <inheritdoc />
-        protected override void InvalidateAssets()
-        {
-            ModHelper.GameContent.InvalidateCacheAndLocalized("Data/CraftingRecipes");
-            ModHelper.GameContent.InvalidateCacheAndLocalized("Data/ObjectInformation");
-            ModHelper.GameContent.InvalidateCacheAndLocalized("Maps/springobjects");
         }
     }
 
@@ -1078,6 +844,12 @@ public abstract class OverhaulModule
             {
                 base.Activate(helper);
             }
+        }
+
+        /// <inheritdoc />
+        internal override void RegisterIntegrations()
+        {
+            ((IModIntegration?)BetterCraftingIntegration.Instance)?.Register();
         }
     }
 

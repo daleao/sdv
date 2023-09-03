@@ -8,5 +8,5 @@
 	"CanSell": true,
 	"CanTrash": true,
 	"HideFromShippingCollection": false,
-    "TranslationKey": "objects.dwarvenscrap"
+    "TranslationKey": "objects.dwarven_scrap"
 }

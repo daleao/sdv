@@ -12,7 +12,7 @@ public sealed class PickaxeConfig
 {
     /// <summary>Gets the multiplier to base stamina consumed by the <see cref="Axe"/>.</summary>
     [JsonProperty]
-    public float BaseStaminaMultiplier { get; internal set; } = 1f;
+    public float BaseStaminaCostMultiplier { get; internal set; } = 1f;
 
     /// <summary>Gets a value indicating whether enables charging the Pick.</summary>
     [JsonProperty]
@@ -65,10 +65,6 @@ public sealed class PickaxeConfig
     /// <summary>Gets a value indicating whether to clear debris like stones, boulders and weeds.</summary>
     [JsonProperty]
     public bool ClearDebris { get; internal set; } = true;
-
-    /// <summary>Gets a value indicating whether to play the shockwave animation when the charged Pick is released.</summary>
-    [JsonProperty]
-    public bool PlayShockwaveAnimation { get; internal set; } = true;
 
     /// <summary>Gets a value indicating whether the Pick can be enchanted with Master.</summary>
     [JsonProperty]

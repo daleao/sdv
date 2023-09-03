@@ -1,4 +1,4 @@
-﻿namespace DaLion.Overhaul.Modules.Professions.Events.Ultimate;
+﻿namespace DaLion.Overhaul.Modules.Professions.Events.Ultimate.Emptied;
 
 /// <summary>The arguments for an <see cref="UltimateEmptiedEvent"/>.</summary>
 public sealed class UltimateEmptiedEventArgs : EventArgs, IUltimateEmptiedEventArgs

@@ -1,4 +1,4 @@
-﻿namespace DaLion.Overhaul.Modules.Professions.Patchers.Integration;
+﻿namespace DaLion.Overhaul.Modules.Professions.Patchers.Integration.ProducerFrameworkMod;
 
 #region using directives
 

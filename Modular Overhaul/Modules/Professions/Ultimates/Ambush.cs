@@ -4,6 +4,7 @@
 
 using System.Linq;
 using DaLion.Overhaul.Modules.Professions.Events.GameLoop;
+using DaLion.Overhaul.Modules.Professions.Events.GameLoop.UpdateTicked;
 using Microsoft.Xna.Framework;
 using Netcode;
 using StardewValley.Monsters;

@@ -6,6 +6,7 @@ using System.Linq;
 using DaLion.Overhaul.Modules.Professions.Events.GameLoop;
 using DaLion.Overhaul.Modules.Professions.VirtualProperties;
 using DaLion.Shared.Extensions.Stardew;
+using DaLion.Overhaul.Modules.Professions.Events.GameLoop.UpdateTicked;
 using Microsoft.Xna.Framework;
 using StardewValley.Locations;
 using StardewValley.Monsters;

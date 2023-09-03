@@ -1,4 +1,4 @@
-﻿namespace DaLion.Overhaul.Modules.Professions.Events.Ultimate;
+﻿namespace DaLion.Overhaul.Modules.Professions.Events.Ultimate.Activated;
 
 /// <summary>Interface for the arguments of an <see cref="UltimateActivatedEvent"/>.</summary>
 public interface IUltimateActivatedEventArgs

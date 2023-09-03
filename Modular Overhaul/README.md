@@ -16,29 +16,21 @@ The modular nature of this mod allows users to cherry-pick features to their lik
 
 This mod is the culmination of over a year of work. Please take the time to read the descriptions before asking questions.
 
-## Current Modules
+## Modules
 
 The available modules are listed below. **Please read this page carefuly in its entirety.** Modules can be toggled on or off in the title screen via GMCM. Each module is itself highly configurable, and will be added to the GMCM menu if enabled. Some modules require specific enabling/disabling instructions you should pay attention to. These requirements will be mentioned below.
 
 All modules should be fully multiplayer and splitscreen-ready so long as all players have it installed. Unless explicitly stated otherwise, none of the modules are Android-compatible. Please refer to each module's specific documentation page for further details and compatibility information.
 
-- **[PROFS](Modules/Professions)** is the original and largest module. It overhauls all the game's professions with the goal of supporting more diverse and interesting playstyles. It also introduces all-new Prestige mechanics for very-late game save files and Limit Breaks for combat professions.
+- **[PROFS](Modules/Professions)** is the original module, formely known as Walk Of Life. It overhauls all the game's professions with the goal of supporting more diverse and interesting playstyles. It also introduces optional Prestige mechanics for very-late game save files and Limit Breaks for combat professions.
 
-- **[CMBT](Modules/Combat)** ﻿is a relatively small module that significantly overhauls combat, making overlooked stats like Defense and Knockback significantly more viable, introducing all-new status conditions like Burn and Freeze, and also providing general difficulty customization. It is meant as a base for the combat-oriented modules that follow, namely WPNZ, ENCH and RNGS.
-
-- **[WPNZ](Modules/Weapons)** is the second largest module. It overhauls many aspects of Melee Weapons so as to diversify combat and provide viable alternatives to the ubiquitous sword. Includes new mechanics likes combos, Stabbing Swords, weapon tiers and a comprehensive weapon rebalance, among many other features. **This module adds new items via Json Assets, and thus may cause Json Shuffle on existing saves.** 
-
-- **[SLNGS](Modules/Slingshots)** is the analogous module for Slingshots. Among other things, it provides Slingshots with the amenities neglected to them in Vanilla, including critical hits, enchantments and a special move.
-
-- **[TOLS](Modules/Tools)** is a one-stop-shop for tool customization and quality-of-life. It enables resource-tool charging, farming-tool customization, intelligent tool auto-selection, and even adds Radioactive tool upgrades, among other things.
-
-- **[ENCH](Modules/Enchantments)** is near-total rework of boring Vanilla enchantments, providing rebalanced gemstone enchantments and objectively improved replacements for Prismatic Shard enchantments, for both Melee Weapons and Slingshots.
-
-- **[RNGS](Modules/Rings)** overhauls underwhelming rings, with a major emphasis being on the Iridium Band. It introduces Gemstone Music Theory, which draws inspiration from real-life Music Theory, to provide a more interesting and balanced form of combining many rings. **This module adds new items via Json Assets, and thus may cause Json Shuffle on existing saves.** 
+- **[CMBT](Modules/Combat)** ﻿is a huge overhaul of nearly all aspects of combat; from rebalanced stats, melee and ranged weapons, rings and enchantments, to entirely new mechanics like status effects, weapon combos, a new weapon type, Gemstone Music Theory, and much more. **This module adds new items via Json Assets, and thus may cause Json Shuffle on existing saves.** 
 
 - **[PNDS](Modules/Ponds)** is a complement to the new Aquarist profession. It allows Fish Ponds to produce Roe with scaling quantities and qualities, spontaneously grow algae, and even enrich the nuclei of metals.
 
 - **[TXS](Modules/Taxes)** is a complement to the new Conservationist profession. It introduces a realistic taxation system as an added challenge and end-game gold sink. Because surely a nation at war would be capitalizing on that juicy farm income.
+
+- **[TOLS](Modules/Tools)** is a one-stop-shop for tool customization and quality-of-life. It enables resource-tool charging, farming-tool customization, intelligent tool auto-selection, and even adds Radioactive tool upgrades, among other things.
 
 - **[TWX](Modules/Tweex)** is the final module, and serves as a repository for smaller tweaks and fixes to inconsistencies not large enough to merit a separate module.
 
@@ -69,7 +61,7 @@ Below are some usecases for the API:
 - **[PROFS]**: Hooking custom logic into Scavenger and Prospector Treasure Hunts.
 - **[PROFS]**: Hooking custom logic to several stages of [Limit Breaks](./Modules/Professions/README.md#limit-breaks).
 - **[PROFS]**: Allowing SpaceCore skills to surpass level 10, and be [Prestiged](./Modules/Professions/README.md#prestige) at levels 15 and 20.
-- **[RNGS]**: Checking the [Resonances](./Modules/Rings/README.md#chords) currently active on any given player.
+- **[CMBT]**: Checking the [Resonances](./Modules/Rings/README.md#chords) currently active on any given player.
 - Checking the config settings of any given player (note that you must create your own interface for this).
 
 ## Credits & Special Thanks

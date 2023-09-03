@@ -133,16 +133,11 @@ public sealed class Config : Shared.Configs.Config
 
     /// <summary>Gets a value indicating whether toggles the Get Excited buff when a Demolitionist is hit by an explosion.</summary>
     [JsonProperty]
-    public bool EnableGetExcited { get; internal set; } = true;
+    public bool DemolitionistGetExcited { get; internal set; } = true;
 
     /// <summary>Gets a value indicating whether to increase the quality of all active Crystalarium minerals when the Gemologist owner gains a quality level-up.</summary>
     [JsonProperty]
-    public bool CrystalariumsUpgradeWithGemologist { get; internal set; } = true;
-
-    /// <summary>Gets the number of fish species that must be caught to achieve instant catch.</summary>
-    /// <remarks>Unused.</remarks>
-    [JsonProperty]
-    public uint FishNeededForInstantCatch { get; internal set; } = 500;
+    public bool CrystalariumUpgradesWithGemologist { get; internal set; } = true;
 
     /// <summary>
     ///     Gets the maximum multiplier that will be added to fish sold by Angler. if multiple new fish mods are installed,
@@ -180,11 +175,13 @@ public sealed class Config : Shared.Configs.Config
     [JsonProperty]
     public uint PiperBuffCeiling { get; internal set; } = 10;
 
+    #region limit break
+
     /// <summary>Gets a value indicating whether to allow Limit Breaks to be used in-game.</summary>
     [JsonProperty]
     public bool EnableLimitBreaks { get; internal set; } = true;
 
-    /// <summary>Gets the mod key used to activate the Limit Break. Can be the same as <see cref="ModKey"/>.</summary>
+    /// <summary>Gets the mod key used to activate the Limit Break.</summary>
     [JsonProperty]
     public KeybindList LimitBreakKey { get; internal set; } = KeybindList.Parse("LeftShift, LeftShoulder");
 
@@ -222,6 +219,10 @@ public sealed class Config : Shared.Configs.Config
     [JsonProperty]
     public int LimitGaugeYOffset { get; internal set; } = 0;
 
+    #endregion limit break
+
+    #region prestige
+
     /// <summary>Gets a value indicating whether to apply Prestige changes.</summary>
     [JsonProperty]
     public bool EnablePrestige { get; internal set; } = true;
@@ -232,11 +233,11 @@ public sealed class Config : Shared.Configs.Config
 
     /// <summary>Gets a value indicating whether resetting a skill also clears all corresponding recipes.</summary>
     [JsonProperty]
-    public bool ForgetRecipes { get; internal set; } = true;
+    public bool ForgetRecipesOnSkillReset { get; internal set; } = true;
 
     /// <summary>Gets a value indicating whether the player can use the Statue of Prestige more than once per day.</summary>
     [JsonProperty]
-    public bool AllowMultiplePrestige { get; internal set; } = false;
+    public bool AllowMultipleResets { get; internal set; } = false;
 
     /// <summary>Gets cumulative multiplier to each skill's experience gain after a respective skill reset.</summary>
     [JsonProperty]
@@ -261,6 +262,10 @@ public sealed class Config : Shared.Configs.Config
     [JsonProperty]
     public PrestigeProgressionStyle ProgressionStyle { get; internal set; } = PrestigeProgressionStyle.StackedStars;
 
+    #endregion prestige
+
+    #region experience
+
     /// <summary>Gets a multiplier that will be applied to all skill experience gained from the start of the game.</summary>
     /// <remarks>The order is Farming, Fishing, Foraging, Mining, Combat and Luck (if installed).</remarks>
     [JsonProperty]
@@ -280,4 +285,6 @@ public sealed class Config : Shared.Configs.Config
             { "spacechase0.LuckSkill", 1 },
             { "DaLion.Alchemy", 1 },
         };
+
+    #endregion experience
 }

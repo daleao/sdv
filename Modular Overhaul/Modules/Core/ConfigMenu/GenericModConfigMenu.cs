@@ -57,29 +57,9 @@ internal sealed partial class GenericModConfigMenu : GenericModConfigMenuIntegra
             this.AddCombatOptions();
         }
 
-        if (Config.EnableWeapons)
-        {
-            this.AddWeaponOptions();
-        }
-
-        if (Config.EnableSlingshots)
-        {
-            this.AddSlingshotOptions();
-        }
-
         if (Config.EnableTools)
         {
             this.AddToolOptions();
-        }
-
-        if (Config.EnableEnchantments)
-        {
-            this.AddEnchantmentOptions();
-        }
-
-        if (Config.EnableRings)
-        {
-            this.AddRingOptions();
         }
 
         if (Config.EnablePonds)

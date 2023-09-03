@@ -34,7 +34,7 @@ internal sealed class ProducerRuleControllerProduceOutputPatcher : HarmonyPatche
         SObject producer, SObject? input, bool probe)
     {
         if (probe || input?.Category is not (SObject.EggCategory or SObject.MilkCategory) ||
-            !input.Name.ContainsAny("Large", "L.") || !TweexModule.Config.LargeDairyYieldsQuantityOverQuality ||
+            !input.Name.ContainsAnyOf("Large", "L.") || !TweexModule.Config.LargeDairyYieldsQuantityOverQuality ||
             !TweexModule.Config.DairyArtisanMachines.Contains(producer.Name))
         {
             return;

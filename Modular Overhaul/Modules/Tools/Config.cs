@@ -33,21 +33,25 @@ public sealed class Config : Shared.Configs.Config
     [JsonProperty]
     public ScytheConfig Scythe { get; internal set; } = new();
 
-    /// <summary>Gets the chosen mod key(s).</summary>
-    [JsonProperty]
-    public KeybindList ModKey { get; internal set; } = KeybindList.Parse("LeftShift, LeftShoulder");
-
     /// <summary>Gets a value indicating whether determines whether charging requires holding a mod key.</summary>
     [JsonProperty]
     public bool HoldToCharge { get; internal set; } = true;
 
-    /// <summary>Gets a value indicating whether determines whether to show affected tiles overlay while charging.</summary>
+    /// <summary>Gets the chosen mod key(s) for charging resource tools.</summary>
     [JsonProperty]
-    public bool HideAffectedTiles { get; internal set; } = false;
+    public KeybindList ChargeKey { get; internal set; } = KeybindList.Parse("LeftShift, LeftShoulder");
+
+    /// <summary>Gets a value indicating whether to play the shockwave animation when the charged Axe is released.</summary>
+    [JsonProperty]
+    public bool PlayShockwaveAnimation { get; internal set; } = true;
 
     /// <summary>Gets affects the shockwave travel speed. Lower is faster. Set to 0 for instant.</summary>
     [JsonProperty]
-    public uint TicksBetweenWaves { get; internal set; } = 4;
+    public uint TicksBetweenCrests { get; internal set; } = 4;
+
+    /// <summary>Gets a value indicating whether determines whether to show affected tiles overlay while charging.</summary>
+    [JsonProperty]
+    public bool HideAffectedTiles { get; internal set; } = false;
 
     /// <summary>Gets a value indicating whether face the current cursor position before swinging your tools.</summary>
     [JsonProperty]
@@ -56,6 +60,10 @@ public sealed class Config : Shared.Configs.Config
     /// <summary>Gets a value indicating whether to allow auto-selecting tools.</summary>
     [JsonProperty]
     public bool EnableAutoSelection { get; internal set; } = true;
+
+    /// <summary>Gets the chosen key(s) for toggling auto-selection.</summary>
+    [JsonProperty]
+    public KeybindList SelectionKey { get; internal set; } = KeybindList.Parse("LeftShift, LeftShoulder");
 
     /// <summary>Gets the <see cref="Color"/> used to indicate tools enabled or auto-selection.</summary>
     [JsonProperty]
@@ -133,18 +141,18 @@ public sealed class Config : Shared.Configs.Config
             isValid = false;
         }
 
-        if (this.HoldToCharge && !this.ModKey.IsBound)
+        if (this.HoldToCharge && !this.ChargeKey.IsBound)
         {
             Log.W(
                 "[TOLS]: 'ChargingRequiresModKey' setting is set to true, but no ModKey is bound. Default keybind will be restored. To disable the ModKey, set this value to false.");
-            this.ModKey = KeybindList.ForSingle(SButton.LeftShift);
+            this.ChargeKey = KeybindList.ForSingle(SButton.LeftShift);
             isValid = false;
         }
 
-        if (this.Axe.ChargedStaminaMultiplier < 0)
+        if (this.Axe.ChargedStaminaCostMultiplier < 0)
         {
             Log.W("[TOLS]: Axe 'ChargedStaminaMultiplier' is set to an illegal negative value. The value will default to 1");
-            this.Axe.ChargedStaminaMultiplier = 1f;
+            this.Axe.ChargedStaminaCostMultiplier = 1f;
             isValid = false;
         }
 
@@ -155,11 +163,11 @@ public sealed class Config : Shared.Configs.Config
             isValid = false;
         }
 
-        if (this.TicksBetweenWaves > 100)
+        if (this.TicksBetweenCrests > 100)
         {
             Log.W(
                 "[TOLS]: The value of 'TicksBetweenWaves' is excessively large. This is probably a mistake. The default value will be restored.");
-            this.TicksBetweenWaves = 4;
+            this.TicksBetweenCrests = 4;
             isValid = false;
         }
 

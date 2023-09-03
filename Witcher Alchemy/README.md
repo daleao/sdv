@@ -1,4 +1,4 @@
-Long ago, the land was overrun with monsters. In these dark times, a group of monster slayers sought the wisdom of alchemists, in hopes of gaining an edge in battle. The alchemists taught the monster m the nature of substances , a group of monster hunters There are tales whispred between adventurer's of a once mutated breed of human monster slayers, who used their deep knowledge of alchemy to develop powerful magical mixtures to gain superhuman abilities.
+//Long ago, the land was overrun with monsters. In these dark times, a group of monster slayers sought the wisdom of alchemists, in hopes of gaining an edge in battle. The alchemists taught the monster m the nature of //substances , a group of monster hunters There are tales whispred between adventurer's of a once mutated breed of human monster slayers, who used their deep knowledge of alchemy to develop powerful magical mixtures to gain //superhuman abilities.
 
 
 ## Mixtures & Primary Substances

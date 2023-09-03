@@ -12,7 +12,7 @@ public sealed class WateringCanConfig
 {
     /// <summary>Gets the multiplier to base stamina consumed by the <see cref="Axe"/>.</summary>
     [JsonProperty]
-    public float BaseStaminaMultiplier { get; internal set; } = 1f;
+    public float BaseStaminaCostMultiplier { get; internal set; } = 1f;
 
     /// <summary>Gets the area of affected tiles at each power level for the Can, in units lengths x units radius.</summary>
     /// <remarks>Note that radius extends to both sides of the farmer.</remarks>

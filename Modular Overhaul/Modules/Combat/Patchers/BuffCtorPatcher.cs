@@ -55,7 +55,7 @@ internal sealed class BuffCtorPatcher : HarmonyPatcher
                             typeof(ModConfig).RequirePropertyGetter(nameof(ModConfig.Combat))),
                         new CodeInstruction(
                             OpCodes.Callvirt,
-                            typeof(Config).RequirePropertyGetter(nameof(Config.OverhauledDefense))),
+                            typeof(Config).RequirePropertyGetter(nameof(Config.NewResistanceFormula))),
                         new CodeInstruction(OpCodes.Brfalse_S, resumeExecution),
                         new CodeInstruction(OpCodes.Ldc_I4_S, 3),
                         new CodeInstruction(OpCodes.Add),

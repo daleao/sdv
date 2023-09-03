@@ -35,7 +35,7 @@ internal sealed class UnlockPopulationGatesCommand : ConsoleCommand
             Log.W("Additional arguments will be ignored.");
         }
 
-        var nearest = Game1.player.GetClosestBuilding<FishPond>(predicate: b =>
+        var nearest = Game1.player.GetClosestBuilding<FishPond>(out _, predicate: b =>
             b.IsOwnedBy(Game1.player) && !b.isUnderConstruction());
         if (nearest is null)
         {

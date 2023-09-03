@@ -2,6 +2,8 @@
 
 #region using directives
 
+using DaLion.Overhaul.Modules.Combat.Resonance;
+using DaLion.Overhaul.Modules.Combat.VirtualProperties;
 using DaLion.Overhaul.Modules.Professions;
 using DaLion.Overhaul.Modules.Professions.Events.TreasureHunt;
 using DaLion.Overhaul.Modules.Professions.Events.Ultimate;
@@ -9,13 +11,19 @@ using DaLion.Overhaul.Modules.Professions.Extensions;
 using DaLion.Overhaul.Modules.Professions.TreasureHunts;
 using DaLion.Overhaul.Modules.Professions.Ultimates;
 using DaLion.Overhaul.Modules.Professions.VirtualProperties;
-using DaLion.Overhaul.Modules.Rings.Resonance;
-using DaLion.Overhaul.Modules.Rings.VirtualProperties;
 using DaLion.Overhaul.Modules.Taxes;
 using DaLion.Overhaul.Modules.Taxes.Extensions;
 using DaLion.Shared.Events;
 using DaLion.Shared.Exceptions;
 using Microsoft.Xna.Framework;
+using DaLion.Overhaul.Modules.Professions.Events.TreasureHunt.TreasureHuntEnded;
+using DaLion.Overhaul.Modules.Professions.Events.TreasureHunt.TreasureHuntStarted;
+using DaLion.Overhaul.Modules.Professions.Events.Ultimate.Activated;
+using DaLion.Overhaul.Modules.Professions.Events.Ultimate.ChargeIncreased;
+using DaLion.Overhaul.Modules.Professions.Events.Ultimate.ChargeInitiated;
+using DaLion.Overhaul.Modules.Professions.Events.Ultimate.Deactivated;
+using DaLion.Overhaul.Modules.Professions.Events.Ultimate.Emptied;
+using DaLion.Overhaul.Modules.Professions.Events.Ultimate.FullyCharged;
 using StardewValley.Objects;
 using StardewValley.Tools;
 

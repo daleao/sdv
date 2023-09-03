@@ -12,7 +12,7 @@ public sealed class AxeConfig
 {
     /// <summary>Gets the multiplier to base stamina consumed by the <see cref="Axe"/>.</summary>
     [JsonProperty]
-    public float BaseStaminaMultiplier { get; internal set; } = 1f;
+    public float BaseStaminaCostMultiplier { get; internal set; } = 1f;
 
     /// <summary>Gets a value indicating whether enables charging the <see cref="Axe"/>.</summary>
     [JsonProperty]
@@ -28,7 +28,7 @@ public sealed class AxeConfig
 
     /// <summary>Gets a value which multiplies the stamina consumption for a <see cref="Shockwave"/>.</summary>
     [JsonProperty]
-    public float ChargedStaminaMultiplier { get; internal set; } = 1f;
+    public float ChargedStaminaCostMultiplier { get; internal set; } = 1f;
 
     /// <summary>Gets a value indicating whether to clear fruit tree seeds.</summary>
     [JsonProperty]
@@ -77,10 +77,6 @@ public sealed class AxeConfig
     /// <summary>Gets a value indicating whether to clear debris like twigs, giant stumps, fallen logs and weeds.</summary>
     [JsonProperty]
     public bool ClearDebris { get; internal set; } = true;
-
-    /// <summary>Gets a value indicating whether to play the shockwave animation when the charged Axe is released.</summary>
-    [JsonProperty]
-    public bool PlayShockwaveAnimation { get; internal set; } = true;
 
     /// <summary>Gets a value indicating whether the Axe can be enchanted with Master.</summary>
     [JsonProperty]

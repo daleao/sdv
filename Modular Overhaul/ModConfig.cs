@@ -108,25 +108,9 @@ public sealed class ModConfig
     [JsonProperty]
     public Modules.Combat.Config Combat { get; internal set; } = new();
 
-    /// <summary>Gets the Weapons module config settings.</summary>
-    [JsonProperty]
-    public Modules.Weapons.Config Weapons { get; internal set; } = new();
-
-    /// <summary>Gets the Slingshots module config settings.</summary>
-    [JsonProperty]
-    public Modules.Slingshots.Config Slingshots { get; internal set; } = new();
-
     /// <summary>Gets the Tools module config settings.</summary>
     [JsonProperty]
     public Modules.Tools.Config Tools { get; internal set; } = new();
-
-    /// <summary>Gets the Enchantments module config settings.</summary>
-    [JsonProperty]
-    public Modules.Enchantments.Config Enchantments { get; internal set; } = new();
-
-    /// <summary>Gets the Rings module config settings.</summary>
-    [JsonProperty]
-    public Modules.Rings.Config Rings { get; internal set; } = new();
 
     /// <summary>Gets the Ponds module config settings.</summary>
     [JsonProperty]
@@ -166,11 +150,7 @@ public sealed class ModConfig
     {
         yield return this.Professions;
         yield return this.Combat;
-        yield return this.Weapons;
-        yield return this.Slingshots;
         yield return this.Tools;
-        yield return this.Enchantments;
-        yield return this.Rings;
         yield return this.Ponds;
         yield return this.Taxes;
         yield return this.Tweex;

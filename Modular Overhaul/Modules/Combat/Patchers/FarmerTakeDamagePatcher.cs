@@ -110,7 +110,7 @@ internal sealed class FarmerTakeDamagePatcher : HarmonyPatcher
                             typeof(ModConfig).RequirePropertyGetter(nameof(ModConfig.Combat))),
                         new CodeInstruction(
                             OpCodes.Callvirt,
-                            typeof(Config).RequirePropertyGetter(nameof(Config.OverhauledDefense))),
+                            typeof(Config).RequirePropertyGetter(nameof(Config.NewResistanceFormula))),
                         new CodeInstruction(OpCodes.Brtrue_S, skipSoftCap),
                     },
                     labels)
@@ -134,7 +134,7 @@ internal sealed class FarmerTakeDamagePatcher : HarmonyPatcher
 
     private static int CalculateDamage(Farmer who, int rawDamage, int vanillaResistance)
     {
-        return CombatModule.Config.OverhauledDefense
+        return CombatModule.Config.NewResistanceFormula
             ? (int)(rawDamage * who.GetOverhauledResilience())
             : Math.Max(1, rawDamage - vanillaResistance);
     }

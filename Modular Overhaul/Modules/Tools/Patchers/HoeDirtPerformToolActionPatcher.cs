@@ -103,23 +103,50 @@ internal sealed class HoeDirtPerformToolActionPatcher : HarmonyPatcher
         try
         {
             helper
-                .Match(new[]
-                {
-                    new CodeInstruction(OpCodes.Ldfld, typeof(Crop).RequireField(nameof(Crop.dead))),
-                })
+                .Match(
+                    new[]
+                    {
+                        new CodeInstruction(OpCodes.Ldfld, typeof(Crop).RequireField(nameof(Crop.dead))),
+                    })
                 .Match(new[] { new CodeInstruction(OpCodes.Ldarg_0) }, ILHelper.SearchOption.Previous)
-                .Insert(new[]
-                {
-                    new CodeInstruction(OpCodes.Ldarg_0),
-                    new CodeInstruction(OpCodes.Call, typeof(HoeDirt).RequirePropertyGetter(nameof(HoeDirt.crop))),
-                    new CodeInstruction(OpCodes.Ldfld, typeof(Crop).RequireField(nameof(Crop.harvestMethod))),
-                    new CodeInstruction(OpCodes.Ldloc_S, tempHarvestMethod),
-                    new CodeInstruction(OpCodes.Call, typeof(NetInt).RequireMethod(nameof(NetInt.Set))),
-                });
+                .Insert(
+                    new[]
+                    {
+                        new CodeInstruction(OpCodes.Ldarg_0),
+                        new CodeInstruction(OpCodes.Call, typeof(HoeDirt).RequirePropertyGetter(nameof(HoeDirt.crop))),
+                        new CodeInstruction(OpCodes.Ldfld, typeof(Crop).RequireField(nameof(Crop.harvestMethod))),
+                        new CodeInstruction(OpCodes.Ldloc_S, tempHarvestMethod),
+                        new CodeInstruction(OpCodes.Call, typeof(NetInt).RequireMethod(nameof(NetInt.Set))),
+                    });
         }
         catch (Exception ex)
         {
             Log.E($"Failed restoring original harvest method.\nHelper returned {ex}");
+            return null;
+        }
+
+        // From: if (crop.indexOfHarvest == "771" && t.hasEnchantmentOfType<HaymakerEnchantment>())
+        // To: if (crop.indexOfHarvest == "771" && this.readyForHarvest() && t.hasEnchantmentOfType<HaymakerEnchantment>())
+        try
+        {
+            helper
+                .Match(new[] { new CodeInstruction(OpCodes.Ldc_I4, 771) }, ILHelper.SearchOption.First)
+                .Match(new[] { new CodeInstruction(OpCodes.Bne_Un) })
+                .GetOperand(out var skipHaymaker)
+                .Move()
+                .Insert(
+                    new[]
+                    {
+                        new CodeInstruction(OpCodes.Ldarg_0),
+                        new CodeInstruction(
+                            OpCodes.Call,
+                            typeof(HoeDirt).RequireMethod(nameof(HoeDirt.readyForHarvest))),
+                        new CodeInstruction(OpCodes.Brfalse, skipHaymaker),
+                    });
+        }
+        catch (Exception ex)
+        {
+            Log.E($"Failed fixing vanilla Haymaker Scythe bug.\nHelper returned {ex}");
             return null;
         }
 

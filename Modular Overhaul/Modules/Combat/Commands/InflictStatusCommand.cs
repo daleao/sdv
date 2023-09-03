@@ -1,9 +1,8 @@
 ﻿namespace DaLion.Overhaul.Modules.Combat.Commands;
 
-using System.Linq;
-
 #region using directives
 
+using System.Linq;
 using DaLion.Overhaul.Modules.Combat.Extensions;
 using DaLion.Shared.Attributes;
 using DaLion.Shared.Commands;
@@ -24,7 +23,7 @@ internal sealed class InflictStatusCommand : ConsoleCommand
     }
 
     /// <inheritdoc />
-    public override string[] Triggers { get; } = { "inflict_status", "status", "do" };
+    public override string[] Triggers { get; } = { "inflict_status", "inflict", "status" };
 
     /// <inheritdoc />
     public override string Documentation => "Inflicts the specified status condition on the nearest monster.";
@@ -96,7 +95,7 @@ internal sealed class InflictStatusCommand : ConsoleCommand
             }
         }
 
-        var nearest = player.GetClosestCharacter<Monster>();
+        var nearest = player.GetClosestCharacter<Monster>(out _);
         if (nearest is null)
         {
             Log.W("There are no enemies nearby.");

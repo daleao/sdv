@@ -1,4 +1,4 @@
-﻿namespace DaLion.Overhaul.Modules.Professions.Patchers.Integration;
+﻿namespace DaLion.Overhaul.Modules.Professions.Patchers.Integration.Automate;
 
 #region using directives
 

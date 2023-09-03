@@ -10,10 +10,10 @@ using StardewValley.Monsters;
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class CharacterGetboundingBoxPatcher : HarmonyPatcher
+internal sealed class CharacterGetBoundingBoxPatcher : HarmonyPatcher
 {
-    /// <summary>Initializes a new instance of the <see cref="CharacterGetboundingBoxPatcher"/> class.</summary>
-    internal CharacterGetboundingBoxPatcher()
+    /// <summary>Initializes a new instance of the <see cref="CharacterGetBoundingBoxPatcher"/> class.</summary>
+    internal CharacterGetBoundingBoxPatcher()
     {
         this.Target = this.RequireMethod<Character>(nameof(Character.GetBoundingBox));
     }

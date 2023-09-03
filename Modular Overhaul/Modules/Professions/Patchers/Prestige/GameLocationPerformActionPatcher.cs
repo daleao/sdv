@@ -35,9 +35,9 @@ internal sealed class GameLocationPerformActionPatcher : HarmonyPatcher
         try
         {
             string message;
-            if (!ProfessionsModule.Config.AllowMultiplePrestige && ProfessionsModule.State.SkillsToReset.Count > 0)
+            if (!ProfessionsModule.Config.AllowMultipleResets && ProfessionsModule.State.SkillsToReset.Count > 0)
             {
-                message = I18n.Prestige_Dogstatue_Dismiss();
+                message = I18n.Prestige_DogStatue_Dismiss();
                 Game1.drawObjectDialogue(message);
                 return false; // don't run original logic
             }
@@ -54,7 +54,7 @@ internal sealed class GameLocationPerformActionPatcher : HarmonyPatcher
                 return false; // don't run original logic
             }
 
-            message = I18n.Prestige_Dogstatue_First();
+            message = I18n.Prestige_DogStatue_First();
             Game1.drawObjectDialogue(message);
             return false; // don't run original logic
         }
@@ -71,31 +71,32 @@ internal sealed class GameLocationPerformActionPatcher : HarmonyPatcher
 
     private static void OfferSkillReset(GameLocation location)
     {
-        var message = I18n.Prestige_Dogstatue_First();
-        if (ProfessionsModule.Config.ForgetRecipes)
+        var message = I18n.Prestige_DogStatue_First();
+        if (ProfessionsModule.Config.ForgetRecipesOnSkillReset)
         {
-            message += I18n.Prestige_Dogstatue_Forget();
+            message += I18n.Prestige_DogStatue_Forget();
         }
 
-        message += I18n.Prestige_Dogstatue_Offer();
+        message += I18n.Prestige_DogStatue_Offer();
 
         location.createQuestionDialogue(message, location.createYesNoResponses(), "dogStatue");
     }
 
     private static void OfferRespecOptions(GameLocation location)
     {
-        var message = I18n.Prestige_Dogstatue_What();
+        var message = I18n.Prestige_DogStatue_What();
         var options = Array.Empty<Response>();
 
-        if (Game1.player.Get_Ultimate() is not null)
+        if (ProfessionsModule.Config.EnableLimitBreaks &&
+            Game1.player.Get_Ultimate() is not null)
         {
             options = options.Concat(new Response[]
             {
                 new(
                     "changeUlt",
-                    I18n.Prestige_Dogstatue_Changeult() +
+                    I18n.Prestige_DogStatue_Changeult() +
                     (ProfessionsModule.Config.LimitRespecCost > 0
-                        ? ' ' + I18n.Prestige_Dogstatue_Cost(ProfessionsModule.Config.LimitRespecCost)
+                        ? ' ' + I18n.Prestige_DogStatue_Cost(ProfessionsModule.Config.LimitRespecCost)
                         : string.Empty)),
             }).ToArray();
         }
@@ -106,9 +107,9 @@ internal sealed class GameLocationPerformActionPatcher : HarmonyPatcher
             {
                 new(
                     "prestigeRespec",
-                    I18n.Prestige_Dogstatue_Respec() +
+                    I18n.Prestige_DogStatue_Respec() +
                     (ProfessionsModule.Config.PrestigeRespecCost > 0
-                        ? ' ' + I18n.Prestige_Dogstatue_Cost(ProfessionsModule.Config.PrestigeRespecCost)
+                        ? ' ' + I18n.Prestige_DogStatue_Cost(ProfessionsModule.Config.PrestigeRespecCost)
                         : string.Empty)),
             }).ToArray();
         }

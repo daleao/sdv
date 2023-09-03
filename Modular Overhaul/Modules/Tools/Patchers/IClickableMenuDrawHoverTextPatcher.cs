@@ -28,20 +28,16 @@ internal sealed class IClickableMenuDrawHoverTextPatcher : HarmonyPatcher
                 typeof(int), typeof(string), typeof(int), typeof(string[]), typeof(Item), typeof(int), typeof(int),
                 typeof(int), typeof(int), typeof(int), typeof(float), typeof(CraftingRecipe), typeof(IList<Item>),
             });
-        this.Transpiler!.after = new[] { OverhaulModule.Slingshots.Namespace };
-        this.Transpiler!.before = new[] { OverhaulModule.Weapons.Namespace };
     }
 
     #region harmony patches
 
     /// <summary>Set hover text color for upgraded tools weapons.</summary>
     [HarmonyTranspiler]
-    [HarmonyAfter("DaLion.Overhaul.Modules.Slingshots")]
-    [HarmonyBefore("DaLion.Overhaul.Modules.Weapons")]
     private static IEnumerable<CodeInstruction>? IClickableMenuDrawHoverTextTranspiler(
         IEnumerable<CodeInstruction> instructions, MethodBase original)
     {
-        if (SlingshotsModule.ShouldEnable || WeaponsModule.ShouldEnable)
+        if (CombatModule.ShouldEnable)
         {
             return null;
         }
@@ -66,7 +62,7 @@ internal sealed class IClickableMenuDrawHoverTextPatcher : HarmonyPatcher
                 .ReplaceWith(
                     new CodeInstruction(
                         OpCodes.Call,
-                        typeof(Weapons.Extensions.ItemExtensions).RequireMethod(nameof(Weapons.Extensions.ItemExtensions.GetTitleColorFor))))
+                        typeof(Combat.Extensions.ItemExtensions).RequireMethod(nameof(Combat.Extensions.ItemExtensions.GetTitleColorFor))))
                 .Insert(new[] { new CodeInstruction(OpCodes.Ldarg_S, (byte)9) }); // arg 9 = Item hoveredItem
         }
         catch (Exception ex)

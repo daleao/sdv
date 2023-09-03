@@ -7,15 +7,9 @@ internal sealed class ModState
 {
     internal Modules.Professions.State Professions { get; set; } = new();
 
-    internal Modules.Weapons.State Weapons { get; set; } = new();
-
-    internal Modules.Slingshots.State Slingshots { get; set; } = new();
+    internal Modules.Combat.State Combat { get; set; } = new();
 
     internal Modules.Tools.State Tools { get; set; } = new();
-
-    internal Modules.Enchantments.State Enchantments { get; set; } = new();
-
-    internal Modules.Rings.State Rings { get; set; } = new();
 
     internal bool DebugMode { get; set; }
 }

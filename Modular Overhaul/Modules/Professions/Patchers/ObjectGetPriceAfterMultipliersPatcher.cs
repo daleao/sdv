@@ -3,7 +3,6 @@
 #region using directives
 
 using System.Reflection;
-using DaLion.Overhaul;
 using DaLion.Overhaul.Modules.Professions;
 using DaLion.Overhaul.Modules.Professions.Extensions;
 using DaLion.Shared.Extensions.Stardew;

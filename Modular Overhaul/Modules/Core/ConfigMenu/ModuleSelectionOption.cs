@@ -4,7 +4,6 @@
 
 using System;
 using System.Linq;
-using DaLion.Overhaul.Modules;
 using DaLion.Shared.Integrations.GenericModConfigMenu;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;

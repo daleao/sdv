@@ -1,4 +1,4 @@
-﻿namespace DaLion.Overhaul.Modules.Professions.Events.GameLoop;
+﻿namespace DaLion.Overhaul.Modules.Professions.Events.GameLoop.DayStarted;
 
 #region using directives
 

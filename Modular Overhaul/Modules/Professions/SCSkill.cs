@@ -142,7 +142,7 @@ public sealed class SCSkill : ISkill
             .Invoke(newLevels.Where(pair => pair.Key != this.StringId).ToList());
 
         // reset recipes
-        if (ProfessionsModule.Config.ForgetRecipes && this.StringId == "blueberry.LoveOfCooking.CookingSkill")
+        if (ProfessionsModule.Config.ForgetRecipesOnSkillReset && this.StringId == "blueberry.LoveOfCooking.CookingSkill")
         {
             this.ForgetRecipes();
         }

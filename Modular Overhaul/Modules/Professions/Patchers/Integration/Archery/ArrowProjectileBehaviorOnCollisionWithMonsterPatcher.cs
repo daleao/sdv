@@ -1,4 +1,4 @@
-﻿namespace DaLion.Overhaul.Modules.Professions.Patchers.Integration;
+﻿namespace DaLion.Overhaul.Modules.Professions.Patchers.Integration.Archery;
 
 #region using directives
 
@@ -26,7 +26,7 @@ internal sealed class ArrowProjectileBehaviorOnCollisionWithMonsterPatcher : Har
             .ToType()
             .RequireMethod("behaviorOnCollisionWithMonster");
         this.Prefix!.priority = Priority.High;
-        this.Prefix!.before = new[] { OverhaulModule.Slingshots.Namespace };
+        this.Prefix!.before = new[] { OverhaulModule.Combat.Namespace };
     }
 
     #region harmony patches
@@ -34,7 +34,7 @@ internal sealed class ArrowProjectileBehaviorOnCollisionWithMonsterPatcher : Har
     /// <summary>Desperado Ultimate charge + check for piercing effect.</summary>
     [HarmonyPrefix]
     [HarmonyPriority(Priority.High)]
-    [HarmonyBefore("DaLion.Overhaul.Modules.Slingshots")]
+    [HarmonyBefore("DaLion.Overhaul.Modules.Combat")]
     private static bool ArrowProjectileBehaviorOnCollisionWithMonsterPrefix(
         BasicProjectile __instance, ref int ____collectiveDamage, ref float ____knockback, Farmer ____owner, NPC n)
     {

@@ -1,4 +1,4 @@
-﻿namespace DaLion.Overhaul.Modules.Professions.Events.Input;
+﻿namespace DaLion.Overhaul.Modules.Professions.Events.Input.ButtonsChanged;
 
 #region using directives
 

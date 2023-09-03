@@ -1,21 +1,12 @@
-﻿namespace DaLion.Overhaul.Modules.Professions.Patchers.Integration;
+﻿namespace DaLion.Overhaul.Modules.Professions.Patchers.Integration.Archery;
 
 #region using directives
 
-using System.Collections.Generic;
-using System.Reflection;
-using System.Reflection.Emit;
-using DaLion.Overhaul.Modules.Professions.Extensions;
-using DaLion.Overhaul.Modules.Professions.Integrations;
-using DaLion.Overhaul.Modules.Professions.Ultimates;
 using DaLion.Overhaul.Modules.Professions.VirtualProperties;
 using DaLion.Shared.Attributes;
 using DaLion.Shared.Extensions.Reflection;
 using DaLion.Shared.Harmony;
-using DaLion.Shared.Integrations.Archery;
 using HarmonyLib;
-using Microsoft.Xna.Framework;
-using Netcode;
 using StardewValley.Projectiles;
 
 #endregion using directives

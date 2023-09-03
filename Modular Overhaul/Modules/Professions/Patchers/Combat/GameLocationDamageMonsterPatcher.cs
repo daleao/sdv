@@ -420,7 +420,8 @@ internal sealed class GameLocationDamageMonsterPatcher : HarmonyPatcher
         }
 
         // increment Piper ultimate meter
-        if (ProfessionsModule.Config.EnableLimitBreaks && ultimate is Concerto { IsActive: false } concerto)
+        if (ProfessionsModule.Config.EnableLimitBreaks &&
+            ultimate is Concerto { IsActive: false } concerto)
         {
             var increment = monster switch
             {

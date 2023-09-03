@@ -43,7 +43,7 @@ internal sealed class ToolButtonPressedEvent : ButtonPressedEvent
 
         if (!ToolsModule.Config.EnableAutoSelection ||
             !ToolsModule.State.SelectableToolByType.ContainsKey(tool.GetType()) ||
-            tool == WeaponsModule.State.AutoSelectableWeapon || tool == SlingshotsModule.State.AutoSelectableSlingshot)
+            tool == CombatModule.State.AutoSelectableMelee || tool == CombatModule.State.AutoSelectableRanged)
         {
             return;
         }

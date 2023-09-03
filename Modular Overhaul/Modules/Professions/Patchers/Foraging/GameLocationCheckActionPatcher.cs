@@ -248,7 +248,7 @@ internal sealed class GameLocationCheckActionPatcher : HarmonyPatcher
         {
             who.Increment(DataKeys.GemologistMineralsCollected);
             var collected = who.Read<int>(DataKeys.GemologistMineralsCollected);
-            if (!ProfessionsModule.Config.CrystalariumsUpgradeWithGemologist)
+            if (!ProfessionsModule.Config.CrystalariumUpgradesWithGemologist)
             {
                 return;
             }

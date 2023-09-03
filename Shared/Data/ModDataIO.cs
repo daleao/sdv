@@ -70,7 +70,7 @@ internal static class ModDataIO
         Log.V(string.IsNullOrEmpty(value)
             ? $"[ModDataIO]: Cleared {farmer.Name}'s {field}."
             : $"[ModDataIO]: Wrote {value} to {farmer.Name}'s {field}.");
-        Log.D("[ModDataIO]: New data state:\n" + Game1.player.modData.ToDebugString());
+        Log.D("[ModDataIO]: New data state:" + Game1.player.modData.ToDebugString());
     }
 
     /// <summary>

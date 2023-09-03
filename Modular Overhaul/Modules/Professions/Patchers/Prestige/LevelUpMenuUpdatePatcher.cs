@@ -13,6 +13,7 @@ using DaLion.Overhaul.Modules.Professions.VirtualProperties;
 using DaLion.Shared.Extensions;
 using DaLion.Shared.Extensions.Reflection;
 using DaLion.Shared.Harmony;
+using DaLion.Overhaul.Modules.Professions.Events.GameLoop.DayStarted;
 using HarmonyLib;
 using Microsoft.Xna.Framework;
 using Netcode;
@@ -447,7 +448,7 @@ internal sealed class LevelUpMenuUpdatePatcher : HarmonyPatcher
         var oldProfession = Profession.FromValue(ulti);
         var newProfession = Profession.FromValue(chosenProfession);
         Game1.currentLocation.createQuestionDialogue(
-            I18n.Prestige_Levelup_Question(
+            I18n.Prestige_LevelUp_Question(
                     oldProfession.Title,
                     Ultimate.FromValue(oldProfession).DisplayName,
                     newProfession.Title,
@@ -471,7 +472,7 @@ internal sealed class LevelUpMenuUpdatePatcher : HarmonyPatcher
     {
         if (ProfessionsModule.Config.EnableExtendedProgession)
         {
-            Game1.drawObjectDialogue(I18n.Prestige_Levelup_Unlocked(Skill.FromValue(chosenProfession / 6).DisplayName));
+            Game1.drawObjectDialogue(I18n.Prestige_LevelUp_Unlocked(Skill.FromValue(chosenProfession / 6).DisplayName));
         }
 
         if (!Game1.player.HasAllProfessions(true))

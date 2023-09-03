@@ -1,8 +1,8 @@
-﻿namespace DaLion.Overhaul.Modules.Professions.Events.GameLoop;
+﻿namespace DaLion.Overhaul.Modules.Professions.Events.GameLoop.UpdateTicked;
 
 #region using directives
 
-using DaLion.Overhaul.Modules.Professions.Events.Display;
+using DaLion.Overhaul.Modules.Professions.Events.Display.RenderedHud;
 using DaLion.Overhaul.Modules.Professions.Extensions;
 using DaLion.Shared.Events;
 using Microsoft.Xna.Framework.Audio;

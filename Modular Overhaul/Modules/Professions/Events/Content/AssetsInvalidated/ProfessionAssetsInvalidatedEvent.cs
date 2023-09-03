@@ -1,4 +1,4 @@
-﻿namespace DaLion.Overhaul.Modules.Professions.Events;
+﻿namespace DaLion.Overhaul.Modules.Professions.Events.Content.AssetsInvalidated;
 
 #region using directives
 

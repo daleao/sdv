@@ -1,4 +1,4 @@
-﻿namespace DaLion.Overhaul.Modules.Tweex.Patchers.Fishing;
+﻿namespace DaLion.Overhaul.Modules.Tweex.Patchers;
 
 #region using directives
 

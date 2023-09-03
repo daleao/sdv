@@ -49,12 +49,15 @@ internal sealed class MonsterParseMonsterInfoPatcher : HarmonyPatcher
     [HarmonyPostfix]
     private static void MonsterParseMonsterInfoPostfix(Monster __instance)
     {
-        __instance.MaxHealth = (int)Math.Round(__instance.MaxHealth * CombatModule.Config.MonsterHealthMultiplier);
+        __instance.MaxHealth = (int)Math.Round((__instance.MaxHealth + CombatModule.Config.MonsterHealthSummand) *
+                                               CombatModule.Config.MonsterHealthMultiplier);
         __instance.DamageToFarmer =
-            (int)Math.Round(__instance.DamageToFarmer * CombatModule.Config.MonsterDamageMultiplier);
+            (int)Math.Round((__instance.DamageToFarmer + CombatModule.Config.MonsterDamageSummand) *
+                            CombatModule.Config.MonsterDamageMultiplier);
         __instance.resilience.Value =
-            (int)Math.Round((__instance.resilience.Value + (CombatModule.Config.OverhauledDefense ? 1 : 0)) *
-                            CombatModule.Config.MonsterDefenseMultiplier);
+            (int)Math.Round(
+                (__instance.resilience.Value + (CombatModule.Config.NewResistanceFormula ? 1 : 0) +
+                 CombatModule.Config.MonsterDefenseSummand) * CombatModule.Config.MonsterDefenseMultiplier);
 
         if (CombatModule.Config.VariedEncounters)
         {

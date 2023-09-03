@@ -49,7 +49,7 @@ internal sealed class ToolbarReceiveClickPatcher : HarmonyPatcher
     [HarmonyPrefix]
     private static bool ToolbarReceiveClickPrefix(Item? ___hoverItem, bool playSound)
     {
-        if (!ToolsModule.Config.EnableAutoSelection || !ToolsModule.Config.ModKey.IsDown())
+        if (!ToolsModule.Config.EnableAutoSelection || !ToolsModule.Config.ChargeKey.IsDown())
         {
             return true; // run original logic
         }

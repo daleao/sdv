@@ -1,8 +1,8 @@
-﻿namespace DaLion.Overhaul.Modules.Professions.Events.Multiplayer;
+﻿namespace DaLion.Overhaul.Modules.Professions.Events.Multiplayer.ModMessageReceived;
 
 #region using directives
 
-using DaLion.Overhaul.Modules.Professions.Events.GameLoop;
+using DaLion.Overhaul.Modules.Professions.Events.GameLoop.UpdateTicked;
 using DaLion.Shared.Events;
 using DaLion.Shared.Extensions;
 using StardewModdingAPI.Events;

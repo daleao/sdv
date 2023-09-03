@@ -1,4 +1,4 @@
-﻿namespace DaLion.Overhaul.Modules.Professions.Events.Display;
+﻿namespace DaLion.Overhaul.Modules.Professions.Events.Display.RenderingHud;
 
 #region using directives
 

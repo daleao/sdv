@@ -1,7 +1,8 @@
-﻿namespace DaLion.Overhaul.Modules.Professions.Events.TreasureHunt;
+﻿namespace DaLion.Overhaul.Modules.Professions.Events.TreasureHunt.TreasureHuntStarted;
 
 #region using directives
 
+using DaLion.Overhaul.Modules.Professions.Events.TreasureHunt.TreasureHuntEnded;
 using DaLion.Overhaul.Modules.Professions.TreasureHunts;
 using Microsoft.Xna.Framework;
 

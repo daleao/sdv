@@ -138,7 +138,7 @@ internal sealed class MonsterTakeDamagePatcher : HarmonyPatcher
                             typeof(ModConfig).RequirePropertyGetter(nameof(ModConfig.Combat))),
                         new CodeInstruction(
                             OpCodes.Callvirt,
-                            typeof(Config).RequirePropertyGetter(nameof(Config.OverhauledDefense))),
+                            typeof(Config).RequirePropertyGetter(nameof(Config.NewResistanceFormula))),
                         new CodeInstruction(OpCodes.Brfalse_S, doVanillaDefense),
                         new CodeInstruction(OpCodes.Ldarg_0),
                         new CodeInstruction(OpCodes.Ldarg_1),

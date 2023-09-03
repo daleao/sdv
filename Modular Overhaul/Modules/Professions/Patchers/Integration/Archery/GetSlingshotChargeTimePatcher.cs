@@ -1,4 +1,4 @@
-﻿namespace DaLion.Overhaul.Modules.Professions.Patchers.Integration;
+﻿namespace DaLion.Overhaul.Modules.Professions.Patchers.Integration.Archery;
 
 #region using directives
 
@@ -24,14 +24,14 @@ internal sealed class GetSlingshotChargeTimePatcher : HarmonyPatcher
         this.Target = "Archery.Framework.Objects.Weapons.Bow"
             .ToType()
             .RequireMethod("GetSlingshotChargeTime");
-        this.Transpiler!.after = new[] { OverhaulModule.Slingshots.Namespace };
+        this.Transpiler!.after = new[] { OverhaulModule.Combat.Namespace };
     }
 
     #region harmony patches
 
     /// <summary>Patch to reduce Bow charge time for Desperado.</summary>
     [HarmonyTranspiler]
-    [HarmonyAfter("DaLion.Overhaul.Modules.Slingshots")]
+    [HarmonyAfter("DaLion.Overhaul.Modules.Combat")]
     private static IEnumerable<CodeInstruction>? GetSlingshotChargeTimeTranspiler(
         IEnumerable<CodeInstruction> instructions, MethodBase original)
     {

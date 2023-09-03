@@ -1,5 +1,11 @@
 ﻿# TOLS Changelog
 
+## 3.0.0 <sup><sub><sup>[🔼 Back to top](#tols-change-log)</sup></sub></sup>
+
+### Fixed
+
+* Fixed a vanilla bug that occurs when attempting to harvest fiber that is not ready for harvest, with a Haymaker scythe, and caused an infinite fiber exploit.
+
 ## 2.5.5 <sup><sub><sup>[🔼 Back to top](#tols-change-log)</sup></sub></sup>
 
 ### Fixed

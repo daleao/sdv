@@ -76,7 +76,7 @@ internal sealed class SetAgeCommand : ConsoleCommand
                     break;
                 }
 
-                var nearest = Game1.player.GetClosestTerrainFeature<Tree>();
+                var nearest = Game1.player.GetClosestTerrainFeature<Tree>(out _);
                 if (nearest is null)
                 {
                     Log.W("There are no trees nearby.");
@@ -117,6 +117,7 @@ internal sealed class SetAgeCommand : ConsoleCommand
 
                 var nearest =
                     Game1.player.GetClosestObject<SObject>(
+                        out _,
                         predicate: o => o.bigCraftable.Value && o.Name == "Bee House");
                 if (nearest is null)
                 {
@@ -160,7 +161,7 @@ internal sealed class SetAgeCommand : ConsoleCommand
                 }
 
                 var nearest =
-                    Game1.player.GetClosestObject<SObject>(predicate: o =>
+                    Game1.player.GetClosestObject<SObject>(out _, predicate: o =>
                         o.bigCraftable.Value && o.Name == "Mushroom Box");
                 if (nearest is null)
                 {

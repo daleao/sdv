@@ -39,7 +39,7 @@ internal sealed class GameLocationAnswerDialogueActionPatcher : HarmonyPatcher
 
         if (!ProfessionsModule.Config.EnablePrestige ||
             ((!questionAndAnswer.Contains("dogStatue") || questionAndAnswer.Contains("No")) &&
-             !questionAndAnswer.ContainsAny("prestigeRespec_", "skillReset_")))
+             !questionAndAnswer.ContainsAnyOf("prestigeRespec_", "skillReset_")))
         {
             return true; // run original logic
         }
@@ -126,7 +126,7 @@ internal sealed class GameLocationAnswerDialogueActionPatcher : HarmonyPatcher
             where skill.CanReset()
             let costVal = skill.GetResetCost()
             let costStr = costVal > 0
-                ? I18n.Prestige_Dogstatue_Cost(costVal)
+                ? I18n.Prestige_DogStatue_Cost(costVal)
                 : string.Empty
             select new Response(skill.StringId, skill.DisplayName + ' ' + costStr)).ToList();
 
@@ -134,7 +134,7 @@ internal sealed class GameLocationAnswerDialogueActionPatcher : HarmonyPatcher
             "cancel",
             Game1.content.LoadString("Strings\\Locations:Sewer_DogStatueCancel")));
         location.createQuestionDialogue(
-            I18n.Prestige_Dogstatue_Which(),
+            I18n.Prestige_DogStatue_Which(),
             skillResponses.ToArray(),
             "skillReset");
     }
@@ -215,12 +215,12 @@ internal sealed class GameLocationAnswerDialogueActionPatcher : HarmonyPatcher
         var choices = (
             from unchosenUltimate in Game1.player.GetUnchosenUltimates()
             orderby unchosenUltimate
-            let choice = I18n.Prestige_Dogstatue_Choice(unchosenUltimate.Profession.Title, unchosenUltimate.DisplayName)
+            let choice = I18n.Prestige_DogStatue_Choice(unchosenUltimate.Profession.Title, unchosenUltimate.DisplayName)
             select new Response("Choice_" + unchosenUltimate, choice)).ToList();
-        choices.Add(new Response("Cancel", I18n.Prestige_Dogstatue_Cancel())
+        choices.Add(new Response("Cancel", I18n.Prestige_DogStatue_Cancel())
             .SetHotKey(Keys.Escape));
 
-        var message = I18n.Prestige_Dogstatue_Replace(chosenUltimate.Profession.Title, chosenUltimate.DisplayName);
+        var message = I18n.Prestige_DogStatue_Replace(chosenUltimate.Profession.Title, chosenUltimate.DisplayName);
         location.createQuestionDialogue(message, choices.ToArray(), HandleChangeUlti);
     }
 
@@ -347,7 +347,7 @@ internal sealed class GameLocationAnswerDialogueActionPatcher : HarmonyPatcher
         Sfx.DogStatuePrestige.Play();
 
         // tell the player
-        Game1.drawObjectDialogue(I18n.Prestige_Dogstatue_Fledged(chosenUltimate.Profession.Title));
+        Game1.drawObjectDialogue(I18n.Prestige_DogStatue_Fledged(chosenUltimate.Profession.Title));
 
         // woof woof
         DelayedAction.playSoundAfterDelay("dog_bark", 1300);

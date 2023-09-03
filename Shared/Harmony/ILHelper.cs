@@ -234,7 +234,7 @@ public sealed class ILHelper
     /// <summary>Moves the stack pointer an integer number of <paramref name="steps"/>.</summary>
     /// <param name="steps">Number of steps by which to move the stack pointer.</param>
     /// <returns>The <see cref="ILHelper"/> instance.</returns>
-    /// <remarks>Positive means down; negative means up.</remarks>
+    /// <remarks>Positive means down (towards the end of the method); negative means up (towards the start of the method).</remarks>
     public ILHelper Move(int steps = 1)
     {
         if (this.CurrentIndex + steps < 0 || this.CurrentIndex + steps > this.LastIndex)

@@ -1,6 +1,6 @@
-﻿namespace DaLion.Overhaul.Modules.Professions.Events.Ultimate;
+﻿namespace DaLion.Overhaul.Modules.Professions.Events.Ultimate.ChargeIncreased;
 
-/// <summary>Interface for the arguments of an <see cref="UltimateChargeInitiatedEvent"/>.</summary>
+/// <summary>Interface for the arguments of an <see cref="UltimateChargeIncreasedEvent"/>.</summary>
 public interface IUltimateChargeIncreasedEventArgs
 {
     /// <summary>Gets the player who triggered the event.</summary>

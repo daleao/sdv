@@ -40,7 +40,7 @@ internal sealed class SetFishQualityCommand : ConsoleCommand
             return;
         }
 
-        var nearest = Game1.player.GetClosestBuilding<FishPond>(predicate: b =>
+        var nearest = Game1.player.GetClosestBuilding<FishPond>(out _, predicate: b =>
             b.IsOwnedBy(Game1.player) && !b.isUnderConstruction());
         if (nearest is null)
         {

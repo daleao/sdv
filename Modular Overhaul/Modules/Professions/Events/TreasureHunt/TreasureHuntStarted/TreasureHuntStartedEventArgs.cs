@@ -1,4 +1,4 @@
-﻿namespace DaLion.Overhaul.Modules.Professions.Events.TreasureHunt;
+﻿namespace DaLion.Overhaul.Modules.Professions.Events.TreasureHunt.TreasureHuntStarted;
 
 #region using directives
 

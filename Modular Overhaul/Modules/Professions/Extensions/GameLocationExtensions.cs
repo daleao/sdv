@@ -70,7 +70,7 @@ internal static class GameLocationExtensions
     internal static bool IsDungeon(this GameLocation location)
     {
         return location is MineShaft or BugLand or VolcanoDungeon ||
-               location.NameOrUniqueName.ContainsAny(
+               location.NameOrUniqueName.ContainsAnyOf(
                    "CrimsonBadlands",
                    "DeepWoods",
                    "Highlands",
