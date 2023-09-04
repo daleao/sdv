@@ -2,6 +2,16 @@
 
 This file contains a TL;DR of current version changes and hotfixes from across all modules. For the complete changelog, please refer to the individual changelogs of each module, linked [below](#detailed-change-logs).
 
+## Patch 3.0.1 Highlights <sup><sub><sup>[🔼 Back to top](#margo-change-logs)</sup></sub></sup>
+
+* Fixed some missing translations.
+* [CMBT]: Lowered ammo damage:
+    * Gemstones: 45 -> 50
+    * Diamond: 120 -> 90
+    * Prismatic Shard: 250 -> 120
+* [CMBT]: Fixed Piper's Slime ammo damage (increased from 5 to 10).
+* [TOLS]: Fixed Master enchantment on tools other than Fishing Rod still increasing Fishing level by 1, and also not showing up as green in the skills page.
+
 ## Major Release 3.0.0 Highlights <sup><sub><sup>[🔼 Back to top](#margo-change-logs)</sup></sub></sup>
 
 * Re-unification of all the combat-oriented modules: CMBT, WPNZ, SLNGS, RNGS and ENCH are now collectively known as CMBT.

@@ -1,5 +1,11 @@
 ﻿# Core Changelog
 
+## 3.0.1 <sup><sub><sup>[🔼 Back to top](#tols-change-log)</sup></sub></sup>
+
+### Fixed
+
+* Fixed some missing translation issues.
+
 ## 3.0.0 <sup><sub><sup>[🔼 Back to top](#core-change-log)</sup></sub></sup>
 
 ### Changed

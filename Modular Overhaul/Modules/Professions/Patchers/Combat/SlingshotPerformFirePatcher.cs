@@ -116,7 +116,7 @@ internal sealed class SlingshotPerformFirePatcher : HarmonyPatcher
                     knockback = 0.4f;
                     break;
                 case ItemIDs.Slime:
-                    damageBase = who.HasProfession(Profession.Piper) ? 10 : 5;
+                    damageBase = who.HasProfession(Profession.Piper) ? 10 : 1;
                     knockback = 0f;
                     break;
                 default: // fish, fruit or vegetable

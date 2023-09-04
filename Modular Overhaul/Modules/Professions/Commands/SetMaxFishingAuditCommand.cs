@@ -9,11 +9,11 @@ using DaLion.Shared.Extensions;
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class MaxFishingAuditCommand : ConsoleCommand
+internal sealed class SetMaxFishingAuditCommand : ConsoleCommand
 {
-    /// <summary>Initializes a new instance of the <see cref="MaxFishingAuditCommand"/> class.</summary>
+    /// <summary>Initializes a new instance of the <see cref="SetMaxFishingAuditCommand"/> class.</summary>
     /// <param name="handler">The <see cref="CommandHandler"/> instance that handles this command.</param>
-    internal MaxFishingAuditCommand(CommandHandler handler)
+    internal SetMaxFishingAuditCommand(CommandHandler handler)
         : base(handler)
     {
     }

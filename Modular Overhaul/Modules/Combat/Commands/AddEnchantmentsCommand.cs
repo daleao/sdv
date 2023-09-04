@@ -41,7 +41,7 @@ internal sealed class AddEnchantmentsCommand : ConsoleCommand
         }
 
         var tool = Game1.player.CurrentTool;
-        if (tool is null)
+        if (tool is null or not (MeleeWeapon or Slingshot))
         {
             Log.W("You must select a tool first.");
             return;
@@ -87,19 +87,6 @@ internal sealed class AddEnchantmentsCommand : ConsoleCommand
                 "v_crusader" => new CrusaderEnchantment(),
                 "v_vampiric" => new VampiricEnchantment(),
                 "v_magic" or "v_sunburst" => new MagicEnchantment(),
-
-                // tool enchants
-                "auto-hook" or "autohook" or "hook" => new AutoHookEnchantment(),
-                "arch" or "archaeologist" => new ArchaeologistEnchantment(),
-                "bottomless" => new BottomlessEnchantment(),
-                "efficient" => new EfficientToolEnchantment(),
-                "generous" => new GenerousEnchantment(),
-                "master" => new MasterEnchantment(),
-                "powerful" => new PowerfulEnchantment(),
-                "preserving" when tool is FishingRod => new StardewValley.PreservingEnchantment(),
-                "reaching" => new ReachingToolEnchantment(),
-                "shaving" => new ShavingEnchantment(),
-                "swift" => new SwiftToolEnchantment(),
 
                 _ => null,
             };

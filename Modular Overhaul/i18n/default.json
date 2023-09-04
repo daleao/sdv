@@ -901,9 +901,9 @@
   "gmcm.twx.farming.spawn_crows.title": "Spawn Crows on These Maps:",
   "gmcm.twx.maps.islandwest": "Ginger Island Farm",
   "gmcm.twx.maps.custom_garden": "Community Garden (SVE)",
-  "gmcm.twx.maps.custom_grampleton_fields": "Grampleton Fields (SVE)",
-  "gmcm.twx.maps.custom_ridgeside_summit_farm": "Summit Farm (Ridgeside Village)",
-  "gmcm.twx.maps.custom_es_meadow_farm": "Meadow Farm (East Scarp)",
+  "gmcm.twx.maps.custom_grampletonfields": "Grampleton Fields (SVE)",
+  "gmcm.twx.maps.custom_ridgesidesummitfarm": "Summit Farm (Ridgeside Village)",
+  "gmcm.twx.maps.custom_esmeadowfarm": "Meadow Farm (East Scarp)",
 
   "gmcm.twx.fishing.trash_does_not_consume_bait.title": "Trash Does Not Consume Bait",
   "gmcm.twx.fishing.trash_does_not_consume_bait.desc": "Prevents bait consumption when a Crab Pot produces trash.",

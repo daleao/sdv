@@ -1,6 +1,12 @@
 ﻿# CMBT Changelog
 
-## 2.6.0 <sup><sub><sup>[🔼 Back to top](#profs-change-log)</sup></sub></sup>
+## 3.0.1 <sup><sub><sup>[🔼 Back to top](#cmbt-change-log)</sup></sub></sup>
+
+### Fixed
+
+* Fixed Piper's Slime ammo damage (increased from 5 to 10).
+
+## 3.0.0 <sup><sub><sup>[🔼 Back to top](#cmbt-change-log)</sup></sub></sup>
 
 Merged WPNZ, SLNGS, RNGS and ENCH into the CMBT module. All of those modules essentially tackled different facets of combat, and WPNZ and SLNGS in particular shared many redundant patches and config settings. In that light, the unification streamlines a lot of the config schema and cuts down on the number of patches required.
 
@@ -24,6 +30,10 @@ Merged WPNZ, SLNGS, RNGS and ENCH into the CMBT module. All of those modules ess
     * If you were not aware, the Blade of Dawn and Infinity weapons already all possess the ability to inflict perma-death on Mummies, replacing the vanilla Crusader enchantment.
 * Blade of Dawn and Infinity weapon beams no longer cast a shadow.
 * Lowered Wabbajack probability from 0.5 to about 0.309.
+* Lowered ammo damage:
+    * Gemstones: 45 -> 50
+    * Diamond: 120 -> 90
+    * Prismatic Shard: 250 -> 120
 
 ## Removed
 

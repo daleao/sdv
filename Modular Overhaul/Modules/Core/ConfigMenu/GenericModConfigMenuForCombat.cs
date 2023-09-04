@@ -294,7 +294,7 @@ internal sealed partial class GenericModConfigMenu
                     Game1.player.Get_ResonatingChords().ForEach(chord => chord.ResetLightSource());
                 },
                 new[] { "Sconce", "Stronger", "Patterned" },
-                value => _I18n.Get("gmcm.cmbt.resonance.light_source." + value.ToLowerInvariant()))
+                value => _I18n.Get("gmcm.cmbt.rings.resonance.light_source." + value.ToLowerInvariant()))
 
             #endregion rings
 

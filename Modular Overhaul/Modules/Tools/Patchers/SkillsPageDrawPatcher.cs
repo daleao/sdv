@@ -10,7 +10,6 @@ using DaLion.Shared.Harmony;
 using HarmonyLib;
 using Microsoft.Xna.Framework.Graphics;
 using StardewValley.Menus;
-using StardewValley.Tools;
 
 #endregion using directives
 
@@ -28,167 +27,33 @@ internal sealed class SkillsPageDrawPatcher : HarmonyPatcher
         IEnumerable<CodeInstruction> instructions, ILGenerator generator, MethodBase original)
     {
         var helper = new ILHelper(original, instructions);
-        var currentTool = generator.DeclareLocal(typeof(Tool));
 
         try
         {
-            var checkForMasterEnchantment = generator.DefineLabel();
-            var setFalse = generator.DefineLabel();
-            var setTrue = generator.DefineLabel();
-            var resumeExecution = generator.DefineLabel();
             helper
                 .Match(
                     new[]
                     {
-                        new CodeInstruction(OpCodes.Cgt),
-                        new CodeInstruction(OpCodes.Stloc_S, helper.Locals[6]),
-                    })
-                .ReplaceWith(new CodeInstruction(OpCodes.Bgt_S, setTrue))
-                .Move()
-                .AddLabels(resumeExecution)
-                .Insert(
-                    new[]
-                    {
-                        new CodeInstruction(OpCodes.Call, typeof(Game1).RequirePropertyGetter(nameof(Game1.player))),
                         new CodeInstruction(
                             OpCodes.Callvirt,
-                            typeof(Farmer).RequirePropertyGetter(nameof(Farmer.CurrentTool))),
-                        new CodeInstruction(OpCodes.Stloc_S, currentTool),
-                        new CodeInstruction(OpCodes.Ldloc_S, currentTool),
-                        new CodeInstruction(OpCodes.Brfalse_S, setFalse),
-                        new CodeInstruction(OpCodes.Ldloc_S, currentTool),
-                        new CodeInstruction(OpCodes.Isinst, typeof(Hoe)),
-                        new CodeInstruction(OpCodes.Brtrue_S, checkForMasterEnchantment),
-                        new CodeInstruction(OpCodes.Ldloc_S, currentTool),
-                        new CodeInstruction(OpCodes.Isinst, typeof(WateringCan)),
-                        new CodeInstruction(OpCodes.Brfalse_S, setFalse),
-                    })
-                .Insert(
-                    new[]
-                    {
-                        new CodeInstruction(OpCodes.Ldloc_S, currentTool),
-                        new CodeInstruction(
-                            OpCodes.Callvirt,
-                            typeof(Tool)
-                                .RequireMethod(nameof(Tool.hasEnchantmentOfType))
+                            typeof(Tool).RequireMethod(nameof(Tool.hasEnchantmentOfType))
                                 .MakeGenericMethod(typeof(MasterEnchantment))),
-                        new CodeInstruction(OpCodes.Brfalse_S, setFalse),
-                    },
-                    new[] { checkForMasterEnchantment })
-                .Insert(
-                    new[]
-                    {
-                        new CodeInstruction(OpCodes.Ldc_I4_1),
-                        new CodeInstruction(OpCodes.Br_S, resumeExecution),
-                    },
-                    new[] { setTrue })
-                .Insert(
-                    new[] { new CodeInstruction(OpCodes.Ldc_I4_0) },
-                    new[] { setFalse });
-        }
-        catch (Exception ex)
-        {
-            Log.E($"Failed drawing bonus Farming Level for new Master enchantments.\nHelper returned {ex}");
-            return null;
-        }
-
-        try
-        {
-            var setFalse = generator.DefineLabel();
-            var setTrue = generator.DefineLabel();
-            var resumeExecution = generator.DefineLabel();
-            helper
+                    })
                 .Match(
                     new[]
                     {
-                        new CodeInstruction(OpCodes.Cgt),
-                        new CodeInstruction(OpCodes.Stloc_S, helper.Locals[6]),
-                    })
-                .ReplaceWith(new CodeInstruction(OpCodes.Bgt_S, setTrue))
-                .Move()
-                .AddLabels(resumeExecution)
-                .Insert(
-                    new[]
-                    {
-                        new CodeInstruction(OpCodes.Call, typeof(Game1).RequirePropertyGetter(nameof(Game1.player))),
                         new CodeInstruction(
-                            OpCodes.Callvirt,
-                            typeof(Farmer).RequirePropertyGetter(nameof(Farmer.CurrentTool))),
-                        new CodeInstruction(OpCodes.Stloc_S, currentTool),
-                        new CodeInstruction(OpCodes.Ldloc_S, currentTool),
-                        new CodeInstruction(OpCodes.Brfalse_S, setFalse),
-                        new CodeInstruction(OpCodes.Ldloc_S, currentTool),
-                        new CodeInstruction(
-                            OpCodes.Callvirt,
-                            typeof(Tool)
-                                .RequireMethod(nameof(Tool.hasEnchantmentOfType))
-                                .MakeGenericMethod(typeof(MasterEnchantment))),
-                        new CodeInstruction(OpCodes.Brfalse_S, setFalse),
-                    })
-                .Insert(
-                    new[]
-                    {
-                        new CodeInstruction(OpCodes.Ldc_I4_1),
-                        new CodeInstruction(OpCodes.Br_S, resumeExecution),
+                            OpCodes.Call,
+                            typeof(Game1).RequirePropertyGetter(nameof(Game1.player))),
                     },
-                    new[] { setTrue })
-                .Insert(
-                    new[] { new CodeInstruction(OpCodes.Ldc_I4_0) },
-                    new[] { setFalse });
+                    ILHelper.SearchOption.Previous,
+                    2)
+                .CountUntil(new[] { new CodeInstruction(OpCodes.Br_S) }, out var count)
+                .Remove(count);
         }
         catch (Exception ex)
         {
-            Log.E($"Failed drawing bonus Mining Level for new Master enchantment.\nHelper returned {ex}");
-            return null;
-        }
-
-        try
-        {
-            var setFalse = generator.DefineLabel();
-            var setTrue = generator.DefineLabel();
-            var resumeExecution = generator.DefineLabel();
-            helper
-                .Match(
-                    new[]
-                    {
-                        new CodeInstruction(OpCodes.Cgt),
-                        new CodeInstruction(OpCodes.Stloc_S, helper.Locals[6]),
-                    })
-                .ReplaceWith(new CodeInstruction(OpCodes.Bgt_S, setTrue))
-                .Move()
-                .AddLabels(resumeExecution)
-                .Insert(
-                    new[]
-                    {
-                        new CodeInstruction(OpCodes.Call, typeof(Game1).RequirePropertyGetter(nameof(Game1.player))),
-                        new CodeInstruction(
-                            OpCodes.Callvirt,
-                            typeof(Farmer).RequirePropertyGetter(nameof(Farmer.CurrentTool))),
-                        new CodeInstruction(OpCodes.Stloc_S, currentTool),
-                        new CodeInstruction(OpCodes.Ldloc_S, currentTool),
-                        new CodeInstruction(OpCodes.Brfalse_S, setFalse),
-                        new CodeInstruction(OpCodes.Ldloc_S, currentTool),
-                        new CodeInstruction(
-                            OpCodes.Callvirt,
-                            typeof(Tool)
-                                .RequireMethod(nameof(Tool.hasEnchantmentOfType))
-                                .MakeGenericMethod(typeof(MasterEnchantment))),
-                        new CodeInstruction(OpCodes.Brfalse_S, setFalse),
-                    })
-                .Insert(
-                    new[]
-                    {
-                        new CodeInstruction(OpCodes.Ldc_I4_1),
-                        new CodeInstruction(OpCodes.Br_S, resumeExecution),
-                    },
-                    new[] { setTrue })
-                .Insert(
-                    new[] { new CodeInstruction(OpCodes.Ldc_I4_0) },
-                    new[] { setFalse });
-        }
-        catch (Exception ex)
-        {
-            Log.E($"Failed drawing bonus Foraging Level for new Master enchantment.\nHelper returned {ex}");
+            Log.E($"Failed removing Master enchantment green font.\nHelper returned {ex}");
             return null;
         }
 

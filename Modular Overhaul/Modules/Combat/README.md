@@ -108,7 +108,7 @@ Weapon spamming is makes vanilla combat a boring click-fest. This mod implements
 - **Clubs:** up to 2 hits, being one horizontal swipe and one vertical swipe, by default.
 - **Daggers:** unchanged, effectively up to infinite hits.
 
-If combo hits are enabled, swing speed bonuses from emerald effects will apply to every frame of the attack animation, as well as the cooldown in between combos, as opposed to only the final frame as in vanilla. This immediately makes speed a more valuable stat.
+If combo hits are enabled, swing speed bonuses from **emerald** effects will apply to every frame of the attack animation, as well as the cooldown in between combos, as opposed to only the final frame as in vanilla. This immediately makes speed a more valuable stat.
 
 <sup><sub><sup>[🔼 Back to top](#margo-combat-cmbt)</sup></sub></sup>
 
@@ -178,7 +178,7 @@ In order to better reflect their new weapon types, as well as their mythical or 
 
 ### Melee Enchantments
 
-Weapons enchantments have been almost entirely overhauled. Hopefully these enchantments will provide more interesting gameplay options:
+Weapons enchantments have been almost entirely overhauled. These new enchantments should provide more interesting gameplay options:
 
 | Name      | Effect |
 | --------- | -------|
@@ -203,13 +203,13 @@ Weapons enchantments have been almost entirely overhauled. Hopefully these encha
 ### Other Features
 
 * **The Mines & Weapon Acquisition**
-    In vanilla, the player is quick to amass large quantities of fodder weapons, both from Mine chests as well as barrel and crate drops. To support the intended experience of progression, all weapons are removed from Mine chests, which instead reward random goodies. In order to obtain new weapons, players will have to fight for monster dropped from monsters or breakable containers in Mines and other dungeons. Monster-dropped weapons are rare, but tend to be stronger. Lower-tier weapons can also be purchased directly from Marlon, but will have fixed and significantly weaker stats when obtained this way.
+    In vanilla, the player is quick to amass large quantities of fodder weapons, both from Mine chests as well as barrel and crate drops. To support the intended experience of progression, all weapons are removed from Mine chests, which instead reward random goodies. In order to obtain new weapons, players will have to fight for monster drops or get lucky with breakable containers. Monster-dropped weapons are rare, but tend to be stronger. Lower-tier weapons can also be purchased directly from Marlon, but will have fixed and significantly weaker stats when obtained this way.
 
 * **Tooltips**
 
     Vanilla weapon tooltips are confusing. Who the heck knows what "+1 Speed" means?
     
-    This mod makes improves weapon tooltips for clarity, so you always know exactly what each stat means. You may configure the tooltips to show **absolute** or **relative** stats; the former displays straight-forward raw stats, while the latter displays percentages **based on the weapon type's base stats**.
+    This mod improves weapon tooltips for clarity, so you always know exactly what each stat means. You may configure the tooltips to show **absolute** or **relative** stats; the former displays straight-forward raw stats, while the latter displays percentages **based on the weapon type's base stats**.
 
     Note that this is the only feature of this mod that affects third-party mod weapons. If you play with expansion mods which add new weapons, such as Ridgeside Village, you will likely notice absurdly high stats in those weapons' tooltips. **That's not on me.** Those weapons are broken by design. I just pulled the curtains. You're welcome.
 
@@ -217,7 +217,7 @@ Weapons enchantments have been almost entirely overhauled. Hopefully these encha
 
 ## Ranged Weapon Changes
 
-Ranged weapons are actually quite strong in vanilla, mainly because ammo's deal insane damage. They are also boring, however, since ranged combat is very unidimensional. This mod seeks to alleviates that by reducing base ammo damage while also introducing many of the same mechanics afforded to melee weapons.
+Ranged weapons are actually quite strong in vanilla, mainly because ammo's deal insane damage. They are also boring, however, since ranged combat is very unidimensional. This mod seeks to alleviate that by reducing base ammo damage while also introducing many of the same mechanics afforded to melee weapons.
 
 <sup><sub><sup>[🔼 Back to top](#margo-combat-cmbt)</sup></sub></sup>
 
@@ -233,10 +233,10 @@ The following ammos have been nerfed, either for immersion or balance:
 - Explosive Ammo: 20 damage >> 2 damage ﻿- *Explosive ammo is meant to be used as a mining utility **only**, so it's damage has been reduced to reflect that. If you'd like to use slingshots for combat and mining simultaneously, consider taking up the [Rascal](../Professions)'s extra ammo slot.*
 
 The following new ammos have been added:
-- Radioactive Ore: 80
-- Gemstones (Ruby, Emerald, etc.): 50
-- Diamond: 120
-- Prismatic Shard: 200
+- Radioactive Ore: 80 damage
+- Gemstones (Ruby, Emerald, etc.): 50 damage
+- Diamond: 120 damage
+- Prismatic Shard: 200 damage
 
 <sup><sub><sup>[🔼 Back to top](#margo-combat-cmbt)</sup></sub></sup>
 

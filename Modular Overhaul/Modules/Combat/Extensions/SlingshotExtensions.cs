@@ -31,7 +31,7 @@ internal static class SlingshotExtensions
             case SObject.coal:
                 return CombatModule.Config.EnableWeaponOverhaul ? 2 : 15;
             case ItemIDs.ExplosiveAmmo:
-                return CombatModule.Config.EnableWeaponOverhaul ? 2 : 20;
+                return CombatModule.Config.EnableWeaponOverhaul ? 1 : 20;
             case SObject.stone:
                 return 5;
             case SObject.copper:
@@ -45,18 +45,18 @@ internal static class SlingshotExtensions
             case ItemIDs.RadioactiveOre:
                 return 80;
             case ItemIDs.Slime:
-                return Game1.player.professions.Contains(Farmer.acrobat) ? 5 : 0;
+                return Game1.player.professions.Contains(Farmer.acrobat) ? 10 : 1;
             case ItemIDs.Emerald:
             case ItemIDs.Aquamarine:
             case ItemIDs.Ruby:
             case ItemIDs.Amethyst:
             case ItemIDs.Topaz:
             case ItemIDs.Jade:
-                return 50;
+                return 45;
             case ItemIDs.Diamond:
-                return 120;
+                return 90;
             case SObject.prismaticShardIndex:
-                return 200;
+                return 120;
             default: // fish, fruit or vegetable
                 return 1;
         }

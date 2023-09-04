@@ -8,11 +8,11 @@ using DaLion.Shared.Extensions.Stardew;
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class MaxAnimalDispositionsCommand : ConsoleCommand
+internal sealed class SetMaxAnimalDispositionsCommand : ConsoleCommand
 {
-    /// <summary>Initializes a new instance of the <see cref="MaxAnimalDispositionsCommand"/> class.</summary>
+    /// <summary>Initializes a new instance of the <see cref="SetMaxAnimalDispositionsCommand"/> class.</summary>
     /// <param name="handler">The <see cref="CommandHandler"/> instance that handles this command.</param>
-    internal MaxAnimalDispositionsCommand(CommandHandler handler)
+    internal SetMaxAnimalDispositionsCommand(CommandHandler handler)
         : base(handler)
     {
     }

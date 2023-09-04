@@ -306,7 +306,7 @@ internal sealed partial class GenericModConfigMenu
                         $"{Manifest.UniqueID}/PrestigeProgression");
                 },
                 new[] { "StackedStars", "Gen3Ribbons", "Gen4Ribbons" },
-                value => _I18n.Get("gmcm.profs.prestige.progressionstyle." + value.ToLowerInvariant()))
+                value => _I18n.Get("gmcm.profs.prestige.progression_style." + value.ToLowerInvariant()))
             .AddCheckbox(
                 I18n.Gmcm_Profs_Prestige_RaisedLevelCap_Title,
                 I18n.Gmcm_Profs_Prestige_RaisedLevelCap_Desc,

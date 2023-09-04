@@ -1,5 +1,15 @@
 ﻿# TOLS Changelog
 
+## 3.0.1 <sup><sub><sup>[🔼 Back to top](#tols-change-log)</sup></sub></sup>
+
+### Added
+
+* Re-added the tool-specific enchant command.
+
+### Fixed
+
+* Fixed Master enchantment on tools other than Fishing Rod still increasing Fishing level by 1, and also not showing up as green in the skills page. Idk why ConcernedApe didn't just make it an `addedFishingLevel` to begin with.
+
 ## 3.0.0 <sup><sub><sup>[🔼 Back to top](#tols-change-log)</sup></sub></sup>
 
 ### Fixed
