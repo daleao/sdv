@@ -6,7 +6,7 @@ This file contains a TL;DR of current version changes and hotfixes from across a
 
 * Fixed some missing translations.
 * [CMBT]: Lowered ammo damage:
-    * Gemstones: 45 -> 50
+    * Gemstones: 50 -> 45
     * Diamond: 120 -> 90
     * Prismatic Shard: 250 -> 120
 * [CMBT]: Fixed Piper's Slime ammo damage (increased from 5 to 10).
