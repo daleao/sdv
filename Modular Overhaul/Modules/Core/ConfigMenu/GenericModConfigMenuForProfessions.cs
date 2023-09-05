@@ -320,7 +320,6 @@ internal sealed partial class GenericModConfigMenu
                 1000,
                 10000,
                 500)
-            .AddHorizontalRule()
 
         #endregion prestige
 

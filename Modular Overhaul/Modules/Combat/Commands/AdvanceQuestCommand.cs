@@ -44,14 +44,17 @@ internal sealed class AdvanceQuestCommand : ConsoleCommand
             case "clint":
             case "dwarven":
             case "legacy":
-                if (player.hasQuest((int)QuestId.ForgeIntro))
+                if (!player.hasQuest((int)QuestId.ForgeIntro))
+                {
+                    player.addQuest((int)QuestId.ForgeIntro);
+                }
+                else
                 {
                     player.completeQuest((int)QuestId.ForgeIntro);
-                }
-
-                if (!player.mailReceived.Contains("clintForge"))
-                {
-                    player.mailReceived.Add("clintForge");
+                    if (!player.mailReceived.Contains("clintForge"))
+                    {
+                        player.mailReceived.Add("clintForge");
+                    }
                 }
 
                 break;

@@ -500,9 +500,9 @@
   "gmcm.profs.prestige.respec_cost.desc": "Monetary cost of respecing prestige profession choices for a skill. Set to 0 to respec for free.",
   "gmcm.profs.prestige.progression_style.title": "Progression Style",
   "gmcm.profs.prestige.progression_style.desc": "Determines the style of the sprite that appears next to skill bars, and indicates the skill reset progression.",
-  "gmcm.profs.prestige.progression_style.stacked_stars": "Stacked Stars",
-  "gmcm.profs.prestige.progression_style.gen_3_ribbons": "Gen 3 Ribbons",
-  "gmcm.profs.prestige.progression_style.gen_4_ribbons": "Gen 4 Ribbons",
+  "gmcm.profs.prestige.progression_style.stackedstars": "Stacked Stars",
+  "gmcm.profs.prestige.progression_style.gen3ribbons": "Gen 3 Ribbons",
+  "gmcm.profs.prestige.progression_style.gen4ribbons": "Gen 4 Ribbons",
 
   "gmcm.profs.prestige.raised_level_cap.title": "Enable Extended Progression",
   "gmcm.profs.prestige.raised_level_cap.desc": "Must be enabled to allow progression until level 20.",

@@ -24,7 +24,7 @@ Merged WPNZ, SLNGS, RNGS and ENCH into the CMBT module. All of those modules ess
     * The town community upgrade now also counts towards the player's generosity.
     * The player's valor no longer depends on Monster Eradication quests. It's now a simple monster kill counter.
     * Tweaked the completion criteria for Generosity and Valor.
-    * You can now offer a prayer to Yoba once a day to weaken the Blade of Ruin's curse by 20% points, to a minimum of 50 points.
+    * You can now offer a prayer to Yoba once a day to weaken the Blade of Ruin's curse by 20%, to a minimum of 50 points.
     * Slightly changed the flavor text when obtaining a Galaxy weapon and the Blade of Dawn.
 * Blade of Dawn now also deals extra damage to shadow and undead monsters (vanilla Crusader effect, but weaker) and grants the effect of a small lightsource while held.
     * If you were not aware, the Blade of Dawn and Infinity weapons already all possess the ability to inflict perma-death on Mummies, replacing the vanilla Crusader enchantment.

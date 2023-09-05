@@ -16,11 +16,11 @@ using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using DaLion.Shared.Events;
 using DaLion.Shared.Extensions.Collections;
+using DaLion.Shared.Extensions.Reflection;
 using DaLion.Shared.Extensions.SMAPI;
 using DaLion.Shared.ModData;
 using DaLion.Shared.Networking;
 using DaLion.Shared.Reflection;
-using Shared.Extensions.Reflection;
 using StardewModdingAPI.Utilities;
 
 #endregion using directives
@@ -106,6 +106,7 @@ public sealed class ModEntry : Mod
         this.ValidateMultiplayer();
         this.StopWatch();
         this.LogStats();
+        Log.I("[Entry]: Version checksum: " + this.GetType().Assembly.CalculateMd5());
     }
 
     /// <inheritdoc />

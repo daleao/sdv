@@ -2,6 +2,10 @@
 
 This file contains a TL;DR of current version changes and hotfixes from across all modules. For the complete changelog, please refer to the individual changelogs of each module, linked [below](#detailed-change-logs).
 
+## Patch 3.0.2 Highlights <sup><sub><sup>[🔼 Back to top](#margo-change-logs)</sup></sub></sup>
+
+* Fixed a few more translation issues.
+
 ## Patch 3.0.1 Highlights <sup><sub><sup>[🔼 Back to top](#margo-change-logs)</sup></sub></sup>
 
 * Fixed some missing translations.
@@ -18,7 +22,7 @@ This file contains a TL;DR of current version changes and hotfixes from across a
     * Several redundant config settings (like those related to Auto-Selection) were consolidated.
     * Only the Glowstone Ring features from RNGS were moved to TWX instead.
 * Changed several translation keys for better formatting with Pathoschild's Translation Generator. This may lead to missing translation issues, so please report if you see any.
-* [CMBT]: Improvements to the Blade of Ruin questline. See the [CMBT changelog](#cmbt-change-log).
+* [CMBT]: Improvements to the Blade of Ruin questline. See the [CMBT changelog](Modules/Combat/CHANGELOG.md#3_0_0).
 * [CMBT]: Blade of Dawn now also deals extra damage to shadow and undead monsters and grants a small light while held.
 * [CMBT]: Blade of Dawn and Infinity weapon beams no longer cast a shadow.
 * [CMBT]: Prismatic Shard ammo is no longer affected by Preserving Enchantment. That combination was broken AF.
