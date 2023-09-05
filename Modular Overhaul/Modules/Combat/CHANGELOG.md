@@ -31,7 +31,7 @@ Merged WPNZ, SLNGS, RNGS and ENCH into the CMBT module. All of those modules ess
 * Blade of Dawn and Infinity weapon beams no longer cast a shadow.
 * Lowered Wabbajack probability from 0.5 to about 0.309.
 * Lowered ammo damage:
-    * Gemstones: 45 -> 50
+    * Gemstones: 50 -> 45
     * Diamond: 120 -> 90
     * Prismatic Shard: 250 -> 120
 
