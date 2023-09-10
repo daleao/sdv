@@ -1,78 +1,13 @@
 {
-  /*
-   | This file is automatically updated by ModManifestBuilder
-   | when the project is compiled.
-   | 
-   | Changes made to this file may be overwritten.
-   | 
-   */
   "$schema": "https://smapi.io/schemas/manifest.json",
-  "UniqueID": "DaLion.Overhaul",
-  "Name": "Modular Gameplay Overhaul",
+  "UniqueID": "DaLion.Chargeable",
+  "Name": "Chargeable Resource Tools",
   "Author": "DaLion",
-  "Version": "3.0.1-Debug",
-  "Description": "A complete and comprehensive rework of many gameplay mechanics, offered as a compilation of independent, but deeply integrated, overhaul modules. ",
-  "MinimumApiVersion": "3.18.0",
-  "EntryDll": "DaLion.Overhaul.dll",
-  "Dependencies": [
-    {
-      "UniqueID": "aedenthorn.CustomOreNodes",
-      "MinimumVersion": "2.1.1",
-      "IsRequired": false
-    },
-    {
-      "UniqueID": "aedenthorn.CustomResourceClumps",
-      "MinimumVersion": "0.7.0",
-      "IsRequired": false
-    },
-    {
-      "UniqueID": "BBR.BetterRings",
-      "IsRequired": false
-    },
-    {
-      "UniqueID": "blueberry.LoveOfCooking",
-      "MinimumVersion": "1.0.28",
-      "IsRequired": false
-    },
-    {
-      "UniqueID": "leclair.bettercrafting",
-      "MinimumVersion": "1.0.0",
-      "IsRequired": false
-    },
-    {
-      "UniqueID": "Pathoschild.Automate",
-      "IsRequired": false
-    },
-    {
-      "UniqueID": "spacechase0.GenericModConfigMenu",
-      "MinimumVersion": "1.8.0",
-      "IsRequired": false
-    },
-    {
-      "UniqueID": "spacechase0.JsonAssets",
-      "MinimumVersion": "1.10.7",
-      "IsRequired": false
-    },
-    {
-      "UniqueID": "spacechase0.LuckSkill",
-      "IsRequired": false
-    },
-    {
-      "UniqueID": "spacechase0.MoonMisadventures",
-      "IsRequired": false
-    },
-    {
-      "UniqueID": "spacechase0.SpaceCore",
-      "MinimumVersion": "1.12.0",
-      "IsRequired": true
-    },
-    {
-      "UniqueID": "TehPers.FishingOverhaul",
-      "MinimumVersion": "3.2.1",
-      "IsRequired": false
-    }
-  ],
+  "Version": "1.0.0",
+  "Description": "Charge Axe and Pickaxe to break debris within an area.",
+  "MinimumApiVersion": "3.12.0",
+  "EntryDll": "DaLion.Chargeable.dll",
   "UpdateKeys": [
-    "Nexus:14470@Main"
+    "Nexus:14470@Chargeable"
   ]
 }

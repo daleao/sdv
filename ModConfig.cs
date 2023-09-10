@@ -1,167 +1,100 @@
-﻿namespace DaLion.Overhaul;
+﻿namespace DaLion.Chargeable;
 
 #region using directives
 
-using System.Collections.Generic;
 using System.Linq;
-using Newtonsoft.Json;
+using DaLion.Chargeable.Framework.Configs;
 using StardewModdingAPI.Utilities;
 
 #endregion using directives
 
-/// <summary>The collection of configs for each module.</summary>
+/// <summary>The user-configurable settings for Tools.</summary>
 public sealed class ModConfig
 {
-    #region module flags
+    /// <inheritdoc cref="AxeConfig"/>
+    public AxeConfig Axe { get; internal set; } = new();
 
-    /// <summary>Gets a value indicating whether the Professions module is enabled.</summary>
-    [JsonProperty]
-    public bool EnableProfessions { get; internal set; } = true;
+    /// <inheritdoc cref="PickaxeConfig"/>
+    public PickaxeConfig Pick { get; internal set; } = new();
 
-#if DEBUG
+    /// <summary>Gets a value indicating whether determines whether charging requires a mod key to activate.</summary>
+    public bool RequireModkey { get; internal set; } = true;
 
-    /// <summary>Gets a value indicating whether the Combat module is enabled.</summary>
-    [JsonProperty]
-    public bool EnableCombat { get; internal set; } = true;
+    /// <summary>Gets the chosen mod key(s).</summary>
+    public KeybindList Modkey { get; internal set; } = KeybindList.Parse("LeftShift, LeftShoulder");
 
-    /// <summary>Gets a value indicating whether the Weapons module is enabled.</summary>
-    [JsonProperty]
-    public bool EnableWeapons { get; internal set; } = true;
+    /// <summary>Gets affects the shockwave travel speed. Lower is faster. Set to 0 for instant.</summary>
+    public uint TicksBetweenWaves { get; internal set; } = 4;
 
-    /// <summary>Gets a value indicating whether the Slingshots module is enabled.</summary>
-    [JsonProperty]
-    public bool EnableSlingshots { get; internal set; } = true;
-
-    /// <summary>Gets a value indicating whether the Tools module is enabled.</summary>
-    [JsonProperty]
-    public bool EnableTools { get; internal set; } = true;
-
-    /// <summary>Gets a value indicating whether the Enchantments module is enabled.</summary>
-    [JsonProperty]
-    public bool EnableEnchantments { get; internal set; } = true;
-
-    /// <summary>Gets a value indicating whether the Rings module is enabled.</summary>
-    [JsonProperty]
-    public bool EnableRings { get; internal set; } = true;
-
-    /// <summary>Gets a value indicating whether the Ponds module is enabled.</summary>
-    [JsonProperty]
-    public bool EnablePonds { get; internal set; } = true;
-
-    /// <summary>Gets a value indicating whether the Taxes module is enabled.</summary>
-    [JsonProperty]
-    public bool EnableTaxes { get; internal set; } = true;
-
-    /// <summary>Gets a value indicating whether the Tweex module is enabled.</summary>
-    [JsonProperty]
-    public bool EnableTweex { get; internal set; } = true;
-
-#elif RELEASE
-
-    /// <summary>Gets a value indicating whether the Combat module is enabled.</summary>
-    [JsonProperty]
-    public bool EnableCombat { get; internal set; } = false;
-
-     /// <summary>Gets a value indicating whether the Weapons module is enabled.</summary>
-    [JsonProperty]
-    public bool EnableWeapons { get; internal set; } = false;
-
-    /// <summary>Gets a value indicating whether the Slingshots module is enabled.</summary>
-    [JsonProperty]
-    public bool EnableSlingshots { get; internal set; } = false;
-
-    /// <summary>Gets a value indicating whether the Tools module is enabled.</summary>
-    [JsonProperty]
-    public bool EnableTools { get; internal set; } = false;
-
-    /// <summary>Gets a value indicating whether the Enchantments module is enabled.</summary>
-    [JsonProperty]
-    public bool EnableEnchantments { get; internal set; } = false;
-
-    /// <summary>Gets a value indicating whether the Rings module is enabled.</summary>
-    [JsonProperty]
-    public bool EnableRings { get; internal set; } = false;
-
-    /// <summary>Gets a value indicating whether the Ponds module is enabled.</summary>
-    [JsonProperty]
-    public bool EnablePonds { get; internal set; } = false;
-
-    /// <summary>Gets a value indicating whether the Taxes module is enabled.</summary>
-    [JsonProperty]
-    public bool EnableTaxes { get; internal set; } = false;
-
-    /// <summary>Gets a value indicating whether the Tweex module is enabled.</summary>
-    [JsonProperty]
-    public bool EnableTweex { get; internal set; } = true;
-
-#endif
-
-    #endregion module flags
-
-    #region config sub-modules
-
-    /// <summary>Gets the Professions module config settings.</summary>
-    [JsonProperty]
-    public Modules.Professions.Config Professions { get; internal set; } = new();
-
-    /// <summary>Gets the Professions module config settings.</summary>
-    [JsonProperty]
-    public Modules.Combat.Config Combat { get; internal set; } = new();
-
-    /// <summary>Gets the Tools module config settings.</summary>
-    [JsonProperty]
-    public Modules.Tools.Config Tools { get; internal set; } = new();
-
-    /// <summary>Gets the Ponds module config settings.</summary>
-    [JsonProperty]
-    public Modules.Ponds.Config Ponds { get; internal set; } = new();
-
-    /// <summary>Gets the Taxes module config settings.</summary>
-    [JsonProperty]
-    public Modules.Taxes.Config Taxes { get; internal set; } = new();
-
-    /// <summary>Gets the Tweex module config settings.</summary>
-    [JsonProperty]
-    public Modules.Tweex.Config Tweex { get; internal set; } = new();
-
-    #endregion config sub-modules
-
-    /// <summary>Gets the key used to open the Generic Mod Config Menu directly at this mod.</summary>
-    [JsonProperty]
-    public KeybindList OpenMenuKey { get; internal set; } = KeybindList.Parse("LeftShift + F12");
-
-    /// <summary>Gets the key used to engage Debug Mode.</summary>
-    [JsonProperty]
-    public KeybindList DebugKey { get; internal set; } = KeybindList.Parse("OemQuotes, OemTilde");
-
-    /// <summary>Validates all internal configs and overwrites the user's config file if any invalid settings were found.</summary>
-    /// <param name="helper">Provides simplified APIs for writing mods.</param>
+    /// <summary>Validate the config settings, replacing invalid values if necessary.</summary>
     internal void Validate(IModHelper helper)
     {
-        if (!this.Enumerate().Aggregate(true, (flag, config) => flag & config.Validate()))
+        var isValid = true;
+
+        Log.T("[Tools]: Verifying tool configs...");
+
+        if (this.Axe.RadiusAtEachPowerLevel.Length < 5)
+        {
+            Log.W("Missing values in Axe.RadiusAtEachPowerLevel. The default values will be restored.");
+            this.Axe.RadiusAtEachPowerLevel = new uint[] { 1, 2, 3, 4, 5 };
+            isValid = false;
+        }
+
+        if (this.Pick.RadiusAtEachPowerLevel.Length < 5)
+        {
+            Log.W("Missing values Pickaxe.RadiusAtEachPowerLevel. The default values will be restored.");
+            this.Pick.RadiusAtEachPowerLevel = new uint[] { 1, 2, 3, 4, 5 };
+            isValid = false;
+        }
+
+        if (this.RequireModkey && !this.Modkey.IsBound)
+        {
+            Log.W(
+                "'RequireModkey' setting is set to true, but no Modkey is bound. Default keybind will be restored. To disable the Modkey, set this value to false.");
+            this.Modkey = KeybindList.ForSingle(SButton.LeftShift);
+            isValid = false;
+        }
+
+        if (this.Axe.StaminaCostMultiplier < 0)
+        {
+            Log.W("Axe 'StaminaCostMultiplier' is set to an illegal negative value. The value will default to 0");
+            this.Axe.StaminaCostMultiplier = 0;
+            isValid = false;
+        }
+
+        if (this.Pick.StaminaCostMultiplier < 0)
+        {
+            Log.W("Pick 'StaminaCostMultiplier' is set to an illegal negative value. The value will default to 0");
+            this.Pick.StaminaCostMultiplier = 0;
+            isValid = false;
+        }
+
+        if (this.TicksBetweenWaves > 100)
+        {
+            Log.W(
+                "The value of 'TicksBetweenWaves' is excessively large. This is probably a mistake. The default value will be restored.");
+            this.TicksBetweenWaves = 4;
+            isValid = false;
+        }
+
+        if (this.Axe.RadiusAtEachPowerLevel.Length > 5)
+        {
+            Log.W("Too many values in Axe.RadiusAtEachPowerLevel. Additional values will be removed.");
+            this.Axe.RadiusAtEachPowerLevel = this.Axe.RadiusAtEachPowerLevel.Take(5).ToArray();
+            isValid = false;
+        }
+
+        if (this.Pick.RadiusAtEachPowerLevel.Length > 5)
+        {
+            Log.W("Too many values in Pickaxe.RadiusAtEachPowerLevel. Additional values will be removed.");
+            this.Pick.RadiusAtEachPowerLevel =
+                this.Pick.RadiusAtEachPowerLevel.Take(5).ToArray();
+            isValid = false;
+        }
+
+        if (!isValid)
         {
             helper.WriteConfig(this);
         }
-    }
-
-    /// <summary>Enumerates all individual module <see cref="Shared.Configs.Config"/>s.</summary>
-    /// <returns>A <see cref="IEnumerable{T}"/> of <see cref="Shared.Configs.Config"/>s.</returns>
-    internal IEnumerable<Shared.Configs.Config> Enumerate()
-    {
-        yield return this.Professions;
-        yield return this.Combat;
-        yield return this.Tools;
-        yield return this.Ponds;
-        yield return this.Taxes;
-        yield return this.Tweex;
-    }
-
-    /// <summary>Logs all sub-config properties to the SMAPI console.</summary>
-    internal void Log()
-    {
-        Shared.Log.T($"[Config]: Current settings:\n{this}");
-        var message = this
-            .Enumerate()
-            .Aggregate("[Config]: Current settings:", (current, next) => current + "\n" + next);
     }
 }

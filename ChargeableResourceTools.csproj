@@ -1,0 +1,59 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <!-- metadata -->
+    <Authors>DaLion</Authors>
+    <AssemblyName>DaLion.Chargeable</AssemblyName>
+    <RootNamespace>DaLion.Chargeable</RootNamespace>
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
+    <RepositoryUrl>https://gitlab.com/daleao/sdv-mods</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <GenerateDocumentationFile>false</GenerateDocumentationFile>
+    <UpdateKeys>Nexus:14470@Chargeable</UpdateKeys>
+    <Version>1.0.0</Version>
+
+    <!-- build settings -->
+    <TargetFramework>net452</TargetFramework>
+    <LangVersion>latest</LangVersion>
+    <Nullable>enable</Nullable>
+    <WarningsAsErrors>Nullable</WarningsAsErrors>
+    <EnableHarmony>true</EnableHarmony>
+
+    <!-- game version -->
+    <GameVersion>1.5.6</GameVersion>
+    <SmapiVersion>3.12</SmapiVersion>
+  </PropertyGroup>
+
+  <!-- paths -->
+  <PropertyGroup>
+    <GamePath>C:\dev\sdv\game\android\base\assemblies\out</GamePath>
+    <GameModsPath>$(GamePath)/Mods</GameModsPath>
+    <ModZipPath>$(GameModsPath)/Archive</ModZipPath>
+  </PropertyGroup>
+
+  <!-- non-release settings -->
+  <PropertyGroup Condition="$(Configuration) != 'Release'">
+    <EnableModZip>true</EnableModZip>
+    <DebugType>Portable</DebugType>
+    <DebugSymbols>true</DebugSymbols>
+  </PropertyGroup>
+
+  <!-- release settings -->
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <Optimize>true</Optimize>
+  </PropertyGroup>
+
+  <!-- third-party packages -->
+  <ItemGroup>
+    <PackageReference Include="Pathoschild.Stardew.ModBuildConfig" Version="3.3.0" />
+  </ItemGroup>
+
+  <!-- global usings directives -->
+  <ItemGroup>
+    <Using Include="System" />
+    <Using Include="StardewModdingAPI" />
+    <Using Include="StardewValley" />
+    <Using Alias="SObject" Include="StardewValley.Object" />
+  </ItemGroup>
+
+</Project>

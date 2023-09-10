@@ -1,113 +1,65 @@
-﻿<div align="center">
+<div align="center">
 
-# MARGO - Modular Gameplay Overhaul
-
-A complete and comprehensive rework of Stardew Valley gameplay mechanics, offering a much more engaging and immersive "Vanilla+" experience.
-
-[![License][shield:license]](LICENSE) [![Nexus][shield:nexus]][url:nexus] [![Mod Drop][shield:moddrop]][url:moddrop]
+# ![](https://i.imgur.com/6sWaRit.png) Modular Overhaul :: Tools ![](https://i.imgur.com/4rYYYCD.png)
 
 </div>
 
-## About this mod
+## Overview
 
-This mod is a compilation of overhaul modules, each targeting a specific gameplay component or mechanic. Together, the modules complement each other to create a "Vanilla+" experience.
+This module is inspired by the tool progression system of old Harvest Moon: Friends of Mineral Town, where the Axe and Hammer tools were also chargeable, and their ultimate upgrades could destroy all debris on-screen.
 
-The modular nature of this mod allows users to cherry-pick features to their liking, while also preserving the deep native integration required between individual modules. This reduces the amount of code redundancy and improves code maintainability.
+<figure align="center" width="9999" id="fig1">
+  <img src="resources/cover.gif" align="center" height="auto" width="80%" alt="Logo">
+</figure>
 
-This mod is the culmination of over a year of work. Please take the time to read the descriptions before asking questions.
+This module provides four main features (and one minor feature):
+1. Allows the Axe and Pickaxe to be charged according to the tool's upgrade level, just like Hoe and Watering Can.
+2. Allows customizing the area of effect of the Hoe and Watering Can.
+3. Allows customizing the range of Scythe and Golden Scythe.
+4. Extends certain tool enchantments, allowing them to be applied to a greater variety of tools.
+5. Causes the farmer to automatically face the mouse cursor before using a tool.
 
-## Modules
+All features can be toggled on or off.
 
-The available modules are listed below. **Please read this page carefuly in its entirety.** Modules can be toggled on or off in the title screen via GMCM. Each module is itself highly configurable, and will be added to the GMCM menu if enabled. Some modules require specific enabling/disabling instructions you should pay attention to. These requirements will be mentioned below.
+## Resource Tools
 
-All modules should be fully multiplayer and splitscreen-ready so long as all players have it installed. Unless explicitly stated otherwise, none of the modules are Android-compatible. Please refer to each module's specific documentation page for further details and compatibility information.
+Charging up the Axe or Pickaxe will release a shockwave which spreads the tool's effect around an area. The shape of the shockwave is similar to a bomb explosion, but the radius can be configured for each upgrade level.
 
-- **[PROFS](Modules/Professions)** is the original module, formely known as Walk Of Life. It overhauls all the game's professions with the goal of supporting more diverse and interesting playstyles. It also introduces optional Prestige mechanics for very-late game save files and Limit Breaks for Combat professions.
+Up to **seven** upgrade levels are supported, which includes the Reaching Enchantment and the two extra levels from [Moon Misadventures](https://www.nexusmods.com/stardewvalley/mods/10612).
+All radius values should be positive whole numbers (obviously). By default, the radius at each level is equal to the tool's upgrade level.
 
-- **[CMBT](Modules/Combat)** ﻿is a huge overhaul of nearly all aspects of combat; from rebalanced stats, melee and ranged weapons, rings and enchantments, to entirely new mechanics like status effects, weapon combos, a new weapon type, Gemstone Music Theory, and much more. **This module adds new items via Json Assets, and thus may cause Json Shuffle on existing saves.** 
+Like the Tractor Mod, what the shockwave actually does can also be configured. By default it is set to only clear debris (like stones and twigs), weeds, dead crops and resource clumps (like stumps, logs and boulders), as well as mining nodes. You can optionally choose to let it affect other objects or terrain features, such as trees, live crops, and flooring; anything their corresponding tools ordinarily can do.
 
-- **[PNDS](Modules/Ponds)** is a complement to the new Aquarist profession. It allows Fish Ponds to produce Roe with scaling quantities and qualities, spontaneously grow algae, and even enrich the nuclei of metals.
+## Farming Tools
 
-- **[TXS](Modules/Taxes)** is a complement to the new Conservationist profession. It introduces a realistic taxation system as an added challenge and end-game gold sink. Because surely a nation at war would be capitalizing on that juicy farm income.
+The area of effect of Hoe and Watering Can may be customized by setting a length and radius for each upgrade level. Note that the radius adds to both side of the farmer, such that a radius of 1 yields an area 3 tiles wide.
 
-- **[TOLS](Modules/Tools)** is a one-stop-shop for tool customization and quality-of-life. It enables resource-tool charging, farming-tool customization, intelligent tool auto-selection, and even adds Radioactive tool upgrades, among other things.
+The radius of the Scythe and Golden Scythe can also be configured. By default, a regular Scythe will have twice the range of a sword, and a Golden Scythe will have twice the range of a regular Scythe. Setting the ranges to zero reverts them back to vanilla status.
 
-- **[TWX](Modules/Tweex)** is the final module, and serves as a repository for smaller tweaks and fixes to inconsistencies not large enough to merit a separate module.
+## Enchantments
 
-Please note that only the Professions and Tweex modules are enabled by default.
+All tool enchantments are compatible. The Reaching Enchantment will work on chargeable resource tools as it ordinarily does for farming tools, increasing the maximum charge level by **one**. The Powerful Enchantment likewise continues to increase the power of resource tools, and that extends to every affected tile in the shockwave.
 
-All modules should be fully multiplayer and split-screen compatible **if and only if all players have it installed**. **This mod is not Android-compatible**, but an Android version of Chargeable Tools is available as an optional download.
+In addition, this module will allow the Swift Enchantment to be applied to the Watering Can, and the Master Enchantment to be applied to all tools, boosting the corresponding skill level by **one**. Lastly, the Haymaker Enchantment can now be applied to the Scythe and Golden Scythe.
 
-## Installation & Update
+## Configs
 
-1. Extract the downloaded archive file into your local mods folder.
-2. Start the game once with SMAPI to generate a config file.
-3. Use the Generic Mod Config Menu to enable the desired modules.
-4. Restart the game for changes to take effect.
+This section describes some of the configurable settings provided in configs.json:
 
-As with any mod, always **delete any previous installation completely** before updating. If you'd like to preserve your config settings you can delete everything except the configs.json file.
+- **'RequiredUpgradeLevelForCharging':** This is the minimum upgrade level your tool must be at in order to enable charging. Accepted values are "Copper", "Steel", "Gold", "Iridium", "Radioactive" and "Mythicite" (the last two require Mood Misadventures).
+- **'RadiusAtEachLevel':**  Allows you to specify the shockwave radius at each charging level. Note that your charging level is separate from your upgrade level. For instance, if 'RequiredUpgradeLevelForCharging' is set to Iridium, and 'RadiusAtEachLevel' set to [ 1, 2, 3, 4 ], then you will not be able to charge until the tool is Iridium level, but once it is, then your charging progression will be similar to the gif above (starting at 1, and increase by 1 until 4). If you wanted to skip charging up and instantly get the max radius, you could set all four values to the same number (and set 'ShowAffectedTiles' to false to avoid the overlay instantly appearing). Only accepts positive integers.
+- **'RequireModKey':** Set to false if you want charging behavior to be the default when holding down the tool button. Set to true if you prefer the vanilla tool spamming behavior.
+- **'ModKey':** If 'RequireModKey' is true, you must hold this key in order to charge (default LeftShift). If you play with a gamepad controller you can set this to LeftTrigger or LeftShoulder. Check [here](https://stardewcommunitywiki.com/Modding:Player_Guide/Key_Bindings) for a list of available keybinds. You can set multiple comma-separated keys.
+- **'HideAffectedTiles':** If enabled, will not display the green overlay showing the size of the shockwave.
+- **'StaminaCostMultiplier':** By default, charging multiplies your tool's base stamina cost by the charging level. Use this multiplier to adjust the cost of the shockwave *only*. Set to zero to make it free (you will still lose stamina equal to the base tool cost). Accepts any real number greater than zero.
+- **'TicksBetweenWaves':** The number of game ticks before the shockwave grows by 1 tile. Higher numbers cause the shockwave to travel slower. Setting this to 0 replicates the original behavior from older versions.
 
-**The use of Vortex or other mod managers is not recommended for Stardew Valley.**
+Other settings are self explanatory. Use [Generic Mod Config Menu](https://www.nexusmods.com/stardewvalley/mods/5098) if you need verbatim explanations.
 
-## For C# Developers
+## Compatibility
 
-This mod offers an [API](./API/IModularOverhaulApi.cs) for C# developers wishing to add third-party compatibility.
-To use it, copy both files in the API folder over to your project, and change the namespace to something appropriate.
-Then [request SMAPI for a proxy](https://stardewvalleywiki.com/Modding:Modder_Guide/APIs/Integrations#using-an-api).
+The tools are compatible withThis mod uses Harmony to patch the behavior of Axe and Pickaxe. Any mods that also directly patch Tool behavior might be incompatible.
 
-Below are some usecases for the API:
-
-- **[PROFS]**: Checking the current value of dynamic perks associated with certain professions;
-- **[PROFS]**: Hooking custom logic into Scavenger and Prospector Treasure Hunts.
-- **[PROFS]**: Hooking custom logic to several stages of [Limit Breaks](./Modules/Professions/README.md#limit-breaks).
-- **[PROFS]**: Allowing SpaceCore skills to surpass level 10, and be [Prestiged](./Modules/Professions/README.md#prestige) at levels 15 and 20.
-- **[CMBT]**: Checking the [Resonances](./Modules/Rings/README.md#chords) currently active on any given player.
-- Checking the config settings of any given player (note that you must create your own interface for this).
-
-## Credits & Special Thanks
-
-All hail our Lord and Savior [Pathoschild][user:pathoschild], creator of [SMAPI][url:smapi], Content Patcher and the mod-verse, as well as our Father, **ConcernedApe**, creator of Stardew Valley, a benevolent God who continues to support the game for both players and modders.    
-
-This mod borrows ideas and assets from [Ragnarok Online][url:ragnarok], [League of Legends][url:league] and early Pokemon games. Credit to those, respectively, goes to [Gravity][url:gravity], [Riot Games][url:riot] and [Game Freak][url:gamefreak]. This mod is completely free and open-source, provided under [Common Clause-extended MIT License](LICENSE).
-
-Special thanks the translators who have contributed to this project:
-
-* ![][flag:german][FoxDie1986](https://www.nexusmods.com/stardewvalley/users/1369870)
-* ![][flag:chinese][xuzhi1977](https://www.nexusmods.com/users/136644498)
-* ![][flag:korean][BrightEast99](https://www.nexusmods.com/users/158443518)
-* ![][flag:japanese][sakusakusakuya](https://www.nexusmods.com/stardewvalley/users/155983153)
-* ![][flag:russian][romario314](https://www.nexusmods.com/stardewvalley/users/68548986)
-
-You have the right to upload your own translation of this project, but I reserve the right to add your translation directly to the project.
-
-Shout-out to [JetBrains][url:jetbrains] for providing a free open-source license to ReSharper and other tools, which provide an immense help to improve and maintain the quality of the code in this mod.
-
-<img width="64" src="https://smapi.io/Content/images/pufferchick.png" alt="Pufferchick"> <img width="80" src="https://resources.jetbrains.com/storage/products/company/brand/logos/jb_beam.svg" alt="JetBrains logo.">
-
-
-
-<!-- MARKDOWN LINKS & IMAGES -->
-[shield:license]: https://img.shields.io/badge/License-Commons%20Clause%20(MIT)-brightgreen?style=for-the-badge
-[shield:nexus]: https://img.shields.io/badge/Download-Nexus-yellow?style=for-the-badge
-[url:nexus]: https://www.nexusmods.com/stardewvalley/mods/14470
-[shield:moddrop]: https://img.shields.io/badge/Download-Mod%20Drop-blue?style=for-the-badge
-[url:moddrop]: https://www.moddrop.com/stardew-valley/
-
-[url:stardewvalley]: <https://www.stardewvalley.net/> "Stardew Valley"
-[url:jetbrains]: <https://jb.gg/OpenSource> "JetBrains"
-[url:smapi]: <https://smapi.io/> "SMAPI"
-[url:gamefreak]: <https://www.gamefreak.co.jp/> "Game Freak"
-[url:gravity]: <https://www.gravity.co.kr/> "Gravity"
-[url:ragnarok]: <https://ro.gnjoy.com/index.asp> "Ragnarok Online"
-[url:riot]: <https://www.riotgames.com/> "Riot Games"
-[url:league]: <https://www.leagueoflegends.com/> "League of Legends"
-
-[user:pathoschild]: <https://www.nexusmods.com/stardewvalley/users/1552317> "Pathoschild"
-
-[flag:german]: <https://i.imgur.com/Rx3ITqh.png>
-[flag:chinese]: <https://i.imgur.com/zuQC9Di.png>
-[flag:korean]: <https://i.imgur.com/Jvsm5YJ.png>
-[flag:japanese]: <https://i.imgur.com/BMA0w39.png>
-[flag:russian]: <https://i.imgur.com/cXhDLc5.png>
-
-[🔼 Back to top](#margo-modular-gameplay-overhaul)
+- Compatible with [Moon Misadventures](https://www.nexusmods.com/stardewvalley/mods/10612).
+- Compatible with [Harvest Moon FoMT-like Watering Can And Hoe Area](https://www.nexusmods.com/stardewvalley/mods/7851) as long as you don't touch Hoe and Watering Can settings (although you can just set them to the same values used by that mod to achieve the same effect).
+- **Not** compatible with the likes of [Combat Controls - Fixed Mouse Click](https://www.nexusmods.com/stardewvalley/mods/2590) or [Combat Controls Redux](https://www.nexusmods.com/stardewvalley/mods/10496), as those features are already included in this and others modules.

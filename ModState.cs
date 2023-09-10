@@ -1,17 +1,14 @@
-﻿#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
-#pragma warning disable SA1600 // Elements should be documented
-namespace DaLion.Overhaul;
+﻿namespace DaLion.Chargeable;
 
-/// <summary>The collection of state for each module.</summary>
+#region using directives
+
+using System.Collections.Generic;
+using DaLion.Chargeable.Framework;
+
+#endregion using directives
+
+/// <summary>The ephemeral runtime state for Tools.</summary>
 internal sealed class ModState
 {
-    internal Modules.Professions.State Professions { get; set; } = new();
-
-    internal Modules.Combat.State Combat { get; set; } = new();
-
-    internal Modules.Tools.State Tools { get; set; } = new();
-
-    internal bool DebugMode { get; set; }
+    internal List<Shockwave> Shockwaves { get; } = new();
 }
-#pragma warning restore CS1591
-#pragma warning restore SA1600
