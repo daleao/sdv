@@ -12,14 +12,14 @@
     <li><a href="#status-effects">Status Effects</a></li>
     <li><a href="#rebalanced-stats">Rebalanced Stats</a></li>
     <li><a href="#melee-weapon-changes">Melee Weapon Changes</a></li>
-    <ol>
+    <ul>
         <li><a href="#combo-framework">Combo Framework</a></li>
         <li><a href="#offensive-defensive-swords">Offensive & Defensive Swords</a></li>
         <li><a href="#rebalanced-types-tiers">Rebalanced Types & Tiers</a></li>
         <li><a href="#melee-enchantments">Melee Enchantments</a></li>
         <li><a href="#acquiring-weapons">Acquiring Weapons</a></li>
         <li><a href="#tooltips">Tooltips</a></li>
-    </ol>
+    </ul>
     <li><a href="#ranged-weapon-changes">Ranged Weapon Changes</a></li>
     <ol>
         <li><a href="#rebalanced-modifiers">Rebalanced Modifers</a></li>

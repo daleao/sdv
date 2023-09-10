@@ -10,10 +10,6 @@ This file contains a TL;DR of current version changes and hotfixes from across a
 ## Patch 3.0.1 Highlights <sup><sub><sup>[🔼 Back to top](#margo-change-logs)</sup></sub></sup>
 
 * Fixed some missing translations.
-* [CMBT]: Lowered ammo damage:
-    * Gemstones: 50 -> 45
-    * Diamond: 120 -> 90
-    * Prismatic Shard: 250 -> 120
 * [CMBT]: Fixed Piper's Slime ammo damage (increased from 5 to 10).
 * [TOLS]: Fixed Master enchantment on tools other than Fishing Rod still increasing Fishing level by 1, and also not showing up as green in the skills page.
 

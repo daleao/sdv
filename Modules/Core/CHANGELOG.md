@@ -2,6 +2,10 @@
 
 ## 3.0.2 <sup><sub><sup>[🔼 Back to top](#tols-change-log)</sup></sub></sup>
 
+### Added
+
+* Added debuff framework to the API.
+
 ### Fixed
 
 * Fixed a few more translation issues.

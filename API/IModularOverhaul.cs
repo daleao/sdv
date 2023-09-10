@@ -187,7 +187,7 @@ public interface IModularOverhaul
 
     #endregion treasure hunts
 
-    #region ultimates
+    #region limit break
 
     /// <summary>Interface for Ultimate abilities.</summary>
     public interface IUltimate
@@ -268,7 +268,7 @@ public interface IModularOverhaul
         Farmer Player { get; }
     }
 
-    #endregion ultimates
+    #endregion limit break
 
     #region resonances
 

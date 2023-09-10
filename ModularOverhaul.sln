@@ -5,8 +5,6 @@ VisualStudioVersion = 17.3.32901.215
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ModularOverhaul", "ModularOverhaul.csproj", "{6B4BD30D-0F30-4318-85B4-02901BDE8FCD}"
 EndProject
-Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Shared", "..\Shared\Shared.shproj", "{0C5F1531-281E-468C-B47F-1E78E3B9C02E}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution", "Solution", "{C63BF330-CF23-436A-AB4A-A989E00ABCF3}"
 	ProjectSection(SolutionItems) = preProject
 		.editorconfig = .editorconfig
@@ -31,7 +29,6 @@ Global
 		SolutionGuid = {41601BF1-1896-4FA1-A8A3-34A91B80E579}
 	EndGlobalSection
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
-		..\Shared\Shared.projitems*{0c5f1531-281e-468c-b47f-1e78e3b9c02e}*SharedItemsImports = 13
-		..\Shared\Shared.projitems*{6b4bd30d-0f30-4318-85b4-02901bde8fcd}*SharedItemsImports = 5
+		..\..\Shared\Shared.projitems*{6b4bd30d-0f30-4318-85b4-02901bde8fcd}*SharedItemsImports = 5
 	EndGlobalSection
 EndGlobal

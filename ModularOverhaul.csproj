@@ -9,7 +9,7 @@
     <RepositoryUrl>https://gitlab.com/daleao/sdv-mods/-/tree/main/Modular%20Overhaul</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
-    <UpdateKeys>GitHub:daleao/ModularOverhaul</UpdateKeys>
+    <UpdateKeys>GitHub:daleao/modular-overhaul</UpdateKeys>
     <Version>3.0.2</Version>
 
     <!-- build settings -->
@@ -104,7 +104,7 @@
   </ItemGroup>
 
   <!-- shared projects -->
-  <Import Project="..\Shared\Shared.projitems" Label="Shared" Condition="Exists('..\Shared\Shared.projitems')" />
+  <Import Project="..\..\Shared\Shared.projitems" Label="Shared" Condition="Exists('..\..\Shared\Shared.projitems')" />
 
   <!-- file exceptions -->
   <ItemGroup>
@@ -119,6 +119,7 @@
     <None Remove="dependencies\**" />
   </ItemGroup>
 
+  
   <!-- global usings directives -->
   <ItemGroup>
     <Using Include="System" />

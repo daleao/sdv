@@ -40,10 +40,10 @@ All modules should be fully multiplayer and split-screen compatible **if and onl
 
 ## Installation & Update
 
-1. Extract the downloaded archive file into your local mods folder.
-2. Start the game once with SMAPI to generate a config file.
-3. Use the Generic Mod Config Menu to enable the desired modules.
-4. Restart the game for changes to take effect.
+1. Make sure [SpaceCore](https://www.nexusmods.com/stardewvalley/mods/1348) is installed.
+    * *[Optional]*: install [Generic Mod Config Menu](https://www.nexusmods.com/stardewvalley/mods/5098).
+2. Extract the downloaded archive file into your local mods folder.
+3. Start the game once with SMAPI to generate a config file.
 
 As with any mod, always **delete any previous installation completely** before updating. If you'd like to preserve your config settings you can delete everything except the configs.json file.
 
