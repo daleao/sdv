@@ -10,7 +10,7 @@ This module is inspired by the tool progression system of old Harvest Moon: Frie
 It allows the Axe and Pickaxe to be charged, similarly to the Hoe and Watering Can. Charging will expend more stamina to affect all tiles in a radius around the target. The affected area is similar to a bomb, and by default the radius will grow by 1 tile with each charge level.
 
 <figure align="center" width="9999" id="fig1">
-  <img src="resources/cover.gif" align="center" height="auto" width="80%" alt="Logo">
+  <img src="cover.gif" align="center" height="auto" width="80%" alt="Logo">
 </figure>
 
 ## Configs
