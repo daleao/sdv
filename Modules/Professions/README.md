@@ -29,8 +29,8 @@
 	<li><a href="#limit-breaks">Limit Breaks</a></li>
 	<li><a href="#compatibility">Compatibility</a></li>
 	<li><a href="#faq">F.A.Q.</a></li>
-	<li><a href="#recommended-mods">Recommended Mods</a></li>
 	<li><a href="#for-c-developers">For C# Developers</a></li>
+	<li><a href="#recommended-mods">Recommended Mods</a></li>
 </ol>
 </details>
 
