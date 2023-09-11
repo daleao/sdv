@@ -54,6 +54,20 @@ As with any mod, always **delete any previous installation completely** before u
 
 **The use of Vortex or other mod managers is not recommended for Stardew Valley.**
 
+## Reporting Bugs and Issues
+
+1. Make sure the mod is updated to the latest version. I will not support older versions.
+2. Make sure you can reliably reproduce the issue. Write out the steps to reproduce the issue.
+3. Check whether the issue is caused by a mod conflict:
+    - You can do this easily by renaming your mod folder to something else (for example, just add an underscore), creating a new one, and then copying over SpaceCore, MARGO and, optionally, CJB Cheats Menu (to help with quick testing). If the issue can no longer be reproduced in this condition, then gradually copy over your remaining mods in small groups, until you identify the conflicting mod.
+4. Check whether the issue can be reproduced on a brand new save file. If it cannot, then I will probably ask you to upload your save folder to any file-sharing service of your choice, and sharing the url.
+5. Upload your entire log to [smapi.io](https://smapi.io/log). There you will also find instructions in case you don't know where to find your log.
+6. Go to the [Issues page](https://github.com/daleao/modular-overhaul/issues) and check whether someone else has already reported the same issue. If not, then create a new thread. Please include:
+    - A descriptive title.
+    - As much detail as you can muster. Consider describing not only what happened, but also when and how it happened, and what you expected should happen instead.
+    - Your results from steps 2-4 above.
+    - The link to your uploaded log and, if applicable, your uploaded save folder.
+
 ## For C# Developers
 
 This mod offers an [API](./API/IModularOverhaulApi.cs) for C# developers wishing to add third-party compatibility.
