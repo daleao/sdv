@@ -16,15 +16,15 @@
 <ol>
 	<li><a href="#overview">Overview</a></li>
 	<li>
-        <a href="#professions">Professions</a>
+		<a href="#professions">Professions</a>
 		<ol>
-            <li><a href="#farming">Farming</a></li>
+			<li><a href="#farming">Farming</a></li>
 			<li><a href="#foraging">Foraging</a></li>
 			<li><a href="#mining">Mining</a></li>
 			<li><a href="#fishing">Fishing</a></li>
 			<li><a href="#combat">Combat</a></li>
 		</ol>
-    </li>
+	</li>
 	<li><a href="#prestige">Prestige</a></li>
 	<li><a href="#limit-breaks">Limit Breaks</a></li>
 	<li><a href="#compatibility">Compatibility</a></li>

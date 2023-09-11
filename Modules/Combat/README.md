@@ -6,43 +6,43 @@
 
 <!-- TABLE OF CONTENTS -->
 <details open="open" align="left">
-  <summary>Table of Contents</summary>
-  <ol>
-    <li><a href="#overview">Overview</a></li>
-    <li><a href="#status-effects">Status Effects</a></li>
-    <li><a href="#rebalanced-stats">Rebalanced Stats</a></li>
-    <li><a href="#melee-weapon-changes">Melee Weapon Changes</a></li>
-    <ol>
-        <li><a href="#combo-framework">Combo Framework</a></li>
-        <li><a href="#offensive-defensive-swords">Offensive & Defensive Swords</a></li>
-        <li><a href="#rebalanced-types--tiers">Rebalanced Types & Tiers</a></li>
-        <li><a href="#melee-enchantments">Melee Enchantments</a></li>
-        <li><a href="#acquiring-weapons">Acquiring Weapons</a></li>
-        <li><a href="#tooltips">Tooltips</a></li>
-    </ol>
-    <li><a href="#ranged-weapon-changes">Ranged Weapon Changes</a></li>
-    <ol>
-        <li><a href="#rebalanced-modifiers">Rebalanced Modifers</a></li>
-        <li><a href="#critical-hits">Critical Hits</a></li>
-        <li><a href="#special-move">Special Move</a></li>
-        <li><a href="#forges-gemstone-ammo">Forges & Gemstone Ammo</a></li>
-        <li><a href="#ranged-enchantments">Ranged Enchantments</a></li>
-        <li><a href="#infinity-slingshot">Infinity Slingshot</a></li>
-        <li><a href="#removed-grace-period">Removed Grace Period</a></li>
-        <li><a href="#snowballs">Snowballs</a></li>
-    </ol>
-    <li><a href="#ring-changes">Ring Changes</a></li>
-     <ol>
-        <li><a href="#rebalances">Rebalances</a></li>
-        <li><a href="#infinity-band">Infinity Band</a></li>
-    </ol>
-    <li><a href="#infinity-1">Infinity +1</a></li>
-    <li><a href="#garnet--gemstone-resonance-theory">Garnet & Gemstone Resonance Theory</a></li>
-    <li><a href="#enemies">Enemies</a></li>
-    <li><a href="#controls-quality-of-life">Controls & Quality of Life</a></li>
-    <li><a href="#compatibility">Compatibility</a></li>
-    <li><a href="#faq">F.A.Q.</a></li>
-  </ol>
+<summary>Table of Contents</summary>
+<ol>
+	<li><a href="#overview">Overview</a></li>
+	<li><a href="#status-effects">Status Effects</a></li>
+	<li><a href="#rebalanced-stats">Rebalanced Stats</a></li>
+	<li><a href="#melee-weapon-changes">Melee Weapon Changes</a></li>
+	<ol>
+		<li><a href="#combo-framework">Combo Framework</a></li>
+		<li><a href="#offensive-defensive-swords">Offensive & Defensive Swords</a></li>
+		<li><a href="#rebalanced-types--tiers">Rebalanced Types & Tiers</a></li>
+		<li><a href="#melee-enchantments">Melee Enchantments</a></li>
+		<li><a href="#acquiring-weapons">Acquiring Weapons</a></li>
+		<li><a href="#tooltips">Tooltips</a></li>
+	</ol>
+	<li><a href="#ranged-weapon-changes">Ranged Weapon Changes</a></li>
+	<ol>
+		<li><a href="#rebalanced-modifiers">Rebalanced Modifers</a></li>
+		<li><a href="#critical-hits">Critical Hits</a></li>
+		<li><a href="#special-move">Special Move</a></li>
+		<li><a href="#forges-gemstone-ammo">Forges & Gemstone Ammo</a></li>
+		<li><a href="#ranged-enchantments">Ranged Enchantments</a></li>
+		<li><a href="#infinity-slingshot">Infinity Slingshot</a></li>
+		<li><a href="#removed-grace-period">Removed Grace Period</a></li>
+		<li><a href="#snowballs">Snowballs</a></li>
+	</ol>
+	<li><a href="#ring-changes">Ring Changes</a></li>
+		<ol>
+		<li><a href="#rebalances">Rebalances</a></li>
+		<li><a href="#infinity-band">Infinity Band</a></li>
+	</ol>
+	<li><a href="#infinity-1">Infinity +1</a></li>
+	<li><a href="#garnet--gemstone-resonance-theory">Garnet & Gemstone Resonance Theory</a></li>
+	<li><a href="#enemies">Enemies</a></li>
+	<li><a href="#controls-quality-of-life">Controls & Quality of Life</a></li>
+	<li><a href="#compatibility">Compatibility</a></li>
+	<li><a href="#faq">F.A.Q.</a></li>
+</ol>
 </details>
 
 ## Overview
