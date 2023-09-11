@@ -12,14 +12,14 @@
     <li><a href="#status-effects">Status Effects</a></li>
     <li><a href="#rebalanced-stats">Rebalanced Stats</a></li>
     <li><a href="#melee-weapon-changes">Melee Weapon Changes</a></li>
-    <ul>
+    <ol>
         <li><a href="#combo-framework">Combo Framework</a></li>
         <li><a href="#offensive-defensive-swords">Offensive & Defensive Swords</a></li>
-        <li><a href="#rebalanced-types-tiers">Rebalanced Types & Tiers</a></li>
+        <li><a href="#rebalanced-types--tiers">Rebalanced Types & Tiers</a></li>
         <li><a href="#melee-enchantments">Melee Enchantments</a></li>
         <li><a href="#acquiring-weapons">Acquiring Weapons</a></li>
         <li><a href="#tooltips">Tooltips</a></li>
-    </ul>
+    </ol>
     <li><a href="#ranged-weapon-changes">Ranged Weapon Changes</a></li>
     <ol>
         <li><a href="#rebalanced-modifiers">Rebalanced Modifers</a></li>
@@ -37,7 +37,7 @@
         <li><a href="#infinity-band">Infinity Band</a></li>
     </ol>
     <li><a href="#infinity-1">Infinity +1</a></li>
-    <li><a href="#garnet-gemstone-resonance-theory">Garnet & Gemstone Resonance Theory</a></li>
+    <li><a href="#garnet--gemstone-resonance-theory">Garnet & Gemstone Resonance Theory</a></li>
     <li><a href="#enemies">Enemies</a></li>
     <li><a href="#controls-quality-of-life">Controls & Quality of Life</a></li>
     <li><a href="#compatibility">Compatibility</a></li>
@@ -73,12 +73,12 @@ Certain stats are simply not worth investing in vanilla. While some of these can
 2. **Defense** is rather useless in vanilla, where each point simply mitigates a single unit of damage. Consequently, small defense bonuses become useless in late-game. This mod implements a new, simple damage mitigation formula, which allows defense to scale into late-game without becoming overpowered.
 
     Old formula:
-    ```
+    ```math
     damage = Min(rawDamage - defense, 1)
     ```
 
     New formula:
-    ```
+    ```math
     resistance = 10 / (10 + defense)
     damage = rawDamage * resistance
     ```

@@ -60,12 +60,21 @@ internal sealed class EventAnswerDialoguePatcher : HarmonyPatcher
             // Sophia 6 hearts | Location: Custom_BlueMoonVineyard
             case 8185294 when answerChoice == 0:
 
+            // Sebastian Mature Event | Location: Mountain
+            case 1000005 when answerChoice == 0 && __instance.CurrentCommand == 37:
+
+            // Caroline Mature Event | Location: Forest
+            case 1000013 when answerChoice == 0:
+
                 player.Increment(DataKeys.ProvenCompassion);
                 CombatModule.State.HeroQuest?.UpdateTrialProgress(Virtue.Compassion);
                 return;
 
             // Pam 9 hearts | Location: Trailer_Big
             case 503180 when answerChoice == 1:
+
+            // Sebastian Mature Event | Location: Mountain
+            case 1000005 when answerChoice == 0 && __instance.CurrentCommand == 3:
 
                 player.Increment(DataKeys.ProvenCompassion, -1);
                 return;
@@ -79,7 +88,14 @@ internal sealed class EventAnswerDialoguePatcher : HarmonyPatcher
                 CombatModule.State.HeroQuest?.UpdateTrialProgress(Virtue.Wisdom);
                 return;
 
-            // GENEROSITY //
+            // Jas Mature Event | Location: Forest
+            case 1000021 when answerChoice == 0:
+
+                player.Increment(DataKeys.ProvenWisdom);
+                CombatModule.State.HeroQuest?.UpdateTrialProgress(Virtue.Wisdom);
+                return;
+
+        // GENEROSITY //
 
             // Claire 2 hearts | Location: Saloon
             case 3219871:

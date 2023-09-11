@@ -4,7 +4,7 @@
 
 A complete and comprehensive rework of Stardew Valley gameplay mechanics, offering a much more engaging and immersive "Vanilla+" experience.
 
-[![License][shield:license]](LICENSE) [![Nexus][shield:nexus]][url:nexus] [![Mod Drop][shield:moddrop]][url:moddrop]
+[![License][shield:license]](LICENSE)
 
 </div>
 
@@ -41,9 +41,14 @@ All modules should be fully multiplayer and split-screen compatible **if and onl
 ## Installation & Update
 
 1. Make sure [SpaceCore](https://www.nexusmods.com/stardewvalley/mods/1348) is installed.
-    * *[Optional]*: install [Generic Mod Config Menu](https://www.nexusmods.com/stardewvalley/mods/5098).
-2. Extract the downloaded archive file into your local mods folder.
-3. Start the game once with SMAPI to generate a config file.
+    * *[Recommended]*: install [Generic Mod Config Menu](https://www.nexusmods.com/stardewvalley/mods/5098).
+2. Go to the [Releases page](https://github.com/daleao/modular-overhaul/releases) and download the latest `ModularOverhaul.zip` file.
+3. Extract the downloaded archive file into your local mods folder.
+4. Download and install any additional optional files as desired. 
+5. Start the game once with SMAPI to generate a config file.
+6. Enable the desired modules in GMCM by pressing Shift+F12 in the title screen, or by manually editing the `config.json` file. I recommend you do this before beginning your playthrough.
+
+**Not recommended on existing saves**, especially very late-game saves; the whole point of this mod is to present a new experience of progression, which you will be missing out on. That said, it should technically work perfectly fine, assuming you pay attention to the individual compatibility sections on each module.
 
 As with any mod, always **delete any previous installation completely** before updating. If you'd like to preserve your config settings you can delete everything except the configs.json file.
 
@@ -57,12 +62,17 @@ Then [request SMAPI for a proxy](https://stardewvalleywiki.com/Modding:Modder_Gu
 
 Below are some usecases for the API:
 
-- **[PROFS]**: Checking the current value of dynamic perks associated with certain professions;
+- **[PROFS]**: Checking the current value of dynamic perks associated with certain professions.
 - **[PROFS]**: Hooking custom logic into Scavenger and Prospector Treasure Hunts.
-- **[PROFS]**: Hooking custom logic to several stages of [Limit Breaks](./Modules/Professions/README.md#limit-breaks).
+- **[PROFS]**: Hooking custom logic to several stages of the [Limit Break](./Modules/Professions/README.md#limit-breaks).
 - **[PROFS]**: Allowing SpaceCore skills to surpass level 10, and be [Prestiged](./Modules/Professions/README.md#prestige) at levels 15 and 20.
-- **[CMBT]**: Checking the [Resonances](./Modules/Rings/README.md#chords) currently active on any given player.
+- **[CMBT]**: Checking the [Resonances](./Modules/Combat/README.md#chords) currently active on any given player.
+- **[CMBT]**: Inflicting and curing [Status Effects](./Modules/Combat/README.md#status-effects).
 - Checking the config settings of any given player (note that you must create your own interface for this).
+
+## Building the Source Code
+
+In order to build this mod you will also need to clone my [Stardew Valley Shared Lib](https://gitlab.com/daleao/sdv-shared) and place it in the same directory as this project.
 
 ## Credits & Special Thanks
 

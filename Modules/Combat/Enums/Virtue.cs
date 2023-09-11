@@ -81,8 +81,8 @@ public sealed class Virtue : SmartEnum<Virtue>
                         .When(Honor).Then(() => target = 1)
                         .When(Compassion).Then(() => target = 1)
                         .When(Wisdom).Then(() => target = 1)
-                        .When(Generosity).Then(() => target = (int)2e5)
-                        .When(Valor).Then(() => target = 1000);
+                        .When(Generosity).Then(() => target = (int)1e5)
+                        .When(Valor).Then(() => target = 4);
                     break;
                 case Config.Difficulty.Medium:
                     this
@@ -90,7 +90,7 @@ public sealed class Virtue : SmartEnum<Virtue>
                         .When(Compassion).Then(() => target = 3)
                         .When(Wisdom).Then(() => target = 3)
                         .When(Generosity).Then(() => target = (int)5e5)
-                        .When(Valor).Then(() => target = 2500);
+                        .When(Valor).Then(() => target = 8);
                     break;
                 case Config.Difficulty.Hard:
                     this
@@ -98,7 +98,7 @@ public sealed class Virtue : SmartEnum<Virtue>
                         .When(Compassion).Then(() => target = 5)
                         .When(Wisdom).Then(() => target = 5)
                         .When(Generosity).Then(() => target = (int)1e6)
-                        .When(Valor).Then(() => target = 5000);
+                        .When(Valor).Then(() => target = 12);
                     break;
             }
 

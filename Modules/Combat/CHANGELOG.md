@@ -7,8 +7,14 @@ Exodus from Nexus.
 ### Added
 
 * You can now prove your Honor (+2 points) by returning the Mayor's Purple Shorts, as long as you don't troll him at the Luau or the Grange.
+* You can now prove your Valor by digging 100 (or 50, on Easy difficulty) consecutive floors in the Mines without using Staircases.
+* Added Virtue completion tags to several SVE events. Most of these are "mature events", so you will need that option enabled to benefit from this.
+* You can now prove your Valor by reaching the Treasure Cave in the Crimson Badlands.
 
 ### Changed 
+
+* Base Valor completion objective was changed back to Monster Eradication Goals. Someone pointed out that slaying monsters for the sake of slaying monsters is not exactly "courageous".
+* Changed SVE's Treasure Cave chest reward from Obsidian Edge to Lava Katana.
 
 ### Fixed
 

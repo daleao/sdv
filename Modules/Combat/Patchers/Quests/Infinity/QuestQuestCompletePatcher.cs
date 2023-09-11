@@ -22,7 +22,7 @@ internal sealed class QuestQuestCompletePatcher : HarmonyPatcher
 
     /// <summary>Record shorts honor.</summary>
     [HarmonyPostfix]
-    private static void QuestQuestCompletePostfix(Quest __instance, bool __result)
+    private static void QuestQuestCompletePostfix(Quest __instance)
     {
         if (__instance is not LostItemQuest || __instance.id.Value != 102 ||
             Game1.MasterPlayer.Read<bool>(DataKeys.HasUsedMayorShorts))

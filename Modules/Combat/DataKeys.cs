@@ -28,6 +28,7 @@ internal sealed class DataKeys
     internal const string VirtueQuestState = "VirtueQuestState";
     internal const string VirtueQuestViewed = "VirtueQuestViewed";
     internal const string HasUsedMayorShorts = "HasUsedMayorShorts";
+    internal const string NumCompletedSlayerQuests = "NumCompletedSlayerQuests";
 
     internal const string SelectableMelee = "AutoSelectableMelee";
     internal const string SelectableRanged = "AutoSelectableRanged";
