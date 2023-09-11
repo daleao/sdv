@@ -427,48 +427,52 @@ Should you choose to ignore these side-effects and continue to strengthen the Bl
 
 To begin the quest, you must slay at least 50 enemies with the Blade equipped, prompting the Wizard to invite you over for a chat. To complete this initial quest, simply interact with the Yoba altar and exhaust all possible dialogue choices.
 You will then be asked to prove your virtues:
-- Prove your Honor, Compassion and Wisdom by selecting certain responses during character heart events (you will have at least 8 chances to prove each of these virtues a number of times).
-- Prove your Valor by completing at least monster slayer quests.
-- Prove your Generosity by gifting NPCs a certain amount of gold in gifts, or by purchasing the house upgrade for Pam. Exact values will depend on your difficulty settings (you can see them in-game in the your quest journal).
-
-When you are ready, approach Yoba's altar in Pierre's house with the Blade in hand  .
+- Prove your Honor, Compassion and Wisdom by selecting certain responses during character heart events.
+    - Alternatively, prove your Honor by respectfully returning the Mayor's shorts.
+- Prove your Valor by completing monster slayer quests or persevering through long digs in the Mines.
+    - Alternatively, prove your Valor by reaching SVE's [Treasure Cave](https://stardew-valley-expanded.fandom.com/wiki/Treasure_Cave).
+- Prove your Generosity by gifting NPCs a certain amount of gold in gifts, or by purchasing Community Upgrades from Robin.
+ 
+Exact completion criteria will depend on your difficulty settings (you can see them in-game in the your quest journal). When you are ready, approach Yoba's altar in Pierre's house with the Blade in hand.
 
 **What are the IDs of heart events related the Blade of Ruin?**
 
 The following events provide chances to demonstrate your virtues. You can use these IDs in conjunction with the `debug ebi <id>` command to replay these events, provided that the Event Repeater mod is installed.
 
-Events where you may demonstrate Honor:
-* 7 - Maru 4 hearts
-* 16 - Pierre 6 hearts
-* 27 - Sebastian 6 hearts
-* 36 - Penny 6 hearts
-* 46 - Sam 4 hearts
-* 58 - Harvey 6 hearts
-* 100 - Kent 3 hearts
-* 288847 - Alex 8 hearts
-* 2481135 - Alex 4 hearts
-* 733330 - Sam 3 hearts
-
-Events where you may demonstrate Compassion:
-* 13 - Haley 6 hearts
-* 27 - Sebastian 6 hearts
-* 51 - Leah 4 hearts
-* 100 - Kent 3 hearts
-* 288847 - Alex 8 hearts
-* 502969 - Linus 0 hearts
-* 503180 - Pam 9 hearts
-* 733330 - Sam 3 hearts
-* 3910975 - Shane 6 hearts
-
-Events where you may demonstrate Wisdom:
-* 11 - Haley 2 hearts
-* 21 - Alex 5 hearts
-* 25 - Demetrius 3 hearts
-* 27 - Sebastian 6 hearts
-* 34 - Penny 2 hearts
-* 50 - Leah 2 hearts
-* 56 - Harvey 2 hearts
-* 97 - Clint 3 hearts
+| ID      | Description           | Virtue |
+| ------- | --------------------- | ------ |
+| 7       | Maru 4 hearts         | Honor  |
+| 16      | Pierre 6 hearts       | Honor  |
+| 27      | Sebastian 6 hearts    | Honor  |
+| 36      | Penny 6 hearts        | Honor  |
+| 46      | Sam 4 hearts          | Honor  |
+| 58      | Harvey 6 hearts       | Honor  |
+| 100     | Kent 3 hearts         | Honor  |
+| 288847  | Alex 8 hearts         | Honor  |
+| 2481135 | Alex 4 hearts         | Honor  |
+| 733330  | Sam 3 hearts          | Honor  |
+| 8185291 | Sophia 2 hearts (SVE) | Honor  |
+| 13      | Haley 6 hearts               | Compassion |
+| 27      | Sebastian 6 hearts           | Compassion |
+| 51      | Leah 4 hearts                | Compassion |
+| 100     | Kent 3 hearts                | Compassion |
+| 288847  | Alex 8 hearts                | Compassion |
+| 502969  | Linus 0 hearts               | Compassion |
+| 503180  | Pam 9 hearts                 | Compassion |
+| 733330  | Sam 3 hearts                 | Compassion |
+| 3910975 | Shane 6 hearts               | Compassion |
+| 1000005 | Sebastian Mature Event (SVE) | Compassion |
+| 1000013 | Caroline Mature Event (SVE)  | Compassion |
+| 11      | Haley 2 hearts          | Wisdom |
+| 21      | Alex 5 hearts           | Wisdom |
+| 25      | Demetrius 3 hearts      | Wisdom |
+| 27      | Sebastian 6 hearts      | Wisdom |
+| 34      | Penny 2 hearts          | Wisdom |
+| 50      | Leah 2 hearts           | Wisdom |
+| 56      | Harvey 2 hearts         | Wisdom |
+| 97      | Clint 3 hearts          | Wisdom |
+| 1000018 | Jodi Mature Event (SVE) | Wisdom |
+| 1000021 | Jas Mature Event (SVE)  | Wisdom |
 
 **How do I obtain the Infinity weapons?**
 
@@ -479,7 +483,9 @@ Unforge the Blade of Dawn to obtain a Hero Soul, and then forge it into any Gala
 - **Neptune's Glaive:** Fishing Chests, same as Vanilla.
 - **Yeti Tooth:** Dropped by enemies or crates in the icy section of the Mines.
 - **Obsidian Edge:** Dropped from Shadow people in the dangerous Mines.
-- **Lava Katana:** Dropped from certain enemies in Volcano Dungeon.
+- **Lava Katana:** Dropped from certain enemies in Volcano Dungeon. Alternatively, from the Treasure Cave in Crimson Badlands.
+
+
 
 <!-- MARKDOWN LINKS & IMAGES -->
 [shield:common]: <https://img.shields.io/badge/Common-white?style=flat>
