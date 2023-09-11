@@ -2,9 +2,7 @@
 
 #region using directives
 
-using DaLion.Shared.Events;
 using Microsoft.Xna.Framework;
-using Modules.Combat.Extensions;
 using StardewValley.Monsters;
 using StardewValley.Objects;
 
@@ -93,13 +91,13 @@ public interface IModularOverhaulApi
 
     /// <summary>Registers a new instance of an event raised when a <see cref="IModularOverhaul.ITreasureHunt"/> begins.</summary>
     /// <param name="callback">The delegate that will be called when the event is triggered.</param>
-    /// <returns>A new <see cref="IManagedEvent"/> instance which encapsulates the specified <paramref name="callback"/>.</returns>
-    IManagedEvent RegisterTreasureHuntStartedEvent(Action<object?, IModularOverhaul.ITreasureHuntStartedEventArgs> callback);
+    /// <returns>A new <see cref="IModularOverhaul.IManagedEvent"/> instance which encapsulates the specified <paramref name="callback"/>.</returns>
+    IModularOverhaul.IManagedEvent RegisterTreasureHuntStartedEvent(Action<object?, IModularOverhaul.ITreasureHuntStartedEventArgs> callback);
 
     /// <summary>Registers a new instance of an event raised when a <see cref="IModularOverhaul.ITreasureHunt"/> ends.</summary>
     /// <param name="callback">The delegate that will be called when the event is triggered.</param>
-    /// <returns>A new <see cref="IManagedEvent"/> instance which encapsulates the specified <paramref name="callback"/>.</returns>
-    IManagedEvent RegisterTreasureHuntEndedEvent(Action<object?, IModularOverhaul.ITreasureHuntEndedEventArgs> callback);
+    /// <returns>A new <see cref="IModularOverhaul.IManagedEvent"/> instance which encapsulates the specified <paramref name="callback"/>.</returns>
+    IModularOverhaul.IManagedEvent RegisterTreasureHuntEndedEvent(Action<object?, IModularOverhaul.ITreasureHuntEndedEventArgs> callback);
 
     #endregion treasure hunts
 
