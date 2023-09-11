@@ -46,7 +46,7 @@ Integrations are provided out-of-the-box for several popular mods. See the [comp
 
 This module is safe to enable or disable mid-save. All profession perks will be applied retroactively. However, please note that disabling this mod will have no effect on skill levels or acquired professions, so make sure to manually reset your skills and professions back to vanilla standards **before** disabling, using provided console commands.
 
-<sup><sub><sup>[🔼 Back to top](#margo-professions-profs)</sup></sub></sup>
+<sup><sub><sup>[🔼 Back to top](#margo--professions-profs)</sup></sub></sup>
 
 ## Professions
 
@@ -143,7 +143,7 @@ The perks in *italics* refer to ![shield:prestige] variants. Written in *(parent
 	- Obtainable buffs are the same as food/drink buffs (skill levels, attack, defense, speed, luck, max energy, magnetism). Buffs lasts 3 real-life minutes and can stack indefinitely, refreshing the duration each time. If at least one buff stack is active, also gain immunity to the Slimed debuff, even without a Slime Charmer ring (but **not** to Slime damage).
 	- Slime ammo deals twice as much damage, and can be used to heal ally Slimes.
 
-<sup><sub><sup>[🔼 Back to top](#margo-professions-profs)</sup></sub></sup>
+<sup><sub><sup>[🔼 Back to top](#margo--professions-profs)</sup></sub></sup>
 
 ## Prestige
 
@@ -159,7 +159,7 @@ The entire Prestige system is optional. It may be turned off at any time, but ke
 
 All custom mod skills based on SpaceCore are compatible with the skill reset feature, but cannot have their level cap raised above the regular 10. For skill mod developers, if you wish to provide prestiged professions you can do so by registering your skill via the provided [API](../../API/IModularOverhaulApi.cs).
 
-<sup><sub><sup>[🔼 Back to top](#margo-professions-profs)</sup></sub></sup>
+<sup><sub><sup>[🔼 Back to top](#margo--professions-profs)</sup></sub></sup>
 
 ## Limit Breaks
 
@@ -183,7 +183,7 @@ Note that, though all combat professions can be acquired via skill reset, only o
 
 After all possible skills have had their level cap raised, the Statue of Prestige will let you switch between the four Limit Breaks for free (though a cost can be configured). Switching Limmit Breaks is not possible if the Prestige system is disabled. As with the Prestige system, Limit Breaks can be turned off in the mod settings.
 
-<sup><sub><sup>[🔼 Back to top](#margo-professions-profs)</sup></sub></sup>
+<sup><sub><sup>[🔼 Back to top](#margo--professions-profs)</sup></sub></sup>
 
 ## Compatibility
 
@@ -223,7 +223,7 @@ The following mods are **not** compatible:
 - [All Professions][mod:all-professions] and [Skill Prestige][mod:prestige], as they conflict with this mod's Prestige system. You could potentially use them if you disable this mod's Prestige system, but I will not provide support in case of bugs.
 - [Yet Another Harvest With Scythe Mod][mod:yahwsm] will not apply modded profession perks. Use instead the feature included in CJB Cheats Menu.
 
-<sup><sub><sup>[🔼 Back to top](#margo-professions-profs)</sup></sub></sup>
+<sup><sub><sup>[🔼 Back to top](#margo--professions-profs)</sup></sub></sup>
 
 ## F.A.Q.
 
@@ -251,7 +251,7 @@ An example file is offered under the Optional downloads as a template for this.
 It adds several valuable items to the possible produce list of each Legendary Fish, but doesn't change their spawn time or population quests.  
 You may customize this file to achieve your preferred behavior.
 
-<sup><sub><sup>[🔼 Back to top](#margo-professions-profs)</sup></sub></sup>
+<sup><sub><sup>[🔼 Back to top](#margo--professions-profs)</sup></sub></sup>
 
 ## For C# Developers
 
@@ -269,7 +269,7 @@ The module exposes an API to facilitate integration with other mods. Currently e
 
 To consume the API, copy both interfaces from the [API folder](../../API/) namespace to your project and [ask SMAPI for a proxy][wiki:integrations-api].
 
-<sup><sub><sup>[🔼 Back to top](#margo-professions-profs)</sup></sub></sup>
+<sup><sub><sup>[🔼 Back to top](#margo--professions-profs)</sup></sub></sup>
 
 ## Recommended Mods
 
@@ -344,4 +344,4 @@ To consume the API, copy both interfaces from the [API folder](../../API/) names
 [wiki:fishponddata]: <https://stardewvalleywiki.com/Modding:Fish_Pond_data> "Fish Pond Data"
 [wiki:integrations-api]: <https://stardewvalleywiki.com/Modding:Modder_Guide/APIs/Integrations> "APIs - Integrations"
 
-[🔼 Back to top](#margo-professions-profs)
+[🔼 Back to top](#margo--professions-profs)

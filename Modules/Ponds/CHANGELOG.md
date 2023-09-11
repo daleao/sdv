@@ -1,24 +1,24 @@
 ﻿# PNDS Changelog
 
-## 2.5.5 <sup><sub><sup>[🔼 Back to top](#pnds-change-log)</sup></sub></sup>
+## 2.5.5 <sup><sub><sup>[🔼 Back to top](#pnds-changelog)</sup></sub></sup>
 
 ### Fixed
 
 * Fixes an issue with legendary fish not retaining quality. Apparently.
 
-## 2.5.0 <sup><sub><sup>[🔼 Back to top](#pnds-change-log)</sup></sub></sup>
+## 2.5.0 <sup><sub><sup>[🔼 Back to top](#pnds-changelog)</sup></sub></sup>
 
 ### Added
 
 * Mr. and Ms. Angler can now mate when placed together in a pond.
 
-## 1.0.4 <sup><sub><sup>[🔼 Back to top](#pnds-change-log)</sup></sub></sup>
+## 1.0.4 <sup><sub><sup>[🔼 Back to top](#pnds-changelog)</sup></sub></sup>
 
 ### Fixed
 
 * Fixed a major typo in Fish Pond Mod Data, which caused FamilyLivingHere and DaysEmpty data fields to overwrite each other. I can't begin to imagine all the problems this was causing, but I recommend everyone reset their ponds to be sure.
 
-## 1.0.2 <sup><sub><sup>[🔼 Back to top](#pnds-change-log)</sup></sub></sup>
+## 1.0.2 <sup><sub><sup>[🔼 Back to top](#pnds-changelog)</sup></sub></sup>
 
 ### Changed
 
@@ -32,7 +32,7 @@
 * Fixed a typo in Reflector logic which caused an exception to be thrown with Teh's Fishing Overhaul.
 * TFO integration should now handle Algae correctly.
 
-## 1.0.0 <sup><sub><sup>[🔼 Back to top](#pnds-change-log)</sup></sub></sup>
+## 1.0.0 <sup><sub><sup>[🔼 Back to top](#pnds-changelog)</sup></sub></sup>
 
 ### Added
 
@@ -44,13 +44,13 @@
 * Fixed an issue which caused invalid mod data leftover after changing a pond's fish type.
 * Adjustments to the positioning of fish in Pond Query Menu.
 
-## 0.9.6 <sup><sub><sup>[🔼 Back to top](#pnds-change-log)</sup></sub></sup>
+## 0.9.6 <sup><sub><sup>[🔼 Back to top](#pnds-changelog)</sup></sub></sup>
 
 ### Fixed
 
 * "Fixed" (but not really) an error thrown during Fish Pond production logic. This is actually caused by vanilla's `Utility.consolidateStacks` method, which deletes non-colored Roe from the produce list for some reason. Because this just slightly nerfs Fish Pond production, and they're slightly too strong, I'm choosing to embrace the bug and just hide the error.
 
-## 0.9.2 <sup><sub><sup>[🔼 Back to top](#pnds-change-log)</sup></sub></sup>
+## 0.9.2 <sup><sub><sup>[🔼 Back to top](#pnds-changelog)</sup></sub></sup>
 
 ### Changed
 
@@ -67,4 +67,4 @@
 * Fixed a bug where the counter for spawning Algae in an empty Fish Pond would reset when reloading the save.
 * Fixed a typo preventing TFO integration from applying, which in turn caused a conflict with it installed.
 
-[🔼 Back to top](#pnds-change-log)
+[🔼 Back to top](#pnds-changelog)

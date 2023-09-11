@@ -1,8 +1,8 @@
 ﻿# MARGO Changelogs
 
-This file contains a TL;DR of current version changes and hotfixes from across all modules. For the complete changelog, please refer to the individual changelogs of each module, linked [below](#detailed-change-logs).
+This file contains a TL;DR of current version changes and hotfixes from across all modules. For the complete changelog, please refer to the individual changelogs of each module, linked [below](#detailed-changelogs).
 
-## Patch 3.0.2 Highlights <sup><sub><sup>[🔼 Back to top](#margo-change-logs)</sup></sub></sup>
+## Patch 3.0.2 Highlights <sup><sub><sup>[🔼 Back to top](#margo-changelogs)</sup></sub></sup>
 
 * Fixed a few more translation issues.
 * Added Combo Framework to the API.
@@ -12,13 +12,13 @@ This file contains a TL;DR of current version changes and hotfixes from across a
 * [CMBT]: Honor can now be proven by returning the Mayor's purple shorts without shenanigans.
 * [CMBT]: Changed SVE's Treasure Cave chest reward from Obsidian Edge to Lava Katana.
 
-## Patch 3.0.1 Highlights <sup><sub><sup>[🔼 Back to top](#margo-change-logs)</sup></sub></sup>
+## Patch 3.0.1 Highlights <sup><sub><sup>[🔼 Back to top](#margo-changelogs)</sup></sub></sup>
 
 * Fixed some missing translations.
 * [CMBT]: Fixed Piper's Slime ammo damage (increased from 5 to 10).
 * [TOLS]: Fixed Master enchantment on tools other than Fishing Rod still increasing Fishing level by 1, and also not showing up as green in the skills page.
 
-## Major Release 3.0.0 Highlights <sup><sub><sup>[🔼 Back to top](#margo-change-logs)</sup></sub></sup>
+## Major Release 3.0.0 Highlights <sup><sub><sup>[🔼 Back to top](#margo-changelogs)</sup></sub></sup>
 
 * Re-unification of all the combat-oriented modules: CMBT, WPNZ, SLNGS, RNGS and ENCH are now collectively known as CMBT.
     * Several redundant config settings (like those related to Auto-Selection) were consolidated.
@@ -32,7 +32,7 @@ This file contains a TL;DR of current version changes and hotfixes from across a
 * [CMBT]: Added enemy difficulty summands to config options and changed default config values for some multipliers.
 * [TWX]: Re-organized config settings by skill.
 
-[🔼 Back to top](#cmbt-change-log)
+[🔼 Back to top](#cmbt-changelog)
 
 ## Detailed Changelogs
 
@@ -44,4 +44,4 @@ This file contains a TL;DR of current version changes and hotfixes from across a
 * [Taxes](Modules/Taxes/CHANGELOG.md)
 * [Tweaks](Modules/Tweex/CHANGELOG.md)
 
-[🔼 Back to top](#margo-change-logs)
+[🔼 Back to top](#margo-changelogs)

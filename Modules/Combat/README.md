@@ -25,7 +25,7 @@
 		<li><a href="#rebalanced-modifiers">Rebalanced Modifers</a></li>
 		<li><a href="#critical-hits">Critical Hits</a></li>
 		<li><a href="#special-move">Special Move</a></li>
-		<li><a href="#forges-gemstone-ammo">Forges & Gemstone Ammo</a></li>
+		<li><a href="#forges--gemstone-ammo">Forges & Gemstone Ammo</a></li>
 		<li><a href="#ranged-enchantments">Ranged Enchantments</a></li>
 		<li><a href="#infinity-slingshot">Infinity Slingshot</a></li>
 		<li><a href="#removed-grace-period">Removed Grace Period</a></li>
@@ -39,7 +39,7 @@
 	<li><a href="#infinity-1">Infinity +1</a></li>
 	<li><a href="#garnet--gemstone-resonance-theory">Garnet & Gemstone Resonance Theory</a></li>
 	<li><a href="#enemies">Enemies</a></li>
-	<li><a href="#controls-quality-of-life">Controls & Quality of Life</a></li>
+	<li><a href="#controls--quality-of-life">Controls & Quality of Life</a></li>
 	<li><a href="#compatibility">Compatibility</a></li>
 	<li><a href="#faq">F.A.Q.</a></li>
 </ol>
@@ -63,7 +63,7 @@ Taking inspiration from classic RPG or strategy games, this module adds a framew
 
 Each status condition is accompanied by a neat corresponding animation. Status conditions cannot be applied on the player.
 
-<sup><sub><sup>[🔼 Back to top](#margo-combat-cmbt)</sup></sub></sup>
+<sup><sub><sup>[🔼 Back to top](#margo--combat-cmbt)</sup></sub></sup>
 
 ## Rebalanced Stats
 
@@ -88,7 +88,7 @@ Certain stats are simply not worth investing in vanilla. While some of these can
     - **Jade:** *+10% -> +50% crit. power.* A 10% boost to crit. power is a 10% damage boost that *only* applies to crits. To put that in perspective, only when the player has 100% crit. chance then they will receive an overall 10% boost to damage. It should be clear that this is complete garbage next to a Ruby Ring, which straight up grants a 10% boost to damage, *all the time*. At 50% crit. power, the Jade Ring becomes a better choice than the Ruby Ring if the player has at least 20% crit. chance, which should be attainable by any weapon type given an appropriate build. Above that threshold, Jade Rings become even stronger.
     - Slingshots can now critically strike. Think of them as headshots.
 
-<sup><sub><sup>[🔼 Back to top](#margo-combat-cmbt)</sup></sub></sup>
+<sup><sub><sup>[🔼 Back to top](#margo--combat-cmbt)</sup></sub></sup>
 
 ## Melee Weapon Changes
 
@@ -98,7 +98,7 @@ Vanilla weapons suffer from two major issues:
 
 This mod tries to fix both through a combination of nerfs, buffs and entirely new mechanics which will overall make combat significantly more strategic and challenging.
 
-<sup><sub><sup>[🔼 Back to top](#margo-combat-cmbt)</sup></sub></sup>
+<sup><sub><sup>[🔼 Back to top](#margo--combat-cmbt)</sup></sub></sup>
 
 ### Combo Framework
 
@@ -110,7 +110,7 @@ Weapon spamming is makes vanilla combat a boring click-fest. This mod implements
 
 If combo hits are enabled, swing speed bonuses from **emerald** effects will apply to every frame of the attack animation, as well as the cooldown in between combos, as opposed to only the final frame as in vanilla. This immediately makes speed a more valuable stat.
 
-<sup><sub><sup>[🔼 Back to top](#margo-combat-cmbt)</sup></sub></sup>
+<sup><sub><sup>[🔼 Back to top](#margo--combat-cmbt)</sup></sub></sup>
 
 ### Offensive & Defensive Swords
 
@@ -120,7 +120,7 @@ Swords are now split between **offensive** and **defensive** archetypes. Defensi
 
 To improve the defensive parry move, parry damage is increased by 10% for every defense point. This adds offensive value to the defense stat itself and makes defensive builds more viable. Note that the introduction of weapon combos also adds to the value of a defensive move (you need to protect yourself during combo downtime).
 
-<sup><sub><sup>[🔼 Back to top](#margo-combat-cmbt)</sup></sub></sup>
+<sup><sub><sup>[🔼 Back to top](#margo--combat-cmbt)</sup></sub></sup>
 
 ### Rebalanced Types & Tiers
 
@@ -174,7 +174,7 @@ See [Infinity+1](#infinity-1).
 
 In order to better reflect their new weapon types, as well as their mythical or legendary status, several weapons have received vanilla-friendly retextures. These textures will always be overwritten by any installed Content Patcher mods, so there is no concern for compatibility. Moreover, there are tons of small immersive details like visual and sound effects added to mythic and legendary weapons.
 
-<sup><sub><sup>[🔼 Back to top](#margo-combat-cmbt)</sup></sub></sup>
+<sup><sub><sup>[🔼 Back to top](#margo--combat-cmbt)</sup></sub></sup>
 
 ### Melee Enchantments
 
@@ -198,7 +198,7 @@ Weapons enchantments have been almost entirely overhauled. These new enchantment
 
 \*\* *Examples: damage or heal the enemy; decrease or increase the enemie's stats; transfigure into a different enemy, creature or any random item (note: this can spawn illegal items).*
 
-<sup><sub><sup>[🔼 Back to top](#margo-combat-cmbt)</sup></sub></sup>
+<sup><sub><sup>[🔼 Back to top](#margo--combat-cmbt)</sup></sub></sup>
 
 ### Other Features
 
@@ -213,13 +213,13 @@ Weapons enchantments have been almost entirely overhauled. These new enchantment
 
     Note that this is the only feature of this mod that affects third-party mod weapons. If you play with expansion mods which add new weapons, such as Ridgeside Village, you will likely notice absurdly high stats in those weapons' tooltips. **That's not on me.** Those weapons are broken by design. I just pulled the curtains. You're welcome.
 
-<sup><sub><sup>[🔼 Back to top](#margo-combat-cmbt)</sup></sub></sup>
+<sup><sub><sup>[🔼 Back to top](#margo--combat-cmbt)</sup></sub></sup>
 
 ## Ranged Weapon Changes
 
 Ranged weapons are actually quite strong in vanilla, mainly because ammo's deal insane damage. They are also boring, however, since ranged combat is very unidimensional. This mod seeks to alleviate that by reducing base ammo damage while also introducing many of the same mechanics afforded to melee weapons.
 
-<sup><sub><sup>[🔼 Back to top](#margo-combat-cmbt)</sup></sub></sup>
+<sup><sub><sup>[🔼 Back to top](#margo--combat-cmbt)</sup></sub></sup>
 
 ### Rebalanced Modifiers & Ammo
 
@@ -238,13 +238,13 @@ The following new ammos have been added:
 - Diamond: 120 damage
 - Prismatic Shard: 200 damage
 
-<sup><sub><sup>[🔼 Back to top](#margo-combat-cmbt)</sup></sub></sup>
+<sup><sub><sup>[🔼 Back to top](#margo--combat-cmbt)</sup></sub></sup>
 
 ### Special Move
 
 Pressing the action button will trigger a melee smack attack that stuns enemies for 2 seconds. This allows the player to react to enemies in close range without switching weapons, and quickly reposition to continue firing from safety.
 
-<sup><sub><sup>[🔼 Back to top](#margo-combat-cmbt)</sup></sub></sup>
+<sup><sub><sup>[🔼 Back to top](#margo--combat-cmbt)</sup></sub></sup>
 
 ### Ranged Enchantments
 
@@ -268,7 +268,7 @@ Gemstone forges cannot directly be applied to slingshots, but **gemstones can be
 
 Lastly, the **Galaxy Soul** can be applied to the Galaxy Slingshot, as with other Galaxy weapons, to eventually create the **Infinity Slingshot.**
 
-<sup><sub><sup>[🔼 Back to top](#margo-combat-cmbt)</sup></sub></sup>
+<sup><sub><sup>[🔼 Back to top](#margo--combat-cmbt)</sup></sub></sup>
 
 ### Other Features
 
@@ -280,13 +280,13 @@ Lastly, the **Galaxy Soul** can be applied to the Galaxy Slingshot, as with othe
 
     Standing in a snowy tile with an empty slingshot will allow the player to fire a snowball. The snowball projectile deals no significant damage; this is meant as a fun flavor feature for multiplayer.
 
-<sup><sub><sup>[🔼 Back to top](#margo-combat-cmbt)</sup></sub></sup>
+<sup><sub><sup>[🔼 Back to top](#margo--combat-cmbt)</sup></sub></sup>
 
 ## Ring Changes
 
 Most combat-oriented rings in vanilla are underwhelming and completely overlooked next to the Iridium Band, which provides a free 3-in-1 ring that can also be combined. This mod tries to make combat rings more interesting, and introduce all-new mechanics specific to the Iridium Band.
 
-<sup><sub><sup>[🔼 Back to top](#margo-combat-cmbt)</sup></sub></sup>
+<sup><sub><sup>[🔼 Back to top](#margo--combat-cmbt)</sup></sub></sup>
 
 ### Rebalanced Combat Rings
 
@@ -297,7 +297,7 @@ This following rings have been changed:
 - **Immunity Ring:** ~~Immunity +4.~~ -> Gain 100% immunity.
 - **Ring of Thorns:** Can cause Bleeding status (in addition to reflected damage).
 
-<sup><sub><sup>[🔼 Back to top](#margo-combat-cmbt)</sup></sub></sup>
+<sup><sub><sup>[🔼 Back to top](#margo--combat-cmbt)</sup></sub></sup>
 
 ### Infinity Band
 
@@ -305,7 +305,7 @@ The Iridium Band has been completely overhauled. Initially, a newly crafted Irid
 
 The Infinity Band likewise does nothing on its own, but it serves as a vessel for up to **four** gemstones. To add a gemstone to the Infinity Band, you must fuse it with a corresponding gemstone ring at the Forge. The same type of gemstone can be added more than once, compounding the effect. Alternatively, combining different gemstones will potentially lead to powerful [resonances](#resonance).
 
-<sup><sub><sup>[🔼 Back to top](#margo-combat-cmbt)</sup></sub></sup>
+<sup><sub><sup>[🔼 Back to top](#margo--combat-cmbt)</sup></sub></sup>
 
 ## Infinity +1
 
@@ -321,7 +321,7 @@ In return for all that extra work, the Infinity weapons have extra perks:
 1. +1 gemstone slot (4 total). Keeping in mind that each gemstone has the potential to [resonate](#resonance).
 2. **Melee only:** while at full health, every swing will fire a mid-range energy beam.
 
-<sup><sub><sup>[🔼 Back to top](#margo-combat-cmbt)</sup></sub></sup>
+<sup><sub><sup>[🔼 Back to top](#margo--combat-cmbt)</sup></sub></sup>
 
 ## Garnet & Gemstone Resonance Theory
 
@@ -347,7 +347,7 @@ If either the [Weapons](../Weapons) or [Slingshots](../Slingshots) modules are e
 
 It is my hope that this mechanic will encourage experimentation, and also teach some basic Music Theory.
 
-<sup><sub><sup>[🔼 Back to top](#margo-combat-cmbt)</sup></sub></sup>
+<sup><sub><sup>[🔼 Back to top](#margo--combat-cmbt)</sup></sub></sup>
 
 ## Enemies
 
@@ -357,7 +357,7 @@ This mod also provides three sliders to tailor general combat difficulty. These 
 
 Finally, certain enemy hitboxes are also improved, and others have received small visual tweaks.
 
-<sup><sub><sup>[🔼 Back to top](#margo-combat-cmbt)</sup></sub></sup>
+<sup><sub><sup>[🔼 Back to top](#margo--combat-cmbt)</sup></sub></sup>
 
 ## Controls & Quality of Life
 
@@ -375,7 +375,7 @@ This mod includes the following popular control-related features, often featured
 
     If enemies are nearby, players can optionally choose a weapon, melee or ranged, to be equipped automatically.
 
-<sup><sub><sup>[🔼 Back to top](#margo-combat-cmbt)</sup></sub></sup>
+<sup><sub><sup>[🔼 Back to top](#margo--combat-cmbt)</sup></sub></sup>
 
 ## Other Features
 
@@ -383,7 +383,7 @@ This mod includes the following popular control-related features, often featured
 
     The vanilla game has too many weapons for its own good. A minor issue which results from this is the very awkward "upgrade" from the starting Rusty Sword to the Wooden Blade. Why would Marlon be mocking about with a rusty weapon anyway? This has always bothered me, and so, for a slight increase in immersion, this novelty feature will remove the Rusty Sword from the game and replace the starter weapon with a Wooden Blade.
 
-<sup><sub><sup>[🔼 Back to top](#margo-combat-cmbt)</sup></sub></sup>
+<sup><sub><sup>[🔼 Back to top](#margo--combat-cmbt)</sup></sub></sup>
 
 ## Compatibility
 
@@ -404,7 +404,7 @@ This mod includes the following popular control-related features, often featured
 - Ring features are **not** compatible with other mods with similar scope, including [Combine Many Rings][mod:combine-many-rings], [Balanced Combine Many Rings][mod:balanced-many-rings] and, to an extent, [Ring Overhaul][mod:ring-overhaul]
 - Other ring retextures will be lightly incompatible with the new Infinity Band, meaning there may be some visual glitches but otherwise no real issues.
 
-<sup><sub><sup>[🔼 Back to top](#margo-combat-cmbt)</sup></sub></sup>
+<sup><sub><sup>[🔼 Back to top](#margo--combat-cmbt)</sup></sub></sup>
 
 ## F.A.Q.
 
@@ -522,4 +522,4 @@ Unforge the Blade of Dawn to obtain a Hero Soul, and then forge it into any Gala
 
 [tropes:color-coded]: <https://tvtropes.org/pmwiki/pmwiki.php/Main/ColourCodedForYourConvenience> "Color-Coded for Your Convenience"
 
-[🔼 Back to top](#margo-combat-cmbt)
+[🔼 Back to top](#margo--combat-cmbt)
