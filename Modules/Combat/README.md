@@ -17,19 +17,15 @@
 		<li><a href="#offensive-defensive-swords">Offensive & Defensive Swords</a></li>
 		<li><a href="#rebalanced-types--tiers">Rebalanced Types & Tiers</a></li>
 		<li><a href="#melee-enchantments">Melee Enchantments</a></li>
-		<li><a href="#acquiring-weapons">Acquiring Weapons</a></li>
-		<li><a href="#tooltips">Tooltips</a></li>
+		<li><a href="#other-features-0">Other Features</a></li>
 	</ol>
 	<li><a href="#ranged-weapon-changes">Ranged Weapon Changes</a></li>
 	<ol>
-		<li><a href="#rebalanced-modifiers">Rebalanced Modifers</a></li>
+		<li><a href="#rebalanced-modifiers--ammo">Rebalanced Modifers & Ammo</a></li>
 		<li><a href="#critical-hits">Critical Hits</a></li>
 		<li><a href="#special-move">Special Move</a></li>
-		<li><a href="#forges--gemstone-ammo">Forges & Gemstone Ammo</a></li>
 		<li><a href="#ranged-enchantments">Ranged Enchantments</a></li>
-		<li><a href="#infinity-slingshot">Infinity Slingshot</a></li>
-		<li><a href="#removed-grace-period">Removed Grace Period</a></li>
-		<li><a href="#snowballs">Snowballs</a></li>
+		<li><a href="#other-features-1">Other Features</a></li>
 	</ol>
 	<li><a href="#ring-changes">Ring Changes</a></li>
 		<ol>
@@ -40,6 +36,7 @@
 	<li><a href="#garnet--gemstone-resonance-theory">Garnet & Gemstone Resonance Theory</a></li>
 	<li><a href="#enemies">Enemies</a></li>
 	<li><a href="#controls--quality-of-life">Controls & Quality of Life</a></li>
+	<li><a href="#other-features-2">Other Features</a></li>
 	<li><a href="#compatibility">Compatibility</a></li>
 	<li><a href="#faq">F.A.Q.</a></li>
 </ol>
@@ -203,6 +200,7 @@ Weapons enchantments have been almost entirely overhauled. These new enchantment
 ### Other Features
 
 * **The Mines & Weapon Acquisition**
+
     In vanilla, the player is quick to amass large quantities of fodder weapons, both from Mine chests as well as barrel and crate drops. To support the intended experience of progression, all weapons are removed from Mine chests, which instead reward random goodies. In order to obtain new weapons, players will have to fight for monster drops or get lucky with breakable containers. Monster-dropped weapons are rare, but tend to be stronger. Lower-tier weapons can also be purchased directly from Marlon, but will have fixed and significantly weaker stats when obtained this way.
 
 * **Tooltips**
