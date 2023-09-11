@@ -2,11 +2,21 @@
 
 ## 3.0.2 <sup><sub><sup>[🔼 Back to top](#cmbt-change-log)</sup></sub></sup>
 
+Exodus from Nexus.
+
 ### Added
 
 * You can now prove your Honor (+2 points) by returning the Mayor's Purple Shorts, as long as you don't troll him at the Luau or the Grange.
+* You can now prove your Valor by digging 100 (or 50, on Easy difficulty) consecutive floors in the Mines without using Staircases.
+* Added Virtue completion tags to several SVE events. Most of these are "mature events", so you will need that option enabled to benefit from this.
+* You can now prove your Valor by reaching the Treasure Cave in the Crimson Badlands.
 
-## Fixed
+### Changed 
+
+* Base Valor completion objective was changed back to Monster Eradication Goals. Someone pointed out that slaying monsters for the sake of slaying monsters is not exactly "courageous".
+* Changed SVE's Treasure Cave chest reward from Obsidian Edge to Lava Katana.
+
+### Fixed
 
 * Wabbajack end-of-day cleanup should now run correctly.
 
@@ -40,10 +50,6 @@ Merged WPNZ, SLNGS, RNGS and ENCH into the CMBT module. All of those modules ess
     * If you were not aware, the Blade of Dawn and Infinity weapons already all possess the ability to inflict perma-death on Mummies, replacing the vanilla Crusader enchantment.
 * Blade of Dawn and Infinity weapon beams no longer cast a shadow.
 * Lowered Wabbajack probability from 0.5 to about 0.309.
-* Lowered ammo damage:
-    * Gemstones: 50 -> 45
-    * Diamond: 120 -> 90
-    * Prismatic Shard: 250 -> 120
 
 ## Removed
 

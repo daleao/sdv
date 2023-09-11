@@ -89,7 +89,7 @@ Other settings are self explanatory. Use [Generic Mod Config Menu](https://www.n
 
 ## Compatibility
 
-The tools are compatible withThis mod uses Harmony to patch the behavior of Axe and Pickaxe. Any mods that also directly patch Tool behavior might be incompatible.
+This mod uses Harmony to patch the behavior of Axe and Pickaxe. Any mods that also directly patch Tool behavior might be incompatible.
 
 - Compatible with [Moon Misadventures](https://www.nexusmods.com/stardewvalley/mods/10612).
 - Compatible with [Harvest Moon FoMT-like Watering Can And Hoe Area](https://www.nexusmods.com/stardewvalley/mods/7851) as long as you don't touch Hoe and Watering Can settings (although you can just set them to the same values used by that mod to achieve the same effect).

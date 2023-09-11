@@ -2,7 +2,9 @@
 
 #region using directives
 
+using DaLion.Overhaul.Modules.Combat.Enums;
 using DaLion.Shared.Events;
+using DaLion.Shared.Extensions.Stardew;
 using StardewModdingAPI.Events;
 
 #endregion using directives
@@ -25,6 +27,25 @@ internal sealed class SveWarpedEvent : WarpedEvent
             return;
         }
 
-        e.NewLocation.setTileProperty(10, 7, "Buildings", "Success", $"W {ItemIDs.ObsidianEdge} 1");
+        //var obtained = e.Player.Read(DataKeys.GalaxyArsenalObtained).ParseList<int>();
+        //if (obtained.Count >= 4)
+        //{
+        e.NewLocation.setTileProperty(10, 7, "Buildings", "Success", $"W {ItemIDs.LavaKatana} 1");
+        //}
+        //else
+        //{
+        //    var chosen = new[]
+        //    {
+        //        ItemIDs.GalaxySword,
+        //        ItemIDs.GalaxyHammer,
+        //        ItemIDs.GalaxyDagger,
+        //        ItemIDs.GalaxySlingshot,
+        //    }.Except(obtained).Choose();
+
+        //    e.NewLocation.setTileProperty(10, 7, "Buildings", "Success", $"W {chosen} 1");
+        //}
+
+        e.Player.Write(DataKeys.ProvenValor, int.MaxValue.ToString());
+        CombatModule.State.HeroQuest?.UpdateTrialProgress(Virtue.Valor);
     }
 }

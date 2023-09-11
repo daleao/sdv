@@ -22,8 +22,11 @@ using DaLion.Overhaul.Modules.Taxes.Extensions;
 using DaLion.Shared.Events;
 using DaLion.Shared.Exceptions;
 using Microsoft.Xna.Framework;
+using Modules.Combat.Extensions;
 using StardewValley.Objects;
 using StardewValley.Tools;
+using StardewValley.Monsters;
+using DaLion.Overhaul.Modules.Combat.StatusEffects;
 
 #endregion using directives
 
@@ -223,7 +226,7 @@ public sealed class ModApi
 
     #endregion treasure hunts
 
-    #region ultimate
+    #region limit break
 
     /// <summary>Gets the <paramref name="farmer"/>'s currently registered <see cref="IUltimate"/>, if any.</summary>
     /// <param name="farmer">The <see cref="Farmer"/>.</param>
@@ -294,7 +297,7 @@ public sealed class ModApi
         return e;
     }
 
-    #endregion ultimate
+    #endregion limit break
 
     #region resonance
 
@@ -307,6 +310,194 @@ public sealed class ModApi
     }
 
     #endregion resonance
+
+    #region status effects
+
+    /// <summary>Causes bleeding on the <paramref name="monster"/> for the specified <paramref name="duration"/> and with the specified <paramref name="intensity"/>.</summary>
+    /// <param name="monster">The <see cref="Monster"/>.</param>
+    /// <param name="bleeder">The <see cref="Farmer"/> who caused the bleeding.</param>
+    /// <param name="duration">The duration in milliseconds.</param>
+    /// <param name="intensity">The intensity of the bleeding effect (how many stacks).</param>
+    public void Bleed(Monster monster, Farmer bleeder, int duration = 30000, int intensity = 1)
+    {
+        monster.Bleed(bleeder, duration, intensity);
+    }
+
+    /// <summary>Removes bleeding from the <paramref name="monster"/>.</summary>
+    /// <param name="monster">The <see cref="Monster"/>.</param>
+    public void Unbleed(Monster monster)
+    {
+        monster.Unbleed();
+    }
+
+    /// <summary>Checks whether the <paramref name="monster"/> is bleeding.</summary>
+    /// <param name="monster">The <see cref="Monster"/>.</param>
+    /// <returns><see langword="true"/> if the <paramref name="monster"/> has non-zero bleeding stacks, otherwise <see langword="false"/>.</returns>
+    public bool IsBleeding(Monster monster)
+    {
+        return monster.IsBleeding();
+    }
+
+    /// <summary>Burns the <paramref name="monster"/> for the specified <paramref name="duration"/>.</summary>
+    /// <param name="monster">The <see cref="Monster"/>.</param>
+    /// <param name="burner">The <see cref="Farmer"/> who inflicted the burn.</param>
+    /// <param name="duration">The duration in milliseconds.</param>
+    public void Burn(Monster monster, Farmer burner, int duration = 15000)
+    {
+        monster.Burn(burner, duration);
+    }
+
+    /// <summary>Removes burn from <paramref name="monster"/>.</summary>
+    /// <param name="monster">The <see cref="Monster"/>.</param>
+    public void Unburn(Monster monster)
+    {
+        monster.Unburn();
+    }
+
+    /// <summary>Checks whether the <paramref name="monster"/> is burning.</summary>
+    /// <param name="monster">The <see cref="Monster"/>.</param>
+    /// <returns><see langword="true"/> if the <paramref name="monster"/> has non-zero burn timer, otherwise <see langword="false"/>.</returns>
+    public bool IsBurning(Monster monster)
+    {
+        return monster.IsBurning();
+    }
+
+    /// <summary>Chills the <paramref name="monster"/> for the specified <paramref name="duration"/>.</summary>
+    /// <param name="monster">The <see cref="Monster"/>.</param>
+    /// <param name="duration">The duration in milliseconds.</param>
+    public void Chill(Monster monster, int duration = 5000)
+    {
+        monster.Chill(duration);
+    }
+
+    /// <summary>Removes chilled status from the <paramref name="monster"/>.</summary>
+    /// <param name="monster">The <see cref="Monster"/>.</param>
+    public void Unchill(Monster monster)
+    {
+        monster.Unchill();
+    }
+
+    /// <summary>Checks whether the <paramref name="monster"/> is chilled.</summary>
+    /// <param name="monster">The <see cref="Monster"/>.</param>
+    /// <returns>The <paramref name="monster"/>'s chilled flag.</returns>
+    public bool IsChilled(Monster monster)
+    {
+        return monster.IsChilled();
+    }
+
+    /// <summary>Fears the <paramref name="monster"/> for the specified <paramref name="duration"/>.</summary>
+    /// <param name="monster">The <see cref="Monster"/>.</param>
+    /// <param name="duration">The duration in milliseconds.</param>
+    public void Fear(Monster monster, int duration)
+    {
+        monster.Fear(duration);
+    }
+
+    /// <summary>Removes fear from <paramref name="monster"/>.</summary>
+    /// <param name="monster">The <see cref="Monster"/>.</param>
+    public void Unfear(Monster monster)
+    {
+        monster.Unfear();
+    }
+
+    /// <summary>Checks whether the <paramref name="monster"/> is feared.</summary>
+    /// <param name="monster">The <see cref="Monster"/>.</param>
+    /// <returns><see langword="true"/> if the <paramref name="monster"/> has non-zero fear timer, otherwise <see langword="false"/>.</returns>
+    public bool IsFeared(Monster monster)
+    {
+        return monster.IsFeared();
+    }
+
+    /// <summary>Freezes the <paramref name="monster"/> for the specified <paramref name="duration"/>.</summary>
+    /// <param name="monster">The <see cref="Monster"/>.</param>
+    /// <param name="duration">The duration in milliseconds.</param>
+    public void Freeze(Monster monster, int duration = 30000)
+    {
+        monster.Freeze(duration);
+    }
+
+    /// <summary>Removes frozen status from the <paramref name="monster"/>.</summary>
+    /// <param name="monster">The <see cref="Monster"/>.</param>
+    public void Defrost(Monster monster)
+    {
+        monster.Defrost();
+    }
+
+    /// <summary>Checks whether the <paramref name="monster"/> is frozen.</summary>
+    /// <param name="monster">The <see cref="Monster"/>.</param>
+    /// <returns><see langword="true"/> if the <paramref name="monster"/> has non-zero freeze stacks, otherwise <see langword="false"/>.</returns>
+    public bool IsFrozen(Monster monster)
+    {
+        return monster.IsFrozen();
+    }
+
+    /// <summary>Poisons the <paramref name="monster"/> for the specified <paramref name="duration"/> and with the specified <paramref name="intensity"/>.</summary>
+    /// <param name="monster">The <see cref="Monster"/>.</param>
+    /// <param name="poisoner">The <see cref="Farmer"/> who inflicted the poison.</param>
+    /// <param name="duration">The duration in milliseconds.</param>
+    /// <param name="intensity">The intensity of the poison effect (how many stacks).</param>
+    public void Poison(Monster monster, Farmer poisoner, int duration = 15000, int intensity = 1)
+    {
+        monster.Poison(poisoner, duration, intensity);
+    }
+
+    /// <summary>Removes poison from <paramref name="monster"/>.</summary>
+    /// <param name="monster">The <see cref="Monster"/>.</param>
+    public void Detox(Monster monster)
+    {
+        monster.Detox();
+    }
+
+    /// <summary>Checks whether the <paramref name="monster"/> is poisoned.</summary>
+    /// <param name="monster">The <see cref="Monster"/>.</param>
+    /// <returns><see langword="true"/> if the <paramref name="monster"/> has non-zero poison stacks, otherwise <see langword="false"/>.</returns>
+    public bool IsPoisoned(Monster monster)
+    {
+        return monster.IsPoisoned();
+    }
+
+    /// <summary>Slows the <paramref name="monster"/> for the specified <paramref name="duration"/> and with the specified <paramref name="intensity"/>.</summary>
+    /// <param name="monster">The <see cref="Monster"/>.</param>
+    /// <param name="duration">The duration in milliseconds.</param>
+    /// <param name="intensity">The intensity of the slow effect.</param>
+    public void Slow(Monster monster, int duration, double intensity = 0.5)
+    {
+        monster.Slow(duration, intensity);
+    }
+
+    /// <summary>Removes slow from <paramref name="monster"/>.</summary>
+    /// <param name="monster">The <see cref="Monster"/>.</param>
+    public void Unslow(Monster monster)
+    {
+        monster.Unslow();
+    }
+
+    /// <summary>Checks whether the <paramref name="monster"/> is slowed.</summary>
+    /// <param name="monster">The <see cref="Monster"/>.</param>
+    /// <returns><see langword="true"/> if the <paramref name="monster"/> has non-zero slow timer, otherwise <see langword="false"/>.</returns>
+    public bool IsSlowed(Monster monster)
+    {
+        return monster.IsSlowed();
+    }
+
+
+    /// <summary>Stuns the <paramref name="monster"/> for the specified <paramref name="duration"/>.</summary>
+    /// <param name="monster">The <see cref="Monster"/>.</param>
+    /// <param name="duration">The duration in milliseconds.</param>
+    public void Stun(Monster monster, int duration)
+    {
+        monster.Stun(duration);
+    }
+
+    /// <summary>Checks whether the <paramref name="monster"/> is stunned.</summary>
+    /// <param name="monster">The <see cref="Monster"/>.</param>
+    /// <returns><see langword="true"/> if the <paramref name="monster"/> has non-zero stun timer, otherwise <see langword="false"/>.</returns>
+    public bool IsStunned(Monster monster)
+    {
+        return monster.IsStunned();
+    }
+
+    #endregion status effects
 
     #region taxes
 
