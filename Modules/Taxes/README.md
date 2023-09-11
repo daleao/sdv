@@ -36,4 +36,4 @@ Lateness fines are generally higher for property taxes (configurable). But since
 
 Should be compatible with anything (including [Ferngill Revenue Service](https://www.nexusmods.com/stardewvalley/mods/7566, but please don't try using both together).
 
-[🔼 Back to top](#margo-taxes-txs)
+[🔼 Back to top](#margo--taxes-txs)

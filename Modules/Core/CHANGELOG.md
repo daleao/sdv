@@ -1,6 +1,6 @@
 ﻿# Core Changelog
 
-## 3.0.2 <sup><sub><sup>[🔼 Back to top](#tols-change-log)</sup></sub></sup>
+## 3.0.2 <sup><sub><sup>[🔼 Back to top](#tols-changelog)</sup></sub></sup>
 
 ### Added
 
@@ -10,19 +10,19 @@
 
 * Fixed a few more translation issues.
 
-## 3.0.1 <sup><sub><sup>[🔼 Back to top](#tols-change-log)</sup></sub></sup>
+## 3.0.1 <sup><sub><sup>[🔼 Back to top](#tols-changelog)</sup></sub></sup>
 
 ### Fixed
 
 * Fixed some missing translation issues.
 
-## 3.0.0 <sup><sub><sup>[🔼 Back to top](#core-change-log)</sup></sub></sup>
+## 3.0.0 <sup><sub><sup>[🔼 Back to top](#core-changelog)</sup></sub></sup>
 
 ### Changed
 
 * Changed several translation keys for better formatting with Pathoschild's Translation Generator. Possible mistakes may have been created.
 
-## 2.5.1 <sup><sub><sup>[🔼 Back to top](#core-change-log)</sup></sub></sup>
+## 2.5.1 <sup><sub><sup>[🔼 Back to top](#core-changelog)</sup></sub></sup>
 
 ### Changed
 
@@ -32,7 +32,7 @@
 
 * Fixed patching order of IClickableMenu.drawHoverText.
 
-## 2.5.0 <sup><sub><sup>[🔼 Back to top](#core-change-log)</sup></sub></sup>
+## 2.5.0 <sup><sub><sup>[🔼 Back to top](#core-changelog)</sup></sub></sup>
 
 ### Changed
 
@@ -42,7 +42,7 @@
 
 * Fixed an issue with patchers not obaying priority, which caused, for example, Automated Cheese Press to ignore Artisan bonuses when processing Large Milk, among most likely several other unidentified bugs.
 
-## 2.4.0 <sup><sub><sup>[🔼 Back to top](#core-change-log)</sup></sub></sup>
+## 2.4.0 <sup><sub><sup>[🔼 Back to top](#core-changelog)</sup></sub></sup>
 
 ### Added
 
@@ -53,7 +53,7 @@
 * Moved Textures out of Core and to each individual module, preventing a possible error when initializing if certain modules are disabled.
 * Fixed core menu text not using correct translation keys for module selection option.
 
-## 2.3.0 <sup><sub><sup>[🔼 Back to top](#core-change-log)</sup></sub></sup>
+## 2.3.0 <sup><sub><sup>[🔼 Back to top](#core-changelog)</sup></sub></sup>
 
 ### Added
 
@@ -65,19 +65,19 @@
 
 * Cleaned up several config menus in the transition to Pathoschild.Stardew.ModTranslationClassBuilder.
 
-## 2.2.6 <sup><sub><sup>[🔼 Back to top](#core-change-log)</sup></sub></sup>
+## 2.2.6 <sup><sub><sup>[🔼 Back to top](#core-changelog)</sup></sub></sup>
 
 ### Fixed
 
 * Fixed a bug preventing the config menu from reloading correctly.
 
-## 2.2.5 <sup><sub><sup>[🔼 Back to top](#core-change-log)</sup></sub></sup>
+## 2.2.5 <sup><sub><sup>[🔼 Back to top](#core-changelog)</sup></sub></sup>
 
 ### Fixed
 
 * Made some changes to Integration framework to allow integrations to register when modules are activated via GMCM.
 
-## 2.2.3 <sup><sub><sup>[🔼 Back to top](#core-change-log)</sup></sub></sup>
+## 2.2.3 <sup><sub><sup>[🔼 Back to top](#core-changelog)</sup></sub></sup>
 
 ### Added
 
@@ -88,7 +88,7 @@
 
 * Changed default DebugKey to "OemQuotes, OemTilde" (same as DebugMode mod).
 
-## 2.2.2 <sup><sub><sup>[🔼 Back to top](#core-change-log)</sup></sub></sup>
+## 2.2.2 <sup><sub><sup>[🔼 Back to top](#core-changelog)</sup></sub></sup>
 
 ### Added
 
@@ -102,13 +102,13 @@
 
 * Status conditions now live in CMBT. Because duh.
 
-## 2.2.1 <sup><sub><sup>[🔼 Back to top](#core-change-log)</sup></sub></sup>
+## 2.2.1 <sup><sub><sup>[🔼 Back to top](#core-changelog)</sup></sub></sup>
 
 ### Fixed
 
 * Checksum validation now happens on Saving instead of Saved, allowing it to persist immediately instead of only on the next day.
 
-## 2.2.0 <sup><sub><sup>[🔼 Back to top](#core-change-log)</sup></sub></sup>
+## 2.2.0 <sup><sub><sup>[🔼 Back to top](#core-changelog)</sup></sub></sup>
 
 ### Added
 
@@ -126,21 +126,21 @@
 
 * Debug mode is now a toggle.
 
-## 2.0.5 <sup><sub><sup>[🔼 Back to top](#core-change-log)</sup></sub></sup>
+## 2.0.5 <sup><sub><sup>[🔼 Back to top](#core-changelog)</sup></sub></sup>
 
 ### Fixed
 
 * Default value for Combat module has been correctly set to `false`. This would have prevented the initial setup wizard from triggering.
 * Updated SpaceCore minimum version requirement.
 
-## 2.0.1 <sup><sub><sup>[🔼 Back to top](#core-change-log)</sup></sub></sup>
+## 2.0.1 <sup><sub><sup>[🔼 Back to top](#core-changelog)</sup></sub></sup>
 
 ### Fixed
 
 * Hotfix for GMCM crash.
 * Added some missing GMCM config options and fixed some typos.
 
-## 2.0.0 <sup><sub><sup>[🔼 Back to top](#core-change-log)</sup></sub></sup>
+## 2.0.0 <sup><sub><sup>[🔼 Back to top](#core-changelog)</sup></sub></sup>
 
 ### Added
 
@@ -162,7 +162,7 @@
 
 * Removed Hyperlinq library. *"Overoptimization is the root of all evil."*
 
-## 1.3.2 <sup><sub><sup>[🔼 Back to top](#core-change-log)</sup></sub></sup>
+## 1.3.2 <sup><sub><sup>[🔼 Back to top](#core-changelog)</sup></sub></sup>
 
 ### Added
 
@@ -172,31 +172,31 @@
 
 * Added headers to GMCM menus.
 
-## 1.3.1 <sup><sub><sup>[🔼 Back to top](#core-change-log)</sup></sub></sup>
+## 1.3.1 <sup><sub><sup>[🔼 Back to top](#core-changelog)</sup></sub></sup>
 
 ### Fixed
 
 * Improvements to Chinese localization.
 
-## 1.3.0 <sup><sub><sup>[🔼 Back to top](#core-change-log)</sup></sub></sup>
+## 1.3.0 <sup><sub><sup>[🔼 Back to top](#core-changelog)</sup></sub></sup>
 
 ### Added
 
 * Added German translations by [FoxDie1986](https://www.nexusmods.com/stardewvalley/users/1369870).
 
-## 1.2.3 <sup><sub><sup>[🔼 Back to top](#core-change-log)</sup></sub></sup>
+## 1.2.3 <sup><sub><sup>[🔼 Back to top](#core-changelog)</sup></sub></sup>
 
 ## Changed
 
 * Caught some more indexed enumerables which has been replaced with for loops.
 
-## 1.2.2 <sup><sub><sup>[🔼 Back to top](#core-change-log)</sup></sub></sup>
+## 1.2.2 <sup><sub><sup>[🔼 Back to top](#core-changelog)</sup></sub></sup>
 
 ### Fixed
 
 * Fixed integer GMCM fields incorrectly displaying as decimals.
 
-## 1.2.0 <sup><sub><sup>[🔼 Back to top](#core-change-log)</sup></sub></sup>
+## 1.2.0 <sup><sub><sup>[🔼 Back to top](#core-changelog)</sup></sub></sup>
 
 ## Added
 
@@ -206,7 +206,7 @@
 
 * Optimized most iterations, removing excessive use of Linq and Enumerators to reduce allocation, and replacing some instances with Hyperlinq.
 
-## 1.1.0 <sup><sub><sup>[🔼 Back to top](#core-change-log)</sup></sub></sup>
+## 1.1.0 <sup><sub><sup>[🔼 Back to top](#core-changelog)</sup></sub></sup>
 
 ### Changed
 
@@ -219,11 +219,11 @@
 * Players now hold their own mod data, rather than concentrating all data on the main player. This fixes some syncronization issues in splitscreen.
 * Added parameterless constructors to mod projectiles, which apparently is required by the game for multiplayer syncronization. 
 
-## 1.0.4 <sup><sub><sup>[🔼 Back to top](#core-change-log)</sup></sub></sup>
+## 1.0.4 <sup><sub><sup>[🔼 Back to top](#core-changelog)</sup></sub></sup>
 
 * Default DebugKey changed to RightShift / RightShoulder.
 
-## 1.0.3 <sup><sub><sup>[🔼 Back to top](#core-change-log)</sup></sub></sup>
+## 1.0.3 <sup><sub><sup>[🔼 Back to top](#core-changelog)</sup></sub></sup>
 
 ### Added
 
@@ -233,7 +233,7 @@
 * Added dependencies for Custom Ore Nodes and Custom Resource Clumps.
 * Fixed update keys for this and optional files.
 
-## 1.0.2 <sup><sub><sup>[🔼 Back to top](#core-change-log)</sup></sub></sup>
+## 1.0.2 <sup><sub><sup>[🔼 Back to top](#core-changelog)</sup></sub></sup>
 
 ### Added
 
@@ -251,7 +251,7 @@
 
 * Fixed some typos in default (English) localization.
 
-## 1.0.0 <sup><sub><sup>[🔼 Back to top](#core-change-log)</sup></sub></sup>
+## 1.0.0 <sup><sub><sup>[🔼 Back to top](#core-changelog)</sup></sub></sup>
 
 ### Changed
 
@@ -265,7 +265,7 @@
 
 * Removed Generic Mod Config Menu as a hard requirement.
 
-## 0.9.7 <sup><sub><sup>[🔼 Back to top](#core-change-log)</sup></sub></sup>
+## 0.9.7 <sup><sub><sup>[🔼 Back to top](#core-changelog)</sup></sub></sup>
 
 ### Changed
 
@@ -275,13 +275,13 @@
 
 * Added FirstSecondUpdateTickedEvent.
 
-## 0.9.5 <sup><sub><sup>[🔼 Back to top](#core-change-log)</sup></sub></sup>
+## 0.9.5 <sup><sub><sup>[🔼 Back to top](#core-changelog)</sup></sub></sup>
 
 ### Added
 
 * Added Revert command, complementary to the Initialize command from Arsenal. This will undo the changes made by Arsenal to resolve possible issues after disabling the module.
 
-## 0.9.4 <sup><sub><sup>[🔼 Back to top](#core-change-log)</sup></sub></sup>
+## 0.9.4 <sup><sub><sup>[🔼 Back to top](#core-changelog)</sup></sub></sup>
 
 ### Added
 
@@ -295,7 +295,7 @@
 
 * Fixed SecondsOutOfCombat not reseting on damaging monsters (incorrect parameter name in Harmony Postfix).
 
-## 0.9.3 <sup><sub><sup>[🔼 Back to top](#core-change-log)</sup></sub></sup>
+## 0.9.3 <sup><sub><sup>[🔼 Back to top](#core-changelog)</sup></sub></sup>
 
 ### Changed
 
@@ -309,4 +309,4 @@
 
 * Initial Version
 
-[🔼 Back to top](#core-change-log)
+[🔼 Back to top](#core-changelog)

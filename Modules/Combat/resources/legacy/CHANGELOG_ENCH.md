@@ -1,18 +1,18 @@
 ﻿# ENCH Changelog
 
-## 2.5.5 <sup><sub><sup>[🔼 Back to top](#ench-change-log)</sup></sub></sup>
+## 2.5.5 <sup><sub><sup>[🔼 Back to top](#ench-changelog)</sup></sub></sup>
 
 ### Fixed
 
 * Added fix for transfigured enemies in custom location causing save serialization issues.
 
-## 2.5.0 <sup><sub><sup>[🔼 Back to top](#ench-change-log)</sup></sub></sup>
+## 2.5.0 <sup><sub><sup>[🔼 Back to top](#ench-changelog)</sup></sub></sup>
 
 ### Fixed
 
 * Fixed patch error in SlingshotPerformFirePatcher.
 
-## 2.4.0 <sup><sub><sup>[🔼 Back to top](#ench-change-log)</sup></sub></sup>
+## 2.4.0 <sup><sub><sup>[🔼 Back to top](#ench-changelog)</sup></sub></sup>
 
 ### Added
 
@@ -27,19 +27,19 @@
 
 * Magnum and Preserving enchantments now work without SLNGS module.
 
-## 2.2.5 <sup><sub><sup>[🔼 Back to top](#ench-change-log)</sup></sub></sup>
+## 2.2.5 <sup><sub><sup>[🔼 Back to top](#ench-changelog)</sup></sub></sup>
 
 ### Fixed
 
 * Fixed possible Null-Reference in FarmerShowItemIntakePrefix.
 
-## 2.2.3 <sup><sub><sup>[🔼 Back to top](#ench-change-log)</sup></sub></sup>
+## 2.2.3 <sup><sub><sup>[🔼 Back to top](#ench-changelog)</sup></sub></sup>
 
 ### Fixed
 
 * No longer removes implicit enchantments from WPNZ upon revalidation.
 
-## 2.2.0 <sup><sub><sup>[🔼 Back to top](#ench-change-log)</sup></sub></sup>
+## 2.2.0 <sup><sub><sup>[🔼 Back to top](#ench-changelog)</sup></sub></sup>
 
 ### Added
 
@@ -61,25 +61,25 @@
 
 * Added missing localization for Wabbajack enchantment.
 
-## 2.1.0 <sup><sub><sup>[🔼 Back to top](#ench-change-log)</sup></sub></sup>
+## 2.1.0 <sup><sub><sup>[🔼 Back to top](#ench-changelog)</sup></sub></sup>
 
 ### Added
 
 * Added Wabbajack enchantment.
 
-## 2.0.5 <sup><sub><sup>[🔼 Back to top](#ench-change-log)</sup></sub></sup>
+## 2.0.5 <sup><sub><sup>[🔼 Back to top](#ench-changelog)</sup></sub></sup>
 
 ### Fixed
 
 * Now resets the list of available enchaintments when settings are toggled.
 
-## 2.0.2 <sup><sub><sup>[🔼 Back to top](#ench-change-log)</sup></sub></sup>
+## 2.0.2 <sup><sub><sup>[🔼 Back to top](#ench-changelog)</sup></sub></sup>
 
 ### Fixed
 
 * Fixed tooltips not displaying repeated gemsones.
 
-## 2.0.0 <sup><sub><sup>[🔼 Back to top](#ench-change-log)</sup></sub></sup>
+## 2.0.0 <sup><sub><sup>[🔼 Back to top](#ench-changelog)</sup></sub></sup>
 
 * Initial release of Enchantments module.
 
@@ -109,31 +109,31 @@
 
 *Changes below this point refer to the legacy Arsenal module.*
 
-## 1.3.5 <sup><sub><sup>[🔼 Back to top](#ench-change-log)</sup></sub></sup>
+## 1.3.5 <sup><sub><sup>[🔼 Back to top](#ench-changelog)</sup></sub></sup>
 
 ### Fixed
 
 * Fixed a bad Null-Reference Exception introduced in 1.3.4.
 
-## 1.3.4 <sup><sub><sup>[🔼 Back to top](#ench-change-log)</sup></sub></sup>
+## 1.3.4 <sup><sub><sup>[🔼 Back to top](#ench-changelog)</sup></sub></sup>
 
 ### Fixed
 
 * Fixed missing scythe swipe sound.
 
-## 1.3.2 <sup><sub><sup>[🔼 Back to top](#ench-change-log)</sup></sub></sup>
+## 1.3.2 <sup><sub><sup>[🔼 Back to top](#ench-changelog)</sup></sub></sup>
 
 ### Fixed
 
 * Enemies defeated by knockback damage now properly count for game stats, quests and drop items. 
 
-## 1.3.1 <sup><sub><sup>[🔼 Back to top](#ench-change-log)</sup></sub></sup>
+## 1.3.1 <sup><sub><sup>[🔼 Back to top](#ench-changelog)</sup></sub></sup>
 
 ### Fixed
 
 * Fixed start-up error with Neptune's Glaive patcher.
 
-## 1.3.0 <sup><sub><sup>[🔼 Back to top](#ench-change-log)</sup></sub></sup>
+## 1.3.0 <sup><sub><sup>[🔼 Back to top](#ench-changelog)</sup></sub></sup>
 
 ### Changed
 
@@ -146,7 +146,7 @@
 * Fixed a bug preventing explosive ammo from exploding without the Desperado profession.
 * Fixed a bug with Obsidian Edge and Lava Katana drops creating error daggers instead.
 
-## 1.2.3 <sup><sub><sup>[🔼 Back to top](#ench-change-log)</sup></sub></sup>
+## 1.2.3 <sup><sub><sup>[🔼 Back to top](#ench-changelog)</sup></sub></sup>
 
 ### Added
 
@@ -161,14 +161,14 @@
 
 * Blade of the Ruined Hero introduction event is no longer skippable.
 
-## 1.2.1 <sup><sub><sup>[🔼 Back to top](#ench-change-log)</sup></sub></sup>
+## 1.2.1 <sup><sub><sup>[🔼 Back to top](#ench-changelog)</sup></sub></sup>
 
 ### Fixed
 
 * Fixed auto-selection preventing other LeftShift actions in inventory menu.
 * Fixed inverted swipe effect when swinging scythe.
 
-## 1.2.0 <sup><sub><sup>[🔼 Back to top](#ench-change-log)</sup></sub></sup>
+## 1.2.0 <sup><sub><sup>[🔼 Back to top](#ench-changelog)</sup></sub></sup>
 
 ### Added
 
@@ -179,14 +179,14 @@
 
 * Fixed a bug in the console command for getting blueprints (`ars get bp`).
 
-## 1.1.0 <sup><sub><sup>[🔼 Back to top](#ench-change-log)</sup></sub></sup>
+## 1.1.0 <sup><sub><sup>[🔼 Back to top](#ench-changelog)</sup></sub></sup>
 
 ### Fixed
 
 * Fixed out-of-bounds tooltip elements for slingshots higher than basic.
 * Fixed bullseye position while aiming.
 
-## 1.0.4 <sup><sub><sup>[🔼 Back to top](#ench-change-log)</sup></sub></sup>
+## 1.0.4 <sup><sub><sup>[🔼 Back to top](#ench-changelog)</sup></sub></sup>
 
 ### Added
 
@@ -198,11 +198,11 @@
 
 * Fixed shipping bin logic, which was also messed up by the Dark Sword.
 
-## 1.0.3-Hotfix <sup><sub><sup>[🔼 Back to top](#ench-change-log)</sup></sub></sup>
+## 1.0.3-Hotfix <sup><sub><sup>[🔼 Back to top](#ench-changelog)</sup></sub></sup>
 
 Hotfix for Null-Reference Exception when opening Clint's shop menu.
 
-## 1.0.2 <sup><sub><sup>[🔼 Back to top](#ench-change-log)</sup></sub></sup>
+## 1.0.2 <sup><sub><sup>[🔼 Back to top](#ench-changelog)</sup></sub></sup>
 
 ### Added
 
@@ -216,7 +216,7 @@ Hotfix for Null-Reference Exception when opening Clint's shop menu.
 * Dark Sword should now be immune from accidental deposit by Better Chests' stack feature.
 * Clint's menu should now support mod geodes like Kaya's.
 
-## 1.0.1 <sup><sub><sup>[🔼 Back to top](#ench-change-log)</sup></sub></sup>
+## 1.0.1 <sup><sub><sup>[🔼 Back to top](#ench-changelog)</sup></sub></sup>
 
 ### Added
 
@@ -238,7 +238,7 @@ Hotfix for Null-Reference Exception when opening Clint's shop menu.
 * No longer conflicts with Love Of Cooking's Frying Pan upgrades or drbirbdev's Panning and Ranching Tool Upgrades.
 * No longer prevents players from receiving the Galaxy Sword mail flag.
 
-## 1.0.0 <sup><sub><sup>[🔼 Back to top](#ench-change-log)</sup></sub></sup>
+## 1.0.0 <sup><sub><sup>[🔼 Back to top](#ench-changelog)</sup></sub></sup>
 
 ### Added
 
@@ -260,7 +260,7 @@ Hotfix for Null-Reference Exception when opening Clint's shop menu.
 * Weapon and Slingshot Forges now unapply correctly.
 * Hoe is not longer classified as Rare (color-coded Blue).
 
-## 0.9.9 <sup><sub><sup>[🔼 Back to top](#ench-change-log)</sup></sub></sup>
+## 0.9.9 <sup><sub><sup>[🔼 Back to top](#ench-changelog)</sup></sub></sup>
 
 ### Added
 
@@ -282,7 +282,7 @@ Hotfix for Null-Reference Exception when opening Clint's shop menu.
 * Fixed possible bug with Bloodthirsty enchantment.
 * Fixed some incorrect translation keys.
 
-## 0.9.8 <sup><sub><sup>[🔼 Back to top](#ench-change-log)</sup></sub></sup>
+## 0.9.8 <sup><sub><sup>[🔼 Back to top](#ench-changelog)</sup></sub></sup>
 
 ### Added
 
@@ -293,7 +293,7 @@ Hotfix for Null-Reference Exception when opening Clint's shop menu.
 * Improvements to Slick Moves. Can now drift in the parallel direction (i.e., when swinging directly in front or behind you). Before, drifting only worked for perpendicular directions (i.e., when swinging to the sides). Also increased the drift velocity slightly. Finally, the drift now comes to a halt at the end of the animation, removing the unimmersive impression of buttery floor.
 * Clint's follow-up quest now begins correctly.
 
-## 0.9.7 <sup><sub><sup>[🔼 Back to top](#ench-change-log)</sup></sub></sup>
+## 0.9.7 <sup><sub><sup>[🔼 Back to top](#ench-changelog)</sup></sub></sup>
 
 ### Changed
 
@@ -317,7 +317,7 @@ Hotfix for Null-Reference Exception when opening Clint's shop menu.
 * Fixed missing patch targets for allowing crits to ignore monster defense.
 * Added config checks to logic that was missing it.
 
-## 0.9.6 <sup><sub><sup>[🔼 Back to top](#ench-change-log)</sup></sub></sup>
+## 0.9.6 <sup><sub><sup>[🔼 Back to top](#ench-changelog)</sup></sub></sup>
 
 ### Fixed
 
@@ -325,7 +325,7 @@ Hotfix for Null-Reference Exception when opening Clint's shop menu.
 * Fixed a compatibility issue with any modded recipes containing Dragon Tooth.
 * Fixed a null-reference exception when farmer takes damage from bombs and maybe other sources too.
 
-## 0.9.5 <sup><sub><sup>[🔼 Back to top](#ench-change-log)</sup></sub></sup>
+## 0.9.5 <sup><sub><sup>[🔼 Back to top](#ench-changelog)</sup></sub></sup>
 
 ### Added
 
@@ -339,7 +339,7 @@ Hotfix for Null-Reference Exception when opening Clint's shop menu.
 
 * Removed automatic initialization script from SaveLoaded event. This was inefficient and unreliable. Replaced with manual console command.
 
-## 0.9.4 <sup><sub><sup>[🔼 Back to top](#ench-change-log)</sup></sub></sup>
+## 0.9.4 <sup><sub><sup>[🔼 Back to top](#ench-changelog)</sup></sub></sup>
 
 ### Added
 
@@ -361,14 +361,14 @@ Hotfix for Null-Reference Exception when opening Clint's shop menu.
 * Players on existing save files that have already obtained the Galaxy Sword should now be able to obtain the remaining Galaxy weapons.
 * Fixed a bug in the monster stat randomization logic, which was generating monsters with current HP higher than max HP.
 
-## 0.9.3 <sup><sub><sup>[🔼 Back to top](#ench-change-log)</sup></sub></sup>
+## 0.9.3 <sup><sub><sup>[🔼 Back to top](#ench-changelog)</sup></sub></sup>
 
 ### Fixed
 
 * Fixed null-reference exception when opening Marlon's shop (forgot to pass `__result` by `ref`).
 * Control settings now apply only to weapons, as they should.
 
-## 0.9.2 <sup><sub><sup>[🔼 Back to top](#ench-change-log)</sup></sub></sup>
+## 0.9.2 <sup><sub><sup>[🔼 Back to top](#ench-changelog)</sup></sub></sup>
 
 ### Changed
 
@@ -385,4 +385,4 @@ Hotfix for Null-Reference Exception when opening Clint's shop menu.
 
 * Initial Version
 
-[🔼 Back to top](#ench-change-log)
+[🔼 Back to top](#ench-changelog)

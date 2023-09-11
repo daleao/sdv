@@ -22,7 +22,7 @@ This module provides the following features:
 
 All features can be toggled on or off.
 
-<sup><sub><sup>[🔼 Back to top](#margo-tools-tols)</sup></sub></sup>
+<sup><sub><sup>[🔼 Back to top](#margo--tools-tols)</sup></sub></sup>
 
 ## Resource Tools
 
@@ -33,7 +33,7 @@ All radius values should be positive whole numbers (obviously). By default, the 
 
 Like the Tractor Mod, what the shockwave actually does can also be configured. By default it is set to only clear debris (like stones and twigs), weeds, dead crops and resource clumps (like stumps, logs and boulders), as well as mining nodes. You can optionally choose to let it affect other objects or terrain features, such as trees, live crops, and flooring; anything their corresponding tools ordinarily can do.
 
-<sup><sub><sup>[🔼 Back to top](#margo-tools-tols)</sup></sub></sup>
+<sup><sub><sup>[🔼 Back to top](#margo--tools-tols)</sup></sub></sup>
 
 ## Farming Tools
 
@@ -41,7 +41,7 @@ The area of effect of Hoe and Watering Can may be customized by setting a length
 
 The radius of the Scythe and Golden Scythe can also be configured. By default, a regular Scythe will have twice the range of a sword, and a Golden Scythe will have twice the range of a regular Scythe. Setting the ranges to zero reverts them back to vanilla status. Also includes the popular Harvest With Scythe feature, replacing other similar mods.
 
-<sup><sub><sup>[🔼 Back to top](#margo-tools-tols)</sup></sub></sup>
+<sup><sub><sup>[🔼 Back to top](#margo--tools-tols)</sup></sub></sup>
 
 ## Enchantments
 
@@ -51,25 +51,25 @@ In addition, this module will allow the Swift Enchantment to be applied to the W
 
 Lastly, the Haymaker Enchantment can now be applied to the Scythe and Golden Scythe.
 
-<sup><sub><sup>[🔼 Back to top](#margo-tools-tols)</sup></sub></sup>
+<sup><sub><sup>[🔼 Back to top](#margo--tools-tols)</sup></sub></sup>
 
 ## Forge Upgrading
 
 Gaining access to the Volcano Forge, in addition to it's regular features, will also open up a new way to upgrade your tools. You will still require the correct metal bars as well as some Cinder Shards to ignite the Forge, but this method bypasses both the middleman's gold fee and, more importantly, the 2 day waiting period. This is also the only way to obtain the ultimate upgrade level.
 
-<sup><sub><sup>[🔼 Back to top](#margo-tools-tols)</sup></sub></sup>
+<sup><sub><sup>[🔼 Back to top](#margo--tools-tols)</sup></sub></sup>
 
 ## Radioactive Tools
 
 Clint is no fool to mock about with radioactive substances. But with the Forge's Dwarven technology you can now upgrade your tools to the Radioactive tier. If [Moon Misadventures](https://www.nexusmods.com/stardewvalley/mods/10612) is installed, this will also be required for the Mythic tier.
 
-<sup><sub><sup>[🔼 Back to top](#margo-tools-tols)</sup></sub></sup>
+<sup><sub><sup>[🔼 Back to top](#margo--tools-tols)</sup></sub></sup>
 
 ## Auto-Selection
 
 Hold the Mod Key (default LeftShift) and click on any tool in your toolbar or inventory to enable it for auto-selection. As long the current tool is itself enabled for auto-selection, pressing the tool-use button will cause the appropriate enabled tool to be intelligently selected for the target tile.
 
-<sup><sub><sup>[🔼 Back to top](#margo-tools-tols)</sup></sub></sup>
+<sup><sub><sup>[🔼 Back to top](#margo--tools-tols)</sup></sub></sup>
 
 ## Configs
 
@@ -85,7 +85,7 @@ This section describes some of the configurable settings provided in configs.jso
 
 Other settings are self explanatory. Use [Generic Mod Config Menu](https://www.nexusmods.com/stardewvalley/mods/5098) if you need verbatim explanations.
 
-<sup><sub><sup>[🔼 Back to top](#margo-tools-tols)</sup></sub></sup>
+<sup><sub><sup>[🔼 Back to top](#margo--tools-tols)</sup></sub></sup>
 
 ## Compatibility
 
@@ -96,4 +96,4 @@ This mod uses Harmony to patch the behavior of Axe and Pickaxe. Any mods that al
 - **Not** compatible with the likes of [Combat Controls - Fixed Mouse Click](https://www.nexusmods.com/stardewvalley/mods/2590) or [Combat Controls Redux](https://www.nexusmods.com/stardewvalley/mods/10496), as those features are already included in this and others modules.
 - **Not** compatible with other Harvest With Scythe mods, such as [Yet Another Harvest With Scythe](https://www.nexusmods.com/stardewvalley/mods/2731).
 
-[🔼 Back to top](#margo-tools-tols)
+[🔼 Back to top](#margo--tools-tols)

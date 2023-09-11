@@ -1,0 +1,303 @@
+[33mcommit 9ed7265929b4c2fb1b4d1ab767c0765d5ab07ebc[m[33m ([m[1;36mHEAD -> [m[1;32mdev[m[33m, [m[1;31morigin/dev[m[33m)[m
+Author: Mat L <2775342-daleao@users.noreply.gitlab.com>
+Date:   Mon Sep 11 13:56:06 2023 -0300
+
+    Update API
+
+[33mcommit 51d0f7ece66f8cccc452d729117c37e57e2ec47c[m
+Author: Mat L <2775342-daleao@users.noreply.gitlab.com>
+Date:   Mon Sep 11 12:13:32 2023 -0300
+
+    Update README.md
+
+[33mcommit 61934945301b3be54d60164c61170a5c8c20b75f[m
+Author: Mat L <2775342-daleao@users.noreply.gitlab.com>
+Date:   Mon Sep 11 11:20:59 2023 -0300
+
+    3.0.2. Initial GitHub release.
+
+[33mcommit 99434e136cd01bbdcd2da88f918b5a7f599ef96e[m
+Author: Mat L <2775342-daleao@users.noreply.gitlab.com>
+Date:   Sun Sep 10 17:12:47 2023 -0300
+
+    Update README.md
+
+[33mcommit daac2061a05bb11dc3e1548b7800acefa0ff4473[m[33m ([m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m
+Author: DaLion <daleao.matheus@gmail.com>
+Date:   Sun Sep 10 09:34:43 2023 -0300
+
+    Exodus from Nexus.
+
+[33mcommit 2b0f83fcce3f9a6f8d74178a50ef85e46de35bde[m
+Author: DaLion <daleao.matheus@gmail.com>
+Date:   Tue Sep 5 00:15:33 2023 -0300
+
+    Update README, CHANGELOG
+
+[33mcommit 3d56237e44a1b64638de824a31f79ccb02b5153e[m
+Author: DaLion <daleao.matheus@gmail.com>
+Date:   Tue Sep 5 00:15:13 2023 -0300
+
+    Update README, CHANGELOG
+
+[33mcommit 75157428c483302924988b4ebd2906d6ad040a4a[m
+Author: DaLion <daleao.matheus@gmail.com>
+Date:   Mon Sep 4 19:31:55 2023 -0300
+
+    CHANGELOG typo.
+
+[33mcommit 16254cc4fff5e0484b455ac9d1918fec4e04705c[m
+Author: DaLion <daleao.matheus@gmail.com>
+Date:   Mon Sep 4 01:48:05 2023 -0300
+
+    3.0.1
+
+[33mcommit 464f2a33bbd34db1477b2bd763a56f4c609da20e[m
+Author: DaLion <daleao.matheus@gmail.com>
+Date:   Sun Sep 3 20:18:58 2023 -0300
+
+    Update README.md
+
+[33mcommit 5c1692f71bd1e6019bc24d73c2b7e37336a8feb2[m
+Author: DaLion <daleao.matheus@gmail.com>
+Date:   Sun Sep 3 18:00:42 2023 -0300
+
+    3.0.0
+
+[33mcommit f18165c1eb6272c215877f7c77a362aea3092278[m
+Author: DaLion <daleao.matheus@gmail.com>
+Date:   Sat Sep 2 21:54:40 2023 -0300
+
+    3.0
+
+[33mcommit c6b7aacb60862314c0c24a4be74937d6d9bfb16a[m
+Author: DaLion <daleao.matheus@gmail.com>
+Date:   Sat Sep 2 21:50:26 2023 -0300
+
+    3.0
+
+[33mcommit d65124caa92b8063d2a13e91cb81a7955aeed848[m
+Author: DaLion <daleao.matheus@gmail.com>
+Date:   Mon Aug 28 01:26:01 2023 -0300
+
+    ???
+
+[33mcommit f2ff6d732e4d81cbc5e9cc0406db227fd3b2a4fa[m
+Author: DaLion <daleao.matheus@gmail.com>
+Date:   Sun Aug 27 14:10:07 2023 -0300
+
+    Changelog cleanup.
+
+[33mcommit 0f427f0f45505595acefb4c6092db52d4ced96b1[m
+Author: DaLion <daleao.matheus@gmail.com>
+Date:   Sun Aug 27 14:03:25 2023 -0300
+
+    Changelog cleanup.
+
+[33mcommit a0a13b8bdaa4f23b8360821f77948da8e4a37bc3[m
+Author: DaLion <daleao.matheus@gmail.com>
+Date:   Fri Aug 25 17:33:14 2023 -0300
+
+    Fix README navigation.
+
+[33mcommit 3974492ee3fa52edb6aca79f3e5d684bb79161c0[m
+Author: DaLion <daleao.matheus@gmail.com>
+Date:   Fri Aug 25 17:31:29 2023 -0300
+
+    Fix README navigation.
+
+[33mcommit eecebd5328573d209d6dfd4af5b24ab0373e0ef8[m
+Author: DaLion <daleao.matheus@gmail.com>
+Date:   Fri Aug 25 17:20:20 2023 -0300
+
+    2.5.7
+
+[33mcommit 109da69bcf0e703948f0d4b315443feefa8b7bc9[m
+Author: DaLion <daleao.matheus@gmail.com>
+Date:   Fri Aug 25 01:20:35 2023 -0300
+
+    Missing Aquarist translation changes.
+
+[33mcommit 0807a77c2522b36317c318e2c93fb49a1678f42f[m
+Author: DaLion <daleao.matheus@gmail.com>
+Date:   Fri Aug 25 01:05:30 2023 -0300
+
+    2.5.6
+
+[33mcommit c8db680b2321fbf7e787187dbc7c55b77efefc70[m
+Author: DaLion <daleao.matheus@gmail.com>
+Date:   Mon Aug 21 00:02:15 2023 -0300
+
+    2.5.5
+
+[33mcommit d4557cf2b1b6eb2d885440bbc2f40eacb2b12bfb[m
+Author: DaLion <daleao.matheus@gmail.com>
+Date:   Sun Aug 20 23:19:27 2023 -0300
+
+    2.5.5
+
+[33mcommit 7f2ae764410f28cb9d89b3cad3299a4f58a90a9a[m
+Author: DaLion <daleao.matheus@gmail.com>
+Date:   Sat Jun 24 23:44:30 2023 -0400
+
+    2.5.4
+
+[33mcommit 4ef2e08bc882864970b70a9d3ad87ad45a050bad[m
+Author: DaLion <daleao.matheus@gmail.com>
+Date:   Sat Jun 24 19:19:25 2023 -0400
+
+    Updated READMEs.
+
+[33mcommit 8fb75031394f1d1b01bfe29c79c6c0a23689738a[m
+Author: DaLion <daleao.matheus@gmail.com>
+Date:   Sat Jun 24 16:55:56 2023 -0400
+
+    2.5.3
+
+[33mcommit 60fce45e3379400eac7dbc9d45b659082519f0b1[m
+Author: DaLion <daleao.matheus@gmail.com>
+Date:   Sat Jun 24 13:27:28 2023 -0400
+
+    2.5.3
+
+[33mcommit ec64df7881e677e9ff031992c87bad1747ea092b[m
+Author: DaLion <daleao.matheus@gmail.com>
+Date:   Sat Jun 24 12:23:54 2023 -0400
+
+    2.5.3
+
+[33mcommit 9b3716880a10db151e24f1eb0a33f49d25fe7e71[m
+Author: DaLion <daleao.matheus@gmail.com>
+Date:   Sat Jun 24 09:53:20 2023 -0400
+
+    2.5.2
+
+[33mcommit 599c396fab0e28e74d3a85a2c7bcc22b54bc525f[m
+Author: DaLion <daleao.matheus@gmail.com>
+Date:   Sat Jun 24 09:35:00 2023 -0400
+
+    2.5.1
+
+[33mcommit 34ac0a4572730fbde6da8dbd5cae2d5f3b4dc96f[m
+Author: DaLion <daleao.matheus@gmail.com>
+Date:   Sat Jun 24 09:29:55 2023 -0400
+
+    2.5.1
+
+[33mcommit 6255543648021aa36b9147d84ed444307286acdd[m
+Author: DaLion <daleao.matheus@gmail.com>
+Date:   Sat Jun 24 02:35:55 2023 -0400
+
+    2.5.0
+
+[33mcommit 2a1a9f9df24ae62b9ef480bc3c169a4906854925[m
+Author: DaLion <daleao.matheus@gmail.com>
+Date:   Sat Jun 24 02:28:46 2023 -0400
+
+    2.5.0
+
+[33mcommit 6ef288c0b5e0f9cf547827187118df7e6310b77a[m
+Author: DaLion <daleao.matheus@gmail.com>
+Date:   Sat Jun 24 02:19:43 2023 -0400
+
+    2.5.0
+
+[33mcommit 69f9813cbf919c7560a81288e05effb733a33845[m
+Author: DaLion <daleao.matheus@gmail.com>
+Date:   Sat Jun 24 01:50:20 2023 -0400
+
+    2.5.0
+
+[33mcommit e11a46e3b11efc0edb8ae67f827e15f76c2367ec[m
+Author: DaLion <daleao.matheus@gmail.com>
+Date:   Tue May 30 13:30:34 2023 -0400
+
+    2.4.0
+
+[33mcommit 0efaccabbc56f02139e9df1ff4edab66cba39bdb[m
+Author: DaLion <daleao.matheus@gmail.com>
+Date:   Tue May 30 12:26:36 2023 -0400
+
+    2.4.0
+
+[33mcommit 9adde62bf2aaaf1b7697c29dc5d6d00a83eb11d2[m
+Author: DaLion <daleao.matheus@gmail.com>
+Date:   Tue May 30 12:25:59 2023 -0400
+
+    2.4.0
+
+[33mcommit fca031c45e55f15b13f0087d7a0fab2e4251e5ec[m
+Author: DaLion <daleao.matheus@gmail.com>
+Date:   Tue May 30 12:23:25 2023 -0400
+
+    2.4.0
+
+[33mcommit ec5472925c0ace1f3804f9ade27a355229823439[m
+Author: DaLion <daleao.matheus@gmail.com>
+Date:   Sun May 28 22:23:57 2023 -0400
+
+    Fix CMBT multiplayer issue. Initial compat. for Archery.
+
+[33mcommit a70ea20093d4632b10a0eaf932e3a66e460eebcd[m
+Author: Mat L <2775342-daleao@users.noreply.gitlab.com>
+Date:   Mon May 8 20:18:26 2023 +0000
+
+    Update FAQ.
+
+[33mcommit ef1f5d6d90ac0e5d83a1284cbdf28d708de82cbe[m
+Author: Mat L <2775342-daleao@users.noreply.gitlab.com>
+Date:   Mon May 8 20:11:18 2023 +0000
+
+    Update README.md.
+
+[33mcommit 2b4f0487d13ee325734ed5f06a05a2a817c90820[m
+Author: Mat L <2775342-daleao@users.noreply.gitlab.com>
+Date:   Mon May 8 19:44:14 2023 +0000
+
+    Update README.md.
+
+[33mcommit d2813eb038331eb535d0bea8a0d20dc39cf067bd[m
+Author: Mat L <2775342-daleao@users.noreply.gitlab.com>
+Date:   Mon May 8 15:58:59 2023 +0000
+
+    Professions to PROFS.
+
+[33mcommit 18cde0068d2d576037b608c3da880e602c771d66[m
+Author: Mat L <2775342-daleao@users.noreply.gitlab.com>
+Date:   Mon May 8 15:55:54 2023 +0000
+
+    Update file README.md
+
+[33mcommit 494d21b5303054f5e713636fbc0a9cb90c742839[m
+Author: Mat L <2775342-daleao@users.noreply.gitlab.com>
+Date:   Mon May 8 15:51:26 2023 +0000
+
+    Nice.
+
+[33mcommit bd38c26a602815ad468c581b3fe562f75b18affa[m
+Author: Mat L <2775342-daleao@users.noreply.gitlab.com>
+Date:   Mon May 8 15:49:35 2023 +0000
+
+    Tiny edits.
+
+[33mcommit a2efbff2eb4281f5f52ee828a6e623f64aa75da1[m
+Author: DaLion <daleao.matheus@gmail.com>
+Date:   Sun May 7 11:18:14 2023 -0400
+
+    Revised credits.
+
+[33mcommit 9c6c718e20247a3ce1b7a51e0c935682abc0e455[m
+Author: DaLion <daleao.matheus@gmail.com>
+Date:   Sun May 7 01:29:22 2023 -0400
+
+    2.3.1
+
+[33mcommit eef97a522bd4f8c37c5049e177d0ed9becdc06bb[m
+Author: DaLion <daleao.matheus@gmail.com>
+Date:   Sun May 7 01:11:17 2023 -0400
+
+    2.3.1
+
+[33mcommit a9cf064968e6a9dfe72eb8d0312dbf2d85819a85[m
+Author: DaLion <daleao.matheus@gmail.com>
+Date: 

@@ -1,6 +1,6 @@
 ﻿# CMBT Changelog
 
-## 3.0.2 <sup><sub><sup>[🔼 Back to top](#cmbt-change-log)</sup></sub></sup>
+## 3.0.2 <sup><sub><sup>[🔼 Back to top](#cmbt-changelog)</sup></sub></sup>
 
 Exodus from Nexus.
 
@@ -20,13 +20,13 @@ Exodus from Nexus.
 
 * Wabbajack end-of-day cleanup should now run correctly.
 
-## 3.0.1 <sup><sub><sup>[🔼 Back to top](#cmbt-change-log)</sup></sub></sup>
+## 3.0.1 <sup><sub><sup>[🔼 Back to top](#cmbt-changelog)</sup></sub></sup>
 
 ### Fixed
 
 * Fixed Piper's Slime ammo damage (increased from 5 to 10).
 
-## 3.0.0 <sup><sub><sup>[🔼 Back to top](#cmbt-change-log)</sup></sub></sup>
+## 3.0.0 <sup><sub><sup>[🔼 Back to top](#cmbt-changelog)</sup></sub></sup>
 
 Merged WPNZ, SLNGS, RNGS and ENCH into the CMBT module. All of those modules essentially tackled different facets of combat, and WPNZ and SLNGS in particular shared many redundant patches and config settings. In that light, the unification streamlines a lot of the config schema and cuts down on the number of patches required.
 
@@ -56,4 +56,4 @@ Merged WPNZ, SLNGS, RNGS and ENCH into the CMBT module. All of those modules ess
 * Removed temporary fixes for existing saves after previous changes to the Hero's Quest.
 
 
-[🔼 Back to top](#cmbt-change-log)
+[🔼 Back to top](#cmbt-changelog)

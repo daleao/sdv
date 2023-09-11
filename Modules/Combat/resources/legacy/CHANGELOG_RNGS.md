@@ -1,12 +1,12 @@
 ﻿# RNGS Changelog
 
-## 2.5.6 <sup><sub><sup>[🔼 Back to top](#slngs-change-log)</sup></sub></sup>
+## 2.5.6 <sup><sub><sup>[🔼 Back to top](#slngs-changelog)</sup></sub></sup>
 
 ### Added
 
 * Added a compatibiltiy patch for Identifiable Combined Rings (removed the "Many" tag from Infinity Band).
 
-## 2.4.0 <sup><sub><sup>[🔼 Back to top](#rngs-change-log)</sup></sub></sup>
+## 2.4.0 <sup><sub><sup>[🔼 Back to top](#rngs-changelog)</sup></sub></sup>
 
 ### Added
 
@@ -19,13 +19,13 @@
 * Corrected and added some missing translation keys.
 * Power Chord Infinity Bands now normalize resonance correctly. This means that each gem will not get the full resonance effect from both resonant pairs, but rather shares the resonance with its equal. In simple terms, this nerfs Power Chords from 40% - 33% stats, to 30% - 26.7%. Monotone rings (all equal gems) are the only way to maximize a single stat.
 
-## 2.3.0 <sup><sub><sup>[🔼 Back to top](#rngs-change-log)</sup></sub></sup>
+## 2.3.0 <sup><sub><sup>[🔼 Back to top](#rngs-changelog)</sup></sub></sup>
 
 ### Changed
 
 * Thorns Ring will not longer be renamed if Ridgeside Village is installed.
 
-## 2.2.0 <sup><sub><sup>[🔼 Back to top](#rngs-change-log)</sup></sub></sup>
+## 2.2.0 <sup><sub><sup>[🔼 Back to top](#rngs-changelog)</sup></sub></sup>
 
 ### Added
 
@@ -37,7 +37,7 @@
 
 * Warrior Ring now gains stacks on every kill (instead of 3 kills), but is capped at +20 attack.
 
-## 2.0.7 <sup><sub><sup>[🔼 Back to top](#rngs-change-log)</sup></sub></sup>
+## 2.0.7 <sup><sub><sup>[🔼 Back to top](#rngs-changelog)</sup></sub></sup>
 
 ### Added
 
@@ -49,19 +49,19 @@
 * Fixed yellow-tint in colorless resonance glow.
 * Fixed a bug where unequipping an Infinity Band could cause the resonance glow to stick around.
 
-## 2.0.5 <sup><sub><sup>[🔼 Back to top](#rngs-change-log)</sup></sub></sup>
+## 2.0.5 <sup><sub><sup>[🔼 Back to top](#rngs-changelog)</sup></sub></sup>
 
 ### Fixed
 
 * Non-colorful ring glow setting should now work correctly.
 
-## 2.0.4 <sup><sub><sup>[🔼 Back to top](#rngs-change-log)</sup></sub></sup>
+## 2.0.4 <sup><sub><sup>[🔼 Back to top](#rngs-changelog)</sup></sub></sup>
 
 ### Fixed
 
 * Fixed small Glow and Magnet ring recipes incorrectly creating their regular versions.
 
-## 2.0.0 <sup><sub><sup>[🔼 Back to top](#rngs-change-log)</sup></sub></sup>
+## 2.0.0 <sup><sub><sup>[🔼 Back to top](#rngs-changelog)</sup></sub></sup>
 
 ### Added
 
@@ -80,13 +80,13 @@
 
 * Fixed the Warrior Energy buff, which previously wasn't implemented at all.
 
-## 1.2.3 <sup><sub><sup>[🔼 Back to top](#rngs-change-log)</sup></sub></sup>
+## 1.2.3 <sup><sub><sup>[🔼 Back to top](#rngs-changelog)</sup></sub></sup>
     
 ### Fixed
 
 * Fixed an issue with the overhuled Warrior Ring buff never ending.
 
-## 1.2.2 <sup><sub><sup>[🔼 Back to top](#rngs-change-log)</sup></sub></sup>
+## 1.2.2 <sup><sub><sup>[🔼 Back to top](#rngs-changelog)</sup></sub></sup>
 
 ### Added
 
@@ -96,19 +96,19 @@
 
 * Fixed a bug in Chord harmonization logic.
 
-## 1.1.1 <sup><sub><sup>[🔼 Back to top](#rngs-change-log)</sup></sub></sup>
+## 1.1.1 <sup><sub><sup>[🔼 Back to top](#rngs-changelog)</sup></sub></sup>
 
 ### Fixed
 
 * Added missing config checks to Better Crafting integration.
 
-## 1.0.2 <sup><sub><sup>[🔼 Back to top](#rngs-change-log)</sup></sub></sup>
+## 1.0.2 <sup><sub><sup>[🔼 Back to top](#rngs-changelog)</sup></sub></sup>
 
 ### Fixed
 
 * Apparently there was still a possible Null-Reference Exception in SpaceCore's NewForgeMenu.
 
-## 1.0.0 <sup><sub><sup>[🔼 Back to top](#rngs-change-log)</sup></sub></sup>
+## 1.0.0 <sup><sub><sup>[🔼 Back to top](#rngs-changelog)</sup></sub></sup>
 
 ### Fixed
 
@@ -116,7 +116,7 @@
 * Fixed an issue when unforging Infinity Band.
 * Fixed an issue when rendering an unforged Infinity Band.
 
-## 0.9.7 <sup><sub><sup>[🔼 Back to top](#rngs-change-log)</sup></sub></sup>
+## 0.9.7 <sup><sub><sup>[🔼 Back to top](#rngs-changelog)</sup></sub></sup>
 
 ### Changed
 
@@ -126,20 +126,20 @@
 
 * Fixed a bug preventing the MonsterSlay event of various rings like Napalm from triggering.
 
-## 0.9.6 <sup><sub><sup>[🔼 Back to top](#rngs-change-log)</sup></sub></sup>
+## 0.9.6 <sup><sub><sup>[🔼 Back to top](#rngs-changelog)</sup></sub></sup>
 
 ### Fixed
 
 * Fixed a display bug with Infinity Band gemstones.
 
-## 0.9.4 <sup><sub><sup>[🔼 Back to top](#rngs-change-log)</sup></sub></sup>
+## 0.9.4 <sup><sub><sup>[🔼 Back to top](#rngs-changelog)</sup></sub></sup>
 
 ### Fixed
 
 * Added one last null-check that was missing.
 * Fixed Better Rings and Vanilla Tweaks integrations not being loaded.
 
-## 0.9.2 <sup><sub><sup>[🔼 Back to top](#rngs-change-log)</sup></sub></sup>
+## 0.9.2 <sup><sub><sup>[🔼 Back to top](#rngs-changelog)</sup></sub></sup>
 
 ### Fixed
 
@@ -159,4 +159,4 @@
 
 * Complete overhaul of the Resonance feature, now inspired by real Music Theory. This is now a major gameplay mechanic instead of a small flavor feature, and will hopefully add versatility to the new Infinity Band and encourage variability. See the [module description](README.md) for details.
 
-[🔼 Back to top](#rngs-change-log)
+[🔼 Back to top](#rngs-changelog)

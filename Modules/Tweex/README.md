@@ -24,4 +24,4 @@ All features can be toggled on or off.
 
 - [Forage Fantasy](https://www.nexusmods.com/stardewvalley/mods/7554) has several conflicting features, but can be used together with this module if you pay attention to the configs of both mods.
 
-[🔼 Back to top](#margo-tweex-twx)
+[🔼 Back to top](#margo--tweex-twx)
