@@ -28,7 +28,7 @@ internal sealed class ProfessionAssetRequestedEvent : AssetRequestedEvent
         : base(manager)
     {
         this.Edit("Data/achievements", new AssetEditor(EditAchievementsData));
-        this.Edit("Data/FishPondData", new AssetEditor(EditFishPondDataData, AssetEditPriority.Late));
+        this.Edit("Data/FishPondData", new AssetEditor(EditFishPondDataData, AssetEditPriority.Early));
         this.Edit("Data/mail", new AssetEditor(EditMailData));
         this.Edit("LooseSprites/Cursors", new AssetEditor(EditCursorsLooseSprites));
         this.Edit("TileSheets/BuffsIcons", new AssetEditor(EditBuffsIconsTileSheets));
@@ -66,7 +66,7 @@ internal sealed class ProfessionAssetRequestedEvent : AssetRequestedEvent
         const string prerequisite = "-1";
         const string hatIndex = "";
 
-        var newEntry = string.Join("^", title, desc, shouldDisplayBeforeEarned, prerequisite, hatIndex);
+        var newEntry = string.Join("^", new[] { title, desc, shouldDisplayBeforeEarned, prerequisite, hatIndex });
         data[title.GetDeterministicHashCode()] = newEntry;
     }
 
@@ -75,21 +75,284 @@ internal sealed class ProfessionAssetRequestedEvent : AssetRequestedEvent
     {
         var data = (List<FishPondData>)asset.Data;
         var index = data.FindIndex(0, d => d.RequiredTags.Contains("category_fish"));
-        data.Insert(index, new FishPondData() // legendary fish
+        data.InsertRange(index, new List<FishPondData>() // legendary fish
         {
-            PopulationGates = null,
-            ProducedItems = new List<FishPondReward>
+            new()
             {
-                new()
+                PopulationGates = null,
+                ProducedItems = new List<FishPondReward>
                 {
-                    Chance = 1f,
-                    ItemID = 812, // roe
-                    MinQuantity = 1,
-                    MaxQuantity = 1,
+                    new()
+                    {
+                        RequiredPopulation = 0,
+                        Chance = 0.1f,
+                        ItemID = 378,
+                        MinQuantity = 10,
+                        MaxQuantity = 15,
+                    },
+                    new()
+                    {
+                        RequiredPopulation = 0,
+                        Chance = 0.01f,
+                        ItemID = 768,
+                        MinQuantity = 10,
+                        MaxQuantity = 20,
+                    },
+                    new()
+                    {
+                        RequiredPopulation = 0,
+                        Chance = 1.0f,
+                        ItemID = 812,
+                        MinQuantity = 1,
+                        MaxQuantity = 1,
+                    },
+                    new()
+                    {
+                        RequiredPopulation = 0,
+                        Chance = 0.8f,
+                        ItemID = 812,
+                        MinQuantity = 1,
+                        MaxQuantity = 1,
+                    },
                 },
+                RequiredTags = new List<string>
+                {
+                    "item_angler",
+                },
+                SpawnTime = 999999,
             },
-            RequiredTags = new List<string> { "fish_legendary" },
-            SpawnTime = 999999,
+            new()
+            {
+                PopulationGates = null,
+                ProducedItems = new List<FishPondReward>
+                {
+                    new()
+                    {
+                        RequiredPopulation = 0,
+                        Chance = 0.05f,
+                        ItemID = 536,
+                        MinQuantity = 5,
+                        MaxQuantity = 10,
+                    },
+                    new()
+                    {
+                        RequiredPopulation = 0,
+                        Chance = 0.075f,
+                        ItemID = 84,
+                        MinQuantity = 5,
+                        MaxQuantity = 10,
+                    },
+                    new()
+                    {
+                        RequiredPopulation = 0,
+                        Chance = 0.1f,
+                        ItemID = 380,
+                        MinQuantity = 10,
+                        MaxQuantity = 10,
+                    },
+                    new()
+                    {
+                        RequiredPopulation = 0,
+                        Chance = 0.01f,
+                        ItemID = 72,
+                        MinQuantity = 1,
+                        MaxQuantity = 1,
+                    },
+                    new()
+                    {
+                        RequiredPopulation = 0,
+                        Chance = 1.0f,
+                        ItemID = 812,
+                        MinQuantity = 1,
+                        MaxQuantity = 1,
+                    },
+                    new()
+                    {
+                        RequiredPopulation = 0,
+                        Chance = 0.8f,
+                        ItemID = 812,
+                        MinQuantity = 1,
+                        MaxQuantity = 1,
+                    },
+                },
+                RequiredTags = new List<string>
+                {
+                    "item_glacierfish",
+                },
+                SpawnTime = 999999,
+            },
+            new()
+            {
+                PopulationGates = null,
+                ProducedItems = new List<FishPondReward>
+                {
+                    new()
+                    {
+                        RequiredPopulation = 0,
+                        Chance = 0.05f,
+                        ItemID = 537,
+                        MinQuantity = 5,
+                        MaxQuantity = 10,
+                    },
+                    new()
+                    {
+                        RequiredPopulation = 0,
+                        Chance = 0.075f,
+                        ItemID = 82,
+                        MinQuantity = 5,
+                        MaxQuantity = 10,
+                    },
+                    new()
+                    {
+                        RequiredPopulation = 0,
+                        Chance = 0.1f,
+                        ItemID = 384,
+                        MinQuantity = 10,
+                        MaxQuantity = 10,
+                    },
+                    new()
+                    {
+                        RequiredPopulation = 0,
+                        Chance = 0.033f,
+                        ItemID = 286,
+                        MinQuantity = 1,
+                        MaxQuantity = 3,
+                    },
+                    new()
+                    {
+                        RequiredPopulation = 0,
+                        Chance = 0.02f,
+                        ItemID = 441,
+                        MinQuantity = 1,
+                        MaxQuantity = 3,
+                    },
+                    new()
+                    {
+                        RequiredPopulation = 0,
+                        Chance = 0.01f,
+                        ItemID = 288,
+                        MinQuantity = 1,
+                        MaxQuantity = 1,
+                    },
+                    new()
+                    {
+                        RequiredPopulation = 0,
+                        Chance = 1.0f,
+                        ItemID = 812,
+                        MinQuantity = 1,
+                        MaxQuantity = 1,
+                    },
+                    new()
+                    {
+                        RequiredPopulation = 0,
+                        Chance = 0.8f,
+                        ItemID = 812,
+                        MinQuantity = 1,
+                        MaxQuantity = 1,
+                    },
+                },
+                RequiredTags = new List<string>
+                {
+                    "item_crimsonfish",
+                },
+                SpawnTime = 999999,
+            },
+            new()
+            {
+                PopulationGates = null,
+                ProducedItems = new List<FishPondReward>
+                {
+                    new()
+                    {
+                        RequiredPopulation = 0,
+                        Chance = 0.1f,
+                        ItemID = 386,
+                        MinQuantity = 5,
+                        MaxQuantity = 10,
+                    },
+                    new()
+                    {
+                        RequiredPopulation = 0,
+                        Chance = 1.0f,
+                        ItemID = 812,
+                        MinQuantity = 1,
+                        MaxQuantity = 1,
+                    },
+                    new()
+                    {
+                        RequiredPopulation = 0,
+                        Chance = 0.8f,
+                        ItemID = 812,
+                        MinQuantity = 1,
+                        MaxQuantity = 1,
+                    },
+                },
+                RequiredTags = new List<string>
+                {
+                    "item_legend",
+                },
+                SpawnTime = 999999,
+            },
+            new()
+            {
+                PopulationGates = null,
+                ProducedItems = new List<FishPondReward>
+                {
+                    new()
+                    {
+                        RequiredPopulation = 0,
+                        Chance = 0.1f,
+                        ItemID = 909,
+                        MinQuantity = 5,
+                        MaxQuantity = 15,
+                    },
+                    new()
+                    {
+                        RequiredPopulation = 0,
+                        Chance = 0.02f,
+                        ItemID = 910,
+                        MinQuantity = 1,
+                        MaxQuantity = 5,
+                    },
+                    new()
+                    {
+                        RequiredPopulation = 0,
+                        Chance = 1.0f,
+                        ItemID = 812,
+                        MinQuantity = 1,
+                        MaxQuantity = 1,
+                    },
+                    new()
+                    {
+                        RequiredPopulation = 0,
+                        Chance = 0.8f,
+                        ItemID = 812,
+                        MinQuantity = 1,
+                        MaxQuantity = 1,
+                    },
+                },
+                RequiredTags = new List<string>
+                {
+                    "item_mutant_carp",
+                },
+                SpawnTime = 999999,
+            },
+            new()
+            {
+                PopulationGates = null,
+                ProducedItems = new List<FishPondReward>
+                {
+                    new()
+                    {
+                        Chance = 1f,
+                        ItemID = 812, // roe
+                        MinQuantity = 1,
+                        MaxQuantity = 1,
+                    },
+                },
+                RequiredTags = new List<string> { "fish_legendary" },
+                SpawnTime = 999999,
+            },
         });
 
         data.Move(d => d.RequiredTags.Contains("item_mutant_carp"), index);

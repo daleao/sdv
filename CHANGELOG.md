@@ -2,6 +2,11 @@
 
 This file contains a TL;DR of current version changes and hotfixes from across all modules. For the complete changelog, please refer to the individual changelogs of each module, linked [below](#detailed-changelogs).
 
+## Patch 3.1.0 Highlights <sup><sub><sup>[🔼 Back to top](#margo-changelogs)</sup></sub></sup>
+
+* Optional files `[CP] Fish Pond Data` and `[CON] Garnet Node` are now embedded in the main mod.
+* Updated mod dependencies.
+
 ## Patch 3.0.2 Highlights <sup><sub><sup>[🔼 Back to top](#margo-changelogs)</sup></sub></sup>
 
 * Fixed a few more translation issues.

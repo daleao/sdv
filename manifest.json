@@ -10,14 +10,14 @@
   "UniqueID": "DaLion.Overhaul",
   "Name": "Modular Gameplay Overhaul",
   "Author": "DaLion",
-  "Version": "3.0.2",
+  "Version": "3.1.0",
   "Description": "A complete and comprehensive rework of many gameplay mechanics, offered as a compilation of independent, but deeply integrated, overhaul modules. ",
   "MinimumApiVersion": "3.18.0",
   "EntryDll": "DaLion.Overhaul.dll",
   "Dependencies": [
     {
       "UniqueID": "aedenthorn.CustomOreNodes",
-      "MinimumVersion": "2.1.1",
+      "MinimumVersion": "2.3.4",
       "IsRequired": false
     },
     {
@@ -35,6 +35,11 @@
       "IsRequired": false
     },
     {
+      "UniqueID": "jltaylor-us.GMCMOptions",
+      "MinimumVersion": "1.6.0",
+      "IsRequired": false
+    },
+    {
       "UniqueID": "leclair.bettercrafting",
       "MinimumVersion": "1.0.0",
       "IsRequired": false
@@ -45,12 +50,12 @@
     },
     {
       "UniqueID": "spacechase0.GenericModConfigMenu",
-      "MinimumVersion": "1.8.0",
+      "MinimumVersion": "1.11.0",
       "IsRequired": false
     },
     {
       "UniqueID": "spacechase0.JsonAssets",
-      "MinimumVersion": "1.10.7",
+      "MinimumVersion": "1.10.0",
       "IsRequired": false
     },
     {
@@ -63,18 +68,16 @@
     },
     {
       "UniqueID": "spacechase0.SpaceCore",
-      "MinimumVersion": "1.12.0",
+      "MinimumVersion": "1.17.0",
       "IsRequired": true
     },
     {
       "UniqueID": "TehPers.FishingOverhaul",
-      "MinimumVersion": "3.2.1",
+      "MinimumVersion": "3.3.0",
       "IsRequired": false
     }
   ],
   "UpdateKeys": [
-    "GitHub:daleao/modular-overhaul",
-    "GitHub:daleao/ModularOverhaul",
-    "Nexus:14470@Main"
+    "GitHub:daleao/modular-overhaul"
   ]
 }
