@@ -1,5 +1,11 @@
 ﻿# PROFS Changelog
 
+## 3.0.3 <sup><sub><sup>[🔼 Back to top](#profs-changelog)</sup></sub></sup>
+
+### Changed
+
+* [CP] Fish Pond Data is now merged into the main mod, so no longer requires a separate download.
+
 ## 3.0.2 <sup><sub><sup>[🔼 Back to top](#profs-changelog)</sup></sub></sup>
 
 ### Changed

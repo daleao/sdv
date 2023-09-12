@@ -1,5 +1,11 @@
 ﻿# CMBT Changelog
 
+## 3.0.3 <sup><sub><sup>[🔼 Back to top](#profs-changelog)</sup></sub></sup>
+
+### Changed
+
+* [CON] Garnet Node is now merged into the main mod, so no longer requires a separate download.
+
 ## 3.0.2 <sup><sub><sup>[🔼 Back to top](#cmbt-changelog)</sup></sub></sup>
 
 Exodus from Nexus.
