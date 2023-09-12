@@ -2,6 +2,10 @@
 
 This file contains a TL;DR of current version changes and hotfixes from across all modules. For the complete changelog, please refer to the individual changelogs of each module, linked [below](#detailed-changelogs).
 
+## Patch 3.1.2 Highlights <sup><sub><sup>[🔼 Back to top](#margo-changelogs)</sup></sub></sup>
+
+* Config menu now auto-detects gamepad mode and adapts accordingly.
+
 ## Hotfix 3.1.1 Highlights <sup><sub><sup>[🔼 Back to top](#margo-changelogs)</sup></sub></sup>
 
 * Forgot to scale Garnet Node spawn back down to normal after debugging for 3.1.0.

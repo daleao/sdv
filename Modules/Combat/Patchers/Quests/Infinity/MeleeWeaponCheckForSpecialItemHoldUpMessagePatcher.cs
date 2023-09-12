@@ -43,6 +43,7 @@ internal sealed class MeleeWeaponCheckForSpecialItemHoldUpMessagePatcher : Harmo
                     WeaponType.Dagger => "dagger",
                     WeaponType.Club => "club",
                     WeaponType.Slingshot => "slingshot",
+                    _ => string.Empty,
                 };
 
                 __result = count == 1

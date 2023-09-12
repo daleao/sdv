@@ -39,6 +39,7 @@ internal sealed partial class GenericModConfigMenu : GenericModConfigMenuIntegra
 
         this
             .SetTitleScreenOnlyForNextOptions(false)
+            .AddHorizontalRule()
             .AddMultiPageLinkOption(
                 getOptionName: I18n.Gmcm_Core_Modules,
                 pages: EnumerateModules().Skip(1).Where(m => m._ShouldEnable).ToArray(),

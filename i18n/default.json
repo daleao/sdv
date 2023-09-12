@@ -411,7 +411,7 @@
   "gmcm.core.initial": "Hi there! Looks like this is your first time starting MARGO.\n\nLet's begin by choosing the modules you want to enable. Only \"Professions\" and \"Tweex\" are enabled by default. Please make sure to read the description pages for each module to learn more about them. When you are done, click on Save & Close.\n\nNote that certain modules may cause a JSON shuffle or other side-effects if enabled or disabled mid-playthrough.",
   "gmcm.core.choose": "Choose the modules to enable. You must save and exit this menu after enabling or disabling a module for those changes to take effect. Links to specific module settings pages will appear below for enabled modules.\n\nNote that certain modules may cause a JSON shuffle or other side-effects if enabled or disabled mid-playthrough.",
   "gmcm.core.available": "Available modules:",
-  "gmcm.core.modules": "Module settings:",
+  "gmcm.core.modules": "Module-specific settings:",
   "gmcm.modules.profs.name": "Professions",
   "gmcm.modules.profs.desc": "A complete overhaul of all skill professions with the goal of supporting more diverse and interesting playstyles. Introducing all-new Prestige mechanics and Limit Breaks.",
   "gmcm.modules.cmbt.name": "Combat",
