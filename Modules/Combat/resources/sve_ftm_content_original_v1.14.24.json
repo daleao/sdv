@@ -3467,6 +3467,18 @@
         "SpringItemIndex": [
           {
             "category": "weapon",
+            "name": "Lava Katana"
+          },
+          {
+            "category": "weapon",
+            "name": "Dark Sword"
+          },
+          {
+            "category": "weapon",
+            "name": "Obsidian Edge"
+          },
+          {
+            "category": "weapon",
             "name": "Tempered Broadsword"
           },
           {
@@ -3475,16 +3487,24 @@
           },
           {
             "category": "weapon",
-            "name": "Iron Dirk"
-          },
-          {
-            "category": "weapon",
-            "name": "Kudgel"
+            "name": "Claymore"
           }
         ],
         "SummerItemIndex": [
           {
             "category": "weapon",
+            "name": "Lava Katana"
+          },
+          {
+            "category": "weapon",
+            "name": "Dark Sword"
+          },
+          {
+            "category": "weapon",
+            "name": "Obsidian Edge"
+          },
+          {
+            "category": "weapon",
             "name": "Tempered Broadsword"
           },
           {
@@ -3493,16 +3513,24 @@
           },
           {
             "category": "weapon",
-            "name": "Iron Dirk"
-          },
-          {
-            "category": "weapon",
-            "name": "Kudgel"
+            "name": "Claymore"
           }
         ],
         "FallItemIndex": [
           {
             "category": "weapon",
+            "name": "Lava Katana"
+          },
+          {
+            "category": "weapon",
+            "name": "Dark Sword"
+          },
+          {
+            "category": "weapon",
+            "name": "Obsidian Edge"
+          },
+          {
+            "category": "weapon",
             "name": "Tempered Broadsword"
           },
           {
@@ -3511,16 +3539,24 @@
           },
           {
             "category": "weapon",
-            "name": "Iron Dirk"
-          },
-          {
-            "category": "weapon",
-            "name": "Kudgel"
+            "name": "Claymore"
           }
         ],
         "WinterItemIndex": [
           {
             "category": "weapon",
+            "name": "Lava Katana"
+          },
+          {
+            "category": "weapon",
+            "name": "Dark Sword"
+          },
+          {
+            "category": "weapon",
+            "name": "Obsidian Edge"
+          },
+          {
+            "category": "weapon",
             "name": "Tempered Broadsword"
           },
           {
@@ -3529,11 +3565,7 @@
           },
           {
             "category": "weapon",
-            "name": "Iron Dirk"
-          },
-          {
-            "category": "weapon",
-            "name": "Kudgel"
+            "name": "Claymore"
           }
         ],
         "UniqueAreaID": "Weapon Spawns",
@@ -3574,25 +3606,25 @@
         "SpringItemIndex": [
           {
             "category": "weapon",
-            "name": "Ancient Sword"
+            "name": "Forest Sword"
           }
         ],
         "SummerItemIndex": [
           {
             "category": "weapon",
-            "name": "Ancient Sword"
+            "name": "Forest Sword"
           }
         ],
         "FallItemIndex": [
           {
             "category": "weapon",
-            "name": "Ancient Sword"
+            "name": "Forest Sword"
           }
         ],
         "WinterItemIndex": [
           {
             "category": "weapon",
-            "name": "Ancient Sword"
+            "name": "Forest Sword"
           }
         ],
         "UniqueAreaID": "Forest Sword Spawn",
@@ -4029,8 +4061,8 @@
         "RelatedSkill": "Foraging",
         "UniqueAreaID": "Iridium Quarry Meteor Spawn",
         "MapName": "Custom_IridiumQuarry",
-        "MinimumSpawnsPerDay": 2,
-        "MaximumSpawnsPerDay": 4,
+        "MinimumSpawnsPerDay": 4,
+        "MaximumSpawnsPerDay": 6,
         "IncludeTerrainTypes": [],
         "ExcludeTerrainTypes": [],
         "IncludeCoordinates": [
@@ -4771,8 +4803,8 @@
         "LevelTenSpawnChance": null,
         "UniqueAreaID": "Iridium Quarry Ore Spawns",
         "MapName": "Custom_IridiumQuarry",
-        "MinimumSpawnsPerDay": 17,
-        "MaximumSpawnsPerDay": 25,
+        "MinimumSpawnsPerDay": 25,
+        "MaximumSpawnsPerDay": 32,
         "IncludeTerrainTypes": [],
         "ExcludeTerrainTypes": [],
         "IncludeCoordinates": [

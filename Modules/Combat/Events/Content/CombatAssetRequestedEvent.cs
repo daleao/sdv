@@ -522,7 +522,7 @@ internal sealed class CombatAssetRequestedEvent : AssetRequestedEvent
                     {
                         minLevel = 80,
                         maxLevel = int.MaxValue,
-                        spawnChanceMult = 100.0,
+                        spawnChanceMult = 0.5,
                         expMult = 1.0,
                         dropChanceMult = 1.0,
                         dropMult = 1.0,

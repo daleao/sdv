@@ -1,6 +1,6 @@
 ﻿# PROFS Changelog
 
-## 3.0.3 <sup><sub><sup>[🔼 Back to top](#profs-changelog)</sup></sub></sup>
+## 3.1.0 <sup><sub><sup>[🔼 Back to top](#profs-changelog)</sup></sub></sup>
 
 ### Changed
 
