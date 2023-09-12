@@ -1,10 +1,8 @@
 ﻿namespace DaLion.Overhaul.Modules.Combat.Events.GameLoop;
 
-using DaLion.Overhaul.Modules.Combat;
-using DaLion.Overhaul.Modules.Combat.Enums;
-
 #region using directives
 
+using DaLion.Overhaul.Modules.Combat.Enums;
 using DaLion.Overhaul.Modules.Combat.Extensions;
 using DaLion.Shared.Events;
 using DaLion.Shared.Extensions.SMAPI;

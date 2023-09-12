@@ -1,5 +1,11 @@
 ﻿# Core Changelog
 
+## 3.1.2 <sup><sub><sup>[🔼 Back to top](#tols-changelog)</sup></sub></sup>
+
+### Added
+
+* The config menu will now detect if gamepad mode is enabled and choose a controller-friendly layout. The detection only happens when the menu is constructed, and will not change dynamically if the player switches between gamepad mode and mouse/keyboard mode.
+
 ## 3.0.2 <sup><sub><sup>[🔼 Back to top](#tols-changelog)</sup></sub></sup>
 
 ### Added
