@@ -1,0 +1,127 @@
+{
+  // Bows
+  "Weapon.Name.MakeshiftBow": "Makeshift Bow",
+  "Weapon.Description.MakeshiftBow": "A haphazardly constructed bow made out of fiber and twigs.",
+
+  "Weapon.Name.WoodenBow": "Wooden Bow",
+  "Weapon.Description.WoodenBow": "A simple bow made of wood and string.",
+
+  "Weapon.Name.CopperBow": "Copper Bow",
+  "Weapon.Description.CopperBow": "A shiny copper reinforced bow.",
+
+  "Weapon.Name.SteelBow": "Steel Bow",
+  "Weapon.Description.SteelBow": "A heavy steel bow that packs quite the punch.",
+
+  "Weapon.Name.GoldBow": "Gold Bow",
+  "Weapon.Description.GoldBow": "A dazzling gold reinforced bow.",
+
+  "Weapon.Name.IridiumBow": "Iridium Bow",
+  "Weapon.Description.IridiumBow": "An ultra-light bow made of material you've never seen before.",
+
+  "Weapon.Name.YobasDivineHarp": "Yoba's Divine Harp",
+  "Weapon.Description.YobasDivineHarp": "A bow-like harp that fires a random note with each strum.",
+
+  // Crossbows
+  "Weapon.Name.WoodenCrossbow": "Wooden Crossbow",
+  "Weapon.Description.WoodenCrossbow": "A simple crossbow made of wood and string.",
+
+  "Weapon.Name.CopperCrossbow": "Copper Crossbow",
+  "Weapon.Description.CopperCrossbow": "A shiny copper reinforced crossbow.",
+
+  "Weapon.Name.SteelCrossbow": "Steel Crossbow",
+  "Weapon.Description.SteelCrossbow": "A heavy steel crossbow that packs quite the punch.",
+
+  "Weapon.Name.GoldCrossbow": "Gold Crossbow",
+  "Weapon.Description.GoldCrossbow": "A dazzling gold reinforced crossbow.",
+
+  "Weapon.Name.IridiumCrossbow": "Iridium Crossbow",
+  "Weapon.Description.IridiumCrossbow": "An ultra-light crossbow made of material you've never seen before.",
+
+  "Weapon.Name.DwarvenRepeatingCrossbow": "Dwarven Repeating Crossbow",
+  "Weapon.Description.DwarvenRepeatingCrossbow": "An ancient dwarven crossbow capable of firing multiple bolts before needing to reload.",
+
+  // Arrows
+  "Ammo.Name.MakeshiftArrow": "Makeshift Arrow",
+  "Ammo.Description.MakeshiftArrow": "A simple arrow made of wood.",
+
+  "Ammo.Name.StoneArrow": "Stone Arrow",
+  "Ammo.Description.StoneArrow": "A wooden arrow with stone tips.",
+
+  "Ammo.Name.CopperArrow": "Copper Arrow",
+  "Ammo.Description.CopperArrow": "A wooden arrow with copper tips.",
+
+  "Ammo.Name.SteelArrow": "Steel Arrow",
+  "Ammo.Description.SteelArrow": "A wooden arrow with steel tips.",
+
+  "Ammo.Name.GoldArrow": "Gold Arrow",
+  "Ammo.Description.GoldArrow": "A wooden arrow with gold tips.\nThese have a high chance of critical hits.",
+
+  "Ammo.Name.IridiumArrow": "Iridium Arrow",
+  "Ammo.Description.IridiumArrow": "A wooden arrow with iridium tips.",
+
+  // Bolts
+  "Ammo.Name.StoneBolt": "Stone Bolt",
+  "Ammo.Description.StoneBolt": "A wooden bolt with stone tips.",
+
+  "Ammo.Name.CopperBolt": "Copper Bolt",
+  "Ammo.Description.CopperBolt": "A wooden bolt with copper tips.",
+
+  "Ammo.Name.SteelBolt": "Steel Bolt",
+  "Ammo.Description.SteelBolt": "A wooden bolt with steel tips.",
+
+  "Ammo.Name.GoldBolt": "Gold Bolt",
+  "Ammo.Description.GoldBolt": "A wooden bolt with gold tips.\nThese have a high chance of critical hits.",
+
+  "Ammo.Name.IridiumBolt": "Iridium Bolt",
+  "Ammo.Description.IridiumBolt": "A wooden bolt with iridium tips.",
+
+  // Enchanted Arrows
+  "Ammo.Name.Enchanted.RubyArrow": "Ruby Arrow",
+  "Ammo.Description.Enchanted.RubyArrow": "A steel tipped arrow with an embedded ruby shard.",
+  
+  "Ammo.Name.Enchanted.AquamarineArrow": "Aquamarine Arrow",
+  "Ammo.Description.Enchanted.AquamarineArrow": "A steel tipped arrow with an embedded aquamarine shard.",
+  
+  "Ammo.Name.Enchanted.AmethystArrow": "Amethyst Arrow",
+  "Ammo.Description.Enchanted.AmethystArrow": "A steel tipped arrow with an embedded amethyst shard.",
+
+  "Ammo.Name.Enchanted.EmeraldArrow": "Emerald Arrow",
+  "Ammo.Description.Enchanted.EmeraldArrow": "A steel tipped arrow with an embedded emerald shard.",
+  
+  "Ammo.Name.Enchanted.JadeArrow": "Jade Arrow",
+  "Ammo.Description.Enchanted.JadeArrow": "A steel tipped arrow with an embedded jade shard.",
+
+  "Ammo.Name.Enchanted.TopazArrow": "Topaz Arrow",
+  "Ammo.Description.Enchanted.TopazArrow": "A steel tipped arrow with an embedded topaz shard.",
+  
+  "Ammo.Name.Enchanted.GarnetArrow": "Garnet Arrow",
+  "Ammo.Description.Enchanted.GarnetArrow": "A steel tipped arrow with an embedded garnet shard.",
+
+  "Ammo.Name.Enchanted.DiamondArrow": "Diamond Arrow",
+  "Ammo.Description.Enchanted.DiamondArrow": "A steel tipped arrow with an embedded diamond shard.",
+
+  // Enchanted Bolts
+  "Ammo.Name.Enchanted.RubyBolt": "Ruby Bolt",
+  "Ammo.Description.Enchanted.RubyBolt": "A steel tipped bolt with an embedded ruby shard.",
+  
+  "Ammo.Name.Enchanted.AquamarineBolt": "Aquamarine Bolt",
+  "Ammo.Description.Enchanted.AquamarineBolt": "A steel tipped bolt with an embedded aquamarine shard.",
+
+  "Ammo.Name.Enchanted.AmethystBolt": "Amethyst Bolt",
+  "Ammo.Description.Enchanted.AmethystBolt": "A steel tipped bolt with an embedded amethyst shard.",
+
+  "Ammo.Name.Enchanted.EmeraldBolt": "Emerald Bolt",
+  "Ammo.Description.Enchanted.EmeraldBolt": "A steel tipped bolt with an embedded emerald shard.",
+
+  "Ammo.Name.Enchanted.JadeBolt": "Jade Bolt",
+  "Ammo.Description.Enchanted.JadeBolt": "A steel tipped bolt with an embedded jade shard.",
+
+  "Ammo.Name.Enchanted.TopazBolt": "Topaz Bolt",
+  "Ammo.Description.Enchanted.TopazBolt": "A steel tipped bolt with an embedded topaz shard.",
+  
+  "Ammo.Name.Enchanted.GarnetBolt": "Garnet Bolt",
+  "Ammo.Description.Enchanted.GarnetBolt": "A steel tipped bolt with an embedded garnet shard.",
+
+  "Ammo.Name.Enchanted.DiamondBolt": "Diamond Bolt",
+  "Ammo.Description.Enchanted.DiamondBolt": "A steel tipped bolt with an embedded diamond shard.",
+}

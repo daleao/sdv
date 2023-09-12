@@ -1,0 +1,102 @@
+{
+  "Type": "Bolt",
+  "Name": "Amethyst Bolt",
+  "DisplayName": "Ammo.Name.Enchanted.AmethystBolt",
+  "Description": "Ammo.Description.Enchanted.AmethystBolt",
+
+  "BreakChance": 0.75,
+  "Damage": 12,
+
+  "Icon": {
+    "Source": {
+      "X": 0,
+      "Y": 0,
+      "Width": 16,
+      "Height": 16
+    }
+  },
+
+  "ProjectileSprite": {
+    "Source": {
+      "X": 20,
+      "Y": 7,
+      "Width": 8,
+      "Height": 1
+    }
+  },
+  "CollisionBox": {
+    "X": 0,
+    "Y": 0,
+    "Width": 4,
+    "Height": 4
+  },
+
+  "Trail": {
+    "Source": {
+      "X": 20,
+      "Y": 22,
+      "Width": 1,
+      "Height": 1
+    },
+    "Offset": {
+      "X": 10,
+      "Y": 1
+    },
+    "Amount": 8,
+    "SpawnIntervalInMilliseconds": 40,
+    "ScaleStep": 0.01,
+    "SpacingStep": 0.25
+  },
+  "Debris": {
+    "Source": {
+      "X": 0,
+      "Y": 0,
+      "Width": 16,
+      "Height": 16
+    },
+    "Amount": 6
+  },
+
+
+  "Recipe": {
+    "UnlockCondition": "PLAYER_HAS_CRAFTING_RECIPE Current PeacefulEnd.Archery.StarterPack/Bolt/Steel Bolt",
+    "Ingredients": [
+      {
+        "Id": 709,
+        "Amount": 2
+      },
+      {
+        "Id": 335,
+        "Amount": 1
+      },
+      {
+        "Id": 66,
+        "Amount": 1
+      }
+    ],
+    "OutputAmount": 10
+  },
+
+  "DirectionalSprites": {
+    "Sideways": [
+      {
+        "Source": {
+          "X": 20,
+          "Y": 7,
+          "Width": 8,
+          "Height": 1
+        }
+      }
+    ],
+    "Down": [
+      {
+        "Source": {
+          "X": 0,
+          "Y": 16,
+          "Width": 16,
+          "Height": 16
+        }
+      }
+    ]
+  }
+}

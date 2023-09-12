@@ -42,7 +42,7 @@ All modules should be fully multiplayer and split-screen compatible **if and onl
 
 1. Make sure [SpaceCore](https://www.nexusmods.com/stardewvalley/mods/1348) is installed.
     * *[Recommended]*: install [Generic Mod Config Menu](https://www.nexusmods.com/stardewvalley/mods/5098).
-2. Go to the **Releases page** (link to the right) and download the latest `ModularOverhaul.zip` file.
+2. Go to the [Releases page](https://github.com/daleao/modular-overhaul/releases) (link also to the right) and download the latest `ModularOverhaul.zip` file.
 
 ![](./resources/releases.png)
 ![](./resources/main_file.png)
