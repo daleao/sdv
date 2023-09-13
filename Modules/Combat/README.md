@@ -11,27 +11,32 @@
 	<li><a href="#overview">Overview</a></li>
 	<li><a href="#status-effects">Status Effects</a></li>
 	<li><a href="#rebalanced-stats">Rebalanced Stats</a></li>
-	<li><a href="#melee-weapon-changes">Melee Weapon Changes</a></li>
-	<ol>
-		<li><a href="#combo-framework">Combo Framework</a></li>
-		<li><a href="#offensive-defensive-swords">Offensive & Defensive Swords</a></li>
-		<li><a href="#rebalanced-types--tiers">Rebalanced Types & Tiers</a></li>
-		<li><a href="#melee-enchantments">Melee Enchantments</a></li>
-		<li><a href="#other-features-0">Other Features</a></li>
-	</ol>
-	<li><a href="#ranged-weapon-changes">Ranged Weapon Changes</a></li>
-	<ol>
-		<li><a href="#rebalanced-modifiers--ammo">Rebalanced Modifers & Ammo</a></li>
-		<li><a href="#critical-hits">Critical Hits</a></li>
-		<li><a href="#special-move">Special Move</a></li>
-		<li><a href="#ranged-enchantments">Ranged Enchantments</a></li>
-		<li><a href="#other-features-1">Other Features</a></li>
-	</ol>
-	<li><a href="#ring-changes">Ring Changes</a></li>
+	<li>
+		<a href="#melee-weapon-changes">Melee Weapon Changes</a>
 		<ol>
-		<li><a href="#rebalances">Rebalances</a></li>
-		<li><a href="#infinity-band">Infinity Band</a></li>
-	</ol>
+			<li><a href="#combo-framework">Combo Framework</a></li>
+			<li><a href="#offensive-defensive-swords">Offensive & Defensive Swords</a></li>
+			<li><a href="#rebalanced-types--tiers">Rebalanced Types & Tiers</a></li>
+			<li><a href="#melee-enchantments">Melee Enchantments</a></li>
+			<li><a href="#other-features-0">Other Features</a></li>
+		</ol>
+	</li>
+	<li>
+		<a href="#ranged-weapon-changes">Ranged Weapon Changes</a>
+		<ol>
+			<li><a href="#rebalanced-modifiers--ammo">Rebalanced Modifers & Ammo</a></li>
+			<li><a href="#critical-hits">Critical Hits</a></li>
+			<li><a href="#special-move">Special Move</a></li>
+			<li><a href="#ranged-enchantments">Ranged Enchantments</a></li>
+			<li><a href="#other-features-1">Other Features</a></li>
+		</ol>
+	</li>
+	<li><a href="#ring-changes">Ring Changes</a>
+		<ol>
+			<li><a href="#rebalances">Rebalances</a></li>
+			<li><a href="#infinity-band">Infinity Band</a></li>
+		</ol>
+	</li>
 	<li><a href="#infinity-1">Infinity +1</a></li>
 	<li><a href="#garnet--gemstone-resonance-theory">Garnet & Gemstone Resonance Theory</a></li>
 	<li><a href="#enemies">Enemies</a></li>
