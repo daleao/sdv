@@ -27,21 +27,21 @@ internal sealed class JsonAssetsIntegration : ModIntegration<JsonAssetsIntegrati
             return false;
         }
 
-        var directory = Path.Combine(ModHelper.DirectoryPath, "assets", "json-assets", "Arsenal");
+        var directory = Path.Combine(ModHelper.DirectoryPath, "assets", "json-assets", "base");
         if (Directory.Exists(directory))
         {
             this.ModApi.LoadAssets(directory, _I18n);
-            this.ModApi.IdsAssigned += this.AssignArsenalIds;
+            this.ModApi.IdsAssigned += this.AssignBaseIds;
         }
         else
         {
-            Log.W("JSON Assets are missing for Arsenal.");
+            Log.W("Json Assets are missing for base Combat module items. `Dwarven Legacy` and `Hero Quest` will be disabled.");
             CombatModule.Config.DwarvenLegacy = false;
             CombatModule.Config.EnableHeroQuest = false;
             ModHelper.WriteConfig(ModEntry.Config);
         }
 
-        directory = Path.Combine(ModHelper.DirectoryPath, "assets", "json-assets", "Rings");
+        directory = Path.Combine(ModHelper.DirectoryPath, "assets", "json-assets", "rings");
         if (Directory.Exists(directory))
         {
             var subDir = VanillaTweaksIntegration.Instance?.RingsCategoryEnabled == true
@@ -62,7 +62,7 @@ internal sealed class JsonAssetsIntegration : ModIntegration<JsonAssetsIntegrati
     }
 
     /// <summary>Gets assigned IDs.</summary>
-    private void AssignArsenalIds(object? sender, EventArgs e)
+    private void AssignBaseIds(object? sender, EventArgs e)
     {
         this.AssertLoaded();
         Globals.HeroSoulIndex = this.ModApi.GetObjectId("Hero Soul");
@@ -105,14 +105,6 @@ internal sealed class JsonAssetsIntegration : ModIntegration<JsonAssetsIntegrati
             Log.D($"[CMBT]: Json Assets ID {Globals.DwarvishBlueprintIndex} has been assigned to Dwarvish Blueprint.");
         }
 
-        // reload the monsters data so that Dwarven Scrap Metal is added to Dwarven Sentinel's drop list
-        ModHelper.GameContent.InvalidateCacheAndLocalized("Data/Monsters");
-    }
-
-    /// <summary>Gets assigned IDs.</summary>
-    private void AssignRingIds(object? sender, EventArgs e)
-    {
-        this.AssertLoaded();
         Globals.GarnetIndex = this.ModApi.GetObjectId("Garnet");
         if (Globals.GarnetIndex == -1)
         {
@@ -123,6 +115,14 @@ internal sealed class JsonAssetsIntegration : ModIntegration<JsonAssetsIntegrati
             Log.D($"[CMBT]: Json Assets ID {Globals.GarnetIndex} has been assigned to Garnet.");
         }
 
+        // reload the monsters data so that Dwarven Scrap Metal is added to Dwarven Sentinel's drop list
+        ModHelper.GameContent.InvalidateCacheAndLocalized("Data/Monsters");
+    }
+
+    /// <summary>Gets assigned IDs.</summary>
+    private void AssignRingIds(object? sender, EventArgs e)
+    {
+        this.AssertLoaded();
         Globals.GarnetRingIndex = this.ModApi.GetObjectId("Garnet Ring");
         if (Globals.GarnetRingIndex == -1)
         {

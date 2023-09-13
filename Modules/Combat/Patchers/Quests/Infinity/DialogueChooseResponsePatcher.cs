@@ -90,6 +90,12 @@ internal sealed class DialogueChooseResponsePatcher : HarmonyPatcher
             // Event ID: 502969 (Linus 0 hearts) | Location: Town
             case "quickResponse3" when speakerName == "Linus":
 
+            // Event ID: 4000004 (Olivia 4 hearts) | Location: Custom_JenkinsHouse
+            case "Olivia_event7" when speakerName == "Jodi":
+
+            // Event ID: 1000018 (Jodi Mature Event) | Location: Town
+            case "jodi_event4" when speakerName == "Jodi":
+
                 player.Increment(DataKeys.ProvenCompassion);
                 CombatModule.State.HeroQuest?.UpdateTrialProgress(Virtue.Compassion);
 
@@ -131,6 +137,9 @@ internal sealed class DialogueChooseResponsePatcher : HarmonyPatcher
 
             // Event ID: 97 (Clint 3 hearts) | Location: Saloon
             case "event_advice2" when speakerName == "Clint":
+
+            // Event ID: 1000018 (Jodi Mature Event) | Location: Town
+            case "jodi_event2" when speakerName == "Jodi":
 
                 player.Increment(DataKeys.ProvenWisdom);
                 CombatModule.State.HeroQuest?.UpdateTrialProgress(Virtue.Wisdom);

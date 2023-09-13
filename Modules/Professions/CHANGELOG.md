@@ -1,18 +1,24 @@
 ﻿# PROFS Changelog
 
-## 3.0.2 <sup><sub><sup>[🔼 Back to top](#profs-change-log)</sup></sub></sup>
+## 3.1.0 <sup><sup>[🔼 Back to top](#profs-changelog)</sup></sup>
+
+### Changed
+
+* [CP] Fish Pond Data is now merged into the main mod, so no longer requires a separate download.
+
+## 3.0.2 <sup><sup>[🔼 Back to top](#profs-changelog)</sup></sup>
 
 ### Changed
 
 * Parallelized Luremaster logic to maybe improve performance on some systems.
 
-## 3.0.0 <sup><sub><sup>[🔼 Back to top](#profs-change-log)</sup></sub></sup>
+## 3.0.0 <sup><sup>[🔼 Back to top](#profs-changelog)</sup></sup>
 
 ### Fixed
 
 * SpaceCore skills should once again appear in the Generic Mod Config Menu for Exp. Multipliers.
 
-## 2.5.7 <sup><sub><sup>[🔼 Back to top](#profs-change-log)</sup></sub></sup>
+## 2.5.7 <sup><sup>[🔼 Back to top](#profs-changelog)</sup></sup>
 
 ### Added
 
@@ -22,7 +28,7 @@
 
 * Fix for Binning and Socializing skills not being loaded correctly.
 
-## 2.5.6 <sup><sub><sup>[🔼 Back to top](#profs-change-log)</sup></sub></sup>
+## 2.5.6 <sup><sup>[🔼 Back to top](#profs-changelog)</sup></sup>
 
 ### Changed
 
@@ -34,7 +40,7 @@
 
 * Fixed a small issue where the player could still keep the Limit Break associated with a removed profession. This probably doesn't concern 99.8% of players.
 
-## 2.5.5 <sup><sub><sup>[🔼 Back to top](#profs-change-log)</sup></sub></sup>
+## 2.5.5 <sup><sup>[🔼 Back to top](#profs-changelog)</sup></sup>
 
 ### Added
 
@@ -52,13 +58,13 @@
 * Fixed Prospector panning point tracking pointing off-screen.
 * Fixed integration with Mushroom Propagator v2.2.0.
 
-## 2.5.1 <sup><sub><sup>[🔼 Back to top](#profs-change-log)</sup></sub></sup>
+## 2.5.1 <sup><sup>[🔼 Back to top](#profs-changelog)</sup></sup>
 
 ### Fixed
 
 * Fixed all xp gain being capped at 1.
 
-## 2.5.0 <sup><sub><sup>[🔼 Back to top](#profs-change-log)</sup></sub></sup>
+## 2.5.0 <sup><sup>[🔼 Back to top](#profs-changelog)</sup></sup>
 
 Major Overhaul for Fishing professions.
 
@@ -95,7 +101,7 @@ Major changes to the Fishing tree:
 
 * Removed LegendaryPondPopulationCeiling option. Max population of legendary ponds is now always half that of regular ponds (yes, Aquarist perk is also halved, for a total max of 7 with prestige).
 
-## 2.4.0 <sup><sub><sup>[🔼 Back to top](#profs-change-log)</sup></sub></sup>
+## 2.4.0 <sup><sup>[🔼 Back to top](#profs-changelog)</sup></sup>
 
 ### Added
 
@@ -111,7 +117,7 @@ Major changes to the Fishing tree:
 * Fixed a possible conflict with XPDisplay.
 * Fixed an issue with Desperado's charging speed buff, which actualy reduced charging speed the player lost HP, instead of the opposite.
 
-## 2.3.0 <sup><sub><sup>[🔼 Back to top](#profs-change-log)</sup></sub></sup>
+## 2.3.0 <sup><sup>[🔼 Back to top](#profs-changelog)</sup></sup>
 
 ### Added
 
@@ -122,7 +128,7 @@ Major changes to the Fishing tree:
 * ArtisanGoodsAlwaysInputQuality should now apply to PFM machines.
 * Custom professions now show up in GMCM menu for BaseSkillExpMultiplier setting.
 
-## 2.2.8 <sup><sub><sup>[🔼 Back to top](#profs-change-log)</sup></sub></sup>
+## 2.2.8 <sup><sup>[🔼 Back to top](#profs-changelog)</sup></sup>
 
 ### Changed
 
@@ -132,20 +138,20 @@ Major changes to the Fishing tree:
 
 * LaxOwnershipRequirements should now apply to Rancher bonus.
 
-## 2.2.2 <sup><sub><sup>[🔼 Back to top](#profs-change-log)</sup></sub></sup>
+## 2.2.2 <sup><sup>[🔼 Back to top](#profs-changelog)</sup></sup>
 
 ### Fixed
 
 * Adjusted the position of prestige progression badges, which I guess were messed up by the latest SpaceCore update.
 * Fixed ribbon-style prestige badges, which apparently were messed up by an update a while ago and nobody noticed, since nobody apparently uses it anymore.
 
-## 2.2.1 <sup><sub><sup>[🔼 Back to top](#profs-change-log)</sup></sub></sup>
+## 2.2.1 <sup><sup>[🔼 Back to top](#profs-changelog)</sup></sup>
 
 ### Changed
 
 * Refactored patchers in the Patchers.Common namespace, just for consistency.
 
-## 2.2.0 <sup><sub><sup>[🔼 Back to top](#profs-change-log)</sup></sub></sup>
+## 2.2.0 <sup><sup>[🔼 Back to top](#profs-changelog)</sup></sup>
 
 ### Changed
 
@@ -156,7 +162,7 @@ Major changes to the Fishing tree:
 
 * Fixed possible bugs when a Rascal Slingshot is picked up by a non-Rascal.
 
-## 2.1.0 <sup><sub><sup>[🔼 Back to top](#profs-change-log)</sup></sub></sup>
+## 2.1.0 <sup><sup>[🔼 Back to top](#profs-changelog)</sup></sup>
 
 ### Changed
 
@@ -166,19 +172,19 @@ Major changes to the Fishing tree:
 
 * Fixed some possible bugs related to the number of attachments in a slingshot.
 
-## 2.0.5 <sup><sub><sup>[🔼 Back to top](#profs-change-log)</sup></sub></sup>
+## 2.0.5 <sup><sup>[🔼 Back to top](#profs-changelog)</sup></sup>
 
 ### Fixed
 
 * Config settings should now save correctly and not reset on every launch.
 
-## 2.0.4 <sup><sub><sup>[🔼 Back to top](#profs-change-log)</sup></sub></sup>
+## 2.0.4 <sup><sup>[🔼 Back to top](#profs-changelog)</sup></sup>
 
 ### Fixed
 
 * Fixed an ArgumentOutOfRange exception, which is, interestingly enough, caused by Vanilla when scrolling the toolbar.
 
-## 2.0.0 <sup><sub><sup>[🔼 Back to top](#profs-change-log)</sup></sub></sup>
+## 2.0.0 <sup><sup>[🔼 Back to top](#profs-changelog)</sup></sup>
 
 ### Added
 
@@ -200,14 +206,14 @@ Major changes to the Fishing tree:
 * Fixed issue with Crab Pots ignoring farmhand professions in multiplayer games with LaxOwnershipRequirement set to `true` (thanks to [ncarigon](https://github.com/ncarigon)).
 * Fixed ribbon display with new scrolling feature of SpaceCore.
 
-## 1.3.0 <sup><sub><sup>[🔼 Back to top](#profs-change-log)</sup></sub></sup>
+## 1.3.0 <sup><sup>[🔼 Back to top](#profs-changelog)</sup></sup>
 
 ### Fixed
 
 * Fixed a bug preventing explosive ammo from exploding without the Desperado profession.
 * Fixed a possible Out-Of-Range Exception when hovering a Rascal Slingshot.
 
-## 1.2.1 <sup><sub><sup>[🔼 Back to top](#profs-change-log)</sup></sub></sup>
+## 1.2.1 <sup><sup>[🔼 Back to top](#profs-changelog)</sup></sup>
 
 ### Changed
 
@@ -217,7 +223,7 @@ Major changes to the Fishing tree:
 
 * Fixed a possible throw when poaching from a monster that has no item to drop.
 
-## 1.2.0 <sup><sub><sup>[🔼 Back to top](#profs-change-log)</sup></sub></sup>
+## 1.2.0 <sup><sup>[🔼 Back to top](#profs-changelog)</sup></sup>
 
 ### Changed
 
@@ -229,21 +235,21 @@ Major changes to the Fishing tree:
 * The Prestige API should now be fully functional, so custom skill mod authors can now support prestige profession variants.
 * Fixed the Agriculturist perk, which I straight up forgot to include in 1.1.0.
 
-## 1.1.1 <sup><sub><sup>[🔼 Back to top](#profs-change-log)</sup></sub></sup>
+## 1.1.1 <sup><sup>[🔼 Back to top](#profs-changelog)</sup></sup>
 
 ### Changed
 
 * Spelunker momentum is now gained on interaction with a ladder or sink hole, and not on player warped. This prevents exploiting other warp methods such as the elevator to rank up the buff for free.
 * Prestige mechanic should now be fully functional for custom SpaceCore skills. Expect Binning and Socialization compatibility soon!
 
-## 1.1.0 <sup><sub><sup>[🔼 Back to top](#profs-change-log)</sup></sub></sup>
+## 1.1.0 <sup><sup>[🔼 Back to top](#profs-changelog)</sup></sup>
 
 ### Changed
 
 * **Agriculturist:** The chance for Iridium Quality crops has been reduced to half of the chance with Deluxe Fertilizer.
 * **Artisan:** Effect changed from "output quality **is at least as good** as input quality" to "output quality **can be as good** as input quality". I.e., instead of simply preserving the quality of the input, there is now a formula in place to choose a quality that is lower than or equal to that of the input. The 5% promotion chance still applies.
 
-## 1.0.2 <sup><sub><sup>[🔼 Back to top](#profs-change-log)</sup></sub></sup>
+## 1.0.2 <sup><sup>[🔼 Back to top](#profs-changelog)</sup></sup>
 
 ### Added
 
@@ -256,13 +262,13 @@ Major changes to the Fishing tree:
 * Fixed a typo in Brute's Rage buff.
 * Fixed Custom Ore Nodes integration.
 
-## 1.0.1 <sup><sub><sup>[🔼 Back to top](#profs-change-log)</sup></sub></sup>
+## 1.0.1 <sup><sup>[🔼 Back to top](#profs-changelog)</sup></sup>
 
 ### Changed
 
 * Prospector ore spawning chance is no longer recursive, which should dramatically reduce the odds of extra node spawns.
 
-## 1.0.0 <sup><sub><sup>[🔼 Back to top](#profs-change-log)</sup></sub></sup>
+## 1.0.0 <sup><sup>[🔼 Back to top](#profs-changelog)</sup></sup>
 
 ### Changed
 
@@ -272,7 +278,7 @@ Major changes to the Fishing tree:
 
 * Fixed the range for triggering Demolitionist's Get Excited buff.
 
-## 0.9.9 <sup><sub><sup>[🔼 Back to top](#profs-change-log)</sup></sub></sup>
+## 0.9.9 <sup><sup>[🔼 Back to top](#profs-changelog)</sup></sup>
 
 ### Fixed
 
@@ -280,7 +286,7 @@ Major changes to the Fishing tree:
 * Brute buff now activates in a more clever way.
 * Desperado Overcharge meter no longer renders in legacy firing mode.
 
-## 0.9.7 <sup><sub><sup>[🔼 Back to top](#profs-change-log)</sup></sub></sup>
+## 0.9.7 <sup><sup>[🔼 Back to top](#profs-changelog)</sup></sup>
 
 ### Changed
 
@@ -292,7 +298,7 @@ Major changes to the Fishing tree:
 * Treasure hunts will no longer trigger during cutscenes.
 * Fixed an incorrect patch target which should allow taunted monsters to reset their aggro when the taunter dies.
 
-## 0.9.6 <sup><sub><sup>[🔼 Back to top](#profs-change-log)</sup></sub></sup>
+## 0.9.6 <sup><sup>[🔼 Back to top](#profs-changelog)</sup></sup>
 
 ### Added
 
@@ -310,13 +316,13 @@ Major changes to the Fishing tree:
 * Replaced two more incorrect FieldGetters with the correct PropertyGetterGetter in Automate integration.
 * Fixed a typo in "multiplyer" FieldGetter.
 
-## 0.9.4 <sup><sub><sup>[🔼 Back to top](#profs-change-log)</sup></sub></sup>
+## 0.9.4 <sup><sup>[🔼 Back to top](#profs-changelog)</sup></sup>
 
 ### Fixed
 
 * Fixed the order of displayed Prestige ribbons in Skills page.
 
-## 0.9.2 <sup><sub><sup>[🔼 Back to top](#profs-change-log)</sup></sub></sup>
+## 0.9.2 <sup><sup>[🔼 Back to top](#profs-changelog)</sup></sup>
 
 ### Fixed
 
@@ -324,7 +330,7 @@ Major changes to the Fishing tree:
 * Improved tracking arrow position for tracked bushes on-screen.
 * Replaced an incorrect FieldGetter with the correct PropertyGetterGetter in Automate integration.
 
-## 0.9.1 <sup><sub><sup>[🔼 Back to top](#profs-change-log)</sup></sub></sup>
+## 0.9.1 <sup><sup>[🔼 Back to top](#profs-changelog)</sup></sup>
 
 ### Fixed
 
@@ -371,4 +377,4 @@ Major changes to the Fishing tree:
 * Removed the SeaweedIsTrash config setting.
 * Removed configs from the [IProfessions interface](../../API/IModularOverhaul.cs).
 
-[🔼 Back to top](#profs-change-log)
+[🔼 Back to top](#profs-changelog)

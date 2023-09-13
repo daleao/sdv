@@ -61,8 +61,12 @@ internal sealed class CombatAssetRequestedEvent : AssetRequestedEvent
         this.Edit("TileSheets/weapons", new AssetEditor(EditWeaponsTileSheetEarly, AssetEditPriority.Early));
         this.Edit("TileSheets/weapons", new AssetEditor(EditWeaponsTileSheetLate, AssetEditPriority.Late));
         this.Edit("Data/weapons", new AssetEditor(EditWeaponsData));
+        this.Edit("aedenthorn.CustomOreNodes/dict", new AssetEditor(EditCustomOreNodes));
 
         this.Provide("Data/Events/Blacksmith", new DictionaryProvider<string, string>(null, AssetLoadPriority.Low));
+        this.Provide(
+            $"{Manifest.UniqueID}/GarnetNode",
+            new ModTextureProvider(() => "assets/sprites/garnet_node.png"));
         this.Provide(
             $"{Manifest.UniqueID}/BleedAnimation",
             new ModTextureProvider(() => "assets/sprites/bleed.png"));
@@ -476,6 +480,65 @@ internal sealed class CombatAssetRequestedEvent : AssetRequestedEvent
             targetArea = new Rectangle(368, 336, 16, 16);
             editor.PatchImage(Textures.RingsTx, sourceArea, targetArea);
         }
+    }
+
+    /// <summary>Adds Garnet Node to Custom Ore Nodes dictionary.</summary>
+    private static void EditCustomOreNodes(IAssetData asset)
+    {
+        if (!Globals.GarnetIndex.HasValue)
+        {
+            Log.W("[CMBT]: Failed to add Garnet Ore Node because the Garnet gemstone was not loaded.");
+            return;
+        }
+
+        var data = asset.AsDictionary<string, object>().Data;
+        data["DaLion.Overhaul/GarnetNode"] = new
+            {
+                parentSheetIndex = 0,
+                dropItems = new[]
+                {
+                    new
+                    {
+                        itemIdOrName = Globals.GarnetIndex.Value.ToString(),
+                        dropChance = 100.0,
+                        minAmount = 1,
+                        maxAmount = 2,
+                        luckyAmount = 1,
+                        minerAmount = 1,
+                    },
+                    new
+                    {
+                        itemIdOrName = SObject.stone.ToString(),
+                        dropChance = 75.0,
+                        minAmount = 2,
+                        maxAmount = 5,
+                        luckyAmount = 1,
+                        minerAmount = 1,
+                    },
+                },
+                oreLevelRanges = new[]
+                {
+                    new
+                    {
+                        minLevel = 80,
+                        maxLevel = int.MaxValue,
+                        spawnChanceMult = 0.5,
+                        expMult = 1.0,
+                        dropChanceMult = 1.0,
+                        dropMult = 1.0,
+                    },
+                },
+                nodeDesc = "A stone rich with Garnet.",
+                spritePath = $"{Manifest.UniqueID}/GarnetNode",
+                spriteType = "game",
+                spriteX = 0,
+                spriteY = 0,
+                spriteW = 16,
+                spriteH = 16,
+                spawnChance = 1,
+                durability = 8,
+                exp = 20,
+            };
     }
 
     #endregion editor callbacks

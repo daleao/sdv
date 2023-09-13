@@ -4,23 +4,34 @@
 
 A complete and comprehensive rework of Stardew Valley gameplay mechanics, offering a much more engaging and immersive "Vanilla+" experience.
 
-[![License][shield:license]](LICENSE) [![Nexus][shield:nexus]][url:nexus] [![Mod Drop][shield:moddrop]][url:moddrop]
+[![License][shield:license]](LICENSE)
 
 </div>
 
-## About this mod
+## Table of Contents
+
+- [About This Mod](#about-this-mod)
+- [Modules](#modules)
+- [Installation & Update](#installation--update)
+- [Reporting Bugs or Issues](#reporting-bugs-or-issues)
+- [API for C# Developers](#api-for-c#-developers)
+- [Buildings the Source Code](#building-the-source-code)
+- [Dependencies](#dependencies)
+- [Credits & Special Thanks](#contributors--special-thanks)
+
+## Introduction
 
 This mod is a compilation of overhaul modules, each targeting a specific gameplay component or mechanic. Together, the modules complement each other to create a "Vanilla+" experience.
 
-The modular nature of this mod allows users to cherry-pick features to their liking, while also preserving the deep native integration required between individual modules. This reduces the amount of code redundancy and improves code maintainability.
+The modular nature of this mod allows users to cherry-pick features to their liking, while also preserving the deep native integration required between individual modules. This reduces the amount of redundant code which helps the mod run better and be more easily maintained.
 
-This mod is the culmination of over a year of work. Please take the time to read the descriptions before asking questions.
+**Note about existing saves:** This mod is meant to provide an entirely new experience of *progression*. While it can be added to existing save files, doing so would be largely pointless due to missing out on that experience. Therefore, I strongly recommend reserving this mod for your next playthrough.
+
+<sub><sup>[🔼 Back to top](#table-of-contents)</sup></sub>
 
 ## Modules
 
 The available modules are listed below. **Please read this page carefuly in its entirety.** Modules can be toggled on or off in the title screen via GMCM. Each module is itself highly configurable, and will be added to the GMCM menu if enabled. Some modules require specific enabling/disabling instructions you should pay attention to. These requirements will be mentioned below.
-
-All modules should be fully multiplayer and splitscreen-ready so long as all players have it installed. Unless explicitly stated otherwise, none of the modules are Android-compatible. Please refer to each module's specific documentation page for further details and compatibility information.
 
 - **[PROFS](Modules/Professions)** is the original module, formely known as Walk Of Life. It overhauls all the game's professions with the goal of supporting more diverse and interesting playstyles. It also introduces optional Prestige mechanics for very-late game save files and Limit Breaks for Combat professions.
 
@@ -36,20 +47,51 @@ All modules should be fully multiplayer and splitscreen-ready so long as all pla
 
 Please note that only the Professions and Tweex modules are enabled by default.
 
-All modules should be fully multiplayer and split-screen compatible **if and only if all players have it installed**. **This mod is not Android-compatible**, but an Android version of Chargeable Tools is available as an optional download.
+99% of your questions about this mod are answered in the pages above. It took me several years of workd to produce this mod, so please take 10-15 minutes to read them before asking questions.
+
+All modules should be fully multiplayer and split-screen compatible **if and only if all players have it installed**. **This mod is not Android-compatible**, but an Android version of Chargeable Tools is available in a dedicated branch.
+
+<sub><sup>[🔼 Back to top](#table-of-contents)</sup></sub>
 
 ## Installation & Update
 
-1. Extract the downloaded archive file into your local mods folder.
-2. Start the game once with SMAPI to generate a config file.
-3. Use the Generic Mod Config Menu to enable the desired modules.
-4. Restart the game for changes to take effect.
+1. Make sure [SpaceCore](https://www.nexusmods.com/stardewvalley/mods/1348) is installed.
+    * *[Recommended]*: install [Generic Mod Config Menu](https://www.nexusmods.com/stardewvalley/mods/5098).
+2. Go to the [Releases page](https://github.com/daleao/modular-overhaul/releases) (link also to the right) and download the latest `ModularOverhaul.zip` file.
+
+![](./resources/releases.png)
+![](./resources/main_file.png)
+
+3. Extract the downloaded archive file into your local mods folder.
+4. Download and install any additional optional files as desired. 
+5. Start the game once with SMAPI to generate a config file.
+6. Enable the desired modules in GMCM by pressing Shift+F12 in the title screen, or by manually editing the `config.json` file. I recommend you do this before beginning your playthrough.
+
+**Not recommended on existing saves**, especially very late-game saves; the whole point of this mod is to present a new experience of progression, which you will be missing out on. That said, it should technically work perfectly fine, assuming you pay attention to the individual compatibility sections on each module.
 
 As with any mod, always **delete any previous installation completely** before updating. If you'd like to preserve your config settings you can delete everything except the configs.json file.
 
 **The use of Vortex or other mod managers is not recommended for Stardew Valley.**
 
-## For C# Developers
+<sub><sup>[🔼 Back to top](#table-of-contents)</sup></sub>
+
+## Reporting Bugs or Issues
+
+1. Make sure the mod is updated to the latest version. I will not support older versions.
+2. Make sure you can reliably reproduce the issue. Write out the steps to reproduce the issue.
+3. Check whether the issue is caused by a mod conflict:
+    - You can do this easily by renaming your mod folder to something else (for example, just add an underscore), creating a new one, and then copying over SpaceCore, MARGO and, optionally, CJB Cheats Menu (to help with quick testing). If the issue can no longer be reproduced in this condition, then gradually copy over your remaining mods in small groups, until you identify the conflicting mod.
+4. Check whether the issue can be reproduced on a brand new save file. If it cannot, then I will probably ask you to upload your save folder to any file-sharing service of your choice, and sharing the url.
+5. Upload your entire log to [smapi.io](https://smapi.io/log). There you will also find instructions in case you don't know where to find your log.
+6. Go to the [Issues page](https://github.com/daleao/modular-overhaul/issues) and check whether someone else has already reported the same issue. If not, then create a new thread. Please include:
+    - A descriptive title.
+    - As much detail as you can muster. Consider describing not only what happened, but also when and how it happened, and what you expected should happen instead.
+    - Your results from steps 2-4 above.
+    - The link to your uploaded log and, if applicable, your uploaded save folder.
+
+<sub><sup>[🔼 Back to top](#table-of-contents)</sup></sub>
+
+## API for C# Developers
 
 This mod offers an [API](./API/IModularOverhaulApi.cs) for C# developers wishing to add third-party compatibility.
 To use it, copy both files in the API folder over to your project, and change the namespace to something appropriate.
@@ -57,12 +99,54 @@ Then [request SMAPI for a proxy](https://stardewvalleywiki.com/Modding:Modder_Gu
 
 Below are some usecases for the API:
 
-- **[PROFS]**: Checking the current value of dynamic perks associated with certain professions;
+- **[PROFS]**: Checking the current value of dynamic perks associated with certain professions.
 - **[PROFS]**: Hooking custom logic into Scavenger and Prospector Treasure Hunts.
-- **[PROFS]**: Hooking custom logic to several stages of [Limit Breaks](./Modules/Professions/README.md#limit-breaks).
+- **[PROFS]**: Hooking custom logic to several stages of the [Limit Break](./Modules/Professions/README.md#limit-breaks).
 - **[PROFS]**: Allowing SpaceCore skills to surpass level 10, and be [Prestiged](./Modules/Professions/README.md#prestige) at levels 15 and 20.
-- **[CMBT]**: Checking the [Resonances](./Modules/Rings/README.md#chords) currently active on any given player.
+- **[CMBT]**: Checking the [Resonances](./Modules/Combat/README.md#chords) currently active on any given player.
+- **[CMBT]**: Inflicting and curing [Status Effects](./Modules/Combat/README.md#status-effects).
 - Checking the config settings of any given player (note that you must create your own interface for this).
+
+<sub><sup>[🔼 Back to top](#table-of-contents)</sup></sub>
+
+## Building the Source Code
+
+In order to build this mod you will also need to clone my [Stardew Valley Shared Lib](https://gitlab.com/daleao/sdv-shared) and just the following lines in this project's `.csproj` file:
+
+1. Your **game path**, as well as (optionally) build paths:
+  ```xml
+  <!-- paths -->
+  <PropertyGroup>
+    <GamePath>G:\Steam\steamapps\common\Stardew Valley 1.5.6</GamePath>
+    <GameModsPath>$(GamePath)/Mods - Build/$(Configuration)</GameModsPath>
+    <ModZipPath>$(GamePath)/Mods - Build/Archive</ModZipPath>
+  </PropertyGroup>
+  ```
+
+2. The path to Stardew Valley Shared Lib's `Shared.projitems` file:
+  ```xml
+  <!-- shared projects -->
+  <Import Project="..\..\Shared\Shared.projitems" Label="Shared" Condition="Exists('..\..\Shared\Shared.projitems')" />
+  ```
+
+<sub><sup>[🔼 Back to top](#table-of-contents)</sup></sub>
+
+## Dependencies
+
+This project requires the following NuGet packages:
+
+| Package Name | Author | Version |
+| ------------ | ------ | ------- |
+| [Ardalis.SmartEnum](https://github.com/ardalis/SmartEnum) | [Steve Smith](https://github.com/ardalis) | 2.1.0 |
+| [CommunityToolkit.Diagnostics](https://github.com/CommunityToolkit/dotnet) | Microsoft | 8.0.0 |
+| [JetBrains.Annotations](https://www.jetbrains.com/help/resharper/Code_Analysis__Code_Annotations.html) | JetBrains | 2023.2.0 |
+| [FastExpressionCompiler.LightExpression](https://github.com/dadhi/FastExpressionCompiler) | [Maksim Volkau](https://github.com/dadhi) | 3.3.4 |
+| [Leclair.Stardew.ModManifestBuilder](https://github.com/KhloeLeclair/Stardew-ModManifestBuilder) | [Khloe Leclair](https://github.com/KhloeLeclair) | 2.1.0 |
+| [NetEscapades.EnumGenerators](https://github.com/andrewlock/NetEscapades.EnumGenerators) | [Andrew Lock](https://github.com/andrewlock) | 1.0.0-beta04 |
+| [Pathoschild.Stardew.ModBuildConfig](https://smapi.io/package/readme) | [Jesse Plamondon-Willard](https://github.com/Pathoschild) | 4.1.1 |
+| [Pathoschild.Stardew.ModTranslationClassBuilder](https://github.com/Pathoschild/SMAPI-ModTranslationClassBuilder) | [Jesse Plamondon-Willard](https://github.com/Pathoschild) | 2.0.1 |
+
+<sub><sup>[🔼 Back to top](#table-of-contents)</sup></sub>
 
 ## Credits & Special Thanks
 
@@ -83,8 +167,6 @@ You have the right to upload your own translation of this project, but I reserve
 Shout-out to [JetBrains][url:jetbrains] for providing a free open-source license to ReSharper and other tools, which provide an immense help to improve and maintain the quality of the code in this mod.
 
 <img width="64" src="https://smapi.io/Content/images/pufferchick.png" alt="Pufferchick"> <img width="80" src="https://resources.jetbrains.com/storage/products/company/brand/logos/jb_beam.svg" alt="JetBrains logo.">
-
-
 
 <!-- MARKDOWN LINKS & IMAGES -->
 [shield:license]: https://img.shields.io/badge/License-Commons%20Clause%20(MIT)-brightgreen?style=for-the-badge

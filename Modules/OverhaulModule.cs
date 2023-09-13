@@ -72,10 +72,10 @@ public abstract class OverhaulModule
     internal string Namespace { get; }
 
     /// <summary>Gets the human-readable and localized name of the module.</summary>
-    internal string DisplayName { get; }
+    internal string DisplayName { get; init; }
 
     /// <summary>Gets a short localized description of the module.</summary>
-    internal string? Description { get; }
+    internal string Description { get; init; }
 
     /// <summary>Gets the ticker symbol of the module, which is used as the entry command.</summary>
     internal string Ticker { get; }
@@ -168,6 +168,8 @@ public abstract class OverhaulModule
         internal CoreModule()
             : base("Core", "margx")
         {
+            this.DisplayName = string.Empty;
+            this.Description = string.Empty;
         }
 
         /// <inheritdoc />

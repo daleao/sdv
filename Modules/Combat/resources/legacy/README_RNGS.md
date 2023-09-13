@@ -35,7 +35,7 @@ All features can be toggled on or off.
 - After disabling this module, please use [CJB Item Spawner][mod:cjb-spawner] or similar to delete and respawn all owned Iridium Bands to avoid issues.
 - Please note that this module introduces new items via Json Assets. Therefore enabling or disabling on existing saves **will cause a Json Shuffle**. You can avoid the shuffle by deleting the 'assets/json-assets' folder. This will allow you to use the crafting recipe features, but all Infinity Band features will become unusable, and should be kept disabled.
 
-<sup><sub><sup>[🔼 Back to top](#margo-rings-rngs)</sup></sub></sup>
+<sup><sup>[🔼 Back to top](#margo-rings-rngs)</sup></sup>
 
 ## Ring Crafting Progression
 
@@ -46,7 +46,7 @@ In addition, new progressive crafting recipes are added for each of the gemstone
     - **Aquamarine and Jade:** *combat level 4, requires Iron Bars.*
     - **Emerald and Ruby:** *combat level 6, requires Gold Bars.*
 
- <sup><sub><sup>[🔼 Back to top](#margo-rings-rngs)</sup></sub></sup>
+ <sup><sup>[🔼 Back to top](#margo-rings-rngs)</sup></sup>
 
 ## Ring Rebalance
 
@@ -69,7 +69,7 @@ Most combat-oriented rings in vanilla are underwhelming and completely overlooke
 - **Immunity Ring:** ~~Immunity +4.~~ -> Gain 100% immunity.
 - **Ring of Thorns:** Can cause Bleeding status (in addition to reflected damage).
 
-<sup><sub><sup>[🔼 Back to top](#margo-rings-rngs)</sup></sub></sup>
+<sup><sup>[🔼 Back to top](#margo-rings-rngs)</sup></sup>
 
 ## Infinity Band
 
@@ -99,7 +99,7 @@ If either the [Weapons](../Weapons) or [Slingshots](../Slingshots) modules are e
 
 It is my hope that this mechanic will encourage experimentation, and also teach some basic Music Theory.
 
-<sup><sub><sup>[🔼 Back to top](#margo-rings-rngs)</sup></sub></sup>
+<sup><sup>[🔼 Back to top](#margo-rings-rngs)</sup></sup>
 
 ## Compatibility
 

@@ -3570,136 +3570,136 @@
         },
         "DaysUntilSpawnsExpire": 1
       },
-      //{
-      //  "SpringItemIndex": [
-      //    {
-      //      "category": "weapon",
-      //      "name": "Forest Sword"
-      //    }
-      //  ],
-      //  "SummerItemIndex": [
-      //    {
-      //      "category": "weapon",
-      //      "name": "Forest Sword"
-      //    }
-      //  ],
-      //  "FallItemIndex": [
-      //    {
-      //      "category": "weapon",
-      //      "name": "Forest Sword"
-      //    }
-      //  ],
-      //  "WinterItemIndex": [
-      //    {
-      //      "category": "weapon",
-      //      "name": "Forest Sword"
-      //    }
-      //  ],
-      //  "UniqueAreaID": "Forest Sword Spawn",
-      //  "MapName": "Custom_ForestWest",
-      //  "MinimumSpawnsPerDay": 1,
-      //  "MaximumSpawnsPerDay": 1,
-      //  "IncludeTerrainTypes": [
-      //    "Any"
-      //  ],
-      //  "ExcludeTerrainTypes": [],
-      //  "IncludeCoordinates": [
-      //    "60,148;60,148"
-      //  ],
-      //  "ExcludeCoordinates": [],
-      //  "StrictTileChecking": "High",
-      //  "SpawnTiming": {
-      //    "StartTime": 600,
-      //    "EndTime": 600,
-      //    "MinimumTimeBetweenSpawns": 10,
-      //    "MaximumSimultaneousSpawns": null,
-      //    "OnlySpawnIfAPlayerIsPresent": false,
-      //    "SpawnSound": ""
-      //  },
-      //  "ExtraConditions": {
-      //    "Years": [
-      //      "1"
-      //    ],
-      //    "Seasons": [
-      //      "Spring"
-      //    ],
-      //    "Days": [
-      //      "1"
-      //    ],
-      //    "WeatherYesterday": [],
-      //    "WeatherToday": [],
-      //    "WeatherTomorrow": [],
-      //    "CPConditions": {},
-      //    "EPUPreconditions": [],
-      //    "LimitedNumberOfSpawns": 1
-      //  },
-      //  "DaysUntilSpawnsExpire": 60
-      //},
-      //{
-      //  "SpringItemIndex": [
-      //    {
-      //      "category": "weapon",
-      //      "name": "Rapier"
-      //    }
-      //  ],
-      //  "SummerItemIndex": [
-      //    {
-      //      "category": "weapon",
-      //      "name": "Rapier"
-      //    }
-      //  ],
-      //  "FallItemIndex": [
-      //    {
-      //      "category": "weapon",
-      //      "name": "Rapier"
-      //    }
-      //  ],
-      //  "WinterItemIndex": [
-      //    {
-      //      "category": "weapon",
-      //      "name": "Rapier"
-      //    }
-      //  ],
-      //  "UniqueAreaID": "Rapier Spawn",
-      //  "MapName": "Railroad",
-      //  "MinimumSpawnsPerDay": 1,
-      //  "MaximumSpawnsPerDay": 1,
-      //  "IncludeTerrainTypes": [
-      //    "Any"
-      //  ],
-      //  "ExcludeTerrainTypes": [],
-      //  "IncludeCoordinates": [
-      //    "15,26;15,26"
-      //  ],
-      //  "ExcludeCoordinates": [],
-      //  "StrictTileChecking": "High",
-      //  "SpawnTiming": {
-      //    "StartTime": 600,
-      //    "EndTime": 600,
-      //    "MinimumTimeBetweenSpawns": 10,
-      //    "MaximumSimultaneousSpawns": null,
-      //    "OnlySpawnIfAPlayerIsPresent": false,
-      //    "SpawnSound": ""
-      //  },
-      //  "ExtraConditions": {
-      //    "Years": [
-      //      "1"
-      //    ],
-      //    "Seasons": [
-      //      "Spring"
-      //    ],
-      //    "Days": [
-      //      "1"
-      //    ],
-      //    "WeatherYesterday": [],
-      //    "WeatherToday": [],
-      //    "WeatherTomorrow": [],
-      //    "CPConditions": {},
-      //    "EPUPreconditions": [],
-      //    "LimitedNumberOfSpawns": 1
-      //  },
-      //  "DaysUntilSpawnsExpire": 60
-      //},
+      {
+        "SpringItemIndex": [
+          {
+            "category": "weapon",
+            "name": "Ancient Sword"
+          }
+        ],
+        "SummerItemIndex": [
+          {
+            "category": "weapon",
+            "name": "Ancient Sword"
+          }
+        ],
+        "FallItemIndex": [
+          {
+            "category": "weapon",
+            "name": "Ancient Sword"
+          }
+        ],
+        "WinterItemIndex": [
+          {
+            "category": "weapon",
+            "name": "Ancient Sword"
+          }
+        ],
+        "UniqueAreaID": "Forest Sword Spawn",
+        "MapName": "Custom_ForestWest",
+        "MinimumSpawnsPerDay": 1,
+        "MaximumSpawnsPerDay": 1,
+        "IncludeTerrainTypes": [
+          "Any"
+        ],
+        "ExcludeTerrainTypes": [],
+        "IncludeCoordinates": [
+          "60,148;60,148"
+        ],
+        "ExcludeCoordinates": [],
+        "StrictTileChecking": "High",
+        "SpawnTiming": {
+          "StartTime": 600,
+          "EndTime": 600,
+          "MinimumTimeBetweenSpawns": 10,
+          "MaximumSimultaneousSpawns": null,
+          "OnlySpawnIfAPlayerIsPresent": false,
+          "SpawnSound": ""
+        },
+        "ExtraConditions": {
+          "Years": [
+            "1"
+          ],
+          "Seasons": [
+            "Spring"
+          ],
+          "Days": [
+            "1"
+          ],
+          "WeatherYesterday": [],
+          "WeatherToday": [],
+          "WeatherTomorrow": [],
+          "CPConditions": {},
+          "EPUPreconditions": [],
+          "LimitedNumberOfSpawns": 1
+        },
+        "DaysUntilSpawnsExpire": 60
+      },
+      {
+        "SpringItemIndex": [
+          {
+            "category": "weapon",
+            "name": "Rapier"
+          }
+        ],
+        "SummerItemIndex": [
+          {
+            "category": "weapon",
+            "name": "Rapier"
+          }
+        ],
+        "FallItemIndex": [
+          {
+            "category": "weapon",
+            "name": "Rapier"
+          }
+        ],
+        "WinterItemIndex": [
+          {
+            "category": "weapon",
+            "name": "Rapier"
+          }
+        ],
+        "UniqueAreaID": "Rapier Spawn",
+        "MapName": "Railroad",
+        "MinimumSpawnsPerDay": 1,
+        "MaximumSpawnsPerDay": 1,
+        "IncludeTerrainTypes": [
+          "Any"
+        ],
+        "ExcludeTerrainTypes": [],
+        "IncludeCoordinates": [
+          "15,26;15,26"
+        ],
+        "ExcludeCoordinates": [],
+        "StrictTileChecking": "High",
+        "SpawnTiming": {
+          "StartTime": 600,
+          "EndTime": 600,
+          "MinimumTimeBetweenSpawns": 10,
+          "MaximumSimultaneousSpawns": null,
+          "OnlySpawnIfAPlayerIsPresent": false,
+          "SpawnSound": ""
+        },
+        "ExtraConditions": {
+          "Years": [
+            "1"
+          ],
+          "Seasons": [
+            "Spring"
+          ],
+          "Days": [
+            "1"
+          ],
+          "WeatherYesterday": [],
+          "WeatherToday": [],
+          "WeatherTomorrow": [],
+          "CPConditions": {},
+          "EPUPreconditions": [],
+          "LimitedNumberOfSpawns": 1
+        },
+        "DaysUntilSpawnsExpire": 60
+      },
       {
         "SpringItemIndex": [
           580,
@@ -5833,7 +5833,7 @@
             "MonsterName": "Wilderness Golem",
             "Settings": {
               "HP": 525,
-              "Damage": 408
+              "Damage": 48,
               "SpawnWeight": 4,
               "DodgeChance": 10,
               "Sprite": "Characters/Monsters/WildernessGolemSpring"

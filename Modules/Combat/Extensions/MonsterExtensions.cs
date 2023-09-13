@@ -39,7 +39,7 @@ internal static class MonsterExtensions
             Math.Max(monster.moveTowardPlayerThreshold.Value + r.Next(-1, 2), 1);
     }
 
-    /// <summary>Causes bleeding on <paramref name="monster"/> for the specified <paramref name="duration"/> and with the specified <paramref name="intensity"/>.</summary>
+    /// <summary>Causes bleeding on the <paramref name="monster"/> for the specified <paramref name="duration"/> and with the specified <paramref name="intensity"/>.</summary>
     /// <param name="monster">The <see cref="Monster"/>.</param>
     /// <param name="bleeder">The <see cref="Farmer"/> who caused the bleeding.</param>
     /// <param name="duration">The duration in milliseconds.</param>
@@ -63,7 +63,7 @@ internal static class MonsterExtensions
         BleedAnimation.BleedAnimationByMonster.AddOrUpdate(monster, new BleedAnimation(monster, duration));
     }
 
-    /// <summary>Removes bleeding from <paramref name="monster"/>.</summary>
+    /// <summary>Removes bleeding from the <paramref name="monster"/>.</summary>
     /// <param name="monster">The <see cref="Monster"/>.</param>
     internal static void Unbleed(this Monster monster)
     {
@@ -224,7 +224,7 @@ internal static class MonsterExtensions
     /// <param name="monster">The <see cref="Monster"/>.</param>
     /// <param name="poisoner">The <see cref="Farmer"/> who inflicted the poison.</param>
     /// <param name="duration">The duration in milliseconds.</param>
-    /// <param name="intensity">The intensity of the slow effect (how many stacks).</param>
+    /// <param name="intensity">The intensity of the poison effect (how many stacks).</param>
     internal static void Poison(this Monster monster, Farmer poisoner, int duration = 15000, int intensity = 1)
     {
         if (!CombatModule.Config.EnableStatusConditions)

@@ -6,43 +6,40 @@
 
 <!-- TABLE OF CONTENTS -->
 <details open="open" align="left">
-  <summary>Table of Contents</summary>
-  <ol>
-    <li><a href="#overview">Overview</a></li>
-    <li><a href="#status-effects">Status Effects</a></li>
-    <li><a href="#rebalanced-stats">Rebalanced Stats</a></li>
-    <li><a href="#melee-weapon-changes">Melee Weapon Changes</a></li>
-    <ol>
-        <li><a href="#combo-framework">Combo Framework</a></li>
-        <li><a href="#offensive-defensive-swords">Offensive & Defensive Swords</a></li>
-        <li><a href="#rebalanced-types-tiers">Rebalanced Types & Tiers</a></li>
-        <li><a href="#melee-enchantments">Melee Enchantments</a></li>
-        <li><a href="#acquiring-weapons">Acquiring Weapons</a></li>
-        <li><a href="#tooltips">Tooltips</a></li>
-    </ol>
-    <li><a href="#ranged-weapon-changes">Ranged Weapon Changes</a></li>
-    <ol>
-        <li><a href="#rebalanced-modifiers">Rebalanced Modifers</a></li>
-        <li><a href="#critical-hits">Critical Hits</a></li>
-        <li><a href="#special-move">Special Move</a></li>
-        <li><a href="#forges-gemstone-ammo">Forges & Gemstone Ammo</a></li>
-        <li><a href="#ranged-enchantments">Ranged Enchantments</a></li>
-        <li><a href="#infinity-slingshot">Infinity Slingshot</a></li>
-        <li><a href="#removed-grace-period">Removed Grace Period</a></li>
-        <li><a href="#snowballs">Snowballs</a></li>
-    </ol>
-    <li><a href="#ring-changes">Ring Changes</a></li>
-     <ol>
-        <li><a href="#rebalances">Rebalances</a></li>
-        <li><a href="#infinity-band">Infinity Band</a></li>
-    </ol>
-    <li><a href="#infinity-1">Infinity +1</a></li>
-    <li><a href="#garnet-gemstone-resonance-theory">Garnet & Gemstone Resonance Theory</a></li>
-    <li><a href="#enemies">Enemies</a></li>
-    <li><a href="#controls-quality-of-life">Controls & Quality of Life</a></li>
-    <li><a href="#compatibility">Compatibility</a></li>
-    <li><a href="#faq">F.A.Q.</a></li>
-  </ol>
+<summary>Table of Contents</summary>
+<ol>
+	<li><a href="#overview">Overview</a></li>
+	<li><a href="#status-effects">Status Effects</a></li>
+	<li><a href="#rebalanced-stats">Rebalanced Stats</a></li>
+	<li><a href="#melee-weapon-changes">Melee Weapon Changes</a></li>
+	<ol>
+		<li><a href="#combo-framework">Combo Framework</a></li>
+		<li><a href="#offensive-defensive-swords">Offensive & Defensive Swords</a></li>
+		<li><a href="#rebalanced-types--tiers">Rebalanced Types & Tiers</a></li>
+		<li><a href="#melee-enchantments">Melee Enchantments</a></li>
+		<li><a href="#other-features-0">Other Features</a></li>
+	</ol>
+	<li><a href="#ranged-weapon-changes">Ranged Weapon Changes</a></li>
+	<ol>
+		<li><a href="#rebalanced-modifiers--ammo">Rebalanced Modifers & Ammo</a></li>
+		<li><a href="#critical-hits">Critical Hits</a></li>
+		<li><a href="#special-move">Special Move</a></li>
+		<li><a href="#ranged-enchantments">Ranged Enchantments</a></li>
+		<li><a href="#other-features-1">Other Features</a></li>
+	</ol>
+	<li><a href="#ring-changes">Ring Changes</a></li>
+		<ol>
+		<li><a href="#rebalances">Rebalances</a></li>
+		<li><a href="#infinity-band">Infinity Band</a></li>
+	</ol>
+	<li><a href="#infinity-1">Infinity +1</a></li>
+	<li><a href="#garnet--gemstone-resonance-theory">Garnet & Gemstone Resonance Theory</a></li>
+	<li><a href="#enemies">Enemies</a></li>
+	<li><a href="#controls--quality-of-life">Controls & Quality of Life</a></li>
+	<li><a href="#other-features-2">Other Features</a></li>
+	<li><a href="#compatibility">Compatibility</a></li>
+	<li><a href="#faq">F.A.Q.</a></li>
+</ol>
 </details>
 
 ## Overview
@@ -63,7 +60,7 @@ Taking inspiration from classic RPG or strategy games, this module adds a framew
 
 Each status condition is accompanied by a neat corresponding animation. Status conditions cannot be applied on the player.
 
-<sup><sub><sup>[🔼 Back to top](#margo-combat-cmbt)</sup></sub></sup>
+<sup><sup>[🔼 Back to top](#margo--combat-cmbt)</sup></sup>
 
 ## Rebalanced Stats
 
@@ -73,12 +70,12 @@ Certain stats are simply not worth investing in vanilla. While some of these can
 2. **Defense** is rather useless in vanilla, where each point simply mitigates a single unit of damage. Consequently, small defense bonuses become useless in late-game. This mod implements a new, simple damage mitigation formula, which allows defense to scale into late-game without becoming overpowered.
 
     Old formula:
-    ```
+    ```math
     damage = Min(rawDamage - defense, 1)
     ```
 
     New formula:
-    ```
+    ```math
     resistance = 10 / (10 + defense)
     damage = rawDamage * resistance
     ```
@@ -88,7 +85,7 @@ Certain stats are simply not worth investing in vanilla. While some of these can
     - **Jade:** *+10% -> +50% crit. power.* A 10% boost to crit. power is a 10% damage boost that *only* applies to crits. To put that in perspective, only when the player has 100% crit. chance then they will receive an overall 10% boost to damage. It should be clear that this is complete garbage next to a Ruby Ring, which straight up grants a 10% boost to damage, *all the time*. At 50% crit. power, the Jade Ring becomes a better choice than the Ruby Ring if the player has at least 20% crit. chance, which should be attainable by any weapon type given an appropriate build. Above that threshold, Jade Rings become even stronger.
     - Slingshots can now critically strike. Think of them as headshots.
 
-<sup><sub><sup>[🔼 Back to top](#margo-combat-cmbt)</sup></sub></sup>
+<sup><sup>[🔼 Back to top](#margo--combat-cmbt)</sup></sup>
 
 ## Melee Weapon Changes
 
@@ -98,7 +95,7 @@ Vanilla weapons suffer from two major issues:
 
 This mod tries to fix both through a combination of nerfs, buffs and entirely new mechanics which will overall make combat significantly more strategic and challenging.
 
-<sup><sub><sup>[🔼 Back to top](#margo-combat-cmbt)</sup></sub></sup>
+<sup><sup>[🔼 Back to top](#margo--combat-cmbt)</sup></sup>
 
 ### Combo Framework
 
@@ -110,7 +107,7 @@ Weapon spamming is makes vanilla combat a boring click-fest. This mod implements
 
 If combo hits are enabled, swing speed bonuses from **emerald** effects will apply to every frame of the attack animation, as well as the cooldown in between combos, as opposed to only the final frame as in vanilla. This immediately makes speed a more valuable stat.
 
-<sup><sub><sup>[🔼 Back to top](#margo-combat-cmbt)</sup></sub></sup>
+<sup><sup>[🔼 Back to top](#margo--combat-cmbt)</sup></sup>
 
 ### Offensive & Defensive Swords
 
@@ -120,7 +117,7 @@ Swords are now split between **offensive** and **defensive** archetypes. Defensi
 
 To improve the defensive parry move, parry damage is increased by 10% for every defense point. This adds offensive value to the defense stat itself and makes defensive builds more viable. Note that the introduction of weapon combos also adds to the value of a defensive move (you need to protect yourself during combo downtime).
 
-<sup><sub><sup>[🔼 Back to top](#margo-combat-cmbt)</sup></sub></sup>
+<sup><sup>[🔼 Back to top](#margo--combat-cmbt)</sup></sup>
 
 ### Rebalanced Types & Tiers
 
@@ -174,7 +171,7 @@ See [Infinity+1](#infinity-1).
 
 In order to better reflect their new weapon types, as well as their mythical or legendary status, several weapons have received vanilla-friendly retextures. These textures will always be overwritten by any installed Content Patcher mods, so there is no concern for compatibility. Moreover, there are tons of small immersive details like visual and sound effects added to mythic and legendary weapons.
 
-<sup><sub><sup>[🔼 Back to top](#margo-combat-cmbt)</sup></sub></sup>
+<sup><sup>[🔼 Back to top](#margo--combat-cmbt)</sup></sup>
 
 ### Melee Enchantments
 
@@ -198,11 +195,12 @@ Weapons enchantments have been almost entirely overhauled. These new enchantment
 
 \*\* *Examples: damage or heal the enemy; decrease or increase the enemie's stats; transfigure into a different enemy, creature or any random item (note: this can spawn illegal items).*
 
-<sup><sub><sup>[🔼 Back to top](#margo-combat-cmbt)</sup></sub></sup>
+<sup><sup>[🔼 Back to top](#margo--combat-cmbt)</sup></sup>
 
 ### Other Features
 
 * **The Mines & Weapon Acquisition**
+
     In vanilla, the player is quick to amass large quantities of fodder weapons, both from Mine chests as well as barrel and crate drops. To support the intended experience of progression, all weapons are removed from Mine chests, which instead reward random goodies. In order to obtain new weapons, players will have to fight for monster drops or get lucky with breakable containers. Monster-dropped weapons are rare, but tend to be stronger. Lower-tier weapons can also be purchased directly from Marlon, but will have fixed and significantly weaker stats when obtained this way.
 
 * **Tooltips**
@@ -213,13 +211,13 @@ Weapons enchantments have been almost entirely overhauled. These new enchantment
 
     Note that this is the only feature of this mod that affects third-party mod weapons. If you play with expansion mods which add new weapons, such as Ridgeside Village, you will likely notice absurdly high stats in those weapons' tooltips. **That's not on me.** Those weapons are broken by design. I just pulled the curtains. You're welcome.
 
-<sup><sub><sup>[🔼 Back to top](#margo-combat-cmbt)</sup></sub></sup>
+<sup><sup>[🔼 Back to top](#margo--combat-cmbt)</sup></sup>
 
 ## Ranged Weapon Changes
 
 Ranged weapons are actually quite strong in vanilla, mainly because ammo's deal insane damage. They are also boring, however, since ranged combat is very unidimensional. This mod seeks to alleviate that by reducing base ammo damage while also introducing many of the same mechanics afforded to melee weapons.
 
-<sup><sub><sup>[🔼 Back to top](#margo-combat-cmbt)</sup></sub></sup>
+<sup><sup>[🔼 Back to top](#margo--combat-cmbt)</sup></sup>
 
 ### Rebalanced Modifiers & Ammo
 
@@ -238,13 +236,13 @@ The following new ammos have been added:
 - Diamond: 120 damage
 - Prismatic Shard: 200 damage
 
-<sup><sub><sup>[🔼 Back to top](#margo-combat-cmbt)</sup></sub></sup>
+<sup><sup>[🔼 Back to top](#margo--combat-cmbt)</sup></sup>
 
 ### Special Move
 
 Pressing the action button will trigger a melee smack attack that stuns enemies for 2 seconds. This allows the player to react to enemies in close range without switching weapons, and quickly reposition to continue firing from safety.
 
-<sup><sub><sup>[🔼 Back to top](#margo-combat-cmbt)</sup></sub></sup>
+<sup><sup>[🔼 Back to top](#margo--combat-cmbt)</sup></sup>
 
 ### Ranged Enchantments
 
@@ -268,7 +266,7 @@ Gemstone forges cannot directly be applied to slingshots, but **gemstones can be
 
 Lastly, the **Galaxy Soul** can be applied to the Galaxy Slingshot, as with other Galaxy weapons, to eventually create the **Infinity Slingshot.**
 
-<sup><sub><sup>[🔼 Back to top](#margo-combat-cmbt)</sup></sub></sup>
+<sup><sup>[🔼 Back to top](#margo--combat-cmbt)</sup></sup>
 
 ### Other Features
 
@@ -280,13 +278,13 @@ Lastly, the **Galaxy Soul** can be applied to the Galaxy Slingshot, as with othe
 
     Standing in a snowy tile with an empty slingshot will allow the player to fire a snowball. The snowball projectile deals no significant damage; this is meant as a fun flavor feature for multiplayer.
 
-<sup><sub><sup>[🔼 Back to top](#margo-combat-cmbt)</sup></sub></sup>
+<sup><sup>[🔼 Back to top](#margo--combat-cmbt)</sup></sup>
 
 ## Ring Changes
 
 Most combat-oriented rings in vanilla are underwhelming and completely overlooked next to the Iridium Band, which provides a free 3-in-1 ring that can also be combined. This mod tries to make combat rings more interesting, and introduce all-new mechanics specific to the Iridium Band.
 
-<sup><sub><sup>[🔼 Back to top](#margo-combat-cmbt)</sup></sub></sup>
+<sup><sup>[🔼 Back to top](#margo--combat-cmbt)</sup></sup>
 
 ### Rebalanced Combat Rings
 
@@ -297,7 +295,7 @@ This following rings have been changed:
 - **Immunity Ring:** ~~Immunity +4.~~ -> Gain 100% immunity.
 - **Ring of Thorns:** Can cause Bleeding status (in addition to reflected damage).
 
-<sup><sub><sup>[🔼 Back to top](#margo-combat-cmbt)</sup></sub></sup>
+<sup><sup>[🔼 Back to top](#margo--combat-cmbt)</sup></sup>
 
 ### Infinity Band
 
@@ -305,7 +303,7 @@ The Iridium Band has been completely overhauled. Initially, a newly crafted Irid
 
 The Infinity Band likewise does nothing on its own, but it serves as a vessel for up to **four** gemstones. To add a gemstone to the Infinity Band, you must fuse it with a corresponding gemstone ring at the Forge. The same type of gemstone can be added more than once, compounding the effect. Alternatively, combining different gemstones will potentially lead to powerful [resonances](#resonance).
 
-<sup><sub><sup>[🔼 Back to top](#margo-combat-cmbt)</sup></sub></sup>
+<sup><sup>[🔼 Back to top](#margo--combat-cmbt)</sup></sup>
 
 ## Infinity +1
 
@@ -321,7 +319,7 @@ In return for all that extra work, the Infinity weapons have extra perks:
 1. +1 gemstone slot (4 total). Keeping in mind that each gemstone has the potential to [resonate](#resonance).
 2. **Melee only:** while at full health, every swing will fire a mid-range energy beam.
 
-<sup><sub><sup>[🔼 Back to top](#margo-combat-cmbt)</sup></sub></sup>
+<sup><sup>[🔼 Back to top](#margo--combat-cmbt)</sup></sup>
 
 ## Garnet & Gemstone Resonance Theory
 
@@ -343,11 +341,11 @@ Like strings in a guitar, the characteristic vibration of each gemstone causes i
 
 Gemstones placed together in an Infinity Band not only resonate, but can also make up [Chords](https://en.wikipedia.org/wiki/Chord_(music)). Chords have an associated **richness**, which measures the variety of overtones in the resulting vibrations. A sufficiently rich chord may give rise to entirely new effects. To maximize richness, try to maximize resonance while avoiding repeating Gemstones. 
 
-If either the [Weapons](../Weapons) or [Slingshots](../Slingshots) modules are enabled and the player is currently holding a forged weapon or slingshot, respectively, resonating chords from equipped Infinity Bands will also amplify the corresponding gemstone forges.
+If the player's currently held weapon contains forged gemstones, resonating chords from equipped Infinity Bands will also amplify all gemstone forges matching the chord's root note. Note that forged gemstones do not form chords themselves or share any of the same resonance and dissonance mechanics from Infinity Band described above.
 
 It is my hope that this mechanic will encourage experimentation, and also teach some basic Music Theory.
 
-<sup><sub><sup>[🔼 Back to top](#margo-combat-cmbt)</sup></sub></sup>
+<sup><sup>[🔼 Back to top](#margo--combat-cmbt)</sup></sup>
 
 ## Enemies
 
@@ -357,7 +355,7 @@ This mod also provides three sliders to tailor general combat difficulty. These 
 
 Finally, certain enemy hitboxes are also improved, and others have received small visual tweaks.
 
-<sup><sub><sup>[🔼 Back to top](#margo-combat-cmbt)</sup></sub></sup>
+<sup><sup>[🔼 Back to top](#margo--combat-cmbt)</sup></sup>
 
 ## Controls & Quality of Life
 
@@ -375,7 +373,7 @@ This mod includes the following popular control-related features, often featured
 
     If enemies are nearby, players can optionally choose a weapon, melee or ranged, to be equipped automatically.
 
-<sup><sub><sup>[🔼 Back to top](#margo-combat-cmbt)</sup></sub></sup>
+<sup><sup>[🔼 Back to top](#margo--combat-cmbt)</sup></sup>
 
 ## Other Features
 
@@ -383,7 +381,7 @@ This mod includes the following popular control-related features, often featured
 
     The vanilla game has too many weapons for its own good. A minor issue which results from this is the very awkward "upgrade" from the starting Rusty Sword to the Wooden Blade. Why would Marlon be mocking about with a rusty weapon anyway? This has always bothered me, and so, for a slight increase in immersion, this novelty feature will remove the Rusty Sword from the game and replace the starter weapon with a Wooden Blade.
 
-<sup><sub><sup>[🔼 Back to top](#margo-combat-cmbt)</sup></sub></sup>
+<sup><sup>[🔼 Back to top](#margo--combat-cmbt)</sup></sup>
 
 ## Compatibility
 
@@ -404,7 +402,7 @@ This mod includes the following popular control-related features, often featured
 - Ring features are **not** compatible with other mods with similar scope, including [Combine Many Rings][mod:combine-many-rings], [Balanced Combine Many Rings][mod:balanced-many-rings] and, to an extent, [Ring Overhaul][mod:ring-overhaul]
 - Other ring retextures will be lightly incompatible with the new Infinity Band, meaning there may be some visual glitches but otherwise no real issues.
 
-<sup><sub><sup>[🔼 Back to top](#margo-combat-cmbt)</sup></sub></sup>
+<sup><sup>[🔼 Back to top](#margo--combat-cmbt)</sup></sup>
 
 ## F.A.Q.
 
@@ -429,48 +427,52 @@ Should you choose to ignore these side-effects and continue to strengthen the Bl
 
 To begin the quest, you must slay at least 50 enemies with the Blade equipped, prompting the Wizard to invite you over for a chat. To complete this initial quest, simply interact with the Yoba altar and exhaust all possible dialogue choices.
 You will then be asked to prove your virtues:
-- Prove your Honor, Compassion and Wisdom by selecting certain responses during character heart events (you will have at least 8 chances to prove each of these virtues a number of times).
-- Prove your Valor by completing at least monster slayer quests.
-- Prove your Generosity by gifting NPCs a certain amount of gold in gifts, or by purchasing the house upgrade for Pam. Exact values will depend on your difficulty settings (you can see them in-game in the your quest journal).
-
-When you are ready, approach Yoba's altar in Pierre's house with the Blade in hand  .
+- Prove your Honor, Compassion and Wisdom by selecting certain responses during character heart events.
+    - Alternatively, prove your Honor by respectfully returning the Mayor's shorts.
+- Prove your Valor by completing monster slayer quests or persevering through long digs in the Mines.
+    - Alternatively, prove your Valor by reaching SVE's [Treasure Cave](https://stardew-valley-expanded.fandom.com/wiki/Treasure_Cave).
+- Prove your Generosity by gifting NPCs a certain amount of gold in gifts, or by purchasing Community Upgrades from Robin.
+ 
+Exact completion criteria will depend on your difficulty settings (you can see them in-game in the your quest journal). When you are ready, approach Yoba's altar in Pierre's house with the Blade in hand.
 
 **What are the IDs of heart events related the Blade of Ruin?**
 
 The following events provide chances to demonstrate your virtues. You can use these IDs in conjunction with the `debug ebi <id>` command to replay these events, provided that the Event Repeater mod is installed.
 
-Events where you may demonstrate Honor:
-* 7 - Maru 4 hearts
-* 16 - Pierre 6 hearts
-* 27 - Sebastian 6 hearts
-* 36 - Penny 6 hearts
-* 46 - Sam 4 hearts
-* 58 - Harvey 6 hearts
-* 100 - Kent 3 hearts
-* 288847 - Alex 8 hearts
-* 2481135 - Alex 4 hearts
-* 733330 - Sam 3 hearts
-
-Events where you may demonstrate Compassion:
-* 13 - Haley 6 hearts
-* 27 - Sebastian 6 hearts
-* 51 - Leah 4 hearts
-* 100 - Kent 3 hearts
-* 288847 - Alex 8 hearts
-* 502969 - Linus 0 hearts
-* 503180 - Pam 9 hearts
-* 733330 - Sam 3 hearts
-* 3910975 - Shane 6 hearts
-
-Events where you may demonstrate Wisdom:
-* 11 - Haley 2 hearts
-* 21 - Alex 5 hearts
-* 25 - Demetrius 3 hearts
-* 27 - Sebastian 6 hearts
-* 34 - Penny 2 hearts
-* 50 - Leah 2 hearts
-* 56 - Harvey 2 hearts
-* 97 - Clint 3 hearts
+| ID      | Description           | Virtue |
+| ------- | --------------------- | ------ |
+| 7       | Maru 4 hearts         | Honor  |
+| 16      | Pierre 6 hearts       | Honor  |
+| 27      | Sebastian 6 hearts    | Honor  |
+| 36      | Penny 6 hearts        | Honor  |
+| 46      | Sam 4 hearts          | Honor  |
+| 58      | Harvey 6 hearts       | Honor  |
+| 100     | Kent 3 hearts         | Honor  |
+| 288847  | Alex 8 hearts         | Honor  |
+| 2481135 | Alex 4 hearts         | Honor  |
+| 733330  | Sam 3 hearts          | Honor  |
+| 8185291 | Sophia 2 hearts (SVE) | Honor  |
+| 13      | Haley 6 hearts               | Compassion |
+| 27      | Sebastian 6 hearts           | Compassion |
+| 51      | Leah 4 hearts                | Compassion |
+| 100     | Kent 3 hearts                | Compassion |
+| 288847  | Alex 8 hearts                | Compassion |
+| 502969  | Linus 0 hearts               | Compassion |
+| 503180  | Pam 9 hearts                 | Compassion |
+| 733330  | Sam 3 hearts                 | Compassion |
+| 3910975 | Shane 6 hearts               | Compassion |
+| 1000005 | Sebastian Mature Event (SVE) | Compassion |
+| 1000013 | Caroline Mature Event (SVE)  | Compassion |
+| 11      | Haley 2 hearts          | Wisdom |
+| 21      | Alex 5 hearts           | Wisdom |
+| 25      | Demetrius 3 hearts      | Wisdom |
+| 27      | Sebastian 6 hearts      | Wisdom |
+| 34      | Penny 2 hearts          | Wisdom |
+| 50      | Leah 2 hearts           | Wisdom |
+| 56      | Harvey 2 hearts         | Wisdom |
+| 97      | Clint 3 hearts          | Wisdom |
+| 1000018 | Jodi Mature Event (SVE) | Wisdom |
+| 1000021 | Jas Mature Event (SVE)  | Wisdom |
 
 **How do I obtain the Infinity weapons?**
 
@@ -481,7 +483,9 @@ Unforge the Blade of Dawn to obtain a Hero Soul, and then forge it into any Gala
 - **Neptune's Glaive:** Fishing Chests, same as Vanilla.
 - **Yeti Tooth:** Dropped by enemies or crates in the icy section of the Mines.
 - **Obsidian Edge:** Dropped from Shadow people in the dangerous Mines.
-- **Lava Katana:** Dropped from certain enemies in Volcano Dungeon.
+- **Lava Katana:** Dropped from certain enemies in Volcano Dungeon. Alternatively, from the Treasure Cave in Crimson Badlands.
+
+
 
 <!-- MARKDOWN LINKS & IMAGES -->
 [shield:common]: <https://img.shields.io/badge/Common-white?style=flat>
@@ -522,4 +526,4 @@ Unforge the Blade of Dawn to obtain a Hero Soul, and then forge it into any Gala
 
 [tropes:color-coded]: <https://tvtropes.org/pmwiki/pmwiki.php/Main/ColourCodedForYourConvenience> "Color-Coded for Your Convenience"
 
-[🔼 Back to top](#margo-combat-cmbt)
+[🔼 Back to top](#margo--combat-cmbt)

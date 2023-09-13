@@ -1,22 +1,44 @@
 ﻿# CMBT Changelog
 
-## 3.0.2 <sup><sub><sup>[🔼 Back to top](#cmbt-change-log)</sup></sub></sup>
+## 3.1.1 <sup><sup>[🔼 Back to top](#profs-changelog)</sup></sup>
+
+### Fixed
+
+* Forgot to scale Garnet Node spawn back down to normal after debugging for 3.1.0.
+
+## 3.1.0 <sup><sup>[🔼 Back to top](#profs-changelog)</sup></sup>
+
+### Changed
+
+* [CON] Garnet Node is now merged into the main mod, so no longer requires a separate download.
+
+## 3.0.2 <sup><sup>[🔼 Back to top](#cmbt-changelog)</sup></sup>
+
+Exodus from Nexus.
 
 ### Added
 
 * You can now prove your Honor (+2 points) by returning the Mayor's Purple Shorts, as long as you don't troll him at the Luau or the Grange.
+* You can now prove your Valor by digging 100 (or 50, on Easy difficulty) consecutive floors in the Mines without using Staircases.
+* Added Virtue completion tags to several SVE events. Most of these are "mature events", so you will need that option enabled to benefit from this.
+* You can now prove your Valor by reaching the Treasure Cave in the Crimson Badlands.
 
-## Fixed
+### Changed 
+
+* Base Valor completion objective was changed back to Monster Eradication Goals. Someone pointed out that slaying monsters for the sake of slaying monsters is not exactly "courageous".
+* Changed SVE's Treasure Cave chest reward from Obsidian Edge to Lava Katana.
+
+### Fixed
 
 * Wabbajack end-of-day cleanup should now run correctly.
 
-## 3.0.1 <sup><sub><sup>[🔼 Back to top](#cmbt-change-log)</sup></sub></sup>
+## 3.0.1 <sup><sup>[🔼 Back to top](#cmbt-changelog)</sup></sup>
 
 ### Fixed
 
 * Fixed Piper's Slime ammo damage (increased from 5 to 10).
 
-## 3.0.0 <sup><sub><sup>[🔼 Back to top](#cmbt-change-log)</sup></sub></sup>
+## 3.0.0 <sup><sup>[🔼 Back to top](#cmbt-changelog)</sup></sup>
 
 Merged WPNZ, SLNGS, RNGS and ENCH into the CMBT module. All of those modules essentially tackled different facets of combat, and WPNZ and SLNGS in particular shared many redundant patches and config settings. In that light, the unification streamlines a lot of the config schema and cuts down on the number of patches required.
 
@@ -40,14 +62,10 @@ Merged WPNZ, SLNGS, RNGS and ENCH into the CMBT module. All of those modules ess
     * If you were not aware, the Blade of Dawn and Infinity weapons already all possess the ability to inflict perma-death on Mummies, replacing the vanilla Crusader enchantment.
 * Blade of Dawn and Infinity weapon beams no longer cast a shadow.
 * Lowered Wabbajack probability from 0.5 to about 0.309.
-* Lowered ammo damage:
-    * Gemstones: 50 -> 45
-    * Diamond: 120 -> 90
-    * Prismatic Shard: 250 -> 120
 
 ## Removed
 
 * Removed temporary fixes for existing saves after previous changes to the Hero's Quest.
 
 
-[🔼 Back to top](#cmbt-change-log)
+[🔼 Back to top](#cmbt-changelog)
