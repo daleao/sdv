@@ -67,7 +67,7 @@ All modules should be fully multiplayer and split-screen compatible **if and onl
 5. Start the game once with SMAPI to generate a config file.
 6. Enable the desired modules in GMCM by pressing Shift+F12 in the title screen, or by manually editing the `config.json` file. I recommend you do this before beginning your playthrough.
 
-**Not recommended on existing saves**, especially very late-game saves; the whole point of this mod is to present a new experience of progression, which you will be missing out on. That said, it should technically work perfectly fine, assuming you pay attention to the individual compatibility sections on each module.
+Please review the compatibility sections of each specific module in the links above.
 
 As with any mod, always **delete any previous installation completely** before updating. If you'd like to preserve your config settings you can delete everything except the configs.json file.
 
