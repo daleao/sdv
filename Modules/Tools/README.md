@@ -9,7 +9,7 @@
 This module is inspired by the tool progression system of old Harvest Moon: Friends of Mineral Town, where the Axe and Hammer tools were also chargeable, and their ultimate upgrades could destroy all debris on-screen.
 
 <figure align="center" width="9999" id="fig1">
-  <img src="resources/cover.gif" align="center" height="auto" width="80%" alt="Logo">
+  <img src="resources/cover.gif" align="center" height="auto" width="80%" alt="Gif">
 </figure>
 
 This module provides the following features:
