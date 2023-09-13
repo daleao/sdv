@@ -59,8 +59,12 @@ All modules should be fully multiplayer and split-screen compatible **if and onl
     * *[Recommended]*: install [Generic Mod Config Menu](https://www.nexusmods.com/stardewvalley/mods/5098).
 2. Go to the [Releases page](https://github.com/daleao/modular-overhaul/releases) (link also to the right) and download the latest `ModularOverhaul.zip` file.
 
+<div align="center">
+
 ![](./resources/releases.png)
 ![](./resources/main_file.png)
+
+</div>
 
 3. Extract the downloaded archive file into your local mods folder.
 4. Download and install any additional optional files as desired. 
