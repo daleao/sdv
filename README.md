@@ -10,11 +10,11 @@ A complete and comprehensive rework of Stardew Valley gameplay mechanics, offeri
 
 ## Table of Contents
 
-- [About This Mod](#about-this-mod)
+- [Introduction](#introduction)
 - [Modules](#modules)
 - [Installation & Update](#installation--update)
 - [Reporting Bugs or Issues](#reporting-bugs-or-issues)
-- [API for C# Developers](#api-for-c#-developers)
+- [API for C# Developers](#api-for-c-developers)
 - [Buildings the Source Code](#building-the-source-code)
 - [Dependencies](#dependencies)
 - [Credits & Special Thanks](#contributors--special-thanks)
