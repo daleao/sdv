@@ -1,17 +1,13 @@
 # General
 
-# Professions
+# CMBT
 
-# Arsenal
+# PROFS
 
-* Better quest prompts for Blade of Ruin.
+# PNDS
 
-# Rings
+# TXS
 
-# Ponds
+# TOLS
 
-# Taxes
-
-# Tools
-
-# Tweaks
+# TWX
