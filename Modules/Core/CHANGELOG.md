@@ -5,6 +5,16 @@
 ### Added
 
 * The config menu will now detect if gamepad mode is enabled and choose a controller-friendly layout. The detection only happens when the menu is constructed, and will not change dynamically if the player switches between gamepad mode and mouse/keyboard mode.
+* Added Korean GMCM translations by [Jun9273](https://github.com/Jun9273).
+* Added Chinese GMCM translations by [Jumping-notes](https://github.com/Jumping-notes).
+
+### Changed
+
+* Several lookups refactored to Shared lib.
+
+### Fixed
+
+* Added some missing translations and corrected some translation keys.
 
 ## 3.0.2 <sup><sup>[🔼 Back to top](#tols-changelog)</sup></sup>
 

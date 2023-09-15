@@ -73,8 +73,8 @@
   "prospector.title.female": "Prospector",
   "prospector.desc": "Locations of ladders and mining nodes revealed. Occasionally detect rocks with valuable minerals.",
   "prospector.desc.prestiged": "Time freezes during Prospector Hunts.",
-  "prospector.huntstarted": "Your Prospector senses are tingling...",
-  "prospector.huntfailed": "The tingling stops.",
+  "prospector.hunt_started": "Your Prospector senses are tingling...",
+  "prospector.hunt_failed": "The tingling stops.",
 
   "blaster.title.male": "Blaster",
   "blaster.title.female": "Blaster",

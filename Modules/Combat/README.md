@@ -18,7 +18,7 @@
 			<li><a href="#offensive-defensive-swords">Offensive & Defensive Swords</a></li>
 			<li><a href="#rebalanced-types--tiers">Rebalanced Types & Tiers</a></li>
 			<li><a href="#melee-enchantments">Melee Enchantments</a></li>
-			<li><a href="#other-features-0">Other Features</a></li>
+			<li><a href="#other-features">Other Features</a></li>
 		</ol>
 	</li>
 	<li>

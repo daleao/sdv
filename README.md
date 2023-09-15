@@ -163,8 +163,8 @@ This mod borrows ideas and assets from [Ragnarok Online][url:ragnarok], [League 
 Special thanks the translators who have contributed to this project:
 
 * ![][flag:german][FoxDie1986](https://www.nexusmods.com/stardewvalley/users/1369870)
-* ![][flag:chinese][xuzhi1977](https://www.nexusmods.com/users/136644498)
-* ![][flag:korean][BrightEast99](https://www.nexusmods.com/users/158443518)
+* ![][flag:chinese][xuzhi1977](https://www.nexusmods.com/users/136644498) and [Jumping-notes](https://github.com/Jumping-notes)
+* ![][flag:korean][BrightEast99](https://www.nexusmods.com/users/158443518) and [Jun9273](https://github.com/Jun9273)
 * ![][flag:japanese][sakusakusakuya](https://www.nexusmods.com/stardewvalley/users/155983153)
 * ![][flag:russian][romario314](https://www.nexusmods.com/stardewvalley/users/68548986)
 
