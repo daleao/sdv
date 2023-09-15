@@ -7,6 +7,7 @@ This file contains a TL;DR of current version changes and hotfixes from across a
 * Config menu now auto-detects gamepad mode and adapts accordingly.
 * Added Korean GMCM translations by [Jun9273](https://github.com/Jun9273).
 * Added Chinese GMCM translations by [Jumping-notes](https://github.com/Jumping-notes).
+* [TWX]: Fixed Glowstone progression integration with Better Crafting.
 
 ## Hotfix 3.1.1 Highlights <sup><sup>[🔼 Back to top](#margo-changelogs)</sup></sup>
 

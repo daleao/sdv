@@ -1,6 +1,16 @@
 ﻿# TWX Changelog
 
+## 3.1.2 <sup><sup>[🔼 Back to top](#twx-changelog)</sup></sup>
+
+### Fixed
+
+* Fixed Glowstone progression integration with Better Crafting.
+
 ## 3.0.0 <sup><sup>[🔼 Back to top](#twx-changelog)</sup></sup>
+
+## Added
+
+* Glowstone ring progression moved to this module.
 
 ## Changed
 
