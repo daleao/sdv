@@ -37,6 +37,7 @@ internal sealed class VanillaTweaksIntegration : ModIntegration<VanillaTweaksInt
             this.WeaponsCategoryEnabled = jObject.Value<bool>("WeaponsCategoryEnabled");
             this.RingsCategoryEnabled = jObject.Value<bool>("RingsCategoryEnabled");
             ModHelper.GameContent.InvalidateCache("TileSheets/weapons");
+            Log.D("[CMBT]: Registered the Vanilla Tweaks integration.");
             return true;
         }
 

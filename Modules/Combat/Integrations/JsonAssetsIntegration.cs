@@ -79,6 +79,7 @@ internal sealed class JsonAssetsIntegration : ModIntegration<JsonAssetsIntegrati
             ModHelper.WriteConfig(ModEntry.Config);
         }
 
+        Log.D("[CMBT]: Registered the Json Assets integration.");
         return true;
     }
 

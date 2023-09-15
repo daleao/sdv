@@ -26,6 +26,7 @@ internal sealed class SimpleWeaponsIntegration : ModIntegration<SimpleWeaponsInt
         }
 
         ModHelper.GameContent.InvalidateCache("TileSheets/weapons");
+        Log.D("[CMBT]: Registered the Simple Weapons integration.");
         return true;
     }
 }

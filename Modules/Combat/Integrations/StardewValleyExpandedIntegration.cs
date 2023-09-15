@@ -29,6 +29,7 @@ internal sealed class StardewValleyExpandedIntegration : ModIntegration<StardewV
         }
 
         EventManager.Enable<SveWarpedEvent>();
+        Log.D("[CMBT]: Registered the Stardew Valley Expanded integration.");
         return true;
     }
 }

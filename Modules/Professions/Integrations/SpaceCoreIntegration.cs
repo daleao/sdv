@@ -38,6 +38,7 @@ internal sealed class SpaceCoreIntegration : ModIntegration<SpaceCoreIntegration
     protected override bool RegisterImpl()
     {
         this.LoadSpaceCoreSkills();
+        Log.D("[PROFS]: Registered the SpaceCore integration.");
         return base.RegisterImpl();
     }
 }

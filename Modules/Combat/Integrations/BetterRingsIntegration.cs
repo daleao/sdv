@@ -27,6 +27,7 @@ internal sealed class BetterRingsIntegration : ModIntegration<BetterRingsIntegra
         }
 
         ModHelper.GameContent.InvalidateCacheAndLocalized("Maps/springobjects");
+        Log.D("[CMBT]: Registered the Better Rings integration.");
         return true;
     }
 }

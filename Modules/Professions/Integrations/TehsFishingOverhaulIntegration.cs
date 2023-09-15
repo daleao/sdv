@@ -78,7 +78,7 @@ internal sealed class TehsFishingOverhaulIntegration : ModIntegration<TehsFishin
             (who, chance) => who.professions.Contains(9)
                 ? chance - (GetTreasureBaseChance(this._rawApi) * GetTreasurePirateFactor(this._rawApi))
                 : chance);
-
+        Log.D("[PROFS]: Registered the Fishing Overhaul integration by Teh.");
         return true;
     }
 }

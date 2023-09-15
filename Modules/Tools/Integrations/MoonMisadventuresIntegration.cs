@@ -31,6 +31,7 @@ internal sealed class MoonMisadventuresIntegration : ModIntegration<MoonMisadven
         }
 
         GenericModConfigMenu.Instance?.Reload();
+        Log.D("[TOLS]: Registered the Moon Misadventures integration.");
         return true;
     }
 }

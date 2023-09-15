@@ -58,6 +58,7 @@ internal sealed class SpaceCoreIntegration : ModIntegration<SpaceCoreIntegration
         this.ModApi.RegisterSerializerType(typeof(ObsidianEnchantment));
         this.ModApi.RegisterSerializerType(typeof(YetiEnchantment));
 
+        Log.D("[CMBT]: Registered the SpaceCore integration.");
         return true;
     }
 }

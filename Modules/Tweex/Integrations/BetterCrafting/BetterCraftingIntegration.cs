@@ -35,6 +35,8 @@ internal sealed class BetterCraftingIntegration : ModIntegration<BetterCraftingI
         }
 
         this.ModApi.AddRecipesToDefaultCategory(false, "combat_rings", recipes);
+
+        Log.D("[TWX]: Registered the Better Crafting integration.");
         return true;
     }
 }

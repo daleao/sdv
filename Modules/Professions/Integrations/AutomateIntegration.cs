@@ -377,6 +377,7 @@ internal sealed class AutomateIntegration : ModIntegration<AutomateIntegration>
                 .Invoke(this._machineManager);
             if (this._machineData is not null)
             {
+                Log.D("[PROFS]: Registered the Automate integration.");
                 return true;
             }
 

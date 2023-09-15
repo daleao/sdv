@@ -21,6 +21,7 @@ internal sealed class LuckSkillIntegration : ModIntegration<LuckSkillIntegration
     protected override bool RegisterImpl()
     {
         this.LoadLuckSkill();
+        Log.D("[PROFS]: Registered the Luck Skill integration.");
         return base.RegisterImpl();
     }
 

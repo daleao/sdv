@@ -408,10 +408,10 @@
   // * TOOLS * //
   // ********* //
 
-  "radioactive.axe": "Radioactive Axe",
-  "radioactive.hoe": "Radioactive Hoe",
-  "radioactive.pick": "Radioactive Pickaxe",
-  "radioactive.can": "Radioactive Watering Can",
+  "radioactive.axe": "Hache radioactive",
+  "radioactive.hoe": "Hoe radioactive",
+  "radioactive.pick": "Pioche radioactive",
+  "radioactive.can": "Arrosoir radioactif",
 
 
   // ******** //

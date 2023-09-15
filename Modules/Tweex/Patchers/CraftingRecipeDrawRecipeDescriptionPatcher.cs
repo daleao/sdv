@@ -26,7 +26,7 @@ internal sealed class CraftingRecipeDrawRecipeDescriptionPatcher : HarmonyPatche
 
     #region harmony patches
 
-    /// <summary>Correctly draws recipes with non-Ammo types.</summary>
+    /// <summary>Correctly draws recipes with non-SObject types.</summary>
     [HarmonyPrefix]
     [HarmonyPriority(Priority.HigherThanNormal)]
     private static bool CraftingRecipeDrawRecipeDescriptionPrefix(
