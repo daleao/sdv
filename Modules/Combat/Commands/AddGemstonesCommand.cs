@@ -3,8 +3,10 @@
 #region using directives
 
 using System.Linq;
+using DaLion.Overhaul.Modules.Combat.Integrations;
 using DaLion.Overhaul.Modules.Combat.VirtualProperties;
 using DaLion.Shared.Commands;
+using DaLion.Shared.Constants;
 using DaLion.Shared.Extensions;
 using DaLion.Shared.Extensions.Collections;
 using Netcode;
@@ -31,7 +33,7 @@ internal sealed class AddGemstonesCommand : ConsoleCommand
     /// <inheritdoc />
     public override void Callback(string trigger, string[] args)
     {
-        if (!CombatModule.Config.EnableInfinityBand || !Globals.InfinityBandIndex.HasValue)
+        if (!CombatModule.Config.EnableInfinityBand || !JsonAssetsIntegration.InfinityBandIndex.HasValue)
         {
             Log.W("The One Infinity Band feature is not enabled.");
             return;
@@ -43,25 +45,25 @@ internal sealed class AddGemstonesCommand : ConsoleCommand
             return;
         }
 
-        if (Game1.player.CurrentItem is not Ring ring || ring.ParentSheetIndex != Globals.InfinityBandIndex.Value)
+        if (Game1.player.CurrentItem is not Ring ring || ring.ParentSheetIndex != JsonAssetsIntegration.InfinityBandIndex.Value)
         {
             Log.W("You must select an Infinity Band first.");
             return;
         }
 
-        var band = ring is CombinedRing combined ? combined : new CombinedRing(880);
+        var band = ring is CombinedRing combined ? combined : new CombinedRing(ObjectIds.CombinedRing);
         while (args.Length > 0 && band.combinedRings.Count < 4)
         {
             var ringIndex = args[0].ToLower() switch
             {
                 // forges
-                "ruby" => ItemIDs.RubyRing,
-                "aquamarine" => ItemIDs.AquamarineRing,
-                "jade" => ItemIDs.JadeRing,
-                "emerald" => ItemIDs.EmeraldRing,
-                "amethyst" => ItemIDs.AmethystRing,
-                "topaz" => ItemIDs.TopazRing,
-                "garnet" => Globals.GarnetRingIndex!.Value,
+                "ruby" => ObjectIds.RubyRing,
+                "aquamarine" => ObjectIds.AquamarineRing,
+                "jade" => ObjectIds.JadeRing,
+                "emerald" => ObjectIds.EmeraldRing,
+                "amethyst" => ObjectIds.AmethystRing,
+                "topaz" => ObjectIds.TopazRing,
+                "garnet" => JsonAssetsIntegration.GarnetRingIndex!.Value,
                 _ => -1,
             };
 
@@ -83,9 +85,9 @@ internal sealed class AddGemstonesCommand : ConsoleCommand
             Log.W($"The selected Infinity Band is full. {args.ToListString()} could not be added.");
         }
 
-        band.ParentSheetIndex = Globals.InfinityBandIndex.Value;
+        band.ParentSheetIndex = JsonAssetsIntegration.InfinityBandIndex.Value;
         ModHelper.Reflection.GetField<NetInt>(band, nameof(Ring.indexInTileSheet)).GetValue()
-            .Set(Globals.InfinityBandIndex.Value);
+            .Set(JsonAssetsIntegration.InfinityBandIndex.Value);
         band.UpdateDescription();
         CombinedRing_Chord.Values.Remove(band);
         Game1.player.Items[Game1.player.CurrentToolIndex] = band;

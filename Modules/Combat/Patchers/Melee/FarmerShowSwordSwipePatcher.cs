@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
 using DaLion.Overhaul.Modules.Combat.Extensions;
+using DaLion.Shared.Constants;
 using DaLion.Shared.Extensions.Reflection;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
@@ -199,8 +200,8 @@ internal sealed class FarmerShowSwordSwipePatcher : HarmonyPatcher
             {
                 tempSprite.color = weapon.InitialParentTileIndex switch
                 {
-                    ItemIDs.LavaKatana => Color.Orange,
-                    ItemIDs.YetiTooth => Color.PowderBlue,
+                    WeaponIds.LavaKatana => Color.Orange,
+                    WeaponIds.YetiTooth => Color.PowderBlue,
                     _ => tempSprite.color,
                 };
             }
@@ -211,8 +212,8 @@ internal sealed class FarmerShowSwordSwipePatcher : HarmonyPatcher
                     ? Color.HotPink
                     : weapon.InitialParentTileIndex switch
                     {
-                        ItemIDs.DarkSword => Color.DarkSlateGray,
-                        ItemIDs.HolyBlade => Color.Gold,
+                        WeaponIds.DarkSword => Color.DarkSlateGray,
+                        WeaponIds.HolyBlade => Color.Gold,
                         _ => tempSprite.color,
                     };
             }
@@ -280,8 +281,8 @@ internal sealed class FarmerShowSwordSwipePatcher : HarmonyPatcher
         {
             return weapon.InitialParentTileIndex switch
             {
-                ItemIDs.LavaKatana => Color.Orange,
-                ItemIDs.YetiTooth => Color.PowderBlue,
+                WeaponIds.LavaKatana => Color.Orange,
+                WeaponIds.YetiTooth => Color.PowderBlue,
                 _ => tempSprite.color,
             };
         }
@@ -290,8 +291,8 @@ internal sealed class FarmerShowSwordSwipePatcher : HarmonyPatcher
         {
             return weapon.InitialParentTileIndex switch
                 {
-                    ItemIDs.DarkSword => Color.DarkSlateGray,
-                    ItemIDs.HolyBlade => Color.Gold,
+                    WeaponIds.DarkSword => Color.DarkSlateGray,
+                    WeaponIds.HolyBlade => Color.Gold,
                     _ => tempSprite.color,
                 };
         }

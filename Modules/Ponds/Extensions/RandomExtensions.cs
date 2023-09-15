@@ -1,5 +1,11 @@
 ﻿namespace DaLion.Overhaul.Modules.Ponds.Extensions;
 
+#region using directives
+
+using DaLion.Shared.Constants;
+
+#endregion using directives
+
 /// <summary>Extensions for the <see cref="Random"/> class.</summary>
 internal static class RandomExtensions
 {
@@ -16,9 +22,9 @@ internal static class RandomExtensions
 
         return random.NextDouble() switch
         {
-            > 2d / 3d => ItemIDs.GreenAlgae,
-            > 1d / 3d => ItemIDs.Seaweed,
-            _ => ItemIDs.WhiteAlgae,
+            > 2d / 3d => ObjectIds.GreenAlgae,
+            > 1d / 3d => ObjectIds.Seaweed,
+            _ => ObjectIds.WhiteAlgae,
         };
     }
 }

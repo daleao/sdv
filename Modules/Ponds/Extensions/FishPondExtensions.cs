@@ -4,6 +4,7 @@
 
 using System.Collections.Generic;
 using System.Linq;
+using DaLion.Shared.Constants;
 using DaLion.Shared.Extensions;
 using DaLion.Shared.Extensions.Collections;
 using DaLion.Shared.Extensions.Stardew;
@@ -12,6 +13,7 @@ using StardewValley.Buildings;
 using StardewValley.GameData.FishPond;
 using StardewValley.Menus;
 using StardewValley.Objects;
+using Math = System.Math;
 
 #endregion using directives
 
@@ -132,14 +134,14 @@ internal static class FishPondExtensions
                 for (var i = 0; i < held.Count; i++)
                 {
                     var item = held[i];
-                    if (item.ParentSheetIndex == ItemIDs.Roe)
+                    if (item.ParentSheetIndex == ObjectIds.Roe)
                     {
                         var fishIndex = pond.fishType.Value;
                         var split = Game1.objectInformation[fishIndex].SplitWithoutAllocation('/');
                         var c = fishIndex == 698
                             ? new Color(61, 55, 42)
                             : TailoringMenu.GetDyeColor(pond.GetFishObject()) ?? Color.Orange;
-                        var o = new ColoredObject(ItemIDs.Roe, item.Stack, c);
+                        var o = new ColoredObject(ObjectIds.Roe, item.Stack, c);
                         o.name = split[0].ToString() + " Roe";
                         o.preserve.Value = SObject.PreserveType.Roe;
                         o.preservedParentSheetIndex.Value = fishIndex;

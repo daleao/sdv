@@ -3,6 +3,7 @@
 #region using directives
 
 using DaLion.Overhaul.Modules.Combat.Extensions;
+using DaLion.Shared.Constants;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
 using StardewValley.Tools;
@@ -32,12 +33,12 @@ internal sealed class MeleeWeaponCtorPatcher : HarmonyPatcher
 
         if (CombatModule.Config.EnableWeaponOverhaul)
         {
-            if (__instance.InitialParentTileIndex == ItemIDs.InsectHead)
+            if (__instance.InitialParentTileIndex == WeaponIds.InsectHead)
             {
                 __instance.type.Value = MeleeWeapon.dagger;
             }
 
-            if (__instance.InitialParentTileIndex is ItemIDs.NeptuneGlaive)
+            if (__instance.InitialParentTileIndex is WeaponIds.NeptuneGlaive)
             {
                 __instance.specialItem = true;
             }

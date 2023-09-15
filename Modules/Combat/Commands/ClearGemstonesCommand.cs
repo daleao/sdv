@@ -1,5 +1,7 @@
 ﻿namespace DaLion.Overhaul.Modules.Combat.Commands;
 
+using DaLion.Overhaul.Modules.Combat.Integrations;
+
 #region using directives
 
 using DaLion.Shared.Commands;
@@ -26,13 +28,14 @@ internal sealed class ClearGemstonesCommand : ConsoleCommand
     /// <inheritdoc />
     public override void Callback(string trigger, string[] args)
     {
-        if (!Globals.InfinityBandIndex.HasValue)
+        if (!JsonAssetsIntegration.InfinityBandIndex.HasValue)
         {
             Log.W("The Infinity Band is not loaded.");
             return;
         }
 
-        if (Game1.player.CurrentItem is not CombinedRing combined || combined.ParentSheetIndex != Globals.InfinityBandIndex.Value)
+        if (Game1.player.CurrentItem is not CombinedRing combined ||
+            combined.ParentSheetIndex != JsonAssetsIntegration.InfinityBandIndex.Value)
         {
             Log.W("You must select an Infinity Band first.");
             return;

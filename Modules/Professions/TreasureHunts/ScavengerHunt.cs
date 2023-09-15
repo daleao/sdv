@@ -4,11 +4,13 @@
 
 using System.Collections.Generic;
 using System.Linq;
+using DaLion.Overhaul.Modules.Combat.Integrations;
 using DaLion.Overhaul.Modules.Core.UI;
 using DaLion.Overhaul.Modules.Professions.Events.Display.RenderedHud;
 using DaLion.Overhaul.Modules.Professions.Events.GameLoop.UpdateTicked;
 using DaLion.Overhaul.Modules.Professions.Extensions;
 using DaLion.Overhaul.Modules.Professions.VirtualProperties;
+using DaLion.Shared.Constants;
 using DaLion.Shared.Extensions;
 using DaLion.Shared.Extensions.Collections;
 using DaLion.Shared.Extensions.Stardew;
@@ -337,22 +339,23 @@ internal sealed class ScavengerHunt : TreasureHunt
         this.AddSeedsToTreasures(treasures);
 
 #if DEBUG
-        if (CombatModule.ShouldEnable && CombatModule.Config.DwarvenLegacy && Globals.DwarvishBlueprintIndex.HasValue)
+        if (CombatModule.ShouldEnable && CombatModule.Config.DwarvenLegacy &&
+            JsonAssetsIntegration.DwarvishBlueprintIndex.HasValue)
         {
             if (!Game1.player.Read(Combat.DataKeys.BlueprintsFound).ParseList<int>()
-                    .ContainsAll(ItemIDs.ElfBlade, ItemIDs.ForestSword))
+                    .ContainsAll(WeaponIds.ElfBlade, WeaponIds.ForestSword))
             {
-                treasures.Add(new SObject(Globals.DwarvishBlueprintIndex.Value, 1));
+                treasures.Add(new SObject(JsonAssetsIntegration.DwarvishBlueprintIndex.Value, 1));
                 treasures.Add(new SObject(102, 1)); // lost book, for comparison
             }
-            else if (Globals.ElderwoodIndex.HasValue)
+            else if (JsonAssetsIntegration.ElderwoodIndex.HasValue)
             {
-                treasures.Add(new SObject(Globals.ElderwoodIndex.Value, 1));
+                treasures.Add(new SObject(JsonAssetsIntegration.ElderwoodIndex.Value, 1));
             }
         }
         else
         {
-            treasures.Add(new MeleeWeapon(ItemIDs.ElfBlade));
+            treasures.Add(new MeleeWeapon(WeaponIds.ElfBlade));
         }
 #endif
 
@@ -547,42 +550,44 @@ internal sealed class ScavengerHunt : TreasureHunt
         // forest sword
         if (this.Random.NextDouble() < 0.25 * luckModifier)
         {
-            if (CombatModule.ShouldEnable && CombatModule.Config.DwarvenLegacy && Globals.DwarvishBlueprintIndex.HasValue)
+            if (CombatModule.ShouldEnable && CombatModule.Config.DwarvenLegacy &&
+                JsonAssetsIntegration.DwarvishBlueprintIndex.HasValue)
             {
                 if (!Game1.player.Read(Combat.DataKeys.BlueprintsFound).ParseList<int>()
-                        .Contains(ItemIDs.ForestSword))
+                        .Contains(WeaponIds.ForestSword))
                 {
-                    treasures.Add(new SObject(Globals.DwarvishBlueprintIndex.Value, 1));
+                    treasures.Add(new SObject(JsonAssetsIntegration.DwarvishBlueprintIndex.Value, 1));
                 }
-                else if (Globals.ElderwoodIndex.HasValue)
+                else if (JsonAssetsIntegration.ElderwoodIndex.HasValue)
                 {
-                    treasures.Add(new SObject(Globals.ElderwoodIndex.Value, 1));
+                    treasures.Add(new SObject(JsonAssetsIntegration.ElderwoodIndex.Value, 1));
                 }
             }
             else if (this.Random.NextDouble() < 0.05 * luckModifier * streak)
             {
-                treasures.Add(new MeleeWeapon(ItemIDs.ForestSword));
+                treasures.Add(new MeleeWeapon(WeaponIds.ForestSword));
             }
         }
         else
         // elf blade
         if (this.Random.NextDouble() < 0.25 * luckModifier)
         {
-            if (CombatModule.ShouldEnable && CombatModule.Config.DwarvenLegacy && Globals.DwarvishBlueprintIndex.HasValue)
+            if (CombatModule.ShouldEnable && CombatModule.Config.DwarvenLegacy &&
+                JsonAssetsIntegration.DwarvishBlueprintIndex.HasValue)
             {
                 if (!Game1.player.Read(Combat.DataKeys.BlueprintsFound).ParseList<int>()
-                        .Contains(ItemIDs.ElfBlade))
+                        .Contains(WeaponIds.ElfBlade))
                 {
-                    treasures.Add(new SObject(Globals.DwarvishBlueprintIndex.Value, 1));
+                    treasures.Add(new SObject(JsonAssetsIntegration.DwarvishBlueprintIndex.Value, 1));
                 }
-                else if (Globals.ElderwoodIndex.HasValue)
+                else if (JsonAssetsIntegration.ElderwoodIndex.HasValue)
                 {
-                    treasures.Add(new SObject(Globals.ElderwoodIndex.Value, 1));
+                    treasures.Add(new SObject(JsonAssetsIntegration.ElderwoodIndex.Value, 1));
                 }
             }
             else if (this.Random.NextDouble() < 0.05 * luckModifier * streak)
             {
-                treasures.Add(new MeleeWeapon(ItemIDs.ElfBlade));
+                treasures.Add(new MeleeWeapon(WeaponIds.ElfBlade));
             }
         }
 

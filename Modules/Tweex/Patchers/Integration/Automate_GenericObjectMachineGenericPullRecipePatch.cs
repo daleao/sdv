@@ -8,7 +8,7 @@ using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
 using DaLion.Shared.Attributes;
-using DaLion.Shared.Enums;
+using DaLion.Shared.Constants;
 using DaLion.Shared.Extensions;
 using DaLion.Shared.Extensions.Reflection;
 using DaLion.Shared.Harmony;
@@ -142,17 +142,17 @@ internal sealed class GenericObjectMachinePatchers : HarmonyPatcher
             output.Stack = 2;
             output.Quality = SObject.lowQuality;
         }
-        else if (machine.ParentSheetIndex == (int)Machine.MayonnaiseMachine)
+        else if (machine.ParentSheetIndex == BigCraftableIds.MayonnaiseMachine)
         {
             switch (input.ParentSheetIndex)
             {
                 // ostrich mayonnaise keeps giving x10 output but doesn't respect input quality without Artisan
-                case ItemIDs.OstrichEgg when !ModHelper.ModRegistry.IsLoaded(
+                case ObjectIds.OstrichEgg when !ModHelper.ModRegistry.IsLoaded(
                     "ughitsmegan.ostrichmayoForProducerFrameworkMod"):
                     output.Quality = SObject.lowQuality;
                     break;
                 // golden mayonnaise keeps giving gives single output but keeps golden quality
-                case ItemIDs.GoldenEgg when !ModHelper.ModRegistry.IsLoaded(
+                case ObjectIds.GoldenEgg when !ModHelper.ModRegistry.IsLoaded(
                     "ughitsmegan.goldenmayoForProducerFrameworkMod"):
                     output.Stack = 1;
                     break;

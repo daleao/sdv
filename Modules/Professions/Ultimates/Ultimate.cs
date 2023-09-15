@@ -3,7 +3,6 @@
 #region using directives
 
 using Ardalis.SmartEnum;
-using DaLion.Overhaul.Modules.Professions.Extensions;
 using DaLion.Overhaul.Modules.Professions.Events.Display.RenderedWorld;
 using DaLion.Overhaul.Modules.Professions.Events.Display.RenderingHud;
 using DaLion.Overhaul.Modules.Professions.Events.GameLoop.UpdateTicked;
@@ -14,6 +13,7 @@ using DaLion.Overhaul.Modules.Professions.Events.Ultimate.ChargeInitiated;
 using DaLion.Overhaul.Modules.Professions.Events.Ultimate.Deactivated;
 using DaLion.Overhaul.Modules.Professions.Events.Ultimate.Emptied;
 using DaLion.Overhaul.Modules.Professions.Events.Ultimate.FullyCharged;
+using DaLion.Overhaul.Modules.Professions.Extensions;
 using Microsoft.Xna.Framework;
 
 #endregion using directives

@@ -19,6 +19,27 @@ internal sealed class JsonAssetsIntegration : ModIntegration<JsonAssetsIntegrati
     {
     }
 
+    /// <summary>Gets <see cref="Item"/> index of the Garnet gemstone.</summary>
+    internal static int? GarnetIndex { get; private set; }
+
+    /// <summary>Gets <see cref="Item"/> index of the Garnet Ring.</summary>
+    internal static int? GarnetRingIndex { get; private set; }
+
+    /// <summary>Gets <see cref="Item"/> index of the Infinity Band.</summary>
+    internal static int? InfinityBandIndex { get; private set; }
+
+    /// <summary>Gets <see cref="Item"/> index of the Hero Soul.</summary>
+    internal static int? HeroSoulIndex { get; private set; }
+
+    /// <summary>Gets <see cref="Item"/> index of Dwarven Scrap.</summary>
+    internal static int? DwarvenScrapIndex { get; private set; }
+
+    /// <summary>Gets <see cref="Item"/> index of Elderwood.</summary>
+    internal static int? ElderwoodIndex { get; private set; }
+
+    /// <summary>Gets <see cref="Item"/> index of Dwarvish weapon blueprints.</summary>
+    internal static int? DwarvishBlueprintIndex { get; private set; }
+
     /// <inheritdoc />
     protected override bool RegisterImpl()
     {
@@ -65,54 +86,59 @@ internal sealed class JsonAssetsIntegration : ModIntegration<JsonAssetsIntegrati
     private void AssignBaseIds(object? sender, EventArgs e)
     {
         this.AssertLoaded();
-        Globals.HeroSoulIndex = this.ModApi.GetObjectId("Hero Soul");
-        if (Globals.HeroSoulIndex == -1)
+        var index = this.ModApi.GetObjectId("Hero Soul");
+        if (index == -1)
         {
             Log.W("[CMBT]: Failed to get ID for Hero Soul from Json Assets.");
         }
         else
         {
-            Log.D($"[CMBT]: Json Assets ID {Globals.HeroSoulIndex} has been assigned to Hero Soul.");
+            HeroSoulIndex = index;
+            Log.D($"[CMBT]: Json Assets ID {HeroSoulIndex} has been assigned to Hero Soul.");
         }
 
-        Globals.DwarvenScrapIndex = this.ModApi.GetObjectId("Dwarven Scrap");
-        if (Globals.DwarvenScrapIndex == -1)
+        index = this.ModApi.GetObjectId("Dwarven Scrap");
+        if (index == -1)
         {
             Log.W("[CMBT]: Failed to get ID for Dwarven Scrap from Json Assets.");
         }
         else
         {
-            Log.D($"[CMBT]: Json Assets ID {Globals.DwarvenScrapIndex} has been assigned to Dwarven Scrap.");
+            DwarvenScrapIndex = index;
+            Log.D($"[CMBT]: Json Assets ID {DwarvenScrapIndex} has been assigned to Dwarven Scrap.");
         }
 
-        Globals.ElderwoodIndex = this.ModApi.GetObjectId("Elderwood");
-        if (Globals.ElderwoodIndex == -1)
+        index = this.ModApi.GetObjectId("Elderwood");
+        if (index == -1)
         {
             Log.W("[CMBT]: Failed to get ID for Elderwood from Json Assets.");
         }
         else
         {
-            Log.D($"[CMBT]: Json Assets ID {Globals.ElderwoodIndex} has been assigned to Elderwood.");
+            ElderwoodIndex = index;
+            Log.D($"[CMBT]: Json Assets ID {ElderwoodIndex} has been assigned to Elderwood.");
         }
 
-        Globals.DwarvishBlueprintIndex = this.ModApi.GetObjectId("Dwarvish Blueprint");
-        if (Globals.DwarvishBlueprintIndex == -1)
+        index = this.ModApi.GetObjectId("Dwarvish Blueprint");
+        if (index == -1)
         {
             Log.W("[CMBT]: Failed to get ID for Dwarvish Blueprint from Json Assets.");
         }
         else
         {
-            Log.D($"[CMBT]: Json Assets ID {Globals.DwarvishBlueprintIndex} has been assigned to Dwarvish Blueprint.");
+            DwarvishBlueprintIndex = index;
+            Log.D($"[CMBT]: Json Assets ID {DwarvishBlueprintIndex} has been assigned to Dwarvish Blueprint.");
         }
 
-        Globals.GarnetIndex = this.ModApi.GetObjectId("Garnet");
-        if (Globals.GarnetIndex == -1)
+        index = this.ModApi.GetObjectId("Garnet");
+        if (index == -1)
         {
             Log.W("[CMBT]: Failed to get ID for Garnet from Json Assets.");
         }
         else
         {
-            Log.D($"[CMBT]: Json Assets ID {Globals.GarnetIndex} has been assigned to Garnet.");
+            GarnetIndex = index;
+            Log.D($"[CMBT]: Json Assets ID {GarnetIndex} has been assigned to Garnet.");
         }
 
         // reload the monsters data so that Dwarven Scrap Metal is added to Dwarven Sentinel's drop list
@@ -123,24 +149,26 @@ internal sealed class JsonAssetsIntegration : ModIntegration<JsonAssetsIntegrati
     private void AssignRingIds(object? sender, EventArgs e)
     {
         this.AssertLoaded();
-        Globals.GarnetRingIndex = this.ModApi.GetObjectId("Garnet Ring");
-        if (Globals.GarnetRingIndex == -1)
+        var index = this.ModApi.GetObjectId("Garnet Ring");
+        if (index == -1)
         {
             Log.W("[CMBT]: Failed to get ID for Garnet Ring from Json Assets.");
         }
         else
         {
-            Log.D($"[CMBT]: Json Assets ID {Globals.GarnetRingIndex} has been assigned to Garnet Ring.");
+            GarnetRingIndex = index;
+            Log.D($"[CMBT]: Json Assets ID {GarnetRingIndex} has been assigned to Garnet Ring.");
         }
 
-        Globals.InfinityBandIndex = this.ModApi.GetObjectId("Infinity Band");
-        if (Globals.InfinityBandIndex == -1)
+        index = this.ModApi.GetObjectId("Infinity Band");
+        if (index == -1)
         {
             Log.W("[CMBT]: Failed to get ID for Infinity Band from Json Assets.");
         }
         else
         {
-            Log.D($"[CMBT]: Json Assets ID {Globals.InfinityBandIndex} has been assigned to Infinity Band.");
+            InfinityBandIndex = index;
+            Log.D($"[CMBT]: Json Assets ID {InfinityBandIndex} has been assigned to Infinity Band.");
         }
     }
 }

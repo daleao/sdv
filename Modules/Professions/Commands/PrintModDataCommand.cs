@@ -36,7 +36,7 @@ internal sealed class PrintModDataCommand : ConsoleCommand
         var value = player.Read(DataKeys.EcologistItemsForaged);
         message.Append("\n\t- ").Append(
                    !IsNullOrEmpty(value)
-                       ? $"Ecologist Items Foraged: {value}\t\tExpected quality: {(Quality)player.GetEcologistForageQuality()}" +
+                       ? $"Ecologist Items Foraged: {value}\t\tExpected quality: {(ObjectQuality)player.GetEcologistForageQuality()}" +
                          (int.Parse(value) < ProfessionsModule.Config.ForagesNeededForBestQuality
                              ? $"({ProfessionsModule.Config.ForagesNeededForBestQuality - int.Parse(value)} needed for best quality)"
                              : Empty)
@@ -45,7 +45,7 @@ internal sealed class PrintModDataCommand : ConsoleCommand
         value = player.Read(DataKeys.GemologistMineralsCollected);
         message.Append("\n\t- ").Append(
                    !IsNullOrEmpty(value)
-                       ? $"Gemologist Minerals Collected: {value}\n\t\tExpected quality: {(Quality)player.GetGemologistMineralQuality()}" +
+                       ? $"Gemologist Minerals Collected: {value}\n\t\tExpected quality: {(ObjectQuality)player.GetGemologistMineralQuality()}" +
                          (int.Parse(value) < ProfessionsModule.Config.MineralsNeededForBestQuality
                              ? $"({ProfessionsModule.Config.MineralsNeededForBestQuality - int.Parse(value)} needed for best quality)"
                              : Empty)

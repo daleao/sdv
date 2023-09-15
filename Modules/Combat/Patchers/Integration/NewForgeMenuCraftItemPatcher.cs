@@ -1,7 +1,10 @@
 ﻿namespace DaLion.Overhaul.Modules.Combat.Patchers.Integration;
 
+using DaLion.Overhaul.Modules.Combat.Integrations;
+
 #region using directives
 
+using DaLion.Shared.Constants;
 using DaLion.Shared.Harmony;
 using DaLion.Shared.Networking;
 using HarmonyLib;
@@ -25,14 +28,14 @@ internal sealed class NewForgeMenuCraftItemPatcher : HarmonyPatcher
     [HarmonyPostfix]
     private static void NewForgeMenuCraftItemPostfix(ref Item? __result, Item? left_item, Item? right_item, bool forReal)
     {
-        if (!CombatModule.Config.EnableInfinityBand || !Globals.InfinityBandIndex.HasValue ||
-            left_item is not Ring { ParentSheetIndex: ItemIDs.IridiumBand } ||
-            right_item?.ParentSheetIndex != ItemIDs.GalaxySoul)
+        if (!CombatModule.Config.EnableInfinityBand || !JsonAssetsIntegration.InfinityBandIndex.HasValue ||
+            left_item is not Ring { ParentSheetIndex: ObjectIds.IridiumBand } ||
+            right_item?.ParentSheetIndex != ObjectIds.GalaxySoul)
         {
             return;
         }
 
-        __result = new Ring(Globals.InfinityBandIndex!.Value);
+        __result = new Ring(JsonAssetsIntegration.InfinityBandIndex!.Value);
         if (!forReal)
         {
             return;

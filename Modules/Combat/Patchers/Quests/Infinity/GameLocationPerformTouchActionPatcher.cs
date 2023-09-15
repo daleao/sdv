@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
+using DaLion.Shared.Constants;
 using DaLion.Shared.Extensions;
 using DaLion.Shared.Extensions.Reflection;
 using DaLion.Shared.Extensions.Stardew;
@@ -98,7 +99,7 @@ internal sealed class GameLocationPerformTouchActionPatcher : HarmonyPatcher
         }
 
         if (player.Items.Sum(item =>
-                item is SObject { ParentSheetIndex: SObject.iridiumBar } iridium ? iridium.Stack : 0) <
+                item is SObject { ParentSheetIndex: ObjectIds.IridiumBar } iridium ? iridium.Stack : 0) <
             CombatModule.Config.IridiumBarsPerGalaxyWeapon)
         {
             Game1.drawObjectDialogue(I18n.Locations_Desert_Noiridium());

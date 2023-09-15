@@ -24,7 +24,7 @@ internal sealed class TrackMonstersNpcListChangedEvent : NpcListChangedEvent
     {
         if (e.IsCurrentLocation)
         {
-            Globals.AreEnemiesAround = e.Location.characters.Any(npc => npc.IsMonster);
+            GlobalState.AreEnemiesAround = e.Location.characters.Any(npc => npc.IsMonster);
         }
     }
 }

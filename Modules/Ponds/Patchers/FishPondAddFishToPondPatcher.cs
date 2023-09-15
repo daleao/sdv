@@ -4,12 +4,14 @@
 
 using System.IO;
 using System.Linq;
+using DaLion.Shared.Constants;
 using DaLion.Shared.Extensions;
 using DaLion.Shared.Extensions.Stardew;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
 using StardewValley.Buildings;
 using StardewValley.GameData.FishPond;
+using Math = System.Math;
 
 #endregion using directives
 
@@ -74,13 +76,13 @@ internal sealed class FishPondAddFishToPondPatcher : HarmonyPatcher
             {
                 switch (fish.ParentSheetIndex)
                 {
-                    case ItemIDs.Seaweed:
+                    case ObjectIds.Seaweed:
                         __instance.Increment(DataKeys.SeaweedLivingHere);
                         break;
-                    case ItemIDs.GreenAlgae:
+                    case ObjectIds.GreenAlgae:
                         __instance.Increment(DataKeys.GreenAlgaeLivingHere);
                         break;
-                    case ItemIDs.WhiteAlgae:
+                    case ObjectIds.WhiteAlgae:
                         __instance.Increment(DataKeys.WhiteAlgaeLivingHere);
                         break;
                 }

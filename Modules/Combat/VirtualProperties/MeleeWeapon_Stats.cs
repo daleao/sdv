@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using DaLion.Overhaul.Modules.Combat.Enchantments;
 using DaLion.Overhaul.Modules.Combat.Extensions;
-using DaLion.Overhaul.Modules.Combat.VirtualProperties;
+using DaLion.Shared.Constants;
 using DaLion.Shared.Exceptions;
 using DaLion.Shared.Extensions;
 using DaLion.Shared.Extensions.Stardew;
@@ -22,7 +22,7 @@ internal static class MeleeWeapon_Stats
 
     internal static int Get_MinDamage(this MeleeWeapon weapon)
     {
-        if (weapon.InitialParentTileIndex == ItemIDs.InsectHead && CombatModule.Config.EnableWeaponOverhaul)
+        if (weapon.InitialParentTileIndex == WeaponIds.InsectHead && CombatModule.Config.EnableWeaponOverhaul)
         {
             var caveInsectsKilled = Game1.stats.getMonstersKilled("Grub") +
                                     Game1.stats.getMonstersKilled("Fly") +
@@ -42,7 +42,7 @@ internal static class MeleeWeapon_Stats
 
     internal static int Get_MaxDamage(this MeleeWeapon weapon)
     {
-        if (weapon.InitialParentTileIndex == ItemIDs.InsectHead && CombatModule.Config.EnableWeaponOverhaul)
+        if (weapon.InitialParentTileIndex == WeaponIds.InsectHead && CombatModule.Config.EnableWeaponOverhaul)
         {
             var caveInsectsKilled = Game1.stats.getMonstersKilled("Grub") +
                                     Game1.stats.getMonstersKilled("Fly") +

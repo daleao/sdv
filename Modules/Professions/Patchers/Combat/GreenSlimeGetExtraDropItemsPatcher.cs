@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using DaLion.Overhaul.Modules.Professions.Extensions;
 using DaLion.Shared.Attributes;
+using DaLion.Shared.Constants;
 using DaLion.Shared.Extensions;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
@@ -86,7 +87,7 @@ internal sealed class GreenSlimeGetExtraDropItemsPatcher : HarmonyPatcher
             {
                 while (r.NextDouble() < baseChance / 2)
                 {
-                    __result.Add(new SObject(SObject.coal, count));
+                    __result.Add(new SObject(ObjectIds.Coal, count));
                 }
 
                 if (r.NextDouble() < baseChance / 3)
@@ -103,24 +104,24 @@ internal sealed class GreenSlimeGetExtraDropItemsPatcher : HarmonyPatcher
             {
                 while (r.NextDouble() < baseChance / 2)
                 {
-                    __result.Add(new SObject(SObject.gold, 1));
+                    __result.Add(new SObject(ObjectIds.GoldOre, 1));
                 }
 
                 if (r.NextDouble() < baseChance / 3)
                 {
-                    __result.Add(new SObject(SObject.goldBar, 1));
+                    __result.Add(new SObject(ObjectIds.GoldBar, 1));
                 }
             }
             else if (color.R > 220 && color.G is > 90 and < 150 && color.B < 50) // red
             {
                 while (r.NextDouble() < baseChance / 2)
                 {
-                    __result.Add(new SObject(SObject.copper, 1));
+                    __result.Add(new SObject(ObjectIds.CopperOre, 1));
                 }
 
                 if (r.NextDouble() < baseChance / 3)
                 {
-                    __result.Add(new SObject(SObject.copperBar, 1));
+                    __result.Add(new SObject(ObjectIds.CopperBar, 1));
                 }
             }
             else if (color.R > 150 && color.G > 150 && color.B > 150)
@@ -137,12 +138,12 @@ internal sealed class GreenSlimeGetExtraDropItemsPatcher : HarmonyPatcher
                 {
                     while (r.NextDouble() < baseChance / 2)
                     {
-                        __result.Add(new SObject(SObject.iron, 1));
+                        __result.Add(new SObject(ObjectIds.IronOre, 1));
                     }
 
                     if (r.NextDouble() < baseChance / 3)
                     {
-                        __result.Add(new SObject(SObject.ironBar, 1));
+                        __result.Add(new SObject(ObjectIds.IronBar, 1));
                     }
                 }
             }
@@ -150,12 +151,12 @@ internal sealed class GreenSlimeGetExtraDropItemsPatcher : HarmonyPatcher
             {
                 while (r.NextDouble() < baseChance / 3)
                 {
-                    __result.Add(new SObject(SObject.iridium, 1));
+                    __result.Add(new SObject(ObjectIds.IridiumOre, 1));
                 }
 
                 if (r.NextDouble() < baseChance / 4)
                 {
-                    __result.Add(new SObject(SObject.iridiumBar, 1));
+                    __result.Add(new SObject(ObjectIds.IridiumBar, 1));
                 }
             }
 

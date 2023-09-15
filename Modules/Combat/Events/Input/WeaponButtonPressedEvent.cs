@@ -48,7 +48,7 @@ internal sealed class WeaponButtonPressedEvent : ButtonPressedEvent
             return;
         }
 
-        if (CombatModule.Config.EnableAutoSelection && Globals.AreEnemiesAround &&
+        if (CombatModule.Config.EnableAutoSelection && GlobalState.AreEnemiesAround &&
             player.CurrentTool != CombatModule.State.AutoSelectableMelee &&
             WeaponSelector.TryFor(player, out var index))
         {

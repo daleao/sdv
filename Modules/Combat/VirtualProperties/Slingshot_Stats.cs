@@ -7,7 +7,7 @@ using System.Runtime.CompilerServices;
 using DaLion.Overhaul.Modules.Combat.Enchantments;
 using DaLion.Overhaul.Modules.Combat.Extensions;
 using DaLion.Overhaul.Modules.Combat.Integrations;
-using DaLion.Overhaul.Modules.Combat.VirtualProperties;
+using DaLion.Shared.Constants;
 using DaLion.Shared.Extensions.Reflection;
 using DaLion.Shared.Integrations.Archery;
 using StardewValley;
@@ -124,17 +124,17 @@ internal static class Slingshot_Stats
         {
             holder.DamageMod = slingshot.InitialParentTileIndex switch
             {
-                ItemIDs.MasterSlingshot => 0.5f,
-                ItemIDs.GalaxySlingshot => 1f,
-                ItemIDs.InfinitySlingshot => 1.5f,
+                WeaponIds.MasterSlingshot => 0.5f,
+                WeaponIds.GalaxySlingshot => 1f,
+                WeaponIds.InfinitySlingshot => 1.5f,
                 _ => 0f,
             };
 
             holder.KnockbackBonus = slingshot.InitialParentTileIndex switch
             {
-                ItemIDs.MasterSlingshot => 0.1f,
-                ItemIDs.GalaxySlingshot => 0.2f,
-                ItemIDs.InfinitySlingshot => 0.25f,
+                WeaponIds.MasterSlingshot => 0.1f,
+                WeaponIds.GalaxySlingshot => 0.2f,
+                WeaponIds.InfinitySlingshot => 0.25f,
                 _ => 0f,
             };
         }
@@ -142,9 +142,9 @@ internal static class Slingshot_Stats
         {
             holder.DamageMod = slingshot.InitialParentTileIndex switch
             {
-                ItemIDs.MasterSlingshot => 2f,
-                ItemIDs.GalaxySlingshot => 4f,
-                ItemIDs.InfinitySlingshot => 5f,
+                WeaponIds.MasterSlingshot => 2f,
+                WeaponIds.GalaxySlingshot => 4f,
+                WeaponIds.InfinitySlingshot => 5f,
                 _ => 0f,
             };
         }
@@ -161,7 +161,7 @@ internal static class Slingshot_Stats
 
             switch (ammo.ParentSheetIndex)
             {
-                case ItemIDs.Ruby:
+                case ObjectIds.Ruby:
                     holder.RubyBonus += 0.1f;
                     if (slingshot.Get_ResonatingChord<RubyEnchantment>() is { } rubyChord)
                     {
@@ -171,7 +171,7 @@ internal static class Slingshot_Stats
 
                     break;
 
-                case ItemIDs.Aquamarine:
+                case ObjectIds.Aquamarine:
                     holder.AquamarineBonus += 0.1f;
                     if (slingshot.Get_ResonatingChord<AquamarineEnchantment>() is { } aquamarineChord)
                     {
@@ -181,7 +181,7 @@ internal static class Slingshot_Stats
 
                     break;
 
-                case ItemIDs.Amethyst:
+                case ObjectIds.Amethyst:
                     holder.AmethystBonus += 0.1f;
                     if (slingshot.Get_ResonatingChord<AmethystEnchantment>() is { } amethystChord)
                     {
@@ -191,7 +191,7 @@ internal static class Slingshot_Stats
 
                     break;
 
-                case ItemIDs.Emerald:
+                case ObjectIds.Emerald:
                     holder.EmeraldBonus += 1f;
                     if (slingshot.Get_ResonatingChord<EmeraldEnchantment>() is { } emeraldChord)
                     {
@@ -201,7 +201,7 @@ internal static class Slingshot_Stats
 
                     break;
 
-                case ItemIDs.Jade:
+                case ObjectIds.Jade:
                     holder.JadeBonus += CombatModule.Config.RebalancedGemstones
                         ? 0.5f
                         : 0.1f;
@@ -216,7 +216,7 @@ internal static class Slingshot_Stats
 
                     break;
 
-                case ItemIDs.Topaz:
+                case ObjectIds.Topaz:
                     holder.TopazBonus += 1f;
                     if (slingshot.Get_ResonatingChord<TopazEnchantment>() is { } topazChord)
                     {
@@ -226,7 +226,7 @@ internal static class Slingshot_Stats
 
                     break;
 
-                case ItemIDs.Diamond:
+                case ObjectIds.Diamond:
                     for (var j = 0; j < 2; j++)
                     {
                         switch (Game1.random.Next(7))
@@ -272,7 +272,7 @@ internal static class Slingshot_Stats
                     break;
 
                 default:
-                    if (Globals.GarnetIndex.HasValue && ammo.ParentSheetIndex == Globals.GarnetIndex.Value)
+                    if (JsonAssetsIntegration.GarnetIndex.HasValue && ammo.ParentSheetIndex == JsonAssetsIntegration.GarnetIndex.Value)
                     {
                         holder.GarnetBonus += 1f;
                         if (slingshot.Get_ResonatingChord<GarnetEnchantment>() is { } garnetChord)
@@ -366,12 +366,12 @@ internal static class Slingshot_Stats
 
         #endregion deprecated
 
-        if (holder.RubyBonus > 0f || holder.AmmoDamage > 0 || slingshot.InitialParentTileIndex != ItemIDs.BasicSlingshot)
+        if (holder.RubyBonus > 0f || holder.AmmoDamage > 0 || slingshot.InitialParentTileIndex != WeaponIds.BasicSlingshot)
         {
             holder.RowsInTooltip++;
         }
 
-        if (holder.AmethystBonus > 0f || slingshot.InitialParentTileIndex != ItemIDs.BasicSlingshot)
+        if (holder.AmethystBonus > 0f || slingshot.InitialParentTileIndex != WeaponIds.BasicSlingshot)
         {
             holder.RowsInTooltip++;
         }

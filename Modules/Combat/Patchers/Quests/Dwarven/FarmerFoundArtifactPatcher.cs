@@ -3,6 +3,8 @@
 #region using directives
 
 using System.Reflection;
+using DaLion.Overhaul.Modules.Combat.Integrations;
+using DaLion.Shared.Constants;
 using DaLion.Shared.Extensions;
 using DaLion.Shared.Extensions.Collections;
 using DaLion.Shared.Extensions.SMAPI;
@@ -28,7 +30,7 @@ internal sealed class FarmerFoundArtifactPatcher : HarmonyPatcher
     [HarmonyPrefix]
     private static bool FarmerFoundArtifactPrefix(Farmer __instance, int index)
     {
-        if (!Globals.DwarvishBlueprintIndex.HasValue || index != Globals.DwarvishBlueprintIndex.Value)
+        if (!JsonAssetsIntegration.DwarvishBlueprintIndex.HasValue || index != JsonAssetsIntegration.DwarvishBlueprintIndex.Value)
         {
             return true; // run original logic
         }
@@ -37,15 +39,15 @@ internal sealed class FarmerFoundArtifactPatcher : HarmonyPatcher
         {
             var found = __instance.Read(DataKeys.BlueprintsFound).ParseList<int>();
             int blueprint;
-            if (!found.ContainsAny(ItemIDs.ElfBlade, ItemIDs.ForestSword))
+            if (!found.ContainsAny(WeaponIds.ElfBlade, WeaponIds.ForestSword))
             {
-                blueprint = Game1.random.NextDouble() < 0.5 ? ItemIDs.ElfBlade : ItemIDs.ForestSword;
+                blueprint = Game1.random.NextDouble() < 0.5 ? WeaponIds.ElfBlade : WeaponIds.ForestSword;
             }
             else
             {
-                blueprint = found.Contains(ItemIDs.ElfBlade)
-                    ? ItemIDs.ForestSword
-                    : ItemIDs.ElfBlade;
+                blueprint = found.Contains(WeaponIds.ElfBlade)
+                    ? WeaponIds.ForestSword
+                    : WeaponIds.ElfBlade;
             }
 
             __instance.Append(DataKeys.BlueprintsFound, blueprint.ToString());
@@ -55,7 +57,7 @@ internal sealed class FarmerFoundArtifactPatcher : HarmonyPatcher
                 ModHelper.GameContent.InvalidateCacheAndLocalized("Data/Events/Blacksmith");
             }
 
-            __instance.holdUpItemThenMessage(new SObject(Globals.DwarvishBlueprintIndex.Value, 1));
+            __instance.holdUpItemThenMessage(new SObject(JsonAssetsIntegration.DwarvishBlueprintIndex.Value, 1));
             if (Context.IsMultiplayer)
             {
                 Broadcaster.SendPublicChat(I18n.Blueprint_Found_Global(__instance.Name));

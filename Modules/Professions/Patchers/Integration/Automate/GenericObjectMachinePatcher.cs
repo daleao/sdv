@@ -9,6 +9,7 @@ using System.Reflection.Emit;
 using DaLion.Overhaul.Modules.Professions.Extensions;
 using DaLion.Overhaul.Modules.Professions.Integrations;
 using DaLion.Shared.Attributes;
+using DaLion.Shared.Constants;
 using DaLion.Shared.Enums;
 using DaLion.Shared.Extensions.Reflection;
 using DaLion.Shared.Extensions.Stardew;
@@ -160,10 +161,10 @@ internal sealed class GenericObjectMachinePatcher : HarmonyPatcher
             {
                 if (r.NextDouble() > user.FarmingLevel / 30d)
                 {
-                    output.Quality = (int)((Quality)output.Quality).Decrement();
+                    output.Quality = (int)((ObjectQuality)output.Quality).Decrement();
                     if (r.NextDouble() > user.FarmingLevel / 15d)
                     {
-                        output.Quality = (int)((Quality)output.Quality).Decrement();
+                        output.Quality = (int)((ObjectQuality)output.Quality).Decrement();
                     }
                 }
             }
@@ -189,7 +190,7 @@ internal sealed class GenericObjectMachinePatcher : HarmonyPatcher
             machine.MinutesUntilReady -= machine.MinutesUntilReady / 10;
         }
 
-        if (machine.ParentSheetIndex == (int)Machine.MayonnaiseMachine && input.ParentSheetIndex == ItemIDs.GoldenEgg &&
+        if (machine.ParentSheetIndex == BigCraftableIds.MayonnaiseMachine && input.ParentSheetIndex == ObjectIds.GoldenEgg &&
             !ModHelper.ModRegistry.IsLoaded("ughitsmegan.goldenmayoForProducerFrameworkMod"))
         {
             output.Quality = SObject.bestQuality;

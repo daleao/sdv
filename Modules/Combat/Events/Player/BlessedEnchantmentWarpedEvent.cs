@@ -3,6 +3,7 @@
 #region using directives
 
 using DaLion.Overhaul.Modules.Combat.Enchantments;
+using DaLion.Shared.Constants;
 using DaLion.Shared.Events;
 using StardewModdingAPI.Events;
 using StardewValley.Tools;
@@ -22,7 +23,7 @@ internal sealed class BlessedEnchantmentWarpedEvent : WarpedEvent
     /// <inheritdoc />
     protected override void OnWarpedImpl(object? sender, WarpedEventArgs e)
     {
-        if (e.Player.CurrentTool is not MeleeWeapon { InitialParentTileIndex: ItemIDs.HolyBlade } holyBlade)
+        if (e.Player.CurrentTool is not MeleeWeapon { InitialParentTileIndex: WeaponIds.HolyBlade } holyBlade)
         {
             this.Disable();
             return;

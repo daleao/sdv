@@ -8,11 +8,13 @@ using DaLion.Overhaul.Modules.Professions.Extensions;
 using DaLion.Overhaul.Modules.Professions.Projectiles;
 using DaLion.Overhaul.Modules.Professions.Ultimates;
 using DaLion.Overhaul.Modules.Professions.VirtualProperties;
+using DaLion.Shared.Constants;
 using DaLion.Shared.Extensions.Xna;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
 using Microsoft.Xna.Framework;
 using StardewValley.Tools;
+using Math = System.Math;
 
 #endregion using directives
 
@@ -87,35 +89,35 @@ internal sealed class SlingshotPerformFirePatcher : HarmonyPatcher
             float knockback;
             switch (ammo.ParentSheetIndex)
             {
-                case SObject.wood or SObject.coal:
+                case ObjectIds.Wood or ObjectIds.Coal:
                     damageBase = 2;
                     knockback = 0.3f;
                     break;
-                case SObject.stone:
+                case ObjectIds.Stone:
                     damageBase = 5;
                     knockback = 0.5f;
                     break;
-                case SObject.copper:
+                case ObjectIds.CopperOre:
                     damageBase = 10;
                     knockback = 0.525f;
                     break;
-                case SObject.iron:
+                case ObjectIds.IronOre:
                     damageBase = 20;
                     knockback = 0.55f;
                     break;
-                case SObject.gold:
+                case ObjectIds.GoldOre:
                     damageBase = 30;
                     knockback = 0.575f;
                     break;
-                case SObject.iridium:
+                case ObjectIds.IridiumOre:
                     damageBase = 50;
                     knockback = 0.6f;
                     break;
-                case ItemIDs.ExplosiveAmmo:
+                case ObjectIds.ExplosiveAmmo:
                     damageBase = 5;
                     knockback = 0.4f;
                     break;
-                case ItemIDs.Slime:
+                case ObjectIds.Slime:
                     damageBase = who.HasProfession(Profession.Piper) ? 10 : 1;
                     knockback = 0f;
                     break;
@@ -129,11 +131,11 @@ internal sealed class SlingshotPerformFirePatcher : HarmonyPatcher
             float damageMod;
             switch (__instance.InitialParentTileIndex)
             {
-                case ItemIDs.MasterSlingshot:
+                case WeaponIds.MasterSlingshot:
                     damageMod = 1.5f;
                     knockback += 0.1f;
                     break;
-                case ItemIDs.GalaxySlingshot:
+                case WeaponIds.GalaxySlingshot:
                     damageMod = 2f;
                     knockback += 0.2f;
                     break;
@@ -164,8 +166,8 @@ internal sealed class SlingshotPerformFirePatcher : HarmonyPatcher
             var startingPosition = shootOrigin - new Vector2(32f, 32f);
             var rotationVelocity = (float)(Math.PI / (64f + Game1.random.Next(-63, 64)));
             var index = ammo.ParentSheetIndex;
-            if (ammo.ParentSheetIndex is SObject.wood or SObject.coal or SObject.stone or SObject.copper
-                or SObject.iron or SObject.gold or SObject.iridium)
+            if (ammo.ParentSheetIndex is ObjectIds.Wood or ObjectIds.Coal or ObjectIds.Stone or ObjectIds.CopperOre
+                or ObjectIds.IronOre or ObjectIds.GoldOre or ObjectIds.IridiumOre)
             {
                 index++;
             }

@@ -5,6 +5,7 @@
 using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
+using DaLion.Shared.Constants;
 using DaLion.Shared.Extensions.Reflection;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
@@ -55,7 +56,7 @@ internal sealed class EventCommandItemAboveHeadPatcher : HarmonyPatcher
                             OpCodes.Callvirt,
                             typeof(Config).RequirePropertyGetter(nameof(Config.WoodyReplacesRusty))),
                         new CodeInstruction(OpCodes.Brfalse_S, rusty),
-                        new CodeInstruction(OpCodes.Ldc_I4_S, ItemIDs.WoodenBlade),
+                        new CodeInstruction(OpCodes.Ldc_I4_S, WeaponIds.WoodenBlade),
                         new CodeInstruction(OpCodes.Br_S, resumeExecution),
                     })
                 .Move()

@@ -5,6 +5,7 @@
 using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
+using DaLion.Overhaul.Modules.Combat.Integrations;
 using DaLion.Overhaul.Modules.Combat.Resonance;
 using DaLion.Shared.Extensions.Reflection;
 using DaLion.Shared.Harmony;
@@ -61,7 +62,7 @@ internal sealed class ForgeMenuUpdatePatcher : HarmonyPatcher
                         new CodeInstruction(OpCodes.Brfalse_S, vanillaUnforge),
                         new CodeInstruction(
                             OpCodes.Call,
-                            typeof(Globals).RequirePropertyGetter(nameof(Globals.InfinityBandIndex))),
+                            typeof(JsonAssetsIntegration).RequirePropertyGetter(nameof(JsonAssetsIntegration.InfinityBandIndex))),
                         new CodeInstruction(OpCodes.Stloc_S, infinityBandIndex),
                         new CodeInstruction(OpCodes.Ldloca_S, infinityBandIndex),
                         new CodeInstruction(OpCodes.Call, typeof(int?).RequirePropertyGetter(nameof(Nullable<int>.HasValue))),
@@ -72,7 +73,7 @@ internal sealed class ForgeMenuUpdatePatcher : HarmonyPatcher
                             typeof(Item).RequirePropertyGetter(nameof(Item.ParentSheetIndex))),
                         new CodeInstruction(
                             OpCodes.Call,
-                            typeof(Globals).RequirePropertyGetter(nameof(Globals.InfinityBandIndex))),
+                            typeof(JsonAssetsIntegration).RequirePropertyGetter(nameof(JsonAssetsIntegration.InfinityBandIndex))),
                         new CodeInstruction(OpCodes.Stloc_S, infinityBandIndex),
                         new CodeInstruction(OpCodes.Ldloca_S, infinityBandIndex),
                         new CodeInstruction(
@@ -111,7 +112,7 @@ internal sealed class ForgeMenuUpdatePatcher : HarmonyPatcher
         }
 
         infinity.combinedRings.Clear();
-        Utility.CollectOrDrop(new Ring(Globals.InfinityBandIndex!.Value));
+        Utility.CollectOrDrop(new Ring(JsonAssetsIntegration.InfinityBandIndex!.Value));
         menu.leftIngredientSpot.item = null;
         Game1.playSound("coin");
     }

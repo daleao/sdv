@@ -3,6 +3,7 @@
 #region using directives
 
 using System.Linq;
+using DaLion.Shared.Constants;
 using DaLion.Shared.Enums;
 using DaLion.Shared.Extensions.Stardew;
 using StardewValley.TerrainFeatures;
@@ -34,9 +35,9 @@ internal static class FarmExtensions
             var harvest = !crop.forageCrop.Value
                 ? new SObject(crop.indexOfHarvest.Value, 1)
                 : crop.whichForageCrop.Value == Crop.forageCrop_springOnion
-                    ? new SObject(ItemIDs.SpringOnion, 1)
+                    ? new SObject(ObjectIds.SpringOnion, 1)
                     : crop.whichForageCrop.Value == Crop.forageCrop_ginger
-                        ? new SObject(ItemIDs.Ginger, 1) : null;
+                        ? new SObject(ObjectIds.Ginger, 1) : null;
             if (harvest is null)
             {
                 continue;
@@ -106,14 +107,14 @@ internal static class FarmExtensions
             }
 
             totalBuildingValue += 10000;
-            totalBuildingValue += new SObject(SObject.wood, 1).Price * 450;
+            totalBuildingValue += new SObject(ObjectIds.Wood, 1).Price * 450;
             if (farmer.HouseUpgradeLevel <= 1)
             {
                 continue;
             }
 
             totalBuildingValue += 50000;
-            totalBuildingValue += new SObject(ItemIDs.Hardwood, 1).Price * 150;
+            totalBuildingValue += new SObject(ObjectIds.Hardwood, 1).Price * 150;
             if (farmer.HouseUpgradeLevel > 2)
             {
                 totalBuildingValue += 100000;

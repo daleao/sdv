@@ -2,6 +2,7 @@
 
 #region using directives
 
+using DaLion.Shared.Constants;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
 using StardewValley.Objects;
@@ -31,8 +32,8 @@ internal sealed class CraftingRecipeCtorPatcher : HarmonyPatcher
 
         __instance.DisplayName = name switch
         {
-            "Glow Ring" => new Ring(ItemIDs.GlowRing).DisplayName,
-            "Magnet Ring" => new Ring(ItemIDs.MagnetRing).DisplayName,
+            "Glow Ring" => new Ring(ObjectIds.GlowRing).DisplayName,
+            "Magnet Ring" => new Ring(ObjectIds.MagnetRing).DisplayName,
             _ => __instance.DisplayName,
         };
     }

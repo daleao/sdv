@@ -3,6 +3,7 @@
 #region using directives
 
 using System.Diagnostics.CodeAnalysis;
+using DaLion.Overhaul.Modules.Combat.Integrations;
 using DaLion.Overhaul.Modules.Combat.Resonance;
 using StardewValley.Objects;
 
@@ -33,8 +34,8 @@ internal static class RingExtensions
     /// </returns>
     internal static bool IsCombinedInfinityBand(this Ring ring, [NotNullWhen(true)] out CombinedRing? infinity)
     {
-        if (Globals.InfinityBandIndex.HasValue && ring is CombinedRing combined &&
-            combined.ParentSheetIndex == Globals.InfinityBandIndex.Value && combined.combinedRings.Count > 0)
+        if (JsonAssetsIntegration.InfinityBandIndex.HasValue && ring is CombinedRing combined &&
+            combined.ParentSheetIndex == JsonAssetsIntegration.InfinityBandIndex.Value && combined.combinedRings.Count > 0)
         {
             infinity = combined;
         }

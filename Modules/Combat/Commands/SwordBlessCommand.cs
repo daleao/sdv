@@ -6,6 +6,7 @@ using System.Diagnostics.CodeAnalysis;
 using DaLion.Overhaul.Modules.Combat.Events.GameLoop;
 using DaLion.Overhaul.Modules.Combat.Extensions;
 using DaLion.Shared.Commands;
+using DaLion.Shared.Constants;
 using Microsoft.Xna.Framework;
 using StardewValley.Tools;
 
@@ -32,7 +33,7 @@ internal sealed class SwordBlessCommand : ConsoleCommand
     public override void Callback(string trigger, string[] args)
     {
         var player = Game1.player;
-        if (player.CurrentTool is not MeleeWeapon { InitialParentTileIndex: ItemIDs.DarkSword })
+        if (player.CurrentTool is not MeleeWeapon { InitialParentTileIndex: WeaponIds.DarkSword })
         {
             Log.W("You must be holding the Dark Sword to use this command.");
             return;
@@ -60,14 +61,14 @@ internal sealed class SwordBlessCommand : ConsoleCommand
         void getHolyBlade()
         {
             var player = Game1.player;
-            if (player.CurrentTool is not MeleeWeapon { InitialParentTileIndex: ItemIDs.DarkSword } darkSword)
+            if (player.CurrentTool is not MeleeWeapon { InitialParentTileIndex: WeaponIds.DarkSword } darkSword)
             {
                 return;
             }
 
             Game1.flashAlpha = 1f;
-            player.holdUpItemThenMessage(new MeleeWeapon(ItemIDs.HolyBlade));
-            darkSword.transform(ItemIDs.HolyBlade);
+            player.holdUpItemThenMessage(new MeleeWeapon(WeaponIds.HolyBlade));
+            darkSword.transform(WeaponIds.HolyBlade);
             darkSword.RefreshStats();
             player.jitterStrength = 0f;
             Game1.screenGlowHold = false;

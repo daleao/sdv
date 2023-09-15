@@ -2,6 +2,7 @@
 
 #region using directives
 
+using DaLion.Shared.Constants;
 using DaLion.Shared.Extensions.Reflection;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
@@ -40,7 +41,7 @@ internal sealed class ItemGrabMenuCtorPatcher : HarmonyPatcher
 
     private static bool HighlightAllButDarkSword(Item i)
     {
-        return i is not MeleeWeapon { InitialParentTileIndex: ItemIDs.DarkSword };
+        return i is not MeleeWeapon { InitialParentTileIndex: WeaponIds.DarkSword };
     }
 
     #endregion injected subroutines

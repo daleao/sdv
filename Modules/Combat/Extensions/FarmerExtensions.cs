@@ -6,10 +6,12 @@ using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using DaLion.Overhaul.Modules.Combat.VirtualProperties;
+using DaLion.Shared.Constants;
 using DaLion.Shared.Extensions.Collections;
 using DaLion.Shared.Extensions.Stardew;
 using StardewValley.Tools;
 using static StardewValley.FarmerSprite;
+using Math = System.Math;
 
 #endregion using directives
 
@@ -95,7 +97,7 @@ internal static class FarmerExtensions
             return false;
         }
 
-        darkSword = (MeleeWeapon?)farmer.Items.FirstOrDefault(item => item is MeleeWeapon { InitialParentTileIndex: ItemIDs.DarkSword });
+        darkSword = (MeleeWeapon?)farmer.Items.FirstOrDefault(item => item is MeleeWeapon { InitialParentTileIndex: WeaponIds.DarkSword });
         return darkSword is not null;
     }
 
@@ -169,7 +171,7 @@ internal static class FarmerExtensions
         var modifier = farmer.GetTotalSwingSpeedModifier(weapon);
         var halfModifier = 1f - ((1f - modifier) / 2f);
         var cooldown = weapon.IsClub() ? 250 : 50;
-        var sound = weapon.IsClub() ? "clubswipe" : weapon.InitialParentTileIndex == ItemIDs.LavaKatana ? "fireball" : "swordswipe";
+        var sound = weapon.IsClub() ? "clubswipe" : weapon.InitialParentTileIndex == WeaponIds.LavaKatana ? "fireball" : "swordswipe";
         sprite.loopThisAnimation = false;
         var outFrames = sprite.currentAnimation;
         if (CombatModule.State.FarmerAnimating)
@@ -330,7 +332,7 @@ internal static class FarmerExtensions
         var modifier = farmer.GetTotalSwingSpeedModifier(weapon);
         var halfModifier = 1f - ((1f - modifier) / 2f);
         const int cooldown = 50;
-        var sound = weapon.InitialParentTileIndex == ItemIDs.LavaKatana ? "fireball" : "swordswipe";
+        var sound = weapon.InitialParentTileIndex == WeaponIds.LavaKatana ? "fireball" : "swordswipe";
         sprite.loopThisAnimation = false;
         var outFrames = sprite.currentAnimation;
         if (CombatModule.State.FarmerAnimating)

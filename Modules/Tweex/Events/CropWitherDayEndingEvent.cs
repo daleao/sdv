@@ -3,6 +3,7 @@
 #region using directives
 
 using System.Linq;
+using DaLion.Shared.Constants;
 using DaLion.Shared.Events;
 using DaLion.Shared.Extensions.Stardew;
 using StardewModdingAPI.Events;
@@ -37,7 +38,7 @@ internal sealed class CropWitherDayEndingEvent : DayEndingEvent
                 }
                 else if (dirt.crop is { dead.Value: false, forageCrop.Value: false } crop && dirt.state.Value == 0)
                 {
-                    if (crop.indexOfHarvest.Value == ItemIDs.Fiber)
+                    if (crop.indexOfHarvest.Value == ObjectIds.Fiber)
                     {
                         continue;
                     }

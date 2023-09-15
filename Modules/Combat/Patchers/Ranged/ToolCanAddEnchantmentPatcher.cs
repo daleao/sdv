@@ -4,6 +4,7 @@
 
 using DaLion.Overhaul.Modules.Combat.Enchantments;
 using DaLion.Overhaul.Modules.Combat.Integrations;
+using DaLion.Shared.Constants;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
 using StardewValley.Tools;
@@ -32,7 +33,7 @@ internal sealed class ToolCanAddEnchantmentPatcher : HarmonyPatcher
             return true; // run original logic
         }
 
-        if (enchantment.IsSecondaryEnchantment() && slingshot.InitialParentTileIndex == ItemIDs.GalaxySlingshot &&
+        if (enchantment.IsSecondaryEnchantment() && slingshot.InitialParentTileIndex == WeaponIds.GalaxySlingshot &&
             CombatModule.Config.EnableInfinitySlingshot)
         {
             switch (enchantment)

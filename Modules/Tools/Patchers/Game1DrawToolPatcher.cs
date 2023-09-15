@@ -2,6 +2,7 @@
 
 #region using directives
 
+using System.Diagnostics.CodeAnalysis;
 using DaLion.Shared.Attributes;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
@@ -23,6 +24,7 @@ internal sealed class Game1DrawToolPatcher : HarmonyPatcher
 
     /// <summary>Replace tool texture.</summary>
     [HarmonyPrefix]
+    [SuppressMessage("SMAPI.CommonErrors", "AvoidNetField:Avoid Netcode types when possible", Justification = "Bypass property setter.")]
     private static void ToolDrawInMenuPrefix(Farmer f, ref (int, Texture2D)? __state)
     {
         var tool = f.CurrentTool;
@@ -39,6 +41,7 @@ internal sealed class Game1DrawToolPatcher : HarmonyPatcher
 
     /// <summary>Restore tool texture.</summary>
     [HarmonyPostfix]
+    [SuppressMessage("SMAPI.CommonErrors", "AvoidNetField:Avoid Netcode types when possible", Justification = "Bypass property setter.")]
     private static void ToolDrawInMenuPostfix(Farmer f, (int, Texture2D)? __state)
     {
         if (!__state.HasValue)

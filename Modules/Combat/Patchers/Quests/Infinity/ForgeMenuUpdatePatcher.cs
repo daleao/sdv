@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
 using DaLion.Overhaul.Modules.Combat.Enchantments;
+using DaLion.Overhaul.Modules.Combat.Integrations;
 using DaLion.Shared.Extensions.Reflection;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
@@ -100,7 +101,7 @@ internal sealed class ForgeMenuUpdatePatcher : HarmonyPatcher
 
     private static void UnforgeHolyBlade(ForgeMenu menu, MeleeWeapon holy)
     {
-        Utility.CollectOrDrop(new SObject(Globals.HeroSoulIndex!.Value, 1));
+        Utility.CollectOrDrop(new SObject(JsonAssetsIntegration.HeroSoulIndex!.Value, 1));
         menu.leftIngredientSpot.item = null;
         Game1.playSound("coin");
     }

@@ -22,7 +22,7 @@ internal class ModuleSelectionOption : MultiCheckboxOption<OverhaulModule>
         setCheckboxValue: (module, value) => module._ShouldEnable = value,
         getColumnsFromWidth: _ => 2,
         getCheckboxLabel: module => module.DisplayName,
-        getCheckboxTooltip: module =>module.Description,
+        getCheckboxTooltip: module => module.Description,
         onValueUpdated: (module, newValue) =>
         {
             if (newValue)

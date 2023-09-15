@@ -8,7 +8,7 @@ using System.Linq;
 using System.Reflection;
 using System.Xml.Serialization;
 using DaLion.Overhaul.Modules.Combat.VirtualProperties;
-using DaLion.Shared;
+using DaLion.Shared.Constants;
 using DaLion.Shared.Extensions;
 using DaLion.Shared.Extensions.Reflection;
 using HarmonyLib;

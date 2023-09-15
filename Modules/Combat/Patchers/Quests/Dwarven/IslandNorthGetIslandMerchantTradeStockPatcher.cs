@@ -4,6 +4,7 @@
 
 using System.Collections.Generic;
 using System.Linq;
+using DaLion.Shared.Constants;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
 using StardewValley.Locations;
@@ -30,7 +31,7 @@ internal sealed class IslandNorthGetIslandMerchantTradeStockPatcher : HarmonyPat
             return;
         }
 
-        var bananaSapling = __result.Keys.FirstOrDefault(i => i is SObject { ParentSheetIndex: ItemIDs.BananaSapling });
+        var bananaSapling = __result.Keys.FirstOrDefault(i => i is SObject { ParentSheetIndex: ObjectIds.BananaSapling });
         if (bananaSapling is null)
         {
             return;

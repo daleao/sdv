@@ -46,7 +46,8 @@ internal sealed class CombinedRingDrawInMenuPatcher : HarmonyPatcher
         Color color,
         bool drawShadow)
     {
-        if (!Globals.InfinityBandIndex.HasValue || __instance.ParentSheetIndex != Globals.InfinityBandIndex.Value)
+        if (!JsonAssetsIntegration.InfinityBandIndex.HasValue ||
+            __instance.ParentSheetIndex != JsonAssetsIntegration.InfinityBandIndex.Value)
         {
             return true; // run original logic
         }
@@ -206,7 +207,8 @@ internal sealed class CombinedRingDrawInMenuPatcher : HarmonyPatcher
         float transparency,
         float layerDepth)
     {
-        if (!Globals.InfinityBandIndex.HasValue || __instance.ParentSheetIndex != Globals.InfinityBandIndex.Value ||
+        if (!JsonAssetsIntegration.InfinityBandIndex.HasValue ||
+            __instance.ParentSheetIndex != JsonAssetsIntegration.InfinityBandIndex.Value ||
             __instance.combinedRings.Count == 0 || VanillaTweaksIntegration.Instance?.RingsCategoryEnabled != true)
         {
             return;

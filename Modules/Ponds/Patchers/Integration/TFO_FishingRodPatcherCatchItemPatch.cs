@@ -10,10 +10,12 @@ using System.Reflection;
 using DaLion.Overhaul.Modules.Ponds.Extensions;
 using DaLion.Overhaul.Modules.Professions.Extensions;
 using DaLion.Shared.Attributes;
+using DaLion.Shared.Constants;
 using DaLion.Shared.Extensions;
 using DaLion.Shared.Extensions.Reflection;
 using DaLion.Shared.Extensions.Stardew;
 using DaLion.Shared.Harmony;
+using DaLion.Shared.Maps;
 using HarmonyLib;
 using Microsoft.Xna.Framework;
 using StardewValley.Buildings;
@@ -104,17 +106,17 @@ internal sealed class FishingRodPatcherCatchItemPatcher : HarmonyPatcher
             var index = -1;
             if (roll < seaweedCount)
             {
-                index = ItemIDs.Seaweed;
+                index = ObjectIds.Seaweed;
                 pond.Write(DataKeys.SeaweedLivingHere, (--seaweedCount).ToString());
             }
             else if (roll < seaweedCount + greenAlgaeCount)
             {
-                index = ItemIDs.GreenAlgae;
+                index = ObjectIds.GreenAlgae;
                 pond.Write(DataKeys.GreenAlgaeLivingHere, (--greenAlgaeCount).ToString());
             }
             else if (roll < seaweedCount + greenAlgaeCount + whiteAlgaeCount)
             {
-                index = ItemIDs.WhiteAlgae;
+                index = ObjectIds.WhiteAlgae;
                 pond.Write(DataKeys.WhiteAlgaeLivingHere, (--whiteAlgaeCount).ToString());
             }
 
@@ -142,9 +144,9 @@ internal sealed class FishingRodPatcherCatchItemPatcher : HarmonyPatcher
             pond.Write(DataKeys.WhiteAlgaeLivingHere, null);
             var field = pond.fishType.Value switch
             {
-                ItemIDs.Seaweed => DataKeys.SeaweedLivingHere,
-                ItemIDs.GreenAlgae => DataKeys.GreenAlgaeLivingHere,
-                ItemIDs.WhiteAlgae => DataKeys.WhiteAlgaeLivingHere,
+                ObjectIds.Seaweed => DataKeys.SeaweedLivingHere,
+                ObjectIds.GreenAlgae => DataKeys.GreenAlgaeLivingHere,
+                ObjectIds.WhiteAlgae => DataKeys.WhiteAlgaeLivingHere,
                 _ => string.Empty,
             };
 
@@ -213,7 +215,7 @@ internal sealed class FishingRodPatcherCatchItemPatcher : HarmonyPatcher
             var lowestFamily = familyQualities.FindIndex(i => i > 0);
             if (lowestFamily < lowestFish)
             {
-                var whichFish = Collections.ExtendedFamilyPairs[pond.fishType.Value];
+                var whichFish = ExtendedFamilyPairs.Map[pond.fishType.Value];
                 setFishItem(
                     info,
                     new SObject(whichFish, 1, quality: lowestFamily == 3 ? 4 : lowestFamily));

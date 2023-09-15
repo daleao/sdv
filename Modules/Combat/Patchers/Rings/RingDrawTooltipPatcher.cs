@@ -4,6 +4,7 @@
 
 using DaLion.Overhaul.Modules.Combat.Extensions;
 using DaLion.Overhaul.Modules.Combat.VirtualProperties;
+using DaLion.Shared.Constants;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
 using Microsoft.Xna.Framework;
@@ -29,7 +30,7 @@ internal sealed class RingDrawTooltipPatcher : HarmonyPatcher
         Ring __instance, SpriteBatch spriteBatch, ref int x, ref int y, SpriteFont font, float alpha)
     {
         int descriptionWidth;
-        if (__instance.GetsEffectOfRing(ItemIDs.ImmunityRing) && CombatModule.Config.RebalancedRings)
+        if (__instance.GetsEffectOfRing(ObjectIds.ImmunityRing) && CombatModule.Config.RebalancedRings)
         {
             descriptionWidth = Reflector
                 .GetUnboundMethodDelegate<Func<Item, int>>(__instance, "getDescriptionWidth")

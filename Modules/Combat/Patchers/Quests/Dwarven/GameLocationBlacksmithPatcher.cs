@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
 using DaLion.Overhaul.Modules.Professions.Integrations;
+using DaLion.Shared.Constants;
 using DaLion.Shared.Extensions.Reflection;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
@@ -166,8 +167,8 @@ internal sealed class GameLocationBlacksmithPatcher : HarmonyPatcher
                 continue;
             }
 
-            if (item.ParentSheetIndex is ItemIDs.Geode or ItemIDs.FrozenGeode or ItemIDs.MagmaGeode or ItemIDs.OmniGeode
-                    or ItemIDs.ArtifactTrove or ItemIDs.GoldenCoconut || item.HasContextTag("geode_item"))
+            if (item.ParentSheetIndex is ObjectIds.Geode or ObjectIds.FrozenGeode or ObjectIds.MagmaGeode or ObjectIds.OmniGeode
+                    or ObjectIds.ArtifactTrove or ObjectIds.GoldenCoconut || item.HasContextTag("geode_item"))
             {
                 return true;
             }

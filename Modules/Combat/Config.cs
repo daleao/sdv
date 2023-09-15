@@ -265,6 +265,7 @@ public sealed class Config : Shared.Configs.Config
     /// <summary>Gets a multiplier which allows scaling the damage dealt by all monsters.</summary>
     [JsonProperty]
     public float MonsterDamageMultiplier { get; internal set; } = 1f;
+
     /// <summary>Gets a multiplier which allows scaling the resistance of all monsters.</summary>
     [JsonProperty]
     public float MonsterDefenseMultiplier { get; internal set; } = 2f;

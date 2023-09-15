@@ -7,6 +7,7 @@ using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
 using DaLion.Overhaul.Modules.Ponds.Extensions;
+using DaLion.Shared.Constants;
 using DaLion.Shared.Extensions;
 using DaLion.Shared.Extensions.Collections;
 using DaLion.Shared.Extensions.Reflection;
@@ -159,13 +160,13 @@ internal sealed class FishPondDayUpdatePatcher : HarmonyPatcher
         __instance.currentOccupants.Value++;
         switch (spawned)
         {
-            case ItemIDs.Seaweed:
+            case ObjectIds.Seaweed:
                 __instance.Increment(DataKeys.SeaweedLivingHere);
                 break;
-            case ItemIDs.GreenAlgae:
+            case ObjectIds.GreenAlgae:
                 __instance.Increment(DataKeys.GreenAlgaeLivingHere);
                 break;
-            case ItemIDs.WhiteAlgae:
+            case ObjectIds.WhiteAlgae:
                 __instance.Increment(DataKeys.WhiteAlgaeLivingHere);
                 break;
         }

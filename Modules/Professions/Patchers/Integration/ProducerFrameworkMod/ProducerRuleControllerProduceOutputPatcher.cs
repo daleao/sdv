@@ -53,10 +53,10 @@ internal sealed class ProducerRuleControllerProduceOutputPatcher : HarmonyPatche
             {
                 if (r.NextDouble() > user.FarmingLevel / 30d)
                 {
-                    output.Quality = (int)((Quality)output.Quality).Decrement();
+                    output.Quality = (int)((ObjectQuality)output.Quality).Decrement();
                     if (r.NextDouble() > user.FarmingLevel / 15d)
                     {
-                        output.Quality = (int)((Quality)output.Quality).Decrement();
+                        output.Quality = (int)((ObjectQuality)output.Quality).Decrement();
                     }
                 }
             }

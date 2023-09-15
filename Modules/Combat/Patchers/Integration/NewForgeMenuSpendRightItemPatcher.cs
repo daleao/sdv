@@ -3,6 +3,7 @@
 #region using directives
 
 using System.Reflection;
+using DaLion.Overhaul.Modules.Combat.Integrations;
 using DaLion.Shared.Attributes;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
@@ -28,7 +29,8 @@ internal sealed class NewForgeMenuSpendRightItemPatcher : HarmonyPatcher
     {
         try
         {
-            return !Globals.HeroSoulIndex.HasValue || __instance.rightIngredientSpot.item?.ParentSheetIndex != Globals.HeroSoulIndex.Value;
+            return !JsonAssetsIntegration.HeroSoulIndex.HasValue ||
+                   __instance.rightIngredientSpot.item?.ParentSheetIndex != JsonAssetsIntegration.HeroSoulIndex.Value;
         }
         catch (Exception ex)
         {

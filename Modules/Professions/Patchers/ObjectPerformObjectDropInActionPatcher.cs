@@ -7,6 +7,7 @@ using System.Reflection;
 using System.Reflection.Emit;
 using DaLion.Overhaul.Modules.Professions;
 using DaLion.Overhaul.Modules.Professions.Extensions;
+using DaLion.Shared.Constants;
 using DaLion.Shared.Enums;
 using DaLion.Shared.Extensions.Reflection;
 using DaLion.Shared.Extensions.Stardew;
@@ -58,8 +59,8 @@ internal sealed class ObjectPerformObjectDropInActionPatcher : HarmonyPatcher
         if (user.HasProfession(Profession.Artisan))
         {
             // golden mayonnaise is always iridium quality
-            held.Quality = __instance.ParentSheetIndex == (int)Machine.MayonnaiseMachine &&
-                           dropIn.ParentSheetIndex == ItemIDs.GoldenEgg &&
+            held.Quality = __instance.ParentSheetIndex == BigCraftableIds.MayonnaiseMachine &&
+                           dropIn.ParentSheetIndex == ObjectIds.GoldenEgg &&
                            !ModHelper.ModRegistry.IsLoaded("ughitsmegan.goldenmayoForProducerFrameworkMod")
                 ? SObject.bestQuality
                 : dropIn.Quality;
@@ -67,10 +68,10 @@ internal sealed class ObjectPerformObjectDropInActionPatcher : HarmonyPatcher
             {
                 if (r.NextDouble() > who.FarmingLevel / 30d)
                 {
-                    held.Quality = (int)((Quality)held.Quality).Decrement();
+                    held.Quality = (int)((ObjectQuality)held.Quality).Decrement();
                     if (r.NextDouble() > who.FarmingLevel / 15d)
                     {
-                        held.Quality = (int)((Quality)held.Quality).Decrement();
+                        held.Quality = (int)((ObjectQuality)held.Quality).Decrement();
                     }
                 }
             }

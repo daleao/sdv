@@ -1,5 +1,7 @@
 ﻿namespace DaLion.Overhaul.Modules.Combat.Patchers.Quests.Infinity;
 
+using DaLion.Overhaul.Modules.Combat.Integrations;
+
 #region using directives
 
 using DaLion.Shared.Harmony;
@@ -23,7 +25,8 @@ internal sealed class ForgeMenuIsValidCraftIngredientPatcher : HarmonyPatcher
     [HarmonyPostfix]
     private static void ForgeMenuIsValidCraftIngredientPostfix(ref bool __result, Item item)
     {
-        if (Globals.HeroSoulIndex.HasValue && item.ParentSheetIndex == Globals.HeroSoulIndex.Value)
+        if (JsonAssetsIntegration.HeroSoulIndex.HasValue &&
+            item.ParentSheetIndex == JsonAssetsIntegration.HeroSoulIndex.Value)
         {
             __result = true;
         }

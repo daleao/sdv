@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
+using DaLion.Shared.Constants;
 using DaLion.Shared.Extensions.Reflection;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
@@ -86,7 +87,7 @@ internal sealed class EventSkipEventPatcher : HarmonyPatcher
     {
         if (Game1.player.Items.All(item => item is not MeleeWeapon weapon || weapon.isScythe()))
         {
-            Game1.player.addItemByMenuIfNecessary(new MeleeWeapon(ItemIDs.WoodenBlade));
+            Game1.player.addItemByMenuIfNecessary(new MeleeWeapon(WeaponIds.WoodenBlade));
         }
     }
 

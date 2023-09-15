@@ -9,6 +9,7 @@ using DaLion.Overhaul.Modules.Combat.Enchantments;
 using DaLion.Overhaul.Modules.Combat.Enums;
 using DaLion.Overhaul.Modules.Combat.VirtualProperties;
 using DaLion.Shared;
+using DaLion.Shared.Constants;
 using DaLion.Shared.Exceptions;
 using DaLion.Shared.Extensions;
 using DaLion.Shared.Extensions.Stardew;
@@ -16,6 +17,7 @@ using Microsoft.Xna.Framework;
 using StardewValley;
 using StardewValley.Locations;
 using StardewValley.Tools;
+using Math = System.Math;
 
 #endregion using directives
 
@@ -27,8 +29,8 @@ internal static class MeleeWeaponExtensions
     /// <returns><see langword="true"/> if the <paramref name="weapon"/>'s index correspond to one of the Infinity weapon, otherwise <see langword="false"/>.</returns>
     internal static bool IsInfinityWeapon(this MeleeWeapon weapon)
     {
-        return weapon.InitialParentTileIndex is ItemIDs.InfinityBlade or ItemIDs.InfinityDagger
-            or ItemIDs.InfinityGavel;
+        return weapon.InitialParentTileIndex is WeaponIds.InfinityBlade or WeaponIds.InfinityDagger
+            or WeaponIds.InfinityGavel;
     }
 
     /// <summary>Determines whether the <paramref name="weapon"/> is an Infinity weapon.</summary>
@@ -36,7 +38,7 @@ internal static class MeleeWeaponExtensions
     /// <returns><see langword="true"/> if the <paramref name="weapon"/>'s index corresponds to either Dark Sword or Holy Blade, otherwise <see langword="false"/>.</returns>
     internal static bool IsCursedOrBlessed(this MeleeWeapon weapon)
     {
-        return weapon.InitialParentTileIndex is ItemIDs.DarkSword or ItemIDs.HolyBlade;
+        return weapon.InitialParentTileIndex is WeaponIds.DarkSword or WeaponIds.HolyBlade;
     }
 
     /// <summary>Determines whether the <paramref name="weapon"/> is unique.</summary>
@@ -67,14 +69,14 @@ internal static class MeleeWeaponExtensions
 
         var legacyWeaponIds = new[]
         {
-            ItemIDs.DwarfDagger,
-            ItemIDs.DwarfHammer,
-            ItemIDs.DwarfSword,
-            ItemIDs.DragontoothClub,
-            ItemIDs.DragontoothCutlass,
-            ItemIDs.DragontoothShiv,
-            ItemIDs.ElfBlade,
-            ItemIDs.ForestSword,
+            WeaponIds.DwarfDagger,
+            WeaponIds.DwarfHammer,
+            WeaponIds.DwarfSword,
+            WeaponIds.DragontoothClub,
+            WeaponIds.DragontoothCutlass,
+            WeaponIds.DragontoothShiv,
+            WeaponIds.ElfBlade,
+            WeaponIds.ForestSword,
         };
 
         return weapon.InitialParentTileIndex.IsIn(legacyWeaponIds);
@@ -275,7 +277,7 @@ internal static class MeleeWeaponExtensions
         {
             if (weapon.IsDagger())
             {
-                if (weapon.InitialParentTileIndex == ItemIDs.InsectHead &&
+                if (weapon.InitialParentTileIndex == WeaponIds.InsectHead &&
                     !weapon.hasEnchantmentOfType<KillerBugEnchantment>())
                 {
                     weapon.AddEnchantment(new KillerBugEnchantment());
@@ -289,23 +291,23 @@ internal static class MeleeWeaponExtensions
             {
                 switch (weapon.InitialParentTileIndex)
                 {
-                    case ItemIDs.LavaKatana when !weapon.hasEnchantmentOfType<LavaEnchantment>():
+                    case WeaponIds.LavaKatana when !weapon.hasEnchantmentOfType<LavaEnchantment>():
                         weapon.AddEnchantment(new LavaEnchantment());
                         Log.D("[CMBT]: Added LavaEnchantment to Lava Katana.");
                         break;
-                    case ItemIDs.IridiumNeedle when !weapon.hasEnchantmentOfType<NeedleEnchantment>():
+                    case WeaponIds.IridiumNeedle when !weapon.hasEnchantmentOfType<NeedleEnchantment>():
                         weapon.AddEnchantment(new NeedleEnchantment());
                         Log.D("[CMBT]: Added NeptuneEnchantment to Iridium Needle.");
                         break;
-                    case ItemIDs.NeptuneGlaive when !weapon.hasEnchantmentOfType<NeptuneEnchantment>():
+                    case WeaponIds.NeptuneGlaive when !weapon.hasEnchantmentOfType<NeptuneEnchantment>():
                         weapon.AddEnchantment(new NeptuneEnchantment());
                         Log.D("[CMBT]: Added NeptuneEnchantment to Neptune Glaive.");
                         break;
-                    case ItemIDs.ObsidianEdge when !weapon.hasEnchantmentOfType<ObsidianEnchantment>():
+                    case WeaponIds.ObsidianEdge when !weapon.hasEnchantmentOfType<ObsidianEnchantment>():
                         weapon.AddEnchantment(new ObsidianEnchantment());
                         Log.D("[CMBT]: Added ObsidianEnchantment to Obsidian Edge.");
                         break;
-                    case ItemIDs.YetiTooth when !weapon.hasEnchantmentOfType<YetiEnchantment>():
+                    case WeaponIds.YetiTooth when !weapon.hasEnchantmentOfType<YetiEnchantment>():
                         weapon.AddEnchantment(new YetiEnchantment());
                         break;
                 }
@@ -316,11 +318,11 @@ internal static class MeleeWeaponExtensions
         {
             switch (weapon.InitialParentTileIndex)
             {
-                case ItemIDs.DarkSword when !weapon.hasEnchantmentOfType<CursedEnchantment>():
+                case WeaponIds.DarkSword when !weapon.hasEnchantmentOfType<CursedEnchantment>():
                     weapon.AddEnchantment(new CursedEnchantment());
                     Log.D("[CMBT]: Added CursedEnchantment to Dark Sword.");
                     break;
-                case ItemIDs.HolyBlade when !weapon.hasEnchantmentOfType<BlessedEnchantment>():
+                case WeaponIds.HolyBlade when !weapon.hasEnchantmentOfType<BlessedEnchantment>():
                     weapon.AddEnchantment(new BlessedEnchantment());
                     Log.D("[CMBT]: Added BlessedEnchantment to Holy Blade.");
                     break;
@@ -343,7 +345,7 @@ internal static class MeleeWeaponExtensions
         BaseEnchantment? enchantment;
         if (weapon.IsDagger())
         {
-            enchantment = weapon.InitialParentTileIndex == ItemIDs.InsectHead
+            enchantment = weapon.InitialParentTileIndex == WeaponIds.InsectHead
                 ? weapon.GetEnchantmentOfType<KillerBugEnchantment>()
                 : weapon.GetEnchantmentOfType<DaggerEnchantment>();
         }
@@ -351,14 +353,14 @@ internal static class MeleeWeaponExtensions
         {
             enchantment = weapon.InitialParentTileIndex switch
             {
-                ItemIDs.LavaKatana => weapon.GetEnchantmentOfType<LavaEnchantment>(),
-                ItemIDs.IridiumNeedle => weapon.GetEnchantmentOfType<NeedleEnchantment>(),
-                ItemIDs.NeptuneGlaive => weapon.GetEnchantmentOfType<NeptuneEnchantment>(),
-                ItemIDs.ObsidianEdge => weapon.GetEnchantmentOfType<ObsidianEnchantment>(),
-                ItemIDs.YetiTooth => weapon.GetEnchantmentOfType<YetiEnchantment>(),
-                ItemIDs.DarkSword => weapon.GetEnchantmentOfType<CursedEnchantment>(),
-                ItemIDs.HolyBlade => weapon.GetEnchantmentOfType<BlessedEnchantment>(),
-                ItemIDs.InfinityBlade or ItemIDs.InfinityDagger or ItemIDs.InfinityGavel => weapon
+                WeaponIds.LavaKatana => weapon.GetEnchantmentOfType<LavaEnchantment>(),
+                WeaponIds.IridiumNeedle => weapon.GetEnchantmentOfType<NeedleEnchantment>(),
+                WeaponIds.NeptuneGlaive => weapon.GetEnchantmentOfType<NeptuneEnchantment>(),
+                WeaponIds.ObsidianEdge => weapon.GetEnchantmentOfType<ObsidianEnchantment>(),
+                WeaponIds.YetiTooth => weapon.GetEnchantmentOfType<YetiEnchantment>(),
+                WeaponIds.DarkSword => weapon.GetEnchantmentOfType<CursedEnchantment>(),
+                WeaponIds.HolyBlade => weapon.GetEnchantmentOfType<BlessedEnchantment>(),
+                WeaponIds.InfinityBlade or WeaponIds.InfinityDagger or WeaponIds.InfinityGavel => weapon
                     .GetEnchantmentOfType<InfinityEnchantment>(),
                 _ => null,
             };
@@ -396,8 +398,8 @@ internal static class MeleeWeaponExtensions
     internal static bool ShouldHaveIntrinsicEnchantment(this MeleeWeapon weapon)
     {
         return weapon.IsDagger() || weapon.IsCursedOrBlessed() || weapon.IsInfinityWeapon() ||
-               weapon.InitialParentTileIndex is ItemIDs.InsectHead or ItemIDs.LavaKatana or ItemIDs.IridiumNeedle
-                   or ItemIDs.NeptuneGlaive or ItemIDs.ObsidianEdge or ItemIDs.YetiTooth;
+               weapon.InitialParentTileIndex is WeaponIds.InsectHead or WeaponIds.LavaKatana or WeaponIds.IridiumNeedle
+                   or WeaponIds.NeptuneGlaive or WeaponIds.ObsidianEdge or WeaponIds.YetiTooth;
     }
 
     internal static void SetFarmerAnimatingBackwards(this MeleeWeapon weapon, Farmer farmer)

@@ -3,6 +3,7 @@
 #region using directives
 
 using System.Reflection;
+using DaLion.Overhaul.Modules.Combat.Integrations;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
 using Microsoft.Xna.Framework;
@@ -26,8 +27,8 @@ internal sealed class FarmerShowHoldingItemPatcher : HarmonyPatcher
     {
         try
         {
-            if (!Globals.DwarvishBlueprintIndex.HasValue ||
-                who.mostRecentlyGrabbedItem?.ParentSheetIndex != Globals.DwarvishBlueprintIndex.Value)
+            if (!JsonAssetsIntegration.DwarvishBlueprintIndex.HasValue ||
+                who.mostRecentlyGrabbedItem?.ParentSheetIndex != JsonAssetsIntegration.DwarvishBlueprintIndex.Value)
             {
                 return true; // run original logic
             }

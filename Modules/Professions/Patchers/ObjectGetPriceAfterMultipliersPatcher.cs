@@ -5,6 +5,7 @@
 using System.Reflection;
 using DaLion.Overhaul.Modules.Professions;
 using DaLion.Overhaul.Modules.Professions.Extensions;
+using DaLion.Shared.Constants;
 using DaLion.Shared.Extensions.Stardew;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
@@ -56,7 +57,7 @@ internal sealed class ObjectGetPriceAfterMultipliersPatcher : HarmonyPatcher
 
                 // professions
                 if (farmer.HasProfession(Profession.Producer) &&
-                    (__instance.IsAnimalOrDerivedProduct() || (__instance.ParentSheetIndex == ItemIDs.Honey && ProfessionsModule.Config.BeesAreAnimals)))
+                    (__instance.IsAnimalOrDerivedProduct() || (__instance.ParentSheetIndex == ObjectIds.Honey && ProfessionsModule.Config.BeesAreAnimals)))
                 {
                     multiplier += farmer.GetProducerPriceBonus();
                 }

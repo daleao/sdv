@@ -1,4 +1,4 @@
-﻿namespace DaLion.Overhaul.Modules;
+﻿namespace DaLion.Overhaul;
 
 #region using directives
 
@@ -41,49 +41,6 @@ internal static class Collections
         "Waterfall Snakehead", // ridgeside
     }.ToImmutableHashSet();
 
-    /// <summary>Gets the resource that should spawn from a given stone.</summary>
-    internal static ImmutableDictionary<int, int> ResourceFromStoneId { get; } = new Dictionary<int, int>
-    {
-        // stone
-        { 668, 390 },
-        { 670, 390 },
-        { 845, 390 },
-        { 846, 390 },
-        { 847, 390 },
-
-        // ores
-        { 751, 378 },
-        { 849, 378 },
-        { 290, 380 },
-        { 850, 380 },
-        { 764, 384 },
-        { 765, 386 },
-        { 95, 909 },
-
-        // geodes
-        { 75, 535 },
-        { 76, 536 },
-        { 77, 537 },
-        { 819, 749 },
-
-        // gems
-        { 8, 66 },
-        { 10, 68 },
-        { 12, 60 },
-        { 14, 62 },
-        { 6, 70 },
-        { 4, 64 },
-        { 2, 72 },
-
-        // other
-        { 25, 719 },
-        { 816, 881 },
-        { 817, 881 },
-        { 818, 330 },
-        { 843, 848 },
-        { 844, 848 },
-    }.ToImmutableDictionary();
-
     /// <summary>Gets or sets the ids of resource nodes.</summary>
     internal static ImmutableHashSet<int> ResourceNodeIds { get; set; } = new HashSet<int>
     {
@@ -124,19 +81,4 @@ internal static class Collections
 
     /// <summary>Gets or sets the ids of (valuable) resource clumps.</summary>
     internal static HashSet<int> ResourceClumpIds { get; set; } = new();
-
-    /// <summary>Gets the corresponding extended family pair by legendary fish id.</summary>
-    internal static ImmutableDictionary<int, int> ExtendedFamilyPairs { get; } = new Dictionary<int, int>
-    {
-        { ItemIDs.Crimsonfish, ItemIDs.SonOfCrimsonfish },
-        { ItemIDs.Angler, ItemIDs.MsAngler },
-        { ItemIDs.Legend, ItemIDs.Legend2 },
-        { ItemIDs.MutantCarp, ItemIDs.RadioactiveCarp },
-        { ItemIDs.Glacierfish, ItemIDs.GlacierfishJr },
-        { ItemIDs.SonOfCrimsonfish, ItemIDs.Crimsonfish },
-        { ItemIDs.MsAngler, ItemIDs.Angler },
-        { ItemIDs.Legend2, ItemIDs.Legend },
-        { ItemIDs.RadioactiveCarp, ItemIDs.MutantCarp },
-        { ItemIDs.GlacierfishJr, ItemIDs.Glacierfish },
-    }.ToImmutableDictionary();
 }

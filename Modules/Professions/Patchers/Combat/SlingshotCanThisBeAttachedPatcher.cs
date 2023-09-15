@@ -3,6 +3,7 @@
 #region using directives
 
 using DaLion.Overhaul.Modules.Professions.Extensions;
+using DaLion.Shared.Constants;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
 using StardewValley.Tools;
@@ -24,7 +25,7 @@ internal sealed class SlingshotCanThisBeAttachedPatcher : HarmonyPatcher
     [HarmonyPostfix]
     private static void SlingshotCanThisBeAttachedPostfix(Slingshot __instance, ref bool __result, SObject? o)
     {
-        __result = __result || (o is { bigCraftable.Value: false, ParentSheetIndex: ItemIDs.Slime } &&
+        __result = __result || (o is { bigCraftable.Value: false, ParentSheetIndex: ObjectIds.Slime } &&
                                 __instance.getLastFarmerToUse().HasProfession(Profession.Rascal));
     }
 

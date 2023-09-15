@@ -3,6 +3,7 @@
 #region using directives
 
 using System.Runtime.CompilerServices;
+using DaLion.Overhaul.Modules.Combat.Integrations;
 using DaLion.Overhaul.Modules.Combat.Resonance;
 using StardewValley.Objects;
 
@@ -15,8 +16,8 @@ internal static class CombinedRing_Chord
 
     internal static Chord? Get_Chord(this CombinedRing combined)
     {
-        return CombatModule.Config.EnableResonances && Globals.InfinityBandIndex.HasValue &&
-               combined.ParentSheetIndex == Globals.InfinityBandIndex.Value && combined.combinedRings.Count >= 2
+        return CombatModule.Config.EnableResonances && JsonAssetsIntegration.InfinityBandIndex.HasValue &&
+               combined.ParentSheetIndex == JsonAssetsIntegration.InfinityBandIndex.Value && combined.combinedRings.Count >= 2
             ? Values.GetValue(combined, Create)
             : null;
     }

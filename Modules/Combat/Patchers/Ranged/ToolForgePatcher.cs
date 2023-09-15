@@ -5,6 +5,7 @@
 using System.Reflection;
 using DaLion.Overhaul.Modules.Combat.Enchantments;
 using DaLion.Overhaul.Modules.Combat.VirtualProperties;
+using DaLion.Shared.Constants;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
 using StardewValley.Tools;
@@ -26,7 +27,7 @@ internal sealed class ToolForgePatcher : HarmonyPatcher
     [HarmonyPrefix]
     private static bool ToolForgePrefix(Tool __instance, ref bool __result, Item item, bool count_towards_stats)
     {
-        if (__instance is not Slingshot { InitialParentTileIndex: ItemIDs.GalaxySlingshot } slingshot ||
+        if (__instance is not Slingshot { InitialParentTileIndex: WeaponIds.GalaxySlingshot } slingshot ||
             !CombatModule.Config.EnableInfinitySlingshot)
         {
             return true; // run original logic
@@ -74,9 +75,9 @@ internal sealed class ToolForgePatcher : HarmonyPatcher
                 return false; // don't run original logic
             }
 
-            slingshot.CurrentParentTileIndex = ItemIDs.InfinitySlingshot;
-            slingshot.InitialParentTileIndex = ItemIDs.InfinitySlingshot;
-            slingshot.IndexOfMenuItemView = ItemIDs.InfinitySlingshot;
+            slingshot.CurrentParentTileIndex = WeaponIds.InfinitySlingshot;
+            slingshot.InitialParentTileIndex = WeaponIds.InfinitySlingshot;
+            slingshot.IndexOfMenuItemView = WeaponIds.InfinitySlingshot;
             slingshot.BaseName = "Infinity Slingshot";
             slingshot.DisplayName = I18n.Slingshots_Infinity_Name();
             slingshot.description = I18n.Slingshots_Infinity_Desc();

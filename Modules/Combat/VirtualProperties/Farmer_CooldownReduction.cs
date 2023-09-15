@@ -17,7 +17,7 @@ internal static class Farmer_CooldownReduction
 
     internal static float Get_CooldownReduction(this Farmer farmer)
     {
-        if (!Globals.GarnetRingIndex.HasValue)
+        if (!JsonAssetsIntegration.GarnetRingIndex.HasValue)
         {
             return 1f;
         }
@@ -39,7 +39,7 @@ internal static class Farmer_CooldownReduction
         {
             CooldownReduction = rings.WhereNotNull().Aggregate(
                 0,
-                (cdr, ring) => cdr + (ring.ParentSheetIndex == Globals.GarnetRingIndex!.Value ? 1 : 0)),
+                (cdr, ring) => cdr + (ring.ParentSheetIndex == JsonAssetsIntegration.GarnetRingIndex!.Value ? 1 : 0)),
         };
     }
 

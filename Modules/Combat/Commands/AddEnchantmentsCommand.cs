@@ -5,6 +5,7 @@
 using System.Linq;
 using System.Text;
 using DaLion.Overhaul.Modules.Combat.Enchantments;
+using DaLion.Overhaul.Modules.Combat.Integrations;
 using DaLion.Overhaul.Modules.Combat.VirtualProperties;
 using DaLion.Shared.Commands;
 using DaLion.Shared.Extensions;
@@ -98,9 +99,9 @@ internal sealed class AddEnchantmentsCommand : ConsoleCommand
                 continue;
             }
 
-            if (enchantment is GarnetEnchantment && !Globals.GarnetIndex.HasValue)
+            if (enchantment is GarnetEnchantment && !JsonAssetsIntegration.GarnetIndex.HasValue)
             {
-                Log.W("You must have the Rings module enabled and the Garnet item loaded to use the Garnet enchantment.");
+                Log.W("Can't apply Garnet Enchantment because the Garnet gemstone was not loaded.");
                 args = args.Skip(1).ToArray();
                 continue;
             }

@@ -1,6 +1,5 @@
 ﻿namespace DaLion.Overhaul.Modules.Combat.Patchers.Quests.Dwarven;
 
-
 #region using directives
 
 using DaLion.Overhaul.Modules.Combat.Enums;

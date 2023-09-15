@@ -2,6 +2,7 @@
 
 #region using directives
 
+using System.Diagnostics.CodeAnalysis;
 using DaLion.Shared.Attributes;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
@@ -22,6 +23,7 @@ internal sealed class ToolSetNewTileIndexForUpgradeLevelPatcher : HarmonyPatcher
 
     /// <summary>Don't change tile index. We will simply patch over it.</summary>
     [HarmonyPrefix]
+    [SuppressMessage("SMAPI.CommonErrors", "AvoidNetField:Avoid Netcode types when possible", Justification = "Bypass property setter.")]
     private static void ToolSetNewTileIndexForUpgradeLevelPrefix(Tool __instance, ref int? __state)
     {
         if (__instance.UpgradeLevel < 5)
@@ -35,6 +37,7 @@ internal sealed class ToolSetNewTileIndexForUpgradeLevelPatcher : HarmonyPatcher
 
     /// <summary>Don't change tile index. We will simply patch over it.</summary>
     [HarmonyPostfix]
+    [SuppressMessage("SMAPI.CommonErrors", "AvoidNetField:Avoid Netcode types when possible", Justification = "Bypass property setter.")]
     private static void ToolTilesAffectedPostfix(Tool __instance, ref int? __state)
     {
         if (__state.HasValue)

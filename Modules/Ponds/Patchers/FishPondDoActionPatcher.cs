@@ -12,9 +12,11 @@ using DaLion.Shared.Extensions.Collections;
 using DaLion.Shared.Extensions.Reflection;
 using DaLion.Shared.Extensions.Stardew;
 using DaLion.Shared.Harmony;
+using DaLion.Shared.Maps;
 using HarmonyLib;
 using Netcode;
 using StardewValley.Buildings;
+using xTile;
 
 #endregion using directives
 
@@ -180,7 +182,7 @@ internal sealed class FishPondDoActionPatcher : HarmonyPatcher
     private static bool TryThrowMetalIntoPond(FishPond pond, Farmer who)
     {
         if (who.ActiveObject is not { Category: SObject.metalResources } metallic ||
-            !metallic.CanEnrich() || !pond.IsRadioactive())
+            !metallic.CanBeEnriched() || !pond.IsRadioactive())
         {
             return false;
         }
@@ -221,7 +223,7 @@ internal sealed class FishPondDoActionPatcher : HarmonyPatcher
 
     private static bool IsExtendedFamilyMember(int held, int other)
     {
-        return Collections.ExtendedFamilyPairs.TryGetValue(other, out var pair) && pair == held;
+        return ExtendedFamilyPairs.Map.TryGetValue(other, out var pair) && pair == held;
     }
 
     #endregion injected subroutines

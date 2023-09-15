@@ -5,6 +5,7 @@
 using System.Collections.Generic;
 using DaLion.Overhaul.Modules.Core.Events;
 using DaLion.Overhaul.Modules.Core.UI;
+using DaLion.Shared.Constants;
 using DaLion.Shared.Events;
 using DaLion.Shared.Extensions;
 using DaLion.Shared.Extensions.Stardew;
@@ -28,7 +29,7 @@ internal sealed class WarriorUpdateTickedEvent : UpdateTickedEvent
         this._buffId = (Manifest.UniqueID + "Warrior").GetHashCode();
         this._buffSource =
             ModHelper.GameContent
-                .Load<Dictionary<int, string>>("Data/ObjectInformation")[ItemIDs.WarriorRing]
+                .Load<Dictionary<int, string>>("Data/ObjectInformation")[ObjectIds.WarriorRing]
                 .SplitWithoutAllocation('/')[0]
                 .ToString();
         this._buffDescription = I18n.Buffs_Warrior_Desc();
@@ -50,7 +51,7 @@ internal sealed class WarriorUpdateTickedEvent : UpdateTickedEvent
         }
 
         // decay counter every 5 seconds after 25 seconds out of combat
-        if (Game1.game1.ShouldTimePass() && Globals.SecondsOutOfCombat > 25 && e.IsMultipleOf(300))
+        if (Game1.game1.ShouldTimePass() && GlobalState.SecondsOutOfCombat > 25 && e.IsMultipleOf(300))
         {
             CombatModule.State.WarriorKillCount--;
         }

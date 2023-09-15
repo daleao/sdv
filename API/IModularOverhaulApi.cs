@@ -110,32 +110,32 @@ public interface IModularOverhaulApi
 
     /// <summary>Registers a new instance of an event raised when the player's <see cref="IModularOverhaul.IUltimate"/> is activated.</summary>
     /// <param name="callback">The delegate that will be called when the event is triggered.</param>
-    /// <returns>A new <see cref="IManagedEvent"/> instance which encapsulates the specified <paramref name="callback"/>.</returns>
+    /// <returns>A new <see cref="IModularOverhaul.IManagedEvent"/> instance which encapsulates the specified <paramref name="callback"/>.</returns>
     IModularOverhaul.IManagedEvent RegisterUltimateActivatedEvent(Action<object?, IModularOverhaul.IUltimateActivatedEventArgs> callback);
 
     /// <summary>Registers a new instance of an event raised when the player's <see cref="IModularOverhaul.IUltimate"/> is deactivated.</summary>
     /// <param name="callback">The delegate that will be called when the event is triggered.</param>
-    /// <returns>A new <see cref="IManagedEvent"/> instance which encapsulates the specified <paramref name="callback"/>.</returns>
+    /// <returns>A new <see cref="IModularOverhaul.IManagedEvent"/> instance which encapsulates the specified <paramref name="callback"/>.</returns>
     IModularOverhaul.IManagedEvent RegisterUltimateDeactivatedEvent(Action<object?, IModularOverhaul.IUltimateDeactivatedEventArgs> callback);
 
     /// <summary>Registers a new instance of an event raised when the player's <see cref="IModularOverhaul.IUltimate"/> gains charge from zero.</summary>
     /// <param name="callback">The delegate that will be called when the event is triggered.</param>
-    /// <returns>A new <see cref="IManagedEvent"/> instance which encapsulates the specified <paramref name="callback"/>.</returns>
+    /// <returns>A new <see cref="IModularOverhaul.IManagedEvent"/> instance which encapsulates the specified <paramref name="callback"/>.</returns>
     IModularOverhaul.IManagedEvent RegisterUltimateChargeInitiatedEvent(Action<object?, IModularOverhaul.IUltimateChargeInitiatedEventArgs> callback);
 
     /// <summary>Registers a new instance of an event raised when the player's <see cref="IModularOverhaul.IUltimate"/> charge increases.</summary>
     /// <param name="callback">The delegate that will be called when the event is triggered.</param>
-    /// <returns>A new <see cref="IManagedEvent"/> instance which encapsulates the specified <paramref name="callback"/>.</returns>
+    /// <returns>A new <see cref="IModularOverhaul.IManagedEvent"/> instance which encapsulates the specified <paramref name="callback"/>.</returns>
     IModularOverhaul.IManagedEvent RegisterUltimateChargeIncreasedEvent(Action<object?, IModularOverhaul.IUltimateChargeIncreasedEventArgs> callback);
 
     /// <summary>Registers a new instance of an event raised when the player's <see cref="IModularOverhaul.IUltimate"/> reaches full charge.</summary>
     /// <param name="callback">The delegate that will be called when the event is triggered.</param>
-    /// <returns>A new <see cref="IManagedEvent"/> instance which encapsulates the specified <paramref name="callback"/>.</returns>
+    /// <returns>A new <see cref="IModularOverhaul.IManagedEvent"/> instance which encapsulates the specified <paramref name="callback"/>.</returns>
     IModularOverhaul.IManagedEvent RegisterUltimateFullyChargedEvent(Action<object?, IModularOverhaul.IUltimateFullyChargedEventArgs> callback);
 
     /// <summary>Registers a new instance of an event raised when the player's <see cref="IModularOverhaul.IUltimate"/> returns to zero charge.</summary>
     /// <param name="callback">The delegate that will be called when the event is triggered.</param>
-    /// <returns>A new <see cref="IManagedEvent"/> instance which encapsulates the specified <paramref name="callback"/>.</returns>
+    /// <returns>A new <see cref="IModularOverhaul.IManagedEvent"/> instance which encapsulates the specified <paramref name="callback"/>.</returns>
     IModularOverhaul.IManagedEvent RegisterUltimateEmptiedEvent(Action<object?, IModularOverhaul.IUltimateEmptiedEventArgs> callback);
 
     #endregion limit break

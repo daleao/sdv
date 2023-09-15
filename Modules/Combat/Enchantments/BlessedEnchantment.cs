@@ -69,7 +69,7 @@ public class BlessedEnchantment : BaseWeaponEnchantment
             who.UniqueMultiplayerID);
     }
 
-    public void Update(Farmer who)
+    internal void Update(Farmer who)
     {
         if (!this._lightSourceId.HasValue)
         {

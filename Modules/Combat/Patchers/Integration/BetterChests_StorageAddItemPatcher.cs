@@ -4,6 +4,7 @@
 
 using System.Diagnostics.CodeAnalysis;
 using DaLion.Shared.Attributes;
+using DaLion.Shared.Constants;
 using DaLion.Shared.Exceptions;
 using DaLion.Shared.Extensions.Reflection;
 using DaLion.Shared.Harmony;
@@ -40,7 +41,7 @@ internal sealed class StorageAddItemPatcher : HarmonyPatcher
     [HarmonyPrefix]
     private static bool StorageAddItemPrefix(ref Item __result, Item item)
     {
-        if (item is not MeleeWeapon { InitialParentTileIndex: ItemIDs.DarkSword })
+        if (item is not MeleeWeapon { InitialParentTileIndex: WeaponIds.DarkSword })
         {
             return true; // run original logic
         }

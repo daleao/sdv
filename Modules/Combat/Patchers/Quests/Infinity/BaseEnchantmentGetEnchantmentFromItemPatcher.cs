@@ -3,6 +3,7 @@
 #region using directives
 
 using DaLion.Overhaul.Modules.Combat.Enchantments;
+using DaLion.Overhaul.Modules.Combat.Integrations;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
 
@@ -23,7 +24,7 @@ internal sealed class BaseEnchantmentGetEnchantmentFromItemPatcher : HarmonyPatc
     [HarmonyPostfix]
     private static void BaseEnchantmentGetEnchantmentFromItemPostfix(ref BaseEnchantment? __result, Item item)
     {
-        if (__result is null && Globals.HeroSoulIndex.HasValue && item.ParentSheetIndex == Globals.HeroSoulIndex.Value)
+        if (__result is null && JsonAssetsIntegration.HeroSoulIndex.HasValue && item.ParentSheetIndex == JsonAssetsIntegration.HeroSoulIndex.Value)
         {
             __result = new InfinityEnchantment();
         }

@@ -5,6 +5,7 @@
 using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
+using DaLion.Shared.Constants;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
 using StardewValley.Tools;
@@ -27,8 +28,8 @@ internal sealed class BaseEnchantmentGetEnchantmentFromItemPatcher : HarmonyPatc
     private static void BaseEnchantmentGetEnchantmentFromItemPostfix(ref BaseEnchantment? __result, Item? base_item, Item item)
     {
         if (CombatModule.Config.EnableInfinitySlingshot &&
-            base_item is Slingshot { InitialParentTileIndex: ItemIDs.GalaxySlingshot } &&
-            Utility.IsNormalObjectAtParentSheetIndex(item, ItemIDs.GalaxySoul))
+            base_item is Slingshot { InitialParentTileIndex: WeaponIds.GalaxySlingshot } &&
+            Utility.IsNormalObjectAtParentSheetIndex(item, ObjectIds.GalaxySoul))
         {
             __result = new GalaxySoulEnchantment();
         }

@@ -5,6 +5,7 @@
 using System.Globalization;
 using DaLion.Overhaul.Modules.Combat.Enums;
 using DaLion.Overhaul.Modules.Combat.Integrations;
+using DaLion.Shared.Constants;
 using DaLion.Shared.Content;
 using DaLion.Shared.Events;
 using DaLion.Shared.Extensions.Stardew;
@@ -172,14 +173,14 @@ internal sealed class CombatAssetRequestedEvent : AssetRequestedEvent
         drops[^1] = ".05";
         fields[6] = string.Join(' ', drops);
         data["Lava Lurk"] = string.Join('/', fields);
-        if (!Globals.DwarvenScrapIndex.HasValue)
+        if (!JsonAssetsIntegration.DwarvenScrapIndex.HasValue)
         {
             return;
         }
 
         fields = data["Dwarvish Sentry"].Split('/');
         drops = fields[6].Split(' ');
-        drops = drops.AddRangeToArray(new[] { Globals.DwarvenScrapIndex.Value.ToString(), ".05" });
+        drops = drops.AddRangeToArray(new[] { JsonAssetsIntegration.DwarvenScrapIndex.Value.ToString(), ".05" });
         fields[6] = string.Join(' ', drops);
         data["Dwarvish Sentry"] = string.Join('/', fields);
     }
@@ -192,53 +193,53 @@ internal sealed class CombatAssetRequestedEvent : AssetRequestedEvent
 
         if (CombatModule.Config.RebalancedRings)
         {
-            fields = data[ItemIDs.TopazRing].Split('/');
+            fields = data[ObjectIds.TopazRing].Split('/');
             fields[5] = CombatModule.ShouldEnable && CombatModule.Config.NewResistanceFormula
                 ? I18n.Rings_Topaz_Desc_Resist()
                 : I18n.Rings_Topaz_Desc_Defense();
-            data[ItemIDs.TopazRing] = string.Join('/', fields);
+            data[ObjectIds.TopazRing] = string.Join('/', fields);
 
-            fields = data[ItemIDs.JadeRing].Split('/');
+            fields = data[ObjectIds.JadeRing].Split('/');
             fields[5] = I18n.Rings_Jade_Desc();
-            data[ItemIDs.JadeRing] = string.Join('/', fields);
+            data[ObjectIds.JadeRing] = string.Join('/', fields);
 
-            fields = data[ItemIDs.WarriorRing].Split('/');
+            fields = data[ObjectIds.WarriorRing].Split('/');
             fields[5] = I18n.Rings_Warrior_Desc();
-            data[ItemIDs.WarriorRing] = string.Join('/', fields);
+            data[ObjectIds.WarriorRing] = string.Join('/', fields);
 
-            fields = data[ItemIDs.YobaRing].Split('/');
+            fields = data[ObjectIds.RingOfYoba].Split('/');
             fields[5] = I18n.Rings_Yoba_Desc();
-            data[ItemIDs.YobaRing] = string.Join('/', fields);
+            data[ObjectIds.RingOfYoba] = string.Join('/', fields);
 
-            fields = data[ItemIDs.ImmunityRing].Split('/');
+            fields = data[ObjectIds.ImmunityRing].Split('/');
             fields[5] += I18n.Rings_Immunity_ExtraDesc();
-            data[ItemIDs.ImmunityRing] = string.Join('/', fields);
+            data[ObjectIds.ImmunityRing] = string.Join('/', fields);
 
             if (LocalizedContentManager.CurrentLanguageCode == LocalizedContentManager.LanguageCode.en)
             {
-                fields = data[ItemIDs.ThornsRing].Split('/');
+                fields = data[ObjectIds.ThornsRing].Split('/');
                 if (!ModHelper.ModRegistry.IsLoaded("Rafseazz.RidgesideVillage"))
                 {
                     fields[0] = "Ring of Thorns";
                 }
 
-                data[ItemIDs.ThornsRing] = string.Join('/', fields);
+                data[ObjectIds.ThornsRing] = string.Join('/', fields);
             }
         }
 
         if (CombatModule.Config.EnableInfinityBand)
         {
-            fields = data[ItemIDs.IridiumBand].Split('/');
+            fields = data[ObjectIds.IridiumBand].Split('/');
             fields[5] = I18n.Rings_Iridium_Desc();
-            data[ItemIDs.IridiumBand] = string.Join('/', fields);
+            data[ObjectIds.IridiumBand] = string.Join('/', fields);
         }
 
         if (CombatModule.Config.EnableHeroQuest)
         {
             // edit galaxy soul description
-            fields = data[ItemIDs.GalaxySoul].Split('/');
+            fields = data[ObjectIds.GalaxySoul].Split('/');
             fields[5] = I18n.Objects_GalaxySoul_Desc();
-            data[ItemIDs.GalaxySoul] = string.Join('/', fields);
+            data[ObjectIds.GalaxySoul] = string.Join('/', fields);
         }
     }
 
@@ -314,9 +315,9 @@ internal sealed class CombatAssetRequestedEvent : AssetRequestedEvent
                     {
                         fields[Name] = fields[Name].Replace("Dwarf", "Dwarven");
                     }
-                    else if (key is ItemIDs.ElfBlade or ItemIDs.ForestSword)
+                    else if (key is WeaponIds.ElfBlade or WeaponIds.ForestSword)
                     {
-                        fields[Name] = fields[Name].Replace(key == ItemIDs.ElfBlade ? "Elf" : "Forest", "Elven");
+                        fields[Name] = fields[Name].Replace(key == WeaponIds.ElfBlade ? "Elf" : "Forest", "Elven");
                     }
                 }
 
@@ -324,11 +325,11 @@ internal sealed class CombatAssetRequestedEvent : AssetRequestedEvent
                 {
                     switch (key)
                     {
-                        case ItemIDs.DarkSword:
+                        case WeaponIds.DarkSword:
                             fields[Name] = I18n.Weapons_DarkSword_Name();
                             fields[Description] = I18n.Weapons_DarkSword_Desc();
                             break;
-                        case ItemIDs.HolyBlade:
+                        case WeaponIds.HolyBlade:
                             fields[Name] = I18n.Weapons_HolyBlade_Name();
                             fields[Description] = I18n.Weapons_HolyBlade_Desc();
                             break;
@@ -342,7 +343,7 @@ internal sealed class CombatAssetRequestedEvent : AssetRequestedEvent
         if (CombatModule.Config.EnableInfinitySlingshot)
         {
             var data = asset.AsDictionary<int, string>().Data;
-            data[ItemIDs.InfinitySlingshot] = string.Format(
+            data[WeaponIds.InfinitySlingshot] = string.Format(
                 "Infinity Slingshot/{0}/1/3/1/308/0/0/4/-1/-1/0/.02/3/{1}",
                 I18n.Slingshots_Infinity_Desc(),
                 I18n.Slingshots_Infinity_Name());
@@ -485,7 +486,7 @@ internal sealed class CombatAssetRequestedEvent : AssetRequestedEvent
     /// <summary>Adds Garnet Node to Custom Ore Nodes dictionary.</summary>
     private static void EditCustomOreNodes(IAssetData asset)
     {
-        if (!Globals.GarnetIndex.HasValue)
+        if (!JsonAssetsIntegration.GarnetIndex.HasValue)
         {
             Log.W("[CMBT]: Failed to add Garnet Ore Node because the Garnet gemstone was not loaded.");
             return;
@@ -499,7 +500,7 @@ internal sealed class CombatAssetRequestedEvent : AssetRequestedEvent
                 {
                     new
                     {
-                        itemIdOrName = Globals.GarnetIndex.Value.ToString(),
+                        itemIdOrName = JsonAssetsIntegration.GarnetIndex.Value.ToString(),
                         dropChance = 100.0,
                         minAmount = 1,
                         maxAmount = 2,
@@ -508,7 +509,7 @@ internal sealed class CombatAssetRequestedEvent : AssetRequestedEvent
                     },
                     new
                     {
-                        itemIdOrName = SObject.stone.ToString(),
+                        itemIdOrName = ObjectIds.Stone.ToString(),
                         dropChance = 75.0,
                         minAmount = 2,
                         maxAmount = 5,
@@ -583,7 +584,7 @@ internal sealed class CombatAssetRequestedEvent : AssetRequestedEvent
                 break;
 
             // BASIC SWORDS
-            case ItemIDs.WoodenBlade:
+            case WeaponIds.WoodenBlade:
                 fields[MinDamage] = 2.ToString();
                 fields[MaxDamage] = 5.ToString();
                 fields[Knockback] = 0.4.ToString(CultureInfo.InvariantCulture);
@@ -596,7 +597,7 @@ internal sealed class CombatAssetRequestedEvent : AssetRequestedEvent
                 fields[CritChance] = 0.05.ToString(CultureInfo.InvariantCulture);
                 fields[CritPower] = 1.5.ToString(CultureInfo.InvariantCulture);
                 break;
-            case ItemIDs.SteelSmallsword:
+            case WeaponIds.SteelSmallsword:
                 fields[MinDamage] = 8.ToString();
                 fields[MaxDamage] = 12.ToString();
                 fields[Knockback] = 0.5.ToString(CultureInfo.InvariantCulture);
@@ -609,7 +610,7 @@ internal sealed class CombatAssetRequestedEvent : AssetRequestedEvent
                 fields[CritChance] = 0.05.ToString(CultureInfo.InvariantCulture);
                 fields[CritPower] = 2.0.ToString(CultureInfo.InvariantCulture);
                 break;
-            case ItemIDs.Cutlass:
+            case WeaponIds.Cutlass:
                 fields[MinDamage] = 20.ToString();
                 fields[MaxDamage] = 26.ToString();
                 fields[Knockback] = 0.5.ToString(CultureInfo.InvariantCulture);
@@ -622,7 +623,7 @@ internal sealed class CombatAssetRequestedEvent : AssetRequestedEvent
                 fields[CritChance] = 0.06.ToString(CultureInfo.InvariantCulture);
                 fields[CritPower] = 2.0.ToString(CultureInfo.InvariantCulture);
                 break;
-            case ItemIDs.Rapier:
+            case WeaponIds.Rapier:
                 fields[MinDamage] = 30.ToString();
                 fields[MaxDamage] = 40.ToString();
                 fields[Knockback] = 0.35.ToString(CultureInfo.InvariantCulture);
@@ -635,7 +636,7 @@ internal sealed class CombatAssetRequestedEvent : AssetRequestedEvent
                 fields[CritChance] = 0.05.ToString(CultureInfo.InvariantCulture);
                 fields[CritPower] = 1.5.ToString(CultureInfo.InvariantCulture);
                 break;
-            case ItemIDs.SteelFalchion:
+            case WeaponIds.SteelFalchion:
                 fields[MinDamage] = 46.ToString();
                 fields[MaxDamage] = 58.ToString();
                 fields[Knockback] = 0.45.ToString(CultureInfo.InvariantCulture);
@@ -648,7 +649,7 @@ internal sealed class CombatAssetRequestedEvent : AssetRequestedEvent
                 fields[CritChance] = 0.05.ToString(CultureInfo.InvariantCulture);
                 fields[CritPower] = 2.4.ToString(CultureInfo.InvariantCulture);
                 break;
-            case ItemIDs.SilverSaber:
+            case WeaponIds.SilverSaber:
                 fields[MinDamage] = 7.ToString();
                 fields[MaxDamage] = 13.ToString();
                 fields[Knockback] = 0.5.ToString(CultureInfo.InvariantCulture);
@@ -661,7 +662,7 @@ internal sealed class CombatAssetRequestedEvent : AssetRequestedEvent
                 fields[CritChance] = 0.05.ToString(CultureInfo.InvariantCulture);
                 fields[CritPower] = 2.0.ToString(CultureInfo.InvariantCulture);
                 break;
-            case ItemIDs.IronEdge:
+            case WeaponIds.IronEdge:
                 fields[MinDamage] = 18.ToString();
                 fields[MaxDamage] = 28.ToString();
                 fields[Knockback] = 0.55.ToString(CultureInfo.InvariantCulture);
@@ -673,7 +674,7 @@ internal sealed class CombatAssetRequestedEvent : AssetRequestedEvent
                 fields[CritChance] = 0.05.ToString(CultureInfo.InvariantCulture);
                 fields[CritPower] = 2.0.ToString(CultureInfo.InvariantCulture);
                 break;
-            case ItemIDs.Claymore:
+            case WeaponIds.Claymore:
                 fields[MinDamage] = 28.ToString();
                 fields[MaxDamage] = 44.ToString();
                 fields[Knockback] = 0.95.ToString(CultureInfo.InvariantCulture);
@@ -685,7 +686,7 @@ internal sealed class CombatAssetRequestedEvent : AssetRequestedEvent
                 fields[CritChance] = 0.05.ToString(CultureInfo.InvariantCulture);
                 fields[CritPower] = 2.5.ToString(CultureInfo.InvariantCulture);
                 break;
-            case ItemIDs.TemperedBroadsword:
+            case WeaponIds.TemperedBroadsword:
                 fields[MinDamage] = 36.ToString();
                 fields[MaxDamage] = 54.ToString();
                 fields[Knockback] = 0.65.ToString(CultureInfo.InvariantCulture);
@@ -697,7 +698,7 @@ internal sealed class CombatAssetRequestedEvent : AssetRequestedEvent
                 fields[CritChance] = 0.05.ToString(CultureInfo.InvariantCulture);
                 fields[CritPower] = 2.ToString(CultureInfo.InvariantCulture);
                 break;
-            case ItemIDs.TemplarsBlade:
+            case WeaponIds.TemplarsBlade:
                 fields[MinDamage] = 60.ToString();
                 fields[MaxDamage] = 80.ToString();
                 fields[Knockback] = 0.5.ToString(CultureInfo.InvariantCulture);
@@ -711,7 +712,7 @@ internal sealed class CombatAssetRequestedEvent : AssetRequestedEvent
                 fields[CritPower] = 2.5.ToString(CultureInfo.InvariantCulture);
                 break;
 
-            case ItemIDs.ForestSword:
+            case WeaponIds.ForestSword:
                 if (CombatModule.Config.DwarvenLegacy)
                 {
                     fields[MinDamage] = 85.ToString();
@@ -742,7 +743,7 @@ internal sealed class CombatAssetRequestedEvent : AssetRequestedEvent
                 }
 
                 break;
-            case ItemIDs.BoneSword:
+            case WeaponIds.BoneSword:
                 fields[MinDamage] = 34.ToString();
                 fields[MaxDamage] = 46.ToString();
                 fields[Knockback] = 0.45.ToString(CultureInfo.InvariantCulture);
@@ -755,7 +756,7 @@ internal sealed class CombatAssetRequestedEvent : AssetRequestedEvent
                 fields[CritChance] = 0.05.ToString(CultureInfo.InvariantCulture);
                 fields[CritPower] = 1.8.ToString(CultureInfo.InvariantCulture);
                 break;
-            case ItemIDs.OssifiedBlade:
+            case WeaponIds.OssifiedBlade:
                 fields[MinDamage] = 64.ToString();
                 fields[MaxDamage] = 85.ToString();
                 fields[Knockback] = 0.5.ToString(CultureInfo.InvariantCulture);
@@ -768,7 +769,7 @@ internal sealed class CombatAssetRequestedEvent : AssetRequestedEvent
                 fields[CritChance] = 0.05.ToString(CultureInfo.InvariantCulture);
                 fields[CritPower] = 2.5.ToString(CultureInfo.InvariantCulture);
                 break;
-            case ItemIDs.PirateSword:
+            case WeaponIds.PiratesSword:
                 fields[MinDamage] = 36.ToString();
                 fields[MaxDamage] = 48.ToString();
                 fields[Knockback] = 0.5.ToString(CultureInfo.InvariantCulture);
@@ -783,7 +784,7 @@ internal sealed class CombatAssetRequestedEvent : AssetRequestedEvent
                 break;
 
             // UNIQUE SWORDS
-            case ItemIDs.ObsidianEdge:
+            case WeaponIds.ObsidianEdge:
                 fields[Description] = I18n.Weapons_ObsidianEdge_Desc();
                 fields[MinDamage] = 70.ToString();
                 fields[MaxDamage] = 95.ToString();
@@ -797,7 +798,7 @@ internal sealed class CombatAssetRequestedEvent : AssetRequestedEvent
                 fields[CritChance] = 0.1.ToString(CultureInfo.InvariantCulture);
                 fields[CritPower] = 2.5.ToString(CultureInfo.InvariantCulture);
                 break;
-            case ItemIDs.LavaKatana:
+            case WeaponIds.LavaKatana:
                 fields[Description] += I18n.Weapons_LavaKatana_ExtraDesc();
                 fields[MinDamage] = 95.ToString();
                 fields[MaxDamage] = 110.ToString();
@@ -811,7 +812,7 @@ internal sealed class CombatAssetRequestedEvent : AssetRequestedEvent
                 fields[CritChance] = 0.0625.ToString(CultureInfo.InvariantCulture);
                 fields[CritPower] = 3.ToString(CultureInfo.InvariantCulture);
                 break;
-            case ItemIDs.NeptuneGlaive:
+            case WeaponIds.NeptuneGlaive:
                 fields[Description] = I18n.Weapons_NeptuneGlaive_Desc();
                 fields[MinDamage] = 90.ToString();
                 fields[MaxDamage] = 120.ToString();
@@ -825,7 +826,7 @@ internal sealed class CombatAssetRequestedEvent : AssetRequestedEvent
                 fields[CritChance] = 0.05.ToString(CultureInfo.InvariantCulture);
                 fields[CritPower] = 2.0.ToString(CultureInfo.InvariantCulture);
                 break;
-            case ItemIDs.YetiTooth:
+            case WeaponIds.YetiTooth:
                 fields[Description] += I18n.Weapons_YetiTooth_ExtraDesc();
                 fields[MinDamage] = 33.ToString();
                 fields[MaxDamage] = 44.ToString();
@@ -840,7 +841,7 @@ internal sealed class CombatAssetRequestedEvent : AssetRequestedEvent
                 break;
 
             // BIS SWORDS
-            case ItemIDs.DarkSword:
+            case WeaponIds.DarkSword:
                 fields[Name] = I18n.Weapons_DarkSword_Name();
                 fields[Description] = I18n.Weapons_DarkSword_Desc();
                 fields[MinDamage] = 100.ToString();
@@ -853,7 +854,7 @@ internal sealed class CombatAssetRequestedEvent : AssetRequestedEvent
                 fields[CritChance] = 0.05.ToString(CultureInfo.InvariantCulture);
                 fields[CritPower] = 2.0.ToString(CultureInfo.InvariantCulture);
                 break;
-            case ItemIDs.HolyBlade:
+            case WeaponIds.HolyBlade:
                 fields[Name] = I18n.Weapons_HolyBlade_Name();
                 fields[Description] = I18n.Weapons_HolyBlade_Desc();
                 fields[MinDamage] = 120.ToString();
@@ -866,7 +867,7 @@ internal sealed class CombatAssetRequestedEvent : AssetRequestedEvent
                 fields[CritChance] = 0.05.ToString(CultureInfo.InvariantCulture);
                 fields[CritPower] = 2.0.ToString(CultureInfo.InvariantCulture);
                 break;
-            case ItemIDs.GalaxySword:
+            case WeaponIds.GalaxySword:
                 fields[MinDamage] = 80.ToString();
                 fields[MaxDamage] = 120.ToString();
                 fields[Knockback] = 0.5.ToString(CultureInfo.InvariantCulture);
@@ -880,7 +881,7 @@ internal sealed class CombatAssetRequestedEvent : AssetRequestedEvent
                 fields[CritPower] = 2.1.ToString(CultureInfo.InvariantCulture);
                 break;
 
-            case ItemIDs.DwarfSword:
+            case WeaponIds.DwarfSword:
                 fields[MinDamage] = 130.ToString();
                 fields[MaxDamage] = 175.ToString();
                 fields[Knockback] = 0.75.ToString(CultureInfo.InvariantCulture);
@@ -893,7 +894,7 @@ internal sealed class CombatAssetRequestedEvent : AssetRequestedEvent
                 fields[CritChance] = 0.05.ToString(CultureInfo.InvariantCulture);
                 fields[CritPower] = 2.0.ToString(CultureInfo.InvariantCulture);
                 break;
-            case ItemIDs.DragonTooth:
+            case WeaponIds.DragontoothCutlass:
                 fields[MinDamage] = 160.ToString();
                 fields[MaxDamage] = 200.ToString();
                 fields[Knockback] = 0.5.ToString(CultureInfo.InvariantCulture);
@@ -906,7 +907,7 @@ internal sealed class CombatAssetRequestedEvent : AssetRequestedEvent
                 fields[CritChance] = 0.05.ToString(CultureInfo.InvariantCulture);
                 fields[CritPower] = 3.ToString(CultureInfo.InvariantCulture);
                 break;
-            case ItemIDs.InfinityBlade:
+            case WeaponIds.InfinityBlade:
                 fields[MinDamage] = 140.ToString();
                 fields[MaxDamage] = 180.ToString();
                 fields[Knockback] = 0.5.ToString(CultureInfo.InvariantCulture);
@@ -925,7 +926,7 @@ internal sealed class CombatAssetRequestedEvent : AssetRequestedEvent
             #region daggers
 
             // BASIC DAGGERS
-            case ItemIDs.CarvingKnife:
+            case WeaponIds.CarvingKnife:
                 fields[MinDamage] = 4.ToString();
                 fields[MaxDamage] = 6.ToString();
                 fields[Knockback] = 0.2.ToString(CultureInfo.InvariantCulture);
@@ -938,7 +939,7 @@ internal sealed class CombatAssetRequestedEvent : AssetRequestedEvent
                 fields[CritChance] = 0.1.ToString(CultureInfo.InvariantCulture);
                 fields[CritPower] = 1.5.ToString(CultureInfo.InvariantCulture);
                 break;
-            case ItemIDs.BurglarsShank:
+            case WeaponIds.BurglarsShank:
                 fields[MinDamage] = 13.ToString();
                 fields[MaxDamage] = 16.ToString();
                 fields[Knockback] = 0.25.ToString(CultureInfo.InvariantCulture);
@@ -951,7 +952,7 @@ internal sealed class CombatAssetRequestedEvent : AssetRequestedEvent
                 fields[CritChance] = 0.15.ToString(CultureInfo.InvariantCulture);
                 fields[CritPower] = 1.4.ToString(CultureInfo.InvariantCulture);
                 break;
-            case ItemIDs.WindSpire:
+            case WeaponIds.WindSpire:
                 fields[MinDamage] = 22.ToString();
                 fields[MaxDamage] = 26.ToString();
                 fields[Knockback] = 0.35.ToString(CultureInfo.InvariantCulture);
@@ -964,7 +965,7 @@ internal sealed class CombatAssetRequestedEvent : AssetRequestedEvent
                 fields[CritChance] = 0.1.ToString(CultureInfo.InvariantCulture);
                 fields[CritPower] = 1.5.ToString(CultureInfo.InvariantCulture);
                 break;
-            case ItemIDs.IronDirk:
+            case WeaponIds.IronDirk:
                 fields[MinDamage] = 30.ToString();
                 fields[MaxDamage] = 36.ToString();
                 fields[Knockback] = 0.25.ToString(CultureInfo.InvariantCulture);
@@ -977,7 +978,7 @@ internal sealed class CombatAssetRequestedEvent : AssetRequestedEvent
                 fields[CritChance] = 0.1.ToString(CultureInfo.InvariantCulture);
                 fields[CritPower] = 1.875.ToString(CultureInfo.InvariantCulture);
                 break;
-            case ItemIDs.WickedKris:
+            case WeaponIds.WickedKris:
                 fields[MinDamage] = 44.ToString();
                 fields[MaxDamage] = 52.ToString();
                 fields[Knockback] = 0.25.ToString(CultureInfo.InvariantCulture);
@@ -991,7 +992,7 @@ internal sealed class CombatAssetRequestedEvent : AssetRequestedEvent
                 fields[CritPower] = 2.0.ToString(CultureInfo.InvariantCulture);
                 break;
 
-            case ItemIDs.CrystalDagger:
+            case WeaponIds.CrystalDagger:
                 fields[MinDamage] = 28.ToString();
                 fields[MaxDamage] = 32.ToString();
                 fields[Knockback] = 0.25.ToString(CultureInfo.InvariantCulture);
@@ -1004,7 +1005,7 @@ internal sealed class CombatAssetRequestedEvent : AssetRequestedEvent
                 fields[CritChance] = 0.1.ToString(CultureInfo.InvariantCulture);
                 fields[CritPower] = 1.5.ToString(CultureInfo.InvariantCulture);
                 break;
-            case ItemIDs.ShadowDagger:
+            case WeaponIds.ShadowDagger:
                 fields[MinDamage] = 54.ToString();
                 fields[MaxDamage] = 62.ToString();
                 fields[Knockback] = 0.25.ToString(CultureInfo.InvariantCulture);
@@ -1017,7 +1018,7 @@ internal sealed class CombatAssetRequestedEvent : AssetRequestedEvent
                 fields[CritChance] = 0.11.ToString(CultureInfo.InvariantCulture);
                 fields[CritPower] = 1.5.ToString(CultureInfo.InvariantCulture);
                 break;
-            case ItemIDs.ElfBlade:
+            case WeaponIds.ElfBlade:
                 if (CombatModule.Config.DwarvenLegacy)
                 {
                     fields[MinDamage] = 50.ToString();
@@ -1048,7 +1049,7 @@ internal sealed class CombatAssetRequestedEvent : AssetRequestedEvent
                 }
 
                 break;
-            case ItemIDs.BrokenTrident:
+            case WeaponIds.BrokenTrident:
                 fields[MinDamage] = 50.ToString();
                 fields[MaxDamage] = 58.ToString();
                 fields[Knockback] = 0.35.ToString(CultureInfo.InvariantCulture);
@@ -1063,7 +1064,7 @@ internal sealed class CombatAssetRequestedEvent : AssetRequestedEvent
                 break;
 
             // UNIQUE DAGGERS
-            case ItemIDs.InsectHead:
+            case WeaponIds.InsectHead:
                 fields[Description] += I18n.Weapons_InsectHead_ExtraDesc();
                 fields[MinDamage] = 1.ToString();
                 fields[MaxDamage] = 3.ToString();
@@ -1080,7 +1081,7 @@ internal sealed class CombatAssetRequestedEvent : AssetRequestedEvent
                 break;
 
             // BIS DAGGERS
-            case ItemIDs.GalaxyDagger:
+            case WeaponIds.GalaxyDagger:
                 fields[MinDamage] = 55.ToString();
                 fields[MaxDamage] = 70.ToString();
                 fields[Knockback] = 0.275.ToString(CultureInfo.InvariantCulture);
@@ -1093,7 +1094,7 @@ internal sealed class CombatAssetRequestedEvent : AssetRequestedEvent
                 fields[CritChance] = 0.1.ToString(CultureInfo.InvariantCulture);
                 fields[CritPower] = 1.65.ToString(CultureInfo.InvariantCulture);
                 break;
-            case ItemIDs.DwarfDagger:
+            case WeaponIds.DwarfDagger:
                 fields[MinDamage] = 95.ToString();
                 fields[MaxDamage] = 115.ToString();
                 fields[Knockback] = 0.5.ToString(CultureInfo.InvariantCulture);
@@ -1106,7 +1107,7 @@ internal sealed class CombatAssetRequestedEvent : AssetRequestedEvent
                 fields[CritChance] = 0.1.ToString(CultureInfo.InvariantCulture);
                 fields[CritPower] = 1.5.ToString(CultureInfo.InvariantCulture);
                 break;
-            case ItemIDs.DragontoothShiv:
+            case WeaponIds.DragontoothShiv:
                 fields[MinDamage] = 125.ToString();
                 fields[MaxDamage] = 140.ToString();
                 fields[Knockback] = 0.25.ToString(CultureInfo.InvariantCulture);
@@ -1119,7 +1120,7 @@ internal sealed class CombatAssetRequestedEvent : AssetRequestedEvent
                 fields[CritChance] = 0.1.ToString(CultureInfo.InvariantCulture);
                 fields[CritPower] = 2.5.ToString(CultureInfo.InvariantCulture);
                 break;
-            case ItemIDs.InfinityDagger:
+            case WeaponIds.InfinityDagger:
                 fields[MinDamage] = 105.ToString();
                 fields[MaxDamage] = 120.ToString();
                 fields[Knockback] = 0.3.ToString(CultureInfo.InvariantCulture);
@@ -1132,7 +1133,7 @@ internal sealed class CombatAssetRequestedEvent : AssetRequestedEvent
                 fields[CritChance] = 0.1.ToString(CultureInfo.InvariantCulture);
                 fields[CritPower] = 1.8.ToString(CultureInfo.InvariantCulture);
                 break;
-            case ItemIDs.IridiumNeedle:
+            case WeaponIds.IridiumNeedle:
                 fields[Description] += I18n.Weapons_IridiumNeedle_ExtraDesc();
                 fields[MinDamage] = 68.ToString();
                 fields[MaxDamage] = 80.ToString();
@@ -1152,7 +1153,7 @@ internal sealed class CombatAssetRequestedEvent : AssetRequestedEvent
             #region clubs
 
             // BASIC CLUBS
-            case ItemIDs.WoodClub:
+            case WeaponIds.WoodClub:
                 fields[MinDamage] = 5.ToString();
                 fields[MaxDamage] = 16.ToString();
                 fields[Knockback] = 1.0.ToString(CultureInfo.InvariantCulture);
@@ -1165,7 +1166,7 @@ internal sealed class CombatAssetRequestedEvent : AssetRequestedEvent
                 fields[CritChance] = 0.025.ToString(CultureInfo.InvariantCulture);
                 fields[CritPower] = 2.0.ToString(CultureInfo.InvariantCulture);
                 break;
-            case ItemIDs.WoodMallet:
+            case WeaponIds.WoodMallet:
                 fields[MinDamage] = 13.ToString();
                 fields[MaxDamage] = 40.ToString();
                 fields[Knockback] = 1.1.ToString(CultureInfo.InvariantCulture);
@@ -1178,7 +1179,7 @@ internal sealed class CombatAssetRequestedEvent : AssetRequestedEvent
                 fields[CritChance] = 0.025.ToString(CultureInfo.InvariantCulture);
                 fields[CritPower] = 3.0.ToString(CultureInfo.InvariantCulture);
                 break;
-            case ItemIDs.LeadRod:
+            case WeaponIds.LeadRod:
                 fields[MinDamage] = 23.ToString();
                 fields[MaxDamage] = 70.ToString();
                 fields[Knockback] = 1.2.ToString(CultureInfo.InvariantCulture);
@@ -1191,7 +1192,7 @@ internal sealed class CombatAssetRequestedEvent : AssetRequestedEvent
                 fields[CritChance] = 0.025.ToString(CultureInfo.InvariantCulture);
                 fields[CritPower] = 3.0.ToString(CultureInfo.InvariantCulture);
                 break;
-            case ItemIDs.Kudgel:
+            case WeaponIds.Kudgel:
                 fields[MinDamage] = 30.ToString();
                 fields[MaxDamage] = 90.ToString();
                 fields[Knockback] = 1.25.ToString(CultureInfo.InvariantCulture);
@@ -1204,7 +1205,7 @@ internal sealed class CombatAssetRequestedEvent : AssetRequestedEvent
                 fields[CritChance] = 0.025.ToString(CultureInfo.InvariantCulture);
                 fields[CritPower] = 3.0.ToString(CultureInfo.InvariantCulture);
                 break;
-            case ItemIDs.TheSlammer:
+            case WeaponIds.TheSlammer:
                 fields[MinDamage] = 44.ToString();
                 fields[MaxDamage] = 133.ToString();
                 fields[Knockback] = 1.33333333333333d.ToString(CultureInfo.InvariantCulture);
@@ -1218,7 +1219,7 @@ internal sealed class CombatAssetRequestedEvent : AssetRequestedEvent
                 fields[CritPower] = 3.5.ToString(CultureInfo.InvariantCulture);
                 break;
 
-            case ItemIDs.Femur:
+            case WeaponIds.Femur:
                 fields[MinDamage] = 25.ToString();
                 fields[MaxDamage] = 76.ToString();
                 fields[Knockback] = 1.1.ToString(CultureInfo.InvariantCulture);
@@ -1233,7 +1234,7 @@ internal sealed class CombatAssetRequestedEvent : AssetRequestedEvent
                 break;
 
             // BIS CLUBS
-            case ItemIDs.GalaxyHammer:
+            case WeaponIds.GalaxyHammer:
                 fields[MinDamage] = 60.ToString();
                 fields[MaxDamage] = 200.ToString();
                 fields[Knockback] = 1.1.ToString(CultureInfo.InvariantCulture);
@@ -1247,7 +1248,7 @@ internal sealed class CombatAssetRequestedEvent : AssetRequestedEvent
                 fields[CritPower] = 3.0.ToString(CultureInfo.InvariantCulture);
                 break;
 
-            case ItemIDs.DwarfHammer:
+            case WeaponIds.DwarfHammer:
                 fields[MinDamage] = 90.ToString();
                 fields[MaxDamage] = 270.ToString();
                 fields[Knockback] = 1.25.ToString(CultureInfo.InvariantCulture);
@@ -1260,7 +1261,7 @@ internal sealed class CombatAssetRequestedEvent : AssetRequestedEvent
                 fields[CritChance] = 0.025.ToString(CultureInfo.InvariantCulture);
                 fields[CritPower] = 3.0.ToString(CultureInfo.InvariantCulture);
                 break;
-            case ItemIDs.DragontoothClub:
+            case WeaponIds.DragontoothClub:
                 fields[MinDamage] = 120.ToString();
                 fields[MaxDamage] = 360.ToString();
                 fields[Knockback] = 1.0.ToString(CultureInfo.InvariantCulture);
@@ -1273,7 +1274,7 @@ internal sealed class CombatAssetRequestedEvent : AssetRequestedEvent
                 fields[CritChance] = 0.025.ToString(CultureInfo.InvariantCulture);
                 fields[CritPower] = 4.0.ToString(CultureInfo.InvariantCulture);
                 break;
-            case ItemIDs.InfinityGavel:
+            case WeaponIds.InfinityGavel:
                 fields[MinDamage] = 100.ToString();
                 fields[MaxDamage] = 300.ToString();
                 fields[Knockback] = 1.2.ToString(CultureInfo.InvariantCulture);
@@ -1370,14 +1371,14 @@ internal sealed class CombatAssetRequestedEvent : AssetRequestedEvent
 
             #region scythes
 
-            case ItemIDs.Scythe:
+            case WeaponIds.Scythe:
                 fields[MinDamage] = 1.ToString();
                 fields[MaxDamage] = 1.ToString();
                 fields[Knockback] = 0.5.ToString(CultureInfo.InvariantCulture);
                 fields[CritChance] = 0.125.ToString(CultureInfo.InvariantCulture);
                 fields[CritPower] = 1.5.ToString(CultureInfo.InvariantCulture);
                 break;
-            case ItemIDs.GoldenScythe:
+            case WeaponIds.GoldenScythe:
                 fields[MinDamage] = 13.ToString();
                 fields[MaxDamage] = 13.ToString();
                 fields[Knockback] = 0.5.ToString(CultureInfo.InvariantCulture);

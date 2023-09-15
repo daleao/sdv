@@ -2,6 +2,7 @@
 
 #region using directives
 
+using DaLion.Shared.Constants;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
 
@@ -23,15 +24,15 @@ internal sealed class BluePrintCtorPatcher : HarmonyPatcher
     private static void BluePrintCtorPostfix(BluePrint __instance)
     {
         if (!CombatModule.Config.DwarvenLegacy || __instance.name != "Island Obelisk" ||
-            !__instance.itemsRequired.Remove(ItemIDs.DragonTooth))
+            !__instance.itemsRequired.Remove(ObjectIds.DragonTooth))
         {
             return;
         }
 
-        __instance.itemsRequired[ItemIDs.Pineapple] = 10;
-        __instance.itemsRequired[ItemIDs.Mango] = 10;
-        __instance.itemsRequired[ItemIDs.RadioactiveBar] = 5;
-        __instance.itemsRequired.Remove(SObject.iridiumBar);
+        __instance.itemsRequired[ObjectIds.Pineapple] = 10;
+        __instance.itemsRequired[ObjectIds.Mango] = 10;
+        __instance.itemsRequired[ObjectIds.RadioactiveBar] = 5;
+        __instance.itemsRequired.Remove(ObjectIds.IridiumBar);
     }
 
     #endregion harmony patches

@@ -5,8 +5,10 @@
 using DaLion.Overhaul.Modules.Professions.Events.GameLoop.UpdateTicked;
 using DaLion.Overhaul.Modules.Professions.Extensions;
 using DaLion.Shared.Classes;
+using DaLion.Shared.Constants;
 using DaLion.Shared.Extensions.Stardew;
 using DaLion.Shared.Harmony;
+using DaLion.Shared.Maps;
 using HarmonyLib;
 using Microsoft.Xna.Framework;
 using StardewValley.Locations;
@@ -68,7 +70,7 @@ internal sealed class GameLocationExplodePatcher : HarmonyPatcher
                         (r.NextDouble() < 0.25 || (isPrestigedBlaster && r.NextDouble() < 0.25)))
                     {
                         Game1.createObjectDebris(
-                            SObject.coal,
+                            ObjectIds.Coal,
                             tileX,
                             tileY,
                             who.UniqueMultiplayerID,
@@ -77,7 +79,7 @@ internal sealed class GameLocationExplodePatcher : HarmonyPatcher
                         if (isPrestigedBlaster)
                         {
                             Game1.createObjectDebris(
-                                SObject.coal,
+                                ObjectIds.Coal,
                                 tileX,
                                 tileY,
                                 who.UniqueMultiplayerID,
@@ -109,7 +111,7 @@ internal sealed class GameLocationExplodePatcher : HarmonyPatcher
                             (r.NextDouble() < 0.25 || (isPrestigedBlaster && r.NextDouble() < 0.25)))
                         {
                             Game1.createObjectDebris(
-                                SObject.coal,
+                                ObjectIds.Coal,
                                 tileX,
                                 tileY,
                                 who.UniqueMultiplayerID,
@@ -118,7 +120,7 @@ internal sealed class GameLocationExplodePatcher : HarmonyPatcher
                             if (isPrestigedBlaster)
                             {
                                 Game1.createObjectDebris(
-                                    SObject.coal,
+                                    ObjectIds.Coal,
                                     tileX,
                                     tileY,
                                     who.UniqueMultiplayerID,
@@ -153,7 +155,7 @@ internal sealed class GameLocationExplodePatcher : HarmonyPatcher
                             Game1.stats.DaysPlayed > 1)
                         {
                             Game1.createObjectDebris(
-                                SObject.coal,
+                                ObjectIds.Coal,
                                 tileX,
                                 tileY,
                                 who.UniqueMultiplayerID,
@@ -162,7 +164,7 @@ internal sealed class GameLocationExplodePatcher : HarmonyPatcher
                             if (isPrestigedBlaster)
                             {
                                 Game1.createObjectDebris(
-                                    SObject.coal,
+                                    ObjectIds.Coal,
                                     tileX,
                                     tileY,
                                     who.UniqueMultiplayerID,
@@ -178,7 +180,7 @@ internal sealed class GameLocationExplodePatcher : HarmonyPatcher
                         (isPrestigedBlaster && r.NextDouble() < 0.05 * (1.0 + chanceModifier)))
                     {
                         Game1.createObjectDebris(
-                            SObject.coal,
+                            ObjectIds.Coal,
                             tileX,
                             tileY,
                             who.UniqueMultiplayerID,
@@ -187,7 +189,7 @@ internal sealed class GameLocationExplodePatcher : HarmonyPatcher
                         if (isPrestigedBlaster)
                         {
                             Game1.createObjectDebris(
-                                SObject.coal,
+                                ObjectIds.Coal,
                                 tileX,
                                 tileY,
                                 who.UniqueMultiplayerID,
@@ -264,7 +266,7 @@ internal sealed class GameLocationExplodePatcher : HarmonyPatcher
                     Game1.stats.DaysPlayed > 1)
                 {
                     Game1.createObjectDebris(
-                        SObject.stone,
+                        ObjectIds.Stone,
                         tileX,
                         tileY,
                         who.UniqueMultiplayerID,
@@ -273,7 +275,7 @@ internal sealed class GameLocationExplodePatcher : HarmonyPatcher
                     if (isPrestigedDemolitionist)
                     {
                         Game1.createObjectDebris(
-                            SObject.stone,
+                            ObjectIds.Stone,
                             tileX,
                             tileY,
                             who.UniqueMultiplayerID,
@@ -308,28 +310,28 @@ internal sealed class GameLocationExplodePatcher : HarmonyPatcher
             }
 
             // whether MineShaft or not, ends up calling GameLocation.breakStone
-            if (Collections.ResourceFromStoneId.TryGetValue(
+            if (ResourceFromNodeId.Map.TryGetValue(
                     tileObj.ParentSheetIndex == 44
                         ? r.Next(1, 8) * 2
                         : tileObj.ParentSheetIndex, // replace gem node with random, well, gem node
-                    out var resourceIndex))
+                    out var resourceId))
             {
                 Game1.createObjectDebris(
-                    resourceIndex,
+                    resourceId,
                     tileX,
                     tileY,
                     who.UniqueMultiplayerID,
                     __instance);
-                Log.D($"[Demolitionist]: Made extra resource {resourceIndex} from GameLocation.breakStone!");
+                Log.D($"[Demolitionist]: Made extra resource {resourceId} from GameLocation.breakStone!");
                 if (isPrestigedDemolitionist)
                 {
                     Game1.createObjectDebris(
-                        resourceIndex,
+                        resourceId,
                         tileX,
                         tileY,
                         who.UniqueMultiplayerID,
                         __instance);
-                    Log.D($"[Demolitionist]: Made extra prestiged resource {resourceIndex} from GameLocation.breakStone!");
+                    Log.D($"[Demolitionist]: Made extra prestiged resource {resourceId} from GameLocation.breakStone!");
                 }
             }
             else if (tileObj.ParentSheetIndex == 46 &&

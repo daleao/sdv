@@ -5,6 +5,7 @@
 using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
+using DaLion.Overhaul.Modules.Combat.Extensions;
 using DaLion.Shared.Extensions.Reflection;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
@@ -35,14 +36,19 @@ internal sealed class SlingshotDrawInMenuPatcher : HarmonyPatcher
     /// <summary>Draw slingshot cooldown.</summary>
     [HarmonyPostfix]
     private static void SlingshotDrawInMenuPostfix(
-        SpriteBatch spriteBatch, Vector2 location, float scaleSize, StackDrawType drawStackNumber, bool drawShadow)
+        Slingshot __instance,
+        SpriteBatch spriteBatch,
+        Vector2 location,
+        float scaleSize,
+        StackDrawType drawStackNumber,
+        bool drawShadow)
     {
         if (CombatModule.State.SlingshotCooldown <= 0)
         {
             return;
         }
 
-        var cooldownPct = CombatModule.State.SlingshotCooldown / ItemIDs.SlingshotCooldown;
+        var cooldownPct = CombatModule.State.SlingshotCooldown / __instance.GetSpecialCooldown();
         var drawingAsDebris = drawShadow && drawStackNumber == StackDrawType.Hide;
 
         // ReSharper disable once CompareOfFloatsByEqualityOperator

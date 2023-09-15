@@ -11,6 +11,7 @@ using DaLion.Overhaul.Modules.Combat.Extensions;
 using DaLion.Overhaul.Modules.Combat.VirtualProperties;
 using DaLion.Overhaul.Modules.Tweex.Integrations.BetterCrafting;
 using DaLion.Shared.Commands;
+using DaLion.Shared.Constants;
 using DaLion.Shared.Extensions.Collections;
 using DaLion.Shared.Extensions.SMAPI;
 using DaLion.Shared.Extensions.Stardew;
@@ -202,8 +203,8 @@ public abstract class OverhaulModule
             Log.T("[Modules]: Debug features activated.");
 
             // start FPS counter
-            Globals.FpsCounter = new FrameRateCounter(GameRunner.instance);
-            helper.Reflection.GetMethod(Globals.FpsCounter, "LoadContent").Invoke();
+            GlobalState.FpsCounter = new FrameRateCounter(GameRunner.instance);
+            helper.Reflection.GetMethod(GlobalState.FpsCounter, "LoadContent").Invoke();
 #endif
         }
 
@@ -381,7 +382,7 @@ public abstract class OverhaulModule
 
             // refresh special status
             if (ShouldEnable && Config.EnableHeroQuest && (weapon.isGalaxyWeapon() || weapon.IsInfinityWeapon()
-                || weapon.InitialParentTileIndex is ItemIDs.DarkSword or ItemIDs.HolyBlade or ItemIDs.NeptuneGlaive))
+                || weapon.InitialParentTileIndex is WeaponIds.DarkSword or WeaponIds.HolyBlade or WeaponIds.NeptuneGlaive))
             {
                 weapon.specialItem = true;
             }
@@ -524,14 +525,14 @@ public abstract class OverhaulModule
             }
 
             var player = Game1.player;
-            var darkSword = player.Items.FirstOrDefault(item => item is MeleeWeapon { InitialParentTileIndex: ItemIDs.DarkSword });
+            var darkSword = player.Items.FirstOrDefault(item => item is MeleeWeapon { InitialParentTileIndex: WeaponIds.DarkSword });
             if (darkSword is null && player.IsCursed())
             {
                 if (Config.CanStoreRuinBlade)
                 {
                     foreach (var chest in Game1.game1.IterateAll<Chest>())
                     {
-                        darkSword = chest.items.FirstOrDefault(item => item is MeleeWeapon { InitialParentTileIndex: ItemIDs.DarkSword });
+                        darkSword = chest.items.FirstOrDefault(item => item is MeleeWeapon { InitialParentTileIndex: WeaponIds.DarkSword });
                         if (darkSword is not null)
                         {
                             break;
@@ -541,7 +542,7 @@ public abstract class OverhaulModule
                     if (darkSword is null)
                     {
                         Log.W($"[CMBT]: {player.Name} is Cursed by Viego, but is not in possession of the Dark Sword. A new copy will be forcefully added.");
-                        darkSword = new MeleeWeapon(ItemIDs.DarkSword);
+                        darkSword = new MeleeWeapon(WeaponIds.DarkSword);
                         if (!player.addItemToInventoryBool(darkSword))
                         {
                             Game1.createItemDebris(darkSword, player.getStandingPosition(), -1, player.currentLocation);
@@ -551,7 +552,7 @@ public abstract class OverhaulModule
                 else
                 {
                     Log.W($"[CMBT]: {player.Name} is Cursed by Viego, but is not in possession of the Dark Sword. A new copy will be forcefully added.");
-                    darkSword = new MeleeWeapon(ItemIDs.DarkSword);
+                    darkSword = new MeleeWeapon(WeaponIds.DarkSword);
                     if (!player.addItemToInventoryBool(darkSword))
                     {
                         Game1.createItemDebris(darkSword, player.getStandingPosition(), -1, player.currentLocation);

@@ -5,6 +5,7 @@
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
+using DaLion.Shared.Constants;
 using DaLion.Shared.Extensions;
 using DaLion.Shared.Extensions.Collections;
 using DaLion.Shared.Extensions.Memory;
@@ -54,7 +55,7 @@ internal static class CrabPotExtensions
     /// <returns><see langword="true"/> if the <paramref name="crabPot"/>'s bait value is the index of Magnet, otherwise <see langword="false"/>.</returns>
     internal static bool HasMagnet(this CrabPot crabPot)
     {
-        return crabPot.bait.Value?.ParentSheetIndex == ItemIDs.MagnetBait;
+        return crabPot.bait.Value?.ParentSheetIndex == ObjectIds.MagnetBait;
     }
 
     /// <summary>Determines whether the <paramref name="crabPot"/> is using wild bait.</summary>
@@ -62,7 +63,7 @@ internal static class CrabPotExtensions
     /// <returns><see langword="true"/> if the <paramref name="crabPot"/>'s bait value is the index of Wild Bait, otherwise <see langword="false"/>.</returns>
     internal static bool HasWildBait(this CrabPot crabPot)
     {
-        return crabPot.bait.Value?.ParentSheetIndex == ItemIDs.WildBait;
+        return crabPot.bait.Value?.ParentSheetIndex == ObjectIds.WildBait;
     }
 
     /// <summary>Determines whether the <paramref name="crabPot"/> is using magic bait.</summary>
@@ -70,7 +71,7 @@ internal static class CrabPotExtensions
     /// <returns><see langword="true"/> if the <paramref name="crabPot"/>'s bait value is the index of Magic Bait, otherwise <see langword="false"/>.</returns>
     internal static bool HasMagicBait(this CrabPot crabPot)
     {
-        return crabPot.bait.Value?.ParentSheetIndex == ItemIDs.MagicBait;
+        return crabPot.bait.Value?.ParentSheetIndex == ObjectIds.MagicBait;
     }
 
     /// <summary>Determines whether the <paramref name="crabPot"/> should catch ocean-specific shellfish.</summary>
@@ -248,10 +249,10 @@ internal static class CrabPotExtensions
         Utility.Shuffle(r, keys);
         foreach (var key in keys)
         {
-            if ((key == ItemIDs.BrokenTrident && owner.specialItems.Contains(ItemIDs.BrokenTrident)) ||
-                (key == ItemIDs.NeptuneGlaive && owner.specialItems.Contains(ItemIDs.NeptuneGlaive)) ||
+            if ((key == WeaponIds.BrokenTrident && owner.specialItems.Contains(WeaponIds.BrokenTrident)) ||
+                (key == WeaponIds.NeptuneGlaive && owner.specialItems.Contains(WeaponIds.NeptuneGlaive)) ||
                 (key == 890 && !owner.team.SpecialOrderRuleActive("DROP_QI_BEANS")) ||
-                (key == SObject.iridium && !owner.hasSkullKey))
+                (key == ObjectIds.IridiumOre && !owner.hasSkullKey))
             {
                 continue;
             }

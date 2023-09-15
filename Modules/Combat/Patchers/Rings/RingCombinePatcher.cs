@@ -4,6 +4,8 @@
 
 using System.Collections.Generic;
 using System.Reflection;
+using DaLion.Overhaul.Modules.Combat.Integrations;
+using DaLion.Shared.Constants;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
 using Netcode;
@@ -28,8 +30,8 @@ internal sealed class RingCombinePatcher : HarmonyPatcher
     [HarmonyPriority(Priority.HigherThanNormal)]
     private static bool RingCombinePrefix(Ring __instance, ref Ring __result, Ring ring)
     {
-        if (!CombatModule.Config.EnableInfinityBand || !Globals.InfinityBandIndex.HasValue ||
-            __instance.ParentSheetIndex != Globals.InfinityBandIndex)
+        if (!CombatModule.Config.EnableInfinityBand || !JsonAssetsIntegration.InfinityBandIndex.HasValue ||
+            __instance.ParentSheetIndex != JsonAssetsIntegration.InfinityBandIndex)
         {
             return true; // run original logic
         }
@@ -48,11 +50,11 @@ internal sealed class RingCombinePatcher : HarmonyPatcher
             }
 
             toCombine.Add(ring);
-            var combinedRing = new CombinedRing(880);
+            var combinedRing = new CombinedRing(ObjectIds.CombinedRing);
             combinedRing.combinedRings.AddRange(toCombine);
-            combinedRing.ParentSheetIndex = Globals.InfinityBandIndex.Value;
+            combinedRing.ParentSheetIndex = JsonAssetsIntegration.InfinityBandIndex.Value;
             ModHelper.Reflection.GetField<NetInt>(combinedRing, nameof(Ring.indexInTileSheet)).GetValue()
-                .Set(Globals.InfinityBandIndex.Value);
+                .Set(JsonAssetsIntegration.InfinityBandIndex.Value);
             combinedRing.UpdateDescription();
             __result = combinedRing;
             return false; // don't run original logic

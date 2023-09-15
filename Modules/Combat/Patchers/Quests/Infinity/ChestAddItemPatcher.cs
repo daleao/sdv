@@ -2,6 +2,7 @@
 
 #region using directives
 
+using DaLion.Shared.Constants;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
 using StardewValley.Objects;
@@ -24,7 +25,7 @@ internal sealed class ChestAddItemPatcher : HarmonyPatcher
     [HarmonyPrefix]
     private static bool ChestAddItemPrefix(ref Item __result, Item item)
     {
-        if (item is not MeleeWeapon { InitialParentTileIndex: ItemIDs.DarkSword } ||
+        if (item is not MeleeWeapon { InitialParentTileIndex: WeaponIds.DarkSword } ||
             CombatModule.Config.CanStoreRuinBlade)
         {
             return true; // run original logic

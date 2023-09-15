@@ -2,6 +2,7 @@
 
 #region using directives
 
+using DaLion.Shared.Constants;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
 using Microsoft.Xna.Framework;
@@ -93,7 +94,7 @@ internal sealed class FarmerShowToolSwipeEffectPatcher : HarmonyPatcher
             return false; // don't run original logic
         }
 
-        if (slingshot.InitialParentTileIndex == ItemIDs.InfinitySlingshot && CombatModule.Config.EnableHeroQuest)
+        if (slingshot.InitialParentTileIndex == WeaponIds.InfinitySlingshot && CombatModule.Config.EnableHeroQuest)
         {
             tempSprite.color = Color.HotPink;
         }

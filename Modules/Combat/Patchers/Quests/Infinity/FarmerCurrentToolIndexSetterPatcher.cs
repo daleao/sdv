@@ -5,6 +5,7 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using DaLion.Overhaul.Modules.Combat.Extensions;
+using DaLion.Shared.Constants;
 using DaLion.Shared.Extensions.Stardew;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
@@ -31,14 +32,14 @@ internal sealed class FarmerCurrentToolIndexSetterPatcher : HarmonyPatcher
         if (!__instance.IsCursed() ||
             value < 0 || value >= __instance.Items.Count ||
             __instance.Items[value] is not MeleeWeapon weapon ||
-            weapon.InitialParentTileIndex == ItemIDs.DarkSword || weapon.isScythe())
+            weapon.InitialParentTileIndex == WeaponIds.DarkSword || weapon.isScythe())
         {
             return;
         }
 
         var darkSword = __instance.Items.FirstOrDefault(item => item is MeleeWeapon
         {
-            InitialParentTileIndex: ItemIDs.DarkSword
+            InitialParentTileIndex: WeaponIds.DarkSword
         });
 
         if (darkSword is null)
@@ -50,7 +51,7 @@ internal sealed class FarmerCurrentToolIndexSetterPatcher : HarmonyPatcher
 
             Log.W(
                 $"[CMBT]: Cursed farmer {__instance.Name} is not carrying the Dark Sword. A new copy will be forcefully added.");
-            darkSword = new MeleeWeapon(ItemIDs.DarkSword);
+            darkSword = new MeleeWeapon(WeaponIds.DarkSword);
             if (!__instance.addItemToInventoryBool(darkSword))
             {
                 Game1.createItemDebris(darkSword, __instance.getStandingPosition(), -1, __instance.currentLocation);

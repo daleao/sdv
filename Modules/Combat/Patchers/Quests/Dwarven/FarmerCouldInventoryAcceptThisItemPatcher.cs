@@ -1,5 +1,7 @@
 ﻿namespace DaLion.Overhaul.Modules.Combat.Patchers.Quests.Dwarven;
 
+using DaLion.Overhaul.Modules.Combat.Integrations;
+
 #region using directives
 
 using DaLion.Shared.Harmony;
@@ -22,7 +24,8 @@ internal sealed class FarmerCouldInventoryAcceptThisItemPatcher : HarmonyPatcher
     [HarmonyPrefix]
     private static bool FarmerCouldInventoryAcceptThisItemPrefix(ref bool __result, Item item)
     {
-        if (!Globals.DwarvishBlueprintIndex.HasValue || Globals.DwarvishBlueprintIndex.Value != item.ParentSheetIndex)
+        if (!JsonAssetsIntegration.DwarvishBlueprintIndex.HasValue ||
+            JsonAssetsIntegration.DwarvishBlueprintIndex.Value != item.ParentSheetIndex)
         {
             return true; // run original logic
         }

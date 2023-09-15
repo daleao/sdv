@@ -2,13 +2,10 @@
 
 #region using directives
 
+using DaLion.Overhaul.Modules.Combat.Extensions;
 using DaLion.Overhaul.Modules.Combat.Resonance;
 using DaLion.Overhaul.Modules.Combat.VirtualProperties;
 using DaLion.Overhaul.Modules.Professions;
-using DaLion.Overhaul.Modules.Professions.Extensions;
-using DaLion.Overhaul.Modules.Professions.TreasureHunts;
-using DaLion.Overhaul.Modules.Professions.Ultimates;
-using DaLion.Overhaul.Modules.Professions.VirtualProperties;
 using DaLion.Overhaul.Modules.Professions.Events.TreasureHunt.TreasureHuntEnded;
 using DaLion.Overhaul.Modules.Professions.Events.TreasureHunt.TreasureHuntStarted;
 using DaLion.Overhaul.Modules.Professions.Events.Ultimate.Activated;
@@ -17,16 +14,18 @@ using DaLion.Overhaul.Modules.Professions.Events.Ultimate.ChargeInitiated;
 using DaLion.Overhaul.Modules.Professions.Events.Ultimate.Deactivated;
 using DaLion.Overhaul.Modules.Professions.Events.Ultimate.Emptied;
 using DaLion.Overhaul.Modules.Professions.Events.Ultimate.FullyCharged;
+using DaLion.Overhaul.Modules.Professions.Extensions;
+using DaLion.Overhaul.Modules.Professions.TreasureHunts;
+using DaLion.Overhaul.Modules.Professions.Ultimates;
+using DaLion.Overhaul.Modules.Professions.VirtualProperties;
 using DaLion.Overhaul.Modules.Taxes;
 using DaLion.Overhaul.Modules.Taxes.Extensions;
 using DaLion.Shared.Events;
 using DaLion.Shared.Exceptions;
 using Microsoft.Xna.Framework;
-using Modules.Combat.Extensions;
+using StardewValley.Monsters;
 using StardewValley.Objects;
 using StardewValley.Tools;
-using StardewValley.Monsters;
-using DaLion.Overhaul.Modules.Combat.StatusEffects;
 
 #endregion using directives
 
@@ -479,7 +478,6 @@ public sealed class ModApi
     {
         return monster.IsSlowed();
     }
-
 
     /// <summary>Stuns the <paramref name="monster"/> for the specified <paramref name="duration"/>.</summary>
     /// <param name="monster">The <see cref="Monster"/>.</param>

@@ -5,6 +5,7 @@
 using System.Collections.Generic;
 using DaLion.Overhaul.Modules.Professions;
 using DaLion.Overhaul.Modules.Professions.Extensions;
+using DaLion.Shared.Constants;
 using DaLion.Shared.Extensions;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
@@ -31,15 +32,15 @@ internal sealed class CraftingRecipeCtorPatcher : HarmonyPatcher
             case "Tapper" when Game1.player.HasProfession(Profession.Tapper):
                 __instance.recipeList = new Dictionary<int, int>
                 {
-                    { SObject.wood, 25 },
-                    { SObject.copperBar, 1 },
+                    { ObjectIds.Wood, 25 },
+                    { ObjectIds.CopperBar, 1 },
                 };
                 break;
             case "Heavy Tapper" when Game1.player.HasProfession(Profession.Tapper):
                 __instance.recipeList = new Dictionary<int, int>
                 {
-                    { ItemIDs.Hardwood, 18 },
-                    { ItemIDs.RadioactiveBar, 1 },
+                    { ObjectIds.Hardwood, 18 },
+                    { ObjectIds.RadioactiveBar, 1 },
                 };
                 break;
             default:

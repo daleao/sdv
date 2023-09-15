@@ -3,7 +3,9 @@
 #region using directives
 
 using DaLion.Overhaul.Modules.Combat.Extensions;
+using DaLion.Overhaul.Modules.Combat.Integrations;
 using DaLion.Shared.Attributes;
+using DaLion.Shared.Constants;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
 using SpaceCore.Interface;
@@ -32,14 +34,14 @@ internal sealed class NewForgeMenuGetForgeCostPatcher : HarmonyPatcher
             return true; // run original logic
         }
 
-        if (left.ParentSheetIndex == Globals.InfinityBandIndex && right_item is Ring right && right.IsGemRing())
+        if (left.ParentSheetIndex == JsonAssetsIntegration.InfinityBandIndex && right_item is Ring right && right.IsGemRing())
         {
             __result = 10;
             return false; // don't run original logic
         }
 
-        if (left.ParentSheetIndex == ItemIDs.IridiumBand &&
-            right_item.ParentSheetIndex == ItemIDs.GalaxySoul)
+        if (left.ParentSheetIndex == ObjectIds.IridiumBand &&
+            right_item.ParentSheetIndex == ObjectIds.GalaxySoul)
         {
             __result = 20;
             return false; // don't run original logic

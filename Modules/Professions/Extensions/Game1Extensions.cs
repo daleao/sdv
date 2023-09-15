@@ -3,7 +3,7 @@
 #region using directives
 
 using System.Linq;
-using DaLion.Shared.Enums;
+using DaLion.Shared.Constants;
 using DaLion.Shared.Extensions.Stardew;
 using StardewValley.Buildings;
 
@@ -62,7 +62,7 @@ internal static class Game1Extensions
         {
             foreach (var @object in location.Objects.Values)
             {
-                if (@object.bigCraftable.Value && @object.ParentSheetIndex == (int)Machine.Crystalarium && @object.IsOwnedBy(who) &&
+                if (@object.bigCraftable.Value && @object.ParentSheetIndex == BigCraftableIds.Crystalarium && @object.IsOwnedBy(who) &&
                     @object.heldObject?.Value.Quality < newQuality)
                 {
                     @object.heldObject.Value.Quality = newQuality;

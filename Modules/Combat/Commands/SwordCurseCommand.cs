@@ -3,6 +3,7 @@
 #region using directives
 
 using DaLion.Shared.Commands;
+using DaLion.Shared.Constants;
 using DaLion.Shared.Extensions.Stardew;
 using StardewValley.Tools;
 
@@ -28,7 +29,7 @@ internal sealed class SwordCurseCommand : ConsoleCommand
     public override void Callback(string trigger, string[] args)
     {
         var player = Game1.player;
-        if (player.CurrentTool is not MeleeWeapon { InitialParentTileIndex: ItemIDs.DarkSword })
+        if (player.CurrentTool is not MeleeWeapon { InitialParentTileIndex: WeaponIds.DarkSword })
         {
             Log.W("You must be holding the Dark Sword to use this command.");
             return;

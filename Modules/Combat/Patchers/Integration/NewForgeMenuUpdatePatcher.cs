@@ -7,6 +7,7 @@ using System.Reflection;
 using System.Reflection.Emit;
 using DaLion.Overhaul.Modules.Combat;
 using DaLion.Overhaul.Modules.Combat.Enchantments;
+using DaLion.Overhaul.Modules.Combat.Integrations;
 using DaLion.Overhaul.Modules.Combat.Resonance;
 using DaLion.Shared.Attributes;
 using DaLion.Shared.Extensions.Reflection;
@@ -133,7 +134,7 @@ internal sealed class NewForgeMenuUpdatePatcher : HarmonyPatcher
                         new CodeInstruction(OpCodes.Brfalse_S, vanillaUnforge),
                         new CodeInstruction(
                             OpCodes.Call,
-                            typeof(Globals).RequirePropertyGetter(nameof(Globals.InfinityBandIndex))),
+                            typeof(JsonAssetsIntegration).RequirePropertyGetter(nameof(JsonAssetsIntegration.InfinityBandIndex))),
                         new CodeInstruction(OpCodes.Stloc_S, infinityBandIndex),
                         new CodeInstruction(OpCodes.Ldloca_S, infinityBandIndex),
                         new CodeInstruction(OpCodes.Call, typeof(int?).RequirePropertyGetter(nameof(Nullable<int>.HasValue))),
@@ -144,7 +145,7 @@ internal sealed class NewForgeMenuUpdatePatcher : HarmonyPatcher
                             typeof(Item).RequirePropertyGetter(nameof(Item.ParentSheetIndex))),
                         new CodeInstruction(
                             OpCodes.Call,
-                            typeof(Globals).RequirePropertyGetter(nameof(Globals.InfinityBandIndex))),
+                            typeof(JsonAssetsIntegration).RequirePropertyGetter(nameof(JsonAssetsIntegration.InfinityBandIndex))),
                         new CodeInstruction(OpCodes.Stloc_S, infinityBandIndex),
                         new CodeInstruction(OpCodes.Ldloca_S, infinityBandIndex),
                         new CodeInstruction(
@@ -175,7 +176,7 @@ internal sealed class NewForgeMenuUpdatePatcher : HarmonyPatcher
 
     private static void UnforgeHolyBlade(NewForgeMenu menu, MeleeWeapon holy)
     {
-        Utility.CollectOrDrop(new SObject(Globals.HeroSoulIndex!.Value, 1));
+        Utility.CollectOrDrop(new SObject(JsonAssetsIntegration.HeroSoulIndex!.Value, 1));
         menu.leftIngredientSpot.item = null;
         Game1.playSound("coin");
     }
@@ -191,7 +192,7 @@ internal sealed class NewForgeMenuUpdatePatcher : HarmonyPatcher
         }
 
         infinity.combinedRings.Clear();
-        Utility.CollectOrDrop(new Ring(Globals.InfinityBandIndex!.Value));
+        Utility.CollectOrDrop(new Ring(JsonAssetsIntegration.InfinityBandIndex!.Value));
         menu.leftIngredientSpot.item = null;
         Game1.playSound("coin");
     }

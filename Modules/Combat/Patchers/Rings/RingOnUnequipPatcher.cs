@@ -1,8 +1,11 @@
 ﻿namespace DaLion.Overhaul.Modules.Combat.Patchers.Rings;
 
+using DaLion.Overhaul.Modules.Combat.Integrations;
+
 #region using directives
 
 using DaLion.Overhaul.Modules.Combat.VirtualProperties;
+using DaLion.Shared.Constants;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
 using StardewValley.Objects;
@@ -27,7 +30,7 @@ internal sealed class RingOnUnequipPatcher : HarmonyPatcher
     private static bool RingOnUnequipPrefix(Ring __instance, Farmer who)
     {
         if (CombatModule.Config.EnableInfinityBand &&
-            __instance.indexInTileSheet.Value == ItemIDs.IridiumBand)
+            __instance.indexInTileSheet.Value == ObjectIds.IridiumBand)
         {
             return false; // don't run original logic
         }
@@ -39,20 +42,20 @@ internal sealed class RingOnUnequipPatcher : HarmonyPatcher
 
         switch (__instance.indexInTileSheet.Value)
         {
-            case ItemIDs.TopazRing: // topaz to give defense or cdr
+            case ObjectIds.TopazRing: // topaz to give defense or cdr
                 who.resilience -= 3;
                 return false; // don't run original logic
-            case ItemIDs.JadeRing: // jade ring to give +50% crit. power
+            case ObjectIds.JadeRing: // jade ring to give +50% crit. power
                 who.critPowerModifier -= 0.5f;
                 return false; // don't run original logic
-            case ItemIDs.WarriorRing: // reset warrior kill count
+            case ObjectIds.WarriorRing: // reset warrior kill count
                 CombatModule.State.WarriorKillCount = 0;
                 return true;
-            case ItemIDs.ImmunityRing:
+            case ObjectIds.ImmunityRing:
                 who.immunity -= 10;
                 return false;
             default:
-                if (!Globals.GarnetRingIndex.HasValue || __instance.ParentSheetIndex != Globals.GarnetRingIndex)
+                if (!JsonAssetsIntegration.GarnetRingIndex.HasValue || __instance.ParentSheetIndex != JsonAssetsIntegration.GarnetRingIndex)
                 {
                     return true; // run original logic
                 }

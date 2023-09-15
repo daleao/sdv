@@ -2,6 +2,7 @@
 
 #region using directives
 
+using DaLion.Shared.Constants;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
 using StardewValley.Menus;
@@ -24,8 +25,8 @@ internal sealed class ForgeMenuIsValidCraftPatcher : HarmonyPatcher
     [HarmonyPostfix]
     private static void ForgeMenuIsValidCraftPostfix(ref bool __result, Item? left_item, Item? right_item)
     {
-        if (left_item is Ring { ParentSheetIndex: ItemIDs.IridiumBand } &&
-            right_item?.ParentSheetIndex == ItemIDs.GalaxySoul)
+        if (left_item is Ring { ParentSheetIndex: ObjectIds.IridiumBand } &&
+            right_item?.ParentSheetIndex == ObjectIds.GalaxySoul)
         {
             __result = true;
         }

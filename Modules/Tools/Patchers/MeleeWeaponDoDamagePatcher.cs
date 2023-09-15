@@ -7,6 +7,7 @@ using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
 using DaLion.Shared.Classes;
+using DaLion.Shared.Constants;
 using DaLion.Shared.Extensions.Reflection;
 using DaLion.Shared.Extensions.Stardew;
 using DaLion.Shared.Harmony;
@@ -74,8 +75,8 @@ internal sealed class MeleeWeaponDoDamagePatcher : HarmonyPatcher
 
         uint radius = weapon.InitialParentTileIndex switch
         {
-            ItemIDs.Scythe => ToolsModule.Config.Scythe.RegularRadius,
-            ItemIDs.GoldenScythe => ToolsModule.Config.Scythe.GoldRadius,
+            WeaponIds.Scythe => ToolsModule.Config.Scythe.RegularRadius,
+            WeaponIds.GoldenScythe => ToolsModule.Config.Scythe.GoldRadius,
             _ => 0,
         };
 

@@ -4,15 +4,18 @@ namespace DaLion.Overhaul.Modules.Ponds.Patchers;
 #region using directives
 
 using System.Reflection;
+using DaLion.Shared.Constants;
 using DaLion.Shared.Extensions;
 using DaLion.Shared.Extensions.Stardew;
 using DaLion.Shared.Harmony;
+using DaLion.Shared.Maps;
 using HarmonyLib;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using StardewModdingAPI.Utilities;
 using StardewValley.Buildings;
 using StardewValley.Menus;
+using Math = System.Math;
 
 #endregion using directives
 
@@ -144,11 +147,11 @@ internal sealed class PondQueryMenuDrawPatcher : HarmonyPatcher
                 if (isAlgaePond)
                 {
                     itemToDraw = seaweedCount-- > 0
-                        ? new SObject(ItemIDs.Seaweed, 1)
+                        ? new SObject(ObjectIds.Seaweed, 1)
                         : greenAlgaeCount-- > 0
-                            ? new SObject(ItemIDs.GreenAlgae, 1)
+                            ? new SObject(ObjectIds.GreenAlgae, 1)
                             : whiteAlgaeCount-- > 0
-                                ? new SObject(ItemIDs.WhiteAlgae, 1)
+                                ? new SObject(ObjectIds.WhiteAlgae, 1)
                                 : null;
 
                     if (itemToDraw is not null)
@@ -180,7 +183,7 @@ internal sealed class PondQueryMenuDrawPatcher : HarmonyPatcher
                 {
                     if (isLegendaryPond && familyCount > 0 && i == ____pond.FishCount - familyCount)
                     {
-                        itemToDraw = new SObject(Collections.ExtendedFamilyPairs[____fishItem.ParentSheetIndex], 1);
+                        itemToDraw = new SObject(ExtendedFamilyPairs.Map[____fishItem.ParentSheetIndex], 1);
                     }
 
                     itemToDraw!.drawInMenu(

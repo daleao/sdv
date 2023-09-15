@@ -6,6 +6,7 @@ using System.IO;
 using System.Linq;
 using DaLion.Overhaul.Modules.Ponds.Extensions;
 using DaLion.Overhaul.Modules.Professions.Extensions;
+using DaLion.Shared.Constants;
 using DaLion.Shared.Extensions;
 using DaLion.Shared.Extensions.Stardew;
 using DaLion.Shared.Harmony;
@@ -57,13 +58,13 @@ internal sealed class FishPondSpawnFishPatcher : HarmonyPatcher
             var spawned = r.NextAlgae(pond.fishType.Value);
             switch (spawned)
             {
-                case ItemIDs.Seaweed:
+                case ObjectIds.Seaweed:
                     pond.Increment(DataKeys.SeaweedLivingHere);
                     break;
-                case ItemIDs.GreenAlgae:
+                case ObjectIds.GreenAlgae:
                     pond.Increment(DataKeys.GreenAlgaeLivingHere);
                     break;
-                case ItemIDs.WhiteAlgae:
+                case ObjectIds.WhiteAlgae:
                     pond.Increment(DataKeys.WhiteAlgaeLivingHere);
                     break;
             }
@@ -85,9 +86,9 @@ internal sealed class FishPondSpawnFishPatcher : HarmonyPatcher
             pond.Write(DataKeys.WhiteAlgaeLivingHere, null);
             var field = pond.fishType.Value switch
             {
-                ItemIDs.Seaweed => DataKeys.SeaweedLivingHere,
-                ItemIDs.GreenAlgae => DataKeys.GreenAlgaeLivingHere,
-                ItemIDs.WhiteAlgae => DataKeys.WhiteAlgaeLivingHere,
+                ObjectIds.Seaweed => DataKeys.SeaweedLivingHere,
+                ObjectIds.GreenAlgae => DataKeys.GreenAlgaeLivingHere,
+                ObjectIds.WhiteAlgae => DataKeys.WhiteAlgaeLivingHere,
                 _ => string.Empty,
             };
 

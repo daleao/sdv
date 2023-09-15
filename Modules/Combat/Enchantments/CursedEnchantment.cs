@@ -4,6 +4,7 @@
 
 using System.Xml.Serialization;
 using DaLion.Overhaul.Modules.Combat.Events.GameLoop;
+using DaLion.Shared.Constants;
 using DaLion.Shared.Extensions.Stardew;
 using StardewValley.Monsters;
 using StardewValley.Tools;
@@ -61,7 +62,7 @@ public class CursedEnchantment : BaseWeaponEnchantment
     protected override void _OnMonsterSlay(Monster m, GameLocation location, Farmer who)
     {
         base._OnMonsterSlay(m, location, who);
-        if (who.CurrentTool is not MeleeWeapon { InitialParentTileIndex: ItemIDs.DarkSword } darkSword)
+        if (who.CurrentTool is not MeleeWeapon { InitialParentTileIndex: WeaponIds.DarkSword } darkSword)
         {
             return;
         }

@@ -3,7 +3,7 @@
 #region using directives
 
 using System.Collections.Generic;
-using DaLion.Shared.Enums;
+using DaLion.Shared.Constants;
 using NetEscapades.EnumGenerators;
 using StardewValley.Tools;
 
@@ -29,21 +29,21 @@ public enum WeaponType
     Slingshot,
 }
 
-/// <summary>Extensions for the <see cref="FacingDirection"/> enum.</summary>
+/// <summary>Extensions for the <see cref="WeaponType"/> enum.</summary>
 public static partial class WeaponTypeExtensions
 {
     /// <summary>Gets or sets the swords that should be converted to Stabbing Swords.</summary>
     internal static HashSet<int> StabbingSwords { get; set; } = new()
     {
-        ItemIDs.BoneSword,
-        ItemIDs.SteelSmallsword,
-        ItemIDs.Cutlass,
-        ItemIDs.Rapier,
-        ItemIDs.SteelFalchion,
-        ItemIDs.PirateSword,
-        ItemIDs.LavaKatana,
-        ItemIDs.DragontoothCutlass,
-        ItemIDs.DarkSword,
+        WeaponIds.BoneSword,
+        WeaponIds.SteelSmallsword,
+        WeaponIds.Cutlass,
+        WeaponIds.Rapier,
+        WeaponIds.SteelFalchion,
+        WeaponIds.PiratesSword,
+        WeaponIds.LavaKatana,
+        WeaponIds.DragontoothCutlass,
+        WeaponIds.DarkSword,
     };
 
     /// <summary>Gets the final combo hit of the <see cref="WeaponType"/>.</summary>

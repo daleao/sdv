@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
 using DaLion.Overhaul.Modules.Combat.Enchantments;
+using DaLion.Overhaul.Modules.Combat.Integrations;
 using DaLion.Shared.Extensions.Reflection;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
@@ -51,7 +52,7 @@ internal sealed class BaseEnchantmentGetEnchantmentFromItemPatcher : HarmonyPatc
                     {
                         new CodeInstruction(
                             OpCodes.Call,
-                            typeof(Globals).RequirePropertyGetter(nameof(Globals.GarnetIndex))),
+                            typeof(JsonAssetsIntegration).RequirePropertyGetter(nameof(JsonAssetsIntegration.GarnetIndex))),
                         new CodeInstruction(OpCodes.Stloc_S, garnetIndex),
                         new CodeInstruction(OpCodes.Ldloca_S, garnetIndex),
                         new CodeInstruction(
@@ -61,7 +62,7 @@ internal sealed class BaseEnchantmentGetEnchantmentFromItemPatcher : HarmonyPatc
                         new CodeInstruction(OpCodes.Ldarg_1),
                         new CodeInstruction(
                             OpCodes.Call,
-                            typeof(Globals).RequirePropertyGetter(nameof(Globals.GarnetIndex))),
+                            typeof(JsonAssetsIntegration).RequirePropertyGetter(nameof(JsonAssetsIntegration.GarnetIndex))),
                         new CodeInstruction(OpCodes.Stloc_S, garnetIndex),
                         new CodeInstruction(OpCodes.Ldloca_S, garnetIndex),
                         new CodeInstruction(

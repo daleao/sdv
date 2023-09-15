@@ -6,6 +6,7 @@ using System.Linq;
 using System.Reflection;
 using DaLion.Overhaul.Modules.Combat;
 using DaLion.Overhaul.Modules.Combat.Enums;
+using DaLion.Shared.Constants;
 using DaLion.Shared.Extensions;
 using DaLion.Shared.Extensions.Stardew;
 using DaLion.Shared.Harmony;
@@ -56,7 +57,7 @@ internal sealed class GameLocationAnswerDialogueActionPatcher : HarmonyPatcher
                         {
                             Game1.activeClickableMenu.exitThisMenuNoSound();
                             Game1.playSound("parry");
-                            player.addItemByMenuIfNecessaryElseHoldUp(new MeleeWeapon(ItemIDs.DarkSword));
+                            player.addItemByMenuIfNecessaryElseHoldUp(new MeleeWeapon(WeaponIds.DarkSword));
                             player.mailReceived.Add("gotDarkSword");
                         }
                         else
@@ -103,7 +104,7 @@ internal sealed class GameLocationAnswerDialogueActionPatcher : HarmonyPatcher
                                 player.Write(DataKeys.InspectedValor, true.ToString());
                                 break;
                             case "Yes":
-                                if (player.CurrentTool is not MeleeWeapon { InitialParentTileIndex: ItemIDs.DarkSword } darkSword)
+                                if (player.CurrentTool is not MeleeWeapon { InitialParentTileIndex: WeaponIds.DarkSword } darkSword)
                                 {
                                     Log.E("[CMBT]: Player tried to offer a prayer but is not holding the Dark Sword. How did that happen?");
                                     return false; // don't run original logic

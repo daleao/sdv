@@ -3,6 +3,7 @@
 #region using directives
 
 using System.Reflection;
+using DaLion.Shared.Constants;
 using DaLion.Shared.Extensions.Stardew;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
@@ -102,7 +103,7 @@ internal sealed class MeleeWeaponDoSwipePatcher : HarmonyPatcher
                 return false; // don't run original logic
             }
 
-            var sound = __instance.IsClub() ? "clubswipe" : __instance.InitialParentTileIndex == ItemIDs.LavaKatana ? "fireball" : "swordswipe";
+            var sound = __instance.IsClub() ? "clubswipe" : __instance.InitialParentTileIndex == WeaponIds.LavaKatana ? "fireball" : "swordswipe";
             f.currentLocation.localSound(sound);
 
             return false; // don't run original logic

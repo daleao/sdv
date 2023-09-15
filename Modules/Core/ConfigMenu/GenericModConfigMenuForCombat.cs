@@ -6,6 +6,7 @@ using DaLion.Overhaul.Modules.Combat;
 using DaLion.Overhaul.Modules.Combat.Enums;
 using DaLion.Overhaul.Modules.Combat.Integrations;
 using DaLion.Overhaul.Modules.Combat.VirtualProperties;
+using DaLion.Shared.Constants;
 using DaLion.Shared.Extensions.Collections;
 using DaLion.Shared.Extensions.SMAPI;
 using DaLion.Shared.Integrations.GenericModConfigMenu;
@@ -45,7 +46,7 @@ internal sealed partial class GenericModConfigMenu
 
                     Utility.iterateAllItems(item =>
                     {
-                        if (item is not Ring { ParentSheetIndex: ItemIDs.TopazRing } topaz)
+                        if (item is not Ring { ParentSheetIndex: ObjectIds.TopazRing } topaz)
                         {
                             return;
                         }
@@ -262,7 +263,7 @@ internal sealed partial class GenericModConfigMenu
                     ModHelper.GameContent.InvalidateCacheAndLocalized("Data/ObjectInformation");
                     ModHelper.GameContent.InvalidateCacheAndLocalized("Maps/springobjects");
                     if (value && (JsonAssetsIntegration.Instance?.IsRegistered != true ||
-                                  (Context.IsWorldReady && !Globals.InfinityBandIndex.HasValue)))
+                                  (Context.IsWorldReady && !JsonAssetsIntegration.InfinityBandIndex.HasValue)))
                     {
                         Log.E(
                             "Cannot enable The One Infinity Band because the Json Assets integration was not registered.");
@@ -324,7 +325,7 @@ internal sealed partial class GenericModConfigMenu
 
                     config.Combat.DwarvenLegacy = value;
                     if (value && (JsonAssetsIntegration.Instance?.IsRegistered != true ||
-                                  (Context.IsWorldReady && !Globals.DwarvenScrapIndex.HasValue)))
+                                  (Context.IsWorldReady && !JsonAssetsIntegration.DwarvenScrapIndex.HasValue)))
                     {
                         Log.E("Cannot enable Dwarven Legacy because the Json Assets integration was not registered.");
                     }
@@ -355,7 +356,7 @@ internal sealed partial class GenericModConfigMenu
 
                     config.Combat.EnableHeroQuest = value;
                     if (value && (JsonAssetsIntegration.Instance?.IsRegistered != true ||
-                                  (Context.IsWorldReady && !Globals.HeroSoulIndex.HasValue)))
+                                  (Context.IsWorldReady && !JsonAssetsIntegration.HeroSoulIndex.HasValue)))
                     {
                         Log.E("Cannot enable Hero Quest because the Json Assets integration was not registered.");
                     }

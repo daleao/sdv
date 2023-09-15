@@ -91,7 +91,7 @@ internal sealed class PrintPondDataCommand : ConsoleCommand
             message.Append("\n\n\tAdditional items held:");
             foreach (var item in held.WhereNotNull())
             {
-                var (index, stack, quality) = item.ParseTuple<int, int, Quality>()!.Value;
+                var (index, stack, quality) = item.ParseTuple<int, int, ObjectQuality>()!.Value;
                 var obj = new SObject(index, stack);
                 message.Append($"\n\t\t- {obj.Name} x{stack} ({quality})");
             }

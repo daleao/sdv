@@ -5,6 +5,7 @@
 using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
+using DaLion.Overhaul.Modules.Combat.Integrations;
 using DaLion.Shared.Extensions.Reflection;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
@@ -47,7 +48,7 @@ internal sealed class ItemGrabMenuReceiveLeftClickPatcher : HarmonyPatcher
                     {
                         new CodeInstruction(
                             OpCodes.Call,
-                            typeof(Globals).RequirePropertyGetter(nameof(Globals.DwarvishBlueprintIndex))),
+                            typeof(JsonAssetsIntegration).RequirePropertyGetter(nameof(JsonAssetsIntegration.DwarvishBlueprintIndex))),
                         new CodeInstruction(OpCodes.Stloc_S, dwarvenBlueprintIndex),
                         new CodeInstruction(OpCodes.Ldloca_S, dwarvenBlueprintIndex),
                         new CodeInstruction(
@@ -61,7 +62,7 @@ internal sealed class ItemGrabMenuReceiveLeftClickPatcher : HarmonyPatcher
                         new CodeInstruction(OpCodes.Isinst, typeof(SObject)),
                         new CodeInstruction(
                             OpCodes.Call,
-                            typeof(Globals).RequirePropertyGetter(nameof(Globals.DwarvishBlueprintIndex))),
+                            typeof(JsonAssetsIntegration).RequirePropertyGetter(nameof(JsonAssetsIntegration.DwarvishBlueprintIndex))),
                         new CodeInstruction(OpCodes.Stloc_S, dwarvenBlueprintIndex),
                         new CodeInstruction(OpCodes.Ldloca_S, dwarvenBlueprintIndex),
                         new CodeInstruction(

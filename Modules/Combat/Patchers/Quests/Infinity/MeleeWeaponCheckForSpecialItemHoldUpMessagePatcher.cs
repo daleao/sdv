@@ -4,6 +4,7 @@
 
 using System.Reflection;
 using DaLion.Overhaul.Modules.Combat.Enums;
+using DaLion.Shared.Constants;
 using DaLion.Shared.Extensions;
 using DaLion.Shared.Extensions.Stardew;
 using DaLion.Shared.Harmony;
@@ -54,14 +55,14 @@ internal sealed class MeleeWeaponCheckForSpecialItemHoldUpMessagePatcher : Harmo
 
             switch (__instance.InitialParentTileIndex)
             {
-                case ItemIDs.DarkSword:
+                case WeaponIds.DarkSword:
                 {
                     var darkSword = I18n.Weapons_DarkSword_Name();
                     __result = I18n.Weapons_DarkSword_HoldUpMessage(darkSword);
                     break;
                 }
 
-                case ItemIDs.HolyBlade:
+                case WeaponIds.HolyBlade:
                 {
                     var darkSword = I18n.Weapons_DarkSword_Name();
                     var holyBlade = I18n.Weapons_HolyBlade_Name();

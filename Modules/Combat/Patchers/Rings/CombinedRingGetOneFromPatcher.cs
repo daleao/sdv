@@ -1,5 +1,7 @@
 ﻿namespace DaLion.Overhaul.Modules.Combat.Patchers.Rings;
 
+using DaLion.Overhaul.Modules.Combat.Integrations;
+
 #region using directives
 
 using DaLion.Shared.Harmony;
@@ -26,14 +28,15 @@ internal sealed class CombinedRingGetOneFromPatcher : HarmonyPatcher
     [HarmonyPriority(Priority.HigherThanNormal)]
     private static bool CombinedRingGetOneFromPrefix(CombinedRing __instance, Item source)
     {
-        if (!Globals.InfinityBandIndex.HasValue || source.ParentSheetIndex != Globals.InfinityBandIndex)
+        if (!JsonAssetsIntegration.InfinityBandIndex.HasValue ||
+            source.ParentSheetIndex != JsonAssetsIntegration.InfinityBandIndex)
         {
             return true; // run original logic
         }
 
-        __instance.ParentSheetIndex = Globals.InfinityBandIndex.Value;
+        __instance.ParentSheetIndex = JsonAssetsIntegration.InfinityBandIndex.Value;
         ModHelper.Reflection.GetField<NetInt>(__instance, nameof(Ring.indexInTileSheet)).GetValue()
-            .Set(Globals.InfinityBandIndex.Value);
+            .Set(JsonAssetsIntegration.InfinityBandIndex.Value);
         return true; // run original logic
     }
 

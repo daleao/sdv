@@ -5,6 +5,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using DaLion.Overhaul.Modules.Combat.Integrations;
+using DaLion.Shared.Constants;
 using DaLion.Shared.Extensions;
 using DaLion.Shared.Extensions.Stardew;
 using DaLion.Shared.Harmony;
@@ -40,7 +42,7 @@ internal sealed class GameLocationAnswerDialogueActionPatcher : HarmonyPatcher
             return true; // run original logic
         }
 
-        if (questionAndAnswer != "Blacksmith_Forge" || !Globals.DwarvishBlueprintIndex.HasValue)
+        if (questionAndAnswer != "Blacksmith_Forge" || !JsonAssetsIntegration.DwarvishBlueprintIndex.HasValue)
         {
             return true; // run original logic
         }
@@ -68,66 +70,66 @@ internal sealed class GameLocationAnswerDialogueActionPatcher : HarmonyPatcher
         var stock = new Dictionary<ISalable, int[]>();
         var found = Game1.player.Read(DataKeys.BlueprintsFound).ParseList<int>().ToHashSet();
 
-        if (Globals.ElderwoodIndex.HasValue)
+        if (JsonAssetsIntegration.ElderwoodIndex.HasValue)
         {
-            if (found.Contains(ItemIDs.ForestSword))
+            if (found.Contains(WeaponIds.ForestSword))
             {
                 stock.Add(
-                    new MeleeWeapon(ItemIDs.ForestSword),
-                    new[] { 0, int.MaxValue, Globals.ElderwoodIndex.Value, 2 });
+                    new MeleeWeapon(WeaponIds.ForestSword),
+                    new[] { 0, int.MaxValue, JsonAssetsIntegration.ElderwoodIndex.Value, 2 });
             }
 
-            if (found.Contains(ItemIDs.ElfBlade))
+            if (found.Contains(WeaponIds.ElfBlade))
             {
                 stock.Add(
-                    new MeleeWeapon(ItemIDs.ElfBlade),
-                    new[] { 0, int.MaxValue, Globals.ElderwoodIndex.Value, 1 });
+                    new MeleeWeapon(WeaponIds.ElfBlade),
+                    new[] { 0, int.MaxValue, JsonAssetsIntegration.ElderwoodIndex.Value, 1 });
             }
         }
 
-        if (Globals.DwarvenScrapIndex.HasValue)
+        if (JsonAssetsIntegration.DwarvenScrapIndex.HasValue)
         {
-            if (found.Contains(ItemIDs.DwarfSword))
+            if (found.Contains(WeaponIds.DwarfSword))
             {
                 stock.Add(
-                    new MeleeWeapon(ItemIDs.DwarfSword),
-                    new[] { 0, int.MaxValue, Globals.DwarvenScrapIndex.Value, 5 });
+                    new MeleeWeapon(WeaponIds.DwarfSword),
+                    new[] { 0, int.MaxValue, JsonAssetsIntegration.DwarvenScrapIndex.Value, 5 });
             }
 
-            if (found.Contains(ItemIDs.DwarfHammer))
+            if (found.Contains(WeaponIds.DwarfHammer))
             {
                 stock.Add(
-                    new MeleeWeapon(ItemIDs.DwarfHammer),
-                    new[] { 0, int.MaxValue, Globals.DwarvenScrapIndex.Value, 5 });
+                    new MeleeWeapon(WeaponIds.DwarfHammer),
+                    new[] { 0, int.MaxValue, JsonAssetsIntegration.DwarvenScrapIndex.Value, 5 });
             }
 
-            if (found.Contains(ItemIDs.DwarfDagger))
+            if (found.Contains(WeaponIds.DwarfDagger))
             {
                 stock.Add(
-                    new MeleeWeapon(ItemIDs.DwarfDagger),
-                    new[] { 0, int.MaxValue, Globals.DwarvenScrapIndex.Value, 3 });
+                    new MeleeWeapon(WeaponIds.DwarfDagger),
+                    new[] { 0, int.MaxValue, JsonAssetsIntegration.DwarvenScrapIndex.Value, 3 });
             }
         }
 
-        if (found.Contains(ItemIDs.DragontoothCutlass))
+        if (found.Contains(WeaponIds.DragontoothCutlass))
         {
             stock.Add(
-                new MeleeWeapon(ItemIDs.DragontoothCutlass),
-                new[] { 0, int.MaxValue, ItemIDs.DragonTooth, 10 });
+                new MeleeWeapon(WeaponIds.DragontoothCutlass),
+                new[] { 0, int.MaxValue, ObjectIds.DragonTooth, 10 });
         }
 
-        if (found.Contains(ItemIDs.DragontoothClub))
+        if (found.Contains(WeaponIds.DragontoothClub))
         {
             stock.Add(
-                new MeleeWeapon(ItemIDs.DragontoothClub),
-                new[] { 0, int.MaxValue, ItemIDs.DragonTooth, 10 });
+                new MeleeWeapon(WeaponIds.DragontoothClub),
+                new[] { 0, int.MaxValue, ObjectIds.DragonTooth, 10 });
         }
 
-        if (found.Contains(ItemIDs.DragontoothShiv))
+        if (found.Contains(WeaponIds.DragontoothShiv))
         {
             stock.Add(
-                new MeleeWeapon(ItemIDs.DragontoothShiv),
-                new[] { 0, int.MaxValue, ItemIDs.DragonTooth, 7 });
+                new MeleeWeapon(WeaponIds.DragontoothShiv),
+                new[] { 0, int.MaxValue, ObjectIds.DragonTooth, 7 });
         }
 
         return stock;

@@ -6,6 +6,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Reflection;
 using DaLion.Overhaul.Modules.Combat.Enums;
+using DaLion.Shared.Constants;
 using DaLion.Shared.Exceptions;
 using DaLion.Shared.Extensions;
 using DaLion.Shared.Extensions.Stardew;
@@ -70,13 +71,13 @@ internal sealed class GameLocationGetGalaxySwordPatcher : HarmonyPatcher
 
             chosen ??= new[]
             {
-                ItemIDs.GalaxySword,
-                ItemIDs.GalaxyHammer,
-                ItemIDs.GalaxyDagger,
-                ItemIDs.GalaxySlingshot,
+                WeaponIds.GalaxySword,
+                WeaponIds.GalaxyHammer,
+                WeaponIds.GalaxyDagger,
+                WeaponIds.GalaxySlingshot,
             }.Except(obtained).First();
 
-            Item chosenAsItem = chosen.Value == ItemIDs.GalaxySlingshot
+            Item chosenAsItem = chosen.Value == WeaponIds.GalaxySlingshot
                 ? new Slingshot(chosen.Value)
                 : new MeleeWeapon(chosen.Value);
 
@@ -88,7 +89,7 @@ internal sealed class GameLocationGetGalaxySwordPatcher : HarmonyPatcher
                 player.reduceActiveItemByOne();
             }
 
-            player.Items.First(i => i?.ParentSheetIndex == SObject.iridiumBar).Stack -=
+            player.Items.First(i => i?.ParentSheetIndex == ObjectIds.IridiumBar).Stack -=
                 CombatModule.Config.IridiumBarsPerGalaxyWeapon;
 
             if (!player.addItemToInventoryBool(chosenAsItem))
@@ -112,10 +113,10 @@ internal sealed class GameLocationGetGalaxySwordPatcher : HarmonyPatcher
             {
                 return type switch
                 {
-                    WeaponType.StabbingSword or WeaponType.DefenseSword => ItemIDs.GalaxySword,
-                    WeaponType.Dagger => ItemIDs.GalaxyDagger,
-                    WeaponType.Club => ItemIDs.GalaxyHammer,
-                    WeaponType.Slingshot => ItemIDs.GalaxySlingshot,
+                    WeaponType.StabbingSword or WeaponType.DefenseSword => WeaponIds.GalaxySword,
+                    WeaponType.Dagger => WeaponIds.GalaxyDagger,
+                    WeaponType.Club => WeaponIds.GalaxyHammer,
+                    WeaponType.Slingshot => WeaponIds.GalaxySlingshot,
                     _ => ThrowHelperExtensions.ThrowUnexpectedEnumValueException<WeaponType, int>(type),
                 };
             }

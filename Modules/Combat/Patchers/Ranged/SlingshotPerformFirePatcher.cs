@@ -7,15 +7,16 @@ using DaLion.Overhaul.Modules.Combat.Enchantments;
 using DaLion.Overhaul.Modules.Combat.Extensions;
 using DaLion.Overhaul.Modules.Combat.Projectiles;
 using DaLion.Overhaul.Modules.Combat.VirtualProperties;
+using DaLion.Overhaul.Modules.Professions.Events.GameLoop.UpdateTicked;
 using DaLion.Overhaul.Modules.Professions.Extensions;
 using DaLion.Overhaul.Modules.Professions.Ultimates;
 using DaLion.Overhaul.Modules.Professions.VirtualProperties;
+using DaLion.Shared.Constants;
 using DaLion.Shared.Extensions.Stardew;
 using DaLion.Shared.Extensions.Xna;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
 using Microsoft.Xna.Framework;
-using DaLion.Overhaul.Modules.Professions.Events.GameLoop.UpdateTicked;
 using StardewValley.Projectiles;
 using StardewValley.Tools;
 
@@ -111,15 +112,15 @@ internal sealed class SlingshotPerformFirePatcher : HarmonyPatcher
             var knockback = 0.25f;
             switch (__instance.InitialParentTileIndex)
             {
-                case ItemIDs.MasterSlingshot:
+                case WeaponIds.MasterSlingshot:
                     damageMod = CombatModule.Config.EnableWeaponOverhaul ? 0.5f : 1f;
                     knockback += 0.1f;
                     break;
-                case ItemIDs.GalaxySlingshot:
+                case WeaponIds.GalaxySlingshot:
                     damageMod = CombatModule.Config.EnableWeaponOverhaul ? 1f : CombatModule.Config.EnableInfinitySlingshot ? 2f : 3f;
                     knockback += 0.2f;
                     break;
-                case ItemIDs.InfinitySlingshot:
+                case WeaponIds.InfinitySlingshot:
                     damageMod = CombatModule.Config.EnableWeaponOverhaul ? 1.5f : 3f;
                     knockback += 0.25f;
                     break;
@@ -158,8 +159,8 @@ internal sealed class SlingshotPerformFirePatcher : HarmonyPatcher
             knockback = CombatModule.Config.EnableWeaponOverhaul ? knockback : 1f;
             var startingPosition = shootOrigin - new Vector2(32f, 32f);
             var rotationVelocity = (float)(Math.PI / (64f + Game1.random.Next(-63, 64)));
-            if (ammo?.ParentSheetIndex is SObject.wood or SObject.coal or SObject.stone or SObject.copper
-                or SObject.iron or SObject.gold or SObject.iridium)
+            if (ammo?.ParentSheetIndex is ObjectIds.Wood or ObjectIds.Coal or ObjectIds.Stone or ObjectIds.CopperOre
+                or ObjectIds.IronOre or ObjectIds.GoldOre or ObjectIds.IridiumOre)
             {
                 index++;
             }

@@ -7,10 +7,12 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using DaLion.Overhaul.Modules.Ponds.Extensions;
+using DaLion.Shared.Constants;
 using DaLion.Shared.Extensions;
 using DaLion.Shared.Extensions.Collections;
 using DaLion.Shared.Extensions.Stardew;
 using DaLion.Shared.Harmony;
+using DaLion.Shared.Maps;
 using HarmonyLib;
 using Microsoft.Xna.Framework;
 using StardewValley.Buildings;
@@ -57,7 +59,7 @@ internal sealed class FishPondGetFishProducePatcher : HarmonyPatcher
             ProduceFromPondData(__instance, held, random);
 
             // handle roe/ink
-            if (fish.ParentSheetIndex == ItemIDs.Coral)
+            if (fish.ParentSheetIndex == ObjectIds.Coral)
             {
                 ProduceForCoral(__instance, held, __instance.GetRoeChance(fish.Price), random);
             }
@@ -98,7 +100,7 @@ internal sealed class FishPondGetFishProducePatcher : HarmonyPatcher
                 __instance.Write(DataKeys.ItemsHeld, null);
             }
 
-            if (__result.ParentSheetIndex != ItemIDs.Roe)
+            if (__result.ParentSheetIndex != ObjectIds.Roe)
             {
                 return false; // don't run original logic
             }
@@ -107,14 +109,14 @@ internal sealed class FishPondGetFishProducePatcher : HarmonyPatcher
             if (fish.IsLegendaryFish() && random.NextDouble() <
                 __instance.Read<double>(DataKeys.FamilyLivingHere) / __instance.FishCount)
             {
-                fishIndex = Collections.ExtendedFamilyPairs[fishIndex];
+                fishIndex = ExtendedFamilyPairs.Map[fishIndex];
             }
 
             var split = Game1.objectInformation[fishIndex].SplitWithoutAllocation('/');
             var c = fishIndex == 698
                 ? new Color(61, 55, 42)
                 : TailoringMenu.GetDyeColor(new SObject(fishIndex, 1)) ?? Color.Orange;
-            var o = new ColoredObject(ItemIDs.Roe, __result.Stack, c);
+            var o = new ColoredObject(ObjectIds.Roe, __result.Stack, c);
             o.name = split[0].ToString() + " Roe";
             o.preserve.Value = SObject.PreserveType.Roe;
             o.preservedParentSheetIndex.Value = fishIndex;
@@ -154,7 +156,7 @@ internal sealed class FishPondGetFishProducePatcher : HarmonyPatcher
         for (var i = 0; i < fishPondData.ProducedItems.Count; i++)
         {
             var reward = fishPondData.ProducedItems[i];
-            if (reward.ItemID is not (ItemIDs.Roe or ItemIDs.SquidInk) &&
+            if (reward.ItemID is not (ObjectIds.Roe or ObjectIds.SquidInk) &&
                 pond.currentOccupants.Value >= reward.RequiredPopulation &&
                 r.NextDouble() < Utility.Lerp(0.15f, 0.95f, pond.currentOccupants.Value / 10f) &&
                 r.NextDouble() < reward.Chance)
@@ -201,7 +203,7 @@ internal sealed class FishPondGetFishProducePatcher : HarmonyPatcher
             }
         }
 
-        if (fish.ParentSheetIndex == ItemIDs.Sturgeon)
+        if (fish.ParentSheetIndex == ObjectIds.Sturgeon)
         {
             for (var i = 0; i < 4; i++)
             {
@@ -214,7 +216,7 @@ internal sealed class FishPondGetFishProducePatcher : HarmonyPatcher
             return;
         }
 
-        var roeIndex = fish.Name.Contains("Squid") ? ItemIDs.SquidInk : ItemIDs.Roe;
+        var roeIndex = fish.Name.Contains("Squid") ? ObjectIds.SquidInk : ObjectIds.Roe;
         for (var i = 3; i >= 0; i--)
         {
             if (producedRoes[i] <= 0)
@@ -270,29 +272,29 @@ internal sealed class FishPondGetFishProducePatcher : HarmonyPatcher
         {
             if (algaeStacks[0] > 0)
             {
-                held.Add(new SObject(ItemIDs.GreenAlgae, algaeStacks[0]));
+                held.Add(new SObject(ObjectIds.GreenAlgae, algaeStacks[0]));
             }
 
             if (algaeStacks[1] > 0)
             {
-                held.Add(new SObject(ItemIDs.WhiteAlgae, algaeStacks[1]));
+                held.Add(new SObject(ObjectIds.WhiteAlgae, algaeStacks[1]));
             }
 
             if (algaeStacks[2] > 0)
             {
-                held.Add(new SObject(ItemIDs.Seaweed, algaeStacks[2]));
+                held.Add(new SObject(ObjectIds.Seaweed, algaeStacks[2]));
             }
 
             result = pond.fishType.Value switch
             {
-                ItemIDs.GreenAlgae when algaeStacks[0] > 0 => new SObject(
-                    ItemIDs.GreenAlgae,
+                ObjectIds.GreenAlgae when algaeStacks[0] > 0 => new SObject(
+                    ObjectIds.GreenAlgae,
                     algaeStacks[0]),
-                ItemIDs.WhiteAlgae when algaeStacks[1] > 0 => new SObject(
-                    ItemIDs.WhiteAlgae,
+                ObjectIds.WhiteAlgae when algaeStacks[1] > 0 => new SObject(
+                    ObjectIds.WhiteAlgae,
                     algaeStacks[1]),
-                ItemIDs.Seaweed when algaeStacks[2] > 0 => new SObject(
-                    ItemIDs.Seaweed,
+                ObjectIds.Seaweed when algaeStacks[2] > 0 => new SObject(
+                    ObjectIds.Seaweed,
                     algaeStacks[2]),
                 _ => null,
             };
@@ -302,9 +304,9 @@ internal sealed class FishPondGetFishProducePatcher : HarmonyPatcher
                 var max = algaeStacks.ToList().IndexOfMax();
                 result = max switch
                 {
-                    0 => new SObject(ItemIDs.GreenAlgae, algaeStacks[0]),
-                    1 => new SObject(ItemIDs.WhiteAlgae, algaeStacks[1]),
-                    2 => new SObject(ItemIDs.Seaweed, algaeStacks[2]),
+                    0 => new SObject(ObjectIds.GreenAlgae, algaeStacks[0]),
+                    1 => new SObject(ObjectIds.WhiteAlgae, algaeStacks[1]),
+                    2 => new SObject(ObjectIds.Seaweed, algaeStacks[2]),
                     _ => null,
                 };
             }
@@ -331,13 +333,13 @@ internal sealed class FishPondGetFishProducePatcher : HarmonyPatcher
             {
                 switch (r.NextAlgae())
                 {
-                    case ItemIDs.GreenAlgae:
+                    case ObjectIds.GreenAlgae:
                         algaeStacks[0]++;
                         break;
-                    case ItemIDs.WhiteAlgae:
+                    case ObjectIds.WhiteAlgae:
                         algaeStacks[1]++;
                         break;
-                    case ItemIDs.Seaweed:
+                    case ObjectIds.Seaweed:
                         algaeStacks[2]++;
                         break;
                 }
@@ -346,17 +348,17 @@ internal sealed class FishPondGetFishProducePatcher : HarmonyPatcher
 
         if (algaeStacks[0] > 0)
         {
-            held.Add(new SObject(ItemIDs.GreenAlgae, algaeStacks[0]));
+            held.Add(new SObject(ObjectIds.GreenAlgae, algaeStacks[0]));
         }
 
         if (algaeStacks[1] > 0)
         {
-            held.Add(new SObject(ItemIDs.WhiteAlgae, algaeStacks[1]));
+            held.Add(new SObject(ObjectIds.WhiteAlgae, algaeStacks[1]));
         }
 
         if (algaeStacks[2] > 0)
         {
-            held.Add(new SObject(ItemIDs.Seaweed, algaeStacks[2]));
+            held.Add(new SObject(ObjectIds.Seaweed, algaeStacks[2]));
         }
     }
 
@@ -377,8 +379,8 @@ internal sealed class FishPondGetFishProducePatcher : HarmonyPatcher
             }
 
             held.Add(index.IsOre()
-                ? new SObject(ItemIDs.RadioactiveOre, 1)
-                : new SObject(ItemIDs.RadioactiveBar, 1));
+                ? new SObject(ObjectIds.RadioactiveOre, 1)
+                : new SObject(ObjectIds.RadioactiveBar, 1));
             heldMetals.RemoveAt(i);
         }
 

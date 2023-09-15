@@ -7,6 +7,7 @@ using System.Text;
 using DaLion.Overhaul.Modules.Combat.Enchantments;
 using DaLion.Overhaul.Modules.Combat.Integrations;
 using DaLion.Overhaul.Modules.Combat.VirtualProperties;
+using DaLion.Shared.Constants;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
 using Microsoft.Xna.Framework;
@@ -94,7 +95,7 @@ internal sealed class ToolDrawTooltipPatcher : HarmonyPatcher
 
                 y += (int)Math.Max(font.MeasureString("TT").Y, 48f);
             }
-            else if (__instance.InitialParentTileIndex != ItemIDs.BasicSlingshot)
+            else if (__instance.InitialParentTileIndex != WeaponIds.BasicSlingshot)
             {
                 co = Game1.textColor;
 
@@ -348,7 +349,7 @@ internal sealed class ToolDrawTooltipPatcher : HarmonyPatcher
 
         // write bonus damage
         var hasRubyEnchant = slingshot.hasEnchantmentOfType<RubyEnchantment>();
-        if (slingshot.InitialParentTileIndex != ItemIDs.BasicSlingshot || hasRubyEnchant)
+        if (slingshot.InitialParentTileIndex != WeaponIds.BasicSlingshot || hasRubyEnchant)
         {
             co = hasRubyEnchant ? new Color(0, 120, 120) : Game1.textColor;
             Utility.drawWithShadow(
@@ -375,7 +376,7 @@ internal sealed class ToolDrawTooltipPatcher : HarmonyPatcher
 
         // write bonus knockback
         var hasAmethystEnchant = slingshot.hasEnchantmentOfType<AmethystEnchantment>();
-        if (slingshot.InitialParentTileIndex != ItemIDs.BasicSlingshot || hasAmethystEnchant)
+        if (slingshot.InitialParentTileIndex != WeaponIds.BasicSlingshot || hasAmethystEnchant)
         {
             co = hasAmethystEnchant ? new Color(0, 120, 120) : Game1.textColor;
             Utility.drawWithShadow(

@@ -2,6 +2,7 @@
 
 #region using directives
 
+using DaLion.Shared.Constants;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
 
@@ -23,9 +24,9 @@ internal sealed class CraftingRecipeCtorPatcher : HarmonyPatcher
     private static void CraftingRecipeCtorPostfix(CraftingRecipe __instance)
     {
         if (CombatModule.Config.DwarvenLegacy && __instance.name == "Warp Totem: Island" &&
-            __instance.recipeList.Remove(ItemIDs.DragonTooth))
+            __instance.recipeList.Remove(ObjectIds.DragonTooth))
         {
-            __instance.recipeList[ItemIDs.RadioactiveOre] = 1;
+            __instance.recipeList[ObjectIds.RadioactiveOre] = 1;
         }
     }
 

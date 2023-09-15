@@ -2,6 +2,7 @@
 
 #region using directives
 
+using DaLion.Shared.Constants;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
 using StardewValley.Objects;
@@ -26,7 +27,7 @@ internal sealed class RingOnLeaveLocationPatcher : HarmonyPatcher
     private static bool RingOnLeaveLocationPrefix(Ring __instance)
     {
         return !CombatModule.Config.EnableInfinityBand ||
-               __instance.indexInTileSheet.Value != ItemIDs.IridiumBand;
+               __instance.indexInTileSheet.Value != ObjectIds.IridiumBand;
     }
 
     #endregion harmony patches

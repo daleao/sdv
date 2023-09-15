@@ -2,6 +2,7 @@
 
 #region using directives
 
+using DaLion.Shared.Constants;
 using DaLion.Shared.Extensions;
 
 #endregion using directives
@@ -20,9 +21,9 @@ internal static class SObjectExtensions
     /// <summary>Determines whether the <paramref name="obj"/> is a non-radioactive ore or ingot.</summary>
     /// <param name="obj">The <see cref="SObject"/>.</param>
     /// <returns><see langword="true"/> if the <paramref name="obj"/> is either copper, iron, gold or iridium, otherwise <see langword="false"/>.</returns>
-    internal static bool CanEnrich(this SObject obj)
+    internal static bool CanBeEnriched(this SObject obj)
     {
-        return obj.ParentSheetIndex is SObject.copper or SObject.iron or SObject.gold or SObject.iridium
-            or SObject.copperBar or SObject.ironBar or SObject.goldBar or SObject.iridiumBar;
+        return obj.ParentSheetIndex is ObjectIds.CopperOre or ObjectIds.IronOre or ObjectIds.GoldOre or ObjectIds.IridiumOre
+            or ObjectIds.CopperBar or ObjectIds.IronBar or ObjectIds.GoldBar or ObjectIds.IridiumBar;
     }
 }

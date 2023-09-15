@@ -3,6 +3,7 @@
 #region using directives
 
 using DaLion.Overhaul.Modules.Combat.Enchantments;
+using DaLion.Shared.Constants;
 using DaLion.Shared.Events;
 using StardewModdingAPI.Events;
 using StardewValley.Tools;
@@ -22,7 +23,7 @@ internal sealed class BlessedEnchantmentUpdateTickedEvent : UpdateTickedEvent
     /// <inheritdoc />
     protected override void OnUpdateTickedImpl(object? sender, UpdateTickedEventArgs e)
     {
-        if (Game1.player.CurrentTool is not MeleeWeapon { InitialParentTileIndex: ItemIDs.HolyBlade } holyBlade)
+        if (Game1.player.CurrentTool is not MeleeWeapon { InitialParentTileIndex: (int)WeaponIds.HolyBlade } holyBlade)
         {
             this.Disable();
             return;

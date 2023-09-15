@@ -2,6 +2,8 @@
 
 #region using directives
 
+using DaLion.Overhaul.Modules.Combat.Integrations;
+using DaLion.Shared.Constants;
 using DaLion.Shared.Extensions;
 using StardewValley.Locations;
 
@@ -17,11 +19,11 @@ public static class MineShaftExtensions
     {
         return shaft.mineLevel switch
         {
-            < 40 => SObject.copper,
-            < 80 => SObject.iron,
-            < 120 => SObject.gold,
-            77377 => Game1.random.Choose(SObject.copper, SObject.iron),
-            _ => SObject.iridium,
+            < 40 => ObjectIds.CopperOre,
+            < 80 => ObjectIds.IronOre,
+            < 120 => ObjectIds.GoldOre,
+            77377 => Game1.random.Choose(ObjectIds.CopperOre, ObjectIds.IronOre),
+            _ => ObjectIds.IridiumOre,
         };
     }
 
@@ -32,27 +34,27 @@ public static class MineShaftExtensions
     {
         return shaft.mineLevel switch
         {
-            < 40 => Game1.random.Choose(ItemIDs.Amethyst, ItemIDs.Topaz),
-            < 80 => Game1.random.Choose(ItemIDs.Aquamarine, ItemIDs.Jade),
-            < 120 => Globals.GarnetIndex.HasValue
-                ? Game1.random.Choose(ItemIDs.Ruby, ItemIDs.Emerald, Globals.GarnetIndex.Value)
-                : Game1.random.Choose(ItemIDs.Ruby, ItemIDs.Emerald),
-            _ => Globals.GarnetIndex.HasValue
+            < 40 => Game1.random.Choose(ObjectIds.Amethyst, ObjectIds.Topaz),
+            < 80 => Game1.random.Choose(ObjectIds.Aquamarine, ObjectIds.Jade),
+            < 120 => JsonAssetsIntegration.GarnetIndex.HasValue
+                ? Game1.random.Choose(ObjectIds.Ruby, ObjectIds.Emerald, JsonAssetsIntegration.GarnetIndex.Value)
+                : Game1.random.Choose(ObjectIds.Ruby, ObjectIds.Emerald),
+            _ => JsonAssetsIntegration.GarnetIndex.HasValue
                 ? Game1.random.Choose(
-                    ItemIDs.Amethyst,
-                    ItemIDs.Topaz,
-                    ItemIDs.Aquamarine,
-                    ItemIDs.Jade,
-                    ItemIDs.Ruby,
-                    ItemIDs.Emerald,
-                    Globals.GarnetIndex.Value)
+                    ObjectIds.Amethyst,
+                    ObjectIds.Topaz,
+                    ObjectIds.Aquamarine,
+                    ObjectIds.Jade,
+                    ObjectIds.Ruby,
+                    ObjectIds.Emerald,
+                    JsonAssetsIntegration.GarnetIndex.Value)
                 : Game1.random.Choose(
-                    ItemIDs.Amethyst,
-                    ItemIDs.Topaz,
-                    ItemIDs.Aquamarine,
-                    ItemIDs.Jade,
-                    ItemIDs.Ruby,
-                    ItemIDs.Emerald),
+                    ObjectIds.Amethyst,
+                    ObjectIds.Topaz,
+                    ObjectIds.Aquamarine,
+                    ObjectIds.Jade,
+                    ObjectIds.Ruby,
+                    ObjectIds.Emerald),
         };
     }
 
@@ -63,12 +65,12 @@ public static class MineShaftExtensions
     {
         return shaft.mineLevel switch
         {
-            < 40 => ItemIDs.Geode,
-            < 80 => ItemIDs.FrozenGeode,
-            < 120 => ItemIDs.MagmaGeode,
+            < 40 => ObjectIds.Geode,
+            < 80 => ObjectIds.FrozenGeode,
+            < 120 => ObjectIds.MagmaGeode,
             _ => Game1.random.NextDouble() < 0.1
-                ? ItemIDs.OmniGeode
-                : Game1.random.Choose(ItemIDs.Geode, ItemIDs.FrozenGeode, ItemIDs.MagmaGeode),
+                ? ObjectIds.OmniGeode
+                : Game1.random.Choose(ObjectIds.Geode, ObjectIds.FrozenGeode, ObjectIds.MagmaGeode),
         };
     }
 
@@ -79,10 +81,10 @@ public static class MineShaftExtensions
     {
         return shaft.mineLevel switch
         {
-            < 40 => Game1.random.Choose(ItemIDs.Quartz, ItemIDs.EarthCrystal),
-            < 80 => Game1.random.Choose(ItemIDs.Quartz, ItemIDs.FrozenTear),
-            < 120 => Game1.random.Choose(ItemIDs.Quartz, ItemIDs.FireQuartz),
-            _ => ItemIDs.Quartz,
+            < 40 => Game1.random.Choose(ObjectIds.Quartz, ObjectIds.EarthCrystal),
+            < 80 => Game1.random.Choose(ObjectIds.Quartz, ObjectIds.FrozenTear),
+            < 120 => Game1.random.Choose(ObjectIds.Quartz, ObjectIds.FireQuartz),
+            _ => ObjectIds.Quartz,
         };
     }
 }

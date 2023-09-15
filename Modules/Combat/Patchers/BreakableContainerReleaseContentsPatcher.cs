@@ -4,6 +4,7 @@
 
 using System.Reflection;
 using DaLion.Overhaul.Modules.Combat.Extensions;
+using DaLion.Shared.Constants;
 using DaLion.Shared.Extensions;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
@@ -95,16 +96,16 @@ internal sealed class BreakableContainerReleaseContentsPatcher : HarmonyPatcher
                     switch (r.Next(11))
                     {
                         case 1:
-                            Game1.createMultipleObjectDebris(SObject.coal, x, y, r.Next(1, 3), location);
+                            Game1.createMultipleObjectDebris(ObjectIds.Coal, x, y, r.Next(1, 3), location);
                             break;
                         case 2:
-                            Game1.createMultipleObjectDebris(SObject.wood, x, y, r.Next(2, 6), location);
+                            Game1.createMultipleObjectDebris(ObjectIds.Wood, x, y, r.Next(2, 6), location);
                             break;
                         case 3:
-                            Game1.createMultipleObjectDebris(SObject.stone, x, y, r.Next(2, 6), location);
+                            Game1.createMultipleObjectDebris(ObjectIds.Stone, x, y, r.Next(2, 6), location);
                             break;
                         case 4:
-                            Game1.createMultipleObjectDebris(ItemIDs.Hardwood, x, y, 1, location); // hardwood
+                            Game1.createMultipleObjectDebris(ObjectIds.Hardwood, x, y, 1, location); // hardwood
                             break;
                         case 5:
                             Game1.createMultipleObjectDebris(62 + (r.Next(7) * 2), x, y, 1, location); // gemstone
@@ -126,7 +127,7 @@ internal sealed class BreakableContainerReleaseContentsPatcher : HarmonyPatcher
                             break;
                         default:
                             Game1.createMultipleObjectDebris(
-                                r.Choose(SObject.copper, SObject.iron, SObject.gold, SObject.iridium),
+                                r.Choose(ObjectIds.CopperOre, ObjectIds.IronOre, ObjectIds.GoldOre, ObjectIds.IridiumOre),
                                 x,
                                 y,
                                 r.Next(1, 4),
@@ -146,23 +147,23 @@ internal sealed class BreakableContainerReleaseContentsPatcher : HarmonyPatcher
                     switch (r.Next(7))
                     {
                         case 0:
-                            Game1.createMultipleObjectDebris(SObject.coal, x, y, r.Next(1, 3), location);
+                            Game1.createMultipleObjectDebris(ObjectIds.Coal, x, y, r.Next(1, 3), location);
                             break;
                         case 1:
-                            Game1.createMultipleObjectDebris(SObject.wood, x, y, r.Next(2, 6), location);
+                            Game1.createMultipleObjectDebris(ObjectIds.Wood, x, y, r.Next(2, 6), location);
                             break;
                         case 2:
-                            Game1.createMultipleObjectDebris(SObject.stone, x, y, r.Next(2, 6), location);
+                            Game1.createMultipleObjectDebris(ObjectIds.Stone, x, y, r.Next(2, 6), location);
                             break;
                         case 3: // ore
                             Game1.createMultipleObjectDebris(
                                 mineLevel < 40
-                                    ? SObject.copper
+                                    ? ObjectIds.CopperOre
                                     : mineLevel < 80
-                                        ? SObject.iron
+                                        ? ObjectIds.IronOre
                                         : mineLevel < 120
-                                            ? SObject.gold
-                                            : SObject.iridium,
+                                            ? ObjectIds.GoldOre
+                                            : ObjectIds.IridiumOre,
                                 x,
                                 y,
                                 r.Next(1, 4),
@@ -171,12 +172,12 @@ internal sealed class BreakableContainerReleaseContentsPatcher : HarmonyPatcher
                         case 4: // ore - 1
                             Game1.createMultipleObjectDebris(
                                 mineLevel < 40
-                                    ? SObject.stone
+                                    ? ObjectIds.Stone
                                     : mineLevel < 80
-                                        ? SObject.copper
+                                        ? ObjectIds.CopperOre
                                         : mineLevel < 120
-                                            ? SObject.iron
-                                            : SObject.gold,
+                                            ? ObjectIds.IronOre
+                                            : ObjectIds.GoldOre,
                                 x,
                                 y,
                                 r.Next(2, 6),
@@ -185,12 +186,12 @@ internal sealed class BreakableContainerReleaseContentsPatcher : HarmonyPatcher
                         case 5: // ore - 2
                             Game1.createMultipleObjectDebris(
                                 mineLevel < 40
-                                    ? SObject.wood
+                                    ? ObjectIds.Wood
                                     : mineLevel < 80
-                                        ? SObject.stone
+                                        ? ObjectIds.Stone
                                         : mineLevel < 120
-                                            ? SObject.copper
-                                            : SObject.iron,
+                                            ? ObjectIds.CopperOre
+                                            : ObjectIds.IronOre,
                                 x,
                                 y,
                                 r.Next(2, 6),
@@ -198,13 +199,13 @@ internal sealed class BreakableContainerReleaseContentsPatcher : HarmonyPatcher
                             break;
                         case 6: // etc.
                             Game1.createMultipleObjectDebris(
-                                mineLevel > 120 ? ItemIDs.BoneFragment : ItemIDs.MixedSeeds, x, y, 1, location);
+                                mineLevel > 120 ? ObjectIds.BoneFragment : ObjectIds.MixedSeeds, x, y, 1, location);
                             break;
                     }
                 }
                 else
                 {
-                    Game1.createMultipleObjectDebris(ItemIDs.CaveCarrot, x, y, r.Next(1, 3), location);
+                    Game1.createMultipleObjectDebris(ObjectIds.CaveCarrot, x, y, r.Next(1, 3), location);
                 }
             }
             else if (r.NextDouble() < 0.4)
@@ -221,25 +222,25 @@ internal sealed class BreakableContainerReleaseContentsPatcher : HarmonyPatcher
                         Game1.createMultipleObjectDebris(shaft.ChooseForageMineral(), x, y, 1, location);
                         break;
                     case 3:
-                        Game1.createMultipleObjectDebris(ItemIDs.Hardwood, x, y, 1, location);
+                        Game1.createMultipleObjectDebris(ObjectIds.Hardwood, x, y, 1, location);
                         break;
                     case 4: // fertilizer or sap
                         var what = who.timesReachedMineBottom > 0 && r.NextDouble() < 0.5
                             ? mineLevel < 80
                                 ? r.Choose(
-                                    ItemIDs.BasicFertilizer,
-                                    ItemIDs.BasicRetainingSoil,
-                                    ItemIDs.SpeedGro)
+                                    ObjectIds.BasicFertilizer,
+                                    ObjectIds.BasicRetainingSoil,
+                                    ObjectIds.SpeedGro)
                                 : r.Choose(
-                                    ItemIDs.QualityFertilizer,
-                                    ItemIDs.BasicRetainingSoil,
-                                    ItemIDs.SpeedGro)
-                            : ItemIDs.Sap;
+                                    ObjectIds.QualityFertilizer,
+                                    ObjectIds.BasicRetainingSoil,
+                                    ObjectIds.SpeedGro)
+                            : ObjectIds.Sap;
                         Game1.createMultipleObjectDebris(
                             what,
                             x,
                             y,
-                            what == ItemIDs.Sap ? r.Next(2, 4) : 1,
+                            what == ObjectIds.Sap ? r.Next(2, 4) : 1,
                             location);
                         break;
                 }

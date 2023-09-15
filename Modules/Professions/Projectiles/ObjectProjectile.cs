@@ -6,6 +6,8 @@ using DaLion.Overhaul.Modules.Combat.Extensions;
 using DaLion.Overhaul.Modules.Professions.Extensions;
 using DaLion.Overhaul.Modules.Professions.Ultimates;
 using DaLion.Overhaul.Modules.Professions.VirtualProperties;
+using DaLion.Shared.Constants;
+using DaLion.Shared.Enums;
 using DaLion.Shared.Extensions.Stardew;
 using DaLion.Shared.Extensions.Xna;
 using Microsoft.Xna.Framework;
@@ -61,14 +63,14 @@ internal sealed class ObjectProjectile : BasicProjectile
             xVelocity,
             yVelocity,
             startingPosition,
-            ammo.ParentSheetIndex == ItemIDs.ExplosiveAmmo ? "explosion" : "hammer",
+            ammo.ParentSheetIndex == ObjectIds.ExplosiveAmmo ? "explosion" : "hammer",
             string.Empty,
-            ammo.ParentSheetIndex == ItemIDs.ExplosiveAmmo,
+            ammo.ParentSheetIndex == ObjectIds.ExplosiveAmmo,
             true,
             firer.currentLocation,
             firer,
             true,
-            ammo.ParentSheetIndex == ItemIDs.ExplosiveAmmo ? explodeOnImpact : null)
+            ammo.ParentSheetIndex == ObjectIds.ExplosiveAmmo ? explodeOnImpact : null)
     {
         this.Ammo = ammo;
         this.Source = source;
@@ -114,8 +116,8 @@ internal sealed class ObjectProjectile : BasicProjectile
     public bool DidPierce { get; private set; }
 
     /// <summary>Gets a value indicating whether the projectile should pierce and bounce or make squishy noises upon collision.</summary>
-    public bool IsSquishy => this.Ammo?.Category is SObject.EggCategory or SObject.FruitsCategory or SObject.VegetableCategory ||
-                             this.Ammo?.ParentSheetIndex == ItemIDs.Slime;
+    public bool IsSquishy => this.Ammo?.Category is (int)ObjectCategory.Eggs or (int)ObjectCategory.Fruits or (int)ObjectCategory.Vegetables ||
+                             this.Ammo?.ParentSheetIndex == ObjectIds.Slime;
 
     /// <inheritdoc />
     public override void behaviorOnCollisionWithMineWall(int tileX, int tileY)
@@ -133,7 +135,7 @@ internal sealed class ObjectProjectile : BasicProjectile
             return;
         }
 
-        if (this.Ammo.ParentSheetIndex == ItemIDs.Slime)
+        if (this.Ammo.ParentSheetIndex == ObjectIds.Slime)
         {
             if (monster.IsSlime())
             {
@@ -171,7 +173,7 @@ internal sealed class ObjectProjectile : BasicProjectile
             monster.GetBoundingBox(),
             this.Damage,
             this.Damage + 1,
-            this.Ammo.ParentSheetIndex == ItemIDs.ExplosiveAmmo,
+            this.Ammo.ParentSheetIndex == ObjectIds.ExplosiveAmmo,
             this.Knockback,
             0,
             0f,
@@ -189,7 +191,7 @@ internal sealed class ObjectProjectile : BasicProjectile
 
         // check for piercing
         if (this.Firer.HasProfession(Profession.Desperado, true) && !this.IsSquishy &&
-            this.Ammo.ParentSheetIndex != ItemIDs.ExplosiveAmmo && this._pierceCount < 2 &&
+            this.Ammo.ParentSheetIndex != ObjectIds.ExplosiveAmmo && this._pierceCount < 2 &&
             Game1.random.NextDouble() < this.Overcharge - 1f)
         {
             this.Damage = (int)(this.Damage * 0.65f);
@@ -215,14 +217,14 @@ internal sealed class ObjectProjectile : BasicProjectile
                                    (10 * this.Firer.health / this.Firer.maxHealth);
         }
 
-        if (this.Source?.hasEnchantmentOfType<PreservingEnchantment>() == true || this.Ammo is not { } ammo || this.IsSquishy ||
-            ammo.ParentSheetIndex == ItemIDs.ExplosiveAmmo || !this.Firer.professions.Contains(Farmer.scout))
+        if (this.Ammo is not { } ammo || this.IsSquishy || ammo.ParentSheetIndex == ObjectIds.ExplosiveAmmo ||
+            !this.Firer.HasProfession(Profession.Rascal))
         {
             return;
         }
 
         // try to recover
-        var chance = this.Ammo.ParentSheetIndex is SObject.wood or SObject.coal ? 0.175 : 0.35;
+        var chance = this.Ammo.ParentSheetIndex is ObjectIds.Wood or ObjectIds.Coal ? 0.175 : 0.35;
         if (this.Firer.HasProfession(Profession.Rascal, true))
         {
             chance *= 2d;
@@ -249,21 +251,21 @@ internal sealed class ObjectProjectile : BasicProjectile
             return;
         }
 
-        if (this.Ammo.ParentSheetIndex == ItemIDs.Slime &&
+        if (this.Ammo.ParentSheetIndex == ObjectIds.Slime &&
             this.Firer.Get_Ultimate() is Concerto { IsActive: false } concerto)
         {
             concerto.ChargeValue += Game1.random.Next(5);
             return;
         }
 
-        if (this.Source?.hasEnchantmentOfType<PreservingEnchantment>() == true || this.Ammo is not { } ammo || this.IsSquishy ||
-            ammo.ParentSheetIndex == ItemIDs.ExplosiveAmmo || !this.Firer.professions.Contains(Farmer.scout))
+        if (this.Ammo is not { } ammo || this.IsSquishy || ammo.ParentSheetIndex == ObjectIds.ExplosiveAmmo ||
+            !this.Firer.HasProfession(Profession.Rascal))
         {
             return;
         }
 
         // try to recover
-        var chance = this.Ammo?.ParentSheetIndex is SObject.wood or SObject.coal ? 0.175 : 0.35;
+        var chance = this.Ammo?.ParentSheetIndex is ObjectIds.Wood or ObjectIds.Coal ? 0.175 : 0.35;
         if (this.Firer.HasProfession(Profession.Rascal, true))
         {
             chance *= 2d;
@@ -367,7 +369,7 @@ internal sealed class ObjectProjectile : BasicProjectile
             monster.GetBoundingBox(),
             adjustedDamage,
             adjustedDamage + 1,
-            this.Ammo.ParentSheetIndex == ItemIDs.ExplosiveAmmo,
+            this.Ammo.ParentSheetIndex == ObjectIds.ExplosiveAmmo,
             this.Knockback,
             0,
             0f,

@@ -3,6 +3,7 @@
 #region using directives
 
 using DaLion.Shared.Attributes;
+using DaLion.Shared.Constants;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
 using SpaceCore.Interface;
@@ -31,7 +32,7 @@ internal sealed class NewForgeMenuIsValidUnforgePatcher : HarmonyPatcher
             return;
         }
 
-        __result = __instance.leftIngredientSpot.item is MeleeWeapon { InitialParentTileIndex: ItemIDs.HolyBlade } weapon &&
+        __result = __instance.leftIngredientSpot.item is MeleeWeapon { InitialParentTileIndex: WeaponIds.HolyBlade } weapon &&
                    weapon.GetTotalForgeLevels() <= 0;
     }
 

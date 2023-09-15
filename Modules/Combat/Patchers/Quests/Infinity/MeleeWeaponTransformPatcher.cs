@@ -4,6 +4,7 @@
 
 using System.Reflection;
 using DaLion.Overhaul.Modules.Combat.Enchantments;
+using DaLion.Shared.Constants;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
 using StardewValley.Tools;
@@ -39,14 +40,14 @@ internal sealed class MeleeWeaponTransformPatcher : HarmonyPatcher
             switch (newIndex)
             {
                 // dark sword -> holy blade
-                case ItemIDs.HolyBlade:
+                case WeaponIds.HolyBlade:
                     __instance.RemoveEnchantment(__instance.GetEnchantmentOfType<CursedEnchantment>());
                     __instance.AddEnchantment(new BlessedEnchantment());
                     break;
                 // galaxy -> infinity
-                case ItemIDs.InfinityBlade:
-                case ItemIDs.InfinityDagger:
-                case ItemIDs.InfinityGavel:
+                case WeaponIds.InfinityBlade:
+                case WeaponIds.InfinityDagger:
+                case WeaponIds.InfinityGavel:
                     __instance.RemoveEnchantment(__instance.GetEnchantmentOfType<GalaxySoulEnchantment>());
                     __instance.AddEnchantment(new InfinityEnchantment());
                     break;

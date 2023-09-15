@@ -3,6 +3,7 @@
 #region using directives
 
 using System.Linq;
+using DaLion.Shared.Constants;
 using DaLion.Shared.Extensions.Stardew;
 
 #endregion using directives
@@ -28,12 +29,12 @@ internal static class FarmerExtensions
         }
 
         var config = ToolsModule.Config.Scythe;
-        if (config.GoldScytheOnly && tool.InitialParentTileIndex != ItemIDs.GoldenScythe)
+        if (config.GoldScytheOnly && tool.InitialParentTileIndex != WeaponIds.GoldenScythe)
         {
             return false;
         }
 
-        if (crop.programColored.Value || crop.indexOfHarvest.Value == ItemIDs.Sunflower)
+        if (crop.programColored.Value || crop.indexOfHarvest.Value == ObjectIds.Sunflower)
         {
             return config.HarvestFlowers;
         }

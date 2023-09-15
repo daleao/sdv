@@ -7,6 +7,7 @@ using System.Reflection;
 using DaLion.Overhaul.Modules.Combat.Enums;
 using DaLion.Overhaul.Modules.Combat.Events.GameLoop;
 using DaLion.Overhaul.Modules.Combat.Extensions;
+using DaLion.Shared.Constants;
 using DaLion.Shared.Extensions.Stardew;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
@@ -67,7 +68,7 @@ internal sealed class GameLocationPerformActionPatcher : HarmonyPatcher
     private static void HandleYobaAltar(GameLocation location, Farmer who)
     {
         if (!who.mailReceived.Contains("gotHolyBlade") && who.hasQuest((int)QuestId.HeroReward) &&
-            who.CurrentTool is MeleeWeapon { InitialParentTileIndex: ItemIDs.DarkSword })
+            who.CurrentTool is MeleeWeapon { InitialParentTileIndex: WeaponIds.DarkSword })
         {
             who.Halt();
             who.CanMove = false;
@@ -106,7 +107,7 @@ internal sealed class GameLocationPerformActionPatcher : HarmonyPatcher
                 };
             }
             else if (CombatModule.State.HeroQuest is not null &&
-                     who.CurrentTool is MeleeWeapon { InitialParentTileIndex: ItemIDs.DarkSword } &&
+                     who.CurrentTool is MeleeWeapon { InitialParentTileIndex: WeaponIds.DarkSword } &&
                      !CombatModule.State.DidPrayToday)
             {
                 Game1.afterDialogues = () =>
@@ -132,7 +133,7 @@ internal sealed class GameLocationPerformActionPatcher : HarmonyPatcher
                 location.setMapTileIndex(30, 5, 262, "Front");
                 location.setMapTileIndex(29, 6, 277, "Buildings");
                 location.setMapTileIndex(30, 56, 278, "Buildings");
-                who.addItemByMenuIfNecessaryElseHoldUp(new MeleeWeapon(ItemIDs.GoldenScythe));
+                who.addItemByMenuIfNecessaryElseHoldUp(new MeleeWeapon(WeaponIds.GoldenScythe));
 
                 Game1.afterDialogues = () =>
                 {
@@ -176,15 +177,15 @@ internal sealed class GameLocationPerformActionPatcher : HarmonyPatcher
     private static void GetHolyBlade()
     {
         var player = Game1.player;
-        if (player.CurrentTool is not MeleeWeapon { InitialParentTileIndex: ItemIDs.DarkSword } darkSword)
+        if (player.CurrentTool is not MeleeWeapon { InitialParentTileIndex: WeaponIds.DarkSword } darkSword)
         {
             Log.W($"[CMBT]: {player.Name} cannot receive the Holy Blade because they are not holding the Dark Sword!");
             return;
         }
 
         Game1.flashAlpha = 1f;
-        player.holdUpItemThenMessage(new MeleeWeapon(ItemIDs.HolyBlade));
-        darkSword.transform(ItemIDs.HolyBlade);
+        player.holdUpItemThenMessage(new MeleeWeapon(WeaponIds.HolyBlade));
+        darkSword.transform(WeaponIds.HolyBlade);
         darkSword.Write(DataKeys.CursePoints, null);
         darkSword.RefreshStats();
         player.jitterStrength = 0f;

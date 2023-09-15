@@ -1,5 +1,7 @@
 ﻿namespace DaLion.Overhaul.Modules.Combat.Patchers.Rings;
 
+using DaLion.Overhaul.Modules.Combat.Integrations;
+
 #region using directives
 
 using DaLion.Shared.Extensions;
@@ -26,7 +28,8 @@ internal sealed class CombinedRingLoadDisplayFieldsPatcher : HarmonyPatcher
     [HarmonyPriority(Priority.HigherThanNormal)]
     private static bool CombinedRingsLoadDisplayFieldsPrefix(CombinedRing __instance, ref bool __result)
     {
-        if (!Globals.InfinityBandIndex.HasValue || __instance.ParentSheetIndex != Globals.InfinityBandIndex.Value)
+        if (!JsonAssetsIntegration.InfinityBandIndex.HasValue ||
+            __instance.ParentSheetIndex != JsonAssetsIntegration.InfinityBandIndex.Value)
         {
             return true; // don't run original logic
         }

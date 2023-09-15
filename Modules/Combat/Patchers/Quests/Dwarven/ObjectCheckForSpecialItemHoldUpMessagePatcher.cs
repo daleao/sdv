@@ -3,6 +3,7 @@
 #region using directives
 
 using DaLion.Overhaul.Modules.Combat.Enums;
+using DaLion.Overhaul.Modules.Combat.Integrations;
 using DaLion.Shared.Extensions;
 using DaLion.Shared.Extensions.Stardew;
 using DaLion.Shared.Harmony;
@@ -26,8 +27,8 @@ internal sealed class ObjectCheckForSpecialItemHoldUpMessagePatcher : HarmonyPat
     [HarmonyPostfix]
     private static void ObjectCheckForSpecialItemHoldUpPrefix(SObject? __instance, ref string? __result)
     {
-        if (__instance is null || !Globals.DwarvishBlueprintIndex.HasValue ||
-            __instance.ParentSheetIndex != Globals.DwarvishBlueprintIndex.Value)
+        if (__instance is null || !JsonAssetsIntegration.DwarvishBlueprintIndex.HasValue ||
+            __instance.ParentSheetIndex != JsonAssetsIntegration.DwarvishBlueprintIndex.Value)
         {
             return;
         }

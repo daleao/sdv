@@ -2,6 +2,7 @@
 
 #region using directives
 
+using DaLion.Shared.Constants;
 using DaLion.Shared.Extensions.Stardew;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
@@ -27,7 +28,7 @@ internal sealed class GameLocationIsMonsterDamageApplicablePatcher : HarmonyPatc
         ref bool __result, Farmer who, Monster monster)
     {
         if (!monster.IsSlime() || who.CurrentTool is not Slingshot slingshot ||
-            slingshot.attachments[0]?.ParentSheetIndex != ItemIDs.Slime)
+            slingshot.attachments[0]?.ParentSheetIndex != ObjectIds.Slime)
         {
             return true; // run original logic
         }

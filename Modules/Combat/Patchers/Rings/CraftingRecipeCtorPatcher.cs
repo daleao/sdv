@@ -1,7 +1,10 @@
 ﻿namespace DaLion.Overhaul.Modules.Combat.Patchers.Rings;
 
+using DaLion.Overhaul.Modules.Combat.Integrations;
+
 #region using directives
 
+using DaLion.Shared.Constants;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
 using StardewValley.Objects;
@@ -31,13 +34,13 @@ internal sealed class CraftingRecipeCtorPatcher : HarmonyPatcher
 
         __instance.DisplayName = name switch
         {
-            "Emerald Ring" => new Ring(ItemIDs.EmeraldRing).DisplayName,
-            "Aquamarine Ring" => new Ring(ItemIDs.AquamarineRing).DisplayName,
-            "Ruby Ring" => new Ring(ItemIDs.RubyRing).DisplayName,
-            "Amethyst Ring" => new Ring(ItemIDs.AmethystRing).DisplayName,
-            "Topaz Ring" => new Ring(ItemIDs.TopazRing).DisplayName,
-            "Jade Ring" => new Ring(ItemIDs.JadeRing).DisplayName,
-            "Garnet Ring" => new Ring(Globals.GarnetRingIndex!.Value).DisplayName,
+            "Emerald Ring" => new Ring(ObjectIds.EmeraldRing).DisplayName,
+            "Aquamarine Ring" => new Ring(ObjectIds.AquamarineRing).DisplayName,
+            "Ruby Ring" => new Ring(ObjectIds.RubyRing).DisplayName,
+            "Amethyst Ring" => new Ring(ObjectIds.AmethystRing).DisplayName,
+            "Topaz Ring" => new Ring(ObjectIds.TopazRing).DisplayName,
+            "Jade Ring" => new Ring(ObjectIds.JadeRing).DisplayName,
+            "Garnet Ring" => new Ring(JsonAssetsIntegration.GarnetRingIndex!.Value).DisplayName,
             _ => __instance.DisplayName,
         };
     }

@@ -50,11 +50,11 @@ internal sealed class SetFishQualityCommand : ConsoleCommand
 
         var newQuality = args[0] switch
         {
-            "low" or "normal" or "regular" or "white" => Quality.Regular,
-            "med" or "silver" => Quality.Silver,
-            "high" or "gold" => Quality.Gold,
-            "best" or "iridium" => Quality.Iridium,
-            _ => (Quality)(-1),
+            "low" or "normal" or "regular" or "white" => ObjectQuality.Regular,
+            "med" or "silver" => ObjectQuality.Silver,
+            "high" or "gold" => ObjectQuality.Gold,
+            "best" or "iridium" => ObjectQuality.Iridium,
+            _ => (ObjectQuality)(-1),
         };
 
         if (newQuality < 0)
@@ -74,12 +74,12 @@ internal sealed class SetFishQualityCommand : ConsoleCommand
 
         if (familyCount > 0)
         {
-            familyQualities[newQuality == Quality.Iridium ? 3 : (int)newQuality] += familyCount;
+            familyQualities[newQuality == ObjectQuality.Iridium ? 3 : (int)newQuality] += familyCount;
             nearest.Write(DataKeys.FamilyQualities, string.Join(',', familyQualities));
         }
 
         var fishQualities = new int[4];
-        fishQualities[newQuality == Quality.Iridium ? 3 : (int)newQuality] += nearest.FishCount - familyCount;
+        fishQualities[newQuality == ObjectQuality.Iridium ? 3 : (int)newQuality] += nearest.FishCount - familyCount;
         nearest.Write(DataKeys.FishQualities, string.Join(',', fishQualities));
         Log.I($"The quality of fish in nearby {nearest.GetFishObject().Name} pond have been set to {newQuality}.");
     }

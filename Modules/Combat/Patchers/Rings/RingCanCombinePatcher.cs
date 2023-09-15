@@ -1,9 +1,10 @@
 ﻿namespace DaLion.Overhaul.Modules.Combat.Patchers.Rings;
 
-using DaLion.Overhaul.Modules.Combat.Extensions;
-
 #region using directives
 
+using DaLion.Overhaul.Modules.Combat.Extensions;
+using DaLion.Overhaul.Modules.Combat.Integrations;
+using DaLion.Shared.Constants;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
 using StardewValley.Objects;
@@ -27,19 +28,19 @@ internal sealed class RingCanCombinePatcher : HarmonyPatcher
     [HarmonyPriority(Priority.HigherThanNormal)]
     private static bool RingCanCombinePrefix(Ring __instance, ref bool __result, Ring ring)
     {
-        if (!CombatModule.Config.EnableInfinityBand || !Globals.InfinityBandIndex.HasValue)
+        if (!CombatModule.Config.EnableInfinityBand || !JsonAssetsIntegration.InfinityBandIndex.HasValue)
         {
             return true; // run original logic
         }
 
-        if (__instance.ParentSheetIndex == ItemIDs.IridiumBand ||
-            ring.ParentSheetIndex == ItemIDs.IridiumBand ||
-            ring.ParentSheetIndex == Globals.InfinityBandIndex.Value)
+        if (__instance.ParentSheetIndex == ObjectIds.IridiumBand ||
+            ring.ParentSheetIndex == ObjectIds.IridiumBand ||
+            ring.ParentSheetIndex == JsonAssetsIntegration.InfinityBandIndex.Value)
         {
             return false; // don't run original logic
         }
 
-        if (__instance.ParentSheetIndex != Globals.InfinityBandIndex.Value)
+        if (__instance.ParentSheetIndex != JsonAssetsIntegration.InfinityBandIndex.Value)
         {
             return true; // run original logic
         }

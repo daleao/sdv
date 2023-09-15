@@ -3,6 +3,7 @@
 #region using directives
 
 using DaLion.Overhaul.Modules.Combat.Events.GameLoop;
+using DaLion.Shared.Constants;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
 using StardewValley.Objects;
@@ -32,11 +33,11 @@ internal sealed class RingOnMonsterSlayPatcher : HarmonyPatcher
 
         switch (__instance.ParentSheetIndex)
         {
-            case ItemIDs.WarriorRing:
+            case ObjectIds.WarriorRing:
                 CombatModule.State.WarriorKillCount++;
                 EventManager.Enable<WarriorUpdateTickedEvent>();
                 break;
-            case ItemIDs.SavangeRing:
+            case ObjectIds.SavageRing:
                 CombatModule.State.SavageExcitedness = 9;
                 EventManager.Enable<SavageUpdateTickedEvent>();
                 break;

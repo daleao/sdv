@@ -2,7 +2,7 @@
 
 #region using directives
 
-using Core.ConfigMenu;
+using DaLion.Overhaul.Modules.Core.ConfigMenu;
 using DaLion.Overhaul.Modules.Professions.Integrations;
 using DaLion.Shared.Events;
 using StardewModdingAPI.Events;

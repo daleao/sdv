@@ -5,6 +5,8 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using DaLion.Overhaul.Modules.Combat.Extensions;
+using DaLion.Overhaul.Modules.Combat.Integrations;
+using DaLion.Shared.Constants;
 using DaLion.Shared.Extensions;
 using DaLion.Shared.Extensions.Collections;
 using DaLion.Shared.Extensions.SMAPI;
@@ -34,8 +36,8 @@ internal sealed class ChestPerformOpenChestPatcher : HarmonyPatcher
     [SuppressMessage("StyleCop.CSharp.NamingRules", "SA1300:Element should begin with upper-case letter", Justification = "Preference for internal functions.")]
     private static void ChestPerformOpenChestPostfix(Chest __instance)
     {
-        if (!CombatModule.Config.DwarvenLegacy || !Globals.DwarvishBlueprintIndex.HasValue ||
-            !Globals.DwarvenScrapIndex.HasValue)
+        if (!CombatModule.Config.DwarvenLegacy || !JsonAssetsIntegration.DwarvishBlueprintIndex.HasValue ||
+            !JsonAssetsIntegration.DwarvenScrapIndex.HasValue)
         {
             return;
         }
@@ -51,15 +53,15 @@ internal sealed class ChestPerformOpenChestPatcher : HarmonyPatcher
         var found = player.Read(DataKeys.BlueprintsFound).ParseList<int>();
         var volcanoBlueprints = new[]
         {
-            ItemIDs.DwarfSword, ItemIDs.DwarfDagger, ItemIDs.DwarfHammer,
-            ItemIDs.DragontoothCutlass, ItemIDs.DragontoothShiv, ItemIDs.DragontoothClub,
+            WeaponIds.DwarfSword, WeaponIds.DwarfDagger, WeaponIds.DwarfHammer,
+            WeaponIds.DragontoothCutlass, WeaponIds.DragontoothShiv, WeaponIds.DragontoothClub,
         };
 
         if (found.ContainsAll(volcanoBlueprints) || !player.canUnderstandDwarves)
         {
             var material = weapon.Name.StartsWith("Dwarven")
-                ? Globals.DwarvenScrapIndex.Value
-                : ItemIDs.DragonTooth;
+                ? JsonAssetsIntegration.DwarvenScrapIndex.Value
+                : ObjectIds.DragonTooth;
             __instance.items.Add(new SObject(material, 1));
             return;
         }
@@ -69,41 +71,41 @@ internal sealed class ChestPerformOpenChestPatcher : HarmonyPatcher
         {
             if (weapon.Name.StartsWith("Dwarven"))
             {
-                if (!found.Contains(ItemIDs.DwarfSword))
+                if (!found.Contains(WeaponIds.DwarfSword))
                 {
-                    blueprint = ItemIDs.DwarfSword;
+                    blueprint = WeaponIds.DwarfSword;
                 }
-                else if (!found.Contains(ItemIDs.DwarfHammer))
+                else if (!found.Contains(WeaponIds.DwarfHammer))
                 {
-                    blueprint = ItemIDs.DwarfHammer;
+                    blueprint = WeaponIds.DwarfHammer;
                 }
-                else if (!found.Contains(ItemIDs.DwarfDagger))
+                else if (!found.Contains(WeaponIds.DwarfDagger))
                 {
-                    blueprint = ItemIDs.DwarfDagger;
+                    blueprint = WeaponIds.DwarfDagger;
                 }
                 else
                 {
-                    __instance.items.Add(new SObject(Globals.DwarvenScrapIndex!.Value, 1));
+                    __instance.items.Add(new SObject(JsonAssetsIntegration.DwarvenScrapIndex!.Value, 1));
                     return;
                 }
             }
             else
             {
-                if (!found.Contains(ItemIDs.DragontoothCutlass))
+                if (!found.Contains(WeaponIds.DragontoothCutlass))
                 {
-                    blueprint = ItemIDs.DragontoothCutlass;
+                    blueprint = WeaponIds.DragontoothCutlass;
                 }
-                else if (!found.Contains(ItemIDs.DragontoothClub))
+                else if (!found.Contains(WeaponIds.DragontoothClub))
                 {
-                    blueprint = ItemIDs.DragontoothClub;
+                    blueprint = WeaponIds.DragontoothClub;
                 }
-                else if (!found.Contains(ItemIDs.DragontoothShiv))
+                else if (!found.Contains(WeaponIds.DragontoothShiv))
                 {
-                    blueprint = ItemIDs.DragontoothShiv;
+                    blueprint = WeaponIds.DragontoothShiv;
                 }
                 else
                 {
-                    __instance.items.Add(new SObject(ItemIDs.DragonTooth, 1));
+                    __instance.items.Add(new SObject(ObjectIds.DragonTooth, 1));
                     return;
                 }
             }
@@ -116,7 +118,7 @@ internal sealed class ChestPerformOpenChestPatcher : HarmonyPatcher
             ModHelper.GameContent.InvalidateCacheAndLocalized("Data/Events/Blacksmith");
         }
 
-        player.holdUpItemThenMessage(new SObject(Globals.DwarvishBlueprintIndex.Value, 1));
+        player.holdUpItemThenMessage(new SObject(JsonAssetsIntegration.DwarvishBlueprintIndex.Value, 1));
         if (Context.IsMultiplayer)
         {
             Broadcaster.SendPublicChat(I18n.Blueprint_Found_Global(player.Name));

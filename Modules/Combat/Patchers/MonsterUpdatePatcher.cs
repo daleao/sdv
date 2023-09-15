@@ -153,7 +153,7 @@ internal sealed class MonsterUpdatePatcher : HarmonyPatcher
             }
 
             if (Reflector.GetUnboundFieldGetter<Monster, int>(__instance, "invincibleCountdown")
-                    .Invoke(__instance) is not ({ } invincibility and > 0))
+                    .Invoke(__instance) is not (var invincibility and > 0))
             {
                 return false; // don't run original logic
             }

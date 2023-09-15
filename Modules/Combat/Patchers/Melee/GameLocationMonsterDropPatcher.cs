@@ -3,6 +3,7 @@
 #region using directives
 
 using DaLion.Overhaul.Modules.Combat.Extensions;
+using DaLion.Shared.Constants;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
 using Microsoft.Xna.Framework;
@@ -52,14 +53,14 @@ internal sealed class GameLocationMonsterDropPatcher : HarmonyPatcher
                 if (Game1.mine.GetAdditionalDifficulty() > 0 &&
                     Game1.random.NextDouble() < 0.015 + (who.LuckLevel * 0.002f))
                 {
-                    drop = new MeleeWeapon(ItemIDs.ObsidianEdge);
+                    drop = new MeleeWeapon(WeaponIds.ObsidianEdge);
                 }
 
                 break;
             case Bat bat when bat.magmaSprite.Value:
                 if (Game1.random.NextDouble() < 0.01 + (who.LuckLevel * 0.003f))
                 {
-                    drop = new MeleeWeapon(ItemIDs.LavaKatana);
+                    drop = new MeleeWeapon(WeaponIds.LavaKatana);
                 }
 
                 break;

@@ -4,6 +4,7 @@
 
 using DaLion.Overhaul.Modules.Tools.Integrations;
 using DaLion.Shared.Attributes;
+using DaLion.Shared.Constants;
 using DaLion.Shared.Extensions;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
@@ -46,11 +47,11 @@ internal sealed class NewForgeMenuIsValidCraftPatcher : HarmonyPatcher
 
         var upgradeItemIndex = tool.UpgradeLevel switch
         {
-            0 => SObject.copperBar,
-            1 => SObject.ironBar,
-            2 => SObject.goldBar,
-            3 => SObject.iridiumBar,
-            4 => ItemIDs.RadioactiveBar,
+            0 => ObjectIds.CopperBar,
+            1 => ObjectIds.IronBar,
+            2 => ObjectIds.GoldBar,
+            3 => ObjectIds.IridiumBar,
+            4 => ObjectIds.RadioactiveBar,
             5 => "spacechase0.MoonMisadventures/Mythicite Bar".GetDeterministicHashCode(),
             _ => SObject.prismaticShardIndex,
         };

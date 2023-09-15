@@ -2,6 +2,7 @@
 
 #region using directives
 
+using DaLion.Shared.Constants;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
 using StardewValley.Menus;
@@ -29,7 +30,7 @@ internal sealed class ForgeMenuIsValidUnforgePatcher : HarmonyPatcher
             return;
         }
 
-        __result = CombatModule.Config.EnableHeroQuest && __instance.leftIngredientSpot.item is MeleeWeapon { InitialParentTileIndex: ItemIDs.HolyBlade };
+        __result = CombatModule.Config.EnableHeroQuest && __instance.leftIngredientSpot.item is MeleeWeapon { InitialParentTileIndex: WeaponIds.HolyBlade };
     }
 
     #endregion harmony patches

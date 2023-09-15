@@ -1,10 +1,10 @@
 ﻿namespace DaLion.Overhaul.Modules.Combat.Extensions;
 
-using DaLion.Overhaul.Modules.Combat.Enums;
-
 #region using directives
 
+using DaLion.Overhaul.Modules.Combat.Enums;
 using DaLion.Overhaul.Modules.Tools;
+using DaLion.Shared.Constants;
 using DaLion.Shared.Extensions.Xna;
 using Microsoft.Xna.Framework;
 using StardewValley.Tools;
@@ -50,9 +50,9 @@ internal static class ItemExtensions
 
                     switch (weapon.InitialParentTileIndex)
                     {
-                        case ItemIDs.DarkSword:
+                        case WeaponIds.DarkSword:
                             return Color.DarkSlateGray;
-                        case ItemIDs.HolyBlade:
+                        case WeaponIds.HolyBlade:
                             return Color.Gold;
                     }
 
@@ -62,9 +62,9 @@ internal static class ItemExtensions
                 case Slingshot slingshot:
                     switch (slingshot.InitialParentTileIndex)
                     {
-                        case ItemIDs.GalaxySlingshot:
+                        case WeaponIds.GalaxySlingshot:
                             return Color.DarkViolet;
-                        case ItemIDs.InfinitySlingshot:
+                        case WeaponIds.InfinitySlingshot:
                             return Color.DeepPink;
                         default:
                             if (slingshot.Name.Contains("Copper"))

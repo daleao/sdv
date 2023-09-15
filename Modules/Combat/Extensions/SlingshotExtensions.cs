@@ -5,6 +5,7 @@
 using DaLion.Overhaul.Modules.Combat.Enchantments;
 using DaLion.Overhaul.Modules.Combat.Events.GameLoop;
 using DaLion.Overhaul.Modules.Combat.VirtualProperties;
+using DaLion.Shared.Constants;
 using DaLion.Shared.Enums;
 using DaLion.Shared.Exceptions;
 using Microsoft.Xna.Framework;
@@ -26,34 +27,34 @@ internal static class SlingshotExtensions
 
         switch (ammo.ParentSheetIndex)
         {
-            case SObject.wood:
+            case ObjectIds.Wood:
                 return 2;
-            case SObject.coal:
+            case ObjectIds.Coal:
                 return CombatModule.Config.EnableWeaponOverhaul ? 2 : 15;
-            case ItemIDs.ExplosiveAmmo:
+            case ObjectIds.ExplosiveAmmo:
                 return CombatModule.Config.EnableWeaponOverhaul ? 1 : 20;
-            case SObject.stone:
+            case ObjectIds.Stone:
                 return 5;
-            case SObject.copper:
+            case ObjectIds.CopperOre:
                 return 10;
-            case SObject.iron:
+            case ObjectIds.IronOre:
                 return 20;
-            case SObject.gold:
+            case ObjectIds.GoldOre:
                 return 30;
-            case SObject.iridium:
+            case ObjectIds.IridiumOre:
                 return 50;
-            case ItemIDs.RadioactiveOre:
+            case ObjectIds.RadioactiveOre:
                 return 80;
-            case ItemIDs.Slime:
+            case ObjectIds.Slime:
                 return Game1.player.professions.Contains(Farmer.acrobat) ? 10 : 1;
-            case ItemIDs.Emerald:
-            case ItemIDs.Aquamarine:
-            case ItemIDs.Ruby:
-            case ItemIDs.Amethyst:
-            case ItemIDs.Topaz:
-            case ItemIDs.Jade:
+            case ObjectIds.Emerald:
+            case ObjectIds.Aquamarine:
+            case ObjectIds.Ruby:
+            case ObjectIds.Amethyst:
+            case ObjectIds.Topaz:
+            case ObjectIds.Jade:
                 return 60;
-            case ItemIDs.Diamond:
+            case ObjectIds.Diamond:
                 return 120;
             case SObject.prismaticShardIndex:
                 return 200;
@@ -118,9 +119,9 @@ internal static class SlingshotExtensions
         var areaOfEffect = slingshot.GetAreaOfEffect(x, y, who);
         var damage = 10 * slingshot.InitialParentTileIndex switch
         {
-            ItemIDs.MasterSlingshot => 2,
-            ItemIDs.GalaxySlingshot => 3,
-            ItemIDs.InfinitySlingshot => 4,
+            WeaponIds.MasterSlingshot => 2,
+            WeaponIds.GalaxySlingshot => 3,
+            WeaponIds.InfinitySlingshot => 4,
             _ => 1,
         };
 
@@ -1027,5 +1028,13 @@ internal static class SlingshotExtensions
         {
             who.currentLocation.temporarySprites.Add(tempSprite);
         }
+    }
+
+    /// <summary>Gets the raw total cooldown time in milliseconds for the <see cref="Slingshot"/> special move.</summary>
+    /// <param name="slingshot">The <see cref="Slingshot"/>.</param>
+    /// <returns>The raw total cooldown time in milliseconds for the <see cref="Slingshot"/> special move.</returns>
+    internal static int GetSpecialCooldown(this Slingshot slingshot)
+    {
+        return 2000;
     }
 }

@@ -2,6 +2,7 @@
 
 #region using directives
 
+using DaLion.Shared.Constants;
 using DaLion.Shared.Extensions;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
@@ -29,8 +30,8 @@ internal sealed class ForgeMenuSpendRightItemPatcher : HarmonyPatcher
             return true; // run original logic
         }
 
-        if (__instance.rightIngredientSpot.item.ParentSheetIndex is not (SObject.copperBar or SObject.ironBar
-                or SObject.goldBar or SObject.iridiumBar or ItemIDs.RadioactiveBar) &&
+        if (__instance.rightIngredientSpot.item.ParentSheetIndex is not (ObjectIds.CopperBar or ObjectIds.IronBar
+                or ObjectIds.GoldBar or ObjectIds.IridiumBar or ObjectIds.RadioactiveBar) &&
             __instance.rightIngredientSpot.item.ParentSheetIndex !=
             "spacechase0.MoonMisadventures/Mythicite Bar".GetDeterministicHashCode())
         {

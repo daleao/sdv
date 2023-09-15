@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
 using DaLion.Overhaul.Modules.Professions.Extensions;
+using DaLion.Shared.Constants;
 using DaLion.Shared.Extensions.Reflection;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
@@ -80,7 +81,7 @@ internal sealed class TreeShakePatcher : HarmonyPatcher
 
     private static int GetCoconutQuality(int seedIndex)
     {
-        return seedIndex is not (ItemIDs.Coconut or ItemIDs.GoldenCoconut) ||
+        return seedIndex is not (ObjectIds.Coconut or ObjectIds.GoldenCoconut) ||
                !Game1.player.HasProfession(Profession.Ecologist)
             ? SObject.lowQuality
             : Game1.player.GetEcologistForageQuality();

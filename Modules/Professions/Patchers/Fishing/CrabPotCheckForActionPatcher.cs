@@ -5,6 +5,7 @@
 using System.Collections.Generic;
 using System.Reflection;
 using DaLion.Overhaul.Modules.Professions.Extensions;
+using DaLion.Shared.Constants;
 using DaLion.Shared.Extensions;
 using DaLion.Shared.Extensions.Stardew;
 using DaLion.Shared.Harmony;
@@ -53,12 +54,12 @@ internal sealed class CrabPotCheckForActionPatcher : HarmonyPatcher
             bool addedToInventory;
             switch (__instance.heldObject.Value.ParentSheetIndex)
             {
-                case ItemIDs.NeptuneGlaive:
-                case ItemIDs.BrokenTrident:
+                case WeaponIds.NeptuneGlaive:
+                case WeaponIds.BrokenTrident:
                     // caught a weapon
                     var weapon = new MeleeWeapon(__instance.heldObject.Value.ParentSheetIndex);
                     if (CombatModule.ShouldEnable && CombatModule.Config.EnableWeaponOverhaul &&
-                        weapon.InitialParentTileIndex == ItemIDs.NeptuneGlaive)
+                        weapon.InitialParentTileIndex == WeaponIds.NeptuneGlaive)
                     {
                         weapon.specialItem = true;
                     }

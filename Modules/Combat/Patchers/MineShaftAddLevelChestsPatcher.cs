@@ -5,6 +5,7 @@
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
+using DaLion.Shared.Constants;
 using DaLion.Shared.Extensions;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
@@ -65,7 +66,7 @@ internal sealed class MineShaftAddLevelChestsPatcher : HarmonyPatcher
                     player.completeQuest(17);
                     goto default;
                 case 60:
-                    chestItems.Add(new Slingshot(ItemIDs.MasterSlingshot));
+                    chestItems.Add(new Slingshot(WeaponIds.MasterSlingshot));
                     break;
                 case 100:
                     chestItems.Add(new SObject(434, 1)); // stardrop
@@ -147,7 +148,7 @@ internal sealed class MineShaftAddLevelChestsPatcher : HarmonyPatcher
             4 => new SObject(r.Choose(773, 349), r.Next(4, 10)), // life elixir or energy tonic
             5 => new SObject(r.Choose(369, 371, 466), 20), // level-2 fertilizer
             6 => new SObject(621, 2), // quality sprinkler
-            _ => new SObject(level < 40 ? SObject.copperBar : level < 80 ? SObject.ironBar : SObject.goldBar, r.Next(5, 15)),
+            _ => new SObject(level < 40 ? ObjectIds.CopperBar : level < 80 ? ObjectIds.IronBar : ObjectIds.GoldBar, r.Next(5, 15)),
         };
 
         SObject chooseBomb(Random rr)

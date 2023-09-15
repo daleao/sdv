@@ -35,7 +35,7 @@ internal sealed class BloodthirstyUpdateTickedEvent : UpdateTickedEvent
             return;
         }
 
-        if (Game1.game1.ShouldTimePass() && Globals.SecondsOutOfCombat > 25 && e.IsMultipleOf(300))
+        if (Game1.game1.ShouldTimePass() && GlobalState.SecondsOutOfCombat > 25 && e.IsMultipleOf(300))
         {
             // decay counter every 5 seconds after 25 seconds out of combat
             player.health = Math.Max(player.health - Math.Max(player.maxHealth / 100, 1), player.maxHealth);

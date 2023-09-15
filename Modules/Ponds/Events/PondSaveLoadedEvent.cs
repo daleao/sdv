@@ -31,7 +31,7 @@ internal sealed class PondSaveLoadedEvent : SaveLoadedEvent
             var building = buildings[i];
             if (building is not FishPond pond || pond.isUnderConstruction() ||
                 pond.fishType.Value is not (160 or 899) ||
-                pond.Read<int>(DataKeys.FamilyLivingHere) is not ({ } familyCount and > 0))
+                pond.Read<int>(DataKeys.FamilyLivingHere) is not (var familyCount and > 0))
             {
                 continue;
             }
