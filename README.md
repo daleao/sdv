@@ -139,7 +139,7 @@ In order to build this mod you will also need to clone my [Stardew Valley Shared
 
 ## Dependencies
 
-This project requires the following NuGet packages:
+This project uses the following NuGet packages:
 
 | Package Name | Author | Version |
 | ------------ | ------ | ------- |
