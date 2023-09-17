@@ -58,7 +58,7 @@ All modules should be fully multiplayer and split-screen compatible **if and onl
 1. Make sure the dependencies are installed:
     - [SpaceCore](https://www.nexusmods.com/stardewvalley/mods/1348) is always required.
     - [Json Assets](https://www.nexusmods.com/stardewvalley/mods/1720) is required for the new items in CMBT module.
-    - [Custom Ore Nodes](https://www.nexusmods.com/stardewvalley/mods/5966) (version 2.3.4) or higher is required for the Garnet Node.
+    - [Custom Ore Nodes](https://www.nexusmods.com/stardewvalley/mods/5966) (version 2.3.4 or higher) is required for the Garnet Node.
     - [Generic Mod Config Menu](https://www.nexusmods.com/stardewvalley/mods/5098) is highly recommended.
 2. Go to the [Releases page](https://github.com/daleao/modular-overhaul/releases) (link also to the right) and download the latest `ModularOverhaul.zip` file.
 
