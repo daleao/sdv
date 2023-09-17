@@ -6,6 +6,7 @@ using DaLion.Overhaul.Modules.Combat.Enums;
 using DaLion.Shared.Constants;
 using DaLion.Shared.Events;
 using DaLion.Shared.Extensions.Stardew;
+using Microsoft.Xna.Framework;
 using StardewModdingAPI.Events;
 
 #endregion using directives
@@ -46,7 +47,13 @@ internal sealed class SveWarpedEvent : WarpedEvent
         //    e.NewLocation.setTileProperty(10, 7, "Buildings", "Success", $"W {chosen} 1");
         //}
 
-        e.Player.Write(DataKeys.ProvenValor, int.MaxValue.ToString());
+        if (Virtue.Valor.Proven())
+        {
+            return;
+        }
+
+        e.Player.Write(Virtue.Valor.Name, int.MaxValue.ToString());
         CombatModule.State.HeroQuest?.UpdateTrialProgress(Virtue.Valor);
+        Game1.chatBox.addMessage(I18n.Virtues_Recognize("Yoba", Virtue.Valor.DisplayName), Color.Green);
     }
 }

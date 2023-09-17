@@ -73,8 +73,8 @@
   "prospector.title.female": "탐광자",
   "prospector.desc": "사다리와 채광 지점의 위치가 보입니다. 때때로 가치 있는 광물이 있는 바위를 찾아낼 수 있습니다.",
   "prospector.desc.prestiged": "광물을 추적하는 동안 시간이 멈춥니다.",
-  "prospector.huntstarted": "탐광자의 감각이 반응하고 있습니다...",
-  "prospector.huntfailed": "떨림이 멈춥니다.",
+  "prospector.hunt_started": "탐광자의 감각이 반응하고 있습니다...",
+  "prospector.hunt_failed": "떨림이 멈춥니다.",
 
   "blaster.title.male": "발파공",
   "blaster.title.female": "발파공",
@@ -248,7 +248,8 @@
 
   "fromcsfiles.MeleeWeapon.cs.14122": "무지갯빛 파편이 밝게 빛나고, 가방에 있던 이리듐을 흡수하더니 눈앞에서 형태가 변합니다!^^     ={{galaxyWeapon}}= 을 획득했습니다! ^",
   "locations.Town.DwarfGrave.Translated": "     드워프어를 번역했습니다:     \n\n'모래 속에서 잃어버린 금빛 세쌍둥이\n그 앞으로 땅에서 만들어진 무지개를 가져오라\n하늘에 간청하여 권리를 주장하라\n천둥이 그대의 이름을 부르짖게 하라\n순수한 마음과 맑은 정신이 있다면\n믿음에 의심과 두려움이 없다면\n별들이 봉인 너머로 내려\n천국의 강철이 될 것이다",
-  "locations.SeedShop.Yoba": "그 어떤 악도 요바의 영웅을 건드릴 수는 없으리라.",
+  "locations.SeedShop.Yoba": "요바의 축복, 참된 영웅들을 강화할 것이다. 관대함과 동정심으로美德을 따를 것이다. 명예, 용기, 지혜를 지니며 영혼을 높일 것이다. 예언이 펼쳐지는 중, 요바의 주목 아래서.",
+  "locations.desert.noiridium": "프리즘 조각이 진동하는 느낌이 듭니다...#아무 일도 일어나지 않습니다.#뭔가 빠진 듯한 느낌이 듭니다.",
 
   "mail.curse.intro": "친애하는 @, 너를 만나야 해. 대단히 급한 일이야.^최대한 빨리 탑으로 와줘.^   -M. 라스모디우스, 마법사[#]저주받은 영웅",
   "mail.curse.intro.witch": "친애하는 @, 너를 만나야 해. 대단히 급한 일이야.^최대한 빨리 탑으로 와줘.^   -M. 라스모디우스, 마법사[#]저주받은 영웅",
@@ -259,7 +260,7 @@
   "quests.hero.reward": "Basic/저주받은 영웅의 검/요바의 은총을 받는 영웅은 악으로부터 보호받는다고 합니다. 그러기 위해 영웅의 5가지 미덕을 증명해야 합니다./저주받은 영웅의 검을 요바의 제단으로 가져가기./null/-1/0/-1/false",
 
   "quests.hero.journey.name": "영웅의 여정",
-  "quests.hero.journey.desc": "당신이 다섯 가지 영웅적 미덕에 따라 살고 있음을 증명하십시오.",
+  "quests.hero.journey.desc": "오영덕을 구현하고 요바의 축복을 받은 사람은 모든 악에서 정화될 수 있습니다. 이것이 폐허가 된 칼날의 저주를 풀 수 있는 유일한 기회일 수도 있습니다.",
 
   "yoba.inscriptions": "제단에 추가 비문이 있습니다...",
   "yoba.prayer": "제단에 기도를 드리나요?",
@@ -281,7 +282,6 @@
   "virtues.valor.name": "용기",
   "virtues.valor.flavor": "\"용맹함이 훌륭한 인간을 만들지는 않으나, 훌륭한 자들 중 겁쟁이가 얼마나 있던가? 용맹한 자는 결과에 연연하지 않으며 다수에 맞서기를 주저하지 않는다.\"",
   "virtues.valor.objective": "동료 마을 사람들에게 해를 끼치는 생물을 근절하여 용감하게 마을 사람들을 보호하십시오.",
-  "virtues.trial": " 시험",
 
   // json assets
   "objects.dwarvish_blueprint.name": "드워프 설계도",
@@ -897,15 +897,15 @@
   "gmcm.twx.farming.spawn_crows.title": "이 지도에 까마귀 생성:",
   "gmcm.twx.maps.islandwest": "생강섬 농장",
   "gmcm.twx.maps.custom_garden": "커뮤니티 가든(SVE)",
-  "gmcm.twx.maps.custom_grampleton_fields": "그램플턴 필드(SVE)",
-  "gmcm.twx.maps.custom_ridgeside_summit_farm": "Summit Farm(리지사이드 마을)",
-  "gmcm.twx.maps.custom_es_meadow_farm": "목초지 농장(동쪽 급경사)",
+  "gmcm.twx.maps.custom_grampletonfields": "그램플턴 필드(SVE)",
+  "gmcm.twx.maps.custom_ridgeside_summitfarm": "Summit Farm(리지사이드 마을)",
+  "gmcm.twx.maps.custom_esmeadowfarm": "목초지 농장(동쪽 급경사)",
 
   "gmcm.twx.fishing.trash_does_not_consume_bait.title": "쓰레기는 미끼를 소모하지 않습니다",
   "gmcm.twx.fishing.trash_does_not_consume_bait.desc": "게 통발이 쓰레기를 생성할 때 미끼 소비를 방지합니다.",
 
-  "gmcm.twx.mining.explosion_triggered_bombs.title": "폭발 유발 폭탄",
-  "gmcm.twx.mining.explosion_triggered_bombs.desc": "폭발 반경 내의 폭탄은 즉시 스스로 폭발합니다.",
+  "gmcm.twx.mining.chain_explosions.title": "폭발 유발 폭탄",
+  "gmcm.twx.mining.chain_explosions.desc": "폭발 반경 내의 폭탄은 즉시 스스로 폭발합니다.",
   "gmcm.twx.mining.immersive_glowstone_progression.title": "더 나은 발광석 진행",
   "gmcm.twx.mining.immersive_glowstone_progression.desc": "발광석 반지 제조법을 의미 있는 것으로 대체하고 해당 구성 요소에 대한 보완 제조법을 추가합니다.",
 

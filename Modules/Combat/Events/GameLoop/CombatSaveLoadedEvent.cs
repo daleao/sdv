@@ -51,6 +51,41 @@ internal sealed class CombatSaveLoadedEvent : SaveLoadedEvent
         }
 
         // infinity +1 checks
+
+        // -- temp fixes --
+
+        if (player.Read<int>("ProvenHonor") is var provenHonor and > 0)
+        {
+            player.WriteIfNotExists("ProvenHonor", provenHonor.ToString());
+            player.Write("ProvenHonor", null);
+        }
+
+        if (player.Read<int>("ProvenCompassion") is var provenCompassion and > 0)
+        {
+            player.WriteIfNotExists("ProvenCompassion", provenCompassion.ToString());
+            player.Write("ProvenCompassion", null);
+        }
+
+        if (player.Read<int>("ProvenWisdom") is var provenWisdom and > 0)
+        {
+            player.WriteIfNotExists("ProvenWisdom", provenWisdom.ToString());
+            player.Write("ProvenWisdom", null);
+        }
+
+        if (player.Read<int>("ProvenGenerosity") is var provenGenerosity and > 0)
+        {
+            player.WriteIfNotExists("ProvenGenerosity", provenGenerosity.ToString());
+            player.Write("ProvenGenerosity", null);
+        }
+
+        if (player.Read<int>("ProvenValor") is var provenValor and > 0)
+        {
+            player.WriteIfNotExists("ProvenValor", provenValor.ToString());
+            player.Write("ProvenValor", null);
+        }
+
+        // -- temp fixes ==
+
         if (player.Read<HeroQuest.QuestState>(DataKeys.VirtueQuestState) == HeroQuest.QuestState.InProgress)
         {
             if (player.mailReceived.Contains("gotHolyBlade"))

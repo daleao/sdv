@@ -30,23 +30,23 @@ internal sealed class ScavengerHunt : TreasureHunt
 {
     private readonly int[] _artifactsThatCanBeFound =
     {
-        100, // chipped amphora
-        101, // arrowhead
-        103, // ancient doll
-        104, // elvish jewelry
-        105, // chewing stick
-        106, // ornamental fan
-        109, // ancient sword
-        114, // ancient seed
-        115, // prehistoric tool
-        118, // glass shards
-        119, // bone flute
-        120, // prehistoric hand-axe
-        123, // ancient drum
-        124, // golden mask
-        125, // golden relic
-        126, // strange doll
-        127, // strange doll
+        ObjectIds.ChippedAmphora, // chipped amphora
+        ObjectIds.Arrowhead, // arrowhead
+        ObjectIds.AncientDoll, // ancient doll
+        ObjectIds.ElvishJewelry, // elvish jewelry
+        ObjectIds.ChewingStick, // chewing stick
+        ObjectIds.OrnamentalFan, // ornamental fan
+        ObjectIds.AncientSword, // ancient sword
+        ObjectIds.AncientSeed, // ancient seed
+        ObjectIds.PrehistoricTool, // prehistoric tool
+        ObjectIds.GlassShards, // glass shards
+        ObjectIds.BoneFlute, // bone flute
+        ObjectIds.PrehistoricHandaxe, // prehistoric hand-axe
+        ObjectIds.AncientDrum, // ancient drum
+        ObjectIds.GoldenMask, // golden mask
+        ObjectIds.GoldenRelic, // golden relic
+        ObjectIds.StrangeDoll0, // strange doll
+        ObjectIds.StrangeDoll1, // strange doll
     };
 
     /// <summary>Initializes a new instance of the <see cref="ScavengerHunt"/> class.</summary>
@@ -291,40 +291,30 @@ internal sealed class ScavengerHunt : TreasureHunt
     {
         List<Item> treasures = new();
         var chance = 1.0;
-        while (this.Random.NextDouble() <= chance)
+        var streak = Game1.player.Read<int>(DataKeys.ScavengerHuntStreak);
+        while (this.Random.NextDouble() < chance)
         {
-            chance *= 0.4f;
+            chance *= Math.Pow(0.1, 1d / (streak + 1));
             this.AddInitialTreasureItems(treasures);
-
             switch (this.Random.Next(4))
             {
                 case 0:
-                {
                     this.AddOreToTreasures(treasures);
                     break;
-                }
-
                 case 1:
-                {
                     this.AddBaitToTreasures(treasures);
                     break;
-                }
-
                 case 2:
-                {
                     this.AddArtifactsToTreasures(treasures);
                     break;
-                }
-
                 case 3:
-                {
                     switch (this.Random.Next(3))
                     {
                         case 0:
                             this.AddGeodesToTreasures(treasures);
                             break;
                         case 1:
-                            this.AddGemstonesToTreasures(treasures);
+                            this.AddMineralsToTreasures(treasures);
                             break;
                         case 2:
                             this.AddSpecialTreasureItems(treasures);
@@ -332,7 +322,6 @@ internal sealed class ScavengerHunt : TreasureHunt
                     }
 
                     break;
-                }
             }
         }
 
@@ -346,7 +335,7 @@ internal sealed class ScavengerHunt : TreasureHunt
                     .ContainsAll(WeaponIds.ElfBlade, WeaponIds.ForestSword))
             {
                 treasures.Add(new SObject(JsonAssetsIntegration.DwarvishBlueprintIndex.Value, 1));
-                treasures.Add(new SObject(102, 1)); // lost book, for comparison
+                //treasures.Add(new SObject(ObjectIds.LostBook, 1));
             }
             else if (JsonAssetsIntegration.ElderwoodIndex.HasValue)
             {
@@ -364,18 +353,16 @@ internal sealed class ScavengerHunt : TreasureHunt
 
     private void AddInitialTreasureItems(List<Item> treasures)
     {
-        // rice shoot
         if (Game1.currentSeason == "spring" && Game1.currentLocation is not Beach && this.Random.NextDouble() < 0.1)
         {
             var stack = this.Random.Next(2, 6) + (this.Random.NextDouble() < 0.25 ? 5 : 0);
-            treasures.Add(new SObject(273, stack));
+            treasures.Add(new SObject(ObjectIds.RiceShoot, stack));
         }
 
-        // qi beans
         if (this.Random.NextDouble() <= 0.33 && Game1.player.team.SpecialOrderRuleActive("DROP_QI_BEANS"))
         {
             var stack = this.Random.Next(1, 3) + (this.Random.NextDouble() < 0.25 ? 2 : 0);
-            treasures.Add(new SObject(890, stack));
+            treasures.Add(new SObject(ObjectIds.QiBean, stack));
         }
     }
 
@@ -383,44 +370,37 @@ internal sealed class ScavengerHunt : TreasureHunt
     {
         List<int> possibles = new();
 
-        // iridium ore
         if (this.Random.NextDouble() < 0.4)
         {
-            possibles.Add(386);
+            possibles.Add(ObjectIds.IridiumOre);
         }
 
-        // gold ore
         if (possibles.Count == 0 || this.Random.NextDouble() < 0.4)
         {
-            possibles.Add(384);
+            possibles.Add(ObjectIds.GoldOre);
         }
 
-        // iron ore
         if (possibles.Count == 0 || this.Random.NextDouble() < 0.4)
         {
-            possibles.Add(380);
+            possibles.Add(ObjectIds.IronOre);
         }
 
-        // copper ore
         if (possibles.Count == 0 || this.Random.NextDouble() < 0.4)
         {
-            possibles.Add(378);
+            possibles.Add(ObjectIds.CopperOre);
         }
 
-        // wood
         if (possibles.Count == 0 || this.Random.NextDouble() < 0.4)
         {
-            possibles.Add(388);
+            possibles.Add(ObjectIds.Wood);
         }
 
-        // stone
         if (possibles.Count == 0 || this.Random.NextDouble() < 0.4)
         {
-            possibles.Add(390);
+            possibles.Add(ObjectIds.Stone);
         }
 
-        // coal
-        possibles.Add(382);
+        possibles.Add(ObjectIds.Coal);
 
         var index = possibles.ElementAt(this.Random.Next(possibles.Count));
         var stack = this.Random.Next(2, 7) *
@@ -436,14 +416,12 @@ internal sealed class ScavengerHunt : TreasureHunt
     {
         if (this.Random.NextDouble() < 0.25 && Game1.player.craftingRecipes.ContainsKey("Wild Bait"))
         {
-            // wild bait
             var stack = 5 + (this.Random.NextDouble() < 0.25 ? 5 : 0);
-            treasures.Add(new SObject(774, stack));
+            treasures.Add(new SObject(ObjectIds.WildBait, stack));
         }
         else
         {
-            // bait
-            treasures.Add(new SObject(685, 10));
+            treasures.Add(new SObject(ObjectIds.Bait, 10));
         }
     }
 
@@ -452,12 +430,10 @@ internal sealed class ScavengerHunt : TreasureHunt
         if (this.Random.NextDouble() < 0.1 && Game1.netWorldState.Value.LostBooksFound.Value < 21 &&
             Game1.player.hasOrWillReceiveMail("lostBookFound"))
         {
-            // lost book
-            treasures.Add(new SObject(102, 1));
+            treasures.Add(new SObject(ObjectIds.LostBook, 1));
         }
         else if (Game1.player.archaeologyFound.Any() && this.Random.NextDouble() < 0.5)
         {
-            // artifacts
             var index = this.Random.NextDouble() < 0.5
                 ? this._artifactsThatCanBeFound[this.Random.Next(this._artifactsThatCanBeFound.Length)]
                 : this.Random.NextDouble() < 0.25
@@ -467,9 +443,8 @@ internal sealed class ScavengerHunt : TreasureHunt
         }
         else
         {
-            // coal
             var stack = this.Random.Next(1, 3);
-            treasures.Add(new SObject(382, stack));
+            treasures.Add(new SObject(ObjectIds.Coal, stack));
         }
     }
 
@@ -477,51 +452,48 @@ internal sealed class ScavengerHunt : TreasureHunt
     {
         var index = this.Random.Next(535, 538);
         var stack = this.Random.Next(1, 4);
-        treasures.Add(new SObject(index, stack)); // geodes
+        treasures.Add(new SObject(index, stack));
         if (this.Random.NextDouble() < 0.05 + (Game1.player.LuckLevel * 0.03))
         {
             treasures[^1].Stack *= 2;
         }
     }
 
-    private void AddGemstonesToTreasures(List<Item> treasures)
+    private void AddMineralsToTreasures(List<Item> treasures)
     {
         switch (this.Random.Next(4))
         {
-            // fire quartz else ruby or emerald
             case 0:
             {
                 var index = this.Random.NextDouble() < 0.3
-                    ? 82
+                    ? ObjectIds.FireQuartz
                     : this.Random.NextDouble() < 0.5
-                        ? 64
-                        : 60;
+                        ? ObjectIds.Ruby
+                        : ObjectIds.Emerald;
                 var stack = this.Random.Next(1, 3);
                 treasures.Add(new SObject(index, stack));
                 break;
             }
 
-            // frozen tear else jade or aquamarine
             case 1:
             {
                 var index = this.Random.NextDouble() < 0.3
-                    ? 84
+                    ? ObjectIds.FrozenTear
                     : this.Random.NextDouble() < 0.5
-                        ? 70
-                        : 62;
+                        ? ObjectIds.Jade
+                        : ObjectIds.Aquamarine;
                 var stack = this.Random.Next(1, 3);
                 treasures.Add(new SObject(index, stack));
                 break;
             }
 
-            // earth crystal else amethyst or topaz
             case 2:
             {
                 var index = this.Random.NextDouble() < 0.3
-                    ? 86
+                    ? ObjectIds.EarthCrystal
                     : this.Random.NextDouble() < 0.5
-                        ? 66
-                        : 68;
+                        ? ObjectIds.Amethyst
+                        : ObjectIds.Topaz;
                 var stack = this.Random.Next(1, 3);
                 treasures.Add(new SObject(index, stack));
                 break;
@@ -530,8 +502,8 @@ internal sealed class ScavengerHunt : TreasureHunt
             case 3:
             {
                 treasures.Add(this.Random.NextDouble() < 0.28
-                    ? new SObject(SObject.diamondIndex, 1) // diamond
-                    : new SObject(SObject.quartzIndex, this.Random.Next(1, 3))); // quartz
+                    ? new SObject(ObjectIds.Diamond, 1)
+                    : new SObject(ObjectIds.Quartz, this.Random.Next(1, 3)));
                 break;
             }
         }
@@ -547,7 +519,6 @@ internal sealed class ScavengerHunt : TreasureHunt
         var luckModifier = 1.0 + (Game1.player.DailyLuck * 10);
         var streak = Game1.player.Read<uint>(DataKeys.ScavengerHuntStreak);
 
-        // forest sword
         if (this.Random.NextDouble() < 0.25 * luckModifier)
         {
             if (CombatModule.ShouldEnable && CombatModule.Config.DwarvenLegacy &&
@@ -568,9 +539,7 @@ internal sealed class ScavengerHunt : TreasureHunt
                 treasures.Add(new MeleeWeapon(WeaponIds.ForestSword));
             }
         }
-        else
-        // elf blade
-        if (this.Random.NextDouble() < 0.25 * luckModifier)
+        else if (this.Random.NextDouble() < 0.25 * luckModifier)
         {
             if (CombatModule.ShouldEnable && CombatModule.Config.DwarvenLegacy &&
                 JsonAssetsIntegration.DwarvishBlueprintIndex.HasValue)
@@ -595,20 +564,18 @@ internal sealed class ScavengerHunt : TreasureHunt
         {
             switch (this.Random.Next(3))
             {
-                // (small) glow ring
                 case 0:
                 {
-                    var index = 516 + (this.Random.NextDouble() < Game1.player.LuckLevel / 11f
+                    var index = ObjectIds.SmallGlowRing + (this.Random.NextDouble() < Game1.player.LuckLevel / 11f
                         ? 1
                         : 0);
                     treasures.Add(new Ring(index));
                     break;
                 }
 
-                // (small) magnet ring
                 case 1:
                 {
-                    var index = 518 + (this.Random.NextDouble() < Game1.player.LuckLevel / 11f
+                    var index = ObjectIds.SmallMagnetRing + (this.Random.NextDouble() < Game1.player.LuckLevel / 11f
                         ? 1
                         : 0);
                     treasures.Add(new Ring(index));
@@ -625,51 +592,45 @@ internal sealed class ScavengerHunt : TreasureHunt
             }
         }
 
-        // treasure chest
         if (this.Random.NextDouble() < 0.01 * luckModifier * Math.Pow(2, streak))
         {
-            treasures.Add(new SObject(166, 1));
+            treasures.Add(new SObject(ObjectIds.TreasureChest, 1));
         }
 
-        // prismatic shard
         if (this.Random.NextDouble() < 0.005 * luckModifier * Math.Pow(2, streak))
         {
-            treasures.Add(new SObject(SObject.prismaticShardIndex, 1));
+            treasures.Add(new SObject(ObjectIds.PrismaticShard, 1));
         }
 
-        // strange doll
         if (this.Random.NextDouble() < 0.01 * luckModifier)
         {
-            treasures.Add(new SObject(126, 1));
+            treasures.Add(new SObject(ObjectIds.StrangeDoll0, 1));
         }
 
-        // strange doll
         if (this.Random.NextDouble() < 0.01 * luckModifier)
         {
-            treasures.Add(new SObject(127, 1));
+            treasures.Add(new SObject(ObjectIds.StrangeDoll1, 1));
         }
 
-        // iridium band
         if (this.Random.NextDouble() < 0.01 * luckModifier)
         {
-            treasures.Add(new Ring(527));
+            treasures.Add(new Ring(ObjectIds.IridiumBand));
         }
 
-        // boots
         if (this.Random.NextDouble() < 0.01 * luckModifier)
         {
-            treasures.Add(new Boots(this.Random.Next(504, 514)));
+            treasures.Add(new Boots(this.Random.Next(504, 514))); // boots
         }
 
         if (Game1.MasterPlayer.mailReceived.Contains("Farm_Eternal") &&
             this.Random.NextDouble() < 0.01 * luckModifier)
         {
-            treasures.Add(new SObject(928, 1)); // golden egg
+            treasures.Add(new SObject(ObjectIds.GoldenEgg, 1));
         }
 
         if (treasures.Count == 1)
         {
-            treasures.Add(new SObject(SObject.diamondIndex, 1)); // consolation diamond
+            treasures.Add(new SObject(ObjectIds.Diamond, 1));
         }
     }
 
@@ -677,31 +638,29 @@ internal sealed class ScavengerHunt : TreasureHunt
     {
         if (this.Random.NextDouble() < 0.4)
         {
-            // forage seeds
             switch (Game1.currentSeason)
             {
                 case "spring":
-                    treasures.Add(new SObject(495, 1));
+                    treasures.Add(new SObject(ObjectIds.SpringSeeds, 1));
                     break;
 
                 case "summer":
-                    treasures.Add(new SObject(496, 1));
+                    treasures.Add(new SObject(ObjectIds.SummerSeeds, 1));
                     break;
 
                 case "fall":
-                    treasures.Add(new SObject(497, 1));
+                    treasures.Add(new SObject(ObjectIds.FallSeeds, 1));
                     break;
 
                 case "winter":
-                    treasures.Add(new SObject(498, 1));
+                    treasures.Add(new SObject(ObjectIds.WinterSeeds, 1));
                     break;
             }
         }
         else
         {
-            // wild seeds
             var stack = this.Random.Next(1, 4) * 5;
-            treasures.Add(new SObject(770, stack));
+            treasures.Add(new SObject(ObjectIds.MixedSeeds, stack));
         }
     }
 }

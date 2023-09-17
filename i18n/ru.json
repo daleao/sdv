@@ -73,8 +73,8 @@
   "prospector.title.female": "Старательница",
   "prospector.desc": "Показываются места расположения лестниц и жил. Изредка обнаруживаются породы с ценными минералами.",
   "prospector.desc.prestiged": "Время останавливается во время старательской охоты.",
-  "prospector.huntstarted": "Вы чувствуете старательские покалывания...",
-  "prospector.huntfailed": "Покалывания прекращаются.",
+  "prospector.hunt_started": "Вы чувствуете старательские покалывания...",
+  "prospector.hunt_failed": "Покалывания прекращаются.",
 
   "blaster.title.male": "Подрывник",
   "blaster.title.female": "Подрывница",
@@ -249,7 +249,8 @@
 
   "fromcsfiles.MeleeWeapon.cs.14122": "Радужный осколок ярко светится, поглощает иридий в вашем рюкзаке и трансформируется прямо у вас на глазах!^^     Вы получаете ={{galaxyWeapon}}=  ^",
   "locations.Town.DwarfGrave.Translated": "     Вы переводите с дварфийского:     \n\n'пара золотых троек, затерянных в песке,\nрождают радугу, выкованную из земли,\nи взывают к небесам! Будь смелым,\nпусть громы гремят и ревет твое имя,\nесли сердце чисто и сознание ясно,\nа в вере нет ни сомнений, ни страха.\nЗвезды прольются дождем,\nзапечатают и одарят тебя небесной сталью.",
-  "locations.SeedShop.Yoba": "\"Никакое зло не тронет истинного Героя Иобы.\"",
+  "locations.SeedShop.Yoba": "\"Благословение Йобы, настоящих героев укрепит. Великодушие и сострадание, добродетели призыв. Честь, мужество, мудрость, их души укроет. Пророчество разворачивается, под бдительным взглядом Йобы.\"",
+  "locations.desert.noiridium": "Вы чувствуете, как призматический осколок вибрирует...#Но ничего не происходит.#Как будто чего-то не хватает.",
 
   "mail.curse.intro": "Ув. @, я должен увидеться с вами по делу чрезвычайной срочности.^Пожалуйста, приходите ко мне в башню при первой же возможности.^   -М. Расмодиус, волшебник[#]Ruined Hero",
   "mail.curse.intro.witch": "Ув. @, я должен увидеться с вами по делу чрезвычайной срочности.^Пожалуйста, приходите ко мне в башню при первой же возможности.^   -М. Расмодиус, ведьма[#]Ruined Hero",
@@ -260,7 +261,7 @@
   "quests.hero.reward": "Basic/Клинок Павшего Героя/Те, кто воплощает в себе достоинства истинного героя, очищаются от всего зла божественной силой Иобы./Отнесите Темный меч  к алтарю Иобы./null/-1/0/-1/false",
 
   "quests.hero.journey.name": "Путешествие героя",
-  "quests.hero.journey.desc": "Докажите, что вы живете Пятью Героическими Добродетелями.",
+  "quests.hero.journey.desc": "Те, кто воплощает Пять Героических Добродетелей и получает благословение Йобы, могут очиститься от всего зла. Возможно, это ваш единственный шанс снять проклятие Разрушенного клинка.",
 
   "yoba.inscriptions": "На алтаре есть дополнительные надписи...",
   "yoba.prayer": "Помолиться алтарю?",
@@ -282,7 +283,6 @@
   "virtues.valor.name": "Доблесть",
   "virtues.valor.flavor": "\"Доблесть не делает человека хорошим, но сколько хороших людей вы встретили на своем жизненном пути, которые были трусами? Те, кто обладает доблестью, не колеблясь выступят против большинства, независимо от последствий.\"",
   "virtues.valor.objective": "Смело защищайте своих соотечественников, уничтожая существ, которые могут им навредить.",
-  "virtues.trial": "Испытание ",
 
   // json assets
   "objects.dwarvish_blueprint.name": "Старый дварфийский чертеж",
@@ -900,15 +900,15 @@
   "gmcm.twx.farming.spawn_crows.title": "Spawn Crows on These Maps:",
   "gmcm.twx.maps.islandwest": "Ginger Island Farm",
   "gmcm.twx.maps.custom_garden": "Community Garden (SVE)",
-  "gmcm.twx.maps.custom_grampleton_fields": "Grampleton Fields (SVE)",
-  "gmcm.twx.maps.custom_ridgeside_summit_farm": "Summit Farm (Ridgeside Village)",
-  "gmcm.twx.maps.custom_es_meadow_farm": "Meadow Farm (East Scarp)",
+  "gmcm.twx.maps.custom_grampletonfields": "Grampleton Fields (SVE)",
+  "gmcm.twx.maps.custom_ridgeside_summitfarm": "Summit Farm (RSV)",
+  "gmcm.twx.maps.custom_esmeadowfarm": "Meadow Farm (East Scarp)",
 
   "gmcm.twx.fishing.trash_does_not_consume_bait.title": "Trash Does Not Consume Bait",
   "gmcm.twx.fishing.trash_does_not_consume_bait.desc": "Prevents bait consumption when a Crab Pot produces trash.",
 
-  "gmcm.twx.mining.explosion_triggered_bombs.title": "Explosion-Triggered Bombs",
-  "gmcm.twx.mining.explosion_triggered_bombs.desc": "Bombs within any explosion radius immediately explode themselves.",
+  "gmcm.twx.mining.chain_explosions.title": "Chain Explosions",
+  "gmcm.twx.mining.chain_explosions.desc": "Bombs within any explosion radius immediately explode themselves.",
   "gmcm.twx.mining.immersive_glowstone_progression.title": "Better Glowstone Progression",
   "gmcm.twx.mining.immersive_glowstone_progression.desc": "Replaces the glowstone ring recipe with one that makes sense, and adds complementary recipes for its constituents.",
 

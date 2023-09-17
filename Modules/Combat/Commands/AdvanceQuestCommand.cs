@@ -100,12 +100,11 @@ internal sealed class AdvanceQuestCommand : ConsoleCommand
                 if (player.Read<HeroQuest.QuestState>(DataKeys.VirtueQuestState) == HeroQuest.QuestState.InProgress)
                 {
                     CombatModule.State.HeroQuest ??= new HeroQuest();
-                    player.Write(DataKeys.ProvenHonor, int.MaxValue.ToString());
-                    player.Write(DataKeys.ProvenCompassion, int.MaxValue.ToString());
-                    player.Write(DataKeys.ProvenWisdom, int.MaxValue.ToString());
-                    player.Write(DataKeys.ProvenGenerosity, int.MaxValue.ToString());
-                    player.Write(DataKeys.ProvenValor, int.MaxValue.ToString());
-                    Virtue.List.ForEach(virtue => CombatModule.State.HeroQuest.UpdateTrialProgress(virtue));
+                    Virtue.List.ForEach(virtue =>
+                    {
+                        player.Write(virtue.Name, int.MaxValue.ToString());
+                        CombatModule.State.HeroQuest.UpdateTrialProgress(virtue);
+                    });
                 }
 
                 break;
@@ -116,7 +115,7 @@ internal sealed class AdvanceQuestCommand : ConsoleCommand
                         amount = 1;
                     }
 
-                    player.Increment(DataKeys.ProvenHonor, amount);
+                    player.Increment(Virtue.Honor.Name, amount);
                     CombatModule.State.HeroQuest?.UpdateTrialProgress(Virtue.Honor);
                 }
 
@@ -128,7 +127,7 @@ internal sealed class AdvanceQuestCommand : ConsoleCommand
                         amount = 1;
                     }
 
-                    player.Increment(DataKeys.ProvenCompassion, amount);
+                    player.Increment(Virtue.Compassion.Name, amount);
                     CombatModule.State.HeroQuest?.UpdateTrialProgress(Virtue.Compassion);
                 }
 
@@ -140,7 +139,7 @@ internal sealed class AdvanceQuestCommand : ConsoleCommand
                         amount = 1;
                     }
 
-                    player.Increment(DataKeys.ProvenWisdom, amount);
+                    player.Increment(Virtue.Wisdom.Name, amount);
                     CombatModule.State.HeroQuest?.UpdateTrialProgress(Virtue.Wisdom);
                 }
 
@@ -152,7 +151,7 @@ internal sealed class AdvanceQuestCommand : ConsoleCommand
                         amount = 1;
                     }
 
-                    player.Increment(DataKeys.ProvenGenerosity, amount);
+                    player.Increment(Virtue.Generosity.Name, amount);
                     CombatModule.State.HeroQuest?.UpdateTrialProgress(Virtue.Generosity);
                 }
 
@@ -164,7 +163,7 @@ internal sealed class AdvanceQuestCommand : ConsoleCommand
                         amount = 1;
                     }
 
-                    player.Increment(DataKeys.ProvenValor, amount);
+                    player.Increment(Virtue.Valor.Name, amount);
                     CombatModule.State.HeroQuest?.UpdateTrialProgress(Virtue.Generosity);
                 }
 

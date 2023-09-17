@@ -1,5 +1,11 @@
 ﻿# PROFS Changelog
 
+## 3.1.3 <sup><sup>[🔼 Back to top](#profs-changelog)</sup></sup>
+
+### Changed
+
+* Changed the way Scavenger and Prospector treasures scale with the streak. Players should now see significantly more treasure if they manage to keep their streaks high.
+
 ## 3.1.0 <sup><sup>[🔼 Back to top](#profs-changelog)</sup></sup>
 
 ### Changed

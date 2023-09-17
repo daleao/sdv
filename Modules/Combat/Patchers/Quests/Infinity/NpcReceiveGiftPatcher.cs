@@ -22,9 +22,9 @@ internal sealed class NpcReceiveGiftPatcher : HarmonyPatcher
 
     /// <summary>Complete Generosity quest.</summary>
     [HarmonyPostfix]
-    private static void CommunityUpgradeAcceptPostfix(SObject o, Farmer giver)
+    private static void NpcReceiveGiftPostfix(SObject o, Farmer giver)
     {
-        giver.Increment(DataKeys.ProvenGenerosity, o.sellToStorePrice());
+        giver.Increment(Virtue.Generosity.Name, o.sellToStorePrice());
         CombatModule.State.HeroQuest?.UpdateTrialProgress(Virtue.Generosity);
     }
 

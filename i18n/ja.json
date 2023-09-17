@@ -73,8 +73,8 @@
   "prospector.title.female": "プロスペクター",
   "prospector.desc": "はしごと採掘ポイントの場所がわかるようになる。 たまに貴重な鉱物を含む岩を発見する。",
   "prospector.desc.prestiged": "プロスペクターハント中に時間が止まる。",
-  "prospector.huntstarted": "プロスペクターの感覚がうずく...",
-  "prospector.huntfailed": "うずきが収まった.",
+  "prospector.hunt_started": "プロスペクターの感覚がうずく...",
+  "prospector.hunt_failed": "うずきが収まった.",
 
   "blaster.title.male": "爆破技師",
   "blaster.title.female": "爆破技師",
@@ -249,7 +249,8 @@
 
   "fromcsfiles.MeleeWeapon.cs.14122": "レインボージェムが強くかがやき、 イリジウムののべ棒を取りこみながら形を変えていく!^^     ={{galaxyWeapon}}=  を手に入れた。^",
   "locations.Town.DwarfGrave.Translated": "     あなたはドワーフ語を翻訳した:     \n\n 砂に消えた黄金の三つ子の間に\n大地によって鍛えられた虹をかかげ\n天に祈れ! 汝の要求を貫け。\n雷鳴が響き、汝の名をとどろかせよう。\nもし汝の心が清く、純粋であり\n信仰に疑いや恐れがないならば\n星々が雨のようにあの印に降り注ぎ\n汝に天の鋼鉄を授けるであろう。",
-  "locations.SeedShop.Yoba": "\"ヨバの真の英雄に災いがふりかかることはない。\"",
+  "locations.SeedShop.Yoba": "\"ヨバの祝福、真の英雄はそれを強化します。寛大さと思いやりで、美徳を実践する。名誉、勇気、知恵を持ち、その魂を高めます。予言が展開し、ヨバの見守る中で。\"",
+  "locations.desert.noiridium": "プリズマティック シャードが振動しているのを感じます...#しかし何も起こりません。#何かが足りないように感じます。",
 
   "mail.curse.intro": "親愛なる @へ、 緊急の話があって貴殿に会いたい。^なるべく早く、魔術師の塔へ来てくれたまえ。^   -M. ラズモディアス, 魔術師[#]Ruined Hero",
   "mail.curse.intro.witch": "親愛なる @へ、 緊急の話があって貴殿に会いたい。^なるべく早く、魔術師の塔へ来てくれたまえ。^   -M. ラズモディアス, 魔術師[#]Ruined Hero",
@@ -260,7 +261,7 @@
   "quests.hero.reward": "Basic/破滅した英雄の剣/真の英雄の美徳を体現する者は、ヨバ神の聖なる力によってあらゆる悪を浄化されるようだ。/ヨバ神の祭壇に破滅の剣を持っていこう。/null/-1/0/-1/false",
 
   "quests.hero.journey.name": "英雄の旅",
-  "quests.hero.journey.desc": "5 つの英雄的美徳に従って生きていることを証明してください。",
+  "quests.hero.journey.desc": "五英雄の美徳を体現し、ヨバの祝福を受けた者は、あらゆる悪を浄化することができる。 これは、破滅の剣 の呪いを解く唯一のチャンスかもしれません。",
 
   "yoba.inscriptions": "祭壇には追加の碑文があります...",
   "yoba.prayer": "祭壇に祈りを捧げますか?",
@@ -282,7 +283,6 @@
   "virtues.valor.name": "勇気",
   "virtues.valor.flavor": "\"勇気は人を良くするものではない。しかし、人生においておくびょうな善人に出会ったことがあるだろうか? 勇気ある者は、どのような結果になろうとも、大勢に立ち向かうことをためらわないのだ。\"",
   "virtues.valor.objective": "町の仲間たちに害を及ぼす生き物を根絶して、勇敢に町民を守りましょう。",
-  "virtues.trial": "の試練",
 
   // json assets
   "objects.dwarvish_blueprint.name": "古びたドワーフの設計図",
@@ -899,15 +899,15 @@
   "gmcm.twx.farming.spawn_crows.title": "Spawn Crows on These Maps:",
   "gmcm.twx.maps.islandwest": "Ginger Island Farm",
   "gmcm.twx.maps.custom_garden": "Community Garden (SVE)",
-  "gmcm.twx.maps.custom_grampleton_fields": "Grampleton Fields (SVE)",
-  "gmcm.twx.maps.custom_ridgeside_summit_farm": "Summit Farm (Ridgeside Village)",
-  "gmcm.twx.maps.custom_es_meadow_farm": "Meadow Farm (East Scarp)",
+  "gmcm.twx.maps.custom_grampletonfields": "Grampleton Fields (SVE)",
+  "gmcm.twx.maps.custom_ridgeside_summitfarm": "Summit Farm (RSV)",
+  "gmcm.twx.maps.custom_esmeadowfarm": "Meadow Farm (East Scarp)",
 
   "gmcm.twx.fishing.trash_does_not_consume_bait.title": "Trash Does Not Consume Bait",
   "gmcm.twx.fishing.trash_does_not_consume_bait.desc": "Prevents bait consumption when a Crab Pot produces trash.",
 
-  "gmcm.twx.mining.explosion_triggered_bombs.title": "Explosion-Triggered Bombs",
-  "gmcm.twx.mining.explosion_triggered_bombs.desc": "Bombs within any explosion radius immediately explode themselves.",
+  "gmcm.twx.mining.chain_explosions.title": "Chain Explosions",
+  "gmcm.twx.mining.chain_explosions.desc": "Bombs within any explosion radius immediately explode themselves.",
   "gmcm.twx.mining.immersive_glowstone_progression.title": "Better Glowstone Progression",
   "gmcm.twx.mining.immersive_glowstone_progression.desc": "Replaces the glowstone ring recipe with one that makes sense, and adds complementary recipes for its constituents.",
 

@@ -1,5 +1,15 @@
 ﻿# Core Changelog
 
+## 3.1.3 <sup><sup>[🔼 Back to top](#profs-changelog)</sup></sup>
+
+### Changed
+
+* Rolled back dependency updates due to conflicts with AtraCore.
+
+### Fixed
+
+* Added missing translations. Improved some Chinese translations, thanks to xuzhi1977.
+
 ## 3.1.2 <sup><sup>[🔼 Back to top](#tols-changelog)</sup></sup>
 
 ### Added

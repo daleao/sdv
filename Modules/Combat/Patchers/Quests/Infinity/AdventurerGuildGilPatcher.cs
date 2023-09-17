@@ -6,6 +6,7 @@ using DaLion.Overhaul.Modules.Combat.Enums;
 using DaLion.Shared.Extensions.Stardew;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
+using Microsoft.Xna.Framework;
 using StardewValley.Locations;
 
 #endregion using directives
@@ -33,7 +34,9 @@ internal sealed class AdventurerGuildGilPatcher : HarmonyPatcher
         }
 
         Game1.player.Increment(DataKeys.NumCompletedSlayerQuests, delta);
+        Game1.player.Increment(Virtue.Valor.Name, delta);
         CombatModule.State.HeroQuest?.UpdateTrialProgress(Virtue.Valor);
+        Game1.chatBox.addMessage(I18n.Virtues_Recognize("Gil", Virtue.Valor.DisplayName), Color.Green);
     }
 
     #endregion harmony patches

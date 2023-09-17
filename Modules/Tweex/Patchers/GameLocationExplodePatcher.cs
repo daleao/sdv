@@ -25,7 +25,7 @@ internal sealed class GameLocationExplodePatcher : HarmonyPatcher
     [HarmonyPostfix]
     private static void GameLocationExplodePostfix(GameLocation __instance, Vector2 tileLocation, int radius)
     {
-        if (!TweexModule.Config.ExplosionTriggeredBombs)
+        if (!TweexModule.Config.ChainExplosions)
         {
             return;
         }

@@ -73,8 +73,8 @@
   "prospector.title.female": "Buscadora",
   "prospector.desc": "Revela la ubicación de escaleras y vetas mineras. Ocasionalmente rastrea minerales valiosos en piedras comunes.",
   "prospector.desc.prestiged": "El tiempo se congela durante las búsquedas de prospector.",
-  "prospector.huntstarted": "Tus sentidos de Prospector están hormigueando...",
-  "prospector.huntfailed": "El hormigueo se desvanece.",
+  "prospector.hunt_started": "Tus sentidos de Prospector están hormigueando...",
+  "prospector.hunt_failed": "El hormigueo se desvanece.",
 
   "blaster.title.male": "Detonator",
   "blaster.title.female": "Detonatora",
@@ -250,7 +250,8 @@
 
   "fromcsfiles.MeleeWeapon.cs.14122": "Los colores del fragmento prismático se intensifican.#Sientes una atracción magnética cuando las barras de iridio se levantan mágicamente de tu mochila. Ante tus propios ojos, el metal se licua y se funde alrededor del fragmento brillante, asumiendo gradualmente la forma de un(a) {{type}}.^^# Obtienes el(la) ={{galaxyWeapon}}= ^",
   "locations.Town.DwarfGrave.Translated": "     Traduces al enano:     \n\nEntre trillizos de oro perdidos en la arena\nhaz brotar un arcoíris forjado de la tierra\nruega a los cielos! Reclama tu derecho\ndeja que los truenos soplen y rugan tu nombre\nsi el corazón es puro y el consciente claro\ny la fe no tiene duda ni miedo\nlas estrellas lloverán allá abajo\ny te otorgarán el acero del cielo",
-  "locations.SeedShop.Yoba": "\"Ningún mal tocará a un verdadero héroe de Yoba.\"",
+  "locations.SeedShop.Yoba": "\"La bendición de Yoba, verdaderos héroes fortalecerá. En Generosidad y Compasión, virtudes han de abrazar. Con Honor, Valor, Sabiduría, su espíritu enaltecerá. Una profecía se despliega, bajo la atenta mirada de Yoba.\"",
+  "locations.desert.noiridium": "Sientes que el fragmento prismático vibra...#Pero no pasa nada.#Se siente como si faltara algo.",
 
   "mail.curse.intro": "Caro @, Debo verte por un asunto de suma urgencia.^Por favor, ven a verme a la torre lo antes posible.^ -M. Rasmodius, mago[#]Ruined Hero",
   "mail.curse.intro.witch": "Caro @, Debo verte por un asunto de suma urgencia.^Por favor, ven a verme a la torre lo antes posible.^ -M. Rasmodius, bruja[#]Ruined Hero",
@@ -261,7 +262,7 @@
   "quests.hero.reward": "Basic/La espada del héroe arruinado/Aquellos que encarnan las virtudes de un verdadero héroe son limpiados de todo mal por el poder divino de Yoba./Lleva la Hoja de la Ruina al altar de Yoba./null/-1/0/-1/false",
 
   "quests.hero.journey.name": "El viaje de un héroe",
-  "quests.hero.journey.desc": "Demuestra que vives según las Cinco Virtudes Heroicas.",
+  "quests.hero.journey.desc": "Aquellos que encarnan las Cinco Virtudes Heroicas y reciben la bendición de Yoba pueden ser limpiados de todo mal. Esta puede ser tu única oportunidad de levantar la maldición de Ruined Blade.",
 
   "yoba.inscriptions": "Hay inscripciones adicionales en el altar...",
   "yoba.prayer": "¿Ofrecer una oración al altar?",
@@ -283,7 +284,6 @@
   "virtues.valor.name": "Valentía",
   "virtues.valor.flavor": "\"La valentía no hace a uno bueno, pero ¿cuántos hombres buenos has conocido en el viaje de tu vida que fueron cobardes? Aquellos que poseen valentía no dudan en enfrentarse a la mayoría, sin importar las consecuencias.\"",
   "virtues.valor.objective": "Protege valientemente a tus vecinos erradicando las criaturas que podrían dañarlos.",
-  "virtues.trial": "Prueba de ",
 
   // json assets
   "objects.dwarvish_blueprint.name": "Viejo plano enano",
@@ -907,15 +907,15 @@
   "gmcm.twx.farming.spawn_crows.title": "Spawn Crows on These Maps:",
   "gmcm.twx.maps.islandwest": "Ginger Island Farm",
   "gmcm.twx.maps.custom_garden": "Community Garden (SVE)",
-  "gmcm.twx.maps.custom_grampleton_fields": "Grampleton Fields (SVE)",
-  "gmcm.twx.maps.custom_ridgeside_summit_farm": "Summit Farm (Ridgeside Village)",
-  "gmcm.twx.maps.custom_es_meadow_farm": "Meadow Farm (East Scarp)",
+  "gmcm.twx.maps.custom_grampletonfields": "Grampleton Fields (SVE)",
+  "gmcm.twx.maps.custom_ridgeside_summitfarm": "Summit Farm (RSV)",
+  "gmcm.twx.maps.custom_esmeadowfarm": "Meadow Farm (East Scarp)",
 
   "gmcm.twx.fishing.trash_does_not_consume_bait.title": "Trash Does Not Consume Bait",
   "gmcm.twx.fishing.trash_does_not_consume_bait.desc": "Prevents bait consumption when a Crab Pot produces trash.",
 
-  "gmcm.twx.mining.explosion_triggered_bombs.title": "Explosion-Triggered Bombs",
-  "gmcm.twx.mining.explosion_triggered_bombs.desc": "Bombs within any explosion radius immediately explode themselves.",
+  "gmcm.twx.mining.chain_explosions.title": "Chain Explosions",
+  "gmcm.twx.mining.chain_explosions.desc": "Bombs within any explosion radius immediately explode themselves.",
   "gmcm.twx.mining.immersive_glowstone_progression.title": "Better Glowstone Progression",
   "gmcm.twx.mining.immersive_glowstone_progression.desc": "Replaces the glowstone ring recipe with one that makes sense, and adds complementary recipes for its constituents.",
 

@@ -5,13 +5,13 @@
 using DaLion.Overhaul.Modules.Combat.Enums;
 using DaLion.Shared.Events;
 using DaLion.Shared.Extensions.Stardew;
+using Microsoft.Xna.Framework;
 using StardewModdingAPI.Events;
 using StardewValley.Locations;
 
 #endregion using directives
 
 [UsedImplicitly]
-[AlwaysEnabledEvent]
 internal sealed class ValorWarpedEvent : WarpedEvent
 {
     private static int _consecutiveFloorsVisited;
@@ -21,6 +21,7 @@ internal sealed class ValorWarpedEvent : WarpedEvent
     internal ValorWarpedEvent(EventManager manager)
         : base(manager)
     {
+        this.Enable();
     }
 
     /// <inheritdoc />
@@ -42,8 +43,9 @@ internal sealed class ValorWarpedEvent : WarpedEvent
             return;
         }
 
-        e.Player.Write(DataKeys.ProvenValor, int.MaxValue.ToString());
+        e.Player.Write(Virtue.Valor.Name, int.MaxValue.ToString());
         CombatModule.State.HeroQuest?.UpdateTrialProgress(Virtue.Valor);
+        Game1.chatBox.addMessage(I18n.Virtues_Recognize("Yoba", Virtue.Valor.DisplayName), Color.Green);
         this.Disable();
     }
 }

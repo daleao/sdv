@@ -130,13 +130,6 @@ public sealed class Virtue : SmartEnum<Virtue>
     internal int GetProgress(Farmer? farmer = null)
     {
         farmer ??= Game1.player;
-        var progress = 0;
-        this
-            .When(Honor).Then(() => progress = farmer.Read<int>(DataKeys.ProvenHonor))
-            .When(Compassion).Then(() => progress = farmer.Read<int>(DataKeys.ProvenCompassion))
-            .When(Wisdom).Then(() => progress = farmer.Read<int>(DataKeys.ProvenWisdom))
-            .When(Generosity).Then(() => progress = farmer.Read<int>(DataKeys.ProvenGenerosity))
-            .When(Valor).Then(() => progress = farmer.Read<int>(DataKeys.ProvenValor));
-        return progress;
+        return farmer.Read<int>(this.Name);
     }
 }

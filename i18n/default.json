@@ -283,7 +283,12 @@
   "virtues.valor.name": "Valor",
   "virtues.valor.flavor": "\"Valor doth not inherently bestow goodness, yet how many good men hath thou met in thy life's voyage who bore the mantle of cowardice? Those who do posses valor hesitate not to defy the majority, heedless the outcomes they may befall.\"",
   "virtues.valor.objective": "Bravely shield your fellow townsfolk by eradicating the creatures that would harm them.",
-  "virtues.trial": "Proof of ",
+
+  "virtues.appreciate.singular": "{{name}} appreciates your {{virtue}}.",
+  "virtues.appreciate.plural": "{{name1}} and {{name2}} appreciate your {{virtue}}.",
+  "virtues.recognize": "{{name}} recognizes your {{virtue}}.",
+  "virtues.disapprove.singular": "{{name}} disapproves of your lack of {{virtue}}.",
+  "virtues.disapprove.plural": "{{name1}} and {{name2}} disapprove of your lack of {{virtue}}.",
 
   // json assets
   "objects.dwarvish_blueprint.name": "Old Dwarvish Blueprint",
@@ -908,8 +913,8 @@
   "gmcm.twx.fishing.trash_does_not_consume_bait.title": "Trash Does Not Consume Bait",
   "gmcm.twx.fishing.trash_does_not_consume_bait.desc": "Prevents bait consumption when a Crab Pot produces trash.",
 
-  "gmcm.twx.mining.explosion_triggered_bombs.title": "Explosion-Triggered Bombs",
-  "gmcm.twx.mining.explosion_triggered_bombs.desc": "Bombs within any explosion radius immediately explode themselves.",
+  "gmcm.twx.mining.chain_explosions.title": "Chain Explosions",
+  "gmcm.twx.mining.chain_explosions.desc": "Bombs within any explosion radius immediately explode themselves.",
   "gmcm.twx.mining.immersive_glowstone_progression.title": "Better Glowstone Progression",
   "gmcm.twx.mining.immersive_glowstone_progression.desc": "Replaces the glowstone ring recipe with one that makes sense, and adds complementary recipes for its constituents.",
 

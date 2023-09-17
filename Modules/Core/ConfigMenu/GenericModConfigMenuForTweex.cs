@@ -148,10 +148,10 @@ internal sealed partial class GenericModConfigMenu
 
             .AddSectionTitle(I18n.Gmcm_Twx_Headings_Mining)
             .AddCheckbox(
-                I18n.Gmcm_Twx_Mining_ExplosionTriggeredBombs_Title,
-                I18n.Gmcm_Twx_Mining_ExplosionTriggeredBombs_Desc,
-                config => config.Tweex.ExplosionTriggeredBombs,
-                (config, value) => config.Tweex.ExplosionTriggeredBombs = value)
+                I18n.Gmcm_Twx_Mining_ChainExplosions_Title,
+                I18n.Gmcm_Twx_Mining_ChainExplosions_Desc,
+                config => config.Tweex.ChainExplosions,
+                (config, value) => config.Tweex.ChainExplosions = value)
             .AddCheckbox(
                 I18n.Gmcm_Twx_Mining_ImmersiveGlowstoneProgression_Title,
                 I18n.Gmcm_Twx_Mining_ImmersiveGlowstoneProgression_Desc,

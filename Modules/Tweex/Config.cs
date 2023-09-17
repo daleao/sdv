@@ -103,7 +103,7 @@ public sealed class Config : Shared.Configs.Config
 
     /// <summary>Gets a value indicating whether bombs within any explosion radius are immediately triggered.</summary>
     [JsonProperty]
-    public bool ExplosionTriggeredBombs { get; internal set; } = true;
+    public bool ChainExplosions { get; internal set; } = true;
 
     /// <summary>Gets a value indicating whether to impadd new mining recipes for crafting Glow and Magnet rings.</summary>
     [JsonProperty]

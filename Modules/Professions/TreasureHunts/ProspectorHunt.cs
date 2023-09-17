@@ -4,6 +4,7 @@
 
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Channels;
 using DaLion.Overhaul.Modules.Core.UI;
 using DaLion.Overhaul.Modules.Professions.Events.Display.RenderedHud;
 using DaLion.Overhaul.Modules.Professions.Events.GameLoop.UpdateTicked;
@@ -12,6 +13,7 @@ using DaLion.Overhaul.Modules.Professions.VirtualProperties;
 using DaLion.Shared.Extensions.Stardew;
 using DaLion.Shared.Networking;
 using Microsoft.Xna.Framework;
+using Shared.Constants;
 using StardewValley.Locations;
 using StardewValley.Tools;
 
@@ -194,165 +196,35 @@ internal sealed class ProspectorHunt : TreasureHunt
     private void GetStoneTreasure(int mineLevel)
     {
         Dictionary<int, int> treasuresAndQuantities = new();
-
-        if (this.Random.NextDouble() <= 0.33 && Game1.player.team.SpecialOrderRuleActive("DROP_QI_BEANS"))
+        var chance = 1.0;
+        var streak = Game1.player.Read<int>(DataKeys.ScavengerHuntStreak);
+        while (this.Random.NextDouble() < chance)
         {
-            treasuresAndQuantities.Add(
-                890,
-                this.Random.Next(1, 3) + (this.Random.NextDouble() < 0.25 ? 2 : 0)); // qi beans
-        }
-
-        switch (this.Random.Next(3))
-        {
-            case 0:
+            chance *= Math.Pow(0.1, 1d / (streak + 1));
+            this.AddInitialTreasure(treasuresAndQuantities);
+            switch (this.Random.Next(3))
             {
-                if (mineLevel > 120 && this.Random.NextDouble() < 0.06)
-                {
-                    treasuresAndQuantities.Add(386, this.Random.Next(1, 3)); // iridium ore
-                }
-
-                List<int> possibles = new();
-                if (mineLevel > 80)
-                {
-                    possibles.Add(384); // gold ore
-                }
-
-                if (mineLevel > 40 && (possibles.Count == 0 || this.Random.NextDouble() < 0.6))
-                {
-                    possibles.Add(380); // iron ore
-                }
-
-                if (possibles.Count == 0 || this.Random.NextDouble() < 0.6)
-                {
-                    possibles.Add(378); // copper ore
-                }
-
-                possibles.Add(382); // coal
-                treasuresAndQuantities.Add(
-                    possibles.ElementAt(this.Random.Next(possibles.Count)),
-                    this.Random.Next(2, 7) * this.Random.NextDouble() < 0.05 + (Game1.player.LuckLevel * 0.015) ? 2 : 1);
-                if (this.Random.NextDouble() < 0.05 + (Game1.player.LuckLevel * 0.03))
-                {
-                    var key = treasuresAndQuantities.Keys.Last();
-                    treasuresAndQuantities[key] *= 2;
-                }
-
-                break;
-            }
-
-            case 1:
-            {
-                if (Game1.player.archaeologyFound.Any() && this.Random.NextDouble() < 0.5)
-                {
-                    treasuresAndQuantities.Add(this.Random.NextDouble() < 0.5 ? this.Random.Next(579, 590) : 535, 1); // artifact
-                }
-                else
-                {
-                    treasuresAndQuantities.Add(382, this.Random.Next(1, 4)); // coal
-                }
-
-                break;
-            }
-
-            case 2:
-            {
-                switch (this.Random.Next(3))
-                {
-                    case 0:
-                        // geodes
-                        switch (mineLevel)
-                        {
-                            case > 80:
-                                treasuresAndQuantities.Add(
-                                    537 + (this.Random.NextDouble() < 0.4 ? this.Random.Next(-2, 0) : 0),
-                                    this.Random.Next(1, 4)); // magma geode or worse
-                                break;
-
-                            case > 40:
-                                treasuresAndQuantities.Add(
-                                    536 + (this.Random.NextDouble() < 0.4 ? -1 : 0),
-                                    this.Random.Next(1, 4)); // frozen geode or worse
-                                break;
-
-                            default:
-                                treasuresAndQuantities.Add(535, this.Random.Next(1, 4)); // regular geode
-                                break;
-                        }
-
-                        if (this.Random.NextDouble() < 0.05 + (Game1.player.LuckLevel * 0.03))
-                        {
-                            var key = treasuresAndQuantities.Keys.Last();
-                            treasuresAndQuantities[key] *= 2;
-                        }
-
-                        break;
-
-                    case 1: // minerals
-                        if (mineLevel < 20)
-                        {
-                            treasuresAndQuantities.Add(382, this.Random.Next(1, 4)); // coal
+                case 0:
+                    this.AddOreToTreasure(mineLevel, treasuresAndQuantities);
+                    break;
+                case 1:
+                    this.AddArtifactsToTreasures(treasuresAndQuantities);
+                    break;
+                case 2:
+                    switch (this.Random.Next(3))
+                    {
+                        case 0:
+                            this.AddGeodesToTreasures(mineLevel, treasuresAndQuantities);
                             break;
-                        }
+                        case 1:
+                            this.AddMineralsToTreasures(mineLevel, treasuresAndQuantities);
+                            break;
+                        case 2:
+                            this.AddSpecialTreasureItems(mineLevel, treasuresAndQuantities);
+                            break;
+                    }
 
-                        switch (mineLevel)
-                        {
-                            case > 80:
-                                treasuresAndQuantities.Add(
-                                    this.Random.NextDouble() < 0.3 ? 82 : this.Random.NextDouble() < 0.5 ? 64 : 60,
-                                    this.Random.Next(1, 3)); // fire quartz else ruby or emerald
-                                break;
-
-                            case > 40:
-                                treasuresAndQuantities.Add(
-                                    this.Random.NextDouble() < 0.3 ? 84 : this.Random.NextDouble() < 0.5 ? 70 : 62,
-                                    this.Random.Next(1, 3)); // frozen tear else jade or aquamarine
-                                break;
-
-                            default:
-                                treasuresAndQuantities.Add(
-                                    this.Random.NextDouble() < 0.3 ? 86 : this.Random.NextDouble() < 0.5 ? 66 : 68,
-                                    this.Random.Next(1, 3)); // earth crystal else amethyst or topaz
-                                break;
-                        }
-
-                        if (this.Random.NextDouble() < 0.028 * mineLevel / 12)
-                        {
-                            treasuresAndQuantities.Add(SObject.diamondIndex, 1);
-                        }
-                        else
-                        {
-                            treasuresAndQuantities.Add(SObject.quartzIndex, this.Random.Next(1, 3));
-                        }
-
-                        break;
-
-                    case 2: // special items
-                        var luckModifier = Math.Max(0, 1.0 + (Game1.player.DailyLuck * mineLevel / 4));
-                        var streak = Game1.player.Read<uint>(DataKeys.ProspectorHuntStreak);
-                        if (this.Random.NextDouble() < 0.025 * luckModifier * streak && !Game1.player.specialItems.Contains(31))
-                        {
-                            treasuresAndQuantities.Add(-1, 1); // femur
-                        }
-
-                        if (this.Random.NextDouble() < 0.01 * luckModifier * streak && !Game1.player.specialItems.Contains(60))
-                        {
-                            treasuresAndQuantities.Add(-2, 1); // ossified blade
-                        }
-
-                        if (this.Random.NextDouble() < 0.01 * luckModifier * Math.Pow(2, streak))
-                        {
-                            treasuresAndQuantities.Add(SObject.prismaticShardIndex, 1);
-                        }
-
-                        if (treasuresAndQuantities.Count == 0)
-                        {
-                            treasuresAndQuantities.Add(SObject.diamondIndex, 1);
-                        }
-
-                        break;
-                }
-
-                break;
+                    break;
             }
         }
 
@@ -386,6 +258,169 @@ internal sealed class ProspectorHunt : TreasureHunt
                         Game1.currentLocation);
                     break;
             }
+        }
+    }
+
+    private void AddInitialTreasure(IDictionary<int, int> treasuresAndQuantities)
+    {
+        if (this.Random.NextDouble() <= 0.33 && Game1.player.team.SpecialOrderRuleActive("DROP_QI_BEANS"))
+        {
+            treasuresAndQuantities.Add(
+                ObjectIds.QiBean,
+                this.Random.Next(1, 3) + (this.Random.NextDouble() < 0.25 ? 2 : 0));
+        }
+    }
+
+    private void AddOreToTreasure(int mineLevel, Dictionary<int, int> treasuresAndQuantities)
+    {
+        if (mineLevel > 120 && this.Random.NextDouble() < 0.06)
+        {
+            treasuresAndQuantities.Add(ObjectIds.IridiumOre, this.Random.Next(1, 3));
+        }
+
+        List<int> possibles = new();
+        if (mineLevel > 80)
+        {
+            possibles.Add(ObjectIds.GoldOre);
+        }
+
+        if (mineLevel > 40 && (possibles.Count == 0 || this.Random.NextDouble() < 0.6))
+        {
+            possibles.Add(ObjectIds.IronOre);
+        }
+
+        if (possibles.Count == 0 || this.Random.NextDouble() < 0.6)
+        {
+            possibles.Add(ObjectIds.CopperOre);
+        }
+
+        possibles.Add(ObjectIds.Coal);
+        treasuresAndQuantities.Add(
+            possibles.ElementAt(this.Random.Next(possibles.Count)),
+            this.Random.Next(2, 7) * this.Random.NextDouble() < 0.05 + (Game1.player.LuckLevel * 0.015)
+                ? 2
+                : 1);
+        if (this.Random.NextDouble() < 0.05 + (Game1.player.LuckLevel * 0.03))
+        {
+            var key = treasuresAndQuantities.Keys.Last();
+            treasuresAndQuantities[key] *= 2;
+        }
+    }
+
+    private void AddArtifactsToTreasures(Dictionary<int, int> treasuresAndQuantities)
+    {
+        if (Game1.player.archaeologyFound.Any() && this.Random.NextDouble() < 0.5)
+        {
+            // artifacts
+            treasuresAndQuantities.Add(
+                this.Random.NextDouble() < 0.5
+                    ? this.Random.Next(579, 590)
+                    : 535,
+                1);
+        }
+        else
+        {
+            treasuresAndQuantities.Add(ObjectIds.Coal, this.Random.Next(1, 4));
+        }
+    }
+
+    private void AddGeodesToTreasures(int mineLevel, Dictionary<int, int> treasuresAndQuantities)
+    {
+        switch (mineLevel)
+        {
+            case > 80:
+                treasuresAndQuantities.Add(
+                    ObjectIds.MagmaGeode +
+                    (this.Random.NextDouble() < 0.4 ? this.Random.Next(-2, 0) : 0),
+                    this.Random.Next(1, 4));
+                break;
+
+            case > 40:
+                treasuresAndQuantities.Add(
+                    ObjectIds.FrozenGeode + (this.Random.NextDouble() < 0.4 ? -1 : 0),
+                    this.Random.Next(1, 4));
+                break;
+
+            default:
+                treasuresAndQuantities.Add(ObjectIds.Geode, this.Random.Next(1, 4));
+                break;
+        }
+
+        if (this.Random.NextDouble() > 0.05 + (Game1.player.LuckLevel * 0.03))
+        {
+            return;
+        }
+
+        var key = treasuresAndQuantities.Keys.Last();
+        treasuresAndQuantities[key] *= 2;
+    }
+
+    private void AddMineralsToTreasures(int mineLevel, Dictionary<int, int> treasuresAndQuantities)
+    {
+        if (mineLevel < 20)
+        {
+            treasuresAndQuantities.Add(ObjectIds.Coal, this.Random.Next(1, 4));
+            return;
+        }
+
+        switch (mineLevel)
+        {
+            case > 80:
+                treasuresAndQuantities.Add(
+                    this.Random.NextDouble() < 0.3 ? ObjectIds.FireQuartz :
+                    this.Random.NextDouble() < 0.5 ? ObjectIds.Ruby : ObjectIds.Emerald,
+                    this.Random.Next(1, 3));
+                break;
+
+            case > 40:
+                treasuresAndQuantities.Add(
+                    this.Random.NextDouble() < 0.3 ? ObjectIds.FrozenTear :
+                    this.Random.NextDouble() < 0.5 ? ObjectIds.Jade : ObjectIds.Aquamarine,
+                    this.Random.Next(1, 3));
+                break;
+
+            default:
+                treasuresAndQuantities.Add(
+                    this.Random.NextDouble() < 0.3 ? ObjectIds.EarthCrystal :
+                    this.Random.NextDouble() < 0.5 ? ObjectIds.Amethyst : ObjectIds.Topaz,
+                    this.Random.Next(1, 3));
+                break;
+        }
+
+        if (this.Random.NextDouble() < 0.028 * mineLevel / 12)
+        {
+            treasuresAndQuantities.Add(SObject.diamondIndex, 1);
+        }
+        else
+        {
+            treasuresAndQuantities.Add(SObject.quartzIndex, this.Random.Next(1, 3));
+        }
+    }
+
+    private void AddSpecialTreasureItems(int mineLevel, Dictionary<int, int> treasuresAndQuantities)
+    {
+        var luckModifier = Math.Max(0, 1.0 + (Game1.player.DailyLuck * mineLevel / 4));
+        var streak = Game1.player.Read<uint>(DataKeys.ProspectorHuntStreak);
+        if (this.Random.NextDouble() < 0.025 * luckModifier * streak &&
+            !Game1.player.specialItems.Contains(31))
+        {
+            treasuresAndQuantities.Add(-1, 1); // femur
+        }
+
+        if (this.Random.NextDouble() < 0.01 * luckModifier * streak &&
+            !Game1.player.specialItems.Contains(60))
+        {
+            treasuresAndQuantities.Add(-2, 1); // ossified blade
+        }
+
+        if (this.Random.NextDouble() < 0.01 * luckModifier * Math.Pow(2, streak))
+        {
+            treasuresAndQuantities.Add(ObjectIds.PrismaticShard, 1);
+        }
+
+        if (treasuresAndQuantities.Count == 0)
+        {
+            treasuresAndQuantities.Add(ObjectIds.Diamond, 1);
         }
     }
 }

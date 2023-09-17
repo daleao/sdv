@@ -2,6 +2,13 @@
 
 This file contains a TL;DR of current version changes and hotfixes from across all modules. For the complete changelog, please refer to the individual changelogs of each module, linked [below](#detailed-changelogs).
 
+## Patch 3.1.3 Highlights <sup><sup>[🔼 Back to top](#margo-changelogs)</sup></sup>
+
+* Rolled back dependency updates due to conflicts with AtraCore.
+* Added missing translations. Improved some Chinese translations, thanks to xuzhi1977.
+* [CMBT]: Added chat notifications for when a virtue point is gained.
+* [PROFS]: Changed the way Scavenger and Prospector treasures scale with the streak. Players should now see significantly more treasure if they manage to keep their streaks high.
+
 ## Patch 3.1.2 Highlights <sup><sup>[🔼 Back to top](#margo-changelogs)</sup></sup>
 
 * Config menu now auto-detects gamepad mode and adapts accordingly.

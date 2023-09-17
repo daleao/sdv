@@ -2,6 +2,7 @@
 
 #region using directives
 
+using DaLion.Overhaul.Modules.Combat.Enums;
 using DaLion.Shared.Extensions.Stardew;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
@@ -32,7 +33,7 @@ internal sealed class QuestQuestCompletePatcher : HarmonyPatcher
 
         foreach (var farmer in Game1.getAllFarmers())
         {
-            farmer.Increment(DataKeys.ProvenValor, 2);
+            farmer.Increment(Virtue.Honor.Name, 2);
         }
     }
 

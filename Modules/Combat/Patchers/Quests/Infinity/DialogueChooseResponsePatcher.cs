@@ -6,6 +6,7 @@ using DaLion.Overhaul.Modules.Combat.Enums;
 using DaLion.Shared.Extensions.Stardew;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
+using Microsoft.Xna.Framework;
 
 #endregion using directives
 
@@ -26,6 +27,8 @@ internal sealed class DialogueChooseResponsePatcher : HarmonyPatcher
     {
         var speakerName = __instance.speaker.Name;
         var player = Game1.player;
+        var amount = 0;
+        Virtue? virtue = null;
         switch (response.responseKey)
         {
         // HONOR //
@@ -48,10 +51,9 @@ internal sealed class DialogueChooseResponsePatcher : HarmonyPatcher
             // Event ID: 288847 (Alex 8 hearts) | Location: Beach
             case "event_box1" when speakerName == "Alex":
 
-                player.Increment(DataKeys.ProvenHonor);
-                CombatModule.State.HeroQuest?.UpdateTrialProgress(Virtue.Honor);
-
-                return;
+                virtue = Virtue.Honor;
+                amount = 1;
+                break;
 
             // Event ID: 7 (Maru 4 hearts) | Location: Hospital
             case "Event_Hospital_1" or "Event_Hospital_2" when speakerName == "Maru":
@@ -65,13 +67,9 @@ internal sealed class DialogueChooseResponsePatcher : HarmonyPatcher
             // Event ID: 100 (Kent 3 hearts) | Location: SamHouse
             case "event_popcorn3" when speakerName == "Kent":
 
-                player.Increment(DataKeys.ProvenHonor, -1);
-                if (player.Read<int>(DataKeys.ProvenHonor) < 0)
-                {
-                    player.Write(DataKeys.ProvenHonor, 0.ToString());
-                }
-
-                return;
+                virtue = Virtue.Honor;
+                amount = -1;
+                break;
 
         // COMPASSION //
 
@@ -96,10 +94,9 @@ internal sealed class DialogueChooseResponsePatcher : HarmonyPatcher
             // Event ID: 1000018 (Jodi Mature Event) | Location: Town
             case "jodi_event4" when speakerName == "Jodi":
 
-                player.Increment(DataKeys.ProvenCompassion);
-                CombatModule.State.HeroQuest?.UpdateTrialProgress(Virtue.Compassion);
-
-                return;
+                virtue = Virtue.Compassion;
+                amount = 1;
+                break;
 
             // Event ID: 13 (Haley 6 hearts) | Location: Beach
             case "Event_beach1" when speakerName == "Haley":
@@ -107,13 +104,9 @@ internal sealed class DialogueChooseResponsePatcher : HarmonyPatcher
             // Event ID: 288847 (Alex 8 hearts) | Location: Beach
             case "event_box4" when speakerName == "Alex":
 
-                player.Increment(DataKeys.ProvenCompassion, -1);
-                if (player.Read<int>(DataKeys.ProvenCompassion) < 0)
-                {
-                    player.Write(DataKeys.ProvenCompassion, 0.ToString());
-                }
-
-                return;
+                virtue = Virtue.Compassion;
+                amount = -1;
+                break;
 
         // WISDOM //
 
@@ -141,21 +134,41 @@ internal sealed class DialogueChooseResponsePatcher : HarmonyPatcher
             // Event ID: 1000018 (Jodi Mature Event) | Location: Town
             case "jodi_event2" when speakerName == "Jodi":
 
-                player.Increment(DataKeys.ProvenWisdom);
-                CombatModule.State.HeroQuest?.UpdateTrialProgress(Virtue.Wisdom);
-
-                return;
+                virtue = Virtue.Wisdom;
+                amount = 1;
+                break;
 
             // Event ID: 56 (Harvey 2 hearts) | Location: JoshHouse
             case "event_george2" when speakerName == "Harvey":
 
-                Game1.player.Increment(DataKeys.ProvenWisdom, -1);
-                if (player.Read<int>(DataKeys.ProvenWisdom) < 0)
+                virtue = Virtue.Wisdom;
+                amount = -1;
+                break;
+        }
+
+        if (virtue is null)
+        {
+            return;
+        }
+
+        switch (amount)
+        {
+            case > 0:
+                Game1.chatBox.addMessage(I18n.Virtues_Appreciate_Singular(__instance.speaker.displayName, virtue.DisplayName), Color.Green);
+                player.Increment(virtue.Name, amount);
+                CombatModule.State.HeroQuest?.UpdateTrialProgress(virtue);
+                break;
+            case < 0:
+            {
+                Game1.chatBox.addMessage(I18n.Virtues_Disapprove_Singular(__instance.speaker.displayName, Virtue.Honor.DisplayName), Color.Orange);
+                player.Increment(virtue.Name, amount);
+                if (player.Read<int>(virtue.Name) < 0)
                 {
-                    player.Write(DataKeys.ProvenWisdom, 0.ToString());
+                    player.Write(virtue.Name, 0.ToString());
                 }
 
-                return;
+                break;
+            }
         }
     }
 

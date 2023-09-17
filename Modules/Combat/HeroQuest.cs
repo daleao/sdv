@@ -358,10 +358,11 @@ internal sealed class HeroQuest : IQuest
         CombatModule.State.HeroQuest = null;
         player.Write(DataKeys.VirtueQuestState, QuestState.Completed.ToString());
         player.Write(DataKeys.VirtueQuestViewed, null);
-        player.Write(DataKeys.ProvenHonor, null);
-        player.Write(DataKeys.ProvenCompassion, null);
-        player.Write(DataKeys.ProvenWisdom, null);
-        player.Write(DataKeys.ProvenGenerosity, null);
+        player.Write(Virtue.Honor.Name, null);
+        player.Write(Virtue.Compassion.Name, null);
+        player.Write(Virtue.Wisdom.Name, null);
+        player.Write(Virtue.Generosity.Name, null);
+        player.Write(Virtue.Valor.Name, null);
         if (!player.hasQuest((int)QuestId.HeroReward) && !player.mailReceived.Contains("gotHolyBlade"))
         {
             player.addQuest((int)QuestId.HeroReward);

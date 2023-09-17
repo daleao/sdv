@@ -6,6 +6,7 @@ using DaLion.Overhaul.Modules.Combat.Enums;
 using DaLion.Shared.Extensions.Stardew;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
+using Microsoft.Xna.Framework;
 
 #endregion using directives
 
@@ -25,6 +26,8 @@ internal sealed class EventAnswerDialoguePatcher : HarmonyPatcher
     private static void EventAnswerDialoguePostfix(Event __instance, int answerChoice)
     {
         var player = Game1.player;
+        var amount = 0;
+        Virtue? virtue = null;
         switch (__instance.id)
         {
         // HONOR //
@@ -39,9 +42,9 @@ internal sealed class EventAnswerDialoguePatcher : HarmonyPatcher
             // Sophia 2 hearts | Location: Custom_BlueMoonVineyard
             case 8185291 when answerChoice == 1:
 
-                player.Increment(DataKeys.ProvenHonor);
-                CombatModule.State.HeroQuest?.UpdateTrialProgress(Virtue.Honor);
-                return;
+                virtue = Virtue.Honor;
+                amount = 1;
+                break;
 
         // COMPASSION //
 
@@ -66,9 +69,9 @@ internal sealed class EventAnswerDialoguePatcher : HarmonyPatcher
             // Caroline Mature Event | Location: Forest
             case 1000013 when answerChoice == 0:
 
-                player.Increment(DataKeys.ProvenCompassion);
-                CombatModule.State.HeroQuest?.UpdateTrialProgress(Virtue.Compassion);
-                return;
+                virtue = Virtue.Compassion;
+                amount = 1;
+                break;
 
             // Pam 9 hearts | Location: Trailer_Big
             case 503180 when answerChoice == 1:
@@ -76,33 +79,70 @@ internal sealed class EventAnswerDialoguePatcher : HarmonyPatcher
             // Sebastian Mature Event | Location: Mountain
             case 1000005 when answerChoice == 0 && __instance.CurrentCommand == 3:
 
-                player.Increment(DataKeys.ProvenCompassion, -1);
-                return;
+                virtue = Virtue.Compassion;
+                amount = -1;
+                break;
 
         // WISDOM //
 
             // Sebastian 6 hearts | Location: SebastianRoom
             case 27 when answerChoice == 2:
 
-                player.Increment(DataKeys.ProvenWisdom);
-                CombatModule.State.HeroQuest?.UpdateTrialProgress(Virtue.Wisdom);
-                return;
-
             // Jas Mature Event | Location: Forest
             case 1000021 when answerChoice == 0:
 
-                player.Increment(DataKeys.ProvenWisdom);
-                CombatModule.State.HeroQuest?.UpdateTrialProgress(Virtue.Wisdom);
-                return;
+                virtue = Virtue.Wisdom;
+                amount = 1;
+                break;
 
         // GENEROSITY //
 
             // Claire 2 hearts | Location: Saloon
             case 3219871:
-                player.Increment(DataKeys.ProvenGenerosity, 2200); // 10x the 220g
 
-                CombatModule.State.HeroQuest?.UpdateTrialProgress(Virtue.Generosity);
-                return;
+                virtue = Virtue.Generosity;
+                amount = 2200;
+                break;
+        }
+
+        if (virtue is null)
+        {
+            return;
+        }
+
+        switch (amount)
+        {
+            case > 0:
+                Game1.chatBox.addMessage(
+                    __instance.actors.Count > 1
+                        ? I18n.Virtues_Appreciate_Plural(
+                            __instance.actors[0].displayName,
+                            __instance.actors[1].displayName,
+                            Virtue.Honor.DisplayName)
+                        : I18n.Virtues_Appreciate_Singular(__instance.actors[0].displayName, virtue.DisplayName),
+                    Color.Green);
+                player.Increment(virtue.Name, amount);
+                CombatModule.State.HeroQuest?.UpdateTrialProgress(virtue);
+                break;
+            case < 0:
+            {
+                Game1.chatBox.addMessage(
+                    __instance.actors.Count > 1
+                        ? I18n.Virtues_Disapprove_Plural(
+                            __instance.actors[0].displayName,
+                            __instance.actors[1].displayName,
+                            Virtue.Honor.DisplayName)
+                        : I18n.Virtues_Disapprove_Singular(__instance.actors[0].displayName, virtue.DisplayName),
+                    Color.Green);
+                player.Increment(virtue.Name, amount);
+                if (player.Read<int>(virtue.Name) < 0)
+                {
+                    player.Write(virtue.Name, 0.ToString());
+                }
+
+                CombatModule.State.HeroQuest?.UpdateTrialProgress(virtue);
+                break;
+            }
         }
     }
 

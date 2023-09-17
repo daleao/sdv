@@ -1,5 +1,19 @@
 ﻿# CMBT Changelog
 
+## 3.1.3 <sup><sup>[🔼 Back to top](#profs-changelog)</sup></sup>
+
+### Added
+
+* Added chat notifications for when a virtue point is gained. This should help to make it less cryptic.
+
+### Changed
+
+* Changed data key for each virtue trial to simplify logic. Added temporary transition code to SaveLoaded.
+
+### Fixed
+
+* Mayor shorts quest now correctly gives Honor points instead of Valor.
+
 ## 3.1.1 <sup><sup>[🔼 Back to top](#profs-changelog)</sup></sup>
 
 ### Fixed

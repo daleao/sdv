@@ -20,11 +20,11 @@ internal sealed class DataKeys
     internal const string InspectedWisdom = "InspectedWisdom";
     internal const string InspectedGenerosity = "InspectedGenerosity";
     internal const string InspectedValor = "InspectedValor";
-    internal const string ProvenHonor = "ProvenHonor"; // max 8 points (-4)
-    internal const string ProvenCompassion = "ProvenCompassion"; // max 9 points (-3)
-    internal const string ProvenWisdom = "ProvenWisdom"; // max 8 points (-1)
-    internal const string ProvenGenerosity = "ProvenGenerosity"; // awarded gifting or purchasing community upgrades
-    internal const string ProvenValor = "ProvenValor"; // awarded for slaying monsters
+    //internal const string ProvenHonor = "ProvenHonor"; // max 8 points (-4)
+    //internal const string ProvenCompassion = "ProvenCompassion"; // max 9 points (-3)
+    //internal const string ProvenWisdom = "ProvenWisdom"; // max 8 points (-1)
+    //internal const string ProvenGenerosity = "ProvenGenerosity"; // awarded gifting or purchasing community upgrades
+    //internal const string ProvenValor = "ProvenValor"; // awarded for slaying monsters
     internal const string VirtueQuestState = "VirtueQuestState";
     internal const string VirtueQuestViewed = "VirtueQuestViewed";
     internal const string HasUsedMayorShorts = "HasUsedMayorShorts";

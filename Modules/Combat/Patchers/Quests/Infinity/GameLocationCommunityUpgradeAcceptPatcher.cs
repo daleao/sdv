@@ -10,6 +10,7 @@ using DaLion.Shared.Extensions.Reflection;
 using DaLion.Shared.Extensions.Stardew;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
+using Microsoft.Xna.Framework;
 
 #endregion using directives
 
@@ -70,8 +71,9 @@ internal sealed class GameLocationCommunityUpgradeAcceptPatcher : HarmonyPatcher
 
     private static void IncrementGenerosity(int amount)
     {
-        Game1.player.Increment(DataKeys.ProvenGenerosity, amount);
+        Game1.player.Increment(Virtue.Generosity.Name, amount);
         CombatModule.State.HeroQuest?.UpdateTrialProgress(Virtue.Generosity);
+        Game1.chatBox.addMessage(I18n.Virtues_Recognize("Robin", Virtue.Valor.DisplayName), Color.Green);
     }
 
     #endregion injected subroutines
