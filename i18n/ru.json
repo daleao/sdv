@@ -284,6 +284,14 @@
   "virtues.valor.flavor": "\"Доблесть не делает человека хорошим, но сколько хороших людей вы встретили на своем жизненном пути, которые были трусами? Те, кто обладает доблестью, не колеблясь выступят против большинства, независимо от последствий.\"",
   "virtues.valor.objective": "Смело защищайте своих соотечественников, уничтожая существ, которые могут им навредить.",
 
+  "virtues.appreciate.singular": "{{name}} ценит вашу {{virtue}}.",
+  "virtues.appreciate.plural": "{{name1}} и {{name2}} ценят вашу {{virtue}}.",
+  "virtues.recognize.robin": "Робин признает вашу Щедрость.",
+  "virtues.recognize.gil": "Гил признает вашу Доблесть.",
+  "virtues.recognize.yoba": "Йоба признает вашу Доблесть.",
+  "virtues.disapprove.singular": "{{name}} не одобряет отсутствие у вас {{virtue}}.",
+  "virtues.disapprove.plural": "{{name1}} и {{name2}} не одобряют отсутствие у вас {{virtue}}.",
+
   // json assets
   "objects.dwarvish_blueprint.name": "Старый дварфийский чертеж",
   "objects.dwarvish_blueprint.description": "Он выцвел, но все еще разборчив.",

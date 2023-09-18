@@ -2,6 +2,10 @@
 
 This file contains a TL;DR of current version changes and hotfixes from across all modules. For the complete changelog, please refer to the individual changelogs of each module, linked [below](#detailed-changelogs).
 
+## Patch 3.1.4 Highlights <sup><sup>[🔼 Back to top](#margo-changelogs)</sup></sup>
+
+* Added translations for new chat notifications (missing JA, KO and ZH).
+
 ## Patch 3.1.3 Highlights <sup><sup>[🔼 Back to top](#margo-changelogs)</sup></sup>
 
 * Rolled back dependency updates due to conflicts with AtraCore.

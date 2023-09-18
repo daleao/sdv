@@ -285,6 +285,14 @@
   "virtues.valor.flavor": "\"La bravoure ne rend pas bon, mais combien d'hommes bons avez-vous rencontrés au cours de votre vie qui étaient des lâches ? Ceux qui ont de la valeur n'hésitent pas à s'opposer à la majorité, quelles qu'en soient les conséquences.\"",
   "virtues.valor.objective": "Protégez courageusement vos concitoyens en éradiquant les créatures qui pourraient leur faire du mal.",
 
+  "virtues.appreciate.singular": "{{name}} apprécia votre {{virtue}}.",
+  "virtues.appreciate.plural": "{{name1}} et {{name2}} apprécient votre {{virtue}}.",
+  "virtues.recognize.robin": "Robin reconnaît votre Générosité.",
+  "virtues.recognize.gil": "Yoba reconnaît votre Vaillance.",
+  "virtues.recognize.yoba": "Yoba  reconnaît votre Vaillance.",
+  "virtues.disapprove.singular": "{{name}} désapprouve votre manque de {{virtue}}.",
+  "virtues.disapprove.plural": "{{name1}} et {{name2}} désapprouvent votre manque de {{virtue}}.",
+
   // json assets
   "objects.dwarvish_blueprint.name": "Ancien plan nain",
   "objects.dwarvish_blueprint.description": "C'est effacé, mais toujours lisible.",

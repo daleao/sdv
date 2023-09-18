@@ -1,6 +1,10 @@
 ﻿# CMBT Changelog
 
-## 3.1.3 <sup><sup>[🔼 Back to top](#profs-changelog)</sup></sup>
+## 3.1.4 <sup><sup><sup>[🔼 Back to top](#cmbt-changelog)</sup></sup></sup>
+
+* Added translations for new chat notifications (missing JA, KO and ZH).
+
+## 3.1.3 <sup><sup><sup>[🔼 Back to top](#cmbt-changelog)</sup></sup></sup>
 
 ### Added
 
@@ -14,19 +18,19 @@
 
 * Mayor shorts quest now correctly gives Honor points instead of Valor.
 
-## 3.1.1 <sup><sup>[🔼 Back to top](#profs-changelog)</sup></sup>
+## 3.1.1 <sup><sup><sup>[🔼 Back to top](#cmbt-changelog)</sup></sup></sup>
 
 ### Fixed
 
 * Forgot to scale Garnet Node spawn back down to normal after debugging for 3.1.0.
 
-## 3.1.0 <sup><sup>[🔼 Back to top](#profs-changelog)</sup></sup>
+## 3.1.0 <sup><sup><sup>[🔼 Back to top](#cmbt-changelog)</sup></sup></sup>
 
 ### Changed
 
 * [CON] Garnet Node is now merged into the main mod, so no longer requires a separate download.
 
-## 3.0.2 <sup><sup>[🔼 Back to top](#cmbt-changelog)</sup></sup>
+## 3.0.2 <sup><sup><sup>[🔼 Back to top](#cmbt-changelog)</sup></sup></sup>
 
 Exodus from Nexus.
 
@@ -46,13 +50,13 @@ Exodus from Nexus.
 
 * Wabbajack end-of-day cleanup should now run correctly.
 
-## 3.0.1 <sup><sup>[🔼 Back to top](#cmbt-changelog)</sup></sup>
+## 3.0.1 <sup><sup><sup>[🔼 Back to top](#cmbt-changelog)</sup></sup></sup>
 
 ### Fixed
 
 * Fixed Piper's Slime ammo damage (increased from 5 to 10).
 
-## 3.0.0 <sup><sup>[🔼 Back to top](#cmbt-changelog)</sup></sup>
+## 3.0.0 <sup><sup><sup>[🔼 Back to top](#cmbt-changelog)</sup></sup></sup>
 
 Merged WPNZ, SLNGS, RNGS and ENCH into the CMBT module. All of those modules essentially tackled different facets of combat, and WPNZ and SLNGS in particular shared many redundant patches and config settings. In that light, the unification streamlines a lot of the config schema and cuts down on the number of patches required.
 

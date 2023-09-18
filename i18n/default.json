@@ -286,7 +286,9 @@
 
   "virtues.appreciate.singular": "{{name}} appreciates your {{virtue}}.",
   "virtues.appreciate.plural": "{{name1}} and {{name2}} appreciate your {{virtue}}.",
-  "virtues.recognize": "{{name}} recognizes your {{virtue}}.",
+  "virtues.recognize.robin": "Robin recognizes your Generosity.",
+  "virtues.recognize.gil": "Gil recognizes your Valor.",
+  "virtues.recognize.yoba": "Yoba recognizes your Valor.",
   "virtues.disapprove.singular": "{{name}} disapproves of your lack of {{virtue}}.",
   "virtues.disapprove.plural": "{{name1}} and {{name2}} disapprove of your lack of {{virtue}}.",
 

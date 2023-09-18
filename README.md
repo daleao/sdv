@@ -1,6 +1,6 @@
 ﻿<div align="center">
 
-# MARGO - Modular Gameplay Overhaul
+# MARGO - Modular Gameplay Overhaul for Stardew Valley  
 
 A complete and comprehensive rework of Stardew Valley gameplay mechanics, offering a much more engaging and immersive "Vanilla+" experience.
 
@@ -120,7 +120,7 @@ Below are some usecases for the API:
 
 ## Building the Source Code
 
-In order to build this mod you will also need to clone my [Stardew Valley Shared Lib](https://gitlab.com/daleao/sdv-shared) and just the following lines in this project's `.csproj` file:
+In order to build this mod you will also need to clone my [Stardew Valley Shared Lib](https://gitlab.com/daleao/sdv-shared) and adjust the following lines in `ModularOverhaul.csproj`:
 
 1. Your **game path**, as well as (optionally) build paths:
   ```xml
@@ -132,10 +132,10 @@ In order to build this mod you will also need to clone my [Stardew Valley Shared
   </PropertyGroup>
   ```
 
-2. The path to Stardew Valley Shared Lib's `Shared.projitems` file:
+2. The relative path to Stardew Valley Shared Lib's `Shared.projitems` file:
   ```xml
   <!-- shared projects -->
-  <Import Project="..\..\Shared\Shared.projitems" Label="Shared" Condition="Exists('..\..\Shared\Shared.projitems')" />
+  <Import Project="..\Shared\Shared.projitems" Label="Shared" Condition="Exists('..\Shared\Shared.projitems')" />
   ```
 
 <sub><sup>[🔼 Back to top](#table-of-contents)</sup></sub>
@@ -151,7 +151,7 @@ This project uses the following NuGet packages:
 | [Leclair.Stardew.ModManifestBuilder](https://github.com/KhloeLeclair/Stardew-ModManifestBuilder) | [Khloe Leclair](https://github.com/KhloeLeclair) | 2.1.0 |
 | [Ardalis.SmartEnum](https://github.com/ardalis/SmartEnum) | [Steve Smith](https://github.com/ardalis) | 2.1.0 |
 | [NetEscapades.EnumGenerators](https://github.com/andrewlock/NetEscapades.EnumGenerators) | [Andrew Lock](https://github.com/andrewlock) | 1.0.0-beta04 |
-| [FastExpressionCompiler.LightExpression](https://github.com/dadhi/FastExpressionCompiler) | [Maksim Volkau](https://github.com/dadhi) | 3.3.4 |
+| [FastExpressionCompiler.LightExpression](https://github.com/dadhi/FastExpressionCompiler) | [Maksim Volkau](https://github.com/dadhi) | 3.3.3 |
 | [CommunityToolkit.Diagnostics](https://github.com/CommunityToolkit/dotnet) | Microsoft | 8.0.0 |
 | [JetBrains.Annotations](https://www.jetbrains.com/help/resharper/Code_Analysis__Code_Annotations.html) | JetBrains | 2023.2.0 |
 

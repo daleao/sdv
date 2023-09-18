@@ -289,6 +289,14 @@
   "virtues.valor.flavor": "\"勇气不会使人成为好人，但在你的人生旅途中，你遇到过多少懦夫是好人？那些拥有勇气的人毫不犹豫地反对大多数不公，无论后果如何。\"",
   "virtues.valor.objective": "勇敢地保护你的同胞，消灭那些会伤害他们的生物。",
 
+  "virtues.appreciate.singular": "{{name}} appreciates your {{virtue}}.",
+  "virtues.appreciate.plural": "{{name1}} and {{name2}} appreciate your {{virtue}}.",
+  "virtues.recognize.robin": "Robin recognizes your Generosity.",
+  "virtues.recognize.gil": "Yoba recognizes your Valor.",
+  "virtues.recognize.yoba": "Yoba recognizes your Valor.",
+  "virtues.disapprove.singular": "{{name}} disapproves of your lack of {{virtue}}.",
+  "virtues.disapprove.plural": "{{name1}} and {{name2}} disapprove of your lack of {{virtue}}.",
+
   // json assets
   "objects.dwarvish_blueprint.name": "古老的矮人蓝图",
   "objects.dwarvish_blueprint.description": "它已褪色，但仍然清晰易读。",

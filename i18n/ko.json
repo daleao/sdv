@@ -283,6 +283,14 @@
   "virtues.valor.flavor": "\"용맹함이 훌륭한 인간을 만들지는 않으나, 훌륭한 자들 중 겁쟁이가 얼마나 있던가? 용맹한 자는 결과에 연연하지 않으며 다수에 맞서기를 주저하지 않는다.\"",
   "virtues.valor.objective": "동료 마을 사람들에게 해를 끼치는 생물을 근절하여 용감하게 마을 사람들을 보호하십시오.",
 
+  "virtues.appreciate.singular": "{{name}} appreciates your {{virtue}}.",
+  "virtues.appreciate.plural": "{{name1}} and {{name2}} appreciate your {{virtue}}.",
+  "virtues.recognize.robin": "Robin recognizes your Generosity.",
+  "virtues.recognize.gil": "Yoba recognizes your Valor.",
+  "virtues.recognize.yoba": "Yoba recognizes your Valor.",
+  "virtues.disapprove.singular": "{{name}} disapproves of your lack of {{virtue}}.",
+  "virtues.disapprove.plural": "{{name1}} and {{name2}} disapprove of your lack of {{virtue}}.",
+
   // json assets
   "objects.dwarvish_blueprint.name": "드워프 설계도",
   "objects.dwarvish_blueprint.description": "빛이 바랬지만 여전히 읽을 수 있습니다.",

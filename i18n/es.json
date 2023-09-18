@@ -285,6 +285,14 @@
   "virtues.valor.flavor": "\"La valentía no hace a uno bueno, pero ¿cuántos hombres buenos has conocido en el viaje de tu vida que fueron cobardes? Aquellos que poseen valentía no dudan en enfrentarse a la mayoría, sin importar las consecuencias.\"",
   "virtues.valor.objective": "Protege valientemente a tus vecinos erradicando las criaturas que podrían dañarlos.",
 
+  "virtues.appreciate.singular": "{{name}} aprecia tu {{virtue}}.",
+  "virtues.appreciate.plural": "{{name1}} y {{name2}} aprecian tu {{virtue}}.",
+  "virtues.recognize.robin": "Robin reconoce tu Generosidad.",
+  "virtues.recognize.gil": "Yoba reconoce tu Valentía.",
+  "virtues.recognize.yoba": "Yoba reconoce tu Valentía.",
+  "virtues.disapprove.singular": "{{name}} desaprueba tu falta de {{virtue}}.",
+  "virtues.disapprove.plural": "{{name1}} y {{name2}} desaprueban tu falta de {{virtue}}.",
+
   // json assets
   "objects.dwarvish_blueprint.name": "Viejo plano enano",
   "objects.dwarvish_blueprint.description": "Está descolorido, pero sigue siendo legible.",

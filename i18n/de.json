@@ -284,6 +284,14 @@
   "virtues.valor.flavor": "\"Tapferkeit macht niemanden gut, aber wie viele gute Menschen hast du auf deinem Lebensweg getroffen, die feige waren? Diejenigen, die mutig sind, zögern nicht, sich gegen die Mehrheit zu stellen, egal was die Konsequenzen sind.\"",
   "virtues.valor.objective": "Beschütze tapfer deine Mitbürger, indem du die Kreaturen vernichtest, die ihnen Schaden zufügen würden.",
 
+  "virtues.appreciate.singular": "{{name}} schätzt Ihre {{virtue}}.",
+  "virtues.appreciate.plural": "{{name1}} und {{name2}} schätzt deine {{virtue}}.",
+  "virtues.recognize.robin": "Robin erkennt Ihre Großzügigkeit.",
+  "virtues.recognize.gil": "Yoba erkennt deine Tapferkeit.",
+  "virtues.recognize.yoba": "Yoba erkennt deine Tapferkeit.",
+  "virtues.disapprove.singular": "{{name}} missbilligt Ihren Mangel an {{virtue}}.",
+  "virtues.disapprove.plural": "{{name1}} und {{name2}} missbilligen Ihren Mangel an {{virtue}}.",
+
   // json assets
   "objects.dwarvish_blueprint.name": "Alter zwergischer Bauplan",
   "objects.dwarvish_blueprint.description": "Es ist verblasst, aber noch lesbar.",

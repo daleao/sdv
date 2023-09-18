@@ -285,6 +285,14 @@
   "virtues.valor.flavor": "\"A Valentia não torna ninguém bom, mas quantos homens bons você conheceu na jornada de sua vida que eram covardes? Aqueles que possuem Valentia não hesitam em enfrentar a maioria, não importa quais sejam as consequências.\"",
   "virtues.valor.objective": "Proteja bravamente seus conterrâneos erradicando as criaturas que poderiam prejudicá-los.",
 
+  "virtues.appreciate.singular": "{{name}} aprecia sua {{virtue}}.",
+  "virtues.appreciate.plural": "{{name1}} e {{name2}} apreciam sua {{virtue}}.",
+  "virtues.recognize.robin": "Robin reconhece sua Generosity.",
+  "virtues.recognize.gil": "Yoba reconhece sua Valentia.",
+  "virtues.recognize.yoba": "Yoba reconhece vossa Valentia.",
+  "virtues.disapprove.singular": "{{name}} desparova sua falta de {{virtue}}.",
+  "virtues.disapprove.plural": "{{name1}} e {{name2}} desparovam sua falta de {{virtue}}.",
+
   // json assets
   "objects.dwarvish_blueprint.name": "Antigo plano anão",
   "objects.dwarvish_blueprint.description": "Está desbotado, mas ainda legível.",

@@ -284,6 +284,14 @@
   "virtues.valor.flavor": "\"勇気は人を良くするものではない。しかし、人生においておくびょうな善人に出会ったことがあるだろうか? 勇気ある者は、どのような結果になろうとも、大勢に立ち向かうことをためらわないのだ。\"",
   "virtues.valor.objective": "町の仲間たちに害を及ぼす生き物を根絶して、勇敢に町民を守りましょう。",
 
+  "virtues.appreciate.singular": "{{name}} appreciates your {{virtue}}.",
+  "virtues.appreciate.plural": "{{name1}} and {{name2}} appreciate your {{virtue}}.",
+  "virtues.recognize.robin": "Robin recognizes your Generosity.",
+  "virtues.recognize.gil": "Yoba recognizes your Valor.",
+  "virtues.recognize.yoba": "Yoba recognizes your Valor.",
+  "virtues.disapprove.singular": "{{name}} disapproves of your lack of {{virtue}}.",
+  "virtues.disapprove.plural": "{{name1}} and {{name2}} disapprove of your lack of {{virtue}}.",
+
   // json assets
   "objects.dwarvish_blueprint.name": "古びたドワーフの設計図",
   "objects.dwarvish_blueprint.description": "色あせてはいるが、まだ読めるようだ。",
