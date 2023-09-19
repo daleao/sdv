@@ -9,7 +9,6 @@ using DaLion.Shared.Events;
 using DaLion.Shared.Extensions;
 using Microsoft.Xna.Framework;
 using StardewModdingAPI.Events;
-using Math = System.Math;
 
 #endregion using directives
 

@@ -79,7 +79,10 @@ internal sealed class StabbingSwordSpecialUpdateTickingEvent : UpdateTickingEven
         user.completelyStopAnimatingOrDoingAction();
         user.setTrajectory(Vector2.Zero);
         user.forceCanMove();
+        user.FarmerSprite.currentAnimationIndex = 0;
         _currentFrame = 0;
+        this.Manager.Disable<StabbingSwordSpecialHomingUpdateTickedEvent>();
+        this.Manager.Disable<StabbingSwordSpecialInterruptedButtonPressedEvent>();
     }
 
     /// <inheritdoc />
@@ -87,6 +90,17 @@ internal sealed class StabbingSwordSpecialUpdateTickingEvent : UpdateTickingEven
     {
         var user = Game1.player;
         var sword = (MeleeWeapon)user.CurrentTool;
+
+        // check for warps to prevent out-of-bounds
+        var nextPosition = user.nextPosition(user.FacingDirection);
+        if (user.currentLocation.isCollidingWithWarp(nextPosition, user) is { } warp)
+        {
+            user.DoStabbingSpecialCooldown(sword);
+            this.Disable();
+            user.warpFarmer(warp);
+            return;
+        }
+
         if (++_currentFrame > _animationFrames)
         {
             if (sword.hasEnchantmentOfType<MeleeArtfulEnchantment>())
@@ -115,7 +129,8 @@ internal sealed class StabbingSwordSpecialUpdateTickingEvent : UpdateTickingEven
                 sprite.currentAnimationIndex--;
             }
 
-            sprite.CurrentFrame = sprite.CurrentAnimation[sprite.currentAnimationIndex].frame;
+            sprite.CurrentFrame = sprite.CurrentAnimation[sprite.currentAnimationIndex % sprite.CurrentAnimation.Count]
+                .frame;
 
             var (x, y) = user.getUniformPositionAwayFromBox(user.FacingDirection, 48);
             sword.DoDamage(user.currentLocation, (int)x, (int)y, user.FacingDirection, 1, user);

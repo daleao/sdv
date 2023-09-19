@@ -119,7 +119,8 @@ internal sealed class StabbingSwordSpecialHomingUpdateTickedEvent : UpdateTicked
         var sprite = user.FarmerSprite;
         sprite.setCurrentFrame(frame, 0, 15, 2, user.FacingDirection == 3, true);
         sprite.currentAnimationIndex++;
-        sprite.CurrentFrame = sprite.CurrentAnimation[sprite.currentAnimationIndex].frame;
+        sprite.CurrentFrame =
+            sprite.CurrentAnimation[sprite.currentAnimationIndex % sprite.CurrentAnimation.Count].frame;
         this.Disable();
     }
 }

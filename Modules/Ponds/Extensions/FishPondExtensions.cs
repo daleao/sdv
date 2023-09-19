@@ -13,7 +13,6 @@ using StardewValley.Buildings;
 using StardewValley.GameData.FishPond;
 using StardewValley.Menus;
 using StardewValley.Objects;
-using Math = System.Math;
 
 #endregion using directives
 

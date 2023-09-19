@@ -68,7 +68,8 @@ internal sealed class SlingshotSpecialUpdateTickedEvent : UpdateTickedEvent
                 var sprite = user.FarmerSprite;
                 if (_currentFrame >= 6 && _currentFrame < _animationFrames - 6 && _currentFrame % 3 == 0)
                 {
-                    sprite.CurrentFrame = sprite.CurrentAnimation[sprite.currentAnimationIndex++].frame;
+                    sprite.CurrentFrame =
+                        sprite.CurrentAnimation[sprite.currentAnimationIndex++ % sprite.CurrentAnimation.Count].frame;
                 }
 
                 if (_currentFrame == 6)

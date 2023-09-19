@@ -2,7 +2,10 @@
 
 ## 3.1.4 <sup><sup><sup>[🔼 Back to top](#cmbt-changelog)</sup></sup></sup>
 
+### Fixed
+
 * Added translations for new chat notifications (missing JA, KO and ZH).
+* Stabbing Sword special move will no longer clip through warps.
 
 ## 3.1.3 <sup><sup><sup>[🔼 Back to top](#cmbt-changelog)</sup></sup></sup>
 

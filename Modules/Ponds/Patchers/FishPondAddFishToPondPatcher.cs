@@ -11,7 +11,6 @@ using DaLion.Shared.Harmony;
 using HarmonyLib;
 using StardewValley.Buildings;
 using StardewValley.GameData.FishPond;
-using Math = System.Math;
 
 #endregion using directives
 

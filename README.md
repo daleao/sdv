@@ -47,7 +47,7 @@ The available modules are listed below. **Please read this page carefuly in its 
 
 Please note that only the Professions and Tweex modules are enabled by default.
 
-99% of your questions about this mod are answered in the pages above. It took me several years of workd to produce this mod, so please take 10-15 minutes to read them before asking questions.
+99% of your questions about this mod are answered in the pages above. It took me several years of work to produce this mod, so please take 10-15 minutes to read them before asking questions.
 
 All modules should be fully multiplayer and split-screen compatible **if and only if all players have it installed**. **This mod is not Android-compatible**, but an Android version of Chargeable Tools is available in a dedicated branch.
 

@@ -17,7 +17,6 @@ using Microsoft.Xna.Framework;
 using StardewValley;
 using StardewValley.Locations;
 using StardewValley.Tools;
-using Math = System.Math;
 
 #endregion using directives
 

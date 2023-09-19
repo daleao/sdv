@@ -1,5 +1,16 @@
 ﻿# TXS Changelog
 
+## 3.1.4 <sup><sup><sup>[🔼 Back to top](#txs-changelog)</sup></sup></sup>
+
+### Changed
+
+* Default annual interest increased to 100% (was previously 12%). The original value was chosen based on common IRL values. However, IRL, years are >3x longer, and debts are payed over much several years, which allows compound interest to take effect. In-game, the 12% was too low to cause any noticeable impact. At 100%, a debt will roughly double every year. That should give a larger incentive to clear your debts.
+    * The change will not affect player's who keep their old configs. I suggest players increase this config setting to taste.
+
+### Fixed
+
+* Fixed debt not being collected when reloading.
+
 ## 2.5.5 <sup><sup><sup>[🔼 Back to top](#txs-changelog)</sup></sup></sup>
 
 ### Changed

@@ -125,7 +125,8 @@ internal sealed class StabbingSwordSpecialInterruptedButtonPressedEvent : Button
         var sprite = user.FarmerSprite;
         sprite.setCurrentFrame(frame, 0, 15, 2, user.FacingDirection == 3, true);
         sprite.currentAnimationIndex++;
-        sprite.CurrentFrame = sprite.CurrentAnimation[sprite.currentAnimationIndex].frame;
+        sprite.CurrentFrame =
+            sprite.CurrentAnimation[sprite.currentAnimationIndex % sprite.CurrentAnimation.Count].frame;
         this.Manager.Disable<StabbingSwordSpecialHomingUpdateTickedEvent>();
         this.Disable();
     }

@@ -22,6 +22,11 @@ internal sealed class TaxSaveLoadedEvent : SaveLoadedEvent
     /// <inheritdoc />
     protected override void OnSaveLoadedImpl(object? sender, SaveLoadedEventArgs e)
     {
+        if (Game1.player.Read<int>(DataKeys.LatestAmountWithheld) > 0)
+        {
+            ModEntry.EventManager.Enable<TaxDayStartedEvent>();
+        }
+
         var farm = Game1.getFarm();
         if (!Game1.player.IsMainPlayer || farm.Read(DataKeys.UsableTiles, -1) > 0)
         {

@@ -11,7 +11,6 @@ using DaLion.Shared.Extensions.Collections;
 using DaLion.Shared.Extensions.Stardew;
 using StardewValley.Tools;
 using static StardewValley.FarmerSprite;
-using Math = System.Math;
 
 #endregion using directives
 

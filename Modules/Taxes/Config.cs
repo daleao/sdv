@@ -22,7 +22,7 @@ public sealed class Config : Shared.Configs.Config
     ///     annual rate.
     /// </summary>
     [JsonProperty]
-    public float AnnualInterest { get; internal set; } = 0.12f;
+    public float AnnualInterest { get; internal set; } = 1f;
 
     /// <summary>Gets the flat rate charged over due income taxes not paid in time.</summary>
     [JsonProperty]

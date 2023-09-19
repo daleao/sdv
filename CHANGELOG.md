@@ -5,6 +5,9 @@ This file contains a TL;DR of current version changes and hotfixes from across a
 ## Patch 3.1.4 Highlights <sup><sup>[🔼 Back to top](#margo-changelogs)</sup></sup>
 
 * Added translations for new chat notifications (missing JA, KO and ZH).
+* [CMBT]: Stabbing Sword special move will no longer clip through warps.
+* [TXS]: Fixed debt not being collected when reloading.
+* [TXS]: Default annual interest increased to 100% (was previously 12%).
 
 ## Patch 3.1.3 Highlights <sup><sup>[🔼 Back to top](#margo-changelogs)</sup></sup>
 

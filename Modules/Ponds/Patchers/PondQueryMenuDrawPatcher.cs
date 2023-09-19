@@ -15,7 +15,6 @@ using Microsoft.Xna.Framework.Graphics;
 using StardewModdingAPI.Utilities;
 using StardewValley.Buildings;
 using StardewValley.Menus;
-using Math = System.Math;
 
 #endregion using directives
 

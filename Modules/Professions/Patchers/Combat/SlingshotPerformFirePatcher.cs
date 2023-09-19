@@ -14,7 +14,6 @@ using DaLion.Shared.Harmony;
 using HarmonyLib;
 using Microsoft.Xna.Framework;
 using StardewValley.Tools;
-using Math = System.Math;
 
 #endregion using directives
 
