@@ -56,31 +56,31 @@ internal sealed class CombatSaveLoadedEvent : SaveLoadedEvent
 
         if (player.Read<int>("ProvenHonor") is var provenHonor and > 0)
         {
-            player.WriteIfNotExists("ProvenHonor", provenHonor.ToString());
+            player.WriteIfNotExists("Honor", provenHonor.ToString());
             player.Write("ProvenHonor", null);
         }
 
         if (player.Read<int>("ProvenCompassion") is var provenCompassion and > 0)
         {
-            player.WriteIfNotExists("ProvenCompassion", provenCompassion.ToString());
+            player.WriteIfNotExists("Compassion", provenCompassion.ToString());
             player.Write("ProvenCompassion", null);
         }
 
         if (player.Read<int>("ProvenWisdom") is var provenWisdom and > 0)
         {
-            player.WriteIfNotExists("ProvenWisdom", provenWisdom.ToString());
+            player.WriteIfNotExists("Wisdom", provenWisdom.ToString());
             player.Write("ProvenWisdom", null);
         }
 
         if (player.Read<int>("ProvenGenerosity") is var provenGenerosity and > 0)
         {
-            player.WriteIfNotExists("ProvenGenerosity", provenGenerosity.ToString());
+            player.WriteIfNotExists("Generosity", provenGenerosity.ToString());
             player.Write("ProvenGenerosity", null);
         }
 
         if (player.Read<int>("ProvenValor") is var provenValor and > 0)
         {
-            player.WriteIfNotExists("ProvenValor", provenValor.ToString());
+            player.WriteIfNotExists("Valor", provenValor.ToString());
             player.Write("ProvenValor", null);
         }
 

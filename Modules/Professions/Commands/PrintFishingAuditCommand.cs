@@ -53,7 +53,7 @@ internal sealed class PrintFishingAuditCommand : ConsoleCommand
 
             var dataFields = specificFishData.SplitWithoutAllocation('/');
             var name = dataFields[0].ToString();
-            if (Collections.LegendaryFishNames.Contains(name))
+            if (Collections.LegendaryFishes.Contains(name))
             {
                 numLegendaryCaught++;
             }

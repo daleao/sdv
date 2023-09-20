@@ -13,7 +13,7 @@ internal sealed class ArcheryIntegration : ModIntegration<ArcheryIntegration, IA
 {
     /// <summary>Initializes a new instance of the <see cref="ArcheryIntegration"/> class.</summary>
     internal ArcheryIntegration()
-        : base("PeacefulEnd.Archery", "Archery", "2.1.0", ModHelper.ModRegistry)
+        : base(ModHelper.ModRegistry)
     {
     }
 }

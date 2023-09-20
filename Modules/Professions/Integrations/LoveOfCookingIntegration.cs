@@ -13,7 +13,7 @@ internal sealed class LoveOfCookingIntegration : ModIntegration<LoveOfCookingInt
 {
     /// <summary>Initializes a new instance of the <see cref="LoveOfCookingIntegration"/> class.</summary>
     internal LoveOfCookingIntegration()
-        : base("blueberry.LoveOfCooking", "Love Of Cooking", "1.0.27", ModHelper.ModRegistry)
+        : base(ModHelper.ModRegistry)
     {
     }
 }

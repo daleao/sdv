@@ -63,6 +63,13 @@ Exodus from Nexus.
 
 Merged WPNZ, SLNGS, RNGS and ENCH into the CMBT module. All of those modules essentially tackled different facets of combat, and WPNZ and SLNGS in particular shared many redundant patches and config settings. In that light, the unification streamlines a lot of the config schema and cuts down on the number of patches required.
 
+Find the old changelogs here:
+* [CMBT](./resources/legacy/CHANGELOG_CMBT.md)
+* [WPNZ](./resources/legacy/CHANGELOG_WPNZ.md)
+* [SLNGS](./resources/legacy/CHANGELOG_SLNGS.md)
+* [ENCH](./resources/legacy/CHANGELOG_ENCH.md)
+* [RNGS](./resources/legacy/CHANGELOG_RNGS.md)
+
 ## Added
 
 * Added enemy difficulty summands to config options and changed default config values for some multipliers.

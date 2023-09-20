@@ -15,7 +15,7 @@ internal sealed class CustomOreNodesIntegration : ModIntegration<CustomOreNodesI
 {
     /// <summary>Initializes a new instance of the <see cref="CustomOreNodesIntegration"/> class.</summary>
     internal CustomOreNodesIntegration()
-        : base("aedenthorn.CustomOreNodes", "Custom Ore Nodes", "2.1.1", ModHelper.ModRegistry)
+        : base(ModHelper.ModRegistry)
     {
     }
 

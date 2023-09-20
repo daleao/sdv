@@ -76,7 +76,7 @@ All modules should be fully multiplayer and split-screen compatible **if and onl
 
 Please review the compatibility sections of each specific module in the links above.
 
-As with any mod, always **delete any previous installation completely** before updating. If you'd like to preserve your config settings you can delete everything except the configs.json file.
+As with any mod, always **delete any previous installation completely** before updating. If you'd like to preserve your config settings you can delete everything except the `config.json` file.
 
 **The use of Vortex or other mod managers is not recommended for Stardew Valley.**
 

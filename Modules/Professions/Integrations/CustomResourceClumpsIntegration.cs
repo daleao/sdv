@@ -2,6 +2,7 @@
 
 #region using directives
 
+using System.Collections.Immutable;
 using System.Linq;
 using DaLion.Shared.Attributes;
 using DaLion.Shared.Integrations;
@@ -14,7 +15,7 @@ internal sealed class CustomResourceClumpsIntegration : ModIntegration<CustomRes
 {
     /// <summary>Initializes a new instance of the <see cref="CustomResourceClumpsIntegration"/> class.</summary>
     internal CustomResourceClumpsIntegration()
-        : base("aedenthorn.CustomResourceClumps", "Custom Resource Clumps", "0.7.0", ModHelper.ModRegistry)
+        : base(ModHelper.ModRegistry)
     {
     }
 
@@ -28,6 +29,6 @@ internal sealed class CustomResourceClumpsIntegration : ModIntegration<CustomRes
         Collections.ResourceClumpIds = this.ModApi
             .GetCustomClumpData()
             .Select(c => Reflector.GetUnboundFieldGetter<object, int>(c, "index").Invoke(c))
-            .ToHashSet();
+            .ToImmutableHashSet();
     }
 }

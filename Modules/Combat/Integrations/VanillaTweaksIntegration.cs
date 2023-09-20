@@ -14,7 +14,7 @@ internal sealed class VanillaTweaksIntegration : ModIntegration<VanillaTweaksInt
 {
     /// <summary>Initializes a new instance of the <see cref="VanillaTweaksIntegration"/> class.</summary>
     internal VanillaTweaksIntegration()
-        : base("Taiyo.VanillaTweaks", "Vanilla Tweaks", null, ModHelper.ModRegistry)
+        : base(ModHelper.ModRegistry)
     {
     }
 

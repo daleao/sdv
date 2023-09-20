@@ -5,6 +5,7 @@
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
+using DaLion.Shared.Constants;
 
 #endregion using directives
 
@@ -23,8 +24,7 @@ internal static class Collections
     }.Concat(ProfessionsModule.Config.CustomArtisanMachines).ToImmutableHashSet();
 
     /// <summary>Gets the names of the legendary fish.</summary>
-    internal static ImmutableHashSet<string> LegendaryFishNames { get; } = new HashSet<string>
-    {
+    internal static ImmutableHashSet<string> LegendaryFishes { get; } = ImmutableHashSet.Create(
         "Crimsonfish", // vanilla
         "Angler", // vanilla
         "Legend", // vanilla
@@ -38,12 +38,23 @@ internal static class Collections
         "Pufferchick", // stardew aquarium
         "Deep Ridge Angler", // ridgeside
         "Sockeye Salmon", // ridgeside
-        "Waterfall Snakehead", // ridgeside
-    }.ToImmutableHashSet();
+        "Waterfall Snakehead" // ridgeside
+    );
+
+    /// <summary>Gets the ids of animal products and derived artisan goods.</summary>
+    internal static ImmutableHashSet<int> AnimalDerivedProductIds { get; set; } = ImmutableHashSet.Create(
+        ObjectIds.DinosaurEgg,
+        ObjectIds.Mayonnaise,
+        ObjectIds.DuckMayonnaise,
+        ObjectIds.VoidMayonnaise,
+        ObjectIds.Cheese,
+        ObjectIds.GoatCheese,
+        ObjectIds.Cloth,
+        ObjectIds.DinosaurMayonnaise
+    );
 
     /// <summary>Gets or sets the ids of resource nodes.</summary>
-    internal static ImmutableHashSet<int> ResourceNodeIds { get; set; } = new HashSet<int>
-    {
+    internal static ImmutableHashSet<int> ResourceNodeIds { get; set; } = ImmutableHashSet.Create(
         // ores
         751, // copper node
         849, // copper ?
@@ -76,9 +87,9 @@ internal static class Collections
         818, // clay node
         843, // cinder shard node
         844, // cinder shard node
-        46, // mystic stone
-    }.ToImmutableHashSet();
+        46 // mystic stone
+    );
 
     /// <summary>Gets or sets the ids of (valuable) resource clumps.</summary>
-    internal static HashSet<int> ResourceClumpIds { get; set; } = new();
+    internal static ImmutableHashSet<int> ResourceClumpIds { get; set; } = ImmutableHashSet<int>.Empty;
 }

@@ -15,7 +15,7 @@ internal sealed class JsonAssetsIntegration : ModIntegration<JsonAssetsIntegrati
 {
     /// <summary>Initializes a new instance of the <see cref="JsonAssetsIntegration"/> class.</summary>
     internal JsonAssetsIntegration()
-        : base("spacechase0.JsonAssets", "Json Assets", "1.10.7", ModHelper.ModRegistry)
+        : base(ModHelper.ModRegistry)
     {
     }
 

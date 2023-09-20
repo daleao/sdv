@@ -6,6 +6,7 @@ using System.Reflection;
 using DaLion.Overhaul.Modules.Professions;
 using DaLion.Overhaul.Modules.Professions.Extensions;
 using DaLion.Shared.Constants;
+using DaLion.Shared.Extensions;
 using DaLion.Shared.Extensions.Stardew;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
@@ -57,7 +58,8 @@ internal sealed class ObjectGetPriceAfterMultipliersPatcher : HarmonyPatcher
 
                 // professions
                 if (farmer.HasProfession(Profession.Producer) &&
-                    (__instance.IsAnimalOrDerivedProduct() || (__instance.ParentSheetIndex == ObjectIds.Honey && ProfessionsModule.Config.BeesAreAnimals)))
+                    (IsAnimalOrDerivedProduct(__instance) || (__instance.ParentSheetIndex == ObjectIds.Honey &&
+                                                              ProfessionsModule.Config.BeesAreAnimals)))
                 {
                     multiplier += farmer.GetProducerPriceBonus();
                 }
@@ -91,4 +93,14 @@ internal sealed class ObjectGetPriceAfterMultipliersPatcher : HarmonyPatcher
     }
 
     #endregion harmony patches
+
+    private static bool IsAnimalOrDerivedProduct(SObject @object)
+    {
+        return @object.Category.IsIn(
+                   SObject.EggCategory,
+                   SObject.MilkCategory,
+                   SObject.meatCategory,
+                   SObject.sellAtPierresAndMarnies) ||
+               Collections.AnimalDerivedProductIds.Contains(@object.ParentSheetIndex);
+    }
 }

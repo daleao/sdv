@@ -24,7 +24,7 @@ internal sealed class AutomateIntegration : ModIntegration<AutomateIntegration>
 
     /// <summary>Initializes a new instance of the <see cref="AutomateIntegration"/> class.</summary>
     internal AutomateIntegration()
-        : base("Pathoschild.Automate", "Automate", "1.27.3", ModHelper.ModRegistry)
+        : base(ModHelper.ModRegistry)
     {
     }
 

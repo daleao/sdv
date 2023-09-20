@@ -60,7 +60,7 @@ internal sealed class TehsFishingOverhaulIntegration : ModIntegration<TehsFishin
 
     /// <summary>Initializes a new instance of the <see cref="TehsFishingOverhaulIntegration"/> class.</summary>
     internal TehsFishingOverhaulIntegration()
-        : base("TehPers.FishingOverhaul", "Teh's Fishing Overhaul", "3.2.0", ModHelper.ModRegistry)
+        : base(ModHelper.ModRegistry)
     {
         this._rawApi = this.ModRegistry.GetApi("TehPers.FishingOverhaul");
     }

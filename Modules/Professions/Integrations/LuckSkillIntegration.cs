@@ -13,7 +13,7 @@ internal sealed class LuckSkillIntegration : ModIntegration<LuckSkillIntegration
 {
     /// <summary>Initializes a new instance of the <see cref="LuckSkillIntegration"/> class.</summary>
     internal LuckSkillIntegration()
-        : base("spacechase0.LuckSkill", "Luck Skill", "1.2.3", ModHelper.ModRegistry)
+        : base(ModHelper.ModRegistry)
     {
     }
 

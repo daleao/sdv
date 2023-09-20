@@ -13,7 +13,7 @@ internal sealed class SimpleWeaponsIntegration : ModIntegration<SimpleWeaponsInt
 {
     /// <summary>Initializes a new instance of the <see cref="SimpleWeaponsIntegration"/> class.</summary>
     internal SimpleWeaponsIntegration()
-        : base("dengdeng.simpleweapons", "Simple Weapons", null, ModHelper.ModRegistry)
+        : base(ModHelper.ModRegistry)
     {
     }
 

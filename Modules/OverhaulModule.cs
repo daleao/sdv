@@ -154,6 +154,7 @@ public abstract class OverhaulModule
     /// <summary>Registers module integrations with third-party mods.</summary>
     internal virtual void RegisterIntegrations()
     {
+        IntegrationRegistry.RegisterFromNamespace(this.Namespace);
     }
 
     /// <summary>Causes SMAPI to reload all assets edited by this module.</summary>
@@ -254,23 +255,6 @@ public abstract class OverhaulModule
             {
                 base.Activate(helper);
             }
-        }
-
-        /// <inheritdoc />
-        internal override void RegisterIntegrations()
-        {
-            new IModIntegration?[]
-            {
-                Modules.Professions.Integrations.SpaceCoreIntegration.Instance,
-                Modules.Professions.Integrations.LuckSkillIntegration.Instance,
-                Modules.Professions.Integrations.LoveOfCookingIntegration.Instance,
-                Modules.Professions.Integrations.AutomateIntegration.Instance,
-                Modules.Professions.Integrations.TehsFishingOverhaulIntegration.Instance,
-                Modules.Professions.Integrations.CustomOreNodesIntegration.Instance,
-                Modules.Professions.Integrations.CustomResourceClumpsIntegration.Instance,
-                Modules.Professions.Integrations.StardewValleyExpandedIntegration.Instance,
-                Modules.Professions.Integrations.ArcheryIntegration.Instance,
-            }.ForEach(integration => integration?.Register());
         }
 
         /// <inheritdoc />
@@ -636,23 +620,6 @@ public abstract class OverhaulModule
         }
 
         /// <inheritdoc />
-        internal override void RegisterIntegrations()
-        {
-            new IModIntegration?[]
-            {
-                Modules.Combat.Integrations.SpaceCoreIntegration.Instance,
-                Modules.Combat.Integrations.JsonAssetsIntegration.Instance,
-                Modules.Combat.Integrations.StardewValleyExpandedIntegration.Instance,
-                Modules.Combat.Integrations.VanillaTweaksIntegration.Instance,
-                Modules.Combat.Integrations.SimpleWeaponsIntegration.Instance,
-                Modules.Combat.Integrations.ArcheryIntegration.Instance,
-                Modules.Combat.Integrations.BetterCraftingIntegration.Instance,
-                Modules.Combat.Integrations.WearMoreRingsIntegration.Instance,
-                Modules.Combat.Integrations.BetterRingsIntegration.Instance,
-            }.ForEach(integration => integration?.Register());
-        }
-
-        /// <inheritdoc />
         protected override void InvalidateAssets()
         {
             ModHelper.GameContent.InvalidateCacheAndLocalized("Characters/Dialogue/Gil");
@@ -712,12 +679,6 @@ public abstract class OverhaulModule
             {
                 base.Activate(helper);
             }
-        }
-
-        /// <inheritdoc />
-        internal override void RegisterIntegrations()
-        {
-            (Modules.Tools.Integrations.MoonMisadventuresIntegration.Instance as IModIntegration)?.Register();
         }
     }
 
@@ -847,12 +808,6 @@ public abstract class OverhaulModule
             {
                 base.Activate(helper);
             }
-        }
-
-        /// <inheritdoc />
-        internal override void RegisterIntegrations()
-        {
-            ((IModIntegration?)BetterCraftingIntegration.Instance)?.Register();
         }
     }
 

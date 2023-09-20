@@ -13,7 +13,7 @@ internal sealed class WearMoreRingsIntegration : ModIntegration<WearMoreRingsInt
 {
     /// <summary>Initializes a new instance of the <see cref="WearMoreRingsIntegration"/> class.</summary>
     internal WearMoreRingsIntegration()
-        : base("bcmpinc.WearMoreRings", "Wear More Rings", "5.1", ModHelper.ModRegistry)
+        : base(ModHelper.ModRegistry)
     {
     }
 }

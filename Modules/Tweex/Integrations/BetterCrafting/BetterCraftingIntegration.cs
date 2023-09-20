@@ -14,7 +14,7 @@ internal sealed class BetterCraftingIntegration : ModIntegration<BetterCraftingI
 {
     /// <summary>Initializes a new instance of the <see cref="BetterCraftingIntegration"/> class.</summary>
     internal BetterCraftingIntegration()
-        : base("leclair.bettercrafting", "Better Crafting", "1.0.0", ModHelper.ModRegistry)
+        : base(ModHelper.ModRegistry)
     {
     }
 

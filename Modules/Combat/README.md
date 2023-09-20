@@ -478,6 +478,7 @@ The following events provide chances to demonstrate your virtues. You can use th
 | 97      | Clint 3 hearts          | Wisdom |
 | 1000018 | Jodi Mature Event (SVE) | Wisdom |
 | 1000021 | Jas Mature Event (SVE)  | Wisdom |
+| 3219871 | Claire 2 hearts         | Generosity |
 
 **How do I obtain the Infinity weapons?**
 

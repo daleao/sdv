@@ -13,11 +13,7 @@ internal sealed class StardewValleyExpandedIntegration : ModIntegration<StardewV
 {
     /// <summary>Initializes a new instance of the <see cref="StardewValleyExpandedIntegration"/> class.</summary>
     internal StardewValleyExpandedIntegration()
-        : base(
-            "FlashShifter.StardewValleyExpandedCP",
-            "StardewValleyExpanded",
-            null,
-            ModHelper.ModRegistry)
+        : base(ModHelper.ModRegistry)
     {
     }
 

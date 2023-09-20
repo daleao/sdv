@@ -14,7 +14,7 @@ internal sealed class BetterRingsIntegration : ModIntegration<BetterRingsIntegra
 {
     /// <summary>Initializes a new instance of the <see cref="BetterRingsIntegration"/> class.</summary>
     internal BetterRingsIntegration()
-        : base("BBR.BetterRings", "Better Rings", null, ModHelper.ModRegistry)
+        : base(ModHelper.ModRegistry)
     {
     }
 

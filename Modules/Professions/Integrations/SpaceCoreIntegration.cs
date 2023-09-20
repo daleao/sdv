@@ -13,7 +13,7 @@ internal sealed class SpaceCoreIntegration : ModIntegration<SpaceCoreIntegration
 {
     /// <summary>Initializes a new instance of the <see cref="SpaceCoreIntegration"/> class.</summary>
     internal SpaceCoreIntegration()
-        : base("spacechase0.SpaceCore", "SpaceCore", "1.12.0", ModHelper.ModRegistry)
+        : base(ModHelper.ModRegistry)
     {
     }
 
