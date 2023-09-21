@@ -245,7 +245,7 @@ internal sealed class GameLocationAnswerDialogueActionPatcher : HarmonyPatcher
         ProfessionsModule.State.SkillsToReset.Enqueue(skill);
 
         // play sound effect
-        Sfx.DogStatuePrestige.Play();
+        SoundEffectPlayer.DogStatuePrestige.Play();
 
         // tell the player
         Game1.drawObjectDialogue(Game1.content.LoadString("Strings\\Locations:Sewer_DogStatueFinished"));
@@ -280,7 +280,7 @@ internal sealed class GameLocationAnswerDialogueActionPatcher : HarmonyPatcher
         }
 
         // play sound effect
-        Sfx.DogStatuePrestige.Play();
+        SoundEffectPlayer.DogStatuePrestige.Play();
 
         // tell the player
         Game1.drawObjectDialogue(Game1.content.LoadString("Strings\\Locations:Sewer_DogStatueFinished"));
@@ -317,7 +317,7 @@ internal sealed class GameLocationAnswerDialogueActionPatcher : HarmonyPatcher
         }
 
         // play sound effect
-        Sfx.DogStatuePrestige.Play();
+        SoundEffectPlayer.DogStatuePrestige.Play();
 
         // tell the player
         Game1.drawObjectDialogue(Game1.content.LoadString("Strings\\Locations:Sewer_DogStatueFinished"));
@@ -344,7 +344,7 @@ internal sealed class GameLocationAnswerDialogueActionPatcher : HarmonyPatcher
         player.Set_Ultimate(chosenUltimate);
 
         // play sound effect
-        Sfx.DogStatuePrestige.Play();
+        SoundEffectPlayer.DogStatuePrestige.Play();
 
         // tell the player
         Game1.drawObjectDialogue(I18n.Prestige_DogStatue_Fledged(chosenUltimate.Profession.Title));

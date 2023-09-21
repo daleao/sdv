@@ -37,7 +37,7 @@ public sealed class Concerto : Ultimate
         (int)(30000 * ((double)this.MaxValue / BaseMaxValue) / ProfessionsModule.Config.LimitDrainFactor);
 
     /// <inheritdoc />
-    internal override Sfx ActivationSfx => Sfx.PiperConcerto;
+    internal override SoundEffectPlayer ActivationSoundEffectPlayer => SoundEffectPlayer.PiperConcerto;
 
     /// <inheritdoc />
     internal override Color GlowColor => Color.LimeGreen;
@@ -120,7 +120,7 @@ public sealed class Concerto : Ultimate
             });
 
         EventManager.Enable<SlimeInflationUpdateTickedEvent>();
-        this.ActivationSfx.PlayAfterDelay(333);
+        this.ActivationSoundEffectPlayer.PlayAfterDelay(333);
     }
 
     /// <inheritdoc />

@@ -33,7 +33,7 @@ public sealed class Ambush : Ultimate
         (int)(15000 * ((double)this.MaxValue / BaseMaxValue) / ProfessionsModule.Config.LimitDrainFactor);
 
     /// <inheritdoc />
-    internal override Sfx ActivationSfx => Sfx.PoacherAmbush;
+    internal override SoundEffectPlayer ActivationSoundEffectPlayer => SoundEffectPlayer.PoacherAmbush;
 
     /// <inheritdoc />
     internal override Color GlowColor => Color.MediumPurple;

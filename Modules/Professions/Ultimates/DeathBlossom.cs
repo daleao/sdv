@@ -23,7 +23,7 @@ public sealed class DeathBlossom : Ultimate
         (int)(15000 * ((double)this.MaxValue / BaseMaxValue) / ProfessionsModule.Config.LimitDrainFactor);
 
     /// <inheritdoc />
-    internal override Sfx ActivationSfx => Sfx.DesperadoBlossom;
+    internal override SoundEffectPlayer ActivationSoundEffectPlayer => SoundEffectPlayer.DesperadoBlossom;
 
     /// <inheritdoc />
     internal override Color GlowColor => Color.DarkGoldenrod;

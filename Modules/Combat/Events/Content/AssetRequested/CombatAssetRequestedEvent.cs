@@ -63,7 +63,6 @@ internal sealed class CombatAssetRequestedEvent : AssetRequestedEvent
         this.Edit("TileSheets/Projectiles", new AssetEditor(EditProjectilesTileSheet));
         this.Edit("TileSheets/weapons", new AssetEditor(EditWeaponsTileSheetEarly, AssetEditPriority.Early));
         this.Edit("TileSheets/weapons", new AssetEditor(EditWeaponsTileSheetLate, AssetEditPriority.Late));
-        this.Edit("Data/weapons", new AssetEditor(EditWeaponsData));
         this.Edit("aedenthorn.CustomOreNodes/dict", new AssetEditor(EditCustomOreNodes));
 
         this.Provide("Data/Events/Blacksmith", new DictionaryProvider<string, string>(null, AssetLoadPriority.Low));

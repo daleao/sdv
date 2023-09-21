@@ -38,7 +38,7 @@ public sealed class ModEntry : Mod
     internal static ModConfig Config { get; set; } = null!; // set in Entry
 
     /// <summary>Gets or sets the <see cref="ModData"/> instance.</summary>
-    internal static ModData Data { get; set; } = null!; // set in Entry
+    internal static ModData LocalData { get; set; } = null!; // set in Entry
 
     /// <summary>Gets the <see cref="PerScreen{T}"/> <see cref="ModState"/>.</summary>
     internal static PerScreen<ModState> PerScreenState { get; private set; } = null!; // set in Entry
@@ -88,10 +88,10 @@ public sealed class ModEntry : Mod
             return;
         }
 
-        ModDataIO.Init(this.ModManifest.UniqueID);
         I18n.Init(helper.Translation);
+        ModDataIO.Init();
 
-        Data = helper.Data.ReadJsonFile<ModData>("data.json") ?? new ModData();
+        LocalData = helper.Data.ReadJsonFile<ModData>("data.json") ?? new ModData();
 
         Config = helper.ReadConfig<ModConfig>();
         Config.Validate(helper);
@@ -105,7 +105,7 @@ public sealed class ModEntry : Mod
 
         this.ValidateMultiplayer();
         this.StopWatch();
-        this.LogStats();
+        this.LogTime();
         Log.I("[Entry]: Version checksum: " + this.GetType().Assembly.CalculateMd5());
     }
 
@@ -128,7 +128,7 @@ public sealed class ModEntry : Mod
     }
 
     [Conditional("DEBUG")]
-    private void LogStats()
+    private void LogTime()
     {
         Log.A($"[Entry]: Initialization completed in {this._sw.ElapsedMilliseconds}ms.");
     }

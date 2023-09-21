@@ -453,7 +453,7 @@ internal sealed class GameLocationDamageMonsterPatcher : HarmonyPatcher
         monster.Set_Stolen(true);
 
         // play sound effect
-        Sfx.PoacherSteal.Play();
+        SoundEffectPlayer.PoacherSteal.Play();
 
         if (!who.HasProfession(Profession.Poacher, true))
         {

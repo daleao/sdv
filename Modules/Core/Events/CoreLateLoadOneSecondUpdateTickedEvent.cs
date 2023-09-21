@@ -36,7 +36,7 @@ internal sealed class CoreLateLoadOneSecondUpdateTickedEvent : OneSecondUpdateTi
         }
 
         OverhaulModule.Core.RegisterIntegrations();
-        if (GenericModConfigMenu.Instance?.IsRegistered != true || Data.InitialSetupComplete)
+        if (GenericModConfigMenu.Instance?.IsRegistered != true || LocalData.InitialSetupComplete)
         {
             this.Manager.Unmanage(this);
             return;
@@ -44,8 +44,8 @@ internal sealed class CoreLateLoadOneSecondUpdateTickedEvent : OneSecondUpdateTi
 
         Log.I("Launching GMCM for initial setup.");
         GenericModConfigMenu.Instance.ModApi!.OpenModMenu(Manifest);
-        Data.InitialSetupComplete = true;
-        ModHelper.Data.WriteJsonFile("data.json", Data);
+        LocalData.InitialSetupComplete = true;
+        ModHelper.Data.WriteJsonFile("data.json", LocalData);
         GenericModConfigMenu.Instance.Reload();
         this.Manager.Unmanage(this);
     }

@@ -209,7 +209,7 @@ public abstract class OverhaulModule
                 this.DisplayName,
                 this.Ticker,
                 () => this.IsActive);
-            Log.T("[Modules]: Debug features activated.");
+            Log.I("[Modules]: Debug features activated.");
 
             // start FPS counter
             GlobalState.FpsCounter = new FrameRateCounter(GameRunner.instance);
@@ -619,12 +619,13 @@ public abstract class OverhaulModule
         {
             ModHelper.GameContent.InvalidateCacheAndLocalized("Characters/Dialogue/Gil");
             ModHelper.GameContent.InvalidateCacheAndLocalized("Data/CraftingRecipes");
-            ModHelper.GameContent.InvalidateCacheAndLocalized("Data/ObjectInformation");
             ModHelper.GameContent.InvalidateCacheAndLocalized("Data/Events/AdventureGuild");
             ModHelper.GameContent.InvalidateCacheAndLocalized("Data/Events/Blacksmith");
             ModHelper.GameContent.InvalidateCacheAndLocalized("Data/Events/WizardHouse");
             ModHelper.GameContent.InvalidateCacheAndLocalized("Data/mail");
             ModHelper.GameContent.InvalidateCacheAndLocalized("Data/Monsters");
+            ModHelper.GameContent.InvalidateCacheAndLocalized("Data/ObjectInformation");
+            ModHelper.GameContent.InvalidateCacheAndLocalized("Data/Quests");
             ModHelper.GameContent.InvalidateCacheAndLocalized("Data/weapons");
             ModHelper.GameContent.InvalidateCacheAndLocalized("Maps/springobjects");
             ModHelper.GameContent.InvalidateCacheAndLocalized("Strings/Locations");

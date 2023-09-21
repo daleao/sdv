@@ -179,7 +179,7 @@ public abstract class Ultimate : SmartEnum<Ultimate>, IUltimate
     internal UltimateOverlay Overlay { get; }
 
     /// <summary>Gets the sound effect that plays when this Ultimate is activated.</summary>
-    internal abstract Sfx ActivationSfx { get; }
+    internal abstract SoundEffectPlayer ActivationSoundEffectPlayer { get; }
 
     /// <summary>Gets the glow color applied to the player while this Ultimate is active.</summary>
     internal abstract Color GlowColor { get; }
@@ -205,7 +205,7 @@ public abstract class Ultimate : SmartEnum<Ultimate>, IUltimate
         EventManager.Enable<UltimateOverlayRenderedWorldEvent>();
 
         // play sound effect
-        this.ActivationSfx.Play();
+        this.ActivationSoundEffectPlayer.Play();
 
         // notify peers
         Broadcaster.Broadcast("Active", OverhaulModule.Professions.Namespace + "ToggledUltimate");

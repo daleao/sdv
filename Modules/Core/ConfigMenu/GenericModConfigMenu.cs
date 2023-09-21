@@ -22,7 +22,7 @@ internal sealed partial class GenericModConfigMenu : GenericModConfigMenuIntegra
     protected override void BuildMenu()
     {
         this.SetTitleScreenOnlyForNextOptions(true);
-        if (!Data.InitialSetupComplete)
+        if (!LocalData.InitialSetupComplete)
         {
             this.AddParagraph(I18n.Gmcm_Core_Initial);
         }
@@ -32,7 +32,7 @@ internal sealed partial class GenericModConfigMenu : GenericModConfigMenuIntegra
         }
 
         this.AddModuleSelectionOption();
-        if (!Data.InitialSetupComplete)
+        if (!LocalData.InitialSetupComplete)
         {
             return;
         }
