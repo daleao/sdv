@@ -3,8 +3,8 @@
 #region using directives
 
 using System.Runtime.CompilerServices;
-using DaLion.Overhaul.Modules.Combat.Events.Display;
-using DaLion.Overhaul.Modules.Combat.Events.GameLoop;
+using DaLion.Overhaul.Modules.Combat.Events.Display.RenderedWorld;
+using DaLion.Overhaul.Modules.Combat.Events.GameLoop.UpdateTicked;
 using DaLion.Overhaul.Modules.Combat.Extensions;
 using Microsoft.Xna.Framework;
 using StardewValley.Monsters;

@@ -14,7 +14,7 @@ internal static class SObjectExtensions
     /// <returns><see langword="true"/> if the <paramref name="obj"/> is a machine that creates artisan goods, otherwise <see langword="false"/>.</returns>
     internal static bool IsArtisanMachine(this SObject obj)
     {
-        return Collections.ArtisanMachines.Contains(obj.name);
+        return Sets.ArtisanMachines.Contains(obj.name);
     }
 
     /// <summary>Determines whether <paramref name="object"/> is a resource node.</summary>
@@ -22,7 +22,7 @@ internal static class SObjectExtensions
     /// <returns><see langword="true"/> if the <paramref name="object"/> is a mining node containing precious resources, otherwise <see langword="false"/>.</returns>
     internal static bool IsResourceNode(this SObject @object)
     {
-        return Collections.ResourceNodeIds.Contains(@object.ParentSheetIndex);
+        return Sets.ResourceNodeIds.Contains(@object.ParentSheetIndex);
     }
 
     /// <summary>Determines whether the <paramref name="profession"/> should track <paramref name="obj"/>.</summary>

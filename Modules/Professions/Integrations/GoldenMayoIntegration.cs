@@ -42,6 +42,6 @@ internal sealed class GoldenMayoIntegration : ModIntegration<GoldenMayoIntegrati
         }
 
         Log.D($"[PROFS]: Json Assets ID {index} has been assigned to Golden Mayo.");
-        Collections.AnimalDerivedProductIds = Collections.AnimalDerivedProductIds.Add(index);
+        Sets.AnimalDerivedProductIds = Sets.AnimalDerivedProductIds.Add(index);
     }
 }

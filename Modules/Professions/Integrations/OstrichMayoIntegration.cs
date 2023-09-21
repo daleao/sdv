@@ -42,6 +42,6 @@ internal sealed class OstrichMayoIntegration : ModIntegration<OstrichMayoIntegra
         }
 
         Log.D($"[PROFS]: Json Assets ID {index} has been assigned to Ostrich Mayo.");
-        Collections.AnimalDerivedProductIds = Collections.AnimalDerivedProductIds.Add(index);
+        Sets.AnimalDerivedProductIds = Sets.AnimalDerivedProductIds.Add(index);
     }
 }

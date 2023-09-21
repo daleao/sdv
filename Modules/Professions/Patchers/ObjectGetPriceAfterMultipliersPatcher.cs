@@ -101,6 +101,6 @@ internal sealed class ObjectGetPriceAfterMultipliersPatcher : HarmonyPatcher
                    SObject.MilkCategory,
                    SObject.meatCategory,
                    SObject.sellAtPierresAndMarnies) ||
-               Collections.AnimalDerivedProductIds.Contains(@object.ParentSheetIndex);
+               Sets.AnimalDerivedProductIds.Contains(@object.ParentSheetIndex);
     }
 }

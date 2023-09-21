@@ -2,7 +2,7 @@
 
 #region using directives
 
-using DaLion.Overhaul.Modules.Combat.Events.GameLoop;
+using DaLion.Overhaul.Modules.Combat.Events.GameLoop.UpdateTicking;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
 using StardewValley.Tools;

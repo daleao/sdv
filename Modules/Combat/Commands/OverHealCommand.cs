@@ -2,8 +2,8 @@
 
 #region using directives
 
-using DaLion.Overhaul.Modules.Combat.Events.Display;
-using DaLion.Overhaul.Modules.Combat.Events.GameLoop;
+using DaLion.Overhaul.Modules.Combat.Events.Display.RenderedWorld;
+using DaLion.Overhaul.Modules.Combat.Events.GameLoop.UpdateTicked;
 using DaLion.Shared.Attributes;
 using DaLion.Shared.Commands;
 

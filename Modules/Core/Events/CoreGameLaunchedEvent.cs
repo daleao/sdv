@@ -4,6 +4,7 @@
 
 using System.Linq;
 using DaLion.Shared.Events;
+using DaLion.Shared.Extensions.Collections;
 using StardewModdingAPI.Events;
 
 #endregion using directives
@@ -21,13 +22,13 @@ internal sealed class CoreGameLaunchedEvent : GameLaunchedEvent
     /// <inheritdoc />
     protected override void OnGameLaunchedImpl(object? sender, GameLaunchedEventArgs e)
     {
-        if (!EnumerateModules().Skip(1)
-                .Any(module => module is not (ProfessionsModule or TweexModule) && module._ShouldEnable))
+        if (!Data.InitialSetupComplete &&
+            EnumerateModules().Skip(1).Any(module => module is not (ProfessionsModule or TweexModule)))
         {
-            return;
+            Data.InitialSetupComplete = true;
+            ModHelper.Data.WriteJsonFile("data.json", Data);
         }
 
-        Data.InitialSetupComplete = true;
-        ModHelper.Data.WriteJsonFile("data.json", Data);
+        EnumerateModules().Skip(1).ForEach(module => module.RegisterIntegrations());
     }
 }

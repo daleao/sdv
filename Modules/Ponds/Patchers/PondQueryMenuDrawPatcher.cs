@@ -8,7 +8,6 @@ using DaLion.Shared.Constants;
 using DaLion.Shared.Extensions;
 using DaLion.Shared.Extensions.Stardew;
 using DaLion.Shared.Harmony;
-using DaLion.Shared.Maps;
 using HarmonyLib;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -182,7 +181,7 @@ internal sealed class PondQueryMenuDrawPatcher : HarmonyPatcher
                 {
                     if (isLegendaryPond && familyCount > 0 && i == ____pond.FishCount - familyCount)
                     {
-                        itemToDraw = new SObject(ExtendedFamilyPairs.Map[____fishItem.ParentSheetIndex], 1);
+                        itemToDraw = new SObject(Maps.ExtendedFamilyPairs[____fishItem.ParentSheetIndex], 1);
                     }
 
                     itemToDraw!.drawInMenu(

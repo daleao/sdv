@@ -12,7 +12,6 @@ using DaLion.Shared.Extensions;
 using DaLion.Shared.Extensions.Collections;
 using DaLion.Shared.Extensions.Stardew;
 using DaLion.Shared.Harmony;
-using DaLion.Shared.Maps;
 using HarmonyLib;
 using Microsoft.Xna.Framework;
 using StardewValley.Buildings;
@@ -109,7 +108,7 @@ internal sealed class FishPondGetFishProducePatcher : HarmonyPatcher
             if (fish.IsLegendaryFish() && random.NextDouble() <
                 __instance.Read<double>(DataKeys.FamilyLivingHere) / __instance.FishCount)
             {
-                fishIndex = ExtendedFamilyPairs.Map[fishIndex];
+                fishIndex = Maps.ExtendedFamilyPairs[fishIndex];
             }
 
             var split = Game1.objectInformation[fishIndex].SplitWithoutAllocation('/');

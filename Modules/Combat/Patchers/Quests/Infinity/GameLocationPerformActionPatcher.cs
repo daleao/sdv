@@ -5,7 +5,7 @@
 using System.Linq;
 using System.Reflection;
 using DaLion.Overhaul.Modules.Combat.Enums;
-using DaLion.Overhaul.Modules.Combat.Events.GameLoop;
+using DaLion.Overhaul.Modules.Combat.Events.GameLoop.UpdateTicked;
 using DaLion.Overhaul.Modules.Combat.Extensions;
 using DaLion.Shared.Constants;
 using DaLion.Shared.Extensions.Stardew;

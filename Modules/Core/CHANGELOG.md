@@ -1,5 +1,11 @@
 ﻿# Core Changelog
 
+## 3.1.4 <sup><sup><sup>[🔼 Back to top](#core-changelog)</sup></sup></sup>
+
+### Changed
+
+* Now uses `IntegrationRegistry` from updated Shared lib.
+
 ## 3.1.3 <sup><sup><sup>[🔼 Back to top](#core-changelog)</sup></sup></sup>
 
 ### Changed

@@ -3,7 +3,7 @@
 #region using directives
 
 using System.Xml.Serialization;
-using DaLion.Overhaul.Modules.Combat.Events.Input;
+using DaLion.Overhaul.Modules.Combat.Events.Input.ButonPressed;
 
 #endregion using directives
 

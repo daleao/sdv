@@ -2,7 +2,7 @@
 
 #region using directives
 
-using DaLion.Overhaul.Modules.Combat.Events.Player;
+using DaLion.Overhaul.Modules.Combat.Events.Player.Warped;
 using DaLion.Shared.Attributes;
 using DaLion.Shared.Integrations;
 

@@ -12,7 +12,6 @@ using DaLion.Shared.Extensions.Collections;
 using DaLion.Shared.Extensions.Reflection;
 using DaLion.Shared.Extensions.Stardew;
 using DaLion.Shared.Harmony;
-using DaLion.Shared.Maps;
 using HarmonyLib;
 using Netcode;
 using StardewValley.Buildings;
@@ -223,7 +222,7 @@ internal sealed class FishPondDoActionPatcher : HarmonyPatcher
 
     private static bool IsExtendedFamilyMember(int held, int other)
     {
-        return ExtendedFamilyPairs.Map.TryGetValue(other, out var pair) && pair == held;
+        return Maps.ExtendedFamilyPairs.TryGetValue(other, out var pair) && pair == held;
     }
 
     #endregion injected subroutines

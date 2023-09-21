@@ -311,7 +311,7 @@ internal static class FarmerExtensions
                 continue;
             }
 
-            if (Collections.LegendaryFishes.Contains(dataFields[0].ToString()))
+            if (Sets.LegendaryFishes.Contains(dataFields[0].ToString()))
             {
                 bonus += 0.025f;
             }

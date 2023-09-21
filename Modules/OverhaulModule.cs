@@ -108,6 +108,11 @@ public abstract class OverhaulModule
     //[MemberNotNull(nameof(_harmonizer), nameof(_commandHandler))]
     internal virtual void Activate(IModHelper helper)
     {
+        if (!this._ShouldEnable)
+        {
+            return;
+        }
+
         if (this.IsActive)
         {
             Log.D($"[Modules]: {this.Name} module is already active.");
@@ -154,7 +159,10 @@ public abstract class OverhaulModule
     /// <summary>Registers module integrations with third-party mods.</summary>
     internal virtual void RegisterIntegrations()
     {
-        IntegrationRegistry.RegisterFromNamespace(this.Namespace);
+        if (this.IsActive)
+        {
+            IntegrationRegistry.RegisterFromNamespace(this.Namespace);
+        }
     }
 
     /// <summary>Causes SMAPI to reload all assets edited by this module.</summary>
@@ -191,7 +199,7 @@ public abstract class OverhaulModule
         internal override void Activate(IModHelper helper)
         {
             base.Activate(helper);
-            //EventManager.ManageNamespace("DaLion.Shared");
+
 #if DEBUG
             EventManager.ManageNamespace(this.Namespace + ".Debug");
             this._harmonizer = Harmonizer.ApplyFromNamespace(helper.ModRegistry, this.Namespace + ".Debug");
@@ -245,15 +253,6 @@ public abstract class OverhaulModule
             {
                 ModEntry.Config.EnableProfessions = value;
                 ModHelper.WriteConfig(ModEntry.Config);
-            }
-        }
-
-        /// <inheritdoc />
-        internal override void Activate(IModHelper helper)
-        {
-            if (ShouldEnable)
-            {
-                base.Activate(helper);
             }
         }
 
@@ -588,11 +587,7 @@ public abstract class OverhaulModule
         /// <inheritdoc />
         internal override void Activate(IModHelper helper)
         {
-            if (ShouldEnable)
-            {
-                base.Activate(helper);
-            }
-
+            base.Activate(helper);
             Reflector.GetStaticFieldSetter<List<BaseEnchantment>?>(typeof(BaseEnchantment), "_enchantments")
                 .Invoke(null);
         }
@@ -671,15 +666,6 @@ public abstract class OverhaulModule
                 ModHelper.WriteConfig(ModEntry.Config);
             }
         }
-
-        /// <inheritdoc />
-        internal override void Activate(IModHelper helper)
-        {
-            if (ShouldEnable)
-            {
-                base.Activate(helper);
-            }
-        }
     }
 
     internal sealed class PondsModule : OverhaulModule
@@ -708,15 +694,6 @@ public abstract class OverhaulModule
             {
                 ModEntry.Config.EnablePonds = value;
                 ModHelper.WriteConfig(ModEntry.Config);
-            }
-        }
-
-        /// <inheritdoc />
-        internal override void Activate(IModHelper helper)
-        {
-            if (ShouldEnable)
-            {
-                base.Activate(helper);
             }
         }
 
@@ -757,15 +734,6 @@ public abstract class OverhaulModule
         }
 
         /// <inheritdoc />
-        internal override void Activate(IModHelper helper)
-        {
-            if (ShouldEnable)
-            {
-                base.Activate(helper);
-            }
-        }
-
-        /// <inheritdoc />
         protected override void InvalidateAssets()
         {
             ModHelper.GameContent.InvalidateCacheAndLocalized("Data/mail");
@@ -798,15 +766,6 @@ public abstract class OverhaulModule
             {
                 ModEntry.Config.EnableTweex = value;
                 ModHelper.WriteConfig(ModEntry.Config);
-            }
-        }
-
-        /// <inheritdoc />
-        internal override void Activate(IModHelper helper)
-        {
-            if (ShouldEnable)
-            {
-                base.Activate(helper);
             }
         }
     }

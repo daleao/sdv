@@ -161,7 +161,7 @@ internal static class CrabPotExtensions
 
             var key = keys[i];
             var specificFishDataFields = fishData[Convert.ToInt32(key)].SplitWithoutAllocation('/');
-            if (Collections.LegendaryFishes.Contains(specificFishDataFields[0].ToString()))
+            if (Sets.LegendaryFishes.Contains(specificFishDataFields[0].ToString()))
             {
                 continue;
             }

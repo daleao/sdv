@@ -50,7 +50,7 @@ internal sealed class ProspectorRenderedHudEvent : RenderedHudEvent
         for (var i = 0; i < Game1.currentLocation.resourceClumps.Count; i++)
         {
             var clump = Game1.currentLocation.resourceClumps[i];
-            if (!Collections.ResourceClumpIds.Contains(clump.parentSheetIndex.Value))
+            if (!Sets.ResourceClumpIds.Contains(clump.parentSheetIndex.Value))
             {
                 continue;
             }

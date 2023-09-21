@@ -2,7 +2,7 @@
 
 #region using directives
 
-using DaLion.Overhaul.Modules.Combat.Events.Display;
+using DaLion.Overhaul.Modules.Combat.Events.Display.Rendered;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
 

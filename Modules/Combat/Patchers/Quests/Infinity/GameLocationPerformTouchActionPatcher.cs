@@ -98,12 +98,15 @@ internal sealed class GameLocationPerformTouchActionPatcher : HarmonyPatcher
             return true;
         }
 
-        if (player.Items.Sum(item =>
-                item is SObject { ParentSheetIndex: ObjectIds.IridiumBar } iridium ? iridium.Stack : 0) <
-            CombatModule.Config.IridiumBarsPerGalaxyWeapon)
+        if (CombatModule.Config.IridiumBarsPerGalaxyWeapon > 0)
         {
-            Game1.drawObjectDialogue(I18n.Locations_Desert_Noiridium());
-            return false;
+            if (player.Items.Sum(item =>
+                    item is SObject { ParentSheetIndex: ObjectIds.IridiumBar } iridium ? iridium.Stack : 0) <
+                CombatModule.Config.IridiumBarsPerGalaxyWeapon)
+            {
+                Game1.drawObjectDialogue(I18n.Locations_Desert_Noiridium());
+                return false;
+            }
         }
 
         var obtained = player.Read(DataKeys.GalaxyArsenalObtained).ParseList<int>();

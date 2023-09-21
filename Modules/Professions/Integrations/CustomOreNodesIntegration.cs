@@ -26,7 +26,7 @@ internal sealed class CustomOreNodesIntegration : ModIntegration<CustomOreNodesI
             return;
         }
 
-        Collections.ResourceNodeIds = Collections.ResourceNodeIds
+        Sets.ResourceNodeIds = Sets.ResourceNodeIds
             .Concat(
                 this.ModApi
                     .GetCustomOreNodes()

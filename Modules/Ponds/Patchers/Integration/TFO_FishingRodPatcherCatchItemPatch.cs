@@ -15,7 +15,6 @@ using DaLion.Shared.Extensions;
 using DaLion.Shared.Extensions.Reflection;
 using DaLion.Shared.Extensions.Stardew;
 using DaLion.Shared.Harmony;
-using DaLion.Shared.Maps;
 using HarmonyLib;
 using Microsoft.Xna.Framework;
 using StardewValley.Buildings;
@@ -215,7 +214,7 @@ internal sealed class FishingRodPatcherCatchItemPatcher : HarmonyPatcher
             var lowestFamily = familyQualities.FindIndex(i => i > 0);
             if (lowestFamily < lowestFish)
             {
-                var whichFish = ExtendedFamilyPairs.Map[pond.fishType.Value];
+                var whichFish = Maps.ExtendedFamilyPairs[pond.fishType.Value];
                 setFishItem(
                     info,
                     new SObject(whichFish, 1, quality: lowestFamily == 3 ? 4 : lowestFamily));

@@ -1,9 +1,9 @@
 ﻿namespace DaLion.Overhaul.Modules.Combat.Patchers.Rings;
 
-using DaLion.Overhaul.Modules.Combat.Integrations;
-
 #region using directives
 
+using DaLion.Overhaul.Modules.Combat.Events.Player.Warped;
+using DaLion.Overhaul.Modules.Combat.Integrations;
 using DaLion.Overhaul.Modules.Combat.VirtualProperties;
 using DaLion.Shared.Constants;
 using DaLion.Shared.Harmony;
@@ -50,6 +50,7 @@ internal sealed class RingOnUnequipPatcher : HarmonyPatcher
                 return false; // don't run original logic
             case ObjectIds.WarriorRing: // reset warrior kill count
                 CombatModule.State.WarriorKillCount = 0;
+                EventManager.Disable<WarriorWarpedEvent>();
                 return true;
             case ObjectIds.ImmunityRing:
                 who.immunity -= 10;

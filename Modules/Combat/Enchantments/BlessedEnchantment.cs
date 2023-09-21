@@ -3,8 +3,8 @@
 #region using directives
 
 using System.Xml.Serialization;
-using DaLion.Overhaul.Modules.Combat.Events.GameLoop;
-using DaLion.Overhaul.Modules.Combat.Events.Player;
+using DaLion.Overhaul.Modules.Combat.Events.GameLoop.UpdateTicked;
+using DaLion.Overhaul.Modules.Combat.Events.Player.Warped;
 using DaLion.Overhaul.Modules.Combat.Projectiles;
 using DaLion.Shared.Enums;
 using Microsoft.Xna.Framework;

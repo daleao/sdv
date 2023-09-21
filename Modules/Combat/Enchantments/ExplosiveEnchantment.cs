@@ -3,7 +3,7 @@
 #region using directives
 
 using System.Xml.Serialization;
-using DaLion.Overhaul.Modules.Combat.Events.GameLoop;
+using DaLion.Overhaul.Modules.Combat.Events.GameLoop.UpdateTicked;
 using DaLion.Overhaul.Modules.Core.UI;
 using Microsoft.Xna.Framework;
 using StardewValley.Monsters;

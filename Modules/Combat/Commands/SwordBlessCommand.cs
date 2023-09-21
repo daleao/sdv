@@ -3,7 +3,7 @@
 #region using directives
 
 using System.Diagnostics.CodeAnalysis;
-using DaLion.Overhaul.Modules.Combat.Events.GameLoop;
+using DaLion.Overhaul.Modules.Combat.Events.GameLoop.UpdateTicked;
 using DaLion.Overhaul.Modules.Combat.Extensions;
 using DaLion.Shared.Commands;
 using DaLion.Shared.Constants;

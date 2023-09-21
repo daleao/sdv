@@ -3,7 +3,7 @@
 #region using directives
 
 using DaLion.Overhaul.Modules.Combat.Enums;
-using DaLion.Overhaul.Modules.Combat.Events.GameLoop;
+using DaLion.Overhaul.Modules.Combat.Events.GameLoop.DayStarted;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
 

@@ -3,7 +3,7 @@
 #region using directives
 
 using DaLion.Overhaul.Modules.Combat.Enums;
-using DaLion.Overhaul.Modules.Combat.Events.GameLoop;
+using DaLion.Overhaul.Modules.Combat.Events.GameLoop.UpdateTicked;
 using Microsoft.Xna.Framework;
 using StardewValley.Monsters;
 using StardewValley.Tools;

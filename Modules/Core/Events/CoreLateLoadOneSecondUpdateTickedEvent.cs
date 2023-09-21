@@ -42,8 +42,8 @@ internal sealed class CoreLateLoadOneSecondUpdateTickedEvent : OneSecondUpdateTi
             return;
         }
 
-        Log.I("Opening GMCM for initial setup.");
-        GenericModConfigMenu.Instance!.ModApi!.OpenModMenu(Manifest);
+        Log.I("Launching GMCM for initial setup.");
+        GenericModConfigMenu.Instance.ModApi!.OpenModMenu(Manifest);
         Data.InitialSetupComplete = true;
         ModHelper.Data.WriteJsonFile("data.json", Data);
         GenericModConfigMenu.Instance.Reload();

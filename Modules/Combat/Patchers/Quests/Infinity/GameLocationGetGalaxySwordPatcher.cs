@@ -89,8 +89,11 @@ internal sealed class GameLocationGetGalaxySwordPatcher : HarmonyPatcher
                 player.reduceActiveItemByOne();
             }
 
-            player.Items.First(i => i?.ParentSheetIndex == ObjectIds.IridiumBar).Stack -=
-                CombatModule.Config.IridiumBarsPerGalaxyWeapon;
+            if (CombatModule.Config.IridiumBarsPerGalaxyWeapon > 0)
+            {
+                player.Items.First(i => i?.ParentSheetIndex == ObjectIds.IridiumBar).Stack -=
+                    CombatModule.Config.IridiumBarsPerGalaxyWeapon;
+            }
 
             if (!player.addItemToInventoryBool(chosenAsItem))
             {
