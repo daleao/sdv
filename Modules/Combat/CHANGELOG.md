@@ -78,7 +78,7 @@ Exodus from Nexus.
 
 <sup><sup>[🔼 Back to top](#cmbt-changelog)</sup></sup>
 
-## 3.0.0 <sup><sup><sup>[🔼 Back to top](#cmbt-changelog)</sup></sup></sup>
+## 3.0.0
 
 Merged WPNZ, SLNGS, RNGS and ENCH into the CMBT module. All of those modules essentially tackled different facets of combat, and WPNZ and SLNGS in particular shared many redundant patches and config settings. In that light, the unification streamlines a lot of the config schema and cuts down on the number of patches required.
 
