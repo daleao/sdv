@@ -1,12 +1,14 @@
 ﻿# TWX Changelog
 
-## 3.1.2 <sup><sup><sup>[🔼 Back to top](#twx-changelog)</sup></sup></sup>
+## 3.1.2
 
 ### Fixed
 
 * Fixed Glowstone progression integration with Better Crafting.
 
-## 3.0.0 <sup><sup><sup>[🔼 Back to top](#twx-changelog)</sup></sup></sup>
+<sup><sup>[🔼 Back to top](#twx-changelog)</sup></sup>
+
+## 3.0.0
 
 ## Added
 
@@ -16,19 +18,25 @@
 
 * Re-organized config settings by skill.
 
-## 2.5.5 <sup><sup><sup>[🔼 Back to top](#twx-changelog)</sup></sup></sup>
+<sup><sup>[🔼 Back to top](#twx-changelog)</sup></sup>
+
+## 2.5.5
 
 ### Fixed
 
 * Fixed Tea Bush Age quality incorrectly using TreeAgingFactor instead of TeaBushAgingFactor. 
 
-## 2.5.2 <sup><sup><sup>[🔼 Back to top](#twx-changelog)</sup></sup></sup>
+<sup><sup>[🔼 Back to top](#twx-changelog)</sup></sup>
+
+## 2.5.2
 
 ### Fixed
 
 * Fixed crops withering even when watered.
 
-## 2.5.0 <sup><sup><sup>[🔼 Back to top](#twx-changelog)</sup></sup></sup>
+<sup><sup>[🔼 Back to top](#twx-changelog)</sup></sup>
+
+## 2.5.0
 
 ### Added
 
@@ -40,19 +48,25 @@
 * Removed LegendaryFishAlwaysIridiumQuality option, because it's not needed.
 * Removed the MillsPreserveQuality option, because I don't like it.
 
-## 2.4.0 <sup><sup><sup>[🔼 Back to top](#twx-changelog)</sup></sup></sup>
+<sup><sup>[🔼 Back to top](#twx-changelog)</sup></sup>
+
+## 2.4.0
 
 ### Fixed
 
 * Mushroom Box age now uses Foraging level instead of Farming.
 
-## 2.3.0 <sup><sup><sup>[🔼 Back to top](#twx-changelog)</sup></sup></sup>
+<sup><sup>[🔼 Back to top](#twx-changelog)</sup></sup>
+
+## 2.3.0
 
 ### Fixed
 
 * Custom farm map options in GMCM now only appear if the corresponding mod is installed.
 
-## 2.0.5 <sup><sup><sup>[🔼 Back to top](#twx-changelog)</sup></sup></sup>
+<sup><sup>[🔼 Back to top](#twx-changelog)</sup></sup>
+
+## 2.0.5
 
 ### Added
 
@@ -62,13 +76,17 @@
 
 * Fruit trees now grow as normal during winter in Ginger Island.
 
-## 2.0.0 <sup><sup><sup>[🔼 Back to top](#twx-changelog)</sup></sup></sup>
+<sup><sup>[🔼 Back to top](#twx-changelog)</sup></sup>
+
+## 2.0.0
 
 ### Added
 
 * Added new tweak to allow crows to spawn on custom maps.
 
-## 1.0.2 <sup><sup><sup>[🔼 Back to top](#twx-changelog)</sup></sup></sup>
+<sup><sup>[🔼 Back to top](#twx-changelog)</sup></sup>
+
+## 1.0.2
 
 ### Added
 
@@ -79,11 +97,15 @@
 
 * Fixed a bug where Mushrom Box quality did not apply when automated.
 
-## 0.9.3 <sup><sup><sup>[🔼 Back to top](#twx-changelog)</sup></sup></sup>
+<sup><sup>[🔼 Back to top](#twx-changelog)</sup></sup>
+
+## 0.9.3
 
 ### Fixed
 
 * Fixed Mill output quality compatibility with More Fertilizers.
+
+<sup><sup>[🔼 Back to top](#twx-changelog)</sup></sup>
 
 ## 0.9.0 (Initial release)
 

@@ -1,6 +1,6 @@
 ﻿# CMBT Changelog
 
-## 3.1.4 <sup><sup><sup>[🔼 Back to top](#cmbt-changelog)</sup></sup></sup>
+## 3.1.4
 
 ### Added
 
@@ -14,7 +14,9 @@
 * Fixed an issue where the player could not drift left or down using Slick Moves feature.
 * Fixed Savage Ring buff slowing down attack speed instead of boosting it up.
 
-## 3.1.3 <sup><sup><sup>[🔼 Back to top](#cmbt-changelog)</sup></sup></sup>
+<sup><sup>[🔼 Back to top](#cmbt-changelog)</sup></sup>
+
+## 3.1.3
 
 ### Added
 
@@ -28,19 +30,25 @@
 
 * Mayor shorts quest now correctly gives Honor points instead of Valor.
 
-## 3.1.1 <sup><sup><sup>[🔼 Back to top](#cmbt-changelog)</sup></sup></sup>
+<sup><sup>[🔼 Back to top](#cmbt-changelog)</sup></sup>
+
+## 3.1.1
 
 ### Fixed
 
 * Forgot to scale Garnet Node spawn back down to normal after debugging for 3.1.0.
 
-## 3.1.0 <sup><sup><sup>[🔼 Back to top](#cmbt-changelog)</sup></sup></sup>
+<sup><sup>[🔼 Back to top](#cmbt-changelog)</sup></sup>
+
+## 3.1.0
 
 ### Changed
 
 * [CON] Garnet Node is now merged into the main mod, so no longer requires a separate download.
 
-## 3.0.2 <sup><sup><sup>[🔼 Back to top](#cmbt-changelog)</sup></sup></sup>
+<sup><sup>[🔼 Back to top](#cmbt-changelog)</sup></sup>
+
+## 3.0.2
 
 Exodus from Nexus.
 
@@ -60,11 +68,15 @@ Exodus from Nexus.
 
 * Wabbajack end-of-day cleanup should now run correctly.
 
-## 3.0.1 <sup><sup><sup>[🔼 Back to top](#cmbt-changelog)</sup></sup></sup>
+<sup><sup>[🔼 Back to top](#cmbt-changelog)</sup></sup>
+
+## 3.0.1
 
 ### Fixed
 
 * Fixed Piper's Slime ammo damage (increased from 5 to 10).
+
+<sup><sup>[🔼 Back to top](#cmbt-changelog)</sup></sup>
 
 ## 3.0.0 <sup><sup><sup>[🔼 Back to top](#cmbt-changelog)</sup></sup></sup>
 

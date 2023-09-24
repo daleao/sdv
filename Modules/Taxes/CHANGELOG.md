@@ -1,6 +1,6 @@
 ﻿# TXS Changelog
 
-## 3.1.4 <sup><sup><sup>[🔼 Back to top](#txs-changelog)</sup></sup></sup>
+## 3.1.4
 
 ### Changed
 
@@ -11,7 +11,9 @@
 
 * Fixed debt not being collected when reloading.
 
-## 2.5.5 <sup><sup><sup>[🔼 Back to top](#txs-changelog)</sup></sup></sup>
+<sup><sup>[🔼 Back to top](#txs-changelog)</sup></sup>
+
+## 2.5.5
 
 ### Changed
 
@@ -23,62 +25,82 @@
   * DeductibleToolExpenses
 * Now actually uses ConservationistTaxBonusCeiling setting from PROFS, instead of setting it to 100%.
 
-## 2.5.0 <sup><sup><sup>[🔼 Back to top](#txs-changelog)</sup></sup></sup>
+<sup><sup>[🔼 Back to top](#txs-changelog)</sup></sup>
+
+## 2.5.0
 
 ### Fixes
 
 * Fixed an issue caused by ephemeral caching of overnight tax calculation between 1st and 2nd day of the season. If the player reset the game during the 2nd day of the season, calculations would be lost. These calculations are now persisted in mod data to prevent this issue.
 
-## 2.4.0 <sup><sup><sup>[🔼 Back to top](#txs-changelog)</sup></sup></sup>
+<sup><sup>[🔼 Back to top](#txs-changelog)</sup></sup>
+
+## 2.4.0
 
 ### Fixes
 
 * Fixed translation keys on every language.
 
-## 2.3.0 <sup><sup><sup>[🔼 Back to top](#txs-changelog)</sup></sup></sup>
+<sup><sup>[🔼 Back to top](#txs-changelog)</sup></sup>
+
+## 2.3.0
 
 ### Added
 
 * Added income and property tax information to the API.
 
-## 2.2.6 <sup><sup><sup>[🔼 Back to top](#txs-changelog)</sup></sup></sup>
+<sup><sup>[🔼 Back to top](#txs-changelog)</sup></sup>
+
+## 2.2.6
 
 ### Fixed
 
 * Agriculture and UVA totals are no longer weighed down by the winter season (as advertised).
 
-## 2.2.3 <sup><sup><sup>[🔼 Back to top](#txs-changelog)</sup></sup></sup>
+<sup><sup>[🔼 Back to top](#txs-changelog)</sup></sup>
+
+## 2.2.3
 
 ### Fixed
 
 * Now counts stacks of non-SObject items.
 
-## 2.2.0 <sup><sup><sup>[🔼 Back to top](#txs-changelog)</sup></sup></sup>
+<sup><sup>[🔼 Back to top](#txs-changelog)</sup></sup>
+
+## 2.2.0
 
 ### Fixed
 
 * Some correction to SetModData command.
 * Fixed long-standing issues with debt calculation. Looks like daily income was being counted twice, leading to lower debts than expected.
 
-## 2.1.0 <sup><sup><sup>[🔼 Back to top](#txs-changelog)</sup></sup></sup>
+<sup><sup>[🔼 Back to top](#txs-changelog)</sup></sup>
+
+## 2.1.0
 
 ### Fixed
 
 * Fixed a typo in the default i18n key for outstanding debt.
 
-## 2.0.5 <sup><sup><sup>[🔼 Back to top](#txs-changelog)</sup></sup></sup>
+<sup><sup>[🔼 Back to top](#txs-changelog)</sup></sup>
+
+## 2.0.5
 
 ### Fixed
 
 * Fixed agriculture value calculation, so no longer should properties be charged billions.
 
-## 2.0.3 <sup><sup><sup>[🔼 Back to top](#txs-changelog)</sup></sup></sup>
+<sup><sup>[🔼 Back to top](#txs-changelog)</sup></sup>
+
+## 2.0.3
 
 ### Fixed
 
 * Fixed a typo in the config verification.
 
-## 2.0.0 <sup><sup><sup>[🔼 Back to top](#txs-changelog)</sup></sup></sup>
+<sup><sup>[🔼 Back to top](#txs-changelog)</sup></sup>
+
+## 2.0.0
 
 ### Added
 
@@ -93,7 +115,9 @@
 
 * Improved taxation in multiplayer when using shared wallets (thanks to [ncarigon](https://github.com/ncarigon)).
 
-## 1.0.2 <sup><sup><sup>[🔼 Back to top](#txs-changelog)</sup></sup></sup>
+<sup><sup>[🔼 Back to top](#txs-changelog)</sup></sup>
+
+## 1.0.2
 
 ### Added
 
@@ -108,7 +132,9 @@
 * Fixed the taxable amount displayed in the logs (should have no effect on gameplay).
 * Taxes now apply to items sold via Mini-Shipping Bin.
 
-## 0.9.7 <sup><sup><sup>[🔼 Back to top](#txs-changelog)</sup></sup></sup>
+<sup><sup>[🔼 Back to top](#txs-changelog)</sup></sup>
+
+## 0.9.7
 
 ### Added
 
@@ -119,6 +145,8 @@
 
 * Business expenses will now correctly reset at the close of the season.
 * Prevent business expenses from being greater than due taxes.
+
+<sup><sup>[🔼 Back to top](#txs-changelog)</sup></sup>
 
 ## 0.9.0 (Initial release)
 

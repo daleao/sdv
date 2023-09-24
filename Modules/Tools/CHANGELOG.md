@@ -1,6 +1,6 @@
 ﻿# TOLS Changelog
 
-## 3.0.1 <sup><sup><sup>[🔼 Back to top](#tols-changelog)</sup></sup></sup>
+## 3.0.1
 
 ### Added
 
@@ -10,31 +10,41 @@
 
 * Fixed Master enchantment on tools other than Fishing Rod still increasing Fishing level by 1, and also not showing up as green in the skills page. Idk why ConcernedApe didn't just make it an `addedFishingLevel` to begin with.
 
-## 3.0.0 <sup><sup><sup>[🔼 Back to top](#tols-changelog)</sup></sup></sup>
+<sup><sup>[🔼 Back to top](#tols-changelog)</sup></sup>
+
+## 3.0.0
 
 ### Fixed
 
 * Fixed a vanilla bug that occurs when attempting to harvest fiber that is not ready for harvest, with a Haymaker scythe, and caused an infinite fiber exploit.
 
-## 2.5.5 <sup><sup><sup>[🔼 Back to top](#tols-changelog)</sup></sup></sup>
+<sup><sup>[🔼 Back to top](#tols-changelog)</sup></sup>
+
+## 2.5.5
 
 ### Fixed
 
 * Added missing GMCM options for Watering Can.
 
-## 2.5.4 <sup><sup><sup>[🔼 Back to top](#tols-changelog)</sup></sup></sup>
+<sup><sup>[🔼 Back to top](#tols-changelog)</sup></sup>
+
+## 2.5.4
 
 ### Fixed
 
 * Fixed a possible Null-Reference exception when using Flexible Sprinklers.
 
-## 2.5.3 <sup><sup><sup>[🔼 Back to top](#tols-changelog)</sup></sup></sup>
+<sup><sup>[🔼 Back to top](#tols-changelog)</sup></sup>
+
+## 2.5.3
 
 ### Fixed
 
 * Fixed an issue with Hoe and Watering Can settings validation.
 
-## 2.5.0 <sup><sup><sup>[🔼 Back to top](#tols-changelog)</sup></sup></sup>
+<sup><sup>[🔼 Back to top](#tols-changelog)</sup></sup>
+
+## 2.5.0
 
 ### Added
 
@@ -54,19 +64,25 @@
 
 * ColorCodedForYourConvenience now works without WPNZ module.
 
-## 2.4.0 <sup><sup><sup>[🔼 Back to top](#tols-changelog)</sup></sup></sup>
+<sup><sup>[🔼 Back to top](#tols-changelog)</sup></sup>
+
+## 2.4.0
 
 ### Fixed
 
 * Fixed broken translations in GMCM page links.
 
-## 2.2.3 <sup><sup><sup>[🔼 Back to top](#tols-changelog)</sup></sup></sup>
+<sup><sup>[🔼 Back to top](#tols-changelog)</sup></sup>
+
+## 2.2.3
 
 ### Fixed
 
 * Revised enable condition for ButtonPressedEvent, which should fix issues with FaceMouseCursor, SlickMoves and AutoSelection working if any is disabled.
 
-## 2.0.0 <sup><sup><sup>[🔼 Back to top](#tols-changelog)</sup></sup></sup>
+<sup><sup>[🔼 Back to top](#tols-changelog)</sup></sup>
+
+## 2.0.0
 
 ### Changed
 
@@ -76,7 +92,9 @@
 
 * Added missing base stamina cost mulitpliers for each tool to GMCM.
 
-## 1.3.3 <sup><sup><sup>[🔼 Back to top](#tols-changelog)</sup></sup></sup>
+<sup><sup>[🔼 Back to top](#tols-changelog)</sup></sup>
+
+## 1.3.3
 
 ### Fixed
 
@@ -87,7 +105,9 @@
 
 * Removed `HarvestSpringOnions` option. This is now considered forage.
 
-## 1.3.2 <sup><sup><sup>[🔼 Back to top](#tols-changelog)</sup></sup></sup>
+<sup><sup>[🔼 Back to top](#tols-changelog)</sup></sup>
+
+## 1.3.2
 
 ### Added
 
@@ -97,7 +117,9 @@
 
 * Harvest with scythe functionality will no-longer apply while Yet Another Harvest With Scythe mod is installed.
 
-## 1.3.1 <sup><sup><sup>[🔼 Back to top](#tols-changelog)</sup></sup></sup>
+<sup><sup>[🔼 Back to top](#tols-changelog)</sup></sup>
+
+## 1.3.1
 
 ### Added
 
@@ -107,13 +129,17 @@
 
 * Fixed scythe tooltip patcher not applying due to bad namespace.
 
-## 1.3.0 <sup><sup><sup>[🔼 Back to top](#tols-changelog)</sup></sup></sup>
+<sup><sup>[🔼 Back to top](#tols-changelog)</sup></sup>
+
+## 1.3.0
 
 ## Added
 
 * Added crop harvesting with Scythe.
 
-## 1.2.3 <sup><sup><sup>[🔼 Back to top](#tols-changelog)</sup></sup></sup>
+<sup><sup>[🔼 Back to top](#tols-changelog)</sup></sup>
+
+## 1.2.3
 
 ## Added
 
@@ -128,19 +154,25 @@
 
 * Fixed a possible memory leak in tool auto-selection logic.
 
-## 1.2.0 <sup><sup><sup>[🔼 Back to top](#tols-changelog)</sup></sup></sup>
+<sup><sup>[🔼 Back to top](#tols-changelog)</sup></sup>
+
+## 1.2.0
 
 ### Added
 
 * Added tool auto-selection.
 
-## 1.0.4 <sup><sup><sup>[🔼 Back to top](#tols-changelog)</sup></sup></sup>
+<sup><sup>[🔼 Back to top](#tols-changelog)</sup></sup>
+
+## 1.0.4
 
 ### Fixed
 
 * The AllowMasterEnchantment config should now work correctly.
 
-## 1.0.1 <sup><sup><sup>[🔼 Back to top](#tols-changelog)</sup></sup></sup>
+<sup><sup>[🔼 Back to top](#tols-changelog)</sup></sup>
+
+## 1.0.1
 
 ### Changed
 
@@ -150,19 +182,25 @@
 
 * Added a failsafe for an Index Out Of Range exception that may occur with Moon Misadventures installed.
 
-## 0.9.9 <sup><sup><sup>[🔼 Back to top](#tols-changelog)</sup></sup></sup>
+<sup><sup>[🔼 Back to top](#tols-changelog)</sup></sup>
+
+## 0.9.9
 
 ### Fixed
 
 * No longer changes the stats of scythes (which means they no longer need to be revalidated).
 
-## 0.9.7 <sup><sup><sup>[🔼 Back to top](#tols-changelog)</sup></sup></sup>
+<sup><sup>[🔼 Back to top](#tols-changelog)</sup></sup>
+
+## 0.9.7
 
 ### Fixed
 
 * Fixed a bug causing player Stamina to get stuck at 1 and not continue below 0.
 
-## 0.9.4 <sup><sup><sup>[🔼 Back to top](#tols-changelog)</sup></sup></sup>
+<sup><sup>[🔼 Back to top](#tols-changelog)</sup></sup>
+
+## 0.9.4
 
 ### Fixed
 
@@ -170,11 +208,15 @@
 * Fixed a bug with Scythe ClearTreeSaplings setting.
 * Scythe can now receive the Haymaker enchantment as intended.
 
-## 0.9.3 <sup><sup><sup>[🔼 Back to top](#tols-changelog)</sup></sup></sup>
+<sup><sup>[🔼 Back to top](#tols-changelog)</sup></sup>
+
+## 0.9.3
 
 ### Fixed
 
 * Control settings now apply only to weapons, as they should.
+
+<sup><sup>[🔼 Back to top](#tols-changelog)</sup></sup>
 
 ## 0.9.0 (Initial release)
 

@@ -2,7 +2,7 @@
 
 This file contains a TL;DR of current version changes and hotfixes from across all modules. For the complete changelog, please refer to the individual changelogs of each module, linked [below](#detailed-changelogs).
 
-## Patch 3.1.4 Highlights <sup><sup>[🔼 Back to top](#margo-changelogs)</sup></sup>
+## Patch 3.1.4 Highlights
 
 * Added translations for new chat notifications (missing JA, KO and ZH).
 * [CMBT]: Receiving your final Galaxy weapon will now also reward a free pair of Space Boots.
@@ -13,30 +13,40 @@ This file contains a TL;DR of current version changes and hotfixes from across a
 * [TXS]: Fixed debt not being collected when reloading.
 * [TXS]: Default annual interest increased to 100% (was previously 12%).
 
-## Patch 3.1.3 Highlights <sup><sup>[🔼 Back to top](#margo-changelogs)</sup></sup>
+<sup><sup>[🔼 Back to top](#margo-changelogs)</sup></sup>
+
+## Patch 3.1.3 Highlights
 
 * Rolled back dependency updates due to conflicts with AtraCore.
 * Added missing translations. Improved some Chinese translations, thanks to xuzhi1977.
 * [CMBT]: Added chat notifications for when a virtue point is gained.
-* [PROFS]: Changed the way Scavenger and Prospector treasures scale with the streak. Players should now see significantly more treasure if they manage to keep their streaks high.
+* [PROFS]: Changed the way Scavenger and Prospector treasures scale with the current streak. Players should now see significantly more treasure if they manage to keep their streaks high.
 
-## Patch 3.1.2 Highlights <sup><sup>[🔼 Back to top](#margo-changelogs)</sup></sup>
+<sup><sup>[🔼 Back to top](#margo-changelogs)</sup></sup>
+
+## Patch 3.1.2 Highlights
 
 * Config menu now auto-detects gamepad mode and adapts accordingly.
 * Added Korean GMCM translations by [Jun9273](https://github.com/Jun9273).
 * Added Chinese GMCM translations by [Jumping-notes](https://github.com/Jumping-notes).
 * [TWX]: Fixed Glowstone progression integration with Better Crafting.
 
-## Hotfix 3.1.1 Highlights <sup><sup>[🔼 Back to top](#margo-changelogs)</sup></sup>
+<sup><sup>[🔼 Back to top](#margo-changelogs)</sup></sup>
+
+## Hotfix 3.1.1 Highlights
 
 * Forgot to scale Garnet Node spawn back down to normal after debugging for 3.1.0.
 
-## Patch 3.1.0 Highlights <sup><sup>[🔼 Back to top](#margo-changelogs)</sup></sup>
+<sup><sup>[🔼 Back to top](#margo-changelogs)</sup></sup>
+
+## Patch 3.1.0 Highlights
 
 * Optional files `[CP] Fish Pond Data` and `[CON] Garnet Node` are now embedded in the main mod.
 * Updated mod dependencies.
 
-## Patch 3.0.2 Highlights <sup><sup>[🔼 Back to top](#margo-changelogs)</sup></sup>
+<sup><sup>[🔼 Back to top](#margo-changelogs)</sup></sup>
+
+## Patch 3.0.2 Highlights
 
 * Fixed a few more translation issues.
 * Added Combo Framework to the API.
@@ -46,13 +56,17 @@ This file contains a TL;DR of current version changes and hotfixes from across a
 * [CMBT]: Honor can now be proven by returning the Mayor's purple shorts without shenanigans.
 * [CMBT]: Changed SVE's Treasure Cave chest reward from Obsidian Edge to Lava Katana.
 
-## Patch 3.0.1 Highlights <sup><sup>[🔼 Back to top](#margo-changelogs)</sup></sup>
+<sup><sup>[🔼 Back to top](#margo-changelogs)</sup></sup>
+
+## Patch 3.0.1 Highlights
 
 * Fixed some missing translations.
 * [CMBT]: Fixed Piper's Slime ammo damage (increased from 5 to 10).
 * [TOLS]: Fixed Master enchantment on tools other than Fishing Rod still increasing Fishing level by 1, and also not showing up as green in the skills page.
 
-## Major Release 3.0.0 Highlights <sup><sup>[🔼 Back to top](#margo-changelogs)</sup></sup>
+<sup><sup>[🔼 Back to top](#margo-changelogs)</sup></sup>
+
+## Major Release 3.0.0 Highlights
 
 * Re-unification of all the combat-oriented modules: CMBT, WPNZ, SLNGS, RNGS and ENCH are now collectively known as CMBT.
     * Several redundant config settings (like those related to Auto-Selection) were consolidated.
@@ -66,9 +80,11 @@ This file contains a TL;DR of current version changes and hotfixes from across a
 * [CMBT]: Added enemy difficulty summands to config options and changed default config values for some multipliers.
 * [TWX]: Re-organized config settings by skill.
 
-[🔼 Back to top](#cmbt-changelog)
+<sup><sup>[🔼 Back to top](#margo-changelogs)</sup></sup>
 
 ## Detailed Changelogs
+
+In-depth changelogs for existing modules.
 
 * [Core](Modules/Core/CHANGELOG.md)
 * [Professions](Modules/Professions/CHANGELOG.md)
@@ -76,6 +92,17 @@ This file contains a TL;DR of current version changes and hotfixes from across a
 * [Tools](Modules/Tools/CHANGELOG.md)
 * [Ponds](Modules/Ponds/CHANGELOG.md)
 * [Taxes](Modules/Taxes/CHANGELOG.md)
-* [Tweaks](Modules/Tweex/CHANGELOG.md)
+* [Tweex](Modules/Tweex/CHANGELOG.md)
+
+<sup><sup>[🔼 Back to top](#margo-changelogs)</sup></sup>
+
+## Legacy Changelogs
+
+Changelogs for modules that have been merged and no longer exist.
+
+* [Weapons](Modules/Combat/resources/legacy/CHANGELOG_WPNZ.md)
+* [Slingshots](Modules/Combat/resources/legacy/CHANGELOG_SLNGS.md)
+* [Enchantments](Modules/Combat/resources/legacy/CHANGELOG_ENCH.md)
+* [Rings](Modules/Combat/resources/legacy/CHANGELOG_RNGS.md)
 
 [🔼 Back to top](#margo-changelogs)

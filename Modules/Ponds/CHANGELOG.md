@@ -1,24 +1,30 @@
 ﻿# PNDS Changelog
 
-## 2.5.5 <sup><sup><sup>[🔼 Back to top](#pnds-changelog)</sup></sup></sup>
+## 2.5.5
 
 ### Fixed
 
 * Fixes an issue with legendary fish not retaining quality. Apparently.
 
-## 2.5.0 <sup><sup><sup>[🔼 Back to top](#pnds-changelog)</sup></sup></sup>
+<sup><sup>[🔼 Back to top](#pnds-changelog)</sup></sup>
+
+## 2.5.0
 
 ### Added
 
 * Mr. and Ms. Angler can now mate when placed together in a pond.
 
-## 1.0.4 <sup><sup><sup>[🔼 Back to top](#pnds-changelog)</sup></sup></sup>
+<sup><sup>[🔼 Back to top](#pnds-changelog)</sup></sup>
+
+## 1.0.4
 
 ### Fixed
 
 * Fixed a major typo in Fish Pond Mod Data, which caused FamilyLivingHere and DaysEmpty data fields to overwrite each other. I can't begin to imagine all the problems this was causing, but I recommend everyone reset their ponds to be sure.
 
-## 1.0.2 <sup><sup><sup>[🔼 Back to top](#pnds-changelog)</sup></sup></sup>
+<sup><sup>[🔼 Back to top](#pnds-changelog)</sup></sup>
+
+## 1.0.2
 
 ### Changed
 
@@ -32,7 +38,9 @@
 * Fixed a typo in Reflector logic which caused an exception to be thrown with Teh's Fishing Overhaul.
 * TFO integration should now handle Algae correctly.
 
-## 1.0.0 <sup><sup><sup>[🔼 Back to top](#pnds-changelog)</sup></sup></sup>
+<sup><sup>[🔼 Back to top](#pnds-changelog)</sup></sup>
+
+## 1.0.0
 
 ### Added
 
@@ -44,17 +52,23 @@
 * Fixed an issue which caused invalid mod data leftover after changing a pond's fish type.
 * Adjustments to the positioning of fish in Pond Query Menu.
 
-## 0.9.6 <sup><sup><sup>[🔼 Back to top](#pnds-changelog)</sup></sup></sup>
+<sup><sup>[🔼 Back to top](#pnds-changelog)</sup></sup>
+
+## 0.9.6
 
 ### Fixed
 
 * "Fixed" (but not really) an error thrown during Fish Pond production logic. This is actually caused by vanilla's `Utility.consolidateStacks` method, which deletes non-colored Roe from the produce list for some reason. Because this just slightly nerfs Fish Pond production, and they're slightly too strong, I'm choosing to embrace the bug and just hide the error.
 
-## 0.9.2 <sup><sup><sup>[🔼 Back to top](#pnds-changelog)</sup></sup></sup>
+<sup><sup>[🔼 Back to top](#pnds-changelog)</sup></sup>
+
+## 0.9.2
 
 ### Changed
 
 * The quality of produced roe is now less than or equal to the quality of the fish which produced it, instead of always being equal to it.
+
+<sup><sup>[🔼 Back to top](#pnds-changelog)</sup></sup>
 
 ## 0.9.0 (Initial release)
 
