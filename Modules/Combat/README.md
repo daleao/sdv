@@ -64,6 +64,7 @@ Taking inspiration from classic RPG or strategy games, this module adds a framew
 - **Stunned:** Cannot move or attack for the duration.
 
 <p align="center">
+
 <img src="https://gitlab.com/daleao/modular-overhaul/-/raw/main/resources/screenshots/stun_animation.gif" alt="stun_animation.gif" width="67%">
 </p>
 
@@ -117,6 +118,7 @@ Weapon spamming is makes vanilla combat a boring click-fest. This mod implements
 - **Daggers:** unchanged, effectively up to infinite hits.
 
 <p align="center">
+
 <img src="https://gitlab.com/daleao/modular-overhaul/-/raw/main/resources/screenshots/combo_sword_small.gif" alt="combo_sword.gif" width="33%">
 <img src="https://gitlab.com/daleao/modular-overhaul/-/raw/main/resources/screenshots/combo_club_small.gif" alt="combo_club.gif" width="33%">
 </p>
@@ -132,6 +134,7 @@ In vanilla game code we can find traces of an abandoned fourth weapon type: **St
 Swords are now split between **offensive** and **defensive** archetypes. Defensive sw   ords retain the parry special move, while offensive swords gain a new stabbing thrust move. This move allows quick repositioning and also grants invincibility frames. You can also change the direction mid-dash by inputting a directional command in a perpendicular direction.
 
 <p align="center">
+
 <img src="https://gitlab.com/daleao/modular-overhaul/-/raw/main/resources/screenshots/stabbing_special.gif" alt="stabbing_special.gif" width="67%">
 </p>
 
@@ -161,6 +164,7 @@ Weapons are categorized by different tiers, [color-coded for your convenience][t
 Weapons below the Mythic tier all have randomized damage, determined the moment they are dropped and scaled to your Mine progression. This way, players can always loot stronger weapons; all weapons can be useful, and no specific weapon is ever trivialized. Higher-tier weapons will generally be stronger than lower-tiered ones, although that may not always be the case.
 
 <p align="center">
+
 <img src="https://gitlab.com/daleao/modular-overhaul/-/raw/main/resources/screenshots/color-coded.gif" alt="color-coded.gif" width="67%">
 </p>
 
@@ -186,6 +190,7 @@ Masterwork weapons are relics of the Dwarven race, crafted from special material
 Masterwork weapons can only be obtained if the Dwarven Legacy setting is enabled.
 
 <p align="center">
+
 <img src="https://gitlab.com/daleao/modular-overhaul/-/raw/main/resources/screenshots/dwarvish_crafting.gif" alt="dwarvish_crafting.gif" width="67%">
 </p>
 
@@ -330,6 +335,7 @@ This following rings have been changed:
 The Iridium Band has been completely overhauled. Initially, a newly crafted Iridium Band will grant no effects at all. Only with access to the Forge will you be able to awaken its true form by infusing it with a Galaxy Soul to transform it into an **Infinity Band**.
 
 <p align="center">
+
 <img src="https://gitlab.com/daleao/modular-overhaul/-/raw/main/resources/screenshots/infinity_band.gif" alt="infinity_band.gif" width="67%">
 </p>
 
@@ -348,6 +354,7 @@ Subsequent Galaxy weapons will no longer be available for purchase at the Advent
 Upgrading to Infinity is now a much more involved task, requiring the player to prove they have a virtuous and heroic soul. Doing so will require completion of a new questline revolving around the all-new Blade of Ruin...
 
 <p align="center">
+
 <img src="https://gitlab.com/daleao/modular-overhaul/-/raw/main/resources/screenshots/cursed_event.png" alt="cursed_event.png" width="67%">
 </p>
 
