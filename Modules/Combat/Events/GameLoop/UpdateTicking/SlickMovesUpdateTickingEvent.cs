@@ -28,15 +28,15 @@ internal sealed class SlickMovesUpdateTickingEvent : UpdateTickingEvent
         }
 
         var (x, y) = CombatModule.State.DriftVelocity;
-        if (x < 1e-3f && y < 1e-3f)
+        if (Math.Abs(x) < 0.1 && Math.Abs(y) < 0.1)
         {
             this.Disable();
         }
 
-        var player = Game1.player;
-        (player.xVelocity, player.yVelocity) = (x, y);
         x -= x / 16f;
         y -= y / 16f;
+        var player = Game1.player;
+        (player.xVelocity, player.yVelocity) = (x, y);
         CombatModule.State.DriftVelocity = new Vector2(x, y);
     }
 }

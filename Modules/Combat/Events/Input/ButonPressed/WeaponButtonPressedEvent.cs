@@ -1,8 +1,5 @@
 ﻿namespace DaLion.Overhaul.Modules.Combat.Events.Input.ButonPressed;
 
-using DaLion.Overhaul;
-using DaLion.Overhaul.Modules.Combat;
-
 #region using directives
 
 using DaLion.Overhaul.Modules.Combat.Events.GameLoop.UpdateTicking;
@@ -117,7 +114,7 @@ internal sealed class WeaponButtonPressedEvent : ButtonPressedEvent
             directionVector *= -1f;
         }
 
-        var driftVelocity = directionVector * (1f + Game1.player.addedSpeed * 0.1f) * 3f;
+        var driftVelocity = directionVector * (1f + (Game1.player.addedSpeed * 0.1f)) * 3f;
         CombatModule.State.DriftVelocity = driftVelocity;
         this.Manager.Enable<SlickMovesUpdateTickingEvent>();
     }

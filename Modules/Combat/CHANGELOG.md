@@ -2,11 +2,17 @@
 
 ## 3.1.4 <sup><sup><sup>[🔼 Back to top](#cmbt-changelog)</sup></sup></sup>
 
+### Added
+
+* Receiving your final Galaxy weapon will now also reward a free pair of Space Boots. They can still be purchased at the Adventure Guild, as always.
+
 ### Fixed
 
 * Added translations for new chat notifications (missing JA, KO and ZH).
 * Stabbing Sword special move will no longer clip through warps.
 * Fixed error thrown when trying to get Galaxy weapon with Iridium Bar config set to zero.
+* Fixed an issue where the player could not drift left or down using Slick Moves feature.
+* Fixed Savage Ring buff slowing down attack speed instead of boosting it up.
 
 ## 3.1.3 <sup><sup><sup>[🔼 Back to top](#cmbt-changelog)</sup></sup></sup>
 

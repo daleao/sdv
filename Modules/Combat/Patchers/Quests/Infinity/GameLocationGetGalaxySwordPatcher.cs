@@ -13,6 +13,7 @@ using DaLion.Shared.Extensions.Stardew;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
 using StardewValley;
+using StardewValley.Objects;
 using StardewValley.Tools;
 
 #endregion using directives
@@ -42,6 +43,12 @@ internal sealed class GameLocationGetGalaxySwordPatcher : HarmonyPatcher
         {
             var player = Game1.player;
             var obtained = player.Read(DataKeys.GalaxyArsenalObtained).ParseList<int>();
+            if (obtained.Count == 4)
+            {
+                Log.W("Player was already gifted a full-set of Galaxy weapons. How did they get here?");
+                return false; // don't run original logic
+            }
+
             int? chosen = null;
             for (var i = 0; i < player.Items.Count; i++)
             {
@@ -101,6 +108,12 @@ internal sealed class GameLocationGetGalaxySwordPatcher : HarmonyPatcher
             }
 
             player.Append(DataKeys.GalaxyArsenalObtained, chosen.Value.ToString());
+            obtained = player.Read(DataKeys.GalaxyArsenalObtained).ParseList<int>();
+            if (obtained.Count == 4)
+            {
+                Game1.createItemDebris(new Boots(BootIds.SpaceBoots), player.getStandingPosition(), -1);
+            }
+
             if (!player.mailReceived.Contains("galaxySword"))
             {
                 player.mailReceived.Add("galaxySword");

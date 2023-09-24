@@ -37,6 +37,7 @@ internal static class FarmerExtensions
     /// <param name="farmer">The <see cref="Farmer"/>.</param>
     /// <param name="weapon">The <paramref name="farmer"/>'s weapon.</param>
     /// <returns>The total swing speed modifier, a number between 0 and 1.</returns>
+    /// <remarks>Smaller is faster.</remarks>
     internal static float GetTotalSwingSpeedModifier(this Farmer farmer, MeleeWeapon? weapon = null)
     {
         weapon ??= farmer.CurrentTool as MeleeWeapon;
@@ -53,7 +54,7 @@ internal static class FarmerExtensions
         }
 
         modifier *= 1f / (1f + farmer.weaponSpeedModifier);
-        modifier *= Math.Max(CombatModule.State.SavageExcitedness / 3f, 1f);
+        modifier *= (18f - CombatModule.State.SavageExcitedness) / 18f;
         return modifier;
     }
 
@@ -61,6 +62,7 @@ internal static class FarmerExtensions
     /// <param name="farmer">The <see cref="Farmer"/>.</param>
     /// <param name="slingshot">The <paramref name="farmer"/>'s slingshot.</param>
     /// <returns>The total firing speed modifier, a number between 0 and 1.</returns>
+    /// <remarks>Smaller is faster.</remarks>
     internal static float GetTotalFiringSpeedModifier(this Farmer farmer, Slingshot? slingshot = null)
     {
         slingshot ??= farmer.CurrentTool as Slingshot;
@@ -72,7 +74,7 @@ internal static class FarmerExtensions
         }
 
         modifier *= 1f / (1f + farmer.weaponSpeedModifier);
-        modifier *= Math.Max(CombatModule.State.SavageExcitedness / 3f, 1f);
+        modifier *= (18f - CombatModule.State.SavageExcitedness) / 18f;
         return modifier;
     }
 
