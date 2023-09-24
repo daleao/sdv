@@ -117,11 +117,11 @@ Weapon spamming is makes vanilla combat a boring click-fest. This mod implements
 - **Clubs:** up to 2 hits, being one horizontal swipe and one vertical swipe, by default.
 - **Daggers:** unchanged, effectively up to infinite hits.
 
-<p align="center">
+<div align="center">
 
 <img src="https://gitlab.com/daleao/modular-overhaul/-/raw/main/resources/screenshots/combo_sword_small.gif" alt="combo_sword.gif" width="33%">
 <img src="https://gitlab.com/daleao/modular-overhaul/-/raw/main/resources/screenshots/combo_club_small.gif" alt="combo_club.gif" width="33%">
-</p>
+</div>
 
 If combo hits are enabled, swing speed bonuses from **emerald** effects will apply to every frame of the attack animation, as well as the cooldown in between combos, as opposed to only the final frame as in vanilla. This immediately makes speed a more valuable stat.
 
@@ -133,10 +133,10 @@ In vanilla game code we can find traces of an abandoned fourth weapon type: **St
 
 Swords are now split between **offensive** and **defensive** archetypes. Defensive sw   ords retain the parry special move, while offensive swords gain a new stabbing thrust move. This move allows quick repositioning and also grants invincibility frames. You can also change the direction mid-dash by inputting a directional command in a perpendicular direction.
 
-<p align="center">
+<div align="center">
 
 <img src="https://gitlab.com/daleao/modular-overhaul/-/raw/main/resources/screenshots/stabbing_special.gif" alt="stabbing_special.gif" width="67%">
-</p>
+</div>
 
 To improve the defensive parry move, parry damage is increased by 10% for every defense point. This adds offensive value to the defense stat itself and makes defensive builds more viable. Note that the introduction of weapon combos also adds to the value of a defensive move (you need to protect yourself during combo downtime).
 
@@ -163,10 +163,10 @@ Weapons are categorized by different tiers, [color-coded for your convenience][t
 
 Weapons below the Mythic tier all have randomized damage, determined the moment they are dropped and scaled to your Mine progression. This way, players can always loot stronger weapons; all weapons can be useful, and no specific weapon is ever trivialized. Higher-tier weapons will generally be stronger than lower-tiered ones, although that may not always be the case.
 
-<p align="center">
+<div align="center">
 
 <img src="https://gitlab.com/daleao/modular-overhaul/-/raw/main/resources/screenshots/color-coded.gif" alt="color-coded.gif" width="67%">
-</p>
+</div>
 
 **Mythic Tier**
 
@@ -189,10 +189,10 @@ Masterwork weapons are relics of the Dwarven race, crafted from special material
 
 Masterwork weapons can only be obtained if the Dwarven Legacy setting is enabled.
 
-<p align="center">
+<div align="center">
 
 <img src="https://gitlab.com/daleao/modular-overhaul/-/raw/main/resources/screenshots/dwarvish_crafting.gif" alt="dwarvish_crafting.gif" width="67%">
-</p>
+</div>
 
 Note that **only vanilla weapons have been rebalanced**. If you play with expansion mods which add new weapons, such as Ridgeside Village, you will likely notice absurdly high stats in those weapons' tooltips. **That's not on me.** Those weapons are broken by design. I just pulled the curtains. You're welcome.
 
@@ -334,10 +334,10 @@ This following rings have been changed:
 
 The Iridium Band has been completely overhauled. Initially, a newly crafted Iridium Band will grant no effects at all. Only with access to the Forge will you be able to awaken its true form by infusing it with a Galaxy Soul to transform it into an **Infinity Band**.
 
-<p align="center">
+<div align="center">
 
 <img src="https://gitlab.com/daleao/modular-overhaul/-/raw/main/resources/screenshots/infinity_band.gif" alt="infinity_band.gif" width="67%">
-</p>
+</div>
 
 The Infinity Band likewise does nothing on its own, but it serves as a vessel for up to **four** gemstones. To add a gemstone to the Infinity Band, you must fuse it with a corresponding gemstone ring at the Forge. The same type of gemstone can be added more than once, compounding the effect. Alternatively, combining different gemstones will potentially lead to powerful [resonances](#resonance).
 
@@ -353,10 +353,10 @@ Subsequent Galaxy weapons will no longer be available for purchase at the Advent
 
 Upgrading to Infinity is now a much more involved task, requiring the player to prove they have a virtuous and heroic soul. Doing so will require completion of a new questline revolving around the all-new Blade of Ruin...
 
-<p align="center">
+<div align="center">
 
 <img src="https://gitlab.com/daleao/modular-overhaul/-/raw/main/resources/screenshots/cursed_event.png" alt="cursed_event.png" width="67%">
-</p>
+</div>
 
 In return for all that extra work, the Infinity weapons have extra perks:    
 1. +1 gemstone slot (4 total). Keeping in mind that each gemstone has the potential to [resonate](#resonance).

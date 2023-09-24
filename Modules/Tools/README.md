@@ -8,9 +8,9 @@
 
 This module is inspired by the tool progression system of old Harvest Moon: Friends of Mineral Town, where the Axe and Hammer tools were also chargeable, and their ultimate upgrades could destroy all debris on-screen.
 
-<figure align="center" width="9999" id="fig1">
-  <img src="resources/cover.gif" align="center" height="auto" width="80%" alt="Gif">
-</figure>
+<div align="center">
+  <img src="resources/cover.gif" width="67%" alt="cover.gif">
+</div>
 
 This module provides the following features:
 1. Allows the Axe and Pickaxe to be charged according to the tool's upgrade level, just like Hoe and Watering Can.
