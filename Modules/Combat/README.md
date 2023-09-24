@@ -63,10 +63,10 @@ Taking inspiration from classic RPG or strategy games, this module adds a framew
 - **Slowed:** Reduces movement speed by half for the duration.
 - **Stunned:** Cannot move or attack for the duration.
 
-<p align="center">
+<div align="center">
 
 <img src="https://gitlab.com/daleao/modular-overhaul/-/raw/main/resources/screenshots/stun_animation.gif" alt="stun_animation.gif" width="67%">
-</p>
+</div>
 
 Each status condition is accompanied by a neat corresponding animation. Status conditions cannot be applied on the player.
 
