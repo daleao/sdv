@@ -111,7 +111,7 @@ internal sealed class GameLocationGetGalaxySwordPatcher : HarmonyPatcher
             obtained = player.Read(DataKeys.GalaxyArsenalObtained).ParseList<int>();
             if (obtained.Count == 4)
             {
-                Game1.createItemDebris(new Boots(BootIds.SpaceBoots), player.getStandingPosition(), -1);
+                Game1.createItemDebris(new Boots(BootsIds.SpaceBoots), player.getStandingPosition(), -1);
             }
 
             if (!player.mailReceived.Contains("galaxySword"))

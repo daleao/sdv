@@ -76,30 +76,30 @@ internal sealed class UtilityGetAdventureShopStockPatcher : HarmonyPatcher
                 stock.Add(new MeleeWeapon(WeaponIds.TheSlammer), new[] { 65000, int.MaxValue });
             }
 
-            stock.Add(new Boots(BootIds.Sneakers), new[] { 500, int.MaxValue });
+            stock.Add(new Boots(BootsIds.Sneakers), new[] { 500, int.MaxValue });
             if (MineShaft.lowestLevelReached >= 20)
             {
-                stock.Add(new Boots(BootIds.LeatherBoots), new[] { 800, int.MaxValue });
+                stock.Add(new Boots(BootsIds.LeatherBoots), new[] { 800, int.MaxValue });
             }
 
             if (MineShaft.lowestLevelReached >= 40)
             {
-                stock.Add(new Boots(BootIds.TundraBoots), new[] { 1000, int.MaxValue });
+                stock.Add(new Boots(BootsIds.TundraBoots), new[] { 1000, int.MaxValue });
             }
 
             if (MineShaft.lowestLevelReached >= 60)
             {
-                stock.Add(new Boots(BootIds.CombatBoots), new[] { 1500, int.MaxValue });
+                stock.Add(new Boots(BootsIds.CombatBoots), new[] { 1500, int.MaxValue });
             }
 
             if (MineShaft.lowestLevelReached >= 80)
             {
-                stock.Add(new Boots(BootIds.FirewalkerBoots), new[] { 5000, int.MaxValue });
+                stock.Add(new Boots(BootsIds.FirewalkerBoots), new[] { 5000, int.MaxValue });
             }
 
             if (MineShaft.lowestLevelReached >= 120)
             {
-                stock.Add(new Boots(BootIds.SpaceBoots), new[] { 20000, int.MaxValue });
+                stock.Add(new Boots(BootsIds.SpaceBoots), new[] { 20000, int.MaxValue });
             }
 
             if (!CombatModule.Config.CraftableGemstoneRings)
