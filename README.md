@@ -159,7 +159,7 @@ This project uses the following NuGet packages:
 
 ## Credits & Special Thanks
 
-All hail our Lord and Savior [Pathoschild][user:pathoschild], creator of [SMAPI][url:smapi], Content Patcher and the mod-verse, as well as our Father, **ConcernedApe**, creator of Stardew Valley, a benevolent God who continues to support the game for both players and modders.    
+We hail the Lord and Savior [Pathoschild][user:pathoschild], creator of [SMAPI][url:smapi], Content Patcher and the mod-verse, as well as the Father, **ConcernedApe**, creator of Stardew Valley, a benevolent God who continues to support the game for both players and modders.    
 
 This mod borrows ideas and assets from [Ragnarok Online][url:ragnarok], [League of Legends][url:league] and early Pokemon games. Credit to those, respectively, goes to [Gravity][url:gravity], [Riot Games][url:riot] and [Game Freak][url:gamefreak]. This mod is completely free and open-source, provided under [Common Clause-extended MIT License](LICENSE).
 
@@ -173,7 +173,7 @@ Special thanks the translators who have contributed to this project:
 
 You have the right to upload your own translation of this project, but I reserve the right to add your translation directly to the project.
 
-Shout-out to [JetBrains][url:jetbrains] for providing a free open-source license to ReSharper and other tools, which provide an immense help to improve and maintain the quality of the code in this mod.
+Thanks to [JetBrains][url:jetbrains] for providing a free open-source license to ReSharper and other tools.
 
 <img width="64" src="https://smapi.io/Content/images/pufferchick.png" alt="Pufferchick"> <img width="80" src="https://resources.jetbrains.com/storage/products/company/brand/logos/jb_beam.svg" alt="JetBrains logo.">
 

@@ -63,6 +63,10 @@ Taking inspiration from classic RPG or strategy games, this module adds a framew
 - **Slowed:** Reduces movement speed by half for the duration.
 - **Stunned:** Cannot move or attack for the duration.
 
+<p align="center">
+<img src="https://gitlab.com/daleao/modular-overhaul/-/raw/main/resources/screenshots/stun_animation.gif" alt="stun_animation.gif" width="90%">
+</p>
+
 Each status condition is accompanied by a neat corresponding animation. Status conditions cannot be applied on the player.
 
 <sup><sup>[🔼 Back to top](#margo--combat-cmbt)</sup></sup>
@@ -110,6 +114,11 @@ Weapon spamming is makes vanilla combat a boring click-fest. This mod implements
 - **Clubs:** up to 2 hits, being one horizontal swipe and one vertical swipe, by default.
 - **Daggers:** unchanged, effectively up to infinite hits.
 
+<p align="center">
+<img src="https://gitlab.com/daleao/modular-overhaul/-/raw/main/resources/screenshots/combo_sword_small.gif" alt="combo_sword.gif" width="45%">
+<img src="https://gitlab.com/daleao/modular-overhaul/-/raw/main/resources/screenshots/combo_club_small.gif" alt="combo_club.gif" width="45%">
+</p>
+
 If combo hits are enabled, swing speed bonuses from **emerald** effects will apply to every frame of the attack animation, as well as the cooldown in between combos, as opposed to only the final frame as in vanilla. This immediately makes speed a more valuable stat.
 
 <sup><sup>[🔼 Back to top](#margo--combat-cmbt)</sup></sup>
@@ -119,6 +128,10 @@ If combo hits are enabled, swing speed bonuses from **emerald** effects will app
 In vanilla game code we can find traces of an abandoned fourth weapon type: **Stabbing Swords**. This module re-implements stabbing swords into the game.
 
 Swords are now split between **offensive** and **defensive** archetypes. Defensive sw   ords retain the parry special move, while offensive swords gain a new stabbing thrust move. This move allows quick repositioning and also grants invincibility frames. You can also change the direction mid-dash by inputting a directional command in a perpendicular direction.
+
+<p align="center">
+<img src="https://gitlab.com/daleao/modular-overhaul/-/raw/main/resources/screenshots/stabbing_special.gif" alt="stabbing_special.gif" width="90%">
+</p>
 
 To improve the defensive parry move, parry damage is increased by 10% for every defense point. This adds offensive value to the defense stat itself and makes defensive builds more viable. Note that the introduction of weapon combos also adds to the value of a defensive move (you need to protect yourself during combo downtime).
 
@@ -145,6 +158,10 @@ Weapons are categorized by different tiers, [color-coded for your convenience][t
 
 Weapons below the Mythic tier all have randomized damage, determined the moment they are dropped and scaled to your Mine progression. This way, players can always loot stronger weapons; all weapons can be useful, and no specific weapon is ever trivialized. Higher-tier weapons will generally be stronger than lower-tiered ones, although that may not always be the case.
 
+<p align="center">
+<img src="https://gitlab.com/daleao/modular-overhaul/-/raw/main/resources/screenshots/color-coded.gif" alt="color-coded.gif" width="90%">
+</p>
+
 **Mythic Tier**
 
 Mythic weapons are unique or extremely rare. They are usually quest rewards or very rare monster drops, and tend to carry intrinsic special abilities. In exchange, they cannot receive additional Prismatic Shard enchantments at the forge.
@@ -165,6 +182,10 @@ Masterwork weapons are relics of the Dwarven race, crafted from special material
 - **Dragonbone** weapons, forged from **Dragon Teeth** obtained from Volcano chests and near dragon skeletons, are light and sharp, granting the highest raw damage out of any weapon in the game.
 
 Masterwork weapons can only be obtained if the Dwarven Legacy setting is enabled.
+
+<p align="center">
+<img src="https://gitlab.com/daleao/modular-overhaul/-/raw/main/resources/screenshots/dwarvish_crafting.gif" alt="dwarvish_crafting.gif" width="90%">
+</p>
 
 Note that **only vanilla weapons have been rebalanced**. If you play with expansion mods which add new weapons, such as Ridgeside Village, you will likely notice absurdly high stats in those weapons' tooltips. **That's not on me.** Those weapons are broken by design. I just pulled the curtains. You're welcome.
 
@@ -212,7 +233,7 @@ Weapons enchantments have been almost entirely overhauled. These new enchantment
 
     Vanilla weapon tooltips are confusing. Who the heck knows what "+1 Speed" means?
     
-    This mod improves weapon tooltips for clarity, so you always know exactly what each stat means. You may configure the tooltips to show **absolute** or **relative** stats; the former displays straight-forward raw stats, while the latter displays percentages **based on the weapon type's base stats**.
+    This mod improves weapon tooltips for clarity, so you always know exactly what each stat means. You may configure the tooltips to show **absolute** or **relative** stats; the former displays straight-forward raw stats, while the latter displays percentages **based on the weapon type's base stats**. The new tooltips also display gemstone sockets instead of the generic vanilla "Forged x/3" text.
 
     Note that this is the only feature of this mod that affects third-party mod weapons. If you play with expansion mods which add new weapons, such as Ridgeside Village, you will likely notice absurdly high stats in those weapons' tooltips. **That's not on me.** Those weapons are broken by design. I just pulled the curtains. You're welcome.
 
@@ -306,6 +327,10 @@ This following rings have been changed:
 
 The Iridium Band has been completely overhauled. Initially, a newly crafted Iridium Band will grant no effects at all. Only with access to the Forge will you be able to awaken its true form by infusing it with a Galaxy Soul to transform it into an **Infinity Band**.
 
+<p align="center">
+<img src="https://gitlab.com/daleao/modular-overhaul/-/raw/main/resources/screenshots/infinity_band.gif" alt="infinity_band.gif" width="90%">
+</p>
+
 The Infinity Band likewise does nothing on its own, but it serves as a vessel for up to **four** gemstones. To add a gemstone to the Infinity Band, you must fuse it with a corresponding gemstone ring at the Forge. The same type of gemstone can be added more than once, compounding the effect. Alternatively, combining different gemstones will potentially lead to powerful [resonances](#resonance).
 
 <sup><sup>[🔼 Back to top](#margo--combat-cmbt)</sup></sup>
@@ -319,6 +344,10 @@ To obtain your first Galaxy weapon, as in vanilla you must first unlock the dese
 Subsequent Galaxy weapons will no longer be available for purchase at the Adventurer's Guild; one full set, including the slingshot, can now be acquired at the desert, but each weapon will require a larger stack of Prismatic Shards. The order in which the weapons are obtained can be influenced by placing the desired weapon type at the top of the top of the backpack.
 
 Upgrading to Infinity is now a much more involved task, requiring the player to prove they have a virtuous and heroic soul. Doing so will require completion of a new questline revolving around the all-new Blade of Ruin...
+
+<p align="center">
+<img src="https://gitlab.com/daleao/modular-overhaul/-/raw/main/resources/screenshots/cursed_event.png" alt="cursed_event.png" width="90%">
+</p>
 
 In return for all that extra work, the Infinity weapons have extra perks:    
 1. +1 gemstone slot (4 total). Keeping in mind that each gemstone has the potential to [resonate](#resonance).

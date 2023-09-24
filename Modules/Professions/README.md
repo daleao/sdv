@@ -149,9 +149,17 @@ The perks in *italics* refer to ![shield:prestige] variants. Written in *(parent
 
 If enabled, the [Statue of Uncertainty](https://stardewvalleywiki.com/The_Sewers#Statue%20Of%20Uncertainty) is replaced by the **Statue of Prestige**.
 
+<p align="center">
+<img src="https://gitlab.com/daleao/modular-overhaul/-/raw/main/resources/screenshots/prestige_statue.gif" alt="prestige_statue.gif" width="90%">
+</p>
+
 Instead of changing your profession choices, the Statue of Prestige will reset your level 10 skills back to level 0, for a price. After resetting a skill, you will have to level up again to choose a different profession, but you get to keep every profession you've ever acquired (yes, including level 5). You will also find that leveling becomes progressively easier after each skill reset (or harder, depending on your config settings). By default, reseting a skill will also cause you to forget all associated recipes, but can also be turned off. For this incredible service, the Statue of Prestige will charge you 10,000g the first time, 50,000g the second, and 100,000g the third and last time, although the cost can also be configured. After performing three skill resets, you should have acquired all four level 10 professions simultaneously. As you reset and acquire new professions your progress will be reflected on the skills page menu, either by a new colorful star, or by a growing ribbon, depending on your settings.
 
 Once you have acquired four stars, or the ribbon has reached its fourth stage, the level cap for the corresponding skill is raised to 20, allowing you to continue to develop your tool proficiency or max health. Other perks of higher levels include better odds of higher-quality crops, fishes and forage, a larger fishing bar, more berries foraged per bush, and longer-lasting [Limit Breaks](#limit-breaks). On top of that, at levels 15 and 20 you will be able to choose a profession to **prestige**. A prestiged profession grants improved perks or, in some cases, entirely new ones.
+
+<p align="center">
+<img src="https://gitlab.com/daleao/modular-overhaul/-/raw/main/resources/screenshots/skills_prestige.gif" alt="skills_prestige.gif" width="90%">
+</p>
 
 Only after all possible skills have had their level cap raised will the Statue of Prestige resume it's old behavior, by allowing you to change your prestige choices, for a modest fee of 20,000g (also configurable).
 

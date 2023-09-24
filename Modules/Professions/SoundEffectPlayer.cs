@@ -10,34 +10,34 @@ using Microsoft.Xna.Framework.Audio;
 #endregion using directives
 
 /// <summary>A custom <see cref="SoundEffect"/> that can be played through the game's <see cref="SoundBank"/>.</summary>
-public sealed class Sfx : SmartEnum<Sfx>
+public sealed class SoundEffectPlayer : SmartEnum<SoundEffectPlayer>
 {
     #region enum entries
 
-    /// <summary>The <see cref="Sfx"/> played when <see cref="Ultimates.Frenzy"/> activates.</summary>
-    public static readonly Sfx BruteRage = new("BruteRage", 0);
+    /// <summary>The <see cref="SoundEffectPlayer"/> played when <see cref="Ultimates.Frenzy"/> activates.</summary>
+    public static readonly SoundEffectPlayer BruteRage = new("BruteRage", 0);
 
-    /// <summary>The <see cref="Sfx"/> played when <see cref="Ultimates.Ambush"/> activates.</summary>
-    public static readonly Sfx PoacherAmbush = new("PoacherCloak", 1);
+    /// <summary>The <see cref="SoundEffectPlayer"/> played when <see cref="Ultimates.Ambush"/> activates.</summary>
+    public static readonly SoundEffectPlayer PoacherAmbush = new("PoacherCloak", 1);
 
-    /// <summary>The <see cref="Sfx"/> played when a <see cref="Profession.Poacher"/> successfully steals an item.</summary>
-    public static readonly Sfx PoacherSteal = new("PoacherSteal", 2);
+    /// <summary>The <see cref="SoundEffectPlayer"/> played when a <see cref="Profession.Poacher"/> successfully steals an item.</summary>
+    public static readonly SoundEffectPlayer PoacherSteal = new("PoacherSteal", 2);
 
-    /// <summary>The <see cref="Sfx"/> played when <see cref="Ultimates.Concerto"/> activates.</summary>
-    public static readonly Sfx PiperConcerto = new("PiperProvoke", 3);
+    /// <summary>The <see cref="SoundEffectPlayer"/> played when <see cref="Ultimates.Concerto"/> activates.</summary>
+    public static readonly SoundEffectPlayer PiperConcerto = new("PiperProvoke", 3);
 
-    /// <summary>The <see cref="Sfx"/> played when <see cref="Ultimates.DeathBlossom"/> activates.</summary>
-    public static readonly Sfx DesperadoBlossom = new("DesperadoGunCock", 4);
+    /// <summary>The <see cref="SoundEffectPlayer"/> played when <see cref="Ultimates.DeathBlossom"/> activates.</summary>
+    public static readonly SoundEffectPlayer DesperadoBlossom = new("DesperadoGunCock", 4);
 
-    /// <summary>The <see cref="Sfx"/> played when the Statue of Prestige does its magic.</summary>
-    public static readonly Sfx DogStatuePrestige = new("DogStatuePrestige", 5);
+    /// <summary>The <see cref="SoundEffectPlayer"/> played when the Statue of Prestige does its magic.</summary>
+    public static readonly SoundEffectPlayer DogStatuePrestige = new("DogStatuePrestige", 5);
 
     #endregion enum entries
 
-    /// <summary>Initializes a new instance of the <see cref="Sfx"/> class.</summary>
+    /// <summary>Initializes a new instance of the <see cref="SoundEffectPlayer"/> class.</summary>
     /// <param name="name">The sound effect name.</param>
     /// <param name="value">The sound effect enum index.</param>
-    private Sfx(string name, int value)
+    private SoundEffectPlayer(string name, int value)
         : base(name, value)
     {
         var path = Path.Combine(ModHelper.DirectoryPath, "assets", "sounds", name + ".wav");
