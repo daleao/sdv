@@ -86,6 +86,7 @@ Certain stats are simply not worth investing in vanilla. While some of these can
     New formula:
     ```math
     resistance = 10 / (10 + defense)
+
     damage = rawDamage * resistance
     ```
 
