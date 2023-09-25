@@ -31,7 +31,7 @@ The modular nature of this mod allows users to cherry-pick features to their lik
 
 ## Modules
 
-The available modules are listed below. **Please read this page carefuly in its entirety.** Modules can be toggled on or off in the title screen via GMCM. Each module is itself highly configurable, and will be added to the GMCM menu if enabled. Some modules require specific enabling/disabling instructions you should pay attention to. These requirements will be mentioned below.
+The available modules are listed below. **Please read this page carefuly in its entirety.** Modules can be toggled on or off **in the title screen** via GMCM. Each module is itself highly configurable, and will be added to the GMCM menu if enabled. Some modules require specific enabling/disabling instructions you should pay attention to. These requirements will be mentioned below.
 
 - **[PROFS](Modules/Professions)** is the original module, formely known as Walk Of Life. It overhauls all the game's professions with the goal of supporting more diverse and interesting playstyles. It also introduces optional Prestige mechanics for very-late game save files and Limit Breaks for Combat professions.
 
@@ -64,8 +64,8 @@ All modules should be fully multiplayer and split-screen compatible **if and onl
 
 <div align="center">
 
-![](./resources/releases.png)
-![](./resources/main_file.png)
+<img src="./resources/releases.png" alt="releases.png" width="95%">
+<img src="./resources/main_file.png" alt="main_file.png" width="95%">
 
 </div>
 

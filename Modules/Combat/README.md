@@ -153,13 +153,17 @@ Weapon stats have been rebalanced across the board so as to provide a more clear
 
 Weapons are categorized by different tiers, [color-coded for your convenience][tropes:color-coded]:
 
-![shield:common]
-![shield:uncommon]
-![shield:rare]
-![shield:epic]
-![shield:mythic]
-![shield:masterwork]
+<div align="center">
+
+![shield:common] <
+![shield:uncommon] <
+![shield:rare] <
+![shield:epic] <
+![shield:mythic] <
+![shield:masterwork] <
 ![shield:legendary]
+
+</div>
 
 Weapons below the Mythic tier all have randomized damage, determined the moment they are dropped and scaled to your Mine progression. This way, players can always loot stronger weapons; all weapons can be useful, and no specific weapon is ever trivialized. Higher-tier weapons will generally be stronger than lower-tiered ones, although that may not always be the case.
 
