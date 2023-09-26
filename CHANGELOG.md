@@ -11,7 +11,7 @@ This file contains a TL;DR of current version changes and hotfixes from across a
 * [CMBT]: Fixed an issue where the player could not drift left or down using Slick Moves feature.
 * [CMBT]: Fixed Savage Ring buff slowing down attack speed instead of boosting it up.
 * [TXS]: Fixed debt not being collected when reloading.
-* [TXS]: Default annual interest increased to 100% (was previously 12%).
+* [TXS]: Default annual interest increased to 72% (was previously 12%).
 
 <sup><sup>[🔼 Back to top](#margo-changelogs)</sup></sup>
 

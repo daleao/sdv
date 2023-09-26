@@ -490,7 +490,6 @@ The following events provide chances to demonstrate your virtues. You can use th
 | ------- | --------------------- | ------ |
 | 7       | Maru 4 hearts         | Honor  |
 | 16      | Pierre 6 hearts       | Honor  |
-| 27      | Sebastian 6 hearts    | Honor  |
 | 36      | Penny 6 hearts        | Honor  |
 | 46      | Sam 4 hearts          | Honor  |
 | 58      | Harvey 6 hearts       | Honor  |
@@ -500,7 +499,6 @@ The following events provide chances to demonstrate your virtues. You can use th
 | 733330  | Sam 3 hearts          | Honor  |
 | 8185291 | Sophia 2 hearts (SVE) | Honor  |
 | 13      | Haley 6 hearts               | Compassion |
-| 27      | Sebastian 6 hearts           | Compassion |
 | 51      | Leah 4 hearts                | Compassion |
 | 100     | Kent 3 hearts                | Compassion |
 | 288847  | Alex 8 hearts                | Compassion |
@@ -513,14 +511,14 @@ The following events provide chances to demonstrate your virtues. You can use th
 | 11      | Haley 2 hearts          | Wisdom |
 | 21      | Alex 5 hearts           | Wisdom |
 | 25      | Demetrius 3 hearts      | Wisdom |
-| 27      | Sebastian 6 hearts      | Wisdom |
 | 34      | Penny 2 hearts          | Wisdom |
 | 50      | Leah 2 hearts           | Wisdom |
 | 56      | Harvey 2 hearts         | Wisdom |
 | 97      | Clint 3 hearts          | Wisdom |
 | 1000018 | Jodi Mature Event (SVE) | Wisdom |
 | 1000021 | Jas Mature Event (SVE)  | Wisdom |
-| 3219871 | Claire 2 hearts         | Generosity |
+| 27      | Sebastian 6 hearts | Honor, Compassion or Wisdom  |
+| 3219871 | Claire 2 hearts (SVE)   | Generosity |
 
 **How do I obtain the Infinity weapons?**
 
