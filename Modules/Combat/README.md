@@ -476,7 +476,8 @@ To begin the quest, you must slay at least 50 enemies with the Blade equipped, p
 You will then be asked to prove your virtues:
 - Prove your Honor, Compassion and Wisdom by selecting certain responses during character heart events.
     - Alternatively, prove your Honor by respectfully returning the Mayor's shorts.
-- Prove your Valor by completing monster slayer quests or persevering through long digs in the Mines.
+- Prove your Valor by completing monster eradication goals or persevering through long digs in the Mines.
+    - **You must speak with Gil to complete an eradication goal.** *This is vanilla guys. I don't know why everybody seems to forget this.*
     - Alternatively, prove your Valor by reaching SVE's [Treasure Cave](https://stardew-valley-expanded.fandom.com/wiki/Treasure_Cave).
 - Prove your Generosity by gifting NPCs a certain amount of gold in gifts, or by purchasing Community Upgrades from Robin.
  
