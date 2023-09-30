@@ -26,7 +26,7 @@ internal sealed class GoldenMayoIntegration : ModIntegration<GoldenMayoIntegrati
         }
 
         this.ModApi.IdsAssigned += this.OnIdsAssigned;
-        Log.D("[PROFS]: Registered the Golden Mayo integration.");
+        Log.D("[PRFS]: Registered the Golden Mayo integration.");
         return true;
     }
 
@@ -37,11 +37,11 @@ internal sealed class GoldenMayoIntegration : ModIntegration<GoldenMayoIntegrati
         var index = this.ModApi.GetObjectId("Shiny Mayonnaise");
         if (index == -1)
         {
-            Log.W("[PROFS]: Failed to get ID for Golden Mayo from Json Assets.");
+            Log.W("[PRFS]: Failed to get ID for Golden Mayo from Json Assets.");
             return;
         }
 
-        Log.D($"[PROFS]: Json Assets ID {index} has been assigned to Golden Mayo.");
+        Log.D($"[PRFS]: Json Assets ID {index} has been assigned to Golden Mayo.");
         Sets.AnimalDerivedProductIds = Sets.AnimalDerivedProductIds.Add(index);
     }
 }

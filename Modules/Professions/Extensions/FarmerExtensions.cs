@@ -190,7 +190,7 @@ internal static class FarmerExtensions
         if (currentIndex > 0 && !ProfessionsModule.Config.EnableLimitBreaks)
         {
             Log.W(
-                $"[PROFS]: {farmer.Name} has non-null Limit Break but Limit Breaks are not enabled. The registered Limit Break will be reset.");
+                $"[PRFS]: {farmer.Name} has non-null Limit Break but Limit Breaks are not enabled. The registered Limit Break will be reset.");
             farmer.Write(DataKeys.UltimateIndex, null);
             return;
         }
@@ -201,14 +201,14 @@ internal static class FarmerExtensions
             case < 0 when farmer.professions.Any(p => p is >= 26 and < 30):
             {
                 Log.W(
-                    $"[PROFS]: {farmer.Name} is eligible for a Limit Break but is not currently registered to any. The registered Limit Break will be set to a default value.");
+                    $"[PRFS]: {farmer.Name} is eligible for a Limit Break but is not currently registered to any. The registered Limit Break will be set to a default value.");
                 newIndex = farmer.professions.First(p => p is >= 26 and < 30);
                 break;
             }
 
             case >= 0 when !farmer.professions.Contains(currentIndex):
             {
-                Log.W($"[PROFS]: {farmer.Name} is registered to Limit Break index {currentIndex} but is missing the corresponding profession. The registered Limit Break will be reset.");
+                Log.W($"[PRFS]: {farmer.Name} is registered to Limit Break index {currentIndex} but is missing the corresponding profession. The registered Limit Break will be reset.");
                 newIndex = farmer.professions.Any(p => p is >= 26 and < 30)
                     ? farmer.professions.First(p => p is >= 26 and < 30)
                     : -1;
@@ -394,8 +394,8 @@ internal static class FarmerExtensions
             return;
         }
 
-        farmer.health = Math.Min(farmer.health + (int)(farmer.maxHealth * 0.025f), farmer.maxHealth);
-        farmer.Stamina = Math.Min(farmer.Stamina + (farmer.MaxStamina * 0.01f), farmer.MaxStamina);
+        farmer.health = Math.Min(farmer.health + (int)(farmer.maxHealth * 0.05f), farmer.maxHealth);
+        farmer.Stamina = Math.Min(farmer.Stamina + (farmer.MaxStamina * 0.025f), farmer.MaxStamina);
     }
 
     /// <summary>Enumerates the <see cref="GreenSlime"/>s currently inhabiting owned <see cref="SlimeHutch"/>es.</summary>

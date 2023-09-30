@@ -25,11 +25,11 @@ internal sealed class ProfessionLateLoadOneSecondUpdateTickedEvent : SecondSecon
     {
         if (!SpaceCoreIntegration.Instance!.IsRegistered)
         {
-            Log.E("[PROFS]: The SpaceCore integration was not registered.");
+            Log.E("[PRFS]: The SpaceCore integration was not registered.");
             return;
         }
 
-        Log.D("[PROFS]: Doing second pass of custom skills...");
+        Log.D("[PRFS]: Doing second pass of custom skills...");
         // this is required because because Love of Cooking only registers to SpaceCore on the FirstSecondUpdateTicked
         SpaceCoreIntegration.Instance.LoadSpaceCoreSkills();
         GenericModConfigMenu.Instance?.Reload();

@@ -37,6 +37,11 @@ public class BleedAnimation
     /// <param name="b">The <see cref="SpriteBatch"/>.</param>
     public void Draw(SpriteBatch b)
     {
+        if (this._attachedMonster is Duggy { IsInvisible: true })
+        {
+            return;
+        }
+
         this._droplets.ForEach(droplet => droplet.draw(b));
     }
 
@@ -44,7 +49,7 @@ public class BleedAnimation
     /// <param name="time">The current <see cref="GameTime"/>.</param>
     public void Update(GameTime time)
     {
-        if (this._attachedMonster.Health <= 0)
+        if (this._attachedMonster.Health <= 0 || !this._attachedMonster.IsBleeding())
         {
             this._droplets.Clear();
             BleedAnimationByMonster.Remove(this._attachedMonster);

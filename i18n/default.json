@@ -101,7 +101,7 @@
   "angler.desc.prestiged": "Fish are again 0.5% more valuable for every unique max-sized species caught.",
   "aquarist.title.male": "Aquarist",
   "aquarist.title.female": "Aquarist",
-  "aquarist.desc": "Fish pond max capacity +2. Catching bar decrease slower for every unique fish species raised in a Fish Pond.",
+  "aquarist.desc": "Fish pond max capacity +2. Catching bar decreases slower for every unique fish species raised in a Fish Pond.",
   "aquarist.desc.prestiged": "Fish pond max capacity +2 >> +4.",
 
   "trapper.title.male": "Trapper",
@@ -257,7 +257,7 @@
 
   "quests.forge.intro": "Basic/A Dwarven Legacy/Clint told you he'd finish translating that old blueprint in a couple of days./Visit Clint to ask about the blueprint./Blacksmith/144702/0/-1/false",
   "quests.forge.next": "Basic/A Dwarven Legacy II/That old blueprint turned out to be a recipe for a powerful ancient weapon! Could there be others?/Find the remaining Dwarvish blueprints./null/-1/0/-1/false",
-  "quests.hero.curse": "Basic/The Blade of the Ruined Hero/The weapon you found carries the curse of the Ruined Hero! You can already feel it draining away your life energy. Better find some way to lift that curse, and fast!/Find a way to lift the Ruined Blade's curse./null/-1/0/-1/false",
+  "quests.hero.curse": "Basic/The Ruined Blade/The weapon you found carries the curse of the Ruined Hero! You can already feel it draining away your life energy. Better find some way to lift that curse, and fast!/Find a way to lift the Ruined Blade's curse./null/-1/0/-1/false",
   "quests.hero.reward": "Basic/A Hero's Reward/You have demonstrated the Five Heroic Virtues many times throughout your journey. It's time to pray for Yoba's blessing./Take the Blade of Ruin to the altar of Yoba./null/-1/0/-1/false",
 
   "quests.hero.journey.name": "A Hero's Journey",
@@ -348,7 +348,7 @@
   "enchantments.explosive.desc": "Blast radius: {{counter}}",
   "enchantments.steadfast.name": "Steadfast",
   "enchantments.bloodthirsty.name": "Bloodthirsty",
-  "enchantments.mammonite.name": "Mammonite's",
+  "enchantments.mammonite.name": "Mammonite",
   "enchantments.wabbajack.name": "Wabbajack",
   "enchantments.magnum.name": "Magnum",
   "enchantments.gatling.name": "Gatling",
@@ -433,7 +433,7 @@
   "gmcm.modules.twx.desc": "A collection of smaller immersion tweaks and fixes for inconsistencies in vanilla.",
 
   // professions
-  "gmcm.profs.heading": "PROFS Module Settings",
+  "gmcm.profs.heading": "PRFS Module Settings",
   "gmcm.profs.back": "Back to Profession settings",
 
   "gmcm.profs.controls.modkey.desc": "The key used to enable active effects for some professions (used by Prospector, Scavenger and Rascal).",

@@ -11,7 +11,7 @@ This module is a complete overhaul of Slingshot gameplay and mechanics with the 
 3. [b]Forging:
     [/b]All gemstone enchantments can be applied to Slingshots, including:
 [list]
-[*]Emerald, which grants firing speed (idem for Emerald Rings) and also affects Overcharge if [url=https://www.nexusmods.com/stardewvalley/articles/1261]PROFS[/url]﻿ module's Desperado profession is used;
+[*]Emerald, which grants firing speed (idem for Emerald Rings) and also affects Overcharge if [url=https://www.nexusmods.com/stardewvalley/articles/1261]PRFS[/url]﻿ module's Desperado profession is used;
 [*]Jade, which is also affected by [url=https://www.nexusmods.com/stardewvalley/articles/1378]ENCH[/url]﻿﻿ module's `RebalancedForges` option.
 [*]Topaz, which grants defense if [b]ENCH[/b] module's `RebalancedForges` option is enabled.
 [*]Garnet, which grants special move cooldown reduction, provided that [b]ENCH[/b] module is enabled and the Garnet stone is installed via the optional file;

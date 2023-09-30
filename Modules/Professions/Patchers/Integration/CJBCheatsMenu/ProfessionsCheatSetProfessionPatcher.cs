@@ -13,7 +13,7 @@ using HarmonyLib;
 #endregion using directives
 
 [UsedImplicitly]
-[ModRequirement("CJBok.CheatsMenu")]
+[ModRequirement("CJBok.CheatsMenu", "CJB Cheats Menu")]
 internal sealed class ProfessionsCheatSetProfessionPatcher : HarmonyPatcher
 {
     /// <summary>Initializes a new instance of the <see cref="ProfessionsCheatSetProfessionPatcher"/> class.</summary>

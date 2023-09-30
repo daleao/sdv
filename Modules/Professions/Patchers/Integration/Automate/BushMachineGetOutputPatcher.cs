@@ -17,7 +17,7 @@ using StardewValley.TerrainFeatures;
 #endregion using directives
 
 [UsedImplicitly]
-[ModRequirement("Pathoschild.Automate")]
+[ModRequirement("Pathoschild.Automate", "Automate")]
 internal sealed class BushMachineGetOutputPatcher : HarmonyPatcher
 {
     /// <summary>Initializes a new instance of the <see cref="BushMachineGetOutputPatcher"/> class.</summary>

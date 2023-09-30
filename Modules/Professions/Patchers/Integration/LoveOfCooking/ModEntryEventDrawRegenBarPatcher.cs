@@ -16,7 +16,7 @@ using Microsoft.Xna.Framework;
 #endregion using directives
 
 [UsedImplicitly]
-[ModRequirement("blueberry.LoveOfCooking")]
+[ModRequirement("blueberry.LoveOfCooking", "Love Of Cooking")]
 [ImplicitIgnore]
 internal sealed class ModEntryEventDrawRegenBarPatcher : HarmonyPatcher
 {

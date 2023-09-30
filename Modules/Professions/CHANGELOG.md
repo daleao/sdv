@@ -1,4 +1,14 @@
-﻿# PROFS Changelog
+﻿# PRFS Changelog
+
+## 3.1.5
+
+### Changed
+
+* Spelunker ladder down chance changed from additive to multiplicative.
+* Spelunker prestige recovery increased from +2.5% to +5% health and from +1% to +2.5% stamina per level.
+* Ticker changed from PROFS to PRFS.
+
+<sup><sup>[🔼 Back to top](#profs-changelog)</sup></sup>
 
 ## 3.1.3
 

@@ -43,7 +43,7 @@ public class PoisonAnimation : TemporaryAnimatedSprite
     {
         var result = base.update(time);
         var monster = (Monster)this.attachedCharacter;
-        if (result || monster.Health <= 0)
+        if (result || monster.Health <= 0 || !monster.IsPoisoned())
         {
             PoisonAnimationByMonster.Remove(monster);
             return result;

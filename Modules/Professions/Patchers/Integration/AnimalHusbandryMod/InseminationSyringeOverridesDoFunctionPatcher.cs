@@ -14,7 +14,7 @@ using HarmonyLib;
 #endregion using directives
 
 [UsedImplicitly]
-[ModRequirement("DIGUS.ANIMALHUSBANDRYMOD")]
+[ModRequirement("DIGUS.ANIMALHUSBANDRYMOD", "Animal Husbandry")]
 internal sealed class InseminationSyringeOverridesDoFunctionPatcher : HarmonyPatcher
 {
     /// <summary>Initializes a new instance of the <see cref="InseminationSyringeOverridesDoFunctionPatcher"/> class.</summary>

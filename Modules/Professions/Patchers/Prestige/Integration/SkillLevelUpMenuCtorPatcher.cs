@@ -5,6 +5,7 @@
 using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
+using DaLion.Shared.Attributes;
 using DaLion.Shared.Extensions.Reflection;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
@@ -13,6 +14,7 @@ using SpaceCore.Interface;
 #endregion using directives
 
 [UsedImplicitly]
+[ModRequirement("spacechase0.SpaceCore")]
 internal sealed class SkillLevelUpMenuCtorPatcher : HarmonyPatcher
 {
     /// <summary>Initializes a new instance of the <see cref="SkillLevelUpMenuCtorPatcher"/> class.</summary>

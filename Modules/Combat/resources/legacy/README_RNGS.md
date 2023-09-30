@@ -58,7 +58,7 @@ There are two problematic gemstones in vanilla: **Jade** and **Topaz**. This mod
 
 To achieve the same balance for gemstone enchantments, make sure to enable [CMBT](../Enchantments) module.
 
-Finally, this module also introduces the Garnet Ring. This ring adds cooldown reduction as the seventh combat stat, compensating for the removed Acrobat profession by [PROFS](../Professions) module and completing the 7-note Diatonic Gemstone Scale (see below). Garnet Rings must be crafted from mined Garnet gemstones, added via an included [Custom Ore Nodes](https://www.nexusmods.com/stardewvalley/mods/5966) content pack. If you don't install Custom Ore Nodes, Garnets will be unobtainable in-game.
+Finally, this module also introduces the Garnet Ring. This ring adds cooldown reduction as the seventh combat stat, compensating for the removed Acrobat profession by [PRFS](../Professions) module and completing the 7-note Diatonic Gemstone Scale (see below). Garnet Rings must be crafted from mined Garnet gemstones, added via an included [Custom Ore Nodes](https://www.nexusmods.com/stardewvalley/mods/5966) content pack. If you don't install Custom Ore Nodes, Garnets will be unobtainable in-game.
 
 ### Other Rings
 

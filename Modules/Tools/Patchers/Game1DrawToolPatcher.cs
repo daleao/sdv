@@ -7,6 +7,7 @@ using DaLion.Shared.Attributes;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
 using Microsoft.Xna.Framework.Graphics;
+using StardewValley.Tools;
 
 #endregion using directives
 
@@ -25,10 +26,10 @@ internal sealed class Game1DrawToolPatcher : HarmonyPatcher
     /// <summary>Replace tool texture.</summary>
     [HarmonyPrefix]
     [SuppressMessage("SMAPI.CommonErrors", "AvoidNetField:Avoid Netcode types when possible", Justification = "Bypass property setter.")]
-    private static void ToolDrawInMenuPrefix(Farmer f, ref (int, Texture2D)? __state)
+    private static void Game1DrawToolPrefix(Farmer f, ref (int, Texture2D)? __state)
     {
         var tool = f.CurrentTool;
-        if (tool is null || tool.UpgradeLevel < 5)
+        if (tool is null || tool.UpgradeLevel < 5 || tool is not (Axe or Hoe or Pickaxe or WateringCan))
         {
             return;
         }
@@ -42,7 +43,7 @@ internal sealed class Game1DrawToolPatcher : HarmonyPatcher
     /// <summary>Restore tool texture.</summary>
     [HarmonyPostfix]
     [SuppressMessage("SMAPI.CommonErrors", "AvoidNetField:Avoid Netcode types when possible", Justification = "Bypass property setter.")]
-    private static void ToolDrawInMenuPostfix(Farmer f, (int, Texture2D)? __state)
+    private static void Game1DrawToolPostfix(Farmer f, (int, Texture2D)? __state)
     {
         if (!__state.HasValue)
         {

@@ -5,6 +5,7 @@
 using DaLion.Overhaul.Modules.Combat.StatusEffects;
 using DaLion.Shared.Events;
 using StardewModdingAPI.Events;
+using StardewValley.Monsters;
 
 #endregion using directives
 
@@ -22,10 +23,18 @@ internal sealed class CombatReturnedToTitleEvent : ReturnedToTitleEvent
     /// <inheritdoc />
     protected override void OnReturnedToTitleImpl(object? sender, ReturnedToTitleEventArgs e)
     {
+        Monster_Bleeding.Values.Clear();
+        Monster_Burned.Values.Clear();
+        Monster_Chilled.Values.Clear();
+        Monster_Frozen.Values.Clear();
+        Monster_Feared.Values.Clear();
+        Monster_Poisoned.Values.Clear();
+        Monster_Slowed.Values.Clear();
         BleedAnimation.BleedAnimationByMonster.Clear();
         BurnAnimation.BurnAnimationByMonster.Clear();
         PoisonAnimation.PoisonAnimationByMonster.Clear();
         SlowAnimation.SlowAnimationByMonster.Clear();
         StunAnimation.StunAnimationByMonster.Clear();
+        CombatModule.State.HeroQuest = null;
     }
 }

@@ -2,6 +2,18 @@
 
 This file contains a TL;DR of current version changes and hotfixes from across all modules. For the complete changelog, please refer to the individual changelogs of each module, linked [below](#detailed-changelogs).
 
+## Patch 3.1.5 Highlights
+
+* Changed core ticket from MARGX to MRG.
+* Changed ticker for Professions module from PROFS to PRFS.
+* [CMBT]: Neptune Glaive now requires the player have obtained the Skull Key before it will appear in Fishing Chests.
+* [CMBT]: Wizard's special Blade of Ruin dialogue will now only occur once per day, so it will no longer prevent all other dialogues.
+* [PRFS]: Spelunker ladder down chance changed from additive to multiplicative.
+* [PRFS]: Spelunker prestige recovery increased from +2.5% to +5% health and from +1% to +2.5% stamina per level.
+* [TOLS]: Fixed not being able to apply Mythicite upgrade at the Forge.
+
+<sup><sup>[🔼 Back to top](#margo-changelogs)</sup></sup>
+
 ## Patch 3.1.4 Highlights
 
 * Added translations for new chat notifications (missing JA, KO and ZH).
@@ -20,7 +32,7 @@ This file contains a TL;DR of current version changes and hotfixes from across a
 * Rolled back dependency updates due to conflicts with AtraCore.
 * Added missing translations. Improved some Chinese translations, thanks to xuzhi1977.
 * [CMBT]: Added chat notifications for when a virtue point is gained.
-* [PROFS]: Changed the way Scavenger and Prospector treasures scale with the current streak. Players should now see significantly more treasure if they manage to keep their streaks high.
+* [PRFS]: Changed the way Scavenger and Prospector treasures scale with the current streak. Players should now see significantly more treasure if they manage to keep their streaks high.
 
 <sup><sup>[🔼 Back to top](#margo-changelogs)</sup></sup>
 
@@ -50,7 +62,7 @@ This file contains a TL;DR of current version changes and hotfixes from across a
 
 * Fixed a few more translation issues.
 * Added Combo Framework to the API.
-* [PROFS]: Parallelized Luremaster logic to maybe improve performance on some systems.
+* [PRFS]: Parallelized Luremaster logic to maybe improve performance on some systems.
 * [CMBT]: Valor completion was reverted back to Monster Eradication Goals. But it can now also be completed by digging through the Mines without Staircases, or by reaching SVE's Treasure Cave.
 * [CMBT]: Added new Virtue tags to several SVE events (most of them "Mature Events").
 * [CMBT]: Honor can now be proven by returning the Mayor's purple shorts without shenanigans.

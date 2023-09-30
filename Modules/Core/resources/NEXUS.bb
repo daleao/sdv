@@ -9,7 +9,7 @@ For detailed documentation and compatibility information, follow the links to ea
 Make note of the [b]tickers[/b]; they serve as each module's entry word for Console Commands (combine it with `[b]help`[/b] to see all available commands; e.g., `[b]profs help[/b]`).
 
 [list]
-[*][url=https://www.nexusmods.com/stardewvalley/articles/1261][b]Professions[/b][/url]﻿ is the original and largest module. It overhauls all the game's professions with the goal of supporting more diverse and interesting playstyles. It also introduces all-new Prestige mechanics for very-late game save files and Limit Breaks for Combat professions. [b]Ticker: PROFS[/b]
+[*][url=https://www.nexusmods.com/stardewvalley/articles/1261][b]Professions[/b][/url]﻿ is the original and largest module. It overhauls all the game's professions with the goal of supporting more diverse and interesting playstyles. It also introduces all-new Prestige mechanics for very-late game save files and Limit Breaks for Combat professions. [b]Ticker: PRFS[/b]
 [/list][b]
 [/b][list]
 [*][b][url=https://www.nexusmods.com/stardewvalley/articles/1379]Combat[/url]﻿[/b] ﻿﻿is a huge overhaul of nearly all aspects of combat; from rebalanced stats, melee and ranged weapons, rings and enchantments, to entirely new mechanics like status effects, weapon combos, a new weapon type, Gemstone Music Theory, and much more. [b][color=#ff7700]This module adds new items via Json Assets, and thus may cause Json Shuffle on existing saves.[/color][color=#f4f4f4] Ticker: CMBT[/color][/b]
@@ -39,7 +39,7 @@ Only the [b]PROFS [/b]and [b]TWX [/b]modules are enabled by default. All modu
    ﻿3.   ﻿Start the game once with SMAPI to generate a config file.
    ﻿4.   ﻿Use the [url=https://www.nexusmods.com/stardewvalley/mods/5098]Generic Mod Config Menu[/url] to enable the desired modules.
    ﻿5.   ﻿[i]Optional:[/i] If you enabled RNGS and/or ENCH, download the optional Garnet Nodes file and extract it to your local mods folder.
-   ﻿6.   ﻿[i]Optional: [/i]If you kept PROFS enabled, and are interested in playing as a Prestiged Aquarist, you may want to also download and install the optional Legendary Fish Pond Data file.
+   ﻿6.   ﻿[i]Optional: [/i]If you kept PRFS enabled, and are interested in playing as a Prestiged Aquarist, you may want to also download and install the optional Legendary Fish Pond Data file.
    ﻿7.   ﻿[i]Optional: [/i]If you you enabled WPNZ and are using SVE, download the FTM Replacer under misc. files and extract it [b]into your SVE folder[/b]. Overwrite files when prompted. If you were not prompted to overwrite any files, then you did something wrong.
 
 As with any mod, [b]always delete any previous installation completely[/b] before updating. If you'd like to preserve your config settings, then [b]move your `config.json` file to a different location[/b], [i]then[/i] delete the remaining files and proceed as normal, before finally moving it back.

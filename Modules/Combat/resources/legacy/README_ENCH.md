@@ -65,7 +65,7 @@ The enchantments below are entirely new and unique to slingshots.
 
 \* *Double-click/press and then **hold** the use-tool key to engage auto-fire.*
 
-\** *Quincy projectile cannot crit nor knock back enemies, but is affected by damage modifiers. If [PROFS](../Professions) is enabled and the player has the Desperado profession, Quincy projectile will also be affected by Overcharge.*
+\** *Quincy projectile cannot crit nor knock back enemies, but is affected by damage modifiers. If [PRFS](../Professions) is enabled and the player has the Desperado profession, Quincy projectile will also be affected by Overcharge.*
 
 ## Compatibility
 

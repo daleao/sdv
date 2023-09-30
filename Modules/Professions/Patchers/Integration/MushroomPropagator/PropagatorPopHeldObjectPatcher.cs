@@ -15,7 +15,7 @@ using HarmonyLib;
 #endregion using directives
 
 [UsedImplicitly]
-[ModRequirement("blueberry.MushroomPropagator", version: "2.2.0")]
+[ModRequirement("blueberry.MushroomPropagator", "Mushroom Propagator", "2.2.0")]
 internal sealed class PropagatorPopHeldObjectPatcher : HarmonyPatcher
 {
     /// <summary>Initializes a new instance of the <see cref="PropagatorPopHeldObjectPatcher"/> class.</summary>

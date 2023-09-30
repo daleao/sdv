@@ -2,6 +2,7 @@
 
 #region using directives
 
+using DaLion.Shared.Attributes;
 using DaLion.Shared.Constants;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
@@ -11,6 +12,7 @@ using StardewValley.Objects;
 #endregion using directives
 
 [UsedImplicitly]
+[ModRequirement("spacechase0.SpaceCore")]
 internal sealed class NewForgeMenuIsValidCraftPatcher : HarmonyPatcher
 {
     /// <summary>Initializes a new instance of the <see cref="NewForgeMenuIsValidCraftPatcher"/> class.</summary>

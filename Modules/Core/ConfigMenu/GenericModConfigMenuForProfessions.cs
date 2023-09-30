@@ -15,7 +15,7 @@ using DaLion.Overhaul.Modules.Professions.VirtualProperties;
 /// <summary>Constructs the GenericModConfigMenu integration.</summary>
 internal sealed partial class GenericModConfigMenu
 {
-    /// <summary>Register the config menu for PROFS.</summary>
+    /// <summary>Register the config menu for PRFS.</summary>
     private void AddProfessionOptions()
     {
         this

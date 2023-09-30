@@ -11,7 +11,7 @@ using HarmonyLib;
 #endregion using directives
 
 [UsedImplicitly]
-[ModRequirement("aedenthorn.CustomOreNodes")]
+[ModRequirement("aedenthorn.CustomOreNodes", "Custome Ore Nodes")]
 internal sealed class ModEntryReloadOreDataPatcher : HarmonyPatcher
 {
     /// <summary>Initializes a new instance of the <see cref="ModEntryReloadOreDataPatcher"/> class.</summary>

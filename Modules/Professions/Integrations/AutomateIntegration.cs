@@ -377,16 +377,16 @@ internal sealed class AutomateIntegration : ModIntegration<AutomateIntegration>
                 .Invoke(this._machineManager);
             if (this._machineData is not null)
             {
-                Log.D("[PROFS]: Registered the Automate integration.");
+                Log.D("[PRFS]: Registered the Automate integration.");
                 return true;
             }
 
-            Log.W("[PROFS]: Failed to grab Automate's machine data.");
+            Log.W("[PRFS]: Failed to grab Automate's machine data.");
             return false;
         }
         catch (Exception ex)
         {
-            Log.W($"[PROFS]: Failed to grab Automate's machine data.\n{ex}");
+            Log.W($"[PRFS]: Failed to grab Automate's machine data.\n{ex}");
             return false;
         }
     }

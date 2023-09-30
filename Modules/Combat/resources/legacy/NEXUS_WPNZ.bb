@@ -57,7 +57,7 @@ Weapons below the [color=#ff0000][b]Mythic[/b][/color] tier have randomized dama
 
 [b][color=#ff7700]Masterwork[/color][/b] weapons have fixed stats. These are weapons created by the Dwarven race using special materials. They can ony be created by uncovering the lost Dwarvish Blueprints, and taking them to a skilled blacksmith along with the corresponding material:l
 [list]
-[*][b]Elven[/b] weapons, carved out of [b]Elderwood[/b] obtained from [b]Scavenger Hunts[/b] (requires [b][url=https://www.nexusmods.com/stardewvalley/articles/1261]PROFS[/url]﻿﻿[/b] module), are quick, nimble weapons enchanted with forest magic which grants them high reach and knockback.
+[*][b]Elven[/b] weapons, carved out of [b]Elderwood[/b] obtained from [b]Scavenger Hunts[/b] (requires [b][url=https://www.nexusmods.com/stardewvalley/articles/1261]PRFS[/url]﻿﻿[/b] module), are quick, nimble weapons enchanted with forest magic which grants them high reach and knockback.
 [*][b]Dwarven[/b] weapons, forged from [b]Dwarven Scraps[/b] obtained from Volcano chests, are large, bulky weapons. They grant high defense and knockback, but reduce swing speed.
 [*][b]Dragontooth[/b] weapons, forged from [b]Dragon Teeth[/b] obtained from Volcano chests and near dragon skeletons, are light and sharp, granting the highest raw damage out of any weapon in the game.
 [/list]

@@ -1,5 +1,13 @@
 ﻿# TOLS Changelog
 
+## 3.1.5
+
+### Fixed
+
+* Fixed not being able to apply Mythicite upgrade at the Forge.
+
+<sup><sup>[🔼 Back to top](#tols-changelog)</sup></sup>
+
 ## 3.0.1
 
 ### Added

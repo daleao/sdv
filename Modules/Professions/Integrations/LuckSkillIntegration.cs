@@ -21,7 +21,7 @@ internal sealed class LuckSkillIntegration : ModIntegration<LuckSkillIntegration
     protected override bool RegisterImpl()
     {
         this.LoadLuckSkill();
-        Log.D("[PROFS]: Registered the Luck Skill integration.");
+        Log.D("[PRFS]: Registered the Luck Skill integration.");
         return base.RegisterImpl();
     }
 
@@ -37,6 +37,6 @@ internal sealed class LuckSkillIntegration : ModIntegration<LuckSkillIntegration
         var luckSkill = new LuckSkill();
         Skill.Luck = luckSkill;
         SCSkill.Loaded["spacechase0.LuckSkill"] = luckSkill;
-        Log.T($"[PROFS]: Successfully loaded the custom skill {this.ModId}.");
+        Log.T($"[PRFS]: Successfully loaded the custom skill {this.ModId}.");
     }
 }

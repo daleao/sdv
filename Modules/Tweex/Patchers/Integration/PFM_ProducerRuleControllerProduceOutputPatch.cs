@@ -12,7 +12,7 @@ using HarmonyLib;
 #endregion using directives
 
 [UsedImplicitly]
-[ModRequirement("Digus.ProducerFrameworkMod")]
+[ModRequirement("Digus.ProducerFrameworkMod", "Producer Framework Mod")]
 [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1649:File name should match first type name", Justification = "Integration patch specifies the mod in file name but not class to avoid breaking pattern.")]
 internal sealed class ProducerRuleControllerProduceOutputPatcher : HarmonyPatcher
 {

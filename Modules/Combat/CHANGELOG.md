@@ -1,5 +1,14 @@
 ﻿# CMBT Changelog
 
+## 3.1.5
+
+### Changed
+
+* Neptune Glaive can no longer be obtained before the Skull Key, thus preventing lucky players from bypassing the initial Mines grind.
+* Wizard's special Blade of Ruin dialogue will now only occur once per day, so it will no longer prevent all other dialogues.
+
+<sup><sup>[🔼 Back to top](#cmbt-changelog)</sup></sup>
+
 ## 3.1.4
 
 ### Added
@@ -78,7 +87,7 @@ Exodus from Nexus.
 
 <sup><sup>[🔼 Back to top](#cmbt-changelog)</sup></sup>
 
-## 3.0.0
+## 3.0.0 <sup><sup><sup>[🔼 Back to top](#cmbt-changelog)</sup></sup></sup>
 
 Merged WPNZ, SLNGS, RNGS and ENCH into the CMBT module. All of those modules essentially tackled different facets of combat, and WPNZ and SLNGS in particular shared many redundant patches and config settings. In that light, the unification streamlines a lot of the config schema and cuts down on the number of patches required.
 

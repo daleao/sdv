@@ -33,7 +33,7 @@ internal sealed class FishingRodOpenTreasureMenuEndFunctionPatcher : HarmonyPatc
         var helper = new ILHelper(original, instructions);
 
         // From: if (Game1.random.NextDouble() < 0.05 * ... Neptune Glaive)
-        // To: if (Game1.random.NextDouble() < 0.025 * ... Neptune Glaive)
+        // To: if (Game1.player.hasSkullKey && Game1.random.NextDouble() < 0.025 * ... Neptune Glaive)
         try
         {
             helper
@@ -49,9 +49,25 @@ internal sealed class FishingRodOpenTreasureMenuEndFunctionPatcher : HarmonyPatc
                             typeof(NetIntList).RequireMethod(nameof(NetIntList.Contains))),
                     })
                 .Match(
+                    new[] { new CodeInstruction(OpCodes.Bge_Un_S) },
+                    ILHelper.SearchOption.Previous)
+                .GetOperand(out var resumeExecution)
+                .Match(
                     new[] { new CodeInstruction(OpCodes.Ldc_R8, 0.05) },
                     ILHelper.SearchOption.Previous)
-                .SetOperand(0.025);
+                .SetOperand(0.025)
+                .Match(
+                    new[] { new CodeInstruction(OpCodes.Ldsfld) },
+                    ILHelper.SearchOption.Previous)
+                .Insert(
+                    new[]
+                    {
+                        new CodeInstruction(OpCodes.Call, typeof(Game1).RequirePropertyGetter(nameof(Game1.player))),
+                        new CodeInstruction(
+                            OpCodes.Callvirt,
+                            typeof(Farmer).RequirePropertyGetter(nameof(Farmer.hasSkullKey))),
+                        new CodeInstruction(OpCodes.Brfalse_S, resumeExecution),
+                    });
         }
         catch (Exception ex)
         {

@@ -74,7 +74,11 @@ internal sealed class State
 
     internal Monster? HoveredEnemy { get; set; }
 
-    internal HeroQuest? HeroQuest { get; set; } = null;
+    internal HeroQuest? HeroQuest { get; set; }
+
+    internal bool DidPrayToday { get; set; }
+
+    internal bool SpokeWithWizardToday { get; set; }
 
     internal bool DidArtfulParry { get; set; }
 
@@ -100,6 +104,4 @@ internal sealed class State
     internal int YobaShieldHealth { get; set; } = -1;
 
     internal bool CanReceiveYobaShield { get; set; } = true;
-
-    internal bool DidPrayToday { get; set; } = false;
 }

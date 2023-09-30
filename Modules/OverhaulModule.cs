@@ -176,7 +176,7 @@ public abstract class OverhaulModule
     {
         /// <summary>Initializes a new instance of the <see cref="OverhaulModule.CoreModule"/> class.</summary>
         internal CoreModule()
-            : base("Core", "margx")
+            : base("Core", "mrg")
         {
             this.DisplayName = string.Empty;
             this.Description = string.Empty;
@@ -228,7 +228,7 @@ public abstract class OverhaulModule
     {
         /// <summary>Initializes a new instance of the <see cref="OverhaulModule.ProfessionsModule"/> class.</summary>
         internal ProfessionsModule()
-            : base("Professions", "profs")
+            : base("Professions", "prfs")
         {
         }
 

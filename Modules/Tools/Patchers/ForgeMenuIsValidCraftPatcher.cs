@@ -43,18 +43,25 @@ internal sealed class ForgeMenuIsValidCraftPatcher : HarmonyPatcher
             return;
         }
 
-        var upgradeItemIndex = tool.UpgradeLevel switch
+        if (tool.UpgradeLevel < 5)
         {
-            0 => ObjectIds.CopperBar,
-            1 => ObjectIds.IronBar,
-            2 => ObjectIds.GoldBar,
-            3 => ObjectIds.IridiumBar,
-            4 => ObjectIds.RadioactiveBar,
-            5 => "spacechase0.MoonMisadventures/Mythicite Bar".GetDeterministicHashCode(),
-            _ => SObject.prismaticShardIndex,
-        };
+            var upgradeItemIndex = tool.UpgradeLevel switch
+            {
+                0 => ObjectIds.CopperBar,
+                1 => ObjectIds.IronBar,
+                2 => ObjectIds.GoldBar,
+                3 => ObjectIds.IridiumBar,
+                4 => ObjectIds.RadioactiveBar,
+            };
 
-        if (right_item.ParentSheetIndex == upgradeItemIndex && right_item.Stack >= 5)
+            if (right_item.ParentSheetIndex == upgradeItemIndex && right_item.Stack >= 5)
+            {
+                __result = true;
+            }
+        }
+        else if (tool.UpgradeLevel == 5 && right_item.ParentSheetIndex == 1720 &&
+                 Reflector.GetUnboundPropertyGetter<object, string>(right_item, "FullId").Invoke(right_item) ==
+                 "spacechase0.MoonMisadventures/Mythicite Bar" && right_item.Stack >= 5)
         {
             __result = true;
         }

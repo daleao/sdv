@@ -39,6 +39,11 @@ internal sealed class ToolNameGetterPatcher : HarmonyPatcher
             _ => string.Empty,
         };
 
+        if (string.IsNullOrEmpty(tool))
+        {
+            return true; // run original logic
+        }
+
         __result = _I18n.Get("radioactive." + tool);
         return false; // don't run original logic
     }

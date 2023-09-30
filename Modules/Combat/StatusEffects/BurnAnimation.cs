@@ -42,7 +42,7 @@ public class BurnAnimation : TemporaryAnimatedSprite
     {
         var result = base.update(time);
         var monster = (Monster)this.attachedCharacter;
-        if (result || monster.Health <= 0)
+        if (result || monster.Health <= 0 || !monster.IsBurning())
         {
             BurnAnimationByMonster.Remove(monster);
             return result;

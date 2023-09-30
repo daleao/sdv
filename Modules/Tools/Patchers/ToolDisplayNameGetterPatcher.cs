@@ -22,7 +22,7 @@ internal sealed class ToolDisplayNameGetterPatcher : HarmonyPatcher
 
     /// <summary>Don't change tile index. We will simply patch over it.</summary>
     [HarmonyPrefix]
-    private static bool ToolSetNewTileIndexForUpgradeLevelPrefix(Tool __instance, ref string __result)
+    private static bool ToolDisplayNameGetterPrefix(Tool __instance, ref string __result)
     {
         if (__instance.UpgradeLevel < 5)
         {

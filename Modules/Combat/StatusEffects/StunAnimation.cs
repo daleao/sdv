@@ -45,7 +45,7 @@ public class StunAnimation : TemporaryAnimatedSprite
     {
         var result = base.update(time);
         var monster = (Monster)this.attachedCharacter;
-        if (result || monster.Health <= 0)
+        if (result || monster.Health <= 0 || !monster.IsStunned())
         {
             StunAnimationByMonster.Remove(monster);
             return result;

@@ -33,7 +33,7 @@ The modular nature of this mod allows users to cherry-pick features to their lik
 
 The available modules are listed below. **Please read this page carefuly in its entirety.** Modules can be toggled on or off **in the title screen** via GMCM. Each module is itself highly configurable, and will be added to the GMCM menu if enabled. Some modules require specific enabling/disabling instructions you should pay attention to. These requirements will be mentioned below.
 
-- **[PROFS](Modules/Professions)** is the original module, formely known as Walk Of Life. It overhauls all the game's professions with the goal of supporting more diverse and interesting playstyles. It also introduces optional Prestige mechanics for very-late game save files and Limit Breaks for Combat professions.
+- **[PRFS](Modules/Professions)** is the original module, formely known as Walk Of Life. It overhauls all the game's professions with the goal of supporting more diverse and interesting playstyles. It also introduces optional Prestige mechanics for very-late game save files and Limit Breaks for Combat professions.
 
 - **[CMBT](Modules/Combat)** ﻿is a huge overhaul of nearly all aspects of combat; from rebalanced stats, melee and ranged weapons, rings and enchantments, to entirely new mechanics like status effects, weapon combos, a new weapon type, Gemstone Music Theory, and much more. **This module adds new items via Json Assets, and thus may cause Json Shuffle on existing saves.** 
 
@@ -108,10 +108,10 @@ Then [request SMAPI for a proxy](https://stardewvalleywiki.com/Modding:Modder_Gu
 
 Below are some usecases for the API:
 
-- **[PROFS]**: Checking the current value of dynamic perks associated with certain professions.
-- **[PROFS]**: Hooking custom logic into Scavenger and Prospector Treasure Hunts.
-- **[PROFS]**: Hooking custom logic to several stages of the [Limit Break](./Modules/Professions/README.md#limit-breaks).
-- **[PROFS]**: Allowing SpaceCore skills to surpass level 10, and be [Prestiged](./Modules/Professions/README.md#prestige) at levels 15 and 20.
+- **[PRFS]**: Checking the current value of dynamic perks associated with certain professions.
+- **[PRFS]**: Hooking custom logic into Scavenger and Prospector Treasure Hunts.
+- **[PRFS]**: Hooking custom logic to several stages of the [Limit Break](./Modules/Professions/README.md#limit-breaks).
+- **[PRFS]**: Allowing SpaceCore skills to surpass level 10, and be [Prestiged](./Modules/Professions/README.md#prestige) at levels 15 and 20.
 - **[CMBT]**: Checking the [Resonances](./Modules/Combat/README.md#chords) currently active on any given player.
 - **[CMBT]**: Inflicting and curing [Status Effects](./Modules/Combat/README.md#status-effects).
 - Checking the config settings of any given player (note that you must create your own interface for this).

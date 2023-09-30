@@ -430,7 +430,7 @@
 
 
   // professions
-  "gmcm.profs.heading": "PROFS 모듈 설정",
+  "gmcm.profs.heading": "PRFS 모듈 설정",
   "gmcm.profs.back": "직업 설정으로 돌아가기",
 
   "gmcm.profs.controls.modkey.desc": "일부 전문 기술의 활성 효과를 활성화하는 데 사용되는 키입니다(Prospector, Scavenger 및 Rascal에서 사용).",

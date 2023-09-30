@@ -98,7 +98,7 @@ Weapons below the [color=#ff0000][b]Mythic[/b][/color] tier have randomized dama
 
 [b][color=#ff7700]Masterwork[/color][/b] weapons have fixed stats. These are weapons created by the Dwarven race using special materials. They can ony be created by uncovering the lost Dwarvish Blueprints, and taking them to a skilled blacksmith along with the corresponding material:
 [list]
-[*][b]Elven[/b]weapons, carved out of [b]Elderwood[/b]obtained from [b]Scavenger Hunts[/b](requires [b][url=https://www.nexusmods.com/stardewvalley/articles/1261]PROFS[/url][/b] module), are quick, nimble weapons enchanted with forest magic which grants them high reach and knockback.
+[*][b]Elven[/b]weapons, carved out of [b]Elderwood[/b]obtained from [b]Scavenger Hunts[/b](requires [b][url=https://www.nexusmods.com/stardewvalley/articles/1261]PRFS[/url][/b] module), are quick, nimble weapons enchanted with forest magic which grants them high reach and knockback.
 [*][b]Dwarven[/b]weapons, forged from [b]Dwarven Scraps[/b]obtained from Volcano chests, are large, bulky weapons. They grant high defense and knockback, but reduce swing speed.
 [*][b]Dragontooth[/b]weapons, forged from [b]Dragon Teeth[/b]obtained from Volcano chests and near dragon skeletons, are light and sharp, granting the highest raw damage out of any weapon in the game.
 [/list]
@@ -174,13 +174,13 @@ The following new enchantments have been created specifically for ranged weapons
 [*][b]Gatling:[/b]Enables auto-fire.[spoiler]Double-click/press and then hold the use-tool key to engage auto-fire.[/spoiler]
 [*][b]Magnum:[/b] Fires enlarged projectiles (larger hitbox).
 [*][b]Preserving:[/b] Does not consume ammo.
-[*][b]Quincy:[/b] Attacks fire an energy projectile if no ammo is equipped. Only works near enemies.[spoiler]Quincy projectile cannot crit. and cannot knock-back enemies, but is affected by damage modifiers. If the [url=https://www.nexusmods.com/stardewvalley/articles/1261]PROFS[/url]is enabled and the player has the Desperado profession, Quincy projectile will also be affected by Overcharge (built-in Magnum effect).[/spoiler]
+[*][b]Quincy:[/b] Attacks fire an energy projectile if no ammo is equipped. Only works near enemies.[spoiler]Quincy projectile cannot crit. and cannot knock-back enemies, but is affected by damage modifiers. If the [url=https://www.nexusmods.com/stardewvalley/articles/1261]PRFS[/url]is enabled and the player has the Desperado profession, Quincy projectile will also be affected by Overcharge (built-in Magnum effect).[/spoiler]
 [*][b]Spreading:[/b]Consumes one additional ammo to fire two additional projectiles in a cone.
 [/list]
 Gemstone forges cannot directly be applied to slingshots, but[b]gemstones can be equipped as ammo[/b], and will apply their analogous bonuses when equipped, and will also[b]resonate[/b](see below) if a applicable. With the [url=https://www.nexusmods.com/stardewvalley/articles/1261]Rascal[/url] profession, you may slot up to two gemstones at a time to possibly achieve a level-2 forge.
 
 [list]
-[*][b]Emeralds[/b], instead of attack speed, grant[b]firing speed[/b](idem for Emerald Rings), which also affects[b]overcharge[/b]if the PROFS module's Desperado profession is used;
+[*][b]Emeralds[/b], instead of attack speed, grant[b]firing speed[/b](idem for Emerald Rings), which also affects[b]overcharge[/b]if the PRFS module's Desperado profession is used;
 [/list]
 Finally, the [b]Galaxy Soul[/b] can be applied to the Galaxy Slingshot, as with other Galaxy weapons, eventually creating the [b]Infinity Slingshot[/b].
 

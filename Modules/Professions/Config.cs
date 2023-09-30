@@ -8,7 +8,7 @@ using StardewModdingAPI.Utilities;
 
 #endregion using directives
 
-/// <summary>The user-configurable settings for PROFS.</summary>
+/// <summary>The user-configurable settings for PRFS.</summary>
 public sealed class Config : Shared.Configs.Config
 {
     #region dropdown enums

@@ -1,4 +1,4 @@
-﻿[b][center][size=6][font=bebas_neuebook]MARGO :: Professions (PROFS)[/font][/size][/center][/b]
+﻿[b][center][size=6][font=bebas_neuebook]MARGO :: Professions (PRFS)[/font][/size][/center][/b]
 [center][img]https://stardewcommunitywiki.com/mediawiki/images/8/82/Farming_Skill_Icon.png[/img]﻿  [img]https://stardewcommunitywiki.com/mediawiki/images/2/2f/Mining_Skill_Icon.png[/img] ﻿ [img]https://stardewcommunitywiki.com/mediawiki/images/f/f1/Foraging_Skill_Icon.png[/img] ﻿ [img]https://stardewcommunitywiki.com/mediawiki/images/e/e7/Fishing_Skill_Icon.png[/img] ﻿ [img]https://stardewcommunitywiki.com/mediawiki/images/c/cf/Combat_Skill_Icon.png[/img][/center]
 
 [size=6][font=bebas_neuebook]Overview[/font][/size]

@@ -15,7 +15,7 @@ using StardewValley.Buildings;
 #endregion using directives
 
 [UsedImplicitly]
-[ModRequirement("DIGUS.ANIMALHUSBANDRYMOD")]
+[ModRequirement("DIGUS.ANIMALHUSBANDRYMOD", "Animal Husbandry")]
 internal sealed class PregnancyControllerAddNewHatchedAnimalPatcher : HarmonyPatcher
 {
     /// <summary>Initializes a new instance of the <see cref="PregnancyControllerAddNewHatchedAnimalPatcher"/> class.</summary>

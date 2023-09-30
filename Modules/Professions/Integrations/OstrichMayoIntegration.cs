@@ -26,7 +26,7 @@ internal sealed class OstrichMayoIntegration : ModIntegration<OstrichMayoIntegra
         }
 
         this.ModApi.IdsAssigned += this.OnIdsAssigned;
-        Log.D("[PROFS]: Registered the Ostrich Mayo integration.");
+        Log.D("[PRFS]: Registered the Ostrich Mayo integration.");
         return true;
     }
 
@@ -37,11 +37,11 @@ internal sealed class OstrichMayoIntegration : ModIntegration<OstrichMayoIntegra
         var index = this.ModApi.GetObjectId("Delight Mayonnaise");
         if (index == -1)
         {
-            Log.W("[PROFS]: Failed to get ID for Ostrich Mayo from Json Assets.");
+            Log.W("[PRFS]: Failed to get ID for Ostrich Mayo from Json Assets.");
             return;
         }
 
-        Log.D($"[PROFS]: Json Assets ID {index} has been assigned to Ostrich Mayo.");
+        Log.D($"[PRFS]: Json Assets ID {index} has been assigned to Ostrich Mayo.");
         Sets.AnimalDerivedProductIds = Sets.AnimalDerivedProductIds.Add(index);
     }
 }

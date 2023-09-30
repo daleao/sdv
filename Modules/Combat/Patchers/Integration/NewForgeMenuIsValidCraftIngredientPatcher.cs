@@ -1,9 +1,8 @@
 ﻿namespace DaLion.Overhaul.Modules.Combat.Patchers.Integration;
 
-using DaLion.Overhaul.Modules.Combat.Integrations;
-
 #region using directives
 
+using DaLion.Overhaul.Modules.Combat.Integrations;
 using DaLion.Shared.Attributes;
 using DaLion.Shared.Harmony;
 using HarmonyLib;

@@ -14,7 +14,7 @@ using StardewValley.Tools;
 #endregion using directives
 
 [UsedImplicitly]
-[ModRequirement("furyx639.BetterChests")]
+[ModRequirement("furyx639.BetterChests", "Better Chests", "2.8.0")]
 [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1649:File name should match first type name", Justification = "Integration patch specifies the mod in file name but not class to avoid breaking pattern.")]
 internal sealed class StorageAddItemPatcher : HarmonyPatcher
 {

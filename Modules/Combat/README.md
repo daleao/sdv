@@ -34,6 +34,7 @@
 	<li><a href="#ring-changes">Ring Changes</a>
 		<ol>
 			<li><a href="#rebalances">Rebalances</a></li>
+            <li><a href="#craftable-gemstone-rings">Craftable Gemstone Rings</a></li>
 			<li><a href="#infinity-band">Infinity Band</a></li>
 		</ol>
 	</li>
@@ -295,7 +296,7 @@ The following new enchantments have been created specifically for ranged weapons
 
 \* *Double-click/press and then **hold** the use-tool key to engage auto-fire.*
 
-\** *Quincy projectile cannot crit nor knock back enemies, but is affected by damage modifiers. If [PROFS](../Professions) is enabled and the player has the Desperado profession, Quincy projectile will also be affected by Overcharge.*
+\** *Quincy projectile cannot crit nor knock back enemies, but is affected by damage modifiers. If [PRFS](../Professions) is enabled and the player has the Desperado profession, Quincy projectile will also be affected by Overcharge.*
 
 Gemstone forges cannot directly be applied to slingshots, but **gemstones can be equipped as ammo**, and will apply their analogous bonuses when equipped, and will also [resonate](#resonances) if applicable. With the [Rascal](../Professions) profession, you may slot up to two gemstones at a time to possibly achieve a level-2 forge.
 
@@ -334,6 +335,17 @@ This following rings have been changed:
 
 <sup><sup>[🔼 Back to top](#margo--combat-cmbt)</sup></sup>
 
+### Craftable Gemstone Rings
+
+All gemstone rings become craftable at various levels of the Combat skill, requiring the corresponding gemstone and a type of metal bar:
+
+- **Amethyst & Topaz:** Combat level 2 (Copper Bar)
+- **Aquamarine & Jade:** Combat level 4 (Iron Bar)
+- **Ruby & Emerald:** Combat level 6 (Gold Bar)
+- **Garnet:** Combat level 7 (Gold Bar)
+
+This addition accompanies some visual changes to each ring to match the required metal bar.
+
 ### Infinity Band
 
 The Iridium Band has been completely overhauled. Initially, a newly crafted Iridium Band will grant no effects at all. Only with access to the Forge will you be able to awaken its true form by infusing it with a Galaxy Soul to transform it into an **Infinity Band**.
@@ -343,7 +355,7 @@ The Iridium Band has been completely overhauled. Initially, a newly crafted Irid
 <img src="https://gitlab.com/daleao/modular-overhaul/-/raw/main/resources/screenshots/infinity_band.gif" alt="infinity_band.gif" width="67%">
 </div>
 
-The Infinity Band likewise does nothing on its own, but it serves as a vessel for up to **four** gemstones. To add a gemstone to the Infinity Band, you must fuse it with a corresponding gemstone ring at the Forge. The same type of gemstone can be added more than once, compounding the effect. Alternatively, combining different gemstones will potentially lead to powerful [resonances](#resonance).
+The Infinity Band likewise does nothing on its own, but it serves as a vessel for up to **four** gemstones. To add a gemstone to the Infinity Band, you must fuse it with a corresponding gemstone ring at the Forge. The same type of gemstone can be added more than once, compounding the effect. Alternatively, combining different gemstones will potentially lead to powerful [resonances](#garnet--gemstone-resonance-theory).
 
 <sup><sup>[🔼 Back to top](#margo--combat-cmbt)</sup></sup>
 
@@ -370,9 +382,7 @@ In return for all that extra work, the Infinity weapons have extra perks:
 
 ## Garnet & Gemstone Resonance Theory
 
-To compensate for the [removal of vanilla Acrobat profession](../Professions), this mod introduces a seventh gemstone.
-
-The **garnet** can be mined upwards of Mine level 80. Socketed to a ring or a weapon, it will grant 10% cooldown reduction to special moves. Garnet Rings, along with all other gemstone rings become craftable at various levels of Combat skill.
+To compensate for the [removal of vanilla Acrobat profession](../Professions), this mod introduces a seventh gemstone, the **Garnet**, which can be mined upwards of Mine level 80. Socketed to a ring or a weapon, it will grant 10% cooldown reduction to special moves. [As described above](#craftable-gesmtone-rings), the Garnet Ring is craftable at Combat level 7.
 
 With the addition of Garnet, the seven gemstones together form a [Diatonic Scale](https://en.wikipedia.org/wiki/Diatonic_scale):
 

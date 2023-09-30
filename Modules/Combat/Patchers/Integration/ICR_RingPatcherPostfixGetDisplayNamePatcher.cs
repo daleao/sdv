@@ -13,7 +13,7 @@ using StardewValley.Objects;
 #endregion using directives
 
 [UsedImplicitly]
-[ModRequirement("atravita.IdentifiableCombinedRings")]
+[ModRequirement("atravita.IdentifiableCombinedRings", "Identifiable Combined Rings")]
 [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1649:File name should match first type name", Justification = "Integration patch specifies the mod in file name but not class to avoid breaking pattern.")]
 internal sealed class RingPatcherPostfixGetDisplayNamePatcher : HarmonyPatcher
 {

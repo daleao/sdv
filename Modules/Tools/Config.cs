@@ -83,15 +83,15 @@ public sealed class Config : Shared.Configs.Config
         var isValid = true;
         Log.T("[TOLS]: Verifying tool configs...");
 
-        var maxToolUpgrade = MoonMisadventuresIntegration.Instance?.IsLoaded == true ? 7 : this.EnableForgeUpgrading ? 6 : 5;
+        var maxToolPower = MoonMisadventuresIntegration.Instance?.IsLoaded == true ? 7 : this.EnableForgeUpgrading ? 6 : 5;
 
-        if (this.Axe.RadiusAtEachPowerLevel.Length != maxToolUpgrade)
+        if (this.Axe.RadiusAtEachPowerLevel.Length != maxToolPower)
         {
-            var preface = this.Axe.RadiusAtEachPowerLevel.Length < maxToolUpgrade ? "Missing" : "Too many";
+            var preface = this.Axe.RadiusAtEachPowerLevel.Length < maxToolPower ? "Missing" : "Too many";
             Log.W($"[TOLS]: {preface} values in Axe.RadiusAtEachPowerLevel. The default values will be restored.");
-            this.Axe.RadiusAtEachPowerLevel = new uint[maxToolUpgrade];
+            this.Axe.RadiusAtEachPowerLevel = new uint[maxToolPower];
             uint i = 0;
-            while (i < maxToolUpgrade)
+            while (i < maxToolPower)
             {
                 this.Axe.RadiusAtEachPowerLevel[i] = ++i;
             }
@@ -99,13 +99,13 @@ public sealed class Config : Shared.Configs.Config
             isValid = false;
         }
 
-        if (this.Pick.RadiusAtEachPowerLevel.Length != maxToolUpgrade)
+        if (this.Pick.RadiusAtEachPowerLevel.Length != maxToolPower)
         {
-            var preface = this.Pick.RadiusAtEachPowerLevel.Length < maxToolUpgrade ? "Missing" : "Too many";
+            var preface = this.Pick.RadiusAtEachPowerLevel.Length < maxToolPower ? "Missing" : "Too many";
             Log.W($"[TOLS]: {preface} values Pickaxe.RadiusAtEachPowerLevel. The default values will be restored.");
-            this.Pick.RadiusAtEachPowerLevel = new uint[maxToolUpgrade];
+            this.Pick.RadiusAtEachPowerLevel = new uint[maxToolPower];
             uint i = 0;
-            while (i < maxToolUpgrade)
+            while (i < maxToolPower)
             {
                 this.Pick.RadiusAtEachPowerLevel[i] = ++i;
             }
@@ -113,11 +113,11 @@ public sealed class Config : Shared.Configs.Config
             isValid = false;
         }
 
-        if (this.Hoe.AffectedTilesAtEachPowerLevel.Length != maxToolUpgrade)
+        if (this.Hoe.AffectedTilesAtEachPowerLevel.Length != maxToolPower)
         {
-            var preface = this.Hoe.AffectedTilesAtEachPowerLevel.Length < maxToolUpgrade ? "Missing" : "Too many";
+            var preface = this.Hoe.AffectedTilesAtEachPowerLevel.Length < maxToolPower ? "Missing" : "Too many";
             Log.W($"[TOLS]: {preface} values in Hoe.AffectedTilesAtEachPowerLevel. The default values will be restored.");
-            this.Hoe.AffectedTilesAtEachPowerLevel = maxToolUpgrade switch
+            this.Hoe.AffectedTilesAtEachPowerLevel = maxToolPower switch
             {
                 > 6 => new (uint, uint)[] { (3, 0), (5, 0), (3, 1), (6, 1), (5, 2), (7, 3), (9, 4), },
                 > 5 => new (uint, uint)[] { (3, 0), (5, 0), (3, 1), (6, 1), (5, 2), (7, 3), },
@@ -127,11 +127,11 @@ public sealed class Config : Shared.Configs.Config
             isValid = false;
         }
 
-        if (this.Can.AffectedTilesAtEachPowerLevel.Length != maxToolUpgrade)
+        if (this.Can.AffectedTilesAtEachPowerLevel.Length != maxToolPower)
         {
-            var preface = this.Can.AffectedTilesAtEachPowerLevel.Length < maxToolUpgrade ? "Missing" : "Too many";
+            var preface = this.Can.AffectedTilesAtEachPowerLevel.Length < maxToolPower ? "Missing" : "Too many";
             Log.W($"[TOLS]: {preface} values in Can.AffectedTilesAtEachPowerLevel. The default values will be restored.");
-            this.Can.AffectedTilesAtEachPowerLevel = maxToolUpgrade switch
+            this.Can.AffectedTilesAtEachPowerLevel = maxToolPower switch
             {
                 > 6 => new (uint, uint)[] { (3, 0), (5, 0), (3, 1), (6, 1), (5, 2), (7, 3), (9, 4), },
                 > 5 => new (uint, uint)[] { (3, 0), (5, 0), (3, 1), (6, 1), (5, 2), (7, 3), },

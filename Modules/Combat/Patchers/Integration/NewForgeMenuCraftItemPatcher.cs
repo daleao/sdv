@@ -1,9 +1,9 @@
 ﻿namespace DaLion.Overhaul.Modules.Combat.Patchers.Integration;
 
-using DaLion.Overhaul.Modules.Combat.Integrations;
-
 #region using directives
 
+using DaLion.Overhaul.Modules.Combat.Integrations;
+using DaLion.Shared.Attributes;
 using DaLion.Shared.Constants;
 using DaLion.Shared.Harmony;
 using DaLion.Shared.Networking;
@@ -14,6 +14,7 @@ using StardewValley.Objects;
 #endregion using directives
 
 [UsedImplicitly]
+[ModRequirement("spacechase0.SpaceCore")]
 internal sealed class NewForgeMenuCraftItemPatcher : HarmonyPatcher
 {
     /// <summary>Initializes a new instance of the <see cref="NewForgeMenuCraftItemPatcher"/> class.</summary>

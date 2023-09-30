@@ -48,7 +48,7 @@ public class SlowAnimation : TemporaryAnimatedSprite
     {
         var result = base.update(time);
         var monster = (Monster)this.attachedCharacter;
-        if (result || monster.Health <= 0)
+        if (result || monster.Health <= 0 || !monster.IsSlowed())
         {
             SlowAnimationByMonster.Remove(monster);
             return result;

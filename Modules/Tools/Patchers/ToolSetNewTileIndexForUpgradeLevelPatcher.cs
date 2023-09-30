@@ -6,6 +6,7 @@ using System.Diagnostics.CodeAnalysis;
 using DaLion.Shared.Attributes;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
+using StardewValley.Tools;
 
 #endregion using directives
 
@@ -26,7 +27,7 @@ internal sealed class ToolSetNewTileIndexForUpgradeLevelPatcher : HarmonyPatcher
     [SuppressMessage("SMAPI.CommonErrors", "AvoidNetField:Avoid Netcode types when possible", Justification = "Bypass property setter.")]
     private static void ToolSetNewTileIndexForUpgradeLevelPrefix(Tool __instance, ref int? __state)
     {
-        if (__instance.UpgradeLevel < 5)
+        if (__instance.UpgradeLevel < 5 || __instance is not (Axe or Hoe or Pickaxe or WateringCan))
         {
             return;
         }

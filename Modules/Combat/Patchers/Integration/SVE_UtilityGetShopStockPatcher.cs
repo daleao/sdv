@@ -15,7 +15,7 @@ using StardewValley.Tools;
 #endregion using directives
 
 [UsedImplicitly]
-[ModRequirement("FlashShifter.StardewValleyExpandedALL")]
+[ModRequirement("FlashShifter.StardewValleyExpandedALL", "Stardew Valley Expanded")]
 [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1649:File name should match first type name", Justification = "Integration patch specifies the mod in file name but not class to avoid breaking pattern.")]
 internal sealed class UtilityGetShopStockPatcher : HarmonyPatcher
 {

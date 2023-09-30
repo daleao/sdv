@@ -9,11 +9,11 @@ This module makes Fish Ponds useful and immersive by implementing the following 
 [*]Roe and ink are handled separately: each fish species is given a roe/ink production chance based on it's value; the higher the value of the fish, the lower its chance to produce roe or ink. Every day, each fish in the pond will attempt to produce roe/ink based on that chance. Population size also boosts each individual fish's production chance. This results in roe/ink production that scales with population size, with common fish tending to produce a lot of low-value roe/ink, and rarer fish producing less but more valuable roe/ink, which should promote variability. Sturgeons have special conditions to produce bonus roe, and Coral produce algae or seaweed instead.
 [*]After 3 days, empty ponds will spontaneously grow algae/seaweed. New algae/seaweed spawn every 2 days, and produce a random amount of algae/seaweed depending on population. Note that seaweed, green algae and white algae will all grow simultaneously in the same pond. Algae/seaweed ponds have population gates and quests, but their population can only increase naturally; i.e. you cannot manually place more algae/seaweed in the pond.
 [*]Ponds containing Radioactive or Mutant fish species will enrich any ores or metal bars dropped inside, converting them to radioactive counterparts after enough days.
-[*]If [url=https://www.nexusmods.com/stardewvalley/articles/1261]PROFS[/url]﻿ module is enabled and the player has the Aquarist profession, then extended family legendary fish can be raised in the same pond as their family counterparts.
+[*]If [url=https://www.nexusmods.com/stardewvalley/articles/1261]PRFS[/url]﻿ module is enabled and the player has the Aquarist profession, then extended family legendary fish can be raised in the same pond as their family counterparts.
 
 [/list]
 
-This module is intended to complement [b][url=https://www.nexusmods.com/stardewvalley/articles/1261]PROFS[/url][/b] module and its Aquarist profession, but can be used without it.
+This module is intended to complement [b][url=https://www.nexusmods.com/stardewvalley/articles/1261]PRFS[/url][/b] module and its Aquarist profession, but can be used without it.
 
 Before disabling this module, please [b]manually fish out and then clear every Fish Pond[/b] instance to reset mod data in order to prevent issues.
 

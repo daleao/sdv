@@ -11,7 +11,7 @@ using HarmonyLib;
 #endregion using directives
 
 [UsedImplicitly]
-[ModRequirement("aedenthorn.CustomResourceClumps")]
+[ModRequirement("aedenthorn.CustomResourceClumps", "Custom Resource Clumps")]
 internal sealed class ModEntryGameLoopGameLaunchedPatcher : HarmonyPatcher
 {
     /// <summary>Initializes a new instance of the <see cref="ModEntryGameLoopGameLaunchedPatcher"/> class.</summary>
