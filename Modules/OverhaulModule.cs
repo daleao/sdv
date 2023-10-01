@@ -9,7 +9,6 @@ using System.Reflection;
 using DaLion.Overhaul.Modules.Combat.Enums;
 using DaLion.Overhaul.Modules.Combat.Extensions;
 using DaLion.Overhaul.Modules.Combat.VirtualProperties;
-using DaLion.Overhaul.Modules.Tweex.Integrations.BetterCrafting;
 using DaLion.Shared.Commands;
 using DaLion.Shared.Constants;
 using DaLion.Shared.Extensions.Collections;
@@ -51,9 +50,6 @@ public abstract class OverhaulModule
 
     #endregion enum entries
 
-    private Harmonizer? _harmonizer;
-    private CommandHandler? _commandHandler;
-
     /// <summary>Initializes a new instance of the <see cref="OverhaulModule"/> class.</summary>
     /// <param name="name">The module name.</param>
     /// <param name="entry">The entry keyword for the module's <see cref="IConsoleCommand"/>s.</param>
@@ -81,13 +77,20 @@ public abstract class OverhaulModule
     /// <summary>Gets the ticker symbol of the module, which is used as the entry command.</summary>
     internal string Ticker { get; }
 
+    /// <summary>Gets the <see cref="Harmonizer"/> instance of the module.</summary>
+    internal Harmonizer? Harmonizer { get; private set; }
+
+    /// <summary>Gets the <see cref="CommandHandler"/> instance of the module.</summary>
+    internal CommandHandler? CommandHandler { get; private set; }
+
+
     /// <summary>Gets or sets a value indicating whether the module should be enabled.</summary>
     [SuppressMessage("StyleCop.CSharp.NamingRules", "SA1300:Element should begin with upper-case letter", Justification = "Conflicts with static version.")]
     // ReSharper disable once InconsistentNaming
     internal abstract bool _ShouldEnable { get; set; }
 
     /// <summary>Gets a value indicating whether the module is currently active.</summary>
-    [MemberNotNullWhen(true, nameof(_harmonizer), nameof(_commandHandler))]
+    [MemberNotNullWhen(true, nameof(Harmonizer), nameof(CommandHandler))]
     internal bool IsActive { get; private set; }
 
     /// <summary>Enumerates all modules.</summary>
@@ -120,9 +123,9 @@ public abstract class OverhaulModule
         }
 
         EventManager.ManageNamespace(this.Namespace + ".Events");
-        this._harmonizer =
+        this.Harmonizer =
             Harmonizer.ApplyFromNamespace(helper.ModRegistry, this.Namespace + ".Patchers", this.Namespace);
-        this._commandHandler ??= CommandHandler.HandleFromNamespace(
+        this.CommandHandler ??= CommandHandler.HandleFromNamespace(
             helper.ConsoleCommands,
             this.Namespace + ".Commands",
             this.DisplayName,
@@ -143,7 +146,7 @@ public abstract class OverhaulModule
         }
 
         EventManager.UnmanageNamespace(this.Namespace);
-        this._harmonizer = this._harmonizer.Unapply();
+        this.Harmonizer = this.Harmonizer.Unapply();
         this.IsActive = false;
         this.InvalidateAssets();
         Log.T($"[Modules]: {this.Name} module deactivated.");
@@ -202,8 +205,8 @@ public abstract class OverhaulModule
 
 #if DEBUG
             EventManager.ManageNamespace(this.Namespace + ".Debug");
-            this._harmonizer = Harmonizer.ApplyFromNamespace(helper.ModRegistry, this.Namespace + ".Debug");
-            this._commandHandler ??= CommandHandler.HandleFromNamespace(
+            this.Harmonizer = Harmonizer.ApplyFromNamespace(helper.ModRegistry, this.Namespace + ".Debug");
+            this.CommandHandler ??= CommandHandler.HandleFromNamespace(
                 helper.ConsoleCommands,
                 this.Namespace + ".Debug",
                 this.DisplayName,

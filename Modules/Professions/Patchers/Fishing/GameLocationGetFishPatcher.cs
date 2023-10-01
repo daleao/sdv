@@ -26,13 +26,13 @@ internal sealed class GameLocationGetFishPatcher : HarmonyPatcher
     /// <inheritdoc />
     protected override bool ApplyImpl(Harmony harmony)
     {
-        var types = new[]
+        var locationTypes = new[]
         {
             typeof(GameLocation), typeof(Beach), typeof(Mountain), typeof(Town), typeof(MineShaft), typeof(Sewer),
             typeof(Submarine),
         };
 
-        foreach (var type in types)
+        foreach (var type in locationTypes)
         {
             this.Target = type.RequireMethod("getFish");
             if (!base.ApplyImpl(harmony))

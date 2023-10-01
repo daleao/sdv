@@ -15,12 +15,12 @@ internal sealed class SlingshotCtorPatcher : HarmonyPatcher
     /// <summary>Initializes a new instance of the <see cref="SlingshotCtorPatcher"/> class.</summary>
     internal SlingshotCtorPatcher()
     {
-        this.Target = this.RequireConstructor<Slingshot>(Type.EmptyTypes);
     }
 
     /// <inheritdoc />
     protected override bool ApplyImpl(Harmony harmony)
     {
+        this.Target = this.RequireConstructor<Slingshot>(Type.EmptyTypes);
         if (!base.ApplyImpl(harmony))
         {
             return false;

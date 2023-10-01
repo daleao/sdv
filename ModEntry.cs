@@ -11,8 +11,10 @@ namespace DaLion.Overhaul;
 
 #region using directives
 
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
+using System.Linq;
 using System.Reflection;
 using DaLion.Shared.Events;
 using DaLion.Shared.Extensions.Collections;
@@ -21,6 +23,8 @@ using DaLion.Shared.Extensions.SMAPI;
 using DaLion.Shared.ModData;
 using DaLion.Shared.Networking;
 using DaLion.Shared.Reflection;
+using HarmonyLib;
+using Shared.Harmony;
 using StardewModdingAPI.Utilities;
 
 #endregion using directives
@@ -102,10 +106,10 @@ public sealed class ModEntry : Mod
         Reflector = new Reflector();
         Broadcaster = new Broadcaster(helper.Multiplayer, this.ModManifest.UniqueID);
         EnumerateModules().ForEach(module => module.Activate(helper));
-
         this.ValidateMultiplayer();
         this.StopWatch();
         this.LogTime();
+        this.LogHarmonyStats();
         Log.I("[Entry]: Version checksum: " + this.GetType().Assembly.CalculateMd5());
     }
 
@@ -131,5 +135,43 @@ public sealed class ModEntry : Mod
     private void LogTime()
     {
         Log.A($"[Entry]: Initialization completed in {this._sw.ElapsedMilliseconds}ms.");
+    }
+
+    [Conditional("DEBUG")]
+    private void LogHarmonyStats()
+    {
+        var patchedMethods = new HashSet<MethodBase>();
+        var appliedPrefixes = 0;
+        var appliedPostfixes = 0;
+        var appliedTranspilers = 0;
+        var appliedFinalizers = 0;
+        foreach (var module in EnumerateModules())
+        {
+            if (module.Harmonizer is not { } harmonizer)
+            {
+                continue;
+            }
+
+            appliedPrefixes += harmonizer.AppliedPrefixes;
+            appliedPostfixes += harmonizer.AppliedPostfixes;
+            appliedTranspilers += harmonizer.AppliedTranspilers;
+            appliedFinalizers += harmonizer.AppliedFinalizers;
+            foreach (var method in harmonizer.Harmony.GetPatchedMethods())
+            {
+                if (method is null)
+                {
+                    continue;
+                }
+
+                patchedMethods.Add(method);
+            }
+        }
+
+        var totalApplied = appliedPrefixes + appliedPostfixes + appliedTranspilers + appliedFinalizers;
+        Log.A($"[Entry]: In total, {totalApplied} patches were applied to {patchedMethods.Count} methods, of which" +
+              $"\n\t- {appliedPrefixes} prefixes" +
+              $"\n\t- {appliedPostfixes} postfixes" +
+              $"\n\t- {appliedTranspilers} transpilers" +
+              $"\n\t- {appliedFinalizers} finalizers");
     }
 }

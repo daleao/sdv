@@ -144,8 +144,13 @@ internal static class ToolSelector
     private static bool TryForFishing(Vector2 tile, GameLocation location, [NotNullWhen(true)] out SelectableTool? selectable)
     {
         selectable = null;
-        return location.waterTiles is not null && location.waterTiles[(int)tile.X, (int)tile.Y] &&
-               ToolsModule.State.SelectableToolByType.TryGetValue(typeof(FishingRod), out selectable) && selectable.HasValue;
+        var nextTile = tile.GetNextTile(Game1.player.FacingDirection);
+        var cursorTile = Game1.currentCursorTile;
+        return location.waterTiles is not null &&
+               (location.waterTiles[(int)nextTile.X, (int)nextTile.Y] ||
+                (location.waterTiles[(int)cursorTile.X, (int)cursorTile.Y] && (cursorTile - nextTile).Length() <= 6)) &&
+               ToolsModule.State.SelectableToolByType.TryGetValue(typeof(FishingRod), out selectable) &&
+               selectable.HasValue;
     }
 
     private static bool TryForTillableSoil(Vector2 tile, GameLocation location, [NotNullWhen(true)] out SelectableTool? selectable)

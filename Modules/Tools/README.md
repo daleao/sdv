@@ -69,6 +69,10 @@ Clint is no fool to mock about with radioactive substances. But with the Forge's
 
 Hold the Mod Key (default LeftShift) and click on any tool in your toolbar or inventory to enable it for auto-selection. As long the current tool is itself enabled for auto-selection, pressing the tool-use button will cause the appropriate enabled tool to be intelligently selected for the target tile.
 
+<div align="center">
+  <img src="../../resources/screenshots/auto_select.gif" width="67%" alt="auto_select.gif">
+</div>
+
 <sup><sup>[🔼 Back to top](#margo--tools-tols)</sup></sup>
 
 ## Configs

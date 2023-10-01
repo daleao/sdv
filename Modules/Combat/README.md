@@ -54,7 +54,7 @@ This humongous module consolidates rebalances to melee weapons, ranged weapons a
 
 ## Status Effects
 
-Taking inspiration from classic RPG or strategy games, this module adds a framework for causing various status conditions to enemies. They are:
+Taking inspiration from classic RPG and strategy games, this module adds a framework for causing various status conditions to enemies. They are:
 
 - **Bleeding:** Causes damage every second. Damage increases exponentially with each additional stack. Stacks up to 5x. Does not affect Ghosts, Skeletons, Golems, Dolls or Mechanical enemies (ex. Dwarven Sentry).
 - **Burning:** Causes damage equal to 1/16th of max health every 3s for 15s, and reduces attack by half. Does not affect fire enemies (i.e., Lava Lurks, Magma Sprites and Magma Sparkers). Insects burn 4x as quickly.
@@ -355,7 +355,7 @@ The Iridium Band has been completely overhauled. Initially, a newly crafted Irid
 <img src="https://gitlab.com/daleao/modular-overhaul/-/raw/main/resources/screenshots/infinity_band.gif" alt="infinity_band.gif" width="67%">
 </div>
 
-The Infinity Band likewise does nothing on its own, but it serves as a vessel for up to **four** gemstones. To add a gemstone to the Infinity Band, you must fuse it with a corresponding gemstone ring at the Forge. The same type of gemstone can be added more than once, compounding the effect. Alternatively, combining different gemstones will potentially lead to powerful [resonances](#garnet--gemstone-resonance-theory).
+The Infinity Band likewise does nothing on its own, but it serves as a vessel for up to **four** gemstones. To add a gemstone to the Infinity Band, you must fuse it with a corresponding gemstone ring at the Forge. The same type of gemstone can be added more than once, compounding the effect. Alternatively, combining different gemstones may lead to powerful [resonances](#garnet--gemstone-resonance-theory).
 
 <sup><sup>[🔼 Back to top](#margo--combat-cmbt)</sup></sup>
 

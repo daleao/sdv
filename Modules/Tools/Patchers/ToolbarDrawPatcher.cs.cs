@@ -91,7 +91,8 @@ internal sealed class ToolbarDrawPatcher : HarmonyPatcher
 
             var item = Game1.player.Items[slotNumber];
             if (item is Tool tool && Game1.player.CurrentTool != tool &&
-                ToolsModule.State.SelectableToolByType.TryGetValue(tool.GetType(), out var selectable) && selectable.HasValue)
+                ToolsModule.State.SelectableToolByType.TryGetValue(tool.GetType(), out var selectable) &&
+                selectable?.Tool == tool)
             {
                 button.bounds.DrawBorder(Pixel.Value, 3, ToolsModule.Config.SelectionBorderColor, b);
             }

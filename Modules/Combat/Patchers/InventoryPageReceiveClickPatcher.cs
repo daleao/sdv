@@ -58,7 +58,7 @@ internal sealed class InventoryPageReceiveClickPatcher : HarmonyPatcher
 
         switch (___hoveredItem)
         {
-            case MeleeWeapon weapon when weapon.isScythe():
+            case MeleeWeapon weapon when !weapon.isScythe():
                 if (CombatModule.State.AutoSelectableMelee == weapon)
                 {
                     CombatModule.State.AutoSelectableMelee = null;

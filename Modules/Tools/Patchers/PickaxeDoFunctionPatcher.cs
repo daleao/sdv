@@ -3,6 +3,7 @@
 #region using directives
 
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Reflection;
 using System.Reflection.Emit;
 using DaLion.Overhaul.Modules.Tools.Configs;
@@ -23,6 +24,12 @@ internal sealed class PickaxeDoFunctionPatcher : HarmonyPatcher
     }
 
     #region harmony patches
+
+    [HarmonyPrefix]
+    private static void PickaxeDoFunctionPrefix(Pickaxe __instance, Farmer who)
+    {
+        Log.A((who.GetToolLocation() / Game1.tileSize).ToString());
+    }
 
     /// <summary>Charge shockwave stamina cost.</summary>
     [HarmonyPostfix]
