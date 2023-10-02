@@ -23,8 +23,8 @@ public sealed class WateringCanConfig
         (5, 0),
         (3, 1),
         (6, 1),
-        (5, 2),
-        (7, 3),
+        (7, 2),
+        (8, 3),
         (9, 4),
     };
 

@@ -70,7 +70,8 @@ Clint is no fool to mock about with radioactive substances. But with the Forge's
 Hold the Mod Key (default LeftShift) and click on any tool in your toolbar or inventory to enable it for auto-selection. As long the current tool is itself enabled for auto-selection, pressing the tool-use button will cause the appropriate enabled tool to be intelligently selected for the target tile.
 
 <div align="center">
-  <img src="../../resources/screenshots/auto_select.gif" width="67%" alt="auto_select.gif">
+
+<img src="https://gitlab.com/daleao/modular-overhaul/-/raw/main/resources/screenshots/auto_select.gif" alt="auto_select.gif" width="67%">
 </div>
 
 <sup><sup>[🔼 Back to top](#margo--tools-tols)</sup></sup>
@@ -96,6 +97,7 @@ Other settings are self explanatory. Use [Generic Mod Config Menu](https://www.n
 This mod uses Harmony to patch the behavior of Axe and Pickaxe. Any mods that also directly patch Tool behavior might be incompatible.
 
 - Compatible with [Moon Misadventures](https://www.nexusmods.com/stardewvalley/mods/10612).
+- Compatible with [Grandpa's Tools](https://www.nexusmods.com/stardewvalley/mods/8835) and will use corresponding textures for Radioactive and Mythicite weapons.
 - Compatible with [Harvest Moon FoMT-like Watering Can And Hoe Area](https://www.nexusmods.com/stardewvalley/mods/7851) as long as you don't touch Hoe and Watering Can settings (although you can just set them to the same values used by that mod to achieve the same effect).
 - **Not** compatible with the likes of [Combat Controls - Fixed Mouse Click](https://www.nexusmods.com/stardewvalley/mods/2590) or [Combat Controls Redux](https://www.nexusmods.com/stardewvalley/mods/10496), as those features are already included in this and others modules.
 - **Not** compatible with other Harvest With Scythe mods, such as [Yet Another Harvest With Scythe](https://www.nexusmods.com/stardewvalley/mods/2731).

@@ -5,6 +5,7 @@
 using DaLion.Shared.Harmony;
 using HarmonyLib;
 using Microsoft.Xna.Framework;
+using Shared.Extensions.Xna;
 using StardewValley.Tools;
 
 #endregion using directives
@@ -65,24 +66,18 @@ internal sealed class FarmerToolPowerIncreasePatcher : HarmonyPatcher
                 powerUpColor = Color.Violet;
                 __instance.jitterStrength = 2f;
                 break;
-            case 5 when __instance.CurrentTool.UpgradeLevel == 5:
-                powerUpColor = Color.Chartreuse;
-                __instance.jitterStrength = 3f;
-                break;
             case 5:
-                powerUpColor = Color.BlueViolet;
+                powerUpColor = __instance.CurrentTool.UpgradeLevel >= 5 ? Color.GreenYellow : Color.BlueViolet;
                 __instance.jitterStrength = 3f;
-                break;
-            case 6 when __instance.CurrentTool.UpgradeLevel == 6:
-                powerUpColor = Color.Cyan;
-                __instance.jitterStrength = 4f;
                 break;
             case 6:
-                powerUpColor = Color.BlueViolet;
+                powerUpColor = __instance.CurrentTool.UpgradeLevel >= 6
+                    ? Color.Cyan
+                    : Color.YellowGreen;
                 __instance.jitterStrength = 4f;
                 break;
             case 7:
-                powerUpColor = Color.BlueViolet;
+                powerUpColor = Color.DarkTurquoise;
                 __instance.jitterStrength = 5f;
                 break;
         }

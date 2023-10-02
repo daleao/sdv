@@ -119,9 +119,9 @@ public sealed class Config : Shared.Configs.Config
             Log.W($"[TOLS]: {preface} values in Hoe.AffectedTilesAtEachPowerLevel. The default values will be restored.");
             this.Hoe.AffectedTilesAtEachPowerLevel = maxToolPower switch
             {
-                > 6 => new (uint, uint)[] { (3, 0), (5, 0), (3, 1), (6, 1), (5, 2), (7, 3), (9, 4), },
-                > 5 => new (uint, uint)[] { (3, 0), (5, 0), (3, 1), (6, 1), (5, 2), (7, 3), },
-                _ => new (uint, uint)[] { (3, 0), (5, 0), (3, 1), (6, 1), (5, 2), },
+                > 6 => new (uint, uint)[] { (3, 0), (5, 0), (3, 1), (6, 1), (7, 2), (8, 3), (9, 4), },
+                > 5 => new (uint, uint)[] { (3, 0), (5, 0), (3, 1), (6, 1), (7, 2), (8, 3), },
+                _ => new (uint, uint)[] { (3, 0), (5, 0), (3, 1), (6, 1), (7, 2), },
             };
 
             isValid = false;
@@ -133,9 +133,9 @@ public sealed class Config : Shared.Configs.Config
             Log.W($"[TOLS]: {preface} values in Can.AffectedTilesAtEachPowerLevel. The default values will be restored.");
             this.Can.AffectedTilesAtEachPowerLevel = maxToolPower switch
             {
-                > 6 => new (uint, uint)[] { (3, 0), (5, 0), (3, 1), (6, 1), (5, 2), (7, 3), (9, 4), },
-                > 5 => new (uint, uint)[] { (3, 0), (5, 0), (3, 1), (6, 1), (5, 2), (7, 3), },
-                _ => new (uint, uint)[] { (3, 0), (5, 0), (3, 1), (6, 1), (5, 2), },
+                > 6 => new (uint, uint)[] { (3, 0), (5, 0), (3, 1), (6, 1), (7, 2), (8, 3), (9, 4), },
+                > 5 => new (uint, uint)[] { (3, 0), (5, 0), (3, 1), (6, 1), (7, 2), (8, 3), },
+                _ => new (uint, uint)[] { (3, 0), (5, 0), (3, 1), (6, 1), (7, 2), },
             };
 
             isValid = false;

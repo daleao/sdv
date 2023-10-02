@@ -65,6 +65,10 @@ internal sealed class MonsterParseMonsterInfoPatcher : HarmonyPatcher
         }
 
         __instance.Health = __instance.MaxHealth;
+        Log.D($"[CMBT]: Spawned {__instance.Name} with following stats:" +
+              $"\n\t- {__instance.Health} health" +
+              $"\n\t- {__instance.DamageToFarmer} damage" +
+              $"\n\t- {__instance.resilience.Value} defense");
     }
 
     #endregion harmony patches
