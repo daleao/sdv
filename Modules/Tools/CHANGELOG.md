@@ -7,6 +7,11 @@
 * Fixed not being able to apply Mythicite upgrade at the Forge.
 * Auto-selection no longer requires that the player be *currently holding an auto-selectable tool*. This was very unintuitive. Now, simply marking a tool will cause it to auto-equip.
 * Fixed some issues with auto-selection of Scythe and Fishing Rod.
+* Fixed power-up colors for Radioactive and Mythicite power levels.
+
+### Removed
+
+* Removed the glow on Radioactive ang Mythicite textures for Grandpa's Tools. They made the tools look "boxy" and unimmersive.
 
 <sup><sup>[🔼 Back to top](#tols-changelog)</sup></sup>
 
