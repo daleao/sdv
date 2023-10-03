@@ -1,7 +1,5 @@
 ﻿namespace DaLion.Overhaul.Modules.Combat.Events.GameLoop.UpdateTicked;
 
-using DaLion.Overhaul;
-
 #region using directives
 
 using DaLion.Shared.Events;

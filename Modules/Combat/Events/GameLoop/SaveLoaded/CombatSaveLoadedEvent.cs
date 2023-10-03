@@ -1,8 +1,5 @@
 ﻿namespace DaLion.Overhaul.Modules.Combat.Events.GameLoop.SaveLoaded;
 
-using DaLion.Overhaul;
-using DaLion.Overhaul.Modules.Combat;
-
 #region using directives
 
 using DaLion.Overhaul.Modules.Combat.Enums;
@@ -55,40 +52,6 @@ internal sealed class CombatSaveLoadedEvent : SaveLoadedEvent
         {
             ModEntry.EventManager.Enable<BlueprintDayStartedEvent>();
         }
-
-        // -- temp fixes --
-
-        if (player.Read<int>("ProvenHonor") is var provenHonor and > 0)
-        {
-            player.WriteIfNotExists("Honor", provenHonor.ToString());
-            player.Write("ProvenHonor", null);
-        }
-
-        if (player.Read<int>("ProvenCompassion") is var provenCompassion and > 0)
-        {
-            player.WriteIfNotExists("Compassion", provenCompassion.ToString());
-            player.Write("ProvenCompassion", null);
-        }
-
-        if (player.Read<int>("ProvenWisdom") is var provenWisdom and > 0)
-        {
-            player.WriteIfNotExists("Wisdom", provenWisdom.ToString());
-            player.Write("ProvenWisdom", null);
-        }
-
-        if (player.Read<int>("ProvenGenerosity") is var provenGenerosity and > 0)
-        {
-            player.WriteIfNotExists("Generosity", provenGenerosity.ToString());
-            player.Write("ProvenGenerosity", null);
-        }
-
-        if (player.Read<int>("ProvenValor") is var provenValor and > 0)
-        {
-            player.WriteIfNotExists("Valor", provenValor.ToString());
-            player.Write("ProvenValor", null);
-        }
-
-        // -- temp fixes ==
 
         // record pre-obtained galaxy sword
         if (player.mailReceived.Contains("galaxySword"))

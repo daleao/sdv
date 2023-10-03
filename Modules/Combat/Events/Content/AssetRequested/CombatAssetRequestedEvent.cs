@@ -3,8 +3,6 @@
 #region using directives
 
 using System.Globalization;
-using DaLion.Overhaul;
-using DaLion.Overhaul.Modules.Combat;
 using DaLion.Overhaul.Modules.Combat.Enums;
 using DaLion.Overhaul.Modules.Combat.Integrations;
 using DaLion.Shared.Constants;
