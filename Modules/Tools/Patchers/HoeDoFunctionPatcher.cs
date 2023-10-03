@@ -27,7 +27,6 @@ internal sealed class HoeDoFunctionPatcher : HarmonyPatcher
     [HarmonyPrefix]
     private static void HoeDoFunctionPrefix(Hoe __instance, Farmer who)
     {
-        Log.A((who.GetToolLocation() / Game1.tileSize).ToString());
     }
 
     /// <summary>Apply base stamina multiplier + stamina cost cap.</summary>

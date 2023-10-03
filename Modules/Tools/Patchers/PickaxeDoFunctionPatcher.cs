@@ -28,7 +28,6 @@ internal sealed class PickaxeDoFunctionPatcher : HarmonyPatcher
     [HarmonyPrefix]
     private static void PickaxeDoFunctionPrefix(Pickaxe __instance, Farmer who)
     {
-        Log.A((who.GetToolLocation() / Game1.tileSize).ToString());
     }
 
     /// <summary>Charge shockwave stamina cost.</summary>

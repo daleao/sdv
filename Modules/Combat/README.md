@@ -217,15 +217,15 @@ Weapons enchantments have been almost entirely overhauled. These new enchantment
 
 | Name      | Effect |
 | --------- | -------|
-| Haymaker  | *Unchanged from vanilla.* |
-| Artful    | Improves the special move of each weapon.* |
+| Haymaker | *Unchanged from vanilla.* |
+| Artful | Improves the special move of each weapon.* |
 | Blasting | Accumulates and stores half of the damage from enemy hits (before mitigation). If enough damage is accumulated, the next special move releases that damage as an explosion. |
 | Bloodthirsty | Enemy takedowns recover some health proportional to the enemy's max health. Excess healing is converted into a shield for up to 20% of the player's max health, which slowly decays after not dealing or taking damage for 25s. |
-| Carving   | Attacks on-hit reduce enemy defense by 1 (continuing below zero). Removes the armor from Armored Bugs and de-shells Rock Crabs. |
-| Cleaving  | Attacks on-hit spread 60% - 20% (based on distance) of the damage to other enemies around the target. |
+| Carving | Attacks on-hit reduce enemy defense by 1 (continuing below zero). Removes the armor from Armored Bugs and de-shells Rock Crabs. |
+| Cleaving | Attacks on-hit spread 60% - 20% (based on distance) of the damage to other enemies around the target. |
 | Energized | Moving and attacking generates energy. When fully-energized, the next attack causes an electric discharge, dealing heavy damage in a large area. |
 | Mammonite's | Attacks that would leave an enemy below 10% max health immediately execute the enemy, converting the remaining health into gold. This threshold increases by 1% with each consecutive takedown, resetting when you take damage. |
-| Steadfast    | Converts critical strike chance into bonus raw damage (multiplied by critical power). |
+| Steadfast | Can no longer critically strike, but multiplies base damage by a factor of crit. power. |
 | Wabbajack | Causes unpredictable effects.** |
 
 \*

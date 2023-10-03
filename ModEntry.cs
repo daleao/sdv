@@ -110,6 +110,7 @@ public sealed class ModEntry : Mod
         this.StopWatch();
         this.LogTime();
         this.LogHarmonyStats();
+        EventManager.LogStats();
         Log.I("[Entry]: Version checksum: " + this.GetType().Assembly.CalculateMd5());
     }
 
@@ -168,7 +169,7 @@ public sealed class ModEntry : Mod
         }
 
         var totalApplied = appliedPrefixes + appliedPostfixes + appliedTranspilers + appliedFinalizers;
-        Log.A($"[Entry]: In total, {totalApplied} patches were applied to {patchedMethods.Count} methods, of which" +
+        Log.A($"[Entry]: In total, {totalApplied} patches were applied to {patchedMethods.Count} methods, of which:" +
               $"\n\t- {appliedPrefixes} prefixes" +
               $"\n\t- {appliedPostfixes} postfixes" +
               $"\n\t- {appliedTranspilers} transpilers" +

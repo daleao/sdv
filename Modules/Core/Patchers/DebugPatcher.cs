@@ -4,27 +4,17 @@
 
 using DaLion.Shared.Harmony;
 using HarmonyLib;
+using Shared.Attributes;
 
 #endregion using directives
 
 [UsedImplicitly]
+[Debug]
 internal sealed class DebugPatcher : HarmonyPatcher
 {
     /// <summary>Initializes a new instance of the <see cref="DebugPatcher"/> class.</summary>
     internal DebugPatcher()
     {
-    }
-
-    /// <inheritdoc />
-    protected override bool ApplyImpl(Harmony harmony)
-    {
-        return this.Target is null || base.ApplyImpl(harmony);
-    }
-
-    /// <inheritdoc />
-    protected override bool UnapplyImpl(Harmony harmony)
-    {
-        return this.Target is null || base.UnapplyImpl(harmony);
     }
 
     #region harmony patches

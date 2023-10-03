@@ -28,7 +28,6 @@ internal sealed class AxeDoFunctionPatcher : HarmonyPatcher
     [HarmonyPrefix]
     private static void AxeDoFunctionPrefix(Axe __instance, Farmer who)
     {
-        Log.A((who.GetToolLocation() / Game1.tileSize).ToString());
     }
 
     /// <summary>Charge shockwave stamina cost.</summary>

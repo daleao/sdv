@@ -35,65 +35,57 @@ internal sealed class SlingshotArtfulSpecialUpdateTickedEvent : UpdateTickedEven
             return;
         }
 
-        if (slingshot.Get_IsOnSpecial())
+        _currentFrame++;
+        if (_currentFrame == 0)
         {
-            _currentFrame++;
-            if (_currentFrame == 0)
+            var frame = (FacingDirection)user.FacingDirection switch
             {
-                var frame = (FacingDirection)user.FacingDirection switch
-                {
-                    FacingDirection.Up => 248,
-                    FacingDirection.Right => 240,
-                    FacingDirection.Down => 232,
-                    FacingDirection.Left => 256,
-                    _ => ThrowHelperExtensions.ThrowUnexpectedEnumValueException<FacingDirection, int>(
-                        (FacingDirection)user.FacingDirection),
-                };
+                FacingDirection.Up => 248,
+                FacingDirection.Right => 240,
+                FacingDirection.Down => 232,
+                FacingDirection.Left => 256,
+                _ => ThrowHelperExtensions.ThrowUnexpectedEnumValueException<FacingDirection, int>(
+                    (FacingDirection)user.FacingDirection),
+            };
 
-                var sprite = (FarmerSprite)user.Sprite;
-                sprite.setCurrentFrame(frame, 0, 60, _animationFrames, user.FacingDirection == 3, true);
-                _animationFrames = (sprite.CurrentAnimation.Count * 3) + 3;
-            }
-            else if (_currentFrame >= _animationFrames)
-            {
-                user.completelyStopAnimatingOrDoingAction();
-                slingshot.Set_IsOnSpecial(false);
-                user.forceCanMove();
-                user.DoSlingshotSpecialCooldown(slingshot);
-                _currentFrame = -1;
-            }
-            else
-            {
-                var sprite = user.FarmerSprite;
-                if (_currentFrame >= 6 && _currentFrame % 3 == 0)
-                {
-                    sprite.CurrentFrame =
-                        sprite.CurrentAnimation[sprite.currentAnimationIndex++ % sprite.CurrentAnimation.Count].frame;
-                }
-
-                if (_currentFrame == 10)
-                {
-                    Game1.playSound("swordswipe");
-                }
-                else if (_currentFrame == 20)
-                {
-                    slingshot.ShowSwordSwipe(user);
-                }
-
-                if (sprite.currentAnimationIndex >= 4)
-                {
-                    var (x, y) = user.GetToolLocation(true);
-                    slingshot.DoDamage((int)x, (int)y, user);
-                }
-
-                user.UsingTool = true;
-                user.CanMove = false;
-            }
+            var sprite = (FarmerSprite)user.Sprite;
+            sprite.setCurrentFrame(frame, 0, 60, _animationFrames, user.FacingDirection == 3, true);
+            _animationFrames = (sprite.CurrentAnimation.Count * 3) + 3;
+        }
+        else if (_currentFrame >= _animationFrames)
+        {
+            user.completelyStopAnimatingOrDoingAction();
+            slingshot.Set_IsOnSpecial(false);
+            user.DoSlingshotSpecialCooldown(slingshot);
+            user.forceCanMove();
+            _currentFrame = -1;
         }
         else
         {
-            user.DoSlingshotSpecialCooldown(slingshot);
-            this.Disable();
+            var sprite = user.FarmerSprite;
+            if (_currentFrame >= 6 && _currentFrame % 3 == 0)
+            {
+                sprite.CurrentFrame =
+                    sprite.CurrentAnimation[sprite.currentAnimationIndex++ % sprite.CurrentAnimation.Count].frame;
+            }
+
+            if (_currentFrame == 10)
+            {
+                Game1.playSound("swordswipe");
+            }
+            else if (_currentFrame == 20)
+            {
+                slingshot.ShowSwordSwipe(user);
+            }
+
+            if (sprite.currentAnimationIndex >= 4)
+            {
+                var (x, y) = user.GetToolLocation(true);
+                slingshot.DoDamage((int)x, (int)y, user);
+            }
+
+            user.UsingTool = true;
+            user.CanMove = false;
         }
     }
 }

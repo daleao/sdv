@@ -29,86 +29,63 @@ internal sealed class SlingshotSpecialUpdateTickedEvent : UpdateTickedEvent
     protected override void OnUpdateTickedImpl(object? sender, UpdateTickedEventArgs e)
     {
         var user = Game1.player;
-        if (user.CurrentTool is not Slingshot slingshot)
+        if (user.CurrentTool is not Slingshot slingshot || !slingshot.Get_IsOnSpecial())
         {
             this.Disable();
             return;
         }
 
-        var facingDirection = (FacingDirection)user.FacingDirection;
-        if (slingshot.Get_IsOnSpecial())
+        _currentFrame++;
+        if (_currentFrame == 0)
         {
-            _currentFrame++;
-            if (_currentFrame == 0)
+            var frame = (FacingDirection)user.FacingDirection switch
             {
-                var frame = (FacingDirection)user.FacingDirection switch
-                {
-                    FacingDirection.Up => 176,
-                    FacingDirection.Right => 168,
-                    FacingDirection.Down => 160,
-                    FacingDirection.Left => 184,
-                    _ => ThrowHelperExtensions.ThrowUnexpectedEnumValueException<FacingDirection, int>(
-                        (FacingDirection)user.FacingDirection),
-                };
+                FacingDirection.Up => 176,
+                FacingDirection.Right => 168,
+                FacingDirection.Down => 160,
+                FacingDirection.Left => 184,
+                _ => ThrowHelperExtensions.ThrowUnexpectedEnumValueException<FacingDirection, int>(
+                    (FacingDirection)user.FacingDirection),
+            };
 
-                var sprite = (FarmerSprite)user.Sprite;
-                sprite.setCurrentFrame(frame, 0, 40, _animationFrames, user.FacingDirection == 3, true);
-                _animationFrames = (sprite.CurrentAnimation.Count * 3) + 11;
-            }
-            else if (_currentFrame >= _animationFrames)
-            {
-                slingshot.Set_IsOnSpecial(false);
-                user.DoSlingshotSpecialCooldown();
-                user.completelyStopAnimatingOrDoingAction();
-                user.forceCanMove();
-                _currentFrame = -1;
-            }
-            else
-            {
-                var sprite = user.FarmerSprite;
-                if (_currentFrame >= 6 && _currentFrame < _animationFrames - 6 && _currentFrame % 3 == 0)
-                {
-                    sprite.CurrentFrame =
-                        sprite.CurrentAnimation[sprite.currentAnimationIndex++ % sprite.CurrentAnimation.Count].frame;
-                }
-
-                if (_currentFrame == 6)
-                {
-                    Game1.playSound("swordswipe");
-                }
-                else if (_currentFrame == (facingDirection.IsHorizontal() ? 10 : 14))
-                {
-                    Farmer.showToolSwipeEffect(user);
-                }
-
-                if (sprite.currentAnimationIndex >= 4)
-                {
-                    var (x, y) = user.getTileLocation() * Game1.tileSize;
-                    slingshot.DoDamage((int)x, (int)y, user);
-                }
-
-                user.UsingTool = true;
-                user.CanMove = false;
-            }
+            var sprite = (FarmerSprite)user.Sprite;
+            sprite.setCurrentFrame(frame, 0, 40, _animationFrames, user.FacingDirection == 3, true);
+            _animationFrames = (sprite.CurrentAnimation.Count * 3) + 11;
         }
-        else if (CombatModule.State.SlingshotCooldown > 0)
+        else if (_currentFrame >= _animationFrames)
         {
-            CombatModule.State.SlingshotCooldown -= Game1.currentGameTime.ElapsedGameTime.Milliseconds;
-            if (CombatModule.State.SlingshotCooldown > 0)
-            {
-                return;
-            }
-
-            CombatModule.State.SlingshotAddedScale = 0.5f;
-            Game1.playSound("objectiveComplete");
-        }
-        else if (CombatModule.State.SlingshotAddedScale > 0)
-        {
-            CombatModule.State.SlingshotAddedScale -= 0.01f;
+            user.completelyStopAnimatingOrDoingAction();
+            slingshot.Set_IsOnSpecial(false);
+            user.DoSlingshotSpecialCooldown();
+            user.forceCanMove();
+            _currentFrame = -1;
         }
         else
         {
-            this.Disable();
+            var sprite = user.FarmerSprite;
+            if (_currentFrame >= 6 && _currentFrame < _animationFrames - 6 && _currentFrame % 3 == 0)
+            {
+                sprite.CurrentFrame =
+                    sprite.CurrentAnimation[sprite.currentAnimationIndex++ % sprite.CurrentAnimation.Count].frame;
+            }
+
+            if (_currentFrame == 6)
+            {
+                Game1.playSound("swordswipe");
+            }
+            else if (_currentFrame == (((FacingDirection)user.FacingDirection).IsHorizontal() ? 10 : 14))
+            {
+                Farmer.showToolSwipeEffect(user);
+            }
+
+            if (sprite.currentAnimationIndex >= 4)
+            {
+                var (x, y) = user.getTileLocation() * Game1.tileSize;
+                slingshot.DoDamage((int)x, (int)y, user);
+            }
+
+            user.UsingTool = true;
+            user.CanMove = false;
         }
     }
 }

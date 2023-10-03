@@ -1,10 +1,27 @@
 ﻿# CMBT Changelog
 
+## 3.1.6
+
+### Changed
+
+* Steadfast enchantment changed.
+    * **Old behavior:** adds `critRate * critPow * 100` to your base damage.
+    *This resulted in higher average damage in almost every single case. Base damage was the only variable that could improve the value of crit. strikes over Steadfast, requiring the BiS weapons for the former to beat the latter. Crit. rate impacted both equally, meaning that building more crit. rate would never make crit. strikes more valuable than Steadfast. **I really hadn't given this one much thought.***
+    * **New behavior:** adds `baseDamage * critPow * k` to your base damage.
+    *Where k depends on the base crit. rate and crit. power of the weapon type. First, by removing the crit. rate scaling, we ensure that crit. strikes are more valuable than Steadfast in crit. rate-focused builds. Second, by scaling with base damage instead, we ensure that Steadfast is viable with any weapon, and doesn't suddenly fall off after aquiring the BiS weapons. The new formula finds a new niche in builds that focus on crit. power without crit. rate.*
+
+### Fixed
+
+* Fixed slingshot cooldown freezing when unequiped.
+
+<sup><sup>[🔼 Back to top](#cmbt-changelog)</sup></sup>
+
 ## 3.1.5
 
 ### Added
 
 * Added `MonsterSpawnChanceMultiplier` config setting.
+* Added to slingshots the pulse effect that other weapons have when their special cooldown ends.
 
 ### Changed
 
@@ -15,6 +32,10 @@
     * Enemy Damage x1 -> x2
 * Tweaked the mean and sigma values used for `VariedEncounters` config setting. Mean variation is now smaller and sigma is significantly narrower. This should keep enemy stats more in the realm of "reasonable" without too much crazy variability.
 * Valor completion by streaking through the Mines now only works on Hard Mode. Reduced from 100 levels to 10-20-40 (depending on difficulty).
+
+### Fixed
+
+* Fixed slingshot special cooldown not applying correctly.
 
 <sup><sup>[🔼 Back to top](#cmbt-changelog)</sup></sup>
 

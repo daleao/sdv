@@ -5,6 +5,7 @@
 using DaLion.Overhaul.Modules.Combat.Enchantments;
 using DaLion.Overhaul.Modules.Combat.Events.GameLoop.UpdateTicked;
 using DaLion.Shared.Harmony;
+using Extensions;
 using HarmonyLib;
 using Microsoft.Xna.Framework;
 using StardewValley.Tools;
@@ -48,8 +49,9 @@ internal sealed class GameLocationDamageMonsterPatcher : HarmonyPatcher
         }
         else if (weapon.hasEnchantmentOfType<SteadfastEnchantment>())
         {
-            minDamage += (int)(critChance * 100 * critMultiplier);
-            maxDamage += (int)(critChance * 100 * critMultiplier);
+            var k = weapon.DefaultCritChance() * (weapon.DefaultCritPower() - 1) / weapon.DefaultCritPower();
+            minDamage += (int)(minDamage * critMultiplier * k);
+            maxDamage += (int)(maxDamage * critMultiplier * k);
             critChance = 0f;
         }
     }

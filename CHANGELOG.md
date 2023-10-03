@@ -2,6 +2,11 @@
 
 This file contains a TL;DR of current version changes and hotfixes from across all modules. For the complete changelog, please refer to the individual changelogs of each module, linked [below](#detailed-changelogs).
 
+## Patch 3.1.6 Highlights
+
+* [CMBT]: Changed the scaling of Steadfast enchantment so it's no longer overpowered but still finds a niche in crit. power-focus builds.
+* [CMBT]: Fixed slingshot cooldown freezing when unequiped.
+
 ## Patch 3.1.5 Highlights
 
 * Changed core ticket from MARGX to MRG.
@@ -10,7 +15,8 @@ This file contains a TL;DR of current version changes and hotfixes from across a
 * [CMBT]: Added `MonsterSpawnChanceMultiplier` config setting.
 * [CMBT]: Neptune Glaive now requires the player have obtained the Skull Key before it will appear in Fishing Chests.
 * [CMBT]: Wizard's special Blade of Ruin dialogue will now only occur once per day, so it will no longer prevent all other dialogues.
-* [CMBT:] Tweaked `VariedEncounters` settings to yield more reasonable results.
+* [CMBT]: Tweaked `VariedEncounters` settings to yield more reasonable results.
+* [CMBT]: Fixed slingshot special cooldown not applying correctly.
 * [PRFS]: Spelunker ladder down chance changed from additive to multiplicative.
 * [PRFS]: Spelunker prestige recovery increased from +2.5% to +5% health and from +1% to +2.5% stamina per level.
 * [TOLS]: Fixed not being able to apply Mythicite upgrade at the Forge.

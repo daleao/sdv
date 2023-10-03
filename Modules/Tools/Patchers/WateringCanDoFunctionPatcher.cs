@@ -27,7 +27,6 @@ internal sealed class WateringCanDoFunctionPatcher : HarmonyPatcher
     [HarmonyPrefix]
     private static void WateringCanDoFunctionPrefix(WateringCan __instance, Farmer who)
     {
-        Log.A((who.GetToolLocation() / Game1.tileSize).ToString());
     }
 
     /// <summary>Apply base stamina multiplier + stamina cost cap.</summary>
