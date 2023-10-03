@@ -63,30 +63,10 @@ This file contains a TL;DR of current version changes and hotfixes from across a
 
 <sup><sup>[🔼 Back to top](#margo-changelogs)</sup></sup>
 
-## Patch 3.1.0 Highlights
+## Minor Release 3.1.0 Highlights
 
 * Optional files `[CP] Fish Pond Data` and `[CON] Garnet Node` are now embedded in the main mod.
 * Updated mod dependencies.
-
-<sup><sup>[🔼 Back to top](#margo-changelogs)</sup></sup>
-
-## Patch 3.0.2 Highlights
-
-* Fixed a few more translation issues.
-* Added Combo Framework to the API.
-* [PRFS]: Parallelized Luremaster logic to maybe improve performance on some systems.
-* [CMBT]: Valor completion was reverted back to Monster Eradication Goals. But it can now also be completed by digging through the Mines without Staircases, or by reaching SVE's Treasure Cave.
-* [CMBT]: Added new Virtue tags to several SVE events (most of them "Mature Events").
-* [CMBT]: Honor can now be proven by returning the Mayor's purple shorts without shenanigans.
-* [CMBT]: Changed SVE's Treasure Cave chest reward from Obsidian Edge to Lava Katana.
-
-<sup><sup>[🔼 Back to top](#margo-changelogs)</sup></sup>
-
-## Patch 3.0.1 Highlights
-
-* Fixed some missing translations.
-* [CMBT]: Fixed Piper's Slime ammo damage (increased from 5 to 10).
-* [TOLS]: Fixed Master enchantment on tools other than Fishing Rod still increasing Fishing level by 1, and also not showing up as green in the skills page.
 
 <sup><sup>[🔼 Back to top](#margo-changelogs)</sup></sup>
 
