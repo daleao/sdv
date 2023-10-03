@@ -5,7 +5,7 @@ This file contains a TL;DR of current version changes and hotfixes from across a
 ## Patch 3.1.6 Highlights
 
 * [CMBT]: Changed the scaling of Steadfast enchantment so it's no longer overpowered but still finds a niche in crit. power-focus builds.
-    * [CMBT]: Fixed slingshot cooldown freezing when unequiped.
+* [CMBT]: Fixed slingshot cooldown freezing when unequiped.
 
 ## Patch 3.1.5 Highlights
 
