@@ -1,10 +1,9 @@
 ﻿namespace DaLion.Overhaul.Modules.Combat.Patchers.Rings;
 
-using DaLion.Overhaul.Modules.Combat.Integrations;
-using Events.Player.Warped;
-
 #region using directives
 
+using DaLion.Overhaul.Modules.Combat.Events.Player.Warped;
+using DaLion.Overhaul.Modules.Combat.Integrations;
 using DaLion.Overhaul.Modules.Combat.VirtualProperties;
 using DaLion.Shared.Constants;
 using DaLion.Shared.Harmony;

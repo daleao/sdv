@@ -6,11 +6,17 @@ This file contains a TL;DR of current version changes and hotfixes from across a
 
 * Changed core ticket from MARGX to MRG.
 * Changed ticker for Professions module from PROFS to PRFS.
+* Debug features should be working again in the Debug build.
+* [CMBT]: Added `MonsterSpawnChanceMultiplier` config setting.
 * [CMBT]: Neptune Glaive now requires the player have obtained the Skull Key before it will appear in Fishing Chests.
 * [CMBT]: Wizard's special Blade of Ruin dialogue will now only occur once per day, so it will no longer prevent all other dialogues.
+* [CMBT:] Tweaked `VariedEncounters` settings to yield more reasonable results.
 * [PRFS]: Spelunker ladder down chance changed from additive to multiplicative.
 * [PRFS]: Spelunker prestige recovery increased from +2.5% to +5% health and from +1% to +2.5% stamina per level.
 * [TOLS]: Fixed not being able to apply Mythicite upgrade at the Forge.
+* [TOLS]: Fixed some issues with auto-selection of Scythe and Fishing Rod.
+* [TOLS]: Fixed power-up colors for Radioactive and Mythicite power levels.
+* [TOLS]: Increased the default area of Radioactive and Mythicite Hoe and Watering Can.
 
 <sup><sup>[🔼 Back to top](#margo-changelogs)</sup></sup>
 

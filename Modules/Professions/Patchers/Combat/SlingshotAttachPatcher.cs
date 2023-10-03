@@ -37,13 +37,28 @@ internal sealed class SlingshotAttachPatcher : HarmonyPatcher
             var bottom = __instance.attachments[1];
             if (o is not null)
             {
-                if (top is null && (bottom?.canStackWith(o) != true || bottom.Stack == 999))
+                if (top is null)
                 {
-                    __instance.attachments[0] = o;
-                    __result = null;
-                    Game1.playSound("button1");
+                    if (bottom?.canStackWith(o) != true || bottom.Stack == 999)
+                    {
+                        __instance.attachments[0] = o;
+                        __result = null;
+                        Game1.playSound("button1");
+                    }
+                    else if (bottom.canStackWith(o) && bottom.Stack < 999)
+                    {
+                        bottom.Stack = o.addToStack(bottom);
+                        if (bottom.Stack <= 0)
+                        {
+                            bottom = null;
+                        }
+
+                        __instance.attachments[1] = o;
+                        __result = bottom;
+                        Game1.playSound("button1");
+                    }
                 }
-                else if (top is not null)
+                else
                 {
                     if (top.canStackWith(o) && top.Stack < 999)
                     {

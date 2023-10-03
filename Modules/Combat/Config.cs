@@ -274,6 +274,10 @@ public sealed class Config : Shared.Configs.Config
     [JsonProperty]
     public bool VariedEncounters { get; internal set; } = true;
 
+    /// <summary>Gets a multiplier which allows increasing the spawn chance of monsters in dungeons.</summary>
+    [JsonProperty]
+    public float MonsterSpawnChanceMultiplier { get; internal set; } = 2f;
+
     #endregion enemies
 
     #region controls

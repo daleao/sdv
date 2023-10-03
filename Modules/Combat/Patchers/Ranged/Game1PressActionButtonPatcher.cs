@@ -26,7 +26,7 @@ internal sealed class Game1PressActionButtonPatcher : HarmonyPatcher
     [HarmonyPostfix]
     private static void Game1PressActionButtonPostfix(ref bool __result)
     {
-        if (!__result || !CombatModule.Config.EnableSlingshotSpecialMove)
+        if (!__result || !CombatModule.Config.EnableSlingshotSpecialMove || CombatModule.State.SlingshotCooldown > 0)
         {
             return;
         }

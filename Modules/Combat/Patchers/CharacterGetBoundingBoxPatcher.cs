@@ -22,7 +22,7 @@ internal sealed class CharacterGetBoundingBoxPatcher : HarmonyPatcher
 
     /// <summary>Extend Lava Lurk hitbox.</summary>
     [HarmonyPostfix]
-    private static void CharacterGetboundingBoxPostfix(Character __instance, ref Rectangle __result)
+    private static void CharacterGetBoundingBoxPostfix(Character __instance, ref Rectangle __result)
     {
         if (__instance is not LavaLurk lurk)
         {

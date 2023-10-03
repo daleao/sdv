@@ -2,10 +2,19 @@
 
 ## 3.1.5
 
+### Added
+
+* Added `MonsterSpawnChanceMultiplier` config setting.
+
 ### Changed
 
 * Neptune Glaive can no longer be obtained before the Skull Key, thus preventing lucky players from bypassing the initial Mines grind.
 * Wizard's special Blade of Ruin dialogue will now only occur once per day, so it will no longer prevent all other dialogues.
+* Increased base difficulty settings:
+    * Enemy HP x1.5 -> x2.5
+    * Enemy Damage x1 -> x2
+* Tweaked the mean and sigma values used for `VariedEncounters` config setting. Mean variation is now smaller and sigma is significantly narrower. This should keep enemy stats more in the realm of "reasonable" without too much crazy variability.
+* Valor completion by streaking through the Mines now only works on Hard Mode. Reduced from 100 levels to 10-20-40 (depending on difficulty).
 
 <sup><sup>[🔼 Back to top](#cmbt-changelog)</sup></sup>
 

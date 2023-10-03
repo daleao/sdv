@@ -115,13 +115,13 @@ internal sealed class FishPondGetFishProducePatcher : HarmonyPatcher
             var c = fishIndex == 698
                 ? new Color(61, 55, 42)
                 : TailoringMenu.GetDyeColor(new SObject(fishIndex, 1)) ?? Color.Orange;
-            var o = new ColoredObject(ObjectIds.Roe, __result.Stack, c);
-            o.name = split[0].ToString() + " Roe";
-            o.preserve.Value = SObject.PreserveType.Roe;
-            o.preservedParentSheetIndex.Value = fishIndex;
-            o.Price += int.Parse(split[1]) / 2;
-            o.Quality = __result.Quality;
-            __result = o;
+            var roe = new ColoredObject(ObjectIds.Roe, __result.Stack, c);
+            roe.name = split[0].ToString() + " Roe";
+            roe.preserve.Value = SObject.PreserveType.Roe;
+            roe.preservedParentSheetIndex.Value = fishIndex;
+            roe.Price += int.Parse(split[1]) / 2;
+            roe.Quality = __result.Quality;
+            __result = roe;
 
             return false; // don't run original logic
         }

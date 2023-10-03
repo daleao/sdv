@@ -11,7 +11,13 @@ internal sealed class ModState
 
     internal Modules.Tools.State Tools { get; set; } = new();
 
+    internal bool AreEnemiesAround { get; set; }
+
+    internal int SecondsOutOfCombat { get; set; }
+
     internal bool DebugMode { get; set; }
+
+    internal FrameRateCounter? FpsCounter { get; set; }
 }
 #pragma warning restore CS1591
 #pragma warning restore SA1600

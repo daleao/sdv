@@ -8,6 +8,10 @@
 * Spelunker prestige recovery increased from +2.5% to +5% health and from +1% to +2.5% stamina per level.
 * Ticker changed from PROFS to PRFS.
 
+### Fixed
+
+* Fixed an issue when attempting to stack ammo onto the second slot with an empty first slot.
+
 <sup><sup>[🔼 Back to top](#profs-changelog)</sup></sup>
 
 ## 3.1.3

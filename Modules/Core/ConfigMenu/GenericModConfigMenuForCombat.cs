@@ -423,29 +423,37 @@ internal sealed partial class GenericModConfigMenu
                 config => config.Combat.VariedEncounters,
                 (config, value) => config.Combat.VariedEncounters = value)
             .AddNumberField(
+                I18n.Gmcm_Cmbt_Enemies_SpawnMultiplier_Title,
+                I18n.Gmcm_Cmbt_Enemies_SpawnMultiplier_Desc,
+                config => config.Combat.MonsterSpawnChanceMultiplier,
+                (config, value) => config.Combat.MonsterSpawnChanceMultiplier = value,
+                0.2f,
+                10f,
+                0.2f)
+            .AddNumberField(
                 I18n.Gmcm_Cmbt_Enemies_HealthMultiplier_Title,
                 I18n.Gmcm_Cmbt_Enemies_HealthMultiplier_Desc,
                 config => config.Combat.MonsterHealthMultiplier,
                 (config, value) => config.Combat.MonsterHealthMultiplier = value,
-                0.25f,
-                4f,
-                0.25f)
+                0.2f,
+                10f,
+                0.2f)
             .AddNumberField(
                 I18n.Gmcm_Cmbt_Enemies_DamageMultiplier_Title,
                 I18n.Gmcm_Cmbt_Enemies_DamageMultiplier_Desc,
                 config => config.Combat.MonsterDamageMultiplier,
                 (config, value) => config.Combat.MonsterDamageMultiplier = value,
-                0.25f,
-                4f,
-                0.25f)
+                0.2f,
+                10f,
+                0.2f)
             .AddNumberField(
                 I18n.Gmcm_Cmbt_Enemies_DefenseMultiplier_Title,
                 I18n.Gmcm_Cmbt_Enemies_DefenseMultiplier_Desc,
                 config => config.Combat.MonsterDefenseMultiplier,
                 (config, value) => config.Combat.MonsterDefenseMultiplier = value,
-                0.25f,
-                4f,
-                0.25f)
+                0.2f,
+                10f,
+                0.2f)
             .AddNumberField(
                 I18n.Gmcm_Cmbt_Enemies_HealthSummand_Title,
                 I18n.Gmcm_Cmbt_Enemies_HealthSummand_Desc,
@@ -459,7 +467,7 @@ internal sealed partial class GenericModConfigMenu
                 config => config.Combat.MonsterDamageSummand,
                 (config, value) => config.Combat.MonsterDamageSummand = value,
                 0,
-                10)
+                50)
             .AddNumberField(
                 I18n.Gmcm_Cmbt_Enemies_DefenseSummand_Title,
                 I18n.Gmcm_Cmbt_Enemies_DefenseSummand_Desc,

@@ -34,6 +34,14 @@ internal sealed class SlingshotDrawInMenuPatcher : HarmonyPatcher
     #region harmony patches
 
     /// <summary>Draw slingshot cooldown.</summary>
+    [HarmonyPrefix]
+    private static void SlingshotDrawInMenuPrefix(
+        ref float scaleSize)
+    {
+        scaleSize *= 1f + CombatModule.State.SlingshotAddedScale;
+    }
+
+    /// <summary>Draw slingshot cooldown.</summary>
     [HarmonyPostfix]
     private static void SlingshotDrawInMenuPostfix(
         Slingshot __instance,
@@ -48,8 +56,9 @@ internal sealed class SlingshotDrawInMenuPatcher : HarmonyPatcher
             return;
         }
 
-        var cooldownPct = CombatModule.State.SlingshotCooldown / __instance.GetSpecialCooldown();
+        var cooldownPct = (float)CombatModule.State.SlingshotCooldown / __instance.GetSpecialCooldown();
         var drawingAsDebris = drawShadow && drawStackNumber == StackDrawType.Hide;
+        Log.D(cooldownPct.ToString());
 
         // ReSharper disable once CompareOfFloatsByEqualityOperator
         if (!drawShadow || drawingAsDebris || (Game1.activeClickableMenu is ShopMenu && scaleSize == 1f))
@@ -62,9 +71,9 @@ internal sealed class SlingshotDrawInMenuPatcher : HarmonyPatcher
             Game1.staminaRect,
             new Rectangle(
                 (int)x,
-                (int)y + (Game1.tileSize - (cooldownPct * Game1.tileSize)),
+                (int)(y + (Game1.tileSize - (cooldownPct * Game1.tileSize))),
                 Game1.tileSize,
-                cooldownPct * Game1.tileSize),
+                (int)(cooldownPct * Game1.tileSize)),
             Color.Red * 0.66f);
     }
 

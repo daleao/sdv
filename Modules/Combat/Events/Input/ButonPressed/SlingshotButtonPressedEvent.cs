@@ -48,7 +48,7 @@ internal sealed class SlingshotButtonPressedEvent : ButtonPressedEvent
             return;
         }
 
-        if (CombatModule.Config.EnableAutoSelection && GlobalState.AreEnemiesAround &&
+        if (CombatModule.Config.EnableAutoSelection && ModEntry.State.AreEnemiesAround &&
             player.CurrentTool != CombatModule.State.AutoSelectableRanged &&
             WeaponSelector.TryFor(player, out var index))
         {

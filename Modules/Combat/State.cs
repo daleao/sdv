@@ -62,6 +62,8 @@ internal sealed class State
 
     internal int SlingshotCooldown { get; set; }
 
+    internal float SlingshotAddedScale { get; set; }
+
     internal MeleeWeapon? AutoSelectableMelee { get; set; }
 
     internal Slingshot? AutoSelectableRanged { get; set; }

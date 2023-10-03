@@ -644,6 +644,8 @@
   "gmcm.cmbt.enemies.defense_summand.desc": "모든 적의 피해 저항을 증가시킵니다(승수 전).",
   "gmcm.cmbt.enemies.varied_encounters.title": "다양한 만남",
   "gmcm.cmbt.enemies.varied_encounters.desc": "오늘의 행운 편향에 따라 몬스터 통계를 무작위화하여 몬스터와의 만남에 가변성을 추가합니다.",
+  "gmcm.cmbt.enemies.spawn_multiplier.title": "Monster Spawn Chance Multiplier",
+  "gmcm.cmbt.enemies.spawn_multiplier.desc": "Multiplies the chance to spawn enemies in dungeons.",
 
   "gmcm.cmbt.controls.auto_selection_range.melee.title": "근접 자동 선택 범위",
   "gmcm.cmbt.controls.auto_selection_range.melee.desc": "몬스터가 타일에서 이 범위에 들어오면 선택한 근접 무기가 자동으로 장착됩니다.",

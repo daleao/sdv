@@ -18,19 +18,14 @@ internal static class MonsterExtensions
     internal static void RandomizeStats(this Monster monster)
     {
         var r = new Random(Guid.NewGuid().GetHashCode());
-        var mean = 1d - (Game1.player.DailyLuck * 3d);
+        var g = r.NextGaussian(1d - (Game1.player.DailyLuck * 2d), 0.1);
+        monster.MaxHealth = Math.Max((int)Math.Round(monster.MaxHealth * g), 1);
+        monster.DamageToFarmer = Math.Max((int)Math.Round(monster.DamageToFarmer * g), 1);
+        monster.resilience.Value = Math.Max((int)Math.Round(monster.resilience.Value * g), 1);
 
-        var g = Math.Max(r.NextGaussian(mean, 0.5), 0.25);
-        monster.MaxHealth = (int)Math.Round(monster.MaxHealth * g);
-
-        g = Math.Max(r.NextGaussian(mean, 0.5), 0.5);
-        monster.DamageToFarmer = (int)Math.Round(monster.DamageToFarmer * g);
-
-        g = Math.Max(r.NextGaussian(mean, 0.5), 0.5);
-        monster.resilience.Value = (int)Math.Round(monster.resilience.Value * g);
-
-        var addedSpeed = r.NextDouble() > 0.5 + (Game1.player.DailyLuck * 2d) ? 1 :
-            r.NextDouble() < 0.5 - (Game1.player.DailyLuck * 2d) ? -1 : 0;
+        var addedSpeed = r.NextDouble() > 0.5 + (Game1.player.DailyLuck * 2d)
+            ? 1
+            : r.NextDouble() < 0.5 + (Game1.player.DailyLuck * 2d) ? -1 : 0;
         monster.speed = Math.Max(monster.speed + addedSpeed, 1);
 
         monster.durationOfRandomMovements.Value =

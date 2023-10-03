@@ -26,15 +26,16 @@ internal sealed class AdventurerGuildGilPatcher : HarmonyPatcher
     [HarmonyPostfix]
     private static void AdventurerGuildGilPostfix()
     {
-        var delta = Game1.player.NumMonsterSlayerQuestsCompleted() -
-                    Game1.player.Read<int>(DataKeys.NumCompletedSlayerQuests);
+        var player = Game1.player;
+        var delta = player.NumMonsterSlayerQuestsCompleted() -
+                    player.Read<int>(DataKeys.NumCompletedSlayerQuests);
         if (delta <= 0)
         {
             return;
         }
 
-        Game1.player.Increment(DataKeys.NumCompletedSlayerQuests, delta);
-        Game1.player.Increment(Virtue.Valor.Name, delta);
+        player.Increment(DataKeys.NumCompletedSlayerQuests, delta);
+        player.Increment(Virtue.Valor.Name, delta);
         CombatModule.State.HeroQuest?.UpdateTrialProgress(Virtue.Valor);
         Game1.chatBox.addMessage(I18n.Virtues_Recognize_Gil(), Color.Green);
     }

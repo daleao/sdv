@@ -49,6 +49,11 @@ internal sealed class MonsterParseMonsterInfoPatcher : HarmonyPatcher
     [HarmonyPostfix]
     private static void MonsterParseMonsterInfoPostfix(Monster __instance)
     {
+        if (CombatModule.Config.VariedEncounters)
+        {
+            __instance.RandomizeStats();
+        }
+
         __instance.MaxHealth = (int)Math.Round((__instance.MaxHealth + CombatModule.Config.MonsterHealthSummand) *
                                                CombatModule.Config.MonsterHealthMultiplier);
         __instance.DamageToFarmer =
@@ -59,16 +64,7 @@ internal sealed class MonsterParseMonsterInfoPatcher : HarmonyPatcher
                 (__instance.resilience.Value + (CombatModule.Config.NewResistanceFormula ? 1 : 0) +
                  CombatModule.Config.MonsterDefenseSummand) * CombatModule.Config.MonsterDefenseMultiplier);
 
-        if (CombatModule.Config.VariedEncounters)
-        {
-            __instance.RandomizeStats();
-        }
-
         __instance.Health = __instance.MaxHealth;
-        Log.D($"[CMBT]: Spawned {__instance.Name} with following stats:" +
-              $"\n\t- {__instance.Health} health" +
-              $"\n\t- {__instance.DamageToFarmer} damage" +
-              $"\n\t- {__instance.resilience.Value} defense");
     }
 
     #endregion harmony patches

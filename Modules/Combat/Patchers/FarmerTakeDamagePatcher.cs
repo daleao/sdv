@@ -37,7 +37,7 @@ internal sealed class FarmerTakeDamagePatcher : HarmonyPatcher
 
         if (__instance.IsLocalPlayer)
         {
-            GlobalState.SecondsOutOfCombat = 0;
+            ModEntry.State.SecondsOutOfCombat = 0;
         }
     }
 

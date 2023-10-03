@@ -1,8 +1,5 @@
 ﻿namespace DaLion.Overhaul.Modules.Combat.Events.Player.Warped;
 
-using DaLion.Overhaul;
-using DaLion.Overhaul.Modules.Combat;
-
 #region using directives
 
 using DaLion.Overhaul.Modules.Combat.Enums;
@@ -28,9 +25,17 @@ internal sealed class ValorWarpedEvent : WarpedEvent
     }
 
     /// <inheritdoc />
+    public override bool IsEnabled => CombatModule.State.HeroQuest is not null;
+
+    /// <inheritdoc />
     protected override void OnWarpedImpl(object? sender, WarpedEventArgs e)
     {
-        if (e.OldLocation is not MineShaft || e.NewLocation is not MineShaft)
+        if (e.OldLocation is not MineShaft || e.NewLocation is not MineShaft shaft)
+        {
+            return;
+        }
+
+        if (shaft.GetAdditionalDifficulty() < 1)
         {
             return;
         }
@@ -41,7 +46,12 @@ internal sealed class ValorWarpedEvent : WarpedEvent
         }
 
         _consecutiveFloorsVisited++;
-        if (_consecutiveFloorsVisited < (CombatModule.Config.HeroQuestDifficulty == Config.Difficulty.Easy ? 50 : 100))
+        var objective = CombatModule.Config.HeroQuestDifficulty == Config.Difficulty.Easy
+            ? 10
+            : CombatModule.Config.HeroQuestDifficulty == Config.Difficulty.Medium
+                ? 20
+                : 40;
+        if (_consecutiveFloorsVisited < objective)
         {
             return;
         }

@@ -63,7 +63,7 @@ internal sealed class FishPondAddFishToPondPatcher : HarmonyPatcher
 
                 // enable reproduction if angler or ms. angler
                 if (fish.ParentSheetIndex is not (160 or 899) ||
-                    __instance.Read<int>(DataKeys.FamilyLivingHere) is not ({ } familyCount and > 0))
+                    __instance.Read<int>(DataKeys.FamilyLivingHere) is not (var familyCount and > 0))
                 {
                     return;
                 }

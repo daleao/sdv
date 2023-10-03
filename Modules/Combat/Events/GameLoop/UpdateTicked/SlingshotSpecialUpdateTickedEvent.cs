@@ -53,14 +53,14 @@ internal sealed class SlingshotSpecialUpdateTickedEvent : UpdateTickedEvent
 
                 var sprite = (FarmerSprite)user.Sprite;
                 sprite.setCurrentFrame(frame, 0, 40, _animationFrames, user.FacingDirection == 3, true);
-                _animationFrames = sprite.CurrentAnimation.Count * 3 + 11;
+                _animationFrames = (sprite.CurrentAnimation.Count * 3) + 11;
             }
             else if (_currentFrame >= _animationFrames)
             {
-                user.completelyStopAnimatingOrDoingAction();
                 slingshot.Set_IsOnSpecial(false);
+                user.DoSlingshotSpecialCooldown();
+                user.completelyStopAnimatingOrDoingAction();
                 user.forceCanMove();
-                user.DoSlingshotSpecialCooldown(slingshot);
                 _currentFrame = -1;
             }
             else
@@ -91,9 +91,23 @@ internal sealed class SlingshotSpecialUpdateTickedEvent : UpdateTickedEvent
                 user.CanMove = false;
             }
         }
+        else if (CombatModule.State.SlingshotCooldown > 0)
+        {
+            CombatModule.State.SlingshotCooldown -= Game1.currentGameTime.ElapsedGameTime.Milliseconds;
+            if (CombatModule.State.SlingshotCooldown > 0)
+            {
+                return;
+            }
+
+            CombatModule.State.SlingshotAddedScale = 0.5f;
+            Game1.playSound("objectiveComplete");
+        }
+        else if (CombatModule.State.SlingshotAddedScale > 0)
+        {
+            CombatModule.State.SlingshotAddedScale -= 0.01f;
+        }
         else
         {
-            user.DoSlingshotSpecialCooldown(slingshot);
             this.Disable();
         }
     }

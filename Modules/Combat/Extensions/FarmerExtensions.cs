@@ -114,7 +114,6 @@ internal static class FarmerExtensions
     internal static void DoStabbingSpecialCooldown(this Farmer user, MeleeWeapon? sword = null)
     {
         sword ??= (MeleeWeapon)user.CurrentTool;
-
         MeleeWeapon.attackSwordCooldown = MeleeWeapon.attackSwordCooldownTime;
         if (!ProfessionsModule.ShouldEnable && user.professions.Contains(Farmer.acrobat))
         {
@@ -131,37 +130,25 @@ internal static class FarmerExtensions
                                                 user.Get_CooldownReduction());
     }
 
-    [Conditional("RELEASE")]
     internal static void DoSlingshotSpecialCooldown(this Farmer user, Slingshot? slingshot = null)
     {
         slingshot ??= (Slingshot)user.CurrentTool;
 
-        if (slingshot.Get_IsOnSpecial())
+        const int SlingshotCooldown = 2000;
+        CombatModule.State.SlingshotCooldown = SlingshotCooldown;
+        if (!ProfessionsModule.ShouldEnable && user.professions.Contains(Farmer.acrobat))
         {
-            const int SlingshotCooldown = 2000;
-            CombatModule.State.SlingshotCooldown = SlingshotCooldown;
-            if (!ProfessionsModule.ShouldEnable && user.professions.Contains(Farmer.acrobat))
-            {
-                CombatModule.State.SlingshotCooldown /= 2;
-            }
-
-            if (slingshot.hasEnchantmentOfType<ArtfulEnchantment>())
-            {
-                CombatModule.State.SlingshotCooldown /= 2;
-            }
-
-            CombatModule.State.SlingshotCooldown = (int)(CombatModule.State.SlingshotCooldown *
-                                                             slingshot.Get_EffectiveCooldownReduction() *
-                                                             user.Get_CooldownReduction());
+            CombatModule.State.SlingshotCooldown /= 2;
         }
-        else
+
+        if (slingshot.hasEnchantmentOfType<ArtfulEnchantment>())
         {
-            CombatModule.State.SlingshotCooldown -= Game1.currentGameTime.ElapsedGameTime.Milliseconds;
-            if (CombatModule.State.SlingshotCooldown <= 0)
-            {
-                Game1.playSound("objectiveComplete");
-            }
+            CombatModule.State.SlingshotCooldown /= 2;
         }
+
+        CombatModule.State.SlingshotCooldown = (int)(CombatModule.State.SlingshotCooldown *
+                                                         slingshot.Get_EffectiveCooldownReduction() *
+                                                         user.Get_CooldownReduction());
     }
 
     #region combo framework

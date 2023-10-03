@@ -52,7 +52,7 @@ internal sealed class SlingshotArtfulSpecialUpdateTickedEvent : UpdateTickedEven
 
                 var sprite = (FarmerSprite)user.Sprite;
                 sprite.setCurrentFrame(frame, 0, 60, _animationFrames, user.FacingDirection == 3, true);
-                _animationFrames = sprite.CurrentAnimation.Count * 3 + 3;
+                _animationFrames = (sprite.CurrentAnimation.Count * 3) + 3;
             }
             else if (_currentFrame >= _animationFrames)
             {

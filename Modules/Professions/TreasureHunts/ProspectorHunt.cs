@@ -4,16 +4,15 @@
 
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Channels;
 using DaLion.Overhaul.Modules.Core.UI;
 using DaLion.Overhaul.Modules.Professions.Events.Display.RenderedHud;
 using DaLion.Overhaul.Modules.Professions.Events.GameLoop.UpdateTicked;
 using DaLion.Overhaul.Modules.Professions.Extensions;
 using DaLion.Overhaul.Modules.Professions.VirtualProperties;
+using DaLion.Shared.Constants;
 using DaLion.Shared.Extensions.Stardew;
 using DaLion.Shared.Networking;
 using Microsoft.Xna.Framework;
-using Shared.Constants;
 using StardewValley.Locations;
 using StardewValley.Tools;
 

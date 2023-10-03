@@ -43,27 +43,32 @@ internal sealed class ForgeMenuIsValidCraftPatcher : HarmonyPatcher
             return;
         }
 
-        if (tool.UpgradeLevel < 5)
+        switch (tool.UpgradeLevel)
         {
-            var upgradeItemIndex = tool.UpgradeLevel switch
+            case < 5:
             {
-                0 => ObjectIds.CopperBar,
-                1 => ObjectIds.IronBar,
-                2 => ObjectIds.GoldBar,
-                3 => ObjectIds.IridiumBar,
-                4 => ObjectIds.RadioactiveBar,
-            };
+                var upgradeItemIndex = tool.UpgradeLevel switch
+                {
+                    0 => ObjectIds.CopperBar,
+                    1 => ObjectIds.IronBar,
+                    2 => ObjectIds.GoldBar,
+                    3 => ObjectIds.IridiumBar,
+                    4 => ObjectIds.RadioactiveBar,
+                };
 
-            if (right_item.ParentSheetIndex == upgradeItemIndex && right_item.Stack >= 5)
-            {
-                __result = true;
+                if (right_item.ParentSheetIndex == upgradeItemIndex && right_item.Stack >= 5)
+                {
+                    __result = true;
+                }
+
+                break;
             }
-        }
-        else if (tool.UpgradeLevel == 5 && right_item.ParentSheetIndex == 1720 &&
-                 Reflector.GetUnboundPropertyGetter<object, string>(right_item, "FullId").Invoke(right_item) ==
-                 "spacechase0.MoonMisadventures/Mythicite Bar" && right_item.Stack >= 5)
-        {
-            __result = true;
+
+            case 5 when right_item.ParentSheetIndex == 1720 &&
+                        Reflector.GetUnboundPropertyGetter<object, string>(right_item, "FullId").Invoke(right_item) ==
+                        "spacechase0.MoonMisadventures/Mythicite Bar" && right_item.Stack >= 5:
+                __result = true;
+                break;
         }
     }
 

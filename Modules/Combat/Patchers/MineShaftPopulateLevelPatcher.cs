@@ -83,7 +83,8 @@ internal sealed class MineShaftPopulateLevelPatcher : HarmonyPatcher
                         new CodeInstruction(
                             OpCodes.Callvirt,
                             typeof(Config).RequirePropertyGetter(nameof(Config.EnableWeaponOverhaul))),
-                        new CodeInstruction(OpCodes.Brfalse_S, dontRebalance), new CodeInstruction(OpCodes.Ldc_R8, 80.0),
+                        new CodeInstruction(OpCodes.Brfalse_S, dontRebalance),
+                        new CodeInstruction(OpCodes.Ldc_R8, 80.0),
                         new CodeInstruction(OpCodes.Br_S, resumeExecution),
                     })
                 .Move()
@@ -92,6 +93,32 @@ internal sealed class MineShaftPopulateLevelPatcher : HarmonyPatcher
         catch (Exception ex)
         {
             Log.E($"Failed to increasing container spawn (luck).\nHelper returned {ex}");
+            return null;
+        }
+
+        try
+        {
+            helper
+                .Match(new[] { new CodeInstruction(OpCodes.Stloc_1) }, ILHelper.SearchOption.First)
+                .Insert(
+                    new[]
+                    {
+                        new CodeInstruction(
+                            OpCodes.Call,
+                            typeof(ModEntry).RequirePropertyGetter(nameof(ModEntry.Config))),
+                        new CodeInstruction(
+                            OpCodes.Callvirt,
+                            typeof(ModConfig).RequirePropertyGetter(nameof(ModConfig.Combat))),
+                        new CodeInstruction(
+                            OpCodes.Callvirt,
+                            typeof(Config).RequirePropertyGetter(nameof(Config.MonsterSpawnChanceMultiplier))),
+                        new CodeInstruction(OpCodes.Conv_R8),
+                        new CodeInstruction(OpCodes.Mul),
+                    });
+        }
+        catch (Exception ex)
+        {
+            Log.E($"Failed to increase monster spawn chance.\nHelper returned {ex}");
             return null;
         }
 

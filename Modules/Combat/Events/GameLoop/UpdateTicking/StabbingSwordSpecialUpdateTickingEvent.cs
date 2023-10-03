@@ -45,7 +45,7 @@ internal sealed class StabbingSwordSpecialUpdateTickingEvent : UpdateTickingEven
             facingVector *= -1f; // for some reason up and down are inverted
         }
 
-        var trajectory = facingVector * (20f + Game1.player.addedSpeed * 2f) *
+        var trajectory = facingVector * (20f + (Game1.player.addedSpeed * 2f)) *
                          (sword.hasEnchantmentOfType<MeleeArtfulEnchantment>()
                              ? 1.5f
                              : 1.2f);

@@ -2,6 +2,10 @@
 
 ## 3.1.4
 
+### Added
+
+* Re-added debug framework, which disappeared completely from the repo, apparently back in version 1.0?.
+
 ### Changed
 
 * Now uses `IntegrationRegistry` from updated Shared lib.

@@ -8,6 +8,7 @@
 * Auto-selection no longer requires that the player be *currently holding an auto-selectable tool*. This was very unintuitive. Now, simply marking a tool will cause it to auto-equip.
 * Fixed some issues with auto-selection of Scythe and Fishing Rod.
 * Fixed power-up colors for Radioactive and Mythicite power levels.
+* Fixed the default area of Radioactive and Mythicite Hoe and Watering Can, which was lower than intended.
 
 ### Removed
 

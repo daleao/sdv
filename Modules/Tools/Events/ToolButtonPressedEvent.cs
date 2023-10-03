@@ -4,7 +4,6 @@
 
 using DaLion.Shared.Events;
 using DaLion.Shared.Extensions.Stardew;
-using Shared.Enums;
 using StardewModdingAPI.Events;
 using StardewValley.Tools;
 

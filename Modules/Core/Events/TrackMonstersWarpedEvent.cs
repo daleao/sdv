@@ -24,7 +24,7 @@ internal sealed class TrackMonstersWarpedEvent : WarpedEvent
     {
         if (e.IsLocalPlayer)
         {
-            GlobalState.AreEnemiesAround = e.NewLocation.characters.Any(npc => npc.IsMonster);
+            State.AreEnemiesAround = e.NewLocation.characters.Any(npc => npc.IsMonster);
         }
     }
 }

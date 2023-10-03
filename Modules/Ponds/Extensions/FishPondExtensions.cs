@@ -140,13 +140,13 @@ internal static class FishPondExtensions
                         var c = fishIndex == 698
                             ? new Color(61, 55, 42)
                             : TailoringMenu.GetDyeColor(pond.GetFishObject()) ?? Color.Orange;
-                        var o = new ColoredObject(ObjectIds.Roe, item.Stack, c);
-                        o.name = split[0].ToString() + " Roe";
-                        o.preserve.Value = SObject.PreserveType.Roe;
-                        o.preservedParentSheetIndex.Value = fishIndex;
-                        o.Price += int.Parse(split[1]) / 2;
-                        o.Quality = ((SObject)item).Quality;
-                        inventory.Add(o);
+                        var roe = new ColoredObject(ObjectIds.Roe, item.Stack, c);
+                        roe.name = split[0].ToString() + " Roe";
+                        roe.preserve.Value = SObject.PreserveType.Roe;
+                        roe.preservedParentSheetIndex.Value = fishIndex;
+                        roe.Price += int.Parse(split[1]) / 2;
+                        roe.Quality = ((SObject)item).Quality;
+                        inventory.Add(roe);
                     }
                     else
                     {
@@ -154,6 +154,7 @@ internal static class FishPondExtensions
                     }
                 }
 
+                Utility.consolidateStacks(inventory);
                 var menu = new ItemGrabMenu(inventory, pond).setEssential(false);
                 menu.source = ItemGrabMenu.source_fishingChest;
                 Game1.activeClickableMenu = menu;

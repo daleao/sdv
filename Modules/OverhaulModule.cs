@@ -83,7 +83,6 @@ public abstract class OverhaulModule
     /// <summary>Gets the <see cref="CommandHandler"/> instance of the module.</summary>
     internal CommandHandler? CommandHandler { get; private set; }
 
-
     /// <summary>Gets or sets a value indicating whether the module should be enabled.</summary>
     [SuppressMessage("StyleCop.CSharp.NamingRules", "SA1300:Element should begin with upper-case letter", Justification = "Conflicts with static version.")]
     // ReSharper disable once InconsistentNaming
@@ -213,10 +212,6 @@ public abstract class OverhaulModule
                 this.Ticker,
                 () => this.IsActive);
             Log.I("[Modules]: Debug features activated.");
-
-            // start FPS counter
-            GlobalState.FpsCounter = new FrameRateCounter(GameRunner.instance);
-            helper.Reflection.GetMethod(GlobalState.FpsCounter, "LoadContent").Invoke();
 #endif
         }
 

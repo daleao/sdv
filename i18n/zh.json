@@ -652,6 +652,8 @@
   "gmcm.cmbt.enemies.defense_summand.desc": "添加到所有敌人（同上）。",
   "gmcm.cmbt.enemies.varied_encounters.title": "多样化的邂逅",
   "gmcm.cmbt.enemies.varied_encounters.desc": "随机分配怪物统计数据，受每日运气偏差影响，增加怪物遭遇的可变性。",
+  "gmcm.cmbt.enemies.spawn_multiplier.title": "Monster Spawn Chance Multiplier",
+  "gmcm.cmbt.enemies.spawn_multiplier.desc": "Multiplies the chance to spawn enemies in dungeons.",
 
   "gmcm.cmbt.controls.auto_selection_range.melee.title": "近战自动",
   "gmcm.cmbt.controls.auto_selection_range.melee.desc": "当怪进入次范围，所选近战武器（如果有的话）将自动装备。",

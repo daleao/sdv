@@ -32,8 +32,8 @@ internal sealed class BloodthirstyRenderedWorldEvent : RenderedWorldEvent
 
         var position = player.Position -
                        new Vector2(
-                           Game1.viewport.X + (int)((Game1.tileSize - player.Sprite.SpriteWidth * 4 / 3) * 1.5f),
-                           Game1.viewport.Y + (int)((Game1.tileSize + player.Sprite.SpriteHeight / 2) * 1.5f));
+                           Game1.viewport.X + (int)((Game1.tileSize - (player.Sprite.SpriteWidth * 4 / 3)) * 1.5f),
+                           Game1.viewport.Y + (int)((Game1.tileSize + (player.Sprite.SpriteHeight / 2)) * 1.5f));
         var alpha = (player.health - player.maxHealth) / (player.maxHealth * 0.2f);
         e.SpriteBatch.Draw(
             Textures.ShieldTx,

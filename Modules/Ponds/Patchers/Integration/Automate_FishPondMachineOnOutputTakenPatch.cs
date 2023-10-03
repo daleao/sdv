@@ -12,6 +12,7 @@ using DaLion.Shared.Extensions.Stardew;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
 using Microsoft.Xna.Framework;
+using Shared.Constants;
 using StardewValley.Buildings;
 using StardewValley.Menus;
 using StardewValley.Objects;
@@ -53,26 +54,26 @@ internal sealed class FishPondMachineOnOutputTakenPatcher : HarmonyPatcher
             {
                 var next = produce.First()!;
                 var (index, stack, quality) = next.ParseTuple<int, int, int>()!.Value;
-                SObject o;
-                if (index == 812) // roe
+                SObject roe;
+                if (index == ObjectIds.Roe)
                 {
                     var split = Game1.objectInformation[machine.fishType.Value].SplitWithoutAllocation('/');
-                    var c = machine.fishType.Value == 698
+                    var c = machine.fishType.Value == ObjectIds.Sturgeon
                         ? new Color(61, 55, 42)
                         : TailoringMenu.GetDyeColor(machine.GetFishObject()) ?? Color.Orange;
-                    o = new ColoredObject(812, stack, c);
-                    o.name = split[0].ToString() + " Roe";
-                    o.preserve.Value = SObject.PreserveType.Roe;
-                    o.preservedParentSheetIndex.Value = machine.fishType.Value;
-                    o.Price += int.Parse(split[1]) / 2;
-                    o.Quality = quality;
+                    roe = new ColoredObject(ObjectIds.Roe, stack, c);
+                    roe.name = split[0].ToString() + " Roe";
+                    roe.preserve.Value = SObject.PreserveType.Roe;
+                    roe.preservedParentSheetIndex.Value = machine.fishType.Value;
+                    roe.Price += int.Parse(split[1]) / 2;
+                    roe.Quality = quality;
                 }
                 else
                 {
-                    o = new SObject(index, stack, quality: quality);
+                    roe = new SObject(index, stack, quality: quality);
                 }
 
-                machine.output.Value = o;
+                machine.output.Value = roe;
                 produce.Remove(next);
                 machine.Write(DataKeys.ItemsHeld, string.Join(";", produce));
             }

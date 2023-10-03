@@ -29,8 +29,8 @@ internal sealed class YobaRenderedWorldEvent : RenderedWorldEvent
         var player = Game1.player;
         var position = player.Position -
                        new Vector2(
-                           Game1.viewport.X + (int)((Game1.tileSize - player.Sprite.SpriteWidth * 4 / 3) * 1.5f),
-                           Game1.viewport.Y + (int)((Game1.tileSize + player.Sprite.SpriteHeight / 2) * 1.5f));
+                           Game1.viewport.X + (int)((Game1.tileSize - (player.Sprite.SpriteWidth * 4 / 3)) * 1.5f),
+                           Game1.viewport.Y + (int)((Game1.tileSize + (player.Sprite.SpriteHeight / 2)) * 1.5f));
         e.SpriteBatch.Draw(
             Textures.ShieldTx,
             position,
