@@ -96,13 +96,23 @@ internal sealed class DebugButtonsChangedEvent : ButtonsChangedEvent
 
                     if (who is not null)
                     {
+                        message += "\n\n\tMail flags:";
+                        message = who.mailReceived.Aggregate(
+                            message,
+                            (m, n) => m + $"\n\t\t- {n}");
+
+                        message += "\n\n\tQuest log:";
+                        message = who.questLog.Aggregate(
+                                message,
+                                (m, q) => m + $"\n\t\t- {q.id}: {q.questTitle}");
+
                         message += "\n\n\tMod data:";
-                        message = Game1.MasterPlayer.modData.Pairs
-                            .Where(p => p.Key.StartsWith(Manifest.UniqueID) &&
-                                        p.Key.Contains(who.UniqueMultiplayerID.ToString()))
+                        message = who.modData.Pairs
+                            .Where(p => p.Key.StartsWith(Manifest.UniqueID))
                             .Aggregate(
                                 message,
                                 (m, p) => m + $"\n\t\t- {p.Key}: {p.Value}");
+
 
                         var events = string.Empty;
                         if (who.IsLocalPlayer)

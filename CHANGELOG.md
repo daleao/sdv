@@ -2,6 +2,11 @@
 
 This file contains a TL;DR of current version changes and hotfixes from across all modules. For the complete changelog, please refer to the individual changelogs of each module, linked [below](#detailed-changelogs).
 
+## Patch 3.1.7 Highlights
+
+* [TWX]: Added ability to follow the Glowstone Ring progression at the Forge (thereby forgoing the essence cost for cinder shards). It's only logical.
+* Minor fixes.
+
 ## Patch 3.1.6 Highlights
 
 * [CMBT]: Changed the scaling of Steadfast enchantment so it's no longer overpowered but still finds a niche in crit. power-focus builds.

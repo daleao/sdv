@@ -3,8 +3,7 @@
 #region using directives
 
 using System.Diagnostics.CodeAnalysis;
-using DaLion.Overhaul.Modules.Combat.Events.GameLoop.UpdateTicked;
-using DaLion.Overhaul.Modules.Combat.Extensions;
+using DaLion.Overhaul.Modules.Combat.Patchers.Quests.Infinity;
 using DaLion.Shared.Commands;
 using DaLion.Shared.Constants;
 using Microsoft.Xna.Framework;
@@ -43,7 +42,7 @@ internal sealed class SwordBlessCommand : ConsoleCommand
         player.faceDirection(2);
         player.showCarrying();
         player.jitterStrength = 1f;
-        Game1.pauseThenDoFunction(3000, getHolyBlade);
+        Game1.pauseThenDoFunction(3000, GameLocationPerformActionPatcher.GetHolyBlade);
         Game1.changeMusicTrack("none", false, Game1.MusicContext.Event);
         Game1.currentLocation.playSound("crit");
         Game1.screenGlowOnce(Color.Transparent, true, 0.01f, 0.999f);
@@ -57,22 +56,5 @@ internal sealed class SwordBlessCommand : ConsoleCommand
                 2000));
         Game1.afterDialogues = (Game1.afterFadeFunction)Delegate.Combine(
             Game1.afterDialogues, (Game1.afterFadeFunction)(() => Game1.stopMusicTrack(Game1.MusicContext.Event)));
-
-        void getHolyBlade()
-        {
-            var player = Game1.player;
-            if (player.CurrentTool is not MeleeWeapon { InitialParentTileIndex: WeaponIds.DarkSword } darkSword)
-            {
-                return;
-            }
-
-            Game1.flashAlpha = 1f;
-            player.holdUpItemThenMessage(new MeleeWeapon(WeaponIds.HolyBlade));
-            darkSword.transform(WeaponIds.HolyBlade);
-            darkSword.RefreshStats();
-            player.jitterStrength = 0f;
-            Game1.screenGlowHold = false;
-            EventManager.Disable<CurseUpdateTickedEvent>();
-        }
     }
 }

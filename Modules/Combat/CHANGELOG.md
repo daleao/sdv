@@ -2,6 +2,16 @@
 
 ## 3.1.6
 
+### Added
+
+* Added a new fail-safe in case Hero's Reward quest does not trigger. Should never happen, but hey, that's why they call it a fail-safe?
+
+### Changed
+
+* GetCustomItem command changed to GetBlueprint. For other items just use CJB Item Spawner.
+
+## 3.1.6
+
 ### Changed
 
 * Steadfast enchantment changed.

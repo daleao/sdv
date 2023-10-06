@@ -1,9 +1,8 @@
 ﻿namespace DaLion.Overhaul.Modules.Combat.Patchers.Rings;
 
-using DaLion.Overhaul.Modules.Combat.Integrations;
-
 #region using directives
 
+using DaLion.Overhaul.Modules.Combat.Integrations;
 using DaLion.Shared.Constants;
 using DaLion.Shared.Harmony;
 using DaLion.Shared.Networking;
@@ -25,20 +24,20 @@ internal sealed class ForgeMenuCraftItemPatcher : HarmonyPatcher
     #region harmony patches
 
     /// <summary>Allow forging Infinity Band.</summary>
-    [HarmonyPostfix]
-    private static void ForgeMenuCraftItemPostfix(ref Item? __result, Item? left_item, Item? right_item, bool forReal)
+    [HarmonyPrefix]
+    private static bool ForgeMenuCraftItemPrefix(ref Item? __result, Item? left_item, Item? right_item, bool forReal)
     {
         if (!CombatModule.Config.EnableInfinityBand || !JsonAssetsIntegration.InfinityBandIndex.HasValue ||
             left_item is not Ring { ParentSheetIndex: ObjectIds.IridiumBand } ||
             right_item?.ParentSheetIndex != ObjectIds.GalaxySoul)
         {
-            return;
+            return true; // run original logic
         }
 
         __result = new Ring(JsonAssetsIntegration.InfinityBandIndex.Value);
         if (!forReal)
         {
-            return;
+            return false; // don't run original logic
         }
 
         DelayedAction.playSoundAfterDelay("discoverMineral", 400);
@@ -46,6 +45,8 @@ internal sealed class ForgeMenuCraftItemPatcher : HarmonyPatcher
         {
             Broadcaster.SendPublicChat(I18n.Global_Infinitycraft(Game1.player.Name));
         }
+
+        return false; // don't run original logic
     }
 
     #endregion harmony patches

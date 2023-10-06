@@ -174,7 +174,7 @@ internal sealed class GameLocationPerformActionPatcher : HarmonyPatcher
             "DarkSword");
     }
 
-    private static void GetHolyBlade()
+    internal static void GetHolyBlade()
     {
         var player = Game1.player;
         if (player.CurrentTool is not MeleeWeapon { InitialParentTileIndex: WeaponIds.DarkSword } darkSword)

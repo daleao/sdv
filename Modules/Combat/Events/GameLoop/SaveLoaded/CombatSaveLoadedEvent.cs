@@ -75,6 +75,13 @@ internal sealed class CombatSaveLoadedEvent : SaveLoadedEvent
                 CombatModule.State.HeroQuest = new HeroQuest();
             }
         }
+        else if (player.Read<HeroQuest.QuestState>(DataKeys.VirtueQuestState) == HeroQuest.QuestState.Completed)
+        {
+            if (!player.hasQuest((int)QuestId.HeroReward) && !player.mailReceived.Contains("gotHolyBlade"))
+            {
+                player.addQuest((int)QuestId.HeroReward);
+            }
+        }
 
         // block bullseye cursor
         if (Game1.options.useLegacySlingshotFiring)

@@ -498,7 +498,7 @@ internal sealed partial class GenericModConfigMenu
                 (config, value) => config.Combat.SlickMoves = value)
             .AddCheckbox(
                 I18n.Gmcm_Controls_EnableAutoSelection_Title,
-                () => I18n.Gmcm_Controls_EnableAutoSelection_Desc(I18n.Gmcm_Cmbt_Weapon()),
+                () => I18n.Gmcm_Controls_EnableAutoSelection_Desc(),
                 config => config.Combat.EnableAutoSelection,
                 (config, value) =>
                 {

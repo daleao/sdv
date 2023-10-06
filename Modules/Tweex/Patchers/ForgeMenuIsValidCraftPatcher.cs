@@ -1,4 +1,4 @@
-﻿namespace DaLion.Overhaul.Modules.Combat.Patchers.Rings;
+﻿namespace DaLion.Overhaul.Modules.Tweex.Patchers;
 
 #region using directives
 
@@ -21,19 +21,28 @@ internal sealed class ForgeMenuIsValidCraftPatcher : HarmonyPatcher
 
     #region harmony patches
 
-    /// <summary>Allow forging Infinity Band.</summary>
+    /// <summary>Allow forging Glowstone Ring.</summary>
     [HarmonyPrefix]
     private static bool ForgeMenuIsValidCraftPrefix(ref bool __result, Item? left_item, Item? right_item)
     {
-        if (left_item is not Ring { ParentSheetIndex: ObjectIds.IridiumBand } ||
-            right_item?.ParentSheetIndex != ObjectIds.GalaxySoul)
+        if (left_item is not Ring || right_item is not Ring || !TweexModule.Config.ImmersiveGlowstoneProgression)
         {
             return true; // run original logic
         }
 
-        __result = true;
-        return false; // don't run original logic
+        switch (left_item.ParentSheetIndex)
+        {
+            case ObjectIds.SmallGlowRing or ObjectIds.SmallMagnetRing
+                when right_item.ParentSheetIndex == left_item.ParentSheetIndex:
+            case ObjectIds.GlowRing when
+                right_item.ParentSheetIndex == ObjectIds.MagnetRing:
+            case ObjectIds.MagnetRing when
+                right_item.ParentSheetIndex == ObjectIds.GlowRing:
+                __result = true;
+                break;
+        }
 
+        return false; // run original logic
     }
 
     #endregion harmony patches

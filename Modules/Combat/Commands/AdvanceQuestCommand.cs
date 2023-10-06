@@ -105,6 +105,16 @@ internal sealed class AdvanceQuestCommand : ConsoleCommand
                         player.Write(virtue.Name, int.MaxValue.ToString());
                         CombatModule.State.HeroQuest.UpdateTrialProgress(virtue);
                     });
+
+                    return;
+                }
+
+                if (player.Read<HeroQuest.QuestState>(DataKeys.VirtueQuestState) == HeroQuest.QuestState.Completed)
+                {
+                    if (!player.hasQuest((int)QuestId.HeroReward) && !player.mailReceived.Contains("gotHolyBlade"))
+                    {
+                        player.addQuest((int)QuestId.HeroReward);
+                    }
                 }
 
                 break;
@@ -148,7 +158,7 @@ internal sealed class AdvanceQuestCommand : ConsoleCommand
                 {
                     if (args.Length == 1 || !int.TryParse(args[1], out var amount))
                     {
-                        amount = 1;
+                        amount = 1000;
                     }
 
                     player.Increment(Virtue.Generosity.Name, amount);
@@ -164,7 +174,7 @@ internal sealed class AdvanceQuestCommand : ConsoleCommand
                     }
 
                     player.Increment(Virtue.Valor.Name, amount);
-                    CombatModule.State.HeroQuest?.UpdateTrialProgress(Virtue.Generosity);
+                    CombatModule.State.HeroQuest?.UpdateTrialProgress(Virtue.Valor);
                 }
 
                 break;

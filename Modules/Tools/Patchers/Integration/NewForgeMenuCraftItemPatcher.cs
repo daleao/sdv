@@ -56,7 +56,13 @@ internal sealed class NewForgeMenuCraftItemPatcher : HarmonyPatcher
                     2 => ObjectIds.GoldBar,
                     3 => ObjectIds.IridiumBar,
                     4 => ObjectIds.RadioactiveBar,
+                    _ => -1,
                 };
+
+                if (upgradeItemIndex < 0)
+                {
+                    Log.E("Go home game. You're drunk.");
+                }
 
                 if (right_item.ParentSheetIndex == upgradeItemIndex && right_item.Stack >= 5)
                 {

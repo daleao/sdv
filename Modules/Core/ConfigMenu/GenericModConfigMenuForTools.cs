@@ -78,7 +78,7 @@ internal sealed partial class GenericModConfigMenu
                 (config, value) => config.Tools.FaceMouseCursor = value)
             .AddCheckbox(
                 I18n.Gmcm_Controls_EnableAutoSelection_Title,
-                () => I18n.Gmcm_Controls_EnableAutoSelection_Desc(I18n.Gmcm_Tols_Tools().ToLowerInvariant()),
+                () => I18n.Gmcm_Controls_EnableAutoSelection_Desc(),
                 config => config.Tools.EnableAutoSelection,
                 (config, value) =>
                 {

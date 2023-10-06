@@ -1,5 +1,11 @@
 ﻿# TWX Changelog
 
+## 3.1.7
+
+### Added
+
+* Added ability to follow the Glowstone Ring progression at the Forge (thereby forgoing the essence cost for cinder shards). This might be completely redundant, but I just thought it was weird that you couldn't just combine a Glow and Magnet rings to make Glowstone.
+
 ## 3.1.2
 
 ### Fixed
