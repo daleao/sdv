@@ -23,7 +23,7 @@ internal sealed class SwordCurseCommand : ConsoleCommand
     public override string[] Triggers { get; } = { "curse" };
 
     /// <inheritdoc />
-    public override string Documentation => "Strengthen the curse of a currently held Dark Sword.";
+    public override string Documentation => "Set the curse strength of a currently held Dark Sword to the specified number. 50 is the base curse level at which the sword's quest begins.";
 
     /// <inheritdoc />
     public override void Callback(string trigger, string[] args)

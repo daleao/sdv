@@ -463,9 +463,11 @@ This mod includes the following popular control-related features, often featured
 
 ## F.A.Q.
 
-**How do I unlock the Dwarven relic weapons?**
+<detaiils>
+<summary>How do I unlock the Dwarven relic weapons?</summary>
 
 Have the Dwarvish Translation Guide and at least 6 hearts with Clint, then enter Clint's shop once you have found the first Dwarvish Blueprint. A short cutscene should play, and you will have to wait a random number of days (the higher your friendship points, the shorter the wait). Afterwards, speak to Clint again to unlock the **Forge** option.
+</details>
 
 **Where can I find the Dwarvish Blueprints?﻿**
 
