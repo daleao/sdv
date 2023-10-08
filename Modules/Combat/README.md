@@ -442,7 +442,10 @@ This mod includes the following popular control-related features, often featured
 
 ## Compatibility
 
-- Compatible with [Advanced Melee Framework][mod:amf] and related content packs, but I do not recommend using both together.
+<details>
+<summary><b><font color="green">The following mods are compatible:</font></b></summary>
+
+- Compatible with [Advanced Melee Framework][mod:amf] and related content packs, but I do not recommend using any with this module due to inconsistent or unbalanced special moves.
 - Compatible with [Stardew Valley Expanded][mod:sve]﻿﻿ and will overwrite the changes to weapons stats from that mod, and also prevent Tempered Galaxy Weapons from appearing in shops. An optional FTM file is available to overwrite SVE's weapon spawns and prevent them from breaking this module's intended balance.
 - Compatible with [Better Rings][mod:better-rings], and will use compatible textures if that mod is installed. Credits to [compare123](https://www.nexusmods.com/stardewvalley/users/13917800) for Better Rings-compatible textures.
 - Compatible with [Simple Weapons][mod:simple-weapons], and will use compatible textures if that mod is installed.
@@ -450,6 +453,10 @@ This mod includes the following popular control-related features, often featured
 - Compatible with [Archery][mod:archery] and the accompanying [Starter Pack][mod:archery-starter-pack]. Install the misc. Archery Rebalance file for the complete experience.
 - Compatible with [Better Crafting](https://www.nexusmods.com/stardewvalley/mods/11115).
 - Compatible with [Wear More Rings](https://www.nexusmods.com/stardewvalley/mods/3214).
+</details>
+
+<details>
+<summary><b><font color="red">The following mods are not compatible:</font></b></summary>
 
 - While the Infinity Slingshot will appear in [CJB Item Spawner][mod:cjb-spawner], it will be incorrectly classified as a Melee Weapon and will be unusable if spawned in this way. This is due to CJB not recognizing non-vanilla slingshots. This likely will be fixed in game version 1.6.
 - **Not** compatible with the likes of [Combat Controls][mod:combat-controls] or [Combat Controls Redux][mod:combat-controls-redux], as those features are already included in this and other modules.
@@ -458,31 +465,39 @@ This mod includes the following popular control-related features, often featured
 - New enchantments are **not** compatible with other mods that introduce new enchantments, such as [Enhanced Slingshots][mod:enhanced-slingshots].
 - Ring features are **not** compatible with other mods with similar scope, including [Combine Many Rings][mod:combine-many-rings], [Balanced Combine Many Rings][mod:balanced-many-rings] and, to an extent, [Ring Overhaul][mod:ring-overhaul]
 - Other ring retextures will be lightly incompatible with the new Infinity Band, meaning there may be some visual glitches but otherwise no real issues.
+</details>
 
 <sup><sup>[🔼 Back to top](#margo--combat-cmbt)</sup></sup>
 
 ## F.A.Q.
 
-<detaiils>
-<summary>How do I unlock the Dwarven relic weapons?</summary>
+<details>
+<summary><b>How do I unlock the Dwarven relic weapons?</b></summary>
 
 Have the Dwarvish Translation Guide and at least 6 hearts with Clint, then enter Clint's shop once you have found the first Dwarvish Blueprint. A short cutscene should play, and you will have to wait a random number of days (the higher your friendship points, the shorter the wait). Afterwards, speak to Clint again to unlock the **Forge** option.
 </details>
 
-**Where can I find the Dwarvish Blueprints?﻿**
+<details>
+<summary><b>Where can I find the Dwarvish Blueprints?﻿</b></summary>
 
 They can be found in the exactly the same place as their corresponding weapons would be found in Vanilla (i.e., Volcano chests). The only exception are the Elven blueprints, which can only be obtained from Scavenger Hunts (requires the [Professions](../Professions) module). The corresponding crafting materials are also obtained in the exact same way, as described above in the Weapons section.
+</details>
 
-**Where can I find the Blade of Ruin?**
+<details>
+<summary><b>Where can I find the Blade of Ruin?</b></summary>
 
 At the end of the single-floor [Quarry Mine](https://stardewvalleywiki.com/Quarry_Mine) from the statue of the Grim Reaper.
+</details>
 
-**What is the Blade of Ruin's curse?**
+<details>
+<summary><b>What is the Blade of Ruin's curse?</b></summary>
 
 The Blade of Ruin will grow progressively stronger by cosuming enemies; every 5 enemies slain increases its attack power by 1 point. As it grows stronger, however, it will also begin to consume your own energy, dealing damage-over-time while held. At the same time, the Blade has a nasty habit of auto-equipping itself; the stronger the Blade, the more damage you will suffer, and the more often it will auto-equip itself.
 Should you choose to ignore these side-effects and continue to strengthen the Blade, you will eventually become unable to use other weapons, and be forced to engage combat with 1 HP.
+</details>
 
-**How do I lift the Ruined Blade's curse?**
+<details>
+<summary><b>How do I lift the Ruined Blade's curse?</b></summary>
 
 To begin the quest, you must slay at least 50 enemies with the Blade equipped, prompting the Wizard to invite you over for a chat. To complete this initial quest, simply interact with the Yoba altar and exhaust all possible dialogue choices.
 You will then be asked to prove your virtues:
@@ -494,8 +509,10 @@ You will then be asked to prove your virtues:
 - Prove your Generosity by gifting NPCs a certain amount of gold in gifts, or by purchasing Community Upgrades from Robin.
  
 Exact completion criteria will depend on your difficulty settings (you can see them in-game in the your quest journal). When you are ready, approach Yoba's altar in Pierre's house with the Blade in hand.
+</details>
 
-**What are the IDs of heart events related the Blade of Ruin?**
+<details>
+<summary><b>What are the IDs of heart events related the Blade of Ruin?</b></summary>
 
 The following events provide chances to demonstrate your virtues. You can use these IDs in conjunction with the `debug ebi <id>` command to replay these events, provided that the Event Repeater mod is installed.
 
@@ -532,19 +549,22 @@ The following events provide chances to demonstrate your virtues. You can use th
 | 1000021 | Jas Mature Event (SVE)  | Wisdom |
 | 27      | Sebastian 6 hearts | Honor, Compassion or Wisdom  |
 | 3219871 | Claire 2 hearts (SVE)   | Generosity |
+</details>
 
-**How do I obtain the Infinity weapons?**
+<details>
+<summary><b>How do I obtain the Infinity weapons?</b></summary>
 
 Unforge the Blade of Dawn to obtain a Hero Soul, and then forge it into any Galaxy weapon after 3 Galaxy Souls.
+</details>
 
-**How do I obtain other mythic weapons?**
+<details>
+<summary><b>How do I obtain other mythic weapons?</b></summary>
 
 - **Neptune's Glaive:** Fishing Chests, same as Vanilla.
 - **Yeti Tooth:** Dropped by enemies or crates in the icy section of the Mines.
 - **Obsidian Edge:** Dropped from Shadow people in the dangerous Mines.
 - **Lava Katana:** Dropped from certain enemies in Volcano Dungeon. Alternatively, from the Treasure Cave in Crimson Badlands.
-
-
+</details>
 
 <!-- MARKDOWN LINKS & IMAGES -->
 [shield:common]: <https://img.shields.io/badge/Common-white?style=flat>
