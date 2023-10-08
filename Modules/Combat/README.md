@@ -443,7 +443,7 @@ This mod includes the following popular control-related features, often featured
 ## Compatibility
 
 <details>
-<summary><b><font color="green">The following mods are compatible:</font></b></summary>
+<summary> 🟩 <b><font color="green">The following mods are compatible:</font></b> 🟩 </summary>
 
 - Compatible with [Advanced Melee Framework][mod:amf] and related content packs, but I do not recommend using any with this module due to inconsistent or unbalanced special moves.
 - Compatible with [Stardew Valley Expanded][mod:sve]﻿﻿ and will overwrite the changes to weapons stats from that mod, and also prevent Tempered Galaxy Weapons from appearing in shops. An optional FTM file is available to overwrite SVE's weapon spawns and prevent them from breaking this module's intended balance.
@@ -456,7 +456,7 @@ This mod includes the following popular control-related features, often featured
 </details>
 
 <details>
-<summary><b><font color="red">The following mods are not compatible:</font></b></summary>
+<summary> 🟥 <b><font color="red">The following mods are not compatible:</font></b> 🟥 </summary>
 
 - While the Infinity Slingshot will appear in [CJB Item Spawner][mod:cjb-spawner], it will be incorrectly classified as a Melee Weapon and will be unusable if spawned in this way. This is due to CJB not recognizing non-vanilla slingshots. This likely will be fixed in game version 1.6.
 - **Not** compatible with the likes of [Combat Controls][mod:combat-controls] or [Combat Controls Redux][mod:combat-controls-redux], as those features are already included in this and other modules.
