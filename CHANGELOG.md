@@ -7,6 +7,7 @@ This file contains a TL;DR of current version changes and hotfixes from across a
 * [CMBT]: Fixed not taking damage when not holding a weapon or slingshot.
 * [CMBT + TOLS]: The auto-selection border now draws behind other elements in the UI, and emulated the shadow effect of the vanilla "current tool" highlight, giving it a much better "vanilla" feel.
 * [TWX]: Added ability to follow the Glowstone Ring progression at the Forge (thereby forgoing the essence cost for cinder shards). It's only logical.
+* Added Grandpa's Lunar Tool textures to optionals folder so users can find them more easily.
 * Minor fixes.
 
 ## Patch 3.1.6 Highlights
