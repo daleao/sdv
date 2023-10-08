@@ -4,8 +4,8 @@
 
 using DaLion.Overhaul.Modules.Combat.Enchantments;
 using DaLion.Overhaul.Modules.Combat.Events.GameLoop.UpdateTicked;
+using DaLion.Overhaul.Modules.Combat.Extensions;
 using DaLion.Shared.Harmony;
-using Extensions;
 using HarmonyLib;
 using Microsoft.Xna.Framework;
 using StardewValley.Tools;

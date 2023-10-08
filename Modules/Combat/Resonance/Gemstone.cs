@@ -165,7 +165,7 @@ public abstract class Gemstone : SmartEnum<Gemstone>, IEquatable<Gemstone>, ICom
         return base.CompareTo(other);
     }
 
-    /// <summary>Get the gemstone associated with the specified ring index.</summary>
+    /// <summary>Gets the gemstone associated with the specified ring index.</summary>
     /// <param name="ringIndex">The index of a gemstone ring.</param>
     /// <returns>The <see cref="Gemstone"/> which embedded in the <see cref="StardewValley.Objects.Ring"/> with the specified <paramref name="ringIndex"/>.</returns>
     internal static Gemstone FromRing(int ringIndex)
@@ -182,7 +182,7 @@ public abstract class Gemstone : SmartEnum<Gemstone>, IEquatable<Gemstone>, ICom
         return FromRingDict.TryGetValue(ringIndex, out gemstone);
     }
 
-    /// <summary>Get the static gemstone instance with the specified <paramref name="type"/>.</summary>
+    /// <summary>Gets the static gemstone instance with the specified <paramref name="type"/>.</summary>
     /// <param name="type">The <see cref="Type"/> of a <see cref="Gemstone"/>.</param>
     /// <returns>The <see cref="Gemstone"/> whose type matches <paramref name="type"/>, if any, otherwise <see langword="null"/>.</returns>
     internal static Gemstone? FromType(Type type)

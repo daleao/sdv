@@ -33,7 +33,7 @@ public interface IProfession
             ? Enumerable.Empty<IProfession>()
             : pair.First.Collect(pair.Second);
 
-    /// <summary>Get the localized description text for this profession.</summary>
+    /// <summary>Gets the localized description text for this profession.</summary>
     /// <param name="prestiged">Whether to get the prestiged or normal variant.</param>
     /// <returns>A human-readability <see cref="string"/> description of the profession.</returns>
     string GetDescription(bool prestiged = false);

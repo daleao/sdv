@@ -33,7 +33,7 @@ public interface IModularOverhaul
         /// <summary>Gets the professions which branch off from this profession, if any.</summary>
         IEnumerable<int> BranchingProfessions { get; }
 
-        /// <summary>Get the localized description text for this profession.</summary>
+        /// <summary>Gets the localized description text for this profession.</summary>
         /// <param name="prestiged">Whether to get the prestiged or normal variant.</param>
         /// <returns>A human-readability <see cref="string"/> description of the profession.</returns>
         string GetDescription(bool prestiged = false);

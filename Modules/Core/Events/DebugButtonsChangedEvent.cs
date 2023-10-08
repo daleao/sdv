@@ -113,7 +113,6 @@ internal sealed class DebugButtonsChangedEvent : ButtonsChangedEvent
                                 message,
                                 (m, p) => m + $"\n\t\t- {p.Key}: {p.Value}");
 
-
                         var events = string.Empty;
                         if (who.IsLocalPlayer)
                         {

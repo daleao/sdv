@@ -62,7 +62,7 @@ internal sealed class GameLocationDayUpdatePatcher : HarmonyPatcher
                 continue;
             }
 
-            for (var attempts = 0; attempts < 10; attempts++)
+            for (var attempt = 0; attempt < 10; attempt++)
             {
                 var tile = location.terrainFeatures.Pairs.ElementAt(Game1.random.Next(location.terrainFeatures.Count())).Key;
                 if (location.terrainFeatures[tile] is not HoeDirt { crop: { } crop } dirt || crop.currentPhase.Value <= 1)
@@ -75,7 +75,7 @@ internal sealed class GameLocationDayUpdatePatcher : HarmonyPatcher
                 {
                     var position = scarecrowPositions[j];
                     var radius = location.objects[position].GetRadiusForScarecrow();
-                    if (!(Vector2.Distance(position, tile) < radius))
+                    if (Vector2.Distance(position, tile) > radius)
                     {
                         continue;
                     }

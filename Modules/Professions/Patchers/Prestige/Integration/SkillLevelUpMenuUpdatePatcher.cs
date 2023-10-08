@@ -70,7 +70,7 @@ internal sealed class SkillLevelUpMenuUpdatePatcher : HarmonyPatcher
                         new CodeInstruction(OpCodes.Ldnull),
                         new CodeInstruction(OpCodes.Stfld, typeof(SkillLevelUpMenu).RequireField("profPair")),
                     },
-                    () =>
+                    _ =>
                     {
                         helper
                             .ReplaceWith(
@@ -126,7 +126,7 @@ internal sealed class SkillLevelUpMenuUpdatePatcher : HarmonyPatcher
                             OpCodes.Callvirt,
                             typeof(NetList<int, NetInt>).RequireMethod("Add")),
                     },
-                    () =>
+                    _ =>
                     {
                         var dontGetImmediatePerks = generator.DefineLabel();
                         var isNotPrestigeLevel = generator.DefineLabel();

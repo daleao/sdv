@@ -1,5 +1,17 @@
 ﻿# TOLS Changelog
 
+## 3.1.7
+
+### Changed
+
+* The auto-selection border now draws behind other elements in the UI, and emulated the shadow effect of the vanilla "current tool" highlight, giving it a much better "vanilla" feel.
+
+### Fixed
+
+* Fixed possible IndexOutOfRangeException in Fishing Rod auto-selection.
+
+<sup><sup>[🔼 Back to top](#tols-changelog)</sup></sup>
+
 ## 3.1.5
 
 ### Fixed

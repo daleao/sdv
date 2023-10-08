@@ -65,7 +65,7 @@ internal sealed class FarmerTakeDamagePatcher : HarmonyPatcher
                             OpCodes.Call,
                             typeof(Math).RequireMethod(nameof(Math.Max), new[] { typeof(int), typeof(int) })),
                     },
-                    () =>
+                    _ =>
                     {
                         helper
                             .SetOpCode(OpCodes.Ldarg_0) // replace const int 1 with Farmer who

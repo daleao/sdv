@@ -42,7 +42,7 @@ internal sealed class ShopMenuTryToPurchaseItemPatcher : HarmonyPatcher
                             OpCodes.Call,
                             typeof(ShopMenu).RequireMethod(nameof(ShopMenu.chargePlayer))),
                     },
-                    () =>
+                    _ =>
                     {
                         var resumeExecution = generator.DefineLabel();
                         helper

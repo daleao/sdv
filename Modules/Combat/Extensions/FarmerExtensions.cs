@@ -26,7 +26,7 @@ internal static class FarmerExtensions
         {
             MeleeWeapon weapon => weapon.Get_EffectiveResilience(),
             Slingshot slingshot => slingshot.Get_EffectiveResilience(),
-            _ => 0f,
+            _ => 1f,
         };
 
         var playerResilience = farmer.resilience + farmer.Get_ResonantResilience();

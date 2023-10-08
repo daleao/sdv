@@ -81,6 +81,5 @@ internal sealed class ClearStatusCommand : ConsoleCommand
 
             args = args.Skip(1).ToArray();
         }
-
     }
 }

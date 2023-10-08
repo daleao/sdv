@@ -72,7 +72,7 @@ internal sealed class DebugRenderedWorldEvent : RenderedWorldEvent
                         e.SpriteBatch.DrawString(
                             Game1.dialogueFont,
                             str,
-                            new Vector2(bb.X - (length.X - bb.Width) / 2f, bb.Y - bb.Height - length.Y - length.Y),
+                            new Vector2(bb.X - ((length.X - bb.Width) / 2f), bb.Y - bb.Height - length.Y - length.Y),
                             Color.White);
 
                         str = $"Damage: {monster.DamageToFarmer} | Defense: {monster.resilience.Value}";
@@ -80,7 +80,7 @@ internal sealed class DebugRenderedWorldEvent : RenderedWorldEvent
                         e.SpriteBatch.DrawString(
                             Game1.dialogueFont,
                             str,
-                            new Vector2(bb.X - (length.X - bb.Width) / 2f, bb.Y - bb.Height - length.Y),
+                            new Vector2(bb.X - ((length.X - bb.Width) / 2f), bb.Y - bb.Height - length.Y),
                             Color.White);
                         break;
                     }
@@ -120,7 +120,7 @@ internal sealed class DebugRenderedWorldEvent : RenderedWorldEvent
                         e.SpriteBatch.DrawString(
                             Game1.dialogueFont,
                             @string,
-                            new Vector2(bb.X - (length.X - bb.Width) / 2f, bb.Y - bb.Height - length.Y),
+                            new Vector2(bb.X - ((length.X - bb.Width) / 2f), bb.Y - bb.Height - length.Y),
                             Color.White);
                         break;
                     }

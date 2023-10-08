@@ -230,7 +230,7 @@ internal sealed class IClickableMenuDrawHoverTextPatcher : HarmonyPatcher
                             OpCodes.Callvirt,
                             typeof(Tool).RequireMethod(nameof(Tool.GetTotalForgeLevels))),
                     },
-                    () =>
+                    _ =>
                     {
                         var callTotalForgeLevels = generator.DefineLabel();
                         var resumeExecution = generator.DefineLabel();

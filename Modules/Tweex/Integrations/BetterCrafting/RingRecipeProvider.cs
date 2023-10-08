@@ -36,7 +36,7 @@ internal sealed class RingRecipeProvider : IRecipeProvider
     /// </summary>
     public bool CacheAdditionalRecipes => false;
 
-    /// <summary>Get an <see cref="IRecipe"/> wrapper for a <see cref="CraftingRecipe"/>.</summary>
+    /// <summary>Gets an <see cref="IRecipe"/> wrapper for a <see cref="CraftingRecipe"/>.</summary>
     /// <param name="recipe">The vanilla <c>CraftingRecipe</c> to wrap.</param>
     /// <returns>A <see cref="IRecipe"/> wrapper, or null if this provider does not handle this recipe.</returns>
     public IRecipe? GetRecipe(CraftingRecipe recipe)

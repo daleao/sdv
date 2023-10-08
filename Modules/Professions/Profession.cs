@@ -155,7 +155,7 @@ public sealed class Profession : SmartEnum<Profession>, IProfession
     /// <inheritdoc />
     public ISkill Skill => Professions.Skill.FromValue(this.Value / 6);
 
-    /// <summary>Get the <see cref="Profession"/> with the specified localized name.</summary>
+    /// <summary>Gets the <see cref="Profession"/> with the specified localized name.</summary>
     /// <param name="name">A localized profession name.</param>
     /// <param name="ignoreCase">Whether to ignore capitalization.</param>
     /// <param name="result">The corresponding profession.</param>

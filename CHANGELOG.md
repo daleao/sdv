@@ -4,6 +4,8 @@ This file contains a TL;DR of current version changes and hotfixes from across a
 
 ## Patch 3.1.7 Highlights
 
+* [CMBT]: Fixed not taking damage when not holding a weapon or slingshot.
+* [CMBT + TOLS]: The auto-selection border now draws behind other elements in the UI, and emulated the shadow effect of the vanilla "current tool" highlight, giving it a much better "vanilla" feel.
 * [TWX]: Added ability to follow the Glowstone Ring progression at the Forge (thereby forgoing the essence cost for cinder shards). It's only logical.
 * Minor fixes.
 

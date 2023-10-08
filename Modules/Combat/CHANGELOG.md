@@ -1,6 +1,6 @@
 ﻿# CMBT Changelog
 
-## 3.1.6
+## 3.1.7
 
 ### Added
 
@@ -9,6 +9,13 @@
 ### Changed
 
 * GetCustomItem command changed to GetBlueprint. For other items just use CJB Item Spawner.
+* The auto-selection border now draws behind other elements in the UI, and emulated the shadow effect of the vanilla "current tool" highlight, giving it a much better "vanilla" feel.
+
+### Fixed
+
+* Fixed not taking damage when not holding a weapon or slingshot.
+
+<sup><sup>[🔼 Back to top](#cmbt-changelog)</sup></sup>
 
 ## 3.1.6
 

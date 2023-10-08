@@ -45,7 +45,7 @@ internal sealed class IClickableMenuDrawHoverTextPatcher : HarmonyPatcher
             helper
                 .ForEach(
                     new[] { new CodeInstruction(OpCodes.Isinst, typeof(MeleeWeapon)) },
-                    () => helper.SetOperand(typeof(Tool)));
+                    _ => helper.SetOperand(typeof(Tool)));
         }
         catch (Exception ex)
         {

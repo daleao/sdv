@@ -34,7 +34,7 @@ public sealed class ModApi
 {
     #region professions
 
-    /// <summary>Get the value of an Ecologist's forage quality.</summary>
+    /// <summary>Gets the value of an Ecologist's forage quality.</summary>
     /// <param name="farmer">The player.</param>
     /// <returns>A <see cref="SObject"/> quality level.</returns>
     public int GetEcologistForageQuality(Farmer? farmer = null)
@@ -43,7 +43,7 @@ public sealed class ModApi
         return farmer.HasProfession(Profession.Ecologist) ? farmer.GetEcologistForageQuality() : SObject.lowQuality;
     }
 
-    /// <summary>Get the value of a Gemologist's mineral quality.</summary>
+    /// <summary>Gets the value of a Gemologist's mineral quality.</summary>
     /// <param name="farmer">The player.</param>
     /// <returns>A <see cref="SObject"/> quality level.</returns>
     public int GetGemologistMineralQuality(Farmer? farmer = null)
@@ -52,7 +52,7 @@ public sealed class ModApi
         return farmer.HasProfession(Profession.Gemologist) ? farmer.GetGemologistMineralQuality() : SObject.lowQuality;
     }
 
-    /// <summary>The price bonus applied to animal produce sold by Producer.</summary>
+    /// <summary>Gets the price bonus applied to animal produce sold by Producer.</summary>
     /// <param name="farmer">The player.</param>
     /// <returns>A <see cref="float"/> multiplier for animal products.</returns>
     public float GetProducerProducePriceBonus(Farmer? farmer = null)
@@ -61,7 +61,7 @@ public sealed class ModApi
         return farmer.GetProducerPriceBonus();
     }
 
-    /// <summary>The price bonus applied to fish sold by Angler.</summary>
+    /// <summary>Gets the price bonus applied to fish sold by Angler.</summary>
     /// <param name="farmer">The player.</param>
     /// <returns>A <see cref="float"/> multiplier for fish prices.</returns>
     public float GetAnglerFishPriceBonus(Farmer? farmer = null)
@@ -71,7 +71,7 @@ public sealed class ModApi
     }
 
     /// <summary>
-    ///     Get the value of the a Conservationist's effective tax deduction based on the preceding season's trash
+    ///     Gets the value of the a Conservationist's effective tax deduction based on the preceding season's trash
     ///     collection.
     /// </summary>
     /// <param name="farmer">The player.</param>

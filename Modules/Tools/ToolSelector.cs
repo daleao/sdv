@@ -147,8 +147,8 @@ internal static class ToolSelector
         var nextTile = tile.GetNextTile(Game1.player.FacingDirection);
         var cursorTile = Game1.currentCursorTile;
         return location.waterTiles is not null &&
-               (location.waterTiles[(int)nextTile.X, (int)nextTile.Y] ||
-                (location.waterTiles[(int)cursorTile.X, (int)cursorTile.Y] && (cursorTile - nextTile).Length() <= 6)) &&
+               ((location.isTileOnMap(nextTile) && location.waterTiles[(int)nextTile.X, (int)nextTile.Y]) ||
+                (location.isTileOnMap(cursorTile) && location.waterTiles[(int)cursorTile.X, (int)cursorTile.Y] && (cursorTile - nextTile).Length() <= 6)) &&
                ToolsModule.State.SelectableToolByType.TryGetValue(typeof(FishingRod), out selectable) &&
                selectable.HasValue;
     }

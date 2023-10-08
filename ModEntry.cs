@@ -14,7 +14,6 @@ namespace DaLion.Overhaul;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
-using System.Linq;
 using System.Reflection;
 using DaLion.Shared.Events;
 using DaLion.Shared.Extensions.Collections;
@@ -23,8 +22,6 @@ using DaLion.Shared.Extensions.SMAPI;
 using DaLion.Shared.ModData;
 using DaLion.Shared.Networking;
 using DaLion.Shared.Reflection;
-using HarmonyLib;
-using Shared.Harmony;
 using StardewModdingAPI.Utilities;
 
 #endregion using directives

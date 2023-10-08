@@ -4,7 +4,7 @@
 
 using DaLion.Shared.Attributes;
 using DaLion.Shared.Events;
-using DaLion.Shared.Extensions.Xna;
+using DaLion.Shared.Extensions.Stardew;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using StardewModdingAPI.Events;
@@ -34,7 +34,7 @@ internal sealed class DebugRenderedActiveMenuEvent : RenderedActiveMenuEvent
     {
         foreach (var component in DebugMenuChangedEvent.ClickableComponents)
         {
-            component.bounds.DrawBorder(this._pixel, 3, Color.Red, e.SpriteBatch);
+            component.bounds.DrawBorder(this._pixel, Color.Red, e.SpriteBatch);
         }
     }
 }

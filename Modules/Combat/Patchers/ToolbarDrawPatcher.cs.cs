@@ -6,13 +6,12 @@ using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
 using DaLion.Shared.Extensions.Reflection;
-using DaLion.Shared.Extensions.Xna;
+using DaLion.Shared.Extensions.Stardew;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using StardewValley.Menus;
-using StardewValley.Tools;
 
 #endregion using directives
 
@@ -47,23 +46,24 @@ internal sealed class ToolbarDrawPatcher : HarmonyPatcher
                 .Match(
                     new[]
                     {
-                        new CodeInstruction(OpCodes.Ldarg_0),
-                        new CodeInstruction(OpCodes.Ldfld, typeof(Toolbar).RequireField("hoverItem")),
+                        new CodeInstruction(
+                            OpCodes.Ldfld,
+                            typeof(Options).RequireField(nameof(Options.gamepadControls))),
                     })
+                .Move(-1)
                 .Insert(
                     new[]
                     {
-                        new CodeInstruction(OpCodes.Ldarg_0),
+                        new CodeInstruction(OpCodes.Ldloc_S, helper.Locals[7]), new CodeInstruction(OpCodes.Ldarg_0),
                         new CodeInstruction(OpCodes.Ldfld, typeof(Toolbar).RequireField("buttons")),
-                        new CodeInstruction(OpCodes.Ldarg_1),
-                        new CodeInstruction(
+                        new CodeInstruction(OpCodes.Ldarg_1), new CodeInstruction(
                             OpCodes.Call,
-                            typeof(ToolbarDrawPatcher).RequireMethod(nameof(DrawSelectors))),
+                            typeof(ToolbarDrawPatcher).RequireMethod(nameof(DrawSelector))),
                     });
         }
         catch (Exception ex)
         {
-            Log.E($"Failed drawing tool selectors in toolbar.\nHelper returned {ex}");
+            Log.E($"Failed drawing tool selector in toolbar.\nHelper returned {ex}");
             return null;
         }
 
@@ -74,32 +74,17 @@ internal sealed class ToolbarDrawPatcher : HarmonyPatcher
 
     #region injected subroutines
 
-    private static void DrawSelectors(List<ClickableComponent> ___buttons, SpriteBatch b)
+    private static void DrawSelector(int j, List<ClickableComponent> buttons, SpriteBatch b)
     {
-        if (Game1.activeClickableMenu is not null || (CombatModule.State.AutoSelectableMelee is null &&
-                                                      CombatModule.State.AutoSelectableRanged is null))
+        if (CombatModule.State.AutoSelectableMelee is null && CombatModule.State.AutoSelectableRanged is null)
         {
             return;
         }
 
-        var player = Game1.player;
-        for (var i = 0; i < ___buttons.Count; i++)
+        if (Game1.player.Items[j] is Tool tool && (CombatModule.State.AutoSelectableMelee == tool || CombatModule.State.AutoSelectableRanged == tool) &&
+            Game1.player.CurrentTool != tool)
         {
-            var button = ___buttons[i];
-            var slotNumber = Convert.ToInt32(button.name);
-            if (slotNumber >= player.Items.Count)
-            {
-                continue;
-            }
-
-            var item = player.Items[slotNumber];
-            if ((item is MeleeWeapon weapon && CombatModule.State.AutoSelectableMelee == weapon &&
-                 player.CurrentTool != weapon) ||
-                (item is Slingshot slingshot && CombatModule.State.AutoSelectableRanged == slingshot &&
-                 player.CurrentTool != slingshot))
-            {
-                button.bounds.DrawBorder(Pixel.Value, 3, CombatModule.Config.SelectionBorderColor, b);
-            }
+            buttons[j].bounds.DrawBorder(Pixel.Value, CombatModule.Config.SelectionBorderColor, b);
         }
     }
 
