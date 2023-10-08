@@ -91,8 +91,10 @@ internal sealed class GameLocationBlacksmithPatcher : HarmonyPatcher
 
     private static void CreateBlacksmithQuestionDialogue(GameLocation location)
     {
-        var responses = new List<Response>();
-        responses.Add(new Response("Shop", Game1.content.LoadString("Strings\\Locations:Blacksmith_Clint_Shop")));
+        var responses = new List<Response>
+        {
+            new("Shop", Game1.content.LoadString("Strings\\Locations:Blacksmith_Clint_Shop")),
+        };
 
         if (HasUpgradeableToolInInventory(Game1.player))
         {

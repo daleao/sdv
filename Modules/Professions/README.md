@@ -50,14 +50,14 @@ This module is safe to enable or disable mid-save. All profession perks will be 
 
 ## Professions
 
-The perks in <font color="gold">gold text</font> refer to <font color="gold">prestige</font> variants. Written in *(parenthesis)*, these perks **replace**, and do not stack with, their regular counterpart.
+The perks within ⭐<font color="gold">star text</font>⭐ refer to <font color="gold">prestige</font> variants. Written in *(parenthesis)*, these perks **replace**, and do not stack with, their regular counterpart.
 
 ### ![](https://i.imgur.com/p9QdB6L.png) Farming
 
 <ul>
 
 <details>
-<summary><img src="./resources/assets/sprites/loose/harvester.png"/><b>Harvester (Lv5)</b> - 10% <font color="gold"><i>(20%)</i></font> chance for extra yield from harvested crops.
+<summary><img src="./resources/assets/sprites/loose/harvester.png"/><b>Harvester (Lv5)</b> - 10% <font color="gold"><i>(⭐20%⭐)</i></font> chance for extra yield from harvested crops.
 </summary>
 
 <ul>
@@ -69,7 +69,7 @@ Yields an equivalent 10% monetary bonus to vanilla on average, but also provides
 </details>
 
 <details>
-<summary><img src="./resources/assets/sprites/loose/agriculturist.png"/><b>Agriculturist (Lv10)</b> - Crops grow 10% <font color="gold"><i>(20%)</i></font> faster. Grow best-quality crops organically without fertilizer.
+<summary><img src="./resources/assets/sprites/loose/agriculturist.png"/><b>Agriculturist (Lv10)</b> - Crops grow 10% <font color="gold"><i>(⭐20%⭐)</i></font> faster. Grow best-quality crops organically without fertilizer.
 </summary>
 
 <ul>
@@ -81,7 +81,7 @@ Allows harvesting iridium-quality crops, normally only possible with Deluxe Fert
 </details>
 
 <details>
-<summary><img src="./resources/assets/sprites/loose/artisan.png"/><b>Artisan (Lv10)</b> - Artisan machines work 10% <font color="gold"><i>(25%)</i></font> faster. Machine output quality can be as good as input ingredient quality.
+<summary><img src="./resources/assets/sprites/loose/artisan.png"/><b>Artisan (Lv10)</b> - Artisan machines work 10% <font color="gold"><i>(⭐25%⭐)</i></font> faster. Machine output quality can be as good as input ingredient quality.
 </summary>
 
 <ul>
@@ -93,7 +93,7 @@ Quality output is based on Farming level. The lowest possible quality is 2 stage
 </details>
 
 <details>
-<summary><img src="./resources/assets/sprites/loose/miner.png"/> <b>Rancher (Lv5)</b> - Befriend animals 2× <font color="gold"><i>(3×)</i></font> quicker.
+<summary><img src="./resources/assets/sprites/loose/miner.png"/> <b>Rancher (Lv5)</b> - Befriend animals 2× <font color="gold"><i>(⭐3×⭐)</i></font> quicker.
 </summary>
 
 <ul>
@@ -105,7 +105,7 @@ Gain double mood *and* friendship points from petting. Newborn animals are also 
 </details>
 
 <details>
-<summary><img src="./resources/assets/sprites/loose/breeder.png"/> <b>Breeder (Lv10)</b> - Incubation 2× <font color="gold"><i>(3×)</i></font> faster and natural pregnancy 3× <font color="gold"><i>(5×)</i></font> more likely. Increase value of animals at high friendship.
+<summary><img src="./resources/assets/sprites/loose/breeder.png"/> <b>Breeder (Lv10)</b> - Incubation 2× <font color="gold"><i>(⭐3×⭐)</i></font> faster and natural pregnancy 3× <font color="gold"><i>(⭐5×⭐)</i></font> more likely. Increase value of animals at high friendship.
 </summary>
 
 <ul>
@@ -117,7 +117,7 @@ At max friendship animals are worth 2.5x their base price, instead of vanilla 1.
 </details>
 
 <details>
-<summary><img src="./resources/assets/sprites/loose/producer.png"/> <b>Producer (Lv10)</b> - Happy animals produce 2× <font color="gold"><i>(3×)</i></font>as frequently. Produce is worth 5% more for every full barn or coop.
+<summary><img src="./resources/assets/sprites/loose/producer.png"/> <b>Producer (Lv10)</b> - Happy animals produce 2× <font color="gold"><i>(⭐3×⭐)</i></font>as frequently. Produce is worth 5% more for every full barn or coop.
 </summary>
 
 <ul>
@@ -135,7 +135,7 @@ Note that happiness, or mood, is **not** the same as friendship. Also note that 
 <ul>
 
 <details>
-<summary><img src="./resources/assets/sprites/loose/forager.png"/> <b>Lv5 - Forager</b>- 20% <font color="gold"><i>(40%)</i></font> chance for double yield of foraged items.
+<summary><img src="./resources/assets/sprites/loose/forager.png"/> <b>Lv5 - Forager</b>- 20% <font color="gold"><i>(⭐40%⭐)</i></font> chance for double yield of foraged items.
 </summary>
 
 <ul>
@@ -147,7 +147,7 @@ Other than the name, this profession is unchanged compared to vanilla.
 </details>
 
 <details>
-<summary><img src="./resources/assets/sprites/loose/ecologist.png"/> <b>Ecologist (Lv10)</b>- Wild berries restore 50% <font color="gold"><i>(100%)</i></font> more health and energy. Progressively identify forage of higher quality.
+<summary><img src="./resources/assets/sprites/loose/ecologist.png"/> <b>Ecologist (Lv10)</b>- Wild berries restore 50% <font color="gold"><i>(⭐100%⭐)</i></font> more health and energy. Progressively identify forage of higher quality.
 </summary>
 
 <ul>
@@ -159,7 +159,7 @@ All foraged items will have the same deterministic quality, providing immediate 
 </details>
 
 <details>
-<summary><img src="./resources/assets/sprites/loose/scavenger.png"/> <b>Scavenger (Lv10)</b>- Location of forageable items revealed. Occasionally detect buried treasure. <font color="gold"><i>Time freezes during Scavenger Hunts.</i></font>
+<summary><img src="./resources/assets/sprites/loose/scavenger.png"/> <b>Scavenger (Lv10)</b>- Location of forageable items revealed. Occasionally detect buried treasure. <font color="gold"><i>⭐Time freezes during Scavenger Hunts.⭐</i></font>
 </summary>
 
 <ul>
@@ -172,7 +172,7 @@ All foraged items will have the same deterministic quality, providing immediate 
 </details>
 
 <details>
-<summary><img src="./resources/assets/sprites/loose/lumberjack.png"/> <b>Lumberjack (Lv5)</b>- Felled trees yield 25% <font color="gold"><i>(40%)</i></font> more wood.
+<summary><img src="./resources/assets/sprites/loose/lumberjack.png"/> <b>Lumberjack (Lv5)</b>- Felled trees yield 25% <font color="gold"><i>(⭐40%⭐)</i></font> more wood.
 </summary>
 
 <ul>
@@ -184,7 +184,7 @@ Other than the name, this profession is unchanged compared to vanilla.
 </details>
 
 <details>
-<summary><img src="./resources/assets/sprites/loose/arborist.png"/> <b>Arborist (Lv10)</b>- All trees grow faster. Normal trees can drop <font color="gold"><i>(twice as much)</i></font> hardwood.
+<summary><img src="./resources/assets/sprites/loose/arborist.png"/> <b>Arborist (Lv10)</b>- All trees grow faster. Normal trees can drop <font color="gold"><i>(⭐twice as much⭐)</i></font> hardwood.
 </summary>
 
 <ul>
@@ -196,7 +196,7 @@ Bonus tree growth works as a global buff; i.e., all trees in the world are affec
 </details>
 
 <details>
-<summary><img src="./resources/assets/sprites/loose/tapper.png"/> <b>Tapper (Lv10)</b>- Tappers are cheaper to craft. Tapped trees produce syrup 25% <font color="gold"><i>(50%)</i></font> faster.
+<summary><img src="./resources/assets/sprites/loose/tapper.png"/> <b>Tapper (Lv10)</b>- Tappers are cheaper to craft. Tapped trees produce syrup 25% <font color="gold"><i>(⭐50%⭐)</i></font> faster.
 </summary>
 
 <ul>
@@ -215,7 +215,7 @@ Bonus tree growth works as a global buff; i.e., all trees in the world are affec
 <ul>
 
 <details>
-<summary><img src="./resources/assets/sprites/loose/miner.png"/> <b>Miner (Lv5)</b>- +1 <font color="gold"><i>(+2)</i></font> ore per ore vein.
+<summary><img src="./resources/assets/sprites/loose/miner.png"/> <b>Miner (Lv5)</b>- +1 <font color="gold"><i>(⭐+2⭐)</i></font> ore per ore vein.
 </summary>
 
 <ul>
@@ -227,7 +227,7 @@ Completely unchanged compared to vanilla.
 </details>
 
 <details>
-<summary><img src="./resources/assets/sprites/loose/spelunker.png"/> <b>Spelunker (Lv10)</b>- Chance to find ladders and shafts increases with every mine level. +1 speed every 10 levels. <font color="gold"><i>Also recover some health and stamina with every mine level.</i></font>
+<summary><img src="./resources/assets/sprites/loose/spelunker.png"/> <b>Spelunker (Lv10)</b>- Chance to find ladders and shafts increases with every mine level. +1 speed every 10 levels. <font color="gold"><i>⭐Also recover some health and stamina with every mine level.⭐</i></font>
 </summary>
 
 <ul>
@@ -240,7 +240,7 @@ Plus 0.5% ladder chance per level. Bonus ladder chance resets each time you leav
 
 <details>
 <summary>
-<img src="./resources/assets/sprites/loose/prospector.png"/> <b>Prospector (Lv10)</b>- Location of ladders and mining nodes revealed. Occasionally detect rocks with valuable minerals. <font color="gold"><i>Time freezes during Prospector Hunts.</i></font>
+<img src="./resources/assets/sprites/loose/prospector.png"/> <b>Prospector (Lv10)</b>- Location of ladders and mining nodes revealed. Occasionally detect rocks with valuable minerals. <font color="gold"><i>⭐Time freezes during Prospector Hunts.⭐</i></font>
 </summary>
 
 <ul>
@@ -253,7 +253,7 @@ Plus 0.5% ladder chance per level. Bonus ladder chance resets each time you leav
 </details>
 
 <details>
-<summary><img src="./resources/assets/sprites/loose/blaster.png"/> <b>Blaster (Lv5)</b>- Craft twice as many explosives. Exploded rocks yield 2× <font color="gold"><i>(3×)</i></font> as much coal.
+<summary><img src="./resources/assets/sprites/loose/blaster.png"/> <b>Blaster (Lv5)</b>- Craft twice as many explosives. Exploded rocks yield 2× <font color="gold"><i>(⭐3×⭐)</i></font> as much coal.
 </summary>
 
 <ul>
@@ -265,7 +265,7 @@ This aims to provide a new style of mining while attempting to compensate for th
 </details>
 
 <details>
-<summary><img src="./resources/assets/sprites/loose/demolitionist.png"/> <b>Demolitionist (Lv10)</b>- Bomb radius +1 <font color="gold"><i>(+2)</i></font>. Exploded rocks yield 20% <font color="gold"><i>(40%)</i></font> more resources.
+<summary><img src="./resources/assets/sprites/loose/demolitionist.png"/> <b>Demolitionist (Lv10)</b>- Bomb radius +1 <font color="gold"><i>(⭐+2⭐)</i></font>. Exploded rocks yield 20% <font color="gold"><i>(⭐40%⭐)</i></font> more resources.
 </summary>
 
 <ul>
@@ -278,7 +278,7 @@ This aims to provide a new style of mining while attempting to compensate for th
 </details>
 
 <details>
-<summary><img src="./resources/assets/sprites/loose/gemologist.png"/> <b>Gemologist (Lv10)</b>- Progressively identify gems and minerals of higher quality. Crystalariums work 25% <font color="gold"><i>(50%)</i></font> faster.
+<summary><img src="./resources/assets/sprites/loose/gemologist.png"/> <b>Gemologist (Lv10)</b>- Progressively identify gems and minerals of higher quality. Crystalariums work 25% <font color="gold"><i>(⭐50%⭐)</i></font> faster.
 </summary>
 
 <ul>
@@ -296,7 +296,7 @@ Analogous to Ecologist. All gems and minerals mined from nodes have a fixed qual
 <ul>
 
 <details>
-<summary><img src="./resources/assets/sprites/loose/fisher.png"/> <b>Fisher (Lv5)</b>- Baits are 2x (3x) more effective when fishing.
+<summary><img src="./resources/assets/sprites/loose/fisher.png"/> <b>Fisher (Lv5)</b>- Baits are 2x <font color="gold"><i>(⭐3x⭐)</i></font> more effective when fishing.
 </summary>
 
 <ul>
@@ -308,7 +308,7 @@ Also applies to the double catch effect of Wild Bait and bonus treasure effect o
 </details>
 
 <details>
-<summary><img src="./resources/assets/sprites/loose/angler.png"/> <b>Angler (Lv10)</b>- Fish are 0.5% more valuable for every unique species caught. Fully-expending a tackle causes it's effects to linger on the fishing rod. *Fish are another 0.5% more valuable for every unique max-sized species caught.*
+<summary><img src="./resources/assets/sprites/loose/angler.png"/> <b>Angler (Lv10)</b>- Fish are 0.5% more valuable for every unique species caught. Fully-expending a tackle causes it's effects to linger on the fishing rod. <font color="gold"><i>⭐Fish are another 0.5% more valuable for every unique max-sized species caught.⭐</i></font>
 </summary>
 
 <ul>
@@ -321,7 +321,7 @@ Also applies to the double catch effect of Wild Bait and bonus treasure effect o
 </details>
 
 <details>
-<summary><img src="./resources/assets/sprites/loose/aquarist.png"/> <b>Aquarist (Lv10)</b>- Fish pond max capacity +2 <font color="gold"><i>(+4)</i></font>. Catching bar decreases slower for every unique fish species raised in a fish pond.
+<summary><img src="./resources/assets/sprites/loose/aquarist.png"/> <b>Aquarist (Lv10)</b>- Fish pond max capacity +2 <font color="gold"><i>(⭐+4⭐)</i></font>. Catching bar decreases slower for every unique fish species raised in a fish pond.
 </summary>
 
 <ul>
@@ -334,7 +334,7 @@ Also applies to the double catch effect of Wild Bait and bonus treasure effect o
 </details>
 
 <details>
-<summary><img src="./resources/assets/sprites/loose/trapper.png"/> <b>Trapper (Lv5)</b>- Crab pots are cheaper to craft. Can trap higher-quality <font color="gold"><i>(highest-quality)</i></font> haul.
+<summary><img src="./resources/assets/sprites/loose/trapper.png"/> <b>Trapper (Lv5)</b>- Crab pots are cheaper to craft. Can trap higher-quality <font color="gold"><i>(⭐highest-quality⭐)</i></font> haul.
 </summary>
 
 <ul>
@@ -346,7 +346,7 @@ All trapped fish can have quality up to gold. Chance depends on fishing level (s
 </details>
 
 <details>
-<summary><img src="./resources/assets/sprites/loose/luremaster.png"/> <b>Luremaster (Lv10)</b>- Baited Crab Pots can produce 2x <font color="gold"><i>(3x)</i></font> per day. Unlock new bait effects.
+<summary><img src="./resources/assets/sprites/loose/luremaster.png"/> <b>Luremaster (Lv10)</b>- Baited Crab Pots can produce 2x <font color="gold"><i>(⭐3x⭐)</i></font> per day. Unlock new bait effects.
 </summary>
 
 <ul>
@@ -363,7 +363,7 @@ All trapped fish can have quality up to gold. Chance depends on fishing level (s
 </details>
 
 <details>
-<summary><img src="./resources/assets/sprites/loose/conservationist.png"/> <b>Conservationist (Lv10)</b>- Crab pots without bait can trap junk. Clean the Valley's waters to merit tax deductions and villager favor. *Tax deductions build 50% faster.*
+<summary><img src="./resources/assets/sprites/loose/conservationist.png"/> <b>Conservationist (Lv10)</b>- Crab pots without bait can trap junk. Clean the Valley's waters to merit tax deductions and villager favor. <font color="gold"><i>⭐Tax deductions build 50% faster.⭐</i></font>
 </summary>
 
 <ul>
@@ -381,7 +381,7 @@ Every 100 (configurable) junk items collected will earn you a 1% tax deduction t
 <ul>
 
 <details>
-<summary><img src="./resources/assets/sprites/loose/fighter.png"/> <b>Fighter (Lv5)</b>- Damage +10% <font color="gold"><i>(+15%)</i></font>. +15 HP.
+<summary><img src="./resources/assets/sprites/loose/fighter.png"/> <b>Fighter (Lv5)</b>- Damage +10% <font color="gold"><i>(⭐+15%⭐)</i></font>. +15 HP.
 </summary>
 
 <ul>
@@ -393,7 +393,7 @@ Completely unchanged compared to vanilla.
 </details>
 
 <details>
-<summary><img src="./resources/assets/sprites/loose/brute.png"/> <b>Brute / Amazon (Lv10)</b>- Taking damage builds rage, improving damage. +25 HP. <font color="gold"><i>Rage also grants attack speed.</i></font>
+<summary><img src="./resources/assets/sprites/loose/brute.png"/> <b>Brute / Amazon (Lv10)</b>- Taking damage builds rage, improving damage. +25 HP. <font color="gold"><i>⭐Rage also grants attack speed.⭐</i></font>
 </summary>
 
 <ul>
@@ -405,7 +405,7 @@ Completely unchanged compared to vanilla.
 </details>
 
 <details>
-<summary><img src="./resources/assets/sprites/loose/poacher.png"/> <b>Bushwhacker (Lv10)</b>- Crit. chance +50%. Crit. strikes can poach items. <font color="gold"><i>Successfully poaching an item refunds special move cooldown.</i></font>
+<summary><img src="./resources/assets/sprites/loose/poacher.png"/> <b>Bushwhacker (Lv10)</b>- Crit. chance +50%. Crit. strikes can poach items. <font color="gold"><i>⭐Successfully poaching an item refunds special move cooldown.⭐</i></font>
 </summary>
 
 <ul>
@@ -417,7 +417,7 @@ Completely unchanged compared to vanilla.
 </details>
 
 <details>
-<summary><img src="./resources/assets/sprites/loose/rascal.png"/> <b>Rascal (Lv5)</b>- Gain one additional ammo slot. 35% <font color="gold"><i>(70%)</i></font> chance to recover spent ammo.
+<summary><img src="./resources/assets/sprites/loose/rascal.png"/> <b>Rascal (Lv5)</b>- Gain one additional ammo slot. 35% <font color="gold"><i>(⭐70%⭐)</i></font> chance to recover spent ammo.
 </summary>
 
 <ul>
@@ -431,7 +431,7 @@ Completely unchanged compared to vanilla.
 </details>
 
 <details>
-<summary><img src="./resources/assets/sprites/loose/desperado.png"/> <b>Desperado (Lv10)</b>- Firing speed is higher at lower HP. Can overcharge slingshots to increase ammo power and cross-section. <font color="gold"><i>Overcharged shots can also pierce enemies.</i></font>
+<summary><img src="./resources/assets/sprites/loose/desperado.png"/> <b>Desperado (Lv10)</b>- Firing speed is higher at lower HP. Can overcharge slingshots to increase ammo power and cross-section. <font color="gold"><i>⭐Overcharged shots can also pierce enemies.⭐</i></font>
 </summary>
 
 <ul>
@@ -444,7 +444,7 @@ Completely unchanged compared to vanilla.
 </details>
 
 <details>
-<summary><img src="./resources/assets/sprites/loose/piper.png"/> <b>Slimed Piper / Enchantress (Lv10)</b>- Attract ally Slimes when near enemies. Chance to gain a random buff when a Slime is defeated. <font color="gold"><i>Chance to also recover some health and energy when a Slime is defeated.</i></font>
+<summary><img src="./resources/assets/sprites/loose/piper.png"/> <b>Slimed Piper / Enchantress (Lv10)</b>- Attract ally Slimes when near enemies. Chance to gain a random buff when a Slime is defeated. <font color="gold"><i>⭐Chance to also recover some health and energy when a Slime is defeated.⭐</i></font>
 </summary>
 
 <ul>
