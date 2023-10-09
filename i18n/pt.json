@@ -256,7 +256,7 @@
   "mail.curse.intro": "{{honorific}} @, devo te ver sobre um assunto de extrema urgência.^Por favor, venha me ver na torre assim que possível.^   -M. Rasmodius, feiticeiro[#]Herói Arruinado",
   "mail.curse.intro.witch": "{{honorific}} @, devo te ver sobre um assunto de extrema urgência.^Por favor, venha me ver na torre assim que possível.^   -M. Rasmodius, feiticeira[#]Herói Arruinado",
 
-  "quests.forge.intro": "Basic/Um Legado dos Anões/Clint te disse que ele acabaria de traduzir aquela velha planta em alguns dias./Visite Clint para perguntar sobre a planta./null/144702/0/-1/false",
+  "quests.forge.intro": "Basic/Um Legado dos Anões/Clint te disse que ele acabaria de traduzir aquela velha planta em alguns dias./Visite Clint para perguntar sobre a planta./null/-1/0/-1/false",
   "quests.forge.next": "Basic/Um Legado dos Anões II/Aquela planta antiga era uma receita para uma poderosa arma anã! Talvez hajam outras?/Encontre as plantas restantes./null/-1/0/-1/false",
   "quests.hero.intro": "Basic/A Lâmina do Herói Arruinado/A arma que você encontrou carrega a maldição do Herói Arruinado! Você já pode sentir sua força vital sendo drenada. É melhor encontrar algum jeito de quebrar essa maldição, e rápido!/Encontre uma maneira de quebrar a maldição da Lâmina Arruinada./null/-1/0/-1/false",
   "quests.hero.reward": "Basic/A Lâmina do Herói Arruinado/Prove que você vive de acordo com as cinco virtudes heróicas./Leve a Lâmina Arruinada até o altar de Yoba./null/-1/0/-1/false",

@@ -51,7 +51,6 @@ internal sealed class NpcCheckForNewCurrentDialoguePatcher : HarmonyPatcher
                 __instance.CurrentDialogue.Clear();
                 __instance.CurrentDialogue.Push(new Dialogue(I18n.Dialogue_Clint_Blueprint_Done(), __instance));
                 player.completeQuest((int)QuestId.ForgeIntro);
-                //player.questLog.Remove((StardewValley.Quests.Quest?)null); // fix for removed 144702 quest
                 player.mailReceived.Add("clintForge");
                 player.Write(DataKeys.DaysLeftTranslating, null);
                 __result = true;

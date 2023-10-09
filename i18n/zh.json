@@ -256,7 +256,7 @@
   "mail.curse.intro": "亲爱的@，我有最紧急的事情，必须见你^请尽早来塔楼见我。^   -M. 拉斯莫迪斯，巫师[#]Ruined Hero",
   "mail.curse.intro.witch": "亲爱的@，我有最紧急的事情，必须见你^请尽早来塔楼见我。^   -M. 拉斯莫迪斯，巫师[#]Ruined Hero",
 
-  "quests.forge.intro": "Basic/矮人的遗产/克林特告诉你，他会在几天内完成旧蓝图的破解。/向克林特询问蓝图的事。/Blacksmith/144702/0/-1/false",
+  "quests.forge.intro": "Basic/矮人的遗产/克林特告诉你，他会在几天内完成旧蓝图的破解。/向克林特询问蓝图的事。/Blacksmith/-1/0/-1/false",
   "quests.forge.next": "Basic/矮人的遗产 II/那张古老的蓝图，竟然是一件强大的古代武器的配方！会不会还有其它的？/查找剩下的矮人蓝图./null/-1/0/-1/false",
   "quests.hero.intro": "Basic/堕落的英雄之刃/你找到的武器带有堕落英雄的诅咒！你已经可以感觉到它消耗了你的生命能量。最好找到一些方法来解除诅咒，而且要快！/想办法解除堕落之刃的诅咒./null/-1/0/-1/false",
   "quests.hero.reward": "Basic/英雄的奖励/你了解到，受到由巴青睐的英雄会得到他的保护，免受邪恶的侵害。要请求由巴的青睐，你必须证明自己具备五种英雄的美德./将堕落之刃带去由巴的祭坛./null/-1/0/-1/false",

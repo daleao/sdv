@@ -1,5 +1,11 @@
 ﻿# PRFS Changelog
 
+## 3.1.8
+
+### Changed
+
+* Improved README.md UX using `<details>` tags and colored emojis.
+
 ## 3.1.5
 
 ### Changed

@@ -456,7 +456,7 @@ This mod includes the following popular control-related features, often featured
 </details>
 
 <details>
-<summary> 🟥 <b><font color="red">The following mods are not compatible:</font></b> 🟥 </summary>
+<summary> 🟥 <b><font color="red">The following mods are NOT compatible:</font></b> 🟥 </summary>
 
 - While the Infinity Slingshot will appear in [CJB Item Spawner][mod:cjb-spawner], it will be incorrectly classified as a Melee Weapon and will be unusable if spawned in this way. This is due to CJB not recognizing non-vanilla slingshots. This likely will be fixed in game version 1.6.
 - **Not** compatible with the likes of [Combat Controls][mod:combat-controls] or [Combat Controls Redux][mod:combat-controls-redux], as those features are already included in this and other modules.

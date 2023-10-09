@@ -11,6 +11,7 @@ using DaLion.Shared.Harmony;
 using HarmonyLib;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Shared.Extensions.Collections;
 using StardewValley.Menus;
 
 #endregion using directives
@@ -94,7 +95,7 @@ internal sealed class InventoryMenuDrawPatcher : HarmonyPatcher
 
     private static void DrawSelector(int k, InventoryMenu instance, SpriteBatch b)
     {
-        if (CombatModule.State.AutoSelectableMelee is null && CombatModule.State.AutoSelectableRanged is null)
+        if ((CombatModule.State.AutoSelectableMelee is null && CombatModule.State.AutoSelectableRanged is null) || !instance.inventory.IsIndexInBounds(k))
         {
             return;
         }

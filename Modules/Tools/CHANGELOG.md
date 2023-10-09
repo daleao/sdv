@@ -1,5 +1,13 @@
 ﻿# TOLS Changelog
 
+## 3.1.8
+
+### Fixed
+
+* Fixed possible out-of-bounds exception in auto-selection draw.
+
+<sup><sup>[🔼 Back to top](#tols-changelog)</sup></sup>
+
 ## 3.1.7
 
 ### Changed

@@ -1,5 +1,13 @@
 ﻿# CMBT Changelog
 
+## 3.1.8
+
+### Fixed
+
+* Fixed possible out-of-bounds exception in auto-selection draw.
+
+<sup><sup>[🔼 Back to top](#cmbt-changelog)</sup></sup>
+
 ## 3.1.7
 
 ### Added

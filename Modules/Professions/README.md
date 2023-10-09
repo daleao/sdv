@@ -496,7 +496,7 @@ Note that, though all combat professions can be acquired via skill reset, only o
 <ul>
 
 <details>
-<summary><img src="./resources/assets/sprites/loose/undyingrage.png"/> <b>Undying Frenzy (Brute / Amazon)</b> - Doubles rage accumulation for 15s. Immune to passing out. When the effect ends, recovers 5% health for every enemy slain while the buff was active.
+<summary><img src="./resources/assets/sprites/loose/undyingrage.png"/> <b>Undying Frenzy (Brute / Amazon)</b> - For 15s, gain double rage accumulation and become immune to passing out. When the effect ends, recover 5% health for every enemy slain while the buff was active.
 </summary>
 
 <ul>
@@ -520,7 +520,7 @@ Charged by scoring critical hits, and the charge amount is proportional to crit.
 </details>
 
 <details>
-<summary><img src="./resources/assets/sprites/loose/bullettime.png"/> <b>Death Blossom (Desperado)</b> - For 15s enable auto-fire in eight directions at once.
+<summary><img src="./resources/assets/sprites/loose/bullettime.png"/> <b>Death Blossom (Desperado)</b> - For 15s, enable auto-fire and all shots fire in eight directions at once at no additional cost.
 </summary>
 
 <ul>
@@ -533,7 +533,7 @@ Charged by scoring critical hits, and the charge amount is proportional to crit.
 </details>
 
 <details>
-<summary><img src="./resources/assets/sprites/loose/superfluidity.png"/> <b>Hamelin Concerto (Slimed Piper / Enchantress)</b> - Charm nearby Slimes for 30s. Charmed Slimes grow in size and power and seek out other enemies, tanking and stealing their aggro.
+<summary><img src="./resources/assets/sprites/loose/superfluidity.png"/> <b>Hamelin Concerto (Slimed Piper / Enchantress)</b> - Charm nearby Slimes for 30s. Charmed Slimes become enlarged and empowered, and seek out other enemies, tanking and stealing their aggro.
 </summary>
 
 <ul>
@@ -590,7 +590,7 @@ After all possible skills have had their level cap raised, the Statue of Prestig
 </details>
 
 <details>
-<summary> 🟥 <b><font color="red">The following mods are not compatible:</font></b> 🟥 </summary>
+<summary> 🟥 <b><font color="red">The following mods are NOT compatible:</font></b> 🟥 </summary>
 
 - Any mods that change vanilla skills.
 - [Better Crab Pots][mod:better-crab-pots], [Crab Pot Loot Has Quality And Bait Effects][mod:crab-pot-loot] or any mod that affects Crab Pot behavior.
@@ -638,12 +638,8 @@ Obviously not.
 <details>
 <summary><b>What do Legendary Fish produce in Fish Ponds? How long do they take to multiply?</b></summary>
 
-They will obey whatever is set for them in the [FishPondData][wiki:fishponddata] file.  
-By default they don't multiply, have no quests, and only produce Roe.  
-This can be changed to whatever you like by using Content Patcher to target FishPondData.  
-An example file is offered under the Optional downloads as a template for this.  
-It adds several valuable items to the possible produce list of each Legendary Fish, but doesn't change their spawn time or population quests.  
-You may customize this file to achieve your preferred behavior.
+They will produce lore-appropriate items.
+With the exception of Angler when placed together with Ms. Angler (requires [PNDS](../Ponds)), they do not reproduce.
 </details>
 
 <sup><sup>[🔼 Back to top](#margo--professions-profs)</sup></sup>

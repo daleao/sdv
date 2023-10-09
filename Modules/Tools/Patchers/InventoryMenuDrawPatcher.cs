@@ -5,6 +5,7 @@
 using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
+using DaLion.Shared.Extensions.Collections;
 using DaLion.Shared.Extensions.Reflection;
 using DaLion.Shared.Extensions.Stardew;
 using DaLion.Shared.Harmony;
@@ -94,7 +95,7 @@ internal sealed class InventoryMenuDrawPatcher : HarmonyPatcher
 
     private static void DrawSelector(int k, InventoryMenu instance, SpriteBatch b)
     {
-        if (ToolsModule.State.SelectableToolByType.Count == 0)
+        if (ToolsModule.State.SelectableToolByType.Count == 0 || !instance.inventory.IsIndexInBounds(k))
         {
             return;
         }

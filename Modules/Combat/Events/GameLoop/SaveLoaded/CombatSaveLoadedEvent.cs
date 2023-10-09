@@ -7,6 +7,7 @@ using DaLion.Overhaul.Modules.Combat.Events.GameLoop.DayStarted;
 using DaLion.Overhaul.Modules.Combat.Extensions;
 using DaLion.Shared.Constants;
 using DaLion.Shared.Events;
+using DaLion.Shared.Extensions.Collections;
 using DaLion.Shared.Extensions.SMAPI;
 using DaLion.Shared.Extensions.Stardew;
 using StardewModdingAPI.Events;
@@ -99,7 +100,7 @@ internal sealed class CombatSaveLoadedEvent : SaveLoadedEvent
 
         // load auto-selections
         var index = player.Read(DataKeys.SelectableMelee, -1);
-        if (index > 0 && index < player.Items.Count)
+        if (player.Items.IsIndexInBounds(index))
         {
             var item = player.Items[index];
             if (item is MeleeWeapon weapon && !weapon.isScythe())
@@ -109,7 +110,7 @@ internal sealed class CombatSaveLoadedEvent : SaveLoadedEvent
         }
 
         index = player.Read(DataKeys.SelectableRanged, -1);
-        if (index > 0 && index < player.Items.Count)
+        if (player.Items.IsIndexInBounds(index))
         {
             var item = player.Items[index];
             if (item is Slingshot slingshot)
