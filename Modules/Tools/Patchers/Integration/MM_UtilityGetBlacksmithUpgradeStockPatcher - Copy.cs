@@ -4,8 +4,10 @@
 
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
-using System.Linq;
+using System.Reflection;
+using System.Reflection.Emit;
 using DaLion.Shared.Attributes;
+using DaLion.Shared.Extensions.Reflection;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
 
@@ -14,33 +16,50 @@ using HarmonyLib;
 [UsedImplicitly]
 [ModRequirement("spacechase0.MoonMisadventures", "Moon Misadventure")]
 [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1649:File name should match first type name", Justification = "Integration patch specifies the mod in file name but not class to avoid breaking pattern.")]
-internal sealed class GetBlacksmithUpgradeStockPatcher : HarmonyPatcher
+internal sealed class ModOnMenuChangedPatcher : HarmonyPatcher
 {
-    /// <summary>Initializes a new instance of the <see cref="GetBlacksmithUpgradeStockPatcher"/> class.</summary>
-    internal GetBlacksmithUpgradeStockPatcher()
+    /// <summary>Initializes a new instance of the <see cref="ModOnMenuChangedPatcher"/> class.</summary>
+    internal ModOnMenuChangedPatcher()
     {
-        this.Target = this.RequireMethod<Utility>(nameof(Utility.getBlacksmithUpgradeStock));
+        this.Target = "MoonMisadventures.Mod".ToType().RequireMethod("OnMenuChanged");
     }
 
     #region harmony patches
 
     /// <summary>Prevents Radioactive upgrades at Clint's.</summary>
-    [HarmonyPostfix]
-    private static void UtilityGetShopStockPostfix(object __instance, Dictionary<ISalable, int[]> __result)
+    [HarmonyTranspiler]
+    private static IEnumerable<CodeInstruction>? ModOnMenuChangedTranspiler(IEnumerable<CodeInstruction> instructions, MethodBase original)
     {
-        if (!ToolsModule.Config.EnableForgeUpgrading)
+        var helper = new ILHelper(original, instructions);
+
+        try
         {
-            return;
+            helper
+                .Match(new[] { new CodeInstruction(OpCodes.Brfalse) })
+                .GetOperand(out var skipShopMenu)
+                .GoTo(0)
+                .Insert(
+                    new[]
+                    {
+                        new CodeInstruction(
+                            OpCodes.Call,
+                            typeof(ModEntry).RequirePropertyGetter(nameof(ModEntry.Config))),
+                        new CodeInstruction(
+                            OpCodes.Callvirt,
+                            typeof(ModConfig).RequirePropertyGetter(nameof(ModConfig.Tools))),
+                        new CodeInstruction(
+                            OpCodes.Callvirt,
+                            typeof(Config).RequirePropertyGetter(nameof(Config.EnableForgeUpgrading))),
+                        new CodeInstruction(OpCodes.Brtrue, skipShopMenu),
+                    });
+        }
+        catch (Exception ex)
+        {
+            Log.E($"Failed to remove Moon mod tool upgrades from Clint.\nHelper returned {ex}");
+            return null;
         }
 
-        for (var i = __result.Count - 1; i >= 0; i--)
-        {
-            var salable = __result.ElementAt(i).Key;
-            if (salable is Tool { UpgradeLevel: >4 })
-            {
-                __result.Remove(salable);
-            }
-        }
+        return helper.Flush();
     }
 
     #endregion harmony patches

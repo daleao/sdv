@@ -1,0 +1,461 @@
+{
+  "Type": "Bow",
+  "Name": "Iridium Bow",
+  "DisplayName": "Weapon.Name.IridiumBow",
+  "Description": "Weapon.Description.IridiumBow",
+
+  // Determines where to locate the icon sprite on weapon.png and how to display it to the player
+  "Icon": {
+    "Source": {
+      "X": 32,
+      "Y": 0,
+      "Width": 32,
+      "Height": 32
+    },
+    "Offset": {
+      "X": -20,
+      "Y": -24
+    },
+
+    "Scale": 2.5
+  },
+
+  // Determines the min and max base damage (before account for any additive arrow damage)
+  "DamageRange": {
+    "Min": 60,
+    "Max": 100
+  },
+  
+  "Knockback": 0.45,
+
+  // How fast the projectile flies after being fired
+  "ProjectileSpeed": 18.5,
+
+  // The time (in milliseconds) for the bow to fully charge
+  "ChargeTimeRequiredMilliseconds": 275,
+
+  // The special attack to use upon right-clicking
+  "SpecialAttack": {
+    "Id": "PeacefulEnd.Archery/Snipe"
+  },
+
+  // Optional, but when specified allows for the player to create this weapon if they have the requirements
+  "Recipe": {
+    // This unlock condition uses GameStateQuery to only show the recipe if the player has learned it
+    "UnlockCondition": "PLAYER_HAS_CRAFTING_RECIPE Current PeacefulEnd.Archery.StarterPack/Bow/Iridium Bow",
+    "Ingredients": [
+      {
+        "Id": 337,
+        "Amount": 2
+      },
+      {
+        "Id": 709,
+        "Amount": 5
+      },
+      {
+        "Id": 440,
+        "Amount": 2
+      }
+    ],
+
+    // The shop that the recipe will be available at
+    "Shop": {
+      "Owner": "Marlon",
+
+      // Using the value -1 tells the framework to use an infinite stock
+      "Stock": -1,
+      "Price": 10000,
+
+      "UnlockCondition": "PLAYER_HAS_FLAG Current galaxySword, !PLAYER_HAS_CRAFTING_RECIPE Current PeacefulEnd.Archery.StarterPack/Bow/Iridium Bow"
+    }
+  },
+
+  // The shop that the weapon will be available at
+  "Shop": {
+    "Owner": "Marlon",
+
+    // Using the value -1 tells the framework to use an infinite stock
+    "Stock": -1,
+    "Price": 50000,
+
+    "UnlockCondition": "PLAYER_HAS_FLAG Current galaxySword"
+  },
+
+  // The following determines what bow and arm sprites to draw based on the direction and other given conditions
+  "DirectionalSprites": {
+    // Start of upward facing sprites
+    "Up": [
+      {
+        "Source": {
+          "X": 64,
+          "Y": 32,
+          "Width": 16,
+          "Height": 32
+        },
+        "Conditions": [
+          {
+            "Name": "CurrentChargingPercentage",
+            "Operator": "LessThan",
+            "Value": 0.5
+          }
+        ],
+
+        "Arms": [
+          {
+            "Type": "Back",
+            "Source": {
+              "X": 64,
+              "Y": 0,
+              "Width": 16,
+              "Height": 32
+            }
+          },
+          {
+            "Type": "Front",
+            "Source": {
+              "X": 0,
+              "Y": 32,
+              "Width": 16,
+              "Height": 32
+            }
+          }
+        ]
+      },
+      {
+        "Source": {
+          "X": 64,
+          "Y": 32,
+          "Width": 16,
+          "Height": 32
+        },
+        "Conditions": [
+          {
+            "Name": "CurrentChargingPercentage",
+            "Operator": "LessThan",
+            "Value": 0.8
+          },
+          {
+            "Name": "CurrentChargingPercentage",
+            "Operator": "GreaterThanOrEqualTo",
+            "Value": 0.5
+          }
+        ],
+
+        "Arms": [
+          {
+            "Type": "Back",
+            "Source": {
+              "X": 80,
+              "Y": 0,
+              "Width": 16,
+              "Height": 32
+            }
+          },
+          {
+            "Type": "Front",
+            "Source": {
+              "X": 0,
+              "Y": 32,
+              "Width": 16,
+              "Height": 32
+            }
+          }
+        ]
+      },
+      {
+        "Source": {
+          "X": 64,
+          "Y": 32,
+          "Width": 16,
+          "Height": 32
+        },
+        "Conditions": [
+          {
+            "Name": "CurrentChargingPercentage",
+            "Operator": "GreaterThanOrEqualTo",
+            "Value": 0.8
+          }
+        ],
+
+        "Arms": [
+          {
+            "Type": "Back",
+            "Source": {
+              "X": 96,
+              "Y": 0,
+              "Width": 16,
+              "Height": 32
+            }
+          },
+          {
+            "Type": "Front",
+            "Source": {
+              "X": 0,
+              "Y": 32,
+              "Width": 16,
+              "Height": 32
+            }
+          }
+        ]
+      }
+    ],
+
+    // Start of downward facing sprites
+    "Down": [
+      {
+        "Source": {
+          "X": 0,
+          "Y": 32,
+          "Width": 16,
+          "Height": 32
+        },
+        "Conditions": [
+          {
+            "Name": "CurrentChargingPercentage",
+            "Operator": "LessThan",
+            "Value": 0.5
+          }
+        ],
+
+        "Arms": [
+          {
+            "Type": "Back",
+            "Source": {
+              "X": 0,
+              "Y": 0,
+              "Width": 16,
+              "Height": 32
+            }
+          },
+          {
+            "Type": "Front",
+            "Source": {
+              "X": 0,
+              "Y": 32,
+              "Width": 16,
+              "Height": 32
+            }
+          }
+        ]
+      },
+      {
+        "Source": {
+          "X": 0,
+          "Y": 32,
+          "Width": 16,
+          "Height": 32
+        },
+        "Conditions": [
+          {
+            "Name": "CurrentChargingPercentage",
+            "Operator": "LessThan",
+            "Value": 0.8
+          },
+          {
+            "Name": "CurrentChargingPercentage",
+            "Operator": "GreaterThanOrEqualTo",
+            "Value": 0.5
+          }
+        ],
+
+        "Arms": [
+          {
+            "Type": "Back",
+            "Source": {
+              "X": 16,
+              "Y": 0,
+              "Width": 16,
+              "Height": 32
+            }
+          },
+          {
+            "Type": "Front",
+            "Source": {
+              "X": 0,
+              "Y": 32,
+              "Width": 16,
+              "Height": 32
+            }
+          }
+        ]
+      },
+      {
+        "Source": {
+          "X": 0,
+          "Y": 32,
+          "Width": 16,
+          "Height": 32
+        },
+        "Conditions": [
+          {
+            "Name": "CurrentChargingPercentage",
+            "Operator": "GreaterThanOrEqualTo",
+            "Value": 0.8
+          }
+        ],
+
+        "Arms": [
+          {
+            "Type": "Back",
+            "Source": {
+              "X": 32,
+              "Y": 0,
+              "Width": 16,
+              "Height": 32
+            }
+          },
+          {
+            "Type": "Front",
+            "Source": {
+              "X": 0,
+              "Y": 32,
+              "Width": 16,
+              "Height": 32
+            }
+          }
+        ]
+      }
+    ],
+
+    // Start of left and right sprites
+    "Sideways": [
+      {
+        "AmmoOffset": {
+          "X": 0,
+          "Y": 0
+        },
+        "Source": {
+          "X": 16,
+          "Y": 32,
+          "Width": 16,
+          "Height": 32
+        },
+        "Offset": {
+          "X": 4,
+          "Y": 0
+        },
+        "Conditions": [
+          {
+            "Name": "CurrentChargingPercentage",
+            "Operator": "LessThan",
+            "Value": 0.5
+          }
+        ],
+
+        "Arms": [
+          {
+            "Type": "Back",
+            "Source": {
+              "X": 48,
+              "Y": 32,
+              "Width": 16,
+              "Height": 32
+            }
+          },
+          {
+            "Type": "Front",
+            "Source": {
+              "X": 64,
+              "Y": 32,
+              "Width": 16,
+              "Height": 32
+            }
+          }
+        ]
+      },
+      {
+        "AmmoOffset": {
+          "X": -1,
+          "Y": 0
+        },
+        "Source": {
+          "X": 32,
+          "Y": 32,
+          "Width": 16,
+          "Height": 32
+        },
+        "Offset": {
+          "X": 4,
+          "Y": 0
+        },
+        "Conditions": [
+          {
+            "Name": "CurrentChargingPercentage",
+            "Operator": "LessThan",
+            "Value": 0.8
+          },
+          {
+            "Name": "CurrentChargingPercentage",
+            "Operator": "GreaterThanOrEqualTo",
+            "Value": 0.5
+          }
+        ],
+
+        "Arms": [
+          {
+            "Type": "Back",
+            "Source": {
+              "X": 48,
+              "Y": 32,
+              "Width": 16,
+              "Height": 32
+            }
+          },
+          {
+            "Type": "Front",
+            "Source": {
+              "X": 80,
+              "Y": 32,
+              "Width": 16,
+              "Height": 32
+            }
+          }
+        ]
+      },
+      {
+        "AmmoOffset": {
+          "X": -2,
+          "Y": 0
+        },
+        "Source": {
+          "X": 48,
+          "Y": 32,
+          "Width": 16,
+          "Height": 32
+        },
+        "Offset": {
+          "X": 4,
+          "Y": 0
+        },
+        "Conditions": [
+          {
+            "Name": "CurrentChargingPercentage",
+            "Operator": "GreaterThanOrEqualTo",
+            "Value": 0.8
+          }
+        ],
+
+        "Arms": [
+          {
+            "Type": "Back",
+            "Source": {
+              "X": 48,
+              "Y": 32,
+              "Width": 16,
+              "Height": 32
+            }
+          },
+          {
+            "Type": "Front",
+            "Source": {
+              "X": 96,
+              "Y": 32,
+              "Width": 16,
+              "Height": 32
+            }
+          }
+        ]
+      }
+    ]
+  }
+}

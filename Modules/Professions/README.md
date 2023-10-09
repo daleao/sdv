@@ -496,7 +496,7 @@ Note that, though all combat professions can be acquired via skill reset, only o
 <ul>
 
 <details>
-<summary><img src="./resources/assets/sprites/loose/undyingrage.png"/> <b>Undying Frenzy (Brute / Amazon)</b> - For 15s, gain double rage accumulation and become immune to passing out. When the effect ends, recover 5% health for every enemy slain while the buff was active.
+<summary><img src="./resources/assets/sprites/loose/undyingrage.png"/> <b>Undying Frenzy (Brute / Amazon)</b> - For 15s, gain double rage accumulation and become immune to passing out. When the effect ends, recover 5% health for every enemy slain during the frenzy.
 </summary>
 
 <ul>
@@ -520,7 +520,7 @@ Charged by scoring critical hits, and the charge amount is proportional to crit.
 </details>
 
 <details>
-<summary><img src="./resources/assets/sprites/loose/bullettime.png"/> <b>Death Blossom (Desperado)</b> - For 15s, enable auto-fire and all shots fire in eight directions at once at no additional cost.
+<summary><img src="./resources/assets/sprites/loose/bullettime.png"/> <b>Death Blossom (Desperado)</b> - For 15s, enable auto-fire and all shots fire in eight directions at once at no additional ammo cost.
 </summary>
 
 <ul>
@@ -619,13 +619,14 @@ Yes.
 <details>
 <summary><b>Can Luremaster and Conservationist work together?</b></summary>
 
-Yes. Otherwise the whole Prestige thing wouldn't make any sense.  
+Yes. Otherwise the whole Prestige thing wouldn't make any sense.
+Luremaster applies only to Crab Pots with bait, whereas Conservationist applies only to Crab Pots without.
 </details>
 
 <details>
 <summary><b>Can I obtain all prestige professions simultaneously?</b></summary>
 
-No, sorry. Making tough choices is part of this mod's design.  
+No, sorry. Making tough choices is part of this mod's design.
 You can cheat them in with console commands if you really want (`profs add -p all`).  
 </details>
 
@@ -638,7 +639,7 @@ Obviously not.
 <details>
 <summary><b>What do Legendary Fish produce in Fish Ponds? How long do they take to multiply?</b></summary>
 
-They will produce lore-appropriate items.
+They will produce ores, gems and other valuables fitting to the fish's theme, as well as, obviously, roe.
 With the exception of Angler when placed together with Ms. Angler (requires [PNDS](../Ponds)), they do not reproduce.
 </details>
 

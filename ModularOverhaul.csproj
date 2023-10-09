@@ -86,7 +86,7 @@
   <!-- mod dependencies -->
   <ItemGroup>
     <Reference Include="SpaceCore">
-      <HintPath>dependencies\SpaceCore.dll</HintPath>
+      <HintPath>depend\SpaceCore.dll</HintPath>
       <Private>false</Private>
     </Reference>
     <!--<Reference Include="GenericModConfigMenu">
@@ -112,11 +112,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Remove="dependencies\**" />
-    <EmbeddedResource Remove="dependencies\**" />
-    <None Remove="dependencies\**" />
+    <Compile Remove="depend\**" />
+    <EmbeddedResource Remove="depend\**" />
+    <None Remove="depend\**" />
   </ItemGroup>
-
   
   <!-- global usings directives -->
   <ItemGroup>

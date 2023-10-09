@@ -2,10 +2,11 @@
 
 This file contains a TL;DR of current version changes and hotfixes from across all modules. For the complete changelog, please refer to the individual changelogs of each module, linked [below](#detailed-changelogs).
 
-## Patch 3.1.8 Highlights
+## Hotfix 3.1.8 Highlights
 
-* [CMBT + TOLS]: Fixed possible out-of-bounds exception in auto-selection draw.
 * [PROFS + CMBT]: Improved README.md UX using `<details>` tags and colored emojis.
+* [CMBT + TOLS]: Hotfix for out-of-bounds exception in auto-selection draw. Default color changed from Magenta to Aqua.
+* [TOLS]: Radioactive and Mythicite upgrades will no longer be available at Clint's shop with Moon Misadventures if Forge Upgrading option is enabled.
 
 ## Patch 3.1.7 Highlights
 

@@ -67,7 +67,7 @@ public sealed class Config : Shared.Configs.Config
 
     /// <summary>Gets the <see cref="Color"/> used to indicate tools enabled or auto-selection.</summary>
     [JsonProperty]
-    public Color SelectionBorderColor { get; internal set; } = Color.Magenta;
+    public Color SelectionBorderColor { get; internal set; } = Color.Aqua;
 
     /// <summary>Gets a value indicating whether to color the title text of upgraded tools.</summary>
     [JsonProperty]

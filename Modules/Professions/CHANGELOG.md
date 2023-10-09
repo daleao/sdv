@@ -6,6 +6,8 @@
 
 * Improved README.md UX using `<details>` tags and colored emojis.
 
+<sup><sup>[🔼 Back to top](#profs-changelog)</sup></sup>
+
 ## 3.1.5
 
 ### Changed

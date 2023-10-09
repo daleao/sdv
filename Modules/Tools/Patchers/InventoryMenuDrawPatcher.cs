@@ -95,13 +95,13 @@ internal sealed class InventoryMenuDrawPatcher : HarmonyPatcher
 
     private static void DrawSelector(int k, InventoryMenu instance, SpriteBatch b)
     {
-        if (ToolsModule.State.SelectableToolByType.Count == 0 || !instance.inventory.IsIndexInBounds(k))
+        if (!instance.playerInventory || ToolsModule.State.SelectableToolByType.Count == 0)
         {
             return;
         }
 
         var component = instance.inventory[k];
-        if (Game1.player.Items[k] is Tool tool &&
+        if (instance.actualInventory[k] is Tool tool &&
             ToolsModule.State.SelectableToolByType.TryGetValue(tool.GetType(), out var selectable) &&
             selectable?.Tool == tool)
         {

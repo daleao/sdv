@@ -92,6 +92,7 @@ As with any mod, always **delete any previous installation completely** before u
 4. Check whether the issue can be reproduced on a brand new save file. If it cannot, then I will probably ask you to upload your save folder to any file-sharing service of your choice, and share the url.
 5. Upload your entire log to [smapi.io](https://smapi.io/log). There you will also find instructions in case you don't know where to find your log.
     <div align="center"><font color="red"><b>❗ Do NOT copy-paste errors directly from the console window. ❗</b></font></div>
+    <br>
 
 6. Go to the [Issues page](https://github.com/daleao/modular-overhaul/issues) and check whether a similar issue thread already exists. If it does not, then create a new thread. Please include:
     - A descriptive title.
@@ -135,10 +136,20 @@ In order to build this mod you will also need to clone my [Stardew Valley Shared
   </PropertyGroup>
   ```
 
-2. The relative path to Stardew Valley Shared Lib's `Shared.projitems` file:
+2. The relative or full path to Stardew Valley Shared Lib's `Shared.projitems` file:
   ```xml
   <!-- shared projects -->
   <Import Project="..\Shared\Shared.projitems" Label="Shared" Condition="Exists('..\Shared\Shared.projitems')" />
+  ```
+
+3. The relative or full path to a copy of [SpaceCore](https://www.nexusmods.com/stardewvalley/mods/1348)'s .dll.
+  ```xml
+  <!-- mod dependencies -->
+  <ItemGroup>
+    <Reference Include="SpaceCore">
+      <HintPath>depend\SpaceCore.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
   ```
 
 <sub><sup>[🔼 Back to top](#table-of-contents)</sup></sub>

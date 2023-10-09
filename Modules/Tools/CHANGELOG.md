@@ -2,9 +2,14 @@
 
 ## 3.1.8
 
+### Changed
+
+* Default auto-selection border color changed from Magenta to Aqua.
+
 ### Fixed
 
 * Fixed possible out-of-bounds exception in auto-selection draw.
+* Removed Moon Misadventure's tool upgrades from Clint's shop menu, if Forge Upgrading option is enabled.
 
 <sup><sup>[🔼 Back to top](#tols-changelog)</sup></sup>
 

@@ -95,13 +95,14 @@ internal sealed class InventoryMenuDrawPatcher : HarmonyPatcher
 
     private static void DrawSelector(int k, InventoryMenu instance, SpriteBatch b)
     {
-        if ((CombatModule.State.AutoSelectableMelee is null && CombatModule.State.AutoSelectableRanged is null) || !instance.inventory.IsIndexInBounds(k))
+        if (!instance.playerInventory || (CombatModule.State.AutoSelectableMelee is null && CombatModule.State.AutoSelectableRanged is null))
         {
             return;
         }
 
         var component = instance.inventory[k];
-        if (Game1.player.Items[k] is Tool tool && (CombatModule.State.AutoSelectableMelee == tool || CombatModule.State.AutoSelectableRanged == tool))
+        if (instance.actualInventory[k] is Tool tool && (CombatModule.State.AutoSelectableMelee == tool ||
+                                                         CombatModule.State.AutoSelectableRanged == tool))
         {
             component.bounds.DrawBorder(Pixel.Value, CombatModule.Config.SelectionBorderColor, b);
         }
