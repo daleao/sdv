@@ -52,6 +52,10 @@ internal sealed class MineShaftPopulateLevelPatcher : HarmonyPatcher
                             OpCodes.Callvirt,
                             typeof(Config).RequirePropertyGetter(nameof(Config.EnableWeaponOverhaul))),
                         new CodeInstruction(OpCodes.Brfalse_S, dontRebalance),
+                        new CodeInstruction(OpCodes.Ldarg_0),
+                        new CodeInstruction(OpCodes.Call, typeof(MineShaft).RequirePropertyGetter(nameof(MineShaft.mineLevel))),
+                        new CodeInstruction(OpCodes.Ldc_I4_S, 120),
+                        new CodeInstruction(OpCodes.Bgt_S, dontRebalance),
                         new CodeInstruction(OpCodes.Ldc_I4_S, 17),
                         new CodeInstruction(OpCodes.Br_S, resumeExecution),
                     })
@@ -84,6 +88,10 @@ internal sealed class MineShaftPopulateLevelPatcher : HarmonyPatcher
                             OpCodes.Callvirt,
                             typeof(Config).RequirePropertyGetter(nameof(Config.EnableWeaponOverhaul))),
                         new CodeInstruction(OpCodes.Brfalse_S, dontRebalance),
+                        new CodeInstruction(OpCodes.Ldarg_0),
+                        new CodeInstruction(OpCodes.Call, typeof(MineShaft).RequirePropertyGetter(nameof(MineShaft.mineLevel))),
+                        new CodeInstruction(OpCodes.Ldc_I4_S, 120),
+                        new CodeInstruction(OpCodes.Bgt_S, dontRebalance),
                         new CodeInstruction(OpCodes.Ldc_R8, 80.0),
                         new CodeInstruction(OpCodes.Br_S, resumeExecution),
                     })

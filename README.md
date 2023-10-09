@@ -1,6 +1,6 @@
 ﻿<div align="center">
 
-# MARGO - Modular Gameplay Overhaul for Stardew Valley  
+![](resources/headings/title.png) 
 
 A complete and comprehensive rework of Stardew Valley gameplay mechanics, offering a much more engaging and immersive "Vanilla+" experience.
 

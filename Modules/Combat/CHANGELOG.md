@@ -5,6 +5,7 @@
 ### Changed
 
 * Default auto-selection border color changed from Magenta to Aqua.
+* Increased container spawn chance no longer applies in Skull Caverns.
 
 ### Fixed
 
