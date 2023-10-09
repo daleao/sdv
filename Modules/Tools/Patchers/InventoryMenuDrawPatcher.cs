@@ -5,7 +5,6 @@
 using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
-using DaLion.Shared.Extensions.Collections;
 using DaLion.Shared.Extensions.Reflection;
 using DaLion.Shared.Extensions.Stardew;
 using DaLion.Shared.Harmony;
@@ -100,12 +99,11 @@ internal sealed class InventoryMenuDrawPatcher : HarmonyPatcher
             return;
         }
 
-        var component = instance.inventory[k];
         if (instance.actualInventory[k] is Tool tool &&
             ToolsModule.State.SelectableToolByType.TryGetValue(tool.GetType(), out var selectable) &&
             selectable?.Tool == tool)
         {
-            component.bounds.DrawBorder(Pixel.Value, ToolsModule.Config.SelectionBorderColor, b);
+            instance.inventory[k].bounds.DrawBorder(Pixel.Value, ToolsModule.Config.SelectionBorderColor, b);
         }
     }
 

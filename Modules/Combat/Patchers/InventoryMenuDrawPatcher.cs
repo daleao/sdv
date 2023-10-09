@@ -11,7 +11,6 @@ using DaLion.Shared.Harmony;
 using HarmonyLib;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Shared.Extensions.Collections;
 using StardewValley.Menus;
 
 #endregion using directives
@@ -100,11 +99,10 @@ internal sealed class InventoryMenuDrawPatcher : HarmonyPatcher
             return;
         }
 
-        var component = instance.inventory[k];
         if (instance.actualInventory[k] is Tool tool && (CombatModule.State.AutoSelectableMelee == tool ||
                                                          CombatModule.State.AutoSelectableRanged == tool))
         {
-            component.bounds.DrawBorder(Pixel.Value, CombatModule.Config.SelectionBorderColor, b);
+            instance.inventory[k].bounds.DrawBorder(Pixel.Value, CombatModule.Config.SelectionBorderColor, b);
         }
     }
 
