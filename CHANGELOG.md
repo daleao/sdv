@@ -7,6 +7,7 @@ This file contains a TL;DR of current version changes and hotfixes from across a
 * [PROFS + CMBT]: Improved README.md UX using `<details>` tags and colored emojis.
 * [CMBT + TOLS]: Hotfix for out-of-bounds exception in auto-selection draw. Default color changed from Magenta to Aqua.
 * [TOLS]: Radioactive and Mythicite upgrades will no longer be available at Clint's shop with Moon Misadventures if Forge Upgrading option is enabled.
+* Renamed `optionals` folder to `compat`.
 
 ## Patch 3.1.7 Highlights
 
