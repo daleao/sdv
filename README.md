@@ -1,6 +1,8 @@
 ﻿<div align="center">
 
-![](resources/headings/title.png) 
+![](resources/headings/title.png)
+
+![](resources/headings/modular-gameplay-overhaul.png)
 
 A complete and comprehensive rework of Stardew Valley gameplay mechanics, offering a much more engaging and immersive "Vanilla+" experience.
 
