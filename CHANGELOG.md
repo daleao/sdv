@@ -2,6 +2,11 @@
 
 This file contains a TL;DR of current version changes and hotfixes from across all modules. For the complete changelog, please refer to the individual changelogs of each module, linked [below](#detailed-changelogs).
 
+## Patch 3.1.8 Highlights
+
+* [CMBT + TOLS]: Fixed possible out-of-bounds exception in auto-selection draw.
+* [PROFS + CMBT]: Improved README.md UX using `<details>` tags and colored emojis.
+
 ## Patch 3.1.7 Highlights
 
 * [CMBT]: Fixed not taking damage when not holding a weapon or slingshot.

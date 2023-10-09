@@ -70,11 +70,12 @@ All modules should be fully multiplayer and split-screen compatible **if and onl
 </div>
 
 3. Extract the downloaded archive file into your local mods folder.
-4. Download and install any additional optional files as desired. 
+4. Explore the `optionals` folder to find compatibility files that must be manually installed.
 5. Start the game once with SMAPI to generate a config file.
-6. Enable the desired modules in GMCM by pressing Shift+F12 in the title screen, or by manually editing the `config.json` file. I recommend you do this before beginning your playthrough.
+6. Enable the desired modules in GMCM by pressing Shift+F12 in the title screen, or by manually editing the `config.json` file.
 
-Please review the compatibility sections of each specific module in the links above.
+<div align="center"><font color="yellow">⚠ Please review the compatibility sections of each specific module in the links above. ⚠</font></div>
+<br>
 
 As with any mod, always **delete any previous installation completely** before updating. If you'd like to preserve your config settings you can delete everything except the `config.json` file.
 
@@ -85,12 +86,14 @@ As with any mod, always **delete any previous installation completely** before u
 ## Reporting Bugs or Issues
 
 1. Make sure the mod is updated to the latest version. I will not support older versions.
-2. Make sure you can reliably reproduce the issue. Write out the steps to reproduce the issue.
+2. Make sure you can reliably reproduce the issue. **Write out the steps to reproduce the issue.**
 3. Check whether the issue is caused by a mod conflict:
-    - You can do this easily by renaming your mod folder to something else (for example, just add an underscore), creating a new one, and then copying over SpaceCore, MARGO and, optionally, CJB Cheats Menu (to help with quick testing). If the issue can no longer be reproduced in this condition, then gradually copy over your remaining mods in small groups, until you identify the conflicting mod.
+    - You can do this easily by renaming your mod folder to something else (for example, just add an dot, or an underscore), creating a new one, and then copying over SpaceCore, MARGO and, optionally, CJB Cheats Menu + Item Spawner (to help with quick testing). If the issue can no longer be reproduced in this condition, then gradually copy over your remaining mods in small groups, until you identify the conflicting mod. *You can safely ignore any Content Patcher or other framework mods while doing this, as those will never cause conflicts.*
 4. Check whether the issue can be reproduced on a brand new save file. If it cannot, then I will probably ask you to upload your save folder to any file-sharing service of your choice, and share the url.
 5. Upload your entire log to [smapi.io](https://smapi.io/log). There you will also find instructions in case you don't know where to find your log.
-6. Go to the [Issues page](https://github.com/daleao/modular-overhaul/issues) and check whether someone else has already reported the same issue. If not, then create a new thread. Please include:
+    <div align="center"><font color="red"><b>❗ Do NOT copy-paste errors directly from the console window. ❗</b></font></div>
+
+6. Go to the [Issues page](https://github.com/daleao/modular-overhaul/issues) and check whether a similar issue thread already exists. If it does not, then create a new thread. Please include:
     - A descriptive title.
     - As much detail as you can muster. Consider describing not only what happened, but also when and how it happened, and what you expected should happen instead.
     - Your results from steps 2-4 above.
