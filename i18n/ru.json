@@ -291,6 +291,7 @@
   "virtues.recognize.yoba": "Йоба признает вашу Доблесть.",
   "virtues.disapprove.singular": "{{name}} не одобряет отсутствие у вас {{virtue}}.",
   "virtues.disapprove.plural": "{{name1}} и {{name2}} не одобряют отсутствие у вас {{virtue}}.",
+  "virtues.proven": "{{player}} has proven their {{virtue}}.",
 
   // json assets
   "objects.dwarvish_blueprint.name": "Старый дварфийский чертеж",

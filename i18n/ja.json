@@ -291,6 +291,7 @@
   "virtues.recognize.yoba": "Yoba recognizes your Valor.",
   "virtues.disapprove.singular": "{{name}} disapproves of your lack of {{virtue}}.",
   "virtues.disapprove.plural": "{{name1}} and {{name2}} disapprove of your lack of {{virtue}}.",
+  "virtues.proven": "{{player}} has proven their {{virtue}}.",
 
   // json assets
   "objects.dwarvish_blueprint.name": "古びたドワーフの設計図",

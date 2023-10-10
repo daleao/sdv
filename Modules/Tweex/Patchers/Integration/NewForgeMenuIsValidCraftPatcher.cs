@@ -42,6 +42,8 @@ internal sealed class NewForgeMenuIsValidCraftPatcher : HarmonyPatcher
                 right_item.ParentSheetIndex == ObjectIds.GlowRing:
                 __result = true;
                 break;
+            default:
+                return true; // run original logic
         }
 
         return false; // don't run original logic

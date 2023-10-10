@@ -292,6 +292,7 @@
   "virtues.recognize.yoba": "Yoba  reconnaît votre Vaillance.",
   "virtues.disapprove.singular": "{{name}} désapprouve votre manque de {{virtue}}.",
   "virtues.disapprove.plural": "{{name1}} et {{name2}} désapprouvent votre manque de {{virtue}}.",
+  "virtues.proven": "{{player}} has proven their {{virtue}}.",
 
   // json assets
   "objects.dwarvish_blueprint.name": "Ancien plan nain",

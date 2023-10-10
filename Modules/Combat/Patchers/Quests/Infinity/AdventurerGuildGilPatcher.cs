@@ -36,8 +36,8 @@ internal sealed class AdventurerGuildGilPatcher : HarmonyPatcher
 
         player.Increment(DataKeys.NumCompletedSlayerQuests, delta);
         player.Increment(Virtue.Valor.Name, delta);
-        CombatModule.State.HeroQuest?.UpdateTrialProgress(Virtue.Valor);
         Game1.chatBox.addMessage(I18n.Virtues_Recognize_Gil(), Color.Green);
+        CombatModule.State.HeroQuest?.UpdateTrialProgress(Virtue.Valor);
     }
 
     #endregion harmony patches

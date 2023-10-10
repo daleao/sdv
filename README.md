@@ -171,6 +171,8 @@ This project uses the following NuGet packages:
 | [CommunityToolkit.Diagnostics](https://github.com/CommunityToolkit/dotnet) | Microsoft | 8.0.0 |
 | [JetBrains.Annotations](https://www.jetbrains.com/help/resharper/Code_Analysis__Code_Annotations.html) | JetBrains | 2023.2.0 |
 
+It also requires a copy of [SpaceCore](https://www.nexusmods.com/stardewvalley/mods/1348)'s .dll.
+
 <sub><sup>[🔼 Back to top](#table-of-contents)</sup></sub>
 
 ## Credits & Special Thanks

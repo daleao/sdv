@@ -30,6 +30,11 @@ internal sealed class MonsterFindPlayerPatcher : HarmonyPatcher
     [HarmonyPriority(Priority.First)]
     private static bool MonsterFindPlayerPrefix(Monster __instance, ref Farmer? __result)
     {
+        if (Game1.ticks % 10 == 0)
+        {
+            return false; // don't run original logic
+        }
+
         try
         {
             var location = Game1.currentLocation;

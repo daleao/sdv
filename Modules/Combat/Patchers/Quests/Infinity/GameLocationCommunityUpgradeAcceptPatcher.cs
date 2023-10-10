@@ -73,7 +73,7 @@ internal sealed class GameLocationCommunityUpgradeAcceptPatcher : HarmonyPatcher
     {
         Game1.player.Increment(Virtue.Generosity.Name, amount);
         CombatModule.State.HeroQuest?.UpdateTrialProgress(Virtue.Generosity);
-        Game1.chatBox.addMessage(I18n.Virtues_Recognize_Robin(), Color.Green);
+        Game1.showGlobalMessage(I18n.Virtues_Recognize_Robin());
     }
 
     #endregion injected subroutines

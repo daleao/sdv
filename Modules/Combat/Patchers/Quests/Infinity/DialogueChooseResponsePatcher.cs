@@ -154,14 +154,14 @@ internal sealed class DialogueChooseResponsePatcher : HarmonyPatcher
         switch (amount)
         {
             case > 0:
-                Game1.chatBox.addMessage(I18n.Virtues_Appreciate_Singular(__instance.speaker.displayName, virtue.DisplayName), Color.Green);
                 player.Increment(virtue.Name, amount);
+                Game1.chatBox.addMessage(I18n.Virtues_Appreciate_Singular(__instance.speaker.displayName, virtue.DisplayName), Color.Green);
                 CombatModule.State.HeroQuest?.UpdateTrialProgress(virtue);
                 break;
             case < 0:
             {
-                Game1.chatBox.addMessage(I18n.Virtues_Disapprove_Singular(__instance.speaker.displayName, Virtue.Honor.DisplayName), Color.Orange);
                 player.Increment(virtue.Name, amount);
+                Game1.chatBox.addMessage(I18n.Virtues_Disapprove_Singular(__instance.speaker.displayName, Virtue.Honor.DisplayName), Color.Red);
                 if (player.Read<int>(virtue.Name) < 0)
                 {
                     player.Write(virtue.Name, 0.ToString());

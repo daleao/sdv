@@ -113,6 +113,7 @@ internal sealed class EventAnswerDialoguePatcher : HarmonyPatcher
         switch (amount)
         {
             case > 0:
+                player.Increment(virtue.Name, amount);
                 Game1.chatBox.addMessage(
                     __instance.actors.Count > 1
                         ? I18n.Virtues_Appreciate_Plural(
@@ -121,11 +122,11 @@ internal sealed class EventAnswerDialoguePatcher : HarmonyPatcher
                             Virtue.Honor.DisplayName)
                         : I18n.Virtues_Appreciate_Singular(__instance.actors[0].displayName, virtue.DisplayName),
                     Color.Green);
-                player.Increment(virtue.Name, amount);
                 CombatModule.State.HeroQuest?.UpdateTrialProgress(virtue);
                 break;
             case < 0:
             {
+                player.Increment(virtue.Name, amount);
                 Game1.chatBox.addMessage(
                     __instance.actors.Count > 1
                         ? I18n.Virtues_Disapprove_Plural(
@@ -133,8 +134,7 @@ internal sealed class EventAnswerDialoguePatcher : HarmonyPatcher
                             __instance.actors[1].displayName,
                             Virtue.Honor.DisplayName)
                         : I18n.Virtues_Disapprove_Singular(__instance.actors[0].displayName, virtue.DisplayName),
-                    Color.Green);
-                player.Increment(virtue.Name, amount);
+                    Color.Red);
                 if (player.Read<int>(virtue.Name) < 0)
                 {
                     player.Write(virtue.Name, 0.ToString());

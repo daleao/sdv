@@ -292,6 +292,7 @@
   "virtues.recognize.yoba": "Yoba reconoce tu Valentía.",
   "virtues.disapprove.singular": "{{name}} desaprueba tu falta de {{virtue}}.",
   "virtues.disapprove.plural": "{{name1}} y {{name2}} desaprueban tu falta de {{virtue}}.",
+  "virtues.proven": "{{player}} has proven their {{virtue}}.",
 
   // json assets
   "objects.dwarvish_blueprint.name": "Viejo plano enano",

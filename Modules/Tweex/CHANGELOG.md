@@ -1,5 +1,13 @@
 ﻿# TWX Changelog
 
+## 3.1.9
+
+### Fixed
+
+* Fixed not being able to combine any rings with Glowstone Progression enabled.
+
+<sup><sup>[🔼 Back to top](#twx-changelog)</sup></sup>
+
 ## 3.1.7
 
 ### Added

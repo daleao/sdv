@@ -53,7 +53,7 @@ internal sealed class SveWarpedEvent : WarpedEvent
         }
 
         e.Player.Write(Virtue.Valor.Name, int.MaxValue.ToString());
-        CombatModule.State.HeroQuest?.UpdateTrialProgress(Virtue.Valor);
         Game1.chatBox.addMessage(I18n.Virtues_Recognize_Yoba(), Color.Green);
+        CombatModule.State.HeroQuest?.UpdateTrialProgress(Virtue.Valor);
     }
 }

@@ -291,6 +291,7 @@
   "virtues.recognize.yoba": "Yoba erkennt deine Tapferkeit.",
   "virtues.disapprove.singular": "{{name}} missbilligt Ihren Mangel an {{virtue}}.",
   "virtues.disapprove.plural": "{{name1}} und {{name2}} missbilligen Ihren Mangel an {{virtue}}.",
+  "virtues.proven": "{{player}} has proven their {{virtue}}.",
 
   // json assets
   "objects.dwarvish_blueprint.name": "Alter zwergischer Bauplan",

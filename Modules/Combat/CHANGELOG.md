@@ -1,11 +1,22 @@
 ﻿# CMBT Changelog
 
+## 3.1.9
+
+### Changed
+
+* Increased container spawn chance no longer applies in Skull Caverns.
+
+### Fixed
+
+* Virtue Proven message now uses I18n.
+
+<sup><sup>[🔼 Back to top](#cmbt-changelog)</sup></sup>
+
 ## 3.1.8
 
 ### Changed
 
 * Default auto-selection border color changed from Magenta to Aqua.
-* Increased container spawn chance no longer applies in Skull Caverns.
 
 ### Fixed
 

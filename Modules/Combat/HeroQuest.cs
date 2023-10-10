@@ -390,7 +390,7 @@ internal sealed class HeroQuest : IQuest
         if (!silent)
         {
             Game1.playSound("questcomplete");
-            Shared.Networking.Broadcaster.SendPublicChat($"{player.Name} has proven their {virtue}.");
+            Game1.chatBox.addMessage(I18n.Virtues_Proven(player.Name, virtue.DisplayName), Color.Green);
         }
 
         if (this._completed.All(x => x))

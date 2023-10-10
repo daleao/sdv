@@ -11,11 +11,11 @@ using StardewModdingAPI.Events;
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class PiperUpdateTickedEvent : UpdateTickedEvent
+internal sealed class ConcertoUpdateTickedEvent : UpdateTickedEvent
 {
-    /// <summary>Initializes a new instance of the <see cref="PiperUpdateTickedEvent"/> class.</summary>
+    /// <summary>Initializes a new instance of the <see cref="ConcertoUpdateTickedEvent"/> class.</summary>
     /// <param name="manager">The <see cref="EventManager"/> instance that manages this event.</param>
-    internal PiperUpdateTickedEvent(EventManager manager)
+    internal ConcertoUpdateTickedEvent(EventManager manager)
         : base(manager)
     {
     }

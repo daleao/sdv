@@ -52,6 +52,8 @@ internal sealed class ForgeMenuCraftItemPatcher : HarmonyPatcher
                 right_item.ParentSheetIndex == ObjectIds.GlowRing:
                 __result = new Ring(ObjectIds.GlowstoneRing);
                 break;
+            default:
+                return true; // run original logic
         }
 
         return false; // run original logic

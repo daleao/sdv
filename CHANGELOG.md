@@ -2,7 +2,12 @@
 
 This file contains a TL;DR of current version changes and hotfixes from across all modules. For the complete changelog, please refer to the individual changelogs of each module, linked [below](#detailed-changelogs).
 
-## Hotfix 3.1.8 Highlights
+## Patch 3.1.9 Highlights
+
+* [CMBT]: Increased container spawn chance no longer applies in Skull Caverns.
+* [TWX]: Fixed not being able to combine any rings with Glowstone Progression enabled.
+
+## Patch 3.1.8 Highlights
 
 * [PROFS + CMBT]: Improved README.md UX using `<details>` tags and colored emojis.
 * [CMBT + TOLS]: Hotfix for out-of-bounds exception in auto-selection draw. Default color changed from Magenta to Aqua.
