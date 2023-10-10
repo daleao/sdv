@@ -9,9 +9,11 @@
 This module is inspired by the tool progression system of old Harvest Moon: Friends of Mineral Town, where the Axe and Hammer tools were also chargeable, and their ultimate upgrades could destroy all debris on-screen.
 It allows the Axe and Pickaxe to be charged, similarly to the Hoe and Watering Can. Charging will expend more stamina to affect all tiles in a radius around the target. The affected area is similar to a bomb, and by default the radius will grow by 1 tile with each charge level.
 
+<div algin="center">
 <figure align="center" width="9999" id="fig1">
   <img src="cover.gif" align="center" height="auto" width="80%" alt="Logo">
 </figure>
+</div>
 
 ## Configs
 
