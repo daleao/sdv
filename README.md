@@ -181,10 +181,10 @@ For those interested, [this is my curated modlist](https://smapi.io/log/602c07fe
 
 - **Immersion** and **Consistency** above anything.
 - **Aesthetic:** [Gwen's Medieval Valley](https://www.nexusmods.com/stardewvalley/users/51171631?tab=user+files) combined with the criminally underated [Wittily recolor](https://www.nexusmods.com/stardewvalley/mods/2995), and topped with [Vintage UI](https://www.nexusmods.com/stardewvalley/mods/4697). Portraits are vanilla-style with [stanloona420's revised mods](https://www.nexusmods.com/stardewvalley/users/71935143?tab=user+files).
-- **Expansions:** [SVE](https://www.nexusmods.com/stardewvalley/mods/3753) only, to keep things manageable and consistent. [Aquarium](https://www.nexusmods.com/stardewvalley/mods/6372) for a little more longevity.
+- **Expansions:** [SVE](https://www.nexusmods.com/stardewvalley/mods/3753) only, to keep things manageable and consistent. [Aquarium](https://www.nexusmods.com/stardewvalley/mods/6372) for a bit more longevity.
 - **New Items:** Mostly PPJA, with a few interesting additions.
 
-Please note that many of these mods have been heavily customized, including typo fixes, harmonized textures and even map edits.
+Please note that many of these mods have been heavily customized, including typo fixes, harmonized textures and even map edits. The most heavily edited mods are versioned with the suffix `-DaLion`, but not all do. These mods I would simply not recommend in their original state due to either lack of polish or consistency with the rest of the list. Make sure to test every mod before committing to your mod list.
 
 ## Credits & Special Thanks
 

@@ -259,8 +259,8 @@
   "locations.SeedShop.Yoba": "\"La bendición de Yoba, verdaderos héroes fortalecerá. En Generosidad y Compasión, virtudes han de abrazar. Con Honor, Valor, Sabiduría, su espíritu enaltecerá. Una profecía se despliega, bajo la atenta mirada de Yoba.\"",
   "locations.desert.noiridium": "Sientes que el fragmento prismático vibra...#Pero no pasa nada.#Se siente como si faltara algo.",
 
-  "mail.curse.intro": "Caro @, Debo verte por un asunto de suma urgencia.^Por favor, ven a verme a la torre lo antes posible.^ -M. Rasmodius, mago[#]Ruined Hero",
-  "mail.curse.intro.witch": "Caro @, Debo verte por un asunto de suma urgencia.^Por favor, ven a verme a la torre lo antes posible.^ -M. Rasmodius, bruja[#]Ruined Hero",
+  "mail.curse.intro": "[letterbg 2]Caro @,^Debo verte por un asunto de suma urgencia.^Por favor, ven a verme a la torre lo antes posible.^ -M. Rasmodius, mago[#]Viego Curse",
+  "mail.curse.intro.witch": "[letterbg 2]Caro @,^Debo verte por un asunto de suma urgencia.^Por favor, ven a verme a la torre lo antes posible.^ -M. Rasmodius, bruja[#]Viego Curse",
 
   "quests.forge.intro": "Basic/Un legado enano/Clint te dijo que terminaría de traducir ese viejo plano en un par de días./Visita a Clint para preguntar sobre el plano./Blacksmith/-1/0/-1/false",
   "quests.forge.next": "Basic/Un legado enano II/Ese viejo plano resultó ser una receta para una poderosa arma antigua! Podría haber otros?/Encuentra los planos enanos restantes./null/-1/0/-1/false",

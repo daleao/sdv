@@ -259,8 +259,8 @@
   "locations.SeedShop.Yoba": "\"La bénédiction de Yoba, les vrais héros la fortifiera. Dans la Générosité et la Compassion, vertus à pratiquer. Avec Honneur, Valeur, Sagesse, leurs esprits amplifiera. Une prophétie se dévoile, sous l'œil vigilant de Yoba.\"",
   "locations.desert.noiridium": "Vous sentez l'éclat prismatique vibrer...#Mais rien ne se passe.#On dirait qu'il manque quelque chose.",
 
-  "mail.curse.intro": "Cher @, Je dois vous voir pour une question de la plus haute urgence.^Veuillez venir me voir à la tour dès que possible.^ -M. Rasmodius, Sorcier[#]Ruined Hero",
-  "mail.curse.intro.witch": "Cher @, Je dois vous voir pour une question de la plus haute urgence.^Veuillez venir me voir à la tour dès que possible.^ -M. Rasmodius, Sorcière[#]Ruined Hero",
+  "mail.curse.intro": "[letterbg 2]Cher @,^Je dois vous voir pour une question de la plus haute urgence.^Veuillez venir me voir à la tour dès que possible.^ -M. Rasmodius, Sorcier[#]Viego Curse",
+  "mail.curse.intro.witch": "[letterbg 2]Cher @,^Je dois vous voir pour une question de la plus haute urgence.^Veuillez venir me voir à la tour dès que possible.^ -M. Rasmodius, Sorcière[#]Viego Curse",
 
   "quests.forge.intro": "Basic/Un héritage nain/Clint vous a dit qu'il finirait de traduire ce vieux plan dans quelques jours./Rendez visite à Clint pour vous renseigner sur le plan./Blacksmith/-1/0/-1/false",
   "quests.forge.next": "Basic/Un héritage nain II/Ce vieux plan s'est avéré être une recette pour une puissante arme ancienne ! Pourrait-il y en avoir d'autres ?/Trouvez les plans nains restants./null/-1/0/-1/false",

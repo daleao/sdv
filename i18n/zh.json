@@ -259,8 +259,8 @@
   "locations.SeedShop.Yoba": "\"约巴的祝福，真正的英雄将得以强化。在慷慨和同情中，美德应遵循。以荣誉、勇气、智慧，他们的精神将被放大。一则预言展现，约巴的警觉目光下。\"",
   "locations.desert.noiridium": "你感觉到五彩碎片在振动...#但是，无事发生.#似乎缺少些什么材料。",
 
-  "mail.curse.intro": "亲爱的@，我有最紧急的事情，必须见你^请尽早来塔楼见我。^   -M. 拉斯莫迪斯，巫师[#]Ruined Hero",
-  "mail.curse.intro.witch": "亲爱的@，我有最紧急的事情，必须见你^请尽早来塔楼见我。^   -M. 拉斯莫迪斯，巫师[#]Ruined Hero",
+  "mail.curse.intro": "[letterbg 2]亲爱的@，^我有最紧急的事情，必须见你^请尽早来塔楼见我。^   -M. 拉斯莫迪斯，巫师[#]Viego Curse",
+  "mail.curse.intro.witch": "[letterbg 2]亲爱的@，^我有最紧急的事情，必须见你^请尽早来塔楼见我。^   -M. 拉斯莫迪斯，巫师[#]Viego Curse",
 
   "quests.forge.intro": "Basic/矮人的遗产/克林特告诉你，他会在几天内完成旧蓝图的破解。/向克林特询问蓝图的事。/Blacksmith/-1/0/-1/false",
   "quests.forge.next": "Basic/矮人的遗产 II/那张古老的蓝图，竟然是一件强大的古代武器的配方！会不会还有其它的？/查找剩下的矮人蓝图./null/-1/0/-1/false",

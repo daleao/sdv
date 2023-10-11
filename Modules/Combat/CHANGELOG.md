@@ -5,6 +5,7 @@
 ### Changed
 
 * Knockback damage no longer applies to gliders (flying enemies).
+* Wizard's summon letter for Blade of Ruin now uses Wizard's custom letter background.
 
 ## 3.1.10
 

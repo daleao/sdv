@@ -152,7 +152,7 @@ internal sealed class CombatAssetRequestedEvent : AssetRequestedEvent
         data["SeedShop_Yoba"] = I18n.Locations_SeedShop_Yoba();
     }
 
-    /// <summary>Patches mail data with mail from the Ferngill Revenue Service.</summary>
+    /// <summary>Patches mail data with Wizard summons.</summary>
     private static void EditMailData(IAssetData asset)
     {
         var data = asset.AsDictionary<string, string>().Data;
