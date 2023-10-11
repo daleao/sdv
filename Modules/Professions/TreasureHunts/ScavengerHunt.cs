@@ -8,6 +8,7 @@ using DaLion.Overhaul.Modules.Combat.Integrations;
 using DaLion.Overhaul.Modules.Core.UI;
 using DaLion.Overhaul.Modules.Professions.Events.Display.RenderedHud;
 using DaLion.Overhaul.Modules.Professions.Events.GameLoop.UpdateTicked;
+using DaLion.Overhaul.Modules.Professions.Events.World.TerrainFeatureListChanged;
 using DaLion.Overhaul.Modules.Professions.Extensions;
 using DaLion.Overhaul.Modules.Professions.VirtualProperties;
 using DaLion.Shared.Constants;
@@ -83,8 +84,10 @@ internal sealed class ScavengerHunt : TreasureHunt
         this.TimeLimit = Math.Max(this.TimeLimit, 30);
 #endif
         this.Elapsed = 0;
-        EventManager.Enable<ScavengerHuntRenderedHudEvent>();
-        EventManager.Enable<ScavengerHuntUpdateTickedEvent>();
+        EventManager.Enable(
+            typeof(ScavengerHuntTerrainFeatureListChangedEvent),
+            typeof(ScavengerHuntRenderedHudEvent),
+            typeof(ScavengerHuntUpdateTickedEvent));
         HudPointer.Instance.Value.ShouldBob = true;
         Game1.addHUDMessage(new HuntNotification(this.HuntStartedMessage, this.IconSourceRect));
         if (Context.IsMultiplayer)
@@ -113,17 +116,17 @@ internal sealed class ScavengerHunt : TreasureHunt
     public override void ForceStart(GameLocation location, Vector2 target)
     {
         this.ForceStart();
-
         this.TreasureTile = target;
         this.Location = location;
         this.Location.MakeTileDiggable(this.TreasureTile.Value);
         this.TimeLimit = (uint)(location.Map.DisplaySize.Area / Math.Pow(Game1.tileSize, 2) / 100 *
                                 ProfessionsModule.Config.ScavengerHuntHandicap);
         this.TimeLimit = Math.Max(this.TimeLimit, 30);
-
         this.Elapsed = 0;
-        EventManager.Enable<ScavengerHuntRenderedHudEvent>();
-        EventManager.Enable<ScavengerHuntUpdateTickedEvent>();
+        EventManager.Enable(
+            typeof(ScavengerHuntTerrainFeatureListChangedEvent),
+            typeof(ScavengerHuntRenderedHudEvent),
+            typeof(ScavengerHuntUpdateTickedEvent));
         HudPointer.Instance.Value.ShouldBob = true;
         Game1.addHUDMessage(new HuntNotification(this.HuntStartedMessage, this.IconSourceRect));
         if (Context.IsMultiplayer)
@@ -145,6 +148,27 @@ internal sealed class ScavengerHunt : TreasureHunt
         }
 
         this.OnStarted();
+    }
+
+    /// <inheritdoc />
+    public override void Complete()
+    {
+        if (this.TreasureTile is null || this.Location is null)
+        {
+            this.End(false);
+            return;
+        }
+
+        if (!this.Location.terrainFeatures.TryGetValue(this.TreasureTile.Value, out var feature) ||
+            feature is not HoeDirt)
+        {
+            return;
+        }
+
+        var getTreasure = new DelayedAction(200, this.BeginFindTreasure);
+        Game1.delayedActions.Add(getTreasure);
+        Game1.player.Increment(DataKeys.ScavengerHuntStreak);
+        this.End(true);
     }
 
     /// <inheritdoc />
@@ -175,27 +199,6 @@ internal sealed class ScavengerHunt : TreasureHunt
         while (!location.IsTileValidForTreasure(tile));
 
         return tile;
-    }
-
-    /// <inheritdoc />
-    protected override void CheckForCompletion()
-    {
-        if (this.TreasureTile is null || this.Location is null)
-        {
-            this.End(false);
-            return;
-        }
-
-        if (!this.Location.terrainFeatures.TryGetValue(this.TreasureTile.Value, out var feature) ||
-            feature is not HoeDirt)
-        {
-            return;
-        }
-
-        var getTreasure = new DelayedAction(200, this.BeginFindTreasure);
-        Game1.delayedActions.Add(getTreasure);
-        Game1.player.Increment(DataKeys.ScavengerHuntStreak);
-        this.End(true);
     }
 
     /// <inheritdoc />
@@ -292,6 +295,7 @@ internal sealed class ScavengerHunt : TreasureHunt
         List<Item> treasures = new();
         var chance = 1.0;
         var streak = Game1.player.Read<int>(DataKeys.ScavengerHuntStreak);
+        var i = 0;
         while (this.Random.NextDouble() < chance)
         {
             chance *= Math.Pow(0.1, 1d / (streak + 1));
@@ -323,9 +327,16 @@ internal sealed class ScavengerHunt : TreasureHunt
 
                     break;
             }
+
+            i++;
         }
 
-        this.AddSeedsToTreasures(treasures);
+        Log.D($"[ScavengerHunt] Produced {i} treasures.");
+
+        if (treasures.Count <= 2)
+        {
+            this.AddSeedsToTreasures(treasures);
+        }
 
 #if DEBUG
         if (CombatModule.ShouldEnable && CombatModule.Config.DwarvenLegacy &&
@@ -335,7 +346,6 @@ internal sealed class ScavengerHunt : TreasureHunt
                     .ContainsAll(WeaponIds.ElfBlade, WeaponIds.ForestSword))
             {
                 treasures.Add(new SObject(JsonAssetsIntegration.DwarvishBlueprintIndex.Value, 1));
-                //treasures.Add(new SObject(ObjectIds.LostBook, 1));
             }
             else if (JsonAssetsIntegration.ElderwoodIndex.HasValue)
             {

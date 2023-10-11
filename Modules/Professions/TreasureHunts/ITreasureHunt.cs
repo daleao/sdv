@@ -34,6 +34,9 @@ public interface ITreasureHunt
     /// <param name="target">The target treasure tile.</param>
     public void ForceStart(GameLocation location, Vector2 target);
 
+    /// <summary>Ends the active hunt successfully.</summary>
+    public void Complete();
+
     /// <summary>Ends the active hunt unsuccessfully.</summary>
     public void Fail();
 }

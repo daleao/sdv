@@ -31,6 +31,11 @@ internal sealed class ScavengerWarpedEvent : WarpedEvent
     /// <inheritdoc />
     protected override void OnWarpedImpl(object? sender, WarpedEventArgs e)
     {
+        if (!e.IsLocalPlayer)
+        {
+            return;
+        }
+
         var scavengerHunt = e.Player.Get_ScavengerHunt();
         if (scavengerHunt.IsActive)
         {

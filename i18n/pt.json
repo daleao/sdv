@@ -201,6 +201,9 @@
   // * ARSENAL * //
   // *********** //
 
+  "weapons.sword": "Espada",
+  "weapons.club": "Clava",
+  "weapons.dagger": "Dagger",
   "weapons.dwarven.prefix": "Anã",
   "weapons.elven.prefix": "Élfica",
   "weapons.dark_sword.name": "Lâmina da Ruína",
@@ -225,8 +228,11 @@
   "slingshots.infinity.desc": "A verdadeira forma do Estilingue da galáxia.",
   "objects.galaxy_soul.desc": "O núcleo materializado de uma minúscula galáxia.",
 
-  "blueprint.found.first": "Você encontrou um Projeto Antigo! Está desbotado, mas você reconhece o formato de {{type}} próximo a alguns símbolos dos Anões. Talvez o artesão correto possa entender alguma coisa.",
-  "blueprint.found.local": "Você encontrou um Projeto Anão.",
+  "blueprint.found.first.unknown": "Você encontrou um projeto antigo! Está desbotado, mas você reconhece símbolos estranhos e um contorno aproximado no formato de um(a) {{type}}. Se você pudesse traduzir os símbolos...",
+  "blueprint.found.first.known": "Você encontrou um projeto antigo! Está desbotado, mas você reconhece símbolos anões fracos e um contorno aproximado no formato de um(a) {{type}}. Talvez um bom ferreiro pudesse entender isso.",
+  "blueprint.found.next.unknown": "Você encontrou outro projeto antigo!",
+  "blueprint.found.next.known": "Você encontrou outro projeto anão!",
+  "blueprint.found.need_guide": "Você provavelmente deveria encontrar algum tipo de guia de tradução.",
   "blueprint.found.global": "{who} encontrou um Projeto Anão.",
   "blacksmith.forge.option": "Forja",
   "blacksmith.forge.explanation": "Eu poderia frojar algumas armas novas baseadas nesses projetos que você encontrou. Se eu tivesse esses materiais estranhos.",

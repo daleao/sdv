@@ -36,9 +36,9 @@ internal sealed class PrintModDataCommand : ConsoleCommand
         var value = player.Read(DataKeys.EcologistItemsForaged);
         message.Append("\n\t- ").Append(
                    !IsNullOrEmpty(value)
-                       ? $"Ecologist Items Foraged: {value}\t\tExpected quality: {(ObjectQuality)player.GetEcologistForageQuality()}" +
+                       ? $"Ecologist Items Foraged: {value}\n\t\tExpected quality: {(ObjectQuality)player.GetEcologistForageQuality()}" +
                          (int.Parse(value) < ProfessionsModule.Config.ForagesNeededForBestQuality
-                             ? $"({ProfessionsModule.Config.ForagesNeededForBestQuality - int.Parse(value)} needed for best quality)"
+                             ? $" ({ProfessionsModule.Config.ForagesNeededForBestQuality - int.Parse(value)} needed for best quality)"
                              : Empty)
                        : "Mod data does not contain an entry for EcologistItemsForaged.");
 
@@ -47,7 +47,7 @@ internal sealed class PrintModDataCommand : ConsoleCommand
                    !IsNullOrEmpty(value)
                        ? $"Gemologist Minerals Collected: {value}\n\t\tExpected quality: {(ObjectQuality)player.GetGemologistMineralQuality()}" +
                          (int.Parse(value) < ProfessionsModule.Config.MineralsNeededForBestQuality
-                             ? $"({ProfessionsModule.Config.MineralsNeededForBestQuality - int.Parse(value)} needed for best quality)"
+                             ? $" ({ProfessionsModule.Config.MineralsNeededForBestQuality - int.Parse(value)} needed for best quality)"
                              : Empty)
                        : "Mod data does not contain an entry for GemologistMineralsCollected.");
 

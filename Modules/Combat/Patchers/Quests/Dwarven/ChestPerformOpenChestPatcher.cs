@@ -119,7 +119,7 @@ internal sealed class ChestPerformOpenChestPatcher : HarmonyPatcher
         }
 
         player.holdUpItemThenMessage(new SObject(JsonAssetsIntegration.DwarvishBlueprintIndex.Value, 1));
-        if (Context.IsMultiplayer)
+        if (Context.IsMultiplayer && Game1.player.mailReceived.Contains("clintForge"))
         {
             Broadcaster.SendPublicChat(I18n.Blueprint_Found_Global(player.Name));
         }

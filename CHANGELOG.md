@@ -2,6 +2,18 @@
 
 This file contains a TL;DR of current version changes and hotfixes from across all modules. For the complete changelog, please refer to the individual changelogs of each module, linked [below](#detailed-changelogs).
 
+## Patch 3.1.10 Highlights
+
+* [CMBT]: Fixed weapon enchantments applying on-hit effects twice.
+* [CMBT]: Improved hold-up messages for Dwarvish blueprint and others. Changed some localization keys.
+* [CMBT]: Recolored the Dwarvish blueprint to a rusty orange.
+* [CMBT]: Lowered default difficulty settings.
+* [PRFS]: Prospector Hunts:
+    * Can now trigger in Volcano Dungeon.
+    * No longer incorrectly using Scavenger Hunt streak.
+    * No longer produces a key exception.
+    * No longer ends successfully upon warping.
+
 ## Patch 3.1.9 Highlights
 
 * [CMBT]: Increased container spawn chance no longer applies in Skull Caverns.

@@ -202,6 +202,9 @@
   // * ARSENAL * //
   // *********** //
 
+  "weapons.sword": "剑",
+  "weapons.club": "Club",
+  "weapons.dagger": "匕首",
   "weapons.dwarven.prefix": "矮人",
   "weapons.elven.prefix": "小精灵",
   "weapons.dark_sword.name": "堕落之刃",
@@ -226,8 +229,11 @@
   "slingshots.infinity.desc": "这是银河弹弓的真实形态。",
   "objects.galaxy_soul.desc": "一个微小星系的物质化核心。",
 
-  "blueprint.found.first": "你发现了一张古老的矮人蓝图！它已经褪色了，但可以在一些矮人符号旁边识别出{{type}}的形状。也许铁匠可以从中得到一些启发。",
-  "blueprint.found.local": "你发现了一张古老的矮人蓝图。",
+  "blueprint.found.first.unknown": "你发现了一张旧蓝图！ 它已经褪色，但您认出了奇怪的符号和 {{type}} 形状的粗略轮廓。 如果你能翻译这些符号就好了...",
+  "blueprint.found.first.known": "你发现了一张旧蓝图！ 它已经褪色，但你可以辨认出微弱的矮人符号和 {{type}} 形状的粗略轮廓。 也许合适的工匠可以从中理解一些东西。",
+  "blueprint.found.next.unknown": "你发现了另一个旧蓝图！",
+  "blueprint.found.next.known": "你发现了另一个矮人蓝图！",
+  "blueprint.found.need_guide": "您可能应该抽出时间寻找某种翻译指南。",
   "blueprint.found.global": "{who}发现了一张古老的矮人蓝图。",
   "blacksmith.forge.option": "锻造",
   "blacksmith.forge.explanation": "我可以根据你找到的那些蓝图，锻造一些新武器。如果我有这些奇怪的材料就好了。",

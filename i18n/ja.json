@@ -201,6 +201,9 @@
   // * ARSENAL * //
   // *********** //
 
+  "weapons.sword": "剣",
+  "weapons.club": "クラブ",
+  "weapons.dagger": "短剣",
   "weapons.dwarven.prefix": "ドワーフの",
   "weapons.elven.prefix": "エルフの",
   "weapons.dark_sword.name": "破滅の剣",
@@ -225,8 +228,11 @@
   "slingshots.infinity.desc": "ギャラクシーパチンコの真の姿。",
   "objects.galaxy_soul.desc": "小さな銀河のコアが実体化したもの。",
 
-  "blueprint.found.first": "古びた設計図を見つけた! 色あせてはいるが、ドワーフ語の記号の横に{{type}}の形があるのがわかる。適切な職人なら何らかの意味を理解できるかもしれない。",
-  "blueprint.found.local": "ドワーフの設計図を手に入れた。",
+  "blueprint.found.first.unknown": "古い設計図を見つけました! 色あせていますが、奇妙な記号と {{type}} の形をした大まかな輪郭が見えます。 記号を翻訳できれば...",
+  "blueprint.found.first.known": "古い設計図を見つけました! 色あせていますが、かすかなドワーフのシンボルと、{{type}} の形をした大まかな輪郭がわかります。 もしかしたら、適切な職人なら何らかの意味を理解できるかもしれない。",
+  "blueprint.found.next.unknown": "また古い設計図を見つけました!",
+  "blueprint.found.next.known": "またドワーフの設計図を見つけました!",
+  "blueprint.found.need_guide": "おそらく、何らかの翻訳ガイドを見つける必要があるでしょう。",
   "blueprint.found.global": "{who}がドワーフの設計図を見つけた。",
   "blacksmith.forge.option": "鍛造する",
   "blacksmith.forge.explanation": "あんたが見つけてきた設計図をもとに、新しい武器を鍛造できるようになったぜ。 材料の不思議な素材があったらだけどな。",

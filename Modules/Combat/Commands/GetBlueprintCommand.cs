@@ -16,7 +16,6 @@ using DaLion.Shared.Networking;
 #endregion using directives
 
 [UsedImplicitly]
-[Debug]
 internal sealed class GetBlueprintCommand : ConsoleCommand
 {
     /// <summary>Initializes a new instance of the <see cref="GetBlueprintCommand"/> class.</summary>
@@ -59,9 +58,9 @@ internal sealed class GetBlueprintCommand : ConsoleCommand
             WeaponIds.DragontoothShiv,
         };
 
-        if (args.Length > 1)
+        if (args.Length > 0)
         {
-            switch (args[1].ToLowerInvariant())
+            switch (args[0].ToLowerInvariant())
             {
                 case "all":
                     player.Write(DataKeys.BlueprintsFound, string.Join(',', allBlueprints));
@@ -83,7 +82,7 @@ internal sealed class GetBlueprintCommand : ConsoleCommand
                             case "elvendagger":
                                 if (found.Contains(WeaponIds.ElfBlade))
                                 {
-                                    Log.W($"{player.Name} has already found the Elven Blade Blueprint.");
+                                    Log.W($"{player.Name} has already found the Elven Blade blueprint.");
                                     break;
                                 }
 
@@ -93,9 +92,9 @@ internal sealed class GetBlueprintCommand : ConsoleCommand
                             case "elfsword":
                             case "elvensword":
                             case "forestsword":
-                                if (found.Contains(WeaponIds.ElfBlade))
+                                if (found.Contains(WeaponIds.ForestSword))
                                 {
-                                    Log.W($"{player.Name} has already found the Elven Sword Blueprint.");
+                                    Log.W($"{player.Name} has already found the Elven Sword blueprint.");
                                     break;
                                 }
 
@@ -104,9 +103,9 @@ internal sealed class GetBlueprintCommand : ConsoleCommand
                                 break;
                             case "dwarfsword":
                             case "dwarvensword":
-                                if (found.Contains(WeaponIds.ElfBlade))
+                                if (found.Contains(WeaponIds.DwarfSword))
                                 {
-                                    Log.W($"{player.Name} has already found the Dwarven Sword Blueprint.");
+                                    Log.W($"{player.Name} has already found the Dwarven Sword blueprint.");
                                     break;
                                 }
 
@@ -115,9 +114,9 @@ internal sealed class GetBlueprintCommand : ConsoleCommand
                                 break;
                             case "dwarfdagger":
                             case "dwarvendagger":
-                                if (found.Contains(WeaponIds.ElfBlade))
+                                if (found.Contains(WeaponIds.DwarfDagger))
                                 {
-                                    Log.W($"{player.Name} has already found the Dwarven Dagger Blueprint.");
+                                    Log.W($"{player.Name} has already found the Dwarven Dagger blueprint.");
                                     break;
                                 }
 
@@ -128,9 +127,9 @@ internal sealed class GetBlueprintCommand : ConsoleCommand
                             case "dwarvenclub":
                             case "dwarfhammer":
                             case "dwarvenhammer":
-                                if (found.Contains(WeaponIds.ElfBlade))
+                                if (found.Contains(WeaponIds.DwarfHammer))
                                 {
-                                    Log.W($"{player.Name} has already found the Dwarven Hammer Blueprint.");
+                                    Log.W($"{player.Name} has already found the Dwarven Hammer blueprint.");
                                     break;
                                 }
 
@@ -141,9 +140,9 @@ internal sealed class GetBlueprintCommand : ConsoleCommand
                             case "dragoncutlass":
                             case "dragontoothsword":
                             case "dragontoothcutlass":
-                                if (found.Contains(WeaponIds.ElfBlade))
+                                if (found.Contains(WeaponIds.DragontoothCutlass))
                                 {
-                                    Log.W($"{player.Name} has already found the Dragontooth Cutlass Blueprint.");
+                                    Log.W($"{player.Name} has already found the Dragontooth Cutlass blueprint.");
                                     break;
                                 }
 
@@ -154,9 +153,9 @@ internal sealed class GetBlueprintCommand : ConsoleCommand
                             case "dragonshiv":
                             case "dragontoothdagger":
                             case "dragontoothshiv":
-                                if (found.Contains(WeaponIds.ElfBlade))
+                                if (found.Contains(WeaponIds.DragontoothShiv))
                                 {
-                                    Log.W($"{player.Name} has already found the Dragontooth Shiv Blueprint.");
+                                    Log.W($"{player.Name} has already found the Dragontooth Shiv blueprint.");
                                     break;
                                 }
 
@@ -165,9 +164,9 @@ internal sealed class GetBlueprintCommand : ConsoleCommand
                                 break;
                             case "dragonclub":
                             case "dragontoothclub":
-                                if (found.Contains(WeaponIds.ElfBlade))
+                                if (found.Contains(WeaponIds.DragontoothClub))
                                 {
-                                    Log.W($"{player.Name} has already found the Dragontooth Club Blueprint.");
+                                    Log.W($"{player.Name} has already found the Dragontooth Club blueprint.");
                                     break;
                                 }
 
@@ -180,6 +179,13 @@ internal sealed class GetBlueprintCommand : ConsoleCommand
                         }
                     }
 
+                    player.holdUpItemThenMessage(new SObject(JsonAssetsIntegration.DwarvishBlueprintIndex.Value, 1));
+                    if (Context.IsMultiplayer && Game1.player.mailReceived.Contains("clintForge"))
+                    {
+                        Broadcaster.SendPublicChat(I18n.Blueprint_Found_Global(player.Name));
+                    }
+
+                    player.addItemToInventoryBool(new SObject(JsonAssetsIntegration.DwarvishBlueprintIndex.Value, 1));
                     return;
             }
         }
@@ -188,9 +194,8 @@ internal sealed class GetBlueprintCommand : ConsoleCommand
         var chosen = Game1.random.Next(notFound.Length);
         player.Append(DataKeys.BlueprintsFound, notFound[chosen].ToString());
         ModHelper.GameContent.InvalidateCacheAndLocalized("Data/Events/Blacksmith");
-
         player.holdUpItemThenMessage(new SObject(JsonAssetsIntegration.DwarvishBlueprintIndex.Value, 1));
-        if (Context.IsMultiplayer)
+        if (Context.IsMultiplayer && Game1.player.mailReceived.Contains("clintForge"))
         {
             Broadcaster.SendPublicChat(I18n.Blueprint_Found_Global(player.Name));
         }

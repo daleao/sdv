@@ -10,7 +10,6 @@ using DaLion.Shared.Extensions.Collections;
 using DaLion.Shared.Extensions.Stardew;
 using Microsoft.Xna.Framework;
 using StardewValley.Buildings;
-using StardewValley.GameData.FishPond;
 using StardewValley.Menus;
 using StardewValley.Objects;
 
@@ -19,18 +18,6 @@ using StardewValley.Objects;
 /// <summary>Extensions for the <see cref="FishPond"/> class.</summary>
 internal static class FishPondExtensions
 {
-    /// <summary>Determines whether the <paramref name="pond"/>'s population has been fully unlocked.</summary>
-    /// <param name="pond">The <see cref="FishPond"/>.</param>
-    /// <returns><see langword="true"/> if the last unlocked population gate matches the last gate in the <see cref="FishPondData"/>, otherwise <see langword="false"/>.</returns>
-    internal static bool HasUnlockedFinalPopulationGate(this FishPond pond)
-    {
-        var data = Reflector
-            .GetUnboundFieldGetter<FishPond, FishPondData?>(pond, "_fishPondData")
-            .Invoke(pond);
-        return data?.PopulationGates is null ||
-               pond.lastUnlockedPopulationGate.Value >= data.PopulationGates.Keys.Max();
-    }
-
     /// <summary>Determines whether this <paramref name="pond"/> is infested with algae.</summary>
     /// <param name="pond">The <see cref="FishPond"/>.</param>
     /// <returns><see langword="true"/> if the <paramref name="pond"/> houses any algae, otherwise <see langword="false"/>.</returns>

@@ -37,7 +37,7 @@ internal sealed class AdvanceQuestCommand : ConsoleCommand
             return;
         }
 
-            switch (args[0].ToLowerInvariant())
+        switch (args[0].ToLowerInvariant())
         {
             case "forge":
             case "clint":

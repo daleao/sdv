@@ -58,7 +58,7 @@ internal sealed class FarmerFoundArtifactPatcher : HarmonyPatcher
             }
 
             __instance.holdUpItemThenMessage(new SObject(JsonAssetsIntegration.DwarvishBlueprintIndex.Value, 1));
-            if (Context.IsMultiplayer)
+            if (Context.IsMultiplayer && Game1.player.mailReceived.Contains("clintForge"))
             {
                 Broadcaster.SendPublicChat(I18n.Blueprint_Found_Global(__instance.Name));
             }

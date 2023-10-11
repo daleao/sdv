@@ -201,6 +201,9 @@
   // * ARSENAL * //
   // *********** //
 
+  "weapons.sword": "Schwert",
+  "weapons.club": "Verein",
+  "weapons.dagger": "Dolch",
   "weapons.dwarven.prefix": "Zwerge",
   "weapons.elven.prefix": "Elfen",
   "weapons.dark_sword.name": "Klinge des Verderbens",
@@ -225,8 +228,11 @@
   "slingshots.infinity.desc": "Die wahre Form der Galaxy Slingshot.",
   "objects.galaxy_soul.desc": "Der materialisierte Kern einer winzigen Galaxie.",
 
-  "blueprint.found.first": "Du hast eine alte Blaupause gefunden! Sie ist verblasst, aber du erkennst die Form eines {{type}} neben ein paar zwergischen Symbolen. Vielleicht kann der richtige Handwerker einen Sinn daraus machen.",
-  "blueprint.found.local": "Du hast eine zwergische Blaupause gefunden.",
+  "blueprint.found.first.unknown": "Du hast einen alten Bauplan gefunden! Es ist verblasst, aber Sie erkennen seltsame Symbole und einen groben Umriss in Form einer(s) {{type}}. Wenn Sie nur die Symbole übersetzen könnten ...",
+  "blueprint.found.first.known": "Du hast einen alten Bauplan gefunden! Es ist verblasst, aber man erkennt schwache Zwergensymbole und einen groben Umriss in Form einer(s) {{Typs}}. Vielleicht könnte der richtige Handwerker daraus einen Sinn machen.",
+  "blueprint.found.next.unknown": "Du hast einen weiteren alten Bauplan gefunden!",
+  "blueprint.found.next.known": "Du hast einen weiteren zwergischen Bauplan gefunden!",
+  "blueprint.found.need_guide": "Sie sollten sich wahrscheinlich um die Suche nach einem Übersetzungsführer kümmern.",
   "blueprint.found.global": "{who} hat einen zwergischen Bauplan gefunden.",
   "blacksmith.forge.option": "Schmiede",
   "blacksmith.forge.explanation": "Ich könnte ein paar neue Waffen aus den Blaupausen schmieden, die du gefunden hast. Wenn ich nur diese seltsamen Materialien hätte.",
@@ -247,7 +253,7 @@
   "events.100162.no_sword.sve": "MarlonsTheme/21 9/farmer -100 -100 0 MarlonFay 23 6 2/addQuest 14/skippable/pause 1000/move MarlonFay 0 2 2/pause 500/showFrame MarlonFay 19/pause 1000/speak MarlonFay \"Hmmm... \"/pause 500/warp farmer 18 13/playSound stoneStep/move farmer 0 -3 1/move farmer 5 0 0/pause 500/showFrame MarlonFay 0/pause 500/speak MarlonFay \"...Ich habe mich gerade gefragt, wie weit dieser Minenschacht in die Tiefe führt.#$b# Ich werde mich um einige der Monster hier drinnen kümmern, bevor sie anfangen, ins Tal zu klettern.$1#$b#Du scheinst besorgt zu sein. Ich mag zwar alt sein, aber das Alter hat mich noch nicht meiner Fähigkeiten mit dem Schwert beraubt.$0\"/pause 500/showFrame MarlonFay 18/pause 2000/showFrame MarlonFay 0/pause 500/speak MarlonFay \"Als Anführer der Abenteurergilde habe ich schon viele Kämpfer kennengelernt. Ich erkenne diesen Blick in deinen Augen.$2\"/pause 300/showFrame MarlonFay 19/pause 1000/showFrame MarlonFat 0/pause 300/speak MarlonFay \"Beweise mir, dass du die Waffe schwingen kannst, und ich denke vielleicht darüber nach, dich als Mitglied aufzunehmen.\"/pause 750/end",
   "events.1337098.no_purchase": "MarlonsTheme/-500 -500/farmer -200 -200 0 MarlonFay 4 11 2/viewport 6 13 true/skippable/pause 2000/warp farmer 6 19/playSound doorClose/pause 500/showFrame MarlonFay 17/pause 150/textAboveHead MarlonFay \"Du hast etwas gefunden!\"/pause 350/move farmer 0 -5 3/move farmer -2 0 0/move farmer 0 -1 0/showFrame MarlonFay 0/pause 500/speak MarlonFay \"THut-Waffe! Es ist nicht zu übersehen!$1#$b#Du hast ein Galaxy-Schwert erhalten!\"/pause 1000/showFrame MarlonFay 18/pause 1000/speak MarlonFay \"Du wurdest für würdig befunden, @. Das ist eine wahre Ehre.$2#$b#Ich erhielt meine erste Galaxy-Waffe nach einer Nacht harter Kämpfe im Burgdorf.#$b#Ein violettes, blendendes Licht fiel langsam in meine Hände, als ich ein Schwert sah. Für eine kurze Sekunde spürte ich die Macht des Kosmos.#$b#Zauberer und Gelehrte glauben, dass Yoba diese Waffen den wahren Friedenswächtern der Menschheit schenkt.\"/pause 1200/speak MarlonFay \"Ich bin stolz auf dich!$1\"/showFrame MarlonFay 0/pause 500/end",
 
-  "fromcsfiles.MeleeWeapon.cs.14122": "Die Farben des Prismasplitters werden intensiver.#Du spürst eine magnetische Anziehungskraft, während sich die Iridiumstäbe auf magische Weise aus deinem Rucksack heben. Vor deinen Augen verflüssigt sich das Metall und verschmilzt mit dem leuchtenden Splitter, der allmählich annimmt die Form eines {{type}}.^^# Sie erhalten das ={{galaxyWeapon}}= ^",
+  "fromcsfiles.MeleeWeapon.cs.14122": "Die Farben des Prismasplitters werden intensiver.#Du spürst eine magnetische Anziehungskraft, während sich die Iridiumstäbe auf magische Weise aus deinem Rucksack heben. Vor deinen Augen verflüssigt sich das Metall und verschmilzt mit dem leuchtenden Splitter, der allmählich annimmt die Form einer(s) {{type}}.^^# Sie erhalten das ={{galaxyWeapon}}= ^",
   "locations.Town.DwarfGrave.Translated": "     Du übersetzt das Zwergenhafte:     \n\n'zwischen goldenen Drillingen, die sich im Sand verirrt haben, einen Regenbogen hervorbringen, der aus dem Land geschmiedet wurde\nWenn das Herz rein und das Bewusstsein klar ist und der Glaube weder Zweifel noch Furcht kennt, dann wird dein Name gebrüllt.\nSterne regnen auf das Siegel dort\nund beschenke dich mit Himmelsstahl.",
   "locations.SeedShop.Yoba": "\"Yobas Segen, wahre Helden, stärken ihren Gang. In Großmut und Mitgefühl, tugendhaft und lang. Mit Ehre, Wagemut, Weisheit, ihr Geist erlangt den Schwung. Eine Prophezeiung offenbart sich, unter Yobas Blick und Drang.\"",
   "locations.desert.noiridium": "Du spürst, wie der Prismasplitter vibriert...#Aber nichts passiert.#Es fühlt sich an, als würde etwas fehlen.",

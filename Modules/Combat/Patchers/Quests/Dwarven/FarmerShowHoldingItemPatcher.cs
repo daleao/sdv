@@ -35,8 +35,8 @@ internal sealed class FarmerShowHoldingItemPatcher : HarmonyPatcher
 
             Game1.currentLocation.temporarySprites.Add(
                 new TemporaryAnimatedSprite(
-                    "LooseSprites\\Cursors",
-                    new Rectangle(420, 489, 25, 18),
+                    $"{Manifest.UniqueID}/DwarvishBlueprint",
+                    new Rectangle(0, 0, 25, 18),
                     2500f,
                     1,
                     0,

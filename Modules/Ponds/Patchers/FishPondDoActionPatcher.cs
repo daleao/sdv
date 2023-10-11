@@ -15,7 +15,7 @@ using DaLion.Shared.Harmony;
 using HarmonyLib;
 using Netcode;
 using StardewValley.Buildings;
-using xTile;
+using FishPondExtensions = DaLion.Overhaul.Modules.Ponds.Extensions.FishPondExtensions;
 
 #endregion using directives
 

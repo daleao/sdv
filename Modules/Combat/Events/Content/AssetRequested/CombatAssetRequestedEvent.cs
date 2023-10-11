@@ -68,6 +68,9 @@ internal sealed class CombatAssetRequestedEvent : AssetRequestedEvent
             $"{Manifest.UniqueID}/GarnetNode",
             new ModTextureProvider(() => "assets/sprites/garnet_node.png"));
         this.Provide(
+            $"{Manifest.UniqueID}/DwarvishBlueprint",
+            new ModTextureProvider(() => "assets/sprites/blueprint.png"));
+        this.Provide(
             $"{Manifest.UniqueID}/BleedAnimation",
             new ModTextureProvider(() => "assets/sprites/bleed.png"));
         this.Provide(

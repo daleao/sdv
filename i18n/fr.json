@@ -201,6 +201,9 @@
   // * ARSENAL * //
   // *********** //
 
+  "weapons.sword": "Épée",
+  "weapons.club": "Gourdin",
+  "weapons.dagger": "Dagger",
   "weapons.dwarven.prefix": "Naine",
   "weapons.elven.prefix": "Elfique",
   "weapons.dark_sword.name": "Lame de la ruine",
@@ -225,8 +228,11 @@
   "slingshots.infinity.desc": "La vrie forme du Lance-pierre galactique.",
   "objects.galaxy_soul.desc": "Le noyau matérialisé d'une minuscule galaxie.",
 
-  "blueprint.found.first": "Vous avez trouvé un vieux plan ! Il est estompé, mais vous reconnaissez la forme d'un {{type}} à côté de certains symboles nains. Peut-être que le bon artisan pourrait y trouver un sens.",
-  "blueprint.found.local": "Vous avez trouvé un plan nain.",
+  "blueprint.found.first.unknown": "Vous avez trouvé un vieux schéma ! Il est estompé, mais vous reconnaissez des symboles étranges et un contour approximatif en forme d'un(e) {{type}}. Si seulement vous pouviez traduire les symboles...",
+  "blueprint.found.first.known": "Vous avez trouvé un vieux schéma ! Il est estompé, mais vous reconnaissez de faibles symboles nains et un contour approximatif en forme de {{type}}. Peut-être qu'un bon forgeron pourrait y donner un sens.",
+  "blueprint.found.next.unknown": "Vous avez trouvé un autre vieux schéma !",
+  "blueprint.found.next.known": "Vous avez trouvé un autre schéma nain !",
+  "blueprint.found.need_guide": "Il faut vraiment trouver une sorte de guide de traduction.",
   "blueprint.found.global": "{who} a trouvé un plan nain.",
   "blacksmith.forge.option": "Forger",
   "blacksmith.forge.explanation": "Je pourrais forger de nouvelles armes basées sur les plans que vous avez trouvés. Si seulement j'avais ces matériaux étranges.",

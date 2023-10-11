@@ -34,19 +34,27 @@ internal sealed class ObjectCheckForSpecialItemHoldUpMessagePatcher : HarmonyPat
         }
 
         var found = Game1.player.Read(DataKeys.BlueprintsFound).ParseList<int>();
-        if (found.Count == 1)
+        switch (found.Count)
         {
-            var type = ((WeaponType)new MeleeWeapon(found[0]).type.Value).ToStringFast();
-            if (type.Contains("Sword"))
-            {
-                type = type.SplitCamelCase()[1];
-            }
+            case 0:
+                return;
 
-            __result = I18n.Blueprint_Found_First(type);
-        }
-        else
-        {
-            __result = I18n.Blueprint_Found_Local();
+            case 1:
+                var type = (WeaponType)new MeleeWeapon(found[0]).type.Value;
+                var typeString = type is WeaponType.StabbingSword or WeaponType.DefenseSword ? "sword" : type.ToStringFast().ToLowerInvariant();
+                var typeDisplayName = _I18n.Get("weapons." + typeString).ToString().ToLower();
+                __result = Game1.player.canUnderstandDwarves
+                    ? I18n.Blueprint_Found_First_Known(typeDisplayName)
+                    : I18n.Blueprint_Found_First_Unknown(typeDisplayName);
+                break;
+
+            default:
+                __result = Game1.player.mailReceived.Contains("clintForge")
+                    ? I18n.Blueprint_Found_Next_Known()
+                    : I18n.Blueprint_Found_Next_Unknown() + (Game1.player.canUnderstandDwarves
+                        ? string.Empty
+                        : I18n.Blueprint_Found_NeedGuide());
+                break;
         }
     }
 

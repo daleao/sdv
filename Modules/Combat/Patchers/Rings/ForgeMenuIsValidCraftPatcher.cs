@@ -33,7 +33,6 @@ internal sealed class ForgeMenuIsValidCraftPatcher : HarmonyPatcher
 
         __result = true;
         return false; // don't run original logic
-
     }
 
     #endregion harmony patches

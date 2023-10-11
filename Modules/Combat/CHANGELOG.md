@@ -1,5 +1,38 @@
 ﻿# CMBT Changelog
 
+## 3.1.10
+
+### Changed
+
+* Changed the hold-up messages displayed upon obtaining a Dwarvish blueprint. Added new variations for when the player has or has not obtained the Dwarvish Translation Guide.
+    * The following translation keys have been added:
+        * `weapons.sword`
+        * `weapons.club`
+        * `weapons.dagger`
+        * `blueprint.found.first.unknown`
+        * `blueprint.found.first.known` 
+        * `blueprint.found.next.unknown`
+        * `blueprint.found.next.known`
+        * `blueprint.found.need_guide`
+    * The following translation keys have been removed:
+        * `blueprint.found.first`
+        * `blueprint.found.local`
+* Changed the color the Dwarvish blueprint sprite to a rusty orange, more reminiscent of other Dwarven items.
+* Lowered default difficulty settings back to more reasonale values:
+    * Enemy HP x2.5 -> x1.5
+    * Enemy Damage x2 -> x1.5
+    * Enemy Defense x2 -> x1.5
+    * Enemy Spawn Chance x2 -> x1
+* `GetBlueprint` command is now available in release.
+
+### Fixed
+
+* Fixed weapon enchantments applying on-hit effects twice. This was effectively doubling the effects of Carving, Wabbajack and all weapon status effects.
+* The type of weapon should now appear localized in hold-up messages.
+* Fixed the `GetBlueprint` command, which wasn't working as expected.
+
+<sup><sup>[🔼 Back to top](#cmbt-changelog)</sup></sup>
+
 ## 3.1.9
 
 ### Changed

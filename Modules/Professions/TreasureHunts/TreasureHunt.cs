@@ -70,6 +70,9 @@ internal abstract class TreasureHunt : ITreasureHunt
     public abstract void ForceStart(GameLocation location, Vector2 target);
 
     /// <inheritdoc />
+    public abstract void Complete();
+
+    /// <inheritdoc />
     public abstract void Fail();
 
     /// <summary>Reset the accumulated bonus chance to trigger a new hunt.</summary>
@@ -90,10 +93,6 @@ internal abstract class TreasureHunt : ITreasureHunt
         if (ticks % 60 == 0 && ++this.Elapsed > this.TimeLimit)
         {
             this.Fail();
-        }
-        else
-        {
-            this.CheckForCompletion();
         }
     }
 
@@ -131,9 +130,6 @@ internal abstract class TreasureHunt : ITreasureHunt
     /// <param name="location">The game location.</param>
     /// <returns>A <see cref="Vector2"/> tile.</returns>
     protected abstract Vector2? ChooseTreasureTile(GameLocation location);
-
-    /// <summary>Determines whether the treasure tile has been found.</summary>
-    protected abstract void CheckForCompletion();
 
     /// <summary>Resets treasure tile and releases the treasure hunt update event.</summary>
     /// <param name="found">Whether the treasure was successfully found.</param>

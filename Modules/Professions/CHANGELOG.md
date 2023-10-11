@@ -1,5 +1,19 @@
 ﻿# PRFS Changelog
 
+## 3.1.10
+
+### Added
+
+* Prospector Hunts can now trigger in Volcano Dungeon.
+
+### Fixed
+
+* Fixed Prospector Hunt incorrectly using Scavenger Hunt streak (wonder how many years this has been bugged).
+* Fixed possible key exception in Prospector Hunt treasure calculation.
+* Fixed a bug where Prospector Hunt would immediately finish successfully upon warping.
+
+<sup><sup>[🔼 Back to top](#profs-changelog)</sup></sup>
+
 ## 3.1.8
 
 ### Changed

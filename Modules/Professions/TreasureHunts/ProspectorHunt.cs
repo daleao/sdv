@@ -7,9 +7,11 @@ using System.Linq;
 using DaLion.Overhaul.Modules.Core.UI;
 using DaLion.Overhaul.Modules.Professions.Events.Display.RenderedHud;
 using DaLion.Overhaul.Modules.Professions.Events.GameLoop.UpdateTicked;
+using DaLion.Overhaul.Modules.Professions.Events.World.ObjectListChanged;
 using DaLion.Overhaul.Modules.Professions.Extensions;
 using DaLion.Overhaul.Modules.Professions.VirtualProperties;
 using DaLion.Shared.Constants;
+using DaLion.Shared.Extensions.Collections;
 using DaLion.Shared.Extensions.Stardew;
 using DaLion.Shared.Networking;
 using Microsoft.Xna.Framework;
@@ -30,9 +32,6 @@ internal sealed class ProspectorHunt : TreasureHunt
             new Rectangle(48, 672, 16, 16))
     {
     }
-
-    /// <summary>Gets the current hunt location as <see cref="MineShaft"/>.</summary>
-    private MineShaft? Shaft => this.Location as MineShaft;
 
     /// <inheritdoc />
     public override bool TryStart(GameLocation location)
@@ -56,8 +55,10 @@ internal sealed class ProspectorHunt : TreasureHunt
         this.TimeLimit = Math.Max(this.TimeLimit, 30);
 #endif
         this.Elapsed = 0;
-        EventManager.Enable<ProspectorHuntRenderedHudEvent>();
-        EventManager.Enable<ProspectorHuntUpdateTickedEvent>();
+        EventManager.Enable(
+            typeof(ProspectorHuntObjectListChangedEvent),
+            typeof(ProspectorHuntRenderedHudEvent),
+            typeof(ProspectorHuntUpdateTickedEvent));
         HudPointer.Instance.Value.ShouldBob = true;
         Game1.addHUDMessage(new HuntNotification(this.HuntStartedMessage, this.IconSourceRect));
         if (Context.IsMultiplayer)
@@ -86,13 +87,14 @@ internal sealed class ProspectorHunt : TreasureHunt
     public override void ForceStart(GameLocation location, Vector2 target)
     {
         this.ForceStart();
-
         this.TreasureTile = target;
         this.Location = location;
         this.TimeLimit = (uint)(location.Objects.Count() * ProfessionsModule.Config.ProspectorHuntHandicap);
         this.Elapsed = 0;
-        EventManager.Enable<ProspectorHuntRenderedHudEvent>();
-        EventManager.Enable<ProspectorHuntUpdateTickedEvent>();
+        EventManager.Enable(
+            typeof(ProspectorHuntObjectListChangedEvent),
+            typeof(ProspectorHuntRenderedHudEvent),
+            typeof(ProspectorHuntUpdateTickedEvent));
         HudPointer.Instance.Value.ShouldBob = true;
         Game1.addHUDMessage(new HuntNotification(this.HuntStartedMessage, this.IconSourceRect));
         if (Context.IsMultiplayer)
@@ -114,6 +116,39 @@ internal sealed class ProspectorHunt : TreasureHunt
         }
 
         this.OnStarted();
+    }
+
+    /// <inheritdoc />
+    public override void Complete()
+    {
+        if (this.TreasureTile is null || this.Location is null)
+        {
+            this.End(false);
+            return;
+        }
+
+        if (Game1.currentLocation.Objects.ContainsKey(this.TreasureTile.Value))
+        {
+            return;
+        }
+
+        switch (this.Location)
+        {
+            case MineShaft shaft:
+                this.GetStoneTreasureForMineShaft(shaft.mineLevel);
+                if (shaft.shouldCreateLadderOnThisLevel() && !shaft.GetLadderTiles().Any())
+                {
+                    shaft.createLadderDown((int)this.TreasureTile!.Value.X, (int)this.TreasureTile!.Value.Y);
+                }
+
+                break;
+            case VolcanoDungeon:
+                this.GetStoneTreasureForVolcanoDungeon();
+                break;
+        }
+
+        Game1.player.Increment(DataKeys.ProspectorHuntStreak);
+        this.End(true);
     }
 
     /// <inheritdoc />
@@ -145,30 +180,6 @@ internal sealed class ProspectorHunt : TreasureHunt
     }
 
     /// <inheritdoc />
-    protected override void CheckForCompletion()
-    {
-        if (this.TreasureTile is null || this.Shaft is null)
-        {
-            this.End(false);
-            return;
-        }
-
-        if (Game1.currentLocation.Objects.ContainsKey(this.TreasureTile.Value))
-        {
-            return;
-        }
-
-        this.GetStoneTreasure(this.Shaft.mineLevel);
-        if (this.Shaft.shouldCreateLadderOnThisLevel() && !this.Shaft.GetLadderTiles().Any())
-        {
-            this.Shaft.createLadderDown((int)this.TreasureTile!.Value.X, (int)this.TreasureTile!.Value.Y);
-        }
-
-        Game1.player.Increment(DataKeys.ProspectorHuntStreak);
-        this.End(true);
-    }
-
-    /// <inheritdoc />
     protected override void End(bool found)
     {
         Game1.player.Get_IsHuntingTreasure().Value = false;
@@ -186,17 +197,17 @@ internal sealed class ProspectorHunt : TreasureHunt
             ? $"{Game1.player.Name} has found the treasure!"
             : $"{Game1.player.Name} failed to find the treasure.");
         ModEntry.Broadcaster.MessagePeer("HuntIsOff", "RequestEvent", Game1.MasterPlayer.UniqueMultiplayerID);
-
         this.OnEnded(found);
     }
 
-    /// <summary>Spawns hunt spoils as debris.</summary>
+    /// <summary>Spawns hunt spoils as debris. Applies to <see cref="MineShaft"/>.</summary>
     /// <remarks>Adapted from FishingRod.openTreasureMenuEndFunction.</remarks>
-    private void GetStoneTreasure(int mineLevel)
+    private void GetStoneTreasureForMineShaft(int mineLevel)
     {
         Dictionary<int, int> treasuresAndQuantities = new();
         var chance = 1.0;
-        var streak = Game1.player.Read<int>(DataKeys.ScavengerHuntStreak);
+        var streak = Game1.player.Read<int>(DataKeys.ProspectorHuntStreak);
+        var i = 0;
         while (this.Random.NextDouble() < chance)
         {
             chance *= Math.Pow(0.1, 1d / (streak + 1));
@@ -204,7 +215,7 @@ internal sealed class ProspectorHunt : TreasureHunt
             switch (this.Random.Next(3))
             {
                 case 0:
-                    this.AddOreToTreasure(mineLevel, treasuresAndQuantities);
+                    this.AddOreToTreasure(treasuresAndQuantities, mineLevel);
                     break;
                 case 1:
                     this.AddArtifactsToTreasures(treasuresAndQuantities);
@@ -213,19 +224,23 @@ internal sealed class ProspectorHunt : TreasureHunt
                     switch (this.Random.Next(3))
                     {
                         case 0:
-                            this.AddGeodesToTreasures(mineLevel, treasuresAndQuantities);
+                            this.AddGeodesToTreasures(treasuresAndQuantities, mineLevel);
                             break;
                         case 1:
-                            this.AddMineralsToTreasures(mineLevel, treasuresAndQuantities);
+                            this.AddMineralsToTreasures(treasuresAndQuantities, mineLevel);
                             break;
                         case 2:
-                            this.AddSpecialTreasureItems(mineLevel, treasuresAndQuantities);
+                            this.AddSpecialTreasureItems(treasuresAndQuantities, mineLevel);
                             break;
                     }
 
                     break;
             }
+
+            i++;
         }
+
+        Log.D($"[ProspectorHunt] Produced {i} treasures.");
 
         foreach (var (treasure, quantity) in treasuresAndQuantities)
         {
@@ -260,30 +275,92 @@ internal sealed class ProspectorHunt : TreasureHunt
         }
     }
 
+    /// <summary>Spawns hunt spoils as debris. Applies to <see cref="VolcanoDungeon"/>.</summary>
+    /// <remarks>Adapted from FishingRod.openTreasureMenuEndFunction.</remarks>
+    private void GetStoneTreasureForVolcanoDungeon()
+    {
+        Dictionary<int, int> treasuresAndQuantities = new();
+        var chance = 1.0;
+        var streak = Game1.player.Read<int>(DataKeys.ProspectorHuntStreak);
+        while (this.Random.NextDouble() < chance)
+        {
+            chance *= Math.Pow(0.1, 1d / (streak + 1));
+            this.AddInitialTreasure(treasuresAndQuantities);
+            switch (this.Random.Next(3))
+            {
+                case 0:
+                    this.AddOreToTreasure(treasuresAndQuantities);
+                    break;
+                case 1:
+                    this.AddArtifactsToTreasures(treasuresAndQuantities);
+                    break;
+                case 2:
+                    switch (this.Random.Next(3))
+                    {
+                        case 0:
+                            this.AddGeodesToTreasures(treasuresAndQuantities);
+                            break;
+                        case 1:
+                            this.AddMineralsToTreasures(treasuresAndQuantities);
+                            break;
+                        case 2:
+                            this.AddSpecialTreasureItems(treasuresAndQuantities);
+                            break;
+                    }
+
+                    break;
+            }
+        }
+
+        if (treasuresAndQuantities.TryGetValue(ObjectIds.Coal, out var stack) && this.Location is VolcanoDungeon &&
+            this.Random.NextDouble() < 0.5)
+        {
+            treasuresAndQuantities[ObjectIds.CinderShard] = stack;
+            treasuresAndQuantities.Remove(ObjectIds.Coal);
+        }
+
+        foreach (var (treasure, quantity) in treasuresAndQuantities)
+        {
+            Game1.createMultipleObjectDebris(
+                treasure,
+                (int)this.TreasureTile!.Value.X,
+                (int)this.TreasureTile.Value.Y,
+                quantity,
+                Game1.player.UniqueMultiplayerID,
+                Game1.currentLocation);
+        }
+    }
+
     private void AddInitialTreasure(IDictionary<int, int> treasuresAndQuantities)
     {
         if (this.Random.NextDouble() <= 0.33 && Game1.player.team.SpecialOrderRuleActive("DROP_QI_BEANS"))
         {
-            treasuresAndQuantities.Add(
+            treasuresAndQuantities.AddOrUpdate(
                 ObjectIds.QiBean,
-                this.Random.Next(1, 3) + (this.Random.NextDouble() < 0.25 ? 2 : 0));
+                this.Random.Next(1, 3) + (this.Random.NextDouble() < 0.25 ? 2 : 0),
+                (a, b) => a + b);
         }
     }
 
-    private void AddOreToTreasure(int mineLevel, Dictionary<int, int> treasuresAndQuantities)
+    private void AddOreToTreasure(Dictionary<int, int> treasuresAndQuantities, int mineLevel = -1)
     {
         if (mineLevel > 120 && this.Random.NextDouble() < 0.06)
         {
-            treasuresAndQuantities.Add(ObjectIds.IridiumOre, this.Random.Next(1, 3));
+            treasuresAndQuantities.AddOrUpdate(ObjectIds.IridiumOre, this.Random.Next(1, 3), (a, b) => a + b);
         }
 
         List<int> possibles = new();
-        if (mineLevel > 80)
+        if (mineLevel < 0 || Game1.mine.GetAdditionalDifficulty() > 0)
+        {
+            possibles.Add(ObjectIds.RadioactiveOre);
+        }
+
+        if (mineLevel is < 0 or > 80)
         {
             possibles.Add(ObjectIds.GoldOre);
         }
 
-        if (mineLevel > 40 && (possibles.Count == 0 || this.Random.NextDouble() < 0.6))
+        if (mineLevel is < 0 or > 40 && (possibles.Count == 0 || this.Random.NextDouble() < 0.6))
         {
             possibles.Add(ObjectIds.IronOre);
         }
@@ -294,11 +371,12 @@ internal sealed class ProspectorHunt : TreasureHunt
         }
 
         possibles.Add(ObjectIds.Coal);
-        treasuresAndQuantities.Add(
+        treasuresAndQuantities.AddOrUpdate(
             possibles.ElementAt(this.Random.Next(possibles.Count)),
-            this.Random.Next(2, 7) * this.Random.NextDouble() < 0.05 + (Game1.player.LuckLevel * 0.015)
+            this.Random.Next(2, 7) * (this.Random.NextDouble() < 0.05 + (Game1.player.LuckLevel * 0.015)
                 ? 2
-                : 1);
+                : 1),
+            (a, b) => a + b);
         if (this.Random.NextDouble() < 0.05 + (Game1.player.LuckLevel * 0.03))
         {
             var key = treasuresAndQuantities.Keys.Last();
@@ -310,38 +388,58 @@ internal sealed class ProspectorHunt : TreasureHunt
     {
         if (Game1.player.archaeologyFound.Any() && this.Random.NextDouble() < 0.5)
         {
-            // artifacts
-            treasuresAndQuantities.Add(
-                this.Random.NextDouble() < 0.5
-                    ? this.Random.Next(579, 590)
-                    : 535,
-                1);
+            treasuresAndQuantities.AddOrUpdate(
+                this.Random.NextDouble() > 0.35
+                    ? this.Random.Next(538, 579)
+                    : this.Random.Next(579, 590),
+                1,
+                (a, b) => a + b);
         }
         else
         {
-            treasuresAndQuantities.Add(ObjectIds.Coal, this.Random.Next(1, 4));
+            treasuresAndQuantities.AddOrUpdate(ObjectIds.Coal, this.Random.Next(1, 4), (a, b) => a + b);
         }
     }
 
-    private void AddGeodesToTreasures(int mineLevel, Dictionary<int, int> treasuresAndQuantities)
+    private void AddGeodesToTreasures(Dictionary<int, int> treasuresAndQuantities, int mineLevel = -1)
     {
         switch (mineLevel)
         {
+            case < 0:
+                if (this.Random.NextDouble() < 0.1)
+                {
+                    treasuresAndQuantities.AddOrUpdate(
+                        ObjectIds.OmniGeode,
+                        1,
+                        (a, b) => a + b);
+                }
+                else
+                {
+                    treasuresAndQuantities.AddOrUpdate(
+                        this.Random.Next(535, 538),
+                        this.Random.Next(1, 5),
+                        (a, b) => a + b);
+                }
+
+                break;
+
             case > 80:
-                treasuresAndQuantities.Add(
+                treasuresAndQuantities.AddOrUpdate(
                     ObjectIds.MagmaGeode +
                     (this.Random.NextDouble() < 0.4 ? this.Random.Next(-2, 0) : 0),
-                    this.Random.Next(1, 4));
+                    this.Random.Next(1, 4),
+                    (a, b) => a + b);
                 break;
 
             case > 40:
-                treasuresAndQuantities.Add(
+                treasuresAndQuantities.AddOrUpdate(
                     ObjectIds.FrozenGeode + (this.Random.NextDouble() < 0.4 ? -1 : 0),
-                    this.Random.Next(1, 4));
+                    this.Random.Next(1, 4),
+                    (a, b) => a + b);
                 break;
 
             default:
-                treasuresAndQuantities.Add(ObjectIds.Geode, this.Random.Next(1, 4));
+                treasuresAndQuantities.AddOrUpdate(ObjectIds.Geode, this.Random.Next(1, 4), (a, b) => a + b);
                 break;
         }
 
@@ -354,72 +452,98 @@ internal sealed class ProspectorHunt : TreasureHunt
         treasuresAndQuantities[key] *= 2;
     }
 
-    private void AddMineralsToTreasures(int mineLevel, Dictionary<int, int> treasuresAndQuantities)
+    private void AddMineralsToTreasures(Dictionary<int, int> treasuresAndQuantities, int mineLevel = -1)
     {
-        if (mineLevel < 20)
+        if (mineLevel is > 0 and < 20)
         {
-            treasuresAndQuantities.Add(ObjectIds.Coal, this.Random.Next(1, 4));
+            treasuresAndQuantities.AddOrUpdate(ObjectIds.Coal, this.Random.Next(1, 4), (a, b) => a + b);
             return;
         }
 
         switch (mineLevel)
         {
+            case < 0:
+                treasuresAndQuantities.AddOrUpdate(
+                    this.Random.NextDouble() < 0.3 ? ObjectIds.FireQuartz :
+                    60 + (this.Random.Next(6) * 2),
+                    this.Random.Next(1, 4),
+                    (a, b) => a + b);
+                break;
+
             case > 80:
-                treasuresAndQuantities.Add(
+                treasuresAndQuantities.AddOrUpdate(
                     this.Random.NextDouble() < 0.3 ? ObjectIds.FireQuartz :
                     this.Random.NextDouble() < 0.5 ? ObjectIds.Ruby : ObjectIds.Emerald,
-                    this.Random.Next(1, 3));
+                    this.Random.Next(1, 3),
+                    (a, b) => a + b);
                 break;
 
             case > 40:
-                treasuresAndQuantities.Add(
+                treasuresAndQuantities.AddOrUpdate(
                     this.Random.NextDouble() < 0.3 ? ObjectIds.FrozenTear :
                     this.Random.NextDouble() < 0.5 ? ObjectIds.Jade : ObjectIds.Aquamarine,
-                    this.Random.Next(1, 3));
+                    this.Random.Next(1, 3),
+                    (a, b) => a + b);
                 break;
 
             default:
-                treasuresAndQuantities.Add(
+                treasuresAndQuantities.AddOrUpdate(
                     this.Random.NextDouble() < 0.3 ? ObjectIds.EarthCrystal :
                     this.Random.NextDouble() < 0.5 ? ObjectIds.Amethyst : ObjectIds.Topaz,
-                    this.Random.Next(1, 3));
+                    this.Random.Next(1, 3),
+                    (a, b) => a + b);
                 break;
         }
 
         if (this.Random.NextDouble() < 0.028 * mineLevel / 12)
         {
-            treasuresAndQuantities.Add(SObject.diamondIndex, 1);
+            treasuresAndQuantities.AddOrUpdate(ObjectIds.Diamond, 1, (a, b) => a + b);
         }
         else
         {
-            treasuresAndQuantities.Add(SObject.quartzIndex, this.Random.Next(1, 3));
+            treasuresAndQuantities.AddOrUpdate(ObjectIds.Quartz, this.Random.Next(1, 3), (a, b) => a + b);
         }
     }
 
-    private void AddSpecialTreasureItems(int mineLevel, Dictionary<int, int> treasuresAndQuantities)
+    private void AddSpecialTreasureItems(Dictionary<int, int> treasuresAndQuantities, int mineLevel = -1)
     {
-        var luckModifier = Math.Max(0, 1.0 + (Game1.player.DailyLuck * mineLevel / 4));
+        var luckModifier = Math.Max(0, 1.0 + (Game1.player.DailyLuck * Math.Max(mineLevel / 4, 1)));
         var streak = Game1.player.Read<uint>(DataKeys.ProspectorHuntStreak);
-        if (this.Random.NextDouble() < 0.025 * luckModifier * streak &&
-            !Game1.player.specialItems.Contains(31))
+        if (mineLevel > 0)
         {
-            treasuresAndQuantities.Add(-1, 1); // femur
-        }
+            if (this.Random.NextDouble() < 0.025 * luckModifier * streak &&
+                !Game1.player.specialItems.Contains(31))
+            {
+                treasuresAndQuantities.TryAdd(-1, 1); // femur
+            }
 
-        if (this.Random.NextDouble() < 0.01 * luckModifier * streak &&
-            !Game1.player.specialItems.Contains(60))
+            if (this.Random.NextDouble() < 0.01 * luckModifier * streak &&
+                !Game1.player.specialItems.Contains(60))
+            {
+                treasuresAndQuantities.TryAdd(-2, 1); // ossified blade
+            }
+        }
+        else if (this.Random.NextDouble() < 0.25 * luckModifier)
         {
-            treasuresAndQuantities.Add(-2, 1); // ossified blade
+
+            treasuresAndQuantities.AddOrUpdate(
+                CombatModule.ShouldEnable && CombatModule.Config.DwarvenLegacy &&
+                Combat.Integrations.JsonAssetsIntegration.DwarvenScrapIndex is { } dwarvenScrapIndex &&
+                this.Random.NextDouble() < 0.4
+                    ? dwarvenScrapIndex
+                    : ObjectIds.DragonTooth,
+                1,
+                (a, b) => a + b);
         }
 
         if (this.Random.NextDouble() < 0.01 * luckModifier * Math.Pow(2, streak))
         {
-            treasuresAndQuantities.Add(ObjectIds.PrismaticShard, 1);
+            treasuresAndQuantities.AddOrUpdate(ObjectIds.PrismaticShard, 1, (a, b) => a + b);
         }
 
         if (treasuresAndQuantities.Count == 0)
         {
-            treasuresAndQuantities.Add(ObjectIds.Diamond, 1);
+            treasuresAndQuantities.AddOrUpdate(ObjectIds.Diamond, 1, (a, b) => a + b);
         }
     }
 }

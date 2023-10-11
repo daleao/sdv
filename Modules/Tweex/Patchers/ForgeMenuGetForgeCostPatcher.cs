@@ -43,7 +43,6 @@ internal sealed class ForgeMenuGetForgeCostPatcher : HarmonyPatcher
             default:
                 return true; // run original logic
         }
-
     }
 
     #endregion harmony patches

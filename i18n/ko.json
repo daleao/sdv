@@ -199,6 +199,9 @@
   // * ARSENAL * //
   // *********** //
 
+  "weapons.sword": "검",
+  "weapons.club": "클럽",
+  "weapons.dagger": "단검",
   "weapons.dwarven.prefix": "드워프제",
   "weapons.elven.prefix": "엘프제",
   "weapons.dark_sword.name": "저주받은 영웅의 검",
@@ -223,8 +226,11 @@
   "slingshots.infinity.desc": "갤럭시 새총의 진정한 모습.",
   "objects.galaxy_soul.desc": "작은 우주가 실체화된 정수입니다.",
 
-  "blueprint.found.first": "오래된 설계도를 발견했습니다! 빛이 많이 바랬지만, 드워프 표식 옆의 {{type}}의 형태는 알아볼 수 있습니다. 적절한 기술자에게 가져가면 해독해줄지도 모릅니다.",
-  "blueprint.found.local": "드워프 설계도를 발견했습니다.",
+  "blueprint.found.first.unknown": "오래된 청사진을 발견했습니다! 색이 바랬지만 이상한 기호와 {{type}} 모양의 대략적인 윤곽선을 알아볼 수 있습니다. 기호만 번역할 수 있다면...",
+  "blueprint.found.first.known": "오래된 청사진을 발견했습니다! 희미해졌지만 희미한 드워프 기호와 {{type}} 모양의 대략적인 윤곽선을 알아볼 수 있습니다. 아마도 올바른 장인이 그것을 이해할 수 있을 것입니다.",
+  "blueprint.found.next.unknown": "또 다른 오래된 청사진을 발견했습니다!",
+  "blueprint.found.next.known": "또 다른 드워프 설계도를 찾았습니다!",
+  "blueprint.found.need_guide": "아마도 일종의 번역 가이드를 찾아야 할 것입니다.",
   "blueprint.found.global": "{who} (이)가 드워프 설계도를 발견했습니다.",
   "blacksmith.forge.option": "제작",
   "blacksmith.forge.explanation": "네가 찾은 설계도대로 새로운 무기를 만들어줄 수 있어. 재료들만 있다면 말이야.",

@@ -11,7 +11,6 @@ using DaLion.Shared.Harmony;
 using HarmonyLib;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Shared.Extensions.Collections;
 using StardewValley.Menus;
 
 #endregion using directives

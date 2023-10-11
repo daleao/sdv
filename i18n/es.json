@@ -201,6 +201,9 @@
   // * ARSENAL * //
   // *********** //
 
+  "weapons.sword": "Espada",
+  "weapons.club": "Maza",
+  "weapons.dagger": "Daga",
   "weapons.dwarven.prefix": "Enana",
   "weapons.elven.prefix": "Élfica",
   "weapons.dark_sword.name": "Hoja de la Ruina",
@@ -225,8 +228,11 @@
   "slingshots.infinity.desc": "La verdadera forma del Tirachinas galaxia.",
   "objects.galaxy_soul.desc": "El núcleo materializado de una pequeña galaxia.",
 
-  "blueprint.found.first": "Has encontrado un plano antiguo! Está descolorido, pero reconoces la forma de un {{tipo}} junto a algunos símbolos enanos. Tal vez el artesano adecuado podría darle algún sentido.",
-  "blueprint.found.local": "Has encontrado un plano enano.",
+  "blueprint.found.first.unknown": "¡Encontraste un viejo plano! Está descolorido, pero reconoces símbolos extraños y un contorno aproximado en forma de un(a) {{type}}. Si tan sólo pudieras traducir los símbolos...",
+  "blueprint.found.first.known": "¡Encontraste un viejo plano! Está descolorido, pero reconoces débiles símbolos enanos y un contorno aproximado en forma de un(a) {{type}}. Tal vez un buen herrero podría encontrarle algún sentido.",
+  "blueprint.found.next.unknown": "¡Encontraste otro viejo plano!",
+  "blueprint.found.next.known": "¡Encontraste otro plano enano!",
+  "blueprint.found.need_guide": "Probablemente deberías buscar algún tipo de guía de traducción.",
   "blueprint.found.global": "{who} ha encontrado un plano enano.",
   "blacksmith.forge.option": "Forjar",
   "blacksmith.forge.explanation": "Podría forjar algunas armas nuevas basadas en los planos que encontraste. Si tan solo tuviera estos extraños materiales.",

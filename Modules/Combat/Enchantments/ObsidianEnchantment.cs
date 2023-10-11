@@ -46,7 +46,15 @@ public class ObsidianEnchantment : BaseWeaponEnchantment
         {
             monster.Bleed(who);
         }
+    }
 
+    /// <summary>Invoked once damage to monster has been calculated, but before it is applied.</summary>
+    /// <param name="monster">The <see cref="Monster"/> being hit.</param>
+    /// <param name="location">The <see cref="GameLocation"/>.</param>
+    /// <param name="who">The <see cref="Farmer"/> inflicting damage.</param>
+    /// <param name="amount">The calculated damage amount.</param>
+    public new void OnCalculateDamage(Monster monster, GameLocation location, Farmer who, ref int amount)
+    {
         if (CombatModule.Config.NewResistanceFormula)
         {
             amount *= 1 + (monster.resilience.Value / 10);

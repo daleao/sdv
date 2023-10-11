@@ -35,7 +35,6 @@ internal sealed class NewForgeMenuIsValidCraftPatcher : HarmonyPatcher
 
         __result = true;
         return false; // don't run original logic
-
     }
 
     #endregion harmony patches

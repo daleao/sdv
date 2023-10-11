@@ -201,6 +201,9 @@
   // * ARSENAL * //
   // *********** //
 
+  "weapons.sword": "Sword",
+  "weapons.club": "Club",
+  "weapons.dagger": "Dagger",
   "weapons.dwarven.prefix": "Dwarven",
   "weapons.elven.prefix": "Elven",
   "weapons.dark_sword.name": "Blade of Ruin",
@@ -225,9 +228,12 @@
   "slingshots.infinity.desc": "The true form of the Galaxy Slingshot.",
   "objects.galaxy_soul.desc": "The materialized core of a tiny galaxy.",
 
-  "blueprint.found.first": "You found an old Blueprint! It's faded, but you recognize the shape of a {{type}} next to some Dwarvish symbols. Maybe the right craftsman could make some sense out of it.",
-  "blueprint.found.local": "You found a Dwarvish Blueprint.",
-  "blueprint.found.global": "{{who}} has found a Dwarvish Blueprint.",
+  "blueprint.found.first.unknown": "You found an old blueprint! It's faded, but you recognize strange symbols and a rough outline in the shape of a {{type}}. If only you could translate the symbols...",
+  "blueprint.found.first.known": "You found an old blueprint! It's faded, but you recognize faint Dwarvish symbols and a rough outline in the shape of a {{type}}. Maybe the right craftsman could make some sense of it.",
+  "blueprint.found.next.unknown": "You found another old blueprint!",
+  "blueprint.found.next.known": "You found another Dwarvish blueprint!",
+  "blueprint.found.need_guide": "You should probably get around to finding some kind of translation guide.",
+  "blueprint.found.global": "{{who}} has found a Dwarvish blueprint.",
   "blacksmith.forge.option": "Forge",
   "blacksmith.forge.explanation": "I could forge some new weapons based on those blueprints you found. If only I had these strange materials.",
   "blacksmith.forge.confirmation": "Oh, you found some! I'll get started on this as soon as I can. It should be ready in a few days.",
