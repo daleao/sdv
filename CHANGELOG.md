@@ -7,7 +7,7 @@ This file contains a TL;DR of current version changes and hotfixes from across a
 * [CMBT]: Fixed weapon enchantments applying on-hit effects twice.
 * [CMBT]: Improved hold-up messages for Dwarvish blueprint and others. Changed some localization keys.
 * [CMBT]: Recolored the Dwarvish blueprint to a rusty orange.
-* [CMBT]: Lowered default difficulty settings.
+* [CMBT]: Lowered default difficulty settings (check your existing configs!).
 * [PRFS]: Prospector Hunts:
     * Can now trigger in Volcano Dungeon.
     * No longer incorrectly using Scavenger Hunt streak.
