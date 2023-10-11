@@ -175,6 +175,17 @@ It also requires a copy of [SpaceCore](https://www.nexusmods.com/stardewvalley/m
 
 <sub><sup>[🔼 Back to top](#table-of-contents)</sup></sub>
 
+## Mod Recommendations
+
+For those interested, [this is my curated modlist](https://smapi.io/log/602c07fe0f18485c9d0ee4a15036e058). This mod list is built on the following principles:
+
+- **Immersion** and **Consistency** above anything.
+- **Aesthetic:** [Gwen's Medieval Valley](https://www.nexusmods.com/stardewvalley/users/51171631?tab=user+files) combined with the criminally underated [Wittily recolor](https://www.nexusmods.com/stardewvalley/mods/2995), and topped with [Vintage UI](https://www.nexusmods.com/stardewvalley/mods/4697). Portraits are vanilla-style with [stanloona420's revised mods](https://www.nexusmods.com/stardewvalley/users/71935143?tab=user+files).
+- **Expansions:** [SVE](https://www.nexusmods.com/stardewvalley/mods/3753) only, to keep things manageable and consistent. [Aquarium](https://www.nexusmods.com/stardewvalley/mods/6372) for a little more longevity.
+- **New Items:** Mostly PPJA, with a few interesting additions.
+
+Please note that many of these mods have been heavily customized, including typo fixes, harmonized textures and even map edits.
+
 ## Credits & Special Thanks
 
 We hail the Lord and Savior [Pathoschild][user:pathoschild], creator of [SMAPI][url:smapi], Content Patcher and the mod-verse, as well as the Father, **ConcernedApe**, creator of Stardew Valley, a benevolent God who continues to support the game for both players and modders.    

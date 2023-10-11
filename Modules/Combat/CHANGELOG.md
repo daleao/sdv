@@ -1,5 +1,11 @@
 ﻿# CMBT Changelog
 
+## 3.1.11
+
+### Changed
+
+* Knockback damage no longer applies to gliders (flying enemies).
+
 ## 3.1.10
 
 ### Changed

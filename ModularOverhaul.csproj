@@ -116,6 +116,12 @@
     <EmbeddedResource Remove="depend\**" />
     <None Remove="depend\**" />
   </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="compat\**" />
+    <EmbeddedResource Update="compat\**" />
+    <None Update="compat\**"  CopyToOutputDirectory="PreserveNewest"  />
+  </ItemGroup>
   
   <!-- global usings directives -->
   <ItemGroup>
