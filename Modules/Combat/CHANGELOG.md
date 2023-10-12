@@ -2,10 +2,38 @@
 
 ## 3.1.11
 
+### Added
+
+* Blade of Ruin and Inifnity weapons now also emit light.
+* Weapons and rings that emit light now have added tooltips. Idea by [atravita](https://www.nexusmods.com/stardewvalley/users/116553368), with art by [Elizabeth](https://www.nexusmods.com/stardewvalley/users/120958053?tab=user+files).
+* Added config options to set each weapon tier color.
+* The following translation keys have been added:
+    * `ui.item_hover.attack_speed`
+    * `gmcm.cmbt.ui.color_coded.common.title`
+    * `gmcm.cmbt.ui.color_coded.common.desc`
+    * `gmcm.cmbt.ui.color_coded.uncommon.title`
+    * `gmcm.cmbt.ui.color_coded.uncommon.desc`
+    * `gmcm.cmbt.ui.color_coded.rare.title`
+    * `gmcm.cmbt.ui.color_coded.rare.desc"`
+    * `gmcm.cmbt.ui.color_coded.epic.title`
+    * `gmcm.cmbt.ui.color_coded.epic.desc`
+    * `gmcm.cmbt.ui.color_coded.mythic.title`
+    * `gmcm.cmbt.ui.color_coded.mythic.desc`
+    * `gmcm.cmbt.ui.color_coded.masterwork.title`
+    * `gmcm.cmbt.ui.color_coded.masterwork.desc`
+    * `gmcm.cmbt.ui.color_coded.legendary.title`
+    * `gmcm.cmbt.ui.color_coded.legendary.desc`
+
 ### Changed
 
 * Knockback damage no longer applies to gliders (flying enemies).
 * Wizard's summon letter for Blade of Ruin now uses Wizard's custom letter background.
+* All Legendary-tier weapons now use the same title color (no more hard-to-read gold text in Blade of Dawn). Default color is set to the same as Masterwork.
+* The following translation keys have been changed:
+    * `ui.item_hover.c_rate`
+    * `ui.item_hover.c_pow`
+    * `ui.item_hover.fire_speed`
+    * `ui.item_hover.swing_speed`
 
 ## 3.1.10
 

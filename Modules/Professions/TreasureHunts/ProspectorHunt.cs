@@ -525,7 +525,6 @@ internal sealed class ProspectorHunt : TreasureHunt
         }
         else if (this.Random.NextDouble() < 0.25 * luckModifier)
         {
-
             treasuresAndQuantities.AddOrUpdate(
                 CombatModule.ShouldEnable && CombatModule.Config.DwarvenLegacy &&
                 Combat.Integrations.JsonAssetsIntegration.DwarvenScrapIndex is { } dwarvenScrapIndex &&

@@ -1,4 +1,4 @@
-﻿namespace DaLion.Overhaul.Modules.Combat.Patchers;
+﻿namespace DaLion.Overhaul.Modules.Combat.Patchers.Enchantments;
 
 #region using directives
 

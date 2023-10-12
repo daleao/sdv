@@ -26,6 +26,9 @@ internal static class Textures
     internal static Texture2D StrongerResonanceTx { get; } =
         ModHelper.ModContent.Load<Texture2D>("assets/sprites/resonance_stronger");
 
+    internal static Texture2D TooltipsTx { get; } =
+        ModHelper.ModContent.Load<Texture2D>("assets/sprites/tooltips");
+
     internal static void Refresh(IReadOnlySet<IAssetName> names)
     {
         if (names.Any(name => name.IsEquivalentTo($"{Manifest.UniqueID}/GemstoneSockets")))

@@ -120,31 +120,31 @@ public sealed class WeaponTier : SmartEnum<WeaponTier>
         switch (value)
         {
             case 1:
-                this.Color = Color.Green;
+                this.Color = CombatModule.Config.UncommonTierColor;
                 this.Price = 400;
                 break;
             case 2:
-                this.Color = Color.Blue;
+                this.Color = CombatModule.Config.RareTierColor;
                 this.Price = 900;
                 break;
             case 3:
-                this.Color = Color.Purple;
+                this.Color = CombatModule.Config.EpicTierColor;
                 this.Price = 1600;
                 break;
             case 4:
-                this.Color = Color.Red;
+                this.Color = CombatModule.Config.MythicTierColor;
                 this.Price = 4900;
                 break;
             case 5:
-                this.Color = Color.MonoGameOrange;
+                this.Color = CombatModule.Config.MasterworkTierColor;
                 this.Price = 8100;
                 break;
             case 6:
-                this.Color = Color.White;
+                this.Color = CombatModule.Config.LegendaryTierColor;
                 this.Price = 0;
                 break;
             default:
-                this.Color = Game1.textColor;
+                this.Color = CombatModule.Config.CommonTierColor;
                 this.Price = 250;
                 break;
         }

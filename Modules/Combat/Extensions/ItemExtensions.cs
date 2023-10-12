@@ -27,74 +27,24 @@ internal static class ItemExtensions
             {
                 case MeleeWeapon weapon:
                 {
-                    var tier = WeaponTier.GetFor(weapon);
-                    if (tier == WeaponTier.Untiered)
-                    {
-                        return Game1.textColor;
-                    }
-
-                    if (tier < WeaponTier.Legendary)
-                    {
-                        return tier.Color;
-                    }
-
-                    if (weapon.isGalaxyWeapon())
-                    {
-                        return Color.DarkViolet;
-                    }
-
-                    if (weapon.IsInfinityWeapon())
-                    {
-                        return Color.DeepPink;
-                    }
-
-                    switch (weapon.InitialParentTileIndex)
-                    {
-                        case WeaponIds.DarkSword:
-                            return Color.DarkSlateGray;
-                        case WeaponIds.HolyBlade:
-                            return Color.Gold;
-                    }
-
-                    break;
+                    return WeaponTier.GetFor(weapon).Color;
                 }
 
                 case Slingshot slingshot:
                     switch (slingshot.InitialParentTileIndex)
                     {
                         case WeaponIds.GalaxySlingshot:
-                            return Color.DarkViolet;
                         case WeaponIds.InfinitySlingshot:
-                            return Color.DeepPink;
+                            return CombatModule.Config.LegendaryTierColor;
                         default:
-                            if (slingshot.Name.Contains("Copper"))
-                            {
-                                return UpgradeLevel.Copper.GetTextColor();
-                            }
-
-                            if (slingshot.Name.Contains("Steel"))
-                            {
-                                return UpgradeLevel.Steel.GetTextColor();
-                            }
-
-                            if (slingshot.Name.Contains("Gold"))
-                            {
-                                return UpgradeLevel.Gold.GetTextColor();
-                            }
-
-                            if (slingshot.Name.Contains("Iridium"))
-                            {
-                                return UpgradeLevel.Iridium.GetTextColor();
-                            }
-
                             if (slingshot.Name.Contains("Yoba"))
                             {
-                                return Color.Gold;
+                                return CombatModule.Config.LegendaryTierColor;
                             }
 
                             if (slingshot.Name.Contains("Dwarven"))
                             {
-                                return Color.MonoGameOrange;
+                                return CombatModule.Config.MasterworkTierColor;
                             }
 
                             break;
@@ -105,15 +55,14 @@ internal static class ItemExtensions
         }
         else if (tool.UpgradeLevel > 0 && ToolsModule.ShouldEnable && ToolsModule.Config.ColorCodedForYourConvenience)
         {
-            if (tool is FishingRod)
+            if (tool is not FishingRod)
             {
-                if (tool.UpgradeLevel > 2)
-                {
-                    return Color.Violet.ChangeValue(0.5f);
-                }
+                return ((UpgradeLevel)tool.UpgradeLevel).GetTextColor();
             }
 
-            return ((UpgradeLevel)tool.UpgradeLevel).GetTextColor();
+            return tool.UpgradeLevel > 2
+                ? Color.Violet.ChangeValue(0.5f)
+                : Game1.textColor;
         }
 
         return Game1.textColor;

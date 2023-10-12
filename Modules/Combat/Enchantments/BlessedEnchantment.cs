@@ -8,6 +8,7 @@ using DaLion.Overhaul.Modules.Combat.Events.Player.Warped;
 using DaLion.Overhaul.Modules.Combat.Projectiles;
 using DaLion.Shared.Enums;
 using Microsoft.Xna.Framework;
+using Shared.Extensions.Xna;
 using StardewValley.Monsters;
 using StardewValley.Tools;
 
@@ -17,6 +18,8 @@ using StardewValley.Tools;
 [XmlType("Mods_DaLion_BlessedEnchantment")]
 public class BlessedEnchantment : BaseWeaponEnchantment
 {
+    private readonly Color _lightSourceColor = Color.Yellow.Inverse();
+    private readonly float _lightSourceRadius = 2f;
     private int? _lightSourceId;
 
     /// <inheritdoc />
@@ -61,9 +64,9 @@ public class BlessedEnchantment : BaseWeaponEnchantment
 
         newLocation.sharedLights[this._lightSourceId.Value] = new LightSource(
             LightSource.lantern,
-            new Vector2(who.Position.X + 21f, who.Position.Y + 64f),
-            2.5f,
-            Color.Gold,
+            new Vector2(who.Position.X + 26f, who.Position.Y + 64f),
+            this._lightSourceRadius,
+            this._lightSourceColor,
             this._lightSourceId.Value,
             LightSource.LightContext.None,
             who.UniqueMultiplayerID);
@@ -84,7 +87,7 @@ public class BlessedEnchantment : BaseWeaponEnchantment
 
         who.currentLocation.repositionLightSource(
             this._lightSourceId.Value,
-            new Vector2(who.Position.X + 21f, who.Position.Y) + offset);
+            new Vector2(who.Position.X + 26f, who.Position.Y + 16) + offset);
     }
 
     /// <inheritdoc />
@@ -114,13 +117,13 @@ public class BlessedEnchantment : BaseWeaponEnchantment
 
         location.sharedLights[this._lightSourceId.Value] = new LightSource(
             LightSource.lantern,
-            new Vector2(who.Position.X + 21f, who.Position.Y + 64f),
-            2.5f,
-            Color.Gold,
+            new Vector2(who.Position.X + 26f, who.Position.Y + 64f),
+            this._lightSourceRadius,
+            this._lightSourceColor,
             this._lightSourceId.Value,
             LightSource.LightContext.None,
             who.UniqueMultiplayerID);
-        EventManager.Enable(typeof(BlessedEnchantmentUpdateTickedEvent), typeof(BlessedEnchantmentWarpedEvent));
+        EventManager.Enable(typeof(WeaponEnchantmentUpdateTickedEvent), typeof(WeaponEnchantmentWarpedEvent));
     }
 
     /// <inheritdoc />
@@ -134,7 +137,7 @@ public class BlessedEnchantment : BaseWeaponEnchantment
 
         var location = who.currentLocation;
         location.removeLightSource(this._lightSourceId.Value);
-        EventManager.Disable(typeof(BlessedEnchantmentUpdateTickedEvent), typeof(BlessedEnchantmentWarpedEvent));
+        EventManager.Disable(typeof(WeaponEnchantmentUpdateTickedEvent), typeof(WeaponEnchantmentWarpedEvent));
     }
 
     /// <inheritdoc />

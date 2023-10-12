@@ -74,7 +74,7 @@ internal sealed class ToolDrawTooltipPatcher : HarmonyPatcher
                 Utility.drawWithShadow(
                     spriteBatch,
                     Game1.mouseCursors,
-                    new Vector2(x + 20, y + 20),
+                    new Vector2(x + 20f, y + 20f),
                     new Rectangle(120, 428, 10, 10),
                     Color.White,
                     0f,
@@ -90,7 +90,7 @@ internal sealed class ToolDrawTooltipPatcher : HarmonyPatcher
                         minDamage,
                         maxDamage),
                     font,
-                    new Vector2(x + 68, y + 28),
+                    new Vector2(x + 68f, y + 28f),
                     co * 0.9f * alpha);
 
                 y += (int)Math.Max(font.MeasureString("TT").Y, 48f);
@@ -102,7 +102,7 @@ internal sealed class ToolDrawTooltipPatcher : HarmonyPatcher
                 Utility.drawWithShadow(
                     spriteBatch,
                     Game1.mouseCursors,
-                    new Vector2(x + 20, y + 20),
+                    new Vector2(x + 20f, y + 20f),
                     new Rectangle(120, 428, 10, 10),
                     Color.White,
                     0f,
@@ -115,7 +115,7 @@ internal sealed class ToolDrawTooltipPatcher : HarmonyPatcher
                     spriteBatch,
                     I18n.Ui_ItemHover_Damage($"+{slingshot.Get_DisplayedDamageModifier():#.#%}"),
                     font,
-                    new Vector2(x + 68, y + 28),
+                    new Vector2(x + 68f, y + 28f),
                     co * 0.9f * alpha);
 
                 y += (int)Math.Max(font.MeasureString("TT").Y, 48f);
@@ -130,7 +130,7 @@ internal sealed class ToolDrawTooltipPatcher : HarmonyPatcher
                 Utility.drawWithShadow(
                     spriteBatch,
                     Game1.mouseCursors,
-                    new Vector2(x + 20, y + 20),
+                    new Vector2(x + 20f, y + 20f),
                     new Rectangle(70, 428, 10, 10),
                     Color.White,
                     0f,
@@ -143,7 +143,7 @@ internal sealed class ToolDrawTooltipPatcher : HarmonyPatcher
                     spriteBatch,
                     I18n.Ui_ItemHover_Knockback($"{knockback:+#.#%;-#.#%}"),
                     font,
-                    new Vector2(x + 68, y + 28),
+                    new Vector2(x + 68f, y + 28f),
                     co * 0.9f * alpha);
 
                 y += (int)Math.Max(font.MeasureString("TT").Y, 48f);
@@ -158,7 +158,7 @@ internal sealed class ToolDrawTooltipPatcher : HarmonyPatcher
                 Utility.drawWithShadow(
                     spriteBatch,
                     Game1.mouseCursors,
-                    new Vector2(x + 20, y + 20),
+                    new Vector2(x + 20f, y + 20f),
                     new Rectangle(40, 428, 10, 10),
                     Color.White,
                     0f,
@@ -169,15 +169,15 @@ internal sealed class ToolDrawTooltipPatcher : HarmonyPatcher
 
                 Utility.drawTextWithShadow(
                     spriteBatch,
-                    I18n.Ui_ItemHover_Crate($"{critChance:+#.#%;-#.#%}"),
+                    I18n.Ui_ItemHover_CRate($"{critChance:+#.#%;-#.#%}"),
                     font,
-                    new Vector2(x + 68, y + 28),
+                    new Vector2(x + 68f, y + 28f),
                     co * 0.9f * alpha);
 
                 y += (int)Math.Max(font.MeasureString("TT").Y, 48f);
             }
 
-            // draw crit. damage
+            // draw crit. power
             var critPower = slingshot.Get_DisplayedCritPower();
             if (critPower != 0f)
             {
@@ -186,7 +186,7 @@ internal sealed class ToolDrawTooltipPatcher : HarmonyPatcher
                 Utility.drawWithShadow(
                     spriteBatch,
                     Game1.mouseCursors,
-                    new Vector2(x + 16, y + 20),
+                    new Vector2(x + 20f, y + 20f),
                     new Rectangle(160, 428, 10, 10),
                     Color.White,
                     0f,
@@ -197,9 +197,9 @@ internal sealed class ToolDrawTooltipPatcher : HarmonyPatcher
 
                 Utility.drawTextWithShadow(
                     spriteBatch,
-                    I18n.Ui_ItemHover_Cpow($"{critPower:+#.#%;-#.#%}"),
+                    I18n.Ui_ItemHover_CPow($"{critPower:+#.#%;-#.#%}"),
                     font,
-                    new Vector2(x + 68, y + 28),
+                    new Vector2(x + 68f, y + 28f),
                     co * 0.9f * alpha);
 
                 y += (int)Math.Max(font.MeasureString("TT").Y, 48f);
@@ -214,7 +214,7 @@ internal sealed class ToolDrawTooltipPatcher : HarmonyPatcher
                 Utility.drawWithShadow(
                     spriteBatch,
                     Game1.mouseCursors,
-                    new Vector2(x + 20, y + 20),
+                    new Vector2(x + 20f, y + 20f),
                     new Rectangle(130, 428, 10, 10),
                     Color.White,
                     0f,
@@ -225,9 +225,9 @@ internal sealed class ToolDrawTooltipPatcher : HarmonyPatcher
 
                 Utility.drawTextWithShadow(
                     spriteBatch,
-                    I18n.Ui_ItemHover_Firespeed($"{speedModifier:+#.#%;-#.#%}"),
+                    I18n.Ui_ItemHover_FireSpeed($"{speedModifier:+#.#%;-#.#%}"),
                     font,
-                    new Vector2(x + 68, y + 28),
+                    new Vector2(x + 68f, y + 28f),
                     co * 0.9f * alpha);
 
                 y += (int)Math.Max(font.MeasureString("TT").Y, 48f);
@@ -241,9 +241,9 @@ internal sealed class ToolDrawTooltipPatcher : HarmonyPatcher
 
                 Utility.drawWithShadow(
                     spriteBatch,
-                    Game1.mouseCursors,
-                    new Vector2(x + 20, y + 20),
-                    new Rectangle(150, 428, 10, 10),
+                    Textures.TooltipsTx,
+                    new Vector2(x + 20f, y + 20f),
+                    new Rectangle(10, 0, 10, 10),
                     Color.White,
                     0f,
                     Vector2.Zero,
@@ -255,7 +255,7 @@ internal sealed class ToolDrawTooltipPatcher : HarmonyPatcher
                     spriteBatch,
                     I18n.Ui_ItemHover_Cdr($"-{cooldownModifier:#.#%}"),
                     font,
-                    new Vector2(x + 68, y + 28),
+                    new Vector2(x + 68f, y + 28f),
                     co * 0.9f * alpha);
 
                 y += (int)Math.Max(font.MeasureString("TT").Y, 48f);
@@ -273,7 +273,7 @@ internal sealed class ToolDrawTooltipPatcher : HarmonyPatcher
                 Utility.drawWithShadow(
                     spriteBatch,
                     Game1.mouseCursors,
-                    new Vector2(x + 20, y + 20),
+                    new Vector2(x + 20f, y + 20f),
                     new Rectangle(110, 428, 10, 10),
                     Color.White,
                     0f,
@@ -288,7 +288,7 @@ internal sealed class ToolDrawTooltipPatcher : HarmonyPatcher
                         ? I18n.Ui_ItemHover_Resist(amount)
                         : Game1.content.LoadString("ItemHover_DefenseBonus", amount),
                     font,
-                    new Vector2(x + 68, y + 28),
+                    new Vector2(x + 68f, y + 28f),
                     co * 0.9f * alpha);
 
                 y += (int)Math.Max(font.MeasureString("TT").Y, 48f);
@@ -307,7 +307,7 @@ internal sealed class ToolDrawTooltipPatcher : HarmonyPatcher
                 Utility.drawWithShadow(
                     spriteBatch,
                     Game1.mouseCursors2,
-                    new Vector2(x + 20, y + 20),
+                    new Vector2(x + 20f, y + 20f),
                     new Rectangle(127, 35, 10, 10),
                     Color.White,
                     0f,
@@ -319,7 +319,7 @@ internal sealed class ToolDrawTooltipPatcher : HarmonyPatcher
                     spriteBatch,
                     BaseEnchantment.hideEnchantmentName ? "???" : enchantment.GetDisplayName(),
                     font,
-                    new Vector2(x + 68, y + 28),
+                    new Vector2(x + 68f, y + 28f),
                     co * 0.9f * alpha);
                 y += (int)Math.Max(font.MeasureString("TT").Y, 48f);
             }
@@ -355,7 +355,7 @@ internal sealed class ToolDrawTooltipPatcher : HarmonyPatcher
             Utility.drawWithShadow(
                 spriteBatch,
                 Game1.mouseCursors,
-                new Vector2(x + 20, y + 20),
+                new Vector2(x + 20f, y + 20f),
                 new Rectangle(120, 428, 10, 10),
                 Color.White,
                 0f,
@@ -368,7 +368,7 @@ internal sealed class ToolDrawTooltipPatcher : HarmonyPatcher
                 spriteBatch,
                 I18n.Ui_ItemHover_Damage($"+{slingshot.Get_DisplayedDamageModifier():#.#%}"),
                 font,
-                new Vector2(x + 68, y + 28),
+                new Vector2(x + 68f, y + 28),
                 co * 0.9f * alpha);
 
             y += (int)Math.Max(font.MeasureString("TT").Y, 48f);
@@ -382,7 +382,7 @@ internal sealed class ToolDrawTooltipPatcher : HarmonyPatcher
             Utility.drawWithShadow(
                 spriteBatch,
                 Game1.mouseCursors,
-                new Vector2(x + 20, y + 20),
+                new Vector2(x + 20f, y + 20f),
                 new Rectangle(70, 428, 10, 10),
                 Color.White,
                 0f,
@@ -395,20 +395,20 @@ internal sealed class ToolDrawTooltipPatcher : HarmonyPatcher
                 spriteBatch,
                 I18n.Ui_ItemHover_Knockback($"+{slingshot.Get_DisplayedKnockback():#.#%}"),
                 font,
-                new Vector2(x + 68, y + 28),
+                new Vector2(x + 68f, y + 28f),
                 co * 0.9f * alpha);
 
             y += (int)Math.Max(font.MeasureString("TT").Y, 48f);
         }
 
-        // write bonus crit rate
+        // write bonus crit. chance
         if (slingshot.hasEnchantmentOfType<AquamarineEnchantment>())
         {
             co = new Color(0, 120, 120);
             Utility.drawWithShadow(
                 spriteBatch,
                 Game1.mouseCursors,
-                new Vector2(x + 20, y + 20),
+                new Vector2(x + 20f, y + 20f),
                 new Rectangle(40, 428, 10, 10),
                 Color.White,
                 0f,
@@ -419,22 +419,22 @@ internal sealed class ToolDrawTooltipPatcher : HarmonyPatcher
 
             Utility.drawTextWithShadow(
                 spriteBatch,
-                I18n.Ui_ItemHover_Crate($"{slingshot.Get_DisplayedCritChance():#.#%}"),
+                I18n.Ui_ItemHover_CRate($"{slingshot.Get_DisplayedCritChance():#.#%}"),
                 font,
-                new Vector2(x + 68, y + 28),
+                new Vector2(x + 68f, y + 28f),
                 co * 0.9f * alpha);
 
             y += (int)Math.Max(font.MeasureString("TT").Y, 48f);
         }
 
-        // write crit power
+        // write crit. power
         if (slingshot.hasEnchantmentOfType<JadeEnchantment>())
         {
             co = new Color(0, 120, 120);
             Utility.drawWithShadow(
                 spriteBatch,
                 Game1.mouseCursors,
-                new Vector2(x + 16, y + 16 + 4),
+                new Vector2(x + 20f, y + 20f),
                 new Rectangle(160, 428, 10, 10),
                 Color.White,
                 0f,
@@ -445,9 +445,9 @@ internal sealed class ToolDrawTooltipPatcher : HarmonyPatcher
 
             Utility.drawTextWithShadow(
                 spriteBatch,
-                I18n.Ui_ItemHover_Cpow($"{slingshot.Get_DisplayedCritPower():#.#%}"),
+                I18n.Ui_ItemHover_CPow($"{slingshot.Get_DisplayedCritPower():#.#%}"),
                 font,
-                new Vector2(x + 16 + 44, y + 16 + 12),
+                new Vector2(x + 68f, y + 28f),
                 co * 0.9f * alpha);
 
             y += (int)Math.Max(font.MeasureString("TT").Y, 48f);
@@ -460,7 +460,7 @@ internal sealed class ToolDrawTooltipPatcher : HarmonyPatcher
             Utility.drawWithShadow(
                 spriteBatch,
                 Game1.mouseCursors,
-                new Vector2(x + 20, y + 20),
+                new Vector2(x + 20f, y + 20f),
                 new Rectangle(130, 428, 10, 10),
                 Color.White,
                 0f,
@@ -471,9 +471,9 @@ internal sealed class ToolDrawTooltipPatcher : HarmonyPatcher
 
             Utility.drawTextWithShadow(
                 spriteBatch,
-                I18n.Ui_ItemHover_Firespeed($"+{slingshot.Get_DisplayedFireSpeed():#.#%}"),
+                I18n.Ui_ItemHover_FireSpeed($"+{slingshot.Get_DisplayedFireSpeed():#.#%}"),
                 font,
-                new Vector2(x + 68, y + 28),
+                new Vector2(x + 68f, y + 28f),
                 co * 0.9f * alpha);
 
             y += (int)Math.Max(font.MeasureString("TT").Y, 48f);
@@ -487,7 +487,7 @@ internal sealed class ToolDrawTooltipPatcher : HarmonyPatcher
             Utility.drawWithShadow(
                 spriteBatch,
                 Game1.mouseCursors,
-                new Vector2(x + 20, y + 20),
+                new Vector2(x + 20f, y + 20f),
                 new Rectangle(150, 428, 10, 10),
                 Color.White,
                 0f,
@@ -500,7 +500,7 @@ internal sealed class ToolDrawTooltipPatcher : HarmonyPatcher
                 spriteBatch,
                 I18n.Ui_ItemHover_Cdr(amount),
                 font,
-                new Vector2(x + 68, y + 28),
+                new Vector2(x + 68f, y + 28f),
                 co * 0.9f * alpha);
 
             y += (int)Math.Max(font.MeasureString("TT").Y, 48f);
@@ -516,7 +516,7 @@ internal sealed class ToolDrawTooltipPatcher : HarmonyPatcher
             Utility.drawWithShadow(
                 spriteBatch,
                 Game1.mouseCursors,
-                new Vector2(x + 20, y + 20),
+                new Vector2(x + 20f, y + 20f),
                 new Rectangle(110, 428, 10, 10),
                 Color.White,
                 0f,
@@ -531,7 +531,7 @@ internal sealed class ToolDrawTooltipPatcher : HarmonyPatcher
                     ? I18n.Ui_ItemHover_Resist(amount)
                     : Game1.content.LoadString("ItemHover_DefenseBonus", amount),
                 font,
-                new Vector2(x + 68, y + 28),
+                new Vector2(x + 68f, y + 28f),
                 co * 0.9f * alpha);
 
             y += (int)Math.Max(font.MeasureString("TT").Y, 48f);
@@ -549,7 +549,7 @@ internal sealed class ToolDrawTooltipPatcher : HarmonyPatcher
                 spriteBatch,
                 randomForgeString,
                 font,
-                new Vector2(x + 16, y + 28),
+                new Vector2(x + 16f, y + 28f),
                 co * 0.9f * alpha);
             y += (int)Math.Max(font.MeasureString("TT").Y, 48f);
         }
@@ -567,7 +567,7 @@ internal sealed class ToolDrawTooltipPatcher : HarmonyPatcher
             Utility.drawWithShadow(
                 spriteBatch,
                 Game1.mouseCursors2,
-                new Vector2(x + 20, y + 20),
+                new Vector2(x + 20f, y + 20f),
                 new Rectangle(127, 35, 10, 10),
                 Color.White,
                 0f,
@@ -580,7 +580,7 @@ internal sealed class ToolDrawTooltipPatcher : HarmonyPatcher
                 spriteBatch,
                 BaseEnchantment.hideEnchantmentName ? "???" : enchantment.GetDisplayName(),
                 font,
-                new Vector2(x + 68, y + 28),
+                new Vector2(x + 68f, y + 28f),
                 co * 0.9f * alpha);
 
             y += (int)Math.Max(font.MeasureString("TT").Y, 48f);

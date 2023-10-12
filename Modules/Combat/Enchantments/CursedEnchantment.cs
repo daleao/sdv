@@ -39,6 +39,9 @@ public class CursedEnchantment : BaseWeaponEnchantment
         return false;
     }
 
+
+
+
     /// <inheritdoc />
     protected override void _OnEquip(Farmer who)
     {

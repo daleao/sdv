@@ -3,7 +3,9 @@
 #region using directives
 
 using System.Reflection;
+using DaLion.Overhaul.Modules.Combat.Extensions;
 using DaLion.Overhaul.Modules.Combat.VirtualProperties;
+using DaLion.Shared.Constants;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
 using Microsoft.Xna.Framework;
@@ -28,7 +30,8 @@ internal sealed class MeleeWeaponDrawTooltipPatcher : HarmonyPatcher
     private static bool MeleeWeaponDrawTooltipPrefix(
         MeleeWeapon __instance, SpriteBatch spriteBatch, ref int x, ref int y, SpriteFont font, float alpha)
     {
-        if (CombatModule.Config.WeaponTooltipStyle == Config.TooltipStyle.Vanilla || __instance.isScythe())
+        if (!CombatModule.Config.EnableWeaponOverhaul ||
+            CombatModule.Config.WeaponTooltipStyle == Config.TooltipStyle.Vanilla || __instance.isScythe())
         {
             return true; // run original logic
         }
@@ -43,7 +46,7 @@ internal sealed class MeleeWeaponDrawTooltipPatcher : HarmonyPatcher
                 spriteBatch,
                 Game1.parseText(__instance.description, Game1.smallFont, descriptionWidth),
                 font,
-                new Vector2(x + 16, y + 20),
+                new Vector2(x + 16f, y + 20f),
                 Game1.textColor);
             y += (int)font.MeasureString(Game1.parseText(__instance.description, Game1.smallFont, descriptionWidth)).Y;
 
@@ -58,7 +61,7 @@ internal sealed class MeleeWeaponDrawTooltipPatcher : HarmonyPatcher
             Utility.drawWithShadow(
                 spriteBatch,
                 Game1.mouseCursors,
-                new Vector2(x + 20, y + 20),
+                new Vector2(x + 20f, y + 20f),
                 new Rectangle(120, 428, 10, 10),
                 Color.White,
                 0f,
@@ -66,14 +69,16 @@ internal sealed class MeleeWeaponDrawTooltipPatcher : HarmonyPatcher
                 4f,
                 false,
                 1f);
+
+            var text = Game1.content.LoadString(
+                "Strings\\UI:ItemHover_Damage",
+                __instance.Get_MinDamage(),
+                __instance.Get_MaxDamage());
             Utility.drawTextWithShadow(
                 spriteBatch,
-                Game1.content.LoadString(
-                    "Strings\\UI:ItemHover_Damage",
-                    __instance.Get_MinDamage(),
-                    __instance.Get_MaxDamage()),
+                text,
                 font,
-                new Vector2(x + 68, y + 28),
+                new Vector2(x + 68f, y + 28f),
                 co * 0.9f * alpha);
             y += (int)Math.Max(font.MeasureString("TT").Y, 48f);
 
@@ -85,7 +90,7 @@ internal sealed class MeleeWeaponDrawTooltipPatcher : HarmonyPatcher
                 Utility.drawWithShadow(
                     spriteBatch,
                     Game1.mouseCursors,
-                    new Vector2(x + 20, y + 20),
+                    new Vector2(x + 20f, y + 20f),
                     new Rectangle(70, 428, 10, 10),
                     Color.White,
                     0f,
@@ -94,11 +99,12 @@ internal sealed class MeleeWeaponDrawTooltipPatcher : HarmonyPatcher
                     false,
                     1f);
 
+                text = I18n.Ui_ItemHover_Knockback($"{relativeKnockback:+#.#%;-#.#%}");
                 Utility.drawTextWithShadow(
                     spriteBatch,
-                    I18n.Ui_ItemHover_Knockback($"{relativeKnockback:+#.#%;-#.#%}"),
+                    text,
                     font,
-                    new Vector2(x + 68, y + 28),
+                    new Vector2(x + 68f, y + 28f),
                     co * 0.9f * alpha);
 
                 y += (int)Math.Max(font.MeasureString("TT").Y, 48f);
@@ -114,7 +120,7 @@ internal sealed class MeleeWeaponDrawTooltipPatcher : HarmonyPatcher
                 Utility.drawWithShadow(
                     spriteBatch,
                     Game1.mouseCursors,
-                    new Vector2(x + 20, y + 20),
+                    new Vector2(x + 20f, y + 20f),
                     new Rectangle(40, 428, 10, 10),
                     Color.White,
                     0f,
@@ -123,11 +129,12 @@ internal sealed class MeleeWeaponDrawTooltipPatcher : HarmonyPatcher
                     false,
                     1f);
 
+                text = Game1.parseText(I18n.Ui_ItemHover_CRate($"{relativeCritChance:+#.#%;-#.#%}"), Game1.smallFont, descriptionWidth);
                 Utility.drawTextWithShadow(
                     spriteBatch,
-                    I18n.Ui_ItemHover_Crate($"{relativeCritChance:+#.#%;-#.#%}"),
+                    text,
                     font,
-                    new Vector2(x + 68, y + 28),
+                    new Vector2(x + 68f, y + 28f),
                     co * 0.9f * alpha);
 
                 y += (int)Math.Max(font.MeasureString("TT").Y, 48f);
@@ -141,7 +148,7 @@ internal sealed class MeleeWeaponDrawTooltipPatcher : HarmonyPatcher
                 Utility.drawWithShadow(
                     spriteBatch,
                     Game1.mouseCursors,
-                    new Vector2(x + 16, y + 20),
+                    new Vector2(x + 20f, y + 20f),
                     new Rectangle(160, 428, 10, 10),
                     Color.White,
                     0f,
@@ -150,11 +157,12 @@ internal sealed class MeleeWeaponDrawTooltipPatcher : HarmonyPatcher
                     false,
                     1f);
 
+                text = I18n.Ui_ItemHover_CPow($"{relativeGetCritPower:+#.#%;-#.#%}");
                 Utility.drawTextWithShadow(
                     spriteBatch,
-                    I18n.Ui_ItemHover_Cpow($"{relativeGetCritPower:+#.#%;-#.#%}"),
+                    text,
                     font,
-                    new Vector2(x + 68, y + 28),
+                    new Vector2(x + 68f, y + 28f),
                     co * 0.9f * alpha);
 
                 y += (int)Math.Max(font.MeasureString("TT").Y, 48f);
@@ -168,7 +176,7 @@ internal sealed class MeleeWeaponDrawTooltipPatcher : HarmonyPatcher
                 Utility.drawWithShadow(
                     spriteBatch,
                     Game1.mouseCursors,
-                    new Vector2(x + 20, y + 20),
+                    new Vector2(x + 20f, y + 20f),
                     new Rectangle(130, 428, 10, 10),
                     Color.White,
                     0f,
@@ -177,11 +185,12 @@ internal sealed class MeleeWeaponDrawTooltipPatcher : HarmonyPatcher
                     false,
                     1f);
 
+                text = Game1.parseText(I18n.Ui_ItemHover_SwingSpeed($"{speed:+#.#%;-#.#%}"), Game1.smallFont, descriptionWidth);
                 Utility.drawTextWithShadow(
                     spriteBatch,
-                    I18n.Ui_ItemHover_Swingspeed($"{speed:+#.#%;-#.#%}"),
+                    text,
                     font,
-                    new Vector2(x + 68, y + 28),
+                    new Vector2(x + 68f, y + 28f),
                     co * 0.9f * alpha);
 
                 y += (int)Math.Max(font.MeasureString("TT").Y, 48f);
@@ -194,9 +203,9 @@ internal sealed class MeleeWeaponDrawTooltipPatcher : HarmonyPatcher
                 co = new Color(0, 120, 120);
                 Utility.drawWithShadow(
                     spriteBatch,
-                    Game1.mouseCursors,
-                    new Vector2(x + 20, y + 20),
-                    new Rectangle(150, 428, 10, 10),
+                    Textures.TooltipsTx,
+                    new Vector2(x + 20f, y + 20f),
+                    new Rectangle(10, 0, 10, 10),
                     Color.White,
                     0f,
                     Vector2.Zero,
@@ -204,11 +213,12 @@ internal sealed class MeleeWeaponDrawTooltipPatcher : HarmonyPatcher
                     false,
                     1f);
 
+                text = I18n.Ui_ItemHover_Cdr($"-{cooldownReduction:#.#%}");
                 Utility.drawTextWithShadow(
                     spriteBatch,
-                    I18n.Ui_ItemHover_Cdr($"-{cooldownReduction:#.#%}"),
+                    text,
                     font,
-                    new Vector2(x + 68, y + 28),
+                    new Vector2(x + 68f, y + 28f),
                     co * 0.9f * alpha);
 
                 y += (int)Math.Max(font.MeasureString("TT").Y, 48f);
@@ -222,7 +232,7 @@ internal sealed class MeleeWeaponDrawTooltipPatcher : HarmonyPatcher
                 Utility.drawWithShadow(
                     spriteBatch,
                     Game1.mouseCursors,
-                    new Vector2(x + 20, y + 20),
+                    new Vector2(x + 20f, y + 20f),
                     new Rectangle(110, 428, 10, 10),
                     Color.White,
                     0f,
@@ -231,15 +241,40 @@ internal sealed class MeleeWeaponDrawTooltipPatcher : HarmonyPatcher
                     false,
                     1f);
 
+                text = CombatModule.Config.NewResistanceFormula
+                    ? I18n.Ui_ItemHover_Resist($"{resistance:+#.#%;-#.#%}")
+                    : Game1.content.LoadString("Strings\\UI:ItemHover_DefenseBonus", __instance.addedDefense.Value)
+                        .Replace("+", string.Empty);
                 Utility.drawTextWithShadow(
                     spriteBatch,
-                    CombatModule.ShouldEnable && CombatModule.Config.NewResistanceFormula
-                        ? I18n.Ui_ItemHover_Resist($"{resistance:+#.#%;-#.#%}")
-                        : Game1.content.LoadString("Strings\\UI:ItemHover_DefenseBonus", __instance.addedDefense.Value).Replace("+", string.Empty),
+                    text,
                     font,
-                    new Vector2(x + 68, y + 28),
+                    new Vector2(x + 68f, y + 28f),
                     co * 0.9f * alpha);
 
+                y += (int)Math.Max(font.MeasureString("TT").Y, 48f);
+            }
+
+            // write light emittance
+            if (__instance.InitialParentTileIndex == WeaponIds.HolyBlade || __instance.IsInfinityWeapon())
+            {
+                co = __instance.IsInfinityWeapon()
+                    ? Color.DeepPink
+                    : Game1.textColor;
+                Utility.drawWithShadow(
+                    spriteBatch,
+                    Textures.TooltipsTx,
+                    new Vector2(x + 20f, y + 20f),
+                    new Rectangle(0, 0, 10, 10),
+                    Color.White,
+                    0f,
+                    Vector2.Zero,
+                    4f,
+                    false,
+                    1f);
+
+                text = I18n.Ui_Item_Hover_Light();
+                Utility.drawTextWithShadow(spriteBatch, text, font, new Vector2(x + 68f, y + 28f), co * 0.9f * alpha);
                 y += (int)Math.Max(font.MeasureString("TT").Y, 48f);
             }
 
@@ -251,11 +286,12 @@ internal sealed class MeleeWeaponDrawTooltipPatcher : HarmonyPatcher
                 var randomForgeString = randomForges != 1
                     ? Game1.content.LoadString("Strings\\UI:ItemHover_DiamondForge_Plural", randomForges)
                     : Game1.content.LoadString("Strings\\UI:ItemHover_DiamondForge_Singular", randomForges);
+
                 Utility.drawTextWithShadow(
                     spriteBatch,
                     randomForgeString,
                     font,
-                    new Vector2(x + 16, y + 28),
+                    new Vector2(x + 16f, y + 28f),
                     co * 0.9f * alpha);
 
                 y += (int)Math.Max(font.MeasureString("TT").Y, 48f);
@@ -275,7 +311,7 @@ internal sealed class MeleeWeaponDrawTooltipPatcher : HarmonyPatcher
                 Utility.drawWithShadow(
                     spriteBatch,
                     Game1.mouseCursors2,
-                    new Vector2(x + 20, y + 20),
+                    new Vector2(x + 20f, y + 20f),
                     new Rectangle(127, 35, 10, 10),
                     Color.White,
                     0f,
@@ -284,11 +320,12 @@ internal sealed class MeleeWeaponDrawTooltipPatcher : HarmonyPatcher
                     false,
                     1f);
 
+                text = BaseEnchantment.hideEnchantmentName ? "???" : enchantment.GetDisplayName();
                 Utility.drawTextWithShadow(
                     spriteBatch,
-                    BaseEnchantment.hideEnchantmentName ? "???" : enchantment.GetDisplayName(),
+                    text,
                     font,
-                    new Vector2(x + 68, y + 28),
+                    new Vector2(x + 68f, y + 28f),
                     co * 0.9f * alpha);
 
                 y += (int)Math.Max(font.MeasureString("TT").Y, 48f);

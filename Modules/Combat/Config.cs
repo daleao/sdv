@@ -318,6 +318,34 @@ public sealed class Config : Shared.Configs.Config
     [JsonProperty]
     public bool ColorCodedForYourConvenience { get; internal set; } = true;
 
+    /// <summary>Gets the <see cref="Color"/> used by common-tier weapons.</summary>
+    [JsonProperty]
+    public Color CommonTierColor { get; internal set; } = Game1.textColor;
+
+    /// <summary>Gets the <see cref="Color"/> used by uncommon-tier weapons.</summary>
+    [JsonProperty]
+    public Color UncommonTierColor { get; internal set; } = Color.Green;
+
+    /// <summary>Gets the <see cref="Color"/> used by rare-tier weapons.</summary>
+    [JsonProperty]
+    public Color RareTierColor { get; internal set; } = Color.Blue;
+
+    /// <summary>Gets the <see cref="Color"/> used by common-tier weapons.</summary>
+    [JsonProperty]
+    public Color EpicTierColor { get; internal set; } = Color.Purple;
+
+    /// <summary>Gets the <see cref="Color"/> used by common-tier weapons.</summary>
+    [JsonProperty]
+    public Color MythicTierColor { get; internal set; } = Color.Red;
+
+    /// <summary>Gets the <see cref="Color"/> used by common-tier weapons.</summary>
+    [JsonProperty]
+    public Color MasterworkTierColor { get; internal set; } = Color.MonoGameOrange;
+
+    /// <summary>Gets the <see cref="Color"/> used by common-tier weapons.</summary>
+    [JsonProperty]
+    public Color LegendaryTierColor { get; internal set; } = Color.MonoGameOrange;
+
     /// <summary>Gets a value indicating whether to replace generic Forge text with specific gemstone icons and empty sockets.</summary>
     [JsonProperty]
     public bool DrawForgeSockets { get; internal set; } = true;

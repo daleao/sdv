@@ -6,10 +6,8 @@ using System.Linq;
 using DaLion.Overhaul.Modules.Professions.TreasureHunts;
 using DaLion.Overhaul.Modules.Professions.VirtualProperties;
 using DaLion.Shared.Events;
-using Microsoft.Xna.Framework.Input;
 using StardewModdingAPI.Events;
 using StardewValley.TerrainFeatures;
-using StardewValley.Tools;
 
 #endregion using directives
 

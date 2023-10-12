@@ -38,16 +38,6 @@ public class ObsidianEnchantment : BaseWeaponEnchantment
         return false;
     }
 
-    /// <inheritdoc />
-    protected override void _OnDealDamage(Monster monster, GameLocation location, Farmer who, ref int amount)
-    {
-        base._OnDealDamage(monster, location, who, ref amount);
-        if (CombatModule.ShouldEnable && this._random.NextDouble() < 0.2)
-        {
-            monster.Bleed(who);
-        }
-    }
-
     /// <summary>Invoked once damage to monster has been calculated, but before it is applied.</summary>
     /// <param name="monster">The <see cref="Monster"/> being hit.</param>
     /// <param name="location">The <see cref="GameLocation"/>.</param>
@@ -62,6 +52,16 @@ public class ObsidianEnchantment : BaseWeaponEnchantment
         else
         {
             amount += monster.resilience.Value;
+        }
+    }
+
+    /// <inheritdoc />
+    protected override void _OnDealDamage(Monster monster, GameLocation location, Farmer who, ref int amount)
+    {
+        base._OnDealDamage(monster, location, who, ref amount);
+        if (CombatModule.ShouldEnable && this._random.NextDouble() < 0.2)
+        {
+            monster.Bleed(who);
         }
     }
 }
