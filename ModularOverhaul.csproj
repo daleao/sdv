@@ -120,7 +120,7 @@
   <ItemGroup>
     <Compile Update="compat\**" />
     <EmbeddedResource Update="compat\**" />
-    <None Update="compat\**"  CopyToOutputDirectory="PreserveNewest"  />
+    <None Update="compat\**" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
   
   <!-- global usings directives -->

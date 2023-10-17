@@ -18,7 +18,7 @@ internal sealed class HudPointerAssetRequestedEvent : AssetRequestedEvent
     {
         this.Provide(
             $"{Manifest.UniqueID}/HudPointer",
-            new ModTextureProvider(() => "assets/sprites/pointer.png"));
+            new ModTextureProvider(() => "assets/sprites/interface/pointer.png"));
     }
 
     /// <inheritdoc />

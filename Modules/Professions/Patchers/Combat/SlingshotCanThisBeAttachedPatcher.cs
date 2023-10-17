@@ -25,8 +25,14 @@ internal sealed class SlingshotCanThisBeAttachedPatcher : HarmonyPatcher
     [HarmonyPostfix]
     private static void SlingshotCanThisBeAttachedPostfix(Slingshot __instance, ref bool __result, SObject? o)
     {
-        __result = __result || (o is { bigCraftable.Value: false, ParentSheetIndex: ObjectIds.Slime } &&
-                                __instance.getLastFarmerToUse().HasProfession(Profession.Rascal));
+        if (__result || o is null || o.bigCraftable.Value)
+        {
+            return;
+        }
+
+        var lastUser = __instance.getLastFarmerToUse();
+        __result = (o.ParentSheetIndex == ObjectIds.Slime && lastUser.HasProfession(Profession.Rascal)) ||
+                   (o.ParentSheetIndex == ObjectIds.MonsterMusk && lastUser.HasProfession(Profession.Rascal, true));
     }
 
     #endregion harmony patches

@@ -24,7 +24,7 @@ internal sealed class ToolAssetRequestedEvent : AssetRequestedEvent
     /// <summary>Provides the texture for Radioactive Tools.</summary>
     private static string ProvideRadioactiveTools()
     {
-        var path = "assets/sprites/RadioactiveTools";
+        var path = "assets/sprites/objects/RadioactiveTools";
         if (ModHelper.ModRegistry.IsLoaded("Gweniaczek.Grandpas_Tools"))
         {
             path += "_Gwen";

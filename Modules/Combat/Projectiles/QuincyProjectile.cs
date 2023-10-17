@@ -63,7 +63,7 @@ internal sealed class QuincyProjectile : BasicProjectile
         this.Overcharge = overcharge;
         this.startingScale.Value *= overcharge * overcharge;
         this.IgnoreLocationCollision = true;
-        if (CombatModule.Config.RemoveSlingshotGracePeriod)
+        if (overcharge <= 1f)
         {
             this.ignoreTravelGracePeriod.Value = true;
         }

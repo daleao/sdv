@@ -59,11 +59,12 @@ internal sealed class SlingshotArtfulSpecialUpdateTickedEvent : UpdateTickedEven
             user.DoSlingshotSpecialCooldown(slingshot);
             user.forceCanMove();
             _currentFrame = -1;
+            this.Disable();
         }
         else
         {
             var sprite = user.FarmerSprite;
-            if (_currentFrame >= 6 && _currentFrame % 3 == 0)
+            if (_currentFrame >= 3 && _currentFrame % 3 == 0)
             {
                 sprite.CurrentFrame =
                     sprite.CurrentAnimation[sprite.currentAnimationIndex++ % sprite.CurrentAnimation.Count].frame;
@@ -71,9 +72,9 @@ internal sealed class SlingshotArtfulSpecialUpdateTickedEvent : UpdateTickedEven
 
             if (_currentFrame == 10)
             {
-                Game1.playSound("swordswipe");
+                user.currentLocation.playSound("swordswipe");
             }
-            else if (_currentFrame == 20)
+            else if (_currentFrame == 16)
             {
                 slingshot.ShowSwordSwipe(user);
             }

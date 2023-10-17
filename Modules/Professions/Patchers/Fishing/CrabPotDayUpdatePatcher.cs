@@ -9,7 +9,6 @@ using DaLion.Shared.Extensions;
 using DaLion.Shared.Extensions.Stardew;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
-using StardewModdingAPI.Utilities;
 using StardewValley.Objects;
 
 #endregion using directives
@@ -42,7 +41,7 @@ internal sealed class CrabPotDayUpdatePatcher : HarmonyPatcher
 
             var r = new Random(Guid.NewGuid().GetHashCode());
             var fishData =
-                Game1.content.Load<Dictionary<int, string>>(PathUtilities.NormalizeAssetName("Data/Fish"));
+                Game1.content.Load<Dictionary<int, string>>("Data\\Fish");
             var isLuremaster = ProfessionsModule.Config.LaxOwnershipRequirements
                 ? Game1.game1.DoesAnyPlayerHaveProfession(Profession.Luremaster, out _)
                 : owner.HasProfession(Profession.Luremaster);

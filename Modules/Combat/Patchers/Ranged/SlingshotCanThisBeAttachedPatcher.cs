@@ -1,9 +1,9 @@
 ﻿namespace DaLion.Overhaul.Modules.Combat.Patchers.Ranged;
 
-using DaLion.Overhaul.Modules.Combat.Integrations;
-
 #region using directives
 
+using System.Collections.Generic;
+using DaLion.Overhaul.Modules.Combat.Integrations;
 using DaLion.Shared.Constants;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
@@ -14,6 +14,19 @@ using StardewValley.Tools;
 [UsedImplicitly]
 internal sealed class SlingshotCanThisBeAttachedPatcher : HarmonyPatcher
 {
+    private static readonly HashSet<int> ExtraAllowedAmmo = new()
+    {
+        ObjectIds.RadioactiveOre,
+        ObjectIds.Emerald,
+        ObjectIds.Aquamarine,
+        ObjectIds.Ruby,
+        ObjectIds.Amethyst,
+        ObjectIds.Topaz,
+        ObjectIds.Jade,
+        ObjectIds.Diamond,
+        ObjectIds.PrismaticShard,
+    };
+
     /// <summary>Initializes a new instance of the <see cref="SlingshotCanThisBeAttachedPatcher"/> class.</summary>
     internal SlingshotCanThisBeAttachedPatcher()
     {
@@ -26,9 +39,14 @@ internal sealed class SlingshotCanThisBeAttachedPatcher : HarmonyPatcher
     [HarmonyPostfix]
     private static void SlingshotCanThisBeAttachedPostfix(ref bool __result, SObject? o)
     {
-        __result = __result || o?.ParentSheetIndex is ObjectIds.RadioactiveOre or ObjectIds.Emerald or ObjectIds.Aquamarine
-                       or ObjectIds.Ruby or ObjectIds.Amethyst or ObjectIds.Topaz or ObjectIds.Jade or ObjectIds.Diamond or SObject.prismaticShardIndex ||
-                   (JsonAssetsIntegration.GarnetIndex.HasValue && o?.ParentSheetIndex == JsonAssetsIntegration.GarnetIndex.Value);
+        if (!CombatModule.Config.EnableWeaponOverhaul || o is null || o.bigCraftable.Value)
+        {
+            return;
+        }
+
+        __result = __result || ExtraAllowedAmmo.Contains(o.ParentSheetIndex) ||
+                   (JsonAssetsIntegration.GarnetIndex.HasValue &&
+                    o.ParentSheetIndex == JsonAssetsIntegration.GarnetIndex.Value);
     }
 
     #endregion harmony patches

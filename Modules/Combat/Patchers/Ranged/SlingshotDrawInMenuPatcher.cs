@@ -58,7 +58,6 @@ internal sealed class SlingshotDrawInMenuPatcher : HarmonyPatcher
 
         var cooldownPct = (float)CombatModule.State.SlingshotCooldown / __instance.GetSpecialCooldown();
         var drawingAsDebris = drawShadow && drawStackNumber == StackDrawType.Hide;
-        Log.D(cooldownPct.ToString());
 
         // ReSharper disable once CompareOfFloatsByEqualityOperator
         if (!drawShadow || drawingAsDebris || (Game1.activeClickableMenu is ShopMenu && scaleSize == 1f))

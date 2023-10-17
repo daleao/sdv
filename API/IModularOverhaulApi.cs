@@ -8,7 +8,7 @@ using StardewValley.Objects;
 
 #endregion using directives
 
-/// <summary>Implementation of the mod API.</summary>
+/// <summary>Interface for the mod API.</summary>
 public interface IModularOverhaulApi
 {
     #region professions

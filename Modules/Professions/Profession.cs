@@ -21,94 +21,94 @@ public sealed class Profession : SmartEnum<Profession>, IProfession
 {
     #region enum entries
 
-    /// <summary>The Rancher profession, available at <see cref="Professions.Skill.Farming"/> level 5.</summary>
+    /// <summary>The Rancher profession, available at <see cref="Modules.Professions.Skill.Farming"/> level 5.</summary>
     public static readonly Profession Rancher = new("Rancher", Farmer.rancher, 5);
 
-    /// <summary>The Harvester profession, available at <see cref="Professions.Skill.Farming"/> level 5.</summary>
+    /// <summary>The Harvester profession, available at <see cref="Modules.Professions.Skill.Farming"/> level 5.</summary>
     public static readonly Profession Harvester = new("Harvester", Farmer.tiller, 5);
 
-    /// <summary>The Breeder profession, available at <see cref="Professions.Skill.Farming"/> level 10.</summary>
+    /// <summary>The Breeder profession, available at <see cref="Modules.Professions.Skill.Farming"/> level 10.</summary>
     public static readonly Profession Breeder = new("Breeder", Farmer.butcher, 10);
 
-    /// <summary>The Producer profession, available at <see cref="Professions.Skill.Farming"/> level 10.</summary>
+    /// <summary>The Producer profession, available at <see cref="Modules.Professions.Skill.Farming"/> level 10.</summary>
     public static readonly Profession Producer = new("Producer", Farmer.shepherd, 10);
 
-    /// <summary>The Artisan profession, available at <see cref="Professions.Skill.Farming"/> level 10.</summary>
+    /// <summary>The Artisan profession, available at <see cref="Modules.Professions.Skill.Farming"/> level 10.</summary>
     public static readonly Profession Artisan = new("Artisan", Farmer.artisan, 10);
 
-    /// <summary>The Agriculturist profession, available at <see cref="Professions.Skill.Farming"/> level 10.</summary>
+    /// <summary>The Agriculturist profession, available at <see cref="Modules.Professions.Skill.Farming"/> level 10.</summary>
     public static readonly Profession Agriculturist = new("Agriculturist", Farmer.agriculturist, 10);
 
-    /// <summary>The Fisher profession, available at <see cref="Professions.Skill.Fishing"/> level 5.</summary>
+    /// <summary>The Fisher profession, available at <see cref="Modules.Professions.Skill.Fishing"/> level 5.</summary>
     public static readonly Profession Fisher = new("Fisher", Farmer.fisher, 5);
 
-    /// <summary>The Trapper profession, available at <see cref="Professions.Skill.Fishing"/> level 5.</summary>
+    /// <summary>The Trapper profession, available at <see cref="Modules.Professions.Skill.Fishing"/> level 5.</summary>
     public static readonly Profession Trapper = new("Trapper", Farmer.trapper, 5);
 
-    /// <summary>The Angler profession, available at <see cref="Professions.Skill.Fishing"/> level 10.</summary>
+    /// <summary>The Angler profession, available at <see cref="Modules.Professions.Skill.Fishing"/> level 10.</summary>
     public static readonly Profession Angler = new("Angler", Farmer.angler, 10);
 
-    /// <summary>The Aquarist profession, available at <see cref="Professions.Skill.Fishing"/> level 10.</summary>
+    /// <summary>The Aquarist profession, available at <see cref="Modules.Professions.Skill.Fishing"/> level 10.</summary>
     public static readonly Profession Aquarist = new("Aquarist", Farmer.pirate, 10);
 
-    /// <summary>The Luremaster profession, available at <see cref="Professions.Skill.Fishing"/> level 10.</summary>
+    /// <summary>The Luremaster profession, available at <see cref="Modules.Professions.Skill.Fishing"/> level 10.</summary>
     public static readonly Profession Luremaster = new("Luremaster", Farmer.baitmaster, 10);
 
-    /// <summary>The Conservationist profession, available at <see cref="Professions.Skill.Fishing"/> level 10.</summary>
+    /// <summary>The Conservationist profession, available at <see cref="Modules.Professions.Skill.Fishing"/> level 10.</summary>
     public static readonly Profession Conservationist = new("Conservationist", Farmer.mariner, 10);
 
-    /// <summary>The Lumberjack profession, available at <see cref="Professions.Skill.Foraging"/> level 5.</summary>
+    /// <summary>The Lumberjack profession, available at <see cref="Modules.Professions.Skill.Foraging"/> level 5.</summary>
     public static readonly Profession Lumberjack = new("Lumberjack", Farmer.forester, 5);
 
-    /// <summary>The Forager profession, available at <see cref="Professions.Skill.Foraging"/> level 5.</summary>
+    /// <summary>The Forager profession, available at <see cref="Modules.Professions.Skill.Foraging"/> level 5.</summary>
     public static readonly Profession Forager = new("Forager", Farmer.gatherer, 5);
 
-    /// <summary>The Arborist profession, available at <see cref="Professions.Skill.Foraging"/> level 10.</summary>
+    /// <summary>The Arborist profession, available at <see cref="Modules.Professions.Skill.Foraging"/> level 10.</summary>
     public static readonly Profession Arborist = new("Arborist", Farmer.lumberjack, 10);
 
-    /// <summary>The Trapper profession, available at <see cref="Professions.Skill.Foraging"/> level 10.</summary>
+    /// <summary>The Trapper profession, available at <see cref="Modules.Professions.Skill.Foraging"/> level 10.</summary>
     public static readonly Profession Tapper = new("Tapper", Farmer.tapper, 10);
 
-    /// <summary>The Ecologist profession, available at <see cref="Professions.Skill.Foraging"/> level 10.</summary>
+    /// <summary>The Ecologist profession, available at <see cref="Modules.Professions.Skill.Foraging"/> level 10.</summary>
     public static readonly Profession Ecologist = new("Ecologist", Farmer.botanist, 10);
 
-    /// <summary>The Scavenger profession, available at <see cref="Professions.Skill.Foraging"/> level 10.</summary>
+    /// <summary>The Scavenger profession, available at <see cref="Modules.Professions.Skill.Foraging"/> level 10.</summary>
     public static readonly Profession Scavenger = new("Scavenger", Farmer.tracker, 10);
 
-    /// <summary>The Miner profession, available at <see cref="Professions.Skill.Mining"/> level 5.</summary>
+    /// <summary>The Miner profession, available at <see cref="Modules.Professions.Skill.Mining"/> level 5.</summary>
     public static readonly Profession Miner = new("Miner", Farmer.miner, 5);
 
-    /// <summary>The Blaster profession, available at <see cref="Professions.Skill.Mining"/> level 5.</summary>
+    /// <summary>The Blaster profession, available at <see cref="Modules.Professions.Skill.Mining"/> level 5.</summary>
     public static readonly Profession Blaster = new("Blaster", Farmer.geologist, 5);
 
-    /// <summary>The Spelunker profession, available at <see cref="Professions.Skill.Mining"/> level 10.</summary>
+    /// <summary>The Spelunker profession, available at <see cref="Modules.Professions.Skill.Mining"/> level 10.</summary>
     public static readonly Profession Spelunker = new("Spelunker", Farmer.blacksmith, 10);
 
-    /// <summary>The Prospector profession, available at <see cref="Professions.Skill.Mining"/> level 10.</summary>
+    /// <summary>The Prospector profession, available at <see cref="Modules.Professions.Skill.Mining"/> level 10.</summary>
     public static readonly Profession Prospector = new("Prospector", Farmer.burrower, 10);
 
-    /// <summary>The Demolitionist profession, available at <see cref="Professions.Skill.Mining"/> level 10.</summary>
+    /// <summary>The Demolitionist profession, available at <see cref="Modules.Professions.Skill.Mining"/> level 10.</summary>
     public static readonly Profession Demolitionist = new("Demolitionist", Farmer.excavator, 10);
 
-    /// <summary>The Gemologist profession, available at <see cref="Professions.Skill.Mining"/> level 10.</summary>
+    /// <summary>The Gemologist profession, available at <see cref="Modules.Professions.Skill.Mining"/> level 10.</summary>
     public static readonly Profession Gemologist = new("Gemologist", Farmer.gemologist, 10);
 
-    /// <summary>The Fighter profession, available at <see cref="Professions.Skill.Combat"/> level 5.</summary>
+    /// <summary>The Fighter profession, available at <see cref="Modules.Professions.Skill.Combat"/> level 5.</summary>
     public static readonly Profession Fighter = new("Fighter", Farmer.fighter, 5);
 
-    /// <summary>The Rascal profession, available at <see cref="Professions.Skill.Combat"/> level 5.</summary>
+    /// <summary>The Rascal profession, available at <see cref="Modules.Professions.Skill.Combat"/> level 5.</summary>
     public static readonly Profession Rascal = new("Rascal", Farmer.scout, 5);
 
-    /// <summary>The Brute profession, available at <see cref="Professions.Skill.Combat"/> level 10.</summary>
+    /// <summary>The Brute profession, available at <see cref="Modules.Professions.Skill.Combat"/> level 10.</summary>
     public static readonly Profession Brute = new("Brute", Farmer.brute, 10);
 
-    /// <summary>The Poacher profession, available at <see cref="Professions.Skill.Combat"/> level 10.</summary>
+    /// <summary>The Poacher profession, available at <see cref="Modules.Professions.Skill.Combat"/> level 10.</summary>
     public static readonly Profession Poacher = new("Poacher", Farmer.defender, 10);
 
-    /// <summary>The Piper profession, available at <see cref="Professions.Skill.Combat"/> level 10.</summary>
+    /// <summary>The Piper profession, available at <see cref="Modules.Professions.Skill.Combat"/> level 10.</summary>
     public static readonly Profession Piper = new("Piper", Farmer.acrobat, 10);
 
-    /// <summary>The Desperado profession, available at <see cref="Professions.Skill.Combat"/> level 10.</summary>
+    /// <summary>The Desperado profession, available at <see cref="Modules.Professions.Skill.Combat"/> level 10.</summary>
     public static readonly Profession Desperado = new("Desperado", Farmer.desperado, 10);
 
     #endregion enum entries

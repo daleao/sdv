@@ -51,7 +51,7 @@ public class StunAnimation : TemporaryAnimatedSprite
             return result;
         }
 
-        this.Position = monster.GetOverheadOffset(time) +
+        this.Position = monster.GetOverheadOffset() +
                         new Vector2(this._random.Next(-1, 2), this._random.Next(-1, 2));
         return result;
     }

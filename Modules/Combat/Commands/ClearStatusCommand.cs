@@ -26,7 +26,7 @@ internal sealed class ClearStatusCommand : ConsoleCommand
     public override string[] Triggers { get; } = { "clear_status" };
 
     /// <inheritdoc />
-    public override string Documentation => "Clears all monsters of the specified status effect.";
+    public override string Documentation => "Clears all cached status effects.";
 
     /// <inheritdoc />
     public override void Callback(string trigger, string[] args)
@@ -38,7 +38,7 @@ internal sealed class ClearStatusCommand : ConsoleCommand
             Monster_Poisoned.Values.Clear();
             Monster_Slowed.Values.Clear();
             BleedAnimation.BleedAnimationByMonster.Clear();
-            BurnAnimation.BurnAnimationByMonster.Clear();
+            BurnAnimation.BurnAnimationsByMonster.Clear();
             PoisonAnimation.PoisonAnimationByMonster.Clear();
             SlowAnimation.SlowAnimationByMonster.Clear();
             StunAnimation.StunAnimationByMonster.Clear();
@@ -55,7 +55,7 @@ internal sealed class ClearStatusCommand : ConsoleCommand
                     break;
                 case "burn":
                     Monster_Burned.Values.Clear();
-                    BurnAnimation.BurnAnimationByMonster.Clear();
+                    BurnAnimation.BurnAnimationsByMonster.Clear();
                     break;
                 case "chill":
                     Monster_Chilled.Values.Clear();

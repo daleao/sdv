@@ -26,7 +26,7 @@ internal sealed class InflictStatusCommand : ConsoleCommand
     public override string[] Triggers { get; } = { "inflict_status", "inflict", "status" };
 
     /// <inheritdoc />
-    public override string Documentation => "Inflicts the specified status condition on the nearest monster.";
+    public override string Documentation => "Inflicts the specified status condition on the nearest monster, or all monsters if the `--all` flag is used.";
 
     /// <inheritdoc />
     public override void Callback(string trigger, string[] args)

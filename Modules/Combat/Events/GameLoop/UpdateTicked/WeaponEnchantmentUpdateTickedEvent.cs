@@ -33,12 +33,12 @@ internal sealed class WeaponEnchantmentUpdateTickedEvent : UpdateTickedEvent
         switch (weapon.InitialParentTileIndex)
         {
             case WeaponIds.HolyBlade:
-                weapon.GetEnchantmentOfType<BlessedEnchantment>().Update(Game1.player);
+                weapon.GetEnchantmentOfType<BlessedEnchantment>().Update(e.Ticks, Game1.player);
                 break;
             default:
                 if (weapon.IsInfinityWeapon())
                 {
-                    weapon.GetEnchantmentOfType<InfinityEnchantment>().Update(Game1.player);
+                    weapon.GetEnchantmentOfType<InfinityEnchantment>().Update(e.Ticks, Game1.player);
                 }
 
                 break;

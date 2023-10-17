@@ -37,7 +37,7 @@ public sealed class CarvingEnchantment : BaseWeaponEnchantment
                 break;
             case RockCrab crab:
                 var shellHealth = Reflector
-                    .GetUnboundFieldGetter<RockCrab, NetInt>(crab, "shellHealth")
+                    .GetUnboundFieldGetter<RockCrab, NetInt>("shellHealth")
                     .Invoke(crab).Value;
                 if (shellHealth <= 0)
                 {
@@ -46,13 +46,13 @@ public sealed class CarvingEnchantment : BaseWeaponEnchantment
 
                 shellHealth--;
                 Reflector
-                    .GetUnboundFieldGetter<RockCrab, NetInt>(crab, "shellHealth")
+                    .GetUnboundFieldGetter<RockCrab, NetInt>("shellHealth")
                     .Invoke(crab).Value = shellHealth;
                 crab.shake(500);
                 if (shellHealth <= 0)
                 {
                     Reflector
-                        .GetUnboundFieldGetter<RockCrab, NetBool>(crab, "shellGone")
+                        .GetUnboundFieldGetter<RockCrab, NetBool>("shellGone")
                         .Invoke(crab).Value = true;
                     crab.moveTowardPlayer(-1);
                     location.playSound("stoneCrack");

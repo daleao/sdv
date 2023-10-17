@@ -120,7 +120,7 @@ public sealed class EnergizedEnchantment : BaseWeaponEnchantment
         var aoe = monster.GetBoundingBox();
         aoe.Inflate(12 * Game1.tileSize, 12 * Game1.tileSize);
         Game1.flashAlpha = (float)(0.5 + Game1.random.NextDouble());
-        Game1.playSound("thunder");
+        location.playSound("thunder");
         Utility.drawLightningBolt(monster.Position + new Vector2(32f, 32f), location);
         location.damageMonster(
             aoe,

@@ -1,5 +1,4 @@
 ﻿namespace DaLion.Overhaul.Modules.Combat.Events.Display.RenderedWorld;
-using DaLion.Overhaul.Modules.Combat;
 
 #region using directives
 
@@ -7,6 +6,7 @@ using DaLion.Shared.Events;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using StardewModdingAPI.Events;
+using Buff = DaLion.Shared.Enums.Buff;
 
 #endregion using directives
 
@@ -21,7 +21,7 @@ internal sealed class YobaRenderedWorldEvent : RenderedWorldEvent
     }
 
     /// <inheritdoc />
-    public override bool IsEnabled => CombatModule.State.YobaShieldHealth > 0 && Game1.buffsDisplay.hasBuff(21);
+    public override bool IsEnabled => CombatModule.State.YobaShieldHealth > 0 && Game1.buffsDisplay.hasBuff((int)Buff.YobasBlessing);
 
     /// <inheritdoc />
     protected override void OnRenderedWorldImpl(object? sender, RenderedWorldEventArgs e)

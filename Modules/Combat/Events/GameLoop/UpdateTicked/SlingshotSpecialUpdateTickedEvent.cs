@@ -59,6 +59,7 @@ internal sealed class SlingshotSpecialUpdateTickedEvent : UpdateTickedEvent
             user.DoSlingshotSpecialCooldown();
             user.forceCanMove();
             _currentFrame = -1;
+            this.Disable();
         }
         else
         {
@@ -71,7 +72,7 @@ internal sealed class SlingshotSpecialUpdateTickedEvent : UpdateTickedEvent
 
             if (_currentFrame == 6)
             {
-                Game1.playSound("swordswipe");
+                user.currentLocation.playSound("swordswipe");
             }
             else if (_currentFrame == (((FacingDirection)user.FacingDirection).IsHorizontal() ? 10 : 14))
             {

@@ -11,6 +11,7 @@ using DaLion.Shared.Harmony;
 using HarmonyLib;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Buff = DaLion.Shared.Enums.Buff;
 
 #endregion using directives
 
@@ -210,7 +211,7 @@ internal sealed class Game1DrawHudPatcher : HarmonyPatcher
     [SuppressMessage("StyleCop.CSharp.OrderingRules", "SA1202:Elements should be ordered by access", Justification = "Cross-module compatibility.")]
     internal static void DrawShieldHealth(Vector2 topOfBar, Rectangle healthBarRect)
     {
-        if (!Game1.buffsDisplay.hasBuff(21) || CombatModule.State.YobaShieldHealth <= 0)
+        if (!Game1.buffsDisplay.hasBuff((int)Buff.YobasBlessing) || CombatModule.State.YobaShieldHealth <= 0)
         {
             return;
         }

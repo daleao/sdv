@@ -60,9 +60,9 @@ internal sealed class ArrowProjectileUpdatePatcher : HarmonyPatcher
         }
 
         // get trajectory angle
-        var xVelocity = Reflector.GetUnboundFieldGetter<Projectile, NetFloat>(__instance, "xVelocity")
+        var xVelocity = Reflector.GetUnboundFieldGetter<Projectile, NetFloat>("xVelocity")
             .Invoke(__instance);
-        var yVelocity = Reflector.GetUnboundFieldGetter<Projectile, NetFloat>(__instance, "yVelocity")
+        var yVelocity = Reflector.GetUnboundFieldGetter<Projectile, NetFloat>("yVelocity")
             .Invoke(__instance);
         var velocity = new Vector2(xVelocity.Value, yVelocity.Value);
         var angle = velocity.AngleWithHorizontal();

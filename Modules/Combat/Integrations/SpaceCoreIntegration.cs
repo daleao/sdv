@@ -37,7 +37,6 @@ internal sealed class SpaceCoreIntegration : ModIntegration<SpaceCoreIntegration
         // ranged
         this.ModApi.RegisterSerializerType(typeof(BaseSlingshotEnchantment));
         this.ModApi.RegisterSerializerType(typeof(RangedArtfulEnchantment));
-        this.ModApi.RegisterSerializerType(typeof(MagnumEnchantment));
         this.ModApi.RegisterSerializerType(typeof(GatlingEnchantment));
         this.ModApi.RegisterSerializerType(typeof(PreservingEnchantment));
         this.ModApi.RegisterSerializerType(typeof(QuincyEnchantment));

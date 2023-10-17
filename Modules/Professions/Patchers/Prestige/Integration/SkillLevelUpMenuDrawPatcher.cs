@@ -89,7 +89,7 @@ internal sealed class SkillLevelUpMenuDrawPatcher : HarmonyPatcher
         }
 
         var professionsToChoose = Reflector
-            .GetUnboundFieldGetter<IClickableMenu, List<int>>(menu, "professionsToChoose")
+            .GetUnboundFieldGetter<SkillLevelUpMenu, List<int>>("professionsToChoose")
             .Invoke(menu);
         if (!SCProfession.Loaded.TryGetValue(professionsToChoose[0], out var leftProfession) ||
             !SCProfession.Loaded.TryGetValue(professionsToChoose[1], out var rightProfession))

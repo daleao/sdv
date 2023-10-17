@@ -47,7 +47,7 @@ public class ObsidianEnchantment : BaseWeaponEnchantment
     {
         if (CombatModule.Config.NewResistanceFormula)
         {
-            amount *= 1 + (monster.resilience.Value / 10);
+            amount = (int)(amount * (1f + (monster.resilience.Value / 10f)));
         }
         else
         {

@@ -57,12 +57,18 @@ This humongous module consolidates rebalances to melee weapons, ranged weapons a
 Taking inspiration from classic RPG and strategy games, this module adds a framework for causing various status conditions to enemies. They are:
 
 - **Bleeding:** Causes damage every second. Damage increases exponentially with each additional stack. Stacks up to 5x. Does not affect Ghosts, Skeletons, Golems, Dolls or Mechanical enemies (ex. Dwarven Sentry).
-- **Burning:** Causes damage equal to 1/16th of max health every 3s for 15s, and reduces attack by half. Does not affect fire enemies (i.e., Lava Lurks, Magma Sprites and Magma Sparkers). Insects burn 4x as quickly.
+- **Burning:** Causes damage equal to 1/16th of max health every 3s for 15s, and reduces attack by half. Also causes enemies to move about more randomly. Does not affect fire enemies (i.e., Lava Lurks, Magma Sprites and Magma Sparkers). Insects burn 4x as quickly.
 - **Chilled:** Reduces movement speed by half for 5s. If Chilled is inflicted again during this time, then causes Freeze.
 - **Frozen:** Cannot move or attack for 30s. The next hit during the duration deals triple damage and ends the effect.
 - **Poisoned:** Causes damage equal to 1/16 of max health every 3s for 15s, stacking up to 3x.
 - **Slowed:** Reduces movement speed by half for the duration.
 - **Stunned:** Cannot move or attack for the duration.
+
+Likewise, some adjustments are made to monster-inflicted debuffs on players:
+
+- **Burnt** and **Frozen** behave as they do for monsters, described above. The Frozen debuff on players, however, only lasts 5 seconds.
+- **Jinxed** now also prevents the player from using special moves. If new resistance formula is used (see next section), the -8 defense is reduce to -5.
+- **Weakness** is replaced with **Confusion**, which causes the player to lose control of their movements.
 
 <div align="center">
 
@@ -288,15 +294,17 @@ The following new enchantments have been created specifically for ranged weapons
 
 | Name       | Effect |
 | ---------- | -------|
-| Gatling    | Enables auto-fire.* |
-| Magnum     | Fires enlarged projectiles. |
+| Artful     | Improves the special move of each weapon.* |
+| Gatling    | Enables auto-fire.** |
 | Preserving | Does not consume ammo. |
-| Quincy     | Attacks fire an energy projectile if no ammo is equipped. Only works near enemies.** |
+| Quincy     | Attacks fire an energy projectile if no ammo is equipped. Only works near enemies.*** |
 | Spreading  | Consume one additional ammo to fire two additional angled projectiles. |
 
-\* *Double-click/press and then **hold** the use-tool key to engage auto-fire.*
+\* *Changes the special overhead smack into a wider horizontal sweep attack.*
 
-\** *Quincy projectile cannot crit nor knock back enemies, but is affected by damage modifiers. If [PRFS](../Professions) is enabled and the player has the Desperado profession, Quincy projectile will also be affected by Overcharge.*
+\** *Double-click/press and then **hold** the use-tool key to engage auto-fire.*
+
+\*** *Quincy projectile cannot crit nor knock back enemies, but is affected by damage modifiers. If [PRFS](../Professions) is enabled and the player has the Desperado profession, Quincy projectile will also be affected by Overcharge.*
 
 Gemstone forges cannot directly be applied to slingshots, but **gemstones can be equipped as ammo**, and will apply their analogous bonuses when equipped, and will also [resonate](#resonances) if applicable. With the [Rascal](../Professions) profession, you may slot up to two gemstones at a time to possibly achieve a level-2 forge.
 
@@ -493,7 +501,11 @@ At the end of the single-floor [Quarry Mine](https://stardewvalleywiki.com/Quarr
 <summary><b>What is the Blade of Ruin's curse?</b></summary>
 
 The Blade of Ruin will grow progressively stronger by cosuming enemies; every 5 enemies slain increases its attack power by 1 point. As it grows stronger, however, it will also begin to consume your own energy, dealing damage-over-time while held. At the same time, the Blade has a nasty habit of auto-equipping itself; the stronger the Blade, the more damage you will suffer, and the more often it will auto-equip itself.
+
 Should you choose to ignore these side-effects and continue to strengthen the Blade, you will eventually become unable to use other weapons, and be forced to engage combat with 1 HP.
+
+But fret not, for once a day you may pray to the Altar of Yoba to reduce the intensity of the curse.
+
 </details>
 
 <details>

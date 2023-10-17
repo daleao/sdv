@@ -63,7 +63,7 @@ public sealed class SoundEffectPlayer : SmartEnum<SoundEffectPlayer>
     /// <summary>Plays the corresponding <see cref="SoundEffect"/>.</summary>
     public void Play()
     {
-        Game1.playSound(this.Name);
+        Game1.currentLocation.playSound(this.Name);
     }
 
     /// <summary>Plays the corresponding <see cref="SoundEffect"/> after the specified delay.</summary>

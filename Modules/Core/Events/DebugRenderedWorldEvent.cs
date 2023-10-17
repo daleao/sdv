@@ -82,6 +82,18 @@ internal sealed class DebugRenderedWorldEvent : RenderedWorldEvent
                             str,
                             new Vector2(bb.X - ((length.X - bb.Width) / 2f), bb.Y - bb.Height - length.Y),
                             Color.White);
+                        if (monster is Serpent serpent && serpent.IsRoyalSerpent())
+                        {
+                            var offset = new Vector2(bb.X - serpent.Position.X, bb.Y - serpent.Position.Y);
+                            for (var i = 0; i < serpent.segments.Count; i++)
+                            {
+                                var segment = serpent.segments[i];
+                                bb.X = (int)(segment.X + offset.X);
+                                bb.Y = (int)(segment.Y + offset.Y);
+                                bb.Highlight(Color.Red * 0.5f, e.SpriteBatch);
+                            }
+                        }
+
                         break;
                     }
 

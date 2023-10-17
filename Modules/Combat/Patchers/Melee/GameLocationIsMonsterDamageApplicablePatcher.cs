@@ -3,6 +3,7 @@
 #region using directives
 
 using System.Reflection;
+using DaLion.Shared.Extensions.Stardew;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
 using Microsoft.Xna.Framework;
@@ -27,7 +28,7 @@ internal sealed class GameLocationIsMonsterDamageApplicablePatcher : HarmonyPatc
     private static bool GameLocationIsMonsterDamageApplicablePrefix(
         ref bool __result, Farmer who, Monster monster)
     {
-        if (!CombatModule.Config.GroundedClubSmash || (!monster.isGlider.Value && monster is not Bug) ||
+        if (!CombatModule.Config.GroundedClubSmash || (!monster.IsGlider() && monster is not Bug) ||
             who.CurrentTool is not MeleeWeapon { type.Value: MeleeWeapon.club, isOnSpecial: true } club)
         {
             return true; // run original logic

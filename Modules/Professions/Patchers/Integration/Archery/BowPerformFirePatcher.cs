@@ -49,7 +49,7 @@ internal sealed class BowPerformFirePatcher : HarmonyPatcher
             return;
         }
 
-        var breakChance = Reflector.GetUnboundFieldGetter<Projectile, float>(projectile, "_breakChance").Invoke(projectile);
+        var breakChance = Reflector.GetUnboundFieldGetter<BasicProjectile, float>(projectile, "_breakChance").Invoke(projectile);
         breakChance *= who.HasProfession(Profession.Rascal, true) ? 1.7f : 1.35f;
         if (!who.HasProfession(Profession.Desperado))
         {
@@ -70,9 +70,9 @@ internal sealed class BowPerformFirePatcher : HarmonyPatcher
         knockback *= overcharge;
         Reflector.GetUnboundFieldSetter<BasicProjectile, float>(projectile, "_knockback").Invoke(projectile, knockback);
 
-        Reflector.GetUnboundFieldGetter<Projectile, NetFloat>(projectile, "xVelocity")
+        Reflector.GetUnboundFieldGetter<BasicProjectile, NetFloat>("xVelocity")
             .Invoke(projectile).Value *= overcharge;
-        Reflector.GetUnboundFieldGetter<Projectile, NetFloat>(projectile, "yVelocity")
+        Reflector.GetUnboundFieldGetter<BasicProjectile, NetFloat>("yVelocity")
             .Invoke(projectile).Value *= overcharge;
         ArrowProjectile_Properties.Create(
             projectile,

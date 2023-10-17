@@ -34,7 +34,7 @@ internal sealed class SlingshotGetHoverBoxTextPatcher : HarmonyPatcher
                         __instance.DisplayName,
                         hoveredItem.DisplayName);
                     break;
-                case null when __instance.attachments.Count > 0:
+                case null when __instance.attachments.Length > 0:
                     if (__instance.attachments[0] is not null)
                     {
                         __result = Game1.content.LoadString(

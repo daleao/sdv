@@ -3,7 +3,8 @@
 #region using directives
 
 using System.Reflection;
-using DaLion.Overhaul.Modules.Combat.Enums;
+using DaLion.Overhaul.Modules.Combat.Extensions;
+using DaLion.Shared.Enums;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
 using Microsoft.Xna.Framework;

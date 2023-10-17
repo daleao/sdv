@@ -17,20 +17,20 @@ public sealed class Concerto : Ultimate
 {
     /// <summary>Initializes a new instance of the <see cref="Concerto"/> class.</summary>
     internal Concerto()
-        : base("Concerto", 28, Color.LimeGreen, Color.DarkGreen)
+        : base("Concerto", Professions.Profession.Piper, Color.LimeGreen, Color.DarkGreen)
     {
     }
 
     /// <inheritdoc />
-    public override string DisplayName =>
-        _I18n.Get(this.Name.ToLower() + ".title." + (Game1.player.IsMale ? "male" : "female"));
+    public override string DisplayName { get; } =
+        Game1.player.IsMale ? I18n.Concerto_Title_Male() : I18n.Concerto_Title_Female();
+
+    /// <inheritdoc />
+    public override string Description { get; } = I18n.Concerto_Desc();
 
     /// <inheritdoc />
     public override bool CanActivate => base.CanActivate && Game1.player.currentLocation.characters.OfType<Monster>()
-        .Any(m => m.IsSlime() && m.IsWithinPlayerThreshold());
-
-    /// <inheritdoc />
-    public override IProfession Profession => Professions.Profession.Piper;
+        .Any(m => m.IsSlime() && m.IsWithinCharacterThreshold());
 
     /// <inheritdoc />
     internal override int MillisecondsDuration =>
@@ -52,7 +52,7 @@ public sealed class Concerto : Ultimate
         for (var i = 0; i < Game1.player.currentLocation.characters.Count; i++)
         {
             var character = Game1.player.currentLocation.characters[i];
-            if (character is not GreenSlime slime || !slime.IsWithinPlayerThreshold() || slime.Scale >= 2f)
+            if (character is not GreenSlime slime || !slime.IsWithinCharacterThreshold() || slime.Scale >= 2f)
             {
                 continue;
             }

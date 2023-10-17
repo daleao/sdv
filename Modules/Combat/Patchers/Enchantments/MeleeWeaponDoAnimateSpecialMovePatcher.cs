@@ -11,6 +11,7 @@ using DaLion.Shared.Extensions.Reflection;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
 using StardewValley.Tools;
+using Buff = DaLion.Shared.Enums.Buff;
 
 #endregion using directives
 
@@ -24,6 +25,18 @@ internal sealed class MeleeWeaponDoAnimateSpecialMovePatcher : HarmonyPatcher
     }
 
     #region harmony patches
+
+    /// <summary>Prevent special moves while Jinxed.</summary>
+    [HarmonyPrefix]
+    private static bool MeleeWeaponDoAnimateSpecialMovePrefix(MeleeWeapon __instance)
+    {
+        if (__instance.getLastFarmerToUse() is not { } user || user.CurrentTool != __instance)
+        {
+            return false; // don't run original logic
+        }
+
+        return !CombatModule.Config.EnableStatusConditions || !user.hasBuff((int)Buff.Jinxed); // conditionally run original logic
+    }
 
     /// <summary>Implement Garnet enchantment CDR.</summary>
     [HarmonyPostfix]

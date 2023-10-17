@@ -23,11 +23,11 @@ internal sealed class BurnAnimationRenderedWorldEvent : RenderedWorldEvent
     /// <inheritdoc />
     protected override void OnRenderedWorldImpl(object? sender, RenderedWorldEventArgs e)
     {
-        if (!BurnAnimation.BurnAnimationByMonster.Any())
+        if (!BurnAnimation.BurnAnimationsByMonster.Any())
         {
             this.Disable();
         }
 
-        BurnAnimation.BurnAnimationByMonster.ForEach(pair => pair.Value.draw(e.SpriteBatch));
+        BurnAnimation.BurnAnimationsByMonster.ForEach(pair => pair.Value.ForEach(burn => burn.draw(e.SpriteBatch)));
     }
 }

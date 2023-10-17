@@ -11,12 +11,15 @@ public sealed class DeathBlossom : Ultimate
 {
     /// <summary>Initializes a new instance of the <see cref="DeathBlossom"/> class.</summary>
     internal DeathBlossom()
-        : base("Blossom", 29, Color.DarkGoldenrod, Color.SandyBrown)
+        : base("Blossom", Professions.Profession.Desperado, Color.DarkGoldenrod, Color.SandyBrown)
     {
     }
 
     /// <inheritdoc />
-    public override IProfession Profession => Professions.Profession.Desperado;
+    public override string DisplayName { get; } = I18n.Blossom_Title();
+
+    /// <inheritdoc />
+    public override string Description { get; } = I18n.Blossom_Desc();
 
     /// <inheritdoc />
     internal override int MillisecondsDuration =>

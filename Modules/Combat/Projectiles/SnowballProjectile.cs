@@ -118,7 +118,7 @@ internal sealed class SnowballProjectile : BasicProjectile
         }
 
         var dummyWeapon = new MeleeWeapon { BaseName = string.Empty };
-        Reflector.GetUnboundFieldSetter<Tool, Farmer>(dummyWeapon, "lastUser")
+        Reflector.GetUnboundFieldSetter<Tool, Farmer>("lastUser")
             .Invoke(dummyWeapon, this.theOneWhoFiredMe.Get(location) as Farmer ?? Game1.player);
         if (!container.performToolAction(dummyWeapon, location))
         {

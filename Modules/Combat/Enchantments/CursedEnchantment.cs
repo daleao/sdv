@@ -3,7 +3,7 @@
 #region using directives
 
 using System.Xml.Serialization;
-using DaLion.Overhaul.Modules.Combat.Events.GameLoop.UpdateTicked;
+using DaLion.Overhaul.Modules.Combat.Events.GameLoop.OneSecondUpdateTicked;
 using DaLion.Shared.Constants;
 using DaLion.Shared.Extensions.Stardew;
 using StardewValley.Monsters;
@@ -39,9 +39,6 @@ public class CursedEnchantment : BaseWeaponEnchantment
         return false;
     }
 
-
-
-
     /// <inheritdoc />
     protected override void _OnEquip(Farmer who)
     {
@@ -51,14 +48,14 @@ public class CursedEnchantment : BaseWeaponEnchantment
             who.mailReceived.Add("gotDarkSword");
         }
 
-        EventManager.Enable<CurseUpdateTickedEvent>();
+        EventManager.Enable<CurseOneSecondUpdateTickedEvent>();
     }
 
     /// <inheritdoc />
     protected override void _OnUnequip(Farmer who)
     {
         base._OnUnequip(who);
-        EventManager.Disable<CurseUpdateTickedEvent>();
+        EventManager.Disable<CurseOneSecondUpdateTickedEvent>();
     }
 
     /// <inheritdoc />

@@ -11,7 +11,6 @@ using DaLion.Shared.Extensions.Stardew;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
 using Microsoft.Xna.Framework;
-using StardewModdingAPI.Utilities;
 using StardewValley.Objects;
 using StardewValley.Tools;
 
@@ -95,14 +94,12 @@ internal sealed class CrabPotCheckForActionPatcher : HarmonyPatcher
             {
                 __instance.heldObject.Value = item;
                 Game1.showRedMessage(
-                    Game1.content.LoadString(
-                        PathUtilities.NormalizeAssetName("Strings/StringsFromCSFiles:Crop.cs.588")));
+                    Game1.content.LoadString("Strings\\StringsFromCSFiles:Crop.cs.588"));
                 __result = false;
                 return false; // don't run original logic;
             }
 
-            var fishData =
-                Game1.content.Load<Dictionary<int, string>>(PathUtilities.NormalizeAssetName("Data/Fish"));
+            var fishData = Game1.content.Load<Dictionary<int, string>>("Data\\Fish");
             if (fishData.TryGetValue(item.ParentSheetIndex, out var specificFishData))
             {
                 var fields = specificFishData.SplitWithoutAllocation('/');

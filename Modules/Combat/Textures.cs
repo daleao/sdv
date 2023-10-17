@@ -11,23 +11,23 @@ using Microsoft.Xna.Framework.Graphics;
 /// <summary>Caches custom mod textures and related functions.</summary>
 internal static class Textures
 {
-    internal static Texture2D GemstonesTx { get; } = ModHelper.ModContent.Load<Texture2D>("assets/sprites/gemstones");
+    internal static Texture2D GemstonesTx { get; } = ModHelper.ModContent.Load<Texture2D>("assets/sprites/objects/gemstones");
 
     internal static Texture2D GemSocketTx { get; set; } =
         ModHelper.GameContent.Load<Texture2D>($"{Manifest.UniqueID}/GemstoneSockets");
 
-    internal static Texture2D RingsTx { get; } = ModHelper.ModContent.Load<Texture2D>("assets/sprites/rings");
+    internal static Texture2D RingsTx { get; } = ModHelper.ModContent.Load<Texture2D>("assets/sprites/objects/rings");
 
-    internal static Texture2D ShieldTx { get; set; } = ModHelper.ModContent.Load<Texture2D>("assets/sprites/shield.png");
+    internal static Texture2D ShieldTx { get; set; } = ModHelper.ModContent.Load<Texture2D>("assets/sprites/effects/shield");
 
     internal static Texture2D PatternedResonanceTx { get; } =
-        ModHelper.ModContent.Load<Texture2D>("assets/sprites/resonance_patterned");
+        ModHelper.ModContent.Load<Texture2D>("assets/sprites/effects/resonance_patterned");
 
     internal static Texture2D StrongerResonanceTx { get; } =
-        ModHelper.ModContent.Load<Texture2D>("assets/sprites/resonance_stronger");
+        ModHelper.ModContent.Load<Texture2D>("assets/sprites/effects/resonance_stronger");
 
     internal static Texture2D TooltipsTx { get; } =
-        ModHelper.ModContent.Load<Texture2D>("assets/sprites/tooltips");
+        ModHelper.ModContent.Load<Texture2D>("assets/sprites/interface/tooltips");
 
     internal static void Refresh(IReadOnlySet<IAssetName> names)
     {

@@ -3,7 +3,7 @@
 #region using directives
 
 using System.Collections.Generic;
-using DaLion.Overhaul.Modules.Combat.Enums;
+using DaLion.Shared.Enums;
 using Microsoft.Xna.Framework;
 using Newtonsoft.Json;
 using StardewModdingAPI.Utilities;
@@ -276,7 +276,7 @@ public sealed class Config : Shared.Configs.Config
 
     /// <summary>Gets a multiplier which allows increasing the spawn chance of monsters in dungeons.</summary>
     [JsonProperty]
-    public float MonsterSpawnChanceMultiplier { get; internal set; } = 2f;
+    public float MonsterSpawnChanceMultiplier { get; internal set; } = 1f;
 
     #endregion enemies
 

@@ -356,7 +356,6 @@
   "enchantments.bloodthirsty.name": "血の渇き",
   "enchantments.mammonite.name": "マモナイト ",
   "enchantments.wabbajack.name": "ワバジャック",
-  "enchantments.magnum.name": "マグナム",
   "enchantments.gatling.name": "ガトリング",
   "enchantments.preserving.name": "節約術",
   "enchantments.quincy.name": "クインシー",
@@ -394,10 +393,16 @@
   "ui.item_hover.cdr": "{{amount}} クールダウン",
   "ui.item_hover.resist": "{{amount}} ダメージ耐性",
   "ui.item_hover.precision": "{{amount}} 精密さ",
-  "ui.item.hover.light": "Emits light",
+  "ui.item_hover.light": "光を発します",
+  "ui.item_hover.magnetic": "磁気",
 
-  "ui.buffs.jinxed": "防御 -5",
-  "ui.buffs.warrior": "攻撃 +{{value}}",
+  "ui.buffs.burnt.damage": "-50% Damage",
+  "ui.buffs.burnt.dot": "-{{amount}} health every 3 seconds",
+  "ui.buffs.frozen.stuck": "Cannot move",
+  "ui.buffs.frozen.vulnerable": "Vulnerable to the next attack",
+  "ui.buffs.jinxed.defense": "防御 -5",
+  "ui.buffs.confused": "Disoriented",
+  "ui.buffs.warrior.attack": "攻撃 +{{value}}",
 
 
   // ********* //
@@ -926,8 +931,8 @@
   "gmcm.twx.farming.crop_wither_chance.desc": "The chance for a crop to wither per day left un-watered.",
   "gmcm.twx.farming.prevent_fruit_tree_winter_growth.title": "Prevent Fruit Tree Winter Growth",
   "gmcm.twx.farming.prevent_fruit_tree_winter_growth.desc": "Regular trees can't grow in winter. Why should fruit trees be any different?",
-  "gmcm.twx.farming.largedairy_yield.title": "Large Dairy Yields Quantity Over Quality",
-  "gmcm.twx.farming.largedairy_yield.desc": "Causes one large egg or milk to produce two mayonnaise or cheese but at regular quality, instead of one at gold quality.",
+  "gmcm.twx.farming.dairy_yield.title": "Large Dairy Yields Quantity Over Quality",
+  "gmcm.twx.farming.dairy_yield.desc": "Causes one large egg or milk to produce two mayonnaise or cheese but at regular quality, instead of one at gold quality. Ostrich Eggs yield 10 mayonnaise, but do not retain quality without Artisan profession (except when Ostrich Mayo is installed). And Gold Eggs yield a single mayonnaise, but always at the highest quality (except when Golden Mayo is installed).",
   "gmcm.twx.farming.spawn_crows.title": "Spawn Crows on These Maps:",
   "gmcm.twx.maps.islandwest": "Ginger Island Farm",
   "gmcm.twx.maps.custom_garden": "Community Garden (SVE)",

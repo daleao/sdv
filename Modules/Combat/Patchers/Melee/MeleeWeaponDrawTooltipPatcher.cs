@@ -38,7 +38,8 @@ internal sealed class MeleeWeaponDrawTooltipPatcher : HarmonyPatcher
 
         try
         {
-            // write description
+            #region description
+
             var descriptionWidth = Reflector
                 .GetUnboundMethodDelegate<Func<Item, int>>(__instance, "getDescriptionWidth")
                 .Invoke(__instance);
@@ -50,25 +51,18 @@ internal sealed class MeleeWeaponDrawTooltipPatcher : HarmonyPatcher
                 Game1.textColor);
             y += (int)font.MeasureString(Game1.parseText(__instance.description, Game1.smallFont, descriptionWidth)).Y;
 
+            #endregion description
+
             var co = Game1.textColor;
 
-            // write damage
+            #region damage
+
             if (__instance.hasEnchantmentOfType<RubyEnchantment>())
             {
                 co = new Color(0, 120, 120);
             }
 
-            Utility.drawWithShadow(
-                spriteBatch,
-                Game1.mouseCursors,
-                new Vector2(x + 20f, y + 20f),
-                new Rectangle(120, 428, 10, 10),
-                Color.White,
-                0f,
-                Vector2.Zero,
-                4f,
-                false,
-                1f);
+            spriteBatch.DrawAttackIcon(new Vector2(x + 20f, y + 20f));
 
             var text = Game1.content.LoadString(
                 "Strings\\UI:ItemHover_Damage",
@@ -82,22 +76,15 @@ internal sealed class MeleeWeaponDrawTooltipPatcher : HarmonyPatcher
                 co * 0.9f * alpha);
             y += (int)Math.Max(font.MeasureString("TT").Y, 48f);
 
-            // write bonus knockback
+            #endregion damage
+
+            #region knockback
+
             var relativeKnockback = __instance.Get_DisplayedKnockback();
             if (relativeKnockback != 0)
             {
                 co = __instance.hasEnchantmentOfType<AmethystEnchantment>() ? new Color(0, 120, 120) : Game1.textColor;
-                Utility.drawWithShadow(
-                    spriteBatch,
-                    Game1.mouseCursors,
-                    new Vector2(x + 20f, y + 20f),
-                    new Rectangle(70, 428, 10, 10),
-                    Color.White,
-                    0f,
-                    Vector2.Zero,
-                    4f,
-                    false,
-                    1f);
+                spriteBatch.DrawWeightIcon(new Vector2(x + 20f, y + 20f));
 
                 text = I18n.Ui_ItemHover_Knockback($"{relativeKnockback:+#.#%;-#.#%}");
                 Utility.drawTextWithShadow(
@@ -110,24 +97,17 @@ internal sealed class MeleeWeaponDrawTooltipPatcher : HarmonyPatcher
                 y += (int)Math.Max(font.MeasureString("TT").Y, 48f);
             }
 
-            // write bonus crit rate
+            #endregion knockback
+
+            #region crit rate
+
             var relativeCritChance = __instance.Get_DisplayedCritChance();
             if (relativeCritChance != 0)
             {
                 co = __instance.hasEnchantmentOfType<AquamarineEnchantment>()
                     ? new Color(0, 120, 120)
                     : Game1.textColor;
-                Utility.drawWithShadow(
-                    spriteBatch,
-                    Game1.mouseCursors,
-                    new Vector2(x + 20f, y + 20f),
-                    new Rectangle(40, 428, 10, 10),
-                    Color.White,
-                    0f,
-                    Vector2.Zero,
-                    4f,
-                    false,
-                    1f);
+                spriteBatch.DrawCritChanceIcon(new Vector2(x + 20f, y + 20f));
 
                 text = Game1.parseText(I18n.Ui_ItemHover_CRate($"{relativeCritChance:+#.#%;-#.#%}"), Game1.smallFont, descriptionWidth);
                 Utility.drawTextWithShadow(
@@ -140,22 +120,15 @@ internal sealed class MeleeWeaponDrawTooltipPatcher : HarmonyPatcher
                 y += (int)Math.Max(font.MeasureString("TT").Y, 48f);
             }
 
-            // write bonus crit power
+            #endregion crit rate
+
+            #region crit power
+
             var relativeGetCritPower = __instance.Get_DisplayedCritPower();
             if (relativeGetCritPower != 0)
             {
                 co = __instance.hasEnchantmentOfType<JadeEnchantment>() ? new Color(0, 120, 120) : Game1.textColor;
-                Utility.drawWithShadow(
-                    spriteBatch,
-                    Game1.mouseCursors,
-                    new Vector2(x + 20f, y + 20f),
-                    new Rectangle(160, 428, 10, 10),
-                    Color.White,
-                    0f,
-                    Vector2.Zero,
-                    4f,
-                    false,
-                    1f);
+                spriteBatch.DrawCritPowerIcon(new Vector2(x + 20f, y + 20f));
 
                 text = I18n.Ui_ItemHover_CPow($"{relativeGetCritPower:+#.#%;-#.#%}");
                 Utility.drawTextWithShadow(
@@ -168,22 +141,15 @@ internal sealed class MeleeWeaponDrawTooltipPatcher : HarmonyPatcher
                 y += (int)Math.Max(font.MeasureString("TT").Y, 48f);
             }
 
-            // write bonus swing speed
+            #endregion crit power
+
+            #region attack speed
+
             var speed = __instance.Get_DisplayedSwingSpeed();
             if (speed != 0)
             {
                 co = __instance.hasEnchantmentOfType<EmeraldEnchantment>() ? new Color(0, 120, 120) : Game1.textColor;
-                Utility.drawWithShadow(
-                    spriteBatch,
-                    Game1.mouseCursors,
-                    new Vector2(x + 20f, y + 20f),
-                    new Rectangle(130, 428, 10, 10),
-                    Color.White,
-                    0f,
-                    Vector2.Zero,
-                    4f,
-                    false,
-                    1f);
+                spriteBatch.DrawSpeedIcon(new Vector2(x + 20f, y + 20f));
 
                 text = Game1.parseText(I18n.Ui_ItemHover_SwingSpeed($"{speed:+#.#%;-#.#%}"), Game1.smallFont, descriptionWidth);
                 Utility.drawTextWithShadow(
@@ -196,22 +162,15 @@ internal sealed class MeleeWeaponDrawTooltipPatcher : HarmonyPatcher
                 y += (int)Math.Max(font.MeasureString("TT").Y, 48f);
             }
 
-            // write bonus cooldown reduction
+            #endregion attack speed
+
+            #region cooldown reduction
+
             var cooldownReduction = __instance.Get_DisplayedCooldownReduction();
             if (cooldownReduction > 0)
             {
                 co = new Color(0, 120, 120);
-                Utility.drawWithShadow(
-                    spriteBatch,
-                    Textures.TooltipsTx,
-                    new Vector2(x + 20f, y + 20f),
-                    new Rectangle(10, 0, 10, 10),
-                    Color.White,
-                    0f,
-                    Vector2.Zero,
-                    4f,
-                    false,
-                    1f);
+                spriteBatch.DrawCooldownIcon(new Vector2(x + 20f, y + 20f));
 
                 text = I18n.Ui_ItemHover_Cdr($"-{cooldownReduction:#.#%}");
                 Utility.drawTextWithShadow(
@@ -224,22 +183,15 @@ internal sealed class MeleeWeaponDrawTooltipPatcher : HarmonyPatcher
                 y += (int)Math.Max(font.MeasureString("TT").Y, 48f);
             }
 
-            // write bonus defense
+            #endregion cooldown reduction
+
+            #region resistance
+
             var resistance = __instance.Get_DisplayedResilience();
             if (resistance != 0f)
             {
                 co = __instance.hasEnchantmentOfType<TopazEnchantment>() ? new Color(0, 120, 120) : Game1.textColor;
-                Utility.drawWithShadow(
-                    spriteBatch,
-                    Game1.mouseCursors,
-                    new Vector2(x + 20f, y + 20f),
-                    new Rectangle(110, 428, 10, 10),
-                    Color.White,
-                    0f,
-                    Vector2.Zero,
-                    4f,
-                    false,
-                    1f);
+                spriteBatch.DrawDefenseIcon(new Vector2(x + 20f, y + 20f));
 
                 text = CombatModule.Config.NewResistanceFormula
                     ? I18n.Ui_ItemHover_Resist($"{resistance:+#.#%;-#.#%}")
@@ -255,30 +207,26 @@ internal sealed class MeleeWeaponDrawTooltipPatcher : HarmonyPatcher
                 y += (int)Math.Max(font.MeasureString("TT").Y, 48f);
             }
 
-            // write light emittance
+            #endregion resistance
+
+            #region light emittance
+
             if (__instance.InitialParentTileIndex == WeaponIds.HolyBlade || __instance.IsInfinityWeapon())
             {
                 co = __instance.IsInfinityWeapon()
                     ? Color.DeepPink
                     : Game1.textColor;
-                Utility.drawWithShadow(
-                    spriteBatch,
-                    Textures.TooltipsTx,
-                    new Vector2(x + 20f, y + 20f),
-                    new Rectangle(0, 0, 10, 10),
-                    Color.White,
-                    0f,
-                    Vector2.Zero,
-                    4f,
-                    false,
-                    1f);
+                spriteBatch.DrawLightIcon(new Vector2(x + 20f, y + 20f));
 
-                text = I18n.Ui_Item_Hover_Light();
+                text = I18n.Ui_ItemHover_Light();
                 Utility.drawTextWithShadow(spriteBatch, text, font, new Vector2(x + 68f, y + 28f), co * 0.9f * alpha);
                 y += (int)Math.Max(font.MeasureString("TT").Y, 48f);
             }
 
-            // write bonus random forges
+            #endregion light emittance
+
+            #region random forges
+
             if (__instance.enchantments.Count > 0 && __instance.enchantments[^1] is DiamondEnchantment)
             {
                 co = new Color(0, 120, 120);
@@ -297,9 +245,12 @@ internal sealed class MeleeWeaponDrawTooltipPatcher : HarmonyPatcher
                 y += (int)Math.Max(font.MeasureString("TT").Y, 48f);
             }
 
+            #endregion random forges
+
             co = new Color(120, 0, 210);
 
-            // write other enchantments
+            #region prismatic enchantments
+
             for (var i = 0; i < __instance.enchantments.Count; i++)
             {
                 var enchantment = __instance.enchantments[i];
@@ -308,17 +259,7 @@ internal sealed class MeleeWeaponDrawTooltipPatcher : HarmonyPatcher
                     continue;
                 }
 
-                Utility.drawWithShadow(
-                    spriteBatch,
-                    Game1.mouseCursors2,
-                    new Vector2(x + 20f, y + 20f),
-                    new Rectangle(127, 35, 10, 10),
-                    Color.White,
-                    0f,
-                    Vector2.Zero,
-                    4f,
-                    false,
-                    1f);
+                spriteBatch.DrawEnchantmentIcon(new Vector2(x + 20f, y + 20f));
 
                 text = BaseEnchantment.hideEnchantmentName ? "???" : enchantment.GetDisplayName();
                 Utility.drawTextWithShadow(
@@ -330,6 +271,8 @@ internal sealed class MeleeWeaponDrawTooltipPatcher : HarmonyPatcher
 
                 y += (int)Math.Max(font.MeasureString("TT").Y, 48f);
             }
+
+            #endregion prismatic enchantments
 
             return false; // don't run original logic
         }

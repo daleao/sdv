@@ -571,13 +571,13 @@ public abstract class OverhaulModule
                         continue;
                     }
 
-                    if (!name.StartsWith("DaLion.Overhaul.Modules") || (ShouldEnable && KnownEnchantmentType.Contains(name)))
+                    if (!name.StartsWith("DaLion.Overhaul") || (ShouldEnable && KnownEnchantmentType.Contains(name)))
                     {
                         continue;
                     }
 
                     tool.RemoveEnchantment(enchantment);
-                    Log.W($"[CMBT]: {enchantment.GetType()} was removed from {tool.Name} to avoid issues. You can try to re-add it with console commands.");
+                    Log.W($"[CMBT]: {enchantment.GetType()} was removed from {tool.Name} to avoid issues.");
                 }
             });
         }
@@ -627,7 +627,6 @@ public abstract class OverhaulModule
             ModHelper.GameContent.InvalidateCacheAndLocalized("Data/weapons");
             ModHelper.GameContent.InvalidateCacheAndLocalized("Maps/springobjects");
             ModHelper.GameContent.InvalidateCacheAndLocalized("Strings/Locations");
-            ModHelper.GameContent.InvalidateCacheAndLocalized("Strings/StringsFromCSFiles");
             ModHelper.GameContent.InvalidateCache("TileSheets/BuffsIcons");
             ModHelper.GameContent.InvalidateCache("TileSheets/Projectiles");
             ModHelper.GameContent.InvalidateCache("TileSheets/weapons");

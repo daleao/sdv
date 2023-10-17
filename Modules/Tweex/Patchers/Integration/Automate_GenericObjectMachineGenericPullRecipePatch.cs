@@ -131,7 +131,7 @@ internal sealed class GenericObjectMachinePatchers : HarmonyPatcher
 
     private static void GenericMachineSubroutine(SObject machine, Item sample)
     {
-        if (!TweexModule.Config.LargeDairyYieldsQuantityOverQuality || machine.heldObject.Value is not { } output ||
+        if (!TweexModule.Config.ImmersiveDairyYield || machine.heldObject.Value is not { } output ||
             sample is not SObject input)
         {
             return;
@@ -151,10 +151,11 @@ internal sealed class GenericObjectMachinePatchers : HarmonyPatcher
                     "ughitsmegan.ostrichmayoForProducerFrameworkMod"):
                     output.Quality = SObject.lowQuality;
                     break;
-                // golden mayonnaise keeps giving gives single output but keeps golden quality
+                // golden mayonnaise gives single output but maxes quality
                 case ObjectIds.GoldenEgg when !ModHelper.ModRegistry.IsLoaded(
                     "ughitsmegan.goldenmayoForProducerFrameworkMod"):
                     output.Stack = 1;
+                    output.Quality = SObject.bestQuality;
                     break;
             }
         }
@@ -162,7 +163,7 @@ internal sealed class GenericObjectMachinePatchers : HarmonyPatcher
 
     private static void CheesePressMachineSubroutine(SObject machine, Item sample)
     {
-        if (!TweexModule.Config.LargeDairyYieldsQuantityOverQuality || machine.heldObject.Value is not { } output ||
+        if (!TweexModule.Config.ImmersiveDairyYield || machine.heldObject.Value is not { } output ||
             sample is not SObject input || !input.Name.ContainsAnyOf("Large", "L."))
         {
             return;

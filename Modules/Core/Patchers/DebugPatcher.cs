@@ -20,13 +20,13 @@ internal sealed class DebugPatcher : HarmonyPatcher
     #region harmony patches
 
     [HarmonyPrefix]
-    private static void DebugPrefix(object __instance, object __result)
+    private static void DebugPrefix()
     {
         Log.D("Debug prefix called!");
     }
 
     [HarmonyPostfix]
-    private static void DebugPostfix(object __instance, object __result)
+    private static void DebugPostfix()
     {
         Log.D("Debug postfix called!");
     }

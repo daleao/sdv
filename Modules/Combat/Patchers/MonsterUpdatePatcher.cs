@@ -56,12 +56,13 @@ internal sealed class MonsterUpdatePatcher : HarmonyPatcher
                         }
                     }
 
-                    //__instance.startGlowing(Color.Maroon, true, 0.05f);
+                    __instance.startGlowing(Color.Maroon, true, 0.05f);
                 }
             }
 
             if (__instance.IsBurning())
             {
+                __instance.startGlowing(Color.Yellow, true, 0.05f);
                 __instance.Get_BurnTimer().Value -= time.ElapsedGameTime.Milliseconds;
                 if (__instance.Get_BurnTimer() <= 0)
                 {
@@ -85,7 +86,7 @@ internal sealed class MonsterUpdatePatcher : HarmonyPatcher
                         }
                     }
 
-                    //__instance.startGlowing(Color.OrangeRed, true, 0.05f);
+                    __instance.startGlowing(Color.Yellow, true, 0.05f);
                 }
             }
 
@@ -109,7 +110,7 @@ internal sealed class MonsterUpdatePatcher : HarmonyPatcher
                         }
                     }
 
-                    //__instance.startGlowing(Color.LimeGreen, true, 0.05f);
+                    __instance.startGlowing(Color.LimeGreen, true, 0.05f);
                 }
             }
 
@@ -127,7 +128,15 @@ internal sealed class MonsterUpdatePatcher : HarmonyPatcher
             __instance.Get_SlowTimer().Value -= time.ElapsedGameTime.Milliseconds;
             if (__instance.Get_SlowTimer() <= 0)
             {
-                __instance.Unslow();
+                if (__instance.IsChilled())
+                {
+                    __instance.Unchill();
+                }
+                else
+                {
+                    __instance.Unslow();
+                }
+
                 return true; // run original logic
             }
 
@@ -152,14 +161,14 @@ internal sealed class MonsterUpdatePatcher : HarmonyPatcher
                 return true; // run original logic
             }
 
-            if (Reflector.GetUnboundFieldGetter<Monster, int>(__instance, "invincibleCountdown")
+            if (Reflector.GetUnboundFieldGetter<Monster, int>("invincibleCountdown")
                     .Invoke(__instance) is not (var invincibility and > 0))
             {
                 return false; // don't run original logic
             }
 
             invincibility -= time.ElapsedGameTime.Milliseconds;
-            Reflector.GetUnboundFieldSetter<Monster, int>(__instance, "invincibleCountdown")
+            Reflector.GetUnboundFieldSetter<Monster, int>("invincibleCountdown")
                 .Invoke(__instance, invincibility);
             return false; // don't run original logic
         }

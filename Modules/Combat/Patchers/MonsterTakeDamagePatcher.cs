@@ -91,7 +91,7 @@ internal sealed class MonsterTakeDamagePatcher : HarmonyPatcher
             return;
         }
 
-        damage *= 3;
+        damage *= 2;
         __instance.Defrost();
     }
 

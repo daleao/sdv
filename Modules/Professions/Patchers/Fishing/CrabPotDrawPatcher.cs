@@ -8,7 +8,6 @@ using DaLion.Shared.Harmony;
 using HarmonyLib;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using StardewModdingAPI.Utilities;
 using StardewValley.Objects;
 
 #endregion using directives
@@ -45,7 +44,7 @@ internal sealed class CrabPotDrawPatcher : HarmonyPatcher
             if (___yBob <= 0.001f)
             {
                 Game1.currentLocation.temporarySprites.Add(new TemporaryAnimatedSprite(
-                    PathUtilities.NormalizeAssetName("TileSheets/animations"),
+                    "TileSheets\\animations",
                     new Rectangle(0, 0, 64, 64),
                     150f,
                     8,

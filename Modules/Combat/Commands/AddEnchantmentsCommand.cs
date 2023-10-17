@@ -75,9 +75,7 @@ internal sealed class AddEnchantmentsCommand : ConsoleCommand
 
                 // slingshot enchants
                 "artful" when tool is Slingshot => new RangedArtfulEnchantment(),
-                "engorging" or "glutton" or "magnum" => new MagnumEnchantment(),
                 "gatling" => new GatlingEnchantment(),
-                "preserving" when tool is Slingshot => new Enchantments.PreservingEnchantment(),
                 "quincy" => new QuincyEnchantment(),
                 "spreading" => new SpreadingEnchantment(),
 

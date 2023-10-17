@@ -27,7 +27,7 @@ internal sealed class FarmerToolPowerIncreasePatcher : HarmonyPatcher
     {
         if (__instance.toolPower == 0)
         {
-            Reflector.GetUnboundFieldSetter<Farmer, int>(__instance, "toolPitchAccumulator").Invoke(__instance, 0);
+            Reflector.GetUnboundFieldSetter<Farmer, int>("toolPitchAccumulator").Invoke(__instance, 0);
         }
 
         __instance.toolPower++;

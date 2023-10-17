@@ -86,7 +86,7 @@ internal sealed class WarriorUpdateTickedEvent : UpdateTickedEvent
                 millisecondsDuration = 0,
                 description =
                     this._buffDescription + Environment.NewLine +
-                    I18n.Ui_Buffs_Warrior(CombatModule.State.WarriorKillCount / 3),
+                    I18n.Ui_Buffs_Warrior_Attack(CombatModule.State.WarriorKillCount / 3),
                 glow = Color.DarkRed,
             });
     }

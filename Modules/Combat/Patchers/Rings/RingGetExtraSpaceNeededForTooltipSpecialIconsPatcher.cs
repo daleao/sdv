@@ -3,6 +3,7 @@
 #region using directives
 
 using System.Collections.Generic;
+using System.Net.NetworkInformation;
 using DaLion.Overhaul.Modules.Combat.Extensions;
 using DaLion.Overhaul.Modules.Combat.Integrations;
 using DaLion.Overhaul.Modules.Combat.VirtualProperties;
@@ -12,6 +13,7 @@ using HarmonyLib;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using StardewValley.Objects;
+using static System.Net.Mime.MediaTypeNames;
 
 #endregion using directives
 
@@ -67,6 +69,8 @@ internal sealed class RingGetExtraSpaceNeededForTooltipSpecialIconsPatcher : Har
                 ObjectIds.SmallMagnetRing,
                 ObjectIds.MagnetRing,
                 ObjectIds.GlowstoneRing,
+                ObjectIds.CrabshellRing,
+                ObjectIds.ImmunityRing,
             };
 
             if (JsonAssetsIntegration.GarnetRingIndex.HasValue)
@@ -77,12 +81,14 @@ internal sealed class RingGetExtraSpaceNeededForTooltipSpecialIconsPatcher : Har
 
         if (__instance is CombinedRing combined)
         {
-            __result.Y = 141;
+            var originalDescriptionText = __instance.getDescription();
+            __result.Y -= (int)font.MeasureString(originalDescriptionText).Y;
             for (var i = 0; i < combined.combinedRings.Count; i++)
             {
                 var ring = combined.combinedRings[i];
-                var descriptionSize = font.MeasureString(ring.getDescription());
-                var titleWidth = Game1.dialogueFont.MeasureString(combined.DisplayName).X;
+                var descriptionText = ring.getDescription();
+                var descriptionSize = font.MeasureString(descriptionText);
+                var titleWidth = font.MeasureString(combined.DisplayName).X;
                 descriptionSize.X = Math.Max(descriptionSize.X - 48f, titleWidth);
 
                 if (ring.indexInTileSheet.Value == ObjectIds.GlowstoneRing)
@@ -102,7 +108,6 @@ internal sealed class RingGetExtraSpaceNeededForTooltipSpecialIconsPatcher : Har
                     fontHeight = font.MeasureString(parsedDescription).Y;
                     descriptionSize.Y = Math.Max(fontHeight, 48f);
                     __result.Y += (int)descriptionSize.Y;
-                    Log.D($"Added {descriptionSize.Y}");
                 }
                 else
                 {
@@ -116,18 +121,17 @@ internal sealed class RingGetExtraSpaceNeededForTooltipSpecialIconsPatcher : Har
             return;
         }
 
-        if (!_ids.Contains(__instance.indexInTileSheet.Value))
+        if (_ids.Contains(__instance.indexInTileSheet.Value))
         {
-            return;
-        }
+            var descriptionText = __instance.getDescription();
+            __result.Y -= (int)font.MeasureString(descriptionText).Y;
 
-        {
-            __result.Y = 141;
-            var descriptionSize = font.MeasureString(__instance.getDescription());
+            var descriptionSize = font.MeasureString(descriptionText);
             var titleWidth = font.MeasureString(__instance.DisplayName).X;
             descriptionSize.X = Math.Max(descriptionSize.X - 48f, titleWidth);
 
-            var parsedDescription = Game1.parseText(__instance.description, Game1.smallFont, (int)descriptionSize.X);
+            var parsedDescription =
+                Game1.parseText(__instance.description, Game1.smallFont, (int)descriptionSize.X);
             var fontHeight = font.MeasureString(parsedDescription).Y;
             descriptionSize.Y = Math.Max(fontHeight, 48f);
             __result.Y += (int)descriptionSize.Y;

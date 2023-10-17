@@ -1,33 +1,13 @@
-﻿namespace DaLion.Overhaul.Modules.Combat.Enums;
+﻿namespace DaLion.Overhaul.Modules.Combat.Extensions;
 
 #region using directives
 
 using System.Collections.Generic;
+using DaLion.Overhaul.Modules.Combat.Enums;
 using DaLion.Shared.Constants;
-using NetEscapades.EnumGenerators;
-using StardewValley.Tools;
+using DaLion.Shared.Enums;
 
 #endregion using directives
-
-/// <summary>The type of a <see cref="MeleeWeapon"/> or <see cref="Slingshot"/>.</summary>
-[EnumExtensions]
-public enum WeaponType
-{
-    /// <summary>The <see cref="MeleeWeapon.stabbingSword"/> type.</summary>
-    StabbingSword,
-
-    /// <summary>The <see cref="MeleeWeapon.dagger"/> type.</summary>
-    Dagger,
-
-    /// <summary>The <see cref="MeleeWeapon.club"/> type.</summary>
-    Club,
-
-    /// <summary>The <see cref="MeleeWeapon.defenseSword"/> type.</summary>
-    DefenseSword,
-
-    /// <summary>The <see cref="Slingshot"/> type.</summary>
-    Slingshot,
-}
 
 /// <summary>Extensions for the <see cref="WeaponType"/> enum.</summary>
 public static partial class WeaponTypeExtensions

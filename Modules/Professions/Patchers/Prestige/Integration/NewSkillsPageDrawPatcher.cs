@@ -373,7 +373,7 @@ internal sealed class NewSkillsPageDrawPatcher : HarmonyPatcher
         }
 
         var lastVisibleSkillIndex =
-            Reflector.GetUnboundPropertyGetter<NewSkillsPage, int>(page, "LastVisibleSkillIndex").Invoke(page);
+            Reflector.GetUnboundPropertyGetter<NewSkillsPage, int>("LastVisibleSkillIndex").Invoke(page);
         for (var i = 0; i < 5; i++)
         {
             // hide if scrolled and out of bounds
@@ -452,7 +452,7 @@ internal sealed class NewSkillsPageDrawPatcher : HarmonyPatcher
         }
 
         var indexWithLuckSkill =
-            Reflector.GetUnboundPropertyGetter<NewSkillsPage, int>(page, "GameSkillCount").Invoke(page) - 1;
+            Reflector.GetUnboundPropertyGetter<NewSkillsPage, int>("GameSkillCount").Invoke(page) - 1;
         foreach (var skill in customSkills)
         {
             // hide if scrolled and out of bounds

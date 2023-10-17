@@ -34,7 +34,7 @@ public sealed class Config : Shared.Configs.Config
 
     /// <summary>Gets a value indicating whether large eggs and milk should yield twice the output stack instead of higher quality.</summary>
     [JsonProperty]
-    public bool LargeDairyYieldsQuantityOverQuality { get; internal set; } = true;
+    public bool ImmersiveDairyYield { get; internal set; } = true;
 
     /// <summary>
     ///     Gets a list of Artisan machines which should be compatible with

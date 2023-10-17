@@ -7,6 +7,7 @@ using DaLion.Overhaul.Modules.Combat.Enums;
 using DaLion.Overhaul.Modules.Combat.Integrations;
 using DaLion.Overhaul.Modules.Combat.VirtualProperties;
 using DaLion.Shared.Constants;
+using DaLion.Shared.Enums;
 using DaLion.Shared.Extensions.Collections;
 using DaLion.Shared.Extensions.SMAPI;
 using DaLion.Shared.Integrations.GenericModConfigMenu;

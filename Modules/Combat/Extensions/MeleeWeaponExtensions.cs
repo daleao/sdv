@@ -10,6 +10,7 @@ using DaLion.Overhaul.Modules.Combat.Enums;
 using DaLion.Overhaul.Modules.Combat.VirtualProperties;
 using DaLion.Shared;
 using DaLion.Shared.Constants;
+using DaLion.Shared.Enums;
 using DaLion.Shared.Exceptions;
 using DaLion.Shared.Extensions;
 using DaLion.Shared.Extensions.Stardew;
@@ -404,13 +405,13 @@ internal static class MeleeWeaponExtensions
     internal static void SetFarmerAnimatingBackwards(this MeleeWeapon weapon, Farmer farmer)
     {
         Reflector
-            .GetUnboundFieldSetter<MeleeWeapon, bool>(weapon, "anotherClick")
+            .GetUnboundFieldSetter<MeleeWeapon, bool>("anotherClick")
             .Invoke(weapon, false);
         farmer.FarmerSprite.PauseForSingleAnimation = false;
         farmer.FarmerSprite.StopAnimation();
 
         Reflector
-            .GetUnboundFieldSetter<MeleeWeapon, bool>(weapon, "hasBegunWeaponEndPause")
+            .GetUnboundFieldSetter<MeleeWeapon, bool>("hasBegunWeaponEndPause")
             .Invoke(weapon, false);
         float swipeSpeed = 400 - (weapon.speed.Value * 40);
         swipeSpeed *= farmer.GetTotalSwingSpeedModifier();

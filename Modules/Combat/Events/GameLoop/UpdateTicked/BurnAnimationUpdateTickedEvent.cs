@@ -23,11 +23,11 @@ internal sealed class BurnAnimationUpdateTickedEvent : UpdateTickedEvent
     /// <inheritdoc />
     protected override void OnUpdateTickedImpl(object? sender, UpdateTickedEventArgs e)
     {
-        if (!BurnAnimation.BurnAnimationByMonster.Any())
+        if (!BurnAnimation.BurnAnimationsByMonster.Any())
         {
             this.Disable();
         }
 
-        BurnAnimation.BurnAnimationByMonster.ForEach(pair => pair.Value.update(Game1.currentGameTime));
+        BurnAnimation.BurnAnimationsByMonster.ForEach(pair => pair.Value.ForEach(burn => burn.update(Game1.currentGameTime)));
     }
 }

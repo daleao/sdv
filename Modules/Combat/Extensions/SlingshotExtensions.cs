@@ -146,7 +146,7 @@ internal static class SlingshotExtensions
         who.FarmerSprite.PauseForSingleAnimation = false;
 
         var dummyWeapon = new MeleeWeapon { BaseName = string.Empty };
-        Reflector.GetUnboundFieldSetter<Tool, Farmer>(dummyWeapon, "lastUser").Invoke(dummyWeapon, who);
+        Reflector.GetUnboundFieldSetter<Tool, Farmer>("lastUser").Invoke(dummyWeapon, who);
         var v = new Vector2(x / Game1.tileSize, y / Game1.tileSize);
 
         if (location.terrainFeatures.ContainsKey(v) &&

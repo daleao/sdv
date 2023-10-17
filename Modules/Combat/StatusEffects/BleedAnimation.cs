@@ -71,7 +71,7 @@ public class BleedAnimation
         }
 
         this._timer = 0f;
-        var offset = this._attachedMonster.GetOverheadOffset(time);
+        var offset = this._attachedMonster.GetOverheadOffset();
         for (var i = 0; i < 3; i++)
         {
             var flipped = this._attachedMonster.xVelocity < -1f || (!(this._attachedMonster.xVelocity > 1f) && Game1.random.NextBool());

@@ -74,7 +74,7 @@ public sealed class Chord : IChord
         who.Get_ResonatingChords().Add(this);
 
         this.ResonanceByGemstone.ForEach(pair => pair.Key.Resonate(who, (float)pair.Value));
-        who.MagneticRadius += this._richness * 24;
+        who.MagneticRadius += this._richness * 32;
 
         this.InitializeLightSource();
         if (this._lightSource is null)
@@ -98,7 +98,7 @@ public sealed class Chord : IChord
         who.Get_ResonatingChords().Remove(this);
 
         this.ResonanceByGemstone.ForEach(pair => pair.Key.Dissonate(who, (float)pair.Value));
-        who.MagneticRadius -= this._richness * 24;
+        who.MagneticRadius -= this._richness * 32;
         if (this._lightSource is null)
         {
             return;
@@ -174,7 +174,7 @@ public sealed class Chord : IChord
     internal void Buffer(StatBuffer buffer)
     {
         this.ResonanceByGemstone.ForEach(pair => pair.Key.Buffer(buffer, (float)pair.Value));
-        buffer.MagneticRadius += this._richness * 24;
+        buffer.MagneticRadius += this._richness * 32;
     }
 
     /// <summary>Initializes the <see cref="_lightSource"/> if a resonant harmony exists in the <see cref="Chord"/>.</summary>

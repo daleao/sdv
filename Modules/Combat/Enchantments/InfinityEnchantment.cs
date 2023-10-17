@@ -7,8 +7,9 @@ using DaLion.Overhaul.Modules.Combat.Events.GameLoop.UpdateTicked;
 using DaLion.Overhaul.Modules.Combat.Events.Player.Warped;
 using DaLion.Overhaul.Modules.Combat.Projectiles;
 using DaLion.Shared.Enums;
+using DaLion.Shared.Extensions;
+using DaLion.Shared.Extensions.Xna;
 using Microsoft.Xna.Framework;
-using Shared.Extensions.Xna;
 using StardewValley.Tools;
 
 #endregion using directives
@@ -18,7 +19,7 @@ using StardewValley.Tools;
 public class InfinityEnchantment : BaseWeaponEnchantment
 {
     private readonly Color _lightSourceColor = Color.DeepPink.Inverse();
-    private readonly float _lightSourceRadius = 2f;
+    private readonly float _lightSourceRadius = 2.5f;
     private int? _lightSourceId;
 
     /// <inheritdoc />
@@ -43,6 +44,12 @@ public class InfinityEnchantment : BaseWeaponEnchantment
     public override bool ShouldBeDisplayed()
     {
         return false;
+    }
+
+    /// <inheritdoc />
+    public override bool CanApplyTo(Item item)
+    {
+        return item is Tool tool && tool.GetEnchantmentLevel<GalaxySoulEnchantment>() >= 3;
     }
 
     internal void OnWarp(Farmer who, GameLocation oldLocation, GameLocation newLocation)
@@ -71,7 +78,7 @@ public class InfinityEnchantment : BaseWeaponEnchantment
             who.UniqueMultiplayerID);
     }
 
-    internal void Update(Farmer who)
+    internal void Update(uint ticks, Farmer who)
     {
         if (!this._lightSourceId.HasValue)
         {
@@ -87,12 +94,12 @@ public class InfinityEnchantment : BaseWeaponEnchantment
         who.currentLocation.repositionLightSource(
             this._lightSourceId.Value,
             new Vector2(who.Position.X + 26f, who.Position.Y + 16f) + offset);
-    }
 
-    /// <inheritdoc />
-    public override bool CanApplyTo(Item item)
-    {
-        return item is Tool tool && tool.GetEnchantmentLevel<GalaxySoulEnchantment>() >= 3;
+        if (ticks % 10 == 0)
+        {
+            who.currentLocation.sharedLights[this._lightSourceId.Value].radius.Value =
+                this._lightSourceRadius + (float)Game1.random.NextGaussian(0.5, 0.025);
+        }
     }
 
     /// <inheritdoc />

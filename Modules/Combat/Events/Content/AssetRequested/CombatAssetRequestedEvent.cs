@@ -56,7 +56,6 @@ internal sealed class CombatAssetRequestedEvent : AssetRequestedEvent
         this.Edit("Data/weapons", new AssetEditor(EditWeaponsData, AssetEditPriority.Late));
         this.Edit("Maps/springobjects", new AssetEditor(EditSpringObjectsMaps, AssetEditPriority.Late));
         this.Edit("Strings/Locations", new AssetEditor(EditLocationsStrings));
-        this.Edit("Strings/StringsFromCSFiles", new AssetEditor(EditStringsFromCsFiles, AssetEditPriority.Late));
         this.Edit("TileSheets/BuffsIcons", new AssetEditor(EditBuffsIconsTileSheet));
         this.Edit("TileSheets/Projectiles", new AssetEditor(EditProjectilesTileSheet));
         this.Edit("TileSheets/weapons", new AssetEditor(EditWeaponsTileSheetEarly, AssetEditPriority.Early));
@@ -66,25 +65,25 @@ internal sealed class CombatAssetRequestedEvent : AssetRequestedEvent
         this.Provide("Data/Events/Blacksmith", new DictionaryProvider<string, string>(null, AssetLoadPriority.Low));
         this.Provide(
             $"{Manifest.UniqueID}/GarnetNode",
-            new ModTextureProvider(() => "assets/sprites/garnet_node.png"));
+            new ModTextureProvider(() => "assets/sprites/objects/garnet_node.png"));
         this.Provide(
             $"{Manifest.UniqueID}/DwarvishBlueprint",
-            new ModTextureProvider(() => "assets/sprites/blueprint.png"));
+            new ModTextureProvider(() => "assets/sprites/objects/blueprint.png"));
         this.Provide(
             $"{Manifest.UniqueID}/BleedAnimation",
-            new ModTextureProvider(() => "assets/sprites/bleed.png"));
+            new ModTextureProvider(() => "assets/sprites/effects/bleed.png"));
         this.Provide(
             $"{Manifest.UniqueID}/SlowAnimation",
-            new ModTextureProvider(() => "assets/sprites/slow.png"));
+            new ModTextureProvider(() => "assets/sprites/effects/slow.png"));
         this.Provide(
             $"{Manifest.UniqueID}/StunAnimation",
-            new ModTextureProvider(() => "assets/sprites/stun.png"));
+            new ModTextureProvider(() => "assets/sprites/effects/stun.png"));
         this.Provide(
             $"{Manifest.UniqueID}/GemstoneSockets",
             new ModTextureProvider(ProvideGemSockets));
         this.Provide(
             $"{Manifest.UniqueID}/SnowballCollisionAnimation",
-            new ModTextureProvider(() => "assets/sprites/snowball.png"));
+            new ModTextureProvider(() => "assets/sprites/effects/snowball.png"));
         //this.Provide(
         //    $"{Manifest.UniqueID}/BeamCollisionAnimation",
         //    new ModTextureProvider(() => "assets/sprites/beam.png", AssetLoadPriority.Medium));
@@ -112,7 +111,7 @@ internal sealed class CombatAssetRequestedEvent : AssetRequestedEvent
         var sourceArea = new Rectangle(64, 16, 32, 16);
         var targetArea = new Rectangle(64, 64, 32, 16);
         editor.PatchImage(
-            ModHelper.ModContent.Load<Texture2D>("assets/sprites/buffs"),
+            ModHelper.ModContent.Load<Texture2D>("assets/sprites/interface/buffs"),
             sourceArea,
             targetArea);
     }
@@ -252,7 +251,7 @@ internal sealed class CombatAssetRequestedEvent : AssetRequestedEvent
         var sourceArea = new Rectangle(16, 0, 16, 16);
         var targetArea = new Rectangle(64, 16, 16, 16);
         editor.PatchImage(
-            ModHelper.ModContent.Load<Texture2D>("assets/sprites/projectiles"),
+            ModHelper.ModContent.Load<Texture2D>("assets/sprites/effects/projectiles"),
             sourceArea,
             targetArea);
 
@@ -265,7 +264,7 @@ internal sealed class CombatAssetRequestedEvent : AssetRequestedEvent
         sourceArea = new Rectangle(0, 0, 16, 16);
         targetArea = new Rectangle(112, 16, 16, 16);
         editor.PatchImage(
-            ModHelper.ModContent.Load<Texture2D>("assets/sprites/projectiles"),
+            ModHelper.ModContent.Load<Texture2D>("assets/sprites/effects/projectiles"),
             sourceArea,
             targetArea);
     }
@@ -358,7 +357,7 @@ internal sealed class CombatAssetRequestedEvent : AssetRequestedEvent
         if (CombatModule.Config.EnableWeaponOverhaul)
         {
             var editor = asset.AsImage();
-            editor.PatchImage(ModHelper.ModContent.Load<Texture2D>("assets/sprites/weapons"));
+            editor.PatchImage(ModHelper.ModContent.Load<Texture2D>("assets/sprites/objects/weapons"));
         }
 
         if (CombatModule.Config.EnableInfinitySlingshot)
@@ -366,7 +365,7 @@ internal sealed class CombatAssetRequestedEvent : AssetRequestedEvent
             var editor = asset.AsImage();
             var targetArea = new Rectangle(16, 128, 16, 16);
             editor.PatchImage(
-                ModHelper.ModContent.Load<Texture2D>("assets/sprites/InfinitySlingshot"),
+                ModHelper.ModContent.Load<Texture2D>("assets/sprites/objects/InfinitySlingshot"),
                 targetArea: targetArea);
         }
     }
@@ -382,9 +381,9 @@ internal sealed class CombatAssetRequestedEvent : AssetRequestedEvent
 
         var editor = asset.AsImage();
         var sourceTx = VanillaTweaksIntegration.Instance?.WeaponsCategoryEnabled == true
-            ? ModHelper.ModContent.Load<Texture2D>("assets/sprites/weapons_vanillatweaks.png")
+            ? ModHelper.ModContent.Load<Texture2D>("assets/sprites/objects/weapons_vanillatweaks")
             : SimpleWeaponsIntegration.Instance?.IsLoaded == true
-                ? ModHelper.ModContent.Load<Texture2D>("assets/sprites/weapons_simple.png")
+                ? ModHelper.ModContent.Load<Texture2D>("assets/sprites/objects/weapons_simple")
                 : Tool.weaponsTexture;
         Rectangle sourceArea, targetArea;
         if (CombatModule.Config.EnableHeroQuest)
@@ -418,18 +417,6 @@ internal sealed class CombatAssetRequestedEvent : AssetRequestedEvent
         data["144703/n viegoCurse/p Wizard"] = StardewValleyExpandedIntegration.Instance?.IsLoaded == true
                 ? I18n.Events_Curse_Intro_Sve()
                 : I18n.Events_Curse_Intro();
-    }
-
-    /// <summary>Adjust Jinxed debuff description.</summary>
-    private static void EditStringsFromCsFiles(IAssetData asset)
-    {
-        if (!CombatModule.Config.NewResistanceFormula)
-        {
-            return;
-        }
-
-        var data = asset.AsDictionary<string, string>().Data;
-        data["Buff.cs.465"] = I18n.Ui_Buffs_Jinxed();
     }
 
     /// <summary>Edits crafting recipes with new ring recipes.</summary>
@@ -551,7 +538,7 @@ internal sealed class CombatAssetRequestedEvent : AssetRequestedEvent
     /// <summary>Provides the correct gemstone socket texture path.</summary>
     private static string ProvideGemSockets()
     {
-        var path = "assets/sprites/GemSocket_" + CombatModule.Config.SocketStyle;
+        var path = "assets/sprites/interface/GemSocket_" + CombatModule.Config.SocketStyle;
         if (ModHelper.ModRegistry.IsLoaded("ManaKirel.VMI") ||
             ModHelper.ModRegistry.IsLoaded("ManaKirel.VintageInterface2"))
         {

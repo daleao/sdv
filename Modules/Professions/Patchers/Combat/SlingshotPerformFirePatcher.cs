@@ -46,7 +46,8 @@ internal sealed class SlingshotPerformFirePatcher : HarmonyPatcher
         {
             if (__instance.attachments[0] is null)
             {
-                if (__instance.attachments.Count > 1 && __instance.attachments[1] is not null)
+                if (__instance.attachments.Length > 1 && __instance.attachments[1] is not null &&
+                    __instance.attachments[1].ParentSheetIndex != ObjectIds.MonsterMusk)
                 {
                     __instance.attachments[0] = __instance.attachments[1];
                     __instance.attachments[1] = null;

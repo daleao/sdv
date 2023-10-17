@@ -362,7 +362,6 @@
   "enchantments.bloodthirsty.name": "嗜血",
   "enchantments.mammonite.name": "拜金主义",
   "enchantments.wabbajack.name": "瓦巴杰克",
-  "enchantments.magnum.name": "马格南",
   "enchantments.gatling.name": "加特林",
   "enchantments.preserving.name": "节约弹药",
   "enchantments.quincy.name": "能量弹",
@@ -401,10 +400,16 @@
   "ui.item_hover.cdr": " {{amount}}冷却缩减",
   "ui.item_hover.resist": " {{amount}}抗性",
   "ui.item_hover.precision": " {{amount}}精准",
-  "ui.item.hover.light": "Emits light",
+  "ui.item_hover.light": "它发出光",
+  "ui.item_hover.magnetic": "磁的",
 
-  "ui.buffs.jinxed": "-5 防御",
-  "ui.buffs.warrior": "+{{value}} 攻击",
+  "ui.buffs.burnt.damage": "-50% Damage",
+  "ui.buffs.burnt.dot": "-{{amount}} health every 3 seconds",
+  "ui.buffs.frozen.stuck": "Cannot move",
+  "ui.buffs.frozen.vulnerable": "Vulnerable to the next attack",
+  "ui.buffs.jinxed.defense": "-5 防御",
+  "ui.buffs.confused": "Disoriented",
+  "ui.buffs.warrior.attack": "+{{value}} 攻击",
 
   // ********* //
   // * PONDS * //
@@ -932,8 +937,8 @@
   "gmcm.twx.farming.crop_wither_chance.desc": "作物没有每天浇水枯萎的机会。",
   "gmcm.twx.farming.prevent_fruit_tree_winter_growth.title": "防止果树冬季生长",
   "gmcm.twx.farming.prevent_fruit_tree_winter_growth.desc": "普通树木在冬天不能生长。为什么果树会有所不同？",
-  "gmcm.twx.farming.largedairy_yield.title": "大产品的产量大于质量",
-  "gmcm.twx.farming.largedairy_yield.desc": "一个大鸡蛋或大牛奶产生两个蛋黄酱/奶酪，但质量正常，而不是产生一个黄金质量。",
+  "gmcm.twx.farming.dairy_yield.title": "大产品的产量大于质量",
+  "gmcm.twx.farming.dairy_yield.desc": "一个大鸡蛋或大牛奶产生两个蛋黄酱/奶酪，但质量正常，而不是产生一个黄金质量。",
   "gmcm.twx.farming.spawn_crows.title": "在这些地图上生成乌鸦：",
   "gmcm.twx.maps.islandwest": "姜岛农场",
   "gmcm.twx.maps.custom_garden": "社区花园 (SVE)",

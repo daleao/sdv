@@ -112,8 +112,8 @@ public sealed class SpreadingEnchantment : BaseSlingshotEnchantment
                 velocity.Y,
                 rotationVelocity),
             ObjectProjectile @object => new ObjectProjectile(
-                @object.Ammo!,
-                @object.Index,
+                @object.Ammo,
+                @object.TileSheetIndex,
                 slingshot,
                 firer,
                 damage,

@@ -357,7 +357,6 @@
   "enchantments.bloodthirsty.name": "Жадность",
   "enchantments.mammonite.name": "Маммонит",
   "enchantments.wabbajack.name": "Ваббаджека",
-  "enchantments.magnum.name": "Магнум",
   "enchantments.gatling.name": "Скорострельность",
   "enchantments.preserving.name": "Сохранность",
   "enchantments.quincy.name": "Пустотный заряд",
@@ -395,10 +394,16 @@
   "ui.item_hover.cdr": "{{amount}} Время перезарядки",
   "ui.item_hover.resist": "{{amount}} Сопротивление",
   "ui.item_hover.precision": "{{amount}} Точность",
-  "ui.item.hover.light": "Emits light",
+  "ui.item_hover.light": "Излучает свет",
+  "ui.item_hover.magnetic": "Магнитный",
 
-  "ui.buffs.jinxed": "-5 Защита",
-  "ui.buffs.warrior": "+{{value}} Атака",
+  "ui.buffs.burnt.damage": "-50% Damage",
+  "ui.buffs.burnt.dot": "-{{amount}} health every 3 seconds",
+  "ui.buffs.frozen.stuck": "Cannot move",
+  "ui.buffs.frozen.vulnerable": "Vulnerable to the next attack",
+  "ui.buffs.jinxed.defense": "-5 Защита",
+  "ui.buffs.confused": "Disoriented",
+  "ui.buffs.warrior.attack": "+{{value}} Атака",
 
 
   // ********* //
@@ -927,8 +932,8 @@
   "gmcm.twx.farming.crop_wither_chance.desc": "The chance for a crop to wither per day left un-watered.",
   "gmcm.twx.farming.prevent_fruit_tree_winter_growth.title": "Prevent Fruit Tree Winter Growth",
   "gmcm.twx.farming.prevent_fruit_tree_winter_growth.desc": "Regular trees can't grow in winter. Why should fruit trees be any different?",
-  "gmcm.twx.farming.largedairy_yield.title": "Large Dairy Yields Quantity Over Quality",
-  "gmcm.twx.farming.largedairy_yield.desc": "Causes one large egg or milk to produce two mayonnaise or cheese but at regular quality, instead of one at gold quality.",
+  "gmcm.twx.farming.dairy_yield.title": "Large Dairy Yields Quantity Over Quality",
+  "gmcm.twx.farming.dairy_yield.desc": "Causes one large egg or milk to produce two mayonnaise or cheese but at regular quality, instead of one at gold quality. Ostrich Eggs yield 10 mayonnaise, but do not retain quality without Artisan profession (except when Ostrich Mayo is installed). And Gold Eggs yield a single mayonnaise, but always at the highest quality (except when Golden Mayo is installed).",
   "gmcm.twx.farming.spawn_crows.title": "Spawn Crows on These Maps:",
   "gmcm.twx.maps.islandwest": "Ginger Island Farm",
   "gmcm.twx.maps.custom_garden": "Community Garden (SVE)",

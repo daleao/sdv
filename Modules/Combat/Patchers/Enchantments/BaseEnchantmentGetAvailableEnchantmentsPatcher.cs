@@ -108,19 +108,9 @@ internal sealed class BaseEnchantmentGetAvailableEnchantmentsPatcher : HarmonyPa
                         new CodeInstruction(
                             OpCodes.Callvirt,
                             typeof(List<BaseEnchantment>).RequireMethod(nameof(List<BaseEnchantment>.Add))),
-                        // add magnum enchant
-                        new(OpCodes.Ldsfld, typeof(BaseEnchantment).RequireField("_enchantments")),
-                        new(OpCodes.Newobj, typeof(MagnumEnchantment).RequireConstructor()), new(
-                            OpCodes.Callvirt,
-                            typeof(List<BaseEnchantment>).RequireMethod(nameof(List<BaseEnchantment>.Add))),
                         // add gatling enchant
                         new(OpCodes.Ldsfld, typeof(BaseEnchantment).RequireField("_enchantments")),
                         new(OpCodes.Newobj, typeof(GatlingEnchantment).RequireConstructor()), new(
-                            OpCodes.Callvirt,
-                            typeof(List<BaseEnchantment>).RequireMethod(nameof(List<BaseEnchantment>.Add))),
-                        // add preserving enchant
-                        new(OpCodes.Ldsfld, typeof(BaseEnchantment).RequireField("_enchantments")),
-                        new(OpCodes.Newobj, typeof(PreservingEnchantment).RequireConstructor()), new(
                             OpCodes.Callvirt,
                             typeof(List<BaseEnchantment>).RequireMethod(nameof(List<BaseEnchantment>.Add))),
                         // add quincy enchant

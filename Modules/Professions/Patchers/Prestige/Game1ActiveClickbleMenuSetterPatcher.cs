@@ -29,7 +29,7 @@ internal sealed class Game1ActiveClickbleMenuSetterPatcher : HarmonyPatcher
             return;
         }
 
-        var level = Reflector.GetUnboundFieldGetter<LevelUpMenu, int>(value, "currentLevel").Invoke(levelup);
+        var level = Reflector.GetUnboundFieldGetter<LevelUpMenu, int>("currentLevel").Invoke(levelup);
         if (level > 10)
         {
             ModHelper.GameContent.InvalidateCacheAndLocalized("LooseSprites/Cursors");

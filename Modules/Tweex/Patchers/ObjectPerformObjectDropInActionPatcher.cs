@@ -35,7 +35,7 @@ internal sealed class ObjectPerformObjectDropInActionPatcher : HarmonyPatcher
         SObject __instance, bool __state, Item dropInItem, bool probe)
     {
         // if there was an object inside before running the original method, or if the machine is still empty after running the original method, then do nothing
-        if (!TweexModule.Config.LargeDairyYieldsQuantityOverQuality || probe || __state ||
+        if (!TweexModule.Config.ImmersiveDairyYield || probe || __state ||
             __instance.heldObject.Value is not { } output || dropInItem is not SObject input)
         {
             return;
@@ -56,10 +56,11 @@ internal sealed class ObjectPerformObjectDropInActionPatcher : HarmonyPatcher
                     "ughitsmegan.ostrichmayoForProducerFrameworkMod"):
                     output.Quality = SObject.lowQuality;
                     break;
-                // golden mayonnaise keeps giving gives single output but keeps golden quality
+                // golden mayonnaise gives single output but maxes quality
                 case ObjectIds.GoldenEgg when !ModHelper.ModRegistry.IsLoaded(
                     "ughitsmegan.goldenmayoForProducerFrameworkMod"):
                     output.Stack = 1;
+                    output.Quality = SObject.bestQuality;
                     break;
             }
         }

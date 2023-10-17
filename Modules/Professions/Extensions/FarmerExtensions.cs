@@ -11,7 +11,6 @@ using DaLion.Overhaul.Modules.Professions.Ultimates;
 using DaLion.Overhaul.Modules.Professions.VirtualProperties;
 using DaLion.Shared.Extensions;
 using DaLion.Shared.Extensions.Stardew;
-using StardewModdingAPI.Utilities;
 using StardewValley.Buildings;
 using StardewValley.Monsters;
 
@@ -255,7 +254,7 @@ internal static class FarmerExtensions
         }
 
         var fishData = Game1.content
-            .Load<Dictionary<int, string>>(PathUtilities.NormalizeAssetName("Data/Fish"))
+            .Load<Dictionary<int, string>>("Data\\Fish")
             .Where(p => !p.Key.IsIn(152, 153, 157) && !p.Value.Contains("trap"))
             .ToDictionary(p => p.Key, p => p.Value);
 
@@ -295,7 +294,7 @@ internal static class FarmerExtensions
     internal static float GetAnglerPriceBonus(this Farmer farmer)
     {
         var fishData = Game1.content
-            .Load<Dictionary<int, string>>(PathUtilities.NormalizeAssetName("Data/Fish"));
+            .Load<Dictionary<int, string>>("Data\\Fish");
         var bonus = 0f;
         var isPrestiged = farmer.HasProfession(Profession.Angler, true);
         foreach (var (key, value) in farmer.fishCaught.Pairs)

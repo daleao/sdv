@@ -35,13 +35,13 @@ internal sealed class ProfessionAssetRequestedEvent : AssetRequestedEvent
 
         this.Provide(
             $"{Manifest.UniqueID}/HudPointer",
-            new ModTextureProvider(() => "assets/sprites/pointer.png"));
+            new ModTextureProvider(() => "assets/sprites/interface/pointer.png"));
         this.Provide(
             $"{Manifest.UniqueID}/MaxIcon",
-            new ModTextureProvider(() => "assets/sprites/max.png"));
+            new ModTextureProvider(() => "assets/sprites/interface/max.png"));
         this.Provide(
             $"{Manifest.UniqueID}/PrestigeProgression",
-            new ModTextureProvider(() => $"assets/sprites/{ProfessionsModule.Config.ProgressionStyle}.png"));
+            new ModTextureProvider(() => $"assets/sprites/interface/{ProfessionsModule.Config.ProgressionStyle}.png"));
         this.Provide(
             $"{Manifest.UniqueID}/SkillBars",
             new ModTextureProvider(ProvideSkillBars));
@@ -387,7 +387,7 @@ internal sealed class ProfessionAssetRequestedEvent : AssetRequestedEvent
     private static void EditCursorsLooseSprites(IAssetData asset)
     {
         var editor = asset.AsImage();
-        var sourceTx = ModHelper.ModContent.Load<Texture2D>("assets/sprites/professions");
+        var sourceTx = ModHelper.ModContent.Load<Texture2D>("assets/sprites/interface/professions");
         var sourceArea = new Rectangle(0, 0, 96, 80);
         var targetArea = new Rectangle(0, 624, 96, 80);
         editor.PatchImage(sourceTx, sourceArea, targetArea);
@@ -419,7 +419,7 @@ internal sealed class ProfessionAssetRequestedEvent : AssetRequestedEvent
         editor.ExtendImage(192, 80);
 
         var targetArea = new Rectangle(0, 48, 96, 32);
-        editor.PatchImage(ModHelper.ModContent.Load<Texture2D>("assets/sprites/buffs"), null, targetArea);
+        editor.PatchImage(ModHelper.ModContent.Load<Texture2D>("assets/sprites/interface/buffs"), null, targetArea);
     }
 
     #endregion editor callbacks
@@ -429,7 +429,7 @@ internal sealed class ProfessionAssetRequestedEvent : AssetRequestedEvent
     /// <summary>Provides the correct skill bars texture path.</summary>
     private static string ProvideSkillBars()
     {
-        var path = "assets/sprites/skillbars";
+        var path = "assets/sprites/interface/skillbars";
         if (ModHelper.ModRegistry.IsLoaded("ManaKirel.VMI") ||
             ModHelper.ModRegistry.IsLoaded("ManaKirel.VintageInterface2"))
         {
@@ -442,7 +442,7 @@ internal sealed class ProfessionAssetRequestedEvent : AssetRequestedEvent
     /// <summary>Provides the correct ultimate meter texture path.</summary>
     private static string ProvideUltimateMeter()
     {
-        var path = "assets/sprites/gauge";
+        var path = "assets/sprites/interface/gauge";
         if (StardewValleyExpandedIntegration.Instance?.IsLoaded == true)
         {
             if (!StardewValleyExpandedIntegration.Instance.DisabeGaldoranTheme &&

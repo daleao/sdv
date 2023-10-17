@@ -60,6 +60,8 @@ internal sealed class RingDrawTooltipPatcher : HarmonyPatcher
                 ObjectIds.SmallMagnetRing,
                 ObjectIds.MagnetRing,
                 ObjectIds.GlowstoneRing,
+                ObjectIds.CrabshellRing,
+                ObjectIds.ImmunityRing,
             };
 
             if (JsonAssetsIntegration.GarnetRingIndex.HasValue)
@@ -90,16 +92,19 @@ internal sealed class RingDrawTooltipPatcher : HarmonyPatcher
 
     #endregion harmony patches
 
+    #region for infinity band
+
     private static void DrawForInfinityBand(
         CombinedRing band, SpriteBatch b, int x, ref int y, SpriteFont font, float alpha, out int maxWidth)
     {
+        #region non-combined
+
         var descriptionWidth = Reflector
             .GetUnboundMethodDelegate<Func<Item, int>>(band, "getDescriptionWidth")
             .Invoke(band);
         maxWidth = descriptionWidth;
         if (band.combinedRings.Count == 0)
         {
-            // write description
             Utility.drawTextWithShadow(
                 b,
                 Game1.parseText(band.description, Game1.smallFont, descriptionWidth),
@@ -110,7 +115,10 @@ internal sealed class RingDrawTooltipPatcher : HarmonyPatcher
             return;
         }
 
-        // write resonance
+        #endregion non-combined
+
+        #region resonance
+
         var root = band.Get_Chord()?.Root;
         if (root is not null)
         {
@@ -127,7 +135,10 @@ internal sealed class RingDrawTooltipPatcher : HarmonyPatcher
             y += (int)font.MeasureString("T").Y;
         }
 
-        // write description
+        #endregion resonance
+
+        #region description
+
         Utility.drawTextWithShadow(
             b,
             Game1.parseText(band.description, Game1.smallFont, descriptionWidth),
@@ -142,32 +153,12 @@ internal sealed class RingDrawTooltipPatcher : HarmonyPatcher
             return;
         }
 
+        #endregion description
+
         Color co;
 
-        // write light emittance
-        if (root is not null)
-        {
-            co = root.TextColor;
-            Utility.drawWithShadow(
-                b,
-                Textures.TooltipsTx,
-                new Vector2(x + 20f, y + 20f),
-                new Rectangle(0, 0, 10, 10),
-                Color.White,
-                0f,
-                Vector2.Zero,
-                4f,
-                false,
-                1f);
+        #region damage
 
-            var text = I18n.Ui_Item_Hover_Light();
-            var width = font.MeasureString(text).X + 48f;
-            maxWidth = (int)Math.Max(width, maxWidth);
-            Utility.drawTextWithShadow(b, text, font, new Vector2(x + 68f, y + 28f), co * 0.9f * alpha);
-            y += (int)Math.Max(font.MeasureString("TT").Y, 48f);
-        }
-
-        // write bonus damage
         if (buffer.DamageModifier != 0)
         {
             var amount = $"+{buffer.DamageModifier:#.#%}";
@@ -191,7 +182,10 @@ internal sealed class RingDrawTooltipPatcher : HarmonyPatcher
             y += (int)Math.Max(font.MeasureString("TT").Y, 48f);
         }
 
-        // write bonus knockback
+        #endregion damage
+
+        #region knockback
+
         if (buffer.KnockbackModifier != 0)
         {
             var amount = $"+{buffer.KnockbackModifier:#.#%}";
@@ -215,7 +209,10 @@ internal sealed class RingDrawTooltipPatcher : HarmonyPatcher
             y += (int)Math.Max(font.MeasureString("TT").Y, 48f);
         }
 
-        // write bonus crit. rate
+        #endregion knockback
+
+        #region crit chance
+
         if (buffer.CritChanceModifier != 0)
         {
             var amount = $"+{buffer.CritChanceModifier:#.#%}";
@@ -239,7 +236,10 @@ internal sealed class RingDrawTooltipPatcher : HarmonyPatcher
             y += (int)Math.Max(font.MeasureString("TT").Y, 48f);
         }
 
-        // write bonus crit. power
+        #endregion crit chance
+
+        #region crit power
+
         if (buffer.CritPowerModifier != 0)
         {
             var amount = $"+{buffer.CritPowerModifier:#.#%}";
@@ -268,7 +268,10 @@ internal sealed class RingDrawTooltipPatcher : HarmonyPatcher
             y += (int)Math.Max(font.MeasureString("TT").Y, 48f);
         }
 
-        // write bonus precision
+        #endregion crit power
+
+        #region precision
+
         if (buffer.PrecisionModifier != 0)
         {
             var amount = $"+{buffer.PrecisionModifier:#.#%}";
@@ -292,7 +295,10 @@ internal sealed class RingDrawTooltipPatcher : HarmonyPatcher
             y += (int)Math.Max(font.MeasureString("TT").Y, 48f);
         }
 
-        // write bonus speed
+        #endregion precision
+
+        #region speed
+
         if (buffer.SwingSpeedModifier != 0)
         {
             var amount = $"+{buffer.SwingSpeedModifier:#.#%}";
@@ -316,7 +322,10 @@ internal sealed class RingDrawTooltipPatcher : HarmonyPatcher
             y += (int)Math.Max(font.MeasureString("TT").Y, 48f);
         }
 
-        // write bonus cooldown reduction
+        #endregion speed
+
+        #region cooldown reduction
+
         if (buffer.CooldownReduction != 0)
         {
             var amount = $"-{buffer.CooldownReduction:#.#%}";
@@ -340,7 +349,10 @@ internal sealed class RingDrawTooltipPatcher : HarmonyPatcher
             y += (int)Math.Max(font.MeasureString("TT").Y, 48f);
         }
 
-        // write bonus defense
+        #endregion cooldown reduction
+
+        #region resistance
+
         if (buffer.DefenseModifier != 0)
         {
             var amount = $"+{buffer.DefenseModifier:#.#%}";
@@ -366,10 +378,13 @@ internal sealed class RingDrawTooltipPatcher : HarmonyPatcher
             y += (int)Math.Max(font.MeasureString("TT").Y, 48f);
         }
 
-        // write bonus magnetism
+        #endregion resistance
+
+        #region magnetism
+
         if (buffer.MagneticRadius > 0)
         {
-            co = new Color(0, 120, 120);
+            co = Game1.textColor;
             Utility.drawWithShadow(
                 b,
                 Game1.mouseCursors,
@@ -382,13 +397,45 @@ internal sealed class RingDrawTooltipPatcher : HarmonyPatcher
                 false,
                 1f);
 
-            var text = '+' + Game1.content.LoadString("Strings\\UI:ItemHover_Buff8", buffer.MagneticRadius);
+            var text = I18n.Ui_ItemHover_Magnetic();
             var width = font.MeasureString(text).X + 48f;
             maxWidth = (int)Math.Max(width, maxWidth);
             Utility.drawTextWithShadow(b, text, font, new Vector2(x + 68f, y + 28f), co * 0.9f * alpha);
             y += (int)Math.Max(font.MeasureString("TT").Y, 48f);
         }
+
+        #endregion magnetism
+
+        #region light emittance
+
+        if (root is not null)
+        {
+            co = root.TextColor;
+            Utility.drawWithShadow(
+                b,
+                Textures.TooltipsTx,
+                new Vector2(x + 20f, y + 20f),
+                new Rectangle(0, 0, 10, 10),
+                Color.White,
+                0f,
+                Vector2.Zero,
+                4f,
+                false,
+                1f);
+
+            var text = I18n.Ui_ItemHover_Light();
+            var width = font.MeasureString(text).X + 48f;
+            maxWidth = (int)Math.Max(width, maxWidth);
+            Utility.drawTextWithShadow(b, text, font, new Vector2(x + 68f, y + 28f), co * 0.9f * alpha);
+            y += (int)Math.Max(font.MeasureString("TT").Y, 48f);
+        }
+
+        #endregion light emittance
     }
+
+    #endregion for infinity band
+
+    #region for other
 
     private static void DrawForOther(Ring ring, SpriteBatch b, int x, ref int y, SpriteFont font, float alpha, string? name = null)
     {
@@ -398,138 +445,84 @@ internal sealed class RingDrawTooltipPatcher : HarmonyPatcher
         descriptionSize.X = Math.Max(descriptionSize.X - 48f, titleWidth);
 
         string parsedDescription;
-        float iconOffset, textOffset;
-        int fontHeight, numLines;
+        float fontHeight, iconOffset, textOffset;
+        int numLines;
         switch (ring.indexInTileSheet.Value)
         {
             case ObjectIds.RubyRing:
                 parsedDescription = Game1.parseText(ring.description, Game1.smallFont, (int)descriptionSize.X);
-                descriptionSize.Y = Math.Max(font.MeasureString(parsedDescription).Y, 48f);
+                fontHeight = font.MeasureString(parsedDescription).Y;
+                descriptionSize.Y = Math.Max(fontHeight, 48f);
                 iconOffset = Math.Min(descriptionSize.Y / 2f, 30);
-                Utility.drawWithShadow(
-                    b,
-                    Game1.mouseCursors,
-                    new Vector2(x + 20f, y + iconOffset),
-                    new Rectangle(120, 428, 10, 10),
-                    Color.White,
-                    0f,
-                    Vector2.Zero,
-                    4f,
-                    false,
-                    1f);
+                b.DrawAttackIcon(new Vector2(x + 20f, y + iconOffset));
 
                 numLines = parsedDescription.Split(Environment.NewLine).Length;
-                textOffset = numLines == 1 ? (48f - descriptionSize.Y) / 2f : 0f;
+                textOffset = numLines == 1 ? (48f - fontHeight) / 2f : 0f;
                 Utility.drawTextWithShadow(b, parsedDescription, font, new Vector2(x + 68f, y + textOffset + 20f), Game1.textColor * 0.9f * alpha);
                 y += (int)descriptionSize.Y;
                 break;
 
             case ObjectIds.AquamarineRing:
                 parsedDescription = Game1.parseText(ring.description, Game1.smallFont, (int)descriptionSize.X);
-                descriptionSize.Y = Math.Max(font.MeasureString(parsedDescription).Y, 48f);
+                fontHeight = font.MeasureString(parsedDescription).Y;
+                descriptionSize.Y = Math.Max(fontHeight, 48f);
                 iconOffset = Math.Min(descriptionSize.Y / 2f, 30);
-                Utility.drawWithShadow(
-                    b,
-                    Game1.mouseCursors,
-                    new Vector2(x + 20f, y + iconOffset),
-                    new Rectangle(40, 428, 10, 10),
-                    Color.White,
-                    0f,
-                    Vector2.Zero,
-                    4f,
-                    false,
-                    1f);
+                b.DrawCritChanceIcon(new Vector2(x + 20f, y + iconOffset));
 
                 numLines = parsedDescription.Split(Environment.NewLine).Length;
-                textOffset = numLines == 1 ? (48f - descriptionSize.Y) / 2f : 0f;
+                textOffset = numLines == 1 ? (48f - fontHeight) / 2f : 0f;
                 Utility.drawTextWithShadow(b, parsedDescription, font, new Vector2(x + 68f, y + textOffset + 20f), Game1.textColor * 0.9f * alpha);
                 y += (int)descriptionSize.Y;
                 break;
 
             case ObjectIds.AmethystRing:
                 parsedDescription = Game1.parseText(ring.description, Game1.smallFont, (int)descriptionSize.X);
-                descriptionSize.Y = Math.Max(font.MeasureString(parsedDescription).Y, 48f);
+                fontHeight = font.MeasureString(parsedDescription).Y;
+                descriptionSize.Y = Math.Max(fontHeight, 48f);
                 iconOffset = Math.Min(descriptionSize.Y / 2f, 30);
-                Utility.drawWithShadow(
-                    b,
-                    Game1.mouseCursors,
-                    new Vector2(x + 20, y + iconOffset),
-                    new Rectangle(70, 428, 10, 10),
-                    Color.White,
-                    0f,
-                    Vector2.Zero,
-                    4f,
-                    false,
-                    1f);
+                b.DrawWeightIcon(new Vector2(x + 20, y + iconOffset));
 
                 numLines = parsedDescription.Split(Environment.NewLine).Length;
-                textOffset = numLines == 1 ? (48f - descriptionSize.Y) / 2f : 0f;
+                textOffset = numLines == 1 ? (48f - fontHeight) / 2f : 0f;
                 Utility.drawTextWithShadow(b, parsedDescription, font, new Vector2(x + 68f, y + textOffset + 20f), Game1.textColor * 0.9f * alpha);
                 y += (int)descriptionSize.Y;
                 break;
 
             case ObjectIds.EmeraldRing:
                 parsedDescription = Game1.parseText(ring.description, Game1.smallFont, (int)descriptionSize.X);
-                descriptionSize.Y = Math.Max(font.MeasureString(parsedDescription).Y, 48f);
+                fontHeight = font.MeasureString(parsedDescription).Y;
+                descriptionSize.Y = Math.Max(fontHeight, 48f);
                 iconOffset = Math.Min(descriptionSize.Y / 2f, 30);
-                Utility.drawWithShadow(
-                    b,
-                    Game1.mouseCursors,
-                    new Vector2(x + 20, y + iconOffset),
-                    new Rectangle(130, 428, 10, 10),
-                    Color.White,
-                    0f,
-                    Vector2.Zero,
-                    4f,
-                    false,
-                    1f);
+                b.DrawSpeedIcon(new Vector2(x + 20, y + iconOffset));
 
                 numLines = parsedDescription.Split(Environment.NewLine).Length;
-                textOffset = numLines == 1 ? (48f - descriptionSize.Y) / 2f : 0f;
+                textOffset = numLines == 1 ? (48f - fontHeight) / 2f : 0f;
                 Utility.drawTextWithShadow(b, parsedDescription, font, new Vector2(x + 68f, y + textOffset + 20f), Game1.textColor * 0.9f * alpha);
                 y += (int)descriptionSize.Y;
                 break;
 
             case ObjectIds.JadeRing:
                 parsedDescription = Game1.parseText(ring.description, Game1.smallFont, (int)descriptionSize.X);
-                descriptionSize.Y = Math.Max(font.MeasureString(parsedDescription).Y, 48f);
+                fontHeight = font.MeasureString(parsedDescription).Y;
+                descriptionSize.Y = Math.Max(fontHeight, 48f);
                 iconOffset = Math.Min(descriptionSize.Y / 2f, 30);
-                Utility.drawWithShadow(
-                    b,
-                    Game1.mouseCursors,
-                    new Vector2(x + 16, y + iconOffset),
-                    new Rectangle(160, 428, 10, 10),
-                    Color.White,
-                    0f,
-                    Vector2.Zero,
-                    4f,
-                    false,
-                    1f);
+                b.DrawCritPowerIcon(new Vector2(x + 20, y + iconOffset));
 
                 numLines = parsedDescription.Split(Environment.NewLine).Length;
-                textOffset = numLines == 1 ? (48f - descriptionSize.Y) / 2f : 0f;
+                textOffset = numLines == 1 ? (48f - fontHeight) / 2f : 0f;
                 Utility.drawTextWithShadow(b, parsedDescription, font, new Vector2(x + 68f, y + textOffset + 20f), Game1.textColor * 0.9f * alpha);
                 y += (int)descriptionSize.Y;
                 break;
 
             case ObjectIds.TopazRing:
                 parsedDescription = Game1.parseText(ring.description, Game1.smallFont, (int)descriptionSize.X);
-                descriptionSize.Y = Math.Max(font.MeasureString(parsedDescription).Y, 48f);
+                fontHeight = font.MeasureString(parsedDescription).Y;
+                descriptionSize.Y = Math.Max(fontHeight, 48f);
                 iconOffset = Math.Min(descriptionSize.Y / 2f, 30);
-                Utility.drawWithShadow(
-                    b,
-                    Game1.mouseCursors,
-                    new Vector2(x + 20, y + iconOffset),
-                    new Rectangle(110, 428, 10, 10),
-                    Color.White,
-                    0f,
-                    Vector2.Zero,
-                    4f,
-                    false,
-                    1f);
+                b.DrawDefenseIcon(new Vector2(x + 20, y + iconOffset));
 
                 numLines = parsedDescription.Split(Environment.NewLine).Length;
-                textOffset = numLines == 1 ? (48f - descriptionSize.Y) / 2f : 0f;
+                textOffset = numLines == 1 ? (48f - fontHeight) / 2f : 0f;
                 Utility.drawTextWithShadow(b, parsedDescription, font, new Vector2(x + 68f, y + textOffset + 20f), Game1.textColor * 0.9f * alpha);
                 y += (int)descriptionSize.Y;
                 break;
@@ -537,22 +530,13 @@ internal sealed class RingDrawTooltipPatcher : HarmonyPatcher
             case ObjectIds.SmallGlowRing:
             case ObjectIds.GlowRing:
                 parsedDescription = Game1.parseText(ring.description, Game1.smallFont, (int)descriptionSize.X);
-                descriptionSize.Y = Math.Max(font.MeasureString(parsedDescription).Y, 48f);
+                fontHeight = font.MeasureString(parsedDescription).Y;
+                descriptionSize.Y = Math.Max(fontHeight, 48f);
                 iconOffset = Math.Min(descriptionSize.Y / 2f, 30);
-                Utility.drawWithShadow(
-                    b,
-                    Textures.TooltipsTx,
-                    new Vector2(x + 20, y + iconOffset),
-                    new Rectangle(0, 0, 10, 10),
-                    Color.White,
-                    0f,
-                    Vector2.Zero,
-                    4f,
-                    false,
-                    1f);
+                b.DrawLightIcon(new Vector2(x + 20, y + iconOffset));
 
                 numLines = parsedDescription.Split(Environment.NewLine).Length;
-                textOffset = numLines == 1 ? (48f - descriptionSize.Y) / 2f : 0f;
+                textOffset = numLines == 1 ? (48f - fontHeight) / 2f : 0f;
                 Utility.drawTextWithShadow(b, parsedDescription, font, new Vector2(x + 68f, y + textOffset + 20), Game1.textColor * 0.9f * alpha);
                 y += (int)descriptionSize.Y;
                 break;
@@ -560,22 +544,13 @@ internal sealed class RingDrawTooltipPatcher : HarmonyPatcher
             case ObjectIds.SmallMagnetRing:
             case ObjectIds.MagnetRing:
                 parsedDescription = Game1.parseText(ring.description, Game1.smallFont, (int)descriptionSize.X);
-                descriptionSize.Y = Math.Max(font.MeasureString(parsedDescription).Y, 48f);
+                fontHeight = font.MeasureString(parsedDescription).Y;
+                descriptionSize.Y = Math.Max(fontHeight, 48f);
                 iconOffset = Math.Min(descriptionSize.Y / 2f, 30);
-                Utility.drawWithShadow(
-                    b,
-                    Game1.mouseCursors,
-                    new Vector2(x + 20, y + iconOffset),
-                    new Rectangle(90, 428, 10, 10),
-                    Color.White,
-                    0f,
-                    Vector2.Zero,
-                    4f,
-                    false,
-                    1f);
+                b.DrawMagnetismIcon(new Vector2(x + 20, y + iconOffset));
 
                 numLines = parsedDescription.Split(Environment.NewLine).Length;
-                textOffset = numLines == 1 ? (48f - descriptionSize.Y) / 2f : 0f;
+                textOffset = numLines == 1 ? (48f - fontHeight) / 2f : 0f;
                 Utility.drawTextWithShadow(b, parsedDescription, font, new Vector2(x + 68f, y + textOffset + 20f), Game1.textColor * 0.9f * alpha);
                 y += (int)descriptionSize.Y;
                 break;
@@ -593,17 +568,7 @@ internal sealed class RingDrawTooltipPatcher : HarmonyPatcher
                 fontHeight = font.MeasureString(parsedDescription).Y;
                 descriptionSize.Y = Math.Max(fontHeight, 48f);
                 iconOffset = Math.Min(descriptionSize.Y / 2f, 30);
-                Utility.drawWithShadow(
-                    b,
-                    Textures.TooltipsTx,
-                    new Vector2(x + 20, y + iconOffset),
-                    new Rectangle(0, 0, 10, 10),
-                    Color.White,
-                    0f,
-                    Vector2.Zero,
-                    4f,
-                    false,
-                    1f);
+                b.DrawLightIcon(new Vector2(x + 20, y + iconOffset));
 
                 numLines = parsedDescription.Split(Environment.NewLine).Length;
                 textOffset = numLines == 1 ? (48f - fontHeight) / 2f : 0f;
@@ -614,98 +579,75 @@ internal sealed class RingDrawTooltipPatcher : HarmonyPatcher
                     Game1.objectInformation[ObjectIds.MagnetRing].Split('/')[5],
                     Game1.smallFont,
                     (int)descriptionSize.X);
-                descriptionSize.Y = Math.Max(font.MeasureString(parsedDescription).Y, 48f);
+                fontHeight = font.MeasureString(parsedDescription).Y;
+                descriptionSize.Y = Math.Max(fontHeight, 48f);
                 iconOffset = Math.Min(descriptionSize.Y / 2f, 30);
-                Utility.drawWithShadow(
-                    b,
-                    Game1.mouseCursors,
-                    new Vector2(x + 20, y + iconOffset),
-                    new Rectangle(90, 428, 10, 10),
-                    Color.White,
-                    0f,
-                    Vector2.Zero,
-                    4f,
-                    false,
-                    1f);
+                b.DrawMagnetismIcon(new Vector2(x + 20, y + iconOffset));
 
                 numLines = parsedDescription.Split(Environment.NewLine).Length;
-                textOffset = numLines == 1 ? (48f - descriptionSize.Y) / 2f : 0f;
+                textOffset = numLines == 1 ? (48f - fontHeight) / 2f : 0f;
                 Utility.drawTextWithShadow(b, parsedDescription, font, new Vector2(x + 68f, y + textOffset + 20f), Game1.textColor * 0.9f * alpha);
                 y += (int)descriptionSize.Y;
                 break;
 
-            case ObjectIds.ImmunityRing:
-                //Utility.drawWithShadow(
-                //    b,
-                //    Game1.mouseCursors,
-                //    new Vector2(x + 20, y + textOffset + 20f),
-                //    new Rectangle(110, 428, 10, 10),
-                //    Color.White,
-                //    0f,
-                //    Vector2.Zero,
-                //    4f,
-                //    false,
-                //    1f);
-
-                //text = CombatModule.Config.NewResistanceFormula
-                //    ? I18n.Ui_ItemHover_Resist("+33.3%")
-                //    : Game1.content.LoadString("ItemHover_DefenseBonus", 5);
-                //Utility.drawTextWithShadow(b, text, font, new Vector2(x + 68f, y + 28), Game1.textColor * 0.9f * alpha);
-                break;
-
             case ObjectIds.CrabshellRing:
                 parsedDescription = Game1.parseText(ring.description, Game1.smallFont, (int)descriptionSize.X);
-                descriptionSize.Y = Math.Max(font.MeasureString(parsedDescription).Y, 48f);
-                Utility.drawWithShadow(
-                    b,
-                    Game1.mouseCursors,
-                    new Vector2(x + 20f, y + 20f),
-                    new Rectangle(110, 428, 10, 10),
-                    Color.White,
-                    0f,
-                    Vector2.Zero,
-                    4f,
-                    false,
-                    1f);
+                Utility.drawTextWithShadow(b, parsedDescription, font, new Vector2(x + 16, y + 16 + 4), Game1.textColor);
+                fontHeight = font.MeasureString(parsedDescription).Y;
+                descriptionSize.Y = Math.Max(fontHeight, 48f);
+                y += (int)fontHeight;
+                b.DrawDefenseIcon(new Vector2(x + 20f, y + 20f));
 
                 parsedDescription = Game1.parseText(
                     CombatModule.Config.NewResistanceFormula
-                        ? I18n.Ui_ItemHover_Resist("+33.3%")
-                        : Game1.content.LoadString("ItemHover_DefenseBonus", 5),
+                        ? I18n.Ui_ItemHover_Resist("+5")
+                        : Game1.content.LoadString("Strings\\UI:ItemHover_DefenseBonus", 5),
                     Game1.smallFont,
-                    (int)descriptionSize.Y);
+                    (int)descriptionSize.X);
+                fontHeight = font.MeasureString(parsedDescription).Y;
                 numLines = parsedDescription.Split(Environment.NewLine).Length;
-                textOffset = numLines == 1 ? (48f - descriptionSize.Y) / 2f : 0f;
+                textOffset = numLines == 1 ? (48f - fontHeight) / 2f : 0f;
                 Utility.drawTextWithShadow(b, parsedDescription, font, new Vector2(x + 68f, y + textOffset + 20f), Game1.textColor * 0.9f * alpha);
+                descriptionSize.Y += Math.Max(fontHeight, 48f);
+                y += (int)descriptionSize.Y;
+                break;
+
+            case ObjectIds.ImmunityRing:
+                parsedDescription = Game1.parseText(ring.description, Game1.smallFont, (int)descriptionSize.X);
+                Utility.drawTextWithShadow(b, parsedDescription, font, new Vector2(x + 16, y + 16 + 4), Game1.textColor);
+                fontHeight = font.MeasureString(parsedDescription).Y;
+                descriptionSize.Y = Math.Max(fontHeight, 48f);
+                y += (int)fontHeight;
+                b.DrawImmunityIcon(new Vector2(x + 20f, y + 20f));
+
+                parsedDescription = Game1.parseText(
+                    Game1.content.LoadString("Strings\\UI:ItemHover_ImmunityBonus", 10),
+                    Game1.smallFont,
+                    (int)descriptionSize.X);
+                fontHeight = font.MeasureString(parsedDescription).Y;
+                numLines = parsedDescription.Split(Environment.NewLine).Length;
+                textOffset = numLines == 1 ? (48f - fontHeight) / 2f : 0f;
+                Utility.drawTextWithShadow(b, parsedDescription, font, new Vector2(x + 68f, y + textOffset + 20f), Game1.textColor * 0.9f * alpha);
+                descriptionSize.Y += Math.Max(fontHeight, 48f);
                 y += (int)descriptionSize.Y;
                 break;
 
             default:
                 parsedDescription = Game1.parseText(ring.description, Game1.smallFont, (int)descriptionSize.X);
-                descriptionSize.Y = Math.Max(font.MeasureString(parsedDescription).Y, 48f);
+                fontHeight = font.MeasureString(parsedDescription).Y;
+                descriptionSize.Y = Math.Max(fontHeight, 48f);
                 iconOffset = Math.Min(descriptionSize.Y / 2f, 30);
                 if (JsonAssetsIntegration.GarnetRingIndex.HasValue &&
                     ring.indexInTileSheet.Value == JsonAssetsIntegration.GarnetRingIndex.Value)
                 {
-                    Utility.drawWithShadow(
-                        b,
-                        Textures.TooltipsTx,
-                        new Vector2(x + 2f, y + iconOffset),
-                        new Rectangle(10, 0, 10, 10),
-                        Color.White,
-                        0f,
-                        Vector2.Zero,
-                        4f,
-                        false,
-                        1f);
-
+                    b.DrawCooldownIcon(new Vector2(x + 20f, y + iconOffset));
                     numLines = parsedDescription.Split(Environment.NewLine).Length;
-                    textOffset = numLines == 1 ? (48f - descriptionSize.Y) / 2f : 0f;
+                    textOffset = numLines == 1 ? (48f - fontHeight) / 2f : 0f;
                     Utility.drawTextWithShadow(
                         b,
                         parsedDescription,
                         font,
-                        new Vector2(x + 68f, y + textOffset + 28f),
+                        new Vector2(x + 68f, y + textOffset + 20f),
                         Game1.textColor * 0.9f * alpha);
                     y += (int)descriptionSize.Y;
                     break;
@@ -721,4 +663,6 @@ internal sealed class RingDrawTooltipPatcher : HarmonyPatcher
                 break;
         }
     }
+
+    #endregion for other
 }

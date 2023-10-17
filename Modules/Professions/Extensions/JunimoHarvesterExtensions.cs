@@ -18,7 +18,7 @@ internal static class JunimoHarvesterExtensions
     /// <returns>The <see cref="Farmer"/> instance who constructed the hut where the <paramref name="junimo"/> lives, or the host of the game session if not found.</returns>
     internal static Farmer GetOwner(this JunimoHarvester junimo)
     {
-        var home = Reflector.GetUnboundPropertyGetter<JunimoHarvester, JunimoHut?>(junimo, "home")
+        var home = Reflector.GetUnboundPropertyGetter<JunimoHarvester, JunimoHut?>("home")
             .Invoke(junimo);
         if (home is null)
         {

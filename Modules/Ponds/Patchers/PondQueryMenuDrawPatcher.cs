@@ -11,7 +11,6 @@ using DaLion.Shared.Harmony;
 using HarmonyLib;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using StardewModdingAPI.Utilities;
 using StardewValley.Buildings;
 using StardewValley.Menus;
 
@@ -62,7 +61,7 @@ internal sealed class PondQueryMenuDrawPatcher : HarmonyPatcher
             var pondNameText = isAlgaePond
                 ? I18n.Algae()
                 : Game1.content.LoadString(
-                    PathUtilities.NormalizeAssetName("Strings/UI:PondQuery_Name"),
+                    "Strings\\UI:PondQuery_Name",
                     ____fishItem.DisplayName);
             var textSize = Game1.smallFont.MeasureString(pondNameText);
             Game1.DrawBox(
@@ -99,8 +98,7 @@ internal sealed class PondQueryMenuDrawPatcher : HarmonyPatcher
                 false,
                 true);
             var populationText = Game1.content.LoadString(
-                PathUtilities.NormalizeAssetName(
-                    "Strings/UI:PondQuery_Population"),
+                "Strings\\UI:PondQuery_Population",
                 string.Concat(____pond.FishCount),
                 ____pond.maxOccupants.Value);
             textSize = Game1.smallFont.MeasureString(populationText);
@@ -364,8 +362,7 @@ internal sealed class PondQueryMenuDrawPatcher : HarmonyPatcher
                     Vector2.Zero);
 
                 var bringText =
-                    Game1.content.LoadString(
-                        PathUtilities.NormalizeAssetName("Strings/UI:PondQuery_StatusRequest_Bring"));
+                    Game1.content.LoadString("Strings\\UI:PondQuery_StatusRequest_Bring");
                 textSize = Game1.smallFont.MeasureString(bringText);
                 var leftX = __instance.xPositionOnScreen + 88;
                 float textX = leftX;

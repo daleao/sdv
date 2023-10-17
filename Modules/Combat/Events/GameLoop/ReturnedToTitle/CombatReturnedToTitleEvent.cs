@@ -31,7 +31,7 @@ internal sealed class CombatReturnedToTitleEvent : ReturnedToTitleEvent
         Monster_Poisoned.Values.Clear();
         Monster_Slowed.Values.Clear();
         BleedAnimation.BleedAnimationByMonster.Clear();
-        BurnAnimation.BurnAnimationByMonster.Clear();
+        BurnAnimation.BurnAnimationsByMonster.Clear();
         PoisonAnimation.PoisonAnimationByMonster.Clear();
         SlowAnimation.SlowAnimationByMonster.Clear();
         StunAnimation.StunAnimationByMonster.Clear();

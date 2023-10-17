@@ -171,10 +171,6 @@ public sealed class Config : Shared.Configs.Config
     [JsonProperty]
     public float ConservationistTaxDeductionCeiling { get; internal set; } = 1f;
 
-    /// <summary>Gets the maximum stacks that can be gained for each buff stat.</summary>
-    [JsonProperty]
-    public uint PiperBuffCeiling { get; internal set; } = 10;
-
     #region limit break
 
     /// <summary>Gets a value indicating whether to allow Limit Breaks to be used in-game.</summary>

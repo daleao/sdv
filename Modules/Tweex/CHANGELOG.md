@@ -1,5 +1,17 @@
 ﻿# TWX Changelog
 
+## 3.2.0
+
+### Changed
+
+* Renamed `DairyYieldsQuantityOverQuality` setting to `ImmersiveDairyYield` to avoid confusion over how this setting affects Ostrich and Gold eggs.
+    * With this setting enabled, Gold Eggs now max out the quality, instead of setting to gold.
+    * Changed the following translation keys:
+        * `gmcm.twx.farming.largedairy_yield.title` -> `gmcm.twx.farming.dairy_yield.title`
+        * `gmcm.twx.farming.largedairy_yield.desc` -> `gmcm.twx.farming.dairy_yield.desc`
+
+<sup><sup>[🔼 Back to top](#twx-changelog)</sup></sup>
+
 ## 3.1.9
 
 ### Fixed

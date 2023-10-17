@@ -111,7 +111,7 @@ internal sealed class MineShaftAddLevelChestsPatcher : HarmonyPatcher
                     break;
             }
 
-            if (Reflector.GetUnboundFieldGetter<MineShaft, NetBool>(__instance, "netIsTreasureRoom").Invoke(__instance)
+            if (Reflector.GetUnboundFieldGetter<MineShaft, NetBool>("netIsTreasureRoom").Invoke(__instance)
                     .Value || forceTreasureRoom)
             {
                 chestItems.Add(MineShaft.getTreasureRoomItem());

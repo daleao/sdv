@@ -1,5 +1,18 @@
 ﻿# Core Changelog
 
+## 3.2.0
+
+### Added
+
+* Debug mode now highlights every segment of the Royal Serpent.
+
+### Changed
+
+* Sprite assets organized into subfolders.
+* Moved OutOfCombat MonsterTakeDamagePatcher to this module, where it should have been.
+
+<sup><sup>[🔼 Back to top](#core-changelog)</sup></sup>
+
 ## 3.1.4
 
 ### Added

@@ -5,7 +5,7 @@
 using System.Linq;
 using System.Reflection;
 using DaLion.Overhaul.Modules.Combat.Enums;
-using DaLion.Overhaul.Modules.Combat.Events.GameLoop.UpdateTicked;
+using DaLion.Overhaul.Modules.Combat.Events.GameLoop.OneSecondUpdateTicked;
 using DaLion.Overhaul.Modules.Combat.Extensions;
 using DaLion.Shared.Constants;
 using DaLion.Shared.Extensions.Stardew;
@@ -191,7 +191,7 @@ internal sealed class GameLocationPerformActionPatcher : HarmonyPatcher
         player.jitterStrength = 0f;
         Game1.screenGlowHold = false;
         player.mailReceived.Add("gotHolyBlade");
-        EventManager.Disable<CurseUpdateTickedEvent>();
+        EventManager.Disable<CurseOneSecondUpdateTickedEvent>();
     }
 
     #endregion handlers

@@ -150,13 +150,6 @@ internal sealed partial class GenericModConfigMenu
                 0f,
                 1f,
                 0.05f)
-            .AddNumberField(
-                I18n.Gmcm_Profs_PiperBuffCeiling_Title,
-                I18n.Gmcm_Profs_PiperBuffCeiling_Desc,
-                config => (int)config.Professions.PiperBuffCeiling,
-                (config, value) => config.Professions.PiperBuffCeiling = (uint)value,
-                10,
-                1000)
             .AddHorizontalRule()
 
             // page links

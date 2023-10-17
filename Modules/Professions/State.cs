@@ -3,6 +3,8 @@
 #region using directives
 
 using System.Collections.Generic;
+using DaLion.Overhaul.Modules.Professions.Events.GameLoop.UpdateTicked;
+using StardewValley.Monsters;
 
 #endregion using directives
 
@@ -10,6 +12,7 @@ using System.Collections.Generic;
 internal sealed class State
 {
     private int _rageCounter;
+    private Monster? _lastDesperadoTarget;
 
     internal int BruteRageCounter
     {
@@ -30,6 +33,19 @@ internal sealed class State
     internal int DemolitionistExcitedness { get; set; }
 
     internal int[] PiperBuffs { get; } = new int[12];
+
+    internal Monster? LastDesperadoTarget
+    {
+        get => this._lastDesperadoTarget;
+        set
+        {
+            this._lastDesperadoTarget = value;
+            if (value is not null)
+            {
+                EventManager.Enable<LastDesperadoTargetUpdateTickedEvent>();
+            }
+        }
+    }
 
     internal Queue<ISkill> SkillsToReset { get; } = new();
 

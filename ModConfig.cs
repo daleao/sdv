@@ -24,25 +24,9 @@ public sealed class ModConfig
     [JsonProperty]
     public bool EnableCombat { get; internal set; } = true;
 
-    /// <summary>Gets a value indicating whether the Weapons module is enabled.</summary>
-    [JsonProperty]
-    public bool EnableWeapons { get; internal set; } = true;
-
-    /// <summary>Gets a value indicating whether the Slingshots module is enabled.</summary>
-    [JsonProperty]
-    public bool EnableSlingshots { get; internal set; } = true;
-
     /// <summary>Gets a value indicating whether the Tools module is enabled.</summary>
     [JsonProperty]
     public bool EnableTools { get; internal set; } = true;
-
-    /// <summary>Gets a value indicating whether the Enchantments module is enabled.</summary>
-    [JsonProperty]
-    public bool EnableEnchantments { get; internal set; } = true;
-
-    /// <summary>Gets a value indicating whether the Rings module is enabled.</summary>
-    [JsonProperty]
-    public bool EnableRings { get; internal set; } = true;
 
     /// <summary>Gets a value indicating whether the Ponds module is enabled.</summary>
     [JsonProperty]
@@ -62,25 +46,9 @@ public sealed class ModConfig
     [JsonProperty]
     public bool EnableCombat { get; internal set; } = false;
 
-     /// <summary>Gets a value indicating whether the Weapons module is enabled.</summary>
-    [JsonProperty]
-    public bool EnableWeapons { get; internal set; } = false;
-
-    /// <summary>Gets a value indicating whether the Slingshots module is enabled.</summary>
-    [JsonProperty]
-    public bool EnableSlingshots { get; internal set; } = false;
-
     /// <summary>Gets a value indicating whether the Tools module is enabled.</summary>
     [JsonProperty]
     public bool EnableTools { get; internal set; } = false;
-
-    /// <summary>Gets a value indicating whether the Enchantments module is enabled.</summary>
-    [JsonProperty]
-    public bool EnableEnchantments { get; internal set; } = false;
-
-    /// <summary>Gets a value indicating whether the Rings module is enabled.</summary>
-    [JsonProperty]
-    public bool EnableRings { get; internal set; } = false;
 
     /// <summary>Gets a value indicating whether the Ponds module is enabled.</summary>
     [JsonProperty]

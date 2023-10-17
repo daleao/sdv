@@ -17,7 +17,6 @@ using DaLion.Shared.Extensions.Collections;
 using DaLion.Shared.Extensions.Stardew;
 using DaLion.Shared.Networking;
 using Microsoft.Xna.Framework;
-using StardewModdingAPI.Utilities;
 using StardewValley.Locations;
 using StardewValley.Menus;
 using StardewValley.Objects;
@@ -227,7 +226,7 @@ internal sealed class ScavengerHunt : TreasureHunt
     private void BeginFindTreasure()
     {
         Game1.currentLocation.TemporarySprites.Add(new TemporaryAnimatedSprite(
-            PathUtilities.NormalizeAssetName("LooseSprites/Cursors"),
+            "LooseSprites\\Cursors",
             new Rectangle(64, 1920, 32, 32),
             500f,
             1,
@@ -258,7 +257,7 @@ internal sealed class ScavengerHunt : TreasureHunt
     {
         Game1.currentLocation.localSound("openChest");
         Game1.currentLocation.TemporarySprites.Add(new TemporaryAnimatedSprite(
-            PathUtilities.NormalizeAssetName("LooseSprites/Cursors"),
+            "LooseSprites\\Cursors",
             new Rectangle(64, 1920, 32, 32),
             200f,
             4,

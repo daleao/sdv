@@ -13,12 +13,15 @@ public sealed class Frenzy : Ultimate
 {
     /// <summary>Initializes a new instance of the <see cref="Frenzy"/> class.</summary>
     internal Frenzy()
-        : base("Frenzy", 26, Color.OrangeRed, Color.OrangeRed)
+        : base("Frenzy", Professions.Profession.Brute, Color.OrangeRed, Color.OrangeRed)
     {
     }
 
     /// <inheritdoc />
-    public override IProfession Profession => Professions.Profession.Brute;
+    public override string DisplayName { get; } = I18n.Frenzy_Title();
+
+    /// <inheritdoc />
+    public override string Description { get; } = I18n.Frenzy_Desc();
 
     /// <inheritdoc />
     internal override int MillisecondsDuration =>
@@ -92,6 +95,7 @@ public sealed class Frenzy : Ultimate
             Color.Lime,
             1f,
             who));
+        Game1.playSound("healSound");
     }
 
     /// <inheritdoc />

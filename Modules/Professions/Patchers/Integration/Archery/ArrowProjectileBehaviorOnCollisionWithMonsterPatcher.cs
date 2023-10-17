@@ -69,9 +69,9 @@ internal sealed class ArrowProjectileBehaviorOnCollisionWithMonsterPatcher : Har
         ____collectiveDamage = (int)(____collectiveDamage * 0.65f);
         ____knockback *= 0.65f;
         __instance.ModiftyOvercharge(0.65f);
-        Reflector.GetUnboundFieldGetter<Projectile, NetFloat>(__instance, "xVelocity")
+        Reflector.GetUnboundFieldGetter<Projectile, NetFloat>("xVelocity")
             .Invoke(__instance).Value *= 0.65f;
-        Reflector.GetUnboundFieldGetter<Projectile, NetFloat>(__instance, "yVelocity")
+        Reflector.GetUnboundFieldGetter<Projectile, NetFloat>("yVelocity")
             .Invoke(__instance).Value *= 0.65f;
         __instance.Set_DidPierce(true);
         Log.D("Pierced!");

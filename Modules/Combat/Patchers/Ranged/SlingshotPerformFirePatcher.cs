@@ -55,7 +55,8 @@ internal sealed class SlingshotPerformFirePatcher : HarmonyPatcher
             var canDoQuincy = __instance.hasEnchantmentOfType<QuincyEnchantment>() && location.HasMonsters();
             if (__instance.attachments[0] is null && !canDoQuincy && !who.IsSteppingOnSnow())
             {
-                if (__instance.attachments.Count > 1 && __instance.attachments[1] is not null)
+                if (__instance.attachments.Length > 1 && __instance.attachments[1] is not null &&
+                    __instance.attachments[1].ParentSheetIndex != ObjectIds.MonsterMusk)
                 {
                     __instance.attachments[0] = __instance.attachments[1];
                     __instance.attachments[1] = null;
@@ -91,13 +92,9 @@ internal sealed class SlingshotPerformFirePatcher : HarmonyPatcher
             int ammoDamage;
             if (ammo is not null)
             {
-                if (!__instance.hasEnchantmentOfType<PreservingEnchantment>() ||
-                    ammo.ParentSheetIndex == SObject.prismaticShardIndex)
+                if (--__instance.attachments[0].Stack <= 0)
                 {
-                    if (--__instance.attachments[0].Stack <= 0)
-                    {
-                        __instance.attachments[0] = null;
-                    }
+                    __instance.attachments[0] = null;
                 }
 
                 ammoDamage = __instance.GetAmmoDamage();
@@ -200,11 +197,6 @@ internal sealed class SlingshotPerformFirePatcher : HarmonyPatcher
             if (Game1.currentLocation.currentEvent is not null || Game1.currentMinigame is not null)
             {
                 projectile.IgnoreLocationCollision = true;
-            }
-
-            if (__instance.hasEnchantmentOfType<MagnumEnchantment>())
-            {
-                projectile.startingScale.Value *= 2f;
             }
 
             location.projectiles.Add(projectile);

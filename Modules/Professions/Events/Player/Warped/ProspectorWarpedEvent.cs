@@ -64,7 +64,7 @@ internal sealed class ProspectorWarpedEvent : WarpedEvent
 
     private static void TrySpawnOreNodes(int attempts, MineShaft shaft)
     {
-        var r = Reflector.GetUnboundFieldGetter<MineShaft, Random>(shaft, "mineRandom").Invoke(shaft);
+        var r = Reflector.GetUnboundFieldGetter<MineShaft, Random>("mineRandom").Invoke(shaft);
         attempts = r.Next(Math.Min(attempts, 100));
         var count = 0;
         for (var i = 0; i < attempts; i++)

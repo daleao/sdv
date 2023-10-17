@@ -355,7 +355,6 @@
   "enchantments.bloodthirsty.name": "피바라기",
   "enchantments.mammonite.name": "마모나이트 ",
   "enchantments.wabbajack.name": "와바잭",
-  "enchantments.magnum.name": "매그넘",
   "enchantments.gatling.name": "기관총",
   "enchantments.preserving.name": "탄약 보존",
   "enchantments.quincy.name": "퀸시",
@@ -391,10 +390,16 @@
   "ui.item_hover.cdr": "{{amount}} 재사용 대기시간",
   "ui.item_hover.resist": "{{amount}} 방어력",
   "ui.item_hover.precision": "{{amount}} 정확도",
-  "ui.item.hover.light": "Emits light",
+  "ui.item_hover.light": "빛을 발산해요",
+  "ui.item_hover.magnetic": "자기",
 
-  "ui.buffs.jinxed": "방어력 -5",
-  "ui.buffs.warrior": "공격력 +{{value}}",
+  "ui.buffs.burnt.damage": "-50% Damage",
+  "ui.buffs.burnt.dot": "-{{amount}} health every 3 seconds",
+  "ui.buffs.frozen.stuck": "Cannot move",
+  "ui.buffs.frozen.vulnerable": "Vulnerable to the next attack",
+  "ui.buffs.jinxed.defense": "방어력 -5",
+  "ui.buffs.confused": "Disoriented",
+  "ui.buffs.warrior.attack": "공격력 +{{value}}",
 
 
   // ********* //
@@ -924,8 +929,8 @@
   "gmcm.twx.farming.crop_wither_chance.desc": "물을 주지 않은 채 하루에 작물이 시들어버릴 확률입니다.",
   "gmcm.twx.farming.prevent_fruit_tree_winter_growth.title": "과일 나무의 겨울 성장 방지",
   "gmcm.twx.farming.prevent_fruit_tree_winter_growth.desc": "일반 나무는 겨울에 자랄 수 없습니다. 과일 나무는 왜 달라야 합니까?",
-  "gmcm.twx.farming.largedairy_yield.title": "대형 유제품은 품질보다 수량을 생산합니다",
-  "gmcm.twx.farming.largedairy_yield.desc": "큰 달걀이나 우유 하나를 사용하면 마요네즈나 치즈 두 개가 생산되지만 금 품질 하나가 아닌 일반 품질로 생성됩니다.",
+  "gmcm.twx.farming.dairy_yield.title": "대형 유제품은 품질보다 수량을 생산합니다",
+  "gmcm.twx.farming.dairy_yield.desc": "큰 달걀이나 우유 하나를 사용하면 마요네즈나 치즈 두 개가 생산되지만 금 품질 하나가 아닌 일반 품질로 생성됩니다.",
   "gmcm.twx.farming.spawn_crows.title": "이 지도에 까마귀 생성:",
   "gmcm.twx.maps.islandwest": "생강섬 농장",
   "gmcm.twx.maps.custom_garden": "커뮤니티 가든(SVE)",

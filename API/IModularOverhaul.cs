@@ -8,7 +8,7 @@ using Microsoft.Xna.Framework;
 
 #endregion using directives
 
-/// <summary>Interface for proxying.</summary>
+/// <summary>Interfaces required for proxying the mod API.</summary>
 public interface IModularOverhaul
 {
     /// <summary>Interface for all of the <see cref="Farmer"/>'s professions.</summary>

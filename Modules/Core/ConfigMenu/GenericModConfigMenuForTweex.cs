@@ -31,24 +31,31 @@ internal sealed partial class GenericModConfigMenu
                 config => config.Tweex.PreventFruitTreeWinterGrowth,
                 (config, value) => config.Tweex.PreventFruitTreeWinterGrowth = value)
             .AddNumberField(
-                I18n.Gmcm_Twx_Aging_BeeHouse_Title,
-                I18n.Gmcm_Twx_Aging_BeeHouse_Desc,
-                config => config.Tweex.BeeHouseAgingFactor,
-                (config, value) => config.Tweex.BeeHouseAgingFactor = value,
-                0.1f,
+                I18n.Gmcm_Twx_Aging_FruitTree_Title,
+                I18n.Gmcm_Twx_Aging_FruitTree_Desc,
+                config => config.Tweex.FruitTreeAgingFactor,
+                (config, value) => config.Tweex.FruitTreeAgingFactor = value,
+                0f,
                 2f)
             .AddNumberField(
                 I18n.Gmcm_Twx_Aging_TeaBush_Title,
                 I18n.Gmcm_Twx_Aging_TeaBush_Desc,
                 config => config.Tweex.TeaBushAgingFactor,
                 (config, value) => config.Tweex.TeaBushAgingFactor = value,
-                0.1f,
+                0f,
+                2f)
+            .AddNumberField(
+                I18n.Gmcm_Twx_Aging_BeeHouse_Title,
+                I18n.Gmcm_Twx_Aging_BeeHouse_Desc,
+                config => config.Tweex.BeeHouseAgingFactor,
+                (config, value) => config.Tweex.BeeHouseAgingFactor = value,
+                0f,
                 2f)
             .AddCheckbox(
-                I18n.Gmcm_Twx_Farming_LargedairyYield_Title,
-                I18n.Gmcm_Twx_Farming_LargedairyYield_Desc,
-                config => config.Tweex.LargeDairyYieldsQuantityOverQuality,
-                (config, value) => config.Tweex.LargeDairyYieldsQuantityOverQuality = value);
+                I18n.Gmcm_Twx_Farming_DairyYield_Title,
+                I18n.Gmcm_Twx_Farming_DairyYield_Desc,
+                config => config.Tweex.ImmersiveDairyYield,
+                (config, value) => config.Tweex.ImmersiveDairyYield = value);
 
         var farmMaps = new List<string> { "IslandWest" };
         if (this.ModRegistry.IsLoaded("FlashShifter.StardewValleyExpandedCP"))
@@ -99,14 +106,7 @@ internal sealed partial class GenericModConfigMenu
                 I18n.Gmcm_Twx_Aging_Tree_Desc,
                 config => config.Tweex.TreeAgingFactor,
                 (config, value) => config.Tweex.TreeAgingFactor = value,
-                0.1f,
-                2f)
-            .AddNumberField(
-                I18n.Gmcm_Twx_Aging_FruitTree_Title,
-                I18n.Gmcm_Twx_Aging_FruitTree_Desc,
-                config => config.Tweex.FruitTreeAgingFactor,
-                (config, value) => config.Tweex.FruitTreeAgingFactor = value,
-                0.1f,
+                0f,
                 2f)
             .AddNumberField(
                 I18n.Gmcm_Twx_Experience_BerryBush_Title,
@@ -120,7 +120,7 @@ internal sealed partial class GenericModConfigMenu
                 I18n.Gmcm_Twx_Aging_MushroomBox_Desc,
                 config => config.Tweex.MushroomBoxAgingFactor,
                 (config, value) => config.Tweex.MushroomBoxAgingFactor = value,
-                0.1f,
+                0f,
                 2f)
             .AddNumberField(
                 I18n.Gmcm_Twx_Experience_MushroomBox_Title,

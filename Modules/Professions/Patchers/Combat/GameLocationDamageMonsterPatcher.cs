@@ -17,8 +17,11 @@ using DaLion.Shared.Extensions.Stardew;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
 using Microsoft.Xna.Framework;
+using Modules.Combat.VirtualProperties;
+using Shared.Enums;
 using StardewValley.Monsters;
 using StardewValley.Tools;
+using Buff = StardewValley.Buff;
 
 #endregion using directives
 
@@ -248,7 +251,17 @@ internal sealed class GameLocationDamageMonsterPatcher : HarmonyPatcher
     private static void DamageMonsterSubroutine(
         int damageAmount, bool isBomb, bool didCrit, float critMultiplier, Monster monster, Farmer who)
     {
-        if (damageAmount <= 0 || isBomb || !who.IsLocalPlayer)
+        if (damageAmount <= 0 || isBomb)
+        {
+            return;
+        }
+
+        if (monster.Get_Taunter() is not null)
+        {
+            monster.Set_Taunter(null);
+        }
+
+        if (!who.IsLocalPlayer)
         {
             return;
         }
@@ -298,65 +311,91 @@ internal sealed class GameLocationDamageMonsterPatcher : HarmonyPatcher
     private static void HandlePoacher(bool didCrit, float critMultiplier, Monster monster, Farmer who, Ultimate? ultimate, Random r)
     {
         // try to steal
+        var stolen = TrySteal(monster, who, r);
+
+        // increment Poacher ultimate meter
+        if (!ProfessionsModule.Config.EnableLimitBreaks || ultimate is not Ambush { IsActive: false } ambush)
+        {
+            return;
+        }
+
+        if (monster.Health <= 0 && ambush.SecondsOutOfAmbush < 0.5d)
+        {
+            ultimate.ChargeValue += ultimate.MaxValue / 4d;
+            ambush.SecondsOutOfAmbush = double.MaxValue;
+        }
+
+        if (stolen)
+        {
+            ambush.ChargeValue += critMultiplier;
+        }
+
         if (who.CurrentTool is MeleeWeapon && didCrit)
         {
-            TrySteal(monster, who, r);
-
-            // increment Poacher ultimate meter
-            if (ProfessionsModule.Config.EnableLimitBreaks && ultimate is Ambush && !ultimate.IsActive)
-            {
-                ultimate.ChargeValue += critMultiplier;
-            }
+            ambush.ChargeValue += critMultiplier;
         }
-
-        if (ultimate is not Ambush ambush || !ProfessionsModule.Config.EnableLimitBreaks)
-        {
-            return;
-        }
-
-        var wasActive = false;
-        if (ultimate.IsActive)
-        {
-            wasActive = true;
-            ultimate.ChargeValue = 0;
-        }
-
-        if (monster.Health > 0 || !wasActive || ambush.SecondsOutOfAmbush > 0.5d)
-        {
-            return;
-        }
-
-        ultimate.ChargeValue += ultimate.MaxValue / 4d;
-        ambush.SecondsOutOfAmbush = double.MaxValue;
     }
 
     private static void HandlePiper(Monster monster, Farmer who, Ultimate? ultimate, Random r)
     {
         // add Piper buffs
-        if (r.NextDouble() < 0.16667 + (who.DailyLuck / 2.0))
+        var applied = ProfessionsModule.State.PiperBuffs;
+        if (r.NextDouble() < (1d / 6d) + (who.DailyLuck / 2.0))
         {
-            var applied = ProfessionsModule.State.PiperBuffs;
-            var whatToBuff = r.Next(applied.Length);
-            if (whatToBuff is not (3 or 6))
+            switch (r.Next(4))
+            {
+                case 0:
+                    var healed = (int)(monster.MaxHealth * (who.HasProfession(Profession.Piper, true) ? 0.04f : 0.025f));
+                    who.health = Math.Min(who.health + healed, who.maxHealth);
+                    who.currentLocation.debris.Add(new Debris(
+                        healed,
+                        new Vector2(who.getStandingX() + 8, who.getStandingY()),
+                        Color.Lime,
+                        1f,
+                        who));
+                    Game1.playSound("healSound");
+                    break;
+
+                case 1:
+                    var recovered = (int)(who.Stamina * (who.HasProfession(Profession.Piper, true) ? 0.01f : 0.02f));
+                    who.Stamina = Math.Min(who.Stamina + recovered, who.MaxStamina);
+                    who.currentLocation.debris.Add(new Debris(
+                        recovered,
+                        new Vector2(who.getStandingX() + 8, who.getStandingY()),
+                        Color.Yellow,
+                        1f,
+                        who));
+                    Game1.playSound("healSound");
+                    break;
+
+                case 2 when applied[10] < (who.HasProfession(Profession.Piper, true) ? 10 : 5):
+                    applied[10]++;
+                    RefreshPiperBuff(applied);
+                    break;
+
+                case 3 when applied[11] < (who.HasProfession(Profession.Piper, true) ? 10 : 5):
+                    applied[10]++;
+                    RefreshPiperBuff(applied);
+                    break;
+            }
+        }
+        else if (who.HasProfession(Profession.Piper, true) && r.NextDouble() < (1d / 6d) + (who.DailyLuck / 2.0))
+        {
+            var whatToBuff = r.Next(10);
+            if (whatToBuff is not (3 or 6 or 7))
             {
                 switch (whatToBuff)
                 {
                     case 8:
-                        if (applied[8] < ProfessionsModule.Config.PiperBuffCeiling * 8)
+                        if (applied[8] < 64)
                         {
                             applied[8] += 8;
                         }
 
                         break;
-                    case 7:
-                        if (applied[7] < ProfessionsModule.Config.PiperBuffCeiling * 10)
-                        {
-                            applied[7] += 10;
-                        }
 
-                        break;
                     default:
-                        if (applied[8] < ProfessionsModule.Config.PiperBuffCeiling)
+                        if (applied[8] < 5)
                         {
                             applied[whatToBuff]++;
                         }
@@ -364,59 +403,8 @@ internal sealed class GameLocationDamageMonsterPatcher : HarmonyPatcher
                         break;
                 }
 
-                var buffId = (Manifest.UniqueID + Profession.Piper).GetHashCode();
-                Game1.buffsDisplay.removeOtherBuff(buffId);
-                Game1.buffsDisplay.addOtherBuff(new Buff(
-                    applied[0],
-                    applied[1],
-                    applied[2],
-                    applied[3],
-                    applied[4],
-                    applied[5],
-                    applied[6],
-                    applied[7],
-                    applied[8],
-                    applied[9],
-                    applied[10],
-                    applied[11],
-                    3,
-                    "Piper",
-                    _I18n.Get("piper.title" + (who.IsMale ? ".male" : ".female")))
-                {
-                    which = buffId,
-                    sheetIndex = 38,
-                    millisecondsDuration = 180000,
-                    description = GetPiperBuffDescription(
-                        applied[0],
-                        applied[1],
-                        applied[5],
-                        applied[2],
-                        applied[11],
-                        applied[10],
-                        applied[4],
-                        applied[9],
-                        applied[7],
-                        applied[8]),
-                });
-
-                EventManager.Enable<PiperDayEndingEvent>();
+                RefreshPiperBuff(applied);
             }
-        }
-
-        // heal if prestiged
-        if (who.HasProfession(Profession.Piper, true) && r.NextDouble() < 0.333 + (who.DailyLuck / 2.0))
-        {
-            var healed = (int)(monster.MaxHealth * 0.025f);
-            who.health = Math.Min(who.health + healed, who.maxHealth);
-            who.currentLocation.debris.Add(new Debris(
-                healed,
-                new Vector2(who.getStandingX() + 8, who.getStandingY()),
-                Color.Lime,
-                1f,
-                who));
-            Game1.playSound("healSound");
-
-            who.Stamina = Math.Min(who.Stamina + (who.Stamina * 0.01f), who.MaxStamina);
         }
 
         // increment Piper ultimate meter
@@ -434,11 +422,34 @@ internal sealed class GameLocationDamageMonsterPatcher : HarmonyPatcher
         }
     }
 
-    private static void TrySteal(Monster monster, Farmer who, Random r)
+    private static bool TrySteal(Monster monster, Farmer who, Random r)
     {
-        if (monster.Get_Stolen() || !(Game1.random.NextDouble() < 0.2))
+        if (who.CurrentTool is not MeleeWeapon weapon ||
+            monster.Get_Stolen() >= (who.HasProfession(Profession.Poacher, true) ? 2 : 1))
         {
-            return;
+            return false;
+        }
+
+        float effectiveCritChance;
+        if (CombatModule.ShouldEnable)
+        {
+            effectiveCritChance = weapon.Get_EffectiveCritChance();
+        }
+        else
+        {
+            effectiveCritChance = weapon.critChance.Value;
+            if (weapon.type.Value == (int)WeaponType.Dagger)
+            {
+                effectiveCritChance += 0.005f;
+                effectiveCritChance *= 1.12f;
+            }
+
+            effectiveCritChance *= 1f + who.critChanceModifier;
+        }
+
+        if (r.NextDouble() > effectiveCritChance - (monster.resilience.Value * monster.jitteriness.Value))
+        {
+            return false;
         }
 
         var itemToSteal = monster.objectsToDrop
@@ -447,23 +458,25 @@ internal sealed class GameLocationDamageMonsterPatcher : HarmonyPatcher
             .Choose(r)?.getOne();
         if (itemToSteal is null || itemToSteal.Name.Contains("Error") || !who.addItemToInventoryBool(itemToSteal))
         {
-            return;
+            return false;
         }
 
-        monster.Set_Stolen(true);
+        monster.IncrementStolen();
 
         // play sound effect
         SoundEffectPlayer.PoacherSteal.Play();
 
         if (!who.HasProfession(Profession.Poacher, true))
         {
-            return;
+            return true;
         }
 
         // if prestiged, reset cooldown
         MeleeWeapon.attackSwordCooldown = 0;
         MeleeWeapon.daggerCooldown = 0;
         MeleeWeapon.clubCooldown = 0;
+        CombatModule.State.SlingshotCooldown = 0;
+        return true;
     }
 
     private static string GetPiperBuffDescription(
@@ -475,7 +488,6 @@ internal sealed class GameLocationDamageMonsterPatcher : HarmonyPatcher
         int defense,
         int luck,
         int speed,
-        int energy,
         int magnetic)
     {
         var builder = new StringBuilder();
@@ -589,18 +601,6 @@ internal sealed class GameLocationDamageMonsterPatcher : HarmonyPatcher
             }
         }
 
-        if (energy > 0)
-        {
-            if (LocalizedContentManager.CurrentLanguageCode == LocalizedContentManager.LanguageCode.es)
-            {
-                builder.AppendLine(Game1.content.LoadString("Strings\\StringsFromCSFiles:Buff.cs.495") + "+" + energy);
-            }
-            else
-            {
-                builder.AppendLine("+" + energy + Game1.content.LoadString("Strings\\StringsFromCSFiles:Buff.cs.495"));
-            }
-        }
-
         if (magnetic > 0)
         {
             if (LocalizedContentManager.CurrentLanguageCode == LocalizedContentManager.LanguageCode.es)
@@ -616,6 +616,45 @@ internal sealed class GameLocationDamageMonsterPatcher : HarmonyPatcher
         }
 
         return builder.ToString();
+    }
+
+    private static void RefreshPiperBuff(int[] applied)
+    {
+        var buffId = (Manifest.UniqueID + Profession.Piper).GetHashCode();
+        Game1.buffsDisplay.removeOtherBuff(buffId);
+        Game1.buffsDisplay.addOtherBuff(new Buff(
+            applied[0],
+            applied[1],
+            applied[2],
+            0,
+            applied[4],
+            applied[5],
+            0,
+            0,
+            applied[8],
+            applied[9],
+            applied[10],
+            applied[11],
+            3,
+            "Piper",
+            _I18n.Get("piper.title" + (Game1.player.IsMale ? ".male" : ".female")))
+        {
+            which = buffId,
+            sheetIndex = 38,
+            millisecondsDuration = 180000,
+            description = GetPiperBuffDescription(
+                applied[0],
+                applied[1],
+                applied[5],
+                applied[2],
+                applied[11],
+                applied[10],
+                applied[4],
+                applied[9],
+                applied[8]),
+        });
+
+        EventManager.Enable<PiperDayEndingEvent>();
     }
 
     #endregion helper methods

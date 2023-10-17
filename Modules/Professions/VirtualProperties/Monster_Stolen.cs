@@ -12,18 +12,18 @@ internal static class Monster_Stolen
 {
     internal static ConditionalWeakTable<Monster, Holder> Values { get; } = new();
 
-    internal static bool Get_Stolen(this Monster monster)
+    internal static int Get_Stolen(this Monster monster)
     {
         return Values.GetOrCreateValue(monster).Stolen;
     }
 
-    internal static void Set_Stolen(this Monster monster, bool value)
+    internal static void IncrementStolen(this Monster monster)
     {
-        Values.GetOrCreateValue(monster).Stolen = value;
+        Values.GetOrCreateValue(monster).Stolen++;
     }
 
     internal class Holder
     {
-        public bool Stolen { get; internal set; }
+        public int Stolen { get; internal set; }
     }
 }

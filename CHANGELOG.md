@@ -2,103 +2,21 @@
 
 This file contains a TL;DR of current version changes and hotfixes from across all modules. For the complete changelog, please refer to the individual changelogs of each module, linked [below](#detailed-changelogs).
 
-## Patch 3.1.10 Highlights
+## Minor Release 3.2.0 Highlights
 
-* [CMBT]: Fixed weapon enchantments applying on-hit effects twice.
-* [CMBT]: Improved hold-up messages for Dwarvish blueprint and others. Changed some localization keys.
-* [CMBT]: Recolored the Dwarvish blueprint to a rusty orange.
-* [CMBT]: Lowered default difficulty settings (check your existing configs!).
-* [PRFS]: Prospector Hunts:
-    * Can now trigger in Volcano Dungeon.
-    * No longer incorrectly using Scavenger Hunt streak.
-    * No longer produces a key exception.
-    * No longer ends successfully upon warping.
-
-## Patch 3.1.9 Highlights
-
-* [CMBT]: Increased container spawn chance no longer applies in Skull Caverns.
-* [TWX]: Fixed not being able to combine any rings with Glowstone Progression enabled.
-
-## Patch 3.1.8 Highlights
-
-* [PROFS + CMBT]: Improved README.md UX using `<details>` tags and colored emojis.
-* [CMBT + TOLS]: Hotfix for out-of-bounds exception in auto-selection draw. Default color changed from Magenta to Aqua.
-* [TOLS]: Radioactive and Mythicite upgrades will no longer be available at Clint's shop with Moon Misadventures if Forge Upgrading option is enabled.
-* Renamed `optionals` folder to `compat`.
-
-## Patch 3.1.7 Highlights
-
-* [CMBT]: Fixed not taking damage when not holding a weapon or slingshot.
-* [CMBT + TOLS]: The auto-selection border now draws behind other elements in the UI, and emulated the shadow effect of the vanilla "current tool" highlight, giving it a much better "vanilla" feel.
-* [TWX]: Added ability to follow the Glowstone Ring progression at the Forge (thereby forgoing the essence cost for cinder shards). It's only logical.
-* Added Grandpa's Lunar Tool textures to optionals folder so users can find them more easily.
-* Minor fixes.
-
-## Patch 3.1.6 Highlights
-
-* [CMBT]: Changed the scaling of Steadfast enchantment so it's no longer overpowered but still finds a niche in crit. power-focus builds.
-* [CMBT]: Fixed slingshot cooldown freezing when unequiped.
-
-## Patch 3.1.5 Highlights
-
-* Changed core ticket from MARGX to MRG.
-* Changed ticker for Professions module from PROFS to PRFS.
-* Debug features should be working again in the Debug build.
-* [CMBT]: Added `MonsterSpawnChanceMultiplier` config setting.
-* [CMBT]: Neptune Glaive now requires the player have obtained the Skull Key before it will appear in Fishing Chests.
-* [CMBT]: Wizard's special Blade of Ruin dialogue will now only occur once per day, so it will no longer prevent all other dialogues.
-* [CMBT]: Tweaked `VariedEncounters` settings to yield more reasonable results.
-* [CMBT]: Fixed slingshot special cooldown not applying correctly.
-* [PRFS]: Spelunker ladder down chance changed from additive to multiplicative.
-* [PRFS]: Spelunker prestige recovery increased from +2.5% to +5% health and from +1% to +2.5% stamina per level.
-* [TOLS]: Fixed not being able to apply Mythicite upgrade at the Forge.
-* [TOLS]: Fixed some issues with auto-selection of Scythe and Fishing Rod.
-* [TOLS]: Fixed power-up colors for Radioactive and Mythicite power levels.
-* [TOLS]: Increased the default area of Radioactive and Mythicite Hoe and Watering Can.
-
-<sup><sup>[🔼 Back to top](#margo-changelogs)</sup></sup>
-
-## Patch 3.1.4 Highlights
-
-* Added translations for new chat notifications (missing JA, KO and ZH).
-* [CMBT]: Receiving your final Galaxy weapon will now also reward a free pair of Space Boots.
-* [CMBT]: Stabbing Sword special move will no longer clip through warps.
-* [CMBT]: Fixed error thrown when trying to get Galaxy weapon with Iridium Bar config set to zero.
-* [CMBT]: Fixed an issue where the player could not drift left or down using Slick Moves feature.
-* [CMBT]: Fixed Savage Ring buff slowing down attack speed instead of boosting it up.
-* [TXS]: Fixed debt not being collected when reloading.
-* [TXS]: Default annual interest increased to 72% (was previously 12%).
-
-<sup><sup>[🔼 Back to top](#margo-changelogs)</sup></sup>
-
-## Patch 3.1.3 Highlights
-
-* Rolled back dependency updates due to conflicts with AtraCore.
-* Added missing translations. Improved some Chinese translations, thanks to xuzhi1977.
-* [CMBT]: Added chat notifications for when a virtue point is gained.
-* [PRFS]: Changed the way Scavenger and Prospector treasures scale with the current streak. Players should now see significantly more treasure if they manage to keep their streaks high.
-
-<sup><sup>[🔼 Back to top](#margo-changelogs)</sup></sup>
-
-## Patch 3.1.2 Highlights
-
-* Config menu now auto-detects gamepad mode and adapts accordingly.
-* Added Korean GMCM translations by [Jun9273](https://github.com/Jun9273).
-* Added Chinese GMCM translations by [Jumping-notes](https://github.com/Jumping-notes).
-* [TWX]: Fixed Glowstone progression integration with Better Crafting.
-
-<sup><sup>[🔼 Back to top](#margo-changelogs)</sup></sup>
-
-## Hotfix 3.1.1 Highlights
-
-* Forgot to scale Garnet Node spawn back down to normal after debugging for 3.1.0.
-
-<sup><sup>[🔼 Back to top](#margo-changelogs)</sup></sup>
-
-## Minor Release 3.1.0 Highlights
-
-* Optional files `[CP] Fish Pond Data` and `[CON] Garnet Node` are now embedded in the main mod.
-* Updated mod dependencies.
+* **[PRFS]: Major overhaul of most Combat professions!! Please see the [PRFS changelog](./Modules/Professions/CHANGELOG.md) for details.**
+* **[CMBT]: New player status effects changes!!** Vanilla Burn, Freeze, Jinxed and Weakness debuffs have been reworked. Please see the [CMBT changelog](./Modules/Professions/CHANGELOG.md) for details.
+* [CMBT]: Burn and Chill status effects now negate each other.
+* [CMBT]: Added visual and audio queues to Freeze status.
+* [CMBT]: Blade of Dawn and Infinity weapons now also emit light.
+* [CMBT]: Added new tooltips icons to rings and weapons to make them more easy to identify.
+* [CMBT]: Added config options to set each weapon tier color. All Legendary-tier weapons now use the same title color, which by default is also the same as Masterwork tier.
+* [CMBT]: Knockback damage no longer applies to gliders (flying enemies).
+* [CMBT]: Wizard's summon letter for Blade of Ruin quest now uses Wizard's custom letter background.
+* [CMBT]: Slightly increased the magnetism of tertian Infinity Band.
+* [CMBT]: Removed the Magnum and Preserving enchantments for slingshots.
+* [TWX]: Renamed `DairyYieldsQuantityOverQuality` setting to `ImmersiveDairyYield`, and made it so that Gold Eggs always yield iridium quality, instead of gold.
+* Several translations keys changed or removed (translators please be noted).
 
 <sup><sup>[🔼 Back to top](#margo-changelogs)</sup></sup>
 

@@ -11,7 +11,6 @@ using DaLion.Shared.Extensions.Collections;
 using DaLion.Shared.Extensions.Memory;
 using DaLion.Shared.Extensions.Stardew;
 using Microsoft.Xna.Framework;
-using StardewModdingAPI.Utilities;
 using StardewValley.Locations;
 using StardewValley.Objects;
 
@@ -110,8 +109,7 @@ internal static class CrabPotExtensions
     internal static int ChooseFish(
         this CrabPot crabPot, Dictionary<int, string> fishData, GameLocation location, Random r)
     {
-        var locationData =
-            Game1.content.Load<Dictionary<string, string>>(PathUtilities.NormalizeAssetName("Data/Locations"));
+        var locationData = Game1.content.Load<Dictionary<string, string>>("Data\\Locations");
         var locationName = location.Name;
         if (locationName == "BeachNightMarket")
         {

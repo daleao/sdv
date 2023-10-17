@@ -65,7 +65,7 @@ internal sealed class StabbingSwordSpecialUpdateTickingEvent : UpdateTickingEven
         };
 
         user.FarmerSprite.setCurrentFrame(frame, 0, 15, 2, user.FacingDirection == 3, true);
-        Game1.playSound(sword.CurrentParentTileIndex == WeaponIds.LavaKatana ? "fireball" : "daggerswipe");
+        user.currentLocation.playSound(sword.CurrentParentTileIndex == WeaponIds.LavaKatana ? "fireball" : "daggerswipe");
         this.Manager.Enable<StabbingSwordSpecialInterruptedButtonPressedEvent>();
         if (CombatModule.Config.FaceMouseCursor)
         {

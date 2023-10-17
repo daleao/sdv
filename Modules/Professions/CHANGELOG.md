@@ -1,5 +1,48 @@
 ﻿# PRFS Changelog
 
+## 3.2.0
+
+### Changed
+
+* Major overhaul for most Combat professions:
+    * **Brute:**
+        * Prestige effect now also doubles the duration of Rage stacks.
+    * **Poacher (Bushwhacker):**
+        * Poaching no longer requires a critical strike. Items can now be poached on any hit. The odds are still dependent on critical strike chance, but now also factors in enemy resistance and jitteriness (jittery enemies are more unpredictable and thus harder to steal from).
+        * Prestige effect now also allows poaching twice from the same enemy. In exchange, special move refund has been lowered to only
+    * **Rascal:**
+        * Chance to recovery ammo when prestiged reduced from 70% to 55%. This chance is no longer reduced for pierced ammo.
+        * New prestige effect: **Can equip Monster Musk to produce alluring ammo.**
+            * Equip the Monster Musk like any other ammo. It will always slot to the bottom ammo slot. Only 1 Monster Musk will be slotted at a time, and it cannot be removed once slotted.
+            * As long as a Monster Musk is equipped, projectiles will become "musked". A slotted Monster Musk will last for 10 shots.
+            * If the musked projectile collides with anything, such as a wall or another monster, that thing will become musked for 15 seconds. During that time, other nearby enemies will flock towards the musked spot, allowing the player to completely evade combat.
+            * Musked enemies cannot be damaged by other enemies.
+            * Does not work with Explosive Ammo.
+        * Removed the "trick shot" mechanic, which likely nobody even knew about.
+    * **Desperado:**
+        * Base perk changed: ~~Fire quicker at low HP~~ -> **Consecutive shots against different enemies within 1 second deal 50% more damage.**
+            * After successfully hitting an enemy, you have 1 second to hit a different enemy in order to qualify for the bonus damage. This emphasizes quick-shooting and switching targets, as expected of a Desperado. *Firing speed bonuses are now very valuable to this profession. The Gatling enchantment from Combat module will also offer great synergy.*
+        * Changes to Piercing mechanic from prestige Desperado:
+            * Piercing chance now depends on enemy resistance (resistant enemies are harder to pierce). In exchange, a successful pierce ignores the enemy's resistance.
+            * Ammo power and chance for susbsequent pierce now decreases by a factor based on the pierced enemie's resistance, intead of a flat 35%, which is much more immersive.
+            * No longer capped at 2 pierces; shots can now pierce infinitely many times (although more than 2 is extremely unlikely).
+    * **Slimed Piper:**
+        * Health and energy recovery effects are now part of the base perk instead of prestige, since these are much more valuable early-game.
+        * Non-prestige buffs are now limited to +Attack and +Defense and cap at 5 stacks each.
+        * Prestige perk now adds all remaining buffs (+Luck, +Speed, and +Skill levels) and also doubles the base perk's effects (Attack and Defense cap increased to +10, and doubled recovery amounts).
+    * Changed the following associated translation **values**:
+        * `brute.desc` 
+        * `brute.desc.prestiged`
+        * `poacher.desc`
+        * `poacher.desc.prestiged`
+        * `desperado.desc`
+        * `desperado.desc.prestiged`
+        * `rascal.desc.prestiged`
+
+### Fixed
+
+* Fixed out-of-combat loss of Rage stacks, which probably was not working without Combat module.
+
 ## 3.1.10
 
 ### Added

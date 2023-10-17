@@ -11,6 +11,7 @@ using DaLion.Shared.Extensions.Collections;
 using DaLion.Shared.Extensions.Stardew;
 using StardewValley.Tools;
 using static StardewValley.FarmerSprite;
+using Buff = DaLion.Shared.Enums.Buff;
 
 #endregion using directives
 
@@ -48,7 +49,7 @@ internal static class FarmerExtensions
             modifier *= weapon.Get_EffectiveSwingSpeed();
         }
 
-        if (ProfessionsModule.ShouldEnable && farmer.professions.Contains(Farmer.brute))
+        if (ProfessionsModule.ShouldEnable && farmer.professions.Contains(Farmer.brute + 100))
         {
             modifier *= 1f - (ProfessionsModule.State.BruteRageCounter * 0.005f);
         }
@@ -100,6 +101,34 @@ internal static class FarmerExtensions
 
         darkSword = (MeleeWeapon?)farmer.Items.FirstOrDefault(item => item is MeleeWeapon { InitialParentTileIndex: WeaponIds.DarkSword });
         return darkSword is not null;
+    }
+
+    /// <summary>Checks whether the <paramref name="farmer"/> is afflicted with Burn debuff.</summary>
+    /// <param name="farmer">The <see cref="Farmer"/>.</param>
+    /// <returns><see langword="true"/> if the <paramref name="farmer"/> has buff #12, otherwise <see langword="false"/>.</returns>
+    internal static bool IsBurning(this Farmer farmer)
+    {
+        return farmer.hasBuff((int)Buff.Burnt);
+    }
+
+    /// <summary>Checks whether the <paramref name="farmer"/> is afflicted with Freeze debuff.</summary>
+    /// <param name="farmer">The <see cref="Farmer"/>.</param>
+    /// <returns><see langword="true"/> if the <paramref name="farmer"/> has buff #19, otherwise <see langword="false"/>.</returns>
+    internal static bool IsFrozen(this Farmer farmer)
+    {
+        return farmer.hasBuff((int)Buff.Frozen);
+    }
+
+    /// <summary>Removes the Freeze debuff from the <paramref name="farmer"/> if they are the local player.</summary>
+    /// <param name="farmer">The <see cref="Farmer"/>.</param>
+    internal static void Defrost(this Farmer farmer)
+    {
+        if (!farmer.IsLocalPlayer)
+        {
+            return;
+        }
+
+        Game1.buffsDisplay.removeOtherBuff(19);
     }
 
     /// <summary>Determines whether the <paramref name="farmer"/> is stepping on a snowy tile.</summary>
@@ -307,7 +336,7 @@ internal static class FarmerExtensions
         }
 
         Reflector
-            .GetUnboundFieldSetter<FarmerSprite, int>(sprite, "currentAnimationFrames")
+            .GetUnboundFieldSetter<FarmerSprite, int>("currentAnimationFrames")
             .Invoke(sprite, sprite.CurrentAnimation.Count);
         CombatModule.State.ComboHitQueued++;
         CombatModule.State.FarmerAnimating = true;
@@ -468,7 +497,7 @@ internal static class FarmerExtensions
         }
 
         Reflector
-            .GetUnboundFieldSetter<FarmerSprite, int>(sprite, "currentAnimationFrames")
+            .GetUnboundFieldSetter<FarmerSprite, int>("currentAnimationFrames")
             .Invoke(sprite, sprite.CurrentAnimation.Count);
         CombatModule.State.ComboHitQueued++;
         CombatModule.State.FarmerAnimating = true;
@@ -614,7 +643,7 @@ internal static class FarmerExtensions
         }
 
         Reflector
-            .GetUnboundFieldSetter<FarmerSprite, int>(sprite, "currentAnimationFrames")
+            .GetUnboundFieldSetter<FarmerSprite, int>("currentAnimationFrames")
             .Invoke(sprite, sprite.CurrentAnimation.Count);
         CombatModule.State.ComboHitQueued++;
         CombatModule.State.FarmerAnimating = true;
@@ -721,7 +750,7 @@ internal static class FarmerExtensions
         }
 
         Reflector
-            .GetUnboundFieldSetter<FarmerSprite, int>(sprite, "currentAnimationFrames")
+            .GetUnboundFieldSetter<FarmerSprite, int>("currentAnimationFrames")
             .Invoke(sprite, sprite.CurrentAnimation.Count);
         CombatModule.State.ComboHitQueued++;
         CombatModule.State.FarmerAnimating = true;

@@ -10,7 +10,6 @@ using DaLion.Shared.Harmony;
 using HarmonyLib;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using StardewModdingAPI.Utilities;
 
 #endregion using directives
 
@@ -54,7 +53,7 @@ internal sealed class CraftingRecipeDrawRecipeDescriptionPatcher : HarmonyPatche
 
             Utility.drawTextWithShadow(
                 b,
-                Game1.content.LoadString(PathUtilities.NormalizeAssetName("Strings/StringsFromCSFiles:CraftingRecipe.cs.567")),
+                Game1.content.LoadString("Strings\\StringsFromCSFiles:CraftingRecipe.cs.567"),
                 Game1.smallFont,
                 position + new Vector2(8f, 28f),
                 Game1.textColor * 0.75f);

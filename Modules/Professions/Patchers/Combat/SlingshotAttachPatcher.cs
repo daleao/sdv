@@ -3,6 +3,7 @@
 #region using directives
 
 using System.Reflection;
+using DaLion.Shared.Constants;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
 using StardewValley.Tools;
@@ -37,6 +38,23 @@ internal sealed class SlingshotAttachPatcher : HarmonyPatcher
             var bottom = __instance.attachments[1];
             if (o is not null)
             {
+                if (o.ParentSheetIndex == ObjectIds.MonsterMusk)
+                {
+                    if (bottom is null)
+                    {
+                        __instance.attachments[1] = (SObject)o.getOne();
+                        __result = --o.Stack <= 0 ? null : o;
+                        Game1.playSound("button1");
+                    }
+                    else
+                    {
+                        Game1.playSound("cancel");
+                        __result = o;
+                    }
+
+                    return false; // don't run original logic
+                }
+
                 if (top is null)
                 {
                     if (bottom?.canStackWith(o) != true || bottom.Stack == 999)
@@ -92,17 +110,14 @@ internal sealed class SlingshotAttachPatcher : HarmonyPatcher
                             __result = null;
                             Game1.playSound("button1");
                         }
+                        else if (bottom.ParentSheetIndex == ObjectIds.MonsterMusk)
+                        {
+                            __instance.attachments[0] = o;
+                            __result = top;
+                            Game1.playSound("button1");
+                        }
                         else
                         {
-                            if (bottom.canStackWith(o) && bottom.Stack < 999)
-                            {
-                                bottom.Stack = o.addToStack(bottom);
-                                if (bottom.Stack <= 0)
-                                {
-                                    bottom = null;
-                                }
-                            }
-
                             __instance.attachments[1] = o;
                             __result = bottom;
                             Game1.playSound("button1");
@@ -112,17 +127,21 @@ internal sealed class SlingshotAttachPatcher : HarmonyPatcher
             }
             else
             {
-                if (__instance.attachments[0] is not null)
+                if (top is not null)
                 {
-                    __result = __instance.attachments[0];
+                    __result = top;
                     __instance.attachments[0] = null;
                     Game1.playSound("button1");
                 }
-                else if (__instance.attachments[1] is not null)
+                else if (bottom is not null && bottom.ParentSheetIndex != ObjectIds.MonsterMusk)
                 {
-                    __result = __instance.attachments[1];
+                    __result = bottom;
                     __instance.attachments[1] = null;
                     Game1.playSound("button1");
+                }
+                else if (bottom?.ParentSheetIndex == ObjectIds.MonsterMusk)
+                {
+                    Game1.playSound("cancel");
                 }
             }
 
