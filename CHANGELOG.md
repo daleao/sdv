@@ -7,7 +7,7 @@ This file contains a TL;DR of current version changes and hotfixes from across a
 * **[PRFS]: Major overhaul of most Combat professions!! Please see the [PRFS changelog](./Modules/Professions/CHANGELOG.md) for details.**
 * **[CMBT]: New player status effects changes!!** Vanilla Burn, Freeze, Jinxed and Weakness debuffs have been reworked. Please see the [CMBT changelog](./Modules/Professions/CHANGELOG.md) for details.
 * [CMBT]: Burn and Chill status effects now negate each other.
-* [CMBT]: Added visual and audio queues to Freeze status.
+* [CMBT]: Added visual and audio queues to Freeze status. Improved status effect animations on Royal Serpent.
 * [CMBT]: Blade of Dawn and Infinity weapons now also emit light.
 * [CMBT]: Added new tooltips icons to rings and weapons to make them more easy to identify.
 * [CMBT]: Added config options to set each weapon tier color. All Legendary-tier weapons now use the same title color, which by default is also the same as Masterwork tier.

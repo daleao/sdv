@@ -1,27 +1,34 @@
-“Commons Clause” License Condition v1.0
+Modular Gameplay Overhaul for Stardew Valley
+Mod License
+Version 1.0
+Date: October 17th, 2023
 
-The Software is provided to you by the Licensor under the License, as defined below, subject to the following condition.
+Terms and Conditions:
 
-Without limiting other conditions in the License, the grant of rights under the License will not include, and the License does not grant to you, the right to Sell the Software.
+1. Grant of License:
+   Subject to the terms and conditions of this License, DaLion ("Licensor") grants you ("Licensee") a limited, non-exclusive, non-transferable license to create and distribute derivative works based on the source code of the Modular Gameplay Overhaul for Stardew Valley mod ("the Mod").
 
-For purposes of the foregoing, “Sell” means practicing any or all of the rights granted to you under the License to provide to third parties, for a fee or other consideration (including without limitation fees for hosting or consulting/ support services related to the Software), a product or service whose value derives, entirely or substantially, from the functionality of the Software. Any license notice or attribution required by the License must also include this Commons Clause License Condition notice.
+2. Copyleft Provision:
+   Any derivative works based on the Mod's source code must be licensed under the same terms and conditions as this License. This includes the prohibition on redistribution and commercial use.
 
-Software: Modular Gameplay Overhaul for Stardew Valley
+3. Prohibited Activities:
+   a. Redistribution: Licensee is expressly prohibited from redistributing, sharing, or otherwise making the Mod's source code available to third parties in any form, whether for free or for commercial gain.
 
-License: MIT License
+   b. Commercial Use: Licensee is expressly prohibited from using the Mod's source code or any derivative work created based on it for any commercial purposes, including, but not limited to, selling, licensing, or otherwise generating revenue from it.
 
-Licensor: Matheus Leao
+4. Acceptable Use:
+   a. Derivatives: Licensee may create and distribute derivative works based on the Mod's source code, provided such derivatives are used for non-commercial purposes and are not redistributed.
 
-See https://commonsclause.com/ for Frequently Asked Questions.
+5. Disclaimer:
+   The Mod is provided "as is," without warranty of any kind. The Licensor shall not be liable for any direct, indirect, incidental, special, exemplary, or consequential damages, including but not limited to damages for loss of profits, goodwill, use, data, or other intangible losses.
 
-----------
+6. Termination:
+   This License is effective until terminated. Licensor may terminate this License at any time if Licensee breaches any of its terms. Upon termination, Licensee must immediately cease all use of the Mod and its source code and destroy any derivative works created.
 
-The MIT License:
+7. Governing Law:
+   This License is governed by and construed in accordance with the laws of [Your Jurisdiction]. Any disputes arising from this License shall be subject to the exclusive jurisdiction of the courts in Brazil.
 
-Copyright 2021 Matheus Leao
+By using the Mod's source code or creating derivative works based on it, Licensee agrees to be bound by the terms of this License.
 
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+DaLion / VonLoewe, a.k.a. Matheus Leao
+For contact please message @DaLion on [Stardew Valley Discord](https://discord.com/invite/stardewvalley).
