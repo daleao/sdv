@@ -7,6 +7,7 @@ using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
 using System.Text;
+using DaLion.Overhaul.Modules.Core;
 using DaLion.Overhaul.Modules.Professions.Events.GameLoop.DayEnding;
 using DaLion.Overhaul.Modules.Professions.Extensions;
 using DaLion.Overhaul.Modules.Professions.Ultimates;
@@ -424,8 +425,7 @@ internal sealed class GameLocationDamageMonsterPatcher : HarmonyPatcher
 
     private static bool TrySteal(Monster monster, Farmer who, Random r)
     {
-        if (who.CurrentTool is not MeleeWeapon weapon ||
-            monster.Get_Stolen() >= (who.HasProfession(Profession.Poacher, true) ? 2 : 1))
+        if (who.CurrentTool is not MeleeWeapon weapon || monster.Get_Stolen().Value)
         {
             return false;
         }
@@ -447,7 +447,10 @@ internal sealed class GameLocationDamageMonsterPatcher : HarmonyPatcher
             effectiveCritChance *= 1f + who.critChanceModifier;
         }
 
-        if (r.NextDouble() > effectiveCritChance - (monster.resilience.Value * monster.jitteriness.Value))
+        var actualResistance = (monster.resilience.Value - CombatModule.Config.MonsterDefenseSummand) /
+                               CombatModule.Config.MonsterDefenseMultiplier;
+        var poachChance = effectiveCritChance - ((actualResistance - who.LuckLevel) * monster.jitteriness.Value);
+        if (r.NextDouble() > poachChance)
         {
             return false;
         }
@@ -461,7 +464,7 @@ internal sealed class GameLocationDamageMonsterPatcher : HarmonyPatcher
             return false;
         }
 
-        monster.IncrementStolen();
+        monster.Get_Stolen().Value = true;
 
         // play sound effect
         SoundEffectPlayer.PoacherSteal.Play();

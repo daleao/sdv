@@ -53,11 +53,11 @@ internal static class SlingshotExtensions
             case ObjectIds.Amethyst:
             case ObjectIds.Topaz:
             case ObjectIds.Jade:
-                return 60;
+                return 40;
             case ObjectIds.Diamond:
-                return 120;
-            case SObject.prismaticShardIndex:
-                return 200;
+                return 100;
+            case ObjectIds.PrismaticShard:
+                return 60;
             default: // fish, fruit or vegetable
                 return 1;
         }
@@ -67,11 +67,6 @@ internal static class SlingshotExtensions
     /// <param name="slingshot">The <see cref="Slingshot"/>.</param>
     internal static void AnimateSpecialMove(this Slingshot slingshot)
     {
-        if (Game1.fadeToBlack)
-        {
-            return;
-        }
-
         var user = slingshot.getLastFarmerToUse();
         if (user is null || user.CurrentTool != slingshot)
         {
@@ -84,14 +79,6 @@ internal static class SlingshotExtensions
         }
 
         slingshot.BeginSpecialMove(user);
-        if (slingshot.hasEnchantmentOfType<RangedArtfulEnchantment>())
-        {
-            EventManager.Enable<SlingshotArtfulSpecialUpdateTickedEvent>();
-        }
-        else
-        {
-            EventManager.Enable<SlingshotSpecialUpdateTickedEvent>();
-        }
     }
 
     /// <summary>Analogous to "MeleeWeapon.beginSpecialMove".</summary>
@@ -107,6 +94,25 @@ internal static class SlingshotExtensions
         slingshot.Set_IsOnSpecial(true);
         who.UsingTool = true;
         who.CanMove = false;
+        EventManager.Enable<SlingshotSpecialUpdateTickedEvent>();
+        who.BeginUsingTool();
+    }
+
+    /// <summary>Concludes the slingshot special move.</summary>
+    /// <param name="slingshot">The <see cref="Slingshot"/>.</param>
+    /// <param name="cooldown">Whether to trigger the special move cooldown.</param>
+    /// <remarks>No direct analogy in vanilla.</remarks>
+    internal static void EndSpecialMove(this Slingshot slingshot, bool cooldown = true)
+    {
+        var lastUser = slingshot.getLastFarmerToUse();
+        lastUser.completelyStopAnimatingOrDoingAction();
+        slingshot.Set_IsOnSpecial(false);
+        if (cooldown)
+        {
+            lastUser.DoSlingshotSpecialCooldown(slingshot);
+        }
+
+        lastUser.forceCanMove();
     }
 
     /// <summary>Analogous to <see cref="MeleeWeapon.DoDamage"/>.</summary>
@@ -179,12 +185,13 @@ internal static class SlingshotExtensions
     /// <param name="x">The target x-coordinate.</param>
     /// <param name="y">The target y-coordinate.</param>
     /// <param name="who">The <see cref="Farmer"/> using the <paramref name="slingshot"/>.</param>
+    /// <param name="horizontal">Whether the attack was horizontal (<see langword="true"/>or vertical (<see langword="false"/>).</param>
     /// <returns>A <see cref="Rectangle"/> representing the attack's area of effect.</returns>
     /// <remarks>Doesn't need to <see langword="switch"/> based on weapon type, so the <see cref="Slingshot"/> instance itself is unused.</remarks>
-    internal static Rectangle GetAreaOfEffect(this Slingshot slingshot, int x, int y, Farmer who)
+    internal static Rectangle GetAreaOfEffect(this Slingshot slingshot, int x, int y, Farmer who, bool horizontal = false)
     {
         var areaOfEffect = Rectangle.Empty;
-        if (!slingshot.hasEnchantmentOfType<RangedArtfulEnchantment>())
+        if (!horizontal)
         {
             areaOfEffect = who.FacingDirection switch
             {
@@ -1030,11 +1037,63 @@ internal static class SlingshotExtensions
         }
     }
 
+    /// <summary>Gets the total duration of the <see cref="Slingshot"/> special move.</summary>
+    /// <param name="slingshot">The <see cref="Slingshot"/>.</param>
+    /// <returns>The duration time in milliseconds of the <see cref="Slingshot"/> special move.</returns>
+    internal static int GetSpecialDuration(this Slingshot slingshot)
+    {
+        return slingshot.hasEnchantmentOfType<RangedInfinityEnchantment>() ? 3000 : 2000;
+    }
+
     /// <summary>Gets the raw total cooldown time in milliseconds for the <see cref="Slingshot"/> special move.</summary>
     /// <param name="slingshot">The <see cref="Slingshot"/>.</param>
     /// <returns>The raw total cooldown time in milliseconds for the <see cref="Slingshot"/> special move.</returns>
     internal static int GetSpecialCooldown(this Slingshot slingshot)
     {
-        return 2000;
+        return 6000;
+    }
+
+    /// <summary>Adds hidden slingshot enchantments related to Infinity +1.</summary>
+    /// <param name="slingshot">The <see cref="Slingshot"/>.</param>
+    internal static void AddIntrinsicEnchantments(this Slingshot slingshot)
+    {
+        if (!CombatModule.Config.EnableHeroQuest || slingshot.InitialParentTileIndex != WeaponIds.InfinitySlingshot ||
+            slingshot.hasEnchantmentOfType<RangedInfinityEnchantment>())
+        {
+            return;
+        }
+
+        slingshot.AddEnchantment(new RangedEnergizedEnchantment());
+        Log.D("[CMBT]: Added RangedInfinityEnchantment to Infinity Slingshot.");
+    }
+
+    /// <summary>Removes hidden weapon enchantments related Rebalance or Infinity +1.</summary>
+    /// <param name="slingshot">The <see cref="Slingshot"/>.</param>
+    internal static void RemoveIntrinsicEnchantments(this Slingshot slingshot)
+    {
+        if (slingshot.InitialParentTileIndex != WeaponIds.InfinityBlade)
+        {
+            return;
+        }
+
+        var enchantment = slingshot.GetEnchantmentOfType<RangedInfinityEnchantment>();
+        slingshot.RemoveEnchantment(enchantment);
+        Log.D("[CMBT]: Removed RangedInfinityEnchantments from Infinity Slingshot.");
+    }
+
+    /// <summary>Checks whether the <paramref name="slingshot"/> has one of the special intrinsic enchantments.</summary>
+    /// <param name="slingshot">The <see cref="Slingshot"/>.</param>
+    /// <returns><see langword="true"/> if the <paramref name="slingshot"/> has the ranged Infinity enchantment, otherwise <see langword="false"/>.</returns>
+    internal static bool HasIntrinsicEnchantment(this Slingshot slingshot)
+    {
+        return slingshot.hasEnchantmentOfType<RangedInfinityEnchantment>();
+    }
+
+    /// <summary>Checks whether the <paramref name="slingshot"/> should have one of the special intrinsic enchantments.</summary>
+    /// <param name="slingshot">The <see cref="Slingshot"/>.</param>
+    /// <returns><see langword="true"/> if the <paramref name="slingshot"/>'s index corresponds to the Infinity Slingshot, otherwise <see langword="false"/>.</returns>
+    internal static bool ShouldHaveIntrinsicEnchantment(this Slingshot slingshot)
+    {
+        return CombatModule.Config.EnableHeroQuest && slingshot.InitialParentTileIndex == WeaponIds.InfinitySlingshot;
     }
 }

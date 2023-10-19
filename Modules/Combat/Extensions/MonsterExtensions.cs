@@ -3,6 +3,7 @@
 #region using directives
 
 using System.Collections.Generic;
+using Core;
 using DaLion.Overhaul.Modules.Combat.StatusEffects;
 using DaLion.Shared.Enums;
 using DaLion.Shared.Extensions;
@@ -152,9 +153,12 @@ internal static class MonsterExtensions
     /// <summary>Chills the <paramref name="monster"/> for the specified <paramref name="duration"/>.</summary>
     /// <param name="monster">The <see cref="Monster"/>.</param>
     /// <param name="duration">The duration in milliseconds.</param>
-    internal static void Chill(this Monster monster, int duration = 5000)
+    /// <param name="intensity">The intensity of the slow effect.</param>
+    /// <param name="freezeThreshold">The required slow intensity total for the target to be considered frozen.</param>
+    /// <param name="playSoundEffect">Whether to play the chill sound effect.</param>
+    internal static void Chill(this Monster monster, int duration = 5000, float intensity = 0.5f, float freezeThreshold = 1f, bool playSoundEffect = true)
     {
-        if (!CombatModule.Config.EnableStatusConditions)
+        if (!CombatModule.Config.EnableStatusConditions || monster is Ghost)
         {
             return;
         }
@@ -166,73 +170,81 @@ internal static class MonsterExtensions
 
         if (monster.IsChilled())
         {
-            monster.Get_Frozen().Value = true;
-            monster.Get_SlowIntensity().Value = 1d;
+            monster.Get_SlowIntensity().Value += intensity;
             monster.Get_SlowTimer().Value = duration;
-            switch (monster)
+            if (monster.Get_SlowIntensity() >= freezeThreshold)
             {
-                case BigSlime:
-                    FreezeAnimation.FreezeAnimationsByMonster.AddOrUpdate(
-                        monster,
-                        new List<FreezeAnimation>
-                        {
+                monster.Get_Frozen().Value = true;
+                monster.Get_SlowTimer().Value *= 5;
+                switch (monster)
+                {
+                    case BigSlime:
+                        FreezeAnimation.FreezeAnimationsByMonster.AddOrUpdate(
+                            monster,
+                            new List<FreezeAnimation>
+                            {
                             new(monster, duration, new Vector2(32f, 0f)),
                             new(monster, duration, new Vector2(-32f, 0f)),
-                        });
-                    break;
+                            });
+                        break;
 
-                case DinoMonster:
-                    var facingDirection = (FacingDirection)monster.FacingDirection;
-                    if (facingDirection.IsHorizontal())
-                    {
-                        FreezeAnimation.FreezeAnimationsByMonster.AddOrUpdate(
-                            monster,
-                            new List<FreezeAnimation>
-                            {
+                    case DinoMonster:
+                        var facingDirection = (FacingDirection)monster.FacingDirection;
+                        if (facingDirection.IsHorizontal())
+                        {
+                            FreezeAnimation.FreezeAnimationsByMonster.AddOrUpdate(
+                                monster,
+                                new List<FreezeAnimation>
+                                {
                                 new(monster, duration, new Vector2(32f, 8f)),
                                 new(monster, duration, new Vector2(-32f, 8f)),
-                            });
-                    }
-                    else
-                    {
-                        FreezeAnimation.FreezeAnimationsByMonster.AddOrUpdate(
-                            monster,
-                            new List<FreezeAnimation>
-                            {
+                                });
+                        }
+                        else
+                        {
+                            FreezeAnimation.FreezeAnimationsByMonster.AddOrUpdate(
+                                monster,
+                                new List<FreezeAnimation>
+                                {
                                 new(monster, duration, new Vector2(32f, 20f)),
                                 new(monster, duration, new Vector2(-32f, 20f)),
-                            });
-                    }
+                                });
+                        }
 
-                    break;
+                        break;
 
-                case Serpent serpent when serpent.IsRoyalSerpent():
-                    var freezeList = new List<FreezeAnimation>();
-                    for (var i = serpent.segments.Count - 1; i >= 0; i--)
-                    {
-                        var (x, y, _) = serpent.segments[i];
-                        var offset = new Vector2(x + 64f, y + 64f) - serpent.getStandingPosition();
-                        freezeList.Add(new FreezeAnimation(monster, duration, offset));
-                    }
+                    case Serpent serpent when serpent.IsRoyalSerpent():
+                        var freezeList = new List<FreezeAnimation>();
+                        for (var i = serpent.segments.Count - 1; i >= 0; i--)
+                        {
+                            var (x, y, _) = serpent.segments[i];
+                            var offset = new Vector2(x + 64f, y + 64f) - serpent.getStandingPosition();
+                            freezeList.Add(new FreezeAnimation(monster, duration, offset));
+                        }
 
-                    freezeList.Add(new(monster, duration));
-                    FreezeAnimation.FreezeAnimationsByMonster.AddOrUpdate(monster, freezeList);
-                    break;
+                        freezeList.Add(new(monster, duration));
+                        FreezeAnimation.FreezeAnimationsByMonster.AddOrUpdate(monster, freezeList);
+                        break;
 
-                default:
-                    FreezeAnimation.FreezeAnimationsByMonster.AddOrUpdate(
-                        monster,
-                        new List<FreezeAnimation> { new(monster, duration) });
-                    break;
+                    default:
+                        FreezeAnimation.FreezeAnimationsByMonster.AddOrUpdate(
+                            monster,
+                            new List<FreezeAnimation> { new(monster, duration) });
+                        break;
+                }
+
+                monster.currentLocation.playSound("frozen");
             }
-
-            monster.currentLocation.playSound("frozen");
         }
         else
         {
             monster.Get_Chilled().Value = true;
-            monster.Get_SlowIntensity().Value = 0.5;
+            monster.Get_SlowIntensity().Value = 0.5f;
             monster.Get_SlowTimer().Value = duration;
+            if (playSoundEffect)
+            {
+                SoundEffectPlayer.ChillingShot.Play();
+            }
         }
 
         monster.startGlowing(Color.PowderBlue, true, 0.05f);
@@ -293,7 +305,11 @@ internal static class MonsterExtensions
             return;
         }
 
-        monster.Chill();
+        if (!monster.Get_Chilled())
+        {
+            monster.Chill();
+        }
+
         monster.Chill(duration);
     }
 
@@ -357,7 +373,7 @@ internal static class MonsterExtensions
     /// <param name="monster">The <see cref="Monster"/>.</param>
     /// <param name="duration">The duration in milliseconds.</param>
     /// <param name="intensity">The intensity of the slow effect.</param>
-    internal static void Slow(this Monster monster, int duration, double intensity = 0.5)
+    internal static void Slow(this Monster monster, int duration, float intensity = 0.5f)
     {
         if (!CombatModule.Config.EnableStatusConditions)
         {
@@ -374,7 +390,7 @@ internal static class MonsterExtensions
     internal static void Unslow(this Monster monster)
     {
         monster.Get_SlowTimer().Value = -1;
-        monster.Get_SlowIntensity().Value = 0;
+        monster.Get_SlowIntensity().Value = 0f;
         monster.Get_Chilled().Value = false;
         monster.Get_Frozen().Value = false;
         SlowAnimation.SlowAnimationByMonster.Remove(monster);

@@ -8,7 +8,7 @@ using System.Xml.Serialization;
 
 /// <summary>The secondary <see cref="BaseWeaponEnchantment"/> which characterizes the Lava Katana.</summary>
 [XmlType("Mods_DaLion_NeptuneEnchantment")]
-public class NeptuneEnchantment : BaseWeaponEnchantment
+public sealed class NeptuneEnchantment : BaseWeaponEnchantment
 {
     private readonly Random _random = new(Guid.NewGuid().GetHashCode());
 

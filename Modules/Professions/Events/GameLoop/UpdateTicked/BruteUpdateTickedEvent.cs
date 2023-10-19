@@ -76,9 +76,7 @@ internal sealed class BruteUpdateTickedEvent : UpdateTickedEvent
                 which = this._buffId,
                 sheetIndex = Profession.BruteRageSheetIndex,
                 millisecondsDuration = 0,
-                description = Game1.player.HasProfession(Profession.Brute, true)
-                    ? I18n.Brute_Buff_Desc(magnitude.ToString("P1"))
-                    : I18n.Brute_Buff_Desc_Prestiged(magnitude.ToString("P1"), (magnitude / 2f).ToString("P1")),
+                description = I18n.Brute_Buff_Desc(magnitude.ToString("P1"), (magnitude / 2f).ToString("P1")),
             });
     }
 }

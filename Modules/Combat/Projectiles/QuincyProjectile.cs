@@ -4,6 +4,8 @@
 
 using DaLion.Overhaul.Modules.Combat.Enchantments;
 using DaLion.Overhaul.Modules.Combat.VirtualProperties;
+using DaLion.Overhaul.Modules.Professions.Ultimates;
+using DaLion.Overhaul.Modules.Professions.VirtualProperties;
 using Microsoft.Xna.Framework;
 using StardewValley.Monsters;
 using StardewValley.Projectiles;
@@ -14,14 +16,9 @@ using StardewValley.Tools;
 /// <summary>An energy projectile fired by a <see cref="Slingshot"/> which has the <see cref="QuincyEnchantment"/>.</summary>
 internal sealed class QuincyProjectile : BasicProjectile
 {
-    public const int TileSheetIndex = 14;
-
-    /// <summary>Initializes a new instance of the <see cref="QuincyProjectile"/> class.</summary>
-    /// <remarks>Required for multiplayer syncing.</remarks>
-    public QuincyProjectile()
-        : base()
-    {
-    }
+    public const int BlueTileSheetIndex = 14;
+    public const int YellowTileSheetIndex = 17;
+    public const int RedTileSheetIndex = 18;
 
     /// <summary>Initializes a new instance of the <see cref="QuincyProjectile"/> class.</summary>
     /// <param name="source">The <see cref="Slingshot"/> which fired this projectile.</param>
@@ -43,7 +40,7 @@ internal sealed class QuincyProjectile : BasicProjectile
         float rotationVelocity)
         : base(
             (int)damage,
-            TileSheetIndex,
+            BlueTileSheetIndex,
             0,
             5,
             rotationVelocity,
@@ -58,20 +55,26 @@ internal sealed class QuincyProjectile : BasicProjectile
             firer)
     {
         this.Firer = firer;
+        if (firer.health < firer.maxHealth * 1f / 3f)
+        {
+            this.currentTileSheetIndex.Value = RedTileSheetIndex;
+        }
+        else if (firer.health < firer.maxHealth * 2f / 3f)
+        {
+            this.currentTileSheetIndex.Value = YellowTileSheetIndex;
+        }
+
         this.Damage = (int)(this.damageToFarmer.Value * source.Get_EffectiveDamageModifier() *
                             (1f + firer.attackIncreaseModifier) * overcharge);
         this.Overcharge = overcharge;
         this.startingScale.Value *= overcharge * overcharge;
         this.IgnoreLocationCollision = true;
-        if (overcharge <= 1f)
-        {
-            this.ignoreTravelGracePeriod.Value = true;
-        }
+        this.ignoreTravelGracePeriod.Value = CombatModule.Config.RemoveSlingshotGracePeriod;
     }
 
-    public Farmer? Firer { get; }
+    public Farmer Firer { get; }
 
-    public int Damage { get; }
+    public int Damage { get; private set; }
 
     public float Overcharge { get; }
 
@@ -84,8 +87,29 @@ internal sealed class QuincyProjectile : BasicProjectile
             return;
         }
 
-        Reflector
-            .GetUnboundMethodDelegate<Action<BasicProjectile, GameLocation>>(this, "explosionAnimation")
+        DeathBlossom? blossom = null;
+        if (ProfessionsModule.ShouldEnable)
+        {
+            // check ultimate
+            if (this.Firer.IsLocalPlayer && ProfessionsModule.Config.EnableLimitBreaks)
+            {
+                blossom = this.Firer.Get_Ultimate() as DeathBlossom;
+            }
+
+            // check for quick shot
+            if (ProfessionsModule.State.LastDesperadoTarget is not null &&
+                monster != ProfessionsModule.State.LastDesperadoTarget)
+            {
+                Log.D("Did quick shot!");
+                this.Damage = (int)(this.Damage * 1.5f);
+                if (blossom is { IsActive: false })
+                {
+                    blossom.ChargeValue += 12d;
+                }
+            }
+        }
+
+        Reflector.GetUnboundMethodDelegate<Action<BasicProjectile, GameLocation>>(this, "explosionAnimation")
             .Invoke(this, location);
         location.damageMonster(
             monster.GetBoundingBox(),
@@ -98,6 +122,19 @@ internal sealed class QuincyProjectile : BasicProjectile
             0f,
             true,
             this.Firer);
+
+        if (!this.Firer.professions.Contains(Farmer.desperado))
+        {
+            return;
+        }
+
+        ProfessionsModule.State.LastDesperadoTarget = monster;
+
+        // increment ultimate meter
+        if (blossom is { IsActive: false } && this.Overcharge >= 1f)
+        {
+            blossom.ChargeValue += this.Overcharge * 8d;
+        }
     }
 
     ///// <summary>Replaces BasicProjectile.explosionAnimation.</summary>

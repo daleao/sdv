@@ -43,9 +43,7 @@ public class DaggerEnchantment : BaseWeaponEnchantment
     protected override void _OnDealDamage(Monster monster, GameLocation location, Farmer who, ref int amount)
     {
         base._OnDealDamage(monster, location, who, ref amount);
-        if (CombatModule.ShouldEnable &&
-            (who.CurrentTool is MeleeWeapon { type.Value: MeleeWeapon.dagger, isOnSpecial: true } ||
-             this._random.NextDouble() < 0.2))
+        if (CombatModule.ShouldEnable && this._random.NextDouble() < 0.2)
         {
             monster.Bleed(who);
         }

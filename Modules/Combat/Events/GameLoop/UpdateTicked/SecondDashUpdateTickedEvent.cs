@@ -9,13 +9,13 @@ using StardewModdingAPI.Events;
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class ArtfulDashUpdateTickedEvent : UpdateTickedEvent
+internal sealed class SecondDashUpdateTickedEvent : UpdateTickedEvent
 {
     private int _timer;
 
-    /// <summary>Initializes a new instance of the <see cref="ArtfulDashUpdateTickedEvent"/> class.</summary>
+    /// <summary>Initializes a new instance of the <see cref="SecondDashUpdateTickedEvent"/> class.</summary>
     /// <param name="manager">The <see cref="EventManager"/> instance that manages this event.</param>
-    internal ArtfulDashUpdateTickedEvent(EventManager manager)
+    internal SecondDashUpdateTickedEvent(EventManager manager)
         : base(manager)
     {
     }

@@ -63,10 +63,8 @@ internal sealed class AddEnchantmentsCommand : ConsoleCommand
                 "garnet" => new GarnetEnchantment(),
 
                 // weapon enchants
-                "artful" when tool is MeleeWeapon => new MeleeArtfulEnchantment(),
                 "carving" => new CarvingEnchantment(),
                 "cleaving" => new CleavingEnchantment(),
-                "energized" or "thunderlords" => new EnergizedEnchantment(),
                 "explosive" or "blasting" => new ExplosiveEnchantment(),
                 "bloodthirsty" or "vampiric" => new BloodthirstyEnchantment(),
                 "steadfast" => new SteadfastEnchantment(),
@@ -74,10 +72,12 @@ internal sealed class AddEnchantmentsCommand : ConsoleCommand
                 "wabbajack" or "wabba" or "wab" => new WabbajackEnchantment(),
 
                 // slingshot enchants
-                "artful" when tool is Slingshot => new RangedArtfulEnchantment(),
-                "gatling" => new GatlingEnchantment(),
+                "freezing" or "freljord" => new FreezingEnchantment(),
                 "quincy" => new QuincyEnchantment(),
-                "spreading" => new SpreadingEnchantment(),
+                "runaan" => new RunaanEnchantment(),
+
+                // unisex enchants
+                "energized" or "thunderlords" => tool is Slingshot ? new RangedEnergizedEnchantment() : new EnergizedEnchantment(),
 
                 // vanilla weapon enchants
                 "haymaker" => new HaymakerEnchantment(),

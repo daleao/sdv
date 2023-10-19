@@ -14,7 +14,7 @@ using StardewValley.Tools;
 /// <summary>Extensions for the <see cref="Item"/> class.</summary>
 internal static class ItemExtensions
 {
-    internal static Color GetTitleColorFor(Item? item)
+    internal static Color GetTitleColorFor(this Item item)
     {
         if (item is not Tool tool)
         {

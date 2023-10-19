@@ -58,11 +58,11 @@ Taking inspiration from classic RPG and strategy games, this module adds a frame
 
 - **Bleeding:** Causes damage every second. Damage increases exponentially with each additional stack. Stacks up to 5x. Does not affect Ghosts, Skeletons, Golems, Dolls or Mechanical enemies (ex. Dwarven Sentry).
 - **Burning:** Causes damage equal to 1/16th of max health every 3s for 15s, and reduces attack by half. Also causes enemies to move about more randomly. Does not affect fire enemies (i.e., Lava Lurks, Magma Sprites and Magma Sparkers). Insects burn 4x as quickly.
-- **Chilled:** Reduces movement speed by half for 5s. If Chilled is inflicted again during this time, then causes Freeze.
-- **Frozen:** Cannot move or attack for 30s. The next hit during the duration deals triple damage and ends the effect.
+- **Chilled:** Reduces movement speed for the duration. If Chilled is inflicted again during this time, then applies Freeze for 5x the duration.
+- **Frozen:** Cannot move or attack. The next hit during the duration deals triple damage and ends the effect.
 - **Poisoned:** Causes damage equal to 1/16 of max health every 3s for 15s, stacking up to 3x.
-- **Slowed:** Reduces movement speed by half for the duration.
-- **Stunned:** Cannot move or attack for the duration.
+- **Slowed:** Reduces movement speed for the duration.
+- **Dazed:** Cannot move or attack for the duration.
 
 Likewise, some adjustments are made to monster-inflicted debuffs on players:
 
@@ -100,7 +100,7 @@ Certain stats are simply not worth investing in vanilla. While some of these can
     ```
 
     One defense point now reduces damage by 10% regardless of incoming damage. Subsequent points have diminishing returns, such that 100% damage negation is not possible to achieve. This applies to monsters! The **Topaz Ring** is also changed to increased defense by 1 point, like its corresponding weapon forge.
-3. **Critical strikes** are fun, but need a little more oomph to compete with flat damage. As a counter-play to the previous change to defense, this mod makes critical strikes ignore enemy defense. Attacks from behind will also have double the chance to critically strike. But reaching the backs of your enemies will not be easy! You will have to rely on [status effects](#status-effects) to achieve that. The effects of **Jade** bonuses from rings and weapon forges are also significantly buffed.
+3. **Critical strikes** are fun, but need a little more oomph to compete with flat damage. As a counter-play to the previous change to defense, this mod makes critical strikes ignore enemy defense. **Attacks from behind will** also **have double the chance to critically strike.** But reaching the backs of your enemies will not be easy! You will have to rely on [status effects](#status-effects) to achieve that. The effects of **Jade** bonuses from rings and weapon forges are also significantly buffed.
     - **Jade:** *+10% -> +50% crit. power.* A 10% boost to crit. power is a 10% damage boost that *only* applies to crits. To put that in perspective, only when the player has 100% crit. chance then they will receive an overall 10% boost to damage. It should be clear that this is complete garbage next to a Ruby Ring, which straight up grants a 10% boost to damage, *all the time*. At 50% crit. power, the Jade Ring becomes a better choice than the Ruby Ring if the player has at least 20% crit. chance, which should be attainable by any weapon type given an appropriate build. Above that threshold, Jade Rings become even stronger.
     - Slingshots can now critically strike. Think of them as headshots.
 
@@ -224,7 +224,6 @@ Weapons enchantments have been almost entirely overhauled. These new enchantment
 | Name      | Effect |
 | --------- | -------|
 | Haymaker | *Unchanged from vanilla.* |
-| Artful | Improves the special move of each weapon.* |
 | Blasting | Accumulates and stores half of the damage from enemy hits (before mitigation). If enough damage is accumulated, the next special move releases that damage as an explosion. |
 | Bloodthirsty | Enemy takedowns recover some health proportional to the enemy's max health. Excess healing is converted into a shield for up to 20% of the player's max health, which slowly decays after not dealing or taking damage for 25s. |
 | Carving | Attacks on-hit reduce enemy defense by 1 (continuing below zero). Removes the armor from Armored Bugs and de-shells Rock Crabs. |
@@ -284,27 +283,25 @@ The following new ammos have been added:
 
 ### Special Move
 
-Pressing the action button will trigger a melee smack attack that stuns enemies for 2 seconds. This allows the player to react to enemies in close range without switching weapons, and quickly reposition to continue firing from safety.
+Pressing the action button will engage gatling mode, enabling auto-fire for 3 seconds, or as long as you hold the action key.
 
 <sup><sup>[🔼 Back to top](#margo--combat-cmbt)</sup></sup>
 
 ### Ranged Enchantments
 
-The following new enchantments have been created specifically for ranged weapons:
+The following new enchantments can be applied to ranged weapons:
 
 | Name       | Effect |
 | ---------- | -------|
-| Artful     | Improves the special move of each weapon.* |
-| Gatling    | Enables auto-fire.** |
-| Preserving | Does not consume ammo. |
-| Quincy     | Attacks fire an energy projectile if no ammo is equipped. Only works near enemies.*** |
-| Spreading  | Consume one additional ammo to fire two additional angled projectiles. |
+| Energized | Moving and shooting generates energy. When fully-energized, the next projectile carries  attack causes an electric discharge, dealing heavy damage in a large area. |
+| Freljord | Projectiles apply a progressively stronger Chill effect to enemies for 2 second. After 4 stacks, the enemy becomes Frozen. |
+| Quincy | Attacks fire an energy projectile if no ammo is equipped. The projectile is stronger at lower health. Only works when enemies are nearby.* |
+| Runaan | Firing creates two additional projectiles which fly towards the nearest enemy after a short delay. Only works when enemies are nearby.** |
+| Longshot | Up to x2 critical hit chance from afar. |
 
-\* *Changes the special overhead smack into a wider horizontal sweep attack.*
+\* *Quincy projectile cannot crit nor knock back enemies, but is affected by damage modifiers. Below 2/3 max health, the projectile gains a 50% damage boost, increasing to 100% when below 1/3 (the projectile will change color to reflect these improvements). If [PRFS](../Professions) is enabled and the player has the Desperado profession, the Quincy projectile's size will be increased proportionally by overcharge **instead of** its velocity.*
 
-\** *Double-click/press and then **hold** the use-tool key to engage auto-fire.*
-
-\*** *Quincy projectile cannot crit nor knock back enemies, but is affected by damage modifiers. If [PRFS](../Professions) is enabled and the player has the Desperado profession, Quincy projectile will also be affected by Overcharge.*
+\** *Additional projectiles inherit 40% of the main projectile's damage, but 100% of the crit. chance, crit. power, knockbak and overcharge.*
 
 Gemstone forges cannot directly be applied to slingshots, but **gemstones can be equipped as ammo**, and will apply their analogous bonuses when equipped, and will also [resonate](#resonances) if applicable. With the [Rascal](../Professions) profession, you may slot up to two gemstones at a time to possibly achieve a level-2 forge.
 
@@ -338,7 +335,6 @@ This following rings have been changed:
 - **Warrior Ring:** ~~Chance of giving the Warrior Energy~~ (attack +10 for 5s) ~~buff after slaying a monster.~~ -> Gain a progressively higher attack bonus as you slay enemies (every 3 enemies increases attack by 1), which falls off gradually after some time out of combat.
 - **Ring of Yoba:** ~~Chance of giving the Yoba's Blessing~~ (invincible for 5s) ~~buff after taking damage.~~ -> Taking damage that would leave you below 30% health instead grants a shield that absorbs up to 50% of your maximum health for 30s. Cannot be used again until health is fully recovered.
 - **Savage Ring:** ~~+2 Speed for 3s after slaying a monster.**~~ -> Gain a rapidly decaying Speed buff after slaying a monster.
-- **Immunity Ring:** ~~Immunity +4.~~ -> Gain 100% immunity.
 - **Ring of Thorns:** Can cause Bleeding status (in addition to reflected damage).
 
 <sup><sup>[🔼 Back to top](#margo--combat-cmbt)</sup></sup>
@@ -384,7 +380,13 @@ Upgrading to Infinity is now a much more involved task, requiring the player to 
 
 In return for all that extra work, the Infinity weapons have extra perks:    
 1. +1 gemstone slot (4 total). Keeping in mind that each gemstone has the potential to [resonate](#resonance).
-2. **Melee only:** while at full health, every swing will fire a mid-range energy beam.
+2. Small boost to the weapon's special move:
+    * **Stabing Sword:** increased dash distance.
+    * **Defense Sword:** parried enemies are stunned for 1 second.
+    * **Dagger:** Quick stab hits 5 times (up from 4).
+    * **Club:** Smash AoE is 50% larger.
+    * **Slingshot**: Auto-fire mode lasts for 1 additional second.
+3. **Melee only:** while at full health, every swing fires a mid-range energy beam.
 
 <sup><sup>[🔼 Back to top](#margo--combat-cmbt)</sup></sup>
 

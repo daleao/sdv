@@ -275,42 +275,37 @@ internal static class MeleeWeaponExtensions
     {
         if (CombatModule.Config.EnableWeaponOverhaul)
         {
-            if (weapon.IsDagger())
+            switch (weapon.InitialParentTileIndex)
             {
-                if (weapon.InitialParentTileIndex == WeaponIds.InsectHead &&
-                    !weapon.hasEnchantmentOfType<KillerBugEnchantment>())
-                {
+                case WeaponIds.LavaKatana when !weapon.hasEnchantmentOfType<LavaEnchantment>():
+                    weapon.AddEnchantment(new LavaEnchantment());
+                    Log.D("[CMBT]: Added LavaEnchantment to Lava Katana.");
+                    break;
+                case WeaponIds.NeptuneGlaive when !weapon.hasEnchantmentOfType<NeptuneEnchantment>():
+                    weapon.AddEnchantment(new NeptuneEnchantment());
+                    Log.D("[CMBT]: Added NeptuneEnchantment to Neptune Glaive.");
+                    break;
+                case WeaponIds.ObsidianEdge when !weapon.hasEnchantmentOfType<ObsidianEnchantment>():
+                    weapon.AddEnchantment(new ObsidianEnchantment());
+                    Log.D("[CMBT]: Added ObsidianEnchantment to Obsidian Edge.");
+                    break;
+                case WeaponIds.YetiTooth when !weapon.hasEnchantmentOfType<YetiEnchantment>():
+                    weapon.AddEnchantment(new YetiEnchantment());
+                    Log.D("[CMBT]: Added YetiEnchantment to Yeti Tooth.");
+                    break;
+                case WeaponIds.InsectHead when !weapon.hasEnchantmentOfType<KillerBugEnchantment>():
                     weapon.AddEnchantment(new KillerBugEnchantment());
-                }
-                else
-                {
-                    weapon.AddEnchantment(new DaggerEnchantment());
-                }
+                    Log.D("[CMBT]: Added KillerBugEnchantment to Insect Head.");
+                    break;
+                case WeaponIds.IridiumNeedle when !weapon.hasEnchantmentOfType<NeedleEnchantment>():
+                    weapon.AddEnchantment(new NeedleEnchantment());
+                    Log.D("[CMBT]: Added NeedleEnchantment to Iridium Needle.");
+                    break;
             }
-            else
+
+            if (weapon.IsDagger() && !weapon.hasEnchantmentOfType<NeedleEnchantment>())
             {
-                switch (weapon.InitialParentTileIndex)
-                {
-                    case WeaponIds.LavaKatana when !weapon.hasEnchantmentOfType<LavaEnchantment>():
-                        weapon.AddEnchantment(new LavaEnchantment());
-                        Log.D("[CMBT]: Added LavaEnchantment to Lava Katana.");
-                        break;
-                    case WeaponIds.IridiumNeedle when !weapon.hasEnchantmentOfType<NeedleEnchantment>():
-                        weapon.AddEnchantment(new NeedleEnchantment());
-                        Log.D("[CMBT]: Added NeptuneEnchantment to Iridium Needle.");
-                        break;
-                    case WeaponIds.NeptuneGlaive when !weapon.hasEnchantmentOfType<NeptuneEnchantment>():
-                        weapon.AddEnchantment(new NeptuneEnchantment());
-                        Log.D("[CMBT]: Added NeptuneEnchantment to Neptune Glaive.");
-                        break;
-                    case WeaponIds.ObsidianEdge when !weapon.hasEnchantmentOfType<ObsidianEnchantment>():
-                        weapon.AddEnchantment(new ObsidianEnchantment());
-                        Log.D("[CMBT]: Added ObsidianEnchantment to Obsidian Edge.");
-                        break;
-                    case WeaponIds.YetiTooth when !weapon.hasEnchantmentOfType<YetiEnchantment>():
-                        weapon.AddEnchantment(new YetiEnchantment());
-                        break;
-                }
+                weapon.AddEnchantment(new DaggerEnchantment());
             }
         }
 
@@ -397,9 +392,21 @@ internal static class MeleeWeaponExtensions
     /// <returns><see langword="true"/> if the <paramref name="weapon"/>'s index corresponds to one of the mythic or legendary weapons with intrinsic enchantments, otherwise <see langword="false"/>.</returns>
     internal static bool ShouldHaveIntrinsicEnchantment(this MeleeWeapon weapon)
     {
-        return weapon.IsDagger() || weapon.IsCursedOrBlessed() || weapon.IsInfinityWeapon() ||
-               weapon.InitialParentTileIndex is WeaponIds.InsectHead or WeaponIds.LavaKatana or WeaponIds.IridiumNeedle
-                   or WeaponIds.NeptuneGlaive or WeaponIds.ObsidianEdge or WeaponIds.YetiTooth;
+        if (CombatModule.Config.EnableWeaponOverhaul && (weapon.IsDagger() ||
+                                                         weapon.InitialParentTileIndex is WeaponIds.InsectHead
+                                                             or WeaponIds.LavaKatana or WeaponIds.IridiumNeedle
+                                                             or WeaponIds.NeptuneGlaive or WeaponIds.ObsidianEdge
+                                                             or WeaponIds.YetiTooth))
+        {
+            return true;
+        }
+
+        if (CombatModule.Config.EnableHeroQuest && (weapon.IsCursedOrBlessed() || weapon.IsInfinityWeapon()))
+        {
+            return true;
+        }
+
+        return false;
     }
 
     internal static void SetFarmerAnimatingBackwards(this MeleeWeapon weapon, Farmer farmer)

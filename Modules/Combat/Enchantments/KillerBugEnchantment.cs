@@ -8,7 +8,7 @@ using System.Xml.Serialization;
 
 /// <summary>The secondary <see cref="BaseWeaponEnchantment"/> which characterizes the Lava Katana.</summary>
 [XmlType("Mods_DaLion_KillerBugEnchantment")]
-public class KillerBugEnchantment : BaseWeaponEnchantment
+public sealed class KillerBugEnchantment : BaseWeaponEnchantment
 {
     /// <inheritdoc />
     public override bool IsSecondaryEnchantment()

@@ -2,10 +2,14 @@
 
 #region using directives
 
+using System.Linq;
+using System.Reflection;
 using DaLion.Overhaul.Modules.Combat.Enchantments;
 using DaLion.Shared.Attributes;
 using DaLion.Shared.Integrations;
 using DaLion.Shared.Integrations.SpaceCore;
+using HarmonyLib;
+using Shared.Harmony;
 
 #endregion using directives
 
@@ -22,40 +26,14 @@ internal sealed class SpaceCoreIntegration : ModIntegration<SpaceCoreIntegration
     protected override bool RegisterImpl()
     {
         this.AssertLoaded();
-
-        // melee
-        this.ModApi.RegisterSerializerType(typeof(MeleeArtfulEnchantment));
-        this.ModApi.RegisterSerializerType(typeof(CarvingEnchantment));
-        this.ModApi.RegisterSerializerType(typeof(CleavingEnchantment));
-        this.ModApi.RegisterSerializerType(typeof(EnergizedEnchantment));
-        this.ModApi.RegisterSerializerType(typeof(ExplosiveEnchantment));
-        this.ModApi.RegisterSerializerType(typeof(MammoniteEnchantment));
-        this.ModApi.RegisterSerializerType(typeof(BloodthirstyEnchantment));
-        this.ModApi.RegisterSerializerType(typeof(SteadfastEnchantment));
-        this.ModApi.RegisterSerializerType(typeof(WabbajackEnchantment));
-
-        // ranged
-        this.ModApi.RegisterSerializerType(typeof(BaseSlingshotEnchantment));
-        this.ModApi.RegisterSerializerType(typeof(RangedArtfulEnchantment));
-        this.ModApi.RegisterSerializerType(typeof(GatlingEnchantment));
-        this.ModApi.RegisterSerializerType(typeof(PreservingEnchantment));
-        this.ModApi.RegisterSerializerType(typeof(QuincyEnchantment));
-        this.ModApi.RegisterSerializerType(typeof(SpreadingEnchantment));
-
-        // gemstone
-        this.ModApi.RegisterSerializerType(typeof(GarnetEnchantment));
-
-        // implicit
-        this.ModApi.RegisterSerializerType(typeof(BlessedEnchantment));
-        this.ModApi.RegisterSerializerType(typeof(CursedEnchantment));
-        this.ModApi.RegisterSerializerType(typeof(InfinityEnchantment));
-        this.ModApi.RegisterSerializerType(typeof(DaggerEnchantment));
-        this.ModApi.RegisterSerializerType(typeof(KillerBugEnchantment));
-        this.ModApi.RegisterSerializerType(typeof(LavaEnchantment));
-        this.ModApi.RegisterSerializerType(typeof(NeedleEnchantment));
-        this.ModApi.RegisterSerializerType(typeof(NeptuneEnchantment));
-        this.ModApi.RegisterSerializerType(typeof(ObsidianEnchantment));
-        this.ModApi.RegisterSerializerType(typeof(YetiEnchantment));
+        var enchantmentTypes = AccessTools
+            .GetTypesFromAssembly(Assembly.GetAssembly(typeof(BaseSlingshotEnchantment)))
+            .Where(t => t.IsAssignableTo(typeof(BaseEnchantment)) &&
+                        t.Namespace?.Contains("DaLion.Overhaul.Modules.Combat.Enchantments") == true);
+        foreach (var type in enchantmentTypes)
+        {
+            this.ModApi.RegisterSerializerType(type);
+        }
 
         Log.D("[CMBT]: Registered the SpaceCore integration.");
         return true;

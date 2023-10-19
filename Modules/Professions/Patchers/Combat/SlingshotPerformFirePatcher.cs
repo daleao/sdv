@@ -146,15 +146,12 @@ internal sealed class SlingshotPerformFirePatcher : HarmonyPatcher
 
             // calculate overcharge
             var overcharge = who.HasProfession(Profession.Desperado) ? __instance.GetOvercharge() : 1f;
-
-            // adjust velocity
             if (overcharge > 1f)
             {
-                xVelocity *= overcharge;
-                yVelocity *= overcharge;
                 EventManager.Disable<DesperadoUpdateTickedEvent>();
             }
 
+            // adjust velocity
             if (Game1.options.useLegacySlingshotFiring)
             {
                 xVelocity *= -1f;
@@ -235,6 +232,16 @@ internal sealed class SlingshotPerformFirePatcher : HarmonyPatcher
         {
             Log.E($"Failed in {MethodBase.GetCurrentMethod()?.Name}:\n{ex}");
             return true; // default to original logic
+        }
+    }
+
+    /// <summary>Patch to prevent overcharged auto-fire.</summary>
+    [HarmonyPostfix]
+    private static void SlingshotPerformFirePostfix(Slingshot __instance)
+    {
+        if (__instance.CanAutoFire())
+        {
+            __instance.pullStartTime = Game1.currentGameTime.ElapsedGameTime.TotalSeconds;
         }
     }
 

@@ -23,7 +23,7 @@ internal static class Monster_Slowed
     {
     }
 
-    internal static NetDouble Get_SlowIntensity(this Monster monster)
+    internal static NetFloat Get_SlowIntensity(this Monster monster)
     {
         return Values.GetOrCreateValue(monster).SlowIntensity;
     }
@@ -37,6 +37,6 @@ internal static class Monster_Slowed
     {
         public NetInt SlowTimer { get; } = new(-1);
 
-        public NetDouble SlowIntensity { get; } = new(0);
+        public NetFloat SlowIntensity { get; } = new(0);
     }
 }

@@ -88,7 +88,7 @@ internal sealed class GameLocationDamageMonsterPatcher : HarmonyPatcher
         var (x, y) = who.getTileLocation() * Game1.tileSize;
         if (slingshot.GetAreaOfEffect((int)x, (int)y, who).Intersects(monster.GetBoundingBox()))
         {
-            monster.Stun(2000);
+            monster.Stun(1000);
         }
     }
 

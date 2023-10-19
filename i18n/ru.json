@@ -126,28 +126,28 @@
   "fighter.desc.prestiged": "Урон +10% >> +15%.",
   "brute.title.male": "Громила",
   "brute.title.female": "Амазонка",
-  "brute.desc": "Получение урона порождает ярость, улучшая боевое мастерство. +25 здоровья.",
-  "brute.desc.prestiged": "Ярость также увеличивает скорость атаки.",
+  "brute.desc": "Приходите в ярость, получая урон, постепенно увеличивая свой урон и скорость атаки. +25 здоровья.",
+  "brute.desc.prestiged": "Оставайтесь в ярости вдвое дольше.",
   "brute.buff.name": "Ярость",
   "brute.buff.desc": "Урон +{{damage}}.",
   "brute.buff.desc.prestiged": "Урон +{{damage}}. Скорость замаха +{{speed}}.",
   "poacher.title.male": "Секатор",
   "poacher.title.female": "Секатор",
-  "poacher.desc": "Крит. шанс +50%. Критические удары дают шанс выбить предметы из врагов.",
+  "poacher.desc": "Крит. шанс +50%. Шанс украсть предмет у врагов при каждой атаке.",
   "poacher.desc.prestiged": "Уменьшает время восстановления специального приема при выбивании предмета из монстра.",
 
   "rascal.title.male": "Озорник",
   "rascal.title.female": "Озорница",
   "rascal.desc": "Получите один дополнительный слот для боеприпасов. 35% шанс восстановить израсходованные боеприпасы.",
-  "rascal.desc.prestiged": "35% >> 70% шанс восстановить израсходованные боеприпасы.",
+  "rascal.desc.prestiged": "35% >> 55% шанс восстановить израсходованные боеприпасы. Можно экипировать Монстра Маска для стрельбы манящими патронами.",
   "desperado.title.male": "Сорвиголова",
   "desperado.title.female": "Сорвиголова",
-  "desperado.desc": "Скорость стрельбы выше при малом уровне здоровья. Возможность заряжать рогатки для большей мощности или быстро выпускать для двойного выстрела.",
+  "desperado.desc": "Последовательные выстрелы по разным врагам в течение 1 секунды наносят на 50% больше урона. Возможность заряжать рогатки для большей мощности или быстро выпускать для двойного выстрела.",
   "desperado.desc.prestiged": "Заряженные выстрелы могут пронзить врагов.",
   "piper.title.male": "Слаймовый заклинатель",
   "piper.title.female": "Слаймовая заклинательница",
   "piper.desc": "Привлекайте слаймов-союзников, когда они находятся рядом с врагами. Шанс получить случайный положительный эффект при победе над слаймом.",
-  "piper.desc.prestiged": "Шанс также восстановить немного здоровья и энергии, когда умирает слайм.",
+  "piper.desc.prestiged": "Повышена эффективность и разнообразие побежденных эффектов слизи.",
   "piper.buff": "Липкий",
 
 
@@ -345,8 +345,6 @@
   // * ENCHANTMENTS * //
   // **************** //
 
-  "enchantments.artful.name": "Искусные чары",
-  "enchantments.artful.parry": "Шанс крита +100%",
   "enchantments.carving.name": "Пробитие",
   "enchantments.cleaving.name": "Разящий клинок",
   "enchantments.energized.name": "Заряженность",
@@ -357,28 +355,28 @@
   "enchantments.bloodthirsty.name": "Жадность",
   "enchantments.mammonite.name": "Маммонит",
   "enchantments.wabbajack.name": "Ваббаджека",
-  "enchantments.gatling.name": "Скорострельность",
-  "enchantments.preserving.name": "Сохранность",
+  "enchantments.freezing.name": "Фрельйорд",
   "enchantments.quincy.name": "Пустотный заряд",
-  "enchantments.spreading.name": "Разбрасывание",
+  "enchantments.runaan.name": "Рунаан",
 
 
   // *********** //
   // ** TAXES ** //
   // *********** //
 
-  //// needs revision !!!
+  "mail.frs.intro": "Department of the Treasury^Ferngill Revenue Service^^^{{honorific}} Taxpayer,^^This letter is to inform you that your recent address change to Pelican Town, Stardew Valley has been filed and registered. All future correspondence will be directed to {{farm}} farm.^^We kindly remind you that federal income tax contributions are due end-of-day on the 1st of every season. For your convenience, your due obligations will be automatically deducted from your balance. If your balance is insufficient, you will be fined in accordance with section 501(c)(1) of the Ferngill Revenue Code at the rate of {{fine}} and a loan will be issued in your name with the Bank of Stardew, subject to the nominal interest fee of {{interest}} per annum.^^^Sincerely,^^Laura D. Pretto^Executive Directrice, Ferngill Revenue Service[#]FRS Intro",
+  "mail.frs.notice": "Department of the Treasury^Ferngill Revenue Service^^^{{honorific}} Taxpayer,^^This letter is to inform you that your total due income tax for the closing season in the amount of {{due}}g has been automatically deducted from your balance.^^Please keep this letter in your permanent records should you need to resolve any questions regarding your fiscal status.^^^Sincerely,^^Laura D. Pretto^Executive Directrice, Ferngill Revenue Service[#]FRS Notice",
+  "mail.frs.outstanding": "Department of the Treasury^Ferngill Revenue Service^^^{{honorific}} Taxpayer,^^This letter is to inform you that your total due income tax for the closing season in the amount of {{due}}g could not be fully deducted from your balance. In accordance with section 501(c)(1) of the Ferngill Revenue Code, you will be fined an additional {{fine}} and all future income to {{farm}} farm will be levied until your outstanding debt, totaling {{outstanding}}g, is completely settled. Please keep in mind that it is in your best interest to clear any outstanding debts as soon as possible to avoid accruing interest at the rate of {{interest}} per annum.^^Please keep this letter in your permanent records should you need to resolve any questions regarding your fiscal status.^^^Sincerely,^^Laura D. Pretto^Executive Directrice, Ferngill Revenue Service[#]FRS Outstanding",
+  "mail.frs.deduction": "Department of the Treasury^Ferngill Revenue Service^^^{{honorific}} Taxpayer,^^We are pleased to inform you that, upon review of your environmentalist activities, we have determined that you qualify for an income tax deduction of {{deductible}} as per section 501(c)(3) of the Ferngill Revenue Code.^^Please keep this letter in your permanent records should you need to resolve any questions regarding your fiscal status.^^^Sincerely,^^Laura D. Pretto^Executive Directrice, Ferngill Revenue Service[#]FRS Deduction",
+  "mail.frs.deduction.max": "Department of the Treasury^Ferngill Revenue Service^^^{{honorific}} Taxpayer,^^We are pleased to inform you that, upon review of your environmentalist activities, we have determined that you are exempt from Federal income tax as per section 501(c)(3) of the Ferngill Revenue Code. As such, no charges will be made to your balance with respect to the closing season.^^Please keep this letter in your permanent records should you need to resolve any questions regarding your fiscal status.^^^Sincerely,^^Laura D. Pretto^Executive Directrice, Ferngill Revenue Service[#]FRS Deduction",
 
-  "mail.frs.intro": "Министерство Финансов^Налоговая служба республики Фернгилл^^^{{honorific}} @,^^Это письмо информирует вас о том, что ваше недавнее изменение адреса проживания на город Пеликан, долина Стардью, было подано и зарегистрировано. Вся будущая корреспонденция будет направляться на адрес фермы {{farm}}.^^ Напоминаем вам, что отчисления в Федеральный подоходный налог уплачиваются 2-го числа каждого сезона. Для вашего же удобства средства будут списываться автоматически. Если средств на счету недостаточно, кредит будет автоматически выдан на ваше имя с учетом номинальной процентной платы в размере {{interest}} в год.^^^Искренне ваша,^^Лаура Д. Претто^Исполнительный директор налоговой службы республики Фернгилл[#]Taxation Intro",
-  "mail.frs.notice": "Министерство Финансов^Налоговая служба республики Фернгилл^^^{{honorific}} @,^^Это письмо информирует вас о том, что ваш общий подоходный налог за последний сезон в размере {{due}} з. был автоматически снят с вашего счета.^^Пожалуйста, сохраните это письмо в своем архиве, если вам понадобится решить какие-либо вопросы, касающиеся вашего финансового положения.^^^Искренне ваша,^^Лаура Д. Претто^Исполнительный директор налоговой службы республики Фернгилл[#]Taxation Notice",
-  "mail.frs.outstanding": "Министерство Финансов^Налоговая служба республики Фернгилл^^^{{honorific}} @,^^Это письмо информирует вас о том, что ваш общий подоходный налог за последний сезон в размере {{due}} з. не может быть полностью снят с вашего счета. Таким образом, все будущие доходы от фермы {{farm}} будут конфискованы до тех пор, пока ваш непогашенный долг в размере {{outstanding}} не будет уплачен. Имейте в виду, что в ваших интересах как можно скорее уплатить все непогашенные долги, чтобы избежать начисления процентов по ставке {{interestRate}} в год.^^Пожалуйста, сохраните это письмо в своем архиве, если вам понадобится решить какие-либо вопросы, касающиеся вашего финансового положения.^^^Искренне ваша,^^Лаура Д. Претто^Исполнительный директор налоговой службы республики Фернгилл[#]Taxation Outstanding",
-  "mail.frs.deduction": "Министерство Финансов^Налоговая служба республики Фернгилл^^^{{honorific}} @,^^Мы рады сообщить вам, что после проверки вашей деятельности по защите окружающей среды, мы решили, что вы имеете право на вычет из подоходного налога в размере {{deductible}} в соответствии с разделом 501(c)(3) Налогового кодекса республики Фернгилл.^^Пожалуйста, сохраните это письмо в своем архиве, если вам понадобится решить какие-либо вопросы, касающиеся вашего финансового положения.^^^Искренне ваша,^^Лаура Д. Претто^Исполнительный директор налоговой службы республики Фернгилл[#]Taxation Deduction",
-  "mail.frs.deduction.max": "Министерство Финансов^Налоговая служба республики Фернгилл^^^{{honorific}} @,^^Мы рады сообщить вам, что после проверки вашей деятельности по защите окружающей среды, мы решили, что вы будете освобождены от уплаты федерального подоходного налога в соответствии с разделом 501(c)(3) Налогового кодекса республики Фернгилл. Таким образом, никаких списаний с вашего счета в связи с закрытием сезона не будет.^^Пожалуйста, сохраните это письмо в своем архиве, если вам понадобится решить какие-либо вопросы, касающиеся вашего финансового положения.^^^Искренне ваша,^^Лаура Д. Претто^Исполнительный директор налоговой службы республики Фернгилл[#]Taxation Deduction",
+  "mail.lewis.notice": "@,^As you are aware, one of my duties as mayor of Pelican Town is to levy taxes on all the town's properties. During the preceding fiscal year, the county's assessment of {{farm}} farm's property determined a valuation of {{valuation}}g. As a result, you are liable for {{due}}g in total property taxes for the applicable tax period. I've taken the liberty of charging your account directly. ^On behalf of Pelican Town, I am deeply grateful for your ongoing contributions to our community.  ^  Sincerely, Mr. Lewis[#]Lewis Taxation Notice",
+  "mail.lewis.outstanding": "@,^As you are aware, one my duties as mayor of Pelican Town is to levy taxes on all the town's properties. During the preceding fiscal year, the county's assessment of {{farm}} farm's property determined a valuation of {{valuation}}g. As a result, you are liable for {{due}}g in total property taxes for the applicable tax period. ^Unfortunately, your account was found to have insufficient funds to cover the entire amount. As per county policy, I take no pleasure in informing that you will be fined an additional {{fine}}. The entirety of your deb, totaling {{outstanding}}g, will be sold to the Bank of Stardew, who is authorized to seize all shipping income until the outstanding amount is paid in full, subject to a {{interest}} yearly interest rate. ^Please know that the people of Pelican Town are here to support you if you are facing difficult times.  ^  Sincerely, Mr. Lewis[#]Lewis Taxation Outstanding",
 
-  "mail.debt.debit": "С вашего счета списано {{amount}} з. для погашения долгов.",
+  "mail.debt.debit": "Your balance was debited for {{amount}}g towards outstanding debts.",
 
-  "honorific.male": "Дорогой",
-  "honorific.female": "Дорогая",
+  "honorific.male": "Dear",
+  "honorific.female": "Dear",
 
 
   // ************** //

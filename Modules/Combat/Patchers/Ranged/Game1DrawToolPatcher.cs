@@ -4,7 +4,7 @@
 
 using System.Reflection;
 using DaLion.Overhaul.Modules.Combat.Extensions;
-using DaLion.Overhaul.Modules.Combat.VirtualProperties;
+using DaLion.Shared.Attributes;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
 using StardewValley.Tools;
@@ -12,6 +12,7 @@ using StardewValley.Tools;
 #endregion using directives
 
 [UsedImplicitly]
+[ImplicitIgnore]
 internal sealed class Game1DrawToolPatcher : HarmonyPatcher
 {
     /// <summary>Initializes a new instance of the <see cref="Game1DrawToolPatcher"/> class.</summary>
@@ -26,7 +27,7 @@ internal sealed class Game1DrawToolPatcher : HarmonyPatcher
     [HarmonyPrefix]
     private static bool Game1DrawToolPrefix(Farmer f)
     {
-        if (f.CurrentTool is not Slingshot slingshot || !slingshot.Get_IsOnSpecial())
+        if (f.CurrentTool is not Slingshot slingshot)
         {
             return true; // run original logic
         }
@@ -39,26 +40,20 @@ internal sealed class Game1DrawToolPatcher : HarmonyPatcher
                 slingshot.IndexOfMenuItemView,
                 16,
                 16);
-            if (slingshot.hasEnchantmentOfType<Combat.Enchantments.RangedArtfulEnchantment>())
-            {
-                slingshot.DrawDuringArtfulUse(
-                    f.FarmerSprite.currentAnimationIndex,
-                    f.FacingDirection,
-                    Game1.spriteBatch,
-                    position,
-                    f,
-                    sourceRect);
-            }
-            else
-            {
-                slingshot.DrawDuringUse(
-                    f.FarmerSprite.currentAnimationIndex,
-                    f.FacingDirection,
-                    Game1.spriteBatch,
-                    position,
-                    f,
-                    sourceRect);
-            }
+            slingshot.DrawDuringUse(
+                f.FarmerSprite.currentAnimationIndex,
+                f.FacingDirection,
+                Game1.spriteBatch,
+                position,
+                f,
+                sourceRect);
+            //slingshot.DrawDuringArtfulUse(
+            //    f.FarmerSprite.currentAnimationIndex,
+            //    f.FacingDirection,
+            //    Game1.spriteBatch,
+            //    position,
+            //    f,
+            //    sourceRect);
 
             return false; // don't run original logic
         }

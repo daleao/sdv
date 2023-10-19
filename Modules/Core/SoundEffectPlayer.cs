@@ -1,9 +1,10 @@
-﻿namespace DaLion.Overhaul.Modules.Professions;
+﻿namespace DaLion.Overhaul.Modules.Core;
 
 #region using directives
 
 using System.IO;
 using Ardalis.SmartEnum;
+using DaLion.Overhaul.Modules.Professions;
 using DaLion.Shared.Exceptions;
 using Microsoft.Xna.Framework.Audio;
 
@@ -14,23 +15,32 @@ public sealed class SoundEffectPlayer : SmartEnum<SoundEffectPlayer>
 {
     #region enum entries
 
-    /// <summary>The <see cref="SoundEffectPlayer"/> played when <see cref="Ultimates.Frenzy"/> activates.</summary>
+    /// <summary>The <see cref="SoundEffectPlayer"/> played when <see cref="Modules.Professions.Ultimates.Frenzy"/> activates.</summary>
     public static readonly SoundEffectPlayer BruteRage = new("BruteRage", 0);
 
-    /// <summary>The <see cref="SoundEffectPlayer"/> played when <see cref="Ultimates.Ambush"/> activates.</summary>
+    /// <summary>The <see cref="SoundEffectPlayer"/> played when <see cref="Modules.Professions.Ultimates.Ambush"/> activates.</summary>
     public static readonly SoundEffectPlayer PoacherAmbush = new("PoacherCloak", 1);
 
     /// <summary>The <see cref="SoundEffectPlayer"/> played when a <see cref="Profession.Poacher"/> successfully steals an item.</summary>
     public static readonly SoundEffectPlayer PoacherSteal = new("PoacherSteal", 2);
 
-    /// <summary>The <see cref="SoundEffectPlayer"/> played when <see cref="Ultimates.Concerto"/> activates.</summary>
+    /// <summary>The <see cref="SoundEffectPlayer"/> played when <see cref="Modules.Professions.Ultimates.Concerto"/> activates.</summary>
     public static readonly SoundEffectPlayer PiperConcerto = new("PiperProvoke", 3);
 
-    /// <summary>The <see cref="SoundEffectPlayer"/> played when <see cref="Ultimates.DeathBlossom"/> activates.</summary>
+    /// <summary>The <see cref="SoundEffectPlayer"/> played when <see cref="Modules.Professions.Ultimates.DeathBlossom"/> activates.</summary>
     public static readonly SoundEffectPlayer DesperadoBlossom = new("DesperadoGunCock", 4);
 
     /// <summary>The <see cref="SoundEffectPlayer"/> played when the Statue of Prestige does its magic.</summary>
     public static readonly SoundEffectPlayer DogStatuePrestige = new("DogStatuePrestige", 5);
+
+    /// <summary>The <see cref="SoundEffectPlayer"/> played when the Statue of Prestige does its magic.</summary>
+    public static readonly SoundEffectPlayer Chill = new("Chill", 6);
+
+    /// <summary>The <see cref="SoundEffectPlayer"/> played when the Statue of Prestige does its magic.</summary>
+    public static readonly SoundEffectPlayer ChillingShot = new("ChillingShot", 7);
+
+    /// <summary>The <see cref="SoundEffectPlayer"/> played when the Statue of Prestige does its magic.</summary>
+    public static readonly SoundEffectPlayer PlasmaShot = new("PlasmaShot", 8);
 
     #endregion enum entries
 
@@ -50,7 +60,9 @@ public sealed class SoundEffectPlayer : SmartEnum<SoundEffectPlayer>
 
         CueDefinition cueDefinition = new()
         {
-            name = name, instanceLimit = 1, limitBehavior = CueDefinition.LimitBehavior.ReplaceOldest,
+            name = name,
+            instanceLimit = 1,
+            limitBehavior = CueDefinition.LimitBehavior.ReplaceOldest,
         };
 
         cueDefinition.SetSound(soundEffect, Game1.audioEngine.GetCategoryIndex("Sound"));

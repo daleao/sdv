@@ -70,7 +70,7 @@ internal sealed class RingGetExtraSpaceNeededForTooltipSpecialIconsPatcher : Har
                 ObjectIds.MagnetRing,
                 ObjectIds.GlowstoneRing,
                 ObjectIds.CrabshellRing,
-                ObjectIds.ImmunityRing,
+                //ObjectIds.ImmunityRing,
             };
 
             if (JsonAssetsIntegration.GarnetRingIndex.HasValue)

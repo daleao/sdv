@@ -16,7 +16,7 @@ using StardewValley.Tools;
 ///     the accumulated energy as an explosion.
 /// </summary>
 /// <remarks>6 charges per hit + 1 charge per 6 tiles traveled.</remarks>
-[XmlType("Mods_DaLion_ExplosiveEnchantment")]
+[XmlType("Mods_DaLion_RangedExplosiveEnchantment")]
 public sealed class ExplosiveEnchantment : BaseWeaponEnchantment
 {
     /// <summary>The highest amount of damage that can be accumulated.</summary>
@@ -52,7 +52,7 @@ public sealed class ExplosiveEnchantment : BaseWeaponEnchantment
     /// <summary>Gets the largest possible explosion radius.</summary>
     public int MaxRadius => MaxAccumulation / AccumulationStep;
 
-    private static int BuffId { get; } = (Manifest.UniqueID + "Explosive").GetHashCode();
+    private static int BuffId { get; } = (Manifest.UniqueID + "ExplosiveEnchantment").GetHashCode();
 
     /// <inheritdoc />
     public override string GetName()
@@ -115,7 +115,7 @@ public sealed class ExplosiveEnchantment : BaseWeaponEnchantment
         var tileLocation = weapon.type.Value == MeleeWeapon.club
             ? who.GetToolLocation() + new Vector2(32f, 32f)
             : monster.getTileLocation();
-        Log.D($"[Arsenal]: Doing explosion at ({tileLocation.X}, {tileLocation.Y}) with radius {radius} and power {damage}.");
+        Log.D($"[Combat]: Doing explosion at ({tileLocation.X}, {tileLocation.Y}) with radius {radius} and power {damage}.");
 
         this.Accumulated = 0;
         this._doingExplosion = true;

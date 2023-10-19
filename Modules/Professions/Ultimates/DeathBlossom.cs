@@ -1,5 +1,7 @@
 ﻿namespace DaLion.Overhaul.Modules.Professions.Ultimates;
 
+using DaLion.Overhaul.Modules.Core;
+
 #region using directives
 
 using Microsoft.Xna.Framework;

@@ -23,14 +23,12 @@ internal sealed class GetSlingshotChargeTimePatcher : HarmonyPatcher
         this.Target = "Archery.Framework.Objects.Weapons.Bow"
             .ToType()
             .RequireMethod("GetSlingshotChargeTime");
-        this.Transpiler!.before = new[] { OverhaulModule.Professions.Namespace };
     }
 
     #region harmony patches
 
     /// <summary>Add Emerald Ring and Emerald Enchantment bonuses to Bows.</summary>
     [HarmonyTranspiler]
-    [HarmonyBefore("DaLion.Overhaul.Modules.Professions")]
     private static IEnumerable<CodeInstruction>? GetSlingshotChargeTimeTranspiler(
         IEnumerable<CodeInstruction> instructions, MethodBase original)
     {

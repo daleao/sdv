@@ -6,7 +6,7 @@ using System.Reflection;
 using DaLion.Overhaul.Modules.Combat.Enchantments;
 using DaLion.Overhaul.Modules.Combat.Extensions;
 using DaLion.Overhaul.Modules.Combat.Projectiles;
-using DaLion.Overhaul.Modules.Combat.VirtualProperties;
+using DaLion.Overhaul.Modules.Core;
 using DaLion.Overhaul.Modules.Professions.Events.GameLoop.UpdateTicked;
 using DaLion.Overhaul.Modules.Professions.Extensions;
 using DaLion.Overhaul.Modules.Professions.Ultimates;
@@ -45,11 +45,6 @@ internal sealed class SlingshotPerformFirePatcher : HarmonyPatcher
         GameLocation location,
         Farmer who)
     {
-        if (__instance.Get_IsOnSpecial())
-        {
-            return false; // don't run original logic
-        }
-
         try
         {
             var canDoQuincy = __instance.hasEnchantmentOfType<QuincyEnchantment>() && location.HasMonsters();
@@ -101,7 +96,7 @@ internal sealed class SlingshotPerformFirePatcher : HarmonyPatcher
             }
             else
             {
-                ammoDamage = canDoQuincy ? 25 : 1;
+                ammoDamage = canDoQuincy ? 30 : 1;
             }
 
             // apply slingshot damage modifiers
@@ -110,45 +105,44 @@ internal sealed class SlingshotPerformFirePatcher : HarmonyPatcher
             switch (__instance.InitialParentTileIndex)
             {
                 case WeaponIds.MasterSlingshot:
-                    damageMod = CombatModule.Config.EnableWeaponOverhaul ? 0.5f : 1f;
+                    damageMod += CombatModule.Config.EnableWeaponOverhaul ? 0.5f : 1f;
                     knockback += 0.1f;
                     break;
                 case WeaponIds.GalaxySlingshot:
-                    damageMod = CombatModule.Config.EnableWeaponOverhaul ? 1f : CombatModule.Config.EnableInfinitySlingshot ? 2f : 3f;
+                    damageMod += CombatModule.Config.EnableWeaponOverhaul ? 1f : CombatModule.Config.EnableInfinitySlingshot ? 2f : 3f;
                     knockback += 0.2f;
                     break;
                 case WeaponIds.InfinitySlingshot:
-                    damageMod = CombatModule.Config.EnableWeaponOverhaul ? 1.5f : 3f;
+                    damageMod += CombatModule.Config.EnableWeaponOverhaul ? 1.5f : 3f;
                     knockback += 0.25f;
                     break;
             }
 
             // set projectile index
             var index = ammo?.ParentSheetIndex ?? (canDoQuincy
-                ? QuincyProjectile.TileSheetIndex
+                ? QuincyProjectile.BlueTileSheetIndex
                 : Projectile.snowBall);
 
             // calculate overcharge
             var overcharge = ProfessionsModule.ShouldEnable && who.professions.Contains(Farmer.desperado)
                 ? __instance.GetOvercharge()
                 : 1f;
-
-            // adjust velocity
             if (overcharge > 1f)
             {
-                if (index != QuincyProjectile.TileSheetIndex)
-                {
-                    xVelocity *= overcharge;
-                    yVelocity *= overcharge;
-                }
-
                 EventManager.Disable<DesperadoUpdateTickedEvent>();
             }
 
+            // adjust velocity
             if (Game1.options.useLegacySlingshotFiring)
             {
                 xVelocity *= -1f;
                 yVelocity *= -1f;
+            }
+
+            if (__instance.GetEnchantmentOfType<RangedEnergizedEnchantment>() is
+                { Energy: >= RangedEnergizedEnchantment.MaxEnergy })
+            {
+                SoundEffectPlayer.PlasmaShot.Play();
             }
 
             // add main projectile
@@ -164,7 +158,7 @@ internal sealed class SlingshotPerformFirePatcher : HarmonyPatcher
 
             BasicProjectile projectile = index switch
             {
-                QuincyProjectile.TileSheetIndex => new QuincyProjectile(
+                QuincyProjectile.BlueTileSheetIndex => new QuincyProjectile(
                     __instance,
                     who,
                     damage,
@@ -218,7 +212,7 @@ internal sealed class SlingshotPerformFirePatcher : HarmonyPatcher
                     rotationVelocity = (float)(Math.PI / (64f + Game1.random.Next(-63, 64)));
                     BasicProjectile petal = index switch
                     {
-                        QuincyProjectile.TileSheetIndex => new QuincyProjectile(
+                        QuincyProjectile.BlueTileSheetIndex => new QuincyProjectile(
                             __instance,
                             who,
                             damage,
@@ -270,9 +264,11 @@ internal sealed class SlingshotPerformFirePatcher : HarmonyPatcher
                     ammoDamage,
                     damageMod,
                     knockback,
+                    overcharge,
                     startingPosition,
                     xVelocity,
                     yVelocity,
+                    rotationVelocity,
                     location,
                     who);
             }

@@ -393,25 +393,25 @@ Completely unchanged compared to vanilla.
 </details>
 
 <details>
-<summary><img src="./resources/assets/sprites/loose/brute.png"/> <b>Brute / Amazon (Lv10)</b> - Taking damage builds rage, increasing your own damage. +25 HP. <font color="gold"><i>⭐Raging lasts for twice as long and also increases attack speed.⭐</i></font>
+<summary><img src="./resources/assets/sprites/loose/brute.png"/> <b>Brute / Amazon (Lv10)</b> - Become enraged as you suffer damage, gradually increasing your own damage and attack speed. +25 HP. <font color="gold"><i>⭐Stay enraged for twice as long.⭐</i></font>
 </summary>
 
 <ul>
 <font size="2">
 
-**Rage:** Damage +1% per stack. *Attack speed +0.5% per stack*. Max 100 stacks. Rage slowly decays after not dealing or taking damage for 25s.
+**Rage:** Damage +1% and Attack Speed +0.5% per stack*. Max 100 stacks. Rage slowly decays after not dealing or taking damage for 20 seconds (40 when prestiged).
 </font>
 </ul>
 </details>
 
 <details>
-<summary><img src="./resources/assets/sprites/loose/poacher.png"/> <b>Bushwhacker (Lv10)</b> - Crit. chance +50%. Able to poach items from enemies. <font color="gold"><i>⭐Can poach two items per enemy.⭐</i></font>
+<summary><img src="./resources/assets/sprites/loose/poacher.png"/> <b>Bushwhacker (Lv10)</b> - Crit. chance +50%. Chance to poach an item from enemies on each attack. <font color="gold"><i>⭐Refund special move cooldown on a successful poach.⭐</i></font>
 </summary>
 
 <ul>
 <font size="2">
 
-**Poaching:** Each monsters can only be poached once. Any item from the monster's available loot table can be obtained by this method.
+**Poaching:** Each monster can only be poached once. Poach chance is increased by your critical strike chance and luck (**not** Daily Luck!), and decreased by the enemy's resistance and jitteriness (yes, that's a real stat which monsters have). Any item from the monster's available loot table can be obtained by this method.
 </font>
 </ul>
 </details>
@@ -423,15 +423,16 @@ Completely unchanged compared to vanilla.
 <ul>
 <font size="2">
 
-- Press the Mod Key (default LeftShift) to cycle between equipped ammos.
-- Squishy ammo (i.e., fish, fruits, veggies, and slime) and explosive ammo canot be recovered.
-- Can equip Slime as ammo, which causes a slow debuff to enemies.
+- Press the Mod Key (default LeftShift) to cycle between equipped ammos. The extra slot can be used not only to easily switch between combat and mining (with explosive ammo), but also, if CMBT module is enabled, allows slotting gemstones which function as weapon forges. In this way, a slingshot is limited to only 1 forge, but this is available *much* earlier, doesn't require cinder shards, and can be freely swapped at will.
+- Can also equip Slime as ammo, which causes a slow debuff to enemies.
+- Squishy ammo (i.e., fish, fruits, veggies, and slime) and explosive ammo cannot be recovered.
+- <font color="gold"><i>**Alluring Ammo:** Equip Monster Musk like any other ammo. It will always slot to the bottom ammo slot. Only 1 will be slotted at a time, and it cannot be removed once slotted. As long as a Monster Musk is equipped, projectiles will gain the **musked** effect. When a musked projectile collides with anything, it transfers the musk to that wall or monster, causing other enemies to flock to that spot for 15s. This allows players to completely evade combat. Each slotted Monster Musk will last for 10 shots. This effect does not work with Explosive Ammo, but the Monster Musk will still be consumed.</i></font>
 </font>
 </ul>
 </details>
 
 <details>
-<summary><img src="./resources/assets/sprites/loose/desperado.png"/> <b>Desperado (Lv10)</b> - Consecutive shots against different enemies within 1 second deal 50% more damage. Gain the ability to overcharge. <font color="gold"><i>⭐Overcharged shots can pierce through enemies.⭐</i></font>
+<summary><img src="./resources/assets/sprites/loose/desperado.png"/> <b>Desperado (Lv10)</b> - Consecutive shots against different enemies within 1 second deal 50% more damage. Gain the ability to overcharge. <font color="gold"><i>⭐Overcharged shots have a chance to pierce through enemies.⭐</i></font>
 </summary>
 
 <ul>
@@ -439,13 +440,13 @@ Completely unchanged compared to vanilla.
 
 - After successfully hitting an enemy, you have 1 second to hit a different enemy in order to qualify for the bonus damage. This emphasizes quick-shooting and switching targets, as expected of a Desperado. 
 - **Overcharge:** Continue holding the fire button past to reveal the overcharge meter. A fully overcharged shot gains up to two times the original damage, knockback, velocity and cross-section (i.e., hitbox).
-- **Pierce:** Piercing chance depends on overcharge percentage and enemy resistance. A piercing shot then ignores enemy resistance and can damage armored enemies. A shot can any number of times, but the shot's subsequent power and piercing chances are reduced based on each pierced enemy's resistance. Squishy projectiles (i.e., fish, fruits, veggies, and slime) cannot pierce regardless of overcharge.
+- <font color="gold"><i>**Pierce:** Piercing chance depends on overcharge percentage and enemy resistance. A piercing shot then ignores enemy resistance and can damage armored enemies. A shot can any number of times, but the shot's subsequent power and piercing chances are reduced based on each pierced enemy's resistance. Squishy projectiles (i.e., fish, fruits, veggies, and slime) cannot pierce regardless of overcharge.</i></font>
 </font>
 </ul>
 </details>
 
 <details>
-<summary><img src="./resources/assets/sprites/loose/piper.png"/> <b>Slimed Piper / Enchantress (Lv10)</b> - Attract Slimes. Chance to recover some health or energy, or gain a buff when you defeat a Slime. <font color="gold"><i>⭐Doubled effectiveness of buffs and recovery from defeated Slimes. Expanded buff variety.⭐</i></font>
+<summary><img src="./resources/assets/sprites/loose/piper.png"/> <b>Slimed Piper / Enchantress (Lv10)</b> - Attract Slimes. Chance to recover some health or energy, or gain a buff when you defeat a Slime. <font color="gold"><i>⭐Increased effectiveness and variety of defeated Slime effects.⭐</i></font>
 </summary>
 
 <ul>

@@ -371,7 +371,7 @@ internal sealed class AutomateIntegration : ModIntegration<AutomateIntegration>
         {
             var mod = ModHelper.GetModEntryFor("Pathoschild.Automate") ??
                       ThrowHelper.ThrowMissingMemberException<IMod>("Pathoschild.Automate", "ModEntry");
-            this._machineManager = Reflector.GetUnboundFieldGetter<IMod, object>("MachineManager").Invoke(mod);
+            this._machineManager = Reflector.GetUnboundFieldGetter<IMod, object>(mod.GetType(), "MachineManager").Invoke(mod);
             this._machineData = (IDictionary)Reflector
                 .GetUnboundFieldGetter<object, object>(this._machineManager, "MachineData")
                 .Invoke(this._machineManager);

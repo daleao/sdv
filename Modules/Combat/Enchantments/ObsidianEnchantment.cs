@@ -10,7 +10,7 @@ using StardewValley.Monsters;
 
 /// <summary>The secondary <see cref="BaseWeaponEnchantment"/> which characterizes the Lava Katana.</summary>
 [XmlType("Mods_DaLion_ObsidianEnchantment")]
-public class ObsidianEnchantment : BaseWeaponEnchantment
+public sealed class ObsidianEnchantment : BaseWeaponEnchantment
 {
     private readonly Random _random = new(Guid.NewGuid().GetHashCode());
 

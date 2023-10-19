@@ -49,7 +49,7 @@ internal static class FarmerExtensions
             modifier *= weapon.Get_EffectiveSwingSpeed();
         }
 
-        if (ProfessionsModule.ShouldEnable && farmer.professions.Contains(Farmer.brute + 100))
+        if (ProfessionsModule.ShouldEnable && farmer.professions.Contains(Farmer.brute))
         {
             modifier *= 1f - (ProfessionsModule.State.BruteRageCounter * 0.005f);
         }
@@ -161,10 +161,13 @@ internal static class FarmerExtensions
 
     internal static void DoSlingshotSpecialCooldown(this Farmer user, Slingshot? slingshot = null)
     {
-        slingshot ??= (Slingshot)user.CurrentTool;
+        slingshot ??= user.CurrentTool as Slingshot;
+        if (slingshot is null)
+        {
+            return;
+        }
 
-        const int SlingshotCooldown = 2000;
-        CombatModule.State.SlingshotCooldown = SlingshotCooldown;
+        CombatModule.State.SlingshotCooldown = slingshot.GetSpecialCooldown();
         if (!ProfessionsModule.ShouldEnable && user.professions.Contains(Farmer.acrobat))
         {
             CombatModule.State.SlingshotCooldown /= 2;

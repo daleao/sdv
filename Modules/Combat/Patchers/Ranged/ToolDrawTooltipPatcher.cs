@@ -4,12 +4,11 @@
 
 using System.Reflection;
 using System.Text;
-using DaLion.Overhaul.Modules.Combat.Enchantments;
+using DaLion.Overhaul.Modules.Combat.Extensions;
 using DaLion.Overhaul.Modules.Combat.Integrations;
 using DaLion.Overhaul.Modules.Combat.VirtualProperties;
 using DaLion.Shared.Constants;
 using DaLion.Shared.Harmony;
-using Extensions;
 using HarmonyLib;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;

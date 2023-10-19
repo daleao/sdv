@@ -36,9 +36,14 @@ internal sealed class CombatSaveLoadedEvent : SaveLoadedEvent
 
         Utility.iterateAllItems(item =>
         {
-            if (item is MeleeWeapon weapon && weapon.ShouldHaveIntrinsicEnchantment())
+            switch (item)
             {
-                weapon.AddIntrinsicEnchantments();
+                case MeleeWeapon weapon when weapon.ShouldHaveIntrinsicEnchantment():
+                    weapon.AddIntrinsicEnchantments();
+                    break;
+                case Slingshot slingshot when slingshot.ShouldHaveIntrinsicEnchantment():
+                    slingshot.AddIntrinsicEnchantments();
+                    break;
             }
         });
 

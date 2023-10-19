@@ -16,11 +16,12 @@ using StardewValley.Tools;
 
 /// <summary>The secondary <see cref="BaseWeaponEnchantment"/> which characterizes Infinity weapons.</summary>
 [XmlType("Mods_DaLion_InfinityEnchantment")]
-public class InfinityEnchantment : BaseWeaponEnchantment
+public sealed class InfinityEnchantment : BaseWeaponEnchantment
 {
     private readonly Color _lightSourceColor = Color.DeepPink.Inverse();
     private readonly float _lightSourceRadius = 2.5f;
     private int? _lightSourceId;
+    private LightSource? _lightSource;
 
     /// <inheritdoc />
     public override bool IsSecondaryEnchantment()
@@ -49,7 +50,7 @@ public class InfinityEnchantment : BaseWeaponEnchantment
     /// <inheritdoc />
     public override bool CanApplyTo(Item item)
     {
-        return item is Tool tool && tool.GetEnchantmentLevel<GalaxySoulEnchantment>() >= 3;
+        return item is MeleeWeapon weapon && weapon.GetEnchantmentLevel<GalaxySoulEnchantment>() >= 3;
     }
 
     internal void OnWarp(Farmer who, GameLocation oldLocation, GameLocation newLocation)
@@ -68,19 +69,28 @@ public class InfinityEnchantment : BaseWeaponEnchantment
             this._lightSourceId++;
         }
 
-        newLocation.sharedLights[this._lightSourceId.Value] = new LightSource(
-            LightSource.lantern,
-            new Vector2(who.Position.X + 26f, who.Position.Y + 64f),
-            this._lightSourceRadius,
-            this._lightSourceColor,
-            this._lightSourceId.Value,
-            LightSource.LightContext.None,
-            who.UniqueMultiplayerID);
+        if (this._lightSource is null)
+        {
+            this._lightSource = new LightSource(
+                LightSource.lantern,
+                new Vector2(who.Position.X + 26f, who.Position.Y + 64f),
+                this._lightSourceRadius,
+                this._lightSourceColor,
+                this._lightSourceId.Value,
+                LightSource.LightContext.None,
+                who.UniqueMultiplayerID);
+        }
+        else
+        {
+            this._lightSource.Identifier = this._lightSourceId.Value;
+        }
+
+        newLocation.sharedLights[this._lightSourceId.Value] = this._lightSource;
     }
 
     internal void Update(uint ticks, Farmer who)
     {
-        if (!this._lightSourceId.HasValue)
+        if (this._lightSource is null || !this._lightSourceId.HasValue)
         {
             return;
         }
@@ -91,14 +101,11 @@ public class InfinityEnchantment : BaseWeaponEnchantment
             offset += who.drawOffset.Value;
         }
 
-        who.currentLocation.repositionLightSource(
-            this._lightSourceId.Value,
-            new Vector2(who.Position.X + 26f, who.Position.Y + 16f) + offset);
+        this._lightSource.position.Value = new Vector2(who.Position.X + 26f, who.Position.Y + 16f) + offset;
 
         if (ticks % 10 == 0)
         {
-            who.currentLocation.sharedLights[this._lightSourceId.Value].radius.Value =
-                this._lightSourceRadius + (float)Game1.random.NextGaussian(0.5, 0.025);
+            this._lightSource.radius.Value = this._lightSourceRadius + (float)Game1.random.NextGaussian(0.5, 0.025);
         }
     }
 
@@ -113,29 +120,39 @@ public class InfinityEnchantment : BaseWeaponEnchantment
             this._lightSourceId++;
         }
 
-        location.sharedLights[this._lightSourceId.Value] = new LightSource(
-            LightSource.lantern,
-            new Vector2(who.Position.X + 26f, who.Position.Y + 64f),
-            this._lightSourceRadius,
-            this._lightSourceColor,
-            this._lightSourceId.Value,
-            LightSource.LightContext.None,
-            who.UniqueMultiplayerID);
-        EventManager.Enable(typeof(WeaponEnchantmentUpdateTickedEvent), typeof(WeaponEnchantmentWarpedEvent));
+        if (this._lightSource is null)
+        {
+            this._lightSource = new LightSource(
+                LightSource.lantern,
+                new Vector2(who.Position.X + 26f, who.Position.Y + 64f),
+                this._lightSourceRadius,
+                this._lightSourceColor,
+                this._lightSourceId.Value,
+                LightSource.LightContext.None,
+                who.UniqueMultiplayerID);
+        }
+        else
+        {
+            this._lightSource.Identifier = this._lightSourceId.Value;
+        }
+
+        location.sharedLights[this._lightSourceId.Value] = this._lightSource;
+        EventManager.Enable(typeof(BaseEnchantmentUpdateTickedEvent), typeof(BaseEnchantmentWarpedEvent));
     }
 
     /// <inheritdoc />
     protected override void _OnUnequip(Farmer who)
     {
         base._OnUnequip(who);
-        if (!this._lightSourceId.HasValue)
+        if (this._lightSource is null || !this._lightSourceId.HasValue)
         {
             return;
         }
 
         var location = who.currentLocation;
         location.removeLightSource(this._lightSourceId.Value);
-        EventManager.Disable(typeof(WeaponEnchantmentUpdateTickedEvent), typeof(WeaponEnchantmentWarpedEvent));
+        this._lightSource = null;
+        EventManager.Disable(typeof(BaseEnchantmentUpdateTickedEvent), typeof(BaseEnchantmentWarpedEvent));
     }
 
     /// <inheritdoc />

@@ -15,7 +15,7 @@ using StardewValley.Tools;
 /// <summary>A beam of energy fired by <see cref="MeleeWeapon"/>s with the <see cref="InfinityEnchantment"/>.</summary>
 internal sealed class InfinityProjectile : BasicProjectile
 {
-    public const int TileSheetIndex = 15;
+    public const int TileSheetIndex = 16;
 
     private static readonly Color[] InfinityColors =
     {
@@ -27,13 +27,6 @@ internal sealed class InfinityProjectile : BasicProjectile
     };
 
     private int _index;
-
-    /// <summary>Initializes a new instance of the <see cref="InfinityProjectile"/> class.</summary>
-    /// <remarks>Required for multiplayer syncing.</remarks>
-    public InfinityProjectile()
-        : base()
-    {
-    }
 
     /// <summary>Initializes a new instance of the <see cref="InfinityProjectile"/> class.</summary>
     /// <param name="source">The <see cref="MeleeWeapon"/> which fired this projectile.</param>

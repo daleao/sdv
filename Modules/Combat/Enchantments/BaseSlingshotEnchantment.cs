@@ -28,9 +28,11 @@ public class BaseSlingshotEnchantment : BaseEnchantment
     /// <param name="damageBase">The base deterministic damage of the fired projectile, before any modifiers or randomness.</param>
     /// <param name="damageMod">The slingshot's damage modifier.</param>
     /// <param name="knockback">The base knockback of the fired projectile, before any modifiers.</param>
+    /// <param name="overcharge">The amount of overcharge applied by <see cref="Professions.Profession.Desperado"/>.</param>
     /// <param name="startingPosition">The projectile's starting position (also its current position).</param>
     /// <param name="xVelocity">The horizontal component of projectile's velocity.</param>
     /// <param name="yVelocity">The vertical component of projectile's velocity.</param>
+    /// <param name="rotationVelocity">The projectile's rotational velocity.</param>
     /// <param name="location">The <see cref="GameLocation"/>.</param>
     /// <param name="firer">The <see cref="Farmer"/> who fired the shot.</param>
     public void OnFire(
@@ -39,9 +41,11 @@ public class BaseSlingshotEnchantment : BaseEnchantment
         int damageBase,
         float damageMod,
         float knockback,
+        float overcharge,
         Vector2 startingPosition,
         float xVelocity,
         float yVelocity,
+        float rotationVelocity,
         GameLocation location,
         Farmer firer)
     {
@@ -51,9 +55,11 @@ public class BaseSlingshotEnchantment : BaseEnchantment
             damageBase,
             damageMod,
             knockback,
+            overcharge,
             startingPosition,
             xVelocity,
             yVelocity,
+            rotationVelocity,
             location,
             firer);
     }
@@ -66,9 +72,11 @@ public class BaseSlingshotEnchantment : BaseEnchantment
         int damageBase,
         float damageMod,
         float knockback,
+        float overcharge,
         Vector2 startingPosition,
         float xVelocity,
         float yVelocity,
+        float rotationVelocity,
         GameLocation location,
         Farmer firer)
     {

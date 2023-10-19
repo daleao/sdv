@@ -3,6 +3,7 @@
 #region using directives
 
 using DaLion.Overhaul.Modules.Combat.Extensions;
+using DaLion.Overhaul.Modules.Core;
 using Microsoft.Xna.Framework;
 using StardewValley.Monsters;
 

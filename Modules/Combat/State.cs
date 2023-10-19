@@ -2,6 +2,7 @@
 
 #region using directives
 
+using System.Collections.Generic;
 using DaLion.Overhaul.Modules.Combat.Enums;
 using DaLion.Overhaul.Modules.Combat.Events.GameLoop.UpdateTicked;
 using Microsoft.Xna.Framework;
@@ -60,6 +61,8 @@ internal sealed class State
         }
     }
 
+    internal int SlingshotGatlingTimer { get; set; }
+
     internal int SlingshotCooldown { get; set; }
 
     internal float SlingshotAddedScale { get; set; }
@@ -82,10 +85,6 @@ internal sealed class State
 
     internal bool SpokeWithWizardToday { get; set; }
 
-    internal bool DidArtfulParry { get; set; }
-
-    internal bool GatlingModeEngaged { get; set; }
-
     internal int DoublePressTimer { get; set; }
 
     internal int WarriorKillCount
@@ -106,4 +105,6 @@ internal sealed class State
     internal int YobaShieldHealth { get; set; } = -1;
 
     internal bool CanReceiveYobaShield { get; set; } = true;
+
+    internal List<byte> MovementDirections { get; } = new() { 0, 1, 2, 3 };
 }

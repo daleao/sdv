@@ -65,6 +65,26 @@ internal sealed class GameLocationPerformActionPatcher : HarmonyPatcher
 
     #region handlers
 
+    internal static void GetHolyBlade()
+    {
+        var player = Game1.player;
+        if (player.CurrentTool is not MeleeWeapon { InitialParentTileIndex: WeaponIds.DarkSword } darkSword)
+        {
+            Log.W($"[CMBT]: {player.Name} cannot receive the Holy Blade because they are not holding the Dark Sword!");
+            return;
+        }
+
+        Game1.flashAlpha = 1f;
+        player.holdUpItemThenMessage(new MeleeWeapon(WeaponIds.HolyBlade));
+        darkSword.transform(WeaponIds.HolyBlade);
+        darkSword.Write(DataKeys.CursePoints, null);
+        darkSword.RefreshStats();
+        player.jitterStrength = 0f;
+        Game1.screenGlowHold = false;
+        player.mailReceived.Add("gotHolyBlade");
+        EventManager.Disable<CurseOneSecondUpdateTickedEvent>();
+    }
+
     private static void HandleYobaAltar(GameLocation location, Farmer who)
     {
         if (!who.mailReceived.Contains("gotHolyBlade") && who.hasQuest((int)QuestId.HeroReward) &&
@@ -172,26 +192,6 @@ internal sealed class GameLocationPerformActionPatcher : HarmonyPatcher
                 new("LeaveIt", I18n.Weapons_DarkSword_LeaveIt()),
             },
             "DarkSword");
-    }
-
-    internal static void GetHolyBlade()
-    {
-        var player = Game1.player;
-        if (player.CurrentTool is not MeleeWeapon { InitialParentTileIndex: WeaponIds.DarkSword } darkSword)
-        {
-            Log.W($"[CMBT]: {player.Name} cannot receive the Holy Blade because they are not holding the Dark Sword!");
-            return;
-        }
-
-        Game1.flashAlpha = 1f;
-        player.holdUpItemThenMessage(new MeleeWeapon(WeaponIds.HolyBlade));
-        darkSword.transform(WeaponIds.HolyBlade);
-        darkSword.Write(DataKeys.CursePoints, null);
-        darkSword.RefreshStats();
-        player.jitterStrength = 0f;
-        Game1.screenGlowHold = false;
-        player.mailReceived.Add("gotHolyBlade");
-        EventManager.Disable<CurseOneSecondUpdateTickedEvent>();
     }
 
     #endregion handlers

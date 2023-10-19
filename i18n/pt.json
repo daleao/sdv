@@ -126,28 +126,28 @@
   "fighter.desc.prestiged": "Dano +10% >> +15%.",
   "brute.title.male": "Bárbaro",
   "brute.title.female": "Amazona",
-  "brute.desc": "Aumenta a ira ao receber dano, aumentando a proeza de combate. +25 HP.",
-  "brute.desc.prestiged": "A ira também concede velocidade de ataque.",
+  "brute.desc": "Fique furioso ao receber dano, aumentando gradualmente seu próprio dano e velocidade de ataque. +25 HP.",
+  "brute.desc.prestiged": "Permaneça furioso pelo dobro do tempo.",
   "brute.buff.title": "Ira",
   "brute.buff.desc": "Dano +{{damage}}.",
   "brute.buff.desc.prestiged": "Dano +{{damage}}. Velocidade de ataque +{{speed}}.",
   "poacher.title.male": "Guerrilheiro",
   "poacher.title.female": "Guerrilheira",
-  "poacher.desc": "Chance crítica +50%. Ataques críticos podem afanar ítens.",
+  "poacher.desc": "Chance crítica +50%. Chance de afanar um item dos inimigos a cada ataque.",
   "poacher.desc.prestiged": "Restaura o tempo de recarga dos golpes especiais ao afanar um item.",
 
   "rascal.title.male": "Patife",
   "rascal.title.female": "Patife",
   "rascal.desc": "Estilingues acomodam até duas munições. 35% de chance to recuperar munições.",
-  "rascal.desc.prestiged": "35% >> 70% de chance de recuperar munições.",
+  "rascal.desc.prestiged": "35% >> 55% de chance de recuperar munições. Pode equipar Monster Musk para disparar munição de isca.",
   "desperado.title.male": "Foragido",
   "desperado.title.female": "Foragida",
-  "desperado.desc": "Dispare mais rápido com pouca vida. Pode sobrecarregar estilingues para disparar com mais potência.",
+  "desperado.desc": "Tiros consecutivos contra diferentes inimigos em 1 segundo causam 50% mais dano. Pode sobrecarregar estilingues para disparar com mais potência.",
   "desperado.desc.prestiged": "Tiros sobrecarregados perfuram inimigos.",
   "piper.title.male": "Encantador de Gosmas",
   "piper.title.female": "Encantadora de Gosmas",
   "piper.desc": "Atrae gosmas aliadas quando há inimigos próximos. Chance de ganhar efeitos aleatórios ao eliminar Gosmas.",
-  "piper.desc.prestiged": "Chance de também recuperar vida e energia ao eliminar Gosmas.",
+  "piper.desc.prestiged": "Melhor eficácia e variedade de efeitos de Gosmas eliminadas.",
   "piper.buff": "Coberto de gosma",
 
 
@@ -346,8 +346,6 @@
   // * ENCHANTMENTS * //
   // **************** //
 
-  "enchantments.artful.name": "Hábil",
-  "enchantments.artful.parry": "Chance de crítico +100%",
   "enchantments.carving.name": "Perfurante",
   "enchantments.cleaving.name": "Clivante",
   "enchantments.energized.name": "Energizado",
@@ -358,10 +356,9 @@
   "enchantments.bloodthirsty.name": "Sedento",
   "enchantments.mammonite.name": "Mammonita",
   "enchantments.wabbajack.name": "Babajaco",
-  "enchantments.gatling.name": "Metralha",
-  "enchantments.preserving.name": "Preservador",
+  "enchantments.freezing.name": "Freljord",
   "enchantments.quincy.name": "Quincy",
-  "enchantments.spreading.name": "Espingarda",
+  "enchantments.runaan.name": "Runaan",
 
 
   // *********** //

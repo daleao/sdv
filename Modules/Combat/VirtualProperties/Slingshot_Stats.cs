@@ -116,9 +116,9 @@ internal static class Slingshot_Stats
         return bowData is null ? CreateAsSlingshot(slingshot) : CreateAsBow(slingshot, bowData);
     }
 
-    private static SlingshotStats CreateAsSlingshot(Slingshot slingshot)
+    private static SlingshotHolder CreateAsSlingshot(Slingshot slingshot)
     {
-        var holder = new SlingshotStats();
+        var holder = new SlingshotHolder();
 
         if (CombatModule.Config.EnableWeaponOverhaul)
         {
@@ -259,7 +259,7 @@ internal static class Slingshot_Stats
 
                     break;
 
-                case SObject.prismaticShardIndex:
+                case ObjectIds.PrismaticShard:
                     holder.RubyBonus += 0.1f;
                     holder.AquamarineBonus += 0.1f;
                     holder.AmethystBonus += 0.1f;
@@ -404,9 +404,9 @@ internal static class Slingshot_Stats
         return holder;
     }
 
-    private static BowStats CreateAsBow(Slingshot bow, IWeaponData bowData)
+    private static BowHolder CreateAsBow(Slingshot bow, IWeaponData bowData)
     {
-        var holder = new BowStats();
+        var holder = new BowHolder();
 
         var weaponModel = ArcheryIntegration.Instance!.GetWeaponModel.Value.Invoke(null, new object?[] { bow });
         var ammoModel = bow.attachments?[0] is not null
@@ -660,7 +660,7 @@ internal static class Slingshot_Stats
         internal abstract int GetBottomExtraTooltipSpace();
     }
 
-    internal class SlingshotStats : Holder
+    internal class SlingshotHolder : Holder
     {
         public float DamageMod { get; internal set; }
 
@@ -718,7 +718,7 @@ internal static class Slingshot_Stats
 
         internal override float GetDisplayedCritChanceBonus()
         {
-            return Utility.Clamp(this.AquamarineBonus, 0f, 1f);
+            return this.AquamarineBonus;
         }
 
         internal override float GetEffectiveCritPowerBonus()
@@ -777,7 +777,7 @@ internal static class Slingshot_Stats
         }
     }
 
-    internal class BowStats : Holder
+    internal class BowHolder : Holder
     {
         public int MinDamage { get; internal set; }
 
@@ -832,7 +832,7 @@ internal static class Slingshot_Stats
 
         internal override float GetDisplayedKnockbackBonus()
         {
-            return this.BaseKnockback + this.AmethystBonus - 0.25f;
+            return this.AmethystBonus - 0.25f;
         }
 
         internal override float GetEffectiveCritChanceBonus()

@@ -2,6 +2,7 @@
 
 #region using directives
 
+using DaLion.Shared.Extensions.Collections;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
 using Microsoft.Xna.Framework;
@@ -63,6 +64,7 @@ internal sealed class BuffCtorPatcher : HarmonyPatcher
                 __instance.description = I18n.Ui_Buffs_Confused();
                 __instance.glow = new Color(0, 150, 255);
                 __instance.millisecondsDuration = 3000;
+                CombatModule.State.MovementDirections.Shuffle(Game1.random);
                 break;
 
             default:

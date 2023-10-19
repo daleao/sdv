@@ -3,7 +3,7 @@
 #region using directives
 
 using System.Reflection;
-using DaLion.Overhaul.Modules.Combat.Enchantments;
+using DaLion.Overhaul.Modules.Combat.VirtualProperties;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
 using StardewValley.Tools;
@@ -23,7 +23,7 @@ internal sealed class SlingshotCanAutoFirePatcher : HarmonyPatcher
 
     #region harmony patches
 
-    /// <summary>Implement <see cref="GatlingEnchantment"/> effect.</summary>
+    /// <summary>Implement slingshot special gatling effect.</summary>
     [HarmonyPrefix]
     [HarmonyPriority(Priority.High)]
     [HarmonyAfter("DaLion.Overhaul.Modules.Professions")]
@@ -31,8 +31,7 @@ internal sealed class SlingshotCanAutoFirePatcher : HarmonyPatcher
     {
         try
         {
-            __result = __instance.hasEnchantmentOfType<GatlingEnchantment>() &&
-                       CombatModule.State.GatlingModeEngaged;
+            __result = __instance.Get_IsOnSpecial();
             return !__result;
         }
         catch (Exception ex)

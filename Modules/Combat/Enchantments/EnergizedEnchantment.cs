@@ -45,7 +45,7 @@ public sealed class EnergizedEnchantment : BaseWeaponEnchantment
         }
     }
 
-    private static int BuffId { get; } = (Manifest.UniqueID + "Energized").GetHashCode();
+    private static int BuffId { get; } = (Manifest.UniqueID + "EnergizedEnchantment").GetHashCode();
 
     /// <inheritdoc />
     public override string GetName()
@@ -105,31 +105,6 @@ public sealed class EnergizedEnchantment : BaseWeaponEnchantment
             });
     }
 
-    /// <summary>Trigger a lightning strike on the specified <paramref name="monster"/>'s position.</summary>
-    /// <param name="monster">The target <see cref="Monster"/>.</param>
-    /// <param name="location">The current <see cref="GameLocation"/>.</param>
-    /// <param name="who">The wielding <see cref="Farmer"/>.</param>
-    /// <param name="weapon">The wielded <see cref="MeleeWeapon"/>.</param>
-    public void DoLightningStrike(Monster monster, GameLocation location, Farmer who, MeleeWeapon weapon)
-    {
-        if (!who.IsLocalPlayer)
-        {
-            return;
-        }
-
-        var aoe = monster.GetBoundingBox();
-        aoe.Inflate(12 * Game1.tileSize, 12 * Game1.tileSize);
-        Game1.flashAlpha = (float)(0.5 + Game1.random.NextDouble());
-        location.playSound("thunder");
-        Utility.drawLightningBolt(monster.Position + new Vector2(32f, 32f), location);
-        location.damageMonster(
-            aoe,
-            weapon.minDamage.Value,
-            weapon.maxDamage.Value,
-            false,
-            who);
-    }
-
     /// <inheritdoc />
     protected override void _OnDealDamage(Monster monster, GameLocation location, Farmer who, ref int amount)
     {
@@ -147,7 +122,7 @@ public sealed class EnergizedEnchantment : BaseWeaponEnchantment
         }
         else if (!this._didCountThisSwipe)
         {
-            this.Energy += 6;
+            this.Energy += 4;
             this._didCountThisSwipe = true;
         }
     }
@@ -178,5 +153,35 @@ public sealed class EnergizedEnchantment : BaseWeaponEnchantment
         this._previousStepsTaken = uint.MaxValue;
         //this._energy = -1;
         EventManager.Disable<EnergizedUpdateTickedEvent>();
+    }
+
+    /// <summary>Trigger a lightning strike on the specified <paramref name="monster"/>'s position.</summary>
+    /// <param name="monster">The target <see cref="Monster"/>.</param>
+    /// <param name="location">The current <see cref="GameLocation"/>.</param>
+    /// <param name="who">The wielding <see cref="Farmer"/>.</param>
+    /// <param name="weapon">The wielded <see cref="MeleeWeapon"/>.</param>
+    private void DoLightningStrike(Monster monster, GameLocation location, Farmer who, MeleeWeapon weapon)
+    {
+        if (!who.IsLocalPlayer)
+        {
+            return;
+        }
+
+        var aoe = monster.GetBoundingBox();
+        aoe.Inflate(12 * Game1.tileSize, 12 * Game1.tileSize);
+        Game1.flashAlpha = (float)(0.5 + Game1.random.NextDouble());
+        location.playSound("thunder");
+        Utility.drawLightningBolt(monster.Position + new Vector2(32f, 32f), location);
+        location.damageMonster(
+            aoe,
+            weapon.minDamage.Value * 3,
+            weapon.maxDamage.Value * 3,
+            false,
+            1f,
+            0,
+            0f,
+            1f,
+            false,
+            who);
     }
 }

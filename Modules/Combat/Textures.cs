@@ -26,6 +26,9 @@ internal static class Textures
     internal static Texture2D StrongerResonanceTx { get; } =
         ModHelper.ModContent.Load<Texture2D>("assets/sprites/effects/resonance_stronger");
 
+    internal static Texture2D EnergizedTx { get; } =
+        ModHelper.ModContent.Load<Texture2D>("assets/sprites/effects/energized_hd");
+
     internal static Texture2D TooltipsTx { get; } =
         ModHelper.ModContent.Load<Texture2D>("assets/sprites/interface/tooltips");
 

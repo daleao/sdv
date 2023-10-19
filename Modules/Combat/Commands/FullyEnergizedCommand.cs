@@ -30,13 +30,19 @@ internal sealed class FullyEnergizedCommand : ConsoleCommand
     /// <inheritdoc />
     public override void Callback(string trigger, string[] args)
     {
-        var energized = (Game1.player.CurrentTool as MeleeWeapon)?.GetEnchantmentOfType<EnergizedEnchantment>();
-        if (energized is null)
+        switch (Game1.player.CurrentTool)
         {
-            Log.W("An Energized weapon is not equipped.");
-            return;
-        }
+            case MeleeWeapon weapon when weapon.GetEnchantmentOfType<EnergizedEnchantment>() is { } energized:
+                energized.Energy = 100;
+                break;
 
-        energized.Energy = 100;
+            case Slingshot slingshot when slingshot.GetEnchantmentOfType<RangedEnergizedEnchantment>() is { } energized:
+                energized.Energy = 100;
+                break;
+
+            default:
+                Log.W("An Energized weapon is not equipped.");
+                break;
+        }
     }
 }

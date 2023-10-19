@@ -70,12 +70,12 @@ internal sealed class GreenSlimeGetExtraDropItemsPatcher : HarmonyPatcher
         {
             if (r.NextDouble() < baseChance / 8)
             {
-                __result.Add(new SObject(SObject.diamondIndex, 1));
+                __result.Add(new SObject(ObjectIds.Diamond, 1));
             }
 
             if (r.NextDouble() < baseChance / 10)
             {
-                __result.Add(new SObject(SObject.prismaticShardIndex, 1));
+                __result.Add(new SObject(ObjectIds.PrismaticShard, 1));
             }
         }
 
@@ -131,7 +131,7 @@ internal sealed class GreenSlimeGetExtraDropItemsPatcher : HarmonyPatcher
                     while (r.NextDouble() < baseChance / 2)
                     {
                         __result.Add(new SObject(338, 1)); // refined quartz
-                        __result.Add(new SObject(SObject.diamondIndex, 1));
+                        __result.Add(new SObject(ObjectIds.Diamond, 1));
                     }
                 }
                 else // grey

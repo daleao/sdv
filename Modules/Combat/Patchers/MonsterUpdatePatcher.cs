@@ -156,7 +156,7 @@ internal sealed class MonsterUpdatePatcher : HarmonyPatcher
                 return true; // run original logic
             }
 
-            if (slowIntensity < 1d && ticks % (int)(1d / slowIntensity) == 0)
+            if (slowIntensity < 1f && ticks % (int)(1f / slowIntensity) == 0f)
             {
                 return true; // run original logic
             }

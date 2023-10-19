@@ -1,5 +1,7 @@
 ﻿namespace DaLion.Overhaul.Modules.Professions.Events.GameLoop.UpdateTicked;
 
+using DaLion.Overhaul.Modules.Core;
+
 #region using directives
 
 using DaLion.Overhaul.Modules.Professions.Events.Display.RenderedHud;
@@ -30,7 +32,7 @@ internal sealed class DesperadoUpdateTickedEvent : UpdateTickedEvent
             return;
         }
 
-        this.Manager.Enable<DesperadoRenderedWorldEvent>();
+        this.Manager.Enable<DesperadoRenderedHudEvent>();
     }
 
     /// <inheritdoc />
@@ -38,14 +40,14 @@ internal sealed class DesperadoUpdateTickedEvent : UpdateTickedEvent
     {
         Game1.player.stopJittering();
         SoundEffectPlayer.SinWave?.Stop(AudioStopOptions.Immediate);
-        this.Manager.Disable<DesperadoRenderedWorldEvent>();
+        this.Manager.Disable<DesperadoRenderedHudEvent>();
     }
 
     /// <inheritdoc />
     protected override void OnUpdateTickedImpl(object? sender, UpdateTickedEventArgs e)
     {
         var firer = Game1.player;
-        if (firer.CurrentTool is not Slingshot slingshot || !firer.usingSlingshot)
+        if (firer.CurrentTool is not Slingshot slingshot || !firer.usingSlingshot || slingshot.CanAutoFire())
         {
             this.Disable();
             return;

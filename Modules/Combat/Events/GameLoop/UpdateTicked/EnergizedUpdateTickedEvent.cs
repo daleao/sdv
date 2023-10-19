@@ -12,7 +12,7 @@ using StardewValley.Tools;
 [UsedImplicitly]
 internal sealed class EnergizedUpdateTickedEvent : UpdateTickedEvent
 {
-    private WeakReference<EnergizedEnchantment>? _energized;
+    private WeakReference<BaseEnchantment>? _instance;
 
     /// <summary>Initializes a new instance of the <see cref="EnergizedUpdateTickedEvent"/> class.</summary>
     /// <param name="manager">The <see cref="EventManager"/> instance that manages this event.</param>
@@ -24,31 +24,43 @@ internal sealed class EnergizedUpdateTickedEvent : UpdateTickedEvent
     /// <inheritdoc />
     protected override void OnEnabled()
     {
-        var energized = (Game1.player.CurrentTool as MeleeWeapon)?.GetEnchantmentOfType<EnergizedEnchantment>();
-        if (energized is null)
+        switch (Game1.player.CurrentTool)
         {
-            this.Disable();
-            return;
+            case MeleeWeapon weapon when weapon.GetEnchantmentOfType<EnergizedEnchantment>() is { } energized:
+                this._instance = new WeakReference<BaseEnchantment>(energized, false);
+                break;
+            case Slingshot slingshot when slingshot.GetEnchantmentOfType<RangedEnergizedEnchantment>() is { } energized:
+                this._instance = new WeakReference<BaseEnchantment>(energized, false);
+                break;
+            default:
+                this.Disable();
+                break;
         }
-
-        this._energized = new WeakReference<EnergizedEnchantment>(energized, false);
     }
 
     /// <inheritdoc />
     protected override void OnDisabled()
     {
-        this._energized = null;
+        this._instance = null;
     }
 
     /// <inheritdoc />
     protected override void OnUpdateTickedImpl(object? sender, UpdateTickedEventArgs e)
     {
-        if (this._energized is null || !this._energized.TryGetTarget(out var energized))
+        if (this._instance is null || !this._instance.TryGetTarget(out var instance))
         {
             this.Disable();
             return;
         }
 
-        energized.Update(e.Ticks);
+        switch (instance)
+        {
+            case EnergizedEnchantment energized:
+                energized.Update(e.Ticks);
+                break;
+            case RangedEnergizedEnchantment energized:
+                energized.Update(e.Ticks);
+                break;
+        }
     }
 }

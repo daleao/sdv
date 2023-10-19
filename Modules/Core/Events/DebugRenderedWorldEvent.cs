@@ -30,7 +30,7 @@ internal sealed class DebugRenderedWorldEvent : RenderedWorldEvent
     /// <inheritdoc />
     protected override void OnRenderedWorldImpl(object? sender, RenderedWorldEventArgs e)
     {
-        var bb = default(Rectangle);
+        Rectangle bb;
         foreach (var @object in Game1.currentLocation.Objects.Values)
         {
             bb = @object.getBoundingBox(@object.TileLocation);
@@ -61,26 +61,52 @@ internal sealed class DebugRenderedWorldEvent : RenderedWorldEvent
             bb = character.GetBoundingBox();
             bb.X -= Game1.viewport.X;
             bb.Y -= Game1.viewport.Y;
+            var textHeight = Game1.dialogueFont.MeasureString("T").Y;
             switch (character)
             {
                 case Monster monster:
                     {
                         bb.Highlight(Color.Red * 0.5f, e.SpriteBatch);
 
-                        var str = character.Name + $" ({monster.Health} / {monster.MaxHealth})";
-                        var length = Game1.dialogueFont.MeasureString(str);
+                        var @string = character.Name + $" ({monster.Health} / {monster.MaxHealth})";
+                        var textWidth = Game1.dialogueFont.MeasureString(@string).X;
                         e.SpriteBatch.DrawString(
                             Game1.dialogueFont,
-                            str,
-                            new Vector2(bb.X - ((length.X - bb.Width) / 2f), bb.Y - bb.Height - length.Y - length.Y),
+                            @string,
+                            new Vector2(bb.X - ((textWidth - bb.Width) / 2f), bb.Y - bb.Height - (textHeight * 2)),
                             Color.White);
 
-                        str = $"Damage: {monster.DamageToFarmer} | Defense: {monster.resilience.Value}";
-                        length = Game1.dialogueFont.MeasureString(str);
+                        //@string = $"Position: {character.Position}";
+                        //textWidth = Game1.dialogueFont.MeasureString(@string).X;
+                        //e.SpriteBatch.DrawString(
+                        //    Game1.dialogueFont,
+                        //    @string,
+                        //    new Vector2(bb.X - ((textWidth - bb.Width) / 2f), bb.Y - bb.Height - (textHeight * 3)),
+                        //    Color.White);
+                        //bb = new Rectangle((int)character.Position.X - 2, (int)character.Position.Y - 2, 4, 4);
+                        //bb.X -= Game1.viewport.X;
+                        //bb.Y -= Game1.viewport.Y;
+                        //bb.Highlight(Color.White, e.SpriteBatch);
+
+                        //var bbc = character.GetBoundingBox().Center;
+                        //@string = $"BB Center: {bbc}";
+                        //textWidth = Game1.dialogueFont.MeasureString(@string).X;
+                        //e.SpriteBatch.DrawString(
+                        //    Game1.dialogueFont,
+                        //    @string,
+                        //    new Vector2(bb.X - ((textWidth - bb.Width) / 2f), bb.Y - bb.Height - (textHeight * 2)),
+                        //    Color.White);
+                        //bb = new Rectangle(bbc.X - 2, bbc.Y - 2, 4, 4);
+                        //bb.X -= Game1.viewport.X;
+                        //bb.Y -= Game1.viewport.Y;
+                        //bb.Highlight(Color.White, e.SpriteBatch);
+
+                        @string = $"Damage: {monster.DamageToFarmer} | Defense: {monster.resilience.Value}";
+                        textWidth = Game1.dialogueFont.MeasureString(@string).X;
                         e.SpriteBatch.DrawString(
                             Game1.dialogueFont,
-                            str,
-                            new Vector2(bb.X - ((length.X - bb.Width) / 2f), bb.Y - bb.Height - length.Y),
+                            @string,
+                            new Vector2(bb.X - ((textWidth - bb.Width) / 2f), bb.Y - bb.Height - textHeight),
                             Color.White);
                         if (monster is Serpent serpent && serpent.IsRoyalSerpent())
                         {
@@ -128,11 +154,11 @@ internal sealed class DebugRenderedWorldEvent : RenderedWorldEvent
                         bb.Highlight(Color.Green * 0.5f, e.SpriteBatch);
 
                         var @string = character.Name;
-                        var length = Game1.dialogueFont.MeasureString(@string);
+                        var textWidth = Game1.dialogueFont.MeasureString(@string).X;
                         e.SpriteBatch.DrawString(
                             Game1.dialogueFont,
                             @string,
-                            new Vector2(bb.X - ((length.X - bb.Width) / 2f), bb.Y - bb.Height - length.Y),
+                            new Vector2(bb.X - ((textWidth - bb.Width) / 2f), bb.Y - bb.Height - (textHeight * 2)),
                             Color.White);
                         break;
                     }

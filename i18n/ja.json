@@ -126,8 +126,8 @@
   "fighter.desc.prestiged": "ダメージ +10% >> +15%.",
   "brute.title.male": "荒くれ者",
   "brute.title.female": "女傑",
-  "brute.desc": "ダメージを受けると怒りが溜まり、戦闘能力が向上する。 +25 HP.",
-  "brute.desc.prestiged": "怒りは攻撃速度も向上させる。",
+  "brute.desc": "ダメージを受けると激怒し、自身のダメージと攻撃速度が徐々に上昇します。 +25 HP.",
+  "brute.desc.prestiged": "2倍の時間激怒し続ける。",
   "brute.buff.name": "怒り",
   "brute.buff.desc": "ダメージ +{{damage}}.",
   "brute.buff.desc.prestiged": "ダメージ +{{damage}}. 攻撃速度 +{{speed}}.",
@@ -139,15 +139,15 @@
   "rascal.title.male": "ラスカル",
   "rascal.title.female": "ラスカル",
   "rascal.desc": "弾薬スロットが1つ増える。 35% の確率で弾薬を消費しない。",
-  "rascal.desc.prestiged": "35% >> 70% の確率で弾薬を消費しない。",
+  "rascal.desc.prestiged": "35% >> 55% の確率で弾薬を消費しない。 モンスタームスクを装備すると、おびき寄せる弾薬を発射できます。",
   "desperado.title.male": "デスペラード",
   "desperado.title.female": "デスペラーダ",
-  "desperado.desc": "体力が低いほど発射速度が上がる。 オーバーチャージして弾薬のダメージと大きさを増やすことができる。",
+  "desperado.desc": "1 秒以内に異なる敵に対して連続射撃すると、与えるダメージが 50% 増加します。 オーバーチャージして弾薬のダメージと大きさを増やすことができる。",
   "desperado.desc.prestiged": "オーバーチャージショットが敵を貫通する。",
   "piper.title.male": "スターデューの笛吹き男",
   "piper.title.female": "スライムの魔女",
   "piper.desc": "敵が近くにいると、スライムハッチから味方のスライムが駆けつける。 スライムを倒すと確率でランダムなバフを得る。",
-  "piper.desc.prestiged": "スライムを倒すと確率で体力とエネルギーも回復する。",
+  "piper.desc.prestiged": "倒したスライムのエフェクトの効果と種類が増加しました。",
   "piper.buff": "べたつき",
 
 
@@ -344,8 +344,6 @@
   // * ENCHANTMENTS * //
   // **************** //
 
-  "enchantments.artful.name": "技巧派",
-  "enchantments.artful.parry": "クリティカル率 +100%",
   "enchantments.carving.name": "削り取る",
   "enchantments.cleaving.name": "大切断",
   "enchantments.energized.name": "高エネルギー反応",
@@ -356,10 +354,9 @@
   "enchantments.bloodthirsty.name": "血の渇き",
   "enchantments.mammonite.name": "マモナイト ",
   "enchantments.wabbajack.name": "ワバジャック",
-  "enchantments.gatling.name": "ガトリング",
-  "enchantments.preserving.name": "節約術",
+  "enchantments.freezing.name": "フレヨルド",
   "enchantments.quincy.name": "クインシー",
-  "enchantments.spreading.name": "拡散",
+  "enchantments.runaan.name": "ルナン",
 
 
   // *********** //

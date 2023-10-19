@@ -3,6 +3,7 @@
 #region using directives
 
 using System.Runtime.CompilerServices;
+using Netcode;
 using StardewValley.Monsters;
 
 #endregion using directives
@@ -12,18 +13,19 @@ internal static class Monster_Stolen
 {
     internal static ConditionalWeakTable<Monster, Holder> Values { get; } = new();
 
-    internal static int Get_Stolen(this Monster monster)
+    internal static NetBool Get_Stolen(this Monster monster)
     {
         return Values.GetOrCreateValue(monster).Stolen;
     }
 
-    internal static void IncrementStolen(this Monster monster)
+    // Net types are readonly
+    internal static void Set_Stolen(this Monster monster, bool value)
     {
-        Values.GetOrCreateValue(monster).Stolen++;
+
     }
 
     internal class Holder
     {
-        public int Stolen { get; internal set; }
+        public NetBool Stolen { get; } = new(false);
     }
 }

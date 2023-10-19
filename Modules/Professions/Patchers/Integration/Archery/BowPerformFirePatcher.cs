@@ -50,7 +50,7 @@ internal sealed class BowPerformFirePatcher : HarmonyPatcher
         }
 
         var breakChance = Reflector.GetUnboundFieldGetter<BasicProjectile, float>(projectile, "_breakChance").Invoke(projectile);
-        breakChance *= who.HasProfession(Profession.Rascal, true) ? 1.7f : 1.35f;
+        breakChance *= who.HasProfession(Profession.Rascal, true) ? 1.55f : 1.35f;
         if (!who.HasProfession(Profession.Desperado))
         {
             Reflector.GetUnboundFieldSetter<BasicProjectile, float>(projectile, "_breakChance").Invoke(projectile, breakChance);

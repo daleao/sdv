@@ -2,6 +2,7 @@
 
 #region using directives
 
+using Core;
 using DaLion.Overhaul.Modules.Combat.Extensions;
 using DaLion.Overhaul.Modules.Combat.Integrations;
 using DaLion.Overhaul.Modules.Combat.VirtualProperties;
@@ -43,6 +44,7 @@ internal sealed class Game1PressActionButtonPatcher : HarmonyPatcher
             return;
         }
 
+        SoundEffectPlayer.DesperadoBlossom.Play();
         slingshot.AnimateSpecialMove();
         __result = false;
     }

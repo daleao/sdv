@@ -212,9 +212,9 @@ internal sealed class CombatAssetRequestedEvent : AssetRequestedEvent
             fields[5] = I18n.Rings_Yoba_Desc();
             data[ObjectIds.RingOfYoba] = string.Join('/', fields);
 
-            fields = data[ObjectIds.ImmunityRing].Split('/');
-            fields[5] += I18n.Rings_Immunity_ExtraDesc();
-            data[ObjectIds.ImmunityRing] = string.Join('/', fields);
+            //fields = data[ObjectIds.ImmunityRing].Split('/');
+            //fields[5] += I18n.Rings_Immunity_ExtraDesc();
+            //data[ObjectIds.ImmunityRing] = string.Join('/', fields);
 
             if (LocalizedContentManager.CurrentLanguageCode == LocalizedContentManager.LanguageCode.en)
             {
@@ -255,18 +255,34 @@ internal sealed class CombatAssetRequestedEvent : AssetRequestedEvent
             sourceArea,
             targetArea);
 
-        if (!CombatModule.Config.EnableHeroQuest)
+        if (CombatModule.Config.EnableHeroQuest)
         {
-            return;
+            editor.ExtendImage(editor.Data.Width, 48);
+            sourceArea = new Rectangle(0, 0, 16, 16);
+            targetArea = new Rectangle(0, 32, 16, 16);
+            editor.PatchImage(
+                ModHelper.ModContent.Load<Texture2D>("assets/sprites/effects/projectiles"),
+                sourceArea,
+                targetArea);
         }
 
-        editor = asset.AsImage();
-        sourceArea = new Rectangle(0, 0, 16, 16);
-        targetArea = new Rectangle(112, 16, 16, 16);
-        editor.PatchImage(
-            ModHelper.ModContent.Load<Texture2D>("assets/sprites/effects/projectiles"),
-            sourceArea,
-            targetArea);
+        if (CombatModule.Config.NewPrismaticEnchantments)
+        {
+            editor.ExtendImage(editor.Data.Width, 48);
+            sourceArea = new Rectangle(32, 0, 16, 16);
+            targetArea = new Rectangle(16, 32, 16, 16);
+            editor.PatchImage(
+                ModHelper.ModContent.Load<Texture2D>("assets/sprites/effects/projectiles"),
+                sourceArea,
+                targetArea);
+
+            sourceArea = new Rectangle(48, 0, 16, 16);
+            targetArea = new Rectangle(32, 32, 16, 16);
+            editor.PatchImage(
+                ModHelper.ModContent.Load<Texture2D>("assets/sprites/effects/projectiles"),
+                sourceArea,
+                targetArea);
+        }
     }
 
     /// <summary>Edits quests data with custom Dwarvish Blueprint introduction quest.</summary>

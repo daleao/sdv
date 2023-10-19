@@ -126,28 +126,28 @@
   "fighter.desc.prestiged": "Dégâts +10 % >> +15 %.",
   "brute.title.male": "Brute",
   "brute.title.female": "Amazone",
-  "brute.desc": "Augmente la rage lorsque vous subissez des dégàts, augmentant ainsi vos prouesses au combat. +25 HP.",
-  "brute.desc.prestiged": "Rage accorde également de la vitesse d’attaque.",
+  "brute.desc": "Devenez enragé lorsque vous subissez des dégâts, augmentant progressivement vos propres dégâts et votre vitesse d'attaque. +25 HP.",
+  "brute.desc.prestiged": "Restez enragé deux fois plus longtemps.",
   "brute.buff.title": "Rage",
   "brute.buff.desc": "Bonus de dégâts +{{damage}}.",
   "brute.buff.desc.prestiged": "Bonus de dégâts +{{damage}}. Vitesse d’attaque +{{speed}}.",
   "poacher.title.male": "Débroussailleur",
   "poacher.title.female": "Débroussailleuse",
-  "poacher.desc": "Chance de coup critique +50^. Les coups critiques font braconner des objets.",
+  "poacher.desc": "Chance de coup critique +50^. Chance de braconner un objet aux ennemis à chaque attaque.",
   "poacher.desc.prestiged": "Annule le délai de récupération des attaques spéciales lors du braconnage d’un objet.",
 
   "rascal.title.male": "Coquin",
   "rascal.title.female": "Coquine",
   "rascal.desc": "Les lance-pierres gagnent un emplacement de munitions supplémentaire. 35 % de chances de récupérer les munitions dépensées.",
-  "rascal.desc.prestiged": "35 % >> 70 % de chances de récupérer les munitions dépensées.",
+  "rascal.desc.prestiged": "35 % >> 55 % de chances de récupérer les munitions dépensées. Peut équiper Monster Musk pour tirer des munitions séduisantes.",
   "desperado.title.male": "Desperado",
   "desperado.title.female": "Desperada",
-  "desperado.desc": "Peut surcharger les lance-pierres pour tirer avec plus de puissance.",
+  "desperado.desc": "Des tirs consécutifs contre différents ennemis en 1 seconde infligent 50 % de dégâts supplémentaires. Peut surcharger les lance-pierres pour tirer avec plus de puissance.",
   "desperado.desc.prestiged": "Surcharger deux fois plus vite.",
   "piper.title.male": "Enchanteur de Slimes",
   "piper.title.female": "Enchanteresse de Slimes",
   "piper.desc": "Attirez plus de Slimes dans des zones dangereuses. Chance de gagner des effets aléatoires en battant des Slimes.",
-  "piper.desc.prestiged": "Chance d’égalmente récuperer de la santé et de l’énergie en battant des Slimes.",
+  "piper.desc.prestiged": "Meilleure efficacité et la variété des effets de Slimes battus.",
   "piper.buff": "Englué(e)",
 
 
@@ -346,8 +346,6 @@
   // * ENCHANTMENTS * //
   // **************** //
 
-  "enchantments.artful.name": "Habile",
-  "enchantments.artful.parry": "Chance Crit. +100%",
   "enchantments.carving.name": "Découpant",
   "enchantments.cleaving.name": "Fendant",
   "enchantments.energized.name": "Energisant",
@@ -360,9 +358,9 @@
   "enchantments.wabbajack.name": "Babbejacques",
   "enchantments.gatling.name": "Mitraillant",
   "enchantments.preserving.name": "Préservant",
+  "enchantments.freezing.name": "Freljord",
   "enchantments.quincy.name": "Quincy",
-  "enchantments.spreading.name": "Répandant",
-
+  "enchantments.runaan.name": "Runaan",
 
   // *********** //
   // ** TAXES ** //

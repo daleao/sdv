@@ -13,14 +13,14 @@ using StardewValley.Tools;
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class SlingshotArtfulSpecialUpdateTickedEvent : UpdateTickedEvent
+internal sealed class SlingshotSmashUpdateTickedEvent : UpdateTickedEvent
 {
     private static int _currentFrame = -1;
     private static int _animationFrames;
 
-    /// <summary>Initializes a new instance of the <see cref="SlingshotArtfulSpecialUpdateTickedEvent"/> class.</summary>
+    /// <summary>Initializes a new instance of the <see cref="SlingshotSmashUpdateTickedEvent"/> class.</summary>
     /// <param name="manager">The <see cref="EventManager"/> instance that manages this event.</param>
-    internal SlingshotArtfulSpecialUpdateTickedEvent(EventManager manager)
+    internal SlingshotSmashUpdateTickedEvent(EventManager manager)
         : base(manager)
     {
     }
@@ -29,7 +29,7 @@ internal sealed class SlingshotArtfulSpecialUpdateTickedEvent : UpdateTickedEven
     protected override void OnUpdateTickedImpl(object? sender, UpdateTickedEventArgs e)
     {
         var user = Game1.player;
-        if (user.CurrentTool is not Slingshot slingshot)
+        if (user.CurrentTool is not Slingshot slingshot || !slingshot.Get_IsOnSpecial())
         {
             this.Disable();
             return;
@@ -40,23 +40,23 @@ internal sealed class SlingshotArtfulSpecialUpdateTickedEvent : UpdateTickedEven
         {
             var frame = (FacingDirection)user.FacingDirection switch
             {
-                FacingDirection.Up => 248,
-                FacingDirection.Right => 240,
-                FacingDirection.Down => 232,
-                FacingDirection.Left => 256,
+                FacingDirection.Up => 176,
+                FacingDirection.Right => 168,
+                FacingDirection.Down => 160,
+                FacingDirection.Left => 184,
                 _ => ThrowHelperExtensions.ThrowUnexpectedEnumValueException<FacingDirection, int>(
                     (FacingDirection)user.FacingDirection),
             };
 
             var sprite = (FarmerSprite)user.Sprite;
-            sprite.setCurrentFrame(frame, 0, 60, _animationFrames, user.FacingDirection == 3, true);
-            _animationFrames = (sprite.CurrentAnimation.Count * 3) + 3;
+            sprite.setCurrentFrame(frame, 0, 40, _animationFrames, user.FacingDirection == 3, true);
+            _animationFrames = (sprite.CurrentAnimation.Count * 3) + 11;
         }
         else if (_currentFrame >= _animationFrames)
         {
             user.completelyStopAnimatingOrDoingAction();
             slingshot.Set_IsOnSpecial(false);
-            user.DoSlingshotSpecialCooldown(slingshot);
+            user.DoSlingshotSpecialCooldown();
             user.forceCanMove();
             _currentFrame = -1;
             this.Disable();
@@ -64,24 +64,24 @@ internal sealed class SlingshotArtfulSpecialUpdateTickedEvent : UpdateTickedEven
         else
         {
             var sprite = user.FarmerSprite;
-            if (_currentFrame >= 3 && _currentFrame % 3 == 0)
+            if (_currentFrame >= 6 && _currentFrame < _animationFrames - 6 && _currentFrame % 3 == 0)
             {
                 sprite.CurrentFrame =
                     sprite.CurrentAnimation[sprite.currentAnimationIndex++ % sprite.CurrentAnimation.Count].frame;
             }
 
-            if (_currentFrame == 10)
+            if (_currentFrame == 6)
             {
                 user.currentLocation.playSound("swordswipe");
             }
-            else if (_currentFrame == 16)
+            else if (_currentFrame == (((FacingDirection)user.FacingDirection).IsHorizontal() ? 10 : 14))
             {
-                slingshot.ShowSwordSwipe(user);
+                Farmer.showToolSwipeEffect(user);
             }
 
             if (sprite.currentAnimationIndex >= 4)
             {
-                var (x, y) = user.GetToolLocation(true);
+                var (x, y) = user.getTileLocation() * Game1.tileSize;
                 slingshot.DoDamage((int)x, (int)y, user);
             }
 

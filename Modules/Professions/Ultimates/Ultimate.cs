@@ -3,6 +3,7 @@
 #region using directives
 
 using Ardalis.SmartEnum;
+using DaLion.Overhaul.Modules.Core;
 using DaLion.Overhaul.Modules.Professions.Events.Display.RenderedWorld;
 using DaLion.Overhaul.Modules.Professions.Events.Display.RenderingHud;
 using DaLion.Overhaul.Modules.Professions.Events.GameLoop.UpdateTicked;

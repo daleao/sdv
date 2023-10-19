@@ -1,4 +1,4 @@
-﻿namespace DaLion.Overhaul.Modules.Combat.Events.GameLoop.UpdateTicked;
+﻿namespace DaLion.Overhaul.Modules.Core.Events;
 
 #region using directives
 
@@ -8,11 +8,11 @@ using StardewModdingAPI.Events;
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class GatlingUpdateTickedEvent : UpdateTickedEvent
+internal sealed class DoublePressUpdateTickedEvent : UpdateTickedEvent
 {
-    /// <summary>Initializes a new instance of the <see cref="GatlingUpdateTickedEvent"/> class.</summary>
+    /// <summary>Initializes a new instance of the <see cref="DoublePressUpdateTickedEvent"/> class.</summary>
     /// <param name="manager">The <see cref="EventManager"/> instance that manages this event.</param>
-    internal GatlingUpdateTickedEvent(EventManager manager)
+    internal DoublePressUpdateTickedEvent(EventManager manager)
         : base(manager)
     {
     }

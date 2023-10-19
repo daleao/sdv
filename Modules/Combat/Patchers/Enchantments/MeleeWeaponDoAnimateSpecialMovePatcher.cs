@@ -70,7 +70,7 @@ internal sealed class MeleeWeaponDoAnimateSpecialMovePatcher : HarmonyPatcher
         }
     }
 
-    /// <summary>Increase hit count of Artful dagger's special stab move.</summary>
+    /// <summary>Increase hit count of empowered dagger's special stab move.</summary>
     [HarmonyTranspiler]
     private static IEnumerable<CodeInstruction>? MeleeWeaponDoAnimateSpecialMoveTranspiler(
         IEnumerable<CodeInstruction> instructions, ILGenerator generator, MethodBase original)
@@ -94,7 +94,7 @@ internal sealed class MeleeWeaponDoAnimateSpecialMovePatcher : HarmonyPatcher
                             OpCodes.Call,
                             typeof(MeleeWeapon)
                                 .RequireMethod(nameof(MeleeWeapon.hasEnchantmentOfType))
-                                .MakeGenericMethod(typeof(MeleeArtfulEnchantment))),
+                                .MakeGenericMethod(typeof(InfinityEnchantment))),
                         new CodeInstruction(OpCodes.Brfalse_S, notInfinity),
                         new CodeInstruction(OpCodes.Ldc_I4_6),
                         new CodeInstruction(OpCodes.Br_S, resumeExecution),
@@ -104,7 +104,7 @@ internal sealed class MeleeWeaponDoAnimateSpecialMovePatcher : HarmonyPatcher
         }
         catch (Exception ex)
         {
-            Log.E($"Failed adding Artful dagger effect.\nHelper returned {ex}");
+            Log.E($"Failed adding empowered dagger effect.\nHelper returned {ex}");
             return null;
         }
 

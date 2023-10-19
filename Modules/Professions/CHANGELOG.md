@@ -1,15 +1,15 @@
 ﻿# PRFS Changelog
 
-## 3.2.0
+## 4.0.0
 
 ### Changed
 
 * Major overhaul for most Combat professions:
     * **Brute:**
-        * Prestige effect now also doubles the duration of Rage stacks.
+        * Bonus attack speed is now part of the base perk.
+        * Prestige effect changed to double the duration of Rage stacks, making them easier to stack up to new heights.
     * **Poacher (Bushwhacker):**
-        * Poaching no longer requires a critical strike. Items can now be poached on any hit. The odds are still dependent on critical strike chance, but now also factors in enemy resistance and jitteriness (jittery enemies are more unpredictable and thus harder to steal from).
-        * Prestige effect now also allows poaching twice from the same enemy. In exchange, special move refund has been lowered to only
+        * Poaching no longer requires a critical strike. Items can now be poached on any hit. The odds are still dependent on critical strike chance, but now also factors in enemy resistance, jitteriness (jittery enemies are more unpredictable and thus harder to steal from) and your luck (**not** Daily Luck!).
     * **Rascal:**
         * Chance to recovery ammo when prestiged reduced from 70% to 55%. This chance is no longer reduced for pierced ammo.
         * New prestige effect: **Can equip Monster Musk to produce alluring ammo.**

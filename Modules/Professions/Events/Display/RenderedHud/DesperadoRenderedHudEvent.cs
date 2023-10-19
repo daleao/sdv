@@ -12,17 +12,17 @@ using StardewValley.Tools;
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class DesperadoRenderedWorldEvent : RenderedWorldEvent
+internal sealed class DesperadoRenderedHudEvent : RenderedHudEvent
 {
-    /// <summary>Initializes a new instance of the <see cref="DesperadoRenderedWorldEvent"/> class.</summary>
+    /// <summary>Initializes a new instance of the <see cref="DesperadoRenderedHudEvent"/> class.</summary>
     /// <param name="manager">The <see cref="EventManager"/> instance that manages this event.</param>
-    internal DesperadoRenderedWorldEvent(EventManager manager)
+    internal DesperadoRenderedHudEvent(EventManager manager)
         : base(manager)
     {
     }
 
     /// <inheritdoc />
-    protected override void OnRenderedWorldImpl(object? sender, RenderedWorldEventArgs e)
+    protected override void OnRenderedHudImpl(object? sender, RenderedHudEventArgs e)
     {
         var lastUser = Game1.player;
         if (lastUser.CurrentTool is not Slingshot slingshot || !lastUser.usingSlingshot ||

@@ -84,6 +84,5 @@ public class BurnAnimation : TemporaryAnimatedSprite
 
         this.Position = monster.GetOverheadOffset() - new Vector2(0, 8f);
         return result;
-
     }
 }

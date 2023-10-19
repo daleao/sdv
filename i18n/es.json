@@ -126,28 +126,28 @@
   "fighter.desc.prestiged": "Daño +10% >> +15%.",
   "brute.title.male": "Bestia",
   "brute.title.female": "Amazona",
-  "brute.desc": "Aumenta la ira al recibir daño, aumentando la destreza de combate. +25 HP.",
-  "brute.desc.prestiged": "La ira también otorga velocidad de ataque.",
+  "brute.desc": "Enfurecete a medida que sufres daño, aumentando gradualmente tu propio daño y velocidad de ataque. +25 HP.",
+  "brute.desc.prestiged": "Manténgase enfurecido el doble de tiempo.",
   "brute.buff.title": "Ira",
   "brute.buff.desc": "Daño +{{damage}}.",
   "brute.buff.desc.prestiged": "Daño +{{damage}}. Velocidad de ataque +{{speed}}.",
   "poacher.title.male": "Guerrillero",
   "poacher.title.female": "Guerrillera",
-  "poacher.desc": "Probabilidad de golpe crítico +50%. Los golpes críticos pueden pinchar objetos.",
+  "poacher.desc": "Probabilidad de golpe crítico +50%. Posibilidad de pinchar un objeto a los enemigos en cada ataque.",
   "poacher.desc.prestiged": "Reinicia el enfriamento de los ataques especiales al pinchar un objeto.",
 
   "rascal.title.male": "Bribón",
   "rascal.title.female": "Bribona",
   "rascal.desc": "Los tirachinas ganan una ranura de munición adicional. 35% de probabilidad de recuperar la munición.",
-  "rascal.desc.prestiged": "35% >> 70% de probabilidad de recuperar la munición.",
+  "rascal.desc.prestiged": "35% >> 55% de probabilidad de recuperar la munición. Puedes equipar a Monster Musk para disparar munición de señuelo.",
   "desperado.title.male": "Forajido",
   "desperado.title.female": "Forajida",
-  "desperado.desc": "Puede sobrecargar el tirachinas para disparar con más potencia.",
+  "desperado.desc": "Los disparos consecutivos contra diferentes enemigos en 1 segundo causan un 50% más de daño. Puede sobrecargar el tirachinas para disparar con más potencia.",
   "desperado.desc.prestiged": "Sobrecargue el doble de rápido.",
   "piper.title.male": "Encantador de Babas",
   "piper.title.female": "Encantadora de Babas",
   "piper.desc": "Atrae más Babas en lugares peligrosos. Chance de obtener efectos aleatorios al eliminar Babas",
-  "piper.desc.prestiged": "Chance de también recuperar un poco de salud y energía al eliminar Babas.",
+  "piper.desc.prestiged": "Mayor efectividad y variedad de efectos de Babas eliminadas.",
   "piper.buff": "Pringue de baba",
 
 
@@ -346,8 +346,6 @@
   // * ENCHANTMENTS * //
   // **************** //
 
-  "enchantments.artful.name": "Diestro",
-  "enchantments.artful.parry": "Chance de crítico +100%",
   "enchantments.carving.name": "Perforador",
   "enchantments.cleaving.name": "Rajante",
   "enchantments.energized.name": "Energizado",
@@ -358,10 +356,9 @@
   "enchantments.bloodthirsty.name": "Sediento",
   "enchantments.mammonite.name": "Mammonita",
   "enchantments.wabbajack.name": "Babajaco",
-  "enchantments.gatling.name": "Metralla",
-  "enchantments.preserving.name": "Conservante",
+  "enchantments.freezing.name": "Freljord",
   "enchantments.quincy.name": "Quincy",
-  "enchantments.spreading.name": "Escopeta",
+  "enchantments.runaan.name": "Runaan",
 
 
   // *********** //

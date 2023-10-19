@@ -13,25 +13,18 @@ using StardewValley.Tools;
 #endregion using directives
 
 /// <summary>A beam of energy fired by <see cref="MeleeWeapon"/>s with the <see cref="InfinityEnchantment"/>.</summary>
-internal sealed class LightBeamProjectile : BasicProjectile
+internal sealed class BlessedProjectile : BasicProjectile
 {
     public const int TileSheetIndex = 11;
 
-    /// <summary>Initializes a new instance of the <see cref="LightBeamProjectile"/> class.</summary>
-    /// <remarks>Required for multiplayer syncing.</remarks>
-    public LightBeamProjectile()
-        : base()
-    {
-    }
-
-    /// <summary>Initializes a new instance of the <see cref="LightBeamProjectile"/> class.</summary>
+    /// <summary>Initializes a new instance of the <see cref="BlessedProjectile"/> class.</summary>
     /// <param name="source">The <see cref="MeleeWeapon"/> which fired this projectile.</param>
     /// <param name="firer">The <see cref="Farmer"/> who fired this projectile.</param>
     /// <param name="startingPosition">The projectile's starting position.</param>
     /// <param name="xVelocity">The projectile's starting velocity in the horizontal direction.</param>
     /// <param name="yVelocity">The projectile's starting velocity in the vertical direction.</param>
     /// <param name="rotation">The projectile's starting rotation.</param>
-    public LightBeamProjectile(
+    public BlessedProjectile(
         MeleeWeapon source,
         Farmer firer,
         Vector2 startingPosition,

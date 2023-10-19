@@ -88,7 +88,7 @@ internal sealed class GameLocationPerformTouchActionPatcher : HarmonyPatcher
     {
         var player = Game1.player;
         if (player.ActiveObject is null ||
-            !Utility.IsNormalObjectAtParentSheetIndex(player.ActiveObject, SObject.prismaticShardIndex))
+            !Utility.IsNormalObjectAtParentSheetIndex(player.ActiveObject, ObjectIds.PrismaticShard))
         {
             return false;
         }

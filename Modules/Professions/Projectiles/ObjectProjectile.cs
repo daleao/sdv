@@ -69,9 +69,18 @@ internal sealed class ObjectProjectile : BasicProjectile
         this.Ammo = ammo;
         this.Source = source;
         this.Firer = firer;
+        this.Damage = (int)(this.damageToFarmer.Value * (1f + firer.attackIncreaseModifier));
+        this.Knockback = knockback * (1f + firer.knockbackModifier);
         this.Overcharge = overcharge;
-        this.Damage = (int)(this.damageToFarmer.Value * (1f + firer.attackIncreaseModifier) * overcharge);
-        this.Knockback = knockback * (1f + firer.knockbackModifier) * overcharge;
+        if (overcharge > 1f)
+        {
+            this.Damage = (int)(this.Damage * overcharge);
+            this.Knockback *= overcharge;
+            this.xVelocity.Value *= overcharge;
+            this.yVelocity.Value *= overcharge;
+            this.tailLength.Value = (int)((overcharge - 1f) * 5f);
+        }
+
         this.IsSquishy = this.Ammo.Category is (int)ObjectCategory.Eggs or (int)ObjectCategory.Fruits or (int)ObjectCategory.Vegetables ||
                          this.Ammo.ParentSheetIndex == ObjectIds.Slime;
         if (this.IsSquishy)
@@ -79,11 +88,6 @@ internal sealed class ObjectProjectile : BasicProjectile
             Reflector
                 .GetUnboundFieldGetter<BasicProjectile, NetString>("collisionSound")
                 .Invoke(this).Value = "slimedead";
-        }
-
-        if (overcharge > 1f)
-        {
-            this.tailLength.Value = (int)((this.Overcharge - 1f) * 5f);
         }
 
         this.ignoreTravelGracePeriod.Value = CombatModule.Config.RemoveSlingshotGracePeriod;
@@ -179,10 +183,10 @@ internal sealed class ObjectProjectile : BasicProjectile
                 return;
             }
 
-            if (monster.CanBeSlowed() && CombatModule.ShouldEnable && Game1.random.NextDouble() < 2d / 3d)
+            if (!monster.IsSlime() && monster is not Ghost && CombatModule.ShouldEnable && Game1.random.NextDouble() < 2d / 3d)
             {
                 // do debuff
-                monster.Slow(5123 + (Game1.random.Next(-2, 3) * 456),  1d / 3d);
+                monster.Slow(5123 + (Game1.random.Next(-2, 3) * 456),  1f / 3f);
                 monster.startGlowing(Color.LimeGreen, false, 0.05f);
             }
         }
@@ -190,17 +194,27 @@ internal sealed class ObjectProjectile : BasicProjectile
         var ogDamage = this.Damage;
         var monsterResistanceModifier = 1f + (monster.resilience.Value / 10f);
         var inverseResistanceModifer = 1f / monsterResistanceModifier;
+        IUltimate? ultimate = this.Firer.IsLocalPlayer && ProfessionsModule.Config.EnableLimitBreaks
+            ? this.Firer.Get_Ultimate()
+            : null;
+
         // check for quick shot
         if (ProfessionsModule.State.LastDesperadoTarget is not null &&
             monster != ProfessionsModule.State.LastDesperadoTarget)
         {
+            Log.D("Did quick shot!");
             this.Damage = (int)(this.Damage * 1.5f);
+            if (ultimate is DeathBlossom { IsActive: false })
+            {
+                ultimate.ChargeValue += 12d;
+            }
         }
         // check for pierce, which is mutually exclusive with quick shot
         else if (this.Firer.professions.Contains(Farmer.desperado + 100) && !this.IsSquishy &&
                  this.Ammo.ParentSheetIndex != ObjectIds.ExplosiveAmmo &&
-                 Game1.random.NextDouble() < (this.Overcharge - 1f) * inverseResistanceModifer)
+                 Game1.random.NextDouble() < (this.Overcharge - 1.5f) * inverseResistanceModifer)
         {
+            Log.D("Pierced!");
             this.DidPierce = true;
             if (CombatModule.Config.NewResistanceFormula)
             {
@@ -212,6 +226,7 @@ internal sealed class ObjectProjectile : BasicProjectile
             }
         }
 
+        this._explosionAnimation(this, location);
         location.damageMonster(
             monster.GetBoundingBox(),
             this.Damage,
@@ -241,19 +256,22 @@ internal sealed class ObjectProjectile : BasicProjectile
         }
 
         // increment ultimate meter
-        if (this.Firer.IsLocalPlayer && ProfessionsModule.Config.EnableLimitBreaks &&
-            this.Firer.Get_Ultimate() is { IsActive: false } ultimate)
+        if (ultimate is { IsActive: false })
         {
-            ultimate
-                .When(Ultimate.DesperadoBlossom).Then(() =>
-                    ultimate.ChargeValue += this.Overcharge >= 1f ? 8d * this.Overcharge : 12d)
-                .When(Ultimate.PiperConcerto).Then(() => ultimate.ChargeValue += Game1.random.Next(10));
+            switch (ultimate)
+            {
+                case DeathBlossom when this.Overcharge >= 1f:
+                    ultimate.ChargeValue += this.Overcharge * 8d;
+                    break;
+                case Concerto when this.Ammo.ParentSheetIndex == ObjectIds.Slime:
+                    ultimate.ChargeValue += Game1.random.Next(8);
+                    break;
+            }
         }
 
         if (this.IsSquishy || this.Ammo.ParentSheetIndex == ObjectIds.ExplosiveAmmo ||
             !this.Firer.HasProfession(Profession.Rascal))
         {
-            this._explosionAnimation(this, location);
             return;
         }
 
@@ -272,8 +290,6 @@ internal sealed class ObjectProjectile : BasicProjectile
                     new Vector2((int)this.position.X, (int)this.position.Y),
                     this.Firer.getStandingPosition()));
         }
-
-        this._explosionAnimation(this, location);
     }
 
     /// <inheritdoc />

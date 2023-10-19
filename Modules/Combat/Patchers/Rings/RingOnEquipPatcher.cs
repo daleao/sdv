@@ -52,9 +52,9 @@ internal sealed class RingOnEquipPatcher : HarmonyPatcher
                 CombatModule.State.WarriorKillCount = 0;
                 EventManager.Enable<WarriorWarpedEvent>();
                 return true;
-            case ObjectIds.ImmunityRing:
-                who.immunity += 10;
-                return false;
+            //case ObjectIds.ImmunityRing:
+            //    who.immunity += 10;
+            //    return false;
             default:
                 if (!JsonAssetsIntegration.GarnetRingIndex.HasValue || __instance.ParentSheetIndex != JsonAssetsIntegration.GarnetRingIndex)
                 {

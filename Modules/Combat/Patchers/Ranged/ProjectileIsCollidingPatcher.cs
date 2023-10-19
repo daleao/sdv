@@ -5,6 +5,7 @@
 using DaLion.Shared.Harmony;
 using HarmonyLib;
 using StardewValley;
+using StardewValley.Locations;
 using StardewValley.Network;
 using StardewValley.Projectiles;
 
@@ -33,6 +34,7 @@ internal class ProjectileIsCollidingPatcher : HarmonyPatcher
             return;
         }
 
+        var tile = new Vector2(___position.X / Game1.tileSize, ___position.Y / Game1.tileSize);
         if (location.doesTileHaveProperty(
                 (int)___position.X / Game1.tileSize,
                 (int)___position.Y / Game1.tileSize,
@@ -40,6 +42,15 @@ internal class ProjectileIsCollidingPatcher : HarmonyPatcher
                 "Back") == "T")
         {
             __result = false;
+            return;
+        }
+
+        if (location is BuildableGameLocation buildable)
+        {
+            foreach (var building in buildable.buildings)
+            {
+                if 
+            }
         }
     }
 

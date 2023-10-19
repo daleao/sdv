@@ -17,6 +17,7 @@ using DaLion.Shared.Extensions.Stardew;
 using DaLion.Shared.Harmony;
 using DaLion.Shared.Integrations;
 using HarmonyLib;
+using StardewValley;
 using StardewValley.Objects;
 using StardewValley.Tools;
 
@@ -378,9 +379,14 @@ public abstract class OverhaulModule
             {
                 Utility.iterateAllItems(item =>
                 {
-                    if (item is MeleeWeapon weapon)
+                    switch (item)
                     {
-                        weapon.AddIntrinsicEnchantments();
+                        case MeleeWeapon weapon when weapon.ShouldHaveIntrinsicEnchantment():
+                            weapon.AddIntrinsicEnchantments();
+                            break;
+                        case Slingshot slingshot when slingshot.ShouldHaveIntrinsicEnchantment():
+                            slingshot.AddIntrinsicEnchantments();
+                            break;
                     }
                 });
             }
@@ -388,9 +394,15 @@ public abstract class OverhaulModule
             {
                 for (var i = 0; i < Game1.player.Items.Count; i++)
                 {
-                    if (Game1.player.Items[i] is MeleeWeapon weapon)
+                    var item = Game1.player.Items[i];
+                    switch (item)
                     {
-                        weapon.AddIntrinsicEnchantments();
+                        case MeleeWeapon weapon when weapon.ShouldHaveIntrinsicEnchantment():
+                            weapon.AddIntrinsicEnchantments();
+                            break;
+                        case Slingshot slingshot when slingshot.ShouldHaveIntrinsicEnchantment():
+                            slingshot.AddIntrinsicEnchantments();
+                            break;
                     }
                 }
             }
@@ -402,9 +414,14 @@ public abstract class OverhaulModule
             {
                 Utility.iterateAllItems(item =>
                 {
-                    if (item is MeleeWeapon weapon)
+                    switch (item)
                     {
-                        weapon.RemoveIntrinsicEnchantments();
+                        case MeleeWeapon weapon:
+                            weapon.AddIntrinsicEnchantments();
+                            break;
+                        case Slingshot slingshot:
+                            slingshot.AddIntrinsicEnchantments();
+                            break;
                     }
                 });
             }
@@ -412,9 +429,15 @@ public abstract class OverhaulModule
             {
                 for (var i = 0; i < Game1.player.Items.Count; i++)
                 {
-                    if (Game1.player.Items[i] is MeleeWeapon weapon)
+                    var item = Game1.player.Items[i];
+                    switch (item)
                     {
-                        weapon.RemoveIntrinsicEnchantments();
+                        case MeleeWeapon weapon:
+                            weapon.AddIntrinsicEnchantments();
+                            break;
+                        case Slingshot slingshot:
+                            slingshot.AddIntrinsicEnchantments();
+                            break;
                     }
                 }
             }

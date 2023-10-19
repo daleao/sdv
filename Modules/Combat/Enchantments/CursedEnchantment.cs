@@ -13,7 +13,7 @@ using StardewValley.Tools;
 
 /// <summary>The secondary <see cref="BaseWeaponEnchantment"/> which characterizes the Dark Sword.</summary>
 [XmlType("Mods_DaLion_CursedEnchantment")]
-public class CursedEnchantment : BaseWeaponEnchantment
+public sealed class CursedEnchantment : BaseWeaponEnchantment
 {
     /// <inheritdoc />
     public override bool IsSecondaryEnchantment()

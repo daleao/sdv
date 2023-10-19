@@ -93,6 +93,10 @@ internal sealed class DebugButtonsChangedEvent : ButtonsChangedEvent
 
                     message +=
                         $"\n\n\tCurrent location: {c.currentLocation.NameOrUniqueName} ({c.currentLocation.GetType().Name})";
+                    message +=
+                        $"\n\n\tPosition: {c.Position}";
+                    message +=
+                        $"\n\n\tTile: {c.getTileLocation()}";
 
                     if (who is not null)
                     {

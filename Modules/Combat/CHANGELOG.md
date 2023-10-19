@@ -1,6 +1,6 @@
 ﻿# CMBT Changelog
 
-## 3.2.0
+## 4.0.0
 
 ### Added
 
@@ -10,13 +10,24 @@
     * Added a new Cooldown icon, to distinguish from Immunity.
 * Added config options to set each weapon tier color.
 * Frozen status' triple damage was reduced to double damage.
-* If Status Effects are enabled, the Burn and Freeze debuffs on the player will behave exactly as for monsters:
-    * Burn: player's damage cut in half, and suffers damage over time equal to 1/16 of max health every 3 seconds.
-    * Freeze: player cannot move, and the next attack will deal double damage.
-* If Status Effects are enabled, the **Jinxed** debuff will now prevent the use of special moves.
-* If Status Effects are enabled, the **Weakness** debuff will be changed to **Disoriented**, causing loss of movement control.
+* Added the following changes to debuffs on farmers if Statu Effects are enabled:
+    * Burn and Freeze debuffs will now behave exactly as for monsters:
+        * **Burn:** player's damage cut in half, and suffers damage over time equal to 1/16 of max health every 3 seconds.
+        * **Freeze:** player cannot move, and the next attack will deal double damage.
+    * **Jinxed** debuff will now prevent the use of special moves.
+    * **Weakness** debuff has been changed to **Disoriented**, causing loss of movement control.
 * Added the frozen decal and sound effect from Blue Squid debuff to Frozen status on monsters.
 * Status effects now cause monsters to glow.
+* Added Energized enchantment for slingshots.
+* Added the Freljord enchantment for slingshots.
+    * **Freljord:** Projectiles apply a progressively stronger Chill effect to enemies for 2 second. After 4 stacks, the enemy becomes Frozen.
+* Infinity weapons now also gain a small boost to their special move:
+    * **Stabing Sword:** increased dash distance.
+    * **Defense Sword:** parried enemies are stunned for 1 second.
+    * **Dagger:** Quick stab hits 5 times (up from 4).
+    * **Club:** Smash AoE is 50% larger.
+    * **Slingshot**: Auto-fire mode lasts for 1 additional second.
+* Added sound effect to Chill status.
 * The following translation **keys** have been added:
     * `ui.item_hover.attack_speed`
     * `ui.item_hover.light`
@@ -45,11 +56,19 @@
 ### Changed
 
 * Knockback damage no longer applies to gliders (flying enemies).
+* Ghosts are now immune to Chill.
 * Wizard's summon letter for Blade of Ruin now uses Wizard's custom letter background.
 * All Legendary-tier weapons now use the same title color (no more hard-to-read gold text in Blade of Dawn). Default color is set to the same as Masterwork.
 * Increased magnetism of tertian Infinity Band so that a full tertian tetrad matches a Small Magnet Ring. The tooltip text was changed to simply say "Magnetic".
 * Chill and Burn status effects will now cure each other.
 * The Burn status animation on Royal Serpent now draws on each segment.
+* Decreased the stun duration of slingshot special from 2s to 1s, but also decreased the cooldown from 2s to 1.5s.
+* Slightly increased the base damage of Quincy projectile, and it becomes stronger below 2/3 and again below 1/3 of max health.
+* Slingshots now have a base 2.5% crit. chance and x1.5 crit. power.
+* Slingshot special attack changed from stunning smack attack to gatling effect. Press and hold the action key to quickly auto-fire for a few seconds. You can release the key at any moment to interrupt the move.
+* Energized enchantment now charges slightly slower per hit. Damage increased by 3x.
+* Spreading enchantment has been overhauled as the Runaan enchantment:
+    * **Runaan:** Firing creates two additional projectiles which fly towards the nearest enemy after a short delay and deal 40% of the main projectile's damage.
 * The following translation **keys** have been changed:
     * `ui.item_hover.crate` -> `ui.item_hover.c_rate`
     * `ui.item_hover.cpow` -> `ui.item_hover.c_pow`
@@ -61,12 +80,23 @@
 ### Fixed
 
 * Effects that apply to gliders now also include Ghosts.
+* Frozen status now applies the correct duation.
+* Fixed Infinity Needle guaranteed crit. chance not applying correctly.
 
 ### Removed
 
+* Removed the Artful enchantment for both Melee and Ranged. Remnants of it have been added to Infinity weapons.
 * Removed the Magnum enchantment. It was useless and I hated it.
-    * Removed the following translation key: `enchantments.magnum.name`
-* Removed the Preserving enchantment. It was overpowered and I hated it.
+* Removed the Preserving enchantment. It was overpowered and trivialized the Rascal recovery perk.
+* Removed the Gatling enchantment.
+    * Removed the following translation keys:
+        * `enchantments.artful.name`
+        * `enchantments.artful.parry`
+        * `enchantments.gatling.name`
+        * `enchantments.magnum.name`
+        * `enchantments.preserving.name`
+        * `enchantments.spreading.name`
+* Removed changes to Immunity Ring.
 
 <sup><sup>[🔼 Back to top](#cmbt-changelog)</sup></sup>
 

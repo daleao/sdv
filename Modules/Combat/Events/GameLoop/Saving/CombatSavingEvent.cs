@@ -2,13 +2,10 @@
 
 #region using directives
 
-using System.Collections.Generic;
 using DaLion.Overhaul.Modules.Combat;
-using DaLion.Overhaul.Modules.Combat.Extensions;
 using DaLion.Shared.Events;
 using DaLion.Shared.Extensions.Stardew;
 using StardewModdingAPI.Events;
-using StardewValley.Tools;
 
 #endregion using directives
 
@@ -23,24 +20,9 @@ internal sealed class CombatSavingEvent : SavingEvent
     {
     }
 
-    /// <summary>Gets the cache of weapons with intrinsic enchantments.</summary>
-    /// <remarks>For recovery immediately after saving.</remarks>
-    internal static List<MeleeWeapon> InstrinsicWeapons { get; } = new();
-
     /// <inheritdoc />
     protected override void OnSavingImpl(object? sender, SavingEventArgs e)
     {
-        Utility.iterateAllItems(item =>
-        {
-            if (item is not MeleeWeapon weapon || !weapon.HasIntrinsicEnchantment())
-            {
-                return;
-            }
-
-            weapon.RemoveIntrinsicEnchantments();
-            InstrinsicWeapons.Add(weapon);
-        });
-
         if (CombatModule.State.AutoSelectableMelee is not null)
         {
             Game1.player.Write(

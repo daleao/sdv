@@ -35,8 +35,8 @@ internal sealed class BaseEnchantmentOnCalculateDamagePatcher : HarmonyPatcher
         {
             switch (__instance)
             {
-                case CarvingEnchantment carving:
-                    carving.OnCalculateDamage(monster, location, who, ref amount);
+                case ObsidianEnchantment obsidian:
+                    obsidian.OnCalculateDamage(monster, location, who, ref amount);
                     goto default;
                 default:
                     return false; // don't run original logic

@@ -130,6 +130,6 @@ public sealed class ModConfig
         Shared.Log.T($"[Config]: Current settings:\n{this}");
         var message = this
             .Enumerate()
-            .Aggregate("[Config]: Current settings:", (current, next) => current + "\n" + next);
+            .Aggregate("[Config]: Current settings:", (current, next) => current + "\n" + next.ToString());
     }
 }

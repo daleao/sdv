@@ -459,7 +459,7 @@ public sealed class ModApi
     /// <param name="monster">The <see cref="Monster"/>.</param>
     /// <param name="duration">The duration in milliseconds.</param>
     /// <param name="intensity">The intensity of the slow effect.</param>
-    public void Slow(Monster monster, int duration, double intensity = 0.5)
+    public void Slow(Monster monster, int duration, float intensity = 0.5f)
     {
         monster.Slow(duration, intensity);
     }

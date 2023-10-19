@@ -126,28 +126,27 @@
   "fighter.desc.prestiged": "Damage +10% >> +15%.",
   "brute.title.male": "Brute",
   "brute.title.female": "Amazon",
-  "brute.desc": "Taking damage builds rage, increasing your own damage. +25 HP.",
-  "brute.desc.prestiged": "Raging lasts twice as long and also increases attack speed.",
+  "brute.desc": "Become enraged as you suffer damage, gradually increasing your own damage and attack speed. +25 HP.",
+  "brute.desc.prestiged": "Stay enraged for twice as long.",
   "brute.buff.name": "Rage",
-  "brute.buff.desc": "Damage +{{damage}}.",
-  "brute.buff.desc.prestiged": "Damage +{{damage}}. Attack Speed +{{speed}}.",
+  "brute.buff.desc": "Damage +{{damage}}. Attack Speed +{{speed}}.",
   "poacher.title.male": "Bushwhacker",
   "poacher.title.female": "Bushwhacker",
-  "poacher.desc": "Crit. chance +50%. Crit. strikes have a chance to poach items from enemies.",
+  "poacher.desc": "Crit. chance +50%. Chance to poach an item from enemies on each attack.",
   "poacher.desc.prestiged": "Refund special move cooldown on a successful poach.",
 
   "rascal.title.male": "Rascal",
   "rascal.title.female": "Rascal",
   "rascal.desc": "Gain one additional ammo slot. 35% chance to recover spent ammo.",
-  "rascal.desc.prestiged": "35% >> 55% chance to recover spent ammo. Can equip Monster Musk to shoot alluring ammo. ",
+  "rascal.desc.prestiged": "35% >> 55% chance to recover spent ammo. Can equip Monster Musk to shoot luring ammo.",
   "desperado.title.male": "Desperado",
   "desperado.title.female": "Desperada",
-  "desperado.desc": "Fire faster at lower HP. Can overcharge the slingshot to increase ammo power and cross-section.",
-  "desperado.desc.prestiged": "Overcharged shots explode into shrapnel.",
+  "desperado.desc": "Consecutive shots against different enemies within 1 second deal 50% more damage. Can overcharge the slingshot to increase ammo power and cross-section.",
+  "desperado.desc.prestiged": "Overcharged shots have a chance to pierce enemies.",
   "piper.title.male": "Slimed Piper",
   "piper.title.female": "Slime Enchantress",
   "piper.desc": "Attract ally Slimes when near enemies. Chance to gain a random effect when a Slime is defeated.",
-  "piper.desc.prestiged": "Increased limit for defeated Slime effects.",
+  "piper.desc.prestiged": "Increased effectiveness and variety of defeated Slime effects.",
   "piper.buff": "Slimed",
 
 
@@ -345,8 +344,6 @@
   // * ENCHANTMENTS * //
   // **************** //
 
-  "enchantments.artful.name": "Artful",
-  "enchantments.artful.parry": "Crit. chance +100%",
   "enchantments.carving.name": "Carving",
   "enchantments.cleaving.name": "Cleaving",
   "enchantments.energized.name": "Energized",
@@ -357,11 +354,9 @@
   "enchantments.bloodthirsty.name": "Bloodthirsty",
   "enchantments.mammonite.name": "Mammonite",
   "enchantments.wabbajack.name": "Wabbajack",
-  "enchantments.gatling.name": "Gatling",
-  "enchantments.preserving.name": "Preserving",
+  "enchantments.freezing.name": "Freljord",
   "enchantments.quincy.name": "Quincy",
-  "enchantments.spreading.name": "Spreading",
-
+  "enchantments.runaan.name": "Runaan",
 
   // *********** //
   // ** TAXES ** //
