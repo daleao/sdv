@@ -8,7 +8,7 @@ This file contains a TL;DR of current version changes and hotfixes from across a
     * Major rework of most Combat professions. I encourage you to go over the detailed changelog for PRFS module.
 * **[CMBT]:**
     * Major rework of all Ranged prismatic enchantments. Removed all the boring old enchantments in favor of much better new ones.
-    * Reworked some player status effects to be more consistent with the ones applies to monsters. Also tweaked some monster status effects.
+    * Reworked some player status effects to be more consistent with the ones applied to monsters. Also tweaked some monster status effects.
     * Added new visuals and sound effects to certain status effects.
     * Several other tweaks and minor improvements. I encourage you to go over the detailed changelog for CMBT module.
 * Added, removed and changed several to translation keys.
