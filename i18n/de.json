@@ -257,8 +257,8 @@
   "locations.SeedShop.Yoba": "\"Yobas Segen, wahre Helden, stärken ihren Gang. In Großmut und Mitgefühl, tugendhaft und lang. Mit Ehre, Wagemut, Weisheit, ihr Geist erlangt den Schwung. Eine Prophezeiung offenbart sich, unter Yobas Blick und Drang.\"",
   "locations.desert.noiridium": "Du spürst, wie der Prismasplitter vibriert...#Aber nichts passiert.#Es fühlt sich an, als würde etwas fehlen.",
 
-  "mail.curse.intro": "[letterbg 2]Lieber @,^Ich muss dich in einer äußerst dringenden Angelegenheit sprechen.^Bitte komm so bald wie möglich zu mir in den Turm.^ -M. Rasmodius, Zauberer[#]Viego Curse",
-  "mail.curse.intro.witch": "[letterbg 2]Lieber @,^Ich muss dich in einer äußerst dringenden Angelegenheit sprechen.^Bitte komm so bald wie möglich zu mir in den Turm.^ -M. Rasmoda, Hexe[#]Viego Curse",
+  "mail.curse.intro": "[letterbg 2]Lieber @,^Ich muss dich in einer äußerst dringenden Angelegenheit sprechen.^Bitte komm so bald wie möglich zu mir in den Turm.^ -M. Rasmodius, Zauberer[#]The Blade of Ruin",
+  "mail.curse.intro.witch": "[letterbg 2]Lieber @,^Ich muss dich in einer äußerst dringenden Angelegenheit sprechen.^Bitte komm so bald wie möglich zu mir in den Turm.^ -M. Rasmoda, Hexe[#]The Blade of Ruin",
 
   "quests.forge.intro": "Basic/A Dwarven Legacy/Clint hat dir gesagt, dass er in ein paar Tagen mit der Übersetzung der alten Blaupause fertig ist./Besuche Clint, um ihn nach der Blaupause zu fragen./Blacksmith/-1/0/-1/false",
   "quests.forge.next": "Basic/A Dwarven Legacy II/Die alte Blaupause entpuppte sich als Rezept für eine mächtige alte Waffe! Könnte es noch andere geben?/Finde die restlichen zwergischen Blaupausen./null/-1/0/-1/false",

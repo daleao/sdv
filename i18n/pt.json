@@ -259,8 +259,8 @@
   "locations.SeedShop.Yoba": "A bênção de Yoba, verdadeiros heróis fortalecerá. Em Generosidade e Compaixão, virtudes hão de praticar. Com Honra, Valor, Sabedoria, seus espíritos elevará. Uma profecia se desvela, sob o olhar vigilante de Yoba.",
   "locations.desert.noiridium": "Você sente o Fragmento Prismático vibrar...#Mas nada acontece.#Parece que algo está faltando.",
 
-  "mail.curse.intro": "[letterbg 2]Caro @,^Devo te ver sobre um assunto de extrema urgência.^Por favor, venha me ver na torre assim que possível.^   -M. Rasmodius, feiticeiro[#]Viego Curse",
-  "mail.curse.intro.witch": "[letterbg 2]Caro @,^Devo te ver sobre um assunto de extrema urgência.^Por favor, venha me ver na torre assim que possível.^   -M. Rasmodius, feiticeira[#]Viego Curse",
+  "mail.curse.intro": "[letterbg 2]Caro @,^Devo te ver sobre um assunto de extrema urgência.^Por favor, venha me ver na torre assim que possível.^   -M. Rasmodius, feiticeiro[#]The Blade of Ruin",
+  "mail.curse.intro.witch": "[letterbg 2]Caro @,^Devo te ver sobre um assunto de extrema urgência.^Por favor, venha me ver na torre assim que possível.^   -M. Rasmodius, feiticeira[#]The Blade of Ruin",
 
   "quests.forge.intro": "Basic/Um Legado dos Anões/Clint te disse que ele acabaria de traduzir aquela velha planta em alguns dias./Visite Clint para perguntar sobre a planta./null/-1/0/-1/false",
   "quests.forge.next": "Basic/Um Legado dos Anões II/Aquela planta antiga era uma receita para uma poderosa arma anã! Talvez hajam outras?/Encontre as plantas restantes./null/-1/0/-1/false",

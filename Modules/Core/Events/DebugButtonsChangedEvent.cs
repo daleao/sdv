@@ -100,6 +100,11 @@ internal sealed class DebugButtonsChangedEvent : ButtonsChangedEvent
 
                     if (who is not null)
                     {
+                        message += "\n\n\tEvents seen:";
+                        message = who.eventsSeen.Aggregate(
+                            message,
+                            (m, n) => m + $"\n\t\t- {n}");
+
                         message += "\n\n\tMail flags:";
                         message = who.mailReceived.Aggregate(
                             message,
@@ -139,7 +144,7 @@ internal sealed class DebugButtonsChangedEvent : ButtonsChangedEvent
 
                         if (!string.IsNullOrEmpty(events))
                         {
-                            message += "\n\n\tEvents:" + events;
+                            message += "\n\n\tEnabled events:" + events;
                         }
                         else
                         {
