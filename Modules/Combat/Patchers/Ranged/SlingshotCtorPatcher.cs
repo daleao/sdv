@@ -31,7 +31,6 @@ internal sealed class SlingshotCtorPatcher : HarmonyPatcher
 
         __instance.AddIntrinsicEnchantments();
         __instance.specialItem = true;
-
     }
 
     #endregion harmony patches

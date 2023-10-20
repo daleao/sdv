@@ -57,7 +57,7 @@ internal sealed class SlingshotDrawInMenuPatcher : HarmonyPatcher
         }
 
         var blockFillPct = CombatModule.State.SlingshotGatlingTimer > 0
-                ? (float)CombatModule.State.SlingshotGatlingTimer / __instance.GetSpecialDuration() 
+                ? (float)CombatModule.State.SlingshotGatlingTimer / __instance.GetSpecialDuration()
                 : (float)CombatModule.State.SlingshotCooldown / __instance.GetSpecialCooldown();
         var drawingAsDebris = drawShadow && drawStackNumber == StackDrawType.Hide;
 

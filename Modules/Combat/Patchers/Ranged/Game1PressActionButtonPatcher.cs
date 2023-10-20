@@ -2,10 +2,10 @@
 
 #region using directives
 
-using Core;
 using DaLion.Overhaul.Modules.Combat.Extensions;
 using DaLion.Overhaul.Modules.Combat.Integrations;
 using DaLion.Overhaul.Modules.Combat.VirtualProperties;
+using DaLion.Overhaul.Modules.Core;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
 using StardewValley.Tools;

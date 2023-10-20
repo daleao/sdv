@@ -193,7 +193,11 @@ internal sealed class RunaanProjectile : BasicProjectile
                 var targets = location.characters.OfType<Monster>().ToList();
 
                 var target = this.position.Value.GetClosest(targets, monster => monster.Position, out _);
-                var targetDirection = target.GetBoundingBox().Center.ToVector2() - this.position.Value - new Vector2(32f, 32f);
+                var targetDirection = target?.GetBoundingBox().Center.ToVector2() - this.position.Value - new Vector2(32f, 32f) ??
+                                      Utility.getVelocityTowardPoint(
+                                          this.position.Value,
+                                          this.Source.AdjustForHeight(this.Source.aimPos.Value.ToVector2()),
+                                          this._finalSpeed);
                 targetDirection.Normalize();
 
                 var velocity = targetDirection * this._finalSpeed;

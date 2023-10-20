@@ -41,7 +41,6 @@ public abstract class Ultimate : SmartEnum<Ultimate>, IUltimate
 
     #endregion enum entires
 
-
     private int _activationTimer = ActivationTimerMax;
     private double _chargeValue;
 

@@ -42,7 +42,6 @@ internal sealed class MeleeWeaponCtorPatcher : HarmonyPatcher
             {
                 __instance.specialItem = true;
             }
-
         }
 
         if (CombatModule.Config.EnableHeroQuest)

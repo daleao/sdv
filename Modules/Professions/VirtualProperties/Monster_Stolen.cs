@@ -21,7 +21,6 @@ internal static class Monster_Stolen
     // Net types are readonly
     internal static void Set_Stolen(this Monster monster, bool value)
     {
-
     }
 
     internal class Holder

@@ -3,8 +3,8 @@
 #region using directives
 
 using System.Collections.Generic;
-using Core;
 using DaLion.Overhaul.Modules.Combat.StatusEffects;
+using DaLion.Overhaul.Modules.Core;
 using DaLion.Shared.Enums;
 using DaLion.Shared.Extensions;
 using Microsoft.Xna.Framework;
