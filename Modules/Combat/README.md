@@ -135,10 +135,10 @@ Weapons are categorized by different tiers, [color-coded for your convenience][t
 
 <div align="center">
 
-<img src="https://gitlab.com/daleao/modular-overhaul/-/raw/main/resources/images/tiers.png" alt="tiers" width="67%">
+<img src="https://gitlab.com/daleao/modular-overhaul/-/raw/main/Modules/Combat/resources/readme/tiers.png" alt="tiers">
 </div>
 
-</div>
+<br>
 
 Weapons below the Mythic tier all have randomized damage, determined the moment they are dropped and scaled to your Mine progression. This way, players can always loot stronger weapons; all weapons can be useful, and no specific weapon is ever trivialized. Higher-tier weapons will generally be stronger than lower-tiered ones, although that may not always be the case.
 
@@ -339,6 +339,11 @@ The Infinity Band likewise does nothing on its own, but it serves as a vessel fo
 <sup><sup>[🔼 Back to top](#margo--combat-cmbt)</sup></sup>
 
 ## Infinity +1
+
+<div align="center">
+
+<img src="https://gitlab.com/daleao/modular-overhaul/-/raw/main/Modules/Combat/resources/readme/infinity.png" alt="cursed_event.png">
+</div>
 
 According to [TV Tropes Wiki](https://tvtropes.org/pmwiki/pmwiki.php/Main/InfinityPlusOneSword), an Infinity +1 sword is "not only the most powerful of its kind [...] , but its power is matched by how hard it is to acquire". The vanilla Infinity weapons do not quite fit that definition. Let's fix that, shall we?
 

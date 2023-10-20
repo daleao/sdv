@@ -67,8 +67,8 @@ All modules should be fully multiplayer and split-screen compatible **if and onl
 
 <div align="center">
 
-<img src="./resources/releases.png" alt="releases.png" width="80%">
-<img src="./resources/main_file.png" alt="main_file.png" width="80%">
+<img src="./resources/screenshots/releases.png" alt="releases.png" width="80%">
+<img src="./resources/screenshots/main_file.png" alt="main_file.png" width="80%">
 
 </div>
 

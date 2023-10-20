@@ -62,15 +62,11 @@ Gaining access to the Volcano Forge, in addition to it's regular features, will 
 <img src="https://gitlab.com/daleao/modular-overhaul/-/raw/main/resources/screenshots/forge_upgrading.gif" alt="forge_upgrading.gif" width="67%">
 </div>
 
-<sup><sup>[🔼 Back to top](#margo--tools-tols)</sup></sup>
-
-## Radioactive Tools
-
 Clint is no fool to mock about with radioactive substances. But with the Forge's Dwarven technology you can now upgrade your tools to the Radioactive tier. If [Moon Misadventures](https://www.nexusmods.com/stardewvalley/mods/10612) is installed, this will also be required for the Mythic tier.
 
 <div align="center">
 
-<img src="https://gitlab.com/daleao/modular-overhaul/-/raw/main/resources/images/radioactive.png" alt="radioactive.png" width="67%">
+<img src="https://gitlab.com/daleao/modular-overhaul/-/raw/main/Modules/Tools/resources/radioactive.png" alt="radioactive.png">
 </div>
 
 <sup><sup>[🔼 Back to top](#margo--tools-tols)</sup></sup>
