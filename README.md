@@ -19,6 +19,7 @@ A complete and comprehensive rework of Stardew Valley gameplay mechanics, offeri
 - [API for C# Developers](#api-for-c-developers)
 - [Buildings the Source Code](#building-the-source-code)
 - [Dependencies](#dependencies)
+- [Mod Recommendations](#mod-recommendations)
 - [Credits & Special Thanks](#contributors--special-thanks)
 
 ## Introduction
