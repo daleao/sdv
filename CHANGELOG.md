@@ -13,6 +13,7 @@ This file contains a TL;DR of current version changes and hotfixes from across a
     * Several other tweaks and minor improvements. I encourage you to go over the detailed changelog for CMBT module.
 * Added, removed and changed several to translation keys.
 * Some bug fixes.
+* Changed to custom [license](LICENSE).
 
 <sup><sup>[🔼 Back to top](#margo-changelogs)</sup></sup>
 
