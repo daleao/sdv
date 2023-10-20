@@ -186,6 +186,8 @@ For those interested, [this is my curated modlist](https://smapi.io/log/30e05a1a
 
 Please note that many of these mods have been heavily customized, including typo fixes, harmonized textures and even map edits. The most heavily edited mods are versioned with the suffix `-DaLion`, but not all do. These mods I would simply not recommend in their original state due to either lack of polish or consistency with the rest of the list. Make sure to test every mod before committing to your mod list.
 
+<sub><sup>[🔼 Back to top](#table-of-contents)</sup></sub>
+
 ## Credits & Special Thanks
 
 We hail the Lord and Savior [Pathoschild][user:pathoschild], creator of [SMAPI][url:smapi], Content Patcher and the mod-verse, as well as the Father, **ConcernedApe**, creator of Stardew Valley, a benevolent God who continues to support the game for both players and modders.    
