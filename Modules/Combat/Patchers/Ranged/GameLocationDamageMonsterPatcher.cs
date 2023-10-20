@@ -7,6 +7,7 @@ using System.Reflection;
 using System.Reflection.Emit;
 using DaLion.Overhaul.Modules.Combat.Extensions;
 using DaLion.Overhaul.Modules.Combat.VirtualProperties;
+using DaLion.Shared.Attributes;
 using DaLion.Shared.Extensions.Reflection;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
@@ -17,6 +18,7 @@ using StardewValley.Tools;
 #endregion using directives
 
 [UsedImplicitly]
+[ImplicitIgnore]
 internal sealed class GameLocationDamageMonsterPatcher : HarmonyPatcher
 {
     /// <summary>Initializes a new instance of the <see cref="GameLocationDamageMonsterPatcher"/> class.</summary>
@@ -33,7 +35,7 @@ internal sealed class GameLocationDamageMonsterPatcher : HarmonyPatcher
 
     #region harmony patches
 
-    /// <summary>Guaranteed crit on underground Duggy from club smash attack + record knockback and crit + slingshot special stun.</summary>
+    /// <summary>Slingshot special stun.</summary>
     [HarmonyTranspiler]
     private static IEnumerable<CodeInstruction>? GameLocationDamageMonsterTranspiler(
         IEnumerable<CodeInstruction> instructions, ILGenerator generator, MethodBase original)

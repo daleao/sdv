@@ -158,7 +158,7 @@ internal static class MonsterExtensions
     /// <param name="playSoundEffect">Whether to play the chill sound effect.</param>
     internal static void Chill(this Monster monster, int duration = 5000, float intensity = 0.5f, float freezeThreshold = 1f, bool playSoundEffect = true)
     {
-        if (!CombatModule.Config.EnableStatusConditions || monster is Ghost)
+        if (!CombatModule.Config.EnableStatusConditions || monster is Ghost or Skeleton { isMage.Value: true })
         {
             return;
         }
@@ -338,7 +338,7 @@ internal static class MonsterExtensions
     /// <param name="intensity">The intensity of the poison effect (how many stacks).</param>
     internal static void Poison(this Monster monster, Farmer poisoner, int duration = 15000, int intensity = 1)
     {
-        if (!CombatModule.Config.EnableStatusConditions)
+        if (!CombatModule.Config.EnableStatusConditions || monster is Ghost)
         {
             return;
         }

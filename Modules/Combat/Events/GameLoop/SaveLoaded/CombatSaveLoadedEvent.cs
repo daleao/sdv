@@ -2,6 +2,7 @@
 
 #region using directives
 
+using System.Linq;
 using DaLion.Overhaul.Modules.Combat.Enums;
 using DaLion.Overhaul.Modules.Combat.Events.GameLoop.DayStarted;
 using DaLion.Overhaul.Modules.Combat.Extensions;
@@ -56,6 +57,7 @@ internal sealed class CombatSaveLoadedEvent : SaveLoadedEvent
         // continue clint translation
         if (player.hasQuest((int)QuestId.ForgeIntro))
         {
+            player.questLog.First(q => q.id.Value == (int)QuestId.ForgeIntro).nextQuests.Clear(); // this is a temporary fix for this goddamn error
             ModEntry.EventManager.Enable<BlueprintDayStartedEvent>();
         }
 

@@ -52,33 +52,6 @@
 
 This humongous module consolidates rebalances to melee weapons, ranged weapons and combat rings, together with entirely new mechanics which will overall make combat significantly more strategic and challenging.
 
-## Status Effects
-
-Taking inspiration from classic RPG and strategy games, this module adds a framework for causing various status conditions to enemies. They are:
-
-- **Bleeding:** Causes damage every second. Damage increases exponentially with each additional stack. Stacks up to 5x. Does not affect Ghosts, Skeletons, Golems, Dolls or Mechanical enemies (ex. Dwarven Sentry).
-- **Burning:** Causes damage equal to 1/16th of max health every 3s for 15s, and reduces attack by half. Also causes enemies to move about more randomly. Does not affect fire enemies (i.e., Lava Lurks, Magma Sprites and Magma Sparkers). Insects burn 4x as quickly.
-- **Chilled:** Reduces movement speed for the duration. If Chilled is inflicted again during this time, then applies Freeze for 5x the duration.
-- **Frozen:** Cannot move or attack. The next hit during the duration deals triple damage and ends the effect.
-- **Poisoned:** Causes damage equal to 1/16 of max health every 3s for 15s, stacking up to 3x.
-- **Slowed:** Reduces movement speed for the duration.
-- **Dazed:** Cannot move or attack for the duration.
-
-Likewise, some adjustments are made to monster-inflicted debuffs on players:
-
-- **Burnt** and **Frozen** behave as they do for monsters, described above. The Frozen debuff on players, however, only lasts 5 seconds.
-- **Jinxed** now also prevents the player from using special moves. If new resistance formula is used (see next section), the -8 defense is reduce to -5.
-- **Weakness** is replaced with **Confusion**, which causes the player to lose control of their movements.
-
-<div align="center">
-
-<img src="https://gitlab.com/daleao/modular-overhaul/-/raw/main/resources/screenshots/stun_animation.gif" alt="stun_animation.gif" width="67%">
-</div>
-
-Each status condition is accompanied by a neat corresponding animation. Status conditions cannot be applied on the player.
-
-<sup><sup>[🔼 Back to top](#margo--combat-cmbt)</sup></sup>
-
 ## Rebalanced Stats
 
 Certain stats are simply not worth investing in vanilla. While some of these can be attributed to unbalanced equipment bonuses (and will be addressed below), others, namely **Knockback** and **Defense** are fundamentally broken.
@@ -184,12 +157,17 @@ Weapons below the Mythic tier all have randomized damage, determined the moment 
 Mythic weapons are unique or extremely rare. They are usually quest rewards or very rare monster drops, and tend to carry intrinsic special abilities. In exchange, they cannot receive additional Prismatic Shard enchantments at the forge.
 
 The known Mythic weapons are:
-- **Yeti Tooth**: Can cause Chilled effect.
-- **Neptune Glaive**: *No effect, yet...*
-- **Obsidian Edge**: Ignores enemy resistances. Can cause Bleeding.
-- **Lava Katana**: Can cause Burning.
-- **Insect Head**: Damage scales with the number of slain insects.
-- **Iridium Needle**: Always crits.
+
+| Weapon | Type | Effects |
+| ------ | ---- | ------- |
+| Yeti Tooth | Defense Sword | Can cause Chilled status.* |
+| Neptune Glaive | Defense Sword | Deals heavy knockback. |
+| Obsidian Edge | Stabbing Sword | Ignores enemy resistances. Can cause Bleeding.* |
+| Lava Katana | Stabbing Sword | Can cause Burning.* |
+| Insect Head | Dagger | Damage depends on the number of slain insects. |
+| Iridium Needle | Dagger | Always crits. |
+
+\* *Status effects are explained [further below](#status-effects).*
 
 **Masterwork Tier**
 
@@ -378,12 +356,12 @@ Upgrading to Infinity is now a much more involved task, requiring the player to 
 </div>
 
 In return for all that extra work, the Infinity weapons have extra perks:    
-1. +1 gemstone slot (4 total). Keeping in mind that each gemstone has the potential to [resonate](#resonance).
+1. +1 gemstone slot (4 total). *Keeping in mind that each gemstone has the potential to [resonate](#resonance).*
 2. Small boost to the weapon's special move:
-    * **Stabing Sword:** increased dash distance.
-    * **Defense Sword:** parried enemies are stunned for 1 second.
-    * **Dagger:** Quick stab hits 5 times (up from 4).
-    * **Club:** Smash AoE is 50% larger.
+    * **Stabing Sword:** Increased dash distance.
+    * **Defense Sword:** Parried enemies are dazed for 1 second.
+    * **Dagger:** Quick-stab deal one additional hit.
+    * **Club:** Smash AoE is 25% larger.
     * **Slingshot**: Auto-fire mode lasts for 1 additional second.
 3. **Melee only:** while at full health, every swing fires a mid-range energy beam.
 
@@ -410,6 +388,38 @@ Gemstones placed together in an Infinity Band not only resonate, but can also ma
 If the player's currently held weapon contains forged gemstones, resonating chords from equipped Infinity Bands will also amplify all gemstone forges matching the chord's root note. Note that forged gemstones do not form chords themselves or share any of the same resonance and dissonance mechanics from Infinity Band described above.
 
 It is my hope that this mechanic will encourage experimentation, and also teach some basic Music Theory.
+
+<sup><sup>[🔼 Back to top](#margo--combat-cmbt)</sup></sup>
+
+## Status Effects
+
+Taking inspiration from classic RPG and strategy games, this module adds a framework for causing various status conditions to enemies, described below:
+
+| Status | Effect | Sources |
+| ------ | ------ | ------- |
+| Bleeding | Causes damage every second. Damage increases exponentially with each additional stack. Stacks up to 5x. Does not affect Ghosts, Skeletons, Golems, Dolls or Mechanical enemies (i.e., Dwarven Sentry). | Daggers, Obsidian Edge, Ring of Thorns |
+| Burning | Causes damage equal to 1/16th of max health every 3 seconds, and reduces attack by half. Also causes enemies to move about more randomly. Does not affect fire enemies (i.e., Lava Lurks, Magma Sprites and Magma Sparkers). Insects burn 4x as quickly. Does not affect Magma Sprites or Lava Lurks | Lava Katana |
+| Chilled | Reduces movement speed for the duration. If Chilled is inflicted again during this time, then applies Freeze for 5x the duration. Does not affect Ghosts or Skeleton Mage. | Yeti Tooth, Freljord Enchantment |
+| Frozen | Cannot move or attack. The next hit during the duration deals triple damage and ends the effect. | - |
+| Poisoned | Causes damage equal to 1/16 of max health every 3s, stacking up to 3x. Does not affect Ghosts.| *Unused* |
+| Slowed | Reduces movement speed for the duration. | Slime Ammo |
+| Dazed | Cannot move or attack for the duration. | Enhanced Parry |
+
+Durations depend on the source. These status conditions are exclusively applied to monsters, with two exceptions; a few player-applied status conditions are also tweaked to be more interesting and/or more consistent:
+
+| Status | Effects | Sources | Duration |
+| ------ | ------- | ------- | -------- |
+| Burnt | *Same as above.* | Magma Sparker | 15s |
+| Frozen | *Same as above.* | Skeleton Mage | 5s |
+| Jinxed | Defense -5. Prevents the use of special moves. | Shadow Shaman | 8s |
+| ~~Weakness~~ Confusion | Causes unpredictable movement. | Blue Squid | 3s |
+
+Most status conditions accompany neat new visual and/or sound effects.
+
+<div align="center">
+
+<img src="https://gitlab.com/daleao/modular-overhaul/-/raw/main/resources/screenshots/stun_animation.gif" alt="stun_animation.gif" width="67%">
+</div>
 
 <sup><sup>[🔼 Back to top](#margo--combat-cmbt)</sup></sup>
 

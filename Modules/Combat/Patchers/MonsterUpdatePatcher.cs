@@ -70,14 +70,9 @@ internal sealed class MonsterUpdatePatcher : HarmonyPatcher
                 }
                 else
                 {
-                    if (ticks % 180 == 0)
+                    if ((ticks % 30 == 0 && __instance is Bug or Fly) || ticks % 180 == 0)
                     {
                         var burn = (int)(1d / 16d * __instance.MaxHealth);
-                        if (__instance is Bug or Fly)
-                        {
-                            burn *= 4;
-                        }
-
                         __instance.Health -= burn;
                         Log.D($"{__instance.Name} suffered {burn} burn damage. HP Left: {__instance.Health}");
                         if (__instance.Health <= 0)
