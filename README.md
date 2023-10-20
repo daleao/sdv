@@ -210,7 +210,7 @@ Thanks to [JetBrains][url:jetbrains] for providing a free open-source license to
 <img width="64" src="https://smapi.io/Content/images/pufferchick.png" alt="Pufferchick"> <img width="80" src="https://resources.jetbrains.com/storage/products/company/brand/logos/jb_beam.svg" alt="JetBrains logo.">
 
 <!-- MARKDOWN LINKS & IMAGES -->
-[shield:license]: https://img.shields.io/badge/License-Commons%20Clause%20(MIT)-brightgreen?style=for-the-badge
+[shield:license]: https://img.shields.io/badge/Custom%20License-Non%20Commercial%20Mod-brightgreen?style=for-the-badge
 [shield:nexus]: https://img.shields.io/badge/Download-Nexus-yellow?style=for-the-badge
 [url:nexus]: https://www.nexusmods.com/stardewvalley/mods/14470
 [shield:moddrop]: https://img.shields.io/badge/Download-Mod%20Drop-blue?style=for-the-badge

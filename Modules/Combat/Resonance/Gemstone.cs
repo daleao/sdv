@@ -215,7 +215,7 @@ public abstract class Gemstone : SmartEnum<Gemstone>, IEquatable<Gemstone>, ICom
     /// <inheritdoc cref="Gemstone"/>
     private sealed class RubyGemstone : Gemstone
     {
-        /// <summary>Initializes a new instance of the <see cref="RubyGemstone"/> class.</summary>
+        /// <summary>Initializes a new instance of the <see cref="Gemstone.RubyGemstone"/> class.</summary>
         internal RubyGemstone()
             : base(
                 "Ruby",
@@ -257,7 +257,7 @@ public abstract class Gemstone : SmartEnum<Gemstone>, IEquatable<Gemstone>, ICom
     /// <inheritdoc cref="Gemstone"/>
     private sealed class AquamarineGemstone : Gemstone
     {
-        /// <summary>Initializes a new instance of the <see cref="AquamarineGemstone"/> class.</summary>
+        /// <summary>Initializes a new instance of the <see cref="Gemstone.AquamarineGemstone"/> class.</summary>
         internal AquamarineGemstone()
             : base(
                 "Aquamarine",
@@ -299,7 +299,7 @@ public abstract class Gemstone : SmartEnum<Gemstone>, IEquatable<Gemstone>, ICom
     /// <inheritdoc cref="Gemstone"/>
     private sealed class AmethystGemstone : Gemstone
     {
-        /// <summary>Initializes a new instance of the <see cref="AmethystGemstone"/> class.</summary>
+        /// <summary>Initializes a new instance of the <see cref="Gemstone.AmethystGemstone"/> class.</summary>
         internal AmethystGemstone()
             : base(
                 "Amethyst",
@@ -341,7 +341,7 @@ public abstract class Gemstone : SmartEnum<Gemstone>, IEquatable<Gemstone>, ICom
     /// <inheritdoc cref="Gemstone"/>
     private sealed class GarnetGemstone : Gemstone
     {
-        /// <summary>Initializes a new instance of the <see cref="GarnetGemstone"/> class.</summary>
+        /// <summary>Initializes a new instance of the <see cref="Gemstone.GarnetGemstone"/> class.</summary>
         internal GarnetGemstone()
             : base(
                 "Garnet",
@@ -383,7 +383,7 @@ public abstract class Gemstone : SmartEnum<Gemstone>, IEquatable<Gemstone>, ICom
     /// <inheritdoc cref="Gemstone"/>
     private sealed class EmeraldGemstone : Gemstone
     {
-        /// <summary>Initializes a new instance of the <see cref="EmeraldGemstone"/> class.</summary>
+        /// <summary>Initializes a new instance of the <see cref="Gemstone.EmeraldGemstone"/> class.</summary>
         internal EmeraldGemstone()
             : base(
                 "Emerald",
@@ -425,7 +425,7 @@ public abstract class Gemstone : SmartEnum<Gemstone>, IEquatable<Gemstone>, ICom
     /// <inheritdoc cref="Gemstone"/>
     private sealed class JadeGemstone : Gemstone
     {
-        /// <summary>Initializes a new instance of the <see cref="JadeGemstone"/> class.</summary>
+        /// <summary>Initializes a new instance of the <see cref="Gemstone.JadeGemstone"/> class.</summary>
         internal JadeGemstone()
             : base(
                 "Jade",
@@ -467,7 +467,7 @@ public abstract class Gemstone : SmartEnum<Gemstone>, IEquatable<Gemstone>, ICom
     /// <inheritdoc cref="Gemstone"/>
     private sealed class TopazGemstone : Gemstone
     {
-        /// <summary>Initializes a new instance of the <see cref="TopazGemstone"/> class.</summary>
+        /// <summary>Initializes a new instance of the <see cref="Gemstone.TopazGemstone"/> class.</summary>
         internal TopazGemstone()
             : base(
                 "Topaz",

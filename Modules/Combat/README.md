@@ -135,13 +135,8 @@ Weapons are categorized by different tiers, [color-coded for your convenience][t
 
 <div align="center">
 
-![shield:common] <
-![shield:uncommon] <
-![shield:rare] <
-![shield:epic] <
-![shield:mythic] <
-![shield:masterwork] <
-![shield:legendary]
+<img src="https://gitlab.com/daleao/modular-overhaul/-/raw/main/resources/images/tiers.png" alt="tiers" width="67%">
+</div>
 
 </div>
 
@@ -152,7 +147,7 @@ Weapons below the Mythic tier all have randomized damage, determined the moment 
 <img src="https://gitlab.com/daleao/modular-overhaul/-/raw/main/resources/screenshots/color-coded.gif" alt="color-coded.gif" width="67%">
 </div>
 
-**Mythic Tier**
+<font color="red"><b>Mythic Tier</b></font>
 
 Mythic weapons are unique or extremely rare. They are usually quest rewards or very rare monster drops, and tend to carry intrinsic special abilities. In exchange, they cannot receive additional Prismatic Shard enchantments at the forge.
 
@@ -160,21 +155,24 @@ The known Mythic weapons are:
 
 | Weapon | Type | Effects |
 | ------ | ---- | ------- |
-| Yeti Tooth | Defense Sword | Can cause Chilled status.* |
-| Neptune Glaive | Defense Sword | Deals heavy knockback. |
-| Obsidian Edge | Stabbing Sword | Ignores enemy resistances. Can cause Bleeding.* |
-| Lava Katana | Stabbing Sword | Can cause Burning.* |
-| Insect Head | Dagger | Damage depends on the number of slain insects. |
-| Iridium Needle | Dagger | Always crits. |
+| ![](./resources/readme/yetitooth.png) Yeti Tooth | Defense Sword | Can cause Chilled status.* |
+| ![](./resources/readme/neptuneglaive.png) Neptune Glaive | Defense Sword | Deals heavy knockback. |
+| ![](./resources/readme/obsidianedge.png) Obsidian Edge | Stabbing Sword | Ignores enemy resistances. Can cause Bleeding.* |
+| ![](./resources/readme/lavakatana.png) Lava Katana | Stabbing Sword | Can cause Burning.* |
+| ![](./resources/readme/insecthead.png) Insect Head | Dagger | Damage depends on the number of slain insects. |
+| ![](./resources/readme/iridiumneedle.png) Iridium Needle | Dagger | Always crits. |
 
 \* *Status effects are explained [further below](#status-effects).*
 
-**Masterwork Tier**
+<font color="orange"><b>Masterwork Tier</b></font>
 
 Masterwork weapons are relics of the Dwarven race, crafted from special materials. They can only be created by uncovering the lost Dwarvish Blueprints, and taking them to a skilled blacksmith along with the corresponding material:
-- **Elven** weapons, carved out of **Elderwood** obtained from [Scavenger Hunts](../Professions), are quick, nimble weapons enchanted with forest magic which grants them high reach and knockback.
-- **Dwarven** weapons, forged from **Dwarven Scraps** obtained from Volcano chests, are large, bulky weapons. They grant high defense and knockback, but reduce speed.
-- **Dragonbone** weapons, forged from **Dragon Teeth** obtained from Volcano chests and near dragon skeletons, are light and sharp, granting the highest raw damage out of any weapon in the game.
+
+| Weapons | Description | Material | Source |
+| ------- | ----------- | -------- | ------ |
+| ![](./resources/readme/elven_set.png) Elven | Quick, nimble weapons enchanted with forest magic which grants them high reach and knockback. | ![](./resources/readme/elderwood.png) Elderwood | [Scavenger Hunts](../Professions) |
+| ![](./resources/readme/dwarven_set.png) Dwarven | Large, bulky weapons. They grant high defense and knockback, but reduce speed. | ![](./resources/readme/dwarvenscrap.png) Dwarven Scrap Metal | Volcano Chests |
+| ![](./resources/readme/dragontooth_set.png) Dragontooth | Light and sharp, granting the highest raw damage out of any weapon in the game. | ![](./resources/readme/dragontooth.png) Dragon Tooth | Volcano Chests, Dragon Skeletons |
 
 Masterwork weapons can only be obtained if the Dwarven Legacy setting is enabled.
 
@@ -185,7 +183,7 @@ Masterwork weapons can only be obtained if the Dwarven Legacy setting is enabled
 
 Note that **only vanilla weapons have been rebalanced**. If you play with expansion mods which add new weapons, such as Ridgeside Village, you will likely notice absurdly high stats in those weapons' tooltips. **That's not on me.** Those weapons are broken by design. I just pulled the curtains. You're welcome.
 
-**Legendary Tier**
+<font color="gold"><b>Legendary Tier</b></font>
 
 See [Infinity+1](#infinity-1).
 
@@ -364,6 +362,11 @@ In return for all that extra work, the Infinity weapons have extra perks:
     * **Club:** Smash AoE is 25% larger.
     * **Slingshot**: Auto-fire mode lasts for 1 additional second.
 3. **Melee only:** while at full health, every swing fires a mid-range energy beam.
+
+<div align="center">
+
+<img src="https://gitlab.com/daleao/modular-overhaul/-/raw/main/resources/screenshots/infinity_beam.gif" alt="infinity_beam.gif" width="67%">
+</div>
 
 <sup><sup>[🔼 Back to top](#margo--combat-cmbt)</sup></sup>
 
