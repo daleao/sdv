@@ -14,6 +14,51 @@ using StardewValley.Tools;
 /// <summary>Extensions for the <see cref="Item"/> class.</summary>
 internal static class ItemExtensions
 {
+    internal static int GetAmmoDamage(this Item item)
+    {
+        if (item is not SObject)
+        {
+            return 0;
+        }
+
+        switch (item.ParentSheetIndex)
+        {
+            case ObjectIds.Wood:
+                return 2;
+            case ObjectIds.Coal:
+                return CombatModule.Config.EnableWeaponOverhaul ? 2 : 15;
+            case ObjectIds.ExplosiveAmmo:
+                return CombatModule.Config.EnableWeaponOverhaul ? 1 : 20;
+            case ObjectIds.Stone:
+                return 5;
+            case ObjectIds.CopperOre:
+                return 10;
+            case ObjectIds.IronOre:
+                return 20;
+            case ObjectIds.GoldOre:
+                return 30;
+            case ObjectIds.IridiumOre:
+                return 50;
+            case ObjectIds.RadioactiveOre:
+                return 80;
+            case ObjectIds.Slime:
+                return Game1.player.professions.Contains(Farmer.acrobat) ? 10 : 1;
+            case ObjectIds.Emerald:
+            case ObjectIds.Aquamarine:
+            case ObjectIds.Ruby:
+            case ObjectIds.Amethyst:
+            case ObjectIds.Topaz:
+            case ObjectIds.Jade:
+                return 40;
+            case ObjectIds.Diamond:
+                return 100;
+            case ObjectIds.PrismaticShard:
+                return 60;
+            default: // fish, fruit or vegetable
+                return 1;
+        }
+    }
+
     internal static Color GetTitleColorFor(this Item item)
     {
         if (item is not Tool tool)

@@ -2,15 +2,15 @@
 
 #region using directives
 
+using System.Linq;
 using DaLion.Overhaul.Modules.Combat.Extensions;
 using DaLion.Overhaul.Modules.Combat.VirtualProperties;
-using DaLion.Overhaul.Modules.Core.UI;
-using DaLion.Overhaul.Modules.Professions.Extensions;
 using DaLion.Shared.Constants;
 using DaLion.Shared.Enums;
 using DaLion.Shared.Extensions.Stardew;
 using Microsoft.Xna.Framework;
 using Netcode;
+using StardewValley;
 using StardewValley.Monsters;
 using StardewValley.Objects;
 using StardewValley.Projectiles;
@@ -24,7 +24,7 @@ internal sealed class RunaanProjectile : BasicProjectile
     private readonly Action<BasicProjectile, GameLocation> _explosionAnimation = Reflector
         .GetUnboundMethodDelegate<Action<BasicProjectile, GameLocation>>(typeof(BasicProjectile), "explosionAnimation");
 
-    private readonly Vector2 _finalVelocity;
+    private readonly float _finalSpeed;
     private int _timer;
 
     /// <summary>Initializes a new instance of the <see cref="RunaanProjectile"/> class.</summary>
@@ -32,27 +32,21 @@ internal sealed class RunaanProjectile : BasicProjectile
     /// <param name="index">The index of the fired ammo (this may be different from the index of the <see cref="SObject"/>).</param>
     /// <param name="source">The <see cref="Slingshot"/> which fired this projectile.</param>
     /// <param name="firer">The <see cref="Farmer"/> who fired this projectile.</param>
-    /// <param name="damage">The un-mitigated damage this projectile will cause.</param>
-    /// <param name="knockback">The knockback this projectile will cause.</param>
     /// <param name="overcharge">The amount of overcharge with which the projectile was fired.</param>
     /// <param name="startingPosition">The projectile's starting position.</param>
-    /// <param name="xVelocity">The projectile's starting velocity in the horizontal direction.</param>
-    /// <param name="yVelocity">The projectile's starting velocity in the vertical direction.</param>
+    /// <param name="finalSpeed">The projectile's speed once it starts moving.</param>
     /// <param name="rotationVelocity">The projectile's starting rotational velocity.</param>
     public RunaanProjectile(
         Item ammo,
         int index,
         Slingshot source,
         Farmer firer,
-        float damage,
-        float knockback,
         float overcharge,
         Vector2 startingPosition,
-        float xVelocity,
-        float yVelocity,
+        float finalSpeed,
         float rotationVelocity)
         : base(
-            (int)damage,
+            1,
             index,
             0,
             0,
@@ -78,9 +72,11 @@ internal sealed class RunaanProjectile : BasicProjectile
 
         this.Source = source;
         this.Firer = firer;
-        this.Damage = (int)(this.damageToFarmer.Value * source.Get_EffectiveDamageModifier() *
-                            (1f + firer.attackIncreaseModifier) * 0.4f);
-        this.Knockback = (knockback + source.Get_EffectiveKnockback()) * (1f + firer.knockbackModifier);
+
+        var ammoDamage = ammo.GetAmmoDamage();
+        this.Damage = (int)((ammoDamage + Game1.random.Next(-ammoDamage / 2, ammoDamage + 2)) *
+            source.Get_EffectiveDamageModifier() * (1f + firer.attackIncreaseModifier) * overcharge * 0.4f);
+        this.Knockback = source.Get_EffectiveKnockback() * (1f + firer.knockbackModifier) * overcharge;
         this.CritChance = 0.025f;
         this.CritPower = 1.5f;
         if (CombatModule.Config.EnableRangedCriticalHits)
@@ -111,7 +107,7 @@ internal sealed class RunaanProjectile : BasicProjectile
         }
 
         this.color.Value *= 0.5f;
-        this._finalVelocity = new(xVelocity, yVelocity);
+        this._finalSpeed = finalSpeed;
         this._timer = 750 + (Game1.random.Next(-25, 26) * 10); // delay before motion
         this.ignoreTravelGracePeriod.Value = CombatModule.Config.RemoveSlingshotGracePeriod;
     }
@@ -200,8 +196,15 @@ internal sealed class RunaanProjectile : BasicProjectile
             this._timer -= time.ElapsedGameTime.Milliseconds;
             if (this._timer <= 0)
             {
-                this.xVelocity.Value = this._finalVelocity.X;
-                this.yVelocity.Value = this._finalVelocity.Y;
+                var targets = location.characters.OfType<Monster>().ToList();
+
+                var target = this.position.Value.GetClosest(targets, monster => monster.Position, out _);
+                var targetDirection = target.GetBoundingBox().Center.ToVector2() - this.position.Value - new Vector2(32f, 32f);
+                targetDirection.Normalize();
+
+                var velocity = targetDirection * this._finalSpeed;
+                this.xVelocity.Value = velocity.X;
+                this.yVelocity.Value = velocity.Y;
             }
         }
 

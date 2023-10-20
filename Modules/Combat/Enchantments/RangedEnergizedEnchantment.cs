@@ -147,9 +147,6 @@ public sealed class RangedEnergizedEnchantment : BaseSlingshotEnchantment
     protected override void _OnFire(
         Slingshot slingshot,
         BasicProjectile projectile,
-        int damageBase,
-        float damageMod,
-        float knockback,
         float overcharge,
         Vector2 startingPosition,
         float xVelocity,

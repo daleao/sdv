@@ -279,7 +279,7 @@ internal static class FarmerExtensions
             var building = buildings[i];
             if ((building.IsOwnedBy(farmer) || ProfessionsModule.Config.LaxOwnershipRequirements) &&
                 !building.isUnderConstruction() && building.buildingType.Contains("Deluxe") &&
-                ((AnimalHouse)building.indoors.Value).isFull())
+                building.indoors.Value is AnimalHouse house && house.isFull())
             {
                 sum += 0.05f;
             }

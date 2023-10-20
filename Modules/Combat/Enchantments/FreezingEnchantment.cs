@@ -34,8 +34,7 @@ public sealed class FreezingEnchantment : BaseSlingshotEnchantment
     /// <inheritdoc />
     protected override void _OnDealDamage(Monster monster, GameLocation location, Farmer who, ref int amount)
     {
-        var intensity = monster.Get_Chilled() ? 0.1f : 0.2f;
-        monster.Chill(2000, intensity, 0.5f);
+        monster.Chill(2000, 0.2f, 0.5f);
         SoundEffectPlayer.ChillingShot.Play();
     }
 }

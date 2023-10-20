@@ -23,18 +23,16 @@ using StardewValley.Tools;
 /// <summary>An <see cref="SObject"/> fired by a <see cref="Slingshot"/>.</summary>
 internal sealed class ObjectProjectile : BasicProjectile
 {
-    private int _energizedFrame = 0;
-
     private readonly Action<BasicProjectile, GameLocation> _explosionAnimation = Reflector
         .GetUnboundMethodDelegate<Action<BasicProjectile, GameLocation>>(typeof(BasicProjectile), "explosionAnimation");
+
+    private int _energizedFrame = 0;
 
     /// <summary>Initializes a new instance of the <see cref="ObjectProjectile"/> class.</summary>
     /// <param name="ammo">The <see cref="SObject"/> that was fired.</param>
     /// <param name="index">The index of the fired ammo (this may be different from the index of the <see cref="SObject"/>).</param>
     /// <param name="source">The <see cref="Slingshot"/> which fired this projectile.</param>
     /// <param name="firer">The <see cref="Farmer"/> who fired this projectile.</param>
-    /// <param name="damage">The un-mitigated damage this projectile will cause.</param>
-    /// <param name="knockback">The knockback this projectile will cause.</param>
     /// <param name="overcharge">The amount of overcharge with which the projectile was fired.</param>
     /// <param name="startingPosition">The projectile's starting position.</param>
     /// <param name="xVelocity">The projectile's starting velocity in the horizontal direction.</param>
@@ -45,15 +43,13 @@ internal sealed class ObjectProjectile : BasicProjectile
         int index,
         Slingshot source,
         Farmer firer,
-        float damage,
-        float knockback,
         float overcharge,
         Vector2 startingPosition,
         float xVelocity,
         float yVelocity,
         float rotationVelocity)
         : base(
-            (int)damage,
+            1,
             index,
             0,
             0,
@@ -79,12 +75,13 @@ internal sealed class ObjectProjectile : BasicProjectile
 
         this.Source = source;
         this.Firer = firer;
-        this.Damage = (int)(this.damageToFarmer.Value * source.Get_EffectiveDamageModifier() *
-                            (1f + firer.attackIncreaseModifier) * overcharge);
-        this.Knockback = (knockback + source.Get_EffectiveKnockback()) * (1f + firer.knockbackModifier) *
-                         overcharge;
-        this.CritChance = 0.025f;
-        this.CritPower = 1.5f;
+
+        var ammoDamage = ammo.GetAmmoDamage();
+        this.Damage = (int)((ammoDamage + Game1.random.Next(-ammoDamage / 2, ammoDamage + 2)) *
+            source.Get_EffectiveDamageModifier() * (1f + firer.attackIncreaseModifier) * overcharge);
+        this.Knockback = source.Get_EffectiveKnockback() * (1f + firer.knockbackModifier) * overcharge;
+        this.CritChance = 0f;
+        this.CritPower = 0f;
         if (CombatModule.Config.EnableRangedCriticalHits)
         {
             this.CritChance += source.Get_EffectiveCritChance();

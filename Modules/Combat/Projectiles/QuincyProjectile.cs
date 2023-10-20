@@ -23,7 +23,6 @@ internal sealed class QuincyProjectile : BasicProjectile
     /// <summary>Initializes a new instance of the <see cref="QuincyProjectile"/> class.</summary>
     /// <param name="source">The <see cref="Slingshot"/> which fired this projectile.</param>
     /// <param name="firer">The <see cref="Farmer"/> who fired this projectile.</param>
-    /// <param name="damage">The un-mitigated damage this projectile will cause.</param>
     /// <param name="overcharge">The amount of overcharge with which the projectile was fired.</param>
     /// <param name="startingPosition">The projectile's starting position.</param>
     /// <param name="xVelocity">The projectile's starting velocity in the horizontal direction.</param>
@@ -32,14 +31,13 @@ internal sealed class QuincyProjectile : BasicProjectile
     public QuincyProjectile(
         Slingshot source,
         Farmer firer,
-        float damage,
         float overcharge,
         Vector2 startingPosition,
         float xVelocity,
         float yVelocity,
         float rotationVelocity)
         : base(
-            (int)damage,
+            1,
             BlueTileSheetIndex,
             0,
             5,
@@ -55,17 +53,21 @@ internal sealed class QuincyProjectile : BasicProjectile
             firer)
     {
         this.Firer = firer;
+
+        var ammoDamage = 30;
         if (firer.health < firer.maxHealth * 1f / 3f)
         {
             this.currentTileSheetIndex.Value = RedTileSheetIndex;
+            ammoDamage *= 3;
         }
         else if (firer.health < firer.maxHealth * 2f / 3f)
         {
             this.currentTileSheetIndex.Value = YellowTileSheetIndex;
+            ammoDamage *= 2;
         }
 
-        this.Damage = (int)(this.damageToFarmer.Value * source.Get_EffectiveDamageModifier() *
-                            (1f + firer.attackIncreaseModifier) * overcharge);
+        this.Damage = (int)((ammoDamage + Game1.random.Next(-ammoDamage / 2, ammoDamage + 2)) *
+            source.Get_EffectiveDamageModifier() * (1f + firer.attackIncreaseModifier) * overcharge);
         this.Overcharge = overcharge;
         this.startingScale.Value *= overcharge * overcharge;
         this.IgnoreLocationCollision = true;

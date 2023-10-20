@@ -1,10 +1,9 @@
 ﻿namespace DaLion.Overhaul.Modules.Professions.Events.GameLoop.UpdateTicked;
 
-using DaLion.Overhaul.Modules.Core;
-
 #region using directives
 
-using DaLion.Overhaul.Modules.Professions.Events.Display.RenderedHud;
+using DaLion.Overhaul.Modules.Core;
+using DaLion.Overhaul.Modules.Professions.Events.Display.RenderedWorld;
 using DaLion.Overhaul.Modules.Professions.Extensions;
 using DaLion.Shared.Events;
 using Microsoft.Xna.Framework.Audio;
@@ -32,7 +31,7 @@ internal sealed class DesperadoUpdateTickedEvent : UpdateTickedEvent
             return;
         }
 
-        this.Manager.Enable<DesperadoRenderedHudEvent>();
+        this.Manager.Enable<DesperadoRenderedWorldEvent>();
     }
 
     /// <inheritdoc />
@@ -40,7 +39,7 @@ internal sealed class DesperadoUpdateTickedEvent : UpdateTickedEvent
     {
         Game1.player.stopJittering();
         SoundEffectPlayer.SinWave?.Stop(AudioStopOptions.Immediate);
-        this.Manager.Disable<DesperadoRenderedHudEvent>();
+        this.Manager.Disable<DesperadoRenderedWorldEvent>();
     }
 
     /// <inheritdoc />

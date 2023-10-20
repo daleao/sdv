@@ -1,4 +1,4 @@
-﻿namespace DaLion.Overhaul.Modules.Professions.Events.Display.RenderedHud;
+﻿namespace DaLion.Overhaul.Modules.Professions.Events.Display.RenderedWorld;
 
 #region using directives
 
@@ -11,18 +11,19 @@ using StardewValley.Tools;
 
 #endregion using directives
 
+// This is here (and not in RenderedHud) to avoid UI scaling shenanigans.
 [UsedImplicitly]
-internal sealed class DesperadoRenderedHudEvent : RenderedHudEvent
+internal sealed class DesperadoRenderedWorldEvent : RenderedWorldEvent
 {
-    /// <summary>Initializes a new instance of the <see cref="DesperadoRenderedHudEvent"/> class.</summary>
+    /// <summary>Initializes a new instance of the <see cref="DesperadoRenderedWorldEvent"/> class.</summary>
     /// <param name="manager">The <see cref="EventManager"/> instance that manages this event.</param>
-    internal DesperadoRenderedHudEvent(EventManager manager)
+    internal DesperadoRenderedWorldEvent(EventManager manager)
         : base(manager)
     {
     }
 
     /// <inheritdoc />
-    protected override void OnRenderedHudImpl(object? sender, RenderedHudEventArgs e)
+    protected override void OnRenderedWorldImpl(object? sender, RenderedWorldEventArgs e)
     {
         var lastUser = Game1.player;
         if (lastUser.CurrentTool is not Slingshot slingshot || !lastUser.usingSlingshot ||

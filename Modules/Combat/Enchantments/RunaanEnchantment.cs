@@ -7,7 +7,6 @@ using System.Xml.Serialization;
 using DaLion.Overhaul.Modules.Combat.Projectiles;
 using DaLion.Overhaul.Modules.Combat.VirtualProperties;
 using DaLion.Shared.Enums;
-using DaLion.Shared.Extensions.Stardew;
 using DaLion.Shared.Extensions.Xna;
 using Microsoft.Xna.Framework;
 using StardewValley;
@@ -31,9 +30,6 @@ public sealed class RunaanEnchantment : BaseSlingshotEnchantment
     protected override void _OnFire(
         Slingshot slingshot,
         BasicProjectile projectile,
-        int damageBase,
-        float damageMod,
-        float knockback,
         float overcharge,
         Vector2 startingPosition,
         float xVelocity,
@@ -42,100 +38,40 @@ public sealed class RunaanEnchantment : BaseSlingshotEnchantment
         GameLocation location,
         Farmer firer)
     {
-        if (slingshot.Get_IsOnSpecial())
-        {
-            return;
-        }
-
-        var targets = location.characters.OfType<Monster>().ToList();
-        if (targets.Count == 0)
+        if (projectile is not ObjectProjectile @object || slingshot.Get_IsOnSpecial() ||
+            !location.characters.OfType<Monster>().Any())
         {
             return;
         }
 
         var velocity = new Vector2(xVelocity, yVelocity);
-        var speed = velocity.Length();
+        var speed = velocity.Length() * overcharge;
         var facingDirectionVector = ((FacingDirection)firer.FacingDirection).ToVector() * 64f;
 
         // do clockwise projectile
         var runaanStartingPosition = startingPosition + facingDirectionVector.Rotate(30);
-        var target = runaanStartingPosition.GetClosest(targets, monster => monster.Position, out _);
-        var targetDirection = target.GetBoundingBox().Center.ToVector2() - runaanStartingPosition - new Vector2(32f, 32f);
-        targetDirection.Normalize();
-        var runaanVelocity = targetDirection * speed;
-        this.FireRunaanProjectile(
-            projectile,
-            slingshot,
-            firer,
-            damageBase,
-            damageMod,
-            knockback,
-            overcharge,
-            runaanStartingPosition,
-            runaanVelocity,
-            rotationVelocity);
-
-        // do anti-clockwise projectile
-        runaanStartingPosition = startingPosition + facingDirectionVector.Rotate(-30);
-        target = runaanStartingPosition.GetClosest(targets, monster => monster.Position, out _);
-        targetDirection = target.GetBoundingBox().Center.ToVector2() - runaanStartingPosition - new Vector2(32f, 32f);
-        targetDirection.Normalize();
-        runaanVelocity = targetDirection * speed;
-        this.FireRunaanProjectile(
-            projectile,
-            slingshot,
-            firer,
-            damageBase,
-            damageMod,
-            knockback,
-            overcharge,
-            runaanStartingPosition,
-            runaanVelocity,
-            rotationVelocity);
-    }
-
-    private void FireRunaanProjectile(
-        Projectile projectile,
-        Slingshot slingshot,
-        Farmer firer,
-        int damageBase,
-        float damageMod,
-        float knockback,
-        float overcharge,
-        Vector2 startingPosition,
-        Vector2 velocity,
-        float rotationVelocity)
-    {
-        var damage = (damageBase + Game1.random.Next(-damageBase / 2, damageBase + 2)) * damageMod;
-        BasicProjectile? runaan = projectile switch
-        {
-            SnowballProjectile => new SnowballProjectile(
-                firer,
-                1f,
-                startingPosition,
-                velocity.X,
-                velocity.Y,
-                rotationVelocity),
-            ObjectProjectile @object => new RunaanProjectile(
+        var clockwise = new RunaanProjectile(
                 @object.Ammo,
                 @object.TileSheetIndex,
                 slingshot,
                 firer,
-                damage,
-                knockback,
                 overcharge,
-                startingPosition,
-                velocity.X,
-                velocity.Y,
-                rotationVelocity),
-            _ => null,
-        };
+                runaanStartingPosition,
+                speed,
+                rotationVelocity);
+        firer.currentLocation.projectiles.Add(clockwise);
 
-        if (runaan is null)
-        {
-            return;
-        }
-
-        firer.currentLocation.projectiles.Add(runaan);
+        // do anti-clockwise projectile
+        runaanStartingPosition = startingPosition + facingDirectionVector.Rotate(-30);
+        var antiClockwise = new RunaanProjectile(
+                @object.Ammo,
+                @object.TileSheetIndex,
+                slingshot,
+                firer,
+                overcharge,
+                runaanStartingPosition,
+                speed,
+                rotationVelocity);
+        firer.currentLocation.projectiles.Add(antiClockwise);
     }
 }

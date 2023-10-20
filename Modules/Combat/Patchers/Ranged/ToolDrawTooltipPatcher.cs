@@ -73,7 +73,7 @@ internal sealed class ToolDrawTooltipPatcher : HarmonyPatcher
                 var combinedDamage = (uint)slingshot.Get_DisplayedDamageModifier();
                 var maxDamage = combinedDamage >> 16;
                 var minDamage = combinedDamage & 0xFFFF;
-                co = slingshot.Get_EffectiveDamageModifier() > 1f ? new Color(0, 120, 120) : Game1.textColor;
+                co = slingshot.HasRubyBonus() ? new Color(0, 120, 120) : Game1.textColor;
                 spriteBatch.DrawAttackIcon(new Vector2(x + 20f, y + 20f));
                 Utility.drawTextWithShadow(
                     spriteBatch,
@@ -87,13 +87,13 @@ internal sealed class ToolDrawTooltipPatcher : HarmonyPatcher
 
                 y += (int)Math.Max(font.MeasureString("TT").Y, 48f);
             }
-            else if (__instance.InitialParentTileIndex != WeaponIds.BasicSlingshot)
+            else if (slingshot.Get_DisplayedDamageModifier() is var damageMod && damageMod != 0)
             {
-                co = Game1.textColor;
+                co = slingshot.HasRubyBonus() ? new Color(0, 120, 120) : Game1.textColor;
                 spriteBatch.DrawAttackIcon(new Vector2(x + 20f, y + 20f));
                 Utility.drawTextWithShadow(
                     spriteBatch,
-                    I18n.Ui_ItemHover_Damage($"+{slingshot.Get_DisplayedDamageModifier():#.#%}"),
+                    I18n.Ui_ItemHover_Damage($"+{damageMod:#.#%}"),
                     font,
                     new Vector2(x + 68f, y + 28f),
                     co * 0.9f * alpha);
@@ -105,10 +105,9 @@ internal sealed class ToolDrawTooltipPatcher : HarmonyPatcher
 
             #region knockback
 
-            var knockback = slingshot.Get_DisplayedKnockback();
-            if (knockback != 0f)
+            if (slingshot.Get_DisplayedKnockback() is var knockback && knockback != 0f)
             {
-                co = slingshot.Get_EffectiveKnockback() > 0 ? new Color(0, 120, 120) : Game1.textColor;
+                co = slingshot.HasAmethystBonus() ? new Color(0, 120, 120) : Game1.textColor;
                 spriteBatch.DrawWeightIcon(new Vector2(x + 20f, y + 20f));
                 Utility.drawTextWithShadow(
                     spriteBatch,
@@ -124,10 +123,9 @@ internal sealed class ToolDrawTooltipPatcher : HarmonyPatcher
 
             #region crit chance
 
-            var critChance = slingshot.Get_DisplayedCritChance();
-            if (critChance != 0f)
+            if (slingshot.Get_DisplayedCritChance() is var critChance && critChance != 0f)
             {
-                co = slingshot.Get_EffectiveCritChance() > 0 ? new Color(0, 120, 120) : Game1.textColor;
+                co = slingshot.HasAquamarineBonus() ? new Color(0, 120, 120) : Game1.textColor;
                 spriteBatch.DrawCritChanceIcon(new Vector2(x + 20f, y + 20f));
                 Utility.drawTextWithShadow(
                     spriteBatch,
@@ -143,10 +141,9 @@ internal sealed class ToolDrawTooltipPatcher : HarmonyPatcher
 
             #region crit power
 
-            var critPower = slingshot.Get_DisplayedCritPower();
-            if (critPower != 0f)
+            if (slingshot.Get_DisplayedCritPower() is var critPower && critPower != 0f)
             {
-                co = slingshot.Get_EffectiveCritPower() > 0 ? new Color(0, 120, 120) : Game1.textColor;
+                co = slingshot.HasJadeBonus() ? new Color(0, 120, 120) : Game1.textColor;
                 spriteBatch.DrawCritPowerIcon(new Vector2(x + 20f, y + 20f));
                 Utility.drawTextWithShadow(
                     spriteBatch,
@@ -162,8 +159,7 @@ internal sealed class ToolDrawTooltipPatcher : HarmonyPatcher
 
             #region firing speed
 
-            var speedModifier = slingshot.Get_DisplayedFireSpeed();
-            if (speedModifier > 0f)
+            if (slingshot.Get_DisplayedFireSpeed() is var speedModifier && speedModifier > 0f)
             {
                 co = new Color(0, 120, 120);
                 spriteBatch.DrawSpeedIcon(new Vector2(x + 20f, y + 20f));
@@ -181,8 +177,7 @@ internal sealed class ToolDrawTooltipPatcher : HarmonyPatcher
 
             #region cooldown reduction
 
-            var cooldownModifier = slingshot.Get_DisplayedCooldownModifier();
-            if (cooldownModifier > 0f)
+            if (slingshot.Get_DisplayedCooldownModifier() is var cooldownModifier && cooldownModifier > 0f)
             {
                 co = new Color(0, 120, 120);
                 spriteBatch.DrawCooldownIcon(new Vector2(x + 20f, y + 20f));
@@ -200,8 +195,7 @@ internal sealed class ToolDrawTooltipPatcher : HarmonyPatcher
 
             #region resilience
 
-            var resilience = slingshot.Get_DisplayedResilience();
-            if (resilience > 0f)
+            if (slingshot.Get_DisplayedResilience() is var resilience && resilience > 0f)
             {
                 co = new Color(0, 120, 120);
                 var amount = CombatModule.ShouldEnable && CombatModule.Config.NewResistanceFormula

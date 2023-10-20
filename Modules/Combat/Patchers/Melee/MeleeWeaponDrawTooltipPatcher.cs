@@ -80,13 +80,12 @@ internal sealed class MeleeWeaponDrawTooltipPatcher : HarmonyPatcher
 
             #region knockback
 
-            var relativeKnockback = __instance.Get_DisplayedKnockback();
-            if (relativeKnockback != 0)
+            if (__instance.Get_DisplayedKnockback() is var knockback && knockback != 0)
             {
                 co = __instance.hasEnchantmentOfType<AmethystEnchantment>() ? new Color(0, 120, 120) : Game1.textColor;
                 spriteBatch.DrawWeightIcon(new Vector2(x + 20f, y + 20f));
 
-                text = I18n.Ui_ItemHover_Knockback($"{relativeKnockback:+#.#%;-#.#%}");
+                text = I18n.Ui_ItemHover_Knockback($"{knockback:+#.#%;-#.#%}");
                 Utility.drawTextWithShadow(
                     spriteBatch,
                     text,
@@ -101,15 +100,14 @@ internal sealed class MeleeWeaponDrawTooltipPatcher : HarmonyPatcher
 
             #region crit rate
 
-            var relativeCritChance = __instance.Get_DisplayedCritChance();
-            if (relativeCritChance != 0)
+            if (__instance.Get_DisplayedCritChance() is var critChance && critChance != 0)
             {
                 co = __instance.hasEnchantmentOfType<AquamarineEnchantment>()
                     ? new Color(0, 120, 120)
                     : Game1.textColor;
                 spriteBatch.DrawCritChanceIcon(new Vector2(x + 20f, y + 20f));
 
-                text = Game1.parseText(I18n.Ui_ItemHover_CRate($"{relativeCritChance:+#.#%;-#.#%}"), Game1.smallFont, descriptionWidth);
+                text = Game1.parseText(I18n.Ui_ItemHover_CRate($"{critChance:+#.#%;-#.#%}"), Game1.smallFont, descriptionWidth);
                 Utility.drawTextWithShadow(
                     spriteBatch,
                     text,
@@ -124,13 +122,12 @@ internal sealed class MeleeWeaponDrawTooltipPatcher : HarmonyPatcher
 
             #region crit power
 
-            var relativeGetCritPower = __instance.Get_DisplayedCritPower();
-            if (relativeGetCritPower != 0)
+            if (__instance.Get_DisplayedCritPower() is var critPower && critPower != 0)
             {
                 co = __instance.hasEnchantmentOfType<JadeEnchantment>() ? new Color(0, 120, 120) : Game1.textColor;
                 spriteBatch.DrawCritPowerIcon(new Vector2(x + 20f, y + 20f));
 
-                text = I18n.Ui_ItemHover_CPow($"{relativeGetCritPower:+#.#%;-#.#%}");
+                text = I18n.Ui_ItemHover_CPow($"{critPower:+#.#%;-#.#%}");
                 Utility.drawTextWithShadow(
                     spriteBatch,
                     text,
@@ -145,8 +142,7 @@ internal sealed class MeleeWeaponDrawTooltipPatcher : HarmonyPatcher
 
             #region attack speed
 
-            var speed = __instance.Get_DisplayedSwingSpeed();
-            if (speed != 0)
+            if (__instance.Get_DisplayedSwingSpeed() is var speed & speed != 0)
             {
                 co = __instance.hasEnchantmentOfType<EmeraldEnchantment>() ? new Color(0, 120, 120) : Game1.textColor;
                 spriteBatch.DrawSpeedIcon(new Vector2(x + 20f, y + 20f));
@@ -166,8 +162,7 @@ internal sealed class MeleeWeaponDrawTooltipPatcher : HarmonyPatcher
 
             #region cooldown reduction
 
-            var cooldownReduction = __instance.Get_DisplayedCooldownReduction();
-            if (cooldownReduction > 0)
+            if (__instance.Get_DisplayedCooldownReduction() is var cooldownReduction && cooldownReduction > 0)
             {
                 co = new Color(0, 120, 120);
                 spriteBatch.DrawCooldownIcon(new Vector2(x + 20f, y + 20f));
@@ -187,8 +182,7 @@ internal sealed class MeleeWeaponDrawTooltipPatcher : HarmonyPatcher
 
             #region resistance
 
-            var resistance = __instance.Get_DisplayedResilience();
-            if (resistance != 0f)
+            if (__instance.Get_DisplayedResilience() is var resistance && resistance != 0f)
             {
                 co = __instance.hasEnchantmentOfType<TopazEnchantment>() ? new Color(0, 120, 120) : Game1.textColor;
                 spriteBatch.DrawDefenseIcon(new Vector2(x + 20f, y + 20f));

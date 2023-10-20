@@ -82,6 +82,7 @@
 * Effects that apply to gliders now also include Ghosts.
 * Frozen status now applies the correct duation.
 * Fixed Infinity Needle guaranteed crit. chance not applying correctly.
+* Fixed possible TypeCastException when Solid Foundation mods are installed with Producer profession.
 
 ### Removed
 

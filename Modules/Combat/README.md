@@ -293,11 +293,10 @@ The following new enchantments can be applied to ranged weapons:
 
 | Name       | Effect |
 | ---------- | -------|
-| Energized | Moving and shooting generates energy. When fully-energized, the next projectile carries  attack causes an electric discharge, dealing heavy damage in a large area. |
-| Freljord | Projectiles apply a progressively stronger Chill effect to enemies for 2 second. After 4 stacks, the enemy becomes Frozen. |
+| Energized | Moving and shooting generates energy. When fully-energized, the next projectile carries an electric charge, which discharges dealing heavy damage when it hits an enemy. |
+| Freljord | Progressively chill enemies on hit for 2 seconds, freezing after stacking 3 times. |
 | Quincy | Attacks fire an energy projectile if no ammo is equipped. The projectile is stronger at lower health. Only works when enemies are nearby.* |
-| Runaan | Firing creates two additional projectiles which fly towards the nearest enemy after a short delay. Only works when enemies are nearby.** |
-| Longshot | Up to x2 critical hit chance from afar. |
+| Runaan | Summons two phantom copies of the fired projectile. The phantoms automatically aim at the nearest enemy after a short delay. Only works when enemies are nearby.** |
 
 \* *Quincy projectile cannot crit nor knock back enemies, but is affected by damage modifiers. Below 2/3 max health, the projectile gains a 50% damage boost, increasing to 100% when below 1/3 (the projectile will change color to reflect these improvements). If [PRFS](../Professions) is enabled and the player has the Desperado profession, the Quincy projectile's size will be increased proportionally by overcharge **instead of** its velocity.*
 

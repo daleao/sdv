@@ -25,9 +25,6 @@ public class BaseSlingshotEnchantment : BaseEnchantment
     /// <summary>Raised when the <paramref name="slingshot"/> fires a <see cref="BasicProjectile"/>.</summary>
     /// <param name="slingshot">The <see cref="Slingshot"/>.</param>
     /// <param name="projectile">The fired <see cref="BasicProjectile"/>.</param>
-    /// <param name="damageBase">The base deterministic damage of the fired projectile, before any modifiers or randomness.</param>
-    /// <param name="damageMod">The slingshot's damage modifier.</param>
-    /// <param name="knockback">The base knockback of the fired projectile, before any modifiers.</param>
     /// <param name="overcharge">The amount of overcharge applied by <see cref="Professions.Profession.Desperado"/>.</param>
     /// <param name="startingPosition">The projectile's starting position (also its current position).</param>
     /// <param name="xVelocity">The horizontal component of projectile's velocity.</param>
@@ -38,9 +35,6 @@ public class BaseSlingshotEnchantment : BaseEnchantment
     public void OnFire(
         Slingshot slingshot,
         BasicProjectile projectile,
-        int damageBase,
-        float damageMod,
-        float knockback,
         float overcharge,
         Vector2 startingPosition,
         float xVelocity,
@@ -52,9 +46,6 @@ public class BaseSlingshotEnchantment : BaseEnchantment
         this._OnFire(
             slingshot,
             projectile,
-            damageBase,
-            damageMod,
-            knockback,
             overcharge,
             startingPosition,
             xVelocity,
@@ -69,9 +60,6 @@ public class BaseSlingshotEnchantment : BaseEnchantment
     protected virtual void _OnFire(
         Slingshot slingshot,
         BasicProjectile projectile,
-        int damageBase,
-        float damageMod,
-        float knockback,
         float overcharge,
         Vector2 startingPosition,
         float xVelocity,

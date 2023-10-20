@@ -18,7 +18,7 @@ using StardewValley.Tools;
 // ReSharper disable once InconsistentNaming
 internal static class Slingshot_Stats
 {
-    internal static ConditionalWeakTable<Slingshot, Holder> Values { get; } = new();
+    internal static ConditionalWeakTable<Slingshot, IHolder> Values { get; } = new();
 
     internal static float Get_EffectiveDamageModifier(this Slingshot slingshot)
     {
@@ -105,52 +105,77 @@ internal static class Slingshot_Stats
         return Values.GetValue(slingshot, Create).GetBottomExtraTooltipSpace();
     }
 
+    internal static bool HasRubyBonus(this Slingshot slingshot)
+    {
+        return Values.GetValue(slingshot, Create).RubyBonus > 0f;
+    }
+
+    internal static bool HasAmethystBonus(this Slingshot slingshot)
+    {
+        return Values.GetValue(slingshot, Create).AmethystBonus > 0f;
+    }
+
+    internal static bool HasAquamarineBonus(this Slingshot slingshot)
+    {
+        return Values.GetValue(slingshot, Create).AquamarineBonus > 0f;
+    }
+
+    internal static bool HasJadeBonus(this Slingshot slingshot)
+    {
+        return Values.GetValue(slingshot, Create).JadeBonus > 0f;
+    }
+
+    internal static bool HasEmeraldBonus(this Slingshot slingshot)
+    {
+        return Values.GetValue(slingshot, Create).EmeraldBonus > 0f;
+    }
+
+    internal static bool HasGarnetBonus(this Slingshot slingshot)
+    {
+        return Values.GetValue(slingshot, Create).GarnetBonus > 0f;
+    }
+
+    internal static bool HasTopazBonus(this Slingshot slingshot)
+    {
+        return Values.GetValue(slingshot, Create).TopazBonus > 0f;
+    }
+
     internal static void Invalidate(this Slingshot slingshot)
     {
         Values.Remove(slingshot);
     }
 
-    private static Holder Create(Slingshot slingshot)
+    private static IHolder Create(Slingshot slingshot)
     {
         var bowData = ArcheryIntegration.Instance?.ModApi?.GetWeaponData(Manifest, slingshot);
         return bowData is null ? CreateAsSlingshot(slingshot) : CreateAsBow(slingshot, bowData);
     }
 
+    #region create slingshot
+
     private static SlingshotHolder CreateAsSlingshot(Slingshot slingshot)
     {
         var holder = new SlingshotHolder();
 
-        if (CombatModule.Config.EnableWeaponOverhaul)
+        holder.DamageMod = 1f;
+        holder.KnockbackBonus = 0.25f;
+        switch (slingshot.InitialParentTileIndex)
         {
-            holder.DamageMod = slingshot.InitialParentTileIndex switch
-            {
-                WeaponIds.MasterSlingshot => 0.5f,
-                WeaponIds.GalaxySlingshot => 1f,
-                WeaponIds.InfinitySlingshot => 1.5f,
-                _ => 0f,
-            };
-
-            holder.KnockbackBonus = slingshot.InitialParentTileIndex switch
-            {
-                WeaponIds.MasterSlingshot => 0.1f,
-                WeaponIds.GalaxySlingshot => 0.2f,
-                WeaponIds.InfinitySlingshot => 0.25f,
-                _ => 0f,
-            };
-        }
-        else
-        {
-            holder.DamageMod = slingshot.InitialParentTileIndex switch
-            {
-                WeaponIds.MasterSlingshot => 2f,
-                WeaponIds.GalaxySlingshot => 4f,
-                WeaponIds.InfinitySlingshot => 5f,
-                _ => 0f,
-            };
+            case WeaponIds.MasterSlingshot:
+                holder.DamageMod += CombatModule.Config.EnableWeaponOverhaul ? 0.5f : 1f;
+                holder.KnockbackBonus += 0.1f;
+                break;
+            case WeaponIds.GalaxySlingshot:
+                holder.DamageMod += CombatModule.Config.EnableWeaponOverhaul ? 1f : CombatModule.Config.EnableInfinitySlingshot ? 2f : 3f;
+                holder.KnockbackBonus += 0.2f;
+                break;
+            case WeaponIds.InfinitySlingshot:
+                holder.DamageMod += CombatModule.Config.EnableWeaponOverhaul ? 1.5f : 3f;
+                holder.KnockbackBonus += 0.25f;
+                break;
         }
 
-        holder.AmmoDamage = slingshot.GetAmmoDamage();
-
+        holder.AmmoDamage = slingshot.attachments[0]?.GetAmmoDamage() ?? 0;
         for (var i = 0; i < slingshot.attachments.Length; i++)
         {
             var ammo = slingshot.attachments[i];
@@ -404,6 +429,10 @@ internal static class Slingshot_Stats
         return holder;
     }
 
+    #endregion create slingshot
+
+    #region create bow
+
     private static BowHolder CreateAsBow(Slingshot bow, IWeaponData bowData)
     {
         var holder = new BowHolder();
@@ -623,44 +652,66 @@ internal static class Slingshot_Stats
         return holder;
     }
 
-    internal abstract class Holder
+    #endregion create bow
+
+    #region holder interface
+
+    internal interface IHolder
     {
-        internal abstract float GetEffectiveDamageModifier();
+        float RubyBonus { get; }
 
-        internal abstract float GetDisplayedDamage();
+        float AmethystBonus { get; }
 
-        internal abstract float GetEffectiveKnockbackBonus();
+        float AquamarineBonus { get; }
 
-        internal abstract float GetDisplayedKnockbackBonus();
+        float JadeBonus { get; }
 
-        internal abstract float GetEffectiveCritChanceBonus();
+        float EmeraldBonus { get; }
 
-        internal abstract float GetDisplayedCritChanceBonus();
+        float GarnetBonus { get; }
 
-        internal abstract float GetEffectiveCritPowerBonus();
+        float TopazBonus { get; }
 
-        internal abstract float GetDisplayedCritPowerBonus();
+        float GetEffectiveDamageModifier();
 
-        internal abstract float GetEffectiveFireSpeedModifier();
+        float GetDisplayedDamage();
 
-        internal abstract float GetDisplayedFireSpeedModifer();
+        float GetEffectiveKnockbackBonus();
 
-        internal abstract float GetEffectiveCooldownModifier();
+        float GetDisplayedKnockbackBonus();
 
-        internal abstract float GetDisplayedCooldownModifer();
+        float GetEffectiveCritChanceBonus();
 
-        internal abstract float GetEffectiveResilienceModifier();
+        float GetDisplayedCritChanceBonus();
 
-        internal abstract float GetDisplayedResilienceModifier();
+        float GetEffectiveCritPowerBonus();
 
-        internal abstract int GetTooltipSpaceBeforeAmmoSlots();
+        float GetDisplayedCritPowerBonus();
 
-        internal abstract int GetStatRowsInTooltip();
+        float GetEffectiveFireSpeedModifier();
 
-        internal abstract int GetBottomExtraTooltipSpace();
+        float GetDisplayedFireSpeedModifer();
+
+        float GetEffectiveCooldownModifier();
+
+        float GetDisplayedCooldownModifer();
+
+        float GetEffectiveResilienceModifier();
+
+        float GetDisplayedResilienceModifier();
+
+        int GetTooltipSpaceBeforeAmmoSlots();
+
+        int GetStatRowsInTooltip();
+
+        int GetBottomExtraTooltipSpace();
     }
 
-    internal class SlingshotHolder : Holder
+    #endregion holder interface
+
+    #region slingshot holder
+
+    internal sealed class SlingshotHolder : IHolder
     {
         public float DamageMod { get; internal set; }
 
@@ -684,100 +735,104 @@ internal static class Slingshot_Stats
 
         public int RowsInTooltip { get; internal set; }
 
-        internal override float GetEffectiveDamageModifier()
+        public float GetEffectiveDamageModifier()
         {
-            return this.RubyBonus + 1;
+            return this.DamageMod + this.RubyBonus;
         }
 
-        internal override float GetDisplayedDamage()
+        public float GetDisplayedDamage()
         {
             if (this.AmmoDamage <= 0)
             {
-                return this.DamageMod;
+                return this.DamageMod + this.RubyBonus - 1f;
             }
 
-            var minDamage = (int)(this.AmmoDamage / 2 * (this.DamageMod + 1f) * (this.RubyBonus + 1));
-            var maxDamage = (int)((this.AmmoDamage + 2) * (this.DamageMod + 1f) * (this.RubyBonus + 1));
+            var minDamage = (int)(this.AmmoDamage / 2 * this.GetEffectiveDamageModifier());
+            var maxDamage = (int)((this.AmmoDamage + 2) * this.GetEffectiveDamageModifier());
             return ((uint)maxDamage << 16) | (uint)minDamage;
         }
 
-        internal override float GetEffectiveKnockbackBonus()
-        {
-            return this.AmethystBonus;
-        }
-
-        internal override float GetDisplayedKnockbackBonus()
+        public float GetEffectiveKnockbackBonus()
         {
             return this.KnockbackBonus + this.AmethystBonus;
         }
 
-        internal override float GetEffectiveCritChanceBonus()
+        public float GetDisplayedKnockbackBonus()
+        {
+            return this.KnockbackBonus + this.AmethystBonus - 0.25f;
+        }
+
+        public float GetEffectiveCritChanceBonus()
+        {
+            return this.AquamarineBonus + 0.025f;
+        }
+
+        public float GetDisplayedCritChanceBonus()
         {
             return this.AquamarineBonus;
         }
 
-        internal override float GetDisplayedCritChanceBonus()
+        public float GetEffectiveCritPowerBonus()
         {
-            return this.AquamarineBonus;
+            return this.JadeBonus + 1.5f;
         }
 
-        internal override float GetEffectiveCritPowerBonus()
-        {
-            return this.JadeBonus;
-        }
-
-        internal override float GetDisplayedCritPowerBonus()
+        public float GetDisplayedCritPowerBonus()
         {
             return this.JadeBonus;
         }
 
-        internal override float GetEffectiveFireSpeedModifier()
+        public float GetEffectiveFireSpeedModifier()
         {
             return 10f / (10f + this.EmeraldBonus);
         }
 
-        internal override float GetDisplayedFireSpeedModifer()
+        public float GetDisplayedFireSpeedModifer()
         {
             return this.EmeraldBonus * 0.1f;
         }
 
-        internal override float GetEffectiveCooldownModifier()
+        public float GetEffectiveCooldownModifier()
         {
             return 1f - (this.GarnetBonus * 0.1f);
         }
 
-        internal override float GetDisplayedCooldownModifer()
+        public float GetDisplayedCooldownModifer()
         {
             return this.GarnetBonus * 0.1f;
         }
 
-        internal override float GetEffectiveResilienceModifier()
+        public float GetEffectiveResilienceModifier()
         {
             return 10f / (10f + this.TopazBonus);
         }
 
-        internal override float GetDisplayedResilienceModifier()
+        public float GetDisplayedResilienceModifier()
         {
             return this.TopazBonus * 0.1f;
         }
 
-        internal override int GetTooltipSpaceBeforeAmmoSlots()
+        public int GetTooltipSpaceBeforeAmmoSlots()
         {
             return 12;
         }
 
-        internal override int GetStatRowsInTooltip()
+        public int GetStatRowsInTooltip()
         {
             return this.RowsInTooltip;
         }
 
-        internal override int GetBottomExtraTooltipSpace()
+        public int GetBottomExtraTooltipSpace()
         {
             return 0;
         }
     }
 
-    internal class BowHolder : Holder
+    #endregion slingshot holder
+
+    #region bow holder
+
+    internal sealed class BowHolder : IHolder
     {
         public int MinDamage { get; internal set; }
 
@@ -813,91 +868,93 @@ internal static class Slingshot_Stats
 
         public bool HasSpecialAttack { get; internal set; }
 
-        internal override float GetEffectiveDamageModifier()
+        public float GetEffectiveDamageModifier()
         {
             return this.RubyBonus + 1f;
         }
 
-        internal override float GetDisplayedDamage()
+        public float GetDisplayedDamage()
         {
             var minDamage = (int)((this.MinDamage + this.AmmoDamage) * (this.RubyBonus + 1));
             var maxDamage = (int)((this.MaxDamage + this.AmmoDamage) * (this.RubyBonus + 1));
             return ((uint)maxDamage << 16) | (uint)minDamage;
         }
 
-        internal override float GetEffectiveKnockbackBonus()
+        public float GetEffectiveKnockbackBonus()
         {
             return this.AmethystBonus;
         }
 
-        internal override float GetDisplayedKnockbackBonus()
+        public float GetDisplayedKnockbackBonus()
         {
             return this.AmethystBonus - 0.25f;
         }
 
-        internal override float GetEffectiveCritChanceBonus()
+        public float GetEffectiveCritChanceBonus()
         {
             return this.AquamarineBonus;
         }
 
-        internal override float GetDisplayedCritChanceBonus()
+        public float GetDisplayedCritChanceBonus()
         {
             return Utility.Clamp(this.BaseCritChance + this.AquamarineBonus, 0f, 1f);
         }
 
-        internal override float GetEffectiveCritPowerBonus()
+        public float GetEffectiveCritPowerBonus()
         {
             return this.JadeBonus + 1f;
         }
 
-        internal override float GetDisplayedCritPowerBonus()
+        public float GetDisplayedCritPowerBonus()
         {
             return Utility.Clamp(this.BaseCritPower + this.JadeBonus, 1f, float.MaxValue) - (this.HasAmmo ? 2f : 1f);
         }
 
-        internal override float GetEffectiveFireSpeedModifier()
+        public float GetEffectiveFireSpeedModifier()
         {
             return 10f / (10f + this.EmeraldBonus);
         }
 
-        internal override float GetDisplayedFireSpeedModifer()
+        public float GetDisplayedFireSpeedModifer()
         {
             return this.EmeraldBonus * 0.1f;
         }
 
-        internal override float GetEffectiveCooldownModifier()
+        public float GetEffectiveCooldownModifier()
         {
             return 1f - (this.GarnetBonus * 0.1f);
         }
 
-        internal override float GetDisplayedCooldownModifer()
+        public float GetDisplayedCooldownModifer()
         {
             return this.GarnetBonus * 0.1f;
         }
 
-        internal override float GetEffectiveResilienceModifier()
+        public float GetEffectiveResilienceModifier()
         {
             return 10f / (10f + this.TopazBonus);
         }
 
-        internal override float GetDisplayedResilienceModifier()
+        public float GetDisplayedResilienceModifier()
         {
             return this.TopazBonus * 0.1f;
         }
 
-        internal override int GetTooltipSpaceBeforeAmmoSlots()
+        public int GetTooltipSpaceBeforeAmmoSlots()
         {
             return this.UsesInternalAmmo ? 0 : 12;
         }
 
-        internal override int GetStatRowsInTooltip()
+        public int GetStatRowsInTooltip()
         {
             return this.RowsInTooltip;
         }
 
-        internal override int GetBottomExtraTooltipSpace()
+        public int GetBottomExtraTooltipSpace()
         {
             return 12;
         }
     }
+
+    #endregion bow holder
 }
