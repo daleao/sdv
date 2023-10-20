@@ -82,7 +82,11 @@ internal sealed class MeleeWeaponDoDamagePatcher : HarmonyPatcher
 
         var tiles = radius == 0
             ? rectange.GetInnerTiles()
-            : new CircleTileGrid(new Vector2(rectange.Center.X / 64, rectange.Center.Y / 64), radius).Tiles;
+            : new CircleTileGrid(
+                new Vector2(
+                    rectange.Center.X / Game1.tileSize,
+                    rectange.Center.Y / Game1.tileSize),
+                radius).Tiles;
         return tiles.ToList();
     }
 

@@ -24,10 +24,9 @@ internal sealed class MeleeWeaponForgePatcher : HarmonyPatcher
 
     /// <summary>Allow enchanting Scythe.</summary>
     [HarmonyTranspiler]
-    private static IEnumerable<CodeInstruction>? ToolForgeTranspiler(IEnumerable<CodeInstruction> instructions)
+    private static IEnumerable<CodeInstruction> MeleeWeaponForgeTranspiler(IEnumerable<CodeInstruction> instructions)
     {
-        // From: if (isScythe()) return false;
-        // To: if (isScythe && !ModEntry.Config.Tools.Scythe.AllowHaymakerEnchantment) return false;
+        // Skip: if (isScythe()) return false;
         return instructions.SkipWhile(instruction => instruction.opcode != OpCodes.Ldarg_1);
     }
 

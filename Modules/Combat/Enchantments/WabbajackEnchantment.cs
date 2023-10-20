@@ -51,7 +51,7 @@ public sealed class WabbajackEnchantment : BaseWeaponEnchantment
             return;
         }
 
-        var chance = (MathConstants.PHI - 1.0) / 2.0;
+        var chance = (MathConstants.Phi - 1.0) / 2.0;
         if (this._random.NextDouble() > chance)
         {
             return;

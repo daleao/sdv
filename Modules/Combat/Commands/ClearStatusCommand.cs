@@ -4,10 +4,8 @@
 
 using System.Linq;
 using DaLion.Overhaul.Modules.Combat.StatusEffects;
-using DaLion.Overhaul.Modules.Combat.VirtualProperties;
 using DaLion.Shared.Attributes;
 using DaLion.Shared.Commands;
-using StardewValley;
 
 #endregion using directives
 

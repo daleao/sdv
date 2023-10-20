@@ -3,7 +3,6 @@
 #region using directives
 
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Reflection;
 using System.Reflection.Emit;
 using DaLion.Overhaul.Modules.Tools.Configs;

@@ -85,7 +85,7 @@ internal sealed class ChestPerformOpenChestPatcher : HarmonyPatcher
                 }
                 else
                 {
-                    __instance.items.Add(new SObject(JsonAssetsIntegration.DwarvenScrapIndex!.Value, 1));
+                    __instance.items.Add(new SObject(JsonAssetsIntegration.DwarvenScrapIndex.Value, 1));
                     return;
                 }
             }

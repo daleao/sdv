@@ -5,8 +5,6 @@
 using System.Xml.Serialization;
 using DaLion.Overhaul.Modules.Combat.Events.GameLoop.UpdateTicked;
 using DaLion.Overhaul.Modules.Combat.Events.Player.Warped;
-using DaLion.Overhaul.Modules.Combat.Projectiles;
-using DaLion.Shared.Enums;
 using DaLion.Shared.Extensions;
 using DaLion.Shared.Extensions.Xna;
 using Microsoft.Xna.Framework;

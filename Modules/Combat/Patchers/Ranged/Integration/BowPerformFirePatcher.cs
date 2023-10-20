@@ -49,7 +49,7 @@ internal sealed class BowPerformFirePatcher : HarmonyPatcher
 
         if (CombatModule.Config.EnableWeaponOverhaul)
         {
-            var weaponData = ArcheryIntegration.Instance!.ModApi!.GetWeaponData(Manifest, slingshot);
+            var weaponData = ArcheryIntegration.Instance.ModApi!.GetWeaponData(Manifest, slingshot);
             if (weaponData is not null && projectileData.BaseDamage is { } baseDamage)
             {
                 Reflector.GetUnboundFieldSetter<BasicProjectile, int>(projectile, "_collectiveDamage").Invoke(

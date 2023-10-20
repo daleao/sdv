@@ -9,7 +9,6 @@ using DaLion.Shared.Attributes;
 using DaLion.Shared.Integrations;
 using DaLion.Shared.Integrations.SpaceCore;
 using HarmonyLib;
-using Shared.Harmony;
 
 #endregion using directives
 

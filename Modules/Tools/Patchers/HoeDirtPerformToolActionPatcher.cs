@@ -30,6 +30,7 @@ internal sealed class HoeDirtPerformToolActionPatcher : HarmonyPatcher
 
     /// <summary>Patch to reward Watering Can exp.</summary>
     [HarmonyPrefix]
+    // ReSharper disable once RedundantAssignment
     private static void HoeDirtPerformToolActionPrefix(HoeDirt __instance, ref int __state)
     {
         __state = __instance.state.Value;

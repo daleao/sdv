@@ -127,9 +127,9 @@ public sealed class ModConfig
     /// <summary>Logs all sub-config properties to the SMAPI console.</summary>
     internal void Log()
     {
-        Shared.Log.T($"[Config]: Current settings:\n{this}");
         var message = this
             .Enumerate()
-            .Aggregate("[Config]: Current settings:", (current, next) => current + "\n" + next.ToString());
+            .Aggregate("[Config]: Current settings:", (current, next) => current + "\n" + next);
+        Shared.Log.T(message);
     }
 }

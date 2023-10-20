@@ -81,7 +81,7 @@ internal sealed class ScavengerWarpedEvent : WarpedEvent
             return;
         }
 
-        var split = seasonData.Split(' ');
+        var split = seasonData.Split();
         attempts = r.Next(1, Math.Min(attempts, 100));
         var count = 0;
         for (var i = 0; i < attempts; i++)

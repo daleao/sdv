@@ -15,7 +15,7 @@ using StardewValley.Monsters;
 /// <summary>The animation that plays above a stunned <see cref="Monster"/>.</summary>
 public class StunAnimation : TemporaryAnimatedSprite
 {
-    private Random _random = new(Guid.NewGuid().GetHashCode());
+    private readonly Random _random = new(Guid.NewGuid().GetHashCode());
 
     /// <summary>Initializes a new instance of the <see cref="StunAnimation"/> class.</summary>
     /// <param name="monster">The stunned <see cref="Monster"/>.</param>

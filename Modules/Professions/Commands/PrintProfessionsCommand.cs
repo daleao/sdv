@@ -29,10 +29,10 @@ internal sealed class PrintProfessionsCommand : ConsoleCommand
     public override void Callback(string trigger, string[] args)
     {
         StringBuilder sb;
-        ISkill skill;
         if (args.Length > 0)
         {
             var skillName = args[0];
+            ISkill skill;
             if (!Skill.TryFromName(skillName, true, out var vanillaSkill))
             {
                 var found = SCSkill.Loaded.Values.FirstOrDefault(s =>

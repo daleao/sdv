@@ -9,7 +9,6 @@ using DaLion.Overhaul.Modules.Combat.Events.GameLoop.UpdateTicked;
 using DaLion.Overhaul.Modules.Combat.Extensions;
 using DaLion.Shared.Extensions;
 using Microsoft.Xna.Framework;
-using Shared.Extensions.Xna;
 using StardewValley.Monsters;
 
 #endregion using directives

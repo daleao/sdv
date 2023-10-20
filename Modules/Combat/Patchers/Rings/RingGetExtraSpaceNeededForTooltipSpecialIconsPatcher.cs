@@ -3,7 +3,6 @@
 #region using directives
 
 using System.Collections.Generic;
-using System.Net.NetworkInformation;
 using DaLion.Overhaul.Modules.Combat.Extensions;
 using DaLion.Overhaul.Modules.Combat.Integrations;
 using DaLion.Overhaul.Modules.Combat.VirtualProperties;
@@ -13,7 +12,6 @@ using HarmonyLib;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using StardewValley.Objects;
-using static System.Net.Mime.MediaTypeNames;
 
 #endregion using directives
 

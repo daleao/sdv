@@ -142,7 +142,7 @@ internal sealed class MeleeWeaponDrawTooltipPatcher : HarmonyPatcher
 
             #region attack speed
 
-            if (__instance.Get_DisplayedSwingSpeed() is var speed & speed != 0)
+            if (__instance.Get_DisplayedSwingSpeed() is var speed && speed != 0)
             {
                 co = __instance.hasEnchantmentOfType<EmeraldEnchantment>() ? new Color(0, 120, 120) : Game1.textColor;
                 spriteBatch.DrawSpeedIcon(new Vector2(x + 20f, y + 20f));

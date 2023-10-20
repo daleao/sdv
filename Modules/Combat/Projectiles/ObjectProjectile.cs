@@ -26,7 +26,7 @@ internal sealed class ObjectProjectile : BasicProjectile
     private readonly Action<BasicProjectile, GameLocation> _explosionAnimation = Reflector
         .GetUnboundMethodDelegate<Action<BasicProjectile, GameLocation>>(typeof(BasicProjectile), "explosionAnimation");
 
-    private int _energizedFrame = 0;
+    private int _energizedFrame;
 
     /// <summary>Initializes a new instance of the <see cref="ObjectProjectile"/> class.</summary>
     /// <param name="ammo">The <see cref="SObject"/> that was fired.</param>

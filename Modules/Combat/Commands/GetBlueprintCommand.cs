@@ -5,7 +5,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using DaLion.Overhaul.Modules.Combat.Integrations;
-using DaLion.Shared.Attributes;
 using DaLion.Shared.Commands;
 using DaLion.Shared.Constants;
 using DaLion.Shared.Extensions;

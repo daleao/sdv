@@ -51,7 +51,7 @@ internal sealed class AddGemstonesCommand : ConsoleCommand
             return;
         }
 
-        var band = ring is CombinedRing combined ? combined : new CombinedRing(ObjectIds.CombinedRing);
+        var band = ring as CombinedRing ?? new CombinedRing(ObjectIds.CombinedRing);
         while (args.Length > 0 && band.combinedRings.Count < 4)
         {
             var ringIndex = args[0].ToLower() switch

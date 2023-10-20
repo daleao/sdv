@@ -39,10 +39,10 @@ internal sealed class TaxAssetRequestedEvent : AssetRequestedEvent
                 CurrentCulture($"{TaxesModule.Config.IncomeTaxLatenessFine:0.#%}"),
                 interest);
 
-        var due = Game1.player.Read<int>(DataKeys.LatestDueIncomeTax);
+        var due = player.Read<int>(DataKeys.LatestDueIncomeTax);
         data[$"{Manifest.UniqueID}/{Mail.FrsNotice}"] = I18n.Mail_Frs_Notice(honorific, due);
 
-        var outstanding = Game1.player.Read<int>(DataKeys.LatestOutstandingIncomeTax);
+        var outstanding = player.Read<int>(DataKeys.LatestOutstandingIncomeTax);
         data[$"{Manifest.UniqueID}/{Mail.FrsOutstanding}"] =
             I18n.Mail_Frs_Outstanding(
                 honorific,
@@ -52,7 +52,7 @@ internal sealed class TaxAssetRequestedEvent : AssetRequestedEvent
                 outstanding,
                 interest);
 
-        var deductions = Game1.player.Read<float>(DataKeys.LatestTaxDeductions);
+        var deductions = player.Read<float>(DataKeys.LatestTaxDeductions);
         data[$"{Manifest.UniqueID}/{Mail.FrsDeduction}"] = deductions switch
         {
             >= 1f => I18n.Mail_Frs_Deduction_Max(honorific),

@@ -5,7 +5,6 @@
 using DaLion.Overhaul.Modules.Combat.StatusEffects;
 using DaLion.Shared.Events;
 using StardewModdingAPI.Events;
-using StardewValley.Monsters;
 
 #endregion using directives
 

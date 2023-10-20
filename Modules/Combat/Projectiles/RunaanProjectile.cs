@@ -129,12 +129,6 @@ internal sealed class RunaanProjectile : BasicProjectile
     public int TileSheetIndex => this.currentTileSheetIndex.Value;
 
     /// <inheritdoc />
-    public override void behaviorOnCollisionWithMineWall(int tileX, int tileY)
-    {
-        base.behaviorOnCollisionWithMineWall(tileX, tileY);
-    }
-
-    /// <inheritdoc />
     public override void behaviorOnCollisionWithMonster(NPC n, GameLocation location)
     {
         if (n is not Monster { IsMonster: true } monster)

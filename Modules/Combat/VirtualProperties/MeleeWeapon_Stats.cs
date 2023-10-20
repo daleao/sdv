@@ -217,10 +217,8 @@ internal static class MeleeWeapon_Stats
 
     private static Holder Create(MeleeWeapon weapon)
     {
-        var holder = new Holder();
+        var holder = new Holder { MinDamage = weapon.minDamage.Value, MaxDamage = weapon.maxDamage.Value };
 
-        holder.MinDamage = weapon.minDamage.Value;
-        holder.MaxDamage = weapon.maxDamage.Value;
         var data = ModHelper.GameContent
             .Load<Dictionary<int, string>>("Data/weapons")[weapon.InitialParentTileIndex]
             .SplitWithoutAllocation('/');

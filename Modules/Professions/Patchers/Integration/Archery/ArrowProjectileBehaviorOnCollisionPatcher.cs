@@ -7,8 +7,6 @@ using DaLion.Shared.Attributes;
 using DaLion.Shared.Extensions.Reflection;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
-using Netcode;
-using StardewValley.Monsters;
 using StardewValley.Projectiles;
 
 #endregion using directives

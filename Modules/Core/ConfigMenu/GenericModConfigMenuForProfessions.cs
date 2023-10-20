@@ -260,8 +260,7 @@ internal sealed partial class GenericModConfigMenu
                 config => config.Professions.SkillResetCostMultiplier,
                 (config, value) => config.Professions.SkillResetCostMultiplier = value,
                 0f,
-                3f,
-                0.1f)
+                3f)
             .AddCheckbox(
                 I18n.Gmcm_Profs_Prestige_ForgetRecipes_Title,
                 I18n.Gmcm_Profs_Prestige_ForgetRecipes_Desc,
@@ -278,8 +277,7 @@ internal sealed partial class GenericModConfigMenu
                 config => config.Professions.PrestigeExpMultiplier,
                 (config, value) => config.Professions.PrestigeExpMultiplier = value,
                 -0.5f,
-                2f,
-                0.1f)
+                2f)
             .AddNumberField(
                 I18n.Gmcm_Profs_Prestige_RespecCost_Title,
                 I18n.Gmcm_Profs_Prestige_RespecCost_Desc,
@@ -327,24 +325,21 @@ internal sealed partial class GenericModConfigMenu
                 config => config.Professions.BaseSkillExpMultipliers[0],
                 (config, value) => config.Professions.BaseSkillExpMultipliers[0] = value,
                 0.2f,
-                2f,
-                0.1f)
+                2f)
             .AddNumberField(
                 () => I18n.Gmcm_Profs_Experience_BaseExpMultiplier_Title("Fishing"),
                 () => I18n.Gmcm_Profs_Experience_BaseExpMultiplier_Desc("fishing"),
                 config => config.Professions.BaseSkillExpMultipliers[1],
                 (config, value) => config.Professions.BaseSkillExpMultipliers[1] = value,
                 0.2f,
-                2f,
-                0.1f)
+                2f)
             .AddNumberField(
                 () => I18n.Gmcm_Profs_Experience_BaseExpMultiplier_Title("Foraging"),
                 () => I18n.Gmcm_Profs_Experience_BaseExpMultiplier_Desc("foraging"),
                 config => config.Professions.BaseSkillExpMultipliers[2],
                 (config, value) => config.Professions.BaseSkillExpMultipliers[2] = value,
                 0.2f,
-                2f,
-                0.1f)
+                2f)
             .AddNumberField(
                 () => I18n.Gmcm_Profs_Experience_BaseExpMultiplier_Title("Mining"),
                 () => I18n.Gmcm_Profs_Experience_BaseExpMultiplier_Desc("mining"),
@@ -358,8 +353,7 @@ internal sealed partial class GenericModConfigMenu
                 config => config.Professions.BaseSkillExpMultipliers[4],
                 (config, value) => config.Professions.BaseSkillExpMultipliers[4] = value,
                 0.2f,
-                2f,
-                0.1f);
+                2f);
 
         foreach (var (skillId, _) in ProfessionsModule.Config.CustomSkillExpMultipliers)
         {
@@ -375,8 +369,7 @@ internal sealed partial class GenericModConfigMenu
                     config => config.Professions.CustomSkillExpMultipliers[skillId],
                     (config, value) => config.Professions.CustomSkillExpMultipliers[skillId] = value,
                     0.2f,
-                    2f,
-                    0.1f);
+                    2f);
         }
 
         #endregion experience

@@ -440,7 +440,6 @@ internal sealed class CombatAssetRequestedEvent : AssetRequestedEvent
     {
         var data = asset.AsDictionary<string, string>().Data;
 
-        string[] fields;
         if (CombatModule.Config.RebalancedRings)
         {
             data["Ring of Yoba"] = "336 5 335 5 72 1 768 20/Home/524/false/Combat 8";
@@ -458,7 +457,7 @@ internal sealed class CombatAssetRequestedEvent : AssetRequestedEvent
 
         if (CombatModule.Config.EnableInfinityBand)
         {
-            fields = data["Iridium Band"].Split('/');
+            var fields = data["Iridium Band"].Split('/');
             fields[0] = "337 5 768 100 769 100";
             data["Iridium Band"] = string.Join('/', fields);
         }

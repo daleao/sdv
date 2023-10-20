@@ -2,7 +2,6 @@
 
 #region using directives
 
-using System.Linq;
 using DaLion.Shared.Commands;
 using DaLion.Shared.Extensions;
 using StardewValley;
@@ -61,14 +60,12 @@ internal sealed class AddEnchantmentCommand : ConsoleCommand
         if (enchantment is null)
         {
             Log.W($"Ignoring unknown enchantment {args[0]}.");
-            args = args.Skip(1).ToArray();
             return;
         }
 
         if (!enchantment.CanApplyTo(tool))
         {
             Log.W($"Cannot apply {args[0].FirstCharToUpper()} enchantment to {tool.DisplayName}.");
-            args = args.Skip(1).ToArray();
             return;
         }
 

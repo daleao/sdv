@@ -5,7 +5,6 @@
 using System.Xml.Serialization;
 using DaLion.Overhaul.Modules.Combat.Extensions;
 using StardewValley.Monsters;
-using StardewValley.Tools;
 
 #endregion using directives
 

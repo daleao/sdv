@@ -5,7 +5,6 @@
 using System.Xml.Serialization;
 using DaLion.Overhaul.Modules.Combat.Events.GameLoop.UpdateTicked;
 using DaLion.Overhaul.Modules.Combat.Extensions;
-using DaLion.Overhaul.Modules.Combat.StatusEffects;
 using DaLion.Overhaul.Modules.Core;
 using StardewValley.Monsters;
 

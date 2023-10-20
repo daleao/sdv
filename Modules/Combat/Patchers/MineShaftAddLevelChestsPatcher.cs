@@ -91,9 +91,8 @@ internal sealed class MineShaftAddLevelChestsPatcher : HarmonyPatcher
                         __instance.currentEvent = new Event(Game1.content.LoadString(
                             MineShaft.numberOfCraftedStairsUsedThisRun <= 10
                                 ? "Data\\ExtraDialogue:SkullCavern_100_event_honorable"
-                                : "Data\\ExtraDialogue:SkullCavern_100_event"));
-                        __instance.currentEvent.exitLocation =
-                            new LocationRequest(__instance.Name, isStructure: false, __instance);
+                                : "Data\\ExtraDialogue:SkullCavern_100_event"))
+                            { exitLocation = new LocationRequest(__instance.Name, isStructure: false, __instance) };
                         player.chestConsumedMineLevels[__instance.mineLevel] = true;
                     }
                     else

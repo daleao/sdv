@@ -129,7 +129,7 @@ internal static class CrabPotExtensions
             {
                 var seasonalFishData = locationData[location.NameOrUniqueName]
                     .SplitWithoutAllocation('/')[4 + i]
-                    .Split(' ');
+                    .Split();
                 for (var j = 0; j < seasonalFishData.Length; j++)
                 {
                     var fish = seasonalFishData[j];
@@ -143,7 +143,7 @@ internal static class CrabPotExtensions
         {
             rawFishData = locationData[locationName]
                 .SplitWithoutAllocation('/')[4 + Utility.getSeasonNumber(Game1.currentSeason)]
-                .Split(' ');
+                .Split();
         }
 
         var rawFishDataWithLocation = GetRawFishDataWithLocation(rawFishData);
@@ -195,7 +195,7 @@ internal static class CrabPotExtensions
     /// <param name="fishData">Raw fish data from the game files.</param>
     /// <param name="location">The <see cref="GameLocation"/> of the <paramref name="crabPot"/>.</param>
     /// <param name="r">A random number generator.</param>
-    /// <param name="isLuremaster">Whether the owner of the crab pot is luremaster.</param>
+    /// <param name="isLuremaster">Whether the owner of the crab pot has the Luremaster profession.</param>
     /// <returns>The index of a random trap fish from the allowed list for the <paramref name="location"/>.</returns>
     internal static int ChooseTrapFish(
         this CrabPot crabPot, Dictionary<int, string> fishData, GameLocation location, Random r, bool isLuremaster)

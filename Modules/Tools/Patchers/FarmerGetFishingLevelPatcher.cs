@@ -20,6 +20,7 @@ internal sealed class FarmerGetFishingLevelPatcher : HarmonyPatcher
 
     /// <summary>Restrict Master enchantment's effect on Fishing.</summary>
     [HarmonyPrefix]
+    // ReSharper disable once RedundantAssignment
     private static bool FarmerGetMiningLevelPrefix(Farmer __instance, ref int __result)
     {
         __result = __instance.fishingLevel.Value + __instance.addedFishingLevel.Value;
