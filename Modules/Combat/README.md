@@ -42,7 +42,7 @@
 	<li><a href="#garnet--gemstone-resonance-theory">Garnet & Gemstone Resonance Theory</a></li>
 	<li><a href="#enemies">Enemies</a></li>
 	<li><a href="#controls--quality-of-life">Controls & Quality of Life</a></li>
-	<li><a href="#other-features-2">Other Features</a></li>
+	<li><a href="#miscellaneous">Miscellaneous</a></li>
 	<li><a href="#compatibility">Compatibility</a></li>
 	<li><a href="#faq">F.A.Q.</a></li>
 </ol>
@@ -222,17 +222,17 @@ Weapons enchantments have been almost entirely overhauled. These new enchantment
 
 ### Other Features
 
-* **The Mines & Weapon Acquisition**
+#### The Mines & Weapon Acquisition
 
-    In vanilla, the player is quick to amass large quantities of fodder weapons, both from Mine chests as well as barrel and crate drops. To support the intended experience of progression, all weapons are removed from Mine chests, which instead reward random goodies. In order to obtain new weapons, players will have to fight for monster drops or get lucky with breakable containers. Monster-dropped weapons are rare, but tend to be stronger. Lower-tier weapons can also be purchased directly from Marlon, but will have fixed and significantly weaker stats when obtained this way.
+In vanilla, the player is quick to amass large quantities of fodder weapons, both from Mine chests as well as barrel and crate drops. To support the intended experience of progression, all weapons are removed from Mine chests, which instead reward random goodies. In order to obtain new weapons, players will have to fight for monster drops or get lucky with breakable containers. Monster-dropped weapons are rare, but tend to be stronger. Lower-tier weapons can also be purchased directly from Marlon, but will have fixed and significantly weaker stats when obtained this way.
 
-* **Tooltips**
+#### Tooltips
 
-    Vanilla weapon tooltips are confusing. Who the heck knows what "+1 Speed" means?
-    
-    This mod improves weapon tooltips for clarity, so you always know exactly what each stat means. You may configure the tooltips to show **absolute** or **relative** stats; the former displays straight-forward raw stats, while the latter displays percentages **based on the weapon type's base stats**. The new tooltips also display gemstone sockets instead of the generic vanilla "Forged x/3" text.
+Vanilla weapon tooltips are confusing. Who the heck knows what "+1 Speed" means?
 
-    Note that this is the only feature of this mod that affects third-party mod weapons. If you play with expansion mods which add new weapons, such as Ridgeside Village, you will likely notice absurdly high stats in those weapons' tooltips. **That's not on me.** Those weapons are broken by design. I just pulled the curtains. You're welcome.
+This mod improves weapon tooltips for clarity, so you always know exactly what each stat means. You may configure the tooltips to show **absolute** or **relative** stats; the former displays straight-forward raw stats, while the latter displays percentages **based on the weapon type's base stats**. The new tooltips also display gemstone sockets instead of the generic vanilla "Forged x/3" text.
+
+Note that this is the only feature of this mod that affects third-party mod weapons. If you play with expansion mods which add new weapons, such as Ridgeside Village, you will likely notice absurdly high stats in those weapons' tooltips. **That's not on me.** Those weapons are broken by design. I just pulled the curtains. You're welcome.
 
 <sup><sup>[🔼 Back to top](#margo--combat-cmbt)</sup></sup>
 
@@ -295,13 +295,13 @@ Lastly, the **Galaxy Soul** can be applied to the Galaxy Slingshot, as with othe
 
 ### Other Features
 
-* **Removed Grace Period**
+#### Removed Grace Period
 
-    Vanilla slingshots are unable to hit enemies in close-range of the player; these shots will fly straight through them. This mod removes this limitation, making ranged combat more reliable.
+Vanilla slingshots are unable to hit enemies in close-range of the player; these shots will fly straight through them. This mod removes this limitation, making ranged combat more reliable.
 
-* **Snowballs**
+#### Snowballs
 
-    Standing in a snowy tile with an empty slingshot will allow the player to fire a snowball. The snowball projectile deals no significant damage; this is meant as a fun flavor feature for multiplayer.
+Standing in a snowy tile with an empty slingshot will allow the player to fire a snowball. The snowball projectile deals no significant damage; this is meant as a fun flavor feature for multiplayer.
 
 <sup><sup>[🔼 Back to top](#margo--combat-cmbt)</sup></sup>
 
@@ -548,11 +548,11 @@ This mod includes the following popular control-related features, often featured
 
 <sup><sup>[🔼 Back to top](#margo--combat-cmbt)</sup></sup>
 
-## Other Features
+## Miscellaneous
 
-* **Woody Replaces Rusty**
+#### Woody Replaces Rusty
 
-    The vanilla game has too many weapons for its own good. A minor issue which results from this is the very awkward "upgrade" from the starting Rusty Sword to the Wooden Blade. Why would Marlon be mocking about with a rusty weapon anyway? This has always bothered me, and so, for a slight increase in immersion, this novelty feature will remove the Rusty Sword from the game and replace the starter weapon with a Wooden Blade.
+The vanilla game has too many weapons for its own good. A minor issue which results from this is the very awkward "upgrade" from the starting Rusty Sword to the Wooden Blade. Why would Marlon be mocking about with a rusty weapon anyway? This has always bothered me, and so, for a slight increase in immersion, this novelty feature will remove the Rusty Sword from the game and replace the starter weapon with a Wooden Blade.
 
 <sup><sup>[🔼 Back to top](#margo--combat-cmbt)</sup></sup>
 
