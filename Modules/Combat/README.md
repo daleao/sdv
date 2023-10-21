@@ -164,9 +164,9 @@ The known Mythic weapons are:
 | ![](./resources/readme/insecthead.png) Insect Head | Dagger | Damage depends on the number of slain insects. |
 | ![](./resources/readme/iridiumneedle.png) Iridium Needle | Dagger | Always crits. |
 
+<font size="1">\* *Status effects are explained [further below](#status-effects).*</font>
 </div>
 
-\* *Status effects are explained [further below](#status-effects).*
 
 <font color="orange"><b>Masterwork Tier</b></font>
 
@@ -211,12 +211,12 @@ Weapons enchantments have been almost entirely overhauled. These new enchantment
 | Energized | Moving and attacking generates energy. When fully-energized, the next attack causes an electric discharge, dealing heavy damage in a large area. |
 | Mammonite's | Attacks that would leave an enemy below 10% max health immediately execute the enemy, converting the remaining health into gold. This threshold increases by 1% with each consecutive takedown, resetting when you take damage. |
 | Steadfast | Can no longer critically strike, but multiplies base damage by a factor of crit. power. |
-| Wabbajack | Causes unpredictable effects.** |
+| Wabbajack | Causes unpredictable effects.* |
 
-\*
-***Offensive Swords:** Can dash twice in succession. **Defensive Swords:** The next attack within 5s of a successful parry is guaranteed a critical strike. **Daggers:** Quick stab deals an additional hit. All hits also apply Bleed with 100% chance. **Clubs:** Smash area +50%. Enemies in range are stunned for 2s.*
+<font size="1">
 
-\*\* *Examples: damage or heal the enemy; decrease or increase the enemie's stats; transfigure into a different enemy, creature or any random item (note: this can spawn illegal items).*
+\* *Examples: damage or heal the enemy; decrease or increase the enemie's stats; transfigure into a different enemy, creature or any random item (note: this can spawn illegal items).*
+</font>
 
 <sup><sup>[🔼 Back to top](#margo--combat-cmbt)</sup></sup>
 
@@ -278,9 +278,12 @@ The following new enchantments can be applied to ranged weapons:
 | Quincy | Attacks fire an energy projectile if no ammo is equipped. The projectile is stronger at lower health. Only works when enemies are nearby.* |
 | Runaan | Summons two phantom copies of the fired projectile. The phantoms automatically aim at the nearest enemy after a short delay. Only works when enemies are nearby.** |
 
+<font size="1">
+
 \* *Quincy projectile cannot crit nor knock back enemies, but is affected by damage modifiers. Below 2/3 max health, the projectile gains a 50% damage boost, increasing to 100% when below 1/3 (the projectile will change color to reflect these improvements). If [PRFS](../Professions) is enabled and the player has the Desperado profession, the Quincy projectile's size will be increased proportionally by overcharge **instead of** its velocity.*
 
 \** *Additional projectiles inherit 40% of the main projectile's damage, but 100% of the crit. chance, crit. power, knockbak and overcharge.*
+</font>
 
 Gemstone forges cannot directly be applied to slingshots, but **gemstones can be equipped as ammo**, and will apply their analogous bonuses when equipped, and will also [resonate](#resonances) if applicable. With the [Rascal](../Professions) profession, you may slot up to two gemstones at a time to possibly achieve a level-2 forge.
 
@@ -415,7 +418,6 @@ Like strings in a guitar, the characteristic vibration of each gemstone causes [
 | Sixth    | 16.6%     | `Rb - Jd`, `Am - Rb`, `Ga - Aq` |
 | Seventh  | -12.5%*   | `Rb - Tp`, `Am - Aq`, `Ga - Am` |
 | Octave   | Ø         | `Rb - Rb`, `Am - Am`, `Ga - Ga` |
-
 </div>
 
  The **Fifth** is the strongest resonating interval, followed by the **Fourth**, and the **Third**/**Sixth**. Notice that, because the scale is cyclic, complementary intervals are essentially equivalent; a **Sixth** (e.g., `Rb - Jd`) is a just a **Third** counted backwards (`Jd - Rb`), and therefore their resonances are the same. Likewise for **Second** and **Seventh**, the two dissonant intervals. The **Fourth** and **Fifth** are also a complementary pair, but their resonances are different (due to some simplifications from real life).
@@ -430,7 +432,7 @@ A 1-note chord is called a **Monad**. A Monad results from up to 4 repeated gems
 
 <div align="center">
 
-<img src="https://gitlab.com/daleao/modular-overhaul/-/raw/main/resources/screenshots/monad.png" alt="monad.png" width="33%">
+<img src="https://gitlab.com/daleao/modular-overhaul/-/raw/main/resources/screenshots/monad.png" alt="monad.png" width="25%">
 </div>
 
 #### Dyad Chords
@@ -439,7 +441,7 @@ A 2-note chord is called a **Dyad**. Given the intervals above, it should be cle
 
 <div align="center">
 
-<img src="https://gitlab.com/daleao/modular-overhaul/-/raw/main/resources/screenshots/dyad.png" alt="dyad.png" width="33%">
+<img src="https://gitlab.com/daleao/modular-overhaul/-/raw/main/resources/screenshots/dyad.png" alt="dyad.png" width="25%">
 </div>
 
 #### Triad Chords
@@ -453,7 +455,7 @@ The Ruby Tertian Triad is shown below:
 
 <div align="center">
 
-<img src="https://gitlab.com/daleao/modular-overhaul/-/raw/main/resources/screenshots/triad.png" alt="triad.png" width="33%">
+<img src="https://gitlab.com/daleao/modular-overhaul/-/raw/main/resources/screenshots/triad.png" alt="triad.png" width="25%">
 </div>
 
 #### Tetrad Chords
@@ -462,7 +464,7 @@ A 4-note chord is called a **Tetrad**. Notice that it is impossible for any 4-no
 
 <div align="center">
 
-<img src="https://gitlab.com/daleao/modular-overhaul/-/raw/main/resources/screenshots/tetrad.png" alt="tetrad.png" width="33%">
+<img src="https://gitlab.com/daleao/modular-overhaul/-/raw/main/resources/screenshots/tetrad.png" alt="tetrad.png" width="25%">
 </div>
 
 <br>
@@ -478,7 +480,7 @@ If the player's currently held weapon contains forged gemstones, resonating chor
 
 <div align="center">
 
-<i>It is my hope that this mechanic will encourage experimentation, and also teach some basic Music Theory.</i>
+*It is my hope that this mechanic will encourage experimentation, and also teach some basic Music Theory.*
 </div>
 
 <sup><sup>[🔼 Back to top](#margo--combat-cmbt)</sup></sup>
@@ -499,12 +501,15 @@ Taking inspiration from classic RPG and strategy games, this module adds a frame
 
 Durations depend on the source. These status conditions are exclusively applied to monsters, with two exceptions; a few player-applied status conditions are also tweaked to be more interesting and/or more consistent:
 
+<div align="center">
+
 | Status | Effects | Sources | Duration |
 | ------ | ------- | ------- | -------- |
 | Burnt | *Same as above.* | Magma Sparker | 15s |
 | Frozen | *Same as above.* | Skeleton Mage | 5s |
 | Jinxed | Defense -5. Prevents the use of special moves. | Shadow Shaman | 8s |
 | ~~Weakness~~ Confusion | Causes unpredictable movement. | Blue Squid | 3s |
+</div>
 
 Most status conditions accompany neat new visual and/or sound effects.
 
