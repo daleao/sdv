@@ -370,7 +370,7 @@ In return for all that extra work, the Infinity weapons have extra perks:
 
 <div align="center">
 
-<img src="https://gitlab.com/daleao/modular-overhaul/-/raw/main/resources/screenshots/infinity_beam.gif" alt="infinity_beam.gif" width="67%">
+<img src="https://gitlab.com/daleao/modular-overhaul/-/raw/main/resources/screenshots/infinity_beam.gif" alt="infinity_beam.gif" width="50%">
 </div>
 
 <sup><sup>[🔼 Back to top](#margo--combat-cmbt)</sup></sup>
@@ -383,8 +383,13 @@ With the addition of Garnet, the seven gemstones together form a [Diatonic Scale
 
 <div align="center">
 
-<img src="https://gitlab.com/daleao/modular-overhaul/-/raw/main/Modules/Combat/resources/readme/diatonic.png" alt="diatonic_gemstone_scale.png" width="67%">
- <figcaption><font size="2">The Diatonic Gemstone Scale. The dashed lines show the Tertian Tetrads rooted in Ruby (red) and Aquamarine (blue).</font></figcaption>
+<img src="https://gitlab.com/daleao/modular-overhaul/-/raw/main/Modules/Combat/resources/readme/diatonic.png" alt="diatonic_gemstone_scale.png" width="33%">
+</div>
+
+<br>
+
+<div align="center">
+<font size="1">The Diatonic Gemstone Scale. The dashed lines show the Tertian Tetrads rooted in Ruby (red) and Aquamarine (blue).</font>
 </div>
 
 <br>
