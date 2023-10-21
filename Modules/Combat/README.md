@@ -502,7 +502,7 @@ Taking inspiration from classic RPG and strategy games, this module adds a frame
 | Bleeding | Causes damage every second. Damage increases exponentially with each additional stack. Stacks up to 5x. Does not affect Ghosts, Skeletons, Golems, Dolls or Mechanical enemies (i.e., Dwarven Sentry). | Daggers, Obsidian Edge, Ring of Thorns |
 | Burning | Causes damage equal to 1/16th of max health every 3 seconds, and reduces attack by half. Also causes enemies to move about more randomly. Does not affect fire enemies (i.e., Lava Lurks, Magma Sprites and Magma Sparkers). Insects burn 4x as quickly. Does not affect Magma Sprites or Lava Lurks | Lava Katana |
 | Chilled | Reduces movement speed for the duration. If Chilled is inflicted again during this time, then applies Freeze for 5x the duration. Does not affect Ghosts or Skeleton Mage. | Yeti Tooth, Freljord Enchantment |
-| Frozen | Cannot move or attack. The next hit during the duration deals triple damage and ends the effect. | - |
+| Frozen | Cannot move or attack. The next hit during the duration deals triple damage and ends the effect. | Chill x2 |
 | Poisoned | Causes damage equal to 1/16 of max health every 3s, stacking up to 3x. Does not affect Ghosts.| *Unused* |
 | Slowed | Reduces movement speed for the duration. | Slime Ammo |
 | Dazed | Cannot move or attack for the duration. | Enhanced Parry |
