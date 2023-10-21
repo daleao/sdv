@@ -23,7 +23,7 @@
 		<ol>
 			<li><a href="#combo-framework">Combo Framework</a></li>
 			<li><a href="#offensive-defensive-swords">Offensive & Defensive Swords</a></li>
-			<li><a href="#base-weapon-stats">Base Weapon Stats</a></li>
+			<li><a href="#base-stats--tooltips">Base Stats & Tooltips</a></li>
 			<li><a href="#weapon-tiers">Weapon Tiers</a></li>
 			<li><a href="#the-mines--weapon-acquisition">The Mines & Weapon Acquisition</a></li>
 			<li><a href="#woody-replaces-rusty">Woody Replaces Rusty</a></li>
@@ -162,12 +162,12 @@ You can change the type of any sword in the game by adding or removing it from t
 
 <div align="center">
 
-<img src="https://gitlab.com/daleao/modular-overhaul/-/raw/main/resources/screenshots/stabbing_special.gif" alt="stabbing_special.gif" width="67%">
+<img src="https://github.com/daleao/modular-overhaul/blob/main/resources/screenshots/stabbing_special.gif?raw=true" alt="stabbing_special.gif" width="67%">
 </div>
 
 <sup><sup>[🔼 Back to top](#margo--combat-cmbt)</sup></sup>
 
-### Base Weapon Stats
+### Base Stats & Tooltips
 
 Having discussed all of the stat changes, as well as the new weapon type, we can now describe the new base stats for each weapon type, designed to more clearly distinguish a playstyle for type:
 
@@ -183,7 +183,7 @@ Along with these stat changes, weapon tooltips have also been significantly impr
 ⚠ *Note that, while this mod does not touch non vanilla weapons, they will still be affected by the newer tooltips. If you play with mods like Ridgeside Village which add new weapons, you  will notice that they have absurdly high stats. This is not a bug. Those weapons are broken by design, and I just pulled the curtains. You're welcome.* ⚠
 </div>
 
-### Rebalanced Types & Tiers
+### Weapon Tiers
 
 Now that the weapon types have been addressed, we need to rebalance the weapons themselves. However, due to the sheer amount of weapons in vanilla, manually adjusting the damage of each one is simply not feasible. We find a better solution, inspired by MMO's and looter RPGs, by assigning all weapons to a [color-coded tier][tropes:color-coded].
 
@@ -251,7 +251,7 @@ Every few Mine levels, a new tier of weapons will also become available for sale
 
 ### Woody Replaces Rusty
 
-We've solved a lot of vanilla problems up to this point, but we now reach the greatest offender of all: the very awkward "upgrade" from the starting Rusty Sword to the Wooden Blade. Why would Marlon be mocking about with a rusty weapon anyway?
+So far we've solved a lot of vanilla problems. But now we reach the most egregious: the very awkward "upgrade" from the starting Rusty Sword to the Wooden Blade. Why would Marlon be mocking about with a rusty weapon anyway?
 
 ConcernedApe originally intended for the Rusty Sword to be upgraded to the Dark Sword, then Holy Blade, and finally Galaxy Sword. In our discussion of the [legendary weapons](#infinity-1) further below we will see how this has been reimplemented a little differently. In our case, we will not need the Rusty Sword, and so it has been removed entirely, and replaced by a Wooden Blade instead.
 
@@ -479,7 +479,7 @@ A 2-note chord is called a **Dyad**. A Dyad always contains 2 complementary inte
 
 <div align="center">
 
-<img src="https://gitlab.com/daleao/modular-overhaul/-/raw/main/resources/screenshots/dyad.png" alt="dyad.png" width="25%">
+<img src="https://gitlab.com/daleao/modular-overhaul/-/raw/main/resources/screenshots/dyad.png" alt="dyad.png" width="33%">
 </div>
 
 On the other hand, a `I - II` configuration, like `Aq - Am`, contains the intervals Second and Seventh (from the inverse, `Am - Aq`), resulting in a strong dissonance, and a dampening of both gemstones.
@@ -491,7 +491,7 @@ The Ruby Tertian Triad is shown below:
 
 <div align="center">
 
-<img src="https://gitlab.com/daleao/modular-overhaul/-/raw/main/resources/screenshots/triad.png" alt="triad.png" width="25%">
+<img src="https://gitlab.com/daleao/modular-overhaul/-/raw/main/resources/screenshots/triad.png" alt="triad.png" width="33%">
 </div>
 
 Notice also that, due to the cyclic nature of the scale, the `I - III - V` configuration is equivalent to a "shifted" `I - IV - VI`. Take for instance the example of `Em - Rb - Am`, which is a `I - IV - VI` configuration; if we shift all notes one position to the left, then the chord becomes `Rb - Am - Em`, which is a `I - III - V` configuration. The shifting around of notes is known as [Transposition](https://en.wikipedia.org/wiki/Transposition_(music)). This does not change the chord, but allows us to see it from a different perspective.
@@ -502,7 +502,7 @@ Finally, a 4-note chord is called a **Tetrad**. A Tetrad always contains 16 inte
 
 <div align="center">
 
-<img src="https://gitlab.com/daleao/modular-overhaul/-/raw/main/resources/screenshots/tetrad.png" alt="tetrad.png" width="25%">
+<img src="https://gitlab.com/daleao/modular-overhaul/-/raw/main/resources/screenshots/tetrad.png" alt="tetrad.png" width="33%">
 </div>
 
 There is no "optimal" gemstone combination. Simple chords are optimal for single-stats, while more complex chords are optimal in terms of resonance. It is up to the player to choose what fits best for the desired build.
@@ -535,7 +535,9 @@ To obtain your first Galaxy weapon, as in vanilla you must first unlock the dese
 
 Subsequent Galaxy weapons will no longer be available for purchase at the Adventurer's Guild; one full set, including the slingshot, can now be acquired at the desert, but each weapon will require a larger stack of Prismatic Shards. The order in which the weapons are obtained can be influenced by placing the desired weapon type at the top of the top of the backpack.
 
-Upgrading to Infinity is now a much more involved task, requiring the player to prove they have a virtuous and heroic soul. Doing so will require completion of a new questline revolving around the all-new Blade of Ruin...
+Upgrading to Infinity is now a much more involved task, requiring the player to prove they have a virtuous and heroic soul. Doing so will require completion of a new questline revolving around the cursed sword, the Blade of Ruin.
+
+In the interest of avoiding spoilers, the details of the quest can be found hidden in the [FAQ](#faq).
 
 <div align="center">
 
