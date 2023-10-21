@@ -325,10 +325,18 @@ This following rings have been changed:
 
 All gemstone rings become craftable at various levels of the Combat skill, requiring the corresponding gemstone and a type of metal bar:
 
-- **Amethyst & Topaz:** Combat level 2 (Copper Bar)
-- **Aquamarine & Jade:** Combat level 4 (Iron Bar)
-- **Ruby & Emerald:** Combat level 6 (Gold Bar)
-- **Garnet:** Combat level 7 (Gold Bar)
+<div algin="center">
+
+| Ring       | Ingredient | Recipe Level |
+| ---------- | ---------- | ------------ |
+| Amethyst   | Copper Bar | 2 |
+| Topaz      | Copper Bar | 2 |
+| Aquamarine | Iron Bar   | 4 |
+| Jade       | Iron Bar   | 4 |
+| Ruby       | Gold Bar   | 6 |
+| Emerald    | Gold Bar   | 6 |
+| Garnet     | Gold Bar   | 7 |
+</div>
 
 This addition accompanies some visual changes to each ring to match the required metal bar.
 
