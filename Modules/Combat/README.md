@@ -9,40 +9,49 @@
 <summary>Table of Contents</summary>
 <ol>
 	<li><a href="#overview">Overview</a></li>
-	<li><a href="#status-effects">Status Effects</a></li>
-	<li><a href="#rebalanced-stats">Rebalanced Stats</a></li>
+	<li>
+		<a href="#rebalanced-stats">Rebalanced Stats</a>
+		<ol>
+			<li><a href="#defense">Defense</a></li>
+			<li><a href="#knockback">Knockback</a></li>
+			<li><a href="#critical-strikes">Critical Strikes</a></li>
+			<li><a href="#attack-speed">Attack Speed</a></li>
+		</ol>
+	</li>
 	<li>
 		<a href="#melee-weapon-changes">Melee Weapon Changes</a>
 		<ol>
 			<li><a href="#combo-framework">Combo Framework</a></li>
 			<li><a href="#offensive-defensive-swords">Offensive & Defensive Swords</a></li>
-			<li><a href="#rebalanced-types--tiers">Rebalanced Types & Tiers</a></li>
+			<li><a href="#base-weapon-stats">Base Weapon Stats</a></li>
+			<li><a href="#weapon-tiers">Weapon Tiers</a></li>
+			<li><a href="#the-mines--weapon-acquisition">The Mines & Weapon Acquisition</a></li>
+			<li><a href="#woody-replaces-rusty">Woody Replaces Rusty</a></li>
 			<li><a href="#melee-enchantments">Melee Enchantments</a></li>
-			<li><a href="#other-features">Other Features</a></li>
 		</ol>
 	</li>
 	<li>
 		<a href="#ranged-weapon-changes">Ranged Weapon Changes</a>
 		<ol>
 			<li><a href="#rebalanced-modifiers--ammo">Rebalanced Modifers & Ammo</a></li>
-			<li><a href="#critical-hits">Critical Hits</a></li>
 			<li><a href="#special-move">Special Move</a></li>
+			<li><a href="#gemstone-forges">Gemstone Forges</a></li>
 			<li><a href="#ranged-enchantments">Ranged Enchantments</a></li>
 			<li><a href="#other-features-1">Other Features</a></li>
 		</ol>
 	</li>
 	<li><a href="#ring-changes">Ring Changes</a>
 		<ol>
-			<li><a href="#rebalances">Rebalances</a></li>
-            <li><a href="#craftable-gemstone-rings">Craftable Gemstone Rings</a></li>
+			<li><a href="#rebalanced-combat-rings">Rebalanced Combat Rings</a></li>
+			<li><a href="#craftable-gemstone-rings">Craftable Gemstone Rings</a></li>
 			<li><a href="#infinity-band">Infinity Band</a></li>
 		</ol>
 	</li>
-	<li><a href="#infinity-1">Infinity +1</a></li>
 	<li><a href="#garnet--gemstone-resonance-theory">Garnet & Gemstone Resonance Theory</a></li>
+	<li><a href="#infinity-1">Infinity +1</a></li>
+	<li><a href="#status-effects">Status Effects</a></li>
 	<li><a href="#enemies">Enemies</a></li>
 	<li><a href="#controls--quality-of-life">Controls & Quality of Life</a></li>
-	<li><a href="#miscellaneous">Miscellaneous</a></li>
 	<li><a href="#compatibility">Compatibility</a></li>
 	<li><a href="#faq">F.A.Q.</a></li>
 </ol>
@@ -54,45 +63,79 @@ This humongous module consolidates rebalances to melee weapons, ranged weapons a
 
 ## Rebalanced Stats
 
-Certain stats are simply not worth investing in vanilla. While some of these can be attributed to unbalanced equipment bonuses (and will be addressed below), others, namely **Knockback** and **Defense** are fundamentally broken.
+Most stats besides pure damage are not worth investing in vanilla. The following changes are designed to make all stats viable and worthy of investment through rings and weapon forges.
 
-1. **Knockback** is too high by default; hitting enemies immediately throws them several tiles away. Further down we will address the default knockback of most weapons. But that alone doesn't make this as attractive a stat as flat damage. Hence, enemies will now take damage proportional to their momentum when thrown against a wall or object. The added offensive angle makes this a great stat for clubs in particular. It also makes positioning an important strategic element in combat.
-2. **Defense** is rather useless in vanilla, where each point simply mitigates a single unit of damage. Consequently, small defense bonuses become useless in late-game. This mod implements a new, simple damage mitigation formula, which allows defense to scale into late-game without becoming overpowered.
+### Defense
 
-    Old formula:
-    ```math
-    damage = Min(rawDamage - defense, 1)
-    ```
+Defense is rather pointless in vanilla, where each point simply mitigates a single unit of damage. Consequently, small defense bonuses are completely useless late-game. This mod implements a new, simple damage mitigation formula, which allows defense to scale into late-game without becoming overpowered.
 
-    New formula:
-    ```math
-    resistance = 10 / (10 + defense)
-    ```
-    ```math
-    damage = rawDamage * resistance
-    ```
+	Old formula:
+	```math
+	damage = Min(rawDamage - defense, 1)
+	```
 
-    One defense point now reduces damage by 10% regardless of incoming damage. Subsequent points have diminishing returns, such that 100% damage negation is not possible to achieve. This applies to monsters! The **Topaz Ring** is also changed to increased defense by 1 point, like its corresponding weapon forge.
-3. **Critical strikes** are fun, but need a little more oomph to compete with flat damage. As a counter-play to the previous change to defense, this mod makes critical strikes ignore enemy defense. **Attacks from behind will** also **have double the chance to critically strike.** But reaching the backs of your enemies will not be easy! You will have to rely on [status effects](#status-effects) to achieve that. The effects of **Jade** bonuses from rings and weapon forges are also significantly buffed.
-    - **Jade:** *+10% -> +50% crit. power.* A 10% boost to crit. power is a 10% damage boost that *only* applies to crits. To put that in perspective, only when the player has 100% crit. chance then they will receive an overall 10% boost to damage. It should be clear that this is complete garbage next to a Ruby Ring, which straight up grants a 10% boost to damage, *all the time*. At 50% crit. power, the Jade Ring becomes a better choice than the Ruby Ring if the player has at least 20% crit. chance, which should be attainable by any weapon type given an appropriate build. Above that threshold, Jade Rings become even stronger.
-    - Slingshots can now critically strike. Think of them as headshots.
+	New formula:
+	```math
+	resistance = 10 / (10 + defense)
+	```
+	```math
+	damage = rawDamage * resistance
+	```
+
+One defense point now reduces damage by 10% regardless of incoming damage. Subsequent points have diminishing returns, such that 100% damage negation is not possible to achieve. **This also applies to monsters!**
+
+The **Topaz Ring** which was uselss in vanilla, has been changed to increased defense by 1 point, like its corresponding weapon forge.
+
+### Knockback
+
+Knockback in vanilla is too high by default; hitting enemies with any weapon sends them flying for several tiles. This makes weapon-spamming far more effective than any defense, and any further investment in knockback is useless.
+
+To fix this, we begin by lowering the default knockback for all weapons down to a more reasonable level. Knockback will no longer throw enemies far enough away without enemy investment.
+
+To compensate, knockback can now also be used offensive; enemies will now suffer damage proportional to their momentum when thrown against a wall or object. This means that cornering enemies is an extremely strong strategy, and makes heavy weapons and knockback investment an attractive deal.
+
+### Critical Strikes
+
+I love the idea of crit. builds. But it's simply not viable in vaniilla without the Iridium Needle. Base crit. chance is too low to ever be significant, and base crit. power is way too high.
+
+To fix this we adjust the base crit. stats of all weapons. Heavier weapons are harder to crit. with, but crit. harder when they do, while lighter weapons can crit. more reliably but require some crit. power investment.
+
+In addition, crit. strikes will ignore enemy defense. Crit. chance is also doubled when hitting enemies from behind, but this can only be achieved by applying certain [status effects](#status-effects).
+
+The effects of **Jade** crit. power bonuses from rings and weapon forges have also been buffed significantly:
+
+<details>
+<summary><b><font color="jade">Jade:</font></b></summary>
+
+**+10% -> +50% crit. power.**
+
+<font size="2">A 10% boost to crit. power is a 10% damage boost that *only* applies to crits. To put that in perspective, only when the player has 100% crit. chance then they will receive an overall 10% boost to damage. It should be clear that this is complete garbage next to a Ruby Ring, which straight up grants a 10% boost to damage, *all the time*. At 50% crit. power, the Jade Ring becomes a better choice than the Ruby Ring if the player has at least 20% crit. chance, which should be attainable by any weapon type given an appropriate build. Above that threshold, Jade Rings become even stronger.</font>
+</details>
+
+Lastly, slingshots gain the ability to critically strike. Think of them as headshots.
+
+### Attack Speed
+
+*See [Combo Framework](#combo-framework) below.*
 
 <sup><sup>[🔼 Back to top](#margo--combat-cmbt)</sup></sup>
 
 ## Melee Weapon Changes
 
 Vanilla weapons suffer from two major issues:
-    1. Same-y-ness. Apart from their special moves, none of the weapon types feel particularly unique; club and dagger are simply "worse swords".
-    2. Overabundance. Weapons quickly become inventory clutter. The game is also quick to gift its most powerful weapons, trivializing any weapons obtained as drops.
+	1. Overabundance. Weapons quickly become inventory clutter. The game is also quick to gift its most powerful weapons, trivializing any weapons obtained as drops.
+	2. Same-y-ness. Apart from their special moves, none of the weapon types feel particularly unique; club and dagger are simply "worse swords".
 
-This mod tries to fix both through a combination of nerfs, buffs and entirely new mechanics which will overall make combat significantly more strategic and challenging.
+In addition to the stat changes mentioned above, we introduce several new mechanics to make overall make combat significantly more strategic and challenging.
 
 <sup><sup>[🔼 Back to top](#margo--combat-cmbt)</sup></sup>
 
 ### Combo Framework
 
-Weapon spamming is makes vanilla combat a boring click-fest. This mod implements a **combo framework** for melee weapons. A combo is a short burst of continuous swings, followed by a short, forced cooldown. Each weapon type has a configurable combo limit:
-    
+As mentioned [above](#knockback), weapon spamming is a real problem due to the way it negates all other forms of defense, and summarizes vanilla combat to a boring click-fest.
+
+This is solved by implementating a **combo framework** for melee weapons. A combo is a short burst of continuous swings, followed by a short, forced cooldown. Each weapon type has a configurable combo limit:
+	
 - **Swords:** up to 4 horizontal swipes, by default.
 - **Clubs:** up to 2 hits, being one horizontal swipe and one vertical swipe, by default.
 - **Daggers:** unchanged, effectively up to infinite hits.
@@ -103,53 +146,65 @@ Weapon spamming is makes vanilla combat a boring click-fest. This mod implements
 <img src="https://gitlab.com/daleao/modular-overhaul/-/raw/main/resources/screenshots/combo_club_small.gif" alt="combo_club.gif" width="33%">
 </div>
 
-If combo hits are enabled, swing speed bonuses from **emerald** effects will apply to every frame of the attack animation, as well as the cooldown in between combos, as opposed to only the final frame as in vanilla. This immediately makes speed a more valuable stat.
+To reduce the cooldown between combos you may consider investing in **Emerald** rings and weapon forges. They will also increase the speed of every single attack frame (instead of only the last one as in vanilla). This fixes the attack speed stat and makes it a worthy investment.
 
 <sup><sup>[🔼 Back to top](#margo--combat-cmbt)</sup></sup>
 
 ### Offensive & Defensive Swords
 
-In vanilla game code we can find traces of an abandoned fourth weapon type: **Stabbing Swords**. This module re-implements stabbing swords into the game.
+In the vanilla game code one can find traces of an abandoned fourth weapon type: **Stabbing Swords**. This module re-implements stabbing swords into the game, splittng all vanilla swords between **offensive** and **defensive** archetypes.
 
-Swords are now split between **offensive** and **defensive** archetypes. Defensive sw   ords retain the parry special move, while offensive swords gain a new stabbing thrust move. This move allows quick repositioning and also grants invincibility frames. You can also change the direction mid-dash by inputting a directional command in a perpendicular direction.
+Defensive swords retain the vanilla parry special move. Parry damage is changed to increase by 10% for every defense point, giving defense bonuses some extra offensive value. Note that this defensive move will be paramount to survive in between your combos!
+
+Offensive swords, meanwhile, gain a bran new stabbing thrust move. This move allows quick repositioning while granting invincibility frames. If used while hovering over an enemy, the farmer will attempt to home in on the enemy, turning if necessary. You can always manually turn mid-dash by inputting a perpendicular directional command.
+
+You can change the type of any sword in the game by adding or removing it from the stabbing swords list in the config json (not available in GMCM).
 
 <div align="center">
 
 <img src="https://gitlab.com/daleao/modular-overhaul/-/raw/main/resources/screenshots/stabbing_special.gif" alt="stabbing_special.gif" width="67%">
 </div>
 
-To improve the defensive parry move, parry damage is increased by 10% for every defense point. This adds offensive value to the defense stat itself and makes defensive builds more viable. Note that the introduction of weapon combos also adds to the value of a defensive move (you need to protect yourself during combo downtime).
-
 <sup><sup>[🔼 Back to top](#margo--combat-cmbt)</sup></sup>
+
+### Base Weapon Stats
+
+Having discussed all of the stat changes, as well as the new weapon type, we can now describe the new base stats for each weapon type, designed to more clearly distinguish a playstyle for type:
+
+- **Clubs** are heavy-hitting but unreliable. They are imprecise and sluggish, but offer the highest knockback and damage-potential, and have the widest hitbox. Their difficulty to maneuver makes them rarely hit critical strikes, but cause significant damage when they do.
+- **Daggers** are quick, nimble and precise. Their hitbox is short and narrow, but can be spammed with no downtime. They are by far the easiest weapon with which to hit critical strikes, but too small to cause significant damage. With the addition of [Status Effects](#status-effects), all daggers have a chance to cause **Bleeding**.
+ - **Offensive Swords** are balanced weapons. They swing faster than clubs, and in a wider area than daggers. They are otherwise unremarkable, offerring average damage, knockback, crit. chance and power.
+ - **Defensive Swords** are big and heavy, which makes them suitable for personal defense, but also makes them slower. They are somewhere between a club and an offensive sword, with a slightly wider hitbox than the latter.
+
+Along with these stat changes, weapon tooltips have also been significantly improved, offering much better clarity. Instead of a cryptic "+1" to Speed or Weight, you will now see "+10% Attack Speed" or "+10% Knockback". You may also configure the tooltips to show **absolute** or **relative** stats; the former displays straight-forward raw stats, while the latter displays percentages **based on the weapon type's base stats**. The new tooltips also display weapon forges as gemstone sockets instead of the generic vanilla "Forged x/3" text.
+
+<div align="center">
+
+⚠ *Note that, while this mod does not touch non vanilla weapons, they will still be affected by the newer tooltips. If you play with mods like Ridgeside Village which add new weapons, you  will notice that they have absurdly high stats. This is not a bug. Those weapons are broken by design, and I just pulled the curtains. You're welcome.* ⚠
+</div>
 
 ### Rebalanced Types & Tiers
 
-Weapon stats have been rebalanced across the board so as to provide a more clear distinction between the weapon types:
-
- - **Clubs** are your general unreliable, imprecise and sluggish, but huge-damage-potential, heavy and larger-hit-box weapons.
- - **Daggers** are the opposite of clubs, being the quick, precise, but short-range and generally-lower-damage potential weapons. **Can cause Bleeding**.
- - **Offensive Swords** are somewhere in the middle, with average damage, speed and precision.
- - **Defensive Swords** are marginally weaker and slower than their offensive counterpart, but are otherwise heavier, sturdier and wider. They are somewhere in-between Offensive Swords and Clubs. 
-
-Weapons are categorized by different tiers, [color-coded for your convenience][tropes:color-coded]:
+Now that the weapon types have been addressed, we need to rebalance the weapons themselves. However, due to the sheer amount of weapons in vanilla, manually adjusting the damage of each one is simply not feasible. We find a better solution, inspired by MMO's and looter RPGs, by assigning all weapons to a [color-coded tier][tropes:color-coded].
 
 <div align="center">
+
+<font color="red"><b>❗ The following changes apply only to vanilla weapons. ❗</b></font>
 
 <img src="https://gitlab.com/daleao/modular-overhaul/-/raw/main/Modules/Combat/resources/readme/tiers.png" alt="tiers">
 </div>
 
 <br>
 
-Weapons below the Mythic tier all have randomized damage, determined the moment they are dropped and scaled to your Mine progression. This way, players can always loot stronger weapons; all weapons can be useful, and no specific weapon is ever trivialized. Higher-tier weapons will generally be stronger than lower-tiered ones, although that may not always be the case.
+All weapons up to and including the Epic tier have randomized damage, determined the moment they are dropped, and scaled to your Mine progression. This way, players can always continue to loot stronger weapons; all weapons can be useful, and no specific weapon is ever trivialized. Higher-tier weapons will tend to be stronger than lower-tiered ones, but that may not always be the case.
 
 <div align="center">
 
 <img src="https://gitlab.com/daleao/modular-overhaul/-/raw/main/resources/screenshots/color-coded.gif" alt="color-coded.gif" width="67%">
 </div>
 
-<font color="red"><b>Mythic Tier</b></font>
 
-Mythic weapons are unique or extremely rare. They are usually quest rewards or very rare monster drops, and tend to carry intrinsic special abilities. In exchange, they cannot receive additional Prismatic Shard enchantments at the forge.
+**Mythic** weapons are unique or extremely rare. They are usually quest rewards or very rare monster drops, and tend to carry intrinsic perks in addition to higher-than-average stats. In exchange, they cannot receive Prismatic Shard enchantments at the forge.
 
 The known Mythic weapons are:
 
@@ -158,19 +213,16 @@ The known Mythic weapons are:
 | Weapon | Type | Effects |
 | ------ | ---- | ------- |
 | ![](./resources/readme/yetitooth.png) Yeti Tooth | Defense Sword | Can cause Chilled status.* |
-| ![](./resources/readme/neptuneglaive.png) Neptune Glaive | Defense Sword | Deals heavy knockback. |
-| ![](./resources/readme/obsidianedge.png) Obsidian Edge | Stabbing Sword | Ignores enemy resistances. Can cause Bleeding.* |
+| ![](./resources/readme/neptuneglaive.png) Neptune Glaive | Defense Sword | Like a crashing wave, deals heavy knockback. |
+| ![](./resources/readme/obsidianedge.png) Obsidian Edge | Stabbing Sword | Can cause Bleeding.* |
 | ![](./resources/readme/lavakatana.png) Lava Katana | Stabbing Sword | Can cause Burning.* |
-| ![](./resources/readme/insecthead.png) Insect Head | Dagger | Damage depends on the number of slain insects. |
-| ![](./resources/readme/iridiumneedle.png) Iridium Needle | Dagger | Always crits. |
-
-<font size="1">\* *Status effects are explained [further below](#status-effects).*</font>
+| ![](./resources/readme/insecthead.png) Insect Head | Dagger | Damage depends on the number of slain bugs. |
+| ![](./resources/readme/iridiumneedle.png) Iridium Needle | Dagger | Always critically strikes. |
 </div>
 
+<font size="1">\* *Status effects are explained [further below](#status-effects).*</font>
 
-<font color="orange"><b>Masterwork Tier</b></font>
-
-Masterwork weapons are relics of the Dwarven race, crafted from special materials. They can only be created by uncovering the lost Dwarvish Blueprints, and taking them to a skilled blacksmith along with the corresponding material:
+**Masterwork** weapons are relics of the Dwarven race, crafted from long-lost materials. To obtain them you will need to uncovering the **Dwarvish Blueprints**, and kindly ask [a skilled blacksmith](https://stardewvalleywiki.com/Clint) to make sense of them. Having done so, the only thing left will be hunting down the materials:
 
 | Weapons | Description | Material | Source |
 | ------- | ----------- | -------- | ------ |
@@ -185,21 +237,29 @@ Masterwork weapons can only be obtained if the Dwarven Legacy setting is enabled
 <img src="https://gitlab.com/daleao/modular-overhaul/-/raw/main/resources/screenshots/dwarvish_crafting.gif" alt="dwarvish_crafting.gif" width="67%">
 </div>
 
-Note that **only vanilla weapons have been rebalanced**. If you play with expansion mods which add new weapons, such as Ridgeside Village, you will likely notice absurdly high stats in those weapons' tooltips. **That's not on me.** Those weapons are broken by design. I just pulled the curtains. You're welcome.
+Finally, the **Legendary** tier will be explained further down in [its own section](#infinity-1).
 
-<font color="gold"><b>Legendary Tier</b></font>
+<sup><sup>[🔼 Back to top](#margo--combat-cmbt)</sup></sup>
 
-See [Infinity+1](#infinity-1).
+### The Mines & Weapon Acquisition
 
-**Retexture & FX**
+Having rebalanced the weapons themselves, we need to do something about how they are obtained. As we mentioned previously, the vanilla game makes it easy to stockpile fodder weapons, to the point they become nothing more than inventory clutter and a nuisance.
 
-In order to better reflect their new weapon types, as well as their mythical or legendary status, several weapons have received vanilla-friendly retextures. These textures will always be overwritten by any installed Content Patcher mods, so there is no concern for compatibility. Moreover, there are tons of small immersive details like visual and sound effects added to mythic and legendary weapons.
+A new weapon should be an exciting prospect. And to acheive that, this module removes all weapons from Mine chests, instead replacing them with valuable consumables and other valuables. In order to obtain new weapons, players will have to fight for monster drops, or get lucky with breakable containers. Monster-dropped weapons are rare, but are often much stronger.
+
+Every few Mine levels, a new tier of weapons will also become available for sale at the Adventurer's Guild. These for-sale weapons, however, have fixed and significantly weaker stats.
+
+### Woody Replaces Rusty
+
+We've solved a lot of vanilla problems up to this point, but we now reach the greatest offender of all: the very awkward "upgrade" from the starting Rusty Sword to the Wooden Blade. Why would Marlon be mocking about with a rusty weapon anyway?
+
+ConcernedApe originally intended for the Rusty Sword to be upgraded to the Dark Sword, then Holy Blade, and finally Galaxy Sword. In our discussion of the [legendary weapons](#infinity-1) further below we will see how this has been reimplemented a little differently. In our case, we will not need the Rusty Sword, and so it has been removed entirely, and replaced by a Wooden Blade instead.
 
 <sup><sup>[🔼 Back to top](#margo--combat-cmbt)</sup></sup>
 
 ### Melee Enchantments
 
-Weapons enchantments have been almost entirely overhauled. These new enchantments should provide more interesting gameplay options:
+Fresh new weapons require fresh new enchantments! Vanilla enchantments have been completely replaced, hopefully providing more interesting gameplay options.
 
 | Name      | Effect |
 | --------- | -------|
@@ -220,56 +280,55 @@ Weapons enchantments have been almost entirely overhauled. These new enchantment
 
 <sup><sup>[🔼 Back to top](#margo--combat-cmbt)</sup></sup>
 
-### Other Features
-
-#### The Mines & Weapon Acquisition
-
-In vanilla, the player is quick to amass large quantities of fodder weapons, both from Mine chests as well as barrel and crate drops. To support the intended experience of progression, all weapons are removed from Mine chests, which instead reward random goodies. In order to obtain new weapons, players will have to fight for monster drops or get lucky with breakable containers. Monster-dropped weapons are rare, but tend to be stronger. Lower-tier weapons can also be purchased directly from Marlon, but will have fixed and significantly weaker stats when obtained this way.
-
-#### Tooltips
-
-Vanilla weapon tooltips are confusing. Who the heck knows what "+1 Speed" means?
-
-This mod improves weapon tooltips for clarity, so you always know exactly what each stat means. You may configure the tooltips to show **absolute** or **relative** stats; the former displays straight-forward raw stats, while the latter displays percentages **based on the weapon type's base stats**. The new tooltips also display gemstone sockets instead of the generic vanilla "Forged x/3" text.
-
-Note that this is the only feature of this mod that affects third-party mod weapons. If you play with expansion mods which add new weapons, such as Ridgeside Village, you will likely notice absurdly high stats in those weapons' tooltips. **That's not on me.** Those weapons are broken by design. I just pulled the curtains. You're welcome.
-
-<sup><sup>[🔼 Back to top](#margo--combat-cmbt)</sup></sup>
-
 ## Ranged Weapon Changes
 
-Ranged weapons are actually quite strong in vanilla, mainly because ammo's deal insane damage. They are also boring, however, since ranged combat is very unidimensional. This mod seeks to alleviate that by reducing base ammo damage while also introducing many of the same mechanics afforded to melee weapons.
+Ranged weapons are actually quite strong in vanilla, mainly because ammo's deal insane damage. They are also clunky and boring, however, since ranged combat is very unidimensional.
 
 <sup><sup>[🔼 Back to top](#margo--combat-cmbt)</sup></sup>
 
 ### Rebalanced Modifiers & Ammo
 
-To make room for critical headshots and the new Infinity Slingshot the base damage and knockback modifiers of each slingshot are reduced to more reasonable values:
-- Master Slingshot: Ammo damage x2 >> x1.5
-- Galaxy Slingshot: Ammo damage x4 >> x2
-- **Infinity Slingshot:** x2.5
+Because slingshots [can now critically strike](#critical-strikes), and considering also the addition of [two new slingshot tiers](#infinity-1), we need to tone down their base modifiers to compensate:
 
-The following ammos have been nerfed, either for immersion or balance:
-- Coal: 15 damage >> 2 damage - *Have you ever held a piece of coal? That stuff is brittle, and weaker than raw wood, so the damage has been reduced accordingly. Not that anybody uses this as ammo anyway.*
-- Explosive Ammo: 20 damage >> 2 damage ﻿- *Explosive ammo is meant to be used as a mining utility **only**, so it's damage has been reduced to reflect that. If you'd like to use slingshots for combat and mining simultaneously, consider taking up the [Rascal](../Professions)'s extra ammo slot.*
+- The **Master Slingshot** now deals 50% more damage than the basic slingshot (instead of double). It also increases base knockback by 10%.
+- The **Galaxy Slingshot** deals 100% more damage than the basic slingshot (instead of quadruple). It also increases base knockback by 20%.
+- The **Infinity Slingshot** caps at 150% extra damage, and a knockback bonus of 25%.
 
-The following new ammos have been added:
+The following ammos have also been tweaked for a bit more immersion and balance:
+<details>
+<summary>Coal: 15 damage >> 2 damage</summary>
+
+Have you ever held a piece of coal? That stuff is brittle, and weaker than raw wood, so the damage has been reduced accordingly. Not that anybody uses this as ammo anyway.
+</details>
+
+<details>
+
+<summary>Explosive Ammo: 20 damage >> 2 damage</summary>
+
+Explosive ammo is meant to be used as a mining utility. There's no reason it should also replace your regular ammo. The explosion damage has not been changed. *Combine it with the [Rascal](../Professions) to efficiently switch between different ammo.*
+</details>
+
+The following new ammos have also been added:
 - Radioactive Ore: 80 damage
-- Gemstones (Ruby, Emerald, etc.): 50 damage
-- Diamond: 120 damage
-- Prismatic Shard: 200 damage
+- Gemstones (Ruby, Emerald, etc.): 40 damage
+- Prismatic Shard: 60 damage
+- Diamond: 100 damage
 
 <sup><sup>[🔼 Back to top](#margo--combat-cmbt)</sup></sup>
 
 ### Special Move
 
-Pressing the action button will engage gatling mode, enabling auto-fire for 3 seconds, or as long as you hold the action key.
+Pressing the action button will engage gatling mode, enabling auto-fire for up to 3 seconds as long as you keep holding the action key.
 
 <sup><sup>[🔼 Back to top](#margo--combat-cmbt)</sup></sup>
 
+### Gemstone Forges
+
+Gemstone forges cannot directly be applied to slingshots. But, as seen above, gemstones can be equipped as ammo, and will function as a forge while equipped, applying all corresponding effects. With the [Rascal](../Professions) profession, you may slot up to two gemstones at a time to possibly achieve a level-2 forge.
+
 ### Ranged Enchantments
 
-The following new enchantments can be applied to ranged weapons:
+It is significantly harder to create interesting ranged effects compared to melee. Still, the following new enchantments will hopefully be as attractive as the melee ones:
 
 | Name       | Effect |
 | ---------- | -------|
@@ -280,16 +339,10 @@ The following new enchantments can be applied to ranged weapons:
 
 <font size="1">
 
-\* *Quincy projectile cannot crit nor knock back enemies, but is affected by damage modifiers. Below 2/3 max health, the projectile gains a 50% damage boost, increasing to 100% when below 1/3 (the projectile will change color to reflect these improvements). If [PRFS](../Professions) is enabled and the player has the Desperado profession, the Quincy projectile's size will be increased proportionally by overcharge **instead of** its velocity.*
+\* *Quincy projectile cannot crit nor knock back enemies, but is affected by damage modifiers. Below 2/3 max health, the projectile gains a 50% damage boost, increasing to 100% when below 1/3 (the projectile will change color to reflect these improvements). If [PRFS](../Professions) is enabled and the player has the Rascal profession, Quincy projectiles can be fired even if a different ammo is equipped in the second ammo slot. If the second ammo is a Ruby gemstone, the 10% damage boost will be applied as normal. If the player also has the Desperado profession, the Quincy projectile's size will be increased proportionally by overcharge **instead of** its velocity.*
 
-\** *Additional projectiles inherit 40% of the main projectile's damage, but 100% of the crit. chance, crit. power, knockbak and overcharge.*
+\** *Additional projectiles inherit 40% of the main projectile's damage, but 100% of its crit. chance, crit. power, knockback and overcharge.*
 </font>
-
-Gemstone forges cannot directly be applied to slingshots, but **gemstones can be equipped as ammo**, and will apply their analogous bonuses when equipped, and will also [resonate](#resonances) if applicable. With the [Rascal](../Professions) profession, you may slot up to two gemstones at a time to possibly achieve a level-2 forge.
-
-* **Emeralds**, instead of attack speed, grant **firing speed** (idem for Emerald Rings), which also affects **overcharge** if the [Professions](../Professions) module's Desperado profession is used;
-
-Lastly, the **Galaxy Soul** can be applied to the Galaxy Slingshot, as with other Galaxy weapons, to eventually create the **Infinity Slingshot.**
 
 <sup><sup>[🔼 Back to top](#margo--combat-cmbt)</sup></sup>
 
@@ -297,17 +350,17 @@ Lastly, the **Galaxy Soul** can be applied to the Galaxy Slingshot, as with othe
 
 #### Removed Grace Period
 
-Vanilla slingshots are unable to hit enemies in close-range of the player; these shots will fly straight through them. This mod removes this limitation, making ranged combat more reliable.
+Vanilla slingshots are unable to hit enemies in close-range of the player; these shots will fly straight through them. In order to make slingshots less clunky and significantly more reliable to use, this mod optionally removes this limitation.
 
 #### Snowballs
 
-Standing in a snowy tile with an empty slingshot will allow the player to fire a snowball. The snowball projectile deals no significant damage; this is meant as a fun flavor feature for multiplayer.
+Standing in a snowy tile with an empty slingshot will allow the player to fire a snowball. The snowball projectile deals no significant damage; this is meant as a fun little flavor feature.
 
 <sup><sup>[🔼 Back to top](#margo--combat-cmbt)</sup></sup>
 
 ## Ring Changes
 
-Most combat-oriented rings in vanilla are underwhelming and completely overlooked next to the Iridium Band, which provides a free 3-in-1 ring that can also be combined. This mod tries to make combat rings more interesting, and introduce all-new mechanics specific to the Iridium Band.
+Only a fool would *not* use a vanilla Iridium Band on every ring slot; it's a free 3-in-1 ring that can also be combined with a fourth. This essentially locks players into pure damage builds, leaving all remaining combat rings unused. We will address these issues by rebalancing some rings and completely overhauling the Iridium Band.
 
 <sup><sup>[🔼 Back to top](#margo--combat-cmbt)</sup></sup>
 
@@ -317,17 +370,19 @@ This following rings have been changed:
 - **Warrior Ring:** ~~Chance of giving the Warrior Energy~~ (attack +10 for 5s) ~~buff after slaying a monster.~~ -> Gain a progressively higher attack bonus as you slay enemies (every 3 enemies increases attack by 1), which falls off gradually after some time out of combat.
 - **Ring of Yoba:** ~~Chance of giving the Yoba's Blessing~~ (invincible for 5s) ~~buff after taking damage.~~ -> Taking damage that would leave you below 30% health instead grants a shield that absorbs up to 50% of your maximum health for 30s. Cannot be used again until health is fully recovered.
 - **Savage Ring:** ~~+2 Speed for 3s after slaying a monster.**~~ -> Gain a rapidly decaying Speed buff after slaying a monster.
-- **Ring of Thorns:** Can cause Bleeding status (in addition to reflected damage).
+- **Ring of Thorns:** Can cause Bleeding* (in addition to reflected damage).
+
+<font size="1">\* *Status effects are explained [further below](#status-effects).*</font>
 
 <sup><sup>[🔼 Back to top](#margo--combat-cmbt)</sup></sup>
 
 ### Craftable Gemstone Rings
 
-All gemstone rings become craftable at various levels of the Combat skill, requiring the corresponding gemstone and a type of metal bar:
+All gemstone rings are now craftable at various levels of the Combat skill, requiring the corresponding gemstone and a type of metal bar:
 
 <div algin="center">
 
-| Ring       | Ingredient | Recipe Level |
+| Ring       | Ingredient | Combat Level |
 | ---------- | ---------- | ------------ |
 | Amethyst   | Copper Bar | 2 |
 | Topaz      | Copper Bar | 2 |
@@ -338,22 +393,136 @@ All gemstone rings become craftable at various levels of the Combat skill, requi
 | Garnet     | Gold Bar   | 7 |
 </div>
 
-This addition accompanies some visual changes to each ring to match the required metal bar.
+This addition accompanies some visual changes to each ring to match the color of the required metal bar.
 
 ### Infinity Band
 
-The Iridium Band has been completely overhauled. Initially, a newly crafted Iridium Band will grant no effects at all. Only with access to the Forge will you be able to awaken its true form by infusing it with a Galaxy Soul to transform it into an **Infinity Band**.
+Initially, a newly crafted Iridium Band will grant no effects at all; It's merely an ordinary band made of iridium. Only with access to the Forge will you be able to awaken its true form by infusing it with a Galaxy Soul, transforming it into an **Infinity Band**.
 
 <div align="center">
 
 <img src="https://gitlab.com/daleao/modular-overhaul/-/raw/main/resources/screenshots/infinity_band.gif" alt="infinity_band.gif" width="67%">
 </div>
 
-The Infinity Band likewise does nothing on its own, but it serves as a vessel for up to **four** gemstones. To add a gemstone to the Infinity Band, you must fuse it with a corresponding gemstone ring at the Forge. The same type of gemstone can be added more than once, compounding the effect. Alternatively, combining different gemstones may lead to powerful [resonances](#garnet--gemstone-resonance-theory).
+The Infinity Band likewise does nothing on its own, but it serves as a vessel for up to 4 gemstones of your choice. To add a gemstone to the Infinity Band, you must fuse it with a corresponding gemstone ring at the Forge. The same type of gemstone can be added more than once, compounding the effect. Alternatively, combining different gemstones may lead to powerful [resonances](#garnet--gemstone-resonance-theory).
+
+The Infinity Band cannot be combined with any non-gemstone ring. In most cases, this means that players will now be forced to choose between power and utility, and to strategically carry different types of rings for different situations.
+
+<sup><sup>[🔼 Back to top](#margo--combat-cmbt)</sup></sup>
+
+## Garnet & Gemstone Resonance Theory
+
+To compensate for the [removal of vanilla Acrobat profession](../Professions), this mod introduces a seventh gemstone, the **Garnet**, which can be mined upwards of Mine level 80. Socketed to a ring or a weapon, it will grant 10% cooldown reduction to special moves. [As described above](#craftable-gesmtone-rings), the Garnet Ring is craftable at Combat level 7.
+
+With the addition of Garnet, the seven gemstones together form a [Diatonic Scale](https://en.wikipedia.org/wiki/Diatonic_scale):
+
+<div align="center">
+
+<img src="https://gitlab.com/daleao/modular-overhaul/-/raw/main/Modules/Combat/resources/readme/diatonic.png" alt="diatonic_gemstone_scale.png" width="45%">
+</div>
+
+<br>
+
+<div align="center">
+<font size="1"><i>The Diatonic Gemstone Scale. The dashed lines show the Tertian Tetrads rooted in Ruby (red) and Aquamarine (blue).</i></font>
+</div>
+
+<br>
+
+Beginning at the top, the scale progresses clockwise and is cyclic; i.e., after **Rb** comes **Aq**, **Am**, and so on until **Tp**, before again repeating **Rb**.
+
+### Intervals
+
+Like strings in a guitar, each gemstone has a characteristic vibration. When two gemstones are placed side-by-side, these vibrations overlap, causing [interference](https://en.wikipedia.org/wiki/Wave_interference) patterns that can be constructive or destructive. In other words, certain gemstone pairs may amplify each other, while others may instead dampen each other.
+
+A pair of gemstones forms an [Interval](https://en.wikipedia.org/wiki/Interval_(music)). As the name implies, this is simply the distance between the two gemstones in the Diatonic Scale. A distance of 1 is known as a **Second** interval (e.g., from **Rb** to **Aq**), a distance of 2 is known as a **Third** interval (e.g., from **Aq** to **Ga**), and so on. One full rotation of the circle is called an [Octave](https://en.wikipedia.org/wiki/Octave), or [Unisons](https://en.wikipedia.org/wiki/Unison) (an interval of zero), denoting the interval between a gemstone and itself.
+
+Notice that, because the scale is cyclic, certain intervals are complementary. For instance, a **Sixth** (e.g., `Rb - Jd`) is a just a **Third** counted backwards (`Jd - Rb`). Likewise for **Second** and **Seventh**. These intervals are essentially equivalent, as shown by their resonances. The **Fourth** and **Fifth**, while also a complementary pair, are an exception to this rule, and result in different resonances (this is due to some over-simplifications from real life Music Theory).
+
+As a rule of thumb, stones that are positioned farthest from each other in the scale will resonate more strongly, while those positioned adjacent to each other will dissonate. Gemstones do no resonate with themselves.
+
+<div align="center">
+
+| Interval | Resonance | Examples |
+| -------- | --------- | -------- |
+| Second   | -12.5%    | `Rb - Aq`, `Am - Ga`, `Ga - Em` |
+| Third    | 16.6%     | `Rb - Am`, `Am - Em`, `Ga - Jd` |
+| Fourth   | 33.3%     | `Rb - Ga`, `Am - Jd`, `Ga - Tp` |
+| Fifth    | 50%       | `Rb - Em`, `Am - Tp`, `Ga - Rb` |
+| Sixth    | 16.6%     | `Rb - Jd`, `Am - Rb`, `Ga - Aq` |
+| Seventh  | -12.5%*   | `Rb - Tp`, `Am - Aq`, `Ga - Am` |
+| Octave   | Ø         | `Rb - Rb`, `Am - Am`, `Ga - Ga` |
+</div>
+
+### Chords
+
+Multiple intervals can be combined to make [Chords](https://en.wikipedia.org/wiki/Chord_(music)). A chord represents the complex harmonies that arise from all possible intervals between multiple gemstones. Up to 4 gemstones can be placed in any given Infinity Band to produce one chord. The gemstone with the highest amplitude in a chord becomes the **Tonic**, or **Root**. All resonating chords emit light, the color and amplitude of which is determined by that Root.
+
+Chords have also an associated **Richness**, which measures how "interesting" it is. A higher richness is achieved by more complex chords (i.e., avoiding repeated gemstones). The richest of all chords can also manifest **magnetism**.
+
+**Chords will only consider gemstones in the same ring**; those from different Infinity Bands do not interact at all.
+
+#### Monad Chords
+
+A 1-note chord is called a **Monad**. A Monad results from up to 4 repeated gemstones. As it only contains Unisons, this chord offers no resonances, but achieves the highest single-stat total from any other chord. The Ruby Monad is shown below:
+
+<div align="center">
+
+<img src="https://gitlab.com/daleao/modular-overhaul/-/raw/main/resources/screenshots/monad.png" alt="monad.png" width="33%">
+</div>
+
+As there are no resonances, Monad chords also do not emit light.
+
+#### Dyad Chords
+
+A 2-note chord is called a **Dyad**. A Dyad always contains 2 complementary intervals. Given the table above, it should be clear that the best possible Dyad is a I - V configuration, such as `Rb - Em`. This chord contains the intervals Fifth and Fourth (from the inverse, `Em - Rb`), resulting in a +50% resonance for Rb and +33.3% for Em. A double `I - I - V - V` chord is called a [Power Chord](https://en.wikipedia.org/wiki/Power_chord); the simplest possible chord (and a staple of rock music). The Ruby Power Chord is shown below:
+
+<div align="center">
+
+<img src="https://gitlab.com/daleao/modular-overhaul/-/raw/main/resources/screenshots/dyad.png" alt="dyad.png" width="25%">
+</div>
+
+On the other hand, a `I - II` configuration, like `Aq - Am`, contains the intervals Second and Seventh (from the inverse, `Am - Aq`), resulting in a strong dissonance, and a dampening of both gemstones.
+
+#### Triad Chords
+
+A 3-note chord is called a **Triad**. A Triad always contains 9 intervals. There are many possible Triad combinations, but only one that avoids dissonances: the [Tertian](https://en.wikipedia.org/wiki/Tertian). A Tertian chord is formed by stacking sequential Third intervals. Notice that the Third of a Third is simply a Fifth (look at a wheel above to convince yourself of this). This means that a Tertian Triad is actually the configration `I - III - V`. 
+The Ruby Tertian Triad is shown below:
+
+<div align="center">
+
+<img src="https://gitlab.com/daleao/modular-overhaul/-/raw/main/resources/screenshots/triad.png" alt="triad.png" width="25%">
+</div>
+
+Notice also that, due to the cyclic nature of the scale, the `I - III - V` configuration is equivalent to a "shifted" `I - IV - VI`. Take for instance the example of `Em - Rb - Am`, which is a `I - IV - VI` configuration; if we shift all notes one position to the left, then the chord becomes `Rb - Am - Em`, which is a `I - III - V` configuration. The shifting around of notes is known as [Transposition](https://en.wikipedia.org/wiki/Transposition_(music)). This does not change the chord, but allows us to see it from a different perspective.
+
+#### Tetrad Chords
+
+Finally, a 4-note chord is called a **Tetrad**. A Tetrad always contains 16 intervals in total, which makes it impossible find a configuration that avoids any dissonances. But this is okay; if we extend the Tertian Triad by adding another Third interval at the end, we achieve a **Tertian Tetrad**, or `I - III - V - VII` (the `VII` is the Third of the `V`). In this special case, the dissonant Seventh interval becomes resonant, adding +12.5% resonance instead of subtracting it. The Tertian Tetrad achieves the highest possible total resonance, though it forces the distribution of these bonuses among 4 different stats. The Ruby Tertian Tetrad is shown below:
+
+<div align="center">
+
+<img src="https://gitlab.com/daleao/modular-overhaul/-/raw/main/resources/screenshots/tetrad.png" alt="tetrad.png" width="25%">
+</div>
+
+There is no "optimal" gemstone combination. Simple chords are optimal for single-stats, while more complex chords are optimal in terms of resonance. It is up to the player to choose what fits best for the desired build.
+
+### Weapon Forges
+
+If the player's currently held weapon contains forged gemstones, resonating chords from equipped Infinity Bands will also amplify all gemstone forges matching the chord's root note. Note that forged gemstones do not form chords themselves nor share any of the same resonance and dissonance mechanics from Infinity Bands described above.
+
+<br>
+
+<div align="center">
+
+*It is my hope that this mechanic will encourage experimentation, and also teach some basic Music Theory.*
+</div>
 
 <sup><sup>[🔼 Back to top](#margo--combat-cmbt)</sup></sup>
 
 ## Infinity +1
+
+Finally we arrive at the discussion of Legendary weapons, and the most interesting feature of this module.
 
 <div align="center">
 
@@ -376,119 +545,16 @@ Upgrading to Infinity is now a much more involved task, requiring the player to 
 In return for all that extra work, the Infinity weapons have extra perks:    
 1. +1 gemstone slot (4 total). *Keeping in mind that each gemstone has the potential to [resonate](#resonance).*
 2. Small boost to the weapon's special move:
-    * **Stabing Sword:** Increased dash distance.
-    * **Defense Sword:** Parried enemies are dazed for 1 second.
-    * **Dagger:** Quick-stab deal one additional hit.
-    * **Club:** Smash AoE is 25% larger.
-    * **Slingshot**: Auto-fire mode lasts for 1 additional second.
+	* **Stabing Sword:** Increased dash distance.
+	* **Defense Sword:** Parried enemies are dazed for 1 second.
+	* **Dagger:** Quick-stab deal one additional hit.
+	* **Club:** Smash AoE is 25% larger.
+	* **Slingshot**: Auto-fire mode lasts for 1 additional second.
 3. **Melee only:** while at full health, every swing fires a mid-range energy beam.
 
 <div align="center">
 
 <img src="https://gitlab.com/daleao/modular-overhaul/-/raw/main/resources/screenshots/infinity_beam.gif" alt="infinity_beam.gif" width="40%">
-</div>
-
-<sup><sup>[🔼 Back to top](#margo--combat-cmbt)</sup></sup>
-
-## Garnet & Gemstone Resonance Theory
-
-To compensate for the [removal of vanilla Acrobat profession](../Professions), this mod introduces a seventh gemstone, the **Garnet**, which can be mined upwards of Mine level 80. Socketed to a ring or a weapon, it will grant 10% cooldown reduction to special moves. [As described above](#craftable-gesmtone-rings), the Garnet Ring is craftable at Combat level 7.
-
-With the addition of Garnet, the seven gemstones together form a [Diatonic Scale](https://en.wikipedia.org/wiki/Diatonic_scale):
-
-<div align="center">
-
-<img src="https://gitlab.com/daleao/modular-overhaul/-/raw/main/Modules/Combat/resources/readme/diatonic.png" alt="diatonic_gemstone_scale.png" width="33%">
-</div>
-
-<br>
-
-<div align="center">
-<font size="1"><i>The Diatonic Gemstone Scale. The dashed lines show the Tertian Tetrads rooted in Ruby (red) and Aquamarine (blue).</i></font>
-</div>
-
-<br>
-
-Beginning at the top, the scale progresses clockwise and is cyclic; i.e., after **Rb** comes **Aq**, **Am**, and so on until **Tp**, before again repeating **Rb**. In this example, **Rb** is called the **Tonic**, or **Root**.
-
-### Intervals
-
-Like strings in a guitar, the characteristic vibration of each gemstone causes [interference](https://en.wikipedia.org/wiki/Wave_interference) patterns. These interferences can be constructive or destructive, and they create complex [overtones](https://en.wikipedia.org/wiki/Overtone) that add richness to the resulting vibrations, known as [Harmonies](https://en.wikipedia.org/wiki/Harmony). In other words, certain gemstones will harmonize together, creating resonances that amplify their individual effects. At the same time, other gemstone pairs will lead to dissonances, which instead dampen those effects. The magnitude of a resonance is determined by the interval between gemstones. As a rule of thumb, stones that are positioned farthest from each other in the Diatonic Scale will resonate more strongly, and those positioned adjacent to each other will dissonate. One full rotation of the circle is called an [Octave](https://en.wikipedia.org/wiki/Octave), denoting the interval between a gemstone and itself. All possible intervals are given below:
-
-<div align="center">
-
-| Interval | Resonance | Examples |
-| -------- | --------- | -------- |
-| Second   | -12.5%    | `Rb - Aq`, `Am - Ga`, `Ga - Em` |
-| Third    | 16.6%     | `Rb - Am`, `Am - Em`, `Ga - Jd` |
-| Fourth   | 33.3%     | `Rb - Ga`, `Am - Jd`, `Ga - Tp` |
-| Fifth    | 50%       | `Rb - Em`, `Am - Tp`, `Ga - Rb` |
-| Sixth    | 16.6%     | `Rb - Jd`, `Am - Rb`, `Ga - Aq` |
-| Seventh  | -12.5%*   | `Rb - Tp`, `Am - Aq`, `Ga - Am` |
-| Octave   | Ø         | `Rb - Rb`, `Am - Am`, `Ga - Ga` |
-</div>
-
- The **Fifth** is the strongest resonating interval, followed by the **Fourth**, and the **Third**/**Sixth**. Notice that, because the scale is cyclic, complementary intervals are essentially equivalent; a **Sixth** (e.g., `Rb - Jd`) is a just a **Third** counted backwards (`Jd - Rb`), and therefore their resonances are the same. Likewise for **Second** and **Seventh**, the two dissonant intervals. The **Fourth** and **Fifth** are also a complementary pair, but their resonances are different (due to some simplifications from real life).
-
-### Chords
-
-Multiple resonanating gemstones together give rise to [Chords](https://en.wikipedia.org/wiki/Chord_(music)). A chord represents the total of all superpositioned resonances between those gemstones. Up to 4 gemstones can be placed in any given Infinity Band to produce one chord.
-
-#### Monad Chords
-
-A 1-note chord is called a **Monad**. A Monad results from up to 4 repeated gemstones. As it only contains Octaves, this chord offers no resonances, but achieves the highest single-stat total from any other chord. The Ruby Monad is shown below:
-
-<div align="center">
-
-<img src="https://gitlab.com/daleao/modular-overhaul/-/raw/main/resources/screenshots/monad.png" alt="monad.png" width="25%">
-</div>
-
-#### Dyad Chords
-
-A 2-note chord is called a **Dyad**. Given the intervals above, it should be clear that the best possible Dyad is a I - V configuration, like `Rb - Em`. This chord contains two intervals: 1 Fifth and 1 Fourth (from the inverse, `Em - Rb`), resulting in a +50% resonance for Rb and +33.3% for Em. A double `I - I - V - V` chord is called a [Power Chord](https://en.wikipedia.org/wiki/Power_chord); the simplest possible chord (and a staple of rock music). The Ruby Power Chord is shown below:
-
-<div align="center">
-
-<img src="https://gitlab.com/daleao/modular-overhaul/-/raw/main/resources/screenshots/dyad.png" alt="dyad.png" width="25%">
-</div>
-
-#### Triad Chords
-
-A 3-note chord is called a **Triad**. There are many possible Triad combinations, but only one that avoids dissonances: the [Tertian](https://en.wikipedia.org/wiki/Tertian). The Tertian Triad is formed by any two sequential Third intervals, i.e., `I - III - V`. Notice that due to the cyclic nature of the scale, this is equivalent to a `I - IV - VI` by simply shifting all notes to the left. Take for instance:
-
-* `Rb - Am - Em` is a `I - III - V` configuration.
-* `Em - Rb - Am` is a `I - IV - VI` configuration. But if we shift all notes to the left, then the chord once again becomes `Rb - Am - Em`. Notice that shifting notes around does not change the chord, but allows us to see it from a different perspective.
-
-The Ruby Tertian Triad is shown below:
-
-<div align="center">
-
-<img src="https://gitlab.com/daleao/modular-overhaul/-/raw/main/resources/screenshots/triad.png" alt="triad.png" width="25%">
-</div>
-
-#### Tetrad Chords
-
-A 4-note chord is called a **Tetrad**. Notice that it is impossible for any 4-note configuration to avoid any dissonances, but this is okay; by adding another Third interval onto the Tertian Triad we achieve a **Tertian Tetrad**, or `I - III - V - VII`. In this special case, the dissonant Seventh becomes resonant, adding +12.5% instead of subtracting it. The Tertian Tetrad achieves the highest possible total resonance, though it distributes this total among 4 different stats. The Ruby Tertian Tetrad is shown below:
-
-<div align="center">
-
-<img src="https://gitlab.com/daleao/modular-overhaul/-/raw/main/resources/screenshots/tetrad.png" alt="tetrad.png" width="25%">
-</div>
-
-<br>
-
-### Richness
-
-The gemstone with the highest amplitude in a chord becomes the **Tonic**, or **Root**. All resonating chords emit light, the color and amplitude of which is determined by the Root. Chords have also an associated **Richness**, which measures the variety of overtones in the resulting vibrations. Richness is achieved by avoiding repeated notes (i.e., Triads and Tetrads). Sufficiently rich chords (i.e., Tertians) will additionally create **magnetism**.
-
-### Weapon Forges
-If the player's currently held weapon contains forged gemstones, resonating chords from equipped Infinity Bands will also amplify all gemstone forges matching the chord's root note. Note that forged gemstones do not form chords themselves nor share any of the same resonance and dissonance mechanics from Infinity Bands described above.
-
-<br>
-
-<div align="center">
-
-*It is my hope that this mechanic will encourage experimentation, and also teach some basic Music Theory.*
 </div>
 
 <sup><sup>[🔼 Back to top](#margo--combat-cmbt)</sup></sup>
@@ -543,24 +609,16 @@ Finally, certain enemy hitboxes are also improved, and others have received smal
 This mod includes the following popular control-related features, often featured in other mods.
 
 * **Face Mouse Cursor**
-    
-    When playing with mouse and keyboard the farmer will always swing their weapon in the direction of the mouse cursor.
+	
+	When playing with mouse and keyboard the farmer will always swing their weapon in the direction of the mouse cursor.
 
 * **Slick Moves**
 
-    Swinging a weapon while running will preserve the player's momentum, causing them to drift in the direction of movement. This increases the player's mobility and makes combat feel more fast-paced. 
+	Swinging a weapon while running will preserve the player's momentum, causing them to drift in the direction of movement. This increases the player's mobility and makes combat feel more fast-paced. 
 
 * **Auto-Selection**
 
-    If enemies are nearby, players can optionally choose a weapon, melee or ranged, to be equipped automatically.
-
-<sup><sup>[🔼 Back to top](#margo--combat-cmbt)</sup></sup>
-
-## Miscellaneous
-
-#### Woody Replaces Rusty
-
-The vanilla game has too many weapons for its own good. A minor issue which results from this is the very awkward "upgrade" from the starting Rusty Sword to the Wooden Blade. Why would Marlon be mocking about with a rusty weapon anyway? This has always bothered me, and so, for a slight increase in immersion, this novelty feature will remove the Rusty Sword from the game and replace the starter weapon with a Wooden Blade.
+	If enemies are nearby, players can optionally choose a weapon, melee or ranged, to be equipped automatically.
 
 <sup><sup>[🔼 Back to top](#margo--combat-cmbt)</sup></sup>
 
@@ -630,10 +688,10 @@ But fret not, for once a day you may pray to the Altar of Yoba to reduce the int
 To begin the quest, you must slay at least 50 enemies with the Blade equipped, prompting the Wizard to invite you over for a chat. To complete this initial quest, simply interact with the Yoba altar and exhaust all possible dialogue choices.
 You will then be asked to prove your virtues:
 - Prove your Honor, Compassion and Wisdom by selecting certain responses during character heart events.
-    - Alternatively, prove your Honor by respectfully returning the Mayor's shorts.
+	- Alternatively, prove your Honor by respectfully returning the Mayor's shorts.
 - Prove your Valor by completing monster eradication goals or persevering through long digs in the Mines.
-    - **You must speak with Gil to complete an eradication goal.** *This is vanilla guys. I don't know why everybody seems to forget this.*
-    - Alternatively, prove your Valor by reaching SVE's [Treasure Cave](https://stardew-valley-expanded.fandom.com/wiki/Treasure_Cave).
+	- **You must speak with Gil to complete an eradication goal.** *This is vanilla guys. I don't know why everybody seems to forget this.*
+	- Alternatively, prove your Valor by reaching SVE's [Treasure Cave](https://stardew-valley-expanded.fandom.com/wiki/Treasure_Cave).
 - Prove your Generosity by gifting NPCs a certain amount of gold in gifts, or by purchasing Community Upgrades from Robin.
  
 Exact completion criteria will depend on your difficulty settings (you can see them in-game in the your quest journal). When you are ready, approach Yoba's altar in Pierre's house with the Blade in hand.
