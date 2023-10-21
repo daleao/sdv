@@ -383,17 +383,39 @@ With the addition of Garnet, the seven gemstones together form a [Diatonic Scale
 
 <div align="center">
 
-![shield:rb] -> ![shield:aq] -> ![shield:am] -> ![shield:ga] -> ![shield:em] -> ![shield:jd] -> ![shield:tp]
-
+<img src="https://gitlab.com/daleao/modular-overhaul/-/raw/main/Modules/Combat/resources/readme/diatonic.png" alt="diatonic_gemstone_scale.png" width="67%">
 </div>
 
-The scale is cyclic, so after Tp comes Rb again, and so on. The first note in the scale is called the **Tonic**, or **Root**. Above, Rb was used as an example, but the scale can be shifted, or *transposed*, to place any gemstone at the root. But regardless of the root note, the order is always the same.
+<br>
 
-Like strings in a guitar, the characteristic vibration of each gemstone causes interference patterns. These interferences can be constructive and/or destructive, and they create complex [overtones](https://en.wikipedia.org/wiki/Overtone) that add richness to the resulting vibrations, known as [Harmonies](https://en.wikipedia.org/wiki/Harmony). In other words, certain gemstones will harmonize together, creating resonances that amplify their individual effects. At the same time, other gemstone pairs will lead to dissonances, which instead dampen those effects. As a rule of thumb, Gemstones that are positioned farthest from each other in the Diatonic Scale will resonate more strongly, and those positioned adjacent to each other will dissonate. This means that the interval `I - V` (for example, `Rb - Em`, `Am - Tp`, `Ga - Rb` etc.) will lead to the strongest resonance, while the interval `I - II` will lead to a dissonance (for example, `Rb - Aq`, `Am - Ga`, `Tp - Rb`, etc.).
+Beginning at the top, the scale progresses clockwise and is cyclic; i.e., after **Rb** comes **Aq**, **Am**, and so on until **Tp**, before again repeating **Rb**. In this example, **Rb** is called the **Tonic**, or **Root**.
 
-Gemstones placed together in an Infinity Band not only resonate, but can also make up [Chords](https://en.wikipedia.org/wiki/Chord_(music)). The note (i.e., gemstone) with highest amplitude in a chord is called the **root** note. This note will determine the color and size of the Infinity Band's emited light. Chords have also an associated **richness**, which measures the variety of overtones in the resulting vibrations. A sufficiently rich chord will additionally create magnetism. To maximize richness, try to maximize resonance while avoiding repeating Gemstones.
+Like strings in a guitar, the characteristic vibration of each gemstone causes [interference](https://en.wikipedia.org/wiki/Wave_interference) patterns. These interferences can be constructive or destructive, and they create complex [overtones](https://en.wikipedia.org/wiki/Overtone) that add richness to the resulting vibrations, known as [Harmonies](https://en.wikipedia.org/wiki/Harmony). In other words, certain gemstones will harmonize together, creating resonances that amplify their individual effects. At the same time, other gemstone pairs will lead to dissonances, which instead dampen those effects. The magnitude of a resonance is determined by the interval between gemstones. As a rule of thumb, stones that are positioned farthest from each other in the Diatonic Scale will resonate more strongly, and those positioned adjacent to each other will dissonate. One full rotation of the circle is called an [Octave](https://en.wikipedia.org/wiki/Octave), denoting the interval between a gemstone and itself. All possible intervals are given below:
 
-If the player's currently held weapon contains forged gemstones, resonating chords from equipped Infinity Bands will also amplify all gemstone forges matching the chord's root note. Note that forged gemstones do not form chords themselves or share any of the same resonance and dissonance mechanics from Infinity Band described above.
+| Interval | Resonance | Examples |
+| -------- | --------- | -------- |
+| Second | -12.5% | `Rb - Aq`, `Am - Ga`, `Ga - Em` |
+| Third | 16.6% | `Rb - Am`, `Am - Em`, `Ga - Jd` |
+| Fourth | 33.3% | `Rb - Ga`, `Am - Jd`, `Ga - Tp` |
+| Fifth | 50% | `Rb - Em`, `Am - Tp`, `Ga - Rb` |
+| Sixth | 16.6% | `Rb - Jd`, `Am - Rb`, `Ga - Aq` |
+| Seventh | -12.5%* | `Rb - Tp`, `Am - Aq`, `Ga - Am` |
+| Octave | - | `Rb - Rb`, `Am - Am`, `Ga - Ga` |
+
+ The **Fifth** is the strongest resonating interval, followed by the **Fourth**, and the **Third**/**Sixth**. Notice that, because the scale is cyclic, complementary intervals are essentially equivalent; a **Sixth** (e.g., `Rb - Jd`) is a just a **Third** counted backwards (`Jd - Rb`), and therefore their resonances are the same. Likewise for **Second** and **Seventh**, the two dissonant intervals. The **Fourth** and **Fifth** are also a complementary pair, but their resonances are different (due to some simplifications from real life).
+
+Multiple resonanating gemstones together give rise to [Chords](https://en.wikipedia.org/wiki/Chord_(music)). A chord represents the total of all superpositioned resonances between those gemstones. Up to 4 gemstones can be placed in any given Infinity Band to produce one chord.
+ 
+* **Monad:** A 1-note chord is called a **Monad**. A Monad results from up to 4 repeated gemstones. As it only contains Octaves, this chord offers no resonances, but achieves the highest single-stat total from any other chord. E.g., `Rb - Rb - Rb - Rb` -> +40% Damage.
+* **Dyads:** A 2-note chord is called a **Dyad**. Given the intervals above, it should be clear that the best possible Dyad is a I - V configuration, like `Rb - Em`. This chord contains two intervals: 1 Fifth and 1 Fourth (from the inverse, `Em - Rb`), resulting in a +50% resonance for Rb and +33.3% for Em. A double `I - I - V - V` chord is called a [Power Chord](https://en.wikipedia.org/wiki/Power_chord); the simplest possible chord (and a staple of rock music). E.g., `Rb - Rb - Em - Em` -> +30% Damage, +16.6% Attack Speed.
+* **Triad:** A 3-note chord is called a **Triad**. There are many possible Triad combinations, but only one that avoids dissonances: the [Tertian](https://en.wikipedia.org/wiki/Tertian). The Tertian Triad is formed by any two sequential Third intervals, i.e., `I - III - V`. Notice that due to the cyclic nature of the scale, this is equivalent to a `I - IV - VI` by simply shifting all notes to the left. Take for instance:
+    * `Rb - Am - Em` is a `I - III - V` configuration.
+    * `Em - Rb - Am` is a `I - IV - VI` configuration. But if we shift all notes to the left, then the chord once again becomes `Rb - Am - Em`. Notice that shifting notes around does not change the chord, but allows us to see it from a different perspective.
+* **Tetrad:** A 4-note chord is called a **Tetrad**. Notice that it is impossible for any 4-note configuration to avoid any dissonances, but this is okay; by adding another Third interval onto the Tertian Triad we achieve a **Tertian Tetrad**, or `I - III - V - VII`. In this special case, the dissonant Seventh becomes resonant, adding +12.5% instead of subtracting it. The Tertian Tetrad achieves the highest possible total resonance, though it distributes this total among 4 different stats.
+
+The gemstone with the highest amplitude in a chord becomes the **Tonic**, or **Root**. All resonating chords generate light, the color and amplitude of which is determined by the Root. Chords have also an associated **Richness**, which measures the variety of overtones in the resulting vibrations. Richness is achieved by avoiding repeated notes (i.e., Triads and Tetrads). Sufficiently rich chords (i.e., Tertians) will additionally create **magnetism**.
+
+If the player's currently held weapon contains forged gemstones, resonating chords from equipped Infinity Bands will also amplify all gemstone forges matching the chord's root note. Note that forged gemstones do not form chords themselves nor share any of the same resonance and dissonance mechanics from Infinity Bands described above.
 
 It is my hope that this mechanic will encourage experimentation, and also teach some basic Music Theory.
 
