@@ -398,15 +398,19 @@ Beginning at the top, the scale progresses clockwise and is cyclic; i.e., after 
 
 Like strings in a guitar, the characteristic vibration of each gemstone causes [interference](https://en.wikipedia.org/wiki/Wave_interference) patterns. These interferences can be constructive or destructive, and they create complex [overtones](https://en.wikipedia.org/wiki/Overtone) that add richness to the resulting vibrations, known as [Harmonies](https://en.wikipedia.org/wiki/Harmony). In other words, certain gemstones will harmonize together, creating resonances that amplify their individual effects. At the same time, other gemstone pairs will lead to dissonances, which instead dampen those effects. The magnitude of a resonance is determined by the interval between gemstones. As a rule of thumb, stones that are positioned farthest from each other in the Diatonic Scale will resonate more strongly, and those positioned adjacent to each other will dissonate. One full rotation of the circle is called an [Octave](https://en.wikipedia.org/wiki/Octave), denoting the interval between a gemstone and itself. All possible intervals are given below:
 
+<div align="center">
+
 | Interval | Resonance | Examples |
 | -------- | --------- | -------- |
-| Second | -12.5% | `Rb - Aq`, `Am - Ga`, `Ga - Em` |
-| Third | 16.6% | `Rb - Am`, `Am - Em`, `Ga - Jd` |
-| Fourth | 33.3% | `Rb - Ga`, `Am - Jd`, `Ga - Tp` |
-| Fifth | 50% | `Rb - Em`, `Am - Tp`, `Ga - Rb` |
-| Sixth | 16.6% | `Rb - Jd`, `Am - Rb`, `Ga - Aq` |
-| Seventh | -12.5%* | `Rb - Tp`, `Am - Aq`, `Ga - Am` |
-| Octave | - | `Rb - Rb`, `Am - Am`, `Ga - Ga` |
+| Second   | -12.5%    | `Rb - Aq`, `Am - Ga`, `Ga - Em` |
+| Third    | 16.6%     | `Rb - Am`, `Am - Em`, `Ga - Jd` |
+| Fourth   | 33.3%     | `Rb - Ga`, `Am - Jd`, `Ga - Tp` |
+| Fifth    | 50%       | `Rb - Em`, `Am - Tp`, `Ga - Rb` |
+| Sixth    | 16.6%     | `Rb - Jd`, `Am - Rb`, `Ga - Aq` |
+| Seventh  | -12.5%*   | `Rb - Tp`, `Am - Aq`, `Ga - Am` |
+| Octave   | Ø         | `Rb - Rb`, `Am - Am`, `Ga - Ga` |
+
+</div>
 
  The **Fifth** is the strongest resonating interval, followed by the **Fourth**, and the **Third**/**Sixth**. Notice that, because the scale is cyclic, complementary intervals are essentially equivalent; a **Sixth** (e.g., `Rb - Jd`) is a just a **Third** counted backwards (`Jd - Rb`), and therefore their resonances are the same. Likewise for **Second** and **Seventh**, the two dissonant intervals. The **Fourth** and **Fifth** are also a complementary pair, but their resonances are different (due to some simplifications from real life).
 
