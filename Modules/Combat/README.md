@@ -416,20 +416,24 @@ Like strings in a guitar, the characteristic vibration of each gemstone causes [
 
 Multiple resonanating gemstones together give rise to [Chords](https://en.wikipedia.org/wiki/Chord_(music)). A chord represents the total of all superpositioned resonances between those gemstones. Up to 4 gemstones can be placed in any given Infinity Band to produce one chord.
 
-<img src="https://gitlab.com/daleao/modular-overhaul/-/raw/main/resources/screenshots/monad.png" alt="monad.png" align="right" width="33%">
+<br>
+
+<img src="https://gitlab.com/daleao/modular-overhaul/-/raw/main/resources/screenshots/monad.png" alt="monad.png" align="right" width="25%">
 
 **Monad:** A 1-note chord is called a **Monad**. A Monad results from up to 4 repeated gemstones. As it only contains Octaves, this chord offers no resonances, but achieves the highest single-stat total from any other chord. E.g., `Rb - Rb - Rb - Rb` (show to the right).
 
 <br>
+<br>
 
-<img src="https://gitlab.com/daleao/modular-overhaul/-/raw/main/resources/screenshots/dyad.png" alt="dyad.png" align="left" width="33%">
+<img src="https://gitlab.com/daleao/modular-overhaul/-/raw/main/resources/screenshots/dyad.png" alt="dyad.png" align="left" width="25%">
  
 
 **Dyad:** A 2-note chord is called a **Dyad**. Given the intervals above, it should be clear that the best possible Dyad is a I - V configuration, like `Rb - Em`. This chord contains two intervals: 1 Fifth and 1 Fourth (from the inverse, `Em - Rb`), resulting in a +50% resonance for Rb and +33.3% for Em. A double `I - I - V - V` chord is called a [Power Chord](https://en.wikipedia.org/wiki/Power_chord); the simplest possible chord (and a staple of rock music). E.g., `Rb - Rb - Em - Em` (show to the left).
 
 <br>
+<br>
 
-<img src="https://gitlab.com/daleao/modular-overhaul/-/raw/main/resources/screenshots/triad.png" alt="triad.png" align="right" width="33%">
+<img src="https://gitlab.com/daleao/modular-overhaul/-/raw/main/resources/screenshots/triad.png" alt="triad.png" align="right" width="25%">
 
 **Triad:** A 3-note chord is called a **Triad**. There are many possible Triad combinations, but only one that avoids dissonances: the [Tertian](https://en.wikipedia.org/wiki/Tertian). The Tertian Triad is formed by any two sequential Third intervals, i.e., `I - III - V`. Notice that due to the cyclic nature of the scale, this is equivalent to a `I - IV - VI` by simply shifting all notes to the left. Take for instance:
 
@@ -439,12 +443,14 @@ Multiple resonanating gemstones together give rise to [Chords](https://en.wikipe
 E.g., `Rb - Rb - Am - Em` (show to the right).
 
 <br>
+<br>
 
-<img src="https://gitlab.com/daleao/modular-overhaul/-/raw/main/resources/screenshots/tetrad.png" alt="tetrad.png" align="left" width="33%">
+<img src="https://gitlab.com/daleao/modular-overhaul/-/raw/main/resources/screenshots/tetrad.png" alt="tetrad.png" align="left" width="25%">
 <figcaption></fg
 
 **Tetrad:** A 4-note chord is called a **Tetrad**. Notice that it is impossible for any 4-note configuration to avoid any dissonances, but this is okay; by adding another Third interval onto the Tertian Triad we achieve a **Tertian Tetrad**, or `I - III - V - VII`. In this special case, the dissonant Seventh becomes resonant, adding +12.5% instead of subtracting it. The Tertian Tetrad achieves the highest possible total resonance, though it distributes this total among 4 different stats. E.g., `Rb - Am - Em - Tp` (show to the left).
 
+<br>
 <br>
 
 The gemstone with the highest amplitude in a chord becomes the **Tonic**, or **Root**. All resonating chords emit light, the color and amplitude of which is determined by the Root. Chords have also an associated **Richness**, which measures the variety of overtones in the resulting vibrations. Richness is achieved by avoiding repeated notes (i.e., Triads and Tetrads). Sufficiently rich chords (i.e., Tertians) will additionally create **magnetism**.
