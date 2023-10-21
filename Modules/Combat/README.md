@@ -404,7 +404,7 @@ With the addition of Garnet, the seven gemstones together form a [Diatonic Scale
 <br>
 
 <div align="center">
-<font size="1">The Diatonic Gemstone Scale. The dashed lines show the Tertian Tetrads rooted in Ruby (red) and Aquamarine (blue).</font>
+<font size="1"><i>The Diatonic Gemstone Scale. The dashed lines show the Tertian Tetrads rooted in Ruby (red) and Aquamarine (blue).</i></font>
 </div>
 
 <br>
