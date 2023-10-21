@@ -153,6 +153,8 @@ Mythic weapons are unique or extremely rare. They are usually quest rewards or v
 
 The known Mythic weapons are:
 
+<div align="center">
+
 | Weapon | Type | Effects |
 | ------ | ---- | ------- |
 | ![](./resources/readme/yetitooth.png) Yeti Tooth | Defense Sword | Can cause Chilled status.* |
@@ -161,6 +163,8 @@ The known Mythic weapons are:
 | ![](./resources/readme/lavakatana.png) Lava Katana | Stabbing Sword | Can cause Burning.* |
 | ![](./resources/readme/insecthead.png) Insect Head | Dagger | Damage depends on the number of slain insects. |
 | ![](./resources/readme/iridiumneedle.png) Iridium Needle | Dagger | Always crits. |
+
+</div>
 
 \* *Status effects are explained [further below](#status-effects).*
 
@@ -426,7 +430,7 @@ A 1-note chord is called a **Monad**. A Monad results from up to 4 repeated gems
 
 <div align="center">
 
-<img src="https://gitlab.com/daleao/modular-overhaul/-/raw/main/resources/screenshots/monad.png" alt="monad.png" width="40%">
+<img src="https://gitlab.com/daleao/modular-overhaul/-/raw/main/resources/screenshots/monad.png" alt="monad.png" width="33%">
 </div>
 
 #### Dyad Chords
@@ -435,7 +439,7 @@ A 2-note chord is called a **Dyad**. Given the intervals above, it should be cle
 
 <div align="center">
 
-<img src="https://gitlab.com/daleao/modular-overhaul/-/raw/main/resources/screenshots/dyad.png" alt="dyad.png" width="40%">
+<img src="https://gitlab.com/daleao/modular-overhaul/-/raw/main/resources/screenshots/dyad.png" alt="dyad.png" width="33%">
 </div>
 
 #### Triad Chords
@@ -449,7 +453,7 @@ The Ruby Tertian Triad is shown below:
 
 <div align="center">
 
-<img src="https://gitlab.com/daleao/modular-overhaul/-/raw/main/resources/screenshots/triad.png" alt="triad.png" width="40%">
+<img src="https://gitlab.com/daleao/modular-overhaul/-/raw/main/resources/screenshots/triad.png" alt="triad.png" width="33%">
 </div>
 
 #### Tetrad Chords
@@ -458,7 +462,7 @@ A 4-note chord is called a **Tetrad**. Notice that it is impossible for any 4-no
 
 <div align="center">
 
-<img src="https://gitlab.com/daleao/modular-overhaul/-/raw/main/resources/screenshots/tetrad.png" alt="tetrad.png" width="40%">
+<img src="https://gitlab.com/daleao/modular-overhaul/-/raw/main/resources/screenshots/tetrad.png" alt="tetrad.png" width="33%">
 </div>
 
 <br>
