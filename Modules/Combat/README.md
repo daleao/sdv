@@ -381,9 +381,9 @@ To compensate for the [removal of vanilla Acrobat profession](../Professions), t
 
 With the addition of Garnet, the seven gemstones together form a [Diatonic Scale](https://en.wikipedia.org/wiki/Diatonic_scale):
 
-<div align="center" width="67%">
+<div align="center">
 
-<img src="https://gitlab.com/daleao/modular-overhaul/-/raw/main/Modules/Combat/resources/readme/diatonic.png" alt="diatonic_gemstone_scale.png">
+<img src="https://gitlab.com/daleao/modular-overhaul/-/raw/main/Modules/Combat/resources/readme/diatonic.png" alt="diatonic_gemstone_scale.png" width="67%">
  <figcaption><font size="2">The Diatonic Gemstone Scale. The dashed lines show the Tertian Tetrads rooted in Ruby (red) and Aquamarine (blue).</font></figcaption>
 </div>
 
@@ -406,8 +406,14 @@ Like strings in a guitar, the characteristic vibration of each gemstone causes [
  The **Fifth** is the strongest resonating interval, followed by the **Fourth**, and the **Third**/**Sixth**. Notice that, because the scale is cyclic, complementary intervals are essentially equivalent; a **Sixth** (e.g., `Rb - Jd`) is a just a **Third** counted backwards (`Jd - Rb`), and therefore their resonances are the same. Likewise for **Second** and **Seventh**, the two dissonant intervals. The **Fourth** and **Fifth** are also a complementary pair, but their resonances are different (due to some simplifications from real life).
 
 Multiple resonanating gemstones together give rise to [Chords](https://en.wikipedia.org/wiki/Chord_(music)). A chord represents the total of all superpositioned resonances between those gemstones. Up to 4 gemstones can be placed in any given Infinity Band to produce one chord.
- 
+
+<img src="https://gitlab.com/daleao/modular-overhaul/-/raw/main/resources/screenshots/monad.png" alt="monad.png" align="right" width="33%">
+
 * **Monad:** A 1-note chord is called a **Monad**. A Monad results from up to 4 repeated gemstones. As it only contains Octaves, this chord offers no resonances, but achieves the highest single-stat total from any other chord.
+
+<img src="https://gitlab.com/daleao/modular-overhaul/-/raw/main/resources/screenshots/monad.png" alt="diatonic_gemstone_scale.png" align="right" width="33%">
+ 
+
 * **Dyads:** A 2-note chord is called a **Dyad**. Given the intervals above, it should be clear that the best possible Dyad is a I - V configuration, like `Rb - Em`. This chord contains two intervals: 1 Fifth and 1 Fourth (from the inverse, `Em - Rb`), resulting in a +50% resonance for Rb and +33.3% for Em. A double `I - I - V - V` chord is called a [Power Chord](https://en.wikipedia.org/wiki/Power_chord); the simplest possible chord (and a staple of rock music).
 * **Triad:** A 3-note chord is called a **Triad**. There are many possible Triad combinations, but only one that avoids dissonances: the [Tertian](https://en.wikipedia.org/wiki/Tertian). The Tertian Triad is formed by any two sequential Third intervals, i.e., `I - III - V`. Notice that due to the cyclic nature of the scale, this is equivalent to a `I - IV - VI` by simply shifting all notes to the left. Take for instance:
     * `Rb - Am - Em` is a `I - III - V` configuration.
