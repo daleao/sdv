@@ -23,7 +23,7 @@ internal sealed class CombatReturnedToTitleEvent : ReturnedToTitleEvent
     protected override void OnReturnedToTitleImpl(object? sender, ReturnedToTitleEventArgs e)
     {
         Monster_Bleeding.Values.Clear();
-        Monster_Burned.Values.Clear();
+        Monster_Burnt.Values.Clear();
         Monster_Chilled.Values.Clear();
         Monster_Frozen.Values.Clear();
         Monster_Feared.Values.Clear();

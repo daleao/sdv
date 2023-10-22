@@ -351,7 +351,7 @@ internal sealed class ObjectProjectile : BasicProjectile
         {
             if (this.Musked)
             {
-                location.AddMusk(this.position.Value, 900);
+                location.AddMusk(this.position.Value, 15);
             }
         }
 
@@ -473,7 +473,7 @@ internal sealed class ObjectProjectile : BasicProjectile
             }
         }
 
-        if (location.doesPositionCollideWithCharacter(newHitbox) is not Monster monster)
+        if (location.doesPositionCollideWithCharacter(newHitbox) is not Monster { IsMonster: true } monster)
         {
             return didCollide;
         }
@@ -526,7 +526,7 @@ internal sealed class ObjectProjectile : BasicProjectile
         {
             if (this.Musked)
             {
-                location.AddMusk(this.position.Value, 900);
+                location.AddMusk(this.position.Value, 15);
             }
 
             return true; // if the container did not break, the projectile is stopped

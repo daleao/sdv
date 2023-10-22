@@ -102,7 +102,7 @@ internal sealed class InflictStatusCommand : ConsoleCommand
             for (var i = 0; i < player.currentLocation.characters.Count; i++)
             {
                 var character = player.currentLocation.characters[i];
-                if (character is not Monster monster)
+                if (character is not Monster { IsMonster: true } monster)
                 {
                     continue;
                 }

@@ -9,9 +9,16 @@ using StardewValley.Monsters;
 #endregion using directives
 
 // ReSharper disable once InconsistentNaming
-internal static class Monster_Burned
+internal static class Monster_Burnt
 {
     internal static ConditionalWeakTable<Monster, Holder> Values { get; } = new();
+
+    internal static void Set_Burnt(this Monster monster, int timer, Farmer? burner)
+    {
+        var holder = Values.GetOrCreateValue(monster);
+        holder.BurnTimer.Value = timer;
+        holder.Burner = burner;
+    }
 
     internal static NetInt Get_BurnTimer(this Monster monster)
     {

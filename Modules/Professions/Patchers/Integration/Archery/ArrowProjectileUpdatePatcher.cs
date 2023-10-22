@@ -92,7 +92,7 @@ internal sealed class ArrowProjectileUpdatePatcher : HarmonyPatcher
             }
         }
 
-        if (location.doesPositionCollideWithCharacter(newHitbox) is not Monster monster)
+        if (location.doesPositionCollideWithCharacter(newHitbox) is not Monster { IsMonster: true } monster)
         {
             return;
         }

@@ -1,5 +1,13 @@
 ﻿# PRFS Changelog
 
+## 4.0.1
+
+### Fixed
+
+* Improved performance of `MonsterFindPlayerPatcher` since Monster Musk implementation, which caused severe slowdowns in maps with ludicrous numbers of monsters (i.e., SVE, Ridgeside).
+
+<sup><sup>[🔼 Back to top](#profs-changelog)</sup></sup>
+
 ## 4.0.0
 
 ### Changed
@@ -42,6 +50,8 @@
 ### Fixed
 
 * Fixed out-of-combat loss of Rage stacks, which probably was not working without Combat module.
+
+<sup><sup>[🔼 Back to top](#profs-changelog)</sup></sup>
 
 ## 3.1.10
 

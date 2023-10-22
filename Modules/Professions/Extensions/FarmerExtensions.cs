@@ -416,6 +416,6 @@ internal static class FarmerExtensions
     /// <returns><see langword="true"/> if <see cref="Ultimate.PoacherAmbush"/> is active.</returns>
     internal static bool IsInAmbush(this Farmer farmer)
     {
-        return farmer.Get_Ultimate() == Ultimate.PoacherAmbush && Ultimate.PoacherAmbush.IsActive;
+        return farmer.Get_Ultimate() is Ambush { IsActive: true };
     }
 }

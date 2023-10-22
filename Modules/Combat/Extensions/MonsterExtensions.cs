@@ -53,9 +53,7 @@ internal static class MonsterExtensions
             return;
         }
 
-        monster.Set_Bleeder(bleeder);
-        monster.Get_BleedTimer().Value = duration;
-        monster.Get_BleedStacks().Value = Math.Min(monster.Get_BleedStacks().Value + intensity, 5);
+        monster.SetOrIncrement_Bleeding(duration, intensity, bleeder);
         monster.startGlowing(Color.Maroon, true, 0.05f);
         BleedAnimation.BleedAnimationByMonster.AddOrUpdate(monster, new BleedAnimation(monster, duration));
     }
@@ -64,9 +62,7 @@ internal static class MonsterExtensions
     /// <param name="monster">The <see cref="Monster"/>.</param>
     internal static void Unbleed(this Monster monster)
     {
-        monster.Set_Bleeder(null);
-        monster.Get_BleedTimer().Value = -1;
-        monster.Get_BleedStacks().Value = 0;
+        monster.Set_Bleeding(-1, 0, null);
         monster.stopGlowing();
         BleedAnimation.BleedAnimationByMonster.Remove(monster);
     }
@@ -104,8 +100,7 @@ internal static class MonsterExtensions
             monster.Unchill();
         }
 
-        monster.Set_Burner(burner);
-        monster.Get_BurnTimer().Value = duration;
+        monster.Set_Burnt(duration, burner);
         monster.startGlowing(Color.Yellow, true, 0.05f);
         monster.jitteriness.Value *= 2;
         monster.durationOfRandomMovements.Value *= 10;
@@ -134,11 +129,10 @@ internal static class MonsterExtensions
     /// <param name="monster">The <see cref="Monster"/>.</param>
     internal static void Unburn(this Monster monster)
     {
-        monster.Set_Burner(null);
-        monster.Get_BurnTimer().Value = -1;
-        monster.stopGlowing();
         monster.jitteriness.Value /= 2;
         monster.durationOfRandomMovements.Value /= 10;
+        monster.Set_Burnt(-1, null);
+        monster.stopGlowing();
         BurnAnimation.BurnAnimationsByMonster.Remove(monster);
     }
 
@@ -170,8 +164,7 @@ internal static class MonsterExtensions
 
         if (monster.IsChilled())
         {
-            monster.Get_SlowIntensity().Value += intensity;
-            monster.Get_SlowTimer().Value = duration;
+            monster.SetOrIncrement_Slowed(duration, intensity);
             if (monster.Get_SlowIntensity() >= freezeThreshold)
             {
                 monster.Get_Frozen().Value = true;
@@ -239,8 +232,7 @@ internal static class MonsterExtensions
         else
         {
             monster.Get_Chilled().Value = true;
-            monster.Get_SlowIntensity().Value = 0.5f;
-            monster.Get_SlowTimer().Value = duration;
+            monster.SetOrIncrement_Slowed(duration, 0.5f);
             if (playSoundEffect)
             {
                 SoundEffectPlayer.ChillingShot.Play();
@@ -254,8 +246,8 @@ internal static class MonsterExtensions
     /// <param name="monster">The <see cref="Monster"/>.</param>
     internal static void Unchill(this Monster monster)
     {
-        monster.Get_Chilled().Value = false;
         monster.Unslow();
+        monster.Get_Chilled().Value = false;
         monster.stopGlowing();
     }
 
@@ -305,7 +297,7 @@ internal static class MonsterExtensions
             return;
         }
 
-        if (!monster.Get_Chilled())
+        if (!monster.IsChilled())
         {
             monster.Chill();
         }
@@ -317,9 +309,8 @@ internal static class MonsterExtensions
     /// <param name="monster">The <see cref="Monster"/>.</param>
     internal static void Defrost(this Monster monster)
     {
-        monster.Get_Frozen().Value = false;
         monster.Unchill();
-        monster.stopGlowing();
+        monster.Get_Frozen().Value = false;
         FreezeAnimation.FreezeAnimationsByMonster.Remove(monster);
     }
 
@@ -343,9 +334,7 @@ internal static class MonsterExtensions
             return;
         }
 
-        monster.Set_Poisoner(poisoner);
-        monster.Get_PoisonTimer().Value = duration;
-        monster.Get_PoisonStacks().Value = Math.Min(monster.Get_PoisonStacks().Value + intensity, 3);
+        monster.SetOrIncrement_Poisoned(duration, intensity, poisoner);
         monster.startGlowing(Color.LimeGreen, true, 0.05f);
         PoisonAnimation.PoisonAnimationByMonster.AddOrUpdate(monster, new PoisonAnimation(monster, duration));
     }
@@ -354,9 +343,7 @@ internal static class MonsterExtensions
     /// <param name="monster">The <see cref="Monster"/>.</param>
     internal static void Detox(this Monster monster)
     {
-        monster.Set_Poisoner(null);
-        monster.Get_PoisonTimer().Value = -1;
-        monster.Get_PoisonStacks().Value = 0;
+        monster.Set_Poisoned(-1, 0, null);
         monster.stopGlowing();
         PoisonAnimation.PoisonAnimationByMonster.Remove(monster);
     }
@@ -380,8 +367,7 @@ internal static class MonsterExtensions
             return;
         }
 
-        monster.Get_SlowTimer().Value = duration;
-        monster.Get_SlowIntensity().Value = intensity;
+        monster.Set_Slowed(duration, intensity);
         SlowAnimation.SlowAnimationByMonster.AddOrUpdate(monster, new SlowAnimation(monster, duration));
     }
 
@@ -389,10 +375,7 @@ internal static class MonsterExtensions
     /// <param name="monster">The <see cref="Monster"/>.</param>
     internal static void Unslow(this Monster monster)
     {
-        monster.Get_SlowTimer().Value = -1;
-        monster.Get_SlowIntensity().Value = 0f;
-        monster.Get_Chilled().Value = false;
-        monster.Get_Frozen().Value = false;
+        monster.Set_Slowed(-1, 0f);
         SlowAnimation.SlowAnimationByMonster.Remove(monster);
     }
 

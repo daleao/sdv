@@ -1,5 +1,13 @@
 ﻿# CMBT Changelog
 
+## 4.0.1
+
+### Fixed
+
+* Reduced number of hashing calls due to monster status effects, which should give a neglible performance boost.
+
+<sup><sup>[🔼 Back to top](#cmbt-changelog)</sup></sup>
+
 ## 4.0.0
 
 ### Added

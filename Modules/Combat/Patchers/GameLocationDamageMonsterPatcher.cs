@@ -112,7 +112,7 @@ internal sealed class GameLocationDamageMonsterPatcher : HarmonyPatcher
                     new[]
                     {
                         new CodeInstruction(OpCodes.Ldloc_2),
-                        new CodeInstruction(OpCodes.Ldc_I4_1),
+                        new CodeInstruction(OpCodes.Ldarg_S, (byte)10),
                         new CodeInstruction(
                             OpCodes.Call,
                             typeof(Monster_GotCrit).RequireMethod(nameof(Monster_GotCrit.Set_GotCrit))),

@@ -38,7 +38,7 @@ internal sealed class GreenSlimeUpdatePatcher : HarmonyPatcher
         for (var i = 0; i < __instance.currentLocation.characters.Count; i++)
         {
             var character = __instance.currentLocation.characters[i];
-            if (character is not Monster monster || !monster.IsSlime())
+            if (character is not Monster { IsMonster: true } monster || !monster.IsSlime())
             {
                 continue;
             }

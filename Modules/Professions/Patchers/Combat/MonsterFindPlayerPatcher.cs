@@ -30,40 +30,22 @@ internal sealed class MonsterFindPlayerPatcher : HarmonyPatcher
     [HarmonyPriority(Priority.First)]
     private static bool MonsterFindPlayerPrefix(Monster __instance, ref Farmer? __result)
     {
-        if (Game1.ticks % 10 == 0)
+        if (Game1.ticks % 15 == 0)
         {
             return false; // don't run original logic
         }
 
         try
         {
-            var location = Game1.currentLocation;
+            var location = __instance.currentLocation;
             Farmer? target = null;
 
-            var muskList = location.Get_Musks().ToList();
-            for (var i = 0; i < location.characters.Count; i++)
+            var closestMusk = __instance.GetClosestCharacter(out var distance, location.Get_MuskFakeFarmers());
+            if (distance < 10)
             {
-                var character = location.characters[i];
-                if (character is not Monster { IsMonster: true } monster || !monster.Get_Musked())
-                {
-                    continue;
-                }
-
-                if (monster.Get_MuskFakeFarmer() is { } musk)
-                {
-                    muskList.Add(musk);
-                }
-            }
-
-            if (muskList.Count > 0)
-            {
-                var closestMusk = __instance.GetClosestCharacter(out var distance, muskList);
-                if (distance < 10)
-                {
-                    __result = closestMusk;
-                    __instance.Set_Target(__result);
-                    return false; // don't run original logic
-                }
+                __result = closestMusk;
+                __instance.Set_Target(__result);
+                return false; // don't run original logic
             }
 
             if (__instance is GreenSlime slime)

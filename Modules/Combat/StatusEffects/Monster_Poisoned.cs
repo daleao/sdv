@@ -13,6 +13,22 @@ internal static class Monster_Poisoned
 {
     internal static ConditionalWeakTable<Monster, Holder> Values { get; } = new();
 
+    internal static void SetOrIncrement_Poisoned(this Monster monster, int timer, int stacks, Farmer? poisoner)
+    {
+        var holder = Values.GetOrCreateValue(monster);
+        holder.PoisonTimer.Value = timer;
+        holder.PoisonStacks.Value = Math.Min(holder.PoisonStacks.Value + stacks, 3);
+        holder.Poisoner = poisoner;
+    }
+
+    internal static void Set_Poisoned(this Monster monster, int timer, int stacks, Farmer? poisoner)
+    {
+        var holder = Values.GetOrCreateValue(monster);
+        holder.PoisonTimer.Value = timer;
+        holder.PoisonStacks.Value = stacks;
+        holder.Poisoner = poisoner;
+    }
+
     internal static NetInt Get_PoisonTimer(this Monster monster)
     {
         return Values.GetOrCreateValue(monster).PoisonTimer;
@@ -42,7 +58,7 @@ internal static class Monster_Poisoned
     {
         Values.GetOrCreateValue(monster).Poisoner = poisoner;
     }
-
+    
     internal class Holder
     {
         public NetInt PoisonTimer { get; } = new(-1);

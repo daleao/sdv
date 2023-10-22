@@ -22,7 +22,7 @@
 		<a href="#melee-weapon-changes">Melee Weapon Changes</a>
 		<ol>
 			<li><a href="#combo-framework">Combo Framework</a></li>
-			<li><a href="#offensive-defensive-swords">Offensive & Defensive Swords</a></li>
+			<li><a href="#offensive--defensive-swords">Offensive & Defensive Swords</a></li>
 			<li><a href="#base-stats--tooltips">Base Stats & Tooltips</a></li>
 			<li><a href="#weapon-tiers">Weapon Tiers</a></li>
 			<li><a href="#the-mines--weapon-acquisition">The Mines & Weapon Acquisition</a></li>
@@ -37,7 +37,7 @@
 			<li><a href="#special-move">Special Move</a></li>
 			<li><a href="#gemstone-forges">Gemstone Forges</a></li>
 			<li><a href="#ranged-enchantments">Ranged Enchantments</a></li>
-			<li><a href="#other-features-1">Other Features</a></li>
+			<li><a href="#other-features">Other Features</a></li>
 		</ol>
 	</li>
 	<li><a href="#ring-changes">Ring Changes</a>
@@ -51,7 +51,13 @@
 	<li><a href="#infinity-1">Infinity +1</a></li>
 	<li><a href="#status-effects">Status Effects</a></li>
 	<li><a href="#enemies">Enemies</a></li>
-	<li><a href="#controls--quality-of-life">Controls & Quality of Life</a></li>
+	<li><a href="#controls--quality-of-life">Controls & Quality of Life</a>
+		<ol>
+			<li><a href="#face-mouse-cursor">Face Mouse Cursor</a></li>
+			<li><a href="#slic-moves">Slick Moves</a></li>
+			<li><a href="#auto-selection">Auto-Selection</a></li>
+		</ol>
+	</li>
 	<li><a href="#compatibility">Compatibility</a></li>
 	<li><a href="#faq">F.A.Q.</a></li>
 </ol>
@@ -64,6 +70,8 @@ This humongous module consolidates rebalances to melee weapons, ranged weapons a
 ## Rebalanced Stats
 
 Most stats besides pure damage are not worth investing in vanilla. The following changes are designed to make all stats viable and worthy of investment through rings and weapon forges.
+
+<sup><sup>[🔼 Back to top](#margo--combat-cmbt)</sup></sup>
 
 ### Defense
 
@@ -86,6 +94,8 @@ One defense point now reduces damage by 10% regardless of incoming damage. Subse
 
 The **Topaz Ring** which was uselss in vanilla, has been changed to increased defense by 1 point, like its corresponding weapon forge.
 
+<sup><sup>[🔼 Back to top](#margo--combat-cmbt)</sup></sup>
+
 ### Knockback
 
 Knockback in vanilla is too high by default; hitting enemies with any weapon sends them flying for several tiles. This makes weapon-spamming far more effective than any defense, and any further investment in knockback is useless.
@@ -93,6 +103,8 @@ Knockback in vanilla is too high by default; hitting enemies with any weapon sen
 To fix this, we begin by lowering the default knockback for all weapons down to a more reasonable level. Knockback will no longer throw enemies far enough away without enemy investment.
 
 To compensate, knockback can now also be used offensive; enemies will now suffer damage proportional to their momentum when thrown against a wall or object. This means that cornering enemies is an extremely strong strategy, and makes heavy weapons and knockback investment an attractive deal.
+
+<sup><sup>[🔼 Back to top](#margo--combat-cmbt)</sup></sup>
 
 ### Critical Strikes
 
@@ -105,7 +117,7 @@ In addition, crit. strikes will ignore enemy defense. Crit. chance is also doubl
 The effects of **Jade** crit. power bonuses from rings and weapon forges have also been buffed significantly:
 
 <details>
-<summary><b><font color="jade">Jade:</font></b></summary>
+<summary><b>Jade:</b></summary>
 
 **+10% -> +50% crit. power.**
 
@@ -113,6 +125,8 @@ The effects of **Jade** crit. power bonuses from rings and weapon forges have al
 </details>
 
 Lastly, slingshots gain the ability to critically strike. Think of them as headshots.
+
+<sup><sup>[🔼 Back to top](#margo--combat-cmbt)</sup></sup>
 
 ### Attack Speed
 
@@ -412,7 +426,7 @@ The Infinity Band cannot be combined with any non-gemstone ring. In most cases, 
 
 ## Garnet & Gemstone Resonance Theory
 
-To compensate for the [removal of vanilla Acrobat profession](../Professions), this mod introduces a seventh gemstone, the **Garnet**, which can be mined upwards of Mine level 80. Socketed to a ring or a weapon, it will grant 10% cooldown reduction to special moves. [As described above](#craftable-gesmtone-rings), the Garnet Ring is craftable at Combat level 7.
+To compensate for the [removal of vanilla Acrobat profession](../Professions), this mod introduces a seventh gemstone, the **Garnet**, which can be mined upwards of Mine level 80. Socketed to a ring or a weapon, it will grant 10% cooldown reduction to special moves. [As described above](#craftable-gemstone-rings), the Garnet Ring is craftable at Combat level 7.
 
 With the addition of Garnet, the seven gemstones together form a [Diatonic Scale](https://en.wikipedia.org/wiki/Diatonic_scale):
 
@@ -529,7 +543,7 @@ Finally we arrive at the discussion of Legendary weapons, and the most interesti
 <img src="https://gitlab.com/daleao/modular-overhaul/-/raw/main/Modules/Combat/resources/readme/infinity.png" alt="cursed_event.png">
 </div>
 
-According to [TV Tropes Wiki](https://tvtropes.org/pmwiki/pmwiki.php/Main/InfinityPlusOneSword), an Infinity +1 sword is "not only the most powerful of its kind [...] , but its power is matched by how hard it is to acquire". The vanilla Infinity weapons do not quite fit that definition. Let's fix that, shall we?
+According to [TV Tropes Wiki][tropes:infinity+1], an Infinity +1 sword is "not only the most powerful of its kind [...] , but its power is matched by how hard it is to acquire". The vanilla Infinity weapons do not quite fit that definition. Let's fix that, shall we?
 
 To obtain your first Galaxy weapon, as in vanilla you must first unlock the desert, acquire a Prismatic Shard and offer it to the Three Sand Sisters. Unlike vanilla, however, the weapon will not materialize out of thin air, but will be shaped out of a configurable amount of Iridium Bars (10 by default), which must be in your inventory. This will prevent a lucky Prismatic Shard drop from the Mines or a Fishing Chest from instantly rewarding one of the strongest weapons in the game before the player has even set foot in the Skull Caverns. Now, some venturing into the Skull Caverns is required.
 
@@ -545,7 +559,7 @@ In the interest of avoiding spoilers, the details of the quest can be found hidd
 </div>
 
 In return for all that extra work, the Infinity weapons have extra perks:    
-1. +1 gemstone slot (4 total). *Keeping in mind that each gemstone has the potential to [resonate](#resonance).*
+1. +1 gemstone slot (4 total). *Keeping in mind that each gemstone has the potential to [resonate](#garnet--gemstone-resonance-theory).*
 2. Small boost to the weapon's special move:
 	* **Stabing Sword:** Increased dash distance.
 	* **Defense Sword:** Parried enemies are dazed for 1 second.
@@ -610,15 +624,15 @@ Finally, certain enemy hitboxes are also improved, and others have received smal
 
 This mod includes the following popular control-related features, often featured in other mods.
 
-* **Face Mouse Cursor**
+### Face Mouse Cursor
 	
 	When playing with mouse and keyboard the farmer will always swing their weapon in the direction of the mouse cursor.
 
-* **Slick Moves**
+### Slick Moves
 
 	Swinging a weapon while running will preserve the player's momentum, causing them to drift in the direction of movement. This increases the player's mobility and makes combat feel more fast-paced. 
 
-* **Auto-Selection**
+### Auto-Selection
 
 	If enemies are nearby, players can optionally choose a weapon, melee or ranged, to be equipped automatically.
 
@@ -792,5 +806,6 @@ Unforge the Blade of Dawn to obtain a Hero Soul, and then forge it into any Gala
 [mod:archery-starter-pack]: <https://www.nexusmods.com/stardewvalley/mods/16768> "Archery Starter Pack"
 
 [tropes:color-coded]: <https://tvtropes.org/pmwiki/pmwiki.php/Main/ColourCodedForYourConvenience> "Color-Coded for Your Convenience"
+[tropes:infinity+1]: <https://tvtropes.org/pmwiki/pmwiki.php/Main/InfinityPlusOneSword> "Infinity +1"
 
 [🔼 Back to top](#margo--combat-cmbt)

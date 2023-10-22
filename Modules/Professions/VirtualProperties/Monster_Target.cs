@@ -10,20 +10,15 @@ using StardewValley.Monsters;
 // ReSharper disable once InconsistentNaming
 internal static class Monster_Target
 {
-    internal static ConditionalWeakTable<Monster, Holder> Values { get; } = new();
+    internal static ConditionalWeakTable<Monster, Farmer?> Values { get; } = new();
 
     internal static Farmer Get_Target(this Monster monster)
     {
-        return Values.GetOrCreateValue(monster).Target ?? Game1.player;
+        return Values.GetOrCreateValue(monster) ?? Game1.player;
     }
 
     internal static void Set_Target(this Monster monster, Farmer? target)
     {
-        Values.GetOrCreateValue(monster).Target = target;
-    }
-
-    internal class Holder
-    {
-        public Farmer? Target { get; internal set; }
+        Values.AddOrUpdate(monster, target);
     }
 }

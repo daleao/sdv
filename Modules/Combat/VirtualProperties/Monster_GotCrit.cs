@@ -17,13 +17,15 @@ internal static class Monster_GotCrit
         return Values.GetOrCreateValue(monster).GotCrit;
     }
 
-    internal static void Set_GotCrit(this Monster monster, bool value)
+    internal static void Set_GotCrit(this Monster monster, Farmer? byWhom)
     {
-        Values.GetOrCreateValue(monster).GotCrit = value;
+        Values.GetOrCreateValue(monster).ByWhom = byWhom;
     }
 
     internal class Holder
     {
-        public bool GotCrit { get; internal set; }
+        public bool GotCrit => this.ByWhom is not null;
+
+        public Farmer? ByWhom { get; internal set; }
     }
 }

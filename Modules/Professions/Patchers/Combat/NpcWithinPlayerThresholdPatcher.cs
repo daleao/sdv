@@ -28,7 +28,7 @@ internal sealed class NpcWithinPlayerThresholdPatcher : HarmonyPatcher
     {
         try
         {
-            if (__instance is not Monster monster)
+            if (__instance is not Monster { IsMonster: true } monster)
             {
                 return true; // run original method
             }

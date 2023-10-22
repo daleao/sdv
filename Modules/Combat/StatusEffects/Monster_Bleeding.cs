@@ -13,6 +13,22 @@ internal static class Monster_Bleeding
 {
     internal static ConditionalWeakTable<Monster, Holder> Values { get; } = new();
 
+    internal static void SetOrIncrement_Bleeding(this Monster monster, int timer, int stacks, Farmer? bleeder)
+    {
+        var holder = Values.GetOrCreateValue(monster);
+        holder.BleedTimer.Value = timer;
+        holder.BleedStacks.Value = Math.Min(holder.BleedStacks.Value + stacks, 5);
+        holder.Bleeder = bleeder;
+    }
+
+    internal static void Set_Bleeding(this Monster monster, int timer, int stacks, Farmer? bleeder)
+    {
+        var holder = Values.GetOrCreateValue(monster);
+        holder.BleedTimer.Value = timer;
+        holder.BleedStacks.Value = stacks;
+        holder.Bleeder = bleeder;
+    }
+
     internal static NetInt Get_BleedTimer(this Monster monster)
     {
         return Values.GetOrCreateValue(monster).BleedTimer;

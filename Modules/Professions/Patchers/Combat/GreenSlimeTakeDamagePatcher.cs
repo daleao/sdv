@@ -27,14 +27,14 @@ internal sealed class GreenSlimeTakeDamagePatcher : HarmonyPatcher
     [HarmonyPostfix]
     private static void GreenSlimeTakeDamagePostfix(GreenSlime __instance)
     {
-        if (__instance.Get_Piped() is not { } piped || __instance.Health > 0)
+        if (__instance.Health > 0 || __instance.Get_Piped() is null)
         {
             return;
         }
 
         for (var i = 0; i < __instance.currentLocation.characters.Count; i++)
         {
-            if (__instance.currentLocation.characters[i] is Monster monster && !monster.IsSlime() &&
+            if (__instance.currentLocation.characters[i] is Monster { IsMonster: true } monster && !monster.IsSlime() &&
                 monster.Get_Taunter() == __instance)
             {
                 monster.Set_Taunter(null);

@@ -13,6 +13,20 @@ internal static class Monster_Slowed
 {
     internal static ConditionalWeakTable<Monster, Holder> Values { get; } = new();
 
+    internal static void SetOrIncrement_Slowed(this Monster monster, int timer, float intensity)
+    {
+        var holder = Values.GetOrCreateValue(monster);
+        holder.SlowTimer.Value = timer;
+        holder.SlowIntensity.Value += intensity;
+    }
+
+    internal static void Set_Slowed(this Monster monster, int timer, float intensity)
+    {
+        var holder = Values.GetOrCreateValue(monster);
+        holder.SlowTimer.Value = timer;
+        holder.SlowIntensity.Value = intensity;
+    }
+
     internal static NetInt Get_SlowTimer(this Monster monster)
     {
         return Values.GetOrCreateValue(monster).SlowTimer;

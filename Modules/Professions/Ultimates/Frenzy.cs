@@ -45,7 +45,7 @@ public sealed class Frenzy : Ultimate
 
         for (var i = 0; i < Game1.currentLocation.characters.Count; i++)
         {
-            if (Game1.currentLocation.characters[i] is not Monster { Player.IsLocalPlayer: true } monster)
+            if (Game1.currentLocation.characters[i] is not Monster { IsMonster: true, Player.IsLocalPlayer: true } monster)
             {
                 continue;
             }

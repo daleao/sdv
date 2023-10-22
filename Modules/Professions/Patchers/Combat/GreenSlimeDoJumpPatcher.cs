@@ -24,10 +24,9 @@ internal sealed class GreenSlimeDoJumpPatcher : HarmonyPatcher
 
     /// <summary>Patch to detect jumping Slimes.</summary>
     [HarmonyPrefix]
-    private static bool GreenSlimeDoJumpPrefix(GreenSlime __instance)
+    private static void GreenSlimeDoJumpPrefix(GreenSlime __instance)
     {
         __instance.Set_JumpTimer(200);
-        return true; // run original logic
     }
 
     #endregion harmony patches

@@ -23,7 +23,7 @@ internal sealed class CombatDayEndingEvent : DayEndingEvent
     protected override void OnDayEndingImpl(object? sender, DayEndingEventArgs e)
     {
         Monster_Bleeding.Values.Clear();
-        Monster_Burned.Values.Clear();
+        Monster_Burnt.Values.Clear();
         Monster_Poisoned.Values.Clear();
         Monster_Slowed.Values.Clear();
         BleedAnimation.BleedAnimationByMonster.Clear();

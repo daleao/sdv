@@ -36,92 +36,103 @@ internal sealed class MonsterUpdatePatcher : HarmonyPatcher
         {
             var ticks = time.TotalGameTime.Ticks;
             Farmer? killer = null;
-            if (__instance.IsBleeding())
+
+            if (ticks % 30 == 0)
             {
-                __instance.Get_BleedTimer().Value -= time.ElapsedGameTime.Milliseconds;
-                if (__instance.Get_BleedTimer() <= 0)
+                var bleedTimer = __instance.Get_BleedTimer().Value;
+                if (bleedTimer > 0)
                 {
-                    __instance.Unbleed();
-                }
-                else
-                {
-                    if (ticks % 60 == 0)
+                    bleedTimer -= time.ElapsedGameTime.Milliseconds;
+                    if (bleedTimer <= 0)
                     {
-                        var bleed = (int)Math.Pow(2.5, __instance.Get_BleedStacks());
-                        __instance.Health -= bleed;
-                        Log.D($"{__instance.Name} suffered {bleed} bleed damage. HP Left: {__instance.Health}");
-                        if (__instance.Health <= 0)
-                        {
-                            killer = __instance.Get_Bleeder();
-                        }
+                        __instance.Unbleed();
                     }
-
-                    __instance.startGlowing(Color.Maroon, true, 0.05f);
-                }
-            }
-
-            if (__instance.IsBurning())
-            {
-                __instance.startGlowing(Color.Yellow, true, 0.05f);
-                __instance.Get_BurnTimer().Value -= time.ElapsedGameTime.Milliseconds;
-                if (__instance.Get_BurnTimer() <= 0)
-                {
-                    __instance.Unburn();
-                }
-                else
-                {
-                    if ((ticks % 30 == 0 && __instance is Bug or Fly) || ticks % 180 == 0)
+                    else
                     {
-                        var burn = (int)(1d / 16d * __instance.MaxHealth);
-                        __instance.Health -= burn;
-                        Log.D($"{__instance.Name} suffered {burn} burn damage. HP Left: {__instance.Health}");
-                        if (__instance.Health <= 0)
+                        __instance.Get_BleedTimer().Value = bleedTimer;
+                        if (ticks % 60 == 0)
                         {
-                            killer = __instance.Get_Burner();
+                            var bleed = (int)Math.Pow(2.5, __instance.Get_BleedStacks());
+                            __instance.Health -= bleed;
+                            Log.D($"{__instance.Name} suffered {bleed} bleed damage. HP Left: {__instance.Health}");
+                            if (__instance.Health <= 0)
+                            {
+                                killer = __instance.Get_Bleeder();
+                            }
                         }
+
+                        __instance.startGlowing(Color.Maroon, true, 0.05f);
                     }
-
-                    __instance.startGlowing(Color.Yellow, true, 0.05f);
                 }
-            }
 
-            if (__instance.IsPoisoned())
-            {
-                __instance.Get_PoisonTimer().Value -= time.ElapsedGameTime.Milliseconds;
-                if (__instance.Get_PoisonTimer() <= 0)
+                var burnTimer = __instance.Get_BurnTimer().Value;
+                if (burnTimer > 0)
                 {
-                    __instance.Detox();
-                }
-                else
-                {
-                    if (ticks % 180 == 0)
+                    burnTimer -= time.ElapsedGameTime.Milliseconds;
+                    if (burnTimer <= 0)
                     {
-                        var poison = (int)(__instance.Get_PoisonStacks() * __instance.MaxHealth / 16d);
-                        __instance.Health -= poison;
-                        Log.D($"{__instance.Name} suffered {poison} poison damage. HP Left: {__instance.Health}");
-                        if (__instance.Health <= 0)
-                        {
-                            killer = __instance.Get_Poisoner();
-                        }
+                        __instance.Unburn();
                     }
+                    else
+                    {
+                        __instance.Get_BurnTimer().Value = burnTimer;
+                        if ((ticks % 30 == 0 && __instance is Bug or Fly) || ticks % 180 == 0)
+                        {
+                            var burn = (int)(1d / 16d * __instance.MaxHealth);
+                            __instance.Health -= burn;
+                            Log.D($"{__instance.Name} suffered {burn} burn damage. HP Left: {__instance.Health}");
+                            if (__instance.Health <= 0)
+                            {
+                                killer = __instance.Get_Burner();
+                            }
+                        }
 
-                    __instance.startGlowing(Color.LimeGreen, true, 0.05f);
+                        __instance.startGlowing(Color.Yellow, true, 0.05f);
+                    }
+                }
+
+                // nothing uses poison at the moment, so this is commented to avoid the overhead
+                //var poisonTimer = __instance.Get_PoisonTimer().Value;
+                //if (poisonTimer > 0)
+                //{
+                //    poisonTimer -= time.ElapsedGameTime.Milliseconds;
+                //    if (poisonTimer <= 0)
+                //    {
+                //        __instance.Detox();
+                //    }
+                //    else
+                //    {
+                //        __instance.Get_PoisonTimer().Value = poisonTimer;
+                //        if (ticks % 180 == 0)
+                //        {
+                //            var poison = (int)(__instance.Get_PoisonStacks() * __instance.MaxHealth / 16d);
+                //            __instance.Health -= poison;
+                //            Log.D($"{__instance.Name} suffered {poison} poison damage. HP Left: {__instance.Health}");
+                //            if (__instance.Health <= 0)
+                //            {
+                //                killer = __instance.Get_Poisoner();
+                //            }
+                //        }
+
+                //        __instance.startGlowing(Color.LimeGreen, true, 0.05f);
+                //    }
+                //}
+
+                if (__instance.Health <= 0)
+                {
+                    __instance.Die(killer ?? Game1.player);
+                    return false; // run original logic
                 }
             }
 
-            if (__instance.Health <= 0)
-            {
-                __instance.Die(killer ?? Game1.player);
-                return false; // run original logic
-            }
-
-            if (!__instance.IsSlowed())
+            var slowTimer = __instance.Get_SlowTimer().Value;
+            if (slowTimer <= 0)
             {
                 return true; // run original logic
             }
 
-            __instance.Get_SlowTimer().Value -= time.ElapsedGameTime.Milliseconds;
-            if (__instance.Get_SlowTimer() <= 0)
+            slowTimer -= time.ElapsedGameTime.Milliseconds;
+            if (slowTimer <= 0)
             {
                 if (__instance.IsChilled())
                 {
@@ -135,6 +146,7 @@ internal sealed class MonsterUpdatePatcher : HarmonyPatcher
                 return true; // run original logic
             }
 
+            __instance.Get_SlowTimer().Value = slowTimer;
             if (__instance.IsChilled())
             {
                 __instance.startGlowing(Color.PowderBlue, true, 0.05f);

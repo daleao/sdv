@@ -18,11 +18,11 @@
 	<li>
 		<a href="#professions">Professions</a>
 		<ol>
-			<li><a href="#farming">Farming</a></li>
-			<li><a href="#foraging">Foraging</a></li>
-			<li><a href="#mining">Mining</a></li>
-			<li><a href="#fishing">Fishing</a></li>
-			<li><a href="#combat">Combat</a></li>
+			<li><a href="#-farming">Farming</a></li>
+			<li><a href="#-foraging">Foraging</a></li>
+			<li><a href="#-mining">Mining</a></li>
+			<li><a href="#-fishing">Fishing</a></li>
+			<li><a href="#-combat">Combat</a></li>
 		</ol>
 	</li>
 	<li><a href="#prestige">Prestige</a></li>
@@ -46,7 +46,7 @@ Integrations are provided out-of-the-box for several popular mods. See the [comp
 
 This module is safe to enable or disable mid-save. All profession perks will be applied retroactively. However, please note that disabling this mod will have no effect on skill levels or acquired professions, so make sure to manually reset your skills and professions back to vanilla standards **before** disabling, using provided console commands.
 
-<sup><sup>[🔼 Back to top](#margo--professions-profs)</sup></sup>
+<sup><sup>[🔼 Back to top](#margo--professions-prfs)</sup></sup>
 
 ## Professions
 
@@ -462,7 +462,7 @@ Completely unchanged compared to vanilla.
 
 </ul>
 
-<sup><sup>[🔼 Back to top](#margo--professions-profs)</sup></sup>
+<sup><sup>[🔼 Back to top](#margo--professions-prfs)</sup></sup>
 
 ## Prestige
 
@@ -488,7 +488,7 @@ The entire Prestige system is optional. It may be turned off at any time, but ke
 
 All custom mod skills based on SpaceCore are compatible with the skill reset feature, but cannot have their level cap raised above the regular 10. For skill mod developers, if you wish to provide prestiged professions you can do so by registering your skill via the provided [API](../../API/IModularOverhaulApi.cs).
 
-<sup><sup>[🔼 Back to top](#margo--professions-profs)</sup></sup>
+<sup><sup>[🔼 Back to top](#margo--professions-prfs)</sup></sup>
 
 ## Limit Breaks
 
@@ -555,7 +555,7 @@ Charged by scoring critical hits, and the charge amount is proportional to crit.
 
 After all possible skills have had their level cap raised, the Statue of Prestige will let you switch between the four Limit Breaks for free (though a cost can be configured). Switching Limmit Breaks is not possible if the Prestige system is disabled. As with the Prestige system, Limit Breaks can be turned off in the mod settings.
 
-<sup><sup>[🔼 Back to top](#margo--professions-profs)</sup></sup>
+<sup><sup>[🔼 Back to top](#margo--professions-prfs)</sup></sup>
 
 ## Compatibility
 
@@ -603,7 +603,7 @@ After all possible skills have had their level cap raised, the Statue of Prestig
 - [Yet Another Harvest With Scythe Mod][mod:yahwsm] will not apply modded profession perks. Use instead the feature included in CJB Cheats Menu.
 </details>
 
-<sup><sup>[🔼 Back to top](#margo--professions-profs)</sup></sup>
+<sup><sup>[🔼 Back to top](#margo--professions-prfs)</sup></sup>
 
 ## F.A.Q.
 
@@ -646,7 +646,7 @@ They will produce ores, gems and other valuables fitting to the fish's theme, as
 With the exception of Angler when placed together with Ms. Angler (requires [PNDS](../Ponds)), they do not reproduce.
 </details>
 
-<sup><sup>[🔼 Back to top](#margo--professions-profs)</sup></sup>
+<sup><sup>[🔼 Back to top](#margo--professions-prfs)</sup></sup>
 
 ## For C# Developers
 
@@ -664,15 +664,15 @@ The module exposes an API to facilitate integration with other mods. Currently e
 
 To consume the API, copy both interfaces from the [API folder](../../API/) namespace to your project and [ask SMAPI for a proxy][wiki:integrations-api].
 
-<sup><sup>[🔼 Back to top](#margo--professions-profs)</sup></sup>
+<sup><sup>[🔼 Back to top](#margo--professions-prfs)</sup></sup>
 
 ## Recommended Mods
 
 - [Artisan Valley][mod:artisan-valley] to add more variety to Artisan and Producer products.
-- [Slime Produce][mod:slime-produce] (makes Slime ranching more interesting and profitable).
-- [Ostrich Mayo and Golden Mayo][mod:new-mayo] (better consistency for Ostrich and Golden eggs in combination with Artisan profession).
-- [Skill Training][mod:skill-training] (immersively speed-up your skill resets).
-- [Tap Giant Crops][mod:tap-giant-crops] (do more with the Tapper profession).﻿
+- [Slime Produce][mod:slime-produce] for even more interesting and profitable Slime Hutches.
+- [Ostrich Mayo and Golden Mayo][mod:new-mayo] for better consistency of Ostrich and Golden egg processing with the Artisan profession.
+- [Skill Training][mod:skill-training] to immersively speed-up your skill resets.
+- [Tap Giant Crops][mod:tap-giant-crops] to get way more out of the Tapper profession.
 
 
 <!-- MARKDOWN LINKS & IMAGES -->
@@ -739,4 +739,4 @@ To consume the API, copy both interfaces from the [API folder](../../API/) names
 [wiki:fishponddata]: <https://stardewvalleywiki.com/Modding:Fish_Pond_data> "Fish Pond Data"
 [wiki:integrations-api]: <https://stardewvalleywiki.com/Modding:Modder_Guide/APIs/Integrations> "APIs - Integrations"
 
-[🔼 Back to top](#margo--professions-profs)
+[🔼 Back to top](#margo--professions-prfs)

@@ -39,7 +39,7 @@ internal sealed class StabbingSwordSpecialHomingUpdateTickedEvent : UpdateTicked
         for (var i = 0; i < user.currentLocation.characters.Count; i++)
         {
             var character = user.currentLocation.characters[i];
-            if (character is not Monster monster)
+            if (character is not Monster { IsMonster: true } monster)
             {
                 continue;
             }

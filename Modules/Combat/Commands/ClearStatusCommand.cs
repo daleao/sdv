@@ -32,7 +32,7 @@ internal sealed class ClearStatusCommand : ConsoleCommand
         if (args.Length <= 0)
         {
             Monster_Bleeding.Values.Clear();
-            Monster_Burned.Values.Clear();
+            Monster_Burnt.Values.Clear();
             Monster_Poisoned.Values.Clear();
             Monster_Slowed.Values.Clear();
             BleedAnimation.BleedAnimationByMonster.Clear();
@@ -52,7 +52,7 @@ internal sealed class ClearStatusCommand : ConsoleCommand
                     BleedAnimation.BleedAnimationByMonster.Clear();
                     break;
                 case "burn":
-                    Monster_Burned.Values.Clear();
+                    Monster_Burnt.Values.Clear();
                     BurnAnimation.BurnAnimationsByMonster.Clear();
                     break;
                 case "chill":
