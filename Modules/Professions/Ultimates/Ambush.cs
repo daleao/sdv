@@ -3,7 +3,7 @@
 #region using directives
 
 using System.Linq;
-using DaLion.Overhaul.Modules.Core;
+using DaLion.Overhaul;
 using DaLion.Overhaul.Modules.Professions.Events.GameLoop.UpdateTicked;
 using Microsoft.Xna.Framework;
 using Netcode;
@@ -33,7 +33,7 @@ public sealed class Ambush : Ultimate
         (int)(15000 * ((double)this.MaxValue / BaseMaxValue) / ProfessionsModule.Config.LimitDrainFactor);
 
     /// <inheritdoc />
-    internal override SoundEffectPlayer ActivationSoundEffectPlayer => SoundEffectPlayer.PoacherAmbush;
+    internal override SoundEffectPlayer ActivationSfx => SoundEffectPlayer.PoacherAmbush;
 
     /// <inheritdoc />
     internal override Color GlowColor => Color.MediumPurple;

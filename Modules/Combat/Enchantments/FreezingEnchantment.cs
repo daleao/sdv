@@ -3,9 +3,9 @@
 #region using directives
 
 using System.Xml.Serialization;
+using DaLion.Overhaul;
 using DaLion.Overhaul.Modules.Combat.Events.GameLoop.UpdateTicked;
 using DaLion.Overhaul.Modules.Combat.Extensions;
-using DaLion.Overhaul.Modules.Core;
 using StardewValley.Monsters;
 
 #endregion using directives

@@ -283,13 +283,15 @@ Fresh new weapons require fresh new enchantments! Vanilla enchantments have been
 | Carving | Attacks on-hit reduce enemy defense by 1 (continuing below zero). Removes the armor from Armored Bugs and de-shells Rock Crabs. |
 | Cleaving | Attacks on-hit spread 60% - 20% (based on distance) of the damage to other enemies around the target. |
 | Energized | Moving and attacking generates energy. When fully-energized, the next attack causes an electric discharge, dealing heavy damage in a large area. |
-| Mammonite's | Attacks that would leave an enemy below 10% max health immediately execute the enemy, converting the remaining health into gold. This threshold increases by 1% with each consecutive takedown, resetting when you take damage. |
+| Mammonite | Attacks that would leave an enemy below 10% max health immediately execute the enemy, converting the remaining health into gold. This threshold increases by 1% with each consecutive takedown, resetting when you take damage.* |
 | Steadfast | Can no longer critically strike, but multiplies base damage by a factor of crit. power. |
-| Wabbajack | Causes unpredictable effects.* |
+| Wabbajack | Causes unpredictable effects.** |
 
 <font size="1">
 
-\* *Examples: damage or heal the enemy; decrease or increase the enemie's stats; transfigure into a different enemy, creature or any random item (note: this can spawn illegal items).*
+\* *Hard caps at 1000 HP. To prevent cheesing boss monsters from expansion mods, this is implemented as a percentage chance per hit, with the chance being near-zero close to the 1000 HP hard cap and near 100% for regular monsters.*
+
+\** *Examples: damage or heal the enemy; decrease or increase the enemie's stats; transfigure into a different enemy, creature or any random item (note: this can spawn illegal items).*
 </font>
 
 <sup><sup>[🔼 Back to top](#margo--combat-cmbt)</sup></sup>

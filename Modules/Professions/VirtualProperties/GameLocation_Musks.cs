@@ -15,15 +15,9 @@ internal static class GameLocation_Musks
     internal static ConditionalWeakTable<GameLocation, HashSet<Musk>> Values { get; } = new();
 
     // returns nullable to avoid unnecessary iteration
-    internal static IEnumerable<Musk>? Get_Musks(this GameLocation location)
+    internal static IEnumerable<Musk> Get_Musks(this GameLocation location)
     {
-        return Values.TryGetValue(location, out var musks) ? musks : null;
-    }
-
-    // returns Enumerable.Empty to prevent the search algorithm from defaulting to all characters in the location
-    internal static IEnumerable<FakeFarmer> Get_MuskFakeFarmers(this GameLocation location)
-    {
-        return Values.TryGetValue(location, out var musks) ? musks.Select(musk => musk.FakeFarmer) : Enumerable.Empty<FakeFarmer>();
+        return Values.TryGetValue(location, out var musks) ? musks : Enumerable.Empty<Musk>();
     }
 
     internal static void AddMusk(this GameLocation location, Musk musk)

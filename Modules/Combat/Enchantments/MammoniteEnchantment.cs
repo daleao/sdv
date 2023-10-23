@@ -30,14 +30,19 @@ public sealed class MammoniteEnchantment : BaseWeaponEnchantment
             return;
         }
 
-        var mammon = (int)((monster.MaxHealth * this.Threshold) - monster.Health);
-        if (mammon <= 0)
+        if (monster.Health >= monster.MaxHealth * this.Threshold || monster.Health > 1000)
         {
             return;
         }
 
+        var chance = 1d - (monster.Health / 1000d);
+        if (Game1.random.NextDouble() > chance)
+        {
+            return;
+        }
+
+        who.Money += monster.Health;
         monster.Health = 0;
-        who.Money += mammon;
     }
 
     /// <inheritdoc />

@@ -184,7 +184,7 @@ internal sealed class ObjectProjectile : BasicProjectile
         {
             if (this.Musked)
             {
-                monster.Set_Musked(900);
+                monster.Set_Musked(15);
             }
         }
 

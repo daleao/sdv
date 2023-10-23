@@ -1,8 +1,9 @@
 ﻿namespace DaLion.Overhaul.Modules.Professions.Events.GameLoop.UpdateTicked;
 
+using DaLion.Overhaul;
+
 #region using directives
 
-using DaLion.Overhaul.Modules.Core;
 using DaLion.Overhaul.Modules.Professions.Events.Display.RenderedWorld;
 using DaLion.Overhaul.Modules.Professions.Extensions;
 using DaLion.Shared.Events;

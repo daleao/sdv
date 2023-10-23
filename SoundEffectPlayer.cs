@@ -1,4 +1,4 @@
-﻿namespace DaLion.Overhaul.Modules.Core;
+﻿namespace DaLion.Overhaul;
 
 #region using directives
 
@@ -28,19 +28,22 @@ public sealed class SoundEffectPlayer : SmartEnum<SoundEffectPlayer>
     public static readonly SoundEffectPlayer PiperConcerto = new("PiperProvoke", 3);
 
     /// <summary>The <see cref="SoundEffectPlayer"/> played when <see cref="Modules.Professions.Ultimates.DeathBlossom"/> activates.</summary>
-    public static readonly SoundEffectPlayer DesperadoBlossom = new("DesperadoGunCock", 4);
+    public static readonly SoundEffectPlayer DesperadoBlossom = new("DesperadoWhoosh", 4);
 
     /// <summary>The <see cref="SoundEffectPlayer"/> played when the Statue of Prestige does its magic.</summary>
-    public static readonly SoundEffectPlayer DogStatuePrestige = new("DogStatuePrestige", 5);
+    public static readonly SoundEffectPlayer GunCock = new("GunCock", 5);
 
     /// <summary>The <see cref="SoundEffectPlayer"/> played when the Statue of Prestige does its magic.</summary>
-    public static readonly SoundEffectPlayer Chill = new("Chill", 6);
+    public static readonly SoundEffectPlayer DogStatuePrestige = new("DogStatuePrestige", 6);
 
     /// <summary>The <see cref="SoundEffectPlayer"/> played when the Statue of Prestige does its magic.</summary>
-    public static readonly SoundEffectPlayer ChillingShot = new("ChillingShot", 7);
+    public static readonly SoundEffectPlayer Chill = new("Chill", 7);
 
     /// <summary>The <see cref="SoundEffectPlayer"/> played when the Statue of Prestige does its magic.</summary>
-    public static readonly SoundEffectPlayer PlasmaShot = new("PlasmaShot", 8);
+    public static readonly SoundEffectPlayer ChillingShot = new("ChillingShot", 8);
+
+    /// <summary>The <see cref="SoundEffectPlayer"/> played when the Statue of Prestige does its magic.</summary>
+    public static readonly SoundEffectPlayer PlasmaShot = new("PlasmaShot", 9);
 
     #endregion enum entries
 

@@ -1,5 +1,11 @@
 ﻿# Core Changelog
 
+## 4.0.1
+
+### Added
+
+* Added a warning to re-enable modules if checksum validation fails.
+
 ## 4.0.0
 
 ### Added

@@ -12,6 +12,11 @@ internal static class Monster_Musked
 {
     internal static ConditionalWeakTable<Monster, Musk> Values { get; } = new();
 
+    internal static Musk? Get_Musk(this Monster monster)
+    {
+        return Values.TryGetValue(monster, out var musk) ? musk : null;
+    }
+
     internal static bool Get_Musked(this Monster monster)
     {
         return Values.TryGetValue(monster, out _);

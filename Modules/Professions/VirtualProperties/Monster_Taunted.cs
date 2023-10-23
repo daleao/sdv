@@ -16,6 +16,7 @@ internal static class Monster_Taunted
     {
         return Values.GetOrCreateValue(monster).Taunter;
     }
+
     internal static FakeFarmer? Get_TauntFakeFarmer(this Monster monster)
     {
         return Values.TryGetValue(monster, out var value) ? value.FakeFarmer : null;

@@ -36,5 +36,7 @@ internal sealed class CoreSaveLoadedEvent : SaveLoadedEvent
         Log.T("[Core]: Config file failed checksum validation. Revalidating all modules...");
         EnumerateModules().ForEach(module => module.Revalidate());
         Log.T("[Core]: Module revalidation complete.");
+        Log.W("Looks like your config settings have changed since you last played on this save. " +
+              "If you recently updated MARGO, please remember to enable the same modules you had originally.");
     }
 }

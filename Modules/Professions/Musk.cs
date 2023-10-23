@@ -31,7 +31,7 @@ internal sealed class Musk
             Reflector.GetStaticFieldGetter<Multiplayer>(typeof(Game1), "multiplayer").Invoke()
                 .broadcastSprites(
                     location,
-                    new TemporaryAnimatedSprite(5, new Vector2(16f, -64f + (32f * i)), Color.Purple)
+                    new TemporaryAnimatedSprite(5, position + new Vector2(16f, -64f + (32f * i)), Color.Purple)
                     {
                         motion = new Vector2(Utility.RandomFloat(-1f, 1f), -0.5f),
                         scaleChange = 0.005f,
@@ -42,6 +42,7 @@ internal sealed class Musk
                         delayBeforeAnimationStart = 100 * i,
                         layerDepth = 0.9999f,
                         positionFollowsAttachedCharacter = false,
+                        attachedCharacter = this.FakeFarmer,
                     });
         }
 
@@ -68,7 +69,10 @@ internal sealed class Musk
             Reflector.GetStaticFieldGetter<Multiplayer>(typeof(Game1), "multiplayer").Invoke()
                 .broadcastSprites(
                     attachedMonster.currentLocation,
-                    new TemporaryAnimatedSprite(5, new Vector2(16f, -64f + (32f * i)), Color.Purple)
+                    new TemporaryAnimatedSprite(
+                        5,
+                        attachedMonster.Position + new Vector2(16f, -64f + (32f * i)),
+                        Color.Purple)
                     {
                         motion = new Vector2(Utility.RandomFloat(-1f, 1f), -0.5f),
                         scaleChange = 0.005f,
@@ -78,8 +82,8 @@ internal sealed class Musk
                         shakeIntensity = 1f,
                         delayBeforeAnimationStart = 100 * i,
                         layerDepth = 0.9999f,
-                        positionFollowsAttachedCharacter = true,
-                        attachedCharacter = attachedMonster,
+                        positionFollowsAttachedCharacter = false,
+                        attachedCharacter = this.FakeFarmer,
                     });
         }
 
@@ -113,15 +117,13 @@ internal sealed class Musk
             return;
         }
 
-        if (this.Duration % 60 != 0)
-        {
-            return;
-        }
-
         Reflector.GetStaticFieldGetter<Multiplayer>(typeof(Game1), "multiplayer").Invoke()
             .broadcastSprites(
                 this.Location,
-                new TemporaryAnimatedSprite(5, new Vector2(16f, -64f + 32f), Color.Purple)
+                new TemporaryAnimatedSprite(
+                    5,
+                    this.FakeFarmer.Position + new Vector2(16f, -32f),
+                    Color.Purple)
                 {
                     motion = new Vector2(Utility.RandomFloat(-1f, 1f), -0.5f),
                     scaleChange = 0.005f,
@@ -131,8 +133,8 @@ internal sealed class Musk
                     shakeIntensity = 1f,
                     delayBeforeAnimationStart = 100,
                     layerDepth = 0.9999f,
-                    positionFollowsAttachedCharacter = true,
-                    attachedCharacter = this.AttachedMonster,
+                    positionFollowsAttachedCharacter = false,
+                    attachedCharacter = this.FakeFarmer,
                 });
     }
 }

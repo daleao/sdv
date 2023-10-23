@@ -1,6 +1,6 @@
 ﻿namespace DaLion.Overhaul.Modules.Professions.Ultimates;
 
-using DaLion.Overhaul.Modules.Core;
+using DaLion.Overhaul;
 
 #region using directives
 
@@ -28,7 +28,7 @@ public sealed class DeathBlossom : Ultimate
         (int)(15000 * ((double)this.MaxValue / BaseMaxValue) / ProfessionsModule.Config.LimitDrainFactor);
 
     /// <inheritdoc />
-    internal override SoundEffectPlayer ActivationSoundEffectPlayer => SoundEffectPlayer.DesperadoBlossom;
+    internal override SoundEffectPlayer ActivationSfx => SoundEffectPlayer.DesperadoBlossom;
 
     /// <inheritdoc />
     internal override Color GlowColor => Color.DarkGoldenrod;
@@ -37,7 +37,7 @@ public sealed class DeathBlossom : Ultimate
     internal override void Activate()
     {
         base.Activate();
-
+        SoundEffectPlayer.GunCock.PlayAfterDelay(100);
         Game1.buffsDisplay.removeOtherBuff(this.BuffId);
         Game1.buffsDisplay.addOtherBuff(
             new Buff(

@@ -25,9 +25,9 @@ internal sealed class GameLocationUpdateWhenCurrentLocationPatcher : HarmonyPatc
     [HarmonyPostfix]
     private static void GameLocationUpdateWhenCurrentLocationPostfix(GameLocation __instance, GameTime time)
     {
-        if (__instance.Get_Musks() is { } musks && time.TotalGameTime.Ticks % 60 == 0)
+        if (time.TotalGameTime.Ticks % 60 == 0)
         {
-            musks.ForEach(musk => musk.Update());
+            __instance.Get_Musks().ForEach(musk => musk.Update());
         }
     }
 

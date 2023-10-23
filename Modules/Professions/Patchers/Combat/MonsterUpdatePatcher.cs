@@ -2,45 +2,42 @@
 
 #region using directives
 
-using DaLion.Overhaul.Modules.Professions.Ultimates;
 using DaLion.Overhaul.Modules.Professions.VirtualProperties;
 using DaLion.Shared.Extensions.Stardew;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
 using Microsoft.Xna.Framework;
+using StardewValley;
 using StardewValley.Monsters;
 
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class GreenSlimeUpdatePatcher : HarmonyPatcher
+internal sealed class MonsterUpdatePatcher : HarmonyPatcher
 {
-    /// <summary>Initializes a new instance of the <see cref="GreenSlimeUpdatePatcher"/> class.</summary>
-    internal GreenSlimeUpdatePatcher()
+    /// <summary>Initializes a new instance of the <see cref="MonsterUpdatePatcher"/> class.</summary>
+    internal MonsterUpdatePatcher()
     {
-        this.Target = this.RequireMethod<GreenSlime>(
-            nameof(GreenSlime.update), new[] { typeof(GameTime), typeof(GameLocation) });
+        this.Target =
+            this.RequireMethod<Monster>(nameof(Monster.update), new[] { typeof(GameTime), typeof(GameLocation) });
     }
 
     #region harmony patches
 
-    /// <summary>Patch for Slimes to damage monsters around Piper.</summary>
+    /// <summary>Patch to become aggroed by musked monsters.</summary>
     [HarmonyPostfix]
-    private static void GreenSlimeUpdatePostfix(GreenSlime __instance, GameTime time)
+    private static void MonsterUpdatePostfix(Monster __instance, GameTime time)
     {
-        if (__instance.Get_Piped() is not { } piped)
+        if (__instance.Get_Musk() is not { } musk)
         {
             return;
         }
 
-        piped.PipeTimer -= time.ElapsedGameTime.Milliseconds;
         for (var i = 0; i < __instance.currentLocation.characters.Count; i++)
         {
             var character = __instance.currentLocation.characters[i];
-            if (character is not Monster { IsMonster: true } monster
-                || (monster.IsGlider() && !(__instance.Scale > 1.8f || __instance.Get_Jumping()))
-                || monster.IsSlime()
-                || !monster.CanBeDamaged())
+            if (character is not Monster { IsMonster: true } monster ||
+                !ReferenceEquals(monster.Get_Target(), musk.FakeFarmer) || !monster.CanBeDamaged())
             {
                 continue;
             }
@@ -58,26 +55,14 @@ internal sealed class GreenSlimeUpdatePatcher : HarmonyPatcher
             var (xTrajectory, yTrajectory) = monster.Slipperiness < 0
                 ? Vector2.Zero
                 : Utility.getAwayFromPositionTrajectory(monsterBox, __instance.getStandingPosition()) / 2f;
-            monster.takeDamage(damageToMonster, (int)xTrajectory, (int)yTrajectory, false, 1d, "slime");
+            monster.takeDamage(damageToMonster, (int)xTrajectory, (int)yTrajectory, false, 1d, "hitEnemy");
             monster.currentLocation.debris.Add(new Debris(
                 damageToMonster,
                 new Vector2(monsterBox.Center.X + 16, monsterBox.Center.Y),
                 new Color(255, 130, 0),
                 1f,
                 monster));
-            monster.setInvincibleCountdown(piped.Piper.Get_Ultimate() is Concerto { IsActive: true } ? 300 : 450);
-
-            // aggro monsters
-            if (monster.Get_Taunter() is null)
-            {
-                monster.Set_Taunter(__instance);
-            }
-
-            var fakeFarmer = monster.Get_TauntFakeFarmer();
-            if (fakeFarmer is not null)
-            {
-                fakeFarmer.Position = __instance.Position;
-            }
+            monster.setInvincibleCountdown(450);
 
             // get damaged by monster
             randomizedDamage = monster.DamageToFarmer +
@@ -88,6 +73,8 @@ internal sealed class GreenSlimeUpdatePatcher : HarmonyPatcher
             {
                 break;
             }
+
+            __instance.Set_Taunter(monster);
         }
     }
 

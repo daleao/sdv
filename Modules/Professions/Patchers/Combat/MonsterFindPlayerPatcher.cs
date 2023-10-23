@@ -40,10 +40,14 @@ internal sealed class MonsterFindPlayerPatcher : HarmonyPatcher
             var location = __instance.currentLocation;
             Farmer? target = null;
 
-            var closestMusk = __instance.GetClosestCharacter(out var distance, location.Get_MuskFakeFarmers());
-            if (distance < 10)
+            var closestMusk = __instance.GetClosest(
+                location.Get_Musks(),
+                musk => musk.FakeFarmer.getTileLocation(),
+                out var distance,
+                musk => !ReferenceEquals(musk.AttachedMonster, __instance));
+            if (closestMusk is not null && distance < 10)
             {
-                __result = closestMusk;
+                __result = closestMusk.FakeFarmer;
                 __instance.Set_Target(__result);
                 return false; // don't run original logic
             }

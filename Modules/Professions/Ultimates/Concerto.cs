@@ -3,7 +3,7 @@
 #region using directives
 
 using System.Linq;
-using DaLion.Overhaul.Modules.Core;
+using DaLion.Overhaul;
 using DaLion.Overhaul.Modules.Professions.Events.GameLoop.UpdateTicked;
 using DaLion.Overhaul.Modules.Professions.VirtualProperties;
 using DaLion.Shared.Extensions.Stardew;
@@ -38,7 +38,7 @@ public sealed class Concerto : Ultimate
         (int)(30000 * ((double)this.MaxValue / BaseMaxValue) / ProfessionsModule.Config.LimitDrainFactor);
 
     /// <inheritdoc />
-    internal override SoundEffectPlayer ActivationSoundEffectPlayer => SoundEffectPlayer.PiperConcerto;
+    internal override SoundEffectPlayer ActivationSfx => SoundEffectPlayer.PiperConcerto;
 
     /// <inheritdoc />
     internal override Color GlowColor => Color.LimeGreen;
@@ -121,7 +121,7 @@ public sealed class Concerto : Ultimate
             });
 
         EventManager.Enable<SlimeInflationUpdateTickedEvent>();
-        this.ActivationSoundEffectPlayer.PlayAfterDelay(333);
+        this.ActivationSfx.PlayAfterDelay(333);
     }
 
     /// <inheritdoc />

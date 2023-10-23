@@ -3,7 +3,7 @@
 #region using directives
 
 using Ardalis.SmartEnum;
-using DaLion.Overhaul.Modules.Core;
+using DaLion.Overhaul;
 using DaLion.Overhaul.Modules.Professions.Events.Display.RenderedWorld;
 using DaLion.Overhaul.Modules.Professions.Events.Display.RenderingHud;
 using DaLion.Overhaul.Modules.Professions.Events.GameLoop.UpdateTicked;
@@ -181,7 +181,7 @@ public abstract class Ultimate : SmartEnum<Ultimate>, IUltimate
     internal UltimateOverlay Overlay { get; }
 
     /// <summary>Gets the sound effect that plays when this Ultimate is activated.</summary>
-    internal abstract SoundEffectPlayer ActivationSoundEffectPlayer { get; }
+    internal abstract SoundEffectPlayer ActivationSfx { get; }
 
     /// <summary>Gets the glow color applied to the player while this Ultimate is active.</summary>
     internal abstract Color GlowColor { get; }
@@ -207,7 +207,7 @@ public abstract class Ultimate : SmartEnum<Ultimate>, IUltimate
         EventManager.Enable<UltimateOverlayRenderedWorldEvent>();
 
         // play sound effect
-        this.ActivationSoundEffectPlayer.Play();
+        this.ActivationSfx.Play();
 
         // notify peers
         Broadcaster.Broadcast("Active", OverhaulModule.Professions.Namespace + "ToggledUltimate");

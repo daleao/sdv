@@ -35,13 +35,14 @@ internal sealed class MonsterWithinPlayerThresholdPatcher : HarmonyPatcher
             }
 
             var player = __instance.Get_Target();
-            if (!player.IsLocalPlayer || player.IsInAmbush())
+            if (!player.IsLocalPlayer || !player.IsInAmbush())
             {
                 return true; // run original method
             }
 
             __result = false;
             return false; // don't run original method
+
         }
         catch (Exception ex)
         {

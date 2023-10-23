@@ -46,6 +46,13 @@ internal sealed class SlingshotAttachPatcher : HarmonyPatcher
                         __result = --o.Stack <= 0 ? null : o;
                         Game1.playSound("button1");
                     }
+                    else if (top is null && bottom.ParentSheetIndex != ObjectIds.MonsterMusk)
+                    {
+                        __instance.attachments[0] = (SObject)o.getOne();
+                        (__instance.attachments[0], __instance.attachments[1]) = (__instance.attachments[1], __instance.attachments[0]);
+                        __result = --o.Stack <= 0 ? null : o;
+                        Game1.playSound("button1");
+                    }
                     else
                     {
                         Game1.playSound("cancel");

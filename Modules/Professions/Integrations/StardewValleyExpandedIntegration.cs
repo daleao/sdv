@@ -2,6 +2,7 @@
 
 #region using directives
 
+using DaLion.Overhaul.Modules.Professions.Events.Player.Warped;
 using DaLion.Shared.Attributes;
 using DaLion.Shared.Extensions.SMAPI;
 using DaLion.Shared.Integrations;
@@ -26,4 +27,16 @@ internal sealed class StardewValleyExpandedIntegration : ModIntegration<StardewV
     internal bool UseGaldoranThemeAllTimes => this.IsLoaded && ModHelper
         .ReadContentPackConfig("FlashShifter.StardewValleyExpandedCP")
         ?.Value<bool?>("UseGaldoranThemeAllTimes") == true;
+
+    protected override bool RegisterImpl()
+    {
+        if (!this.IsLoaded)
+        {
+            return false;
+        }
+
+        EventManager.Enable<SveWarpedEvent>();
+        Log.D("[PRFS]: Registered the Stardew Valley Expanded integration.");
+        return true;
+    }
 }

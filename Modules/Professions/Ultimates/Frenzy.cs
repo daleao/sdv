@@ -1,9 +1,10 @@
 ﻿namespace DaLion.Overhaul.Modules.Professions.Ultimates;
 
+using DaLion.Overhaul;
+
 #region using directives
 
 using DaLion.Overhaul.Modules.Combat.Extensions;
-using DaLion.Overhaul.Modules.Core;
 using Microsoft.Xna.Framework;
 using StardewValley.Monsters;
 
@@ -29,7 +30,7 @@ public sealed class Frenzy : Ultimate
         (int)(15000 * ((double)this.MaxValue / BaseMaxValue) / ProfessionsModule.Config.LimitDrainFactor);
 
     /// <inheritdoc />
-    internal override SoundEffectPlayer ActivationSoundEffectPlayer => SoundEffectPlayer.BruteRage;
+    internal override SoundEffectPlayer ActivationSfx => SoundEffectPlayer.BruteRage;
 
     /// <inheritdoc />
     internal override Color GlowColor => Color.OrangeRed;

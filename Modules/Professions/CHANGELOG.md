@@ -2,6 +2,10 @@
 
 ## 4.0.1
 
+### Changed
+
+* Added new sound effect for the Desperado Limit Break to distinguish it from the slingshot special move.
+
 ### Fixed
 
 * Improved performance of `MonsterFindPlayerPatcher` since Monster Musk implementation, which caused severe slowdowns in maps with ludicrous numbers of monsters (i.e., SVE, Ridgeside).

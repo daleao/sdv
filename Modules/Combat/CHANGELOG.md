@@ -2,9 +2,14 @@
 
 ## 4.0.1
 
+### Changed
+
+* Mammonite enchantent now has a hard cap of 1000 HP or less. To avoid cheesing boss monsters in SVE or other expansions, there is now a chance of success of `remaining HP / 1000`. For regular monsters with a few hundred HP, this makes a negligible difference, and the enchantment will still trigger with 90%+ success chance. But for boss monsters, the chance will be near zero close to the hard cap of 1000 HP, and gradually increase as the boss approaches death.
+
 ### Fixed
 
 * Reduced number of hashing calls due to monster status effects, which should give a neglible performance boost.
+* Fixed an issue with Mammonite enchantment not actually rewarding the correct amount of gold.
 
 <sup><sup>[🔼 Back to top](#cmbt-changelog)</sup></sup>
 

@@ -5,7 +5,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using DaLion.Overhaul.Modules.Core;
+using DaLion.Overhaul;
 using DaLion.Overhaul.Modules.Professions.Extensions;
 using DaLion.Overhaul.Modules.Professions.Ultimates;
 using DaLion.Overhaul.Modules.Professions.VirtualProperties;

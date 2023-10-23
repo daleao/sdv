@@ -1,11 +1,12 @@
 ﻿namespace DaLion.Overhaul.Modules.Combat.Patchers.Ranged;
 
+using DaLion.Overhaul;
+
 #region using directives
 
 using DaLion.Overhaul.Modules.Combat.Extensions;
 using DaLion.Overhaul.Modules.Combat.Integrations;
 using DaLion.Overhaul.Modules.Combat.VirtualProperties;
-using DaLion.Overhaul.Modules.Core;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
 using StardewValley.Tools;
@@ -44,7 +45,7 @@ internal sealed class Game1PressActionButtonPatcher : HarmonyPatcher
             return;
         }
 
-        SoundEffectPlayer.DesperadoBlossom.Play();
+        SoundEffectPlayer.GunCock.Play();
         slingshot.AnimateSpecialMove();
         __result = false;
     }
