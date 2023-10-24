@@ -7,6 +7,7 @@ using DaLion.Overhaul.Modules.Combat.Extensions;
 using DaLion.Shared.Attributes;
 using DaLion.Shared.Commands;
 using DaLion.Shared.Extensions.Stardew;
+using Shared.Enums;
 using StardewValley.Monsters;
 using Buff = DaLion.Shared.Enums.Buff;
 
@@ -47,7 +48,7 @@ internal sealed class InflictStatusCommand : ConsoleCommand
                 duration1 = 100000;
             }
 
-            if (int.TryParse(args[0], out var id) && Enum.IsDefined(typeof(Buff), id))
+            if (int.TryParse(args[0], out var id) && BuffExtensions.IsDefined((Buff)id))
             {
                 Game1.buffsDisplay.addOtherBuff(new StardewValley.Buff(id) { millisecondsDuration = duration1 });
             }

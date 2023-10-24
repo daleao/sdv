@@ -88,7 +88,9 @@ internal static class MeleeWeaponExtensions
     internal static bool ShouldBeStabbySword(this MeleeWeapon weapon)
     {
         return CombatModule.Config.EnableStabbingSwords &&
-                CombatModule.Config.StabbingSwords.Contains(weapon.Name);
+               (CombatModule.Config.StabbingSwords.Contains(weapon.Name) ||
+                (weapon.InitialParentTileIndex is WeaponIds.GalaxySword or WeaponIds.InfinityBlade &&
+                 weapon.Read(DataKeys.SwordType, 3) == 0));
     }
 
     /// <summary>Gets the default crit. chance for this weapon type.</summary>

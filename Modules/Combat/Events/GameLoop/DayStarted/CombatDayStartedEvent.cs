@@ -25,5 +25,6 @@ internal sealed class CombatDayStartedEvent : DayStartedEvent
     {
         CombatModule.State.DidPrayToday = false;
         CombatModule.State.SpokeWithWizardToday = false;
+        CombatModule.State.UsedSandPillarsToday = false;
     }
 }

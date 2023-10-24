@@ -42,7 +42,7 @@ internal sealed class ObjectCheckForSpecialItemHoldUpMessagePatcher : HarmonyPat
             case 1:
                 var type = (WeaponType)new MeleeWeapon(found[0]).type.Value;
                 var typeString = type is WeaponType.StabbingSword or WeaponType.DefenseSword ? "sword" : type.ToStringFast().ToLowerInvariant();
-                var typeDisplayName = _I18n.Get("weapons." + typeString).ToString().ToLower();
+                var typeDisplayName = _I18n.Get("weapons.type." + typeString).ToString().ToLower();
                 __result = Game1.player.canUnderstandDwarves
                     ? I18n.Blueprint_Found_First_Known(typeDisplayName)
                     : I18n.Blueprint_Found_First_Unknown(typeDisplayName);

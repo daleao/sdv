@@ -12,6 +12,7 @@ using DaLion.Shared.Extensions.Reflection;
 using DaLion.Shared.Extensions.Stardew;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
+using Microsoft.Xna.Framework;
 
 #endregion using directives
 
@@ -62,10 +63,8 @@ internal sealed class GameLocationPerformTouchActionPatcher : HarmonyPatcher
                             typeof(GameLocationPerformTouchActionPatcher)
                                 .RequireMethod(nameof(DoesPlayerMeetGalaxyConditions))),
                         new CodeInstruction(OpCodes.Brfalse, didNotMeetConditions),
-                        new CodeInstruction(OpCodes.Ldarg_0),
-                        new CodeInstruction(OpCodes.Ldstr, "thunder"),
-                        new CodeInstruction(OpCodes.Ldc_I4_0),
-                        new CodeInstruction(
+                        new CodeInstruction(OpCodes.Ldarg_0), new CodeInstruction(OpCodes.Ldstr, "thunder"),
+                        new CodeInstruction(OpCodes.Ldc_I4_0), new CodeInstruction(
                             OpCodes.Call,
                             typeof(GameLocation).RequireMethod(nameof(GameLocation.playSound))),
                     },

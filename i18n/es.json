@@ -201,9 +201,11 @@
   // * ARSENAL * //
   // *********** //
 
-  "weapons.sword": "Espada",
-  "weapons.club": "Maza",
-  "weapons.dagger": "Daga",
+  "weapons.type.sword": "Espada",
+  "weapons.type.club": "Maza",
+  "weapons.type.dagger": "Daga",
+  "weapons.sword.stabbing": "Offense",
+  "weapons.sword.defense": "Defense",
   "weapons.dwarven.prefix": "Enana",
   "weapons.elven.prefix": "Élfica",
   "weapons.dark_sword.name": "Hoja de la Ruina",
@@ -300,6 +302,8 @@
   "virtues.disapprove.plural": "{{name1}} y {{name2}} desaprueban tu falta de {{virtue}}.",
   "virtues.proven": "{{player}} has proven their {{virtue}}.",
 
+  "pillars.convert_sword": "Change the {{sword}} to {{type}} type?",
+
   // json assets
   "objects.dwarvish_blueprint.name": "Viejo plano enano",
   "objects.dwarvish_blueprint.description": "Está descolorido, pero sigue siendo legible.",
@@ -374,7 +378,7 @@
   "mail.lewis.notice": "@,^Como sabe, uno de mis deberes como alcalde de la Villa Pelícano es recaudar impuestos sobre todas las propiedades de la ciudad. Durante el año fiscal anterior, la evaluación del condado sobre la propriedad de la granja {{farm}} determinó una valoración de {{valuación}}g. Como resultado, usted es responsable de {{due}}g en impuestos totales sobre la propiedad para el período fiscal correspondiente. Me he tomado la libertad de cargar su cuenta directamente. ^En nombre de la Villa Pelícanos, me gustaría expresar mi profunda gratitud por sus continuas contribuciones a nuestra comunidad.  ^  Atentamente, Sr. Lewis[#]Lewis Taxation Notice",
   "mail.lewis.outstanding": "@,^Como saben, una de mis funciones como alcalde de la Villa Pelícano es recaudar impuestos sobre todas las propiedades de la ciudad. Durante el año fiscal anterior, la evaluación del condado sobre la propriedad de la granja {{farm}} determinó una valoración de {{valuación}}g. Como resultado, usted es responsable de {{due}}g en impuestos totales sobre la propiedad para el período fiscal correspondiente. ^Desafortunadamente, se descubrió que su cuenta no tenía fondos suficientes para cubrir la totalidad cantidad. De acuerdo con la política del condado, no me complace informarle que se le impondrá una multa {{fine}} adicional. La totalidad de su deuda, por un total de {{outstanding}}g, se venderá al Banco de Stardew, que está autorizado a embargar todos los ingresos por envío hasta que el monto pendiente se pague en su totalidad, sujeto a una tasa de interés anual de {{interest}}. ^ Tenga en cuenta que la gente de la Villa Pelícano está aquí para apoyarlo si enfrenta tiempos difíciles.  ^  Atentamente, Sr. Lewis[#]Lewis Taxation Outstanding",
 
-  "mail.debt.debit": "Su saldo fue debitado por {{amount}}g hacia deudas pendientes.",
+  "hud.debt.debit": "Su saldo fue debitado por {{amount}}g hacia deudas pendientes.",
 
   "honorific.male": "Estimado",
   "honorific.female": "Estimata",
@@ -385,8 +389,8 @@
   // **************** //
 
   "ui.item_hover.damage": "{{amount}} Damage",
-  "ui.item_hover.crate": "{{amount}} Chance de crítico",
-  "ui.item_hover.cpow": "{{amount}} Poder crítico",
+  "ui.item_hover.c_rate": "{{amount}} Chance de crítico",
+  "ui.item_hover.c_pow": "{{amount}} Poder crítico",
   "ui.item_hover.knockback": "{{amount}} Retroceso",
   "ui.item_hover.fire_speed": "{{amount}} Velocidad",
   "ui.item_hover.swing_speed": "{{amount}} Velocidad",
@@ -681,7 +685,7 @@
   "gmcm.cmbt.ui.color_coded.rare.desc": "The title color used to identify rare-tier weapons",
   "gmcm.cmbt.ui.color_coded.epic.title": "Epic Tier Color",
   "gmcm.cmbt.ui.color_coded.epic.desc": "The title color used to identify epic-tier weapons",
-  "gmcm.cmbt.ui.color_coded.mythic.title": "Mythiv Tier Color",
+  "gmcm.cmbt.ui.color_coded.mythic.title": "Mythic Tier Color",
   "gmcm.cmbt.ui.color_coded.mythic.desc": "The title color used to identify mythic-tier weapons",
   "gmcm.cmbt.ui.color_coded.masterwork.title": "Masterwork Tier Color",
   "gmcm.cmbt.ui.color_coded.masterwork.desc": "The title color used to identify masterwork-tier weapons",

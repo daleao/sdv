@@ -139,8 +139,6 @@ public sealed class Config : Shared.Configs.Config
         "Lava Katana",
         "Dragontooth Cutlass",
         "Blade of Ruin",
-        "Galaxy Sword",
-        "Infinity Blade",
         "Strawblaster",
     };
 

@@ -39,7 +39,7 @@ internal sealed class SwordBlessCommand : ConsoleCommand
         }
 
         player.Halt();
-        player.faceDirection(2);
+        player.faceDirection(Game1.down);
         player.showCarrying();
         player.jitterStrength = 1f;
         Game1.pauseThenDoFunction(3000, GameLocationPerformActionPatcher.GetHolyBlade);

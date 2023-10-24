@@ -201,9 +201,11 @@
   // * ARSENAL * //
   // *********** //
 
-  "weapons.sword": "Épée",
-  "weapons.club": "Gourdin",
-  "weapons.dagger": "Dagger",
+  "weapons.type.sword": "Épée",
+  "weapons.type.club": "Gourdin",
+  "weapons.type.dagger": "Dagger",
+  "weapons.sword.stabbing": "Offense",
+  "weapons.sword.defense": "Defense",
   "weapons.dwarven.prefix": "Naine",
   "weapons.elven.prefix": "Elfique",
   "weapons.dark_sword.name": "Lame de la ruine",
@@ -300,6 +302,8 @@
   "virtues.disapprove.plural": "{{name1}} et {{name2}} désapprouvent votre manque de {{virtue}}.",
   "virtues.proven": "{{player}} has proven their {{virtue}}.",
 
+  "pillars.convert_sword": "Change the {{sword}} to {{type}} type?",
+
   // json assets
   "objects.dwarvish_blueprint.name": "Ancien plan nain",
   "objects.dwarvish_blueprint.description": "C'est effacé, mais toujours lisible.",
@@ -375,7 +379,7 @@
   "mail.lewis.notice": "@,^Comme vous le savez, l'une de mes fonctions en tant que maire de Pelican est de prélever des impôts sur toutes les propriétés de la ville. Au cours de l'exercice précédent, l'évaluation par le comté de {{farm}} farm's propriété a déterminé une évaluation de {{valuation}}g. Par conséquent, vous êtes redevable de {{due}}g en taxes foncières totales pour la période fiscale applicable. J'ai pris la liberté de débiter votre compte directement. ^Au nom de Pélicanville, je suis profondément reconnaissant pour vos contributions continues à notre communauté.  ^  Sincèrement, M. Lewis [#]Lewis Taxation Notice",
   "mail.lewis.outstanding": "@, ^ Comme vous le savez, l'une de mes fonctions en tant que maire de Pélicanville est de prélever des impôts sur toutes les propriétés de la ville. Au cours de l'exercice précédent, l'évaluation par le comté de la propriété de la ferme {{farm}} a déterminé une évaluation de {{valuation}}g. Par conséquent, vous êtes redevable de {{due}}g en taxes foncières totales pour la période fiscale applicable. ^Malheureusement, il a été constaté que votre compte ne disposait pas de fonds suffisants pour couvrir l'intégralité de Conformément à la politique du comté, je ne prends aucun plaisir à vous informer que vous serez condamné à une amende supplémentaire de {{fine}}. L'intégralité de votre dette, totalisant {{encours}} g, sera vendue à la Banque de Stardew, qui est autorisé à saisir tous les revenus d'expédition jusqu'au paiement intégral du montant impayé, sous réserve d'un taux d'intérêt annuel de {{interest}}.  ^  Sachez que les habitants de Pélicanville sont là pour vous aider si vous traversez des moments difficiles. ^ Cordialement, M. Lewis[#]Lewis Taxation Outstanding",
 
-  "mail.debt.debit": "Votre solde a été débité de {{amount}} g pour des dettes impayées.",
+  "hud.debt.debit": "Votre solde a été débité de {{amount}} g pour des dettes impayées.",
 
   "honorific.male": "Monsieur",
   "honorific.female": "Madame",
@@ -386,8 +390,8 @@
   // **************** //
 
   "ui.item_hover.damage": "{{amount}} Dégâts",
-  "ui.item_hover.crate": "{{amount}} Chance Crit.",
-  "ui.item_hover.cpow": "{{amount}} Puissance Crit.",
+  "ui.item_hover.c_rate": "{{amount}} Chance Crit.",
+  "ui.item_hover.c_pow": "{{amount}} Puissance Crit.",
   "ui.item_hover.knockback": "{{amount}} Recul",
   "ui.item_hover.fire_speed": "{{amount}} Vitesse",
   "ui.item_hover.swing_speed": "{{amount}} Vitesse",
@@ -687,7 +691,7 @@
   "gmcm.cmbt.ui.color_coded.rare.desc": "The title color used to identify rare-tier weapons",
   "gmcm.cmbt.ui.color_coded.epic.title": "Epic Tier Color",
   "gmcm.cmbt.ui.color_coded.epic.desc": "The title color used to identify epic-tier weapons",
-  "gmcm.cmbt.ui.color_coded.mythic.title": "Mythiv Tier Color",
+  "gmcm.cmbt.ui.color_coded.mythic.title": "Mythic Tier Color",
   "gmcm.cmbt.ui.color_coded.mythic.desc": "The title color used to identify mythic-tier weapons",
   "gmcm.cmbt.ui.color_coded.masterwork.title": "Masterwork Tier Color",
   "gmcm.cmbt.ui.color_coded.masterwork.desc": "The title color used to identify masterwork-tier weapons",

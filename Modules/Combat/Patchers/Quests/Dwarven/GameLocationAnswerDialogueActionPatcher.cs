@@ -27,24 +27,19 @@ internal sealed class GameLocationAnswerDialogueActionPatcher : HarmonyPatcher
 
     #region harmony patches
 
-    /// <summary>Respond to grab Dark Sword proposition + blacksmith forge.</summary>
+    /// <summary>Inject Blacksmith forge.</summary>
     [HarmonyPrefix]
     private static bool GameLocationAnswerDialogueActionPrefix(ref bool __result, string? questionAndAnswer)
     {
-        if (questionAndAnswer is null)
+        if (!CombatModule.Config.DwarvenLegacy || questionAndAnswer != "Blacksmith_Forge")
+        {
+            return true; // run original logic
+        }
+
+        if (!JsonAssetsIntegration.DwarvishBlueprintIndex.HasValue)
         {
             __result = false;
             return false; // don't run original logic
-        }
-
-        if (!CombatModule.Config.EnableHeroQuest && !CombatModule.Config.DwarvenLegacy)
-        {
-            return true; // run original logic
-        }
-
-        if (questionAndAnswer != "Blacksmith_Forge" || !JsonAssetsIntegration.DwarvishBlueprintIndex.HasValue)
-        {
-            return true; // run original logic
         }
 
         try

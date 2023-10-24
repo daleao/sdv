@@ -495,7 +495,7 @@ internal sealed partial class GenericModConfigMenu
                 (config, value) => config.Combat.SlickMoves = value)
             .AddCheckbox(
                 I18n.Gmcm_Controls_EnableAutoSelection_Title,
-                () => I18n.Gmcm_Controls_EnableAutoSelection_Desc(),
+                I18n.Gmcm_Controls_EnableAutoSelection_Desc,
                 config => config.Combat.EnableAutoSelection,
                 (config, value) =>
                 {
@@ -546,49 +546,49 @@ internal sealed partial class GenericModConfigMenu
                 config => config.Combat.CommonTierColor,
                 (config, value) => config.Combat.CommonTierColor = value,
                 Game1.textColor,
-                colorPickerStyle: (uint)IGenericModConfigMenuOptionsApi.ColorPickerStyle.ToggleChooser)
+                colorPickerStyle: (uint)IGenericModConfigMenuOptionsApi.ColorPickerStyle.RadioChooser)
             .AddColorPicker(
                 I18n.Gmcm_Cmbt_Ui_ColorCoded_Uncommon_Title,
                 I18n.Gmcm_Cmbt_Ui_ColorCoded_Uncommon_Desc,
                 config => config.Combat.UncommonTierColor,
                 (config, value) => config.Combat.UncommonTierColor = value,
                 Color.Green,
-                colorPickerStyle: (uint)IGenericModConfigMenuOptionsApi.ColorPickerStyle.ToggleChooser)
+                colorPickerStyle: (uint)IGenericModConfigMenuOptionsApi.ColorPickerStyle.RadioChooser)
             .AddColorPicker(
                 I18n.Gmcm_Cmbt_Ui_ColorCoded_Rare_Title,
                 I18n.Gmcm_Cmbt_Ui_ColorCoded_Rare_Desc,
                 config => config.Combat.RareTierColor,
                 (config, value) => config.Combat.RareTierColor = value,
                 Color.Blue,
-                colorPickerStyle: (uint)IGenericModConfigMenuOptionsApi.ColorPickerStyle.ToggleChooser)
+                colorPickerStyle: (uint)IGenericModConfigMenuOptionsApi.ColorPickerStyle.RadioChooser)
             .AddColorPicker(
                 I18n.Gmcm_Cmbt_Ui_ColorCoded_Epic_Title,
                 I18n.Gmcm_Cmbt_Ui_ColorCoded_Epic_Desc,
                 config => config.Combat.EpicTierColor,
                 (config, value) => config.Combat.EpicTierColor = value,
                 Color.Purple,
-                colorPickerStyle: (uint)IGenericModConfigMenuOptionsApi.ColorPickerStyle.ToggleChooser)
+                colorPickerStyle: (uint)IGenericModConfigMenuOptionsApi.ColorPickerStyle.Default)
             .AddColorPicker(
                 I18n.Gmcm_Cmbt_Ui_ColorCoded_Mythic_Title,
                 I18n.Gmcm_Cmbt_Ui_ColorCoded_Mythic_Desc,
                 config => config.Combat.MythicTierColor,
                 (config, value) => config.Combat.MythicTierColor = value,
                 Color.Red,
-                colorPickerStyle: (uint)IGenericModConfigMenuOptionsApi.ColorPickerStyle.ToggleChooser)
+                colorPickerStyle: (uint)IGenericModConfigMenuOptionsApi.ColorPickerStyle.Default)
             .AddColorPicker(
                 I18n.Gmcm_Cmbt_Ui_ColorCoded_Masterwork_Title,
                 I18n.Gmcm_Cmbt_Ui_ColorCoded_Masterwork_Desc,
                 config => config.Combat.MasterworkTierColor,
                 (config, value) => config.Combat.MasterworkTierColor = value,
                 Color.MonoGameOrange,
-                colorPickerStyle: (uint)IGenericModConfigMenuOptionsApi.ColorPickerStyle.ToggleChooser)
+                colorPickerStyle: (uint)IGenericModConfigMenuOptionsApi.ColorPickerStyle.Default)
             .AddColorPicker(
                 I18n.Gmcm_Cmbt_Ui_ColorCoded_Legendary_Title,
                 I18n.Gmcm_Cmbt_Ui_ColorCoded_Legendary_Desc,
                 config => config.Combat.LegendaryTierColor,
                 (config, value) => config.Combat.LegendaryTierColor = value,
                 Color.MonoGameOrange,
-                colorPickerStyle: (uint)IGenericModConfigMenuOptionsApi.ColorPickerStyle.ToggleChooser)
+                colorPickerStyle: (uint)IGenericModConfigMenuOptionsApi.ColorPickerStyle.Default)
             .AddCheckbox(
                 I18n.Gmcm_Cmbt_Ui_Sockets_Draw_Title,
                 I18n.Gmcm_Cmbt_Ui_Sockets_Draw_Desc,

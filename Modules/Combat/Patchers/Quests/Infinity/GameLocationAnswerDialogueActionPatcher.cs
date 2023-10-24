@@ -26,22 +26,11 @@ internal sealed class GameLocationAnswerDialogueActionPatcher : HarmonyPatcher
 
     #region harmony patches
 
-    /// <summary>Respond to grab Dark Sword proposition + blacksmith forge.</summary>
+    /// <summary>Respond to grab Dark Sword proposition.</summary>
     [HarmonyPrefix]
     private static bool GameLocationAnswerDialogueActionPrefix(GameLocation __instance, ref bool __result, string? questionAndAnswer)
     {
-        if (questionAndAnswer is null)
-        {
-            __result = false;
-            return false; // don't run original logic
-        }
-
-        if (!CombatModule.Config.EnableHeroQuest && !CombatModule.Config.DwarvenLegacy)
-        {
-            return true; // run original logic
-        }
-
-        if (!questionAndAnswer.StartsWithAnyOf("DarkSword_", "Yoba_"))
+        if (!CombatModule.Config.EnableHeroQuest || questionAndAnswer?.StartsWithAnyOf("DarkSword_", "Yoba_") != true)
         {
             return true; // run original logic
         }
@@ -120,6 +109,7 @@ internal sealed class GameLocationAnswerDialogueActionPatcher : HarmonyPatcher
                                     return false; // don't run original logic
                                 }
 
+                                SoundEffectPlayer.YobaBless.Play();
                                 Game1.drawObjectDialogue(I18n.Yoba_Prayer_Ok(I18n.Weapons_DarkSword_Name()));
                                 cursePoints = (int)((cursePoints - 50) * 0.8) + 50;
                                 Log.D($"Ending with {cursePoints} curse points.");
@@ -172,4 +162,9 @@ internal sealed class GameLocationAnswerDialogueActionPatcher : HarmonyPatcher
     }
 
     #endregion harmony patches
+
+    private static void DoConvertSwordType(MeleeWeapon sword)
+    {
+
+    }
 }

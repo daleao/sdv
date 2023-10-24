@@ -350,6 +350,9 @@ public abstract class OverhaulModule
                 weapon.AddIntrinsicEnchantments();
             }
 
+            // refresh forges and stats
+            weapon.RecalculateAppliedForges();
+
             // refresh stabby swords
             if (ShouldEnable && weapon.type.Value == MeleeWeapon.defenseSword && weapon.ShouldBeStabbySword())
             {
@@ -364,13 +367,10 @@ public abstract class OverhaulModule
 
             // refresh special status
             if (ShouldEnable && Config.EnableHeroQuest && (weapon.isGalaxyWeapon() || weapon.IsInfinityWeapon()
-                || weapon.InitialParentTileIndex is WeaponIds.DarkSword or WeaponIds.HolyBlade or WeaponIds.NeptuneGlaive))
+                    || weapon.InitialParentTileIndex is WeaponIds.DarkSword or WeaponIds.HolyBlade or WeaponIds.NeptuneGlaive))
             {
                 weapon.specialItem = true;
             }
-
-            // refresh forges and stats
-            weapon.RecalculateAppliedForges();
         }
 
         internal static void AddAllIntrinsicEnchantments()
@@ -449,7 +449,7 @@ public abstract class OverhaulModule
             {
                 Utility.iterateAllItems(item =>
                 {
-                    if (item is MeleeWeapon sword && sword.ShouldBeStabbySword())
+                    if (item is MeleeWeapon { type.Value: MeleeWeapon.defenseSword } sword && sword.ShouldBeStabbySword())
                     {
                         sword.type.Value = MeleeWeapon.stabbingSword;
                     }
@@ -459,9 +459,10 @@ public abstract class OverhaulModule
             {
                 for (var i = 0; i < Game1.player.Items.Count; i++)
                 {
-                    if (Game1.player.Items[i] is MeleeWeapon sword && sword.ShouldBeStabbySword())
+                    if (Game1.player.Items[i] is MeleeWeapon { type.Value: MeleeWeapon.defenseSword } weapon &&
+                        weapon.ShouldBeStabbySword())
                     {
-                        sword.type.Value = MeleeWeapon.stabbingSword;
+                        weapon.type.Value = MeleeWeapon.stabbingSword;
                     }
                 }
             }

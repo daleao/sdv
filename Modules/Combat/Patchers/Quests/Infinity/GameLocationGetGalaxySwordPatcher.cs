@@ -12,6 +12,7 @@ using DaLion.Shared.Extensions;
 using DaLion.Shared.Extensions.Stardew;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
+using Microsoft.Xna.Framework;
 using StardewValley;
 using StardewValley.Objects;
 using StardewValley.Tools;
@@ -89,7 +90,53 @@ internal sealed class GameLocationGetGalaxySwordPatcher : HarmonyPatcher
                 : new MeleeWeapon(chosen.Value);
 
             Game1.flashAlpha = 1f;
-            player.holdUpItemThenMessage(chosenAsItem);
+
+            player.completelyStopAnimatingOrDoingAction();
+            DelayedAction.playSoundAfterDelay("getNewSpecialItem", 750);
+            player.freezePause = 4000;
+            player.FarmerSprite.animateOnce(new FarmerSprite.AnimationFrame[]
+            {
+                new(57, 0), new(57, 2500, secondaryArm: false, flip: false, farmer =>
+                {
+                    farmer.mostRecentlyGrabbedItem = chosenAsItem;
+                    Game1.currentLocation.temporarySprites.Add(new TemporaryAnimatedSprite(
+                        "TileSheets\\weapons",
+                        Game1.getSquareSourceRectForNonStandardTileSheet(
+                            Tool.weaponsTexture,
+                            16,
+                            16,
+                            ((Tool)chosenAsItem).IndexOfMenuItemView),
+                        2500f,
+                        1,
+                        0,
+                        farmer.Position + new Vector2(0f, -140f),
+                        flicker: false,
+                        flipped: false,
+                        1f,
+                        0f,
+                        Color.White,
+                        4f,
+                        0f,
+                        0f,
+                        0f) { motion = new Vector2(0f, +0.1f) });
+                }),
+                new(
+                    (short)player.FarmerSprite.CurrentFrame,
+                    500,
+                    secondaryArm: false,
+                    flip: false,
+                    farmer =>
+                    {
+                        if (!farmer.addItemToInventoryBool(chosenAsItem))
+                        {
+                            Game1.createItemDebris(chosenAsItem, farmer.getStandingPosition(), -1);
+                        }
+
+                        Farmer.showReceiveNewItemMessage(farmer);
+                    },
+                    behaviorAtEndOfFrame: true),
+            });
+
             player.reduceActiveItemByOne();
             for (var i = 0; i < obtained.Count; i++)
             {
@@ -100,11 +147,6 @@ internal sealed class GameLocationGetGalaxySwordPatcher : HarmonyPatcher
             {
                 player.Items.First(i => i?.ParentSheetIndex == ObjectIds.IridiumBar).Stack -=
                     CombatModule.Config.IridiumBarsPerGalaxyWeapon;
-            }
-
-            if (!player.addItemToInventoryBool(chosenAsItem))
-            {
-                Game1.createItemDebris(chosenAsItem, Game1.player.getStandingPosition(), -1);
             }
 
             player.Append(DataKeys.GalaxyArsenalObtained, chosen.Value.ToString());

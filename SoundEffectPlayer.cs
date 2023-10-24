@@ -45,6 +45,9 @@ public sealed class SoundEffectPlayer : SmartEnum<SoundEffectPlayer>
     /// <summary>The <see cref="SoundEffectPlayer"/> played when the Statue of Prestige does its magic.</summary>
     public static readonly SoundEffectPlayer PlasmaShot = new("PlasmaShot", 9);
 
+    /// <summary>The <see cref="SoundEffectPlayer"/> played when the Statue of Prestige does its magic.</summary>
+    public static readonly SoundEffectPlayer YobaBless = new("YobaBless", 10);
+
     #endregion enum entries
 
     /// <summary>Initializes a new instance of the <see cref="SoundEffectPlayer"/> class.</summary>

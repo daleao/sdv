@@ -32,17 +32,16 @@ internal sealed class GameLocationAnswerDialogueActionPatcher : HarmonyPatcher
     [HarmonyPrefix]
     private static bool GameLocationAnswerDialogueActionPrefix(GameLocation __instance, ref bool __result, string? questionAndAnswer)
     {
-        if (questionAndAnswer is null)
+        if (!ProfessionsModule.Config.EnablePrestige ||
+            questionAndAnswer?.StartsWithAnyOf("dogStatue", "prestigeRespec", "skillReset") != true)
+        {
+            return true; // run original logic
+        }
+
+        if (questionAndAnswer.EndsWith("No"))
         {
             __result = false;
             return false; // don't run original logic
-        }
-
-        if (!ProfessionsModule.Config.EnablePrestige ||
-            ((!questionAndAnswer.Contains("dogStatue") || questionAndAnswer.Contains("No")) &&
-             !questionAndAnswer.ContainsAnyOf("prestigeRespec_", "skillReset_")))
-        {
-            return true; // run original logic
         }
 
         try

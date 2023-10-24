@@ -628,15 +628,15 @@ This mod includes the following popular control-related features, often featured
 
 ### Face Mouse Cursor
 	
-	When playing with mouse and keyboard the farmer will always swing their weapon in the direction of the mouse cursor.
+When playing with mouse and keyboard the farmer will always swing their weapon in the direction of the mouse cursor.
 
 ### Slick Moves
 
-	Swinging a weapon while running will preserve the player's momentum, causing them to drift in the direction of movement. This increases the player's mobility and makes combat feel more fast-paced. 
+Swinging a weapon while running will preserve the player's momentum, causing them to drift in the direction of movement. This increases the player's mobility and makes combat feel more fast-paced. 
 
 ### Auto-Selection
 
-	If enemies are nearby, players can optionally choose a weapon, melee or ranged, to be equipped automatically.
+If enemies are nearby, players can optionally choose a weapon, melee or ranged, to be equipped automatically.
 
 <sup><sup>[🔼 Back to top](#margo--combat-cmbt)</sup></sup>
 
@@ -681,6 +681,13 @@ Have the Dwarvish Translation Guide and at least 6 hearts with Clint, then enter
 <summary><b>Where can I find the Dwarvish Blueprints?﻿</b></summary>
 
 They can be found in the exactly the same place as their corresponding weapons would be found in Vanilla (i.e., Volcano chests). The only exception are the Elven blueprints, which can only be obtained from Scavenger Hunts (requires the [Professions](../Professions) module). The corresponding crafting materials are also obtained in the exact same way, as described above in the Weapons section.
+</details>
+
+<details>
+<summary><b>Why is my Primatic Shard not turning into a Galaxy Sword?</b></summary>
+
+You have the Hero Quest option enabled, and you forgot to bring Iridium Bars.
+See section [Infinity +1](#infinity-1).
 </details>
 
 <details>
@@ -756,9 +763,15 @@ The following events provide chances to demonstrate your virtues. You can use th
 </details>
 
 <details>
-<summary><b>How do I obtain the Infinity weapons?</b></summary>
+<summary><b>How do I obtain Infinity weapons?</b></summary>
 
-Unforge the Blade of Dawn to obtain a Hero Soul, and then forge it into any Galaxy weapon after 3 Galaxy Souls.
+If the Hero Quest option enabled, Infinity weapons require also require forging a Hero Soul in adddition to the 3 Galaxy Souls.
+
+<details>
+<summary><i>To obtain a Hero Soul... (spoiler)</i></summary>
+
+...unforge the Blade of Dawn.
+</details>
 </details>
 
 <details>

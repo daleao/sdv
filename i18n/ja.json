@@ -201,9 +201,11 @@
   // * ARSENAL * //
   // *********** //
 
-  "weapons.sword": "剣",
-  "weapons.club": "クラブ",
-  "weapons.dagger": "短剣",
+  "weapons.type.sword": "剣",
+  "weapons.type.club": "クラブ",
+  "weapons.type.dagger": "短剣",
+  "weapons.sword.stabbing": "Offense",
+  "weapons.sword.defense": "Defense",
   "weapons.dwarven.prefix": "ドワーフの",
   "weapons.elven.prefix": "エルフの",
   "weapons.dark_sword.name": "破滅の剣",
@@ -299,6 +301,8 @@
   "virtues.disapprove.plural": "{{name1}} and {{name2}} disapprove of your lack of {{virtue}}.",
   "virtues.proven": "{{player}} has proven their {{virtue}}.",
 
+  "pillars.convert_sword": "Change the {{sword}} to {{type}} type?",
+
   // json assets
   "objects.dwarvish_blueprint.name": "古びたドワーフの設計図",
   "objects.dwarvish_blueprint.description": "色あせてはいるが、まだ読めるようだ。",
@@ -371,7 +375,7 @@
   "mail.frs.deduction": "財務省^ファーンギル歳入庁^^^{{honorific}} 納税者様へ^^この度、あなたの環境保護活動を審査した結果、ファーンギル歳入法第501条(c)(3)に基づき、{{deductible}} の所得税控除を受ける資格があると判断しましたので、お知らせいたします。^^この手紙は、あなたの財政状態に関する疑問を解決するために、永久的な記録として保管しておいてください。^^^謹啓^^ローラ・D・プレト^ファーンギル歳入庁長官[#]Taxation Deduction",
   "mail.frs.deduction.max": "財務省^ファーンギル歳入庁^^^{{honorific}} 納税者様へ^^この度、あなたの環境保護活動を審査した結果、ファーンギル歳入法第501条(c)(3)に基づき、連邦所得税が全額免除されることが決定しましたので、お知らせいたします。 そのため、今期ではあなたの残高から所得税が差し引かれることはありません。^^この手紙は、あなたの財政状態に関する疑問を解決するために、永久的な記録として保管しておいてください。^^^謹啓^^ローラ・D・プレト^ファーンギル歳入庁長官[#]Taxation Deduction",
 
-  "mail.debt.debit": "残高から{{amount}}g の未納金が差し引かれた。",
+  "hud.debt.debit": "残高から{{amount}}g の未納金が差し引かれた。",
 
   "honorific.male": "謹啓",
   "honorific.female": "謹啓",
@@ -382,8 +386,8 @@
   // ************** //
 
   "ui.item_hover.damage": "{{amount}} ダメージ",
-  "ui.item_hover.crate": "{{amount}} クリティカル率",
-  "ui.item_hover.cpow": "{{amount}} クリティカル威力",
+  "ui.item_hover.c_rate": "{{amount}} クリティカル率",
+  "ui.item_hover.c_pow": "{{amount}} クリティカル威力",
   "ui.item_hover.knockback": "{{amount}} ノックバック",
   "ui.item_hover.fire_speed": "{{amount}} 速度",
   "ui.item_hover.swing_speed": "{{amount}} 速度",
@@ -673,7 +677,7 @@
   "gmcm.cmbt.ui.color_coded.rare.desc": "The title color used to identify rare-tier weapons",
   "gmcm.cmbt.ui.color_coded.epic.title": "Epic Tier Color",
   "gmcm.cmbt.ui.color_coded.epic.desc": "The title color used to identify epic-tier weapons",
-  "gmcm.cmbt.ui.color_coded.mythic.title": "Mythiv Tier Color",
+  "gmcm.cmbt.ui.color_coded.mythic.title": "Mythic Tier Color",
   "gmcm.cmbt.ui.color_coded.mythic.desc": "The title color used to identify mythic-tier weapons",
   "gmcm.cmbt.ui.color_coded.masterwork.title": "Masterwork Tier Color",
   "gmcm.cmbt.ui.color_coded.masterwork.desc": "The title color used to identify masterwork-tier weapons",

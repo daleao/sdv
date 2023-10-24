@@ -40,7 +40,7 @@ internal sealed class MeleeWeaponCheckForSpecialItemHoldUpMessagePatcher : Harmo
                 var count = Game1.player.Read(DataKeys.GalaxyArsenalObtained).ParseList<int>().Count;
                 var type = (WeaponType)__instance.type.Value;
                 var typeString = type is WeaponType.StabbingSword or WeaponType.DefenseSword ? "sword" : type.ToStringFast().ToLowerInvariant();
-                var typeDisplayName = _I18n.Get("weapons." + typeString).ToString().ToLower();
+                var typeDisplayName = _I18n.Get("weapons.type." + typeString).ToString().ToLower();
                 __result = count == 1
                     ? I18n.Fromcsfiles_MeleeWeapon_Cs_14122(typeDisplayName, __instance.DisplayName)
                     : null;

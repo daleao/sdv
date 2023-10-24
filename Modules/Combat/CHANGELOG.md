@@ -1,5 +1,17 @@
 ﻿# CMBT Changelog
 
+## 4.0.2
+
+### Added
+
+* You can now immersively switch Galaxy Sword and Infinity Blade between Defensive and Offensive types by taking them to the Sand Pillars.
+
+### Changed
+
+* The animation for acquiring the Blade of Dawn now actually shows the sword's transformation, and plays a new "holy" sound effect.
+* The sound effect also plays when praying to the Yoba altar.
+* When acquiring a Galaxy weapon, instead of floating upwards, the weapon now floats downwards as if being gifted by the heavens. A small touch, but looks infinitely better.
+
 ## 4.0.1
 
 ### Changed
@@ -83,8 +95,8 @@
 * Spreading enchantment has been overhauled as the Runaan enchantment:
     * **Runaan:** Firing creates two additional projectiles which fly towards the nearest enemy after a short delay and deal 40% of the main projectile's damage.
 * The following translation **keys** have been changed:
-    * `ui.item_hover.crate` -> `ui.item_hover.c_rate`
-    * `ui.item_hover.cpow` -> `ui.item_hover.c_pow`
+    * `ui.item_hover.c_rate` -> `ui.item_hover.c_rate`
+    * `ui.item_hover.c_pow` -> `ui.item_hover.c_pow`
     * `ui.item_hover.firespeed` -> `ui.item_hover.fire_speed`
     * `ui.item_hover.swingspeed` -> `ui.item_hover.swing_speed`
     * `ui.buffs.jinxed` -> `ui.buffs.jinxed.defense`,

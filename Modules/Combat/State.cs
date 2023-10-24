@@ -106,5 +106,7 @@ internal sealed class State
 
     internal bool CanReceiveYobaShield { get; set; } = true;
 
+    internal bool UsedSandPillarsToday { get; set; }
+
     internal List<byte> MovementDirections { get; } = new() { 0, 1, 2, 3 };
 }

@@ -9,6 +9,7 @@ internal sealed class DataKeys
     internal const string CursePoints = "CursePoints";
     internal const string BaseMinDamage = "BaseMinDamage";
     internal const string BaseMaxDamage = "BaseMaxDamage";
+    internal const string SwordType = "SwordType";
 
     // farmer
     internal const string GalaxyArsenalObtained = "GalaxyArsenalObtained";

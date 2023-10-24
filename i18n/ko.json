@@ -199,9 +199,11 @@
   // * ARSENAL * //
   // *********** //
 
-  "weapons.sword": "검",
-  "weapons.club": "클럽",
-  "weapons.dagger": "단검",
+  "weapons.type.sword": "검",
+  "weapons.type.club": "클럽",
+  "weapons.type.dagger": "단검",
+  "weapons.sword.stabbing": "Offense",
+  "weapons.sword.defense": "Defense",
   "weapons.dwarven.prefix": "드워프제",
   "weapons.elven.prefix": "엘프제",
   "weapons.dark_sword.name": "저주받은 영웅의 검",
@@ -298,6 +300,8 @@
   "virtues.disapprove.plural": "{{name1}} and {{name2}} disapprove of your lack of {{virtue}}.",
   "virtues.proven": "{{player}} has proven their {{virtue}}.",
 
+  "pillars.convert_sword": "Change the {{sword}} to {{type}} type?",
+
   // json assets
   "objects.dwarvish_blueprint.name": "드워프 설계도",
   "objects.dwarvish_blueprint.description": "빛이 바랬지만 여전히 읽을 수 있습니다.",
@@ -371,7 +375,7 @@
   "mail.lewis.notice": "@,^As you are aware, one of my duties as mayor of Pelican Town is to levy taxes on all the town's properties. During the preceding fiscal year, the county's assessment of {{farm}} farm's property determined a valuation of {{valuation}}g. As a result, you are liable for {{due}}g in total property taxes for the applicable tax period. I've taken the liberty of charging your account directly. ^On behalf of Pelican Town, I am deeply grateful for your ongoing contributions to our community.  ^  Sincerely, Mr. Lewis[#]Lewis Taxation Notice",
   "mail.lewis.outstanding": "@,^As you are aware, one my duties as mayor of Pelican Town is to levy taxes on all the town's properties. During the preceding fiscal year, the county's assessment of {{farm}} farm's property determined a valuation of {{valuation}}g. As a result, you are liable for {{due}}g in total property taxes for the applicable tax period. ^Unfortunately, your account was found to have insufficient funds to cover the entire amount. As per county policy, I take no pleasure in informing that you will be fined an additional {{fine}}. The entirety of your deb, totaling {{outstanding}}g, will be sold to the Bank of Stardew, who is authorized to seize all shipping income until the outstanding amount is paid in full, subject to a {{interest}} yearly interest rate. ^Please know that the people of Pelican Town are here to support you if you are facing difficult times.  ^  Sincerely, Mr. Lewis[#]Lewis Taxation Outstanding",
 
-  "mail.debt.debit": "Your balance was debited for {{amount}}g towards outstanding debts.",
+  "hud.debt.debit": "Your balance was debited for {{amount}}g towards outstanding debts.",
 
   "honorific.male": "Dear",
   "honorific.female": "Dear",
@@ -382,8 +386,8 @@
   // ************** //
 
   "ui.item_hover.damage": "{{amount}} 대미지",
-  "ui.item_hover.crate": "{{amount}} 치명타 확률",
-  "ui.item_hover.cpow": "{{amount}} 치명타 대미지",
+  "ui.item_hover.c_rate": "{{amount}} 치명타 확률",
+  "ui.item_hover.c_pow": "{{amount}} 치명타 대미지",
   "ui.item_hover.knockback": "{{amount}} 넉백",
   "ui.item_hover.fire_speed": "{{amount}} 발사 속도",
   "ui.item_hover.swing_speed": "{{amount}} 공격 속도",
@@ -674,7 +678,7 @@
   "gmcm.cmbt.ui.color_coded.rare.desc": "The title color used to identify rare-tier weapons",
   "gmcm.cmbt.ui.color_coded.epic.title": "Epic Tier Color",
   "gmcm.cmbt.ui.color_coded.epic.desc": "The title color used to identify epic-tier weapons",
-  "gmcm.cmbt.ui.color_coded.mythic.title": "Mythiv Tier Color",
+  "gmcm.cmbt.ui.color_coded.mythic.title": "Mythic Tier Color",
   "gmcm.cmbt.ui.color_coded.mythic.desc": "The title color used to identify mythic-tier weapons",
   "gmcm.cmbt.ui.color_coded.masterwork.title": "Masterwork Tier Color",
   "gmcm.cmbt.ui.color_coded.masterwork.desc": "The title color used to identify masterwork-tier weapons",
