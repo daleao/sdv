@@ -204,8 +204,8 @@
   "weapons.type.sword": "剑",
   "weapons.type.club": "棍棒",
   "weapons.type.dagger": "匕首",
-  "weapons.sword.stabbing": "Offense",
-  "weapons.sword.defense": "Defense",
+  "weapons.sword.stabbing": "进攻",
+  "weapons.sword.defense": "防守",
   "weapons.dwarven.prefix": "矮人",
   "weapons.elven.prefix": "小精灵",
   "weapons.dark_sword.name": "堕落之刃",
@@ -301,7 +301,7 @@
   "virtues.disapprove.plural": "{{name1}}和{{name2}}认为你缺少{{virtue}}。",
   "virtues.proven": "{{player}}已经证明了他的{{virtue}}。",
 
-  "pillars.convert_sword": "Change the {{sword}} to {{type}} type?",
+  "pillars.convert_sword": "将{{sword}}更改为{{type}}类型？",
 
   // json assets
   "objects.dwarvish_blueprint.name": "古老的矮人蓝图",

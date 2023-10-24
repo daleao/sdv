@@ -204,8 +204,8 @@
   "weapons.type.sword": "Épée",
   "weapons.type.club": "Gourdin",
   "weapons.type.dagger": "Dagger",
-  "weapons.sword.stabbing": "Offense",
-  "weapons.sword.defense": "Defense",
+  "weapons.sword.stabbing": "Attaque",
+  "weapons.sword.defense": "Défense",
   "weapons.dwarven.prefix": "Naine",
   "weapons.elven.prefix": "Elfique",
   "weapons.dark_sword.name": "Lame de la ruine",
@@ -302,7 +302,7 @@
   "virtues.disapprove.plural": "{{name1}} et {{name2}} désapprouvent votre manque de {{virtue}}.",
   "virtues.proven": "{{player}} has proven their {{virtue}}.",
 
-  "pillars.convert_sword": "Change the {{sword}} to {{type}} type?",
+  "pillars.convert_sword": "Changer {{sword}} en type {{type}}?",
 
   // json assets
   "objects.dwarvish_blueprint.name": "Ancien plan nain",

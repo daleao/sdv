@@ -202,8 +202,8 @@
   "weapons.type.sword": "검",
   "weapons.type.club": "클럽",
   "weapons.type.dagger": "단검",
-  "weapons.sword.stabbing": "Offense",
-  "weapons.sword.defense": "Defense",
+  "weapons.sword.stabbing": "공격",
+  "weapons.sword.defense": "방어",
   "weapons.dwarven.prefix": "드워프제",
   "weapons.elven.prefix": "엘프제",
   "weapons.dark_sword.name": "저주받은 영웅의 검",
@@ -300,7 +300,7 @@
   "virtues.disapprove.plural": "{{name1}} and {{name2}} disapprove of your lack of {{virtue}}.",
   "virtues.proven": "{{player}} has proven their {{virtue}}.",
 
-  "pillars.convert_sword": "Change the {{sword}} to {{type}} type?",
+  "pillars.convert_sword": "{{sword}}를 {{type}} 타입으로 변경하시겠습니까?",
 
   // json assets
   "objects.dwarvish_blueprint.name": "드워프 설계도",

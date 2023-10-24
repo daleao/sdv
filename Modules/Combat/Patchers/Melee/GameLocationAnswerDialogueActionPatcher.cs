@@ -156,6 +156,7 @@ internal sealed class GameLocationAnswerDialogueActionPatcher : HarmonyPatcher
                 };
 
                 weapon.Write(DataKeys.SwordType, weapon.type.Value.ToString());
+                CombatModule.State.UsedSandPillarsToday = true;
                 Game1.player.jitterStrength = 0f;
                 Game1.screenGlowHold = false;
             });

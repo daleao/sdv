@@ -204,8 +204,8 @@
   "weapons.type.sword": "Меч",
   "weapons.type.club": "Клуб",
   "weapons.type.dagger": "Кинжал",
-  "weapons.sword.stabbing": "Offense",
-  "weapons.sword.defense": "Defense",
+  "weapons.sword.stabbing": "Нападение",
+  "weapons.sword.defense": "Защита",
   "weapons.dwarven.prefix": "Дварфийский",
   "weapons.elven.prefix": "Эльфийский",
   "weapons.dark_sword.name": "Темный меч",
@@ -301,7 +301,7 @@
   "virtues.disapprove.plural": "{{name1}} и {{name2}} не одобряют отсутствие у вас {{virtue}}.",
   "virtues.proven": "{{player}} has proven their {{virtue}}.",
 
-  "pillars.convert_sword": "Change the {{sword}} to {{type}} type?",
+  "pillars.convert_sword": "Изменить {{sword}} на тип {{type}}?",
 
   // json assets
   "objects.dwarvish_blueprint.name": "Старый дварфийский чертеж",

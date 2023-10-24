@@ -172,7 +172,9 @@ Defensive swords retain the vanilla parry special move. Parry damage is changed 
 
 Offensive swords, meanwhile, gain a bran new stabbing thrust move. This move allows quick repositioning while granting invincibility frames. If used while hovering over an enemy, the farmer will attempt to home in on the enemy, turning if necessary. You can always manually turn mid-dash by inputting a perpendicular directional command.
 
-You can change the type of any sword in the game by adding or removing it from the stabbing swords list in the config json (not available in GMCM).
+By default, the Galaxy Sword and Infinity Blade are both of the Defensive type, but you can change them into Offensive swords or back at any time, once a day, by taking them to the Sand Pillars.
+
+For any other sword (included modded), the type can be changed by adding or removing it from the stabbing swords list in the config json (not available in GMCM).
 
 <div align="center">
 

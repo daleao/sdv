@@ -204,8 +204,8 @@
   "weapons.type.sword": "Espada",
   "weapons.type.club": "Clava",
   "weapons.type.dagger": "Dagger",
-  "weapons.sword.stabbing": "Offense",
-  "weapons.sword.defense": "Defense",
+  "weapons.sword.stabbing": "Ataque",
+  "weapons.sword.defense": "Defesa",
   "weapons.dwarven.prefix": "Anã",
   "weapons.elven.prefix": "Élfica",
   "weapons.dark_sword.name": "Lâmina da Ruína",
@@ -302,7 +302,7 @@
   "virtues.disapprove.plural": "{{name1}} e {{name2}} desparovam sua falta de {{virtue}}.",
   "virtues.proven": "{{player}} has proven their {{virtue}}.",
 
-  "pillars.convert_sword": "Change the {{sword}} to {{type}} type?",
+  "pillars.convert_sword": "Mudar {{sword}} para o tipo {{type}}?",
 
   // json assets
   "objects.dwarvish_blueprint.name": "Antigo plano anão",

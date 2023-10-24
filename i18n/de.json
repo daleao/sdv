@@ -203,8 +203,8 @@
   "weapons.type.sword": "Schwert",
   "weapons.type.club": "Verein",
   "weapons.type.dagger": "Dolch",
-  "weapons.sword.stabbing": "Offense",
-  "weapons.sword.defense": "Defense",
+  "weapons.sword.stabbing": "Angriff",
+  "weapons.sword.defense": "Verteidigung",
   "weapons.dwarven.prefix": "Zwerge",
   "weapons.elven.prefix": "Elfen",
   "weapons.dark_sword.name": "Klinge des Verderbens",
@@ -300,7 +300,7 @@
   "virtues.disapprove.plural": "{{name1}} und {{name2}} missbilligen Ihren Mangel an {{virtue}}.",
   "virtues.proven": "{{player}} has proven their {{virtue}}.",
 
-  "pillars.convert_sword": "Change the {{sword}} to {{type}} type?",
+  "pillars.convert_sword": "Ändere {{sword}} in den {{type}}-Typ?",
 
   // json assets
   "objects.dwarvish_blueprint.name": "Alter zwergischer Bauplan",
