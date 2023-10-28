@@ -11,7 +11,6 @@ using StardewValley.Tools;
 #endregion using directives
 
 [UsedImplicitly]
-[ImplicitIgnore]
 internal sealed class AquamarineEnchantmentApplyToPatcher : HarmonyPatcher
 {
     /// <summary>Initializes a new instance of the <see cref="AquamarineEnchantmentApplyToPatcher"/> class.</summary>

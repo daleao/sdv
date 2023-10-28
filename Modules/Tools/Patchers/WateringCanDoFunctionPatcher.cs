@@ -61,7 +61,7 @@ internal sealed class WateringCanDoFunctionPatcher : HarmonyPatcher
                             typeof(ModConfig).RequirePropertyGetter(nameof(ModConfig.Tools))),
                         new CodeInstruction(
                             OpCodes.Callvirt,
-                            typeof(Config).RequirePropertyGetter(nameof(Config.Can))),
+                            typeof(ToolConfig).RequirePropertyGetter(nameof(ToolConfig.Can))),
                         new CodeInstruction(
                             OpCodes.Callvirt,
                             typeof(WateringCanConfig).RequirePropertyGetter(

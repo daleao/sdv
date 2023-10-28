@@ -80,16 +80,16 @@ internal static class ItemExtensions
                     {
                         case WeaponIds.GalaxySlingshot:
                         case WeaponIds.InfinitySlingshot:
-                            return CombatModule.Config.LegendaryTierColor;
+                            return CombatModule.Config.ColorByTier[WeaponTier.Legendary];
                         default:
                             if (slingshot.Name.Contains("Yoba"))
                             {
-                                return CombatModule.Config.LegendaryTierColor;
+                                return CombatModule.Config.ColorByTier[WeaponTier.Legendary];
                             }
 
                             if (slingshot.Name.Contains("Dwarven"))
                             {
-                                return CombatModule.Config.MasterworkTierColor;
+                                return CombatModule.Config.ColorByTier[WeaponTier.Masterwork];
                             }
 
                             break;

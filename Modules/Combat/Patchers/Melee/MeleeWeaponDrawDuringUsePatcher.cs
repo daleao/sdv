@@ -65,7 +65,7 @@ internal sealed class MeleeWeaponDrawDuringUsePatcher : HarmonyPatcher
                 return false; // don't run original logic
             }
 
-            if (!CombatModule.Config.EnableComboHits)
+            if (!CombatModule.Config.EnableMeleeComboHits)
             {
                 return true; // run original logic
             }

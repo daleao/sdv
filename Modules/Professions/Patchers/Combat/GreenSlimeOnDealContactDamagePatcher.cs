@@ -50,7 +50,7 @@ internal sealed class GreenSlimeOnDealContactDamagePatcher : HarmonyPatcher
                             typeof(ModState).RequirePropertyGetter(nameof(ModState.Professions))),
                         new CodeInstruction(
                             OpCodes.Callvirt,
-                            typeof(State).RequirePropertyGetter(nameof(State.PiperBuffs))),
+                            typeof(ProfessionState).RequirePropertyGetter(nameof(ProfessionState.PiperBuffs))),
                         new CodeInstruction(OpCodes.Ldlen),
                         new CodeInstruction(OpCodes.Brfalse_S, returnLabel),
                     });

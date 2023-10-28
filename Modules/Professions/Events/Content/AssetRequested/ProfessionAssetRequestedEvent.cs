@@ -41,7 +41,7 @@ internal sealed class ProfessionAssetRequestedEvent : AssetRequestedEvent
             new ModTextureProvider(() => "assets/sprites/interface/max.png"));
         this.Provide(
             $"{Manifest.UniqueID}/PrestigeProgression",
-            new ModTextureProvider(() => $"assets/sprites/interface/{ProfessionsModule.Config.ProgressionStyle}.png"));
+            new ModTextureProvider(() => $"assets/sprites/interface/{ProfessionsModule.Config.PrestigeProgressionStyle}.png"));
         this.Provide(
             $"{Manifest.UniqueID}/SkillBars",
             new ModTextureProvider(ProvideSkillBars));
@@ -446,7 +446,7 @@ internal sealed class ProfessionAssetRequestedEvent : AssetRequestedEvent
         if (StardewValleyExpandedIntegration.Instance?.IsLoaded == true)
         {
             if (!StardewValleyExpandedIntegration.Instance.DisabeGaldoranTheme &&
-                (Game1.currentLocation?.NameOrUniqueName.IsIn(
+                (Game1.currentLocation?.NameOrUniqueName.IsAnyOf(
                      "Custom_CastleVillageOutpost",
                      "Custom_CrimsonBadlands",
                      "Custom_IridiumQuarry",

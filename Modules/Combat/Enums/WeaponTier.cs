@@ -117,37 +117,17 @@ public sealed class WeaponTier : SmartEnum<WeaponTier>
     private WeaponTier(string name, int value)
         : base(name, value)
     {
-        switch (value)
+        this.Color = value >= 0 ? CombatModule.Config.ColorByTier[this.Value] : Game1.textColor;
+        this.Price = value switch
         {
-            case 1:
-                this.Color = CombatModule.Config.UncommonTierColor;
-                this.Price = 400;
-                break;
-            case 2:
-                this.Color = CombatModule.Config.RareTierColor;
-                this.Price = 900;
-                break;
-            case 3:
-                this.Color = CombatModule.Config.EpicTierColor;
-                this.Price = 1600;
-                break;
-            case 4:
-                this.Color = CombatModule.Config.MythicTierColor;
-                this.Price = 4900;
-                break;
-            case 5:
-                this.Color = CombatModule.Config.MasterworkTierColor;
-                this.Price = 8100;
-                break;
-            case 6:
-                this.Color = CombatModule.Config.LegendaryTierColor;
-                this.Price = 0;
-                break;
-            default:
-                this.Color = CombatModule.Config.CommonTierColor;
-                this.Price = 250;
-                break;
-        }
+            1 => 400,
+            2 => 900,
+            3 => 1600,
+            4 => 4900,
+            5 => 8100,
+            6 => 0,
+            _ => 250,
+        };
     }
 
     /// <summary>Gets the title color of a weapon at this tier, <see href="https://tvtropes.org/pmwiki/pmwiki.php/Main/ColourCodedForYourConvenience">for your convenience</see>.</summary>

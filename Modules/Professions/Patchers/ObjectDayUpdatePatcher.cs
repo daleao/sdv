@@ -63,7 +63,7 @@ internal sealed class ObjectDayUpdatePatcher : HarmonyPatcher
                             typeof(ModConfig).RequirePropertyGetter(nameof(ModConfig.Professions))),
                         new CodeInstruction(
                             OpCodes.Callvirt,
-                            typeof(Config).RequirePropertyGetter(nameof(Config.BeesAreAnimals))),
+                            typeof(ProfessionConfig).RequirePropertyGetter(nameof(ProfessionConfig.BeesAreAnimals))),
                         new CodeInstruction(OpCodes.Brfalse_S, isNotProducer),
                         new CodeInstruction(OpCodes.Ldarg_0),
                         new CodeInstruction(OpCodes.Ldc_I4_3), // 3 = Profession.Producer

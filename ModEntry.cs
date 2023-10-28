@@ -67,7 +67,7 @@ public sealed class ModEntry : Mod
     internal static IManifest Manifest => Instance.ModManifest;
 
     /// <summary>Gets the <see cref="ITranslationHelper"/> API.</summary>
-    [SuppressMessage("StyleCop.CSharp.NamingRules", "SA1300:Element should begin with upper-case letter", Justification = "Conflicts with Pathoschild.TranslationBuilder")]
+    [SuppressMessage("StyleCop.CSharp.NamingRules", "SA1300:Element should begin with upper-case letter", Justification = "Distinguish from static Pathoschild.TranslationBuilder")]
     // ReSharper disable once InconsistentNaming
     internal static ITranslationHelper _I18n => ModHelper.Translation;
 
@@ -93,18 +93,15 @@ public sealed class ModEntry : Mod
         if (spaceCoreAssembly.IsDebugBuild())
         {
             Log.E(
-                "The installed version of SpaceCore was built in Debug mode, which is not compatible with this mood. Please ask the author to build in Release mode.");
+                "The installed version of SpaceCore was built in Debug mode, which is not compatible with this mod. Please ask the author to build in Release mode.");
             return;
         }
 
         I18n.Init(helper.Translation);
         ModDataIO.Init();
-
         LocalData = helper.Data.ReadJsonFile<ModData>("data.json") ?? new ModData();
-
         Config = helper.ReadConfig<ModConfig>();
-        Config.Validate(helper);
-        Config.Log();
+        Log.T($"[Entry]: Initializing MARGO with the following config settings:\n{Config}");
 
         PerScreenState = new PerScreen<ModState>(() => new ModState());
         EventManager = new EventManager(helper.Events, helper.ModRegistry);

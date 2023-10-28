@@ -61,7 +61,7 @@ internal sealed class ForgeMenuUpdatePatcher : HarmonyPatcher
                             typeof(ModConfig).RequirePropertyGetter(nameof(ModConfig.Combat))),
                         new CodeInstruction(
                             OpCodes.Callvirt,
-                            typeof(Config).RequirePropertyGetter(nameof(Config.EnableHeroQuest))),
+                            typeof(CombatConfig).RequirePropertyGetter(nameof(CombatConfig.EnableHeroQuest))),
                         new CodeInstruction(OpCodes.Brfalse_S, vanillaUnforge),
                         new CodeInstruction(OpCodes.Ldloc_S, helper.Locals[9]),
                         new CodeInstruction(

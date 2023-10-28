@@ -13,9 +13,7 @@ using static System.FormattableString;
 /// <summary>Responsible for collecting federal taxes and administering the Ferngill Revenue Code.</summary>
 internal static class RevenueService
 {
-    internal static ImmutableDictionary<int, float> TaxByIncomeBracket { get; } = TaxesModule.Config.IncomeBrackets
-        .Zip(TaxesModule.Config.TaxPerBracket, (key, value) => new { key, value })
-        .ToImmutableDictionary(p => p.key, p => p.value);
+    internal static ImmutableDictionary<int, float> TaxByIncomeBracket { get; set; } = TaxesModule.Config.TaxByIncomeBracket.ToImmutableDictionary();
 
     /// <summary>Calculates due income tax for the <paramref name="farmer"/>.</summary>
     /// <param name="farmer">The <see cref="Farmer"/>.</param>

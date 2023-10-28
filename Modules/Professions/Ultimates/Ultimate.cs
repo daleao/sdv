@@ -186,7 +186,7 @@ public abstract class Ultimate : SmartEnum<Ultimate>, IUltimate
     /// <summary>Gets the glow color applied to the player while this Ultimate is active.</summary>
     internal abstract Color GlowColor { get; }
 
-    private static int ActivationTimerMax => (int)(ProfessionsModule.Config.LimitBreakHoldDelaySeconds * 60);
+    private static int ActivationTimerMax => (int)Math.Round(ProfessionsModule.Config.LimitBreakHoldDelayMilliseconds * 6d / 100d);
 
     /// <summary>Activates the <see cref="Ultimate"/> for the local player.</summary>
     internal virtual void Activate()

@@ -1,5 +1,11 @@
 ﻿# Core Changelog
 
+## 4.1.0
+
+### Changed
+
+* The GMCM is now self-generating (thanks to atravita for the idea and reference code). This does unfortunately mean that absolutely all translation keys for the menu have changed (sorry translators.)
+
 ## 4.0.1
 
 ### Added

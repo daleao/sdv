@@ -25,11 +25,12 @@ internal sealed class MoonMisadventuresIntegration : ModIntegration<MoonMisadven
             return false;
         }
 
-        if (ModEntry.Config.Tools.Validate())
-        {
-            return true;
-        }
-
+        ToolsModule.Config.Axe.RadiusAtEachPowerLevel = new uint[] { 1, 2, 3, 4, 5, 6, 7 };
+        ToolsModule.Config.Pick.RadiusAtEachPowerLevel = new uint[] { 1, 2, 3, 4, 5, 6, 7 };
+        ToolsModule.Config.Hoe.AffectedTilesAtEachPowerLevel =
+            new (uint Length, uint Radius)[] { (3, 0), (5, 0), (3, 1), (6, 1), (7, 2), (8, 3), (9, 4) };
+        ToolsModule.Config.Can.AffectedTilesAtEachPowerLevel =
+            new (uint Length, uint Radius)[] { (3, 0), (5, 0), (3, 1), (6, 1), (7, 2), (8, 3), (9, 4) };
         GenericModConfigMenu.Instance?.Reload();
         Log.D("[TOLS]: Registered the Moon Misadventures integration.");
         return true;

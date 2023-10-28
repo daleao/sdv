@@ -86,9 +86,9 @@ internal sealed class ShopMenuTryToPurchaseItemPatcher : HarmonyPatcher
                 {
                     deductible = (int)(menu.itemPriceAndStock[item][0] * TaxesModule.Config.DeductibleAnimalExpenses);
                 }
-                else if (@object.Name.IsIn(TaxesModule.Config.DeductibleExtras))
+                else if (TaxesModule.Config.DeductibleExtras.TryGetValue(@object.Name, out var pct))
                 {
-                    deductible = menu.itemPriceAndStock[item][0];
+                    deductible = (int)(menu.itemPriceAndStock[item][0] * pct);
                 }
 
                 break;

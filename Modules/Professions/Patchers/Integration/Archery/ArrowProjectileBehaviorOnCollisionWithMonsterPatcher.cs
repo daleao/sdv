@@ -59,6 +59,7 @@ internal sealed class ArrowProjectileBehaviorOnCollisionWithMonsterPatcher : Har
         // check for quick shot
         if (ProfessionsModule.State.LastDesperadoTarget is not null &&
             monster != ProfessionsModule.State.LastDesperadoTarget)
+#pragma warning disable SA1513 // Closing brace should be followed by blank line
         {
             Log.D("Did quick shot!");
             ____collectiveDamage = (int)(____collectiveDamage * 1.5f);
@@ -82,6 +83,7 @@ internal sealed class ArrowProjectileBehaviorOnCollisionWithMonsterPatcher : Har
                 ____collectiveDamage += monster.resilience.Value;
             }
         }
+#pragma warning restore SA1513 // Closing brace should be followed by blank line
 
         __state = (ogDamage, overcharge, inverseResistanceModifer, ultimate);
         Log.D("Pierced!");

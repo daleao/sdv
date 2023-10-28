@@ -95,12 +95,12 @@ public class Skill : SmartEnum<Skill>, ISkill
 
     /// <inheritdoc />
     public virtual int MaxLevel => ProfessionsModule.Config.EnablePrestige &&
-                                   ProfessionsModule.Config.EnableExtendedProgession && ((ISkill)this).PrestigeLevel >= 4
+                                   ProfessionsModule.Config.EnableExtendedProgression && ((ISkill)this).PrestigeLevel >= 4
         ? 20
         : 10;
 
     /// <inheritdoc />
-    public float BaseExperienceMultiplier => ProfessionsModule.Config.BaseSkillExpMultipliers[this.Value];
+    public float BaseExperienceMultiplier => ProfessionsModule.Config.SkillExpMultipliers[this.Name];
 
     /// <inheritdoc />
     public IEnumerable<int> NewLevels =>

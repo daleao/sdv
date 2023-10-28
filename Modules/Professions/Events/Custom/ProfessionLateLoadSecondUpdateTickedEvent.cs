@@ -11,11 +11,11 @@ using StardewModdingAPI.Events;
 
 [UsedImplicitly]
 [AlwaysEnabledEvent]
-internal sealed class ProfessionLateLoadOneSecondUpdateTickedEvent : SecondSecondUpdateTickedEvent
+internal sealed class ProfessionLateLoadSecondUpdateTickedEvent : SecondSecondUpdateTickedEvent
 {
-    /// <summary>Initializes a new instance of the <see cref="ProfessionLateLoadOneSecondUpdateTickedEvent"/> class.</summary>
+    /// <summary>Initializes a new instance of the <see cref="ProfessionLateLoadSecondUpdateTickedEvent"/> class.</summary>
     /// <param name="manager">The <see cref="EventManager"/> instance that manages this event.</param>
-    internal ProfessionLateLoadOneSecondUpdateTickedEvent(EventManager manager)
+    internal ProfessionLateLoadSecondUpdateTickedEvent(EventManager manager)
         : base(manager)
     {
     }

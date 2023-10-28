@@ -162,9 +162,4 @@ internal sealed class GameLocationAnswerDialogueActionPatcher : HarmonyPatcher
     }
 
     #endregion harmony patches
-
-    private static void DoConvertSwordType(MeleeWeapon sword)
-    {
-
-    }
 }

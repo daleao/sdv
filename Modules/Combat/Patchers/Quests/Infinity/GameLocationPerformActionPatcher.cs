@@ -2,6 +2,7 @@
 
 #region using directives
 
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Reflection;
 using DaLion.Overhaul.Modules.Combat.Enums;
@@ -65,6 +66,7 @@ internal sealed class GameLocationPerformActionPatcher : HarmonyPatcher
 
     #region handlers
 
+    [SuppressMessage("StyleCop.CSharp.OrderingRules", "SA1202:Elements should be ordered by access", Justification = "Patcher-injected subroutine reused by console command.")]
     internal static void GetHolyBlade()
     {
         var player = Game1.player;

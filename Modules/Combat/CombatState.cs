@@ -12,7 +12,7 @@ using StardewValley.Tools;
 #endregion using directives
 
 /// <summary>The runtime state variables for CMBT.</summary>
-internal sealed class State
+internal sealed class CombatState
 {
     private ComboHitStep _hitQueued;
     private ComboHitStep _hitStep;

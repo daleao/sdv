@@ -42,7 +42,7 @@ internal sealed class PickaxeDoFunctionPatcher : HarmonyPatcher
         who.Stamina -=
             (int)Math.Round(Math.Sqrt(Math.Max((2 * (power + 1)) - (who.MiningLevel * 0.1f), 0.1f) *
                                       (int)Math.Pow(2d * (power + 1), 2d))) *
-            (float)Math.Pow(ToolsModule.Config.Pick.ChargedStaminaMultiplier, power);
+            (float)Math.Pow(ToolsModule.Config.Pick.ChargedStaminaCostMultiplier, power);
     }
 
     /// <summary>Apply base stamina multiplier + stamina cost cap.</summary>
@@ -77,7 +77,7 @@ internal sealed class PickaxeDoFunctionPatcher : HarmonyPatcher
                             typeof(ModConfig).RequirePropertyGetter(nameof(ModConfig.Tools))),
                         new CodeInstruction(
                             OpCodes.Callvirt,
-                            typeof(Config).RequirePropertyGetter(nameof(Config.Pick))),
+                            typeof(ToolConfig).RequirePropertyGetter(nameof(ToolConfig.Pick))),
                         new CodeInstruction(
                             OpCodes.Callvirt,
                             typeof(PickaxeConfig).RequirePropertyGetter(nameof(AxeConfig.BaseStaminaCostMultiplier))),

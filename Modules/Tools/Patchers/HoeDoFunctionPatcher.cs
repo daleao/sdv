@@ -61,7 +61,7 @@ internal sealed class HoeDoFunctionPatcher : HarmonyPatcher
                             typeof(ModConfig).RequirePropertyGetter(nameof(ModConfig.Tools))),
                         new CodeInstruction(
                             OpCodes.Callvirt,
-                            typeof(Config).RequirePropertyGetter(nameof(Config.Hoe))),
+                            typeof(ToolConfig).RequirePropertyGetter(nameof(ToolConfig.Hoe))),
                         new CodeInstruction(
                             OpCodes.Callvirt,
                             typeof(HoeConfig).RequirePropertyGetter(nameof(HoeConfig.BaseStaminaCostMultiplier))),

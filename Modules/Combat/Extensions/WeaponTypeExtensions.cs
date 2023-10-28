@@ -33,6 +33,6 @@ public static partial class WeaponTypeExtensions
     {
         return type == WeaponType.Dagger
             ? ComboHitStep.FirstHit
-            : (ComboHitStep)CombatModule.Config.ComboHitsPerWeapon[type];
+            : (ComboHitStep)CombatModule.Config.ComboHitsPerWeaponType[type.ToStringFast()];
     }
 }

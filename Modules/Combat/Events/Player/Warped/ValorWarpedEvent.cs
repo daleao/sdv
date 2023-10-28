@@ -46,9 +46,9 @@ internal sealed class ValorWarpedEvent : WarpedEvent
         }
 
         _consecutiveFloorsVisited++;
-        var objective = CombatModule.Config.HeroQuestDifficulty == Config.Difficulty.Easy
+        var objective = CombatModule.Config.HeroQuestDifficulty == CombatConfig.QuestDifficulty.Easy
             ? 10
-            : CombatModule.Config.HeroQuestDifficulty == Config.Difficulty.Medium
+            : CombatModule.Config.HeroQuestDifficulty == CombatConfig.QuestDifficulty.Medium
                 ? 20
                 : 40;
         if (_consecutiveFloorsVisited < objective)

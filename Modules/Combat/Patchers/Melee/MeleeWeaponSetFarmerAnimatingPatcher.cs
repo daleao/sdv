@@ -52,7 +52,7 @@ internal sealed class MeleeWeaponSetFarmerAnimatingPatcher : HarmonyPatcher
                             typeof(ModConfig).RequirePropertyGetter(nameof(ModConfig.Combat))),
                         new CodeInstruction(
                             OpCodes.Callvirt,
-                            typeof(Config).RequirePropertyGetter(nameof(Config.EnableWeaponOverhaul))),
+                            typeof(CombatConfig).RequirePropertyGetter(nameof(CombatConfig.EnableWeaponOverhaul))),
                         new CodeInstruction(OpCodes.Brtrue_S, skipMovementSpeed),
                     })
                 .Match(new[] { new CodeInstruction(OpCodes.Conv_R4) })
@@ -100,7 +100,7 @@ internal sealed class MeleeWeaponSetFarmerAnimatingPatcher : HarmonyPatcher
                             typeof(ModConfig).RequirePropertyGetter(nameof(ModConfig.Combat))),
                         new CodeInstruction(
                             OpCodes.Callvirt,
-                            typeof(Config).RequirePropertyGetter(nameof(Config.EnableComboHits))),
+                            typeof(CombatConfig).RequirePropertyGetter(nameof(CombatConfig.EnableMeleeComboHits))),
                         new CodeInstruction(OpCodes.Brtrue_S, skipCheckEnchantments),
                     });
         }

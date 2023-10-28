@@ -74,7 +74,7 @@ internal sealed class NewForgeMenuUpdatePatcher : HarmonyPatcher
                             typeof(ModConfig).RequirePropertyGetter(nameof(ModConfig.Combat))),
                         new CodeInstruction(
                             OpCodes.Callvirt,
-                            typeof(Config).RequirePropertyGetter(nameof(Config.EnableHeroQuest))),
+                            typeof(CombatConfig).RequirePropertyGetter(nameof(CombatConfig.EnableHeroQuest))),
                         new CodeInstruction(OpCodes.Brfalse_S, vanillaUnforge),
                         new CodeInstruction(OpCodes.Ldloc_S, helper.Locals[10]),
                         new CodeInstruction(
@@ -130,7 +130,7 @@ internal sealed class NewForgeMenuUpdatePatcher : HarmonyPatcher
                             typeof(ModConfig).RequirePropertyGetter(nameof(ModConfig.Combat))),
                         new CodeInstruction(
                             OpCodes.Callvirt,
-                            typeof(Config).RequirePropertyGetter(nameof(Config.EnableInfinityBand))),
+                            typeof(CombatConfig).RequirePropertyGetter(nameof(CombatConfig.EnableInfinityBand))),
                         new CodeInstruction(OpCodes.Brfalse_S, vanillaUnforge),
                         new CodeInstruction(
                             OpCodes.Call,

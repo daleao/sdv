@@ -30,12 +30,12 @@ internal sealed class HeroQuest : IQuest
     /// <summary>Initializes a new instance of the <see cref="HeroQuest"/> class.</summary>
     public HeroQuest()
     {
-        Virtue.List.ForEach(virtue => this._objectiveProgresses[virtue] = virtue.GetProgress());
         this._viewed = Game1.player.Read<bool>(DataKeys.VirtueQuestViewed);
         this._objectiveDescriptions = Virtue.List
             .OrderBy(virtue => virtue.Value)
             .Select(virtue => virtue.ObjectiveText)
             .ToList();
+        Virtue.List.ForEach(virtue => this.UpdateTrialProgress(virtue, this._viewed));
     }
 
     /// <summary>The current state of the <see cref="HeroQuest"/>.</summary>

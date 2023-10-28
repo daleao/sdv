@@ -166,7 +166,7 @@ internal static class FishPondExtensions
     internal static List<Item> DeserializeHeldItems(this FishPond pond)
     {
         return pond.Read(DataKeys.ItemsHeld)
-            .ParseList<string>(";")
+            .ParseList<string>(';')
             .Select(s => s?.ParseTuple<int, int, int>())
             .WhereNotNull()
             .Select(t => new SObject(t.Item1, t.Item2, quality: t.Item3))

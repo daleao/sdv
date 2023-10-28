@@ -67,7 +67,7 @@ internal static class FarmExtensions
         {
             var blueprint = new BluePrint(building.buildingType.Value);
             usedTiles += blueprint.tilesHeight * blueprint.tilesWidth;
-            if (building.magical.Value && TaxesModule.Config.ExemptMagicalBuilding)
+            if (building.magical.Value && TaxesModule.Config.ExemptMagicalBuildings)
             {
                 continue;
             }

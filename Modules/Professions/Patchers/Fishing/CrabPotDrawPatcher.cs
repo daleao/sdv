@@ -33,7 +33,7 @@ internal sealed class CrabPotDrawPatcher : HarmonyPatcher
         try
         {
             if (!__instance.readyForHarvest.Value || __instance.heldObject.Value is null ||
-                !__instance.heldObject.Value.ParentSheetIndex.IsIn(14, 51))
+                !__instance.heldObject.Value.ParentSheetIndex.IsAnyOf(14, 51))
             {
                 return true; // run original logic
             }

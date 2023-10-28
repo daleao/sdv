@@ -64,7 +64,7 @@ internal sealed class MeleeWeaponSetFarmerAnimatingPatcher : HarmonyPatcher
                             typeof(ModState).RequirePropertyGetter(nameof(ModState.Professions))),
                         new CodeInstruction(
                             OpCodes.Callvirt,
-                            typeof(State).RequirePropertyGetter(nameof(State.BruteRageCounter))),
+                            typeof(ProfessionState).RequirePropertyGetter(nameof(ProfessionState.BruteRageCounter))),
                         new CodeInstruction(OpCodes.Conv_R4),
                         new CodeInstruction(OpCodes.Ldc_R4, 0.005f),
                         new CodeInstruction(OpCodes.Mul),

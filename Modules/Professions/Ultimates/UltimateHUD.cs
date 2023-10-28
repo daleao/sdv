@@ -75,8 +75,8 @@ internal sealed class UltimateHud
         }
 
         // user overrides
-        topOfBar.X += ProfessionsModule.Config.LimitGaugeXOffset;
-        topOfBar.Y += ProfessionsModule.Config.LimitGaugeYOffset;
+        topOfBar.X += ProfessionsModule.Config.LimitGaugeOffset.X;
+        topOfBar.Y += ProfessionsModule.Config.LimitGaugeOffset.Y;
 
         // shake horizontally if full and on stand-by, if active also shake vertically
         if (this._shake || this._owner.IsActive)

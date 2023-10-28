@@ -24,7 +24,7 @@ internal sealed class BluePrintConsumeResourcesPatcher : HarmonyPatcher
     [HarmonyPostfix]
     private static void BluePrintConsumeResourcesPostfix(BluePrint __instance)
     {
-        if ((__instance.magical && TaxesModule.Config.ExemptMagicalBuilding) ||
+        if ((__instance.magical && TaxesModule.Config.ExemptMagicalBuildings) ||
             TaxesModule.Config.DeductibleBuildingExpenses <= 0f)
         {
             return;

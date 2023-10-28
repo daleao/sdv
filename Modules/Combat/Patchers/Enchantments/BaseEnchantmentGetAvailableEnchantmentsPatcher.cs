@@ -47,7 +47,7 @@ internal sealed class BaseEnchantmentGetAvailableEnchantmentsPatcher : HarmonyPa
                             typeof(ModConfig).RequirePropertyGetter(nameof(ModConfig.Combat))),
                         new CodeInstruction(
                             OpCodes.Callvirt,
-                            typeof(Config).RequirePropertyGetter(nameof(Config.NewPrismaticEnchantments))),
+                            typeof(CombatConfig).RequirePropertyGetter(nameof(CombatConfig.NewPrismaticEnchantments))),
                         new CodeInstruction(OpCodes.Brtrue_S, newEnchantments),
                     })
                 .Move(12)

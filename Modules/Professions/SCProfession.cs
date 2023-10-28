@@ -3,6 +3,7 @@
 #region using directives
 
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using DaLion.Shared.Classes;
 
@@ -56,7 +57,7 @@ public sealed class SCProfession : IProfession
     }
 
     /// <summary>Enumerates all the loaded instances of <see cref="SCProfession"/>.</summary>
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1623:Property summary documentation should match accessors", Justification = "Enumerator.")]
+    [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1623:Property summary documentation should match accessors", Justification = "Enumerator.")]
     public static IEnumerable<SCProfession> List => Loaded.Values;
 
     /// <inheritdoc />

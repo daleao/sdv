@@ -58,7 +58,7 @@ internal sealed class MineShaftMonsterDropPatcher : HarmonyPatcher
                             typeof(ModConfig).RequirePropertyGetter(nameof(ModConfig.Combat))),
                         new CodeInstruction(
                             OpCodes.Callvirt,
-                            typeof(Config).RequirePropertyGetter(nameof(Config.EnableWeaponOverhaul))),
+                            typeof(CombatConfig).RequirePropertyGetter(nameof(CombatConfig.EnableWeaponOverhaul))),
                         new CodeInstruction(OpCodes.Brfalse_S, resumeExecution),
                         new CodeInstruction(OpCodes.Dup),
                         new CodeInstruction(OpCodes.Isinst, typeof(MeleeWeapon)),

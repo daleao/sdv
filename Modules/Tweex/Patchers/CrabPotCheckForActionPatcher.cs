@@ -59,7 +59,7 @@ internal sealed class CrabPotCheckForActionPatcher : HarmonyPatcher
                             typeof(ModConfig).RequirePropertyGetter(nameof(ModConfig.Tweex))),
                         new CodeInstruction(
                             OpCodes.Callvirt,
-                            typeof(Config).RequirePropertyGetter(nameof(Config.TrashDoesNotConsumeBait))),
+                            typeof(TweexConfig).RequirePropertyGetter(nameof(TweexConfig.TrashDoesNotConsumeBait))),
                         new CodeInstruction(OpCodes.Brfalse_S, proceedToBaitConsumption),
                         new CodeInstruction(OpCodes.Ldloc_0),
                         new CodeInstruction(OpCodes.Call, typeof(SObjectExtensions).RequireMethod(nameof(SObjectExtensions.IsTrash))),

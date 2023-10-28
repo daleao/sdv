@@ -234,6 +234,7 @@ internal sealed class ObjectProjectile : BasicProjectile
             // check for quick shot
             if (ProfessionsModule.State.LastDesperadoTarget is not null &&
                 monster != ProfessionsModule.State.LastDesperadoTarget)
+#pragma warning disable SA1513 // Closing brace should be followed by blank line
             {
                 Log.D("Did quick shot!");
                 this.Damage = (int)(this.Damage * 1.5f);
@@ -258,6 +259,7 @@ internal sealed class ObjectProjectile : BasicProjectile
                     this.Damage += monster.resilience.Value;
                 }
             }
+#pragma warning restore SA1513 // Closing brace should be followed by blank line
         }
 
         this._explosionAnimation(this, location);

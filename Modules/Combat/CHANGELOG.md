@@ -12,6 +12,11 @@
 * The sound effect also plays when praying to the Yoba altar.
 * When acquiring a Galaxy weapon, instead of floating upwards, the weapon now floats downwards as if being gifted by the heavens. A small touch, but looks infinitely better.
 
+### Fixed
+
+* Fixed sword type not being set correctly.
+* Hero Quest should now auto-complete if started with all conditions already met.
+
 ## 4.0.1
 
 ### Changed

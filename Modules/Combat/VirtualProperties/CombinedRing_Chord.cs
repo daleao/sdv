@@ -16,7 +16,7 @@ internal static class CombinedRing_Chord
 
     internal static Chord? Get_Chord(this CombinedRing combined)
     {
-        return CombatModule.Config.EnableResonances && JsonAssetsIntegration.InfinityBandIndex.HasValue &&
+        return CombatModule.Config.EnableGemstoneResonance && JsonAssetsIntegration.InfinityBandIndex.HasValue &&
                combined.ParentSheetIndex == JsonAssetsIntegration.InfinityBandIndex.Value && combined.combinedRings.Count >= 2
             ? Values.GetValue(combined, Create)
             : null;

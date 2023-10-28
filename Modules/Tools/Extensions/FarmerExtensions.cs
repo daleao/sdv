@@ -29,7 +29,7 @@ internal static class FarmerExtensions
         }
 
         var config = ToolsModule.Config.Scythe;
-        if (config.GoldScytheOnly && tool.InitialParentTileIndex != WeaponIds.GoldenScythe)
+        if (config.GoldScytheOnlyHarvest && tool.InitialParentTileIndex != WeaponIds.GoldenScythe)
         {
             return false;
         }

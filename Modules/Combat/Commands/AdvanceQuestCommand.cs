@@ -69,6 +69,7 @@ internal sealed class AdvanceQuestCommand : ConsoleCommand
             case "viego":
             case "yoba":
             case "virtues":
+            case "trials":
             case "chivalry":
             case "purification":
                 if (player.mailReceived.Contains("gotHolyBlade"))

@@ -64,7 +64,7 @@ internal sealed class BaseWeaponEnchantmentCanApplyToPatcher : HarmonyPatcher
                             typeof(ModConfig).RequirePropertyGetter(nameof(ModConfig.Tools))),
                         new CodeInstruction(
                             OpCodes.Callvirt,
-                            typeof(Config).RequirePropertyGetter(nameof(Config.Scythe))),
+                            typeof(ToolConfig).RequirePropertyGetter(nameof(ToolConfig.Scythe))),
                         new CodeInstruction(
                             OpCodes.Callvirt,
                             typeof(ScytheConfig).RequirePropertyGetter(nameof(ScytheConfig.AllowHaymakerEnchantment))),

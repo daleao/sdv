@@ -4,7 +4,6 @@
 
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
-using System.Linq;
 using DaLion.Overhaul.Modules.Combat.Enchantments;
 using DaLion.Overhaul.Modules.Combat.Enums;
 using DaLion.Overhaul.Modules.Combat.VirtualProperties;
@@ -67,8 +66,7 @@ internal static class MeleeWeaponExtensions
             return false;
         }
 
-        var legacyWeaponIds = new[]
-        {
+        return weapon.InitialParentTileIndex.IsAnyOf(
             WeaponIds.DwarfDagger,
             WeaponIds.DwarfHammer,
             WeaponIds.DwarfSword,
@@ -76,10 +74,7 @@ internal static class MeleeWeaponExtensions
             WeaponIds.DragontoothCutlass,
             WeaponIds.DragontoothShiv,
             WeaponIds.ElfBlade,
-            WeaponIds.ForestSword,
-        };
-
-        return weapon.InitialParentTileIndex.IsIn(legacyWeaponIds);
+            WeaponIds.ForestSword);
     }
 
     /// <summary>Determines whether the <paramref name="weapon"/> should be converted to stabbing sword.</summary>
@@ -126,14 +121,7 @@ internal static class MeleeWeaponExtensions
     /// <returns>The final <see cref="ComboHitStep"/> for <paramref name="weapon"/>.</returns>
     internal static ComboHitStep GetFinalHitStep(this MeleeWeapon weapon)
     {
-        return weapon.type.Value switch
-        {
-            MeleeWeapon.stabbingSword => (ComboHitStep)CombatModule.Config.ComboHitsPerWeapon[WeaponType.StabbingSword],
-            MeleeWeapon.club => (ComboHitStep)CombatModule.Config.ComboHitsPerWeapon[WeaponType.Club],
-            MeleeWeapon.dagger => ComboHitStep.FirstHit,
-            MeleeWeapon.defenseSword => (ComboHitStep)CombatModule.Config.ComboHitsPerWeapon[WeaponType.DefenseSword],
-            _ => 0,
-        };
+        return ((WeaponType)weapon.type.Value).GetFinalHitStep();
     }
 
     /// <summary>Refreshes the stats of the specified <paramref name="weapon"/>.</summary>

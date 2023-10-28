@@ -74,7 +74,7 @@ internal sealed class MineShaftCheckStoneForItemsPatcher : HarmonyPatcher
                             typeof(ModState).RequirePropertyGetter(nameof(ModState.Professions))),
                         new CodeInstruction(
                             OpCodes.Callvirt,
-                            typeof(State).RequirePropertyGetter(nameof(State.SpelunkerLadderStreak))),
+                            typeof(ProfessionState).RequirePropertyGetter(nameof(ProfessionState.SpelunkerLadderStreak))),
                         new CodeInstruction(OpCodes.Conv_R8),
                         new CodeInstruction(OpCodes.Ldc_R8, 0.005),
                         new CodeInstruction(OpCodes.Mul),

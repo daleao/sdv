@@ -29,7 +29,7 @@ internal sealed class TrackedItemCtorPatcher : HarmonyPatcher
     [HarmonyPrefix]
     private static void TrackedItemCtorPrefix(ref Item item)
     {
-        if (!item.ParentSheetIndex.IsIn(14, 51, 516, 517, 518, 519, 527, 529, 530, 531, 532, 533, 534))
+        if (!item.ParentSheetIndex.IsAnyOf(14, 51, 516, 517, 518, 519, 527, 529, 530, 531, 532, 533, 534))
         {
             return;
         }

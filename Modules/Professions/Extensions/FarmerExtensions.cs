@@ -85,7 +85,7 @@ internal static class FarmerExtensions
     /// <param name="farmer">The <see cref="Farmer"/>.</param>
     /// <param name="profession">The <see cref="IProfession"/> to check.</param>
     /// <param name="prestiged">Whether to check for the prestiged variant.</param>
-    /// <returns><see langword="true"/> if either <paramref name="farmer"/> has the specified <paramref name="profession"/>, or <see cref="Config.LaxOwnershipRequirements"/> is enabled and at least one player in the game session has the <paramref name="profession"/>, otherwise <see langword="false"/>.</returns>
+    /// <returns><see langword="true"/> if either <paramref name="farmer"/> has the specified <paramref name="profession"/>, or <see cref="ProfessionConfig.LaxOwnershipRequirements"/> is enabled and at least one player in the game session has the <paramref name="profession"/>, otherwise <see langword="false"/>.</returns>
     internal static bool HasProfessionOrLax(
         this Farmer farmer, IProfession profession, bool prestiged = false)
     {
@@ -255,7 +255,7 @@ internal static class FarmerExtensions
 
         var fishData = Game1.content
             .Load<Dictionary<int, string>>("Data\\Fish")
-            .Where(p => !p.Key.IsIn(152, 153, 157) && !p.Value.Contains("trap"))
+            .Where(p => !p.Key.IsAnyOf(152, 153, 157) && !p.Value.Contains("trap"))
             .ToDictionary(p => p.Key, p => p.Value);
 
         if (!fishData.TryGetValue(index, out var specificFishData))

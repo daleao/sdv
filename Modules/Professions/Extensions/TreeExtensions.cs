@@ -20,7 +20,7 @@ internal static class TreeExtensions
         var tileLocation = tree.currentTileLocation;
 
         if (Game1.GetSeasonForLocation(tree.currentLocation) == "winter" &&
-            !tree.treeType.Value.IsIn(Tree.palmTree, Tree.palmTree2) &&
+            !tree.treeType.Value.IsAnyOf(Tree.palmTree, Tree.palmTree2) &&
             !environment.CanPlantTreesHere(-1, (int)tileLocation.X, (int)tileLocation.Y) &&
             !tree.fertilized.Value)
         {
@@ -28,7 +28,7 @@ internal static class TreeExtensions
         }
 
         var s = environment.doesTileHaveProperty((int)tileLocation.X, (int)tileLocation.Y, "NoSpawn", "Back");
-        if (s?.IsIn("All", "Tree", "True") == true)
+        if (s?.IsAnyOf("All", "Tree", "True") == true)
         {
             return false;
         }

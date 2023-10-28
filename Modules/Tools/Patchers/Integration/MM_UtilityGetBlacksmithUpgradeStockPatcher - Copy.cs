@@ -49,7 +49,7 @@ internal sealed class ModOnMenuChangedPatcher : HarmonyPatcher
                             typeof(ModConfig).RequirePropertyGetter(nameof(ModConfig.Tools))),
                         new CodeInstruction(
                             OpCodes.Callvirt,
-                            typeof(Config).RequirePropertyGetter(nameof(Config.EnableForgeUpgrading))),
+                            typeof(ToolConfig).RequirePropertyGetter(nameof(ToolConfig.EnableForgeUpgrading))),
                         new CodeInstruction(OpCodes.Brtrue, skipShopMenu),
                     });
         }

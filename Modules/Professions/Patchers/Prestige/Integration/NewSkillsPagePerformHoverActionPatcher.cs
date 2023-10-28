@@ -39,14 +39,14 @@ internal sealed class NewSkillsPagePerformHoverActionPatcher : HarmonyPatcher
             return;
         }
 
-        var bounds = ProfessionsModule.Config.ProgressionStyle switch
+        var bounds = ProfessionsModule.Config.PrestigeProgressionStyle switch
         {
-            Config.PrestigeProgressionStyle.StackedStars => new Rectangle(
+            ProfessionConfig.ProgressionStyle.StackedStars => new Rectangle(
                 __instance.xPositionOnScreen + __instance.width + Textures.ProgressionHorizontalOffset - 22,
                 __instance.yPositionOnScreen + IClickableMenu.spaceToClearTopBorder + IClickableMenu.borderWidth + Textures.ProgressionVerticalOffset + 8,
                 0,
                 (int)(Textures.SingleStarWidth * Textures.StarsScale)),
-            Config.PrestigeProgressionStyle.Gen3Ribbons or Config.PrestigeProgressionStyle.Gen4Ribbons => new Rectangle(
+            ProfessionConfig.ProgressionStyle.Gen3Ribbons or ProfessionConfig.ProgressionStyle.Gen4Ribbons => new Rectangle(
                 __instance.xPositionOnScreen + __instance.width + Textures.ProgressionHorizontalOffset,
                 __instance.yPositionOnScreen + IClickableMenu.spaceToClearTopBorder + IClickableMenu.borderWidth + Textures.ProgressionVerticalOffset,
                 (int)(Textures.RibbonWidth * Textures.RibbonScale),
@@ -81,8 +81,8 @@ internal sealed class NewSkillsPagePerformHoverActionPatcher : HarmonyPatcher
                 continue;
             }
 
-            bounds.Width = ProfessionsModule.Config.ProgressionStyle is Config.PrestigeProgressionStyle.Gen3Ribbons
-                or Config.PrestigeProgressionStyle.Gen4Ribbons
+            bounds.Width = ProfessionsModule.Config.PrestigeProgressionStyle is ProfessionConfig.ProgressionStyle.Gen3Ribbons
+                or ProfessionConfig.ProgressionStyle.Gen4Ribbons
                 ? (int)(Textures.RibbonWidth * Textures.RibbonScale)
                 : (int)(((Textures.SingleStarWidth / 2 * count) + 4) * Textures.StarsScale);
             if (!bounds.Contains(x, y))
@@ -133,8 +133,8 @@ internal sealed class NewSkillsPagePerformHoverActionPatcher : HarmonyPatcher
                 continue;
             }
 
-            bounds.Width = ProfessionsModule.Config.ProgressionStyle is Config.PrestigeProgressionStyle.Gen3Ribbons
-                or Config.PrestigeProgressionStyle.Gen4Ribbons
+            bounds.Width = ProfessionsModule.Config.PrestigeProgressionStyle is ProfessionConfig.ProgressionStyle.Gen3Ribbons
+                or ProfessionConfig.ProgressionStyle.Gen4Ribbons
                 ? (int)(Textures.RibbonWidth * Textures.RibbonScale)
                 : (int)(((Textures.SingleStarWidth / 2 * count) + 4) * Textures.StarsScale);
             if (!bounds.Contains(x, y))

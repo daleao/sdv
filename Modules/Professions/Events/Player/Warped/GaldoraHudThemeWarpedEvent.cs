@@ -29,7 +29,7 @@ internal sealed class GaldoraHudThemeWarpedEvent : WarpedEvent
             return;
         }
 
-        if (e.NewLocation.NameOrUniqueName.IsIn(
+        if (e.NewLocation.NameOrUniqueName.IsAnyOf(
                 "Custom_CastleVillageOutpost",
                 "Custom_CrimsonBadlands",
                 "Custom_IridiumQuarry",

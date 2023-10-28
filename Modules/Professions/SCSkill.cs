@@ -67,14 +67,14 @@ public sealed class SCSkill : ISkill
 
     /// <inheritdoc />
     public int MaxLevel =>
-        this.CanPrestige && ProfessionsModule.Config.EnablePrestige && ProfessionsModule.Config.EnableExtendedProgession &&
+        this.CanPrestige && ProfessionsModule.Config.EnablePrestige && ProfessionsModule.Config.EnableExtendedProgression &&
         ((ISkill)this).PrestigeLevel >= 4
             ? 20
             : 10;
 
     /// <inheritdoc />
     public float BaseExperienceMultiplier =>
-        ProfessionsModule.Config.CustomSkillExpMultipliers.TryGetValue(this.StringId, out var multiplier)
+        ProfessionsModule.Config.SkillExpMultipliers.TryGetValue(this.StringId, out var multiplier)
             ? multiplier
             : 1f;
 

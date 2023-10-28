@@ -74,8 +74,8 @@ internal sealed class ObjectPlacementActionPatcher : HarmonyPatcher
                                         typeof(ModConfig).RequirePropertyGetter(nameof(ModConfig.Professions))),
                                     new CodeInstruction(
                                         OpCodes.Callvirt,
-                                        typeof(Config).RequirePropertyGetter(
-                                            nameof(Config.ModKey))),
+                                        typeof(ProfessionConfig).RequirePropertyGetter(
+                                            nameof(ProfessionConfig.ModKey))),
                                     new CodeInstruction(
                                         OpCodes.Call,
                                         typeof(KeybindList).RequireMethod(nameof(KeybindList.IsDown))),

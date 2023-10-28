@@ -54,7 +54,7 @@ internal sealed class EventCommandItemAboveHeadPatcher : HarmonyPatcher
                             typeof(ModConfig).RequirePropertyGetter(nameof(ModConfig.Combat))),
                         new CodeInstruction(
                             OpCodes.Callvirt,
-                            typeof(Config).RequirePropertyGetter(nameof(Config.WoodyReplacesRusty))),
+                            typeof(CombatConfig).RequirePropertyGetter(nameof(CombatConfig.WoodyReplacesRusty))),
                         new CodeInstruction(OpCodes.Brfalse_S, rusty),
                         new CodeInstruction(OpCodes.Ldc_I4_S, WeaponIds.WoodenBlade),
                         new CodeInstruction(OpCodes.Br_S, resumeExecution),

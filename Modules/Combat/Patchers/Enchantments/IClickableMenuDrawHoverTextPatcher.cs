@@ -108,8 +108,10 @@ internal sealed class IClickableMenuDrawHoverTextPatcher : HarmonyPatcher
                             typeof(ModConfig).RequirePropertyGetter(nameof(ModConfig.Combat))),
                         new CodeInstruction(
                             OpCodes.Callvirt,
-                            typeof(Config).RequirePropertyGetter(nameof(Config.DrawForgeSockets))),
-                        new CodeInstruction(OpCodes.Brfalse_S, resumeExecution1), new CodeInstruction(
+                            typeof(CombatConfig).RequirePropertyGetter(nameof(CombatConfig.ForgeSocketStyle))),
+                        new CodeInstruction(OpCodes.Ldc_I4_0),
+                        new CodeInstruction(OpCodes.Beq_S, resumeExecution1),
+                        new CodeInstruction(
                             OpCodes.Call,
                             typeof(ModEntry).RequirePropertyGetter(nameof(ModEntry.Config))),
                         new CodeInstruction(
@@ -117,7 +119,7 @@ internal sealed class IClickableMenuDrawHoverTextPatcher : HarmonyPatcher
                             typeof(ModConfig).RequirePropertyGetter(nameof(ModConfig.Combat))),
                         new CodeInstruction(
                             OpCodes.Callvirt,
-                            typeof(Config).RequirePropertyGetter(nameof(Config.SocketPosition))),
+                            typeof(CombatConfig).RequirePropertyGetter(nameof(CombatConfig.ForgeSocketPosition))),
                         new CodeInstruction(OpCodes.Ldc_I4_1),
                         new CodeInstruction(OpCodes.Bne_Un_S, resumeExecution1),
                     })
@@ -146,8 +148,9 @@ internal sealed class IClickableMenuDrawHoverTextPatcher : HarmonyPatcher
                             typeof(ModConfig).RequirePropertyGetter(nameof(ModConfig.Combat))),
                         new CodeInstruction(
                             OpCodes.Callvirt,
-                            typeof(Config).RequirePropertyGetter(nameof(Config.DrawForgeSockets))),
-                        new CodeInstruction(OpCodes.Brfalse_S, resumeExecution2),
+                            typeof(CombatConfig).RequirePropertyGetter(nameof(CombatConfig.ForgeSocketStyle))),
+                        new CodeInstruction(OpCodes.Ldc_I4_0),
+                        new CodeInstruction(OpCodes.Beq_S, resumeExecution2),
                         new CodeInstruction(
                             OpCodes.Call,
                             typeof(ModEntry).RequirePropertyGetter(nameof(ModEntry.Config))),
@@ -156,7 +159,7 @@ internal sealed class IClickableMenuDrawHoverTextPatcher : HarmonyPatcher
                             typeof(ModConfig).RequirePropertyGetter(nameof(ModConfig.Combat))),
                         new CodeInstruction(
                             OpCodes.Callvirt,
-                            typeof(Config).RequirePropertyGetter(nameof(Config.SocketPosition))),
+                            typeof(CombatConfig).RequirePropertyGetter(nameof(CombatConfig.ForgeSocketPosition))),
                         new CodeInstruction(OpCodes.Ldc_I4_1),
                         new CodeInstruction(OpCodes.Bne_Un_S, resumeExecution2),
                     })
@@ -195,8 +198,9 @@ internal sealed class IClickableMenuDrawHoverTextPatcher : HarmonyPatcher
                             typeof(ModConfig).RequirePropertyGetter(nameof(ModConfig.Combat))),
                         new CodeInstruction(
                             OpCodes.Callvirt,
-                            typeof(Config).RequirePropertyGetter(nameof(Config.DrawForgeSockets))),
-                        new CodeInstruction(OpCodes.Brfalse_S, drawGenericText),
+                            typeof(CombatConfig).RequirePropertyGetter(nameof(CombatConfig.ForgeSocketStyle))),
+                        new CodeInstruction(OpCodes.Ldc_I4_0),
+                        new CodeInstruction(OpCodes.Beq_S, drawGenericText),
                         new CodeInstruction(OpCodes.Ldarg_S, (byte)9), // arg 9 = Item hoveredItem
                         new CodeInstruction(OpCodes.Isinst, typeof(Tool)),
                         new CodeInstruction(OpCodes.Ldloc_S, helper.Locals[5]), // local 5 = int x
@@ -248,8 +252,9 @@ internal sealed class IClickableMenuDrawHoverTextPatcher : HarmonyPatcher
                                         typeof(ModConfig).RequirePropertyGetter(nameof(ModConfig.Combat))),
                                     new CodeInstruction(
                                         OpCodes.Callvirt,
-                                        typeof(Config).RequirePropertyGetter(nameof(Config.DrawForgeSockets))),
-                                    new CodeInstruction(OpCodes.Brfalse_S, callTotalForgeLevels),
+                                        typeof(CombatConfig).RequirePropertyGetter(nameof(CombatConfig.ForgeSocketStyle))),
+                                    new CodeInstruction(OpCodes.Ldc_I4_0),
+                                    new CodeInstruction(OpCodes.Beq_S, callTotalForgeLevels),
                                     new CodeInstruction(OpCodes.Callvirt, typeof(Tool).RequireMethod(nameof(Tool.GetMaxForges))),
                                     new CodeInstruction(OpCodes.Br_S, resumeExecution),
                                 })
@@ -273,7 +278,7 @@ internal sealed class IClickableMenuDrawHoverTextPatcher : HarmonyPatcher
     private static void DrawForgeIcons(Tool tool, int x, ref int y, SpriteBatch b, SpriteFont font)
     {
         var position = new Vector2(x + 20, y + 24);
-        if (CombatModule.Config.SocketPosition == Config.ForgeSocketPosition.AboveSeparator)
+        if (CombatModule.Config.ForgeSocketPosition == CombatConfig.SocketPosition.AboveSeparator)
         {
             position.Y -= 24;
         }

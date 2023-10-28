@@ -32,7 +32,7 @@ internal sealed class FarmerShowSwordSwipePatcher : HarmonyPatcher
     private static bool FarmerShowSwordSwipePrefix(Farmer who)
     {
         if (who.CurrentTool is not MeleeWeapon weapon || weapon.isScythe() ||
-            !CombatModule.Config.EnableComboHits)
+            !CombatModule.Config.EnableMeleeComboHits)
         {
             return true; // run original logic
         }

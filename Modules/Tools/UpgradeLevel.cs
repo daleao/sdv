@@ -34,7 +34,7 @@ public enum UpgradeLevel
     Mythicite,
 
     /// <summary>Extra upgrade for tools with the Reaching Enchantment.</summary>
-    Enchanted,
+    Reaching,
 }
 
 /// <summary>Extensions for the <see cref="UpgradeLevel"/> enum.</summary>

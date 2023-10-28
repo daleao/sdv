@@ -9,7 +9,7 @@ using StardewValley.Monsters;
 #endregion using directives
 
 /// <summary>The runtime state variables for PRFS.</summary>
-internal sealed class State
+internal sealed class ProfessionState
 {
     private int _rageCounter;
     private Monster? _lastDesperadoTarget;

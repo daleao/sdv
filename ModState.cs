@@ -5,11 +5,11 @@ namespace DaLion.Overhaul;
 /// <summary>The collection of state for each module.</summary>
 internal sealed class ModState
 {
-    internal Modules.Professions.State Professions { get; set; } = new();
+    internal Modules.Professions.ProfessionState Professions { get; set; } = new();
 
-    internal Modules.Combat.State Combat { get; set; } = new();
+    internal Modules.Combat.CombatState Combat { get; set; } = new();
 
-    internal Modules.Tools.State Tools { get; set; } = new();
+    internal Modules.Tools.ToolState Tools { get; set; } = new();
 
     internal bool AreEnemiesAround { get; set; }
 

@@ -43,7 +43,7 @@ public interface ISkill
 
     /// <summary>Gets the experience multiplier due to this skill's prestige level.</summary>
     float PrestigeExperienceMultiplier =>
-        (float)Math.Pow(1f + ProfessionsModule.Config.PrestigeExpMultiplier, this.PrestigeLevel);
+        (float)Math.Pow(1f + ProfessionsModule.Config.ExpBonusPerSkillReset, this.PrestigeLevel);
 
     /// <summary>Gets the new levels gained during the current game day, which have not yet been accomplished by an overnight menu.</summary>
     IEnumerable<int> NewLevels { get; }

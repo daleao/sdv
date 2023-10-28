@@ -553,7 +553,7 @@ internal sealed class CombatAssetRequestedEvent : AssetRequestedEvent
     /// <summary>Provides the correct gemstone socket texture path.</summary>
     private static string ProvideGemSockets()
     {
-        var path = "assets/sprites/interface/GemSocket_" + CombatModule.Config.SocketStyle;
+        var path = "assets/sprites/interface/GemSocket_" + CombatModule.Config.ForgeSocketStyle;
         if (ModHelper.ModRegistry.IsLoaded("ManaKirel.VMI") ||
             ModHelper.ModRegistry.IsLoaded("ManaKirel.VintageInterface2"))
         {

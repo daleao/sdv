@@ -393,7 +393,7 @@ internal sealed class SkillLevelUpMenuUpdatePatcher : HarmonyPatcher
 
     private static void CongratulateForAcquiringLastProfession(string skillId)
     {
-        if (ProfessionsModule.Config.EnableExtendedProgession)
+        if (ProfessionsModule.Config.EnableExtendedProgression)
         {
             Game1.drawObjectDialogue(I18n.Prestige_LevelUp_Unlocked(SCSkill.Loaded[skillId].DisplayName));
         }

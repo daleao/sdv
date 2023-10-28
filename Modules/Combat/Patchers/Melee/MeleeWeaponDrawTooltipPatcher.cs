@@ -31,7 +31,7 @@ internal sealed class MeleeWeaponDrawTooltipPatcher : HarmonyPatcher
         MeleeWeapon __instance, SpriteBatch spriteBatch, ref int x, ref int y, SpriteFont font, float alpha)
     {
         if (!CombatModule.Config.EnableWeaponOverhaul ||
-            CombatModule.Config.WeaponTooltipStyle == Config.TooltipStyle.Vanilla || __instance.isScythe())
+            CombatModule.Config.WeaponTooltipStyle == CombatConfig.TooltipStyle.Vanilla || __instance.isScythe())
         {
             return true; // run original logic
         }

@@ -367,7 +367,7 @@ internal sealed class PondQueryMenuDrawPatcher : HarmonyPatcher
                 var leftX = __instance.xPositionOnScreen + 88;
                 float textX = leftX;
                 var iconX = textX + textSize.X + 4f;
-                if (LocalizedContentManager.CurrentLanguageCode.IsIn(
+                if (LocalizedContentManager.CurrentLanguageCode.IsAnyOf(
                         LocalizedContentManager.LanguageCode.ja,
                         LocalizedContentManager.LanguageCode.ko,
                         LocalizedContentManager.LanguageCode.tr))

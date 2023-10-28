@@ -98,7 +98,7 @@ internal sealed class MeleeWeaponDoSwipePatcher : HarmonyPatcher
                     break;
             }
 
-            if (CombatModule.Config.EnableComboHits)
+            if (CombatModule.Config.EnableMeleeComboHits)
             {
                 return false; // don't run original logic
             }

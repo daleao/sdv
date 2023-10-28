@@ -48,7 +48,7 @@ internal sealed class ToolForgePatcher : HarmonyPatcher
                             typeof(ModConfig).RequirePropertyGetter(nameof(ModConfig.Combat))),
                         new CodeInstruction(
                             OpCodes.Callvirt,
-                            typeof(Config).RequirePropertyGetter(nameof(Config.EnableHeroQuest))),
+                            typeof(CombatConfig).RequirePropertyGetter(nameof(CombatConfig.EnableHeroQuest))),
                         new CodeInstruction(OpCodes.Brfalse_S, checkForGalaxy),
                         new CodeInstruction(OpCodes.Isinst, typeof(InfinityEnchantment)),
                         new CodeInstruction(OpCodes.Br_S, resumeExecution),

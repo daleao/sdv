@@ -58,7 +58,7 @@ internal static class Monster_Poisoned
     {
         Values.GetOrCreateValue(monster).Poisoner = poisoner;
     }
-    
+
     internal class Holder
     {
         public NetInt PoisonTimer { get; } = new(-1);

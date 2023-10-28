@@ -77,7 +77,7 @@ internal sealed class AxeDoFunctionPatcher : HarmonyPatcher
                             typeof(ModConfig).RequirePropertyGetter(nameof(ModConfig.Tools))),
                         new CodeInstruction(
                             OpCodes.Callvirt,
-                            typeof(Config).RequirePropertyGetter(nameof(Config.Axe))),
+                            typeof(ToolConfig).RequirePropertyGetter(nameof(ToolConfig.Axe))),
                         new CodeInstruction(
                             OpCodes.Callvirt,
                             typeof(AxeConfig).RequirePropertyGetter(nameof(AxeConfig.BaseStaminaCostMultiplier))),

@@ -45,7 +45,7 @@ internal sealed class FishPondMachineOnOutputTakenPatcher : HarmonyPatcher
                 .GetUnboundPropertyGetter<object, FishPond>(__instance, "Machine")
                 .Invoke(__instance);
 
-            var produce = machine.Read(DataKeys.ItemsHeld).ParseList<string>(";");
+            var produce = machine.Read(DataKeys.ItemsHeld).ParseList<string>(';');
             if (produce.Count == 0)
             {
                 machine.output.Value = null;

@@ -76,7 +76,7 @@ public sealed class Virtue : SmartEnum<Virtue>
             var target = int.MaxValue;
             switch (CombatModule.Config.HeroQuestDifficulty)
             {
-                case Config.Difficulty.Easy:
+                case CombatConfig.QuestDifficulty.Easy:
                     this
                         .When(Honor).Then(() => target = 1)
                         .When(Compassion).Then(() => target = 1)
@@ -84,7 +84,7 @@ public sealed class Virtue : SmartEnum<Virtue>
                         .When(Generosity).Then(() => target = (int)1e5)
                         .When(Valor).Then(() => target = 4);
                     break;
-                case Config.Difficulty.Medium:
+                case CombatConfig.QuestDifficulty.Medium:
                     this
                         .When(Honor).Then(() => target = 3)
                         .When(Compassion).Then(() => target = 3)
@@ -92,7 +92,7 @@ public sealed class Virtue : SmartEnum<Virtue>
                         .When(Generosity).Then(() => target = (int)5e5)
                         .When(Valor).Then(() => target = 8);
                     break;
-                case Config.Difficulty.Hard:
+                case CombatConfig.QuestDifficulty.Hard:
                     this
                         .When(Honor).Then(() => target = 5)
                         .When(Compassion).Then(() => target = 5)

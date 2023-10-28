@@ -1,14 +1,14 @@
 # General
 
-# CMBT
+* Review configs that say "requires restart".
 
-Check why musk animation doesn't play consistently.
+# CMBT
 
 # PRFS
 
-On warp, invalidate cache for limit break bar.
-
 # PNDS
+
+* Review if Aquarist is OP.
 
 # TXS
 

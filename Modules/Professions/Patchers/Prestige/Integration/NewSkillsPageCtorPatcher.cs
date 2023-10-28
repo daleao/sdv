@@ -46,7 +46,7 @@ internal sealed class NewSkillsPageCtorPatcher : HarmonyPatcher
         ___downButton.bounds.X += 24;
         ___scrollBar.bounds.X += 24;
         ___scrollBarRunner.X += 24;
-        if (ProfessionsModule.Config.ProgressionStyle == Config.PrestigeProgressionStyle.StackedStars)
+        if (ProfessionsModule.Config.PrestigeProgressionStyle == ProfessionConfig.ProgressionStyle.StackedStars)
         {
             __instance.width += 24;
             __instance.width += 24;

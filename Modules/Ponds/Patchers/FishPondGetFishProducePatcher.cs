@@ -365,7 +365,7 @@ internal sealed class FishPondGetFishProducePatcher : HarmonyPatcher
     {
         var heldMetals =
             pond.Read(DataKeys.MetalsHeld)
-                .ParseList<string>(";")
+                .ParseList<string>(';')
                 .Select(li => li?.ParseTuple<int, int>())
                 .WhereNotNull()
                 .ToList();

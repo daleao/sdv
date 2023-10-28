@@ -122,6 +122,8 @@ public abstract class OverhaulModule
             return;
         }
 
+        Log.T($"==================== {this.Name.ToUpper()} START ====================");
+        Log.T($"[Modules]: Preparing to activate {this.Name} module...");
         EventManager.ManageNamespace(this.Namespace + ".Events");
         this.Harmonizer =
             Harmonizer.ApplyFromNamespace(helper.ModRegistry, this.Namespace + ".Patchers", this.Namespace);
@@ -133,7 +135,8 @@ public abstract class OverhaulModule
             () => this.IsActive);
         this.IsActive = true;
         this.InvalidateAssets();
-        Log.T($"[Modules]: {this.Name} module activated.");
+        Log.I($"[Modules]: {this.Name} module activated.");
+        Log.T($"==================== {this.Name.ToUpper()} END ====================\n");
     }
 
     /// <summary>Deactivates the module.</summary>
@@ -235,10 +238,10 @@ public abstract class OverhaulModule
         internal static bool ShouldEnable => ModEntry.Config.EnableProfessions;
 
         /// <summary>Gets the config instance for the <see cref="OverhaulModule.ProfessionsModule"/>.</summary>
-        internal static Professions.Config Config => ModEntry.Config.Professions;
+        internal static Professions.ProfessionConfig Config => ModEntry.Config.Professions;
 
         /// <summary>Gets the ephemeral runtime state for the <see cref="OverhaulModule.ProfessionsModule"/>.</summary>
-        internal static Professions.State State => ModEntry.State.Professions;
+        internal static Professions.ProfessionState State => ModEntry.State.Professions;
 
         /// <inheritdoc />
         internal override bool _ShouldEnable
@@ -269,7 +272,7 @@ public abstract class OverhaulModule
 
     internal sealed class CombatModule : OverhaulModule
     {
-        private static readonly HashSet<string> KnownEnchantmentType = AccessTools
+        private static readonly HashSet<string> KnownEnchantmentTypes = AccessTools
             .GetTypesFromAssembly(Assembly.GetAssembly(typeof(Combat.Enchantments.BaseSlingshotEnchantment)))
             .Where(t => t.Namespace?.StartsWith("DaLion.Overhaul.Modules.Combat.Enchantments") == true)
             .Select(t => t.FullName)
@@ -286,10 +289,10 @@ public abstract class OverhaulModule
         internal static bool ShouldEnable => ModEntry.Config.EnableCombat;
 
         /// <summary>Gets the config instance for the <see cref="OverhaulModule.CombatModule"/>.</summary>
-        internal static Combat.Config Config => ModEntry.Config.Combat;
+        internal static Combat.CombatConfig Config => ModEntry.Config.Combat;
 
         /// <summary>Gets the ephemeral runtime state for the <see cref="OverhaulModule.CombatModule"/>.</summary>
-        internal static Combat.State State => ModEntry.State.Combat;
+        internal static Combat.CombatState State => ModEntry.State.Combat;
 
         /// <inheritdoc />
         internal override bool _ShouldEnable
@@ -379,31 +382,27 @@ public abstract class OverhaulModule
             {
                 Utility.iterateAllItems(item =>
                 {
-                    switch (item)
-                    {
-                        case MeleeWeapon weapon when weapon.ShouldHaveIntrinsicEnchantment():
-                            weapon.AddIntrinsicEnchantments();
-                            break;
-                        case Slingshot slingshot when slingshot.ShouldHaveIntrinsicEnchantment():
-                            slingshot.AddIntrinsicEnchantments();
-                            break;
-                    }
+                    addIntrinsicEnchantments(item);
                 });
             }
             else
             {
                 for (var i = 0; i < Game1.player.Items.Count; i++)
                 {
-                    var item = Game1.player.Items[i];
-                    switch (item)
-                    {
-                        case MeleeWeapon weapon when weapon.ShouldHaveIntrinsicEnchantment():
-                            weapon.AddIntrinsicEnchantments();
-                            break;
-                        case Slingshot slingshot when slingshot.ShouldHaveIntrinsicEnchantment():
-                            slingshot.AddIntrinsicEnchantments();
-                            break;
-                    }
+                    addIntrinsicEnchantments(Game1.player.Items[i]);
+                }
+            }
+
+            void addIntrinsicEnchantments(Item item)
+            {
+                switch (item)
+                {
+                    case MeleeWeapon weapon when weapon.ShouldHaveIntrinsicEnchantment():
+                        weapon.AddIntrinsicEnchantments();
+                        break;
+                    case Slingshot slingshot when slingshot.ShouldHaveIntrinsicEnchantment():
+                        slingshot.AddIntrinsicEnchantments();
+                        break;
                 }
             }
         }
@@ -414,31 +413,27 @@ public abstract class OverhaulModule
             {
                 Utility.iterateAllItems(item =>
                 {
-                    switch (item)
-                    {
-                        case MeleeWeapon weapon:
-                            weapon.AddIntrinsicEnchantments();
-                            break;
-                        case Slingshot slingshot:
-                            slingshot.AddIntrinsicEnchantments();
-                            break;
-                    }
+                    removeAllIntrinsicEnchantments(item);
                 });
             }
             else
             {
                 for (var i = 0; i < Game1.player.Items.Count; i++)
                 {
-                    var item = Game1.player.Items[i];
-                    switch (item)
-                    {
-                        case MeleeWeapon weapon:
-                            weapon.AddIntrinsicEnchantments();
-                            break;
-                        case Slingshot slingshot:
-                            slingshot.AddIntrinsicEnchantments();
-                            break;
-                    }
+                    removeAllIntrinsicEnchantments(Game1.player.Items[i]);
+                }
+            }
+
+            void removeAllIntrinsicEnchantments(Item item)
+            {
+                switch (item)
+                {
+                    case MeleeWeapon weapon:
+                        weapon.AddIntrinsicEnchantments();
+                        break;
+                    case Slingshot slingshot:
+                        slingshot.AddIntrinsicEnchantments();
+                        break;
                 }
             }
         }
@@ -579,13 +574,29 @@ public abstract class OverhaulModule
 
         internal static void RemoveInvalidEnchantments()
         {
-            Utility.iterateAllItems(item =>
+            if (Context.IsMainPlayer)
             {
-                if (item is not (Tool tool and (MeleeWeapon or Slingshot)))
+                Utility.iterateAllItems(item =>
                 {
-                    return;
+                    if (item is Tool tool and (MeleeWeapon or Slingshot))
+                    {
+                        removeInvalidEnchantments(tool);
+                    }
+                });
+            }
+            else
+            {
+                for (var i = 0; i < Game1.player.Items.Count; i++)
+                {
+                    if (Game1.player.Items[i] is Tool tool and (MeleeWeapon or Slingshot))
+                    {
+                        removeInvalidEnchantments(tool);
+                    }
                 }
+            }
 
+            void removeInvalidEnchantments(Tool tool)
+            {
                 for (var i = tool.enchantments.Count - 1; i >= 0; i--)
                 {
                     var enchantment = tool.enchantments[i];
@@ -595,15 +606,15 @@ public abstract class OverhaulModule
                         continue;
                     }
 
-                    if (!name.StartsWith("DaLion.Overhaul") || (ShouldEnable && KnownEnchantmentType.Contains(name)))
+                    if (!name.StartsWith("DaLion.Overhaul") || (ShouldEnable && KnownEnchantmentTypes.Contains(name)))
                     {
                         continue;
                     }
 
                     tool.RemoveEnchantment(enchantment);
-                    Log.W($"[CMBT]: {enchantment.GetType()} was removed from {tool.Name} to avoid issues.");
+                    Log.W($"[CMBT]: {enchantment.GetType()} was removed from {tool.Name} to prevent issues.");
                 }
-            });
+            }
         }
 
         /// <inheritdoc />
@@ -669,10 +680,10 @@ public abstract class OverhaulModule
         internal static bool ShouldEnable => ModEntry.Config.EnableTools;
 
         /// <summary>Gets the config instance for the <see cref="OverhaulModule.ToolsModule"/>.</summary>
-        internal static Tools.Config Config => ModEntry.Config.Tools;
+        internal static Tools.ToolConfig Config => ModEntry.Config.Tools;
 
         /// <summary>Gets the ephemeral runtime state for the <see cref="OverhaulModule.ToolsModule"/>.</summary>
-        internal static Tools.State State => ModEntry.State.Tools;
+        internal static Tools.ToolState State => ModEntry.State.Tools;
 
         /// <inheritdoc />
         internal override bool _ShouldEnable
@@ -702,7 +713,7 @@ public abstract class OverhaulModule
         internal static bool ShouldEnable => ModEntry.Config.EnablePonds;
 
         /// <summary>Gets the config instance for the <see cref="OverhaulModule.PondsModule"/>.</summary>
-        internal static Ponds.Config Config => ModEntry.Config.Ponds;
+        internal static Ponds.PondConfig Config => ModEntry.Config.Ponds;
 
         /// <inheritdoc />
         internal override bool _ShouldEnable
@@ -738,7 +749,7 @@ public abstract class OverhaulModule
         internal static bool ShouldEnable => ModEntry.Config.EnableTaxes;
 
         /// <summary>Gets the config instance for the <see cref="OverhaulModule.TaxesModule"/>.</summary>
-        internal static Taxes.Config Config => ModEntry.Config.Taxes;
+        internal static Taxes.TaxConfig Config => ModEntry.Config.Taxes;
 
         /// <inheritdoc />
         internal override bool _ShouldEnable
@@ -774,7 +785,7 @@ public abstract class OverhaulModule
         internal static bool ShouldEnable => ModEntry.Config.EnableTweex;
 
         /// <summary>Gets the config instance for the <see cref="OverhaulModule.TweexModule"/>.</summary>
-        internal static Tweex.Config Config => ModEntry.Config.Tweex;
+        internal static Tweex.TweexConfig Config => ModEntry.Config.Tweex;
 
         /// <inheritdoc />
         internal override bool _ShouldEnable

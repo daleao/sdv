@@ -75,12 +75,12 @@ internal static class MeleeWeapon_Stats
 
         switch (CombatModule.Config.WeaponTooltipStyle)
         {
-            case Config.TooltipStyle.Absolute:
+            case CombatConfig.TooltipStyle.Absolute:
                 return knockback - @default;
-            case Config.TooltipStyle.Relative:
+            case CombatConfig.TooltipStyle.Relative:
                 return (knockback / @default) - 1f;
             default:
-                return ThrowHelperExtensions.ThrowUnexpectedEnumValueException<Config.TooltipStyle, float>(
+                return ThrowHelperExtensions.ThrowUnexpectedEnumValueException<CombatConfig.TooltipStyle, float>(
                     CombatModule.Config.WeaponTooltipStyle);
         }
     }
@@ -102,12 +102,12 @@ internal static class MeleeWeapon_Stats
 
         switch (CombatModule.Config.WeaponTooltipStyle)
         {
-            case Config.TooltipStyle.Absolute:
+            case CombatConfig.TooltipStyle.Absolute:
                 return critChance - @default;
-            case Config.TooltipStyle.Relative:
+            case CombatConfig.TooltipStyle.Relative:
                 return (critChance / @default) - 1f;
             default:
-                return ThrowHelperExtensions.ThrowUnexpectedEnumValueException<Config.TooltipStyle, float>(
+                return ThrowHelperExtensions.ThrowUnexpectedEnumValueException<CombatConfig.TooltipStyle, float>(
                     CombatModule.Config.WeaponTooltipStyle);
         }
     }
@@ -128,12 +128,12 @@ internal static class MeleeWeapon_Stats
 
         switch (CombatModule.Config.WeaponTooltipStyle)
         {
-            case Config.TooltipStyle.Absolute:
+            case CombatConfig.TooltipStyle.Absolute:
                 return critPower - @default;
-            case Config.TooltipStyle.Relative:
+            case CombatConfig.TooltipStyle.Relative:
                 return (critPower / @default) - 1f;
             default:
-                return ThrowHelperExtensions.ThrowUnexpectedEnumValueException<Config.TooltipStyle, float>(
+                return ThrowHelperExtensions.ThrowUnexpectedEnumValueException<CombatConfig.TooltipStyle, float>(
                     CombatModule.Config.WeaponTooltipStyle);
         }
     }

@@ -111,7 +111,7 @@ internal sealed class FarmerTakeDamagePatcher : HarmonyPatcher
                             typeof(ModConfig).RequirePropertyGetter(nameof(ModConfig.Combat))),
                         new CodeInstruction(
                             OpCodes.Callvirt,
-                            typeof(Config).RequirePropertyGetter(nameof(Config.NewResistanceFormula))),
+                            typeof(CombatConfig).RequirePropertyGetter(nameof(CombatConfig.NewResistanceFormula))),
                         new CodeInstruction(OpCodes.Brtrue_S, skipSoftCap),
                     },
                     labels)

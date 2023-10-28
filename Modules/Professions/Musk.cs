@@ -10,7 +10,6 @@ using StardewValley.Monsters;
 
 internal sealed class Musk
 {
-
     /// <summary>Initializes a new instance of the <see cref="Musk"/> class, attached to a fixed <paramref name="position"/> on the specified <paramref name="location"/>.</summary>
     /// <param name="location">The <see cref="GameLocation"/>.</param>
     /// <param name="position">The <see cref="Vector2"/> absolute position.</param>

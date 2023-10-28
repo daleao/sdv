@@ -57,7 +57,7 @@ internal sealed class UpgradeToolCommand : ConsoleCommand
             case UpgradeLevel.Mythicite when MoonMisadventuresIntegration.Instance?.IsLoaded == false:
                 Log.W("You must install `Moon Misadventures` mod to set this upgrade level.");
                 return;
-            case UpgradeLevel.Enchanted:
+            case UpgradeLevel.Reaching:
                 Log.W("To add enchantments use the `ench` entry command instead.");
                 return;
             case > UpgradeLevel.Gold when tool is FishingRod:

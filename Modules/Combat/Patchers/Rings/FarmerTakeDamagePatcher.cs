@@ -82,7 +82,7 @@ internal sealed class FarmerTakeDamagePatcher : HarmonyPatcher
                             typeof(ModConfig).RequirePropertyGetter(nameof(ModConfig.Combat))),
                         new CodeInstruction(
                             OpCodes.Callvirt,
-                            typeof(Config).RequirePropertyGetter(nameof(Config.RebalancedRings))),
+                            typeof(CombatConfig).RequirePropertyGetter(nameof(CombatConfig.RebalancedRings))),
                         new CodeInstruction(OpCodes.Brfalse_S, doVanillaYoba),
                         new CodeInstruction(OpCodes.Ldarg_0), // arg 0 = Farmer this
                         new CodeInstruction(OpCodes.Ldarg_1), // arg 1 = int damage
