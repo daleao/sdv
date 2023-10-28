@@ -16,8 +16,9 @@ using DaLion.Shared.Integrations.GMCM;
 /// <summary>Constructs the GenericModConfigMenu integration.</summary>
 internal sealed class GenericModConfigMenu : GMCMBuilder<GenericModConfigMenu>
 {
-    private static bool _reload;
-    private Dictionary<string, object> _changedFields = new();
+    private readonly Dictionary<string, object> _changedFields = new();
+
+    private bool _reload;
 
     /// <summary>Initializes a new instance of the <see cref="GenericModConfigMenu"/> class.</summary>
     internal GenericModConfigMenu()
@@ -59,7 +60,7 @@ internal sealed class GenericModConfigMenu : GMCMBuilder<GenericModConfigMenu>
         this.OnFieldChanged((name, value) =>
         {
             this._changedFields[name] = value;
-            _reload = true;
+            this._reload = true;
         });
     }
 
@@ -83,13 +84,13 @@ internal sealed class GenericModConfigMenu : GMCMBuilder<GenericModConfigMenu>
             this._changedFields.Clear();
         }
 
-        if (!_reload)
+        if (!this._reload)
         {
             return;
         }
 
         this.Reload();
-        _reload = false;
+        this._reload = false;
     }
 
     #region GMCM overrides

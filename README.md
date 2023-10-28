@@ -86,7 +86,7 @@ As with any mod, always **delete any previous installation completely** before u
 
 <sub><sup>[🔼 Back to top](#table-of-contents)</sup></sub>
 
-## Reporting Bugs or Issues
+## Reporting Bugs and Issues
 
 1. Make sure the mod is updated to the latest version. I will not support older versions.
 2. Make sure you can reliably reproduce the issue. **Write out the steps to reproduce the issue.**

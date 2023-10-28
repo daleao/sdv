@@ -227,6 +227,13 @@ internal sealed class ObjectProjectile : BasicProjectile
         }
 
         this._explosionAnimation(this, location);
+
+        var isArmored = monster is Bug { isArmoredBug.Value: true };
+        if (isArmored && this.DidPierce)
+        {
+            ((Bug)monster).isArmoredBug.Value = false;
+        }
+
         location.damageMonster(
             monster.GetBoundingBox(),
             this.Damage,
@@ -238,6 +245,11 @@ internal sealed class ObjectProjectile : BasicProjectile
             0f,
             true,
             this.Firer);
+
+        if (isArmored && this.DidPierce)
+        {
+            ((Bug)monster).isArmoredBug.Value = true;
+        }
 
         this.Damage = ogDamage;
         if (this.DidPierce)

@@ -40,7 +40,7 @@ This module is an extensive overhaul of vanilla professions and skills, and make
 
 By popular demand this module also introduces an immersive (and completely optional) **Prestige** system, which will eventually allow the player to obtain *all* professions and open up skill progression to level 20. Also added are unique Limit Breaks for each combat profession, with accompanying new visual and sound effects.
 
-This module was inspired by [Enai Siaion][user:enai]'s excellent [Ordinator][mod:ordinator] mod for Skyrim, and borrows many ideas (and a few assets) from the likes of [League Of Legends][url:league], [Diablo][url:diablo] and the classic [Ragnarok Online][url:ragnarok]. It also includes professions icons by [IllogicalMoodSwing][user:illogicalmoodswing] (**please visit and endorse [Profession Icons Redone][mod:icons-redone]!**).
+This module was inspired by [Enai Siaion][user:enai]'s excellent [Ordinator][mod:ordinator] mod for Skyrim, and borrows many ideas (and a few assets) from the likes of [League Of Legends][url:league], [Diablo][url:diablo] and the classic [Ragnarok Online][url:ragnarok]. It also includes new improved profession icons by [IllogicalMoodSwing][user:illogicalmoodswing] (**please visit and endorse [Profession Icons Redone][mod:icons-redone]!**).
 
 Integrations are provided out-of-the-box for several popular mods. See the [compatibility](#compatibility) section for details.
 
@@ -75,7 +75,7 @@ Yields an equivalent 10% monetary bonus to vanilla on average, but also provides
 <ul>
 <font size="2">
 
-Allows harvesting iridium-quality crops, normally only possible with Deluxe Fertilizer. The chance is equivalent to half of the chance with Deluxe Fertilizer. This means that fertilizers are **not** obsolete.
+Allows harvesting iridium-quality crops, normally only possible with Deluxe Fertilizer. The chance is equivalent to half of that with Deluxe Fertilizer, which means that fertilizers are **by no means** obsolete.
 </font>
 </ul>
 </details>
@@ -87,7 +87,8 @@ Allows harvesting iridium-quality crops, normally only possible with Deluxe Fert
 <ul>
 <font size="2">
 
-Quality output is based on Farming level. The lowest possible quality is 2 stages below the input quality, and the highest possible quality is 1 higher than the input quality. For reference, the chance to preserve quality at level 10 is 30%. Note that the quality preservation perk is tied to the Artisan player, while the production time and quality promotion perks are tied to the machine itself; in other words, only Artisans themselves can preserve the quality of ingredients, but they can do so on any machine, whereas any non-Artisan player can benefit from faster production and quality upgrades, so long as they use a machine crafted by an Artisan player (ownership requirements can be turned off in the configs).
+- The quality of the output is based on your Farming level, with the lowest quality being 2 stages below the input quality, and the highest being 1 stage higher. For reference, the chance for output quality to *equal* input quality at Farming level 10 is 30%.
+- Note that the quality preservation part of the perk is tied to the Artisan player, while the production time and quality promotion perks are tied to the machine itself; in other words, only Artisans themselves can process goods which preserve the ingredient quality, and they can do so on any machines, whereas non-Artisan players can still benefit from faster production and small chance for quality upgrade (in that case, capped at silver), so long as they use a machine that was crafted by an Artisan player (ownership requirements can be turned off in the configs).
 </font>
 </ul>
 </details>
@@ -123,7 +124,11 @@ At max friendship animals are worth 2.5x their base price, instead of vanilla 1.
 <ul>
 <font size="2">
 
-Note that happiness, or mood, is **not** the same as friendship. Also note that this will **not** allow certain animals (i.e., cows and chickens) to produce more than once per day. Bonus produce value also applies to artisan goods derived from animal products (such as cheeses, mayos and cloth), honey (bees are animals too), and meat from Animal Husbandry or PPJA Fresh Meat. Also also note that only deluxe buildings can be considered full, and only barns and coops owned by the Producer will be considered (ownership requirements can be turned off in the configs). There is no limit to this bonus value.
+- Note that happiness, or [mood](https://stardewvalleywiki.com/Animals#Mood), is **not** the same as friendship.
+- This will **not** allow certain animals that already produce every day (i.e., cows and chickens) to produce more that once per day.
+- The bonus produce value also applies to artisan goods derived from animal products (such as cheeses, mayos and cloth), honey (bees are animals too), and meat from Animal Husbandry or PPJA Fresh Meat.
+- Only deluxe buildings can be considered full, and only barns and coops owned by the Producer will be considered (ownership requirements can be turned off in the configs). 
+- There is no limit to the bonus value.
 </font>
 </ul>
 </details>
@@ -141,7 +146,7 @@ Note that happiness, or mood, is **not** the same as friendship. Also note that 
 <ul>
 <font size="2">
 
-Other than the name, this profession is unchanged compared to vanilla.
+Other than the name, this profession is unchanged from vanilla.
 </font>
 </ul>
 </details>
@@ -153,7 +158,8 @@ Other than the name, this profession is unchanged compared to vanilla.
 <ul>
 <font size="2">
 
-All foraged items will have the same deterministic quality, providing immediate inventory convenience. However, that quality will initially start out at silver, and progress to iridium as you gather foraged items. Unlike vanilla this perk will also apply to hoed forage (such as Winter Root, Snow Yams and Ginger), Coconuts shaken off palm trees, and mushrooms produced by Mushroom Boxes, but only if the cave owner (i.e., the host player) has the profession. It will likewise apply to crafted Mushroom Boxes and Mushroom Propagators, if either of those mods is installed.
+- All foraged items will have the same deterministic quality, providing immediate inventory convenience. However, that quality will initially start out at silver, and gradually progress to iridium as you forage more items.
+- Unlike vanilla, this perk will also apply to hoed forage (such as Winter Root, Snow Yams and Ginger), Coconuts shaken off palm trees, and mushrooms produced by Mushroom Boxes, but only if the cave owner (i.e., the host player) has the profession. It will likewise apply to crafted Mushroom Boxes and Mushroom Propagators, if either of those mods is installed.
 </font>
 </ul>
 </details>
@@ -165,8 +171,10 @@ All foraged items will have the same deterministic quality, providing immediate 
 <ul>
 <font size="2">
 
-- Whenever you are outside there is a chance to trigger a short Scavenger Hunt for hidden buried treasure. Follow the purple HUD arrow to find the treasure and dig it up (with a hoe) within the time limit to obtain a reward. The larger your win streak the better your odds of obtaining rare items. You can optionally configure the HUD arrows to only appear when holding a key (LeftShift by default). This will also highlight forageable currently on-screen for your convenience.
-- Also gains a chance, proportional to the Scavenger Hunt streak, to spawn additional forage when entering a new map.
+- Whenever you are outside there is a chance to trigger a short Scavenger Hunt for hidden buried treasure. Follow the purple HUD arrow to find the treasure and dig it up (with a hoe) within the time limit to obtain a reward. Rewards may start out underwheming, but can be improved dramatically by building up a streak.
+- Your Scavenger Hunt streak will also increase the chance for additional forage to spawn when entering a new map.
+- You may also hold a key (LeftShift by default) to highlight all forageable items currently on-screen, for your convenience.
+- You can optionally configure the tracking HUD arrows to only appear when holding that same key (LeftShift by default).
 </font>
 </ul>
 </details>
@@ -178,7 +186,7 @@ All foraged items will have the same deterministic quality, providing immediate 
 <ul>
 <font size="2">
 
-Other than the name, this profession is unchanged compared to vanilla.
+Other than the name, this profession is unchanged from vanilla.
 </font>
 </ul>
 </details>
@@ -221,13 +229,13 @@ Bonus tree growth works as a global buff; i.e., all trees in the world are affec
 <ul>
 <font size="2">
 
-Completely unchanged compared to vanilla.
+Completely unchanged from vanilla.
 </font>
 </ul>
 </details>
 
 <details>
-<summary><img src="./resources/assets/sprites/loose/spelunker.png"/> <b>Spelunker (Lv10)</b> - Chance to find ladders and shafts increases with every mine level. +1 speed every 10 levels. <font color="gold"><i>⭐Also recover some health and stamina with every mine level.⭐</i></font>
+<summary><img src="./resources/assets/sprites/loose/spelunker.png"/> <b>Spelunker (Lv10)</b> - Chance to find ladders and shafts increases every mine level. +1 speed every 10 levels. <font color="gold"><i>⭐Also recover some health and stamina with every mine level.⭐</i></font>
 </summary>
 
 <ul>
@@ -246,8 +254,12 @@ Plus 0.5% ladder chance per level. Bonus ladder chance resets each time you leav
 <ul>
 <font size="2">
 
-- Analogous to Scavenger. Tracks all mining nodes and mineral forages off-screen with a yellow pointer, ladders, shafts and panning spots (when outside) with a green pointer. Whenever you are in the mines there is a chance to trigger a short Propsector Hunt for hidden stone treasure. Follow the purple HUD arrow to find the correct stone within the time limit and break it up to obtain a reward. The larger your win streak the better your odds of obtaining rare minerals or artifacts. Succesful completion of a hunt automatically reveals a ladder. You can optionally configure the HUD arrows to only appear when holding a key (LeftShift by default). This will also highlight mineral nodes and other tiles of interest currently on-screen for your convenience.
-- Also gains a chance, proportional to the Prospector Hunt streak, to spawn additional ore nodes and panning points.
+- Analogous to Scavenger.
+- Tracks all mining nodes and mineral forages off-screen with a yellow pointer, and ladders, shafts and panning spots with a green pointer.
+- Whenever you are in the mines there is a chance to trigger a short Propsector Hunt for hidden stone treasure. Follow the purple HUD arrow to find the correct stone within the time limit and break it up to obtain a reward. Rewards may start out underwheming, but can be improved dramatically by building up a streak.
+- Your Prospector Hunt streak will also increase the chance for additional ores nodes to spawn when entering a new mine level, and for panning points to spawn when entering a new applicable map.
+- You may also hold a key (LeftShift by default) to highlight all resource nodes and ladders currently on-screen, for your convenience.
+- You can optionally configure the tracking HUD arrows to only appear when holding that same key (LeftShift by default).
 </font>
 </ul>
 </details>
@@ -259,7 +271,7 @@ Plus 0.5% ladder chance per level. Bonus ladder chance resets each time you leav
 <ul>
 <font size="2">
 
-This aims to provide a new style of mining while attempting to compensate for the lack of coal without the vanilla Prospector profession.
+Provides a new style of mining while attempting to compensate for the lack of coal without the vanilla Prospector profession.
 </font>
 </ul>
 </details>
@@ -271,8 +283,8 @@ This aims to provide a new style of mining while attempting to compensate for th
 <ul>
 <font size="2">
 
-- This aims to improve the bomberman style of mining while attempting to compensate for the lack of Geologist and Gemologist professions from vanilla. As a configurable bonus, the pyromaniac in your will [get excited](https://www.youtube.com/watch?v=0nlJuwO0GDs) when hit by an explosion.
-- You can also manually detonate bombs; any bombs placed while holding down the Mod Key (default LeftShift) will not detonate until you release the key.
+- Improves the bomberman mining style while attempting to compensate for the lack of Geologist and Gemologist professions from vanilla. As a configurable bonus, the pyromaniac inside of you [gets excited](https://www.youtube.com/watch?v=0nlJuwO0GDs) when you are hit by an explosion.
+- You can also manually detonate bombs; any bombs placed while holding down the Mod Key (default LeftShift) will not detonate until you release that same key.
 </font>
 </ul>
 </details>
@@ -284,7 +296,11 @@ This aims to provide a new style of mining while attempting to compensate for th
 <ul>
 <font size="2">
 
-Analogous to Ecologist. All gems and minerals mined from nodes have a fixed quality, starting at silver and increasing to iridium as you mine. Please note that this bonus will only apply to gems or minerals that have been either physically mined, or produced by Geode Crushers owned by the Gemologist. Crystalariums and geodes opened by Clint will **not** receive quality upgrades. The exception to this is Crystalariums already in production, which will all receive an equivalent quality upgrade whenever the owner reaches a quality milestone. The production time bonus for Crystalarium is likewise tied to the owner, and therefore only Crystalariums crafted by the Gemologist will receive that perk (ownership requirements can be turned off in the configs).
+- Analogous to Ecologist.
+- All gems and minerals mined from nodes will have the same deterministic quality, starting at silver and gradually increasing to iridium as you mine more gems.
+- Note that this bonus applies only to gems and minerals that have been either physically mined, or produced by Geode Crushers owned by the Gemologist. Crystalariums and geodes opened by Clint will **not** receive quality upgrades.
+- When the Gemologist gains a quality upgrade, all gems currently being processed in a Crystalarium owned by that Gemologist will also receive a one stage boost. This is only for convenience, to avoid having to manually swap every Crystalarium, and can be toggled off in the settings.
+- The production time bonus for Crystalariums is likewise tied to the owner, and therefore only Crystalariums crafted by the Gemologist will receive that perk (ownership requirements can be turned off in the configs).
 </font>
 </ul>
 </details>
@@ -302,7 +318,8 @@ Analogous to Ecologist. All gems and minerals mined from nodes have a fixed qual
 <ul>
 <font size="2">
 
-Also applies to the double catch effect of Wild Bait and bonus treasure effect of Magnet.
+- Doubles the chance to attract fish normally associated with every bait.
+- Also doubles the double catch chance of Wild Bait and the bonus treasure chance of Magnet.
 </font>
 </ul>
 </details>
@@ -314,8 +331,8 @@ Also applies to the double catch effect of Wild Bait and bonus treasure effect o
 <ul>
 <font size="2">
 
-- Legendary fish are instead worth 2.5% bonus to fish sell price, including Extended Family.
-- Lingering tackle effects last for 40 uses (same as regular tackle), effectively doubling tackle duration, but more importantly, allowing different tackles to be used together. **The same tackle effect cannot stack with itself.**
+- Legendary fish are 5 regular fish; i.e., 2.5% bonus to fish sell price. This includes Extended Family, and the legendary fish from Sardew Aquarium and Ridgeside Village, if those mods are installed.
+- Lingering tackle effects last for 40 uses (same as regular tackle). This effectively doubles tackle duration, but more importantly, it allows two tackles to be in effect at the same time. **Note that the same tackle effect cannot stack with itself**, so this encourages swapping out different tackles, mixing and matching.
 </font>
 </ul>
 </details>
@@ -340,7 +357,9 @@ Also applies to the double catch effect of Wild Bait and bonus treasure effect o
 <ul>
 <font size="2">
 
-All trapped fish can have quality up to gold. Chance depends on fishing level (same formula as forage). The Crab Pot recipe is unchanged from vanilla.
+- All trapped fish can have quality up to gold (*iridium, with prestige*).
+- Chance depends on fishing level (same formula as forage).
+- The Crab Pot recipe part of the perk is unchanged from vanilla.
 </font>
 </ul>
 </details>
@@ -357,7 +376,7 @@ All trapped fish can have quality up to gold. Chance depends on fishing level (s
 	- **Wild bait:** 50% chance to also double the haul.
 	- **Magnet:** Repels all fish (as per its description), but attracts metal items such as resources, artifacts, treasure chests, rings and even some weapons (treasure table is similar to fishing treasure chests).
 	- **Magic bait:** Chance to catch high-level fish of any location or season. Also upgrades all catch to iridium-quality.
-- All baits, with the exception of Magnet, prevent collecting junk.
+- All baits, with the exception of Magnet, also prevent collecting junk.
 </font>
 </ul>
 </details>
@@ -369,7 +388,9 @@ All trapped fish can have quality up to gold. Chance depends on fishing level (s
 <ul>
 <font size="2">
 
-Every 100 (configurable) junk items collected will earn you a 1% tax deduction the following season (max 25%, also configurable). What a "tax deduction" means depends on whether the [Taxes](../Taxes/README.md) module is enabled; if it is enabled, a tax deduction works as you would expect, reducing your overall amount due. If this module is not enabled, then a tax deduction works as a % value increasing to all items shipped in the bin. If you quality for a deduction you will receive a formal mail from the Ferngill Revenue Service on the first of the season informing your currrent deduction rights.
+- Every 100 (configurable) junk items collected will earn you a 1% tax deduction the following season (max 25%, also configurable).
+- What a "tax deduction" means depends on whether the [TXS](../Taxes/README.md) module is enabled; if it is enabled, a tax deduction works as you would expect, reducing your overall amount due. If this module is not enabled, then a tax deduction works as a % value increasing to all items shipped in the bin.
+- If you quality for a deduction you will receive a formal mail from the Ferngill Revenue Service on the first of the season, informing you of your currrent deduction rights.
 </font>
 </ul>
 </details>
@@ -387,7 +408,7 @@ Every 100 (configurable) junk items collected will earn you a 1% tax deduction t
 <ul>
 <font size="2">
 
-Completely unchanged compared to vanilla.
+Completely unchanged from vanilla.
 </font>
 </ul>
 </details>
@@ -470,7 +491,7 @@ If enabled, the [Statue of Uncertainty](https://stardewvalleywiki.com/The_Sewers
 
 <div align="center">
 
-<img src="https://gitlab.com/daleao/modular-overhaul/-/raw/main/resources/screenshots/prestige_statue.gif" alt="prestige_statue.gif" width="90%">
+<img src="https://gitlab.com/daleao/modular-overhaul/-/raw/main/resources/screenshots/prestige_statue.gif" alt="prestige_statue.gif" width="67%">
 </div>
 
 Instead of changing your profession choices, the Statue of Prestige will reset your level 10 skills back to level 0, for a price. After resetting a skill, you will have to level up again to choose a different profession, but you get to keep every profession you've ever acquired (yes, including level 5). You will also find that leveling becomes progressively easier after each skill reset (or harder, depending on your config settings). By default, reseting a skill will also cause you to forget all associated recipes, but can also be turned off. For this incredible service, the Statue of Prestige will charge you 10,000g the first time, 50,000g the second, and 100,000g the third and last time, although the cost can also be configured. After performing three skill resets, you should have acquired all four level 10 professions simultaneously. As you reset and acquire new professions your progress will be reflected on the skills page menu, either by a new colorful star, or by a growing ribbon, depending on your settings.
@@ -479,7 +500,7 @@ Once you have acquired four stars, or the ribbon has reached its fourth stage, t
 
 <div align="center">
 
-<img src="https://gitlab.com/daleao/modular-overhaul/-/raw/main/resources/screenshots/skills_prestige.gif" alt="skills_prestige.gif" width="90%">
+<img src="https://gitlab.com/daleao/modular-overhaul/-/raw/main/resources/screenshots/skills_prestige.gif" alt="skills_prestige.gif" width="67%">
 </div>
 
 Only after all possible skills have had their level cap raised will the Statue of Prestige resume it's old behavior, by allowing you to change your prestige choices, for a modest fee of 20,000g (also configurable).
