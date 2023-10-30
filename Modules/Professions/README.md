@@ -28,9 +28,9 @@
 	<li><a href="#prestige">Prestige</a></li>
 	<li><a href="#limit-breaks">Limit Breaks</a></li>
 	<li><a href="#compatibility">Compatibility</a></li>
-	<li><a href="#faq">F.A.Q.</a></li>
-	<li><a href="#for-c-developers">For C# Developers</a></li>
 	<li><a href="#recommended-mods">Recommended Mods</a></li>
+	<li><a href="#for-c-developers">For C# Developers</a></li>
+	<li><a href="#faq">F.A.Q.</a></li>
 </ol>
 </details>
 
@@ -94,7 +94,7 @@ Allows harvesting iridium-quality crops, normally only possible with Deluxe Fert
 </details>
 
 <details>
-<summary><img src="./resources/assets/sprites/loose/miner.png"/> <b>Rancher (Lv5)</b> - Befriend animals 2× <font color="gold"><i>(⭐3×⭐)</i></font> quicker.
+<summary><img src="./resources/assets/sprites/loose/rancher.png"/> <b>Rancher (Lv5)</b> - Befriend animals 2× <font color="gold"><i>(⭐3×⭐)</i></font> quicker.
 </summary>
 
 <ul>
@@ -626,6 +626,34 @@ After all possible skills have had their level cap raised, the Statue of Prestig
 
 <sup><sup>[🔼 Back to top](#margo--professions-prfs)</sup></sup>
 
+## Recommended Mods
+
+- [Artisan Valley][mod:artisan-valley] to add more variety to Artisan and Producer products.
+- [Slime Produce][mod:slime-produce] for even more interesting and profitable Slime Hutches.
+- [Ostrich Mayo and Golden Mayo][mod:new-mayo] for better consistency of Ostrich and Golden egg processing with the Artisan profession.
+- [Skill Training][mod:skill-training] to immersively speed-up your skill resets.
+- [Tap Giant Crops][mod:tap-giant-crops] to get way more out of the Tapper profession.
+
+<sup><sup>[🔼 Back to top](#margo--professions-prfs)</sup></sup>
+
+## For C# Developers
+
+The module exposes an API to facilitate integration with other mods. Currently exposed endpoints include:
+
+- Checking the current quality of Ecologist forage or Gemologist minerals.
+- Checking the current tax deduction bracket for Conservationist.
+- Forcing new Treasure Hunt events, or interrupting active Treasure Hunts.
+- Triggering events when a Treasure Hunt starts or ends.
+- Checking a player's registered Ultimate ability.
+- Triggering events when a player's Ultimate gains charge, becomes active or inactive.
+- Checking whether the Ultimate HUD element is currently being displayed (useful for UI mods to decide whether to reposition their own HUD elements).
+- Checking the player's config settings for this mod.
+- Registering custom skills for Prestige.
+
+To consume the API, copy both interfaces from the [API folder](../../API/) namespace to your project and [ask SMAPI for a proxy][wiki:integrations-api].
+
+<sup><sup>[🔼 Back to top](#margo--professions-prfs)</sup></sup>
+
 ## F.A.Q.
 
 <details>
@@ -666,35 +694,6 @@ Obviously not.
 They will produce ores, gems and other valuables fitting to the fish's theme, as well as, obviously, roe.
 With the exception of Angler when placed together with Ms. Angler (requires [PNDS](../Ponds)), they do not reproduce.
 </details>
-
-<sup><sup>[🔼 Back to top](#margo--professions-prfs)</sup></sup>
-
-## For C# Developers
-
-The module exposes an API to facilitate integration with other mods. Currently exposed endpoints include:
-
-- Checking the current quality of Ecologist forage or Gemologist minerals.
-- Checking the current tax deduction bracket for Conservationist.
-- Forcing new Treasure Hunt events, or interrupting active Treasure Hunts.
-- Triggering events when a Treasure Hunt starts or ends.
-- Checking a player's registered Ultimate ability.
-- Triggering events when a player's Ultimate gains charge, becomes active or inactive.
-- Checking whether the Ultimate HUD element is currently being displayed (useful for UI mods to decide whether to reposition their own HUD elements).
-- Checking the player's config settings for this mod.
-- Registering custom skills for Prestige.
-
-To consume the API, copy both interfaces from the [API folder](../../API/) namespace to your project and [ask SMAPI for a proxy][wiki:integrations-api].
-
-<sup><sup>[🔼 Back to top](#margo--professions-prfs)</sup></sup>
-
-## Recommended Mods
-
-- [Artisan Valley][mod:artisan-valley] to add more variety to Artisan and Producer products.
-- [Slime Produce][mod:slime-produce] for even more interesting and profitable Slime Hutches.
-- [Ostrich Mayo and Golden Mayo][mod:new-mayo] for better consistency of Ostrich and Golden egg processing with the Artisan profession.
-- [Skill Training][mod:skill-training] to immersively speed-up your skill resets.
-- [Tap Giant Crops][mod:tap-giant-crops] to get way more out of the Tapper profession.
-
 
 <!-- MARKDOWN LINKS & IMAGES -->
 [shield:prestige]: https://img.shields.io/badge/Prestige-yellow?style=flat

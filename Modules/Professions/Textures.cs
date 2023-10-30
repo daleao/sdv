@@ -11,6 +11,18 @@ using Microsoft.Xna.Framework.Graphics;
 /// <summary>Caches custom mod textures and related functions.</summary>
 internal static class Textures
 {
+    private static Lazy<Texture2D> _prestigeSheetTx =
+        new(() => ModHelper.GameContent.Load<Texture2D>($"{Manifest.UniqueID}/PrestigeProgression"));
+
+    private static Lazy<Texture2D> _maxIconTx =
+        new(() => ModHelper.GameContent.Load<Texture2D>($"{Manifest.UniqueID}/MaxIcon"));
+
+    private static Lazy<Texture2D> _skillBarsTx =
+        new(() => ModHelper.GameContent.Load<Texture2D>($"{Manifest.UniqueID}/SkillBars"));
+
+    private static Lazy<Texture2D> _ultimateMeterTx =
+        new(() => ModHelper.GameContent.Load<Texture2D>($"{Manifest.UniqueID}/UltimateMeter"));
+
     internal const float RibbonScale = 1.8f;
     internal const float StarsScale = 3f;
 
@@ -20,33 +32,29 @@ internal static class Textures
     internal const int ProgressionHorizontalOffset = -82;
     internal const int ProgressionVerticalOffset = -70;
 
-    internal static Texture2D PrestigeSheetTx { get; private set; } =
-        ModHelper.GameContent.Load<Texture2D>($"{Manifest.UniqueID}/PrestigeProgression");
+    internal static Texture2D PrestigeSheetTx => _prestigeSheetTx.Value;
 
-    internal static Texture2D MaxIconTx { get; } =
-        ModHelper.GameContent.Load<Texture2D>($"{Manifest.UniqueID}/MaxIcon");
+    internal static Texture2D MaxIconTx => _maxIconTx.Value;
 
-    internal static Texture2D SkillBarsTx { get; private set; } =
-        ModHelper.GameContent.Load<Texture2D>($"{Manifest.UniqueID}/SkillBars");
+    internal static Texture2D SkillBarsTx => _skillBarsTx.Value;
 
-    internal static Texture2D UltimateMeterTx { get; private set; } =
-        ModHelper.GameContent.Load<Texture2D>($"{Manifest.UniqueID}/UltimateMeter");
+    internal static Texture2D UltimateMeterTx => _ultimateMeterTx.Value;
 
     internal static void Refresh(IReadOnlySet<IAssetName> names)
     {
         if (names.Any(name => name.IsEquivalentTo($"{Manifest.UniqueID}/PrestigeProgression")))
         {
-            PrestigeSheetTx = ModHelper.GameContent.Load<Texture2D>($"{Manifest.UniqueID}/PrestigeProgression");
+            _prestigeSheetTx = new Lazy<Texture2D>(() => ModHelper.GameContent.Load<Texture2D>($"{Manifest.UniqueID}/PrestigeProgression"));
         }
 
         if (names.Any(name => name.IsEquivalentTo($"{Manifest.UniqueID}/SkillBars")))
         {
-            SkillBarsTx = ModHelper.GameContent.Load<Texture2D>($"{Manifest.UniqueID}/SkillBars");
+            _skillBarsTx = new Lazy<Texture2D>(() => ModHelper.GameContent.Load<Texture2D>($"{Manifest.UniqueID}/SkillBars"));
         }
 
         if (names.Any(name => name.IsEquivalentTo($"{Manifest.UniqueID}/UltimateMeter")))
         {
-            UltimateMeterTx = ModHelper.GameContent.Load<Texture2D>($"{Manifest.UniqueID}/UltimateMeter");
+            _ultimateMeterTx = new Lazy<Texture2D>(() => ModHelper.GameContent.Load<Texture2D>($"{Manifest.UniqueID}/UltimateMeter"));
         }
     }
 }

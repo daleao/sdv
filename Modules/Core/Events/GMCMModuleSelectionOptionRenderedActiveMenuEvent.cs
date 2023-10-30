@@ -10,11 +10,11 @@ using StardewValley.Menus;
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class ModuleSelectionTooltipRenderedActiveMenuEvent : RenderedActiveMenuEvent
+internal sealed class GMCMModuleSelectionOptionRenderedActiveMenuEvent : RenderedActiveMenuEvent
 {
-    /// <summary>Initializes a new instance of the <see cref="ModuleSelectionTooltipRenderedActiveMenuEvent"/> class.</summary>
+    /// <summary>Initializes a new instance of the <see cref="GMCMModuleSelectionOptionRenderedActiveMenuEvent"/> class.</summary>
     /// <param name="manager">The <see cref="EventManager"/> instance that manages this event.</param>
-    internal ModuleSelectionTooltipRenderedActiveMenuEvent(EventManager manager)
+    internal GMCMModuleSelectionOptionRenderedActiveMenuEvent(EventManager manager)
         : base(manager)
     {
     }

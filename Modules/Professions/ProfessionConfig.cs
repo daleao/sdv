@@ -89,7 +89,8 @@ public sealed class ProfessionConfig
 
     /// <summary>Gets custom mod Artisan machines. Add to this list to make them compatible with the profession.</summary>
     [JsonProperty]
-    [GMCMIgnore]
+    [GMCMPriority(3)]
+    [GMCMOverride(typeof(GenericModConfigMenu), "ProfessionConfigCustomArtisanMachinesOverride")]
     public HashSet<string> CustomArtisanMachines { get; internal set; } = new()
     {
         "Alembic", // artisan valley
@@ -127,13 +128,13 @@ public sealed class ProfessionConfig
     /// <summary>Gets a value indicating whether Bee House products should be affected by Producer bonuses.</summary>
     [JsonProperty]
     [GMCMSection("prfs.general")]
-    [GMCMPriority(3)]
+    [GMCMPriority(4)]
     public bool BeesAreAnimals { get; internal set; } = true;
 
     /// <summary>Gets the number of items that must be foraged before foraged items become iridium-quality.</summary>
     [JsonProperty]
     [GMCMSection("prfs.general")]
-    [GMCMPriority(4)]
+    [GMCMPriority(5)]
     [GMCMRange(0, 1000)]
     [GMCMInterval(10)]
     public uint ForagesNeededForBestQuality { get; internal set; } = 100;
@@ -141,7 +142,7 @@ public sealed class ProfessionConfig
     /// <summary>Gets the number of minerals that must be mined before mined minerals become iridium-quality.</summary>
     [JsonProperty]
     [GMCMSection("prfs.general")]
-    [GMCMPriority(5)]
+    [GMCMPriority(6)]
     [GMCMRange(0, 1000)]
     [GMCMInterval(10)]
     public uint MineralsNeededForBestQuality { get; internal set; } = 100;
@@ -149,7 +150,7 @@ public sealed class ProfessionConfig
     /// <summary>Gets the chance that a scavenger or prospector hunt will trigger in the right conditions.</summary>
     [JsonProperty]
     [GMCMSection("prfs.general")]
-    [GMCMPriority(6)]
+    [GMCMPriority(7)]
     [GMCMRange(0f, 1f)]
     [GMCMInterval(0.05f)]
     public double ChanceToStartTreasureHunt { get; internal set; } = 0.1;
@@ -157,13 +158,13 @@ public sealed class ProfessionConfig
     /// <summary>Gets a value indicating whether determines whether a Scavenger Hunt can trigger while entering a farm map.</summary>
     [JsonProperty]
     [GMCMSection("prfs.general")]
-    [GMCMPriority(7)]
+    [GMCMPriority(8)]
     public bool AllowScavengerHuntsOnFarm { get; internal set; } = false;
 
     /// <summary>Gets a multiplier which is used to extend the duration of Scavenger hunts, in case you feel they end too quickly.</summary>
     [JsonProperty]
     [GMCMSection("prfs.general")]
-    [GMCMPriority(8)]
+    [GMCMPriority(9)]
     [GMCMRange(0.5f, 3f)]
     [GMCMInterval(0.2f)]
     public float ScavengerHuntHandicap
@@ -178,7 +179,7 @@ public sealed class ProfessionConfig
     /// <summary>Gets a multiplier which is used to extend the duration of Prospector hunts, in case you feel they end too quickly.</summary>
     [JsonProperty]
     [GMCMSection("prfs.general")]
-    [GMCMPriority(9)]
+    [GMCMPriority(10)]
     [GMCMRange(0.5f, 3f)]
     [GMCMInterval(0.2f)]
     public float ProspectorHuntHandicap
@@ -193,27 +194,27 @@ public sealed class ProfessionConfig
     /// <summary>Gets the minimum distance to the treasure hunt target before the indicator appears.</summary>
     [JsonProperty]
     [GMCMSection("prfs.general")]
-    [GMCMPriority(10)]
+    [GMCMPriority(11)]
     [GMCMRange(1, 10)]
     public uint TreasureDetectionDistance { get; internal set; } = 3;
 
     /// <summary>Gets the maximum speed bonus a Spelunker can reach.</summary>
     [JsonProperty]
     [GMCMSection("prfs.general")]
-    [GMCMPriority(11)]
+    [GMCMPriority(12)]
     [GMCMRange(0, 10)]
     public uint SpelunkerSpeedCeiling { get; internal set; } = 10;
 
     /// <summary>Gets a value indicating whether toggles the Get Excited buff when a Demolitionist is hit by an explosion.</summary>
     [JsonProperty]
     [GMCMSection("prfs.general")]
-    [GMCMPriority(12)]
+    [GMCMPriority(13)]
     public bool DemolitionistGetExcited { get; internal set; } = true;
 
     /// <summary>Gets a value indicating whether to increase the quality of all active Crystalarium minerals when the Gemologist owner gains a quality level-up.</summary>
     [JsonProperty]
     [GMCMSection("prfs.general")]
-    [GMCMPriority(13)]
+    [GMCMPriority(14)]
     public bool CrystalariumUpgradesWithGemologist { get; internal set; } = true;
 
     /// <summary>
@@ -222,7 +223,7 @@ public sealed class ProfessionConfig
     /// </summary>
     [JsonProperty]
     [GMCMSection("prfs.general")]
-    [GMCMPriority(14)]
+    [GMCMPriority(15)]
     [GMCMRange(0.25f, 4f)]
     [GMCMInterval(0.25f)]
     public float AnglerPriceBonusCeiling
@@ -239,14 +240,14 @@ public sealed class ProfessionConfig
     /// </summary>
     [JsonProperty]
     [GMCMSection("prfs.general")]
-    [GMCMPriority(15)]
+    [GMCMPriority(16)]
     [GMCMRange(0, 24f)]
     public uint AquaristFishPondCeiling { get; internal set; } = 12;
 
     /// <summary>Gets the amount of junk items that must be collected from crab pots for every 1% of tax deduction the following season.</summary>
     [JsonProperty]
     [GMCMSection("prfs.general")]
-    [GMCMPriority(16)]
+    [GMCMPriority(17)]
     [GMCMRange(10, 1000)]
     [GMCMInterval(10)]
     public uint TrashNeededPerTaxDeduction { get; internal set; } = 100;
@@ -254,7 +255,7 @@ public sealed class ProfessionConfig
     /// <summary>Gets the amount of junk items that must be collected from crab pots for every 1 point of friendship towards villagers.</summary>
     [JsonProperty]
     [GMCMSection("prfs.general")]
-    [GMCMPriority(17)]
+    [GMCMPriority(18)]
     [GMCMRange(10, 1000)]
     [GMCMInterval(10)]
     public uint TrashNeededPerFriendshipPoint { get; internal set; } = 100;
@@ -262,7 +263,7 @@ public sealed class ProfessionConfig
     /// <summary>Gets the maximum income deduction allowed by the Ferngill Revenue Service.</summary>
     [JsonProperty]
     [GMCMSection("prfs.general")]
-    [GMCMPriority(18)]
+    [GMCMPriority(19)]
     [GMCMRange(0.1f, 1f)]
     [GMCMInterval(0.05f)]
     public float ConservationistTaxDeductionCeiling
@@ -480,7 +481,7 @@ public sealed class ProfessionConfig
     [GMCMSection("prfs.experience")]
     [GMCMPriority(300)]
     [GMCMRange(0.2f, 2f)]
-    [GMCMOverride(typeof(GenericModConfigMenu), "ProfessionConfigSkillExpMulitpliersOverride")]
+    [GMCMOverride(typeof(GenericModConfigMenu), "ProfessionConfigSkillExpMultipliersOverride")]
     public Dictionary<string, float> SkillExpMultipliers
     {
         get => this._skillExpMultipliers;

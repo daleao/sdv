@@ -196,34 +196,10 @@ public sealed class CombatConfig
 
     #region melee
 
-    /// <summary>Gets a value indicating whether to replace vanilla weapon spam with a more strategic combo system.</summary>
-    [JsonProperty]
-    [GMCMSection("cmbt.weapons")]
-    [GMCMPriority(121)]
-    public bool EnableMeleeComboHits { get; internal set; } = true;
-
-    /// <summary>Gets the number of hits in each weapon type's combo.</summary>
-    [JsonProperty]
-    [GMCMSection("cmbt.weapons")]
-    [GMCMPriority(122)]
-    [GMCMRange(0, 10)]
-    public Dictionary<string, int> ComboHitsPerWeaponType { get; internal set; } = new()
-    {
-        { WeaponType.StabbingSword.ToString(), 4 },
-        { WeaponType.DefenseSword.ToString(), 4 },
-        { WeaponType.Club.ToString(), 2 },
-    };
-
-    /// <summary>Gets a value indicating whether to keep swiping while the "use tool" key is held.</summary>
-    [JsonProperty]
-    [GMCMSection("cmbt.weapons")]
-    [GMCMPriority(123)]
-    public bool SwipeHold { get; internal set; } = true;
-
     /// <summary>Gets a value indicating whether replace the defensive special move of some swords with an offensive lunge move.</summary>
     [JsonProperty]
     [GMCMSection("cmbt.weapons")]
-    [GMCMPriority(124)]
+    [GMCMPriority(120)]
     public bool EnableStabbingSwords
     {
         get => this._enableStabbingSwords;
@@ -249,7 +225,8 @@ public sealed class CombatConfig
 
     /// <summary>Gets a set of user-defined modded swords which should be treated as Stabby swords.</summary>
     [JsonProperty]
-    [GMCMIgnore]
+    [GMCMPriority(121)]
+    [GMCMOverride(typeof(GenericModConfigMenu), "CombatConfigStabbingSwordsOverride")]
     public HashSet<string> StabbingSwords { get; internal set; } = new()
     {
         "Bone Sword",
@@ -263,6 +240,30 @@ public sealed class CombatConfig
         "Blade of Ruin",
         "Strawblaster",
     };
+
+    /// <summary>Gets a value indicating whether to replace vanilla weapon spam with a more strategic combo system.</summary>
+    [JsonProperty]
+    [GMCMSection("cmbt.weapons")]
+    [GMCMPriority(122)]
+    public bool EnableMeleeComboHits { get; internal set; } = true;
+
+    /// <summary>Gets the number of hits in each weapon type's combo.</summary>
+    [JsonProperty]
+    [GMCMSection("cmbt.weapons")]
+    [GMCMPriority(123)]
+    [GMCMRange(0, 10)]
+    public Dictionary<string, int> ComboHitsPerWeaponType { get; internal set; } = new()
+    {
+        { WeaponType.StabbingSword.ToString(), 4 },
+        { WeaponType.DefenseSword.ToString(), 4 },
+        { WeaponType.Club.ToString(), 2 },
+    };
+
+    /// <summary>Gets a value indicating whether to keep swiping while the "use tool" key is held.</summary>
+    [JsonProperty]
+    [GMCMSection("cmbt.weapons")]
+    [GMCMPriority(124)]
+    public bool SwipeHold { get; internal set; } = true;
 
     /// <summary>Gets a value indicating whether defense should improve parry damage.</summary>
     [JsonProperty]

@@ -42,7 +42,6 @@ internal sealed class MonsterWithinPlayerThresholdPatcher : HarmonyPatcher
 
             __result = false;
             return false; // don't run original method
-
         }
         catch (Exception ex)
         {

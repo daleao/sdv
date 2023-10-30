@@ -126,10 +126,10 @@ public abstract class OverhaulModule
         Log.T($"[Modules]: Preparing to activate {this.Name} module...");
         EventManager.ManageNamespace(this.Namespace + ".Events");
         this.Harmonizer =
-            Harmonizer.ApplyFromNamespace(helper.ModRegistry, this.Namespace + ".Patchers", this.Namespace);
+            Harmonizer.ApplyFromNamespace(this.Namespace + ".Patchers", helper.ModRegistry, this.Namespace);
         this.CommandHandler ??= CommandHandler.HandleFromNamespace(
-            helper.ConsoleCommands,
             this.Namespace + ".Commands",
+            helper.ConsoleCommands,
             this.DisplayName,
             this.Ticker,
             () => this.IsActive);
@@ -205,18 +205,20 @@ public abstract class OverhaulModule
         internal override void Activate(IModHelper helper)
         {
             base.Activate(helper);
-
 #if DEBUG
             EventManager.ManageNamespace(this.Namespace + ".Debug");
-            this.Harmonizer = Harmonizer.ApplyFromNamespace(helper.ModRegistry, this.Namespace + ".Debug");
+            this.Harmonizer = Harmonizer.ApplyFromNamespace(this.Namespace + ".Debug", helper.ModRegistry);
             this.CommandHandler ??= CommandHandler.HandleFromNamespace(
-                helper.ConsoleCommands,
                 this.Namespace + ".Debug",
+                helper.ConsoleCommands,
                 this.DisplayName,
                 this.Ticker,
                 () => this.IsActive);
             Log.I("[Modules]: Debug features activated.");
 #endif
+
+            EventManager.ManageNamespace("DaLion.Shared");
+            Harmonizer.ApplyFromNamespace("DaLion.Shared", helper.ModRegistry);
         }
 
         /// <inheritdoc />

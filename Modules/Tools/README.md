@@ -69,6 +69,8 @@ Clint is no fool to mock about with radioactive substances. But with the Forge's
 <img src="https://gitlab.com/daleao/modular-overhaul/-/raw/main/Modules/Tools/resources/radioactive.png" alt="radioactive.png">
 </div>
 
+Note that you can change the texture of the tools by targeting "DaLion.Overhaul/RadioactiveTools" in a Content Patcher mod.
+
 <sup><sup>[🔼 Back to top](#margo--tools-tols)</sup></sup>
 
 ## Auto-Selection

@@ -22,7 +22,7 @@
   "gmcm.modules.txs.name": "Taxes",
   "gmcm.modules.txs.desc": "A borderline realistic taxation system for added challenge and end-game gold sink. Pairs well with the new Conservationist profession.",
   "gmcm.modules.twx.name": "Tweex",
-  "gmcm.modules.twx.desc": "A collection of smaller immersion tweaks and fixes for inconsistencies in vanilla.",
+  "gmcm.modules.twx.desc": "A collection of smaller immersion tweaks and fixes for inconsistencies in the vanilla game.",
 
   // professions
   "gmcm.pages.prfs": "Professions",

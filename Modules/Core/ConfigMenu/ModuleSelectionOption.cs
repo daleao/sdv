@@ -20,7 +20,6 @@ internal class ModuleSelectionOption : MultiCheckboxOption<OverhaulModule>
         checkboxes: EnumerateModules().Skip(1).ToArray(),
         getCheckboxValue: module => module._ShouldEnable,
         setCheckboxValue: (module, value) => module._ShouldEnable = value,
-        getColumnsFromWidth: _ => 2,
         getCheckboxLabel: module => module.DisplayName,
         getCheckboxTooltip: module => module.Description,
         onValueUpdated: (module, newValue) =>

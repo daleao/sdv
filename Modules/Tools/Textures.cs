@@ -9,6 +9,7 @@ using Microsoft.Xna.Framework.Graphics;
 /// <summary>Caches custom mod textures and related functions.</summary>
 internal static class Textures
 {
-    internal static Texture2D RadioactiveToolsTx { get; } =
-        ModHelper.GameContent.Load<Texture2D>($"{Manifest.UniqueID}/RadioactiveTools");
+    private static readonly Lazy<Texture2D> _radioactiveToolsTx = new(() => ModHelper.GameContent.Load<Texture2D>($"{Manifest.UniqueID}/RadioactiveTools"));
+
+    internal static Texture2D RadioactiveToolsTx => _radioactiveToolsTx.Value;
 }

@@ -18,13 +18,6 @@ using StardewValley.Menus;
 [UsedImplicitly]
 internal sealed class InventoryMenuDrawPatcher : HarmonyPatcher
 {
-    private static readonly Lazy<Texture2D> Pixel = new(() =>
-    {
-        var pixel = new Texture2D(Game1.graphics.GraphicsDevice, 1, 1, false, SurfaceFormat.Color);
-        pixel.SetData(new[] { Color.White });
-        return pixel;
-    });
-
     /// <summary>Initializes a new instance of the <see cref="InventoryMenuDrawPatcher"/> class.</summary>
     internal InventoryMenuDrawPatcher()
     {
@@ -102,7 +95,7 @@ internal sealed class InventoryMenuDrawPatcher : HarmonyPatcher
         if (instance.actualInventory[k] is Tool tool && (CombatModule.State.AutoSelectableMelee == tool ||
                                                          CombatModule.State.AutoSelectableRanged == tool))
         {
-            instance.inventory[k].bounds.DrawBorder(Pixel.Value, CombatModule.Config.SelectionBorderColor, b);
+            instance.inventory[k].bounds.DrawBorder(CombatModule.Config.SelectionBorderColor, b);
         }
     }
 

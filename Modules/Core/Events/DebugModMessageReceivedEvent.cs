@@ -11,7 +11,6 @@ using StardewModdingAPI.Events;
 
 [UsedImplicitly]
 [Debug]
-[AlwaysEnabledEvent]
 internal sealed class DebugModMessageReceivedEvent : ModMessageReceivedEvent
 {
     /// <summary>Initializes a new instance of the <see cref="DebugModMessageReceivedEvent"/> class.</summary>

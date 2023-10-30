@@ -9,7 +9,6 @@ using StardewModdingAPI.Events;
 #endregion using directives
 
 [UsedImplicitly]
-[AlwaysEnabledEvent]
 [Debug]
 internal sealed class DebugUpdateTickedEvent : UpdateTickedEvent
 {
