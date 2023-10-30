@@ -2,6 +2,11 @@
 
 This file contains a TL;DR of current version changes and hotfixes from across all modules. For the complete changelog, please refer to the individual changelogs of each module, linked [below](#detailed-changelogs).
 
+## Minor Release 4.1.0 Highlights
+
+* The GMCM is now self-generating. This does unfortunately mean that absolutely all translation keys for the menu have changed (sorry translators.)
+* [PRFS]: Fixed Aquarist bug causing it to always consider the `FishPondCeiling` setting instead of the actual number of available Fish Ponds.
+
 ## Patch 4.0.1 Highlights
 
 * [CMBT]: Tweaked Mammonite enchantment to avoid cheesing SVE and other expansion bosses.

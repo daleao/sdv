@@ -1,5 +1,13 @@
 ﻿# PRFS Changelog
 
+## 4.1.0
+
+### Fixed
+
+* Fixed Aquarist bug causing it to always consider the `FishPondCeiling` setting instead of the actual number of available Fish Ponds.
+
+<sup><sup>[🔼 Back to top](#profs-changelog)</sup></sup>
+
 ## 4.0.1
 
 ### Changed
