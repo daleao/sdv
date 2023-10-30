@@ -4,7 +4,8 @@ This file contains a TL;DR of current version changes and hotfixes from across a
 
 ## Minor Release 4.1.0 Highlights
 
-* The GMCM is now self-generating. This does unfortunately mean that absolutely all translation keys for the menu have changed (sorry translators.)
+* The GMCM is now self-generating. This does unfortunately mean that absolutely all translation keys for the menu have changed (sorry translators).
+* Added dynamic list options to the GMCM, which means that any list config settings that previously had to be changed manually (like `CustomArtisanMachines`, `StabbingSwords`, `TaxRatePerBracket`, etc.) can now be changed in the menu in-game. With this, all settings are now available in the menu.
 * [PRFS]: Fixed Aquarist bug causing it to always consider the `FishPondCeiling` setting instead of the actual number of available Fish Ponds.
 
 ## Patch 4.0.1 Highlights

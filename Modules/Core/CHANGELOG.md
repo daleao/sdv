@@ -2,6 +2,10 @@
 
 ## 4.1.0
 
+### Added
+
+* Added dynamic list options to the GMCM, which means that any list config settings that previously had to be changed manually (like `CustomArtisanMachines`, `StabbingSwords`, `TaxRatePerBracket`, etc.) can now be changed in the menu in-game. With this, all settings are now available in the menu.
+
 ### Changed
 
 * The GMCM is now self-generating (thanks to atravita for the idea and reference code). This does unfortunately mean that absolutely all translation keys for the menu have changed (sorry translators.)
