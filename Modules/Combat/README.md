@@ -461,9 +461,9 @@ Like strings in a guitar, each gemstone has a characteristic vibration. When two
 
 A pair of gemstones forms an [Interval](https://en.wikipedia.org/wiki/Interval_(music)). As the name implies, this is simply the distance between the two gemstones in the Diatonic Scale. A distance of 1 is known as a **Second** interval (e.g., from **Rb** to **Aq**), a distance of 2 is known as a **Third** interval (e.g., from **Aq** to **Ga**), and so on. One full rotation of the circle is called an [Octave](https://en.wikipedia.org/wiki/Octave), or [Unison](https://en.wikipedia.org/wiki/Unison) (an interval of zero), denoting the interval between a gemstone and itself.
 
-Notice that, because the scale is cyclic, certain intervals are complementary. For instance, a **Sixth** (e.g., `Rb - Jd`) is a just a **Third** counted backwards (`Jd - Rb`). Likewise for **Second** and **Seventh**. These intervals are essentially equivalent, as shown by their resonances. The **Fourth** and **Fifth**, while also a complementary pair, are an exception to this rule, and result in different resonances (this is due to some over-simplifications from real life Music Theory).
+Notice that, because the scale is cyclic, certain intervals are complementary. For instance, a **Sixth** (e.g., from **Rb** to **Jd**) is a just a **Third** counted backwards (from **Jd** to **Rb**). Likewise for **Second** and **Seventh**. These intervals are essentially equivalent, as shown by their resonances in the table below. The **Fourth** and **Fifth**, while also a complementary pair, are an exception to this rule, and result in different resonances (this is due to some over-simplifications from real life Music Theory).
 
-As a rule of thumb, stones that are positioned farthest from each other in the scale will resonate more strongly, while those positioned adjacent to each other will dissonate. Gemstones do no resonate with themselves.
+As a rule of thumb, stones that are positioned farthest from each other in the scale will resonate more strongly, while those positioned adjacent to each other will dissonate. Gemstones do not resonate with themselves.
 
 <div align="center">
 
@@ -475,12 +475,14 @@ As a rule of thumb, stones that are positioned farthest from each other in the s
 | Fifth    | 50%       | `Rb - Em`, `Am - Tp`, `Ga - Rb` |
 | Sixth    | 16.6%     | `Rb - Jd`, `Am - Rb`, `Ga - Aq` |
 | Seventh  | -12.5%*   | `Rb - Tp`, `Am - Aq`, `Ga - Am` |
-| Octave   | Ø         | `Rb - Rb`, `Am - Am`, `Ga - Ga` |
+| Octave   | 0         | `Rb - Rb`, `Am - Am`, `Ga - Ga` |
 </div>
 
 ### Chords
 
-Multiple intervals can be combined to make [Chords](https://en.wikipedia.org/wiki/Chord_(music)). A chord represents the complex harmonies that arise from all possible intervals between multiple gemstones. Up to 4 gemstones can be placed in any given Infinity Band to produce one chord. The gemstone with the highest amplitude in a chord becomes the **Tonic**, or **Root**. All resonating chords emit light, the color and amplitude of which is determined by that Root.
+When multiple gemstones are placed together, the complex superposition of resonances that results from all possible interval permutations is called a [Chord](https://en.wikipedia.org/wiki/Chord_(music)). Gemstones can only interact in very close proximity, wich means that chords may only be formed by up to 4 gemstones placed together in the same Infinity Band; the chords from different Infinity Bands do not interact.
+
+The gemstone with the highest amplitude in a chord becomes the **Tonic**, or **Root**. All chords with a prominant Root will emit light of a corresponding color and amplitude.
 
 Chords have also an associated **Richness**, which measures how "interesting" it is. A higher richness is achieved by more complex chords (i.e., avoiding repeated gemstones). The richest of all chords can also manifest **magnetism**.
 
