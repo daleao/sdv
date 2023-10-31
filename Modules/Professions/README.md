@@ -582,7 +582,7 @@ After all possible skills have had their level cap raised, the Statue of Prestig
 ## Compatibility
 
 <details>
-<summary> 🟩 <b><font color="green">The following mods are fully integrated:</font></b> 🟩 </summary>
+<summary> 🟩 <b><font color="green">Click here to expand the list of mods which are compatible and have added integration:</font></b> 🟩 </summary>
 
 - All [SpaceCore][mod:spacecore] custom skills are fully supported by the skill reset systems, including but not limited to: [Luck Skill][mod:luck], [Cooking Skill][mod:cooking], [Magic][mod:magic], [Love Of Cooking][mod:loc], [Binning Skill][mod:binning] and [Socializing Skill][mod:socializing]. However, **only skills which explicitly provide prestiged professions will be supported by the Prestige system**. An [API](../../ModApi.cs) is provided for mod authors to register their custom skills for prestige. Authors are responsible for providing the prestige perks and functionality of their own professions, as well as corresponding prestige icons and descriptions.
 - [Automate][mod:automate] machines will apply Artisan, Ecologist and Gemologist perks to all appropriate machines which meet the ownership requirements (if that setting is enabled). In the case of machines that are not crafted, such as the Farm Cave Mushroom Boxes and terrain features like Berry Bushes and Fruit Trees, only the session host's professions will apply. In cases which consider the professions of the user, and not of the owner, then the owner of the closest chest in the automation group is used.
@@ -602,10 +602,12 @@ After all possible skills have had their level cap raised, the Statue of Prestig
 - [Stardew Valley Expanded][mod:sve] will also change the look of the Limit gauge in Galdora maps to match the Galdoran UI theme.
 - [CJB Cheats Menu][mod:cjb-cheats], if you download the optional translation files, will display this mod's profession names under Skill Cheats menu.
 - [Archery][mod:archery] bows and crossbows will also apply Rascal and Desperado perks.
+- Legendary fish from [Stardew Aquarium][mod:aquarium], [More New Fish][mod:more-new-fish] and [Ridgeside Village][mod:ridgeside] can be raised in ponds with the Aquarist profession.
+
 </details>
 
 <details>
-<summary> 🟨 <b><font color="yellow">The following mods are compatible without integration:</font></b> 🟨 </summary>
+<summary> 🟨 <b><font color="yellow">Click here to expand the list of mods which are compatible without integration:</font></b> 🟨 </summary>
 
 - [Multi Yield Crops][mod:myc]
 - [Craftable Mushroom Boxes][mod:mushroom-boxes]
@@ -615,7 +617,7 @@ After all possible skills have had their level cap raised, the Statue of Prestig
 </details>
 
 <details>
-<summary> 🟥 <b><font color="red">The following mods are NOT compatible:</font></b> 🟥 </summary>
+<summary> 🟥 <b><font color="red">Click here to expand the list of mods which are NOT compatible:</font></b> 🟥 </summary>
 
 - Any mods that change vanilla skills.
 - [Better Crab Pots][mod:better-crab-pots], [Crab Pot Loot Has Quality And Bait Effects][mod:crab-pot-loot] or any mod that affects Crab Pot behavior.
@@ -747,6 +749,9 @@ With the exception of Angler when placed together with Ms. Angler (requires [PND
 [mod:skill-training]: <https://www.nexusmods.com/stardewvalley/mods/14452> "Skill Training"
 [mod:yahwsm]: <https://www.nexusmods.com/stardewvalley/mods/2731> "Yet Another Harvest With Scythe Mod"
 [mod:archery]: <https://www.nexusmods.com/stardewvalley/mods/16767> "Archery"
+[mod:aquarium]: <https://www.nexusmods.com/stardewvalley/mods/6372> "Stardew Aquarium"
+[mod:more-new-fish]: <https://www.nexusmods.com/stardewvalley/mods/3578> "More New Fish"
+[mod:ridgeside]: <https://www.nexusmods.com/stardewvalley/mods/7286> "Ridgeside Village"
 
 <!-- USER LINKS -->
 [user:enai]: <https://www.nexusmods.com/skyrimspecialedition/users/3959191> "Enai Siaion"
