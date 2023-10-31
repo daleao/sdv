@@ -478,30 +478,28 @@ As a rule of thumb, stones that are positioned farthest from each other in the s
 | Octave   | 0         | `Rb - Rb`, `Am - Am`, `Ga - Ga` |
 </div>
 
+Clearly, the **Fifth** is the strongest-resonating interval, for which reason it is also known as the **Dominant** interval. The **Fourth**, its complement, is also known as the **Sub-dominant**.
+
 ### Chords
 
 When multiple gemstones are placed together, the complex superposition of resonances that results from all possible interval permutations is called a [Chord](https://en.wikipedia.org/wiki/Chord_(music)). Gemstones can only interact in very close proximity, wich means that chords may only be formed by up to 4 gemstones placed together in the same Infinity Band; the chords from different Infinity Bands do not interact.
 
 The gemstone with the highest amplitude in a chord becomes the **Tonic**, or **Root**. All chords with a prominant Root will emit light of a corresponding color and amplitude.
 
-Chords have also an associated **Richness**, which measures how "interesting" it is. A higher richness is achieved by more complex chords (i.e., avoiding repeated gemstones). The richest of all chords can also manifest **magnetism**.
-
-**Chords will only consider gemstones in the same ring**; those from different Infinity Bands do not interact at all.
+Chords have also an associated **Richness**, which measures how "interesting" it is. A higher richness is achieved by more complex chords (i.e., avoiding repeated gemstones). Some sufficiently rich chords can also exibit **magnetism**.
 
 #### Monad Chords
 
-A 1-note chord is called a **Monad**. A Monad results from up to 4 repeated gemstones. As it only contains Unisons, this chord offers no resonances, but achieves the highest single-stat total from any other chord. The Ruby Monad is shown below:
+A 1-note chord is called a **Monad**. A Monad is the simplest possible chord; it is made by simply repeating the same gemstone up to 4 times. Because it only contains Unisons, this chord offers no resonances and zero richness. As a result, it does not emit light, but achieves the highest single-stat total of any chord. The Ruby Monad is shown below:
 
 <div align="center">
 
 <img src="https://gitlab.com/daleao/modular-overhaul/-/raw/main/resources/screenshots/monad.png" alt="monad.png" width="33%">
 </div>
 
-As there are no resonances, Monad chords also do not emit light.
-
 #### Dyad Chords
 
-A 2-note chord is called a **Dyad**. A Dyad always contains 2 complementary intervals. Given the table above, it should be clear that the best possible Dyad is a I - V configuration, such as `Rb - Em`. This chord contains the intervals Fifth and Fourth (from the inverse, `Em - Rb`), resulting in a +50% resonance for Rb and +33.3% for Em. A double `I - I - V - V` chord is called a [Power Chord](https://en.wikipedia.org/wiki/Power_chord); the simplest possible chord (and a staple of rock music). The Ruby Power Chord is shown below:
+A 2-note chord is called a **Dyad**. A Dyad always contains 2 complementary intervals. Given the table above, it should be clear that the best possible Dyad is the one made from the **Dominant** interval; i.e., a `I - V` configuration, such as `Rb - Em`. This chord contains the intervals Fifth and Fourth (from the inverse, `Em - Rb`), resulting in a +50% resonance for Rb and +33.3% for Em. A double `I - I - V - V` chord is called a [Power Chord](https://en.wikipedia.org/wiki/Power_chord); the simplest possible chord (and a staple of rock music). The Ruby Power Chord is shown below:
 
 <div align="center">
 
