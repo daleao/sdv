@@ -178,7 +178,7 @@ It also requires a copy of [SpaceCore](https://www.nexusmods.com/stardewvalley/m
 
 ## Mod Recommendations
 
-For those interested, [this is my curated modlist](https://smapi.io/log/30e05a1ace0c43a18aebaef782f8f9de). This mod list is built on the following principles:
+For those interested, [this is my curated modlist](https://smapi.io/log/f8a5b79ca5e649a59bc0a5661ed2d6f3). This mod list is built on the following principles:
 
 - **Immersion** and **Consistency** above anything.
 - **Only high-quality sprites**, vanilla-quality or better.
