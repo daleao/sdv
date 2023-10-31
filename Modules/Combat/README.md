@@ -535,7 +535,7 @@ There is no one "optimal" gemstone combination. Simpler chords can be used to op
 
 ### Weapon Forges
 
-If the player's currently held weapon contains forged gemstones, resonating chords from equipped Infinity Bands will also amplify all gemstone forges matching the chord's root note. Note that forged gemstones do not form chords themselves nor share any of the same resonance and dissonance mechanics from Infinity Bands described above.
+If the player's currently held weapon contains forged gemstones, all resonant chords from equipped Infinity Bands will also amplify those gemstone forges which match the chord's root note. Note that forged gemstones do not form chords themselves nor share any of the same resonance and dissonance mechanics from Infinity Bands described above.
 
 <br>
 
@@ -575,7 +575,7 @@ In return for all that extra work, the Infinity weapons have extra perks:
 2. Small boost to the weapon's special move:
 	* **Stabing Sword:** Increased dash distance.
 	* **Defense Sword:** Parried enemies are dazed for 1 second.
-	* **Dagger:** Quick-stab deal one additional hit.
+	* **Dagger:** Quick-stab deals one additional hit.
 	* **Club:** Smash AoE is 25% larger.
 	* **Slingshot**: Auto-fire mode lasts for 1 additional second.
 3. **Melee only:** while at full health, every swing fires a mid-range energy beam.
