@@ -322,14 +322,14 @@ The following ammos have also been tweaked for a bit more immersion and balance:
 <details>
 <summary>Coal: 15 damage >> 2 damage</summary>
 
-Have you ever held a piece of coal? That stuff is brittle, and weaker than raw wood, so the damage has been reduced accordingly. Not that anybody uses this as ammo anyway.
+<font size="2">Have you ever held a piece of coal? That stuff is brittle, and weaker than raw wood, so the damage has been reduced accordingly. Not that anybody uses this as ammo anyway.</font>
 </details>
 
 <details>
 
 <summary>Explosive Ammo: 20 damage >> 2 damage</summary>
 
-Explosive ammo is meant to be used as a mining utility. There's no reason it should also replace your regular ammo. The explosion damage has not been changed. *Combine it with the [Rascal](../Professions) to efficiently switch between different ammo.*
+<font size="2">Explosive ammo is meant to be used as a mining utility. There's no reason it should also replace your regular ammo. The explosion damage has not been changed. *Combine it with the [Rascal](../Professions) to efficiently switch between different ammo.*</font>
 </details>
 
 The following new ammos have also been added:
