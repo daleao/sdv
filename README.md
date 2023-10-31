@@ -183,7 +183,7 @@ For those interested, [this is my curated modlist](https://smapi.io/log/f8a5b79c
 - **Immersion** and **Consistency** above anything.
 - **Only high-quality sprites**, vanilla-quality or better.
 - **Medieval Aesthetic.** Nothing beats [Gwen's Medieval Valley](https://www.nexusmods.com/stardewvalley/users/51171631?tab=user+files). It combines perfectly with my favorite recolor: the criminally underated [Wittily](https://www.nexusmods.com/stardewvalley/mods/2995). The brown [Vintage UI](https://www.nexusmods.com/stardewvalley/mods/4697) tops off the combination.
-- **Vanilla-style portraits**, using Poltergeister's [Seasonal Cute Characters](https://www.nexusmods.com/stardewvalley/mods/5450), manually combined with [stanloona420's revised character mods](https://www.nexusmods.com/stardewvalley/users/71935143?tab=user+files) and the outstanding [Slightly Cuter-er Penny Portraits](https://www.nexusmods.com/stardewvalley/mods/11576) by Juan Miguelito.
+- **Vanilla-style portraits**, using Poltergeister's [Seasonal Cute Characters](https://www.nexusmods.com/stardewvalley/mods/5450), manually combined with stanloona420's [revised character series](https://www.nexusmods.com/stardewvalley/users/71935143?tab=user+files) and the outstanding [Slightly Cuter-er Penny Portraits](https://www.nexusmods.com/stardewvalley/mods/11576) by Juan Miguelito.
 - **[Stardew Valley Expanded](https://www.nexusmods.com/stardewvalley/mods/3753)** as the main and only expansion, as it's the only one with art that matches the vanilla style and buildings supported by Gweniaczek. [Aquarium](https://www.nexusmods.com/stardewvalley/mods/6372) is also used for a bit more longevity.
     - [Ridgeside Village](https://www.nexusmods.com/stardewvalley/mods/7286) is an excellent mod with a great artstyle. I recommend you try it out, as long as you don't touch their weapons. Unfortunately the plot and writing are not to my taste.
     - [East Scarp](https://www.nexusmods.com/stardewvalley/mods/5787) opens up the game for some of the best-written NPC mods. I would absolutely recommend [Always Raining in the Valley](https://www.nexusmods.com/stardewvalley/mods/9999) and the Sword & Sorcery series by [DestyN0VA](https://www.nexusmods.com/stardewvalley/users/95913693?tab=user+files). Unfortunately, East Scarp itself has some extremely inconsistent art.
@@ -197,11 +197,11 @@ Make sure to test every mod before committing it to your mod list, and do not ma
 
 ## Credits & Special Thanks
 
-We hail the Lord and Savior [Pathoschild][user:pathoschild], creator of [SMAPI][url:smapi], Content Patcher and the mod-verse, as well as the Father, **ConcernedApe**, creator of Stardew Valley, a benevolent God who continues to support the game for both players and modders.    
+We hail the Lord and Savior [Pathoschild][user:pathoschild], creator of [SMAPI][url:smapi], Content Patcher and the mod-verse, as well as the Father, **ConcernedApe**, creator of Stardew Valley, a benevolent God, who continues to freely expand the game for both players and modders.
 
 This mod borrows ideas and assets from [Ragnarok Online][url:ragnarok], [League of Legends][url:league] and early Pokemon games. Credit to those, respectively, goes to [Gravity][url:gravity], [Riot Games][url:riot] and [Game Freak][url:gamefreak]. This mod is completely free and open-source, provided under [Common Clause-extended MIT License](LICENSE).
 
-Special thanks the translators who have contributed to this project:
+Special thanks to [atravita](https://www.nexusmods.com/stardewvalley/users/116553368) and [Shockah](https://www.nexusmods.com/stardewvalley/mods/11089) who have helped me extensively with the mod's programming. And to the various translators who have contributed to this project:
 
 * ![][flag:german][FoxDie1986](https://www.nexusmods.com/stardewvalley/users/1369870)
 * ![][flag:chinese][xuzhi1977](https://www.nexusmods.com/users/136644498) and [Jumping-notes](https://github.com/Jumping-notes)
@@ -209,11 +209,13 @@ Special thanks the translators who have contributed to this project:
 * ![][flag:japanese][sakusakusakuya](https://www.nexusmods.com/stardewvalley/users/155983153)
 * ![][flag:russian][romario314](https://www.nexusmods.com/stardewvalley/users/68548986)
 
-You have the right to upload your own translation of this project, but I reserve the right to add your translation directly to the project.
+You have the right to upload your own translation of this project, but I reserve the right to copy your translation directly into the project.
 
 Thanks to [JetBrains][url:jetbrains] for providing a free open-source license to ReSharper and other tools.
 
-<img width="64" src="https://smapi.io/Content/images/pufferchick.png" alt="Pufferchick"> <img width="80" src="https://resources.jetbrains.com/storage/products/company/brand/logos/jb_beam.svg" alt="JetBrains logo.">
+<a href="https://smapi.io"><img width="64" src="https://smapi.io/Content/images/pufferchick.png" alt="Pufferchick"></a>
+<a href="https://www.jetbrains.com"><img width="80" src="https://resources.jetbrains.com/storage/products/company/brand/logos/jb_beam.svg" alt="JetBrains logo."></a>
+<a href="https://discord.com/invite/stardewvalley"><img width="80" src="https://assets-global.website-files.com/6257adef93867e50d84d30e2/636e0a69f118df70ad7828d4_icon_clyde_blurple_RGB.svg" alt="Discord logo."></a>
 
 <!-- MARKDOWN LINKS & IMAGES -->
 [shield:license]: https://img.shields.io/badge/Custom%20License-Non%20Commercial%20Mod-brightgreen?style=for-the-badge
