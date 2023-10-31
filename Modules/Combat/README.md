@@ -522,14 +522,16 @@ Notice also that, due to the cyclic nature of the scale, the `I - III - V` confi
 
 #### Tetrad Chords
 
-Finally, a 4-note chord is called a **Tetrad**. A Tetrad always contains 12 intervals in total, which makes it impossible find a configuration that avoids any dissonances. But this is okay; if we extend the Tertian Triad by adding another Third interval at the end, we achieve a **Tertian Tetrad**, or `I - III - V - VII` (the `VII` is the Third of the `V`). In this special case, the dissonant Seventh interval becomes resonant, adding +12.5% resonance instead of subtracting it. The Tertian Tetrad achieves the highest possible total resonance, though it forces the distribution of these bonuses among 4 different stats. The Ruby Tertian Tetrad is shown below:
+Finally, a 4-note chord is called a **Tetrad**. A Tetrad always contains 12 intervals in total, which makes it impossible find a configuration that avoids any dissonances. But this is okay; if we extend the Tertian Triad by adding another Third interval at the end, we achieve a **Tertian Tetrad**, or `I - III - V - VII` (the `VII` is the Third of the `V`). In this special case, the dissonant Seventh interval becomes resonant, adding +12.5% resonance instead of subtracting it. The Tertian Tetrad achieves the highest possible total resonance, though it forces the distribution of these bonuses among 4 different stats. For the same reason described previously, the configuration `I - II - IV - VI` is equivalent to a transposed Tertian Tetrad. The Ruby Tertian Tetrad is shown below:
 
 <div align="center">
 
 <img src="https://gitlab.com/daleao/modular-overhaul/-/raw/main/resources/screenshots/tetrad.png" alt="tetrad.png" width="33%">
 </div>
 
-There is no "optimal" gemstone combination. Simple chords are optimal for single-stats, while more complex chords are optimal in terms of resonance. It is up to the player to choose what fits best for the desired build.
+#### Conclusion
+
+There is no one "optimal" gemstone combination. Simpler chords can be used to optimize for a specific stat, while more complex chords optimize total resonance. As you increase the chord's complexity and richness, you essentially trade higher specific stats, for higher overall distributed stats. This system is intended to encourage experimentation and variety. It is up to each player to choose what best fits their desired build.
 
 ### Weapon Forges
 
