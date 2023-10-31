@@ -13,7 +13,7 @@ This file contains a TL;DR of current version changes and hotfixes from across a
 * Added compatibility for [More New Fish](https://www.nexusmods.com/stardewvalley/mods/3578).
     * [CMBT]: The Sword Fish weapon is now a Mythic-tier Stabbing Sword with scaling damage based on caught fish species.
     * [PRfS]: Tui and La can be raised in Fish Ponds with the Aquarist profession. They produce essence instead of roe.
-    * [PNDS]: Tui and La can be raised together in the same Fish Pond, which unlocks a low chance to also produce Galaxy Soul.
+    * [PNDS]: Tui and La can be raised together in the same Fish Pond, unlocking a low chance to produce Galaxy Soul.
 
 <div align="center">-- This is likely the final update before 1.6 --</div>
 
