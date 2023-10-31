@@ -17,6 +17,8 @@ This file contains a TL;DR of current version changes and hotfixes from across a
 
 <div align="center">-- This is likely the final update before 1.6 --</div>
 
+<sup><sup>[🔼 Back to top](#margo-changelogs)</sup></sup>
+
 ## Major Release 4.0.0 Highlights
 
 * **[PRFS]:**
