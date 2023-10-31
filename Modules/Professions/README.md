@@ -439,7 +439,7 @@ The perks within ⭐<font color="gold">star text</font>⭐ refer to <font color=
 </details>
 
 <details>
-<summary><img src="./resources/assets/sprites/loose/rascal.png"/> <b>Rascal (Lv5)</b> - Gain one additional ammo slot. 35% <font color="gold"><i>(⭐55%⭐)</i></font> chance to recover spent ammo. <font color="gold"><i>Can equip Monster Musk to shoot alluring ammo.</i></font>
+<summary><img src="./resources/assets/sprites/loose/rascal.png"/> <b>Rascal (Lv5)</b> - Gain one additional ammo slot. 35% <font color="gold"><i>(⭐55%⭐)</i></font> chance to recover spent ammo. <font color="gold"><i>⭐Can equip Monster Musk to shoot alluring ammo.⭐</i></font>
 </summary>
 
 <ul>
