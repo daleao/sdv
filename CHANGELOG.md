@@ -17,12 +17,6 @@ This file contains a TL;DR of current version changes and hotfixes from across a
 
 <div align="center">-- This is likely the final update before 1.6 --</div>
 
-## Patch 4.0.1 Highlights
-
-* [CMBT]: Tweaked Mammonite enchantment to avoid cheesing SVE and other expansion bosses.
-* [PRFS]: Fixed performance on maps with extremely high-density of monsters (Crimson Badlands, Highlands, etc.).
-* [PRFS]: Added new sound effect for the Desperado Limit Break.
-
 ## Major Release 4.0.0 Highlights
 
 * **[PRFS]:**
