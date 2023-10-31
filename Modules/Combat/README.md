@@ -499,18 +499,18 @@ A 1-note chord is called a **Monad**. A Monad is the simplest possible chord; it
 
 #### Dyad Chords
 
-A 2-note chord is called a **Dyad**. A Dyad always contains 2 complementary intervals. Given the table above, it should be clear that the best possible Dyad is the one made from the **Dominant** interval; i.e., a `I - V` configuration, such as `Rb - Em`. This chord contains the intervals Fifth and Fourth (from the inverse, `Em - Rb`), resulting in a +50% resonance for Rb and +33.3% for Em. A double `I - I - V - V` chord is called a [Power Chord](https://en.wikipedia.org/wiki/Power_chord); the simplest possible chord (and a staple of rock music). The Ruby Power Chord is shown below:
+A 2-note chord is called a **Dyad**. A Dyad always contains 2 complementary intervals. Given the table above, it should be clear that the best possible Dyad is the one made from the **Dominant** interval; i.e., a `I - V` configuration, such as `Rb - Em`. This chord contains the intervals Fifth and Fourth (from the inverse, `Em - Rb`), resulting in a +50% resonance for Rb and +33.3% for Em. A double `I - I - V - V` chord is called a [Power Chord](https://en.wikipedia.org/wiki/Power_chord); the simplest resonating chord (and a staple of rock music). The Ruby Power Chord is shown below:
 
 <div align="center">
 
 <img src="https://gitlab.com/daleao/modular-overhaul/-/raw/main/resources/screenshots/dyad.png" alt="dyad.png" width="33%">
 </div>
 
-On the other hand, a `I - II` configuration, like `Aq - Am`, contains the intervals Second and Seventh (from the inverse, `Am - Aq`), resulting in a strong dissonance, and a dampening of both gemstones.
+On the other hand, a `I - II` configuration Dyad, like `Aq - Am`, would contain the intervals Second and Seventh (from the inverse, `Am - Aq`), resulting in a strong dissonance, and a dampening of both gemstones.
 
 #### Triad Chords
 
-A 3-note chord is called a **Triad**. A Triad always contains 9 intervals. There are many possible Triad combinations, but only one that avoids dissonances: the [Tertian](https://en.wikipedia.org/wiki/Tertian). A Tertian chord is formed by stacking sequential Third intervals. Notice that the Third of a Third is simply a Fifth (look at a wheel above to convince yourself of this). This means that a Tertian Triad is actually the configration `I - III - V`. 
+A 3-note chord is called a **Triad**. A Triad always contains 6 intervals. There are many possible Triad combinations, but only one that avoids dissonances: the [Tertian](https://en.wikipedia.org/wiki/Tertian). A Tertian chord is formed by stacking sequential Third intervals. Notice that the Third of a Third is simply a Fifth (look at the wheel above to convince yourself of this). This means that a Tertian Triad is actually the configration `I - III - V`. 
 The Ruby Tertian Triad is shown below:
 
 <div align="center">
@@ -522,7 +522,7 @@ Notice also that, due to the cyclic nature of the scale, the `I - III - V` confi
 
 #### Tetrad Chords
 
-Finally, a 4-note chord is called a **Tetrad**. A Tetrad always contains 16 intervals in total, which makes it impossible find a configuration that avoids any dissonances. But this is okay; if we extend the Tertian Triad by adding another Third interval at the end, we achieve a **Tertian Tetrad**, or `I - III - V - VII` (the `VII` is the Third of the `V`). In this special case, the dissonant Seventh interval becomes resonant, adding +12.5% resonance instead of subtracting it. The Tertian Tetrad achieves the highest possible total resonance, though it forces the distribution of these bonuses among 4 different stats. The Ruby Tertian Tetrad is shown below:
+Finally, a 4-note chord is called a **Tetrad**. A Tetrad always contains 12 intervals in total, which makes it impossible find a configuration that avoids any dissonances. But this is okay; if we extend the Tertian Triad by adding another Third interval at the end, we achieve a **Tertian Tetrad**, or `I - III - V - VII` (the `VII` is the Third of the `V`). In this special case, the dissonant Seventh interval becomes resonant, adding +12.5% resonance instead of subtracting it. The Tertian Tetrad achieves the highest possible total resonance, though it forces the distribution of these bonuses among 4 different stats. The Ruby Tertian Tetrad is shown below:
 
 <div align="center">
 
