@@ -624,7 +624,7 @@ After all possible skills have had their level cap raised, the Statue of Prestig
 - [Better Slingshots][mod:better-slingshots], [Ring Overhaul][mod:ring-overhaul], or any mod that affects Slingshot behavior.
 - [Quality Artisan Products][mod:qap] and [Quality Artisan Products for Artisan Valley][mod:qap-av], as they will be overriden by this mod's changes to the Artisan profession (use [Flower Meads][mod:flower-meads] instead for the namesake feature).
 - [All Professions][mod:all-professions] and [Skill Prestige][mod:prestige], as they conflict with this mod's Prestige system. You could potentially use them if you disable this mod's Prestige system, but I will not provide support in case of bugs.
-- [Yet Another Harvest With Scythe Mod][mod:yahwsm] will not apply modded profession perks. Use instead the feature included in CJB Cheats Menu.
+- [Yet Another Harvest With Scythe Mod][mod:yahwsm] will not apply modded profession perks. This feature is included in the [TOLS](../Tools) module; use that or the embedded feature in CJB Cheats Menu.
 </details>
 
 <sup><sup>[🔼 Back to top](#margo--professions-prfs)</sup></sup>
