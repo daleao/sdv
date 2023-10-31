@@ -59,11 +59,11 @@ All modules should be fully multiplayer and split-screen compatible **if and onl
 ## Installation & Update
 
 1. Make sure the dependencies are installed:
-    - [SpaceCore](https://www.nexusmods.com/stardewvalley/mods/1348){:target="_blank"} is always required.
-    - [Json Assets](https://www.nexusmods.com/stardewvalley/mods/1720){:target="_blank"} is required for the new items in CMBT module.
-    - [Custom Ore Nodes](https://www.nexusmods.com/stardewvalley/mods/5966){:target="_blank"} (version 2.3.4 or higher) is required for the Garnet Node.
-    - [Generic Mod Config Menu](https://www.nexusmods.com/stardewvalley/mods/5098){:target="_blank"} is highly recommended.
-2. Go to the [Releases page](https://github.com/daleao/modular-overhaul/releases){:target="_blank"} (link also to the right) and download the latest `ModularOverhaul.zip` file.
+    - [SpaceCore](https://www.nexusmods.com/stardewvalley/mods/1348) is always required.
+    - [Json Assets](https://www.nexusmods.com/stardewvalley/mods/1720) is required for the new items in CMBT module.
+    - [Custom Ore Nodes](https://www.nexusmods.com/stardewvalley/mods/5966) (version 2.3.4 or higher) is required for the Garnet Node.
+    - [Generic Mod Config Menu](https://www.nexusmods.com/stardewvalley/mods/5098) is highly recommended.
+2. Go to the [Releases page](https://github.com/daleao/modular-overhaul/releases) (link also to the right) and download the latest `ModularOverhaul.zip` file.
 
 <div align="center">
 
@@ -93,7 +93,7 @@ As with any mod, always **delete any previous installation completely** before u
 3. Check whether the issue is caused by a mod conflict:
     - You can do this easily by renaming your mod folder to something else (for example, just add an dot, or an underscore), creating a new one, and then copying over SpaceCore, MARGO and, optionally, CJB Cheats Menu + Item Spawner (to help with quick testing). If the issue can no longer be reproduced in this condition, then gradually copy over your remaining mods in small groups, until you identify the conflicting mod. *You can safely ignore any Content Patcher or other framework mods while doing this, as those will never cause conflicts.*
 4. Check whether the issue can be reproduced on a brand new save file. If it cannot, then I will probably ask you to upload your save folder to any file-sharing service of your choice, and share the url.
-5. Upload your entire log to [smapi.io](https://smapi.io/log){:target="_blank"}. There you will also find instructions in case you don't know where to find your log.
+5. Upload your entire log to [smapi.io](https://smapi.io/log). There you will also find instructions in case you don't know where to find your log.
     <div align="center"><font color="red"><b>❗ Do NOT copy-paste errors directly from the console window. ❗</b></font></div>
     <br>
 
@@ -103,7 +103,7 @@ As with any mod, always **delete any previous installation completely** before u
     - Your results from steps 2-4 above.
     - The link to your uploaded log and, if applicable, your uploaded save folder.
 
-You can also ping me on the [Stardew Valley Discord server](https://discord.com/channels/137344473976799233/678284714829807636){:target="_blank"}, `@DaLion (MARGO)`.
+You can also ping me on the [Stardew Valley Discord server](https://discord.com/channels/137344473976799233/678284714829807636), `@DaLion (MARGO)`.
 
 <sub><sup>[🔼 Back to top](#table-of-contents)</sup></sub>
 
@@ -111,7 +111,7 @@ You can also ping me on the [Stardew Valley Discord server](https://discord.com/
 
 This mod offers an API for C# developers wishing to add third-party compatibility.
 To use it, copy both files in the [API folder](./API) over to your project, and change the namespace to something appropriate.
-Then [request SMAPI for a proxy](https://stardewvalleywiki.com/Modding:Modder_Guide/APIs/Integrations#using-an-api){:target="_blank"}.
+Then [request SMAPI for a proxy](https://stardewvalleywiki.com/Modding:Modder_Guide/APIs/Integrations#using-an-api).
 
 Below are some usecases for the API:
 
@@ -127,7 +127,7 @@ Below are some usecases for the API:
 
 ## Building the Source Code
 
-In order to build this mod you will also need to clone my [Stardew Valley Shared Lib](https://gitlab.com/daleao/sdv-shared){:target="_blank"} and adjust the following lines in `ModularOverhaul.csproj`:
+In order to build this mod you will also need to clone my [Stardew Valley Shared Lib](https://gitlab.com/daleao/sdv-shared) and adjust the following lines in `ModularOverhaul.csproj`:
 
 1. Your **game path**, as well as (optionally) build paths:
   ```xml
@@ -145,7 +145,7 @@ In order to build this mod you will also need to clone my [Stardew Valley Shared
   <Import Project="..\Shared\Shared.projitems" Label="Shared" Condition="Exists('..\Shared\Shared.projitems')" />
   ```
 
-3. The relative or full path to a copy of [SpaceCore](https://www.nexusmods.com/stardewvalley/mods/1348){:target="_blank"}'s .dll.
+3. The relative or full path to a copy of [SpaceCore](https://www.nexusmods.com/stardewvalley/mods/1348)'s .dll.
   ```xml
   <!-- mod dependencies -->
   <ItemGroup>
@@ -163,14 +163,14 @@ This project uses the following NuGet packages:
 
 | Package Name | Author | Version |
 | ------------ | ------ | ------- |
-| [Pathoschild.Stardew.ModBuildConfig](https://smapi.io/package/readme){:target="_blank"} | [Jesse Plamondon-Willard](https://github.com/Pathoschild){:target="_blank"} | 4.1.1 |
-| [Pathoschild.Stardew.ModTranslationClassBuilder](https://github.com/Pathoschild/SMAPI-ModTranslationClassBuilder){:target="_blank"} | [Jesse Plamondon-Willard](https://github.com/Pathoschild){:target="_blank"} | 2.0.1 |
-| [Leclair.Stardew.ModManifestBuilder](https://github.com/KhloeLeclair/Stardew-ModManifestBuilder){:target="_blank"} | [Khloe Leclair](https://github.com/KhloeLeclair){:target="_blank"} | 2.1.0 |
-| [Ardalis.SmartEnum](https://github.com/ardalis/SmartEnum){:target="_blank"} | [Steve Smith](https://github.com/ardalis){:target="_blank"} | 2.1.0 |
-| [NetEscapades.EnumGenerators](https://github.com/andrewlock/NetEscapades.EnumGenerators){:target="_blank"} | [Andrew Lock](https://github.com/andrewlock){:target="_blank"} | 1.0.0-beta04 |
-| [FastExpressionCompiler.LightExpression](https://github.com/dadhi/FastExpressionCompiler){:target="_blank"} | [Maksim Volkau](https://github.com/dadhi){:target="_blank"} | 3.3.3 |
-| [CommunityToolkit.Diagnostics](https://github.com/CommunityToolkit/dotnet){:target="_blank"} | Microsoft | 8.0.0 |
-| [JetBrains.Annotations](https://www.jetbrains.com/help/resharper/Code_Analysis__Code_Annotations.html){:target="_blank"} | JetBrains | 2023.2.0 |
+| [Pathoschild.Stardew.ModBuildConfig](https://smapi.io/package/readme) | [Jesse Plamondon-Willard](https://github.com/Pathoschild) | 4.1.1 |
+| [Pathoschild.Stardew.ModTranslationClassBuilder](https://github.com/Pathoschild/SMAPI-ModTranslationClassBuilder) | [Jesse Plamondon-Willard](https://github.com/Pathoschild) | 2.0.1 |
+| [Leclair.Stardew.ModManifestBuilder](https://github.com/KhloeLeclair/Stardew-ModManifestBuilder) | [Khloe Leclair](https://github.com/KhloeLeclair) | 2.1.0 |
+| [Ardalis.SmartEnum](https://github.com/ardalis/SmartEnum) | [Steve Smith](https://github.com/ardalis) | 2.1.0 |
+| [NetEscapades.EnumGenerators](https://github.com/andrewlock/NetEscapades.EnumGenerators) | [Andrew Lock](https://github.com/andrewlock) | 1.0.0-beta04 |
+| [FastExpressionCompiler.LightExpression](https://github.com/dadhi/FastExpressionCompiler) | [Maksim Volkau](https://github.com/dadhi) | 3.3.3 |
+| [CommunityToolkit.Diagnostics](https://github.com/CommunityToolkit/dotnet) | Microsoft | 8.0.0 |
+| [JetBrains.Annotations](https://www.jetbrains.com/help/resharper/Code_Analysis__Code_Annotations.html) | JetBrains | 2023.2.0 |
 
 It also requires a copy of [SpaceCore](https://www.nexusmods.com/stardewvalley/mods/1348)'s .dll.
 
@@ -178,7 +178,7 @@ It also requires a copy of [SpaceCore](https://www.nexusmods.com/stardewvalley/m
 
 ## Mod Recommendations
 
-For those interested, [this is my curated modlist](https://smapi.io/log/f8a5b79ca5e649a59bc0a5661ed2d6f3){:target="_blank"}. This mod list is built on the following principles:
+For those interested, [this is my curated modlist](https://smapi.io/log/f8a5b79ca5e649a59bc0a5661ed2d6f3). This mod list is built on the following principles:
 
 - **Immersion** and **Consistency** above anything.
 - **Only high-quality sprites**, vanilla-quality or better.
@@ -201,13 +201,13 @@ We hail the Lord and Savior [Pathoschild][user:pathoschild], creator of [SMAPI][
 
 This mod borrows ideas and assets from [Ragnarok Online][url:ragnarok], [League of Legends][url:league] and early Pokemon games. Credit to those, respectively, goes to [Gravity][url:gravity], [Riot Games][url:riot] and [Game Freak][url:gamefreak]. This mod is completely free and open-source, provided under [Common Clause-extended MIT License](LICENSE).
 
-Special thanks to [atravita][user:atravita]{:target="_blank"} and [Shockah](user:shockah){:target="_blank"} who have helped me extensively with the mod's programming. And to the various translators who have contributed to this project:
+Special thanks to [atravita][user:atravita] and [Shockah](user:shockah) who have helped me extensively with the mod's programming. And to the various translators who have contributed to this project:
 
-* ![][flag:german][FoxDie1986][user:foxdie1986]{:target="_blank"}
-* ![][flag:chinese][xuzhi1977][user:xuzhi1977]{:target="_blank"} and [Jumping-notes][user:jumping-notes]{:target="_blank"}
-* ![][flag:korean][BrightEast99][user:brighteast99]{:target="_blank"} and [Jun9273][user:jun9273]{:target="_blank"}
-* ![][flag:japanese][sakusakusakuya][user:sakusakusakuya]{:target="_blank"}
-* ![][flag:russian][romario314][user:romario314]{:target="_blank"}
+* ![][flag:german][FoxDie1986][user:foxdie1986]
+* ![][flag:chinese][xuzhi1977][user:xuzhi1977] and [Jumping-notes][user:jumping-notes]
+* ![][flag:korean][BrightEast99][user:brighteast99] and [Jun9273][user:jun9273]
+* ![][flag:japanese][sakusakusakuya][user:sakusakusakuya]
+* ![][flag:russian][romario314][user:romario314]
 
 You have the right to upload your own translation of this project, but I reserve the right to copy your translation directly into the project.
 
