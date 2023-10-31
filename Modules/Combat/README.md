@@ -436,7 +436,7 @@ The Infinity Band cannot be combined with any non-gemstone ring. In most cases, 
 
 ## Garnet & Gemstone Resonance Theory
 
-To compensate for the [removal of vanilla Acrobat profession](../Professions), this mod introduces a seventh gemstone, the **Garnet**, which can be mined upwards of Mine level 80. Socketed to a ring or a weapon, it will grant 10% cooldown reduction to special moves. [As described above](#craftable-gemstone-rings), the Garnet Ring is craftable at Combat level 7.
+To compensate for the [removal of vanilla Acrobat profession](../Professions), this mod introduces a seventh gemstone, the **Garnet**, which can be mined upwards of Mine level 80. Socketed to a ring or a weapon, it will grant 10% cooldown reduction to special moves. [As shown above](#craftable-gemstone-rings), the Garnet Ring is craftable at Combat level 7.
 
 With the addition of Garnet, the seven gemstones together form a [Diatonic Scale](https://en.wikipedia.org/wiki/Diatonic_scale):
 
@@ -448,7 +448,7 @@ With the addition of Garnet, the seven gemstones together form a [Diatonic Scale
 <br>
 
 <div align="center">
-<font size="1"><i>The Diatonic Gemstone Scale. The dashed lines show the Tertian Tetrads rooted in Ruby (red) and Aquamarine (blue).</i></font>
+<font size="1"><i>The Diatonic Gemstone Scale. The dashed lines show examples of Tertian Tetrad chords rooted in Ruby (red), Aquamarine (blue) and Emerald (green).</i></font>
 </div>
 
 <br>
