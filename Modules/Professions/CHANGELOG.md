@@ -2,9 +2,17 @@
 
 ## 4.1.0
 
+### Added
+
+* Added compatibility for [More New Fish](https://www.nexusmods.com/stardewvalley/mods/3578).
+    * Tui and La are now considered Legendary Fish for the Angler perk, and can be raised in Fish Ponds with Aquarist profession.
+* Added `AnimalDerivedProducts` to config settings, so you can now add animal-derived goods from other mods to make them compatible with Producer perks (anything with Mayonnaise, Cheese, Butter, Yogurt, or Ice Cream in the name should work out-of-the-box).
+
 ### Fixed
 
 * Fixed Aquarist bug causing it to always consider the `FishPondCeiling` setting instead of the actual number of available Fish Ponds.
+* Fixed an issue where extended levels (11-20) could cause CP skill level-based conditions not to trigger, depending on how they were written by the mod author. The "fix" has been to cap CP's skill level provider to level 10, so that CP thinks the player's level is 10 even if it is higher than that. This does have the downside of making it impossible for mod's to add specific conditions for extended levels, but I don't think anybody will ever do that anyway.
+    * This also fixes the issue of certain SVE events not triggering (such as Morgan's 8 hearts).
 
 <sup><sup>[🔼 Back to top](#profs-changelog)</sup></sup>
 

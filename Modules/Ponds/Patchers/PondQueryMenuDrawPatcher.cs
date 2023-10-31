@@ -4,6 +4,7 @@ namespace DaLion.Overhaul.Modules.Ponds.Patchers;
 #region using directives
 
 using System.Reflection;
+using DaLion.Shared.Classes;
 using DaLion.Shared.Constants;
 using DaLion.Shared.Extensions;
 using DaLion.Shared.Extensions.Stardew;
@@ -179,7 +180,11 @@ internal sealed class PondQueryMenuDrawPatcher : HarmonyPatcher
                 {
                     if (isLegendaryPond && familyCount > 0 && i == ____pond.FishCount - familyCount)
                     {
-                        itemToDraw = new SObject(Maps.ExtendedFamilyPairs[____fishItem.ParentSheetIndex], 1);
+                        itemToDraw =
+                            new SObject(
+                                Lookups.FamilyPairs.TryGet(____fishItem.ParentSheetIndex, out var pairIndex)
+                                    ? pairIndex
+                                    : ____fishItem.ParentSheetIndex, 1);
                     }
 
                     itemToDraw!.drawInMenu(

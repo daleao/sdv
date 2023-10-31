@@ -1,9 +1,11 @@
 ﻿# CMBT Changelog
 
-## 4.0.2
+## 4.1.0
 
 ### Added
 
+* Added compatibility for [More New Fish](https://www.nexusmods.com/stardewvalley/mods/3578).
+    * The Sword Fish weapon is now a Mythic-tier Stabing Sword. Similar to the Insect Head, it's damage scales based on the number of caught fish species (+1 for regular species, +10 for legendary).
 * You can now immersively switch Galaxy Sword and Infinity Blade between Defensive and Offensive types by taking them to the Sand Pillars.
 
 ### Changed
@@ -16,6 +18,8 @@
 
 * Fixed sword type not being set correctly.
 * Hero Quest should now auto-complete if started with all conditions already met.
+
+<sup><sup>[🔼 Back to top](#cmbt-changelog)</sup></sup>
 
 ## 4.0.1
 

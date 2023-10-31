@@ -2,7 +2,6 @@
 
 #region using directives
 
-using DaLion.Shared.Extensions.Stardew;
 using StardewValley.Buildings;
 
 #endregion using directives
@@ -15,6 +14,6 @@ internal static class FishPondExtensions
     /// <returns><see langword="true"/> if the <paramref name="pond"/> houses a legendary fish species, otherwise <see langword="false"/>.</returns>
     internal static bool HasLegendaryFish(this FishPond pond)
     {
-        return pond.GetFishObject().IsLegendaryFish();
+        return Lookups.LegendaryFishes.Contains(pond.GetFishObject().Name);
     }
 }

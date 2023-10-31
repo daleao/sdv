@@ -230,21 +230,27 @@ The known Mythic weapons are:
 | ------ | ---- | ------- |
 | ![](./resources/readme/yetitooth.png) Yeti Tooth | Defense Sword | Can cause Chilled status.* |
 | ![](./resources/readme/neptuneglaive.png) Neptune Glaive | Defense Sword | Like a crashing wave, deals heavy knockback. |
-| ![](./resources/readme/obsidianedge.png) Obsidian Edge | Stabbing Sword | Can cause Bleeding.* |
+| ![](./resources/readme/obsidianedge.png) Obsidian Edge | Stabbing Sword | Ignores enemy resistance. Can cause Bleeding.* |
 | ![](./resources/readme/lavakatana.png) Lava Katana | Stabbing Sword | Can cause Burning.* |
 | ![](./resources/readme/insecthead.png) Insect Head | Dagger | Damage depends on the number of slain bugs. |
 | ![](./resources/readme/iridiumneedle.png) Iridium Needle | Dagger | Always critically strikes. |
+| ![](./resources/readme/swordfish.png) Sword Fish** | Stabbing Sword | Damage depends on the number of caught fish species. |
 </div>
 
-<font size="1">\* *Status effects are explained [further below](#status-effects).*</font>
+<font size="1">
+
+\* *Status effects are explained [further below](#status-effects).*
+
+\** *Requires [More New Fish](https://www.nexusmods.com/stardewvalley/mods/3578).*
+</font>
 
 **Masterwork** weapons are relics of the Dwarven race, crafted from long-lost materials. To obtain them you will need to uncovering the **Dwarvish Blueprints**, and kindly ask [a skilled blacksmith](https://stardewvalleywiki.com/Clint) to make sense of them. Having done so, the only thing left will be hunting down the materials:
 
 | Weapons | Description | Material | Source |
 | ------- | ----------- | -------- | ------ |
-| ![](./resources/readme/elven_set.png) Elven | Quick, nimble weapons enchanted with forest magic which grants them high reach and knockback. | ![](./resources/readme/elderwood.png) Elderwood | [Scavenger Hunts](../Professions) |
-| ![](./resources/readme/dwarven_set.png) Dwarven | Large, bulky weapons. They grant high defense and knockback, but reduce speed. | ![](./resources/readme/dwarvenscrap.png) Dwarven Scrap Metal | Volcano Chests |
-| ![](./resources/readme/dragontooth_set.png) Dragontooth | Light and sharp, granting the highest raw damage out of any weapon in the game. | ![](./resources/readme/dragontooth.png) Dragon Tooth | Volcano Chests, Dragon Skeletons |
+| <div align="center"> ![](./resources/readme/elven_set.png) <br> Elven </div> | Quick, nimble weapons enchanted with forest magic which grants them high reach and knockback. | <div align="center"> ![](./resources/readme/elderwood.png) <br> Elderwood </div> | [Scavenger Hunts](../Professions) |
+| <div align="center"> ![](./resources/readme/dwarven_set.png) <br> Dwarven </div> | Large, bulky weapons. They grant high defense and knockback, but reduce speed. | <div align="center"> ![](./resources/readme/dwarvenscrap.png) <br> Dwarven Scrap Metal </div> | Volcano Chests |
+| <div align="center"> ![](./resources/readme/dragontooth_set.png) <br> </div> Dragontooth | Light and sharp, granting the highest raw damage out of any weapon in the game. | <div align="center"> ![](./resources/readme/dragontooth.png) <br> Dragon Tooth </div> | Volcano Chests, Dragon Skeletons |
 
 Masterwork weapons can only be obtained if the Dwarven Legacy setting is enabled.
 
@@ -293,7 +299,7 @@ Fresh new weapons require fresh new enchantments! Vanilla enchantments have been
 
 \* *Hard caps at 1000 HP. To prevent cheesing boss monsters from expansion mods, this is implemented as a percentage chance per hit, with the chance being near-zero close to the 1000 HP hard cap and near 100% for regular monsters.*
 
-\** *Examples: damage or heal the enemy; decrease or increase the enemie's stats; transfigure into a different enemy, creature or any random item (note: this can spawn illegal items).*
+\** *Examples: damage or heal the enemy; decrease or increase the enemie's stats; transfigure into a different enemy, creature or any random item (including illegal items).*
 </font>
 
 <sup><sup>[🔼 Back to top](#margo--combat-cmbt)</sup></sup>

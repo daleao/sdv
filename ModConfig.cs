@@ -54,27 +54,27 @@ public sealed class ModConfig
 
     /// <summary>Gets a value indicating whether the Combat module is enabled.</summary>
     [JsonProperty]
-    [GMCMImplicitIgnore]
+    [GMCMIgnore]
     public bool EnableCombat { get; internal set; } = false;
 
     /// <summary>Gets a value indicating whether the Tools module is enabled.</summary>
     [JsonProperty]
-    [GMCMImplicitIgnore]
+    [GMCMIgnore]
     public bool EnableTools { get; internal set; } = false;
 
     /// <summary>Gets a value indicating whether the Ponds module is enabled.</summary>
     [JsonProperty]
-    [GMCMImplicitIgnore]
+    [GMCMIgnore]
     public bool EnablePonds { get; internal set; } = false;
 
     /// <summary>Gets a value indicating whether the Taxes module is enabled.</summary>
     [JsonProperty]
-    [GMCMImplicitIgnore]
+    [GMCMIgnore]
     public bool EnableTaxes { get; internal set; } = false;
 
     /// <summary>Gets a value indicating whether the Tweex module is enabled.</summary>
     [JsonProperty]
-    [GMCMImplicitIgnore]
+    [GMCMIgnore]
     public bool EnableTweex { get; internal set; } = true;
 
 #endif

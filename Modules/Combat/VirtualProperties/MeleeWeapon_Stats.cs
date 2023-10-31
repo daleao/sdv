@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using DaLion.Overhaul.Modules.Combat.Enchantments;
 using DaLion.Overhaul.Modules.Combat.Extensions;
-using DaLion.Shared.Constants;
+using DaLion.Shared.Classes;
 using DaLion.Shared.Exceptions;
 using DaLion.Shared.Extensions;
 using DaLion.Shared.Extensions.Stardew;
@@ -22,13 +22,17 @@ internal static class MeleeWeapon_Stats
 
     internal static int Get_MinDamage(this MeleeWeapon weapon)
     {
-        if (weapon.InitialParentTileIndex == WeaponIds.InsectHead && CombatModule.Config.EnableWeaponOverhaul)
+        if (CombatModule.Config.EnableWeaponOverhaul)
         {
-            var caveInsectsKilled = Game1.stats.getMonstersKilled("Grub") +
-                                    Game1.stats.getMonstersKilled("Fly") +
-                                    Game1.stats.getMonstersKilled("Bug");
-            // ReSharper disable once PossibleLossOfFraction
-            return (int)(caveInsectsKilled / 5 * 0.85);
+            if (weapon.hasEnchantmentOfType<KillerBugEnchantment>())
+            {
+                return (int)(weapon.Get_MaxDamage() * 0.85f);
+            }
+
+            if (weapon.hasEnchantmentOfType<SwordFishEnchantment>())
+            {
+                return (int)(weapon.Get_MaxDamage() * 0.65f);
+            }
         }
 
         var minDamage = Values.GetValue(weapon, Create).MinDamage;
@@ -42,12 +46,38 @@ internal static class MeleeWeapon_Stats
 
     internal static int Get_MaxDamage(this MeleeWeapon weapon)
     {
-        if (weapon.InitialParentTileIndex == WeaponIds.InsectHead && CombatModule.Config.EnableWeaponOverhaul)
+        if (CombatModule.Config.EnableWeaponOverhaul)
         {
-            var caveInsectsKilled = Game1.stats.getMonstersKilled("Grub") +
-                                    Game1.stats.getMonstersKilled("Fly") +
-                                    Game1.stats.getMonstersKilled("Bug");
-            return caveInsectsKilled / 5;
+            if (weapon.hasEnchantmentOfType<KillerBugEnchantment>())
+            {
+                var caveInsectsKilled = Game1.stats.getMonstersKilled("Grub") +
+                                        Game1.stats.getMonstersKilled("Fly") +
+                                        Game1.stats.getMonstersKilled("Bug");
+                return caveInsectsKilled / 5;
+            }
+
+            if (weapon.hasEnchantmentOfType<SwordFishEnchantment>())
+            {
+                var damage = 0;
+                foreach (var (key, _) in Game1.player.fishCaught.Pairs)
+                {
+                    if (key.IsAlgaeIndex() || key.IsTrapFishIndex())
+                    {
+                        continue;
+                    }
+
+                    if (Lookups.FamilyPairs.Contains(key))
+                    {
+                        damage += 10;
+                    }
+                    else
+                    {
+                        damage += 1;
+                    }
+                }
+
+                return damage;
+            }
         }
 
         var maxDamage = Values.GetValue(weapon, Create).MaxDamage;

@@ -255,7 +255,7 @@ internal static class FarmerExtensions
 
         var fishData = Game1.content
             .Load<Dictionary<int, string>>("Data\\Fish")
-            .Where(p => !p.Key.IsAnyOf(152, 153, 157) && !p.Value.Contains("trap"))
+            .Where(p => !p.Key.IsAlgaeIndex() && !p.Value.Contains("trap"))
             .ToDictionary(p => p.Key, p => p.Value);
 
         if (!fishData.TryGetValue(index, out var specificFishData))
@@ -310,7 +310,7 @@ internal static class FarmerExtensions
                 continue;
             }
 
-            if (Sets.LegendaryFishes.Contains(dataFields[0].ToString()))
+            if (Lookups.LegendaryFishes.Contains(dataFields[0].ToString()))
             {
                 bonus += 0.025f;
             }

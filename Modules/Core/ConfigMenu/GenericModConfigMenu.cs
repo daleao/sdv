@@ -95,15 +95,27 @@ internal sealed class GenericModConfigMenu : GMCMBuilder<GenericModConfigMenu>
     #region GMCM overrides
 
     [UsedImplicitly]
-    private static void ProfessionConfigCustomArtisanMachinesOverride()
+    private static void ProfessionConfigArtisanMachinesOverride()
     {
         Instance!.AssertRegistered();
         Instance.AddDynamicListOption(
-            I18n.Gmcm_CustomArtisanMachines_Title,
-            I18n.Gmcm_CustomArtisanMachines_Desc,
-            () => Config.Professions.CustomArtisanMachines.ToList(),
-            values => Config.Professions.CustomArtisanMachines = values.ToHashSet(),
-            id: "CustomArtisanMachines");
+            I18n.Gmcm_ArtisanMachines_Title,
+            I18n.Gmcm_ArtisanMachines_Desc,
+            () => Config.Professions.ArtisanMachines.ToList(),
+            values => Config.Professions.ArtisanMachines = values.ToHashSet(),
+            id: "ArtisanMachines");
+    }
+
+    [UsedImplicitly]
+    private static void ProfessionConfigAnimalDerivedGoodsOverride()
+    {
+        Instance!.AssertRegistered();
+        Instance.AddDynamicListOption(
+            I18n.Gmcm_AnimalDerivedGoods_Title,
+            I18n.Gmcm_AnimalDerivedGoods_Desc,
+            () => Config.Professions.AnimalDerivedGoods.ToList(),
+            values => Config.Professions.AnimalDerivedGoods = values.ToHashSet(),
+            id: "AnimalDerivedGoods");
     }
 
     [UsedImplicitly]
@@ -138,7 +150,7 @@ internal sealed class GenericModConfigMenu : GMCMBuilder<GenericModConfigMenu>
                     2f,
                     id: "SkillExpMultipliers." + scSkill.StringId);
             }
-        }   
+        }
     }
 
     [UsedImplicitly]

@@ -1,4 +1,4 @@
-﻿namespace DaLion.Overhaul.Modules.Core.Extensions;
+﻿namespace DaLion.Overhaul.Modules.Professions.Extensions;
 
 #region using directives
 

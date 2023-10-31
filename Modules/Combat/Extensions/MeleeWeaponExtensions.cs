@@ -265,8 +265,30 @@ internal static class MeleeWeaponExtensions
     {
         if (CombatModule.Config.EnableWeaponOverhaul)
         {
+            if (ModHelper.ModRegistry.IsLoaded("JA.FishHatchering") && weapon.Name == "Sword Fish" &&
+                !weapon.hasEnchantmentOfType<SwordFishEnchantment>())
+            {
+                weapon.AddEnchantment(new SwordFishEnchantment());
+                return;
+            }
+
+            if (ModHelper.ModRegistry.IsLoaded("undare.crystalcrops.HCE") && weapon.Name.IsAnyOf(
+                    "Blueglazer", "Crystallight", "Grapemaul", "Heartichoker", "Strawblaster", "Sunspark"))
+            {
+                weapon.AddEnchantment(new UndareCrystallizedWeaponEnchantment());
+                return;
+            }
+
             switch (weapon.InitialParentTileIndex)
             {
+                case WeaponIds.InsectHead when !weapon.hasEnchantmentOfType<KillerBugEnchantment>():
+                    weapon.AddEnchantment(new KillerBugEnchantment());
+                    Log.D("[CMBT]: Added KillerBugEnchantment to Insect Head.");
+                    break;
+                case WeaponIds.IridiumNeedle when !weapon.hasEnchantmentOfType<NeedleEnchantment>():
+                    weapon.AddEnchantment(new NeedleEnchantment());
+                    Log.D("[CMBT]: Added NeedleEnchantment to Iridium Needle.");
+                    break;
                 case WeaponIds.LavaKatana when !weapon.hasEnchantmentOfType<LavaEnchantment>():
                     weapon.AddEnchantment(new LavaEnchantment());
                     Log.D("[CMBT]: Added LavaEnchantment to Lava Katana.");
@@ -283,17 +305,9 @@ internal static class MeleeWeaponExtensions
                     weapon.AddEnchantment(new YetiEnchantment());
                     Log.D("[CMBT]: Added YetiEnchantment to Yeti Tooth.");
                     break;
-                case WeaponIds.InsectHead when !weapon.hasEnchantmentOfType<KillerBugEnchantment>():
-                    weapon.AddEnchantment(new KillerBugEnchantment());
-                    Log.D("[CMBT]: Added KillerBugEnchantment to Insect Head.");
-                    break;
-                case WeaponIds.IridiumNeedle when !weapon.hasEnchantmentOfType<NeedleEnchantment>():
-                    weapon.AddEnchantment(new NeedleEnchantment());
-                    Log.D("[CMBT]: Added NeedleEnchantment to Iridium Needle.");
-                    break;
             }
 
-            if (weapon.IsDagger() && !weapon.hasEnchantmentOfType<NeedleEnchantment>())
+            if (weapon.IsDagger() && !weapon.hasEnchantmentOfType<KillerBugEnchantment>())
             {
                 weapon.AddEnchantment(new DaggerEnchantment());
             }
@@ -333,22 +347,37 @@ internal static class MeleeWeaponExtensions
             enchantment = weapon.InitialParentTileIndex == WeaponIds.InsectHead
                 ? weapon.GetEnchantmentOfType<KillerBugEnchantment>()
                 : weapon.GetEnchantmentOfType<DaggerEnchantment>();
+            weapon.RemoveEnchantment(enchantment);
+            Log.D($"[CMBT]: Removed {enchantment.GetType().Name} from {weapon.Name}.");
         }
-        else
+
+        enchantment = weapon.InitialParentTileIndex switch
         {
-            enchantment = weapon.InitialParentTileIndex switch
+            WeaponIds.DarkSword => weapon.GetEnchantmentOfType<CursedEnchantment>(),
+            WeaponIds.HolyBlade => weapon.GetEnchantmentOfType<BlessedEnchantment>(),
+            WeaponIds.IridiumNeedle => weapon.GetEnchantmentOfType<NeedleEnchantment>(),
+            WeaponIds.LavaKatana => weapon.GetEnchantmentOfType<LavaEnchantment>(),
+            WeaponIds.NeptuneGlaive => weapon.GetEnchantmentOfType<NeptuneEnchantment>(),
+            WeaponIds.ObsidianEdge => weapon.GetEnchantmentOfType<ObsidianEnchantment>(),
+            WeaponIds.YetiTooth => weapon.GetEnchantmentOfType<YetiEnchantment>(),
+            WeaponIds.InfinityBlade or WeaponIds.InfinityDagger or WeaponIds.InfinityGavel => weapon
+                .GetEnchantmentOfType<InfinityEnchantment>(),
+            _ => null,
+        };
+
+        if (enchantment is null)
+        {
+            if (ModHelper.ModRegistry.IsLoaded("JA.FishHatchering") && weapon.Name == "Sword Fish")
             {
-                WeaponIds.LavaKatana => weapon.GetEnchantmentOfType<LavaEnchantment>(),
-                WeaponIds.IridiumNeedle => weapon.GetEnchantmentOfType<NeedleEnchantment>(),
-                WeaponIds.NeptuneGlaive => weapon.GetEnchantmentOfType<NeptuneEnchantment>(),
-                WeaponIds.ObsidianEdge => weapon.GetEnchantmentOfType<ObsidianEnchantment>(),
-                WeaponIds.YetiTooth => weapon.GetEnchantmentOfType<YetiEnchantment>(),
-                WeaponIds.DarkSword => weapon.GetEnchantmentOfType<CursedEnchantment>(),
-                WeaponIds.HolyBlade => weapon.GetEnchantmentOfType<BlessedEnchantment>(),
-                WeaponIds.InfinityBlade or WeaponIds.InfinityDagger or WeaponIds.InfinityGavel => weapon
-                    .GetEnchantmentOfType<InfinityEnchantment>(),
-                _ => null,
-            };
+                enchantment = weapon.GetEnchantmentOfType<SwordFishEnchantment>();
+            }
+
+            if (ModHelper.ModRegistry.IsLoaded("undare.crystalcrops.HCE") && weapon.Name.IsAnyOf(
+                    "Blueglazer", "Crystallight", "Grapemaul", "Heartichoker", "Strawblaster", "Sunspark"))
+            {
+                enchantment = weapon.GetEnchantmentOfType<UndareCrystallizedWeaponEnchantment>();
+                return;
+            }
         }
 
         if (enchantment is not null)
@@ -374,7 +403,9 @@ internal static class MeleeWeaponExtensions
             typeof(NeedleEnchantment),
             typeof(NeptuneEnchantment),
             typeof(ObsidianEnchantment),
-            typeof(YetiEnchantment));
+            typeof(YetiEnchantment),
+            typeof(SwordFishEnchantment),
+            typeof(UndareCrystallizedWeaponEnchantment));
     }
 
     /// <summary>Checks whether the <paramref name="weapon"/> should have one of the special intrinsic enchantments.</summary>

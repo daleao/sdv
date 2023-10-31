@@ -10,6 +10,7 @@ using System.Reflection;
 using DaLion.Overhaul.Modules.Ponds.Extensions;
 using DaLion.Overhaul.Modules.Professions.Extensions;
 using DaLion.Shared.Attributes;
+using DaLion.Shared.Classes;
 using DaLion.Shared.Constants;
 using DaLion.Shared.Extensions;
 using DaLion.Shared.Extensions.Reflection;
@@ -214,7 +215,9 @@ internal sealed class FishingRodPatcherCatchItemPatcher : HarmonyPatcher
             var lowestFamily = familyQualities.FindIndex(i => i > 0);
             if (lowestFamily < lowestFish)
             {
-                var whichFish = Maps.ExtendedFamilyPairs[pond.fishType.Value];
+                var whichFish = Lookups.FamilyPairs.TryGet(pond.fishType.Value, out var pairIndex)
+                    ? pairIndex
+                    : pond.fishType.Value;
                 setFishItem(
                     info,
                     new SObject(whichFish, 1, quality: lowestFamily == 3 ? 4 : lowestFamily));

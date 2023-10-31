@@ -11,6 +11,15 @@ using Microsoft.Xna.Framework.Graphics;
 /// <summary>Caches custom mod textures and related functions.</summary>
 internal static class Textures
 {
+    internal const float RibbonScale = 1.8f;
+    internal const float StarsScale = 3f;
+
+    internal const int RibbonWidth = 22;
+    internal const int StarsWidth = 20;
+    internal const int SingleStarWidth = 8;
+    internal const int ProgressionHorizontalOffset = -82;
+    internal const int ProgressionVerticalOffset = -70;
+
     private static Lazy<Texture2D> _prestigeSheetTx =
         new(() => ModHelper.GameContent.Load<Texture2D>($"{Manifest.UniqueID}/PrestigeProgression"));
 
@@ -22,15 +31,6 @@ internal static class Textures
 
     private static Lazy<Texture2D> _ultimateMeterTx =
         new(() => ModHelper.GameContent.Load<Texture2D>($"{Manifest.UniqueID}/UltimateMeter"));
-
-    internal const float RibbonScale = 1.8f;
-    internal const float StarsScale = 3f;
-
-    internal const int RibbonWidth = 22;
-    internal const int StarsWidth = 20;
-    internal const int SingleStarWidth = 8;
-    internal const int ProgressionHorizontalOffset = -82;
-    internal const int ProgressionVerticalOffset = -70;
 
     internal static Texture2D PrestigeSheetTx => _prestigeSheetTx.Value;
 

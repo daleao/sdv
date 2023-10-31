@@ -41,8 +41,6 @@ public sealed class WeaponTier : SmartEnum<WeaponTier>
 
     #endregion enum values
 
-    private static readonly Dictionary<int, WeaponTier> TierByWeapon;
-
     static WeaponTier()
     {
 #pragma warning disable SA1509 // Opening braces should not be preceded by blank line
@@ -129,6 +127,8 @@ public sealed class WeaponTier : SmartEnum<WeaponTier>
             _ => 250,
         };
     }
+
+    internal static Dictionary<int, WeaponTier> TierByWeapon { get; }
 
     /// <summary>Gets the title color of a weapon at this tier, <see href="https://tvtropes.org/pmwiki/pmwiki.php/Main/ColourCodedForYourConvenience">for your convenience</see>.</summary>
     public Color Color { get; }

@@ -4,9 +4,18 @@ This file contains a TL;DR of current version changes and hotfixes from across a
 
 ## Minor Release 4.1.0 Highlights
 
-* The GMCM is now self-generating. This does unfortunately mean that absolutely all translation keys for the menu have changed (sorry translators).
+* The GMCM is now self-generating, which is awesome (for me) but does unfortunately mean that absolutely all translation keys for the menu have changed (sorry translators). The ZH and KO menu translations had to be discarded.
 * Added dynamic list options to the GMCM, which means that any list config settings that previously had to be changed manually (like `CustomArtisanMachines`, `StabbingSwords`, `TaxRatePerBracket`, etc.) can now be changed in the menu in-game. With this, all settings are now available in the menu.
+* [CMBT]: Made several minor improvements to animations and sound effects when acquiring Galaxy Blade / Blade of Dawn.
 * [PRFS]: Fixed Aquarist bug causing it to always consider the `FishPondCeiling` setting instead of the actual number of available Fish Ponds.
+* [PRFS]: Hopefully fixed an issue with CP skill level conditions not working at levels above 10.
+* [PRFS]: Several PPJA dairy products are now also considered "animal-derived" for the Producer profession. The list of `AnimalDerivedProducts` has been added to the configs.
+* Added compatibility for [More New Fish](https://www.nexusmods.com/stardewvalley/mods/3578).
+    * [CMBT]: The Sword Fish weapon is now a Mythic-tier Stabbing Sword with scaling damage based on caught fish species.
+    * [PRfS]: Tui and La can be raised in Fish Ponds with the Aquarist profession. They produce essence instead of roe.
+    * [PNDS]: Tui and La can be raised together in the same Fish Pond, which unlocks a low chance to also produce Galaxy Soul.
+
+<div align="center">-- This is likely the final update before 1.6 --</div>
 
 ## Patch 4.0.1 Highlights
 

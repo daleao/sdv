@@ -2,6 +2,8 @@
 
 #region using directives
 
+using DaLion.Shared.Constants;
+using DaLion.Shared.Extensions;
 using DaLion.Shared.Extensions.Stardew;
 
 #endregion using directives
@@ -14,7 +16,22 @@ internal static class SObjectExtensions
     /// <returns><see langword="true"/> if the <paramref name="obj"/> is a machine that creates artisan goods, otherwise <see langword="false"/>.</returns>
     internal static bool IsArtisanMachine(this SObject obj)
     {
-        return Sets.ArtisanMachines.Contains(obj.name);
+        return ProfessionsModule.Config.ArtisanMachines.Contains(obj.name);
+    }
+
+    /// <summary>Determines whether the <paramref name="object"/> is an animal produce or a derived artisan good.</summary>
+    /// <param name="object">The <see cref="SObject"/>.</param>
+    /// <returns><see langword="true"/> if the <paramref name="object"/> is an animal produce or a derived artisan good, otherwise <see langword="false"/>.</returns>
+    internal static bool IsAnimalOrDerivedGood(this SObject @object)
+    {
+        return @object.Category.IsAnyOf(
+                   SObject.EggCategory,
+                   SObject.MilkCategory,
+                   SObject.meatCategory,
+                   SObject.sellAtPierresAndMarnies) ||
+               @object.ParentSheetIndex == ObjectIds.DinosaurEgg ||
+               @object.Name.ContainsAnyOf("Mayonnaise", "Cheese", "Butter", "Yogurt", "Ice Cream") ||
+               ProfessionsModule.Config.AnimalDerivedGoods.Contains(@object.Name);
     }
 
     /// <summary>Determines whether <paramref name="object"/> is a resource node.</summary>
@@ -22,7 +39,15 @@ internal static class SObjectExtensions
     /// <returns><see langword="true"/> if the <paramref name="object"/> is a mining node containing precious resources, otherwise <see langword="false"/>.</returns>
     internal static bool IsResourceNode(this SObject @object)
     {
-        return Sets.ResourceNodeIds.Contains(@object.ParentSheetIndex);
+        return Lookups.ResourceNodeIds.Contains(@object.ParentSheetIndex);
+    }
+
+    /// <summary>Determines whether the <paramref name="object"/> is a legendary fish.</summary>
+    /// <param name="object">The <see cref="SObject"/>.</param>
+    /// <returns><see langword="true"/> if the <paramref name="object"/> is a legendary fish, otherwise <see langword="false"/>.</returns>
+    public static bool IsLegendaryFish(this SObject @object)
+    {
+        return Lookups.LegendaryFishes.Contains(@object.Name) || @object.HasContextTag("fish_legendary");
     }
 
     /// <summary>Determines whether the <paramref name="profession"/> should track <paramref name="obj"/>.</summary>

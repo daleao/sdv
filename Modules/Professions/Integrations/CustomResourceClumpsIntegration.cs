@@ -26,7 +26,7 @@ internal sealed class CustomResourceClumpsIntegration : ModIntegration<CustomRes
             return;
         }
 
-        Sets.ResourceClumpIds = this.ModApi
+        Lookups.ResourceClumpIds = this.ModApi
             .GetCustomClumpData()
             .Select(c => Reflector.GetUnboundFieldGetter<object, int>(c, "index").Invoke(c))
             .ToImmutableHashSet();

@@ -1,5 +1,14 @@
 ﻿# PNDS Changelog
 
+## 4.1.0
+
+* Added compatibility for [More New Fish](https://www.nexusmods.com/stardewvalley/mods/3578).
+    * Tui and La can be placed together in the same Fish Pond.
+    * If Tui or La is placed in a Fish Pond, the Fish Pond's capacity is set to 2, as there is only one of each, and together they maintain balance between Yin and Yang.
+    * Tui and La do not produce roe. Tui produces Solar Essence, and La produces Void Essences. If placed together in the same Fish Pond, on days where both Tui and La both produce an essence, one Galaxy Soul will be produced instead.
+
+<sup><sup>[🔼 Back to top](#pnds-changelog)</sup></sup>
+
 ## 3.1.5
 
 ### Fixed

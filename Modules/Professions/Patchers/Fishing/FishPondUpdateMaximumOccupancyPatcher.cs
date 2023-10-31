@@ -18,12 +18,14 @@ internal sealed class FishPondUpdateMaximumOccupancyPatcher : HarmonyPatcher
     internal FishPondUpdateMaximumOccupancyPatcher()
     {
         this.Target = this.RequireMethod<FishPond>(nameof(FishPond.UpdateMaximumOccupancy));
+        this.Postfix!.before = new[] { OverhaulModule.Ponds.Name };
     }
 
     #region harmony patches
 
     /// <summary>Patch for Aquarist increased max fish pond capacity.</summary>
     [HarmonyPostfix]
+    [HarmonyBefore("DaLion.Overhaul.Modules.Ponds")]
     private static void FishPondUpdateMaximumOccupancyPostfix(
         FishPond __instance, FishPondData? ____fishPondData)
     {

@@ -186,11 +186,11 @@ internal static class FishPondExtensions
         // Mean daily roe value (/w Aquarist profession) by fish value
         // assuming regular-quality roe and fully-populated pond:
         //     30g -> ~324g (~90% roe chance per fish)
-        //     700g -> ~1512g (~18% roe chance per fish)
+        //     700g -> ~1512g (~18% roe chance per fish) <-- capped here
         //     5000g -> ~4050g (~13.5% roe chance per fish)
         const double a = 335d / 4d;
         const double b = 275d / 2d;
         var neighbors = pond.FishCount - 1;
-        return a / (cappedValue + b) * (1d + (neighbors / 11d) - (1d / 11d)) * PondsModule.Config.RoeProductionChanceMultiplier;
+        return a / (cappedValue + b) * (1d + ((neighbors - 1) / 11d)) * PondsModule.Config.RoeProductionChanceMultiplier;
     }
 }

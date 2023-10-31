@@ -3,10 +3,9 @@
 #region using directives
 
 using System.Reflection;
-using DaLion.Overhaul.Modules.Professions.Ultimates;
+using DaLion.Overhaul.Modules.Professions.Extensions;
 using DaLion.Overhaul.Modules.Professions.VirtualProperties;
 using DaLion.Shared.Harmony;
-using Extensions;
 using HarmonyLib;
 using StardewValley.Monsters;
 

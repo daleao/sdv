@@ -58,7 +58,7 @@ internal sealed class ObjectGetPriceAfterMultipliersPatcher : HarmonyPatcher
 
                 // professions
                 if (farmer.HasProfession(Profession.Producer) &&
-                    (IsAnimalOrDerivedProduct(__instance) || (__instance.ParentSheetIndex == ObjectIds.Honey &&
+                    (__instance.IsAnimalOrDerivedGood() || (__instance.ParentSheetIndex == ObjectIds.Honey &&
                                                               ProfessionsModule.Config.BeesAreAnimals)))
                 {
                     multiplier += farmer.GetProducerPriceBonus();
@@ -93,14 +93,4 @@ internal sealed class ObjectGetPriceAfterMultipliersPatcher : HarmonyPatcher
     }
 
     #endregion harmony patches
-
-    private static bool IsAnimalOrDerivedProduct(SObject @object)
-    {
-        return @object.Category.IsAnyOf(
-                   SObject.EggCategory,
-                   SObject.MilkCategory,
-                   SObject.meatCategory,
-                   SObject.sellAtPierresAndMarnies) ||
-               Sets.AnimalDerivedProductIds.Contains(@object.ParentSheetIndex);
-    }
 }

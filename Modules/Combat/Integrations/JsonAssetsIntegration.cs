@@ -3,6 +3,7 @@
 #region using directives
 
 using System.IO;
+using DaLion.Overhaul.Modules.Combat.Enums;
 using DaLion.Shared.Attributes;
 using DaLion.Shared.Extensions.SMAPI;
 using DaLion.Shared.Integrations;
@@ -59,7 +60,7 @@ internal sealed class JsonAssetsIntegration : ModIntegration<JsonAssetsIntegrati
             Log.W("Json Assets are missing for base Combat module items. `Dwarven Legacy` and `Hero Quest` will be disabled.");
             CombatModule.Config.DwarvenLegacy = false;
             CombatModule.Config.EnableHeroQuest = false;
-            ModHelper.WriteConfig(ModEntry.Config);
+            ModHelper.WriteConfig(Config);
         }
 
         directory = Path.Combine(ModHelper.DirectoryPath, "assets", "json-assets", "rings");
@@ -76,8 +77,10 @@ internal sealed class JsonAssetsIntegration : ModIntegration<JsonAssetsIntegrati
         {
             Log.W("JSON Assets are missing for Rings.");
             CombatModule.Config.EnableInfinityBand = false;
-            ModHelper.WriteConfig(ModEntry.Config);
+            ModHelper.WriteConfig(Config);
         }
+
+        this.ModApi.IdsAssigned += this.AddMythicWeapons;
 
         Log.D("[CMBT]: Registered the Json Assets integration.");
         return true;
@@ -87,58 +90,59 @@ internal sealed class JsonAssetsIntegration : ModIntegration<JsonAssetsIntegrati
     private void AssignBaseIds(object? sender, EventArgs e)
     {
         this.AssertLoaded();
-        var index = this.ModApi.GetObjectId("Hero Soul");
-        if (index == -1)
+
+        var id = this.ModApi.GetObjectId("Hero Soul");
+        if (id == -1)
         {
             Log.W("[CMBT]: Failed to get ID for Hero Soul from Json Assets.");
         }
         else
         {
-            HeroSoulIndex = index;
+            HeroSoulIndex = id;
             Log.D($"[CMBT]: Json Assets ID {HeroSoulIndex} has been assigned to Hero Soul.");
         }
 
-        index = this.ModApi.GetObjectId("Dwarven Scrap");
-        if (index == -1)
+        id = this.ModApi.GetObjectId("Dwarven Scrap");
+        if (id == -1)
         {
             Log.W("[CMBT]: Failed to get ID for Dwarven Scrap from Json Assets.");
         }
         else
         {
-            DwarvenScrapIndex = index;
+            DwarvenScrapIndex = id;
             Log.D($"[CMBT]: Json Assets ID {DwarvenScrapIndex} has been assigned to Dwarven Scrap.");
         }
 
-        index = this.ModApi.GetObjectId("Elderwood");
-        if (index == -1)
+        id = this.ModApi.GetObjectId("Elderwood");
+        if (id == -1)
         {
             Log.W("[CMBT]: Failed to get ID for Elderwood from Json Assets.");
         }
         else
         {
-            ElderwoodIndex = index;
+            ElderwoodIndex = id;
             Log.D($"[CMBT]: Json Assets ID {ElderwoodIndex} has been assigned to Elderwood.");
         }
 
-        index = this.ModApi.GetObjectId("Dwarvish Blueprint");
-        if (index == -1)
+        id = this.ModApi.GetObjectId("Dwarvish Blueprint");
+        if (id == -1)
         {
             Log.W("[CMBT]: Failed to get ID for Dwarvish Blueprint from Json Assets.");
         }
         else
         {
-            DwarvishBlueprintIndex = index;
+            DwarvishBlueprintIndex = id;
             Log.D($"[CMBT]: Json Assets ID {DwarvishBlueprintIndex} has been assigned to Dwarvish Blueprint.");
         }
 
-        index = this.ModApi.GetObjectId("Garnet");
-        if (index == -1)
+        id = this.ModApi.GetObjectId("Garnet");
+        if (id == -1)
         {
             Log.W("[CMBT]: Failed to get ID for Garnet from Json Assets.");
         }
         else
         {
-            GarnetIndex = index;
+            GarnetIndex = id;
             Log.D($"[CMBT]: Json Assets ID {GarnetIndex} has been assigned to Garnet.");
         }
 
@@ -150,26 +154,47 @@ internal sealed class JsonAssetsIntegration : ModIntegration<JsonAssetsIntegrati
     private void AssignRingIds(object? sender, EventArgs e)
     {
         this.AssertLoaded();
-        var index = this.ModApi.GetObjectId("Garnet Ring");
-        if (index == -1)
+
+        var id = this.ModApi.GetObjectId("Garnet Ring");
+        if (id == -1)
         {
             Log.W("[CMBT]: Failed to get ID for Garnet Ring from Json Assets.");
         }
         else
         {
-            GarnetRingIndex = index;
+            GarnetRingIndex = id;
             Log.D($"[CMBT]: Json Assets ID {GarnetRingIndex} has been assigned to Garnet Ring.");
         }
 
-        index = this.ModApi.GetObjectId("Infinity Band");
-        if (index == -1)
+        id = this.ModApi.GetObjectId("Infinity Band");
+        if (id == -1)
         {
             Log.W("[CMBT]: Failed to get ID for Infinity Band from Json Assets.");
         }
         else
         {
-            InfinityBandIndex = index;
+            InfinityBandIndex = id;
             Log.D($"[CMBT]: Json Assets ID {InfinityBandIndex} has been assigned to Infinity Band.");
+        }
+    }
+
+    private void AddMythicWeapons(object? sender, EventArgs e)
+    {
+        this.AssertLoaded();
+
+        string[] weaponNames =
+        {
+            "Blueglazer", "Crystallight", "Gapemaul", "Heartichoker", "Strawblaster", "Sunspark", "Sword Fish",
+        };
+
+        for (var i = 0; i < weaponNames.Length; i++)
+        {
+            var name = weaponNames[i];
+            var id = this.ModApi.GetWeaponId(name);
+            if (id != -1)
+            {
+                WeaponTier.TierByWeapon.Add(id, WeaponTier.Mythic);
+            }
         }
     }
 }

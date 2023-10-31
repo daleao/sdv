@@ -63,7 +63,7 @@ The perks within ⭐<font color="gold">star text</font>⭐ refer to <font color=
 <ul>
 <font size="2">
 
-Yields an equivalent 10% monetary bonus to vanilla on average, but also provides value if you choose not to sell raw crops.
+- Yields an equivalent 10% monetary bonus to vanilla on average, but also provides value if you choose not to sell raw crops.
 </font>
 </ul>
 </details>
@@ -75,7 +75,7 @@ Yields an equivalent 10% monetary bonus to vanilla on average, but also provides
 <ul>
 <font size="2">
 
-Allows harvesting iridium-quality crops, normally only possible with Deluxe Fertilizer. The chance is equivalent to half of that with Deluxe Fertilizer, which means that fertilizers are **by no means** obsolete.
+- Allows harvesting iridium-quality crops, normally only possible with Deluxe Fertilizer. The chance is equivalent to half of that with Deluxe Fertilizer, which means that fertilizers are **by no means** obsolete.
 </font>
 </ul>
 </details>
@@ -100,7 +100,7 @@ Allows harvesting iridium-quality crops, normally only possible with Deluxe Fert
 <ul>
 <font size="2">
 
-Gain double mood *and* friendship points from petting. Newborn animals are also born with a non-zero, random initial friendship.
+- Gain double mood *and* friendship points from petting. Newborn animals are also born with a non-zero, random initial friendship.
 </font>
 </ul>
 </details>
@@ -112,7 +112,7 @@ Gain double mood *and* friendship points from petting. Newborn animals are also 
 <ul>
 <font size="2">
 
-At max friendship animals are worth 2.5x their base price, instead of vanilla 1.3x. If Animal Husbandry is installed, gestation following insemination is also 2x <font color="gold"><i>(3x)</i></font> faster.
+- At max friendship animals are worth 2.5x their base price, instead of vanilla 1.3x. If Animal Husbandry is installed, gestation following insemination is also 2x <font color="gold"><i>(3x)</i></font> faster.
 </font>
 </ul>
 </details>
@@ -127,7 +127,7 @@ At max friendship animals are worth 2.5x their base price, instead of vanilla 1.
 - Note that happiness, or [mood](https://stardewvalleywiki.com/Animals#Mood), is **not** the same as friendship.
 - This will **not** allow certain animals that already produce every day (i.e., cows and chickens) to produce more that once per day.
 - The bonus produce value also applies to artisan goods derived from animal products (such as cheeses, mayos and cloth), honey (bees are animals too), and meat from Animal Husbandry or PPJA Fresh Meat.
-- Only deluxe buildings can be considered full, and only barns and coops owned by the Producer will be considered (ownership requirements can be turned off in the configs). 
+- Only deluxe buildings can be considered full, and only barns and coops owned by the Producer will be considered (ownership requirements can be turned off in the configs).
 - There is no limit to the bonus value.
 </font>
 </ul>
@@ -146,7 +146,7 @@ At max friendship animals are worth 2.5x their base price, instead of vanilla 1.
 <ul>
 <font size="2">
 
-Other than the name, this profession is unchanged from vanilla.
+- Other than the name, this profession is unchanged from vanilla.
 </font>
 </ul>
 </details>
@@ -186,7 +186,7 @@ Other than the name, this profession is unchanged from vanilla.
 <ul>
 <font size="2">
 
-Other than the name, this profession is unchanged from vanilla.
+- Other than the name, this profession is unchanged from vanilla.
 </font>
 </ul>
 </details>
@@ -198,7 +198,8 @@ Other than the name, this profession is unchanged from vanilla.
 <ul>
 <font size="2">
 
-Bonus tree growth works as a global buff; i.e., all trees in the world are affected as long as any player in the session has this profession, and the effect will stack for all additional online players that share this profession. The hardwood bonus is inherited and uchanged from vanilla.
+- Bonus tree growth works as a global buff; i.e., all trees in the world are affected as long as any player in the session has this profession, and the effect will stack for all additional online players that share this profession.
+- The hardwood bonus is inherited and uchanged from vanilla.
 </font>
 </ul>
 </details>
@@ -229,7 +230,7 @@ Bonus tree growth works as a global buff; i.e., all trees in the world are affec
 <ul>
 <font size="2">
 
-Completely unchanged from vanilla.
+- Completely unchanged from vanilla.
 </font>
 </ul>
 </details>
@@ -241,7 +242,7 @@ Completely unchanged from vanilla.
 <ul>
 <font size="2">
 
-Plus 0.5% ladder chance per level. Bonus ladder chance resets each time you leave the mines. **This includes taking the stairs back to the mine entrance.**
+- Plus 0.5% ladder chance per level. Bonus ladder chance resets each time you leave the mines. **This includes taking the stairs back to the mine entrance.**
 </font>
 </ul>
 </details>
@@ -271,7 +272,7 @@ Plus 0.5% ladder chance per level. Bonus ladder chance resets each time you leav
 <ul>
 <font size="2">
 
-Provides a new style of mining while attempting to compensate for the lack of coal without the vanilla Prospector profession.
+- Provides a new style of mining while attempting to compensate for the lack of coal without the vanilla Prospector profession.
 </font>
 </ul>
 </details>
@@ -408,7 +409,7 @@ Provides a new style of mining while attempting to compensate for the lack of co
 <ul>
 <font size="2">
 
-Completely unchanged from vanilla.
+- Completely unchanged from vanilla.
 </font>
 </ul>
 </details>
@@ -420,7 +421,7 @@ Completely unchanged from vanilla.
 <ul>
 <font size="2">
 
-**Rage:** Damage +1% and Attack Speed +0.5% per stack*. Max 100 stacks. Rage slowly decays after not dealing or taking damage for 20 seconds (40 when prestiged).
+- **Rage:** Damage +1% and Attack Speed +0.5% per stack*. Max 100 stacks. Rage slowly decays after not dealing or taking damage for 20 seconds (40 when prestiged).
 </font>
 </ul>
 </details>
@@ -432,7 +433,7 @@ Completely unchanged from vanilla.
 <ul>
 <font size="2">
 
-**Poaching:** Each monster can only be poached once. Poach chance is increased by your critical strike chance and luck (**not** Daily Luck!), and decreased by the enemy's resistance and jitteriness (yes, that's a real stat which monsters have). Any item from the monster's available loot table can be obtained by this method.
+- **Poaching:** Each monster can only be poached once. Poach chance is increased by your critical strike chance and luck (**not** Daily Luck!), and decreased by the enemy's resistance and jitteriness (yes, that's a real stat which monsters have). Any item from the monster's available loot table can be obtained by this method.
 </font>
 </ul>
 </details>

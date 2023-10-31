@@ -238,6 +238,7 @@ public sealed class CombatConfig
         "Lava Katana",
         "Dragontooth Cutlass",
         "Blade of Ruin",
+        "Sword Fish",
         "Strawblaster",
     };
 
@@ -404,7 +405,7 @@ public sealed class CombatConfig
     [JsonProperty]
     [GMCMSection("cmbt.rings_enchantments")]
     [GMCMPriority(207)]
-    public bool NewPrismaticEnchantments { get; set; }
+    public bool NewPrismaticEnchantments { get; internal set; }
 
     #endregion rings & enchantments
 
@@ -455,6 +456,7 @@ public sealed class CombatConfig
     [JsonProperty]
     [GMCMSection("cmbt.quests")]
     [GMCMPriority(302)]
+    [GMCMRange(0, 50)]
     public int IridiumBarsPerGalaxyWeapon
     {
         get => this._iridiumBarsPerGalaxyWeapon;
@@ -468,6 +470,7 @@ public sealed class CombatConfig
     [JsonProperty]
     [GMCMSection("cmbt.quests")]
     [GMCMPriority(303)]
+    [GMCMRange(0, 4)]
     public float RuinBladeDotMultiplier
     {
         get => this._ruinBladeDotMultiplier;

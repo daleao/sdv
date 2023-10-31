@@ -490,7 +490,7 @@ internal sealed class GameLocationExplodePatcher : HarmonyPatcher
         Random r,
         Farmer who)
     {
-        if (Maps.ResourceFromNode.TryGetValue(
+        if (Lookups.ResourceFromNode.TryGetValue(
                 tileObj.ParentSheetIndex == ObjectIds.Stone_Node_Gemstone
                     ? r.Next(1, 8) * 2
                     : tileObj.ParentSheetIndex, // replace gem node with random, well, gem node

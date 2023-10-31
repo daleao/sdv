@@ -37,7 +37,9 @@ internal sealed class MeleeWeaponCanAddEnchantmentPatcher : HarmonyPatcher
             typeof(NeedleEnchantment),
             typeof(NeptuneEnchantment),
             typeof(ObsidianEnchantment),
-            typeof(YetiEnchantment));
+            typeof(YetiEnchantment),
+            typeof(SwordFishEnchantment),
+            typeof(UndareCrystallizedWeaponEnchantment));
         return false; // run original logic
     }
 

@@ -7,6 +7,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using DaLion.Overhaul.Modules.Ponds.Extensions;
+using DaLion.Shared.Classes;
 using DaLion.Shared.Constants;
 using DaLion.Shared.Extensions;
 using DaLion.Shared.Extensions.Collections;
@@ -62,6 +63,10 @@ internal sealed class FishPondGetFishProducePatcher : HarmonyPatcher
             {
                 ProduceForCoral(__instance, held, __instance.GetRoeChance(fish.Price), random);
             }
+            else if (fish.ParentSheetIndex is 1127 or 1128)
+            {
+                ProduceForTuiLa(__instance, held, fish.ParentSheetIndex, __instance.GetRoeChance(fish.Price), random);
+            }
             else
             {
                 ProduceRoe(__instance, fish, held, random);
@@ -108,7 +113,7 @@ internal sealed class FishPondGetFishProducePatcher : HarmonyPatcher
             if (fish.IsLegendaryFish() && random.NextDouble() <
                 __instance.Read<double>(DataKeys.FamilyLivingHere) / __instance.FishCount)
             {
-                fishIndex = Maps.ExtendedFamilyPairs[fishIndex];
+                fishIndex = Lookups.FamilyPairs.TryGet(fishIndex, out var pairIndex) ? pairIndex : fishIndex;
             }
 
             var split = Game1.objectInformation[fishIndex].SplitWithoutAllocation('/');
@@ -387,6 +392,30 @@ internal sealed class FishPondGetFishProducePatcher : HarmonyPatcher
             DataKeys.MetalsHeld,
             string.Join(';', heldMetals
                 .Select(m => string.Join(',', m.Item1, m.Item2))));
+    }
+
+    private static void ProduceForTuiLa(FishPond pond, List<Item> held, int which, double chance, Random r)
+    {
+        if (pond.FishCount > 1)
+        {
+            if (r.NextDouble() < chance && r.NextDouble() < chance)
+            {
+                held.Add(new SObject(ObjectIds.GalaxySoul, 1));
+                return;
+            }
+
+            held.Add(new SObject(which == 1127 ? ObjectIds.VoidEssence : ObjectIds.SolarEssence, 1));
+            if (r.NextDouble() < 0.8)
+            {
+                held.Last().Stack++;
+            }
+        }
+
+        held.Add(new SObject(which == 1127 ? ObjectIds.SolarEssence : ObjectIds.VoidEssence, 1));
+        if (r.NextDouble() < 0.8)
+        {
+            held.Last().Stack++;
+        }
     }
 
     #endregion handlers

@@ -62,6 +62,16 @@ internal sealed class DebugButtonsChangedEvent : ButtonsChangedEvent
                     .Aggregate(
                         message,
                         (current, field) => current + $"\n\t- {field.Name}: {field.GetValue(o)}");
+
+                message += "\n\n\tContext tags:";
+                message = o.GetContextTagList().Aggregate(message, (m, c) => m + $"\n\t\t- {c}");
+
+                message += "\n\n\tMod data:";
+                message = o.modData.Pairs
+                    .Where(p => p.Key.StartsWith(Manifest.UniqueID))
+                    .Aggregate(
+                        message,
+                        (m, p) => m + $"\n\t\t- {p.Key}: {p.Value}");
                 Log.D(message);
             }
             else

@@ -14,8 +14,9 @@ This module makes Fish Ponds useful and immersive by implementing the following 
 4. After 3 days, empty ponds will spontaneously grow algae/seaweed. New algae/seaweed spawn every 2 days, and produce a random amount of algae/seaweed depending on population. Note that seaweed, green algae and white algae will all grow simultaneously in the same pond. Algae/seaweed ponds have population gates and quests, but their population can only increase naturally; i.e. you cannot manually place more algae/seaweed in the pond.
 5. Ponds containing Radioactive or Mutant fish species will enrich any ores or metal bars dropped inside, converting them to radioactive counterparts after enough days.
 6. If [PRFS](../Professions) module is enabled and the player has the Aquarist profession, then extended family legendary fish can be raised in the same pond as their family counterparts. An Angler couple will be able to mate under these conditions.
+    - If [More New Fish](https://www.nexusmods.com/stardewvalley/mods/3578) is installed, Tui and La count as a family pair. They produce essences instead of roe, and, if placed together in a the same pond, may produce a Galaxy Soul instead.
 
-This module is intended to complement the [Professions](../Professions) module and its Aquarist profession, but can be used without it.
+This module is intended to complement the [PRFS](../Professions) module and its Aquarist profession, but can be used without it.
 
 **Before disabling this module, please manually fish out and then ***clear*** every Fish Pond instance to reset mod data in order to prevent issues.**
 

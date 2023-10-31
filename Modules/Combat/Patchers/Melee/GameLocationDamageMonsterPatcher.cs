@@ -42,7 +42,7 @@ internal sealed class GameLocationDamageMonsterPatcher : HarmonyPatcher
             return;
         }
 
-        if (weapon.hasEnchantmentOfType<KillerBugEnchantment>())
+        if (weapon.HasAnyEnchantmentOf(typeof(KillerBugEnchantment), typeof(SwordFishEnchantment)))
         {
             critChance = 0f;
         }
