@@ -180,16 +180,16 @@ It also requires a copy of [SpaceCore](https://www.nexusmods.com/stardewvalley/m
 
 For those interested, [this is my curated modlist](https://smapi.io/log/f8a5b79ca5e649a59bc0a5661ed2d6f3). This mod list is built on the following principles:
 
-- **Immersion** and **Consistency** above anything.
-- **Only high-quality sprites**, vanilla-quality or better.
+- **Immersion** and **Consistency** above anything. That excludes anything that screams "Hi, I am a mod".
+- **High-quality sprites only**. That means vanilla or better.
 - **Medieval Aesthetic.** Nothing beats [Gwen's Medieval Valley](https://www.nexusmods.com/stardewvalley/users/51171631?tab=user+files). It combines perfectly with my favorite recolor: the criminally underated [Wittily](https://www.nexusmods.com/stardewvalley/mods/2995). The brown [Vintage UI](https://www.nexusmods.com/stardewvalley/mods/4697) tops off the combination.
-- **Vanilla-style portraits**, using Poltergeister's [Seasonal Cute Characters](https://www.nexusmods.com/stardewvalley/mods/5450), manually combined with [stanloona420's revised character series](https://www.nexusmods.com/stardewvalley/users/71935143?tab=user+files) and the outstanding [Slightly Cuter-er Penny Portraits](https://www.nexusmods.com/stardewvalley/mods/11576) by Juan Miguelito.
 - **[Stardew Valley Expanded](https://www.nexusmods.com/stardewvalley/mods/3753)** as the main and only expansion, as it's the only one with art that matches the vanilla style and buildings supported by Gweniaczek. [Aquarium](https://www.nexusmods.com/stardewvalley/mods/6372) is also used for a bit more longevity.
     - [Ridgeside Village](https://www.nexusmods.com/stardewvalley/mods/7286) is an excellent mod with a great artstyle. I recommend you try it out, as long as you don't touch their weapons. Unfortunately the plot and writing are not to my taste.
     - [East Scarp](https://www.nexusmods.com/stardewvalley/mods/5787) opens up the game for some of the best-written NPC mods. I would absolutely recommend [Always Raining in the Valley](https://www.nexusmods.com/stardewvalley/mods/9999) and the Sword & Sorcery series by [DestyN0VA](https://www.nexusmods.com/stardewvalley/users/95913693?tab=user+files). Unfortunately, East Scarp itself has some extremely inconsistent art.
+- **Vanilla-style portraits**. Poltergeister's [Seasonal Cute Characters](https://www.nexusmods.com/stardewvalley/mods/5450) is the only feature-complete portrait mod that is both seasonal *and* covers **all** characters, including SVE. I manually combine it with [stanloona420's revised character series](https://www.nexusmods.com/stardewvalley/users/71935143?tab=user+files) and the outstanding [Slightly Cuter-er Penny Portraits](https://www.nexusmods.com/stardewvalley/mods/11576) by Juan Miguelito.
 - I try to be minimalist on new items, mostly sticking to [PPJA](https://www.nexusmods.com/stardewvalley/users/26612284?tab=user+files) with a few interesting additions when the art or offered gameplay sticks out to me.
 
-Please note that many of these mods have been heavily customized, including typo fixes, harmonized textures and even entire map edits. The most heavily edited mods are versioned with the suffix `-DaLion`, but not all do. I am not at liberty to share my personal edits, and some of these mods I would not recommend in their original state due to either lack of polish or consistency with the rest of the list.
+Please note that many of the mods in the list have been heavily customized to fit the criteria, including but not limited to typo fixes, harmonized textures and even entire map edits. The most heavily edited mods are versioned with the suffix `-DaLion`. I am not at liberty to share my personal edits, and some of these mods I would not recommend in their original state due to either lack of polish or consistency with the rest of the list. All of them are framework mods, mostly CP, JA and PFM, which means it should be very easy for anyone to edit themselves.
 
 Make sure to test every mod before committing it to your mod list, and do not make changes to that list once you begin playing.
 
