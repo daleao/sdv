@@ -93,6 +93,9 @@ public abstract class OverhaulModule
     [MemberNotNullWhen(true, nameof(Harmonizer), nameof(CommandHandler))]
     internal bool IsActive { get; private set; }
 
+    /// <summary>Gets or sets a value indicating whether the module has finished loading.</summary>
+    internal bool HasFinishedLoading { get; set; }
+
     /// <summary>Enumerates all modules.</summary>
     /// <returns>A <see cref="IEnumerable{T}"/> of <see cref="OverhaulModule"/>s.</returns>
     internal static IEnumerable<OverhaulModule> EnumerateModules()
@@ -165,10 +168,13 @@ public abstract class OverhaulModule
     /// <summary>Registers module integrations with third-party mods.</summary>
     internal virtual void RegisterIntegrations()
     {
-        if (this.IsActive)
+        if (!this.IsActive)
         {
-            IntegrationRegistry.RegisterFromNamespace(this.Namespace);
+            return;
         }
+
+        IntegrationRegistry.RegisterFromNamespace(this.Namespace);
+        this.HasFinishedLoading = true;
     }
 
     /// <summary>Causes SMAPI to reload all assets edited by this module.</summary>
@@ -206,19 +212,24 @@ public abstract class OverhaulModule
         {
             base.Activate(helper);
 #if DEBUG
+            Log.T($"==================== DEBUG START ====================");
             EventManager.ManageNamespace(this.Namespace + ".Debug");
             this.Harmonizer = Harmonizer.ApplyFromNamespace(this.Namespace + ".Debug", helper.ModRegistry);
             this.CommandHandler ??= CommandHandler.HandleFromNamespace(
                 this.Namespace + ".Debug",
                 helper.ConsoleCommands,
                 this.DisplayName,
-                this.Ticker,
-                () => this.IsActive);
+                this.Ticker);
             Log.I("[Modules]: Debug features activated.");
+            Log.T($"==================== DEBUG END ====================");
 #endif
 
+            Log.D($"==================== SHARED START ====================");
             EventManager.ManageNamespace("DaLion.Shared");
             Harmonizer.ApplyFromNamespace("DaLion.Shared", helper.ModRegistry);
+            CommandHandler.HandleFromNamespace("DaLion.Shared", helper.ConsoleCommands, this.DisplayName, this.Ticker);
+            Log.I("[Modules]: Shared features activated.");
+            Log.D($"==================== SHARED START ====================");
         }
 
         /// <inheritdoc />
@@ -258,6 +269,13 @@ public abstract class OverhaulModule
                 ModEntry.Config.EnableProfessions = value;
                 ModHelper.WriteConfig(ModEntry.Config);
             }
+        }
+
+        /// <inheritdoc />
+        internal override void RegisterIntegrations()
+        {
+            base.RegisterIntegrations();
+            this.HasFinishedLoading = false;
         }
 
         /// <inheritdoc />
@@ -364,7 +382,7 @@ public abstract class OverhaulModule
                 weapon.type.Value = MeleeWeapon.stabbingSword;
                 Log.D($"[CMBT]: The type of {weapon.Name} was converted to Stabbing sword.");
             }
-            else if (!ShouldEnable || (weapon.type.Value == MeleeWeapon.stabbingSword && !weapon.ShouldBeStabbySword()))
+            else if (weapon.type.Value == MeleeWeapon.stabbingSword && (!ShouldEnable || !weapon.ShouldBeStabbySword()))
             {
                 weapon.type.Value = MeleeWeapon.defenseSword;
                 Log.D($"[CMBT]: The type of {weapon.Name} was converted to Defense sword.");

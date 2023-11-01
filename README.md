@@ -187,10 +187,10 @@ For those interested, [this is my curated modlist](https://smapi.io/log/f8a5b79c
     - [Ridgeside Village](https://www.nexusmods.com/stardewvalley/mods/7286) is an excellent mod with a great artstyle. I recommend you try it out, as long as you don't touch their weapons. Unfortunately the plot and writing are not to my taste.
     - [East Scarp](https://www.nexusmods.com/stardewvalley/mods/5787) opens up the game for some of the best-written NPC mods. I would absolutely recommend [Always Raining in the Valley](https://www.nexusmods.com/stardewvalley/mods/9999) and the Sword & Sorcery series by [DestyN0VA](https://www.nexusmods.com/stardewvalley/users/95913693?tab=user+files). Unfortunately, East Scarp itself has some extremely inconsistent art.
 - **Vanilla-style portraits**. Poltergeister's [Seasonal Cute Characters](https://www.nexusmods.com/stardewvalley/mods/5450) is the only feature-complete portrait mod that is both seasonal *and* covers **all** characters, including SVE. I manually combine it with [stanloona420's revised character series](https://www.nexusmods.com/stardewvalley/users/71935143?tab=user+files) and the outstanding [Slightly Cuter-er Penny Portraits](https://www.nexusmods.com/stardewvalley/mods/11576) by Juan Miguelito.
-- My heavily edited version of [Monster Girls](https://www.nexusmods.com/stardewvalley/mods/14692) is the least immersive and most NSFW mod in this list. For anyone who's not a pervert I'd probably recommend [Slime Rancher](https://www.nexusmods.com/stardewvalley/mods/12654).
+- My heavily edited version of [Monster Girls](https://www.nexusmods.com/stardewvalley/mods/14692) is the least immersive and borderline NSFW mod in this list. For anyone who's not a pervert I'd probably recommend [Slime Rancher](https://www.nexusmods.com/stardewvalley/mods/12654).
 - I try to be minimalist on new items, mostly sticking to [PPJA](https://www.nexusmods.com/stardewvalley/users/26612284?tab=user+files) with a few interesting additions when the art or offered gameplay sticks out to me.
 
-Please note that a lot of the mods in the list have been heavily customized to fit the criteria, including but not limited to typo fixes, harmonized textures and even entire map edits. The most heavily edited mods are versioned with the suffix `-DaLion`. I am not at liberty to share my personal edits, but all of them are framework mods, mostly CP, JA and PFM, which means it should be very easy for anyone to edit themselves. If you are not willing to make that effort then I would recommend excluding them entirely due to a general lack of polish.
+Please note that a lot of the mods in the list have been very heavily customized to fit these criteria, including but not limited to, typo fixes, harmonized textures and even entire map edits. The most heavily edited mods are versioned with the suffix `-DaLion`. I am not at liberty to share my personal edits, but all of them are framework mods, mostly CP, JA and PFM, which means it should be relatively easy for anyone to edit themselves. If you are not willing to make that effort then my recommendation would be to avoid them entirely due to a general lack of polish.
 
 Make sure to test every mod before committing it to your mod list, and do not make changes to that list once you begin playing.
 
@@ -214,9 +214,11 @@ You have the right to upload your own translation of this project, but I reserve
 
 Thanks to [JetBrains][url:jetbrains] for providing a free open-source license to ReSharper and other tools.
 
+<div align="center">
 <a href="https://smapi.io" target="_blank"><img width="64" src="https://smapi.io/Content/images/pufferchick.png" alt="Pufferchick"></a>
 <a href="https://www.jetbrains.com" target="_blank"><img width="80" src="https://resources.jetbrains.com/storage/products/company/brand/logos/jb_beam.svg" alt="JetBrains logo."></a>
 <a href="https://discord.com/invite/stardewvalley" target="_blank"><img width="80" src="https://assets-global.website-files.com/6257adef93867e50d84d30e2/636e0a69f118df70ad7828d4_icon_clyde_blurple_RGB.svg" alt="Discord logo."></a>
+</div>
 
 <!-- MARKDOWN LINKS & IMAGES -->
 [shield:license]: https://img.shields.io/badge/Custom%20License-Non%20Commercial%20Mod-brightgreen?style=for-the-badge

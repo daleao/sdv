@@ -45,7 +45,7 @@ internal static class SObjectExtensions
     /// <summary>Determines whether the <paramref name="object"/> is a legendary fish.</summary>
     /// <param name="object">The <see cref="SObject"/>.</param>
     /// <returns><see langword="true"/> if the <paramref name="object"/> is a legendary fish, otherwise <see langword="false"/>.</returns>
-    public static bool IsLegendaryFish(this SObject @object)
+    internal static bool IsLegendaryFish(this SObject @object)
     {
         return Lookups.LegendaryFishes.Contains(@object.Name) || @object.HasContextTag("fish_legendary");
     }

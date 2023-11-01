@@ -2,6 +2,12 @@
 
 This file contains a TL;DR of current version changes and hotfixes from across all modules. For the complete changelog, please refer to the individual changelogs of each module, linked [below](#detailed-changelogs).
 
+## Hotfix 4.1.1 Highlights
+
+* Hotfix for all weapons being turned into swords when Combat module not enabled.
+
+<sup><sup>[🔼 Back to top](#margo-changelogs)</sup></sup>
+
 ## Minor Release 4.1.0 Highlights
 
 * The GMCM is now self-generating, which is awesome (for me) but does unfortunately mean that absolutely all translation keys for the menu have changed (sorry translators). The ZH and KO menu translations had to be discarded.
@@ -15,7 +21,7 @@ This file contains a TL;DR of current version changes and hotfixes from across a
     * [PRfS]: Tui and La can be raised in Fish Ponds with the Aquarist profession. They produce essence instead of roe.
     * [PNDS]: Tui and La can be raised together in the same Fish Pond, unlocking a low chance to produce Galaxy Soul.
 
-<div align="center">-- This is likely the final update before 1.6 --</div>
+<div align="center">-- This is likely the final content release before 1.6 --</div>
 
 <sup><sup>[🔼 Back to top](#margo-changelogs)</sup></sup>
 

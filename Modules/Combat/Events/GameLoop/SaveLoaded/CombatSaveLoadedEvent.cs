@@ -95,7 +95,7 @@ internal sealed class CombatSaveLoadedEvent : SaveLoadedEvent
         if (Game1.options.useLegacySlingshotFiring)
         {
             CombatModule.Config.BullseyeReplacesCursor = false;
-            ModHelper.WriteConfig(ModEntry.Config);
+            ModHelper.WriteConfig(Config);
             Log.W(
                 "[CMBT]: Bullseye cursor settings is not compatible with pull-back firing mode. Switch to hold-and-release to use this option.");
         }

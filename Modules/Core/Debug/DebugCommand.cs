@@ -1,4 +1,4 @@
-﻿namespace DaLion.Overhaul.Modules.Core.Commands;
+﻿namespace DaLion.Overhaul.Modules.Core.Debug;
 
 #region using directives
 

@@ -22,7 +22,7 @@ internal sealed class SlingshotCtorPatcher : HarmonyPatcher
 
     /// <summary>Add Infinity Slingshot enchant.</summary>
     [HarmonyPostfix]
-    private static void MeleeWeaponCtorPostfix(Slingshot __instance)
+    private static void SlingshotCtorPostfix(Slingshot __instance)
     {
         if (!__instance.ShouldHaveIntrinsicEnchantment())
         {

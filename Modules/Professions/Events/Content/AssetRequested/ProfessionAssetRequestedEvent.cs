@@ -5,6 +5,7 @@
 using System.Collections.Generic;
 using DaLion.Overhaul.Modules.Professions.Extensions;
 using DaLion.Overhaul.Modules.Professions.Integrations;
+using DaLion.Shared.Constants;
 using DaLion.Shared.Content;
 using DaLion.Shared.Events;
 using DaLion.Shared.Extensions;
@@ -12,7 +13,6 @@ using DaLion.Shared.Extensions.Collections;
 using DaLion.Shared.Extensions.Stardew;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Shared.Constants;
 using StardewModdingAPI.Events;
 using StardewValley.GameData.FishPond;
 using StardewValley.Menus;

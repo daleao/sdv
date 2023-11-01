@@ -1,5 +1,15 @@
 ﻿# Core Changelog
 
+## 4.1.1
+
+### Changed
+
+* Switched from storing menu initialization flag in custom data.json to storing it in config.json. This eliminates the extra file and allows users to set the flag as they wish. This also prevents users who carry over their config from seeing the initial module selection again. Honestly idk why I didn't do this in the first place.
+
+### Fixed
+
+* Fixed Debug objects being instantiated in Release mode.
+
 ## 4.1.0
 
 ### Added

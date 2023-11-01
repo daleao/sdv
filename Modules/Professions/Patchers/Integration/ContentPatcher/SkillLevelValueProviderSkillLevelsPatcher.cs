@@ -131,7 +131,6 @@ internal sealed class SkillLevelValueProviderSkillLevelsPatcher : HarmonyPatcher
                             OpCodes.Call,
                             typeof(Math).RequireMethod(nameof(Math.Max), new[] { typeof(int), typeof(int) })),
                     });
-
         }
         catch (Exception ex)
         {

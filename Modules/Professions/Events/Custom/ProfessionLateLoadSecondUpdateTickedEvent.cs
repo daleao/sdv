@@ -2,7 +2,6 @@
 
 #region using directives
 
-using DaLion.Overhaul.Modules.Core.ConfigMenu;
 using DaLion.Overhaul.Modules.Professions.Integrations;
 using DaLion.Shared.Events;
 using StardewModdingAPI.Events;
@@ -32,7 +31,7 @@ internal sealed class ProfessionLateLoadSecondUpdateTickedEvent : SecondSecondUp
         Log.D("[PRFS]: Doing second pass of custom skills...");
         // this is required because because Love of Cooking only registers to SpaceCore on the FirstSecondUpdateTicked
         SpaceCoreIntegration.Instance.LoadSpaceCoreSkills();
-        GenericModConfigMenu.Instance?.Reload();
+        OverhaulModule.Professions.HasFinishedLoading = true;
         this.Manager.Unmanage(this);
     }
 }

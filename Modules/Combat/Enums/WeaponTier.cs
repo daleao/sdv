@@ -128,13 +128,14 @@ public sealed class WeaponTier : SmartEnum<WeaponTier>
         };
     }
 
-    internal static Dictionary<int, WeaponTier> TierByWeapon { get; }
-
     /// <summary>Gets the title color of a weapon at this tier, <see href="https://tvtropes.org/pmwiki/pmwiki.php/Main/ColourCodedForYourConvenience">for your convenience</see>.</summary>
     public Color Color { get; }
 
     /// <summary>Gets the sell price of a weapon at this tier.</summary>
     public int Price { get; }
+
+    /// <summary>Gets a lookup dictionary for a weapon's tier given its sheet index.</summary>
+    internal static Dictionary<int, WeaponTier> TierByWeapon { get; }
 
     /// <summary>Gets the corresponding <see cref="WeaponTier"/> for the specified <paramref name="tool"/>.</summary>
     /// <param name="tool">A <see cref="MeleeWeapon"/> or <see cref="Slingshot"/>.</param>

@@ -3,6 +3,7 @@ namespace DaLion.Overhaul.Modules.Combat.VirtualProperties;
 
 #region using directives
 
+using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
 using DaLion.Overhaul.Modules.Combat.Enchantments;
 using DaLion.Overhaul.Modules.Combat.Extensions;
@@ -656,6 +657,7 @@ internal static class Slingshot_Stats
 
     #region holder interface
 
+    [SuppressMessage("StyleCop.CSharp.OrderingRules", "SA1201:Elements should appear in the correct order", Justification = "Interface is for embedded class.")]
     internal interface IHolder
     {
         float RubyBonus { get; }

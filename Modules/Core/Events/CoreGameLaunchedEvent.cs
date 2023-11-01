@@ -22,13 +22,6 @@ internal sealed class CoreGameLaunchedEvent : GameLaunchedEvent
     /// <inheritdoc />
     protected override void OnGameLaunchedImpl(object? sender, GameLaunchedEventArgs e)
     {
-        if (!LocalData.InitialSetupComplete &&
-            EnumerateModules().Skip(1).Any(module => module is not (ProfessionsModule or TweexModule)))
-        {
-            LocalData.InitialSetupComplete = true;
-            ModHelper.Data.WriteJsonFile("data.json", LocalData);
-        }
-
         EnumerateModules().Skip(1).ForEach(module => module.RegisterIntegrations());
     }
 }

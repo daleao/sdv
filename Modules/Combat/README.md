@@ -780,7 +780,7 @@ If the Hero Quest option enabled, Infinity weapons require also require forging 
 <details>
 <summary><i>To obtain a Hero Soul... (spoiler)</i></summary>
 
-...unforge the Blade of Dawn.
+...unforge the Blade of Dawn. Or alternatively, if using the Deep Woods mod, you can also unforge the Excalibur.
 </details>
 </details>
 

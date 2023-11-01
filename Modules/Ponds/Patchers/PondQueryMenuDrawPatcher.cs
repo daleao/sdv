@@ -184,7 +184,8 @@ internal sealed class PondQueryMenuDrawPatcher : HarmonyPatcher
                             new SObject(
                                 Lookups.FamilyPairs.TryGet(____fishItem.ParentSheetIndex, out var pairIndex)
                                     ? pairIndex
-                                    : ____fishItem.ParentSheetIndex, 1);
+                                    : ____fishItem.ParentSheetIndex,
+                                1);
                     }
 
                     itemToDraw!.drawInMenu(

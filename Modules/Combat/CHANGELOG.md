@@ -1,5 +1,13 @@
 ﻿# CMBT Changelog
 
+## 4.1.1
+
+### Fixed
+
+* Fixed all weapons being turned into swords when module not enabled. Woops.
+
+<sup><sup>[🔼 Back to top](#cmbt-changelog)</sup></sup>
+
 ## 4.1.0
 
 ### Added

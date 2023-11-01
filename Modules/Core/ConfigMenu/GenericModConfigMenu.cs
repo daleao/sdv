@@ -29,7 +29,7 @@ internal sealed class GenericModConfigMenu : GMCMBuilder<GenericModConfigMenu>
     protected override void BuildMenu()
     {
         this.SetTitleScreenOnlyForNextOptions(true);
-        if (!LocalData.InitialSetupComplete)
+        if (Config.LaunchInitialSetup)
         {
             this.AddParagraph(I18n.Gmcm_Core_Initial);
         }
@@ -39,7 +39,7 @@ internal sealed class GenericModConfigMenu : GMCMBuilder<GenericModConfigMenu>
         }
 
         this.AddModuleSelectionOption();
-        if (!LocalData.InitialSetupComplete)
+        if (Config.LaunchInitialSetup)
         {
             return;
         }

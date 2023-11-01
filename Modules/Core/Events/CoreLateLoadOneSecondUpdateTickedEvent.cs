@@ -2,6 +2,7 @@
 
 #region using directives
 
+using System.Linq;
 using DaLion.Overhaul.Modules.Core.ConfigMenu;
 using DaLion.Shared.Events;
 using StardewModdingAPI.Events;
@@ -29,14 +30,13 @@ internal sealed class CoreLateLoadOneSecondUpdateTickedEvent : OneSecondUpdateTi
             return;
         }
 
-        if (OverhaulModule.Professions._ShouldEnable &&
-            Professions.Integrations.SpaceCoreIntegration.Instance?.IsRegistered != true)
+        if (EnumerateModules().Skip(1).Where(module => module._ShouldEnable).Any(module => !module.HasFinishedLoading))
         {
             return;
         }
 
         OverhaulModule.Core.RegisterIntegrations();
-        if (GenericModConfigMenu.Instance?.IsRegistered != true || LocalData.InitialSetupComplete)
+        if (GenericModConfigMenu.Instance?.IsRegistered != true || !Config.LaunchInitialSetup)
         {
             this.Manager.Unmanage(this);
             return;
@@ -44,9 +44,8 @@ internal sealed class CoreLateLoadOneSecondUpdateTickedEvent : OneSecondUpdateTi
 
         Log.I("Launching GMCM for initial setup.");
         GenericModConfigMenu.Instance.ModApi!.OpenModMenu(Manifest);
-        LocalData.InitialSetupComplete = true;
-        ModHelper.Data.WriteJsonFile("data.json", LocalData);
-        GenericModConfigMenu.Instance.Reload();
+        Config.LaunchInitialSetup = false;
+        ModHelper.WriteConfig(Config);
         this.Manager.Unmanage(this);
     }
 }
