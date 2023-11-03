@@ -488,6 +488,8 @@ The gemstone with the highest amplitude in a chord becomes the **Tonic**, or **R
 
 Chords have also an associated **Richness**, which measures how "interesting" it is. A higher richness is achieved by more complex chords (i.e., avoiding repeated gemstones). Some sufficiently rich chords can also exibit **magnetism**.
 
+In case it wasn't clear, **the order in which gemstones are placed in the ring does not matter.**
+
 #### Monad Chords
 
 A 1-note chord is called a **Monad**. A Monad is the simplest possible chord; it is made by simply repeating the same gemstone up to 4 times. Because it only contains Unisons, this chord offers no resonances and zero richness. As a result, it does not emit light, but achieves the highest single-stat total of any chord. The Ruby Monad is shown below:
