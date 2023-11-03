@@ -359,7 +359,7 @@ It is significantly harder to create interesting ranged effects compared to mele
 | Energized | Moving and shooting generates energy. When fully-energized, the next projectile carries an electric charge, which discharges dealing heavy damage when it hits an enemy. |
 | Freljord | Progressively chill enemies on hit for 2 seconds, freezing after stacking 3 times. |
 | Quincy | Attacks fire an energy projectile if no ammo is equipped. The projectile is stronger at lower health. Only works when enemies are nearby.* |
-| Reverberant | Summons two "echoes" of the fired projectile. The phantoms automatically aim at the nearest enemy after a short delay. Only works when enemies are nearby.** |
+| Reverberant | Summons two "echoes" of the fired projectile, that auto-aim at the nearest enemy after a short delay. Only works when enemies are nearby.** |
 
 <font size="1">
 
