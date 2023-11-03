@@ -16,7 +16,7 @@ using StardewValley.Tools;
 
 #endregion using directives
 
-/// <summary>Fire 2 additional projectiles.</summary>
+/// <summary>Summons two "echoes" of the fired projectile. The phantoms automatically aim at the nearest enemy after a short delay.</summary>
 [XmlType("Mods_DaLion_RunaanEnchantment")]
 public sealed class RunaanEnchantment : BaseSlingshotEnchantment
 {

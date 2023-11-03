@@ -244,7 +244,7 @@ The known Mythic weapons are:
 \** *Requires [More New Fish](https://www.nexusmods.com/stardewvalley/mods/3578).*
 </font>
 
-**Masterwork** weapons are relics of the Dwarven race, crafted from long-lost materials. To obtain them you will need to uncovering the **Dwarvish Blueprints**, and kindly ask [a skilled blacksmith](https://stardewvalleywiki.com/Clint) to make sense of them. Having done so, the only thing left will be hunting down the materials:
+**Masterwork** weapons are relics of the Dwarven race, crafted from long-lost materials. To obtain them you will need to uncover the **Dwarvish Blueprints**, and kindly ask [a skilled blacksmith](https://stardewvalleywiki.com/Clint) to make sense of them. Having done so, the only thing left will be hunting down the materials:
 
 | Weapons | Description | Material | Source |
 | ------- | ----------- | -------- | ------ |
@@ -359,7 +359,7 @@ It is significantly harder to create interesting ranged effects compared to mele
 | Energized | Moving and shooting generates energy. When fully-energized, the next projectile carries an electric charge, which discharges dealing heavy damage when it hits an enemy. |
 | Freljord | Progressively chill enemies on hit for 2 seconds, freezing after stacking 3 times. |
 | Quincy | Attacks fire an energy projectile if no ammo is equipped. The projectile is stronger at lower health. Only works when enemies are nearby.* |
-| Runaan | Summons two phantom copies of the fired projectile. The phantoms automatically aim at the nearest enemy after a short delay. Only works when enemies are nearby.** |
+| Reverberant | Summons two "echoes" of the fired projectile. The phantoms automatically aim at the nearest enemy after a short delay. Only works when enemies are nearby.** |
 
 <font size="1">
 
