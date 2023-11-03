@@ -51,6 +51,7 @@ internal sealed class BaseEnchantmentGetAvailableEnchantmentsPatcher : HarmonyPa
                         new CodeInstruction(OpCodes.Brtrue_S, newEnchantments),
                     })
                 .Move(12)
+                .Insert(new[] { new CodeInstruction(OpCodes.Br_S, resumeExecution) })
                 .Insert(
                     new[]
                     {

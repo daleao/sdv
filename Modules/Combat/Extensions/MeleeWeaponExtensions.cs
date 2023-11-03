@@ -4,6 +4,7 @@
 
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
+using System.Linq;
 using DaLion.Overhaul.Modules.Combat.Enchantments;
 using DaLion.Overhaul.Modules.Combat.Enums;
 using DaLion.Overhaul.Modules.Combat.VirtualProperties;
@@ -14,6 +15,7 @@ using DaLion.Shared.Exceptions;
 using DaLion.Shared.Extensions;
 using DaLion.Shared.Extensions.Stardew;
 using Microsoft.Xna.Framework;
+using Shared.Extensions.Collections;
 using StardewValley;
 using StardewValley.Locations;
 using StardewValley.Tools;
@@ -146,30 +148,14 @@ internal static class MeleeWeaponExtensions
         weapon.addedAreaOfEffect.Value = int.Parse(split[11]);
         weapon.critChance.Value = float.Parse(split[12]);
         weapon.critMultiplier.Value = float.Parse(split[13]);
-
-        if (weapon.isScythe())
-        {
-            weapon.minDamage.Value = int.Parse(split[2]);
-            weapon.maxDamage.Value = int.Parse(split[3]);
-            weapon.type.Set(3);
-            weapon.Invalidate();
-            return weapon;
-        }
-
         switch (option)
         {
-            case WeaponRefreshOption.FromData:
-                weapon.minDamage.Value = int.Parse(split[2]);
-                weapon.maxDamage.Value = int.Parse(split[3]);
-                weapon.Write(DataKeys.BaseMinDamage, weapon.minDamage.Value.ToString());
-                weapon.Write(DataKeys.BaseMaxDamage, weapon.maxDamage.Value.ToString());
-                weapon.Invalidate();
-                return weapon;
-            case WeaponRefreshOption.Randomized:
+            case WeaponRefreshOption.Randomized when CombatModule.ShouldEnable && weapon.ShouldRandomizeDamage():
                 weapon.RandomizeDamage();
                 weapon.Invalidate();
-                return weapon;
-            case WeaponRefreshOption.Initial:
+                break;
+
+            case WeaponRefreshOption.Initial when CombatModule.ShouldEnable && weapon.ShouldRandomizeDamage():
                 var initialMinDamage = weapon.Read(DataKeys.BaseMinDamage, -1);
                 var initialMaxDamage = weapon.Read(DataKeys.BaseMaxDamage, -1);
                 if (initialMinDamage >= 0 && initialMaxDamage >= 0)
@@ -177,24 +163,24 @@ internal static class MeleeWeaponExtensions
                     weapon.minDamage.Value = initialMinDamage;
                     weapon.maxDamage.Value = initialMaxDamage;
                     weapon.Invalidate();
-                    return weapon;
+                    break;
                 }
 
-                if (weapon.ShouldRandomizeDamage())
-                {
-                    weapon.RandomizeDamage();
-                }
-                else
-                {
-                    weapon.minDamage.Value = int.Parse(split[2]);
-                    weapon.maxDamage.Value = int.Parse(split[3]);
-                }
-
+                weapon.RandomizeDamage();
                 weapon.Invalidate();
-                return weapon;
+                break;
+
             default:
-                return ThrowHelperExtensions.ThrowUnexpectedEnumValueException<WeaponRefreshOption, MeleeWeapon>(option);
+                weapon.minDamage.Value = int.Parse(split[2]);
+                weapon.maxDamage.Value = int.Parse(split[3]);
+                weapon.Write(DataKeys.BaseMinDamage, null);
+                weapon.Write(DataKeys.BaseMaxDamage, null);
+                weapon.Invalidate();
+                break;
         }
+
+        weapon.enchantments.Where(e => e.IsForge()).ForEach(e => e.ApplyTo(weapon));
+        return weapon;
     }
 
     /// <summary>Randomizes the damage of the <paramref name="weapon"/>.</summary>
@@ -254,9 +240,8 @@ internal static class MeleeWeaponExtensions
     /// <returns><see langword="true"/> if the <paramref name="weapon"/> is a Galaxy, Infinity or other unique weapon, otherwise <see langword="false"/>.</returns>
     internal static bool ShouldRandomizeDamage(this MeleeWeapon weapon)
     {
-        return CombatModule.Config.EnableWeaponOverhaul && !weapon.isGalaxyWeapon() && !weapon.IsInfinityWeapon() &&
-               !weapon.IsCursedOrBlessed() && !weapon.IsLegacyWeapon() && !weapon.specialItem &&
-               WeaponTier.GetFor(weapon) > WeaponTier.Untiered;
+        return CombatModule.Config.EnableWeaponOverhaul && WeaponTier.GetFor(weapon) is var tier &&
+               tier > WeaponTier.Untiered && tier <= WeaponTier.Mythic && !weapon.specialItem;
     }
 
     /// <summary>Adds hidden weapon enchantments related to Rebalance or Infinity +1.</summary>
@@ -344,47 +329,70 @@ internal static class MeleeWeaponExtensions
         BaseEnchantment? enchantment;
         if (weapon.IsDagger())
         {
-            enchantment = weapon.InitialParentTileIndex == WeaponIds.InsectHead
-                ? weapon.GetEnchantmentOfType<KillerBugEnchantment>()
-                : weapon.GetEnchantmentOfType<DaggerEnchantment>();
-            weapon.RemoveEnchantment(enchantment);
-            Log.D($"[CMBT]: Removed {enchantment.GetType().Name} from {weapon.Name}.");
+            enchantment = weapon.GetEnchantmentOfType<DaggerEnchantment>();
+            if (enchantment is not null)
+            {
+                weapon.RemoveEnchantment(enchantment);
+                Log.D($"[CMBT]: Removed Dagger enchantment from {weapon.Name}.");
+            }
         }
 
-        enchantment = weapon.InitialParentTileIndex switch
+        switch (weapon.InitialParentTileIndex)
         {
-            WeaponIds.DarkSword => weapon.GetEnchantmentOfType<CursedEnchantment>(),
-            WeaponIds.HolyBlade => weapon.GetEnchantmentOfType<BlessedEnchantment>(),
-            WeaponIds.IridiumNeedle => weapon.GetEnchantmentOfType<NeedleEnchantment>(),
-            WeaponIds.LavaKatana => weapon.GetEnchantmentOfType<LavaEnchantment>(),
-            WeaponIds.NeptuneGlaive => weapon.GetEnchantmentOfType<NeptuneEnchantment>(),
-            WeaponIds.ObsidianEdge => weapon.GetEnchantmentOfType<ObsidianEnchantment>(),
-            WeaponIds.YetiTooth => weapon.GetEnchantmentOfType<YetiEnchantment>(),
-            WeaponIds.InfinityBlade or WeaponIds.InfinityDagger or WeaponIds.InfinityGavel => weapon
-                .GetEnchantmentOfType<InfinityEnchantment>(),
-            _ => null,
-        };
+            case WeaponIds.DarkSword:
+                enchantment = weapon.GetEnchantmentOfType<CursedEnchantment>();
+                break;
+            case WeaponIds.HolyBlade:
+                enchantment = weapon.GetEnchantmentOfType<BlessedEnchantment>();
+                break;
+            case WeaponIds.InsectHead:
+                enchantment = weapon.GetEnchantmentOfType<KillerBugEnchantment>();
+                break;
+            case WeaponIds.IridiumNeedle:
+                enchantment = weapon.GetEnchantmentOfType<NeedleEnchantment>();
+                break;
+            case WeaponIds.LavaKatana:
+                enchantment = weapon.GetEnchantmentOfType<LavaEnchantment>();
+                break;
+            case WeaponIds.NeptuneGlaive:
+                enchantment = weapon.GetEnchantmentOfType<NeptuneEnchantment>();
+                break;
+            case WeaponIds.ObsidianEdge:
+                enchantment = weapon.GetEnchantmentOfType<ObsidianEnchantment>();
+                break;
+            case WeaponIds.YetiTooth:
+                enchantment = weapon.GetEnchantmentOfType<YetiEnchantment>();
+                break;
+            case WeaponIds.InfinityBlade:
+            case WeaponIds.InfinityDagger:
+            case WeaponIds.InfinityGavel:
+                enchantment = weapon.GetEnchantmentOfType<InfinityEnchantment>();
+                break;
+            default:
+                if (ModHelper.ModRegistry.IsLoaded("JA.FishHatchering") && weapon.Name == "Sword Fish")
+                {
+                    enchantment = weapon.GetEnchantmentOfType<SwordFishEnchantment>();
+                }
+                else if (ModHelper.ModRegistry.IsLoaded("undare.crystalcrops.HCE") && weapon.Name.IsAnyOf(
+                             "Blueglazer", "Crystallight", "Grapemaul", "Heartichoker", "Strawblaster", "Sunspark"))
+                {
+                    enchantment = weapon.GetEnchantmentOfType<UndareCrystallizedWeaponEnchantment>();
+                }
+                else
+                {
+                    enchantment = null;
+                }
+
+                break;
+        }
 
         if (enchantment is null)
         {
-            if (ModHelper.ModRegistry.IsLoaded("JA.FishHatchering") && weapon.Name == "Sword Fish")
-            {
-                enchantment = weapon.GetEnchantmentOfType<SwordFishEnchantment>();
-            }
-
-            if (ModHelper.ModRegistry.IsLoaded("undare.crystalcrops.HCE") && weapon.Name.IsAnyOf(
-                    "Blueglazer", "Crystallight", "Grapemaul", "Heartichoker", "Strawblaster", "Sunspark"))
-            {
-                enchantment = weapon.GetEnchantmentOfType<UndareCrystallizedWeaponEnchantment>();
-                return;
-            }
+            return;
         }
 
-        if (enchantment is not null)
-        {
-            weapon.RemoveEnchantment(enchantment);
-            Log.D($"[CMBT]: Removed {enchantment.GetType().Name} from {weapon.Name}.");
-        }
+        weapon.RemoveEnchantment(enchantment);
+        Log.D($"[CMBT]: Removed {enchantment.GetType().Name} from {weapon.Name}.");
     }
 
     /// <summary>Checks whether the <paramref name="weapon"/> has one of the special intrinsic enchantments.</summary>
@@ -408,26 +416,44 @@ internal static class MeleeWeaponExtensions
             typeof(UndareCrystallizedWeaponEnchantment));
     }
 
-    /// <summary>Checks whether the <paramref name="weapon"/> should have one of the special intrinsic enchantments.</summary>
+    /// <summary>Adds the special item tag to the <paramref name="weapon"/> if it should have it.</summary>
     /// <param name="weapon">The <see cref="MeleeWeapon"/>.</param>
-    /// <returns><see langword="true"/> if the <paramref name="weapon"/>'s index corresponds to one of the mythic or legendary weapons with intrinsic enchantments, otherwise <see langword="false"/>.</returns>
-    internal static bool ShouldHaveIntrinsicEnchantment(this MeleeWeapon weapon)
+    internal static void MakeSpecialIfNecessary(this MeleeWeapon weapon)
     {
-        if (CombatModule.Config.EnableWeaponOverhaul && (weapon.IsDagger() ||
-                                                         weapon.InitialParentTileIndex is WeaponIds.InsectHead
-                                                             or WeaponIds.LavaKatana or WeaponIds.IridiumNeedle
-                                                             or WeaponIds.NeptuneGlaive or WeaponIds.ObsidianEdge
-                                                             or WeaponIds.YetiTooth))
+        if (CombatModule.Config.EnableWeaponOverhaul)
         {
-            return true;
+            switch (weapon.InitialParentTileIndex)
+            {
+                case WeaponIds.InsectHead:
+                    weapon.type.Value = MeleeWeapon.dagger;
+                    weapon.specialItem = true;
+                    return;
+                case WeaponIds.NeptuneGlaive:
+                    weapon.specialItem = true;
+                    return;
+                default:
+                {
+                    if ((ModHelper.ModRegistry.IsLoaded("JA.FishHatchering") && weapon.Name == "Sword Fish") ||
+                        (ModHelper.ModRegistry.IsLoaded("undare.crystalcrops.HCE") && weapon.Name.IsAnyOf(
+                            "Blueglazer", "Crystallight", "Grapemaul", "Heartichoker", "Strawblaster", "Sunspark")))
+                    {
+                        weapon.specialItem = true;
+                    }
+
+                    return;
+                }
+            }
         }
 
-        if (CombatModule.Config.EnableHeroQuest && (weapon.IsCursedOrBlessed() || weapon.IsInfinityWeapon()))
+        if (!CombatModule.Config.EnableWeaponOverhaul && !CombatModule.Config.EnableHeroQuest)
         {
-            return true;
+            return;
         }
 
-        return false;
+        if (weapon.isGalaxyWeapon() || weapon.IsInfinityWeapon() || weapon.IsCursedOrBlessed())
+        {
+            weapon.specialItem = true;
+        }
     }
 
     internal static void SetFarmerAnimatingBackwards(this MeleeWeapon weapon, Farmer farmer)

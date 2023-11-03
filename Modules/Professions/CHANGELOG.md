@@ -1,5 +1,13 @@
 ﻿# PRFS Changelog
 
+## 4.1.2
+
+### Fixed
+
+* Fixed Null-Reference exception caused by `Monster.FindPlayer` patch.
+
+<sup><sup>[🔼 Back to top](#profs-changelog)</sup></sup>
+
 ## 4.1.0
 
 ### Added

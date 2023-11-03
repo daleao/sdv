@@ -21,6 +21,7 @@ internal sealed class MonsterFindPlayerPatcher : HarmonyPatcher
     {
         this.Target = this.RequireMethod<Monster>("findPlayer");
         this.Prefix!.priority = Priority.First;
+        this.Prefix.before = new[] { "Esca.FarmTypeManager" };
     }
 
     #region harmony patches
@@ -28,10 +29,12 @@ internal sealed class MonsterFindPlayerPatcher : HarmonyPatcher
     /// <summary>Patch to override monster aggro.</summary>
     [HarmonyPrefix]
     [HarmonyPriority(Priority.First)]
+    [HarmonyBefore("Esca.FarmTypeManager")]
     private static bool MonsterFindPlayerPrefix(Monster __instance, ref Farmer? __result)
     {
         if (Game1.ticks % 15 == 0)
         {
+            __result = __instance.Get_Target();
             return false; // don't run original logic
         }
 

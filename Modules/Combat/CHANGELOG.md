@@ -1,5 +1,14 @@
 ﻿# CMBT Changelog
 
+## 4.1.2
+
+### Fixed
+
+* Fixed some issues in weapon stat evaluation.
+
+<sup><sup>[🔼 Back to top](#cmbt-changelog)</sup></sup>
+
+
 ## 4.1.1
 
 ### Fixed

@@ -35,19 +35,6 @@ internal sealed class CombatSaveLoadedEvent : SaveLoadedEvent
         CombatModule.State.ContainerDropAccumulator = player.Read(DataKeys.ContainerDropAccumulator, 0.05);
         CombatModule.State.MonsterDropAccumulator = player.Read<double>(DataKeys.MonsterDropAccumulator);
 
-        Utility.iterateAllItems(item =>
-        {
-            switch (item)
-            {
-                case MeleeWeapon weapon when weapon.ShouldHaveIntrinsicEnchantment():
-                    weapon.AddIntrinsicEnchantments();
-                    break;
-                case Slingshot slingshot when slingshot.ShouldHaveIntrinsicEnchantment():
-                    slingshot.AddIntrinsicEnchantments();
-                    break;
-            }
-        });
-
         // patch clint event
         if (!string.IsNullOrEmpty(player.Read(DataKeys.BlueprintsFound)) && player.canUnderstandDwarves)
         {

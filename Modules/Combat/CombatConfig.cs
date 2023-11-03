@@ -31,6 +31,7 @@ public sealed class CombatConfig
     private bool _enableInfinityBand = true;
     private bool _colorfulResonances = true;
     private LightsourceTexture _resonanceLightsourceTexture = LightsourceTexture.Patterned;
+    private bool _newPrismaticEnchantments = true;
     private bool _dwarvenLegacy = true;
     private bool _enableHeroQuest = true;
     private int _iridiumBarsPerGalaxyWeapon = 10;
@@ -128,6 +129,11 @@ public sealed class CombatConfig
         get => this._newResistanceFormula;
         internal set
         {
+            if (value == this._newResistanceFormula)
+            {
+                return;
+            }
+
             this._newResistanceFormula = value;
             ModHelper.GameContent.InvalidateCacheAndLocalized("Data/ObjectInformation");
             if (!Context.IsWorldReady)
@@ -177,12 +183,17 @@ public sealed class CombatConfig
         get => this._enableWeaponOverhaul;
         internal set
         {
+            if (value == this._enableWeaponOverhaul)
+            {
+                return;
+            }
+
             this._enableWeaponOverhaul = value;
             ModHelper.GameContent.InvalidateCacheAndLocalized("Data/weapons");
             if (Context.IsWorldReady)
             {
                 CombatModule.RefreshAllWeapons(value
-                    ? WeaponRefreshOption.Randomized
+                    ? WeaponRefreshOption.Initial
                     : WeaponRefreshOption.FromData);
             }
         }
@@ -205,6 +216,11 @@ public sealed class CombatConfig
         get => this._enableStabbingSwords;
         internal set
         {
+            if (value == this._enableStabbingSwords)
+            {
+                return;
+            }
+
             this._enableStabbingSwords = value;
             ModHelper.GameContent.InvalidateCacheAndLocalized("Data/weapons");
             if (!Context.IsWorldReady)
@@ -319,6 +335,11 @@ public sealed class CombatConfig
         get => this._rebalancedRings;
         internal set
         {
+            if (value == this._rebalancedRings)
+            {
+                return;
+            }
+
             this._rebalancedRings = value;
             ModHelper.GameContent.InvalidateCacheAndLocalized("Data/ObjectInformation");
         }
@@ -333,6 +354,11 @@ public sealed class CombatConfig
         get => this._craftableGemstoneRings;
         internal set
         {
+            if (value == this._craftableGemstoneRings)
+            {
+                return;
+            }
+
             this._craftableGemstoneRings = value;
             ModHelper.GameContent.InvalidateCacheAndLocalized("Data/CraftingRecipes");
             ModHelper.GameContent.InvalidateCacheAndLocalized("Maps/springobjects");
@@ -348,6 +374,11 @@ public sealed class CombatConfig
         get => this._enableInfinityBand;
         internal set
         {
+            if (value == this._enableInfinityBand)
+            {
+                return;
+            }
+
             this._enableInfinityBand = value;
             ModHelper.GameContent.InvalidateCacheAndLocalized("Data/CraftingRecipes");
             ModHelper.GameContent.InvalidateCacheAndLocalized("Data/ObjectInformation");
@@ -370,6 +401,11 @@ public sealed class CombatConfig
         get => this._colorfulResonances;
         internal set
         {
+            if (value == this._colorfulResonances)
+            {
+                return;
+            }
+
             this._colorfulResonances = value;
             if (Context.IsWorldReady)
             {
@@ -387,6 +423,11 @@ public sealed class CombatConfig
         get => this._resonanceLightsourceTexture;
         internal set
         {
+            if (value == this._resonanceLightsourceTexture)
+            {
+                return;
+            }
+
             this._resonanceLightsourceTexture = value;
             if (Context.IsWorldReady)
             {
@@ -405,7 +446,24 @@ public sealed class CombatConfig
     [JsonProperty]
     [GMCMSection("cmbt.rings_enchantments")]
     [GMCMPriority(207)]
-    public bool NewPrismaticEnchantments { get; internal set; }
+    public bool NewPrismaticEnchantments
+    {
+        get => this._newPrismaticEnchantments;
+        internal set
+        {
+            if (value == this._newPrismaticEnchantments)
+            {
+                return;
+            }
+
+            this._newPrismaticEnchantments = value;
+            if (Context.IsWorldReady)
+            {
+                Reflector.GetStaticFieldSetter<List<BaseEnchantment>?>(typeof(BaseEnchantment), "_enchantments")
+                    .Invoke(null);
+            }
+        }
+    }
 
     #endregion rings & enchantments
 
@@ -420,6 +478,11 @@ public sealed class CombatConfig
         get => this._dwarvenLegacy;
         internal set
         {
+            if (value == this._dwarvenLegacy)
+            {
+                return;
+            }
+
             this._dwarvenLegacy = value;
             ModHelper.GameContent.InvalidateCacheAndLocalized("Data/Events/Blacksmith");
             ModHelper.GameContent.InvalidateCacheAndLocalized("Data/Quests");
@@ -437,6 +500,11 @@ public sealed class CombatConfig
         get => this._enableHeroQuest;
         internal set
         {
+            if (value == this._enableHeroQuest)
+            {
+                return;
+            }
+
             this._enableHeroQuest = value;
             ModHelper.GameContent.InvalidateCacheAndLocalized("Data/Events/WizardHouse");
             ModHelper.GameContent.InvalidateCacheAndLocalized("Data/ObjectInformation");
@@ -495,6 +563,11 @@ public sealed class CombatConfig
         get => this._heroQuestDifficulty;
         internal set
         {
+            if (value == this._heroQuestDifficulty)
+            {
+                return;
+            }
+
             this._heroQuestDifficulty = value;
             if (Context.IsWorldReady && CombatModule.State.HeroQuest is { } quest)
             {
@@ -721,6 +794,11 @@ public sealed class CombatConfig
         get => this._forgeSocketStyle;
         internal set
         {
+            if (value == this._forgeSocketStyle)
+            {
+                return;
+            }
+
             this._forgeSocketStyle = value;
             ModHelper.GameContent.InvalidateCache($"{Manifest.UniqueID}/GemstoneSockets");
         }
@@ -736,7 +814,7 @@ public sealed class CombatConfig
     [JsonProperty]
     [GMCMSection("controls_ui")]
     [GMCMPriority(511)]
-    public TooltipStyle WeaponTooltipStyle { get; internal set; } = TooltipStyle.Relative;
+    public TooltipStyle WeaponTooltipStyle { get; internal set; }
 
     /// <summary>Gets a value indicating whether to override the draw method to include the currently-equipped ammo.</summary>
     [JsonProperty]

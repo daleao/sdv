@@ -2,6 +2,12 @@
 
 This file contains a TL;DR of current version changes and hotfixes from across all modules. For the complete changelog, please refer to the individual changelogs of each module, linked [below](#detailed-changelogs).
 
+## Patch 4.1.2 Highlights
+
+* [CMBT]: Fixed issues with weapons stats being set incorrectly.
+* [PRFS]: Fixed Null-Reference exception caused by `Monster.FindPlayer`.
+* Config options with custom logic now only trigger when the value changes. This avoids unecessarily triggering every single validation logic when saving via GMCM.
+
 ## Hotfix 4.1.1 Highlights
 
 * Hotfix for all weapons being turned into swords when Combat module not enabled.

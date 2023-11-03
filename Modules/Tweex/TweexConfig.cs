@@ -204,6 +204,11 @@ public sealed class TweexConfig
         get => this._immersiveGlowstoneProgression;
         internal set
         {
+            if (value == this._immersiveGlowstoneProgression)
+            {
+                return;
+            }
+
             this._immersiveGlowstoneProgression = value;
             ModHelper.GameContent.InvalidateCacheAndLocalized("Data/CraftingRecipes");
         }

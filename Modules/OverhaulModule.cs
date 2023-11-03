@@ -329,13 +329,8 @@ public abstract class OverhaulModule
             }
         }
 
-        internal static void RevalidateAllWeapons()
+        internal static void RevalidateAllWeapons(WeaponRefreshOption option = WeaponRefreshOption.Initial)
         {
-            if (!Context.IsWorldReady)
-            {
-                return;
-            }
-
             var player = Game1.player;
             Log.I(
                 $"[CMBT]: Performing {(Context.IsMainPlayer ? "global" : "local")} weapon revalidation.");
@@ -345,7 +340,7 @@ public abstract class OverhaulModule
                 {
                     if (item is MeleeWeapon weapon)
                     {
-                        RevalidateSingleWeapon(weapon);
+                        RevalidateSingleWeapon(weapon, option);
                     }
                 });
             }
@@ -355,7 +350,7 @@ public abstract class OverhaulModule
                 {
                     if (player.Items[i] is MeleeWeapon weapon)
                     {
-                        RevalidateSingleWeapon(weapon);
+                        RevalidateSingleWeapon(weapon, option);
                     }
                 }
             }
@@ -364,17 +359,10 @@ public abstract class OverhaulModule
             ModHelper.GameContent.InvalidateCacheAndLocalized("Data/weapons");
         }
 
-        internal static void RevalidateSingleWeapon(MeleeWeapon weapon)
+        internal static void RevalidateSingleWeapon(MeleeWeapon weapon, WeaponRefreshOption option = WeaponRefreshOption.Initial)
         {
-            // refresh intrinsic enchantments
-            weapon.RemoveIntrinsicEnchantments();
-            if (ShouldEnable)
-            {
-                weapon.AddIntrinsicEnchantments();
-            }
-
-            // refresh forges and stats
-            weapon.RecalculateAppliedForges();
+            // refresh stats and forges
+            weapon.RefreshStats(option);
 
             // refresh stabby swords
             if (ShouldEnable && weapon.type.Value == MeleeWeapon.defenseSword && weapon.ShouldBeStabbySword())
@@ -388,12 +376,15 @@ public abstract class OverhaulModule
                 Log.D($"[CMBT]: The type of {weapon.Name} was converted to Defense sword.");
             }
 
-            // refresh special status
-            if (ShouldEnable && Config.EnableHeroQuest && (weapon.isGalaxyWeapon() || weapon.IsInfinityWeapon()
-                    || weapon.InitialParentTileIndex is WeaponIds.DarkSword or WeaponIds.HolyBlade or WeaponIds.NeptuneGlaive))
+            // refresh intrinsic enchantments
+            weapon.RemoveIntrinsicEnchantments();
+            if (ShouldEnable)
             {
-                weapon.specialItem = true;
+                weapon.AddIntrinsicEnchantments();
             }
+
+            // refresh special status
+            weapon.MakeSpecialIfNecessary();
         }
 
         internal static void AddAllIntrinsicEnchantments()
@@ -417,10 +408,10 @@ public abstract class OverhaulModule
             {
                 switch (item)
                 {
-                    case MeleeWeapon weapon when weapon.ShouldHaveIntrinsicEnchantment():
+                    case MeleeWeapon weapon:
                         weapon.AddIntrinsicEnchantments();
                         break;
-                    case Slingshot slingshot when slingshot.ShouldHaveIntrinsicEnchantment():
+                    case Slingshot slingshot:
                         slingshot.AddIntrinsicEnchantments();
                         break;
                 }

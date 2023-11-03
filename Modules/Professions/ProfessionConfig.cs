@@ -327,6 +327,11 @@ public sealed class ProfessionConfig
         get => this._enableLimitBreaks;
         internal set
         {
+            if (value == this._enableLimitBreaks)
+            {
+                return;
+            }
+
             this._enableLimitBreaks = value;
             if (!Context.IsWorldReady || Game1.player.Get_Ultimate() is not { } ultimate)
             {
@@ -493,6 +498,11 @@ public sealed class ProfessionConfig
         get => this._progressionStyle;
         internal set
         {
+            if (value == this._progressionStyle)
+            {
+                return;
+            }
+
             this._progressionStyle = value;
             ModHelper.GameContent.InvalidateCache($"{Manifest.UniqueID}/PrestigeProgression");
         }
@@ -528,6 +538,11 @@ public sealed class ProfessionConfig
         get => this._skillExpMultipliers;
         internal set
         {
+            if (value == this._skillExpMultipliers)
+            {
+                return;
+            }
+
             foreach (var pair in value)
             {
                 this._skillExpMultipliers[pair.Key] = Math.Abs(pair.Value);

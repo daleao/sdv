@@ -1,5 +1,13 @@
 ﻿# Core Changelog
 
+## 4.1.2
+
+### Changed
+
+* Config options with custom logic now only trigger when the value changes. This avoids unecessarily triggering every single validation logic when saving via GMCM.
+
+<sup><sup>[🔼 Back to top](#core-changelog)</sup></sup>
+
 ## 4.1.1
 
 ### Changed
@@ -9,6 +17,8 @@
 ### Fixed
 
 * Fixed Debug objects being instantiated in Release mode.
+
+<sup><sup>[🔼 Back to top](#core-changelog)</sup></sup>
 
 ## 4.1.0
 
@@ -20,11 +30,15 @@
 
 * The GMCM is now self-generating (thanks to atravita for the idea and reference code). This does unfortunately mean that absolutely all translation keys for the menu have changed (sorry translators.)
 
+<sup><sup>[🔼 Back to top](#core-changelog)</sup></sup>
+
 ## 4.0.1
 
 ### Added
 
 * Added a warning to re-enable modules if checksum validation fails.
+
+<sup><sup>[🔼 Back to top](#core-changelog)</sup></sup>
 
 ## 4.0.0
 

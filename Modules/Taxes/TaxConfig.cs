@@ -49,6 +49,11 @@ public sealed class TaxConfig
         get => this._taxRatePerIncomeBracket;
         internal set
         {
+            if (value == this._taxRatePerIncomeBracket)
+            {
+                return;
+            }
+
             var previous = (0, 0f);
             foreach (var pair in value)
             {

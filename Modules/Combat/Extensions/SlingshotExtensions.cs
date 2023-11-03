@@ -1043,12 +1043,4 @@ internal static class SlingshotExtensions
     {
         return slingshot.hasEnchantmentOfType<RangedInfinityEnchantment>();
     }
-
-    /// <summary>Checks whether the <paramref name="slingshot"/> should have one of the special intrinsic enchantments.</summary>
-    /// <param name="slingshot">The <see cref="Slingshot"/>.</param>
-    /// <returns><see langword="true"/> if the <paramref name="slingshot"/>'s index corresponds to the Infinity Slingshot, otherwise <see langword="false"/>.</returns>
-    internal static bool ShouldHaveIntrinsicEnchantment(this Slingshot slingshot)
-    {
-        return CombatModule.Config.EnableHeroQuest && slingshot.InitialParentTileIndex == WeaponIds.InfinitySlingshot;
-    }
 }

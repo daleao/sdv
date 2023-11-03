@@ -193,7 +193,7 @@ internal sealed class JsonAssetsIntegration : ModIntegration<JsonAssetsIntegrati
             var id = this.ModApi.GetWeaponId(name);
             if (id != -1)
             {
-                WeaponTier.TierByWeapon.Add(id, WeaponTier.Mythic);
+                WeaponTier.TierByWeapon[id] = WeaponTier.Mythic;
             }
         }
     }
