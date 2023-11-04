@@ -387,14 +387,12 @@ public abstract class OverhaulModule
             weapon.MakeSpecialIfNecessary();
         }
 
+        [SuppressMessage("StyleCop.CSharp.NamingRules", "SA1300:Element should begin with upper-case letter", Justification = "Preference for internal functions.")]
         internal static void AddAllIntrinsicEnchantments()
         {
             if (Context.IsMainPlayer)
             {
-                Utility.iterateAllItems(item =>
-                {
-                    addIntrinsicEnchantments(item);
-                });
+                Utility.iterateAllItems(addIntrinsicEnchantments);
             }
             else
             {
@@ -418,14 +416,12 @@ public abstract class OverhaulModule
             }
         }
 
+        [SuppressMessage("StyleCop.CSharp.NamingRules", "SA1300:Element should begin with upper-case letter", Justification = "Preference for internal functions.")]
         internal static void RemoveAllIntrinsicEnchantments()
         {
             if (Context.IsMainPlayer)
             {
-                Utility.iterateAllItems(item =>
-                {
-                    removeAllIntrinsicEnchantments(item);
-                });
+                Utility.iterateAllItems(removeAllIntrinsicEnchantments);
             }
             else
             {

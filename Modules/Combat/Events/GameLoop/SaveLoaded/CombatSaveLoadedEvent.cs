@@ -35,6 +35,8 @@ internal sealed class CombatSaveLoadedEvent : SaveLoadedEvent
         CombatModule.State.ContainerDropAccumulator = player.Read(DataKeys.ContainerDropAccumulator, 0.05);
         CombatModule.State.MonsterDropAccumulator = player.Read<double>(DataKeys.MonsterDropAccumulator);
 
+        CombatModule.ConvertAllStabbingSwords();
+
         // patch clint event
         if (!string.IsNullOrEmpty(player.Read(DataKeys.BlueprintsFound)) && player.canUnderstandDwarves)
         {

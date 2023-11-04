@@ -172,7 +172,7 @@ Defensive swords retain the vanilla parry special move. Parry damage is changed 
 
 Offensive swords, meanwhile, gain a bran new stabbing thrust move. This move allows quick repositioning while granting invincibility frames. If used while hovering over an enemy, the farmer will attempt to home in on the enemy, turning if necessary. You can always manually turn mid-dash by inputting a perpendicular directional command.
 
-By default, the Galaxy Sword and Infinity Blade are both of the Defensive type, but you can change them into Offensive swords or back at any time, once a day, by taking them to the Sand Pillars.
+By default, the Galaxy Sword and Infinity Blade are both of the Defensive type, but you can change them into Offensive swords and back at any time, once a day, by taking them to the Sand Pillars.
 
 For any other sword (included modded), the type can be changed by adding or removing it from the stabbing swords list in the config json (not available in GMCM).
 
@@ -559,7 +559,7 @@ Finally we arrive at the discussion of Legendary weapons, and the most interesti
 
 According to [TV Tropes Wiki][tropes:infinity+1], an Infinity +1 sword is "not only the most powerful of its kind [...] , but its power is matched by how hard it is to acquire". The vanilla Infinity weapons do not quite fit that definition. Let's fix that, shall we?
 
-To obtain your first Galaxy weapon, as in vanilla you must first unlock the desert, acquire a Prismatic Shard and offer it to the Three Sand Sisters. Unlike vanilla, however, the weapon will not materialize out of thin air, but will be shaped out of a configurable amount of Iridium Bars (10 by default), which must be in your inventory. This will prevent a lucky Prismatic Shard drop from the Mines or a Fishing Chest from instantly rewarding one of the strongest weapons in the game before the player has even set foot in the Skull Caverns. Now, some venturing into the Skull Caverns is required.
+To obtain your first Galaxy weapon, as in vanilla you must first unlock the desert, acquire a Prismatic Shard and offer it to the Sand Pillars. Unlike vanilla, however, the weapon will not materialize out of thin air, but will be shaped out of a configurable amount of Iridium Bars (10 by default), which must be in your inventory. This will prevent a lucky Prismatic Shard drop from the Mines or a Fishing Chest from instantly rewarding one of the strongest weapons in the game before the player has even set foot in the Skull Caverns. Now, some venturing into the Skull Caverns is required.
 
 Subsequent Galaxy weapons will no longer be available for purchase at the Adventurer's Guild; one full set, including the slingshot, can now be acquired at the desert, but each weapon will require a larger stack of Prismatic Shards. The order in which the weapons are obtained can be influenced by placing the desired weapon type at the top of the top of the backpack.
 

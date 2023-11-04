@@ -2,6 +2,10 @@
 
 ## 4.1.3
 
+### Changed
+
+* Stabbing Swords are no longer persisted as such, to avoid the issue of the game freezing if the mod is removed abruptly. Load times might be marginally longer.
+
 ### Fixed
 
 * Small improvement to Infinity Band tooltip width.

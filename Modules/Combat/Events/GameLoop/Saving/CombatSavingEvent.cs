@@ -23,6 +23,8 @@ internal sealed class CombatSavingEvent : SavingEvent
     /// <inheritdoc />
     protected override void OnSavingImpl(object? sender, SavingEventArgs e)
     {
+        CombatModule.RevertAllStabbingSwords();
+
         if (CombatModule.State.AutoSelectableMelee is not null)
         {
             Game1.player.Write(

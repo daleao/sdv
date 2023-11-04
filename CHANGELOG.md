@@ -2,6 +2,12 @@
 
 This file contains a TL;DR of current version changes and hotfixes from across all modules. For the complete changelog, please refer to the individual changelogs of each module, linked [below](#detailed-changelogs).
 
+## Patch 4.1.3 Highlights
+
+* Fixed GMCM list text boxes being limited to 13 characters.
+* [CMBT]: Fixed an edge case that caused an error to be thrown with Ridgeside's Fairy Needle, which, for some reason, does not have a description.
+* [CMBT]: Stabbing Swords are no longer persisted as such, to avoid the issue of the game freezing if the mod is removed abruptly.
+
 ## Patch 4.1.2 Highlights
 
 * [CMBT]: Fixed issues with weapons stats being set incorrectly.

@@ -252,14 +252,25 @@ internal static class MeleeWeapon_Stats
         var data = ModHelper.GameContent
             .Load<Dictionary<int, string>>("Data/weapons")[weapon.InitialParentTileIndex]
             .SplitWithoutAllocation('/');
+
+        if (!int.TryParse(data[2], out var minDamage) || !int.TryParse(data[3], out var maxDamage))
+        {
+            Log.E(
+                $"Failed to parse damage values for weapon {data[0].ToString()}." +
+                $" One of the data fields {data[2].ToString()} or {data[3].ToString()} is not an integer." +
+                " If this is a modded weapon please consider reporting to the mod author.");
+            minDamage = 0;
+            maxDamage = 1;
+        }
+
         if (weapon.Get_ResonatingChord<RubyEnchantment>() is { } rubyChord)
         {
-            holder.MinDamage = (int)(holder.MinDamage +
-                                     (weapon.Read(DataKeys.BaseMinDamage, int.Parse(data[2])) *
-                                      weapon.GetEnchantmentLevel<RubyEnchantment>() * rubyChord.Amplitude * 0.1f));
-            holder.MaxDamage = (int)(holder.MaxDamage +
-                                     (weapon.Read(DataKeys.BaseMaxDamage, int.Parse(data[3])) *
-                                      weapon.GetEnchantmentLevel<RubyEnchantment>() * rubyChord.Amplitude * 0.1f));
+            holder.MinDamage = (int)(holder.MinDamage + (weapon.Read(DataKeys.BaseMinDamage, minDamage) *
+                                                         weapon.GetEnchantmentLevel<RubyEnchantment>() *
+                                                         rubyChord.Amplitude * 0.1f));
+            holder.MaxDamage = (int)(holder.MaxDamage + (weapon.Read(DataKeys.BaseMaxDamage, maxDamage) *
+                                                         weapon.GetEnchantmentLevel<RubyEnchantment>() *
+                                                         rubyChord.Amplitude * 0.1f));
         }
 
         holder.Knockback = weapon.knockback.Value;
@@ -301,7 +312,7 @@ internal static class MeleeWeapon_Stats
              holder.Resilience += (float)(weapon.GetEnchantmentLevel<TopazEnchantment>() * topazChord.Amplitude);
         }
 
-        var points = weapon.Read(DataKeys.BaseMaxDamage, int.Parse(data[3])) * weapon.type.Value switch
+        var points = weapon.Read(DataKeys.BaseMaxDamage, maxDamage) * weapon.type.Value switch
         {
             MeleeWeapon.stabbingSword or MeleeWeapon.defenseSword => 0.5f,
             MeleeWeapon.dagger => 0.75f,

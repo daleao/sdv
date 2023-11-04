@@ -44,6 +44,7 @@ internal class ModuleSelectionOption : MultiCheckboxOption<OverhaulModule>
         if (this.updatedValues.Any() || Config.LaunchInitialSetup)
         {
             Config.LaunchInitialSetup = false;
+            ModHelper.WriteConfig(Config);
             this._reloadMenu();
         }
 
