@@ -11,7 +11,6 @@ using DaLion.Shared.Harmony;
 using HarmonyLib;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Shared.Extensions.Stardew;
 using StardewValley.Objects;
 
 #endregion using directives
@@ -36,8 +35,8 @@ internal sealed class RingDrawTooltipPatcher : HarmonyPatcher
     {
         if (__instance.IsCombinedInfinityBand(out var band))
         {
-            DrawForInfinityBand(band, spriteBatch, x, ref y, font, alpha, out var maxWidth1);
-            RingGetExtraSpaceNeededForTooltipSpecialIconsPatcher.MinWidth = maxWidth1;
+            DrawForInfinityBand(band, spriteBatch, x, ref y, font, alpha, out var maxWidth);
+            RingGetExtraSpaceNeededForTooltipSpecialIconsPatcher.MinWidth = maxWidth;
             return false; // don't run original logic
         }
 
