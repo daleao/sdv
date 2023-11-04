@@ -11,6 +11,7 @@ using DaLion.Shared.Harmony;
 using HarmonyLib;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Shared.Extensions.Stardew;
 using StardewValley.Objects;
 
 #endregion using directives
@@ -176,7 +177,7 @@ internal sealed class RingDrawTooltipPatcher : HarmonyPatcher
                 1f);
 
             var text = I18n.Ui_ItemHover_Damage(amount);
-            var width = font.MeasureString(text).X + 48f;
+            var width = font.MeasureString(text).X + 88f;
             maxWidth = (int)Math.Max(width, maxWidth);
             Utility.drawTextWithShadow(b, text, font, new Vector2(x + 68f, y + 28f), co * 0.9f * alpha);
             y += (int)Math.Max(font.MeasureString("TT").Y, 48f);
@@ -203,7 +204,7 @@ internal sealed class RingDrawTooltipPatcher : HarmonyPatcher
                 1f);
 
             var text = I18n.Ui_ItemHover_Knockback(amount);
-            var width = font.MeasureString(text).X + 48f;
+            var width = font.MeasureString(text).X + 88f;
             maxWidth = (int)Math.Max(width, maxWidth);
             Utility.drawTextWithShadow(b, text, font, new Vector2(x + 68f, y + 28f), co * 0.9f * alpha);
             y += (int)Math.Max(font.MeasureString("TT").Y, 48f);
@@ -230,7 +231,7 @@ internal sealed class RingDrawTooltipPatcher : HarmonyPatcher
                 1f);
 
             var text = I18n.Ui_ItemHover_CRate(amount);
-            var width = font.MeasureString(text).X + 48f;
+            var width = font.MeasureString(text).X + 88f;
             maxWidth = (int)Math.Max(width, maxWidth);
             Utility.drawTextWithShadow(b, text, font, new Vector2(x + 68f, y + 28f), co * 0.9f * alpha);
             y += (int)Math.Max(font.MeasureString("TT").Y, 48f);
@@ -257,14 +258,9 @@ internal sealed class RingDrawTooltipPatcher : HarmonyPatcher
                 1f);
 
             var text = I18n.Ui_ItemHover_CPow(amount);
-            var width = font.MeasureString(text).X + 48f;
+            var width = font.MeasureString(text).X + 88f;
             maxWidth = (int)Math.Max(width, maxWidth);
-            Utility.drawTextWithShadow(
-                b,
-                text,
-                font,
-                new Vector2(x + 68f, y + 28f),
-                co * 0.9f * alpha);
+            Utility.drawTextWithShadow(b, text, font, new Vector2(x + 68f, y + 28f), co * 0.9f * alpha);
             y += (int)Math.Max(font.MeasureString("TT").Y, 48f);
         }
 
@@ -289,7 +285,7 @@ internal sealed class RingDrawTooltipPatcher : HarmonyPatcher
                 1f);
 
             var text = I18n.Ui_ItemHover_Precision(amount);
-            var width = font.MeasureString(text).X + 48f;
+            var width = font.MeasureString(text).X + 88f;
             maxWidth = (int)Math.Max(width, maxWidth);
             Utility.drawTextWithShadow(b, text, font, new Vector2(x + 68f, y + 28f), co * 0.9f * alpha);
             y += (int)Math.Max(font.MeasureString("TT").Y, 48f);
@@ -316,7 +312,7 @@ internal sealed class RingDrawTooltipPatcher : HarmonyPatcher
                 1f);
 
             var text = Game1.content.LoadString("Strings\\UI:ItemHover_Speed", amount);
-            var width = font.MeasureString(text).X + 48f;
+            var width = font.MeasureString(text).X + 88f;
             maxWidth = (int)Math.Max(width, maxWidth);
             Utility.drawTextWithShadow(b, text, font, new Vector2(x + 68f, y + 28f), co * 0.9f * alpha);
             y += (int)Math.Max(font.MeasureString("TT").Y, 48f);
@@ -343,7 +339,7 @@ internal sealed class RingDrawTooltipPatcher : HarmonyPatcher
                 1f);
 
             var text = I18n.Ui_ItemHover_Cdr(amount);
-            var width = font.MeasureString(text).X + 48f;
+            var width = font.MeasureString(text).X + 88f;
             maxWidth = (int)Math.Max(width, maxWidth);
             Utility.drawTextWithShadow(b, text, font, new Vector2(x + 68f, y + 28f), co * 0.9f * alpha);
             y += (int)Math.Max(font.MeasureString("TT").Y, 48f);
@@ -372,7 +368,7 @@ internal sealed class RingDrawTooltipPatcher : HarmonyPatcher
             var text = CombatModule.Config.NewResistanceFormula
                 ? I18n.Ui_ItemHover_Resist(amount)
                 : Game1.content.LoadString("Strings\\UI:ItemHover_DefenseBonus", buffer.DefenseModifier);
-            var width = font.MeasureString(text).X + 48f;
+            var width = font.MeasureString(text).X + 88f;
             maxWidth = (int)Math.Max(width, maxWidth);
             Utility.drawTextWithShadow(b, text, font, new Vector2(x + 68f, y + 28f), co * 0.9f * alpha);
             y += (int)Math.Max(font.MeasureString("TT").Y, 48f);
@@ -398,7 +394,7 @@ internal sealed class RingDrawTooltipPatcher : HarmonyPatcher
                 1f);
 
             var text = I18n.Ui_ItemHover_Magnetic();
-            var width = font.MeasureString(text).X + 48f;
+            var width = font.MeasureString(text).X + 88f;
             maxWidth = (int)Math.Max(width, maxWidth);
             Utility.drawTextWithShadow(b, text, font, new Vector2(x + 68f, y + 28f), co * 0.9f * alpha);
             y += (int)Math.Max(font.MeasureString("TT").Y, 48f);
@@ -424,7 +420,7 @@ internal sealed class RingDrawTooltipPatcher : HarmonyPatcher
                 1f);
 
             var text = I18n.Ui_ItemHover_Light();
-            var width = font.MeasureString(text).X + 48f;
+            var width = font.MeasureString(text).X + 88f;
             maxWidth = (int)Math.Max(width, maxWidth);
             Utility.drawTextWithShadow(b, text, font, new Vector2(x + 68f, y + 28f), co * 0.9f * alpha);
             y += (int)Math.Max(font.MeasureString("TT").Y, 48f);

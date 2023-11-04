@@ -44,8 +44,6 @@ internal sealed class CoreLateLoadOneSecondUpdateTickedEvent : OneSecondUpdateTi
 
         Log.I("Launching GMCM for initial setup.");
         GenericModConfigMenu.Instance.ModApi!.OpenModMenu(Manifest);
-        Config.LaunchInitialSetup = false;
-        ModHelper.WriteConfig(Config);
         this.Manager.Unmanage(this);
     }
 }

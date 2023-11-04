@@ -37,6 +37,6 @@ internal sealed class CoreSaveLoadedEvent : SaveLoadedEvent
         EnumerateModules().ForEach(module => module.Revalidate());
         Log.T("[Core]: Module revalidation complete.");
         Log.W("Looks like your config settings have changed since you last played on this save. " +
-              "If you recently updated MARGO, please remember to enable the same modules you had originally.");
+              "If you recently updated MARGO, please remember to re-enable the same modules you had originally.");
     }
 }

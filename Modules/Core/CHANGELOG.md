@@ -1,5 +1,13 @@
 ﻿# Core Changelog
 
+## 4.1.3
+
+### Fixed
+
+* Removed the character limit from GMCM list text boxes.
+
+<sup><sup>[🔼 Back to top](#core-changelog)</sup></sup>
+
 ## 4.1.2
 
 ### Changed

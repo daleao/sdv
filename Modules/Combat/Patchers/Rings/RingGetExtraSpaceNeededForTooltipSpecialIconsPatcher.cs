@@ -36,7 +36,7 @@ internal sealed class RingGetExtraSpaceNeededForTooltipSpecialIconsPatcher : Har
     {
         if (__instance.IsCombinedInfinityBand(out var band))
         {
-            __result.X = Math.Max(__result.X, MinWidth + 86);
+            __result.X = Math.Max(__result.X, MinWidth);
             __result.Y += (int)(Math.Max(font.MeasureString("TT").Y, 48f) *
                                 band.Get_StatBuffer().Count());
             if (band.Get_Chord()?.Root is not null)

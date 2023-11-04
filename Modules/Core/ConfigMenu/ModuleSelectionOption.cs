@@ -41,8 +41,9 @@ internal class ModuleSelectionOption : MultiCheckboxOption<OverhaulModule>
     /// <inheritdoc />
     protected override void AfterSave()
     {
-        if (this.updatedValues.Any())
+        if (this.updatedValues.Any() || Config.LaunchInitialSetup)
         {
+            Config.LaunchInitialSetup = false;
             this._reloadMenu();
         }
 
