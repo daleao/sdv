@@ -6,6 +6,7 @@
 
 * Fixed GMCM list text boxes being limited to 13 characters.
 * Fixed an edge case in SpanSplitter where splitting would fail if a substring is empty. This fixes an issue with Ridgeside's Fairy Needle weapon, which, for some reason, has no description.
+* Fixed some translations. Added Chinese translation of GMCM strings by [Jumping-notes](https://github.com/Jumping-notes).
 
 <sup><sup>[🔼 Back to top](#core-changelog)</sup></sup>
 

@@ -116,8 +116,8 @@
   "conservationist.title.female": "自然保護家",
   "conservationist.desc": "釣りエサの入っていないカニかごがゴミを捕まえるようになる。 水域からゴミを除去して税の優遇措置を獲得し、村民との信頼を築きましょう。",
   "conservationist.desc.prestiged": "税額控除の累積が 50% 早くなります。",
-  "conservationist.mail": "財務省^ファーンギル歳入庁^^^{{honorific}} 納税者様へ^^この度、あなたの環境保護活動を審査した結果、ファーンギル歳入法第501条(c)(3)に基づき、{{taxBonus}}の所得税控除を受ける資格があると判断しましたので、お知らせいたします。 そのため、{{farm}}の全ての課税所得は、{{season}}の28日まで、上記の金額だけ増加することになります。^^この手紙は、あなたの財政状態に関する疑問を解決するために、永久的な記録として保管しておいてください。^^^謹言^^ローラ・D・プレト^ファーンギル歳入庁長官[#]Taxation Deduction",
-  "conservationist.mail.max": "財務省^ファーンギル歳入庁^^^{{honorific}} 納税者様へ^^この度、あなたの環境保護活動を審査した結果、ファーンギル歳入法第501条(c)(3)に基づき、{{taxBonus}}の所得税最大控除を受ける資格があると判断しましたのでお知らせいたします。 そのため、{{farm}}の全ての課税所得は、{{season}}の28日まで、上記の金額だけ増加することになります。^^この手紙は、あなたの財政状態に関する疑問を解決するために、永久的な記録として保管しておいてください。^^^謹言^^ローラ・D・プレト^ファーンギル歳入庁長官[#]Taxation Deduction",
+  "conservationist.mail": "財務省^ファーンギル歳入庁^^^{{honorific}} 納税者様へ^^この度、あなたの環境保護活動を審査した結果、ファーンギル歳入法第501条(c)(3)に基づき、{{taxBonus}}の所得税控除を受ける資格があると判断しましたので、お知らせいたします。 そのため、{{farm}}の全ての課税所得は、{{season}}の28日まで、上記の金額だけ増加することになります。^^この手紙は、あなたの財政状態に関する疑問を解決するために、永久的な記録として保管しておいてください。^^^謹言^^ローラ・D・プレト^ファーンギル歳入庁長官[#]税控除通知",
+  "conservationist.mail.max": "財務省^ファーンギル歳入庁^^^{{honorific}} 納税者様へ^^この度、あなたの環境保護活動を審査した結果、ファーンギル歳入法第501条(c)(3)に基づき、{{taxBonus}}の所得税最大控除を受ける資格があると判断しましたのでお知らせいたします。 そのため、{{farm}}の全ての課税所得は、{{season}}の28日まで、上記の金額だけ増加することになります。^^この手紙は、あなたの財政状態に関する疑問を解決するために、永久的な記録として保管しておいてください。^^^謹言^^ローラ・D・プレト^ファーンギル歳入庁長官[#]税控除通知",
 
   // combat
   "fighter.title.male": "戦士",
@@ -260,8 +260,8 @@
   "locations.SeedShop.Yoba": "\"ヨバの祝福、真の英雄はそれを強化します。寛大さと思いやりで、美徳を実践する。名誉、勇気、知恵を持ち、その魂を高めます。予言が展開し、ヨバの見守る中で。\"",
   "locations.desert.noiridium": "プリズマティック シャードが振動しているのを感じます...#しかし何も起こりません。#何かが足りないように感じます。",
 
-  "mail.curse.intro": "[letterbg 2]親愛なる @へ、^緊急の話があって貴殿に会いたい。^なるべく早く、魔術師の塔へ来てくれたまえ。^   -M. ラズモディアス, 魔術師[#]The Blade of Ruin",
-  "mail.curse.intro.witch": "[letterbg 2]親愛なる @へ、^緊急の話があって貴殿に会いたい。^なるべく早く、魔術師の塔へ来てくれたまえ。^   -M. ラズモディアス, 魔術師[#]The Blade of Ruin",
+  "mail.curse.intro": "[letterbg 2]親愛なる @へ、^緊急の話があって貴殿に会いたい。^なるべく早く、魔術師の塔へ来てくれたまえ。^   -M. ラズモディアス, 魔術師[#]緊急召喚",
+  "mail.curse.intro.witch": "[letterbg 2]親愛なる @へ、^緊急の話があって貴殿に会いたい。^なるべく早く、魔術師の塔へ来てくれたまえ。^   -M. ラズモディアス, 魔術師[#]緊急召喚",
 
   "quests.forge.intro": "Basic/ドワーフの遺産/クリントは、数日すれば古びた設計図の翻訳が終わると言っていた。/クリントのもとを訪れて、設計図について聞こう。/Blacksmith/-1/0/-1/false",
   "quests.forge.next": "Basic/ドワーフの遺産 II/古びた設計図は、強力な古代の武器のレシピであることが判明した! 設計図は他にもあるのだろうか？/残りのドワーフの設計図を見つけよう。/null/-1/0/-1/false",
@@ -367,13 +367,14 @@
   // ** TAXES ** //
   // *********** //
 
-  //// needs revision !!!
+  "mail.frs.intro": "Department of the Treasury^Ferngill Revenue Service^^^{{honorific}} Taxpayer,^^This letter is to inform you that your recent address change to Pelican Town, Stardew Valley has been filed and registered. All future correspondence will be directed to {{farm}} farm.^^We kindly remind you that federal income tax contributions are due end-of-day on the 1st of every season. For your convenience, your due obligations will be automatically deducted from your balance. If your balance is insufficient, you will be fined in accordance with section 501(c)(1) of the Ferngill Revenue Code at the rate of {{fine}} and a loan will be issued in your name with the Bank of Stardew, subject to the nominal interest fee of {{interest}} per annum.^^^Sincerely,^^Laura D. Pretto^Executive Directrice, Ferngill Revenue Service[#]Address Change Confirmation",
+  "mail.frs.notice": "Department of the Treasury^Ferngill Revenue Service^^^{{honorific}} Taxpayer,^^This letter is to inform you that your total due income tax for the closing season in the amount of {{due}}g has been automatically deducted from your balance.^^Please keep this letter in your permanent records should you need to resolve any questions regarding your fiscal status.^^^Sincerely,^^Laura D. Pretto^Executive Directrice, Ferngill Revenue Service[#]FRS Monthly Notice",
+  "mail.frs.outstanding": "Department of the Treasury^Ferngill Revenue Service^^^{{honorific}} Taxpayer,^^This letter is to inform you that your total due income tax for the closing season in the amount of {{due}}g could not be fully deducted from your balance. In accordance with section 501(c)(1) of the Ferngill Revenue Code, you will be fined an additional {{fine}} and all future income to {{farm}} farm will be levied until your outstanding debt, totaling {{outstanding}}g, is completely settled. Please keep in mind that it is in your best interest to clear any outstanding debts as soon as possible to avoid accruing interest at the rate of {{interest}} per annum.^^Please keep this letter in your permanent records should you need to resolve any questions regarding your fiscal status.^^^Sincerely,^^Laura D. Pretto^Executive Directrice, Ferngill Revenue Service[#]FRS Monthly Notice",
+  "mail.frs.deduction": "Department of the Treasury^Ferngill Revenue Service^^^{{honorific}} Taxpayer,^^We are pleased to inform you that, upon review of your environmentalist activities, we have determined that you qualify for an income tax deduction of {{deductible}} as per section 501(c)(3) of the Ferngill Revenue Code.^^Please keep this letter in your permanent records should you need to resolve any questions regarding your fiscal status.^^^Sincerely,^^Laura D. Pretto^Executive Directrice, Ferngill Revenue Service[#]FRS Deduction Notice",
+  "mail.frs.deduction.max": "Department of the Treasury^Ferngill Revenue Service^^^{{honorific}} Taxpayer,^^We are pleased to inform you that, upon review of your environmentalist activities, we have determined that you are exempt from Federal income tax as per section 501(c)(3) of the Ferngill Revenue Code. As such, no charges will be made to your balance with respect to the closing season.^^Please keep this letter in your permanent records should you need to resolve any questions regarding your fiscal status.^^^Sincerely,^^Laura D. Pretto^Executive Directrice, Ferngill Revenue Service[#]FRS Deduction Notice",
 
-  "mail.frs.intro": "財務省^ファーンギル歳入庁^^^{{honorific}} 納税者様へ^^この手紙は、あなたが最近おこなった、スターデューバレーのペリカンタウンへの住所変更が申請され、無事登録されたことをお知らせするものです。 今後の連絡は全て {{farm}} 宛に送られることになります。^^連邦所得税の納付期日は、毎シーズンの2日です。 ご都合に合わせるため、支払いは自動的に残高から差し引かれます。 残高不足の場合は、自動的に納税者様名義のローンが組まれ、年率{{interest}}の利息が発生します。^^^謹啓^^ローラ・D・プレト^ファーンギル歳入庁長官[#]Taxation Intro",
-  "mail.frs.notice": "財務省^ファーンギル歳入庁^^^{{honorific}} 納税者様へ^^この手紙は、所得税{{due}}g が自動的に残高から差し引かれたことをお知らせするものです。^^この手紙は、あなたの財政状態に関する疑問を解決するために、永久的な記録として保管しておいてください。^^^謹啓^^ローラ・D・プレト^ファーンギル歳入庁長官[#]Taxation Notice",
-  "mail.frs.outstanding": "財務省^ファーンギル歳入庁^^^{{honorific}} 納税者様へ^^この手紙は、所得税{{due}}g が残高不足のため、一部または全部納められなかったことをお知らせするものです。 そのため、{{farm}}の今後の収入は、未納金 {{outstanding}} が完済されるまで差し押さえられることとなります。 年率{{interestRate}}の利息や罰則金が発生しない内に、できるだけ早急に未納金を納めることが最善の選択であることを心にとめておいてください。^^この手紙は、あなたの財政状態に関する疑問を解決するために、永久的な記録として保管しておいてください。^^^謹啓^^ローラ・D・プレト^ファーンギル歳入庁長官[#]Taxation Outstanding",
-  "mail.frs.deduction": "財務省^ファーンギル歳入庁^^^{{honorific}} 納税者様へ^^この度、あなたの環境保護活動を審査した結果、ファーンギル歳入法第501条(c)(3)に基づき、{{deductible}} の所得税控除を受ける資格があると判断しましたので、お知らせいたします。^^この手紙は、あなたの財政状態に関する疑問を解決するために、永久的な記録として保管しておいてください。^^^謹啓^^ローラ・D・プレト^ファーンギル歳入庁長官[#]Taxation Deduction",
-  "mail.frs.deduction.max": "財務省^ファーンギル歳入庁^^^{{honorific}} 納税者様へ^^この度、あなたの環境保護活動を審査した結果、ファーンギル歳入法第501条(c)(3)に基づき、連邦所得税が全額免除されることが決定しましたので、お知らせいたします。 そのため、今期ではあなたの残高から所得税が差し引かれることはありません。^^この手紙は、あなたの財政状態に関する疑問を解決するために、永久的な記録として保管しておいてください。^^^謹啓^^ローラ・D・プレト^ファーンギル歳入庁長官[#]Taxation Deduction",
+  "mail.lewis.notice": "@,^As you are aware, one of my duties as mayor of Pelican Town is to levy taxes on all the town's properties. During the preceding fiscal year, the county's assessment of {{farm}} farm's property determined a valuation of {{valuation}}g. As a result, you are liable for {{due}}g in total property taxes for the applicable tax period. I've taken the liberty of charging your account directly. ^On behalf of Pelican Town, I am deeply grateful for your ongoing contributions to our community.  ^  Sincerely, Mr. Lewis[#]固定資産税",
+  "mail.lewis.outstanding": "@,^As you are aware, one my duties as mayor of Pelican Town is to levy taxes on all the town's properties. During the preceding fiscal year, the county's assessment of {{farm}} farm's property determined a valuation of {{valuation}}g. As a result, you are liable for {{due}}g in total property taxes for the applicable tax period. ^Unfortunately, your account was found to have insufficient funds to cover the entire amount. As per county policy, I take no pleasure in informing that you will be fined an additional {{fine}}. The entirety of your deb, totaling {{outstanding}}g, will be sold to the Bank of Stardew, who is authorized to seize all shipping income until the outstanding amount is paid in full, subject to a {{interest}} yearly interest rate. ^Please know that the people of Pelican Town are here to support you if you are facing difficult times.  ^  Sincerely, Mr. Lewis[#]固定資産税",
 
   "hud.debt.debit": "残高から{{amount}}g の未納金が差し引かれた。",
 
@@ -391,6 +392,7 @@
   "ui.item_hover.knockback": "{{amount}} ノックバック",
   "ui.item_hover.fire_speed": "{{amount}} 速度",
   "ui.item_hover.swing_speed": "{{amount}} 速度",
+  "ui.item_hover.attack_speed": "{{amount}} Attack Speed",
   "ui.item_hover.cdr": "{{amount}} クールダウン",
   "ui.item_hover.resist": "{{amount}} ダメージ耐性",
   "ui.item_hover.precision": "{{amount}} 精密さ",
@@ -435,7 +437,7 @@
   "gmcm.modules.prfs.name": "Professions",
   "gmcm.modules.prfs.desc": "A complete overhaul of all skill professions with the goal of supporting more diverse and interesting playstyles. Introducing all-new Prestige mechanics and Limit Breaks.",
   "gmcm.modules.cmbt.name": "Combat",
-  "gmcm.modules.cmbt.desc": "A complete overhaul of the combat experience, from rebalanced stats, weapons--both melee and ranged--, rings and enchantments, to entirely new mechanics like status effects, weapon combos and gemstone resonances.",
+  "gmcm.modules.cmbt.desc": "A complete overhaul of the combat experience, from rebalanced stats, weapons both melee and ranged, rings and enchantments, to entirely new mechanics like status effects, weapon combos and gemstone resonances.",
   "gmcm.modules.tols.name": "Tools",
   "gmcm.modules.tols.desc": "A one-stop-shop for tool augmentation, customization and quality-of-life. Adds Radioactive tool upgrades, charging resource tools, automatic tool selection, expanded enchantment pools and more.",
   "gmcm.modules.pnds.name": "Ponds",

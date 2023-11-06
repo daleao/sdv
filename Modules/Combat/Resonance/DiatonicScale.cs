@@ -61,7 +61,7 @@ public readonly struct DiatonicScale
 
     /// <summary>Gets the index of the specified <see cref="Gemstone"/> in the current <see cref="DiatonicScale"/>.</summary>
     /// <param name="gemstone">Some <see cref="Gemstone"/>.</param>
-    /// <returns>The <see cref="int"/> index of the <paramref name="gemstone"/> in the current <seealso cref="DiatonicScale"/>.</returns>
+    /// <returns>The <see cref="int"/> index of the <paramref name="gemstone"/> in the current <see cref="DiatonicScale"/>.</returns>
     public int IndexOf(Gemstone gemstone)
     {
         return Array.IndexOf(this.Notes, gemstone);

@@ -13,7 +13,10 @@ using Newtonsoft.Json;
 /// <summary>The user-configurable settings for TXS.</summary>
 public sealed class TaxConfig
 {
-    private readonly Dictionary<string, float> _deductibleExtras = new();
+    private readonly Dictionary<string, float> _deductibleExtras = new()
+    {
+        { "Example Object and Percentage", 1f },
+    };
 
     private float _incomeLatenessFine = 0.05f;
     private float _deductibleAnimalExpenses = 1f;
