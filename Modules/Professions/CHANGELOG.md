@@ -1,5 +1,13 @@
 ﻿# PRFS Changelog
 
+## 4.1.4
+
+### Fixed
+
+* Fixed typo in `ProspectorHunt.TryStart` which caused SO exception.
+
+<sup><sup>[🔼 Back to top](#profs-changelog)</sup></sup>
+
 ## 4.1.3
 
 ### Added

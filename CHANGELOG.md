@@ -2,6 +2,12 @@
 
 This file contains a TL;DR of current version changes and hotfixes from across all modules. For the complete changelog, please refer to the individual changelogs of each module, linked [below](#detailed-changelogs).
 
+## Hotfix 4.1.4 Highlights
+
+* [PROFS]: Fixed typo in `ProspectorHunt.TryStart` which caused SO exception.
+
+<sup><sup>[🔼 Back to top](#margo-changelogs)</sup></sup>
+
 ## Patch 4.1.3 Highlights
 
 * Fixed GMCM list text boxes being limited to 13 characters.

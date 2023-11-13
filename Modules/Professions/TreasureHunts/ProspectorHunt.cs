@@ -36,7 +36,7 @@ internal sealed class ProspectorHunt : TreasureHunt
     /// <inheritdoc />
     public override bool TryStart(GameLocation location)
     {
-        if (!location.Objects.Any() || !this.TryStart(location))
+        if (!location.Objects.Any() || !base.TryStart(location))
         {
             return false;
         }
