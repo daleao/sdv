@@ -26,6 +26,7 @@ public sealed class CombatConfig
     private bool _newResistanceFormula = true;
     private bool _enableWeaponOverhaul = true;
     private bool _enableStabbingSwords = true;
+    private bool _enableMeleeComboHits = true;
     private bool _rebalancedRings = true;
     private bool _craftableGemstoneRings = true;
     private bool _enableInfinityBand = true;
@@ -188,6 +189,12 @@ public sealed class CombatConfig
                 return;
             }
 
+            if (!value)
+            {
+                this.EnableStabbingSwords = false;
+                this.EnableMeleeComboHits = false;
+            }
+
             this._enableWeaponOverhaul = value;
             ModHelper.GameContent.InvalidateCacheAndLocalized("Data/weapons");
             if (Context.IsWorldReady)
@@ -218,6 +225,12 @@ public sealed class CombatConfig
         {
             if (value == this._enableStabbingSwords)
             {
+                return;
+            }
+
+            if (value && !this.EnableWeaponOverhaul)
+            {
+                Log.W("Stabbing Swords feature requires that Weapon Overhaul be set to true.");
                 return;
             }
 
@@ -262,7 +275,20 @@ public sealed class CombatConfig
     [JsonProperty]
     [GMCMSection("cmbt.weapons")]
     [GMCMPriority(122)]
-    public bool EnableMeleeComboHits { get; internal set; } = true;
+    public bool EnableMeleeComboHits
+    {
+        get => this._enableMeleeComboHits;
+        internal set
+        {
+            if (value && !this.EnableWeaponOverhaul)
+            {
+                Log.W("Melee Combo Framework requires that Weapon Overhaul be set to true.");
+                return;
+            }
+
+            this._enableMeleeComboHits = value;
+        }
+    }
 
     /// <summary>Gets the number of hits in each weapon type's combo.</summary>
     [JsonProperty]

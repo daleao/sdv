@@ -1,5 +1,13 @@
 ﻿# TWX Changelog
 
+## 4.1.3
+
+### Removed
+
+* Removed the Spawn Crows feature. Apparently scarecrows didn't work in Ginger Island, even though I'm pretty sure I tested it and it was working. But everyone hated that feature anyone so it wasn't worth investigating.
+
+<sup><sup>[🔼 Back to top](#twx-changelog)</sup></sup>
+
 ## 4.0.0
 
 ### Changed

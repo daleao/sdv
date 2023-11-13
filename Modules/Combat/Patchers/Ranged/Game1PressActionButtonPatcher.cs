@@ -45,7 +45,7 @@ internal sealed class Game1PressActionButtonPatcher : HarmonyPatcher
             return;
         }
 
-        SoundEffectPlayer.GunCock.Play();
+        //SoundEffectPlayer.GunCock.Play();
         slingshot.AnimateSpecialMove();
         __result = false;
     }

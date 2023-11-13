@@ -5,7 +5,6 @@
 using System.Linq;
 using DaLion.Overhaul.Modules.Combat.Enums;
 using DaLion.Overhaul.Modules.Combat.Events.GameLoop.DayStarted;
-using DaLion.Overhaul.Modules.Combat.Extensions;
 using DaLion.Shared.Constants;
 using DaLion.Shared.Events;
 using DaLion.Shared.Extensions.Collections;
@@ -70,6 +69,21 @@ internal sealed class CombatSaveLoadedEvent : SaveLoadedEvent
             else
             {
                 CombatModule.State.HeroQuest = new HeroQuest();
+                if (!Context.IsMainPlayer)
+                {
+                    if (Game1.MasterPlayer.mailReceived.Contains("pamHouseUpgrade") &&
+                        player.Read<int>(Virtue.Generosity.Name) < 5e5)
+                    {
+                        player.Increment(Virtue.Generosity.Name, 5e5);
+                        CombatModule.State.HeroQuest.UpdateTrialProgress(Virtue.Generosity);
+                    }
+                    else if (Game1.MasterPlayer.mailReceived.Contains("communityUpgradeShortcuts") &&
+                             player.Read<int>(Virtue.Generosity.Name) < 3e5)
+                    {
+                        player.Increment(Virtue.Generosity.Name, 3e3);
+                        CombatModule.State.HeroQuest.UpdateTrialProgress(Virtue.Generosity);
+                    }
+                }
             }
         }
         else if (player.Read<HeroQuest.QuestState>(DataKeys.VirtueQuestState) == HeroQuest.QuestState.Completed)

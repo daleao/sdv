@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Reflection;
+using Core.Debug;
 using DaLion.Overhaul.Modules.Combat.Enums;
 using DaLion.Overhaul.Modules.Combat.Extensions;
 using DaLion.Overhaul.Modules.Combat.VirtualProperties;
@@ -215,11 +216,7 @@ public abstract class OverhaulModule
             Log.T($"==================== DEBUG START ====================");
             EventManager.ManageNamespace(this.Namespace + ".Debug");
             this.Harmonizer = Harmonizer.ApplyFromNamespace(this.Namespace + ".Debug", helper.ModRegistry);
-            this.CommandHandler ??= CommandHandler.HandleFromNamespace(
-                this.Namespace + ".Debug",
-                helper.ConsoleCommands,
-                this.DisplayName,
-                this.Ticker);
+            this.CommandHandler?.Handle<DebugCommand>();
             Log.I("[Modules]: Debug features activated.");
             Log.T($"==================== DEBUG END ====================");
 #endif

@@ -143,6 +143,8 @@
   "desperado.title.female": "Schurkein",
   "desperado.desc": "Aufeinanderfolgende Schüsse gegen verschiedene Feinde innerhalb einer Sekunde verursachen 50 % mehr Schaden. Du kannst die Schleuder überladen, um die Kraft und den Querschnitt der Munition zu erhöhen.",
   "desperado.desc.prestiged": "Überladene Schüsse können Feinde durchbohren.",
+  "desperado.buff.name": "Chain Action",
+  "desperado.buff.desc": "+50 % Munitionsschaden.",
   "piper.title.male": "Schleim Rattenfänger",
   "piper.title.female": "Schleim Rattenfängerin",
   "piper.desc": "Ziehe verbündete Slimes an, wenn sie in der Nähe von Feinden sind. Chance, einen zufälligen Stärkungszauber zu erhalten, wenn ein Slime besiegt wird.",
@@ -191,8 +193,8 @@
   "prestige.level_up.question": "Derzeit für den {{oldProfession}}'s {{oldUltimate}} registriert. Ersetzen durch {{newProfession}}'s {{newUltimate}}?",
   "prestige.level_up.unlocked": "Du kannst jetzt deine {{skill}}-Fähigkeit weiter ausbauen.",
   "prestige.level_up.prestige": "Wähle einen Beruf, um Prestige zu gewinnen:",
-  "prestige.achievement.title.male": "Alleskönner",
-  "prestige.achievement.title.female": "Alleskönnerin",
+  "prestige.achievement.title.male": "Meister der fünf Handwerke",
+  "prestige.achievement.title.female": "Meisterin der fünf Handwerke",
   "prestige.achievement.desc": "Erwirb alle Berufe in jeder Fertigkeit.",
 
 

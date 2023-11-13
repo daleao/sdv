@@ -105,7 +105,7 @@ internal sealed class ShopMenuTryToPurchaseItemPatcher : HarmonyPatcher
         }
         else
         {
-            Broadcaster.MessageHost(deductible.ToString(), OverhaulModule.Taxes.Namespace + DataKeys.BusinessExpenses);
+            Broadcaster.MessageHost(deductible.ToString(), OverhaulModule.Taxes.Namespace + '/' + DataKeys.BusinessExpenses);
         }
     }
 

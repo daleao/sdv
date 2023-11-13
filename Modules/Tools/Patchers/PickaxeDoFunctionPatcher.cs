@@ -31,8 +31,13 @@ internal sealed class PickaxeDoFunctionPatcher : HarmonyPatcher
 
     /// <summary>Charge shockwave stamina cost.</summary>
     [HarmonyPostfix]
-    private static void PickaxeDoFunctionPostfix(Farmer who)
+    private static void PickaxeDoFunctionPostfix(Pickaxe __instance, Farmer who)
     {
+        if (__instance.hasEnchantmentOfType<EfficientToolEnchantment>())
+        {
+            return;
+        }
+
         var power = who.toolPower;
         if (power <= 0)
         {

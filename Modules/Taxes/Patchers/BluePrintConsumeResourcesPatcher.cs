@@ -39,7 +39,7 @@ internal sealed class BluePrintConsumeResourcesPatcher : HarmonyPatcher
         {
             Broadcaster.MessageHost(
                 deductible.ToString(),
-                OverhaulModule.Taxes.Namespace + DataKeys.BusinessExpenses);
+                OverhaulModule.Taxes.Namespace + '/' + DataKeys.BusinessExpenses);
         }
     }
 

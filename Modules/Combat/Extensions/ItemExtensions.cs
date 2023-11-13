@@ -66,7 +66,7 @@ internal static class ItemExtensions
             return Game1.textColor;
         }
 
-        if (CombatModule.Config.ColorCodedForYourConvenience)
+        if (CombatModule.Config.EnableWeaponOverhaul && CombatModule.Config.ColorCodedForYourConvenience)
         {
             switch (tool)
             {

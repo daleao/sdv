@@ -1,5 +1,58 @@
 ﻿# PRFS Changelog
 
+## 4.1.3
+
+### Added
+
+* Added a buff to visually indicate Desperado's new quick-shot perk.
+* Treasure Hunts now play quest complete sound on completion.
+
+### Changed
+
+* Improved and cleaned up Treasure Hunt start/end logic. Added MemberNotNull attributes. Changes will need to be reflected in the API.
+
+### Fixed
+
+* Fixed typo in i18n.
+* Fixed an issue where Femur and Ossified Blade rewards from Prospector Hunt would spawn out-of-bounds.
+* Not sure if prestiged Treasure Hunt time freeze was working in Multiplayer before this point, but it now should.
+* Automated Artisan PFM machines now apply Artisan profession perks even if the output is not marked as an Artisan Good.
+* PFM machines no longer apply Artisan perks twice when used manually.
+
+### Removed
+
+* Removed patches to Content Patcher.
+    * If using SVE, certain NPC heart events will not trigger if your skill levels is greater than 10. To fix this, open up the following files, search for `SkillLevel`, and edit the field value to include the extended levels:
+        * In `Stardew Valley Expanded\[CP] Stardew Valley Expanded\code\NPCs\Morgan.json`, there is 1 instance of `SkillLevel:Mining`. Edit so it looks like this:
+        
+        ```json
+        "Action": "EditData",
+        "Target": "data/events/wizardhouse",
+        "When": {
+            "SkillLevel:Mining": "7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20"
+        },
+        ```
+
+        * In `Stardew Valley Expanded\[CP] Stardew Valley Expanded\code\NPCs\Willy.json`, there are 2 instances of `SkillLevel:Fishing`. Edit so they look like this:
+
+        ```json
+        "Action": "EditData",
+        "Target": "data/events/farm",
+        "When": {
+            "SkillLevel:Fishing": "5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20"
+        },
+        ```
+
+        ```json
+        "Action": "EditData",
+        "Target": "data/events/forest",
+        "When": {
+            "SkillLevel:Fishing": "8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20"
+        },
+        ```
+
+<sup><sup>[🔼 Back to top](#profs-changelog)</sup></sup>
+
 ## 4.1.2
 
 ### Fixed

@@ -1,5 +1,17 @@
 ﻿# TXS Changelog
 
+## 4.1.3
+
+### Added
+
+* Added Chinese translation.
+
+### Fixed
+
+* Fixed some translation parameters.
+
+<sup><sup>[🔼 Back to top](#txs-changelog)</sup></sup>
+
 ## 3.1.4
 
 ### Changed

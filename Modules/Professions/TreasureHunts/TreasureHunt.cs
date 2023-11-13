@@ -2,10 +2,14 @@
 
 #region using directives
 
+using System.Diagnostics.CodeAnalysis;
+using DaLion.Overhaul.Modules.Core.UI;
 using DaLion.Overhaul.Modules.Professions.Events.TreasureHunt.TreasureHuntEnded;
 using DaLion.Overhaul.Modules.Professions.Events.TreasureHunt.TreasureHuntStarted;
+using DaLion.Overhaul.Modules.Professions.VirtualProperties;
 using DaLion.Shared.Extensions.Stardew;
 using Microsoft.Xna.Framework;
+using Broadcaster = DaLion.Shared.Networking.Broadcaster;
 
 #endregion using directives
 
@@ -64,10 +68,64 @@ internal abstract class TreasureHunt : ITreasureHunt
     protected uint TimeLimit { get; set; }
 
     /// <inheritdoc />
-    public abstract bool TryStart(GameLocation location);
+    [MemberNotNullWhen(true, "Location", "TreasureTile")]
+    public virtual bool TryStart(GameLocation location)
+    {
+        if (this.IsActive)
+        {
+            return false;
+        }
+
+        if (this.Random.NextDouble() > ProfessionsModule.Config.ChanceToStartTreasureHunt * this._chanceAccumulator)
+        {
+            this._chanceAccumulator *= 1d + Game1.player.DailyLuck;
+            return false;
+        }
+
+        this.TreasureTile = this.ChooseTreasureTile(location);
+        if (this.TreasureTile is null)
+        {
+            return false;
+        }
+
+        this.Location = location;
+        this.Elapsed = 0;
+        this._chanceAccumulator = 1d;
+        Game1.player.Get_IsHuntingTreasure().Value = true;
+        HudPointer.Instance.Value.ShouldBob = true;
+
+        if (Context.IsMultiplayer)
+        {
+            Broadcaster.SendPublicChat($"{Game1.player.Name} is hunting for treasure.");
+        }
+
+        this.OnStarted();
+        return true;
+    }
 
     /// <inheritdoc />
-    public abstract void ForceStart(GameLocation location, Vector2 target);
+    [MemberNotNull("Location", "TreasureTile")]
+    public virtual void ForceStart(GameLocation location, Vector2 target)
+    {
+        if (this.IsActive)
+        {
+            ThrowHelper.ThrowInvalidOperationException("A Treasure Hunt is already active in this instance.");
+        }
+
+        this.TreasureTile = target;
+        this.Location = location;
+        this.Elapsed = 0;
+        this._chanceAccumulator = 1d;
+        Game1.player.Get_IsHuntingTreasure().Value = true;
+        HudPointer.Instance.Value.ShouldBob = true;
+
+        if (Context.IsMultiplayer)
+        {
+            Broadcaster.SendPublicChat($"{Game1.player.Name} is hunting for treasure.");
+        }
+
+        this.OnStarted();
+    }
 
     /// <inheritdoc />
     public abstract void Complete();
@@ -96,54 +154,36 @@ internal abstract class TreasureHunt : ITreasureHunt
         }
     }
 
-    /// <summary>Rolls the dice for a new treasure hunt or adjusts the odds for the next attempt.</summary>
-    /// <returns><see langword="true"/> if the dice roll was successful, otherwise <see langword="false"/>.</returns>
-    protected bool TryStart()
-    {
-        if (this.IsActive)
-        {
-            return false;
-        }
-
-        if (this.Random.NextDouble() > ProfessionsModule.Config.ChanceToStartTreasureHunt * this._chanceAccumulator)
-        {
-            this._chanceAccumulator *= 1d + Game1.player.DailyLuck;
-            return false;
-        }
-
-        this._chanceAccumulator = 1d;
-        return true;
-    }
-
-    /// <summary>Forcefully sets the odds for the next hunt start attempt to 100%.</summary>
-    protected virtual void ForceStart()
-    {
-        if (this.IsActive)
-        {
-            ThrowHelper.ThrowInvalidOperationException("A Treasure Hunt is already active in this instance.");
-        }
-
-        this._chanceAccumulator = 1d;
-    }
-
-    /// <summary>Selects a random tile and determines whether it is a valid treasure target.</summary>
     /// <param name="location">The game location.</param>
     /// <returns>A <see cref="Vector2"/> tile.</returns>
     protected abstract Vector2? ChooseTreasureTile(GameLocation location);
 
     /// <summary>Resets treasure tile and releases the treasure hunt update event.</summary>
-    /// <param name="found">Whether the treasure was successfully found.</param>
-    protected abstract void End(bool found);
+    /// <param name="success">Whether the treasure was successfully found.</param>
+    protected virtual void End(bool success)
+    {
+        this.TreasureTile = null;
+        Game1.player.Get_IsHuntingTreasure().Value = false;
+        HudPointer.Instance.Value.ShouldBob = false;
+        if (Context.IsMultiplayer)
+        {
+            Broadcaster.SendPublicChat(success
+                ? $"{Game1.player.Name} has found the treasure!"
+                : $"{Game1.player.Name} failed to find the treasure.");
+        }
+
+        this.OnEnded(success);
+    }
 
     /// <summary>Raised when a Treasure Hunt starts.</summary>
-    protected void OnStarted()
+    private void OnStarted()
     {
         Started?.Invoke(this, new TreasureHuntStartedEventArgs(Game1.player, this.Type, this.TreasureTile!.Value));
     }
 
     /// <summary>Raised when a Treasure Hunt ends.</summary>
     /// <param name="found">Whether the player successfully discovered the treasure.</param>
-    protected void OnEnded(bool found)
+    private void OnEnded(bool found)
     {
         Ended?.Invoke(this, new TreasureHuntEndedEventArgs(Game1.player, this.Type, found));
     }

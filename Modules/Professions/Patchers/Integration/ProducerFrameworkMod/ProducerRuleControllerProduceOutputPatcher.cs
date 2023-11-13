@@ -3,6 +3,7 @@
 #region using directives
 
 using DaLion.Overhaul.Modules.Professions.Extensions;
+using DaLion.Overhaul.Modules.Professions.Integrations;
 using DaLion.Shared.Attributes;
 using DaLion.Shared.Enums;
 using DaLion.Shared.Extensions.Reflection;
@@ -31,20 +32,21 @@ internal sealed class ProducerRuleControllerProduceOutputPatcher : HarmonyPatche
     [HarmonyPostfix]
     [HarmonyAfter("DaLion.Overhaul.Modules.Tweex")]
     private static void ProducerRuleControllerProduceOutputPostfix(
-        SObject producer, Farmer who, SObject? input, bool probe)
+        SObject producer, Farmer who, GameLocation location, SObject? input, bool probe)
     {
         if (input is null || probe || !producer.IsArtisanMachine())
         {
             return;
         }
 
-        var output = producer.heldObject.Value;
-        if (!output.IsArtisanGood())
+        var chest = AutomateIntegration.Instance?.GetClosestContainerTo(producer, location);
+        if (chest is null)
         {
             return;
         }
 
-        var user = who;
+        var output = producer.heldObject.Value;
+        var user = ProfessionsModule.Config.LaxOwnershipRequirements ? who : chest.GetOwner() ?? Game1.MasterPlayer;
         var r = new Random(Guid.NewGuid().GetHashCode());
         if (user.HasProfession(Profession.Artisan))
         {
@@ -68,6 +70,11 @@ internal sealed class ProducerRuleControllerProduceOutputPatcher : HarmonyPatche
             return;
         }
 
+        if (output.Quality < SObject.bestQuality && r.NextDouble() < 0.05)
+        {
+            output.Quality += output.Quality == SObject.highQuality ? 2 : 1;
+        }
+
         if (owner.HasProfession(Profession.Artisan, true))
         {
             producer.MinutesUntilReady -= producer.MinutesUntilReady / 4;
@@ -75,11 +82,6 @@ internal sealed class ProducerRuleControllerProduceOutputPatcher : HarmonyPatche
         else
         {
             producer.MinutesUntilReady -= producer.MinutesUntilReady / 10;
-        }
-
-        if (output.Quality < SObject.bestQuality && r.NextDouble() < 0.05)
-        {
-            output.Quality += output.Quality == SObject.highQuality ? 2 : 1;
         }
     }
 

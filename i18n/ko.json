@@ -142,8 +142,10 @@
   "rascal.desc.prestiged": "35% >> 55% 확률로 탄약을 소모하지 않습니다. 몬스터 머스크를 장착하여 유인 탄약을 발사할 수 있습니다.",
   "desperado.title.male": "무법자",
   "desperado.title.female": "무법자",
-  "desperado.desc": "1초 내에 서로 다른 적에게 연속 사격을 가하면 피해가 50% 더 증가합니다. 새총을 과충전하여 더 강력한 힘으로 탄환을 벽 너머까지 발사할 수 있습니다.",
-  "desperado.desc.prestiged": "과충전된 탄환은 적을 관통할 수 있습니다",
+  "desperado.desc": "1초 내에 서로 다른 적에게 연속 사격을 가하면 피해가 50% 더 증가합니다. 새총을 과충전하여 탄약 위력과 단면적을 늘릴 수 있습니다.",
+  "desperado.desc.prestiged": "과충전된 탄환은 적을 관통할 수 있습니다.",
+  "desperado.buff.name": "체인 액션",
+  "desperado.buff.desc": "+50% 탄약 데미지.",
   "piper.title.male": "피리 부는 사나이",
   "piper.title.female": "슬라임 부리미",
   "piper.desc": "적이 근처에 있을 때 슬라임을 매혹합니다. 슬라임 처치 시 확률적으로 랜덤한 버프를 획득합니다.",
@@ -191,8 +193,8 @@
   "prestige.level_up.question": "현재 {{oldProfession}}의 {{oldUltimate}}(이)가 있습니다. {{newProfession}}의 {{newUltimate}}(으)로 변경할까요?",
   "prestige.level_up.unlocked": "이제 {{skill}} 스킬을 더 발전시킬 수 있습니다.",
   "prestige.level_up.prestige": "특화할 직업을 고르세요:",
-  "prestige.achievement.title.male": "팔방미인",
-  "prestige.achievement.title.female": "팔방미인",
+  "prestige.achievement.title.male": "만능역자",
+  "prestige.achievement.title.female": "만능역자",
   "prestige.achievement.desc": "모든 스킬의 모든 직업을 습득하기",
 
   // *********** //

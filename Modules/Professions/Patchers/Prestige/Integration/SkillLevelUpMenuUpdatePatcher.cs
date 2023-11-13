@@ -398,7 +398,7 @@ internal sealed class SkillLevelUpMenuUpdatePatcher : HarmonyPatcher
             Game1.drawObjectDialogue(I18n.Prestige_LevelUp_Unlocked(SCSkill.Loaded[skillId].DisplayName));
         }
 
-        if (!Game1.player.HasAllProfessions(true))
+        if (!Game1.player.HasAllProfessions())
         {
             return;
         }

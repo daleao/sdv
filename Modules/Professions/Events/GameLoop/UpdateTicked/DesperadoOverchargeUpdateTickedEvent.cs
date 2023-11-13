@@ -1,7 +1,5 @@
 ﻿namespace DaLion.Overhaul.Modules.Professions.Events.GameLoop.UpdateTicked;
 
-using DaLion.Overhaul;
-
 #region using directives
 
 using DaLion.Overhaul.Modules.Professions.Events.Display.RenderedWorld;
@@ -14,11 +12,11 @@ using StardewValley.Tools;
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class DesperadoUpdateTickedEvent : UpdateTickedEvent
+internal sealed class DesperadoOverchargeUpdateTickedEvent : UpdateTickedEvent
 {
-    /// <summary>Initializes a new instance of the <see cref="DesperadoUpdateTickedEvent"/> class.</summary>
+    /// <summary>Initializes a new instance of the <see cref="DesperadoOverchargeUpdateTickedEvent"/> class.</summary>
     /// <param name="manager">The <see cref="EventManager"/> instance that manages this event.</param>
-    internal DesperadoUpdateTickedEvent(EventManager manager)
+    internal DesperadoOverchargeUpdateTickedEvent(EventManager manager)
         : base(manager)
     {
     }

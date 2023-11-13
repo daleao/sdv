@@ -1,15 +1,10 @@
 ﻿namespace DaLion.Overhaul.Modules.Combat.Patchers.Melee;
 
-using DaLion.Overhaul.Modules.Combat.Enchantments;
-
 #region using directives
 
 using DaLion.Overhaul.Modules.Combat.Extensions;
-using DaLion.Shared.Constants;
-using DaLion.Shared.Enums;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
-using Shared.Extensions;
 using StardewValley.Tools;
 
 #endregion using directives
@@ -29,6 +24,11 @@ internal sealed class MeleeWeaponCtorPatcher : HarmonyPatcher
     [HarmonyPostfix]
     private static void MeleeWeaponCtorPostfix(MeleeWeapon __instance)
     {
+        if (__instance.isScythe())
+        {
+            return;
+        }
+
         if (__instance.ShouldBeStabbySword())
         {
             __instance.type.Value = MeleeWeapon.stabbingSword;

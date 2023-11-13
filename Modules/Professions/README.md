@@ -454,7 +454,7 @@ The perks within ⭐<font color="gold">star text</font>⭐ refer to <font color=
 </details>
 
 <details>
-<summary><img src="./resources/assets/sprites/loose/desperado.png"/> <b>Desperado (Lv10)</b> - Consecutive shots against different enemies within 1 second deal 50% more damage. Gain the ability to overcharge. <font color="gold"><i>⭐Overcharged shots have a chance to pierce through enemies.⭐</i></font>
+<summary><img src="./resources/assets/sprites/loose/desperado.png"/> <b>Desperado (Lv10)</b> - Consecutive shots within 1 second deal 50% more damage if they hit different enemies. Gain the ability to overcharge. <font color="gold"><i>⭐Overcharged shots have a chance to pierce through enemies.⭐</i></font>
 </summary>
 
 <ul>

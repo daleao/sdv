@@ -142,8 +142,10 @@
   "rascal.desc.prestiged": "35% >> 55% の確率で弾薬を消費しない。 モンスタームスクを装備すると、おびき寄せる弾薬を発射できます。",
   "desperado.title.male": "デスペラード",
   "desperado.title.female": "デスペラーダ",
-  "desperado.desc": "1 秒以内に異なる敵に対して連続射撃すると、与えるダメージが 50% 増加します。 オーバーチャージして弾薬のダメージと大きさを増やすことができる。",
+  "desperado.desc": "1 秒以内に異なる敵に対して連続射撃すると、与えるダメージが 50% 増加します。 スリングショットをオーバーチャージすると、弾薬の威力と断面積が増加します。",
   "desperado.desc.prestiged": "オーバーチャージショットが敵を貫通する。",
+  "desperado.buff.name": "チェーンアクション",
+  "desperado.buff.desc": "+50% 弾薬ダメージ。",
   "piper.title.male": "スターデューの笛吹き男",
   "piper.title.female": "スライムの魔女",
   "piper.desc": "敵が近くにいると、スライムハッチから味方のスライムが駆けつける。 スライムを倒すと確率でランダムなバフを得る。",
@@ -192,8 +194,8 @@
   "prestige.level_up.question": "現在のアルティメットは{{oldProfession}}の{{oldUltimate}}です。 {{newProfession}}の {{newUltimate}}に変更しますか？",
   "prestige.level_up.unlocked": "{{skill}}スキルをさらに発展できるようになりました。",
   "prestige.level_up.prestige": "名声を得る特化職を選んでください:",
-  "prestige.achievement.title.male": "Jack-Of-All-Trades",
-  "prestige.achievement.title.female": "Jill-Of-All-Trades",
+  "prestige.achievement.title.male": "何でも屋",
+  "prestige.achievement.title.female": "何でも屋",
   "prestige.achievement.desc": "全てのスキルですべての特化職を取得する。",
 
 

@@ -188,7 +188,7 @@ internal sealed class FarmerTakeDamagePatcher : HarmonyPatcher
 
         var frenzy = farmer.Get_Ultimate() as Frenzy;
         ProfessionsModule.State.BruteRageCounter += frenzy?.IsActive == true ? 2 : 1;
-        EventManager.Enable<BruteUpdateTickedEvent>();
+        EventManager.Enable<BruteRageUpdateTickedEvent>();
         if (frenzy?.IsActive == false)
         {
             frenzy.ChargeValue += damage / 4.0;

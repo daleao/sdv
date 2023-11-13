@@ -100,12 +100,8 @@ public sealed class ProfessionConfig
         "Oil Maker", // vanilla
         "Preserves Jar", // vanilla
         "Alembic", // artisan valley
-        "Artisanal Soda Maker", // artisanal soda makers
         "Butter Churn", // artisan valley
         "Canning Machine", // fresh meat
-        "Carbonator", // artisanal soda makers
-        "Cola Maker", // artisanal soda makers
-        "Cream Soda Maker", // artisanal soda makers
         "DNA Synthesizer", // fresh meat
         "Dehydrator", // artisan valley
         "Drying Rack", // artisan valley
@@ -120,15 +116,19 @@ public sealed class ProfessionConfig
         "Marble Soda Machine", // fizzy drinks
         "Meat Press", // fresh meat
         "Pepper Blender", // artisan valley
-        "Shaved Ice Machine", // shaved ice & frozen treats
         "Smoker", // artisan valley
         "Soap Press", // artisan valley
         "Sorbet Machine", // artisan valley
         "Still", // artisan valley
-        "Syrup Maker", // artisanal soda makers
         "Vinegar Cask", // artisan valley
         "Wax Barrel", // artisan valley
         "Yogurt Jar", // artisan valley
+        "Artisanal Soda Maker", // artisanal soda makers
+        "Carbonator", // artisanal soda makers
+        "Cola Maker", // artisanal soda makers
+        "Cream Soda Maker", // artisanal soda makers
+        "Syrup Maker", // artisanal soda makers
+        "Shaved Ice Machine", // shaved ice & frozen treats
     };
 
     /// <summary>Gets a list of artisan goods derived from animal produce. Add to this list the animal-derived goods from third-party mods you are using to make them compatible with the Producer profession.</summary>

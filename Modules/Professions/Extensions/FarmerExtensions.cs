@@ -71,14 +71,9 @@ internal static class FarmerExtensions
             return false;
         }
 
-        if (includeCustom && !SCProfession.List
-                .Select(p => p.Id)
-                .All(farmer.professions.Contains))
-        {
-            return false;
-        }
-
-        return true;
+        return !includeCustom || SCProfession.List
+            .Select(p => p.Id)
+            .All(farmer.professions.Contains);
     }
 
     /// <summary>Determines whether this or, if allowed by the module's settings, any <see cref="Farmer"/> instance in the current game session has the specified <paramref name="profession"/>.</summary>

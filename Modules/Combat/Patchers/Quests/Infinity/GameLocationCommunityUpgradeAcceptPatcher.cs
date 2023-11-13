@@ -70,7 +70,11 @@ internal sealed class GameLocationCommunityUpgradeAcceptPatcher : HarmonyPatcher
 
     private static void IncrementGenerosity(int amount)
     {
-        Game1.player.Increment(Virtue.Generosity.Name, amount);
+        foreach (var farmer in Game1.getAllFarmers())
+        {
+            farmer.Increment(Virtue.Generosity.Name, amount);
+        }
+
         CombatModule.State.HeroQuest?.UpdateTrialProgress(Virtue.Generosity);
         Game1.showGlobalMessage(I18n.Virtues_Recognize_Robin());
     }

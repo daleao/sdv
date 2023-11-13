@@ -24,7 +24,8 @@ internal sealed class ComboButtonPressedEvent : ButtonPressedEvent
     }
 
     /// <inheritdoc />
-    public override bool IsEnabled => Context.IsWorldReady && Game1.activeClickableMenu is null && CombatModule.Config.EnableMeleeComboHits;
+    public override bool IsEnabled => Context.IsWorldReady && Game1.activeClickableMenu is null &&
+                                      CombatModule.Config.EnableMeleeComboHits;
 
     /// <inheritdoc />
     protected override void OnButtonPressedImpl(object? sender, ButtonPressedEventArgs e)

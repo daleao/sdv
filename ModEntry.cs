@@ -78,7 +78,7 @@ public sealed class ModEntry : Mod
         Log.Init(this.Monitor);
 
         // pseudo-DRM for low-effort theft
-        if (Manifest.UniqueID != "DaLion.Overhaul")
+        if (Manifest.Author != "DaLion" || Manifest.UniqueID != this.GetType().Namespace)
         {
             Log.W(
                 "Woops, looks like you downloaded a clandestine version of this mod! Please make sure to download from the official GitHub repo at https://github.com/daleao/modular-overhaul/releases.");

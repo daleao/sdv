@@ -11,11 +11,10 @@ using DaLion.Overhaul.Modules.Combat.VirtualProperties;
 using DaLion.Shared;
 using DaLion.Shared.Constants;
 using DaLion.Shared.Enums;
-using DaLion.Shared.Exceptions;
 using DaLion.Shared.Extensions;
+using DaLion.Shared.Extensions.Collections;
 using DaLion.Shared.Extensions.Stardew;
 using Microsoft.Xna.Framework;
-using Shared.Extensions.Collections;
 using StardewValley;
 using StardewValley.Locations;
 using StardewValley.Tools;
@@ -84,7 +83,8 @@ internal static class MeleeWeaponExtensions
     /// <returns><see langword="true"/> if the <paramref name="weapon"/> is StabbySwords option is enabled and the weapon should be a stabbing sword, otherwise <see langword="false"/>.</returns>
     internal static bool ShouldBeStabbySword(this MeleeWeapon weapon)
     {
-        return CombatModule.Config.EnableStabbingSwords &&
+        return CombatModule.Config.EnableWeaponOverhaul &&
+               CombatModule.Config.EnableStabbingSwords &&
                (CombatModule.Config.StabbingSwords.Contains(weapon.Name) ||
                 (weapon.InitialParentTileIndex is WeaponIds.GalaxySword or WeaponIds.InfinityBlade &&
                  weapon.Read(DataKeys.SwordType, 3) == 0));
@@ -175,6 +175,11 @@ internal static class MeleeWeaponExtensions
                 weapon.maxDamage.Value = int.Parse(split[3]);
                 weapon.Write(DataKeys.BaseMinDamage, null);
                 weapon.Write(DataKeys.BaseMaxDamage, null);
+                if (weapon.isScythe())
+                {
+                    weapon.type.Value = 3;
+                }
+
                 weapon.Invalidate();
                 break;
         }

@@ -116,6 +116,7 @@ public sealed class Profession : SmartEnum<Profession>, IProfession
     #region buff indices
 
     internal const int BruteRageSheetIndex = 36;
+    internal const int DesperadoQuickshotSheetIndex = 39;
     internal const int SpelunkerStreakSheetIndex = 40;
     internal const int DemolitionistExcitedSheetIndex = 41;
 

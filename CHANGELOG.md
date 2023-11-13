@@ -7,12 +7,25 @@ This file contains a TL;DR of current version changes and hotfixes from across a
 * Fixed GMCM list text boxes being limited to 13 characters.
 * [CMBT]: Fixed an edge case that caused an error to be thrown with Ridgeside's Fairy Needle, which, for some reason, does not have a description.
 * [CMBT]: Stabbing Swords are no longer persisted as such, to avoid the issue of the game freezing if the mod is removed abruptly.
+* [CMBT]: Weapon Overhaul is now a hard requirement for both Stabbing Swords and Melee Combo Framework.
+* [CMBT]: Removed the crit. boost given to daggers in vanilla.
+* [CMBT]: Added new failsafes for Community Upgrades applying to farmhand Hero Quest.
+* [PRFS]: Removed patch to Content Patcher. Please manually edit SVE's files as described in the [detailed changelog](Modules/Professions/CHANGELOG.md).
+* [PRFS]: Desperado's quick-shot perk now displays as a buff.
+* [PRFS]: Fixed Prospector Hunt weapons spawning out-of-bounds.
+* [PROFS]: Treasure Hunts now play quest complete sound on completion.
+* [TOLS]: Axe and Pickaxe shockwave no longer cost stamina with Efficient enchantment
+* [TWX]: Removed Spawn Crows feture.
+
+<sup><sup>[🔼 Back to top](#margo-changelogs)</sup></sup>
 
 ## Patch 4.1.2 Highlights
 
 * [CMBT]: Fixed issues with weapons stats being set incorrectly.
 * [PRFS]: Fixed Null-Reference exception caused by `Monster.FindPlayer`.
 * Config options with custom logic now only trigger when the value changes. This avoids unecessarily triggering every single validation logic when saving via GMCM.
+
+<sup><sup>[🔼 Back to top](#margo-changelogs)</sup></sup>
 
 ## Hotfix 4.1.1 Highlights
 

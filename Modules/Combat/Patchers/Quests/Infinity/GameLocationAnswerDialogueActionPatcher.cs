@@ -141,6 +141,22 @@ internal sealed class GameLocationAnswerDialogueActionPatcher : HarmonyPatcher
                         player.completeQuest((int)QuestId.CurseIntro);
                         CombatModule.State.HeroQuest ??= new HeroQuest();
 
+                        if (!Context.IsMainPlayer)
+                        {
+                            if (Game1.MasterPlayer.mailReceived.Contains("pamHouseUpgrade") &&
+                                player.Read<int>(Virtue.Generosity.Name) < 5e5)
+                            {
+                                player.Increment(Virtue.Generosity.Name, 5e5);
+                                CombatModule.State.HeroQuest.UpdateTrialProgress(Virtue.Generosity);
+                            }
+                            else if (Game1.MasterPlayer.mailReceived.Contains("communityUpgradeShortcuts") &&
+                                     player.Read<int>(Virtue.Generosity.Name) < 3e5)
+                            {
+                                player.Increment(Virtue.Generosity.Name, 3e3);
+                                CombatModule.State.HeroQuest.UpdateTrialProgress(Virtue.Generosity);
+                            }
+                        }
+
                         player.Write(DataKeys.InspectedHonor, null);
                         player.Write(DataKeys.InspectedCompassion, null);
                         player.Write(DataKeys.InspectedWisdom, null);

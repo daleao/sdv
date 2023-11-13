@@ -743,53 +743,6 @@ internal sealed class GenericModConfigMenu : GMCMBuilder<GenericModConfigMenu>
             id: "DairyArtisanMachines");
     }
 
-    [UsedImplicitly]
-    private static void TweexConfigSpawnCrowsOnTheseMapsOverride()
-    {
-        Instance!.AssertRegistered();
-
-        var farmMaps = new List<string> { "IslandWest" };
-        if (ModHelper.ModRegistry.IsLoaded("FlashShifter.StardewValleyExpandedCP"))
-        {
-            farmMaps.AddRange(new[] { "Custom_Garden", "Custom_GrampletonFields" });
-        }
-
-        if (ModHelper.ModRegistry.IsLoaded("Rafseazz.RidgesideVillage"))
-        {
-            farmMaps.Add("Custom_Ridgeside_SummitFarm");
-        }
-
-        if (ModHelper.ModRegistry.IsLoaded("LemurKat.EastScarpe.SMAPI"))
-        {
-            farmMaps.Add("Custom_ESMeadowFarm");
-        }
-
-        Instance.AddMultiCheckboxOption(
-            I18n.Gmcm_SpawnCrowsOnTheseMaps_Title,
-            farmMaps.ToArray(),
-            map => TweexModule.Config.SpawnCrowsOnTheseMaps.Contains(map),
-            (map, value) =>
-            {
-                if (value)
-                {
-                    TweexModule.Config.SpawnCrowsOnTheseMaps.Add(map);
-                    if (map == "Custom_GrampletonFields")
-                    {
-                        TweexModule.Config.SpawnCrowsOnTheseMaps.Add("Custom_GrampletonFields_Small");
-                    }
-                }
-                else
-                {
-                    TweexModule.Config.SpawnCrowsOnTheseMaps.Remove(map);
-                    if (map == "Custom_GrampletonFields")
-                    {
-                        TweexModule.Config.SpawnCrowsOnTheseMaps.Remove("Custom_GrampletonFields_Small");
-                    }
-                }
-            },
-            map => Instance._I18n.Get("gmcm.spawn_crows_on_these_maps." + map.ToLower()));
-    }
-
     #endregion GMCM overrides
 
     /// <summary>Adds a new instance of <see cref="ModuleSelectionOption"/> to this mod menu.</summary>

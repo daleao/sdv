@@ -42,7 +42,7 @@ internal sealed class ProfessionState
             this._lastDesperadoTarget = value;
             if (value is not null)
             {
-                EventManager.Enable<LastDesperadoTargetUpdateTickedEvent>();
+                EventManager.Enable<DesperadoQuickshotUpdateTickedEvent>();
             }
         }
     }

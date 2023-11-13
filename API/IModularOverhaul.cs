@@ -4,6 +4,7 @@ namespace DaLion.Overhaul.API;
 #region using directives
 
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using Microsoft.Xna.Framework;
 
 #endregion using directives
@@ -139,20 +140,25 @@ public interface IModularOverhaul
         /// <summary>Gets whether this instance pertains to a Scavenger or a Prospector.</summary>
         TreasureHuntType Type { get; }
 
-        /// <summary>Gets a value indicating whether the <see cref="TreasureTile"/> is set to a valid target.</summary>
-        bool IsActive { get; }
+        /// <summary>Gets the active hunt's <see cref="GameLocation"/>.</summary>
+        public GameLocation? Location { get; }
 
         /// <summary>Gets the target tile containing treasure.</summary>
         Vector2? TreasureTile { get; }
 
+        /// <summary>Gets a value indicating whether the <see cref="TreasureTile"/> is set to a valid target.</summary>
+        bool IsActive { get; }
+
         /// <summary>Try to start a new hunt at the specified location.</summary>
         /// <param name="location">The game location.</param>
         /// <returns><see langword="true"/> if a hunt was started, otherwise <see langword="false"/>.</returns>
+        [MemberNotNullWhen(true, "Location", "TreasureTile")]
         bool TryStart(GameLocation location);
 
         /// <summary>Forcefully start a new hunt at the specified location.</summary>
         /// <param name="location">The game location.</param>
         /// <param name="target">The target treasure tile.</param>
+        [MemberNotNull("Location", "TreasureTile")]
         void ForceStart(GameLocation location, Vector2 target);
 
         /// <summary>End the active hunt unsuccessfully.</summary>

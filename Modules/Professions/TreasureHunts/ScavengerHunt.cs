@@ -10,12 +10,10 @@ using DaLion.Overhaul.Modules.Professions.Events.Display.RenderedHud;
 using DaLion.Overhaul.Modules.Professions.Events.GameLoop.UpdateTicked;
 using DaLion.Overhaul.Modules.Professions.Events.World.TerrainFeatureListChanged;
 using DaLion.Overhaul.Modules.Professions.Extensions;
-using DaLion.Overhaul.Modules.Professions.VirtualProperties;
 using DaLion.Shared.Constants;
 using DaLion.Shared.Extensions;
 using DaLion.Shared.Extensions.Collections;
 using DaLion.Shared.Extensions.Stardew;
-using DaLion.Shared.Networking;
 using Microsoft.Xna.Framework;
 using StardewValley.Locations;
 using StardewValley.Menus;
@@ -62,18 +60,11 @@ internal sealed class ScavengerHunt : TreasureHunt
     /// <inheritdoc />
     public override bool TryStart(GameLocation location)
     {
-        if (ReferenceEquals(this.Location, location) || !this.TryStart())
+        if (ReferenceEquals(this.Location, location) || !base.TryStart(location))
         {
             return false;
         }
 
-        this.TreasureTile = this.ChooseTreasureTile(location);
-        if (this.TreasureTile is null)
-        {
-            return false;
-        }
-
-        this.Location = location;
         this.Location.MakeTileDiggable(this.TreasureTile.Value);
 #if DEBUG
         this.TimeLimit = int.MaxValue;
@@ -82,71 +73,54 @@ internal sealed class ScavengerHunt : TreasureHunt
                                 ProfessionsModule.Config.ScavengerHuntHandicap);
         this.TimeLimit = Math.Max(this.TimeLimit, 30);
 #endif
-        this.Elapsed = 0;
         EventManager.Enable(
             typeof(ScavengerHuntTerrainFeatureListChangedEvent),
             typeof(ScavengerHuntRenderedHudEvent),
             typeof(ScavengerHuntUpdateTickedEvent));
-        HudPointer.Instance.Value.ShouldBob = true;
         Game1.addHUDMessage(new HuntNotification(this.HuntStartedMessage, this.IconSourceRect));
-        if (Context.IsMultiplayer)
+        if (!Game1.player.HasProfession(Profession.Scavenger, true))
         {
-            Broadcaster.SendPublicChat($"{Game1.player.Name} is hunting for treasure.");
-
-            if (Game1.player.HasProfession(Profession.Scavenger, true))
-            {
-                Game1.player.Get_IsHuntingTreasure().Value = true;
-                if (!Context.IsMainPlayer)
-                {
-                    ModEntry.Broadcaster.MessagePeer("HuntIsOn", "RequestEvent", Game1.MasterPlayer.UniqueMultiplayerID);
-                }
-                else
-                {
-                    EventManager.Enable<PrestigeTreasureHuntUpdateTickedEvent>();
-                }
-            }
+            return true;
         }
 
-        this.OnStarted();
+        if (!Context.IsMultiplayer || Context.IsMainPlayer)
+        {
+            EventManager.Enable<PrestigeTreasureHuntUpdateTickedEvent>();
+        }
+        else
+        {
+            ModEntry.Broadcaster.MessageHost("true", OverhaulModule.Professions.Namespace + "/HuntingForTreasure");
+        }
+
         return true;
     }
 
     /// <inheritdoc />
     public override void ForceStart(GameLocation location, Vector2 target)
     {
-        this.ForceStart();
-        this.TreasureTile = target;
-        this.Location = location;
+        base.ForceStart(location, target);
         this.Location.MakeTileDiggable(this.TreasureTile.Value);
         this.TimeLimit = (uint)(location.Map.DisplaySize.Area / Math.Pow(Game1.tileSize, 2) / 100 *
                                 ProfessionsModule.Config.ScavengerHuntHandicap);
         this.TimeLimit = Math.Max(this.TimeLimit, 30);
-        this.Elapsed = 0;
         EventManager.Enable(
             typeof(ScavengerHuntTerrainFeatureListChangedEvent),
             typeof(ScavengerHuntRenderedHudEvent),
             typeof(ScavengerHuntUpdateTickedEvent));
-        HudPointer.Instance.Value.ShouldBob = true;
         Game1.addHUDMessage(new HuntNotification(this.HuntStartedMessage, this.IconSourceRect));
-        if (Context.IsMultiplayer)
+        if (!Game1.player.HasProfession(Profession.Scavenger, true))
         {
-            Broadcaster.SendPublicChat($"{Game1.player.Name} is hunting for treasure.");
-
-            if (Game1.player.HasProfession(Profession.Scavenger, true))
-            {
-                Game1.player.Get_IsHuntingTreasure().Value = true;
-                if (!Context.IsMainPlayer)
-                {
-                    ModEntry.Broadcaster.MessagePeer("HuntIsOn", "RequestEvent", Game1.MasterPlayer.UniqueMultiplayerID);
-                }
-                else
-                {
-                    EventManager.Enable<PrestigeTreasureHuntUpdateTickedEvent>();
-                }
-            }
+            return;
         }
 
-        this.OnStarted();
+        if (!Context.IsMultiplayer || Context.IsMainPlayer)
+        {
+            EventManager.Enable<PrestigeTreasureHuntUpdateTickedEvent>();
+        }
+        else
+        {
+            ModEntry.Broadcaster.MessageHost("true", OverhaulModule.Professions.Namespace + "/HuntingForTreasure");
+        }
     }
 
     /// <inheritdoc />
@@ -166,6 +140,7 @@ internal sealed class ScavengerHunt : TreasureHunt
 
         var getTreasure = new DelayedAction(200, this.BeginFindTreasure);
         Game1.delayedActions.Add(getTreasure);
+        Game1.playSound("questcomplete");
         Game1.player.Increment(DataKeys.ScavengerHuntStreak);
         this.End(true);
     }
@@ -201,25 +176,18 @@ internal sealed class ScavengerHunt : TreasureHunt
     }
 
     /// <inheritdoc />
-    protected override void End(bool found)
+    protected override void End(bool success)
     {
-        Game1.player.Get_IsHuntingTreasure().Value = false;
+        base.End(success);
         EventManager.Disable<ScavengerHuntRenderedHudEvent>();
         EventManager.Disable<ScavengerHuntUpdateTickedEvent>();
-        HudPointer.Instance.Value.ShouldBob = false;
-        this.TreasureTile = null;
         if (!Context.IsMultiplayer || Context.IsMainPlayer ||
             !Game1.player.HasProfession(Profession.Scavenger, true))
         {
             return;
         }
 
-        Broadcaster.SendPublicChat(found
-            ? $"{Game1.player.Name} has found the treasure!"
-            : $"{Game1.player.Name} failed to find the treasure.");
-        ModEntry.Broadcaster.MessagePeer("HuntIsOff", "RequestEvent", Game1.MasterPlayer.UniqueMultiplayerID);
-
-        this.OnEnded(found);
+        ModEntry.Broadcaster.MessageHost("false", OverhaulModule.Professions.Namespace + "/HuntingForTreasure");
     }
 
     /// <summary>Plays treasure chest found animation.</summary>

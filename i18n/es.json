@@ -143,7 +143,9 @@
   "desperado.title.male": "Forajido",
   "desperado.title.female": "Forajida",
   "desperado.desc": "Los disparos consecutivos contra diferentes enemigos en 1 segundo causan un 50% más de daño. Puede sobrecargar el tirachinas para disparar con más potencia.",
-  "desperado.desc.prestiged": "Sobrecargue el doble de rápido.",
+  "desperado.desc.prestiged": "Los disparos sobrecargados pueden atravesar a los enemigos.",
+  "desperado.buff.name": "Chain Action",
+  "desperado.buff.desc": "+50% de daño de munición.",
   "piper.title.male": "Encantador de Babas",
   "piper.title.female": "Encantadora de Babas",
   "piper.desc": "Atrae más Babas en lugares peligrosos. Chance de obtener efectos aleatorios al eliminar Babas",
@@ -192,8 +194,8 @@
   "prestige.level_up.question": "Estás usando el(la) {{oldUltimate}} de la profesión {{oldProfession}}. ¿Reemplazar con el(la) {{newUltimate}} de la profesión {{newProfession}}?",
   "prestige.level_up.unlocked": "Ahora puedes continuar a desarrollar tu habilidad {{skill}} aún más.",
   "prestige.level_up.prestige": "Elige una profesión para prestigiar:",
-  "prestige.achievement.title.male": "Manitas",
-  "prestige.achievement.title.female": "Manitas",
+  "prestige.achievement.title.male": "Maestro de los Cinco Oficios",
+  "prestige.achievement.title.female": "Maestra de los Cinco Oficios",
   "prestige.achievement.desc": "Adquira todas las profesiones en todas las habilidades.",
 
 
@@ -371,7 +373,7 @@
 
   "mail.frs.intro": "Ministerio de Hacienda^Agencia Estatal de Administración Tributaria de Ferngill^^^{{honorific}} @,^^Le informamos que su solicitud de cambio de domicilio a Pueblo Pelícano, Stardew Valley ha sido radicada y registrada. Toda la correspondencia futura se enviará a {{farm}}.^^Tenga en cuenta que las contribuciones del impuesto federal sobre la renta vencen el día 1 de cada temporada. Para su comodidad, sus obligaciones vencidas se deducirán automáticamente de su saldo. Si su saldo es insuficiente, se le impondrá una multa de acuerdo con la sección 501(c)(1) del Código de Ingresos de Ferngill a una tasa de {{fine}} y se emitirá un préstamo a su nombre con el Banco de Stardew, sujeto a la tasa de interés nominal de {{interest}} por año.^^^Atentamente,^^Laura D. Pretto^Directora ejecutiva, Agencia Estatal de Administración Tributaria[#]Confirmación de cambio de dirección",
   "mail.frs.notice": "Ministerio de Hacienda^Agencia Estatal de Administración Tributaria de Ferngill^^^{{honorific}} @,^^Le informamos que su impuesto sobre la renta total adeudado para la temporada de cierre por la cantidad de {{due}}g ha sido deducido automáticamente de su saldo para su conveniencia.^^Guarde esta carta en sus registros permanentes en caso de que necesite resolver alguna pregunta sobre su estado fiscal.^^^Atentamente,^^Laura D. Pretto^Directora Ejecutiva, Agencia Estatal de Administración Tributaria[#]Aviso de impuestos mensual",
-  "mail.frs.outstanding": "Ministerio de Hacienda^SAgencia Estatal de Administración Tributaria de Ferngill^^^{{honorific}} @,^^Le informamos que su impuesto sobre la renta total adeudado para la temporada de cierre por la cantidad de {{due}}g no se pudo deducir completamente de su saldo. Por lo tanto, todos los ingresos futuros de {{farm}} se incautarán hasta que se liquide su deuda pendiente por un monto de {{outstanding}}. Recordamos que le conviene liquidar cualquier deuda pendiente lo antes posible para evitar acumular intereses a una tasa de {{interestRate}} por año.^^Guarde esta carta en sus registros permanentes en caso de que necesite resolver cualquier pregunta sobre su estado fiscal.^^^Atentamente,^^Laura D. Pretto^Directora Ejecutiva, Agencia Estatal de Administración Tributaria[#]Aviso de impuestos mensual",
+  "mail.frs.outstanding": "Ministerio de Hacienda^SAgencia Estatal de Administración Tributaria de Ferngill^^^{{honorific}} @,^^Le informamos que su impuesto sobre la renta total adeudado para la temporada de cierre por la cantidad de {{due}}g no se pudo deducir completamente de su saldo. Por lo tanto, todos los ingresos futuros de {{farm}} se incautarán hasta que se liquide su deuda pendiente por un monto de {{outstanding}}. Recordamos que le conviene liquidar cualquier deuda pendiente lo antes posible para evitar acumular intereses a una tasa de {{interest}} por año.^^Guarde esta carta en sus registros permanentes en caso de que necesite resolver cualquier pregunta sobre su estado fiscal.^^^Atentamente,^^Laura D. Pretto^Directora Ejecutiva, Agencia Estatal de Administración Tributaria[#]Aviso de impuestos mensual",
   "mail.frs.deduction": "Ministerio de Hacienda^Agencia Estatal de Administración Tributaria de Ferngill^^^{{honorific}} @,^^Nos complace informarle que, después de revisar sus actividades ambientales, hemos verificado que califica para una deducción de su impuesto sobre la renta del {{deductible}} conforme a la sección 501(c)(3) del Código de Impuestos y Contribuciones de Ferngill.^^Guarde esta carta en sus registros permanentes en caso de que necesite resolver cualquier pregunta relacionada con su estado fiscal.^^^Atentamente,^^Laura D. Pretto^Directora Ejecutiva, Agencia Estatal de Administración Tributaria[#]Aviso de deducción",
   "mail.frs.deduction.max": "Ministerio de Hacienda^Agencia Estatal de Administración Tributaria de Ferngill^^^{{honorific}} @,^^Nos complace informarle que, después de revisar sus actividades ambientales, hemos determinado que califica para la deducción total de su impuesto sobre la renta conforme a la sección 501(c)(3) del Código de Impuestos y Contribuciones de Ferngill. Como tal, no se realizará ningún cargo a su saldo en relación con la temporada de cierre.^^Guarde esta carta en sus registros permanentes si necesita resolver alguna pregunta sobre su estado fiscal.^^^Atentamente,^^Laura D. Pretto^Directora ejecutiva, Agencia Estatal de Administración Tributaria[#]Aviso de deducción",
 

@@ -23,7 +23,8 @@ internal sealed class MeleeWeaponLeftClickPatcher : HarmonyPatcher
     [HarmonyPrefix]
     private static bool MeleeWeaponLeftClickPrefix(MeleeWeapon __instance)
     {
-        return __instance.type.Value == MeleeWeapon.dagger || !CombatModule.Config.EnableMeleeComboHits;
+        return !CombatModule.Config.EnableWeaponOverhaul || !CombatModule.Config.EnableMeleeComboHits ||
+               __instance.type.Value == MeleeWeapon.dagger;
     }
 
     #endregion harmony patches

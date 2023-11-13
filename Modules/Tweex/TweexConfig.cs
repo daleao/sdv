@@ -107,21 +107,6 @@ public sealed class TweexConfig
         "Yogurt Jar", // artisan valley
     };
 
-    /// <summary>Gets a set of maps in which to attempt to spawn crows.</summary>
-    [JsonProperty]
-    [GMCMSection("twx.farming")]
-    [GMCMPriority(7)]
-    [GMCMOverride(typeof(GenericModConfigMenu), "TweexConfigSpawnCrowsOnTheseMapsOverride")]
-    public HashSet<string> SpawnCrowsOnTheseMaps { get; internal set; } = new()
-    {
-        "IslandWest",
-        "Custom_Garden",
-        "Custom_GrampletonFields",
-        "Custom_GrampletonFields_Small",
-        "Custom_Ridgeside_SummitFarm",
-        "Custom_ESMeadowFarm",
-    };
-
     #endregion farming
 
     #region foraging

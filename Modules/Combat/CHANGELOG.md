@@ -5,10 +5,14 @@
 ### Changed
 
 * Stabbing Swords are no longer persisted as such, to avoid the issue of the game freezing if the mod is removed abruptly. Load times might be marginally longer.
+* Weapon Overhaul is now a hard requirement for both Stabbing Swords and Melee Combo Framework. Those features were created and balanced with the overhaul in mind, and could work unpredictably if the full overhaul was not enabled.
+    * This fixes issues with weapon swing speed being extremely low when the overhaul is disabled.
 
 ### Fixed
 
 * Small improvement to Infinity Band tooltip width.
+* Removed the crit. boost given to daggers in vanilla. They are already balanced without it.
+* Added failsafes to ensure community upgrades contribute to farmhand Hero Quest.
 
 <sup><sup>[🔼 Back to top](#cmbt-changelog)</sup></sup>
 

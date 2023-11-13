@@ -29,7 +29,7 @@ internal sealed class HostModMessageReceivedEvent : ModMessageReceivedEvent
             return;
         }
 
-        var field = e.Type.Split(OverhaulModule.Taxes.Namespace)[1];
+        var field = e.Type.Split('/')[1];
         if (string.IsNullOrWhiteSpace(field))
         {
             return;

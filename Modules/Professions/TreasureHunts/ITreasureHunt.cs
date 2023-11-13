@@ -2,6 +2,7 @@
 
 #region using directives
 
+using System.Diagnostics.CodeAnalysis;
 using Microsoft.Xna.Framework;
 
 #endregion using directives
@@ -27,11 +28,13 @@ public interface ITreasureHunt
     /// <summary>Tries to start a new hunt at the specified <paramref name="location"/>.</summary>
     /// <param name="location">The game location.</param>
     /// <returns><see langword="true"/> if a hunt was started, otherwise <see langword="false"/>.</returns>
+    [MemberNotNullWhen(true, "Location", "TreasureTile")]
     public bool TryStart(GameLocation location);
 
     /// <summary>Forcefully starts a new hunt at the specified <paramref name="location"/>.</summary>
     /// <param name="location">The game location.</param>
     /// <param name="target">The target treasure tile.</param>
+    [MemberNotNull("Location", "TreasureTile")]
     public void ForceStart(GameLocation location, Vector2 target);
 
     /// <summary>Ends the active hunt successfully.</summary>

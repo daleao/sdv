@@ -24,7 +24,8 @@ internal sealed class GameLocationPerformTouchActionPatcher : HarmonyPatcher
     [HarmonyPostfix]
     private static void GameLocationPerformTouchActionPostfix(GameLocation __instance, string fullActionString)
     {
-        if (!CombatModule.Config.EnableStabbingSwords || fullActionString.Split()[0] != "legendarySword")
+        if (!CombatModule.Config.EnableWeaponOverhaul || !CombatModule.Config.EnableStabbingSwords ||
+            fullActionString.Split()[0] != "legendarySword")
         {
             return;
         }

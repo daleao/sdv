@@ -117,8 +117,8 @@ internal static class MeleeWeapon_Stats
 
     internal static float Get_EffectiveCritChance(this MeleeWeapon weapon)
     {
-        var critChance = Values.GetValue(weapon, Create).CritChance;
-        return weapon.type.Value != MeleeWeapon.dagger ? critChance : (critChance + 0.005f) * 1.12f;
+        return Values.GetValue(weapon, Create).CritChance;
+        //return weapon.type.Value != MeleeWeapon.dagger ? critChance : (critChance + 0.005f) * 1.12f; <-- this is the vanilla formula, but daggers are already buffed in this mod and this would make them OP
     }
 
     internal static float Get_DisplayedCritChance(this MeleeWeapon weapon)

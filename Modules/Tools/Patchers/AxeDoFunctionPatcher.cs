@@ -31,8 +31,13 @@ internal sealed class AxeDoFunctionPatcher : HarmonyPatcher
 
     /// <summary>Charge shockwave stamina cost.</summary>
     [HarmonyPostfix]
-    private static void AxeDoFunctionPostfix(Farmer who)
+    private static void AxeDoFunctionPostfix(Axe __instance, Farmer who)
     {
+        if (__instance.hasEnchantmentOfType<EfficientToolEnchantment>())
+        {
+            return;
+        }
+
         var power = who.toolPower;
         if (power <= 0)
         {

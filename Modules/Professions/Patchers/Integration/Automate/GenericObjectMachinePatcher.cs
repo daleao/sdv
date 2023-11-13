@@ -143,15 +143,19 @@ internal sealed class GenericObjectMachinePatcher : HarmonyPatcher
 
     private static void ApplyArtisanPerks(SObject machine, GameLocation location, Item sample)
     {
-        if (!machine.IsArtisanMachine() || !machine.heldObject.Value.IsArtisanGood() ||
-            sample is not SObject input)
+        if (!machine.IsArtisanMachine() || sample is not SObject input)
+        {
+            return;
+        }
+
+        var chest = AutomateIntegration.Instance?.GetClosestContainerTo(machine, location);
+        if (chest is null)
         {
             return;
         }
 
         var output = machine.heldObject.Value;
-        var chest = AutomateIntegration.Instance?.GetClosestContainerTo(machine, location);
-        var user = ProfessionsModule.Config.LaxOwnershipRequirements ? Game1.player : chest?.GetOwner() ?? Game1.MasterPlayer;
+        var user = ProfessionsModule.Config.LaxOwnershipRequirements ? Game1.player : chest.GetOwner() ?? Game1.MasterPlayer;
         var r = new Random(Guid.NewGuid().GetHashCode());
         if (user.HasProfession(Profession.Artisan) ||
             (ProfessionsModule.Config.LaxOwnershipRequirements && Game1.game1.DoesAnyPlayerHaveProfession(Profession.Artisan, out _)))

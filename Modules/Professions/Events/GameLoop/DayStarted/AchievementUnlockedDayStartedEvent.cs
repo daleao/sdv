@@ -24,6 +24,12 @@ internal sealed class AchievementUnlockedDayStartedEvent : DayStartedEvent
         string title =
             _I18n.Get("prestige.achievement.title" +
                               (Game1.player.IsMale ? ".male" : ".female"));
+        if (Game1.player.achievements.Contains(title.GetDeterministicHashCode()))
+        {
+            this.Disable();
+            return;
+        }
+
         Game1.player.achievements.Add(title.GetDeterministicHashCode());
         Game1.playSound("achievement");
         Game1.addHUDMessage(new HUDMessage(title, true));

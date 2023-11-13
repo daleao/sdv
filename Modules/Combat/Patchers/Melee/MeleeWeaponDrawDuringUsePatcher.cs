@@ -44,8 +44,7 @@ internal sealed class MeleeWeaponDrawDuringUsePatcher : HarmonyPatcher
         int type,
         bool isOnSpecial)
     {
-        if (type == MeleeWeapon.dagger || (isOnSpecial && type != MeleeWeapon.stabbingSword) ||
-            !f.IsLocalPlayer)
+        if (!CombatModule.Config.EnableWeaponOverhaul || type == MeleeWeapon.dagger || !f.IsLocalPlayer)
         {
             return true; // run original logic
         }
@@ -54,6 +53,11 @@ internal sealed class MeleeWeaponDrawDuringUsePatcher : HarmonyPatcher
         {
             if (isOnSpecial)
             {
+                if (type != MeleeWeapon.stabbingSword)
+                {
+                    return true; // run original logic
+                }
+
                 DrawDuringThrust(
                     ___center,
                     frameOfFarmerAnimation,

@@ -100,7 +100,7 @@ internal sealed class SlingshotPerformFirePatcher : HarmonyPatcher
                 : 1f;
             if (overcharge > 1f)
             {
-                EventManager.Disable<DesperadoUpdateTickedEvent>();
+                EventManager.Disable<DesperadoOverchargeUpdateTickedEvent>();
             }
 
             // adjust velocity

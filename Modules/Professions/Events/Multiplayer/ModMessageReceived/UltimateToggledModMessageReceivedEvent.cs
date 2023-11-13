@@ -25,8 +25,8 @@ internal sealed class UltimateToggledModMessageReceivedEvent : ModMessageReceive
     /// <inheritdoc />
     protected override void OnModMessageReceivedImpl(object? sender, ModMessageReceivedEventArgs e)
     {
-        if (e.FromModID != Manifest.UniqueID || !e.Type.Contains(OverhaulModule.Professions.Namespace) ||
-            !e.Type.Contains("ToggledUltimate"))
+        if (e.FromModID != Manifest.UniqueID || !e.Type.StartsWith(OverhaulModule.Professions.Namespace) ||
+            !e.Type.EndsWith("ToggledUltimate"))
         {
             return;
         }
@@ -38,8 +38,8 @@ internal sealed class UltimateToggledModMessageReceivedEvent : ModMessageReceive
             return;
         }
 
-        var newState = e.ReadAs<string>();
-        switch (newState)
+        var ultimateState = e.ReadAs<string>();
+        switch (ultimateState)
         {
             case "Active":
                 var index = who.Read<int>(DataKeys.UltimateIndex);
