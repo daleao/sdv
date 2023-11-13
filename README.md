@@ -56,7 +56,7 @@ All modules should be fully multiplayer and split-screen compatible **if and onl
 
 <div align="center">
 
-**⚠ This mod is not Android-compatible! ⚠**
+**⚠ This mod is not Android-compatible. ⚠**
 </div>
 
 An Android version of Chargeable Tools is available in a dedicated branch.
