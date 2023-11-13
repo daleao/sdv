@@ -50,9 +50,16 @@ The available modules are listed below. **Please read this page carefuly in its 
 
 Please note that only the Professions and Tweex modules are enabled by default.
 
-99% of your questions about this mod are answered in the pages above. It took me several years of work to produce this mod, so please take 10-15 minutes to read them before asking questions.
+99% of your questions about this mod are answered in the pages above. It took me several years of work to produce this mod and document it neatly, so I expect you can spend at least 15 minutes to read the documentation before asking questions.
 
-All modules should be fully multiplayer and split-screen compatible **if and only if all players have it installed**. **This mod is not Android-compatible**, but an Android version of Chargeable Tools is available in a dedicated branch.
+All modules should be fully multiplayer and split-screen compatible **if and only if all players have it installed**.
+
+<div align="center">
+
+**⚠ This mod is not Android-compatible! ⚠**
+</div>
+
+An Android version of Chargeable Tools is available in a dedicated branch.
 
 <sub><sup>[🔼 Back to top](#table-of-contents)</sup></sub>
 
@@ -73,12 +80,14 @@ All modules should be fully multiplayer and split-screen compatible **if and onl
 </div>
 
 3. Extract the downloaded archive file into your local mods folder.
-4. Explore the `optionals` folder to find compatibility files that must be manually installed.
+4. Explore the `compat` folder to find compatibility files that must be manually installed.
 5. Start the game once with SMAPI to generate a config file.
 6. Enable the desired modules in GMCM by pressing Shift+F12 in the title screen, or by manually editing the `config.json` file.
 
-<div align="center"><font color="yellow">⚠ Please review the compatibility sections of each specific module in the links above. ⚠</font></div>
-<br>
+<div align="center">
+
+**⚠ Please review the compatibility sections of each specific module in the links above. ⚠**
+</div>
 
 As with any mod, always **delete any previous installation completely** before updating. If you'd like to preserve your config settings you can delete everything except the `config.json` file.
 
@@ -94,8 +103,10 @@ As with any mod, always **delete any previous installation completely** before u
     - You can do this easily by renaming your mod folder to something else (for example, just add an dot, or an underscore), creating a new one, and then copying over SpaceCore, MARGO and, optionally, CJB Cheats Menu + Item Spawner (to help with quick testing). If the issue can no longer be reproduced in this condition, then gradually copy over your remaining mods in small groups, until you identify the conflicting mod. *You can safely ignore any Content Patcher or other framework mods while doing this, as those will never cause conflicts.*
 4. Check whether the issue can be reproduced on a brand new save file. If it cannot, then I will probably ask you to upload your save folder to any file-sharing service of your choice, and share the url.
 5. Upload your entire log to [smapi.io](https://smapi.io/log). There you will also find instructions in case you don't know where to find your log.
-    <div align="center"><font color="red"><b>❗ Do NOT copy-paste errors directly from the console window. ❗</b></font></div>
-    <br>
+    <div align="center">
+    
+    **⚠ Do NOT copy-paste errors directly from the console window. ⚠**
+    </div>
 
 6. Go to the [Issues page](https://github.com/daleao/modular-overhaul/issues) and check whether a similar issue thread already exists. If it does not, then create a new thread. Please include:
     - A descriptive title.
