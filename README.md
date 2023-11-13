@@ -40,7 +40,7 @@ The available modules are listed below. **Please read this page carefuly in its 
 
 - **[CMBT](Modules/Combat#margo--combat-cmbt)** ﻿is a huge overhaul of nearly all aspects of combat; from rebalanced stats, melee and ranged weapons, rings and enchantments, to entirely new mechanics like status effects, weapon combos, a new weapon type, Gemstone Music Theory, and much more. **This module adds new items via Json Assets, and thus may cause Json Shuffle on existing saves.** 
 
-- **[PNDS](Modules/Ponds#margo--ponds-pnds)** is a complement to the new Aquarist profession. It allows Fish Ponds to produce Roe with scaling quantities and qualities, spontaneously grow algae, and even enrich the nuclei of metals.
+- **[PNDS](Modules/Ponds#margo--ponds-pnds)** is a complement to the new Aquarist profession. It allows Fish Ponds to produce Roe with scaling quantities and qualities, spontaneously grow algae, and even enrich metallic nuclei...
 
 - **[TXS](Modules/Taxes#margo--taxes-txs)** is a complement to the new Conservationist profession. It introduces a realistic taxation system as an added challenge and end-game gold sink. Because surely a nation at war would be capitalizing on that juicy farm income.
 
