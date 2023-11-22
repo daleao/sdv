@@ -2,7 +2,7 @@
 
 This file contains a TL;DR of current version changes and hotfixes from across all modules. For the complete changelog, please refer to the individual changelogs of each module, linked [below](#detailed-changelogs).
 
-## Patch 4.1.3 Highlights
+## Patch 4.1.5 Highlights
 
 * Fixed GMCM list options reseting when hitting Save.
 * The module selection menu now translates correctly.
@@ -12,6 +12,8 @@ This file contains a TL;DR of current version changes and hotfixes from across a
 * [PRFS]: Fixed issue of farmhands being unable to complete treasure hunts.
 
 <sup><sup>[🔼 Back to top](#margo-changelogs)</sup></sup>
+
+## Hotfix 4.1.4 Highlights
 
 * [PROFS]: Fixed typo in `ProspectorHunt.TryStart` which caused SO exception.
 
