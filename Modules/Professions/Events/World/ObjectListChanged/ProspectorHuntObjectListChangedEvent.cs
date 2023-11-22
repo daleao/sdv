@@ -51,17 +51,26 @@ internal sealed class ProspectorHuntObjectListChangedEvent : ObjectListChangedEv
             return;
         }
 
-        var removed = e.Removed.SingleOrDefault(r => r.Value.IsStone());
-        var distanceToTreasure = (int)removed.Value.DistanceTo(this._hunt!.TreasureTile.Value);
-        var detectionDistance = (int)ProfessionsModule.Config.ProspectorDetectionDistance;
-        if (!distanceToTreasure.IsIn(1..detectionDistance))
+        if (ProfessionsModule.Config.UseLegacyProspectorHunt)
         {
             return;
         }
 
-        var cue = Game1.soundBank.GetCue("dwoop");
-        var pitch = 2400f * (1f - ((float)distanceToTreasure / detectionDistance));
-        cue.SetVariable("Pitch", pitch);
-        cue.Play();
+        var removed = e.Removed.SingleOrDefault(r => r.Value.IsStone());
+        if (removed.IsNullOrDefault())
+        {
+            return;
+        }
+
+        var distanceToTreasure = (int)removed.Value.DistanceTo(this._hunt!.TreasureTile.Value);
+        var detectionDistance = (int)ProfessionsModule.Config.ProspectorDetectionDistance;
+        if (detectionDistance > 0 && !distanceToTreasure.IsIn(1..detectionDistance))
+        {
+            return;
+        }
+
+        var pitch = (int)(2400f * (1f - ((float)distanceToTreasure / detectionDistance)));
+        Game1.playSoundPitched("detector", pitch);
+        Log.A($"Beeped at frequency {pitch} Hz");
     }
 }

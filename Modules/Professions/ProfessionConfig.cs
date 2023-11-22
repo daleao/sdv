@@ -206,7 +206,7 @@ public sealed class ProfessionConfig
     [JsonProperty]
     [GMCMSection("prfs.general")]
     [GMCMPriority(10)]
-    [GMCMRange(1, 10)]
+    [GMCMRange(1, 12)]
     public uint ScavengerDetectionDistance { get; internal set; } = 3;
 
     /// <summary>Gets a multiplier which is used to extend the duration of Scavenger hunts, in case you feel they end too quickly.</summary>
@@ -228,7 +228,7 @@ public sealed class ProfessionConfig
     [JsonProperty]
     [GMCMSection("prfs.general")]
     [GMCMPriority(12)]
-    [GMCMRange(2, 20)]
+    [GMCMRange(10, 30)]
     public uint ProspectorDetectionDistance { get; internal set; } = 12;
 
     /// <summary>Gets a multiplier which is used to extend the duration of Prospector hunts, in case you feel they end too quickly.</summary>
@@ -605,11 +605,17 @@ public sealed class ProfessionConfig
         }
     }
 
-    /// <summary>Gets a value indicating whether if enabled, Prospector and Scavenger will only track off-screen object while <see cref="ModKey"/> is held.</summary>
+    /// <summary>Gets a value indicating whether Prospector and Scavenger will only track off-screen object while <see cref="ModKey"/> is held.</summary>
     [JsonProperty]
     [GMCMSection("controls_ui")]
     [GMCMPriority(404)]
     public bool DisableAlwaysTrack { get; internal set; } = false;
+
+    /// <summary>Gets a value indicating whether to restore the legacy purple arrow for Prospector Hunts, instead of the new audio cues.</summary>
+    [JsonProperty]
+    [GMCMSection("controls_ui")]
+    [GMCMPriority(405)]
+    public bool UseLegacyProspectorHunt { get; internal set; } = false;
 
     /// <summary>
     ///     Gets a value indicating whether to display the MAX icon below fish in the Collections Menu which have been caught at the
@@ -617,7 +623,7 @@ public sealed class ProfessionConfig
     /// </summary>
     [JsonProperty]
     [GMCMSection("controls_ui")]
-    [GMCMPriority(405)]
+    [GMCMPriority(406)]
     public bool ShowFishCollectionMaxIcon { get; internal set; } = true;
 
     #endregion controls & ui

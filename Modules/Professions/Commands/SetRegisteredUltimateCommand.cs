@@ -7,7 +7,7 @@ using DaLion.Overhaul.Modules.Professions.Extensions;
 using DaLion.Overhaul.Modules.Professions.Ultimates;
 using DaLion.Overhaul.Modules.Professions.VirtualProperties;
 using DaLion.Shared.Commands;
-using Shared.Extensions;
+using DaLion.Shared.Extensions;
 
 #endregion using directives
 

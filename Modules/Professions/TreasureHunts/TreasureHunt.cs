@@ -154,6 +154,7 @@ internal abstract class TreasureHunt : ITreasureHunt
         }
     }
 
+    /// <summary>Selects the target treasure tile.</summary>
     /// <param name="location">The game location.</param>
     /// <returns>A <see cref="Vector2"/> tile.</returns>
     protected abstract Vector2? ChooseTreasureTile(GameLocation location);
@@ -173,6 +174,7 @@ internal abstract class TreasureHunt : ITreasureHunt
         }
 
         this.OnEnded(success);
+        Log.D(success ? "Found the treasure!" : "Failed the treasure hunt.");
     }
 
     /// <summary>Raised when a Treasure Hunt starts.</summary>

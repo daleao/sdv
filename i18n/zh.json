@@ -552,6 +552,8 @@
   "gmcm.tracking_pointer_bob_rate.desc": "改变勘探者和拾荒者职业用来跟踪对象的指针的大小。",
   "gmcm.disable_always_track.title": "禁用持续跟踪箭头",
   "gmcm.disable_always_track.desc": "如果启用，勘探者和清道夫将只在按住热键时跟踪屏幕外的对象。",
+  "gmcm.use_legacy_prospector_hunt.title": "Use Legacy Prospector Hunt",
+  "gmcm.use_legacy_prospector_hunt.desc": "Enable to restore the legacy purple arrow for Prospector Hunts, instead of the new audio cues.",
   "gmcm.show_fish_collection_max_icon.title": "在“鱼类收集图鉴”中显示“MAX”图标",
   "gmcm.show_fish_collection_max_icon.desc": "是否在最大尺寸捕获的鱼下面显示“Max”图标。",
 

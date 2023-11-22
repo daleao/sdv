@@ -181,7 +181,7 @@ internal sealed class GameLocationPerformActionPatcher : HarmonyPatcher
                             0f,
                             0f,
                             0f)),
-            2500);
+                2500);
 
             SoundEffectPlayer.YobaBless.PlayAfterDelay(2500);
 

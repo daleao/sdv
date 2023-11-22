@@ -6,8 +6,8 @@ using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
 using DaLion.Overhaul.Modules.Professions.Extensions;
+using DaLion.Shared.Extensions;
 using DaLion.Shared.Extensions.Collections;
-using Shared.Extensions;
 using StardewValley;
 
 #endregion using directives

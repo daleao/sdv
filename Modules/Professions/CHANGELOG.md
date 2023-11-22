@@ -5,15 +5,32 @@
 ### Added
 
 * Added localization for Treasure Hunt start/end broadcast messages (only releveant in multiplayer).
+* Added the following translation keys:
+    * `gmcm.prospector_detection_distance.title`
+    * `gmcm.prospector_detection_distance.desc`
+    * `gmcm.scavenger_detection_distance.title`
+    * `gmcm.scavenger_detection_distance.desc`
+    * `gmcm.use_legacy_prospector_hunt.title`
+    * `gmcm.use_legacy_prospector_hunt.desc`
 
 ### Changed
 
+* Changed the mechanics of Prospector Hunts. They are now unique instead of just a rehash of Scavenger Hunts.
+    * Previously all you had to do was run around until you spotted the purple arrow. This has been removed by default.
+    * Now, the hunt is based on auditory cues resembling a game of hot and cold. The player will have to smash rocks until they hear a 'ding' sound. The pitch of the ding indicates proximity to the treasure; the higher the pitch, the closer it is. This actually forces the player to mine in order to find the reward.
+    * An alert will also be logged to the console for accessibility purposes. The old purple arrow mechanic also remains an option.
 * Tuned down treasure hunt streak impact, which was applying twice and made it way too strong.
 
 ### Fixed
 
 * Fixed multiplayer synchronization error caused by object projectiles fired by peers.
 * Fixed issue of farmhands being unable to complete treasure hunts.
+
+### Removed
+
+* Removed the following translation keys:
+    * `gmcm.treasure_detection_distance.title`
+    * `gmcm.treasure_detection_distance.desc`
 
 <sup><sup>[🔼 Back to top](#profs-changelog)</sup></sup>
 

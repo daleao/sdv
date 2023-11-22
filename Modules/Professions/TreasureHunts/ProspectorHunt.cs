@@ -49,8 +49,12 @@ internal sealed class ProspectorHunt : TreasureHunt
             Context.IsMainPlayer
                 ? typeof(ProspectorHuntObjectListChangedEvent)
                 : typeof(FarmhandProspectorHuntUpdateTickedEvent),
-            //typeof(ProspectorHuntRenderedHudEvent),
             typeof(ProspectorHuntUpdateTickedEvent));
+        if (ProfessionsModule.Config.UseLegacyProspectorHunt)
+        {
+            EventManager.Enable<ProspectorHuntRenderedHudEvent>();
+        }
+
         Game1.addHUDMessage(new HuntNotification(this.HuntStartedMessage, this.IconSourceRect));
         if (Game1.player.HasProfession(Profession.Prospector, true) && (!Context.IsMultiplayer || Context.IsMainPlayer))
         {
@@ -73,8 +77,12 @@ internal sealed class ProspectorHunt : TreasureHunt
             Context.IsMainPlayer
                 ? typeof(ProspectorHuntObjectListChangedEvent)
                 : typeof(FarmhandProspectorHuntUpdateTickedEvent),
-            //typeof(ProspectorHuntRenderedHudEvent),
             typeof(ProspectorHuntUpdateTickedEvent));
+        if (ProfessionsModule.Config.UseLegacyProspectorHunt)
+        {
+            EventManager.Enable<ProspectorHuntRenderedHudEvent>();
+        }
+
         Game1.addHUDMessage(new HuntNotification(this.HuntStartedMessage, this.IconSourceRect));
         if (Game1.player.HasProfession(Profession.Prospector, true) && (!Context.IsMultiplayer || Context.IsMainPlayer))
         {
@@ -153,7 +161,7 @@ internal sealed class ProspectorHunt : TreasureHunt
     {
         base.End(success);
         EventManager.Disable(
-            //typeof(ProspectorHuntRenderedHudEvent),
+            typeof(ProspectorHuntRenderedHudEvent),
             typeof(ProspectorHuntUpdateTickedEvent));
         if (!Context.IsMultiplayer || Context.IsMainPlayer ||
             !Game1.player.HasProfession(Profession.Prospector, true))

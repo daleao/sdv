@@ -555,6 +555,8 @@
   "gmcm.tracking_pointer_bob_rate.desc": "Changes the size of the pointer used to track objects by Prospector and Scavenger professions.",
   "gmcm.disable_always_track.title": "Disable Constant Tracking Arrows",
   "gmcm.disable_always_track.desc": "If enabled, Prospector and Scavenger will only track off-screen objects while Mod Key is held.",
+  "gmcm.use_legacy_prospector_hunt.title": "Use Legacy Prospector Hunt",
+  "gmcm.use_legacy_prospector_hunt.desc": "Enable to restore the legacy purple arrow for Prospector Hunts, instead of the new audio cues.",
   "gmcm.show_fish_collection_max_icon.title": "Show 'MAX' Icon in Fish Collection",
   "gmcm.show_fish_collection_max_icon.desc": "Toggles whether or not to display the 'Max' icon below fish caught at max size.",
 
