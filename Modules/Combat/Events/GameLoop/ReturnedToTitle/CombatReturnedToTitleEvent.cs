@@ -3,9 +3,9 @@
 #region using directives
 
 using DaLion.Overhaul.Modules.Combat.StatusEffects;
+using DaLion.Overhaul.Modules.Combat.VirtualProperties;
 using DaLion.Shared.Events;
 using StardewModdingAPI.Events;
-using DaLion.Overhaul.Modules.Combat.VirtualProperties;
 
 #endregion using directives
 

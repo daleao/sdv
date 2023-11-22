@@ -4,6 +4,7 @@
 
 using System.Linq;
 using DaLion.Overhaul;
+using DaLion.Overhaul.Modules;
 using DaLion.Overhaul.Modules.Professions.Events.GameLoop.UpdateTicked;
 using Microsoft.Xna.Framework;
 using Netcode;

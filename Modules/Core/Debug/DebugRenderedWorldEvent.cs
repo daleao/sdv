@@ -73,7 +73,7 @@ internal sealed class DebugRenderedWorldEvent : RenderedWorldEvent
                         e.SpriteBatch.DrawString(
                             Game1.dialogueFont,
                             @string,
-                            new Vector2(bb.X - (textWidth - bb.Width) / 2f, bb.Y - bb.Height - textHeight * 2),
+                            new Vector2(bb.X - ((textWidth - bb.Width) / 2f), bb.Y - bb.Height - (textHeight * 2)),
                             Color.White);
 
                         //@string = $"Position: {character.Position}";
@@ -106,7 +106,7 @@ internal sealed class DebugRenderedWorldEvent : RenderedWorldEvent
                         e.SpriteBatch.DrawString(
                             Game1.dialogueFont,
                             @string,
-                            new Vector2(bb.X - (textWidth - bb.Width) / 2f, bb.Y - bb.Height - textHeight),
+                            new Vector2(bb.X - ((textWidth - bb.Width) / 2f), bb.Y - bb.Height - textHeight),
                             Color.White);
                         if (monster is Serpent serpent && serpent.IsRoyalSerpent())
                         {
@@ -158,7 +158,7 @@ internal sealed class DebugRenderedWorldEvent : RenderedWorldEvent
                         e.SpriteBatch.DrawString(
                             Game1.dialogueFont,
                             @string,
-                            new Vector2(bb.X - (textWidth - bb.Width) / 2f, bb.Y - bb.Height - textHeight * 2),
+                            new Vector2(bb.X - ((textWidth - bb.Width) / 2f), bb.Y - bb.Height - (textHeight * 2)),
                             Color.White);
                         break;
                     }

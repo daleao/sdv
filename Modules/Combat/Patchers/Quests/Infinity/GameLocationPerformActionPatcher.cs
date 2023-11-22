@@ -5,6 +5,7 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Reflection;
+using DaLion.Overhaul.Modules;
 using DaLion.Overhaul.Modules.Combat.Enums;
 using DaLion.Overhaul.Modules.Combat.Events.GameLoop.OneSecondUpdateTicked;
 using DaLion.Overhaul.Modules.Combat.Extensions;
@@ -158,8 +159,8 @@ internal sealed class GameLocationPerformActionPatcher : HarmonyPatcher
                     0f)
                     { motion = new Vector2(0f, -0.1f) });
 
-            Game1.delayedActions.Add(new DelayedAction(2500, () =>
-                Game1.currentLocation.temporarySprites.Add(
+            DelayedAction.functionAfterDelay(
+                () => Game1.currentLocation.temporarySprites.Add(
                     new TemporaryAnimatedSprite(
                             "TileSheets\\weapons",
                             Game1.getSquareSourceRectForNonStandardTileSheet(
@@ -179,7 +180,8 @@ internal sealed class GameLocationPerformActionPatcher : HarmonyPatcher
                             4f,
                             0f,
                             0f,
-                            0f))));
+                            0f)),
+            2500);
 
             SoundEffectPlayer.YobaBless.PlayAfterDelay(2500);
 

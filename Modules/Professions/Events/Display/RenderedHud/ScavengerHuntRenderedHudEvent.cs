@@ -24,10 +24,15 @@ internal sealed class ScavengerHuntRenderedHudEvent : RenderedHudEvent
     }
 
     /// <inheritdoc />
-    protected override void OnRenderedHudImpl(object? sender, RenderedHudEventArgs e)
+    protected override void OnEnabled()
     {
         this._hunt ??= Game1.player.Get_ScavengerHunt();
-        if (!this._hunt.TreasureTile.HasValue)
+    }
+
+    /// <inheritdoc />
+    protected override void OnRenderedHudImpl(object? sender, RenderedHudEventArgs e)
+    {
+        if (!this._hunt!.TreasureTile.HasValue)
         {
             return;
         }
@@ -39,7 +44,7 @@ internal sealed class ScavengerHuntRenderedHudEvent : RenderedHudEvent
 
         // reveal if close enough
         var distanceSquared = (Game1.player.getTileLocation() - treasureTile).LengthSquared();
-        if (distanceSquared <= Math.Pow(ProfessionsModule.Config.TreasureDetectionDistance, 2))
+        if (distanceSquared <= Math.Pow(ProfessionsModule.Config.ScavengerDetectionDistance, 2))
         {
             HudPointer.Instance.Value.DrawOverTile(treasureTile, Color.Violet);
         }

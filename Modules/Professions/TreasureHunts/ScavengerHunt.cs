@@ -5,7 +5,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using DaLion.Overhaul.Modules.Combat.Integrations;
-using DaLion.Overhaul.Modules.Core.UI;
 using DaLion.Overhaul.Modules.Professions.Events.Display.RenderedHud;
 using DaLion.Overhaul.Modules.Professions.Events.GameLoop.UpdateTicked;
 using DaLion.Overhaul.Modules.Professions.Events.World.TerrainFeatureListChanged;
@@ -74,22 +73,19 @@ internal sealed class ScavengerHunt : TreasureHunt
         this.TimeLimit = Math.Max(this.TimeLimit, 30);
 #endif
         EventManager.Enable(
-            typeof(ScavengerHuntTerrainFeatureListChangedEvent),
+            Context.IsMainPlayer
+                ? typeof(ScavengerHuntTerrainFeatureListChangedEvent)
+                : typeof(FarmhandScavengerHuntUpdateTickedEvent),
             typeof(ScavengerHuntRenderedHudEvent),
             typeof(ScavengerHuntUpdateTickedEvent));
         Game1.addHUDMessage(new HuntNotification(this.HuntStartedMessage, this.IconSourceRect));
-        if (!Game1.player.HasProfession(Profession.Scavenger, true))
-        {
-            return true;
-        }
-
-        if (!Context.IsMultiplayer || Context.IsMainPlayer)
+        if (Game1.player.HasProfession(Profession.Scavenger, true) && (!Context.IsMultiplayer || Context.IsMainPlayer))
         {
             EventManager.Enable<PrestigeTreasureHuntUpdateTickedEvent>();
         }
         else
         {
-            ModEntry.Broadcaster.MessageHost("true", OverhaulModule.Professions.Namespace + "/HuntingForTreasure");
+            Broadcaster.MessageHost("true", OverhaulModule.Professions.Namespace + "/HuntingForTreasure/Scavenger");
         }
 
         return true;
@@ -104,22 +100,19 @@ internal sealed class ScavengerHunt : TreasureHunt
                                 ProfessionsModule.Config.ScavengerHuntHandicap);
         this.TimeLimit = Math.Max(this.TimeLimit, 30);
         EventManager.Enable(
-            typeof(ScavengerHuntTerrainFeatureListChangedEvent),
+            Context.IsMainPlayer
+                ? typeof(ScavengerHuntTerrainFeatureListChangedEvent)
+                : typeof(FarmhandScavengerHuntUpdateTickedEvent),
             typeof(ScavengerHuntRenderedHudEvent),
             typeof(ScavengerHuntUpdateTickedEvent));
         Game1.addHUDMessage(new HuntNotification(this.HuntStartedMessage, this.IconSourceRect));
-        if (!Game1.player.HasProfession(Profession.Scavenger, true))
-        {
-            return;
-        }
-
-        if (!Context.IsMultiplayer || Context.IsMainPlayer)
+        if (Game1.player.HasProfession(Profession.Scavenger, true) && (!Context.IsMultiplayer || Context.IsMainPlayer))
         {
             EventManager.Enable<PrestigeTreasureHuntUpdateTickedEvent>();
         }
         else
         {
-            ModEntry.Broadcaster.MessageHost("true", OverhaulModule.Professions.Namespace + "/HuntingForTreasure");
+            Broadcaster.MessageHost("true", OverhaulModule.Professions.Namespace + "/HuntingForTreasure/Scavenger");
         }
     }
 
@@ -138,8 +131,7 @@ internal sealed class ScavengerHunt : TreasureHunt
             return;
         }
 
-        var getTreasure = new DelayedAction(200, this.BeginFindTreasure);
-        Game1.delayedActions.Add(getTreasure);
+        DelayedAction.functionAfterDelay(this.BeginFindTreasure, 200);
         Game1.playSound("questcomplete");
         Game1.player.Increment(DataKeys.ScavengerHuntStreak);
         this.End(true);
@@ -187,7 +179,7 @@ internal sealed class ScavengerHunt : TreasureHunt
             return;
         }
 
-        ModEntry.Broadcaster.MessageHost("false", OverhaulModule.Professions.Namespace + "/HuntingForTreasure");
+        Broadcaster.MessageHost("false", OverhaulModule.Professions.Namespace + "/HuntingForTreasure/Scavenger");
     }
 
     /// <summary>Plays treasure chest found animation.</summary>
@@ -494,8 +486,6 @@ internal sealed class ScavengerHunt : TreasureHunt
     private void AddSpecialTreasureItems(List<Item> treasures)
     {
         var luckModifier = 1.0 + (Game1.player.DailyLuck * 10);
-        var streak = Game1.player.Read<uint>(DataKeys.ScavengerHuntStreak);
-
         if (this.Random.NextDouble() < 0.25 * luckModifier)
         {
             if (CombatModule.ShouldEnable && CombatModule.Config.DwarvenLegacy &&
@@ -511,7 +501,7 @@ internal sealed class ScavengerHunt : TreasureHunt
                     treasures.Add(new SObject(JsonAssetsIntegration.ElderwoodIndex.Value, 1));
                 }
             }
-            else if (this.Random.NextDouble() < 0.05 * luckModifier * streak)
+            else if (this.Random.NextDouble() < 0.05 * luckModifier)
             {
                 treasures.Add(new MeleeWeapon(WeaponIds.ForestSword));
             }
@@ -531,7 +521,7 @@ internal sealed class ScavengerHunt : TreasureHunt
                     treasures.Add(new SObject(JsonAssetsIntegration.ElderwoodIndex.Value, 1));
                 }
             }
-            else if (this.Random.NextDouble() < 0.05 * luckModifier * streak)
+            else if (this.Random.NextDouble() < 0.05 * luckModifier)
             {
                 treasures.Add(new MeleeWeapon(WeaponIds.ElfBlade));
             }
@@ -569,12 +559,12 @@ internal sealed class ScavengerHunt : TreasureHunt
             }
         }
 
-        if (this.Random.NextDouble() < 0.01 * luckModifier * Math.Pow(2, streak))
+        if (this.Random.NextDouble() < 0.01 * luckModifier)
         {
             treasures.Add(new SObject(ObjectIds.TreasureChest, 1));
         }
 
-        if (this.Random.NextDouble() < 0.005 * luckModifier * Math.Pow(2, streak))
+        if (this.Random.NextDouble() < 0.005 * luckModifier)
         {
             treasures.Add(new SObject(ObjectIds.PrismaticShard, 1));
         }

@@ -96,7 +96,7 @@ internal abstract class TreasureHunt : ITreasureHunt
 
         if (Context.IsMultiplayer)
         {
-            Broadcaster.SendPublicChat($"{Game1.player.Name} is hunting for treasure.");
+            Broadcaster.SendPublicChat(I18n.TreasureHunt_Broadcast_Started(Game1.player.Name));
         }
 
         this.OnStarted();
@@ -121,7 +121,7 @@ internal abstract class TreasureHunt : ITreasureHunt
 
         if (Context.IsMultiplayer)
         {
-            Broadcaster.SendPublicChat($"{Game1.player.Name} is hunting for treasure.");
+            Broadcaster.SendPublicChat(I18n.TreasureHunt_Broadcast_Started(Game1.player.Name));
         }
 
         this.OnStarted();
@@ -168,8 +168,8 @@ internal abstract class TreasureHunt : ITreasureHunt
         if (Context.IsMultiplayer)
         {
             Broadcaster.SendPublicChat(success
-                ? $"{Game1.player.Name} has found the treasure!"
-                : $"{Game1.player.Name} failed to find the treasure.");
+                ? I18n.TreasureHunt_Broadcast_Ended_Success(Game1.player.Name)
+                : I18n.TreasureHunt_Broadcast_Ended_Failure(Game1.player.Name));
         }
 
         this.OnEnded(success);

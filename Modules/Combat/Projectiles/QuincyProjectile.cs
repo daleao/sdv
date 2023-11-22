@@ -21,6 +21,12 @@ internal sealed class QuincyProjectile : BasicProjectile
     public const int RedTileSheetIndex = 18;
 
     /// <summary>Initializes a new instance of the <see cref="QuincyProjectile"/> class.</summary>
+    /// <remarks>Explicit parameterless constructor is required for multiplayer synchronization.</remarks>
+    public QuincyProjectile()
+    {
+    }
+
+    /// <summary>Initializes a new instance of the <see cref="QuincyProjectile"/> class.</summary>
     /// <param name="source">The <see cref="Slingshot"/> which fired this projectile.</param>
     /// <param name="firer">The <see cref="Farmer"/> who fired this projectile.</param>
     /// <param name="overcharge">The amount of overcharge with which the projectile was fired.</param>
@@ -74,7 +80,7 @@ internal sealed class QuincyProjectile : BasicProjectile
         this.ignoreTravelGracePeriod.Value = CombatModule.Config.RemoveSlingshotGracePeriod;
     }
 
-    public Farmer Firer { get; }
+    public Farmer Firer { get; } = null!;
 
     public int Damage { get; private set; }
 

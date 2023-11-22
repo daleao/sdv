@@ -1,5 +1,17 @@
 ﻿# CMBT Changelog
 
+## 4.1.5
+
+### Added
+
+* Infinity Bands now play their respective chords when created and equipped (enabled by default). This is just a novelty feature and a sedimentation of the Musical Theory this is based on. But also, this may help non-tone-deaf people notice when a gemstone combination isn't quite working.
+
+### Fixed
+
+* Fixed multiplayer synchronization error caused by custom projectiles fired by peers.
+
+<sup><sup>[🔼 Back to top](#cmbt-changelog)</sup></sup>
+
 ## 4.1.3
 
 ### Changed

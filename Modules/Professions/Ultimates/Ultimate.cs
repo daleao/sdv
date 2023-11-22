@@ -3,7 +3,7 @@
 #region using directives
 
 using Ardalis.SmartEnum;
-using DaLion.Overhaul;
+using DaLion.Overhaul.Modules;
 using DaLion.Overhaul.Modules.Professions.Events.Display.RenderedWorld;
 using DaLion.Overhaul.Modules.Professions.Events.Display.RenderingHud;
 using DaLion.Overhaul.Modules.Professions.Events.GameLoop.UpdateTicked;
@@ -207,7 +207,7 @@ public abstract class Ultimate : SmartEnum<Ultimate>, IUltimate
         EventManager.Enable<UltimateOverlayRenderedWorldEvent>();
 
         // play sound effect
-        this.ActivationSfx.Play();
+        this.ActivationSfx.Play(Game1.currentLocation);
 
         // notify peers
         Broadcaster.Broadcast("Active", OverhaulModule.Professions.Namespace + "/ToggledUltimate");

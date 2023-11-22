@@ -25,6 +25,12 @@ internal sealed class ObjectProjectile : BasicProjectile
         .GetUnboundMethodDelegate<Action<BasicProjectile, GameLocation>>(typeof(BasicProjectile), "explosionAnimation");
 
     /// <summary>Initializes a new instance of the <see cref="ObjectProjectile"/> class.</summary>
+    /// <remarks>Explicit parameterless constructor is required for multiplayer synchronization.</remarks>
+    public ObjectProjectile()
+    {
+    }
+
+    /// <summary>Initializes a new instance of the <see cref="ObjectProjectile"/> class.</summary>
     /// <param name="ammo">The <see cref="SObject"/> that was fired, if any.</param>
     /// <param name="index">The index of the fired ammo (this may be different from the index of the <see cref="SObject"/>).</param>
     /// <param name="source">The <see cref="Slingshot"/> which fired this projectile.</param>
@@ -116,11 +122,11 @@ internal sealed class ObjectProjectile : BasicProjectile
         }
     }
 
-    public Item Ammo { get; }
+    public Item Ammo { get; } = null!;
 
-    public Farmer Firer { get; }
+    public Farmer Firer { get; } = null!;
 
-    public Slingshot Source { get; }
+    public Slingshot Source { get; } = null!;
 
     public int Damage { get; private set; }
 

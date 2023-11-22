@@ -2,7 +2,16 @@
 
 This file contains a TL;DR of current version changes and hotfixes from across all modules. For the complete changelog, please refer to the individual changelogs of each module, linked [below](#detailed-changelogs).
 
-## Hotfix 4.1.4 Highlights
+## Patch 4.1.3 Highlights
+
+* Fixed GMCM list options reseting when hitting Save.
+* The module selection menu now translates correctly.
+* Fixed multiplayer error caused when a peer fires a custom projectile.
+* [CMBT]: You can now hear the chords in your Infinity Bands.
+* [PRFS]: Reblanced the impact of Treasure Hunt streak.
+* [PRFS]: Fixed issue of farmhands being unable to complete treasure hunts.
+
+<sup><sup>[🔼 Back to top](#margo-changelogs)</sup></sup>
 
 * [PROFS]: Fixed typo in `ProspectorHunt.TryStart` which caused SO exception.
 

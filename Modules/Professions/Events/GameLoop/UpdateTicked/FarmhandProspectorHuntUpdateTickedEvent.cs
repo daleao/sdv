@@ -2,7 +2,6 @@
 
 #region using directives
 
-using DaLion.Overhaul.Modules.Professions.Extensions;
 using DaLion.Overhaul.Modules.Professions.TreasureHunts;
 using DaLion.Overhaul.Modules.Professions.VirtualProperties;
 using DaLion.Shared.Events;
@@ -11,13 +10,13 @@ using StardewModdingAPI.Events;
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class ProspectorHuntUpdateTickedEvent : UpdateTickedEvent
+internal sealed class FarmhandProspectorHuntUpdateTickedEvent : UpdateTickedEvent
 {
     private ProspectorHunt? _hunt;
 
-    /// <summary>Initializes a new instance of the <see cref="ProspectorHuntUpdateTickedEvent"/> class.</summary>
+    /// <summary>Initializes a new instance of the <see cref="FarmhandProspectorHuntUpdateTickedEvent"/> class.</summary>
     /// <param name="manager">The <see cref="EventManager"/> instance that manages this event.</param>
-    internal ProspectorHuntUpdateTickedEvent(EventManager manager)
+    internal FarmhandProspectorHuntUpdateTickedEvent(EventManager manager)
         : base(manager)
     {
     }
@@ -31,10 +30,23 @@ internal sealed class ProspectorHuntUpdateTickedEvent : UpdateTickedEvent
     /// <inheritdoc />
     protected override void OnUpdateTickedImpl(object? sender, UpdateTickedEventArgs e)
     {
-        this._hunt!.Update(e.Ticks);
-        if (Game1.player.HasProfession(Profession.Prospector, true))
+        if (!e.IsMultipleOf(15))
         {
-            Game1.gameTimeInterval = 0;
+            return;
         }
+
+        if (!this._hunt!.TreasureTile.HasValue)
+        {
+            this.Disable();
+            return;
+        }
+
+        if (Game1.player.currentLocation.Objects.ContainsKey(this._hunt.TreasureTile.Value))
+        {
+            return;
+        }
+
+        this._hunt.Complete();
+        this.Disable();
     }
 }

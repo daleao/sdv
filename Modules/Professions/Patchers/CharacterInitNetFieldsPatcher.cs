@@ -25,7 +25,9 @@ internal sealed class CharacterInitNetFieldsPatcher : HarmonyPatcher
     {
         if (__instance is Farmer { Name: { } } farmer)
         {
-            __instance.NetFields.AddFields(farmer.Get_UltimateIndex(), farmer.Get_IsHuntingTreasure());
+            __instance.NetFields.AddFields(
+                farmer.Get_UltimateIndex(),
+                farmer.Get_IsHuntingTreasure());
         }
     }
 

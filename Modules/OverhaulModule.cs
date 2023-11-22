@@ -6,10 +6,10 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Reflection;
-using Core.Debug;
 using DaLion.Overhaul.Modules.Combat.Enums;
 using DaLion.Overhaul.Modules.Combat.Extensions;
 using DaLion.Overhaul.Modules.Combat.VirtualProperties;
+using DaLion.Overhaul.Modules.Core.Debug;
 using DaLion.Shared.Commands;
 using DaLion.Shared.Constants;
 using DaLion.Shared.Extensions.Collections;
@@ -59,8 +59,6 @@ public abstract class OverhaulModule
     {
         this.Name = name;
         this.Namespace = "DaLion.Overhaul.Modules." + name;
-        this.DisplayName = _I18n.Get("gmcm.modules." + entry + ".name");
-        this.Description = _I18n.Get("gmcm.modules." + entry + ".desc");
         this.Ticker = entry;
     }
 
@@ -71,10 +69,10 @@ public abstract class OverhaulModule
     internal string Namespace { get; }
 
     /// <summary>Gets the human-readable and localized name of the module.</summary>
-    internal string DisplayName { get; init; }
+    internal virtual string DisplayName => _I18n.Get("gmcm.modules." + this.Ticker + ".name");
 
     /// <summary>Gets a short localized description of the module.</summary>
-    internal string Description { get; init; }
+    internal virtual string Description => _I18n.Get("gmcm.modules." + this.Ticker + ".desc");
 
     /// <summary>Gets the ticker symbol of the module, which is used as the entry command.</summary>
     internal string Ticker { get; }
@@ -191,9 +189,13 @@ public abstract class OverhaulModule
         internal CoreModule()
             : base("Core", "mrg")
         {
-            this.DisplayName = string.Empty;
-            this.Description = string.Empty;
         }
+
+        /// <inheritdoc />
+        internal override string DisplayName => string.Empty;
+
+        /// <inheritdoc />
+        internal override string Description => string.Empty;
 
         /// <inheritdoc />
         internal override bool _ShouldEnable
@@ -267,6 +269,9 @@ public abstract class OverhaulModule
                 ModHelper.WriteConfig(ModEntry.Config);
             }
         }
+
+        /// <summary>Gets a pure sine wave. Used by Desperado's slingshot overcharge.</summary>
+        public static Lazy<ICue> OverchargeSinWave { get; } = new(() => Game1.soundBank.GetCue("SinWave"));
 
         /// <inheritdoc />
         internal override void RegisterIntegrations()

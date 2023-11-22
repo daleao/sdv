@@ -24,10 +24,15 @@ internal sealed class ProspectorHuntRenderedHudEvent : RenderedHudEvent
     }
 
     /// <inheritdoc />
-    protected override void OnRenderedHudImpl(object? sender, RenderedHudEventArgs e)
+    protected override void OnEnabled()
     {
         this._hunt ??= Game1.player.Get_ProspectorHunt();
-        if (!this._hunt.TreasureTile.HasValue)
+    }
+
+    /// <inheritdoc />
+    protected override void OnRenderedHudImpl(object? sender, RenderedHudEventArgs e)
+    {
+        if (!this._hunt!.TreasureTile.HasValue)
         {
             return;
         }
@@ -39,7 +44,7 @@ internal sealed class ProspectorHuntRenderedHudEvent : RenderedHudEvent
 
         // reveal if close enough
         var distance = (Game1.player.getTileLocation() - treasureTile).Length();
-        if (distance <= ProfessionsModule.Config.TreasureDetectionDistance)
+        if (distance <= ProfessionsModule.Config.ProspectorDetectionDistance)
         {
             HudPointer.Instance.Value.DrawOverTile(treasureTile, Color.Violet);
         }

@@ -3,6 +3,7 @@
 #region using directives
 
 using DaLion.Overhaul.Modules.Professions.Events.GameLoop.UpdateTicked;
+using DaLion.Overhaul.Modules.Professions.Extensions;
 using DaLion.Overhaul.Modules.Professions.VirtualProperties;
 using DaLion.Shared.Events;
 using StardewModdingAPI.Events;
@@ -10,11 +11,11 @@ using StardewModdingAPI.Events;
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class PrestigeTreasureHuntModMessageReceivedEvent : ModMessageReceivedEvent
+internal sealed class HuntingForTreasureModMessageReceivedEvent : ModMessageReceivedEvent
 {
-    /// <summary>Initializes a new instance of the <see cref="PrestigeTreasureHuntModMessageReceivedEvent"/> class.</summary>
+    /// <summary>Initializes a new instance of the <see cref="HuntingForTreasureModMessageReceivedEvent"/> class.</summary>
     /// <param name="manager">The <see cref="EventManager"/> instance that manages this event.</param>
-    internal PrestigeTreasureHuntModMessageReceivedEvent(EventManager manager)
+    internal HuntingForTreasureModMessageReceivedEvent(EventManager manager)
         : base(manager)
     {
     }
@@ -25,8 +26,13 @@ internal sealed class PrestigeTreasureHuntModMessageReceivedEvent : ModMessageRe
     /// <inheritdoc />
     protected override void OnModMessageReceivedImpl(object? sender, ModMessageReceivedEventArgs e)
     {
-        if (e.FromModID != Manifest.UniqueID || !e.Type.StartsWith(OverhaulModule.Professions.Namespace) ||
-            !e.Type.EndsWith("HuntingForTreasure"))
+        if (e.FromModID != Manifest.UniqueID || !e.Type.StartsWith(OverhaulModule.Professions.Namespace))
+        {
+            return;
+        }
+
+        var split = e.Type.Split('/');
+        if (split[1] != "HuntingForTreasure")
         {
             return;
         }
@@ -40,7 +46,13 @@ internal sealed class PrestigeTreasureHuntModMessageReceivedEvent : ModMessageRe
 
         var huntingState = e.ReadAs<bool>();
         who.Get_IsHuntingTreasure().Value = huntingState;
-        if (huntingState)
+        if (!huntingState)
+        {
+            return;
+        }
+
+        var profession = split[2] == "Prospector" ? Profession.Prospector : Profession.Scavenger;
+        if (who.HasProfession(profession, true))
         {
             this.Manager.Enable<PrestigeTreasureHuntUpdateTickedEvent>();
         }

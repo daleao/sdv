@@ -66,16 +66,19 @@ public sealed class Chord : IChord
     /// <summary>Gets the total resonance of each <see cref="Gemstone"/> due to interference with its neighbors.</summary>
     internal Dictionary<Gemstone, double> ResonanceByGemstone { get; } = new();
 
+    /// <summary>Gets the current radius of the <see cref="_lightSource"/>.</summary>
+    private float LightSourceRadius =>
+        (float)(this.Amplitude + (this.Amplitude / 10d * Math.Sin(this.Root!.GlowFrequency * this._phase)));
+
     /// <summary>Adds resonance stat bonuses to the farmer.</summary>
     /// <param name="location">The <see cref="GameLocation"/>.</param>
     /// <param name="who">The <see cref="Farmer"/>.</param>
-    public void Apply(GameLocation location, Farmer who)
+    internal void Apply(GameLocation location, Farmer who)
     {
         who.Get_ResonatingChords().Add(this);
-
         this.ResonanceByGemstone.ForEach(pair => pair.Key.Resonate(who, (float)pair.Value));
+        this.PlayCues();
         who.MagneticRadius += this._richness * 32;
-
         this.InitializeLightSource();
         if (this._lightSource is null)
         {
@@ -93,11 +96,11 @@ public sealed class Chord : IChord
     /// <summary>Removes resonating stat bonuses from the farmer.</summary>
     /// <param name="location">The <see cref="GameLocation"/>.</param>
     /// <param name="who">The <see cref="Farmer"/>.</param>
-    public void Unapply(GameLocation location, Farmer who)
+    internal void Unapply(GameLocation location, Farmer who)
     {
         who.Get_ResonatingChords().Remove(this);
-
         this.ResonanceByGemstone.ForEach(pair => pair.Key.Dissonate(who, (float)pair.Value));
+        this.StopCues();
         who.MagneticRadius -= this._richness * 32;
         if (this._lightSource is null)
         {
@@ -110,7 +113,7 @@ public sealed class Chord : IChord
 
     /// <summary>Adds resonance effects to the new <paramref name="location"/>.</summary>
     /// <param name="location">The new location.</param>
-    public void OnNewLocation(GameLocation location)
+    internal void OnNewLocation(GameLocation location)
     {
         if (this._lightSource is null)
         {
@@ -137,6 +140,28 @@ public sealed class Chord : IChord
         location.removeLightSource(this._lightSource.Identifier);
     }
 
+    /// <summary>Starts playing sound cues.</summary>
+    internal void PlayCues()
+    {
+        if (!CombatModule.Config.PlayChord)
+        {
+            return;
+        }
+
+        for (var i = 0; i < this.Notes.Length; i++)
+        {
+            this._intervalMatrix[i][0].PlayAfterDelay(i * (this._richness > 0 ? 100 : 0));
+        }
+
+        var fadeSteps = (int)CombatModule.Config.ChordSoundDuration / 100;
+        foreach (var step in Enumerable.Range(0, fadeSteps))
+        {
+            DelayedAction.functionAfterDelay(
+                this.FadeCues,
+                (step * 100) + (this._richness > 0 ? this.Notes.Length * 100 : 0));
+        }
+    }
+
     /// <summary>Updates resonance effects.</summary>
     /// <param name="who">The <see cref="Farmer"/>.</param>
     internal void Update(Farmer who)
@@ -159,7 +184,7 @@ public sealed class Chord : IChord
             who.currentLocation.sharedLights[this._lightSource.Identifier] = this._lightSource;
         }
 
-        this._lightSource.radius.Value = this.GetLightSourceRadius();
+        this._lightSource.radius.Value = this.LightSourceRadius;
         var offset = Vector2.Zero;
         if (who.shouldShadowBeOffset)
         {
@@ -219,22 +244,22 @@ public sealed class Chord : IChord
             this.ResonanceByGemstone[distinctNotes[i]] = 0f;
         }
 
-        // unison chords can be ignored
-        if (distinctNotes.Length == 1)
-        {
-            return;
-        }
-
         // build interval matrix
         var size = this.Notes.Length;
-        this._intervalMatrix = new HarmonicInterval[size - 1][];
-        for (var i = 0; i < size - 1; i++)
+        this._intervalMatrix = new HarmonicInterval[size][];
+        for (var i = 0; i < size; i++)
         {
             this._intervalMatrix[i] = new HarmonicInterval[size];
             for (var j = 0; j < size; j++)
             {
-                this._intervalMatrix[i][j] = new HarmonicInterval(this.Notes[j], this.Notes[(j + i + 1) % size]);
+                this._intervalMatrix[i][j] = new HarmonicInterval(this.Notes[j], this.Notes[(j + i) % size]);
             }
+        }
+
+        // unison chords can be ignored
+        if (distinctNotes.Length == 1)
+        {
+            return;
         }
 
         // determine root note
@@ -242,7 +267,7 @@ public sealed class Chord : IChord
             .GroupByIntervalNumber()[IntervalNumber.Fifth]
             .Distinct()
             .ToArray();
-        if (fifths.Length is > 0 and < 3)
+        if (fifths.Length is 1 or 2)
         {
             this.Root = fifths[0].First;
             if (fifths.Length > 1)
@@ -254,7 +279,27 @@ public sealed class Chord : IChord
             }
 
             // reposition root note
-            this.Notes.ShiftUntilStartsWith(this.Root);
+            var shifts = this.Notes.ShiftUntilStartsWith(this.Root);
+            if (shifts > 0)
+            {
+                this._intervalMatrix.ForEach(intervals => intervals.ShiftLeft(shifts));
+            }
+
+            var rootInterval = this._intervalMatrix[0][0];
+            var seenIntervals = new HashSet<HarmonicInterval>();
+            for (var i = 1; i < size; i++)
+            {
+                var harmonicInterval = this._intervalMatrix[i][0];
+                if (harmonicInterval.Pitch < rootInterval.Pitch)
+                {
+                    harmonicInterval.Pitch += 1200;
+                }
+
+                if (!seenIntervals.Add(harmonicInterval))
+                {
+                    harmonicInterval.Pitch += harmonicInterval.Pitch <= 1200 ? 1200 : -1200;
+                }
+            }
         }
 
         // evaluate total resonance by note
@@ -283,30 +328,30 @@ public sealed class Chord : IChord
                             resonance = 1d / 3d;
                             break;
 
-                        // the consonant intervals
-                        case IntervalNumber.Third:
-                        case IntervalNumber.Sixth:
-                        {
-                            if (this.Root is null || group.Key == this.Root)
+                        // ternary tryad
+                        case IntervalNumber.Third when group.Key == this.Root:
+                            resonance = 1d / 5d;
+                            if (this.Notes.Contains(this.Root.Fifth))
                             {
-                                resonance = 1d / 5d;
-                                if (this.Root is not null && i.Number == IntervalNumber.Third)
-                                {
-                                    this._richness++;
-                                }
-                            }
-                            else
-                            {
-                                resonance = 1d / 6d;
+                                this._richness++;
                             }
 
                             break;
+
+                        // the consonant intervals
+                        case IntervalNumber.Third:
+                        case IntervalNumber.Sixth:
+                            resonance = 1d / 6d;
+                            break;
+
+                        // ternary tetrad
+                        case IntervalNumber.Seventh when group.Key == this.Root:
+                            resonance = 1 / 8d;
+                            if (this.Notes.ContainsAll(this.Root.Third, this.Root.Fifth))
+                            {
+                                this._richness++;
                             }
 
-                        // the exception for ternary tetrad
-                        case IntervalNumber.Seventh when numbers.Contains(IntervalNumber.Third) && numbers.Contains(IntervalNumber.Fifth):
-                            resonance = 1 / 8d;
-                            this._richness++;
                             break;
 
                         // the dissonant intervals
@@ -335,13 +380,24 @@ public sealed class Chord : IChord
         }
 
         this.Amplitude = this.ResonanceByGemstone[this.Root];
-        this._period = 360d / this.Root.Frequency;
+        this._period = 360d / this.Root.GlowFrequency;
     }
 
-    /// <summary>Evaluates the current amplitude of the <see cref="_lightSource"/>.</summary>
-    /// <returns>The amplitude of the <see cref="_lightSource"/>.</returns>
-    private float GetLightSourceRadius()
+    /// <summary>Starts playing sound cues.</summary>
+    private void StopCues()
     {
-        return (float)(this.Amplitude + (this.Amplitude / 10d * Math.Sin(this.Root!.Frequency * this._phase)));
+        for (var i = 0; i < this.Notes.Length; i++)
+        {
+            this._intervalMatrix[i][0].Stop();
+        }
+    }
+
+    /// <summary>Fades out the sound cue volumes.</summary>
+    private void FadeCues()
+    {
+        for (var i = 0; i < this.Notes.Length; i++)
+        {
+            this._intervalMatrix[i][0].StepFade();
+        }
     }
 }

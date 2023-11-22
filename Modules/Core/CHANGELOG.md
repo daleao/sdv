@@ -1,5 +1,14 @@
 ﻿# Core Changelog
 
+## 4.1.5
+
+### Fixed
+
+* GMCM Module Selection setting now translates correctly.
+* Fixed an edge case where hitting Save on the menu would reset any DynamicList options that are **not** on the current menu page. Turns out GMCM doesn't quite behave in the way I expected, so had to implement a workaround.
+
+<sup><sup>[🔼 Back to top](#core-changelog)</sup></sup>
+
 ## 4.1.3
 
 ### Fixed

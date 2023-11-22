@@ -7,6 +7,7 @@ using System.Collections.Immutable;
 using System.Linq;
 using DaLion.Overhaul.Modules.Professions.Extensions;
 using DaLion.Shared.Extensions.Collections;
+using Shared.Extensions;
 using StardewValley;
 
 #endregion using directives
@@ -124,8 +125,7 @@ public interface ISkill
             return false;
         }
 
-        var hasProfessionsLeftToAcquire =
-            farmer.GetProfessionsForSkill(this, true).Length is > 0 and < 4;
+        var hasProfessionsLeftToAcquire = farmer.GetProfessionsForSkill(this, true).Length.IsIn(1..3);
         if (!hasProfessionsLeftToAcquire)
         {
             Log.D(

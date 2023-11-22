@@ -5,6 +5,7 @@
 using System.Collections.Generic;
 using System.Reflection;
 using DaLion.Overhaul.Modules.Combat.Integrations;
+using DaLion.Overhaul.Modules.Combat.VirtualProperties;
 using DaLion.Shared.Constants;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
@@ -56,6 +57,7 @@ internal sealed class RingCombinePatcher : HarmonyPatcher
             ModHelper.Reflection.GetField<NetInt>(combinedRing, nameof(Ring.indexInTileSheet)).GetValue()
                 .Set(JsonAssetsIntegration.InfinityBandIndex.Value);
             combinedRing.UpdateDescription();
+            combinedRing.Get_Chord()?.PlayCues();
             __result = combinedRing;
             return false; // don't run original logic
         }

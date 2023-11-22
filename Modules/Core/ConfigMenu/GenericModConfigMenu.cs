@@ -51,7 +51,7 @@ internal sealed class GenericModConfigMenu : GMCMBuilder<GenericModConfigMenu>
                 getOptionName: I18n.Gmcm_Core_Modules,
                 pages: EnumerateModules().Skip(1).Where(m => m._ShouldEnable).ToArray(),
                 getPageId: module => module.Namespace,
-                getPageName: module => module.Name,
+                getPageName: module => module.DisplayName,
                 getColumnsFromWidth: _ => 2);
 
         this.BuildImplicitly(() => Config);

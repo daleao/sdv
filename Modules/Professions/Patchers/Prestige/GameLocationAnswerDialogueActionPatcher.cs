@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using DaLion.Overhaul;
+using DaLion.Overhaul.Modules;
 using DaLion.Overhaul.Modules.Professions.Extensions;
 using DaLion.Overhaul.Modules.Professions.Ultimates;
 using DaLion.Overhaul.Modules.Professions.VirtualProperties;
@@ -245,7 +246,7 @@ internal sealed class GameLocationAnswerDialogueActionPatcher : HarmonyPatcher
         ProfessionsModule.State.SkillsToReset.Enqueue(skill);
 
         // play sound effect
-        SoundEffectPlayer.DogStatuePrestige.Play();
+        SoundEffectPlayer.DogStatuePrestige.Play(player.currentLocation);
 
         // tell the player
         Game1.drawObjectDialogue(Game1.content.LoadString("Strings\\Locations:Sewer_DogStatueFinished"));
@@ -280,7 +281,7 @@ internal sealed class GameLocationAnswerDialogueActionPatcher : HarmonyPatcher
         }
 
         // play sound effect
-        SoundEffectPlayer.DogStatuePrestige.Play();
+        SoundEffectPlayer.DogStatuePrestige.Play(player.currentLocation);
 
         // tell the player
         Game1.drawObjectDialogue(Game1.content.LoadString("Strings\\Locations:Sewer_DogStatueFinished"));
@@ -317,7 +318,7 @@ internal sealed class GameLocationAnswerDialogueActionPatcher : HarmonyPatcher
         }
 
         // play sound effect
-        SoundEffectPlayer.DogStatuePrestige.Play();
+        SoundEffectPlayer.DogStatuePrestige.Play(player.currentLocation);
 
         // tell the player
         Game1.drawObjectDialogue(Game1.content.LoadString("Strings\\Locations:Sewer_DogStatueFinished"));
@@ -344,7 +345,7 @@ internal sealed class GameLocationAnswerDialogueActionPatcher : HarmonyPatcher
         player.Set_Ultimate(chosenUltimate);
 
         // play sound effect
-        SoundEffectPlayer.DogStatuePrestige.Play();
+        SoundEffectPlayer.DogStatuePrestige.Play(player.currentLocation);
 
         // tell the player
         Game1.drawObjectDialogue(I18n.Prestige_DogStatue_Fledged(chosenUltimate.Profession.Title));

@@ -21,9 +21,9 @@ public interface IGemstone
 
     /// <summary>Gets the characteristic frequency with which the <see cref="Gemstone"/> vibrates.</summary>
     /// <remarks>Measured in units of inverse <see cref="Gemstone.Ruby"/> wavelengths.</remarks>
-    float Frequency { get; }
+    float GlowFrequency { get; }
 
-    /// <summary>Gets the characteristic color which results from <see cref="Frequency"/>.</summary>
+    /// <summary>Gets the characteristic color which results from <see cref="GlowFrequency"/>.</summary>
     Color StoneColor { get; }
 
     /// <summary>Gets the inverse of <see cref="StoneColor"/>.</summary>

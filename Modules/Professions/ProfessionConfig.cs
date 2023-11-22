@@ -202,10 +202,17 @@ public sealed class ProfessionConfig
     [GMCMPriority(9)]
     public bool AllowScavengerHuntsOnFarm { get; internal set; } = false;
 
-    /// <summary>Gets a multiplier which is used to extend the duration of Scavenger hunts, in case you feel they end too quickly.</summary>
+    /// <summary>Gets the minimum distance to the scavenger hunt target before the indicator appears.</summary>
     [JsonProperty]
     [GMCMSection("prfs.general")]
     [GMCMPriority(10)]
+    [GMCMRange(1, 10)]
+    public uint ScavengerDetectionDistance { get; internal set; } = 3;
+
+    /// <summary>Gets a multiplier which is used to extend the duration of Scavenger hunts, in case you feel they end too quickly.</summary>
+    [JsonProperty]
+    [GMCMSection("prfs.general")]
+    [GMCMPriority(11)]
     [GMCMRange(0.5f, 3f)]
     [GMCMInterval(0.2f)]
     public float ScavengerHuntHandicap
@@ -217,10 +224,17 @@ public sealed class ProfessionConfig
         }
     }
 
+    /// <summary>Gets the minimum distance to the prospector hunt target before the indicator is heard.</summary>
+    [JsonProperty]
+    [GMCMSection("prfs.general")]
+    [GMCMPriority(12)]
+    [GMCMRange(2, 20)]
+    public uint ProspectorDetectionDistance { get; internal set; } = 12;
+
     /// <summary>Gets a multiplier which is used to extend the duration of Prospector hunts, in case you feel they end too quickly.</summary>
     [JsonProperty]
     [GMCMSection("prfs.general")]
-    [GMCMPriority(11)]
+    [GMCMPriority(13)]
     [GMCMRange(0.5f, 3f)]
     [GMCMInterval(0.2f)]
     public float ProspectorHuntHandicap
@@ -232,30 +246,23 @@ public sealed class ProfessionConfig
         }
     }
 
-    /// <summary>Gets the minimum distance to the treasure hunt target before the indicator appears.</summary>
-    [JsonProperty]
-    [GMCMSection("prfs.general")]
-    [GMCMPriority(12)]
-    [GMCMRange(1, 10)]
-    public uint TreasureDetectionDistance { get; internal set; } = 3;
-
     /// <summary>Gets the maximum speed bonus a Spelunker can reach.</summary>
     [JsonProperty]
     [GMCMSection("prfs.general")]
-    [GMCMPriority(13)]
+    [GMCMPriority(14)]
     [GMCMRange(0, 10)]
     public uint SpelunkerSpeedCeiling { get; internal set; } = 10;
 
     /// <summary>Gets a value indicating whether toggles the Get Excited buff when a Demolitionist is hit by an explosion.</summary>
     [JsonProperty]
     [GMCMSection("prfs.general")]
-    [GMCMPriority(14)]
+    [GMCMPriority(15)]
     public bool DemolitionistGetExcited { get; internal set; } = true;
 
     /// <summary>Gets a value indicating whether to increase the quality of all active Crystalarium minerals when the Gemologist owner gains a quality level-up.</summary>
     [JsonProperty]
     [GMCMSection("prfs.general")]
-    [GMCMPriority(15)]
+    [GMCMPriority(16)]
     public bool CrystalariumUpgradesWithGemologist { get; internal set; } = true;
 
     /// <summary>
@@ -264,7 +271,7 @@ public sealed class ProfessionConfig
     /// </summary>
     [JsonProperty]
     [GMCMSection("prfs.general")]
-    [GMCMPriority(16)]
+    [GMCMPriority(17)]
     [GMCMRange(0.25f, 4f)]
     [GMCMInterval(0.25f)]
     public float AnglerPriceBonusCeiling
@@ -281,14 +288,14 @@ public sealed class ProfessionConfig
     /// </summary>
     [JsonProperty]
     [GMCMSection("prfs.general")]
-    [GMCMPriority(17)]
+    [GMCMPriority(18)]
     [GMCMRange(0, 24f)]
     public uint AquaristFishPondCeiling { get; internal set; } = 12;
 
     /// <summary>Gets the amount of junk items that must be collected from crab pots for every 1% of tax deduction the following season.</summary>
     [JsonProperty]
     [GMCMSection("prfs.general")]
-    [GMCMPriority(18)]
+    [GMCMPriority(19)]
     [GMCMRange(10, 1000)]
     [GMCMInterval(10)]
     public uint TrashNeededPerTaxDeduction { get; internal set; } = 100;
@@ -296,7 +303,7 @@ public sealed class ProfessionConfig
     /// <summary>Gets the amount of junk items that must be collected from crab pots for every 1 point of friendship towards villagers.</summary>
     [JsonProperty]
     [GMCMSection("prfs.general")]
-    [GMCMPriority(19)]
+    [GMCMPriority(20)]
     [GMCMRange(10, 1000)]
     [GMCMInterval(10)]
     public uint TrashNeededPerFriendshipPoint { get; internal set; } = 100;
@@ -304,7 +311,7 @@ public sealed class ProfessionConfig
     /// <summary>Gets the maximum income deduction allowed by the Ferngill Revenue Service.</summary>
     [JsonProperty]
     [GMCMSection("prfs.general")]
-    [GMCMPriority(20)]
+    [GMCMPriority(21)]
     [GMCMRange(0.1f, 1f)]
     [GMCMInterval(0.05f)]
     public float ConservationistTaxDeductionCeiling

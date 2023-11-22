@@ -37,7 +37,7 @@ internal sealed class DesperadoOverchargeUpdateTickedEvent : UpdateTickedEvent
     protected override void OnDisabled()
     {
         Game1.player.stopJittering();
-        SoundEffectPlayer.SinWave?.Stop(AudioStopOptions.Immediate);
+        ProfessionsModule.OverchargeSinWave.Value.Stop(AudioStopOptions.Immediate);
         this.Manager.Disable<DesperadoRenderedWorldEvent>();
     }
 
@@ -64,12 +64,11 @@ internal sealed class DesperadoOverchargeUpdateTickedEvent : UpdateTickedEvent
             return;
         }
 
-        SoundEffectPlayer.SinWave ??= Game1.soundBank.GetCue("SinWave");
-        if (!SoundEffectPlayer.SinWave.IsPlaying)
+        if (!ProfessionsModule.OverchargeSinWave.Value.IsPlaying)
         {
-            SoundEffectPlayer.SinWave.Play();
+            ProfessionsModule.OverchargeSinWave.Value.Play();
         }
 
-        SoundEffectPlayer.SinWave.SetVariable("Pitch", 2400f * overchargePct);
+        ProfessionsModule.OverchargeSinWave.Value.SetVariable("Pitch", 2400f * overchargePct);
     }
 }

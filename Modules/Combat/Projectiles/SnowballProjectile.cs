@@ -16,6 +16,12 @@ using StardewValley.Tools;
 internal sealed class SnowballProjectile : BasicProjectile
 {
     /// <summary>Initializes a new instance of the <see cref="SnowballProjectile"/> class.</summary>
+    /// <remarks>Explicit parameterless constructor is required for multiplayer synchronization.</remarks>
+    public SnowballProjectile()
+    {
+    }
+
+    /// <summary>Initializes a new instance of the <see cref="SnowballProjectile"/> class.</summary>
     /// <param name="firer">The <see cref="Farmer"/> who fired this projectile.</param>
     /// <param name="overcharge">The amount of overcharge with which the projectile was fired.</param>
     /// <param name="startingPosition">The projectile's starting position.</param>

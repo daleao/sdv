@@ -1,5 +1,22 @@
 ﻿# PRFS Changelog
 
+## 4.1.5
+
+### Added
+
+* Added localization for Treasure Hunt start/end broadcast messages (only releveant in multiplayer).
+
+### Changed
+
+* Tuned down treasure hunt streak impact, which was applying twice and made it way too strong.
+
+### Fixed
+
+* Fixed multiplayer synchronization error caused by object projectiles fired by peers.
+* Fixed issue of farmhands being unable to complete treasure hunts.
+
+<sup><sup>[🔼 Back to top](#profs-changelog)</sup></sup>
+
 ## 4.1.4
 
 ### Fixed

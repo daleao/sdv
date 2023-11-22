@@ -151,6 +151,10 @@
   "piper.desc.prestiged": "Erhöhte Wirksamkeit und Vielfalt der Effekte von besiegtem Schleim.",
   "piper.buff": "Verschleimt",
 
+  // other
+  "treasure_hunt.broadcast.started": "{{player}} is hunting for treasure!",
+  "treasure_hunt.broadcast.ended.success": "{{player}} has found the treasure!",
+  "treasure_hunt.broadcast.ended.failure": "{{player}} failed to find the treasure...",
 
   // *************** //
   // ** ULTIMATES ** //
@@ -473,12 +477,14 @@
   "gmcm.chance_to_start_treasure_hunt.desc": "The chance that your Scavenger or Prospector hunt senses will start to tingling.",
   "gmcm.allow_scavenger_hunts_on_farm.title": "Allow Scavenger Hunts on Farm",
   "gmcm.allow_scavenger_hunts_on_farm.desc": "Whether a Scavenger Hunt can trigger while entering the farm map.",
+  "gmcm.scavenger_detection_distance.title": "Scavenger Detection Distance",
+  "gmcm.scavenger_detection_distance.desc": "How close you must be to the treasure tile to reveal it's location, in tiles.",
   "gmcm.scavenger_hunt_handicap.title": "Scavenger Hunt Handicap",
   "gmcm.scavenger_hunt_handicap.desc": "Increase this number if you find that Scavenger hunts end too quickly.",
+  "gmcm.prospector_detection_distance.title": "Prospector Detection Distance",
+  "gmcm.prospector_detection_distance.desc": "How close you must be to the treasure tile to hear the sound cue, in tiles.",
   "gmcm.prospector_hunt_handicap.title": "Prospector Hunt Handicap",
   "gmcm.prospector_hunt_handicap.desc": "Increase this number if you find that Prospector hunts end too quickly.",
-  "gmcm.treasure_detection_distance.title": "Treasure Detection Distance",
-  "gmcm.treasure_detection_distance.desc": "How close you must be to the treasure tile to reveal it's location, in tiles.",
   "gmcm.spelunker_speed_ceiling.title": "Spelunker Speed Ceiling",
   "gmcm.spelunker_speed_ceiling.desc": "The maximum speed a Spelunker can reach in the mines.",
   "gmcm.demolitionist_get_excited.title": "Enable 'Get Excited' Buff",
@@ -609,6 +615,10 @@
   "gmcm.enable_infinity_band.desc": "Makes Iridium Band useless, but adds the almighty Infinity Band. Required for Gemstone Resonance mechanics.",
   "gmcm.enable_gemstone_resonance.title": "Enable Gemstone Resonance",
   "gmcm.enable_gemstone_resonance.desc": "Allows gemstones to harmonize and resonate in close proximity of each other.",
+  "gmcm.play_chord.title": "Play Chord",
+  "gmcm.play_chord.desc": "Hear the chord formed by the Infinity Band every time it is equipped.",
+  "gmcm.chord_sound_duration.title": "Chord Sound Duration",
+  "gmcm.chord_sound_duration.desc": "How long the chord sound should linger, in milliseconds.",
   "gmcm.colorful_resonances.title": "Colorful Resonance Glow",
   "gmcm.colorful_resonances.desc": "Whether the glow light of resonating chords should take after the root note's color.",
   "gmcm.resonance_lightsource_texture.title": "Resonance Glow Texture",

@@ -78,8 +78,8 @@ internal sealed class GameLocationAnswerDialogueActionPatcher : HarmonyPatcher
                         0f)
                     { motion = new Vector2(0f, -0.1f) });
 
-            Game1.delayedActions.Add(new DelayedAction(2500, () =>
-                Game1.currentLocation.temporarySprites.Add(
+            DelayedAction.functionAfterDelay(
+                () => Game1.currentLocation.temporarySprites.Add(
                     new TemporaryAnimatedSprite(
                         "TileSheets\\weapons",
                         Game1.getSquareSourceRectForNonStandardTileSheet(
@@ -99,7 +99,8 @@ internal sealed class GameLocationAnswerDialogueActionPatcher : HarmonyPatcher
                         4f,
                         0f,
                         0f,
-                        0f))));
+                        0f)),
+                2500);
 
             player.jitterStrength = 1f;
             Game1.pauseThenDoFunction(3000, () =>

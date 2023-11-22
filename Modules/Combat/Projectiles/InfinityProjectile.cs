@@ -29,6 +29,12 @@ internal sealed class InfinityProjectile : BasicProjectile
     private int _index;
 
     /// <summary>Initializes a new instance of the <see cref="InfinityProjectile"/> class.</summary>
+    /// <remarks>Explicit parameterless constructor is required for multiplayer synchronization.</remarks>
+    public InfinityProjectile()
+    {
+    }
+
+    /// <summary>Initializes a new instance of the <see cref="InfinityProjectile"/> class.</summary>
     /// <param name="source">The <see cref="MeleeWeapon"/> which fired this projectile.</param>
     /// <param name="firer">The <see cref="Farmer"/> who fired this projectile.</param>
     /// <param name="startingPosition">The projectile's starting position.</param>

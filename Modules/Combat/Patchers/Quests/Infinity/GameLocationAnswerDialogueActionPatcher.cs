@@ -4,6 +4,7 @@
 
 using System.Linq;
 using System.Reflection;
+using DaLion.Overhaul.Modules;
 using DaLion.Overhaul.Modules.Combat;
 using DaLion.Overhaul.Modules.Combat.Enums;
 using DaLion.Shared.Constants;
@@ -109,7 +110,7 @@ internal sealed class GameLocationAnswerDialogueActionPatcher : HarmonyPatcher
                                     return false; // don't run original logic
                                 }
 
-                                SoundEffectPlayer.YobaBless.Play();
+                                SoundEffectPlayer.YobaBless.Play(player.currentLocation);
                                 Game1.drawObjectDialogue(I18n.Yoba_Prayer_Ok(I18n.Weapons_DarkSword_Name()));
                                 cursePoints = (int)((cursePoints - 50) * 0.8) + 50;
                                 Log.D($"Ending with {cursePoints} curse points.");

@@ -15,6 +15,7 @@ using DaLion.Shared.Integrations.GMCM;
 using DaLion.Shared.Integrations.GMCM.Attributes;
 using Microsoft.Xna.Framework;
 using Newtonsoft.Json;
+using Resonance;
 using StardewModdingAPI.Utilities;
 using StardewValley.Objects;
 
@@ -30,6 +31,7 @@ public sealed class CombatConfig
     private bool _rebalancedRings = true;
     private bool _craftableGemstoneRings = true;
     private bool _enableInfinityBand = true;
+    private uint _chordSoundDuration = 1000;
     private bool _colorfulResonances = true;
     private LightsourceTexture _resonanceLightsourceTexture = LightsourceTexture.Patterned;
     private bool _newPrismaticEnchantments = true;
@@ -418,10 +420,35 @@ public sealed class CombatConfig
     [GMCMPriority(203)]
     public bool EnableGemstoneResonance { get; internal set; } = true;
 
-    /// <summary>Gets a value indicating whether the resonance glow should inherit the root note's color.</summary>
+    /// <summary>Gets a value indicating whether to allow gemstone resonance to take place.</summary>
     [JsonProperty]
     [GMCMSection("cmbt.rings_enchantments")]
     [GMCMPriority(204)]
+    public bool PlayChord { get; internal set; } = true;
+
+    /// <summary>Gets a value indicating whether to allow gemstone resonance to take place.</summary>
+    [JsonProperty]
+    [GMCMSection("cmbt.rings_enchantments")]
+    [GMCMPriority(205)]
+    [GMCMRange(500, 2500)]
+    [GMCMInterval(100)]
+    public uint ChordSoundDuration
+    {
+        get => this._chordSoundDuration;
+        internal set
+        {
+            this._chordSoundDuration = value;
+            if (Context.IsWorldReady)
+            {
+                HarmonicInterval.RecalculateLinSpace();
+            }
+        }
+    }
+
+    /// <summary>Gets a value indicating whether the resonance glow should inherit the root note's color.</summary>
+    [JsonProperty]
+    [GMCMSection("cmbt.rings_enchantments")]
+    [GMCMPriority(206)]
     public bool ColorfulResonances
     {
         get => this._colorfulResonances;
@@ -443,7 +470,7 @@ public sealed class CombatConfig
     /// <summary>Gets a value indicating the texture that should be used as the resonance light source.</summary>
     [JsonProperty]
     [GMCMSection("cmbt.rings_enchantments")]
-    [GMCMPriority(205)]
+    [GMCMPriority(207)]
     public LightsourceTexture ResonanceLightsourceTexture
     {
         get => this._resonanceLightsourceTexture;
@@ -465,13 +492,13 @@ public sealed class CombatConfig
     /// <summary>Gets a value indicating whether to improve certain underwhelming gemstone effects.</summary>
     [JsonProperty]
     [GMCMSection("cmbt.rings_enchantments")]
-    [GMCMPriority(206)]
+    [GMCMPriority(208)]
     public bool RebalancedGemstones { get; internal set; } = true;
 
     /// <summary>Gets a value indicating whether to replace vanilla weapon enchantments with all-new melee and ranged enchantments.</summary>
     [JsonProperty]
     [GMCMSection("cmbt.rings_enchantments")]
-    [GMCMPriority(207)]
+    [GMCMPriority(209)]
     public bool NewPrismaticEnchantments
     {
         get => this._newPrismaticEnchantments;
@@ -737,7 +764,7 @@ public sealed class CombatConfig
         internal set
         {
             this._enableAutoSelection = value;
-            if (value)
+            if (value || !Context.IsWorldReady)
             {
                 return;
             }

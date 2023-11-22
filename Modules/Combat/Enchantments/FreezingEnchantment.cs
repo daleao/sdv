@@ -4,6 +4,7 @@
 
 using System.Xml.Serialization;
 using DaLion.Overhaul;
+using DaLion.Overhaul.Modules;
 using DaLion.Overhaul.Modules.Combat.Events.GameLoop.UpdateTicked;
 using DaLion.Overhaul.Modules.Combat.Extensions;
 using StardewValley.Monsters;
@@ -34,6 +35,6 @@ public sealed class FreezingEnchantment : BaseSlingshotEnchantment
     protected override void _OnDealDamage(Monster monster, GameLocation location, Farmer who, ref int amount)
     {
         monster.Chill(2000, 0.2f, 0.5f);
-        SoundEffectPlayer.ChillingShot.Play();
+        SoundEffectPlayer.ChillingShot.Play(location);
     }
 }

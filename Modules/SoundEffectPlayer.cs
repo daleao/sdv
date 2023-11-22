@@ -1,4 +1,4 @@
-﻿namespace DaLion.Overhaul;
+﻿namespace DaLion.Overhaul.Modules;
 
 #region using directives
 
@@ -75,19 +75,40 @@ public sealed class SoundEffectPlayer : SmartEnum<SoundEffectPlayer>
         Game1.soundBank.AddCue(cueDefinition);
     }
 
-    /// <summary>Gets the sound played by a charging <see cref="StardewValley.Tools.FishingRod"/> or <see cref="StardewValley.Tools.Slingshot"/>.</summary>
-    public static ICue? SinWave { get; internal set; } = Game1.soundBank?.GetCue("SinWave");
-
     /// <summary>Plays the corresponding <see cref="SoundEffect"/>.</summary>
-    public void Play()
+    /// <param name="location">Optional location where the sound should be played.</param>
+    public void Play(GameLocation? location = null)
     {
-        Game1.currentLocation.playSound(this.Name);
+        if (location is not null)
+        {
+            location.playSound(this.Name);
+        }
+        else
+        {
+            Game1.playSound(this.Name);
+        }
+    }
+
+    /// <summary>Plays the corresponding <see cref="SoundEffect"/> and applies the specified pitch modulation.</summary>
+    /// <param name="pitch">The pitch modulation; a value between <c>0f</c> and <c>1200f</c>.</param>
+    /// <param name="location">Optional location where the sound should be played.</param>
+    public void PlayPitched(int pitch, GameLocation? location = null)
+    {
+        if (location is not null)
+        {
+            location.playSoundPitched(this.Name, pitch);
+        }
+        else
+        {
+            Game1.playSoundPitched(this.Name, pitch);
+        }
     }
 
     /// <summary>Plays the corresponding <see cref="SoundEffect"/> after the specified delay.</summary>
     /// <param name="delay">The delay in milliseconds.</param>
-    public void PlayAfterDelay(int delay)
+    /// <param name="location">Optional location where the sound should be played.</param>
+    public void PlayAfterDelay(int delay, GameLocation? location = null)
     {
-        DelayedAction.playSoundAfterDelay(this.Name, delay);
+        DelayedAction.playSoundAfterDelay(this.Name, delay, location);
     }
 }

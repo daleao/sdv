@@ -73,7 +73,7 @@ public abstract class Gemstone : SmartEnum<Gemstone>, IEquatable<Gemstone>, ICom
     /// <param name="value">The gemstone's canonical index in the <see cref="DiatonicScale"/> of <see cref="Ruby"/>.</param>
     /// <param name="objectIndex">The index of the corresponding <see cref="SObject"/>.</param>
     /// <param name="ringIndex">The index of the corresponding <see cref="StardewValley.Objects.Ring"/>.</param>
-    /// <param name="frequency">The characteristic wavelength with which the <see cref="Gemstone"/> vibrates.</param>
+    /// <param name="glowFrequency">The characteristic wavelength with which the <see cref="Gemstone"/> vibrates.</param>
     /// <param name="stoneColor">The characteristic color of the stone itself.</param>
     /// <param name="glowColor">The characteristic glow of the emitted lightsource.</param>
     protected Gemstone(
@@ -81,7 +81,7 @@ public abstract class Gemstone : SmartEnum<Gemstone>, IEquatable<Gemstone>, ICom
         int value,
         int objectIndex,
         int ringIndex,
-        float frequency,
+        float glowFrequency,
         Color stoneColor,
         Color glowColor)
         : base(name, value)
@@ -91,10 +91,22 @@ public abstract class Gemstone : SmartEnum<Gemstone>, IEquatable<Gemstone>, ICom
         FromRingDict[ringIndex] = this;
 
         this.DisplayName = _I18n.Get("gems." + name.ToLower() + ".name");
-        this.Frequency = frequency;
+        this.GlowFrequency = glowFrequency;
         this.StoneColor = stoneColor;
         this.GlowColor = glowColor.Inverse();
         this.TextColor = this.StoneColor.ChangeValue(0.8f);
+
+        this.NaturalPitch = this.Harmonics[this];
+        for (var i = 0; i < 7; i++)
+        {
+            var adjustedHarmonic = this.NaturalPitch + (1f + this.Harmonics[i]);
+            if (adjustedHarmonic > 2400f)
+            {
+                adjustedHarmonic -= 1200f;
+            }
+
+            this.Harmonics[i] += this.NaturalPitch;
+        }
     }
 
     /// <summary>Gets the localized name of the <see cref="Gemstone"/>.</summary>
@@ -106,11 +118,17 @@ public abstract class Gemstone : SmartEnum<Gemstone>, IEquatable<Gemstone>, ICom
     /// <summary>Gets the index of the corresponding <see cref="StardewValley.Objects.Ring"/>.</summary>
     public int RingIndex { get; }
 
+    /// <summary>Gets the pitch adjustment to the game's 440 Hz sine wave in order to produce the natural frequency for this <see cref="Gemstone"/>.</summary>
+    public int NaturalPitch { get; }
+
+    /// <summary>Gets the pitch adjustments for every note in the corresponding <see cref="DiatonicScale"/>.</summary>
+    public int[] Harmonics { get; } = { 0, 200, 400, 500, 700, 900, 1100 };
+
     /// <summary>Gets the characteristic frequency with which the <see cref="Gemstone"/> vibrates.</summary>
     /// <remarks>Measured in units of inverse <see cref="Ruby"/> wavelengths.</remarks>
-    public float Frequency { get; }
+    public float GlowFrequency { get; }
 
-    /// <summary>Gets the characteristic color which results from <see cref="Frequency"/>.</summary>
+    /// <summary>Gets the characteristic color which results from <see cref="GlowFrequency"/>.</summary>
     public Color StoneColor { get; }
 
     /// <summary>Gets the inverse of <see cref="StoneColor"/>.</summary>
@@ -306,7 +324,7 @@ public abstract class Gemstone : SmartEnum<Gemstone>, IEquatable<Gemstone>, ICom
                 2,
                 ObjectIds.Amethyst,
                 ObjectIds.AmethystRing,
-                32f / 27f,
+                5f / 4f,
                 new Color(111, 60, 196),
                 new Color(220, 50, 250, 240))
         {
@@ -432,7 +450,7 @@ public abstract class Gemstone : SmartEnum<Gemstone>, IEquatable<Gemstone>, ICom
                 5,
                 ObjectIds.Jade,
                 ObjectIds.JadeRing,
-                27f / 16f,
+                5f / 3f,
                 new Color(117, 150, 99),
                 new Color(10, 220, 40, 220))
         {
@@ -474,7 +492,7 @@ public abstract class Gemstone : SmartEnum<Gemstone>, IEquatable<Gemstone>, ICom
                 6,
                 ObjectIds.Topaz,
                 ObjectIds.TopazRing,
-                16f / 9f,
+                15f / 8f,
                 new Color(220, 143, 8),
                 new Color(255, 150, 10, 220))
         {

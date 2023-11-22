@@ -8,6 +8,7 @@ using System.Reflection;
 using System.Reflection.Emit;
 using System.Text;
 using DaLion.Overhaul;
+using DaLion.Overhaul.Modules;
 using DaLion.Overhaul.Modules.Combat.VirtualProperties;
 using DaLion.Overhaul.Modules.Professions.Events.GameLoop.DayEnding;
 using DaLion.Overhaul.Modules.Professions.Extensions;
@@ -467,7 +468,7 @@ internal sealed class GameLocationDamageMonsterPatcher : HarmonyPatcher
         monster.Get_Stolen().Value = true;
 
         // play sound effect
-        SoundEffectPlayer.PoacherSteal.Play();
+        SoundEffectPlayer.PoacherSteal.Play(who.currentLocation);
 
         if (!who.HasProfession(Profession.Poacher, true))
         {

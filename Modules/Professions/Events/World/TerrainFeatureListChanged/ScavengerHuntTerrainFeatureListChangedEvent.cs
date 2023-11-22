@@ -2,7 +2,6 @@
 
 #region using directives
 
-using System.Linq;
 using DaLion.Overhaul.Modules.Professions.TreasureHunts;
 using DaLion.Overhaul.Modules.Professions.VirtualProperties;
 using DaLion.Shared.Events;
@@ -24,6 +23,12 @@ internal sealed class ScavengerHuntTerrainFeatureListChangedEvent : TerrainFeatu
     }
 
     /// <inheritdoc />
+    protected override void OnEnabled()
+    {
+        this._hunt ??= Game1.player.Get_ScavengerHunt();
+    }
+
+    /// <inheritdoc />
     protected override void OnTerrainFeatureListChangedImpl(object? sender, TerrainFeatureListChangedEventArgs e)
     {
         if (!e.IsCurrentLocation)
@@ -31,17 +36,14 @@ internal sealed class ScavengerHuntTerrainFeatureListChangedEvent : TerrainFeatu
             return;
         }
 
-        this._hunt ??= Game1.player.Get_ScavengerHunt();
-        if (!this._hunt.TreasureTile.HasValue)
+        if (!this._hunt!.TreasureTile.HasValue)
         {
             this.Disable();
             return;
         }
 
-        if (e.Added
-                .Where(a => a.Value is HoeDirt)
-                .Select(a => a.Key)
-                .All(key => key != this._hunt.TreasureTile.Value))
+        if (!e.Location.terrainFeatures.TryGetValue(this._hunt.TreasureTile.Value, out var feature) ||
+            feature is not HoeDirt)
         {
             return;
         }

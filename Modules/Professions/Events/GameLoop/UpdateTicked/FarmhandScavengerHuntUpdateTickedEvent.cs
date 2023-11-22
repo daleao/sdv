@@ -2,22 +2,22 @@
 
 #region using directives
 
-using DaLion.Overhaul.Modules.Professions.Extensions;
 using DaLion.Overhaul.Modules.Professions.TreasureHunts;
 using DaLion.Overhaul.Modules.Professions.VirtualProperties;
 using DaLion.Shared.Events;
 using StardewModdingAPI.Events;
+using StardewValley.TerrainFeatures;
 
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class ScavengerHuntUpdateTickedEvent : UpdateTickedEvent
+internal sealed class FarmhandScavengerHuntUpdateTickedEvent : UpdateTickedEvent
 {
     private ScavengerHunt? _hunt;
 
-    /// <summary>Initializes a new instance of the <see cref="ScavengerHuntUpdateTickedEvent"/> class.</summary>
+    /// <summary>Initializes a new instance of the <see cref="FarmhandScavengerHuntUpdateTickedEvent"/> class.</summary>
     /// <param name="manager">The <see cref="EventManager"/> instance that manages this event.</param>
-    internal ScavengerHuntUpdateTickedEvent(EventManager manager)
+    internal FarmhandScavengerHuntUpdateTickedEvent(EventManager manager)
         : base(manager)
     {
     }
@@ -31,10 +31,24 @@ internal sealed class ScavengerHuntUpdateTickedEvent : UpdateTickedEvent
     /// <inheritdoc />
     protected override void OnUpdateTickedImpl(object? sender, UpdateTickedEventArgs e)
     {
-        this._hunt!.Update(e.Ticks);
-        if (Game1.player.HasProfession(Profession.Scavenger, true))
+        if (!e.IsMultipleOf(15))
         {
-            Game1.gameTimeInterval = 0;
+            return;
         }
+
+        if (!this._hunt!.TreasureTile.HasValue)
+        {
+            this.Disable();
+            return;
+        }
+
+        if (Game1.player.currentLocation.terrainFeatures.TryGetValue(this._hunt.TreasureTile.Value, out var feature) ||
+            feature is not HoeDirt)
+        {
+            return;
+        }
+
+        this._hunt.Complete();
+        this.Disable();
     }
 }

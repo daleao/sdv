@@ -103,15 +103,11 @@ internal sealed class LevelUpMenuRemoveImmediateProfessionPerkPatcher : HarmonyP
             return;
         }
 
-        if (player.professions.Any(p => p is >= 26 and < 30 && p != whichProfession))
-        {
-            var firstIndex = player.professions.First(p => p is >= 26 and < 30 && p != whichProfession);
-            player.Set_Ultimate(Ultimate.FromValue(firstIndex));
-        }
-        else
-        {
-            player.Set_Ultimate(null);
-        }
+        player.Set_Ultimate(
+            player.professions.FirstOrDefault(Enumerable.Range(26, 4).Except(whichProfession.Collect()), -1) is
+                var newIndex and > 0
+                ? Ultimate.FromValue(newIndex)
+                : null);
     }
 
     /// <summary>Patch to move bonus health from Defender to Brute.</summary>

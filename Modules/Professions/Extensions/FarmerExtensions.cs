@@ -190,24 +190,20 @@ internal static class FarmerExtensions
         }
 
         var newIndex = currentIndex;
-        switch (currentIndex)
+        if (currentIndex < 0)
         {
-            case < 0 when farmer.professions.Any(p => p is >= 26 and < 30):
+            var expected = farmer.professions.FirstOrDefault(Enumerable.Range(26, 4), -1);
+            if (expected > 0)
             {
                 Log.W(
                     $"[PRFS]: {farmer.Name} is eligible for a Limit Break but is not currently registered to any. The registered Limit Break will be set to a default value.");
-                newIndex = farmer.professions.First(p => p is >= 26 and < 30);
-                break;
+                newIndex = expected;
             }
-
-            case >= 0 when !farmer.professions.Contains(currentIndex):
-            {
-                Log.W($"[PRFS]: {farmer.Name} is registered to Limit Break index {currentIndex} but is missing the corresponding profession. The registered Limit Break will be reset.");
-                newIndex = farmer.professions.Any(p => p is >= 26 and < 30)
-                    ? farmer.professions.First(p => p is >= 26 and < 30)
-                    : -1;
-                break;
-            }
+        }
+        else if (!farmer.professions.Contains(currentIndex))
+        {
+            Log.W($"[PRFS]: {farmer.Name} is registered to Limit Break index {currentIndex} but is missing the corresponding profession. The registered Limit Break will be reset.");
+            newIndex = farmer.professions.FirstOrDefault(Enumerable.Range(26, 4), -1);
         }
 
         if (newIndex != currentIndex)
@@ -228,7 +224,7 @@ internal static class FarmerExtensions
     internal static IEnumerable<Ultimate> GetUnchosenUltimates(this Farmer farmer)
     {
         var chosen = farmer.Get_Ultimate();
-        return new[] { 26, 27, 28, 29 }
+        return Enumerable.Range(26, 4)
             .Intersect(farmer.professions)
             .Except(chosen?.Value.Collect() ?? Enumerable.Empty<int>())
             .Select(Ultimate.FromValue);
