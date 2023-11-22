@@ -229,7 +229,7 @@ public sealed class ProfessionConfig
     [GMCMSection("prfs.general")]
     [GMCMPriority(12)]
     [GMCMRange(10, 30)]
-    public uint ProspectorDetectionDistance { get; internal set; } = 12;
+    public uint ProspectorDetectionDistance { get; internal set; } = 20;
 
     /// <summary>Gets a multiplier which is used to extend the duration of Prospector hunts, in case you feel they end too quickly.</summary>
     [JsonProperty]
