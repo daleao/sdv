@@ -53,7 +53,7 @@ internal sealed class MeleeWeaponTransformPatcher : HarmonyPatcher
                     break;
             }
 
-            __instance.RecalculateAppliedForges();
+            __instance.RecalculateAppliedForges(true);
             return false; // don't run original logic
         }
         catch (Exception ex)
