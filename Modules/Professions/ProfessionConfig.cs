@@ -529,6 +529,12 @@ public sealed class ProfessionConfig
     [GMCMInterval(500)]
     public uint RequiredExpPerExtendedLevel { get; internal set; } = 5000;
 
+    /// <summary>Gets a value indicating whether to add full skill mastery (level 20) as a requirement for perfection.</summary>
+    [JsonProperty]
+    [GMCMSection("prfs.prestige")]
+    [GMCMPriority(209)]
+    public bool ExtendedPerfectionRequirement { get; internal set; } = true;
+
     #endregion prestige
 
     #region experience

@@ -33,6 +33,7 @@ internal sealed class ProfessionAssetRequestedEvent : AssetRequestedEvent
         this.Edit("Data/mail", new AssetEditor(EditMailData));
         this.Edit("LooseSprites/Cursors", new AssetEditor(EditCursorsLooseSprites));
         this.Edit("TileSheets/BuffsIcons", new AssetEditor(EditBuffsIconsTileSheets));
+        this.Edit("Strings/UI", new AssetEditor(EditUiStrings));
 
         this.Provide(
             $"{Manifest.UniqueID}/HudPointer",
@@ -469,6 +470,13 @@ internal sealed class ProfessionAssetRequestedEvent : AssetRequestedEvent
 
         var targetArea = new Rectangle(0, 48, 96, 32);
         editor.PatchImage(ModHelper.ModContent.Load<Texture2D>("assets/sprites/interface/buffs"), null, targetArea);
+    }
+
+    /// <summary>Patches "Farmer Level" text in perfection tracker.</summary>
+    private static void EditUiStrings(IAssetData asset)
+    {
+        var data = asset.AsDictionary<string, string>().Data;
+        data["PT_FarmerLevel"] = I18n.Ui_Pt_FarmerLevel();
     }
 
     #endregion editor callbacks

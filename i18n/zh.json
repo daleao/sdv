@@ -410,6 +410,9 @@
   "ui.buffs.confused": "混乱",
   "ui.buffs.warrior.attack": "+{{value}}攻击",
 
+  "ui.pt.farmer_level": "Skills Mastered",
+
+
   // ********* //
   // * PONDS * //
   // ********* //
@@ -539,6 +542,9 @@
   "gmcm.enable_extended_progression.desc": "必须启用才能允许升级到 20 级。",
   "gmcm.required_exp_per_extended_level.title": "每个扩展级别所需的经验",
   "gmcm.required_exp_per_extended_level.desc": "10级以上每升一级需要多少技能经验。",
+
+  "gmcm.extended_perfection_requirement.title": "Extended Perfection Requirement",
+  "gmcm.extended_perfection_requirement.desc": "If enabled, the Farmer Level perfection requirement is replaced with Skill Mastery, meaning level 20 in all 5 vanilla skills if Extended Progression is enabled, or have obtained all 30 vanilla professions if not.",
 
   "gmcm.sections.prfs.experience": "技能经验系数",
   "gmcm.skill_exp_multipliers.title": "{{skill}}基础经验乘数",

@@ -1,5 +1,17 @@
 ﻿# PRFS Changelog
 
+## 4.1.6
+
+### Added
+
+* Added extended prestige levels as part of the requirement for perfection. This replaces the vanilla "Farmer Level" requirement, replacing it with "Skills Mastered". If Extended Level Progression enabled, mastery means having reached level 20. Otherwise, mastery means having obtained all level 10 professions. This is optional, enabled by default, and obviously requires Prestige enabled.
+    * Added the following translation keys:
+        * `ui.pt.farmer_level`
+        * `gmcm.extended_prestige_requirement.title`
+        * `gmcm.extended_prestige_requirement.desc`
+
+<sup><sup>[🔼 Back to top](#profs-changelog)</sup></sup>
+
 ## 4.1.5
 
 ### Added

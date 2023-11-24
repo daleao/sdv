@@ -414,6 +414,8 @@
   "ui.buffs.confused": "Desorientado",
   "ui.buffs.warrior.attack": "+{{value}} Ataque",
 
+  "ui.pt.farmer_level": "Habilidades Dominadas",
+
   "article.definite.male": "ao",
   "article.definite.female": "à",
   "article.indefinite.male": "um",
@@ -549,6 +551,9 @@
   "gmcm.enable_extended_progression.desc": "Must be enabled to allow progression until level 20.",
   "gmcm.required_exp_per_extended_level.title": "Required Exp per Extended Level",
   "gmcm.required_exp_per_extended_level.desc": "How much skill experience is required for each level-up above level 10.",
+
+  "gmcm.extended_perfection_requirement.title": "Extended Perfection Requirement",
+  "gmcm.extended_perfection_requirement.desc": "If enabled, the Farmer Level perfection requirement is replaced with Skill Mastery, meaning level 20 in all 5 vanilla skills if Extended Progression is enabled, or have obtained all 30 vanilla professions if not.",
 
   "gmcm.sections.prfs.experience": "Skill Experience Multipliers",
   "gmcm.skill_exp_multipliers.title": "Base {{skill}} Exp Multiplier",
