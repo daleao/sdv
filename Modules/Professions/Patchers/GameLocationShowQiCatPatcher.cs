@@ -19,7 +19,7 @@ internal sealed class GameLocationShowQiCatPatcher : HarmonyPatcher
     /// <summary>Initializes a new instance of the <see cref="GameLocationShowQiCatPatcher"/> class.</summary>
     internal GameLocationShowQiCatPatcher()
     {
-        this.Target = typeof(Utility).GetInnerMethodsContaining("<percentGameComplete>b__152_3").SingleOrDefault();
+        this.Target = typeof(Utility).GetInnerMethodsContaining("<ShowQiCat>b__303_3").SingleOrDefault();
     }
 
     #region harmony patches
