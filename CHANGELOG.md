@@ -2,6 +2,15 @@
 
 This file contains a TL;DR of current version changes and hotfixes from across all modules. For the complete changelog, please refer to the individual changelogs of each module, linked [below](#detailed-changelogs).
 
+## Patch 4.1.6 Highlights
+
+* [PRFS]: Added extended prestige levels as part of the requirement for perfection.
+* [PRFS]: Fixed issue when multiple stones are destroyed at once during a Prospector Hunt.
+* [PRFS]: Fixed issue with using Magic Bait in Crab Pots.
+* [CMBT]: Fixed incorrect subtraction of outstanding debt (thanks [DeinKoenig](https://github.com/DeinKoenig)).
+
+<sup><sup>[🔼 Back to top](#margo-changelogs)</sup></sup>
+
 ## Patch 4.1.5 Highlights
 
 * Fixed GMCM list options reseting when hitting Save.

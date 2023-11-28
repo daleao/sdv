@@ -8,6 +8,7 @@ using DaLion.Overhaul.Modules.Combat.Enums;
 using DaLion.Overhaul.Modules.Professions;
 using DaLion.Overhaul.Modules.Tools;
 using DaLion.Overhaul.Modules.Tools.Integrations;
+using DaLion.Shared.Extensions;
 using DaLion.Shared.Integrations.GMCM;
 
 #endregion using directives
@@ -728,8 +729,40 @@ internal sealed class GenericModConfigMenu : GMCMBuilder<GenericModConfigMenu>
             },
             i => i % 2 == 0 ? I18n.Gmcm_IncomeBracket_Title() : I18n.Gmcm_TaxRate_Title(),
             i => i % 2 == 0 ? I18n.Gmcm_IncomeBracket_Desc() : I18n.Gmcm_TaxRate_Desc(),
-            "TaxRatePerIncomeBracket");
+            enumerateLabels: true,
+            id: "TaxRatePerIncomeBracket");
     }
+
+    //[UsedImplicitly]
+    //private static void TaxConfigDeductibleExtrasOverride()
+    //{
+    //    Instance!.AssertRegistered();
+    //    Instance.AddDynamicKeyValuePairListOption(
+    //        I18n.Gmcm_DeductibleExtras_Title,
+    //        I18n.Gmcm_DeductibleExtras_Desc,
+    //        () => Config.Taxes.DeductibleExtras.Select(pair => new KeyValuePair<string, string>(pair.Key.TrimAll(), $"{pair.Value}")).ToList(),
+    //        pairs =>
+    //        {
+    //            var parsedPairs = new List<KeyValuePair<string, float>>();
+    //            for (var i = 0; i < pairs.Count; i++)
+    //            {
+    //                var pair = pairs[i];
+    //                if (!float.TryParse(pair.Value, out var deductible))
+    //                {
+    //                    Log.W(
+    //                        $"Failed to change the deduction rate for item {pair.Key}. The value `{pair.Value}` is invalid. Please make sure that it is a valid decimal.");
+    //                }
+    //                else
+    //                {
+    //                    parsedPairs.Add(new KeyValuePair<string, float>(pair.Key, deductible));
+    //                }
+    //            }
+
+    //            Config.Taxes.DeductibleExtras = parsedPairs.ToDictionary(pair => pair.Key, value => value.Value);
+    //        },
+    //        i => i % 2 == 0 ? I18n.Gmcm_DeductibleExtras_Label_Key() : I18n.Gmcm_DeductibleExtras_Label_Value(),
+    //        id: "DeductibleExtras");
+    //}
 
     [UsedImplicitly]
     private static void TweexConfigDairyArtisanMachinesOverride()

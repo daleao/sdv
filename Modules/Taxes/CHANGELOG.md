@@ -1,5 +1,17 @@
 ﻿# TXS Changelog
 
+## 4.1.6
+
+### Fixed
+
+* Fixed incorrect subtraction of outstanding debt (thanks [DeinKoenig](https://github.com/DeinKoenig)).
+
+### Removed
+
+* Removed Extra Deductibles from GMCM.
+
+<sup><sup>[🔼 Back to top](#txs-changelog)</sup></sup>
+
 ## 4.1.3
 
 ### Added

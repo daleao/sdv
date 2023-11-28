@@ -914,6 +914,8 @@
   "gmcm.deductible_tool_expenses.desc": "What percentage of gold spent on tool purchases and upgrades should be tax-deductible.",
   "gmcm.deductible_extras.title": "Other Deductibles",
   "gmcm.deductible_extras.desc": "What percentage of gold spent on the specific item should be tax-deductible. Items must be added manually to do this list.",
+  "gmcm.deductible_extras.label.key": "Object Name",
+  "gmcm.deductible_extras.label.value": "Deductible Pct",
 
   "gmcm.sections.txs.property": "Property Tax",
   "gmcm.property_tax_lateness_fine.title": "Lateness Fine",

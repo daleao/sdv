@@ -10,6 +10,11 @@
         * `gmcm.extended_perfection_requirement.title`
         * `gmcm.extended_perfection_requirement.desc`
 
+### Fixed
+
+* Fixed issue when multiple stones are destroyed at once during a Prospector Hunt, introduced in 4.1.5.
+* Fixed issue with using Magic Bait in Crab Pots.
+
 <sup><sup>[🔼 Back to top](#profs-changelog)</sup></sup>
 
 ## 4.1.5

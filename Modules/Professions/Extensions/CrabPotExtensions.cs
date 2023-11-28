@@ -12,6 +12,7 @@ using DaLion.Shared.Extensions.Memory;
 using DaLion.Shared.Extensions.Stardew;
 using Microsoft.Xna.Framework;
 using StardewValley.Locations;
+using StardewValley.Menus;
 using StardewValley.Objects;
 
 #endregion using directives
@@ -124,20 +125,15 @@ internal static class CrabPotExtensions
         SpanSplitter rawFishData;
         if (crabPot.HasMagicBait())
         {
-            var allSeasonFish = string.Empty;
+            var allSeasonFish = string.Empty.AsSpan();
             for (var i = 0; i < 4; i++)
             {
                 var seasonalFishData = locationData[location.NameOrUniqueName]
-                    .SplitWithoutAllocation('/')[4 + i]
-                    .Split();
-                for (var j = 0; j < seasonalFishData.Length; j++)
-                {
-                    var fish = seasonalFishData[j];
-                    allSeasonFish = string.Concat(allSeasonFish.AsSpan(), " ".AsSpan(), fish);
-                }
+                    .SplitWithoutAllocation('/')[4 + i];
+                allSeasonFish = i == 0 ? seasonalFishData : string.Concat(allSeasonFish, " ".AsSpan(), seasonalFishData);
             }
 
-            rawFishData = allSeasonFish.SplitWithoutAllocation(' ');
+            rawFishData = allSeasonFish.Split();
         }
         else
         {
@@ -147,16 +143,10 @@ internal static class CrabPotExtensions
         }
 
         var rawFishDataWithLocation = GetRawFishDataWithLocation(rawFishData);
-
         var keys = rawFishDataWithLocation.Keys.ToArray();
         Utility.Shuffle(r, keys);
         for (var i = 0; i < keys.Length; i++)
         {
-            if (i == 2)
-            {
-                break;
-            }
-
             var key = keys[i];
             var specificFishDataFields = fishData[Convert.ToInt32(key)].SplitWithoutAllocation('/');
             if (Lookups.LegendaryFishes.Contains(specificFishDataFields[0].ToString()))

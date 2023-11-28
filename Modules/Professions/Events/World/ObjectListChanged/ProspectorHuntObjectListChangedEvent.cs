@@ -56,13 +56,13 @@ internal sealed class ProspectorHuntObjectListChangedEvent : ObjectListChangedEv
             return;
         }
 
-        var removed = e.Removed.SingleOrDefault(r => r.Value.IsStone());
-        if (removed.IsNullOrDefault())
+        var removed = e.Removed.Where(r => r.Value.IsStone()).ToList();
+        if (removed.Count != 1)
         {
             return;
         }
 
-        var distanceToTreasure = (int)removed.Value.DistanceTo(this._hunt!.TreasureTile.Value);
+        var distanceToTreasure = (int)removed.Single().Value.DistanceTo(this._hunt!.TreasureTile.Value);
         var detectionDistance = (int)ProfessionsModule.Config.ProspectorDetectionDistance;
         if (detectionDistance > 0 && !distanceToTreasure.IsIn(1..detectionDistance))
         {

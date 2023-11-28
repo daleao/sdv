@@ -158,6 +158,8 @@ public sealed class TaxConfig
     [GMCMPriority(6)]
     [GMCMRange(0f, 1f)]
     [GMCMInterval(0.01f)]
+    //[GMCMOverride(typeof(GenericModConfigMenu), "TaxConfigDeductibleExtrasOverride")]
+    [GMCMIgnore]
     public Dictionary<string, float> DeductibleExtras
     {
         get => this._deductibleExtras;

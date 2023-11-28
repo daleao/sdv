@@ -905,6 +905,8 @@
   "gmcm.deductible_tool_expenses.desc": "用于购买和升级工具的钱多少比例是免税的。",
   "gmcm.deductible_extras.title": "其他免赔额",
   "gmcm.deductible_extras.desc": "在特定项目上花费的黄金的百分比应该是免税的。必须手动添加项目以完成此列表。",
+  "gmcm.deductible_extras.label.key": "Object Name",
+  "gmcm.deductible_extras.label.value": "Deductible Pct",
 
   "gmcm.sections.txs.property": "财产税",
   "gmcm.property_tax_lateness_fine.title": "延迟罚金",

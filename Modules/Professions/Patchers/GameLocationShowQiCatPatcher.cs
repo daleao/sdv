@@ -48,7 +48,7 @@ internal sealed class GameLocationShowQiCatPatcher : HarmonyPatcher
         return false; // don't run original logic
     }
 
-    /// <summary>Patch to add perfection requirement with Extended Level.</summary>
+    /// <summary>Patch to display new perfection requirement.</summary>
     [HarmonyTranspiler]
     private static IEnumerable<CodeInstruction>? UtilityPercentGameCompleteTranspiler(
         IEnumerable<CodeInstruction> instructions, ILGenerator generator, MethodBase original)

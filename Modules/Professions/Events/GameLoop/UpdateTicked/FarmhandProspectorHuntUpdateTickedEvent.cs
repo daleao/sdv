@@ -61,14 +61,14 @@ internal sealed class FarmhandProspectorHuntUpdateTickedEvent : UpdateTickedEven
 
         var location = Game1.player.currentLocation;
         var stonesCurrent = location.Objects.Values.Where(o => o.IsStone()).ToList();
-        var removed = this._stonesPrevious.Except(stonesCurrent).SingleOrDefault();
-        if (removed is null)
+        var removed = this._stonesPrevious.Except(stonesCurrent).ToList();
+        if (removed.Count != 1)
         {
             this._stonesPrevious = stonesCurrent;
             return;
         }
 
-        var distanceToTreasure = (int)removed.DistanceTo(this._hunt!.TreasureTile.Value);
+        var distanceToTreasure = (int)removed.Single().DistanceTo(this._hunt!.TreasureTile.Value);
         var detectionDistance = (int)ProfessionsModule.Config.ProspectorDetectionDistance;
         if (detectionDistance > 0 && !distanceToTreasure.IsIn(1..detectionDistance))
         {

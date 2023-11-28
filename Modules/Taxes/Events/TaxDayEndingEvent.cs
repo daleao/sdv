@@ -56,6 +56,7 @@ internal sealed class TaxDayEndingEvent : DayEndingEvent
         var dayIncome = amountSold;
         switch (Game1.dayOfMonth)
         {
+            // handle Conservationist profession
             case 28 when ProfessionsModule.ShouldEnable && taxpayer.professions.Contains(Farmer.mariner):
             {
                 CheckDeductions(taxpayer);
@@ -101,12 +102,12 @@ internal sealed class TaxDayEndingEvent : DayEndingEvent
         {
             Game1.player.Write(DataKeys.LatestAmountWithheld, (amountSold - dayIncome).ToString());
             ModEntry.EventManager.Enable<TaxDayStartedEvent>();
+            Log.T(dayIncome > 0
+                ? $"[TXS]: Actual income was decreased by {amountSold - dayIncome}g after debts and payments."
+                : "[TXS]: Day's income was entirely consumed by debts and payments.");
         }
 
         taxpayer.Increment(DataKeys.SeasonIncome, dayIncome);
-        Log.T(dayIncome > 0
-            ? $"[TXS]: Actual income was increased by {dayIncome}g after debts and payments."
-            : "[TXS]: Day's income was entirely consumed by debts and payments.");
     }
 
     private static void CheckDeductions(Farmer taxpayer)
@@ -253,7 +254,7 @@ internal sealed class TaxDayEndingEvent : DayEndingEvent
         int withheld;
         if (dayIncome >= debtOutstanding)
         {
-            withheld = dayIncome - debtOutstanding;
+            withheld = debtOutstanding;
             debtOutstanding = 0;
             Log.I(
                 $"[TXS]: {taxpayer.Name} has successfully paid off their outstanding debt and will resume earning income from Shipping Bin sales.");
