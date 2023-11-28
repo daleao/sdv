@@ -11,10 +11,10 @@ using HarmonyLib;
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class UtilityPercentGameCompletePatcher : HarmonyPatcher
+internal sealed class UtilityPercentGameCompleteInnerPatcher : HarmonyPatcher
 {
-    /// <summary>Initializes a new instance of the <see cref="UtilityPercentGameCompletePatcher"/> class.</summary>
-    internal UtilityPercentGameCompletePatcher()
+    /// <summary>Initializes a new instance of the <see cref="UtilityPercentGameCompleteInnerPatcher"/> class.</summary>
+    internal UtilityPercentGameCompleteInnerPatcher()
     {
         this.Target = typeof(Utility).GetInnerMethodsContaining("<percentGameComplete>b__152_3").SingleOrDefault();
     }
@@ -34,12 +34,20 @@ internal sealed class UtilityPercentGameCompletePatcher : HarmonyPatcher
         if (ProfessionsModule.Config.EnableExtendedProgression)
         {
             // ReSharper disable once RedundantAssignment
-            __result = Math.Min(Skill.List.Where(skill => skill.CurrentLevel >= skill.MaxLevel).Sum(_ => 1f), 5f);
+            __result = Math.Min(
+                Skill.ListVanilla
+                    .Where(skill => skill.CurrentLevel >= 20)
+                    .Sum(_ => 1f),
+                5f) / 5f;
         }
         else
         {
             // ReSharper disable once RedundantAssignment
-            __result += Math.Min(Skill.List.Where(skill => Game1.player.HasAllProfessionsInSkill(skill)).Sum(_ => 1f), 5f);
+            __result += Math.Min(
+                Skill.ListVanilla
+                    .Where(skill => Game1.player.HasAllProfessionsInSkill(skill))
+                    .Sum(_ => 1f),
+                5f) / 5f;
         }
 
         return false; // don't run original logic

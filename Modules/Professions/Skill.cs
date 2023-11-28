@@ -81,6 +81,8 @@ public class Skill : SmartEnum<Skill>, ISkill
             new ProfessionPair(this.Professions[4], this.Professions[5], this.Professions[1], 10);
     }
 
+    public static IEnumerable<Skill> ListVanilla => List.Except(Luck.Collect());
+
     /// <inheritdoc />
     public string StringId { get; protected set; }
 
