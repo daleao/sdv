@@ -4,6 +4,8 @@
 
 # PRFS
 
+- Overhaul the Oceanographer perk.
+
 # PNDS
 
 # TXS

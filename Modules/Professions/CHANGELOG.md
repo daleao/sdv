@@ -1,5 +1,22 @@
 ﻿# PRFS Changelog
 
+## 4.1.7
+
+### Added
+
+* Added new titles for Prestiged profession variants.
+  (**English only!! Translations will NOT show in-game, so please don't even try.**)
+
+### Changed
+
+* Female counterpart to Slimed Piper has been renamed to Slimed Siren.
+* Experience curve is now an Array instead of a Dictionary.
+
+### Fixed
+
+* `ForgetRecipesOnSkillReset` should now apply to SpaceCore skills.
+* SpaceCore skills should be properly capped at level 10 when not fully reset.
+
 ## 4.1.6
 
 ### Added

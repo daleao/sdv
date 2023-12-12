@@ -31,6 +31,7 @@ public sealed class CombatConfig
     private bool _rebalancedRings = true;
     private bool _craftableGemstoneRings = true;
     private bool _enableInfinityBand = true;
+    private bool _audibleGemstones = true;
     private uint _chordSoundDuration = 1000;
     private bool _colorfulResonances = true;
     private LightsourceTexture _resonanceLightsourceTexture = LightsourceTexture.Patterned;
@@ -424,7 +425,11 @@ public sealed class CombatConfig
     [JsonProperty]
     [GMCMSection("cmbt.rings_enchantments")]
     [GMCMPriority(204)]
-    public bool PlayChord { get; internal set; } = true;
+    public bool AudibleGemstones
+    {
+        get => this._audibleGemstones && Game1.options?.soundVolumeLevel > 0f;
+        internal set => this._audibleGemstones = value;
+    }
 
     /// <summary>Gets a value indicating whether to allow gemstone resonance to take place.</summary>
     [JsonProperty]
@@ -440,7 +445,7 @@ public sealed class CombatConfig
             this._chordSoundDuration = value;
             if (Context.IsWorldReady)
             {
-                HarmonicInterval.RecalculateLinSpace();
+                Chord.RecalculateLinSpace();
             }
         }
     }

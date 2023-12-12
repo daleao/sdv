@@ -50,6 +50,7 @@ public sealed class SCSkill : ISkill
             SCProfession.Loaded[profession.Id] = (SCProfession)profession;
         }
 
+        skill.ExperienceCurve = ISkill.ExperienceCurve;
         SpaceCoreMap.TryAdd(this, skill);
     }
 
@@ -123,7 +124,7 @@ public sealed class SCSkill : ISkill
     public void SetLevel(int level)
     {
         level = Math.Min(level, this.CanPrestige ? 20 : 10);
-        var diff = ISkill.ExperienceByLevel[level] - this.CurrentExp;
+        var diff = ISkill.ExperienceCurve[level] - this.CurrentExp;
         this.AddExperience(diff);
     }
 
@@ -153,25 +154,73 @@ public sealed class SCSkill : ISkill
     /// <inheritdoc />
     public void ForgetRecipes(bool saveForRecovery = true)
     {
-        if (this.StringId != "blueberry.LoveOfCooking.CookingSkill" || LoveOfCookingIntegration.Instance?.IsLoaded != true)
-        {
-            return;
-        }
-
         var farmer = Game1.player;
         var forgottenRecipesDict = farmer.Read(DataKeys.ForgottenRecipesDict)
             .ParseDictionary<string, int>();
 
-        // remove associated cooking recipes
-        var cookingRecipes = LoveOfCookingIntegration.Instance.ModApi!
-            .GetAllLevelUpRecipes().Values
-            .SelectMany(r => r)
-            .Select(r => "blueberry.cac." + r)
-            .ToHashSet();
+        HashSet<string> cookingRecipes;
+        if (this.StringId != "blueberry.LoveOfCooking.CookingSkill" || LoveOfCookingIntegration.Instance?.IsLoaded != true)
+        {
+            cookingRecipes = new HashSet<string>();
+            for (var level = 1; level <= 20; level++)
+            {
+                var levelUpRecipes = this.ToSpaceCore()!.GetSkillLevelUpCookingRecipes(level);
+                if (!levelUpRecipes.ContainsKey(level))
+                {
+                    continue;
+                }
+
+                cookingRecipes.UnionWith(levelUpRecipes[level]);
+            }
+        }
+        else
+        {
+            cookingRecipes = LoveOfCookingIntegration.Instance.ModApi!
+                .GetAllLevelUpRecipes().Values
+                .SelectMany(r => r)
+                .Select(r => "blueberry.cac." + r)
+                .ToHashSet();
+        }
+
         var knownCookingRecipes = farmer.cookingRecipes.Keys
             .Where(key => cookingRecipes.Contains(key))
             .ToDictionary(key => key, key => farmer.cookingRecipes[key]);
         foreach (var (key, value) in knownCookingRecipes)
+        {
+            if (saveForRecovery && !forgottenRecipesDict.TryAdd(key, value))
+            {
+                forgottenRecipesDict[key] += value;
+            }
+
+            farmer.cookingRecipes.Remove(key);
+        }
+
+        if (this.StringId != "blueberry.LoveOfCooking.CookingSkill")
+        {
+            if (saveForRecovery)
+            {
+                farmer.Write(DataKeys.ForgottenRecipesDict, forgottenRecipesDict.Stringify());
+            }
+
+            return;
+        }
+
+        var craftingRecipes = new HashSet<string>();
+        for (var level = 1; level <= 20; level++)
+        {
+            var levelUpRecipes = this.ToSpaceCore()!.GetSkillLevelUpCraftingRecipes(level);
+            if (!levelUpRecipes.ContainsKey(level))
+            {
+                continue;
+            }
+
+            craftingRecipes.UnionWith(levelUpRecipes[level]);
+        }
+
+        var knownCraftingRecipes = farmer.craftingRecipes.Keys
+            .Where(key => craftingRecipes.Contains(key))
+            .ToDictionary(key => key, key => farmer.craftingRecipes[key]);
+        foreach (var (key, value) in knownCraftingRecipes)
         {
             if (saveForRecovery && !forgottenRecipesDict.TryAdd(key, value))
             {

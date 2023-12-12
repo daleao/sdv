@@ -30,7 +30,9 @@ internal sealed class SkillsAddExperiencePatcher : HarmonyPatcher
             return;
         }
 
-        amt = (int)(amt * skill.BaseExperienceMultiplier * skill.PrestigeExperienceMultiplier);
+        amt = Math.Min(
+            (int)(amt * skill.BaseExperienceMultiplier * skill.PrestigeExperienceMultiplier),
+            skill.ExperienceToNextLevel - skill.CurrentExp);
     }
 
     #endregion harmony patches

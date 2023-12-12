@@ -5,10 +5,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using DaLion.Overhaul.Modules.Combat.VirtualProperties;
+using DaLion.Shared;
 using DaLion.Shared.Exceptions;
 using DaLion.Shared.Extensions;
 using DaLion.Shared.Extensions.Collections;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
+using StardewValley;
 
 #endregion using directives
 
@@ -17,6 +20,12 @@ public sealed class Chord : IChord
 {
     private static readonly double[] Range = Enumerable.Range(0, 360).Select(i => i * Math.PI / 180d).ToArray();
 
+    private static List<double> _linSpace =
+        MathUtils.LinSpace(0d, 1d, (int)CombatModule.Config.ChordSoundDuration / 100).ToList();
+
+    private readonly ICue[] _cues;
+    private int[] _pitches;
+    private int _fadeStepIndex;
     private int _position;
     private int _richness;
     private double _phase;
@@ -30,6 +39,13 @@ public sealed class Chord : IChord
     internal Chord(Gemstone first, Gemstone second)
     {
         this.Notes = first.Collect(second).ToArray();
+        this._cues = new ICue[2];
+        for (var i = 0; i < 2; i++)
+        {
+            this._cues[i] = Game1.soundBank.GetCue("SinWave");
+        }
+
+        this._pitches = new int[2];
         this.Harmonize();
     }
 
@@ -40,6 +56,13 @@ public sealed class Chord : IChord
     internal Chord(Gemstone first, Gemstone second, Gemstone third)
     {
         this.Notes = first.Collect(second, third).ToArray();
+        this._cues = new ICue[3];
+        for (var i = 0; i < 3; i++)
+        {
+            this._cues[i] = Game1.soundBank.GetCue("SinWave");
+        }
+
+        this._pitches = new int[3];
         this.Harmonize();
     }
 
@@ -51,6 +74,13 @@ public sealed class Chord : IChord
     internal Chord(Gemstone first, Gemstone second, Gemstone third, Gemstone fourth)
     {
         this.Notes = first.Collect(second, third, fourth).ToArray();
+        this._cues = new ICue[4];
+        for (var i = 0; i < 4; i++)
+        {
+            this._cues[i] = Game1.soundBank.GetCue("SinWave");
+        }
+
+        this._pitches = new int[4];
         this.Harmonize();
     }
 
@@ -69,6 +99,11 @@ public sealed class Chord : IChord
     /// <summary>Gets the current radius of the <see cref="_lightSource"/>.</summary>
     private float LightSourceRadius =>
         (float)(this.Amplitude + (this.Amplitude / 10d * Math.Sin(this.Root!.GlowFrequency * this._phase)));
+
+    internal static void RecalculateLinSpace()
+    {
+        _linSpace = MathUtils.LinSpace(0d, 1d, (int)CombatModule.Config.ChordSoundDuration / 100).ToList();
+    }
 
     /// <summary>Adds resonance stat bonuses to the farmer.</summary>
     /// <param name="location">The <see cref="GameLocation"/>.</param>
@@ -140,17 +175,53 @@ public sealed class Chord : IChord
         location.removeLightSource(this._lightSource.Identifier);
     }
 
-    /// <summary>Starts playing sound cues.</summary>
+    /// <summary>Begins playback of the sine wave <see cref="ICue"/> for each note in the <see cref="Chord"/>.</summary>
     internal void PlayCues()
     {
-        if (!CombatModule.Config.PlayChord)
+        if (!CombatModule.Config.AudibleGemstones)
         {
             return;
         }
 
-        for (var i = 0; i < this.Notes.Length; i++)
+        // copied from Game1.playSoundPitched in order to manipulate the instance volume
+        try
         {
-            this._intervalMatrix[i][0].PlayAfterDelay(i * (this._richness > 0 ? 100 : 0));
+            for (var i = 0; i < this.Notes.Length; i++)
+            {
+                var cue = this._cues[i];
+                if (cue.IsPlaying)
+                {
+                    continue;
+                }
+
+                var pitch = this._pitches[i];
+                cue.SetVariable("Pitch", pitch); // for some reason cues cannot remember their pitch
+                if (this._richness > 0)
+                {
+                    DelayedAction.functionAfterDelay(this._cues[i].Play, i * 100);
+                }
+                else
+                {
+                    cue.Play();
+                }
+
+                try
+                {
+                    if (!cue.IsPitchBeingControlledByRPC)
+                    {
+                        cue.Pitch = Utility.Lerp(-1f, 1f, pitch / 2400f);
+                    }
+                }
+                catch (Exception)
+                {
+                    // ignored
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            Game1.debugOutput = Game1.parseText(ex.Message);
+            Log.E(ex.ToString());
         }
 
         var fadeSteps = (int)CombatModule.Config.ChordSoundDuration / 100;
@@ -285,20 +356,22 @@ public sealed class Chord : IChord
                 this._intervalMatrix.ForEach(intervals => intervals.ShiftLeft(shifts));
             }
 
-            var rootInterval = this._intervalMatrix[0][0];
+            this._cues[0].Pitch = this.Root.NaturalPitch;
             var seenIntervals = new HashSet<HarmonicInterval>();
             for (var i = 1; i < size; i++)
             {
-                var harmonicInterval = this._intervalMatrix[i][0];
-                if (harmonicInterval.Pitch < rootInterval.Pitch)
+                var intervalPitch = this.Root.Harmonics[(int)this._intervalMatrix[i][0].Number];
+                if (intervalPitch < this.Root.NaturalPitch)
                 {
-                    harmonicInterval.Pitch += 1200;
+                    intervalPitch += 1200;
                 }
 
-                if (!seenIntervals.Add(harmonicInterval))
+                if (!seenIntervals.Add(this._intervalMatrix[i][0]))
                 {
-                    harmonicInterval.Pitch += harmonicInterval.Pitch <= 1200 ? 1200 : -1200;
+                    intervalPitch += intervalPitch <= 1200 ? 1200 : -1200;
                 }
+
+                this._pitches[i] = intervalPitch;
             }
         }
 
@@ -383,21 +456,45 @@ public sealed class Chord : IChord
         this._period = 360d / this.Root.GlowFrequency;
     }
 
-    /// <summary>Starts playing sound cues.</summary>
+    /// <summary>Ceases playback of the sine wave <see cref="ICue"/> for each note in the <see cref="Chord"/>.</summary>
     private void StopCues()
     {
         for (var i = 0; i < this.Notes.Length; i++)
         {
-            this._intervalMatrix[i][0].Stop();
+            var cue = this._cues[i];
+            if (!cue.IsPlaying)
+            {
+                continue;
+            }
+
+            cue.Stop(AudioStopOptions.Immediate);
+            cue.Volume = 1f;
         }
+
+        this._fadeStepIndex = 0;
     }
 
     /// <summary>Fades out the sound cue volumes.</summary>
     private void FadeCues()
     {
+        if (++this._fadeStepIndex >= _linSpace.Count)
+        {
+            this.StopCues();
+            return;
+        }
+
         for (var i = 0; i < this.Notes.Length; i++)
         {
-            this._intervalMatrix[i][0].StepFade();
+            var cue = this._cues[i];
+            if ((float)MathUtils.BoundedSCurve(_linSpace[this._fadeStepIndex], 3d) is var newVolume && newVolume < cue.Volume)
+            {
+                cue.Volume = newVolume;
+            }
+
+            if (cue.Volume is > 0f and <= 0.01f)
+            {
+                cue.Stop(AudioStopOptions.Immediate);
+            }
         }
     }
 }

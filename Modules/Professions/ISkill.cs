@@ -34,7 +34,7 @@ public interface ISkill
     int MaxLevel { get; }
 
     /// <summary>Gets the amount of experience required for the next level-up.</summary>
-    int ExperienceToNextLevel => this.CurrentLevel == this.MaxLevel ? 0 : ExperienceByLevel[this.CurrentLevel + 1];
+    int ExperienceToNextLevel => this.CurrentLevel == this.MaxLevel ? 0 : ExperienceCurve[this.CurrentLevel + 1];
 
     /// <summary>Gets the base experience multiplier set by the player for this skill.</summary>
     float BaseExperienceMultiplier { get; }
@@ -70,31 +70,31 @@ public interface ISkill
     /// </remarks>
     virtual IEnumerable<int> TierTwoProfessionIds => this.ProfessionIds.TakeLast(4);
 
-    /// <summary>Gets the experience required for each level.</summary>
-    internal static ImmutableDictionary<int, int> ExperienceByLevel { get; } = new Dictionary<int, int>
+    /// <summary>Gets the experience required for each level up.</summary>
+    internal static int[] ExperienceCurve { get; } =
     {
-        { 0, 0 },
-        { 1, 100 },
-        { 2, 380 },
-        { 3, 770 },
-        { 4, 1300 },
-        { 5, 2150 },
-        { 6, 3300 },
-        { 7, 4800 },
-        { 8, 6900 },
-        { 9, 10000 },
-        { 10, ExpAtLevel10 },
-        { 11, ExpAtLevel10 + (int)ProfessionsModule.Config.RequiredExpPerExtendedLevel },
-        { 12, ExpAtLevel10 + ((int)ProfessionsModule.Config.RequiredExpPerExtendedLevel * 2) },
-        { 13, ExpAtLevel10 + ((int)ProfessionsModule.Config.RequiredExpPerExtendedLevel * 3) },
-        { 14, ExpAtLevel10 + ((int)ProfessionsModule.Config.RequiredExpPerExtendedLevel * 4) },
-        { 15, ExpAtLevel10 + ((int)ProfessionsModule.Config.RequiredExpPerExtendedLevel * 5) },
-        { 16, ExpAtLevel10 + ((int)ProfessionsModule.Config.RequiredExpPerExtendedLevel * 6) },
-        { 17, ExpAtLevel10 + ((int)ProfessionsModule.Config.RequiredExpPerExtendedLevel * 7) },
-        { 18, ExpAtLevel10 + ((int)ProfessionsModule.Config.RequiredExpPerExtendedLevel * 8) },
-        { 19, ExpAtLevel10 + ((int)ProfessionsModule.Config.RequiredExpPerExtendedLevel * 9) },
-        { 20, ExpAtLevel10 + ((int)ProfessionsModule.Config.RequiredExpPerExtendedLevel * 10) },
-    }.ToImmutableDictionary();
+        0,
+        100,
+        380,
+        770,
+        1300,
+        2150,
+        3300,
+        4800,
+        6900,
+        10000,
+        ExpAtLevel10,
+        ExpAtLevel10 + (int)ProfessionsModule.Config.RequiredExpPerExtendedLevel,
+        ExpAtLevel10 + ((int)ProfessionsModule.Config.RequiredExpPerExtendedLevel * 2),
+        ExpAtLevel10 + ((int)ProfessionsModule.Config.RequiredExpPerExtendedLevel * 3),
+        ExpAtLevel10 + ((int)ProfessionsModule.Config.RequiredExpPerExtendedLevel * 4),
+        ExpAtLevel10 + ((int)ProfessionsModule.Config.RequiredExpPerExtendedLevel * 5),
+        ExpAtLevel10 + ((int)ProfessionsModule.Config.RequiredExpPerExtendedLevel * 6),
+        ExpAtLevel10 + ((int)ProfessionsModule.Config.RequiredExpPerExtendedLevel * 7),
+        ExpAtLevel10 + ((int)ProfessionsModule.Config.RequiredExpPerExtendedLevel * 8),
+        ExpAtLevel10 + ((int)ProfessionsModule.Config.RequiredExpPerExtendedLevel * 9),
+        ExpAtLevel10 + ((int)ProfessionsModule.Config.RequiredExpPerExtendedLevel * 10),
+    };
 
     /// <summary>Adds experience points for this skill.</summary>
     /// <param name="amount">The amount of experience to add.</param>

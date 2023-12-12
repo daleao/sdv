@@ -7,6 +7,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using Ardalis.SmartEnum;
 using DaLion.Shared.Extensions;
+using Extensions;
 using Microsoft.Xna.Framework;
 using static System.String;
 
@@ -138,8 +139,13 @@ public sealed class Profession : SmartEnum<Profession>, IProfession
     public string StringId => this.Name;
 
     /// <inheritdoc />
-    public string Title =>
-        _I18n.Get(this.Name.ToLower() + ".title." + (Game1.player.IsMale ? "male" : "female"));
+    public string Title => LocalizedContentManager.CurrentLanguageCode == LocalizedContentManager.LanguageCode.en
+        ? this.Level == 10
+            ? _I18n.Get(this.Name.ToLower() + ".title." + (this.IsPrestiged ? "prestiged." : Empty) +
+                        (Game1.player.IsMale ? "male" : "female"))
+            : (this.IsPrestiged ? I18n.Prestiged_Title() : Empty) +
+              _I18n.Get(this.Name.ToLower() + ".title." + (Game1.player.IsMale ? "male" : "female"))
+        : _I18n.Get(this.Name.ToLower() + ".title." + (Game1.player.IsMale ? "male" : "female"));
 
     /// <inheritdoc />
     public int Id => this.Value;
@@ -155,6 +161,9 @@ public sealed class Profession : SmartEnum<Profession>, IProfession
 
     /// <inheritdoc />
     public ISkill Skill => Professions.Skill.FromValue(this.Value / 6);
+
+    /// <summary>Whether the local player has prestiged this <see cref="Profession"/>.</summary>
+    public bool IsPrestiged => Game1.player.HasProfession(this, true);
 
     /// <summary>Gets the <see cref="Profession"/> with the specified localized name.</summary>
     /// <param name="name">A localized profession name.</param>

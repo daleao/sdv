@@ -1,5 +1,15 @@
 ﻿# CMBT Changelog
 
+## 4.1.7
+
+### Added
+
+* Building on top of the audible chords introduced in the previous update (see below), lone gemstones now also faintly play their frequencies when held for a while.
+
+### Changed
+
+* `PlayChord` setting has been renamed to `AudibleGemstones`.
+
 ## 4.1.5
 
 ### Added

@@ -126,7 +126,7 @@ public class Skill : SmartEnum<Skill>, ISkill
     /// <inheritdoc />
     public void AddExperience(int amount)
     {
-        Game1.player.experiencePoints[this] = Math.Min(this.CurrentExp + amount, ISkill.ExperienceByLevel[this.MaxLevel]);
+        Game1.player.experiencePoints[this] = Math.Min(this.CurrentExp + amount, ISkill.ExperienceCurve[this.MaxLevel]);
     }
 
     /// <summary>Sets the experience points for this skill.</summary>
@@ -148,7 +148,7 @@ public class Skill : SmartEnum<Skill>, ISkill
             .When(Mining).Then(() => farmer.miningLevel.Value = level)
             .When(Combat).Then(() => farmer.combatLevel.Value = level)
             .When(Luck).Then(() => farmer.luckLevel.Value = level);
-        Game1.player.experiencePoints[this] = ISkill.ExperienceByLevel[level];
+        Game1.player.experiencePoints[this] = ISkill.ExperienceCurve[level];
     }
 
     /// <inheritdoc />
@@ -204,23 +204,23 @@ public class Skill : SmartEnum<Skill>, ISkill
             .ParseDictionary<string, int>();
 
         // remove associated crafting recipes
-        var craftingRecipes =
+        var knownCraftingRecipes =
             farmer.craftingRecipes.Keys.ToDictionary(
                 key => key,
                 key => farmer.craftingRecipes[key]);
         foreach (var (key, value) in CraftingRecipe.craftingRecipes)
         {
             if (!value.SplitWithoutAllocation('/')[4].Contains(this.StringId, StringComparison.Ordinal) ||
-                !craftingRecipes.ContainsKey(key))
+                !knownCraftingRecipes.ContainsKey(key))
             {
                 continue;
             }
 
             if (saveForRecovery)
             {
-                if (!forgottenRecipesDict.TryAdd(key, craftingRecipes[key]))
+                if (!forgottenRecipesDict.TryAdd(key, knownCraftingRecipes[key]))
                 {
-                    forgottenRecipesDict[key] += craftingRecipes[key];
+                    forgottenRecipesDict[key] += knownCraftingRecipes[key];
                 }
             }
 
@@ -228,23 +228,23 @@ public class Skill : SmartEnum<Skill>, ISkill
         }
 
         // remove associated cooking recipes
-        var cookingRecipes =
+        var knownCookingRecipes =
             farmer.cookingRecipes.Keys.ToDictionary(
                 key => key,
                 key => farmer.cookingRecipes[key]);
         foreach (var (key, value) in CraftingRecipe.cookingRecipes)
         {
             if (!value.SplitWithoutAllocation('/')[3].Contains(this.StringId, StringComparison.Ordinal) ||
-                !cookingRecipes.ContainsKey(key))
+                !knownCookingRecipes.ContainsKey(key))
             {
                 continue;
             }
 
             if (saveForRecovery)
             {
-                if (!forgottenRecipesDict.TryAdd(key, cookingRecipes[key]))
+                if (!forgottenRecipesDict.TryAdd(key, knownCookingRecipes[key]))
                 {
-                    forgottenRecipesDict[key] += cookingRecipes[key];
+                    forgottenRecipesDict[key] += knownCookingRecipes[key];
                 }
             }
 
@@ -265,15 +265,15 @@ public class Skill : SmartEnum<Skill>, ISkill
             this.SetLevel(this.MaxLevel);
         }
 
-        if (this.CurrentLevel == this.MaxLevel && this.CurrentExp > ISkill.ExperienceByLevel[this.MaxLevel])
+        if (this.CurrentLevel == this.MaxLevel && this.CurrentExp > ISkill.ExperienceCurve[this.MaxLevel])
         {
-            this.SetExperience(ISkill.ExperienceByLevel[this.MaxLevel]);
+            this.SetExperience(ISkill.ExperienceCurve[this.MaxLevel]);
             return;
         }
 
         var expectedLevel = 0;
         var level = 1;
-        while (level <= this.MaxLevel && this.CurrentExp >= ISkill.ExperienceByLevel[level])
+        while (level <= this.MaxLevel && this.CurrentExp >= ISkill.ExperienceCurve[level])
         {
             level++;
             expectedLevel++;
@@ -303,7 +303,7 @@ public class Skill : SmartEnum<Skill>, ISkill
         {
             Log.W(
                 $"{this} skill's current level ({this.CurrentLevel}) is above the expected value ({expectedLevel}). The current level and experience will be downgraded to correct the difference.");
-            this.SetExperience(ISkill.ExperienceByLevel[expectedLevel]);
+            this.SetExperience(ISkill.ExperienceCurve[expectedLevel]);
         }
 
         this.SetLevel(expectedLevel);

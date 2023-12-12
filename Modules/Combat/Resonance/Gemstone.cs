@@ -9,9 +9,13 @@ using Ardalis.SmartEnum;
 using DaLion.Overhaul.Modules.Combat.Enchantments;
 using DaLion.Overhaul.Modules.Combat.Integrations;
 using DaLion.Overhaul.Modules.Combat.VirtualProperties;
+using DaLion.Shared;
 using DaLion.Shared.Constants;
 using DaLion.Shared.Extensions.Xna;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
+using StardewValley;
+using StardewValley.Objects;
 
 #endregion using directives
 
@@ -47,14 +51,28 @@ public abstract class Gemstone : SmartEnum<Gemstone>, IEquatable<Gemstone>, ICom
 
     #endregion enum entries
 
-    /// <summary>Look-up to obtain the corresponding <see cref="Gemstone"/> from a ring index.</summary>
+    /// <summary>Look-up to obtain the corresponding <see cref="Gemstone"/> from a <see cref="SObject"/> index.</summary>
+    private static readonly Dictionary<int, Gemstone> FromObjectDict;
+
+    /// <summary>Look-up to obtain the corresponding <see cref="Gemstone"/> from a <see cref="Ring"/> index.</summary>
     private static readonly Dictionary<int, Gemstone> FromRingDict;
 
     /// <summary>The canonical <see cref="DiatonicScale"/> with <see cref="Ruby"/> as the root.</summary>
     private static readonly DiatonicScale RubyScale;
 
+    private static readonly List<double> VolumeSpace =
+        MathUtils.LinSpace(0d, 4d, 100).Select(x => Math.Exp(x - 5d)).ToList();
+
+    private static readonly List<double> SineSpace =
+        MathUtils.LinSpace(0d, 2 * Math.PI, 60).Select(Math.Sin).ToList();
+
+    private static int _fadeStepIndex;
+
+    private static int _modulationStepIndex;
+
     static Gemstone()
     {
+        FromObjectDict = new Dictionary<int, Gemstone>();
         FromRingDict = new Dictionary<int, Gemstone>();
 
         Ruby = new RubyGemstone();
@@ -72,7 +90,7 @@ public abstract class Gemstone : SmartEnum<Gemstone>, IEquatable<Gemstone>, ICom
     /// <param name="name">The gemstone's name.</param>
     /// <param name="value">The gemstone's canonical index in the <see cref="DiatonicScale"/> of <see cref="Ruby"/>.</param>
     /// <param name="objectIndex">The index of the corresponding <see cref="SObject"/>.</param>
-    /// <param name="ringIndex">The index of the corresponding <see cref="StardewValley.Objects.Ring"/>.</param>
+    /// <param name="ringIndex">The index of the corresponding <see cref="Ring"/>.</param>
     /// <param name="glowFrequency">The characteristic wavelength with which the <see cref="Gemstone"/> vibrates.</param>
     /// <param name="stoneColor">The characteristic color of the stone itself.</param>
     /// <param name="glowColor">The characteristic glow of the emitted lightsource.</param>
@@ -87,6 +105,8 @@ public abstract class Gemstone : SmartEnum<Gemstone>, IEquatable<Gemstone>, ICom
         : base(name, value)
     {
         this.ObjectIndex = objectIndex;
+        FromObjectDict[objectIndex] = this;
+
         this.RingIndex = ringIndex;
         FromRingDict[ringIndex] = this;
 
@@ -99,12 +119,6 @@ public abstract class Gemstone : SmartEnum<Gemstone>, IEquatable<Gemstone>, ICom
         this.NaturalPitch = this.Harmonics[this];
         for (var i = 0; i < 7; i++)
         {
-            var adjustedHarmonic = this.NaturalPitch + (1f + this.Harmonics[i]);
-            if (adjustedHarmonic > 2400f)
-            {
-                adjustedHarmonic -= 1200f;
-            }
-
             this.Harmonics[i] += this.NaturalPitch;
         }
     }
@@ -115,7 +129,7 @@ public abstract class Gemstone : SmartEnum<Gemstone>, IEquatable<Gemstone>, ICom
     /// <summary>Gets the index of the corresponding <see cref="SObject"/>.</summary>
     public int ObjectIndex { get; }
 
-    /// <summary>Gets the index of the corresponding <see cref="StardewValley.Objects.Ring"/>.</summary>
+    /// <summary>Gets the index of the corresponding <see cref="Ring"/>.</summary>
     public int RingIndex { get; }
 
     /// <summary>Gets the pitch adjustment to the game's 440 Hz sine wave in order to produce the natural frequency for this <see cref="Gemstone"/>.</summary>
@@ -123,6 +137,9 @@ public abstract class Gemstone : SmartEnum<Gemstone>, IEquatable<Gemstone>, ICom
 
     /// <summary>Gets the pitch adjustments for every note in the corresponding <see cref="DiatonicScale"/>.</summary>
     public int[] Harmonics { get; } = { 0, 200, 400, 500, 700, 900, 1100 };
+
+    /// <summary>Gets the <see cref="ICue"/> of the <see cref="Gemstone"/>'s vibration.</summary>
+    public ICue Cue { get; } = Game1.soundBank.GetCue("SinWave");
 
     /// <summary>Gets the characteristic frequency with which the <see cref="Gemstone"/> vibrates.</summary>
     /// <remarks>Measured in units of inverse <see cref="Ruby"/> wavelengths.</remarks>
@@ -183,9 +200,26 @@ public abstract class Gemstone : SmartEnum<Gemstone>, IEquatable<Gemstone>, ICom
         return base.CompareTo(other);
     }
 
+    /// <summary>Gets the gemstone associated with the specified object index.</summary>
+    /// <param name="objectIndex">The index of an object.</param>
+    /// <returns>The <see cref="Gemstone"/> which embedded in the <see cref="SObject"/> with the specified <paramref name="objectIndex"/>.</returns>
+    internal static Gemstone FromObject(int objectIndex)
+    {
+        return FromObjectDict[objectIndex];
+    }
+
+    /// <summary>Try to get the gemstone associated with the specified object index.</summary>
+    /// <param name="objectIndex">The index of an object.</param>
+    /// <param name="gemstone">The matched gemstone, if any.</param>
+    /// <returns><see langword="true"/> if a matching gemstone exists, otherwise <see langword="false"/>.</returns>
+    internal static bool TryFromObject(int objectIndex, [NotNullWhen(true)] out Gemstone? gemstone)
+    {
+        return FromObjectDict.TryGetValue(objectIndex, out gemstone);
+    }
+
     /// <summary>Gets the gemstone associated with the specified ring index.</summary>
     /// <param name="ringIndex">The index of a gemstone ring.</param>
-    /// <returns>The <see cref="Gemstone"/> which embedded in the <see cref="StardewValley.Objects.Ring"/> with the specified <paramref name="ringIndex"/>.</returns>
+    /// <returns>The <see cref="Gemstone"/> which embedded in the <see cref="Ring"/> with the specified <paramref name="ringIndex"/>.</returns>
     internal static Gemstone FromRing(int ringIndex)
     {
         return FromRingDict[ringIndex];
@@ -225,6 +259,77 @@ public abstract class Gemstone : SmartEnum<Gemstone>, IEquatable<Gemstone>, ICom
     /// <param name="buffer">Shared buffer of aggregated stat modifiers.</param>
     /// <param name="magnitude">A multiplier over the base stat modifiers.</param>
     internal abstract void Buffer(StatBuffer buffer, float magnitude = 1f);
+
+    /// <summary>Begins playback of the sine wave <see cref="ICue"/> for this <see cref="Gemstone"/>.</summary>
+    internal void PlayCue()
+    {
+        if (this.Cue.IsPlaying)
+        {
+            return;
+        }
+
+        this.Cue.SetVariable("Pitch", this.Harmonics[0]);
+        this.Cue.Play();
+        try
+        {
+            if (!this.Cue.IsPitchBeingControlledByRPC)
+            {
+                this.Cue.Pitch = Utility.Lerp(-1f, 1f, this.Harmonics[0] / 2400f);
+            }
+        }
+        catch (Exception)
+        {
+            // ignored
+        }
+
+        this.Cue.Volume = 0f;
+    }
+
+    /// <summary>Ceases playback of the sine wave <see cref="ICue"/> for this <see cref="Gemstone"/>.</summary>
+    internal void StopCue()
+    {
+        if (!this.Cue.IsPlaying)
+        {
+            return;
+        }
+
+        this.Cue.Stop(AudioStopOptions.Immediate);
+        _fadeStepIndex = 0;
+    }
+
+    /// <summary>Fades in the sine wave <see cref="ICue"/> volume.</summary>
+    internal void FadeIn()
+    {
+        if (++_fadeStepIndex < VolumeSpace.Count)
+        {
+            this.Cue.Volume = (float)VolumeSpace[_fadeStepIndex];
+        }
+    }
+
+    /// <summary>Modulates the sine wave <see cref="ICue"/> pitch.</summary>
+    internal void Modulate()
+    {
+        if (++_modulationStepIndex >= SineSpace.Count)
+        {
+            _modulationStepIndex = 0;
+        }
+
+        this.Cue.SetVariable("Pitch", this.Harmonics[0] + (int)(SineSpace[_modulationStepIndex] * 10d));
+        try
+        {
+            if (!this.Cue.IsPitchBeingControlledByRPC)
+            {
+                this.Cue.Pitch = Utility.Lerp(
+                    -1f,
+                    1f,
+                    (this.Harmonics[0] / 2400f) + (float)(SineSpace[_modulationStepIndex] * 10d));
+            }
+        }
+        catch (Exception)
+        {
+            // ignored
+        }
+    }
 
     #region implementations
 
