@@ -2,65 +2,14 @@
 
 This file contains a TL;DR of current version changes and hotfixes from across all modules. For the complete changelog, please refer to the individual changelogs of each module, linked [below](#detailed-changelogs).
 
-## Patch 4.1.6 Highlights
+## Current Patch 4.1.7 Highlights
 
-* [PRFS]: Added extended prestige levels as part of the requirement for perfection.
-* [PRFS]: Fixed issue when multiple stones are destroyed at once during a Prospector Hunt.
-* [PRFS]: Fixed issue with using Magic Bait in Crab Pots.
-* [CMBT]: Fixed incorrect subtraction of outstanding debt (thanks [DeinKoenig](https://github.com/DeinKoenig)).
+* [CMBT]: Gemstones now faintly play their frequency when held for a while.
+* [PRFS]: Added new titles to Prestiged profession variants. The [Readme](./Modules/Professions) has been updated to reflect this change.
+* [PRFS]: `ForgetRecipesOnSkillReset` setting should now apply to SpaceCore skills when enabled.
+* [PRFS]: SpaceCore skills should now be properly capped at level 10 when not fully reset.
 
-<sup><sup>[🔼 Back to top](#margo-changelogs)</sup></sup>
-
-## Patch 4.1.5 Highlights
-
-* Fixed GMCM list options reseting when hitting Save.
-* The module selection menu now translates correctly.
-* Fixed multiplayer error caused when a peer fires a custom projectile.
-* [CMBT]: You can now hear the chords in your Infinity Bands!
-* [PRFS]: Prospector Hunt mechanic was changed to an auditory game of hot and cold.
-* [PRFS]: Reblanced the impact of Treasure Hunt streak.
-* [PRFS]: Fixed issue of farmhands being unable to complete treasure hunts.
-
-<sup><sup>[🔼 Back to top](#margo-changelogs)</sup></sup>
-
-## Hotfix 4.1.4 Highlights
-
-* [PROFS]: Fixed typo in `ProspectorHunt.TryStart` which caused SO exception.
-
-<sup><sup>[🔼 Back to top](#margo-changelogs)</sup></sup>
-
-## Patch 4.1.3 Highlights
-
-* Fixed GMCM list text boxes being limited to 13 characters.
-* [CMBT]: Fixed an edge case that caused an error to be thrown with Ridgeside's Fairy Needle, which, for some reason, does not have a description.
-* [CMBT]: Stabbing Swords are no longer persisted as such, to avoid the issue of the game freezing if the mod is removed abruptly.
-* [CMBT]: Weapon Overhaul is now a hard requirement for both Stabbing Swords and Melee Combo Framework.
-* [CMBT]: Removed the crit. boost given to daggers in vanilla.
-* [CMBT]: Added new failsafes for Community Upgrades applying to farmhand Hero Quest.
-* [PRFS]: Removed patch to Content Patcher. Please manually edit SVE's files as described in the [detailed changelog](Modules/Professions/CHANGELOG.md).
-* [PRFS]: Desperado's quick-shot perk now displays as a buff.
-* [PRFS]: Fixed Prospector Hunt weapons spawning out-of-bounds.
-* [PROFS]: Treasure Hunts now play quest complete sound on completion.
-* [TOLS]: Axe and Pickaxe shockwave no longer cost stamina with Efficient enchantment
-* [TWX]: Removed Spawn Crows feture.
-
-<sup><sup>[🔼 Back to top](#margo-changelogs)</sup></sup>
-
-## Patch 4.1.2 Highlights
-
-* [CMBT]: Fixed issues with weapons stats being set incorrectly.
-* [PRFS]: Fixed Null-Reference exception caused by `Monster.FindPlayer`.
-* Config options with custom logic now only trigger when the value changes. This avoids unecessarily triggering every single validation logic when saving via GMCM.
-
-<sup><sup>[🔼 Back to top](#margo-changelogs)</sup></sup>
-
-## Hotfix 4.1.1 Highlights
-
-* Hotfix for all weapons being turned into swords when Combat module not enabled.
-
-<sup><sup>[🔼 Back to top](#margo-changelogs)</sup></sup>
-
-## Minor Release 4.1.0 Highlights
+## Minor Release 4.1.x Highlights
 
 * The GMCM is now self-generating, which is awesome (for me) but does unfortunately mean that absolutely all translation keys for the menu have changed (sorry translators). The ZH and KO menu translations had to be discarded.
 * Added dynamic list options to the GMCM, which means that any list config settings that previously had to be changed manually (like `CustomArtisanMachines`, `StabbingSwords`, `TaxRatePerBracket`, etc.) can now be changed in the menu in-game. With this, all settings are now available in the menu.
@@ -73,11 +22,9 @@ This file contains a TL;DR of current version changes and hotfixes from across a
     * [PRfS]: Tui and La can be raised in Fish Ponds with the Aquarist profession. They produce essence instead of roe.
     * [PNDS]: Tui and La can be raised together in the same Fish Pond, unlocking a low chance to produce Galaxy Soul.
 
-<div align="center">-- This is likely the final content release before 1.6 --</div>
-
 <sup><sup>[🔼 Back to top](#margo-changelogs)</sup></sup>
 
-## Major Release 4.0.0 Highlights
+## Major Release 4.x.x Highlights
 
 * **[PRFS]:**
     * Major rework of most Combat professions. I encourage you to go over the detailed changelog for PRFS module.

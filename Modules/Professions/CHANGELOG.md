@@ -14,8 +14,8 @@
 
 ### Fixed
 
-* `ForgetRecipesOnSkillReset` should now apply to SpaceCore skills.
-* SpaceCore skills should be properly capped at level 10 when not fully reset.
+* `ForgetRecipesOnSkillReset` setting should now apply to SpaceCore skills when ebaled.
+* SpaceCore skills should now be properly capped at level 10 when not fully reset.
 
 ## 4.1.6
 
